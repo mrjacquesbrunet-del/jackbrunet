@@ -18,6 +18,9 @@ type Status = "idle" | "loading" | "success" | "error";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Déploiement statique de démonstration : pas de backend, succès optimiste.
+const STATIC_DEMO = process.env.NEXT_PUBLIC_STATIC_DEMO === "true";
+
 /**
  * Formulaire de captation email — réutilisé partout (pensée du jour, plan,
  * vidéos, dons, boutique, footer, pop-up). Une seule logique, un seul endpoint.
@@ -42,6 +45,14 @@ export function NewsletterForm({
       return;
     }
     setStatus("loading");
+    if (STATIC_DEMO) {
+      setTimeout(() => {
+        setStatus("success");
+        setMessage("C'est fait ! Vérifie ta boîte mail 🎁");
+        setEmail("");
+      }, 600);
+      return;
+    }
     try {
       const res = await fetch("/api/newsletter", {
         method: "POST",

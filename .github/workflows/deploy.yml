@@ -1,0 +1,69 @@
+name: Déploiement GitHub Pages
+
+on:
+  push:
+    branches:
+      - claude/great-hamilton-ieokug
+  workflow_dispatch:
+
+# Permissions nécessaires au déploiement Pages via Actions.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Un seul déploiement à la fois.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurer Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Configurer Pages
+        id: pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Build (export statique)
+        env:
+          EXPORT: "true"
+          # base_path fourni par configure-pages (ex. /jackbrunet)
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          NEXT_PUBLIC_STATIC_DEMO: "true"
+        run: |
+          # L'export statique ne supporte pas les routes API dynamiques :
+          # on les retire pour ce build (le code reste dans le dépôt).
+          rm -rf src/app/api
+          npm run build
+          touch out/.nojekyll
+
+      - name: Téléverser l'artefact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Déployer sur GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

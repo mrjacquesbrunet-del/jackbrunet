@@ -6,6 +6,9 @@ import { SectionHeader } from "@/components/ui/Section";
 
 type Status = "idle" | "loading" | "success" | "error";
 
+// Déploiement statique de démonstration : pas de backend, succès optimiste.
+const STATIC_DEMO = process.env.NEXT_PUBLIC_STATIC_DEMO === "true";
+
 export function PrayerSpace() {
   const [name, setName] = useState("");
   const [request, setRequest] = useState("");
@@ -21,6 +24,15 @@ export function PrayerSpace() {
       return;
     }
     setStatus("loading");
+    if (STATIC_DEMO) {
+      setTimeout(() => {
+        setStatus("success");
+        setMessage("Ta requête a été reçue. Nous prions pour toi. 🙏");
+        setName("");
+        setRequest("");
+      }, 600);
+      return;
+    }
     try {
       const res = await fetch("/api/prayer", {
         method: "POST",
