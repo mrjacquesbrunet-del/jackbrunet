@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-sans: "Inter", system-ui, sans-serif;
+    --font-display: "Sora", system-ui, sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-night-950 text-cream antialiased;
+    background-image:
+      radial-gradient(60% 50% at 50% -10%, rgba(124, 58, 237, 0.18), transparent 60%),
+      radial-gradient(40% 40% at 90% 10%, rgba(255, 122, 0, 0.12), transparent 60%);
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    @apply bg-dawn-500/40 text-cream;
+  }
+
+  /* Scrollbar premium */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-night-900;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-night-600;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-spirit-600;
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12;
+  }
+
+  /* Texte en dégradé chaleureux */
+  .text-gradient {
+    @apply bg-gradient-to-r from-dawn-300 via-dawn-400 to-spirit-400 bg-clip-text text-transparent;
+  }
+
+  .text-gradient-spirit {
+    @apply bg-gradient-to-r from-spirit-300 via-glow-300 to-dawn-200 bg-clip-text text-transparent;
+  }
+
+  /* Carte de verre — base des cartes dynamiques */
+  .glass {
+    @apply rounded-3xl border border-white/10 bg-white/[0.04] backdrop-blur-xl;
+  }
+
+  .glass-strong {
+    @apply rounded-3xl border border-white/10 bg-night-800/70 backdrop-blur-xl;
+  }
+
+  /* Étiquette de section */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-dawn-200;
+  }
+
+  /* Boutons */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-dawn-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-night-950 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .btn-primary {
+    @apply btn bg-gradient-to-r from-dawn-500 to-dawn-400 text-night-950 shadow-glow hover:scale-[1.03] hover:shadow-[0_0_70px_-10px_rgba(255,122,0,0.7)] active:scale-100;
+  }
+
+  .btn-spirit {
+    @apply btn bg-gradient-to-r from-spirit-600 to-spirit-500 text-white shadow-spirit hover:scale-[1.03] active:scale-100;
+  }
+
+  .btn-ghost {
+    @apply btn border border-white/15 bg-white/5 text-cream hover:border-white/30 hover:bg-white/10;
+  }
+
+  /* Halo décoratif */
+  .blob {
+    @apply pointer-events-none absolute rounded-full blur-3xl;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
