@@ -33,8 +33,6 @@ jobs:
       - name: Configurer Pages
         id: pages
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - name: Installer les dépendances
         run: npm ci
