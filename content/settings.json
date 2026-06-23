@@ -2,8 +2,7 @@
   "name": "Jack Brunet",
   "tagline": "Ministère chrétien",
   "description": "Une plateforme chrétienne vivante : pensée du jour, parole biblique, plan de lecture, vidéos, prières et témoignages — pour grandir en Jésus chaque jour.",
-  "contactEmail": "contact@lumiere.ministere",
-  "heroPhoto": "",
+  "contactEmail": "contact@jackbrunet.com",
   "social": {
     "youtube": "https://www.youtube.com/@Jack_brnt",
     "instagram": "https://instagram.com",
@@ -14,8 +13,6 @@
     "handle": "@Jack_brnt",
     "channelUrl": "https://www.youtube.com/@Jack_brnt",
     "shortsUrl": "https://www.youtube.com/@Jack_brnt/shorts",
-    "videosUrl": "https://www.youtube.com/@Jack_brnt/videos",
-    "shorts": [],
-    "featured": []
+    "videosUrl": "https://www.youtube.com/@Jack_brnt/videos"
   }
 }
