@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { newsletterEndpointForSource } from "@/config/brevo";
+import { submitToBrevo } from "@/lib/brevo";
 
 type NewsletterFormProps = {
   /** Identifie d'où vient l'inscription (analytics / future app). */
@@ -17,9 +19,6 @@ type NewsletterFormProps = {
 type Status = "idle" | "loading" | "success" | "error";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-// Déploiement statique de démonstration : pas de backend, succès optimiste.
-const STATIC_DEMO = process.env.NEXT_PUBLIC_STATIC_DEMO === "true";
 
 /**
  * Formulaire de captation email — réutilisé partout (pensée du jour, plan,
@@ -45,21 +44,14 @@ export function NewsletterForm({
       return;
     }
     setStatus("loading");
-    if (STATIC_DEMO) {
-      setTimeout(() => {
-        setStatus("success");
-        setMessage("C'est fait ! Vérifie ta boîte mail.");
-        setEmail("");
-      }, 600);
-      return;
-    }
+    const endpoint = newsletterEndpointForSource(source);
     try {
-      const res = await fetch("/api/newsletter", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, source }),
-      });
-      if (!res.ok) throw new Error("request failed");
+      if (endpoint) {
+        await submitToBrevo(endpoint, { EMAIL: email });
+      } else {
+        // Adresse Brevo pas encore configurée : succès optimiste (rien envoyé).
+        await new Promise((r) => setTimeout(r, 500));
+      }
       setStatus("success");
       setMessage("C'est fait ! Vérifie ta boîte mail.");
       setEmail("");
