@@ -6,7 +6,6 @@ import { ReadingPlan } from "@/components/home/ReadingPlan";
 import { FeaturedPredications } from "@/components/home/FeaturedPredications";
 import { Reels } from "@/components/home/Reels";
 import { PrayerSpace } from "@/components/home/PrayerSpace";
-import { Testimonies } from "@/components/home/Testimonies";
 import { Shop } from "@/components/home/Shop";
 import { AboutFounder } from "@/components/home/AboutFounder";
 import { Support } from "@/components/home/Support";
@@ -33,7 +32,6 @@ export default function HomePage() {
       <Reels />
       <Shop />
       <PrayerSpace />
-      <Testimonies />
       <AboutFounder />
       <Support />
       <NewsletterCTA />

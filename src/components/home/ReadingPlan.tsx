@@ -53,6 +53,8 @@ export function ReadingPlan() {
                 <div className="mt-3">
                   <NewsletterForm
                     source="plan-de-lecture"
+                    layout="stacked"
+                    size="lg"
                     cta="Suivre le plan"
                     note="Un rappel doux chaque matin. Rien d'autre."
                   />

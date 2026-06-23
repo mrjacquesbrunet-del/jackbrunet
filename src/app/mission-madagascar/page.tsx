@@ -50,6 +50,9 @@ export default function MissionMadagascarPage() {
             </>
           }
         />
+        <p className="mt-6 max-w-2xl font-display text-xl font-bold italic text-night-900 sm:text-2xl">
+          Une terre à aimer, à servir et à toucher par l'Évangile.
+        </p>
         <div className="mt-6 max-w-2xl space-y-5 text-base leading-relaxed text-night-900/70 sm:text-lg">
           <p>
             Depuis quelque temps, Dieu a placé Madagascar sur mon cœur. Après plusieurs
@@ -216,8 +219,30 @@ export default function MissionMadagascarPage() {
         </div>
       </section>
 
+      {/* Déclaration de foi */}
+      <section className="dark-ctx bg-topo-dark border-y border-white/10 py-20">
+        <div className="container-x mx-auto max-w-2xl text-center">
+          <p className="text-base leading-relaxed text-cream/75 sm:text-lg">
+            Nous partons avec un double objectif : annoncer l'Évangile et
+            manifester l'amour de Dieu de manière concrète.
+          </p>
+          <div className="mt-8 space-y-2 font-display text-xl font-bold leading-snug sm:text-2xl">
+            <p>Nous croyons que Dieu aime Madagascar.</p>
+            <p>Nous croyons que Jésus veut toucher les cœurs.</p>
+            <p>
+              Nous croyons que le <span className="text-gradient">Saint-Esprit</span>{" "}
+              peut agir puissamment.
+            </p>
+          </div>
+          <p className="mt-6 text-base leading-relaxed text-cream/70 sm:text-lg">
+            Et nous croyons qu'ensemble — par la prière, le soutien et
+            l'obéissance — nous pouvons prendre part à ce que Dieu veut faire là-bas.
+          </p>
+        </div>
+      </section>
+
       {/* Verset de clôture */}
-      <section className="container-x pb-16">
+      <section className="container-x py-16">
         <blockquote className="mx-auto max-w-2xl text-center font-display text-xl italic text-night-900/75">
           &laquo;&nbsp;Allez par tout le monde, et prêchez la bonne nouvelle à toute la
           création.&nbsp;&raquo;

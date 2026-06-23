@@ -38,7 +38,7 @@ export const mainNav = [
   { label: "Vidéos", href: "/videos" },
   { label: "Madagascar", href: "/mission-madagascar" },
   { label: "Plan de lecture", href: "/#plan" },
-  { label: "Témoignages", href: "/#temoignages" },
+  { label: "Témoignages", href: "/temoignages" },
   { label: "Boutique", href: "/boutique" },
   { label: "À propos", href: "/a-propos" },
 ] as const;
@@ -58,7 +58,7 @@ export const footerNav = [
     title: "Communauté",
     links: [
       { label: "Requête de prière", href: "/#priere" },
-      { label: "Témoignages", href: "/#temoignages" },
+      { label: "Témoignages", href: "/temoignages" },
       { label: "Newsletter", href: "/#newsletter" },
     ],
   },
@@ -75,6 +75,6 @@ export const footerNav = [
 
 /** CTA principal récurrent. */
 export const supportCta = {
-  label: "Soutenir la mission",
+  label: "Soutenir",
   href: "/dons",
 } as const;
