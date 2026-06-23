@@ -18,11 +18,12 @@ export default function HomePage() {
       <Hero />
       <Marquee
         items={[
-          "Jack Brunet",
-          "Pour la gloire de Jésus",
           "Pensée du jour",
+          "Nouveautés",
+          "Application",
+          "Livres",
+          "Missions",
           "Édifie ta foi chaque jour",
-          "Rejoins la communauté",
         ]}
       />
       <MissionBanner />

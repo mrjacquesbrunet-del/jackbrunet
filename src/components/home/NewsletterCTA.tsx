@@ -26,6 +26,8 @@ export function NewsletterCTA() {
             <div className="mx-auto mt-8 max-w-lg">
               <NewsletterForm
                 source="cta-newsletter"
+                layout="stacked"
+                size="lg"
                 cta="Recevoir mon cadeau gratuit"
                 note="Rejoins +50 000 abonnés. Désinscription en un clic, aucun spam."
               />

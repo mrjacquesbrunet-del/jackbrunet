@@ -55,7 +55,7 @@ export function Shop() {
                 Grande annonce · à paraître
               </span>
               <h3 className="mt-4 font-display text-3xl font-extrabold leading-[1.05] sm:text-4xl">
-                Le projet d'une vie,{" "}
+                Un grand projet,{" "}
                 <span className="text-gradient">bientôt entre tes mains</span>
               </h3>
               <p className="mt-4 text-night-900/75">
