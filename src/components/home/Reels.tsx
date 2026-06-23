@@ -1,12 +1,13 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeader } from "@/components/ui/Section";
-import { LiteYouTube } from "@/components/ui/LiteYouTube";
+import { ShortsExperience } from "@/components/home/ShortsExperience";
+import { getShortCategories } from "@/lib/content";
 import { youtube } from "@/config/site";
 
-/** Vidéos courtes (Shorts) — lecture directe sur le site. */
+/** Vidéos courtes (Shorts) — catalogue type Netflix + feed vertical natif. */
 export function Reels() {
-  const shorts = youtube.shorts;
-  const hasShorts = shorts.length > 0;
+  const categories = getShortCategories();
+  const hasShorts = categories.length > 0;
 
   return (
     <section id="shorts" className="scroll-mt-24 py-20 sm:py-28">
@@ -17,10 +18,10 @@ export function Reels() {
               eyebrow="Vidéos courtes"
               title={
                 <>
-                  Une dose de foi <span className="text-gradient">en quelques minutes</span>
+                  Mes Shorts, <span className="text-gradient">à dévorer</span>
                 </>
               }
-              description="Mes Shorts, à regarder directement ici. Pour les formats longs, rendez-vous sur la chaîne."
+              description="Parcours le catalogue, clique et laisse-toi porter : scrolle pour passer d'un Short à l'autre, sans quitter le site."
             />
             <a
               href={youtube.shortsUrl}
@@ -28,7 +29,7 @@ export function Reels() {
               rel="noopener noreferrer"
               className="btn-ghost shrink-0"
             >
-              Tous les Shorts
+              Voir sur YouTube
             </a>
           </div>
         </Reveal>
@@ -36,14 +37,7 @@ export function Reels() {
 
       {hasShorts ? (
         <Reveal delay={0.05}>
-          <div className="no-scrollbar mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 sm:px-8 lg:px-12">
-            {shorts.map((id) => (
-              <div key={id} className="w-44 shrink-0 snap-start sm:w-52">
-                <LiteYouTube id={id} vertical title="Short — Jack Brunet" />
-              </div>
-            ))}
-            <span className="w-1 shrink-0" aria-hidden />
-          </div>
+          <ShortsExperience categories={categories} />
         </Reveal>
       ) : (
         <div className="container-x">
@@ -53,11 +47,11 @@ export function Reels() {
               <div className="relative mx-auto max-w-xl">
                 <span className="eyebrow">▶ Shorts</span>
                 <h3 className="mt-5 font-display text-2xl font-bold sm:text-3xl">
-                  Retrouve tous mes Shorts sur YouTube
+                  Bientôt : mes Shorts en lecture directe ici
                 </h3>
                 <p className="mt-3 text-cream/70">
-                  Des vidéos courtes et percutantes, publiées régulièrement. Abonne-toi
-                  pour ne rien manquer.
+                  Ajoute tes Shorts depuis l'espace d'administration (ou active
+                  l'import automatique YouTube) et ils s'afficheront ici en feed vertical.
                 </p>
                 <a
                   href={youtube.shortsUrl}
@@ -65,7 +59,7 @@ export function Reels() {
                   rel="noopener noreferrer"
                   className="btn-primary mt-7"
                 >
-                  Regarder les Shorts
+                  Regarder les Shorts sur YouTube
                 </a>
               </div>
             </div>

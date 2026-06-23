@@ -32,8 +32,6 @@ content:
           - { name: channelUrl, label: URL de la chaîne, type: string }
           - { name: shortsUrl, label: URL des Shorts, type: string }
           - { name: videosUrl, label: URL des vidéos, type: string }
-          - { name: shorts, label: "IDs des Shorts (partie après /shorts/)", type: string, list: true }
-          - { name: featured, label: "IDs vidéos longues à la une", type: string, list: true }
 
   - name: thoughts
     label: Pensées du jour
@@ -48,6 +46,20 @@ content:
           - { name: title, label: Titre, type: string }
           - { name: body, label: Texte, type: text }
           - { name: author, label: Auteur, type: string }
+
+  - name: shorts
+    label: Shorts (vidéos courtes)
+    type: file
+    path: content/shorts.json
+    fields:
+      - name: items
+        label: Shorts
+        type: object
+        list: true
+        fields:
+          - { name: id, label: "ID YouTube (partie après /shorts/)", type: string }
+          - { name: title, label: Titre, type: string }
+          - { name: category, label: "Catégorie (ex. Foi, Encouragement…)", type: string }
 
   - name: verses
     label: Versets du jour

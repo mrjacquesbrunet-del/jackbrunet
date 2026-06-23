@@ -122,12 +122,16 @@ export default function DonsPage() {
                 ) : null}
                 <h3 className="font-display text-lg font-bold">{tier.name}</h3>
                 <div className="mt-3 flex items-end gap-1">
-                  <span className="font-display text-4xl font-extrabold">{tier.amount}</span>
-                  <span className="mb-1 text-sm text-cream/55">{tier.cadence}</span>
+                  <span className="font-display text-4xl font-extrabold">
+                    {tier.amount || "Libre"}
+                  </span>
+                  {tier.cadence ? (
+                    <span className="mb-1 text-sm text-cream/55">{tier.cadence}</span>
+                  ) : null}
                 </div>
-                <p className="mt-3 text-sm text-cream/65">{tier.description}</p>
+                <p className="mt-3 whitespace-pre-line text-sm text-cream/65">{tier.description}</p>
                 <ul className="mt-6 flex-1 space-y-2.5">
-                  {tier.perks.map((perk) => (
+                  {(tier.perks ?? []).map((perk) => (
                     <li key={perk} className="flex items-start gap-2.5 text-sm text-cream/75">
                       <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-dawn-500/20 text-[10px] text-dawn-300">
                         ✓

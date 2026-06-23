@@ -11,6 +11,7 @@ import type {
   DailyThought,
   Product,
   ReadingPlanDay,
+  Short,
   SupportTier,
   Testimony,
   Verse,
@@ -24,6 +25,8 @@ import testimoniesData from "../../content/testimonies.json";
 import productsData from "../../content/products.json";
 import supportTiersData from "../../content/support-tiers.json";
 import impactData from "../../content/impact.json";
+import shortsData from "../../content/shorts.json";
+import shortsGenerated from "../../content/shorts.generated.json";
 
 /** Sélection déterministe basée sur le jour de l'année (rotation quotidienne). */
 function dayOfYear(date = new Date()): number {
@@ -132,6 +135,36 @@ export function getSupportTiers(): SupportTier[] {
     id: `s${i + 1}`,
     ...t,
   }));
+}
+
+/**
+ * Shorts YouTube.
+ * Fusionne la liste générée automatiquement (via l'API, en CI) et la liste
+ * manuelle (CMS). En cas d'ID en double, l'entrée manuelle prime (titre/catégorie).
+ */
+export function getShorts(): Short[] {
+  const manual = (shortsData.items as Short[]) ?? [];
+  const generated = (shortsGenerated.items as Short[]) ?? [];
+  const byId = new Map<string, Short>();
+  for (const s of generated) if (s?.id) byId.set(s.id, s);
+  for (const s of manual) if (s?.id) byId.set(s.id, { ...byId.get(s.id), ...s });
+  return Array.from(byId.values()).filter((s) => s.id);
+}
+
+/** Shorts regroupés par catégorie (pour le catalogue type Netflix). */
+export function getShortCategories(): { category: string; shorts: Short[] }[] {
+  const shorts = getShorts();
+  const order: string[] = [];
+  const groups = new Map<string, Short[]>();
+  for (const s of shorts) {
+    const cat = s.category?.trim() || "Tous les Shorts";
+    if (!groups.has(cat)) {
+      groups.set(cat, []);
+      order.push(cat);
+    }
+    groups.get(cat)!.push(s);
+  }
+  return order.map((category) => ({ category, shorts: groups.get(category)! }));
 }
 
 export function getImpactStats() {

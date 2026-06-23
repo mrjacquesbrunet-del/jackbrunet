@@ -33,10 +33,27 @@ C'est tout : tu vois ensuite des rubriques avec des formulaires.
 
 ## Ajouter tes Shorts YouTube
 
-Dans **Paramètres du site → YouTube → IDs des Shorts**, ajoute l'identifiant de
-chaque Short : c'est la partie après `/shorts/` dans l'URL.
-Exemple : pour `https://www.youtube.com/shorts/AbC123dEf45`, l'ID est `AbC123dEf45`.
-Dès qu'il y en a, les Shorts s'affichent en lecture directe sur le site.
+Deux possibilités :
+
+### A) À la main (rubrique « Shorts »)
+Dans l'admin → **Shorts (vidéos courtes)** → ajoute une entrée :
+- **ID YouTube** : la partie après `/shorts/` dans l'URL.
+  Ex. `https://www.youtube.com/shorts/AbC123dEf45` → ID = `AbC123dEf45`
+- **Titre** : ce qui s'affiche sous la vidéo
+- **Catégorie** : crée des rayons type Netflix (ex. « Foi », « Encouragement »)
+
+Les Shorts apparaissent alors en **catalogue** + **feed vertical** (on scrolle
+pour passer au suivant), directement sur le site.
+
+### B) Import automatique (recommandé)
+Pour récupérer **tous tes Shorts automatiquement** (titres inclus) :
+1. Crée une clé **YouTube Data API v3** sur https://console.cloud.google.com
+   (API & Services → Identifiants → Créer une clé API).
+2. Sur GitHub : dépôt → **Settings → Secrets and variables → Actions → New
+   repository secret** → nom : `YOUTUBE_API_KEY`, valeur : ta clé.
+3. C'est tout : à chaque déploiement (et une fois par jour), le site importe
+   tes Shorts de moins de 3 minutes. Tu peux toujours les **catégoriser** à la
+   main dans la rubrique « Shorts » (une entrée manuelle avec le même ID a priorité).
 
 ## Astuce
 

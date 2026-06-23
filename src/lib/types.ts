@@ -42,6 +42,13 @@ export type Reel = {
   views: string;
 };
 
+/** Short YouTube affiché en natif sur le site. */
+export type Short = {
+  id: string; // ID YouTube (après /shorts/)
+  title: string;
+  category: string;
+};
+
 export type Testimony = {
   id: string;
   name: string;
@@ -62,9 +69,9 @@ export type Product = {
 export type SupportTier = {
   id: string;
   name: string;
-  amount: string;
-  cadence: string;
+  amount?: string;
+  cadence?: string;
   description: string;
-  perks: string[];
+  perks?: string[];
   featured?: boolean;
 };
