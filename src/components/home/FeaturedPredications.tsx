@@ -46,7 +46,7 @@ export function FeaturedPredications() {
           <div className="dark-ctx bg-topo-dark relative mt-10 overflow-hidden rounded-4xl border border-white/10 p-8 text-center sm:p-12">
             <div className="blob -right-10 -top-10 h-48 w-48 bg-dawn-400/30" />
             <div className="relative mx-auto max-w-xl">
-              <span className="eyebrow">▶ Prédications</span>
+              <span className="eyebrow">Prédications</span>
               <h3 className="mt-5 font-display text-2xl font-bold sm:text-3xl">
                 Mes prédications arrivent ici
               </h3>

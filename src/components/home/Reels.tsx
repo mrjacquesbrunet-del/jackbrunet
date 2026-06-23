@@ -11,9 +11,10 @@ export function Reels() {
   const preview = all.slice(0, 10); // les plus récents en avant
   const hasShorts = preview.length > 0;
   const count = all.length;
+  const floorTxt = count >= 100 ? `${Math.floor(count / 100) * 100}+` : `${count}`;
   const description =
     count > 12
-      ? `Explore mes ${count} Shorts : clique et scrolle d'une vidéo à l'autre, sans quitter le site.`
+      ? `Explore mes ${floorTxt} Shorts : clique et scrolle d'une vidéo à l'autre, sans quitter le site.`
       : "Mes derniers Shorts. Clique pour les regarder en plein écran et scrolle d'une vidéo à l'autre.";
 
   return (
@@ -47,7 +48,7 @@ export function Reels() {
             <div className="dark-ctx bg-topo-dark relative mt-10 overflow-hidden rounded-4xl border border-white/10 p-8 text-center sm:p-12">
               <div className="blob -right-10 -top-10 h-48 w-48 bg-dawn-400/30" />
               <div className="relative mx-auto max-w-xl">
-                <span className="eyebrow">▶ Shorts</span>
+                <span className="eyebrow">Shorts</span>
                 <h3 className="mt-5 font-display text-2xl font-bold sm:text-3xl">
                   Mes Shorts arrivent ici
                 </h3>

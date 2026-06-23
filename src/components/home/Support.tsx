@@ -27,7 +27,7 @@ export function Support() {
         <Reveal>
           <SectionHeader
             align="center"
-            eyebrow="❤ Soutenir la mission"
+            eyebrow="Soutenir la mission"
             title={
               <>
                 Ce ministère est <span className="text-gradient">gratuit</span>.
@@ -108,7 +108,7 @@ export function Support() {
             <div className="mt-6 flex flex-col gap-6 overflow-hidden rounded-4xl border border-dawn-400/40 bg-gradient-to-r from-dawn-500/15 via-dawn-400/10 to-transparent p-7 sm:p-9 lg:flex-row lg:items-center lg:justify-between">
               <div className="max-w-2xl">
                 <span className="inline-flex rounded-full bg-dawn-400 px-3 py-1 text-xs font-bold uppercase tracking-wide text-night-950">
-                  🌱 {free.name}
+                  {free.name}
                 </span>
                 <p className="mt-4 whitespace-pre-line text-sm leading-relaxed text-cream/75">
                   {free.description}

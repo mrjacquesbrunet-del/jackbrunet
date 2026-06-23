@@ -48,7 +48,7 @@ export function NewsletterForm({
     if (STATIC_DEMO) {
       setTimeout(() => {
         setStatus("success");
-        setMessage("C'est fait ! Vérifie ta boîte mail 🎁");
+        setMessage("C'est fait ! Vérifie ta boîte mail.");
         setEmail("");
       }, 600);
       return;
@@ -61,7 +61,7 @@ export function NewsletterForm({
       });
       if (!res.ok) throw new Error("request failed");
       setStatus("success");
-      setMessage("C'est fait ! Vérifie ta boîte mail 🎁");
+      setMessage("C'est fait ! Vérifie ta boîte mail.");
       setEmail("");
     } catch {
       setStatus("error");

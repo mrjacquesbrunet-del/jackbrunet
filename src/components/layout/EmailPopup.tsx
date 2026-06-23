@@ -67,7 +67,7 @@ export function EmailPopup() {
             </button>
 
             <div className="relative">
-              <span className="eyebrow">🎁 Cadeau gratuit</span>
+              <span className="eyebrow">Cadeau gratuit</span>
               <h3 className="mt-4 font-display text-2xl font-extrabold leading-tight">
                 Reçois <span className="text-gradient">« 7 jours pour retrouver la paix »</span>
               </h3>

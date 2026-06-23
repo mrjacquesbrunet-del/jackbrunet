@@ -3,6 +3,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeader } from "@/components/ui/Section";
 import { getAbout } from "@/lib/content";
 import { asset } from "@/lib/asset";
+import { siteConfig } from "@/config/site";
 
 /** Présentation de Jack et du ministère — placée avant la section dons. */
 export function AboutFounder() {
@@ -27,14 +28,11 @@ export function AboutFounder() {
                 />
               ) : (
                 <div className="dark-ctx bg-topo-dark flex h-full w-full items-center justify-center p-8 text-center">
-                  <div>
-                    <span className="font-display text-6xl">📸</span>
-                    <p className="mt-4 text-sm text-cream/70">
-                      Ajoute ta photo dans l'admin
-                      <br />
-                      (rubrique « Qui suis-je »)
-                    </p>
-                  </div>
+                  <p className="text-sm text-cream/70">
+                    Ajoute ta photo dans l'admin
+                    <br />
+                    (rubrique « Qui suis-je »)
+                  </p>
                 </div>
               )}
             </div>
@@ -44,6 +42,23 @@ export function AboutFounder() {
                 {about.title}
               </span>
             </div>
+          </div>
+
+          {/* Contact direct */}
+          <div className="mx-auto mt-10 flex max-w-md items-center justify-center gap-3">
+            <a href={`mailto:${siteConfig.contactEmail}`} className="btn-primary flex-1">
+              <MailIcon className="h-4 w-4" />
+              Me contacter
+            </a>
+            <a
+              href={siteConfig.social.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-ghost flex-1"
+            >
+              <InstaIcon className="h-4 w-4" />
+              Instagram
+            </a>
           </div>
         </Reveal>
 
@@ -95,5 +110,24 @@ export function AboutFounder() {
         </Reveal>
       </div>
     </section>
+  );
+}
+
+function MailIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="m3 7 9 6 9-6" />
+    </svg>
+  );
+}
+
+function InstaIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+    </svg>
   );
 }

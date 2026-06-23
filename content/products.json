@@ -1,10 +1,12 @@
 {
   "items": [
     {
-      "title": "RHEMAS 365  révélations biblique a méditer chaque jour",
-      "type": "Livre · 365 méditations",
-      "price": "20 €",
-      "badge": "Best-seller"
+      "title": "RHEMA — 365 révélations bibliques",
+      "type": "Livre · à méditer chaque jour",
+      "price": "",
+      "image": "",
+      "badge": "Bientôt disponible",
+      "available": false
     }
   ]
 }

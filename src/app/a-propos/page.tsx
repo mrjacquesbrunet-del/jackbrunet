@@ -23,22 +23,18 @@ const values = [
   {
     title: "Centré sur Jésus",
     text: "Tout part de Lui et revient à Lui. Pas une marque, pas une performance : une Personne.",
-    icon: "✝",
   },
   {
     title: "Profond mais accessible",
     text: "Une foi solide, expliquée simplement, qui rejoint la vraie vie.",
-    icon: "💡",
   },
   {
     title: "Quotidien",
     text: "La transformation se joue dans les petites habitudes répétées chaque jour.",
-    icon: "🌅",
   },
   {
     title: "Communauté",
     text: "Personne ne grandit seul. On prie, on témoigne, on avance ensemble.",
-    icon: "🤝",
   },
 ];
 
@@ -88,8 +84,8 @@ export default function AProposPage() {
               <div className="blob -right-10 -top-10 h-56 w-56 bg-dawn-500/30" />
               <div className="absolute inset-0 grid place-items-center p-10 text-center">
                 <div>
-                  <span className="font-display text-6xl">🕊</span>
-                  <p className="mt-6 font-display text-2xl font-bold leading-snug text-white">
+                  <span className="font-display text-7xl leading-none text-dawn-300">&ldquo;</span>
+                  <p className="mt-2 font-display text-2xl font-bold leading-snug text-white">
                     « Lève-toi, sois éclairée, car ta lumière arrive. »
                   </p>
                   <p className="mt-3 text-dawn-200">Ésaïe 60.1</p>
@@ -110,7 +106,7 @@ export default function AProposPage() {
             {values.map((v, i) => (
               <Reveal key={v.title} from="up" delay={i * 0.08}>
                 <div className="glass flex h-full flex-col p-7">
-                  <span className="text-3xl">{v.icon}</span>
+                  <span className="h-1.5 w-10 rounded-full bg-dawn-400" />
                   <h3 className="mt-4 font-display text-lg font-bold">{v.title}</h3>
                   <p className="mt-2 text-sm text-cream/65">{v.text}</p>
                 </div>

@@ -2,20 +2,17 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
+import { ProductCard } from "@/components/ui/ProductCard";
 import { getProducts } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Boutique",
   description:
-    "Livres, carnets et formations pour nourrir ta foi et grandir avec Jésus chaque jour.",
+    "RHEMA — 365 révélations bibliques à méditer chaque jour. Le livre de Jack Brunet, bientôt disponible.",
 };
-
-const categories = ["Tout", "Livres", "Carnets", "Formations", "Cadeaux"];
 
 export default function BoutiquePage() {
   const products = getProducts();
-  // On duplique pour étoffer la grille de démonstration.
-  const catalog = [...products, ...products.map((p) => ({ ...p, id: p.id + "-b", badge: undefined }))];
 
   return (
     <>
@@ -26,69 +23,31 @@ export default function BoutiquePage() {
             Des ressources pour <span className="text-gradient">aller plus loin</span>
           </>
         }
-        description="Chaque achat soutient aussi la mission et la création de contenus gratuits pour tous."
+        description="Chaque ressource est pensée pour nourrir ta foi au quotidien — et soutenir la mission."
       />
 
-      {/* Filtres */}
       <section className="container-x py-10">
-        <Reveal>
-          <div className="no-scrollbar flex gap-2 overflow-x-auto pb-2">
-            {categories.map((c, i) => (
-              <button
-                key={c}
-                className={`shrink-0 rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
-                  i === 0
-                    ? "bg-gradient-to-r from-dawn-500 to-dawn-400 text-night-950"
-                    : "border border-night-900/15 bg-night-900/[0.03] text-night-900/70 hover:bg-night-900/[0.07]"
-                }`}
-              >
-                {c}
-              </button>
-            ))}
-          </div>
-        </Reveal>
-
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {catalog.map((p, i) => (
-            <Reveal key={p.id} from="up" delay={(i % 3) * 0.08}>
-              <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-night-900/10 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-night-900/20 hover:shadow-card">
-                <div className={`relative aspect-[4/3] overflow-hidden bg-gradient-to-br ${p.cover}`}>
-                  {p.badge ? (
-                    <span className="absolute left-4 top-4 rounded-full bg-night-950/70 px-3 py-1 text-xs font-semibold text-dawn-300 backdrop-blur">
-                      {p.badge}
-                    </span>
-                  ) : null}
-                </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-night-900/50">
-                    {p.type}
-                  </span>
-                  <h3 className="mt-2 font-display text-lg font-bold leading-snug transition-colors group-hover:text-spirit-600">
-                    {p.title}
-                  </h3>
-                  <div className="mt-5 flex items-center justify-between">
-                    <span className="font-display text-xl font-extrabold">{p.price}</span>
-                    <button className="btn-primary px-5 py-2.5 text-sm">Ajouter</button>
-                  </div>
-                </div>
-              </article>
+        <div className="mx-auto grid max-w-4xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {products.map((p, i) => (
+            <Reveal key={p.id} from="up" delay={i * 0.08}>
+              <ProductCard p={p} />
             </Reveal>
           ))}
         </div>
       </section>
 
-      {/* Captation email — boutique */}
+      {/* Captation email — liste d'attente */}
       <section className="container-x pb-8">
         <Reveal>
           <div className="glass flex flex-col items-center gap-5 p-7 text-center sm:flex-row sm:justify-between sm:text-left">
             <div>
-              <h3 className="font-display text-xl font-bold">-10 % sur ta première commande</h3>
+              <h3 className="font-display text-xl font-bold">Sois prévenu(e) de la sortie</h3>
               <p className="mt-1 text-sm text-night-900/65">
-                Inscris-toi et reçois ton code promo, plus les nouveautés en avant-première.
+                Laisse ton email : tu seras parmi les premiers informés de la sortie de RHEMA.
               </p>
             </div>
             <div className="w-full max-w-sm">
-              <NewsletterForm source="page-boutique" cta="Recevoir mon code" note="" />
+              <NewsletterForm source="page-boutique" cta="Me prévenir" note="" />
             </div>
           </div>
         </Reveal>

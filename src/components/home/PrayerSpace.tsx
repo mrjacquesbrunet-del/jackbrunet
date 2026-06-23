@@ -6,13 +6,16 @@ import { SectionHeader } from "@/components/ui/Section";
 
 type Status = "idle" | "loading" | "success" | "error";
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 // Déploiement statique de démonstration : pas de backend, succès optimiste.
 const STATIC_DEMO = process.env.NEXT_PUBLIC_STATIC_DEMO === "true";
 
 export function PrayerSpace() {
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [request, setRequest] = useState("");
-  const [isPrivate, setIsPrivate] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
 
@@ -23,27 +26,32 @@ export function PrayerSpace() {
       setMessage("Écris ta requête avant d'envoyer.");
       return;
     }
+    if (!EMAIL_RE.test(email)) {
+      setStatus("error");
+      setMessage("Entre une adresse email valide pour qu'on puisse te répondre.");
+      return;
+    }
     setStatus("loading");
+    const done = () => {
+      setStatus("success");
+      setMessage("Ta requête a été reçue. Nous prions pour toi.");
+      setName("");
+      setEmail("");
+      setPhone("");
+      setRequest("");
+    };
     if (STATIC_DEMO) {
-      setTimeout(() => {
-        setStatus("success");
-        setMessage("Ta requête a été reçue. Nous prions pour toi. 🙏");
-        setName("");
-        setRequest("");
-      }, 600);
+      setTimeout(done, 600);
       return;
     }
     try {
       const res = await fetch("/api/prayer", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, request, isPrivate }),
+        body: JSON.stringify({ name, email, phone, request }),
       });
       if (!res.ok) throw new Error();
-      setStatus("success");
-      setMessage("Ta requête a été reçue. Nous prions pour toi. 🙏");
-      setName("");
-      setRequest("");
+      done();
     } catch {
       setStatus("error");
       setMessage("Une erreur est survenue. Réessaie dans un instant.");
@@ -59,7 +67,7 @@ export function PrayerSpace() {
       <div className="container-x relative grid gap-12 lg:grid-cols-2 lg:items-center">
         <Reveal from="left">
           <SectionHeader
-            eyebrow="🙏 Espace prière"
+            eyebrow="Espace prière"
             title={
               <>
                 Tu n'as pas à porter <span className="text-gradient">ça seul(e)</span>
@@ -70,7 +78,7 @@ export function PrayerSpace() {
           <ul className="mt-8 space-y-3">
             {[
               "Chaque requête est lue et confiée à Dieu",
-              "Tu peux rester totalement anonyme",
+              "Nous prions personnellement pour toi et te répondons",
               "Une communauté qui intercède chaque jour",
             ].map((item) => (
               <li key={item} className="flex items-center gap-3 text-cream/75">
@@ -87,31 +95,60 @@ export function PrayerSpace() {
           <div className="glass-strong p-7 sm:p-8">
             {status === "success" ? (
               <div className="flex flex-col items-center gap-4 py-10 text-center">
-                <span className="grid h-16 w-16 place-items-center rounded-full bg-dawn-500/20 text-3xl">
-                  🙏
-                </span>
                 <h3 className="font-display text-2xl font-bold">Reçu, du fond du cœur</h3>
                 <p className="max-w-sm text-cream/70">{message}</p>
-                <button
-                  onClick={() => setStatus("idle")}
-                  className="btn-ghost mt-2"
-                >
+                <button onClick={() => setStatus("idle")} className="btn-ghost mt-2">
                   Déposer une autre requête
                 </button>
               </div>
             ) : (
               <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="prayer-name" className="mb-1.5 block text-sm font-medium text-cream/80">
+                      Prénom
+                    </label>
+                    <input
+                      id="prayer-name"
+                      type="text"
+                      autoComplete="given-name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Ton prénom"
+                      className="field"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="prayer-phone" className="mb-1.5 block text-sm font-medium text-cream/80">
+                      Téléphone <span className="text-cream/40">(optionnel)</span>
+                    </label>
+                    <input
+                      id="prayer-phone"
+                      type="tel"
+                      autoComplete="tel"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      placeholder="06 12 34 56 78"
+                      className="field"
+                    />
+                  </div>
+                </div>
                 <div>
-                  <label htmlFor="prayer-name" className="mb-1.5 block text-sm font-medium text-cream/80">
-                    Ton prénom <span className="text-cream/40">(optionnel)</span>
+                  <label htmlFor="prayer-email" className="mb-1.5 block text-sm font-medium text-cream/80">
+                    Email
                   </label>
                   <input
-                    id="prayer-name"
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Anonyme"
-                    className="w-full rounded-2xl border border-white/15 bg-night-900/80 px-4 py-3 text-sm text-cream placeholder:text-cream/40 focus:border-dawn-400/60 focus:outline-none focus:ring-2 focus:ring-dawn-400/30"
+                    id="prayer-email"
+                    type="email"
+                    inputMode="email"
+                    autoComplete="email"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      if (status === "error") setStatus("idle");
+                    }}
+                    placeholder="ton@email.com"
+                    className="field"
                   />
                 </div>
                 <div>
@@ -127,21 +164,16 @@ export function PrayerSpace() {
                     }}
                     rows={4}
                     placeholder="Partage ce qui est sur ton cœur…"
-                    className="w-full resize-none rounded-2xl border border-white/15 bg-night-900/80 px-4 py-3 text-sm text-cream placeholder:text-cream/40 focus:border-dawn-400/60 focus:outline-none focus:ring-2 focus:ring-dawn-400/30"
+                    className="field-area"
                   />
                 </div>
-                <label className="flex cursor-pointer items-center gap-3 text-sm text-cream/70">
-                  <input
-                    type="checkbox"
-                    checked={isPrivate}
-                    onChange={(e) => setIsPrivate(e.target.checked)}
-                    className="h-4 w-4 rounded border-white/20 bg-night-900 accent-dawn-500"
-                  />
-                  Garder ma requête privée (équipe de prière uniquement)
-                </label>
                 {status === "error" ? (
-                  <p className="text-xs text-dawn-300">{message}</p>
-                ) : null}
+                  <p className="field-error">{message}</p>
+                ) : (
+                  <p className="field-note">
+                    Tes coordonnées restent confidentielles et nous servent uniquement à te répondre.
+                  </p>
+                )}
                 <button type="submit" className="btn-primary" disabled={status === "loading"}>
                   {status === "loading" ? "Envoi…" : "Confier ma prière"}
                 </button>

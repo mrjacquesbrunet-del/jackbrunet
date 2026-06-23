@@ -168,6 +168,7 @@ export function getProducts(): Product[] {
   return (productsData.items as Omit<Product, "id" | "cover">[]).map((p, i) => ({
     id: `p${i + 1}`,
     cover: productCovers[i % productCovers.length],
+    available: false,
     ...p,
   }));
 }

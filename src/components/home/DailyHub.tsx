@@ -44,7 +44,7 @@ export function DailyHub() {
           >
             <div className="blob -left-10 -top-10 h-44 w-44 bg-dawn-500/20 transition-opacity duration-500 group-hover:opacity-100" />
             <div className="relative flex h-full flex-col">
-              <span className="eyebrow">✨ Pensée du jour</span>
+              <span className="eyebrow">Pensée du jour</span>
               <h3 className="mt-5 font-display text-2xl font-bold sm:text-3xl">
                 {thought.title}
               </h3>
@@ -79,7 +79,7 @@ export function DailyHub() {
             <div className="blob -right-12 top-1/3 h-52 w-52 bg-dawn-400/30" />
             <div className="relative flex h-full flex-col">
               <span className="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-white">
-                📖 Parole du jour
+                Parole du jour
               </span>
 
               <blockquote className="mt-6 flex-1">

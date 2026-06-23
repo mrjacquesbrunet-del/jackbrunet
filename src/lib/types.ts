@@ -69,8 +69,10 @@ export type Product = {
   title: string;
   type: string;
   price: string;
-  cover: string; // tailwind gradient classes
+  cover: string; // dégradé tailwind (fallback si pas d'image)
+  image?: string; // photo du produit (uploadable au CMS)
   badge?: string;
+  available?: boolean; // disponible à la vente ?
 };
 
 export type SupportTier = {

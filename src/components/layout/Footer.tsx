@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { footerNav, siteConfig } from "@/config/site";
-import { NewsletterForm } from "@/components/ui/NewsletterForm";
 
 export function Footer() {
   return (
@@ -9,22 +8,7 @@ export function Footer() {
       <div className="blob -right-24 bottom-0 h-72 w-72 bg-dawn-500/15" />
 
       <div className="container-x relative z-10 py-16">
-        {/* Captation email — footer */}
-        <div className="glass-strong flex flex-col gap-6 rounded-4xl p-7 sm:p-10 lg:flex-row lg:items-center lg:justify-between">
-          <div className="max-w-xl">
-            <h3 className="font-display text-2xl font-extrabold sm:text-3xl">
-              Reçois la <span className="text-gradient">lumière</span> chaque matin
-            </h3>
-            <p className="mt-2 text-cream/70">
-              Une pensée, un verset et le passage du jour — directement dans ta boîte mail.
-            </p>
-          </div>
-          <div className="w-full max-w-md">
-            <NewsletterForm source="footer" cta="Recevoir chaque jour" />
-          </div>
-        </div>
-
-        <div className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <Link href="/" className="flex items-baseline">
               <span className="font-display text-2xl font-bold uppercase tracking-tight text-cream">

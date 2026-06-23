@@ -12,15 +12,15 @@ export function NewsletterCTA() {
           <div className="absolute inset-0 bg-grid opacity-30" />
 
           <div className="relative mx-auto max-w-2xl">
-            <span className="eyebrow">🎁 Cadeau de bienvenue</span>
+            <span className="eyebrow">Cadeau de bienvenue</span>
             <h2 className="mt-6 font-display text-3xl font-extrabold leading-tight text-balance sm:text-5xl">
-              Commence chaque journée
+              Commence ta journée
               <br />
-              dans <span className="text-gradient">la lumière</span>
+              dans <span className="text-gradient">l'intimité</span>
             </h2>
             <p className="mx-auto mt-5 max-w-xl text-base text-cream/75 sm:text-lg">
               Rejoins la communauté et reçois gratuitement « 7 jours pour retrouver
-              la paix », puis la pensée et le verset du jour, chaque matin.
+              ta paix », puis la pensée et le verset du jour, chaque matin.
             </p>
 
             <div className="mx-auto mt-8 max-w-lg">

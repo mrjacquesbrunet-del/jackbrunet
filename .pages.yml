@@ -152,9 +152,11 @@ content:
         list: true
         fields:
           - { name: title, label: Titre, type: string }
-          - { name: type, label: "Type (ex. Livre · 90 méditations)", type: string }
-          - { name: price, label: Prix (ex. 19 €), type: string }
-          - { name: badge, label: "Badge (optionnel : Nouveau, Best-seller…)", type: string }
+          - { name: type, label: "Type (ex. Livre · à méditer chaque jour)", type: string }
+          - { name: image, label: "Photo du produit", type: image }
+          - { name: price, label: "Prix (ex. 19 €) — si disponible", type: string }
+          - { name: badge, label: "Badge (ex. Bientôt disponible, Nouveau)", type: string }
+          - { name: available, label: "Disponible à la vente ?", type: boolean }
 
   - name: support-tiers
     label: Niveaux de soutien

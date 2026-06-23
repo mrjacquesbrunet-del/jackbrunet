@@ -30,7 +30,7 @@ export default function DonsPage() {
   return (
     <>
       <PageHero
-        eyebrow="❤ Soutenir la mission"
+        eyebrow="Soutenir la mission"
         title={
           <>
             Ton don fait <span className="text-gradient">avancer la lumière</span>
@@ -160,7 +160,7 @@ export default function DonsPage() {
               <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                 <div className="max-w-2xl">
                   <span className="inline-flex rounded-full bg-dawn-400 px-3 py-1 text-xs font-bold uppercase tracking-wide text-night-950">
-                    🌱 {free.name}
+                    {free.name}
                   </span>
                   <p className="mt-4 whitespace-pre-line text-sm leading-relaxed text-cream/75">
                     {free.description}

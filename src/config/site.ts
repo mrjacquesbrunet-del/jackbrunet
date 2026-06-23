@@ -21,15 +21,14 @@ export const siteConfig = {
 
 /**
  * Intégration YouTube (depuis settings.json).
- * `shorts` / `featured` : IDs de vidéos (la partie après `/shorts/` ou `watch?v=`).
+ * Les Shorts/prédications proviennent de content/shorts.json & videos.json
+ * (import auto + CMS), pas d'ici.
  */
 export const youtube = {
   handle: settings.youtube.handle,
   channelUrl: settings.youtube.channelUrl,
   shortsUrl: settings.youtube.shortsUrl,
   videosUrl: settings.youtube.videosUrl,
-  shorts: settings.youtube.shorts as string[],
-  featured: settings.youtube.featured as string[],
 };
 
 /** Navigation principale — partagée web + future app. */

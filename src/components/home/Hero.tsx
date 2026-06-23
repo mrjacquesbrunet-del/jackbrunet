@@ -73,9 +73,9 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.15 }}
             className="mt-6 max-w-xl text-lg leading-relaxed text-night-900/70 sm:text-xl"
           >
-            Une pensée qui réveille. Une parole qui éclaire. Un plan qui fait
-            grandir. Rejoins une communauté vivante et laisse la lumière
-            transformer ton quotidien.
+            Une pensée qui réveille, une parole qui t'éclaire, un plan qui te fait
+            grandir. Mon objectif est que, jour après jour, tu t'enracines dans ta
+            foi en Jésus-Christ.
           </motion.p>
 
           <motion.div
@@ -112,8 +112,8 @@ export function Hero() {
               ))}
             </div>
             <p>
-              <span className="font-semibold text-night-900">+120 000</span> personnes
-              édifiées chaque mois
+              <span className="font-semibold text-night-900">+15 millions</span> de
+              personnes touchées chaque mois
             </p>
           </motion.div>
         </motion.div>
