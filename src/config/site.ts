@@ -12,7 +12,7 @@ export const siteConfig = {
   name: settings.name,
   tagline: settings.tagline,
   description: settings.description,
-  url: "https://lumiere.ministere",
+  url: "https://jackbrunet.com",
   locale: "fr_FR",
   contactEmail: settings.contactEmail,
   heroPhoto: (settings as { heroPhoto?: string }).heroPhoto ?? "",
@@ -68,7 +68,7 @@ export const footerNav = [
       { label: "Notre histoire", href: "/a-propos" },
       { label: "Boutique", href: "/boutique" },
       { label: "Soutenir la mission", href: "/dons" },
-      { label: "Contact", href: "mailto:contact@lumiere.ministere" },
+      { label: "Contact", href: `mailto:${siteConfig.contactEmail}` },
     ],
   },
 ] as const;
