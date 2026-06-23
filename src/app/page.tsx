@@ -28,9 +28,9 @@ export default function HomePage() {
       <ReadingPlan />
       <FeaturedPredications />
       <Reels />
+      <Shop />
       <PrayerSpace />
       <Testimonies />
-      <Shop />
       <AboutFounder />
       <Support />
       <NewsletterCTA />
