@@ -37,6 +37,7 @@ export const BREVO_ENDPOINTS: Record<BrevoFormKey, string | null> = {
 export function brevoKeyForSource(source: string): BrevoFormKey {
   switch (source) {
     case "popup":
+    case "cadeau-ebook":
       return "ebook";
     case "boutique":
     case "page-boutique":
