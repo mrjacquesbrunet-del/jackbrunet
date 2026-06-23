@@ -15,10 +15,12 @@ permissions:
   pages: write
   id-token: write
 
-# Un seul déploiement à la fois — on laisse les déploiements en cours se terminer.
+# Un seul déploiement à la fois. On annule les déploiements en attente quand
+# plusieurs modifications arrivent coup sur coup (CMS) : le plus récent gagne,
+# ce qui évite les collisions « deployment already in progress ».
 concurrency:
   group: pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
