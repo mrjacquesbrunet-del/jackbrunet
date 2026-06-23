@@ -1,88 +1,69 @@
 # Jack Brunet — Plateforme ministérielle chrétienne
 
-Site vitrine **et** plateforme d'édification quotidienne. Inspiré de l'énergie
-visuelle des grandes landing pages modernes (type `landonorris.com`), mais
-réorienté vers une expérience **chaleureuse, lumineuse, profonde et centrée sur
-Jésus**, pensée pour être visitée **chaque jour**.
+> **Le site en ligne (à partager) :**
+> ## https://mrjacquesbrunet-del.github.io/jackbrunet/
+>
+> Cette page-ci (sur github.com) est uniquement la fiche technique du code.
+> Le vrai site, celui que voient les visiteurs, est à l'adresse ci-dessus.
 
-## ✨ Direction artistique
+Site vitrine **et** plateforme d'édification quotidienne, centrée sur Jésus,
+pensée pour être visitée **chaque jour** : pensée du jour, verset du jour, plan
+de lecture, Shorts et prédications de la chaîne, espace de prière, témoignages,
+boutique et soutien.
 
-- Base nuit profonde immersive + accents vifs (or/aube, violet spirituel, bleu vie).
-- Contrastes forts, typographies impactantes (`Sora` display + `Inter`).
-- Animations et effets au scroll (Framer Motion : parallaxe, reveals, halos animés).
-- Cartes dynamiques, sections immersives, sensation de plateforme vivante et premium.
-- Lisible et paisible : l'énergie sert le contenu, jamais l'inverse.
+## Modifier le site soi-même (sans coder)
 
-## 🧱 Stack
+Le contenu (textes, pensées, versets, vidéos mises en avant, livre, photos,
+témoignages, soutien…) se modifie via un espace d'administration visuel, sans
+toucher au code. Chaque modification est enregistrée puis publiée
+automatiquement sur le site en quelques minutes, et garde un historique
+(sauvegarde) sur GitHub. Le guide complet est dans **`ADMIN.md`**.
 
-- **Next.js 15** (App Router) — architecture propre, évolutive, SSR + API.
-- **TypeScript** — robustesse.
-- **Tailwind CSS** — design system cohérent (`tailwind.config.ts`).
+## Stack technique
+
+- **Next.js 15** (App Router) + **TypeScript**.
+- **Tailwind CSS** — charte graphique (`tailwind.config.ts`).
 - **Framer Motion** — animations et interactions au scroll.
+- **Export statique** déployé sur **GitHub Pages** via GitHub Actions
+  (`.github/workflows/deploy.yml`), avec import automatique des vidéos YouTube.
 
-## 🗂 Architecture
+## Charte graphique
+
+- Couleurs : Olive `#3A3F28`, Lime `#CAF000` (accent), Crème `#F3F3ED` (fond),
+  Encre `#1F2216` (texte sur lime).
+- Typographies : **Playfair Display** (serif) + **Archivo** (sans).
+- Logo : « JACKBRUNET ».
+- Thème clair dominant, avec sections sombres texturées (topographie).
+
+## Architecture
 
 ```
+content/                       # Contenu éditable (JSON) lu par l'app
+.pages.yml                     # Configuration de l'espace d'administration visuel
 src/
 ├─ app/
-│  ├─ layout.tsx            # Header + Footer + Pop-up email, métadonnées, polices
-│  ├─ page.tsx              # Page d'accueil (toutes les sections)
-│  ├─ a-propos/             # Histoire & vision
-│  ├─ boutique/             # Catalogue
-│  ├─ dons/                 # Page de soutien complète
-│  └─ api/
-│     ├─ newsletter/route.ts  # Captation email (web + future app)
-│     └─ prayer/route.ts      # Requêtes de prière (web + future app)
-├─ components/
-│  ├─ layout/  (Header, Footer, EmailPopup)
-│  ├─ home/    (Hero, DailyHub, ReadingPlan, LatestVideos, Reels,
-│  │           PrayerSpace, Testimonies, Shop, Support, NewsletterCTA)
-│  └─ ui/      (Reveal, Section, PageHero, NewsletterForm)
-├─ config/site.ts           # Source unique : nav, identité, CTA (partagé future app)
+│  ├─ layout.tsx               # Header + Footer + Pop-up email, métadonnées, polices
+│  ├─ page.tsx                 # Page d'accueil (landing)
+│  ├─ videos/                  # Catalogue complet (Shorts + prédications)
+│  ├─ a-propos/                # Histoire & vision
+│  ├─ boutique/                # Le livre RHEMA
+│  ├─ dons/                    # Page de soutien complète
+│  └─ api/                     # Newsletter, prière, témoignage (web + future app)
+├─ components/                 # layout / home / ui
+├─ config/site.ts             # Source unique : nav, identité, CTA
 └─ lib/
-   ├─ types.ts              # Types du domaine (découplés de la source)
-   └─ content.ts            # Couche contenu (mock → CMS/API sans toucher l'UI)
+   ├─ types.ts                 # Types du domaine
+   └─ content.ts              # Couche contenu (JSON → CMS/API sans toucher l'UI)
 ```
 
-## 🎯 Trois usages couverts
+## Intégration YouTube (chaîne @Jack_brnt)
 
-1. **Première visite** — Hero fort, histoire, vidéos, vision, boutique, appels email/don.
-2. **Usage quotidien** — pensée du jour, verset du jour, plan de lecture, Reels, prière.
-3. **Engagement progressif** — newsletter, boutique, témoignages, partenariat mensuel.
+Les vidéos sont importées automatiquement au build (`scripts/fetch-youtube.mjs`,
+clé `YOUTUBE_API_KEY`) : les Shorts (≤ 3 min) alimentent le fil vertical, les
+formats longs alimentent le catalogue, classés automatiquement par thème, les
+plus récents en avant. Un rafraîchissement quotidien ajoute les nouvelles vidéos.
 
-## 📧 Stratégie de captation email (présente mais élégante)
-
-Un seul composant réutilisé (`NewsletterForm`) avec un `source` traçable, branché
-sur `/api/newsletter`. Points de capture :
-
-- Pop-up différé et mémorisé (`EmailPopup`, cadeau gratuit).
-- Carte du Hero, pensée du jour, plan de lecture, après les vidéos, boutique, page dons, footer.
-- Grande section dédiée (`NewsletterCTA`) avec cadeau de bienvenue.
-
-## ❤ Stratégie de soutien (jamais agressive)
-
-- Bouton « Soutenir la mission » dans le menu (desktop + mobile).
-- Section dons en page d'accueil (présentée comme réponse à la vision).
-- Page `/dons` complète : don unique, partenariat mensuel, statistiques d'impact,
-  **transparence sur l'utilisation des dons**, témoignages d'impact.
-- Appels au soutien après certains contenus.
-
-## 📱 Pensé pour une future application mobile
-
-- **API découplée** : `/api/newsletter` et `/api/prayer` sont déjà les points
-  d'entrée que l'app consommera à l'identique.
-- **Contenu découplé** (`lib/content.ts`) : remplacer le mock par un CMS/API
-  alimentera site **et** app sans changer les composants.
-- **Config partagée** (`config/site.ts`) : navigation et identité réutilisables.
-- **Mobile-first** : toutes les sections sont conçues d'abord pour le mobile.
-- **Base « installable »** : métadonnées `appleWebApp`, `themeColor`, viewport
-  (`viewport-fit: cover`) — prêtes pour une PWA puis un wrapper natif.
-
-Modules déjà cartographiés pour l'app : pensée du jour, notifications, plan de
-lecture, Bible, vidéos, prières, témoignages, boutique, dons, espace utilisateur,
-favoris, contenus sauvegardés.
-
-## 🚀 Démarrer
+## Démarrer (développement)
 
 ```bash
 npm install
@@ -90,10 +71,9 @@ npm run dev      # http://localhost:3000
 npm run build    # build de production
 ```
 
-## 🔌 Prochaines étapes (production)
+## Prochaines étapes (production)
 
 - Brancher l'emailing (Brevo / Mailchimp / Resend) dans `/api/newsletter`.
-- Connecter un CMS (contenus) et un moteur Bible.
 - Intégrer le paiement des dons (Stripe) et de la boutique.
 - Authentification + espace utilisateur (favoris, contenus sauvegardés).
-- PWA (manifest + service worker) puis application mobile.
+- PWA puis application mobile.
