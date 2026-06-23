@@ -10,6 +10,7 @@
 import type {
   DailyThought,
   LongVideo,
+  Mission,
   Product,
   ReadingPlanDay,
   Short,
@@ -31,6 +32,7 @@ import videosData from "../../content/videos.json";
 import videosGenerated from "../../content/videos.generated.json";
 import homeData from "../../content/home.json";
 import aboutData from "../../content/about.json";
+import missionData from "../../content/mission.json";
 
 /** Sélection déterministe basée sur le jour de l'année (rotation quotidienne). */
 function dayOfYear(date = new Date()): number {
@@ -258,4 +260,8 @@ export function getImpactStats() {
 
 export function getFundUsage() {
   return impactData.fundUsage;
+}
+
+export function getMission(): Mission {
+  return missionData as Mission;
 }

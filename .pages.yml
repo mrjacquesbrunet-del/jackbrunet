@@ -175,6 +175,18 @@ content:
           - { name: perks, label: Avantages, type: string, list: true }
           - { name: featured, label: Mettre en avant ?, type: boolean }
 
+  - name: mission
+    label: Mission Madagascar
+    type: file
+    path: content/mission.json
+    fields:
+      - { name: active, label: Mission active ?, type: boolean }
+      - { name: title, label: Titre, type: string }
+      - { name: period, label: "Période (ex. Début novembre · 10 jours)", type: string }
+      - { name: location, label: Lieu, type: string }
+      - { name: objectiveEur, label: "Objectif (en €)", type: number }
+      - { name: raisedEur, label: "Montant collecté (en €)", type: number }
+
   - name: impact
     label: Impact & transparence
     type: file

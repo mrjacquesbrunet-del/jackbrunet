@@ -36,6 +36,7 @@ export const mainNav = [
   { label: "Accueil", href: "/" },
   { label: "Aujourd'hui", href: "/#aujourdhui" },
   { label: "Vidéos", href: "/videos" },
+  { label: "Madagascar", href: "/mission-madagascar" },
   { label: "Plan de lecture", href: "/#plan" },
   { label: "Témoignages", href: "/#temoignages" },
   { label: "Boutique", href: "/boutique" },

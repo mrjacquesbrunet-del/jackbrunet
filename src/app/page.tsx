@@ -1,5 +1,6 @@
 import { Hero } from "@/components/home/Hero";
 import { Marquee } from "@/components/ui/Marquee";
+import { MissionBanner } from "@/components/home/MissionBanner";
 import { DailyHub } from "@/components/home/DailyHub";
 import { ReadingPlan } from "@/components/home/ReadingPlan";
 import { FeaturedPredications } from "@/components/home/FeaturedPredications";
@@ -24,6 +25,7 @@ export default function HomePage() {
           "Rejoins la communauté",
         ]}
       />
+      <MissionBanner />
       <DailyHub />
       <ReadingPlan />
       <FeaturedPredications />

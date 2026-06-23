@@ -11,6 +11,8 @@ export const STRIPE_LINKS = {
   donOnce: "https://buy.stripe.com/14A5kEaUqfVU5MtgaQa3u00" as string | null,
   /** Achat du livre RHEMA (activé à l'ouverture des ventes). */
   book: null as string | null,
+  /** Don dédié à la mission Madagascar (objectif 10 000 €). */
+  missionMadagascar: null as string | null,
 };
 
 /**

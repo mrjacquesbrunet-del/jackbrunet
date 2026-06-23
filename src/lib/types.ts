@@ -84,3 +84,12 @@ export type SupportTier = {
   perks?: string[];
   featured?: boolean;
 };
+
+export type Mission = {
+  active: boolean;
+  title: string;
+  period: string;
+  location: string;
+  objectiveEur: number;
+  raisedEur: number;
+};
