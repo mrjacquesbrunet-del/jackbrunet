@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { PageHero } from "@/components/ui/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeader } from "@/components/ui/Section";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
-import { supportCta } from "@/config/site";
+import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "À propos",
@@ -12,103 +11,158 @@ export const metadata: Metadata = {
     "Notre histoire, notre vision et notre mission : conduire chaque personne à rencontrer Jésus et grandir en Lui, chaque jour.",
 };
 
-const milestones = [
-  { year: "2018", text: "Premières vidéos publiées depuis un salon, avec un téléphone." },
-  { year: "2021", text: "La communauté dépasse les 100 000 personnes touchées chaque mois." },
-  { year: "2023", text: "Lancement du plan de lecture quotidien et de l'espace prière." },
-  { year: "2026", text: "Naissance de la plateforme — et bientôt, l'application mobile." },
-];
-
 const values = [
   {
-    title: "Centré sur Jésus",
-    text: "Tout part de Lui et revient à Lui. Pas une marque, pas une performance : une Personne.",
+    title: "L'humilité",
+    text: "Servir Dieu ne commence pas par vouloir briller, mais par accepter de dépendre de Lui. L'humilité nous garde à notre place devant Dieu. Elle nous rappelle que tout vient de Lui, que tout est pour Lui, et que sans Lui nous ne pouvons rien faire. Je crois qu'un ministère qui porte du fruit doit rester à genoux devant Dieu, même lorsqu'il devient visible devant les hommes.",
   },
   {
-    title: "Profond mais accessible",
-    text: "Une foi solide, expliquée simplement, qui rejoint la vraie vie.",
+    title: "L'amour",
+    text: "L'amour est au centre de l'Évangile. Ce n'est pas seulement un message à annoncer, c'est une vie à manifester. Aimer Dieu, aimer les personnes, aimer l'Église, aimer ceux qui souffrent, aimer ceux qui sont loin, aimer même quand cela coûte. Mon désir est que chaque parole, chaque vidéo, chaque prédication et chaque projet soient portés par l'amour de Dieu et l'amour des âmes.",
   },
   {
-    title: "Quotidien",
-    text: "La transformation se joue dans les petites habitudes répétées chaque jour.",
+    title: "La foi",
+    text: "La foi nous pousse à avancer quand tout n'est pas encore visible. Elle nous apprend à obéir à Dieu même lorsque nous ne maîtrisons pas tout. Elle nous fait croire que Dieu peut encore sauver, guérir, restaurer, relever et transformer des vies aujourd'hui. Je crois que Dieu agit encore. Je crois que Sa Parole est vivante. Je crois que l'Évangile est toujours puissant pour changer une vie.",
   },
   {
-    title: "Communauté",
-    text: "Personne ne grandit seul. On prie, on témoigne, on avance ensemble.",
+    title: "Le zèle",
+    text: "Le zèle, c'est refuser de vivre une foi tiède. C'est servir Dieu avec passion, avec feu, avec persévérance, sans perdre de vue l'essentiel : Jésus. Je crois que notre génération a besoin de chrétiens réveillés, engagés, consacrés, brûlants d'amour pour Dieu et disponibles pour Sa mission.",
   },
+];
+
+const callItems = [
+  "Annoncer l'Évangile avec clarté et passion",
+  "Évangéliser sur les réseaux sociaux",
+  "Faire des missions d'évangélisation dans les pays de la francophonie",
+  "Encourager l'Église locale",
+  "Équiper les chrétiens à grandir dans leur foi",
+  "Former des disciples qui ressemblent à Jésus",
+  "Appeler les personnes à une intimité plus profonde avec Dieu",
+  "Rappeler à chacun son identité d'enfant de Dieu",
 ];
 
 export default function AProposPage() {
   return (
     <>
       <PageHero
-        eyebrow="Notre histoire"
+        eyebrow="À propos"
         title={
           <>
-            Conduire chacun vers <span className="text-gradient">Jésus</span>, chaque jour
+            Une foi vivante, <span className="text-gradient">simple et profonde</span>
           </>
         }
-        description="Ce qui a commencé comme quelques vidéos est devenu une famille de plus de 120 000 personnes qui cherchent Dieu au quotidien. Voici la vision derrière tout ça."
+        description="Ce qui a commencé en 2020 avec quelques vidéos est devenu, par la grâce de Dieu, une famille de plus d'un million de personnes rassemblées sur les différentes plateformes."
       />
 
-      {/* Vision */}
+      {/* Intro */}
       <section className="container-x py-16">
-        <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-          <Reveal from="left">
-            <SectionHeader
-              eyebrow="La vision"
-              title={
-                <>
-                  Une foi <span className="text-gradient">vivante</span>, pas une religion poussiéreuse
-                </>
-              }
-              description="Nous voulons offrir un espace moderne, chaleureux et profond où la rencontre avec Dieu fait partie du rythme normal de la vie — comme on consulte ses messages le matin, on vient nourrir son âme."
-            />
-            <p className="mt-5 text-night-900/70">
-              Notre mission : que personne ne se sente seul dans sa foi, et que chacun
-              dispose chaque jour de ce dont il a besoin pour grandir — une parole, une
-              prière, un message, une communauté.
+        <div className="mx-auto max-w-3xl space-y-6 text-base leading-relaxed text-night-900/70 sm:text-lg">
+          <Reveal>
+            <p>
+              Chaque mois, des millions de personnes sont touchées par des messages, des prières, des
+              lives, des exhortations et des contenus bibliques centrés sur Jésus-Christ.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/#aujourdhui" className="btn-primary">
-                Commencer aujourd'hui
-              </Link>
-              <Link href={supportCta.href} className="btn-ghost">
-                {supportCta.label}
-              </Link>
-            </div>
           </Reveal>
-
-          <Reveal from="right" delay={0.1}>
-            <div className="relative aspect-square overflow-hidden rounded-5xl border border-white/10 bg-gradient-to-br from-spirit-600 via-night-700 to-night-900">
-              <div className="blob -right-10 -top-10 h-56 w-56 bg-dawn-500/30" />
-              <div className="absolute inset-0 grid place-items-center p-10 text-center">
-                <div>
-                  <span className="font-display text-7xl leading-none text-dawn-300">&ldquo;</span>
-                  <p className="mt-2 font-display text-2xl font-bold leading-snug text-white">
-                    « Lève-toi, sois éclairée, car ta lumière arrive. »
-                  </p>
-                  <p className="mt-3 text-dawn-200">Ésaïe 60.1</p>
-                </div>
-              </div>
-            </div>
+          <Reveal delay={0.05}>
+            <p>
+              Mais derrière les chiffres, il y a surtout une vision. Celle de présenter une foi
+              vivante, enracinée et accessible. Une foi qui n'est pas une religion poussiéreuse,
+              distante ou compliquée. Une foi qui parle au cœur, qui transforme la vie, qui relève,
+              qui restaure et qui ramène les personnes à Jésus.
+            </p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p>
+              Quand j'ai commencé à publier des vidéos, mon désir était simple : parler de Dieu de
+              manière concrète, parler de Jésus avec clarté, et transmettre une parole capable
+              d'encourager, de réveiller et de transformer.
+            </p>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <p>
+              Je crois profondément que la Parole de Dieu n'est pas simplement faite pour être
+              entendue. Elle est faite pour prendre racine, porter du fruit et transformer notre
+              manière de vivre.
+            </p>
           </Reveal>
         </div>
       </section>
 
-      {/* Valeurs */}
+      {/* L'appel à s'enraciner */}
+      <section className="bg-topo-light border-y border-night-900/10 py-20">
+        <div className="container-x">
+          <Reveal>
+            <SectionHeader
+              eyebrow="La vision"
+              title={
+                <>
+                  L'appel à <span className="text-gradient">s'enraciner en Jésus</span>
+                </>
+              }
+            />
+          </Reveal>
+          <div className="mt-10 mx-auto max-w-3xl space-y-6 text-base leading-relaxed text-night-900/70 sm:text-lg">
+            <Reveal delay={0.05}>
+              <p>
+                Avec le temps, j'ai compris que Dieu m'avait donné un mandat particulier : appeler
+                les personnes à s'enraciner plus profondément dans leur intimité avec Jésus et dans
+                leur identité d'enfant de Dieu.
+              </p>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <p>
+                Je ne crois pas à une foi superficielle. Je ne crois pas à une foi qui se limite à
+                des émotions passagères. Je crois à une foi enracinée, vivante, biblique, profonde,
+                mais accessible à tous.
+              </p>
+            </Reveal>
+            <Reveal delay={0.11}>
+              <p>
+                Mon désir est que chacun puisse découvrir Jésus personnellement, non pas seulement
+                comme une idée, une religion ou une tradition, mais comme un Sauveur vivant, un Père
+                proche, un Seigneur fidèle et une source de vie.
+              </p>
+            </Reveal>
+            <Reveal delay={0.14}>
+              <p>Je crois que c'est seulement enracinés en Christ que nous pouvons porter du fruit durablement.</p>
+            </Reveal>
+            <Reveal delay={0.17}>
+              <p>
+                Aujourd'hui, ce qui me guide, c'est le désir de voir des hommes et des femmes
+                devenir de véritables disciples de Jésus : des personnes qui ne se contentent pas
+                de croire en Lui, mais qui apprennent à Lui ressembler dans leur quotidien.
+              </p>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* Quatre valeurs */}
       <section className="dark-ctx bg-topo-dark border-y border-white/10 py-20">
         <div className="container-x">
           <Reveal>
-            <SectionHeader align="center" eyebrow="Nos valeurs" title="Ce qui nous guide" />
+            <SectionHeader
+              align="center"
+              eyebrow="Les piliers"
+              title={
+                <>
+                  Quatre valeurs au <span className="text-gradient">cœur de la vision</span>
+                </>
+              }
+            />
           </Reveal>
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <Reveal delay={0.05}>
+            <p className="mt-5 text-center text-base text-cream/65 sm:text-lg">
+              Dieu a profondément posé sur mon cœur quatre valeurs qui sont devenues comme des
+              piliers pour tout ce que je fais.
+            </p>
+          </Reveal>
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
             {values.map((v, i) => (
               <Reveal key={v.title} from="up" delay={i * 0.08}>
-                <div className="glass flex h-full flex-col p-7">
-                  <span className="h-1.5 w-10 rounded-full bg-dawn-400" />
-                  <h3 className="mt-4 font-display text-lg font-bold">{v.title}</h3>
-                  <p className="mt-2 text-sm text-cream/65">{v.text}</p>
+                <div className="glass-strong flex h-full flex-col p-7">
+                  <h3 className="font-display text-xl font-bold">{v.title}</h3>
+                  <p className="mt-4 text-sm leading-relaxed text-cream/70">{v.text}</p>
                 </div>
               </Reveal>
             ))}
@@ -116,28 +170,141 @@ export default function AProposPage() {
         </div>
       </section>
 
-      {/* Parcours */}
+      {/* Mon parcours */}
       <section className="container-x py-20">
         <Reveal>
-          <SectionHeader align="center" eyebrow="Le chemin parcouru" title="Notre parcours" />
+          <SectionHeader eyebrow="Mon histoire" title="Mon parcours" />
         </Reveal>
-        <div className="mx-auto mt-12 max-w-2xl">
-          {milestones.map((m, i) => (
-            <Reveal key={m.year} from="left" delay={i * 0.08}>
-              <div className="flex gap-5 pb-8 last:pb-0">
-                <div className="flex flex-col items-center">
-                  <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-gradient-to-br from-dawn-400 to-spirit-500 font-display text-xs font-bold text-night-950">
-                    {m.year}
-                  </span>
-                  {i < milestones.length - 1 ? (
-                    <span className="mt-1 w-px flex-1 bg-gradient-to-b from-spirit-500/60 to-transparent" />
-                  ) : null}
-                </div>
-                <p className="pt-3 text-night-900/75">{m.text}</p>
-              </div>
-            </Reveal>
-          ))}
+        <div className="mt-10 mx-auto max-w-3xl space-y-6 text-base leading-relaxed text-night-900/70 sm:text-lg">
+          <Reveal delay={0.05}>
+            <p>Cela fait maintenant plusieurs années que je sers Dieu.</p>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <p>
+              Après des études en théologie, je suis parti en mission au Brésil, où j'ai travaillé
+              dans un orphelinat. Cette saison a profondément marqué ma vie. J'y ai appris à servir,
+              à aimer concrètement, à être présent auprès des plus fragiles et à voir l'Évangile non
+              seulement comme une parole à annoncer, mais comme une vie à manifester.
+            </p>
+          </Reveal>
+          <Reveal delay={0.11}>
+            <p>
+              En 2015, Dieu a commencé à m'appeler à prendre davantage ma place dans ce qu'Il
+              voulait me confier. Mais pendant plusieurs années, j'ai résisté. Pas par manque
+              d'amour pour Dieu, mais parce que j'étais tiraillé par la peur : la peur de me
+              tromper, la peur de ne pas être capable, la peur du regard des autres, la peur de
+              faire ce que Dieu me demandait réellement. Il m'a fallu cinq ans avant d'oser répondre
+              pleinement.
+            </p>
+          </Reveal>
+          <Reveal delay={0.14}>
+            <p>
+              En 2020, j'ai décidé de ne plus marcher par la peur, mais par l'obéissance. J'ai
+              commencé à publier mes premières vidéos, à faire mes premiers lives, à annoncer
+              l'Évangile sur les réseaux sociaux avec les moyens que j'avais. Et très rapidement,
+              j'ai commencé à voir le fruit de Dieu : des personnes touchées, des vies encouragées,
+              des cœurs ramenés à Jésus, des témoignages de restauration, de repentance, de foi
+              renouvelée et de retour à Dieu.
+            </p>
+          </Reveal>
+          <Reveal delay={0.17}>
+            <p>
+              Quelques années plus tard, ce sont des millions de personnes qui ont été exposées au
+              message de l'Évangile, à la Parole de Dieu et à l'action du Saint-Esprit à travers
+              ces contenus. Et ce qui m'anime reste le même : voir Jésus être annoncé et voir des
+              vies transformées.
+            </p>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p>
+              En 2021, j'ai été consacré pasteur. Aujourd'hui, je suis pasteur dans une église à
+              Pau, et je continue à servir Dieu à la fois dans l'Église locale, dans
+              l'évangélisation, dans les missions et sur les réseaux sociaux. Je suis marié et père
+              d'un enfant de 11 ans. Ma famille fait partie de mon histoire, de mon équilibre et de
+              mon appel.
+            </p>
+          </Reveal>
         </div>
+      </section>
+
+      {/* Mon appel aujourd'hui */}
+      <section className="bg-topo-light border-y border-night-900/10 py-20">
+        <div className="container-x">
+          <Reveal>
+            <SectionHeader
+              eyebrow="Aujourd'hui"
+              title={
+                <>
+                  Mon appel <span className="text-gradient">aujourd'hui</span>
+                </>
+              }
+            />
+          </Reveal>
+          <div className="mt-10 mx-auto max-w-3xl">
+            <Reveal delay={0.05}>
+              <p className="text-base leading-relaxed text-night-900/70 sm:text-lg">
+                Aujourd'hui, je crois que Dieu m'appelle à avancer dans plusieurs directions :
+              </p>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <ul className="mt-6 space-y-3">
+                {callItems.map((item) => (
+                  <li key={item} className="flex items-start gap-2.5 text-base text-night-900/75">
+                    <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-dawn-500/20 text-[10px] text-dawn-500">
+                      ✓
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+            <div className="mt-12 space-y-5">
+              <Reveal delay={0.12}>
+                <p className="font-display text-xl font-bold text-night-900 sm:text-2xl">
+                  Je ne veux pas seulement produire du contenu. Je veux participer à bâtir des vies.
+                </p>
+              </Reveal>
+              <Reveal delay={0.15}>
+                <p className="font-display text-xl font-bold text-night-900 sm:text-2xl">
+                  Je ne veux pas seulement toucher des écrans. Je veux voir des cœurs revenir à
+                  Jésus.
+                </p>
+              </Reveal>
+              <Reveal delay={0.18}>
+                <p className="font-display text-xl font-bold text-night-900 sm:text-2xl">
+                  Je ne veux pas seulement inspirer des personnes quelques secondes. Je veux les
+                  encourager à s'enraciner durablement en Christ.
+                </p>
+              </Reveal>
+            </div>
+            <Reveal delay={0.22}>
+              <p className="mt-10 text-base leading-relaxed text-night-900/70 sm:text-lg">
+                Ma prière est simple : que chaque message, chaque vidéo, chaque mission, chaque
+                prédication et chaque projet puissent conduire les personnes à Jésus. Parce qu'au
+                fond, tout part de Lui. Tout tient par Lui. Et tout doit revenir à Lui.
+              </p>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* Boutons contact */}
+      <section className="container-x py-16">
+        <Reveal>
+          <div className="flex flex-wrap justify-center gap-4">
+            <a href={`mailto:${siteConfig.contactEmail}`} className="btn-primary">
+              Me contacter
+            </a>
+            <a
+              href={siteConfig.social.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-ghost"
+            >
+              Instagram
+            </a>
+          </div>
+        </Reveal>
       </section>
 
       {/* Captation email */}

@@ -50,16 +50,46 @@ export default function MissionMadagascarPage() {
             </>
           }
         />
+        <div className="mt-6 max-w-2xl space-y-5 text-base leading-relaxed text-night-900/70 sm:text-lg">
+          <p>
+            Depuis quelque temps, Dieu a placé Madagascar sur mon cœur. Après plusieurs
+            confirmations, nous croyons qu'il est temps d'y aller — non pas simplement pour
+            organiser un événement, mais pour répondre à un appel : annoncer Jésus, encourager les
+            cœurs, visiter les oubliés et soutenir concrètement ceux qui œuvrent déjà sur place.
+          </p>
+          <p>
+            Madagascar est une terre magnifique, riche d'histoire, de culture et de visages. Mais
+            c'est aussi une terre où les besoins sont immenses : pauvreté, précarité, enfants
+            vulnérables, familles en difficulté, détenus oubliés, œuvres locales qui manquent
+            parfois de moyens pour continuer leur mission.
+          </p>
+          <p>
+            Au-delà des besoins matériels, nous croyons qu'il existe une faim spirituelle profonde.
+            Beaucoup ont besoin d'entendre que Dieu les aime, que Jésus sauve, qu'Il restaure,
+            qu'Il relève, qu'Il pardonne et qu'Il donne une espérance qui ne dépend pas des
+            circonstances.
+          </p>
+          <p>
+            C'est dans ce contexte que nous voulons aller — avec humilité, respect et amour. Notre
+            but n'est pas d'arriver avec des réponses toutes faites, mais de servir : proclamer
+            Jésus-Christ avec clarté, prier pour les personnes, encourager les croyants et manifester
+            l'amour de Christ par des actes concrets.
+          </p>
+        </div>
+      </section>
+
+      {/* Verset callout */}
+      <section className="container-x pb-4">
+        <blockquote className="mx-auto max-w-2xl border-l-4 border-dawn-400 pl-6 py-4">
+          <p className="font-display text-xl italic font-bold text-night-900 sm:text-2xl">
+            &laquo;&nbsp;J'étais en prison, et vous êtes venus vers moi.&nbsp;&raquo;
+          </p>
+          <cite className="mt-3 block text-sm not-italic text-night-900/50">Matthieu 25:36</cite>
+        </blockquote>
         <p className="mt-6 max-w-2xl text-base leading-relaxed text-night-900/70 sm:text-lg">
-          Madagascar est une terre où la faim spirituelle et les besoins
-          matériels sont immenses — et où les cœurs sont étonnamment ouverts à
-          l'Évangile. Une véritable porte ouverte pour annoncer Jésus.
-        </p>
-        <p className="mt-4 max-w-2xl text-base leading-relaxed text-night-900/70 sm:text-lg">
-          Nous voulons y aller non seulement pour proclamer la Bonne Nouvelle,
-          mais aussi pour visiter et bénir les plus fragiles : les orphelins,
-          les prisonniers, les oubliés. Les soutenir par notre présence, notre
-          prière et nos moyens.
+          Servir Dieu, c'est aussi aller vers ceux que beaucoup ne voient plus : les enfants
+          vulnérables, les prisonniers, les pauvres, les isolés, les oubliés. Tous ont de la valeur
+          aux yeux de Dieu.
         </p>
       </section>
 
@@ -76,8 +106,8 @@ export default function MissionMadagascarPage() {
               Conférence d'évangélisation
             </h3>
             <p className="mt-3 text-sm text-night-900/70">
-              Rassembler largement et proclamer l'Évangile avec puissance, pour
-              voir des vies rencontrer Jésus et être transformées.
+              Organiser une conférence pour que beaucoup entendent clairement le message de
+              l'Évangile et rencontrent Jésus.
             </p>
           </div>
           <div className="glass-strong flex h-full flex-col p-7">
@@ -85,8 +115,8 @@ export default function MissionMadagascarPage() {
               Évangélisation de rue
             </h3>
             <p className="mt-3 text-sm text-night-900/70">
-              Aller à la rencontre des gens, là où ils sont, pour partager
-              simplement et avec amour l'espérance de Christ.
+              Aller dans les rues à la rencontre des personnes, prier avec elles, leur parler de
+              Jésus et leur annoncer l'espérance du salut.
             </p>
           </div>
           <div className="glass-strong flex h-full flex-col p-7">
@@ -94,11 +124,17 @@ export default function MissionMadagascarPage() {
               Visite d'œuvres
             </h3>
             <p className="mt-3 text-sm text-night-900/70">
-              Orphelinats, prisons et autres œuvres : les encourager, prier
-              avec eux et les soutenir financièrement.
+              Visiter orphelinats, prisons et autres œuvres locales : encourager ceux qui se sentent
+              oubliés, bénir ceux qui servent déjà, et apporter un soutien concret selon les besoins.
             </p>
           </div>
         </div>
+        <p className="mt-10 mx-auto max-w-2xl text-center text-base leading-relaxed text-night-900/70 sm:text-lg">
+          Annoncer, mais aussi écouter. Prier, mais aussi soutenir. Prêcher, mais aussi visiter.
+          Parler de Jésus, mais aussi montrer Son amour par notre présence. Notre désir est que
+          cette mission soit une semence pour Madagascar : une semence de salut, d'encouragement,
+          de restauration et de compassion.
+        </p>
       </section>
 
       {/* Objectif de collecte */}
@@ -183,8 +219,8 @@ export default function MissionMadagascarPage() {
       {/* Verset de clôture */}
       <section className="container-x pb-16">
         <blockquote className="mx-auto max-w-2xl text-center font-display text-xl italic text-night-900/75">
-          « Allez par tout le monde, et prêchez la bonne nouvelle à toute la
-          création. »
+          &laquo;&nbsp;Allez par tout le monde, et prêchez la bonne nouvelle à toute la
+          création.&nbsp;&raquo;
           <cite className="mt-3 block text-sm not-italic text-night-900/50">
             Marc 16:15
           </cite>
