@@ -9,7 +9,12 @@ export function Shop() {
   const products = getProducts();
 
   return (
-    <section className="container-x py-20 sm:py-28">
+    <section className="bg-topo-light relative overflow-hidden border-y border-spirit-700/10 py-20 sm:py-28">
+      {/* Halos décoratifs (effet lumière) */}
+      <div className="blob -left-24 top-0 h-72 w-72 bg-dawn-400/25" />
+      <div className="blob -right-20 bottom-0 h-80 w-80 bg-spirit-700/10" />
+
+      <div className="container-x relative">
       <Reveal>
         <div className="flex flex-wrap items-end justify-between gap-4">
           <SectionHeader
@@ -51,6 +56,7 @@ export function Shop() {
           </div>
         </div>
       </Reveal>
+      </div>
     </section>
   );
 }
