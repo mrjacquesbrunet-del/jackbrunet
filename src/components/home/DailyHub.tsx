@@ -1,6 +1,7 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { SectionHeader } from "@/components/ui/Section";
+import { ShareButtons } from "@/components/ui/ShareButtons";
 import { DailyShort } from "@/components/home/DailyShort";
 import { getDailyThought, getDailyVerse, getLatestShort, getShorts } from "@/lib/content";
 
@@ -55,6 +56,10 @@ export function DailyHub() {
                 — {thought.author}
               </p>
 
+              <div className="mt-5">
+                <ShareButtons text={`${thought.title}\n\n${thought.body}\n\n— ${thought.author}`} />
+              </div>
+
               <div className="mt-7 rounded-2xl border border-night-900/10 bg-night-900/[0.04] p-5">
                 <p className="text-sm font-semibold text-night-900">
                   Reçois la pensée du jour chaque matin
@@ -98,13 +103,8 @@ export function DailyHub() {
                 </span>
               </div>
 
-              <div className="mt-7 flex flex-wrap gap-2">
-                <button className="btn-ghost border-white/20 bg-white/10 text-sm hover:bg-white/20">
-                  Méditer ce verset
-                </button>
-                <button className="btn-ghost border-white/20 bg-white/10 text-sm hover:bg-white/20">
-                  Partager
-                </button>
+              <div className="mt-7">
+                <ShareButtons text={`« ${verse.text} » — ${verse.reference}`} />
               </div>
             </div>
           </article>
