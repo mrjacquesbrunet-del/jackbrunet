@@ -8,7 +8,7 @@
  */
 export const STRIPE_LINKS = {
   /** Don unique, montant libre. */
-  donOnce: null as string | null,
+  donOnce: "https://buy.stripe.com/14A5kEaUqfVU5MtgaQa3u00" as string | null,
   /** Don mensuel récurrent, montant libre. */
   donMonthly: null as string | null,
   /** Achat du livre RHEMA (activé à l'ouverture des ventes). */
