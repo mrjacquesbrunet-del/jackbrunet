@@ -24,7 +24,8 @@ export const BREVO_ENDPOINTS: Record<BrevoFormKey, string | null> = {
   ebook: null,
   boutique: null,
   dons: null,
-  priere: null,
+  priere:
+    "https://27d09ed7.sibforms.com/serve/MUIFAGrPoxGUnlFpL2PCdOshU_4PYmndY_juwbl0FovGiLojmjyk6kklDVswEJRj6XVUZq-2hf62ty-Yh6Zz4QCAub4VK-wxSpVX-5M3QW1PKSm5CNLMwx-nA-bu4hISpQv7jGEIQ7_HrJ0YpkXwbzNjHzH4WceL0AwKd2OxPINuJZhsNpigC9N6LT0pl6mX3_-g-priHISPB_WyOA==",
   temoignages: null,
 };
 

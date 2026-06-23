@@ -3,16 +3,16 @@
 import { useState, type FormEvent } from "react";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeader } from "@/components/ui/Section";
+import { BREVO_ENDPOINTS } from "@/config/brevo";
+import { submitToBrevo } from "@/lib/brevo";
 
 type Status = "idle" | "loading" | "success" | "error";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// Déploiement statique de démonstration : pas de backend, succès optimiste.
-const STATIC_DEMO = process.env.NEXT_PUBLIC_STATIC_DEMO === "true";
-
 export function PrayerSpace() {
   const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [request, setRequest] = useState("");
@@ -26,6 +26,11 @@ export function PrayerSpace() {
       setMessage("Écris ta requête avant d'envoyer.");
       return;
     }
+    if (name.trim().length < 2 || lastName.trim().length < 2) {
+      setStatus("error");
+      setMessage("Indique ton prénom et ton nom.");
+      return;
+    }
     if (!EMAIL_RE.test(email)) {
       setStatus("error");
       setMessage("Entre une adresse email valide pour qu'on puisse te répondre.");
@@ -36,21 +41,25 @@ export function PrayerSpace() {
       setStatus("success");
       setMessage("Ta requête a été reçue. Nous prions pour toi.");
       setName("");
+      setLastName("");
       setEmail("");
       setPhone("");
       setRequest("");
     };
-    if (STATIC_DEMO) {
-      setTimeout(done, 600);
-      return;
-    }
+    const endpoint = BREVO_ENDPOINTS.priere;
     try {
-      const res = await fetch("/api/prayer", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, request }),
-      });
-      if (!res.ok) throw new Error();
+      if (endpoint) {
+        await submitToBrevo(endpoint, {
+          EMAIL: email,
+          PRENOM: name,
+          NOM: lastName,
+          TELEPHONE: phone,
+          // Brevo limite ce champ texte à 200 caractères.
+          MESSAGE: request.slice(0, 200),
+        });
+      } else {
+        await new Promise((r) => setTimeout(r, 500));
+      }
       done();
     } catch {
       setStatus("error");
@@ -113,25 +122,45 @@ export function PrayerSpace() {
                       type="text"
                       autoComplete="given-name"
                       value={name}
-                      onChange={(e) => setName(e.target.value)}
+                      onChange={(e) => {
+                        setName(e.target.value);
+                        if (status === "error") setStatus("idle");
+                      }}
                       placeholder="Ton prénom"
                       className="field"
                     />
                   </div>
                   <div>
-                    <label htmlFor="prayer-phone" className="mb-1.5 block text-sm font-medium text-cream/80">
-                      Téléphone <span className="text-cream/40">(optionnel)</span>
+                    <label htmlFor="prayer-lastname" className="mb-1.5 block text-sm font-medium text-cream/80">
+                      Nom
                     </label>
                     <input
-                      id="prayer-phone"
-                      type="tel"
-                      autoComplete="tel"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      placeholder="06 12 34 56 78"
+                      id="prayer-lastname"
+                      type="text"
+                      autoComplete="family-name"
+                      value={lastName}
+                      onChange={(e) => {
+                        setLastName(e.target.value);
+                        if (status === "error") setStatus("idle");
+                      }}
+                      placeholder="Ton nom"
                       className="field"
                     />
                   </div>
+                </div>
+                <div>
+                  <label htmlFor="prayer-phone" className="mb-1.5 block text-sm font-medium text-cream/80">
+                    Téléphone <span className="text-cream/40">(optionnel)</span>
+                  </label>
+                  <input
+                    id="prayer-phone"
+                    type="tel"
+                    autoComplete="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="06 12 34 56 78"
+                    className="field"
+                  />
                 </div>
                 <div>
                   <label htmlFor="prayer-email" className="mb-1.5 block text-sm font-medium text-cream/80">
