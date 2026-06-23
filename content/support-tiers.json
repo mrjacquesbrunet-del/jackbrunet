@@ -2,26 +2,41 @@
   "items": [
     {
       "name": "Ami",
-      "amount": "5 €",
+      "amount": "20 €",
       "cadence": "/ mois",
       "description": "Le premier pas pour faire avancer la mission.",
-      "perks": ["Newsletter partenaires", "Carte de prière mensuelle"],
+      "perks": [
+        "Newsletter partenaires",
+        "Carte de prière mensuelle"
+      ],
       "featured": false
     },
     {
       "name": "Partenaire",
-      "amount": "20 €",
+      "amount": "50 €",
       "cadence": "/ mois",
       "description": "Tu portes le ministère et ses contenus quotidiens.",
-      "perks": ["Tous les avantages Ami", "Accès anticipé aux vidéos", "Étude approfondie mensuelle"],
+      "perks": [
+        "Tous les avantages Ami",
+        "Accès à des lives privés de prière avec le Pasteur Jack"
+      ],
       "featured": true
     },
     {
       "name": "Bâtisseur",
-      "amount": "50 €",
+      "amount": "100 €",
       "cadence": "/ mois",
-      "description": "Tu construis l'avenir : nouveaux contenus et application mobile.",
-      "perks": ["Tous les avantages Partenaire", "Rencontre en ligne trimestrielle", "Ton nom dans le mur des bâtisseurs"],
+      "description": "Tu construis l'avenir",
+      "perks": [
+        "Tous les avantages Partenaire",
+        "Rencontre en ligne trimestrielle",
+        "Accès à un groupe WhatsApp privé avec Jack"
+      ],
+      "featured": false
+    },
+    {
+      "name": "Semence libre — Montant au choix",
+      "description": "Vous souhaitez soutenir le ministère librement, sans engagement mensuel fixe ?\n\nAvec la Semence libre, vous pouvez donner le montant que vous désirez, selon ce que vous avez à cœur de semer.\n\nChaque don, petit ou grand, contribue à faire avancer l’œuvre : annoncer l’Évangile, produire des contenus spirituels, encourager les croyants, soutenir les projets du ministère et toucher de nouvelles vies.\n\nVotre générosité devient une semence pour le Royaume de Dieu.\n\n« Que chacun donne comme il l’a résolu en son cœur, sans tristesse ni contrainte ; car Dieu aime celui qui donne avec joie. »\n2 Corinthiens 9:7",
       "featured": false
     }
   ]
