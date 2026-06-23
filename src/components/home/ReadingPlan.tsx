@@ -10,7 +10,7 @@ export function ReadingPlan() {
   return (
     <section
       id="plan"
-      className="relative scroll-mt-24 overflow-hidden border-y border-white/10 bg-night-900/50 py-20 sm:py-28"
+      className="dark-ctx bg-topo-dark relative scroll-mt-24 overflow-hidden border-y border-white/10 py-20 sm:py-28"
     >
       <div className="blob right-0 top-0 h-80 w-80 bg-glow-500/15" />
       <div className="container-x relative">

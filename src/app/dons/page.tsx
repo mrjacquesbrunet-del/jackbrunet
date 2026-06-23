@@ -55,7 +55,7 @@ export default function DonsPage() {
                 <span className="font-display text-2xl font-extrabold text-gradient sm:text-3xl">
                   {s.value}
                 </span>
-                <span className="mt-1 text-xs text-cream/60">{s.label}</span>
+                <span className="mt-1 text-xs text-night-900/60">{s.label}</span>
               </div>
             ))}
           </div>
@@ -73,8 +73,8 @@ export default function DonsPage() {
                   key={a}
                   className={`rounded-2xl border px-4 py-5 font-display text-xl font-bold transition-all ${
                     i === 1
-                      ? "border-dawn-400/60 bg-dawn-500/10 text-dawn-200 shadow-glow"
-                      : "border-white/15 bg-white/[0.03] hover:border-white/30 hover:bg-white/[0.06]"
+                      ? "border-dawn-400 bg-dawn-400/20 text-night-900 shadow-glow"
+                      : "border-night-900/15 bg-night-900/[0.03] hover:border-night-900/30 hover:bg-night-900/[0.06]"
                   }`}
                 >
                   {a}
@@ -84,7 +84,7 @@ export default function DonsPage() {
             <button className="btn-primary mt-6 w-full sm:w-auto sm:px-12">
               Donner maintenant
             </button>
-            <p className="mt-4 text-xs text-cream/45">
+            <p className="mt-4 text-xs text-night-900/45">
               Paiement sécurisé. Reçu fiscal envoyé automatiquement si éligible.
             </p>
           </div>
@@ -109,10 +109,10 @@ export default function DonsPage() {
           {tiers.map((tier, i) => (
             <Reveal key={tier.id} from="up" delay={i * 0.1}>
               <div
-                className={`relative flex h-full flex-col overflow-hidden rounded-4xl border p-7 ${
+                className={`dark-ctx bg-topo-dark relative flex h-full flex-col overflow-hidden rounded-4xl border p-7 ${
                   tier.featured
-                    ? "border-dawn-400/50 bg-gradient-to-b from-dawn-500/15 to-night-800/60 shadow-glow"
-                    : "border-white/10 bg-white/[0.03]"
+                    ? "border-dawn-400/50 shadow-glow"
+                    : "border-white/10"
                 }`}
               >
                 {tier.featured ? (
@@ -146,7 +146,7 @@ export default function DonsPage() {
       </section>
 
       {/* Transparence */}
-      <section className="border-y border-white/10 bg-night-900/50 py-20">
+      <section className="dark-ctx bg-topo-dark border-y border-white/10 py-20">
         <div className="container-x grid gap-12 lg:grid-cols-2 lg:items-center">
           <Reveal from="left">
             <SectionHeader
@@ -192,19 +192,19 @@ export default function DonsPage() {
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {impactTestimonies.map((t, i) => (
             <Reveal key={t.id} from="up" delay={i * 0.1}>
-              <figure className="flex h-full flex-col rounded-3xl border border-white/10 bg-white/[0.03] p-7">
-                <blockquote className="flex-1 text-base leading-relaxed text-cream/80">
+              <figure className="flex h-full flex-col rounded-3xl border border-night-900/10 bg-white p-7">
+                <blockquote className="flex-1 text-base leading-relaxed text-night-900/75">
                   &ldquo;{t.quote}&rdquo;
                 </blockquote>
-                <figcaption className="mt-5 flex items-center gap-3 border-t border-white/10 pt-5">
+                <figcaption className="mt-5 flex items-center gap-3 border-t border-night-900/10 pt-5">
                   <span
                     className={`grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br ${t.avatarColor} font-display font-bold text-night-950`}
                   >
                     {t.name.charAt(0)}
                   </span>
                   <div>
-                    <p className="font-semibold text-cream">{t.name}</p>
-                    <p className="text-xs text-cream/55">{t.location}</p>
+                    <p className="font-semibold text-night-900">{t.name}</p>
+                    <p className="text-xs text-night-900/55">{t.location}</p>
                   </div>
                 </figcaption>
               </figure>
@@ -219,7 +219,7 @@ export default function DonsPage() {
           <div className="glass flex flex-col items-center gap-5 p-7 text-center sm:flex-row sm:justify-between sm:text-left">
             <div>
               <h3 className="font-display text-xl font-bold">Pas encore prêt(e) à donner ?</h3>
-              <p className="mt-1 text-sm text-cream/65">
+              <p className="mt-1 text-sm text-night-900/65">
                 Reste connecté(e) à la mission : reçois les nouvelles et l'impact de ton futur soutien.
               </p>
             </div>

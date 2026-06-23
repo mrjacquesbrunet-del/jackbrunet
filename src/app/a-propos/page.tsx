@@ -68,7 +68,7 @@ export default function AProposPage() {
               }
               description="Nous voulons offrir un espace moderne, chaleureux et profond où la rencontre avec Dieu fait partie du rythme normal de la vie — comme on consulte ses messages le matin, on vient nourrir son âme."
             />
-            <p className="mt-5 text-cream/70">
+            <p className="mt-5 text-night-900/70">
               Notre mission : que personne ne se sente seul dans sa foi, et que chacun
               dispose chaque jour de ce dont il a besoin pour grandir — une parole, une
               prière, un message, une communauté.
@@ -101,7 +101,7 @@ export default function AProposPage() {
       </section>
 
       {/* Valeurs */}
-      <section className="border-y border-white/10 bg-night-900/50 py-20">
+      <section className="dark-ctx bg-topo-dark border-y border-white/10 py-20">
         <div className="container-x">
           <Reveal>
             <SectionHeader align="center" eyebrow="Nos valeurs" title="Ce qui nous guide" />
@@ -137,7 +137,7 @@ export default function AProposPage() {
                     <span className="mt-1 w-px flex-1 bg-gradient-to-b from-spirit-500/60 to-transparent" />
                   ) : null}
                 </div>
-                <p className="pt-3 text-cream/75">{m.text}</p>
+                <p className="pt-3 text-night-900/75">{m.text}</p>
               </div>
             </Reveal>
           ))}
@@ -150,7 +150,7 @@ export default function AProposPage() {
           <div className="glass flex flex-col items-center gap-5 p-7 text-center sm:flex-row sm:justify-between sm:text-left">
             <div>
               <h3 className="font-display text-xl font-bold">Fais partie de l'histoire</h3>
-              <p className="mt-1 text-sm text-cream/65">
+              <p className="mt-1 text-sm text-night-900/65">
                 Reçois la pensée du jour et suis les coulisses de la mission.
               </p>
             </div>

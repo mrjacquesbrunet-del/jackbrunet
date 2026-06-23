@@ -1,4 +1,5 @@
 import { Hero } from "@/components/home/Hero";
+import { Marquee } from "@/components/ui/Marquee";
 import { DailyHub } from "@/components/home/DailyHub";
 import { ReadingPlan } from "@/components/home/ReadingPlan";
 import { LatestVideos } from "@/components/home/LatestVideos";
@@ -13,6 +14,15 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <Marquee
+        items={[
+          "Jack Brunet",
+          "Pour la gloire de Jésus",
+          "Pensée du jour",
+          "Édifie ta foi chaque jour",
+          "Rejoins la communauté",
+        ]}
+      />
       <DailyHub />
       <ReadingPlan />
       <LatestVideos />

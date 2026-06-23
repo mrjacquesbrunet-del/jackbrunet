@@ -14,7 +14,7 @@ export function Support() {
   return (
     <section
       id="soutenir"
-      className="relative scroll-mt-24 overflow-hidden py-20 sm:py-28"
+      className="dark-ctx bg-topo-dark relative scroll-mt-24 overflow-hidden py-20 sm:py-28"
     >
       <div className="absolute inset-0 bg-gradient-to-b from-night-900/0 via-spirit-700/10 to-night-900/0" />
       <div className="blob left-0 top-1/3 h-96 w-96 bg-dawn-500/15" />

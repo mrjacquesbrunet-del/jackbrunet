@@ -28,19 +28,21 @@ export function Header() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b border-white/10 bg-night-950/80 backdrop-blur-xl"
+          ? "border-b border-night-900/10 bg-cream/85 backdrop-blur-xl"
           : "border-b border-transparent"
       }`}
     >
       <div className="container-x flex h-16 items-center justify-between gap-4 sm:h-20">
-        <Link href="/" className="group flex items-center gap-2.5" onClick={() => setOpen(false)}>
-          <span className="relative grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-dawn-400 to-spirit-500 shadow-glow">
-            <span className="h-3 w-3 rounded-full bg-night-950" />
-            <span className="absolute inset-0 rounded-xl ring-1 ring-white/20" />
+        <Link
+          href="/"
+          className="group flex items-baseline"
+          onClick={() => setOpen(false)}
+        >
+          <span className="font-display text-2xl font-bold uppercase tracking-tight text-night-900">
+            {siteConfig.name.split(" ")[0]}
           </span>
-          <span className="font-display text-lg font-extrabold tracking-tight">
-            {siteConfig.name}
-            <span className="text-dawn-400">.</span>
+          <span className="font-sans text-2xl font-extrabold uppercase tracking-tight text-night-900">
+            {siteConfig.name.split(" ").slice(1).join("")}
           </span>
         </Link>
 
@@ -49,7 +51,7 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="rounded-full px-4 py-2 text-sm font-medium text-cream/75 transition-colors hover:bg-white/5 hover:text-cream"
+              className="rounded-full px-4 py-2 text-sm font-semibold uppercase tracking-wide text-night-900/70 transition-colors hover:bg-night-900/5 hover:text-night-900"
             >
               {item.label}
             </Link>
@@ -67,21 +69,21 @@ export function Header() {
             aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="grid h-10 w-10 place-items-center rounded-full border border-white/15 bg-white/5 lg:hidden"
+            className="grid h-10 w-10 place-items-center rounded-full border border-night-900/20 bg-night-900/[0.03] lg:hidden"
           >
             <span className="relative block h-4 w-5">
               <span
-                className={`absolute left-0 top-0 h-0.5 w-5 bg-cream transition-all duration-300 ${
+                className={`absolute left-0 top-0 h-0.5 w-5 bg-night-900 transition-all duration-300 ${
                   open ? "top-1.5 rotate-45" : ""
                 }`}
               />
               <span
-                className={`absolute left-0 top-1.5 h-0.5 w-5 bg-cream transition-all duration-300 ${
+                className={`absolute left-0 top-1.5 h-0.5 w-5 bg-night-900 transition-all duration-300 ${
                   open ? "opacity-0" : ""
                 }`}
               />
               <span
-                className={`absolute left-0 top-3 h-0.5 w-5 bg-cream transition-all duration-300 ${
+                className={`absolute left-0 top-3 h-0.5 w-5 bg-night-900 transition-all duration-300 ${
                   open ? "top-1.5 -rotate-45" : ""
                 }`}
               />
@@ -97,7 +99,7 @@ export function Header() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden border-t border-white/10 bg-night-950/95 backdrop-blur-xl lg:hidden"
+            className="overflow-hidden border-t border-night-900/10 bg-cream/95 backdrop-blur-xl lg:hidden"
           >
             <nav className="container-x flex flex-col gap-1 py-5">
               {mainNav.map((item) => (
@@ -105,7 +107,7 @@ export function Header() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="rounded-2xl px-4 py-3 text-base font-medium text-cream/85 transition-colors hover:bg-white/5"
+                  className="rounded-2xl px-4 py-3 text-base font-semibold uppercase tracking-wide text-night-900/85 transition-colors hover:bg-night-900/5"
                 >
                   {item.label}
                 </Link>

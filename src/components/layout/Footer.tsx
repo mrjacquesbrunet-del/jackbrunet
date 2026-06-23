@@ -4,7 +4,7 @@ import { NewsletterForm } from "@/components/ui/NewsletterForm";
 
 export function Footer() {
   return (
-    <footer className="relative mt-24 overflow-hidden border-t border-white/10 bg-night-900">
+    <footer className="dark-ctx bg-topo-dark relative mt-24 overflow-hidden border-t border-white/10">
       <div className="blob -left-24 top-0 h-72 w-72 bg-spirit-600/20" />
       <div className="blob -right-24 bottom-0 h-72 w-72 bg-dawn-500/15" />
 
@@ -26,13 +26,12 @@ export function Footer() {
 
         <div className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <Link href="/" className="flex items-center gap-2.5">
-              <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-dawn-400 to-spirit-500">
-                <span className="h-3 w-3 rounded-full bg-night-950" />
+            <Link href="/" className="flex items-baseline">
+              <span className="font-display text-2xl font-bold uppercase tracking-tight text-cream">
+                {siteConfig.name.split(" ")[0]}
               </span>
-              <span className="font-display text-lg font-extrabold">
-                {siteConfig.name}
-                <span className="text-dawn-400">.</span>
+              <span className="font-sans text-2xl font-extrabold uppercase tracking-tight text-dawn-400">
+                {siteConfig.name.split(" ").slice(1).join("")}
               </span>
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-cream/60">

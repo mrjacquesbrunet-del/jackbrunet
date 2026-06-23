@@ -14,11 +14,30 @@ export const siteConfig = {
   locale: "fr_FR",
   contactEmail: "contact@lumiere.ministere",
   social: {
-    youtube: "https://youtube.com",
+    youtube: "https://www.youtube.com/@Jack_brnt",
     instagram: "https://instagram.com",
     tiktok: "https://tiktok.com",
     facebook: "https://facebook.com",
   },
+} as const;
+
+/**
+ * Intégration YouTube.
+ *
+ * `shorts` et `featured` attendent des IDs de vidéos (11 caractères, la partie
+ * après `watch?v=` ou `/shorts/`). Dès qu'ils sont renseignés, les Shorts
+ * s'affichent en lecture directe sur le site. Tant que `shorts` est vide,
+ * la section renvoie élégamment vers l'onglet Shorts de la chaîne.
+ */
+export const youtube = {
+  handle: "@Jack_brnt",
+  channelUrl: "https://www.youtube.com/@Jack_brnt",
+  shortsUrl: "https://www.youtube.com/@Jack_brnt/shorts",
+  videosUrl: "https://www.youtube.com/@Jack_brnt/videos",
+  // Ex. : ["dQw4w9WgXcQ", "..."] — colle ici les IDs de tes Shorts.
+  shorts: [] as string[],
+  // IDs de vidéos longues à mettre en avant (optionnel).
+  featured: [] as string[],
 } as const;
 
 /** Navigation principale — partagée web + future app. */

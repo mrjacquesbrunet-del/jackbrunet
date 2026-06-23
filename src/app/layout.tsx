@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Fraunces } from "next/font/google";
+import { Archivo, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { Header } from "@/components/layout/Header";
@@ -13,8 +13,8 @@ const archivo = Archivo({
   display: "swap",
 });
 
-// Serif élégant à fort contraste pour les titres d'affichage
-const fraunces = Fraunces({
+// Serif élégant à fort contraste pour « Jack » et les titres
+const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
@@ -63,8 +63,10 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="fr" className={`${archivo.variable} ${fraunces.variable}`}>
+    <html lang="fr" className={`${archivo.variable} ${playfair.variable}`}>
       <body className="min-h-screen font-sans">
+        {/* Grain de surface (texture subtile) */}
+        <div className="bg-noise pointer-events-none fixed inset-0 z-[1] opacity-[0.035] mix-blend-multiply" />
         <Header />
         <main>{children}</main>
         <Footer />

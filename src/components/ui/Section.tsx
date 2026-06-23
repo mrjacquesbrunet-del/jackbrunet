@@ -28,7 +28,7 @@ export function SectionHeader({
       </h2>
       {description ? (
         <p
-          className={`max-w-2xl text-base leading-relaxed text-cream/70 sm:text-lg ${
+          className={`max-w-2xl text-base leading-relaxed text-night-900/70 [.dark-ctx_&]:text-cream/70 sm:text-lg ${
             align === "center" ? "mx-auto" : ""
           }`}
         >

@@ -71,8 +71,8 @@ export function NewsletterForm({
 
   if (status === "success") {
     return (
-      <div className="glass flex items-center gap-3 px-5 py-4 text-sm text-cream">
-        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-dawn-500/20 text-dawn-300">
+      <div className="glass flex items-center gap-3 px-5 py-4 text-sm">
+        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-dawn-400 font-bold text-night-950">
           ✓
         </span>
         <p>{message}</p>
@@ -106,15 +106,15 @@ export function NewsletterForm({
           if (status === "error") setStatus("idle");
         }}
         placeholder={placeholder}
-        className="w-full flex-1 rounded-full border border-white/15 bg-night-900/80 px-5 py-3 text-sm text-cream placeholder:text-cream/40 focus:border-dawn-400/60 focus:outline-none focus:ring-2 focus:ring-dawn-400/30"
+        className="field flex-1"
       />
       <button type="submit" className={btnClass} disabled={status === "loading"}>
         {status === "loading" ? "Un instant…" : cta}
       </button>
       {status === "error" ? (
-        <p className="text-xs text-dawn-300 sm:basis-full">{message}</p>
+        <p className="field-error sm:basis-full">{message}</p>
       ) : note ? (
-        <p className="text-xs text-cream/40 sm:basis-full">{note}</p>
+        <p className="field-note sm:basis-full">{note}</p>
       ) : null}
     </form>
   );

@@ -2,6 +2,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { SectionHeader } from "@/components/ui/Section";
 import { getLatestVideos } from "@/lib/content";
+import { youtube } from "@/config/site";
 
 export function LatestVideos() {
   const videos = getLatestVideos();
@@ -12,14 +13,20 @@ export function LatestVideos() {
       <Reveal>
         <div className="flex flex-wrap items-end justify-between gap-4">
           <SectionHeader
-            eyebrow="Dernières vidéos"
+            eyebrow="Formats longs"
             title={
               <>
                 Des messages qui <span className="text-gradient">réveillent</span>
               </>
             }
+            description="Mes enseignements complets sont sur YouTube — clique pour les regarder sur la chaîne."
           />
-          <a href="#" className="btn-ghost shrink-0">
+          <a
+            href={youtube.videosUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-ghost shrink-0"
+          >
             Voir toutes les vidéos
           </a>
         </div>
@@ -29,8 +36,10 @@ export function LatestVideos() {
         {/* Vidéo à la une */}
         <Reveal from="scale">
           <a
-            href="#"
-            className="group relative block h-full overflow-hidden rounded-4xl border border-white/10"
+            href={youtube.videosUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="dark-ctx group relative block h-full overflow-hidden rounded-4xl border border-night-900/10"
           >
             <div
               className={`relative aspect-video w-full bg-gradient-to-br ${feature.thumbnail}`}
@@ -56,26 +65,28 @@ export function LatestVideos() {
           {rest.map((v, i) => (
             <Reveal key={v.id} from="right" delay={i * 0.08}>
               <a
-                href="#"
-                className="group flex items-center gap-4 rounded-3xl border border-white/10 bg-white/[0.03] p-3 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.06]"
+                href={youtube.videosUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+                className="group flex items-center gap-4 rounded-3xl border border-night-900/10 bg-white p-3 transition-all duration-300 hover:-translate-y-0.5 hover:border-night-900/20 hover:shadow-card"
               >
                 <div
                   className={`relative aspect-video w-40 shrink-0 overflow-hidden rounded-2xl bg-gradient-to-br ${v.thumbnail}`}
                 >
                   <div className="absolute inset-0 bg-night-950/20" />
                   <PlayButton />
-                  <span className="absolute bottom-1.5 right-1.5 rounded bg-night-950/70 px-1.5 py-0.5 text-[10px] font-semibold">
+                  <span className="absolute bottom-1.5 right-1.5 rounded bg-night-950/70 px-1.5 py-0.5 text-[10px] font-semibold text-cream">
                     {v.duration}
                   </span>
                 </div>
                 <div className="min-w-0">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-dawn-300">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-spirit-600">
                     {v.category}
                   </span>
-                  <h4 className="mt-1 line-clamp-2 font-semibold leading-snug transition-colors group-hover:text-dawn-300">
+                  <h4 className="mt-1 line-clamp-2 font-semibold leading-snug transition-colors group-hover:text-spirit-600">
                     {v.title}
                   </h4>
-                  <p className="mt-1 text-xs text-cream/55">{v.publishedAt}</p>
+                  <p className="mt-1 text-xs text-night-900/55">{v.publishedAt}</p>
                 </div>
               </a>
             </Reveal>
@@ -90,7 +101,7 @@ export function LatestVideos() {
             <h3 className="font-display text-xl font-bold">
               Ne rate aucune nouvelle vidéo
             </h3>
-            <p className="mt-1 text-sm text-cream/65">
+            <p className="mt-1 text-sm text-night-900/65">
               Sois prévenu(e) à chaque publication — et reçois les vidéos privées réservées à la communauté.
             </p>
           </div>

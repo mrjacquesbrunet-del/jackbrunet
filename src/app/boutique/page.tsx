@@ -39,7 +39,7 @@ export default function BoutiquePage() {
                 className={`shrink-0 rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
                   i === 0
                     ? "bg-gradient-to-r from-dawn-500 to-dawn-400 text-night-950"
-                    : "border border-white/15 bg-white/5 text-cream/70 hover:bg-white/10"
+                    : "border border-night-900/15 bg-night-900/[0.03] text-night-900/70 hover:bg-night-900/[0.07]"
                 }`}
               >
                 {c}
@@ -51,7 +51,7 @@ export default function BoutiquePage() {
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {catalog.map((p, i) => (
             <Reveal key={p.id} from="up" delay={(i % 3) * 0.08}>
-              <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-card">
+              <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-night-900/10 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-night-900/20 hover:shadow-card">
                 <div className={`relative aspect-[4/3] overflow-hidden bg-gradient-to-br ${p.cover}`}>
                   {p.badge ? (
                     <span className="absolute left-4 top-4 rounded-full bg-night-950/70 px-3 py-1 text-xs font-semibold text-dawn-300 backdrop-blur">
@@ -60,10 +60,10 @@ export default function BoutiquePage() {
                   ) : null}
                 </div>
                 <div className="flex flex-1 flex-col p-6">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-cream/50">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-night-900/50">
                     {p.type}
                   </span>
-                  <h3 className="mt-2 font-display text-lg font-bold leading-snug transition-colors group-hover:text-dawn-300">
+                  <h3 className="mt-2 font-display text-lg font-bold leading-snug transition-colors group-hover:text-spirit-600">
                     {p.title}
                   </h3>
                   <div className="mt-5 flex items-center justify-between">
@@ -83,7 +83,7 @@ export default function BoutiquePage() {
           <div className="glass flex flex-col items-center gap-5 p-7 text-center sm:flex-row sm:justify-between sm:text-left">
             <div>
               <h3 className="font-display text-xl font-bold">-10 % sur ta première commande</h3>
-              <p className="mt-1 text-sm text-cream/65">
+              <p className="mt-1 text-sm text-night-900/65">
                 Inscris-toi et reçois ton code promo, plus les nouveautés en avant-première.
               </p>
             </div>

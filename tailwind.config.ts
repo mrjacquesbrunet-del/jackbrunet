@@ -8,39 +8,39 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Base sombre — noir chaud + olive profond (inspiration landonorris)
+        // Sombres : Encre (#1F2216) + Olive (#3A3F28)
         night: {
-          950: "#0A0B07",
-          900: "#0F100A",
-          800: "#171911",
-          700: "#23271A",
-          600: "#2F3422",
+          950: "#14160E",
+          900: "#1F2216", // Encre — texte & fonds sombres
+          800: "#272B1B",
+          700: "#3A3F28", // Olive — primaire
+          600: "#4B5133",
         },
-        // Accent principal — vert lime / chartreuse vif
+        // Accent — Lime #CAF000
         dawn: {
-          50: "#F8FFE3",
-          100: "#EEFFB6",
-          200: "#E0FB7E",
-          300: "#D2F84F",
-          400: "#C6F03C",
-          500: "#B2E215",
-          600: "#92BD0A",
+          50: "#FAFFE0",
+          100: "#F0FFB0",
+          200: "#E4FB6E",
+          300: "#D8F53A",
+          400: "#CAF000",
+          500: "#AAD000",
+          600: "#879E00",
         },
-        // Secondaire — vert mousse / olive
+        // Secondaire — Olive / vert profond
         spirit: {
-          300: "#AECB6A",
-          400: "#8DB23E",
-          500: "#647F2B",
-          600: "#45561E",
-          700: "#323F17",
+          300: "#AEB98C",
+          400: "#8A9760",
+          500: "#5E6A3A",
+          600: "#3A3F28",
+          700: "#2A2E1C",
         },
-        // Tertiaire — vert feuille / lumineux
+        // Tertiaire — vert clair / lime adouci
         glow: {
-          300: "#DCF79A",
-          400: "#C2EA5E",
-          500: "#A3D331",
+          300: "#E4FB6E",
+          400: "#CAF000",
+          500: "#AAD000",
         },
-        cream: "#EFEDE1",
+        cream: "#F3F3ED",
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
@@ -51,8 +51,8 @@ const config: Config = {
         "5xl": "2.5rem",
       },
       boxShadow: {
-        glow: "0 0 60px -15px rgba(198, 240, 60, 0.5)",
-        spirit: "0 0 70px -20px rgba(141, 178, 62, 0.45)",
+        glow: "0 0 60px -15px rgba(202, 240, 0, 0.55)",
+        spirit: "0 0 70px -20px rgba(58, 63, 40, 0.5)",
         card: "0 20px 60px -20px rgba(0, 0, 0, 0.6)",
       },
       keyframes: {

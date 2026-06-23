@@ -4,39 +4,40 @@
 
 @layer base {
   :root {
-    --font-sans: "Inter", system-ui, sans-serif;
-    --font-display: "Sora", system-ui, sans-serif;
+    --font-sans: "Archivo", system-ui, sans-serif;
+    --font-display: "Fraunces", Georgia, serif;
   }
 
   html {
     scroll-behavior: smooth;
   }
 
+  /* Thème clair dominant : crème + texte sombre olive */
   body {
-    @apply bg-night-950 text-cream antialiased;
+    @apply bg-cream text-night-900 antialiased;
     background-image:
-      radial-gradient(60% 50% at 50% -10%, rgba(198, 240, 60, 0.10), transparent 60%),
-      radial-gradient(40% 40% at 90% 10%, rgba(120, 150, 50, 0.10), transparent 60%);
+      radial-gradient(55% 45% at 80% -5%, rgba(202, 240, 0, 0.20), transparent 60%),
+      radial-gradient(45% 40% at 0% 5%, rgba(58, 63, 40, 0.10), transparent 60%);
     background-attachment: fixed;
   }
 
   ::selection {
-    @apply bg-dawn-500/40 text-cream;
+    @apply bg-dawn-400 text-night-950;
   }
 
-  /* Scrollbar premium */
+  /* Scrollbar */
   ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
   }
   ::-webkit-scrollbar-track {
-    @apply bg-night-900;
+    @apply bg-cream;
   }
   ::-webkit-scrollbar-thumb {
-    @apply rounded-full bg-night-600;
+    @apply rounded-full bg-night-900/20;
   }
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-spirit-600;
+    @apply bg-dawn-500;
   }
 }
 
@@ -45,49 +46,100 @@
     @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12;
   }
 
-  /* Texte en dégradé chaleureux */
+  /* ----- Texte en dégradé (vert lisible sur clair) ----- */
   .text-gradient {
-    @apply bg-gradient-to-r from-dawn-300 via-dawn-400 to-glow-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-spirit-700 via-spirit-600 to-dawn-600 bg-clip-text text-transparent;
   }
-
   .text-gradient-spirit {
-    @apply bg-gradient-to-r from-glow-300 via-dawn-200 to-dawn-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-spirit-600 via-dawn-600 to-spirit-700 bg-clip-text text-transparent;
   }
 
-  /* Carte de verre — base des cartes dynamiques */
+  /* Surlignage flashy (marqueur lime) */
+  .mark {
+    @apply rounded-lg bg-dawn-400 px-2 text-night-950;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  /* ----- Cartes (clair par défaut) ----- */
   .glass {
-    @apply rounded-3xl border border-white/10 bg-white/[0.04] backdrop-blur-xl;
+    @apply rounded-3xl border border-night-900/10 bg-white/70 backdrop-blur-xl;
   }
-
   .glass-strong {
-    @apply rounded-3xl border border-white/10 bg-night-800/70 backdrop-blur-xl;
+    @apply rounded-3xl border border-night-900/10 bg-white/90 backdrop-blur-xl;
   }
 
   /* Étiquette de section */
   .eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-dawn-200;
+    @apply inline-flex items-center gap-2 rounded-full border border-night-900/15 bg-night-900/[0.04] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-spirit-600;
   }
 
-  /* Boutons */
+  /* ----- Boutons ----- */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-dawn-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-night-950 disabled:cursor-not-allowed disabled:opacity-60;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-dawn-500/70 focus-visible:ring-offset-2 focus-visible:ring-offset-cream disabled:cursor-not-allowed disabled:opacity-60;
   }
-
   .btn-primary {
-    @apply btn bg-gradient-to-r from-dawn-500 to-dawn-400 text-night-950 shadow-glow hover:scale-[1.03] hover:shadow-[0_0_70px_-10px_rgba(255,122,0,0.7)] active:scale-100;
+    @apply btn bg-dawn-400 text-night-950 shadow-glow hover:scale-[1.03] hover:bg-dawn-300 active:scale-100;
   }
-
   .btn-spirit {
-    @apply btn bg-gradient-to-r from-spirit-600 to-spirit-500 text-white shadow-spirit hover:scale-[1.03] active:scale-100;
+    @apply btn bg-night-900 text-cream hover:scale-[1.03] hover:bg-night-800 active:scale-100;
+  }
+  .btn-ghost {
+    @apply btn border border-night-900/20 bg-night-900/[0.03] text-night-900 hover:border-night-900/40 hover:bg-night-900/[0.07];
   }
 
-  .btn-ghost {
-    @apply btn border border-white/15 bg-white/5 text-cream hover:border-white/30 hover:bg-white/10;
+  /* ----- Champs de formulaire ----- */
+  .field {
+    @apply w-full rounded-full border border-night-900/15 bg-white px-5 py-3 text-sm text-night-900 placeholder:text-night-900/40 focus:border-dawn-500 focus:outline-none focus:ring-2 focus:ring-dawn-500/30;
+  }
+  .field-area {
+    @apply w-full resize-none rounded-2xl border border-night-900/15 bg-white px-4 py-3 text-sm text-night-900 placeholder:text-night-900/40 focus:border-dawn-500 focus:outline-none focus:ring-2 focus:ring-dawn-500/30;
+  }
+  .field-note {
+    @apply text-xs text-night-900/45;
+  }
+  .field-error {
+    @apply text-xs font-semibold text-spirit-700;
   }
 
   /* Halo décoratif */
   .blob {
     @apply pointer-events-none absolute rounded-full blur-3xl;
+  }
+
+  /* ----- Contexte SOMBRE réutilisable -----
+     Ajoute la classe `dark-ctx` à une section pour que cartes, étiquettes,
+     boutons et champs basculent automatiquement en version sombre. */
+  .dark-ctx {
+    @apply text-cream;
+  }
+  .dark-ctx .text-gradient {
+    @apply from-dawn-300 via-dawn-400 to-glow-400;
+  }
+  .dark-ctx .text-gradient-spirit {
+    @apply from-glow-300 via-dawn-200 to-dawn-400;
+  }
+  .dark-ctx .glass {
+    @apply border-white/10 bg-white/[0.05];
+  }
+  .dark-ctx .glass-strong {
+    @apply border-white/10 bg-night-800/70;
+  }
+  .dark-ctx .eyebrow {
+    @apply border-white/15 bg-white/10 text-dawn-200;
+  }
+  .dark-ctx .btn-ghost {
+    @apply border-white/20 bg-white/5 text-cream hover:border-white/40 hover:bg-white/10;
+  }
+  .dark-ctx .field,
+  .dark-ctx .field-area {
+    @apply border-white/15 bg-night-900/80 text-cream placeholder:text-cream/40;
+  }
+  .dark-ctx .field-note {
+    @apply text-cream/45;
+  }
+  .dark-ctx .field-error {
+    @apply text-dawn-300;
   }
 }
 
@@ -102,11 +154,22 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+  /* Grille fine (sur fond clair) */
   .bg-grid {
     background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      linear-gradient(to right, rgba(10, 11, 7, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(10, 11, 7, 0.05) 1px, transparent 1px);
     background-size: 56px 56px;
+  }
+  /* Grain fin (texture de surface) */
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  /* Fond sombre + texture topographique (bandes sombres) */
+  .bg-topo-dark {
+    background-color: #23271a;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700' viewBox='0 0 700 700'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.06' stroke-width='1.2'%3E%3Cpath d='M-50 130 C 160 40 320 250 520 140 S 820 70 900 190'/%3E%3Cpath d='M-50 230 C 160 140 320 350 520 240 S 820 170 900 290'/%3E%3Cpath d='M-50 330 C 160 240 320 450 520 340 S 820 270 900 390'/%3E%3Cpath d='M-50 430 C 160 340 320 550 520 440 S 820 370 900 490'/%3E%3Cpath d='M-50 530 C 160 440 320 650 520 540 S 820 470 900 590'/%3E%3Cpath d='M-50 630 C 160 540 320 750 520 640 S 820 570 900 690'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 700px 700px;
   }
 }
 

@@ -29,7 +29,7 @@ export function Shop() {
       <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {products.map((p, i) => (
           <Reveal key={p.id} from="up" delay={i * 0.1}>
-            <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-card">
+            <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-night-900/10 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-night-900/20 hover:shadow-card">
               <div className={`relative aspect-[4/3] overflow-hidden bg-gradient-to-br ${p.cover}`}>
                 <div className="absolute inset-0 bg-night-950/10 transition-opacity group-hover:opacity-0" />
                 {p.badge ? (
@@ -39,14 +39,14 @@ export function Shop() {
                 ) : null}
               </div>
               <div className="flex flex-1 flex-col p-6">
-                <span className="text-xs font-semibold uppercase tracking-wider text-cream/50">
+                <span className="text-xs font-semibold uppercase tracking-wider text-night-900/50">
                   {p.type}
                 </span>
-                <h3 className="mt-2 font-display text-lg font-bold leading-snug transition-colors group-hover:text-dawn-300">
+                <h3 className="mt-2 font-display text-lg font-bold leading-snug transition-colors group-hover:text-spirit-600">
                   {p.title}
                 </h3>
                 <div className="mt-5 flex items-center justify-between">
-                  <span className="font-display text-xl font-extrabold text-cream">
+                  <span className="font-display text-xl font-extrabold text-night-900">
                     {p.price}
                   </span>
                   <button className="btn-primary px-5 py-2.5 text-sm">Ajouter</button>
@@ -64,7 +64,7 @@ export function Shop() {
             <h3 className="font-display text-xl font-bold">
               -10 % sur ta première commande
             </h3>
-            <p className="mt-1 text-sm text-cream/65">
+            <p className="mt-1 text-sm text-night-900/65">
               Inscris-toi et reçois ton code promo, plus les nouveautés en avant-première.
             </p>
           </div>

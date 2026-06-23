@@ -6,7 +6,7 @@ export function NewsletterCTA() {
   return (
     <section id="newsletter" className="container-x scroll-mt-24 py-20 sm:py-28">
       <Reveal from="scale">
-        <div className="relative overflow-hidden rounded-5xl border border-white/10 bg-gradient-to-br from-spirit-700 via-night-800 to-night-900 px-6 py-16 text-center sm:px-10 sm:py-20">
+        <div className="dark-ctx relative overflow-hidden rounded-5xl border border-white/10 bg-gradient-to-br from-spirit-700 via-night-800 to-night-900 px-6 py-16 text-center sm:px-10 sm:py-20">
           <div className="blob left-1/4 top-0 h-72 w-72 bg-dawn-500/30 animate-pulse-glow" />
           <div className="blob right-1/4 bottom-0 h-72 w-72 bg-glow-500/20 animate-pulse-glow" />
           <div className="absolute inset-0 bg-grid opacity-30" />

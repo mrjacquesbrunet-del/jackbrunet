@@ -27,22 +27,22 @@ export function Testimonies() {
       <div className="mt-12 grid gap-6 md:grid-cols-3">
         {testimonies.map((t, i) => (
           <Reveal key={t.id} from="up" delay={i * 0.1}>
-            <figure className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-7 transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-card">
-              <span className="font-display text-5xl leading-none text-dawn-400/60">
+            <figure className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-night-900/10 bg-white p-7 transition-all duration-300 hover:-translate-y-1 hover:border-night-900/20 hover:shadow-card">
+              <span className="font-display text-5xl leading-none text-dawn-500">
                 &ldquo;
               </span>
-              <blockquote className="-mt-3 flex-1 text-base leading-relaxed text-cream/80">
+              <blockquote className="-mt-3 flex-1 text-base leading-relaxed text-night-900/75">
                 {t.quote}
               </blockquote>
-              <figcaption className="mt-6 flex items-center gap-3 border-t border-white/10 pt-5">
+              <figcaption className="mt-6 flex items-center gap-3 border-t border-night-900/10 pt-5">
                 <span
                   className={`grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br ${t.avatarColor} font-display font-bold text-night-950`}
                 >
                   {t.name.charAt(0)}
                 </span>
                 <div>
-                  <p className="font-semibold text-cream">{t.name}</p>
-                  <p className="text-xs text-cream/55">{t.location}</p>
+                  <p className="font-semibold text-night-900">{t.name}</p>
+                  <p className="text-xs text-night-900/55">{t.location}</p>
                 </div>
               </figcaption>
             </figure>

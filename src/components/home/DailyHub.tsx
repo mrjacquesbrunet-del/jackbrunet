@@ -29,7 +29,7 @@ export function DailyHub() {
           }
           description="Deux minutes pour recentrer ta journée sur l'essentiel. Reviens demain : tout change chaque matin."
         />
-        <p className="mt-3 text-sm font-medium capitalize text-dawn-300">{today}</p>
+        <p className="mt-3 text-sm font-semibold capitalize text-spirit-600">{today}</p>
       </Reveal>
 
       <div className="mt-12 grid gap-6 lg:grid-cols-2">
@@ -45,18 +45,18 @@ export function DailyHub() {
               <h3 className="mt-5 font-display text-2xl font-bold sm:text-3xl">
                 {thought.title}
               </h3>
-              <p className="mt-4 flex-1 text-base leading-relaxed text-cream/75">
+              <p className="mt-4 flex-1 text-base leading-relaxed text-night-900/70">
                 {thought.body}
               </p>
-              <p className="mt-5 text-sm font-semibold text-cream/50">
+              <p className="mt-5 text-sm font-semibold text-night-900/50">
                 — {thought.author}
               </p>
 
-              <div className="mt-7 rounded-2xl border border-white/10 bg-night-900/50 p-5">
-                <p className="text-sm font-semibold text-cream">
+              <div className="mt-7 rounded-2xl border border-night-900/10 bg-night-900/[0.04] p-5">
+                <p className="text-sm font-semibold text-night-900">
                   Reçois la pensée du jour chaque matin
                 </p>
-                <p className="mt-1 text-xs text-cream/55">
+                <p className="mt-1 text-xs text-night-900/55">
                   + le cadeau « 7 jours pour retrouver la paix ».
                 </p>
                 <div className="mt-4">
@@ -71,7 +71,7 @@ export function DailyHub() {
         <Reveal from="right" delay={0.1}>
           <article
             id="verset"
-            className="relative flex h-full scroll-mt-24 flex-col overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-spirit-700 via-spirit-600 to-night-800 p-7 shadow-spirit sm:p-9"
+            className="dark-ctx relative flex h-full scroll-mt-24 flex-col overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-spirit-700 via-spirit-600 to-night-800 p-7 shadow-spirit sm:p-9"
           >
             <div className="blob -right-12 top-1/3 h-52 w-52 bg-dawn-400/30" />
             <div className="relative flex h-full flex-col">

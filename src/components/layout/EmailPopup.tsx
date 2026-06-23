@@ -54,7 +54,7 @@ export function EmailPopup() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.96 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="glass-strong relative z-10 w-full max-w-md overflow-hidden p-7 sm:p-8"
+            className="dark-ctx bg-topo-dark relative z-10 w-full max-w-md overflow-hidden rounded-3xl border border-white/10 p-7 shadow-card sm:p-8"
           >
             <div className="blob -right-16 -top-16 h-48 w-48 bg-dawn-500/25" />
             <button

@@ -53,7 +53,7 @@ export function PrayerSpace() {
   return (
     <section
       id="priere"
-      className="relative scroll-mt-24 overflow-hidden border-y border-white/10 bg-night-900/50 py-20 sm:py-28"
+      className="dark-ctx bg-topo-dark relative scroll-mt-24 overflow-hidden border-y border-white/10 py-20 sm:py-28"
     >
       <div className="blob left-1/4 top-1/4 h-80 w-80 bg-spirit-600/20" />
       <div className="container-x relative grid gap-12 lg:grid-cols-2 lg:items-center">

@@ -1,65 +1,77 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeader } from "@/components/ui/Section";
-import { getReels } from "@/lib/content";
+import { LiteYouTube } from "@/components/ui/LiteYouTube";
+import { youtube } from "@/config/site";
 
-/** Reels / Shorts — défilement horizontal au format vertical (mobile-first). */
+/** Vidéos courtes (Shorts) — lecture directe sur le site. */
 export function Reels() {
-  const reels = getReels();
+  const shorts = youtube.shorts;
+  const hasShorts = shorts.length > 0;
 
   return (
-    <section className="py-20 sm:py-28">
+    <section id="shorts" className="scroll-mt-24 py-20 sm:py-28">
       <div className="container-x">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <SectionHeader
-              eyebrow="Reels & Shorts"
+              eyebrow="Vidéos courtes"
               title={
                 <>
-                  Une dose de foi <span className="text-gradient-spirit">en 30 secondes</span>
+                  Une dose de foi <span className="text-gradient">en quelques minutes</span>
                 </>
               }
+              description="Mes Shorts, à regarder directement ici. Pour les formats longs, rendez-vous sur la chaîne."
             />
-            <a href="#" className="btn-ghost shrink-0">
-              Tout regarder
+            <a
+              href={youtube.shortsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-ghost shrink-0"
+            >
+              Tous les Shorts
             </a>
           </div>
         </Reveal>
       </div>
 
-      {/* Carrousel — déborde volontairement pour l'effet plateforme */}
-      <Reveal delay={0.05}>
-        <div className="no-scrollbar mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 sm:px-8 lg:px-12">
-          {reels.map((reel) => (
-            <a
-              key={reel.id}
-              href="#"
-              className="group relative aspect-[9/16] w-44 shrink-0 snap-start overflow-hidden rounded-3xl border border-white/10 sm:w-52"
-            >
-              <div
-                className={`absolute inset-0 bg-gradient-to-br ${reel.thumbnail} transition-transform duration-500 group-hover:scale-110`}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-night-950/90 via-transparent to-night-950/20" />
-
-              <span className="absolute left-3 top-3 grid h-8 w-8 place-items-center rounded-full bg-white/15 backdrop-blur ring-1 ring-white/20">
-                <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5 translate-x-0.5 text-white">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </span>
-
-              <div className="absolute inset-x-0 bottom-0 p-4">
-                <p className="text-sm font-semibold leading-snug text-white">
-                  {reel.title}
-                </p>
-                <p className="mt-1.5 flex items-center gap-1 text-xs text-white/70">
-                  <span className="h-1.5 w-1.5 rounded-full bg-dawn-400" />
-                  {reel.views} vues
-                </p>
+      {hasShorts ? (
+        <Reveal delay={0.05}>
+          <div className="no-scrollbar mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 sm:px-8 lg:px-12">
+            {shorts.map((id) => (
+              <div key={id} className="w-44 shrink-0 snap-start sm:w-52">
+                <LiteYouTube id={id} vertical title="Short — Jack Brunet" />
               </div>
-            </a>
-          ))}
-          <span className="w-1 shrink-0" aria-hidden />
+            ))}
+            <span className="w-1 shrink-0" aria-hidden />
+          </div>
+        </Reveal>
+      ) : (
+        <div className="container-x">
+          <Reveal delay={0.05}>
+            <div className="dark-ctx bg-topo-dark relative mt-10 overflow-hidden rounded-4xl border border-white/10 p-8 text-center sm:p-12">
+              <div className="blob -right-10 -top-10 h-48 w-48 bg-dawn-400/30" />
+              <div className="relative mx-auto max-w-xl">
+                <span className="eyebrow">▶ Shorts</span>
+                <h3 className="mt-5 font-display text-2xl font-bold sm:text-3xl">
+                  Retrouve tous mes Shorts sur YouTube
+                </h3>
+                <p className="mt-3 text-cream/70">
+                  Des vidéos courtes et percutantes, publiées régulièrement. Abonne-toi
+                  pour ne rien manquer.
+                </p>
+                <a
+                  href={youtube.shortsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary mt-7"
+                >
+                  Regarder les Shorts
+                </a>
+              </div>
+            </div>
+          </Reveal>
         </div>
-      </Reveal>
+      )}
     </section>
   );
 }
