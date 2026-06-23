@@ -23,9 +23,9 @@ export default function MentionsLegalesPage() {
               Le présent site est édité par Jack Brunet, entrepreneur individuel (micro-entreprise).
             </p>
             <ul className="mt-3 list-disc pl-5 space-y-1.5">
-              <li>Nom : [À COMPLÉTER : nom et prénom complets]</li>
-              <li>Adresse : [À COMPLÉTER : adresse postale]</li>
-              <li>SIRET : [À COMPLÉTER : numéro SIRET]</li>
+              <li>Nom : Jack Brunet</li>
+              <li>Adresse : 24 rue Maurice Ravel, 64000 Pau</li>
+              <li>SIRET : 94164311600010</li>
               <li>
                 Email :{" "}
                 <a href={`mailto:${siteConfig.contactEmail}`} className="underline underline-offset-2">
