@@ -9,8 +9,16 @@
 export const STRIPE_LINKS = {
   /** Don unique, montant libre. */
   donOnce: "https://buy.stripe.com/14A5kEaUqfVU5MtgaQa3u00" as string | null,
-  /** Don mensuel récurrent, montant libre. */
-  donMonthly: null as string | null,
   /** Achat du livre RHEMA (activé à l'ouverture des ventes). */
   book: null as string | null,
+};
+
+/**
+ * Liens de paiement mensuels, un par palier (la clé = le nom du palier dans
+ * content/support-tiers.json). `null` = lien pas encore créé.
+ */
+export const STRIPE_MONTHLY: Record<string, string | null> = {
+  Ami: "https://buy.stripe.com/3cI7sMe6CfVU4Ip6Aga3u01",
+  Partenaire: null,
+  Bâtisseur: null,
 };

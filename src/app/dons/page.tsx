@@ -10,7 +10,7 @@ import {
   getSupportTiers,
   getTestimonies,
 } from "@/lib/content";
-import { STRIPE_LINKS } from "@/config/stripe";
+import { STRIPE_LINKS, STRIPE_MONTHLY } from "@/config/stripe";
 import { PayButton } from "@/components/ui/PayButton";
 
 export const metadata: Metadata = {
@@ -142,7 +142,7 @@ export default function DonsPage() {
                     </li>
                   ))}
                 </ul>
-                <PayButton href={STRIPE_LINKS.donMonthly} className={`mt-7 ${tier.featured ? "btn-primary" : "btn-ghost"}`}>Devenir {tier.name}</PayButton>
+                <PayButton href={STRIPE_MONTHLY[tier.name] ?? null} className={`mt-7 ${tier.featured ? "btn-primary" : "btn-ghost"}`}>Devenir {tier.name}</PayButton>
               </div>
             </Reveal>
           ))}
