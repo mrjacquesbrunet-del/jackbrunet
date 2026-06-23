@@ -52,8 +52,15 @@ Pour récupérer **tous tes Shorts automatiquement** (titres inclus) :
 2. Sur GitHub : dépôt → **Settings → Secrets and variables → Actions → New
    repository secret** → nom : `YOUTUBE_API_KEY`, valeur : ta clé.
 3. C'est tout : à chaque déploiement (et une fois par jour), le site importe
-   tes Shorts de moins de 3 minutes. Tu peux toujours les **catégoriser** à la
-   main dans la rubrique « Shorts » (une entrée manuelle avec le même ID a priorité).
+   **tes Shorts (≤ 3 min) ET tes prédications (formats longs)**, classés
+   automatiquement par thème. Tu peux toujours les **catégoriser** à la main
+   dans les rubriques « Shorts » / « Prédications » (un ID renseigné à la main
+   a priorité).
+
+> 🎥 **Prédications (formats longs)** : même principe que les Shorts. Elles
+> s'affichent en catalogue par thème et se jouent directement sur le site.
+> Quand tu publies une nouvelle vidéo longue sur YouTube, elle apparaît toute
+> seule (au prochain rafraîchissement quotidien, ou au prochain déploiement).
 
 ## Astuce
 

@@ -9,13 +9,13 @@
 
 import type {
   DailyThought,
+  LongVideo,
   Product,
   ReadingPlanDay,
   Short,
   SupportTier,
   Testimony,
   Verse,
-  Video,
 } from "./types";
 
 import thoughtsData from "../../content/thoughts.json";
@@ -27,6 +27,8 @@ import supportTiersData from "../../content/support-tiers.json";
 import impactData from "../../content/impact.json";
 import shortsData from "../../content/shorts.json";
 import shortsGenerated from "../../content/shorts.generated.json";
+import videosData from "../../content/videos.json";
+import videosGenerated from "../../content/videos.generated.json";
 
 /** Sélection déterministe basée sur le jour de l'année (rotation quotidienne). */
 function dayOfYear(date = new Date()): number {
@@ -51,42 +53,6 @@ const productCovers = [
   "from-dawn-300 via-spirit-500 to-night-700",
 ];
 
-// Vidéos longues : vignettes de démonstration (les liens pointent vers YouTube).
-const videos: Video[] = [
-  {
-    id: "v1",
-    title: "Comment retrouver la paix quand tout s'effondre",
-    duration: "18:42",
-    thumbnail: "from-spirit-600 via-spirit-500 to-glow-400",
-    category: "Enseignement",
-    publishedAt: "Récent",
-  },
-  {
-    id: "v2",
-    title: "La prière qui change tout",
-    duration: "24:10",
-    thumbnail: "from-dawn-500 via-dawn-400 to-spirit-500",
-    category: "Prière",
-    publishedAt: "Récent",
-  },
-  {
-    id: "v3",
-    title: "Pourquoi Dieu semble parfois silencieux",
-    duration: "21:05",
-    thumbnail: "from-night-600 via-spirit-600 to-glow-500",
-    category: "Foi",
-    publishedAt: "Récent",
-  },
-  {
-    id: "v4",
-    title: "Reprends courage : ton histoire n'est pas finie",
-    duration: "15:33",
-    thumbnail: "from-glow-500 via-spirit-500 to-dawn-400",
-    category: "Encouragement",
-    publishedAt: "Récent",
-  },
-];
-
 // API publique de la couche contenu ------------------------------------------
 
 export function getDailyThought(): DailyThought {
@@ -108,8 +74,33 @@ export function getTodayPlanDay(): ReadingPlanDay {
   return items[dayOfYear() % items.length];
 }
 
-export function getLatestVideos(): Video[] {
-  return videos;
+/**
+ * Vidéos longues (prédications). Fusionne l'import auto (CI) et le CMS.
+ */
+export function getLongVideos(): LongVideo[] {
+  const manual = (videosData.items as LongVideo[]) ?? [];
+  const generated = (videosGenerated.items as LongVideo[]) ?? [];
+  const byId = new Map<string, LongVideo>();
+  for (const v of generated) if (v?.id) byId.set(v.id, v);
+  for (const v of manual) if (v?.id) byId.set(v.id, { ...byId.get(v.id), ...v });
+  return Array.from(byId.values()).filter((v) => v.id);
+}
+
+/** Vidéos longues regroupées par thème (catalogue type Netflix). */
+export function getLongVideoCategories(): { category: string; videos: LongVideo[] }[] {
+  const groups = new Map<string, LongVideo[]>();
+  for (const v of getLongVideos()) {
+    const cat = v.category?.trim() || classifyByTitle(v.title);
+    if (!groups.has(cat)) groups.set(cat, []);
+    groups.get(cat)!.push(v);
+  }
+  const rank = (c: string) => {
+    const i = CATEGORY_ORDER.indexOf(c);
+    return i === -1 ? CATEGORY_ORDER.length : i;
+  };
+  return Array.from(groups.entries())
+    .sort((a, b) => rank(a[0]) - rank(b[0]) || a[0].localeCompare(b[0]))
+    .map(([category, list]) => ({ category, videos: list }));
 }
 
 export function getTestimonies(): Testimony[] {
@@ -175,7 +166,7 @@ const CATEGORY_ORDER = [
   "Tous les Shorts",
 ];
 
-function classifyShort(title: string): string {
+function classifyByTitle(title: string): string {
   for (const [cat, re] of CATEGORY_RULES) if (re.test(title)) return cat;
   return "À découvrir";
 }
@@ -186,7 +177,7 @@ export function getShortCategories(): { category: string; shorts: Short[] }[] {
   const groups = new Map<string, Short[]>();
   for (const s of shorts) {
     // Catégorie explicite (CMS) sinon auto-classement par le titre.
-    const cat = s.category?.trim() || classifyShort(s.title);
+    const cat = s.category?.trim() || classifyByTitle(s.title);
     if (!groups.has(cat)) groups.set(cat, []);
     groups.get(cat)!.push(s);
   }

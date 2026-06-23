@@ -49,6 +49,13 @@ export type Short = {
   category: string;
 };
 
+/** Vidéo longue (prédication) affichée et jouée sur le site. */
+export type LongVideo = {
+  id: string; // ID YouTube (après watch?v=)
+  title: string;
+  category: string;
+};
+
 export type Testimony = {
   id: string;
   name: string;

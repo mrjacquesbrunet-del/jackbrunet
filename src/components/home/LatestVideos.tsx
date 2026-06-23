@@ -1,133 +1,88 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { SectionHeader } from "@/components/ui/Section";
-import { getLatestVideos } from "@/lib/content";
+import { VideosExperience } from "@/components/home/VideosExperience";
+import { getLongVideoCategories } from "@/lib/content";
 import { youtube } from "@/config/site";
 
 export function LatestVideos() {
-  const videos = getLatestVideos();
-  const [feature, ...rest] = videos;
+  const categories = getLongVideoCategories();
+  const hasVideos = categories.length > 0;
 
   return (
-    <section id="videos" className="container-x scroll-mt-24 py-20 sm:py-28">
-      <Reveal>
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <SectionHeader
-            eyebrow="Formats longs"
-            title={
-              <>
-                Des messages qui <span className="text-gradient">réveillent</span>
-              </>
-            }
-            description="Mes enseignements complets sont sur YouTube — clique pour les regarder sur la chaîne."
-          />
-          <a
-            href={youtube.videosUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-ghost shrink-0"
-          >
-            Voir toutes les vidéos
-          </a>
-        </div>
-      </Reveal>
-
-      <div className="mt-12 grid gap-6 lg:grid-cols-2">
-        {/* Vidéo à la une */}
-        <Reveal from="scale">
-          <a
-            href={youtube.videosUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="dark-ctx group relative block h-full overflow-hidden rounded-4xl border border-night-900/10"
-          >
-            <div
-              className={`relative aspect-video w-full bg-gradient-to-br ${feature.thumbnail}`}
-            >
-              <div className="absolute inset-0 bg-gradient-to-t from-night-950/90 via-night-950/20 to-transparent" />
-              <PlayButton large />
-              <span className="absolute right-4 top-4 rounded-full bg-night-950/70 px-3 py-1 text-xs font-semibold backdrop-blur">
-                {feature.duration}
-              </span>
-            </div>
-            <div className="absolute inset-x-0 bottom-0 p-6">
-              <span className="eyebrow mb-3">{feature.category}</span>
-              <h3 className="font-display text-2xl font-bold leading-tight text-balance transition-colors group-hover:text-dawn-300">
-                {feature.title}
-              </h3>
-              <p className="mt-2 text-sm text-cream/60">{feature.publishedAt}</p>
-            </div>
-          </a>
-        </Reveal>
-
-        {/* Liste secondaire */}
-        <div className="flex flex-col gap-4">
-          {rest.map((v, i) => (
-            <Reveal key={v.id} from="right" delay={i * 0.08}>
-              <a
-                href={youtube.videosUrl}
+    <section id="videos" className="scroll-mt-24 py-20 sm:py-28">
+      <div className="container-x">
+        <Reveal>
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <SectionHeader
+              eyebrow="Prédications"
+              title={
+                <>
+                  Des messages qui <span className="text-gradient">réveillent</span>
+                </>
+              }
+              description="Mes enseignements complets, à regarder directement ici, classés par thème."
+            />
+            <a
+              href={youtube.videosUrl}
               target="_blank"
               rel="noopener noreferrer"
-                className="group flex items-center gap-4 rounded-3xl border border-night-900/10 bg-white p-3 transition-all duration-300 hover:-translate-y-0.5 hover:border-night-900/20 hover:shadow-card"
-              >
-                <div
-                  className={`relative aspect-video w-40 shrink-0 overflow-hidden rounded-2xl bg-gradient-to-br ${v.thumbnail}`}
-                >
-                  <div className="absolute inset-0 bg-night-950/20" />
-                  <PlayButton />
-                  <span className="absolute bottom-1.5 right-1.5 rounded bg-night-950/70 px-1.5 py-0.5 text-[10px] font-semibold text-cream">
-                    {v.duration}
-                  </span>
-                </div>
-                <div className="min-w-0">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-spirit-600">
-                    {v.category}
-                  </span>
-                  <h4 className="mt-1 line-clamp-2 font-semibold leading-snug transition-colors group-hover:text-spirit-600">
-                    {v.title}
-                  </h4>
-                  <p className="mt-1 text-xs text-night-900/55">{v.publishedAt}</p>
-                </div>
-              </a>
-            </Reveal>
-          ))}
-        </div>
+              className="btn-ghost shrink-0"
+            >
+              Voir sur YouTube
+            </a>
+          </div>
+        </Reveal>
       </div>
 
-      {/* Captation email après les vidéos */}
-      <Reveal delay={0.1}>
-        <div className="mt-10 glass flex flex-col items-center gap-5 p-7 text-center sm:flex-row sm:justify-between sm:text-left">
-          <div>
-            <h3 className="font-display text-xl font-bold">
-              Ne rate aucune nouvelle vidéo
-            </h3>
-            <p className="mt-1 text-sm text-night-900/65">
-              Sois prévenu(e) à chaque publication — et reçois les vidéos privées réservées à la communauté.
-            </p>
-          </div>
-          <div className="w-full max-w-sm">
-            <NewsletterForm source="apres-videos" cta="Me prévenir" variant="spirit" note="" />
-          </div>
+      {hasVideos ? (
+        <Reveal delay={0.05}>
+          <VideosExperience categories={categories} />
+        </Reveal>
+      ) : (
+        <div className="container-x">
+          <Reveal delay={0.05}>
+            <div className="dark-ctx bg-topo-dark relative mt-10 overflow-hidden rounded-4xl border border-white/10 p-8 text-center sm:p-12">
+              <div className="blob -right-10 -top-10 h-48 w-48 bg-dawn-400/30" />
+              <div className="relative mx-auto max-w-xl">
+                <span className="eyebrow">▶ Prédications</span>
+                <h3 className="mt-5 font-display text-2xl font-bold sm:text-3xl">
+                  Mes prédications arrivent ici
+                </h3>
+                <p className="mt-3 text-cream/70">
+                  Active l'import automatique YouTube (ou ajoute des vidéos dans
+                  l'admin) et tes formats longs s'afficheront ici, classés par thème.
+                </p>
+                <a
+                  href={youtube.videosUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary mt-7"
+                >
+                  Voir les vidéos sur YouTube
+                </a>
+              </div>
+            </div>
+          </Reveal>
         </div>
-      </Reveal>
-    </section>
-  );
-}
+      )}
 
-function PlayButton({ large }: { large?: boolean }) {
-  return (
-    <span
-      className={`absolute left-1/2 top-1/2 grid -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/15 backdrop-blur-md ring-1 ring-white/30 transition-all duration-300 group-hover:scale-110 group-hover:bg-dawn-400/90 ${
-        large ? "h-16 w-16" : "h-10 w-10"
-      }`}
-    >
-      <svg
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        className={large ? "h-6 w-6 translate-x-0.5 text-night-950" : "h-4 w-4 translate-x-0.5 text-white"}
-      >
-        <path d="M8 5v14l11-7z" />
-      </svg>
-    </span>
+      {/* Captation email après les vidéos */}
+      <div className="container-x">
+        <Reveal delay={0.1}>
+          <div className="mt-12 glass flex flex-col items-center gap-5 p-7 text-center sm:flex-row sm:justify-between sm:text-left">
+            <div>
+              <h3 className="font-display text-xl font-bold">Ne rate aucune prédication</h3>
+              <p className="mt-1 text-sm text-night-900/65">
+                Sois prévenu(e) à chaque nouvelle vidéo et reçois les contenus réservés à la communauté.
+              </p>
+            </div>
+            <div className="w-full max-w-sm">
+              <NewsletterForm source="apres-videos" cta="Me prévenir" variant="spirit" note="" />
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
   );
 }

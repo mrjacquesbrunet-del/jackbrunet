@@ -61,6 +61,20 @@ content:
           - { name: title, label: Titre, type: string }
           - { name: category, label: "Catégorie (ex. Foi, Encouragement…)", type: string }
 
+  - name: videos
+    label: Prédications (formats longs)
+    type: file
+    path: content/videos.json
+    fields:
+      - name: items
+        label: Vidéos
+        type: object
+        list: true
+        fields:
+          - { name: id, label: "ID YouTube (partie après watch?v=)", type: string }
+          - { name: title, label: Titre, type: string }
+          - { name: category, label: "Catégorie (ex. Foi, Enseignement…)", type: string }
+
   - name: verses
     label: Versets du jour
     type: file

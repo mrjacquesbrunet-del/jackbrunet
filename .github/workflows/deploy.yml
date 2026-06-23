@@ -40,10 +40,10 @@ jobs:
       - name: Installer les dépendances
         run: npm ci
 
-      - name: Importer les Shorts YouTube (optionnel)
+      - name: Importer les vidéos YouTube (optionnel)
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-        run: node scripts/fetch-shorts.mjs || true
+        run: node scripts/fetch-youtube.mjs || true
 
       - name: Build (export statique)
         env:
