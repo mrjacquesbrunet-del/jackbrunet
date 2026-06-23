@@ -3,11 +3,12 @@
 import { useState, type FormEvent } from "react";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeader } from "@/components/ui/Section";
+import { BREVO_ENDPOINTS } from "@/config/brevo";
+import { submitToBrevo } from "@/lib/brevo";
 
 type Status = "idle" | "loading" | "success" | "error";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const STATIC_DEMO = process.env.NEXT_PUBLIC_STATIC_DEMO === "true";
 
 export function Testimonies() {
   const [name, setName] = useState("");
@@ -39,17 +40,21 @@ export function Testimonies() {
       setPhone("");
       setTestimony("");
     };
-    if (STATIC_DEMO) {
-      setTimeout(done, 600);
-      return;
-    }
+    const endpoint = BREVO_ENDPOINTS.temoignages;
+    // On garde l'autorisation de partage en tête du message (pas d'attribut dédié).
+    const consentTag = consent ? "[Partage autorisé] " : "[Privé] ";
     try {
-      const res = await fetch("/api/testimony", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, testimony, consent }),
-      });
-      if (!res.ok) throw new Error();
+      if (endpoint) {
+        await submitToBrevo(endpoint, {
+          EMAIL: email,
+          PRENOM: name,
+          TELEPHONE: phone,
+          // Brevo limite ce champ texte à 200 caractères.
+          MESSAGE: (consentTag + testimony).slice(0, 200),
+        });
+      } else {
+        await new Promise((r) => setTimeout(r, 500));
+      }
       done();
     } catch {
       setStatus("error");
