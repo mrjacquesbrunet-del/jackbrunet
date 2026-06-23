@@ -71,6 +71,14 @@ export const footerNav = [
       { label: "Contact", href: `mailto:${siteConfig.contactEmail}` },
     ],
   },
+  {
+    title: "Légal",
+    links: [
+      { label: "Mentions légales", href: "/mentions-legales" },
+      { label: "Confidentialité", href: "/confidentialite" },
+      { label: "CGV", href: "/cgv" },
+    ],
+  },
 ] as const;
 
 /** CTA principal récurrent. */
