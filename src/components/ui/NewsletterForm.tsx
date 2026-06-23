@@ -13,6 +13,8 @@ type NewsletterFormProps = {
   layout?: "inline" | "stacked";
   /** Variante de couleur du bouton. */
   variant?: "primary" | "spirit";
+  /** Taille du champ : normale (md) ou agrandie (lg). */
+  size?: "md" | "lg";
   note?: string;
 };
 
@@ -30,6 +32,7 @@ export function NewsletterForm({
   cta = "Je m'inscris",
   layout = "inline",
   variant = "primary",
+  size = "md",
   note = "Gratuit. Désinscription en un clic. Aucun spam.",
 }: NewsletterFormProps) {
   const [email, setEmail] = useState("");
@@ -73,6 +76,8 @@ export function NewsletterForm({
   }
 
   const btnClass = variant === "spirit" ? "btn-spirit" : "btn-primary";
+  // En taille "lg", on agrandit le champ (les utilitaires priment sur .field).
+  const fieldSize = size === "lg" ? " px-6 py-4 text-base" : "";
 
   return (
     <form
@@ -98,7 +103,7 @@ export function NewsletterForm({
           if (status === "error") setStatus("idle");
         }}
         placeholder={placeholder}
-        className="field flex-1"
+        className={`field flex-1${fieldSize}`}
       />
       <button type="submit" className={btnClass} disabled={status === "loading"}>
         {status === "loading" ? "Un instant…" : cta}

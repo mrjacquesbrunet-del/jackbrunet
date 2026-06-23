@@ -79,6 +79,7 @@ export function EmailPopup() {
                 <NewsletterForm
                   source="popup"
                   layout="stacked"
+                  size="lg"
                   cta="Recevoir mon cadeau"
                   note="Cadeau immédiat. Désinscription en un clic."
                 />
