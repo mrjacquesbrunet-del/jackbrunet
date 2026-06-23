@@ -1,22 +1,10 @@
 {
   "items": [
     {
-      "title": "Chaque matin, une promesse",
-      "type": "Livre · 90 méditations",
-      "price": "19 €",
+      "title": "RHEMAS 365  révélations biblique a méditer chaque jour",
+      "type": "Livre · 365 méditations",
+      "price": "20 €",
       "badge": "Best-seller"
-    },
-    {
-      "title": "Journal de prière guidé",
-      "type": "Carnet · 365 jours",
-      "price": "24 €",
-      "badge": ""
-    },
-    {
-      "title": "Parcours « Renaître »",
-      "type": "Formation vidéo",
-      "price": "49 €",
-      "badge": "Nouveau"
     }
   ]
 }
