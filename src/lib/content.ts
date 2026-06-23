@@ -29,6 +29,7 @@ import shortsData from "../../content/shorts.json";
 import shortsGenerated from "../../content/shorts.generated.json";
 import videosData from "../../content/videos.json";
 import videosGenerated from "../../content/videos.generated.json";
+import homeData from "../../content/home.json";
 
 /** Sélection déterministe basée sur le jour de l'année (rotation quotidienne). */
 function dayOfYear(date = new Date()): number {
@@ -84,6 +85,55 @@ export function getLongVideos(): LongVideo[] {
   for (const v of generated) if (v?.id) byId.set(v.id, v);
   for (const v of manual) if (v?.id) byId.set(v.id, { ...byId.get(v.id), ...v });
   return Array.from(byId.values()).filter((v) => v.id);
+}
+
+/** Normalise un texte pour comparaison (minuscules, sans accents). */
+function normalize(s: string): string {
+  return s
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9\s]/g, " ");
+}
+
+const STOPWORDS = new Set([
+  "le", "la", "les", "des", "une", "un", "de", "du", "et", "a", "au", "aux",
+  "pour", "votre", "votre", "comment", "ton", "ta", "tes", "the", "c", "est",
+  "ce", "cette", "avec", "sur", "dans",
+]);
+
+/**
+ * Sélectionne les prédications mises en avant sur l'accueil, à partir des
+ * titres listés dans content/home.json. Correspondance souple (par mots-clés)
+ * pour rester robuste si le titre YouTube diffère un peu.
+ */
+export function getFeaturedPredications(): LongVideo[] {
+  const longs = getLongVideos();
+  const queries = (homeData.featuredPredications as string[]) ?? [];
+  const used = new Set<string>();
+  const result: LongVideo[] = [];
+
+  for (const q of queries) {
+    const qTokens = normalize(q)
+      .split(/\s+/)
+      .filter((t) => t.length >= 3 && !STOPWORDS.has(t));
+    let best: { v: LongVideo; score: number } | null = null;
+    for (const v of longs) {
+      if (used.has(v.id)) continue;
+      const title = normalize(v.title);
+      const score = qTokens.reduce((n, t) => (title.includes(t) ? n + 1 : n), 0);
+      if (!best || score > best.score) best = { v, score };
+    }
+    if (best && best.score >= 2) {
+      used.add(best.v.id);
+      result.push(best.v);
+    }
+  }
+
+  // Repli : si rien ne correspond (ex. import non encore configuré), on prend
+  // simplement les plus récentes pour ne pas laisser la section vide.
+  if (result.length === 0) return longs.slice(0, 3);
+  return result;
 }
 
 /** Vidéos longues regroupées par thème (catalogue type Netflix). */

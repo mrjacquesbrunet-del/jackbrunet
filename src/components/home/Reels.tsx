@@ -1,13 +1,15 @@
+import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeader } from "@/components/ui/Section";
-import { ShortsExperience } from "@/components/home/ShortsExperience";
-import { getShortCategories } from "@/lib/content";
+import { ShortsMarquee } from "@/components/home/ShortsMarquee";
+import { getShorts } from "@/lib/content";
 import { youtube } from "@/config/site";
 
-/** Vidéos courtes (Shorts) — catalogue type Netflix + feed vertical natif. */
+/** Accueil : aperçu des derniers Shorts (bande défilante) — le reste sur /videos. */
 export function Reels() {
-  const categories = getShortCategories();
-  const hasShorts = categories.length > 0;
+  const all = getShorts();
+  const preview = all.slice(0, 10); // les plus récents en avant
+  const hasShorts = preview.length > 0;
 
   return (
     <section id="shorts" className="scroll-mt-24 py-20 sm:py-28">
@@ -18,26 +20,21 @@ export function Reels() {
               eyebrow="Vidéos courtes"
               title={
                 <>
-                  Mes Shorts, <span className="text-gradient">à dévorer</span>
+                  Une dose de foi <span className="text-gradient">en 1 clic</span>
                 </>
               }
-              description="Parcours le catalogue, clique et laisse-toi porter : scrolle pour passer d'un Short à l'autre, sans quitter le site."
+              description="Mes derniers Shorts. Clique pour les regarder en plein écran et scrolle d'une vidéo à l'autre."
             />
-            <a
-              href={youtube.shortsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-ghost shrink-0"
-            >
-              Voir sur YouTube
-            </a>
+            <Link href="/videos" className="btn-ghost shrink-0">
+              Tout voir
+            </Link>
           </div>
         </Reveal>
       </div>
 
       {hasShorts ? (
         <Reveal delay={0.05}>
-          <ShortsExperience categories={categories} />
+          <ShortsMarquee preview={preview} all={all} />
         </Reveal>
       ) : (
         <div className="container-x">
@@ -47,11 +44,10 @@ export function Reels() {
               <div className="relative mx-auto max-w-xl">
                 <span className="eyebrow">▶ Shorts</span>
                 <h3 className="mt-5 font-display text-2xl font-bold sm:text-3xl">
-                  Bientôt : mes Shorts en lecture directe ici
+                  Mes Shorts arrivent ici
                 </h3>
                 <p className="mt-3 text-cream/70">
-                  Ajoute tes Shorts depuis l'espace d'administration (ou active
-                  l'import automatique YouTube) et ils s'afficheront ici en feed vertical.
+                  Active l'import automatique YouTube (ou ajoute-les dans l'admin).
                 </p>
                 <a
                   href={youtube.shortsUrl}

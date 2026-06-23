@@ -2,7 +2,7 @@ import { Hero } from "@/components/home/Hero";
 import { Marquee } from "@/components/ui/Marquee";
 import { DailyHub } from "@/components/home/DailyHub";
 import { ReadingPlan } from "@/components/home/ReadingPlan";
-import { LatestVideos } from "@/components/home/LatestVideos";
+import { FeaturedPredications } from "@/components/home/FeaturedPredications";
 import { Reels } from "@/components/home/Reels";
 import { PrayerSpace } from "@/components/home/PrayerSpace";
 import { Testimonies } from "@/components/home/Testimonies";
@@ -25,7 +25,7 @@ export default function HomePage() {
       />
       <DailyHub />
       <ReadingPlan />
-      <LatestVideos />
+      <FeaturedPredications />
       <Reels />
       <PrayerSpace />
       <Testimonies />

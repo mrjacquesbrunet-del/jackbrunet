@@ -35,7 +35,7 @@ export const youtube = {
 export const mainNav = [
   { label: "Accueil", href: "/" },
   { label: "Aujourd'hui", href: "/#aujourdhui" },
-  { label: "Vidéos", href: "/#videos" },
+  { label: "Vidéos", href: "/videos" },
   { label: "Plan de lecture", href: "/#plan" },
   { label: "Témoignages", href: "/#temoignages" },
   { label: "Boutique", href: "/boutique" },
@@ -50,7 +50,7 @@ export const footerNav = [
       { label: "Pensée du jour", href: "/#pensee" },
       { label: "Verset du jour", href: "/#verset" },
       { label: "Plan de lecture", href: "/#plan" },
-      { label: "Dernières vidéos", href: "/#videos" },
+      { label: "Vidéos & Shorts", href: "/videos" },
     ],
   },
   {

@@ -47,6 +47,16 @@ content:
           - { name: body, label: Texte, type: text }
           - { name: author, label: Auteur, type: string }
 
+  - name: home
+    label: Accueil — prédications à la une
+    type: file
+    path: content/home.json
+    fields:
+      - name: featuredPredications
+        label: "Titres des 3 prédications mises en avant (recherche souple)"
+        type: string
+        list: true
+
   - name: shorts
     label: Shorts (vidéos courtes)
     type: file
