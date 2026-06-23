@@ -1,22 +1,23 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Sora } from "next/font/google";
+import { Archivo, Fraunces } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { EmailPopup } from "@/components/layout/EmailPopup";
 
-const inter = Inter({
+// Grotesque très gras pour le corps et les titres percutants
+const archivo = Archivo({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
 });
 
-const sora = Sora({
+// Serif élégant à fort contraste pour les titres d'affichage
+const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
-  weight: ["400", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -62,7 +63,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="fr" className={`${inter.variable} ${sora.variable}`}>
+    <html lang="fr" className={`${archivo.variable} ${fraunces.variable}`}>
       <body className="min-h-screen font-sans">
         <Header />
         <main>{children}</main>

@@ -1,4 +1,4 @@
-# Lumière — Plateforme ministérielle chrétienne
+# Jack Brunet — Plateforme ministérielle chrétienne
 
 Site vitrine **et** plateforme d'édification quotidienne. Inspiré de l'énergie
 visuelle des grandes landing pages modernes (type `landonorris.com`), mais

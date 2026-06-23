@@ -54,11 +54,14 @@ export function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.05 }}
-            className="mt-6 font-display text-5xl font-extrabold leading-[0.98] tracking-tight text-balance sm:text-6xl md:text-7xl"
+            className="mt-6 leading-[0.92] text-balance"
           >
-            Rencontre Jésus
-            <br />
-            <span className="text-gradient">chaque jour.</span>
+            <span className="block font-display text-5xl font-semibold tracking-tight sm:text-6xl md:text-7xl">
+              Rencontre Jésus
+            </span>
+            <span className="mt-1 block font-sans text-5xl font-extrabold uppercase tracking-tight text-gradient sm:text-6xl md:text-7xl">
+              chaque jour
+            </span>
           </motion.h1>
 
           <motion.p

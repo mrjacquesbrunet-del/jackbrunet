@@ -15,8 +15,8 @@
   body {
     @apply bg-night-950 text-cream antialiased;
     background-image:
-      radial-gradient(60% 50% at 50% -10%, rgba(124, 58, 237, 0.18), transparent 60%),
-      radial-gradient(40% 40% at 90% 10%, rgba(255, 122, 0, 0.12), transparent 60%);
+      radial-gradient(60% 50% at 50% -10%, rgba(198, 240, 60, 0.10), transparent 60%),
+      radial-gradient(40% 40% at 90% 10%, rgba(120, 150, 50, 0.10), transparent 60%);
     background-attachment: fixed;
   }
 
@@ -47,11 +47,11 @@
 
   /* Texte en dégradé chaleureux */
   .text-gradient {
-    @apply bg-gradient-to-r from-dawn-300 via-dawn-400 to-spirit-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-dawn-300 via-dawn-400 to-glow-400 bg-clip-text text-transparent;
   }
 
   .text-gradient-spirit {
-    @apply bg-gradient-to-r from-spirit-300 via-glow-300 to-dawn-200 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-glow-300 via-dawn-200 to-dawn-400 bg-clip-text text-transparent;
   }
 
   /* Carte de verre — base des cartes dynamiques */

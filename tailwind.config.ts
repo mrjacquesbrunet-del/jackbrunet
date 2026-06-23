@@ -8,51 +8,51 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Base nuit profonde — immersif, premium
+        // Base sombre — noir chaud + olive profond (inspiration landonorris)
         night: {
-          950: "#070512",
-          900: "#0B0918",
-          800: "#120F22",
-          700: "#1A1630",
-          600: "#241F40",
+          950: "#0A0B07",
+          900: "#0F100A",
+          800: "#171911",
+          700: "#23271A",
+          600: "#2F3422",
         },
-        // Or / aube — chaleur, lumière, gloire
+        // Accent principal — vert lime / chartreuse vif
         dawn: {
-          50: "#FFF7ED",
-          100: "#FFEAD0",
-          200: "#FFD49E",
-          300: "#FFB85C",
-          400: "#FF9D2E",
-          500: "#FF7A00",
-          600: "#E85D00",
+          50: "#F8FFE3",
+          100: "#EEFFB6",
+          200: "#E0FB7E",
+          300: "#D2F84F",
+          400: "#C6F03C",
+          500: "#B2E215",
+          600: "#92BD0A",
         },
-        // Violet spirituel — profondeur, ciel
+        // Secondaire — vert mousse / olive
         spirit: {
-          300: "#C4B5FD",
-          400: "#A78BFA",
-          500: "#8B5CF6",
-          600: "#7C3AED",
-          700: "#6D28D9",
+          300: "#AECB6A",
+          400: "#8DB23E",
+          500: "#647F2B",
+          600: "#45561E",
+          700: "#323F17",
         },
-        // Bleu vivant — lumière, eau, vie
+        // Tertiaire — vert feuille / lumineux
         glow: {
-          300: "#7DD3FC",
-          400: "#38BDF8",
-          500: "#0EA5E9",
+          300: "#DCF79A",
+          400: "#C2EA5E",
+          500: "#A3D331",
         },
-        cream: "#FBF7F0",
+        cream: "#EFEDE1",
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
-        display: ["var(--font-display)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Georgia", "serif"],
       },
       borderRadius: {
         "4xl": "2rem",
         "5xl": "2.5rem",
       },
       boxShadow: {
-        glow: "0 0 60px -15px rgba(255, 122, 0, 0.45)",
-        spirit: "0 0 70px -20px rgba(139, 92, 246, 0.5)",
+        glow: "0 0 60px -15px rgba(198, 240, 60, 0.5)",
+        spirit: "0 0 70px -20px rgba(141, 178, 62, 0.45)",
         card: "0 20px 60px -20px rgba(0, 0, 0, 0.6)",
       },
       keyframes: {

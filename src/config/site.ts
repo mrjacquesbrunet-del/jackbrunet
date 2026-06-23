@@ -6,7 +6,7 @@
  */
 
 export const siteConfig = {
-  name: "Lumière",
+  name: "Jack Brunet",
   tagline: "Ministère chrétien",
   description:
     "Une plateforme chrétienne vivante : pensée du jour, parole biblique, plan de lecture, vidéos, prières et témoignages — pour grandir en Jésus chaque jour.",
