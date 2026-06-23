@@ -151,20 +151,52 @@ export function getShorts(): Short[] {
   return Array.from(byId.values()).filter((s) => s.id);
 }
 
+/**
+ * Auto-classement des Shorts par mots-clés dans le titre.
+ * Les règles sont testées dans l'ordre (les plus spécifiques d'abord) ;
+ * « Foi » est volontairement en dernier car très générique.
+ */
+const CATEGORY_RULES: [string, RegExp][] = [
+  ["Prière", /(pri[èe]re|prier|prions|interc[ée]|sup-?plication)/i],
+  ["Témoignage", /(t[ée]moign|gu[ée]ri|d[ée]livr|transform[ée]|miracle|exauc)/i],
+  ["Encouragement", /(encourage|courage|espoir|esp[ée]rance|force|tiens? bon|ne l[âa]che|rel[èe]ve|motivation|fatigue|d[ée]courag)/i],
+  ["Enseignement", /(enseign|[ée]tude|comprendre|explication|que dit la bible|doctrine|m[ée]ditation|le[çc]on|apprendre|d[ée]cryptage)/i],
+  ["Foi", /(foi|cro(is|ire|yant)|confiance|j[ée]sus|christ|dieu|saint[- ]?esprit|[ée]vangile|salut|gr[âa]ce|bible|seigneur|royaume|p[ée]ch[ée])/i],
+];
+
+/** Ordre d'affichage des rayons (catégorie type « Netflix »). */
+const CATEGORY_ORDER = [
+  "Foi",
+  "Prière",
+  "Encouragement",
+  "Témoignage",
+  "Enseignement",
+  "À découvrir",
+  "Tous les Shorts",
+];
+
+function classifyShort(title: string): string {
+  for (const [cat, re] of CATEGORY_RULES) if (re.test(title)) return cat;
+  return "À découvrir";
+}
+
 /** Shorts regroupés par catégorie (pour le catalogue type Netflix). */
 export function getShortCategories(): { category: string; shorts: Short[] }[] {
   const shorts = getShorts();
-  const order: string[] = [];
   const groups = new Map<string, Short[]>();
   for (const s of shorts) {
-    const cat = s.category?.trim() || "Tous les Shorts";
-    if (!groups.has(cat)) {
-      groups.set(cat, []);
-      order.push(cat);
-    }
+    // Catégorie explicite (CMS) sinon auto-classement par le titre.
+    const cat = s.category?.trim() || classifyShort(s.title);
+    if (!groups.has(cat)) groups.set(cat, []);
     groups.get(cat)!.push(s);
   }
-  return order.map((category) => ({ category, shorts: groups.get(category)! }));
+  const rank = (c: string) => {
+    const i = CATEGORY_ORDER.indexOf(c);
+    return i === -1 ? CATEGORY_ORDER.length : i;
+  };
+  return Array.from(groups.entries())
+    .sort((a, b) => rank(a[0]) - rank(b[0]) || a[0].localeCompare(b[0]))
+    .map(([category, list]) => ({ category, shorts: list }));
 }
 
 export function getImpactStats() {
