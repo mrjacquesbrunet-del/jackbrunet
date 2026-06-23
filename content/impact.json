@@ -1,14 +1,38 @@
 {
   "stats": [
-    { "value": "120 000+", "label": "personnes touchées chaque mois" },
-    { "value": "365", "label": "contenus publiés par an" },
-    { "value": "42", "label": "pays rejoints" },
-    { "value": "100 %", "label": "des dons au service de la mission" }
+    {
+      "value": "15 000 000+",
+      "label": "personnes touchées chaque mois"
+    },
+    {
+      "value": "550+ ",
+      "label": "contenus publiés par an"
+    },
+    {
+      "value": "42",
+      "label": "pays rejoints"
+    },
+    {
+      "value": "100 %",
+      "label": "des dons au service de la mission"
+    }
   ],
   "fundUsage": [
-    { "label": "Création de contenus (vidéos, plans, méditations)", "percent": 45 },
-    { "label": "Développement de l'application mobile", "percent": 25 },
-    { "label": "Diffusion et accompagnement", "percent": 20 },
-    { "label": "Fonctionnement du ministère", "percent": 10 }
+    {
+      "label": "Création de contenus ",
+      "percent": 30
+    },
+    {
+      "label": "Mission & Evangélisation",
+      "percent": 30
+    },
+    {
+      "label": "Diffusion et accompagnement",
+      "percent": 20
+    },
+    {
+      "label": "Fonctionnement du ministère",
+      "percent": 20
+    }
   ]
 }
