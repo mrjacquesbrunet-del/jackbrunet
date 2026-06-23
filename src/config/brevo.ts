@@ -23,7 +23,8 @@ export const BREVO_ENDPOINTS: Record<BrevoFormKey, string | null> = {
     "https://27d09ed7.sibforms.com/serve/MUIFAC_7RFJAdQ6MVjqLN8RCSWKm11pBgyucs8Kb7t2H_7f31Fc2It2MHjCZEIb9OMc9LdULmJCyKHjdTGrjOB_fzjJ4rv18gjN_MoQD-quQC1PUDShBMltKeW3rpU6GrLPoNVDDDBYCW_J55L8v4r_WiyJYod7qxVKgUTNvoXDgwl5hxzdXYXjPgy7I1eqZkRvdElQeuML6fSEqXw==",
   ebook:
     "https://27d09ed7.sibforms.com/serve/MUIFAE-lwEuLsYrTGOR9hIGAT98fQx3uYmzRe6uoI-gQEvQ986gJPJPyRXvDQRSC46o9UXLMc0uQlAdAWuPfk5aSaEEkALzq5L09u2n9dFbD8TiA3nGP9IGTc790qDLs3JLuCvAlsZcTOHCSjxouz6i3hmbibwuPpfdu_4ooF6cYQ2QPYKjiXKrVclGQ0GjI_NO0rGFIBYzLB_3wJw==",
-  boutique: null,
+  boutique:
+    "https://27d09ed7.sibforms.com/serve/MUIFANp_6dO3R15ypdw-nkNvSM_LyHzGHaTSUHoI32w2AqH5IAd50unn430pMOgMPUhGM69WtfVhQ26BJm8OF5r-9ctRv7rYMvl8diaR_1UTOdDXv0WG4ce3Ji5b7yV_qwOMrPt1eoZBR4IFJ0YlLXx-XDkOsHySPXsPKxcbZCCM2nzvDrqBhw5csfvK4-A5JQblyWbPn91-3qXB5g==",
   dons: null,
   priere:
     "https://27d09ed7.sibforms.com/serve/MUIFAGrPoxGUnlFpL2PCdOshU_4PYmndY_juwbl0FovGiLojmjyk6kklDVswEJRj6XVUZq-2hf62ty-Yh6Zz4QCAub4VK-wxSpVX-5M3QW1PKSm5CNLMwx-nA-bu4hISpQv7jGEIQ7_HrJ0YpkXwbzNjHzH4WceL0AwKd2OxPINuJZhsNpigC9N6LT0pl6mX3_-g-priHISPB_WyOA==",
