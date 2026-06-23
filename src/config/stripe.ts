@@ -19,6 +19,6 @@ export const STRIPE_LINKS = {
  */
 export const STRIPE_MONTHLY: Record<string, string | null> = {
   Ami: "https://buy.stripe.com/3cI7sMe6CfVU4Ip6Aga3u01",
-  Partenaire: null,
+  Partenaire: "https://donate.stripe.com/bJe7sMe6CgZY0s9f6Ma3u02",
   Bâtisseur: null,
 };
