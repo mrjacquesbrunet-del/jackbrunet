@@ -7,6 +7,7 @@ import { Reels } from "@/components/home/Reels";
 import { PrayerSpace } from "@/components/home/PrayerSpace";
 import { Testimonies } from "@/components/home/Testimonies";
 import { Shop } from "@/components/home/Shop";
+import { AboutFounder } from "@/components/home/AboutFounder";
 import { Support } from "@/components/home/Support";
 import { NewsletterCTA } from "@/components/home/NewsletterCTA";
 
@@ -30,6 +31,7 @@ export default function HomePage() {
       <PrayerSpace />
       <Testimonies />
       <Shop />
+      <AboutFounder />
       <Support />
       <NewsletterCTA />
     </>

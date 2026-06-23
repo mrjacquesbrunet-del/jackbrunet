@@ -10,6 +10,11 @@ export function Reels() {
   const all = getShorts();
   const preview = all.slice(0, 10); // les plus récents en avant
   const hasShorts = preview.length > 0;
+  const count = all.length;
+  const description =
+    count > 12
+      ? `Explore mes ${count} Shorts : clique et scrolle d'une vidéo à l'autre, sans quitter le site.`
+      : "Mes derniers Shorts. Clique pour les regarder en plein écran et scrolle d'une vidéo à l'autre.";
 
   return (
     <section id="shorts" className="scroll-mt-24 py-20 sm:py-28">
@@ -23,7 +28,7 @@ export function Reels() {
                   Une dose de foi <span className="text-gradient">en 1 clic</span>
                 </>
               }
-              description="Mes derniers Shorts. Clique pour les regarder en plein écran et scrolle d'une vidéo à l'autre."
+              description={description}
             />
             <Link href="/videos" className="btn-ghost shrink-0">
               Tout voir

@@ -20,7 +20,9 @@ export const metadata: Metadata = {
 const oneTimeAmounts = ["10 €", "25 €", "50 €", "100 €"];
 
 export default function DonsPage() {
-  const tiers = getSupportTiers();
+  const allTiers = getSupportTiers();
+  const tiers = allTiers.filter((t) => t.amount);
+  const free = allTiers.find((t) => !t.amount);
   const stats = getImpactStats();
   const usage = getFundUsage();
   const impactTestimonies = getTestimonies();
@@ -147,6 +149,50 @@ export default function DonsPage() {
             </Reveal>
           ))}
         </div>
+
+        {/* Semence libre — bandeau horizontal englobant + don personnalisable */}
+        {free ? (
+          <Reveal from="up" delay={0.15}>
+            <div
+              id="libre"
+              className="dark-ctx bg-topo-dark mt-6 scroll-mt-24 overflow-hidden rounded-4xl border border-dawn-400/40 p-7 sm:p-9"
+            >
+              <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+                <div className="max-w-2xl">
+                  <span className="inline-flex rounded-full bg-dawn-400 px-3 py-1 text-xs font-bold uppercase tracking-wide text-night-950">
+                    🌱 {free.name}
+                  </span>
+                  <p className="mt-4 whitespace-pre-line text-sm leading-relaxed text-cream/75">
+                    {free.description}
+                  </p>
+                </div>
+                <div className="w-full shrink-0 lg:w-auto">
+                  <div className="flex gap-2 rounded-full border border-white/15 bg-white/5 p-1 text-center text-xs font-semibold">
+                    <span className="flex-1 rounded-full bg-dawn-400 px-4 py-2 text-night-950">
+                      Une fois
+                    </span>
+                    <span className="flex-1 rounded-full px-4 py-2 text-cream/70">
+                      Chaque mois
+                    </span>
+                  </div>
+                  <div className="mt-3 flex items-center gap-2">
+                    <input
+                      type="number"
+                      min={1}
+                      placeholder="Montant €"
+                      className="field w-32"
+                      aria-label="Montant libre en euros"
+                    />
+                    <button className="btn-primary flex-1">Donner</button>
+                  </div>
+                  <p className="mt-2 text-center text-xs text-cream/45">
+                    Montant et fréquence au choix
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        ) : null}
       </section>
 
       {/* Transparence */}

@@ -15,6 +15,7 @@ export const siteConfig = {
   url: "https://lumiere.ministere",
   locale: "fr_FR",
   contactEmail: settings.contactEmail,
+  heroPhoto: (settings as { heroPhoto?: string }).heroPhoto ?? "",
   social: settings.social,
 };
 

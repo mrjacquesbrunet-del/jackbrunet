@@ -50,6 +50,7 @@ jobs:
           EXPORT: "true"
           # base_path fourni par configure-pages (ex. /jackbrunet)
           BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
           NEXT_PUBLIC_STATIC_DEMO: "true"
         run: |
           # L'export statique ne supporte pas les routes API dynamiques :

@@ -30,6 +30,7 @@ import shortsGenerated from "../../content/shorts.generated.json";
 import videosData from "../../content/videos.json";
 import videosGenerated from "../../content/videos.generated.json";
 import homeData from "../../content/home.json";
+import aboutData from "../../content/about.json";
 
 /** Sélection déterministe basée sur le jour de l'année (rotation quotidienne). */
 function dayOfYear(date = new Date()): number {
@@ -238,6 +239,16 @@ export function getShortCategories(): { category: string; shorts: Short[] }[] {
   return Array.from(groups.entries())
     .sort((a, b) => rank(a[0]) - rank(b[0]) || a[0].localeCompare(b[0]))
     .map(([category, list]) => ({ category, shorts: list }));
+}
+
+/** Le Short le plus récent (vidéo du jour). */
+export function getLatestShort(): Short | null {
+  return getShorts()[0] ?? null;
+}
+
+/** Contenu de la section « Qui suis-je ». */
+export function getAbout() {
+  return aboutData;
 }
 
 export function getImpactStats() {

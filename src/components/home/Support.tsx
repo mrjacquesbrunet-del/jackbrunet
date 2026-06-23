@@ -8,7 +8,10 @@ import { getImpactStats, getSupportTiers } from "@/lib/content";
  * Présentée comme une réponse à la vision — jamais comme une pression.
  */
 export function Support() {
-  const tiers = getSupportTiers();
+  const allTiers = getSupportTiers();
+  // Les paliers à montant fixe en colonnes ; la « Semence libre » en bandeau.
+  const tiers = allTiers.filter((t) => t.amount);
+  const free = allTiers.find((t) => !t.amount);
   const stats = getImpactStats();
 
   return (
@@ -98,6 +101,30 @@ export function Support() {
             </Reveal>
           ))}
         </div>
+
+        {/* Semence libre — bandeau horizontal englobant */}
+        {free ? (
+          <Reveal from="up" delay={0.15}>
+            <div className="mt-6 flex flex-col gap-6 overflow-hidden rounded-4xl border border-dawn-400/40 bg-gradient-to-r from-dawn-500/15 via-dawn-400/10 to-transparent p-7 sm:p-9 lg:flex-row lg:items-center lg:justify-between">
+              <div className="max-w-2xl">
+                <span className="inline-flex rounded-full bg-dawn-400 px-3 py-1 text-xs font-bold uppercase tracking-wide text-night-950">
+                  🌱 {free.name}
+                </span>
+                <p className="mt-4 whitespace-pre-line text-sm leading-relaxed text-cream/75">
+                  {free.description}
+                </p>
+              </div>
+              <div className="shrink-0">
+                <Link href="/dons#libre" className="btn-primary w-full sm:w-auto">
+                  Personnaliser mon don
+                </Link>
+                <p className="mt-2 text-center text-xs text-cream/45">
+                  Unique ou mensuel · montant libre
+                </p>
+              </div>
+            </div>
+          </Reveal>
+        ) : null}
 
         <Reveal delay={0.1}>
           <div className="mt-10 flex flex-col items-center gap-4 text-center">

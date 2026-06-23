@@ -4,7 +4,8 @@ import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
-import { supportCta } from "@/config/site";
+import { siteConfig, supportCta } from "@/config/site";
+import { asset } from "@/lib/asset";
 
 export function Hero() {
   const ref = useRef<HTMLDivElement>(null);
@@ -12,6 +13,8 @@ export function Hero() {
     target: ref,
     offset: ["start start", "end start"],
   });
+
+  const heroPhoto = asset(siteConfig.heroPhoto);
 
   // Parallaxe au scroll
   const yTitle = useTransform(scrollYProgress, [0, 1], [0, -120]);
@@ -115,7 +118,26 @@ export function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* Carte « pensée du jour » flottante */}
+        {/* Photo de Jack (si fournie), sinon carte « du jour » flottante */}
+        {heroPhoto ? (
+          <motion.div
+            initial={{ opacity: 0, x: 40, scale: 0.97 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="relative mx-auto w-full max-w-md lg:mx-0"
+          >
+            <div className="blob -left-8 top-6 h-56 w-56 bg-dawn-400/45 animate-pulse-glow" />
+            <div className="blob -bottom-8 -right-6 h-48 w-48 bg-spirit-400/30" />
+            <div className="relative aspect-[4/5] overflow-hidden rounded-5xl border border-night-900/10 shadow-card animate-float">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={heroPhoto} alt={siteConfig.name} className="h-full w-full object-cover" />
+              <span className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-night-950/40 to-transparent" />
+              <span className="absolute bottom-4 left-4 rounded-full bg-dawn-400 px-4 py-1.5 font-display text-sm font-bold uppercase tracking-tight text-night-950 shadow-glow">
+                {siteConfig.name}
+              </span>
+            </div>
+          </motion.div>
+        ) : (
         <motion.div
           initial={{ opacity: 0, x: 40, rotate: 2 }}
           animate={{ opacity: 1, x: 0, rotate: 0 }}
@@ -154,6 +176,7 @@ export function Hero() {
             </div>
           </div>
         </motion.div>
+        )}
       </motion.div>
 
       {/* Indicateur de scroll */}

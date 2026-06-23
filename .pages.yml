@@ -16,6 +16,7 @@ content:
       - { name: tagline, label: Sous-titre, type: string }
       - { name: description, label: Description (SEO / partage), type: text }
       - { name: contactEmail, label: Email de contact, type: string }
+      - { name: heroPhoto, label: "Photo d'accueil (hero, à droite)", type: image }
       - name: social
         label: Réseaux sociaux
         type: object
@@ -46,6 +47,18 @@ content:
           - { name: title, label: Titre, type: string }
           - { name: body, label: Texte, type: text }
           - { name: author, label: Auteur, type: string }
+
+  - name: about
+    label: Qui suis-je (présentation)
+    type: file
+    path: content/about.json
+    fields:
+      - { name: eyebrow, label: "Petit titre (ex. Qui suis-je)", type: string }
+      - { name: title, label: "Nom", type: string }
+      - { name: role, label: "Rôle (ex. Pasteur & fondateur)", type: string }
+      - { name: photo, label: "Photo de présentation", type: image }
+      - { name: paragraphs, label: "Paragraphes", type: text, list: true }
+      - { name: points, label: "Points clés (puces)", type: string, list: true }
 
   - name: home
     label: Accueil — prédications à la une

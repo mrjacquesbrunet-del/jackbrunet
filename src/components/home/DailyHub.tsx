@@ -1,15 +1,18 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { SectionHeader } from "@/components/ui/Section";
-import { getDailyThought, getDailyVerse } from "@/lib/content";
+import { DailyShort } from "@/components/home/DailyShort";
+import { getDailyThought, getDailyVerse, getLatestShort, getShorts } from "@/lib/content";
 
 /**
- * Le cœur du retour quotidien : pensée du jour + verset du jour, côte à côte.
+ * Le cœur du retour quotidien : pensée du jour, parole du jour et vidéo du jour.
  * Chaque bloc intègre sa propre captation email (non agressive).
  */
 export function DailyHub() {
   const thought = getDailyThought();
   const verse = getDailyVerse();
+  const latestShort = getLatestShort();
+  const shorts = getShorts();
 
   const today = new Date().toLocaleDateString("fr-FR", {
     weekday: "long",
@@ -32,7 +35,7 @@ export function DailyHub() {
         <p className="mt-3 text-sm font-semibold capitalize text-spirit-600">{today}</p>
       </Reveal>
 
-      <div className="mt-12 grid gap-6 lg:grid-cols-2">
+      <div className="mt-12 grid items-start gap-6 lg:grid-cols-3">
         {/* Pensée du jour */}
         <Reveal from="left">
           <article
@@ -106,6 +109,13 @@ export function DailyHub() {
             </div>
           </article>
         </Reveal>
+
+        {/* Vidéo du jour (dernier Short) */}
+        {latestShort ? (
+          <Reveal from="up" delay={0.2}>
+            <DailyShort latest={latestShort} all={shorts} />
+          </Reveal>
+        ) : null}
       </div>
     </section>
   );
