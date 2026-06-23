@@ -1,0 +1,11 @@
+{
+  "items": [
+    { "day": 1, "theme": "La lumière qui se lève", "passages": ["Jean 1.1-18"], "minutes": 6 },
+    { "day": 2, "theme": "Une nouvelle naissance", "passages": ["Jean 3.1-21"], "minutes": 7 },
+    { "day": 3, "theme": "L'eau vive", "passages": ["Jean 4.1-30"], "minutes": 8 },
+    { "day": 4, "theme": "Le pain de vie", "passages": ["Jean 6.22-40"], "minutes": 7 },
+    { "day": 5, "theme": "La liberté véritable", "passages": ["Jean 8.31-47"], "minutes": 6 },
+    { "day": 6, "theme": "Le bon berger", "passages": ["Jean 10.1-21"], "minutes": 6 },
+    { "day": 7, "theme": "La résurrection et la vie", "passages": ["Jean 11.1-44"], "minutes": 9 }
+  ]
+}

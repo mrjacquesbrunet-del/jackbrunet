@@ -1,44 +1,35 @@
 /**
  * Source unique de configuration du site.
  *
- * Centralisée ici pour que la future application mobile puisse réutiliser
- * exactement la même navigation, les mêmes libellés et la même identité.
+ * L'identité éditable (nom, description, réseaux, YouTube) provient de
+ * `/content/settings.json` — modifiable sans coder via l'espace d'administration.
+ * La navigation reste ici (structure du site).
  */
+
+import settings from "../../content/settings.json";
 
 export const siteConfig = {
-  name: "Jack Brunet",
-  tagline: "Ministère chrétien",
-  description:
-    "Une plateforme chrétienne vivante : pensée du jour, parole biblique, plan de lecture, vidéos, prières et témoignages — pour grandir en Jésus chaque jour.",
+  name: settings.name,
+  tagline: settings.tagline,
+  description: settings.description,
   url: "https://lumiere.ministere",
   locale: "fr_FR",
-  contactEmail: "contact@lumiere.ministere",
-  social: {
-    youtube: "https://www.youtube.com/@Jack_brnt",
-    instagram: "https://instagram.com",
-    tiktok: "https://tiktok.com",
-    facebook: "https://facebook.com",
-  },
-} as const;
+  contactEmail: settings.contactEmail,
+  social: settings.social,
+};
 
 /**
- * Intégration YouTube.
- *
- * `shorts` et `featured` attendent des IDs de vidéos (11 caractères, la partie
- * après `watch?v=` ou `/shorts/`). Dès qu'ils sont renseignés, les Shorts
- * s'affichent en lecture directe sur le site. Tant que `shorts` est vide,
- * la section renvoie élégamment vers l'onglet Shorts de la chaîne.
+ * Intégration YouTube (depuis settings.json).
+ * `shorts` / `featured` : IDs de vidéos (la partie après `/shorts/` ou `watch?v=`).
  */
 export const youtube = {
-  handle: "@Jack_brnt",
-  channelUrl: "https://www.youtube.com/@Jack_brnt",
-  shortsUrl: "https://www.youtube.com/@Jack_brnt/shorts",
-  videosUrl: "https://www.youtube.com/@Jack_brnt/videos",
-  // Ex. : ["dQw4w9WgXcQ", "..."] — colle ici les IDs de tes Shorts.
-  shorts: [] as string[],
-  // IDs de vidéos longues à mettre en avant (optionnel).
-  featured: [] as string[],
-} as const;
+  handle: settings.youtube.handle,
+  channelUrl: settings.youtube.channelUrl,
+  shortsUrl: settings.youtube.shortsUrl,
+  videosUrl: settings.youtube.videosUrl,
+  shorts: settings.youtube.shorts as string[],
+  featured: settings.youtube.featured as string[],
+};
 
 /** Navigation principale — partagée web + future app. */
 export const mainNav = [

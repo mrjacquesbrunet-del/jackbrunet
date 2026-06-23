@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "name": "Sarah M.",
+      "location": "Lyon",
+      "quote": "Je commençais mes journées dans l'anxiété. La pensée du jour est devenue mon premier réflexe le matin. En trois semaines, ma paix a changé."
+    },
+    {
+      "name": "David K.",
+      "location": "Montréal",
+      "quote": "Le plan de lecture m'a fait ouvrir la Bible tous les jours pour la première fois de ma vie. Je ne pensais pas que c'était possible pour moi."
+    },
+    {
+      "name": "Esther A.",
+      "location": "Abidjan",
+      "quote": "J'ai déposé une requête de prière un soir où je n'en pouvais plus. Savoir que d'autres priaient pour moi m'a redonné de la force."
+    }
+  ]
+}

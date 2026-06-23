@@ -1,0 +1,28 @@
+{
+  "items": [
+    {
+      "name": "Ami",
+      "amount": "5 €",
+      "cadence": "/ mois",
+      "description": "Le premier pas pour faire avancer la mission.",
+      "perks": ["Newsletter partenaires", "Carte de prière mensuelle"],
+      "featured": false
+    },
+    {
+      "name": "Partenaire",
+      "amount": "20 €",
+      "cadence": "/ mois",
+      "description": "Tu portes le ministère et ses contenus quotidiens.",
+      "perks": ["Tous les avantages Ami", "Accès anticipé aux vidéos", "Étude approfondie mensuelle"],
+      "featured": true
+    },
+    {
+      "name": "Bâtisseur",
+      "amount": "50 €",
+      "cadence": "/ mois",
+      "description": "Tu construis l'avenir : nouveaux contenus et application mobile.",
+      "perks": ["Tous les avantages Partenaire", "Rencontre en ligne trimestrielle", "Ton nom dans le mur des bâtisseurs"],
+      "featured": false
+    }
+  ]
+}

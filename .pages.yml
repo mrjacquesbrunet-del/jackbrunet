@@ -1,0 +1,145 @@
+# Configuration de l'espace d'administration (Pages CMS — https://pagescms.org)
+# Ouvre https://app.pagescms.org, connecte-toi avec GitHub, choisis ce dépôt,
+# et édite le contenu dans des formulaires. « Save » publie automatiquement.
+
+media:
+  input: public/uploads
+  output: /uploads
+
+content:
+  - name: settings
+    label: Paramètres du site
+    type: file
+    path: content/settings.json
+    fields:
+      - { name: name, label: Nom du site, type: string }
+      - { name: tagline, label: Sous-titre, type: string }
+      - { name: description, label: Description (SEO / partage), type: text }
+      - { name: contactEmail, label: Email de contact, type: string }
+      - name: social
+        label: Réseaux sociaux
+        type: object
+        fields:
+          - { name: youtube, label: YouTube (URL), type: string }
+          - { name: instagram, label: Instagram (URL), type: string }
+          - { name: tiktok, label: TikTok (URL), type: string }
+          - { name: facebook, label: Facebook (URL), type: string }
+      - name: youtube
+        label: YouTube
+        type: object
+        fields:
+          - { name: handle, label: "Identifiant (ex. @Jack_brnt)", type: string }
+          - { name: channelUrl, label: URL de la chaîne, type: string }
+          - { name: shortsUrl, label: URL des Shorts, type: string }
+          - { name: videosUrl, label: URL des vidéos, type: string }
+          - { name: shorts, label: "IDs des Shorts (partie après /shorts/)", type: string, list: true }
+          - { name: featured, label: "IDs vidéos longues à la une", type: string, list: true }
+
+  - name: thoughts
+    label: Pensées du jour
+    type: file
+    path: content/thoughts.json
+    fields:
+      - name: items
+        label: Pensées
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Titre, type: string }
+          - { name: body, label: Texte, type: text }
+          - { name: author, label: Auteur, type: string }
+
+  - name: verses
+    label: Versets du jour
+    type: file
+    path: content/verses.json
+    fields:
+      - name: items
+        label: Versets
+        type: object
+        list: true
+        fields:
+          - { name: reference, label: Référence, type: string }
+          - { name: text, label: Texte du verset, type: text }
+          - { name: version, label: Version (ex. LSG), type: string }
+
+  - name: reading-plan
+    label: Plan de lecture
+    type: file
+    path: content/reading-plan.json
+    fields:
+      - name: items
+        label: Jours
+        type: object
+        list: true
+        fields:
+          - { name: day, label: Jour n°, type: number }
+          - { name: theme, label: Thème, type: string }
+          - { name: passages, label: Passages, type: string, list: true }
+          - { name: minutes, label: Durée (minutes), type: number }
+
+  - name: testimonies
+    label: Témoignages
+    type: file
+    path: content/testimonies.json
+    fields:
+      - name: items
+        label: Témoignages
+        type: object
+        list: true
+        fields:
+          - { name: name, label: Prénom / nom, type: string }
+          - { name: location, label: Ville, type: string }
+          - { name: quote, label: Témoignage, type: text }
+
+  - name: products
+    label: Boutique
+    type: file
+    path: content/products.json
+    fields:
+      - name: items
+        label: Produits
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Titre, type: string }
+          - { name: type, label: "Type (ex. Livre · 90 méditations)", type: string }
+          - { name: price, label: Prix (ex. 19 €), type: string }
+          - { name: badge, label: "Badge (optionnel : Nouveau, Best-seller…)", type: string }
+
+  - name: support-tiers
+    label: Niveaux de soutien
+    type: file
+    path: content/support-tiers.json
+    fields:
+      - name: items
+        label: Niveaux
+        type: object
+        list: true
+        fields:
+          - { name: name, label: Nom du niveau, type: string }
+          - { name: amount, label: Montant (ex. 20 €), type: string }
+          - { name: cadence, label: "Cadence (ex. / mois)", type: string }
+          - { name: description, label: Description, type: text }
+          - { name: perks, label: Avantages, type: string, list: true }
+          - { name: featured, label: Mettre en avant ?, type: boolean }
+
+  - name: impact
+    label: Impact & transparence
+    type: file
+    path: content/impact.json
+    fields:
+      - name: stats
+        label: Statistiques d'impact
+        type: object
+        list: true
+        fields:
+          - { name: value, label: Valeur (ex. 120 000+), type: string }
+          - { name: label, label: Légende, type: string }
+      - name: fundUsage
+        label: Utilisation des dons
+        type: object
+        list: true
+        fields:
+          - { name: label, label: Poste de dépense, type: string }
+          - { name: percent, label: Pourcentage, type: number }
