@@ -10,6 +10,8 @@ import {
   getSupportTiers,
   getTestimonies,
 } from "@/lib/content";
+import { STRIPE_LINKS } from "@/config/stripe";
+import { PayButton } from "@/components/ui/PayButton";
 
 export const metadata: Metadata = {
   title: "Soutenir la mission",
@@ -83,9 +85,7 @@ export default function DonsPage() {
                 </button>
               ))}
             </div>
-            <button className="btn-primary mt-6 w-full sm:w-auto sm:px-12">
-              Donner maintenant
-            </button>
+            <PayButton href={STRIPE_LINKS.donOnce} className="btn-primary mt-6 w-full sm:w-auto sm:px-12">Donner maintenant</PayButton>
             <p className="mt-4 text-xs text-night-900/45">
               Paiement sécurisé. Reçu fiscal envoyé automatiquement si éligible.
             </p>
@@ -142,9 +142,7 @@ export default function DonsPage() {
                     </li>
                   ))}
                 </ul>
-                <button className={`mt-7 ${tier.featured ? "btn-primary" : "btn-ghost"}`}>
-                  Devenir {tier.name}
-                </button>
+                <PayButton href={STRIPE_LINKS.donMonthly} className={`mt-7 ${tier.featured ? "btn-primary" : "btn-ghost"}`}>Devenir {tier.name}</PayButton>
               </div>
             </Reveal>
           ))}
@@ -183,7 +181,7 @@ export default function DonsPage() {
                       className="field w-32"
                       aria-label="Montant libre en euros"
                     />
-                    <button className="btn-primary flex-1">Donner</button>
+                    <PayButton href={STRIPE_LINKS.donOnce} className="btn-primary flex-1">Donner</PayButton>
                   </div>
                   <p className="mt-2 text-center text-xs text-cream/45">
                     Montant et fréquence au choix

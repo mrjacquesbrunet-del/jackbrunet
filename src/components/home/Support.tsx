@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeader } from "@/components/ui/Section";
 import { getImpactStats, getSupportTiers } from "@/lib/content";
+import { STRIPE_LINKS } from "@/config/stripe";
+import { PayButton } from "@/components/ui/PayButton";
 
 /**
  * Section dons en page d'accueil.
@@ -91,12 +93,7 @@ export function Support() {
                     </li>
                   ))}
                 </ul>
-                <Link
-                  href="/dons"
-                  className={`mt-7 ${tier.featured ? "btn-primary" : "btn-ghost"}`}
-                >
-                  Devenir {tier.name}
-                </Link>
+                <PayButton href={STRIPE_LINKS.donMonthly} className={`mt-7 ${tier.featured ? "btn-primary" : "btn-ghost"}`}>Devenir {tier.name}</PayButton>
               </div>
             </Reveal>
           ))}
@@ -115,9 +112,7 @@ export function Support() {
                 </p>
               </div>
               <div className="shrink-0">
-                <Link href="/dons#libre" className="btn-primary w-full sm:w-auto">
-                  Personnaliser mon don
-                </Link>
+                <PayButton href={STRIPE_LINKS.donOnce} className="btn-primary w-full sm:w-auto">Personnaliser mon don</PayButton>
                 <p className="mt-2 text-center text-xs text-cream/45">
                   Unique ou mensuel · montant libre
                 </p>

@@ -1,5 +1,7 @@
 import type { Product } from "@/lib/types";
 import { asset } from "@/lib/asset";
+import { STRIPE_LINKS } from "@/config/stripe";
+import { PayButton } from "@/components/ui/PayButton";
 
 /** Carte produit boutique (photo + état de disponibilité). */
 export function ProductCard({ p }: { p: Product }) {
@@ -36,7 +38,7 @@ export function ProductCard({ p }: { p: Product }) {
               <span className="font-display text-xl font-extrabold text-night-900">
                 {p.price}
               </span>
-              <button className="btn-primary px-5 py-2.5 text-sm">Ajouter</button>
+              <PayButton href={STRIPE_LINKS.book} className="btn-primary px-5 py-2.5 text-sm">Ajouter</PayButton>
             </>
           ) : (
             <span className="inline-flex items-center rounded-full border border-night-900/15 bg-night-900/[0.04] px-4 py-2 text-xs font-semibold uppercase tracking-wide text-night-900/60">
