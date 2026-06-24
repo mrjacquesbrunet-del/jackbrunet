@@ -109,7 +109,7 @@ export function VideoLibrary({
           ) : null}
         </h3>
         {fvideos.length ? (
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="no-scrollbar -mx-1 flex snap-x gap-4 overflow-x-auto px-1 pb-4">
             {fvideos.map((v, i) => (
               <motion.button
                 key={v.id}
@@ -118,7 +118,7 @@ export function VideoLibrary({
                 {...reveal}
                 transition={{ duration: 0.45, delay: (i % 8) * 0.05, ease: [0.22, 1, 0.36, 1] }}
                 whileHover={{ y: -6 }}
-                className="group text-left"
+                className="group w-72 shrink-0 snap-start text-left sm:w-80"
               >
                 <div className="relative aspect-video overflow-hidden rounded-2xl border border-night-900/10 bg-night-900 transition-shadow duration-300 group-hover:shadow-card">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -155,7 +155,7 @@ export function VideoLibrary({
           ) : null}
         </h3>
         {fshorts.length ? (
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+          <div className="no-scrollbar -mx-1 flex snap-x gap-4 overflow-x-auto px-1 pb-4">
             {fshorts.map((s, i) => (
               <motion.button
                 key={s.id}
@@ -164,7 +164,7 @@ export function VideoLibrary({
                 {...reveal}
                 transition={{ duration: 0.45, delay: (i % 10) * 0.04, ease: [0.22, 1, 0.36, 1] }}
                 whileHover={{ y: -6 }}
-                className="group text-left"
+                className="group w-40 shrink-0 snap-start text-left sm:w-44"
               >
                 <div className="relative aspect-[9/16] overflow-hidden rounded-2xl border border-night-900/10 bg-night-900 transition-shadow duration-300 group-hover:shadow-card">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
