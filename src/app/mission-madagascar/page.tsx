@@ -88,15 +88,9 @@ export default function MissionMadagascarPage() {
         </div>
       </section>
 
-      {/* Verset callout */}
+      {/* Aller vers les oubliés */}
       <section className="container-x pb-4">
-        <blockquote className="mx-auto max-w-2xl border-l-4 border-dawn-400 pl-6 py-4">
-          <p className="font-display text-xl italic font-bold text-night-900 sm:text-2xl">
-            &laquo;&nbsp;J'étais en prison, et vous êtes venus vers moi.&nbsp;&raquo;
-          </p>
-          <cite className="mt-3 block text-sm not-italic text-night-900/50">Matthieu 25:36</cite>
-        </blockquote>
-        <p className="mt-6 max-w-2xl text-base leading-relaxed text-night-900/70 sm:text-lg">
+        <p className="max-w-2xl text-base leading-relaxed text-night-900/70 sm:text-lg">
           Servir Dieu, c'est aussi aller vers ceux que beaucoup ne voient plus : les enfants
           vulnérables, les prisonniers, les pauvres, les isolés, les oubliés. Tous ont de la valeur
           aux yeux de Dieu.
