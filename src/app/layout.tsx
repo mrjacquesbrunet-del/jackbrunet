@@ -5,6 +5,7 @@ import { siteConfig } from "@/config/site";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { EmailPopup } from "@/components/layout/EmailPopup";
+import { PWA } from "@/components/pwa/PWA";
 
 // Grotesque très gras pour le corps et les titres percutants
 const archivo = Archivo({
@@ -28,6 +29,7 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   applicationName: siteConfig.name,
+  manifest: "/manifest.webmanifest",
   keywords: [
     "ministère chrétien",
     "pensée du jour",
@@ -71,6 +73,7 @@ export default function RootLayout({
         <main>{children}</main>
         <Footer />
         <EmailPopup />
+        <PWA />
       </body>
     </html>
   );
