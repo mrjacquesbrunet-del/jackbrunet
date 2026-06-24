@@ -34,15 +34,16 @@ Suivi des prochaines étapes (mises à jour au fil des sessions).
 - Technique : génération des MP3 au build (clé en secret), lecteur « ▶ Écouter », cache pour maîtriser le coût
 
 ## 2) Engagement (fidélité + temps passé) — faisable sans serveur
-- **Série quotidienne (streak)** + suivi du plan de lecture (mémorisé sur l'appareil)
-- **Favoris / collection** (pensées, versets, vidéos)
-- **Cartes à partager** (image de la pensée/verset, format story Insta)
-- **Parcours thématiques** (mini-plans : anxiété, identité, pardon, intimité…)
-- **Lecteur Bible intégré** (Louis Segond)
+- ✅ **Série quotidienne (streak)** + record (mémorisé sur l'appareil)
+- ✅ **Progression** : méditations marquées « méditées » + bouton du jour
+- ✅ **Favoris** (dévotionnels) + section « Mon parcours »
+- ✅ **Cartes à partager** (punchline du jour, format story)
+- ✅ **Lecteur Bible intégré** (Louis Segond)
+- [ ] Reste à faire : **parcours thématiques** (mini-plans : anxiété, identité, pardon, intimité…)
 
 ## 3) Application mobile (les 2 stores)
-- Phase 1 : **PWA** (icône ✅, hors-ligne, bandeau installer)
-- Phase 2 : **emballage Capacitor** (iOS + Android)
+- ✅ Phase 1 : **PWA installable** (manifest, service worker hors-ligne, icônes 192/512 + maskable, invite d'installation Android/iOS)
+- [ ] Phase 2 : **emballage Capacitor** (iOS + Android)
 - Phase 3 : **notifications push** (pensée du jour — clé pour l'engagement ET l'acceptation Apple)
 - Phase 4 : visuels & fiches store
 - Phase 5-7 : comptes développeurs (Google Play 25 $ / Apple 99 $/an), builds & soumissions
