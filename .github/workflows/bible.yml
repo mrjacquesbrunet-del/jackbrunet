@@ -1,0 +1,37 @@
+name: Importer la Bible
+
+# Lancement MANUEL (une seule fois). Télécharge la Bible (français, domaine
+# public) et la commite dans public/bible/. Ce commit déclenche le déploiement.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  bible:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurer Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Importer la Bible
+        run: node scripts/fetch-bible.mjs
+
+      - name: Commiter la Bible
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/bible
+          if git diff --staged --quiet; then
+            echo "Rien à commiter."
+          else
+            git commit -m "chore(bible): import de la Bible (domaine public)"
+            git push
+          fi
