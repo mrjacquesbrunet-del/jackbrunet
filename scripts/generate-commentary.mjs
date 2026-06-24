@@ -17,6 +17,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import { execSync } from "node:child_process";
 
 const KEY = process.env.OPENAI_API_KEY;
 const MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini";
@@ -24,6 +25,8 @@ const BOOKS = (process.env.BOOKS || "")
   .split(",").map((s) => s.trim()).filter(Boolean).map(Number);
 const CONCURRENCY = Number(process.env.CONCURRENCY || 8);
 const LIMIT = Number(process.env.LIMIT || 0);
+const BRANCH = process.env.GITHUB_REF_NAME || "claude/great-hamilton-ieokug";
+const DO_GIT = process.env.GIT_COMMIT !== "0";
 
 if (!KEY) {
   console.error("❌ OPENAI_API_KEY manquant.");
@@ -48,14 +51,14 @@ function userPrompt(book, chapter, verse, text) {
     `Texte (Louis Segond 1910) : « ${text} »\n\n` +
     `Rédige un commentaire d'étude en JSON avec EXACTEMENT ces clés :\n` +
     `{\n` +
-    `  "mots": [ { "mot": "<mot ${orig} d'origine en ${orig}>", "translit": "<translittération>", "sens": "<sens en français>" } ],\n` +
+    `  "mots": [ { "mot": "<mot ${orig} d'origine, en caractères ${orig}>", "translit": "<translittération>", "sens": "<explication DÉVELOPPÉE du mot, façon dictionnaire Strong : sens premier, nuances, racine ou champ sémantique, et portée théologique/spirituelle dans ce verset, en 3 à 4 phrases>" } ],\n` +
     `  "epoque": "<contexte historique et de l'époque (1-2 phrases)>",\n` +
     `  "passage": "<contexte du passage et du chapitre (1-2 phrases)>",\n` +
     `  "culture": "<éclairage culturel utile (1-2 phrases)>",\n` +
     `  "interpretation": "<interprétation et sens spirituel (2-3 phrases)>",\n` +
     `  "commentaire": "<commentaire biblique édifiant et applicable (2-4 phrases)>"\n` +
     `}\n` +
-    `Donne 1 à 3 mots-clés importants du verset dans "mots". Reste fidèle au texte.`
+    `Donne 2 à 4 mots-clés importants du verset dans "mots", chacun avec une explication riche et fidèle (comme un mot Strong développé). Reste fidèle au texte.`
   );
 }
 
@@ -83,6 +86,37 @@ async function callOpenAI(messages) {
       if (attempt === 5) throw e;
       await sleep(1500 * (attempt + 1));
     }
+  }
+}
+
+function out(cmd) {
+  return execSync(cmd, { encoding: "utf8" }).trim();
+}
+
+/** Sauvegarde (commit + push) les commentaires d'un livre, avec reprise sur conflit. */
+function commitBook(id, name) {
+  if (!DO_GIT) return;
+  try {
+    execSync(`git add public/commentary/${id}`);
+    if (!out("git diff --staged --name-only")) return; // rien de neuf
+    execSync(
+      `git -c user.name="github-actions[bot]" -c user.email="github-actions[bot]@users.noreply.github.com" ` +
+        `commit -m "chore(commentary): ${name} [skip ci]"`,
+      { stdio: "inherit" },
+    );
+    for (let a = 0; a < 8; a++) {
+      try {
+        execSync(`git pull --rebase origin ${BRANCH}`, { stdio: "inherit" });
+        execSync(`git push origin HEAD:${BRANCH}`, { stdio: "inherit" });
+        console.log(`  ↳ ${name} sauvegardé (git push)`);
+        return;
+      } catch {
+        execSync("sleep 3");
+      }
+    }
+    console.log(`  ⚠️ push impossible pour ${name} après plusieurs essais.`);
+  } catch (e) {
+    console.log(`  ⚠️ git ${name}: ${String(e).slice(0, 160)}`);
   }
 }
 
@@ -131,6 +165,8 @@ async function callOpenAI(messages) {
         if (LIMIT && generated >= LIMIT) break outer;
       }
     }
+    // Sauvegarde après chaque livre (résilience + reprise)
+    commitBook(meta.id, meta.name);
   }
   console.log(`\n✅ Terminé. Générés: ${generated}, déjà présents: ${skipped}`);
 })();

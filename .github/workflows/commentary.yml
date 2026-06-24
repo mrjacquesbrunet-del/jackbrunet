@@ -30,6 +30,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Configurer Node
         uses: actions/setup-node@v4
@@ -45,14 +47,16 @@ jobs:
           CONCURRENCY: "8"
         run: node scripts/generate-commentary.mjs
 
-      - name: Commiter les commentaires
+      - name: Commiter le reste (sécurité)
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add public/commentary
+          git add public/commentary || true
           if git diff --staged --quiet; then
-            echo "Aucun nouveau commentaire à commiter."
+            echo "Rien à commiter (déjà sauvegardé par livre)."
           else
-            git commit -m "chore(commentary): génération des commentaires (OpenAI)"
-            git push
+            git commit -m "chore(commentary): génération (OpenAI) [skip ci]"
+            git pull --rebase origin "${GITHUB_REF_NAME}" || true
+            git push origin "HEAD:${GITHUB_REF_NAME}" || true
           fi
