@@ -11,6 +11,7 @@ import { ViralCard } from "@/components/home/ViralCard";
 import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
 import { DailyShort } from "@/components/home/DailyShort";
 import { useTodayIndex } from "@/lib/today";
+import { useEngagement } from "@/lib/engagement";
 import { asset } from "@/lib/asset";
 import { siteConfig } from "@/config/site";
 import type { Devotion, ReadingPlanDay, Short } from "@/lib/types";
@@ -47,6 +48,8 @@ export function DevotionalView({
   const p = useTodayIndex(plan.length, initialPlanIndex);
   const planDay = plan[p] ?? plan[0];
 
+  const eng = useEngagement();
+
   const [label, setLabel] = useState(todayLabel);
   useEffect(() => {
     setLabel(
@@ -72,6 +75,55 @@ export function DevotionalView({
           <div className="mt-4 h-1 w-20 rounded-full bg-gradient-to-r from-dawn-400 to-spirit-500" />
         </Reveal>
       </section>
+
+      {/* 1b. Engagement : série + progression */}
+      {eng.ready ? (
+        <section className="container-x">
+          <div className="glass flex flex-wrap items-center gap-4 p-4 sm:gap-5 sm:p-5">
+            <div className="flex items-center gap-3">
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-dawn-400/15 text-2xl">
+                🔥
+              </span>
+              <div className="leading-tight">
+                <p className="font-display text-xl font-extrabold">
+                  {eng.streak}{" "}
+                  <span className="text-sm font-semibold text-night-900/60">
+                    jour{eng.streak > 1 ? "s" : ""}
+                  </span>
+                </p>
+                <p className="text-xs text-night-900/55">
+                  de suite
+                  {eng.best > eng.streak ? ` · record ${eng.best}` : ""}
+                </p>
+              </div>
+            </div>
+
+            <div className="hidden h-9 w-px bg-night-900/10 sm:block" />
+
+            <div className="flex items-center gap-3">
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-spirit-500/15 text-2xl">
+                📖
+              </span>
+              <div className="leading-tight">
+                <p className="font-display text-xl font-extrabold">{eng.completedCount}</p>
+                <p className="text-xs text-night-900/55">
+                  méditation{eng.completedCount > 1 ? "s" : ""} méditée
+                  {eng.completedCount > 1 ? "s" : ""}
+                </p>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={eng.markCompletedToday}
+              disabled={eng.isCompletedToday}
+              className={`sm:ml-auto ${eng.isCompletedToday ? "btn-ghost" : "btn-primary"}`}
+            >
+              {eng.isCompletedToday ? "✓ Médité aujourd'hui" : "J'ai médité aujourd'hui"}
+            </button>
+          </div>
+        </section>
+      ) : null}
 
       {/* 2. Méditation développée */}
       <section className="container-x">
@@ -114,10 +166,20 @@ export function DevotionalView({
               </p>
             ))}
             </div>
-            <div className="mt-6">
+            <div className="mt-6 flex flex-wrap items-center gap-3">
               <ShareButtons
                 text={`${dev.theme} — « ${dev.verseText} » (${dev.verseReference})`}
               />
+              {eng.ready ? (
+                <button
+                  type="button"
+                  onClick={() => eng.toggleFavorite(i)}
+                  aria-pressed={eng.isFavorite(i)}
+                  className="btn-ghost"
+                >
+                  {eng.isFavorite(i) ? "❤️ Enregistré" : "🤍 Mettre en favori"}
+                </button>
+              ) : null}
             </div>
           </div>
         </Reveal>
@@ -245,6 +307,43 @@ export function DevotionalView({
             <div className="mt-6 max-w-sm">
               <DailyShort latest={latestShort} all={shorts} />
             </div>
+          </Reveal>
+        </section>
+      ) : null}
+
+      {/* 6b. Mon parcours : favoris enregistrés */}
+      {eng.ready && eng.favorites.length > 0 ? (
+        <section className="container-x">
+          <Reveal from="up">
+            <SectionHeader eyebrow="Mon parcours" title="Mes méditations favorites" />
+            <ul className="mt-6 grid max-w-2xl gap-3 sm:grid-cols-2">
+              {eng.favorites
+                .filter((idx) => devotions[idx])
+                .map((idx) => {
+                  const d = devotions[idx];
+                  return (
+                    <li key={idx}>
+                      <div className="flex h-full items-start gap-3 rounded-2xl border border-night-900/10 bg-white p-3.5">
+                        <span className="text-lg leading-none">❤️</span>
+                        <div className="min-w-0">
+                          <p className="truncate font-semibold text-night-900">{d.theme}</p>
+                          <p className="truncate text-xs text-night-900/50">
+                            {d.verseReference}
+                          </p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => eng.toggleFavorite(idx)}
+                          aria-label="Retirer des favoris"
+                          className="ml-auto shrink-0 text-night-900/30 transition-colors hover:text-night-900/70"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    </li>
+                  );
+                })}
+            </ul>
           </Reveal>
         </section>
       ) : null}
