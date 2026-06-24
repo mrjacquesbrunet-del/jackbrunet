@@ -5,6 +5,7 @@ import { SectionHeader } from "@/components/ui/Section";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { PayButton } from "@/components/ui/PayButton";
 import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
+import { MadagascarMap } from "@/components/ui/MadagascarMap";
 import { getMission } from "@/lib/content";
 import { STRIPE_LINKS } from "@/config/stripe";
 
@@ -42,19 +43,23 @@ export default function MissionMadagascarPage() {
       </PageHero>
 
       {/* Pourquoi Madagascar */}
-      <section className="container-x py-16">
-        <SectionHeader
-          eyebrow="Le projet"
-          title={
-            <>
-              Pourquoi <span className="text-gradient">Madagascar</span> ?
-            </>
-          }
-        />
-        <p className="mt-6 max-w-2xl font-display text-xl font-bold italic text-night-900 sm:text-2xl">
-          Une terre à aimer, à servir et à toucher par l'Évangile.
-        </p>
-        <div className="mt-6 max-w-2xl space-y-5 text-base leading-relaxed text-night-900/70 sm:text-lg">
+      <section className="relative overflow-hidden py-16">
+        {/* Carte de Madagascar en fond, à gauche, comme une texture */}
+        <MadagascarMap className="pointer-events-none absolute -left-16 bottom-0 top-8 z-0 h-[115%] w-auto text-spirit-600/[0.08] sm:-left-10 lg:left-4" />
+
+        <div className="container-x relative z-10">
+          <SectionHeader
+            eyebrow="Le projet"
+            title={
+              <>
+                Pourquoi <span className="text-gradient">Madagascar</span> ?
+              </>
+            }
+          />
+          <p className="mt-6 max-w-2xl font-display text-xl font-bold italic text-night-900 sm:text-2xl">
+            Une terre à aimer, à servir et à toucher par l'Évangile.
+          </p>
+          <div className="mt-6 max-w-2xl space-y-5 text-base leading-relaxed text-night-900/70 sm:text-lg">
           <p>
             Depuis quelque temps, Dieu a placé Madagascar sur mon cœur. Après plusieurs
             confirmations, nous croyons qu'il est temps d'y aller — non pas simplement pour
@@ -79,6 +84,7 @@ export default function MissionMadagascarPage() {
             Jésus-Christ avec clarté, prier pour les personnes, encourager les croyants et manifester
             l'amour de Christ par des actes concrets.
           </p>
+          </div>
         </div>
       </section>
 

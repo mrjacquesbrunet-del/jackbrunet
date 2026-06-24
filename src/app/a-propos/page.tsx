@@ -4,6 +4,8 @@ import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeader } from "@/components/ui/Section";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { siteConfig } from "@/config/site";
+import { getAbout } from "@/lib/content";
+import { asset } from "@/lib/asset";
 
 export const metadata: Metadata = {
   title: "À propos",
@@ -42,6 +44,8 @@ const callItems = [
 ];
 
 export default function AProposPage() {
+  const about = getAbout();
+
   return (
     <>
       <PageHero
@@ -54,37 +58,63 @@ export default function AProposPage() {
         description="Ce qui a commencé en 2020 avec quelques vidéos est devenu, par la grâce de Dieu, une famille de plus d'un million de personnes rassemblées sur les différentes plateformes."
       />
 
-      {/* Intro */}
+      {/* Intro + portrait */}
       <section className="container-x py-16">
-        <div className="mx-auto max-w-3xl space-y-6 text-base leading-relaxed text-night-900/70 sm:text-lg">
-          <Reveal>
-            <p>
-              Chaque mois, des millions de personnes sont touchées par des messages, des prières, des
-              lives, des exhortations et des contenus bibliques centrés sur Jésus-Christ.
-            </p>
+        <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)]">
+          {/* Portrait */}
+          <Reveal from="left">
+            <figure className="relative mx-auto w-full max-w-sm lg:mx-0">
+              <div className="blob -left-8 -top-8 h-40 w-40 bg-dawn-400/40" />
+              <div className="blob -bottom-10 -right-6 h-44 w-44 bg-spirit-400/25" />
+              <div className="relative overflow-hidden rounded-[2rem] border border-night-900/10 bg-topo-dark shadow-card ring-1 ring-dawn-400/20">
+                <img
+                  src={asset(about.photo)}
+                  alt={about.title}
+                  className="aspect-[4/5] w-full object-cover"
+                  loading="lazy"
+                />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-night-900/70 to-transparent" />
+                <figcaption className="absolute inset-x-0 bottom-0 p-5">
+                  <p className="font-display text-lg font-bold text-cream">{about.title}</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-dawn-300">
+                    {about.role}
+                  </p>
+                </figcaption>
+              </div>
+            </figure>
           </Reveal>
-          <Reveal delay={0.05}>
-            <p>
-              Mais derrière les chiffres, il y a surtout une vision. Celle de présenter une foi
-              vivante, enracinée et accessible. Une foi qui n'est pas une religion poussiéreuse,
-              distante ou compliquée. Une foi qui parle au cœur, qui transforme la vie, qui relève,
-              qui restaure et qui ramène les personnes à Jésus.
-            </p>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <p>
-              Quand j'ai commencé à publier des vidéos, mon désir était simple : parler de Dieu de
-              manière concrète, parler de Jésus avec clarté, et transmettre une parole capable
-              d'encourager, de réveiller et de transformer.
-            </p>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <p>
-              Je crois profondément que la Parole de Dieu n'est pas simplement faite pour être
-              entendue. Elle est faite pour prendre racine, porter du fruit et transformer notre
-              manière de vivre.
-            </p>
-          </Reveal>
+
+          {/* Texte */}
+          <div className="space-y-6 text-base leading-relaxed text-night-900/70 sm:text-lg">
+            <Reveal>
+              <p>
+                Chaque mois, des millions de personnes sont touchées par des messages, des prières, des
+                lives, des exhortations et des contenus bibliques centrés sur Jésus-Christ.
+              </p>
+            </Reveal>
+            <Reveal delay={0.05}>
+              <p>
+                Mais derrière les chiffres, il y a surtout une vision. Celle de présenter une foi
+                vivante, enracinée et accessible. Une foi qui n'est pas une religion poussiéreuse,
+                distante ou compliquée. Une foi qui parle au cœur, qui transforme la vie, qui relève,
+                qui restaure et qui ramène les personnes à Jésus.
+              </p>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p>
+                Quand j'ai commencé à publier des vidéos, mon désir était simple : parler de Dieu de
+                manière concrète, parler de Jésus avec clarté, et transmettre une parole capable
+                d'encourager, de réveiller et de transformer.
+              </p>
+            </Reveal>
+            <Reveal delay={0.15}>
+              <p>
+                Je crois profondément que la Parole de Dieu n'est pas simplement faite pour être
+                entendue. Elle est faite pour prendre racine, porter du fruit et transformer notre
+                manière de vivre.
+              </p>
+            </Reveal>
+          </div>
         </div>
       </section>
 
@@ -283,6 +313,16 @@ export default function AProposPage() {
                 prédication et chaque projet puissent conduire les personnes à Jésus. Parce qu'au
                 fond, tout part de Lui. Tout tient par Lui. Et tout doit revenir à Lui.
               </p>
+            </Reveal>
+            <Reveal delay={0.26}>
+              <div className="mt-10 border-t border-night-900/10 pt-6">
+                <p className="font-display text-2xl font-bold italic text-night-900 sm:text-3xl">
+                  Pasteur Jack Brunet
+                </p>
+                <p className="mt-1 text-sm text-night-900/55">
+                  Pour Jésus, avec vous.
+                </p>
+              </div>
             </Reveal>
           </div>
         </div>
