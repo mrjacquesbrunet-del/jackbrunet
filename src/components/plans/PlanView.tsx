@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePlanProgress } from "@/lib/plan-progress";
+import { AuthorByline } from "@/components/ui/AuthorByline";
 import type { ThemePlan } from "@/lib/types";
 
 export function PlanView({ plan }: { plan: ThemePlan }) {
@@ -69,7 +70,9 @@ export function PlanView({ plan }: { plan: ThemePlan }) {
                 ))}
               </div>
 
-              <div className="mt-5 flex flex-wrap items-center gap-3">
+              <AuthorByline compact className="mt-5 border-t border-night-900/10 pt-4" />
+
+              <div className="mt-4 flex flex-wrap items-center gap-3">
                 <button
                   type="button"
                   onClick={() => progress.toggleDay(d.day)}
