@@ -7,6 +7,7 @@ import {
   enableDailyReminder,
   disableDailyReminder,
 } from "@/lib/notifications";
+import { BellGlyph } from "@/components/ui/DevoIcons";
 
 /**
  * Réglage du rappel quotidien « pensée du jour ».
@@ -52,8 +53,8 @@ export function ReminderToggle() {
 
   return (
     <div className="glass flex flex-wrap items-center gap-4 p-4 sm:p-5">
-      <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-spirit-500/15 text-2xl">
-        🔔
+      <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-spirit-500/15 text-spirit-600">
+        <BellGlyph className="h-6 w-6" />
       </span>
       <div className="min-w-0 flex-1">
         <p className="font-display text-base font-bold leading-tight">

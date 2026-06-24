@@ -84,7 +84,7 @@ export function PlanView({ plan }: { plan: ThemePlan }) {
 
       {percent === 100 ? (
         <div className="mt-8 max-w-2xl rounded-3xl border border-spirit-500/30 bg-spirit-500/[0.06] p-6 text-center">
-          <p className="font-display text-xl font-bold">Parcours terminé 🙌</p>
+          <p className="font-display text-xl font-bold">Parcours terminé</p>
           <p className="mt-1 text-sm text-night-900/65">
             Bravo ! Continue sur un autre thème pour t'enraciner encore plus.
           </p>
@@ -95,7 +95,7 @@ export function PlanView({ plan }: { plan: ThemePlan }) {
       ) : null}
 
       <p className="mt-8 max-w-2xl text-xs text-night-900/45">
-        🔒 Ta progression est enregistrée sur cet appareil.
+        Ta progression est enregistrée sur cet appareil.
       </p>
     </section>
   );

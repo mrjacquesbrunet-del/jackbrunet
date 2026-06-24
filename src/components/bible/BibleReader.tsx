@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { asset } from "@/lib/asset";
 import { Markable } from "@/components/ui/Markable";
+import { HighlighterGlyph } from "@/components/ui/DevoIcons";
 
 type BookIndex = { id: number; name: string; chapters: number };
 type Book = { id: number; name: string; chapters: string[][] };
@@ -93,8 +94,9 @@ export function BibleReader() {
         <p className="mt-6 text-night-900/50">Chargement…</p>
       ) : (
         <div className="mt-6 max-w-2xl space-y-2 text-lg leading-relaxed text-night-900/85">
-          <p className="mb-2 text-xs text-night-900/45">
-            💡 Touche un verset pour le surligner, le copier ou l'enregistrer.
+          <p className="mb-2 flex items-center gap-1.5 text-xs text-night-900/45">
+            <HighlighterGlyph className="h-3.5 w-3.5" />
+            Touche un verset pour le surligner, le copier ou l'enregistrer.
           </p>
           {verses.map((v, i) => (
             <Markable

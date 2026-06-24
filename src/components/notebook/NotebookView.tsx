@@ -9,6 +9,18 @@ import {
   NOTE_CATEGORIES,
   type NoteCategory,
 } from "@/lib/notebook";
+import { HandsGlyph, BookGlyph, NoteGlyph } from "@/components/ui/DevoIcons";
+
+const CAT_ICON: Record<NoteCategory, (p: { className?: string }) => React.ReactElement> = {
+  Prière: HandsGlyph,
+  "Parole reçue": BookGlyph,
+  Note: NoteGlyph,
+};
+const CAT_LABEL: Record<NoteCategory, string> = {
+  Prière: "Sujet de prière",
+  "Parole reçue": "Parole reçue",
+  Note: "Note",
+};
 
 const fmt = (ts: number) =>
   new Date(ts).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
@@ -35,20 +47,24 @@ export function NotebookView() {
       {/* Formulaire d'ajout */}
       <form onSubmit={submit} className="glass-strong max-w-2xl p-5 sm:p-6">
         <div className="flex flex-wrap gap-2">
-          {NOTE_CATEGORIES.map((c) => (
-            <button
-              type="button"
-              key={c}
-              onClick={() => setCategory(c)}
-              className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
-                category === c
-                  ? "bg-night-900 text-cream"
-                  : "border border-night-900/15 text-night-900/70 hover:border-night-900/30"
-              }`}
-            >
-              {c === "Prière" ? "🙏 Sujet de prière" : c === "Parole reçue" ? "📖 Parole reçue" : "✏️ Note"}
-            </button>
-          ))}
+          {NOTE_CATEGORIES.map((c) => {
+            const Icon = CAT_ICON[c];
+            return (
+              <button
+                type="button"
+                key={c}
+                onClick={() => setCategory(c)}
+                className={`inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
+                  category === c
+                    ? "bg-night-900 text-cream"
+                    : "border border-night-900/15 text-night-900/70 hover:border-night-900/30"
+                }`}
+              >
+                <Icon className="h-4 w-4" />
+                {CAT_LABEL[c]}
+              </button>
+            );
+          })}
         </div>
 
         <input
@@ -97,7 +113,7 @@ export function NotebookView() {
       {visible.length === 0 ? (
         <p className="mt-8 max-w-2xl text-night-900/55">
           Ton carnet est vide pour l'instant. Note ton premier sujet de prière ou une
-          parole reçue ci-dessus. ✍️
+          parole reçue ci-dessus.
         </p>
       ) : (
         <ul className="mt-8 grid max-w-2xl gap-3">
@@ -113,7 +129,7 @@ export function NotebookView() {
               <div className="flex items-center justify-between gap-3">
                 <span className="text-[11px] font-semibold uppercase tracking-wider text-spirit-600">
                   {n.category}
-                  {n.answered ? " · exaucé 🙌" : ""}
+                  {n.answered ? " · exaucé" : ""}
                 </span>
                 <div className="flex items-center gap-2">
                   {n.category === "Prière" ? (
@@ -150,7 +166,7 @@ export function NotebookView() {
       )}
 
       <p className="mt-8 max-w-2xl text-xs text-night-900/45">
-        🔒 Ton carnet reste privé, enregistré uniquement sur cet appareil.
+        Ton carnet reste privé, enregistré uniquement sur cet appareil.
       </p>
     </section>
   );

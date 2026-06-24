@@ -12,8 +12,16 @@ import { Markable } from "@/components/ui/Markable";
 import { useToolkit } from "@/lib/toolkit";
 import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
 import { ReminderToggle } from "@/components/pwa/ReminderToggle";
-import { SoakingButton } from "@/components/home/SoakingButton";
-import { SoakingGift } from "@/components/home/SoakingGift";
+import { SoakingBar } from "@/components/home/SoakingBar";
+import {
+  FlameGlyph,
+  BookGlyph,
+  PenGlyph,
+  ArrowRightGlyph,
+  HighlighterGlyph,
+  BookmarkFilledGlyph,
+  BookmarkGlyph,
+} from "@/components/ui/DevoIcons";
 import { DailyShort } from "@/components/home/DailyShort";
 import { useTodayIndex } from "@/lib/today";
 import { useEngagement } from "@/lib/engagement";
@@ -87,8 +95,8 @@ export function DevotionalView({
         <section className="container-x">
           <div className="glass flex flex-wrap items-center gap-4 p-4 sm:gap-5 sm:p-5">
             <div className="flex items-center gap-3">
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-dawn-400/15 text-2xl">
-                🔥
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-dawn-400/15 text-dawn-600">
+                <FlameGlyph className="h-6 w-6" />
               </span>
               <div className="leading-tight">
                 <p className="font-display text-xl font-extrabold">
@@ -107,8 +115,8 @@ export function DevotionalView({
             <div className="hidden h-9 w-px bg-night-900/10 sm:block" />
 
             <div className="flex items-center gap-3">
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-spirit-500/15 text-2xl">
-                📖
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-spirit-500/15 text-spirit-600">
+                <BookGlyph className="h-6 w-6" />
               </span>
               <div className="leading-tight">
                 <p className="font-display text-xl font-extrabold">{eng.completedCount}</p>
@@ -129,9 +137,9 @@ export function DevotionalView({
             </button>
           </div>
 
-          {/* Musique de fond pour méditer */}
+          {/* Musique de fond pour méditer + cadeau */}
           <div className="mt-4">
-            <SoakingButton />
+            <SoakingBar />
           </div>
 
           {/* Accès au carnet */}
@@ -140,8 +148,8 @@ export function DevotionalView({
               href="/carnet"
               className="flex items-center gap-4 rounded-3xl border border-dawn-400/30 bg-dawn-400/15 p-4 transition-colors hover:bg-dawn-400/25 sm:p-5"
             >
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-night-900 text-xl text-cream">
-                ✍️
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-night-900 text-cream">
+                <PenGlyph className="h-5 w-5" />
               </span>
               <div className="min-w-0 flex-1">
                 <p className="font-display text-base font-bold leading-tight">
@@ -151,9 +159,7 @@ export function DevotionalView({
                   Écris tes paroles reçues & tes sujets de prière.
                 </p>
               </div>
-              <span aria-hidden="true" className="text-night-900/40">
-                →
-              </span>
+              <ArrowRightGlyph className="h-5 w-5 shrink-0 text-night-900/40" />
             </Link>
           </div>
 
@@ -185,8 +191,9 @@ export function DevotionalView({
               </div>
             </Markable>
 
-            <p className="mt-3 text-xs text-night-900/45">
-              💡 Touche un verset ou un paragraphe pour le surligner, le copier ou l'enregistrer.
+            <p className="mt-3 flex items-center gap-1.5 text-xs text-night-900/45">
+              <HighlighterGlyph className="h-3.5 w-3.5" />
+              Touche un verset ou un paragraphe pour le surligner, le copier ou l'enregistrer.
             </p>
 
             {/* Punchline du jour — carte à partager */}
@@ -233,9 +240,14 @@ export function DevotionalView({
                   type="button"
                   onClick={() => eng.toggleFavorite(i)}
                   aria-pressed={eng.isFavorite(i)}
-                  className="btn-ghost"
+                  className="btn-ghost inline-flex items-center gap-1.5"
                 >
-                  {eng.isFavorite(i) ? "❤️ Enregistré" : "🤍 Mettre en favori"}
+                  {eng.isFavorite(i) ? (
+                    <BookmarkFilledGlyph className="h-4 w-4 text-spirit-600" />
+                  ) : (
+                    <BookmarkGlyph className="h-4 w-4" />
+                  )}
+                  {eng.isFavorite(i) ? "Enregistré" : "Mettre en favori"}
                 </button>
               ) : null}
             </div>
@@ -389,7 +401,7 @@ export function DevotionalView({
                   return (
                     <li key={idx}>
                       <div className="flex h-full items-start gap-3 rounded-2xl border border-night-900/10 bg-white p-3.5">
-                        <span className="text-lg leading-none">❤️</span>
+                        <BookmarkFilledGlyph className="mt-0.5 h-4 w-4 shrink-0 text-spirit-600" />
                         <div className="min-w-0">
                           <p className="truncate font-semibold text-night-900">{d.theme}</p>
                           <p className="truncate text-xs text-night-900/50">
@@ -452,13 +464,6 @@ export function DevotionalView({
           </Reveal>
         </section>
       ) : null}
-
-      {/* 6d. Cadeau : musique soaking offerte (captation email) */}
-      <section className="container-x">
-        <Reveal from="scale">
-          <SoakingGift />
-        </Reveal>
-      </section>
 
       {/* 7. Reviens demain + inscription */}
       <section className="container-x">
