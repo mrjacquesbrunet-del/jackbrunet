@@ -1,21 +1,11 @@
 /**
- * Importe une Bible française du domaine public et l'écrit dans public/bible/.
- *
- * - Télécharge le jeu de données (66 livres, ordre protestant canonique).
- * - Écrit un fichier par livre : public/bible/<id>.json  ({ id, name, chapters })
- *   où chapters est un tableau de chapitres, chaque chapitre étant un tableau
- *   de versets (chaînes).
- * - Écrit public/bible/index.json : [{ id, name, chapters: <nombre> }, ...]
- *
- * S'exécute en CI (réseau disponible). Lancement manuel via le workflow.
+ * Importe la Bible Louis Segond (domaine public) via l'API getBible v2,
+ * et l'écrit dans public/bible/ (un fichier par livre + index.json).
+ * S'exécute en CI (réseau disponible).
  */
 
 import fs from "node:fs";
 
-// Louis Segond 1910 (domaine public) via l'API getBible v2.
-const SOURCE = "https://api.getbible.net/v2/segond.json";
-
-// Noms français canoniques (ordre protestant, 66 livres), appliqués par position.
 const NAMES = [
   "Genèse", "Exode", "Lévitique", "Nombres", "Deutéronome",
   "Josué", "Juges", "Ruth", "1 Samuel", "2 Samuel",
@@ -33,43 +23,61 @@ const NAMES = [
   "Apocalypse",
 ];
 
-const res = await fetch(SOURCE);
-if (!res.ok) {
-  console.error("[bible] Téléchargement échoué:", res.status);
-  process.exit(1);
-}
-const data = await res.json();
-
-// getBible v2 : { books: [ { nr, name, chapters: [ { chapter, verses: [ { verse, text } ] } ] } ] }
-const books = data.books ?? [];
-if (!Array.isArray(books) || books.length < 60) {
-  console.error("[bible] Format inattendu (livres:", books?.length, ")");
-  process.exit(1);
+async function getJSON(url) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(`${r.status} sur ${url}`);
+  return r.json();
 }
 
+// 1) Découvrir l'abréviation de la Louis Segond (française).
+const translations = await getJSON("https://api.getbible.net/v2/translations.json");
+let abbrev = null;
+let label = null;
+for (const [key, t] of Object.entries(translations)) {
+  const name = String(t.translation || t.name || "").toLowerCase();
+  const lang = String(t.language || t.lang || "").toLowerCase();
+  if (lang.includes("french") && name.includes("segond")) {
+    abbrev = t.abbreviation || key;
+    label = t.translation || key;
+    break;
+  }
+}
+if (!abbrev) {
+  for (const [key, t] of Object.entries(translations)) {
+    const lang = String(t.language || t.lang || "").toLowerCase();
+    if (lang.includes("french")) {
+      abbrev = t.abbreviation || key;
+      label = t.translation || key;
+      break;
+    }
+  }
+}
+if (!abbrev) throw new Error("Aucune traduction française trouvée.");
+console.log(`[bible] Traduction choisie: ${label} (${abbrev})`);
+
+// 2) Récupérer chaque livre (1..66) et écrire les fichiers.
 fs.mkdirSync("public/bible", { recursive: true });
-
 const index = [];
-books.forEach((book, i) => {
-  const id = book.nr ?? i + 1;
-  const name = book.name?.trim() || NAMES[i] || `Livre ${id}`;
-  const chapters = (book.chapters ?? []).map((ch) =>
-    (ch.verses ?? []).map((v) => (v.text ?? "").trim()),
+
+for (let n = 1; n <= 66; n++) {
+  const b = await getJSON(`https://api.getbible.net/v2/${abbrev}/${n}.json`);
+  const name = String(b.book_name || NAMES[n - 1] || `Livre ${n}`).trim();
+  const chaptersRaw = b.book || b.chapters || [];
+  const chapters = chaptersRaw.map((ch) =>
+    (ch.verses || []).map((v) => String(v.text || "").trim()),
   );
   fs.writeFileSync(
-    `public/bible/${id}.json`,
-    JSON.stringify({ id, name, chapters }),
+    `public/bible/${n}.json`,
+    JSON.stringify({ id: n, name, chapters }),
   );
-  index.push({ id, name, chapters: chapters.length });
-});
+  index.push({ id: n, name, chapters: chapters.length });
+}
 
 fs.writeFileSync(
   "public/bible/index.json",
   JSON.stringify(index, null, 2) + "\n",
 );
 
-// Vérification rapide : Jean 3:16
 const jean = JSON.parse(fs.readFileSync("public/bible/43.json", "utf8"));
-console.log("[bible] Livres importés:", index.length);
-console.log("[bible] Jean — chapitres:", jean.chapters.length);
+console.log("[bible] Livres:", index.length, "| Jean chap:", jean.chapters.length);
 console.log("[bible] Jean 3:16 =>", jean.chapters?.[2]?.[15]);
