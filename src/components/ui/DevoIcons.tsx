@@ -128,3 +128,16 @@ export const ArrowRightGlyph = ({ className }: P) => (
     <path d="M5 12h14M13 6l6 6-6 6" />
   </Svg>
 );
+
+export const PhoneGlyph = ({ className }: P) => (
+  <Svg className={className}>
+    <rect x="7" y="3" width="10" height="18" rx="2" />
+    <path d="M11 18h2" />
+  </Svg>
+);
+
+export const DownloadGlyph = ({ className }: P) => (
+  <Svg className={className}>
+    <path d="M12 4v10m0 0l-4-4m4 4l4-4M5 19h14" />
+  </Svg>
+);

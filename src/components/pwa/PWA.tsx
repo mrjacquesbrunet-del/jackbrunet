@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { asset } from "@/lib/asset";
+import { PhoneGlyph } from "@/components/ui/DevoIcons";
 
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>;
@@ -80,8 +81,8 @@ export function PWA() {
   return (
     <div className="fixed inset-x-3 bottom-3 z-[60] mx-auto max-w-md">
       <div className="glass-strong flex items-center gap-3 rounded-2xl p-3.5 shadow-card">
-        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-dawn-400/15 text-xl">
-          📲
+        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-dawn-400/15 text-night-900">
+          <PhoneGlyph className="h-5 w-5" />
         </span>
         <div className="min-w-0 flex-1">
           <p className="font-display text-sm font-bold leading-tight">

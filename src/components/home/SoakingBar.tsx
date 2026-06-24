@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useSoaking } from "@/lib/soaking";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { asset } from "@/lib/asset";
-import { PlayGlyph, PauseGlyph, GiftGlyph, MusicGlyph } from "@/components/ui/DevoIcons";
+import { PlayGlyph, PauseGlyph, GiftGlyph, MusicGlyph, DownloadGlyph } from "@/components/ui/DevoIcons";
 
 /**
  * Barre compacte « soaking » : lecteur play/pause + cadeau (musique offerte
@@ -57,9 +57,10 @@ export function SoakingBar() {
             <a
               href={asset("/music/soaking-1.m4a")}
               download="Soaking - Jack Brunet.m4a"
-              className="btn-primary text-sm"
+              className="btn-primary inline-flex items-center gap-1.5 text-sm"
             >
-              ⬇ Télécharger la musique
+              <DownloadGlyph className="h-4 w-4" />
+              Télécharger la musique
             </a>
           ) : (
             <>

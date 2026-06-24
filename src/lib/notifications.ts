@@ -54,7 +54,7 @@ export async function enableDailyReminder(hour: number, minute: number): Promise
     notifications: [
       {
         id: REMINDER_ID,
-        title: "Ta pensée du jour t'attend 🙏",
+        title: "Ta pensée du jour t'attend",
         body: "Prends un instant avec Dieu : ouvre le dévotionnel du jour.",
         schedule: { on: { hour, minute }, allowWhileIdle: true },
         extra: { route: "/devotionnel/" },

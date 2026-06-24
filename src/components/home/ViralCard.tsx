@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useToolkit } from "@/lib/toolkit";
+import { BookmarkGlyph, BookmarkFilledGlyph } from "@/components/ui/DevoIcons";
 
 /**
  * Carte « virale » : une punchline percutante, joliment mise en page, que le
@@ -169,9 +170,14 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
           <button
             type="button"
             onClick={() => tk.toggleSnippet({ id, text: punchline, kind: "punchline" })}
-            className="btn-ghost text-sm"
+            className="btn-ghost inline-flex items-center gap-1.5 text-sm"
           >
-            {saved ? "♥ Enregistré" : "♡ Enregistrer"}
+            {saved ? (
+              <BookmarkFilledGlyph className="h-4 w-4 text-dawn-300" />
+            ) : (
+              <BookmarkGlyph className="h-4 w-4" />
+            )}
+            {saved ? "Enregistré" : "Enregistrer"}
           </button>
         ) : null}
       </div>
