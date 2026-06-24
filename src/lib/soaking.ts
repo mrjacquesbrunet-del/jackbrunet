@@ -121,9 +121,14 @@ export function useSoaking() {
     () => playing,
     () => false,
   );
+  const first = tracks[0];
   return {
     playing: isPlaying,
     toggle: toggleSoaking,
-    label: tracks.length > 0 ? tracks[0].title : "Ambiance douce",
+    label: first
+      ? first.artist
+        ? `${first.title} · ${first.artist}`
+        : first.title
+      : "Ambiance douce",
   };
 }
