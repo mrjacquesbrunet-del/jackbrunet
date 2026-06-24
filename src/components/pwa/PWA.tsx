@@ -31,6 +31,9 @@ export function PWA() {
 
   // 2) Invite d'installation
   useEffect(() => {
+    // Déjà dans l'app native (Capacitor) : pas d'invite d'installation.
+    if ((window as Window & { Capacitor?: unknown }).Capacitor) return;
+
     const standalone =
       window.matchMedia("(display-mode: standalone)").matches ||
       (window.navigator as Navigator & { standalone?: boolean }).standalone === true;
