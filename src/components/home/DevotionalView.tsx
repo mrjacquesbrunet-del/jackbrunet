@@ -88,7 +88,7 @@ export function DevotionalView({
               <div className="mt-5">
                 <AudioPlayer
                   src={audioSrc}
-                  label="Écouter la méditation (voix de Jack)"
+                  label="Écouter la méditation"
                 />
               </div>
             ) : null}
