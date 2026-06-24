@@ -93,6 +93,11 @@ export function DevotionalView({
               </p>
             ))}
             </div>
+            <div className="mt-6">
+              <ShareButtons
+                text={`${dev.theme} — « ${dev.verseText} » (${dev.verseReference})`}
+              />
+            </div>
           </div>
         </Reveal>
       </section>
