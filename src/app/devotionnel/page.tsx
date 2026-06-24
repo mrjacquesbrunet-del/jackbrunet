@@ -6,8 +6,10 @@ import {
   getReadingPlan,
   getLatestShort,
   getShorts,
+  getProducts,
   todayIndex,
 } from "@/lib/content";
+import { asset } from "@/lib/asset";
 
 export const metadata: Metadata = {
   title: "Dévotionnel",
@@ -20,6 +22,7 @@ export default function DevotionnelPage() {
   const plan = getReadingPlan();
   const latestShort = getLatestShort();
   const shorts = getShorts();
+  const book = getProducts()[0];
   const todayLabel = new Date().toLocaleDateString("fr-FR", {
     weekday: "long",
     day: "numeric",
@@ -45,6 +48,8 @@ export default function DevotionnelPage() {
         latestShort={latestShort}
         shorts={shorts}
         todayLabel={todayLabel}
+        bookTitle={book?.title ?? "RHEMA"}
+        bookCover={asset(book?.image)}
       />
     </>
   );

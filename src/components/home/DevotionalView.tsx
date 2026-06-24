@@ -19,6 +19,8 @@ type Props = {
   latestShort: Short | null;
   shorts: Short[];
   todayLabel: string;
+  bookTitle: string;
+  bookCover: string;
 };
 
 export function DevotionalView({
@@ -29,6 +31,8 @@ export function DevotionalView({
   latestShort,
   shorts,
   todayLabel,
+  bookTitle,
+  bookCover,
 }: Props) {
   const i = useTodayIndex(devotions.length, initialIndex);
   const dev = devotions[i] ?? devotions[0];
@@ -155,6 +159,40 @@ export function DevotionalView({
                 </div>
               </div>
             </div>
+
+            {/* Plan de lecture complet (aujourd'hui mis en avant) */}
+            <ol className="mt-4 grid max-w-2xl gap-3 sm:grid-cols-2">
+              {plan.map((d) => {
+                const isToday = d.day === planDay.day;
+                return (
+                  <li key={d.day}>
+                    <div
+                      className={`flex h-full items-center gap-3 rounded-2xl border p-3.5 transition-colors ${
+                        isToday
+                          ? "border-dawn-400/60 bg-dawn-400/10"
+                          : "border-night-900/10 bg-white hover:border-night-900/20"
+                      }`}
+                    >
+                      <span
+                        className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl font-display text-base font-bold ${
+                          isToday
+                            ? "bg-dawn-400 text-night-950"
+                            : "bg-night-900/[0.05] text-night-900/60"
+                        }`}
+                      >
+                        {d.day}
+                      </span>
+                      <div className="min-w-0">
+                        <p className="truncate font-semibold text-night-900">{d.theme}</p>
+                        <p className="truncate text-xs text-night-900/50">
+                          {d.passages.join(" · ")} &middot; {d.minutes} min
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+                );
+              })}
+            </ol>
           </Reveal>
         </section>
       ) : null}
@@ -186,6 +224,39 @@ export function DevotionalView({
             </div>
             <div className="mt-5">
               <ShareButtons text={`${dev.theme}\n\n${paragraphs[0] ?? ""}`} />
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* 7b. Promotion du livre RHEMA */}
+      <section className="container-x">
+        <Reveal from="up">
+          <div className="bg-topo-light relative overflow-hidden rounded-4xl border border-spirit-700/10 p-7 sm:p-9">
+            <div className="blob -right-12 -top-10 h-44 w-44 bg-dawn-400/20" />
+            <div className="relative grid items-center gap-6 sm:grid-cols-[auto_1fr]">
+              {bookCover ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={bookCover}
+                  alt={bookTitle}
+                  className="mx-auto w-32 rounded-xl shadow-card sm:w-36"
+                />
+              ) : null}
+              <div>
+                <span className="eyebrow">Le livre</span>
+                <h3 className="mt-3 font-display text-2xl font-extrabold sm:text-3xl">
+                  Va plus loin avec <span className="text-gradient">RHEMA</span>
+                </h3>
+                <p className="mt-2 max-w-xl text-night-900/70">
+                  Tu aimes ces méditations ? RHEMA, c'est 365 révélations bibliques à
+                  méditer chaque jour de l'année — l'aboutissement de tout ce que je
+                  partage. Bientôt disponible.
+                </p>
+                <Link href="/boutique" className="btn-primary mt-5">
+                  Découvrir RHEMA
+                </Link>
+              </div>
             </div>
           </div>
         </Reveal>
