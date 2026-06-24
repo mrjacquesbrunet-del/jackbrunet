@@ -45,7 +45,7 @@ export default function MissionMadagascarPage() {
       {/* Pourquoi Madagascar */}
       <section className="relative overflow-hidden py-16">
         {/* Carte de Madagascar en fond, à droite, comme une texture incrustée */}
-        <MadagascarMap className="pointer-events-none absolute -right-20 -top-4 bottom-0 z-0 h-[118%] w-auto text-spirit-600/[0.10] sm:-right-10 lg:right-8" />
+        <MadagascarMap className="pointer-events-none absolute right-2 top-1/2 z-0 h-[72%] w-auto -translate-y-1/2 text-spirit-600/[0.10] sm:right-6 sm:h-[80%] lg:right-12" />
 
         <div className="container-x relative z-10">
           <SectionHeader
