@@ -10,6 +10,7 @@ import {
   todayIndex,
 } from "@/lib/content";
 import { asset } from "@/lib/asset";
+import audioData from "../../../content/audio.generated.json";
 
 export const metadata: Metadata = {
   title: "Dévotionnel",
@@ -50,6 +51,7 @@ export default function DevotionnelPage() {
         todayLabel={todayLabel}
         bookTitle={book?.title ?? "RHEMA"}
         bookCover={asset(book?.image)}
+        audioMap={(audioData.devotions ?? {}) as Record<string, string>}
       />
     </>
   );

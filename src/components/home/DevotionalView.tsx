@@ -6,8 +6,10 @@ import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeader } from "@/components/ui/Section";
 import { ShareButtons } from "@/components/ui/ShareButtons";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
+import { AudioPlayer } from "@/components/ui/AudioPlayer";
 import { DailyShort } from "@/components/home/DailyShort";
 import { useTodayIndex } from "@/lib/today";
+import { asset } from "@/lib/asset";
 import { siteConfig } from "@/config/site";
 import type { Devotion, ReadingPlanDay, Short } from "@/lib/types";
 
@@ -21,6 +23,7 @@ type Props = {
   todayLabel: string;
   bookTitle: string;
   bookCover: string;
+  audioMap: Record<string, string>;
 };
 
 export function DevotionalView({
@@ -33,9 +36,11 @@ export function DevotionalView({
   todayLabel,
   bookTitle,
   bookCover,
+  audioMap,
 }: Props) {
   const i = useTodayIndex(devotions.length, initialIndex);
   const dev = devotions[i] ?? devotions[0];
+  const audioSrc = audioMap[String(i)] ? asset(audioMap[String(i)]) : null;
 
   const p = useTodayIndex(plan.length, initialPlanIndex);
   const planDay = plan[p] ?? plan[0];
@@ -79,6 +84,14 @@ export function DevotionalView({
                 {dev.verseReference}
               </p>
             </div>
+            {audioSrc ? (
+              <div className="mt-5">
+                <AudioPlayer
+                  src={audioSrc}
+                  label="Écouter la méditation (voix de Jack)"
+                />
+              </div>
+            ) : null}
             <div className="mt-6">
             {paragraphs.map((para, idx) => (
               <p

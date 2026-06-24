@@ -1,0 +1,45 @@
+name: Générer l'audio (ElevenLabs)
+
+# Lancement MANUEL (bouton « Run workflow ») pour maîtriser les coûts.
+# Génère les MP3 des dévotionnels avec la voix clonée, puis les commite.
+# Ce commit déclenche ensuite le déploiement normal (deploy.yml).
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  audio:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurer Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Générer les fichiers audio
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          ELEVENLABS_VOICE_ID: ${{ secrets.ELEVENLABS_VOICE_ID }}
+        run: node scripts/generate-audio.mjs
+
+      - name: Commiter les nouveaux audios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/audio content/audio.generated.json
+          if git diff --staged --quiet; then
+            echo "Aucun nouvel audio à commiter."
+          else
+            git commit -m "chore(audio): génération des MP3 (ElevenLabs)"
+            git push
+          fi
