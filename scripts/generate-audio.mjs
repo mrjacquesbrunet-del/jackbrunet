@@ -17,8 +17,8 @@
 import fs from "node:fs";
 import crypto from "node:crypto";
 
-// Voix clonée de Jack (renseignée ici une fois fournie, ou via l'env).
-const VOICE_ID = process.env.ELEVENLABS_VOICE_ID || "";
+// Voix ElevenLabs choisie par Jack (surchargeable via l'env si besoin).
+const VOICE_ID = process.env.ELEVENLABS_VOICE_ID || "ecxPjiGTvAfpGEams6ec";
 const API_KEY = process.env.ELEVENLABS_API_KEY || "";
 
 const MODEL_ID = "eleven_multilingual_v2";
