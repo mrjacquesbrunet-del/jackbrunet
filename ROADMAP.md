@@ -43,7 +43,10 @@ Suivi des prochaines étapes (mises à jour au fil des sessions).
 
 ## 3) Application mobile (les 2 stores)
 - ✅ Phase 1 : **PWA installable** (manifest, service worker hors-ligne, icônes 192/512 + maskable, invite d'installation Android/iOS)
-- [ ] Phase 2 : **emballage Capacitor** (iOS + Android)
+- ✅ Phase 2 : **emballage Capacitor** (projets iOS + Android, icônes natives, scripts, guide APP.md)
+- ✅ Phase 3a : **rappel quotidien** « pensée du jour » (notification locale, sans serveur)
+- [ ] Phase 3b : **pushs à distance** (Firebase + APNs) pour les annonces de masse — optionnel
+- [ ] Phase 4-7 : comptes développeurs, build & soumission stores (côté Jack, voir APP.md)
 - Phase 3 : **notifications push** (pensée du jour — clé pour l'engagement ET l'acceptation Apple)
 - Phase 4 : visuels & fiches store
 - Phase 5-7 : comptes développeurs (Google Play 25 $ / Apple 99 $/an), builds & soumissions

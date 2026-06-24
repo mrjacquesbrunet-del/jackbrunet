@@ -94,12 +94,29 @@ version (pense à incrémenter le numéro de version).
 
 ---
 
-## 7. Prochaine étape recommandée : notifications push
+## 7. Notifications
 
-C'est le plus gros levier d'engagement (« pensée du jour » poussée chaque matin),
-et Apple apprécie une app qui apporte une vraie valeur au-delà du site web.
-À faire dans une prochaine session : `@capacitor/push-notifications` + Firebase
-Cloud Messaging (gratuit), avec une petite fonction d'envoi programmé.
+### ✅ Rappel quotidien « pensée du jour » (déjà en place, sans serveur)
+Une **notification locale** programmée sur le téléphone rappelle chaque jour
+d'ouvrir le dévotionnel. L'utilisateur active le rappel et choisit l'heure
+depuis la page **Dévotionnel** (réglage visible uniquement dans l'app native).
+- Aucune infrastructure : ça fonctionne hors-ligne, rien à payer.
+- Android 13+ : le téléphone demande l'autorisation des notifications au 1ᵉʳ usage.
+- iOS : l'autorisation est demandée à l'activation.
+
+Rien à configurer pour que ça marche — c'est inclus dans le build.
+
+### ⏳ Notifications « push » à distance (optionnel, plus tard)
+Pour envoyer une **annonce ponctuelle à tout le monde** (ex. « Live ce soir »),
+il faut des pushs distants :
+- **Android** : projet **Firebase** (gratuit) → fichier `google-services.json`.
+- **iOS** : **clé push APNs** depuis le compte Apple Developer.
+- Plugin `@capacitor/push-notifications` + un petit outil d'envoi (console Firebase
+  ou script).
+
+> Volontairement non installé pour l'instant : le plugin push impose une config
+> Firebase au build Android. On l'ajoutera quand tu voudras faire des annonces
+> de masse. Le rappel quotidien (ci-dessus) couvre déjà l'engagement « chaque matin ».
 
 ---
 

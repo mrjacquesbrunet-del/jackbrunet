@@ -6,6 +6,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { EmailPopup } from "@/components/layout/EmailPopup";
 import { PWA } from "@/components/pwa/PWA";
+import { NativeBootstrap } from "@/components/pwa/NativeBootstrap";
 
 // Grotesque très gras pour le corps et les titres percutants
 const archivo = Archivo({
@@ -74,6 +75,7 @@ export default function RootLayout({
         <Footer />
         <EmailPopup />
         <PWA />
+        <NativeBootstrap />
       </body>
     </html>
   );

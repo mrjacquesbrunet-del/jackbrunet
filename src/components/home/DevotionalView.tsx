@@ -9,6 +9,7 @@ import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { AudioPlayer } from "@/components/ui/AudioPlayer";
 import { ViralCard } from "@/components/home/ViralCard";
 import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
+import { ReminderToggle } from "@/components/pwa/ReminderToggle";
 import { DailyShort } from "@/components/home/DailyShort";
 import { useTodayIndex } from "@/lib/today";
 import { useEngagement } from "@/lib/engagement";
@@ -121,6 +122,11 @@ export function DevotionalView({
             >
               {eng.isCompletedToday ? "✓ Médité aujourd'hui" : "J'ai médité aujourd'hui"}
             </button>
+          </div>
+
+          {/* Rappel quotidien (app native uniquement) */}
+          <div className="mt-4">
+            <ReminderToggle />
           </div>
         </section>
       ) : null}
