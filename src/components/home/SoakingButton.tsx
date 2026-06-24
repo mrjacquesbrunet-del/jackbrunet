@@ -9,7 +9,7 @@ export function SoakingButton() {
   const { playing, toggle, label } = useSoaking();
 
   return (
-    <div className="glass flex items-center gap-4 p-4 sm:p-5">
+    <div className="flex items-center gap-4 rounded-3xl border border-spirit-600/20 bg-spirit-500/[0.08] p-4 sm:p-5">
       <button
         type="button"
         onClick={toggle}

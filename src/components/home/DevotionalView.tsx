@@ -134,6 +134,29 @@ export function DevotionalView({
             <SoakingButton />
           </div>
 
+          {/* Accès au carnet */}
+          <div className="mt-4">
+            <Link
+              href="/carnet"
+              className="flex items-center gap-4 rounded-3xl border border-dawn-400/30 bg-dawn-400/15 p-4 transition-colors hover:bg-dawn-400/25 sm:p-5"
+            >
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-night-900 text-xl text-cream">
+                ✍️
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="font-display text-base font-bold leading-tight">
+                  Ton carnet
+                </p>
+                <p className="mt-0.5 text-xs text-night-900/65">
+                  Écris tes paroles reçues & tes sujets de prière.
+                </p>
+              </div>
+              <span aria-hidden="true" className="text-night-900/40">
+                →
+              </span>
+            </Link>
+          </div>
+
           {/* Rappel quotidien (app native uniquement) */}
           <div className="mt-4">
             <ReminderToggle />
