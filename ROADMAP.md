@@ -17,6 +17,13 @@ Suivi des prochaines étapes (mises à jour au fil des sessions).
 - [ ] Cocher **« Enforce HTTPS »** (GitHub → Settings → Pages) quand le certificat est prêt
 - [ ] Tester un envoi prière/témoignage avec téléphone → vérifier dans Brevo
 
+### Ebooks cadeaux (2 cadeaux DIFFÉRENTS — envoi auto par Brevo)
+- [ ] **Jack** : préparer le PDF « 7 jours pour retrouver la paix » (cadeau du pop-up)
+- [ ] **Jack** : préparer le PDF « 7 premières méditations de RHEMA » (cadeau de la boutique)
+- [ ] **Jack** : créer une **2ᵉ liste** Brevo (ex. « Ebook RHEMA ») + un **2ᵉ formulaire** (me coller le code)
+- [ ] **Jack** : créer **2 automatisations** Brevo (déclencheur = ajout à la liste → email avec le lien du PDF)
+- [ ] **Claude** : héberger les 2 PDF sur le site (liens propres) + séparer les 2 sources côté site (pop-up → Ebook 1, boutique → Ebook 2)
+
 ---
 
 ## 1) Audio avec ta voix (prochaine session)
