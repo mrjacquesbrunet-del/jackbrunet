@@ -12,8 +12,8 @@
 
 import fs from "node:fs";
 
-const SOURCE =
-  "https://raw.githubusercontent.com/thiagobodruk/bible/master/json/fr_apee.json";
+// Louis Segond 1910 (domaine public) via l'API getBible v2.
+const SOURCE = "https://api.getbible.net/v2/segond.json";
 
 // Noms français canoniques (ordre protestant, 66 livres), appliqués par position.
 const NAMES = [
@@ -40,18 +40,22 @@ if (!res.ok) {
 }
 const data = await res.json();
 
-if (!Array.isArray(data) || data.length < 60) {
-  console.error("[bible] Format inattendu (longueur:", data?.length, ")");
+// getBible v2 : { books: [ { nr, name, chapters: [ { chapter, verses: [ { verse, text } ] } ] } ] }
+const books = data.books ?? [];
+if (!Array.isArray(books) || books.length < 60) {
+  console.error("[bible] Format inattendu (livres:", books?.length, ")");
   process.exit(1);
 }
 
 fs.mkdirSync("public/bible", { recursive: true });
 
 const index = [];
-data.forEach((book, i) => {
-  const id = i + 1;
-  const name = NAMES[i] ?? book.name ?? book.abbrev ?? `Livre ${id}`;
-  const chapters = book.chapters ?? book.verses ?? [];
+books.forEach((book, i) => {
+  const id = book.nr ?? i + 1;
+  const name = book.name?.trim() || NAMES[i] || `Livre ${id}`;
+  const chapters = (book.chapters ?? []).map((ch) =>
+    (ch.verses ?? []).map((v) => (v.text ?? "").trim()),
+  );
   fs.writeFileSync(
     `public/bible/${id}.json`,
     JSON.stringify({ id, name, chapters }),
