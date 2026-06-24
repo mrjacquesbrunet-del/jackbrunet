@@ -69,6 +69,24 @@ export function getDailyVerse(): Verse {
   return items[dayOfYear() % items.length];
 }
 
+/** Liste complète des pensées (rotation calculée côté navigateur). */
+export function getThoughts(): DailyThought[] {
+  return (thoughtsData.items as Omit<DailyThought, "date">[]).map((t) => ({
+    date: "",
+    ...t,
+  }));
+}
+
+/** Liste complète des versets. */
+export function getVerses(): Verse[] {
+  return versesData.items as Verse[];
+}
+
+/** Index du contenu du jour (repli calculé à la construction, pour l'hydratation). */
+export function todayIndex(length: number): number {
+  return length > 0 ? dayOfYear() % length : 0;
+}
+
 export function getReadingPlan(): ReadingPlanDay[] {
   return readingPlanData.items as ReadingPlanDay[];
 }
