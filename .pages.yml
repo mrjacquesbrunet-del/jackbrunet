@@ -206,6 +206,43 @@ content:
       - { name: objectiveEur, label: "Objectif (en €)", type: number }
       - { name: raisedEur, label: "Montant collecté (en €)", type: number }
 
+  - name: plans
+    label: Plans thématiques
+    type: file
+    path: content/plans.json
+    fields:
+      - name: items
+        label: Parcours
+        type: object
+        list: true
+        fields:
+          - { name: slug, label: "Identifiant URL (ex. peur)", type: string }
+          - { name: title, label: Titre, type: string }
+          - { name: subtitle, label: Sous-titre, type: string }
+          - name: days
+            label: Jours
+            type: object
+            list: true
+            fields:
+              - { name: day, label: Jour n°, type: number }
+              - { name: title, label: Titre du jour, type: string }
+              - { name: verses, label: Versets (références), type: string, list: true }
+              - { name: meditation, label: Méditation, type: text }
+
+  - name: music
+    label: Musique soaking
+    type: file
+    path: content/music.json
+    fields:
+      - name: items
+        label: Pistes
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Titre, type: string }
+          - { name: artist, label: Artiste, type: string }
+          - { name: src, label: "Chemin du MP3 (ex. /music/piste.mp3)", type: string }
+
   - name: impact
     label: Impact & transparence
     type: file

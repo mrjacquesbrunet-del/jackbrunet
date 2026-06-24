@@ -12,6 +12,7 @@ import { Markable } from "@/components/ui/Markable";
 import { useToolkit } from "@/lib/toolkit";
 import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
 import { ReminderToggle } from "@/components/pwa/ReminderToggle";
+import { SoakingButton } from "@/components/home/SoakingButton";
 import { DailyShort } from "@/components/home/DailyShort";
 import { useTodayIndex } from "@/lib/today";
 import { useEngagement } from "@/lib/engagement";
@@ -127,6 +128,11 @@ export function DevotionalView({
             </button>
           </div>
 
+          {/* Musique de fond pour méditer */}
+          <div className="mt-4">
+            <SoakingButton />
+          </div>
+
           {/* Rappel quotidien (app native uniquement) */}
           <div className="mt-4">
             <ReminderToggle />
@@ -161,7 +167,7 @@ export function DevotionalView({
 
             {/* Punchline du jour — carte à partager */}
             <div className="mt-6">
-              <ViralCard punchline={dev.punchline} />
+              <ViralCard punchline={dev.punchline} id={`dev:${i}:punchline`} />
             </div>
 
             {audioSrc ? (

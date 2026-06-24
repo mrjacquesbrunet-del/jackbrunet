@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { asset } from "@/lib/asset";
+import { Markable } from "@/components/ui/Markable";
 
 type BookIndex = { id: number; name: string; chapters: number };
 type Book = { id: number; name: string; chapters: string[][] };
@@ -91,14 +92,25 @@ export function BibleReader() {
       {loading ? (
         <p className="mt-6 text-night-900/50">Chargement…</p>
       ) : (
-        <div className="mt-6 max-w-2xl space-y-3 text-lg leading-relaxed text-night-900/85">
+        <div className="mt-6 max-w-2xl space-y-2 text-lg leading-relaxed text-night-900/85">
+          <p className="mb-2 text-xs text-night-900/45">
+            💡 Touche un verset pour le surligner, le copier ou l'enregistrer.
+          </p>
           {verses.map((v, i) => (
-            <p key={i}>
-              <sup className="mr-1 align-super text-xs font-bold text-spirit-600">
-                {i + 1}
-              </sup>
-              {v}
-            </p>
+            <Markable
+              key={i}
+              id={`bible:${bookId}:${chapter}:${i + 1}`}
+              text={v}
+              reference={`${book?.name} ${chapter}:${i + 1}`}
+              kind="verset"
+            >
+              <p>
+                <sup className="mr-1 align-super text-xs font-bold text-spirit-600">
+                  {i + 1}
+                </sup>
+                {v}
+              </p>
+            </Markable>
           ))}
         </div>
       )}

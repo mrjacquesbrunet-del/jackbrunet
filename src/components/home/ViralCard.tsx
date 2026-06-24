@@ -1,14 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import { useToolkit } from "@/lib/toolkit";
 
 /**
  * Carte « virale » : une punchline percutante, joliment mise en page, que le
  * visiteur peut partager en image (story Instagram, WhatsApp…) ou télécharger.
  */
-export function ViralCard({ punchline }: { punchline: string }) {
+export function ViralCard({ punchline, id }: { punchline: string; id?: string }) {
   const [busy, setBusy] = useState(false);
   const [copied, setCopied] = useState(false);
+  const tk = useToolkit();
+  const saved = id ? tk.isSaved(id) : false;
 
   async function buildImage(): Promise<Blob | null> {
     const W = 1080;
@@ -162,6 +165,15 @@ export function ViralCard({ punchline }: { punchline: string }) {
         <button type="button" onClick={copyText} className="btn-ghost text-sm">
           {copied ? "Copié !" : "Copier le texte"}
         </button>
+        {id ? (
+          <button
+            type="button"
+            onClick={() => tk.toggleSnippet({ id, text: punchline, kind: "punchline" })}
+            className="btn-ghost text-sm"
+          >
+            {saved ? "♥ Enregistré" : "♡ Enregistrer"}
+          </button>
+        ) : null}
       </div>
     </div>
   );

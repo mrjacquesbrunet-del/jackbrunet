@@ -17,6 +17,7 @@ import type {
   Short,
   SupportTier,
   Testimony,
+  ThemePlan,
   Verse,
 } from "./types";
 
@@ -35,6 +36,7 @@ import homeData from "../../content/home.json";
 import aboutData from "../../content/about.json";
 import missionData from "../../content/mission.json";
 import devotionsData from "../../content/devotions.json";
+import plansData from "../../content/plans.json";
 
 /** Sélection déterministe basée sur le jour de l'année (rotation quotidienne). */
 function dayOfYear(date = new Date()): number {
@@ -288,4 +290,12 @@ export function getMission(): Mission {
 
 export function getDevotions(): Devotion[] {
   return devotionsData.items as Devotion[];
+}
+
+export function getThemePlans(): ThemePlan[] {
+  return plansData.items as ThemePlan[];
+}
+
+export function getThemePlan(slug: string): ThemePlan | undefined {
+  return (plansData.items as ThemePlan[]).find((p) => p.slug === slug);
 }

@@ -94,6 +94,20 @@ export type Mission = {
   raisedEur: number;
 };
 
+export type ThemePlanDay = {
+  day: number;
+  title: string;
+  verses: string[];
+  meditation: string;
+};
+
+export type ThemePlan = {
+  slug: string;
+  title: string;
+  subtitle: string;
+  days: ThemePlanDay[];
+};
+
 export type Devotion = {
   theme: string;
   verseText: string;
