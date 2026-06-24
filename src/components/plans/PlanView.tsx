@@ -63,7 +63,11 @@ export function PlanView({ plan }: { plan: ThemePlan }) {
                 </div>
               </div>
 
-              <p className="mt-4 text-base leading-relaxed text-night-900/80">{d.meditation}</p>
+              <div className="mt-4 space-y-4 text-base leading-relaxed text-night-900/80">
+                {d.meditation.split("\n\n").map((para, idx) => (
+                  <p key={idx}>{para}</p>
+                ))}
+              </div>
 
               <div className="mt-5 flex flex-wrap items-center gap-3">
                 <button
