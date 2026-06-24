@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
 import { VideoLibrary } from "@/components/home/VideoLibrary";
+import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
 import { getLongVideos, getShorts } from "@/lib/content";
 import { youtube } from "@/config/site";
 
@@ -55,6 +56,7 @@ export default function VideosPage() {
           </section>
         </>
       )}
+      <WhatsAppChannel />
     </>
   );
 }

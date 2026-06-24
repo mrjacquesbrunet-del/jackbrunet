@@ -10,6 +10,7 @@ import { Shop } from "@/components/home/Shop";
 import { AboutFounder } from "@/components/home/AboutFounder";
 import { Support } from "@/components/home/Support";
 import { NewsletterCTA } from "@/components/home/NewsletterCTA";
+import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
 
 export default function HomePage() {
   return (
@@ -34,6 +35,7 @@ export default function HomePage() {
       <PrayerSpace />
       <AboutFounder />
       <Support />
+      <WhatsAppChannel />
       <NewsletterCTA />
     </>
   );

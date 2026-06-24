@@ -4,6 +4,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { SectionHeader } from "@/components/ui/Section";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { PayButton } from "@/components/ui/PayButton";
+import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
 import { getMission } from "@/lib/content";
 import { STRIPE_LINKS } from "@/config/stripe";
 
@@ -251,6 +252,8 @@ export default function MissionMadagascarPage() {
           </cite>
         </blockquote>
       </section>
+
+      <WhatsAppChannel />
     </>
   );
 }

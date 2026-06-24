@@ -7,6 +7,7 @@ import { SectionHeader } from "@/components/ui/Section";
 import { ShareButtons } from "@/components/ui/ShareButtons";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { AudioPlayer } from "@/components/ui/AudioPlayer";
+import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
 import { DailyShort } from "@/components/home/DailyShort";
 import { useTodayIndex } from "@/lib/today";
 import { asset } from "@/lib/asset";
@@ -327,6 +328,8 @@ export function DevotionalView({
           </div>
         </Reveal>
       </section>
+
+      <WhatsAppChannel />
     </div>
   );
 }
