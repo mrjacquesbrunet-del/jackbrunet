@@ -1,76 +1,74 @@
 /**
- * Sonde v2 : confirme si une Segond française est taguée Strong, repère le
- * format des balises, et teste des sources de dictionnaire Strong (FR puis EN).
- * Lancé dans GitHub Actions (accès internet).
+ * Sonde v3 : cherche un DICTIONNAIRE STRONG EN FRANÇAIS librement réutilisable
+ * (dépôts GitHub), via l'API de recherche. Journalise les candidats.
  */
+const TOKEN = process.env.GH_TOKEN;
+const H = {
+  "User-Agent": "jackbrunet-probe",
+  Accept: "application/vnd.github+json",
+  ...(TOKEN ? { Authorization: `Bearer ${TOKEN}` } : {}),
+};
 
-async function get(url, { json = false, max = 600 } = {}) {
+async function api(url) {
+  try {
+    const r = await fetch(url, { headers: H });
+    return { status: r.status, data: await r.json() };
+  } catch (e) {
+    return { error: String(e) };
+  }
+}
+async function raw(url) {
   try {
     const r = await fetch(url, { headers: { "User-Agent": "jackbrunet-probe" } });
-    const text = await r.text();
-    if (json) {
-      try { return { status: r.status, data: JSON.parse(text) }; }
-      catch { return { status: r.status, raw: text.slice(0, max), parseError: true }; }
-    }
-    return { status: r.status, raw: text.slice(0, max) };
-  } catch (e) { return { error: String(e) }; }
+    const t = await r.text();
+    return { status: r.status, raw: t.slice(0, 240), len: t.length };
+  } catch (e) {
+    return { error: String(e) };
+  }
 }
 const head = (t) => console.log("\n==== " + t + " ====");
 
 (async () => {
-  // 1) Texte brut de Jean 3 pour les candidates FR + KJV (réf. format <S>)
-  head("get-text brut — cherche balises Strong");
-  for (const code of ["FRLSG", "FRDBY", "NBS", "KJV", "YLT", "TR", "SBLG"]) {
-    const r = await get(`https://bolls.life/get-text/${code}/43/3/`, { json: true });
-    if (Array.isArray(r.data)) {
-      const v16 = r.data.find((v) => v.verse === 16);
-      console.log(`\n[${code}] ${r.data.length} versets — Jean 3:16 :`);
-      console.log("   ", (v16?.text || "(vide)").slice(0, 300));
-    } else {
-      console.log(`\n[${code}] indispo status=${r.status} ${r.error || ""} ${(r.raw||"").slice(0,80)}`);
-    }
-  }
-
-  // 2) Toutes les traductions dont le nom évoque Strong / interlinéaire
-  head("traductions bolls évoquant Strong");
-  const langs = await get("https://bolls.life/static/bolls/app/views/languages.json", { json: true });
-  if (Array.isArray(langs.data)) {
-    for (const l of langs.data) {
-      for (const t of l.translations || []) {
-        const s = `${t.short_name} ${t.full_name}`.toLowerCase();
-        if (s.includes("strong") || s.includes("interlin") || t.short_name === "WLC" || t.short_name === "TR")
-          console.log(`   [${l.language}] ${t.short_name} | ${t.full_name}`);
-      }
-    }
-  }
-
-  // 3) Dictionnaire Strong — teste plusieurs sources (FR d'abord)
-  head("dictionnaires Strong — tests d'URL");
-  const urls = [
-    // OpenScriptures (variantes de chemin)
-    "https://raw.githubusercontent.com/openscriptures/strongs/master/greek/strongs-greek-dictionary.js",
-    "https://raw.githubusercontent.com/openscriptures/strongs/master/hebrew/StrongHebrewG.xml",
-    // Mirrors JSON répandus
-    "https://raw.githubusercontent.com/STEPBible/STEPBible-Data/master/README.md",
-    // Candidats FR
-    "https://raw.githubusercontent.com/bvdbos/bible-strongs/master/strongs-greek.json",
-    "https://raw.githubusercontent.com/openscriptures/strongs/master/greek/strongs-greek-dictionary.json",
-    "https://raw.githubusercontent.com/king-things/strongs-greek/master/strongs-greek-dictionary.json",
+  head("Recherche de dépôts (repositories)");
+  const queries = [
+    "strong français bible",
+    "dictionnaire strong",
+    "strongs french dictionary",
+    "concordance strong français",
+    "lexique grec hébreu strong français",
   ];
-  for (const u of urls) {
-    const r = await get(u);
-    console.log(`   ${r.status || r.error} | len=${(r.raw||"").length} | ${u}`);
-    if (r.status === 200) console.log("       début:", (r.raw||"").replace(/\s+/g," ").slice(0, 160));
+  for (const q of queries) {
+    const r = await api(`https://api.github.com/search/repositories?q=${encodeURIComponent(q)}&sort=stars&per_page=6`);
+    console.log(`\n# "${q}" (status ${r.status}, total ${r.data?.total_count ?? "?"})`);
+    for (const it of r.data?.items ?? []) {
+      console.log(`   ★${it.stargazers_count}  ${it.full_name}  | ${it.description || ""}`.slice(0, 160));
+    }
   }
 
-  // 4) bolls — définition d'un Strong via l'API dictionary (format de réponse)
-  head("bolls dictionary-definition (Thayer G26)");
-  for (const path of [
-    "https://bolls.life/dictionary-definition/BdbThayer/G26/",
-    "https://bolls.life/get-dictionary/BdbThayer/G26/",
-  ]) {
-    const r = await get(path);
-    console.log(`   ${r.status || r.error} | ${path}`);
-    if (r.status === 200) console.log("       ", (r.raw||"").replace(/\s+/g," ").slice(0, 220));
+  head("Recherche de fichiers (code) — dictionnaires JSON FR");
+  const codeQ = [
+    "strong français définition extension:json",
+    "strongFr language:json",
+    "dictionnaire strong filename:strong",
+  ];
+  for (const q of codeQ) {
+    const r = await api(`https://api.github.com/search/code?q=${encodeURIComponent(q)}&per_page=6`);
+    console.log(`\n# code "${q}" (status ${r.status}, total ${r.data?.total_count ?? "?"})`);
+    for (const it of r.data?.items ?? []) {
+      console.log(`   ${it.repository?.full_name}  :: ${it.path}`);
+    }
+  }
+
+  head("Tests directs de candidats connus (raw)");
+  const candidates = [
+    "https://raw.githubusercontent.com/bnjbvr/strong-bible/master/strongs-fr.json",
+    "https://raw.githubusercontent.com/macarthurjd/strongs/master/strongs-french.json",
+    "https://raw.githubusercontent.com/Saukha/Strong-Dictionary/master/strongDictionary.json",
+    "https://raw.githubusercontent.com/gpiffault/strong-bible/master/strong.json",
+  ];
+  for (const u of candidates) {
+    const r = await raw(u);
+    console.log(`   ${r.status || r.error} len=${r.len ?? 0} | ${u}`);
+    if (r.status === 200) console.log("       ", (r.raw || "").replace(/\s+/g, " "));
   }
 })();
