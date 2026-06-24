@@ -188,6 +188,10 @@ export function DevotionalView({
               </div>
             </div>
 
+            <Link href="/bible" className="btn-ghost mt-4 inline-flex">
+              Ouvrir la Bible
+            </Link>
+
             {/* Plan de lecture complet (aujourd'hui mis en avant) */}
             <ol className="mt-4 grid max-w-2xl gap-3 sm:grid-cols-2">
               {plan.map((d) => {

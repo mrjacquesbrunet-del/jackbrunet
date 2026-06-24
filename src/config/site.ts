@@ -34,6 +34,7 @@ export const youtube = {
 /** Navigation principale — partagée web + future app. */
 export const mainNav = [
   { label: "Dévotionnel", href: "/devotionnel" },
+  { label: "Bible", href: "/bible" },
   { label: "Accueil", href: "/" },
   { label: "Vidéos", href: "/videos" },
   { label: "Madagascar", href: "/mission-madagascar" },
