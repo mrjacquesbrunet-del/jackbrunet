@@ -10,46 +10,41 @@ import { youtube } from "@/config/site";
 export const metadata: Metadata = {
   title: "Vidéos",
   description:
-    "Toutes les prédications et les Shorts de Jack Brunet, classés par thème — à regarder directement sur le site.",
+    "Toutes les prédications et les Shorts de Jack Brunet, à regarder directement sur le site.",
 };
 
 export default function VideosPage() {
   const longCategories = getLongVideoCategories();
   const shortCategories = getShortCategories();
+  const hasVideos = longCategories.length > 0;
 
   return (
     <>
-      <PageHero
-        eyebrow="Vidéothèque"
-        title={
-          <>
-            Toutes les <span className="text-gradient">vidéos</span>
-          </>
-        }
-        description="Prédications et Shorts, classés par thème. Clique pour regarder directement ici."
-      />
-
-      {/* Prédications */}
-      <section id="predications" className="container-x scroll-mt-24 py-12 sm:py-16">
-        <Reveal>
-          <SectionHeader
-            eyebrow="Prédications"
-            title="Formats longs"
-            description="Les enseignements complets, rangés par thème."
+      {/* Prédications — bannière + grille animée */}
+      {hasVideos ? (
+        <section id="predications" className="scroll-mt-24 pb-12 sm:pb-16">
+          <VideosExperience categories={longCategories} />
+        </section>
+      ) : (
+        <>
+          <PageHero
+            eyebrow="Vidéothèque"
+            title={
+              <>
+                Toutes les <span className="text-gradient">vidéos</span>
+              </>
+            }
+            description="Prédications et Shorts, à regarder directement ici."
           />
-        </Reveal>
-        {longCategories.length > 0 ? (
-          <Reveal delay={0.05}>
-            <VideosExperience categories={longCategories} />
-          </Reveal>
-        ) : (
-          <EmptyState
-            href={youtube.videosUrl}
-            label="Voir les vidéos sur YouTube"
-            text="Les prédications apparaîtront ici dès l'activation de l'import YouTube."
-          />
-        )}
-      </section>
+          <section className="container-x py-12">
+            <EmptyState
+              href={youtube.videosUrl}
+              label="Voir les vidéos sur YouTube"
+              text="Les prédications apparaîtront ici dès l'activation de l'import YouTube."
+            />
+          </section>
+        </>
+      )}
 
       {/* Shorts */}
       <section id="shorts" className="scroll-mt-24 py-12 sm:py-16">

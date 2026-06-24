@@ -6,86 +6,95 @@ import type { LongVideo } from "@/lib/types";
 
 type Category = { category: string; videos: LongVideo[] };
 
+/**
+ * Vidéothèque : bannière cinématographique « À la une » + grille animée de
+ * toutes les prédications (sans classification par thème). Lecture en modale.
+ */
 export function VideosExperience({ categories }: { categories: Category[] }) {
   const flat = categories.flatMap((c) => c.videos);
   const [openAt, setOpenAt] = useState<number | null>(null);
-
-  const starts: number[] = [];
-  let acc = 0;
-  for (const c of categories) {
-    starts.push(acc);
-    acc += c.videos.length;
-  }
-
-  const PER_RAIL = 8;
+  const hero = flat[0];
 
   return (
     <>
-      <div className="mt-10 flex flex-col gap-10">
-        {categories.map((cat, ci) => {
-          const start = starts[ci];
-          const preview = cat.videos.slice(0, PER_RAIL);
-          const extra = cat.videos.length - preview.length;
-          return (
-            <div key={cat.category}>
-              <div className="container-x mb-4 flex items-center justify-between gap-3">
-                <h3 className="font-display text-xl font-bold sm:text-2xl">{cat.category}</h3>
-                <button
-                  type="button"
-                  onClick={() => setOpenAt(start)}
-                  className="shrink-0 text-xs font-semibold uppercase tracking-wider text-spirit-600 transition-colors hover:text-night-900"
-                >
-                  Tout voir · {cat.videos.length}
-                </button>
-              </div>
-              <div className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 sm:px-8 lg:px-12">
-                {preview.map((v, i) => (
-                  <button
-                    key={v.id}
-                    type="button"
-                    onClick={() => setOpenAt(start + i)}
-                    className="group w-72 shrink-0 snap-start text-left sm:w-80"
-                  >
-                    <div className="relative aspect-video overflow-hidden rounded-2xl border border-night-900/10 bg-night-900">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`}
-                        alt={v.title}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                      <span className="absolute inset-0 bg-night-950/10 transition-opacity group-hover:opacity-0" />
-                      <span className="absolute left-1/2 top-1/2 grid h-12 w-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-dawn-400 text-night-900 opacity-0 shadow-glow transition-all duration-300 group-hover:scale-110 group-hover:opacity-100">
-                        <PlayIcon className="h-5 w-5 translate-x-0.5" />
-                      </span>
-                    </div>
-                    <p className="mt-2 line-clamp-2 text-sm font-semibold leading-snug text-night-900 transition-colors group-hover:text-spirit-600">
-                      {v.title}
-                    </p>
-                  </button>
-                ))}
-                {extra > 0 ? (
-                  <button
-                    type="button"
-                    onClick={() => setOpenAt(start + preview.length)}
-                    className="grid aspect-video w-72 shrink-0 snap-start place-items-center self-start rounded-2xl border border-dashed border-night-900/25 bg-night-900/[0.03] transition-colors hover:border-dawn-500 hover:bg-night-900/[0.06] sm:w-80"
-                  >
-                    <span>
-                      <span className="block font-display text-2xl font-extrabold text-night-900">
-                        +{extra}
-                      </span>
-                      <span className="mt-1 block text-xs font-semibold uppercase tracking-wider text-night-900/55">
-                        Tout voir
-                      </span>
-                    </span>
-                  </button>
-                ) : (
-                  <span className="w-1 shrink-0" aria-hidden />
-                )}
-              </div>
+      {/* Bannière « À la une » */}
+      {hero ? (
+        <div className="dark-ctx relative mb-12 overflow-hidden border-b border-white/10">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`https://i.ytimg.com/vi/${hero.id}/maxresdefault.jpg`}
+            alt={hero.title}
+            className="absolute inset-0 h-full w-full object-cover"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = `https://i.ytimg.com/vi/${hero.id}/hqdefault.jpg`;
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-night-950 via-night-950/75 to-night-950/20" />
+          <div className="absolute inset-0 bg-gradient-to-r from-night-950/90 via-night-950/40 to-transparent" />
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="container-x relative flex min-h-[58vh] flex-col justify-end py-12 sm:min-h-[64vh]"
+          >
+            <span className="eyebrow w-fit">À la une</span>
+            <h2 className="mt-4 max-w-2xl font-display text-3xl font-extrabold leading-tight text-cream drop-shadow sm:text-5xl">
+              {hero.title}
+            </h2>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <button type="button" onClick={() => setOpenAt(0)} className="btn-primary">
+                <PlayIcon className="h-5 w-5 translate-x-0.5" />
+                Lire
+              </button>
+              <button
+                type="button"
+                onClick={() => setOpenAt(0)}
+                className="btn-ghost border-white/25 bg-white/10 text-cream hover:bg-white/20"
+              >
+                Plus d'infos
+              </button>
             </div>
-          );
-        })}
+          </motion.div>
+        </div>
+      ) : null}
+
+      {/* Grille animée (toutes les vidéos, sans classification) */}
+      <div className="container-x">
+        <h3 className="mb-6 font-display text-2xl font-bold sm:text-3xl">
+          Toutes les <span className="text-gradient">prédications</span>
+        </h3>
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          {flat.map((v, i) => (
+            <motion.button
+              key={v.id}
+              type="button"
+              onClick={() => setOpenAt(i)}
+              initial={{ opacity: 0, y: 24, scale: 0.97 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.45, delay: (i % 8) * 0.05, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -6 }}
+              className="group text-left"
+            >
+              <div className="relative aspect-video overflow-hidden rounded-2xl border border-night-900/10 bg-night-900 transition-shadow duration-300 group-hover:shadow-card">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`}
+                  alt={v.title}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <span className="absolute inset-0 bg-night-950/10 transition-opacity group-hover:opacity-0" />
+                <span className="absolute left-1/2 top-1/2 grid h-12 w-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-dawn-400 text-night-900 opacity-0 shadow-glow transition-all duration-300 group-hover:scale-110 group-hover:opacity-100">
+                  <PlayIcon className="h-5 w-5 translate-x-0.5" />
+                </span>
+              </div>
+              <p className="mt-2 line-clamp-2 text-sm font-semibold leading-snug text-night-900 transition-colors group-hover:text-spirit-600">
+                {v.title}
+              </p>
+            </motion.button>
+          ))}
+        </div>
       </div>
 
       <AnimatePresence>
@@ -181,14 +190,7 @@ function VideoPlayer({
           />
         </div>
         <div className="mt-4 flex items-start justify-between gap-4">
-          <div>
-            {v.category ? (
-              <span className="inline-flex rounded-full bg-dawn-400 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-night-900">
-                {v.category}
-              </span>
-            ) : null}
-            <p className="mt-2 font-display text-lg font-bold text-cream">{v.title}</p>
-          </div>
+          <p className="font-display text-lg font-bold text-cream">{v.title}</p>
           <a
             href={`https://www.youtube.com/watch?v=${v.id}`}
             target="_blank"
