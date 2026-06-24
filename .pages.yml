@@ -34,6 +34,22 @@ content:
           - { name: shortsUrl, label: URL des Shorts, type: string }
           - { name: videosUrl, label: URL des vidéos, type: string }
 
+  - name: devotions
+    label: Dévotionnels
+    type: file
+    path: content/devotions.json
+    fields:
+      - name: items
+        label: Dévotionnels
+        type: object
+        list: true
+        fields:
+          - { name: theme, label: Thème, type: string }
+          - { name: meditation, label: Méditation, type: text }
+          - { name: declarationText, label: "Déclaration (texte)", type: string }
+          - { name: declarationReference, label: "Déclaration (référence)", type: string }
+          - { name: questions, label: Questions, type: string, list: true }
+
   - name: thoughts
     label: Pensées du jour
     type: file

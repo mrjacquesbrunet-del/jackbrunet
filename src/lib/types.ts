@@ -93,3 +93,11 @@ export type Mission = {
   objectiveEur: number;
   raisedEur: number;
 };
+
+export type Devotion = {
+  theme: string;
+  meditation: string;
+  declarationText: string;
+  declarationReference: string;
+  questions: string[];
+};

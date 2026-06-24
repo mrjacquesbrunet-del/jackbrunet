@@ -9,6 +9,7 @@
 
 import type {
   DailyThought,
+  Devotion,
   LongVideo,
   Mission,
   Product,
@@ -33,6 +34,7 @@ import videosGenerated from "../../content/videos.generated.json";
 import homeData from "../../content/home.json";
 import aboutData from "../../content/about.json";
 import missionData from "../../content/mission.json";
+import devotionsData from "../../content/devotions.json";
 
 /** Sélection déterministe basée sur le jour de l'année (rotation quotidienne). */
 function dayOfYear(date = new Date()): number {
@@ -282,4 +284,8 @@ export function getFundUsage() {
 
 export function getMission(): Mission {
   return missionData as Mission;
+}
+
+export function getDevotions(): Devotion[] {
+  return devotionsData.items as Devotion[];
 }
