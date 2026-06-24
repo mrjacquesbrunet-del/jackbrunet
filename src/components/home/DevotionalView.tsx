@@ -8,6 +8,8 @@ import { ShareButtons } from "@/components/ui/ShareButtons";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { AudioPlayer } from "@/components/ui/AudioPlayer";
 import { ViralCard } from "@/components/home/ViralCard";
+import { Markable } from "@/components/ui/Markable";
+import { useToolkit } from "@/lib/toolkit";
 import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
 import { ReminderToggle } from "@/components/pwa/ReminderToggle";
 import { DailyShort } from "@/components/home/DailyShort";
@@ -50,6 +52,7 @@ export function DevotionalView({
   const planDay = plan[p] ?? plan[0];
 
   const eng = useEngagement();
+  const tk = useToolkit();
 
   const [label, setLabel] = useState(todayLabel);
   useEffect(() => {
@@ -136,14 +139,25 @@ export function DevotionalView({
         <Reveal from="up">
           <SectionHeader eyebrow="Le rhéma du jour" title="La révélation" />
           <div className="mt-6 max-w-2xl">
-            <div className="rounded-2xl border-l-4 border-dawn-400 bg-night-900/[0.03] py-4 pl-5 pr-4">
-              <p className="font-display text-lg italic leading-snug text-night-900 sm:text-xl">
-                &laquo;&nbsp;{dev.verseText}&nbsp;&raquo;
-              </p>
-              <p className="mt-2 text-sm font-semibold text-spirit-600">
-                {dev.verseReference}
-              </p>
-            </div>
+            <Markable
+              id={`dev:${i}:verse`}
+              text={dev.verseText}
+              reference={dev.verseReference}
+              kind="verset"
+            >
+              <div className="rounded-2xl border-l-4 border-dawn-400 bg-night-900/[0.03] py-4 pl-5 pr-4">
+                <p className="font-display text-lg italic leading-snug text-night-900 sm:text-xl">
+                  &laquo;&nbsp;{dev.verseText}&nbsp;&raquo;
+                </p>
+                <p className="mt-2 text-sm font-semibold text-spirit-600">
+                  {dev.verseReference}
+                </p>
+              </div>
+            </Markable>
+
+            <p className="mt-3 text-xs text-night-900/45">
+              💡 Touche un verset ou un paragraphe pour le surligner, le copier ou l'enregistrer.
+            </p>
 
             {/* Punchline du jour — carte à partager */}
             <div className="mt-6">
@@ -160,16 +174,24 @@ export function DevotionalView({
             ) : null}
             <div className="mt-6">
             {paragraphs.map((para, idx) => (
-              <p
+              <Markable
                 key={idx}
-                className={`text-base leading-relaxed text-night-900/75 sm:text-lg ${
-                  idx === 0
-                    ? "first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:font-display first-letter:text-6xl first-letter:font-bold first-letter:leading-none first-letter:text-spirit-700"
-                    : "mt-5"
-                }`}
+                id={`dev:${i}:p${idx}`}
+                text={para}
+                reference={dev.verseReference}
+                kind="méditation"
+                className={idx === 0 ? "" : "mt-5"}
               >
-                {para}
-              </p>
+                <p
+                  className={`text-base leading-relaxed text-night-900/75 sm:text-lg ${
+                    idx === 0
+                      ? "first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:font-display first-letter:text-6xl first-letter:font-bold first-letter:leading-none first-letter:text-spirit-700"
+                      : ""
+                  }`}
+                >
+                  {para}
+                </p>
+              </Markable>
             ))}
             </div>
             <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -204,12 +226,19 @@ export function DevotionalView({
               <span className="mt-6 block font-display text-6xl leading-none text-dawn-300/60">
                 &ldquo;
               </span>
-              <blockquote className="-mt-4 font-display text-2xl font-bold leading-snug text-cream sm:text-3xl md:text-4xl">
-                {dev.declarationText}
-              </blockquote>
-              <p className="mt-4 text-sm font-semibold text-dawn-200">
-                {dev.declarationReference}
-              </p>
+              <Markable
+                id={`dev:${i}:declaration`}
+                text={dev.declarationText}
+                reference={dev.declarationReference}
+                kind="déclaration"
+              >
+                <blockquote className="-mt-4 font-display text-2xl font-bold leading-snug text-cream sm:text-3xl md:text-4xl">
+                  {dev.declarationText}
+                </blockquote>
+                <p className="mt-4 text-sm font-semibold text-dawn-200">
+                  {dev.declarationReference}
+                </p>
+              </Markable>
               <div className="mt-7 flex justify-center">
                 <ShareButtons
                   text={`« ${dev.declarationText} » — ${dev.declarationReference}`}
@@ -349,6 +378,46 @@ export function DevotionalView({
                     </li>
                   );
                 })}
+            </ul>
+          </Reveal>
+        </section>
+      ) : null}
+
+      {/* 6c. Ma bibliothèque : extraits enregistrés */}
+      {tk.saved.length > 0 ? (
+        <section className="container-x">
+          <Reveal from="up">
+            <SectionHeader
+              eyebrow="Ma bibliothèque"
+              title="Mes versets & paroles enregistrés"
+            />
+            <ul className="mt-6 grid max-w-2xl gap-3">
+              {tk.saved.map((s) => (
+                <li
+                  key={s.id}
+                  className="rounded-2xl border border-night-900/10 bg-white p-4"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider text-spirit-600">
+                      {s.kind}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => tk.removeSnippet(s.id)}
+                      aria-label="Retirer"
+                      className="shrink-0 text-night-900/30 transition-colors hover:text-night-900/70"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                  <p className="mt-1 text-sm leading-relaxed text-night-900/80">{s.text}</p>
+                  {s.reference ? (
+                    <p className="mt-2 text-xs font-semibold text-night-900/50">
+                      {s.reference}
+                    </p>
+                  ) : null}
+                </li>
+              ))}
             </ul>
           </Reveal>
         </section>
