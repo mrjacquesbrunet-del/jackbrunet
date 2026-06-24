@@ -31,7 +31,7 @@ export function DailyHub() {
   });
 
   return (
-    <section id="aujourdhui" className="container-x scroll-mt-24 py-20 sm:py-28">
+    <section id="aujourdhui" className="container-x scroll-mt-24 py-14 sm:py-20">
       <Reveal>
         <SectionHeader
           eyebrow="Aujourd'hui"

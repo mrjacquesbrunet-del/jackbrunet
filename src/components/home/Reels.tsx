@@ -18,7 +18,7 @@ export function Reels() {
       : "Mes derniers Shorts. Clique pour les regarder en plein écran et scrolle d'une vidéo à l'autre.";
 
   return (
-    <section id="shorts" className="scroll-mt-24 py-20 sm:py-28">
+    <section id="shorts" className="scroll-mt-24 pb-14 pt-8 sm:pb-20 sm:pt-10">
       <div className="container-x">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-4">

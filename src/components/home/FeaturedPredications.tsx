@@ -10,7 +10,7 @@ export function FeaturedPredications() {
   const videos = getFeaturedPredications();
 
   return (
-    <section id="videos" className="container-x scroll-mt-24 py-20 sm:py-28">
+    <section id="videos" className="container-x scroll-mt-24 pb-8 pt-14 sm:pb-10 sm:pt-20">
       <Reveal>
         <div className="flex flex-wrap items-end justify-between gap-4">
           <SectionHeader
