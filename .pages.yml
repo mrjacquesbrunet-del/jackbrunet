@@ -47,6 +47,7 @@ content:
           - { name: theme, label: Thème, type: string }
           - { name: verseText, label: "Verset d'ouverture (rhéma)", type: text }
           - { name: verseReference, label: "Verset d'ouverture (référence)", type: string }
+          - { name: punchline, label: "Punchline (carte à partager)", type: text }
           - { name: meditation, label: Méditation, type: text }
           - { name: declarationText, label: "Déclaration (texte)", type: string }
           - { name: declarationReference, label: "Déclaration (référence)", type: string }

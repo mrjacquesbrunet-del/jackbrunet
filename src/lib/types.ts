@@ -98,6 +98,7 @@ export type Devotion = {
   theme: string;
   verseText: string;
   verseReference: string;
+  punchline: string;
   meditation: string;
   declarationText: string;
   declarationReference: string;

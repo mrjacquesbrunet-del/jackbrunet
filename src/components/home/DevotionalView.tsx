@@ -7,6 +7,7 @@ import { SectionHeader } from "@/components/ui/Section";
 import { ShareButtons } from "@/components/ui/ShareButtons";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { AudioPlayer } from "@/components/ui/AudioPlayer";
+import { ViralCard } from "@/components/home/ViralCard";
 import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
 import { DailyShort } from "@/components/home/DailyShort";
 import { useTodayIndex } from "@/lib/today";
@@ -85,6 +86,12 @@ export function DevotionalView({
                 {dev.verseReference}
               </p>
             </div>
+
+            {/* Punchline du jour — carte à partager */}
+            <div className="mt-6">
+              <ViralCard punchline={dev.punchline} />
+            </div>
+
             {audioSrc ? (
               <div className="mt-5">
                 <AudioPlayer
