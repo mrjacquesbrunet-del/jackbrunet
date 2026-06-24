@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { ShareButtons } from "@/components/ui/ShareButtons";
 import { useTodayIndex } from "@/lib/today";
@@ -33,6 +34,13 @@ export function DailyThoughtCard({
         <p className="mt-5 text-sm font-semibold text-night-900/50">
           — {thought.author}
         </p>
+
+        <Link
+          href="/devotionnel"
+          className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-spirit-700 transition-colors hover:text-spirit-600"
+        >
+          Lire la méditation complète →
+        </Link>
 
         <div className="mt-5">
           <ShareButtons

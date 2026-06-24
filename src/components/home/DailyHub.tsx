@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeader } from "@/components/ui/Section";
 import { DailyShort } from "@/components/home/DailyShort";
@@ -39,7 +40,7 @@ export function DailyHub() {
               Ton rendez-vous <span className="text-gradient">quotidien</span>
             </>
           }
-          description="Deux minutes pour recentrer ta journée sur l'essentiel. Reviens demain : tout change chaque matin."
+          description="Un avant-goût de ton dévotionnel du jour. Ouvre-le pour le vivre en entier : méditation, verset à déclarer, questions et vidéo."
         />
         <TodayLabel initial={today} />
       </Reveal>
@@ -62,6 +63,17 @@ export function DailyHub() {
           </Reveal>
         ) : null}
       </div>
+
+      <Reveal>
+        <div className="mt-12 text-center">
+          <Link href="/devotionnel" className="btn-primary sm:px-10">
+            Ouvrir le dévotionnel du jour
+          </Link>
+          <p className="mt-3 text-sm text-night-900/55">
+            Médite en profondeur, déclare la Parole, prends 10 minutes avec Dieu.
+          </p>
+        </div>
+      </Reveal>
     </section>
   );
 }
