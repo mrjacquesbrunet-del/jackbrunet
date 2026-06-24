@@ -1,0 +1,58 @@
+name: Générer les commentaires (OpenAI)
+
+# Lancement MANUEL (bouton « Run workflow ») pour maîtriser les coûts.
+# Génère un commentaire d'étude français par verset, puis le commite.
+# Reprise automatique : relancer ne régénère QUE les versets manquants.
+
+on:
+  workflow_dispatch:
+    inputs:
+      books:
+        description: 'Livres à générer (ex: "43" pour Jean, "40,41,42,43", vide = toute la Bible)'
+        required: false
+        default: "43"
+      model:
+        description: "Modèle OpenAI"
+        required: false
+        default: "gpt-4o-mini"
+      limit:
+        description: "Limite de versets (0 = illimité)"
+        required: false
+        default: "0"
+
+permissions:
+  contents: write
+
+jobs:
+  commentary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurer Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Générer les commentaires
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ inputs.model }}
+          BOOKS: ${{ inputs.books }}
+          LIMIT: ${{ inputs.limit }}
+          CONCURRENCY: "8"
+        run: node scripts/generate-commentary.mjs
+
+      - name: Commiter les commentaires
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/commentary
+          if git diff --staged --quiet; then
+            echo "Aucun nouveau commentaire à commiter."
+          else
+            git commit -m "chore(commentary): génération des commentaires (OpenAI)"
+            git push
+          fi

@@ -7,6 +7,15 @@ import { HighlighterGlyph } from "@/components/ui/DevoIcons";
 
 type BookIndex = { id: number; name: string; chapters: number };
 type Book = { id: number; name: string; chapters: string[][] };
+type Word = { mot: string; translit?: string; sens?: string };
+type Commentary = {
+  mots?: Word[];
+  epoque?: string;
+  passage?: string;
+  culture?: string;
+  interpretation?: string;
+  commentaire?: string;
+};
 
 export function BibleReader() {
   const [index, setIndex] = useState<BookIndex[]>([]);
@@ -14,6 +23,40 @@ export function BibleReader() {
   const [book, setBook] = useState<Book | null>(null);
   const [chapter, setChapter] = useState(1);
   const [loading, setLoading] = useState(true);
+
+  // Commentaires d'étude (chargés à la demande, une fois par chapitre)
+  const [comm, setComm] = useState<Record<number, Commentary>>({});
+  const [commState, setCommState] = useState<"idle" | "loading" | "loaded" | "none">("idle");
+  const [openVerses, setOpenVerses] = useState<Set<number>>(new Set());
+
+  // Réinitialise les commentaires quand on change de livre/chapitre
+  useEffect(() => {
+    setComm({});
+    setCommState("idle");
+    setOpenVerses(new Set());
+  }, [bookId, chapter]);
+
+  function loadCommentary() {
+    if (commState !== "idle") return;
+    setCommState("loading");
+    fetch(asset(`/commentary/${bookId}/${chapter}.json`))
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((data: Record<number, Commentary>) => {
+        setComm(data);
+        setCommState("loaded");
+      })
+      .catch(() => setCommState("none"));
+  }
+
+  function toggleVerse(vn: number) {
+    loadCommentary();
+    setOpenVerses((prev) => {
+      const next = new Set(prev);
+      if (next.has(vn)) next.delete(vn);
+      else next.add(vn);
+      return next;
+    });
+  }
 
   // Liste des livres
   useEffect(() => {
@@ -98,22 +141,41 @@ export function BibleReader() {
             <HighlighterGlyph className="h-3.5 w-3.5" />
             Touche un verset pour le surligner, le copier ou l'enregistrer.
           </p>
-          {verses.map((v, i) => (
-            <Markable
-              key={i}
-              id={`bible:${bookId}:${chapter}:${i + 1}`}
-              text={v}
-              reference={`${book?.name} ${chapter}:${i + 1}`}
-              kind="verset"
-            >
-              <p>
-                <sup className="mr-1 align-super text-xs font-bold text-spirit-600">
-                  {i + 1}
-                </sup>
-                {v}
-              </p>
-            </Markable>
-          ))}
+          {verses.map((v, i) => {
+            const vn = i + 1;
+            const open = openVerses.has(vn);
+            const c = comm[vn];
+            return (
+              <div key={i}>
+                <Markable
+                  id={`bible:${bookId}:${chapter}:${vn}`}
+                  text={v}
+                  reference={`${book?.name} ${chapter}:${vn}`}
+                  kind="verset"
+                >
+                  <p>
+                    <sup className="mr-1 align-super text-xs font-bold text-spirit-600">
+                      {vn}
+                    </sup>
+                    {v}
+                  </p>
+                </Markable>
+
+                <button
+                  type="button"
+                  onClick={() => toggleVerse(vn)}
+                  aria-expanded={open}
+                  className="mt-1 text-xs font-semibold text-spirit-600 hover:underline"
+                >
+                  {open ? "Masquer le commentaire" : "Commentaire & sens des mots"}
+                </button>
+
+                {open ? (
+                  <CommentaryPanel state={commState} data={c} />
+                ) : null}
+              </div>
+            );
+          })}
         </div>
       )}
 
@@ -139,5 +201,67 @@ export function BibleReader() {
         </button>
       </div>
     </section>
+  );
+}
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  if (!children) return null;
+  return (
+    <div>
+      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-spirit-600">
+        {label}
+      </p>
+      <p className="mt-0.5 text-sm leading-relaxed text-night-900/80">{children}</p>
+    </div>
+  );
+}
+
+function CommentaryPanel({
+  state,
+  data,
+}: {
+  state: "idle" | "loading" | "loaded" | "none";
+  data?: Commentary;
+}) {
+  if (state === "loading") {
+    return (
+      <div className="mt-2 rounded-2xl border border-night-900/10 bg-night-900/[0.03] p-4 text-sm text-night-900/50">
+        Chargement du commentaire…
+      </div>
+    );
+  }
+  if (!data) {
+    return (
+      <div className="mt-2 rounded-2xl border border-night-900/10 bg-night-900/[0.03] p-4 text-sm text-night-900/55">
+        Commentaire bientôt disponible pour ce verset.
+      </div>
+    );
+  }
+  return (
+    <div className="mt-2 space-y-3 rounded-2xl border border-dawn-400/30 bg-dawn-400/[0.06] p-4 sm:p-5">
+      {data.mots && data.mots.length > 0 ? (
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-spirit-600">
+            Mots d'origine
+          </p>
+          <ul className="mt-1 space-y-1">
+            {data.mots.map((m, idx) => (
+              <li key={idx} className="text-sm text-night-900/85">
+                <span className="font-display text-base font-bold">{m.mot}</span>
+                {m.translit ? (
+                  <span className="italic text-night-900/55"> ({m.translit})</span>
+                ) : null}
+                {m.sens ? <span> — {m.sens}</span> : null}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+      <Field label="Contexte de l'époque">{data.epoque}</Field>
+      <Field label="Contexte du passage">{data.passage}</Field>
+      <Field label="Éclairage culturel">{data.culture}</Field>
+      <Field label="Interprétation">{data.interpretation}</Field>
+      <Field label="Commentaire">{data.commentaire}</Field>
+    </div>
   );
 }
