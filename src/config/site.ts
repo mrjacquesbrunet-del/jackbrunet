@@ -35,10 +35,9 @@ export const youtube = {
 export const mainNav = [
   { label: "Dévotionnel", href: "/devotionnel" },
   { label: "Accueil", href: "/" },
-  { label: "Aujourd'hui", href: "/#aujourdhui" },
   { label: "Vidéos", href: "/videos" },
   { label: "Madagascar", href: "/mission-madagascar" },
-  { label: "Plan de lecture", href: "/#plan" },
+  { label: "Plan de lecture", href: "/devotionnel" },
   { label: "Témoignages", href: "/temoignages" },
   { label: "Boutique", href: "/boutique" },
   { label: "À propos", href: "/a-propos" },
@@ -49,9 +48,10 @@ export const footerNav = [
   {
     title: "Chaque jour",
     links: [
+      { label: "Dévotionnel", href: "/devotionnel" },
       { label: "Pensée du jour", href: "/#pensee" },
       { label: "Verset du jour", href: "/#verset" },
-      { label: "Plan de lecture", href: "/#plan" },
+      { label: "Plan de lecture", href: "/devotionnel" },
       { label: "Vidéos & Shorts", href: "/videos" },
     ],
   },

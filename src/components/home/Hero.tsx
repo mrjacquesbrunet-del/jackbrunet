@@ -84,7 +84,7 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.25 }}
             className="mt-8 flex flex-wrap items-center gap-3"
           >
-            <Link href="#aujourdhui" className="btn-primary text-base">
+            <Link href="/devotionnel" className="btn-primary text-base">
               Commencer aujourd'hui
             </Link>
             <Link href={supportCta.href} className="btn-ghost text-base">

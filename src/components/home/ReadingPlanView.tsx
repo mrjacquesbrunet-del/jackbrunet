@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { SectionHeader } from "@/components/ui/Section";
@@ -71,6 +72,13 @@ export function ReadingPlanView({
                 </div>
               </div>
             </div>
+
+            <Link
+              href="/devotionnel"
+              className="btn-primary mt-6 inline-flex w-full justify-center sm:w-auto"
+            >
+              Vivre le dévotionnel du jour
+            </Link>
           </Reveal>
 
           {/* Liste des jours */}
