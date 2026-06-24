@@ -13,6 +13,7 @@ import { useToolkit } from "@/lib/toolkit";
 import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
 import { ReminderToggle } from "@/components/pwa/ReminderToggle";
 import { SoakingButton } from "@/components/home/SoakingButton";
+import { SoakingGift } from "@/components/home/SoakingGift";
 import { DailyShort } from "@/components/home/DailyShort";
 import { useTodayIndex } from "@/lib/today";
 import { useEngagement } from "@/lib/engagement";
@@ -428,6 +429,13 @@ export function DevotionalView({
           </Reveal>
         </section>
       ) : null}
+
+      {/* 6d. Cadeau : musique soaking offerte (captation email) */}
+      <section className="container-x">
+        <Reveal from="scale">
+          <SoakingGift />
+        </Reveal>
+      </section>
 
       {/* 7. Reviens demain + inscription */}
       <section className="container-x">

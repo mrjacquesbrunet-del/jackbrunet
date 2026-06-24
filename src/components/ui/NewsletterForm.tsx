@@ -16,6 +16,8 @@ type NewsletterFormProps = {
   /** Taille du champ : normale (md) ou agrandie (lg). */
   size?: "md" | "lg";
   note?: string;
+  /** Appelé après une inscription réussie (ex. débloquer un cadeau). */
+  onSuccess?: () => void;
 };
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -34,6 +36,7 @@ export function NewsletterForm({
   variant = "primary",
   size = "md",
   note = "Gratuit. Désinscription en un clic. Aucun spam.",
+  onSuccess,
 }: NewsletterFormProps) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<Status>("idle");
@@ -58,6 +61,7 @@ export function NewsletterForm({
       setStatus("success");
       setMessage("C'est fait ! Vérifie ta boîte mail.");
       setEmail("");
+      onSuccess?.();
     } catch {
       setStatus("error");
       setMessage("Une erreur est survenue. Réessaie dans un instant.");
