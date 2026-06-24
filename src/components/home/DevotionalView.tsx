@@ -69,8 +69,17 @@ export function DevotionalView({
       {/* 2. Méditation développée */}
       <section className="container-x">
         <Reveal from="up">
-          <SectionHeader eyebrow="Méditation" title="Pour aujourd'hui" />
+          <SectionHeader eyebrow="Le rhéma du jour" title="La révélation" />
           <div className="mt-6 max-w-2xl">
+            <div className="rounded-2xl border-l-4 border-dawn-400 bg-night-900/[0.03] py-4 pl-5 pr-4">
+              <p className="font-display text-lg italic leading-snug text-night-900 sm:text-xl">
+                &laquo;&nbsp;{dev.verseText}&nbsp;&raquo;
+              </p>
+              <p className="mt-2 text-sm font-semibold text-spirit-600">
+                {dev.verseReference}
+              </p>
+            </div>
+            <div className="mt-6">
             {paragraphs.map((para, idx) => (
               <p
                 key={idx}
@@ -83,6 +92,7 @@ export function DevotionalView({
                 {para}
               </p>
             ))}
+            </div>
           </div>
         </Reveal>
       </section>

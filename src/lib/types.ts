@@ -96,6 +96,8 @@ export type Mission = {
 
 export type Devotion = {
   theme: string;
+  verseText: string;
+  verseReference: string;
   meditation: string;
   declarationText: string;
   declarationReference: string;
