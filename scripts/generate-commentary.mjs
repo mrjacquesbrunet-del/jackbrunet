@@ -93,31 +93,33 @@ function out(cmd) {
   return execSync(cmd, { encoding: "utf8" }).trim();
 }
 
-/** Sauvegarde (commit + push) les commentaires d'un livre, avec reprise sur conflit. */
+/** Sauvegarde (commit + push) les commentaires d'un livre, robuste aux collisions. */
 function commitBook(id, name) {
   if (!DO_GIT) return;
   try {
-    execSync(`git add public/commentary/${id}`);
+    execSync(`git add public/commentary`); // tout ce qui est en attente (y compris livres non poussés)
     if (!out("git diff --staged --name-only")) return; // rien de neuf
     execSync(
       `git -c user.name="github-actions[bot]" -c user.email="github-actions[bot]@users.noreply.github.com" ` +
         `commit -m "chore(commentary): ${name} [skip ci]"`,
       { stdio: "inherit" },
     );
-    for (let a = 0; a < 8; a++) {
-      try {
-        execSync(`git pull --rebase origin ${BRANCH}`, { stdio: "inherit" });
-        execSync(`git push origin HEAD:${BRANCH}`, { stdio: "inherit" });
-        console.log(`  ↳ ${name} sauvegardé (git push)`);
-        return;
-      } catch {
-        execSync("sleep 3");
-      }
-    }
-    console.log(`  ⚠️ push impossible pour ${name} après plusieurs essais.`);
   } catch (e) {
-    console.log(`  ⚠️ git ${name}: ${String(e).slice(0, 160)}`);
+    console.log(`  ⚠️ commit ${name}: ${String(e).slice(0, 140)}`);
+    return;
   }
+  for (let a = 0; a < 12; a++) {
+    try {
+      execSync(`git pull --rebase origin ${BRANCH}`, { stdio: "inherit" });
+      execSync(`git push origin HEAD:${BRANCH}`, { stdio: "inherit" });
+      console.log(`  ↳ ${name} sauvegardé (git push)`);
+      return;
+    } catch {
+      try { execSync("git rebase --abort", { stdio: "ignore" }); } catch { /* pas en rebase */ }
+      execSync(`sleep ${2 + Math.floor(Math.random() * 6)}`); // anti-collision (jitter)
+    }
+  }
+  console.log(`  ⚠️ push impossible pour ${name} (gardé local, sera repris).`);
 }
 
 (async () => {
