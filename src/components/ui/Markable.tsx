@@ -2,11 +2,13 @@
 
 import { useState, type ReactNode } from "react";
 import { useToolkit } from "@/lib/toolkit";
+import { addNote } from "@/lib/notebook";
 import {
   HighlighterGlyph,
   CopyGlyph,
   BookmarkGlyph,
   BookmarkFilledGlyph,
+  PenGlyph,
 } from "@/components/ui/DevoIcons";
 
 const chip =
@@ -35,9 +37,25 @@ export function Markable({
   const tk = useToolkit();
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [noting, setNoting] = useState(false);
+  const [noteText, setNoteText] = useState("");
+  const [noteSaved, setNoteSaved] = useState(false);
 
   const highlighted = tk.isHighlighted(id);
   const saved = tk.isSaved(id);
+
+  function saveNote() {
+    if (!noteText.trim()) return;
+    addNote({
+      category: "Note",
+      title: reference || "Note",
+      body: noteText.trim(),
+    });
+    setNoteText("");
+    setNoting(false);
+    setNoteSaved(true);
+    setTimeout(() => setNoteSaved(false), 2500);
+  }
 
   async function copy() {
     const payload = reference ? `${text}\n— ${reference}` : text;
@@ -91,7 +109,54 @@ export function Markable({
             )}
             {saved ? "Enregistré" : "Enregistrer"}
           </button>
+          <button type="button" className={chip} onClick={() => setNoting((n) => !n)}>
+            <PenGlyph className="h-3.5 w-3.5" />
+            Noter
+          </button>
         </div>
+      ) : null}
+
+      {/* Éditeur de note — on reste sur la page, ça part dans le carnet */}
+      {open && noting ? (
+        <div className="mt-2 rounded-2xl border border-night-900/15 bg-white p-3">
+          {reference ? (
+            <p className="mb-1.5 text-xs font-semibold text-spirit-600">{reference}</p>
+          ) : null}
+          <textarea
+            value={noteText}
+            onChange={(e) => setNoteText(e.target.value)}
+            placeholder="Ta note sur ce passage…"
+            rows={3}
+            className="field w-full resize-y text-sm"
+            autoFocus
+          />
+          <div className="mt-2 flex gap-2">
+            <button
+              type="button"
+              onClick={saveNote}
+              disabled={!noteText.trim()}
+              className="btn-primary text-sm disabled:opacity-40"
+            >
+              Enregistrer dans mon carnet
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setNoting(false);
+                setNoteText("");
+              }}
+              className="btn-ghost text-sm"
+            >
+              Annuler
+            </button>
+          </div>
+        </div>
+      ) : null}
+
+      {noteSaved ? (
+        <p className="mt-1.5 text-xs font-semibold text-spirit-600">
+          ✓ Note enregistrée dans ton carnet
+        </p>
       ) : null}
     </div>
   );
