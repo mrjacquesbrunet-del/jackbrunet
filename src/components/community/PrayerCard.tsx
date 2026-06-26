@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Avatar } from "@/components/community/Avatar";
 import {
   type Prayer,
@@ -12,7 +13,7 @@ import {
   deletePrayer,
 } from "@/lib/community";
 
-const VIS_LABEL: Record<string, string> = { public: "Public", friends: "Amis", private: "Privé" };
+const VIS_LABEL: Record<string, string> = { public: "Public", friends: "Abonnés", private: "Privé" };
 
 function when(iso: string) {
   return new Date(iso).toLocaleString("fr-FR", {
@@ -77,11 +78,16 @@ export function PrayerCard({
   return (
     <li className="rounded-3xl border border-night-900/10 bg-white p-5">
       <div className="flex items-center gap-3">
-        <Avatar pseudo={prayer.author?.pseudo} url={prayer.author?.avatar_url} />
+        <Link href={`/membre?u=${prayer.author_id}`} aria-label="Voir le profil">
+          <Avatar pseudo={prayer.author?.pseudo} url={prayer.author?.avatar_url} />
+        </Link>
         <div className="min-w-0 flex-1">
-          <p className="font-display font-bold leading-tight">
+          <Link
+            href={`/membre?u=${prayer.author_id}`}
+            className="font-display font-bold leading-tight hover:underline"
+          >
             {prayer.author?.pseudo ?? "Ami(e)"}
-          </p>
+          </Link>
           <p className="text-xs text-night-900/50">
             {when(prayer.created_at)} · {VIS_LABEL[prayer.visibility]}
           </p>

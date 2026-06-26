@@ -228,9 +228,9 @@ function Feed({
             className="field max-w-[12rem]"
             aria-label="Visibilité"
           >
-            <option value="public">🌍 Public</option>
-            <option value="friends">👥 Amis</option>
-            <option value="private">🔒 Privé (moi seul)</option>
+            <option value="public">Public — tout le monde</option>
+            <option value="friends">Abonnés — ceux qui me suivent</option>
+            <option value="private">Privé — moi seul</option>
           </select>
           <button
             type="button"

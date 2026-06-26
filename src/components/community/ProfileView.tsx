@@ -5,7 +5,14 @@ import Link from "next/link";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { useAuth } from "@/components/community/useAuth";
 import { Avatar } from "@/components/community/Avatar";
-import { signOut, updateProfile, listMyPrayers, type Prayer } from "@/lib/community";
+import {
+  signOut,
+  updateProfile,
+  listMyPrayers,
+  followCounts,
+  type Prayer,
+  type FavoriteVerse,
+} from "@/lib/community";
 import { useNotebook } from "@/lib/notebook";
 import { useToolkit } from "@/lib/toolkit";
 
@@ -56,13 +63,21 @@ function Profile({
 }: {
   userId: string;
   email: string | null;
-  profile: { pseudo: string; avatar_url: string | null } | null;
+  profile: {
+    pseudo: string;
+    avatar_url: string | null;
+    bio?: string | null;
+    favorite_verses?: FavoriteVerse[];
+  } | null;
   refreshProfile: () => void;
 }) {
   const [myPrayers, setMyPrayers] = useState<Prayer[]>([]);
   const [loading, setLoading] = useState(true);
   const [pseudoVal, setPseudoVal] = useState(profile?.pseudo ?? "");
   const [avatarVal, setAvatarVal] = useState(profile?.avatar_url ?? "");
+  const [bioVal, setBioVal] = useState(profile?.bio ?? "");
+  const [verses, setVerses] = useState<FavoriteVerse[]>(profile?.favorite_verses ?? []);
+  const [counts, setCounts] = useState({ followers: 0, following: 0 });
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -71,7 +86,9 @@ function Profile({
 
   const load = useCallback(async () => {
     setLoading(true);
-    setMyPrayers(await listMyPrayers(userId));
+    const [mp, c] = await Promise.all([listMyPrayers(userId), followCounts(userId)]);
+    setMyPrayers(mp);
+    setCounts(c);
     setLoading(false);
   }, [userId]);
 
@@ -82,14 +99,32 @@ function Profile({
   useEffect(() => {
     setPseudoVal(profile?.pseudo ?? "");
     setAvatarVal(profile?.avatar_url ?? "");
-  }, [profile?.pseudo, profile?.avatar_url]);
+    setBioVal(profile?.bio ?? "");
+    setVerses(profile?.favorite_verses ?? []);
+  }, [profile?.pseudo, profile?.avatar_url, profile?.bio, profile?.favorite_verses]);
+
+  function updateVerse(i: number, patch: Partial<FavoriteVerse>) {
+    setVerses((prev) => prev.map((v, idx) => (idx === i ? { ...v, ...patch } : v)));
+  }
+  function addVerse() {
+    setVerses((prev) => [...prev, { reference: "", text: "" }]);
+  }
+  function removeVerse(i: number) {
+    setVerses((prev) => prev.filter((_, idx) => idx !== i));
+  }
 
   async function save() {
     setSaving(true);
+    const cleanVerses = verses
+      .map((v) => ({ reference: v.reference.trim(), text: v.text.trim() }))
+      .filter((v) => v.text || v.reference);
     await updateProfile(userId, {
       pseudo: pseudoVal.trim() || "Ami(e)",
       avatar_url: avatarVal.trim() || null,
+      bio: bioVal.trim() || null,
+      favorite_verses: cleanVerses,
     });
+    setVerses(cleanVerses);
     refreshProfile();
     setSaving(false);
     setSaved(true);
@@ -107,14 +142,25 @@ function Profile({
               {profile?.pseudo ?? "Mon profil"}
             </h2>
             {email ? <p className="truncate text-sm text-night-900/55">{email}</p> : null}
+            <p className="mt-1 text-sm text-night-900/55">
+              <strong className="text-night-900/80">{counts.followers}</strong> abonné
+              {counts.followers > 1 ? "s" : ""} ·{" "}
+              <strong className="text-night-900/80">{counts.following}</strong> abonnement
+              {counts.following > 1 ? "s" : ""}
+            </p>
           </div>
-          <button
-            type="button"
-            onClick={() => signOut()}
-            className="ml-auto self-start text-sm text-night-900/50 hover:underline"
-          >
-            Déconnexion
-          </button>
+          <div className="ml-auto flex flex-col items-end gap-1">
+            <Link href={`/membre?u=${userId}`} className="text-sm font-semibold text-spirit-600 hover:underline">
+              Voir mon profil public
+            </Link>
+            <button
+              type="button"
+              onClick={() => signOut()}
+              className="text-sm text-night-900/50 hover:underline"
+            >
+              Déconnexion
+            </button>
+          </div>
         </div>
 
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -141,7 +187,70 @@ function Profile({
             />
           </label>
         </div>
-        <div className="mt-4 flex items-center gap-3">
+
+        <label className="mt-4 block">
+          <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+            Bio
+          </span>
+          <textarea
+            value={bioVal}
+            onChange={(e) => setBioVal(e.target.value)}
+            rows={3}
+            placeholder="Présente-toi en quelques mots…"
+            className="field mt-1 w-full resize-y"
+          />
+        </label>
+
+        <div className="mt-5">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+              Mes versets préférés
+            </span>
+            <button
+              type="button"
+              onClick={addVerse}
+              className="text-sm font-semibold text-spirit-600 hover:underline"
+            >
+              + Ajouter un verset
+            </button>
+          </div>
+          <div className="mt-2 space-y-3">
+            {verses.length === 0 ? (
+              <p className="text-sm text-night-900/45">
+                Ajoute les versets qui te portent — ils s'afficheront sur ton profil.
+              </p>
+            ) : (
+              verses.map((v, i) => (
+                <div key={i} className="rounded-2xl border border-night-900/10 p-3">
+                  <textarea
+                    value={v.text}
+                    onChange={(e) => updateVerse(i, { text: e.target.value })}
+                    rows={2}
+                    placeholder="Le texte du verset…"
+                    className="field w-full resize-y text-sm"
+                  />
+                  <div className="mt-2 flex gap-2">
+                    <input
+                      value={v.reference}
+                      onChange={(e) => updateVerse(i, { reference: e.target.value })}
+                      placeholder="Référence (ex. Philippiens 4:13)"
+                      className="field flex-1 text-sm"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeVerse(i)}
+                      className="shrink-0 text-sm text-night-900/40 hover:text-night-900/70"
+                    >
+                      Retirer
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+
+        <div className="mt-5 flex items-center gap-3">
           <button type="button" onClick={save} disabled={saving} className="btn-primary disabled:opacity-40">
             {saving ? "Enregistrement…" : "Enregistrer"}
           </button>

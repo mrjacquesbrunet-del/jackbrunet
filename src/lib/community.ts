@@ -2,7 +2,14 @@
 
 import { getSupabase } from "./supabase";
 
-export type Profile = { id: string; pseudo: string; avatar_url: string | null };
+export type FavoriteVerse = { reference: string; text: string };
+export type Profile = {
+  id: string;
+  pseudo: string;
+  avatar_url: string | null;
+  bio?: string | null;
+  favorite_verses?: FavoriteVerse[];
+};
 export type Visibility = "public" | "friends" | "private";
 export type Prayer = {
   id: string;
@@ -50,7 +57,11 @@ export async function signOut() {
 export async function getProfile(id: string): Promise<Profile | null> {
   const sb = getSupabase();
   if (!sb) return null;
-  const { data } = await sb.from("profiles").select("id,pseudo,avatar_url").eq("id", id).single();
+  const { data } = await sb
+    .from("profiles")
+    .select("id,pseudo,avatar_url,bio,favorite_verses")
+    .eq("id", id)
+    .single();
   return (data as Profile) ?? null;
 }
 
@@ -156,4 +167,57 @@ export async function addComment(prayerId: string, body: string, authorId: strin
   const sb = getSupabase();
   if (!sb) return;
   await sb.from("prayer_comments").insert({ prayer_id: prayerId, body, author_id: authorId });
+}
+
+/* ---- Abonnements (follow) ---- */
+export async function follow(followingId: string, followerId: string) {
+  const sb = getSupabase();
+  if (!sb) return;
+  await sb.from("follows").insert({ follower_id: followerId, following_id: followingId });
+}
+
+export async function unfollow(followingId: string, followerId: string) {
+  const sb = getSupabase();
+  if (!sb) return;
+  await sb
+    .from("follows")
+    .delete()
+    .eq("follower_id", followerId)
+    .eq("following_id", followingId);
+}
+
+export async function isFollowing(followingId: string, followerId: string): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  const { data } = await sb
+    .from("follows")
+    .select("follower_id")
+    .eq("follower_id", followerId)
+    .eq("following_id", followingId)
+    .maybeSingle();
+  return !!data;
+}
+
+/** { followers, following } pour un profil. */
+export async function followCounts(userId: string): Promise<{ followers: number; following: number }> {
+  const sb = getSupabase();
+  if (!sb) return { followers: 0, following: 0 };
+  const [{ count: followers }, { count: following }] = await Promise.all([
+    sb.from("follows").select("*", { count: "exact", head: true }).eq("following_id", userId),
+    sb.from("follows").select("*", { count: "exact", head: true }).eq("follower_id", userId),
+  ]);
+  return { followers: followers ?? 0, following: following ?? 0 };
+}
+
+/** Prières visibles d'un membre donné (RLS filtre public / abonnés). */
+export async function listPrayersByAuthor(authorId: string): Promise<Prayer[]> {
+  const sb = getSupabase();
+  if (!sb) return [];
+  const { data } = await sb
+    .from("prayers")
+    .select("*")
+    .eq("author_id", authorId)
+    .order("created_at", { ascending: false })
+    .limit(60);
+  return (data as Prayer[]) ?? [];
 }

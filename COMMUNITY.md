@@ -28,7 +28,14 @@ Sur **https://github.com/mrjacquesbrunet-del/jackbrunet/settings/secrets/actions
 ## 4. Créer les tables (1 copier-coller)
 - Dans Supabase : **SQL Editor → New query**.
 - Ouvre le fichier **`supabase/schema.sql`** de ce dépôt, copie **tout**, colle, **Run**.
-- Ça crée profils, prières, réactions, commentaires, amitiés + les règles de confidentialité.
+- Ça crée profils, prières, réactions, commentaires, abonnements + les règles de confidentialité.
+
+### Déjà installé l'ancienne version ? (migration abonnements)
+Si tu as exécuté `schema.sql` **avant** l'ajout du système d'abonnement (follow) :
+- Ouvre **`supabase/migration-follows.sql`**, copie tout, colle dans **SQL Editor → Run**.
+- Ça ajoute la bio + les versets préférés au profil, crée la table `follows`
+  (s'abonner / se désabonner) et passe la visibilité « abonnés » au bon modèle.
+- C'est sans risque à relancer.
 
 ## 5. Activer la connexion
 Menu **Authentication → Providers** :
