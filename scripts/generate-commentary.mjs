@@ -63,7 +63,8 @@ function userPrompt(book, chapter, verse, text) {
 }
 
 async function callOpenAI(messages) {
-  for (let attempt = 0; attempt < 6; attempt++) {
+  const MAX = 10;
+  for (let attempt = 0; attempt < MAX; attempt++) {
     try {
       const r = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
@@ -76,17 +77,20 @@ async function callOpenAI(messages) {
         }),
       });
       if (r.status === 429 || r.status >= 500) {
-        await sleep(2000 * (attempt + 1));
+        const ra = Number(r.headers.get("retry-after"));
+        const wait = ra > 0 ? ra * 1000 : Math.min(30000, 1500 * Math.pow(1.7, attempt));
+        await sleep(wait + Math.random() * 600);
         continue;
       }
       const j = await r.json();
       if (!r.ok) throw new Error(JSON.stringify(j).slice(0, 300));
       return JSON.parse(j.choices[0].message.content);
     } catch (e) {
-      if (attempt === 5) throw e;
-      await sleep(1500 * (attempt + 1));
+      if (attempt >= MAX - 1) return null; // abandon : verset laissé MANQUANT, repris au prochain passage
+      await sleep(Math.min(20000, 1500 * (attempt + 1)) + Math.random() * 600);
     }
   }
+  return null; // jamais "valider" un verset non généré
 }
 
 function out(cmd) {
@@ -158,12 +162,15 @@ function commitBook(id, name) {
             return { vn, obj };
           }),
         );
+        let added = 0;
         for (const { vn, obj } of results) {
+          if (!obj) continue; // verset non généré → laissé manquant (repris plus tard)
           data[vn] = obj;
           generated++;
+          added++;
         }
         fs.writeFileSync(file, JSON.stringify(data));
-        console.log(`  ${meta.name} ${chapter} : +${results.length} (total ${generated})`);
+        console.log(`  ${meta.name} ${chapter} : +${added}/${results.length} (total ${generated})`);
         if (LIMIT && generated >= LIMIT) break outer;
       }
     }

@@ -44,7 +44,7 @@ jobs:
           OPENAI_MODEL: ${{ inputs.model }}
           BOOKS: ${{ inputs.books }}
           LIMIT: ${{ inputs.limit }}
-          CONCURRENCY: "8"
+          CONCURRENCY: "5"
         run: node scripts/generate-commentary.mjs
 
       - name: Commiter le reste (sécurité)
