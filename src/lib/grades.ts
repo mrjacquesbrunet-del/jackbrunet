@@ -22,10 +22,8 @@ export function activityPoints(a: Activity): number {
 /** Du plus haut au plus bas — l'ordre compte pour la recherche. */
 export const GRADES: Grade[] = [
   { min: 250, name: "Sentinelle de prière", blurb: "Tu veilles sans relâche pour les autres." },
-  { min: 100, name: "Guerrier de prière", blurb: "Tu combats fidèlement à genoux." },
-  { min: 40, name: "Intercesseur", blurb: "Tu portes les autres devant Dieu." },
-  { min: 10, name: "Veilleur de prière", blurb: "Tu prends l'habitude de prier pour la famille." },
-  { min: 0, name: "Âme en prière", blurb: "Bienvenue ! Chaque prière compte." },
+  { min: 80, name: "Guerrier de prière", blurb: "Tu combats fidèlement à genoux." },
+  { min: 0, name: "Intercesseur", blurb: "Tu portes les autres devant Dieu." },
 ];
 
 export function gradeFor(a: Activity): {
