@@ -46,9 +46,14 @@ export function Markable({
 
   function saveNote() {
     if (!noteText.trim()) return;
+    const dateStr = new Date().toLocaleDateString("fr-FR", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
     addNote({
       category: "Note",
-      title: reference || "Note",
+      title: reference ? `${reference} · ${dateStr}` : dateStr,
       body: noteText.trim(),
     });
     setNoteText("");
