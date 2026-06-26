@@ -13,6 +13,10 @@ Suivi des prochaines étapes (mises à jour au fil des sessions).
 - Éditable sans coder (CMS) + sauvegardes auto
 
 ## ⏳ À finaliser côté Jack (rien d'urgent)
+- [ ] **Ebook pop-up** : pop-up « Ebook offert — 7 jours pour retrouver la paix » EN LIGNE
+      (couverture stylée par défaut). Reste : fournir le **PDF** + (option) une **vraie image de couverture**
+      + brancher l'**automatisation Brevo** d'envoi du PDF.
+- [ ] **Apple validé ✅** → soumettre l'app iOS à l'App Store (build Xcode + fiche). Voir APP.md.
 - [ ] Renseigner le **compte bancaire** dans Stripe (recevoir les virements)
 - [ ] Cocher **« Enforce HTTPS »** (GitHub → Settings → Pages) quand le certificat est prêt
 - [ ] Tester un envoi prière/témoignage avec téléphone → vérifier dans Brevo
@@ -46,7 +50,8 @@ Suivi des prochaines étapes (mises à jour au fil des sessions).
 - ✅ Phase 2 : **emballage Capacitor** (projets iOS + Android, icônes natives, scripts, guide APP.md)
 - ✅ Phase 3a : **rappel quotidien** « pensée du jour » (notification locale, sans serveur)
 - [ ] Phase 3b : **pushs à distance** (Firebase + APNs) pour les annonces de masse — optionnel
-- [ ] Phase 4-7 : comptes développeurs, build & soumission stores (côté Jack, voir APP.md)
+- ✅ Compte développeur **Apple validé** (26/06/2026)
+- [ ] Phase 4-7 : build Xcode + fiche App Store + soumission (Apple validé ; voir APP.md)
 - Phase 3 : **notifications push** (pensée du jour — clé pour l'engagement ET l'acceptation Apple)
 - Phase 4 : visuels & fiches store
 - Phase 5-7 : comptes développeurs (Google Play 25 $ / Apple 99 $/an), builds & soumissions
