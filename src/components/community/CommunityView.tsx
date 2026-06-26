@@ -55,6 +55,24 @@ function AuthPanel() {
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [googleBusy, setGoogleBusy] = useState(false);
+  const [googleErr, setGoogleErr] = useState("");
+
+  async function google() {
+    setGoogleBusy(true);
+    setGoogleErr("");
+    try {
+      await signInGoogle();
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      setGoogleErr(
+        /provider is not enabled|Unsupported provider/i.test(msg)
+          ? "La connexion Google n'est pas encore activée côté serveur."
+          : `Connexion Google impossible : ${msg}`,
+      );
+      setGoogleBusy(false);
+    }
+  }
 
   async function sendLink(e: React.FormEvent) {
     e.preventDefault();
@@ -92,11 +110,13 @@ function AuthPanel() {
           <>
             <button
               type="button"
-              onClick={() => signInGoogle()}
-              className="btn-ghost mt-6 w-full justify-center"
+              onClick={google}
+              disabled={googleBusy}
+              className="btn-ghost mt-6 w-full justify-center disabled:opacity-50"
             >
-              Continuer avec Google
+              {googleBusy ? "Redirection…" : "Continuer avec Google"}
             </button>
+            {googleErr ? <p className="field-error mt-2">{googleErr}</p> : null}
 
             <div className="my-4 flex items-center gap-3 text-xs text-night-900/40">
               <span className="h-px flex-1 bg-night-900/10" /> ou <span className="h-px flex-1 bg-night-900/10" />

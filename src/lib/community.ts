@@ -54,10 +54,15 @@ export async function signInEmail(email: string) {
 export async function signInGoogle() {
   const sb = getSupabase();
   if (!sb) throw new Error("non configuré");
-  return sb.auth.signInWithOAuth({
+  const { data, error } = await sb.auth.signInWithOAuth({
     provider: "google",
     options: { redirectTo: `${window.location.origin}/communaute/` },
   });
+  if (error) throw error;
+  // Au cas où la redirection automatique ne se déclenche pas (certains
+  // navigateurs mobiles), on force la navigation vers l'URL d'autorisation.
+  if (data?.url) window.location.assign(data.url);
+  return data;
 }
 
 export async function signOut() {
