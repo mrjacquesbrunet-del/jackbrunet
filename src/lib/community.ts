@@ -82,6 +82,21 @@ export async function updateProfile(id: string, patch: Partial<Profile>) {
   await sb.from("profiles").update(patch).eq("id", id);
 }
 
+/** Ajoute un verset aux versets publics du profil (dédupliqué). */
+export async function addFavoriteVerse(userId: string, v: FavoriteVerse): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  const profile = await getProfile(userId);
+  const current = profile?.favorite_verses ?? [];
+  const exists = current.some(
+    (x) => x.text.trim() === v.text.trim() && (x.reference ?? "") === (v.reference ?? ""),
+  );
+  if (exists) return true;
+  const next = [...current, { reference: v.reference.trim(), text: v.text.trim() }];
+  const { error } = await sb.from("profiles").update({ favorite_verses: next }).eq("id", userId);
+  return !error;
+}
+
 async function profilesByIds(ids: string[]): Promise<Record<string, Profile>> {
   const sb = getSupabase();
   if (!sb || ids.length === 0) return {};

@@ -26,6 +26,7 @@ import { DailyShort } from "@/components/home/DailyShort";
 import { useTodayIndex } from "@/lib/today";
 import { useEngagement } from "@/lib/engagement";
 import { asset } from "@/lib/asset";
+import { MakeVersePublicButton } from "@/components/community/MakeVersePublicButton";
 import { siteConfig } from "@/config/site";
 import type { Devotion, ReadingPlanDay, Short } from "@/lib/types";
 
@@ -453,11 +454,14 @@ export function DevotionalView({
                     </button>
                   </div>
                   <p className="mt-1 text-sm leading-relaxed text-night-900/80">{s.text}</p>
-                  {s.reference ? (
-                    <p className="mt-2 text-xs font-semibold text-night-900/50">
-                      {s.reference}
-                    </p>
-                  ) : null}
+                  <div className="mt-2 flex items-center justify-between gap-3">
+                    {s.reference ? (
+                      <p className="text-xs font-semibold text-night-900/50">{s.reference}</p>
+                    ) : (
+                      <span />
+                    )}
+                    <MakeVersePublicButton text={s.text} reference={s.reference} />
+                  </div>
                 </li>
               ))}
             </ul>
