@@ -1,8 +1,9 @@
 /* Service worker — Jack Brunet PWA.
- * Stratégie volontairement prudente : le réseau d'abord pour le contenu frais,
- * le cache en secours (hors-ligne). On ne casse jamais une requête.
+ * Réseau d'abord pour le contenu frais, cache en secours (hors-ligne).
+ * On ne met JAMAIS en cache une réponse en erreur (404…) pour ne pas figer
+ * un « non disponible » obsolète.
  */
-const VERSION = "jb-v1";
+const VERSION = "jb-v2";
 const STATIC_CACHE = `static-${VERSION}`;
 const RUNTIME_CACHE = `runtime-${VERSION}`;
 
@@ -33,36 +34,50 @@ self.addEventListener("activate", (event) => {
   );
 });
 
+function cacheable(res) {
+  return res && res.ok && res.status === 200;
+}
+
 self.addEventListener("fetch", (event) => {
   const { request } = event;
   if (request.method !== "GET") return;
 
   const url = new URL(request.url);
-  if (url.origin !== self.location.origin) return; // on laisse passer le tiers (YouTube, Brevo…)
+  if (url.origin !== self.location.origin) return; // tiers (YouTube, Brevo, OpenAI…) : on laisse passer
 
-  // Navigations (pages) : réseau d'abord, secours cache puis accueil.
-  if (request.mode === "navigate") {
+  // Contenu dynamique (commentaires, bible, audio) + navigations : RÉSEAU D'ABORD,
+  // cache seulement en secours hors-ligne. Garantit des données toujours fraîches.
+  const networkFirst =
+    request.mode === "navigate" ||
+    url.pathname.startsWith("/commentary/") ||
+    url.pathname.startsWith("/bible/");
+
+  if (networkFirst) {
     event.respondWith(
       fetch(request)
         .then((res) => {
-          const copy = res.clone();
-          caches.open(RUNTIME_CACHE).then((c) => c.put(request, copy));
+          if (cacheable(res)) {
+            const copy = res.clone();
+            caches.open(RUNTIME_CACHE).then((c) => c.put(request, copy));
+          }
           return res;
         })
         .catch(() =>
-          caches.match(request).then((cached) => cached || caches.match("/")),
+          caches.match(request).then((cached) => cached || (request.mode === "navigate" ? caches.match("/") : undefined)),
         ),
     );
     return;
   }
 
-  // Autres ressources même origine : stale-while-revalidate.
+  // Autres ressources statiques : stale-while-revalidate (mais on ne cache que les 200).
   event.respondWith(
     caches.match(request).then((cached) => {
       const network = fetch(request)
         .then((res) => {
-          const copy = res.clone();
-          caches.open(RUNTIME_CACHE).then((c) => c.put(request, copy));
+          if (cacheable(res)) {
+            const copy = res.clone();
+            caches.open(RUNTIME_CACHE).then((c) => c.put(request, copy));
+          }
           return res;
         })
         .catch(() => cached);
