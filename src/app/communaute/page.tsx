@@ -1,26 +1,12 @@
 import type { Metadata } from "next";
-import { PageHero } from "@/components/ui/PageHero";
 import { CommunityView } from "@/components/community/CommunityView";
 
 export const metadata: Metadata = {
-  title: "Communauté de prière",
+  title: "Mur de prière",
   description:
-    "Rejoins la communauté de prière de Jack Brunet : partage tes sujets de prière, prie pour les autres, encourage-toi mutuellement. Connexion par Google ou lien magique.",
+    "Le mur de prière de Jack Brunet : un réseau social de prière. Partage tes sujets, abonne-toi à d'autres croyants, priez et encouragez-vous les uns les autres. Connexion par Google ou email.",
 };
 
 export default function CommunautePage() {
-  return (
-    <>
-      <PageHero
-        eyebrow="Communauté"
-        title={
-          <>
-            Le mur de <span className="text-gradient">prière</span>
-          </>
-        }
-        description="Partage tes sujets de prière, prie pour les autres et encourage la famille. Ensemble, portons-nous les uns les autres devant Dieu."
-      />
-      <CommunityView />
-    </>
-  );
+  return <CommunityView />;
 }

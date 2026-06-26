@@ -36,7 +36,7 @@ export const mainNav = [
   { label: "Dévotionnel", href: "/devotionnel" },
   { label: "Bible", href: "/bible" },
   { label: "Plans", href: "/plans" },
-  { label: "Communauté", href: "/communaute" },
+  { label: "Mur de prière", href: "/communaute" },
   { label: "Mon carnet", href: "/carnet" },
   { label: "Actualité", href: "/actualite" },
   { label: "Vidéos", href: "/videos" },
@@ -62,7 +62,6 @@ export const footerNav = [
     title: "Communauté",
     links: [
       { label: "Mur de prière", href: "/communaute" },
-      { label: "Requête de prière", href: "/#priere" },
       { label: "Témoignages", href: "/temoignages" },
       { label: "Newsletter", href: "/#newsletter" },
     ],

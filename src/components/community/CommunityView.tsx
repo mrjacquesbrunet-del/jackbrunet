@@ -8,9 +8,8 @@ import { Avatar } from "@/components/community/Avatar";
 import { PrayerCard } from "@/components/community/PrayerCard";
 import { NotificationsBell } from "@/components/community/NotificationsBell";
 import { MemberSearch } from "@/components/community/MemberSearch";
+import { CommunityLanding } from "@/components/community/CommunityLanding";
 import {
-  signInEmail,
-  signInGoogle,
   signOut,
   updateProfile,
   listPrayers,
@@ -27,9 +26,9 @@ export function CommunityView() {
 
   if (!isSupabaseConfigured) {
     return (
-      <section className="container-x py-16">
+      <section className="container-x py-16 pt-32">
         <div className="glass-strong mx-auto max-w-xl p-8 text-center">
-          <p className="font-display text-xl font-bold">Espace communautaire bientôt disponible</p>
+          <p className="font-display text-xl font-bold">Mur de prière bientôt disponible</p>
           <p className="mt-2 text-night-900/65">
             La connexion n'est pas encore activée. Reviens très vite !
           </p>
@@ -39,110 +38,14 @@ export function CommunityView() {
   }
 
   if (!ready) {
-    return <p className="container-x py-16 text-night-900/50">Chargement…</p>;
+    return <p className="container-x py-16 pt-32 text-night-900/50">Chargement…</p>;
   }
 
   if (!userId) {
-    return <AuthPanel />;
+    return <CommunityLanding />;
   }
 
   return <Feed userId={userId} profile={profile} refreshProfile={refreshProfile} />;
-}
-
-/* ---------- Connexion ---------- */
-function AuthPanel() {
-  const [email, setEmail] = useState("");
-  const [sent, setSent] = useState(false);
-  const [error, setError] = useState("");
-  const [busy, setBusy] = useState(false);
-  const [googleBusy, setGoogleBusy] = useState(false);
-  const [googleErr, setGoogleErr] = useState("");
-
-  async function google() {
-    setGoogleBusy(true);
-    setGoogleErr("");
-    try {
-      await signInGoogle();
-    } catch (e) {
-      const msg = e instanceof Error ? e.message : String(e);
-      setGoogleErr(
-        /provider is not enabled|Unsupported provider/i.test(msg)
-          ? "La connexion Google n'est pas encore activée côté serveur."
-          : `Connexion Google impossible : ${msg}`,
-      );
-      setGoogleBusy(false);
-    }
-  }
-
-  async function sendLink(e: React.FormEvent) {
-    e.preventDefault();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setError("Entre une adresse email valide.");
-      return;
-    }
-    setBusy(true);
-    setError("");
-    try {
-      await signInEmail(email);
-      setSent(true);
-    } catch {
-      setError("Une erreur est survenue. Réessaie.");
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  return (
-    <section className="container-x py-12">
-      <div className="glass-strong mx-auto max-w-md p-7 sm:p-8">
-        <h2 className="font-display text-2xl font-extrabold">Rejoins la communauté</h2>
-        <p className="mt-2 text-sm text-night-900/65">
-          Connecte-toi pour partager tes sujets de prière, prier pour les autres et retrouver
-          ton carnet partout.
-        </p>
-
-        {sent ? (
-          <div className="mt-6 rounded-2xl border border-spirit-500/30 bg-spirit-500/[0.06] p-4 text-sm">
-            ✓ Un lien de connexion vient d'être envoyé à <strong>{email}</strong>. Ouvre ta boîte
-            mail et clique dessus.
-          </div>
-        ) : (
-          <>
-            <button
-              type="button"
-              onClick={google}
-              disabled={googleBusy}
-              className="btn-ghost mt-6 w-full justify-center disabled:opacity-50"
-            >
-              {googleBusy ? "Redirection…" : "Continuer avec Google"}
-            </button>
-            {googleErr ? <p className="field-error mt-2">{googleErr}</p> : null}
-
-            <div className="my-4 flex items-center gap-3 text-xs text-night-900/40">
-              <span className="h-px flex-1 bg-night-900/10" /> ou <span className="h-px flex-1 bg-night-900/10" />
-            </div>
-
-            <form onSubmit={sendLink} className="space-y-3">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Ton adresse email"
-                className="field w-full"
-              />
-              <button type="submit" disabled={busy} className="btn-primary w-full justify-center">
-                {busy ? "Un instant…" : "Recevoir mon lien de connexion"}
-              </button>
-              {error ? <p className="field-error">{error}</p> : null}
-            </form>
-            <p className="mt-3 text-xs text-night-900/45">
-              Pas de mot de passe : tu reçois un lien sécurisé par email.
-            </p>
-          </>
-        )}
-      </div>
-    </section>
-  );
 }
 
 /* ---------- Fil de prières ---------- */
@@ -197,9 +100,25 @@ function Feed({
   }
 
   return (
-    <section className="container-x py-10">
+    <>
+      {/* Bandeau du mur */}
+      <div className="dark-ctx relative overflow-hidden bg-night-950 pt-28 pb-10 sm:pt-32">
+        <div className="absolute inset-0 bg-grid opacity-[0.1]" />
+        <div className="blob -right-10 top-6 h-56 w-56 bg-dawn-400/25" />
+        <div className="container-x relative">
+          <span className="eyebrow">Réseau social de prière</span>
+          <h1 className="mt-4 font-display text-4xl font-extrabold sm:text-5xl">
+            Le mur de <span className="text-gradient">prière</span>
+          </h1>
+          <p className="mt-2 max-w-xl text-cream/70">
+            Partage, prie pour les autres, encourage la famille. Vous portez les uns les autres.
+          </p>
+        </div>
+      </div>
+
+      <section className="container-x -mt-6 pb-12">
       {/* En-tête profil */}
-      <div className="glass flex items-center gap-3 p-4">
+      <div className="glass-strong flex items-center gap-3 p-4 shadow-card">
         <Avatar pseudo={profile?.pseudo} url={profile?.avatar_url} />
         <div className="min-w-0 flex-1">
           {editPseudo ? (
@@ -318,6 +237,7 @@ function Feed({
           </ul>
         )}
       </div>
-    </section>
+      </section>
+    </>
   );
 }

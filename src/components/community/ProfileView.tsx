@@ -16,6 +16,7 @@ import {
   type FavoriteVerse,
 } from "@/lib/community";
 import { GradeProgress } from "@/components/community/GradeBadge";
+import { ProfileNotifications } from "@/components/community/ProfileNotifications";
 import { useNotebook } from "@/lib/notebook";
 import { useToolkit } from "@/lib/toolkit";
 import { useAllPlanProgress } from "@/lib/plan-progress";
@@ -310,6 +311,11 @@ function Profile({
           </button>
           {saved ? <span className="text-sm text-spirit-600">✓ Enregistré</span> : null}
         </div>
+      </div>
+
+      {/* Notifications */}
+      <div className="mt-6">
+        <ProfileNotifications userId={userId} />
       </div>
 
       {/* Grade de prière */}
