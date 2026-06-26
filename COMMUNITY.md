@@ -55,14 +55,16 @@ Pour que les membres puissent déposer leur photo depuis leur appareil :
   pour retrouver carnet, versets et plans sur tous les appareils.
 - Sans risque à relancer.
 
-### Activer groupes + modération admin
-- Ouvre **`supabase/migration-groups-admin.sql`**, copie tout, colle dans **SQL Editor → Run**.
-- Ça crée les **groupes de prière** privés (table `groups` + `group_members`,
-  prières de groupe), la **modération admin** (l'admin peut supprimer commentaires
-  et prières) et la fonction d'export des **emails** des inscrits.
-- L'admin est identifié par son email (`mr.jacquesbrunet@gmail.com`) ; pour le
-  changer, modifie la fonction `is_admin()` dans ce fichier.
-- Sans risque à relancer.
+### (Optionnel) Modération administrateur
+- Ouvre **`supabase/migration-admin.sql`**, copie tout, colle dans **SQL Editor → Run**.
+- Permet à l'admin (identifié par son email `mr.jacquesbrunet@gmail.com`) de
+  supprimer n'importe quel commentaire ou prière. Sans risque à relancer.
+
+### Récupération automatique des emails (Brevo)
+- Rien à faire : dès qu'un membre se connecte au mur de prière (Google ou email),
+  son adresse est **ajoutée automatiquement à la liste de contacts Brevo** (la
+  même que la newsletter), côté navigateur, sans clé API. Tu les retrouves dans
+  ton tableau de bord Brevo, prêts pour tes campagnes.
 
 ## 5. Activer la connexion
 Menu **Authentication → Providers** :

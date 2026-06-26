@@ -152,9 +152,6 @@ function Feed({
           <p className="text-xs text-night-900/50">Connecté(e)</p>
         </div>
         <NotificationsBell userId={userId} />
-        <Link href="/groupes" className="btn-ghost text-sm">
-          Groupes
-        </Link>
         <Link href="/profil" className="btn-ghost text-sm">
           Mon profil
         </Link>

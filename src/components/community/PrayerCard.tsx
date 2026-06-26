@@ -123,8 +123,7 @@ export function PrayerCard({
               {prayer.author?.pseudo ?? "Ami(e)"}
             </Link>
             <p className="text-xs text-night-900/50">
-              {when(prayer.created_at)}
-              {prayer.group_id ? "" : ` · ${VIS_LABEL[prayer.visibility]}`}
+              {when(prayer.created_at)} · {VIS_LABEL[prayer.visibility]}
             </p>
           </div>
           {isAuthor || isAdmin ? (
