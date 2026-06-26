@@ -3,7 +3,7 @@
  * On ne met JAMAIS en cache une réponse en erreur (404…) pour ne pas figer
  * un « non disponible » obsolète.
  */
-const VERSION = "jb-v2";
+const VERSION = "jb-v3";
 const STATIC_CACHE = `static-${VERSION}`;
 const RUNTIME_CACHE = `runtime-${VERSION}`;
 

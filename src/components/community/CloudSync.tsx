@@ -13,8 +13,12 @@ export function CloudSync() {
 
   useEffect(() => {
     if (!ready) return;
-    if (userId) enableCloudSync(userId);
-    else disableCloudSync();
+    try {
+      if (userId) void enableCloudSync(userId);
+      else disableCloudSync();
+    } catch {
+      /* la synchro ne doit jamais casser l'affichage */
+    }
   }, [ready, userId]);
 
   return null;

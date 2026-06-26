@@ -15,24 +15,36 @@ export function useAuth() {
   }, []);
 
   useEffect(() => {
-    const sb = getSupabase();
+    let sb;
+    try {
+      sb = getSupabase();
+    } catch {
+      sb = null;
+    }
     if (!sb) {
       setReady(true);
       return;
     }
-    sb.auth.getSession().then(({ data }) => {
-      const u = data.session?.user;
-      setUserId(u?.id ?? null);
-      setEmail(u?.email ?? null);
-      refreshProfile(u?.id ?? null).finally(() => setReady(true));
-    });
-    const { data: sub } = sb.auth.onAuthStateChange((_e, session) => {
-      const u = session?.user;
-      setUserId(u?.id ?? null);
-      setEmail(u?.email ?? null);
-      refreshProfile(u?.id ?? null);
-    });
-    return () => sub.subscription.unsubscribe();
+    try {
+      sb.auth
+        .getSession()
+        .then(({ data }) => {
+          const u = data.session?.user;
+          setUserId(u?.id ?? null);
+          setEmail(u?.email ?? null);
+          refreshProfile(u?.id ?? null).finally(() => setReady(true));
+        })
+        .catch(() => setReady(true));
+      const { data: sub } = sb.auth.onAuthStateChange((_e, session) => {
+        const u = session?.user;
+        setUserId(u?.id ?? null);
+        setEmail(u?.email ?? null);
+        refreshProfile(u?.id ?? null);
+      });
+      return () => sub.subscription.unsubscribe();
+    } catch {
+      setReady(true);
+    }
   }, [refreshProfile]);
 
   return { ready, userId, email, profile, refreshProfile: () => refreshProfile(userId) };
