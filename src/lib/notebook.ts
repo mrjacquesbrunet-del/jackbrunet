@@ -27,6 +27,21 @@ let notes: Note[] = empty;
 let loaded = false;
 const listeners = new Set<() => void>();
 
+/** Branche la synchro cloud (optionnelle). */
+export type NoteSink = { upsert: (n: Note) => void; remove: (id: string) => void };
+let sink: NoteSink | null = null;
+export function setNoteSink(s: NoteSink | null) {
+  sink = s;
+}
+/** Lecture/écriture brutes pour la synchro (n'appellent pas le sink). */
+export function snapshotNotes(): Note[] {
+  load();
+  return notes;
+}
+export function replaceNotes(next: Note[]) {
+  commit(next);
+}
+
 function load() {
   if (loaded) return;
   loaded = true;
@@ -58,21 +73,29 @@ export function addNote(input: { category: NoteCategory; title: string; body: st
     ts: Date.now(),
   };
   commit([note, ...notes]);
+  sink?.upsert(note);
 }
 
 export function updateNote(id: string, patch: Partial<Omit<Note, "id">>) {
   load();
-  commit(notes.map((n) => (n.id === id ? { ...n, ...patch, ts: Date.now() } : n)));
+  const next = notes.map((n) => (n.id === id ? { ...n, ...patch, ts: Date.now() } : n));
+  commit(next);
+  const updated = next.find((n) => n.id === id);
+  if (updated) sink?.upsert(updated);
 }
 
 export function removeNote(id: string) {
   load();
   commit(notes.filter((n) => n.id !== id));
+  sink?.remove(id);
 }
 
 export function toggleAnswered(id: string) {
   load();
-  commit(notes.map((n) => (n.id === id ? { ...n, answered: !n.answered } : n)));
+  const next = notes.map((n) => (n.id === id ? { ...n, answered: !n.answered } : n));
+  commit(next);
+  const updated = next.find((n) => n.id === id);
+  if (updated) sink?.upsert(updated);
 }
 
 function subscribe(cb: () => void) {

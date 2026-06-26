@@ -392,8 +392,8 @@ function Profile({
           </Link>
         </div>
         <p className="mt-3 text-xs text-night-900/45">
-          Carnet, versets et plans sont pour l'instant enregistrés sur cet appareil. La
-          synchronisation sur ton compte (tous tes appareils) arrive bientôt.
+          ✓ Carnet, versets et plans sont synchronisés sur ton compte : tu les retrouves
+          sur tous tes appareils dès que tu te connectes.
         </p>
       </div>
     </section>

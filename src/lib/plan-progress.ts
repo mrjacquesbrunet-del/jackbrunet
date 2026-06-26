@@ -16,6 +16,20 @@ let state: State = empty;
 let loaded = false;
 const listeners = new Set<() => void>();
 
+/** Branche la synchro cloud (optionnelle). */
+export type PlanSink = { set: (slug: string, days: number[]) => void };
+let sink: PlanSink | null = null;
+export function setPlanSink(s: PlanSink | null) {
+  sink = s;
+}
+export function snapshotPlans(): State {
+  load();
+  return state;
+}
+export function replacePlans(next: State) {
+  commit(next);
+}
+
 function load() {
   if (loaded) return;
   loaded = true;
@@ -42,6 +56,7 @@ export function toggleDay(slug: string, day: number) {
   const done = state[slug] ?? [];
   const next = done.includes(day) ? done.filter((d) => d !== day) : [...done, day];
   commit({ ...state, [slug]: next });
+  sink?.set(slug, next);
 }
 
 function subscribe(cb: () => void) {

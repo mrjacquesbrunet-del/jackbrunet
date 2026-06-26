@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { EmailPopup } from "@/components/layout/EmailPopup";
 import { PWA } from "@/components/pwa/PWA";
 import { NativeBootstrap } from "@/components/pwa/NativeBootstrap";
+import { CloudSync } from "@/components/community/CloudSync";
 
 // Grotesque très gras pour le corps et les titres percutants
 const archivo = Archivo({
@@ -76,6 +77,7 @@ export default function RootLayout({
         <EmailPopup />
         <PWA />
         <NativeBootstrap />
+        <CloudSync />
       </body>
     </html>
   );

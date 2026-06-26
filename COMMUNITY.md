@@ -49,6 +49,12 @@ Pour que les membres puissent déposer leur photo depuis leur appareil :
   automatiques) et la fonction d'activité qui alimente les grades de prière.
 - Sans risque à relancer.
 
+### Activer la synchro du compte (carnet, versets, plans)
+- Ouvre **`supabase/migration-sync.sql`**, copie tout, colle dans **SQL Editor → Run**.
+- Ça crée les tables `notes`, `snippets`, `highlights`, `plan_progress` (privées)
+  pour retrouver carnet, versets et plans sur tous les appareils.
+- Sans risque à relancer.
+
 ## 5. Activer la connexion
 Menu **Authentication → Providers** :
 - **Email** : déjà activé (connexion par lien magique). Rien à faire.

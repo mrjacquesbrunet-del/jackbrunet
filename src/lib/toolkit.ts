@@ -27,6 +27,25 @@ let state: State = emptyState;
 let loaded = false;
 const listeners = new Set<() => void>();
 
+/** Branche la synchro cloud (optionnelle). */
+export type ToolkitSink = {
+  highlightAdd: (id: string) => void;
+  highlightRemove: (id: string) => void;
+  snippetUpsert: (s: Snippet) => void;
+  snippetRemove: (id: string) => void;
+};
+let sink: ToolkitSink | null = null;
+export function setToolkitSink(s: ToolkitSink | null) {
+  sink = s;
+}
+export function snapshotToolkit(): State {
+  load();
+  return state;
+}
+export function replaceToolkit(next: State) {
+  commit(next);
+}
+
 function load() {
   if (loaded) return;
   loaded = true;
@@ -57,22 +76,27 @@ export function toggleHighlight(id: string) {
       ? state.highlights.filter((x) => x !== id)
       : [...state.highlights, id],
   });
+  if (has) sink?.highlightRemove(id);
+  else sink?.highlightAdd(id);
 }
 
 export function toggleSnippet(s: Omit<Snippet, "ts">) {
   load();
   const has = state.saved.some((x) => x.id === s.id);
-  commit({
-    ...state,
-    saved: has
-      ? state.saved.filter((x) => x.id !== s.id)
-      : [{ ...s, ts: Date.now() }, ...state.saved],
-  });
+  if (has) {
+    commit({ ...state, saved: state.saved.filter((x) => x.id !== s.id) });
+    sink?.snippetRemove(s.id);
+  } else {
+    const snip: Snippet = { ...s, ts: Date.now() };
+    commit({ ...state, saved: [snip, ...state.saved] });
+    sink?.snippetUpsert(snip);
+  }
 }
 
 export function removeSnippet(id: string) {
   load();
   commit({ ...state, saved: state.saved.filter((x) => x.id !== id) });
+  sink?.snippetRemove(id);
 }
 
 function subscribe(cb: () => void) {
