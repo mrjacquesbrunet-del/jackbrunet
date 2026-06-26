@@ -54,6 +54,9 @@ jobs:
           BASE_PATH: ${{ steps.pages.outputs.base_path }}
           NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
           NEXT_PUBLIC_STATIC_DEMO: "true"
+          # Espace communautaire (clés publiques, sécurité assurée par RLS)
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
         run: |
           # L'export statique ne supporte pas les routes API dynamiques :
           # on les retire pour ce build (le code reste dans le dépôt).
