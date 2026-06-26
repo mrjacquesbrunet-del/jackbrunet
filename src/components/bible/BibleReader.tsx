@@ -4,18 +4,10 @@ import { useEffect, useState } from "react";
 import { asset } from "@/lib/asset";
 import { Markable } from "@/components/ui/Markable";
 import { HighlighterGlyph } from "@/components/ui/DevoIcons";
+import { CommentaryPanel, type Commentary } from "@/components/bible/CommentaryPanel";
 
 type BookIndex = { id: number; name: string; chapters: number };
 type Book = { id: number; name: string; chapters: string[][] };
-type Word = { mot: string; translit?: string; sens?: string };
-type Commentary = {
-  mots?: Word[];
-  epoque?: string;
-  passage?: string;
-  culture?: string;
-  interpretation?: string;
-  commentaire?: string;
-};
 
 export function BibleReader() {
   const [index, setIndex] = useState<BookIndex[]>([]);
@@ -201,67 +193,5 @@ export function BibleReader() {
         </button>
       </div>
     </section>
-  );
-}
-
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  if (!children) return null;
-  return (
-    <div>
-      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-spirit-600">
-        {label}
-      </p>
-      <p className="mt-0.5 text-sm leading-relaxed text-night-900/80">{children}</p>
-    </div>
-  );
-}
-
-function CommentaryPanel({
-  state,
-  data,
-}: {
-  state: "idle" | "loading" | "loaded" | "none";
-  data?: Commentary;
-}) {
-  if (state === "loading") {
-    return (
-      <div className="mt-2 rounded-2xl border border-night-900/10 bg-night-900/[0.03] p-4 text-sm text-night-900/50">
-        Chargement du commentaire…
-      </div>
-    );
-  }
-  if (!data) {
-    return (
-      <div className="mt-2 rounded-2xl border border-night-900/10 bg-night-900/[0.03] p-4 text-sm text-night-900/55">
-        Commentaire bientôt disponible pour ce verset.
-      </div>
-    );
-  }
-  return (
-    <div className="mt-2 space-y-3 rounded-2xl border border-dawn-400/30 bg-dawn-400/[0.06] p-4 sm:p-5">
-      {data.mots && data.mots.length > 0 ? (
-        <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-spirit-600">
-            Mots d'origine
-          </p>
-          <ul className="mt-1 space-y-1">
-            {data.mots.map((m, idx) => (
-              <li key={idx} className="text-sm text-night-900/85">
-                <span className="font-display text-base font-bold">{m.mot}</span>
-                {m.translit ? (
-                  <span className="italic text-night-900/55"> ({m.translit})</span>
-                ) : null}
-                {m.sens ? <span> — {m.sens}</span> : null}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
-      <Field label="Contexte de l'époque">{data.epoque}</Field>
-      <Field label="Contexte du passage">{data.passage}</Field>
-      <Field label="Éclairage culturel">{data.culture}</Field>
-      <Field label="Interprétation">{data.interpretation}</Field>
-      <Field label="Commentaire">{data.commentaire}</Field>
-    </div>
   );
 }

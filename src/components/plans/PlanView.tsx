@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePlanProgress } from "@/lib/plan-progress";
 import { AuthorByline } from "@/components/ui/AuthorByline";
+import { PassageInline } from "@/components/bible/PassageInline";
 import type { ThemePlan } from "@/lib/types";
 
 export function PlanView({ plan }: { plan: ThemePlan }) {
@@ -51,22 +52,22 @@ export function PlanView({ plan }: { plan: ThemePlan }) {
                 </div>
                 <div className="min-w-0">
                   <h3 className="font-display text-xl font-bold">{d.title}</h3>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {d.verses.map((v) => (
-                      <span
-                        key={v}
-                        className="inline-flex items-center rounded-full bg-dawn-400/15 px-3 py-1 text-xs font-semibold text-spirit-700"
-                      >
-                        {v}
-                      </span>
-                    ))}
-                  </div>
                 </div>
               </div>
 
               <div className="mt-4 space-y-4 text-base leading-relaxed text-night-900/80">
                 {d.meditation.split("\n\n").map((para, idx) => (
                   <p key={idx}>{para}</p>
+                ))}
+              </div>
+
+              {/* Versets à lire — intégrés, avec les mêmes options que la Bible */}
+              <div className="mt-5 space-y-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-spirit-600">
+                  À lire & méditer
+                </p>
+                {d.verses.map((v) => (
+                  <PassageInline key={v} reference={v} />
                 ))}
               </div>
 
