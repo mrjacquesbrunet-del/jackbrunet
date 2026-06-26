@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { useAuth } from "@/components/community/useAuth";
@@ -10,6 +10,7 @@ import {
   updateProfile,
   listMyPrayers,
   followCounts,
+  uploadAvatar,
   type Prayer,
   type FavoriteVerse,
 } from "@/lib/community";
@@ -80,6 +81,9 @@ function Profile({
   const [counts, setCounts] = useState({ followers: 0, following: 0 });
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+  const fileRef = useRef<HTMLInputElement>(null);
 
   const notes = useNotebook();
   const toolkit = useToolkit();
@@ -102,6 +106,31 @@ function Profile({
     setBioVal(profile?.bio ?? "");
     setVerses(profile?.favorite_verses ?? []);
   }, [profile?.pseudo, profile?.avatar_url, profile?.bio, profile?.favorite_verses]);
+
+  async function onPickFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      setUploadError("Choisis une image (jpg, png…).");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setUploadError("Image trop lourde (5 Mo max).");
+      return;
+    }
+    setUploadError("");
+    setUploading(true);
+    const url = await uploadAvatar(userId, file);
+    if (url) {
+      setAvatarVal(url);
+      await updateProfile(userId, { avatar_url: url });
+      refreshProfile();
+    } else {
+      setUploadError("Échec du téléversement. Réessaie.");
+    }
+    setUploading(false);
+  }
 
   function updateVerse(i: number, patch: Partial<FavoriteVerse>) {
     setVerses((prev) => prev.map((v, idx) => (idx === i ? { ...v, ...patch } : v)));
@@ -175,17 +204,30 @@ function Profile({
               className="field mt-1 w-full"
             />
           </label>
-          <label className="block">
+          <div className="block">
             <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
-              Photo (URL)
+              Photo de profil
             </span>
-            <input
-              value={avatarVal}
-              onChange={(e) => setAvatarVal(e.target.value)}
-              placeholder="https://…"
-              className="field mt-1 w-full"
-            />
-          </label>
+            <div className="mt-1 flex items-center gap-3">
+              <Avatar pseudo={pseudoVal || profile?.pseudo} url={avatarVal || profile?.avatar_url} size={48} />
+              <input
+                ref={fileRef}
+                type="file"
+                accept="image/*"
+                onChange={onPickFile}
+                className="hidden"
+              />
+              <button
+                type="button"
+                onClick={() => fileRef.current?.click()}
+                disabled={uploading}
+                className="btn-ghost text-sm disabled:opacity-40"
+              >
+                {uploading ? "Envoi…" : "Choisir une photo"}
+              </button>
+            </div>
+            {uploadError ? <p className="field-error mt-1">{uploadError}</p> : null}
+          </div>
         </div>
 
         <label className="mt-4 block">

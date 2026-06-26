@@ -37,6 +37,12 @@ Si tu as exécuté `schema.sql` **avant** l'ajout du système d'abonnement (foll
   (s'abonner / se désabonner) et passe la visibilité « abonnés » au bon modèle.
 - C'est sans risque à relancer.
 
+### Activer l'upload de photo de profil
+Pour que les membres puissent déposer leur photo depuis leur appareil :
+- Ouvre **`supabase/migration-avatars.sql`**, copie tout, colle dans **SQL Editor → Run**.
+- Ça crée le bucket public `avatars` et autorise chacun à gérer sa propre photo.
+- Sans risque à relancer.
+
 ## 5. Activer la connexion
 Menu **Authentication → Providers** :
 - **Email** : déjà activé (connexion par lien magique). Rien à faire.

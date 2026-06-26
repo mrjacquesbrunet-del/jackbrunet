@@ -169,6 +169,20 @@ export async function addComment(prayerId: string, body: string, authorId: strin
   await sb.from("prayer_comments").insert({ prayer_id: prayerId, body, author_id: authorId });
 }
 
+/** Téléverse une photo de profil et renvoie son URL publique. */
+export async function uploadAvatar(userId: string, file: File): Promise<string | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+  const path = `${userId}/${Date.now()}.${ext}`;
+  const { error } = await sb.storage
+    .from("avatars")
+    .upload(path, file, { upsert: true, cacheControl: "3600", contentType: file.type });
+  if (error) return null;
+  const { data } = sb.storage.from("avatars").getPublicUrl(path);
+  return data.publicUrl ?? null;
+}
+
 /* ---- Abonnements (follow) ---- */
 export async function follow(followingId: string, followerId: string) {
   const sb = getSupabase();
