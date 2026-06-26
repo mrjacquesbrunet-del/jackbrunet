@@ -37,6 +37,7 @@ export const mainNav = [
   { label: "Bible", href: "/bible" },
   { label: "Plans", href: "/plans" },
   { label: "Mon carnet", href: "/carnet" },
+  { label: "Actualité", href: "/actualite" },
   { label: "Vidéos", href: "/videos" },
   { label: "Madagascar", href: "/mission-madagascar" },
   { label: "Témoignages", href: "/temoignages" },
