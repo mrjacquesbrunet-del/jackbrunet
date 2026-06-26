@@ -17,9 +17,23 @@ export type Prayer = {
   body: string;
   visibility: Visibility;
   answered: boolean;
+  group_id?: string | null;
   created_at: string;
   author?: Profile;
 };
+export type Group = {
+  id: string;
+  owner_id: string;
+  name: string;
+  description: string | null;
+  created_at: string;
+};
+export type GroupMember = { group_id: string; user_id: string; role: string; profile?: Profile };
+
+export const ADMIN_EMAIL = "mr.jacquesbrunet@gmail.com";
+export function isAdminEmail(email?: string | null) {
+  return (email ?? "").toLowerCase() === ADMIN_EMAIL;
+}
 export type Comment = {
   id: string;
   prayer_id: string;
@@ -121,6 +135,7 @@ export async function listPrayers(): Promise<Prayer[]> {
   const { data } = await sb
     .from("prayers")
     .select("*")
+    .is("group_id", null)
     .order("created_at", { ascending: false })
     .limit(60);
   const prayers = (data as Prayer[]) ?? [];
@@ -139,14 +154,29 @@ export async function listMyPrayers(userId: string): Promise<Prayer[]> {
   return (data as Prayer[]) ?? [];
 }
 
-export async function createPrayer(body: string, visibility: Visibility, authorId: string) {
+export async function createPrayer(
+  body: string,
+  visibility: Visibility,
+  authorId: string,
+  groupId?: string | null,
+) {
   const sb = getSupabase();
   if (!sb) return;
-  await sb.from("prayers").insert({ body, visibility, author_id: authorId });
+  await sb.from("prayers").insert({
+    body,
+    visibility: groupId ? "private" : visibility,
+    author_id: authorId,
+    group_id: groupId ?? null,
+  });
 }
 
 export async function deletePrayer(id: string) {
   await getSupabase()?.from("prayers").delete().eq("id", id);
+}
+
+/** Marque une prière comme exaucée (« Dieu a agi ») ou la rouvre. */
+export async function setPrayerAnswered(id: string, answered: boolean) {
+  await getSupabase()?.from("prayers").update({ answered }).eq("id", id);
 }
 
 /* ---- Réactions ---- */
@@ -198,6 +228,10 @@ export async function addComment(prayerId: string, body: string, authorId: strin
   const sb = getSupabase();
   if (!sb) return;
   await sb.from("prayer_comments").insert({ prayer_id: prayerId, body, author_id: authorId });
+}
+
+export async function deleteComment(id: string) {
+  await getSupabase()?.from("prayer_comments").delete().eq("id", id);
 }
 
 /** Téléverse une photo de profil et renvoie son URL publique. */
@@ -284,12 +318,83 @@ export async function listFollowingFeed(userId: string): Promise<Prayer[]> {
   const { data } = await sb
     .from("prayers")
     .select("*")
+    .is("group_id", null)
     .in("author_id", authors)
     .order("created_at", { ascending: false })
     .limit(60);
   const prayers = (data as Prayer[]) ?? [];
   const profs = await profilesByIds(prayers.map((p) => p.author_id));
   return prayers.map((p) => ({ ...p, author: profs[p.author_id] }));
+}
+
+/* ---- Groupes de prière ---- */
+export async function createGroup(name: string, description: string, ownerId: string): Promise<Group | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  const { data } = await sb
+    .from("groups")
+    .insert({ name, description: description || null, owner_id: ownerId })
+    .select("*")
+    .single();
+  return (data as Group) ?? null;
+}
+
+export async function listMyGroups(): Promise<Group[]> {
+  const sb = getSupabase();
+  if (!sb) return [];
+  // RLS ne renvoie que les groupes dont je suis membre/propriétaire.
+  const { data } = await sb.from("groups").select("*").order("created_at", { ascending: false });
+  return (data as Group[]) ?? [];
+}
+
+export async function getGroup(id: string): Promise<Group | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  const { data } = await sb.from("groups").select("*").eq("id", id).maybeSingle();
+  return (data as Group) ?? null;
+}
+
+export async function deleteGroup(id: string) {
+  await getSupabase()?.from("groups").delete().eq("id", id);
+}
+
+export async function listGroupMembers(groupId: string): Promise<GroupMember[]> {
+  const sb = getSupabase();
+  if (!sb) return [];
+  const { data } = await sb.from("group_members").select("group_id,user_id,role").eq("group_id", groupId);
+  const members = (data as GroupMember[]) ?? [];
+  const profs = await profilesByIds(members.map((m) => m.user_id));
+  return members.map((m) => ({ ...m, profile: profs[m.user_id] }));
+}
+
+export async function addGroupMember(groupId: string, userId: string) {
+  await getSupabase()?.from("group_members").insert({ group_id: groupId, user_id: userId });
+}
+
+export async function removeGroupMember(groupId: string, userId: string) {
+  await getSupabase()?.from("group_members").delete().eq("group_id", groupId).eq("user_id", userId);
+}
+
+export async function listGroupPrayers(groupId: string): Promise<Prayer[]> {
+  const sb = getSupabase();
+  if (!sb) return [];
+  const { data } = await sb
+    .from("prayers")
+    .select("*")
+    .eq("group_id", groupId)
+    .order("created_at", { ascending: false })
+    .limit(80);
+  const prayers = (data as Prayer[]) ?? [];
+  const profs = await profilesByIds(prayers.map((p) => p.author_id));
+  return prayers.map((p) => ({ ...p, author: profs[p.author_id] }));
+}
+
+/* ---- Admin : export des emails ---- */
+export async function adminEmails(): Promise<{ email: string; pseudo: string | null; inscrit_le: string }[]> {
+  const sb = getSupabase();
+  if (!sb) return [];
+  const { data } = await sb.rpc("admin_emails");
+  return (data as { email: string; pseudo: string | null; inscrit_le: string }[]) ?? [];
 }
 
 /** Activité (pour le grade de prière). */

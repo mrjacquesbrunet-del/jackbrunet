@@ -37,6 +37,7 @@ export const mainNav = [
   { label: "Bible", href: "/bible" },
   { label: "Plans", href: "/plans" },
   { label: "Mur de prière", href: "/communaute" },
+  { label: "Groupes", href: "/groupes" },
   { label: "Mon carnet", href: "/carnet" },
   { label: "Actualité", href: "/actualite" },
   { label: "Vidéos", href: "/videos" },

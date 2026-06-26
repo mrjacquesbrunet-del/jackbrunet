@@ -55,6 +55,15 @@ Pour que les membres puissent déposer leur photo depuis leur appareil :
   pour retrouver carnet, versets et plans sur tous les appareils.
 - Sans risque à relancer.
 
+### Activer groupes + modération admin
+- Ouvre **`supabase/migration-groups-admin.sql`**, copie tout, colle dans **SQL Editor → Run**.
+- Ça crée les **groupes de prière** privés (table `groups` + `group_members`,
+  prières de groupe), la **modération admin** (l'admin peut supprimer commentaires
+  et prières) et la fonction d'export des **emails** des inscrits.
+- L'admin est identifié par son email (`mr.jacquesbrunet@gmail.com`) ; pour le
+  changer, modifie la fonction `is_admin()` dans ce fichier.
+- Sans risque à relancer.
+
 ## 5. Activer la connexion
 Menu **Authentication → Providers** :
 - **Email** : déjà activé (connexion par lien magique). Rien à faire.

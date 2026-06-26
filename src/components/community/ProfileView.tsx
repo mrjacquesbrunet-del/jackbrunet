@@ -12,11 +12,13 @@ import {
   followCounts,
   getActivity,
   uploadAvatar,
+  isAdminEmail,
   type Prayer,
   type FavoriteVerse,
 } from "@/lib/community";
 import { GradeProgress } from "@/components/community/GradeBadge";
 import { ProfileNotifications } from "@/components/community/ProfileNotifications";
+import { AdminEmails } from "@/components/community/AdminEmails";
 import { useNotebook } from "@/lib/notebook";
 import { useToolkit } from "@/lib/toolkit";
 import { useAllPlanProgress } from "@/lib/plan-progress";
@@ -317,6 +319,13 @@ function Profile({
       <div className="mt-6">
         <ProfileNotifications userId={userId} />
       </div>
+
+      {/* Admin (réservé) */}
+      {isAdminEmail(email) ? (
+        <div className="mt-6">
+          <AdminEmails />
+        </div>
+      ) : null}
 
       {/* Grade de prière */}
       <div className="mt-6">

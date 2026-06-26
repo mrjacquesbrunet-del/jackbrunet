@@ -16,13 +16,15 @@ import {
   listFollowingFeed,
   createPrayer,
   reactionsFor,
+  isAdminEmail,
   type Prayer,
   type Reaction,
   type Visibility,
 } from "@/lib/community";
 
 export function CommunityView() {
-  const { ready, userId, profile, refreshProfile } = useAuth();
+  const { ready, userId, email, profile, refreshProfile } = useAuth();
+  const admin = isAdminEmail(email);
 
   if (!isSupabaseConfigured) {
     return (
@@ -45,16 +47,18 @@ export function CommunityView() {
     return <CommunityLanding />;
   }
 
-  return <Feed userId={userId} profile={profile} refreshProfile={refreshProfile} />;
+  return <Feed userId={userId} admin={admin} profile={profile} refreshProfile={refreshProfile} />;
 }
 
 /* ---------- Fil de prières ---------- */
 function Feed({
   userId,
+  admin,
   profile,
   refreshProfile,
 }: {
   userId: string;
+  admin: boolean;
   profile: { pseudo: string; avatar_url: string | null } | null;
   refreshProfile: () => void;
 }) {
@@ -148,6 +152,9 @@ function Feed({
           <p className="text-xs text-night-900/50">Connecté(e)</p>
         </div>
         <NotificationsBell userId={userId} />
+        <Link href="/groupes" className="btn-ghost text-sm">
+          Groupes
+        </Link>
         <Link href="/profil" className="btn-ghost text-sm">
           Mon profil
         </Link>
@@ -230,6 +237,7 @@ function Feed({
                 key={p.id}
                 prayer={p}
                 userId={userId}
+                isAdmin={admin}
                 initialReactions={reactions.filter((r) => r.prayer_id === p.id)}
                 onDeleted={load}
               />
