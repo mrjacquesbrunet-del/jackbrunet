@@ -1,7 +1,9 @@
 import { Hero } from "@/components/home/Hero";
 import { Marquee } from "@/components/ui/Marquee";
 import { MissionBanner } from "@/components/home/MissionBanner";
+import { NextLiveBanner } from "@/components/home/NextLiveBanner";
 import { DailyHub } from "@/components/home/DailyHub";
+import { getEvents } from "@/lib/content";
 import { ReadingPlan } from "@/components/home/ReadingPlan";
 import { FeaturedPredications } from "@/components/home/FeaturedPredications";
 import { Reels } from "@/components/home/Reels";
@@ -13,6 +15,7 @@ import { NewsletterCTA } from "@/components/home/NewsletterCTA";
 import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
 
 export default function HomePage() {
+  const events = getEvents();
   return (
     <>
       <Hero />
@@ -27,6 +30,7 @@ export default function HomePage() {
         ]}
       />
       <MissionBanner />
+      <NextLiveBanner events={events} />
       <DailyHub />
       <ReadingPlan />
       <FeaturedPredications />
