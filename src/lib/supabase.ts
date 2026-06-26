@@ -18,10 +18,14 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 function cleanUrl(raw?: string): string {
   let u = (raw ?? "").trim().replace(/^["']+|["']+$/g, "").trim();
   if (!u) return "";
+  // Valeur manifestement erronée (clé collée à la place de l'URL).
+  if (/^(sb_|eyJ|sbp_)/i.test(u)) return "";
   if (!/^https?:\/\//i.test(u)) u = `https://${u}`;
   u = u.replace(/\/+$/, "");
   try {
-    new URL(u);
+    const parsed = new URL(u);
+    // Un vrai domaine a au moins un point (ex. xxx.supabase.co).
+    if (!parsed.hostname.includes(".")) return "";
     return u;
   } catch {
     return "";
