@@ -1,22 +1,14 @@
--- ============================================================
---  MIGRATION : synchronisation du compte (carnet, versets, plans)
---  À coller dans Supabase → SQL Editor → Run.
---  Sûr à relancer.
---
---  Rattache au compte le carnet, les versets (surlignés + enregistrés)
---  et la progression des plans, pour les retrouver sur tous les appareils.
---  Données privées : chacun ne voit / modifie que les siennes.
--- ============================================================
+-- Synchronisation du compte : carnet, versets, plans (données privées)
 
--- 1) CARNET (notes) ------------------------------------------
+-- 1) CARNET (notes)
 create table if not exists public.notes (
   user_id uuid not null references auth.users(id) on delete cascade,
-  id text not null,                       -- identifiant local
+  id text not null,
   category text not null default 'Note',
   title text not null default '',
   body text not null default '',
   answered boolean not null default false,
-  ts bigint not null default 0,           -- horodatage local (ms)
+  ts bigint not null default 0,
   primary key (user_id, id)
 );
 alter table public.notes enable row level security;
@@ -24,7 +16,7 @@ drop policy if exists "notes_own" on public.notes;
 create policy "notes_own" on public.notes
   for all using (user_id = auth.uid()) with check (user_id = auth.uid());
 
--- 2) VERSETS ENREGISTRÉS (snippets) --------------------------
+-- 2) VERSETS ENREGISTRÉS (snippets)
 create table if not exists public.snippets (
   user_id uuid not null references auth.users(id) on delete cascade,
   id text not null,
@@ -39,10 +31,10 @@ drop policy if exists "snippets_own" on public.snippets;
 create policy "snippets_own" on public.snippets
   for all using (user_id = auth.uid()) with check (user_id = auth.uid());
 
--- 3) SURLIGNAGES (highlights) --------------------------------
+-- 3) SURLIGNAGES (highlights)
 create table if not exists public.highlights (
   user_id uuid not null references auth.users(id) on delete cascade,
-  hid text not null,                      -- identifiant de l'élément surligné
+  hid text not null,
   primary key (user_id, hid)
 );
 alter table public.highlights enable row level security;
@@ -50,7 +42,7 @@ drop policy if exists "highlights_own" on public.highlights;
 create policy "highlights_own" on public.highlights
   for all using (user_id = auth.uid()) with check (user_id = auth.uid());
 
--- 4) PROGRESSION DES PLANS -----------------------------------
+-- 4) PROGRESSION DES PLANS
 create table if not exists public.plan_progress (
   user_id uuid not null references auth.users(id) on delete cascade,
   slug text not null,
