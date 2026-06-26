@@ -53,6 +53,11 @@ function getSnapshot(): State {
   return state;
 }
 
+/** Toute la progression (pour agréger sur le profil). */
+export function useAllPlanProgress() {
+  return useSyncExternalStore(subscribe, getSnapshot, () => empty);
+}
+
 export function usePlanProgress(slug: string) {
   const s = useSyncExternalStore(subscribe, getSnapshot, () => empty);
   const done = s[slug] ?? [];

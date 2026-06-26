@@ -10,12 +10,16 @@ import {
   updateProfile,
   listMyPrayers,
   followCounts,
+  getActivity,
   uploadAvatar,
   type Prayer,
   type FavoriteVerse,
 } from "@/lib/community";
+import { GradeProgress } from "@/components/community/GradeBadge";
 import { useNotebook } from "@/lib/notebook";
 import { useToolkit } from "@/lib/toolkit";
+import { useAllPlanProgress } from "@/lib/plan-progress";
+import type { Activity } from "@/lib/grades";
 
 export function ProfileView() {
   const { ready, userId, email, profile, refreshProfile } = useAuth();
@@ -79,6 +83,7 @@ function Profile({
   const [bioVal, setBioVal] = useState(profile?.bio ?? "");
   const [verses, setVerses] = useState<FavoriteVerse[]>(profile?.favorite_verses ?? []);
   const [counts, setCounts] = useState({ followers: 0, following: 0 });
+  const [activity, setActivity] = useState<Activity>({ prayers: 0, comments: 0, prays: 0 });
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -87,12 +92,19 @@ function Profile({
 
   const notes = useNotebook();
   const toolkit = useToolkit();
+  const planProgress = useAllPlanProgress();
+  const activePlans = Object.values(planProgress).filter((days) => days.length > 0).length;
 
   const load = useCallback(async () => {
     setLoading(true);
-    const [mp, c] = await Promise.all([listMyPrayers(userId), followCounts(userId)]);
+    const [mp, c, act] = await Promise.all([
+      listMyPrayers(userId),
+      followCounts(userId),
+      getActivity(userId),
+    ]);
     setMyPrayers(mp);
     setCounts(c);
+    setActivity(act);
     setLoading(false);
   }, [userId]);
 
@@ -300,6 +312,25 @@ function Profile({
         </div>
       </div>
 
+      {/* Grade de prière */}
+      <div className="mt-6">
+        <GradeProgress activity={activity} />
+        <div className="mt-3 grid grid-cols-3 gap-3 text-center">
+          <div className="rounded-2xl border border-night-900/10 bg-white p-3">
+            <p className="font-display text-xl font-extrabold text-spirit-700">{activity.prayers}</p>
+            <p className="text-xs text-night-900/55">prières</p>
+          </div>
+          <div className="rounded-2xl border border-night-900/10 bg-white p-3">
+            <p className="font-display text-xl font-extrabold text-spirit-700">{activity.prays}</p>
+            <p className="text-xs text-night-900/55">je prie</p>
+          </div>
+          <div className="rounded-2xl border border-night-900/10 bg-white p-3">
+            <p className="font-display text-xl font-extrabold text-spirit-700">{activity.comments}</p>
+            <p className="text-xs text-night-900/55">encouragements</p>
+          </div>
+        </div>
+      </div>
+
       {/* Mes prières */}
       <div className="mt-8">
         <h3 className="font-display text-lg font-bold">Mes sujets de prière</h3>
@@ -324,7 +355,7 @@ function Profile({
                   {p.visibility === "public"
                     ? "Public"
                     : p.visibility === "friends"
-                      ? "Amis"
+                      ? "Abonnés"
                       : "Privé"}
                   {p.answered ? " · Exaucé 🙌" : ""}
                 </p>
@@ -334,21 +365,36 @@ function Profile({
         )}
       </div>
 
-      {/* Mon carnet (local) */}
-      <div className="mt-8 grid gap-4 sm:grid-cols-2">
-        <Link href="/carnet" className="glass block p-5 transition-shadow hover:shadow-lg">
-          <p className="font-display font-bold">Mon carnet</p>
-          <p className="mt-1 text-sm text-night-900/60">
-            {notes.length} note{notes.length > 1 ? "s" : ""} (prières, paroles reçues, réflexions)
-          </p>
-        </Link>
-        <Link href="/carnet" className="glass block p-5 transition-shadow hover:shadow-lg">
-          <p className="font-display font-bold">Mes versets</p>
-          <p className="mt-1 text-sm text-night-900/60">
-            {toolkit.saved.length} enregistré{toolkit.saved.length > 1 ? "s" : ""} ·{" "}
-            {toolkit.highlights.length} surligné{toolkit.highlights.length > 1 ? "s" : ""}
-          </p>
-        </Link>
+      {/* Mon espace (carnet, versets, plans) */}
+      <div className="mt-8">
+        <h3 className="font-display text-lg font-bold">Mon espace</h3>
+        <div className="mt-3 grid gap-4 sm:grid-cols-3">
+          <Link href="/carnet" className="glass block p-5 transition-shadow hover:shadow-lg">
+            <p className="font-display font-bold">Mon carnet</p>
+            <p className="mt-1 text-sm text-night-900/60">
+              {notes.length} note{notes.length > 1 ? "s" : ""} (prières, paroles reçues, réflexions)
+            </p>
+          </Link>
+          <Link href="/carnet" className="glass block p-5 transition-shadow hover:shadow-lg">
+            <p className="font-display font-bold">Mes versets</p>
+            <p className="mt-1 text-sm text-night-900/60">
+              {toolkit.saved.length} enregistré{toolkit.saved.length > 1 ? "s" : ""} ·{" "}
+              {toolkit.highlights.length} surligné{toolkit.highlights.length > 1 ? "s" : ""}
+            </p>
+          </Link>
+          <Link href="/plans" className="glass block p-5 transition-shadow hover:shadow-lg">
+            <p className="font-display font-bold">Mes plans</p>
+            <p className="mt-1 text-sm text-night-900/60">
+              {activePlans > 0
+                ? `${activePlans} plan${activePlans > 1 ? "s" : ""} en cours`
+                : "Démarrer un plan"}
+            </p>
+          </Link>
+        </div>
+        <p className="mt-3 text-xs text-night-900/45">
+          Carnet, versets et plans sont pour l'instant enregistrés sur cet appareil. La
+          synchronisation sur ton compte (tous tes appareils) arrive bientôt.
+        </p>
       </div>
     </section>
   );

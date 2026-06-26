@@ -6,12 +6,15 @@ import { isSupabaseConfigured } from "@/lib/supabase";
 import { useAuth } from "@/components/community/useAuth";
 import { Avatar } from "@/components/community/Avatar";
 import { PrayerCard } from "@/components/community/PrayerCard";
+import { NotificationsBell } from "@/components/community/NotificationsBell";
+import { MemberSearch } from "@/components/community/MemberSearch";
 import {
   signInEmail,
   signInGoogle,
   signOut,
   updateProfile,
   listPrayers,
+  listFollowingFeed,
   createPrayer,
   reactionsFor,
   type Prayer,
@@ -140,14 +143,15 @@ function Feed({
   const [posting, setPosting] = useState(false);
   const [editPseudo, setEditPseudo] = useState(false);
   const [pseudoVal, setPseudoVal] = useState(profile?.pseudo ?? "");
+  const [tab, setTab] = useState<"all" | "following">("all");
 
   const load = useCallback(async () => {
     setLoading(true);
-    const ps = await listPrayers();
+    const ps = tab === "following" ? await listFollowingFeed(userId) : await listPrayers();
     setPrayers(ps);
     setReactions(await reactionsFor(ps.map((p) => p.id)));
     setLoading(false);
-  }, []);
+  }, [tab, userId]);
 
   useEffect(() => {
     load();
@@ -204,12 +208,18 @@ function Feed({
           )}
           <p className="text-xs text-night-900/50">Connecté(e)</p>
         </div>
+        <NotificationsBell userId={userId} />
         <Link href="/profil" className="btn-ghost text-sm">
           Mon profil
         </Link>
         <button type="button" onClick={() => signOut()} className="text-sm text-night-900/50 hover:underline">
           Déconnexion
         </button>
+      </div>
+
+      {/* Recherche de membres */}
+      <div className="mt-5">
+        <MemberSearch />
       </div>
 
       {/* Composer */}
@@ -243,13 +253,36 @@ function Feed({
         </div>
       </div>
 
+      {/* Onglets */}
+      <div className="mt-8 flex gap-1 rounded-full border border-night-900/10 bg-night-900/[0.03] p-1">
+        {(
+          [
+            ["all", "Tout"],
+            ["following", "Mes abonnements"],
+          ] as const
+        ).map(([key, lbl]) => (
+          <button
+            key={key}
+            type="button"
+            onClick={() => setTab(key)}
+            className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+              tab === key ? "bg-white text-night-900 shadow-sm" : "text-night-900/55 hover:text-night-900/80"
+            }`}
+          >
+            {lbl}
+          </button>
+        ))}
+      </div>
+
       {/* Fil */}
-      <div className="mt-8">
+      <div className="mt-5">
         {loading ? (
           <p className="text-night-900/50">Chargement du fil…</p>
         ) : prayers.length === 0 ? (
           <p className="text-night-900/55">
-            Aucune prière pour l'instant. Sois le premier à partager. 🙏
+            {tab === "following"
+              ? "Abonne-toi à des membres pour voir leurs prières ici."
+              : "Aucune prière pour l'instant. Sois le premier à partager. 🙏"}
           </p>
         ) : (
           <ul className="space-y-4">

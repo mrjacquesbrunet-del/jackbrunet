@@ -6,16 +6,19 @@ import { useSearchParams } from "next/navigation";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { useAuth } from "@/components/community/useAuth";
 import { Avatar } from "@/components/community/Avatar";
+import { GradeBadge } from "@/components/community/GradeBadge";
 import {
   getProfile,
   follow,
   unfollow,
   isFollowing,
   followCounts,
+  getActivity,
   listPrayersByAuthor,
   type Profile,
   type Prayer,
 } from "@/lib/community";
+import type { Activity } from "@/lib/grades";
 
 export function MemberView() {
   const params = useSearchParams();
@@ -24,6 +27,7 @@ export function MemberView() {
 
   const [profile, setProfile] = useState<Profile | null>(null);
   const [counts, setCounts] = useState({ followers: 0, following: 0 });
+  const [activity, setActivity] = useState<Activity | null>(null);
   const [following, setFollowing] = useState(false);
   const [prayers, setPrayers] = useState<Prayer[]>([]);
   const [loading, setLoading] = useState(true);
@@ -34,14 +38,16 @@ export function MemberView() {
   const load = useCallback(async () => {
     if (!memberId) return;
     setLoading(true);
-    const [p, c, pr] = await Promise.all([
+    const [p, c, pr, act] = await Promise.all([
       getProfile(memberId),
       followCounts(memberId),
       listPrayersByAuthor(memberId),
+      getActivity(memberId),
     ]);
     setProfile(p);
     setCounts(c);
     setPrayers(pr);
+    setActivity(act);
     if (userId && !isMe) setFollowing(await isFollowing(memberId, userId));
     setLoading(false);
   }, [memberId, userId, isMe]);
@@ -98,7 +104,10 @@ export function MemberView() {
         <div className="flex flex-wrap items-center gap-4">
           <Avatar pseudo={profile.pseudo} url={profile.avatar_url} size={72} />
           <div className="min-w-0 flex-1">
-            <h2 className="font-display text-2xl font-extrabold leading-tight">{profile.pseudo}</h2>
+            <div className="flex flex-wrap items-center gap-2">
+              <h2 className="font-display text-2xl font-extrabold leading-tight">{profile.pseudo}</h2>
+              {activity ? <GradeBadge activity={activity} /> : null}
+            </div>
             <p className="mt-1 text-sm text-night-900/55">
               <strong className="text-night-900/80">{counts.followers}</strong> abonné
               {counts.followers > 1 ? "s" : ""} ·{" "}

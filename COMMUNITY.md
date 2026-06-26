@@ -43,6 +43,12 @@ Pour que les membres puissent déposer leur photo depuis leur appareil :
 - Ça crée le bucket public `avatars` et autorise chacun à gérer sa propre photo.
 - Sans risque à relancer.
 
+### Activer notifications + grades de prière
+- Ouvre **`supabase/migration-social.sql`**, copie tout, colle dans **SQL Editor → Run**.
+- Ça crée les notifications (prière / encouragement / abonnement, via déclencheurs
+  automatiques) et la fonction d'activité qui alimente les grades de prière.
+- Sans risque à relancer.
+
 ## 5. Activer la connexion
 Menu **Authentication → Providers** :
 - **Email** : déjà activé (connexion par lien magique). Rien à faire.
