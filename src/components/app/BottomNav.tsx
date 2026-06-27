@@ -34,10 +34,10 @@ const TABS = [
   { href: "/communaute", label: "Prière", icon: I.pray, match: ["/communaute", "/membre"] },
   { href: "/carnet", label: "Carnet", icon: I.note, match: ["/carnet"] },
   { href: "/bible", label: "Bible", icon: I.bible, match: ["/bible", "/plans"] },
-  { href: "/videos", label: "Vidéos", icon: I.video, match: ["/videos"] },
 ];
 
 const MORE = [
+  { href: "/videos", label: "Vidéos", icon: I.video },
   { href: "/exclusivites", label: "Exclusivités", icon: I.star },
   { href: "/plans", label: "Plans", icon: I.list },
   { href: "/actualite", label: "Actualité", icon: I.news },
