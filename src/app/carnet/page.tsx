@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHero } from "@/components/ui/PageHero";
 import { NotebookView } from "@/components/notebook/NotebookView";
+import { CarnetIntro } from "@/components/notebook/CarnetIntro";
 import { getThemePlans } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -24,6 +25,7 @@ export default function CarnetPage() {
         }
         description="Un espace à toi pour écrire ce que Dieu met sur ton cœur : sujets de prière, paroles reçues, réflexions. Tu pourras revenir voir Ses réponses."
       />
+      <CarnetIntro />
       <NotebookView />
 
       {/* Plans de lecture */}
