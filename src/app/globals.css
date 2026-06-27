@@ -206,62 +206,65 @@ html.app-native main > section:first-child {
 }
 
 /* ============================================================
-   THÈME APP — clair, vif & joyeux (tropical : rose/orange/violet)
+   THÈME APP — frais, moderne & mixte (menthe -> indigo)
    Appliqué uniquement dans l'app (html.app-native).
    Le site web garde son identité verte/lime.
    ============================================================ */
 html.app-native body {
-  background-color: #FBF7F2; /* crème clair lumineux */
-  color: #2A2620;
+  background-color: #FBFCFB;
+  color: #23262B;
 }
-/* Boutons : dégradé tropical vif */
+/* Boutons : dégradé menthe -> indigo */
 html.app-native .btn-primary {
-  background-image: linear-gradient(135deg, #FF5DA2 0%, #FF8A3D 55%, #8B5CF6 100%) !important;
+  background-image: linear-gradient(135deg, #2DD4BF 0%, #4F46E5 100%) !important;
   background-color: transparent !important;
   color: #ffffff !important;
-  box-shadow: 0 12px 32px -12px rgba(255, 93, 162, 0.6) !important;
+  box-shadow: 0 12px 32px -12px rgba(79, 70, 229, 0.5) !important;
 }
 html.app-native .btn-primary:hover {
   filter: brightness(1.05);
 }
-/* Aplats d'accent pleins (icônes, pastilles, lecteur) -> orange vif */
+/* Aplats d'accent pleins (icônes, lecteur) -> teal */
 html.app-native [class*="bg-dawn-400"]:not([class*="/"]),
 html.app-native [class*="bg-dawn-300"]:not([class*="/"]),
-html.app-native [class*="bg-dawn-500"]:not([class*="/"]),
-html.app-native .mark {
-  background-color: #FF8A3D !important;
+html.app-native [class*="bg-dawn-500"]:not([class*="/"]) {
+  background-color: #14B8A6 !important;
 }
-/* Dégradés (avatars, halos) lime -> rose->violet */
+html.app-native .mark {
+  background-color: #14B8A6 !important;
+  color: #04201C !important;
+}
+/* Dégradés (avatars, halos) -> menthe -> indigo */
 html.app-native [class*="from-dawn-400"],
 html.app-native [class*="from-dawn-300"] {
-  --tw-gradient-from: #FF5DA2 var(--tw-gradient-from-position) !important;
+  --tw-gradient-from: #2DD4BF var(--tw-gradient-from-position) !important;
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
 }
 html.app-native [class*="to-spirit-500"],
 html.app-native [class*="to-dawn-600"],
 html.app-native [class*="via-spirit-500"] {
-  --tw-gradient-to: #8B5CF6 !important;
+  --tw-gradient-to: #4F46E5 !important;
 }
-/* Halos décoratifs : rose/violet doux */
+/* Halos décoratifs : menthe douce */
 html.app-native [class*="bg-dawn-400/"],
 html.app-native [class*="bg-dawn-500/"],
 html.app-native [class*="bg-spirit-400/"] {
-  background-color: rgba(255, 93, 162, 0.14) !important;
+  background-color: rgba(45, 212, 191, 0.14) !important;
 }
-/* Textes/accents -> rose vif lisible */
+/* Textes/accents -> teal lisible */
 html.app-native [class*="text-dawn"],
 html.app-native [class*="text-spirit-6"],
 html.app-native [class*="text-spirit-7"] {
-  color: #DB2777 !important;
+  color: #0D9488 !important;
 }
 html.app-native .eyebrow {
-  color: #DB2777;
+  color: #0D9488;
 }
-/* Titre en dégradé -> tropical */
+/* Titre en dégradé -> menthe -> indigo */
 html.app-native .text-gradient {
-  background-image: linear-gradient(135deg, #FF5DA2, #FF8A3D, #8B5CF6) !important;
+  background-image: linear-gradient(135deg, #2DD4BF, #4F46E5) !important;
 }
-/* Pastilles sombres (icônes) -> rose très pâle */
+/* Pastilles sombres (icônes) -> menthe très pâle */
 html.app-native [class*="bg-night-900"]:not([class*="/"]) {
-  background-color: #FCE7F0 !important;
+  background-color: #E6FAF6 !important;
 }
