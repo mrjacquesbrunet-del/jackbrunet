@@ -38,7 +38,7 @@ const ITEMS: Item[] = [
     tag: "Ebook",
     title: "7 jours pour retrouver la paix",
     desc: "Le mini-parcours offert : 7 méditations pour ancrer ta journée en Jésus.",
-    href: "/devotionnel",
+    href: "/ebook/7-jours",
   },
   {
     tag: "Audio",
