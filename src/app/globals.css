@@ -204,3 +204,73 @@ html.app-native main {
 html.app-native main > section:first-child {
   scroll-margin-top: 0;
 }
+
+/* ============================================================
+   THÈME SOMBRE & ÉLÉGANT — appliqué UNIQUEMENT dans l'app
+   (html.app-native). Le site web reste clair.
+   ============================================================ */
+html.app-native {
+  color-scheme: dark;
+}
+html.app-native body {
+  background-color: #14160E;
+  color: #F3F3ED;
+}
+/* Surfaces claires -> sombres */
+html.app-native [class*="bg-white"] {
+  background-color: #20231A !important;
+}
+html.app-native [class*="bg-cream"] {
+  background-color: #14160E !important;
+}
+html.app-native .bg-topo-light {
+  background-color: #181A11 !important;
+  background-image: none !important;
+}
+/* Petits aplats clairs (tints night-900/[0.0x]) -> blanc très léger */
+html.app-native [class*="bg-night-900/["] {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+/* Cartes verre -> sombres translucides */
+html.app-native .glass,
+html.app-native .glass-strong {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+/* Textes encre (toutes opacités) -> crème */
+html.app-native [class*="text-night-900"] {
+  color: rgba(243, 243, 237, 0.82);
+}
+/* Accents vert foncé -> lime lisible */
+html.app-native [class*="text-spirit-6"],
+html.app-native [class*="text-spirit-7"] {
+  color: #D8F53A;
+}
+/* Bordures sombres -> claires */
+html.app-native [class*="border-night-900"] {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+/* Dégradé de titre -> lime vif sur fond sombre */
+html.app-native .text-gradient {
+  background-image: linear-gradient(to right, #E4FB6E, #CAF000, #D8F53A) !important;
+}
+/* Étiquettes & champs */
+html.app-native .eyebrow {
+  border-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #E4FB6E;
+}
+html.app-native .field,
+html.app-native .field-area {
+  background-color: #1A1C12 !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: #F3F3ED !important;
+}
+html.app-native ::placeholder {
+  color: rgba(243, 243, 237, 0.4) !important;
+}
+html.app-native .btn-ghost {
+  border-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #F3F3ED;
+}
