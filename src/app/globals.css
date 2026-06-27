@@ -206,71 +206,66 @@ html.app-native main > section:first-child {
 }
 
 /* ============================================================
-   THÈME SOMBRE & ÉLÉGANT — appliqué UNIQUEMENT dans l'app
-   (html.app-native). Le site web reste clair.
+   THÈME APP — clair, doux & chaleureux (accent AMBRE/doré)
+   Appliqué uniquement dans l'app (html.app-native).
+   Le site web garde son identité verte/lime.
    ============================================================ */
-html.app-native {
-  color-scheme: dark;
-}
 html.app-native body {
-  background-color: #14160E;
-  color: #F3F3ED;
+  background-color: #FAF6EF; /* crème chaud, doux */
+  color: #2A2620;
 }
-/* Surfaces claires -> sombres */
-html.app-native [class*="bg-white"] {
-  background-color: #20231A !important;
+/* Accent lime -> ambre (fonds pleins) */
+html.app-native .btn-primary {
+  background-color: #E0A23C !important;
+  color: #2A1E06 !important;
+  box-shadow: 0 0 50px -18px rgba(224, 162, 60, 0.7) !important;
 }
-html.app-native [class*="bg-cream"] {
-  background-color: #14160E !important;
+html.app-native .btn-primary:hover {
+  background-color: #EBB24F !important;
 }
-html.app-native .bg-topo-light {
-  background-color: #181A11 !important;
-  background-image: none !important;
+html.app-native [class*="bg-dawn-400"],
+html.app-native [class*="bg-dawn-300"],
+html.app-native [class*="bg-dawn-500"],
+html.app-native .mark {
+  background-color: #E0A23C !important;
 }
-/* Petits aplats clairs (tints night-900/[0.0x]) -> blanc très léger */
-html.app-native [class*="bg-night-900/["] {
-  background-color: rgba(255, 255, 255, 0.05) !important;
+/* Dégradés d'accent (avatars, halos) lime -> ambre */
+html.app-native [class*="from-dawn-400"],
+html.app-native [class*="from-dawn-300"] {
+  --tw-gradient-from: #EBB24F var(--tw-gradient-from-position) !important;
+  --tw-gradient-to: rgb(235 178 79 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
 }
-/* Cartes verre -> sombres translucides */
-html.app-native .glass,
-html.app-native .glass-strong {
-  background-color: rgba(255, 255, 255, 0.05) !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
+html.app-native [class*="to-spirit-500"],
+html.app-native [class*="to-dawn-600"] {
+  --tw-gradient-to: #C98A2E !important;
 }
-/* Textes encre (toutes opacités) -> crème */
-html.app-native [class*="text-night-900"] {
-  color: rgba(243, 243, 237, 0.82);
+/* Halos décoratifs : ambre doux */
+html.app-native [class*="bg-dawn-400/"],
+html.app-native [class*="bg-dawn-500/"],
+html.app-native [class*="bg-spirit-400/"] {
+  background-color: rgba(224, 162, 60, 0.18) !important;
 }
-/* Accents vert foncé -> lime lisible */
+/* Textes/accents verts -> ambre chaleureux */
+html.app-native [class*="text-dawn"] {
+  color: #B97E22 !important;
+}
 html.app-native [class*="text-spirit-6"],
 html.app-native [class*="text-spirit-7"] {
-  color: #D8F53A;
+  color: #B97E22 !important;
 }
-/* Bordures sombres -> claires */
-html.app-native [class*="border-night-900"] {
-  border-color: rgba(255, 255, 255, 0.1) !important;
-}
-/* Dégradé de titre -> lime vif sur fond sombre */
-html.app-native .text-gradient {
-  background-image: linear-gradient(to right, #E4FB6E, #CAF000, #D8F53A) !important;
-}
-/* Étiquettes & champs */
 html.app-native .eyebrow {
-  border-color: rgba(255, 255, 255, 0.15);
-  background-color: rgba(255, 255, 255, 0.08);
-  color: #E4FB6E;
+  color: #B97E22;
 }
-html.app-native .field,
-html.app-native .field-area {
-  background-color: #1A1C12 !important;
-  border-color: rgba(255, 255, 255, 0.15) !important;
-  color: #F3F3ED !important;
+/* Titre en dégradé -> ambre/doré */
+html.app-native .text-gradient {
+  background-image: linear-gradient(to right, #C98A2E, #E0A23C, #D99A3C) !important;
 }
-html.app-native ::placeholder {
-  color: rgba(243, 243, 237, 0.4) !important;
+/* Chips sombres (icônes) -> doux crème ambré */
+html.app-native [class*="bg-night-900"]:not([class*="/"]) {
+  background-color: #EFE6D6 !important;
 }
-html.app-native .btn-ghost {
-  border-color: rgba(255, 255, 255, 0.2);
-  background-color: rgba(255, 255, 255, 0.05);
-  color: #F3F3ED;
+/* Liens/icônes ambre sur chips */
+html.app-native .focus-visible\:ring-dawn-500\/70:focus-visible {
+  --tw-ring-color: rgba(224, 162, 60, 0.7);
 }
