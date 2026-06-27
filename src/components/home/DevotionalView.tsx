@@ -9,6 +9,7 @@ import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { AudioPlayer } from "@/components/ui/AudioPlayer";
 import { ViralCard } from "@/components/home/ViralCard";
 import { Markable } from "@/components/ui/Markable";
+import { QuickNote } from "@/components/home/QuickNote";
 import { useToolkit } from "@/lib/toolkit";
 import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
 import { ReminderToggle } from "@/components/pwa/ReminderToggle";
@@ -308,6 +309,13 @@ export function DevotionalView({
               ))}
             </ul>
           </div>
+        </Reveal>
+      </section>
+
+      {/* 4b. Prendre une note → carnet */}
+      <section className="container-x">
+        <Reveal from="up">
+          <QuickNote />
         </Reveal>
       </section>
 

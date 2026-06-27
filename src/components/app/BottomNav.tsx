@@ -31,9 +31,9 @@ const I = {
 
 const TABS = [
   { href: "/devotionnel", label: "Jésus", icon: I.home, match: ["/devotionnel", "/"] },
+  { href: "/communaute", label: "Prière", icon: I.pray, match: ["/communaute", "/membre"] },
   { href: "/carnet", label: "Carnet", icon: I.note, match: ["/carnet"] },
   { href: "/bible", label: "Bible", icon: I.bible, match: ["/bible", "/plans"] },
-  { href: "/communaute", label: "Prière", icon: I.pray, match: ["/communaute", "/membre"] },
   { href: "/videos", label: "Vidéos", icon: I.video, match: ["/videos"] },
 ];
 
