@@ -189,3 +189,18 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ===== Mode application native (barre d'onglets en bas) ===== */
+html.app-native .site-header,
+html.app-native .site-footer {
+  display: none !important;
+}
+/* Espace pour la barre d'onglets fixe en bas */
+html.app-native main {
+  padding-bottom: calc(4.75rem + env(safe-area-inset-bottom));
+}
+/* Les pages intérieures ont un grand padding-top (header fixe du site) :
+   on le réduit dans l'app puisque le header est masqué. */
+html.app-native main > section:first-child {
+  scroll-margin-top: 0;
+}

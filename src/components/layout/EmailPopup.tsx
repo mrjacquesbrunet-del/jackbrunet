@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
+import { useAppMode } from "@/lib/app-mode";
 
 const STORAGE_KEY = "lumiere:popup-dismissed";
 const DELAY_MS = 8_000;
@@ -13,13 +14,15 @@ const DELAY_MS = 8_000;
  */
 export function EmailPopup() {
   const [open, setOpen] = useState(false);
+  const isApp = useAppMode();
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+    if (isApp) return; // dans l'app : pas de pop-up (on a la rubrique Exclusivités)
     if (localStorage.getItem(STORAGE_KEY)) return;
     const timer = setTimeout(() => setOpen(true), DELAY_MS);
     return () => clearTimeout(timer);
-  }, []);
+  }, [isApp]);
 
   function dismiss() {
     setOpen(false);

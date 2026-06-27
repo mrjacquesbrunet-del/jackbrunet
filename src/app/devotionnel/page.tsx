@@ -13,7 +13,7 @@ import { asset } from "@/lib/asset";
 import audioData from "../../../content/audio.generated.json";
 
 export const metadata: Metadata = {
-  title: "Dévotionnel",
+  title: "Temps avec Jésus",
   description:
     "Ton dévotionnel quotidien : une méditation pour t'enraciner en Jésus — un verset à déclarer, une réflexion en profondeur, des questions, le passage du jour et la vidéo. Nouveau chaque jour.",
 };
@@ -33,10 +33,10 @@ export default function DevotionnelPage() {
   return (
     <>
       <PageHero
-        eyebrow="Dévotionnel"
+        eyebrow="Temps avec Jésus"
         title={
           <>
-            Ton rendez-vous <span className="text-gradient">avec Dieu</span>
+            Mon temps <span className="text-gradient">avec Jésus</span>
           </>
         }
         description="Chaque jour, une méditation pour t'enraciner en Jésus : un verset à déclarer, une réflexion en profondeur, des questions, le passage du jour et la vidéo."

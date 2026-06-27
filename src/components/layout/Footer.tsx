@@ -3,7 +3,7 @@ import { footerNav, siteConfig } from "@/config/site";
 
 export function Footer() {
   return (
-    <footer className="dark-ctx bg-topo-dark relative mt-24 overflow-hidden border-t border-white/10">
+    <footer className="site-footer dark-ctx bg-topo-dark relative mt-24 overflow-hidden border-t border-white/10">
       <div className="blob -left-24 top-0 h-72 w-72 bg-spirit-600/20" />
       <div className="blob -right-24 bottom-0 h-72 w-72 bg-dawn-500/15" />
 

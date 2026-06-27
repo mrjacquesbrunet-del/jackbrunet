@@ -33,7 +33,7 @@ export const youtube = {
 
 /** Navigation principale — partagée web + future app. */
 export const mainNav = [
-  { label: "Dévotionnel", href: "/devotionnel" },
+  { label: "Temps avec Jésus", href: "/devotionnel" },
   { label: "Bible", href: "/bible" },
   { label: "Plans", href: "/plans" },
   { label: "Mur de prière", href: "/communaute" },
@@ -51,7 +51,7 @@ export const footerNav = [
   {
     title: "Chaque jour",
     links: [
-      { label: "Dévotionnel", href: "/devotionnel" },
+      { label: "Temps avec Jésus", href: "/devotionnel" },
       { label: "Plans thématiques", href: "/plans" },
       { label: "Mon carnet", href: "/carnet" },
       { label: "Bible", href: "/bible" },
