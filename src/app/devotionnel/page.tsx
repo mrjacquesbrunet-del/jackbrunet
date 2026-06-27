@@ -32,7 +32,7 @@ export default function DevotionnelPage() {
 
   return (
     <>
-      <PageHero
+      <PageHero tone="olive"
         eyebrow="Temps avec Jésus"
         title={
           <>

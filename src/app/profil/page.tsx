@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function ProfilPage() {
   return (
     <>
-      <PageHero tone="teal"
+      <PageHero tone="creme"
         eyebrow="Mon profil"
         title={
           <>

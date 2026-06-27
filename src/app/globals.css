@@ -206,24 +206,16 @@ html.app-native main > section:first-child {
 }
 
 
-/* ===== En-têtes colorés par page (site + app) ===== */
-.hero-lime .text-gradient    { background-image: linear-gradient(to right,#65A30D,#CAF000) !important; }
-.hero-lime .eyebrow          { color:#4D7C0F !important; }
-.hero-sky .text-gradient     { background-image: linear-gradient(to right,#0EA5E9,#2563EB) !important; }
-.hero-sky .eyebrow           { color:#0284C7 !important; }
-.hero-amber .text-gradient   { background-image: linear-gradient(to right,#F59E0B,#EA580C) !important; }
-.hero-amber .eyebrow         { color:#B45309 !important; }
-.hero-emerald .text-gradient { background-image: linear-gradient(to right,#10B981,#059669) !important; }
-.hero-emerald .eyebrow       { color:#047857 !important; }
-.hero-rose .text-gradient    { background-image: linear-gradient(to right,#F43F5E,#EC4899) !important; }
-.hero-rose .eyebrow          { color:#BE123C !important; }
-.hero-violet .text-gradient  { background-image: linear-gradient(to right,#8B5CF6,#7C3AED) !important; }
-.hero-violet .eyebrow        { color:#6D28D9 !important; }
-.hero-teal .text-gradient    { background-image: linear-gradient(to right,#14B8A6,#0D9488) !important; }
-.hero-teal .eyebrow          { color:#0F766E !important; }
-/* En-tête : la pastille d'étiquette garde un fond neutre même dans l'app */
-html.app-native [class^="hero-"] .eyebrow,
-html.app-native [class*=" hero-"] .eyebrow {
-  background-color: rgba(255,255,255,0.06);
-  border-color: rgba(255,255,255,0.12);
-}
+/* ===== En-têtes déclinés dans les couleurs de la marque (site + app) ===== */
+/* Crème : vert profond -> lime (doux) */
+.hero-creme .text-gradient { background-image: linear-gradient(to right,#3A3F28,#65A30D,#CAF000) !important; }
+.hero-creme .eyebrow       { color:#4D7C0F !important; }
+/* Lime flashy */
+.hero-lime .text-gradient  { background-image: linear-gradient(to right,#65A30D,#84CC16,#CAF000) !important; }
+.hero-lime .eyebrow        { color:#557003 !important; }
+/* Vert (émeraude/printemps) */
+.hero-vert .text-gradient  { background-image: linear-gradient(to right,#15803D,#16A34A,#65A30D) !important; }
+.hero-vert .eyebrow        { color:#15803D !important; }
+/* Olive (section sombre, comme le mur de prière) : lime sur olive */
+.hero-olive .text-gradient { background-image: linear-gradient(to right,#D8F53A,#CAF000,#AAD000) !important; }
+.hero-olive .eyebrow       { color:#CAF000 !important; border-color:rgba(255,255,255,0.15); background-color:rgba(255,255,255,0.08); }
