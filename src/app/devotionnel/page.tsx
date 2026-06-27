@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PageHero } from "@/components/ui/PageHero";
+import { DevotionalHero } from "@/components/home/DevotionalHero";
 import { DevotionalView } from "@/components/home/DevotionalView";
 import {
   getDevotions,
@@ -32,15 +32,7 @@ export default function DevotionnelPage() {
 
   return (
     <>
-      <PageHero
-        eyebrow="Temps avec Jésus"
-        title={
-          <>
-            Mon temps <span className="text-gradient">avec Jésus</span>
-          </>
-        }
-        description="Chaque jour, une méditation pour t'enraciner en Jésus : un verset à déclarer, une réflexion en profondeur, des questions, le passage du jour et la vidéo."
-      />
+      <DevotionalHero dateLabel={todayLabel} />
       <DevotionalView
         devotions={devotions}
         initialIndex={todayIndex(devotions.length)}
@@ -48,7 +40,6 @@ export default function DevotionnelPage() {
         initialPlanIndex={todayIndex(plan.length)}
         latestShort={latestShort}
         shorts={shorts}
-        todayLabel={todayLabel}
         bookTitle={book?.title ?? "RHEMA"}
         bookCover={asset(book?.image)}
         audioMap={(audioData.devotions ?? {}) as Record<string, string>}

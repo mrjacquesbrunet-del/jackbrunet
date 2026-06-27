@@ -38,7 +38,6 @@ type Props = {
   initialPlanIndex: number;
   latestShort: Short | null;
   shorts: Short[];
-  todayLabel: string;
   bookTitle: string;
   bookCover: string;
   audioMap: Record<string, string>;
@@ -51,7 +50,6 @@ export function DevotionalView({
   initialPlanIndex,
   latestShort,
   shorts,
-  todayLabel,
   bookTitle,
   bookCover,
   audioMap,
@@ -66,16 +64,6 @@ export function DevotionalView({
   const eng = useEngagement();
   const tk = useToolkit();
 
-  const [label, setLabel] = useState(todayLabel);
-  useEffect(() => {
-    setLabel(
-      new Date().toLocaleDateString("fr-FR", {
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-      }),
-    );
-  }, []);
 
   const paragraphs = dev.meditation.split("\n\n");
 
@@ -84,7 +72,7 @@ export function DevotionalView({
       {/* 1. Date + thème */}
       <section className="container-x">
         <Reveal>
-          <p className="text-sm font-semibold capitalize text-spirit-600">{label}</p>
+          <p className="text-sm font-semibold capitalize text-spirit-600">Méditation du jour</p>
           <h2 className="mt-3 font-display text-3xl font-extrabold leading-[1.05] sm:text-4xl md:text-5xl">
             {dev.theme}
           </h2>
