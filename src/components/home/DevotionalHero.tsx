@@ -15,8 +15,8 @@ export function DevotionalHero({ dateLabel }: { dateLabel?: string }) {
   }, []);
 
   return (
-    <section className="relative overflow-hidden pt-28 pb-8 sm:pt-36 sm:pb-12">
-      <div className="absolute inset-0 bg-grid opacity-40" />
+    <section className="dark-ctx bg-topo-dark relative overflow-hidden pt-28 pb-10 sm:pt-36 sm:pb-14">
+      <div className="absolute inset-0 bg-grid opacity-[0.08]" />
       {/* Halos vivants */}
       <motion.div
         className="blob left-1/4 top-6 h-72 w-72 rounded-[44%] bg-dawn-400/45"
@@ -66,7 +66,7 @@ export function DevotionalHero({ dateLabel }: { dateLabel?: string }) {
 
         {/* Phrase à mot tournant */}
         <motion.p
-          className="mt-6 text-lg text-night-900/70 sm:text-xl"
+          className="mt-6 text-lg text-cream/75 sm:text-xl"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7, duration: 0.6 }}
@@ -91,7 +91,7 @@ export function DevotionalHero({ dateLabel }: { dateLabel?: string }) {
 
         {/* Invitation à défiler */}
         <motion.div
-          className="mx-auto mt-9 flex w-fit flex-col items-center gap-1 text-night-900/40"
+          className="mx-auto mt-9 flex w-fit flex-col items-center gap-1 text-cream/45"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.1 }}
