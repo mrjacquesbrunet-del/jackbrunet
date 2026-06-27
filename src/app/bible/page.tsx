@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function BiblePage() {
   return (
     <>
-      <PageHero tone="creme"
+      <PageHero
         eyebrow="Bible"
         title={
           <>

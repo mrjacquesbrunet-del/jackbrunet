@@ -48,7 +48,7 @@ export default function AProposPage() {
 
   return (
     <>
-      <PageHero tone="creme"
+      <PageHero
         eyebrow="À propos"
         title={
           <>

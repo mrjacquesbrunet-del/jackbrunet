@@ -15,7 +15,7 @@ export default function CarnetPage() {
 
   return (
     <>
-      <PageHero tone="lime"
+      <PageHero
         eyebrow="Mon carnet"
         title={
           <>

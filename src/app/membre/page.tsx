@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function MembrePage() {
   return (
     <>
-      <PageHero tone="olive"
+      <PageHero
         eyebrow="Communauté"
         title={
           <>

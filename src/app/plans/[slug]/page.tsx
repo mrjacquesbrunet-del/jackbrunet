@@ -32,7 +32,7 @@ export default async function PlanPage({
 
   return (
     <>
-      <PageHero tone="vert" eyebrow="Plan thématique" title={plan.title} description={plan.subtitle}>
+      <PageHero eyebrow="Plan thématique" title={plan.title} description={plan.subtitle}>
         <div className="flex flex-col items-center gap-5">
           <AuthorByline />
           <Link href="/plans" className="btn-ghost">

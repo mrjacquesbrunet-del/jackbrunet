@@ -205,17 +205,3 @@ html.app-native main > section:first-child {
   scroll-margin-top: 0;
 }
 
-
-/* ===== En-têtes déclinés dans les couleurs de la marque (site + app) ===== */
-/* Crème : vert profond -> lime (doux) */
-.hero-creme .text-gradient { background-image: linear-gradient(to right,#3A3F28,#65A30D,#CAF000) !important; }
-.hero-creme .eyebrow       { color:#4D7C0F !important; }
-/* Lime flashy */
-.hero-lime .text-gradient  { background-image: linear-gradient(to right,#65A30D,#84CC16,#CAF000) !important; }
-.hero-lime .eyebrow        { color:#557003 !important; }
-/* Vert (émeraude/printemps) */
-.hero-vert .text-gradient  { background-image: linear-gradient(to right,#15803D,#16A34A,#65A30D) !important; }
-.hero-vert .eyebrow        { color:#15803D !important; }
-/* Olive (section sombre, comme le mur de prière) : lime sur olive */
-.hero-olive .text-gradient { background-image: linear-gradient(to right,#D8F53A,#CAF000,#AAD000) !important; }
-.hero-olive .eyebrow       { color:#CAF000 !important; border-color:rgba(255,255,255,0.15); background-color:rgba(255,255,255,0.08); }
