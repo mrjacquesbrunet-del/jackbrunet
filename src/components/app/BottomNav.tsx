@@ -65,7 +65,7 @@ export function BottomNav() {
             onClick={() => setMoreOpen(false)}
             className="fixed inset-0 z-[70] bg-night-950/40 backdrop-blur-sm"
           />
-          <div className="fixed inset-x-0 bottom-0 z-[71] rounded-t-3xl border-t border-night-900/10 bg-[#FAF6EF] p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] text-night-900 shadow-card">
+          <div className="fixed inset-x-0 bottom-0 z-[71] rounded-t-3xl border-t border-night-900/10 bg-[#FBF7F2] p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] text-night-900 shadow-card">
             <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-night-900/15" />
             <p className="mb-3 font-display text-lg font-bold">Tout explorer</p>
             <div className="grid grid-cols-3 gap-3">
@@ -74,9 +74,9 @@ export function BottomNav() {
                   key={m.href}
                   href={m.href}
                   onClick={() => setMoreOpen(false)}
-                  className="flex flex-col items-center gap-2 rounded-2xl border border-night-900/10 bg-white p-3 text-center transition-colors hover:bg-amber-50"
+                  className="flex flex-col items-center gap-2 rounded-2xl border border-night-900/10 bg-white p-3 text-center transition-colors hover:bg-[#FFF0F6]"
                 >
-                  <span className="grid h-10 w-10 place-items-center rounded-xl bg-[#E0A23C]/15 text-[#B97E22]">
+                  <span className="grid h-10 w-10 place-items-center rounded-xl bg-[#FF5DA2]/15 text-[#DB2777]">
                     <Icon d={m.icon} className="h-5 w-5" />
                   </span>
                   <span className="text-xs font-semibold">{m.label}</span>
@@ -88,7 +88,7 @@ export function BottomNav() {
       ) : null}
 
       {/* Barre d'onglets */}
-      <nav className="fixed inset-x-0 bottom-0 z-[60] border-t border-night-900/10 bg-[#FAF6EF]/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl">
+      <nav className="fixed inset-x-0 bottom-0 z-[60] border-t border-night-900/10 bg-[#FBF7F2]/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl">
         <div className="mx-auto flex max-w-lg items-stretch justify-around">
           {TABS.map((t) => {
             const active = isActive(t.match);
@@ -97,7 +97,7 @@ export function BottomNav() {
                 key={t.href}
                 href={t.href}
                 className={`flex flex-1 flex-col items-center gap-1 py-2.5 text-[10px] font-semibold transition-colors ${
-                  active ? "text-[#B97E22]" : "text-night-900/50"
+                  active ? "text-[#DB2777]" : "text-night-900/50"
                 }`}
               >
                 <Icon d={t.icon} className="h-6 w-6" />
@@ -109,7 +109,7 @@ export function BottomNav() {
             type="button"
             onClick={() => setMoreOpen((v) => !v)}
             className={`flex flex-1 flex-col items-center gap-1 py-2.5 text-[10px] font-semibold transition-colors ${
-              moreOpen ? "text-[#B97E22]" : "text-night-900/50"
+              moreOpen ? "text-[#DB2777]" : "text-night-900/50"
             }`}
           >
             <Icon d={I.plus} className="h-6 w-6" />
