@@ -31,7 +31,7 @@ export default function DonsPage() {
 
   return (
     <>
-      <PageHero
+      <PageHero tone="rose"
         eyebrow="Soutenir la mission"
         title={
           <>

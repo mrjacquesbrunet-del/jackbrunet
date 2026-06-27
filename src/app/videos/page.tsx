@@ -25,7 +25,7 @@ export default function VideosPage() {
         </section>
       ) : (
         <>
-          <PageHero
+          <PageHero tone="rose"
             eyebrow="Vidéothèque"
             title={
               <>

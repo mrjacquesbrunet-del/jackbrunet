@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function BoutiquePage() {
   return (
     <>
-      <PageHero
+      <PageHero tone="amber"
         eyebrow="Boutique"
         title={
           <>

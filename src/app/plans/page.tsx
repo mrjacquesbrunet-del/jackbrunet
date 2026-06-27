@@ -15,7 +15,7 @@ export default function PlansPage() {
 
   return (
     <>
-      <PageHero
+      <PageHero tone="emerald"
         eyebrow="Plans thématiques"
         title={
           <>

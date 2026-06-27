@@ -22,7 +22,7 @@ export default function MissionMadagascarPage() {
 
   return (
     <>
-      <PageHero
+      <PageHero tone="emerald"
         eyebrow="Mission · Madagascar"
         title={
           <>

@@ -13,7 +13,7 @@ export default function ActualitePage() {
   const events = getEvents();
   return (
     <>
-      <PageHero
+      <PageHero tone="violet"
         eyebrow="Actualité"
         title={
           <>
