@@ -5,11 +5,14 @@ import { isNativeApp } from "./notifications";
 
 /**
  * Détecte si on doit afficher l'expérience « application » (barre d'onglets en
- * bas, masquage du menu site…). Vrai dans l'app native (Capacitor) OU en mode
- * aperçu navigateur via `?app=1` (mémorisé) pour tester le rendu app.
+ * bas, masquage du menu site…).
  *
- * SSR-safe : commence à `false`, bascule au montage côté client (évite les
- * incohérences d'hydratation sur l'export statique).
+ * - VRAI uniquement dans l'app native (Capacitor) → le SITE web n'est JAMAIS
+ *   affecté pour les visiteurs.
+ * - Aperçu pour tester depuis un navigateur : `?app=1`, mais limité à l'onglet
+ *   en cours (sessionStorage, effacé à la fermeture). `?app=0` quitte l'aperçu.
+ *
+ * SSR-safe : commence à `false`, bascule au montage côté client.
  */
 export function useAppMode(): boolean {
   const [isApp, setIsApp] = useState(false);
@@ -17,10 +20,12 @@ export function useAppMode(): boolean {
   useEffect(() => {
     let preview = false;
     try {
+      // Nettoyage de l'ancien mécanisme persistant (qui collait au navigateur).
+      localStorage.removeItem("jb.appPreview");
       const params = new URLSearchParams(window.location.search);
-      if (params.get("app") === "1") localStorage.setItem("jb.appPreview", "1");
-      if (params.get("app") === "0") localStorage.removeItem("jb.appPreview");
-      preview = localStorage.getItem("jb.appPreview") === "1";
+      if (params.get("app") === "1") sessionStorage.setItem("jb.appPreview", "1");
+      if (params.get("app") === "0") sessionStorage.removeItem("jb.appPreview");
+      preview = sessionStorage.getItem("jb.appPreview") === "1";
     } catch {
       /* ignore */
     }
