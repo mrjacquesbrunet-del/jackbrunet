@@ -18,8 +18,9 @@ set -x
 cd "$CI_PRIMARY_REPOSITORY_PATH"
 
 # Node via Homebrew (présent dans l'environnement Xcode Cloud, Apple Silicon).
-brew install node@20
-export PATH="/opt/homebrew/opt/node@20/bin:$PATH"
+# Capacitor 8 exige Node >= 22.
+brew install node@22
+export PATH="/opt/homebrew/opt/node@22/bin:$PATH"
 
 node --version
 npm --version
