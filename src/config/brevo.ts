@@ -29,7 +29,8 @@ export const BREVO_ENDPOINTS: Record<BrevoFormKey, string | null> = {
   // 1 liste = 1 cadeau (pour des automatisations d'envoi distinctes).
   rhema:
     "https://27d09ed7.sibforms.com/serve/MUIFAEbQ2t9CXrPDPgHPr8Dm9BiUaJeopBjD_QWw6POUiyg2YmCYDiV6aQvmh4nTYXrlXPFVIsw__DL4M9JlOE0-opjSirBddjIHLHfAkH9A6RpFfCc9dCWcz4n6azQSlgCkwLxFbcafuaeiJb_3NMkrAJmCiqO6MBMaK_2wvxR7hdjr9Z399SQxk9-FLXYE41kQUptP4k8R22XN8g==",
-  soaking: null, // Musique soaking offerte — en attente de l'URL du formulaire
+  soaking:
+    "https://27d09ed7.sibforms.com/serve/MUIFAJHlIaW54ub12NkHXi34yydOSuqODJ7J75a5UXQCDDnXpHX76qFbxsA1iu2XfcX3WNc0KTGPQ5HO5OKOCxJK-ZvdD00Vphc4wPx1NCRdZy8KGdiX7D2bqW_U3D758B_KUPVk1JXkZhLFZnZvUtFFiOFv0vZKQB4Oj958HkGs24oB7SNTYqKihjt8ZHbvYSEr9c0oA1dmJXYcpQ==",
 
   boutique:
     "https://27d09ed7.sibforms.com/serve/MUIFANp_6dO3R15ypdw-nkNvSM_LyHzGHaTSUHoI32w2AqH5IAd50unn430pMOgMPUhGM69WtfVhQ26BJm8OF5r-9ctRv7rYMvl8diaR_1UTOdDXv0WG4ce3Ji5b7yV_qwOMrPt1eoZBR4IFJ0YlLXx-XDkOsHySPXsPKxcbZCCM2nzvDrqBhw5csfvK4-A5JQblyWbPn91-3qXB5g==",
