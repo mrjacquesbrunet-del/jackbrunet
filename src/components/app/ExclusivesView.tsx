@@ -48,9 +48,9 @@ const ITEMS: Item[] = [
   },
   {
     tag: "Bonus",
-    title: "Premiers chapitres de RHEMA",
+    title: "Premières méditations de RHEMA",
     desc: "Un avant-goût exclusif du livre — des révélations bibliques à méditer.",
-    href: "/boutique",
+    href: "/ebook/rhema",
   },
 ];
 
