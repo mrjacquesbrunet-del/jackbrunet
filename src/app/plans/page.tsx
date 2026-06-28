@@ -25,6 +25,27 @@ export default function PlansPage() {
         description="Choisis un parcours selon ce que tu traverses. Chaque jour : une méditation courte et des versets à lire. À ton rythme."
       />
 
+      <section className="container-x pt-12">
+        <Reveal from="up">
+          <Link
+            href="/bible-1-an"
+            className="dark-ctx group flex items-center justify-between gap-4 overflow-hidden rounded-4xl border border-dawn-500/40 bg-night-900 p-7 text-cream transition-transform hover:-translate-y-1 sm:p-9"
+          >
+            <div>
+              <span className="eyebrow">Grand parcours</span>
+              <h2 className="mt-2 font-display text-2xl font-extrabold sm:text-3xl">
+                La Bible en <span className="text-gradient">1 an</span>
+              </h2>
+              <p className="mt-2 max-w-xl text-cream/70">
+                Un court passage chaque jour pour traverser toute la Parole en une année, avec ta
+                progression.
+              </p>
+            </div>
+            <span className="shrink-0 text-2xl transition-transform group-hover:translate-x-1">→</span>
+          </Link>
+        </Reveal>
+      </section>
+
       <section className="container-x py-12">
         <div className="grid gap-6 sm:grid-cols-2">
           {plans.map((p, i) => (
