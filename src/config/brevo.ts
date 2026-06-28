@@ -45,8 +45,13 @@ export const BREVO_ENDPOINTS: Record<BrevoFormKey, string | null> = {
 /** Associe une origine de formulaire email (prop `source`) à une liste Brevo. */
 export function brevoKeyForSource(source: string): BrevoFormKey {
   switch (source) {
+    // Toutes les captations qui PROMETTENT l'ebook « 7 jours pour retrouver
+    // la paix » → liste « ebook » (qui déclenche l'envoi automatique du PDF).
     case "popup":
     case "cadeau-ebook":
+    case "cta-newsletter":
+    case "pensee-du-jour":
+    case "exclusivites":
       return "ebook";
     case "cadeau-soaking":
       return "soaking";
