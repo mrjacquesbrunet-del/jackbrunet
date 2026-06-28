@@ -1,16 +1,19 @@
 name: Générer les commentaires (OpenAI)
 
-# Lancement MANUEL (bouton « Run workflow ») pour maîtriser les coûts.
-# Génère un commentaire d'étude français par verset, puis le commite.
-# Reprise automatique : relancer ne régénère QUE les versets manquants.
+# AUTONOME : un planning GitHub (toutes les 3 h) relance la génération côté
+# serveur — aucune intervention nécessaire. Chaque exécution ne génère QUE les
+# versets manquants (reprise) et s'arrête d'elle-même quand tout est complet.
+# Lancement manuel possible aussi (bouton « Run workflow »).
 
 on:
+  schedule:
+    - cron: "17 */3 * * *" # toutes les 3 heures (heure UTC)
   workflow_dispatch:
     inputs:
       books:
         description: 'Livres à générer (ex: "43" pour Jean, "40,41,42,43", vide = toute la Bible)'
         required: false
-        default: "43"
+        default: ""
       model:
         description: "Modèle OpenAI"
         required: false
@@ -22,6 +25,12 @@ on:
 
 permissions:
   contents: write
+
+# Jamais deux générations en même temps (évite les conflits git) : une nouvelle
+# attend que la précédente finisse.
+concurrency:
+  group: commentary-generation
+  cancel-in-progress: false
 
 jobs:
   commentary:
