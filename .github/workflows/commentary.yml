@@ -47,6 +47,15 @@ jobs:
         with:
           node-version: 20
 
+      # Identité git AVANT la génération : le script commite et push livre par
+      # livre au fil de l'eau (avec rebase). Sans identité, ces commits/rebases
+      # échouaient (« empty ident name ») et tout le travail était perdu au
+      # timeout. Avec l'identité, chaque livre est sauvegardé immédiatement.
+      - name: Configurer l'identité git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Générer les commentaires
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
