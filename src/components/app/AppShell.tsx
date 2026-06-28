@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useAppMode } from "@/lib/app-mode";
 import { BottomNav } from "@/components/app/BottomNav";
+import { AppOnboarding } from "@/components/app/AppOnboarding";
 
 /**
  * Pilote l'expérience « application » :
@@ -28,5 +29,10 @@ export function AppShell() {
   }, [isApp, pathname, router]);
 
   if (!isApp) return null;
-  return <BottomNav />;
+  return (
+    <>
+      <BottomNav />
+      <AppOnboarding />
+    </>
+  );
 }
