@@ -381,8 +381,8 @@ function Profile({
               {notes.length} note{notes.length > 1 ? "s" : ""} (prières, paroles reçues, réflexions)
             </p>
           </Link>
-          <Link href="/carnet" className="glass block p-5 transition-shadow hover:shadow-lg">
-            <p className="font-display font-bold">Mes versets</p>
+          <Link href="/favoris" className="glass block p-5 transition-shadow hover:shadow-lg">
+            <p className="font-display font-bold">Mes favoris</p>
             <p className="mt-1 text-sm text-night-900/60">
               {toolkit.saved.length} enregistré{toolkit.saved.length > 1 ? "s" : ""} ·{" "}
               {toolkit.highlights.length} surligné{toolkit.highlights.length > 1 ? "s" : ""}
@@ -394,6 +394,18 @@ function Profile({
               {activePlans > 0
                 ? `${activePlans} plan${activePlans > 1 ? "s" : ""} en cours`
                 : "Démarrer un plan"}
+            </p>
+          </Link>
+          <Link href="/exaucees" className="glass block p-5 transition-shadow hover:shadow-lg">
+            <p className="font-display font-bold">Prières exaucées</p>
+            <p className="mt-1 text-sm text-night-900/60">
+              Les témoignages de la communauté 🙌
+            </p>
+          </Link>
+          <Link href="/recherche" className="glass block p-5 transition-shadow hover:shadow-lg">
+            <p className="font-display font-bold">Recherche Bible</p>
+            <p className="mt-1 text-sm text-night-900/60">
+              Trouve un mot, un verset, un thème
             </p>
           </Link>
         </div>
