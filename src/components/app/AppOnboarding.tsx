@@ -16,9 +16,16 @@ function Ico({ d }: { d: string }) {
   );
 }
 const FEATURES = [
-  { d: "M12 3v18M3 8h4l2-3 3 6 2-3h7", label: "Ta pensée du jour, chaque matin" },
+  {
+    d: "M3 18h18M7 18a5 5 0 0 1 10 0M12 5v1.5M5.5 9.5l1 1M18.5 9.5l-1 1M3 14h1.5M19.5 14H21",
+    label: "Ta pensée du jour, chaque matin",
+  },
   { d: "M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM19 3v16", label: "Ton carnet spirituel sauvegardé" },
-  { d: "M7 21l1.5-7.5a3.5 3.5 0 0 1 7 0L17 21M12 3c-1 2-1 4 0 6", label: "Le mur de prière de la communauté" },
+  {
+    d: "M16 18v-1a4 4 0 0 0-8 0v1M12 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6M20 18v-1a3 3 0 0 0-2.5-3M17 5.2a3 3 0 0 1 0 5.6",
+    label: "Le réseau de prière de la communauté",
+  },
+  { d: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM10 8.5l5 3.5-5 3.5z", label: "Des vidéos pour nourrir ta foi" },
   { d: "M12 3l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.9 6.8 19l1-5.8L3.6 9.1l5.8-.8z", label: "Tes cadeaux offerts (ebooks, soaking)" },
 ];
 
