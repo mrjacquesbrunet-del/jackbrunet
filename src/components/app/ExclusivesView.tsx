@@ -42,9 +42,9 @@ const ITEMS: Item[] = [
   },
   {
     tag: "Audio",
-    title: "Soaking & prédication",
+    title: "Soaking offert",
     desc: "Un temps de présence pour méditer et te reposer en Dieu.",
-    href: "/devotionnel",
+    href: "/soaking",
   },
   {
     tag: "Bonus",
