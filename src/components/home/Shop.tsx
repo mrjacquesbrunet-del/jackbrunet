@@ -108,9 +108,9 @@ export function Shop() {
             </div>
             <div className="w-full lg:w-80">
               <NewsletterForm
-                source="cadeau-ebook"
+                source="cadeau-rhema"
                 layout="stacked"
-                cta="Recevoir l'ebook gratuit"
+                cta="Recevoir les méditations RHEMA"
                 note="Gratuit. Désinscription en un clic."
               />
             </div>
