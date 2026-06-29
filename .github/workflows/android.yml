@@ -1,0 +1,63 @@
+name: Build Android (.aab pour Google Play)
+
+# Fabrication du bundle Android signé, dans le cloud (équivalent d'Xcode Cloud
+# pour Apple). Lancement manuel : onglet « Actions » → ce workflow → « Run ».
+# À la fin, le fichier .aab est téléchargeable dans « Artifacts ».
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Capacitor 8 exige Node >= 22.
+      - name: Configurer Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # Android (Gradle) exige le JDK 21.
+      - name: Configurer Java (JDK 21)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Build web (export statique)
+        run: npm run build:app
+
+      - name: Synchroniser Capacitor (Android)
+        run: npx cap sync android
+
+      # Décode le keystore (secret base64) vers un fichier temporaire.
+      - name: Préparer le keystore de signature
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > "${{ runner.temp }}/release.keystore"
+
+      - name: Compiler le bundle signé (.aab)
+        working-directory: android
+        env:
+          ANDROID_KEYSTORE_FILE: ${{ runner.temp }}/release.keystore
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          chmod +x ./gradlew
+          ./gradlew bundleRelease -PversionCodeOverride=${{ github.run_number }} --no-daemon
+
+      - name: Publier le .aab en artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-aab
+          path: android/app/build/outputs/bundle/release/*.aab
+          if-no-files-found: error
