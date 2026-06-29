@@ -31,11 +31,24 @@ npm ci
 npm run build:app
 npx cap sync ios
 
-# Régénère le Package.resolved pour qu'il corresponde EXACTEMENT au graphe
-# Swift produit par cap sync (qui ajoute OneSignal, etc.). Sans ça, l'archive
-# Xcode Cloud (résolution automatique désactivée) refuse un fichier périmé.
+# --- Résolution des paquets Swift (OneSignal, cordova-ios, etc.) -------------
+# Dans le cloud, `cap sync` ajoute OneSignal au graphe Swift (via le plugin
+# onesignal-cordova-plugin, qui dépend de OneSignal-XCFramework + cordova-ios).
+# Le Package.resolved committé devient alors périmé. Or Xcode Cloud DÉSACTIVE
+# la résolution automatique, ce qui rend ce fichier périmé FATAL pour l'archive
+# (« an out-of-date resolved file was detected... »).
+#
+# 1) On réactive la résolution automatique des paquets (au cas où xcodebuild
+#    l'honore via les préférences du toolchain).
+defaults write com.apple.dt.Xcode IDEDisableAutomaticPackageResolution -bool NO 2>/dev/null || true
+defaults write com.apple.dt.Xcode IDEPackageOnlyUseVersionsFromResolvedFile -bool NO 2>/dev/null || true
+
+# 2) On régénère EXPLICITEMENT le Package.resolved pour qu'il corresponde au
+#    graphe produit par cap sync. NB : pas de « || true » ici — si la
+#    résolution échoue, on veut que le build s'arrête avec un log clair plutôt
+#    que de poursuivre avec un fichier périmé.
 xcodebuild -resolvePackageDependencies \
   -project ios/App/App.xcodeproj \
-  -scheme App || true
+  -scheme App
 
 echo "ci_post_clone : node_modules + contenu web + Package.resolved synchronisés."
