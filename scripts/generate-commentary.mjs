@@ -65,6 +65,10 @@ function userPrompt(book, chapter, verse, text) {
 async function callOpenAI(messages) {
   const MAX = 10;
   for (let attempt = 0; attempt < MAX; attempt++) {
+    // Délai d'expiration par requête : sans cela, un appel figé bloque tout
+    // le run pendant des heures. On abandonne après 60 s, puis on réessaie.
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 60000);
     try {
       const r = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
@@ -75,6 +79,7 @@ async function callOpenAI(messages) {
           temperature: 0.4,
           response_format: { type: "json_object" },
         }),
+        signal: ctrl.signal,
       });
       if (r.status === 429 || r.status >= 500) {
         const ra = Number(r.headers.get("retry-after"));
@@ -88,6 +93,8 @@ async function callOpenAI(messages) {
     } catch (e) {
       if (attempt >= MAX - 1) return null; // abandon : verset laissé MANQUANT, repris au prochain passage
       await sleep(Math.min(20000, 1500 * (attempt + 1)) + Math.random() * 600);
+    } finally {
+      clearTimeout(timer);
     }
   }
   return null; // jamais "valider" un verset non généré
