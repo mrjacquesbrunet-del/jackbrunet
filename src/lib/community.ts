@@ -133,6 +133,22 @@ export async function listPrayers(): Promise<Prayer[]> {
   return prayers.map((p) => ({ ...p, author: profs[p.author_id] }));
 }
 
+/** Prières exaucées publiques (« témoignages ») — les plus récentes. */
+export async function listAnsweredPrayers(): Promise<Prayer[]> {
+  const sb = getSupabase();
+  if (!sb) return [];
+  const { data } = await sb
+    .from("prayers")
+    .select("*")
+    .eq("answered", true)
+    .eq("visibility", "public")
+    .order("created_at", { ascending: false })
+    .limit(60);
+  const prayers = (data as Prayer[]) ?? [];
+  const profs = await profilesByIds(prayers.map((p) => p.author_id));
+  return prayers.map((p) => ({ ...p, author: profs[p.author_id] }));
+}
+
 export async function listMyPrayers(userId: string): Promise<Prayer[]> {
   const sb = getSupabase();
   if (!sb) return [];
