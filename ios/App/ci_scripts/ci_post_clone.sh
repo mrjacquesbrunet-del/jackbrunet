@@ -31,4 +31,11 @@ npm ci
 npm run build:app
 npx cap sync ios
 
-echo "ci_post_clone : node_modules + contenu web générés et synchronisés."
+# Régénère le Package.resolved pour qu'il corresponde EXACTEMENT au graphe
+# Swift produit par cap sync (qui ajoute OneSignal, etc.). Sans ça, l'archive
+# Xcode Cloud (résolution automatique désactivée) refuse un fichier périmé.
+xcodebuild -resolvePackageDependencies \
+  -project ios/App/App.xcodeproj \
+  -scheme App || true
+
+echo "ci_post_clone : node_modules + contenu web + Package.resolved synchronisés."
