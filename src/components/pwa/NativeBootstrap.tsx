@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { asset } from "@/lib/asset";
 import { isNativeApp, readReminder, enableDailyReminder } from "@/lib/notifications";
+import { initOneSignal } from "@/lib/onesignal";
 
 /**
  * Initialisation propre à l'application native (Capacitor) :
@@ -54,6 +55,9 @@ export function NativeBootstrap() {
       if (pref.enabled) {
         await enableDailyReminder(pref.hour, pref.minute).catch(() => undefined);
       }
+
+      // Notifications push OneSignal (annonces à tous les utilisateurs).
+      await initOneSignal();
     })();
 
     return () => cleanup?.();
