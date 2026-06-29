@@ -12,9 +12,11 @@ import {
   followCounts,
   getActivity,
   uploadAvatar,
+  isAdminEmail,
   type Prayer,
   type FavoriteVerse,
 } from "@/lib/community";
+import { AdminAnnounce } from "@/components/community/AdminAnnounce";
 import { GradeProgress } from "@/components/community/GradeBadge";
 import { ProfileNotifications } from "@/components/community/ProfileNotifications";
 import { useNotebook } from "@/lib/notebook";
@@ -414,6 +416,8 @@ function Profile({
           sur tous tes appareils dès que tu te connectes.
         </p>
       </div>
+
+      {isAdminEmail(email) ? <AdminAnnounce /> : null}
     </section>
   );
 }

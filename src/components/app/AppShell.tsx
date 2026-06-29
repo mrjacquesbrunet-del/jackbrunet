@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useAppMode } from "@/lib/app-mode";
 import { BottomNav } from "@/components/app/BottomNav";
 import { AppOnboarding } from "@/components/app/AppOnboarding";
+import { AnnouncementBanner } from "@/components/app/AnnouncementBanner";
 
 /**
  * Pilote l'expérience « application » :
@@ -33,6 +34,7 @@ export function AppShell() {
     <>
       <BottomNav />
       <AppOnboarding />
+      <AnnouncementBanner />
     </>
   );
 }
