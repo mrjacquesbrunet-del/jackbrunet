@@ -5,8 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import type { LongVideo, Short } from "@/lib/types";
 import { ShortsPlayer } from "@/components/home/ShortsPlayer";
 import { PlayIcon } from "@/components/ui/PlayIcon";
-import { isNativeApp } from "@/lib/notifications";
-import { openYouTube } from "@/lib/youtube";
+import { videoEmbedSrc } from "@/lib/youtube";
 
 const norm = (s: string) =>
   s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
@@ -247,17 +246,7 @@ function VideoModal({
     return () => window.removeEventListener("keydown", onKey);
   }, [go, onClose]);
 
-  // En app native : ouvrir la vidéo dans le navigateur (embed bloqué).
-  useEffect(() => {
-    if (isNativeApp()) {
-      openYouTube(videos[index]?.id);
-      onClose();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   if (!v) return null;
-  if (isNativeApp()) return null;
 
   return (
     <motion.div
@@ -297,7 +286,7 @@ function VideoModal({
           <iframe
             key={v.id}
             className="absolute inset-0 h-full w-full"
-            src={`https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&rel=0&modestbranding=1`}
+            src={videoEmbedSrc(v.id, { autoplay: true })}
             title={v.title}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen

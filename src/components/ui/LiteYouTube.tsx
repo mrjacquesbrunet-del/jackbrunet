@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { openYouTube } from "@/lib/youtube";
+import { videoEmbedSrc } from "@/lib/youtube";
 
 type LiteYouTubeProps = {
   id: string;
@@ -25,7 +25,7 @@ export function LiteYouTube({ id, title = "Vidéo", vertical = false }: LiteYouT
       {active ? (
         <iframe
           className="absolute inset-0 h-full w-full"
-          src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`}
+          src={videoEmbedSrc(id, { autoplay: true })}
           title={title}
           loading="lazy"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -34,11 +34,7 @@ export function LiteYouTube({ id, title = "Vidéo", vertical = false }: LiteYouT
       ) : (
         <button
           type="button"
-          onClick={async () => {
-            // En natif, l'embed YouTube est bloqué → ouvrir dans le navigateur.
-            if (await openYouTube(id)) return;
-            setActive(true);
-          }}
+          onClick={() => setActive(true)}
           aria-label={`Lire : ${title}`}
           className="group absolute inset-0 h-full w-full"
         >
