@@ -20,8 +20,12 @@ create policy "announcements_read" on public.announcements
 -- Seul l'admin (Jack) peut créer / modifier des annonces.
 drop policy if exists "announcements_insert_admin" on public.announcements;
 create policy "announcements_insert_admin" on public.announcements
-  for insert with check (auth.jwt() ->> 'email' = 'mr.jacquesbrunet@gmail.com');
+  for insert with check (
+    lower(auth.jwt() ->> 'email') in ('contact@jackbrunet.com','mr.jacquesbrunet@gmail.com')
+  );
 
 drop policy if exists "announcements_update_admin" on public.announcements;
 create policy "announcements_update_admin" on public.announcements
-  for update using (auth.jwt() ->> 'email' = 'mr.jacquesbrunet@gmail.com');
+  for update using (
+    lower(auth.jwt() ->> 'email') in ('contact@jackbrunet.com','mr.jacquesbrunet@gmail.com')
+  );
