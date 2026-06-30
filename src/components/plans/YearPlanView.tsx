@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { asset } from "@/lib/asset";
 import { usePlanProgress } from "@/lib/plan-progress";
+import { Celebration } from "@/components/ui/Celebration";
 import {
   buildYearPlan,
   YEAR_PLAN_SLUG,
@@ -33,6 +34,22 @@ export function YearPlanView() {
     setDay(firstTodo);
   }, [plan, day, progress]);
 
+  // Célébration unique quand toute la Bible est lue
+  const [celebrate, setCelebrate] = useState(false);
+  useEffect(() => {
+    if (progress.done.length < YEAR_PLAN_DAYS) return;
+    try {
+      const key = "jb.plan.celebrated.v1";
+      const seen = JSON.parse(localStorage.getItem(key) || "[]") as string[];
+      if (!seen.includes(YEAR_PLAN_SLUG)) {
+        setCelebrate(true);
+        localStorage.setItem(key, JSON.stringify([...seen, YEAR_PLAN_SLUG]));
+      }
+    } catch {
+      /* stockage indisponible */
+    }
+  }, [progress.done.length]);
+
   if (!index || day === null) {
     return <p className="container-x py-10 text-sm text-night-900/55">Chargement du plan…</p>;
   }
@@ -44,6 +61,14 @@ export function YearPlanView() {
 
   return (
     <section className="container-x max-w-2xl py-10">
+      <Celebration
+        open={celebrate}
+        emoji="🎉"
+        title="Toute la Bible lue en 1 an !"
+        message="Quel parcours ! Tu as traversé toute la Parole de Dieu. Qu'elle reste une lampe à tes pieds."
+        onClose={() => setCelebrate(false)}
+      />
+
       {/* Progression */}
       <div className="rounded-3xl border border-night-900/10 bg-white/70 p-5">
         <div className="flex items-center justify-between text-sm font-semibold">

@@ -1,9 +1,11 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePlanProgress } from "@/lib/plan-progress";
 import { AuthorByline } from "@/components/ui/AuthorByline";
 import { PassageInline } from "@/components/bible/PassageInline";
+import { Celebration } from "@/components/ui/Celebration";
 import type { ThemePlan } from "@/lib/types";
 
 export function PlanView({ plan }: { plan: ThemePlan }) {
@@ -12,8 +14,31 @@ export function PlanView({ plan }: { plan: ThemePlan }) {
   const doneCount = progress.done.length;
   const percent = total ? Math.round((doneCount / total) * 100) : 0;
 
+  // Célébration unique à la complétion du plan
+  const [celebrate, setCelebrate] = useState(false);
+  useEffect(() => {
+    if (percent !== 100) return;
+    try {
+      const key = "jb.plan.celebrated.v1";
+      const seen = JSON.parse(localStorage.getItem(key) || "[]") as string[];
+      if (!seen.includes(plan.slug)) {
+        setCelebrate(true);
+        localStorage.setItem(key, JSON.stringify([...seen, plan.slug]));
+      }
+    } catch {
+      /* stockage indisponible */
+    }
+  }, [percent, plan.slug]);
+
   return (
     <section className="container-x py-10">
+      <Celebration
+        open={celebrate}
+        emoji="🎉"
+        title="Parcours terminé !"
+        message={`Bravo, tu as terminé « ${plan.title} » ! Que cette Parole continue de porter du fruit dans ta vie.`}
+        onClose={() => setCelebrate(false)}
+      />
       {/* Progression */}
       <div className="max-w-2xl">
         <div className="flex items-center justify-between text-sm">
