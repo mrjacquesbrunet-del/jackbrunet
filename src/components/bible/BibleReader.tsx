@@ -122,21 +122,36 @@ export function BibleReader() {
         </select>
       </div>
 
-      {/* Invitation à découvrir les plans de lecture */}
-      <Link
-        href="/plans"
-        className="mt-4 flex max-w-2xl items-center justify-between gap-3 rounded-2xl border border-dawn-400/40 bg-gradient-to-br from-dawn-400/10 to-spirit-500/10 px-4 py-3 transition-shadow hover:shadow-md"
-      >
-        <span>
-          <span className="block font-display font-bold text-spirit-700">
-            Découvre nos plans de lecture
+      {/* Accès rapides en haut (visibles) : plans thématiques + Bible en 1 an */}
+      <div className="mt-4 grid max-w-2xl gap-3 sm:grid-cols-2">
+        <Link
+          href="/plans"
+          className="flex items-center justify-between gap-3 rounded-2xl border border-dawn-400/40 bg-gradient-to-br from-dawn-400/10 to-spirit-500/10 px-4 py-3 transition-shadow hover:shadow-md"
+        >
+          <span>
+            <span className="block font-display text-sm font-bold text-spirit-700">
+              Découvre nos plans
+            </span>
+            <span className="mt-0.5 block text-xs text-night-900/60">
+              Thématiques, selon ce que tu traverses.
+            </span>
           </span>
-          <span className="mt-0.5 block text-sm text-night-900/60">
-            La Bible en 1 an, ou un thème selon ce que tu traverses.
+          <span className="shrink-0 text-spirit-700">→</span>
+        </Link>
+
+        <Link
+          href="/bible-1-an"
+          className="dark-ctx group flex items-center justify-between gap-3 overflow-hidden rounded-2xl border border-dawn-500/40 bg-night-900 px-4 py-3 text-cream transition-transform hover:-translate-y-0.5"
+        >
+          <span>
+            <span className="eyebrow text-[10px]">Grand parcours</span>
+            <span className="mt-0.5 block font-display text-sm font-extrabold">
+              La Bible en <span className="text-gradient">1 an</span>
+            </span>
           </span>
-        </span>
-        <span className="shrink-0 text-spirit-700">→</span>
-      </Link>
+          <span className="shrink-0 transition-transform group-hover:translate-x-1">→</span>
+        </Link>
+      </div>
 
       <h2 className="mt-8 font-display text-3xl font-extrabold">
         {book?.name} {chapterCount ? chapter : ""}
@@ -209,24 +224,6 @@ export function BibleReader() {
           Suivant →
         </button>
       </div>
-
-      {/* Grand parcours : La Bible en 1 an (même carte que sur le site) */}
-      <Link
-        href="/bible-1-an"
-        className="dark-ctx group mt-12 flex max-w-2xl items-center justify-between gap-4 overflow-hidden rounded-4xl border border-dawn-500/40 bg-night-900 p-7 text-cream transition-transform hover:-translate-y-1 sm:p-9"
-      >
-        <div>
-          <span className="eyebrow">Grand parcours</span>
-          <h2 className="mt-2 font-display text-2xl font-extrabold sm:text-3xl">
-            La Bible en <span className="text-gradient">1 an</span>
-          </h2>
-          <p className="mt-2 max-w-xl text-cream/70">
-            Un court passage chaque jour pour traverser toute la Parole en une année, avec ta
-            progression.
-          </p>
-        </div>
-        <span className="shrink-0 text-2xl transition-transform group-hover:translate-x-1">→</span>
-      </Link>
     </section>
   );
 }
