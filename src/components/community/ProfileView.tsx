@@ -118,6 +118,7 @@ function Profile({
   const [activity, setActivity] = useState<Activity>({ prayers: 0, comments: 0, prays: 0 });
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [editing, setEditing] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
@@ -254,6 +255,7 @@ function Profile({
     refreshProfile();
     setSaving(false);
     setSaved(true);
+    setEditing(false);
     setTimeout(() => setSaved(false), 2500);
   }
 
@@ -267,28 +269,83 @@ function Profile({
 
       {/* Carte profil */}
       <div className="glass-strong -mt-10 p-6 sm:p-8">
-        <div className="flex items-center gap-4">
+        {/* Ligne avatar + stats (façon Instagram) */}
+        <div className="flex items-end gap-5">
           <span
             className="shrink-0 rounded-full p-[3px]"
             style={{ background: gradeRing(gradeFor(activity).grade.name) }}
             title={gradeFor(activity).grade.name}
           >
-            <span className="block rounded-full bg-cream p-[2px]">
-              <Avatar pseudo={pseudoVal || profile?.pseudo} url={avatarVal || profile?.avatar_url} size={64} />
+            <span className="block rounded-full bg-cream p-[3px]">
+              <Avatar pseudo={profile?.pseudo} url={profile?.avatar_url} size={84} />
             </span>
           </span>
-          <div className="min-w-0">
+          <div className="grid flex-1 grid-cols-3 gap-1 text-center">
+            <Link
+              href={`/membre?u=${userId}`}
+              className="rounded-xl py-1 transition-colors hover:bg-night-900/5"
+            >
+              <p className="font-display text-xl font-extrabold">{counts.followers}</p>
+              <p className="text-[11px] text-night-900/55">Abonnés</p>
+            </Link>
+            <Link
+              href={`/membre?u=${userId}`}
+              className="rounded-xl py-1 transition-colors hover:bg-night-900/5"
+            >
+              <p className="font-display text-xl font-extrabold">{counts.following}</p>
+              <p className="text-[11px] text-night-900/55">Abonnements</p>
+            </Link>
+            <div className="rounded-xl py-1">
+              <p className="flex items-center justify-center gap-1 font-display text-xl font-extrabold text-spirit-700">
+                <FlameGlyph className="h-4 w-4" />
+                {eng.ready ? eng.streak : 0}
+              </p>
+              <p className="text-[11px] text-night-900/55">Série</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Nom + grade + bio + versets (lecture seule) */}
+        <div className="mt-4">
+          <div className="flex flex-wrap items-center gap-2">
             <h2 className="font-display text-xl font-extrabold leading-tight">
               {profile?.pseudo ?? "Mon profil"}
             </h2>
-            {email ? <p className="truncate text-sm text-night-900/55">{email}</p> : null}
-            <p className="mt-1 text-sm text-night-900/55">
-              <strong className="text-night-900/80">{counts.followers}</strong> abonné
-              {counts.followers > 1 ? "s" : ""} ·{" "}
-              <strong className="text-night-900/80">{counts.following}</strong> abonnement
-              {counts.following > 1 ? "s" : ""}
-            </p>
+            <span className="inline-flex items-center gap-1 rounded-full bg-dawn-400/15 px-2.5 py-0.5 text-[11px] font-bold text-spirit-700">
+              {gradeFor(activity).grade.name}
+            </span>
           </div>
+          {profile?.bio ? (
+            <p className="mt-1.5 whitespace-pre-wrap text-sm leading-relaxed text-night-900/75">
+              {profile.bio}
+            </p>
+          ) : null}
+          {(profile?.favorite_verses ?? []).slice(0, 2).map((v, i) => (
+            <p key={i} className="mt-1.5 border-l-2 border-dawn-400 pl-2.5 text-sm italic text-night-900/70">
+              «&nbsp;{v.text}&nbsp;»{" "}
+              {v.reference ? (
+                <span className="font-semibold not-italic text-spirit-600">— {v.reference}</span>
+              ) : null}
+            </p>
+          ))}
+        </div>
+
+        {/* Actions : Modifier / Partager / Rechercher */}
+        <div className="mt-4 flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setEditing((e) => !e)}
+            className="btn-primary flex-1 justify-center text-sm sm:flex-none sm:px-8"
+          >
+            {editing ? "Fermer" : "Modifier le profil"}
+          </button>
+          <button
+            type="button"
+            onClick={shareProfile}
+            className="btn-ghost flex-1 justify-center text-sm sm:flex-none sm:px-8"
+          >
+            Partager
+          </button>
           <button
             type="button"
             aria-label="Rechercher des profils"
@@ -302,44 +359,11 @@ function Profile({
               <path d="M21 21l-4.3-4.3" strokeLinecap="round" />
             </svg>
           </button>
-          <div className="ml-auto flex flex-col items-end gap-1">
-            <button
-              type="button"
-              onClick={shareProfile}
-              className="text-sm font-semibold text-spirit-600 hover:underline"
-            >
-              Partager mon profil
-            </button>
-            <Link href={`/membre?u=${userId}`} className="text-sm font-semibold text-spirit-600 hover:underline">
-              Voir mon profil public
-            </Link>
-            <button
-              type="button"
-              onClick={() => signOut()}
-              className="text-sm text-night-900/50 hover:underline"
-            >
-              Déconnexion
-            </button>
-            <button
-              type="button"
-              onClick={async () => {
-                if (
-                  !confirm(
-                    "Supprimer définitivement ton compte et tes données ? Cette action est irréversible.",
-                  )
-                )
-                  return;
-                const ok = await deleteAccount();
-                if (!ok) alert("La suppression a échoué. Réessaie ou écris-nous.");
-              }}
-              className="text-xs text-red-600/70 hover:underline"
-            >
-              Supprimer mon compte
-            </button>
-          </div>
         </div>
 
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+        {editing ? (
+        <div className="mt-6 border-t border-night-900/10 pt-6">
+        <div className="grid gap-4 sm:grid-cols-2">
           <label className="block">
             <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
               Pseudo
@@ -460,44 +484,42 @@ function Profile({
           </div>
         </div>
 
-        <div className="mt-5 flex items-center gap-3">
+        <div className="mt-5 flex flex-wrap items-center gap-3">
           <button type="button" onClick={save} disabled={saving} className="btn-primary disabled:opacity-40">
             {saving ? "Enregistrement…" : "Enregistrer"}
           </button>
+          <button type="button" onClick={() => setEditing(false)} className="btn-ghost">
+            Annuler
+          </button>
           {saved ? <span className="text-sm text-spirit-600">✓ Enregistré</span> : null}
         </div>
-      </div>
 
-      {/* Tuiles de stats (réseau social + gamification) */}
-      <div className="mt-6 grid grid-cols-4 gap-2 sm:gap-3">
-        <Link
-          href={`/membre?u=${userId}`}
-          className="rounded-2xl border border-night-900/10 bg-white p-3 text-center transition-shadow hover:shadow-md"
-        >
-          <p className="font-display text-xl font-extrabold">{counts.followers}</p>
-          <p className="text-[11px] text-night-900/55">Abonnés</p>
-        </Link>
-        <Link
-          href={`/membre?u=${userId}`}
-          className="rounded-2xl border border-night-900/10 bg-white p-3 text-center transition-shadow hover:shadow-md"
-        >
-          <p className="font-display text-xl font-extrabold">{counts.following}</p>
-          <p className="text-[11px] text-night-900/55">Abonnements</p>
-        </Link>
-        <div className="rounded-2xl border border-night-900/10 bg-white p-3 text-center">
-          <p className="flex items-center justify-center gap-1 font-display text-xl font-extrabold text-spirit-700">
-            <FlameGlyph className="h-4 w-4" />
-            {eng.ready ? eng.streak : 0}
-          </p>
-          <p className="text-[11px] text-night-900/55">Série</p>
+        <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-night-900/10 pt-4 text-sm">
+          <Link href={`/membre?u=${userId}`} className="font-semibold text-spirit-600 hover:underline">
+            Voir mon profil public
+          </Link>
+          <button type="button" onClick={() => signOut()} className="text-night-900/50 hover:underline">
+            Déconnexion
+          </button>
+          <button
+            type="button"
+            onClick={async () => {
+              if (
+                !confirm(
+                  "Supprimer définitivement ton compte et tes données ? Cette action est irréversible.",
+                )
+              )
+                return;
+              const ok = await deleteAccount();
+              if (!ok) alert("La suppression a échoué. Réessaie ou écris-nous.");
+            }}
+            className="text-red-600/70 hover:underline"
+          >
+            Supprimer mon compte
+          </button>
         </div>
-        <Link
-          href="/plans"
-          className="rounded-2xl border border-night-900/10 bg-white p-3 text-center transition-shadow hover:shadow-md"
-        >
-          <p className="font-display text-xl font-extrabold">{activePlans}</p>
-          <p className="text-[11px] text-night-900/55">Plans</p>
-        </Link>
+        </div>
+        ) : null}
       </div>
 
       {/* Badges débloqués */}
