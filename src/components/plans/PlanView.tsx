@@ -68,15 +68,33 @@ export function PlanView({ plan }: { plan: ThemePlan }) {
                   : "border-night-900/10 bg-white"
               }`}
             >
-              <div className="flex items-start gap-4">
-                <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-dawn-400 to-spirit-500 text-night-950">
+              <div className="flex items-center gap-4">
+                <div className="relative grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-night-900 shadow-sm">
                   <div className="text-center leading-none">
-                    <span className="block text-[9px] font-bold uppercase">Jour</span>
-                    <span className="block text-xl font-extrabold">{d.day}</span>
+                    <span className="block text-[8px] font-bold uppercase tracking-[0.2em] text-dawn-400">
+                      Jour
+                    </span>
+                    <span className="mt-1 block font-display text-2xl font-extrabold text-cream">
+                      {d.day}
+                    </span>
                   </div>
+                  {done ? (
+                    <span className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-dawn-400 text-night-900 ring-2 ring-white">
+                      <svg viewBox="0 0 24 24" className="h-3 w-3 fill-none stroke-current" strokeWidth={3}>
+                        <path d="M5 12l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                  ) : null}
                 </div>
-                <div className="min-w-0">
-                  <h3 className="font-display text-xl font-bold">{d.title}</h3>
+                <div className="min-w-0 flex-1">
+                  <span
+                    className={`text-[11px] font-bold uppercase tracking-wide ${
+                      done ? "text-spirit-600" : "text-night-900/40"
+                    }`}
+                  >
+                    {done ? "Terminé" : "À méditer"}
+                  </span>
+                  <h3 className="font-display text-xl font-bold leading-tight">{d.title}</h3>
                 </div>
               </div>
 
