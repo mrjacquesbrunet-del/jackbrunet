@@ -45,7 +45,6 @@ const MORE = [
   { href: "/profil", label: "Mon profil", icon: I.user },
   { href: "/boutique", label: "Boutique", icon: I.bag },
   { href: "/mission-madagascar", label: "Madagascar", icon: I.globe },
-  { href: "/dons", label: "Soutenir", icon: I.gift },
 ];
 
 export function BottomNav() {
