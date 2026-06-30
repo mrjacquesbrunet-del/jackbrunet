@@ -92,7 +92,8 @@ set search_path = public
 as $$
 begin
   if regexp_replace(lower(coalesce(new.pseudo,'')), '[^a-z0-9]', '', 'g')
-       in ('jackbrnt','jackbrunet')
+       in ('jackbrnt','jackbrunet','pasteurjack','pasteurjackbrunet',
+           'pasteurjackbrnt','jackbrunetofficiel','pasteurbrunet')
      and not public.is_admin() then
     raise exception 'Ce pseudo est réservé à Pasteur Jack Brunet.';
   end if;
@@ -104,3 +105,31 @@ drop trigger if exists trg_reserved_pseudo on public.profiles;
 create trigger trg_reserved_pseudo
   before insert or update on public.profiles
   for each row execute function public.enforce_reserved_pseudo();
+
+-- ---------- 6) Encoche "certifié" (réservée aux admins) ----------
+alter table public.profiles add column if not exists verified boolean not null default false;
+
+-- À chaque écriture, on (re)calcule la certification : true seulement si
+-- l'auteur du profil est admin. Impossible à falsifier par un membre.
+create or replace function public.set_verified()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  new.verified := public.is_admin();
+  return new;
+end;
+$$;
+
+drop trigger if exists trg_set_verified on public.profiles;
+create trigger trg_set_verified
+  before insert or update on public.profiles
+  for each row execute function public.set_verified();
+
+-- Backfill : certifier les comptes admin déjà existants.
+update public.profiles p set verified = true
+from auth.users u
+where u.id = p.id
+  and lower(u.email) in ('contact@jackbrunet.com','mr.jacquesbrunet@gmail.com');

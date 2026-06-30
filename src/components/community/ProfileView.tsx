@@ -27,6 +27,7 @@ import { AnsweredFeed } from "@/components/community/AnsweredFeed";
 import { MemberSearch } from "@/components/community/MemberSearch";
 import { MemberSuggestions } from "@/components/community/MemberSuggestions";
 import { NotificationsBell } from "@/components/community/NotificationsBell";
+import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { ProfileBanners } from "@/components/community/ProfileBanners";
 import { useEngagement } from "@/lib/engagement";
 import { FIDELITY_REWARDS } from "@/lib/rewards";
@@ -110,6 +111,7 @@ function Profile({
     avatar_url: string | null;
     bio?: string | null;
     favorite_verses?: FavoriteVerse[];
+    verified?: boolean | null;
   } | null;
   refreshProfile: () => void;
 }) {
@@ -327,8 +329,11 @@ function Profile({
         {/* Nom + grade + bio + versets (lecture seule) */}
         <div className="relative mt-4">
           <div className="flex flex-wrap items-center gap-2">
-            <h2 className="font-display text-xl font-extrabold leading-tight text-cream">
+            <h2 className="flex items-center gap-1.5 font-display text-xl font-extrabold leading-tight text-cream">
               {profile?.pseudo ?? "Ami(e)"}
+              {profile?.verified || isAdminEmail(email) ? (
+                <VerifiedBadge className="h-5 w-5" />
+              ) : null}
             </h2>
             <span className="inline-flex items-center gap-1 rounded-full bg-dawn-400/20 px-2.5 py-0.5 text-[11px] font-bold text-dawn-200">
               {gradeFor(activity).grade.name}

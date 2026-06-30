@@ -7,6 +7,7 @@ import { isSupabaseConfigured } from "@/lib/supabase";
 import { useAuth } from "@/components/community/useAuth";
 import { Avatar } from "@/components/community/Avatar";
 import { GradeBadge } from "@/components/community/GradeBadge";
+import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import {
   getProfile,
   getProfileByPseudo,
@@ -120,7 +121,10 @@ export function MemberView() {
           <Avatar pseudo={profile.pseudo} url={profile.avatar_url} size={72} />
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
-              <h2 className="font-display text-2xl font-extrabold leading-tight">{profile.pseudo}</h2>
+              <h2 className="flex items-center gap-1.5 font-display text-2xl font-extrabold leading-tight">
+                {profile.pseudo}
+                {profile.verified ? <VerifiedBadge className="h-5 w-5" /> : null}
+              </h2>
               {activity ? <GradeBadge activity={activity} /> : null}
             </div>
             <p className="mt-1 text-sm text-night-900/55">

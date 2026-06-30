@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { asset } from "@/lib/asset";
 
 function Icon({ d, className }: { d: string; className?: string }) {
   return (
@@ -14,7 +15,7 @@ function Icon({ d, className }: { d: string; className?: string }) {
 const I = {
   home: "M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10",
   bible: "M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM19 3v16M9 7h6M9 10h6",
-  pray: "M11.4 3.2C9.7 5.7 8.6 8.4 8.6 12.5V18a1.6 1.6 0 0 0 1.6 1.6h1.2V3.2Z M12.6 3.2c1.7 2.5 2.8 5.2 2.8 9.3V18a1.6 1.6 0 0 1-1.6 1.6h-1.2V3.2Z M8.6 12.7 6.6 14.1a1.4 1.4 0 0 0-.4 1.9 M15.4 12.7l2 1.4a1.4 1.4 0 0 1 .4 1.9",
+  pray: "M12 3.4c-.6 1.1-1.3 2-2.4 3.1L6.3 9.8c-.6.6-.9 1.5-.7 2.3l.8 4A1.8 1.8 0 0 0 8.2 19.5H12ZM12 3.4c.6 1.1 1.3 2 2.4 3.1L17.7 9.8c.6.6.9 1.5.7 2.3l-.8 4A1.8 1.8 0 0 1 15.8 19.5H12ZM9.4 12.1c1.7-.9 3.5-.9 5.2 0",
   video: "M4 6h11a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zM17 10l5-3v10l-5-3",
   plus: "M4 6h16M4 12h16M4 18h16",
   star: "M12 3l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.9 6.8 19l1-5.8L3.6 9.1l5.8-.8z",
@@ -32,7 +33,7 @@ const I = {
 
 const TABS = [
   { href: "/devotionnel", label: "Jésus", icon: I.home, match: ["/devotionnel", "/"] },
-  { href: "/communaute", label: "Prière", icon: I.pray, match: ["/communaute", "/membre"] },
+  { href: "/communaute", label: "Prière", icon: I.pray, img: "/icons/priere.png", match: ["/communaute", "/membre"] },
   { href: "/videos", label: "Vidéos", icon: I.video, match: ["/videos"] },
   { href: "/bible", label: "Bible", icon: I.bible, match: ["/bible", "/plans", "/carnet"] },
   { href: "/profil", label: "Profil", icon: I.user, match: ["/profil"] },
@@ -56,7 +57,19 @@ export function BottomNav() {
                 active ? "text-[#CAF000]" : "text-cream/55"
               }`}
             >
-              <Icon d={t.icon} className="h-6 w-6" />
+              {t.img ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={asset(t.img)}
+                  alt=""
+                  aria-hidden="true"
+                  className={`h-6 w-6 object-contain transition-all ${
+                    active ? "opacity-100" : "opacity-55 grayscale"
+                  }`}
+                />
+              ) : (
+                <Icon d={t.icon} className="h-6 w-6" />
+              )}
               {t.label}
             </Link>
           );

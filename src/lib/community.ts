@@ -9,6 +9,7 @@ export type Profile = {
   avatar_url: string | null;
   bio?: string | null;
   favorite_verses?: FavoriteVerse[];
+  verified?: boolean | null;
 };
 export type Visibility = "public" | "friends" | "private";
 export type Prayer = {
@@ -124,7 +125,7 @@ export async function getProfile(id: string): Promise<Profile | null> {
   if (!sb) return null;
   const { data } = await sb
     .from("profiles")
-    .select("id,pseudo,avatar_url,bio,favorite_verses")
+    .select("id,pseudo,avatar_url,bio,favorite_verses,verified")
     .eq("id", id)
     .single();
   return (data as Profile) ?? null;
@@ -156,7 +157,7 @@ async function profilesByIds(ids: string[]): Promise<Record<string, Profile>> {
   if (!sb || ids.length === 0) return {};
   const { data } = await sb
     .from("profiles")
-    .select("id,pseudo,avatar_url")
+    .select("id,pseudo,avatar_url,verified")
     .in("id", Array.from(new Set(ids)));
   const map: Record<string, Profile> = {};
   for (const p of (data as Profile[]) ?? []) map[p.id] = p;
@@ -344,7 +345,7 @@ export async function searchProfiles(query: string, limit = 20): Promise<Profile
   if (!sb || q.length < 2) return [];
   const { data } = await sb
     .from("profiles")
-    .select("id,pseudo,avatar_url")
+    .select("id,pseudo,avatar_url,verified")
     .ilike("pseudo", `%${q}%`)
     .limit(limit);
   return (data as Profile[]) ?? [];
@@ -368,7 +369,15 @@ export async function broadcastNotification(
 
 /** Pseudos réservés à Pasteur Jack (toutes variantes _/-/espace/casse).
  *  Seul un compte admin peut les utiliser. */
-const RESERVED_PSEUDOS = ["jackbrnt", "jackbrunet"];
+const RESERVED_PSEUDOS = [
+  "jackbrnt",
+  "jackbrunet",
+  "pasteurjack",
+  "pasteurjackbrunet",
+  "pasteurjackbrnt",
+  "jackbrunetofficiel",
+  "pasteurbrunet",
+];
 export function isReservedPseudo(pseudo: string): boolean {
   const norm = pseudo.trim().toLowerCase().replace(/[^a-z0-9]/g, "");
   return RESERVED_PSEUDOS.includes(norm);
@@ -395,7 +404,7 @@ export async function getProfileByPseudo(pseudo: string): Promise<Profile | null
   if (!sb || !p) return null;
   const { data } = await sb
     .from("profiles")
-    .select("id,pseudo,avatar_url")
+    .select("id,pseudo,avatar_url,verified")
     .ilike("pseudo", p)
     .limit(1)
     .maybeSingle();

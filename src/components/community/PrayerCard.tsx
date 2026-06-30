@@ -6,6 +6,8 @@ import { Avatar } from "@/components/community/Avatar";
 import { Celebration } from "@/components/ui/Celebration";
 import { MentionField } from "@/components/community/MentionField";
 import { MentionText } from "@/components/community/MentionText";
+import { PrayerMark } from "@/components/ui/PrayerMark";
+import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import {
   type Prayer,
   type Reaction,
@@ -134,9 +136,10 @@ export function PrayerCard({
           <div className="min-w-0 flex-1">
             <Link
               href={`/membre?u=${prayer.author_id}`}
-              className="font-display font-bold leading-tight hover:underline"
+              className="inline-flex items-center gap-1.5 font-display font-bold leading-tight hover:underline"
             >
               {prayer.author?.pseudo ?? "Ami(e)"}
+              {prayer.author?.verified ? <VerifiedBadge className="h-4 w-4" /> : null}
             </Link>
             <p className="text-xs text-night-900/50">
               {when(prayer.created_at)} · {VIS_LABEL[prayer.visibility]}
@@ -170,7 +173,7 @@ export function PrayerCard({
                 : "border-night-900/15 text-night-900/70 hover:border-night-900/30"
             }`}
           >
-            🙏 Je prie{count("pray") > 0 ? ` · ${count("pray")}` : ""}
+            <PrayerMark className="h-4 w-4" /> Je prie{count("pray") > 0 ? ` · ${count("pray")}` : ""}
           </button>
           <button
             type="button"
@@ -217,8 +220,9 @@ export function PrayerCard({
                   <li key={c.id} className="group flex items-start gap-2.5">
                     <Avatar pseudo={c.author?.pseudo} url={c.author?.avatar_url} size={30} />
                     <div className="min-w-0 flex-1 rounded-2xl bg-night-900/[0.04] px-3 py-2">
-                      <p className="text-xs font-semibold text-night-900/70">
+                      <p className="flex items-center gap-1 text-xs font-semibold text-night-900/70">
                         {c.author?.pseudo ?? "Ami(e)"}
+                        {c.author?.verified ? <VerifiedBadge className="h-3.5 w-3.5" /> : null}
                       </p>
                       <MentionText text={c.body} className="text-sm text-night-900/85" />
                     </div>

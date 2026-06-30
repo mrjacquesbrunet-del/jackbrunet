@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { HandsGlyph } from "@/components/ui/DevoIcons";
+import { PrayerMark } from "@/components/ui/PrayerMark";
 import focusData from "../../../content/prayer-focus.json";
 
 type Focus = { theme: string; text: string; verse: string; reference: string };
@@ -43,7 +43,7 @@ export function PrayerFocus() {
   return (
     <div className="dark-ctx overflow-hidden rounded-3xl border border-dawn-500/30 bg-night-900 p-5 text-cream sm:p-6">
       <span className="eyebrow inline-flex items-center gap-1.5">
-        <HandsGlyph className="h-3.5 w-3.5" />
+        <PrayerMark className="h-3.5 w-3.5" />
         Focus de prière · cette semaine
       </span>
       <p className="mt-2 font-display text-xl font-extrabold sm:text-2xl">{f.theme}</p>
