@@ -28,34 +28,20 @@ export default function CarnetPage() {
       <CarnetIntro />
       <NotebookView />
 
-      {/* Raccourcis : favoris & recherche */}
+      {/* Raccourci : favoris */}
       <section className="container-x pb-4">
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Link
-            href="/favoris"
-            className="glass flex items-center justify-between p-5 transition-shadow hover:shadow-lg"
-          >
-            <span>
-              <span className="block font-display font-bold">Mes favoris</span>
-              <span className="mt-1 block text-sm text-night-900/60">
-                Tes versets & méditations enregistrés, regroupés.
-              </span>
+        <Link
+          href="/favoris"
+          className="glass flex max-w-xl items-center justify-between p-5 transition-shadow hover:shadow-lg"
+        >
+          <span>
+            <span className="block font-display font-bold">Mes favoris</span>
+            <span className="mt-1 block text-sm text-night-900/60">
+              Tes versets & méditations enregistrés, regroupés.
             </span>
-            <span className="text-spirit-700">→</span>
-          </Link>
-          <Link
-            href="/recherche"
-            className="glass flex items-center justify-between p-5 transition-shadow hover:shadow-lg"
-          >
-            <span>
-              <span className="block font-display font-bold">Recherche Bible</span>
-              <span className="mt-1 block text-sm text-night-900/60">
-                Trouve un mot, un verset ou un thème.
-              </span>
-            </span>
-            <span className="text-spirit-700">→</span>
-          </Link>
-        </div>
+          </span>
+          <span className="text-spirit-700">→</span>
+        </Link>
       </section>
 
       {/* Plans de lecture */}

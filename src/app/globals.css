@@ -12,6 +12,14 @@
     scroll-behavior: smooth;
   }
 
+  /* App stable : pas de décalage horizontal au swipe, pas de zoom texte iOS. */
+  html,
+  body {
+    overflow-x: hidden;
+    overscroll-behavior-x: none;
+    -webkit-text-size-adjust: 100%;
+  }
+
   /* Thème clair dominant : crème + texte sombre olive */
   body {
     @apply bg-cream text-night-900 antialiased;

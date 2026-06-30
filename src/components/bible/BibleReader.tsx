@@ -120,6 +120,18 @@ export function BibleReader() {
             </option>
           ))}
         </select>
+
+        {/* Recherche d'un mot/verset dans toute la Bible */}
+        <Link
+          href="/recherche"
+          aria-label="Rechercher dans la Bible"
+          className="ml-auto grid h-11 w-11 shrink-0 place-items-center rounded-full border border-night-900/15 bg-white text-spirit-700 transition-colors hover:bg-night-900/5"
+        >
+          <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
+            <circle cx="11" cy="11" r="7" />
+            <path d="M21 21l-4.3-4.3" strokeLinecap="round" />
+          </svg>
+        </Link>
       </div>
 
       {/* Accès rapides en haut (visibles) : plans thématiques + Bible en 1 an */}

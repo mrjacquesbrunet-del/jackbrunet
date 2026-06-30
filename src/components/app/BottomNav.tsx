@@ -39,7 +39,6 @@ const TABS = [
 ];
 
 const MORE = [
-  { href: "/recherche", label: "Recherche", icon: I.search },
   { href: "/videos", label: "Vidéos", icon: I.video },
   { href: "/plans", label: "Plans", icon: I.list },
   { href: "/profil", label: "Mon profil", icon: I.user },

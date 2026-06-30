@@ -61,6 +61,9 @@ export const viewport: Viewport = {
   themeColor: "#070512",
   width: "device-width",
   initialScale: 1,
+  // Empêche le zoom (pincer/double-tap) pour une appli stable, sans décalage.
+  maximumScale: 1,
+  userScalable: false,
   viewportFit: "cover",
 };
 

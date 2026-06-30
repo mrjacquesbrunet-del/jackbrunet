@@ -624,12 +624,6 @@ function Profile({
               Tes cadeaux : ebooks, audios & bonus 🎁
             </p>
           </Link>
-          <Link href="/recherche" className="glass block p-5 transition-shadow hover:shadow-lg">
-            <p className="font-display font-bold">Recherche Bible</p>
-            <p className="mt-1 text-sm text-night-900/60">
-              Trouve un mot, un verset, un thème
-            </p>
-          </Link>
         </div>
         <p className="mt-3 text-xs text-night-900/45">
           ✓ Carnet, versets et plans sont synchronisés sur ton compte : tu les retrouves
