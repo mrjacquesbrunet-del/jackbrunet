@@ -31,7 +31,6 @@ import { useTodayIndex } from "@/lib/today";
 import { useEngagement } from "@/lib/engagement";
 import { asset } from "@/lib/asset";
 import { MakeVersePublicButton } from "@/components/community/MakeVersePublicButton";
-import { siteConfig } from "@/config/site";
 import type { Devotion, ReadingPlanDay, Short } from "@/lib/types";
 
 type Props = {
@@ -478,27 +477,7 @@ export function DevotionalView({
         <Rewards />
       </div>
 
-      {/* 7. Reviens demain + inscription */}
-      <section className="container-x">
-        <Reveal from="up">
-          <div className="glass max-w-2xl p-7 sm:p-8">
-            <h3 className="font-display text-xl font-bold">
-              Reviens demain : un nouveau dévotionnel chaque jour
-            </h3>
-            <p className="mt-1 text-sm text-night-900/60">
-              Reçois-le directement dans ta boîte mail, chaque matin.
-            </p>
-            <div className="mt-4">
-              <NewsletterForm source="devotionnel" cta="Recevoir chaque matin" note="" />
-            </div>
-            <div className="mt-5">
-              <ShareButtons text={`${dev.theme}\n\n${paragraphs[0] ?? ""}`} />
-            </div>
-          </div>
-        </Reveal>
-      </section>
-
-      {/* 7b. Promotion du livre RHEMA */}
+      {/* Promotion du livre RHEMA — avant « Reviens demain » */}
       <section className="container-x">
         <Reveal from="up">
           <div className="bg-topo-light relative overflow-hidden rounded-4xl border border-spirit-700/10 p-7 sm:p-9">
@@ -531,35 +510,21 @@ export function DevotionalView({
         </Reveal>
       </section>
 
-      {/* 8. Me contacter & soutenir */}
+      {/* 7. Reviens demain + inscription */}
       <section className="container-x">
         <Reveal from="up">
-          <div className="dark-ctx bg-topo-dark relative overflow-hidden rounded-4xl p-8 text-center sm:p-12">
-            <div className="blob -right-16 -top-10 h-52 w-52 bg-spirit-500/20" />
-            <div className="relative">
-              <h3 className="font-display text-2xl font-extrabold sm:text-3xl">
-                Un mot, un besoin, une prière ?
-              </h3>
-              <p className="mx-auto mt-3 max-w-xl text-cream/70">
-                Je suis là. Écris-moi, suis-moi au quotidien, ou soutiens la mission
-                pour qu'elle continue de toucher des vies.
-              </p>
-              <div className="mt-7 flex flex-wrap justify-center gap-3">
-                <a href={`mailto:${siteConfig.contactEmail}`} className="btn-primary">
-                  Me contacter
-                </a>
-                <a
-                  href={siteConfig.social.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-ghost"
-                >
-                  Instagram
-                </a>
-                <Link href="/dons" className="btn-ghost">
-                  Soutenir la mission
-                </Link>
-              </div>
+          <div className="glass max-w-2xl p-7 sm:p-8">
+            <h3 className="font-display text-xl font-bold">
+              Reviens demain : un nouveau dévotionnel chaque jour
+            </h3>
+            <p className="mt-1 text-sm text-night-900/60">
+              Reçois-le directement dans ta boîte mail, chaque matin.
+            </p>
+            <div className="mt-4">
+              <NewsletterForm source="devotionnel" cta="Recevoir chaque matin" note="" />
+            </div>
+            <div className="mt-5">
+              <ShareButtons text={`${dev.theme}\n\n${paragraphs[0] ?? ""}`} />
             </div>
           </div>
         </Reveal>
