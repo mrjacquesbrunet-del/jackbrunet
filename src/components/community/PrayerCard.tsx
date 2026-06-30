@@ -173,7 +173,7 @@ export function PrayerCard({
                 : "border-night-900/15 text-night-900/70 hover:border-night-900/30"
             }`}
           >
-            <PrayerMark className="h-4 w-4" /> Je prie{count("pray") > 0 ? ` · ${count("pray")}` : ""}
+            <PrayerMark className="h-5 w-5" /> Je prie{count("pray") > 0 ? ` · ${count("pray")}` : ""}
           </button>
           <button
             type="button"
