@@ -23,6 +23,8 @@ import { ProfileNotifications } from "@/components/community/ProfileNotification
 import { useNotebook } from "@/lib/notebook";
 import { useToolkit } from "@/lib/toolkit";
 import { useAllPlanProgress } from "@/lib/plan-progress";
+import { getThemePlans } from "@/lib/content";
+import { YEAR_PLAN_SLUG, YEAR_PLAN_DAYS } from "@/lib/year-plan";
 import type { Activity } from "@/lib/grades";
 
 export function ProfileView() {
@@ -100,6 +102,20 @@ function Profile({
   const toolkit = useToolkit();
   const planProgress = useAllPlanProgress();
   const activePlans = Object.values(planProgress).filter((days) => days.length > 0).length;
+
+  // Avancée détaillée de chaque plan en cours (titre + % + jours)
+  const planMeta: Record<string, { title: string; total: number }> = {};
+  for (const p of getThemePlans()) planMeta[p.slug] = { title: p.title, total: p.days.length };
+  planMeta[YEAR_PLAN_SLUG] = { title: "La Bible en 1 an", total: YEAR_PLAN_DAYS };
+  const myPlans = Object.entries(planProgress)
+    .filter(([, days]) => days.length > 0)
+    .map(([slug, days]) => {
+      const meta = planMeta[slug] ?? { title: slug, total: days.length };
+      const done = days.length;
+      return { slug, title: meta.title, done, total: meta.total,
+        pct: meta.total ? Math.min(100, Math.round((done / meta.total) * 100)) : 0 };
+    })
+    .sort((a, b) => b.pct - a.pct);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -375,6 +391,36 @@ function Profile({
           </ul>
         )}
       </div>
+
+      {/* Avancée de mes plans */}
+      {myPlans.length > 0 ? (
+        <div className="mt-8">
+          <h3 className="font-display text-lg font-bold">Mes plans en cours</h3>
+          <div className="mt-3 space-y-3">
+            {myPlans.map((p) => (
+              <Link
+                key={p.slug}
+                href={p.slug === YEAR_PLAN_SLUG ? "/bible-1-an" : `/plans/${p.slug}`}
+                className="block rounded-2xl border border-night-900/10 bg-white p-4 transition-shadow hover:shadow-lg"
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <p className="font-display font-bold">{p.title}</p>
+                  <span className="shrink-0 text-sm font-semibold text-spirit-700">{p.pct}%</span>
+                </div>
+                <div className="mt-2 h-2 overflow-hidden rounded-full bg-night-900/10">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-dawn-400 to-spirit-500"
+                    style={{ width: `${p.pct}%` }}
+                  />
+                </div>
+                <p className="mt-1.5 text-xs text-night-900/55">
+                  {p.done} / {p.total} jours
+                </p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      ) : null}
 
       {/* Mon espace (carnet, versets, plans) */}
       <div className="mt-8">
