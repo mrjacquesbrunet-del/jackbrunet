@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { postAnnouncement, clearAnnouncements } from "@/lib/announcements";
+import { broadcastNotification } from "@/lib/community";
 
 /**
  * Encart admin (réservé à Jack) pour publier une annonce in-app à tous les
@@ -13,6 +14,32 @@ export function AdminAnnounce() {
   const [link, setLink] = useState("");
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
+
+  // Notification directe (cloche) à tous les membres — ex. live de prière.
+  const [notif, setNotif] = useState("");
+  const [notifLink, setNotifLink] = useState("");
+  const [notifBusy, setNotifBusy] = useState(false);
+  const [notifMsg, setNotifMsg] = useState("");
+
+  async function sendNotif(e: React.FormEvent) {
+    e.preventDefault();
+    if (!notif.trim()) {
+      setNotifMsg("Écris ton message.");
+      return;
+    }
+    if (!confirm("Envoyer cette notification à TOUS les membres ?")) return;
+    setNotifBusy(true);
+    setNotifMsg("");
+    const n = await broadcastNotification(notif, notifLink);
+    setNotifBusy(false);
+    if (n !== null) {
+      setNotifMsg(`✓ Notification envoyée à ${n} membre${n > 1 ? "s" : ""}.`);
+      setNotif("");
+      setNotifLink("");
+    } else {
+      setNotifMsg("Erreur : envoi impossible (vérifie la migration SQL).");
+    }
+  }
 
   async function publish(e: React.FormEvent) {
     e.preventDefault();
@@ -77,6 +104,34 @@ export function AdminAnnounce() {
         </div>
         {msg ? <p className="text-sm text-spirit-700">{msg}</p> : null}
       </form>
+
+      {/* Notification directe (cloche) à tous les membres */}
+      <div className="mt-6 border-t border-dawn-400/30 pt-5">
+        <p className="font-display text-lg font-bold">🔔 Notifier tous les membres</p>
+        <p className="mt-1 text-sm text-night-900/60">
+          Chaque membre reçoit une notification dans son profil (idéal pour annoncer un
+          live de prière, un direct, un événement).
+        </p>
+        <form onSubmit={sendNotif} className="mt-4 space-y-3">
+          <textarea
+            value={notif}
+            onChange={(e) => setNotif(e.target.value)}
+            placeholder="Ton message (ex. Live de prière dans 10 min, rejoins-nous 🙏)"
+            rows={2}
+            className="field w-full"
+          />
+          <input
+            value={notifLink}
+            onChange={(e) => setNotifLink(e.target.value)}
+            placeholder="Lien optionnel (ex. /communaute)"
+            className="field w-full"
+          />
+          <button type="submit" disabled={notifBusy} className="btn-primary">
+            {notifBusy ? "Envoi…" : "Envoyer la notification"}
+          </button>
+          {notifMsg ? <p className="text-sm text-spirit-700">{notifMsg}</p> : null}
+        </form>
+      </div>
     </div>
   );
 }

@@ -21,9 +21,11 @@ export type Prayer = {
   author?: Profile;
 };
 
-export const ADMIN_EMAIL = "mr.jacquesbrunet@gmail.com";
+/** Emails administrateurs (modération + annonces). Ajoute-en ici au besoin. */
+export const ADMIN_EMAILS = ["contact@jackbrunet.com", "mr.jacquesbrunet@gmail.com"];
+export const ADMIN_EMAIL = ADMIN_EMAILS[0];
 export function isAdminEmail(email?: string | null) {
-  return (email ?? "").toLowerCase() === ADMIN_EMAIL;
+  return ADMIN_EMAILS.includes((email ?? "").trim().toLowerCase());
 }
 export type Comment = {
   id: string;
@@ -34,13 +36,15 @@ export type Comment = {
   author?: Profile;
 };
 export type Reaction = { prayer_id: string; user_id: string; type: "heart" | "pray" };
-export type NotifType = "pray" | "heart" | "comment" | "follow" | "mention";
+export type NotifType = "pray" | "heart" | "comment" | "follow" | "mention" | "admin";
 export type Notification = {
   id: string;
   user_id: string;
   actor_id: string | null;
   type: NotifType;
   prayer_id: string | null;
+  body?: string | null;
+  link?: string | null;
   read: boolean;
   created_at: string;
   actor?: Profile;
@@ -344,6 +348,36 @@ export async function searchProfiles(query: string, limit = 20): Promise<Profile
     .ilike("pseudo", `%${q}%`)
     .limit(limit);
   return (data as Profile[]) ?? [];
+}
+
+/** Admin : envoie une notification à TOUS les membres (ex. live de prière).
+ *  Renvoie le nombre de membres notifiés, ou null en cas d'échec. */
+export async function broadcastNotification(
+  message: string,
+  link?: string | null,
+): Promise<number | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  const { data, error } = await sb.rpc("broadcast_notification", {
+    message: message.trim(),
+    link: link?.trim() || null,
+  });
+  if (error) return null;
+  return typeof data === "number" ? data : 0;
+}
+
+/** Vrai si le pseudo est déjà pris par un AUTRE membre (insensible à la casse). */
+export async function isPseudoTaken(pseudo: string, selfId: string): Promise<boolean> {
+  const sb = getSupabase();
+  const p = pseudo.trim();
+  if (!sb || !p) return false;
+  const { data } = await sb
+    .from("profiles")
+    .select("id")
+    .ilike("pseudo", p)
+    .neq("id", selfId)
+    .limit(1);
+  return ((data as { id: string }[]) ?? []).length > 0;
 }
 
 /** Profil correspondant exactement à un pseudo (insensible à la casse). */

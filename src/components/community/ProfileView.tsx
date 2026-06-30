@@ -9,6 +9,7 @@ import {
   signOut,
   deleteAccount,
   updateProfile,
+  isPseudoTaken,
   listMyPrayers,
   followCounts,
   getActivity,
@@ -121,6 +122,7 @@ function Profile({
   const [activity, setActivity] = useState<Activity>({ prayers: 0, comments: 0, prays: 0 });
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [pseudoError, setPseudoError] = useState("");
   const [editing, setEditing] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
@@ -245,6 +247,13 @@ function Profile({
 
   async function save() {
     setSaving(true);
+    const newPseudo = pseudoVal.trim() || "Ami(e)";
+    if (await isPseudoTaken(newPseudo, userId)) {
+      setPseudoError("Ce pseudo est déjà pris — choisis-en un autre.");
+      setSaving(false);
+      return;
+    }
+    setPseudoError("");
     const cleanVerses = verses
       .map((v) => ({ reference: v.reference.trim(), text: v.text.trim() }))
       .filter((v) => v.text || v.reference);
@@ -377,10 +386,14 @@ function Profile({
             </span>
             <input
               value={pseudoVal}
-              onChange={(e) => setPseudoVal(e.target.value)}
+              onChange={(e) => {
+                setPseudoVal(e.target.value);
+                if (pseudoError) setPseudoError("");
+              }}
               placeholder="Ton pseudo"
               className="field mt-1 w-full"
             />
+            {pseudoError ? <p className="field-error mt-1">{pseudoError}</p> : null}
           </label>
           <div className="block">
             <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">

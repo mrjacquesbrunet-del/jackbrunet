@@ -22,6 +22,8 @@ function label(n: Notification) {
       return `${who} s'est abonné(e) à toi`;
     case "mention":
       return `${who} t'a mentionné(e)`;
+    case "admin":
+      return n.body ? `📣 ${n.body}` : "📣 Message de Pasteur Jack";
   }
 }
 function when(iso: string) {
@@ -55,7 +57,14 @@ export function ProfileNotifications({ userId }: { userId: string }) {
     load();
   }, [load]);
 
-  const counts: Record<NotifType, number> = { pray: 0, heart: 0, comment: 0, follow: 0, mention: 0 };
+  const counts: Record<NotifType, number> = {
+    pray: 0,
+    heart: 0,
+    comment: 0,
+    follow: 0,
+    mention: 0,
+    admin: 0,
+  };
   for (const n of items ?? []) counts[n.type]++;
 
   return (

@@ -22,6 +22,8 @@ function label(n: Notification) {
       return `${who} s'est abonné(e) à toi`;
     case "mention":
       return `${who} t'a mentionné(e) ✨`;
+    case "admin":
+      return n.body ? `📣 ${n.body}` : "📣 Message de Pasteur Jack";
   }
 }
 

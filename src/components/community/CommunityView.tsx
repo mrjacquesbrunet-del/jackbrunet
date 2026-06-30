@@ -18,6 +18,7 @@ import {
   listFollowingFeed,
   createPrayer,
   notifyMentions,
+  isPseudoTaken,
   reactionsFor,
   isAdminEmail,
   type Prayer,
@@ -73,6 +74,7 @@ function Feed({
   const [posting, setPosting] = useState(false);
   const [editPseudo, setEditPseudo] = useState(false);
   const [pseudoVal, setPseudoVal] = useState(profile?.pseudo ?? "");
+  const [pseudoErr, setPseudoErr] = useState("");
   const [tab, setTab] = useState<"all" | "following">("all");
 
   const load = useCallback(async () => {
@@ -103,7 +105,13 @@ function Feed({
   }
 
   async function savePseudo() {
-    await updateProfile(userId, { pseudo: pseudoVal.trim() || "Ami(e)" });
+    const p = pseudoVal.trim() || "Ami(e)";
+    if (await isPseudoTaken(p, userId)) {
+      setPseudoErr("Pseudo déjà pris.");
+      return;
+    }
+    setPseudoErr("");
+    await updateProfile(userId, { pseudo: p });
     setEditPseudo(false);
     refreshProfile();
   }
@@ -131,16 +139,22 @@ function Feed({
         <Avatar pseudo={profile?.pseudo} url={profile?.avatar_url} />
         <div className="min-w-0 flex-1">
           {editPseudo ? (
-            <div className="flex gap-2">
-              <input
-                value={pseudoVal}
-                onChange={(e) => setPseudoVal(e.target.value)}
-                className="field flex-1 text-sm"
-                placeholder="Ton pseudo"
-              />
-              <button type="button" onClick={savePseudo} className="btn-primary text-sm">
-                OK
-              </button>
+            <div>
+              <div className="flex gap-2">
+                <input
+                  value={pseudoVal}
+                  onChange={(e) => {
+                    setPseudoVal(e.target.value);
+                    if (pseudoErr) setPseudoErr("");
+                  }}
+                  className="field flex-1 text-sm"
+                  placeholder="Ton pseudo"
+                />
+                <button type="button" onClick={savePseudo} className="btn-primary text-sm">
+                  OK
+                </button>
+              </div>
+              {pseudoErr ? <p className="field-error mt-1">{pseudoErr}</p> : null}
             </div>
           ) : (
             <p className="font-display font-bold leading-tight">
