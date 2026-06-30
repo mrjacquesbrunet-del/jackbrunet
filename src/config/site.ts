@@ -40,6 +40,7 @@ export const mainNav = [
   { label: "Mon carnet", href: "/carnet" },
   { label: "Actualité", href: "/actualite" },
   { label: "Vidéos", href: "/videos" },
+  { label: "Exclusivités", href: "/exclusivites" },
   { label: "Madagascar", href: "/mission-madagascar" },
   { label: "Témoignages", href: "/temoignages" },
   { label: "Boutique", href: "/boutique" },
@@ -56,6 +57,7 @@ export const footerNav = [
       { label: "Mon carnet", href: "/carnet" },
       { label: "Bible", href: "/bible" },
       { label: "Vidéos & Shorts", href: "/videos" },
+      { label: "Exclusivités", href: "/exclusivites" },
     ],
   },
   {
