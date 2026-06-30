@@ -23,6 +23,7 @@ import { GradeProgress } from "@/components/community/GradeBadge";
 import { MyFavorites } from "@/components/profile/MyFavorites";
 import { AnsweredFeed } from "@/components/community/AnsweredFeed";
 import { MemberSearch } from "@/components/community/MemberSearch";
+import { ProfileBanners } from "@/components/community/ProfileBanners";
 import { useEngagement } from "@/lib/engagement";
 import { FIDELITY_REWARDS } from "@/lib/rewards";
 import { FlameGlyph, StarGlyph, GiftGlyph } from "@/components/ui/DevoIcons";
@@ -520,6 +521,11 @@ function Profile({
         </div>
         </div>
         ) : null}
+      </div>
+
+      {/* Annonces défilantes (RHEMA, exclusivités…) */}
+      <div className="mt-4">
+        <ProfileBanners />
       </div>
 
       {/* Badges débloqués */}
