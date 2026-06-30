@@ -19,9 +19,12 @@ import {
 import { AdminAnnounce } from "@/components/community/AdminAnnounce";
 import { ProfileSignIn } from "@/components/community/ProfileSignIn";
 import { GradeProgress } from "@/components/community/GradeBadge";
+import { MyFavorites } from "@/components/profile/MyFavorites";
+import { useEngagement } from "@/lib/engagement";
+import { FIDELITY_REWARDS } from "@/lib/rewards";
+import { FlameGlyph, StarGlyph, GiftGlyph } from "@/components/ui/DevoIcons";
 import { ProfileNotifications } from "@/components/community/ProfileNotifications";
 import { useNotebook } from "@/lib/notebook";
-import { useToolkit } from "@/lib/toolkit";
 import { useAllPlanProgress } from "@/lib/plan-progress";
 import { getThemePlans } from "@/lib/content";
 import { YEAR_PLAN_SLUG, YEAR_PLAN_DAYS } from "@/lib/year-plan";
@@ -99,7 +102,7 @@ function Profile({
   const fileRef = useRef<HTMLInputElement>(null);
 
   const notes = useNotebook();
-  const toolkit = useToolkit();
+  const eng = useEngagement();
   const planProgress = useAllPlanProgress();
   const activePlans = Object.values(planProgress).filter((days) => days.length > 0).length;
 
@@ -334,6 +337,57 @@ function Profile({
         </div>
       </div>
 
+      {/* Tuiles de stats (réseau social + gamification) */}
+      <div className="mt-6 grid grid-cols-4 gap-2 sm:gap-3">
+        <Link
+          href={`/membre?u=${userId}`}
+          className="rounded-2xl border border-night-900/10 bg-white p-3 text-center transition-shadow hover:shadow-md"
+        >
+          <p className="font-display text-xl font-extrabold">{counts.followers}</p>
+          <p className="text-[11px] text-night-900/55">Abonnés</p>
+        </Link>
+        <Link
+          href={`/membre?u=${userId}`}
+          className="rounded-2xl border border-night-900/10 bg-white p-3 text-center transition-shadow hover:shadow-md"
+        >
+          <p className="font-display text-xl font-extrabold">{counts.following}</p>
+          <p className="text-[11px] text-night-900/55">Abonnements</p>
+        </Link>
+        <div className="rounded-2xl border border-night-900/10 bg-white p-3 text-center">
+          <p className="flex items-center justify-center gap-1 font-display text-xl font-extrabold text-spirit-700">
+            <FlameGlyph className="h-4 w-4" />
+            {eng.ready ? eng.streak : 0}
+          </p>
+          <p className="text-[11px] text-night-900/55">Série</p>
+        </div>
+        <Link
+          href="/plans"
+          className="rounded-2xl border border-night-900/10 bg-white p-3 text-center transition-shadow hover:shadow-md"
+        >
+          <p className="font-display text-xl font-extrabold">{activePlans}</p>
+          <p className="text-[11px] text-night-900/55">Plans</p>
+        </Link>
+      </div>
+
+      {/* Badges débloqués */}
+      {eng.ready && eng.best >= FIDELITY_REWARDS[0].days ? (
+        <div className="mt-4">
+          <p className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+            Badges débloqués
+          </p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {FIDELITY_REWARDS.filter((r) => eng.best >= r.days).map((r) => (
+              <span
+                key={r.id}
+                className="inline-flex items-center gap-1.5 rounded-full border border-dawn-400/40 bg-dawn-400/10 px-3 py-1 text-sm font-semibold text-spirit-700"
+              >
+                <BadgeGlyph id={r.id} /> {r.days} jours
+              </span>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
       {/* Notifications */}
       <div className="mt-6">
         <ProfileNotifications userId={userId} />
@@ -422,7 +476,13 @@ function Profile({
         </div>
       ) : null}
 
-      {/* Mon espace (carnet, versets, plans) */}
+      {/* Mes favoris — regroupés directement dans le profil */}
+      <div className="mt-8">
+        <h3 className="font-display text-lg font-bold">Mes favoris</h3>
+        <MyFavorites />
+      </div>
+
+      {/* Mon espace (carnet, plans, exaucées) */}
       <div className="mt-8">
         <h3 className="font-display text-lg font-bold">Mon espace</h3>
         <div className="mt-3 grid gap-4 sm:grid-cols-3">
@@ -430,13 +490,6 @@ function Profile({
             <p className="font-display font-bold">Mon carnet</p>
             <p className="mt-1 text-sm text-night-900/60">
               {notes.length} note{notes.length > 1 ? "s" : ""} (prières, paroles reçues, réflexions)
-            </p>
-          </Link>
-          <Link href="/favoris" className="glass block p-5 transition-shadow hover:shadow-lg">
-            <p className="font-display font-bold">Mes favoris</p>
-            <p className="mt-1 text-sm text-night-900/60">
-              {toolkit.saved.length} enregistré{toolkit.saved.length > 1 ? "s" : ""} ·{" "}
-              {toolkit.highlights.length} surligné{toolkit.highlights.length > 1 ? "s" : ""}
             </p>
           </Link>
           <Link href="/plans" className="glass block p-5 transition-shadow hover:shadow-lg">
@@ -469,4 +522,11 @@ function Profile({
       {isAdminEmail(email) ? <AdminAnnounce /> : null}
     </section>
   );
+}
+
+/** Icône maison du badge de fidélité selon le palier. */
+function BadgeGlyph({ id }: { id: string }) {
+  if (id === "d7") return <FlameGlyph className="h-4 w-4" />;
+  if (id === "d30") return <StarGlyph className="h-4 w-4" />;
+  return <GiftGlyph className="h-4 w-4" />;
 }
