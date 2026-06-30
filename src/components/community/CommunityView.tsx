@@ -107,7 +107,7 @@ function Feed({
   async function savePseudo() {
     const p = pseudoVal.trim() || "Ami(e)";
     if (await isPseudoTaken(p, userId)) {
-      setPseudoErr("Pseudo déjà pris.");
+      setPseudoErr("Ce pseudo est déjà pris — choisis-en un autre.");
       return;
     }
     setPseudoErr("");
