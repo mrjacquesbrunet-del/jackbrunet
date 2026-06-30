@@ -91,7 +91,10 @@ security definer
 set search_path = public
 as $$
 begin
-  if regexp_replace(lower(coalesce(new.pseudo,'')), '[^a-z0-9]', '', 'g')
+  -- Ne s'applique qu'aux vrais utilisateurs connectés (pas aux opérations
+  -- serveur/admin où auth.uid() est nul).
+  if auth.uid() is not null
+     and regexp_replace(lower(coalesce(new.pseudo,'')), '[^a-z0-9]', '', 'g')
        in ('jackbrnt','jackbrunet','pasteurjack','pasteurjackbrunet',
            'pasteurjackbrnt','jackbrunetofficiel','pasteurbrunet')
      and not public.is_admin() then
@@ -126,7 +129,12 @@ security definer
 set search_path = public
 as $$
 begin
-  new.verified := public.is_admin();
+  -- Pour un vrai utilisateur connecté : la certification = est-il admin ?
+  -- (impossible à falsifier). Les opérations serveur/admin (auth.uid() nul)
+  -- conservent la valeur fournie (utile pour le backfill).
+  if auth.uid() is not null then
+    new.verified := public.is_admin();
+  end if;
   return new;
 end;
 $$;
