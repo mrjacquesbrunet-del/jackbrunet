@@ -18,6 +18,7 @@ import {
   FlameGlyph,
   BookGlyph,
   PenGlyph,
+  GiftGlyph,
   ArrowRightGlyph,
   HighlighterGlyph,
   BookmarkFilledGlyph,
@@ -153,8 +154,8 @@ export function DevotionalView({
               }
               className="flex items-center gap-2.5 rounded-2xl border border-dawn-400/30 bg-dawn-400/10 px-3 py-3 text-left transition-colors hover:bg-dawn-400/20"
             >
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-night-900 text-base text-cream">
-                🎁
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-night-900 text-cream">
+                <GiftGlyph className="h-4 w-4" />
               </span>
               <span className="font-display text-sm font-bold leading-tight">Récompenses</span>
             </button>

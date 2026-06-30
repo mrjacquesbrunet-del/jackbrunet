@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEngagement } from "@/lib/engagement";
 import { siteConfig } from "@/config/site";
+import { GiftGlyph } from "@/components/ui/DevoIcons";
 import {
   FIDELITY_REWARDS,
   AMBASSADOR_REWARD,
@@ -74,8 +75,8 @@ export function Rewards() {
           </h3>
           <p className="mt-1 text-sm text-night-900/60">
             {eng.ready && toNext > 0
-              ? `Plus que ${toNext} jour${toNext > 1 ? "s" : ""} d'affilée pour ton prochain cadeau 🎁`
-              : "Reviens chaque jour : ta fidélité est récompensée 🎁"}
+              ? `Plus que ${toNext} jour${toNext > 1 ? "s" : ""} d'affilée pour ton prochain cadeau`
+              : "Reviens chaque jour : ta fidélité est récompensée"}
           </p>
         </div>
       </div>
@@ -93,12 +94,21 @@ export function Rewards() {
                   : "border-night-900/10 bg-white"
               }`}
             >
-              <span className={`text-3xl ${unlocked ? "" : "opacity-40 grayscale"}`}>{r.emoji}</span>
+              <span className={unlocked ? "" : "opacity-40 grayscale"}>
+                {r.emoji === "🎁" ? (
+                  <GiftGlyph className="h-8 w-8 text-spirit-700" />
+                ) : (
+                  <span className="text-3xl">{r.emoji}</span>
+                )}
+              </span>
               <p className="mt-2 font-display text-base font-extrabold">{r.title}</p>
               <p className="mt-1 flex-1 text-sm text-night-900/65">{r.blurb}</p>
               {unlocked ? (
-                <Link href={r.href} className="btn-primary mt-4 text-sm">
-                  🎁 {r.cta}
+                <Link
+                  href={r.href}
+                  className="btn-primary mt-4 inline-flex items-center justify-center gap-1.5 text-sm"
+                >
+                  <GiftGlyph className="h-4 w-4" /> {r.cta}
                 </Link>
               ) : (
                 <div className="mt-4">
@@ -133,8 +143,11 @@ export function Rewards() {
             {shared ? AMBASSADOR_REWARD.blurb : "Partage l'app à un ami et reçois un bonus 🙏"}
           </p>
           {shared ? (
-            <Link href={AMBASSADOR_REWARD.href} className="btn-primary mt-4 text-sm">
-              🎁 {AMBASSADOR_REWARD.cta}
+            <Link
+              href={AMBASSADOR_REWARD.href}
+              className="btn-primary mt-4 inline-flex items-center justify-center gap-1.5 text-sm"
+            >
+              <GiftGlyph className="h-4 w-4" /> {AMBASSADOR_REWARD.cta}
             </Link>
           ) : (
             <button type="button" onClick={onShare} className="btn-spirit mt-4 text-sm">
@@ -176,9 +189,9 @@ export function Rewards() {
               <Link
                 href={celebrate.href}
                 onClick={() => setCelebrate(null)}
-                className="btn-primary mt-5 w-full"
+                className="btn-primary mt-5 inline-flex w-full items-center justify-center gap-1.5"
               >
-                🎁 {celebrate.cta}
+                <GiftGlyph className="h-4 w-4" /> {celebrate.cta}
               </Link>
               <button
                 type="button"
