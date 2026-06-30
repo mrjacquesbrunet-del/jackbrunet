@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { asset } from "@/lib/asset";
 
-const AUDIO = "/audio/soaking-jack-brunet.m4a";
+const AUDIO = "/audio/soaking-jack-brunet.mp3";
 
 export const metadata: Metadata = {
   title: "Soaking offert — un temps de présence",
