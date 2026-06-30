@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Avatar } from "@/components/community/Avatar";
+import { Celebration } from "@/components/ui/Celebration";
 import {
   type Prayer,
   type Reaction,
@@ -45,6 +46,7 @@ export function PrayerCard({
   const [commentText, setCommentText] = useState("");
   const [busy, setBusy] = useState(false);
   const [answered, setAnswered] = useState(prayer.answered);
+  const [celebrate, setCelebrate] = useState(false);
 
   const isAuthor = prayer.author_id === userId;
   const count = (t: "heart" | "pray") => reactions.filter((r) => r.type === t).length;
@@ -63,6 +65,7 @@ export function PrayerCard({
   async function toggleAnswered() {
     const next = !answered;
     setAnswered(next);
+    if (next) setCelebrate(true);
     await setPrayerAnswered(prayer.id, next);
   }
 
@@ -100,6 +103,14 @@ export function PrayerCard({
           : "border-night-900/10 bg-white"
       }`}
     >
+      <Celebration
+        open={celebrate}
+        emoji="🙌"
+        title="Gloire à Dieu !"
+        message="Quelle joie ! Ta prière exaucée encourage toute la communauté. Continue de témoigner de Sa fidélité."
+        onClose={() => setCelebrate(false)}
+      />
+
       {/* Bandeau « Dieu a agi » */}
       {answered ? (
         <div className="flex items-center gap-2 bg-gradient-to-r from-dawn-400 to-dawn-300 px-5 py-2 text-sm font-extrabold text-night-950">

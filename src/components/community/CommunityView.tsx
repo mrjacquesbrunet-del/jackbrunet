@@ -6,6 +6,7 @@ import { isSupabaseConfigured } from "@/lib/supabase";
 import { useAuth } from "@/components/community/useAuth";
 import { Avatar } from "@/components/community/Avatar";
 import { PrayerCard } from "@/components/community/PrayerCard";
+import { PrayerFocus } from "@/components/community/PrayerFocus";
 import { NotificationsBell } from "@/components/community/NotificationsBell";
 import { MemberSearch } from "@/components/community/MemberSearch";
 import { CommunityLanding } from "@/components/community/CommunityLanding";
@@ -194,6 +195,11 @@ function Feed({
             {posting ? "Publication…" : "Publier"}
           </button>
         </div>
+      </div>
+
+      {/* Focus de prière de la semaine */}
+      <div className="mt-8">
+        <PrayerFocus />
       </div>
 
       {/* Onglets */}
