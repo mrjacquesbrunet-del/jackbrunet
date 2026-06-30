@@ -40,14 +40,9 @@ const TABS = [
 
 const MORE = [
   { href: "/recherche", label: "Recherche", icon: I.search },
-  { href: "/exaucees", label: "Exaucées", icon: I.answered },
-  { href: "/favoris", label: "Mes favoris", icon: I.heart },
   { href: "/videos", label: "Vidéos", icon: I.video },
-  { href: "/exclusivites", label: "Exclusivités", icon: I.star },
   { href: "/plans", label: "Plans", icon: I.list },
-  { href: "/actualite", label: "Actualité", icon: I.news },
   { href: "/profil", label: "Mon profil", icon: I.user },
-  { href: "/temoignages", label: "Témoignages", icon: I.heart },
   { href: "/boutique", label: "Boutique", icon: I.bag },
   { href: "/mission-madagascar", label: "Madagascar", icon: I.globe },
   { href: "/dons", label: "Soutenir", icon: I.gift },

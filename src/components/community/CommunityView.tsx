@@ -248,6 +248,23 @@ function Feed({
           </ul>
         )}
       </div>
+
+      {/* Laisser un témoignage */}
+      <div className="mt-8">
+        <Link
+          href="/temoignages"
+          className="dark-ctx group flex items-center justify-between gap-4 overflow-hidden rounded-4xl border border-dawn-500/40 bg-night-900 p-6 text-cream transition-transform hover:-translate-y-1 sm:p-7"
+        >
+          <div>
+            <span className="eyebrow">Témoignages</span>
+            <p className="mt-1.5 font-display text-xl font-extrabold sm:text-2xl">
+              Dieu a agi dans ta vie&nbsp;?
+            </p>
+            <p className="mt-1 text-sm text-cream/70">Laisse ton témoignage et encourage la famille.</p>
+          </div>
+          <span className="shrink-0 text-2xl transition-transform group-hover:translate-x-1">→</span>
+        </Link>
+      </div>
       </section>
     </>
   );

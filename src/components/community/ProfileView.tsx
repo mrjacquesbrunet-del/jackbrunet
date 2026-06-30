@@ -20,6 +20,7 @@ import { AdminAnnounce } from "@/components/community/AdminAnnounce";
 import { ProfileSignIn } from "@/components/community/ProfileSignIn";
 import { GradeProgress } from "@/components/community/GradeBadge";
 import { MyFavorites } from "@/components/profile/MyFavorites";
+import { AnsweredFeed } from "@/components/community/AnsweredFeed";
 import { useEngagement } from "@/lib/engagement";
 import { FIDELITY_REWARDS } from "@/lib/rewards";
 import { FlameGlyph, StarGlyph, GiftGlyph } from "@/components/ui/DevoIcons";
@@ -581,6 +582,12 @@ function Profile({
         <MyFavorites />
       </div>
 
+      {/* Prières exaucées — directement dans le profil */}
+      <div className="mt-8">
+        <h3 className="font-display text-lg font-bold">Prières exaucées 🙌</h3>
+        <AnsweredFeed />
+      </div>
+
       {/* Mon espace (carnet, plans, exaucées) */}
       <div className="mt-8">
         <h3 className="font-display text-lg font-bold">Mon espace</h3>
@@ -599,10 +606,10 @@ function Profile({
                 : "Démarrer un plan"}
             </p>
           </Link>
-          <Link href="/exaucees" className="glass block p-5 transition-shadow hover:shadow-lg">
-            <p className="font-display font-bold">Prières exaucées</p>
+          <Link href="/exclusivites" className="glass block p-5 transition-shadow hover:shadow-lg">
+            <p className="font-display font-bold">Exclusivités</p>
             <p className="mt-1 text-sm text-night-900/60">
-              Les témoignages de la communauté 🙌
+              Tes cadeaux : ebooks, audios & bonus 🎁
             </p>
           </Link>
           <Link href="/recherche" className="glass block p-5 transition-shadow hover:shadow-lg">
