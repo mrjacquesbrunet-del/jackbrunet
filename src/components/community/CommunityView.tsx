@@ -206,8 +206,8 @@ function Feed({
       <div className="mt-8 flex gap-1 rounded-full border border-night-900/10 bg-night-900/[0.03] p-1">
         {(
           [
-            ["all", "Tout"],
-            ["following", "Mes abonnements"],
+            ["all", "Le mur"],
+            ["following", "Mes amis"],
           ] as const
         ).map(([key, lbl]) => (
           <button

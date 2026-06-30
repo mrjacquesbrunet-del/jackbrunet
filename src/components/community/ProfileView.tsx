@@ -21,6 +21,7 @@ import { ProfileSignIn } from "@/components/community/ProfileSignIn";
 import { GradeProgress } from "@/components/community/GradeBadge";
 import { MyFavorites } from "@/components/profile/MyFavorites";
 import { AnsweredFeed } from "@/components/community/AnsweredFeed";
+import { MemberSearch } from "@/components/community/MemberSearch";
 import { useEngagement } from "@/lib/engagement";
 import { FIDELITY_REWARDS } from "@/lib/rewards";
 import { FlameGlyph, StarGlyph, GiftGlyph } from "@/components/ui/DevoIcons";
@@ -487,6 +488,17 @@ function Profile({
           </div>
         </div>
       ) : null}
+
+      {/* Trouver des profils à suivre */}
+      <div className="mt-6">
+        <h3 className="font-display text-lg font-bold">Trouver des profils</h3>
+        <p className="mt-1 text-sm text-night-900/60">
+          Cherche un membre par pseudo et abonne-toi, comme sur un réseau social.
+        </p>
+        <div className="mt-3">
+          <MemberSearch />
+        </div>
+      </div>
 
       {/* Notifications */}
       <div className="mt-6">
