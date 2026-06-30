@@ -24,6 +24,8 @@ import {
   BookmarkGlyph,
 } from "@/components/ui/DevoIcons";
 import { DailyShort } from "@/components/home/DailyShort";
+import { Rewards } from "@/components/app/Rewards";
+import { Greeting } from "@/components/app/Greeting";
 import { useTodayIndex } from "@/lib/today";
 import { useEngagement } from "@/lib/engagement";
 import { asset } from "@/lib/asset";
@@ -72,7 +74,8 @@ export function DevotionalView({
       {/* 1. Date + thème */}
       <section className="container-x">
         <Reveal>
-          <p className="text-sm font-semibold capitalize text-spirit-600">Méditation du jour</p>
+          <Greeting />
+          <p className="mt-1 text-sm font-semibold capitalize text-spirit-600">Méditation du jour</p>
           <h2 className="mt-3 font-display text-3xl font-extrabold leading-[1.05] sm:text-4xl md:text-5xl">
             {dev.theme}
           </h2>
@@ -159,6 +162,9 @@ export function DevotionalView({
           </div>
         </section>
       ) : null}
+
+      {/* 1c. Récompenses de fidélité (paliers + partage) */}
+      <Rewards />
 
       {/* 2. Méditation développée */}
       <section className="container-x">
