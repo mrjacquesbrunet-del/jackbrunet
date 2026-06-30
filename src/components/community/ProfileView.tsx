@@ -28,7 +28,25 @@ import { useNotebook } from "@/lib/notebook";
 import { useAllPlanProgress } from "@/lib/plan-progress";
 import { getThemePlans } from "@/lib/content";
 import { YEAR_PLAN_SLUG, YEAR_PLAN_DAYS } from "@/lib/year-plan";
-import type { Activity } from "@/lib/grades";
+import { gradeFor, type Activity } from "@/lib/grades";
+import { siteConfig } from "@/config/site";
+
+/** Couleurs d'accent personnalisables (bannière du profil). */
+const ACCENTS = {
+  lime: { from: "#CAF000", to: "#5E6A3A", label: "Lime" },
+  ocean: { from: "#38BDF8", to: "#1E3A8A", label: "Océan" },
+  sunset: { from: "#FB923C", to: "#BE123C", label: "Coucher" },
+  violet: { from: "#A78BFA", to: "#5B21B6", label: "Violet" },
+  rose: { from: "#FB7185", to: "#9D174D", label: "Rose" },
+} as const;
+type AccentKey = keyof typeof ACCENTS;
+
+/** Couleur du cadre d'avatar selon le grade (bronze → argent → or). */
+function gradeRing(gradeName: string): string {
+  if (gradeName.includes("Sentinelle")) return "linear-gradient(135deg,#FFD86B,#C9971F)";
+  if (gradeName.includes("Guerrier")) return "linear-gradient(135deg,#E3E7EE,#9AA3B2)";
+  return "linear-gradient(135deg,#E2A66B,#A86A33)";
+}
 
 export function ProfileView() {
   const { ready, userId, email, profile, refreshProfile } = useAuth();
@@ -104,6 +122,45 @@ function Profile({
   const notes = useNotebook();
   const eng = useEngagement();
   const planProgress = useAllPlanProgress();
+
+  const [accent, setAccent] = useState<AccentKey>("lime");
+  useEffect(() => {
+    try {
+      const a = localStorage.getItem("jb.profile.accent") as AccentKey | null;
+      if (a && ACCENTS[a]) setAccent(a);
+    } catch {
+      /* indisponible */
+    }
+  }, []);
+  function pickAccent(k: AccentKey) {
+    setAccent(k);
+    try {
+      localStorage.setItem("jb.profile.accent", k);
+    } catch {
+      /* ignore */
+    }
+  }
+  const a = ACCENTS[accent];
+
+  async function shareProfile() {
+    const url = `${siteConfig.url}/membre?u=${userId}`;
+    try {
+      const nav = navigator as Navigator & {
+        share?: (d: { title?: string; text?: string; url?: string }) => Promise<void>;
+      };
+      if (nav.share) {
+        await nav.share({
+          title: "Mon profil — Jack Brunet",
+          text: "Rejoins-moi sur l'application Jack Brunet : Foi & Prière 🙏",
+          url,
+        });
+      } else {
+        await navigator.clipboard.writeText(url);
+      }
+    } catch {
+      /* partage annulé */
+    }
+  }
   const activePlans = Object.values(planProgress).filter((days) => days.length > 0).length;
 
   // Avancée détaillée de chaque plan en cours (titre + % + jours)
@@ -199,10 +256,24 @@ function Profile({
 
   return (
     <section className="container-x py-10">
+      {/* Bannière de couverture (couleur d'accent personnalisable) */}
+      <div
+        className="h-24 rounded-4xl sm:h-28"
+        style={{ backgroundImage: `linear-gradient(120deg, ${a.from}, ${a.to})` }}
+      />
+
       {/* Carte profil */}
-      <div className="glass-strong p-6 sm:p-8">
+      <div className="glass-strong -mt-10 p-6 sm:p-8">
         <div className="flex items-center gap-4">
-          <Avatar pseudo={pseudoVal || profile?.pseudo} url={avatarVal || profile?.avatar_url} size={64} />
+          <span
+            className="shrink-0 rounded-full p-[3px]"
+            style={{ background: gradeRing(gradeFor(activity).grade.name) }}
+            title={gradeFor(activity).grade.name}
+          >
+            <span className="block rounded-full bg-cream p-[2px]">
+              <Avatar pseudo={pseudoVal || profile?.pseudo} url={avatarVal || profile?.avatar_url} size={64} />
+            </span>
+          </span>
           <div className="min-w-0">
             <h2 className="font-display text-xl font-extrabold leading-tight">
               {profile?.pseudo ?? "Mon profil"}
@@ -216,6 +287,13 @@ function Profile({
             </p>
           </div>
           <div className="ml-auto flex flex-col items-end gap-1">
+            <button
+              type="button"
+              onClick={shareProfile}
+              className="text-sm font-semibold text-spirit-600 hover:underline"
+            >
+              Partager mon profil
+            </button>
             <Link href={`/membre?u=${userId}`} className="text-sm font-semibold text-spirit-600 hover:underline">
               Voir mon profil public
             </Link>
@@ -326,6 +404,27 @@ function Profile({
                 </div>
               ))
             )}
+          </div>
+        </div>
+
+        {/* Couleur d'accent du profil (bannière) */}
+        <div className="mt-5">
+          <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+            Couleur du profil
+          </span>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {(Object.keys(ACCENTS) as AccentKey[]).map((k) => (
+              <button
+                key={k}
+                type="button"
+                onClick={() => pickAccent(k)}
+                aria-label={ACCENTS[k].label}
+                className={`h-8 w-8 rounded-full ring-2 ring-offset-2 transition ${
+                  accent === k ? "ring-night-900" : "ring-transparent"
+                }`}
+                style={{ backgroundImage: `linear-gradient(120deg, ${ACCENTS[k].from}, ${ACCENTS[k].to})` }}
+              />
+            ))}
           </div>
         </div>
 
