@@ -42,11 +42,11 @@ export const FIDELITY_REWARDS: Reward[] = [
   {
     id: "d100",
     days: 100,
-    emoji: "👑",
+    emoji: "🎁",
     title: "100 jours d'affilée",
-    blurb: "Bonus exclusif : un temps de soaking pour te reposer en Dieu.",
-    href: "/soaking",
-    cta: "Écouter le soaking",
+    blurb: "Un cadeau mystère t'attend pour récompenser ta fidélité 🤫",
+    href: "/surprise",
+    cta: "Ouvrir ma surprise",
   },
 ];
 
