@@ -288,6 +288,19 @@ function Profile({
               {counts.following > 1 ? "s" : ""}
             </p>
           </div>
+          <button
+            type="button"
+            aria-label="Rechercher des profils"
+            onClick={() =>
+              document.getElementById("trouver-profils")?.scrollIntoView({ behavior: "smooth" })
+            }
+            className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-night-900/15 bg-white text-spirit-700 transition-colors hover:bg-night-900/5"
+          >
+            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
+              <circle cx="11" cy="11" r="7" />
+              <path d="M21 21l-4.3-4.3" strokeLinecap="round" />
+            </svg>
+          </button>
           <div className="ml-auto flex flex-col items-end gap-1">
             <button
               type="button"
@@ -490,7 +503,7 @@ function Profile({
       ) : null}
 
       {/* Trouver des profils à suivre */}
-      <div className="mt-6">
+      <div id="trouver-profils" className="mt-6 scroll-mt-20">
         <h3 className="font-display text-lg font-bold">Trouver des profils</h3>
         <p className="mt-1 text-sm text-night-900/60">
           Cherche un membre par pseudo et abonne-toi, comme sur un réseau social.
