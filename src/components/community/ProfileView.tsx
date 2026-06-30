@@ -32,7 +32,6 @@ import { ProfileBanners } from "@/components/community/ProfileBanners";
 import { useEngagement } from "@/lib/engagement";
 import { FIDELITY_REWARDS } from "@/lib/rewards";
 import { FlameGlyph, StarGlyph, GiftGlyph } from "@/components/ui/DevoIcons";
-import { ProfileNotifications } from "@/components/community/ProfileNotifications";
 import { useNotebook } from "@/lib/notebook";
 import { useAllPlanProgress } from "@/lib/plan-progress";
 import { getThemePlans } from "@/lib/content";
@@ -621,11 +620,6 @@ function Profile({
             <MemberSuggestions />
           </div>
         </div>
-      </div>
-
-      {/* Notifications */}
-      <div className="mt-6">
-        <ProfileNotifications userId={userId} />
       </div>
 
       {/* Grade de prière */}
