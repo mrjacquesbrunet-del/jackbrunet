@@ -662,24 +662,33 @@ function Profile({
       <div className="mt-8">
         <h3 className="font-display text-lg font-bold">Mon espace</h3>
         <div className="mt-3 grid gap-4 sm:grid-cols-3">
-          <Link href="/carnet" className="glass block p-5 transition-shadow hover:shadow-lg">
-            <p className="font-display font-bold">Mon carnet</p>
-            <p className="mt-1 text-sm text-night-900/60">
+          <Link
+            href="/carnet"
+            className="block rounded-3xl border border-dawn-400/45 bg-gradient-to-br from-dawn-400/25 to-dawn-300/5 p-5 transition-shadow hover:shadow-lg"
+          >
+            <p className="font-display font-bold text-spirit-700">Mon carnet</p>
+            <p className="mt-1 text-sm text-night-900/65">
               {notes.length} note{notes.length > 1 ? "s" : ""} (prières, paroles reçues, réflexions)
             </p>
           </Link>
-          <Link href="/plans" className="glass block p-5 transition-shadow hover:shadow-lg">
-            <p className="font-display font-bold">Mes plans</p>
-            <p className="mt-1 text-sm text-night-900/60">
+          <Link
+            href="/plans"
+            className="block rounded-3xl border border-spirit-500/45 bg-gradient-to-br from-spirit-500/25 to-spirit-700/10 p-5 transition-shadow hover:shadow-lg"
+          >
+            <p className="font-display font-bold text-spirit-700">Mes plans</p>
+            <p className="mt-1 text-sm text-night-900/65">
               {activePlans > 0
                 ? `${activePlans} plan${activePlans > 1 ? "s" : ""} en cours`
                 : "Démarrer un plan"}
             </p>
           </Link>
-          <Link href="/exclusivites" className="glass block p-5 transition-shadow hover:shadow-lg">
-            <p className="font-display font-bold">Exclusivités</p>
-            <p className="mt-1 text-sm text-night-900/60">
-              Tes cadeaux : ebooks, audios & bonus 🎁
+          <Link
+            href="/a-propos"
+            className="block rounded-3xl border border-amber-400/50 bg-gradient-to-br from-amber-400/25 to-orange-300/5 p-5 transition-shadow hover:shadow-lg"
+          >
+            <p className="font-display font-bold text-spirit-700">À propos</p>
+            <p className="mt-1 text-sm text-night-900/65">
+              Découvre Jack, sa vision & son histoire.
             </p>
           </Link>
         </div>
