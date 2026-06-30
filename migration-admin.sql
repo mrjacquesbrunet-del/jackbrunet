@@ -79,3 +79,28 @@ create policy "comments_delete_admin" on public.prayer_comments
 -- (si des doublons existent déjà, les dédoublonner avant de créer l'index)
 create unique index if not exists profiles_pseudo_unique
   on public.profiles (lower(pseudo));
+
+-- ---------- 5) Pseudos réservés à Pasteur Jack ----------
+-- Toutes variantes (jack_brnt, jack brunet, jack-brunet…) → normalisées
+-- en supprimant tout sauf lettres/chiffres : 'jackbrnt' / 'jackbrunet'.
+-- Seul un compte admin peut les utiliser.
+create or replace function public.enforce_reserved_pseudo()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if regexp_replace(lower(coalesce(new.pseudo,'')), '[^a-z0-9]', '', 'g')
+       in ('jackbrnt','jackbrunet')
+     and not public.is_admin() then
+    raise exception 'Ce pseudo est réservé à Pasteur Jack Brunet.';
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists trg_reserved_pseudo on public.profiles;
+create trigger trg_reserved_pseudo
+  before insert or update on public.profiles
+  for each row execute function public.enforce_reserved_pseudo();

@@ -19,6 +19,7 @@ import {
   createPrayer,
   notifyMentions,
   isPseudoTaken,
+  isReservedPseudo,
   reactionsFor,
   isAdminEmail,
   type Prayer,
@@ -106,6 +107,10 @@ function Feed({
 
   async function savePseudo() {
     const p = pseudoVal.trim() || "Ami(e)";
+    if (isReservedPseudo(p) && !admin) {
+      setPseudoErr("Ce pseudo est réservé à Pasteur Jack Brunet.");
+      return;
+    }
     if (await isPseudoTaken(p, userId)) {
       setPseudoErr("Ce pseudo est déjà pris — choisis-en un autre.");
       return;

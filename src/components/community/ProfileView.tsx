@@ -10,6 +10,7 @@ import {
   deleteAccount,
   updateProfile,
   isPseudoTaken,
+  isReservedPseudo,
   listMyPrayers,
   followCounts,
   getActivity,
@@ -248,6 +249,11 @@ function Profile({
   async function save() {
     setSaving(true);
     const newPseudo = pseudoVal.trim() || "Ami(e)";
+    if (isReservedPseudo(newPseudo) && !isAdminEmail(email)) {
+      setPseudoError("Ce pseudo est réservé à Pasteur Jack Brunet.");
+      setSaving(false);
+      return;
+    }
     if (await isPseudoTaken(newPseudo, userId)) {
       setPseudoError("Ce pseudo est déjà pris — choisis-en un autre.");
       setSaving(false);

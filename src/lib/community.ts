@@ -366,6 +366,14 @@ export async function broadcastNotification(
   return typeof data === "number" ? data : 0;
 }
 
+/** Pseudos réservés à Pasteur Jack (toutes variantes _/-/espace/casse).
+ *  Seul un compte admin peut les utiliser. */
+const RESERVED_PSEUDOS = ["jackbrnt", "jackbrunet"];
+export function isReservedPseudo(pseudo: string): boolean {
+  const norm = pseudo.trim().toLowerCase().replace(/[^a-z0-9]/g, "");
+  return RESERVED_PSEUDOS.includes(norm);
+}
+
 /** Vrai si le pseudo est déjà pris par un AUTRE membre (insensible à la casse). */
 export async function isPseudoTaken(pseudo: string, selfId: string): Promise<boolean> {
   const sb = getSupabase();
