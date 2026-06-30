@@ -345,6 +345,20 @@ export async function listFollowingIds(userId: string): Promise<string[]> {
   return ((data as { following_id: string }[]) ?? []).map((r) => r.following_id);
 }
 
+/** Suggestions de membres à suivre (intercesseurs), façon Instagram :
+ *  on exclut soi-même et les personnes déjà suivies. */
+export async function suggestedProfiles(userId: string, limit = 12): Promise<Profile[]> {
+  const sb = getSupabase();
+  if (!sb) return [];
+  const exclude = new Set(await listFollowingIds(userId));
+  exclude.add(userId);
+  const { data } = await sb
+    .from("profiles")
+    .select("id,pseudo,avatar_url,bio")
+    .limit(limit + exclude.size + 12);
+  return ((data as Profile[]) ?? []).filter((p) => !exclude.has(p.id)).slice(0, limit);
+}
+
 /** Fil des prières des membres que je suis (+ les miennes). */
 export async function listFollowingFeed(userId: string): Promise<Prayer[]> {
   const sb = getSupabase();

@@ -23,6 +23,7 @@ import { GradeProgress } from "@/components/community/GradeBadge";
 import { MyFavorites } from "@/components/profile/MyFavorites";
 import { AnsweredFeed } from "@/components/community/AnsweredFeed";
 import { MemberSearch } from "@/components/community/MemberSearch";
+import { MemberSuggestions } from "@/components/community/MemberSuggestions";
 import { ProfileBanners } from "@/components/community/ProfileBanners";
 import { useEngagement } from "@/lib/engagement";
 import { FIDELITY_REWARDS } from "@/lib/rewards";
@@ -556,6 +557,16 @@ function Profile({
         </p>
         <div className="mt-3">
           <MemberSearch />
+        </div>
+
+        {/* Suggestions de contacts (intercesseurs) à suivre */}
+        <div className="mt-5">
+          <p className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+            Suggestions pour toi
+          </p>
+          <div className="mt-3">
+            <MemberSuggestions />
+          </div>
         </div>
       </div>
 
