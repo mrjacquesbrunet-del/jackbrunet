@@ -55,8 +55,8 @@ export function SoakingBar() {
         <div className="mt-3 border-t border-spirit-600/15 pt-3">
           {unlocked ? (
             <a
-              href={asset("/music/soaking-1.m4a")}
-              download="Soaking - Jack Brunet.m4a"
+              href={asset("/audio/soaking-jack-brunet.mp3")}
+              download="Soaking - Jack Brunet.mp3"
               className="btn-primary inline-flex items-center gap-1.5 text-sm"
             >
               <DownloadGlyph className="h-4 w-4" />
