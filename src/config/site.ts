@@ -37,12 +37,7 @@ export const mainNav = [
   { label: "Bible", href: "/bible" },
   { label: "Plans", href: "/plans" },
   { label: "Mur de prière", href: "/communaute" },
-  { label: "Mon carnet", href: "/carnet" },
-  { label: "Actualité", href: "/actualite" },
-  { label: "Vidéos", href: "/videos" },
-  { label: "Exclusivités", href: "/exclusivites" },
   { label: "Madagascar", href: "/mission-madagascar" },
-  { label: "Témoignages", href: "/temoignages" },
   { label: "Boutique", href: "/boutique" },
   { label: "À propos", href: "/a-propos" },
 ] as const;
@@ -65,6 +60,7 @@ export const footerNav = [
     links: [
       { label: "Mur de prière", href: "/communaute" },
       { label: "Témoignages", href: "/temoignages" },
+      { label: "Actualité", href: "/actualite" },
       { label: "Newsletter", href: "/#newsletter" },
     ],
   },
