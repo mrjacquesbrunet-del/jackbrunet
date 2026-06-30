@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Reveal } from "@/components/ui/Reveal";
+import { isNativeApp } from "@/lib/notifications";
+import { EmailPasswordAuth } from "@/components/community/EmailPasswordAuth";
 import { signInEmail, signInGoogle, signInApple } from "@/lib/community";
 
 /* ---------- Icônes locales ---------- */
@@ -213,6 +215,8 @@ function Features() {
 
 /* ---------- Connexion ---------- */
 function AuthCard() {
+  const [native, setNative] = useState(false);
+  useEffect(() => setNative(isNativeApp()), []);
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
@@ -279,7 +283,11 @@ function AuthCard() {
               Gratuit, en un clic. Partage, prie, encourage — et retrouve ton espace partout.
             </p>
 
-            {sent ? (
+            {native ? (
+              <div className="mt-7">
+                <EmailPasswordAuth />
+              </div>
+            ) : sent ? (
               <div className="mt-7 rounded-2xl border border-dawn-400/30 bg-dawn-400/10 p-4 text-center text-sm text-cream">
                 ✓ Un lien de connexion vient d'être envoyé à <strong>{email}</strong>. Ouvre ta boîte
                 mail et clique dessus.

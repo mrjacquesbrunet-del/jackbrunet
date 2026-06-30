@@ -82,6 +82,34 @@ export async function signInApple() {
   return data;
 }
 
+/** Inscription e-mail + mot de passe (100% dans l'app, sans navigateur). */
+export async function signUpEmailPassword(email: string, password: string) {
+  const sb = getSupabase();
+  if (!sb) throw new Error("non configuré");
+  const { data, error } = await sb.auth.signUp({ email, password });
+  if (error) throw error;
+  return data;
+}
+
+/** Connexion e-mail + mot de passe (100% dans l'app). */
+export async function signInEmailPassword(email: string, password: string) {
+  const sb = getSupabase();
+  if (!sb) throw new Error("non configuré");
+  const { data, error } = await sb.auth.signInWithPassword({ email, password });
+  if (error) throw error;
+  return data;
+}
+
+/** Suppression du compte (exigence App Store) via une fonction Supabase. */
+export async function deleteAccount(): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  const { error } = await sb.rpc("delete_user");
+  if (error) return false;
+  await sb.auth.signOut();
+  return true;
+}
+
 export async function signOut() {
   await getSupabase()?.auth.signOut();
 }

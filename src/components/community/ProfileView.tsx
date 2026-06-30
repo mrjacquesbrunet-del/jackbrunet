@@ -7,6 +7,7 @@ import { useAuth } from "@/components/community/useAuth";
 import { Avatar } from "@/components/community/Avatar";
 import {
   signOut,
+  deleteAccount,
   updateProfile,
   listMyPrayers,
   followCounts,
@@ -318,6 +319,22 @@ function Profile({
               className="text-sm text-night-900/50 hover:underline"
             >
               Déconnexion
+            </button>
+            <button
+              type="button"
+              onClick={async () => {
+                if (
+                  !confirm(
+                    "Supprimer définitivement ton compte et tes données ? Cette action est irréversible.",
+                  )
+                )
+                  return;
+                const ok = await deleteAccount();
+                if (!ok) alert("La suppression a échoué. Réessaie ou écris-nous.");
+              }}
+              className="text-xs text-red-600/70 hover:underline"
+            >
+              Supprimer mon compte
             </button>
           </div>
         </div>

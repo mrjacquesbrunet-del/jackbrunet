@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAuth } from "@/components/community/useAuth";
 import { signInEmail, signInGoogle, signInApple } from "@/lib/community";
+import { isNativeApp } from "@/lib/notifications";
+import { EmailPasswordAuth } from "@/components/community/EmailPasswordAuth";
 
 const KEY = "jb.onboarded";
 
@@ -38,6 +40,8 @@ const FEATURES = [
 export function AppOnboarding() {
   const { ready, userId } = useAuth();
   const [dismissed, setDismissed] = useState(true); // true par défaut → pas de flash
+  const [native, setNative] = useState(false);
+  useEffect(() => setNative(isNativeApp()), []);
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -153,7 +157,17 @@ export function AppOnboarding() {
                 ))}
               </ul>
 
-              {sent ? (
+              {native ? (
+                <div className="mt-8">
+                  <EmailPasswordAuth onSuccess={close} />
+                  <button
+                    onClick={close}
+                    className="mt-6 w-full text-center text-sm text-cream/55 underline-offset-4 hover:underline"
+                  >
+                    Continuer sans compte
+                  </button>
+                </div>
+              ) : sent ? (
                 <div className="mt-8 rounded-2xl border border-dawn-400/30 bg-dawn-400/10 p-4 text-center text-sm text-cream">
                   ✓ Un lien de connexion vient d'être envoyé à <strong>{email}</strong>.
                   Ouvre ta boîte mail et clique dessus.

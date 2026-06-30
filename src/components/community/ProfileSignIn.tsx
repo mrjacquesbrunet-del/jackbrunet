@@ -1,13 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { signInEmail, signInGoogle, signInApple } from "@/lib/community";
+import { isNativeApp } from "@/lib/notifications";
+import { EmailPasswordAuth } from "@/components/community/EmailPasswordAuth";
 
 /**
  * Carte de connexion compacte affichée sur le profil quand l'utilisateur
- * n'a pas de compte (Google ou lien magique par email).
+ * n'a pas de compte. App native : e-mail + mot de passe (100% dans l'app).
+ * Web : Google / Apple / lien magique par e-mail.
  */
 export function ProfileSignIn() {
+  const [native, setNative] = useState(false);
+  useEffect(() => setNative(isNativeApp()), []);
+
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
@@ -66,7 +72,11 @@ export function ProfileSignIn() {
         Personnalise ton profil (photo, verset, bio), retrouve ton grade et ton parcours partout.
       </p>
 
-      {sent ? (
+      {native ? (
+        <div className="mt-6">
+          <EmailPasswordAuth />
+        </div>
+      ) : sent ? (
         <div className="mt-6 rounded-2xl border border-dawn-400/40 bg-dawn-400/10 p-4 text-center text-sm">
           ✓ Un lien de connexion vient d'être envoyé à <strong>{email}</strong>. Ouvre ta boîte mail
           et clique dessus.
