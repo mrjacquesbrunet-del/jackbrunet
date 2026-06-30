@@ -85,6 +85,14 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <Link
+            href="/profil"
+            aria-label="Mon profil / Se connecter"
+            onClick={() => setOpen(false)}
+            className="grid h-10 w-10 place-items-center rounded-full border border-night-900/15 bg-night-900/[0.03] text-night-900/70 transition-colors hover:bg-night-900/5 hover:text-night-900"
+          >
+            <PersonIcon className="h-5 w-5" />
+          </Link>
           <Link href={supportCta.href} className="btn-primary hidden sm:inline-flex">
             <HeartIcon className="h-4 w-4" />
             {supportCta.label}
@@ -164,6 +172,24 @@ export function Header() {
         ) : null}
       </AnimatePresence>
     </header>
+  );
+}
+
+function PersonIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <circle cx="12" cy="8" r="3.5" />
+      <path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6" />
+    </svg>
   );
 }
 
