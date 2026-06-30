@@ -541,6 +541,32 @@ function Profile({
         </div>
       ) : null}
 
+      {/* Accès rapides : carnet + plans */}
+      <div className="mt-4 grid grid-cols-2 gap-3">
+        <Link
+          href="/carnet"
+          className="flex items-center gap-2.5 rounded-2xl border border-dawn-400/45 bg-gradient-to-br from-dawn-400/20 to-dawn-300/5 px-4 py-3 transition-shadow hover:shadow-md"
+        >
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-night-900 text-dawn-400">
+            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.7}>
+              <path d="M5 4h11l3 3v13H5zM15 4v4h4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+          <span className="font-display text-sm font-bold text-spirit-700">Mon carnet</span>
+        </Link>
+        <Link
+          href="/plans"
+          className="flex items-center gap-2.5 rounded-2xl border border-spirit-500/45 bg-gradient-to-br from-spirit-500/20 to-spirit-700/10 px-4 py-3 transition-shadow hover:shadow-md"
+        >
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-night-900 text-dawn-400">
+            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.7}>
+              <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+          <span className="font-display text-sm font-bold text-spirit-700">Mes plans</span>
+        </Link>
+      </div>
+
       {/* Annonces défilantes (RHEMA, exclusivités…) */}
       <div className="mt-4">
         <ProfileBanners />

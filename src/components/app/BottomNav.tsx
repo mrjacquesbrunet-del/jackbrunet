@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -35,84 +34,34 @@ const TABS = [
   { href: "/devotionnel", label: "Jésus", icon: I.home, match: ["/devotionnel", "/"] },
   { href: "/communaute", label: "Prière", icon: I.pray, match: ["/communaute", "/membre"] },
   { href: "/videos", label: "Vidéos", icon: I.video, match: ["/videos"] },
-  { href: "/bible", label: "Bible", icon: I.bible, match: ["/bible", "/plans"] },
-];
-
-const MORE = [
-  { href: "/carnet", label: "Mon carnet", icon: I.note },
-  { href: "/plans", label: "Plans", icon: I.list },
-  { href: "/profil", label: "Mon profil", icon: I.user },
+  { href: "/bible", label: "Bible", icon: I.bible, match: ["/bible", "/plans", "/carnet"] },
+  { href: "/profil", label: "Profil", icon: I.user, match: ["/profil"] },
 ];
 
 export function BottomNav() {
   const pathname = usePathname();
-  const [moreOpen, setMoreOpen] = useState(false);
 
   const isActive = (m: string[]) => m.some((p) => pathname === p || pathname.startsWith(p + "/"));
 
   return (
-    <>
-      {/* Feuille « Plus » */}
-      {moreOpen ? (
-        <>
-          <button
-            type="button"
-            aria-label="Fermer"
-            onClick={() => setMoreOpen(false)}
-            className="fixed inset-0 z-[70] bg-black/60 backdrop-blur-sm"
-          />
-          <div className="fixed inset-x-0 bottom-0 z-[71] rounded-t-3xl border-t border-white/10 bg-[#181B11] p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] text-cream shadow-card">
-            <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-white/20" />
-            <p className="mb-3 font-display text-lg font-bold">Tout explorer</p>
-            <div className="grid grid-cols-3 gap-3">
-              {MORE.map((m) => (
-                <Link
-                  key={m.href}
-                  href={m.href}
-                  onClick={() => setMoreOpen(false)}
-                  className="flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.04] p-3 text-center transition-colors hover:bg-white/[0.08]"
-                >
-                  <span className="grid h-10 w-10 place-items-center rounded-xl bg-[#CAF000]/15 text-[#CAF000]">
-                    <Icon d={m.icon} className="h-5 w-5" />
-                  </span>
-                  <span className="text-xs font-semibold">{m.label}</span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </>
-      ) : null}
-
-      {/* Barre d'onglets */}
-      <nav className="fixed inset-x-0 bottom-0 z-[60] border-t border-white/10 bg-[#14160E]/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl">
-        <div className="mx-auto flex max-w-lg items-stretch justify-around">
-          {TABS.map((t) => {
-            const active = isActive(t.match);
-            return (
-              <Link
-                key={t.href}
-                href={t.href}
-                className={`flex flex-1 flex-col items-center gap-1 py-2.5 text-[10px] font-semibold transition-colors ${
-                  active ? "text-[#CAF000]" : "text-cream/55"
-                }`}
-              >
-                <Icon d={t.icon} className="h-6 w-6" />
-                {t.label}
-              </Link>
-            );
-          })}
-          <button
-            type="button"
-            onClick={() => setMoreOpen((v) => !v)}
-            className={`flex flex-1 flex-col items-center gap-1 py-2.5 text-[10px] font-semibold transition-colors ${
-              moreOpen ? "text-[#CAF000]" : "text-cream/55"
-            }`}
-          >
-            <Icon d={I.plus} className="h-6 w-6" />
-            Plus
-          </button>
-        </div>
-      </nav>
-    </>
+    <nav className="fixed inset-x-0 bottom-0 z-[60] border-t border-white/10 bg-[#14160E]/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl">
+      <div className="mx-auto flex max-w-lg items-stretch justify-around">
+        {TABS.map((t) => {
+          const active = isActive(t.match);
+          return (
+            <Link
+              key={t.href}
+              href={t.href}
+              className={`flex flex-1 flex-col items-center gap-1 py-2.5 text-[10px] font-semibold transition-colors ${
+                active ? "text-[#CAF000]" : "text-cream/55"
+              }`}
+            >
+              <Icon d={t.icon} className="h-6 w-6" />
+              {t.label}
+            </Link>
+          );
+        })}
+      </div>
+    </nav>
   );
 }
