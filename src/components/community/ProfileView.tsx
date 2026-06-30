@@ -17,6 +17,7 @@ import {
   type FavoriteVerse,
 } from "@/lib/community";
 import { AdminAnnounce } from "@/components/community/AdminAnnounce";
+import { ProfileSignIn } from "@/components/community/ProfileSignIn";
 import { GradeProgress } from "@/components/community/GradeBadge";
 import { ProfileNotifications } from "@/components/community/ProfileNotifications";
 import { useNotebook } from "@/lib/notebook";
@@ -42,12 +43,14 @@ export function ProfileView() {
 
   if (!userId) {
     return (
-      <section className="container-x py-16 text-center">
-        <p className="text-night-900/70">
-          Connecte-toi pour accéder à ton profil.{" "}
+      <section className="container-x py-12">
+        <ProfileSignIn />
+        <p className="mx-auto mt-6 max-w-md text-center text-sm text-night-900/55">
+          Tu peux aussi continuer à utiliser l'app sans compte —{" "}
           <Link href="/communaute" className="font-semibold text-spirit-600 hover:underline">
-            Aller à la communauté
+            découvrir la communauté
           </Link>
+          .
         </p>
       </section>
     );
