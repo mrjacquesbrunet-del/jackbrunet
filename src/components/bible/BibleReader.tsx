@@ -121,11 +121,23 @@ export function BibleReader() {
           ))}
         </select>
 
+        {/* Accès au carnet (prise de notes pendant la lecture) */}
+        <Link
+          href="/carnet"
+          aria-label="Mon carnet"
+          className="ml-auto grid h-11 w-11 shrink-0 place-items-center rounded-full border border-night-900/15 bg-white text-spirit-700 transition-colors hover:bg-night-900/5"
+        >
+          <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
+            <path d="M6 3.5h8.5L19 8v12.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-16a1 1 0 0 1 1-1z" />
+            <path d="M14 3.5V8h4.5M8.5 13h7M8.5 16.5h7" strokeLinecap="round" />
+          </svg>
+        </Link>
+
         {/* Recherche d'un mot/verset dans toute la Bible */}
         <Link
           href="/recherche"
           aria-label="Rechercher dans la Bible"
-          className="ml-auto grid h-11 w-11 shrink-0 place-items-center rounded-full border border-night-900/15 bg-white text-spirit-700 transition-colors hover:bg-night-900/5"
+          className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-night-900/15 bg-white text-spirit-700 transition-colors hover:bg-night-900/5"
         >
           <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
             <circle cx="11" cy="11" r="7" />

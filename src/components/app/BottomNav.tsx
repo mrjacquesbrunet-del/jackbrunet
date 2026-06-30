@@ -34,12 +34,12 @@ const I = {
 const TABS = [
   { href: "/devotionnel", label: "Jésus", icon: I.home, match: ["/devotionnel", "/"] },
   { href: "/communaute", label: "Prière", icon: I.pray, match: ["/communaute", "/membre"] },
-  { href: "/carnet", label: "Carnet", icon: I.note, match: ["/carnet"] },
+  { href: "/videos", label: "Vidéos", icon: I.video, match: ["/videos"] },
   { href: "/bible", label: "Bible", icon: I.bible, match: ["/bible", "/plans"] },
 ];
 
 const MORE = [
-  { href: "/videos", label: "Vidéos", icon: I.video },
+  { href: "/carnet", label: "Mon carnet", icon: I.note },
   { href: "/plans", label: "Plans", icon: I.list },
   { href: "/profil", label: "Mon profil", icon: I.user },
 ];
