@@ -70,6 +70,18 @@ export async function signInGoogle() {
   return data;
 }
 
+export async function signInApple() {
+  const sb = getSupabase();
+  if (!sb) throw new Error("non configuré");
+  const { data, error } = await sb.auth.signInWithOAuth({
+    provider: "apple",
+    options: { redirectTo: `${window.location.origin}/communaute/` },
+  });
+  if (error) throw error;
+  if (data?.url) window.location.assign(data.url);
+  return data;
+}
+
 export async function signOut() {
   await getSupabase()?.auth.signOut();
 }

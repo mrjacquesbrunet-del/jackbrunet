@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Reveal } from "@/components/ui/Reveal";
-import { signInEmail, signInGoogle } from "@/lib/community";
+import { signInEmail, signInGoogle, signInApple } from "@/lib/community";
 
 /* ---------- Icônes locales ---------- */
 function Ico({ d, className }: { d: string; className?: string }) {
@@ -220,6 +220,15 @@ function AuthCard() {
   const [gBusy, setGBusy] = useState(false);
   const [gErr, setGErr] = useState("");
 
+  async function apple() {
+    setGErr("");
+    try {
+      await signInApple();
+    } catch {
+      setGErr("Connexion Apple impossible. Réessaie.");
+    }
+  }
+
   async function google() {
     setGBusy(true);
     setGErr("");
@@ -285,6 +294,14 @@ function AuthCard() {
                 >
                   <GoogleMark /> {gBusy ? "Redirection…" : "Continuer avec Google"}
                 </button>
+
+                <button
+                  type="button"
+                  onClick={apple}
+                  className="mt-3 flex w-full items-center justify-center gap-2.5 rounded-full bg-black px-6 py-3 text-sm font-semibold text-white transition-transform hover:scale-[1.02]"
+                >
+                  <AppleMark /> Continuer avec Apple
+                </button>
                 {gErr ? <p className="field-error mt-2 text-center">{gErr}</p> : null}
 
                 <div className="my-5 flex items-center gap-3 text-xs text-cream/40">
@@ -314,6 +331,14 @@ function AuthCard() {
         </Reveal>
       </div>
     </section>
+  );
+}
+
+function AppleMark() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5 fill-white" aria-hidden>
+      <path d="M16.37 1.43c.06.83-.27 1.65-.78 2.25-.55.64-1.45 1.13-2.32 1.06-.08-.8.3-1.64.8-2.18.56-.62 1.52-1.09 2.3-1.13zM19.6 17.2c-.4.93-.6 1.34-1.12 2.16-.72 1.15-1.74 2.58-3 2.59-1.12.01-1.41-.73-2.93-.72-1.52 0-1.84.73-2.96.73-1.26.01-2.22-1.3-2.95-2.44-2.02-3.2-2.23-6.96-.99-8.95.88-1.42 2.27-2.25 3.58-2.25 1.33 0 2.17.73 3.27.73 1.07 0 1.72-.73 3.26-.73 1.16 0 2.39.63 3.27 1.72-2.87 1.57-2.41 5.67.5 6.89z" />
+    </svg>
   );
 }
 
