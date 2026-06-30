@@ -42,6 +42,15 @@ export const mainNav = [
   { label: "À propos", href: "/a-propos" },
 ] as const;
 
+/** Onglets secondaires — accessibles via le menu « Plus » (desktop) et le menu mobile. */
+export const secondaryNav = [
+  { label: "Vidéos", href: "/videos" },
+  { label: "Mon carnet", href: "/carnet" },
+  { label: "Exclusivités", href: "/exclusivites" },
+  { label: "Témoignages", href: "/temoignages" },
+  { label: "Actualité", href: "/actualite" },
+] as const;
+
 /** Liens secondaires (footer). */
 export const footerNav = [
   {

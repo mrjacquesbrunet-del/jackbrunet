@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { mainNav, siteConfig, supportCta } from "@/config/site";
+import { mainNav, secondaryNav, siteConfig, supportCta } from "@/config/site";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -56,6 +56,32 @@ export function Header() {
               {item.label}
             </Link>
           ))}
+
+          {/* Menu « Plus » : pages secondaires */}
+          <div className="group relative">
+            <button
+              type="button"
+              className="flex items-center gap-1 whitespace-nowrap rounded-full px-3 py-2 text-sm font-semibold uppercase tracking-wide text-night-900/70 transition-colors hover:bg-night-900/5 hover:text-night-900"
+            >
+              Plus
+              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth={2}>
+                <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            <div className="invisible absolute right-0 top-full pt-2 opacity-0 transition-all duration-150 group-hover:visible group-hover:opacity-100">
+              <div className="min-w-[12rem] rounded-2xl border border-night-900/10 bg-cream/95 p-2 shadow-card backdrop-blur-xl">
+                {secondaryNav.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="block rounded-xl px-3 py-2 text-sm font-semibold uppercase tracking-wide text-night-900/70 transition-colors hover:bg-night-900/5 hover:text-night-900"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
         </nav>
 
         <div className="flex items-center gap-2">
@@ -112,6 +138,19 @@ export function Header() {
                   {item.label}
                 </Link>
               ))}
+
+              <div className="my-2 border-t border-night-900/10" />
+              {secondaryNav.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className="rounded-2xl px-4 py-3 text-base font-semibold uppercase tracking-wide text-night-900/60 transition-colors hover:bg-night-900/5"
+                >
+                  {item.label}
+                </Link>
+              ))}
+
               <Link
                 href={supportCta.href}
                 onClick={() => setOpen(false)}

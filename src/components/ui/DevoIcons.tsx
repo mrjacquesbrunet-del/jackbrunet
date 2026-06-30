@@ -43,6 +43,19 @@ export const GiftGlyph = ({ className }: P) => (
   </Svg>
 );
 
+export const StarGlyph = ({ className }: P) => (
+  <Svg className={className}>
+    <path d="M12 3.5l2.6 5.27 5.82.85-4.21 4.1.99 5.78L12 16.9l-5.2 2.6.99-5.78-4.21-4.1 5.82-.85z" />
+  </Svg>
+);
+
+export const MegaphoneGlyph = ({ className }: P) => (
+  <Svg className={className}>
+    <path d="M4 10v4a1 1 0 0 0 1 1h2l3 4V5L7 9H5a1 1 0 0 0-1 1z" />
+    <path d="M14 8.5a4 4 0 0 1 0 7" />
+  </Svg>
+);
+
 export const PenGlyph = ({ className }: P) => (
   <Svg className={className}>
     <path d="M16.5 4.5l3 3L8 19l-4 1 1-4L16.5 4.5z" />

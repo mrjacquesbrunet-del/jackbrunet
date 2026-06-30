@@ -5,7 +5,12 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEngagement } from "@/lib/engagement";
 import { siteConfig } from "@/config/site";
-import { GiftGlyph } from "@/components/ui/DevoIcons";
+import {
+  FlameGlyph,
+  StarGlyph,
+  GiftGlyph,
+  MegaphoneGlyph,
+} from "@/components/ui/DevoIcons";
 import {
   FIDELITY_REWARDS,
   AMBASSADOR_REWARD,
@@ -16,6 +21,14 @@ import {
   daysToNext,
   type Reward,
 } from "@/lib/rewards";
+
+/** Icône maison pour chaque récompense (cohérent avec la charte, sans emoji). */
+function RewardIcon({ id, className }: { id: string; className?: string }) {
+  if (id === "d7") return <FlameGlyph className={className} />;
+  if (id === "d30") return <StarGlyph className={className} />;
+  if (id === "ambassadeur") return <MegaphoneGlyph className={className} />;
+  return <GiftGlyph className={className} />;
+}
 
 /**
  * « Mes récompenses » : paliers de fidélité débloqués par la série quotidienne
@@ -94,12 +107,8 @@ export function Rewards() {
                   : "border-night-900/10 bg-white"
               }`}
             >
-              <span className={unlocked ? "" : "opacity-40 grayscale"}>
-                {r.emoji === "🎁" ? (
-                  <GiftGlyph className="h-8 w-8 text-spirit-700" />
-                ) : (
-                  <span className="text-3xl">{r.emoji}</span>
-                )}
+              <span className={`text-spirit-700 ${unlocked ? "" : "opacity-40 grayscale"}`}>
+                <RewardIcon id={r.id} className="h-8 w-8" />
               </span>
               <p className="mt-2 font-display text-base font-extrabold">{r.title}</p>
               <p className="mt-1 flex-1 text-sm text-night-900/65">{r.blurb}</p>
@@ -135,8 +144,8 @@ export function Rewards() {
               : "border-night-900/10 bg-white"
           }`}
         >
-          <span className={`text-3xl ${shared ? "" : "opacity-40 grayscale"}`}>
-            {AMBASSADOR_REWARD.emoji}
+          <span className={`text-spirit-700 ${shared ? "" : "opacity-40 grayscale"}`}>
+            <RewardIcon id={AMBASSADOR_REWARD.id} className="h-8 w-8" />
           </span>
           <p className="mt-2 font-display text-base font-extrabold">{AMBASSADOR_REWARD.title}</p>
           <p className="mt-1 flex-1 text-sm text-night-900/65">
@@ -176,12 +185,12 @@ export function Rewards() {
               onClick={(e) => e.stopPropagation()}
             >
               <motion.div
-                className="text-6xl"
+                className="mx-auto w-fit text-spirit-700"
                 initial={{ scale: 0, rotate: -20 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{ delay: 0.1, type: "spring", stiffness: 260 }}
               >
-                {celebrate.emoji}
+                <RewardIcon id={celebrate.id} className="h-16 w-16" />
               </motion.div>
               <p className="mt-3 font-display text-2xl font-extrabold">Bravo&nbsp;! 🎉</p>
               <p className="mt-1 font-semibold text-spirit-700">{celebrate.title} débloqué</p>

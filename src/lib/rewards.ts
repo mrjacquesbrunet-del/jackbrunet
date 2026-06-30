@@ -44,7 +44,7 @@ export const FIDELITY_REWARDS: Reward[] = [
     days: 100,
     emoji: "🎁",
     title: "100 jours d'affilée",
-    blurb: "Un cadeau mystère t'attend pour récompenser ta fidélité 🤫",
+    blurb: "Un cadeau mystère t'attend pour récompenser ta fidélité.",
     href: "/surprise",
     cta: "Ouvrir ma surprise",
   },
