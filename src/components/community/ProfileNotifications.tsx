@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Avatar } from "@/components/community/Avatar";
+import { PrayerMark } from "@/components/ui/PrayerMark";
 import {
   listNotifications,
   markNotificationsRead,
@@ -76,9 +77,13 @@ export function ProfileNotifications({ userId }: { userId: string }) {
         {TYPES.map((t) => (
           <div key={t.key} className="rounded-2xl border border-night-900/10 bg-white p-3 text-center">
             <span className="mx-auto grid h-9 w-9 place-items-center rounded-xl bg-night-900 text-dawn-400">
-              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.7}>
-                <path d={t.icon} strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
+              {t.key === "pray" ? (
+                <PrayerMark className="h-5 w-5" />
+              ) : (
+                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.7}>
+                  <path d={t.icon} strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              )}
             </span>
             <p className="mt-1.5 font-display text-xl font-extrabold text-spirit-700">{counts[t.key]}</p>
             <p className="text-xs text-night-900/55">{t.label}</p>

@@ -9,10 +9,11 @@ import {
   NOTE_CATEGORIES,
   type NoteCategory,
 } from "@/lib/notebook";
-import { HandsGlyph, BookGlyph, NoteGlyph } from "@/components/ui/DevoIcons";
+import { BookGlyph, NoteGlyph } from "@/components/ui/DevoIcons";
+import { PrayerMark } from "@/components/ui/PrayerMark";
 
 const CAT_ICON: Record<NoteCategory, (p: { className?: string }) => React.ReactElement> = {
-  Prière: HandsGlyph,
+  Prière: PrayerMark,
   "Parole reçue": BookGlyph,
   Note: NoteGlyph,
 };
