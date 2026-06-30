@@ -1,0 +1,55 @@
+name: Synchroniser les vidéos YouTube
+
+# Récupère les dernières vidéos/Shorts de la chaîne et enregistre la liste
+# (content/*.generated.json) DANS le dépôt. Ainsi l'application native (qui lit
+# ces fichiers au moment de sa fabrication) ET le site affichent les vidéos,
+# sans avoir besoin de la clé YouTube côté Xcode Cloud / Android.
+#
+# Prérequis : le secret de dépôt YOUTUBE_API_KEY (YouTube Data API v3).
+# Le commit porte « [skip ci] » pour ne PAS déclencher de build iOS/Android/site.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 5 * * *" # une fois par jour (UTC)
+
+permissions:
+  contents: write
+
+concurrency:
+  group: youtube-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: claude/great-hamilton-ieokug
+
+      - name: Configurer Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Importer les vidéos YouTube
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: node scripts/fetch-youtube.mjs
+
+      - name: Committer la liste si elle a changé
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- content/shorts.generated.json content/videos.generated.json; then
+            echo "Aucun changement de vidéos."
+            exit 0
+          fi
+          git add content/shorts.generated.json content/videos.generated.json
+          git commit -m "chore(videos): synchronisation YouTube [skip ci]"
+          git pull --rebase origin claude/great-hamilton-ieokug || true
+          for i in 1 2 3 4; do
+            git push origin "HEAD:claude/great-hamilton-ieokug" && break
+            echo "push échoué, nouvelle tentative $i"; sleep $((2**i))
+          done
