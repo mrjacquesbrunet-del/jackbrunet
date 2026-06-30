@@ -75,7 +75,7 @@ export function ProfileView() {
 
   if (!userId) {
     return (
-      <section className="container-x py-12">
+      <section className="container-x pb-12 pt-24 sm:pt-32">
         <ProfileSignIn />
         <p className="mx-auto mt-6 max-w-md text-center text-sm text-night-900/55">
           Tu peux aussi continuer à utiliser l'app sans compte —{" "}
@@ -280,7 +280,7 @@ function Profile({
   }
 
   return (
-    <section className="container-x py-8">
+    <section className="container-x pb-8 pt-24 sm:pt-32">
       {/* En-tête façon Instagram, sur olive sombre texturé */}
       <div className="dark-ctx bg-topo-dark relative overflow-hidden rounded-4xl border border-white/10 p-6 shadow-card sm:p-8">
         {/* Halo d'accent personnalisable */}
