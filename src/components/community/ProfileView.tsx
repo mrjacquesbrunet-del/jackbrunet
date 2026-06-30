@@ -27,6 +27,7 @@ import { MemberSearch } from "@/components/community/MemberSearch";
 import { MemberSuggestions } from "@/components/community/MemberSuggestions";
 import { NotificationsBell } from "@/components/community/NotificationsBell";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
+import { FollowList } from "@/components/community/FollowList";
 import { ProfileBanners } from "@/components/community/ProfileBanners";
 import { useEngagement } from "@/lib/engagement";
 import { FIDELITY_REWARDS } from "@/lib/rewards";
@@ -125,6 +126,7 @@ function Profile({
   const [saved, setSaved] = useState(false);
   const [pseudoError, setPseudoError] = useState("");
   const [editing, setEditing] = useState(false);
+  const [followModal, setFollowModal] = useState<null | "followers" | "following">(null);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
@@ -324,20 +326,22 @@ function Profile({
             </span>
           </span>
           <div className="grid flex-1 grid-cols-3 gap-1 text-center">
-            <Link
-              href={`/membre?u=${userId}`}
+            <button
+              type="button"
+              onClick={() => setFollowModal("followers")}
               className="rounded-xl py-1 transition-colors hover:bg-white/10"
             >
               <p className="font-display text-xl font-extrabold text-cream">{counts.followers}</p>
               <p className="text-[11px] text-cream/60">Abonnés</p>
-            </Link>
-            <Link
-              href={`/membre?u=${userId}`}
+            </button>
+            <button
+              type="button"
+              onClick={() => setFollowModal("following")}
               className="rounded-xl py-1 transition-colors hover:bg-white/10"
             >
               <p className="font-display text-xl font-extrabold text-cream">{counts.following}</p>
               <p className="text-[11px] text-cream/60">Abonnements</p>
-            </Link>
+            </button>
             <div className="rounded-xl py-1">
               <p className="flex items-center justify-center gap-1 font-display text-xl font-extrabold text-dawn-300">
                 <FlameGlyph className="h-4 w-4" />
@@ -815,6 +819,15 @@ function Profile({
       </div>
 
       {isAdminEmail(email) ? <AdminAnnounce /> : null}
+
+      {followModal ? (
+        <FollowList
+          userId={userId}
+          mode={followModal}
+          onClose={() => setFollowModal(null)}
+          onChange={load}
+        />
+      ) : null}
     </section>
   );
 }

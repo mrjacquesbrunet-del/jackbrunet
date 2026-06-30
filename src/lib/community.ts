@@ -447,6 +447,30 @@ export async function listFollowingIds(userId: string): Promise<string[]> {
   return ((data as { following_id: string }[]) ?? []).map((r) => r.following_id);
 }
 
+/** Profils des membres qui me suivent (abonnés). */
+export async function listFollowers(userId: string): Promise<Profile[]> {
+  const sb = getSupabase();
+  if (!sb) return [];
+  const { data } = await sb.from("follows").select("follower_id").eq("following_id", userId);
+  const ids = ((data as { follower_id: string }[]) ?? []).map((r) => r.follower_id);
+  const map = await profilesByIds(ids);
+  return ids.map((id) => map[id]).filter(Boolean) as Profile[];
+}
+
+/** Profils des membres que je suis (abonnements). */
+export async function listFollowing(userId: string): Promise<Profile[]> {
+  const ids = await listFollowingIds(userId);
+  const map = await profilesByIds(ids);
+  return ids.map((id) => map[id]).filter(Boolean) as Profile[];
+}
+
+/** Retire un abonné (force quelqu'un à ne plus me suivre). */
+export async function removeFollower(followerId: string, userId: string) {
+  const sb = getSupabase();
+  if (!sb) return;
+  await sb.from("follows").delete().eq("follower_id", followerId).eq("following_id", userId);
+}
+
 /** Suggestions de membres à suivre (intercesseurs), façon Instagram :
  *  on exclut soi-même et les personnes déjà suivies. */
 export async function suggestedProfiles(userId: string, limit = 12): Promise<Profile[]> {

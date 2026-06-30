@@ -61,7 +61,7 @@ export function NotificationsBell({
     const next = !open;
     setOpen(next);
     if (next) {
-      setItems(await listNotifications(userId));
+      setItems(await listNotifications(userId, 100));
       await markNotificationsRead(userId);
       setUnread(0);
     }

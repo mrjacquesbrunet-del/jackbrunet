@@ -106,6 +106,14 @@ create trigger trg_reserved_pseudo
   before insert or update on public.profiles
   for each row execute function public.enforce_reserved_pseudo();
 
+-- ---------- 5b) Retirer un abonné ----------
+-- Permet à un membre de supprimer un abonné (ligne où il est le suivi).
+-- (Le désabonnement classique, où l'on est le suiveur, reste géré par la
+--  policy existante.)
+drop policy if exists "follows_delete_followed" on public.follows;
+create policy "follows_delete_followed" on public.follows
+  for delete using (auth.uid() = following_id);
+
 -- ---------- 6) Encoche "certifié" (réservée aux admins) ----------
 alter table public.profiles add column if not exists verified boolean not null default false;
 
