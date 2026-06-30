@@ -213,6 +213,8 @@ export default function MissionMadagascarPage() {
           <div className="glass-strong p-7 sm:p-8">
             <NewsletterForm
               source="mission-madagascar"
+              layout="stacked"
+              size="lg"
               cta="Je rejoins la mission"
               note="Tu recevras les nouvelles et les sujets de prière."
             />
