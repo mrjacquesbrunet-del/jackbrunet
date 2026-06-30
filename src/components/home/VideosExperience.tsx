@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { LongVideo } from "@/lib/types";
+import { isNativeApp } from "@/lib/notifications";
+import { openYouTube } from "@/lib/youtube";
 
 type Category = { category: string; videos: LongVideo[] };
 
@@ -141,7 +143,17 @@ function VideoPlayer({
     return () => window.removeEventListener("keydown", onKey);
   }, [go, onClose]);
 
+  // En app native : ouvrir la vidéo dans le navigateur (embed bloqué).
+  useEffect(() => {
+    if (isNativeApp()) {
+      openYouTube(videos[index]?.id);
+      onClose();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   if (!v) return null;
+  if (isNativeApp()) return null;
 
   return (
     <motion.div

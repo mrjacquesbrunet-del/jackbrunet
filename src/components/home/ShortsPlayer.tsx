@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import type { Short } from "@/lib/types";
+import { isNativeApp } from "@/lib/notifications";
+import { openYouTube } from "@/lib/youtube";
 
 /** Lecteur immersif vertical (feed) — scroll/swipe pour passer au Short suivant. */
 export function ShortsPlayer({
@@ -65,6 +67,18 @@ export function ShortsPlayer({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [go, onClose]);
+
+  // En app native, l'embed YouTube est bloqué → on ouvre la vidéo dans le
+  // navigateur et on referme le lecteur immersif.
+  useEffect(() => {
+    if (isNativeApp()) {
+      openYouTube(shorts[startIndex]?.id);
+      onClose();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (isNativeApp()) return null;
 
   return (
     <motion.div

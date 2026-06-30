@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { openYouTube } from "@/lib/youtube";
 
 type LiteYouTubeProps = {
   id: string;
@@ -33,7 +34,11 @@ export function LiteYouTube({ id, title = "Vidéo", vertical = false }: LiteYouT
       ) : (
         <button
           type="button"
-          onClick={() => setActive(true)}
+          onClick={async () => {
+            // En natif, l'embed YouTube est bloqué → ouvrir dans le navigateur.
+            if (await openYouTube(id)) return;
+            setActive(true);
+          }}
           aria-label={`Lire : ${title}`}
           className="group absolute inset-0 h-full w-full"
         >
