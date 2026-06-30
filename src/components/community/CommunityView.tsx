@@ -9,6 +9,7 @@ import { PrayerCard } from "@/components/community/PrayerCard";
 import { PrayerFocus } from "@/components/community/PrayerFocus";
 import { NotificationsBell } from "@/components/community/NotificationsBell";
 import { MemberSearch } from "@/components/community/MemberSearch";
+import { MentionField } from "@/components/community/MentionField";
 import { CommunityLanding } from "@/components/community/CommunityLanding";
 import {
   signOut,
@@ -16,6 +17,7 @@ import {
   listPrayers,
   listFollowingFeed,
   createPrayer,
+  notifyMentions,
   reactionsFor,
   isAdminEmail,
   type Prayer,
@@ -92,7 +94,9 @@ function Feed({
   async function post() {
     if (!body.trim()) return;
     setPosting(true);
-    await createPrayer(body.trim(), visibility, userId);
+    const text = body.trim();
+    const newId = await createPrayer(text, visibility, userId);
+    await notifyMentions(text, userId, newId);
     setBody("");
     await load();
     setPosting(false);
@@ -168,12 +172,11 @@ function Feed({
 
       {/* Composer */}
       <div className="glass-strong mt-5 p-5">
-        <textarea
+        <MentionField
           value={body}
-          onChange={(e) => setBody(e.target.value)}
+          onChange={setBody}
           rows={3}
-          placeholder="Partage un sujet de prière…"
-          className="field w-full resize-y"
+          placeholder="Partage un sujet de prière… (cite quelqu'un avec @)"
         />
         <div className="mt-3 flex flex-wrap items-center gap-3">
           <select

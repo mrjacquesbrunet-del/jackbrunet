@@ -20,6 +20,8 @@ function label(n: Notification) {
       return `${who} t'a encouragé(e) 💬`;
     case "follow":
       return `${who} s'est abonné(e) à toi`;
+    case "mention":
+      return `${who} t'a mentionné(e) ✨`;
   }
 }
 
@@ -32,7 +34,13 @@ function when(iso: string) {
   });
 }
 
-export function NotificationsBell({ userId }: { userId: string }) {
+export function NotificationsBell({
+  userId,
+  tone = "light",
+}: {
+  userId: string;
+  tone?: "light" | "dark";
+}) {
   const [open, setOpen] = useState(false);
   const [unread, setUnread] = useState(0);
   const [items, setItems] = useState<Notification[] | null>(null);
@@ -63,7 +71,11 @@ export function NotificationsBell({ userId }: { userId: string }) {
         type="button"
         onClick={toggle}
         aria-label="Notifications"
-        className="relative grid h-10 w-10 place-items-center rounded-full border border-night-900/15 text-night-900/70 transition-colors hover:border-night-900/30"
+        className={`relative grid h-10 w-10 place-items-center rounded-full border transition-colors ${
+          tone === "dark"
+            ? "border-white/20 bg-white/10 text-cream hover:bg-white/20"
+            : "border-night-900/15 text-night-900/70 hover:border-night-900/30"
+        }`}
       >
         <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
           <path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" strokeLinecap="round" strokeLinejoin="round" />

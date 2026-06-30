@@ -9,6 +9,7 @@ import { Avatar } from "@/components/community/Avatar";
 import { GradeBadge } from "@/components/community/GradeBadge";
 import {
   getProfile,
+  getProfileByPseudo,
   follow,
   unfollow,
   isFollowing,
@@ -22,9 +23,11 @@ import type { Activity } from "@/lib/grades";
 
 export function MemberView() {
   const params = useSearchParams();
-  const memberId = params.get("u");
+  const paramId = params.get("u");
+  const paramPseudo = params.get("pseudo");
   const { ready, userId } = useAuth();
 
+  const [memberId, setMemberId] = useState<string | null>(paramId);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [counts, setCounts] = useState({ followers: 0, following: 0 });
   const [activity, setActivity] = useState<Activity | null>(null);
@@ -33,24 +36,36 @@ export function MemberView() {
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
 
-  const isMe = !!userId && userId === memberId;
+  const isMe = !!userId && !!memberId && userId === memberId;
 
   const load = useCallback(async () => {
-    if (!memberId) return;
     setLoading(true);
-    const [p, c, pr, act] = await Promise.all([
-      getProfile(memberId),
-      followCounts(memberId),
-      listPrayersByAuthor(memberId),
-      getActivity(memberId),
+    // Profil ciblé par id (?u=) ou par pseudo (?pseudo=, depuis une mention).
+    let id = paramId;
+    let p: Profile | null = null;
+    if (!id && paramPseudo) {
+      p = await getProfileByPseudo(paramPseudo);
+      id = p?.id ?? null;
+    }
+    setMemberId(id);
+    if (!id) {
+      setProfile(p);
+      setLoading(false);
+      return;
+    }
+    const [prof, c, pr, act] = await Promise.all([
+      p ? Promise.resolve(p) : getProfile(id),
+      followCounts(id),
+      listPrayersByAuthor(id),
+      getActivity(id),
     ]);
-    setProfile(p);
+    setProfile(prof);
     setCounts(c);
     setPrayers(pr);
     setActivity(act);
-    if (userId && !isMe) setFollowing(await isFollowing(memberId, userId));
+    if (userId && userId !== id) setFollowing(await isFollowing(id, userId));
     setLoading(false);
-  }, [memberId, userId, isMe]);
+  }, [paramId, paramPseudo, userId]);
 
   useEffect(() => {
     if (ready) load();
@@ -74,7 +89,7 @@ export function MemberView() {
       </section>
     );
   }
-  if (!memberId) {
+  if (!paramId && !paramPseudo) {
     return (
       <section className="container-x py-16 text-center text-night-900/60">
         Membre introuvable.{" "}

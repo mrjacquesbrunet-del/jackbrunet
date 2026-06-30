@@ -24,6 +24,7 @@ import { MyFavorites } from "@/components/profile/MyFavorites";
 import { AnsweredFeed } from "@/components/community/AnsweredFeed";
 import { MemberSearch } from "@/components/community/MemberSearch";
 import { MemberSuggestions } from "@/components/community/MemberSuggestions";
+import { NotificationsBell } from "@/components/community/NotificationsBell";
 import { ProfileBanners } from "@/components/community/ProfileBanners";
 import { useEngagement } from "@/lib/engagement";
 import { FIDELITY_REWARDS } from "@/lib/rewards";
@@ -362,6 +363,8 @@ function Profile({
               <path d="M21 21l-4.3-4.3" strokeLinecap="round" />
             </svg>
           </button>
+          {/* Cloche : s'allume quand on interagit avec tes sujets de prière */}
+          <NotificationsBell userId={userId} tone="dark" />
         </div>
       </div>
 

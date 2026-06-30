@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { Avatar } from "@/components/community/Avatar";
 import { Celebration } from "@/components/ui/Celebration";
+import { MentionField } from "@/components/community/MentionField";
+import { MentionText } from "@/components/community/MentionText";
 import {
   type Prayer,
   type Reaction,
@@ -11,6 +13,7 @@ import {
   toggleReaction,
   listComments,
   addComment,
+  notifyMentions,
   deleteComment,
   deletePrayer,
   setPrayerAnswered,
@@ -78,7 +81,9 @@ export function PrayerCard({
   async function submitComment() {
     if (!commentText.trim()) return;
     setBusy(true);
-    await addComment(prayer.id, commentText.trim(), userId);
+    const text = commentText.trim();
+    await addComment(prayer.id, text, userId);
+    await notifyMentions(text, userId, prayer.id);
     setCommentText("");
     setComments(await listComments(prayer.id));
     setBusy(false);
@@ -150,9 +155,10 @@ export function PrayerCard({
           ) : null}
         </div>
 
-        <p className="mt-3 whitespace-pre-wrap text-[15px] leading-relaxed text-night-900/85">
-          {prayer.body}
-        </p>
+        <MentionText
+          text={prayer.body}
+          className="mt-3 block whitespace-pre-wrap text-[15px] leading-relaxed text-night-900/85"
+        />
 
         <div className="mt-4 flex flex-wrap items-center gap-2">
           <button
@@ -214,7 +220,7 @@ export function PrayerCard({
                       <p className="text-xs font-semibold text-night-900/70">
                         {c.author?.pseudo ?? "Ami(e)"}
                       </p>
-                      <p className="text-sm text-night-900/85">{c.body}</p>
+                      <MentionText text={c.body} className="text-sm text-night-900/85" />
                     </div>
                     {isAdmin || c.author_id === userId ? (
                       <button
@@ -236,14 +242,12 @@ export function PrayerCard({
             )}
 
             <div className="mt-3 flex gap-2">
-              <input
+              <MentionField
                 value={commentText}
-                onChange={(e) => setCommentText(e.target.value)}
-                placeholder="Un mot d'encouragement, « Je prie pour toi »…"
-                className="field flex-1 text-sm"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") submitComment();
-                }}
+                onChange={setCommentText}
+                onEnter={submitComment}
+                placeholder="Un mot d'encouragement… cite avec @"
+                className="field w-full text-sm"
               />
               <button
                 type="button"

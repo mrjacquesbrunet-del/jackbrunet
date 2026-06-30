@@ -34,7 +34,7 @@ export type Comment = {
   author?: Profile;
 };
 export type Reaction = { prayer_id: string; user_id: string; type: "heart" | "pray" };
-export type NotifType = "pray" | "heart" | "comment" | "follow";
+export type NotifType = "pray" | "heart" | "comment" | "follow" | "mention";
 export type Notification = {
   id: string;
   user_id: string;
@@ -200,10 +200,19 @@ export async function listMyPrayers(userId: string): Promise<Prayer[]> {
   return (data as Prayer[]) ?? [];
 }
 
-export async function createPrayer(body: string, visibility: Visibility, authorId: string) {
+export async function createPrayer(
+  body: string,
+  visibility: Visibility,
+  authorId: string,
+): Promise<string | null> {
   const sb = getSupabase();
-  if (!sb) return;
-  await sb.from("prayers").insert({ body, visibility, author_id: authorId });
+  if (!sb) return null;
+  const { data } = await sb
+    .from("prayers")
+    .insert({ body, visibility, author_id: authorId })
+    .select("id")
+    .single();
+  return (data as { id: string } | null)?.id ?? null;
 }
 
 export async function deletePrayer(id: string) {
@@ -335,6 +344,48 @@ export async function searchProfiles(query: string, limit = 20): Promise<Profile
     .ilike("pseudo", `%${q}%`)
     .limit(limit);
   return (data as Profile[]) ?? [];
+}
+
+/** Profil correspondant exactement à un pseudo (insensible à la casse). */
+export async function getProfileByPseudo(pseudo: string): Promise<Profile | null> {
+  const sb = getSupabase();
+  const p = pseudo.trim();
+  if (!sb || !p) return null;
+  const { data } = await sb
+    .from("profiles")
+    .select("id,pseudo,avatar_url")
+    .ilike("pseudo", p)
+    .limit(1)
+    .maybeSingle();
+  return (data as Profile | null) ?? null;
+}
+
+/** Extrait les pseudos mentionnés (@pseudo) d'un texte. */
+export function extractMentions(text: string): string[] {
+  const out = new Set<string>();
+  // Pseudos : lettres/chiffres/_/-/accents/espace insécable exclus.
+  const re = /@([\p{L}\p{N}_.-]{2,30})/gu;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(text)) !== null) out.add(m[1]);
+  return Array.from(out);
+}
+
+/** Crée une notification « mention » pour chaque membre cité (@pseudo). */
+export async function notifyMentions(text: string, actorId: string, prayerId?: string | null) {
+  const sb = getSupabase();
+  if (!sb) return;
+  const pseudos = extractMentions(text);
+  if (pseudos.length === 0) return;
+  const { data } = await sb.from("profiles").select("id,pseudo").in("pseudo", pseudos);
+  const targets = ((data as { id: string }[]) ?? []).map((r) => r.id).filter((id) => id !== actorId);
+  await Promise.all(
+    targets.map((target) =>
+      sb.rpc("notify_mention", { target, prayer: prayerId ?? null }).then(
+        () => undefined,
+        () => undefined,
+      ),
+    ),
+  );
 }
 
 /** Ids des membres auxquels je suis abonné. */

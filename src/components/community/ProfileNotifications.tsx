@@ -20,6 +20,8 @@ function label(n: Notification) {
       return `${who} t'a encouragé(e)`;
     case "follow":
       return `${who} s'est abonné(e) à toi`;
+    case "mention":
+      return `${who} t'a mentionné(e)`;
   }
 }
 function when(iso: string) {
@@ -36,6 +38,7 @@ const TYPES: { key: NotifType; label: string; icon: string }[] = [
   { key: "heart", label: "J'aime", icon: "M12 20s-7-4.5-9.5-9A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9z" },
   { key: "comment", label: "Messages", icon: "M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.5A8 8 0 1 1 21 12z" },
   { key: "follow", label: "Abonnés", icon: "M16 18v-1a4 4 0 0 0-8 0v1M12 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6" },
+  { key: "mention", label: "Mentions", icon: "M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm4 0v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8" },
 ];
 
 export function ProfileNotifications({ userId }: { userId: string }) {
@@ -52,7 +55,7 @@ export function ProfileNotifications({ userId }: { userId: string }) {
     load();
   }, [load]);
 
-  const counts: Record<NotifType, number> = { pray: 0, heart: 0, comment: 0, follow: 0 };
+  const counts: Record<NotifType, number> = { pray: 0, heart: 0, comment: 0, follow: 0, mention: 0 };
   for (const n of items ?? []) counts[n.type]++;
 
   return (
@@ -60,7 +63,7 @@ export function ProfileNotifications({ userId }: { userId: string }) {
       <h3 className="font-display text-lg font-bold">Mes notifications</h3>
 
       {/* Compteurs par type */}
-      <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <div className="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-5">
         {TYPES.map((t) => (
           <div key={t.key} className="rounded-2xl border border-night-900/10 bg-white p-3 text-center">
             <span className="mx-auto grid h-9 w-9 place-items-center rounded-xl bg-night-900 text-dawn-400">
