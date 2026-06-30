@@ -65,6 +65,9 @@ export default function CarnetPage() {
           <p className="mt-1 text-sm text-night-900/60">
             Avance pas à pas, thème par thème. Choisis un parcours selon ce que tu traverses.
           </p>
+          <Link href="/plans" className="btn-primary mt-4 inline-flex">
+            Découvre nos plans →
+          </Link>
         </div>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {plans.map((p) => (

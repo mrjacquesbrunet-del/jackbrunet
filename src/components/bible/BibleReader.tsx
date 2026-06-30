@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { asset } from "@/lib/asset";
 import { Markable } from "@/components/ui/Markable";
 import { HighlighterGlyph } from "@/components/ui/DevoIcons";
@@ -120,6 +121,22 @@ export function BibleReader() {
           ))}
         </select>
       </div>
+
+      {/* Invitation à découvrir les plans de lecture */}
+      <Link
+        href="/plans"
+        className="mt-4 flex max-w-2xl items-center justify-between gap-3 rounded-2xl border border-dawn-400/40 bg-gradient-to-br from-dawn-400/10 to-spirit-500/10 px-4 py-3 transition-shadow hover:shadow-md"
+      >
+        <span>
+          <span className="block font-display font-bold text-spirit-700">
+            Découvre nos plans de lecture
+          </span>
+          <span className="mt-0.5 block text-sm text-night-900/60">
+            La Bible en 1 an, ou un thème selon ce que tu traverses.
+          </span>
+        </span>
+        <span className="shrink-0 text-spirit-700">→</span>
+      </Link>
 
       <h2 className="mt-8 font-display text-3xl font-extrabold">
         {book?.name} {chapterCount ? chapter : ""}
