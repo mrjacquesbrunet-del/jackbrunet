@@ -261,78 +261,79 @@ function Profile({
   }
 
   return (
-    <section className="container-x py-10">
-      {/* Bannière de couverture (couleur d'accent personnalisable) */}
-      <div
-        className="h-24 rounded-4xl sm:h-28"
-        style={{ backgroundImage: `linear-gradient(120deg, ${a.from}, ${a.to})` }}
-      />
+    <section className="container-x py-8">
+      {/* En-tête façon Instagram, sur olive sombre texturé */}
+      <div className="dark-ctx bg-topo-dark relative overflow-hidden rounded-4xl border border-white/10 p-6 shadow-card sm:p-8">
+        {/* Halo d'accent personnalisable */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-20 -top-20 h-52 w-52 rounded-full opacity-40 blur-3xl"
+          style={{ backgroundImage: `linear-gradient(120deg, ${a.from}, ${a.to})` }}
+        />
 
-      {/* Carte profil */}
-      <div className="glass-strong -mt-10 p-6 sm:p-8">
         {/* Ligne avatar + stats (façon Instagram) */}
-        <div className="flex items-end gap-5">
+        <div className="relative flex items-end gap-5">
           <span
             className="shrink-0 rounded-full p-[3px]"
             style={{ background: gradeRing(gradeFor(activity).grade.name) }}
             title={gradeFor(activity).grade.name}
           >
-            <span className="block rounded-full bg-cream p-[3px]">
+            <span className="block rounded-full bg-night-900 p-[3px]">
               <Avatar pseudo={profile?.pseudo} url={profile?.avatar_url} size={84} />
             </span>
           </span>
           <div className="grid flex-1 grid-cols-3 gap-1 text-center">
             <Link
               href={`/membre?u=${userId}`}
-              className="rounded-xl py-1 transition-colors hover:bg-night-900/5"
+              className="rounded-xl py-1 transition-colors hover:bg-white/10"
             >
-              <p className="font-display text-xl font-extrabold">{counts.followers}</p>
-              <p className="text-[11px] text-night-900/55">Abonnés</p>
+              <p className="font-display text-xl font-extrabold text-cream">{counts.followers}</p>
+              <p className="text-[11px] text-cream/60">Abonnés</p>
             </Link>
             <Link
               href={`/membre?u=${userId}`}
-              className="rounded-xl py-1 transition-colors hover:bg-night-900/5"
+              className="rounded-xl py-1 transition-colors hover:bg-white/10"
             >
-              <p className="font-display text-xl font-extrabold">{counts.following}</p>
-              <p className="text-[11px] text-night-900/55">Abonnements</p>
+              <p className="font-display text-xl font-extrabold text-cream">{counts.following}</p>
+              <p className="text-[11px] text-cream/60">Abonnements</p>
             </Link>
             <div className="rounded-xl py-1">
-              <p className="flex items-center justify-center gap-1 font-display text-xl font-extrabold text-spirit-700">
+              <p className="flex items-center justify-center gap-1 font-display text-xl font-extrabold text-dawn-300">
                 <FlameGlyph className="h-4 w-4" />
                 {eng.ready ? eng.streak : 0}
               </p>
-              <p className="text-[11px] text-night-900/55">Série</p>
+              <p className="text-[11px] text-cream/60">Série</p>
             </div>
           </div>
         </div>
 
         {/* Nom + grade + bio + versets (lecture seule) */}
-        <div className="mt-4">
+        <div className="relative mt-4">
           <div className="flex flex-wrap items-center gap-2">
-            <h2 className="font-display text-xl font-extrabold leading-tight">
-              {profile?.pseudo ?? "Mon profil"}
+            <h2 className="font-display text-xl font-extrabold leading-tight text-cream">
+              {profile?.pseudo ?? "Ami(e)"}
             </h2>
-            <span className="inline-flex items-center gap-1 rounded-full bg-dawn-400/15 px-2.5 py-0.5 text-[11px] font-bold text-spirit-700">
+            <span className="inline-flex items-center gap-1 rounded-full bg-dawn-400/20 px-2.5 py-0.5 text-[11px] font-bold text-dawn-200">
               {gradeFor(activity).grade.name}
             </span>
           </div>
           {profile?.bio ? (
-            <p className="mt-1.5 whitespace-pre-wrap text-sm leading-relaxed text-night-900/75">
+            <p className="mt-1.5 whitespace-pre-wrap text-sm leading-relaxed text-cream/80">
               {profile.bio}
             </p>
           ) : null}
           {(profile?.favorite_verses ?? []).slice(0, 2).map((v, i) => (
-            <p key={i} className="mt-1.5 border-l-2 border-dawn-400 pl-2.5 text-sm italic text-night-900/70">
+            <p key={i} className="mt-1.5 border-l-2 border-dawn-400 pl-2.5 text-sm italic text-cream/75">
               «&nbsp;{v.text}&nbsp;»{" "}
               {v.reference ? (
-                <span className="font-semibold not-italic text-spirit-600">— {v.reference}</span>
+                <span className="font-semibold not-italic text-dawn-200">— {v.reference}</span>
               ) : null}
             </p>
           ))}
         </div>
 
         {/* Actions : Modifier / Partager / Rechercher */}
-        <div className="mt-4 flex items-center gap-2">
+        <div className="relative mt-5 flex items-center gap-2">
           <button
             type="button"
             onClick={() => setEditing((e) => !e)}
@@ -353,7 +354,7 @@ function Profile({
             onClick={() =>
               document.getElementById("trouver-profils")?.scrollIntoView({ behavior: "smooth" })
             }
-            className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-night-900/15 bg-white text-spirit-700 transition-colors hover:bg-night-900/5"
+            className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/20 bg-white/10 text-cream transition-colors hover:bg-white/20"
           >
             <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
               <circle cx="11" cy="11" r="7" />
@@ -361,9 +362,10 @@ function Profile({
             </svg>
           </button>
         </div>
+      </div>
 
-        {editing ? (
-        <div className="mt-6 border-t border-night-900/10 pt-6">
+      {editing ? (
+        <div className="glass-strong mt-4 p-6 sm:p-8">
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="block">
             <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
@@ -520,8 +522,7 @@ function Profile({
           </button>
         </div>
         </div>
-        ) : null}
-      </div>
+      ) : null}
 
       {/* Annonces défilantes (RHEMA, exclusivités…) */}
       <div className="mt-4">

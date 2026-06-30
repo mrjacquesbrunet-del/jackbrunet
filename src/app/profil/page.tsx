@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { PageHero } from "@/components/ui/PageHero";
 import { ProfileView } from "@/components/community/ProfileView";
 
 export const metadata: Metadata = {
@@ -9,18 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function ProfilPage() {
-  return (
-    <>
-      <PageHero
-        eyebrow="Mon profil"
-        title={
-          <>
-            Mon <span className="text-gradient">profil</span>
-          </>
-        }
-        description="Retrouve tes sujets de prière, ton carnet et tes versets, partout où tu te connectes."
-      />
-      <ProfileView />
-    </>
-  );
+  return <ProfileView />;
 }
