@@ -3,56 +3,71 @@
     {
       "type": "annonce",
       "title": "Sortie du livre RHEMA",
-      "badge": "Bientôt",
       "description": "365 révélations bibliques à méditer chaque jour de l'année. Inscris-toi pour être prévenu(e) dès la sortie.",
       "link": "/boutique",
-      "linkLabel": "Découvrir RHEMA"
+      "linkLabel": "Découvrir RHEMA",
+      "badge": "Bientôt"
     },
     {
       "type": "annonce",
       "title": "L'application mobile arrive",
-      "badge": "Bientôt",
       "description": "Le dévotionnel, la Bible et les plans dans ta poche — même hors-ligne, avec un rappel chaque matin.",
       "link": "/devotionnel",
-      "linkLabel": "En savoir plus"
+      "linkLabel": "En savoir plus",
+      "badge": "Bientôt"
     },
     {
       "type": "annonce",
       "title": "Mission Madagascar",
-      "badge": "Début novembre",
       "description": "10 jours d'évangélisation : conférence, rue, orphelinats et prisons. Soutiens la mission ou rejoins l'équipe de prière.",
       "link": "/mission-madagascar",
-      "linkLabel": "Voir la mission"
+      "linkLabel": "Voir la mission",
+      "badge": "Début novembre"
     },
     {
       "type": "live",
-      "title": "Live — Édifie ta foi",
-      "date": "2026-07-07",
+      "title": "Live — Prière & Foi",
+      "date": "2026-08-25",
       "time": "20:30",
       "location": "En ligne · TikTok",
-      "description": "Un temps d'enseignement et de prière en direct. Pose tes questions en commentaire.",
-      "link": "https://www.tiktok.com/@jack_brnt/live",
+      "description": "Un temps d'exhortations et de prière en direct. Pose tes questions en commentaire.",
+      "link": "Tiktok - Facebook - Youtube ",
       "linkLabel": "Rejoindre le live"
     },
     {
       "type": "live",
       "title": "Live — Prière du soir",
-      "date": "2026-07-22",
-      "time": "21:00",
-      "location": "En ligne · Instagram",
+      "date": "2026-01-01",
+      "time": "20:30",
+      "location": "En ligne · Tiktok - Facebook - Youtube ",
       "description": "On se retrouve pour prier ensemble avant de dormir.",
       "link": "https://www.instagram.com/jack_brnt/",
       "linkLabel": "Voir sur Instagram"
     },
     {
       "type": "presentiel",
-      "title": "Soirée à Pau",
-      "date": "2026-08-09",
-      "time": "18:00",
-      "location": "Pau (64)",
-      "description": "Soirée de louange, d'enseignement et de partage. Entrée libre, viens comme tu es.",
-      "link": "",
-      "linkLabel": ""
+      "title": "Culte à Pau",
+      "date": "2026-07-12",
+      "time": "10:30",
+      "location": "27 rue de l'abée Bremond Pau (64000)",
+      "description": "Culte avec l'église Tout est possible de Pau. Entrée libre, viens comme tu es."
+    },
+    {
+      "type": "presentiel",
+      "title": "Retraite Spirituel Nice",
+      "date": "2026-09-12",
+      "time": "10h30",
+      "location": "Nice",
+      "description": "Retraite sur 2 Jours du 12-13 Septembre"
+    },
+    {
+      "type": "presentiel",
+      "title": "Séminaire TOUT EST POSSIBLE Espagne",
+      "date": "2026-09-26",
+      "time": "10:30",
+      "location": "Carrer de Francesc Cambo  17310 Lloret de Mar Girona  Espagne",
+      "description": "Séminaire sur 4 Jours ",
+      "link": "https://www.helloasso.com/associations/eglise-protestante-tziganes/evenements/seminaire-en-espagne-2026-2?utm_source=app_ha&utm_campaign=share_campaign_button&utm_medium=ios"
     }
   ]
 }
