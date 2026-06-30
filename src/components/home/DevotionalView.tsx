@@ -135,25 +135,29 @@ export function DevotionalView({
             <SoakingBar />
           </div>
 
-          {/* Accès au carnet */}
-          <div className="mt-4">
+          {/* Raccourcis compacts : carnet + récompenses (côte à côte) */}
+          <div className="mt-4 grid grid-cols-2 gap-3">
             <Link
               href="/carnet"
-              className="flex items-center gap-4 rounded-3xl border border-dawn-400/30 bg-dawn-400/15 p-4 transition-colors hover:bg-dawn-400/25 sm:p-5"
+              className="flex items-center gap-2.5 rounded-2xl border border-dawn-400/30 bg-dawn-400/10 px-3 py-3 transition-colors hover:bg-dawn-400/20"
             >
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-night-900 text-cream">
-                <PenGlyph className="h-5 w-5" />
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-night-900 text-cream">
+                <PenGlyph className="h-4 w-4" />
               </span>
-              <div className="min-w-0 flex-1">
-                <p className="font-display text-base font-bold leading-tight">
-                  Ton carnet
-                </p>
-                <p className="mt-0.5 text-xs text-night-900/65">
-                  Écris tes paroles reçues & tes sujets de prière.
-                </p>
-              </div>
-              <ArrowRightGlyph className="h-5 w-5 shrink-0 text-night-900/40" />
+              <span className="font-display text-sm font-bold leading-tight">Mon carnet</span>
             </Link>
+            <button
+              type="button"
+              onClick={() =>
+                document.getElementById("recompenses")?.scrollIntoView({ behavior: "smooth" })
+              }
+              className="flex items-center gap-2.5 rounded-2xl border border-dawn-400/30 bg-dawn-400/10 px-3 py-3 text-left transition-colors hover:bg-dawn-400/20"
+            >
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-night-900 text-base text-cream">
+                🎁
+              </span>
+              <span className="font-display text-sm font-bold leading-tight">Récompenses</span>
+            </button>
           </div>
 
           {/* Rappel quotidien (app native uniquement) */}
@@ -162,9 +166,6 @@ export function DevotionalView({
           </div>
         </section>
       ) : null}
-
-      {/* 1c. Récompenses de fidélité (paliers + partage) */}
-      <Rewards />
 
       {/* 2. Méditation développée */}
       <section className="container-x">
@@ -470,6 +471,11 @@ export function DevotionalView({
           </Reveal>
         </section>
       ) : null}
+
+      {/* 6d. Récompenses de fidélité — en bas pour entrer vite dans la méditation */}
+      <div id="recompenses" className="scroll-mt-20">
+        <Rewards />
+      </div>
 
       {/* 7. Reviens demain + inscription */}
       <section className="container-x">
