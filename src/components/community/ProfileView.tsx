@@ -281,14 +281,18 @@ function Profile({
 
   return (
     <section className="container-x pb-8 pt-24 sm:pt-32">
-      {/* En-tête façon Instagram, sur olive sombre texturé */}
-      <div className="dark-ctx bg-topo-dark relative overflow-hidden rounded-4xl border border-white/10 p-6 shadow-card sm:p-8">
-        {/* Halo d'accent personnalisable */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -right-20 -top-20 h-52 w-52 rounded-full opacity-40 blur-3xl"
-          style={{ backgroundImage: `linear-gradient(120deg, ${a.from}, ${a.to})` }}
-        />
+      {/* En-tête façon Instagram, sur olive sombre texturé.
+          Pas d'overflow-hidden ici, sinon le panneau de notifications (cloche)
+          serait rogné : on clippe seulement le halo dans son propre calque. */}
+      <div className="dark-ctx bg-topo-dark relative rounded-4xl border border-white/10 p-6 shadow-card sm:p-8">
+        {/* Halo d'accent (clippé aux coins arrondis, sans rogner le reste) */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-4xl">
+          <div
+            aria-hidden
+            className="absolute -right-20 -top-20 h-52 w-52 rounded-full opacity-40 blur-3xl"
+            style={{ backgroundImage: `linear-gradient(120deg, ${a.from}, ${a.to})` }}
+          />
+        </div>
 
         {/* Jauge de grade de prière (compacte) */}
         {(() => {
