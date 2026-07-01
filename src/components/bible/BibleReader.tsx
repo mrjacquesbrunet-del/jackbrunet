@@ -302,8 +302,13 @@ export function BibleReader() {
         </Link>
       </div>
 
-      <h2 className="mt-8 font-display text-3xl font-extrabold">
-        {book?.name} {chapterCount? chapter: ""}
+      <h2 className="mt-8 flex flex-wrap items-baseline gap-x-3 font-display text-3xl font-extrabold">
+        <span>
+          {book?.name} {chapterCount? chapter: ""}
+        </span>
+        <span className="text-xs font-semibold uppercase tracking-[0.15em] text-spirit-500">
+          Louis Segond
+        </span>
       </h2>
 
       {/* Service audio: écouter le chapitre (voix de l'appareil, LSG libre) */}

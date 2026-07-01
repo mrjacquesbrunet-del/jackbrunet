@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PageHero } from "@/components/ui/PageHero";
+import { BibleHero } from "@/components/bible/BibleHero";
 import { BibleReader } from "@/components/bible/BibleReader";
 
 export const metadata: Metadata = {
@@ -11,15 +11,7 @@ export const metadata: Metadata = {
 export default function BiblePage() {
   return (
     <>
-      <PageHero
-        eyebrow="Bible"
-        title={
-          <>
-            La Bible <span className="text-gradient">Louis Segond</span>
-          </>
-        }
-        description="Lis la Parole de Dieu directement sur le site: choisis un livre, un chapitre, et laisse-la prendre racine."
-      />
+      <BibleHero />
       <BibleReader />
     </>
   );
