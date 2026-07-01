@@ -176,7 +176,14 @@ export function BibleReader() {
     <section className="container-x py-10">
       {/* Barre fine du mode pleine lecture */}
       {immersive? (
-        <div className="sticky top-0 z-40 mb-2 flex items-center justify-between gap-2 rounded-b-2xl bg-cream/95 py-2 backdrop-blur">
+        <div
+          className="sticky top-0 z-40 mb-2 flex items-center justify-between gap-2 rounded-b-2xl px-1 py-2 backdrop-blur"
+          style={{
+            backgroundColor:
+              reading.theme === "clair"? "rgba(243,243,237,0.95)": THEME_STYLE[reading.theme].bg,
+            color: reading.theme === "clair"? undefined: THEME_STYLE[reading.theme].text,
+          }}
+        >
           <button
             type="button"
             onClick={() => setImmersive(false)}

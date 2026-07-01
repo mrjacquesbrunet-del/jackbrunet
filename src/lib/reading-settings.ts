@@ -7,21 +7,30 @@ import { useSyncExternalStore } from "react";
  * police. Appliquées au corps des versets.
  */
 export type ReadingFont = "serif" | "sans" | "confort";
-export type ReadingTheme = "clair" | "sepia" | "sombre";
+export type ReadingTheme = "clair" | "olive" | "sombre";
 export type ReadingState = { scale: number; font: ReadingFont; theme: ReadingTheme };
 
 const KEY = "jb.reading.v1";
 const DEFAULT: ReadingState = { scale: 1, font: "serif", theme: "clair" };
 
-/** Couleurs de fond / texte / accent par thème de lecture. */
-export const THEME_STYLE: Record<ReadingTheme, { bg: string; text: string; num: string }> = {
-  clair: { bg: "transparent", text: "#1A1B14", num: "#5E6A3A" },
-  sepia: { bg: "#F3E8CE", text: "#4A3A26", num: "#8A6A3A" },
-  sombre: { bg: "#16180F", text: "#E7E6DB", num: "#CAF000" },
+/**
+ * Thèmes de lecture 100 % charte graphique:
+ * - Clair: le blanc cassé « cream » du site.
+ * - Doux: cream olive plus chaud (intermédiaire).
+ * - Sombre: olive-noir profond (comme les cartes de l'app) + accents lime.
+ * `swatch` = couleur montrée dans le sélecteur.
+ */
+export const THEME_STYLE: Record<
+  ReadingTheme,
+  { bg: string; text: string; num: string; swatch: string }
+> = {
+  clair: { bg: "transparent", text: "#1A1B14", num: "#5E6A3A", swatch: "#F3F3ED" },
+  olive: { bg: "#E7E4D2", text: "#2A2E1C", num: "#5E6A3A", swatch: "#E7E4D2" },
+  sombre: { bg: "#1B1F14", text: "#F3F3ED", num: "#CAF000", swatch: "#23271A" },
 };
 export const THEME_LABEL: Record<ReadingTheme, string> = {
   clair: "Clair",
-  sepia: "Sépia",
+  olive: "Doux",
   sombre: "Sombre",
 };
 
@@ -50,6 +59,8 @@ function load() {
   try {
     const raw = localStorage.getItem(KEY);
     if (raw) state = {...DEFAULT,...(JSON.parse(raw) as Partial<ReadingState>) };
+    // Migration de l'ancien thème « sepia » vers « olive ».
+    if ((state.theme as string) === "sepia") state = {...state, theme: "olive" };
   } catch {
     /* stockage indisponible */
   }

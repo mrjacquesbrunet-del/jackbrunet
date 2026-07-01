@@ -116,7 +116,7 @@ export function ReadingSettings() {
                 type="button"
                 onClick={() => r.setTheme(t)}
                 style={{
-                  backgroundColor: t === "clair"? "#FFFFFF": THEME_STYLE[t].bg,
+                  backgroundColor: THEME_STYLE[t].swatch,
                   color: THEME_STYLE[t].text,
                 }}
                 className={`rounded-xl border px-2 py-2 text-sm transition-colors ${
