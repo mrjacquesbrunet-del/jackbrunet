@@ -145,63 +145,100 @@ function Feed({
       </div>
 
       <section className="container-x -mt-6 pb-12">
-      {/* En-tête profil — charte olive (comme la carte de profil) */}
-      <div className="dark-ctx bg-topo-dark flex items-center gap-3 rounded-4xl border border-white/10 p-4 text-cream shadow-card">
-        <Avatar pseudo={profile?.pseudo} url={profile?.avatar_url} />
-        <div className="min-w-0 flex-1">
-          {editPseudo? (
-            <div>
-              <div className="flex gap-2">
-                <input
-                  value={pseudoVal}
-                  onChange={(e) => {
-                    setPseudoVal(e.target.value);
-                    if (pseudoErr) setPseudoErr("");
-                  }}
-                  className="flex-1 rounded-xl border border-white/15 bg-white/10 px-3 py-2 text-sm text-cream placeholder:text-cream/40 focus:border-dawn-400/60 focus:outline-none"
-                  placeholder="Ton pseudo"
-                />
+      {/* Module de profil (charte olive) + partage d'un sujet en extension */}
+      <div className="dark-ctx bg-topo-dark rounded-4xl border border-white/10 text-cream shadow-card">
+        {/* En-tête profil */}
+        <div className="flex items-center gap-3 p-4">
+          <Avatar pseudo={profile?.pseudo} url={profile?.avatar_url} />
+          <div className="min-w-0 flex-1">
+            {editPseudo? (
+              <div>
+                <div className="flex gap-2">
+                  <input
+                    value={pseudoVal}
+                    onChange={(e) => {
+                      setPseudoVal(e.target.value);
+                      if (pseudoErr) setPseudoErr("");
+                    }}
+                    className="flex-1 rounded-xl border border-white/15 bg-white/10 px-3 py-2 text-sm text-cream placeholder:text-cream/40 focus:border-dawn-400/60 focus:outline-none"
+                    placeholder="Ton pseudo"
+                  />
+                  <button
+                    type="button"
+                    onClick={savePseudo}
+                    className="rounded-xl bg-dawn-400 px-4 text-sm font-bold text-night-900"
+                  >
+                    OK
+                  </button>
+                </div>
+                {pseudoErr? <p className="mt-1 text-xs font-semibold text-red-300">{pseudoErr}</p>: null}
+              </div>
+            ): (
+              <p className="font-display font-bold leading-tight text-cream">
+                {profile?.pseudo?? "Ami(e)"}{" "}
                 <button
                   type="button"
-                  onClick={savePseudo}
-                  className="rounded-xl bg-dawn-400 px-4 text-sm font-bold text-night-900"
+                  onClick={() => setEditPseudo(true)}
+                  className="text-xs font-semibold text-dawn-300 hover:underline"
                 >
-                  OK
+                  modifier
                 </button>
-              </div>
-              {pseudoErr? <p className="mt-1 text-xs font-semibold text-red-300">{pseudoErr}</p>: null}
-            </div>
-          ): (
-            <p className="font-display font-bold leading-tight text-cream">
-              {profile?.pseudo?? "Ami(e)"}{" "}
-              <button
-                type="button"
-                onClick={() => setEditPseudo(true)}
-                className="text-xs font-semibold text-dawn-300 hover:underline"
-              >
-                modifier
-              </button>
-            </p>
-          )}
-          <p className="text-xs text-cream/55">Connecté(e)</p>
+              </p>
+            )}
+            <p className="text-xs text-cream/55">Connecté(e)</p>
+          </div>
+          <NotificationsBell userId={userId} tone="dark" />
+          <Link
+            href="/profil"
+            className="rounded-full bg-dawn-400 px-4 py-2 text-sm font-bold text-night-900 transition-transform hover:-translate-y-0.5"
+          >
+            Mon profil
+          </Link>
+          <button
+            type="button"
+            onClick={() => signOut()}
+            className="text-sm text-cream/55 hover:text-cream/80 hover:underline"
+          >
+            Déconnexion
+          </button>
         </div>
-        <NotificationsBell userId={userId} tone="dark" />
-        <Link
-          href="/profil"
-          className="rounded-full bg-dawn-400 px-4 py-2 text-sm font-bold text-night-900 transition-transform hover:-translate-y-0.5"
-        >
-          Mon profil
-        </Link>
-        <button
-          type="button"
-          onClick={() => signOut()}
-          className="text-sm text-cream/55 hover:text-cream/80 hover:underline"
-        >
-          Déconnexion
-        </button>
+
+        {/* Séparateur */}
+        <div className="mx-4 h-px bg-white/10" />
+
+        {/* Partager un sujet de prière — intégré au module de profil */}
+        <div className="p-4">
+          <MentionField
+            value={body}
+            onChange={setBody}
+            rows={3}
+            placeholder="Partage un sujet de prière… (cite quelqu'un avec @)"
+            className="w-full resize-y rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-3 text-sm text-cream placeholder:text-cream/40 focus:border-dawn-400/60 focus:outline-none"
+          />
+          <div className="mt-3 flex flex-wrap items-center gap-3">
+            <select
+              value={visibility}
+              onChange={(e) => setVisibility(e.target.value as Visibility)}
+              className="max-w-[12rem] rounded-xl border border-white/15 bg-white/10 px-3 py-2 text-sm text-cream focus:border-dawn-400/60 focus:outline-none"
+              aria-label="Visibilité"
+            >
+              <option value="public">Public — tout le monde</option>
+              <option value="friends">Abonnés — ceux qui me suivent</option>
+              <option value="private">Privé — moi seul</option>
+            </select>
+            <button
+              type="button"
+              onClick={post}
+              disabled={posting ||!body.trim()}
+              className="ml-auto rounded-full bg-dawn-400 px-5 py-2 text-sm font-bold text-night-900 transition-transform hover:-translate-y-0.5 disabled:opacity-40"
+            >
+              {posting? "Publication…": "Publier"}
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* Trouver des profils (compact) — juste sous le profil */}
+      {/* Trouver des profils — recherche par pseudo + suggestions (compact) */}
       <div className="mt-5">
         <h3 className="font-display text-base font-bold">Trouver des profils</h3>
         <p className="mt-0.5 text-xs text-night-900/55">
@@ -215,38 +252,8 @@ function Feed({
             Suggestions pour toi
           </p>
           <div className="mt-2">
-            <MemberSuggestions />
+            <MemberSuggestions compact />
           </div>
-        </div>
-      </div>
-
-      {/* Composer */}
-      <div className="glass-strong mt-5 p-5">
-        <MentionField
-          value={body}
-          onChange={setBody}
-          rows={3}
-          placeholder="Partage un sujet de prière… (cite quelqu'un avec @)"
-        />
-        <div className="mt-3 flex flex-wrap items-center gap-3">
-          <select
-            value={visibility}
-            onChange={(e) => setVisibility(e.target.value as Visibility)}
-            className="field max-w-[12rem]"
-            aria-label="Visibilité"
-          >
-            <option value="public">Public — tout le monde</option>
-            <option value="friends">Abonnés — ceux qui me suivent</option>
-            <option value="private">Privé — moi seul</option>
-          </select>
-          <button
-            type="button"
-            onClick={post}
-            disabled={posting ||!body.trim()}
-            className="btn-primary ml-auto disabled:opacity-40"
-          >
-            {posting? "Publication…": "Publier"}
-          </button>
         </div>
       </div>
 

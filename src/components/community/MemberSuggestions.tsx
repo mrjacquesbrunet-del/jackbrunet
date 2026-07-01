@@ -11,7 +11,7 @@ import { suggestedProfiles, follow, unfollow, type Profile } from "@/lib/communi
  * suivre. Chaque carte ouvre le profil du membre ; le bouton s'abonne
  * directement, sans quitter la page.
  */
-export function MemberSuggestions() {
+export function MemberSuggestions({ compact = false }: { compact?: boolean } = {}) {
   const { userId } = useAuth();
   const [members, setMembers] = useState<Profile[]>([]);
   const [loading, setLoading] = useState(true);
@@ -66,20 +66,30 @@ export function MemberSuggestions() {
         return (
           <div
             key={m.id}
-            className="flex w-40 shrink-0 flex-col items-center rounded-3xl border border-night-900/10 bg-white p-4 text-center shadow-sm"
+            className={`flex shrink-0 flex-col items-center rounded-3xl border border-night-900/10 bg-white text-center shadow-sm ${
+              compact? "w-28 p-2.5": "w-40 p-4"
+            }`}
           >
-            <Link href={`/membre?u=${m.id}`} className="flex flex-col items-center">
-              <Avatar pseudo={m.pseudo} url={m.avatar_url} size={64} />
-              <span className="mt-2 line-clamp-1 w-full font-display font-bold text-night-900/85">
+            <Link href={`/membre?u=${m.id}`} className="flex w-full flex-col items-center">
+              <Avatar pseudo={m.pseudo} url={m.avatar_url} size={compact? 44: 64} />
+              <span
+                className={`mt-2 line-clamp-1 w-full font-display font-bold text-night-900/85 ${
+                  compact? "text-xs": ""
+                }`}
+              >
                 {m.pseudo}
               </span>
-              <span className="mt-0.5 text-[11px] text-night-900/45">Intercesseur</span>
+              <span className={`text-night-900/45 ${compact? "text-[10px]": "mt-0.5 text-[11px]"}`}>
+                Intercesseur
+              </span>
             </Link>
             <button
               type="button"
               onClick={() => toggle(m.id)}
               disabled={busy === m.id}
-              className={`mt-3 w-full justify-center rounded-full px-3 py-1.5 text-sm font-semibold transition-colors disabled:opacity-50 ${
+              className={`w-full justify-center rounded-full font-semibold transition-colors disabled:opacity-50 ${
+                compact? "mt-2 px-2 py-1 text-xs": "mt-3 px-3 py-1.5 text-sm"
+              } ${
                 on
 ? "border border-night-900/15 bg-white text-night-900/70"
 : "bg-spirit-700 text-cream hover:bg-spirit-600"
