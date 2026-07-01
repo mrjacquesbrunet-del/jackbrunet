@@ -5,7 +5,11 @@ import { motion } from "framer-motion";
 import type { Short } from "@/lib/types";
 import { videoEmbedSrc } from "@/lib/youtube";
 
-/** Lecteur immersif vertical (feed) — scroll/swipe pour passer au Short suivant. */
+/**
+ * Lecteur immersif vertical (feed) — même comportement que l'onglet Vidéos :
+ * vidéos voisines préchargées, lecture pilotée au swipe, et son qui se lance
+ * après une seule touche puis reste actif.
+ */
 export function ShortsPlayer({
   shorts,
   startIndex,
@@ -17,7 +21,13 @@ export function ShortsPlayer({
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const frames = useRef<Record<number, HTMLIFrameElement | null>>({});
   const [active, setActive] = useState(startIndex);
+  const [soundOn, setSoundOn] = useState(false);
+
+  function post(i: number, jb: string) {
+    frames.current[i]?.contentWindow?.postMessage({ jb }, "*");
+  }
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -48,6 +58,26 @@ export function ShortsPlayer({
     slideRefs.current.forEach((el) => el && io.observe(el));
     return () => io.disconnect();
   }, []);
+
+  // Pilote lecture + son quand la vidéo active (ou le son) change.
+  useEffect(() => {
+    for (const key of Object.keys(frames.current)) {
+      const i = Number(key);
+      if (i === active) {
+        post(i, "play");
+        post(i, soundOn ? "unmute" : "mute");
+      } else {
+        post(i, "pause");
+        post(i, "mute");
+      }
+    }
+  }, [active, soundOn]);
+
+  function enableSound() {
+    setSoundOn(true);
+    post(active, "play");
+    post(active, "unmute");
+  }
 
   const go = useCallback(
     (dir: 1 | -1) => {
@@ -111,21 +141,25 @@ export function ShortsPlayer({
         ref={scrollRef}
         className="no-scrollbar h-[100svh] snap-y snap-mandatory overflow-y-auto overscroll-contain"
       >
-        {shorts.map((s, i) => (
-          <div
-            key={s.id}
-            data-index={i}
-            ref={(el) => {
-              slideRefs.current[i] = el;
-            }}
-            className="flex h-[100svh] snap-start snap-always items-center justify-center px-3"
-          >
-            <div className="relative h-full max-h-[88svh] overflow-hidden rounded-2xl border border-white/10 bg-night-900 [aspect-ratio:9/16]">
-              {Math.abs(i - active) <= 1 ? (
-                i === active ? (
+        {shorts.map((s, i) => {
+          const near = Math.abs(i - active) <= 1;
+          return (
+            <div
+              key={s.id}
+              data-index={i}
+              ref={(el) => {
+                slideRefs.current[i] = el;
+              }}
+              className="flex h-[100svh] snap-start snap-always items-center justify-center px-3"
+            >
+              <div className="relative h-full max-h-[88svh] overflow-hidden rounded-2xl border border-white/10 bg-night-900 [aspect-ratio:9/16]">
+                {near ? (
                   <iframe
+                    ref={(el) => {
+                      frames.current[i] = el;
+                    }}
                     className="absolute inset-0 h-full w-full"
-                    src={videoEmbedSrc(s.id, { autoplay: true, mute: true, loop: true })}
+                    src={videoEmbedSrc(s.id, { autoplay: i === active, mute: true, loop: true })}
                     title={s.title}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
@@ -138,21 +172,68 @@ export function ShortsPlayer({
                     loading="lazy"
                     className="absolute inset-0 h-full w-full object-cover opacity-70"
                   />
-                )
-              ) : null}
+                )}
 
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-night-950/90 to-transparent p-5">
-                {s.category ? (
-                  <span className="inline-flex rounded-full bg-dawn-400 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-night-900">
-                    {s.category}
-                  </span>
+                {/* Touche claire pour activer le son (une seule fois) */}
+                {i === active && !soundOn ? (
+                  <button
+                    type="button"
+                    onClick={enableSound}
+                    aria-label="Activer le son"
+                    className="absolute inset-0 z-[15] flex flex-col items-center justify-center gap-3 bg-night-950/30 transition-colors active:bg-night-950/45"
+                  >
+                    <span className="grid h-16 w-16 place-items-center rounded-full bg-cream/95 text-night-900 shadow-lg">
+                      <SoundOffIcon className="h-7 w-7" />
+                    </span>
+                    <span className="rounded-full bg-night-950/70 px-4 py-1.5 text-sm font-bold text-cream">
+                      Touche pour le son
+                    </span>
+                  </button>
                 ) : null}
-                <p className="mt-2 line-clamp-2 font-semibold text-cream">{s.title}</p>
+
+                {/* Bouton couper le son (une fois activé) */}
+                {i === active && soundOn ? (
+                  <button
+                    type="button"
+                    onClick={() => setSoundOn(false)}
+                    aria-label="Couper le son"
+                    className="absolute left-3 top-3 z-[15] grid h-10 w-10 place-items-center rounded-full bg-night-950/55 text-cream backdrop-blur transition-colors active:bg-night-950/75"
+                  >
+                    <SoundOnIcon className="h-5 w-5" />
+                  </button>
+                ) : null}
+
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-night-950/90 to-transparent p-5">
+                  {s.category ? (
+                    <span className="inline-flex rounded-full bg-dawn-400 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-night-900">
+                      {s.category}
+                    </span>
+                  ) : null}
+                  <p className="mt-2 line-clamp-2 font-semibold text-cream">{s.title}</p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </motion.div>
+  );
+}
+
+function SoundOffIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={`${className ?? ""} fill-none stroke-current`} strokeWidth={1.8}>
+      <path d="M4 9.5h3l4.5-3.5v12L7 14.5H4z" strokeLinejoin="round" />
+      <path d="M16 9.5l4 5M20 9.5l-4 5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function SoundOnIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={`${className ?? ""} fill-none stroke-current`} strokeWidth={1.8}>
+      <path d="M4 9.5h3l4.5-3.5v12L7 14.5H4z" strokeLinejoin="round" />
+      <path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8 8 0 0 1 0 12" strokeLinecap="round" />
+    </svg>
   );
 }
