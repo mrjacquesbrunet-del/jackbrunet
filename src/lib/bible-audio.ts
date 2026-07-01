@@ -2,6 +2,7 @@
 
 import { getSupabase } from "./supabase";
 import type { AudioTrack } from "./audio-library";
+import { compressToMonoMp3 } from "./audio-compress";
 
 /**
  * Narration audio de la Bible (Louis Segond 1910, domaine public), hébergée
@@ -54,9 +55,10 @@ export async function uploadBibleChapter(
   const sb = getSupabase();
   if (!sb) return false;
   const key = bibleNarrationKey(bookId, chapter);
+  const out = await compressToMonoMp3(file); // 48 kbps mono → moins de bande passante
   const { error } = await sb.storage
 .from(AUDIO_BUCKET)
-.upload(key, file, { contentType: file.type || "audio/mpeg", upsert: true });
+.upload(key, out, { contentType: "audio/mpeg", upsert: true });
   const url = bibleNarrationUrl(bookId, chapter);
   if (url) existsCache.delete(url); // force une nouvelle vérification
   return!error;

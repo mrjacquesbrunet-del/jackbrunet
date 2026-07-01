@@ -1,6 +1,7 @@
 "use client";
 
 import { getSupabase } from "./supabase";
+import { compressToMonoMp3 } from "./audio-compress";
 
 /** Nom du bucket Storage des podcasts (public). */
 const AUDIO_BUCKET = "audiovf";
@@ -84,10 +85,11 @@ export async function updatePodcast(
 export async function uploadPodcast(file: File): Promise<boolean> {
   const sb = getSupabase();
   if (!sb) return false;
-  const key = safeKey(file.name);
+  const out = await compressToMonoMp3(file); // 48 kbps mono → moins de bande passante
+  const key = safeKey(out.name); // l'extension suit le fichier réellement envoyé
   const { error } = await sb.storage
 .from(AUDIO_BUCKET)
-.upload(key, file, { contentType: file.type || "audio/mpeg", upsert: false });
+.upload(key, out, { contentType: "audio/mpeg", upsert: false });
   if (error) return false;
   const { error: e2 } = await sb.from("podcasts").insert({ title: titleFromName(file.name), path: key });
   if (e2) {
