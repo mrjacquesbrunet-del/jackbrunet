@@ -10,7 +10,7 @@ import { getSupabase } from "@/lib/supabase";
 const CANDIDATES = (() => {
   const sb = getSupabase();
   if (!sb) return [] as string[];
-  return ["pasteur-jack.jpg", "pasteur-jack.png"].map(
+  return ["auteurjack.jpg", "auteurjack.png", "pasteur-jack.jpg"].map(
     (n) => sb.storage.from("audiovf").getPublicUrl(n).data.publicUrl,
   );
 })();
