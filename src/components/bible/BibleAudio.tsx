@@ -36,9 +36,9 @@ export function BibleAudio({
 }) {
   const ambient = useAmbient();
   const pod = usePodcastPlayer();
-  const rootCls =
-    variant === "floating"
-? "dark-ctx bg-topo-dark flex w-[min(78vw,22rem)] items-center gap-2.5 rounded-full border border-white/10 p-2.5 text-cream shadow-card"
+  const floating = variant === "floating";
+  const rootCls = floating
+? "dark-ctx bg-topo-dark flex w-[58vw] max-w-[15rem] items-center gap-2 rounded-full border border-white/10 p-2 text-cream shadow-card"
 : "dark-ctx bg-topo-dark flex items-center gap-3 rounded-2xl border border-white/10 p-3 text-cream shadow-card";
 
   // Narration hébergée disponible pour ce chapitre?
@@ -224,12 +224,16 @@ export function BibleAudio({
         </span>
         <div className="min-w-0 flex-1">
           <p className="font-display text-sm font-bold leading-tight">Écouter la Bible</p>
-          <p className="text-[11px] text-cream/60">
-            Narration — écran verrouillé, minuteur dans la barre du bas
-            {ambient.enabled? " · fond musical": ""}
-          </p>
+          {!floating? (
+            <p className="text-[11px] text-cream/60">
+              Narration — écran verrouillé, minuteur dans la barre du bas
+              {ambient.enabled? " · fond musical": ""}
+            </p>
+          ): (
+            <p className="text-[11px] text-cream/60">Narration</p>
+          )}
         </div>
-        {ambientToggle}
+        {!floating? ambientToggle: null}
         <button
           type="button"
           onClick={playNarration}
@@ -259,18 +263,23 @@ export function BibleAudio({
       </span>
       <div className="min-w-0 flex-1">
         <p className="font-display text-sm font-bold leading-tight">Écouter la Bible</p>
-        <p className="text-[11px] text-cream/60">
-          {state === "idle"
+        {!floating? (
+          <p className="text-[11px] text-cream/60">
+            {state === "idle"
 ? "Lecture audio du chapitre (voix de l'appareil)"
 : `En lecture — verset ${idxRef.current + 1}`}
-          {sleepMin? ` · minuteur ${sleepMin} min`: ""}
-          {ambient.enabled? " · fond musical": ""}
-        </p>
+            {sleepMin? ` · minuteur ${sleepMin} min`: ""}
+            {ambient.enabled? " · fond musical": ""}
+          </p>
+        ): (
+          <p className="text-[11px] text-cream/60">Voix de l'appareil</p>
+        )}
       </div>
 
-      {ambientToggle}
+      {!floating? ambientToggle: null}
 
       {/* Minuteur de veille */}
+      {!floating? (
       <div className="relative shrink-0">
         <button
           type="button"
@@ -319,6 +328,7 @@ export function BibleAudio({
           </div>
         ): null}
       </div>
+      ): null}
 
       {state === "playing"? (
         <button

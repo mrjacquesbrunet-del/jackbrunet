@@ -381,9 +381,18 @@ export function BibleReader() {
                     type="button"
                     onClick={() => toggleVerse(vn)}
                     aria-expanded={open}
-                    className="mt-1 text-xs font-semibold text-spirit-600 hover:underline"
+                    aria-label="Commentaire & sens des mots"
+                    className="mt-1 inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-semibold opacity-55 transition-opacity hover:opacity-100"
+                    style={{ borderColor: "currentColor" }}
                   >
-                    {open? "Masquer le commentaire": "Commentaire & sens des mots"}
+                    <svg viewBox="0 0 24 24" className="h-3 w-3 fill-none stroke-current" strokeWidth={2}>
+                      <path
+                        d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 21 12z"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    {open? "Masquer": "Commentaire"}
                   </button>
                 ): null}
 

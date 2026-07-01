@@ -33,20 +33,20 @@ export function CommentaryPanel({
 }) {
   if (state === "loading") {
     return (
-      <div className="mt-2 rounded-2xl border border-night-900/10 bg-night-900/[0.03] p-4 text-sm text-night-900/50">
+      <div className="mt-2 rounded-2xl border border-night-900/10 bg-white p-4 text-sm text-night-900/50 shadow-sm">
         Chargement du commentaire…
       </div>
     );
   }
   if (!data) {
     return (
-      <div className="mt-2 rounded-2xl border border-night-900/10 bg-night-900/[0.03] p-4 text-sm text-night-900/55">
+      <div className="mt-2 rounded-2xl border border-night-900/10 bg-white p-4 text-sm text-night-900/55 shadow-sm">
         Commentaire bientôt disponible pour ce verset.
       </div>
     );
   }
   return (
-    <div className="mt-2 space-y-3 rounded-2xl border border-dawn-400/30 bg-dawn-400/[0.06] p-4 sm:p-5">
+    <div className="mt-2 space-y-3 rounded-2xl border border-dawn-400/40 bg-white p-4 text-night-900 shadow-sm sm:p-5">
       {data.mots && data.mots.length > 0? (
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-spirit-600">
