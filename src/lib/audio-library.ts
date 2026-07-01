@@ -44,7 +44,7 @@ function safeKey(name: string): string {
 export function podcastCoverUrl(): string | null {
   const sb = getSupabase();
   if (!sb) return null;
-  const { data } = sb.storage.from(AUDIO_BUCKET).getPublicUrl("cover.jpg");
+  const { data } = sb.storage.from(AUDIO_BUCKET).getPublicUrl("cover.png");
   return data.publicUrl ?? null;
 }
 
