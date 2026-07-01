@@ -331,12 +331,24 @@ export function PrayerCard({
                             {replies.map((r) => (
                               <li key={r.id} className="group flex items-start gap-2">
                                 <Avatar pseudo={r.author?.pseudo} url={r.author?.avatar_url} size={24} />
-                                <div className="min-w-0 flex-1 rounded-2xl bg-night-900/[0.04] px-3 py-1.5">
-                                  <p className="flex items-center gap-1 text-[11px] font-semibold text-night-900/70">
-                                    {r.author?.pseudo?? "Ami(e)"}
-                                    {r.author?.verified? <VerifiedBadge className="h-3 w-3" />: null}
-                                  </p>
-                                  <MentionText text={r.body} className="text-sm text-night-900/85" />
+                                <div className="min-w-0 flex-1">
+                                  <div className="rounded-2xl bg-night-900/[0.04] px-3 py-1.5">
+                                    <p className="flex items-center gap-1 text-[11px] font-semibold text-night-900/70">
+                                      {r.author?.pseudo?? "Ami(e)"}
+                                      {r.author?.verified? <VerifiedBadge className="h-3 w-3" />: null}
+                                    </p>
+                                    <MentionText text={r.body} className="text-sm text-night-900/85" />
+                                  </div>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setReplyTo(c.id);
+                                      setReplyText(r.author?.pseudo? `@${r.author.pseudo} `: "");
+                                    }}
+                                    className="mt-0.5 pl-3 text-[11px] font-semibold text-spirit-600 hover:underline"
+                                  >
+                                    Répondre
+                                  </button>
                                 </div>
                                 {isAdmin || r.author_id === userId? (
                                   <button
