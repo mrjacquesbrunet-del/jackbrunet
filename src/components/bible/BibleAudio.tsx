@@ -2,26 +2,43 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { track } from "@/lib/analytics";
+import { hasBibleNarration, bibleTrack } from "@/lib/bible-audio";
+import { playQueue } from "@/lib/podcast-player";
 
 /**
- * Bible audio (service « Écouter la Bible ») — lit le chapitre à voix haute
- * avec la voix française de l'appareil (Web Speech API). Aucune licence ni
- * fichier requis: on lit le texte Louis Segond (domaine public) déjà présent
- * dans l'app. Lecture verset par verset, avec surlignage du verset en cours,
- * lecture / pause / reprise / arrêt.
+ * Bible audio (service « Écouter la Bible »). Deux modes:
+ *  1) NARRATION (préféré): si un fichier MP3 du chapitre est hébergé dans
+ *     Supabase, on le joue via le lecteur global → arrière-plan, écran
+ *     verrouillé, contrôles de veille et minuteur de veille.
+ *  2) VOIX DE L'APPAREIL (repli): sinon, on lit le texte Louis Segond
+ *     (domaine public) à voix haute (synthèse vocale), verset par verset avec
+ *     surlignage. Fonctionne app ouverte uniquement, avec minuteur local.
  */
 export function BibleAudio({
+  bookId,
   verses,
   bookName,
   chapter,
   onVerse,
 }: {
+  bookId: number;
   verses: string[];
   bookName: string;
   chapter: number;
   /** Index (0-based) du verset lu, ou null quand la lecture s'arrête. */
   onVerse: (index: number | null) => void;
 }) {
+  // Narration hébergée disponible pour ce chapitre?
+  const [hasNarr, setHasNarr] = useState(false);
+  useEffect(() => {
+    let active = true;
+    hasBibleNarration(bookId, chapter).then((v) => {
+      if (active) setHasNarr(v);
+    });
+    return () => {
+      active = false;
+    };
+  }, [bookId, chapter]);
   const [supported, setSupported] = useState(true);
   const [state, setState] = useState<"idle" | "playing" | "paused">("idle");
   const idxRef = useRef(0);
@@ -134,6 +151,45 @@ export function BibleAudio({
   function resume() {
     window.speechSynthesis.resume();
     setState("playing");
+  }
+
+  // Lance la narration hébergée via le lecteur global (arrière-plan + minuteur).
+  function playNarration() {
+    const t = bibleTrack(bookId, bookName, chapter);
+    if (t) playQueue([t], 0);
+  }
+
+  // MODE NARRATION: fichier hébergé → lecteur global (arrière-plan, veille…).
+  if (hasNarr) {
+    return (
+      <div className="dark-ctx bg-topo-dark flex items-center gap-3 rounded-2xl border border-white/10 p-3 text-cream shadow-card">
+        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-night-900 text-dawn-400">
+          <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
+            <path
+              d="M4 14v-2a8 8 0 0 1 16 0v2M4 14v3a2 2 0 0 0 2 2h1v-6H6a2 2 0 0 0-2 1zM20 14v3a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 1z"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="font-display text-sm font-bold leading-tight">Écouter la Bible</p>
+          <p className="text-[11px] text-cream/60">
+            Narration — continue écran verrouillé, minuteur dans la barre du bas
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={playNarration}
+          aria-label="Écouter"
+          className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-900"
+        >
+          <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </button>
+      </div>
+    );
   }
 
   if (!supported) return null;

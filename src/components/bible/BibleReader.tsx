@@ -189,6 +189,7 @@ export function BibleReader() {
       {!loading && verses.length? (
         <div className="mt-4 max-w-2xl">
           <BibleAudio
+            bookId={bookId}
             verses={verses}
             bookName={book?.name?? ""}
             chapter={chapter}

@@ -6,6 +6,7 @@ import { isAdminEmail } from "@/lib/community";
 import { AdminAnnounce } from "@/components/community/AdminAnnounce";
 import { AnalyticsDashboard } from "@/components/community/AnalyticsDashboard";
 import { ChartGlyph, HeadphonesGlyph } from "@/components/ui/DevoIcons";
+import { BibleAudioAdmin } from "@/components/community/BibleAudioAdmin";
 
 /** Espace admin unique et masqué (/admin): stats, annonces, podcasts, etc.
  * Invisible et inaccessible pour les non-admins. */
@@ -70,6 +71,9 @@ export function AdminSpace() {
             Gérer les podcasts
           </Link>
         </div>
+
+        {/* Bible audio */}
+        <BibleAudioAdmin />
 
         <p className="mt-8 text-center text-xs text-night-900/40">
           Espace réservé — cette page n'apparaît nulle part dans les menus.
