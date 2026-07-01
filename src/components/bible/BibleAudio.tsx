@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { track } from "@/lib/analytics";
 import { hasBibleNarration, bibleTrack } from "@/lib/bible-audio";
 import { playQueue } from "@/lib/podcast-player";
+import { useAmbient, setVoiceActive, ambientKick } from "@/lib/ambient";
 
 /**
  * Bible audio (service « Écouter la Bible »). Deux modes:
@@ -28,6 +29,8 @@ export function BibleAudio({
   /** Index (0-based) du verset lu, ou null quand la lecture s'arrête. */
   onVerse: (index: number | null) => void;
 }) {
+  const ambient = useAmbient();
+
   // Narration hébergée disponible pour ce chapitre?
   const [hasNarr, setHasNarr] = useState(false);
   useEffect(() => {
@@ -76,6 +79,7 @@ export function BibleAudio({
       sleepTimer.current = null;
     }
     setSleepMin(null);
+    setVoiceActive(false);
     idxRef.current = 0;
     setState("idle");
     onVerse(null);
@@ -140,24 +144,56 @@ export function BibleAudio({
     if (!verses.length) return;
     track("play", `bible:${bookName} ${chapter}`);
     setState("playing");
+    setVoiceActive(true);
+    ambientKick();
     speakFrom(idxRef.current);
   }
 
   function pause() {
     window.speechSynthesis.pause();
     setState("paused");
+    setVoiceActive(false);
   }
 
   function resume() {
     window.speechSynthesis.resume();
     setState("playing");
+    setVoiceActive(true);
+    ambientKick();
   }
 
   // Lance la narration hébergée via le lecteur global (arrière-plan + minuteur).
   function playNarration() {
     const t = bibleTrack(bookId, bookName, chapter);
-    if (t) playQueue([t], 0);
+    if (t) {
+      playQueue([t], 0);
+      ambientKick();
+    }
   }
+
+  // Petit interrupteur « fond musical doux ».
+  const ambientToggle = (
+    <button
+      type="button"
+      onClick={() => {
+        ambient.setEnabled(!ambient.enabled);
+      }}
+      aria-pressed={ambient.enabled}
+      aria-label="Fond musical doux"
+      title="Fond musical doux"
+      className={`grid h-10 w-10 shrink-0 place-items-center rounded-full border ${
+        ambient.enabled
+? "border-dawn-400 bg-dawn-400/15 text-dawn-300"
+: "border-white/15 bg-white/10 text-cream/70"
+      }`}
+    >
+      <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
+        <path d="M9 18V6l10-2v12" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="7" cy="18" r="2" />
+        <circle cx="17" cy="16" r="2" />
+      </svg>
+    </button>
+  );
 
   // MODE NARRATION: fichier hébergé → lecteur global (arrière-plan, veille…).
   if (hasNarr) {
@@ -175,9 +211,11 @@ export function BibleAudio({
         <div className="min-w-0 flex-1">
           <p className="font-display text-sm font-bold leading-tight">Écouter la Bible</p>
           <p className="text-[11px] text-cream/60">
-            Narration — continue écran verrouillé, minuteur dans la barre du bas
+            Narration — écran verrouillé, minuteur dans la barre du bas
+            {ambient.enabled? " · fond musical": ""}
           </p>
         </div>
+        {ambientToggle}
         <button
           type="button"
           onClick={playNarration}
@@ -212,8 +250,11 @@ export function BibleAudio({
 ? "Lecture audio du chapitre (voix de l'appareil)"
 : `En lecture — verset ${idxRef.current + 1}`}
           {sleepMin? ` · minuteur ${sleepMin} min`: ""}
+          {ambient.enabled? " · fond musical": ""}
         </p>
       </div>
+
+      {ambientToggle}
 
       {/* Minuteur de veille */}
       <div className="relative shrink-0">

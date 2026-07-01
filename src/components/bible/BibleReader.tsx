@@ -7,6 +7,7 @@ import { Markable } from "@/components/ui/Markable";
 import { HighlighterGlyph } from "@/components/ui/DevoIcons";
 import { CommentaryPanel, type Commentary } from "@/components/bible/CommentaryPanel";
 import { BibleAudio } from "@/components/bible/BibleAudio";
+import { usePodcastPlayer, getPodcastAudio } from "@/lib/podcast-player";
 
 type BookIndex = { id: number; name: string; chapters: number };
 type Book = { id: number; name: string; chapters: string[][] };
@@ -92,6 +93,39 @@ export function BibleReader() {
 
   const chapterCount = book?.chapters?.length?? 0;
   const verses = book?.chapters?.[chapter - 1]?? [];
+
+  // Surlignage du verset pendant la narration MP3 (estimé au prorata de la
+  // longueur des versets, faute de repères temps dans le fichier audio).
+  const pod = usePodcastPlayer();
+  const narrId = book? `bible:${book.name} ${chapter}`: "";
+  const narrating = pod.current?.id === narrId && narrId!== "";
+  useEffect(() => {
+    if (!narrating ||!verses.length) return;
+    const a = getPodcastAudio();
+    if (!a) return;
+    const lens = verses.map((v) => Math.max(1, v.length));
+    const total = lens.reduce((s, n) => s + n, 0);
+    const cum: number[] = [];
+    let acc = 0;
+    for (const n of lens) {
+      acc += n;
+      cum.push(acc);
+    }
+    const onT = () => {
+      const dur = a.duration;
+      if (!dur ||!Number.isFinite(dur)) return;
+      const target = Math.min(1, a.currentTime / dur) * total;
+      let idx = cum.findIndex((c) => target <= c);
+      if (idx < 0) idx = verses.length - 1;
+      setSpokenVerse(idx);
+    };
+    a.addEventListener("timeupdate", onT);
+    return () => {
+      a.removeEventListener("timeupdate", onT);
+      setSpokenVerse(null);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [narrating, book, chapter]);
 
   return (
     <section className="container-x py-10">

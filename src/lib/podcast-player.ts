@@ -182,6 +182,16 @@ function subscribe(cb: () => void) {
   };
 }
 
+/** Abonnement bas niveau (hors React) — utilisé par le fond musical. */
+export function subscribePodcast(cb: () => void) {
+  return subscribe(cb);
+}
+
+/** Instantané de l'état du lecteur (hors React). */
+export function podcastSnapshot() {
+  return { current: state.index >= 0? state.queue[state.index]: null, playing: state.playing };
+}
+
 export function usePodcastPlayer() {
   const snap = useSyncExternalStore(
     subscribe,

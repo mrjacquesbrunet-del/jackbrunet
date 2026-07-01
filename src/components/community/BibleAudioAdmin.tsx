@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { asset } from "@/lib/asset";
 import { uploadBibleChapter } from "@/lib/bible-audio";
-import { HeadphonesGlyph } from "@/components/ui/DevoIcons";
+import { uploadAmbientBed } from "@/lib/ambient";
+import { HeadphonesGlyph, MusicGlyph } from "@/components/ui/DevoIcons";
 
 type BookIndex = { id: number; name: string; chapters: number };
 
@@ -21,6 +22,22 @@ export function BibleAudioAdmin() {
   const [msg, setMsg] = useState("");
   const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Instrumental de fond (fond musical doux sous la voix).
+  const [ambBusy, setAmbBusy] = useState(false);
+  const [ambMsg, setAmbMsg] = useState("");
+  const ambRef = useRef<HTMLInputElement>(null);
+
+  async function handleAmbient(files: FileList | null) {
+    const f = files?.[0];
+    if (!f) return;
+    setAmbBusy(true);
+    setAmbMsg("");
+    const ok = await uploadAmbientBed(f);
+    setAmbBusy(false);
+    if (ambRef.current) ambRef.current.value = "";
+    setAmbMsg(ok? "✓ Fond musical en ligne.": "Échec de l'envoi — réessaie.");
+  }
 
   useEffect(() => {
     fetch(asset("/bible/index.json"))
@@ -116,6 +133,36 @@ export function BibleAudioAdmin() {
       ): null}
 
       {msg? <p className="mt-3 text-sm font-semibold text-spirit-700">{msg}</p>: null}
+
+      {/* Fond musical doux */}
+      <div className="mt-6 border-t border-night-900/10 pt-5">
+        <p className="flex items-center gap-2 font-display text-base font-bold">
+          <MusicGlyph className="h-5 w-5 text-spirit-600" />
+          Fond musical doux (sous la voix)
+        </p>
+        <p className="mt-1 text-sm text-night-900/60">
+          Un instrumental paisible qui tourne <span className="font-semibold">en boucle</span> à
+          faible volume sous la Bible audio. Les auditeurs l'activent d'un bouton.
+        </p>
+        <div className="mt-3 flex flex-wrap items-center gap-3">
+          <button
+            type="button"
+            onClick={() => ambRef.current?.click()}
+            disabled={ambBusy}
+            className="btn-ghost disabled:opacity-50"
+          >
+            {ambBusy? "Envoi…": "Choisir l'instrumental"}
+          </button>
+          <input
+            ref={ambRef}
+            type="file"
+            accept="audio/*,.mp3"
+            hidden
+            onChange={(e) => handleAmbient(e.target.files)}
+          />
+        </div>
+        {ambMsg? <p className="mt-2 text-sm font-semibold text-spirit-700">{ambMsg}</p>: null}
+      </div>
     </div>
   );
 }
