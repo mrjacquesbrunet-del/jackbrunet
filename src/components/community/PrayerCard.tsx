@@ -6,7 +6,7 @@ import { Avatar } from "@/components/community/Avatar";
 import { Celebration } from "@/components/ui/Celebration";
 import { MentionField } from "@/components/community/MentionField";
 import { MentionText } from "@/components/community/MentionText";
-import { PrayerMark } from "@/components/ui/PrayerMark";
+import { HandsGlyph } from "@/components/ui/DevoIcons";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import {
   type Prayer,
@@ -173,7 +173,7 @@ export function PrayerCard({
                 : "border-night-900/15 text-night-900/70 hover:border-night-900/30"
             }`}
           >
-            <PrayerMark className="h-5 w-5" /> Je prie{count("pray") > 0 ? ` · ${count("pray")}` : ""}
+            <HandsGlyph className="h-[18px] w-[18px]" /> Je prie{count("pray") > 0 ? ` · ${count("pray")}` : ""}
           </button>
           <button
             type="button"
@@ -184,14 +184,31 @@ export function PrayerCard({
                 : "border-night-900/15 text-night-900/70 hover:border-night-900/30"
             }`}
           >
-            ❤️{count("heart") > 0 ? ` ${count("heart")}` : ""}
+            <svg
+              viewBox="0 0 24 24"
+              className={`h-[18px] w-[18px] stroke-current ${mine("heart") ? "fill-current" : "fill-none"}`}
+              strokeWidth={1.8}
+            >
+              <path
+                d="M12 20.3l-1.45-1.32C5.4 14.24 2 11.16 2 7.5 2 4.9 4.02 3 6.5 3c1.74 0 3.4 1 4.22 2.44h.56C12.1 4 13.76 3 15.5 3 17.98 3 20 4.9 20 7.5c0 3.66-3.4 6.74-8.55 11.49L12 20.3z"
+                strokeLinejoin="round"
+              />
+            </svg>
+            {count("heart") > 0 ? count("heart") : ""}
           </button>
           <button
             type="button"
             onClick={openComments}
             className="inline-flex items-center gap-1.5 rounded-full border border-night-900/15 px-3 py-1.5 text-sm font-semibold text-night-900/70 transition-colors hover:border-night-900/30"
           >
-            💬 Encourager
+            <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-none stroke-current" strokeWidth={1.8}>
+              <path
+                d="M21 11.5a8 8 0 0 1-11.5 7.2L4 20l1.3-4.5A8 8 0 1 1 21 11.5z"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            Encourager
           </button>
 
           {/* Auteur : marquer exaucé */}
