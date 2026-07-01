@@ -314,7 +314,19 @@ export function DevotionalView({
         </Reveal>
       </section>
 
-      {/* 5. Passage de lecture du jour */}
+      {/* 5. Vidéo du jour (avant la lecture) */}
+      {latestShort ? (
+        <section className="container-x">
+          <Reveal from="up">
+            <SectionHeader eyebrow="Shorts" title="La vidéo du jour" />
+            <div className="mt-6 max-w-sm">
+              <DailyShort latest={latestShort} all={shorts} />
+            </div>
+          </Reveal>
+        </section>
+      ) : null}
+
+      {/* 6. Passage de lecture du jour */}
       {planDay ? (
         <section className="container-x">
           <Reveal from="right">
@@ -380,17 +392,6 @@ export function DevotionalView({
         </section>
       ) : null}
 
-      {/* 6. Vidéo du jour */}
-      {latestShort ? (
-        <section className="container-x">
-          <Reveal from="up">
-            <SectionHeader eyebrow="Shorts" title="La vidéo du jour" />
-            <div className="mt-6 max-w-sm">
-              <DailyShort latest={latestShort} all={shorts} />
-            </div>
-          </Reveal>
-        </section>
-      ) : null}
 
       {/* 6b. Mon parcours : favoris enregistrés */}
       {eng.ready && eng.favorites.length > 0 ? (
