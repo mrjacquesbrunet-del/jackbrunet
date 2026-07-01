@@ -10,6 +10,7 @@ import { NativeBootstrap } from "@/components/pwa/NativeBootstrap";
 import { CloudSync } from "@/components/community/CloudSync";
 import { AppShell } from "@/components/app/AppShell";
 import { GlobalAudioBar } from "@/components/audio/GlobalAudioBar";
+import { Analytics } from "@/components/app/Analytics";
 
 // Grotesque très gras pour le corps et les titres percutants
 const archivo = Archivo({
@@ -85,6 +86,7 @@ export default function RootLayout({
         <CloudSync />
         <AppShell />
         <GlobalAudioBar />
+        <Analytics />
       </body>
     </html>
   );

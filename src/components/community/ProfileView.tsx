@@ -19,7 +19,6 @@ import {
   type Prayer,
   type FavoriteVerse,
 } from "@/lib/community";
-import { AdminAnnounce } from "@/components/community/AdminAnnounce";
 import { ProfileSignIn } from "@/components/community/ProfileSignIn";
 import { MyFavorites } from "@/components/profile/MyFavorites";
 import { AnsweredFeed } from "@/components/community/AnsweredFeed";
@@ -811,7 +810,25 @@ function Profile({
         <AnsweredFeed />
       </div>
 
-      {isAdminEmail(email) ? <AdminAnnounce /> : null}
+      {isAdminEmail(email) ? (
+        <div className="mt-8">
+          <Link
+            href="/admin"
+            className="group flex items-center justify-between gap-4 rounded-3xl border border-dawn-400/40 bg-gradient-to-br from-spirit-700 to-night-900 p-5 text-cream transition-transform hover:-translate-y-0.5"
+          >
+            <div>
+              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-dawn-300">
+                Réservé
+              </span>
+              <p className="mt-1 font-display text-lg font-extrabold">Espace admin</p>
+              <p className="mt-0.5 text-sm text-cream/70">
+                Stats, annonces, notifications & podcasts.
+              </p>
+            </div>
+            <span className="shrink-0 text-2xl transition-transform group-hover:translate-x-1">→</span>
+          </Link>
+        </div>
+      ) : null}
 
       {followModal ? (
         <FollowList

@@ -2,6 +2,7 @@
 
 import { useSyncExternalStore } from "react";
 import type { AudioTrack } from "./audio-library";
+import { track } from "./analytics";
 
 /**
  * Lecteur de podcasts GLOBAL (singleton hors React) : la lecture continue
@@ -66,6 +67,7 @@ export function playQueue(queue: AudioTrack[], index: number) {
   state.index = index;
   a.src = queue[index].url;
   a.play().catch(() => undefined);
+  track("play", queue[index].id); // statistique d'écoute (anonyme)
   emit();
   setMediaSession();
 }
