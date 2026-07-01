@@ -12,6 +12,8 @@ import { MemberSearch } from "@/components/community/MemberSearch";
 import { MemberSuggestions } from "@/components/community/MemberSuggestions";
 import { MentionField } from "@/components/community/MentionField";
 import { CommunityLanding } from "@/components/community/CommunityLanding";
+import { openExternal } from "@/lib/external";
+import { siteConfig } from "@/config/site";
 import {
   signOut,
   updateProfile,
@@ -348,6 +350,20 @@ function Feed({
           </div>
           <span className="shrink-0 text-2xl transition-transform group-hover:translate-x-1">→</span>
         </Link>
+      </div>
+
+      {/* Lien discret vers la page de soutien du site (ouvre le navigateur externe) */}
+      <div className="mt-10 text-center">
+        <button
+          type="button"
+          onClick={() => openExternal(`${siteConfig.url}/dons`)}
+          className="inline-flex items-center gap-1 text-xs text-night-900/40 underline-offset-2 transition-colors hover:text-night-900/70 hover:underline"
+        >
+          Soutenir la mission
+          <svg viewBox="0 0 24 24" className="h-3 w-3 fill-none stroke-current" strokeWidth={2}>
+            <path d="M14 5h5v5M19 5l-8 8M11 5H6a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
       </div>
       </div>
       </section>
