@@ -64,6 +64,21 @@ export async function uploadBibleChapter(
   return!error;
 }
 
+/** File d'attente d'un livre entier (à partir de `from`) pour la lecture continue. */
+export function bibleBookQueue(
+  bookId: number,
+  bookName: string,
+  chapterCount: number,
+  from = 1,
+): AudioTrack[] {
+  const out: AudioTrack[] = [];
+  for (let c = from; c <= chapterCount; c++) {
+    const t = bibleTrack(bookId, bookName, c);
+    if (t) out.push(t);
+  }
+  return out;
+}
+
 /** Construit un « morceau » lisible par le lecteur global à partir d'un chapitre. */
 export function bibleTrack(bookId: number, bookName: string, chapter: number): AudioTrack | null {
   const url = bibleNarrationUrl(bookId, chapter);

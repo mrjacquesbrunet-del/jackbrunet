@@ -5,10 +5,13 @@ import {
   useReading,
   FONT_LABEL,
   FONT_STACK,
+  THEME_LABEL,
+  THEME_STYLE,
   SCALE_MIN,
   SCALE_MAX,
   SCALE_STEP,
   type ReadingFont,
+  type ReadingTheme,
 } from "@/lib/reading-settings";
 
 /**
@@ -99,6 +102,28 @@ export function ReadingSettings() {
                 }`}
               >
                 {FONT_LABEL[f]}
+              </button>
+            ))}
+          </div>
+
+          <p className="mt-4 text-[11px] font-bold uppercase tracking-wide text-night-900/45">
+            Thème
+          </p>
+          <div className="mt-2 grid grid-cols-3 gap-2">
+            {(Object.keys(THEME_LABEL) as ReadingTheme[]).map((t) => (
+              <button
+                key={t}
+                type="button"
+                onClick={() => r.setTheme(t)}
+                style={{
+                  backgroundColor: t === "clair"? "#FFFFFF": THEME_STYLE[t].bg,
+                  color: THEME_STYLE[t].text,
+                }}
+                className={`rounded-xl border px-2 py-2 text-sm transition-colors ${
+                  r.theme === t? "border-spirit-600 font-bold ring-1 ring-spirit-600": "border-night-900/15"
+                }`}
+              >
+                {THEME_LABEL[t]}
               </button>
             ))}
           </div>

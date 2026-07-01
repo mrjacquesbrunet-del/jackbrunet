@@ -9,7 +9,7 @@ import { CommentaryPanel, type Commentary } from "@/components/bible/CommentaryP
 import { BibleAudio } from "@/components/bible/BibleAudio";
 import { usePodcastPlayer, getPodcastAudio } from "@/lib/podcast-player";
 import { ReadingSettings } from "@/components/bible/ReadingSettings";
-import { useReading, FONT_STACK } from "@/lib/reading-settings";
+import { useReading, FONT_STACK, THEME_STYLE } from "@/lib/reading-settings";
 
 type BookIndex = { id: number; name: string; chapters: number };
 type Book = { id: number; name: string; chapters: string[][] };
@@ -159,6 +159,19 @@ export function BibleReader() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [narrating, book, chapter]);
 
+  // Lecture continue: quand la narration passe au chapitre suivant, la lecture
+  // à l'écran suit automatiquement.
+  useEffect(() => {
+    const id = pod.current?.id;
+    if (!id ||!book) return;
+    const m = id.match(/^bible:(.+) (\d+)$/);
+    if (m && m[1] === book.name) {
+      const n = Number(m[2]);
+      if (n!== chapter) setChapter(n);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pod.current?.id]);
+
   return (
     <section className="container-x py-10">
       {/* Barre fine du mode pleine lecture */}
@@ -294,6 +307,7 @@ export function BibleReader() {
             verses={verses}
             bookName={book?.name?? ""}
             chapter={chapter}
+            chapterCount={chapterCount}
             onVerse={setSpokenVerse}
           />
         </div>
@@ -305,11 +319,16 @@ export function BibleReader() {
         <p className="mt-6 text-night-900/50">Chargement…</p>
       ): (
         <div
-          className="mt-6 max-w-2xl space-y-2 text-night-900/85"
+          className={`mt-6 max-w-2xl space-y-2 ${
+            reading.theme === "clair"? "text-night-900/85": "rounded-2xl p-4"
+          }`}
           style={{
             fontFamily: FONT_STACK[reading.font],
             fontSize: `${1.125 * reading.scale}rem`,
             lineHeight: 1.65,
+            backgroundColor:
+              reading.theme === "clair"? undefined: THEME_STYLE[reading.theme].bg,
+            color: reading.theme === "clair"? undefined: THEME_STYLE[reading.theme].text,
           }}
         >
           {!immersive? (
@@ -338,7 +357,12 @@ export function BibleReader() {
 : "transition-colors"
                     }
                   >
-                    <sup className="mr-1 align-super text-xs font-bold text-spirit-600">
+                    <sup
+                      className="mr-1 align-super text-xs font-bold text-spirit-600"
+                      style={
+                        reading.theme === "clair"? undefined: { color: THEME_STYLE[reading.theme].num }
+                      }
+                    >
                       {vn}
                     </sup>
                     {v}
@@ -408,6 +432,7 @@ export function BibleReader() {
             verses={verses}
             bookName={book?.name?? ""}
             chapter={chapter}
+            chapterCount={chapterCount}
             onVerse={setSpokenVerse}
             variant="floating"
           />

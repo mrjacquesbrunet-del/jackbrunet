@@ -68,6 +68,18 @@ export function GlobalAudioBar() {
               <span className="text-[10px] tabular-nums text-night-900/45">{fmt(dur)}</span>
             </div>
           </div>
+          <button
+            type="button"
+            onClick={() => {
+              const speeds = [1, 1.25, 1.5, 0.8];
+              const i = speeds.indexOf(pod.rate);
+              pod.setRate(speeds[(i + 1) % speeds.length]);
+            }}
+            aria-label="Vitesse de lecture"
+            className="h-9 shrink-0 rounded-full border border-night-900/10 bg-night-900/[0.04] px-2.5 text-xs font-bold tabular-nums text-night-900/70"
+          >
+            {pod.rate}×
+          </button>
           <SleepTimer />
           <button
             type="button"

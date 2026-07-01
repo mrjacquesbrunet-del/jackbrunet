@@ -18,16 +18,30 @@ type State = {
   sleepEndsAt: number | null;
   /** Minuteur « fin de l'épisode »: on s'arrête à la fin du morceau en cours. */
   sleepEpisodeEnd: boolean;
+  /** Vitesse de lecture (0.8 → 1.5). */
+  rate: number;
 };
+
+function loadRate(): number {
+  try {
+    const r = Number(localStorage.getItem("jb.audio.rate"));
+    return r >= 0.5 && r <= 2? r: 1;
+  } catch {
+    return 1;
+  }
+}
+
 let state: State = {
   queue: [],
   index: -1,
   playing: false,
   sleepEndsAt: null,
   sleepEpisodeEnd: false,
+  rate: typeof window!== "undefined"? loadRate(): 1,
 };
 let audio: HTMLAudioElement | null = null;
 let sleepTimeout: ReturnType<typeof setTimeout> | null = null;
+let errorSkips = 0; // évite de boucler sur des chapitres manquants
 const listeners = new Set<() => void>();
 
 function emit() {
@@ -66,14 +80,29 @@ function ensureAudio(): HTMLAudioElement | null {
     state.playing = false;
     emit();
   });
+  audio.addEventListener("playing", () => {
+    errorSkips = 0; // lecture OK: on réinitialise le garde-fou
+  });
   audio.addEventListener("ended", () => {
+    errorSkips = 0;
     // Minuteur « fin de l'épisode »: on s'arrête ici au lieu d'enchaîner.
     if (state.sleepEpisodeEnd) {
       cancelSleep();
       stopPlayback();
       return;
     }
-    nextTrack();
+    nextTrack(); // lecture continue: enchaîne le chapitre/épisode suivant
+  });
+  // Chapitre manquant (404) → on saute au suivant sans bloquer la lecture.
+  audio.addEventListener("error", () => {
+    if (state.index < 0) return;
+    if (errorSkips >= state.queue.length) {
+      stopPlayback();
+      return;
+    }
+    errorSkips++;
+    if (state.index + 1 < state.queue.length) nextTrack();
+    else stopPlayback();
   });
   return audio;
 }
@@ -134,10 +163,23 @@ export function playQueue(queue: AudioTrack[], index: number) {
   state.queue = queue;
   state.index = index;
   a.src = queue[index].url;
+  a.playbackRate = state.rate; // conserve la vitesse choisie
   a.play().catch(() => undefined);
   track("play", queue[index].id); // statistique d'écoute (anonyme)
   emit();
   setMediaSession();
+}
+
+/** Change la vitesse de lecture (0.8 → 1.5), mémorisée. */
+export function setRate(rate: number) {
+  state.rate = rate;
+  if (audio) audio.playbackRate = rate;
+  try {
+    localStorage.setItem("jb.audio.rate", String(rate));
+  } catch {
+    /* ignore */
+  }
+  emit();
 }
 
 export function togglePlay() {
@@ -205,6 +247,8 @@ export function usePodcastPlayer() {
     current: snap.index >= 0? snap.queue[snap.index]: null,
     sleepEndsAt: snap.sleepEndsAt,
     sleepEpisodeEnd: snap.sleepEpisodeEnd,
+    rate: snap.rate,
+    setRate,
     playQueue,
     toggle: togglePlay,
     next: nextTrack,

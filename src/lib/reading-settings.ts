@@ -7,10 +7,23 @@ import { useSyncExternalStore } from "react";
  * police. Appliquées au corps des versets.
  */
 export type ReadingFont = "serif" | "sans" | "confort";
-export type ReadingState = { scale: number; font: ReadingFont };
+export type ReadingTheme = "clair" | "sepia" | "sombre";
+export type ReadingState = { scale: number; font: ReadingFont; theme: ReadingTheme };
 
 const KEY = "jb.reading.v1";
-const DEFAULT: ReadingState = { scale: 1, font: "serif" };
+const DEFAULT: ReadingState = { scale: 1, font: "serif", theme: "clair" };
+
+/** Couleurs de fond / texte / accent par thème de lecture. */
+export const THEME_STYLE: Record<ReadingTheme, { bg: string; text: string; num: string }> = {
+  clair: { bg: "transparent", text: "#1A1B14", num: "#5E6A3A" },
+  sepia: { bg: "#F3E8CE", text: "#4A3A26", num: "#8A6A3A" },
+  sombre: { bg: "#16180F", text: "#E7E6DB", num: "#CAF000" },
+};
+export const THEME_LABEL: Record<ReadingTheme, string> = {
+  clair: "Clair",
+  sepia: "Sépia",
+  sombre: "Sombre",
+};
 
 export const SCALE_MIN = 0.85;
 export const SCALE_MAX = 1.6;
@@ -60,6 +73,10 @@ export function setFont(font: ReadingFont) {
   load();
   commit({...state, font });
 }
+export function setTheme(theme: ReadingTheme) {
+  load();
+  commit({...state, theme });
+}
 
 function subscribe(cb: () => void) {
   listeners.add(cb);
@@ -74,5 +91,5 @@ function snap() {
 
 export function useReading() {
   const s = useSyncExternalStore(subscribe, snap, () => DEFAULT);
-  return { scale: s.scale, font: s.font, setScale, setFont };
+  return { scale: s.scale, font: s.font, theme: s.theme, setScale, setFont, setTheme };
 }
