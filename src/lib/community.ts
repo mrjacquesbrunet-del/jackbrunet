@@ -18,6 +18,7 @@ export type Prayer = {
   body: string;
   visibility: Visibility;
   answered: boolean;
+  pinned?: boolean;
   created_at: string;
   author?: Profile;
 };
@@ -175,7 +176,15 @@ export async function listPrayers(): Promise<Prayer[]> {
     .limit(60);
   const prayers = (data as Prayer[]) ?? [];
   const profs = await profilesByIds(prayers.map((p) => p.author_id));
-  return prayers.map((p) => ({ ...p, author: profs[p.author_id] }));
+  // Les sujets épinglés (par l'admin) remontent en tête, sans casser l'ordre.
+  return prayers
+    .map((p) => ({ ...p, author: profs[p.author_id] }))
+    .sort((a, b) => Number(b.pinned ?? false) - Number(a.pinned ?? false));
+}
+
+/** Admin : épingle / désépingle un sujet de prière. */
+export async function setPrayerPinned(id: string, pinned: boolean) {
+  await getSupabase()?.rpc("set_prayer_pinned", { pid: id, val: pinned });
 }
 
 /** Prières exaucées publiques (« témoignages ») — les plus récentes. */

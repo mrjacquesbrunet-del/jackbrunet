@@ -19,9 +19,18 @@ import {
   deleteComment,
   deletePrayer,
   setPrayerAnswered,
+  setPrayerPinned,
 } from "@/lib/community";
 
 const VIS_LABEL: Record<string, string> = { public: "Public", friends: "Abonnés", private: "Privé" };
+
+function PinIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={`${className ?? ""} fill-none stroke-current`} strokeWidth={1.8}>
+      <path d="M9 4h6l-1 5 3 3v2H7v-2l3-3-1-5zM12 17v3" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
 function when(iso: string) {
   return new Date(iso).toLocaleString("fr-FR", {
@@ -51,7 +60,15 @@ export function PrayerCard({
   const [commentText, setCommentText] = useState("");
   const [busy, setBusy] = useState(false);
   const [answered, setAnswered] = useState(prayer.answered);
+  const [pinned, setPinned] = useState(!!prayer.pinned);
   const [celebrate, setCelebrate] = useState(false);
+
+  async function togglePin() {
+    const next = !pinned;
+    setPinned(next);
+    await setPrayerPinned(prayer.id, next);
+    onDeleted(); // recharge le fil pour remonter/redescendre le sujet
+  }
 
   const isAuthor = prayer.author_id === userId;
   const count = (t: "heart" | "pray") => reactions.filter((r) => r.type === t).length;
@@ -129,6 +146,11 @@ export function PrayerCard({
       ) : null}
 
       <div className="p-5">
+        {pinned ? (
+          <p className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-dawn-400/15 px-3 py-1 text-[11px] font-bold text-spirit-700">
+            <PinIcon className="h-3.5 w-3.5" /> Épinglé
+          </p>
+        ) : null}
         <div className="flex items-center gap-3">
           <Link href={`/membre?u=${prayer.author_id}`} aria-label="Voir le profil">
             <Avatar pseudo={prayer.author?.pseudo} url={prayer.author?.avatar_url} />
@@ -210,6 +232,22 @@ export function PrayerCard({
             </svg>
             Encourager
           </button>
+
+          {/* Admin : épingler le sujet */}
+          {isAdmin ? (
+            <button
+              type="button"
+              onClick={togglePin}
+              className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
+                pinned
+                  ? "border-dawn-400/50 bg-dawn-400/15 text-spirit-700"
+                  : "border-night-900/15 text-night-900/70 hover:border-night-900/30"
+              }`}
+            >
+              <PinIcon className="h-[18px] w-[18px]" />
+              {pinned ? "Épinglé" : "Épingler"}
+            </button>
+          ) : null}
 
           {/* Auteur : marquer exaucé */}
           {isAuthor ? (

@@ -77,6 +77,7 @@ function Feed({
   const [pseudoVal, setPseudoVal] = useState(profile?.pseudo ?? "");
   const [pseudoErr, setPseudoErr] = useState("");
   const [tab, setTab] = useState<"all" | "following">("all");
+  const [search, setSearch] = useState("");
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -120,6 +121,10 @@ function Feed({
     setEditPseudo(false);
     refreshProfile();
   }
+
+  // Recherche dans les sujets de prière (filtre le fil affiché).
+  const q = search.trim().toLowerCase();
+  const shown = q ? prayers.filter((p) => p.body.toLowerCase().includes(q)) : prayers;
 
   return (
     <>
@@ -245,19 +250,40 @@ function Feed({
         ))}
       </div>
 
+      {/* Recherche dans les sujets de prière */}
+      <div className="relative mt-4">
+        <svg
+          viewBox="0 0 24 24"
+          className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 fill-none stroke-night-900/40"
+          strokeWidth={1.8}
+          aria-hidden
+        >
+          <circle cx="11" cy="11" r="7" />
+          <path d="M21 21l-4.3-4.3" strokeLinecap="round" />
+        </svg>
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Rechercher un sujet de prière…"
+          className="field w-full pl-10"
+        />
+      </div>
+
       {/* Fil */}
       <div className="mt-5">
         {loading ? (
           <p className="text-night-900/50">Chargement du fil…</p>
-        ) : prayers.length === 0 ? (
+        ) : shown.length === 0 ? (
           <p className="text-night-900/55">
-            {tab === "following"
-              ? "Abonne-toi à des membres pour voir leurs prières ici."
-              : "Aucune prière pour l'instant. Sois le premier à partager. 🙏"}
+            {q
+              ? "Aucun sujet ne correspond à ta recherche."
+              : tab === "following"
+                ? "Abonne-toi à des membres pour voir leurs prières ici."
+                : "Aucune prière pour l'instant. Sois le premier à partager. 🙏"}
           </p>
         ) : (
           <ul className="space-y-4">
-            {prayers.map((p) => (
+            {shown.map((p) => (
               <PrayerCard
                 key={p.id}
                 prayer={p}
