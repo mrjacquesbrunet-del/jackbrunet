@@ -6,7 +6,6 @@ import { useSearchParams } from "next/navigation";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { useAuth } from "@/components/community/useAuth";
 import { Avatar } from "@/components/community/Avatar";
-import { GradeBadge } from "@/components/community/GradeBadge";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import {
   getProfile,
@@ -20,7 +19,7 @@ import {
   type Profile,
   type Prayer,
 } from "@/lib/community";
-import type { Activity } from "@/lib/grades";
+import { gradeFor, type Activity } from "@/lib/grades";
 
 export function MemberView() {
   const params = useSearchParams();
@@ -113,29 +112,91 @@ export function MemberView() {
   }
 
   const verses = profile.favorite_verses?? [];
+  const g = activity? gradeFor(activity): null;
+  const pct = g?.next? Math.min(100, Math.round((g.points / g.next.min) * 100)): 100;
 
   return (
-    <section className="container-x py-10">
-      <div className="glass-strong p-6 sm:p-8">
-        <div className="flex flex-wrap items-center gap-4">
-          <Avatar pseudo={profile.pseudo} url={profile.avatar_url} size={72} />
-          <div className="min-w-0 flex-1">
-            <div className="flex flex-wrap items-center gap-2">
-              <h2 className="flex items-center gap-1.5 font-display text-2xl font-extrabold leading-tight">
-                {profile.pseudo}
-                {profile.verified? <VerifiedBadge className="h-5 w-5" />: null}
-              </h2>
-              {activity? <GradeBadge activity={activity} />: null}
+    <section className="container-x pb-10 pt-24 sm:pt-32">
+      {/* En-tête façon Instagram, sur olive sombre texturé (comme le profil). */}
+      <div className="dark-ctx bg-topo-dark relative rounded-4xl border border-white/10 p-6 text-cream shadow-card sm:p-8">
+        {/* Jauge de grade de la personne */}
+        {g? (
+          <div className="mb-4">
+            <div className="flex items-center justify-between text-[11px]">
+              <span className="font-bold text-dawn-300">
+                {g.grade.name} · {g.points} pts
+              </span>
+              <span className="text-cream/60">
+                {g.next? `Plus que ${g.toNext} pts → ${g.next.name}`: "Grade maximal"}
+              </span>
             </div>
-            <p className="mt-1 text-sm text-night-900/55">
-              <strong className="text-night-900/80">{counts.followers}</strong> abonné
-              {counts.followers > 1? "s": ""} ·{" "}
-              <strong className="text-night-900/80">{counts.following}</strong> abonnement
-              {counts.following > 1? "s": ""}
-            </p>
+            <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-white/10">
+              <div
+                className="h-full rounded-full bg-gradient-to-r from-dawn-400 to-spirit-500"
+                style={{ width: `${pct}%` }}
+              />
+            </div>
           </div>
+        ): null}
+
+        {/* Avatar + stats */}
+        <div className="flex items-end gap-5">
+          <span className="shrink-0 rounded-full bg-dawn-400 p-[3px]">
+            <span className="block rounded-full bg-night-900 p-[3px]">
+              <Avatar pseudo={profile.pseudo} url={profile.avatar_url} size={84} />
+            </span>
+          </span>
+          <div className="grid flex-1 grid-cols-3 gap-1 text-center">
+            <div className="py-1">
+              <p className="font-display text-xl font-extrabold text-cream">{counts.followers}</p>
+              <p className="text-[11px] text-cream/60">Abonnés</p>
+            </div>
+            <div className="py-1">
+              <p className="font-display text-xl font-extrabold text-cream">{counts.following}</p>
+              <p className="text-[11px] text-cream/60">Abonnements</p>
+            </div>
+            <div className="py-1">
+              <p className="font-display text-xl font-extrabold text-cream">{prayers.length}</p>
+              <p className="text-[11px] text-cream/60">Sujets</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Nom + grade + bio + versets */}
+        <div className="mt-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <h2 className="flex items-center gap-1.5 font-display text-xl font-extrabold leading-tight text-cream">
+              {profile.pseudo}
+              {profile.verified? <VerifiedBadge className="h-5 w-5" />: null}
+            </h2>
+            {g? (
+              <span className="inline-flex items-center gap-1 rounded-full bg-dawn-400/20 px-2.5 py-0.5 text-[11px] font-bold text-dawn-200">
+                {g.grade.name}
+              </span>
+            ): null}
+          </div>
+          {profile.bio? (
+            <p className="mt-1.5 whitespace-pre-wrap text-sm leading-relaxed text-cream/80">
+              {profile.bio}
+            </p>
+          ): null}
+          {verses.slice(0, 3).map((v, i) => (
+            <p key={i} className="mt-1.5 border-l-2 border-dawn-400 pl-2.5 text-sm italic text-cream/75">
+              «&nbsp;{v.text}&nbsp;»{" "}
+              {v.reference? (
+                <span className="font-semibold not-italic text-dawn-200">— {v.reference}</span>
+              ): null}
+            </p>
+          ))}
+        </div>
+
+        {/* Bouton s'abonner (façon Instagram) */}
+        <div className="mt-5">
           {isMe? (
-            <Link href="/profil" className="btn-ghost">
+            <Link
+              href="/profil"
+              className="block w-full rounded-full border border-white/20 bg-white/10 py-2.5 text-center text-sm font-bold text-cream transition-colors hover:bg-white/20"
+            >
               Modifier mon profil
             </Link>
           ): userId? (
@@ -143,46 +204,27 @@ export function MemberView() {
               type="button"
               onClick={toggleFollow}
               disabled={busy}
-              className={following? "btn-ghost": "btn-primary"}
+              className={`w-full rounded-full py-2.5 text-center text-sm font-bold transition-colors disabled:opacity-60 ${
+                following
+? "border border-white/20 bg-white/10 text-cream hover:bg-white/20"
+: "bg-dawn-400 text-night-900 hover:-translate-y-0.5"
+              }`}
             >
               {following? "Abonné(e) ✓": "S'abonner"}
             </button>
           ): (
-            <Link href="/communaute" className="btn-primary">
+            <Link
+              href="/communaute"
+              className="block w-full rounded-full bg-dawn-400 py-2.5 text-center text-sm font-bold text-night-900"
+            >
               Se connecter pour s'abonner
             </Link>
           )}
         </div>
-
-        {profile.bio? (
-          <p className="mt-5 whitespace-pre-wrap text-[15px] leading-relaxed text-night-900/85">
-            {profile.bio}
-          </p>
-        ): null}
-
-        {verses.length > 0? (
-          <div className="mt-6 space-y-3">
-            <p className="text-xs font-semibold uppercase tracking-wide text-night-900/45">
-              Mes versets
-            </p>
-            {verses.map((v, i) => (
-              <blockquote
-                key={i}
-                className="rounded-2xl border-l-4 border-spirit-500/40 bg-spirit-500/[0.05] px-4 py-3"
-              >
-                <p className="text-[15px] italic leading-relaxed text-night-900/85">« {v.text} »</p>
-                {v.reference? (
-                  <cite className="mt-1 block text-xs font-semibold not-italic text-spirit-700">
-                    {v.reference}
-                  </cite>
-                ): null}
-              </blockquote>
-            ))}
-          </div>
-        ): null}
       </div>
 
-      <div className="mt-8">
+      {/* Son feed: ses sujets de prière */}
+      <div className="mx-auto mt-8 max-w-2xl">
         <h3 className="font-display text-lg font-bold">Ses sujets de prière</h3>
         {prayers.length === 0? (
           <p className="mt-3 text-night-900/55">
@@ -192,7 +234,7 @@ export function MemberView() {
         ): (
           <ul className="mt-3 space-y-3">
             {prayers.map((p) => (
-              <li key={p.id} className="rounded-2xl border border-night-900/10 bg-white p-4">
+              <li key={p.id} className="rounded-2xl border border-night-900/10 bg-white p-4 shadow-sm">
                 <p className="whitespace-pre-wrap text-[15px] leading-relaxed text-night-900/85">
                   {p.body}
                 </p>
