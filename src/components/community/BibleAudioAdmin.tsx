@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { asset } from "@/lib/asset";
-import { uploadBibleChapter } from "@/lib/bible-audio";
+import { uploadBibleChapter, hasBibleNarration } from "@/lib/bible-audio";
 import { uploadAmbientBed } from "@/lib/ambient";
 import { HeadphonesGlyph, MusicGlyph } from "@/components/ui/DevoIcons";
 
@@ -22,6 +22,10 @@ export function BibleAudioAdmin() {
   const [msg, setMsg] = useState("");
   const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // État de la narration: quels livres sont en ligne (test du chapitre 1).
+  const [status, setStatus] = useState<Record<number, boolean>>({});
+  const [checking, setChecking] = useState(false);
 
   // Instrumental de fond (fond musical doux sous la voix).
   const [ambBusy, setAmbBusy] = useState(false);
@@ -46,6 +50,22 @@ export function BibleAudioAdmin() {
 .catch(() => setBooks([]));
   }, []);
 
+  // Vérifie quels livres ont une narration (test du chapitre 1 de chaque livre).
+  const checkStatus = useCallback(async (list: BookIndex[]) => {
+    if (list.length === 0) return;
+    setChecking(true);
+    const entries = await Promise.all(
+      list.map(async (b) => [b.id, await hasBibleNarration(b.id, 1)] as const),
+    );
+    setStatus(Object.fromEntries(entries));
+    setChecking(false);
+  }, []);
+
+  useEffect(() => {
+    if (books.length) checkStatus(books);
+  }, [books, checkStatus]);
+
+  const onlineCount = books.filter((b) => status[b.id]).length;
   const book = books.find((b) => b.id === bookId);
 
   async function handleFiles(files: FileList | null) {
@@ -71,6 +91,7 @@ export function BibleAudioAdmin() {
 ? `✓ ${ok} chapitre${ok > 1? "s": ""} envoyé${ok > 1? "s": ""} pour ${book?.name}.`
 : `${ok}/${list.length} envoyés — vérifie ta connexion et réessaie les manquants.`,
     );
+    checkStatus(books); // met à jour l'état des livres en ligne
   }
 
   return (
@@ -84,6 +105,42 @@ export function BibleAudioAdmin() {
         (le 1<sup>er</sup> fichier = chapitre 1). Une fois en ligne, la lecture se fait en
         arrière-plan avec minuteur. Source libre: Louis Segond 1910 (domaine public).
       </p>
+
+      {/* État de la narration: livres en ligne */}
+      <div className="mt-4 rounded-2xl border border-night-900/10 bg-night-900/[0.02] p-4">
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-sm font-bold text-night-900/80">
+            {checking? "Vérification…": `${onlineCount} / ${books.length} livres en ligne`}
+          </p>
+          <button
+            type="button"
+            onClick={() => checkStatus(books)}
+            disabled={checking}
+            className="text-xs font-semibold text-spirit-600 hover:underline disabled:opacity-50"
+          >
+            Rafraîchir
+          </button>
+        </div>
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {books.map((b) => {
+            const on = status[b.id];
+            return (
+              <span
+                key={b.id}
+                title={on? `${b.name} — en ligne`: `${b.name} — manquant`}
+                className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${
+                  on
+? "bg-dawn-400/25 text-spirit-700 ring-1 ring-dawn-400/50"
+: "bg-night-900/[0.04] text-night-900/40"
+                }`}
+              >
+                {on? "✓ ": ""}
+                {b.name}
+              </span>
+            );
+          })}
+        </div>
+      </div>
 
       <div className="mt-4 flex flex-wrap items-center gap-3">
         <select
