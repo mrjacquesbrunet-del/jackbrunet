@@ -30,12 +30,12 @@ create policy "podcasts_admin_delete" on public.podcasts
 -- Storage : lecture publique + envoi/suppression réservés à l'admin.
 drop policy if exists "audio_public_read" on storage.objects;
 create policy "audio_public_read" on storage.objects
-  for select using (bucket_id = 'audio');
+  for select using (bucket_id = 'audiovf');
 
 drop policy if exists "audio_admin_insert" on storage.objects;
 create policy "audio_admin_insert" on storage.objects
-  for insert with check (bucket_id = 'audio' and public.is_admin());
+  for insert with check (bucket_id = 'audiovf' and public.is_admin());
 
 drop policy if exists "audio_admin_delete" on storage.objects;
 create policy "audio_admin_delete" on storage.objects
-  for delete using (bucket_id = 'audio' and public.is_admin());
+  for delete using (bucket_id = 'audiovf' and public.is_admin());

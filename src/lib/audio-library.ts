@@ -2,6 +2,9 @@
 
 import { getSupabase } from "./supabase";
 
+/** Nom du bucket Storage des podcasts (public). */
+const AUDIO_BUCKET = "audiovf";
+
 export type AudioTrack = {
   id: string;
   title: string;
@@ -43,7 +46,7 @@ export async function listPodcasts(): Promise<AudioTrack[]> {
     .order("created_at", { ascending: true });
   if (error || !data) return [];
   return (data as { id: string; title: string; path: string }[]).map((r) => {
-    const { data: pub } = sb.storage.from("audio").getPublicUrl(r.path);
+    const { data: pub } = sb.storage.from(AUDIO_BUCKET).getPublicUrl(r.path);
     return { id: r.id, title: r.title, url: pub.publicUrl, path: r.path };
   });
 }
@@ -54,13 +57,13 @@ export async function uploadPodcast(file: File): Promise<boolean> {
   if (!sb) return false;
   const key = safeKey(file.name);
   const { error } = await sb.storage
-    .from("audio")
+    .from(AUDIO_BUCKET)
     .upload(key, file, { contentType: file.type || "audio/mpeg", upsert: false });
   if (error) return false;
   const { error: e2 } = await sb.from("podcasts").insert({ title: titleFromName(file.name), path: key });
   if (e2) {
     // rollback du fichier si l'insertion échoue
-    await sb.storage.from("audio").remove([key]);
+    await sb.storage.from(AUDIO_BUCKET).remove([key]);
     return false;
   }
   return true;
@@ -70,6 +73,6 @@ export async function uploadPodcast(file: File): Promise<boolean> {
 export async function deletePodcast(id: string, path: string): Promise<void> {
   const sb = getSupabase();
   if (!sb) return;
-  await sb.storage.from("audio").remove([path]);
+  await sb.storage.from(AUDIO_BUCKET).remove([path]);
   await sb.from("podcasts").delete().eq("id", id);
 }
