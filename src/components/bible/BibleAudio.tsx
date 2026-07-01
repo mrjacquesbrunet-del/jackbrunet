@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { track } from "@/lib/analytics";
-import { hasBibleNarration, bibleBookQueue } from "@/lib/bible-audio";
+import { hasBibleNarration, bibleBookQueue, bibleFullQueue, type BibleBookMeta } from "@/lib/bible-audio";
 import { playQueue, usePodcastPlayer } from "@/lib/podcast-player";
 import { useAmbient, setVoiceActive, ambientKick } from "@/lib/ambient";
 
@@ -21,6 +21,7 @@ export function BibleAudio({
   bookName,
   chapter,
   chapterCount,
+  books = [],
   onVerse,
   variant = "inline",
 }: {
@@ -29,6 +30,8 @@ export function BibleAudio({
   bookName: string;
   chapter: number;
   chapterCount: number;
+  /** Index complet des livres (pour la lecture continue sur toute la Bible). */
+  books?: BibleBookMeta[];
   /** Index (0-based) du verset lu, ou null quand la lecture s'arrête. */
   onVerse: (index: number | null) => void;
   /** "floating" = pilule centrée en bas (mode pleine lecture). */
@@ -174,8 +177,12 @@ export function BibleAudio({
 
   // Lance la narration hébergée via le lecteur global (arrière-plan + minuteur).
   function playNarration() {
-    // Lecture continue: on enchaîne du chapitre courant à la fin du livre.
-    const q = bibleBookQueue(bookId, bookName, chapterCount, chapter);
+    // Lecture continue sur TOUTE la Bible (livre après livre) si l'index est
+    // disponible; sinon repli sur le livre courant.
+    const q =
+      books.length > 0
+? bibleFullQueue(books, bookId, chapter)
+: bibleBookQueue(bookId, bookName, chapterCount, chapter);
     if (q.length) {
       playQueue(q, 0);
       ambientKick();

@@ -159,15 +159,22 @@ export function BibleReader() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [narrating, book, chapter]);
 
-  // Lecture continue: quand la narration passe au chapitre suivant, la lecture
-  // à l'écran suit automatiquement.
+  // Lecture continue: quand la narration passe au chapitre (ou au livre)
+  // suivant, la lecture à l'écran suit automatiquement.
   useEffect(() => {
     const id = pod.current?.id;
-    if (!id ||!book) return;
+    if (!id) return;
     const m = id.match(/^bible:(.+) (\d+)$/);
-    if (m && m[1] === book.name) {
-      const n = Number(m[2]);
-      if (n!== chapter) setChapter(n);
+    if (!m) return;
+    const name = m[1];
+    const n = Number(m[2]);
+    const target = index.find((b) => b.name === name);
+    if (!target) return;
+    if (target.id!== bookId) {
+      setBookId(target.id);
+      setChapter(n);
+    } else if (n!== chapter) {
+      setChapter(n);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pod.current?.id]);
@@ -320,6 +327,7 @@ export function BibleReader() {
             bookName={book?.name?? ""}
             chapter={chapter}
             chapterCount={chapterCount}
+            books={index}
             onVerse={setSpokenVerse}
           />
         </div>
@@ -460,6 +468,7 @@ export function BibleReader() {
             bookName={book?.name?? ""}
             chapter={chapter}
             chapterCount={chapterCount}
+            books={index}
             onVerse={setSpokenVerse}
             variant="floating"
           />

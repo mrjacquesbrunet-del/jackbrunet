@@ -90,6 +90,31 @@ export function bibleBookQueue(
   return out;
 }
 
+export type BibleBookMeta = { id: number; name: string; chapters: number };
+
+/**
+ * File d'attente CONTINUE sur toute la Bible: du chapitre courant jusqu'à la
+ * fin (livre suivant, puis le suivant…). Les chapitres absents sont ignorés
+ * par le lecteur (gestion d'erreur), donc c'est robuste même si incomplet.
+ */
+export function bibleFullQueue(
+  books: BibleBookMeta[],
+  fromBookId: number,
+  fromChapter: number,
+): AudioTrack[] {
+  const out: AudioTrack[] = [];
+  const ordered = [...books].sort((a, b) => a.id - b.id);
+  for (const b of ordered) {
+    if (b.id < fromBookId) continue;
+    const start = b.id === fromBookId? fromChapter: 1;
+    for (let c = start; c <= b.chapters; c++) {
+      const t = bibleTrack(b.id, b.name, c);
+      if (t) out.push(t);
+    }
+  }
+  return out;
+}
+
 /** Construit un « morceau » lisible par le lecteur global à partir d'un chapitre. */
 export function bibleTrack(bookId: number, bookName: string, chapter: number): AudioTrack | null {
   const url = bibleNarrationUrl(bookId, chapter);
