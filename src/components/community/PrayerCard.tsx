@@ -58,6 +58,8 @@ export function PrayerCard({
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState<Comment[] | null>(null);
   const [commentText, setCommentText] = useState("");
+  const [replyTo, setReplyTo] = useState<string | null>(null);
+  const [replyText, setReplyText] = useState("");
   const [busy, setBusy] = useState(false);
   const [answered, setAnswered] = useState(prayer.answered);
   const [pinned, setPinned] = useState(!!prayer.pinned);
@@ -104,6 +106,18 @@ export function PrayerCard({
     await addComment(prayer.id, text, userId);
     await notifyMentions(text, userId, prayer.id);
     setCommentText("");
+    setComments(await listComments(prayer.id));
+    setBusy(false);
+  }
+
+  async function submitReply(parentId: string) {
+    if (!replyText.trim()) return;
+    setBusy(true);
+    const text = replyText.trim();
+    await addComment(prayer.id, text, userId, parentId);
+    await notifyMentions(text, userId, prayer.id);
+    setReplyText("");
+    setReplyTo(null);
     setComments(await listComments(prayer.id));
     setBusy(false);
   }
@@ -271,29 +285,97 @@ export function PrayerCard({
               <p className="text-sm text-night-900/45">Chargement…</p>
             ): (
               <ul className="space-y-3">
-                {comments.map((c) => (
-                  <li key={c.id} className="group flex items-start gap-2.5">
-                    <Avatar pseudo={c.author?.pseudo} url={c.author?.avatar_url} size={30} />
-                    <div className="min-w-0 flex-1 rounded-2xl bg-night-900/[0.04] px-3 py-2">
-                      <p className="flex items-center gap-1 text-xs font-semibold text-night-900/70">
-                        {c.author?.pseudo?? "Ami(e)"}
-                        {c.author?.verified? <VerifiedBadge className="h-3.5 w-3.5" />: null}
-                      </p>
-                      <MentionText text={c.body} className="text-sm text-night-900/85" />
-                    </div>
-                    {isAdmin || c.author_id === userId? (
-                      <button
-                        type="button"
-                        onClick={() => removeComment(c.id)}
-                        aria-label="Supprimer le commentaire"
-                        title={isAdmin && c.author_id!== userId? "Supprimer (modération)": "Supprimer"}
-                        className="shrink-0 text-night-900/25 transition-colors hover:text-night-900/70"
-                      >
-                        ✕
-                      </button>
-                    ): null}
-                  </li>
-                ))}
+                {comments
+.filter((c) =>!c.parent_id)
+.map((c) => {
+                    const replies = comments.filter((r) => r.parent_id === c.id);
+                    return (
+                      <li key={c.id}>
+                        <div className="group flex items-start gap-2.5">
+                          <Avatar pseudo={c.author?.pseudo} url={c.author?.avatar_url} size={30} />
+                          <div className="min-w-0 flex-1">
+                            <div className="rounded-2xl bg-night-900/[0.04] px-3 py-2">
+                              <p className="flex items-center gap-1 text-xs font-semibold text-night-900/70">
+                                {c.author?.pseudo?? "Ami(e)"}
+                                {c.author?.verified? <VerifiedBadge className="h-3.5 w-3.5" />: null}
+                              </p>
+                              <MentionText text={c.body} className="text-sm text-night-900/85" />
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setReplyTo(replyTo === c.id? null: c.id);
+                                setReplyText(c.author?.pseudo? `@${c.author.pseudo} `: "");
+                              }}
+                              className="mt-1 pl-3 text-[11px] font-semibold text-spirit-600 hover:underline"
+                            >
+                              Répondre
+                            </button>
+                          </div>
+                          {isAdmin || c.author_id === userId? (
+                            <button
+                              type="button"
+                              onClick={() => removeComment(c.id)}
+                              aria-label="Supprimer le commentaire"
+                              title={isAdmin && c.author_id!== userId? "Supprimer (modération)": "Supprimer"}
+                              className="shrink-0 text-night-900/25 transition-colors hover:text-night-900/70"
+                            >
+                              ✕
+                            </button>
+                          ): null}
+                        </div>
+
+                        {/* Réponses (indentées) */}
+                        {replies.length > 0? (
+                          <ul className="mt-2 space-y-2 border-l-2 border-night-900/10 pl-3 sm:ml-10">
+                            {replies.map((r) => (
+                              <li key={r.id} className="group flex items-start gap-2">
+                                <Avatar pseudo={r.author?.pseudo} url={r.author?.avatar_url} size={24} />
+                                <div className="min-w-0 flex-1 rounded-2xl bg-night-900/[0.04] px-3 py-1.5">
+                                  <p className="flex items-center gap-1 text-[11px] font-semibold text-night-900/70">
+                                    {r.author?.pseudo?? "Ami(e)"}
+                                    {r.author?.verified? <VerifiedBadge className="h-3 w-3" />: null}
+                                  </p>
+                                  <MentionText text={r.body} className="text-sm text-night-900/85" />
+                                </div>
+                                {isAdmin || r.author_id === userId? (
+                                  <button
+                                    type="button"
+                                    onClick={() => removeComment(r.id)}
+                                    aria-label="Supprimer la réponse"
+                                    className="shrink-0 text-night-900/25 transition-colors hover:text-night-900/70"
+                                  >
+                                    ✕
+                                  </button>
+                                ): null}
+                              </li>
+                            ))}
+                          </ul>
+                        ): null}
+
+                        {/* Champ de réponse */}
+                        {replyTo === c.id? (
+                          <div className="mt-2 flex gap-2 sm:ml-10">
+                            <MentionField
+                              value={replyText}
+                              onChange={setReplyText}
+                              onEnter={() => submitReply(c.id)}
+                              placeholder="Ta réponse…"
+                              className="field w-full text-sm"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => submitReply(c.id)}
+                              disabled={busy ||!replyText.trim()}
+                              className="btn-primary text-sm disabled:opacity-40"
+                            >
+                              Répondre
+                            </button>
+                          </div>
+                        ): null}
+                      </li>
+                    );
+                  })}
                 {comments.length === 0? (
                   <li className="text-sm text-night-900/45">Sois le premier à encourager.</li>
                 ): null}

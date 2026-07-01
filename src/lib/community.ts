@@ -35,6 +35,8 @@ export type Comment = {
   author_id: string;
   body: string;
   created_at: string;
+  /** Réponse à un commentaire (null = commentaire de 1er niveau). */
+  parent_id?: string | null;
   author?: Profile;
 };
 export type Reaction = { prayer_id: string; user_id: string; type: "heart" | "pray" };
@@ -283,10 +285,17 @@ export async function listComments(prayerId: string): Promise<Comment[]> {
   return comments.map((c) => ({...c, author: profs[c.author_id] }));
 }
 
-export async function addComment(prayerId: string, body: string, authorId: string) {
+export async function addComment(
+  prayerId: string,
+  body: string,
+  authorId: string,
+  parentId?: string | null,
+) {
   const sb = getSupabase();
   if (!sb) return;
-  await sb.from("prayer_comments").insert({ prayer_id: prayerId, body, author_id: authorId });
+  await sb
+.from("prayer_comments")
+.insert({ prayer_id: prayerId, body, author_id: authorId, parent_id: parentId?? null });
 }
 
 export async function deleteComment(id: string) {
