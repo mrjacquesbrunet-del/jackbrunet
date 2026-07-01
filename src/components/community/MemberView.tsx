@@ -215,8 +215,12 @@ export function MemberView() {
               </button>
               <Link
                 href={`/messages?u=${memberId}`}
-                className="flex-1 rounded-full border border-white/20 bg-white/10 py-2.5 text-center text-sm font-bold text-cream transition-colors hover:bg-white/20"
+                className="flex flex-1 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 py-2.5 text-center text-sm font-bold text-cream transition-colors hover:bg-white/20"
               >
+                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.8}>
+                  <rect x="3" y="5" width="18" height="14" rx="2" />
+                  <path d="M4 7l8 6 8-6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
                 Message
               </Link>
             </div>
