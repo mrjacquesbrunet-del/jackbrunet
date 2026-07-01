@@ -96,13 +96,14 @@ export function NotificationsBell({
             type="button"
             aria-label="Fermer"
             onClick={() => setOpen(false)}
-            className="fixed inset-0 z-30 cursor-default"
+            className="fixed inset-0 z-[55] cursor-default"
           />
-          <div className="absolute right-0 z-40 mt-2 w-80 max-w-[90vw] overflow-hidden rounded-2xl border border-night-900/10 bg-white shadow-xl">
-            <p className="border-b border-night-900/10 px-4 py-3 font-display font-bold">
+          {/* Mobile: panneau centré en haut (toujours dans l'écran). Desktop: ancré sous la cloche. */}
+          <div className="fixed left-1/2 top-20 z-[60] w-[92vw] max-w-sm -translate-x-1/2 overflow-hidden rounded-2xl border border-night-900/10 bg-white text-left shadow-xl sm:absolute sm:left-auto sm:right-0 sm:top-auto sm:mt-2 sm:w-80 sm:translate-x-0">
+            <p className="border-b border-night-900/10 px-4 py-3 font-display font-bold text-night-900">
               Notifications
             </p>
-            <div className="max-h-96 overflow-y-auto">
+            <div className="max-h-[70vh] overflow-y-auto sm:max-h-96">
               {items === null? (
                 <p className="px-4 py-6 text-sm text-night-900/45">Chargement…</p>
               ): items.length === 0? (

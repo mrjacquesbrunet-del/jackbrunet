@@ -82,6 +82,16 @@ export function ListenScreen() {
     if (pod.current) pod.toggle();
     else if (tracks && tracks.length) pod.playQueue(tracks, 0);
   }
+  // Lecture aléatoire de tous les podcasts (ordre mélangé).
+  function shufflePlay() {
+    if (!tracks || tracks.length === 0) return;
+    const shuffled = [...tracks];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    pod.playQueue(shuffled, 0);
+  }
 
   async function share(t: AudioTrack) {
     const url = `${siteConfig.url}/ecouter?e=${t.id}`;
@@ -155,6 +165,17 @@ export function ListenScreen() {
           <button type="button" onClick={heroPlay} className="btn-primary inline-flex items-center gap-2">
             {pod.playing? <PauseGlyph className="h-5 w-5" />: <PlayGlyph className="h-5 w-5" />}
             {pod.playing? "Pause": "Lire"}
+          </button>
+          <button
+            type="button"
+            onClick={shufflePlay}
+            aria-label="Lecture aléatoire"
+            className="inline-flex items-center gap-2 rounded-full border border-night-900/15 bg-white px-4 py-2.5 text-sm font-semibold text-spirit-700 transition-colors hover:border-night-900/30"
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.9}>
+              <path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            Aléatoire
           </button>
           <Link
             href="/videos"
