@@ -8,6 +8,8 @@ import { HighlighterGlyph } from "@/components/ui/DevoIcons";
 import { CommentaryPanel, type Commentary } from "@/components/bible/CommentaryPanel";
 import { BibleAudio } from "@/components/bible/BibleAudio";
 import { usePodcastPlayer, getPodcastAudio } from "@/lib/podcast-player";
+import { ReadingSettings } from "@/components/bible/ReadingSettings";
+import { useReading, FONT_STACK } from "@/lib/reading-settings";
 
 type BookIndex = { id: number; name: string; chapters: number };
 type Book = { id: number; name: string; chapters: string[][] };
@@ -96,6 +98,7 @@ export function BibleReader() {
 
   // Surlignage du verset pendant la narration MP3 (estimé au prorata de la
   // longueur des versets, faute de repères temps dans le fichier audio).
+  const reading = useReading();
   const pod = usePodcastPlayer();
   const narrId = book? `bible:${book.name} ${chapter}`: "";
   const narrating = pod.current?.id === narrId && narrId!== "";
@@ -182,6 +185,9 @@ export function BibleReader() {
             <path d="M21 21l-4.3-4.3" strokeLinecap="round" />
           </svg>
         </Link>
+
+        {/* Confort de lecture: taille du texte + police */}
+        <ReadingSettings />
       </div>
 
       {/* Accès rapides en haut (visibles): plans thématiques + Bible en 1 an */}
@@ -235,7 +241,14 @@ export function BibleReader() {
       {loading? (
         <p className="mt-6 text-night-900/50">Chargement…</p>
       ): (
-        <div className="mt-6 max-w-2xl space-y-2 text-lg leading-relaxed text-night-900/85">
+        <div
+          className="mt-6 max-w-2xl space-y-2 text-night-900/85"
+          style={{
+            fontFamily: FONT_STACK[reading.font],
+            fontSize: `${1.125 * reading.scale}rem`,
+            lineHeight: 1.65,
+          }}
+        >
           <p className="mb-2 flex items-center gap-1.5 text-xs text-night-900/45">
             <HighlighterGlyph className="h-3.5 w-3.5" />
             Touche un verset pour le surligner, le copier ou l'enregistrer.

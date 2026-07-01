@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import { useToolkit } from "@/lib/toolkit";
+import { useToolkit, HIGHLIGHT_COLORS, highlightBg } from "@/lib/toolkit";
 import { addNote } from "@/lib/notebook";
 import {
   HighlighterGlyph,
@@ -41,7 +41,10 @@ export function Markable({
   const [noteText, setNoteText] = useState("");
   const [noteSaved, setNoteSaved] = useState(false);
 
+  const [showColors, setShowColors] = useState(false);
   const highlighted = tk.isHighlighted(id);
+  const color = tk.highlightColor(id);
+  const noted = tk.isNoted(id);
   const saved = tk.isSaved(id);
 
   function saveNote() {
@@ -56,6 +59,7 @@ export function Markable({
       title: reference? `${reference} · ${dateStr}`: dateStr,
       body: noteText.trim(),
     });
+    tk.markNoted(id); // petit marqueur « note écrite » sur le passage
     setNoteText("");
     setNoting(false);
     setNoteSaved(true);
@@ -85,19 +89,55 @@ export function Markable({
             setOpen((o) =>!o);
           }
         }}
-        className={`cursor-pointer rounded-xl px-2 -mx-2 transition-colors ${
-          highlighted? "bg-dawn-300/45 ring-1 ring-dawn-400/40": "hover:bg-night-900/[0.03]"
+        className={`relative cursor-pointer rounded-xl px-2 -mx-2 transition-colors ${
+          highlighted? `${highlightBg(color)} ring-1 ring-black/5`: "hover:bg-night-900/[0.03]"
         }`}
       >
         {children}
+        {noted? (
+          <span
+            aria-label="Note écrite"
+            title="Une note existe sur ce passage"
+            className="absolute right-0 top-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full bg-spirit-600 text-cream"
+          >
+            <PenGlyph className="h-2.5 w-2.5" />
+          </span>
+        ): null}
       </div>
 
       {open? (
-        <div className="mt-2 flex flex-wrap gap-2">
-          <button type="button" className={chip} onClick={() => tk.toggleHighlight(id)}>
+        <div className="mt-2 flex flex-wrap items-center gap-2">
+          <button type="button" className={chip} onClick={() => setShowColors((c) =>!c)}>
             <HighlighterGlyph className="h-3.5 w-3.5" />
-            {highlighted? "Retirer le surlignage": "Surligner"}
+            Surligner
           </button>
+          {showColors? (
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-night-900/15 bg-white px-2 py-1">
+              {HIGHLIGHT_COLORS.map((c) => (
+                <button
+                  key={c.key}
+                  type="button"
+                  aria-label={c.label}
+                  title={c.label}
+                  onClick={() => tk.highlightWith(id, c.key)}
+                  className={`h-5 w-5 rounded-full ${c.swatch} transition-transform hover:scale-110 ${
+                    highlighted && color === c.key? "ring-2 ring-night-900 ring-offset-1": ""
+                  }`}
+                />
+              ))}
+              {highlighted? (
+                <button
+                  type="button"
+                  aria-label="Retirer le surlignage"
+                  title="Retirer"
+                  onClick={() => tk.clearHighlight(id)}
+                  className="grid h-5 w-5 place-items-center rounded-full border border-night-900/20 text-night-900/50"
+                >
+                  ✕
+                </button>
+              ): null}
+            </span>
+          ): null}
           <button type="button" className={chip} onClick={copy}>
             <CopyGlyph className="h-3.5 w-3.5" />
             {copied? "Copié!": "Copier"}

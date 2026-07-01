@@ -18,10 +18,28 @@ export type Snippet = {
   ts: number;
 };
 
-type State = { highlights: string[]; saved: Snippet[] };
+/** Palette de surlignage (les classes littérales sont vues par Tailwind). */
+export const DEFAULT_HL = "lime";
+export const HIGHLIGHT_COLORS: { key: string; label: string; bg: string; swatch: string }[] = [
+  { key: "lime", label: "Vert", bg: "bg-dawn-300/50", swatch: "bg-dawn-400" },
+  { key: "amber", label: "Jaune", bg: "bg-amber-200/70", swatch: "bg-amber-400" },
+  { key: "rose", label: "Rose", bg: "bg-rose-200/70", swatch: "bg-rose-400" },
+  { key: "sky", label: "Bleu", bg: "bg-sky-200/70", swatch: "bg-sky-400" },
+  { key: "violet", label: "Violet", bg: "bg-violet-200/70", swatch: "bg-violet-400" },
+];
+export function highlightBg(color: string | undefined): string {
+  return HIGHLIGHT_COLORS.find((c) => c.key === color)?.bg?? HIGHLIGHT_COLORS[0].bg;
+}
+
+type State = {
+  highlights: string[];
+  colors: Record<string, string>; // id → couleur du surlignage
+  noted: string[]; // ids ayant une note (petit marqueur)
+  saved: Snippet[];
+};
 
 const KEY = "jb.toolkit.v1";
-const emptyState: State = { highlights: [], saved: [] };
+const emptyState: State = { highlights: [], colors: {}, noted: [], saved: [] };
 
 let state: State = emptyState;
 let loaded = false;
@@ -69,15 +87,44 @@ function commit(next: State) {
 
 export function toggleHighlight(id: string) {
   load();
-  const has = state.highlights.includes(id);
-  commit({
-...state,
-    highlights: has
-? state.highlights.filter((x) => x!== id)
-: [...state.highlights, id],
-  });
-  if (has) sink?.highlightRemove(id);
-  else sink?.highlightAdd(id);
+  if (state.highlights.includes(id)) clearHighlight(id);
+  else highlightWith(id, DEFAULT_HL);
+}
+
+/** Surligne avec une couleur; re-cliquer la même couleur retire le surlignage. */
+export function highlightWith(id: string, color: string) {
+  load();
+  const colors = {...state.colors };
+  if (state.highlights.includes(id) && colors[id] === color) {
+    clearHighlight(id);
+    return;
+  }
+  colors[id] = color;
+  const highlights = state.highlights.includes(id)
+? state.highlights
+: [...state.highlights, id];
+  commit({...state, highlights, colors });
+  sink?.highlightAdd(id);
+}
+
+/** Retire tout surlignage d'un élément. */
+export function clearHighlight(id: string) {
+  load();
+  const colors = {...state.colors };
+  delete colors[id];
+  commit({...state, colors, highlights: state.highlights.filter((x) => x!== id) });
+  sink?.highlightRemove(id);
+}
+
+/** Marque un élément comme « annoté » (petit marqueur dans la lecture). */
+export function markNoted(id: string) {
+  load();
+  if (state.noted.includes(id)) return;
+  commit({...state, noted: [...state.noted, id] });
+}
+export function unmarkNoted(id: string) {
+  load();
+  commit({...state, noted: state.noted.filter((x) => x!== id) });
 }
 
 export function toggleSnippet(s: Omit<Snippet, "ts">) {
@@ -114,8 +161,14 @@ export function useToolkit() {
     highlights: s.highlights,
     saved: s.saved,
     isHighlighted: (id: string) => s.highlights.includes(id),
+    highlightColor: (id: string) => s.colors[id]?? DEFAULT_HL,
+    isNoted: (id: string) => s.noted.includes(id),
     isSaved: (id: string) => s.saved.some((x) => x.id === id),
     toggleHighlight,
+    highlightWith,
+    clearHighlight,
+    markNoted,
+    unmarkNoted,
     toggleSnippet,
     removeSnippet,
   };
