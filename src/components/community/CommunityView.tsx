@@ -145,6 +145,7 @@ function Feed({
       </div>
 
       <section className="container-x -mt-6 pb-12">
+      <div className="mx-auto max-w-2xl">
       {/* Module de profil (charte olive) + partage d'un sujet en extension */}
       <div className="dark-ctx bg-topo-dark rounded-4xl border border-white/10 text-cream shadow-card">
         {/* En-tête profil */}
@@ -347,6 +348,7 @@ function Feed({
           </div>
           <span className="shrink-0 text-2xl transition-transform group-hover:translate-x-1">→</span>
         </Link>
+      </div>
       </div>
       </section>
     </>
