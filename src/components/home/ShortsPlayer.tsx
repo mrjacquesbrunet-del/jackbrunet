@@ -23,7 +23,8 @@ export function ShortsPlayer({
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const frames = useRef<Record<number, HTMLIFrameElement | null>>({});
   const [active, setActive] = useState(startIndex);
-  const [soundOn, setSoundOn] = useState(false);
+  const [soundIndex, setSoundIndex] = useState(-1); // vidéo qui a le son
+  const [everOn, setEverOn] = useState(false);
 
   function post(i: number, jb: string) {
     frames.current[i]?.contentWindow?.postMessage({ jb }, "*");
@@ -65,16 +66,17 @@ export function ShortsPlayer({
       const i = Number(key);
       if (i === active) {
         post(i, "play");
-        post(i, soundOn ? "unmute" : "mute");
+        post(i, i === soundIndex ? "unmute" : "mute");
       } else {
         post(i, "pause");
         post(i, "mute");
       }
     }
-  }, [active, soundOn]);
+  }, [active, soundIndex]);
 
-  function enableSound() {
-    setSoundOn(true);
+  function enableSoundHere() {
+    setSoundIndex(active);
+    setEverOn(true);
     post(active, "play");
     post(active, "unmute");
   }
@@ -174,11 +176,11 @@ export function ShortsPlayer({
                   />
                 )}
 
-                {/* Touche claire pour activer le son (une seule fois) */}
-                {i === active && !soundOn ? (
+                {/* 1re fois : grande invite plein écran */}
+                {i === active && i !== soundIndex && !everOn ? (
                   <button
                     type="button"
-                    onClick={enableSound}
+                    onClick={enableSoundHere}
                     aria-label="Activer le son"
                     className="absolute inset-0 z-[15] flex flex-col items-center justify-center gap-3 bg-night-950/30 transition-colors active:bg-night-950/45"
                   >
@@ -191,11 +193,24 @@ export function ShortsPlayer({
                   </button>
                 ) : null}
 
-                {/* Bouton couper le son (une fois activé) */}
-                {i === active && soundOn ? (
+                {/* Vidéos suivantes : petite pastille « activer le son » */}
+                {i === active && i !== soundIndex && everOn ? (
                   <button
                     type="button"
-                    onClick={() => setSoundOn(false)}
+                    onClick={enableSoundHere}
+                    aria-label="Activer le son"
+                    className="absolute left-1/2 top-4 z-[15] inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-night-950/70 px-3.5 py-2 text-sm font-bold text-cream backdrop-blur active:bg-night-950/85"
+                  >
+                    <SoundOffIcon className="h-4 w-4" />
+                    Touche pour le son
+                  </button>
+                ) : null}
+
+                {/* Son actif : bouton pour couper */}
+                {i === active && i === soundIndex ? (
+                  <button
+                    type="button"
+                    onClick={() => setSoundIndex(-1)}
                     aria-label="Couper le son"
                     className="absolute left-3 top-3 z-[15] grid h-10 w-10 place-items-center rounded-full bg-night-950/55 text-cream backdrop-blur transition-colors active:bg-night-950/75"
                   >

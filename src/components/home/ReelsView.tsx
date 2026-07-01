@@ -8,17 +8,20 @@ import { videoEmbedSrc } from "@/lib/youtube";
  * Feed vertical façon « Reels » pour l'onglet Vidéos.
  *
  * - Les vidéos voisines sont préchargées (lecteurs YouTube gardés en mémoire).
- * - Au swipe, on lance la lecture de la vidéo active (et on met les autres en
- *   pause) via des messages envoyés au lecteur — sans recharger la vidéo.
- * - Le son démarre coupé (contrainte iOS). Une seule touche « active le son »,
- *   puis il reste activé sur toutes les vidéos suivantes.
+ * - Au swipe, on lance la lecture de la vidéo active et on met les autres en
+ *   pause, sans recharger.
+ * - Le son : iOS interdit de le garder automatiquement d'une vidéo YouTube à
+ *   l'autre (chaque cadre exige son propre geste). On propose donc un bouton
+ *   « son » qui réapparaît sur chaque vidéo (compact après la 1re fois) : un
+ *   appui suffit à activer le son sur la vidéo en cours.
  */
 export function ReelsView({ shorts }: { shorts: Short[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const frames = useRef<Record<number, HTMLIFrameElement | null>>({});
   const [active, setActive] = useState(0);
-  const [soundOn, setSoundOn] = useState(false);
+  const [soundIndex, setSoundIndex] = useState(-1); // vidéo qui a le son (-1 = aucune)
+  const [everOn, setEverOn] = useState(false);
 
   function post(i: number, jb: string) {
     frames.current[i]?.contentWindow?.postMessage({ jb }, "*");
@@ -49,17 +52,18 @@ export function ReelsView({ shorts }: { shorts: Short[] }) {
       const i = Number(key);
       if (i === active) {
         post(i, "play");
-        post(i, soundOn ? "unmute" : "mute");
+        post(i, i === soundIndex ? "unmute" : "mute");
       } else {
         post(i, "pause");
         post(i, "mute");
       }
     }
-  }, [active, soundOn]);
+  }, [active, soundIndex]);
 
-  function enableSound() {
-    setSoundOn(true);
-    // Dans le geste utilisateur : meilleure chance que iOS autorise le son.
+  function enableSoundHere() {
+    setSoundIndex(active);
+    setEverOn(true);
+    // Dans le geste utilisateur : iOS autorise le son sur la vidéo en cours.
     post(active, "play");
     post(active, "unmute");
   }
@@ -80,6 +84,9 @@ export function ReelsView({ shorts }: { shorts: Short[] }) {
     >
       {shorts.map((s, i) => {
         const near = Math.abs(i - active) <= 1; // fenêtre préchargée
+        const isActive = i === active;
+        const hasSound = isActive && i === soundIndex;
+        const needsSound = isActive && i !== soundIndex;
         return (
           <div
             key={s.id}
@@ -97,7 +104,7 @@ export function ReelsView({ shorts }: { shorts: Short[] }) {
                     frames.current[i] = el;
                   }}
                   className="absolute inset-0 h-full w-full"
-                  src={videoEmbedSrc(s.id, { autoplay: i === active, mute: true, loop: true })}
+                  src={videoEmbedSrc(s.id, { autoplay: isActive, mute: true, loop: true })}
                   title={s.title}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
@@ -112,11 +119,11 @@ export function ReelsView({ shorts }: { shorts: Short[] }) {
                 />
               )}
 
-              {/* Touche claire pour activer le son (une seule fois) */}
-              {i === active && !soundOn ? (
+              {/* 1re fois : grande invite plein écran */}
+              {needsSound && !everOn ? (
                 <button
                   type="button"
-                  onClick={enableSound}
+                  onClick={enableSoundHere}
                   aria-label="Activer le son"
                   className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-night-950/30 transition-colors active:bg-night-950/45"
                 >
@@ -129,11 +136,24 @@ export function ReelsView({ shorts }: { shorts: Short[] }) {
                 </button>
               ) : null}
 
-              {/* Bouton couper le son (une fois activé) */}
-              {i === active && soundOn ? (
+              {/* Vidéos suivantes : petite pastille « activer le son » */}
+              {needsSound && everOn ? (
                 <button
                   type="button"
-                  onClick={() => setSoundOn(false)}
+                  onClick={enableSoundHere}
+                  aria-label="Activer le son"
+                  className="absolute left-1/2 top-4 z-20 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-night-950/70 px-3.5 py-2 text-sm font-bold text-cream backdrop-blur active:bg-night-950/85"
+                >
+                  <SoundOffIcon className="h-4 w-4" />
+                  Touche pour le son
+                </button>
+              ) : null}
+
+              {/* Son actif : bouton pour couper */}
+              {hasSound ? (
+                <button
+                  type="button"
+                  onClick={() => setSoundIndex(-1)}
                   aria-label="Couper le son"
                   className="absolute right-3 top-3 z-20 grid h-10 w-10 place-items-center rounded-full bg-night-950/55 text-cream backdrop-blur transition-colors active:bg-night-950/75"
                 >
