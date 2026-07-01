@@ -37,7 +37,7 @@ export function MemberView() {
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
 
-  const isMe = !!userId && !!memberId && userId === memberId;
+  const isMe =!!userId &&!!memberId && userId === memberId;
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -46,7 +46,7 @@ export function MemberView() {
     let p: Profile | null = null;
     if (!id && paramPseudo) {
       p = await getProfileByPseudo(paramPseudo);
-      id = p?.id ?? null;
+      id = p?.id?? null;
     }
     setMemberId(id);
     if (!id) {
@@ -55,7 +55,7 @@ export function MemberView() {
       return;
     }
     const [prof, c, pr, act] = await Promise.all([
-      p ? Promise.resolve(p) : getProfile(id),
+      p? Promise.resolve(p): getProfile(id),
       followCounts(id),
       listPrayersByAuthor(id),
       getActivity(id),
@@ -64,7 +64,7 @@ export function MemberView() {
     setCounts(c);
     setPrayers(pr);
     setActivity(act);
-    if (userId && userId !== id) setFollowing(await isFollowing(id, userId));
+    if (userId && userId!== id) setFollowing(await isFollowing(id, userId));
     setLoading(false);
   }, [paramId, paramPseudo, userId]);
 
@@ -73,11 +73,11 @@ export function MemberView() {
   }, [ready, load]);
 
   async function toggleFollow() {
-    if (!userId || !memberId) return;
+    if (!userId ||!memberId) return;
     setBusy(true);
-    const next = !following;
+    const next =!following;
     setFollowing(next);
-    setCounts((c) => ({ ...c, followers: c.followers + (next ? 1 : -1) }));
+    setCounts((c) => ({...c, followers: c.followers + (next? 1: -1) }));
     if (next) await follow(memberId, userId);
     else await unfollow(memberId, userId);
     setBusy(false);
@@ -90,7 +90,7 @@ export function MemberView() {
       </section>
     );
   }
-  if (!paramId && !paramPseudo) {
+  if (!paramId &&!paramPseudo) {
     return (
       <section className="container-x py-16 text-center text-night-900/60">
         Membre introuvable.{" "}
@@ -112,7 +112,7 @@ export function MemberView() {
     );
   }
 
-  const verses = profile.favorite_verses ?? [];
+  const verses = profile.favorite_verses?? [];
 
   return (
     <section className="container-x py-10">
@@ -123,44 +123,44 @@ export function MemberView() {
             <div className="flex flex-wrap items-center gap-2">
               <h2 className="flex items-center gap-1.5 font-display text-2xl font-extrabold leading-tight">
                 {profile.pseudo}
-                {profile.verified ? <VerifiedBadge className="h-5 w-5" /> : null}
+                {profile.verified? <VerifiedBadge className="h-5 w-5" />: null}
               </h2>
-              {activity ? <GradeBadge activity={activity} /> : null}
+              {activity? <GradeBadge activity={activity} />: null}
             </div>
             <p className="mt-1 text-sm text-night-900/55">
               <strong className="text-night-900/80">{counts.followers}</strong> abonné
-              {counts.followers > 1 ? "s" : ""} ·{" "}
+              {counts.followers > 1? "s": ""} ·{" "}
               <strong className="text-night-900/80">{counts.following}</strong> abonnement
-              {counts.following > 1 ? "s" : ""}
+              {counts.following > 1? "s": ""}
             </p>
           </div>
-          {isMe ? (
+          {isMe? (
             <Link href="/profil" className="btn-ghost">
               Modifier mon profil
             </Link>
-          ) : userId ? (
+          ): userId? (
             <button
               type="button"
               onClick={toggleFollow}
               disabled={busy}
-              className={following ? "btn-ghost" : "btn-primary"}
+              className={following? "btn-ghost": "btn-primary"}
             >
-              {following ? "Abonné(e) ✓" : "S'abonner"}
+              {following? "Abonné(e) ✓": "S'abonner"}
             </button>
-          ) : (
+          ): (
             <Link href="/communaute" className="btn-primary">
               Se connecter pour s'abonner
             </Link>
           )}
         </div>
 
-        {profile.bio ? (
+        {profile.bio? (
           <p className="mt-5 whitespace-pre-wrap text-[15px] leading-relaxed text-night-900/85">
             {profile.bio}
           </p>
-        ) : null}
+        ): null}
 
-        {verses.length > 0 ? (
+        {verses.length > 0? (
           <div className="mt-6 space-y-3">
             <p className="text-xs font-semibold uppercase tracking-wide text-night-900/45">
               Mes versets
@@ -171,25 +171,25 @@ export function MemberView() {
                 className="rounded-2xl border-l-4 border-spirit-500/40 bg-spirit-500/[0.05] px-4 py-3"
               >
                 <p className="text-[15px] italic leading-relaxed text-night-900/85">« {v.text} »</p>
-                {v.reference ? (
+                {v.reference? (
                   <cite className="mt-1 block text-xs font-semibold not-italic text-spirit-700">
                     {v.reference}
                   </cite>
-                ) : null}
+                ): null}
               </blockquote>
             ))}
           </div>
-        ) : null}
+        ): null}
       </div>
 
       <div className="mt-8">
         <h3 className="font-display text-lg font-bold">Ses sujets de prière</h3>
-        {prayers.length === 0 ? (
+        {prayers.length === 0? (
           <p className="mt-3 text-night-900/55">
             Aucun sujet visible pour l'instant.
-            {!isMe && !following ? " Abonne-toi pour voir ses prières réservées à ses abonnés." : ""}
+            {!isMe &&!following? " Abonne-toi pour voir ses prières réservées à ses abonnés.": ""}
           </p>
-        ) : (
+        ): (
           <ul className="mt-3 space-y-3">
             {prayers.map((p) => (
               <li key={p.id} className="rounded-2xl border border-night-900/10 bg-white p-4">
@@ -198,7 +198,7 @@ export function MemberView() {
                 </p>
                 <p className="mt-2 text-xs text-night-900/45">
                   {new Date(p.created_at).toLocaleDateString("fr-FR")}
-                  {p.answered ? " · Exaucé 🙌" : ""}
+                  {p.answered? " · Exaucé": ""}
                 </p>
               </li>
             ))}

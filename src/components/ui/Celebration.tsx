@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
+import { HandsGlyph } from "./DevoIcons";
 
 /** Petite modale de célébration animée, réutilisable (badges, prière exaucée…). */
 export function Celebration({
@@ -8,11 +9,12 @@ export function Celebration({
   emoji,
   title,
   message,
-  cta = "Amen 🙏",
+  cta = "Amen",
   onClose,
 }: {
   open: boolean;
-  emoji: string;
+  /** Optionnel: laissé vide, un médaillon de la charte (mains en prière) s'affiche. */
+  emoji?: string;
   title: string;
   message: string;
   cta?: string;
@@ -20,7 +22,7 @@ export function Celebration({
 }) {
   return (
     <AnimatePresence>
-      {open ? (
+      {open? (
         <motion.div
           className="fixed inset-0 z-[120] grid place-items-center bg-night-950/70 p-6 backdrop-blur-sm"
           initial={{ opacity: 0 }}
@@ -37,12 +39,16 @@ export function Celebration({
             onClick={(e) => e.stopPropagation()}
           >
             <motion.div
-              className="text-6xl"
+              className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-dawn-400 text-night-900 shadow-sm"
               initial={{ scale: 0, rotate: -20 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ delay: 0.1, type: "spring", stiffness: 260 }}
             >
-              {emoji}
+              {emoji? (
+                <span className="text-5xl leading-none">{emoji}</span>
+              ): (
+                <HandsGlyph className="h-11 w-11" />
+              )}
             </motion.div>
             <p className="mt-3 font-display text-2xl font-extrabold">{title}</p>
             <p className="mt-2 text-sm text-night-900/65">{message}</p>
@@ -51,7 +57,7 @@ export function Celebration({
             </button>
           </motion.div>
         </motion.div>
-      ) : null}
+      ): null}
     </AnimatePresence>
   );
 }

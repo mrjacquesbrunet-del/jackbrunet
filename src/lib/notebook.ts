@@ -3,7 +3,7 @@
 import { useSyncExternalStore } from "react";
 
 /**
- * Carnet de notes personnel, 100 % sur l'appareil (localStorage) :
+ * Carnet de notes personnel, 100 % sur l'appareil (localStorage):
  * sujets de prière, paroles reçues, notes libres.
  */
 
@@ -72,13 +72,13 @@ export function addNote(input: { category: NoteCategory; title: string; body: st
     body: input.body.trim(),
     ts: Date.now(),
   };
-  commit([note, ...notes]);
+  commit([note,...notes]);
   sink?.upsert(note);
 }
 
 export function updateNote(id: string, patch: Partial<Omit<Note, "id">>) {
   load();
-  const next = notes.map((n) => (n.id === id ? { ...n, ...patch, ts: Date.now() } : n));
+  const next = notes.map((n) => (n.id === id? {...n,...patch, ts: Date.now() }: n));
   commit(next);
   const updated = next.find((n) => n.id === id);
   if (updated) sink?.upsert(updated);
@@ -86,13 +86,13 @@ export function updateNote(id: string, patch: Partial<Omit<Note, "id">>) {
 
 export function removeNote(id: string) {
   load();
-  commit(notes.filter((n) => n.id !== id));
+  commit(notes.filter((n) => n.id!== id));
   sink?.remove(id);
 }
 
 export function toggleAnswered(id: string) {
   load();
-  const next = notes.map((n) => (n.id === id ? { ...n, answered: !n.answered } : n));
+  const next = notes.map((n) => (n.id === id? {...n, answered:!n.answered }: n));
   commit(next);
   const updated = next.find((n) => n.id === id);
   if (updated) sink?.upsert(updated);

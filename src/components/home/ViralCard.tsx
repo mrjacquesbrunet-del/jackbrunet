@@ -5,14 +5,14 @@ import { useToolkit } from "@/lib/toolkit";
 import { BookmarkGlyph, BookmarkFilledGlyph } from "@/components/ui/DevoIcons";
 
 /**
- * Carte « virale » : une punchline percutante, joliment mise en page, que le
+ * Carte « virale »: une punchline percutante, joliment mise en page, que le
  * visiteur peut partager en image (story Instagram, WhatsApp…) ou télécharger.
  */
 export function ViralCard({ punchline, id }: { punchline: string; id?: string }) {
   const [busy, setBusy] = useState(false);
   const [copied, setCopied] = useState(false);
   const tk = useToolkit();
-  const saved = id ? tk.isSaved(id) : false;
+  const saved = id? tk.isSaved(id): false;
 
   async function buildImage(): Promise<Blob | null> {
     const W = 1080;
@@ -53,7 +53,7 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
     const lines: string[] = [];
     let line = "";
     for (const w of words) {
-      const test = line ? `${line} ${w}` : w;
+      const test = line? `${line} ${w}`: w;
       if (ctx.measureText(test).width > maxWidth && line) {
         lines.push(line);
         line = w;
@@ -65,7 +65,7 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
     const startY = H / 2 - ((lines.length - 1) * lineHeight) / 2;
     lines.forEach((l, i) => ctx.fillText(l, 100, startY + i * lineHeight));
 
-    // Pied : wordmark + url
+    // Pied: wordmark + url
     ctx.textBaseline = "alphabetic";
     ctx.fillStyle = "#CAF000";
     ctx.font = '700 34px Arial, sans-serif';
@@ -158,28 +158,28 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
       {/* Actions */}
       <div className="mt-4 flex flex-wrap gap-2">
         <button type="button" onClick={share} disabled={busy} className="btn-primary text-sm">
-          {busy ? "Un instant…" : "Partager la carte"}
+          {busy? "Un instant…": "Partager la carte"}
         </button>
         <button type="button" onClick={downloadImage} disabled={busy} className="btn-ghost text-sm">
           Télécharger l'image
         </button>
         <button type="button" onClick={copyText} className="btn-ghost text-sm">
-          {copied ? "Copié !" : "Copier le texte"}
+          {copied? "Copié!": "Copier le texte"}
         </button>
-        {id ? (
+        {id? (
           <button
             type="button"
             onClick={() => tk.toggleSnippet({ id, text: punchline, kind: "punchline" })}
             className="btn-ghost inline-flex items-center gap-1.5 text-sm"
           >
-            {saved ? (
+            {saved? (
               <BookmarkFilledGlyph className="h-4 w-4 text-dawn-300" />
-            ) : (
+            ): (
               <BookmarkGlyph className="h-4 w-4" />
             )}
-            {saved ? "Enregistré" : "Enregistrer"}
+            {saved? "Enregistré": "Enregistrer"}
           </button>
-        ) : null}
+        ): null}
       </div>
     </div>
   );

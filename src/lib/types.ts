@@ -1,7 +1,7 @@
 /**
  * Types du domaine.
  *
- * Volontairement découplés de la source de données : aujourd'hui les contenus
+ * Volontairement découplés de la source de données: aujourd'hui les contenus
  * viennent de `content.ts`, demain ils pourront venir d'un CMS ou d'une API
  * consommée à l'identique par le site et l'application mobile.
  */
@@ -72,7 +72,7 @@ export type Product = {
   cover: string; // dégradé tailwind (fallback si pas d'image)
   image?: string; // photo du produit (uploadable au CMS)
   badge?: string;
-  available?: boolean; // disponible à la vente ?
+  available?: boolean; // disponible à la vente?
 };
 
 export type SupportTier = {

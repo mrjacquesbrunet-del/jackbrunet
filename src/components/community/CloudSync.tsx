@@ -6,7 +6,7 @@ import { enableCloudSync, disableCloudSync } from "@/lib/cloud-sync";
 import { captureEmail } from "@/lib/email-capture";
 
 /**
- * Monté dans le layout : dès qu'un membre est connecté, synchronise
+ * Monté dans le layout: dès qu'un membre est connecté, synchronise
  * son carnet/versets/plans ET ajoute son email à la liste de contacts
  * Brevo (récupération automatique de tous les emails inscrits).
  */

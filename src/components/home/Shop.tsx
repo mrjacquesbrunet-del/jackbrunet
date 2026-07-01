@@ -36,14 +36,14 @@ export function Shop() {
             {/* Couverture */}
             <div className="relative mx-auto w-full max-w-xs">
               <div className="absolute -inset-3 rounded-3xl bg-dawn-400/20 blur-2xl" />
-              {cover ? (
+              {cover? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={cover}
-                  alt={book?.title ?? "RHEMA"}
+                  alt={book?.title?? "RHEMA"}
                   className="relative w-full rounded-2xl shadow-card"
                 />
-              ) : null}
+              ): null}
               <span className="absolute left-4 top-4 rounded-full bg-night-950/80 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-dawn-300 backdrop-blur">
                 Bientôt disponible
               </span>
@@ -65,7 +65,7 @@ export function Shop() {
                 pour chaque jour de l'année.
               </p>
               <p className="mt-3 text-night-900/75">
-                Le but est simple : t'amener, jour après jour, dans une véritable
+                Le but est simple: t'amener, jour après jour, dans une véritable
                 méditation de la Parole, jusqu'à ce qu'elle prenne racine dans ta vie.
               </p>
 
@@ -93,7 +93,7 @@ export function Shop() {
           </div>
         </Reveal>
 
-        {/* Cadeau exclusif : les 7 premières méditations en ebook */}
+        {/* Cadeau exclusif: les 7 premières méditations en ebook */}
         <Reveal delay={0.15}>
           <div className="dark-ctx mt-8 grid items-center gap-6 rounded-4xl border border-dawn-500/40 bg-night-900 p-7 text-cream sm:p-9 lg:grid-cols-[1fr_auto] lg:gap-10">
             <div>
@@ -102,7 +102,7 @@ export function Shop() {
                 Reçois les <span className="text-gradient">7 premières méditations</span> en ebook
               </h3>
               <p className="mt-2 max-w-xl text-cream/70">
-                Goûte à RHEMA dès maintenant : je t'offre les 7 premières méditations
+                Goûte à RHEMA dès maintenant: je t'offre les 7 premières méditations
                 du livre, en format ebook. Laisse ton email, je te les envoie tout de suite.
               </p>
             </div>

@@ -37,7 +37,7 @@ export function CommunityView() {
         <div className="glass-strong mx-auto max-w-xl p-8 text-center">
           <p className="font-display text-xl font-bold">Mur de prière bientôt disponible</p>
           <p className="mt-2 text-night-900/65">
-            La connexion n'est pas encore activée. Reviens très vite !
+            La connexion n'est pas encore activée. Reviens très vite!
           </p>
         </div>
       </section>
@@ -74,14 +74,14 @@ function Feed({
   const [visibility, setVisibility] = useState<Visibility>("public");
   const [posting, setPosting] = useState(false);
   const [editPseudo, setEditPseudo] = useState(false);
-  const [pseudoVal, setPseudoVal] = useState(profile?.pseudo ?? "");
+  const [pseudoVal, setPseudoVal] = useState(profile?.pseudo?? "");
   const [pseudoErr, setPseudoErr] = useState("");
   const [tab, setTab] = useState<"all" | "following">("all");
   const [search, setSearch] = useState("");
 
   const load = useCallback(async () => {
     setLoading(true);
-    const ps = tab === "following" ? await listFollowingFeed(userId) : await listPrayers();
+    const ps = tab === "following"? await listFollowingFeed(userId): await listPrayers();
     setPrayers(ps);
     setReactions(await reactionsFor(ps.map((p) => p.id)));
     setLoading(false);
@@ -92,7 +92,7 @@ function Feed({
   }, [load]);
 
   useEffect(() => {
-    setPseudoVal(profile?.pseudo ?? "");
+    setPseudoVal(profile?.pseudo?? "");
   }, [profile?.pseudo]);
 
   async function post() {
@@ -108,7 +108,7 @@ function Feed({
 
   async function savePseudo() {
     const p = pseudoVal.trim() || "Ami(e)";
-    if (isReservedPseudo(p) && !admin) {
+    if (isReservedPseudo(p) &&!admin) {
       setPseudoErr("Ce pseudo est réservé à Pasteur Jack Brunet.");
       return;
     }
@@ -124,7 +124,7 @@ function Feed({
 
   // Recherche dans les sujets de prière (filtre le fil affiché).
   const q = search.trim().toLowerCase();
-  const shown = q ? prayers.filter((p) => p.body.toLowerCase().includes(q)) : prayers;
+  const shown = q? prayers.filter((p) => p.body.toLowerCase().includes(q)): prayers;
 
   return (
     <>
@@ -148,7 +148,7 @@ function Feed({
       <div className="glass-strong flex items-center gap-3 p-4 shadow-card">
         <Avatar pseudo={profile?.pseudo} url={profile?.avatar_url} />
         <div className="min-w-0 flex-1">
-          {editPseudo ? (
+          {editPseudo? (
             <div>
               <div className="flex gap-2">
                 <input
@@ -164,11 +164,11 @@ function Feed({
                   OK
                 </button>
               </div>
-              {pseudoErr ? <p className="field-error mt-1">{pseudoErr}</p> : null}
+              {pseudoErr? <p className="field-error mt-1">{pseudoErr}</p>: null}
             </div>
-          ) : (
+          ): (
             <p className="font-display font-bold leading-tight">
-              {profile?.pseudo ?? "Ami(e)"}{" "}
+              {profile?.pseudo?? "Ami(e)"}{" "}
               <button
                 type="button"
                 onClick={() => setEditPseudo(true)}
@@ -216,10 +216,10 @@ function Feed({
           <button
             type="button"
             onClick={post}
-            disabled={posting || !body.trim()}
+            disabled={posting ||!body.trim()}
             className="btn-primary ml-auto disabled:opacity-40"
           >
-            {posting ? "Publication…" : "Publier"}
+            {posting? "Publication…": "Publier"}
           </button>
         </div>
       </div>
@@ -242,7 +242,7 @@ function Feed({
             type="button"
             onClick={() => setTab(key)}
             className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
-              tab === key ? "bg-white text-night-900 shadow-sm" : "text-night-900/55 hover:text-night-900/80"
+              tab === key? "bg-white text-night-900 shadow-sm": "text-night-900/55 hover:text-night-900/80"
             }`}
           >
             {lbl}
@@ -271,17 +271,17 @@ function Feed({
 
       {/* Fil */}
       <div className="mt-5">
-        {loading ? (
+        {loading? (
           <p className="text-night-900/50">Chargement du fil…</p>
-        ) : shown.length === 0 ? (
+        ): shown.length === 0? (
           <p className="text-night-900/55">
             {q
-              ? "Aucun sujet ne correspond à ta recherche."
-              : tab === "following"
-                ? "Abonne-toi à des membres pour voir leurs prières ici."
-                : "Aucune prière pour l'instant. Sois le premier à partager. 🙏"}
+? "Aucun sujet ne correspond à ta recherche."
+: tab === "following"
+? "Abonne-toi à des membres pour voir leurs prières ici."
+: "Aucune prière pour l'instant. Sois le premier à partager."}
           </p>
-        ) : (
+        ): (
           <ul className="space-y-4">
             {shown.map((p) => (
               <PrayerCard

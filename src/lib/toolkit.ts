@@ -3,10 +3,10 @@
 import { useSyncExternalStore } from "react";
 
 /**
- * « Boîte à outils » dévotionnelle, 100 % sur l'appareil (localStorage) :
+ * « Boîte à outils » dévotionnelle, 100 % sur l'appareil (localStorage):
  * surlignages + extraits enregistrés (versets, méditations, punchlines…).
  *
- * Store externe partagé : tous les composants Markable et la bibliothèque
+ * Store externe partagé: tous les composants Markable et la bibliothèque
  * restent synchronisés instantanément.
  */
 
@@ -51,7 +51,7 @@ function load() {
   loaded = true;
   try {
     const raw = localStorage.getItem(KEY);
-    if (raw) state = { ...emptyState, ...(JSON.parse(raw) as Partial<State>) };
+    if (raw) state = {...emptyState,...(JSON.parse(raw) as Partial<State>) };
   } catch {
     /* stockage indisponible */
   }
@@ -71,10 +71,10 @@ export function toggleHighlight(id: string) {
   load();
   const has = state.highlights.includes(id);
   commit({
-    ...state,
+...state,
     highlights: has
-      ? state.highlights.filter((x) => x !== id)
-      : [...state.highlights, id],
+? state.highlights.filter((x) => x!== id)
+: [...state.highlights, id],
   });
   if (has) sink?.highlightRemove(id);
   else sink?.highlightAdd(id);
@@ -84,18 +84,18 @@ export function toggleSnippet(s: Omit<Snippet, "ts">) {
   load();
   const has = state.saved.some((x) => x.id === s.id);
   if (has) {
-    commit({ ...state, saved: state.saved.filter((x) => x.id !== s.id) });
+    commit({...state, saved: state.saved.filter((x) => x.id!== s.id) });
     sink?.snippetRemove(s.id);
   } else {
-    const snip: Snippet = { ...s, ts: Date.now() };
-    commit({ ...state, saved: [snip, ...state.saved] });
+    const snip: Snippet = {...s, ts: Date.now() };
+    commit({...state, saved: [snip,...state.saved] });
     sink?.snippetUpsert(snip);
   }
 }
 
 export function removeSnippet(id: string) {
   load();
-  commit({ ...state, saved: state.saved.filter((x) => x.id !== id) });
+  commit({...state, saved: state.saved.filter((x) => x.id!== id) });
   sink?.snippetRemove(id);
 }
 

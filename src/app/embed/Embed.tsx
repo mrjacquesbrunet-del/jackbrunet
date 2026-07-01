@@ -14,10 +14,10 @@ declare global {
  * Lecteur YouTube plein écran, hébergé sur le site (origine valide pour
  * YouTube → pas d'« Erreur 153 »). Chargé en iframe par l'app pour une lecture
  * INLINE. Utilise l'API IFrame de YouTube et écoute des commandes envoyées par
- * l'app (postMessage) : play / pause / mute / unmute. Cela permet au fil Reels
+ * l'app (postMessage): play / pause / mute / unmute. Cela permet au fil Reels
  * de lancer la lecture + le son au swipe, sans recharger la vidéo.
  *
- * Paramètres d'URL : v (id), a (autoplay), m (mute), l (loop).
+ * Paramètres d'URL: v (id), a (autoplay), m (mute), l (loop).
  */
 export function Embed() {
   const holderRef = useRef<HTMLDivElement>(null);
@@ -34,7 +34,7 @@ export function Embed() {
 
     function run(cmd: { jb: string }) {
       const pl = playerRef.current;
-      if (!pl || !pl.playVideo) {
+      if (!pl ||!pl.playVideo) {
         pending.current.push(cmd);
         return;
       }
@@ -62,10 +62,10 @@ export function Embed() {
       playerRef.current = new window.YT.Player(holderRef.current, {
         videoId: id,
         playerVars: {
-          autoplay: autoplay ? 1 : 0,
-          mute: mute ? 1 : 0,
-          loop: loop ? 1 : 0,
-          playlist: loop ? id : undefined,
+          autoplay: autoplay? 1: 0,
+          mute: mute? 1: 0,
+          loop: loop? 1: 0,
+          playlist: loop? id: undefined,
           controls: 0,
           rel: 0,
           modestbranding: 1,

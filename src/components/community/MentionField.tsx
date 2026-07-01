@@ -5,7 +5,7 @@ import { Avatar } from "@/components/community/Avatar";
 import { searchProfiles, type Profile } from "@/lib/community";
 
 /**
- * Champ de saisie (input ou textarea) avec auto-complétion des mentions :
+ * Champ de saisie (input ou textarea) avec auto-complétion des mentions:
  * en tapant « @ » suivi de lettres, une liste de membres s'affiche ;
  * on en choisit un pour insérer « @pseudo ».
  */
@@ -34,7 +34,7 @@ export function MentionField({
   function detectMention(text: string, caret: number) {
     const before = text.slice(0, caret);
     const m = before.match(/(?:^|\s)@([\p{L}\p{N}_.-]{1,30})$/u);
-    return m ? m[1] : null;
+    return m? m[1]: null;
   }
 
   useEffect(() => {
@@ -54,9 +54,9 @@ export function MentionField({
   function handleChange(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
     const text = e.target.value;
     onChange(text);
-    const caret = e.target.selectionStart ?? text.length;
+    const caret = e.target.selectionStart?? text.length;
     const token = detectMention(text, caret);
-    if (token !== null) {
+    if (token!== null) {
       setQuery(token);
       setOpen(true);
     } else {
@@ -66,7 +66,7 @@ export function MentionField({
 
   function pick(p: Profile) {
     const el = ref.current;
-    const caret = el?.selectionStart ?? value.length;
+    const caret = el?.selectionStart?? value.length;
     const before = value.slice(0, caret).replace(/@([\p{L}\p{N}_.-]{1,30})$/u, `@${p.pseudo} `);
     const after = value.slice(caret);
     const next = before + after;
@@ -88,24 +88,24 @@ export function MentionField({
     value,
     placeholder,
     onChange: handleChange,
-    className: className ?? "field w-full",
+    className: className?? "field w-full",
     onBlur: () => setTimeout(() => setOpen(false), 150),
   };
 
   return (
     <div className="relative flex-1">
-      {rows ? (
+      {rows? (
         <textarea {...common} rows={rows} className={`${common.className} resize-y`} />
-      ) : (
+      ): (
         <input
           {...common}
           onKeyDown={(e) => {
-            if (e.key === "Enter" && !open && onEnter) onEnter();
+            if (e.key === "Enter" &&!open && onEnter) onEnter();
           }}
         />
       )}
 
-      {open && results.length > 0 ? (
+      {open && results.length > 0? (
         <div className="absolute left-0 right-0 z-50 mt-1 overflow-hidden rounded-2xl border border-night-900/10 bg-white shadow-xl">
           <ul className="max-h-60 overflow-y-auto">
             {results.map((p) => (
@@ -125,7 +125,7 @@ export function MentionField({
             ))}
           </ul>
         </div>
-      ) : null}
+      ): null}
     </div>
   );
 }

@@ -5,23 +5,23 @@ import Link from "next/link";
 import type { AgendaEvent } from "@/lib/types";
 
 function isExternal(href?: string) {
-  return !!href && /^https?:\/\//i.test(href);
+  return!!href && /^https?:\/\//i.test(href);
 }
 
 /**
- * Bandeau discret sur l'accueil : annonce le prochain live (à défaut, le
+ * Bandeau discret sur l'accueil: annonce le prochain live (à défaut, le
  * prochain événement de l'agenda) avec un lien direct. Masqué s'il n'y a rien.
  */
 export function NextLiveBanner({ events }: { events: AgendaEvent[] }) {
   const next = useMemo(() => {
     const now = Date.now();
     const upcoming = events
-      .filter((e) => e.type !== "annonce" && e.date)
-      .map((e) => ({ e, t: new Date(`${e.date}T${e.time || "00:00"}`).getTime() }))
-      .filter(({ t }) => t >= now - 2 * 3600 * 1000) // garde un live commencé depuis <2h
-      .sort((a, b) => a.t - b.t);
+.filter((e) => e.type!== "annonce" && e.date)
+.map((e) => ({ e, t: new Date(`${e.date}T${e.time || "00:00"}`).getTime() }))
+.filter(({ t }) => t >= now - 2 * 3600 * 1000) // garde un live commencé depuis <2h
+.sort((a, b) => a.t - b.t);
     // priorité au prochain live
-    return upcoming.find(({ e }) => e.type === "live") ?? upcoming[0] ?? null;
+    return upcoming.find(({ e }) => e.type === "live")?? upcoming[0]?? null;
   }, [events]);
 
   if (!next) return null;
@@ -29,10 +29,10 @@ export function NextLiveBanner({ events }: { events: AgendaEvent[] }) {
   const d = new Date(`${e.date}T${e.time || "00:00"}`);
   const when = d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
   const isLive = e.type === "live";
-  const label = isLive ? "Prochain live" : "Prochain événement";
+  const label = isLive? "Prochain live": "Prochain événement";
   const cta = e.link
-    ? e.linkLabel || (isLive ? "Rejoindre le live" : "En savoir plus")
-    : "Voir l'agenda";
+? e.linkLabel || (isLive? "Rejoindre le live": "En savoir plus")
+: "Voir l'agenda";
   const href = e.link || "/actualite";
 
   return (
@@ -51,17 +51,17 @@ export function NextLiveBanner({ events }: { events: AgendaEvent[] }) {
           <p className="font-display text-lg font-bold leading-tight">{e.title}</p>
           <p className="text-sm text-cream/70">
             <span className="capitalize">{when}</span>
-            {e.time ? ` · ${e.time}` : ""}
-            {e.location ? ` · ${e.location}` : ""}
+            {e.time? ` · ${e.time}`: ""}
+            {e.location? ` · ${e.location}`: ""}
           </p>
         </div>
 
         <div className="relative flex shrink-0 items-center gap-2">
-          {isExternal(href) ? (
+          {isExternal(href)? (
             <a href={href} target="_blank" rel="noopener noreferrer" className="btn-primary">
               {cta}
             </a>
-          ) : (
+          ): (
             <Link href={href} className="btn-primary">
               {cta}
             </Link>

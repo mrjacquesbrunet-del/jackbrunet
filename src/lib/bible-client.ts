@@ -11,8 +11,8 @@ const bookCache = new Map<number, Promise<Book>>();
 export function getIndex(): Promise<BookIndex[]> {
   if (!indexPromise) {
     indexPromise = fetch(asset("/bible/index.json"))
-      .then((r) => r.json())
-      .catch(() => [] as BookIndex[]);
+.then((r) => r.json())
+.catch(() => [] as BookIndex[]);
   }
   return indexPromise;
 }
@@ -29,11 +29,11 @@ export function getBook(id: number): Promise<Book> {
 
 function norm(s: string): string {
   return s
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
+.toLowerCase()
+.normalize("NFD")
+.replace(/[̀-ͯ]/g, "")
+.replace(/\s+/g, " ")
+.trim();
 }
 
 // Quelques noms écrits différemment des noms de l'index.
@@ -60,7 +60,7 @@ export async function resolveRef(reference: string): Promise<Ref | null> {
   name = ALIAS[name] || name;
   const chapter = Number(m[2]);
   const vStart = Number(m[3]);
-  const vEnd = m[4] ? Number(m[4]) : vStart;
+  const vEnd = m[4]? Number(m[4]): vStart;
 
   const idx = await getIndex();
   const found =

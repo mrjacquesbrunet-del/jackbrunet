@@ -14,7 +14,7 @@ export async function initOneSignal(): Promise<void> {
   if (!isNativeApp()) return;
   try {
     const mod = await import("onesignal-cordova-plugin");
-    const OneSignal = (mod as { default?: unknown }).default ?? mod;
+    const OneSignal = (mod as { default?: unknown }).default?? mod;
     const OS = OneSignal as {
       initialize: (id: string) => void;
       Notifications: { requestPermission: (fallback: boolean) => Promise<boolean> };

@@ -5,17 +5,17 @@ import musicData from "../../content/music.json";
 import { asset } from "./asset";
 
 /**
- * Lecteur « soaking » : musique de fond pour le temps de méditation.
+ * Lecteur « soaking »: musique de fond pour le temps de méditation.
  *
  * - Si des pistes sont fournies (content/music.json), on les joue en boucle.
- * - Sinon, on génère une ambiance douce avec le Web Audio API : aucun fichier,
- *   aucun problème de droits, fonctionne hors-ligne.
+ * - Sinon, on génère une ambiance douce avec le Web Audio API: aucun fichier,
+ * aucun problème de droits, fonctionne hors-ligne.
  *
  * Singleton (hors React) pour que la musique continue pendant la navigation.
  */
 
 type Track = { title: string; artist?: string; src: string };
-const tracks = ((musicData as { items?: Track[] }).items ?? []) as Track[];
+const tracks = ((musicData as { items?: Track[] }).items?? []) as Track[];
 
 let playing = false;
 let audioEl: HTMLAudioElement | null = null;
@@ -126,9 +126,9 @@ export function useSoaking() {
     playing: isPlaying,
     toggle: toggleSoaking,
     label: first
-      ? first.artist
-        ? `${first.title} · ${first.artist}`
-        : first.title
-      : "Ambiance douce",
+? first.artist
+? `${first.title} · ${first.artist}`
+: first.title
+: "Ambiance douce",
   };
 }

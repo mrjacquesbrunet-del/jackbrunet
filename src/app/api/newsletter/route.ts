@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 /**
  * Inscription newsletter / captation email.
  *
- * Endpoint volontairement neutre : le site web ET la future application mobile
+ * Endpoint volontairement neutre: le site web ET la future application mobile
  * appelleront ce même point d'entrée. Brancher ici Mailchimp / Brevo / Resend
  * ou une base de données sans rien changer côté client.
  */
@@ -18,8 +18,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Requête invalide." }, { status: 400 });
   }
 
-  const email = (payload.email ?? "").trim().toLowerCase();
-  const source = (payload.source ?? "inconnu").slice(0, 64);
+  const email = (payload.email?? "").trim().toLowerCase();
+  const source = (payload.source?? "inconnu").slice(0, 64);
 
   if (!EMAIL_RE.test(email)) {
     return NextResponse.json({ error: "Email invalide." }, { status: 422 });

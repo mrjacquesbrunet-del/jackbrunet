@@ -57,11 +57,11 @@ export function DevotionalView({
   audioMap,
 }: Props) {
   const i = useTodayIndex(devotions.length, initialIndex);
-  const dev = devotions[i] ?? devotions[0];
-  const audioSrc = audioMap[String(i)] ? asset(audioMap[String(i)]) : null;
+  const dev = devotions[i]?? devotions[0];
+  const audioSrc = audioMap[String(i)]? asset(audioMap[String(i)]): null;
 
   const p = useTodayIndex(plan.length, initialPlanIndex);
-  const planDay = plan[p] ?? plan[0];
+  const planDay = plan[p]?? plan[0];
 
   const eng = useEngagement();
   const tk = useToolkit();
@@ -83,8 +83,8 @@ export function DevotionalView({
         </Reveal>
       </section>
 
-      {/* 1b. Engagement : série + progression */}
-      {eng.ready ? (
+      {/* 1b. Engagement: série + progression */}
+      {eng.ready? (
         <section className="container-x">
           <div className="glass flex flex-wrap items-center gap-4 p-4 sm:gap-5 sm:p-5">
             <div className="flex items-center gap-3">
@@ -95,12 +95,12 @@ export function DevotionalView({
                 <p className="font-display text-xl font-extrabold">
                   {eng.streak}{" "}
                   <span className="text-sm font-semibold text-night-900/60">
-                    jour{eng.streak > 1 ? "s" : ""}
+                    jour{eng.streak > 1? "s": ""}
                   </span>
                 </p>
                 <p className="text-xs text-night-900/55">
                   de suite
-                  {eng.best > eng.streak ? ` · record ${eng.best}` : ""}
+                  {eng.best > eng.streak? ` · record ${eng.best}`: ""}
                 </p>
               </div>
             </div>
@@ -114,8 +114,8 @@ export function DevotionalView({
               <div className="leading-tight">
                 <p className="font-display text-xl font-extrabold">{eng.completedCount}</p>
                 <p className="text-xs text-night-900/55">
-                  méditation{eng.completedCount > 1 ? "s" : ""} méditée
-                  {eng.completedCount > 1 ? "s" : ""}
+                  méditation{eng.completedCount > 1? "s": ""} méditée
+                  {eng.completedCount > 1? "s": ""}
                 </p>
               </div>
             </div>
@@ -124,9 +124,9 @@ export function DevotionalView({
               type="button"
               onClick={eng.markCompletedToday}
               disabled={eng.isCompletedToday}
-              className={`sm:ml-auto ${eng.isCompletedToday ? "btn-ghost" : "btn-primary"}`}
+              className={`sm:ml-auto ${eng.isCompletedToday? "btn-ghost": "btn-primary"}`}
             >
-              {eng.isCompletedToday ? "✓ Médité aujourd'hui" : "J'ai médité aujourd'hui"}
+              {eng.isCompletedToday? "✓ Médité aujourd'hui": "J'ai médité aujourd'hui"}
             </button>
           </div>
 
@@ -135,7 +135,7 @@ export function DevotionalView({
             <SoakingBar />
           </div>
 
-          {/* Raccourcis compacts : carnet + récompenses (côte à côte) */}
+          {/* Raccourcis compacts: carnet + récompenses (côte à côte) */}
           <div className="mt-4 grid grid-cols-2 gap-3">
             <Link
               href="/carnet"
@@ -165,7 +165,7 @@ export function DevotionalView({
             <ReminderToggle />
           </div>
         </section>
-      ) : null}
+      ): null}
 
       {/* 2. Méditation développée */}
       <section className="container-x">
@@ -198,14 +198,14 @@ export function DevotionalView({
               <ViralCard punchline={dev.punchline} id={`dev:${i}:punchline`} />
             </div>
 
-            {audioSrc ? (
+            {audioSrc? (
               <div className="mt-5">
                 <AudioPlayer
                   src={audioSrc}
                   label="Écouter la méditation"
                 />
               </div>
-            ) : null}
+            ): null}
             <div className="mt-6">
             {paragraphs.map((para, idx) => (
               <Markable
@@ -214,13 +214,13 @@ export function DevotionalView({
                 text={para}
                 reference={dev.verseReference}
                 kind="méditation"
-                className={idx === 0 ? "" : "mt-5"}
+                className={idx === 0? "": "mt-5"}
               >
                 <p
                   className={`text-base leading-relaxed text-night-900/75 sm:text-lg ${
                     idx === 0
-                      ? "first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:font-display first-letter:text-6xl first-letter:font-bold first-letter:leading-none first-letter:text-spirit-700"
-                      : ""
+? "first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:font-display first-letter:text-6xl first-letter:font-bold first-letter:leading-none first-letter:text-spirit-700"
+: ""
                   }`}
                 >
                   {para}
@@ -232,21 +232,21 @@ export function DevotionalView({
               <ShareButtons
                 text={`${dev.theme} — « ${dev.verseText} » (${dev.verseReference})`}
               />
-              {eng.ready ? (
+              {eng.ready? (
                 <button
                   type="button"
                   onClick={() => eng.toggleFavorite(i)}
                   aria-pressed={eng.isFavorite(i)}
                   className="btn-ghost inline-flex items-center gap-1.5"
                 >
-                  {eng.isFavorite(i) ? (
+                  {eng.isFavorite(i)? (
                     <BookmarkFilledGlyph className="h-4 w-4 text-spirit-600" />
-                  ) : (
+                  ): (
                     <BookmarkGlyph className="h-4 w-4" />
                   )}
-                  {eng.isFavorite(i) ? "Enregistré" : "Mettre en favori"}
+                  {eng.isFavorite(i)? "Enregistré": "Mettre en favori"}
                 </button>
-              ) : null}
+              ): null}
             </div>
           </div>
         </Reveal>
@@ -315,7 +315,7 @@ export function DevotionalView({
       </section>
 
       {/* 5. Vidéo du jour (avant la lecture) */}
-      {latestShort ? (
+      {latestShort? (
         <section className="container-x">
           <Reveal from="up">
             <SectionHeader eyebrow="Shorts" title="La vidéo du jour" />
@@ -324,10 +324,10 @@ export function DevotionalView({
             </div>
           </Reveal>
         </section>
-      ) : null}
+      ): null}
 
       {/* 6. Passage de lecture du jour */}
-      {planDay ? (
+      {planDay? (
         <section className="container-x">
           <Reveal from="right">
             <SectionHeader eyebrow="Plan de lecture" title="Le passage du jour" />
@@ -364,15 +364,15 @@ export function DevotionalView({
                     <div
                       className={`flex h-full items-center gap-3 rounded-2xl border p-3.5 transition-colors ${
                         isToday
-                          ? "border-dawn-400/60 bg-dawn-400/10"
-                          : "border-night-900/10 bg-white hover:border-night-900/20"
+? "border-dawn-400/60 bg-dawn-400/10"
+: "border-night-900/10 bg-white hover:border-night-900/20"
                       }`}
                     >
                       <span
                         className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl font-display text-base font-bold ${
                           isToday
-                            ? "bg-dawn-400 text-night-950"
-                            : "bg-night-900/[0.05] text-night-900/60"
+? "bg-dawn-400 text-night-950"
+: "bg-night-900/[0.05] text-night-900/60"
                         }`}
                       >
                         {d.day}
@@ -390,18 +390,18 @@ export function DevotionalView({
             </ol>
           </Reveal>
         </section>
-      ) : null}
+      ): null}
 
 
-      {/* 6b. Mon parcours : favoris enregistrés */}
-      {eng.ready && eng.favorites.length > 0 ? (
+      {/* 6b. Mon parcours: favoris enregistrés */}
+      {eng.ready && eng.favorites.length > 0? (
         <section className="container-x">
           <Reveal from="up">
             <SectionHeader eyebrow="Mon parcours" title="Mes méditations favorites" />
             <ul className="mt-6 grid max-w-2xl gap-3 sm:grid-cols-2">
               {eng.favorites
-                .filter((idx) => devotions[idx])
-                .map((idx) => {
+.filter((idx) => devotions[idx])
+.map((idx) => {
                   const d = devotions[idx];
                   return (
                     <li key={idx}>
@@ -428,10 +428,10 @@ export function DevotionalView({
             </ul>
           </Reveal>
         </section>
-      ) : null}
+      ): null}
 
-      {/* 6c. Ma bibliothèque : extraits enregistrés */}
-      {tk.saved.length > 0 ? (
+      {/* 6c. Ma bibliothèque: extraits enregistrés */}
+      {tk.saved.length > 0? (
         <section className="container-x">
           <Reveal from="up">
             <SectionHeader
@@ -459,9 +459,9 @@ export function DevotionalView({
                   </div>
                   <p className="mt-1 text-sm leading-relaxed text-night-900/80">{s.text}</p>
                   <div className="mt-2 flex items-center justify-between gap-3">
-                    {s.reference ? (
+                    {s.reference? (
                       <p className="text-xs font-semibold text-night-900/50">{s.reference}</p>
-                    ) : (
+                    ): (
                       <span />
                     )}
                     <MakeVersePublicButton text={s.text} reference={s.reference} />
@@ -471,7 +471,7 @@ export function DevotionalView({
             </ul>
           </Reveal>
         </section>
-      ) : null}
+      ): null}
 
       {/* 6d. Récompenses de fidélité — en bas pour entrer vite dans la méditation */}
       <div id="recompenses" className="scroll-mt-20">
@@ -484,21 +484,21 @@ export function DevotionalView({
           <div className="bg-topo-light relative overflow-hidden rounded-4xl border border-spirit-700/10 p-7 sm:p-9">
             <div className="blob -right-12 -top-10 h-44 w-44 bg-dawn-400/20" />
             <div className="relative grid items-center gap-6 sm:grid-cols-[auto_1fr]">
-              {bookCover ? (
+              {bookCover? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={bookCover}
                   alt={bookTitle}
                   className="mx-auto w-32 rounded-xl shadow-card sm:w-36"
                 />
-              ) : null}
+              ): null}
               <div>
                 <span className="eyebrow">Le livre</span>
                 <h3 className="mt-3 font-display text-2xl font-extrabold sm:text-3xl">
                   Va plus loin avec <span className="text-gradient">RHEMA</span>
                 </h3>
                 <p className="mt-2 max-w-xl text-night-900/70">
-                  Tu aimes ces méditations ? RHEMA, c'est 365 révélations bibliques à
+                  Tu aimes ces méditations? RHEMA, c'est 365 révélations bibliques à
                   méditer chaque jour de l'année — l'aboutissement de tout ce que je
                   partage. Bientôt disponible.
                 </p>
@@ -516,7 +516,7 @@ export function DevotionalView({
         <Reveal from="up">
           <div className="glass max-w-2xl p-7 sm:p-8">
             <h3 className="font-display text-xl font-bold">
-              Reviens demain : un nouveau dévotionnel chaque jour
+              Reviens demain: un nouveau dévotionnel chaque jour
             </h3>
             <p className="mt-1 text-sm text-night-900/60">
               Reçois-le directement dans ta boîte mail, chaque matin.
@@ -525,7 +525,7 @@ export function DevotionalView({
               <NewsletterForm source="devotionnel" cta="Recevoir chaque matin" note="" />
             </div>
             <div className="mt-5">
-              <ShareButtons text={`${dev.theme}\n\n${paragraphs[0] ?? ""}`} />
+              <ShareButtons text={`${dev.theme}\n\n${paragraphs[0]?? ""}`} />
             </div>
           </div>
         </Reveal>

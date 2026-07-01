@@ -16,7 +16,7 @@ import { PayButton } from "@/components/ui/PayButton";
 export const metadata: Metadata = {
   title: "Soutenir la mission",
   description:
-    "Deviens partenaire du ministère : un don unique ou mensuel pour faire rayonner la lumière de Jésus chaque jour. Transparence totale sur l'utilisation des dons.",
+    "Deviens partenaire du ministère: un don unique ou mensuel pour faire rayonner la lumière de Jésus chaque jour. Transparence totale sur l'utilisation des dons.",
 };
 
 const oneTimeAmounts = ["10 €", "25 €", "50 €", "100 €"];
@@ -24,7 +24,7 @@ const oneTimeAmounts = ["10 €", "25 €", "50 €", "100 €"];
 export default function DonsPage() {
   const allTiers = getSupportTiers();
   const tiers = allTiers.filter((t) => t.amount);
-  const free = allTiers.find((t) => !t.amount);
+  const free = allTiers.find((t) =>!t.amount);
   const stats = getImpactStats();
   const usage = getFundUsage();
   const impactTestimonies = getTestimonies();
@@ -77,8 +77,8 @@ export default function DonsPage() {
                   key={a}
                   className={`rounded-2xl border px-4 py-5 font-display text-xl font-bold transition-all ${
                     i === 1
-                      ? "border-dawn-400 bg-dawn-400/20 text-night-900 shadow-glow"
-                      : "border-night-900/15 bg-night-900/[0.03] hover:border-night-900/30 hover:bg-night-900/[0.06]"
+? "border-dawn-400 bg-dawn-400/20 text-night-900 shadow-glow"
+: "border-night-900/15 bg-night-900/[0.03] hover:border-night-900/30 hover:bg-night-900/[0.06]"
                   }`}
                 >
                   {a}
@@ -113,27 +113,27 @@ export default function DonsPage() {
               <div
                 className={`dark-ctx bg-topo-dark relative flex h-full flex-col overflow-hidden rounded-4xl border p-7 ${
                   tier.featured
-                    ? "border-dawn-400/50 shadow-glow"
-                    : "border-white/10"
+? "border-dawn-400/50 shadow-glow"
+: "border-white/10"
                 }`}
               >
-                {tier.featured ? (
+                {tier.featured? (
                   <span className="absolute right-5 top-5 rounded-full bg-dawn-400 px-3 py-1 text-xs font-bold text-night-950">
                     Le plus choisi
                   </span>
-                ) : null}
+                ): null}
                 <h3 className="font-display text-lg font-bold">{tier.name}</h3>
                 <div className="mt-3 flex items-end gap-1">
                   <span className="font-display text-4xl font-extrabold">
                     {tier.amount || "Libre"}
                   </span>
-                  {tier.cadence ? (
+                  {tier.cadence? (
                     <span className="mb-1 text-sm text-cream/55">{tier.cadence}</span>
-                  ) : null}
+                  ): null}
                 </div>
                 <p className="mt-3 whitespace-pre-line text-sm text-cream/65">{tier.description}</p>
                 <ul className="mt-6 flex-1 space-y-2.5">
-                  {(tier.perks ?? []).map((perk) => (
+                  {(tier.perks?? []).map((perk) => (
                     <li key={perk} className="flex items-start gap-2.5 text-sm text-cream/75">
                       <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-dawn-500/20 text-[10px] text-dawn-300">
                         ✓
@@ -142,14 +142,14 @@ export default function DonsPage() {
                     </li>
                   ))}
                 </ul>
-                <PayButton href={STRIPE_MONTHLY[tier.name] ?? null} className={`mt-7 ${tier.featured ? "btn-primary" : "btn-ghost"}`}>Devenir {tier.name}</PayButton>
+                <PayButton href={STRIPE_MONTHLY[tier.name]?? null} className={`mt-7 ${tier.featured? "btn-primary": "btn-ghost"}`}>Devenir {tier.name}</PayButton>
               </div>
             </Reveal>
           ))}
         </div>
 
         {/* Semence libre — bandeau horizontal englobant + don personnalisable */}
-        {free ? (
+        {free? (
           <Reveal from="up" delay={0.15}>
             <div
               id="libre"
@@ -190,7 +190,7 @@ export default function DonsPage() {
               </div>
             </div>
           </Reveal>
-        ) : null}
+        ): null}
       </section>
 
       {/* Transparence */}
@@ -201,7 +201,7 @@ export default function DonsPage() {
               eyebrow="Transparence"
               title={
                 <>
-                  Où va <span className="text-gradient">ton don</span> ?
+                  Où va <span className="text-gradient">ton don</span>?
                 </>
               }
               description="Nous croyons que la confiance se construit dans la clarté. Voici exactement comment chaque euro est employé."
@@ -266,9 +266,9 @@ export default function DonsPage() {
         <Reveal>
           <div className="glass flex flex-col items-center gap-5 p-7 text-center sm:flex-row sm:justify-between sm:text-left">
             <div>
-              <h3 className="font-display text-xl font-bold">Pas encore prêt(e) à donner ?</h3>
+              <h3 className="font-display text-xl font-bold">Pas encore prêt(e) à donner?</h3>
               <p className="mt-1 text-sm text-night-900/65">
-                Reste connecté(e) à la mission : reçois les nouvelles et l'impact de ton futur soutien.
+                Reste connecté(e) à la mission: reçois les nouvelles et l'impact de ton futur soutien.
               </p>
             </div>
             <div className="w-full max-w-sm">

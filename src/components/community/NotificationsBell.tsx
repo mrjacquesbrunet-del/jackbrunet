@@ -10,20 +10,20 @@ import {
 } from "@/lib/community";
 
 function label(n: Notification) {
-  const who = n.actor?.pseudo ?? "Quelqu'un";
+  const who = n.actor?.pseudo?? "Quelqu'un";
   switch (n.type) {
     case "pray":
-      return `${who} prie pour ton sujet 🙏`;
+      return `${who} prie pour ton sujet`;
     case "heart":
-      return `${who} a aimé ton sujet ❤️`;
+      return `${who} a aimé ton sujet`;
     case "comment":
-      return `${who} t'a encouragé(e) 💬`;
+      return `${who} t'a encouragé(e)`;
     case "follow":
       return `${who} s'est abonné(e) à toi`;
     case "mention":
-      return `${who} t'a mentionné(e) ✨`;
+      return `${who} t'a mentionné(e)`;
     case "admin":
-      return n.body ? `📣 ${n.body}` : "📣 Message de Pasteur Jack";
+      return n.body? `${n.body}`: "Message de Pasteur Jack";
   }
 }
 
@@ -58,7 +58,7 @@ export function NotificationsBell({
   }, [refresh]);
 
   async function toggle() {
-    const next = !open;
+    const next =!open;
     setOpen(next);
     if (next) {
       setItems(await listNotifications(userId, 100));
@@ -75,22 +75,22 @@ export function NotificationsBell({
         aria-label="Notifications"
         className={`relative grid h-10 w-10 place-items-center rounded-full border transition-colors ${
           tone === "dark"
-            ? "border-white/20 bg-white/10 text-cream hover:bg-white/20"
-            : "border-night-900/15 text-night-900/70 hover:border-night-900/30"
+? "border-white/20 bg-white/10 text-cream hover:bg-white/20"
+: "border-night-900/15 text-night-900/70 hover:border-night-900/30"
         }`}
       >
         <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
           <path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" strokeLinecap="round" strokeLinejoin="round" />
           <path d="M13.7 21a2 2 0 0 1-3.4 0" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-        {unread > 0 ? (
+        {unread > 0? (
           <span className="absolute -right-0.5 -top-0.5 grid min-w-[18px] place-items-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white ring-2 ring-night-900">
-            {unread > 9 ? "9+" : unread}
+            {unread > 9? "9+": unread}
           </span>
-        ) : null}
+        ): null}
       </button>
 
-      {open ? (
+      {open? (
         <>
           <button
             type="button"
@@ -103,19 +103,19 @@ export function NotificationsBell({
               Notifications
             </p>
             <div className="max-h-96 overflow-y-auto">
-              {items === null ? (
+              {items === null? (
                 <p className="px-4 py-6 text-sm text-night-900/45">Chargement…</p>
-              ) : items.length === 0 ? (
+              ): items.length === 0? (
                 <p className="px-4 py-6 text-sm text-night-900/45">
                   Pas encore de notification.
                 </p>
-              ) : (
+              ): (
                 <ul>
                   {items.map((n) => (
                     <li
                       key={n.id}
                       className={`flex items-start gap-3 px-4 py-3 ${
-                        n.read ? "" : "bg-spirit-500/[0.05]"
+                        n.read? "": "bg-spirit-500/[0.05]"
                       }`}
                     >
                       <Avatar pseudo={n.actor?.pseudo} url={n.actor?.avatar_url} size={32} />
@@ -130,7 +130,7 @@ export function NotificationsBell({
             </div>
           </div>
         </>
-      ) : null}
+      ): null}
     </div>
   );
 }

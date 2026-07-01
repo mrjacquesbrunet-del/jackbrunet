@@ -31,7 +31,7 @@ function RewardIcon({ id, className }: { id: string; className?: string }) {
 }
 
 /**
- * « Mes récompenses » : paliers de fidélité débloqués par la série quotidienne
+ * « Mes récompenses »: paliers de fidélité débloqués par la série quotidienne
  * (7j / 30j / 100j) + récompense Ambassadeur (partage). Célébration animée à
  * chaque nouveau palier. 100 % local (aucune donnée serveur).
  */
@@ -57,11 +57,11 @@ export function Rewards() {
   useEffect(() => {
     if (!eng.ready) return;
     const unlocked: Reward[] = [
-      ...FIDELITY_REWARDS.filter((r) => eng.best >= r.days),
-      ...(shared ? [AMBASSADOR_REWARD] : []),
+...FIDELITY_REWARDS.filter((r) => eng.best >= r.days),
+...(shared? [AMBASSADOR_REWARD]: []),
     ];
     const seen = readSeen();
-    const fresh = unlocked.filter((r) => !seen.includes(r.id));
+    const fresh = unlocked.filter((r) =>!seen.includes(r.id));
     if (fresh.length > 0) {
       setCelebrate(fresh[fresh.length - 1]);
       markSeen(unlocked.map((r) => r.id));
@@ -88,8 +88,8 @@ export function Rewards() {
           </h3>
           <p className="mt-1 text-sm text-night-900/60">
             {eng.ready && toNext > 0
-              ? `Plus que ${toNext} jour${toNext > 1 ? "s" : ""} d'affilée pour ton prochain cadeau`
-              : "Reviens chaque jour : ta fidélité est récompensée"}
+? `Plus que ${toNext} jour${toNext > 1? "s": ""} d'affilée pour ton prochain cadeau`
+: "Reviens chaque jour: ta fidélité est récompensée"}
           </p>
         </div>
       </div>
@@ -103,23 +103,23 @@ export function Rewards() {
               key={r.id}
               className={`relative flex flex-col overflow-hidden rounded-3xl border p-5 ${
                 unlocked
-                  ? "border-dawn-400/50 bg-gradient-to-br from-dawn-400/15 to-spirit-500/10"
-                  : "border-night-900/10 bg-white"
+? "border-dawn-400/50 bg-gradient-to-br from-dawn-400/15 to-spirit-500/10"
+: "border-night-900/10 bg-white"
               }`}
             >
-              <span className={`text-spirit-700 ${unlocked ? "" : "opacity-40 grayscale"}`}>
+              <span className={`text-spirit-700 ${unlocked? "": "opacity-40 grayscale"}`}>
                 <RewardIcon id={r.id} className="h-8 w-8" />
               </span>
               <p className="mt-2 font-display text-base font-extrabold">{r.title}</p>
               <p className="mt-1 flex-1 text-sm text-night-900/65">{r.blurb}</p>
-              {unlocked ? (
+              {unlocked? (
                 <Link
                   href={r.href}
                   className="btn-primary mt-4 inline-flex items-center justify-center gap-1.5 text-sm"
                 >
                   <GiftGlyph className="h-4 w-4" /> {r.cta}
                 </Link>
-              ) : (
+              ): (
                 <div className="mt-4">
                   <div className="h-2 overflow-hidden rounded-full bg-night-900/10">
                     <div
@@ -128,7 +128,7 @@ export function Rewards() {
                     />
                   </div>
                   <p className="mt-1.5 text-xs font-semibold text-night-900/55">
-                    {eng.ready ? `${eng.best}/${r.days} jours` : "…"}
+                    {eng.ready? `${eng.best}/${r.days} jours`: "…"}
                   </p>
                 </div>
               )}
@@ -140,27 +140,27 @@ export function Rewards() {
         <div
           className={`relative flex flex-col overflow-hidden rounded-3xl border p-5 ${
             shared
-              ? "border-spirit-500/50 bg-gradient-to-br from-spirit-500/15 to-dawn-400/10"
-              : "border-night-900/10 bg-white"
+? "border-spirit-500/50 bg-gradient-to-br from-spirit-500/15 to-dawn-400/10"
+: "border-night-900/10 bg-white"
           }`}
         >
-          <span className={`text-spirit-700 ${shared ? "" : "opacity-40 grayscale"}`}>
+          <span className={`text-spirit-700 ${shared? "": "opacity-40 grayscale"}`}>
             <RewardIcon id={AMBASSADOR_REWARD.id} className="h-8 w-8" />
           </span>
           <p className="mt-2 font-display text-base font-extrabold">{AMBASSADOR_REWARD.title}</p>
           <p className="mt-1 flex-1 text-sm text-night-900/65">
-            {shared ? AMBASSADOR_REWARD.blurb : "Partage l'app à un ami et reçois un bonus 🙏"}
+            {shared? AMBASSADOR_REWARD.blurb: "Partage l'app à un ami et reçois un bonus"}
           </p>
-          {shared ? (
+          {shared? (
             <Link
               href={AMBASSADOR_REWARD.href}
               className="btn-primary mt-4 inline-flex items-center justify-center gap-1.5 text-sm"
             >
               <GiftGlyph className="h-4 w-4" /> {AMBASSADOR_REWARD.cta}
             </Link>
-          ) : (
+          ): (
             <button type="button" onClick={onShare} className="btn-spirit mt-4 text-sm">
-              {copied ? "Lien copié ✓" : "Inviter un ami"}
+              {copied? "Lien copié ✓": "Inviter un ami"}
             </button>
           )}
         </div>
@@ -168,7 +168,7 @@ export function Rewards() {
 
       {/* Célébration */}
       <AnimatePresence>
-        {celebrate ? (
+        {celebrate? (
           <motion.div
             className="fixed inset-0 z-[120] grid place-items-center bg-night-950/70 p-6 backdrop-blur-sm"
             initial={{ opacity: 0 }}
@@ -192,7 +192,7 @@ export function Rewards() {
               >
                 <RewardIcon id={celebrate.id} className="h-16 w-16" />
               </motion.div>
-              <p className="mt-3 font-display text-2xl font-extrabold">Bravo&nbsp;! 🎉</p>
+              <p className="mt-3 font-display text-2xl font-extrabold">Bravo&nbsp;!</p>
               <p className="mt-1 font-semibold text-spirit-700">{celebrate.title} débloqué</p>
               <p className="mt-2 text-sm text-night-900/65">{celebrate.blurb}</p>
               <Link
@@ -211,7 +211,7 @@ export function Rewards() {
               </button>
             </motion.div>
           </motion.div>
-        ) : null}
+        ): null}
       </AnimatePresence>
     </section>
   );

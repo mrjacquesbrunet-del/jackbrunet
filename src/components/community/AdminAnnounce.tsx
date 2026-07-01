@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { postAnnouncement, clearAnnouncements } from "@/lib/announcements";
 import { broadcastNotification } from "@/lib/community";
+import { MegaphoneGlyph, BellGlyph } from "@/components/ui/DevoIcons";
 
 /**
  * Encart admin (réservé à Jack) pour publier une annonce in-app à tous les
@@ -27,17 +28,17 @@ export function AdminAnnounce() {
       setNotifMsg("Écris ton message.");
       return;
     }
-    if (!confirm("Envoyer cette notification à TOUS les membres ?")) return;
+    if (!confirm("Envoyer cette notification à TOUS les membres?")) return;
     setNotifBusy(true);
     setNotifMsg("");
     const n = await broadcastNotification(notif, notifLink);
     setNotifBusy(false);
-    if (n !== null) {
-      setNotifMsg(`✓ Notification envoyée à ${n} membre${n > 1 ? "s" : ""}.`);
+    if (n!== null) {
+      setNotifMsg(`✓ Notification envoyée à ${n} membre${n > 1? "s": ""}.`);
       setNotif("");
       setNotifLink("");
     } else {
-      setNotifMsg("Erreur : envoi impossible (vérifie la migration SQL).");
+      setNotifMsg("Erreur: envoi impossible (vérifie la migration SQL).");
     }
   }
 
@@ -52,12 +53,12 @@ export function AdminAnnounce() {
     const ok = await postAnnouncement(title, body, link);
     setBusy(false);
     if (ok) {
-      setMsg("✓ Annonce publiée ! Elle s'affiche en haut de l'app.");
+      setMsg("✓ Annonce publiée! Elle s'affiche en haut de l'app.");
       setTitle("");
       setBody("");
       setLink("");
     } else {
-      setMsg("Erreur : publication impossible.");
+      setMsg("Erreur: publication impossible.");
     }
   }
 
@@ -70,7 +71,10 @@ export function AdminAnnounce() {
 
   return (
     <div className="mt-8 rounded-3xl border border-dawn-400/40 bg-cream/70 p-5">
-      <p className="font-display text-lg font-bold">📣 Publier une annonce (admin)</p>
+      <p className="flex items-center gap-2 font-display text-lg font-bold">
+        <MegaphoneGlyph className="h-5 w-5 text-spirit-600" />
+        Publier une annonce (admin)
+      </p>
       <p className="mt-1 text-sm text-night-900/60">
         Visible en haut de l'app pour tous les utilisateurs (nouvelle vidéo, événement, message…).
       </p>
@@ -78,7 +82,7 @@ export function AdminAnnounce() {
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Titre (ex. Nouvelle vidéo en ligne 🎬)"
+          placeholder="Titre (ex. Nouvelle vidéo en ligne)"
           className="field w-full"
         />
         <textarea
@@ -96,18 +100,21 @@ export function AdminAnnounce() {
         />
         <div className="flex flex-wrap gap-2">
           <button type="submit" disabled={busy} className="btn-primary">
-            {busy ? "Un instant…" : "Publier l'annonce"}
+            {busy? "Un instant…": "Publier l'annonce"}
           </button>
           <button type="button" onClick={remove} disabled={busy} className="btn-ghost">
             Retirer les annonces
           </button>
         </div>
-        {msg ? <p className="text-sm text-spirit-700">{msg}</p> : null}
+        {msg? <p className="text-sm text-spirit-700">{msg}</p>: null}
       </form>
 
       {/* Notification directe (cloche) à tous les membres */}
       <div className="mt-6 border-t border-dawn-400/30 pt-5">
-        <p className="font-display text-lg font-bold">🔔 Notifier tous les membres</p>
+        <p className="flex items-center gap-2 font-display text-lg font-bold">
+          <BellGlyph className="h-5 w-5 text-spirit-600" />
+          Notifier tous les membres
+        </p>
         <p className="mt-1 text-sm text-night-900/60">
           Chaque membre reçoit une notification dans son profil (idéal pour annoncer un
           live de prière, un direct, un événement).
@@ -116,7 +123,7 @@ export function AdminAnnounce() {
           <textarea
             value={notif}
             onChange={(e) => setNotif(e.target.value)}
-            placeholder="Ton message (ex. Live de prière dans 10 min, rejoins-nous 🙏)"
+            placeholder="Ton message (ex. Live de prière dans 10 min, rejoins-nous)"
             rows={2}
             className="field w-full"
           />
@@ -127,9 +134,9 @@ export function AdminAnnounce() {
             className="field w-full"
           />
           <button type="submit" disabled={notifBusy} className="btn-primary">
-            {notifBusy ? "Envoi…" : "Envoyer la notification"}
+            {notifBusy? "Envoi…": "Envoyer la notification"}
           </button>
-          {notifMsg ? <p className="text-sm text-spirit-700">{notifMsg}</p> : null}
+          {notifMsg? <p className="text-sm text-spirit-700">{notifMsg}</p>: null}
         </form>
       </div>
     </div>

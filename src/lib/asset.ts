@@ -7,6 +7,6 @@ export function asset(path?: string): string {
   if (!path) return "";
   if (/^https?:\/\//i.test(path)) return path;
   const base = process.env.NEXT_PUBLIC_BASE_PATH || "";
-  const clean = path.startsWith("/") ? path : `/${path}`;
+  const clean = path.startsWith("/")? path: `/${path}`;
   return `${base}${clean}`;
 }

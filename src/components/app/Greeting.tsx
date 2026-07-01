@@ -8,7 +8,7 @@ export function Greeting() {
   const name = profile?.pseudo?.trim();
   return (
     <p className="text-sm font-semibold text-spirit-600">
-      {name ? `Bonjour ${name} 👋` : "Heureux de te retrouver 👋"}
+      {name? `Bonjour ${name}`: "Heureux de te retrouver"}
     </p>
   );
 }

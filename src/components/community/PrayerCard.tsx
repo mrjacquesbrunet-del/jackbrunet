@@ -26,7 +26,7 @@ const VIS_LABEL: Record<string, string> = { public: "Public", friends: "Abonnés
 
 function PinIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" className={`${className ?? ""} fill-none stroke-current`} strokeWidth={1.8}>
+    <svg viewBox="0 0 24 24" className={`${className?? ""} fill-none stroke-current`} strokeWidth={1.8}>
       <path d="M9 4h6l-1 5 3 3v2H7v-2l3-3-1-5zM12 17v3" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
@@ -64,7 +64,7 @@ export function PrayerCard({
   const [celebrate, setCelebrate] = useState(false);
 
   async function togglePin() {
-    const next = !pinned;
+    const next =!pinned;
     setPinned(next);
     await setPrayerPinned(prayer.id, next);
     onDeleted(); // recharge le fil pour remonter/redescendre le sujet
@@ -75,24 +75,24 @@ export function PrayerCard({
   const mine = (t: "heart" | "pray") => reactions.some((r) => r.type === t && r.user_id === userId);
 
   async function react(t: "heart" | "pray") {
-    const on = !mine(t);
+    const on =!mine(t);
     setReactions((prev) =>
       on
-        ? [...prev, { prayer_id: prayer.id, user_id: userId, type: t }]
-        : prev.filter((r) => !(r.type === t && r.user_id === userId)),
+? [...prev, { prayer_id: prayer.id, user_id: userId, type: t }]
+: prev.filter((r) =>!(r.type === t && r.user_id === userId)),
     );
     await toggleReaction(prayer.id, userId, t, on);
   }
 
   async function toggleAnswered() {
-    const next = !answered;
+    const next =!answered;
     setAnswered(next);
     if (next) setCelebrate(true);
     await setPrayerAnswered(prayer.id, next);
   }
 
   async function openComments() {
-    const next = !showComments;
+    const next =!showComments;
     setShowComments(next);
     if (next && comments === null) setComments(await listComments(prayer.id));
   }
@@ -110,11 +110,11 @@ export function PrayerCard({
 
   async function removeComment(id: string) {
     await deleteComment(id);
-    setComments((prev) => (prev ? prev.filter((c) => c.id !== id) : prev));
+    setComments((prev) => (prev? prev.filter((c) => c.id!== id): prev));
   }
 
   async function remove() {
-    if (!confirm("Supprimer cette prière ?")) return;
+    if (!confirm("Supprimer cette prière?")) return;
     await deletePrayer(prayer.id);
     onDeleted();
   }
@@ -123,34 +123,34 @@ export function PrayerCard({
     <li
       className={`overflow-hidden rounded-3xl border ${
         answered
-          ? "border-dawn-400/50 bg-gradient-to-br from-dawn-50 to-white shadow-glow"
-          : "border-night-900/10 bg-white"
+? "border-dawn-400/50 bg-gradient-to-br from-dawn-50 to-white shadow-glow"
+: "border-night-900/10 bg-white"
       }`}
     >
       <Celebration
         open={celebrate}
-        emoji="🙌"
-        title="Gloire à Dieu !"
-        message="Quelle joie ! Ta prière exaucée encourage toute la communauté. Continue de témoigner de Sa fidélité."
+        emoji=""
+        title="Gloire à Dieu!"
+        message="Quelle joie! Ta prière exaucée encourage toute la communauté. Continue de témoigner de Sa fidélité."
         onClose={() => setCelebrate(false)}
       />
 
       {/* Bandeau « Dieu a agi » */}
-      {answered ? (
+      {answered? (
         <div className="flex items-center gap-2 bg-gradient-to-r from-dawn-400 to-dawn-300 px-5 py-2 text-sm font-extrabold text-night-950">
           <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden>
             <path d="M12 2l2.4 5 5.6.8-4 4 1 5.6L12 19.8 6.9 22l1-5.6-4-4 5.6-.8z" />
           </svg>
-          Dieu a agi — prière exaucée 🙌
+          Dieu a agi — prière exaucée
         </div>
-      ) : null}
+      ): null}
 
       <div className="p-5">
-        {pinned ? (
+        {pinned? (
           <p className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-dawn-400/15 px-3 py-1 text-[11px] font-bold text-spirit-700">
             <PinIcon className="h-3.5 w-3.5" /> Épinglé
           </p>
-        ) : null}
+        ): null}
         <div className="flex items-center gap-3">
           <Link href={`/membre?u=${prayer.author_id}`} aria-label="Voir le profil">
             <Avatar pseudo={prayer.author?.pseudo} url={prayer.author?.avatar_url} />
@@ -160,24 +160,24 @@ export function PrayerCard({
               href={`/membre?u=${prayer.author_id}`}
               className="inline-flex items-center gap-1.5 font-display font-bold leading-tight hover:underline"
             >
-              {prayer.author?.pseudo ?? "Ami(e)"}
-              {prayer.author?.verified ? <VerifiedBadge className="h-4 w-4" /> : null}
+              {prayer.author?.pseudo?? "Ami(e)"}
+              {prayer.author?.verified? <VerifiedBadge className="h-4 w-4" />: null}
             </Link>
             <p className="text-xs text-night-900/50">
               {when(prayer.created_at)} · {VIS_LABEL[prayer.visibility]}
             </p>
           </div>
-          {isAuthor || isAdmin ? (
+          {isAuthor || isAdmin? (
             <button
               type="button"
               onClick={remove}
               aria-label="Supprimer"
-              title={isAdmin && !isAuthor ? "Supprimer (modération)" : "Supprimer"}
+              title={isAdmin &&!isAuthor? "Supprimer (modération)": "Supprimer"}
               className="shrink-0 text-night-900/30 transition-colors hover:text-night-900/70"
             >
               ✕
             </button>
-          ) : null}
+          ): null}
         </div>
 
         <MentionText
@@ -191,24 +191,24 @@ export function PrayerCard({
             onClick={() => react("pray")}
             className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
               mine("pray")
-                ? "border-spirit-500/40 bg-spirit-500/10 text-spirit-700"
-                : "border-night-900/15 text-night-900/70 hover:border-night-900/30"
+? "border-spirit-500/40 bg-spirit-500/10 text-spirit-700"
+: "border-night-900/15 text-night-900/70 hover:border-night-900/30"
             }`}
           >
-            <HandsGlyph className="h-[18px] w-[18px]" /> Je prie{count("pray") > 0 ? ` · ${count("pray")}` : ""}
+            <HandsGlyph className="h-[18px] w-[18px]" /> Je prie{count("pray") > 0? ` · ${count("pray")}`: ""}
           </button>
           <button
             type="button"
             onClick={() => react("heart")}
             className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
               mine("heart")
-                ? "border-dawn-400/50 bg-dawn-400/15 text-spirit-700"
-                : "border-night-900/15 text-night-900/70 hover:border-night-900/30"
+? "border-dawn-400/50 bg-dawn-400/15 text-spirit-700"
+: "border-night-900/15 text-night-900/70 hover:border-night-900/30"
             }`}
           >
             <svg
               viewBox="0 0 24 24"
-              className={`h-[18px] w-[18px] stroke-current ${mine("heart") ? "fill-current" : "fill-none"}`}
+              className={`h-[18px] w-[18px] stroke-current ${mine("heart")? "fill-current": "fill-none"}`}
               strokeWidth={1.8}
             >
               <path
@@ -216,7 +216,7 @@ export function PrayerCard({
                 strokeLinejoin="round"
               />
             </svg>
-            {count("heart") > 0 ? count("heart") : ""}
+            {count("heart") > 0? count("heart"): ""}
           </button>
           <button
             type="button"
@@ -233,70 +233,70 @@ export function PrayerCard({
             Encourager
           </button>
 
-          {/* Admin : épingler le sujet */}
-          {isAdmin ? (
+          {/* Admin: épingler le sujet */}
+          {isAdmin? (
             <button
               type="button"
               onClick={togglePin}
               className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
                 pinned
-                  ? "border-dawn-400/50 bg-dawn-400/15 text-spirit-700"
-                  : "border-night-900/15 text-night-900/70 hover:border-night-900/30"
+? "border-dawn-400/50 bg-dawn-400/15 text-spirit-700"
+: "border-night-900/15 text-night-900/70 hover:border-night-900/30"
               }`}
             >
               <PinIcon className="h-[18px] w-[18px]" />
-              {pinned ? "Épinglé" : "Épingler"}
+              {pinned? "Épinglé": "Épingler"}
             </button>
-          ) : null}
+          ): null}
 
-          {/* Auteur : marquer exaucé */}
-          {isAuthor ? (
+          {/* Auteur: marquer exaucé */}
+          {isAuthor? (
             <button
               type="button"
               onClick={toggleAnswered}
               className={`ml-auto inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-bold transition-colors ${
                 answered
-                  ? "border border-night-900/15 text-night-900/55 hover:border-night-900/30"
-                  : "bg-night-900 text-dawn-400 hover:bg-night-800"
+? "border border-night-900/15 text-night-900/55 hover:border-night-900/30"
+: "bg-night-900 text-dawn-400 hover:bg-night-800"
               }`}
             >
-              {answered ? "Rouvrir" : "Dieu a agi 🙌"}
+              {answered? "Rouvrir": "Dieu a agi"}
             </button>
-          ) : null}
+          ): null}
         </div>
 
-        {showComments ? (
+        {showComments? (
           <div className="mt-4 border-t border-night-900/10 pt-4">
-            {comments === null ? (
+            {comments === null? (
               <p className="text-sm text-night-900/45">Chargement…</p>
-            ) : (
+            ): (
               <ul className="space-y-3">
                 {comments.map((c) => (
                   <li key={c.id} className="group flex items-start gap-2.5">
                     <Avatar pseudo={c.author?.pseudo} url={c.author?.avatar_url} size={30} />
                     <div className="min-w-0 flex-1 rounded-2xl bg-night-900/[0.04] px-3 py-2">
                       <p className="flex items-center gap-1 text-xs font-semibold text-night-900/70">
-                        {c.author?.pseudo ?? "Ami(e)"}
-                        {c.author?.verified ? <VerifiedBadge className="h-3.5 w-3.5" /> : null}
+                        {c.author?.pseudo?? "Ami(e)"}
+                        {c.author?.verified? <VerifiedBadge className="h-3.5 w-3.5" />: null}
                       </p>
                       <MentionText text={c.body} className="text-sm text-night-900/85" />
                     </div>
-                    {isAdmin || c.author_id === userId ? (
+                    {isAdmin || c.author_id === userId? (
                       <button
                         type="button"
                         onClick={() => removeComment(c.id)}
                         aria-label="Supprimer le commentaire"
-                        title={isAdmin && c.author_id !== userId ? "Supprimer (modération)" : "Supprimer"}
+                        title={isAdmin && c.author_id!== userId? "Supprimer (modération)": "Supprimer"}
                         className="shrink-0 text-night-900/25 transition-colors hover:text-night-900/70"
                       >
                         ✕
                       </button>
-                    ) : null}
+                    ): null}
                   </li>
                 ))}
-                {comments.length === 0 ? (
+                {comments.length === 0? (
                   <li className="text-sm text-night-900/45">Sois le premier à encourager.</li>
-                ) : null}
+                ): null}
               </ul>
             )}
 
@@ -311,14 +311,14 @@ export function PrayerCard({
               <button
                 type="button"
                 onClick={submitComment}
-                disabled={busy || !commentText.trim()}
+                disabled={busy ||!commentText.trim()}
                 className="btn-primary text-sm disabled:opacity-40"
               >
                 Envoyer
               </button>
             </div>
           </div>
-        ) : null}
+        ): null}
       </div>
     </li>
   );

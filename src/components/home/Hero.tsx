@@ -119,7 +119,7 @@ export function Hero() {
         </motion.div>
 
         {/* Photo de Jack (si fournie), sinon carte « du jour » flottante */}
-        {heroPhoto ? (
+        {heroPhoto? (
           <motion.div
             initial={{ opacity: 0, x: 40, scale: 0.97 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
@@ -137,7 +137,7 @@ export function Hero() {
               </span>
             </div>
           </motion.div>
-        ) : (
+        ): (
         <motion.div
           initial={{ opacity: 0, x: 40, rotate: 2 }}
           animate={{ opacity: 1, x: 0, rotate: 0 }}
@@ -154,7 +154,7 @@ export function Hero() {
               <h3 className="mt-5 font-display text-2xl font-bold">Tu es vu, tu es aimé</h3>
               <p className="mt-3 text-sm leading-relaxed text-cream/70">
                 « Les compassions de l'Éternel se renouvellent chaque matin.
-                Grande est ta fidélité ! »
+                Grande est ta fidélité! »
               </p>
               <p className="mt-2 text-xs font-semibold text-dawn-300">
                 Lamentations 3.22-23

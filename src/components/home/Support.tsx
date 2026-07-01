@@ -13,7 +13,7 @@ export function Support() {
   const allTiers = getSupportTiers();
   // Les paliers à montant fixe en colonnes ; la « Semence libre » en bandeau.
   const tiers = allTiers.filter((t) => t.amount);
-  const free = allTiers.find((t) => !t.amount);
+  const free = allTiers.find((t) =>!t.amount);
   const stats = getImpactStats();
 
   return (
@@ -36,7 +36,7 @@ export function Support() {
                 <br className="hidden sm:block" /> Il vit grâce à toi.
               </>
             }
-            description="Chaque pensée, chaque vidéo, chaque prière touchée est rendue possible par des personnes comme toi. Devenir partenaire, c'est répondre à une vision : que la lumière atteigne le plus grand nombre, chaque jour."
+            description="Chaque pensée, chaque vidéo, chaque prière touchée est rendue possible par des personnes comme toi. Devenir partenaire, c'est répondre à une vision: que la lumière atteigne le plus grand nombre, chaque jour."
           />
         </Reveal>
 
@@ -64,27 +64,27 @@ export function Support() {
               <div
                 className={`relative flex h-full flex-col overflow-hidden rounded-4xl border p-7 transition-all duration-300 hover:-translate-y-1 ${
                   tier.featured
-                    ? "border-dawn-400/50 bg-gradient-to-b from-dawn-500/15 to-night-800/60 shadow-glow"
-                    : "border-white/10 bg-white/[0.03] hover:border-white/20"
+? "border-dawn-400/50 bg-gradient-to-b from-dawn-500/15 to-night-800/60 shadow-glow"
+: "border-white/10 bg-white/[0.03] hover:border-white/20"
                 }`}
               >
-                {tier.featured ? (
+                {tier.featured? (
                   <span className="absolute right-5 top-5 rounded-full bg-dawn-400 px-3 py-1 text-xs font-bold text-night-950">
                     Le plus choisi
                   </span>
-                ) : null}
+                ): null}
                 <h3 className="font-display text-lg font-bold">{tier.name}</h3>
                 <div className="mt-3 flex items-end gap-1">
                   <span className="font-display text-4xl font-extrabold">
                     {tier.amount || "Libre"}
                   </span>
-                  {tier.cadence ? (
+                  {tier.cadence? (
                     <span className="mb-1 text-sm text-cream/55">{tier.cadence}</span>
-                  ) : null}
+                  ): null}
                 </div>
                 <p className="mt-3 text-sm text-cream/65">{tier.description}</p>
                 <ul className="mt-6 flex-1 space-y-2.5">
-                  {(tier.perks ?? []).map((perk) => (
+                  {(tier.perks?? []).map((perk) => (
                     <li key={perk} className="flex items-start gap-2.5 text-sm text-cream/75">
                       <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-dawn-500/20 text-[10px] text-dawn-300">
                         ✓
@@ -93,14 +93,14 @@ export function Support() {
                     </li>
                   ))}
                 </ul>
-                <PayButton href={STRIPE_MONTHLY[tier.name] ?? null} className={`mt-7 ${tier.featured ? "btn-primary" : "btn-ghost"}`}>Devenir {tier.name}</PayButton>
+                <PayButton href={STRIPE_MONTHLY[tier.name]?? null} className={`mt-7 ${tier.featured? "btn-primary": "btn-ghost"}`}>Devenir {tier.name}</PayButton>
               </div>
             </Reveal>
           ))}
         </div>
 
         {/* Semence libre — bandeau horizontal englobant */}
-        {free ? (
+        {free? (
           <Reveal from="up" delay={0.15}>
             <div className="mt-6 flex flex-col gap-6 overflow-hidden rounded-4xl border border-dawn-400/40 bg-gradient-to-r from-dawn-500/15 via-dawn-400/10 to-transparent p-7 sm:p-9 lg:flex-row lg:items-center lg:justify-between">
               <div className="max-w-2xl">
@@ -119,7 +119,7 @@ export function Support() {
               </div>
             </div>
           </Reveal>
-        ) : null}
+        ): null}
 
         <Reveal delay={0.1}>
           <div className="mt-10 flex flex-col items-center gap-4 text-center">
@@ -127,7 +127,7 @@ export function Support() {
               Faire un don unique ou voir comment les dons sont utilisés →
             </Link>
             <p className="max-w-xl text-xs text-cream/45">
-              Transparence totale : 100 % des dons servent la mission. Tu peux modifier
+              Transparence totale: 100 % des dons servent la mission. Tu peux modifier
               ou arrêter ton soutien à tout moment, sans aucune question.
             </p>
           </div>

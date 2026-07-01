@@ -27,7 +27,7 @@ export type Prayer = {
 export const ADMIN_EMAILS = ["contact@jackbrunet.com", "mr.jacquesbrunet@gmail.com"];
 export const ADMIN_EMAIL = ADMIN_EMAILS[0];
 export function isAdminEmail(email?: string | null) {
-  return ADMIN_EMAILS.includes((email ?? "").trim().toLowerCase());
+  return ADMIN_EMAILS.includes((email?? "").trim().toLowerCase());
 }
 export type Comment = {
   id: string;
@@ -125,11 +125,11 @@ export async function getProfile(id: string): Promise<Profile | null> {
   const sb = getSupabase();
   if (!sb) return null;
   const { data } = await sb
-    .from("profiles")
-    .select("id,pseudo,avatar_url,bio,favorite_verses,verified")
-    .eq("id", id)
-    .single();
-  return (data as Profile) ?? null;
+.from("profiles")
+.select("id,pseudo,avatar_url,bio,favorite_verses,verified")
+.eq("id", id)
+.single();
+  return (data as Profile)?? null;
 }
 
 export async function updateProfile(id: string, patch: Partial<Profile>) {
@@ -143,25 +143,25 @@ export async function addFavoriteVerse(userId: string, v: FavoriteVerse): Promis
   const sb = getSupabase();
   if (!sb) return false;
   const profile = await getProfile(userId);
-  const current = profile?.favorite_verses ?? [];
+  const current = profile?.favorite_verses?? [];
   const exists = current.some(
-    (x) => x.text.trim() === v.text.trim() && (x.reference ?? "") === (v.reference ?? ""),
+    (x) => x.text.trim() === v.text.trim() && (x.reference?? "") === (v.reference?? ""),
   );
   if (exists) return true;
   const next = [...current, { reference: v.reference.trim(), text: v.text.trim() }];
   const { error } = await sb.from("profiles").update({ favorite_verses: next }).eq("id", userId);
-  return !error;
+  return!error;
 }
 
 async function profilesByIds(ids: string[]): Promise<Record<string, Profile>> {
   const sb = getSupabase();
   if (!sb || ids.length === 0) return {};
   const { data } = await sb
-    .from("profiles")
-    .select("id,pseudo,avatar_url,verified")
-    .in("id", Array.from(new Set(ids)));
+.from("profiles")
+.select("id,pseudo,avatar_url,verified")
+.in("id", Array.from(new Set(ids)));
   const map: Record<string, Profile> = {};
-  for (const p of (data as Profile[]) ?? []) map[p.id] = p;
+  for (const p of (data as Profile[])?? []) map[p.id] = p;
   return map;
 }
 
@@ -170,19 +170,19 @@ export async function listPrayers(): Promise<Prayer[]> {
   const sb = getSupabase();
   if (!sb) return [];
   const { data } = await sb
-    .from("prayers")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(60);
-  const prayers = (data as Prayer[]) ?? [];
+.from("prayers")
+.select("*")
+.order("created_at", { ascending: false })
+.limit(60);
+  const prayers = (data as Prayer[])?? [];
   const profs = await profilesByIds(prayers.map((p) => p.author_id));
   // Les sujets épinglés (par l'admin) remontent en tête, sans casser l'ordre.
   return prayers
-    .map((p) => ({ ...p, author: profs[p.author_id] }))
-    .sort((a, b) => Number(b.pinned ?? false) - Number(a.pinned ?? false));
+.map((p) => ({...p, author: profs[p.author_id] }))
+.sort((a, b) => Number(b.pinned?? false) - Number(a.pinned?? false));
 }
 
-/** Admin : épingle / désépingle un sujet de prière. */
+/** Admin: épingle / désépingle un sujet de prière. */
 export async function setPrayerPinned(id: string, pinned: boolean) {
   await getSupabase()?.rpc("set_prayer_pinned", { pid: id, val: pinned });
 }
@@ -192,26 +192,26 @@ export async function listAnsweredPrayers(): Promise<Prayer[]> {
   const sb = getSupabase();
   if (!sb) return [];
   const { data } = await sb
-    .from("prayers")
-    .select("*")
-    .eq("answered", true)
-    .eq("visibility", "public")
-    .order("created_at", { ascending: false })
-    .limit(60);
-  const prayers = (data as Prayer[]) ?? [];
+.from("prayers")
+.select("*")
+.eq("answered", true)
+.eq("visibility", "public")
+.order("created_at", { ascending: false })
+.limit(60);
+  const prayers = (data as Prayer[])?? [];
   const profs = await profilesByIds(prayers.map((p) => p.author_id));
-  return prayers.map((p) => ({ ...p, author: profs[p.author_id] }));
+  return prayers.map((p) => ({...p, author: profs[p.author_id] }));
 }
 
 export async function listMyPrayers(userId: string): Promise<Prayer[]> {
   const sb = getSupabase();
   if (!sb) return [];
   const { data } = await sb
-    .from("prayers")
-    .select("*")
-    .eq("author_id", userId)
-    .order("created_at", { ascending: false });
-  return (data as Prayer[]) ?? [];
+.from("prayers")
+.select("*")
+.eq("author_id", userId)
+.order("created_at", { ascending: false });
+  return (data as Prayer[])?? [];
 }
 
 export async function createPrayer(
@@ -222,11 +222,11 @@ export async function createPrayer(
   const sb = getSupabase();
   if (!sb) return null;
   const { data } = await sb
-    .from("prayers")
-    .insert({ body, visibility, author_id: authorId })
-    .select("id")
-    .single();
-  return (data as { id: string } | null)?.id ?? null;
+.from("prayers")
+.insert({ body, visibility, author_id: authorId })
+.select("id")
+.single();
+  return (data as { id: string } | null)?.id?? null;
 }
 
 export async function deletePrayer(id: string) {
@@ -243,10 +243,10 @@ export async function reactionsFor(prayerIds: string[]): Promise<Reaction[]> {
   const sb = getSupabase();
   if (!sb || prayerIds.length === 0) return [];
   const { data } = await sb
-    .from("prayer_reactions")
-    .select("prayer_id,user_id,type")
-    .in("prayer_id", prayerIds);
-  return (data as Reaction[]) ?? [];
+.from("prayer_reactions")
+.select("prayer_id,user_id,type")
+.in("prayer_id", prayerIds);
+  return (data as Reaction[])?? [];
 }
 
 export async function toggleReaction(
@@ -261,11 +261,11 @@ export async function toggleReaction(
     await sb.from("prayer_reactions").insert({ prayer_id: prayerId, user_id: userId, type });
   } else {
     await sb
-      .from("prayer_reactions")
-      .delete()
-      .eq("prayer_id", prayerId)
-      .eq("user_id", userId)
-      .eq("type", type);
+.from("prayer_reactions")
+.delete()
+.eq("prayer_id", prayerId)
+.eq("user_id", userId)
+.eq("type", type);
   }
 }
 
@@ -274,13 +274,13 @@ export async function listComments(prayerId: string): Promise<Comment[]> {
   const sb = getSupabase();
   if (!sb) return [];
   const { data } = await sb
-    .from("prayer_comments")
-    .select("*")
-    .eq("prayer_id", prayerId)
-    .order("created_at", { ascending: true });
-  const comments = (data as Comment[]) ?? [];
+.from("prayer_comments")
+.select("*")
+.eq("prayer_id", prayerId)
+.order("created_at", { ascending: true });
+  const comments = (data as Comment[])?? [];
   const profs = await profilesByIds(comments.map((c) => c.author_id));
-  return comments.map((c) => ({ ...c, author: profs[c.author_id] }));
+  return comments.map((c) => ({...c, author: profs[c.author_id] }));
 }
 
 export async function addComment(prayerId: string, body: string, authorId: string) {
@@ -300,11 +300,11 @@ export async function uploadAvatar(userId: string, file: File): Promise<string |
   const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
   const path = `${userId}/${Date.now()}.${ext}`;
   const { error } = await sb.storage
-    .from("avatars")
-    .upload(path, file, { upsert: true, cacheControl: "3600", contentType: file.type });
+.from("avatars")
+.upload(path, file, { upsert: true, cacheControl: "3600", contentType: file.type });
   if (error) return null;
   const { data } = sb.storage.from("avatars").getPublicUrl(path);
-  return data.publicUrl ?? null;
+  return data.publicUrl?? null;
 }
 
 /* ---- Abonnements (follow) ---- */
@@ -318,22 +318,22 @@ export async function unfollow(followingId: string, followerId: string) {
   const sb = getSupabase();
   if (!sb) return;
   await sb
-    .from("follows")
-    .delete()
-    .eq("follower_id", followerId)
-    .eq("following_id", followingId);
+.from("follows")
+.delete()
+.eq("follower_id", followerId)
+.eq("following_id", followingId);
 }
 
 export async function isFollowing(followingId: string, followerId: string): Promise<boolean> {
   const sb = getSupabase();
   if (!sb) return false;
   const { data } = await sb
-    .from("follows")
-    .select("follower_id")
-    .eq("follower_id", followerId)
-    .eq("following_id", followingId)
-    .maybeSingle();
-  return !!data;
+.from("follows")
+.select("follower_id")
+.eq("follower_id", followerId)
+.eq("following_id", followingId)
+.maybeSingle();
+  return!!data;
 }
 
 /** { followers, following } pour un profil. */
@@ -344,7 +344,7 @@ export async function followCounts(userId: string): Promise<{ followers: number;
     sb.from("follows").select("*", { count: "exact", head: true }).eq("following_id", userId),
     sb.from("follows").select("*", { count: "exact", head: true }).eq("follower_id", userId),
   ]);
-  return { followers: followers ?? 0, following: following ?? 0 };
+  return { followers: followers?? 0, following: following?? 0 };
 }
 
 /** Recherche de membres par pseudo. */
@@ -353,15 +353,15 @@ export async function searchProfiles(query: string, limit = 20): Promise<Profile
   const q = query.trim();
   if (!sb || q.length < 2) return [];
   const { data } = await sb
-    .from("profiles")
-    .select("id,pseudo,avatar_url,verified")
-    .ilike("pseudo", `%${q}%`)
-    .limit(limit);
-  return (data as Profile[]) ?? [];
+.from("profiles")
+.select("id,pseudo,avatar_url,verified")
+.ilike("pseudo", `%${q}%`)
+.limit(limit);
+  return (data as Profile[])?? [];
 }
 
-/** Admin : envoie une notification à TOUS les membres (ex. live de prière).
- *  Renvoie le nombre de membres notifiés, ou null en cas d'échec. */
+/** Admin: envoie une notification à TOUS les membres (ex. live de prière).
+ * Renvoie le nombre de membres notifiés, ou null en cas d'échec. */
 export async function broadcastNotification(
   message: string,
   link?: string | null,
@@ -373,11 +373,11 @@ export async function broadcastNotification(
     link: link?.trim() || null,
   });
   if (error) return null;
-  return typeof data === "number" ? data : 0;
+  return typeof data === "number"? data: 0;
 }
 
 /** Pseudos réservés à Pasteur Jack (toutes variantes _/-/espace/casse).
- *  Seul un compte admin peut les utiliser. */
+ * Seul un compte admin peut les utiliser. */
 const RESERVED_PSEUDOS = [
   "jackbrnt",
   "jackbrunet",
@@ -396,37 +396,37 @@ export function isReservedPseudo(pseudo: string): boolean {
 export async function isPseudoTaken(pseudo: string, selfId: string): Promise<boolean> {
   const sb = getSupabase();
   const p = pseudo.trim();
-  if (!sb || !p) return false;
+  if (!sb ||!p) return false;
   const { data } = await sb
-    .from("profiles")
-    .select("id")
-    .ilike("pseudo", p)
-    .neq("id", selfId)
-    .limit(1);
-  return ((data as { id: string }[]) ?? []).length > 0;
+.from("profiles")
+.select("id")
+.ilike("pseudo", p)
+.neq("id", selfId)
+.limit(1);
+  return ((data as { id: string }[])?? []).length > 0;
 }
 
 /** Profil correspondant exactement à un pseudo (insensible à la casse). */
 export async function getProfileByPseudo(pseudo: string): Promise<Profile | null> {
   const sb = getSupabase();
   const p = pseudo.trim();
-  if (!sb || !p) return null;
+  if (!sb ||!p) return null;
   const { data } = await sb
-    .from("profiles")
-    .select("id,pseudo,avatar_url,verified")
-    .ilike("pseudo", p)
-    .limit(1)
-    .maybeSingle();
-  return (data as Profile | null) ?? null;
+.from("profiles")
+.select("id,pseudo,avatar_url,verified")
+.ilike("pseudo", p)
+.limit(1)
+.maybeSingle();
+  return (data as Profile | null)?? null;
 }
 
 /** Extrait les pseudos mentionnés (@pseudo) d'un texte. */
 export function extractMentions(text: string): string[] {
   const out = new Set<string>();
-  // Pseudos : lettres/chiffres/_/-/accents/espace insécable exclus.
+  // Pseudos: lettres/chiffres/_/-/accents/espace insécable exclus.
   const re = /@([\p{L}\p{N}_.-]{2,30})/gu;
   let m: RegExpExecArray | null;
-  while ((m = re.exec(text)) !== null) out.add(m[1]);
+  while ((m = re.exec(text))!== null) out.add(m[1]);
   return Array.from(out);
 }
 
@@ -437,10 +437,10 @@ export async function notifyMentions(text: string, actorId: string, prayerId?: s
   const pseudos = extractMentions(text);
   if (pseudos.length === 0) return;
   const { data } = await sb.from("profiles").select("id,pseudo").in("pseudo", pseudos);
-  const targets = ((data as { id: string }[]) ?? []).map((r) => r.id).filter((id) => id !== actorId);
+  const targets = ((data as { id: string }[])?? []).map((r) => r.id).filter((id) => id!== actorId);
   await Promise.all(
     targets.map((target) =>
-      sb.rpc("notify_mention", { target, prayer: prayerId ?? null }).then(
+      sb.rpc("notify_mention", { target, prayer: prayerId?? null }).then(
         () => undefined,
         () => undefined,
       ),
@@ -453,7 +453,7 @@ export async function listFollowingIds(userId: string): Promise<string[]> {
   const sb = getSupabase();
   if (!sb) return [];
   const { data } = await sb.from("follows").select("following_id").eq("follower_id", userId);
-  return ((data as { following_id: string }[]) ?? []).map((r) => r.following_id);
+  return ((data as { following_id: string }[])?? []).map((r) => r.following_id);
 }
 
 /** Profils des membres qui me suivent (abonnés). */
@@ -461,7 +461,7 @@ export async function listFollowers(userId: string): Promise<Profile[]> {
   const sb = getSupabase();
   if (!sb) return [];
   const { data } = await sb.from("follows").select("follower_id").eq("following_id", userId);
-  const ids = ((data as { follower_id: string }[]) ?? []).map((r) => r.follower_id);
+  const ids = ((data as { follower_id: string }[])?? []).map((r) => r.follower_id);
   const map = await profilesByIds(ids);
   return ids.map((id) => map[id]).filter(Boolean) as Profile[];
 }
@@ -480,18 +480,18 @@ export async function removeFollower(followerId: string, userId: string) {
   await sb.from("follows").delete().eq("follower_id", followerId).eq("following_id", userId);
 }
 
-/** Suggestions de membres à suivre (intercesseurs), façon Instagram :
- *  on exclut soi-même et les personnes déjà suivies. */
+/** Suggestions de membres à suivre (intercesseurs), façon Instagram:
+ * on exclut soi-même et les personnes déjà suivies. */
 export async function suggestedProfiles(userId: string, limit = 12): Promise<Profile[]> {
   const sb = getSupabase();
   if (!sb) return [];
   const exclude = new Set(await listFollowingIds(userId));
   exclude.add(userId);
   const { data } = await sb
-    .from("profiles")
-    .select("id,pseudo,avatar_url,bio")
-    .limit(limit + exclude.size + 12);
-  return ((data as Profile[]) ?? []).filter((p) => !exclude.has(p.id)).slice(0, limit);
+.from("profiles")
+.select("id,pseudo,avatar_url,bio")
+.limit(limit + exclude.size + 12);
+  return ((data as Profile[])?? []).filter((p) =>!exclude.has(p.id)).slice(0, limit);
 }
 
 /** Fil des prières des membres que je suis (+ les miennes). */
@@ -501,14 +501,14 @@ export async function listFollowingFeed(userId: string): Promise<Prayer[]> {
   const ids = await listFollowingIds(userId);
   const authors = Array.from(new Set([...ids, userId]));
   const { data } = await sb
-    .from("prayers")
-    .select("*")
-    .in("author_id", authors)
-    .order("created_at", { ascending: false })
-    .limit(60);
-  const prayers = (data as Prayer[]) ?? [];
+.from("prayers")
+.select("*")
+.in("author_id", authors)
+.order("created_at", { ascending: false })
+.limit(60);
+  const prayers = (data as Prayer[])?? [];
   const profs = await profilesByIds(prayers.map((p) => p.author_id));
-  return prayers.map((p) => ({ ...p, author: profs[p.author_id] }));
+  return prayers.map((p) => ({...p, author: profs[p.author_id] }));
 }
 
 /** Activité (pour le grade de prière). */
@@ -518,11 +518,11 @@ export async function getActivity(
   const sb = getSupabase();
   if (!sb) return { prayers: 0, comments: 0, prays: 0 };
   const { data } = await sb.rpc("user_activity", { uid: userId });
-  const row = Array.isArray(data) ? data[0] : data;
+  const row = Array.isArray(data)? data[0]: data;
   return {
-    prayers: row?.prayers ?? 0,
-    comments: row?.comments ?? 0,
-    prays: row?.prays ?? 0,
+    prayers: row?.prayers?? 0,
+    comments: row?.comments?? 0,
+    prays: row?.prays?? 0,
   };
 }
 
@@ -531,25 +531,25 @@ export async function listNotifications(userId: string, limit = 30): Promise<Not
   const sb = getSupabase();
   if (!sb) return [];
   const { data } = await sb
-    .from("notifications")
-    .select("*")
-    .eq("user_id", userId)
-    .order("created_at", { ascending: false })
-    .limit(limit);
-  const notifs = (data as Notification[]) ?? [];
+.from("notifications")
+.select("*")
+.eq("user_id", userId)
+.order("created_at", { ascending: false })
+.limit(limit);
+  const notifs = (data as Notification[])?? [];
   const profs = await profilesByIds(notifs.map((n) => n.actor_id).filter(Boolean) as string[]);
-  return notifs.map((n) => ({ ...n, actor: n.actor_id ? profs[n.actor_id] : undefined }));
+  return notifs.map((n) => ({...n, actor: n.actor_id? profs[n.actor_id]: undefined }));
 }
 
 export async function unreadCount(userId: string): Promise<number> {
   const sb = getSupabase();
   if (!sb) return 0;
   const { count } = await sb
-    .from("notifications")
-    .select("*", { count: "exact", head: true })
-    .eq("user_id", userId)
-    .eq("read", false);
-  return count ?? 0;
+.from("notifications")
+.select("*", { count: "exact", head: true })
+.eq("user_id", userId)
+.eq("read", false);
+  return count?? 0;
 }
 
 export async function markNotificationsRead(userId: string) {
@@ -563,10 +563,10 @@ export async function listPrayersByAuthor(authorId: string): Promise<Prayer[]> {
   const sb = getSupabase();
   if (!sb) return [];
   const { data } = await sb
-    .from("prayers")
-    .select("*")
-    .eq("author_id", authorId)
-    .order("created_at", { ascending: false })
-    .limit(60);
-  return (data as Prayer[]) ?? [];
+.from("prayers")
+.select("*")
+.eq("author_id", authorId)
+.order("created_at", { ascending: false })
+.limit(60);
+  return (data as Prayer[])?? [];
 }

@@ -9,8 +9,8 @@ import { BREVO_ENDPOINTS } from "@/config/brevo";
  * (aucune clé API exposée). Envoyé une seule fois par email/appareil.
  */
 export async function captureEmail(email?: string | null) {
-  const e = (email ?? "").trim().toLowerCase();
-  if (!e || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) return;
+  const e = (email?? "").trim().toLowerCase();
+  if (!e ||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) return;
   const key = `jb.brevo.captured.${e}`;
   try {
     if (localStorage.getItem(key)) return;

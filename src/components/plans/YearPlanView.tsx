@@ -20,17 +20,17 @@ export function YearPlanView() {
 
   useEffect(() => {
     fetch(asset("/bible/index.json"))
-      .then((r) => r.json())
-      .then(setIndex)
-      .catch(() => setIndex([]));
+.then((r) => r.json())
+.then(setIndex)
+.catch(() => setIndex([]));
   }, []);
 
-  const plan: PlanDay[] = useMemo(() => (index ? buildYearPlan(index) : []), [index]);
+  const plan: PlanDay[] = useMemo(() => (index? buildYearPlan(index): []), [index]);
 
   // Au chargement, se positionne sur le premier jour non lu.
   useEffect(() => {
-    if (day !== null || plan.length === 0) return;
-    const firstTodo = plan.find((d) => !progress.isDone(d.day))?.day ?? YEAR_PLAN_DAYS;
+    if (day!== null || plan.length === 0) return;
+    const firstTodo = plan.find((d) =>!progress.isDone(d.day))?.day?? YEAR_PLAN_DAYS;
     setDay(firstTodo);
   }, [plan, day, progress]);
 
@@ -63,9 +63,9 @@ export function YearPlanView() {
     <section className="container-x max-w-2xl py-10">
       <Celebration
         open={celebrate}
-        emoji="🎉"
-        title="Toute la Bible lue en 1 an !"
-        message="Quel parcours ! Tu as traversé toute la Parole de Dieu. Qu'elle reste une lampe à tes pieds."
+        emoji=""
+        title="Toute la Bible lue en 1 an!"
+        message="Quel parcours! Tu as traversé toute la Parole de Dieu. Qu'elle reste une lampe à tes pieds."
         onClose={() => setCelebrate(false)}
       />
 
@@ -85,14 +85,14 @@ export function YearPlanView() {
         </div>
       </div>
 
-      {allDone ? (
+      {allDone? (
         <div className="mt-6 rounded-3xl border border-dawn-400/50 bg-gradient-to-br from-dawn-50 to-white p-6 text-center shadow-glow">
-          <p className="font-display text-xl font-bold">🎉 Toute la Bible lue en 1 an — bravo !</p>
+          <p className="font-display text-xl font-bold">Toute la Bible lue en 1 an — bravo!</p>
           <p className="mt-1 text-sm text-night-900/65">
             « Ta parole est une lampe à mes pieds, et une lumière sur mon sentier. »
           </p>
         </div>
-      ) : null}
+      ): null}
 
       {/* Jour courant */}
       <div className="mt-6 rounded-3xl border border-night-900/10 bg-white p-6">
@@ -100,11 +100,11 @@ export function YearPlanView() {
           <span className="text-xs font-bold uppercase tracking-[0.18em] text-spirit-600">
             Jour {current.day} / {YEAR_PLAN_DAYS}
           </span>
-          {progress.isDone(current.day) ? (
+          {progress.isDone(current.day)? (
             <span className="rounded-full bg-dawn-400/15 px-3 py-1 text-xs font-bold text-dawn-700">
               ✓ Lu
             </span>
-          ) : null}
+          ): null}
         </div>
         <h2 className="mt-2 font-display text-2xl font-extrabold">{current.label}</h2>
 
@@ -124,10 +124,10 @@ export function YearPlanView() {
           type="button"
           onClick={() => progress.toggleDay(current.day)}
           className={`mt-6 w-full justify-center ${
-            progress.isDone(current.day) ? "btn-ghost" : "btn-primary"
+            progress.isDone(current.day)? "btn-ghost": "btn-primary"
           }`}
         >
-          {progress.isDone(current.day) ? "✓ Marqué comme lu" : "Marquer ce jour comme lu"}
+          {progress.isDone(current.day)? "✓ Marqué comme lu": "Marquer ce jour comme lu"}
         </button>
       </div>
 
@@ -136,7 +136,7 @@ export function YearPlanView() {
         <button
           type="button"
           disabled={day <= 1}
-          onClick={() => setDay((d) => Math.max(1, (d ?? 1) - 1))}
+          onClick={() => setDay((d) => Math.max(1, (d?? 1) - 1))}
           className="btn-ghost disabled:opacity-40"
         >
           ← Jour précédent
@@ -144,7 +144,7 @@ export function YearPlanView() {
         <button
           type="button"
           disabled={day >= YEAR_PLAN_DAYS}
-          onClick={() => setDay((d) => Math.min(YEAR_PLAN_DAYS, (d ?? 1) + 1))}
+          onClick={() => setDay((d) => Math.min(YEAR_PLAN_DAYS, (d?? 1) + 1))}
           className="btn-ghost disabled:opacity-40"
         >
           Jour suivant →

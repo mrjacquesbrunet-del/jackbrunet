@@ -15,7 +15,7 @@ export default function MentionsLegalesPage() {
 
       <section className="container-x py-12">
         <div className="mx-auto max-w-3xl space-y-8 text-night-900/80 leading-relaxed">
-          <p className="text-sm text-night-900/50">Dernière mise à jour : juin 2026</p>
+          <p className="text-sm text-night-900/50">Dernière mise à jour: juin 2026</p>
 
           <div>
             <h2 className="font-display text-2xl font-bold text-night-900">Éditeur du site</h2>
@@ -23,16 +23,16 @@ export default function MentionsLegalesPage() {
               Le présent site est édité par Jack Brunet, entrepreneur individuel (micro-entreprise).
             </p>
             <ul className="mt-3 list-disc pl-5 space-y-1.5">
-              <li>Nom : Jack Brunet</li>
-              <li>Adresse : 24 rue Maurice Ravel, 64000 Pau</li>
-              <li>SIRET : 94164311600010</li>
+              <li>Nom: Jack Brunet</li>
+              <li>Adresse: 24 rue Maurice Ravel, 64000 Pau</li>
+              <li>SIRET: 94164311600010</li>
               <li>
-                Email :{" "}
+                Email:{" "}
                 <a href={`mailto:${siteConfig.contactEmail}`} className="underline underline-offset-2">
                   {siteConfig.contactEmail}
                 </a>
               </li>
-              <li>TVA : TVA non applicable, article 293 B du Code général des impôts.</li>
+              <li>TVA: TVA non applicable, article 293 B du Code général des impôts.</li>
             </ul>
           </div>
 
@@ -56,7 +56,7 @@ export default function MentionsLegalesPage() {
               >
                 https://github.com
               </a>
-              .
+.
             </p>
           </div>
 

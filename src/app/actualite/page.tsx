@@ -6,7 +6,7 @@ import { getEvents } from "@/lib/content";
 export const metadata: Metadata = {
   title: "Actualité",
   description:
-    "Toute l'actualité de Jack Brunet : lives en ligne, événements en présentiel, et grandes annonces (livre, application, missions). L'agenda des 3 prochains mois.",
+    "Toute l'actualité de Jack Brunet: lives en ligne, événements en présentiel, et grandes annonces (livre, application, missions). L'agenda des 3 prochains mois.",
 };
 
 export default function ActualitePage() {

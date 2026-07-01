@@ -1,7 +1,7 @@
 import { asset } from "@/lib/asset";
 
 /** Icône « mains en prière » officielle (fournie par Pasteur Jack, charte lime,
- *  fond transparent). Utilisée comme symbole de prière dans l'app et le site. */
+ * fond transparent). Utilisée comme symbole de prière dans l'app et le site. */
 export function PrayerMark({ className }: { className?: string }) {
   return (
     // eslint-disable-next-line @next/next/no-img-element
@@ -9,7 +9,7 @@ export function PrayerMark({ className }: { className?: string }) {
       src={asset("/icons/priere.png")}
       alt=""
       aria-hidden="true"
-      className={`inline-block object-contain ${className ?? "h-5 w-5"}`}
+      className={`inline-block object-contain ${className?? "h-5 w-5"}`}
     />
   );
 }

@@ -102,7 +102,7 @@ export function PrayerSpace() {
 
         <Reveal from="right" delay={0.1}>
           <div className="glass-strong p-7 sm:p-8">
-            {status === "success" ? (
+            {status === "success"? (
               <div className="flex flex-col items-center gap-4 py-10 text-center">
                 <h3 className="font-display text-2xl font-bold">Reçu, du fond du cœur</h3>
                 <p className="max-w-sm text-cream/70">{message}</p>
@@ -110,7 +110,7 @@ export function PrayerSpace() {
                   Déposer une autre requête
                 </button>
               </div>
-            ) : (
+            ): (
               <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
@@ -196,15 +196,15 @@ export function PrayerSpace() {
                     className="field-area"
                   />
                 </div>
-                {status === "error" ? (
+                {status === "error"? (
                   <p className="field-error">{message}</p>
-                ) : (
+                ): (
                   <p className="field-note">
                     Tes coordonnées restent confidentielles et nous servent uniquement à te répondre.
                   </p>
                 )}
                 <button type="submit" className="btn-primary" disabled={status === "loading"}>
-                  {status === "loading" ? "Envoi…" : "Confier ma prière"}
+                  {status === "loading"? "Envoi…": "Confier ma prière"}
                 </button>
               </form>
             )}

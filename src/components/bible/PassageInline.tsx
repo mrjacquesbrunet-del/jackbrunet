@@ -44,15 +44,15 @@ export function PassageInline({ reference }: { reference: string }) {
   }, [reference]);
 
   function loadComm(bookId: number, chapter: number) {
-    if (commState !== "idle") return;
+    if (commState!== "idle") return;
     setCommState("loading");
     fetch(asset(`/commentary/${bookId}/${chapter}.json`))
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((d: Record<number, Commentary>) => {
+.then((r) => (r.ok? r.json(): Promise.reject()))
+.then((d: Record<number, Commentary>) => {
         setComm(d);
         setCommState("loaded");
       })
-      .catch(() => setCommState("none"));
+.catch(() => setCommState("none"));
   }
 
   function toggle(v: number) {
@@ -68,8 +68,8 @@ export function PassageInline({ reference }: { reference: string }) {
   if (verses === null) {
     return <p className="text-sm text-night-900/40">Chargement du passage…</p>;
   }
-  if (verses.length === 0 || !meta) {
-    // Référence non résolue : on affiche au moins la référence.
+  if (verses.length === 0 ||!meta) {
+    // Référence non résolue: on affiche au moins la référence.
     return <p className="text-sm font-semibold text-spirit-700">{reference}</p>;
   }
 
@@ -100,9 +100,9 @@ export function PassageInline({ reference }: { reference: string }) {
                 aria-expanded={open}
                 className="mt-1 text-xs font-semibold text-spirit-600 hover:underline"
               >
-                {open ? "Masquer le commentaire" : "Commentaire & sens des mots"}
+                {open? "Masquer le commentaire": "Commentaire & sens des mots"}
               </button>
-              {open ? <CommentaryPanel state={commState} data={comm[n]} /> : null}
+              {open? <CommentaryPanel state={commState} data={comm[n]} />: null}
             </div>
           );
         })}

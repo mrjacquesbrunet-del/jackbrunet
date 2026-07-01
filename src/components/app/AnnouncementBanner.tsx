@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getActiveAnnouncement, type Announcement } from "@/lib/announcements";
+import { MegaphoneGlyph } from "@/components/ui/DevoIcons";
 
 const KEY = "jb.announce.dismissed";
 
@@ -22,7 +23,7 @@ export function AnnouncementBanner() {
       } catch {
         /* ignore */
       }
-      if (dismissed !== res.id) setA(res);
+      if (dismissed!== res.id) setA(res);
     });
   }, []);
 
@@ -39,10 +40,10 @@ export function AnnouncementBanner() {
 
   const inner = (
     <div className="flex items-start gap-3">
-      <span className="mt-0.5 text-lg leading-none">📣</span>
+      <MegaphoneGlyph className="mt-0.5 h-5 w-5 shrink-0" />
       <div className="min-w-0 flex-1">
         <p className="font-display text-sm font-extrabold leading-tight">{a.title}</p>
-        {a.body ? <p className="mt-0.5 text-xs leading-snug text-night-950/80">{a.body}</p> : null}
+        {a.body? <p className="mt-0.5 text-xs leading-snug text-night-950/80">{a.body}</p>: null}
       </div>
     </div>
   );
@@ -50,11 +51,11 @@ export function AnnouncementBanner() {
   return (
     <div className="fixed inset-x-0 top-0 z-[80] px-3 pt-[calc(0.5rem+env(safe-area-inset-top))]">
       <div className="mx-auto flex max-w-lg items-center gap-2 rounded-2xl border border-night-950/10 bg-[#CAF000] px-4 py-3 text-night-950 shadow-card">
-        {a.link ? (
+        {a.link? (
           <Link href={a.link} onClick={close} className="min-w-0 flex-1">
             {inner}
           </Link>
-        ) : (
+        ): (
           <div className="min-w-0 flex-1">{inner}</div>
         )}
         <button

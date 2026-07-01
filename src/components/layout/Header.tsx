@@ -18,7 +18,7 @@ export function Header() {
 
   // Verrouille le scroll quand le menu mobile est ouvert.
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
+    document.body.style.overflow = open? "hidden": "";
     return () => {
       document.body.style.overflow = "";
     };
@@ -28,8 +28,8 @@ export function Header() {
     <header
       className={`site-header fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b border-night-900/10 bg-cream/85 backdrop-blur-xl"
-          : "border-b border-transparent"
+? "border-b border-night-900/10 bg-cream/85 backdrop-blur-xl"
+: "border-b border-transparent"
       }`}
     >
       <div className="container-x flex h-16 items-center justify-between gap-4 sm:h-20">
@@ -57,7 +57,7 @@ export function Header() {
             </Link>
           ))}
 
-          {/* Menu « Plus » : pages secondaires */}
+          {/* Menu « Plus »: pages secondaires */}
           <div className="group relative">
             <button
               type="button"
@@ -100,25 +100,25 @@ export function Header() {
 
           <button
             type="button"
-            aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-label={open? "Fermer le menu": "Ouvrir le menu"}
             aria-expanded={open}
-            onClick={() => setOpen((v) => !v)}
+            onClick={() => setOpen((v) =>!v)}
             className="grid h-10 w-10 place-items-center rounded-full border border-night-900/20 bg-night-900/[0.03] lg:hidden"
           >
             <span className="relative block h-4 w-5">
               <span
                 className={`absolute left-0 top-0 h-0.5 w-5 bg-night-900 transition-all duration-300 ${
-                  open ? "top-1.5 rotate-45" : ""
+                  open? "top-1.5 rotate-45": ""
                 }`}
               />
               <span
                 className={`absolute left-0 top-1.5 h-0.5 w-5 bg-night-900 transition-all duration-300 ${
-                  open ? "opacity-0" : ""
+                  open? "opacity-0": ""
                 }`}
               />
               <span
                 className={`absolute left-0 top-3 h-0.5 w-5 bg-night-900 transition-all duration-300 ${
-                  open ? "top-1.5 -rotate-45" : ""
+                  open? "top-1.5 -rotate-45": ""
                 }`}
               />
             </span>
@@ -127,7 +127,7 @@ export function Header() {
       </div>
 
       <AnimatePresence>
-        {open ? (
+        {open? (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
@@ -169,7 +169,7 @@ export function Header() {
               </Link>
             </nav>
           </motion.div>
-        ) : null}
+        ): null}
       </AnimatePresence>
     </header>
   );

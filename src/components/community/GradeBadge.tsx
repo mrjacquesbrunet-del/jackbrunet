@@ -18,7 +18,7 @@ export function GradeBadge({ activity }: { activity: Activity }) {
 /** Carte de progression de grade (sur le profil). */
 export function GradeProgress({ activity }: { activity: Activity }) {
   const { grade, points, next, toNext } = gradeFor(activity);
-  const pct = next ? Math.min(100, Math.round((points / next.min) * 100)) : 100;
+  const pct = next? Math.min(100, Math.round((points / next.min) * 100)): 100;
   return (
     <div className="rounded-2xl border border-night-900/10 bg-gradient-to-br from-dawn-400/[0.08] to-spirit-500/[0.06] p-4">
       <div className="flex items-center justify-between">
@@ -26,7 +26,7 @@ export function GradeProgress({ activity }: { activity: Activity }) {
         <span className="text-xs font-semibold text-night-900/50">{points} pts</span>
       </div>
       <p className="mt-0.5 text-sm text-night-900/65">{grade.blurb}</p>
-      {next ? (
+      {next? (
         <>
           <div className="mt-3 h-2 overflow-hidden rounded-full bg-night-900/10">
             <div
@@ -39,8 +39,8 @@ export function GradeProgress({ activity }: { activity: Activity }) {
             <strong className="text-spirit-700">{next.name}</strong>
           </p>
         </>
-      ) : (
-        <p className="mt-3 text-xs font-semibold text-spirit-700">Grade maximal atteint. 🙏</p>
+      ): (
+        <p className="mt-3 text-xs font-semibold text-spirit-700">Grade maximal atteint.</p>
       )}
     </div>
   );

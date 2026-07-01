@@ -1,11 +1,11 @@
 /** Encoche « certifié » réservée aux comptes admin (Pasteur Jack).
- *  Sceau lime de la charte + coche sombre, pour qu'on reconnaisse le vrai compte. */
+ * Sceau lime de la charte + coche sombre, pour qu'on reconnaisse le vrai compte. */
 export function VerifiedBadge({ className }: { className?: string }) {
   return (
     <span
       title="Compte certifié — Pasteur Jack Brunet"
       aria-label="Compte certifié"
-      className={`inline-block align-middle ${className ?? "h-4 w-4"}`}
+      className={`inline-block align-middle ${className?? "h-4 w-4"}`}
     >
       <svg viewBox="0 0 24 24" className="h-full w-full">
         <path

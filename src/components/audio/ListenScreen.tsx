@@ -14,7 +14,7 @@ import { usePodcastPlayer } from "@/lib/podcast-player";
 import { useAuth } from "@/components/community/useAuth";
 import { isAdminEmail } from "@/lib/community";
 import { siteConfig } from "@/config/site";
-import { PlayGlyph, PauseGlyph } from "@/components/ui/DevoIcons";
+import { PlayGlyph, PauseGlyph, HeadphonesGlyph } from "@/components/ui/DevoIcons";
 
 const FAV_KEY = "jb.podcast.favs.v1";
 
@@ -63,9 +63,9 @@ export function ListenScreen() {
     });
   }
 
-  const shown = tracks ? (tab === "fav" ? tracks.filter((t) => favs.has(t.id)) : tracks) : null;
+  const shown = tracks? (tab === "fav"? tracks.filter((t) => favs.has(t.id)): tracks): null;
 
-  // Lien profond : /ecouter?e=<id> lance l'épisode.
+  // Lien profond: /ecouter?e=<id> lance l'épisode.
   useEffect(() => {
     if (!tracks) return;
     const e = new URLSearchParams(window.location.search).get("e");
@@ -87,7 +87,7 @@ export function ListenScreen() {
     const url = `${siteConfig.url}/ecouter?e=${t.id}`;
     try {
       const nav = navigator as Navigator & { share?: (d: object) => Promise<void> };
-      if (nav.share) await nav.share({ title: t.title, text: `Écoute « ${t.title} » — Pasteur Jack 🎧`, url });
+      if (nav.share) await nav.share({ title: t.title, text: `Écoute « ${t.title} » — Pasteur Jack`, url });
       else await navigator.clipboard.writeText(url);
     } catch {
       /* annulé */
@@ -95,7 +95,7 @@ export function ListenScreen() {
   }
 
   async function onFiles(e: React.ChangeEvent<HTMLInputElement>) {
-    const files = Array.from(e.target.files ?? []);
+    const files = Array.from(e.target.files?? []);
     e.target.value = "";
     if (files.length === 0) return;
     setUpload({ done: 0, total: files.length });
@@ -108,18 +108,18 @@ export function ListenScreen() {
   }
 
   async function editTrack(t: AudioTrack) {
-    const title = prompt("Titre de l'épisode :", t.title);
+    const title = prompt("Titre de l'épisode:", t.title);
     if (title === null) return;
-    const description = prompt("Description (facultative) :", t.description ?? "");
+    const description = prompt("Description (facultative):", t.description?? "");
     await updatePodcast(t.id, {
       title: title.trim() || t.title,
-      description: (description ?? "").trim() || null,
+      description: (description?? "").trim() || null,
     });
     load();
   }
 
   async function remove(t: AudioTrack) {
-    if (!confirm(`Supprimer « ${t.title} » ?`)) return;
+    if (!confirm(`Supprimer « ${t.title} »?`)) return;
     await deletePodcast(t.id, t.path);
     load();
   }
@@ -129,7 +129,7 @@ export function ListenScreen() {
       {/* En-tête podcast */}
       <div className="mx-auto max-w-md text-center">
         <div className="mx-auto grid aspect-square w-[74vw] max-w-[320px] place-items-center overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-spirit-500 to-night-900 shadow-card">
-          {coverUrl && !coverBroken ? (
+          {coverUrl &&!coverBroken? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={coverUrl}
@@ -137,7 +137,7 @@ export function ListenScreen() {
               onError={() => setCoverBroken(true)}
               className="h-full w-full object-cover"
             />
-          ) : (
+          ): (
             <div className="text-cream">
               <svg viewBox="0 0 24 24" className="mx-auto h-12 w-12 fill-none stroke-dawn-400" strokeWidth={1.6}>
                 <path d="M4 14v-2a8 8 0 0 1 16 0v2M4 14v3a2 2 0 0 0 2 2h1v-6H6a2 2 0 0 0-2 1zM20 14v3a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 1z" strokeLinecap="round" strokeLinejoin="round" />
@@ -148,13 +148,13 @@ export function ListenScreen() {
         </div>
         <h1 className="mt-4 font-display text-2xl font-extrabold">Podcast de Pasteur Jack</h1>
         <p className="mt-1 text-sm text-night-900/60">
-          {tracks ? `${tracks.length} épisode${tracks.length > 1 ? "s" : ""}` : "Chargement…"} ·
+          {tracks? `${tracks.length} épisode${tracks.length > 1? "s": ""}`: "Chargement…"} ·
           Nouveaux enseignements
         </p>
         <div className="mt-4 flex items-center justify-center gap-2">
           <button type="button" onClick={heroPlay} className="btn-primary inline-flex items-center gap-2">
-            {pod.playing ? <PauseGlyph className="h-5 w-5" /> : <PlayGlyph className="h-5 w-5" />}
-            {pod.playing ? "Pause" : "Lire"}
+            {pod.playing? <PauseGlyph className="h-5 w-5" />: <PlayGlyph className="h-5 w-5" />}
+            {pod.playing? "Pause": "Lire"}
           </button>
           <Link
             href="/videos"
@@ -168,10 +168,13 @@ export function ListenScreen() {
         </div>
       </div>
 
-      {/* Admin : envoi des audios */}
-      {admin ? (
+      {/* Admin: envoi des audios */}
+      {admin? (
         <div className="mx-auto mt-6 max-w-md rounded-3xl border border-dawn-400/40 bg-cream/70 p-5">
-          <p className="font-display font-bold">🎧 Ajouter des audios (admin)</p>
+          <p className="flex items-center gap-2 font-display font-bold">
+            <HeadphonesGlyph className="h-5 w-5 text-spirit-600" />
+            Ajouter des audios (admin)
+          </p>
           <p className="mt-1 text-sm text-night-900/60">
             Le nom du fichier devient le titre. Tu peux ensuite modifier titre & description avec le crayon.
           </p>
@@ -182,10 +185,10 @@ export function ListenScreen() {
             disabled={!!upload}
             className="btn-primary mt-3 disabled:opacity-50"
           >
-            {upload ? `Envoi… ${upload.done}/${upload.total}` : "Choisir des fichiers"}
+            {upload? `Envoi… ${upload.done}/${upload.total}`: "Choisir des fichiers"}
           </button>
         </div>
-      ) : null}
+      ): null}
 
       {/* Onglets */}
       <div className="mx-auto mt-8 flex max-w-2xl gap-1 rounded-full border border-night-900/10 bg-night-900/[0.03] p-1">
@@ -200,7 +203,7 @@ export function ListenScreen() {
             type="button"
             onClick={() => setTab(key)}
             className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
-              tab === key ? "bg-white text-night-900 shadow-sm" : "text-night-900/55"
+              tab === key? "bg-white text-night-900 shadow-sm": "text-night-900/55"
             }`}
           >
             {lbl}
@@ -210,20 +213,20 @@ export function ListenScreen() {
 
       {/* Liste */}
       <div className="mx-auto mt-5 max-w-2xl">
-        {shown === null ? (
+        {shown === null? (
           <p className="text-night-900/50">Chargement…</p>
-        ) : shown.length === 0 ? (
+        ): shown.length === 0? (
           <div className="glass-strong p-6 text-center">
             <p className="font-display text-lg font-bold">
-              {tab === "fav" ? "Aucun favori pour l'instant ⭐" : "Les audios arrivent bientôt 🎧"}
+              {tab === "fav"? "Aucun favori pour l'instant": "Les audios arrivent bientôt"}
             </p>
             <p className="mt-1 text-sm text-night-900/60">
               {tab === "fav"
-                ? "Touche le cœur sur un épisode pour le retrouver ici."
-                : "De nouveaux enseignements sont en préparation."}
+? "Touche le cœur sur un épisode pour le retrouver ici."
+: "De nouveaux enseignements sont en préparation."}
             </p>
           </div>
-        ) : (
+        ): (
           <ul className="space-y-2">
             {shown.map((t) => {
               const idx = tracks!.findIndex((x) => x.id === t.id);
@@ -233,28 +236,28 @@ export function ListenScreen() {
                 <li
                   key={t.id}
                   className={`rounded-2xl border p-3 transition-colors ${
-                    isCur ? "border-dawn-400/50 bg-dawn-400/10" : "border-night-900/10 bg-white"
+                    isCur? "border-dawn-400/50 bg-dawn-400/10": "border-night-900/10 bg-white"
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <button
                       type="button"
-                      onClick={() => (isCur ? pod.toggle() : playAt(idx))}
-                      aria-label={isCur && pod.playing ? "Pause" : "Lire"}
+                      onClick={() => (isCur? pod.toggle(): playAt(idx))}
+                      aria-label={isCur && pod.playing? "Pause": "Lire"}
                       className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-night-900 text-dawn-400"
                     >
-                      {isCur && pod.playing ? <PauseGlyph className="h-5 w-5" /> : <PlayGlyph className="h-5 w-5" />}
+                      {isCur && pod.playing? <PauseGlyph className="h-5 w-5" />: <PlayGlyph className="h-5 w-5" />}
                     </button>
                     <div className="min-w-0 flex-1">
-                      {t.created_at ? (
+                      {t.created_at? (
                         <p className="text-[11px] font-semibold uppercase tracking-wide text-night-900/40">
                           {when(t.created_at)}
                         </p>
-                      ) : null}
+                      ): null}
                       <p className="truncate font-semibold text-night-900/90">{t.title}</p>
-                      {t.description ? (
+                      {t.description? (
                         <p className="mt-0.5 line-clamp-2 text-sm text-night-900/55">{t.description}</p>
-                      ) : null}
+                      ): null}
                     </div>
                   </div>
 
@@ -262,10 +265,10 @@ export function ListenScreen() {
                     <button
                       type="button"
                       onClick={() => toggleFav(t.id)}
-                      aria-label={fav ? "Retirer des favoris" : "Ajouter aux favoris"}
+                      aria-label={fav? "Retirer des favoris": "Ajouter aux favoris"}
                       className="grid h-8 w-8 place-items-center rounded-full text-night-900/45 transition-colors hover:bg-night-900/5 hover:text-spirit-700"
                     >
-                      <svg viewBox="0 0 24 24" className={`h-[18px] w-[18px] stroke-current ${fav ? "fill-current text-spirit-600" : "fill-none"}`} strokeWidth={1.8}>
+                      <svg viewBox="0 0 24 24" className={`h-[18px] w-[18px] stroke-current ${fav? "fill-current text-spirit-600": "fill-none"}`} strokeWidth={1.8}>
                         <path d="M12 20.3l-1.45-1.32C5.4 14.24 2 11.16 2 7.5 2 4.9 4.02 3 6.5 3c1.74 0 3.4 1 4.22 2.44h.56C12.1 4 13.76 3 15.5 3 17.98 3 20 4.9 20 7.5c0 3.66-3.4 6.74-8.55 11.49L12 20.3z" strokeLinejoin="round" />
                       </svg>
                     </button>
@@ -289,7 +292,7 @@ export function ListenScreen() {
                         <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </a>
-                    {admin ? (
+                    {admin? (
                       <>
                         <button
                           type="button"
@@ -310,7 +313,7 @@ export function ListenScreen() {
                           ✕
                         </button>
                       </>
-                    ) : null}
+                    ): null}
                   </div>
                 </li>
               );

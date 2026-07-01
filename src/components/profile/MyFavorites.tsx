@@ -14,12 +14,12 @@ const KIND_LABEL: Record<string, string> = {
 export function MyFavorites() {
   const { saved, removeSnippet } = useToolkit();
   const { profile } = useAuth();
-  const verses = profile?.favorite_verses ?? [];
+  const verses = profile?.favorite_verses?? [];
 
   // Regroupe les enregistrements par type.
   const groups = saved.reduce<Record<string, typeof saved>>((acc, s) => {
-    const k = KIND_LABEL[s.kind] ? s.kind : "texte";
-    (acc[k] ??= []).push(s);
+    const k = KIND_LABEL[s.kind]? s.kind: "texte";
+    (acc[k]??= []).push(s);
     return acc;
   }, {});
 
@@ -28,18 +28,18 @@ export function MyFavorites() {
   return (
     <section className="py-10">
       <div className="container-x max-w-3xl">
-        {isEmpty ? (
+        {isEmpty? (
           <div className="glass p-8 text-center">
             <p className="font-display text-xl font-bold">Rien d'enregistré pour l'instant</p>
             <p className="mx-auto mt-2 max-w-md text-sm text-night-900/65">
-              Touche un verset, une méditation ou une parole forte puis « Enregistrer » : tu la
+              Touche un verset, une méditation ou une parole forte puis « Enregistrer »: tu la
               retrouveras ici, regroupée au même endroit.
             </p>
           </div>
-        ) : (
+        ): (
           <div className="space-y-10">
             {/* Versets préférés du profil (publics) */}
-            {verses.length > 0 ? (
+            {verses.length > 0? (
               <div>
                 <h2 className="font-display text-lg font-bold">
                   Mes versets préférés{" "}
@@ -49,22 +49,22 @@ export function MyFavorites() {
                   {verses.map((v, i) => (
                     <li key={`fav-${i}`} className="rounded-2xl border border-night-900/10 bg-white/70 p-4">
                       <p className="text-[15px] leading-relaxed text-night-900/85">« {v.text} »</p>
-                      {v.reference ? (
+                      {v.reference? (
                         <p className="mt-1 text-xs font-bold uppercase tracking-wide text-spirit-700">
                           {v.reference}
                         </p>
-                      ) : null}
+                      ): null}
                     </li>
                   ))}
                 </ul>
               </div>
-            ) : null}
+            ): null}
 
             {/* Enregistrements locaux, par type */}
             {Object.entries(groups).map(([kind, items]) => (
               <div key={kind}>
                 <h2 className="font-display text-lg font-bold">
-                  {KIND_LABEL[kind] ?? "Textes"}{" "}
+                  {KIND_LABEL[kind]?? "Textes"}{" "}
                   <span className="text-sm font-semibold text-night-900/50">({items.length})</span>
                 </h2>
                 <ul className="mt-3 space-y-2">
@@ -75,11 +75,11 @@ export function MyFavorites() {
                     >
                       <p className="text-[15px] leading-relaxed text-night-900/85">{s.text}</p>
                       <div className="mt-2 flex items-center justify-between">
-                        {s.reference ? (
+                        {s.reference? (
                           <span className="text-xs font-bold uppercase tracking-wide text-spirit-700">
                             {s.reference}
                           </span>
-                        ) : (
+                        ): (
                           <span />
                         )}
                         <button

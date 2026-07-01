@@ -24,25 +24,25 @@ export const FIDELITY_REWARDS: Reward[] = [
   {
     id: "d7",
     days: 7,
-    emoji: "🔥",
+    emoji: "",
     title: "7 jours d'affilée",
-    blurb: "Ton cadeau : l'ebook « 7 jours pour retrouver la paix ».",
+    blurb: "Ton cadeau: l'ebook « 7 jours pour retrouver la paix ».",
     href: "/ebook/7-jours",
     cta: "Lire l'ebook",
   },
   {
     id: "d30",
     days: 30,
-    emoji: "⭐",
+    emoji: "",
     title: "30 jours d'affilée",
-    blurb: "Ton cadeau : les premières méditations de RHEMA.",
+    blurb: "Ton cadeau: les premières méditations de RHEMA.",
     href: "/ebook/rhema",
     cta: "Découvrir RHEMA",
   },
   {
     id: "d100",
     days: 100,
-    emoji: "🎁",
+    emoji: "",
     title: "100 jours d'affilée",
     blurb: "Un cadeau mystère t'attend pour récompenser ta fidélité.",
     href: "/surprise",
@@ -54,9 +54,9 @@ export const FIDELITY_REWARDS: Reward[] = [
 export const AMBASSADOR_REWARD: Reward = {
   id: "ambassadeur",
   days: 0,
-  emoji: "📣",
+  emoji: "",
   title: "Ambassadeur",
-  blurb: "Merci d'avoir partagé l'app ! Un bonus pour bénir autour de toi.",
+  blurb: "Merci d'avoir partagé l'app! Un bonus pour bénir autour de toi.",
   href: "/soaking",
   cta: "Profiter du bonus",
 };
@@ -99,13 +99,13 @@ export function markShared() {
 
 /** Partage l'application (partage natif si dispo, sinon copie le lien). */
 export async function shareApp(url: string): Promise<boolean> {
-  const text = "Découvre l'application Jack Brunet : Foi & Prière 🙏";
+  const text = "Découvre l'application Jack Brunet: Foi & Prière";
   try {
     const nav = navigator as Navigator & {
       share?: (data: { title?: string; text?: string; url?: string }) => Promise<void>;
     };
     if (typeof nav.share === "function") {
-      await nav.share({ title: "Jack Brunet : Foi & Prière", text, url });
+      await nav.share({ title: "Jack Brunet: Foi & Prière", text, url });
       markShared();
       return true;
     }
@@ -120,5 +120,5 @@ export async function shareApp(url: string): Promise<boolean> {
 /** Combien de jours restants avant le prochain palier (0 si tous atteints). */
 export function daysToNext(best: number): number {
   const next = FIDELITY_REWARDS.find((r) => best < r.days);
-  return next ? next.days - best : 0;
+  return next? next.days - best: 0;
 }

@@ -55,20 +55,20 @@ export function BottomNav() {
               key={t.href}
               href={t.href}
               className={`flex flex-1 flex-col items-center gap-1 py-2.5 text-[10px] font-semibold transition-colors ${
-                active ? "text-[#CAF000]" : "text-cream/55"
+                active? "text-[#CAF000]": "text-cream/55"
               }`}
             >
-              {t.img ? (
+              {t.img? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={asset(t.img)}
                   alt=""
                   aria-hidden="true"
                   className={`h-6 w-6 object-contain transition-all ${
-                    active ? "opacity-100" : "opacity-55 grayscale"
+                    active? "opacity-100": "opacity-55 grayscale"
                   }`}
                 />
-              ) : (
+              ): (
                 <Icon d={t.icon} className="h-6 w-6" />
               )}
               {t.label}

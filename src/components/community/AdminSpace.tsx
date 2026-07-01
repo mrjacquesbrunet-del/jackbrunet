@@ -5,9 +5,10 @@ import { useAuth } from "@/components/community/useAuth";
 import { isAdminEmail } from "@/lib/community";
 import { AdminAnnounce } from "@/components/community/AdminAnnounce";
 import { AnalyticsDashboard } from "@/components/community/AnalyticsDashboard";
+import { ChartGlyph, HeadphonesGlyph } from "@/components/ui/DevoIcons";
 
-/** Espace admin unique et masqué (/admin) : stats, annonces, podcasts, etc.
- *  Invisible et inaccessible pour les non-admins. */
+/** Espace admin unique et masqué (/admin): stats, annonces, podcasts, etc.
+ * Invisible et inaccessible pour les non-admins. */
 export function AdminSpace() {
   const { ready, email } = useAuth();
 
@@ -16,7 +17,7 @@ export function AdminSpace() {
   }
 
   if (!isAdminEmail(email)) {
-    // Page masquée : un non-admin voit une page « introuvable ».
+    // Page masquée: un non-admin voit une page « introuvable ».
     return (
       <section className="container-x py-24 text-center">
         <p className="font-display text-2xl font-extrabold">Page introuvable</p>
@@ -34,12 +35,15 @@ export function AdminSpace() {
         <span className="eyebrow">Réservé à Pasteur Jack</span>
         <h1 className="mt-2 font-display text-3xl font-extrabold sm:text-4xl">Espace admin</h1>
         <p className="mt-1 text-sm text-night-900/60">
-          Ton tableau de bord pour tout piloter : statistiques, annonces, podcasts.
+          Ton tableau de bord pour tout piloter: statistiques, annonces, podcasts.
         </p>
 
         {/* Statistiques */}
         <div className="glass-strong mt-8 p-5 sm:p-6">
-          <h2 className="font-display text-xl font-bold">📊 Statistiques</h2>
+          <h2 className="flex items-center gap-2 font-display text-xl font-bold">
+            <ChartGlyph className="h-5 w-5 text-spirit-600" />
+            Statistiques
+          </h2>
           <p className="mt-1 text-sm text-night-900/60">
             Fréquentation et écoutes (anonymes) — jour / semaine / mois.
           </p>
@@ -55,7 +59,10 @@ export function AdminSpace() {
 
         {/* Podcasts */}
         <div className="mt-6 rounded-3xl border border-night-900/10 bg-white p-5 sm:p-6">
-          <h2 className="font-display text-xl font-bold">🎧 Podcasts</h2>
+          <h2 className="flex items-center gap-2 font-display text-xl font-bold">
+            <HeadphonesGlyph className="h-5 w-5 text-spirit-600" />
+            Podcasts
+          </h2>
           <p className="mt-1 text-sm text-night-900/60">
             Ajoute, renomme, décris ou supprime tes audios depuis la page Écouter.
           </p>

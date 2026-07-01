@@ -17,13 +17,13 @@ export async function getActiveAnnouncement(): Promise<Announcement | null> {
   if (!sb) return null;
   try {
     const { data } = await sb
-      .from("announcements")
-      .select("*")
-      .eq("active", true)
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .maybeSingle();
-    return (data as Announcement) ?? null;
+.from("announcements")
+.select("*")
+.eq("active", true)
+.order("created_at", { ascending: false })
+.limit(1)
+.maybeSingle();
+    return (data as Announcement)?? null;
   } catch {
     return null;
   }
@@ -38,7 +38,7 @@ export async function postAnnouncement(title: string, body: string, link: string
     body: body.trim() || null,
     link: link.trim() || null,
   });
-  return !error;
+  return!error;
 }
 
 /** Désactive toutes les annonces actives (pour « retirer » la bannière). */

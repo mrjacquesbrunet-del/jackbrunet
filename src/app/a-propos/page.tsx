@@ -10,7 +10,7 @@ import { asset } from "@/lib/asset";
 export const metadata: Metadata = {
   title: "À propos",
   description:
-    "Notre histoire, notre vision et notre mission : conduire chaque personne à rencontrer Jésus et grandir en Lui, chaque jour.",
+    "Notre histoire, notre vision et notre mission: conduire chaque personne à rencontrer Jésus et grandir en Lui, chaque jour.",
 };
 
 const values = [
@@ -28,7 +28,7 @@ const values = [
   },
   {
     title: "Le zèle",
-    text: "Le zèle, c'est refuser de vivre une foi tiède. C'est servir Dieu avec passion, avec feu, avec persévérance, sans perdre de vue l'essentiel : Jésus. Je crois que notre génération a besoin de chrétiens réveillés, engagés, consacrés, brûlants d'amour pour Dieu et disponibles pour Sa mission.",
+    text: "Le zèle, c'est refuser de vivre une foi tiède. C'est servir Dieu avec passion, avec feu, avec persévérance, sans perdre de vue l'essentiel: Jésus. Je crois que notre génération a besoin de chrétiens réveillés, engagés, consacrés, brûlants d'amour pour Dieu et disponibles pour Sa mission.",
   },
 ];
 
@@ -102,7 +102,7 @@ export default function AProposPage() {
             </Reveal>
             <Reveal delay={0.1}>
               <p>
-                Quand j'ai commencé à publier des vidéos, mon désir était simple : parler de Dieu de
+                Quand j'ai commencé à publier des vidéos, mon désir était simple: parler de Dieu de
                 manière concrète, parler de Jésus avec clarté, et transmettre une parole capable
                 d'encourager, de réveiller et de transformer.
               </p>
@@ -134,7 +134,7 @@ export default function AProposPage() {
           <div className="mt-10 mx-auto max-w-3xl space-y-6 text-base leading-relaxed text-night-900/70 sm:text-lg">
             <Reveal delay={0.05}>
               <p>
-                Avec le temps, j'ai compris que Dieu m'avait donné un mandat particulier : appeler
+                Avec le temps, j'ai compris que Dieu m'avait donné un mandat particulier: appeler
                 les personnes à s'enraciner plus profondément dans leur intimité avec Jésus et dans
                 leur identité d'enfant de Dieu.
               </p>
@@ -159,7 +159,7 @@ export default function AProposPage() {
             <Reveal delay={0.17}>
               <p>
                 Aujourd'hui, ce qui me guide, c'est le désir de voir des hommes et des femmes
-                devenir de véritables disciples de Jésus : des personnes qui ne se contentent pas
+                devenir de véritables disciples de Jésus: des personnes qui ne se contentent pas
                 de croire en Lui, mais qui apprennent à Lui ressembler dans leur quotidien.
               </p>
             </Reveal>
@@ -221,7 +221,7 @@ export default function AProposPage() {
             <p>
               En 2015, Dieu a commencé à m'appeler à prendre davantage ma place dans ce qu'Il
               voulait me confier. Mais pendant plusieurs années, j'ai résisté. Pas par manque
-              d'amour pour Dieu, mais parce que j'étais tiraillé par la peur : la peur de me
+              d'amour pour Dieu, mais parce que j'étais tiraillé par la peur: la peur de me
               tromper, la peur de ne pas être capable, la peur du regard des autres, la peur de
               faire ce que Dieu me demandait réellement. Il m'a fallu cinq ans avant d'oser répondre
               pleinement.
@@ -232,7 +232,7 @@ export default function AProposPage() {
               En 2020, j'ai décidé de ne plus marcher par la peur, mais par l'obéissance. J'ai
               commencé à publier mes premières vidéos, à faire mes premiers lives, à annoncer
               l'Évangile sur les réseaux sociaux avec les moyens que j'avais. Et très rapidement,
-              j'ai commencé à voir le fruit de Dieu : des personnes touchées, des vies encouragées,
+              j'ai commencé à voir le fruit de Dieu: des personnes touchées, des vies encouragées,
               des cœurs ramenés à Jésus, des témoignages de restauration, de repentance, de foi
               renouvelée et de retour à Dieu.
             </p>
@@ -241,7 +241,7 @@ export default function AProposPage() {
             <p>
               Quelques années plus tard, ce sont des millions de personnes qui ont été exposées au
               message de l'Évangile, à la Parole de Dieu et à l'action du Saint-Esprit à travers
-              ces contenus. Et ce qui m'anime reste le même : voir Jésus être annoncé et voir des
+              ces contenus. Et ce qui m'anime reste le même: voir Jésus être annoncé et voir des
               vies transformées.
             </p>
           </Reveal>
@@ -273,7 +273,7 @@ export default function AProposPage() {
           <div className="mt-10 mx-auto max-w-3xl">
             <Reveal delay={0.05}>
               <p className="text-base leading-relaxed text-night-900/70 sm:text-lg">
-                Aujourd'hui, je crois que Dieu m'appelle à avancer dans plusieurs directions :
+                Aujourd'hui, je crois que Dieu m'appelle à avancer dans plusieurs directions:
               </p>
             </Reveal>
             <Reveal delay={0.1}>
@@ -309,7 +309,7 @@ export default function AProposPage() {
             </div>
             <Reveal delay={0.22}>
               <p className="mt-10 text-base leading-relaxed text-night-900/70 sm:text-lg">
-                Ma prière est simple : que chaque message, chaque vidéo, chaque mission, chaque
+                Ma prière est simple: que chaque message, chaque vidéo, chaque mission, chaque
                 prédication et chaque projet puissent conduire les personnes à Jésus. Parce qu'au
                 fond, tout part de Lui. Tout tient par Lui. Et tout doit revenir à Lui.
               </p>

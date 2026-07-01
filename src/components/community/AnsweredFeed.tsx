@@ -15,18 +15,18 @@ export function AnsweredFeed() {
 
   useEffect(() => {
     listAnsweredPrayers()
-      .then(setPrayers)
-      .catch(() => setPrayers([]));
+.then(setPrayers)
+.catch(() => setPrayers([]));
   }, []);
 
   return (
     <section className="py-10">
       <div className="container-x max-w-3xl">
-        {prayers === null ? (
+        {prayers === null? (
           <p className="text-sm text-night-900/55">Chargement des témoignages…</p>
-        ) : prayers.length === 0 ? (
+        ): prayers.length === 0? (
           <div className="glass p-8 text-center">
-            <p className="font-display text-xl font-bold">Bientôt les premiers témoignages 🙌</p>
+            <p className="font-display text-xl font-bold">Bientôt les premiers témoignages</p>
             <p className="mx-auto mt-2 max-w-md text-sm text-night-900/65">
               Quand une prière du mur est marquée « exaucée », elle apparaît ici pour rendre gloire à
               Dieu et encourager toute la communauté.
@@ -35,7 +35,7 @@ export function AnsweredFeed() {
               Aller au mur de prière
             </Link>
           </div>
-        ) : (
+        ): (
           <ul className="space-y-4">
             {prayers.map((p) => (
               <li
@@ -46,7 +46,7 @@ export function AnsweredFeed() {
                   <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden>
                     <path d="M12 2l2.4 5 5.6.8-4 4 1 5.6L12 19.8 6.9 22l1-5.6-4-4 5.6-.8z" />
                   </svg>
-                  Dieu a agi — prière exaucée 🙌
+                  Dieu a agi — prière exaucée
                 </div>
                 <div className="p-5">
                   <div className="flex items-center gap-3">
@@ -58,7 +58,7 @@ export function AnsweredFeed() {
                         href={`/membre?u=${p.author_id}`}
                         className="font-display font-bold leading-tight hover:underline"
                       >
-                        {p.author?.pseudo ?? "Ami(e)"}
+                        {p.author?.pseudo?? "Ami(e)"}
                       </Link>
                       <p className="text-xs text-night-900/50">{when(p.created_at)}</p>
                     </div>

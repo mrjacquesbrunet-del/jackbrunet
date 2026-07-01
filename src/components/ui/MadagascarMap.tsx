@@ -1,9 +1,9 @@
 /**
  * Contour de Madagascar (tracé réel), utilisé comme texture de fond.
- * Hérite de la couleur du texte (`currentColor`) : place-le dans un conteneur
+ * Hérite de la couleur du texte (`currentColor`): place-le dans un conteneur
  * `text-spirit-600/10`, `text-dawn-400/15`, etc. Le tracé est en système 0.1x
  * (transform du <g>) ; un strokeWidth de 30 y équivaut à ~3 unités de viewBox.
- * Source du tracé : mapsicon (domaine public).
+ * Source du tracé: mapsicon (domaine public).
  */
 export function MadagascarMap({ className }: { className?: string }) {
   return (

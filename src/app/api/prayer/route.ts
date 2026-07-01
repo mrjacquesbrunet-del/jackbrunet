@@ -13,10 +13,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Requête invalide." }, { status: 400 });
   }
 
-  const name = (payload.name ?? "Anonyme").trim().slice(0, 80);
-  const email = (payload.email ?? "").trim().toLowerCase().slice(0, 160);
-  const phone = (payload.phone ?? "").trim().slice(0, 40);
-  const text = (payload.request ?? "").trim();
+  const name = (payload.name?? "Anonyme").trim().slice(0, 80);
+  const email = (payload.email?? "").trim().toLowerCase().slice(0, 160);
+  const phone = (payload.phone?? "").trim().slice(0, 40);
+  const text = (payload.request?? "").trim();
 
   if (text.length < 3) {
     return NextResponse.json(

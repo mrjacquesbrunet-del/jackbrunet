@@ -33,7 +33,7 @@ const FEATURES = [
 
 /**
  * Écran d'accueil au 1er lancement de l'APPLICATION (uniquement).
- * Invite à créer un compte (Google ou email) sans l'imposer : un lien
+ * Invite à créer un compte (Google ou email) sans l'imposer: un lien
  * « Continuer sans compte » permet d'entrer librement (conforme App Store).
  * Ne s'affiche jamais sur le site (monté seulement par AppShell en mode app).
  */
@@ -92,11 +92,11 @@ export function AppOnboarding() {
     try {
       await signInGoogle();
     } catch (e) {
-      const msg = e instanceof Error ? e.message : String(e);
+      const msg = e instanceof Error? e.message: String(e);
       setErr(
         /provider is not enabled|Unsupported provider/i.test(msg)
-          ? "La connexion Google n'est pas encore activée."
-          : "Connexion Google impossible. Réessaie.",
+? "La connexion Google n'est pas encore activée."
+: "Connexion Google impossible. Réessaie.",
       );
       setGBusy(false);
     }
@@ -120,11 +120,11 @@ export function AppOnboarding() {
     }
   }
 
-  const show = ready && !userId && !dismissed;
+  const show = ready &&!userId &&!dismissed;
 
   return (
     <AnimatePresence>
-      {show ? (
+      {show? (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -157,7 +157,7 @@ export function AppOnboarding() {
                 ))}
               </ul>
 
-              {native ? (
+              {native? (
                 <div className="mt-8">
                   <EmailPasswordAuth onSuccess={close} />
                   <button
@@ -167,7 +167,7 @@ export function AppOnboarding() {
                     Continuer sans compte
                   </button>
                 </div>
-              ) : sent ? (
+              ): sent? (
                 <div className="mt-8 rounded-2xl border border-dawn-400/30 bg-dawn-400/10 p-4 text-center text-sm text-cream">
                   ✓ Un lien de connexion vient d'être envoyé à <strong>{email}</strong>.
                   Ouvre ta boîte mail et clique dessus.
@@ -175,7 +175,7 @@ export function AppOnboarding() {
                     Continuer
                   </button>
                 </div>
-              ) : (
+              ): (
                 <div className="mt-8">
                   <button
                     type="button"
@@ -183,7 +183,7 @@ export function AppOnboarding() {
                     disabled={gBusy}
                     className="flex w-full items-center justify-center gap-3 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-night-900 transition-transform hover:scale-[1.02] disabled:opacity-60"
                   >
-                    <GoogleMark /> {gBusy ? "Redirection…" : "Continuer avec Google"}
+                    <GoogleMark /> {gBusy? "Redirection…": "Continuer avec Google"}
                   </button>
 
                   <button
@@ -208,11 +208,11 @@ export function AppOnboarding() {
                       className="field w-full"
                     />
                     <button type="submit" disabled={busy} className="btn-primary w-full justify-center">
-                      {busy ? "Un instant…" : "Créer mon compte"}
+                      {busy? "Un instant…": "Créer mon compte"}
                     </button>
                   </form>
 
-                  {err ? <p className="field-error mt-2">{err}</p> : null}
+                  {err? <p className="field-error mt-2">{err}</p>: null}
 
                   <button
                     onClick={close}
@@ -221,14 +221,14 @@ export function AppOnboarding() {
                     Continuer sans compte
                   </button>
                   <p className="mt-2 text-center text-[11px] text-cream/40">
-                    Pas de mot de passe : tu reçois un lien sécurisé par email.
+                    Pas de mot de passe: tu reçois un lien sécurisé par email.
                   </p>
                 </div>
               )}
             </div>
           </div>
         </motion.div>
-      ) : null}
+      ): null}
     </AnimatePresence>
   );
 }
@@ -245,9 +245,9 @@ function GoogleMark() {
   return (
     <svg viewBox="0 0 24 24" className="h-5 w-5">
       <path fill="#4285F4" d="M22.5 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.9a5 5 0 0 1-2.2 3.3v2.7h3.6c2.1-2 3.2-4.9 3.2-7.8z" />
-      <path fill="#34A853" d="M12 23c2.9 0 5.4-1 7.2-2.6l-3.6-2.7c-1 .7-2.3 1.1-3.6 1.1-2.8 0-5.1-1.9-6-4.4H2.3v2.8A11 11 0 0 0 12 23z" />
+      <path fill="#34A853" d="M12 23c2.9 0 5.4-1 7.2-2.6l-3.6-2.7c-1.7-2.3 1.1-3.6 1.1-2.8 0-5.1-1.9-6-4.4H2.3v2.8A11 11 0 0 0 12 23z" />
       <path fill="#FBBC05" d="M6 14.4a6.6 6.6 0 0 1 0-4.2V7.4H2.3a11 11 0 0 0 0 9.8z" />
-      <path fill="#EA4335" d="M12 5.5c1.6 0 3 .5 4.1 1.6l3.1-3.1A11 11 0 0 0 2.3 7.4L6 10.2c.9-2.6 3.2-4.7 6-4.7z" />
+      <path fill="#EA4335" d="M12 5.5c1.6 0 3.5 4.1 1.6l3.1-3.1A11 11 0 0 0 2.3 7.4L6 10.2c.9-2.6 3.2-4.7 6-4.7z" />
     </svg>
   );
 }

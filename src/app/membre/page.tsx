@@ -5,7 +5,7 @@ import { MemberView } from "@/components/community/MemberView";
 
 export const metadata: Metadata = {
   title: "Profil d'un membre",
-  description: "Le profil d'un membre de la communauté de prière : sa bio, ses versets et ses sujets de prière.",
+  description: "Le profil d'un membre de la communauté de prière: sa bio, ses versets et ses sujets de prière.",
 };
 
 export default function MembrePage() {

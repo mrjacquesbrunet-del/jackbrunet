@@ -15,7 +15,7 @@ export const siteConfig = {
   url: "https://jackbrunet.com",
   locale: "fr_FR",
   contactEmail: settings.contactEmail,
-  heroPhoto: (settings as { heroPhoto?: string }).heroPhoto ?? "",
+  heroPhoto: (settings as { heroPhoto?: string }).heroPhoto?? "",
   social: settings.social,
 };
 

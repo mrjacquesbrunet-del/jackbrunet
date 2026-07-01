@@ -1,5 +1,5 @@
 /**
- * Plan « La Bible en 1 an » : répartit les 1189 chapitres de la Bible en
+ * Plan « La Bible en 1 an »: répartit les 1189 chapitres de la Bible en
  * 365 jours, de façon déterministe (≈ 3-4 chapitres/jour, dans l'ordre
  * canonique). Les chapitres se déduisent de l'index — aucune donnée à stocker.
  */
@@ -25,7 +25,7 @@ export function buildYearPlan(index: PlanIndexBook[]): PlanDay[] {
   const days: PlanDay[] = [];
   let i = 0;
   for (let d = 0; d < YEAR_PLAN_DAYS; d++) {
-    const count = base + (d < extra ? 1 : 0);
+    const count = base + (d < extra? 1: 0);
     const chapters = seq.slice(i, i + count);
     i += count;
     days.push({ day: d + 1, chapters, label: rangeLabel(chapters) });
@@ -46,8 +46,8 @@ function rangeLabel(chapters: DayChapter[]): string {
     if (!sameRun) {
       parts.push(
         start.chap === prev.chap
-          ? `${start.nom} ${start.chap}`
-          : `${start.nom} ${start.chap}–${prev.chap}`,
+? `${start.nom} ${start.chap}`
+: `${start.nom} ${start.chap}–${prev.chap}`,
       );
       if (cur) start = cur;
     }

@@ -8,9 +8,9 @@ import { AppOnboarding } from "@/components/app/AppOnboarding";
 import { AnnouncementBanner } from "@/components/app/AnnouncementBanner";
 
 /**
- * Pilote l'expérience « application » :
+ * Pilote l'expérience « application »:
  * - ajoute la classe `app-native` sur <html> (masque le menu/pied de page du
- *   site, ajoute la marge basse pour la barre d'onglets) ;
+ * site, ajoute la marge basse pour la barre d'onglets) ;
  * - affiche la barre d'onglets en bas ;
  * - à l'ouverture, redirige l'accueil « / » vers la pensée du jour.
  */

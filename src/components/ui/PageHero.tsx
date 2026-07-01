@@ -19,12 +19,12 @@ export function PageHero({ eyebrow, title, description, children }: PageHeroProp
         <h1 className="mx-auto mt-6 max-w-3xl font-display text-4xl font-extrabold leading-[1.05] text-balance sm:text-5xl md:text-6xl">
           {title}
         </h1>
-        {description ? (
+        {description? (
           <p className="mx-auto mt-5 max-w-2xl text-base text-night-900/70 sm:text-lg">
             {description}
           </p>
-        ) : null}
-        {children ? <div className="mt-8">{children}</div> : null}
+        ): null}
+        {children? <div className="mt-8">{children}</div>: null}
       </div>
     </section>
   );

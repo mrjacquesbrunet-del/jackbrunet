@@ -11,7 +11,7 @@ import {
 } from "@/lib/community";
 
 function label(n: Notification) {
-  const who = n.actor?.pseudo ?? "Quelqu'un";
+  const who = n.actor?.pseudo?? "Quelqu'un";
   switch (n.type) {
     case "pray":
       return `${who} prie pour ton sujet`;
@@ -24,7 +24,7 @@ function label(n: Notification) {
     case "mention":
       return `${who} t'a mentionné(e)`;
     case "admin":
-      return n.body ? `📣 ${n.body}` : "📣 Message de Pasteur Jack";
+      return n.body? `${n.body}`: "Message de Pasteur Jack";
   }
 }
 function when(iso: string) {
@@ -51,7 +51,7 @@ export function ProfileNotifications({ userId }: { userId: string }) {
     const list = await listNotifications(userId, 50);
     setItems(list);
     // Consultées depuis le profil → marquées lues.
-    if (list.some((n) => !n.read)) await markNotificationsRead(userId);
+    if (list.some((n) =>!n.read)) await markNotificationsRead(userId);
   }, [userId]);
 
   useEffect(() => {
@@ -66,7 +66,7 @@ export function ProfileNotifications({ userId }: { userId: string }) {
     mention: 0,
     admin: 0,
   };
-  for (const n of items ?? []) counts[n.type]++;
+  for (const n of items?? []) counts[n.type]++;
 
   return (
     <div className="glass-strong p-5 sm:p-6">
@@ -77,9 +77,9 @@ export function ProfileNotifications({ userId }: { userId: string }) {
         {TYPES.map((t) => (
           <div key={t.key} className="rounded-2xl border border-night-900/10 bg-white p-3 text-center">
             <span className="mx-auto grid h-9 w-9 place-items-center rounded-xl bg-night-900 text-dawn-400">
-              {t.key === "pray" ? (
+              {t.key === "pray"? (
                 <PrayerMark className="h-5 w-5" />
-              ) : (
+              ): (
                 <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.7}>
                   <path d={t.icon} strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -93,13 +93,13 @@ export function ProfileNotifications({ userId }: { userId: string }) {
 
       {/* Liste récente */}
       <div className="mt-5">
-        {items === null ? (
+        {items === null? (
           <p className="text-sm text-night-900/45">Chargement…</p>
-        ) : items.length === 0 ? (
+        ): items.length === 0? (
           <p className="text-sm text-night-900/55">
-            Pas encore de notification. Partage un sujet de prière pour lancer les échanges. 🙏
+            Pas encore de notification. Partage un sujet de prière pour lancer les échanges.
           </p>
-        ) : (
+        ): (
           <ul className="divide-y divide-night-900/5">
             {items.slice(0, 12).map((n) => (
               <li key={n.id} className="flex items-center gap-3 py-2.5">

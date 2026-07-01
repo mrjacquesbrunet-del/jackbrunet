@@ -5,7 +5,7 @@ import type { AudioTrack } from "./audio-library";
 import { track } from "./analytics";
 
 /**
- * Lecteur de podcasts GLOBAL (singleton hors React) : la lecture continue
+ * Lecteur de podcasts GLOBAL (singleton hors React): la lecture continue
  * quand on change de page/onglet, écran verrouillé ou app en arrière-plan
  * (avec UIBackgroundModes=audio côté iOS + Media Session pour les contrôles).
  */
@@ -16,14 +16,14 @@ let audio: HTMLAudioElement | null = null;
 const listeners = new Set<() => void>();
 
 function emit() {
-  state = { ...state };
+  state = {...state };
   listeners.forEach((l) => l());
 }
 
 function setMediaSession() {
   const t = state.queue[state.index];
   const ms = (navigator as Navigator & { mediaSession?: MediaSession }).mediaSession;
-  if (!ms || !t) return;
+  if (!ms ||!t) return;
   try {
     ms.metadata = new MediaMetadata({
       title: t.title,
@@ -62,7 +62,7 @@ export function getPodcastAudio(): HTMLAudioElement | null {
 
 export function playQueue(queue: AudioTrack[], index: number) {
   const a = ensureAudio();
-  if (!a || !queue[index]) return;
+  if (!a ||!queue[index]) return;
   state.queue = queue;
   state.index = index;
   a.src = queue[index].url;
@@ -118,7 +118,7 @@ export function usePodcastPlayer() {
     queue: snap.queue,
     index: snap.index,
     playing: snap.playing,
-    current: snap.index >= 0 ? snap.queue[snap.index] : null,
+    current: snap.index >= 0? snap.queue[snap.index]: null,
     playQueue,
     toggle: togglePlay,
     next: nextTrack,

@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 /** Affiche un texte en transformant les mentions @pseudo en liens cliquables
- *  vers le profil du membre cité. */
+ * vers le profil du membre cité. */
 export function MentionText({ text, className }: { text: string; className?: string }) {
   const parts = text.split(/(@[\p{L}\p{N}_.-]{2,30})/gu);
   return (

@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 
-/** Annonces défilantes du profil (cliquables). Facile à enrichir : ajoute une
- *  entrée ici (titre, texte, lien, dégradé). */
+/** Annonces défilantes du profil (cliquables). Facile à enrichir: ajoute une
+ * entrée ici (titre, texte, lien, dégradé). */
 const BANNERS = [
   {
     href: "/boutique",
@@ -19,7 +19,7 @@ const BANNERS = [
     href: "/exclusivites",
     eyebrow: "Offert",
     title: "Tes exclusivités",
-    text: "Ebooks, soaking & bonus à débloquer 🎁",
+    text: "Ebooks, soaking & bonus à débloquer",
     from: "#3B0764",
     to: "#6D28D9",
   },
@@ -71,7 +71,7 @@ export function ProfileBanners() {
             onClick={() => setI(idx)}
             aria-label={`Annonce ${idx + 1}`}
             className={`h-1.5 rounded-full transition-all ${
-              idx === i ? "w-5 bg-spirit-600" : "w-1.5 bg-night-900/20"
+              idx === i? "w-5 bg-spirit-600": "w-1.5 bg-night-900/20"
             }`}
           />
         ))}

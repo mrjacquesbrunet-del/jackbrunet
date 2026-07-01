@@ -15,7 +15,7 @@ export function DailyThoughtCard({
   initialIndex: number;
 }) {
   const i = useTodayIndex(thoughts.length, initialIndex);
-  const thought = thoughts[i] ?? thoughts[0];
+  const thought = thoughts[i]?? thoughts[0];
 
   return (
     <article

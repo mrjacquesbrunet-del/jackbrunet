@@ -8,9 +8,9 @@ function deviceId(): string {
     let d = localStorage.getItem("jb.device.id");
     if (!d) {
       d =
-        typeof crypto !== "undefined" && crypto.randomUUID
-          ? crypto.randomUUID()
-          : String(Date.now()) + Math.random().toString(36).slice(2);
+        typeof crypto!== "undefined" && crypto.randomUUID
+? crypto.randomUUID()
+: String(Date.now()) + Math.random().toString(36).slice(2);
       localStorage.setItem("jb.device.id", d);
     }
     return d;
@@ -24,8 +24,8 @@ export function track(type: "page" | "play", page: string) {
   const sb = getSupabase();
   if (!sb) return;
   sb.from("analytics_events")
-    .insert({ type, page, device_id: deviceId() })
-    .then(
+.insert({ type, page, device_id: deviceId() })
+.then(
       () => undefined,
       () => undefined,
     );
@@ -59,5 +59,5 @@ export async function analyticsTop(
   if (!sb) return [];
   const { data, error } = await sb.rpc("analytics_top", { kind, days });
   if (error) return [];
-  return (data as { label: string; n: number }[]) ?? [];
+  return (data as { label: string; n: number }[])?? [];
 }

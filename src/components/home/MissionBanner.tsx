@@ -23,7 +23,7 @@ export function MissionBanner() {
               </h2>
               <p className="mt-2 max-w-xl text-sm text-cream/70">
                 {mission.period} d'évangélisation. Conférence, évangélisation
-                de rue et soutien aux œuvres. Objectif :{" "}
+                de rue et soutien aux œuvres. Objectif:{" "}
                 {mission.objectiveEur.toLocaleString("fr-FR")} €.
                 Rejoins-nous dans la prière ou le soutien.
               </p>

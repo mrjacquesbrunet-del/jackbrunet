@@ -27,7 +27,7 @@ export function readReminder(): ReminderPref {
   try {
     const raw = localStorage.getItem(REMINDER_KEY);
     if (!raw) return defaultReminder;
-    return { ...defaultReminder, ...(JSON.parse(raw) as Partial<ReminderPref>) };
+    return {...defaultReminder,...(JSON.parse(raw) as Partial<ReminderPref>) };
   } catch {
     return defaultReminder;
   }
@@ -47,7 +47,7 @@ function readStreak(): number {
     const raw = localStorage.getItem("jb.engagement.v1");
     if (!raw) return 0;
     const s = JSON.parse(raw) as { streak?: number };
-    return typeof s.streak === "number" ? s.streak : 0;
+    return typeof s.streak === "number"? s.streak: 0;
   } catch {
     return 0;
   }
@@ -57,13 +57,13 @@ function readStreak(): number {
 function reminderMessage(streak: number): { title: string; body: string } {
   if (streak >= 2) {
     return {
-      title: `🔥 ${streak} jours d'affilée — ne casse pas ta série !`,
-      body: "Prends un instant avec Dieu : ouvre ta méditation du jour.",
+      title: `${streak} jours d'affilée — ne casse pas ta série!`,
+      body: "Prends un instant avec Dieu: ouvre ta méditation du jour.",
     };
   }
   return {
-    title: "Ta pensée du jour t'attend 🙏",
-    body: "Prends un instant avec Dieu : ouvre le dévotionnel du jour.",
+    title: "Ta pensée du jour t'attend",
+    body: "Prends un instant avec Dieu: ouvre le dévotionnel du jour.",
   };
 }
 
@@ -73,7 +73,7 @@ export async function enableDailyReminder(hour: number, minute: number): Promise
   const { LocalNotifications } = await import("@capacitor/local-notifications");
 
   const perm = await LocalNotifications.requestPermissions();
-  if (perm.display !== "granted") return false;
+  if (perm.display!== "granted") return false;
 
   const { title, body } = reminderMessage(readStreak());
 
@@ -97,7 +97,7 @@ export async function enableDailyReminder(hour: number, minute: number): Promise
 /** Annule le rappel quotidien. */
 export async function disableDailyReminder(): Promise<void> {
   const current = readReminder();
-  writeReminder({ ...current, enabled: false });
+  writeReminder({...current, enabled: false });
   if (!isNativeApp()) return;
   const { LocalNotifications } = await import("@capacitor/local-notifications");
   await LocalNotifications.cancel({ notifications: [{ id: REMINDER_ID }] });

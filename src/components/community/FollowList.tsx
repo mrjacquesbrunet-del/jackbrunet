@@ -31,14 +31,14 @@ export function FollowList({
   const [busy, setBusy] = useState<string | null>(null);
 
   useEffect(() => {
-    (mode === "followers" ? listFollowers(userId) : listFollowing(userId)).then(setPeople);
+    (mode === "followers"? listFollowers(userId): listFollowing(userId)).then(setPeople);
   }, [userId, mode]);
 
   async function remove(id: string) {
     setBusy(id);
     if (mode === "followers") await removeFollower(id, userId);
     else await unfollow(id, userId);
-    setPeople((prev) => (prev ? prev.filter((p) => p.id !== id) : prev));
+    setPeople((prev) => (prev? prev.filter((p) => p.id!== id): prev));
     setBusy(null);
     onChange();
   }
@@ -55,7 +55,7 @@ export function FollowList({
         <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-night-900/15 sm:hidden" />
         <div className="flex items-center justify-between">
           <h3 className="font-display text-lg font-bold">
-            {mode === "followers" ? "Mes abonnés" : "Mes abonnements"}
+            {mode === "followers"? "Mes abonnés": "Mes abonnements"}
           </h3>
           <button
             type="button"
@@ -68,15 +68,15 @@ export function FollowList({
         </div>
 
         <div className="mt-3 max-h-[60vh] overflow-y-auto">
-          {people === null ? (
+          {people === null? (
             <p className="py-6 text-center text-sm text-night-900/45">Chargement…</p>
-          ) : people.length === 0 ? (
+          ): people.length === 0? (
             <p className="py-6 text-center text-sm text-night-900/55">
               {mode === "followers"
-                ? "Personne ne te suit encore."
-                : "Tu ne suis encore personne."}
+? "Personne ne te suit encore."
+: "Tu ne suis encore personne."}
             </p>
-          ) : (
+          ): (
             <ul className="divide-y divide-night-900/5">
               {people.map((p) => (
                 <li key={p.id} className="flex items-center gap-3 py-2.5">
@@ -89,7 +89,7 @@ export function FollowList({
                     className="flex min-w-0 flex-1 items-center gap-1.5 font-semibold text-night-900/85 hover:underline"
                   >
                     <span className="truncate">{p.pseudo}</span>
-                    {p.verified ? <VerifiedBadge className="h-4 w-4" /> : null}
+                    {p.verified? <VerifiedBadge className="h-4 w-4" />: null}
                   </Link>
                   <button
                     type="button"
@@ -97,7 +97,7 @@ export function FollowList({
                     disabled={busy === p.id}
                     className="shrink-0 rounded-full border border-night-900/15 px-3 py-1.5 text-sm font-semibold text-night-900/70 transition-colors hover:border-night-900/30 disabled:opacity-50"
                   >
-                    {mode === "followers" ? "Retirer" : "Se désabonner"}
+                    {mode === "followers"? "Retirer": "Se désabonner"}
                   </button>
                 </li>
               ))}

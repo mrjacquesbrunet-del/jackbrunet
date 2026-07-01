@@ -13,7 +13,7 @@ export function DailyVerseCard({
   initialIndex: number;
 }) {
   const i = useTodayIndex(verses.length, initialIndex);
-  const verse = verses[i] ?? verses[0];
+  const verse = verses[i]?? verses[0];
 
   return (
     <article

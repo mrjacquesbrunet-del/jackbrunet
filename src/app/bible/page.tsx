@@ -5,7 +5,7 @@ import { BibleReader } from "@/components/bible/BibleReader";
 export const metadata: Metadata = {
   title: "Bible",
   description:
-    "Lis la Bible (Louis Segond) directement en ligne : choisis un livre et un chapitre.",
+    "Lis la Bible (Louis Segond) directement en ligne: choisis un livre et un chapitre.",
 };
 
 export default function BiblePage() {
@@ -18,7 +18,7 @@ export default function BiblePage() {
             La Bible <span className="text-gradient">Louis Segond</span>
           </>
         }
-        description="Lis la Parole de Dieu directement sur le site : choisis un livre, un chapitre, et laisse-la prendre racine."
+        description="Lis la Parole de Dieu directement sur le site: choisis un livre, un chapitre, et laisse-la prendre racine."
       />
       <BibleReader />
     </>

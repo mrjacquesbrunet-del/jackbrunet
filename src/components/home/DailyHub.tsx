@@ -14,7 +14,7 @@ import {
 } from "@/lib/content";
 
 /**
- * Le cœur du retour quotidien : pensée du jour, parole du jour et vidéo du jour.
+ * Le cœur du retour quotidien: pensée du jour, parole du jour et vidéo du jour.
  * La pensée et le verset basculent automatiquement à minuit (date locale du
  * visiteur), sans dépendre d'une reconstruction du site.
  */
@@ -40,7 +40,7 @@ export function DailyHub() {
               Ton rendez-vous <span className="text-gradient">quotidien</span>
             </>
           }
-          description="Un avant-goût de ton dévotionnel du jour. Ouvre-le pour le vivre en entier : méditation, verset à déclarer, questions et vidéo."
+          description="Un avant-goût de ton dévotionnel du jour. Ouvre-le pour le vivre en entier: méditation, verset à déclarer, questions et vidéo."
         />
         <TodayLabel initial={today} />
       </Reveal>
@@ -57,11 +57,11 @@ export function DailyHub() {
           <DailyVerseCard verses={verses} initialIndex={todayIndex(verses.length)} />
         </Reveal>
 
-        {latestShort ? (
+        {latestShort? (
           <Reveal from="up" delay={0.2}>
             <DailyShort latest={latestShort} all={shorts} />
           </Reveal>
-        ) : null}
+        ): null}
       </div>
 
       <Reveal>

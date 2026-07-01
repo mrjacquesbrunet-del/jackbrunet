@@ -46,7 +46,7 @@ export function DevotionalHero({ dateLabel }: { dateLabel?: string }) {
             animate={{ scale: [1, 1.6, 1], opacity: [1, 0.5, 1] }}
             transition={{ duration: 1.8, repeat: Infinity }}
           />
-          {dateLabel ? <span className="capitalize">{dateLabel}</span> : "Temps avec Jésus"}
+          {dateLabel? <span className="capitalize">{dateLabel}</span>: "Temps avec Jésus"}
         </motion.span>
 
         {/* Titre mot par mot */}
@@ -54,7 +54,7 @@ export function DevotionalHero({ dateLabel }: { dateLabel?: string }) {
           {TITLE.map((w, idx) => (
             <motion.span
               key={w}
-              className={idx >= 2 ? "text-gradient" : ""}
+              className={idx >= 2? "text-gradient": ""}
               initial={{ opacity: 0, y: 30, rotate: -2 }}
               animate={{ opacity: 1, y: 0, rotate: 0 }}
               transition={{ delay: 0.15 + idx * 0.12, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
@@ -86,7 +86,7 @@ export function DevotionalHero({ dateLabel }: { dateLabel?: string }) {
               </motion.span>
             </AnimatePresence>
           </span>
-          .
+.
         </motion.p>
 
         {/* Invitation à défiler */}

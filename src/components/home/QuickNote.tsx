@@ -5,7 +5,7 @@ import Link from "next/link";
 import { addNote } from "@/lib/notebook";
 
 /**
- * Petit bloc « prendre une note » placé après la réflexion : ce que la personne
+ * Petit bloc « prendre une note » placé après la réflexion: ce que la personne
  * écrit est enregistré directement dans son carnet (site + app).
  */
 export function QuickNote() {
@@ -54,7 +54,7 @@ export function QuickNote() {
         <Link href="/carnet" className="text-sm font-semibold text-spirit-600 hover:underline">
           Voir mon carnet →
         </Link>
-        {saved ? <span className="text-sm font-semibold text-spirit-600">✓ Enregistré dans ton carnet</span> : null}
+        {saved? <span className="text-sm font-semibold text-spirit-600">✓ Enregistré dans ton carnet</span>: null}
       </div>
     </div>
   );

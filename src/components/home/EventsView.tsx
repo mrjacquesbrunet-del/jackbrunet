@@ -13,7 +13,7 @@ const TYPE_LABEL: Record<string, string> = {
 };
 
 function isExternal(href?: string) {
-  return !!href && /^https?:\/\//i.test(href);
+  return!!href && /^https?:\/\//i.test(href);
 }
 
 function Cta({ link, label }: { link?: string; label?: string }) {
@@ -45,11 +45,11 @@ export function EventsView({ events }: { events: AgendaEvent[] }) {
     horizon.setMonth(horizon.getMonth() + 3);
 
     return events
-      .filter((e) => e.type !== "annonce" && e.date)
-      .map((e) => ({ e, d: new Date(`${e.date}T${e.time || "00:00"}`) }))
-      .filter(({ d }) => d >= today && d <= horizon)
-      .filter(({ e }) => filter === "tout" || e.type === filter)
-      .sort((a, b) => a.d.getTime() - b.d.getTime());
+.filter((e) => e.type!== "annonce" && e.date)
+.map((e) => ({ e, d: new Date(`${e.date}T${e.time || "00:00"}`) }))
+.filter(({ d }) => d >= today && d <= horizon)
+.filter(({ e }) => filter === "tout" || e.type === filter)
+.sort((a, b) => a.d.getTime() - b.d.getTime());
   }, [events, filter]);
 
   // Groupe par mois (ex. "Juillet 2026")
@@ -67,7 +67,7 @@ export function EventsView({ events }: { events: AgendaEvent[] }) {
   return (
     <>
       {/* Annonces importantes */}
-      {annonces.length > 0 ? (
+      {annonces.length > 0? (
         <section className="container-x py-12">
           <h2 className="font-display text-2xl font-extrabold sm:text-3xl">
             À ne pas <span className="text-gradient">manquer</span>
@@ -78,15 +78,15 @@ export function EventsView({ events }: { events: AgendaEvent[] }) {
                 <div className="dark-ctx bg-topo-dark relative flex h-full flex-col overflow-hidden rounded-3xl p-6 shadow-card">
                   <div className="blob -right-10 -top-8 h-32 w-32 bg-dawn-400/20" />
                   <div className="relative flex flex-1 flex-col">
-                    {e.badge ? (
+                    {e.badge? (
                       <span className="inline-flex w-fit items-center rounded-full border border-dawn-400/30 bg-dawn-400/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-dawn-300">
                         {e.badge}
                       </span>
-                    ) : null}
+                    ): null}
                     <h3 className="mt-3 font-display text-xl font-bold">{e.title}</h3>
-                    {e.description ? (
+                    {e.description? (
                       <p className="mt-2 flex-1 text-sm text-cream/70">{e.description}</p>
-                    ) : null}
+                    ): null}
                     <Cta link={e.link} label={e.linkLabel} />
                   </div>
                 </div>
@@ -94,7 +94,7 @@ export function EventsView({ events }: { events: AgendaEvent[] }) {
             ))}
           </div>
         </section>
-      ) : null}
+      ): null}
 
       {/* Agenda — 3 prochains mois */}
       <section className="container-x py-6">
@@ -116,8 +116,8 @@ export function EventsView({ events }: { events: AgendaEvent[] }) {
                 onClick={() => setFilter(key)}
                 className={`rounded-full px-3.5 py-1.5 text-sm font-semibold transition-colors ${
                   filter === key
-                    ? "bg-night-900 text-cream"
-                    : "border border-night-900/15 text-night-900/70 hover:border-night-900/30"
+? "bg-night-900 text-cream"
+: "border border-night-900/15 text-night-900/70 hover:border-night-900/30"
                 }`}
               >
                 {label}
@@ -126,12 +126,12 @@ export function EventsView({ events }: { events: AgendaEvent[] }) {
           </div>
         </div>
 
-        {groups.length === 0 ? (
+        {groups.length === 0? (
           <p className="mt-8 text-night-900/55">
             Aucun événement programmé pour le moment. Reviens bientôt — ou laisse ton email
             plus bas pour être prévenu(e) dès qu'une date est annoncée.
           </p>
-        ) : (
+        ): (
           <div className="mt-8 space-y-10">
             {groups.map((g) => (
               <div key={g.label}>
@@ -152,11 +152,11 @@ export function EventsView({ events }: { events: AgendaEvent[] }) {
                               </span>
                             </div>
                           </div>
-                          {e.time ? (
+                          {e.time? (
                             <span className="font-display text-lg font-bold text-night-900 sm:hidden">
                               {e.time}
                             </span>
-                          ) : null}
+                          ): null}
                         </div>
 
                         {/* Contenu */}
@@ -165,30 +165,30 @@ export function EventsView({ events }: { events: AgendaEvent[] }) {
                             <span
                               className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${
                                 e.type === "live"
-                                  ? "bg-spirit-500/15 text-spirit-700"
-                                  : "bg-dawn-400/20 text-spirit-700"
+? "bg-spirit-500/15 text-spirit-700"
+: "bg-dawn-400/20 text-spirit-700"
                               }`}
                             >
                               {TYPE_LABEL[e.type]}
                             </span>
-                            {e.time ? (
+                            {e.time? (
                               <span className="hidden text-sm font-semibold text-night-900/70 sm:inline">
                                 {e.time}
                               </span>
-                            ) : null}
-                            {e.location ? (
+                            ): null}
+                            {e.location? (
                               <span className="text-sm text-night-900/55">· {e.location}</span>
-                            ) : null}
+                            ): null}
                           </div>
                           <h4 className="mt-1.5 font-display text-xl font-bold">{e.title}</h4>
-                          {e.description ? (
+                          {e.description? (
                             <p className="mt-1 text-sm text-night-900/70">{e.description}</p>
-                          ) : null}
+                          ): null}
                         </div>
 
                         {/* Lien 1 clic */}
-                        {e.link ? (
-                          isExternal(e.link) ? (
+                        {e.link? (
+                          isExternal(e.link)? (
                             <a
                               href={e.link}
                               target="_blank"
@@ -197,12 +197,12 @@ export function EventsView({ events }: { events: AgendaEvent[] }) {
                             >
                               {e.linkLabel || "Y participer"}
                             </a>
-                          ) : (
+                          ): (
                             <Link href={e.link} className="btn-primary shrink-0 sm:self-center">
                               {e.linkLabel || "En savoir plus"}
                             </Link>
                           )
-                        ) : null}
+                        ): null}
                       </li>
                     </Reveal>
                   ))}

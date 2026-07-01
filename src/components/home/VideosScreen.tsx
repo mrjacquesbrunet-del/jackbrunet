@@ -11,8 +11,8 @@ import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
 import { youtube } from "@/config/site";
 
 /**
- * Onglet Vidéos. Dans l'app native : feed vertical façon Reels (un Short se
- * lance, on scrolle). Sur le web : vidéothèque classique (grille + lecteur).
+ * Onglet Vidéos. Dans l'app native: feed vertical façon Reels (un Short se
+ * lance, on scrolle). Sur le web: vidéothèque classique (grille + lecteur).
  */
 export function VideosScreen({ videos, shorts }: { videos: LongVideo[]; shorts: Short[] }) {
   const [native, setNative] = useState(false);
@@ -26,11 +26,11 @@ export function VideosScreen({ videos, shorts }: { videos: LongVideo[]; shorts: 
 
   return (
     <>
-      {hasContent ? (
+      {hasContent? (
         <section className="scroll-mt-24 pb-16">
           <VideoLibrary videos={videos} shorts={shorts} />
         </section>
-      ) : (
+      ): (
         <>
           <PageHero
             eyebrow="Vidéothèque"

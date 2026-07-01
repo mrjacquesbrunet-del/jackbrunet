@@ -47,7 +47,7 @@ export function CommentaryPanel({
   }
   return (
     <div className="mt-2 space-y-3 rounded-2xl border border-dawn-400/30 bg-dawn-400/[0.06] p-4 sm:p-5">
-      {data.mots && data.mots.length > 0 ? (
+      {data.mots && data.mots.length > 0? (
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-spirit-600">
             Mots d'origine
@@ -56,15 +56,15 @@ export function CommentaryPanel({
             {data.mots.map((m, idx) => (
               <li key={idx} className="text-sm text-night-900/85">
                 <span className="font-display text-base font-bold">{m.mot}</span>
-                {m.translit ? (
+                {m.translit? (
                   <span className="italic text-night-900/55"> ({m.translit})</span>
-                ) : null}
-                {m.sens ? <span> — {m.sens}</span> : null}
+                ): null}
+                {m.sens? <span> — {m.sens}</span>: null}
               </li>
             ))}
           </ul>
         </div>
-      ) : null}
+      ): null}
       <Field label="Contexte de l'époque">{data.epoque}</Field>
       <Field label="Contexte du passage">{data.passage}</Field>
       <Field label="Éclairage culturel">{data.culture}</Field>

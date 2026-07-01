@@ -62,14 +62,14 @@ export function ReminderToggle() {
         </p>
         <p className="mt-0.5 text-xs text-night-900/60">
           {enabled
-            ? `Chaque jour à ${time}.`
-            : "Reçois un rappel chaque matin pour ton temps avec Dieu."}
+? `Chaque jour à ${time}.`
+: "Reçois un rappel chaque matin pour ton temps avec Dieu."}
         </p>
-        {denied ? (
+        {denied? (
           <p className="mt-1 text-xs font-semibold text-red-600">
             Notifications refusées — autorise-les dans les réglages du téléphone.
           </p>
-        ) : null}
+        ): null}
       </div>
 
       <input
@@ -87,9 +87,9 @@ export function ReminderToggle() {
         type="button"
         disabled={busy}
         onClick={() => apply(!enabled, time)}
-        className={enabled ? "btn-ghost" : "btn-primary"}
+        className={enabled? "btn-ghost": "btn-primary"}
       >
-        {busy ? "…" : enabled ? "Désactiver" : "Activer"}
+        {busy? "…": enabled? "Désactiver": "Activer"}
       </button>
     </div>
   );

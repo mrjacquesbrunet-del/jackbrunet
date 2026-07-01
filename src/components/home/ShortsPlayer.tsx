@@ -6,7 +6,7 @@ import type { Short } from "@/lib/types";
 import { videoEmbedSrc } from "@/lib/youtube";
 
 /**
- * Lecteur immersif vertical (feed) — même comportement que l'onglet Vidéos :
+ * Lecteur immersif vertical (feed) — même comportement que l'onglet Vidéos:
  * vidéos voisines préchargées, lecture pilotée au swipe, et son qui se lance
  * après une seule touche puis reste actif.
  */
@@ -66,7 +66,7 @@ export function ShortsPlayer({
       const i = Number(key);
       if (i === active) {
         post(i, "play");
-        post(i, i === soundIndex ? "unmute" : "mute");
+        post(i, i === soundIndex? "unmute": "mute");
       } else {
         post(i, "pause");
         post(i, "mute");
@@ -155,7 +155,7 @@ export function ShortsPlayer({
               className="flex h-[100svh] snap-start snap-always items-center justify-center px-3"
             >
               <div className="relative h-full max-h-[88svh] overflow-hidden rounded-2xl border border-white/10 bg-night-900 [aspect-ratio:9/16]">
-                {near ? (
+                {near? (
                   <iframe
                     ref={(el) => {
                       frames.current[i] = el;
@@ -166,7 +166,7 @@ export function ShortsPlayer({
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
                   />
-                ) : (
+                ): (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={`https://i.ytimg.com/vi/${s.id}/hqdefault.jpg`}
@@ -176,8 +176,8 @@ export function ShortsPlayer({
                   />
                 )}
 
-                {/* 1re fois : grande invite plein écran */}
-                {i === active && i !== soundIndex && !everOn ? (
+                {/* 1re fois: grande invite plein écran */}
+                {i === active && i!== soundIndex &&!everOn? (
                   <button
                     type="button"
                     onClick={enableSoundHere}
@@ -191,10 +191,10 @@ export function ShortsPlayer({
                       Touche pour le son
                     </span>
                   </button>
-                ) : null}
+                ): null}
 
-                {/* Vidéos suivantes : petite pastille « activer le son » */}
-                {i === active && i !== soundIndex && everOn ? (
+                {/* Vidéos suivantes: petite pastille « activer le son » */}
+                {i === active && i!== soundIndex && everOn? (
                   <button
                     type="button"
                     onClick={enableSoundHere}
@@ -204,10 +204,10 @@ export function ShortsPlayer({
                     <SoundOffIcon className="h-4 w-4" />
                     Touche pour le son
                   </button>
-                ) : null}
+                ): null}
 
-                {/* Son actif : bouton pour couper */}
-                {i === active && i === soundIndex ? (
+                {/* Son actif: bouton pour couper */}
+                {i === active && i === soundIndex? (
                   <button
                     type="button"
                     onClick={() => setSoundIndex(-1)}
@@ -216,14 +216,14 @@ export function ShortsPlayer({
                   >
                     <SoundOnIcon className="h-5 w-5" />
                   </button>
-                ) : null}
+                ): null}
 
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-night-950/90 to-transparent p-5">
-                  {s.category ? (
+                  {s.category? (
                     <span className="inline-flex rounded-full bg-dawn-400 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-night-900">
                       {s.category}
                     </span>
-                  ) : null}
+                  ): null}
                   <p className="mt-2 line-clamp-2 font-semibold text-cream">{s.title}</p>
                 </div>
               </div>
@@ -237,7 +237,7 @@ export function ShortsPlayer({
 
 function SoundOffIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" className={`${className ?? ""} fill-none stroke-current`} strokeWidth={1.8}>
+    <svg viewBox="0 0 24 24" className={`${className?? ""} fill-none stroke-current`} strokeWidth={1.8}>
       <path d="M4 9.5h3l4.5-3.5v12L7 14.5H4z" strokeLinejoin="round" />
       <path d="M16 9.5l4 5M20 9.5l-4 5" strokeLinecap="round" />
     </svg>
@@ -246,7 +246,7 @@ function SoundOffIcon({ className }: { className?: string }) {
 
 function SoundOnIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" className={`${className ?? ""} fill-none stroke-current`} strokeWidth={1.8}>
+    <svg viewBox="0 0 24 24" className={`${className?? ""} fill-none stroke-current`} strokeWidth={1.8}>
       <path d="M4 9.5h3l4.5-3.5v12L7 14.5H4z" strokeLinejoin="round" />
       <path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8 8 0 0 1 0 12" strokeLinecap="round" />
     </svg>

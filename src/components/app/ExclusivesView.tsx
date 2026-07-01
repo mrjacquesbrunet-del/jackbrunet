@@ -37,7 +37,7 @@ const ITEMS: Item[] = [
   {
     tag: "Ebook",
     title: "7 jours pour retrouver la paix",
-    desc: "Le mini-parcours offert : 7 méditations pour ancrer ta journée en Jésus.",
+    desc: "Le mini-parcours offert: 7 méditations pour ancrer ta journée en Jésus.",
     href: "/ebook/7-jours",
   },
   {
@@ -67,15 +67,15 @@ export function ExclusivesView() {
           Mes <span className="text-gradient">exclusivités</span>
         </h1>
         <p className="mt-3 max-w-xl text-cream/70">
-          Des cadeaux et contenus réservés : ebooks, audios, bonus… Débloque-les
+          Des cadeaux et contenus réservés: ebooks, audios, bonus… Débloque-les
           gratuitement en laissant ton email.
         </p>
 
-        {!unlocked ? (
+        {!unlocked? (
           <div className="mt-8 max-w-md rounded-4xl border border-white/10 bg-night-800/70 p-6 shadow-card sm:p-8">
             <p className="font-display text-xl font-extrabold">Débloque tout, gratuitement</p>
             <p className="mt-1 text-sm text-cream/70">
-              Entre ton email : tu accèdes immédiatement aux contenus exclusifs et tu reçois la
+              Entre ton email: tu accèdes immédiatement aux contenus exclusifs et tu reçois la
               pensée du jour.
             </p>
             <div className="mt-5">
@@ -89,9 +89,9 @@ export function ExclusivesView() {
               />
             </div>
           </div>
-        ) : (
+        ): (
           <p className="mt-6 inline-flex items-center gap-2 rounded-full bg-dawn-400/15 px-4 py-1.5 text-sm font-bold text-dawn-300">
-            ✓ Accès débloqué — profite bien 🙏
+            ✓ Accès débloqué — profite bien
           </p>
         )}
 
@@ -107,11 +107,11 @@ export function ExclusivesView() {
               </span>
               <p className="mt-2 font-display text-lg font-bold">{it.title}</p>
               <p className="mt-1 text-sm text-cream/65">{it.desc}</p>
-              {unlocked ? (
+              {unlocked? (
                 <Link href={it.href} className="btn-primary mt-4 text-sm">
                   Y accéder
                 </Link>
-              ) : (
+              ): (
                 <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-cream/45">
                   <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.7}>
                     <rect x="5" y="11" width="14" height="9" rx="2" />

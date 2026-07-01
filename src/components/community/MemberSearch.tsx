@@ -50,7 +50,7 @@ export function MemberSearch() {
         />
       </div>
 
-      {open && q.trim().length >= 2 ? (
+      {open && q.trim().length >= 2? (
         <>
           <button
             type="button"
@@ -59,11 +59,11 @@ export function MemberSearch() {
             className="fixed inset-0 z-30 cursor-default"
           />
           <div className="absolute left-0 right-0 z-40 mt-2 overflow-hidden rounded-2xl border border-night-900/10 bg-white shadow-xl">
-            {loading ? (
+            {loading? (
               <p className="px-4 py-4 text-sm text-night-900/45">Recherche…</p>
-            ) : results.length === 0 ? (
+            ): results.length === 0? (
               <p className="px-4 py-4 text-sm text-night-900/45">Aucun membre trouvé.</p>
-            ) : (
+            ): (
               <ul className="max-h-80 overflow-y-auto">
                 {results.map((p) => (
                   <li key={p.id}>
@@ -81,7 +81,7 @@ export function MemberSearch() {
             )}
           </div>
         </>
-      ) : null}
+      ): null}
     </div>
   );
 }

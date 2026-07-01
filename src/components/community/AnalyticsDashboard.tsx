@@ -72,7 +72,7 @@ export function AnalyticsDashboard() {
           <Stat label="30 jours" value={sum.listeners_month} />
         </div>
         <p className="mt-2 text-xs text-night-900/50">
-          Écoutes lancées : {sum.plays_day} aujourd'hui · {sum.plays_week} cette semaine ·{" "}
+          Écoutes lancées: {sum.plays_day} aujourd'hui · {sum.plays_week} cette semaine ·{" "}
           {sum.plays_month} ce mois
         </p>
       </div>
@@ -82,9 +82,9 @@ export function AnalyticsDashboard() {
         <p className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
           Pages les plus vues (30 j)
         </p>
-        {pages.length === 0 ? (
+        {pages.length === 0? (
           <p className="mt-2 text-sm text-night-900/45">Pas encore de données.</p>
-        ) : (
+        ): (
           <ul className="mt-2 divide-y divide-night-900/5">
             {pages.map((p) => (
               <li key={p.label} className="flex items-center justify-between py-2 text-sm">
@@ -101,13 +101,13 @@ export function AnalyticsDashboard() {
         <p className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
           Épisodes les plus écoutés (30 j)
         </p>
-        {plays.length === 0 ? (
+        {plays.length === 0? (
           <p className="mt-2 text-sm text-night-900/45">Pas encore d'écoute.</p>
-        ) : (
+        ): (
           <ul className="mt-2 divide-y divide-night-900/5">
             {plays.map((p) => (
               <li key={p.label} className="flex items-center justify-between gap-3 py-2 text-sm">
-                <span className="truncate text-night-900/80">{titles[p.label] ?? p.label}</span>
+                <span className="truncate text-night-900/80">{titles[p.label]?? p.label}</span>
                 <span className="shrink-0 font-semibold text-spirit-700">{p.n}</span>
               </li>
             ))}

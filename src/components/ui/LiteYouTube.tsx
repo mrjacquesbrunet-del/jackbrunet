@@ -11,18 +11,18 @@ type LiteYouTubeProps = {
 };
 
 /**
- * Embed YouTube léger « click-to-play » : on n'affiche que la miniature
+ * Embed YouTube léger « click-to-play »: on n'affiche que la miniature
  * (aucun script YouTube chargé) jusqu'au clic, puis l'iframe nocookie.
  * Bon pour la performance et la confidentialité.
  */
 export function LiteYouTube({ id, title = "Vidéo", vertical = false }: LiteYouTubeProps) {
   const [active, setActive] = useState(false);
-  const ratio = vertical ? "aspect-[9/16]" : "aspect-video";
+  const ratio = vertical? "aspect-[9/16]": "aspect-video";
   const thumb = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 
   return (
     <div className={`relative ${ratio} w-full overflow-hidden rounded-3xl border border-night-900/10 bg-night-900`}>
-      {active ? (
+      {active? (
         <iframe
           className="absolute inset-0 h-full w-full"
           src={videoEmbedSrc(id, { autoplay: true })}
@@ -31,11 +31,11 @@ export function LiteYouTube({ id, title = "Vidéo", vertical = false }: LiteYouT
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
         />
-      ) : (
+      ): (
         <button
           type="button"
           onClick={() => setActive(true)}
-          aria-label={`Lire : ${title}`}
+          aria-label={`Lire: ${title}`}
           className="group absolute inset-0 h-full w-full"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}

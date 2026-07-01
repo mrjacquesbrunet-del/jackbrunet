@@ -6,7 +6,7 @@ import { isNativeApp, readReminder, enableDailyReminder } from "@/lib/notificati
 import { initOneSignal } from "@/lib/onesignal";
 
 /**
- * Initialisation propre à l'application native (Capacitor) :
+ * Initialisation propre à l'application native (Capacitor):
  * - masque l'écran de démarrage une fois prêt ;
  * - style de la barre de statut ;
  * - ouverture du dévotionnel quand on tape la notification ;
@@ -40,7 +40,7 @@ export function NativeBootstrap() {
           "localNotificationActionPerformed",
           (event) => {
             const route =
-              (event.notification.extra as { route?: string } | undefined)?.route ??
+              (event.notification.extra as { route?: string } | undefined)?.route??
               "/devotionnel/";
             window.location.href = asset(route);
           },

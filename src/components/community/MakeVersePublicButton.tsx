@@ -28,8 +28,8 @@ export function MakeVersePublicButton({
       return;
     }
     setState("busy");
-    const ok = await addFavoriteVerse(userId, { text, reference: reference ?? "" });
-    setState(ok ? "done" : "error");
+    const ok = await addFavoriteVerse(userId, { text, reference: reference?? "" });
+    setState(ok? "done": "error");
   }
 
   if (state === "done") {
@@ -45,12 +45,12 @@ export function MakeVersePublicButton({
       title="Afficher ce verset sur mon profil public"
     >
       {state === "busy"
-        ? "Publication…"
-        : state === "error"
-          ? userId
-            ? "Réessayer"
-            : "Connecte-toi"
-          : "Rendre public"}
+? "Publication…"
+: state === "error"
+? userId
+? "Réessayer"
+: "Connecte-toi"
+: "Rendre public"}
     </button>
   );
 }

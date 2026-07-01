@@ -4,7 +4,7 @@ import { AnsweredFeed } from "@/components/community/AnsweredFeed";
 
 export const metadata: Metadata = {
   title: "Prières exaucées",
-  description: "Les témoignages de la communauté : des prières que Dieu a exaucées. Rendons-Lui gloire ensemble.",
+  description: "Les témoignages de la communauté: des prières que Dieu a exaucées. Rendons-Lui gloire ensemble.",
 };
 
 export default function ExauceesPage() {

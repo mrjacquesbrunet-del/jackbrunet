@@ -8,7 +8,7 @@ import { videoEmbedSrc } from "@/lib/youtube";
 type Category = { category: string; videos: LongVideo[] };
 
 /**
- * Vidéothèque : bannière cinématographique « À la une » + grille animée de
+ * Vidéothèque: bannière cinématographique « À la une » + grille animée de
  * toutes les prédications (sans classification par thème). Lecture en modale.
  */
 export function VideosExperience({ categories }: { categories: Category[] }) {
@@ -19,7 +19,7 @@ export function VideosExperience({ categories }: { categories: Category[] }) {
   return (
     <>
       {/* Bannière « À la une » */}
-      {hero ? (
+      {hero? (
         <div className="dark-ctx relative mb-12 overflow-hidden border-b border-white/10">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -57,7 +57,7 @@ export function VideosExperience({ categories }: { categories: Category[] }) {
             </div>
           </motion.div>
         </div>
-      ) : null}
+      ): null}
 
       {/* Grille animée (toutes les vidéos, sans classification) */}
       <div className="container-x">
@@ -99,9 +99,9 @@ export function VideosExperience({ categories }: { categories: Category[] }) {
       </div>
 
       <AnimatePresence>
-        {openAt !== null ? (
+        {openAt!== null? (
           <VideoPlayer videos={flat} index={openAt} onIndex={setOpenAt} onClose={() => setOpenAt(null)} />
-        ) : null}
+        ): null}
       </AnimatePresence>
     </>
   );

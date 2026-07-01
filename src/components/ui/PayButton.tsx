@@ -5,10 +5,10 @@ import { openExternal } from "@/lib/external";
 import { isNativeApp } from "@/lib/notifications";
 
 /**
- * Bouton de paiement : rend un lien Stripe si `href` est défini, sinon un
+ * Bouton de paiement: rend un lien Stripe si `href` est défini, sinon un
  * bouton désactivé (lien pas encore configuré). Style passé via `className`.
  *
- * Conformité App Store (règle 3.1.1) : les transactions (dons, achats) sont
+ * Conformité App Store (règle 3.1.1): les transactions (dons, achats) sont
  * RETIRÉES de l'application native — elles restent disponibles sur le site web.
  * Sur le web, lien classique en nouvel onglet.
  */
@@ -21,7 +21,7 @@ export function PayButton({
   className?: string;
   children: ReactNode;
 }) {
-  // App native : on n'affiche aucun bouton de paiement/don (exigence Apple 3.1.1).
+  // App native: on n'affiche aucun bouton de paiement/don (exigence Apple 3.1.1).
   if (isNativeApp()) return null;
 
   if (!href) {
@@ -38,9 +38,9 @@ export function PayButton({
       rel="noopener noreferrer"
       className={className}
       onClick={(e) => {
-        // En natif : ouvre dans le navigateur système plutôt que dans la webview.
+        // En natif: ouvre dans le navigateur système plutôt que dans la webview.
         const isNative = (window as Window & { Capacitor?: { isNativePlatform?: () => boolean } })
-          .Capacitor?.isNativePlatform?.();
+.Capacitor?.isNativePlatform?.();
         if (isNative) {
           e.preventDefault();
           void openExternal(href);

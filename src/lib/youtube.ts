@@ -16,16 +16,16 @@ type EmbedOpts = { autoplay?: boolean; mute?: boolean; loop?: boolean };
  * Les embeds YouTube refusent l'origine `capacitor://localhost` de la WebView
  * (→ « Erreur 153 »). En app native, on passe donc par une page lecteur
  * hébergée sur le site (`https://jackbrunet.com/embed`), origine acceptée par
- * YouTube : la vidéo se lit alors normalement, sans quitter l'application.
+ * YouTube: la vidéo se lit alors normalement, sans quitter l'application.
  * Sur le web, on garde l'embed direct.
  */
 export function videoEmbedSrc(id: string, opts: EmbedOpts = {}): string {
   if (isNativeApp()) {
     const q = new URLSearchParams({
       v: id,
-      a: opts.autoplay ? "1" : "0",
-      m: opts.mute ? "1" : "0",
-      l: opts.loop ? "1" : "0",
+      a: opts.autoplay? "1": "0",
+      m: opts.mute? "1": "0",
+      l: opts.loop? "1": "0",
     });
     return `${siteConfig.url}/embed/?${q.toString()}`;
   }

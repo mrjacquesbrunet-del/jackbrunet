@@ -7,8 +7,8 @@ import { EmailPasswordAuth } from "@/components/community/EmailPasswordAuth";
 
 /**
  * Carte de connexion compacte affichée sur le profil quand l'utilisateur
- * n'a pas de compte. App native : e-mail + mot de passe (100% dans l'app).
- * Web : Google / Apple / lien magique par e-mail.
+ * n'a pas de compte. App native: e-mail + mot de passe (100% dans l'app).
+ * Web: Google / Apple / lien magique par e-mail.
  */
 export function ProfileSignIn() {
   const [native, setNative] = useState(false);
@@ -27,11 +27,11 @@ export function ProfileSignIn() {
     try {
       await signInGoogle();
     } catch (e) {
-      const msg = e instanceof Error ? e.message : String(e);
+      const msg = e instanceof Error? e.message: String(e);
       setGErr(
         /provider is not enabled|Unsupported provider/i.test(msg)
-          ? "La connexion Google n'est pas encore activée."
-          : "Connexion Google impossible. Réessaie.",
+? "La connexion Google n'est pas encore activée."
+: "Connexion Google impossible. Réessaie.",
       );
       setGBusy(false);
     }
@@ -62,16 +62,16 @@ export function ProfileSignIn() {
         Personnalise ton profil (photo, verset, bio), retrouve ton grade et ton parcours partout.
       </p>
 
-      {native ? (
+      {native? (
         <div className="mt-6">
           <EmailPasswordAuth />
         </div>
-      ) : sent ? (
+      ): sent? (
         <div className="mt-6 rounded-2xl border border-dawn-400/40 bg-dawn-400/10 p-4 text-center text-sm">
           ✓ Un lien de connexion vient d'être envoyé à <strong>{email}</strong>. Ouvre ta boîte mail
           et clique dessus.
         </div>
-      ) : (
+      ): (
         <>
           <button
             type="button"
@@ -79,9 +79,9 @@ export function ProfileSignIn() {
             disabled={gBusy}
             className="mt-6 flex w-full items-center justify-center gap-3 rounded-full border border-night-900/15 bg-white px-6 py-3 text-sm font-semibold text-night-900 transition-transform hover:scale-[1.02] disabled:opacity-60"
           >
-            <GoogleMark /> {gBusy ? "Redirection…" : "Continuer avec Google"}
+            <GoogleMark /> {gBusy? "Redirection…": "Continuer avec Google"}
           </button>
-          {gErr ? <p className="field-error mt-2 text-center">{gErr}</p> : null}
+          {gErr? <p className="field-error mt-2 text-center">{gErr}</p>: null}
 
           <div className="my-5 flex items-center gap-3 text-xs text-night-900/40">
             <span className="h-px flex-1 bg-night-900/10" /> ou par email{" "}
@@ -97,9 +97,9 @@ export function ProfileSignIn() {
               className="field w-full"
             />
             <button type="submit" disabled={busy} className="btn-primary w-full justify-center">
-              {busy ? "Envoi…" : "Recevoir mon lien de connexion"}
+              {busy? "Envoi…": "Recevoir mon lien de connexion"}
             </button>
-            {error ? <p className="field-error text-center">{error}</p> : null}
+            {error? <p className="field-error text-center">{error}</p>: null}
           </form>
         </>
       )}

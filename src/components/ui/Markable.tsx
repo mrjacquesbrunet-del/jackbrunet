@@ -15,7 +15,7 @@ const chip =
   "inline-flex items-center gap-1.5 rounded-full border border-night-900/15 bg-white px-3 py-1.5 text-xs font-semibold text-night-900/80 transition-colors hover:border-night-900/30";
 
 /**
- * Rend un bloc de texte « actionnable » : on le touche pour faire apparaître
+ * Rend un bloc de texte « actionnable »: on le touche pour faire apparaître
  * une petite barre — Surligner · Copier · Enregistrer. Le surlignage et
  * l'enregistrement sont mémorisés sur l'appareil (voir lib/toolkit).
  */
@@ -53,7 +53,7 @@ export function Markable({
     });
     addNote({
       category: "Note",
-      title: reference ? `${reference} · ${dateStr}` : dateStr,
+      title: reference? `${reference} · ${dateStr}`: dateStr,
       body: noteText.trim(),
     });
     setNoteText("");
@@ -63,7 +63,7 @@ export function Markable({
   }
 
   async function copy() {
-    const payload = reference ? `${text}\n— ${reference}` : text;
+    const payload = reference? `${text}\n— ${reference}`: text;
     try {
       await navigator.clipboard.writeText(payload);
       setCopied(true);
@@ -78,55 +78,55 @@ export function Markable({
       <div
         role="button"
         tabIndex={0}
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => setOpen((o) =>!o)}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
-            setOpen((o) => !o);
+            setOpen((o) =>!o);
           }
         }}
         className={`cursor-pointer rounded-xl px-2 -mx-2 transition-colors ${
-          highlighted ? "bg-dawn-300/45 ring-1 ring-dawn-400/40" : "hover:bg-night-900/[0.03]"
+          highlighted? "bg-dawn-300/45 ring-1 ring-dawn-400/40": "hover:bg-night-900/[0.03]"
         }`}
       >
         {children}
       </div>
 
-      {open ? (
+      {open? (
         <div className="mt-2 flex flex-wrap gap-2">
           <button type="button" className={chip} onClick={() => tk.toggleHighlight(id)}>
             <HighlighterGlyph className="h-3.5 w-3.5" />
-            {highlighted ? "Retirer le surlignage" : "Surligner"}
+            {highlighted? "Retirer le surlignage": "Surligner"}
           </button>
           <button type="button" className={chip} onClick={copy}>
             <CopyGlyph className="h-3.5 w-3.5" />
-            {copied ? "Copié !" : "Copier"}
+            {copied? "Copié!": "Copier"}
           </button>
           <button
             type="button"
             className={chip}
             onClick={() => tk.toggleSnippet({ id, text, reference, kind })}
           >
-            {saved ? (
+            {saved? (
               <BookmarkFilledGlyph className="h-3.5 w-3.5 text-spirit-600" />
-            ) : (
+            ): (
               <BookmarkGlyph className="h-3.5 w-3.5" />
             )}
-            {saved ? "Enregistré" : "Enregistrer"}
+            {saved? "Enregistré": "Enregistrer"}
           </button>
-          <button type="button" className={chip} onClick={() => setNoting((n) => !n)}>
+          <button type="button" className={chip} onClick={() => setNoting((n) =>!n)}>
             <PenGlyph className="h-3.5 w-3.5" />
             Noter
           </button>
         </div>
-      ) : null}
+      ): null}
 
       {/* Éditeur de note — on reste sur la page, ça part dans le carnet */}
-      {open && noting ? (
+      {open && noting? (
         <div className="mt-2 rounded-2xl border border-night-900/15 bg-white p-3">
-          {reference ? (
+          {reference? (
             <p className="mb-1.5 text-xs font-semibold text-spirit-600">{reference}</p>
-          ) : null}
+          ): null}
           <textarea
             value={noteText}
             onChange={(e) => setNoteText(e.target.value)}
@@ -156,13 +156,13 @@ export function Markable({
             </button>
           </div>
         </div>
-      ) : null}
+      ): null}
 
-      {noteSaved ? (
+      {noteSaved? (
         <p className="mt-1.5 text-xs font-semibold text-spirit-600">
           ✓ Note enregistrée dans ton carnet
         </p>
-      ) : null}
+      ): null}
     </div>
   );
 }

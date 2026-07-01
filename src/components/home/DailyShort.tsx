@@ -7,7 +7,7 @@ import type { Short } from "@/lib/types";
 import { ShortsPlayer } from "@/components/home/ShortsPlayer";
 import { PlayIcon } from "@/components/ui/PlayIcon";
 
-/** Colonne « Vidéo du jour » : le dernier Short publié, jouable sur place. */
+/** Colonne « Vidéo du jour »: le dernier Short publié, jouable sur place. */
 export function DailyShort({ latest, all }: { latest: Short; all: Short[] }) {
   const [open, setOpen] = useState(false);
 
@@ -22,7 +22,7 @@ export function DailyShort({ latest, all }: { latest: Short; all: Short[] }) {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          aria-label={`Lire : ${latest.title}`}
+          aria-label={`Lire: ${latest.title}`}
           className="group relative mx-auto mt-6 block aspect-[9/16] w-full max-w-[220px] overflow-hidden rounded-2xl border border-night-950/15 bg-night-900"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -53,9 +53,9 @@ export function DailyShort({ latest, all }: { latest: Short; all: Short[] }) {
       </div>
 
       <AnimatePresence>
-        {open ? (
+        {open? (
           <ShortsPlayer shorts={all} startIndex={0} onClose={() => setOpen(false)} />
-        ) : null}
+        ): null}
       </AnimatePresence>
     </article>
   );

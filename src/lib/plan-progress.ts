@@ -53,9 +53,9 @@ function commit(next: State) {
 
 export function toggleDay(slug: string, day: number) {
   load();
-  const done = state[slug] ?? [];
-  const next = done.includes(day) ? done.filter((d) => d !== day) : [...done, day];
-  commit({ ...state, [slug]: next });
+  const done = state[slug]?? [];
+  const next = done.includes(day)? done.filter((d) => d!== day): [...done, day];
+  commit({...state, [slug]: next });
   sink?.set(slug, next);
 }
 
@@ -75,7 +75,7 @@ export function useAllPlanProgress() {
 
 export function usePlanProgress(slug: string) {
   const s = useSyncExternalStore(subscribe, getSnapshot, () => empty);
-  const done = s[slug] ?? [];
+  const done = s[slug]?? [];
   return {
     done,
     isDone: (day: number) => done.includes(day),

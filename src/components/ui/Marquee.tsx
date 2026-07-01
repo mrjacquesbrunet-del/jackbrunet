@@ -6,13 +6,13 @@ type MarqueeProps = {
 
 /** Bande défilante façon « ticker » — apporte du mouvement et de l'énergie. */
 export function Marquee({ items, variant = "lime" }: MarqueeProps) {
-  const loop = [...items, ...items];
+  const loop = [...items,...items];
   const wrap =
     variant === "dark"
-      ? "dark-ctx bg-topo-dark border-y border-white/10"
-      : "bg-dawn-400 border-y border-night-900/10";
-  const text = variant === "dark" ? "text-cream" : "text-night-900";
-  const star = variant === "dark" ? "text-dawn-400" : "text-night-900/40";
+? "dark-ctx bg-topo-dark border-y border-white/10"
+: "bg-dawn-400 border-y border-night-900/10";
+  const text = variant === "dark"? "text-cream": "text-night-900";
+  const star = variant === "dark"? "text-dawn-400": "text-night-900/40";
 
   return (
     <div className={`${wrap} relative overflow-hidden py-4`} aria-hidden>

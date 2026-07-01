@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 /**
- * Filet de sécurité global : si une exception client survient (ex. un ancien
+ * Filet de sécurité global: si une exception client survient (ex. un ancien
  * cache du service worker qui référence des fichiers JS supprimés après un
  * déploiement), on purge les caches + le service worker et on recharge.
  * Évite l'écran blanc « Application error ».
@@ -81,8 +81,8 @@ export default function GlobalError({
           </h1>
           <p style={{ fontSize: 15, lineHeight: 1.5, opacity: 0.7, margin: "0 0 20px" }}>
             {healing
-              ? "Un instant, on rafraîchit la page avec la dernière version."
-              : "Si la page ne se recharge pas toute seule, touche le bouton ci-dessous."}
+? "Un instant, on rafraîchit la page avec la dernière version."
+: "Si la page ne se recharge pas toute seule, touche le bouton ci-dessous."}
           </p>
           <button
             type="button"

@@ -22,7 +22,7 @@ export default function ConfidentialitePage() {
 
       <section className="container-x py-12">
         <div className="mx-auto max-w-3xl space-y-8 text-night-900/80 leading-relaxed">
-          <p className="text-sm text-night-900/50">Dernière mise à jour : juin 2026</p>
+          <p className="text-sm text-night-900/50">Dernière mise à jour: juin 2026</p>
 
           <div>
             <h2 className="font-display text-2xl font-bold text-night-900">
@@ -30,18 +30,18 @@ export default function ConfidentialitePage() {
             </h2>
             <p className="mt-3">
               Les données personnelles collectées sur ce site sont traitées par Jack Brunet
-              (micro-entreprise). Pour toute question, contactez :{" "}
+              (micro-entreprise). Pour toute question, contactez:{" "}
               <a href={`mailto:${siteConfig.contactEmail}`} className="underline underline-offset-2">
                 {siteConfig.contactEmail}
               </a>
-              .
+.
             </p>
           </div>
 
           <div>
             <h2 className="font-display text-2xl font-bold text-night-900">Données collectées</h2>
             <p className="mt-3">
-              Selon les formulaires que vous utilisez, nous pouvons collecter :
+              Selon les formulaires que vous utilisez, nous pouvons collecter:
             </p>
             <ul className="mt-3 list-disc pl-5 space-y-1.5">
               <li>votre adresse email</li>
@@ -53,7 +53,7 @@ export default function ConfidentialitePage() {
 
           <div>
             <h2 className="font-display text-2xl font-bold text-night-900">Finalités</h2>
-            <p className="mt-3">Ces données sont utilisées pour :</p>
+            <p className="mt-3">Ces données sont utilisées pour:</p>
             <ul className="mt-3 list-disc pl-5 space-y-1.5">
               <li>vous envoyer la newsletter et les contenus quotidiens d'édification</li>
               <li>vous envoyer le cadeau gratuit (ebook)</li>
@@ -75,7 +75,7 @@ export default function ConfidentialitePage() {
               Destinataires et sous-traitants
             </h2>
             <p className="mt-3">
-              Vos données ne sont jamais vendues. Elles peuvent être traitées par nos prestataires :
+              Vos données ne sont jamais vendues. Elles peuvent être traitées par nos prestataires:
             </p>
             <ul className="mt-3 list-disc pl-5 space-y-1.5">
               <li>
@@ -109,7 +109,7 @@ export default function ConfidentialitePage() {
               <a href={`mailto:${siteConfig.contactEmail}`} className="underline underline-offset-2">
                 {siteConfig.contactEmail}
               </a>
-              . Vous pouvez également introduire une réclamation auprès de la CNIL (
+. Vous pouvez également introduire une réclamation auprès de la CNIL (
               <a
                 href="https://www.cnil.fr"
                 target="_blank"

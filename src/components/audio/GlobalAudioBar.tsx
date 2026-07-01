@@ -46,10 +46,10 @@ export function GlobalAudioBar() {
           <button
             type="button"
             onClick={pod.toggle}
-            aria-label={pod.playing ? "Pause" : "Lire"}
+            aria-label={pod.playing? "Pause": "Lire"}
             className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950"
           >
-            {pod.playing ? <PauseGlyph className="h-5 w-5" /> : <PlayGlyph className="h-5 w-5" />}
+            {pod.playing? <PauseGlyph className="h-5 w-5" />: <PlayGlyph className="h-5 w-5" />}
           </button>
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-semibold text-night-900/90">{pod.current.title}</p>
@@ -90,7 +90,7 @@ export function GlobalAudioBar() {
     );
   }
 
-  // Sinon : musique soaking en cours.
+  // Sinon: musique soaking en cours.
   if (soak.playing) {
     return (
       <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-spirit-600/20 bg-spirit-500/[0.12] px-4 py-2.5 backdrop-blur">

@@ -26,9 +26,9 @@ const FEATURES = [
   { icon: USERS, title: "Abonne-toi", text: "Suis les frères et sœurs qui t'inspirent. Leurs sujets de prière apparaissent dans ton fil." },
   { icon: PRAY, title: "Prie ensemble", text: "D'un geste, dis « Je prie » pour un sujet. La personne est notifiée qu'on la porte." },
   { icon: HEART, title: "Encourage", text: "Un cœur, un mot d'encouragement… Personne ne traverse l'épreuve seul." },
-  { icon: STAR, title: "Grandis en prière", text: "Plus tu pries et encourages, plus tu montes en grade : Intercesseur, Guerrier, Sentinelle." },
+  { icon: STAR, title: "Grandis en prière", text: "Plus tu pries et encourages, plus tu montes en grade: Intercesseur, Guerrier, Sentinelle." },
   { icon: BOOK, title: "Ton espace synchronisé", text: "Carnet, versets surlignés et plans te suivent sur tous tes appareils." },
-  { icon: SHIELD, title: "Tu choisis", text: "Chaque sujet : public, réservé à tes abonnés, ou privé entre toi et Dieu." },
+  { icon: SHIELD, title: "Tu choisis", text: "Chaque sujet: public, réservé à tes abonnés, ou privé entre toi et Dieu." },
 ];
 
 const STEPS = [
@@ -230,11 +230,11 @@ function AuthCard() {
     try {
       await signInGoogle();
     } catch (e) {
-      const msg = e instanceof Error ? e.message : String(e);
+      const msg = e instanceof Error? e.message: String(e);
       setGErr(
         /provider is not enabled|Unsupported provider/i.test(msg)
-          ? "La connexion Google n'est pas encore activée."
-          : "Connexion Google impossible. Réessaie.",
+? "La connexion Google n'est pas encore activée."
+: "Connexion Google impossible. Réessaie.",
       );
       setGBusy(false);
     }
@@ -274,16 +274,16 @@ function AuthCard() {
               Gratuit, en un clic. Partage, prie, encourage — et retrouve ton espace partout.
             </p>
 
-            {native ? (
+            {native? (
               <div className="mt-7">
                 <EmailPasswordAuth />
               </div>
-            ) : sent ? (
+            ): sent? (
               <div className="mt-7 rounded-2xl border border-dawn-400/30 bg-dawn-400/10 p-4 text-center text-sm text-cream">
                 ✓ Un lien de connexion vient d'être envoyé à <strong>{email}</strong>. Ouvre ta boîte
                 mail et clique dessus.
               </div>
-            ) : (
+            ): (
               <>
                 <button
                   type="button"
@@ -291,9 +291,9 @@ function AuthCard() {
                   disabled={gBusy}
                   className="mt-7 flex w-full items-center justify-center gap-3 rounded-full bg-white px-6 py-3 text-sm font-semibold text-night-900 transition-transform hover:scale-[1.02] disabled:opacity-60"
                 >
-                  <GoogleMark /> {gBusy ? "Redirection…" : "Continuer avec Google"}
+                  <GoogleMark /> {gBusy? "Redirection…": "Continuer avec Google"}
                 </button>
-                {gErr ? <p className="field-error mt-2 text-center">{gErr}</p> : null}
+                {gErr? <p className="field-error mt-2 text-center">{gErr}</p>: null}
 
                 <div className="my-5 flex items-center gap-3 text-xs text-cream/40">
                   <span className="h-px flex-1 bg-white/10" /> ou par email{" "}
@@ -309,12 +309,12 @@ function AuthCard() {
                     className="field w-full"
                   />
                   <button type="submit" disabled={busy} className="btn-primary w-full justify-center">
-                    {busy ? "Un instant…" : "Recevoir mon lien de connexion"}
+                    {busy? "Un instant…": "Recevoir mon lien de connexion"}
                   </button>
-                  {error ? <p className="field-error">{error}</p> : null}
+                  {error? <p className="field-error">{error}</p>: null}
                 </form>
                 <p className="mt-3 text-center text-xs text-cream/45">
-                  Pas de mot de passe : tu reçois un lien sécurisé par email.
+                  Pas de mot de passe: tu reçois un lien sécurisé par email.
                 </p>
               </>
             )}
@@ -329,9 +329,9 @@ function GoogleMark() {
   return (
     <svg viewBox="0 0 24 24" className="h-5 w-5">
       <path fill="#4285F4" d="M22.5 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.9a5 5 0 0 1-2.2 3.3v2.7h3.6c2.1-2 3.2-4.9 3.2-7.8z" />
-      <path fill="#34A853" d="M12 23c2.9 0 5.4-1 7.2-2.6l-3.6-2.7c-1 .7-2.3 1.1-3.6 1.1-2.8 0-5.1-1.9-6-4.4H2.3v2.8A11 11 0 0 0 12 23z" />
+      <path fill="#34A853" d="M12 23c2.9 0 5.4-1 7.2-2.6l-3.6-2.7c-1.7-2.3 1.1-3.6 1.1-2.8 0-5.1-1.9-6-4.4H2.3v2.8A11 11 0 0 0 12 23z" />
       <path fill="#FBBC05" d="M6 14.4a6.6 6.6 0 0 1 0-4.2V7.4H2.3a11 11 0 0 0 0 9.8z" />
-      <path fill="#EA4335" d="M12 5.5c1.6 0 3 .5 4.1 1.6l3.1-3.1A11 11 0 0 0 2.3 7.4L6 10.2c.9-2.6 3.2-4.7 6-4.7z" />
+      <path fill="#EA4335" d="M12 5.5c1.6 0 3.5 4.1 1.6l3.1-3.1A11 11 0 0 0 2.3 7.4L6 10.2c.9-2.6 3.2-4.7 6-4.7z" />
     </svg>
   );
 }

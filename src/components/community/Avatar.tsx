@@ -14,7 +14,7 @@ export function Avatar({
       // eslint-disable-next-line @next/next/no-img-element
       <img
         src={url}
-        alt={pseudo ?? ""}
+        alt={pseudo?? ""}
         width={size}
         height={size}
         className="shrink-0 rounded-full object-cover"

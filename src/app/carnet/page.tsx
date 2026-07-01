@@ -8,7 +8,7 @@ import { getThemePlans } from "@/lib/content";
 export const metadata: Metadata = {
   title: "Mon carnet",
   description:
-    "Ton carnet personnel : note tes sujets de prière, les paroles reçues de Dieu et tes réflexions. Privé, sur ton appareil.",
+    "Ton carnet personnel: note tes sujets de prière, les paroles reçues de Dieu et tes réflexions. Privé, sur ton appareil.",
 };
 
 export default function CarnetPage() {
@@ -23,12 +23,12 @@ export default function CarnetPage() {
             Tes <span className="text-gradient">sujets de prière</span> & paroles reçues
           </>
         }
-        description="Un espace à toi pour écrire ce que Dieu met sur ton cœur : sujets de prière, paroles reçues, réflexions. Tu pourras revenir voir Ses réponses."
+        description="Un espace à toi pour écrire ce que Dieu met sur ton cœur: sujets de prière, paroles reçues, réflexions. Tu pourras revenir voir Ses réponses."
       />
       <CarnetIntro />
       <NotebookView />
 
-      {/* Raccourci : favoris */}
+      {/* Raccourci: favoris */}
       <section className="container-x pb-4">
         <Link
           href="/favoris"

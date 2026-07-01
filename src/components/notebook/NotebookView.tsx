@@ -37,7 +37,7 @@ export function NotebookView() {
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (!body.trim() && !title.trim()) return;
+    if (!body.trim() &&!title.trim()) return;
     addNote({ category, title, body });
     setTitle("");
     setBody("");
@@ -57,8 +57,8 @@ export function NotebookView() {
                 onClick={() => setCategory(c)}
                 className={`inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
                   category === c
-                    ? "bg-night-900 text-cream"
-                    : "border border-night-900/15 text-night-900/70 hover:border-night-900/30"
+? "bg-night-900 text-cream"
+: "border border-night-900/15 text-night-900/70 hover:border-night-900/30"
                 }`}
               >
                 <Icon className="h-4 w-4" />
@@ -79,10 +79,10 @@ export function NotebookView() {
           onChange={(e) => setBody(e.target.value)}
           placeholder={
             category === "Prière"
-              ? "Pour qui / quoi pries-tu ?"
-              : category === "Parole reçue"
-                ? "Quelle parole as-tu reçue de Dieu ?"
-                : "Ta note…"
+? "Pour qui / quoi pries-tu?"
+: category === "Parole reçue"
+? "Quelle parole as-tu reçue de Dieu?"
+: "Ta note…"
           }
           rows={3}
           className="field mt-3 w-full resize-y"
@@ -94,15 +94,15 @@ export function NotebookView() {
 
       {/* Filtres */}
       <div className="mt-8 flex flex-wrap gap-2">
-        {(["Tout", ...NOTE_CATEGORIES] as const).map((f) => (
+        {(["Tout",...NOTE_CATEGORIES] as const).map((f) => (
           <button
             type="button"
             key={f}
             onClick={() => setFilter(f)}
             className={`rounded-full px-3.5 py-1.5 text-sm font-semibold transition-colors ${
               filter === f
-                ? "bg-dawn-400 text-night-950"
-                : "border border-night-900/15 text-night-900/70 hover:border-night-900/30"
+? "bg-dawn-400 text-night-950"
+: "border border-night-900/15 text-night-900/70 hover:border-night-900/30"
             }`}
           >
             {f}
@@ -111,37 +111,37 @@ export function NotebookView() {
       </div>
 
       {/* Liste */}
-      {visible.length === 0 ? (
+      {visible.length === 0? (
         <p className="mt-8 max-w-2xl text-night-900/55">
           Ton carnet est vide pour l'instant. Note ton premier sujet de prière ou une
           parole reçue ci-dessus.
         </p>
-      ) : (
+      ): (
         <ul className="mt-8 grid max-w-2xl gap-3">
           {visible.map((n) => (
             <li
               key={n.id}
               className={`rounded-2xl border p-4 ${
                 n.answered
-                  ? "border-spirit-500/30 bg-spirit-500/[0.06]"
-                  : "border-night-900/10 bg-white"
+? "border-spirit-500/30 bg-spirit-500/[0.06]"
+: "border-night-900/10 bg-white"
               }`}
             >
               <div className="flex items-center justify-between gap-3">
                 <span className="text-[11px] font-semibold uppercase tracking-wider text-spirit-600">
                   {n.category}
-                  {n.answered ? " · exaucé" : ""}
+                  {n.answered? " · exaucé": ""}
                 </span>
                 <div className="flex items-center gap-2">
-                  {n.category === "Prière" ? (
+                  {n.category === "Prière"? (
                     <button
                       type="button"
                       onClick={() => toggleAnswered(n.id)}
                       className="text-xs font-semibold text-spirit-600 hover:underline"
                     >
-                      {n.answered ? "Rouvrir" : "Marquer exaucé"}
+                      {n.answered? "Rouvrir": "Marquer exaucé"}
                     </button>
-                  ) : null}
+                  ): null}
                   <button
                     type="button"
                     onClick={() => removeNote(n.id)}
@@ -152,14 +152,14 @@ export function NotebookView() {
                   </button>
                 </div>
               </div>
-              {n.title ? (
+              {n.title? (
                 <p className="mt-1 font-display text-lg font-bold text-night-900">{n.title}</p>
-              ) : null}
-              {n.body ? (
+              ): null}
+              {n.body? (
                 <p className="mt-1 whitespace-pre-wrap text-sm leading-relaxed text-night-900/80">
                   {n.body}
                 </p>
-              ) : null}
+              ): null}
               <p className="mt-2 text-xs text-night-900/40">{fmt(n.ts)}</p>
             </li>
           ))}

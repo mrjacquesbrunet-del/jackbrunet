@@ -15,7 +15,7 @@ import audioData from "../../../content/audio.generated.json";
 export const metadata: Metadata = {
   title: "Temps avec Jésus",
   description:
-    "Ton dévotionnel quotidien : une méditation pour t'enraciner en Jésus — un verset à déclarer, une réflexion en profondeur, des questions, le passage du jour et la vidéo. Nouveau chaque jour.",
+    "Ton dévotionnel quotidien: une méditation pour t'enraciner en Jésus — un verset à déclarer, une réflexion en profondeur, des questions, le passage du jour et la vidéo. Nouveau chaque jour.",
 };
 
 export default function DevotionnelPage() {
@@ -40,9 +40,9 @@ export default function DevotionnelPage() {
         initialPlanIndex={todayIndex(plan.length)}
         latestShort={latestShort}
         shorts={shorts}
-        bookTitle={book?.title ?? "RHEMA"}
+        bookTitle={book?.title?? "RHEMA"}
         bookCover={asset(book?.image)}
-        audioMap={(audioData.devotions ?? {}) as Record<string, string>}
+        audioMap={(audioData.devotions?? {}) as Record<string, string>}
       />
     </>
   );

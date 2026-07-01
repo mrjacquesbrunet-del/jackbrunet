@@ -8,11 +8,11 @@ import { isNativeApp } from "./notifications";
  * bas, masquage du menu site…).
  *
  * - VRAI uniquement dans l'app native (Capacitor) → le SITE web n'est JAMAIS
- *   affecté pour les visiteurs.
- * - Aperçu pour tester depuis un navigateur : `?app=1`, mais limité à l'onglet
- *   en cours (sessionStorage, effacé à la fermeture). `?app=0` quitte l'aperçu.
+ * affecté pour les visiteurs.
+ * - Aperçu pour tester depuis un navigateur: `?app=1`, mais limité à l'onglet
+ * en cours (sessionStorage, effacé à la fermeture). `?app=0` quitte l'aperçu.
  *
- * SSR-safe : commence à `false`, bascule au montage côté client.
+ * SSR-safe: commence à `false`, bascule au montage côté client.
  */
 export function useAppMode(): boolean {
   const [isApp, setIsApp] = useState(false);

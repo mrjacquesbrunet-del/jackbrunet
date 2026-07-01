@@ -20,9 +20,9 @@ async function loadCorpus(): Promise<NonNullable<typeof CORPUS>> {
   const books = await Promise.all(
     index.map((b) =>
       fetch(asset(`/bible/${b.id}.json`))
-        .then((r) => r.json() as Promise<Book>)
-        .then((bk) => ({ id: b.id, name: b.name, chapters: bk.chapters }))
-        .catch(() => ({ id: b.id, name: b.name, chapters: [] as string[][] })),
+.then((r) => r.json() as Promise<Book>)
+.then((bk) => ({ id: b.id, name: b.name, chapters: bk.chapters }))
+.catch(() => ({ id: b.id, name: b.name, chapters: [] as string[][] })),
     ),
   );
   CORPUS = books;
@@ -96,19 +96,19 @@ export function BibleSearch() {
             className="field w-full"
           />
           <button type="submit" disabled={busy} className="btn-primary shrink-0">
-            {busy ? "…" : "Chercher"}
+            {busy? "…": "Chercher"}
           </button>
         </form>
 
-        {busy ? (
+        {busy? (
           <p className="mt-6 text-sm text-night-900/60">Recherche dans toute la Bible…</p>
-        ) : done ? (
+        ): done? (
           <p className="mt-6 text-sm text-night-900/60">
             {total === 0
-              ? "Aucun résultat. Essaie un autre mot."
-              : `${total} résultat${total > 1 ? "s" : ""}${total > MAX ? ` (les ${MAX} premiers affichés)` : ""}.`}
+? "Aucun résultat. Essaie un autre mot."
+: `${total} résultat${total > 1? "s": ""}${total > MAX? ` (les ${MAX} premiers affichés)`: ""}.`}
           </p>
-        ) : null}
+        ): null}
 
         <ul className="mt-4 space-y-2">
           {hits.map((h) => (

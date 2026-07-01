@@ -7,7 +7,7 @@ import { useAuth } from "@/components/community/useAuth";
 import { suggestedProfiles, follow, unfollow, type Profile } from "@/lib/community";
 
 /**
- * « Suggestions pour toi » façon Instagram : propose des intercesseurs à
+ * « Suggestions pour toi » façon Instagram: propose des intercesseurs à
  * suivre. Chaque carte ouvre le profil du membre ; le bouton s'abonne
  * directement, sans quitter la page.
  */
@@ -54,7 +54,7 @@ export function MemberSuggestions() {
   if (members.length === 0) {
     return (
       <p className="text-sm text-night-900/45">
-        Pas encore de suggestion — reviens bientôt, la communauté grandit chaque jour 🙏
+        Pas encore de suggestion — reviens bientôt, la communauté grandit chaque jour
       </p>
     );
   }
@@ -81,11 +81,11 @@ export function MemberSuggestions() {
               disabled={busy === m.id}
               className={`mt-3 w-full justify-center rounded-full px-3 py-1.5 text-sm font-semibold transition-colors disabled:opacity-50 ${
                 on
-                  ? "border border-night-900/15 bg-white text-night-900/70"
-                  : "bg-spirit-700 text-cream hover:bg-spirit-600"
+? "border border-night-900/15 bg-white text-night-900/70"
+: "bg-spirit-700 text-cream hover:bg-spirit-600"
               }`}
             >
-              {on ? "Abonné(e) ✓" : "Suivre"}
+              {on? "Abonné(e) ✓": "Suivre"}
             </button>
           </div>
         );

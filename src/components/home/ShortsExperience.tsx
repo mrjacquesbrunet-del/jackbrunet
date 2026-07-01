@@ -69,7 +69,7 @@ export function ShortsExperience({ categories }: { categories: Category[] }) {
                     </span>
                   </button>
                 ))}
-                {extra > 0 ? (
+                {extra > 0? (
                   <button
                     type="button"
                     onClick={() => setOpenAt(start + preview.length)}
@@ -84,7 +84,7 @@ export function ShortsExperience({ categories }: { categories: Category[] }) {
                       </span>
                     </span>
                   </button>
-                ) : (
+                ): (
                   <span className="w-1 shrink-0" aria-hidden />
                 )}
               </div>
@@ -94,13 +94,13 @@ export function ShortsExperience({ categories }: { categories: Category[] }) {
       </div>
 
       <AnimatePresence>
-        {openAt !== null ? (
+        {openAt!== null? (
           <ShortsPlayer
             shorts={flat}
             startIndex={openAt}
             onClose={() => setOpenAt(null)}
           />
-        ) : null}
+        ): null}
       </AnimatePresence>
     </>
   );

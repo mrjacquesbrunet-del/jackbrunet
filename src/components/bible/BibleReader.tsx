@@ -30,15 +30,15 @@ export function BibleReader() {
   }, [bookId, chapter]);
 
   function loadCommentary() {
-    if (commState !== "idle") return;
+    if (commState!== "idle") return;
     setCommState("loading");
     fetch(asset(`/commentary/${bookId}/${chapter}.json`))
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((data: Record<number, Commentary>) => {
+.then((r) => (r.ok? r.json(): Promise.reject()))
+.then((data: Record<number, Commentary>) => {
         setComm(data);
         setCommState("loaded");
       })
-      .catch(() => setCommState("none"));
+.catch(() => setCommState("none"));
   }
 
   function toggleVerse(vn: number) {
@@ -54,12 +54,12 @@ export function BibleReader() {
   // Liste des livres
   useEffect(() => {
     fetch(asset("/bible/index.json"))
-      .then((r) => r.json())
-      .then(setIndex)
-      .catch(() => {});
+.then((r) => r.json())
+.then(setIndex)
+.catch(() => {});
   }, []);
 
-  // Lien profond éventuel : /bible?livre=43&chap=3
+  // Lien profond éventuel: /bible?livre=43&chap=3
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const l = Number(params.get("livre"));
@@ -73,21 +73,21 @@ export function BibleReader() {
     let active = true;
     setLoading(true);
     fetch(asset(`/bible/${bookId}.json`))
-      .then((r) => r.json())
-      .then((b: Book) => {
+.then((r) => r.json())
+.then((b: Book) => {
         if (!active) return;
         setBook(b);
         setChapter((c) => Math.min(Math.max(1, c), b.chapters.length));
       })
-      .catch(() => {})
-      .finally(() => active && setLoading(false));
+.catch(() => {})
+.finally(() => active && setLoading(false));
     return () => {
       active = false;
     };
   }, [bookId]);
 
-  const chapterCount = book?.chapters?.length ?? 0;
-  const verses = book?.chapters?.[chapter - 1] ?? [];
+  const chapterCount = book?.chapters?.length?? 0;
+  const verses = book?.chapters?.[chapter - 1]?? [];
 
   return (
     <section className="container-x py-10">
@@ -146,7 +146,7 @@ export function BibleReader() {
         </Link>
       </div>
 
-      {/* Accès rapides en haut (visibles) : plans thématiques + Bible en 1 an */}
+      {/* Accès rapides en haut (visibles): plans thématiques + Bible en 1 an */}
       <div className="mt-4 grid max-w-2xl gap-3 sm:grid-cols-2">
         <Link
           href="/plans"
@@ -178,12 +178,12 @@ export function BibleReader() {
       </div>
 
       <h2 className="mt-8 font-display text-3xl font-extrabold">
-        {book?.name} {chapterCount ? chapter : ""}
+        {book?.name} {chapterCount? chapter: ""}
       </h2>
 
-      {loading ? (
+      {loading? (
         <p className="mt-6 text-night-900/50">Chargement…</p>
-      ) : (
+      ): (
         <div className="mt-6 max-w-2xl space-y-2 text-lg leading-relaxed text-night-900/85">
           <p className="mb-2 flex items-center gap-1.5 text-xs text-night-900/45">
             <HighlighterGlyph className="h-3.5 w-3.5" />
@@ -215,12 +215,12 @@ export function BibleReader() {
                   aria-expanded={open}
                   className="mt-1 text-xs font-semibold text-spirit-600 hover:underline"
                 >
-                  {open ? "Masquer le commentaire" : "Commentaire & sens des mots"}
+                  {open? "Masquer le commentaire": "Commentaire & sens des mots"}
                 </button>
 
-                {open ? (
+                {open? (
                   <CommentaryPanel state={commState} data={c} />
-                ) : null}
+                ): null}
               </div>
             );
           })}
@@ -237,7 +237,7 @@ export function BibleReader() {
           ← Précédent
         </button>
         <span className="text-sm text-night-900/50">
-          {chapterCount ? `Chapitre ${chapter} / ${chapterCount}` : ""}
+          {chapterCount? `Chapitre ${chapter} / ${chapterCount}`: ""}
         </span>
         <button
           type="button"

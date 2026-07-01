@@ -7,12 +7,12 @@ import { ShortsPlayer } from "@/components/home/ShortsPlayer";
 import { PlayIcon } from "@/components/ui/PlayIcon";
 
 /**
- * Accueil : bande de Shorts qui défile automatiquement (façon landing page).
+ * Accueil: bande de Shorts qui défile automatiquement (façon landing page).
  * Au survol la bande se met en pause ; un clic ouvre le feed vertical complet.
  */
 export function ShortsMarquee({ preview, all }: { preview: Short[]; all: Short[] }) {
   const [openAt, setOpenAt] = useState<number | null>(null);
-  const loop = [...preview, ...preview];
+  const loop = [...preview,...preview];
 
   return (
     <>
@@ -51,9 +51,9 @@ export function ShortsMarquee({ preview, all }: { preview: Short[]; all: Short[]
       </div>
 
       <AnimatePresence>
-        {openAt !== null ? (
+        {openAt!== null? (
           <ShortsPlayer shorts={all} startIndex={openAt} onClose={() => setOpenAt(null)} />
-        ) : null}
+        ): null}
       </AnimatePresence>
     </>
   );

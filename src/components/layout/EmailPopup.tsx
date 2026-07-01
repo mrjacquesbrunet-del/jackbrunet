@@ -18,7 +18,7 @@ export function EmailPopup() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (isApp) return; // dans l'app : pas de pop-up (on a la rubrique Exclusivités)
+    if (isApp) return; // dans l'app: pas de pop-up (on a la rubrique Exclusivités)
     if (localStorage.getItem(STORAGE_KEY)) return;
     const timer = setTimeout(() => setOpen(true), DELAY_MS);
     return () => clearTimeout(timer);
@@ -35,7 +35,7 @@ export function EmailPopup() {
 
   return (
     <AnimatePresence>
-      {open ? (
+      {open? (
         <motion.div
           className="fixed inset-0 z-[60] flex items-end justify-center p-4 sm:items-center"
           initial={{ opacity: 0 }}
@@ -75,7 +75,7 @@ export function EmailPopup() {
               </div>
 
               <div>
-                <span className="eyebrow">📖 Ebook offert</span>
+                <span className="eyebrow">Ebook offert</span>
                 <h3 className="mt-3 font-display text-2xl font-extrabold leading-tight">
                   « 7 jours pour <span className="text-gradient">retrouver la paix</span> »
                 </h3>
@@ -115,7 +115,7 @@ export function EmailPopup() {
             </div>
           </motion.div>
         </motion.div>
-      ) : null}
+      ): null}
     </AnimatePresence>
   );
 }

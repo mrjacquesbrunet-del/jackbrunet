@@ -22,15 +22,15 @@ function useAuthorPhoto(): { src: string; onError: () => void } {
   })();
   const [i, setI] = useState(0);
   return {
-    src: sources[i] ?? fallback,
-    onError: () => setI((n) => (n < sources.length - 1 ? n + 1 : n)),
+    src: sources[i]?? fallback,
+    onError: () => setI((n) => (n < sources.length - 1? n + 1: n)),
   };
 }
 
 /**
  * Signature « Par Jack Brunet » avec photo ronde.
- * - défaut : vertical, centré (pour les en-têtes) ;
- * - compact : horizontal, discret (pour les pieds de carte).
+ * - défaut: vertical, centré (pour les en-têtes) ;
+ * - compact: horizontal, discret (pour les pieds de carte).
  */
 export function AuthorByline({
   compact = false,
@@ -43,7 +43,7 @@ export function AuthorByline({
 
   if (compact) {
     return (
-      <div className={`flex items-center gap-2.5 ${className ?? ""}`}>
+      <div className={`flex items-center gap-2.5 ${className?? ""}`}>
         <span className="h-8 w-8 overflow-hidden rounded-full ring-1 ring-dawn-400/40">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={src} alt="Jack Brunet" onError={onError} className="h-full w-full object-cover object-top" />
@@ -56,7 +56,7 @@ export function AuthorByline({
   }
 
   return (
-    <div className={`flex flex-col items-center gap-2 ${className ?? ""}`}>
+    <div className={`flex flex-col items-center gap-2 ${className?? ""}`}>
       <span className="h-16 w-16 overflow-hidden rounded-full shadow-card ring-2 ring-dawn-400/50">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={src} alt="Jack Brunet" onError={onError} className="h-full w-full object-cover object-top" />

@@ -14,7 +14,7 @@ export type Grade = {
   blurb: string;
 };
 
-/** Pondération : publier compte le plus, puis prier et encourager. */
+/** Pondération: publier compte le plus, puis prier et encourager. */
 export function activityPoints(a: Activity): number {
   return a.prayers * 5 + a.prays * 1 + a.comments * 2;
 }
@@ -34,8 +34,8 @@ export function gradeFor(a: Activity): {
 } {
   const points = activityPoints(a);
   const idx = GRADES.findIndex((g) => points >= g.min);
-  const grade = GRADES[idx] ?? GRADES[GRADES.length - 1];
-  const next = idx > 0 ? GRADES[idx - 1] : null;
-  const toNext = next ? Math.max(0, next.min - points) : 0;
+  const grade = GRADES[idx]?? GRADES[GRADES.length - 1];
+  const next = idx > 0? GRADES[idx - 1]: null;
+  const toNext = next? Math.max(0, next.min - points): 0;
   return { grade, points, next, toNext };
 }

@@ -19,14 +19,14 @@ export function AboutFounder() {
             <div className="blob -left-8 -top-8 h-48 w-48 bg-dawn-400/40" />
             <div className="blob -bottom-10 -right-6 h-44 w-44 bg-spirit-400/30" />
             <div className="relative aspect-[4/5] overflow-hidden rounded-5xl border border-night-900/10 bg-night-800 shadow-card">
-              {photo ? (
+              {photo? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={photo}
                   alt={about.title}
                   className="h-full w-full object-cover"
                 />
-              ) : (
+              ): (
                 <div className="dark-ctx bg-topo-dark flex h-full w-full items-center justify-center p-8 text-center">
                   <p className="text-sm text-cream/70">
                     Ajoute ta photo dans l'admin
@@ -72,11 +72,11 @@ export function AboutFounder() {
               </>
             }
           />
-          {about.role ? (
+          {about.role? (
             <p className="mt-2 text-sm font-semibold uppercase tracking-wider text-spirit-600">
               {about.role}
             </p>
-          ) : null}
+          ): null}
 
           <div className="mt-5 space-y-4">
             {about.paragraphs.map((p, i) => (
@@ -86,7 +86,7 @@ export function AboutFounder() {
             ))}
           </div>
 
-          {about.points?.length ? (
+          {about.points?.length? (
             <ul className="mt-6 space-y-2.5">
               {about.points.map((pt) => (
                 <li key={pt} className="flex items-center gap-3 text-night-900/80">
@@ -97,7 +97,7 @@ export function AboutFounder() {
                 </li>
               ))}
             </ul>
-          ) : null}
+          ): null}
 
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href="#soutenir" className="btn-primary">

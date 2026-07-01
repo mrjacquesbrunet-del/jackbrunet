@@ -6,7 +6,7 @@ import { SectionHeader } from "@/components/ui/Section";
 import { useTodayIndex } from "@/lib/today";
 import type { ReadingPlanDay } from "@/lib/types";
 
-/** Plan de lecture — version compacte : la carte du jour + des liens. */
+/** Plan de lecture — version compacte: la carte du jour + des liens. */
 export function ReadingPlanView({
   plan,
   initialIndex,
@@ -15,7 +15,7 @@ export function ReadingPlanView({
   initialIndex: number;
 }) {
   const i = useTodayIndex(plan.length, initialIndex);
-  const today = plan[i] ?? plan[0];
+  const today = plan[i]?? plan[0];
 
   return (
     <section

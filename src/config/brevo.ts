@@ -1,7 +1,7 @@
 /**
  * Adresses d'envoi des formulaires Brevo.
  *
- * Comment obtenir une adresse : dans Brevo → Formulaires → créer un formulaire
+ * Comment obtenir une adresse: dans Brevo → Formulaires → créer un formulaire
  * « Pleine page/intégré » → étape « Partager » → code HTML. L'adresse est la
  * valeur de l'attribut `action="https://xxxx.sibforms.com/serve/..."` du <form>.
  *
@@ -84,5 +84,5 @@ export function brevoKeyForSource(source: string): BrevoFormKey {
  */
 export function newsletterEndpointForSource(source: string): string | null {
   const key = brevoKeyForSource(source);
-  return BREVO_ENDPOINTS[key] ?? BREVO_ENDPOINTS.newsletter;
+  return BREVO_ENDPOINTS[key]?? BREVO_ENDPOINTS.newsletter;
 }

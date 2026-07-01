@@ -12,12 +12,12 @@ export function PlanView({ plan }: { plan: ThemePlan }) {
   const progress = usePlanProgress(plan.slug);
   const total = plan.days.length;
   const doneCount = progress.done.length;
-  const percent = total ? Math.round((doneCount / total) * 100) : 0;
+  const percent = total? Math.round((doneCount / total) * 100): 0;
 
   // Célébration unique à la complétion du plan
   const [celebrate, setCelebrate] = useState(false);
   useEffect(() => {
-    if (percent !== 100) return;
+    if (percent!== 100) return;
     try {
       const key = "jb.plan.celebrated.v1";
       const seen = JSON.parse(localStorage.getItem(key) || "[]") as string[];
@@ -34,9 +34,9 @@ export function PlanView({ plan }: { plan: ThemePlan }) {
     <section className="container-x py-10">
       <Celebration
         open={celebrate}
-        emoji="🎉"
-        title="Parcours terminé !"
-        message={`Bravo, tu as terminé « ${plan.title} » ! Que cette Parole continue de porter du fruit dans ta vie.`}
+        emoji=""
+        title="Parcours terminé!"
+        message={`Bravo, tu as terminé « ${plan.title} »! Que cette Parole continue de porter du fruit dans ta vie.`}
         onClose={() => setCelebrate(false)}
       />
       {/* Progression */}
@@ -64,8 +64,8 @@ export function PlanView({ plan }: { plan: ThemePlan }) {
               key={d.day}
               className={`rounded-3xl border p-5 sm:p-6 transition-colors ${
                 done
-                  ? "border-spirit-500/30 bg-spirit-500/[0.06]"
-                  : "border-night-900/10 bg-white"
+? "border-spirit-500/30 bg-spirit-500/[0.06]"
+: "border-night-900/10 bg-white"
               }`}
             >
               <div className="flex items-center gap-4">
@@ -78,21 +78,21 @@ export function PlanView({ plan }: { plan: ThemePlan }) {
                       {d.day}
                     </span>
                   </div>
-                  {done ? (
+                  {done? (
                     <span className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-dawn-400 text-night-900 ring-2 ring-white">
                       <svg viewBox="0 0 24 24" className="h-3 w-3 fill-none stroke-current" strokeWidth={3}>
                         <path d="M5 12l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </span>
-                  ) : null}
+                  ): null}
                 </div>
                 <div className="min-w-0 flex-1">
                   <span
                     className={`text-[11px] font-bold uppercase tracking-wide ${
-                      done ? "text-spirit-600" : "text-night-900/40"
+                      done? "text-spirit-600": "text-night-900/40"
                     }`}
                   >
-                    {done ? "Terminé" : "À méditer"}
+                    {done? "Terminé": "À méditer"}
                   </span>
                   <h3 className="font-display text-xl font-bold leading-tight">{d.title}</h3>
                 </div>
@@ -120,9 +120,9 @@ export function PlanView({ plan }: { plan: ThemePlan }) {
                 <button
                   type="button"
                   onClick={() => progress.toggleDay(d.day)}
-                  className={done ? "btn-ghost" : "btn-primary"}
+                  className={done? "btn-ghost": "btn-primary"}
                 >
-                  {done ? "✓ Terminé" : "Marquer comme fait"}
+                  {done? "✓ Terminé": "Marquer comme fait"}
                 </button>
                 <Link href="/bible" className="btn-ghost">
                   Ouvrir la Bible
@@ -133,17 +133,17 @@ export function PlanView({ plan }: { plan: ThemePlan }) {
         })}
       </ol>
 
-      {percent === 100 ? (
+      {percent === 100? (
         <div className="mt-8 max-w-2xl rounded-3xl border border-spirit-500/30 bg-spirit-500/[0.06] p-6 text-center">
           <p className="font-display text-xl font-bold">Parcours terminé</p>
           <p className="mt-1 text-sm text-night-900/65">
-            Bravo ! Continue sur un autre thème pour t'enraciner encore plus.
+            Bravo! Continue sur un autre thème pour t'enraciner encore plus.
           </p>
           <Link href="/plans" className="btn-primary mt-4 inline-flex">
             Voir les autres parcours
           </Link>
         </div>
-      ) : null}
+      ): null}
 
       <p className="mt-8 max-w-2xl text-xs text-night-900/45">
         Ta progression est enregistrée sur cet appareil.

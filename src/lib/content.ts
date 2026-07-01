@@ -67,7 +67,7 @@ const productCovers = [
 
 export function getDailyThought(): DailyThought {
   const items = thoughtsData.items as Omit<DailyThought, "date">[];
-  return { date: "", ...items[dayOfYear() % items.length] };
+  return { date: "",...items[dayOfYear() % items.length] };
 }
 
 export function getDailyVerse(): Verse {
@@ -79,7 +79,7 @@ export function getDailyVerse(): Verse {
 export function getThoughts(): DailyThought[] {
   return (thoughtsData.items as Omit<DailyThought, "date">[]).map((t) => ({
     date: "",
-    ...t,
+...t,
   }));
 }
 
@@ -90,7 +90,7 @@ export function getVerses(): Verse[] {
 
 /** Index du contenu du jour (repli calculé à la construction, pour l'hydratation). */
 export function todayIndex(length: number): number {
-  return length > 0 ? dayOfYear() % length : 0;
+  return length > 0? dayOfYear() % length: 0;
 }
 
 export function getReadingPlan(): ReadingPlanDay[] {
@@ -106,21 +106,21 @@ export function getTodayPlanDay(): ReadingPlanDay {
  * Vidéos longues (prédications). Fusionne l'import auto (CI) et le CMS.
  */
 export function getLongVideos(): LongVideo[] {
-  const manual = (videosData.items as LongVideo[]) ?? [];
-  const generated = (videosGenerated.items as LongVideo[]) ?? [];
+  const manual = (videosData.items as LongVideo[])?? [];
+  const generated = (videosGenerated.items as LongVideo[])?? [];
   const byId = new Map<string, LongVideo>();
   for (const v of generated) if (v?.id) byId.set(v.id, v);
-  for (const v of manual) if (v?.id) byId.set(v.id, { ...byId.get(v.id), ...v });
+  for (const v of manual) if (v?.id) byId.set(v.id, {...byId.get(v.id),...v });
   return Array.from(byId.values()).filter((v) => v.id);
 }
 
 /** Normalise un texte pour comparaison (minuscules, sans accents). */
 function normalize(s: string): string {
   return s
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .replace(/[^a-z0-9\s]/g, " ");
+.toLowerCase()
+.normalize("NFD")
+.replace(/[̀-ͯ]/g, "")
+.replace(/[^a-z0-9\s]/g, " ");
 }
 
 const STOPWORDS = new Set([
@@ -136,19 +136,19 @@ const STOPWORDS = new Set([
  */
 export function getFeaturedPredications(): LongVideo[] {
   const longs = getLongVideos();
-  const queries = (homeData.featuredPredications as string[]) ?? [];
+  const queries = (homeData.featuredPredications as string[])?? [];
   const used = new Set<string>();
   const result: LongVideo[] = [];
 
   for (const q of queries) {
     const qTokens = normalize(q)
-      .split(/\s+/)
-      .filter((t) => t.length >= 3 && !STOPWORDS.has(t));
+.split(/\s+/)
+.filter((t) => t.length >= 3 &&!STOPWORDS.has(t));
     let best: { v: LongVideo; score: number } | null = null;
     for (const v of longs) {
       if (used.has(v.id)) continue;
       const title = normalize(v.title);
-      const score = qTokens.reduce((n, t) => (title.includes(t) ? n + 1 : n), 0);
+      const score = qTokens.reduce((n, t) => (title.includes(t)? n + 1: n), 0);
       if (!best || score > best.score) best = { v, score };
     }
     if (best && best.score >= 2) {
@@ -157,7 +157,7 @@ export function getFeaturedPredications(): LongVideo[] {
     }
   }
 
-  // Repli : si rien ne correspond (ex. import non encore configuré), on prend
+  // Repli: si rien ne correspond (ex. import non encore configuré), on prend
   // simplement les plus récentes pour ne pas laisser la section vide.
   if (result.length === 0) return longs.slice(0, 3);
   return result;
@@ -173,11 +173,11 @@ export function getLongVideoCategories(): { category: string; videos: LongVideo[
   }
   const rank = (c: string) => {
     const i = CATEGORY_ORDER.indexOf(c);
-    return i === -1 ? CATEGORY_ORDER.length : i;
+    return i === -1? CATEGORY_ORDER.length: i;
   };
   return Array.from(groups.entries())
-    .sort((a, b) => rank(a[0]) - rank(b[0]) || a[0].localeCompare(b[0]))
-    .map(([category, list]) => ({ category, videos: list }));
+.sort((a, b) => rank(a[0]) - rank(b[0]) || a[0].localeCompare(b[0]))
+.map(([category, list]) => ({ category, videos: list }));
 }
 
 export function getTestimonies(): Testimony[] {
@@ -185,7 +185,7 @@ export function getTestimonies(): Testimony[] {
     (t, i) => ({
       id: `t${i + 1}`,
       avatarColor: avatarColors[i % avatarColors.length],
-      ...t,
+...t,
     }),
   );
 }
@@ -195,14 +195,14 @@ export function getProducts(): Product[] {
     id: `p${i + 1}`,
     cover: productCovers[i % productCovers.length],
     available: false,
-    ...p,
+...p,
   }));
 }
 
 export function getSupportTiers(): SupportTier[] {
   return (supportTiersData.items as Omit<SupportTier, "id">[]).map((t, i) => ({
     id: `s${i + 1}`,
-    ...t,
+...t,
   }));
 }
 
@@ -212,11 +212,11 @@ export function getSupportTiers(): SupportTier[] {
  * manuelle (CMS). En cas d'ID en double, l'entrée manuelle prime (titre/catégorie).
  */
 export function getShorts(): Short[] {
-  const manual = (shortsData.items as Short[]) ?? [];
-  const generated = (shortsGenerated.items as Short[]) ?? [];
+  const manual = (shortsData.items as Short[])?? [];
+  const generated = (shortsGenerated.items as Short[])?? [];
   const byId = new Map<string, Short>();
   for (const s of generated) if (s?.id) byId.set(s.id, s);
-  for (const s of manual) if (s?.id) byId.set(s.id, { ...byId.get(s.id), ...s });
+  for (const s of manual) if (s?.id) byId.set(s.id, {...byId.get(s.id),...s });
   return Array.from(byId.values()).filter((s) => s.id);
 }
 
@@ -261,16 +261,16 @@ export function getShortCategories(): { category: string; shorts: Short[] }[] {
   }
   const rank = (c: string) => {
     const i = CATEGORY_ORDER.indexOf(c);
-    return i === -1 ? CATEGORY_ORDER.length : i;
+    return i === -1? CATEGORY_ORDER.length: i;
   };
   return Array.from(groups.entries())
-    .sort((a, b) => rank(a[0]) - rank(b[0]) || a[0].localeCompare(b[0]))
-    .map(([category, list]) => ({ category, shorts: list }));
+.sort((a, b) => rank(a[0]) - rank(b[0]) || a[0].localeCompare(b[0]))
+.map(([category, list]) => ({ category, shorts: list }));
 }
 
 /** Le Short le plus récent (vidéo du jour). */
 export function getLatestShort(): Short | null {
-  return getShorts()[0] ?? null;
+  return getShorts()[0]?? null;
 }
 
 /** Contenu de la section « Qui suis-je ». */

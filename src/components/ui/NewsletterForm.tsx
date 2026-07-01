@@ -13,7 +13,7 @@ type NewsletterFormProps = {
   layout?: "inline" | "stacked";
   /** Variante de couleur du bouton. */
   variant?: "primary" | "spirit";
-  /** Taille du champ : normale (md) ou agrandie (lg). */
+  /** Taille du champ: normale (md) ou agrandie (lg). */
   size?: "md" | "lg";
   note?: string;
   /** Appelé après une inscription réussie (ex. débloquer un cadeau). */
@@ -55,11 +55,11 @@ export function NewsletterForm({
       if (endpoint) {
         await submitToBrevo(endpoint, { EMAIL: email });
       } else {
-        // Adresse Brevo pas encore configurée : succès optimiste (rien envoyé).
+        // Adresse Brevo pas encore configurée: succès optimiste (rien envoyé).
         await new Promise((r) => setTimeout(r, 500));
       }
       setStatus("success");
-      setMessage("C'est fait ! Vérifie ta boîte mail.");
+      setMessage("C'est fait! Vérifie ta boîte mail.");
       setEmail("");
       onSuccess?.();
     } catch {
@@ -79,17 +79,17 @@ export function NewsletterForm({
     );
   }
 
-  const btnClass = variant === "spirit" ? "btn-spirit" : "btn-primary";
-  // En taille "lg", on agrandit le champ (les utilitaires priment sur .field).
-  const fieldSize = size === "lg" ? " px-6 py-4 text-base" : "";
+  const btnClass = variant === "spirit"? "btn-spirit": "btn-primary";
+  // En taille "lg", on agrandit le champ (les utilitaires priment sur.field).
+  const fieldSize = size === "lg"? " px-6 py-4 text-base": "";
 
   return (
     <form
       onSubmit={onSubmit}
       className={
         layout === "inline"
-          ? "flex w-full flex-col gap-3 sm:flex-row"
-          : "flex w-full flex-col gap-3"
+? "flex w-full flex-col gap-3 sm:flex-row"
+: "flex w-full flex-col gap-3"
       }
       noValidate
     >
@@ -110,13 +110,13 @@ export function NewsletterForm({
         className={`field flex-1${fieldSize}`}
       />
       <button type="submit" className={btnClass} disabled={status === "loading"}>
-        {status === "loading" ? "Un instant…" : cta}
+        {status === "loading"? "Un instant…": cta}
       </button>
-      {status === "error" ? (
+      {status === "error"? (
         <p className="field-error sm:basis-full">{message}</p>
-      ) : note ? (
+      ): note? (
         <p className="field-note sm:basis-full">{note}</p>
-      ) : null}
+      ): null}
     </form>
   );
 }

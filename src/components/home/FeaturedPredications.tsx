@@ -5,7 +5,7 @@ import { LiteYouTube } from "@/components/ui/LiteYouTube";
 import { getFeaturedPredications } from "@/lib/content";
 import { youtube } from "@/config/site";
 
-/** Accueil : une sélection de 3 prédications (le reste est sur /videos). */
+/** Accueil: une sélection de 3 prédications (le reste est sur /videos). */
 export function FeaturedPredications() {
   const videos = getFeaturedPredications();
 
@@ -28,7 +28,7 @@ export function FeaturedPredications() {
         </div>
       </Reveal>
 
-      {videos.length > 0 ? (
+      {videos.length > 0? (
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {videos.map((v, i) => (
             <Reveal key={v.id} from="up" delay={i * 0.1}>
@@ -41,7 +41,7 @@ export function FeaturedPredications() {
             </Reveal>
           ))}
         </div>
-      ) : (
+      ): (
         <Reveal delay={0.05}>
           <div className="dark-ctx bg-topo-dark relative mt-10 overflow-hidden rounded-4xl border border-white/10 p-8 text-center sm:p-12">
             <div className="blob -right-10 -top-10 h-48 w-48 bg-dawn-400/30" />

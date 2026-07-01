@@ -31,11 +31,11 @@ export function VideoLibrary({
   const searching = q.length > 0;
 
   const fvideos = useMemo(
-    () => (q ? videos.filter((v) => norm(v.title).includes(q)) : videos),
+    () => (q? videos.filter((v) => norm(v.title).includes(q)): videos),
     [q, videos],
   );
   const fshorts = useMemo(
-    () => (q ? shorts.filter((s) => norm(s.title).includes(q)) : shorts),
+    () => (q? shorts.filter((s) => norm(s.title).includes(q)): shorts),
     [q, shorts],
   );
 
@@ -44,7 +44,7 @@ export function VideoLibrary({
   return (
     <>
       {/* Bannière « À la une » (masquée pendant une recherche) */}
-      {hero && !searching ? (
+      {hero &&!searching? (
         <div className="dark-ctx relative mb-10 overflow-hidden border-b border-white/10">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -82,7 +82,7 @@ export function VideoLibrary({
             </div>
           </motion.div>
         </div>
-      ) : null}
+      ): null}
 
       {/* Recherche */}
       <div className="container-x">
@@ -103,13 +103,13 @@ export function VideoLibrary({
       <div className="container-x mt-10">
         <h3 className="mb-6 font-display text-2xl font-bold sm:text-3xl">
           Prédications
-          {searching ? (
+          {searching? (
             <span className="ml-2 text-base font-semibold text-night-900/40">
               · {fvideos.length}
             </span>
-          ) : null}
+          ): null}
         </h3>
-        {fvideos.length ? (
+        {fvideos.length? (
           <div className="no-scrollbar -mx-1 flex snap-x gap-4 overflow-x-auto px-1 pb-4">
             {fvideos.map((v, i) => (
               <motion.button
@@ -140,7 +140,7 @@ export function VideoLibrary({
               </motion.button>
             ))}
           </div>
-        ) : (
+        ): (
           <p className="text-night-900/50">Aucune prédication ne correspond à ta recherche.</p>
         )}
       </div>
@@ -149,13 +149,13 @@ export function VideoLibrary({
       <div className="container-x mt-14">
         <h3 className="mb-6 font-display text-2xl font-bold sm:text-3xl">
           Shorts
-          {searching ? (
+          {searching? (
             <span className="ml-2 text-base font-semibold text-night-900/40">
               · {fshorts.length}
             </span>
-          ) : null}
+          ): null}
         </h3>
-        {fshorts.length ? (
+        {fshorts.length? (
           <div className="no-scrollbar -mx-1 flex snap-x gap-4 overflow-x-auto px-1 pb-4">
             {fshorts.map((s, i) => (
               <motion.button
@@ -186,26 +186,26 @@ export function VideoLibrary({
               </motion.button>
             ))}
           </div>
-        ) : (
+        ): (
           <p className="text-night-900/50">Aucun short ne correspond à ta recherche.</p>
         )}
       </div>
 
       <AnimatePresence>
-        {openVideo !== null ? (
+        {openVideo!== null? (
           <VideoModal
             videos={fvideos}
             index={openVideo}
             onIndex={setOpenVideo}
             onClose={() => setOpenVideo(null)}
           />
-        ) : null}
+        ): null}
       </AnimatePresence>
 
       <AnimatePresence>
-        {openShort !== null ? (
+        {openShort!== null? (
           <ShortsPlayer shorts={fshorts} startIndex={openShort} onClose={() => setOpenShort(null)} />
-        ) : null}
+        ): null}
       </AnimatePresence>
     </>
   );

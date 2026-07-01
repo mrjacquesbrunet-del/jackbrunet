@@ -15,7 +15,7 @@ function Svg({ children, className }: { children: React.ReactNode; className?: s
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
-      className={className ?? base}
+      className={className?? base}
     >
       {children}
     </svg>
@@ -89,6 +89,19 @@ export const BellGlyph = ({ className }: P) => (
   <Svg className={className}>
     <path d="M6 9a6 6 0 0 1 12 0c0 4 1.5 5.5 2 6.5H4c.5-1 2-2.5 2-6.5z" />
     <path d="M10 19a2 2 0 0 0 4 0" />
+  </Svg>
+);
+
+export const ChartGlyph = ({ className }: P) => (
+  <Svg className={className}>
+    <path d="M4 20V4M4 20h16" />
+    <path d="M8 20v-6M12 20V9M16 20v-4M20 20V7" />
+  </Svg>
+);
+
+export const HeadphonesGlyph = ({ className }: P) => (
+  <Svg className={className}>
+    <path d="M4 14v-2a8 8 0 0 1 16 0v2M4 14v3a2 2 0 0 0 2 2h1v-6H6a2 2 0 0 0-2 1zM20 14v3a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 1z" />
   </Svg>
 );
 

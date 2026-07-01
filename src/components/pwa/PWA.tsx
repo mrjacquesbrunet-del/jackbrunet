@@ -32,7 +32,7 @@ export function PWA() {
 
   // 2) Invite d'installation
   useEffect(() => {
-    // Déjà dans l'app native (Capacitor) : pas d'invite d'installation.
+    // Déjà dans l'app native (Capacitor): pas d'invite d'installation.
     if ((window as Window & { Capacitor?: unknown }).Capacitor) return;
 
     const standalone =
@@ -48,9 +48,9 @@ export function PWA() {
     };
     window.addEventListener("beforeinstallprompt", onPrompt);
 
-    // iOS ne déclenche pas beforeinstallprompt : on affiche une aide.
+    // iOS ne déclenche pas beforeinstallprompt: on affiche une aide.
     const ua = window.navigator.userAgent;
-    const isIOS = /iphone|ipad|ipod/i.test(ua) && !/crios|fxios/i.test(ua);
+    const isIOS = /iphone|ipad|ipod/i.test(ua) &&!/crios|fxios/i.test(ua);
     if (isIOS) {
       setShowIOS(true);
       setHidden(false);
@@ -76,7 +76,7 @@ export function PWA() {
     dismiss();
   }
 
-  if (hidden || (!deferred && !showIOS)) return null;
+  if (hidden || (!deferred &&!showIOS)) return null;
 
   return (
     <div className="fixed inset-x-3 bottom-3 z-[60] mx-auto max-w-md">
@@ -88,22 +88,22 @@ export function PWA() {
           <p className="font-display text-sm font-bold leading-tight">
             Installe l'application
           </p>
-          {showIOS ? (
+          {showIOS? (
             <p className="mt-0.5 text-xs text-night-900/60">
               Appuie sur <span className="font-semibold">Partager</span> puis{" "}
               <span className="font-semibold">« Sur l'écran d'accueil »</span>.
             </p>
-          ) : (
+          ): (
             <p className="mt-0.5 text-xs text-night-900/60">
               Accès direct à la pensée du jour, même hors connexion.
             </p>
           )}
         </div>
-        {deferred ? (
+        {deferred? (
           <button type="button" onClick={install} className="btn-primary shrink-0 text-sm">
             Installer
           </button>
-        ) : null}
+        ): null}
         <button
           type="button"
           onClick={dismiss}

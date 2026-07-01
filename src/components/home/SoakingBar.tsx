@@ -7,7 +7,7 @@ import { asset } from "@/lib/asset";
 import { PlayGlyph, PauseGlyph, GiftGlyph, MusicGlyph, DownloadGlyph } from "@/components/ui/DevoIcons";
 
 /**
- * Barre compacte « soaking » : lecteur play/pause + cadeau (musique offerte
+ * Barre compacte « soaking »: lecteur play/pause + cadeau (musique offerte
  * contre email) replié dans la même barre.
  */
 export function SoakingBar() {
@@ -22,12 +22,12 @@ export function SoakingBar() {
           type="button"
           onClick={toggle}
           aria-pressed={playing}
-          aria-label={playing ? "Mettre en pause" : "Lancer la musique"}
+          aria-label={playing? "Mettre en pause": "Lancer la musique"}
           className={`grid h-11 w-11 shrink-0 place-items-center rounded-full transition-colors ${
-            playing ? "bg-spirit-500 text-cream" : "bg-dawn-400 text-night-950"
+            playing? "bg-spirit-500 text-cream": "bg-dawn-400 text-night-950"
           }`}
         >
-          {playing ? <PauseGlyph className="h-5 w-5" /> : <PlayGlyph className="h-5 w-5" />}
+          {playing? <PauseGlyph className="h-5 w-5" />: <PlayGlyph className="h-5 w-5" />}
         </button>
 
         <div className="min-w-0 flex-1">
@@ -36,13 +36,13 @@ export function SoakingBar() {
             Musique soaking
           </p>
           <p className="truncate text-xs text-night-900/60">
-            {playing ? `En cours · ${label}` : "Une ambiance pour ton temps avec Dieu"}
+            {playing? `En cours · ${label}`: "Une ambiance pour ton temps avec Dieu"}
           </p>
         </div>
 
         <button
           type="button"
-          onClick={() => setOpen((o) => !o)}
+          onClick={() => setOpen((o) =>!o)}
           aria-expanded={open}
           className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-night-900 px-3.5 py-2 text-xs font-semibold text-cream transition-colors hover:bg-night-800"
         >
@@ -51,9 +51,9 @@ export function SoakingBar() {
         </button>
       </div>
 
-      {open ? (
+      {open? (
         <div className="mt-3 border-t border-spirit-600/15 pt-3">
-          {unlocked ? (
+          {unlocked? (
             <a
               href={asset("/audio/soaking-jack-brunet.mp3")}
               download="Soaking - Jack Brunet.mp3"
@@ -62,7 +62,7 @@ export function SoakingBar() {
               <DownloadGlyph className="h-4 w-4" />
               Télécharger la musique
             </a>
-          ) : (
+          ): (
             <>
               <p className="mb-2 text-xs text-night-900/65">
                 Reçois la musique en cadeau — laisse ton email.
@@ -76,7 +76,7 @@ export function SoakingBar() {
             </>
           )}
         </div>
-      ) : null}
+      ): null}
     </div>
   );
 }

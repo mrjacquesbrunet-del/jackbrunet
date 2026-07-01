@@ -80,7 +80,7 @@ export function ProfileView() {
           <Link href="/communaute" className="font-semibold text-spirit-600 hover:underline">
             découvrir la communauté
           </Link>
-          .
+.
         </p>
       </section>
     );
@@ -115,10 +115,10 @@ function Profile({
 }) {
   const [myPrayers, setMyPrayers] = useState<Prayer[]>([]);
   const [loading, setLoading] = useState(true);
-  const [pseudoVal, setPseudoVal] = useState(profile?.pseudo ?? "");
-  const [avatarVal, setAvatarVal] = useState(profile?.avatar_url ?? "");
-  const [bioVal, setBioVal] = useState(profile?.bio ?? "");
-  const [verses, setVerses] = useState<FavoriteVerse[]>(profile?.favorite_verses ?? []);
+  const [pseudoVal, setPseudoVal] = useState(profile?.pseudo?? "");
+  const [avatarVal, setAvatarVal] = useState(profile?.avatar_url?? "");
+  const [bioVal, setBioVal] = useState(profile?.bio?? "");
+  const [verses, setVerses] = useState<FavoriteVerse[]>(profile?.favorite_verses?? []);
   const [counts, setCounts] = useState({ followers: 0, following: 0 });
   const [activity, setActivity] = useState<Activity>({ prayers: 0, comments: 0, prays: 0 });
   const [saving, setSaving] = useState(false);
@@ -161,7 +161,7 @@ function Profile({
       if (nav.share) {
         await nav.share({
           title: "Mon profil — Jack Brunet",
-          text: "Rejoins-moi sur l'application Jack Brunet : Foi & Prière 🙏",
+          text: "Rejoins-moi sur l'application Jack Brunet: Foi & Prière",
           url,
         });
       } else {
@@ -178,14 +178,14 @@ function Profile({
   for (const p of getThemePlans()) planMeta[p.slug] = { title: p.title, total: p.days.length };
   planMeta[YEAR_PLAN_SLUG] = { title: "La Bible en 1 an", total: YEAR_PLAN_DAYS };
   const myPlans = Object.entries(planProgress)
-    .filter(([, days]) => days.length > 0)
-    .map(([slug, days]) => {
-      const meta = planMeta[slug] ?? { title: slug, total: days.length };
+.filter(([, days]) => days.length > 0)
+.map(([slug, days]) => {
+      const meta = planMeta[slug]?? { title: slug, total: days.length };
       const done = days.length;
       return { slug, title: meta.title, done, total: meta.total,
-        pct: meta.total ? Math.min(100, Math.round((done / meta.total) * 100)) : 0 };
+        pct: meta.total? Math.min(100, Math.round((done / meta.total) * 100)): 0 };
     })
-    .sort((a, b) => b.pct - a.pct);
+.sort((a, b) => b.pct - a.pct);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -205,10 +205,10 @@ function Profile({
   }, [load]);
 
   useEffect(() => {
-    setPseudoVal(profile?.pseudo ?? "");
-    setAvatarVal(profile?.avatar_url ?? "");
-    setBioVal(profile?.bio ?? "");
-    setVerses(profile?.favorite_verses ?? []);
+    setPseudoVal(profile?.pseudo?? "");
+    setAvatarVal(profile?.avatar_url?? "");
+    setBioVal(profile?.bio?? "");
+    setVerses(profile?.favorite_verses?? []);
   }, [profile?.pseudo, profile?.avatar_url, profile?.bio, profile?.favorite_verses]);
 
   async function onPickFile(e: React.ChangeEvent<HTMLInputElement>) {
@@ -237,19 +237,19 @@ function Profile({
   }
 
   function updateVerse(i: number, patch: Partial<FavoriteVerse>) {
-    setVerses((prev) => prev.map((v, idx) => (idx === i ? { ...v, ...patch } : v)));
+    setVerses((prev) => prev.map((v, idx) => (idx === i? {...v,...patch }: v)));
   }
   function addVerse() {
     setVerses((prev) => [...prev, { reference: "", text: "" }]);
   }
   function removeVerse(i: number) {
-    setVerses((prev) => prev.filter((_, idx) => idx !== i));
+    setVerses((prev) => prev.filter((_, idx) => idx!== i));
   }
 
   async function save() {
     setSaving(true);
     const newPseudo = pseudoVal.trim() || "Ami(e)";
-    if (isReservedPseudo(newPseudo) && !isAdminEmail(email)) {
+    if (isReservedPseudo(newPseudo) &&!isAdminEmail(email)) {
       setPseudoError("Ce pseudo est réservé à Pasteur Jack Brunet.");
       setSaving(false);
       return;
@@ -261,8 +261,8 @@ function Profile({
     }
     setPseudoError("");
     const cleanVerses = verses
-      .map((v) => ({ reference: v.reference.trim(), text: v.text.trim() }))
-      .filter((v) => v.text || v.reference);
+.map((v) => ({ reference: v.reference.trim(), text: v.text.trim() }))
+.filter((v) => v.text || v.reference);
     await updateProfile(userId, {
       pseudo: pseudoVal.trim() || "Ami(e)",
       avatar_url: avatarVal.trim() || null,
@@ -280,12 +280,12 @@ function Profile({
   return (
     <section className="container-x pb-8 pt-24 sm:pt-32">
       {/* En-tête façon Instagram, sur olive sombre texturé.
-          Pas d'overflow-hidden : sinon le panneau de notifications serait rogné. */}
+          Pas d'overflow-hidden: sinon le panneau de notifications serait rogné. */}
       <div className="dark-ctx bg-topo-dark relative rounded-4xl border border-white/10 p-6 shadow-card sm:p-8">
         {/* Jauge de grade de prière (compacte) */}
         {(() => {
           const g = gradeFor(activity);
-          const pct = g.next ? Math.min(100, Math.round((g.points / g.next.min) * 100)) : 100;
+          const pct = g.next? Math.min(100, Math.round((g.points / g.next.min) * 100)): 100;
           return (
             <div className="relative mb-4">
               <div className="flex items-center justify-between text-[11px]">
@@ -293,7 +293,7 @@ function Profile({
                   {g.grade.name} · {g.points} pts
                 </span>
                 <span className="text-cream/60">
-                  {g.next ? `Plus que ${g.toNext} pts → ${g.next.name}` : "Grade maximal 🙏"}
+                  {g.next? `Plus que ${g.toNext} pts → ${g.next.name}`: "Grade maximal"}
                 </span>
               </div>
               <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-white/10">
@@ -337,7 +337,7 @@ function Profile({
             <div className="rounded-xl py-1">
               <p className="flex items-center justify-center gap-1 font-display text-xl font-extrabold text-dawn-300">
                 <FlameGlyph className="h-4 w-4" />
-                {eng.ready ? eng.streak : 0}
+                {eng.ready? eng.streak: 0}
               </p>
               <p className="text-[11px] text-cream/60">Série</p>
             </div>
@@ -348,38 +348,38 @@ function Profile({
         <div className="relative mt-4">
           <div className="flex flex-wrap items-center gap-2">
             <h2 className="flex items-center gap-1.5 font-display text-xl font-extrabold leading-tight text-cream">
-              {profile?.pseudo ?? "Ami(e)"}
-              {profile?.verified || isAdminEmail(email) ? (
+              {profile?.pseudo?? "Ami(e)"}
+              {profile?.verified || isAdminEmail(email)? (
                 <VerifiedBadge className="h-5 w-5" />
-              ) : null}
+              ): null}
             </h2>
             <span className="inline-flex items-center gap-1 rounded-full bg-dawn-400/20 px-2.5 py-0.5 text-[11px] font-bold text-dawn-200">
               {gradeFor(activity).grade.name}
             </span>
           </div>
-          {profile?.bio ? (
+          {profile?.bio? (
             <p className="mt-1.5 whitespace-pre-wrap text-sm leading-relaxed text-cream/80">
               {profile.bio}
             </p>
-          ) : null}
-          {(profile?.favorite_verses ?? []).slice(0, 2).map((v, i) => (
+          ): null}
+          {(profile?.favorite_verses?? []).slice(0, 2).map((v, i) => (
             <p key={i} className="mt-1.5 border-l-2 border-dawn-400 pl-2.5 text-sm italic text-cream/75">
               «&nbsp;{v.text}&nbsp;»{" "}
-              {v.reference ? (
+              {v.reference? (
                 <span className="font-semibold not-italic text-dawn-200">— {v.reference}</span>
-              ) : null}
+              ): null}
             </p>
           ))}
         </div>
 
-        {/* Actions : Modifier / Partager / Rechercher */}
+        {/* Actions: Modifier / Partager / Rechercher */}
         <div className="relative mt-5 flex items-center gap-2">
           <button
             type="button"
-            onClick={() => setEditing((e) => !e)}
+            onClick={() => setEditing((e) =>!e)}
             className="btn-primary flex-1 justify-center text-sm sm:flex-none sm:px-8"
           >
-            {editing ? "Fermer" : "Modifier le profil"}
+            {editing? "Fermer": "Modifier le profil"}
           </button>
           <button
             type="button"
@@ -401,12 +401,12 @@ function Profile({
               <path d="M21 21l-4.3-4.3" strokeLinecap="round" />
             </svg>
           </button>
-          {/* Cloche : s'allume quand on interagit avec tes sujets de prière */}
+          {/* Cloche: s'allume quand on interagit avec tes sujets de prière */}
           <NotificationsBell userId={userId} tone="dark" />
         </div>
       </div>
 
-      {editing ? (
+      {editing? (
         <div className="glass-strong mt-4 p-6 sm:p-8">
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="block">
@@ -422,7 +422,7 @@ function Profile({
               placeholder="Ton pseudo"
               className="field mt-1 w-full"
             />
-            {pseudoError ? <p className="field-error mt-1">{pseudoError}</p> : null}
+            {pseudoError? <p className="field-error mt-1">{pseudoError}</p>: null}
           </label>
           <div className="block">
             <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
@@ -443,10 +443,10 @@ function Profile({
                 disabled={uploading}
                 className="btn-ghost text-sm disabled:opacity-40"
               >
-                {uploading ? "Envoi…" : "Choisir une photo"}
+                {uploading? "Envoi…": "Choisir une photo"}
               </button>
             </div>
-            {uploadError ? <p className="field-error mt-1">{uploadError}</p> : null}
+            {uploadError? <p className="field-error mt-1">{uploadError}</p>: null}
           </div>
         </div>
 
@@ -477,11 +477,11 @@ function Profile({
             </button>
           </div>
           <div className="mt-2 space-y-3">
-            {verses.length === 0 ? (
+            {verses.length === 0? (
               <p className="text-sm text-night-900/45">
                 Ajoute les versets qui te portent — ils s'afficheront sur ton profil.
               </p>
-            ) : (
+            ): (
               verses.map((v, i) => (
                 <div key={i} className="rounded-2xl border border-night-900/10 p-3">
                   <textarea
@@ -525,7 +525,7 @@ function Profile({
                 onClick={() => pickAccent(k)}
                 aria-label={ACCENTS[k].label}
                 className={`h-8 w-8 rounded-full ring-2 ring-offset-2 transition ${
-                  accent === k ? "ring-night-900" : "ring-transparent"
+                  accent === k? "ring-night-900": "ring-transparent"
                 }`}
                 style={{ backgroundImage: `linear-gradient(120deg, ${ACCENTS[k].from}, ${ACCENTS[k].to})` }}
               />
@@ -535,12 +535,12 @@ function Profile({
 
         <div className="mt-5 flex flex-wrap items-center gap-3">
           <button type="button" onClick={save} disabled={saving} className="btn-primary disabled:opacity-40">
-            {saving ? "Enregistrement…" : "Enregistrer"}
+            {saving? "Enregistrement…": "Enregistrer"}
           </button>
           <button type="button" onClick={() => setEditing(false)} className="btn-ghost">
             Annuler
           </button>
-          {saved ? <span className="text-sm text-spirit-600">✓ Enregistré</span> : null}
+          {saved? <span className="text-sm text-spirit-600">✓ Enregistré</span>: null}
         </div>
 
         <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-night-900/10 pt-4 text-sm">
@@ -554,8 +554,8 @@ function Profile({
             type="button"
             onClick={async () => {
               if (
-                !confirm(
-                  "Supprimer définitivement ton compte et tes données ? Cette action est irréversible.",
+!confirm(
+                  "Supprimer définitivement ton compte et tes données? Cette action est irréversible.",
                 )
               )
                 return;
@@ -568,9 +568,9 @@ function Profile({
           </button>
         </div>
         </div>
-      ) : null}
+      ): null}
 
-      {/* Accès rapides : carnet + plans */}
+      {/* Accès rapides: carnet + plans */}
       <div className="mt-4 grid grid-cols-2 gap-3">
         <Link
           href="/carnet"
@@ -602,7 +602,7 @@ function Profile({
       </div>
 
       {/* Badges débloqués */}
-      {eng.ready && eng.best >= FIDELITY_REWARDS[0].days ? (
+      {eng.ready && eng.best >= FIDELITY_REWARDS[0].days? (
         <div className="mt-4">
           <p className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
             Badges débloqués
@@ -618,7 +618,7 @@ function Profile({
             ))}
           </div>
         </div>
-      ) : null}
+      ): null}
 
       {/* Trouver des profils à suivre */}
       <div id="trouver-profils" className="mt-6 scroll-mt-20">
@@ -679,7 +679,7 @@ function Profile({
             </div>
             <p className="mt-4 font-display text-base font-extrabold text-spirit-700">Mon carnet</p>
             <p className="mt-0.5 text-sm text-night-900/60">
-              {notes.length} note{notes.length > 1 ? "s" : ""} · prières & paroles reçues
+              {notes.length} note{notes.length > 1? "s": ""} · prières & paroles reçues
             </p>
           </Link>
 
@@ -699,8 +699,8 @@ function Profile({
             <p className="mt-4 font-display text-base font-extrabold text-spirit-700">Mes plans</p>
             <p className="mt-0.5 text-sm text-night-900/60">
               {activePlans > 0
-                ? `${activePlans} plan${activePlans > 1 ? "s" : ""} en cours`
-                : "Démarrer un plan"}
+? `${activePlans} plan${activePlans > 1? "s": ""} en cours`
+: "Démarrer un plan"}
             </p>
           </Link>
 
@@ -729,7 +729,7 @@ function Profile({
           </Link>
         </div>
         <p className="mt-3 text-xs text-night-900/45">
-          ✓ Carnet, versets et plans sont synchronisés sur ton compte : tu les retrouves
+          ✓ Carnet, versets et plans sont synchronisés sur ton compte: tu les retrouves
           sur tous tes appareils dès que tu te connectes.
         </p>
       </div>
@@ -737,16 +737,16 @@ function Profile({
       {/* Mes prières */}
       <div className="mt-8">
         <h3 className="font-display text-lg font-bold">Mes sujets de prière</h3>
-        {loading ? (
+        {loading? (
           <p className="mt-3 text-night-900/50">Chargement…</p>
-        ) : myPrayers.length === 0 ? (
+        ): myPrayers.length === 0? (
           <p className="mt-3 text-night-900/55">
             Tu n'as pas encore partagé de prière.{" "}
             <Link href="/communaute" className="font-semibold text-spirit-600 hover:underline">
               Partager maintenant
             </Link>
           </p>
-        ) : (
+        ): (
           <ul className="mt-3 space-y-3">
             {myPrayers.map((p) => (
               <li key={p.id} className="rounded-2xl border border-night-900/10 bg-white p-4">
@@ -756,11 +756,11 @@ function Profile({
                 <p className="mt-2 text-xs text-night-900/45">
                   {new Date(p.created_at).toLocaleDateString("fr-FR")} ·{" "}
                   {p.visibility === "public"
-                    ? "Public"
-                    : p.visibility === "friends"
-                      ? "Abonnés"
-                      : "Privé"}
-                  {p.answered ? " · Exaucé 🙌" : ""}
+? "Public"
+: p.visibility === "friends"
+? "Abonnés"
+: "Privé"}
+                  {p.answered? " · Exaucé": ""}
                 </p>
               </li>
             ))}
@@ -769,14 +769,14 @@ function Profile({
       </div>
 
       {/* Avancée de mes plans */}
-      {myPlans.length > 0 ? (
+      {myPlans.length > 0? (
         <div className="mt-8">
           <h3 className="font-display text-lg font-bold">Mes plans en cours</h3>
           <div className="mt-3 space-y-3">
             {myPlans.map((p) => (
               <Link
                 key={p.slug}
-                href={p.slug === YEAR_PLAN_SLUG ? "/bible-1-an" : `/plans/${p.slug}`}
+                href={p.slug === YEAR_PLAN_SLUG? "/bible-1-an": `/plans/${p.slug}`}
                 className="block rounded-2xl border border-night-900/10 bg-white p-4 transition-shadow hover:shadow-lg"
               >
                 <div className="flex items-center justify-between gap-3">
@@ -796,7 +796,7 @@ function Profile({
             ))}
           </div>
         </div>
-      ) : null}
+      ): null}
 
       {/* Mes favoris — regroupés directement dans le profil */}
       <div className="mt-8">
@@ -806,11 +806,11 @@ function Profile({
 
       {/* Prières exaucées — directement dans le profil */}
       <div className="mt-8">
-        <h3 className="font-display text-lg font-bold">Prières exaucées 🙌</h3>
+        <h3 className="font-display text-lg font-bold">Prières exaucées</h3>
         <AnsweredFeed />
       </div>
 
-      {isAdminEmail(email) ? (
+      {isAdminEmail(email)? (
         <div className="mt-8">
           <Link
             href="/admin"
@@ -828,16 +828,16 @@ function Profile({
             <span className="shrink-0 text-2xl transition-transform group-hover:translate-x-1">→</span>
           </Link>
         </div>
-      ) : null}
+      ): null}
 
-      {followModal ? (
+      {followModal? (
         <FollowList
           userId={userId}
           mode={followModal}
           onClose={() => setFollowModal(null)}
           onChange={load}
         />
-      ) : null}
+      ): null}
     </section>
   );
 }

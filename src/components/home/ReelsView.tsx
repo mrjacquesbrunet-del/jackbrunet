@@ -9,11 +9,11 @@ import { videoEmbedSrc } from "@/lib/youtube";
  *
  * - Les vidéos voisines sont préchargées (lecteurs YouTube gardés en mémoire).
  * - Au swipe, on lance la lecture de la vidéo active et on met les autres en
- *   pause, sans recharger.
- * - Le son : iOS interdit de le garder automatiquement d'une vidéo YouTube à
- *   l'autre (chaque cadre exige son propre geste). On propose donc un bouton
- *   « son » qui réapparaît sur chaque vidéo (compact après la 1re fois) : un
- *   appui suffit à activer le son sur la vidéo en cours.
+ * pause, sans recharger.
+ * - Le son: iOS interdit de le garder automatiquement d'une vidéo YouTube à
+ * l'autre (chaque cadre exige son propre geste). On propose donc un bouton
+ * « son » qui réapparaît sur chaque vidéo (compact après la 1re fois): un
+ * appui suffit à activer le son sur la vidéo en cours.
  */
 export function ReelsView({ shorts }: { shorts: Short[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -52,7 +52,7 @@ export function ReelsView({ shorts }: { shorts: Short[] }) {
       const i = Number(key);
       if (i === active) {
         post(i, "play");
-        post(i, i === soundIndex ? "unmute" : "mute");
+        post(i, i === soundIndex? "unmute": "mute");
       } else {
         post(i, "pause");
         post(i, "mute");
@@ -63,7 +63,7 @@ export function ReelsView({ shorts }: { shorts: Short[] }) {
   function enableSoundHere() {
     setSoundIndex(active);
     setEverOn(true);
-    // Dans le geste utilisateur : iOS autorise le son sur la vidéo en cours.
+    // Dans le geste utilisateur: iOS autorise le son sur la vidéo en cours.
     post(active, "play");
     post(active, "unmute");
   }
@@ -71,7 +71,7 @@ export function ReelsView({ shorts }: { shorts: Short[] }) {
   if (shorts.length === 0) {
     return (
       <div className="grid h-[70svh] place-items-center px-6 text-center text-night-900/55">
-        Les vidéos arrivent bientôt 🙏
+        Les vidéos arrivent bientôt
       </div>
     );
   }
@@ -86,7 +86,7 @@ export function ReelsView({ shorts }: { shorts: Short[] }) {
         const near = Math.abs(i - active) <= 1; // fenêtre préchargée
         const isActive = i === active;
         const hasSound = isActive && i === soundIndex;
-        const needsSound = isActive && i !== soundIndex;
+        const needsSound = isActive && i!== soundIndex;
         return (
           <div
             key={s.id}
@@ -98,7 +98,7 @@ export function ReelsView({ shorts }: { shorts: Short[] }) {
             style={{ height: "calc(100dvh - 4.5rem)" }}
           >
             <div className="relative h-full w-full max-w-[480px] overflow-hidden rounded-2xl border border-white/10 bg-night-900">
-              {near ? (
+              {near? (
                 <iframe
                   ref={(el) => {
                     frames.current[i] = el;
@@ -109,7 +109,7 @@ export function ReelsView({ shorts }: { shorts: Short[] }) {
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
                 />
-              ) : (
+              ): (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={`https://i.ytimg.com/vi/${s.id}/hqdefault.jpg`}
@@ -119,8 +119,8 @@ export function ReelsView({ shorts }: { shorts: Short[] }) {
                 />
               )}
 
-              {/* 1re fois : grande invite plein écran */}
-              {needsSound && !everOn ? (
+              {/* 1re fois: grande invite plein écran */}
+              {needsSound &&!everOn? (
                 <button
                   type="button"
                   onClick={enableSoundHere}
@@ -134,10 +134,10 @@ export function ReelsView({ shorts }: { shorts: Short[] }) {
                     Touche pour le son
                   </span>
                 </button>
-              ) : null}
+              ): null}
 
-              {/* Vidéos suivantes : petite pastille « activer le son » */}
-              {needsSound && everOn ? (
+              {/* Vidéos suivantes: petite pastille « activer le son » */}
+              {needsSound && everOn? (
                 <button
                   type="button"
                   onClick={enableSoundHere}
@@ -147,10 +147,10 @@ export function ReelsView({ shorts }: { shorts: Short[] }) {
                   <SoundOffIcon className="h-4 w-4" />
                   Touche pour le son
                 </button>
-              ) : null}
+              ): null}
 
-              {/* Son actif : bouton pour couper */}
-              {hasSound ? (
+              {/* Son actif: bouton pour couper */}
+              {hasSound? (
                 <button
                   type="button"
                   onClick={() => setSoundIndex(-1)}
@@ -159,14 +159,14 @@ export function ReelsView({ shorts }: { shorts: Short[] }) {
                 >
                   <SoundOnIcon className="h-5 w-5" />
                 </button>
-              ) : null}
+              ): null}
 
               <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-night-950/90 to-transparent p-5">
-                {s.category ? (
+                {s.category? (
                   <span className="inline-flex rounded-full bg-dawn-400 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-night-900">
                     {s.category}
                   </span>
-                ) : null}
+                ): null}
                 <p className="mt-2 line-clamp-2 font-semibold text-cream">{s.title}</p>
               </div>
             </div>
@@ -179,7 +179,7 @@ export function ReelsView({ shorts }: { shorts: Short[] }) {
 
 function SoundOffIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" className={`${className ?? ""} fill-none stroke-current`} strokeWidth={1.8}>
+    <svg viewBox="0 0 24 24" className={`${className?? ""} fill-none stroke-current`} strokeWidth={1.8}>
       <path d="M4 9.5h3l4.5-3.5v12L7 14.5H4z" strokeLinejoin="round" />
       <path d="M16 9.5l4 5M20 9.5l-4 5" strokeLinecap="round" />
     </svg>
@@ -188,7 +188,7 @@ function SoundOffIcon({ className }: { className?: string }) {
 
 function SoundOnIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" className={`${className ?? ""} fill-none stroke-current`} strokeWidth={1.8}>
+    <svg viewBox="0 0 24 24" className={`${className?? ""} fill-none stroke-current`} strokeWidth={1.8}>
       <path d="M4 9.5h3l4.5-3.5v12L7 14.5H4z" strokeLinejoin="round" />
       <path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8 8 0 0 1 0 12" strokeLinecap="round" />
     </svg>

@@ -19,10 +19,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Requête invalide." }, { status: 400 });
   }
 
-  const name = (payload.name ?? "Anonyme").trim().slice(0, 80);
-  const email = (payload.email ?? "").trim().toLowerCase().slice(0, 160);
-  const phone = (payload.phone ?? "").trim().slice(0, 40);
-  const text = (payload.testimony ?? "").trim();
+  const name = (payload.name?? "Anonyme").trim().slice(0, 80);
+  const email = (payload.email?? "").trim().toLowerCase().slice(0, 160);
+  const phone = (payload.phone?? "").trim().slice(0, 40);
+  const text = (payload.testimony?? "").trim();
   const consent = Boolean(payload.consent);
 
   if (text.length < 3) {
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
   );
 
   return NextResponse.json(
-    { ok: true, message: "Témoignage reçu. Merci !" },
+    { ok: true, message: "Témoignage reçu. Merci!" },
     { status: 201 },
   );
 }

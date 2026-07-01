@@ -5,17 +5,17 @@ import { ShortsMarquee } from "@/components/home/ShortsMarquee";
 import { getShorts } from "@/lib/content";
 import { youtube } from "@/config/site";
 
-/** Accueil : aperçu des derniers Shorts (bande défilante) — le reste sur /videos. */
+/** Accueil: aperçu des derniers Shorts (bande défilante) — le reste sur /videos. */
 export function Reels() {
   const all = getShorts();
   const preview = all.slice(0, 10); // les plus récents en avant
   const hasShorts = preview.length > 0;
   const count = all.length;
-  const floorTxt = count >= 100 ? `${Math.floor(count / 100) * 100}+` : `${count}`;
+  const floorTxt = count >= 100? `${Math.floor(count / 100) * 100}+`: `${count}`;
   const description =
     count > 12
-      ? `Explore mes ${floorTxt} Shorts : clique et scrolle d'une vidéo à l'autre, sans quitter le site.`
-      : "Mes derniers Shorts. Clique pour les regarder en plein écran et scrolle d'une vidéo à l'autre.";
+? `Explore mes ${floorTxt} Shorts: clique et scrolle d'une vidéo à l'autre, sans quitter le site.`
+: "Mes derniers Shorts. Clique pour les regarder en plein écran et scrolle d'une vidéo à l'autre.";
 
   return (
     <section id="shorts" className="scroll-mt-24 pb-14 pt-8 sm:pb-20 sm:pt-10">
@@ -38,11 +38,11 @@ export function Reels() {
         </Reveal>
       </div>
 
-      {hasShorts ? (
+      {hasShorts? (
         <Reveal delay={0.05}>
           <ShortsMarquee preview={preview} all={all} />
         </Reveal>
-      ) : (
+      ): (
         <div className="container-x">
           <Reveal delay={0.05}>
             <div className="dark-ctx bg-topo-dark relative mt-10 overflow-hidden rounded-4xl border border-white/10 p-8 text-center sm:p-12">

@@ -12,7 +12,7 @@ import { STRIPE_LINKS } from "@/config/stripe";
 export const metadata: Metadata = {
   title: "Mission Madagascar",
   description:
-    "Mission d'évangélisation à Madagascar — début novembre, 10 jours. Conférence, évangélisation de rue et soutien aux œuvres (orphelinats, prisons). Objectif de collecte : 10 000 €.",
+    "Mission d'évangélisation à Madagascar — début novembre, 10 jours. Conférence, évangélisation de rue et soutien aux œuvres (orphelinats, prisons). Objectif de collecte: 10 000 €.",
 };
 
 export default function MissionMadagascarPage() {
@@ -30,7 +30,7 @@ export default function MissionMadagascarPage() {
             <span className="text-gradient">porter la lumière de Jésus</span>
           </>
         }
-        description="Début novembre, pendant 10 jours, nous partons annoncer l'Évangile à Madagascar : une conférence d'évangélisation, de l'évangélisation de rue, et la visite d'œuvres — orphelinats, prisons et autres — pour les soutenir par notre présence et nos moyens."
+        description="Début novembre, pendant 10 jours, nous partons annoncer l'Évangile à Madagascar: une conférence d'évangélisation, de l'évangélisation de rue, et la visite d'œuvres — orphelinats, prisons et autres — pour les soutenir par notre présence et nos moyens."
       >
         <div className="flex flex-wrap justify-center gap-3">
           <Link href="#soutenir" className="btn-primary">
@@ -52,7 +52,7 @@ export default function MissionMadagascarPage() {
             eyebrow="Le projet"
             title={
               <>
-                Pourquoi <span className="text-gradient">Madagascar</span> ?
+                Pourquoi <span className="text-gradient">Madagascar</span>?
               </>
             }
           />
@@ -63,12 +63,12 @@ export default function MissionMadagascarPage() {
           <p>
             Depuis quelque temps, Dieu a placé Madagascar sur mon cœur. Après plusieurs
             confirmations, nous croyons qu'il est temps d'y aller — non pas simplement pour
-            organiser un événement, mais pour répondre à un appel : annoncer Jésus, encourager les
+            organiser un événement, mais pour répondre à un appel: annoncer Jésus, encourager les
             cœurs, visiter les oubliés et soutenir concrètement ceux qui œuvrent déjà sur place.
           </p>
           <p>
             Madagascar est une terre magnifique, riche d'histoire, de culture et de visages. Mais
-            c'est aussi une terre où les besoins sont immenses : pauvreté, précarité, enfants
+            c'est aussi une terre où les besoins sont immenses: pauvreté, précarité, enfants
             vulnérables, familles en difficulté, détenus oubliés, œuvres locales qui manquent
             parfois de moyens pour continuer leur mission.
           </p>
@@ -80,7 +80,7 @@ export default function MissionMadagascarPage() {
           </p>
           <p>
             C'est dans ce contexte que nous voulons aller — avec humilité, respect et amour. Notre
-            but n'est pas d'arriver avec des réponses toutes faites, mais de servir : proclamer
+            but n'est pas d'arriver avec des réponses toutes faites, mais de servir: proclamer
             Jésus-Christ avec clarté, prier pour les personnes, encourager les croyants et manifester
             l'amour de Christ par des actes concrets.
           </p>
@@ -91,7 +91,7 @@ export default function MissionMadagascarPage() {
       {/* Aller vers les oubliés */}
       <section className="container-x pb-4">
         <p className="max-w-2xl text-base leading-relaxed text-night-900/70 sm:text-lg">
-          Servir Dieu, c'est aussi aller vers ceux que beaucoup ne voient plus : les enfants
+          Servir Dieu, c'est aussi aller vers ceux que beaucoup ne voient plus: les enfants
           vulnérables, les prisonniers, les pauvres, les isolés, les oubliés. Tous ont de la valeur
           aux yeux de Dieu.
         </p>
@@ -128,7 +128,7 @@ export default function MissionMadagascarPage() {
               Visite d'œuvres
             </h3>
             <p className="mt-3 text-sm text-night-900/70">
-              Visiter orphelinats, prisons et autres œuvres locales : encourager ceux qui se sentent
+              Visiter orphelinats, prisons et autres œuvres locales: encourager ceux qui se sentent
               oubliés, bénir ceux qui servent déjà, et apporter un soutien concret selon les besoins.
             </p>
           </div>
@@ -136,7 +136,7 @@ export default function MissionMadagascarPage() {
         <p className="mt-10 mx-auto max-w-2xl text-center text-base leading-relaxed text-night-900/70 sm:text-lg">
           Annoncer, mais aussi écouter. Prier, mais aussi soutenir. Prêcher, mais aussi visiter.
           Parler de Jésus, mais aussi montrer Son amour par notre présence. Notre désir est que
-          cette mission soit une semence pour Madagascar : une semence de salut, d'encouragement,
+          cette mission soit une semence pour Madagascar: une semence de salut, d'encouragement,
           de restauration et de compassion.
         </p>
       </section>
@@ -153,13 +153,13 @@ export default function MissionMadagascarPage() {
               eyebrow="Objectif"
               title={
                 <>
-                  Notre objectif :{" "}
+                  Notre objectif:{" "}
                   <span className="text-gradient">10 000 €</span>
                 </>
               }
             />
             <p className="mt-4 text-base leading-relaxed text-cream/70 sm:text-lg">
-              Cette mission a un coût : déplacements, logistique sur place, et
+              Cette mission a un coût: déplacements, logistique sur place, et
               soutien direct aux œuvres que nous visiterons. Chaque don, petit
               ou grand, nous rapproche du but.
             </p>
@@ -185,7 +185,7 @@ export default function MissionMadagascarPage() {
 
             <div className="mt-8 text-center">
               <PayButton
-                href={STRIPE_LINKS.missionMadagascar ?? STRIPE_LINKS.donOnce}
+                href={STRIPE_LINKS.missionMadagascar?? STRIPE_LINKS.donOnce}
                 className="btn-primary sm:px-12"
               >
                 Soutenir la mission
@@ -207,7 +207,7 @@ export default function MissionMadagascarPage() {
                   <span className="text-gradient">dans la prière</span>
                 </>
               }
-              description="Nous cherchons des intercesseurs qui porteront cette mission avant et pendant les 10 jours. Tu veux prier avec nous, ou même nous rejoindre sur le terrain ? Laisse ton email, nous te tiendrons informé(e)."
+              description="Nous cherchons des intercesseurs qui porteront cette mission avant et pendant les 10 jours. Tu veux prier avec nous, ou même nous rejoindre sur le terrain? Laisse ton email, nous te tiendrons informé(e)."
             />
           </div>
           <div className="glass-strong p-7 sm:p-8">
@@ -226,7 +226,7 @@ export default function MissionMadagascarPage() {
       <section className="dark-ctx bg-topo-dark border-y border-white/10 py-20">
         <div className="container-x mx-auto max-w-2xl text-center">
           <p className="text-base leading-relaxed text-cream/75 sm:text-lg">
-            Nous partons avec un double objectif : annoncer l'Évangile et
+            Nous partons avec un double objectif: annoncer l'Évangile et
             manifester l'amour de Dieu de manière concrète.
           </p>
           <div className="mt-8 space-y-2 font-display text-xl font-bold leading-snug sm:text-2xl">

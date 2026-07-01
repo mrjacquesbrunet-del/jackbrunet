@@ -42,7 +42,7 @@ export function Testimonies() {
     };
     const endpoint = BREVO_ENDPOINTS.temoignages;
     // On garde l'autorisation de partage en tête du message (pas d'attribut dédié).
-    const consentTag = consent ? "[Partage autorisé] " : "[Privé] ";
+    const consentTag = consent? "[Partage autorisé] ": "[Privé] ";
     try {
       if (endpoint) {
         await submitToBrevo(endpoint, {
@@ -73,7 +73,7 @@ export function Testimonies() {
                 Partage-nous ton <span className="text-gradient">témoignage</span>
               </>
             }
-            description="Dieu a agi dans ta vie ? Raconte-nous : cela nous encourage à continuer. Nous te répondrons, et avec ta permission, nous pourrons le partager à la communauté pour encourager d'autres à persévérer."
+            description="Dieu a agi dans ta vie? Raconte-nous: cela nous encourage à continuer. Nous te répondrons, et avec ta permission, nous pourrons le partager à la communauté pour encourager d'autres à persévérer."
           />
           <ul className="mt-8 space-y-3">
             {[
@@ -93,15 +93,15 @@ export function Testimonies() {
 
         <Reveal from="right" delay={0.1}>
           <div className="glass-strong p-7 sm:p-8">
-            {status === "success" ? (
+            {status === "success"? (
               <div className="flex flex-col items-center gap-4 py-10 text-center">
-                <h3 className="font-display text-2xl font-bold">Merci, gloire à Dieu !</h3>
+                <h3 className="font-display text-2xl font-bold">Merci, gloire à Dieu!</h3>
                 <p className="max-w-sm text-night-900/70">{message}</p>
                 <button onClick={() => setStatus("idle")} className="btn-ghost mt-2">
                   Partager un autre témoignage
                 </button>
               </div>
-            ) : (
+            ): (
               <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
@@ -176,9 +176,9 @@ export function Testimonies() {
                   />
                   J'autorise le partage de mon témoignage pour encourager la communauté.
                 </label>
-                {status === "error" ? <p className="field-error">{message}</p> : null}
+                {status === "error"? <p className="field-error">{message}</p>: null}
                 <button type="submit" className="btn-primary" disabled={status === "loading"}>
-                  {status === "loading" ? "Envoi…" : "Envoyer mon témoignage"}
+                  {status === "loading"? "Envoi…": "Envoyer mon témoignage"}
                 </button>
               </form>
             )}

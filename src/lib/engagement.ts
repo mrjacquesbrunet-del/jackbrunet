@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 
 /**
  * Engagement du visiteur, 100 % côté client (localStorage) — compatible avec
- * l'export statique : aucune donnée serveur.
+ * l'export statique: aucune donnée serveur.
  *
  * - série de jours consécutifs (streak) + record ;
  * - méditations marquées comme « méditées » (progression) ;
@@ -41,7 +41,7 @@ function read(): State {
   try {
     const raw = localStorage.getItem(KEY);
     if (!raw) return empty;
-    return { ...empty, ...(JSON.parse(raw) as Partial<State>) };
+    return {...empty,...(JSON.parse(raw) as Partial<State>) };
   } catch {
     return empty;
   }
@@ -59,15 +59,15 @@ export function useEngagement() {
   const [state, setState] = useState<State>(empty);
   const [ready, setReady] = useState(false);
 
-  // À l'arrivée : on met la série à jour (ouvrir le dévotionnel compte pour le jour).
+  // À l'arrivée: on met la série à jour (ouvrir le dévotionnel compte pour le jour).
   useEffect(() => {
     const s = read();
     const today = dayStr();
-    if (s.lastVisit !== today) {
+    if (s.lastVisit!== today) {
       const yesterday = dayStr(new Date(Date.now() - 86_400_000));
-      const streak = s.lastVisit === yesterday ? s.streak + 1 : 1;
+      const streak = s.lastVisit === yesterday? s.streak + 1: 1;
       const next: State = {
-        ...s,
+...s,
         streak,
         best: Math.max(s.best, streak),
         lastVisit: today,
@@ -92,8 +92,8 @@ export function useEngagement() {
     const today = dayStr();
     update((s) =>
       s.completedDates.includes(today)
-        ? s
-        : { ...s, completedDates: [...s.completedDates, today] },
+? s
+: {...s, completedDates: [...s.completedDates, today] },
     );
   }, [update]);
 
@@ -101,8 +101,8 @@ export function useEngagement() {
     (index: number) => {
       update((s) =>
         s.favorites.includes(index)
-          ? { ...s, favorites: s.favorites.filter((x) => x !== index) }
-          : { ...s, favorites: [...s.favorites, index] },
+? {...s, favorites: s.favorites.filter((x) => x!== index) }
+: {...s, favorites: [...s.favorites, index] },
       );
     },
     [update],

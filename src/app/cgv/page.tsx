@@ -22,7 +22,7 @@ export default function CGVPage() {
 
       <section className="container-x py-12">
         <div className="mx-auto max-w-3xl space-y-8 text-night-900/80 leading-relaxed">
-          <p className="text-sm text-night-900/50">Dernière mise à jour : juin 2026</p>
+          <p className="text-sm text-night-900/50">Dernière mise à jour: juin 2026</p>
 
           <p>
             Les présentes conditions régissent les dons effectués en faveur du ministère ainsi que,
@@ -40,7 +40,7 @@ export default function CGVPage() {
               <a href={`mailto:${siteConfig.contactEmail}`} className="underline underline-offset-2">
                 {siteConfig.contactEmail}
               </a>
-              .
+.
             </p>
           </div>
 
@@ -54,15 +54,15 @@ export default function CGVPage() {
             </p>
             <ul className="mt-3 list-disc pl-5 space-y-1.5">
               <li>
-                Prix : indiqué sur la page du produit, en euros, toutes taxes comprises
+                Prix: indiqué sur la page du produit, en euros, toutes taxes comprises
               </li>
-              <li>Paiement : sécurisé via Stripe</li>
+              <li>Paiement: sécurisé via Stripe</li>
               <li>
-                Livraison : le produit est expédié par l'éditeur à l'adresse indiquée lors de la
+                Livraison: le produit est expédié par l'éditeur à l'adresse indiquée lors de la
                 commande ; les délais et frais de port sont précisés avant le paiement
               </li>
               <li>
-                Disponibilité : en cas d'indisponibilité, le client est informé et remboursé le cas
+                Disponibilité: en cas d'indisponibilité, le client est informé et remboursé le cas
                 échéant
               </li>
             </ul>
@@ -79,7 +79,7 @@ export default function CGVPage() {
               <a href={`mailto:${siteConfig.contactEmail}`} className="underline underline-offset-2">
                 {siteConfig.contactEmail}
               </a>
-              . Les frais de retour sont à la charge du client. Ce droit ne s'applique pas aux dons
+. Les frais de retour sont à la charge du client. Ce droit ne s'applique pas aux dons
               ni aux produits numériques téléchargés.
             </p>
           </div>
@@ -91,7 +91,7 @@ export default function CGVPage() {
               <a href={`mailto:${siteConfig.contactEmail}`} className="underline underline-offset-2">
                 {siteConfig.contactEmail}
               </a>
-              .
+.
             </p>
           </div>
         </div>
