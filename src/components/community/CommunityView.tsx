@@ -144,8 +144,8 @@ function Feed({
         </div>
       </div>
 
-      <section className="container-x -mt-6 pb-12">
-      <div className="mx-auto max-w-2xl">
+      <section className="container-x pt-6 pb-12">
+      <div className="max-w-2xl">
       {/* Module de profil (charte olive) + partage d'un sujet en extension */}
       <div className="dark-ctx bg-topo-dark rounded-4xl border border-white/10 text-cream shadow-card">
         {/* En-tête profil */}
