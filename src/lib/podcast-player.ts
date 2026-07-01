@@ -3,6 +3,7 @@
 import { useSyncExternalStore } from "react";
 import type { AudioTrack } from "./audio-library";
 import { track } from "./analytics";
+import { getOfflineObjectUrl } from "./bible-offline";
 
 /**
  * Lecteur de podcasts GLOBAL (singleton hors React): la lecture continue
@@ -157,17 +158,34 @@ export function getPodcastAudio(): HTMLAudioElement | null {
   return ensureAudio();
 }
 
+let playSeq = 0; // garde-fou anti-course pour la résolution hors-ligne (async)
+let objectUrl: string | null = null; // URL blob courante (à révoquer)
+
 export function playQueue(queue: AudioTrack[], index: number) {
   const a = ensureAudio();
   if (!a ||!queue[index]) return;
   state.queue = queue;
   state.index = index;
-  a.src = queue[index].url;
-  a.playbackRate = state.rate; // conserve la vitesse choisie
-  a.play().catch(() => undefined);
-  track("play", queue[index].id); // statistique d'écoute (anonyme)
+  const seq = ++playSeq;
+  const t = queue[index];
+  track("play", t.id); // statistique d'écoute (anonyme)
   emit();
   setMediaSession();
+  // Copie locale (hors-ligne) en priorité, sinon flux Supabase.
+  void getOfflineObjectUrl(t.path).then((local) => {
+    if (seq!== playSeq ||!audio) {
+      if (local) URL.revokeObjectURL(local);
+      return;
+    }
+    if (objectUrl) {
+      URL.revokeObjectURL(objectUrl);
+      objectUrl = null;
+    }
+    objectUrl = local;
+    audio.src = local?? t.url;
+    audio.playbackRate = state.rate;
+    audio.play().catch(() => undefined);
+  });
 }
 
 /** Change la vitesse de lecture (0.8 → 1.5), mémorisée. */
@@ -201,9 +219,14 @@ export function seekTo(t: number) {
 
 /** Arrête la lecture et masque la barre (ferme le lecteur). */
 export function stopPlayback() {
+  playSeq++;
   if (audio) {
     audio.pause();
     audio.removeAttribute("src");
+  }
+  if (objectUrl) {
+    URL.revokeObjectURL(objectUrl);
+    objectUrl = null;
   }
   if (sleepTimeout) {
     clearTimeout(sleepTimeout);
