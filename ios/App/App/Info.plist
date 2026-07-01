@@ -30,6 +30,7 @@
 	<string>L'application peut utiliser votre position pour vous proposer des notifications adaptées. Vous pouvez refuser : l'application fonctionne entièrement sans.</string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>audio</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
