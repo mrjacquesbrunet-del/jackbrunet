@@ -46,6 +46,17 @@ export async function hasBibleNarration(bookId: number, chapter: number): Promis
   }
 }
 
+/** Compte les chapitres (fichiers .mp3) réellement présents pour un livre. */
+export async function countBibleChapters(bookId: number): Promise<number> {
+  const sb = getSupabase();
+  if (!sb) return 0;
+  const { data, error } = await sb.storage
+.from(AUDIO_BUCKET)
+.list(`bible/${bookId}`, { limit: 1000 });
+  if (error ||!data) return 0;
+  return data.filter((f) => /\.mp3$/i.test(f.name)).length;
+}
+
 /** Admin: envoie le MP3 d'un chapitre (écrase si déjà présent). */
 export async function uploadBibleChapter(
   bookId: number,

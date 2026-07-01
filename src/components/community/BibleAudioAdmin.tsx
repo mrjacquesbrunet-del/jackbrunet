@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { asset } from "@/lib/asset";
-import { uploadBibleChapter, hasBibleNarration } from "@/lib/bible-audio";
+import { uploadBibleChapter, countBibleChapters } from "@/lib/bible-audio";
 import { uploadAmbientBed } from "@/lib/ambient";
 import { HeadphonesGlyph, MusicGlyph } from "@/components/ui/DevoIcons";
 
@@ -23,8 +23,8 @@ export function BibleAudioAdmin() {
   const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // État de la narration: quels livres sont en ligne (test du chapitre 1).
-  const [status, setStatus] = useState<Record<number, boolean>>({});
+  // État réel dans Supabase: nombre de chapitres présents par livre.
+  const [counts, setCounts] = useState<Record<number, number>>({});
   const [checking, setChecking] = useState(false);
 
   // Instrumental de fond (fond musical doux sous la voix).
@@ -50,14 +50,14 @@ export function BibleAudioAdmin() {
 .catch(() => setBooks([]));
   }, []);
 
-  // Vérifie quels livres ont une narration (test du chapitre 1 de chaque livre).
+  // Lit l'état réel dans Supabase: combien de chapitres par livre.
   const checkStatus = useCallback(async (list: BookIndex[]) => {
     if (list.length === 0) return;
     setChecking(true);
     const entries = await Promise.all(
-      list.map(async (b) => [b.id, await hasBibleNarration(b.id, 1)] as const),
+      list.map(async (b) => [b.id, await countBibleChapters(b.id)] as const),
     );
-    setStatus(Object.fromEntries(entries));
+    setCounts(Object.fromEntries(entries));
     setChecking(false);
   }, []);
 
@@ -65,7 +65,8 @@ export function BibleAudioAdmin() {
     if (books.length) checkStatus(books);
   }, [books, checkStatus]);
 
-  const onlineCount = books.filter((b) => status[b.id]).length;
+  const isDone = (b: BookIndex) => (counts[b.id]?? 0) >= b.chapters;
+  const doneCount = books.filter(isDone).length;
   const book = books.find((b) => b.id === bookId);
 
   async function handleFiles(files: FileList | null) {
@@ -106,11 +107,11 @@ export function BibleAudioAdmin() {
         arrière-plan avec minuteur. Source libre: Louis Segond 1910 (domaine public).
       </p>
 
-      {/* État de la narration: livres en ligne */}
+      {/* État réel dans Supabase: livres terminés / en cours / manquants */}
       <div className="mt-4 rounded-2xl border border-night-900/10 bg-night-900/[0.02] p-4">
         <div className="flex items-center justify-between gap-2">
           <p className="text-sm font-bold text-night-900/80">
-            {checking? "Vérification…": `${onlineCount} / ${books.length} livres en ligne`}
+            {checking? "Lecture de Supabase…": `${doneCount} / ${books.length} livres terminés`}
           </p>
           <button
             type="button"
@@ -121,21 +122,35 @@ export function BibleAudioAdmin() {
             Rafraîchir
           </button>
         </div>
+        <p className="mt-1 text-[11px] text-night-900/45">
+          ✓ terminé · orange = en cours (manque des chapitres) · gris = rien
+        </p>
         <div className="mt-3 flex flex-wrap gap-1.5">
           {books.map((b) => {
-            const on = status[b.id];
+            const n = counts[b.id]?? 0;
+            const done = n >= b.chapters;
+            const partial = n > 0 &&!done;
             return (
               <span
                 key={b.id}
-                title={on? `${b.name} — en ligne`: `${b.name} — manquant`}
+                title={
+                  done
+? `${b.name} — terminé (${b.chapters} ch.)`
+: partial
+? `${b.name} — ${n}/${b.chapters} chapitres`
+: `${b.name} — aucun chapitre`
+                }
                 className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${
-                  on
+                  done
 ? "bg-dawn-400/25 text-spirit-700 ring-1 ring-dawn-400/50"
+: partial
+? "bg-amber-400/20 text-amber-700 ring-1 ring-amber-400/40"
 : "bg-night-900/[0.04] text-night-900/40"
                 }`}
               >
-                {on? "✓ ": ""}
+                {done? "✓ ": ""}
                 {b.name}
+                {partial? ` ${n}/${b.chapters}`: ""}
               </span>
             );
           })}
