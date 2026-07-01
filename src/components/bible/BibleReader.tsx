@@ -238,6 +238,9 @@ export function BibleReader() {
           ))}
         </select>
 
+        {/* Téléchargement hors-ligne du livre (bouton discret) */}
+        <BibleDownload bookId={bookId} bookName={book?.name?? ""} chapterCount={chapterCount} />
+
         {/* Accès au carnet (prise de notes pendant la lecture) */}
         <Link
           href="/carnet"
@@ -321,7 +324,7 @@ export function BibleReader() {
 
       {/* Service audio: écouter le chapitre (voix de l'appareil, LSG libre) */}
       {!loading && verses.length? (
-        <div className="mt-4 max-w-2xl space-y-2">
+        <div className="mt-4 max-w-2xl">
           <BibleAudio
             bookId={bookId}
             verses={verses}
@@ -331,7 +334,6 @@ export function BibleReader() {
             books={index}
             onVerse={setSpokenVerse}
           />
-          <BibleDownload bookId={bookId} bookName={book?.name?? ""} chapterCount={chapterCount} />
         </div>
       ): null}
         </>
