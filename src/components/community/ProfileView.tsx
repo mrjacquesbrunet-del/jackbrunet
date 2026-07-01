@@ -25,6 +25,7 @@ import { AnsweredFeed } from "@/components/community/AnsweredFeed";
 import { MemberSearch } from "@/components/community/MemberSearch";
 import { MemberSuggestions } from "@/components/community/MemberSuggestions";
 import { NotificationsBell } from "@/components/community/NotificationsBell";
+import { MessagesButton } from "@/components/community/MessagesButton";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { FollowList } from "@/components/community/FollowList";
 import { ProfileBanners } from "@/components/community/ProfileBanners";
@@ -401,6 +402,8 @@ function Profile({
               <path d="M21 21l-4.3-4.3" strokeLinecap="round" />
             </svg>
           </button>
+          {/* Messagerie privée */}
+          <MessagesButton tone="dark" />
           {/* Cloche: s'allume quand on interagit avec tes sujets de prière */}
           <NotificationsBell userId={userId} tone="dark" />
         </div>

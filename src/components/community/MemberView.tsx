@@ -200,18 +200,26 @@ export function MemberView() {
               Modifier mon profil
             </Link>
           ): userId? (
-            <button
-              type="button"
-              onClick={toggleFollow}
-              disabled={busy}
-              className={`w-full rounded-full py-2.5 text-center text-sm font-bold transition-colors disabled:opacity-60 ${
-                following
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={toggleFollow}
+                disabled={busy}
+                className={`flex-1 rounded-full py-2.5 text-center text-sm font-bold transition-colors disabled:opacity-60 ${
+                  following
 ? "border border-white/20 bg-white/10 text-cream hover:bg-white/20"
 : "bg-dawn-400 text-night-900 hover:-translate-y-0.5"
-              }`}
-            >
-              {following? "Abonné(e) ✓": "S'abonner"}
-            </button>
+                }`}
+              >
+                {following? "Abonné(e) ✓": "S'abonner"}
+              </button>
+              <Link
+                href={`/messages?u=${memberId}`}
+                className="flex-1 rounded-full border border-white/20 bg-white/10 py-2.5 text-center text-sm font-bold text-cream transition-colors hover:bg-white/20"
+              >
+                Message
+              </Link>
+            </div>
           ): (
             <Link
               href="/communaute"
