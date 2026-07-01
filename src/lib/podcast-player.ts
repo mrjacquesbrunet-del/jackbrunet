@@ -10,9 +10,24 @@ import { track } from "./analytics";
  * (avec UIBackgroundModes=audio côté iOS + Media Session pour les contrôles).
  */
 
-type State = { queue: AudioTrack[]; index: number; playing: boolean };
-let state: State = { queue: [], index: -1, playing: false };
+type State = {
+  queue: AudioTrack[];
+  index: number;
+  playing: boolean;
+  /** Fin du minuteur (timestamp ms) ou null. */
+  sleepEndsAt: number | null;
+  /** Minuteur « fin de l'épisode »: on s'arrête à la fin du morceau en cours. */
+  sleepEpisodeEnd: boolean;
+};
+let state: State = {
+  queue: [],
+  index: -1,
+  playing: false,
+  sleepEndsAt: null,
+  sleepEpisodeEnd: false,
+};
 let audio: HTMLAudioElement | null = null;
+let sleepTimeout: ReturnType<typeof setTimeout> | null = null;
 const listeners = new Set<() => void>();
 
 function emit() {
@@ -51,8 +66,61 @@ function ensureAudio(): HTMLAudioElement | null {
     state.playing = false;
     emit();
   });
-  audio.addEventListener("ended", () => nextTrack());
+  audio.addEventListener("ended", () => {
+    // Minuteur « fin de l'épisode »: on s'arrête ici au lieu d'enchaîner.
+    if (state.sleepEpisodeEnd) {
+      cancelSleep();
+      stopPlayback();
+      return;
+    }
+    nextTrack();
+  });
   return audio;
+}
+
+/** Minuteur de veille: arrête la lecture au bout de `minutes` (null = annule). */
+export function setSleepTimer(minutes: number | null) {
+  if (sleepTimeout) {
+    clearTimeout(sleepTimeout);
+    sleepTimeout = null;
+  }
+  state.sleepEpisodeEnd = false;
+  if (minutes === null) {
+    state.sleepEndsAt = null;
+    emit();
+    return;
+  }
+  const ms = minutes * 60_000;
+  state.sleepEndsAt = Date.now() + ms;
+  sleepTimeout = setTimeout(() => {
+    sleepTimeout = null;
+    state.sleepEndsAt = null;
+    if (audio) audio.pause();
+    emit();
+  }, ms);
+  emit();
+}
+
+/** Minuteur « fin de l'épisode »: s'arrête à la fin du morceau en cours. */
+export function setSleepEpisodeEnd(on: boolean) {
+  if (sleepTimeout) {
+    clearTimeout(sleepTimeout);
+    sleepTimeout = null;
+  }
+  state.sleepEndsAt = null;
+  state.sleepEpisodeEnd = on;
+  emit();
+}
+
+/** Annule tout minuteur en cours. */
+export function cancelSleep() {
+  if (sleepTimeout) {
+    clearTimeout(sleepTimeout);
+    sleepTimeout = null;
+  }
+  state.sleepEndsAt = null;
+  state.sleepEpisodeEnd = false;
+  emit();
 }
 
 /** Élément audio partagé (pour lire le temps/la durée depuis la barre). */
@@ -95,9 +163,15 @@ export function stopPlayback() {
     audio.pause();
     audio.removeAttribute("src");
   }
+  if (sleepTimeout) {
+    clearTimeout(sleepTimeout);
+    sleepTimeout = null;
+  }
   state.queue = [];
   state.index = -1;
   state.playing = false;
+  state.sleepEndsAt = null;
+  state.sleepEpisodeEnd = false;
   emit();
 }
 
@@ -119,11 +193,16 @@ export function usePodcastPlayer() {
     index: snap.index,
     playing: snap.playing,
     current: snap.index >= 0? snap.queue[snap.index]: null,
+    sleepEndsAt: snap.sleepEndsAt,
+    sleepEpisodeEnd: snap.sleepEpisodeEnd,
     playQueue,
     toggle: togglePlay,
     next: nextTrack,
     prev: prevTrack,
     seek: seekTo,
     stop: stopPlayback,
+    setSleepTimer,
+    setSleepEpisodeEnd,
+    cancelSleep,
   };
 }

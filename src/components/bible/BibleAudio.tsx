@@ -27,6 +27,11 @@ export function BibleAudio({
   const idxRef = useRef(0);
   const voiceRef = useRef<SpeechSynthesisVoice | null>(null);
 
+  // Minuteur de veille (l'écoute s'arrête toute seule).
+  const [sleepMin, setSleepMin] = useState<number | null>(null);
+  const [sleepMenu, setSleepMenu] = useState(false);
+  const sleepTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   // Détecte le support + choisit une voix française.
   useEffect(() => {
     if (typeof window === "undefined" ||!("speechSynthesis" in window)) {
@@ -49,10 +54,34 @@ export function BibleAudio({
     if (typeof window!== "undefined" && "speechSynthesis" in window) {
       window.speechSynthesis.cancel();
     }
+    if (sleepTimer.current) {
+      clearTimeout(sleepTimer.current);
+      sleepTimer.current = null;
+    }
+    setSleepMin(null);
     idxRef.current = 0;
     setState("idle");
     onVerse(null);
   }, [onVerse]);
+
+  // Arme (ou annule) le minuteur de veille.
+  const armSleep = useCallback(
+    (min: number | null) => {
+      if (sleepTimer.current) {
+        clearTimeout(sleepTimer.current);
+        sleepTimer.current = null;
+      }
+      setSleepMin(min);
+      setSleepMenu(false);
+      if (min!== null) {
+        sleepTimer.current = setTimeout(() => {
+          sleepTimer.current = null;
+          stop();
+        }, min * 60_000);
+      }
+    },
+    [stop],
+  );
 
   // Arrête la lecture si on change de chapitre / de livre ou si on quitte.
   useEffect(() => {
@@ -126,7 +155,58 @@ export function BibleAudio({
           {state === "idle"
 ? "Lecture audio du chapitre (voix de l'appareil)"
 : `En lecture — verset ${idxRef.current + 1}`}
+          {sleepMin? ` · minuteur ${sleepMin} min`: ""}
         </p>
+      </div>
+
+      {/* Minuteur de veille */}
+      <div className="relative shrink-0">
+        <button
+          type="button"
+          onClick={() => setSleepMenu((o) =>!o)}
+          aria-label="Minuteur de veille"
+          className={`grid h-10 w-10 place-items-center rounded-full border ${
+            sleepMin
+? "border-dawn-400 text-dawn-300"
+: "border-white/15 bg-white/10 text-cream"
+          }`}
+        >
+          <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
+            <circle cx="12" cy="13" r="8" />
+            <path d="M12 9v4l2.5 2M9 2h6" strokeLinecap="round" />
+          </svg>
+        </button>
+        {sleepMenu? (
+          <div className="absolute right-0 top-full z-[60] mt-2 w-40 overflow-hidden rounded-2xl border border-night-900/10 bg-white text-night-900 shadow-xl">
+            <p className="px-4 pt-3 text-[11px] font-bold uppercase tracking-wide text-night-900/45">
+              Minuteur
+            </p>
+            <ul className="py-1">
+              {[10, 20, 30, 45, 60].map((m) => (
+                <li key={m}>
+                  <button
+                    type="button"
+                    onClick={() => armSleep(m)}
+                    className="w-full px-4 py-2 text-left text-sm text-night-900/80 hover:bg-night-900/[0.04]"
+                  >
+                    {m} minutes
+                  </button>
+                </li>
+              ))}
+              {sleepMin? (
+                <li className="border-t border-night-900/10">
+                  <button
+                    type="button"
+                    onClick={() => armSleep(null)}
+                    className="w-full px-4 py-2 text-left text-sm font-semibold text-red-500 hover:bg-red-50"
+                  >
+                    Désactiver
+                  </button>
+                </li>
+              ): null}
+            </ul>
+          </div>
+        ): null}
       </div>
 
       {state === "playing"? (

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { usePodcastPlayer, getPodcastAudio } from "@/lib/podcast-player";
 import { useSoaking } from "@/lib/soaking";
 import { PlayGlyph, PauseGlyph, MusicGlyph } from "@/components/ui/DevoIcons";
+import { SleepTimer } from "@/components/audio/SleepTimer";
 
 function fmt(sec: number): string {
   if (!Number.isFinite(sec) || sec < 0) return "0:00";
@@ -67,6 +68,7 @@ export function GlobalAudioBar() {
               <span className="text-[10px] tabular-nums text-night-900/45">{fmt(dur)}</span>
             </div>
           </div>
+          <SleepTimer />
           <button
             type="button"
             onClick={pod.next}
