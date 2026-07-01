@@ -7,6 +7,7 @@ import {
   uploadPodcast,
   deletePodcast,
   updatePodcast,
+  podcastCoverUrl,
   type AudioTrack,
 } from "@/lib/audio-library";
 import { useAuth } from "@/components/community/useAuth";
@@ -39,6 +40,8 @@ export function ListenScreen() {
   const [upload, setUpload] = useState<{ done: number; total: number } | null>(null);
   const [tab, setTab] = useState<"all" | "fav">("all");
   const [favs, setFavs] = useState<Set<string>>(new Set());
+  const [coverBroken, setCoverBroken] = useState(false);
+  const coverUrl = podcastCoverUrl();
   const audioRef = useRef<HTMLAudioElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -201,12 +204,22 @@ export function ListenScreen() {
       {/* En-tête podcast (façon Spotify, charte) */}
       <div className="mx-auto max-w-md text-center">
         <div className="mx-auto grid aspect-square w-44 place-items-center overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-spirit-500 to-night-900 shadow-card sm:w-52">
-          <div className="text-cream">
-            <svg viewBox="0 0 24 24" className="mx-auto h-12 w-12 fill-none stroke-dawn-400" strokeWidth={1.6}>
-              <path d="M4 14v-2a8 8 0 0 1 16 0v2M4 14v3a2 2 0 0 0 2 2h1v-6H6a2 2 0 0 0-2 1zM20 14v3a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 1z" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            <p className="mt-2 font-display text-lg font-extrabold">Écouter</p>
-          </div>
+          {coverUrl && !coverBroken ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={coverUrl}
+              alt="Podcast de Pasteur Jack"
+              onError={() => setCoverBroken(true)}
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <div className="text-cream">
+              <svg viewBox="0 0 24 24" className="mx-auto h-12 w-12 fill-none stroke-dawn-400" strokeWidth={1.6}>
+                <path d="M4 14v-2a8 8 0 0 1 16 0v2M4 14v3a2 2 0 0 0 2 2h1v-6H6a2 2 0 0 0-2 1zM20 14v3a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 1z" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <p className="mt-2 font-display text-lg font-extrabold">Écouter</p>
+            </div>
+          )}
         </div>
         <h1 className="mt-4 font-display text-2xl font-extrabold">Podcast de Pasteur Jack</h1>
         <p className="mt-1 text-sm text-night-900/60">

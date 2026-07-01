@@ -40,6 +40,14 @@ function safeKey(name: string): string {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 7)}-${slug}.${ext}`;
 }
 
+/** URL de la pochette du podcast (fichier « cover.jpg » du bucket audio). */
+export function podcastCoverUrl(): string | null {
+  const sb = getSupabase();
+  if (!sb) return null;
+  const { data } = sb.storage.from(AUDIO_BUCKET).getPublicUrl("cover.jpg");
+  return data.publicUrl ?? null;
+}
+
 /** Liste les podcasts (table + URL publique du fichier). */
 export async function listPodcasts(): Promise<AudioTrack[]> {
   const sb = getSupabase();
