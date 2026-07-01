@@ -1,7 +1,7 @@
 const WHATSAPP_CHANNEL =
   "https://whatsapp.com/channel/0029VbBxxbY1SWt72z0avP1F";
 
-/** Bandeau discret invitant à rejoindre la chaîne WhatsApp. */
+/** Carte sombre invitant à rejoindre la chaîne WhatsApp. */
 export function WhatsAppChannel() {
   return (
     <div className="container-x py-8">
@@ -9,13 +9,28 @@ export function WhatsAppChannel() {
         href={WHATSAPP_CHANNEL}
         target="_blank"
         rel="noopener noreferrer"
-        className="mx-auto flex max-w-2xl flex-wrap items-center justify-center gap-x-3 gap-y-1 rounded-2xl border border-night-900/10 bg-night-900/[0.03] px-5 py-4 text-center text-sm transition-colors hover:border-dawn-500/40 hover:bg-night-900/[0.06]"
+        className="group relative mx-auto flex max-w-2xl items-center gap-4 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-spirit-700 to-night-900 p-5 text-cream shadow-card transition-all hover:-translate-y-0.5 hover:shadow-lg"
       >
-        <WhatsAppIcon className="h-5 w-5 shrink-0 text-[#25D366]" />
-        <span className="font-semibold text-night-900">
-          Rejoins ma chaîne WhatsApp
+        {/* Halo vert discret */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-[#25D366]/25 blur-2xl"
+        />
+        {/* Pastille icône WhatsApp */}
+        <span className="relative grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-[#25D366] text-white shadow-sm">
+          <WhatsAppIcon className="h-6 w-6" />
         </span>
-        <span className="text-night-900/55">pour ne rien manquer</span>
+        <span className="relative min-w-0 flex-1">
+          <span className="block font-display text-base font-extrabold leading-tight">
+            Rejoins ma chaîne WhatsApp
+          </span>
+          <span className="mt-0.5 block text-sm text-cream/70">
+            Reçois mes paroles & actus — ne rien manquer.
+          </span>
+        </span>
+        <span className="relative shrink-0 text-cream/50 transition-transform group-hover:translate-x-0.5 group-hover:text-[#25D366]">
+          →
+        </span>
       </a>
     </div>
   );
