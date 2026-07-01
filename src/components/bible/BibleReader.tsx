@@ -29,6 +29,35 @@ export function BibleReader() {
   // Verset lu à voix haute (surlignage pendant l'écoute)
   const [spokenVerse, setSpokenVerse] = useState<number | null>(null);
 
+  // Mode pleine lecture (immersion)
+  const [immersive, setImmersive] = useState(false);
+
+  // « Reprendre où j'étais »: restaure le dernier livre/chapitre lu.
+  const [restored, setRestored] = useState(false);
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("jb.bible.pos");
+      if (raw) {
+        const p = JSON.parse(raw) as { bookId?: number; chapter?: number };
+        if (p.bookId) setBookId(p.bookId);
+        if (p.chapter) setChapter(p.chapter);
+      }
+    } catch {
+      /* stockage indisponible */
+    }
+    setRestored(true);
+  }, []);
+
+  // Mémorise la position à chaque changement (après restauration).
+  useEffect(() => {
+    if (!restored) return;
+    try {
+      localStorage.setItem("jb.bible.pos", JSON.stringify({ bookId, chapter }));
+    } catch {
+      /* ignore */
+    }
+  }, [restored, bookId, chapter]);
+
   // Réinitialise les commentaires quand on change de livre/chapitre
   useEffect(() => {
     setComm({});
@@ -132,6 +161,25 @@ export function BibleReader() {
 
   return (
     <section className="container-x py-10">
+      {/* Barre fine du mode pleine lecture */}
+      {immersive? (
+        <div className="sticky top-0 z-40 mb-2 flex items-center justify-between gap-2 rounded-b-2xl bg-cream/95 py-2 backdrop-blur">
+          <button
+            type="button"
+            onClick={() => setImmersive(false)}
+            className="rounded-full border border-night-900/15 bg-white px-3 py-1.5 text-sm font-semibold text-night-900/70"
+          >
+            ✕ Quitter
+          </button>
+          <span className="font-display text-sm font-bold">
+            {book?.name} {chapterCount? chapter: ""}
+          </span>
+          <ReadingSettings />
+        </div>
+      ): null}
+
+      {!immersive? (
+        <>
       {/* Sélecteurs livre + chapitre */}
       <div className="flex flex-wrap items-center gap-3">
         <select
@@ -188,6 +236,19 @@ export function BibleReader() {
 
         {/* Confort de lecture: taille du texte + police */}
         <ReadingSettings />
+
+        {/* Mode pleine lecture (immersion) */}
+        <button
+          type="button"
+          onClick={() => setImmersive(true)}
+          aria-label="Mode pleine lecture"
+          title="Pleine lecture"
+          className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-night-900/15 bg-white text-spirit-700 transition-colors hover:bg-night-900/5"
+        >
+          <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
+            <path d="M4 9V5a1 1 0 0 1 1-1h4M20 9V5a1 1 0 0 0-1-1h-4M4 15v4a1 1 0 0 0 1 1h4M20 15v4a1 1 0 0 1-1 1h-4" strokeLinecap="round" />
+          </svg>
+        </button>
       </div>
 
       {/* Accès rapides en haut (visibles): plans thématiques + Bible en 1 an */}
@@ -237,6 +298,8 @@ export function BibleReader() {
           />
         </div>
       ): null}
+        </>
+      ): null}
 
       {loading? (
         <p className="mt-6 text-night-900/50">Chargement…</p>
@@ -249,10 +312,12 @@ export function BibleReader() {
             lineHeight: 1.65,
           }}
         >
-          <p className="mb-2 flex items-center gap-1.5 text-xs text-night-900/45">
-            <HighlighterGlyph className="h-3.5 w-3.5" />
-            Touche un verset pour le surligner, le copier ou l'enregistrer.
-          </p>
+          {!immersive? (
+            <p className="mb-2 flex items-center gap-1.5 text-xs text-night-900/45">
+              <HighlighterGlyph className="h-3.5 w-3.5" />
+              Touche un verset pour le surligner, le copier ou l'enregistrer.
+            </p>
+          ): null}
           {verses.map((v, i) => {
             const vn = i + 1;
             const open = openVerses.has(vn);
@@ -280,16 +345,18 @@ export function BibleReader() {
                   </p>
                 </Markable>
 
-                <button
-                  type="button"
-                  onClick={() => toggleVerse(vn)}
-                  aria-expanded={open}
-                  className="mt-1 text-xs font-semibold text-spirit-600 hover:underline"
-                >
-                  {open? "Masquer le commentaire": "Commentaire & sens des mots"}
-                </button>
+                {!immersive? (
+                  <button
+                    type="button"
+                    onClick={() => toggleVerse(vn)}
+                    aria-expanded={open}
+                    className="mt-1 text-xs font-semibold text-spirit-600 hover:underline"
+                  >
+                    {open? "Masquer le commentaire": "Commentaire & sens des mots"}
+                  </button>
+                ): null}
 
-                {open? (
+                {!immersive && open? (
                   <CommentaryPanel state={commState} data={c} />
                 ): null}
               </div>
@@ -298,27 +365,65 @@ export function BibleReader() {
         </div>
       )}
 
-      <div className="mt-10 flex max-w-2xl items-center justify-between gap-3">
-        <button
-          type="button"
-          disabled={chapter <= 1}
-          onClick={() => setChapter((c) => Math.max(1, c - 1))}
-          className="btn-ghost disabled:opacity-40"
-        >
-          ← Précédent
-        </button>
-        <span className="text-sm text-night-900/50">
-          {chapterCount? `Chapitre ${chapter} / ${chapterCount}`: ""}
-        </span>
-        <button
-          type="button"
-          disabled={chapter >= chapterCount}
-          onClick={() => setChapter((c) => Math.min(chapterCount, c + 1))}
-          className="btn-ghost disabled:opacity-40"
-        >
-          Suivant →
-        </button>
-      </div>
+      {!immersive? (
+        <div className="mt-10 flex max-w-2xl items-center justify-between gap-3">
+          <button
+            type="button"
+            disabled={chapter <= 1}
+            onClick={() => setChapter((c) => Math.max(1, c - 1))}
+            className="btn-ghost disabled:opacity-40"
+          >
+            ← Précédent
+          </button>
+          <span className="text-sm text-night-900/50">
+            {chapterCount? `Chapitre ${chapter} / ${chapterCount}`: ""}
+          </span>
+          <button
+            type="button"
+            disabled={chapter >= chapterCount}
+            onClick={() => setChapter((c) => Math.min(chapterCount, c + 1))}
+            className="btn-ghost disabled:opacity-40"
+          >
+            Suivant →
+          </button>
+        </div>
+      ): null}
+
+      {/* Pleine lecture: lecteur audio flottant centré + navigation chapitre */}
+      {immersive &&!loading && verses.length? (
+        <div className="fixed bottom-24 left-1/2 z-[56] flex -translate-x-1/2 items-center gap-2">
+          <button
+            type="button"
+            disabled={chapter <= 1}
+            onClick={() => setChapter((c) => Math.max(1, c - 1))}
+            aria-label="Chapitre précédent"
+            className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-night-900/15 bg-white/95 text-spirit-700 shadow-card backdrop-blur disabled:opacity-40"
+          >
+            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2}>
+              <path d="M15 5l-7 7 7 7" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+          <BibleAudio
+            bookId={bookId}
+            verses={verses}
+            bookName={book?.name?? ""}
+            chapter={chapter}
+            onVerse={setSpokenVerse}
+            variant="floating"
+          />
+          <button
+            type="button"
+            disabled={chapter >= chapterCount}
+            onClick={() => setChapter((c) => Math.min(chapterCount, c + 1))}
+            aria-label="Chapitre suivant"
+            className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-night-900/15 bg-white/95 text-spirit-700 shadow-card backdrop-blur disabled:opacity-40"
+          >
+            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2}>
+              <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </div>
+      ): null}
     </section>
   );
 }

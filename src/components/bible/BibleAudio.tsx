@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { track } from "@/lib/analytics";
 import { hasBibleNarration, bibleTrack } from "@/lib/bible-audio";
-import { playQueue } from "@/lib/podcast-player";
+import { playQueue, usePodcastPlayer } from "@/lib/podcast-player";
 import { useAmbient, setVoiceActive, ambientKick } from "@/lib/ambient";
 
 /**
@@ -21,6 +21,7 @@ export function BibleAudio({
   bookName,
   chapter,
   onVerse,
+  variant = "inline",
 }: {
   bookId: number;
   verses: string[];
@@ -28,8 +29,15 @@ export function BibleAudio({
   chapter: number;
   /** Index (0-based) du verset lu, ou null quand la lecture s'arrête. */
   onVerse: (index: number | null) => void;
+  /** "floating" = pilule centrée en bas (mode pleine lecture). */
+  variant?: "inline" | "floating";
 }) {
   const ambient = useAmbient();
+  const pod = usePodcastPlayer();
+  const rootCls =
+    variant === "floating"
+? "dark-ctx bg-topo-dark flex w-[min(78vw,22rem)] items-center gap-2.5 rounded-full border border-white/10 p-2.5 text-cream shadow-card"
+: "dark-ctx bg-topo-dark flex items-center gap-3 rounded-2xl border border-white/10 p-3 text-cream shadow-card";
 
   // Narration hébergée disponible pour ce chapitre?
   const [hasNarr, setHasNarr] = useState(false);
@@ -197,8 +205,11 @@ export function BibleAudio({
 
   // MODE NARRATION: fichier hébergé → lecteur global (arrière-plan, veille…).
   if (hasNarr) {
+    // En pleine lecture, si la narration joue déjà, la barre du bas suffit.
+    const isCurrent = pod.current?.id === `bible:${bookName} ${chapter}`;
+    if (variant === "floating" && isCurrent) return null;
     return (
-      <div className="dark-ctx bg-topo-dark flex items-center gap-3 rounded-2xl border border-white/10 p-3 text-cream shadow-card">
+      <div className={rootCls}>
         <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-night-900 text-dawn-400">
           <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
             <path
@@ -233,7 +244,7 @@ export function BibleAudio({
   if (!supported) return null;
 
   return (
-    <div className="dark-ctx bg-topo-dark flex items-center gap-3 rounded-2xl border border-white/10 p-3 text-cream shadow-card">
+    <div className={rootCls}>
       <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-night-900 text-dawn-400">
         <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
           <path
