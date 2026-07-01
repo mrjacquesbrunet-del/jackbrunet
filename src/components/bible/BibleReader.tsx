@@ -6,6 +6,7 @@ import { asset } from "@/lib/asset";
 import { Markable } from "@/components/ui/Markable";
 import { HighlighterGlyph } from "@/components/ui/DevoIcons";
 import { CommentaryPanel, type Commentary } from "@/components/bible/CommentaryPanel";
+import { BibleAudio } from "@/components/bible/BibleAudio";
 
 type BookIndex = { id: number; name: string; chapters: number };
 type Book = { id: number; name: string; chapters: string[][] };
@@ -21,6 +22,9 @@ export function BibleReader() {
   const [comm, setComm] = useState<Record<number, Commentary>>({});
   const [commState, setCommState] = useState<"idle" | "loading" | "loaded" | "none">("idle");
   const [openVerses, setOpenVerses] = useState<Set<number>>(new Set());
+
+  // Verset lu à voix haute (surlignage pendant l'écoute)
+  const [spokenVerse, setSpokenVerse] = useState<number | null>(null);
 
   // Réinitialise les commentaires quand on change de livre/chapitre
   useEffect(() => {
@@ -181,6 +185,18 @@ export function BibleReader() {
         {book?.name} {chapterCount? chapter: ""}
       </h2>
 
+      {/* Service audio: écouter le chapitre (voix de l'appareil, LSG libre) */}
+      {!loading && verses.length? (
+        <div className="mt-4 max-w-2xl">
+          <BibleAudio
+            verses={verses}
+            bookName={book?.name?? ""}
+            chapter={chapter}
+            onVerse={setSpokenVerse}
+          />
+        </div>
+      ): null}
+
       {loading? (
         <p className="mt-6 text-night-900/50">Chargement…</p>
       ): (
@@ -193,6 +209,7 @@ export function BibleReader() {
             const vn = i + 1;
             const open = openVerses.has(vn);
             const c = comm[vn];
+            const speaking = spokenVerse === i;
             return (
               <div key={i}>
                 <Markable
@@ -201,7 +218,13 @@ export function BibleReader() {
                   reference={`${book?.name} ${chapter}:${vn}`}
                   kind="verset"
                 >
-                  <p>
+                  <p
+                    className={
+                      speaking
+? "-mx-2 rounded-lg bg-dawn-400/25 px-2 py-0.5 transition-colors"
+: "transition-colors"
+                    }
+                  >
                     <sup className="mr-1 align-super text-xs font-bold text-spirit-600">
                       {vn}
                     </sup>

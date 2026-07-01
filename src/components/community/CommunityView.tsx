@@ -9,6 +9,7 @@ import { PrayerCard } from "@/components/community/PrayerCard";
 import { PrayerFocus } from "@/components/community/PrayerFocus";
 import { NotificationsBell } from "@/components/community/NotificationsBell";
 import { MemberSearch } from "@/components/community/MemberSearch";
+import { MemberSuggestions } from "@/components/community/MemberSuggestions";
 import { MentionField } from "@/components/community/MentionField";
 import { CommunityLanding } from "@/components/community/CommunityLanding";
 import {
@@ -144,8 +145,8 @@ function Feed({
       </div>
 
       <section className="container-x -mt-6 pb-12">
-      {/* En-tête profil */}
-      <div className="glass-strong flex items-center gap-3 p-4 shadow-card">
+      {/* En-tête profil — charte olive (comme la carte de profil) */}
+      <div className="dark-ctx bg-topo-dark flex items-center gap-3 rounded-4xl border border-white/10 p-4 text-cream shadow-card">
         <Avatar pseudo={profile?.pseudo} url={profile?.avatar_url} />
         <div className="min-w-0 flex-1">
           {editPseudo? (
@@ -157,41 +158,66 @@ function Feed({
                     setPseudoVal(e.target.value);
                     if (pseudoErr) setPseudoErr("");
                   }}
-                  className="field flex-1 text-sm"
+                  className="flex-1 rounded-xl border border-white/15 bg-white/10 px-3 py-2 text-sm text-cream placeholder:text-cream/40 focus:border-dawn-400/60 focus:outline-none"
                   placeholder="Ton pseudo"
                 />
-                <button type="button" onClick={savePseudo} className="btn-primary text-sm">
+                <button
+                  type="button"
+                  onClick={savePseudo}
+                  className="rounded-xl bg-dawn-400 px-4 text-sm font-bold text-night-900"
+                >
                   OK
                 </button>
               </div>
-              {pseudoErr? <p className="field-error mt-1">{pseudoErr}</p>: null}
+              {pseudoErr? <p className="mt-1 text-xs font-semibold text-red-300">{pseudoErr}</p>: null}
             </div>
           ): (
-            <p className="font-display font-bold leading-tight">
+            <p className="font-display font-bold leading-tight text-cream">
               {profile?.pseudo?? "Ami(e)"}{" "}
               <button
                 type="button"
                 onClick={() => setEditPseudo(true)}
-                className="text-xs font-semibold text-spirit-600 hover:underline"
+                className="text-xs font-semibold text-dawn-300 hover:underline"
               >
                 modifier
               </button>
             </p>
           )}
-          <p className="text-xs text-night-900/50">Connecté(e)</p>
+          <p className="text-xs text-cream/55">Connecté(e)</p>
         </div>
-        <NotificationsBell userId={userId} />
-        <Link href="/profil" className="btn-ghost text-sm">
+        <NotificationsBell userId={userId} tone="dark" />
+        <Link
+          href="/profil"
+          className="rounded-full bg-dawn-400 px-4 py-2 text-sm font-bold text-night-900 transition-transform hover:-translate-y-0.5"
+        >
           Mon profil
         </Link>
-        <button type="button" onClick={() => signOut()} className="text-sm text-night-900/50 hover:underline">
+        <button
+          type="button"
+          onClick={() => signOut()}
+          className="text-sm text-cream/55 hover:text-cream/80 hover:underline"
+        >
           Déconnexion
         </button>
       </div>
 
-      {/* Recherche de membres */}
+      {/* Trouver des profils (compact) — juste sous le profil */}
       <div className="mt-5">
-        <MemberSearch />
+        <h3 className="font-display text-base font-bold">Trouver des profils</h3>
+        <p className="mt-0.5 text-xs text-night-900/55">
+          Cherche un membre par pseudo et abonne-toi, comme sur un réseau social.
+        </p>
+        <div className="mt-2.5">
+          <MemberSearch />
+        </div>
+        <div className="mt-3">
+          <p className="text-[11px] font-semibold uppercase tracking-wide text-night-900/45">
+            Suggestions pour toi
+          </p>
+          <div className="mt-2">
+            <MemberSuggestions />
+          </div>
+        </div>
       </div>
 
       {/* Composer */}
@@ -229,8 +255,8 @@ function Feed({
         <PrayerFocus />
       </div>
 
-      {/* Onglets */}
-      <div className="mt-8 flex gap-1 rounded-full border border-night-900/10 bg-night-900/[0.03] p-1">
+      {/* Onglets — mis en valeur (olive + actif lime) */}
+      <div className="dark-ctx bg-topo-dark mt-8 flex gap-1.5 rounded-full border border-white/10 p-1.5 shadow-card">
         {(
           [
             ["all", "Le mur"],
@@ -241,8 +267,10 @@ function Feed({
             key={key}
             type="button"
             onClick={() => setTab(key)}
-            className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
-              tab === key? "bg-white text-night-900 shadow-sm": "text-night-900/55 hover:text-night-900/80"
+            className={`flex-1 rounded-full px-4 py-2.5 text-sm font-bold transition-colors ${
+              tab === key
+? "bg-dawn-400 text-night-900 shadow-sm"
+: "text-cream/70 hover:text-cream"
             }`}
           >
             {lbl}
@@ -250,12 +278,12 @@ function Feed({
         ))}
       </div>
 
-      {/* Recherche dans les sujets de prière */}
+      {/* Recherche sur le mur de prière — carte sombre, écriture fluo */}
       <div className="relative mt-4">
         <svg
           viewBox="0 0 24 24"
-          className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 fill-none stroke-night-900/40"
-          strokeWidth={1.8}
+          className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 fill-none stroke-dawn-400"
+          strokeWidth={2}
           aria-hidden
         >
           <circle cx="11" cy="11" r="7" />
@@ -264,8 +292,8 @@ function Feed({
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Rechercher un sujet de prière…"
-          className="field w-full pl-10"
+          placeholder="Rechercher sur le mur de prière…"
+          className="w-full rounded-full border border-white/10 bg-night-950 py-3 pl-11 pr-4 text-sm font-semibold text-dawn-300 placeholder:font-medium placeholder:text-dawn-300/45 focus:border-dawn-400/60 focus:outline-none"
         />
       </div>
 
