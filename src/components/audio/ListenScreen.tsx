@@ -128,7 +128,7 @@ export function ListenScreen() {
     <section className="container-x pb-28 pt-24 sm:pt-28">
       {/* En-tête podcast */}
       <div className="mx-auto max-w-md text-center">
-        <div className="mx-auto grid aspect-square w-44 place-items-center overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-spirit-500 to-night-900 shadow-card sm:w-52">
+        <div className="mx-auto grid aspect-square w-[74vw] max-w-[320px] place-items-center overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-spirit-500 to-night-900 shadow-card">
           {coverUrl && !coverBroken ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
