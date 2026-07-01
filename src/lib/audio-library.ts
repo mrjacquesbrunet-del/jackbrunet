@@ -8,17 +8,21 @@ const AUDIO_BUCKET = "audiovf";
 export type AudioTrack = {
   id: string;
   title: string;
+  description: string | null;
   url: string;
   path: string;
+  created_at?: string;
 };
 
 /** Nom de fichier lisible → titre affiché (conserve accents & apostrophes). */
 function titleFromName(name: string): string {
-  return name
-    .replace(/\.[^.]+$/, "")
-    .replace(/[_]+/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
+  let t = name.replace(/\.[^.]+$/, ""); // extension
+  t = t.replace(/[_]+/g, " "); // underscores → espaces
+  t = t.replace(/^\s*\d{1,3}\s*[-.)]\s*/, ""); // "01 - " en tête
+  t = t.replace(/\s*-\s*/g, " – "); // tirets propres
+  t = t.replace(/\s+/g, " ").trim();
+  if (t) t = t.charAt(0).toUpperCase() + t.slice(1); // 1re lettre en majuscule
+  return t;
 }
 
 /** Clé de stockage sûre (Supabase refuse accents, apostrophes, « ! »…). */
@@ -42,13 +46,30 @@ export async function listPodcasts(): Promise<AudioTrack[]> {
   if (!sb) return [];
   const { data, error } = await sb
     .from("podcasts")
-    .select("id,title,path")
-    .order("created_at", { ascending: true });
+    .select("id,title,description,path,created_at")
+    .order("created_at", { ascending: false });
   if (error || !data) return [];
-  return (data as { id: string; title: string; path: string }[]).map((r) => {
+  return (
+    data as { id: string; title: string; description: string | null; path: string; created_at: string }[]
+  ).map((r) => {
     const { data: pub } = sb.storage.from(AUDIO_BUCKET).getPublicUrl(r.path);
-    return { id: r.id, title: r.title, url: pub.publicUrl, path: r.path };
+    return {
+      id: r.id,
+      title: r.title,
+      description: r.description,
+      url: pub.publicUrl,
+      path: r.path,
+      created_at: r.created_at,
+    };
   });
+}
+
+/** Admin : modifie le titre / la description d'un podcast. */
+export async function updatePodcast(
+  id: string,
+  patch: { title?: string; description?: string | null },
+): Promise<void> {
+  await getSupabase()?.from("podcasts").update(patch).eq("id", id);
 }
 
 /** Admin : envoie un fichier audio (nom technique propre, titre conservé). */

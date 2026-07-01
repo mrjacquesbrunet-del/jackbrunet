@@ -13,8 +13,13 @@ create table if not exists public.podcasts (
   path text not null,
   created_at timestamptz not null default now()
 );
+alter table public.podcasts add column if not exists description text;
 
 alter table public.podcasts enable row level security;
+
+drop policy if exists "podcasts_admin_update" on public.podcasts;
+create policy "podcasts_admin_update" on public.podcasts
+  for update using (public.is_admin());
 
 drop policy if exists "podcasts_read" on public.podcasts;
 create policy "podcasts_read" on public.podcasts for select using (true);
