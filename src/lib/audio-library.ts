@@ -3,36 +3,73 @@
 import { getSupabase } from "./supabase";
 
 export type AudioTrack = {
-  name: string;
+  id: string;
   title: string;
   url: string;
-  size?: number;
+  path: string;
 };
 
-const AUDIO_RE = /\.(mp3|m4a|wav|aac|ogg)$/i;
-
-/** Transforme un nom de fichier en titre lisible. */
+/** Nom de fichier lisible → titre affiché (conserve accents & apostrophes). */
 function titleFromName(name: string): string {
   return name
     .replace(/\.[^.]+$/, "")
-    .replace(/[_-]+/g, " ")
+    .replace(/[_]+/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 }
 
-/** Liste les audios du bucket public « audio » (le nom de fichier = titre). */
-export async function listAudio(): Promise<AudioTrack[]> {
+/** Clé de stockage sûre (Supabase refuse accents, apostrophes, « ! »…). */
+function safeKey(name: string): string {
+  const ext = (name.split(".").pop() || "mp3").toLowerCase().replace(/[^a-z0-9]/g, "");
+  const base = name.replace(/\.[^.]+$/, "");
+  const slug =
+    base
+      .normalize("NFD")
+      .replace(/[̀-ͯ]/g, "")
+      .replace(/[^a-zA-Z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .toLowerCase()
+      .slice(0, 60) || "audio";
+  return `${Date.now()}-${Math.random().toString(36).slice(2, 7)}-${slug}.${ext}`;
+}
+
+/** Liste les podcasts (table + URL publique du fichier). */
+export async function listPodcasts(): Promise<AudioTrack[]> {
   const sb = getSupabase();
   if (!sb) return [];
-  const { data, error } = await sb.storage
-    .from("audio")
-    .list("", { limit: 1000, sortBy: { column: "name", order: "asc" } });
+  const { data, error } = await sb
+    .from("podcasts")
+    .select("id,title,path")
+    .order("created_at", { ascending: true });
   if (error || !data) return [];
-  return data
-    .filter((f) => f.name && !f.name.startsWith(".") && AUDIO_RE.test(f.name))
-    .map((f) => {
-      const { data: pub } = sb.storage.from("audio").getPublicUrl(f.name);
-      const size = (f as { metadata?: { size?: number } }).metadata?.size;
-      return { name: f.name, title: titleFromName(f.name), url: pub.publicUrl, size };
-    });
+  return (data as { id: string; title: string; path: string }[]).map((r) => {
+    const { data: pub } = sb.storage.from("audio").getPublicUrl(r.path);
+    return { id: r.id, title: r.title, url: pub.publicUrl, path: r.path };
+  });
+}
+
+/** Admin : envoie un fichier audio (nom technique propre, titre conservé). */
+export async function uploadPodcast(file: File): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  const key = safeKey(file.name);
+  const { error } = await sb.storage
+    .from("audio")
+    .upload(key, file, { contentType: file.type || "audio/mpeg", upsert: false });
+  if (error) return false;
+  const { error: e2 } = await sb.from("podcasts").insert({ title: titleFromName(file.name), path: key });
+  if (e2) {
+    // rollback du fichier si l'insertion échoue
+    await sb.storage.from("audio").remove([key]);
+    return false;
+  }
+  return true;
+}
+
+/** Admin : supprime un podcast (fichier + entrée). */
+export async function deletePodcast(id: string, path: string): Promise<void> {
+  const sb = getSupabase();
+  if (!sb) return;
+  await sb.storage.from("audio").remove([path]);
+  await sb.from("podcasts").delete().eq("id", id);
 }

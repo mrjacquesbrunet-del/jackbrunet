@@ -2,7 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { listAudio, type AudioTrack } from "@/lib/audio-library";
+import { listPodcasts, uploadPodcast, deletePodcast, type AudioTrack } from "@/lib/audio-library";
+import { useAuth } from "@/components/community/useAuth";
+import { isAdminEmail } from "@/lib/community";
 import { PlayGlyph, PauseGlyph } from "@/components/ui/DevoIcons";
 
 function fmt(sec: number): string {
@@ -13,26 +15,28 @@ function fmt(sec: number): string {
 }
 
 export function ListenScreen() {
+  const { email } = useAuth();
+  const admin = isAdminEmail(email);
+
   const [tracks, setTracks] = useState<AudioTrack[] | null>(null);
   const [current, setCurrent] = useState<number | null>(null);
   const [playing, setPlaying] = useState(false);
   const [time, setTime] = useState(0);
   const [dur, setDur] = useState(0);
+  const [upload, setUpload] = useState<{ done: number; total: number } | null>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
 
+  const load = useCallback(() => listPodcasts().then(setTracks), []);
   useEffect(() => {
-    listAudio().then(setTracks);
+    load();
+  }, [load]);
+
+  const playIndex = useCallback((i: number) => {
+    setCurrent(i);
+    setPlaying(true);
   }, []);
 
-  const playIndex = useCallback(
-    (i: number) => {
-      setCurrent(i);
-      setPlaying(true);
-    },
-    [],
-  );
-
-  // Charge et lit la piste courante.
   useEffect(() => {
     const el = audioRef.current;
     if (!el || current === null || !tracks) return;
@@ -60,7 +64,6 @@ export function ListenScreen() {
     if (current - 1 >= 0) playIndex(current - 1);
   }, [tracks, current, playIndex]);
 
-  // Contrôles écran verrouillé (Media Session).
   useEffect(() => {
     if (current === null || !tracks) return;
     const ms = (navigator as Navigator & { mediaSession?: MediaSession }).mediaSession;
@@ -82,8 +85,26 @@ export function ListenScreen() {
 
   function seek(e: React.ChangeEvent<HTMLInputElement>) {
     const el = audioRef.current;
-    if (!el) return;
-    el.currentTime = Number(e.target.value);
+    if (el) el.currentTime = Number(e.target.value);
+  }
+
+  async function onFiles(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files ?? []);
+    e.target.value = "";
+    if (files.length === 0) return;
+    setUpload({ done: 0, total: files.length });
+    for (let i = 0; i < files.length; i++) {
+      await uploadPodcast(files[i]);
+      setUpload({ done: i + 1, total: files.length });
+    }
+    setUpload(null);
+    load();
+  }
+
+  async function remove(t: AudioTrack) {
+    if (!confirm(`Supprimer « ${t.title} » ?`)) return;
+    await deletePodcast(t.id, t.path);
+    load();
   }
 
   return (
@@ -98,7 +119,6 @@ export function ListenScreen() {
         preload="metadata"
       />
 
-      {/* En-tête + bouton vers les vidéos */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <span className="eyebrow">Podcasts</span>
@@ -122,7 +142,33 @@ export function ListenScreen() {
         </Link>
       </div>
 
-      {/* Liste des épisodes */}
+      {/* Admin : envoi des audios */}
+      {admin ? (
+        <div className="mt-6 rounded-3xl border border-dawn-400/40 bg-cream/70 p-5">
+          <p className="font-display font-bold">🎧 Ajouter des audios (admin)</p>
+          <p className="mt-1 text-sm text-night-900/60">
+            Sélectionne un ou plusieurs fichiers — le nom du fichier devient le titre (accents
+            et apostrophes conservés).
+          </p>
+          <input
+            ref={fileRef}
+            type="file"
+            accept="audio/*"
+            multiple
+            onChange={onFiles}
+            className="hidden"
+          />
+          <button
+            type="button"
+            onClick={() => fileRef.current?.click()}
+            disabled={!!upload}
+            className="btn-primary mt-3 disabled:opacity-50"
+          >
+            {upload ? `Envoi… ${upload.done}/${upload.total}` : "Choisir des fichiers"}
+          </button>
+        </div>
+      ) : null}
+
       <div className="mt-8">
         {tracks === null ? (
           <p className="text-night-900/50">Chargement…</p>
@@ -139,7 +185,7 @@ export function ListenScreen() {
               const isCur = i === current;
               return (
                 <li
-                  key={t.name}
+                  key={t.id}
                   className={`flex items-center gap-3 rounded-2xl border p-3 transition-colors ${
                     isCur ? "border-dawn-400/50 bg-dawn-400/10" : "border-night-900/10 bg-white"
                   }`}
@@ -162,7 +208,7 @@ export function ListenScreen() {
                   </div>
                   <a
                     href={t.url}
-                    download={t.name}
+                    download
                     aria-label="Télécharger"
                     className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-night-900/40 transition-colors hover:bg-night-900/5 hover:text-night-900/70"
                   >
@@ -170,6 +216,16 @@ export function ListenScreen() {
                       <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </a>
+                  {admin ? (
+                    <button
+                      type="button"
+                      onClick={() => remove(t)}
+                      aria-label="Supprimer"
+                      className="shrink-0 text-night-900/25 transition-colors hover:text-red-600/70"
+                    >
+                      ✕
+                    </button>
+                  ) : null}
                 </li>
               );
             })}
@@ -177,7 +233,6 @@ export function ListenScreen() {
         )}
       </div>
 
-      {/* Lecteur fixe en bas (quand une piste est active) */}
       {current !== null && tracks && tracks[current] ? (
         <div className="fixed inset-x-0 bottom-[4.75rem] z-40 border-t border-night-900/10 bg-white/95 px-4 py-3 backdrop-blur">
           <div className="container-x flex items-center gap-3 px-0">
