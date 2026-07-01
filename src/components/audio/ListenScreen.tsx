@@ -161,6 +161,10 @@ export function ListenScreen() {
           {tracks? `${tracks.length} épisode${tracks.length > 1? "s": ""}`: "Chargement…"} ·
           Nouveaux enseignements
         </p>
+        <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-night-900/55">
+          Mes vidéos courtes, en version audio. Tu peux les écouter, les télécharger, les
+          mettre en favori et les partager.
+        </p>
         <div className="mt-4 flex items-center justify-center gap-2">
           <button type="button" onClick={heroPlay} className="btn-primary inline-flex items-center gap-2">
             {pod.playing? <PauseGlyph className="h-5 w-5" />: <PlayGlyph className="h-5 w-5" />}

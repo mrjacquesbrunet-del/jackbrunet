@@ -352,15 +352,18 @@ function Feed({
         </Link>
       </div>
 
-      {/* Lien discret vers la page de soutien du site (ouvre le navigateur externe) */}
+      {/* Bouton de soutien (ouvre la page de dons du site, navigateur externe) */}
       <div className="mt-10 text-center">
         <button
           type="button"
           onClick={() => openExternal(`${siteConfig.url}/dons`)}
-          className="inline-flex items-center gap-1 text-xs text-night-900/40 underline-offset-2 transition-colors hover:text-night-900/70 hover:underline"
+          className="inline-flex items-center gap-2 rounded-full border-2 border-dawn-400 bg-dawn-400/15 px-6 py-3 text-sm font-bold text-spirit-700 transition-colors hover:bg-dawn-400/25"
         >
+          <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden>
+            <path d="M12 21s-7-4.5-9.5-9C1 9 2.5 5.5 6 5.5c2 0 3.2 1.2 4 2.3.8-1.1 2-2.3 4-2.3 3.5 0 5 3.5 3.5 6.5C19 16.5 12 21 12 21z" />
+          </svg>
           Soutenir la mission
-          <svg viewBox="0 0 24 24" className="h-3 w-3 fill-none stroke-current" strokeWidth={2}>
+          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth={2}>
             <path d="M14 5h5v5M19 5l-8 8M11 5H6a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>

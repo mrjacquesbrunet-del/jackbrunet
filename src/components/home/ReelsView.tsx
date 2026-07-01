@@ -20,8 +20,7 @@ export function ReelsView({ shorts }: { shorts: Short[] }) {
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const frames = useRef<Record<number, HTMLIFrameElement | null>>({});
   const [active, setActive] = useState(0);
-  const [soundIndex, setSoundIndex] = useState(-1); // vidéo qui a le son (-1 = aucune)
-  const [everOn, setEverOn] = useState(false);
+  const [soundOn, setSoundOn] = useState(false); // son global: reste activé au swipe
 
   function post(i: number, jb: string) {
     frames.current[i]?.contentWindow?.postMessage({ jb }, "*");
@@ -46,23 +45,24 @@ export function ReelsView({ shorts }: { shorts: Short[] }) {
     return () => io.disconnect();
   }, [shorts.length]);
 
-  // Pilote lecture + son quand la vidéo active (ou le son) change.
+  // Pilote lecture + son quand la vidéo active (ou l'état du son) change.
+  // Le son est GLOBAL: si activé, chaque vidéo qui devient active est jouée
+  // avec le son (on tente l'unmute au swipe).
   useEffect(() => {
     for (const key of Object.keys(frames.current)) {
       const i = Number(key);
       if (i === active) {
         post(i, "play");
-        post(i, i === soundIndex? "unmute": "mute");
+        post(i, soundOn? "unmute": "mute");
       } else {
         post(i, "pause");
         post(i, "mute");
       }
     }
-  }, [active, soundIndex]);
+  }, [active, soundOn]);
 
-  function enableSoundHere() {
-    setSoundIndex(active);
-    setEverOn(true);
+  function enableSound() {
+    setSoundOn(true);
     // Dans le geste utilisateur: iOS autorise le son sur la vidéo en cours.
     post(active, "play");
     post(active, "unmute");
@@ -85,8 +85,6 @@ export function ReelsView({ shorts }: { shorts: Short[] }) {
       {shorts.map((s, i) => {
         const near = Math.abs(i - active) <= 1; // fenêtre préchargée
         const isActive = i === active;
-        const hasSound = isActive && i === soundIndex;
-        const needsSound = isActive && i!== soundIndex;
         return (
           <div
             key={s.id}
@@ -103,7 +101,7 @@ export function ReelsView({ shorts }: { shorts: Short[] }) {
                   ref={(el) => {
                     frames.current[i] = el;
                   }}
-                  className="absolute inset-0 h-full w-full"
+                  className="pointer-events-none absolute inset-0 h-full w-full"
                   src={videoEmbedSrc(s.id, { autoplay: isActive, mute: true, loop: true })}
                   title={s.title}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -119,41 +117,24 @@ export function ReelsView({ shorts }: { shorts: Short[] }) {
                 />
               )}
 
-              {/* 1re fois: grande invite plein écran */}
-              {needsSound &&!everOn? (
+              {/* Son coupé sur la vidéo active: bouton bien visible pour l'activer */}
+              {isActive &&!soundOn? (
                 <button
                   type="button"
-                  onClick={enableSoundHere}
+                  onClick={enableSound}
                   aria-label="Activer le son"
-                  className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-night-950/30 transition-colors active:bg-night-950/45"
+                  className="absolute left-1/2 top-4 z-20 inline-flex -translate-x-1/2 items-center gap-2 rounded-full bg-dawn-400 px-5 py-2.5 text-sm font-extrabold text-night-900 shadow-lg active:scale-95"
                 >
-                  <span className="grid h-16 w-16 place-items-center rounded-full bg-cream/95 text-night-900 shadow-lg">
-                    <SoundOffIcon className="h-7 w-7" />
-                  </span>
-                  <span className="rounded-full bg-night-950/70 px-4 py-1.5 text-sm font-bold text-cream">
-                    Touche pour le son
-                  </span>
-                </button>
-              ): null}
-
-              {/* Vidéos suivantes: petite pastille « activer le son » */}
-              {needsSound && everOn? (
-                <button
-                  type="button"
-                  onClick={enableSoundHere}
-                  aria-label="Activer le son"
-                  className="absolute left-1/2 top-4 z-20 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-night-950/70 px-3.5 py-2 text-sm font-bold text-cream backdrop-blur active:bg-night-950/85"
-                >
-                  <SoundOffIcon className="h-4 w-4" />
+                  <SoundOffIcon className="h-5 w-5" />
                   Touche pour le son
                 </button>
               ): null}
 
               {/* Son actif: bouton pour couper */}
-              {hasSound? (
+              {isActive && soundOn? (
                 <button
                   type="button"
-                  onClick={() => setSoundIndex(-1)}
+                  onClick={() => setSoundOn(false)}
                   aria-label="Couper le son"
                   className="absolute right-3 top-3 z-20 grid h-10 w-10 place-items-center rounded-full bg-night-950/55 text-cream backdrop-blur transition-colors active:bg-night-950/75"
                 >
