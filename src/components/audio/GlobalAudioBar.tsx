@@ -42,19 +42,19 @@ export function GlobalAudioBar() {
   // Podcast en priorité.
   if (pod.current) {
     return (
-      <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-night-900/10 bg-white/95 px-4 py-2.5 backdrop-blur">
-        <div className="container-x flex items-center gap-3 px-0">
+      <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-night-900/10 bg-white/95 px-4 py-3.5 backdrop-blur">
+        <div className="container-x flex items-center gap-2 px-0">
           <button
             type="button"
             onClick={pod.toggle}
             aria-label={pod.playing? "Pause": "Lire"}
-            className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950"
+            className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950"
           >
-            {pod.playing? <PauseGlyph className="h-5 w-5" />: <PlayGlyph className="h-5 w-5" />}
+            {pod.playing? <PauseGlyph className="h-6 w-6" />: <PlayGlyph className="h-6 w-6" />}
           </button>
           <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-semibold text-night-900/90">{pod.current.title}</p>
-            <div className="mt-1 flex items-center gap-2">
+            <p className="truncate text-[15px] font-semibold text-night-900/90">{pod.current.title}</p>
+            <div className="mt-1.5 flex items-center gap-2">
               <span className="text-[10px] tabular-nums text-night-900/45">{fmt(time)}</span>
               <input
                 type="range"
@@ -62,12 +62,30 @@ export function GlobalAudioBar() {
                 max={dur || 0}
                 value={time}
                 onChange={(e) => pod.seek(Number(e.target.value))}
-                className="h-1 flex-1 accent-spirit-600"
+                className="h-1.5 flex-1 accent-spirit-600"
                 aria-label="Position"
               />
               <span className="text-[10px] tabular-nums text-night-900/45">{fmt(dur)}</span>
             </div>
           </div>
+          <button
+            type="button"
+            onClick={() => {
+              if (pod.queue.length < 2) return;
+              const q = [...pod.queue];
+              for (let i = q.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [q[i], q[j]] = [q[j], q[i]];
+              }
+              pod.playQueue(q, 0);
+            }}
+            aria-label="Lecture aléatoire"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-night-900/50 transition-colors hover:bg-night-900/5"
+          >
+            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2} aria-hidden>
+              <path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
           <button
             type="button"
             onClick={() => {
@@ -107,18 +125,18 @@ export function GlobalAudioBar() {
   // Sinon: musique soaking en cours.
   if (soak.playing) {
     return (
-      <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-spirit-600/20 bg-spirit-500/[0.12] px-4 py-2.5 backdrop-blur">
+      <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-spirit-600/20 bg-spirit-500/[0.12] px-4 py-3.5 backdrop-blur">
         <div className="container-x flex items-center gap-3 px-0">
           <button
             type="button"
             onClick={soak.toggle}
             aria-label="Pause"
-            className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-spirit-500 text-cream"
+            className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-spirit-500 text-cream"
           >
-            <PauseGlyph className="h-5 w-5" />
+            <PauseGlyph className="h-6 w-6" />
           </button>
           <div className="min-w-0 flex-1">
-            <p className="flex items-center gap-1.5 text-sm font-semibold text-night-900/90">
+            <p className="flex items-center gap-1.5 text-[15px] font-semibold text-night-900/90">
               <MusicGlyph className="h-4 w-4 text-spirit-600" />
               Musique soaking
             </p>
