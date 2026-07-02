@@ -26,6 +26,7 @@ import { MemberSearch } from "@/components/community/MemberSearch";
 import { MemberSuggestions } from "@/components/community/MemberSuggestions";
 import { NotificationsBell } from "@/components/community/NotificationsBell";
 import { MessagesButton } from "@/components/community/MessagesButton";
+import { DeleteAccountButton } from "@/components/community/DeleteAccountButton";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { FollowList } from "@/components/community/FollowList";
 import { ProfileBanners } from "@/components/community/ProfileBanners";
@@ -832,6 +833,18 @@ function Profile({
           </Link>
         </div>
       ): null}
+
+      {/* Gestion du compte: déconnexion + suppression (exigence App Store) */}
+      <div className="mt-8">
+        <button
+          type="button"
+          onClick={() => signOut()}
+          className="text-sm font-semibold text-night-900/50 hover:underline"
+        >
+          Déconnexion
+        </button>
+        <DeleteAccountButton />
+      </div>
 
       {followModal? (
         <FollowList
