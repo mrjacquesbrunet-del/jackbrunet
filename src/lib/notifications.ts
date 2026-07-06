@@ -67,13 +67,32 @@ function reminderMessage(streak: number): { title: string; body: string } {
   };
 }
 
+const CHANNEL_ID = "daily-reminder";
+
 /** Programme (ou reprogramme) le rappel quotidien à l'heure choisie. */
 export async function enableDailyReminder(hour: number, minute: number): Promise<boolean> {
   if (!isNativeApp()) return false;
   const { LocalNotifications } = await import("@capacitor/local-notifications");
 
-  const perm = await LocalNotifications.requestPermissions();
+  // Permission (nécessaire iOS + Android 13+).
+  let perm = await LocalNotifications.checkPermissions();
+  if (perm.display!== "granted") {
+    perm = await LocalNotifications.requestPermissions();
+  }
   if (perm.display!== "granted") return false;
+
+  // Canal Android (sans lui, aucune notification ne s'affiche sur Android 8+).
+  try {
+    await LocalNotifications.createChannel({
+      id: CHANNEL_ID,
+      name: "Rappel quotidien",
+      description: "Ta pensée du jour, chaque matin.",
+      importance: 5,
+      visibility: 1,
+    });
+  } catch {
+    /* iOS: pas de canaux — on ignore */
+  }
 
   const { title, body } = reminderMessage(readStreak());
 
@@ -84,6 +103,8 @@ export async function enableDailyReminder(hour: number, minute: number): Promise
         id: REMINDER_ID,
         title,
         body,
+        channelId: CHANNEL_ID,
+        // `on` (heure + minute, sans jour) => répétition quotidienne.
         schedule: { on: { hour, minute }, allowWhileIdle: true },
         extra: { route: "/devotionnel/" },
       },

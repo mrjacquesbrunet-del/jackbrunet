@@ -6,6 +6,9 @@ import { useAppMode } from "@/lib/app-mode";
 import { BottomNav } from "@/components/app/BottomNav";
 import { AppOnboarding } from "@/components/app/AppOnboarding";
 import { AnnouncementBanner } from "@/components/app/AnnouncementBanner";
+import { NotifOptIn } from "@/components/app/NotifOptIn";
+import { RatingPrompt } from "@/components/app/RatingPrompt";
+import { recordOpen } from "@/lib/usage";
 
 /**
  * Pilote l'expérience « application »:
@@ -29,12 +32,19 @@ export function AppShell() {
     if (isApp && pathname === "/") router.replace("/devotionnel");
   }, [isApp, pathname, router]);
 
+  // Compte l'ouverture (une fois) pour déclencher les propositions au bon moment.
+  useEffect(() => {
+    if (isApp) recordOpen();
+  }, [isApp]);
+
   if (!isApp) return null;
   return (
     <>
       <BottomNav />
       <AppOnboarding />
       <AnnouncementBanner />
+      <NotifOptIn />
+      <RatingPrompt />
     </>
   );
 }
