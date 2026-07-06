@@ -25,7 +25,7 @@ export function WhatsAppChannel() {
             Rejoins ma chaîne WhatsApp
           </span>
           <span className="mt-0.5 block text-sm text-cream/70">
-            Reçois mes paroles & actus — ne rien manquer.
+            Reçois mes paroles & actus, ne rien manquer.
           </span>
         </span>
         <span className="relative shrink-0 text-cream/50 transition-transform group-hover:translate-x-0.5 group-hover:text-[#25D366]">

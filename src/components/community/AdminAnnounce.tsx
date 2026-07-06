@@ -16,7 +16,7 @@ export function AdminAnnounce() {
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
 
-  // Notification directe (cloche) à tous les membres — ex. live de prière.
+  // Notification directe (cloche) à tous les membres, ex. live de prière.
   const [notif, setNotif] = useState("");
   const [notifLink, setNotifLink] = useState("");
   const [notifBusy, setNotifBusy] = useState(false);

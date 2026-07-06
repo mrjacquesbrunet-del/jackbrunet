@@ -62,7 +62,7 @@ export async function shareImageBlob(
       const { uri } = await Filesystem.getUri({ path: filename, directory: Directory.Cache });
       await Share.share({ text, files: [uri] });
     } catch {
-      /* partage annulé ou indisponible — on ne fait rien */
+      /* partage annulé ou indisponible, on ne fait rien */
     }
     return;
   }

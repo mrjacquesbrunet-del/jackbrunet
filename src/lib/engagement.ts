@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 /**
- * Engagement du visiteur, 100 % côté client (localStorage) — compatible avec
+ * Engagement du visiteur, 100 % côté client (localStorage), compatible avec
  * l'export statique: aucune donnée serveur.
  *
  * - série de jours consécutifs (streak) + record ;

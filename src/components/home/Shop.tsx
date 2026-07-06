@@ -23,7 +23,7 @@ export function Shop() {
             eyebrow="Le livre"
             title={
               <>
-                RHEMA — <span className="text-gradient">365 révélations</span>
+                RHEMA, <span className="text-gradient">365 révélations</span>
               </>
             }
             description="L'aboutissement de ces dernières années, à méditer chaque jour."
@@ -60,8 +60,8 @@ export function Shop() {
               </h3>
               <p className="mt-4 text-night-900/75">
                 RHEMA, c'est l'aboutissement de tout ce que je construis depuis des
-                années. On y retrouve l'essence de mes Shorts — ceux qui te parlent
-                tant — rassemblés et approfondis en 365 révélations bibliques, une
+                années. On y retrouve l'essence de mes Shorts, ceux qui te parlent
+                tant, rassemblés et approfondis en 365 révélations bibliques, une
                 pour chaque jour de l'année.
               </p>
               <p className="mt-3 text-night-900/75">

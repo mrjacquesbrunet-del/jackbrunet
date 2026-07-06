@@ -25,7 +25,7 @@ type Status = "idle" | "loading" | "success" | "error";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /**
- * Formulaire de captation email — réutilisé partout (pensée du jour, plan,
+ * Formulaire de captation email, réutilisé partout (pensée du jour, plan,
  * vidéos, dons, boutique, footer, pop-up). Une seule logique, un seul endpoint.
  */
 export function NewsletterForm({

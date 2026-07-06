@@ -2,7 +2,7 @@
 
 /**
  * Ouvre une URL externe. Dans l'application native (Capacitor), on l'ouvre dans
- * le navigateur système (Safari/Chrome) — exigé par Apple pour les paiements et
+ * le navigateur système (Safari/Chrome), exigé par Apple pour les paiements et
  * les dons, et meilleure expérience que de quitter la webview. Sur le web,
  * comportement normal (nouvel onglet).
  */

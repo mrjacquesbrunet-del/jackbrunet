@@ -143,7 +143,7 @@ export function AppOnboarding() {
                 Ton <span className="text-gradient">temps avec Jésus</span>, chaque jour
               </h1>
               <p className="mt-3 text-cream/75">
-                Crée ton compte gratuit pour profiter de tout — et ne rien perdre.
+                Crée ton compte gratuit pour profiter de tout, et ne rien perdre.
               </p>
 
               <ul className="mt-7 space-y-3">

@@ -17,7 +17,7 @@ export default function FavorisPage() {
             Tes <span className="text-gradient">trésors</span> gardés
           </>
         }
-        description="Versets, méditations et paroles fortes que tu as enregistrés — regroupés ici, pour les méditer encore."
+        description="Versets, méditations et paroles fortes que tu as enregistrés, regroupés ici, pour les méditer encore."
       />
       <MyFavorites />
     </>

@@ -97,7 +97,7 @@ export type Mission = {
 export type AgendaEvent = {
   type: "live" | "presentiel" | "annonce";
   title: string;
-  date?: string; // YYYY-MM-DD (agenda) — facultatif pour les annonces
+  date?: string; // YYYY-MM-DD (agenda), facultatif pour les annonces
   time?: string; // ex. "20:30"
   location?: string; // ex. "En ligne · TikTok" ou "Pau (64)"
   description?: string;

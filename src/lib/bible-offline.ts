@@ -4,7 +4,7 @@ import { bibleNarrationKey, bibleNarrationUrl } from "./bible-audio";
 
 /**
  * Téléchargement hors-ligne de l'audio de la Bible, livre par livre, stocké
- * dans le navigateur (IndexedDB) — aucun rebuild natif requis. Le lecteur
+ * dans le navigateur (IndexedDB), aucun rebuild natif requis. Le lecteur
  * global joue en priorité la copie locale quand elle existe (voir podcast-player).
  */
 const DB = "jb-bible-audio";

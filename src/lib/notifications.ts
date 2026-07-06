@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Rappel quotidien « pensée du jour » — notification locale programmée sur
+ * Rappel quotidien « pensée du jour », notification locale programmée sur
  * l'appareil (aucun serveur). Disponible uniquement dans l'application native
  * (Capacitor). Sur le web, les fonctions ne font rien.
  */
@@ -57,7 +57,7 @@ function readStreak(): number {
 function reminderMessage(streak: number): { title: string; body: string } {
   if (streak >= 2) {
     return {
-      title: `${streak} jours d'affilée — ne casse pas ta série!`,
+      title: `${streak} jours d'affilée, ne casse pas ta série!`,
       body: "Prends un instant avec Dieu: ouvre ta méditation du jour.",
     };
   }

@@ -26,7 +26,7 @@ export async function POST(request: Request) {
   }
 
   // TODO: persister (DB) + intégration emailing + envoi du cadeau gratuit.
-  console.info(`[newsletter] nouvelle inscription — source="${source}" email="${email}"`);
+  console.info(`[newsletter] nouvelle inscription, source="${source}" email="${email}"`);
 
   return NextResponse.json(
     { ok: true, message: "Inscription enregistrée." },

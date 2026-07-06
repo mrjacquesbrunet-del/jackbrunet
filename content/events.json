@@ -11,7 +11,7 @@
     {
       "type": "annonce",
       "title": "L'application mobile arrive",
-      "description": "Le dévotionnel, la Bible et les plans dans ta poche — même hors-ligne, avec un rappel chaque matin.",
+      "description": "Le dévotionnel, la Bible et les plans dans ta poche, même hors-ligne, avec un rappel chaque matin.",
       "link": "/devotionnel",
       "linkLabel": "En savoir plus",
       "badge": "Bientôt"
@@ -26,7 +26,7 @@
     },
     {
       "type": "live",
-      "title": "Live — Prière & Foi",
+      "title": "Live, Prière & Foi",
       "date": "2026-08-25",
       "time": "20:30",
       "location": "En ligne · TikTok",
@@ -36,7 +36,7 @@
     },
     {
       "type": "live",
-      "title": "Live — Prière du soir",
+      "title": "Live, Prière du soir",
       "date": "2026-01-01",
       "time": "20:30",
       "location": "En ligne · Tiktok - Facebook - Youtube ",

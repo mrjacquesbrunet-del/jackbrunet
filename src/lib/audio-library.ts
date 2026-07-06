@@ -20,7 +20,7 @@ function titleFromName(name: string): string {
   let t = name.replace(/\.[^.]+$/, ""); // extension
   t = t.replace(/[_]+/g, " "); // underscores → espaces
   t = t.replace(/^\s*\d{1,3}\s*[-.)]\s*/, ""); // "01 - " en tête
-  t = t.replace(/\s*-\s*/g, " – "); // tirets propres
+  t = t.replace(/\s*-\s*/g, ", "); // tirets propres
   t = t.replace(/\s+/g, " ").trim();
   if (t) t = t.charAt(0).toUpperCase() + t.slice(1); // 1re lettre en majuscule
   return t;

@@ -5,7 +5,7 @@ import { ShortsMarquee } from "@/components/home/ShortsMarquee";
 import { getShorts } from "@/lib/content";
 import { youtube } from "@/config/site";
 
-/** Accueil: aperçu des derniers Shorts (bande défilante) — le reste sur /videos. */
+/** Accueil: aperçu des derniers Shorts (bande défilante), le reste sur /videos. */
 export function Reels() {
   const all = getShorts();
   const preview = all.slice(0, 10); // les plus récents en avant

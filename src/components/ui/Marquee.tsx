@@ -4,7 +4,7 @@ type MarqueeProps = {
   variant?: "lime" | "dark";
 };
 
-/** Bande défilante façon « ticker » — apporte du mouvement et de l'énergie. */
+/** Bande défilante façon « ticker », apporte du mouvement et de l'énergie. */
 export function Marquee({ items, variant = "lime" }: MarqueeProps) {
   const loop = [...items,...items];
   const wrap =

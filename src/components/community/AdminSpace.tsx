@@ -46,7 +46,7 @@ export function AdminSpace() {
             Statistiques
           </h2>
           <p className="mt-1 text-sm text-night-900/60">
-            Fréquentation et écoutes (anonymes) — jour / semaine / mois.
+            Fréquentation et écoutes (anonymes), jour / semaine / mois.
           </p>
           <div className="mt-4">
             <AnalyticsDashboard />
@@ -76,7 +76,7 @@ export function AdminSpace() {
         <BibleAudioAdmin />
 
         <p className="mt-8 text-center text-xs text-night-900/40">
-          Espace réservé — cette page n'apparaît nulle part dans les menus.
+          Espace réservé, cette page n'apparaît nulle part dans les menus.
         </p>
       </div>
     </section>

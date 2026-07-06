@@ -87,7 +87,7 @@ export function YearPlanView() {
 
       {allDone? (
         <div className="mt-6 rounded-3xl border border-dawn-400/50 bg-gradient-to-br from-dawn-50 to-white p-6 text-center shadow-glow">
-          <p className="font-display text-xl font-bold">Toute la Bible lue en 1 an — bravo!</p>
+          <p className="font-display text-xl font-bold">Toute la Bible lue en 1 an, bravo!</p>
           <p className="mt-1 text-sm text-night-900/65">
             « Ta parole est une lampe à mes pieds, et une lumière sur mon sentier. »
           </p>

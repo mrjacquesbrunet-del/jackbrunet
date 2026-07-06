@@ -13,7 +13,7 @@ type BookIndex = { id: number; name: string; chapters: number };
  * MP3 des chapitres DANS L'ORDRE (chapitre 1, 2, 3…): le fichier n°1 devient
  * le chapitre 1, etc. Les fichiers sont envoyés dans Supabase à l'emplacement
  * lu par le lecteur (bible/{bookId}/{chapitre}.mp3). Source recommandée:
- * Louis Segond 1910 (domaine public) — zip par livre sur bibvoice.org / archive.org.
+ * Louis Segond 1910 (domaine public), zip par livre sur bibvoice.org / archive.org.
  */
 export function BibleAudioAdmin() {
   const [books, setBooks] = useState<BookIndex[]>([]);
@@ -40,7 +40,7 @@ export function BibleAudioAdmin() {
     const ok = await uploadAmbientBed(f);
     setAmbBusy(false);
     if (ambRef.current) ambRef.current.value = "";
-    setAmbMsg(ok? "✓ Fond musical en ligne.": "Échec de l'envoi — réessaie.");
+    setAmbMsg(ok? "✓ Fond musical en ligne.": "Échec de l'envoi, réessaie.");
   }
 
   useEffect(() => {
@@ -90,7 +90,7 @@ export function BibleAudioAdmin() {
     setMsg(
       ok === list.length
 ? `✓ ${ok} chapitre${ok > 1? "s": ""} envoyé${ok > 1? "s": ""} pour ${book?.name}.`
-: `${ok}/${list.length} envoyés — vérifie ta connexion et réessaie les manquants.`,
+: `${ok}/${list.length} envoyés, vérifie ta connexion et réessaie les manquants.`,
     );
     checkStatus(books); // met à jour l'état des livres en ligne
   }
@@ -135,10 +135,10 @@ export function BibleAudioAdmin() {
                 key={b.id}
                 title={
                   done
-? `${b.name} — terminé (${b.chapters} ch.)`
+? `${b.name}, terminé (${b.chapters} ch.)`
 : partial
-? `${b.name} — ${n}/${b.chapters} chapitres`
-: `${b.name} — aucun chapitre`
+? `${b.name}, ${n}/${b.chapters} chapitres`
+: `${b.name}, aucun chapitre`
                 }
                 className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${
                   done

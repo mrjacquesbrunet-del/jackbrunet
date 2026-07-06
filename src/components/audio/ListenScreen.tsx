@@ -97,7 +97,7 @@ export function ListenScreen() {
     const url = `${siteConfig.url}/ecouter?e=${t.id}`;
     try {
       const nav = navigator as Navigator & { share?: (d: object) => Promise<void> };
-      if (nav.share) await nav.share({ title: t.title, text: `Écoute « ${t.title} » — Pasteur Jack`, url });
+      if (nav.share) await nav.share({ title: t.title, text: `Écoute « ${t.title} », Pasteur Jack`, url });
       else await navigator.clipboard.writeText(url);
     } catch {
       /* annulé */

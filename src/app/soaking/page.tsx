@@ -4,7 +4,7 @@ import { asset } from "@/lib/asset";
 const AUDIO = "/audio/soaking-jack-brunet.mp3";
 
 export const metadata: Metadata = {
-  title: "Soaking offert — un temps de présence",
+  title: "Soaking offert, un temps de présence",
   description: "Ton cadeau offert: un temps de soaking pour méditer et te reposer en Dieu, par Jack Brunet.",
   robots: { index: false, follow: false },
 };
@@ -38,7 +38,7 @@ export default function SoakingPage() {
               </svg>
             </div>
             <div className="text-left">
-              <p className="font-display text-lg font-bold">Soaking — Jack Brunet</p>
+              <p className="font-display text-lg font-bold">Soaking, Jack Brunet</p>
               <p className="text-sm text-cream/60">Temps de présence guidé</p>
             </div>
           </div>
@@ -54,7 +54,7 @@ export default function SoakingPage() {
         </div>
 
         <p className="mx-auto mt-6 max-w-xl text-center text-xs text-cream/45">
-          Ce lien t'est réservé. Merci de ne pas le partager publiquement — Pasteur Jack Brunet
+          Ce lien t'est réservé. Merci de ne pas le partager publiquement, Pasteur Jack Brunet
         </p>
       </div>
     </section>

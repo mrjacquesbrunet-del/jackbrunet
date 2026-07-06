@@ -155,7 +155,7 @@ export function PrayerCard({
           <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden>
             <path d="M12 2l2.4 5 5.6.8-4 4 1 5.6L12 19.8 6.9 22l1-5.6-4-4 5.6-.8z" />
           </svg>
-          Dieu a agi — prière exaucée
+          Dieu a agi, prière exaucée
         </div>
       ): null}
 

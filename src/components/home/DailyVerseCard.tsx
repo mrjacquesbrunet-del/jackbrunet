@@ -4,7 +4,7 @@ import { ShareButtons } from "@/components/ui/ShareButtons";
 import { useTodayIndex } from "@/lib/today";
 import type { Verse } from "@/lib/types";
 
-/** Verset du jour — l'élément affiché bascule à minuit (date locale). */
+/** Verset du jour, l'élément affiché bascule à minuit (date locale). */
 export function DailyVerseCard({
   verses,
   initialIndex,
@@ -43,7 +43,7 @@ export function DailyVerseCard({
         </div>
 
         <div className="mt-7">
-          <ShareButtons text={`« ${verse.text} » — ${verse.reference}`} />
+          <ShareButtons text={`« ${verse.text} », ${verse.reference}`} />
         </div>
       </div>
     </article>

@@ -78,7 +78,7 @@ export function ProfileView() {
       <section className="container-x pb-12 pt-24 sm:pt-32">
         <ProfileSignIn />
         <p className="mx-auto mt-6 max-w-md text-center text-sm text-night-900/55">
-          Tu peux aussi continuer à utiliser l'app sans compte —{" "}
+          Tu peux aussi continuer à utiliser l'app sans compte ,{" "}
           <Link href="/communaute" className="font-semibold text-spirit-600 hover:underline">
             découvrir la communauté
           </Link>
@@ -162,7 +162,7 @@ function Profile({
       };
       if (nav.share) {
         await nav.share({
-          title: "Mon profil — Jack Brunet",
+          title: "Mon profil, Jack Brunet",
           text: "Rejoins-moi sur l'application Jack Brunet: Foi & Prière",
           url,
         });
@@ -257,7 +257,7 @@ function Profile({
       return;
     }
     if (await isPseudoTaken(newPseudo, userId)) {
-      setPseudoError("Ce pseudo est déjà pris — choisis-en un autre.");
+      setPseudoError("Ce pseudo est déjà pris, choisis-en un autre.");
       setSaving(false);
       return;
     }
@@ -368,7 +368,7 @@ function Profile({
             <p key={i} className="mt-1.5 border-l-2 border-dawn-400 pl-2.5 text-sm italic text-cream/75">
               «&nbsp;{v.text}&nbsp;»{" "}
               {v.reference? (
-                <span className="font-semibold not-italic text-dawn-200">— {v.reference}</span>
+                <span className="font-semibold not-italic text-dawn-200">{v.reference}</span>
               ): null}
             </p>
           ))}
@@ -483,7 +483,7 @@ function Profile({
           <div className="mt-2 space-y-3">
             {verses.length === 0? (
               <p className="text-sm text-night-900/45">
-                Ajoute les versets qui te portent — ils s'afficheront sur ton profil.
+                Ajoute les versets qui te portent, ils s'afficheront sur ton profil.
               </p>
             ): (
               verses.map((v, i) => (
@@ -668,7 +668,7 @@ function Profile({
       <div className="mt-8">
         <h3 className="font-display text-lg font-bold">Mon espace</h3>
         <div className="mt-3 grid gap-4 sm:grid-cols-3">
-          {/* Mon carnet — accent lime */}
+          {/* Mon carnet, accent lime */}
           <Link
             href="/carnet"
             className="group relative flex flex-col overflow-hidden rounded-3xl border border-dawn-400/40 bg-gradient-to-br from-dawn-400/20 via-dawn-300/[0.06] to-cream p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg"
@@ -687,7 +687,7 @@ function Profile({
             </p>
           </Link>
 
-          {/* Mes plans — accent olive */}
+          {/* Mes plans, accent olive */}
           <Link
             href="/plans"
             className="group relative flex flex-col overflow-hidden rounded-3xl border border-spirit-500/35 bg-gradient-to-br from-spirit-500/18 via-spirit-400/[0.06] to-cream p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg"
@@ -708,7 +708,7 @@ function Profile({
             </p>
           </Link>
 
-          {/* À propos — carte sombre premium */}
+          {/* À propos, carte sombre premium */}
           <Link
             href="/a-propos"
             className="group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-spirit-700 to-night-900 p-5 text-cream shadow-card transition-all hover:-translate-y-0.5 hover:shadow-lg"
@@ -802,13 +802,13 @@ function Profile({
         </div>
       ): null}
 
-      {/* Mes favoris — regroupés directement dans le profil */}
+      {/* Mes favoris, regroupés directement dans le profil */}
       <div className="mt-8">
         <h3 className="font-display text-lg font-bold">Mes favoris</h3>
         <MyFavorites />
       </div>
 
-      {/* Prières exaucées — directement dans le profil */}
+      {/* Prières exaucées, directement dans le profil */}
       <div className="mt-8">
         <h3 className="font-display text-lg font-bold">Prières exaucées</h3>
         <AnsweredFeed />

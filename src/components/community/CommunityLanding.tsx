@@ -90,7 +90,7 @@ function Hero() {
           >
             Un lieu pour <strong className="text-cream">déposer tes sujets de prière</strong>, t'abonner à
             d'autres croyants et <strong className="text-cream">vous porter les uns les autres</strong> devant Dieu.
-            Comme un réseau social — mais tourné vers le Ciel.
+            Comme un réseau social, mais tourné vers le Ciel.
           </motion.p>
           <motion.div
             className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start"
@@ -271,7 +271,7 @@ function AuthCard() {
           <div className="rounded-4xl border border-white/10 bg-night-800/70 p-7 shadow-card backdrop-blur-xl sm:p-9">
             <h2 className="text-center font-display text-3xl font-extrabold">Rejoins la communauté</h2>
             <p className="mt-2 text-center text-sm text-cream/70">
-              Gratuit, en un clic. Partage, prie, encourage — et retrouve ton espace partout.
+              Gratuit, en un clic. Partage, prie, encourage, et retrouve ton espace partout.
             </p>
 
             {native? (

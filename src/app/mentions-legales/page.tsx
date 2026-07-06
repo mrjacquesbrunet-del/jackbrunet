@@ -5,7 +5,7 @@ import { siteConfig } from "@/config/site";
 export const metadata: Metadata = {
   title: "Mentions légales",
   description:
-    "Mentions légales du site jackbrunet.com — éditeur, hébergement, propriété intellectuelle et responsabilité.",
+    "Mentions légales du site jackbrunet.com, éditeur, hébergement, propriété intellectuelle et responsabilité.",
 };
 
 export default function MentionsLegalesPage() {
@@ -47,7 +47,7 @@ export default function MentionsLegalesPage() {
             <h2 className="font-display text-2xl font-bold text-night-900">Hébergement</h2>
             <p className="mt-3">
               Le site est hébergé par GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco,
-              CA 94107, États-Unis —{" "}
+              CA 94107, États-Unis ,{" "}
               <a
                 href="https://github.com"
                 target="_blank"

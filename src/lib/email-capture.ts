@@ -5,7 +5,7 @@ import { BREVO_ENDPOINTS } from "@/config/brevo";
 
 /**
  * Ajoute automatiquement l'email d'un membre connecté (mur de prière, app…)
- * dans la liste de contacts Brevo — la même que la newsletter, côté navigateur
+ * dans la liste de contacts Brevo, la même que la newsletter, côté navigateur
  * (aucune clé API exposée). Envoyé une seule fois par email/appareil.
  */
 export async function captureEmail(email?: string | null) {

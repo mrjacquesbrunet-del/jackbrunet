@@ -49,7 +49,7 @@ const ITEMS: Item[] = [
   {
     tag: "Bonus",
     title: "Premières méditations de RHEMA",
-    desc: "Un avant-goût exclusif du livre — des révélations bibliques à méditer.",
+    desc: "Un avant-goût exclusif du livre, des révélations bibliques à méditer.",
     href: "/ebook/rhema",
   },
 ];
@@ -91,7 +91,7 @@ export function ExclusivesView() {
           </div>
         ): (
           <p className="mt-6 inline-flex items-center gap-2 rounded-full bg-dawn-400/15 px-4 py-1.5 text-sm font-bold text-dawn-300">
-            ✓ Accès débloqué — profite bien
+            ✓ Accès débloqué, profite bien
           </p>
         )}
 

@@ -59,7 +59,7 @@ export function CommentaryPanel({
                 {m.translit? (
                   <span className="italic text-night-900/55"> ({m.translit})</span>
                 ): null}
-                {m.sens? <span> — {m.sens}</span>: null}
+                {m.sens? <span>, {m.sens}</span>: null}
               </li>
             ))}
           </ul>

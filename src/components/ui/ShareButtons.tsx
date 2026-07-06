@@ -30,7 +30,7 @@ export function ShareButtons({
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      /* presse-papiers indisponible — on ignore */
+      /* presse-papiers indisponible, on ignore */
     }
   }
 

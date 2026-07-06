@@ -7,7 +7,7 @@ import { PayButton } from "@/components/ui/PayButton";
 
 /**
  * Section dons en page d'accueil.
- * Présentée comme une réponse à la vision — jamais comme une pression.
+ * Présentée comme une réponse à la vision, jamais comme une pression.
  */
 export function Support() {
   const allTiers = getSupportTiers();
@@ -99,7 +99,7 @@ export function Support() {
           ))}
         </div>
 
-        {/* Semence libre — bandeau horizontal englobant */}
+        {/* Semence libre, bandeau horizontal englobant */}
         {free? (
           <Reveal from="up" delay={0.15}>
             <div className="mt-6 flex flex-col gap-6 overflow-hidden rounded-4xl border border-dawn-400/40 bg-gradient-to-r from-dawn-500/15 via-dawn-400/10 to-transparent p-7 sm:p-9 lg:flex-row lg:items-center lg:justify-between">

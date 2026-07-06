@@ -18,7 +18,7 @@ export default function SuppressionComptePage() {
             Supprimer mon <span className="text-gradient">compte</span>
           </>
         }
-        description="Application « Jack Brunet : Foi & Prière » — procédure de suppression de compte et de données."
+        description="Application « Jack Brunet : Foi & Prière », procédure de suppression de compte et de données."
       />
 
       <section className="container-x py-12">
@@ -78,7 +78,7 @@ export default function SuppressionComptePage() {
           </div>
 
           <p className="text-sm text-night-900/50">
-            Éditeur de l'application : Jack Brunet — {siteConfig.contactEmail}
+            Éditeur de l'application : Jack Brunet, {siteConfig.contactEmail}
           </p>
         </div>
       </section>

@@ -136,7 +136,7 @@ export function Rewards() {
           );
         })}
 
-        {/* Ambassadeur — partage */}
+        {/* Ambassadeur, partage */}
         <div
           className={`relative flex flex-col overflow-hidden rounded-3xl border p-5 ${
             shared

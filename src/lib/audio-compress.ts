@@ -6,7 +6,7 @@ import { Mp3Encoder } from "@breezystack/lamejs";
  * Compresse un fichier audio en MP3 mono ~48 kbps côté navigateur (voix
  * parfaitement intelligible, ~2× moins de bande passante). Sert à l'upload
  * des podcasts et de la Bible audio. En cas d'échec (format non décodable,
- * navigateur limité…), on renvoie le fichier d'origine — jamais bloquant.
+ * navigateur limité…), on renvoie le fichier d'origine, jamais bloquant.
  */
 export async function compressToMonoMp3(file: File, kbps = 48): Promise<File> {
   try {

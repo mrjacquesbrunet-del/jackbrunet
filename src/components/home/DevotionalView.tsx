@@ -194,7 +194,7 @@ export function DevotionalView({
               Touche un verset ou un paragraphe pour le surligner, le copier ou l'enregistrer.
             </p>
 
-            {/* Punchline du jour — carte à partager */}
+            {/* Punchline du jour, carte à partager */}
             <div className="mt-6">
               <ViralCard punchline={dev.punchline} id={`dev:${i}:punchline`} />
             </div>
@@ -231,7 +231,7 @@ export function DevotionalView({
             </div>
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <ShareButtons
-                text={`${dev.theme} — « ${dev.verseText} » (${dev.verseReference})`}
+                text={`${dev.theme}, « ${dev.verseText} » (${dev.verseReference})`}
               />
               {eng.ready? (
                 <button
@@ -290,7 +290,7 @@ export function DevotionalView({
               </Markable>
               <div className="mt-7 flex justify-center">
                 <ShareButtons
-                  text={`« ${dev.declarationText} » — ${dev.declarationReference}`}
+                  text={`« ${dev.declarationText} », ${dev.declarationReference}`}
                 />
               </div>
             </div>
@@ -368,7 +368,7 @@ export function DevotionalView({
               Ouvrir la Bible
             </Link>
 
-            {/* Plan de lecture complet (aujourd'hui mis en avant) — chaque jour
+            {/* Plan de lecture complet (aujourd'hui mis en avant), chaque jour
                 ouvre directement le bon passage dans la Bible. */}
             <ol className="mt-4 grid max-w-2xl gap-3 sm:grid-cols-2">
               {plan.map((d) => {
@@ -488,12 +488,12 @@ export function DevotionalView({
         </section>
       ): null}
 
-      {/* 6d. Récompenses de fidélité — en bas pour entrer vite dans la méditation */}
+      {/* 6d. Récompenses de fidélité, en bas pour entrer vite dans la méditation */}
       <div id="recompenses" className="scroll-mt-20">
         <Rewards />
       </div>
 
-      {/* Promotion du livre RHEMA — avant « Reviens demain » */}
+      {/* Promotion du livre RHEMA, avant « Reviens demain » */}
       <section className="container-x">
         <Reveal from="up">
           <div className="bg-topo-light relative overflow-hidden rounded-4xl border border-spirit-700/10 p-7 sm:p-9">
@@ -514,7 +514,7 @@ export function DevotionalView({
                 </h3>
                 <p className="mt-2 max-w-xl text-night-900/70">
                   Tu aimes ces méditations? RHEMA, c'est 365 révélations bibliques à
-                  méditer chaque jour de l'année — l'aboutissement de tout ce que je
+                  méditer chaque jour de l'année, l'aboutissement de tout ce que je
                   partage. Bientôt disponible.
                 </p>
                 <Link href="/boutique" className="btn-primary mt-5">

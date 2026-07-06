@@ -42,7 +42,7 @@ export function AnalyticsDashboard() {
   if (!sum)
     return (
       <p className="text-sm text-night-900/55">
-        Statistiques indisponibles — vérifie que la migration <code>migration-analytics.sql</code>{" "}
+        Statistiques indisponibles, vérifie que la migration <code>migration-analytics.sql</code>{" "}
         est bien passée.
       </p>
     );

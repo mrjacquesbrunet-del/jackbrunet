@@ -54,7 +54,7 @@ export function MemberSuggestions({ compact = false }: { compact?: boolean } = {
   if (members.length === 0) {
     return (
       <p className="text-sm text-night-900/45">
-        Pas encore de suggestion — reviens bientôt, la communauté grandit chaque jour
+        Pas encore de suggestion, reviens bientôt, la communauté grandit chaque jour
       </p>
     );
   }

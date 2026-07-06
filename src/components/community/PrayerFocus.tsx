@@ -26,7 +26,7 @@ function isoWeek(d: Date): number {
 }
 
 /**
- * « Focus de prière de la semaine » — change automatiquement chaque semaine
+ * « Focus de prière de la semaine », change automatiquement chaque semaine
  * (rotation sur la liste content/prayer-focus.json). L'index réel est calculé
  * côté client (après montage) pour éviter tout décalage d'hydratation.
  */

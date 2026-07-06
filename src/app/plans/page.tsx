@@ -8,7 +8,7 @@ import { AuthorChip } from "@/components/plans/AuthorChip";
 export const metadata: Metadata = {
   title: "Plans thématiques",
   description:
-    "Des parcours de méditation par thème — peur, anxiété, foi, Saint-Esprit, identité — avec une méditation et des versets chaque jour.",
+    "Des parcours de méditation par thème, peur, anxiété, foi, Saint-Esprit, identité, avec une méditation et des versets chaque jour.",
 };
 
 export default function PlansPage() {

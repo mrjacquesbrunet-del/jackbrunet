@@ -15,7 +15,7 @@ import audioData from "../../../content/audio.generated.json";
 export const metadata: Metadata = {
   title: "Temps avec Jésus",
   description:
-    "Ton dévotionnel quotidien: une méditation pour t'enraciner en Jésus — un verset à déclarer, une réflexion en profondeur, des questions, le passage du jour et la vidéo. Nouveau chaque jour.",
+    "Ton dévotionnel quotidien: une méditation pour t'enraciner en Jésus, un verset à déclarer, une réflexion en profondeur, des questions, le passage du jour et la vidéo. Nouveau chaque jour.",
 };
 
 export default function DevotionnelPage() {

@@ -11,7 +11,7 @@ const BANNERS = [
     href: "/boutique",
     eyebrow: "Nouveau",
     title: "Le livre RHEMA",
-    text: "365 révélations bibliques à méditer — découvre-le.",
+    text: "365 révélations bibliques à méditer, découvre-le.",
     from: "#2A2E1C",
     to: "#5E6A3A",
   },

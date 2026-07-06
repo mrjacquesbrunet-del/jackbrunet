@@ -4,7 +4,7 @@ import { asset } from "@/lib/asset";
 const PDF = "/ebooks/rhema-premieres-meditations-jb.pdf";
 
 export const metadata: Metadata = {
-  title: "RHEMA — tes premières méditations offertes",
+  title: "RHEMA, tes premières méditations offertes",
   description: "Ton cadeau offert: les premières méditations de RHEMA, par Jack Brunet.",
   robots: { index: false, follow: false },
 };
@@ -17,7 +17,7 @@ export default function EbookRhemaPage() {
         <div className="mx-auto max-w-3xl text-center">
           <span className="eyebrow">Ton cadeau est prêt</span>
           <h1 className="mt-5 font-display text-4xl font-extrabold leading-[1.05] sm:text-5xl">
-            RHEMA — tes <span className="text-gradient">premières méditations</span>
+            RHEMA, tes <span className="text-gradient">premières méditations</span>
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-cream/75">
             Un avant-goût offert du livre: des révélations bibliques à méditer, une par jour.
@@ -46,7 +46,7 @@ export default function EbookRhemaPage() {
         </div>
 
         <p className="mx-auto mt-6 max-w-xl text-center text-xs text-cream/45">
-          Ce lien t'est réservé. Merci de ne pas le partager publiquement — Pasteur Jack Brunet
+          Ce lien t'est réservé. Merci de ne pas le partager publiquement, Pasteur Jack Brunet
         </p>
       </div>
     </section>

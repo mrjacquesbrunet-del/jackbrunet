@@ -233,7 +233,7 @@ export function BibleAudio({
           <p className="font-display text-sm font-bold leading-tight">Écouter la Bible</p>
           {!floating? (
             <p className="text-[11px] text-cream/60">
-              Narration — écran verrouillé, minuteur dans la barre du bas
+              Narration, écran verrouillé, minuteur dans la barre du bas
               {ambient.enabled? " · fond musical": ""}
             </p>
           ): (
@@ -274,7 +274,7 @@ export function BibleAudio({
           <p className="text-[11px] text-cream/60">
             {state === "idle"
 ? "Lecture audio du chapitre (voix de l'appareil)"
-: `En lecture — verset ${idxRef.current + 1}`}
+: `En lecture, verset ${idxRef.current + 1}`}
             {sleepMin? ` · minuteur ${sleepMin} min`: ""}
             {ambient.enabled? " · fond musical": ""}
           </p>

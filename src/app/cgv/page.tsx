@@ -5,7 +5,7 @@ import { siteConfig } from "@/config/site";
 export const metadata: Metadata = {
   title: "Conditions générales",
   description:
-    "Conditions générales de vente du site jackbrunet.com — dons, produits, droit de rétractation et service client.",
+    "Conditions générales de vente du site jackbrunet.com, dons, produits, droit de rétractation et service client.",
 };
 
 export default function CGVPage() {

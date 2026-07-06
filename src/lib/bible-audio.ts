@@ -122,7 +122,7 @@ export function bibleTrack(bookId: number, bookName: string, chapter: number): A
   return {
     id: `bible:${bookName} ${chapter}`,
     title: `${bookName} ${chapter}`,
-    description: "Bible Louis Segond — narration",
+    description: "Bible Louis Segond, narration",
     url,
     path: bibleNarrationKey(bookId, chapter),
   };

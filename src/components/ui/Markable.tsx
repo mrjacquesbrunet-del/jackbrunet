@@ -16,7 +16,7 @@ const chip =
 
 /**
  * Rend un bloc de texte « actionnable »: on le touche pour faire apparaître
- * une petite barre — Surligner · Copier · Enregistrer. Le surlignage et
+ * une petite barre, Surligner · Copier · Enregistrer. Le surlignage et
  * l'enregistrement sont mémorisés sur l'appareil (voir lib/toolkit).
  */
 export function Markable({
@@ -67,7 +67,7 @@ export function Markable({
   }
 
   async function copy() {
-    const payload = reference? `${text}\n— ${reference}`: text;
+    const payload = reference? `${text}\n${reference}`: text;
     try {
       await navigator.clipboard.writeText(payload);
       setCopied(true);
@@ -161,7 +161,7 @@ export function Markable({
         </div>
       ): null}
 
-      {/* Éditeur de note — on reste sur la page, ça part dans le carnet */}
+      {/* Éditeur de note, on reste sur la page, ça part dans le carnet */}
       {open && noting? (
         <div className="mt-2 rounded-2xl border border-night-900/15 bg-white p-3">
           {reference? (

@@ -29,7 +29,7 @@ export async function getActiveAnnouncement(): Promise<Announcement | null> {
   }
 }
 
-/** Publie une annonce (réservé à l'admin — la RLS le garantit côté serveur). */
+/** Publie une annonce (réservé à l'admin, la RLS le garantit côté serveur). */
 export async function postAnnouncement(title: string, body: string, link: string): Promise<boolean> {
   const sb = getSupabase();
   if (!sb) return false;

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Ta surprise — 100 jours de fidélité",
+  title: "Ta surprise, 100 jours de fidélité",
   description: "Un cadeau spécial pour récompenser 100 jours de fidélité avec Jésus.",
   robots: { index: false, follow: false },
 };
@@ -36,7 +36,7 @@ export default function SurprisePage() {
           </p>
           <a
             href={`mailto:${siteConfig.contactEmail}?subject=${encodeURIComponent(
-              "FIDÈLE 100 — ma surprise",
+              "FIDÈLE 100, ma surprise",
             )}`}
             className="btn-primary mt-5 inline-flex"
           >
@@ -45,7 +45,7 @@ export default function SurprisePage() {
         </div>
 
         <p className="mx-auto mt-6 max-w-xl text-center text-xs text-cream/45">
-          Réservé à ceux qui ont tenu 100 jours. Merci pour ta fidélité — Pasteur Jack Brunet
+          Réservé à ceux qui ont tenu 100 jours. Merci pour ta fidélité, Pasteur Jack Brunet
         </p>
       </div>
     </section>

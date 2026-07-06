@@ -2,7 +2,7 @@
  * Source unique de configuration du site.
  *
  * L'identité éditable (nom, description, réseaux, YouTube) provient de
- * `/content/settings.json` — modifiable sans coder via l'espace d'administration.
+ * `/content/settings.json`, modifiable sans coder via l'espace d'administration.
  * La navigation reste ici (structure du site).
  */
 
@@ -31,7 +31,7 @@ export const youtube = {
   videosUrl: settings.youtube.videosUrl,
 };
 
-/** Navigation principale — partagée web + future app. */
+/** Navigation principale, partagée web + future app. */
 export const mainNav = [
   { label: "Temps avec Jésus", href: "/devotionnel" },
   { label: "Bible", href: "/bible" },
@@ -42,7 +42,7 @@ export const mainNav = [
   { label: "À propos", href: "/a-propos" },
 ] as const;
 
-/** Onglets secondaires — accessibles via le menu « Plus » (desktop) et le menu mobile. */
+/** Onglets secondaires, accessibles via le menu « Plus » (desktop) et le menu mobile. */
 export const secondaryNav = [
   { label: "Vidéos", href: "/videos" },
   { label: "Mon carnet", href: "/carnet" },

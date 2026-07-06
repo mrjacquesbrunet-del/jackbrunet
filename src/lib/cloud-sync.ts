@@ -158,7 +158,7 @@ async function syncToolkit(userId: string) {
   }
   const saved = [...map.values()].sort((a, b) => (b.ts?? 0) - (a.ts?? 0));
 
-  // colors / hlmeta / noted restent locaux (non synchronisés) — on les conserve.
+  // colors / hlmeta / noted restent locaux (non synchronisés), on les conserve.
   replaceToolkit({
     highlights,
     saved,

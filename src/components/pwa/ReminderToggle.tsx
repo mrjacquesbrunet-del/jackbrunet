@@ -68,7 +68,7 @@ export function ReminderToggle() {
           </p>
           {denied? (
             <p className="mt-1 text-xs font-semibold text-red-600">
-              Notifications refusées — autorise-les dans les réglages du téléphone.
+              Notifications refusées, autorise-les dans les réglages du téléphone.
             </p>
           ): null}
         </div>

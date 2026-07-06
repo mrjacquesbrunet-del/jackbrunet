@@ -6,7 +6,7 @@ import type { Short } from "@/lib/types";
 import { videoEmbedSrc } from "@/lib/youtube";
 
 /**
- * Lecteur immersif vertical (feed) — même comportement que l'onglet Vidéos:
+ * Lecteur immersif vertical (feed), même comportement que l'onglet Vidéos:
  * vidéos voisines préchargées, lecture pilotée au swipe, et son qui se lance
  * après une seule touche puis reste actif.
  */

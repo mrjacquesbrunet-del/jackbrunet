@@ -105,7 +105,7 @@ export function PlanView({ plan }: { plan: ThemePlan }) {
                 ))}
               </div>
 
-              {/* Versets à lire — intégrés, avec les mêmes options que la Bible */}
+              {/* Versets à lire, intégrés, avec les mêmes options que la Bible */}
               <div className="mt-5 space-y-3">
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-spirit-600">
                   À lire & méditer

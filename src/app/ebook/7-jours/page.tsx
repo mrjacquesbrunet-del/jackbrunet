@@ -4,7 +4,7 @@ import { asset } from "@/lib/asset";
 const PDF = "/ebooks/7-jours-pour-retrouver-la-paix-jb.pdf";
 
 export const metadata: Metadata = {
-  title: "7 jours pour retrouver la paix — ton ebook offert",
+  title: "7 jours pour retrouver la paix, ton ebook offert",
   description: "Ton ebook offert: 7 jours pour retrouver la paix, par Jack Brunet.",
   robots: { index: false, follow: false },
 };
@@ -46,7 +46,7 @@ export default function EbookSeptJoursPage() {
         </div>
 
         <p className="mx-auto mt-6 max-w-xl text-center text-xs text-cream/45">
-          Ce lien t'est réservé. Merci de ne pas le partager publiquement — Pasteur Jack Brunet
+          Ce lien t'est réservé. Merci de ne pas le partager publiquement, Pasteur Jack Brunet
         </p>
       </div>
     </section>

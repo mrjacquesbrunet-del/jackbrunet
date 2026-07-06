@@ -9,7 +9,7 @@ const STORAGE_KEY = "lumiere:popup-dismissed";
 const DELAY_MS = 8_000;
 
 /**
- * Pop-up de captation email — offre l'ebook gratuit « 7 jours pour
+ * Pop-up de captation email, offre l'ebook gratuit « 7 jours pour
  * retrouver la paix ». Élégant, non agressif, mémorisé (une seule fois).
  */
 export function EmailPopup() {
@@ -29,7 +29,7 @@ export function EmailPopup() {
     try {
       localStorage.setItem(STORAGE_KEY, "1");
     } catch {
-      /* stockage indisponible — ignore */
+      /* stockage indisponible, ignore */
     }
   }
 

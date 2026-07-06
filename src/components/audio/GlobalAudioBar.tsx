@@ -44,7 +44,7 @@ export function GlobalAudioBar() {
     return (
       <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-night-900/10 bg-white/95 px-4 py-3 backdrop-blur">
         <div className="container-x px-0">
-          {/* Ligne 1 — gros bouton, titre + progression, fermer */}
+          {/* Ligne 1, gros bouton, titre + progression, fermer */}
           <div className="flex items-center gap-3">
             <button
               type="button"
@@ -82,7 +82,7 @@ export function GlobalAudioBar() {
             </button>
           </div>
 
-          {/* Ligne 2 — contrôles secondaires, bien espacés (rien ne se superpose) */}
+          {/* Ligne 2, contrôles secondaires, bien espacés (rien ne se superpose) */}
           <div className="mt-2 flex items-center justify-center gap-2.5">
             <button
               type="button"

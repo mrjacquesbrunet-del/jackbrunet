@@ -3,7 +3,7 @@
 export function VerifiedBadge({ className }: { className?: string }) {
   return (
     <span
-      title="Compte certifié — Pasteur Jack Brunet"
+      title="Compte certifié, Pasteur Jack Brunet"
       aria-label="Compte certifié"
       className={`inline-block align-middle ${className?? "h-4 w-4"}`}
     >

@@ -5,7 +5,7 @@ import { getAbout } from "@/lib/content";
 import { asset } from "@/lib/asset";
 import { siteConfig } from "@/config/site";
 
-/** Présentation de Jack et du ministère — placée avant la section dons. */
+/** Présentation de Jack et du ministère, placée avant la section dons. */
 export function AboutFounder() {
   const about = getAbout();
   const photo = asset(about.photo);

@@ -12,7 +12,7 @@ import { STRIPE_LINKS } from "@/config/stripe";
 export const metadata: Metadata = {
   title: "Mission Madagascar",
   description:
-    "Mission d'évangélisation à Madagascar — début novembre, 10 jours. Conférence, évangélisation de rue et soutien aux œuvres (orphelinats, prisons). Objectif de collecte: 10 000 €.",
+    "Mission d'évangélisation à Madagascar, début novembre, 10 jours. Conférence, évangélisation de rue et soutien aux œuvres (orphelinats, prisons). Objectif de collecte: 10 000 €.",
 };
 
 export default function MissionMadagascarPage() {
@@ -26,11 +26,11 @@ export default function MissionMadagascarPage() {
         eyebrow="Mission · Madagascar"
         title={
           <>
-            Madagascar —{" "}
+            Madagascar ,{" "}
             <span className="text-gradient">porter la lumière de Jésus</span>
           </>
         }
-        description="Début novembre, pendant 10 jours, nous partons annoncer l'Évangile à Madagascar: une conférence d'évangélisation, de l'évangélisation de rue, et la visite d'œuvres — orphelinats, prisons et autres — pour les soutenir par notre présence et nos moyens."
+        description="Début novembre, pendant 10 jours, nous partons annoncer l'Évangile à Madagascar: une conférence d'évangélisation, de l'évangélisation de rue, et la visite d'œuvres, orphelinats, prisons et autres, pour les soutenir par notre présence et nos moyens."
       >
         <div className="flex flex-wrap justify-center gap-3">
           <Link href="#soutenir" className="btn-primary">
@@ -62,7 +62,7 @@ export default function MissionMadagascarPage() {
           <div className="mt-6 max-w-2xl space-y-5 text-base leading-relaxed text-night-900/70 sm:text-lg">
           <p>
             Depuis quelque temps, Dieu a placé Madagascar sur mon cœur. Après plusieurs
-            confirmations, nous croyons qu'il est temps d'y aller — non pas simplement pour
+            confirmations, nous croyons qu'il est temps d'y aller, non pas simplement pour
             organiser un événement, mais pour répondre à un appel: annoncer Jésus, encourager les
             cœurs, visiter les oubliés et soutenir concrètement ceux qui œuvrent déjà sur place.
           </p>
@@ -79,7 +79,7 @@ export default function MissionMadagascarPage() {
             circonstances.
           </p>
           <p>
-            C'est dans ce contexte que nous voulons aller — avec humilité, respect et amour. Notre
+            C'est dans ce contexte que nous voulons aller, avec humilité, respect et amour. Notre
             but n'est pas d'arriver avec des réponses toutes faites, mais de servir: proclamer
             Jésus-Christ avec clarté, prier pour les personnes, encourager les croyants et manifester
             l'amour de Christ par des actes concrets.
@@ -238,8 +238,8 @@ export default function MissionMadagascarPage() {
             </p>
           </div>
           <p className="mt-6 text-base leading-relaxed text-cream/70 sm:text-lg">
-            Et nous croyons qu'ensemble — par la prière, le soutien et
-            l'obéissance — nous pouvons prendre part à ce que Dieu veut faire là-bas.
+            Et nous croyons qu'ensemble, par la prière, le soutien et
+            l'obéissance, nous pouvons prendre part à ce que Dieu veut faire là-bas.
           </p>
         </div>
       </section>

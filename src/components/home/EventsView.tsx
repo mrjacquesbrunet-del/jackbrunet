@@ -96,11 +96,11 @@ export function EventsView({ events }: { events: AgendaEvent[] }) {
         </section>
       ): null}
 
-      {/* Agenda — 3 prochains mois */}
+      {/* Agenda, 3 prochains mois */}
       <section className="container-x py-6">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <h2 className="font-display text-2xl font-extrabold sm:text-3xl">
-            Agenda — <span className="text-gradient">3 prochains mois</span>
+            Agenda, <span className="text-gradient">3 prochains mois</span>
           </h2>
           <div className="flex flex-wrap gap-2">
             {(
@@ -128,7 +128,7 @@ export function EventsView({ events }: { events: AgendaEvent[] }) {
 
         {groups.length === 0? (
           <p className="mt-8 text-night-900/55">
-            Aucun événement programmé pour le moment. Reviens bientôt — ou laisse ton email
+            Aucun événement programmé pour le moment. Reviens bientôt, ou laisse ton email
             plus bas pour être prévenu(e) dès qu'une date est annoncée.
           </p>
         ): (

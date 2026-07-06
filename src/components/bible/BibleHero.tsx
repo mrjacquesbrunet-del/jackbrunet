@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 
 /**
- * En-tête de la page Bible — épuré, dans la charte (olive profond + accent
+ * En-tête de la page Bible, épuré, dans la charte (olive profond + accent
  * lime), aligné sur le style du mur de prière. Légère animation d'apparition.
  */
 export function BibleHero() {

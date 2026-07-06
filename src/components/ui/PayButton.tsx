@@ -9,7 +9,7 @@ import { isNativeApp } from "@/lib/notifications";
  * bouton désactivé (lien pas encore configuré). Style passé via `className`.
  *
  * Conformité App Store (règle 3.1.1): les transactions (dons, achats) sont
- * RETIRÉES de l'application native — elles restent disponibles sur le site web.
+ * RETIRÉES de l'application native, elles restent disponibles sur le site web.
  * Sur le web, lien classique en nouvel onglet.
  */
 export function PayButton({

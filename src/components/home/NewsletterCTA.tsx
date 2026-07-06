@@ -1,7 +1,7 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 
-/** Grande section de captation email — élégante et immersive. */
+/** Grande section de captation email, élégante et immersive. */
 export function NewsletterCTA() {
   return (
     <section id="newsletter" className="container-x scroll-mt-24 py-20 sm:py-28">

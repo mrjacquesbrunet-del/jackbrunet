@@ -6,7 +6,7 @@ import { isNativeApp } from "@/lib/notifications";
 export const ONESIGNAL_APP_ID = "27d280f7-9f55-4c22-9798-2566a6f24ab3";
 
 /**
- * Initialise OneSignal (notifications push) — application native uniquement.
+ * Initialise OneSignal (notifications push), application native uniquement.
  * Charge le plugin dynamiquement pour ne jamais l'inclure côté web.
  * Demande la permission de notification au lancement.
  */

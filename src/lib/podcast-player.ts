@@ -58,7 +58,7 @@ function setMediaSession() {
     ms.metadata = new MediaMetadata({
       title: t.title,
       artist: "Pasteur Jack Brunet",
-      album: "Jack Brunet — Écouter",
+      album: "Jack Brunet, Écouter",
     });
     ms.setActionHandler("play", () => audio?.play());
     ms.setActionHandler("pause", () => audio?.pause());
@@ -247,7 +247,7 @@ function subscribe(cb: () => void) {
   };
 }
 
-/** Abonnement bas niveau (hors React) — utilisé par le fond musical. */
+/** Abonnement bas niveau (hors React), utilisé par le fond musical. */
 export function subscribePodcast(cb: () => void) {
   return subscribe(cb);
 }

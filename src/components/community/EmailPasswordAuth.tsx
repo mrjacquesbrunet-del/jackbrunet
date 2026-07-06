@@ -5,7 +5,7 @@ import { signInEmailPassword, signUpEmailPassword } from "@/lib/community";
 
 /**
  * Connexion / inscription par e-mail + mot de passe, 100 % dans l'application
- * (aucun navigateur) — conforme aux règles App Store 4.0 / 4.8.
+ * (aucun navigateur), conforme aux règles App Store 4.0 / 4.8.
  * Utilisé dans l'app native ; sur le web on garde aussi Google/Apple.
  */
 export function EmailPasswordAuth({
@@ -80,7 +80,7 @@ export function EmailPasswordAuth({
       </button>
       {error? <p className="field-error text-center">{error}</p>: null}
 
-      {/* Bascule connexion/inscription — rendue bien visible (bouton encadré) */}
+      {/* Bascule connexion/inscription, rendue bien visible (bouton encadré) */}
       <div className="pt-1 text-center">
         <p className={`text-sm ${dark? "text-cream/60": "text-night-900/55"}`}>
           {mode === "signin"? "Pas encore de compte ?": "Tu as déjà un compte ?"}

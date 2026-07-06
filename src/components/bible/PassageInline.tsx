@@ -9,7 +9,7 @@ import { resolveRef, getBook } from "@/lib/bible-client";
 /**
  * Affiche le texte d'un passage (ex. « Philippiens 4:6-7 ») directement, avec
  * les mêmes actions que la Bible (surligner / copier / enregistrer / noter) et
- * le commentaire d'étude — sans quitter la page.
+ * le commentaire d'étude, sans quitter la page.
  */
 export function PassageInline({ reference }: { reference: string }) {
   const [verses, setVerses] = useState<{ n: number; text: string }[] | null>(null);

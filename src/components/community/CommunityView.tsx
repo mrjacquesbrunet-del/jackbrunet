@@ -116,7 +116,7 @@ function Feed({
       return;
     }
     if (await isPseudoTaken(p, userId)) {
-      setPseudoErr("Ce pseudo est déjà pris — choisis-en un autre.");
+      setPseudoErr("Ce pseudo est déjà pris, choisis-en un autre.");
       return;
     }
     setPseudoErr("");
@@ -215,7 +215,7 @@ function Feed({
         {/* Séparateur */}
         <div className="mx-4 h-px bg-white/10" />
 
-        {/* Partager un sujet de prière — intégré au module de profil */}
+        {/* Partager un sujet de prière, intégré au module de profil */}
         <div className="p-4">
           <MentionField
             value={body}
@@ -231,9 +231,9 @@ function Feed({
               className="max-w-[12rem] rounded-xl border border-white/15 bg-white/10 px-3 py-2 text-sm text-cream focus:border-dawn-400/60 focus:outline-none"
               aria-label="Visibilité"
             >
-              <option value="public">Public — tout le monde</option>
-              <option value="friends">Abonnés — ceux qui me suivent</option>
-              <option value="private">Privé — moi seul</option>
+              <option value="public">Public, tout le monde</option>
+              <option value="friends">Abonnés, ceux qui me suivent</option>
+              <option value="private">Privé, moi seul</option>
             </select>
             <button
               type="button"
@@ -247,7 +247,7 @@ function Feed({
         </div>
       </div>
 
-      {/* Trouver des profils — recherche par pseudo + suggestions (compact) */}
+      {/* Trouver des profils, recherche par pseudo + suggestions (compact) */}
       <div className="mt-5">
         <h3 className="font-display text-base font-bold">Trouver des profils</h3>
         <p className="mt-0.5 text-xs text-night-900/55">
@@ -271,7 +271,7 @@ function Feed({
         <PrayerFocus />
       </div>
 
-      {/* Onglets — mis en valeur (olive + actif lime) */}
+      {/* Onglets, mis en valeur (olive + actif lime) */}
       <div className="dark-ctx bg-topo-dark mt-8 flex gap-1.5 rounded-full border border-white/10 p-1.5 shadow-card">
         {(
           [
@@ -294,7 +294,7 @@ function Feed({
         ))}
       </div>
 
-      {/* Recherche sur le mur de prière — carte sombre, écriture fluo */}
+      {/* Recherche sur le mur de prière, carte sombre, écriture fluo */}
       <div className="relative mt-4">
         <svg
           viewBox="0 0 24 24"

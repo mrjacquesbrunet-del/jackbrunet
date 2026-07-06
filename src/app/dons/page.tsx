@@ -104,7 +104,7 @@ export default function DonsPage() {
                 Rejoins ceux qui portent <span className="text-gradient">la mission</span>
               </>
             }
-            description="Un soutien régulier, même modeste, permet de créer, publier et accompagner sans interruption — et de bâtir la future application."
+            description="Un soutien régulier, même modeste, permet de créer, publier et accompagner sans interruption, et de bâtir la future application."
           />
         </Reveal>
         <div className="mt-12 grid gap-6 md:grid-cols-3">
@@ -148,7 +148,7 @@ export default function DonsPage() {
           ))}
         </div>
 
-        {/* Semence libre — bandeau horizontal englobant + don personnalisable */}
+        {/* Semence libre, bandeau horizontal englobant + don personnalisable */}
         {free? (
           <Reveal from="up" delay={0.15}>
             <div
@@ -261,7 +261,7 @@ export default function DonsPage() {
         </div>
       </section>
 
-      {/* Captation email — page dons */}
+      {/* Captation email, page dons */}
       <section className="container-x pb-8">
         <Reveal>
           <div className="glass flex flex-col items-center gap-5 p-7 text-center sm:flex-row sm:justify-between sm:text-left">

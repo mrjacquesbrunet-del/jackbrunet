@@ -65,7 +65,7 @@ export function SoakingBar() {
           ): (
             <>
               <p className="mb-2 text-xs text-night-900/65">
-                Reçois la musique en cadeau — laisse ton email.
+                Reçois la musique en cadeau, laisse ton email.
               </p>
               <NewsletterForm
                 source="cadeau-soaking"

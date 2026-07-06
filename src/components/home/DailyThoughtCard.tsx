@@ -6,7 +6,7 @@ import { ShareButtons } from "@/components/ui/ShareButtons";
 import { useTodayIndex } from "@/lib/today";
 import type { DailyThought } from "@/lib/types";
 
-/** Pensée du jour — l'élément affiché bascule à minuit (date locale). */
+/** Pensée du jour, l'élément affiché bascule à minuit (date locale). */
 export function DailyThoughtCard({
   thoughts,
   initialIndex,
@@ -32,7 +32,7 @@ export function DailyThoughtCard({
           {thought.body}
         </p>
         <p className="mt-5 text-sm font-semibold text-night-900/50">
-          — {thought.author}
+         , {thought.author}
         </p>
 
         <Link
@@ -44,7 +44,7 @@ export function DailyThoughtCard({
 
         <div className="mt-5">
           <ShareButtons
-            text={`${thought.title}\n\n${thought.body}\n\n— ${thought.author}`}
+            text={`${thought.title}\n\n${thought.body}\n\n${thought.author}`}
           />
         </div>
 

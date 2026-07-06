@@ -11,7 +11,7 @@ export function youtubeWatchUrl(id: string): string {
 type EmbedOpts = { autoplay?: boolean; mute?: boolean; loop?: boolean };
 
 /**
- * Source d'iframe pour lire une vidéo YouTube — lecture INLINE, dans l'app.
+ * Source d'iframe pour lire une vidéo YouTube, lecture INLINE, dans l'app.
  *
  * Les embeds YouTube refusent l'origine `capacitor://localhost` de la WebView
  * (→ « Erreur 153 »). En app native, on passe donc par une page lecteur

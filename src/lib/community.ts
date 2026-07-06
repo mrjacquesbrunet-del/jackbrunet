@@ -189,7 +189,7 @@ export async function setPrayerPinned(id: string, pinned: boolean) {
   await getSupabase()?.rpc("set_prayer_pinned", { pid: id, val: pinned });
 }
 
-/** Prières exaucées publiques (« témoignages ») — les plus récentes. */
+/** Prières exaucées publiques (« témoignages »), les plus récentes. */
 export async function listAnsweredPrayers(): Promise<Prayer[]> {
   const sb = getSupabase();
   if (!sb) return [];

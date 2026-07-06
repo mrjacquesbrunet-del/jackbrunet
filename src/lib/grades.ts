@@ -1,5 +1,5 @@
 /**
- * Grades de prière — attribués selon l'activité du membre dans la communauté.
+ * Grades de prière, attribués selon l'activité du membre dans la communauté.
  * Plus on publie de sujets et plus on encourage / prie pour les autres,
  * plus on progresse. 100 % calculé (aucune donnée stockée en plus).
  */
@@ -19,7 +19,7 @@ export function activityPoints(a: Activity): number {
   return a.prayers * 5 + a.prays * 1 + a.comments * 2;
 }
 
-/** Du plus haut au plus bas — l'ordre compte pour la recherche. */
+/** Du plus haut au plus bas, l'ordre compte pour la recherche. */
 export const GRADES: Grade[] = [
   { min: 250, name: "Sentinelle de prière", blurb: "Tu veilles sans relâche pour les autres." },
   { min: 80, name: "Guerrier de prière", blurb: "Tu combats fidèlement à genoux." },

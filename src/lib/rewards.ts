@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Récompenses de fidélité — 100 % côté client (localStorage), compatible export
+ * Récompenses de fidélité, 100 % côté client (localStorage), compatible export
  * statique. Les paliers se débloquent grâce à la série de jours consécutifs
  * (record `best` de l'engagement, pour que la récompense reste acquise même si
  * la série se casse plus tard). Un palier « Ambassadeur » se débloque au partage.
@@ -50,7 +50,7 @@ export const FIDELITY_REWARDS: Reward[] = [
   },
 ];
 
-/** Récompense « Ambassadeur » — débloquée en partageant l'application. */
+/** Récompense « Ambassadeur », débloquée en partageant l'application. */
 export const AMBASSADOR_REWARD: Reward = {
   id: "ambassadeur",
   days: 0,

@@ -184,7 +184,7 @@ export function MemberView() {
             <p key={i} className="mt-1.5 border-l-2 border-dawn-400 pl-2.5 text-sm italic text-cream/75">
               «&nbsp;{v.text}&nbsp;»{" "}
               {v.reference? (
-                <span className="font-semibold not-italic text-dawn-200">— {v.reference}</span>
+                <span className="font-semibold not-italic text-dawn-200">{v.reference}</span>
               ): null}
             </p>
           ))}

@@ -5,7 +5,7 @@ import { siteConfig } from "@/config/site";
 export const metadata: Metadata = {
   title: "Politique de confidentialité",
   description:
-    "Politique de confidentialité du site jackbrunet.com — données collectées, finalités, droits RGPD et cookies.",
+    "Politique de confidentialité du site jackbrunet.com, données collectées, finalités, droits RGPD et cookies.",
 };
 
 export default function ConfidentialitePage() {
@@ -79,10 +79,10 @@ export default function ConfidentialitePage() {
             </p>
             <ul className="mt-3 list-disc pl-5 space-y-1.5">
               <li>
-                Brevo (Sendinblue SAS, France) — gestion des emails et des contacts
+                Brevo (Sendinblue SAS, France), gestion des emails et des contacts
               </li>
-              <li>Stripe — traitement sécurisé des paiements (dons et achats)</li>
-              <li>GitHub Pages — hébergement du site</li>
+              <li>Stripe, traitement sécurisé des paiements (dons et achats)</li>
+              <li>GitHub Pages, hébergement du site</li>
             </ul>
             <p className="mt-3">
               Ces prestataires présentent des garanties conformes au RGPD.
