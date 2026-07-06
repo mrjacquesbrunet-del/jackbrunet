@@ -1,17 +1,27 @@
 # Motion design JACKBRUNET
 
-Vidéo promo « motion design » de la plateforme (25 s, 16:9, 1080p, 30 fps),
-fidèle à la charte graphique du site : Olive `#3A3F28`, Lime `#CAF000`,
-Crème `#F3F3ED`, Encre `#1F2216`, Playfair Display + Archivo.
+Vidéos promo « motion design » de la plateforme, fidèles à la charte graphique
+du site : Olive `#3A3F28`, Lime `#CAF000`, Crème `#F3F3ED`, Encre `#1F2216`,
+Playfair Display + Archivo. Deux déclinaisons :
+
+1. **16:9 (25 s, 1080p)** — version élégante et posée, sans musique.
+2. **9:16 vertical (24 s, 1080×1920) — version « punchy »** : cuts calés sur
+   une grille de 126 BPM, mots qui claquent, flashs, wipes diagonaux, secousses
+   de caméra, main stylisée qui tape sur l'app et lance le contenu, cartes
+   vidéo volantes, musique électro générée en synthèse (126 BPM elle aussi,
+   impacts synchronisés avec les changements de scène).
 
 ## Contenu du dossier
 
 | Fichier | Rôle |
 | --- | --- |
-| `jackbrunet-motion.html` | La source de l'animation (ouvrable dans un navigateur ; timeline pilotable via `window.SEEK(ms)`) |
-| `render.mjs` | Script de rendu : capture frame par frame (Playwright + Chromium) puis encodage H.264 (ffmpeg) |
+| `jackbrunet-motion.html` | Source de l'animation 16:9 (timeline pilotable via `window.SEEK(ms)`) |
+| `jackbrunet-motion-vertical.html` | Source de l'animation verticale punchy (grille 126 BPM) |
+| `music.mjs` | Synthèse déterministe de la musique (WAV 24 s, 126 BPM) : `node music.mjs musique.wav` |
+| `render.mjs` | Script de rendu : capture frame par frame (Playwright + Chromium) puis encodage H.264 (+ audio AAC en option) |
 | `fonts/` | Polices de la charte (Playfair Display, Archivo — Fontsource, licence OFL) |
-| `jackbrunet-motion-1080p.mp4` | La vidéo finale |
+| `jackbrunet-motion-1080p.mp4` | Vidéo finale 16:9 |
+| `jackbrunet-vertical-punchy.mp4` | Vidéo finale verticale avec musique |
 
 ## Déroulé (storyboard)
 

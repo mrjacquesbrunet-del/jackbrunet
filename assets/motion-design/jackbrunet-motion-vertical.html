@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>JACKBRUNET — Motion design vertical (punchy)</title>
+<style>
+  @font-face { font-family: "Playfair Display"; src: url("fonts/playfair-display-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-style: normal; }
+  @font-face { font-family: "Playfair Display"; src: url("fonts/playfair-display-latin-600-italic.woff2") format("woff2"); font-weight: 600; font-style: italic; }
+  @font-face { font-family: "Playfair Display"; src: url("fonts/playfair-display-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-style: normal; }
+  @font-face { font-family: "Archivo"; src: url("fonts/archivo-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; }
+  @font-face { font-family: "Archivo"; src: url("fonts/archivo-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-style: normal; }
+  @font-face { font-family: "Archivo"; src: url("fonts/archivo-latin-800-normal.woff2") format("woff2"); font-weight: 800; font-style: normal; }
+
+  :root { --olive:#3A3F28; --lime:#CAF000; --cream:#F3F3ED; --ink:#1F2216; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { background:#000; }
+  #stage { position:relative; width:1080px; height:1920px; overflow:hidden; background:var(--ink);
+           font-family:"Archivo",sans-serif; -webkit-font-smoothing:antialiased; }
+  #cam { position:absolute; inset:0; }              /* couche caméra (shake) */
+  .scene { position:absolute; inset:0; opacity:0; }
+  .center { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+
+  /* ————— S1 : cold open, mots qui claquent ————— */
+  .slamword { position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+              font-weight:800; font-size:190px; letter-spacing:.02em; opacity:0; }
+  .slamword.serif { font-family:"Playfair Display",serif; font-style:italic; font-weight:600; }
+
+  /* ————— S2 : logo punch ————— */
+  #s2 { background:var(--cream); }
+  #s2 .bar { width:20px; height:110px; background:var(--lime); margin-bottom:54px; }
+  #s2 .logo { font-weight:800; font-size:118px; letter-spacing:.06em; text-indent:.06em; color:var(--ink); white-space:nowrap; }
+  #s2 .sub { margin-top:44px; font-weight:600; font-size:34px; letter-spacing:.5em; text-indent:.5em; color:var(--olive); }
+
+  /* ————— S3 : main + téléphone ————— */
+  #s3 { background:var(--olive); }
+  #s3 .halo { position:absolute; left:50%; top:49%; width:1500px; height:1500px; transform:translate(-50%,-50%);
+              border-radius:50%; background:radial-gradient(circle, rgba(202,240,0,.16) 0%, rgba(202,240,0,0) 60%); }
+  #phoneWrap { position:absolute; left:50%; top:47%; width:640px; height:1310px; transform:translate(-50%,-50%); }
+  #phone { position:absolute; inset:0; border-radius:88px; background:var(--ink);
+           border:14px solid rgba(243,243,237,.95); overflow:hidden; box-shadow:0 80px 160px rgba(0,0,0,.55); }
+  #screen { position:absolute; inset:14px; border-radius:64px; overflow:hidden; background:var(--cream); }
+  #homegrid { position:absolute; inset:0; padding:70px 56px; display:grid; grid-template-columns:repeat(4,1fr);
+              grid-auto-rows:132px; gap:38px 34px; justify-items:center; }
+  .appicon { width:104px; height:104px; border-radius:30px; background:#D9D9CF; }
+  .appicon.jb { background:var(--lime); display:flex; align-items:center; justify-content:center;
+                font-weight:800; font-size:40px; color:var(--ink); letter-spacing:.02em; box-shadow:0 10px 30px rgba(31,34,22,.25); }
+  #tapring { position:absolute; width:104px; height:104px; border-radius:50%; border:8px solid var(--lime); opacity:0; }
+  #splash { position:absolute; inset:0; background:var(--lime); display:flex; flex-direction:column;
+            align-items:center; justify-content:center; opacity:0; }
+  #splash .t { font-weight:800; font-size:64px; letter-spacing:.06em; color:var(--ink); }
+  #splash .s { margin-top:22px; font-family:"Playfair Display",serif; font-style:italic; font-weight:600; font-size:30px; color:var(--ink); }
+  /* pastille de tap (descend sur l'icône) + textes autour du téléphone */
+  #tapdot { position:absolute; left:216px; top:279px; width:54px; height:54px; border-radius:50%;
+            background:rgba(31,34,22,.85); border:6px solid var(--cream); opacity:0;
+            box-shadow:0 18px 40px rgba(0,0,0,.35); }
+  #s3 .appname { position:absolute; left:0; right:0; top:96px; display:flex; justify-content:center;
+                 font-weight:800; font-size:66px; color:var(--cream); letter-spacing:.05em; opacity:0; }
+  #s3 .appsub { position:absolute; left:0; right:0; top:196px; display:flex; justify-content:center;
+                font-weight:600; font-size:30px; letter-spacing:.4em; text-indent:.4em; color:var(--lime); opacity:0; }
+  #s3 .chip { position:absolute; display:inline-flex; align-items:center; gap:14px; background:var(--cream);
+              color:var(--ink); font-weight:800; font-size:34px; padding:22px 40px; border-radius:999px;
+              box-shadow:0 26px 60px rgba(0,0,0,.35); opacity:0; }
+  #s3 .chip .dot { width:14px; height:14px; border-radius:50%; background:var(--olive); }
+  #s3 .chip.lime { background:var(--lime); }
+  #s3 #chip1 { left:26px; top:700px; transform:rotate(-6deg); }
+  #s3 #chip2 { right:20px; top:1060px; transform:rotate(5deg); }
+  #s3 #chip3 { left:54px; bottom:230px; transform:rotate(-4deg); }
+
+  /* ————— S4 : pensée du jour ————— */
+  #s4 { background:var(--cream); }
+  .pill { display:inline-flex; align-items:center; gap:16px; background:var(--olive); color:var(--cream);
+          font-weight:600; font-size:30px; letter-spacing:.32em; text-indent:.1em; padding:24px 52px; border-radius:999px; }
+  .pill .dot { width:15px; height:15px; background:var(--lime); border-radius:50%; }
+  #s4 .big { margin-top:70px; padding:0 90px; font-family:"Playfair Display",serif; font-style:italic; font-weight:600;
+             font-size:128px; line-height:1.08; color:var(--ink); }
+  #s4 .big .w { display:inline-block; }
+  #s4 .card { margin-top:80px; width:780px; background:var(--olive); border-radius:36px; padding:64px 60px;
+              box-shadow:0 50px 110px rgba(58,63,40,.4); text-align:left; }
+  #s4 .card .cap { font-weight:600; font-size:26px; letter-spacing:.34em; color:var(--lime); }
+  #s4 .card h3 { font-family:"Playfair Display",serif; font-weight:700; font-size:58px; color:var(--cream); margin-top:28px; line-height:1.15; }
+  #s4 .card .cta { display:inline-block; margin-top:44px; background:var(--lime); color:var(--ink); font-weight:800;
+                   font-size:30px; padding:24px 44px; border-radius:999px; }
+
+  /* ————— S5 : verset ————— */
+  #s5 { background:var(--olive); }
+  #s5 .qm { font-family:"Playfair Display",serif; font-weight:700; font-size:240px; line-height:.5; height:130px; color:var(--lime); }
+  #s5 .verse { margin-top:40px; padding:0 80px; font-family:"Playfair Display",serif; font-weight:600;
+               font-size:108px; line-height:1.16; color:var(--cream); }
+  #s5 .verse .w { display:inline-block; }
+  #s5 .ref { display:inline-flex; align-items:center; gap:26px; margin-top:70px; font-weight:600; font-size:34px;
+             letter-spacing:.36em; text-indent:.1em; color:var(--lime); }
+  #s5 .ref .bar { width:70px; height:8px; background:var(--lime); }
+
+  /* ————— S6 : contenus ————— */
+  #s6 { background:var(--ink); }
+  #s6 .fly { position:absolute; width:560px; height:360px; border-radius:36px; padding:40px; opacity:0; }
+  #s6 .fly .play { width:96px; height:96px; border-radius:50%; position:relative; }
+  #s6 .fly .play::after { content:""; position:absolute; left:38px; top:28px; border-left:30px solid var(--tri,#fff);
+                          border-top:20px solid transparent; border-bottom:20px solid transparent; }
+  #s6 .fly .l1, #s6 .fly .l2 { height:22px; border-radius:11px; margin-top:28px; }
+  #s6 .fly .l1 { width:75%; margin-top:44px; }
+  #s6 .fly .l2 { width:50%; opacity:.4; }
+  #s6 .label { position:absolute; left:0; right:0; display:flex; justify-content:center; opacity:0; }
+  #s6 .label span { background:var(--lime); color:var(--ink); font-weight:800; font-size:64px; padding:30px 54px;
+                    border-radius:24px; box-shadow:0 30px 70px rgba(0,0,0,.45); white-space:nowrap; }
+  #s6 .label.alt span { background:var(--cream); }
+
+  /* ————— S7 : communauté ————— */
+  #s7 { background:var(--cream); }
+  #s7 h2 { font-family:"Playfair Display",serif; font-style:italic; font-weight:600; font-size:104px; color:var(--ink); padding:0 90px; }
+  #s7 .cards { display:flex; flex-direction:column; gap:44px; margin-top:80px; }
+  #s7 .card { width:800px; border-radius:36px; padding:56px 60px; text-align:left; }
+  #s7 .card.a { background:var(--olive); color:var(--cream); box-shadow:0 40px 90px rgba(58,63,40,.35); }
+  #s7 .card.b { background:#fff; color:var(--ink); border:4px solid var(--olive); }
+  #s7 .card h3 { font-family:"Playfair Display",serif; font-weight:700; font-size:62px; }
+  #s7 .card p { margin-top:20px; font-size:32px; line-height:1.45; opacity:.85; }
+
+  /* ————— S8 : outro ————— */
+  #s8 { background:var(--lime); }
+  #s8 .logo { font-weight:800; font-size:126px; letter-spacing:.05em; text-indent:.05em; color:var(--ink); white-space:nowrap; }
+  #s8 .tag { font-family:"Playfair Display",serif; font-style:italic; font-weight:600; font-size:64px; color:var(--ink); margin-top:56px; padding:0 80px; }
+  #s8 .url { display:inline-flex; margin-top:80px; background:var(--ink); color:var(--lime); font-weight:800;
+             font-size:42px; letter-spacing:.05em; padding:32px 68px; border-radius:999px; }
+  #s8 .yt { margin-top:36px; font-weight:600; font-size:30px; letter-spacing:.3em; text-indent:.3em; color:var(--ink); opacity:.72; }
+
+  /* ————— FX ————— */
+  .flash { position:absolute; inset:0; opacity:0; z-index:80; pointer-events:none; }
+  .diag { position:absolute; top:-15%; height:130%; width:46%; z-index:70; transform:translateX(-320%) skewX(-16deg); }
+  .ring-fx { position:absolute; border-radius:50%; border:14px solid var(--lime); opacity:0; z-index:60; pointer-events:none; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="cam">
+
+    <!-- S1 cold open -->
+    <section class="scene" id="s1">
+      <div class="slamword" id="w1" style="background:var(--cream); color:var(--ink); font-size:300px;"><span>TA</span></div>
+      <div class="slamword" id="w2" style="background:var(--lime); color:var(--ink); font-size:158px;"><span>JOURNÉE</span></div>
+      <div class="slamword serif" id="w3" style="background:var(--olive); color:var(--cream); font-size:165px;"><span>commence</span></div>
+      <div class="slamword" id="w4" style="background:var(--ink); color:var(--lime); font-size:300px;"><span>ICI.</span></div>
+    </section>
+
+    <!-- S2 logo punch -->
+    <section class="scene center" id="s2">
+      <div class="bar" id="s2bar"></div>
+      <div class="logo" id="s2logo">JACKBRUNET</div>
+      <div class="sub" id="s2sub">MINISTÈRE CHRÉTIEN</div>
+    </section>
+
+    <!-- S3 main + téléphone -->
+    <section class="scene" id="s3">
+      <div class="halo"></div>
+      <div class="appname" id="s3name">L&rsquo;APP JACKBRUNET</div>
+      <div class="appsub" id="s3sub">GRATUITE&nbsp;&middot;&nbsp;CHAQUE JOUR</div>
+      <div id="phoneWrap">
+        <div id="phone">
+          <div id="screen">
+            <div id="homegrid"></div>
+            <div id="tapring"></div>
+            <div id="tapdot"></div>
+            <div id="splash">
+              <div class="t">JACKBRUNET</div>
+              <div class="s">Grandir en Jésus, chaque jour.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="chip lime" id="chip1"><span class="dot"></span>Pensée du jour</div>
+      <div class="chip" id="chip2"><span class="dot"></span>Verset du jour</div>
+      <div class="chip lime" id="chip3"><span class="dot"></span>Mur de prière</div>
+    </section>
+
+    <!-- S4 pensée du jour -->
+    <section class="scene center" id="s4">
+      <div class="pill" id="s4pill"><span class="dot"></span><span>PENSÉE DU JOUR</span></div>
+      <div class="big" id="s4big">Une parole qui éclaire ta journée.</div>
+      <div class="card" id="s4card">
+        <div class="cap">AUJOURD&rsquo;HUI</div>
+        <h3>Commence ta journée avec Jésus.</h3>
+        <span class="cta">Lire la pensée&nbsp;→</span>
+      </div>
+    </section>
+
+    <!-- S5 verset -->
+    <section class="scene center" id="s5">
+      <div class="qm" id="s5qm">«</div>
+      <div class="verse" id="s5verse">Ta parole est une lampe à mes pieds, une lumière sur mon sentier.</div>
+      <div class="ref" id="s5ref"><span class="bar"></span><span>PSAUME 119 : 105</span></div>
+    </section>
+
+    <!-- S6 contenus -->
+    <section class="scene" id="s6">
+      <div class="fly" id="fly1" style="left:80px;  background:var(--lime);"><div class="play" style="background:var(--ink); --tri:var(--lime);"></div><div class="l1" style="background:var(--ink);"></div><div class="l2" style="background:var(--ink);"></div></div>
+      <div class="fly" id="fly2" style="right:70px; background:var(--cream);"><div class="play" style="background:var(--lime); --tri:var(--ink);"></div><div class="l1" style="background:var(--olive);"></div><div class="l2" style="background:var(--olive);"></div></div>
+      <div class="fly" id="fly3" style="left:180px; background:var(--olive);"><div class="play" style="background:var(--lime); --tri:var(--ink);"></div><div class="l1" style="background:var(--cream);"></div><div class="l2" style="background:var(--cream);"></div></div>
+      <div class="fly" id="fly4" style="right:150px;background:var(--lime);"><div class="play" style="background:var(--ink); --tri:var(--lime);"></div><div class="l1" style="background:var(--ink);"></div><div class="l2" style="background:var(--ink);"></div></div>
+      <div class="fly" id="fly5" style="left:40px;  background:var(--cream);"><div class="play" style="background:var(--olive); --tri:var(--cream);"></div><div class="l1" style="background:var(--olive);"></div><div class="l2" style="background:var(--olive);"></div></div>
+      <div class="fly" id="fly6" style="right:260px;background:var(--olive);"><div class="play" style="background:var(--cream); --tri:var(--olive);"></div><div class="l1" style="background:var(--cream);"></div><div class="l2" style="background:var(--cream);"></div></div>
+      <div class="label" id="lab1" style="top:430px;"><span>Bible &amp; plans de lecture</span></div>
+      <div class="label alt" id="lab2" style="top:860px;"><span>Shorts &amp; prédications</span></div>
+      <div class="label" id="lab3" style="top:1290px;"><span>Temps avec Jésus</span></div>
+    </section>
+
+    <!-- S7 communauté -->
+    <section class="scene center" id="s7">
+      <h2 id="s7h">Porter la prière, ensemble.</h2>
+      <div class="cards">
+        <div class="card a" id="s7c1"><h3>Mur de prière</h3><p>Dépose un sujet, la communauté prie avec toi.</p></div>
+        <div class="card b" id="s7c2"><h3>Témoignages</h3><p>Ce que Dieu fait dans des vies, aujourd&rsquo;hui.</p></div>
+      </div>
+    </section>
+
+    <!-- S8 outro -->
+    <section class="scene center" id="s8">
+      <div class="logo" id="s8logo">JACKBRUNET</div>
+      <div class="tag" id="s8tag">Grandir en Jésus, chaque jour.</div>
+      <div class="url" id="s8url">jackbrunet.com</div>
+      <div class="yt" id="s8yt">YOUTUBE&nbsp;·&nbsp;@JACK_BRNT</div>
+    </section>
+
+  </div>
+
+  <!-- FX plein écran (hors caméra pour rester net) -->
+  <div class="flash" id="flashW" style="background:#fff;"></div>
+  <div class="flash" id="flashL" style="background:var(--lime);"></div>
+  <div class="diag" id="diag1" style="background:var(--lime);"></div>
+  <div class="diag" id="diag2" style="background:var(--cream);"></div>
+</div>
+
+<script>
+/* Timeline calée sur une grille de 126 BPM : 1 temps = 476,19 ms.
+   Tous les cuts, slams et flashs tombent sur le beat (comme la musique
+   générée par music.mjs, elle aussi à 126 BPM). */
+const BPM = 126, BEAT = 60000 / BPM;
+const b = (n) => Math.round(n * BEAT);
+const TOTAL = 24000;
+window.TOTAL_MS = TOTAL;
+
+const EXPO = "cubic-bezier(0.16, 1, 0.3, 1)";
+const BACK = "cubic-bezier(0.34, 1.56, 0.64, 1)";   // overshoot
+const $ = (id) => document.getElementById(id);
+const anims = [];
+function tw(el, kf, { at = 0, dur = 500, ease = EXPO, fill = "both" } = {}) {
+  const a = el.animate(kf, { delay: at, duration: dur, easing: ease, fill });
+  a.pause(); anims.push(a);
+}
+const show = (el, t0, t1) =>
+  tw(el, [{ opacity: 1 }, { opacity: 1 }], { at: t0, dur: t1 - t0, ease: "linear", fill: "none" });
+
+/* Slam : l'élément tombe de très grand à sa taille, avec rebond */
+const slam = (el, at, { from = 2.4, rot = 0, dur = 420 } = {}) =>
+  tw(el, [
+    { opacity: 0, transform: `scale(${from}) rotate(${rot}deg)` },
+    { opacity: 1, transform: "scale(0.96) rotate(0deg)", offset: 0.55 },
+    { opacity: 1, transform: "scale(1) rotate(0deg)" },
+  ], { at, dur, ease: "ease-out" });
+/* Pop : petit élément qui surgit avec overshoot */
+const pop = (el, at, dur = 380) =>
+  tw(el, [{ opacity: 0, transform: "scale(0)" }, { opacity: 1, transform: "scale(1)" }], { at, dur, ease: BACK });
+const rise = (el, at, dur = 500, dist = 70) =>
+  tw(el, [{ opacity: 0, transform: `translateY(${dist}px)` }, { opacity: 1, transform: "translateY(0)" }], { at, dur });
+/* Flash plein écran (2-3 frames) */
+const flash = (el, at, peak = 0.85) =>
+  tw(el, [{ opacity: peak }, { opacity: 0 }], { at, dur: 230, ease: "linear", fill: "none" });
+/* Secousse caméra */
+const shake = (at, amp = 26) =>
+  tw($("cam"), [
+    { transform: "translate(0,0)" },
+    { transform: `translate(${amp}px,${-amp * 0.6}px)`, offset: 0.18 },
+    { transform: `translate(${-amp * 0.8}px,${amp * 0.5}px)`, offset: 0.42 },
+    { transform: `translate(${amp * 0.4}px,${amp * 0.25}px)`, offset: 0.68 },
+    { transform: "translate(0,0)" },
+  ], { at, dur: 320, ease: "linear", fill: "none" });
+/* Bande diagonale qui balaie l'écran */
+const sweep = (el, at, dur = 460) =>
+  tw(el, [{ transform: "translateX(-320%) skewX(-16deg)" }, { transform: "translateX(320%) skewX(-16deg)" }],
+     { at, dur, ease: "cubic-bezier(0.7,0,0.3,1)", fill: "none" });
+/* Mots qui claquent un à un */
+function popWords(el, at, step, dur = 300) {
+  const parts = el.textContent.split(" ");
+  el.textContent = "";
+  parts.forEach((word, i) => {
+    const s = document.createElement("span");
+    s.className = "w"; s.style.display = "inline-block"; s.textContent = word;
+    el.appendChild(s);
+    if (i < parts.length - 1) el.appendChild(document.createTextNode(" "));
+    tw(s, [
+      { opacity: 0, transform: "scale(1.9)" },
+      { opacity: 1, transform: "scale(0.97)", offset: 0.6 },
+      { opacity: 1, transform: "scale(1)" },
+    ], { at: at + i * step, dur, ease: "ease-out" });
+  });
+}
+function letters(el, at, { stagger = 30, dur = 340 } = {}) {
+  const text = el.textContent; el.textContent = "";
+  [...text].forEach((ch, i) => {
+    const s = document.createElement("span");
+    s.style.display = "inline-block"; s.textContent = ch;
+    el.appendChild(s);
+    tw(s, [
+      { opacity: 0, transform: "translateY(120px) scale(1.6)" },
+      { opacity: 1, transform: "translateY(0) scale(1)" },
+    ], { at: at + i * stagger, dur, ease: BACK });
+  });
+}
+
+/* Grille d'icônes du téléphone (l'icône JACKBRUNET en 6e position) */
+const grid = $("homegrid");
+for (let i = 0; i < 16; i++) {
+  const d = document.createElement("div");
+  d.className = "appicon" + (i === 5 ? " jb" : "");
+  if (i === 5) { d.textContent = "JB"; d.id = "jbicon"; }
+  grid.appendChild(d);
+}
+
+/* ————— S1 · b0–b4 : cold open ————— */
+show($("s1"), 0, b(4));
+[["w1", 0], ["w2", 1], ["w3", 2], ["w4", 3]].forEach(([id, beat], i) => {
+  const el = $(id);
+  show(el, b(beat), beat === 3 ? b(4) : b(beat + 1));
+  slam(el.firstElementChild, b(beat) + 10, { from: 2.6, rot: i % 2 ? -3 : 3, dur: 330 });
+  tw(el.firstElementChild, [{ transform: "scale(1)" }, { transform: "scale(1.07)" }],
+     { at: b(beat) + 340, dur: b(1) - 340, ease: "linear" });
+});
+shake(b(1), 18); shake(b(2), 18); shake(b(3), 18);
+
+/* ————— S2 · b4–b8 : logo punch ————— */
+show($("s2"), b(4), b(8));
+flash($("flashL"), b(4)); shake(b(4), 30);
+tw($("s2bar"), [{ transform: "scaleY(0)" }, { transform: "scaleY(1)" }], { at: b(4) + 40, dur: 260 });
+letters($("s2logo"), b(4) + 120, { stagger: 32, dur: 360 });
+rise($("s2sub"), b(5.5), 380, 50);
+tw($("s2"), [{ transform: "scale(1)" }, { transform: "scale(1.06)" }], { at: b(4), dur: b(4), ease: "linear" });
+
+/* ————— S3 · b8–b16 : main + téléphone ————— */
+show($("s3"), b(8), b(16));
+flash($("flashW"), b(8), 0.7); shake(b(8), 30);
+/* le téléphone monte seul */
+tw($("phoneWrap"), [
+  { transform: "translate(-50%,-50%) translateY(1500px) rotate(5deg)" },
+  { transform: "translate(-50%,-50%) translateY(0) rotate(0deg)" },
+], { at: b(8), dur: b(1.6), ease: EXPO });
+/* slam conservant la rotation de repos du chip */
+const slamR = (el, at, rot) =>
+  tw(el, [
+    { opacity: 0, transform: `scale(1.8) rotate(${rot}deg)` },
+    { opacity: 1, transform: `scale(0.96) rotate(${rot}deg)`, offset: 0.55 },
+    { opacity: 1, transform: `scale(1) rotate(${rot}deg)` },
+  ], { at, dur: 320, ease: "ease-out" });
+/* titre + sous-titre + chips design qui claquent autour */
+rise($("s3name"), b(9), 380, 60);
+rise($("s3sub"), b(9.4), 360, 40);
+slamR($("chip1"), b(9.5), -6);
+slamR($("chip2"), b(10.5), 5);
+slamR($("chip3"), b(12.5), -4);
+/* la pastille de tap descend sur l'icône JB, tape, rebondit */
+tw($("tapdot"), [
+  { opacity: 0, transform: "translateY(-260px) scale(1.6)" },
+  { opacity: 1, transform: "translateY(0) scale(1)", offset: 0.65 },
+  { opacity: 1, transform: "translateY(0) scale(0.72)", offset: 0.85 },
+  { opacity: 1, transform: "translateY(0) scale(1)" },
+], { at: b(10), dur: b(1.2), ease: "ease-out" });
+tw($("tapdot"), [
+  { opacity: 1, transform: "scale(1)" },
+  { opacity: 0, transform: "scale(1.9)" },
+], { at: b(11.4), dur: b(0.6), ease: "ease-out" });
+tw($("jbicon"), [
+  { transform: "scale(1)" }, { transform: "scale(0.78)", offset: 0.4 }, { transform: "scale(1.15)", offset: 0.75 }, { transform: "scale(1)" },
+], { at: b(11), dur: 360, ease: "ease-out", fill: "none" });
+/* onde de tap + splash de l'app */
+(function () {
+  const r = $("tapring");
+  const jb = { left: 56 + 1 * (104 + 34) + 1 * 0, top: 70 + 132 + 38 };  /* approx. position icône (2e ligne, 2e col) */
+  r.style.left = "191px"; r.style.top = "254px";
+  tw(r, [
+    { opacity: 0.9, transform: "scale(0.6)" },
+    { opacity: 0, transform: "scale(2.6)" },
+  ], { at: b(11) + 60, dur: 420, ease: "ease-out", fill: "none" });
+})();
+tw($("splash"), [{ opacity: 0 }, { opacity: 1 }], { at: b(12), dur: 140, ease: "linear" });
+slam($("splash").querySelector(".t"), b(12) + 80, { from: 2, dur: 320 });
+rise($("splash").querySelector(".s"), b(12.6), 320, 40);
+shake(b(12), 20);
+/* textes et chips s'effacent au zoom */
+["s3name","s3sub","chip1","chip2","chip3"].forEach((id) =>
+  tw($(id), [{ opacity: 1 }, { opacity: 0 }], { at: b(14), dur: b(0.5), ease: "linear" }));
+/* zoom dans l'écran */
+tw($("s3"), [
+  { transform: "scale(1)", easing: "cubic-bezier(0.6,0,0.8,1)" },
+  { transform: "scale(3.4)" },
+], { at: b(14), dur: b(2), ease: "linear" });
+tw($("s3"), [{ opacity: 1 }, { opacity: 1, offset: 0.85 }, { opacity: 0 }], { at: b(14), dur: b(2), ease: "linear", fill: "none" });
+$("s3").style.transformOrigin = "50% 45%";
+
+/* ————— S4 · b16–b24 : pensée du jour ————— */
+show($("s4"), b(16), b(24));
+flash($("flashL"), b(16)); shake(b(16), 26); sweep($("diag1"), b(16) + 60);
+slam($("s4pill"), b(16) + 60, { from: 1.9, dur: 300 });
+popWords($("s4big"), b(16.5), Math.round(b(0.5)), 300);
+slam($("s4card"), b(21), { from: 1.5, dur: 380 });
+tw($("s4card"), [{ transform: "translateY(0)" }, { transform: "translateY(-24px)" }], { at: b(21) + 400, dur: b(3) - 400, ease: "linear" });
+
+/* ————— S5 · b24–b32 : verset ————— */
+show($("s5"), b(24), b(32));
+flash($("flashW"), b(24), 0.75); shake(b(24), 26); sweep($("diag2"), b(24) + 60);
+tw($("s5qm"), [
+  { opacity: 0, transform: "translateY(-160px) scale(0.5) rotate(-12deg)" },
+  { opacity: 1, transform: "translateY(0) scale(1) rotate(0deg)" },
+], { at: b(24) + 60, dur: 420, ease: BACK });
+popWords($("s5verse"), b(24.6), Math.round(b(0.38)), 280);
+rise($("s5ref"), b(29.5), 360, 46);
+tw($("s5"), [{ transform: "scale(1)" }, { transform: "scale(1.05)" }], { at: b(24), dur: b(8), ease: "linear" });
+
+/* ————— S6 · b32–b40 : contenus ————— */
+show($("s6"), b(32), b(40));
+flash($("flashL"), b(32)); shake(b(32), 30);
+/* cartes vidéo qui traversent l'écran en volant */
+[["fly1", 32, 14, -8], ["fly2", 33.2, -10, 7], ["fly3", 34.4, 12, -6], ["fly4", 35.6, -14, 9], ["fly5", 36.8, 10, -7], ["fly6", 38, -12, 8]].forEach(([id, beat, r1, r2]) => {
+  tw($(id), [
+    { opacity: 1, transform: `translateY(2100px) rotate(${r1}deg)` },
+    { opacity: 1, transform: `translateY(-2400px) rotate(${r2}deg)` },
+  ], { at: b(beat), dur: b(3.2), ease: "linear", fill: "none" });
+});
+/* labels qui claquent en alternance */
+[["lab1", 32.5], ["lab2", 35], ["lab3", 37.5]].forEach(([id, beat]) => {
+  const el = $(id);
+  show(el, b(beat), b(40));
+  slam(el.firstElementChild, b(beat), { from: 2.1, rot: beat % 2 ? -2.5 : 2.5, dur: 330 });
+});
+shake(b(35), 18); shake(b(37.5), 18);
+
+/* ————— S7 · b40–b44 : communauté ————— */
+show($("s7"), b(40), b(44));
+flash($("flashW"), b(40), 0.7); shake(b(40), 24);
+popWords($("s7h"), b(40) + 60, Math.round(b(0.35)), 280);
+slam($("s7c1"), b(41.5), { from: 1.6, rot: -2, dur: 340 });
+slam($("s7c2"), b(42.5), { from: 1.6, rot: 2, dur: 340 });
+
+/* ————— S8 · b44–fin : outro ————— */
+show($("s8"), b(44), TOTAL + 400);
+flash($("flashW"), b(44), 0.9); shake(b(44), 34);
+letters($("s8logo"), b(44) + 60, { stagger: 26, dur: 320 });
+rise($("s8tag"), b(45.2), 380, 50);
+pop($("s8url"), b(46), 360);
+rise($("s8yt"), b(46.6), 320, 30);
+tw($("s8"), [{ transform: "scale(1.02)" }, { transform: "scale(1)" }], { at: b(44), dur: TOTAL - b(44), ease: "linear" });
+
+/* ————— Contrôle externe ————— */
+window.SEEK = (ms) => { anims.forEach((a) => { a.currentTime = ms; }); };
+window.SEEK(0);
+window.READY = document.fonts.ready.then(() => true);
+</script>
+</body>
+</html>
