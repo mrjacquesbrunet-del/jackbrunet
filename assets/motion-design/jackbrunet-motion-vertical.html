@@ -122,18 +122,30 @@
   #s7 h2 { position:absolute; left:0; right:0; top:330px; padding:0 70px; text-align:center;
            font-family:"Playfair Display",serif; font-style:italic; font-weight:600; font-size:82px; line-height:1.14; color:var(--ink); }
   #s7 h2 .w { display:inline-block; }
-  #s7 .phoneS { position:absolute; left:64px; top:640px; width:460px; height:940px; border-radius:60px;
-                background:var(--ink); border:12px solid var(--ink); overflow:hidden;
-                box-shadow:0 60px 120px rgba(31,34,22,.35); opacity:0; }
-  #s7 .phoneS .scr { position:absolute; inset:0; border-radius:48px; overflow:hidden; }
-  #s7 .phoneS img { display:block; width:100%; height:100%; object-fit:cover; object-position:top;
-                    transform-origin:50% 0; }
+  .pcard { position:absolute; border-radius:36px; padding:44px 48px; opacity:0;
+           box-shadow:0 50px 110px rgba(31,34,22,.3); }
+  .pcard.a { left:56px; top:620px; width:640px; background:#fff; transform:rotate(-2deg); }
+  .pcard.b { left:96px; top:1250px; width:620px; background:var(--olive); color:var(--cream); transform:rotate(2deg); }
+  .pcard .phead { display:flex; align-items:center; gap:22px; }
+  .pcard .pava { width:76px; height:76px; border-radius:50%; background:var(--olive); color:var(--lime);
+                 display:flex; align-items:center; justify-content:center; font-weight:800; font-size:36px; flex:none; }
+  .pcard.b .pava { background:var(--lime); color:var(--ink); }
+  .pcard .pname { font-family:"Playfair Display",serif; font-weight:700; font-size:40px; }
+  .pcard .prole { font-weight:600; font-size:20px; letter-spacing:.3em; margin-top:6px; color:var(--olive); opacity:.75; }
+  .pcard.b .prole { color:var(--lime); opacity:1; }
+  .pcard p { margin-top:30px; font-size:35px; line-height:1.45; color:var(--ink); }
+  .pcard.b p { color:var(--cream); }
+  .pcard .pfoot { display:flex; align-items:center; gap:26px; margin-top:34px; }
+  .pcard .ppill { display:inline-flex; align-items:center; gap:12px; background:var(--lime); color:var(--ink);
+                  font-weight:800; font-size:28px; padding:16px 30px; border-radius:999px; }
+  .pcard .ppill .dot { width:12px; height:12px; border-radius:50%; background:var(--ink); }
+  .pcard .pcount { font-weight:600; font-size:26px; color:var(--olive); }
   #s7 .chip { font-size:33px; padding:24px 36px; }
-  #s7 #pc1 { left:490px; top:760px; transform:rotate(3deg); }
-  #s7 #pc2 { left:530px; top:960px; transform:rotate(-2deg); }
-  #s7 #pc3 { left:500px; top:1160px; transform:rotate(2deg); }
-  #s7 #pc4 { left:540px; top:1360px; transform:rotate(-3deg); }
-  #s7 .exau { position:absolute; left:100px; top:1560px; background:var(--lime); color:var(--ink);
+  #s7 #pc1 { right:26px; top:680px; transform:rotate(3deg); }
+  #s7 #pc2 { right:36px; top:1000px; transform:rotate(-2deg); }
+  #s7 #pc3 { right:70px; top:845px; transform:rotate(2deg); }
+  #s7 #pc4 { right:60px; top:1560px; transform:rotate(-3deg); }
+  #s7 .exau { position:absolute; left:480px; top:1180px; background:var(--lime); color:var(--ink);
               font-weight:800; font-size:52px; padding:30px 52px; border-radius:24px; transform:rotate(-5deg);
               box-shadow:0 30px 70px rgba(58,63,40,.4); opacity:0; }
 
@@ -143,19 +155,8 @@
                  box-shadow:0 40px 90px rgba(31,34,22,.35); margin-bottom:56px; }
   #s8 .logo { font-weight:800; font-size:118px; letter-spacing:.05em; text-indent:.05em; color:var(--ink); white-space:nowrap; }
   #s8 .tag { font-family:"Playfair Display",serif; font-style:italic; font-weight:600; font-size:56px; color:var(--ink); margin-top:44px; }
-  #s8 .dispo { margin-top:70px; font-weight:600; font-size:30px; letter-spacing:.42em; text-indent:.42em; color:var(--ink); opacity:.8; }
-  #s8 .stores { display:flex; gap:36px; margin-top:40px; }
-  #s8 .badge { display:flex; align-items:center; gap:22px; background:var(--ink); color:var(--cream);
-               border-radius:26px; padding:26px 40px; text-align:left; box-shadow:0 30px 70px rgba(31,34,22,.35); }
-  #s8 .badge .small { font-weight:400; font-size:22px; opacity:.8; }
-  #s8 .badge .big { font-weight:800; font-size:40px; margin-top:2px; }
-  .apple { position:relative; width:56px; height:64px; flex:none; }
-  .apple .body { position:absolute; left:2px; top:14px; width:52px; height:50px; border-radius:26px 26px 24px 24px; background:var(--cream); }
-  .apple .bite { position:absolute; right:-8px; top:24px; width:26px; height:26px; border-radius:50%; background:var(--ink); }
-  .apple .leaf { position:absolute; left:28px; top:-2px; width:18px; height:22px; background:var(--cream);
-                 border-radius:60% 40% 60% 40%; transform:rotate(28deg); }
-  .playtri { width:0; height:0; flex:none; border-left:46px solid var(--lime);
-             border-top:30px solid transparent; border-bottom:30px solid transparent; }
+  #s8 .avail { margin-top:74px; font-weight:800; font-size:52px; line-height:1.3; color:var(--ink);
+               padding:34px 58px; border:6px solid var(--ink); border-radius:28px; max-width:880px; }
   #s8 .url { display:inline-flex; margin-top:74px; background:var(--ink); color:var(--lime); font-weight:800;
              font-size:40px; letter-spacing:.05em; padding:30px 64px; border-radius:999px; }
   #s8 .yt { margin-top:32px; font-weight:600; font-size:28px; letter-spacing:.3em; text-indent:.3em; color:var(--ink); opacity:.72; }
@@ -247,10 +248,20 @@
     <section class="scene" id="s7">
       <div class="hands" id="s7hands"><img src="../../public/img/ec84c57c-Untitled_design.png" alt=""></div>
       <h2 id="s7h">Le réseau social de la prière.</h2>
-      <div class="phoneS" id="s7phone">
-        <div class="scr">
-          <img id="s7shot" src="../../public/img/7f3ec0a9-IMG_3825.jpeg" alt="">
+      <div class="pcard a" id="s7c1">
+        <div class="phead">
+          <span class="pava">M</span>
+          <div><div class="pname">Marie</div><div class="prole">SUJET DE PRIÈRE</div></div>
         </div>
+        <p>«&nbsp;Priez pour ma maman, elle est hospitalisée cette semaine.&nbsp;»</p>
+        <div class="pfoot"><span class="ppill"><span class="dot"></span>Je prie</span><span class="pcount">+38 prient pour elle</span></div>
+      </div>
+      <div class="pcard b" id="s7c2">
+        <div class="phead">
+          <span class="pava">M</span>
+          <div><div class="pname">Marie</div><div class="prole">TÉMOIGNAGE</div></div>
+        </div>
+        <p>«&nbsp;Maman est sortie de l&rsquo;hôpital. Merci pour vos prières&nbsp;!&nbsp;»</p>
       </div>
       <div class="chip lime" id="pc1"><span class="dot"></span>Dépose ton sujet de prière</div>
       <div class="chip" id="pc2"><span class="dot"></span>La communauté prie pour toi</div>
@@ -264,17 +275,7 @@
       <img class="logoimg" id="s8img" src="../../public/img/017b6cbb-Bannie_re_YouTube_de_Musique_De_grade__Violet_et_Orange.png" alt="">
       <div class="logo" id="s8logo">JACKBRUNET</div>
       <div class="tag" id="s8tag">Grandir en Jésus, chaque jour.</div>
-      <div class="dispo" id="s8dispo">DISPONIBLE SUR</div>
-      <div class="stores">
-        <div class="badge" id="s8b1">
-          <div class="apple"><div class="leaf"></div><div class="body"></div><div class="bite"></div></div>
-          <div><div class="small">Télécharger sur</div><div class="big">App Store</div></div>
-        </div>
-        <div class="badge" id="s8b2">
-          <div class="playtri"></div>
-          <div><div class="small">Disponible sur</div><div class="big">Google Play</div></div>
-        </div>
-      </div>
+      <div class="avail" id="s8avail">L&rsquo;application est maintenant disponible.</div>
       <div class="url" id="s8url">jackbrunet.com</div>
       <div class="yt" id="s8yt">YOUTUBE&nbsp;·&nbsp;@JACK_BRNT</div>
     </section>
@@ -475,15 +476,11 @@ show($("s7"), b(43), b(57));
 flash($("flashW"), b(43), 0.8); shake(b(43), 28); sweep($("diag1"), b(43) + 60);
 slam($("s7hands"), b(43.3), { from: 2, dur: 380 });
 popWords($("s7h"), b(43.9), Math.round(b(0.55)), 340);
-tw($("s7phone"), [
-  { opacity: 0, transform: "translateY(900px) rotate(-4deg)" },
-  { opacity: 1, transform: "translateY(0) rotate(0deg)" },
-], { at: b(46.4), dur: b(1.4), ease: EXPO });
-/* léger zoom continu sur la vraie capture d'écran */
-tw($("s7shot"), [{ transform: "scale(1)" }, { transform: "scale(1.1)" }], { at: b(47.8), dur: b(9.2), ease: "linear" });
+slamR($("s7c1"), b(46.4), -2);
+slamR($("s7c2"), b(52.8), 2);
 slamR($("pc1"), b(47.8), 3);
-slamR($("pc2"), b(49.4), -2);
-slamR($("pc3"), b(51), 2);
+slamR($("pc3"), b(49.4), 2);
+slamR($("pc2"), b(51), -2);
 slamR($("pc4"), b(52.6), -3);
 tw($("s7exau"), [
   { opacity: 0, transform: "scale(2.6) rotate(-5deg)" },
@@ -498,10 +495,8 @@ flash($("flashW"), b(57), 0.9); shake(b(57), 34);
 slam($("s8img"), b(57.2), { from: 2, dur: 380 });
 letters($("s8logo"), b(57.8), { stagger: 28, dur: 340 });
 rise($("s8tag"), b(59.2), 420, 50);
-rise($("s8dispo"), b(60.6), 380, 40);
-slamR($("s8b1"), b(61.4), 0);
-slamR($("s8b2"), b(62.2), 0);
-pop($("s8url"), b(63.6), 380);
+slam($("s8avail"), b(60.8), { from: 1.6, dur: 420 });
+pop($("s8url"), b(62.8), 380);
 rise($("s8yt"), b(64.6), 340, 30);
 tw($("s8"), [{ transform: "scale(1.02)" }, { transform: "scale(1)" }], { at: b(57), dur: TOTAL - b(57), ease: "linear" });
 
