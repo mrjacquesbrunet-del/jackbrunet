@@ -5,11 +5,14 @@ du site : Olive `#3A3F28`, Lime `#CAF000`, Crème `#F3F3ED`, Encre `#1F2216`,
 Playfair Display + Archivo. Deux déclinaisons :
 
 1. **16:9 (25 s, 1080p)** — version élégante et posée, sans musique.
-2. **9:16 vertical (24 s, 1080×1920) — version « punchy »** : cuts calés sur
-   une grille de 126 BPM, mots qui claquent, flashs, wipes diagonaux, secousses
-   de caméra, main stylisée qui tape sur l'app et lance le contenu, cartes
-   vidéo volantes, musique électro générée en synthèse (126 BPM elle aussi,
-   impacts synchronisés avec les changements de scène).
+2. **9:16 vertical (35 s, 1080×1920) — version « punchy » v2** : cuts calés
+   sur une grille de 126 BPM, mots qui claquent, flashs, wipes diagonaux,
+   secousses de caméra, lancement de l'app (tap sur l'icône puis zoom dans
+   l'écran), vraies images (logo officiel, mains en prière, capture d'écran
+   réelle de l'app), section dédiée au réseau social de prière et ses
+   bénéfices, final « Disponible sur App Store / Google Play ». Musique
+   cinématique générée en synthèse (booms, nappes de cordes, piano avec écho,
+   half-time), impacts synchronisés avec les changements de scène.
 
 ## Contenu du dossier
 

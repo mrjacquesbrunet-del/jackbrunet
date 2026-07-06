@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<title>JACKBRUNET — Motion design vertical (punchy)</title>
+<title>JACKBRUNET — Motion design vertical (punchy, v2)</title>
 <style>
   @font-face { font-family: "Playfair Display"; src: url("fonts/playfair-display-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-style: normal; }
   @font-face { font-family: "Playfair Display"; src: url("fonts/playfair-display-latin-600-italic.woff2") format("woff2"); font-weight: 600; font-style: italic; }
@@ -16,22 +16,23 @@
   html, body { background:#000; }
   #stage { position:relative; width:1080px; height:1920px; overflow:hidden; background:var(--ink);
            font-family:"Archivo",sans-serif; -webkit-font-smoothing:antialiased; }
-  #cam { position:absolute; inset:0; }              /* couche caméra (shake) */
+  #cam { position:absolute; inset:0; }
   .scene { position:absolute; inset:0; opacity:0; }
   .center { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
 
-  /* ————— S1 : cold open, mots qui claquent ————— */
+  /* ————— S1 : cold open ————— */
   .slamword { position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
               font-weight:800; font-size:190px; letter-spacing:.02em; opacity:0; }
   .slamword.serif { font-family:"Playfair Display",serif; font-style:italic; font-weight:600; }
 
   /* ————— S2 : logo punch ————— */
   #s2 { background:var(--cream); }
-  #s2 .bar { width:20px; height:110px; background:var(--lime); margin-bottom:54px; }
-  #s2 .logo { font-weight:800; font-size:118px; letter-spacing:.06em; text-indent:.06em; color:var(--ink); white-space:nowrap; }
-  #s2 .sub { margin-top:44px; font-weight:600; font-size:34px; letter-spacing:.5em; text-indent:.5em; color:var(--olive); }
+  #s2 .logoimg { width:300px; height:300px; border-radius:64px; object-fit:cover;
+                 box-shadow:0 40px 90px rgba(31,34,22,.35); margin-bottom:64px; }
+  #s2 .logo { font-weight:800; font-size:112px; letter-spacing:.06em; text-indent:.06em; color:var(--ink); white-space:nowrap; }
+  #s2 .sub { margin-top:40px; font-weight:600; font-size:32px; letter-spacing:.5em; text-indent:.5em; color:var(--olive); }
 
-  /* ————— S3 : main + téléphone ————— */
+  /* ————— S3 : téléphone ————— */
   #s3 { background:var(--olive); }
   #s3 .halo { position:absolute; left:50%; top:49%; width:1500px; height:1500px; transform:translate(-50%,-50%);
               border-radius:50%; background:radial-gradient(circle, rgba(202,240,0,.16) 0%, rgba(202,240,0,0) 60%); }
@@ -43,25 +44,26 @@
               grid-auto-rows:132px; gap:38px 34px; justify-items:center; }
   .appicon { width:104px; height:104px; border-radius:30px; background:#D9D9CF; }
   .appicon.jb { background:var(--lime); display:flex; align-items:center; justify-content:center;
-                font-weight:800; font-size:40px; color:var(--ink); letter-spacing:.02em; box-shadow:0 10px 30px rgba(31,34,22,.25); }
-  #tapring { position:absolute; width:104px; height:104px; border-radius:50%; border:8px solid var(--lime); opacity:0; }
-  #splash { position:absolute; inset:0; background:var(--lime); display:flex; flex-direction:column;
-            align-items:center; justify-content:center; opacity:0; }
-  #splash .t { font-weight:800; font-size:64px; letter-spacing:.06em; color:var(--ink); }
-  #splash .s { margin-top:22px; font-family:"Playfair Display",serif; font-style:italic; font-weight:600; font-size:30px; color:var(--ink); }
-  /* pastille de tap (descend sur l'icône) + textes autour du téléphone */
+                font-weight:800; font-size:40px; color:var(--ink); box-shadow:0 10px 30px rgba(31,34,22,.25); }
+  #tapring { position:absolute; left:191px; top:254px; width:104px; height:104px; border-radius:50%; border:8px solid var(--lime); opacity:0; }
   #tapdot { position:absolute; left:216px; top:279px; width:54px; height:54px; border-radius:50%;
             background:rgba(31,34,22,.85); border:6px solid var(--cream); opacity:0;
             box-shadow:0 18px 40px rgba(0,0,0,.35); }
+  #splash { position:absolute; inset:0; background:var(--lime); display:flex; flex-direction:column;
+            align-items:center; justify-content:center; opacity:0; }
+  #splash img { width:190px; height:190px; border-radius:44px; object-fit:cover; margin-bottom:36px;
+                box-shadow:0 24px 60px rgba(31,34,22,.3); }
+  #splash .t { font-weight:800; font-size:62px; letter-spacing:.06em; color:var(--ink); }
+  #splash .s { margin-top:20px; font-family:"Playfair Display",serif; font-style:italic; font-weight:600; font-size:30px; color:var(--ink); }
   #s3 .appname { position:absolute; left:0; right:0; top:96px; display:flex; justify-content:center;
                  font-weight:800; font-size:66px; color:var(--cream); letter-spacing:.05em; opacity:0; }
   #s3 .appsub { position:absolute; left:0; right:0; top:196px; display:flex; justify-content:center;
                 font-weight:600; font-size:30px; letter-spacing:.4em; text-indent:.4em; color:var(--lime); opacity:0; }
-  #s3 .chip { position:absolute; display:inline-flex; align-items:center; gap:14px; background:var(--cream);
+  #s3 .chip, #s7 .chip { position:absolute; display:inline-flex; align-items:center; gap:14px; background:var(--cream);
               color:var(--ink); font-weight:800; font-size:34px; padding:22px 40px; border-radius:999px;
               box-shadow:0 26px 60px rgba(0,0,0,.35); opacity:0; }
-  #s3 .chip .dot { width:14px; height:14px; border-radius:50%; background:var(--olive); }
-  #s3 .chip.lime { background:var(--lime); }
+  .chip .dot { width:14px; height:14px; border-radius:50%; background:var(--olive); flex:none; }
+  .chip.lime { background:var(--lime); }
   #s3 #chip1 { left:26px; top:700px; transform:rotate(-6deg); }
   #s3 #chip2 { right:20px; top:1060px; transform:rotate(5deg); }
   #s3 #chip3 { left:54px; bottom:230px; transform:rotate(-4deg); }
@@ -72,7 +74,7 @@
           font-weight:600; font-size:30px; letter-spacing:.32em; text-indent:.1em; padding:24px 52px; border-radius:999px; }
   .pill .dot { width:15px; height:15px; background:var(--lime); border-radius:50%; }
   #s4 .big { margin-top:70px; padding:0 90px; font-family:"Playfair Display",serif; font-style:italic; font-weight:600;
-             font-size:128px; line-height:1.08; color:var(--ink); }
+             font-size:96px; line-height:1.14; color:var(--ink); }
   #s4 .big .w { display:inline-block; }
   #s4 .card { margin-top:80px; width:780px; background:var(--olive); border-radius:36px; padding:64px 60px;
               box-shadow:0 50px 110px rgba(58,63,40,.4); text-align:left; }
@@ -81,15 +83,20 @@
   #s4 .card .cta { display:inline-block; margin-top:44px; background:var(--lime); color:var(--ink); font-weight:800;
                    font-size:30px; padding:24px 44px; border-radius:999px; }
 
-  /* ————— S5 : verset ————— */
+  /* ————— S5 : verset (carte façon app) ————— */
   #s5 { background:var(--olive); }
-  #s5 .qm { font-family:"Playfair Display",serif; font-weight:700; font-size:240px; line-height:.5; height:130px; color:var(--lime); }
-  #s5 .verse { margin-top:40px; padding:0 80px; font-family:"Playfair Display",serif; font-weight:600;
-               font-size:108px; line-height:1.16; color:var(--cream); }
+  #s5 .vpill { background:var(--lime); color:var(--ink); }
+  #s5 .vpill .dot { background:var(--ink); }
+  #s5 .vcard { margin-top:70px; width:860px; background:var(--cream); border-radius:40px; padding:80px 70px 70px;
+               box-shadow:0 60px 130px rgba(0,0,0,.45); text-align:left; position:relative; }
+  #s5 .vcard .qm { position:absolute; left:56px; top:-56px; font-family:"Playfair Display",serif; font-weight:700;
+                   font-size:150px; line-height:1; color:var(--lime); text-shadow:0 10px 30px rgba(31,34,22,.25); }
+  #s5 .verse { font-family:"Playfair Display",serif; font-weight:600; font-size:66px; line-height:1.32; color:var(--ink); }
   #s5 .verse .w { display:inline-block; }
-  #s5 .ref { display:inline-flex; align-items:center; gap:26px; margin-top:70px; font-weight:600; font-size:34px;
-             letter-spacing:.36em; text-indent:.1em; color:var(--lime); }
-  #s5 .ref .bar { width:70px; height:8px; background:var(--lime); }
+  #s5 .ref { display:inline-flex; align-items:center; gap:22px; margin-top:48px; font-weight:600; font-size:28px;
+             letter-spacing:.34em; text-indent:.1em; color:var(--olive); }
+  #s5 .ref .bar { width:60px; height:7px; background:var(--lime); }
+  #s5 .vfoot { margin-top:64px; font-weight:600; font-size:28px; letter-spacing:.32em; text-indent:.32em; color:var(--cream); opacity:.8; }
 
   /* ————— S6 : contenus ————— */
   #s6 { background:var(--ink); }
@@ -101,32 +108,61 @@
   #s6 .fly .l1 { width:75%; margin-top:44px; }
   #s6 .fly .l2 { width:50%; opacity:.4; }
   #s6 .label { position:absolute; left:0; right:0; display:flex; justify-content:center; opacity:0; }
-  #s6 .label span { background:var(--lime); color:var(--ink); font-weight:800; font-size:64px; padding:30px 54px;
+  #s6 .label span { background:var(--lime); color:var(--ink); font-weight:800; font-size:52px; padding:28px 50px;
                     border-radius:24px; box-shadow:0 30px 70px rgba(0,0,0,.45); white-space:nowrap; }
   #s6 .label.alt span { background:var(--cream); }
 
-  /* ————— S7 : communauté ————— */
+  /* ————— S7 : réseau social de prière ————— */
   #s7 { background:var(--cream); }
-  #s7 h2 { font-family:"Playfair Display",serif; font-style:italic; font-weight:600; font-size:104px; color:var(--ink); padding:0 90px; }
-  #s7 .cards { display:flex; flex-direction:column; gap:44px; margin-top:80px; }
-  #s7 .card { width:800px; border-radius:36px; padding:56px 60px; text-align:left; }
-  #s7 .card.a { background:var(--olive); color:var(--cream); box-shadow:0 40px 90px rgba(58,63,40,.35); }
-  #s7 .card.b { background:#fff; color:var(--ink); border:4px solid var(--olive); }
-  #s7 .card h3 { font-family:"Playfair Display",serif; font-weight:700; font-size:62px; }
-  #s7 .card p { margin-top:20px; font-size:32px; line-height:1.45; opacity:.85; }
+  #s7 .hands { position:absolute; left:50%; top:64px; transform:translateX(-50%); width:230px; height:230px;
+               border-radius:50%; background:var(--olive); box-shadow:0 30px 70px rgba(58,63,40,.35);
+               display:flex; align-items:center; justify-content:center; opacity:0; }
+  #s7 .hands img { width:170px; height:170px; object-fit:contain;
+                   filter: brightness(0) invert(87%) sepia(48%) saturate(1400%) hue-rotate(20deg) brightness(1.04); }
+  #s7 h2 { position:absolute; left:0; right:0; top:330px; padding:0 70px; text-align:center;
+           font-family:"Playfair Display",serif; font-style:italic; font-weight:600; font-size:82px; line-height:1.14; color:var(--ink); }
+  #s7 h2 .w { display:inline-block; }
+  #s7 .phoneS { position:absolute; left:64px; top:640px; width:460px; height:940px; border-radius:60px;
+                background:var(--ink); border:12px solid var(--ink); overflow:hidden;
+                box-shadow:0 60px 120px rgba(31,34,22,.35); opacity:0; }
+  #s7 .phoneS .scr { position:absolute; inset:0; border-radius:48px; overflow:hidden; }
+  #s7 .phoneS img { display:block; width:100%; height:100%; object-fit:cover; object-position:top;
+                    transform-origin:50% 0; }
+  #s7 .chip { font-size:33px; padding:24px 36px; }
+  #s7 #pc1 { left:490px; top:760px; transform:rotate(3deg); }
+  #s7 #pc2 { left:530px; top:960px; transform:rotate(-2deg); }
+  #s7 #pc3 { left:500px; top:1160px; transform:rotate(2deg); }
+  #s7 #pc4 { left:540px; top:1360px; transform:rotate(-3deg); }
+  #s7 .exau { position:absolute; left:100px; top:1560px; background:var(--lime); color:var(--ink);
+              font-weight:800; font-size:52px; padding:30px 52px; border-radius:24px; transform:rotate(-5deg);
+              box-shadow:0 30px 70px rgba(58,63,40,.4); opacity:0; }
 
-  /* ————— S8 : outro ————— */
+  /* ————— S8 : outro stores ————— */
   #s8 { background:var(--lime); }
-  #s8 .logo { font-weight:800; font-size:126px; letter-spacing:.05em; text-indent:.05em; color:var(--ink); white-space:nowrap; }
-  #s8 .tag { font-family:"Playfair Display",serif; font-style:italic; font-weight:600; font-size:64px; color:var(--ink); margin-top:56px; padding:0 80px; }
-  #s8 .url { display:inline-flex; margin-top:80px; background:var(--ink); color:var(--lime); font-weight:800;
-             font-size:42px; letter-spacing:.05em; padding:32px 68px; border-radius:999px; }
-  #s8 .yt { margin-top:36px; font-weight:600; font-size:30px; letter-spacing:.3em; text-indent:.3em; color:var(--ink); opacity:.72; }
+  #s8 .logoimg { width:240px; height:240px; border-radius:54px; object-fit:cover;
+                 box-shadow:0 40px 90px rgba(31,34,22,.35); margin-bottom:56px; }
+  #s8 .logo { font-weight:800; font-size:118px; letter-spacing:.05em; text-indent:.05em; color:var(--ink); white-space:nowrap; }
+  #s8 .tag { font-family:"Playfair Display",serif; font-style:italic; font-weight:600; font-size:56px; color:var(--ink); margin-top:44px; }
+  #s8 .dispo { margin-top:70px; font-weight:600; font-size:30px; letter-spacing:.42em; text-indent:.42em; color:var(--ink); opacity:.8; }
+  #s8 .stores { display:flex; gap:36px; margin-top:40px; }
+  #s8 .badge { display:flex; align-items:center; gap:22px; background:var(--ink); color:var(--cream);
+               border-radius:26px; padding:26px 40px; text-align:left; box-shadow:0 30px 70px rgba(31,34,22,.35); }
+  #s8 .badge .small { font-weight:400; font-size:22px; opacity:.8; }
+  #s8 .badge .big { font-weight:800; font-size:40px; margin-top:2px; }
+  .apple { position:relative; width:56px; height:64px; flex:none; }
+  .apple .body { position:absolute; left:2px; top:14px; width:52px; height:50px; border-radius:26px 26px 24px 24px; background:var(--cream); }
+  .apple .bite { position:absolute; right:-8px; top:24px; width:26px; height:26px; border-radius:50%; background:var(--ink); }
+  .apple .leaf { position:absolute; left:28px; top:-2px; width:18px; height:22px; background:var(--cream);
+                 border-radius:60% 40% 60% 40%; transform:rotate(28deg); }
+  .playtri { width:0; height:0; flex:none; border-left:46px solid var(--lime);
+             border-top:30px solid transparent; border-bottom:30px solid transparent; }
+  #s8 .url { display:inline-flex; margin-top:74px; background:var(--ink); color:var(--lime); font-weight:800;
+             font-size:40px; letter-spacing:.05em; padding:30px 64px; border-radius:999px; }
+  #s8 .yt { margin-top:32px; font-weight:600; font-size:28px; letter-spacing:.3em; text-indent:.3em; color:var(--ink); opacity:.72; }
 
   /* ————— FX ————— */
   .flash { position:absolute; inset:0; opacity:0; z-index:80; pointer-events:none; }
   .diag { position:absolute; top:-15%; height:130%; width:46%; z-index:70; transform:translateX(-320%) skewX(-16deg); }
-  .ring-fx { position:absolute; border-radius:50%; border:14px solid var(--lime); opacity:0; z-index:60; pointer-events:none; }
 </style>
 </head>
 <body>
@@ -143,12 +179,12 @@
 
     <!-- S2 logo punch -->
     <section class="scene center" id="s2">
-      <div class="bar" id="s2bar"></div>
+      <img class="logoimg" id="s2img" src="../../public/img/017b6cbb-Bannie_re_YouTube_de_Musique_De_grade__Violet_et_Orange.png" alt="">
       <div class="logo" id="s2logo">JACKBRUNET</div>
       <div class="sub" id="s2sub">MINISTÈRE CHRÉTIEN</div>
     </section>
 
-    <!-- S3 main + téléphone -->
+    <!-- S3 téléphone -->
     <section class="scene" id="s3">
       <div class="halo"></div>
       <div class="appname" id="s3name">L&rsquo;APP JACKBRUNET</div>
@@ -160,6 +196,7 @@
             <div id="tapring"></div>
             <div id="tapdot"></div>
             <div id="splash">
+              <img src="../../public/img/017b6cbb-Bannie_re_YouTube_de_Musique_De_grade__Violet_et_Orange.png" alt="">
               <div class="t">JACKBRUNET</div>
               <div class="s">Grandir en Jésus, chaque jour.</div>
             </div>
@@ -182,11 +219,15 @@
       </div>
     </section>
 
-    <!-- S5 verset -->
+    <!-- S5 verset (carte façon app) -->
     <section class="scene center" id="s5">
-      <div class="qm" id="s5qm">«</div>
-      <div class="verse" id="s5verse">Ta parole est une lampe à mes pieds, une lumière sur mon sentier.</div>
-      <div class="ref" id="s5ref"><span class="bar"></span><span>PSAUME 119 : 105</span></div>
+      <div class="pill vpill" id="s5pill"><span class="dot"></span><span>VERSET DU JOUR</span></div>
+      <div class="vcard" id="s5card">
+        <div class="qm">«</div>
+        <div class="verse" id="s5verse">Ta parole est une lampe à mes pieds, une lumière sur mon sentier.</div>
+        <div class="ref" id="s5ref"><span class="bar"></span><span>PSAUME 119 : 105</span></div>
+      </div>
+      <div class="vfoot" id="s5foot">BIBLE&nbsp;·&nbsp;PLANS&nbsp;·&nbsp;CARNET</div>
     </section>
 
     <!-- S6 contenus -->
@@ -202,26 +243,45 @@
       <div class="label" id="lab3" style="top:1290px;"><span>Temps avec Jésus</span></div>
     </section>
 
-    <!-- S7 communauté -->
-    <section class="scene center" id="s7">
-      <h2 id="s7h">Porter la prière, ensemble.</h2>
-      <div class="cards">
-        <div class="card a" id="s7c1"><h3>Mur de prière</h3><p>Dépose un sujet, la communauté prie avec toi.</p></div>
-        <div class="card b" id="s7c2"><h3>Témoignages</h3><p>Ce que Dieu fait dans des vies, aujourd&rsquo;hui.</p></div>
+    <!-- S7 réseau social de prière -->
+    <section class="scene" id="s7">
+      <div class="hands" id="s7hands"><img src="../../public/img/ec84c57c-Untitled_design.png" alt=""></div>
+      <h2 id="s7h">Le réseau social de la prière.</h2>
+      <div class="phoneS" id="s7phone">
+        <div class="scr">
+          <img id="s7shot" src="../../public/img/7f3ec0a9-IMG_3825.jpeg" alt="">
+        </div>
       </div>
+      <div class="chip lime" id="pc1"><span class="dot"></span>Dépose ton sujet de prière</div>
+      <div class="chip" id="pc2"><span class="dot"></span>La communauté prie pour toi</div>
+      <div class="chip lime" id="pc3"><span class="dot"></span>Encourage &amp; sois porté</div>
+      <div class="chip" id="pc4"><span class="dot"></span>Vois les prières exaucées</div>
+      <div class="exau" id="s7exau">EXAUCÉE&nbsp;✓</div>
     </section>
 
-    <!-- S8 outro -->
+    <!-- S8 outro stores -->
     <section class="scene center" id="s8">
+      <img class="logoimg" id="s8img" src="../../public/img/017b6cbb-Bannie_re_YouTube_de_Musique_De_grade__Violet_et_Orange.png" alt="">
       <div class="logo" id="s8logo">JACKBRUNET</div>
       <div class="tag" id="s8tag">Grandir en Jésus, chaque jour.</div>
+      <div class="dispo" id="s8dispo">DISPONIBLE SUR</div>
+      <div class="stores">
+        <div class="badge" id="s8b1">
+          <div class="apple"><div class="leaf"></div><div class="body"></div><div class="bite"></div></div>
+          <div><div class="small">Télécharger sur</div><div class="big">App Store</div></div>
+        </div>
+        <div class="badge" id="s8b2">
+          <div class="playtri"></div>
+          <div><div class="small">Disponible sur</div><div class="big">Google Play</div></div>
+        </div>
+      </div>
       <div class="url" id="s8url">jackbrunet.com</div>
       <div class="yt" id="s8yt">YOUTUBE&nbsp;·&nbsp;@JACK_BRNT</div>
     </section>
 
   </div>
 
-  <!-- FX plein écran (hors caméra pour rester net) -->
+  <!-- FX plein écran -->
   <div class="flash" id="flashW" style="background:#fff;"></div>
   <div class="flash" id="flashL" style="background:var(--lime);"></div>
   <div class="diag" id="diag1" style="background:var(--lime);"></div>
@@ -229,16 +289,16 @@
 </div>
 
 <script>
-/* Timeline calée sur une grille de 126 BPM : 1 temps = 476,19 ms.
-   Tous les cuts, slams et flashs tombent sur le beat (comme la musique
-   générée par music.mjs, elle aussi à 126 BPM). */
+/* Grille 126 BPM — cuts, slams et musique partagent les mêmes temps.
+   v2 : tempo de lecture ralenti, réseau social de prière, images réelles,
+   final « Disponible sur Android et Apple ». */
 const BPM = 126, BEAT = 60000 / BPM;
 const b = (n) => Math.round(n * BEAT);
-const TOTAL = 24000;
+const TOTAL = 35300;                       /* ~74 temps */
 window.TOTAL_MS = TOTAL;
 
 const EXPO = "cubic-bezier(0.16, 1, 0.3, 1)";
-const BACK = "cubic-bezier(0.34, 1.56, 0.64, 1)";   // overshoot
+const BACK = "cubic-bezier(0.34, 1.56, 0.64, 1)";
 const $ = (id) => document.getElementById(id);
 const anims = [];
 function tw(el, kf, { at = 0, dur = 500, ease = EXPO, fill = "both" } = {}) {
@@ -247,23 +307,24 @@ function tw(el, kf, { at = 0, dur = 500, ease = EXPO, fill = "both" } = {}) {
 }
 const show = (el, t0, t1) =>
   tw(el, [{ opacity: 1 }, { opacity: 1 }], { at: t0, dur: t1 - t0, ease: "linear", fill: "none" });
-
-/* Slam : l'élément tombe de très grand à sa taille, avec rebond */
 const slam = (el, at, { from = 2.4, rot = 0, dur = 420 } = {}) =>
   tw(el, [
     { opacity: 0, transform: `scale(${from}) rotate(${rot}deg)` },
     { opacity: 1, transform: "scale(0.96) rotate(0deg)", offset: 0.55 },
     { opacity: 1, transform: "scale(1) rotate(0deg)" },
   ], { at, dur, ease: "ease-out" });
-/* Pop : petit élément qui surgit avec overshoot */
+const slamR = (el, at, rot) =>
+  tw(el, [
+    { opacity: 0, transform: `scale(1.8) rotate(${rot}deg)` },
+    { opacity: 1, transform: `scale(0.96) rotate(${rot}deg)`, offset: 0.55 },
+    { opacity: 1, transform: `scale(1) rotate(${rot}deg)` },
+  ], { at, dur: 340, ease: "ease-out" });
 const pop = (el, at, dur = 380) =>
   tw(el, [{ opacity: 0, transform: "scale(0)" }, { opacity: 1, transform: "scale(1)" }], { at, dur, ease: BACK });
 const rise = (el, at, dur = 500, dist = 70) =>
   tw(el, [{ opacity: 0, transform: `translateY(${dist}px)` }, { opacity: 1, transform: "translateY(0)" }], { at, dur });
-/* Flash plein écran (2-3 frames) */
 const flash = (el, at, peak = 0.85) =>
-  tw(el, [{ opacity: peak }, { opacity: 0 }], { at, dur: 230, ease: "linear", fill: "none" });
-/* Secousse caméra */
+  tw(el, [{ opacity: peak }, { opacity: 0 }], { at, dur: 240, ease: "linear", fill: "none" });
 const shake = (at, amp = 26) =>
   tw($("cam"), [
     { transform: "translate(0,0)" },
@@ -272,12 +333,10 @@ const shake = (at, amp = 26) =>
     { transform: `translate(${amp * 0.4}px,${amp * 0.25}px)`, offset: 0.68 },
     { transform: "translate(0,0)" },
   ], { at, dur: 320, ease: "linear", fill: "none" });
-/* Bande diagonale qui balaie l'écran */
-const sweep = (el, at, dur = 460) =>
+const sweep = (el, at, dur = 480) =>
   tw(el, [{ transform: "translateX(-320%) skewX(-16deg)" }, { transform: "translateX(320%) skewX(-16deg)" }],
      { at, dur, ease: "cubic-bezier(0.7,0,0.3,1)", fill: "none" });
-/* Mots qui claquent un à un */
-function popWords(el, at, step, dur = 300) {
+function popWords(el, at, step, dur = 320) {
   const parts = el.textContent.split(" ");
   el.textContent = "";
   parts.forEach((word, i) => {
@@ -294,18 +353,19 @@ function popWords(el, at, step, dur = 300) {
 }
 function letters(el, at, { stagger = 30, dur = 340 } = {}) {
   const text = el.textContent; el.textContent = "";
-  [...text].forEach((ch, i) => {
+  [...text].forEach((ch) => {
     const s = document.createElement("span");
     s.style.display = "inline-block"; s.textContent = ch;
     el.appendChild(s);
     tw(s, [
       { opacity: 0, transform: "translateY(120px) scale(1.6)" },
       { opacity: 1, transform: "translateY(0) scale(1)" },
-    ], { at: at + i * stagger, dur, ease: BACK });
+    ], { at: at += 0, dur, ease: BACK });
+    at += stagger;
   });
 }
 
-/* Grille d'icônes du téléphone (l'icône JACKBRUNET en 6e position) */
+/* grille d'icônes (icône JB en 6e position) */
 const grid = $("homegrid");
 for (let i = 0; i < 16; i++) {
   const d = document.createElement("div");
@@ -314,139 +374,138 @@ for (let i = 0; i < 16; i++) {
   grid.appendChild(d);
 }
 
-/* ————— S1 · b0–b4 : cold open ————— */
-show($("s1"), 0, b(4));
-[["w1", 0], ["w2", 1], ["w3", 2], ["w4", 3]].forEach(([id, beat], i) => {
+/* ————— S1 · b0–b5 : cold open (1,25 temps par mot) ————— */
+show($("s1"), 0, b(5));
+[["w1", 0], ["w2", 1.25], ["w3", 2.5], ["w4", 3.75]].forEach(([id, beat], i) => {
   const el = $(id);
-  show(el, b(beat), beat === 3 ? b(4) : b(beat + 1));
-  slam(el.firstElementChild, b(beat) + 10, { from: 2.6, rot: i % 2 ? -3 : 3, dur: 330 });
-  tw(el.firstElementChild, [{ transform: "scale(1)" }, { transform: "scale(1.07)" }],
-     { at: b(beat) + 340, dur: b(1) - 340, ease: "linear" });
+  show(el, b(beat), beat === 3.75 ? b(5) : b(beat + 1.25));
+  slam(el.firstElementChild, b(beat) + 10, { from: 2.6, rot: i % 2 ? -3 : 3, dur: 340 });
+  tw(el.firstElementChild, [{ transform: "scale(1)" }, { transform: "scale(1.06)" }],
+     { at: b(beat) + 350, dur: b(1.25) - 350, ease: "linear" });
 });
-shake(b(1), 18); shake(b(2), 18); shake(b(3), 18);
+shake(b(1.25), 18); shake(b(2.5), 18); shake(b(3.75), 18);
 
-/* ————— S2 · b4–b8 : logo punch ————— */
-show($("s2"), b(4), b(8));
-flash($("flashL"), b(4)); shake(b(4), 30);
-tw($("s2bar"), [{ transform: "scaleY(0)" }, { transform: "scaleY(1)" }], { at: b(4) + 40, dur: 260 });
-letters($("s2logo"), b(4) + 120, { stagger: 32, dur: 360 });
-rise($("s2sub"), b(5.5), 380, 50);
-tw($("s2"), [{ transform: "scale(1)" }, { transform: "scale(1.06)" }], { at: b(4), dur: b(4), ease: "linear" });
+/* ————— S2 · b5–b10 : logo punch (avec le vrai logo) ————— */
+show($("s2"), b(5), b(10));
+flash($("flashL"), b(5)); shake(b(5), 30);
+slam($("s2img"), b(5) + 60, { from: 2, dur: 380 });
+letters($("s2logo"), b(5.8), { stagger: 34, dur: 360 });
+rise($("s2sub"), b(7.2), 400, 50);
+tw($("s2"), [{ transform: "scale(1)" }, { transform: "scale(1.05)" }], { at: b(5), dur: b(5), ease: "linear" });
 
-/* ————— S3 · b8–b16 : main + téléphone ————— */
-show($("s3"), b(8), b(16));
-flash($("flashW"), b(8), 0.7); shake(b(8), 30);
-/* le téléphone monte seul */
+/* ————— S3 · b10–b20 : téléphone + lancement de l'app ————— */
+show($("s3"), b(10), b(20));
+flash($("flashW"), b(10), 0.7); shake(b(10), 30);
 tw($("phoneWrap"), [
   { transform: "translate(-50%,-50%) translateY(1500px) rotate(5deg)" },
   { transform: "translate(-50%,-50%) translateY(0) rotate(0deg)" },
-], { at: b(8), dur: b(1.6), ease: EXPO });
-/* slam conservant la rotation de repos du chip */
-const slamR = (el, at, rot) =>
-  tw(el, [
-    { opacity: 0, transform: `scale(1.8) rotate(${rot}deg)` },
-    { opacity: 1, transform: `scale(0.96) rotate(${rot}deg)`, offset: 0.55 },
-    { opacity: 1, transform: `scale(1) rotate(${rot}deg)` },
-  ], { at, dur: 320, ease: "ease-out" });
-/* titre + sous-titre + chips design qui claquent autour */
-rise($("s3name"), b(9), 380, 60);
-rise($("s3sub"), b(9.4), 360, 40);
-slamR($("chip1"), b(9.5), -6);
-slamR($("chip2"), b(10.5), 5);
-slamR($("chip3"), b(12.5), -4);
-/* la pastille de tap descend sur l'icône JB, tape, rebondit */
+], { at: b(10), dur: b(1.6), ease: EXPO });
+rise($("s3name"), b(11), 400, 60);
+rise($("s3sub"), b(11.5), 380, 40);
+slamR($("chip1"), b(11.8), -6);
+slamR($("chip2"), b(13), 5);
+slamR($("chip3"), b(14.2), -4);
 tw($("tapdot"), [
   { opacity: 0, transform: "translateY(-260px) scale(1.6)" },
   { opacity: 1, transform: "translateY(0) scale(1)", offset: 0.65 },
   { opacity: 1, transform: "translateY(0) scale(0.72)", offset: 0.85 },
   { opacity: 1, transform: "translateY(0) scale(1)" },
-], { at: b(10), dur: b(1.2), ease: "ease-out" });
+], { at: b(15), dur: b(1.2), ease: "ease-out" });
 tw($("tapdot"), [
   { opacity: 1, transform: "scale(1)" },
   { opacity: 0, transform: "scale(1.9)" },
-], { at: b(11.4), dur: b(0.6), ease: "ease-out" });
+], { at: b(16.4), dur: b(0.6), ease: "ease-out" });
 tw($("jbicon"), [
   { transform: "scale(1)" }, { transform: "scale(0.78)", offset: 0.4 }, { transform: "scale(1.15)", offset: 0.75 }, { transform: "scale(1)" },
-], { at: b(11), dur: 360, ease: "ease-out", fill: "none" });
-/* onde de tap + splash de l'app */
-(function () {
-  const r = $("tapring");
-  const jb = { left: 56 + 1 * (104 + 34) + 1 * 0, top: 70 + 132 + 38 };  /* approx. position icône (2e ligne, 2e col) */
-  r.style.left = "191px"; r.style.top = "254px";
-  tw(r, [
-    { opacity: 0.9, transform: "scale(0.6)" },
-    { opacity: 0, transform: "scale(2.6)" },
-  ], { at: b(11) + 60, dur: 420, ease: "ease-out", fill: "none" });
-})();
-tw($("splash"), [{ opacity: 0 }, { opacity: 1 }], { at: b(12), dur: 140, ease: "linear" });
-slam($("splash").querySelector(".t"), b(12) + 80, { from: 2, dur: 320 });
-rise($("splash").querySelector(".s"), b(12.6), 320, 40);
-shake(b(12), 20);
-/* textes et chips s'effacent au zoom */
+], { at: b(16), dur: 360, ease: "ease-out", fill: "none" });
+tw($("tapring"), [
+  { opacity: 0.9, transform: "scale(0.6)" },
+  { opacity: 0, transform: "scale(2.6)" },
+], { at: b(16) + 60, dur: 460, ease: "ease-out", fill: "none" });
+tw($("splash"), [{ opacity: 0 }, { opacity: 1 }], { at: b(17), dur: 150, ease: "linear" });
+slam($("splash").querySelector("img"), b(17) + 80, { from: 1.9, dur: 340 });
+slam($("splash").querySelector(".t"), b(17.4), { from: 1.8, dur: 320 });
+rise($("splash").querySelector(".s"), b(17.9), 340, 40);
+shake(b(17), 20);
 ["s3name","s3sub","chip1","chip2","chip3"].forEach((id) =>
-  tw($(id), [{ opacity: 1 }, { opacity: 0 }], { at: b(14), dur: b(0.5), ease: "linear" }));
-/* zoom dans l'écran */
+  tw($(id), [{ opacity: 1 }, { opacity: 0 }], { at: b(18), dur: b(0.5), ease: "linear" }));
 tw($("s3"), [
   { transform: "scale(1)", easing: "cubic-bezier(0.6,0,0.8,1)" },
   { transform: "scale(3.4)" },
-], { at: b(14), dur: b(2), ease: "linear" });
-tw($("s3"), [{ opacity: 1 }, { opacity: 1, offset: 0.85 }, { opacity: 0 }], { at: b(14), dur: b(2), ease: "linear", fill: "none" });
+], { at: b(18), dur: b(2), ease: "linear" });
+tw($("s3"), [{ opacity: 1 }, { opacity: 1, offset: 0.85 }, { opacity: 0 }], { at: b(18), dur: b(2), ease: "linear", fill: "none" });
 $("s3").style.transformOrigin = "50% 45%";
 
-/* ————— S4 · b16–b24 : pensée du jour ————— */
-show($("s4"), b(16), b(24));
-flash($("flashL"), b(16)); shake(b(16), 26); sweep($("diag1"), b(16) + 60);
-slam($("s4pill"), b(16) + 60, { from: 1.9, dur: 300 });
-popWords($("s4big"), b(16.5), Math.round(b(0.5)), 300);
-slam($("s4card"), b(21), { from: 1.5, dur: 380 });
-tw($("s4card"), [{ transform: "translateY(0)" }, { transform: "translateY(-24px)" }], { at: b(21) + 400, dur: b(3) - 400, ease: "linear" });
+/* ————— S4 · b20–b27 : pensée du jour ————— */
+show($("s4"), b(20), b(27));
+flash($("flashL"), b(20)); shake(b(20), 26); sweep($("diag1"), b(20) + 60);
+slam($("s4pill"), b(20.3), { from: 1.9, dur: 320 });
+popWords($("s4big"), b(20.8), Math.round(b(0.7)), 340);
+slam($("s4card"), b(24.6), { from: 1.5, dur: 400 });
+tw($("s4card"), [{ transform: "translateY(0)" }, { transform: "translateY(-22px)" }], { at: b(24.6) + 420, dur: b(2.4) - 420, ease: "linear" });
 
-/* ————— S5 · b24–b32 : verset ————— */
-show($("s5"), b(24), b(32));
-flash($("flashW"), b(24), 0.75); shake(b(24), 26); sweep($("diag2"), b(24) + 60);
-tw($("s5qm"), [
-  { opacity: 0, transform: "translateY(-160px) scale(0.5) rotate(-12deg)" },
-  { opacity: 1, transform: "translateY(0) scale(1) rotate(0deg)" },
-], { at: b(24) + 60, dur: 420, ease: BACK });
-popWords($("s5verse"), b(24.6), Math.round(b(0.38)), 280);
-rise($("s5ref"), b(29.5), 360, 46);
-tw($("s5"), [{ transform: "scale(1)" }, { transform: "scale(1.05)" }], { at: b(24), dur: b(8), ease: "linear" });
+/* ————— S5 · b27–b36 : verset ————— */
+show($("s5"), b(27), b(36));
+flash($("flashW"), b(27), 0.75); shake(b(27), 26); sweep($("diag2"), b(27) + 60);
+slam($("s5pill"), b(27.3), { from: 1.9, dur: 320 });
+slam($("s5card"), b(27.9), { from: 1.45, dur: 420 });
+popWords($("s5verse"), b(28.4), Math.round(b(0.42)), 320);
+rise($("s5ref"), b(33.4), 400, 40);
+rise($("s5foot"), b(34.2), 380, 34);
+tw($("s5"), [{ transform: "scale(1)" }, { transform: "scale(1.035)" }], { at: b(27), dur: b(9), ease: "linear" });
 
-/* ————— S6 · b32–b40 : contenus ————— */
-show($("s6"), b(32), b(40));
-flash($("flashL"), b(32)); shake(b(32), 30);
-/* cartes vidéo qui traversent l'écran en volant */
-[["fly1", 32, 14, -8], ["fly2", 33.2, -10, 7], ["fly3", 34.4, 12, -6], ["fly4", 35.6, -14, 9], ["fly5", 36.8, 10, -7], ["fly6", 38, -12, 8]].forEach(([id, beat, r1, r2]) => {
+/* ————— S6 · b36–b43 : contenus ————— */
+show($("s6"), b(36), b(43));
+flash($("flashL"), b(36)); shake(b(36), 30);
+[["fly1", 36, 14, -8], ["fly2", 37, -10, 7], ["fly3", 38, 12, -6], ["fly4", 39, -14, 9], ["fly5", 40, 10, -7], ["fly6", 41, -12, 8]].forEach(([id, beat, r1, r2]) => {
   tw($(id), [
     { opacity: 1, transform: `translateY(2100px) rotate(${r1}deg)` },
     { opacity: 1, transform: `translateY(-2400px) rotate(${r2}deg)` },
   ], { at: b(beat), dur: b(3.2), ease: "linear", fill: "none" });
 });
-/* labels qui claquent en alternance */
-[["lab1", 32.5], ["lab2", 35], ["lab3", 37.5]].forEach(([id, beat]) => {
+[["lab1", 36.5], ["lab2", 38.5], ["lab3", 40.5]].forEach(([id, beat]) => {
   const el = $(id);
-  show(el, b(beat), b(40));
-  slam(el.firstElementChild, b(beat), { from: 2.1, rot: beat % 2 ? -2.5 : 2.5, dur: 330 });
+  show(el, b(beat), b(43));
+  slam(el.firstElementChild, b(beat), { from: 2.1, rot: beat % 2 ? -2.5 : 2.5, dur: 340 });
 });
-shake(b(35), 18); shake(b(37.5), 18);
+shake(b(38.5), 18); shake(b(40.5), 18);
 
-/* ————— S7 · b40–b44 : communauté ————— */
-show($("s7"), b(40), b(44));
-flash($("flashW"), b(40), 0.7); shake(b(40), 24);
-popWords($("s7h"), b(40) + 60, Math.round(b(0.35)), 280);
-slam($("s7c1"), b(41.5), { from: 1.6, rot: -2, dur: 340 });
-slam($("s7c2"), b(42.5), { from: 1.6, rot: 2, dur: 340 });
+/* ————— S7 · b43–b57 : le réseau social de la prière ————— */
+show($("s7"), b(43), b(57));
+flash($("flashW"), b(43), 0.8); shake(b(43), 28); sweep($("diag1"), b(43) + 60);
+slam($("s7hands"), b(43.3), { from: 2, dur: 380 });
+popWords($("s7h"), b(43.9), Math.round(b(0.55)), 340);
+tw($("s7phone"), [
+  { opacity: 0, transform: "translateY(900px) rotate(-4deg)" },
+  { opacity: 1, transform: "translateY(0) rotate(0deg)" },
+], { at: b(46.4), dur: b(1.4), ease: EXPO });
+/* léger zoom continu sur la vraie capture d'écran */
+tw($("s7shot"), [{ transform: "scale(1)" }, { transform: "scale(1.1)" }], { at: b(47.8), dur: b(9.2), ease: "linear" });
+slamR($("pc1"), b(47.8), 3);
+slamR($("pc2"), b(49.4), -2);
+slamR($("pc3"), b(51), 2);
+slamR($("pc4"), b(52.6), -3);
+tw($("s7exau"), [
+  { opacity: 0, transform: "scale(2.6) rotate(-5deg)" },
+  { opacity: 1, transform: "scale(0.95) rotate(-5deg)", offset: 0.6 },
+  { opacity: 1, transform: "scale(1) rotate(-5deg)" },
+], { at: b(54.2), dur: 380, ease: "ease-out" });
+shake(b(54.2), 22);
 
-/* ————— S8 · b44–fin : outro ————— */
-show($("s8"), b(44), TOTAL + 400);
-flash($("flashW"), b(44), 0.9); shake(b(44), 34);
-letters($("s8logo"), b(44) + 60, { stagger: 26, dur: 320 });
-rise($("s8tag"), b(45.2), 380, 50);
-pop($("s8url"), b(46), 360);
-rise($("s8yt"), b(46.6), 320, 30);
-tw($("s8"), [{ transform: "scale(1.02)" }, { transform: "scale(1)" }], { at: b(44), dur: TOTAL - b(44), ease: "linear" });
+/* ————— S8 · b57–fin : disponible sur Android et Apple ————— */
+show($("s8"), b(57), TOTAL + 400);
+flash($("flashW"), b(57), 0.9); shake(b(57), 34);
+slam($("s8img"), b(57.2), { from: 2, dur: 380 });
+letters($("s8logo"), b(57.8), { stagger: 28, dur: 340 });
+rise($("s8tag"), b(59.2), 420, 50);
+rise($("s8dispo"), b(60.6), 380, 40);
+slamR($("s8b1"), b(61.4), 0);
+slamR($("s8b2"), b(62.2), 0);
+pop($("s8url"), b(63.6), 380);
+rise($("s8yt"), b(64.6), 340, 30);
+tw($("s8"), [{ transform: "scale(1.02)" }, { transform: "scale(1)" }], { at: b(57), dur: TOTAL - b(57), ease: "linear" });
 
-/* ————— Contrôle externe ————— */
+/* ————— contrôle externe ————— */
 window.SEEK = (ms) => { anims.forEach((a) => { a.currentTime = ms; }); };
 window.SEEK(0);
 window.READY = document.fonts.ready.then(() => true);
