@@ -158,8 +158,14 @@ async function syncToolkit(userId: string) {
   }
   const saved = [...map.values()].sort((a, b) => (b.ts?? 0) - (a.ts?? 0));
 
-  // colors / noted restent locaux (non synchronisés) — on les conserve.
-  replaceToolkit({ highlights, saved, colors: local.colors, noted: local.noted });
+  // colors / hlmeta / noted restent locaux (non synchronisés) — on les conserve.
+  replaceToolkit({
+    highlights,
+    saved,
+    colors: local.colors,
+    hlmeta: local.hlmeta,
+    noted: local.noted,
+  });
 
   await Promise.all([
     highlights.length

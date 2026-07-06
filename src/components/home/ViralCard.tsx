@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useToolkit } from "@/lib/toolkit";
+import { shareImageBlob, saveImageBlob } from "@/lib/share";
 import { BookmarkGlyph, BookmarkFilledGlyph } from "@/components/ui/DevoIcons";
 
 /**
@@ -83,19 +84,7 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
     setBusy(true);
     try {
       const blob = await buildImage();
-      if (!blob) return;
-      const file = new File([blob], "jackbrunet-pensee.png", { type: "image/png" });
-      const nav = navigator as Navigator & {
-        canShare?: (d: { files: File[] }) => boolean;
-      };
-      if (nav.share && nav.canShare && nav.canShare({ files: [file] })) {
-        await nav.share({
-          files: [file],
-          text: `${punchline}\n\njackbrunet.com`,
-        });
-      } else {
-        download(blob);
-      }
+      if (blob) await shareImageBlob(blob, "jackbrunet-pensee.png", `${punchline}\n\njackbrunet.com`);
     } catch {
       /* partage annulé */
     } finally {
@@ -107,24 +96,16 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
     setBusy(true);
     try {
       const blob = await buildImage();
-      if (blob) download(blob);
+      if (blob) await saveImageBlob(blob, "jackbrunet-pensee.png", `${punchline}\n\njackbrunet.com`);
     } finally {
       setBusy(false);
     }
   }
 
-  function download(blob: Blob) {
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "jackbrunet-pensee.png";
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
   async function copyText() {
     try {
-      await navigator.clipboard.writeText(`${punchline}\n\njackbrunet.com`);
+      // Juste la phrase, sans lien (demande de Jack).
+      await navigator.clipboard.writeText(punchline);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -164,7 +145,7 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
           Télécharger l'image
         </button>
         <button type="button" onClick={copyText} className="btn-ghost text-sm">
-          {copied? "Copié!": "Copier le texte"}
+          {copied? "Copié!": "Copier la phrase"}
         </button>
         {id? (
           <button

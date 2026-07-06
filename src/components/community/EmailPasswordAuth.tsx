@@ -8,8 +8,17 @@ import { signInEmailPassword, signUpEmailPassword } from "@/lib/community";
  * (aucun navigateur) — conforme aux règles App Store 4.0 / 4.8.
  * Utilisé dans l'app native ; sur le web on garde aussi Google/Apple.
  */
-export function EmailPasswordAuth({ onSuccess }: { onSuccess?: () => void }) {
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+export function EmailPasswordAuth({
+  onSuccess,
+  initialMode = "signin",
+  tone = "light",
+}: {
+  onSuccess?: () => void;
+  initialMode?: "signin" | "signup";
+  tone?: "light" | "dark";
+}) {
+  const [mode, setMode] = useState<"signin" | "signup">(initialMode);
+  const dark = tone === "dark";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
@@ -70,18 +79,27 @@ export function EmailPasswordAuth({ onSuccess }: { onSuccess?: () => void }) {
         {busy? "…": mode === "signup"? "Créer mon compte": "Se connecter"}
       </button>
       {error? <p className="field-error text-center">{error}</p>: null}
-      <button
-        type="button"
-        onClick={() => {
-          setMode((m) => (m === "signin"? "signup": "signin"));
-          setError("");
-        }}
-        className="block w-full text-center text-sm font-semibold text-spirit-600 hover:underline"
-      >
-        {mode === "signin"
-? "Pas encore de compte? Créer un compte"
-: "Déjà un compte? Se connecter"}
-      </button>
+
+      {/* Bascule connexion/inscription — rendue bien visible (bouton encadré) */}
+      <div className="pt-1 text-center">
+        <p className={`text-sm ${dark? "text-cream/60": "text-night-900/55"}`}>
+          {mode === "signin"? "Pas encore de compte ?": "Tu as déjà un compte ?"}
+        </p>
+        <button
+          type="button"
+          onClick={() => {
+            setMode((m) => (m === "signin"? "signup": "signin"));
+            setError("");
+          }}
+          className={`mt-2 inline-flex w-full items-center justify-center rounded-full border px-5 py-2.5 text-sm font-bold transition-colors ${
+            dark
+? "border-dawn-400/60 text-dawn-300 hover:bg-dawn-400/10"
+: "border-spirit-600/40 text-spirit-700 hover:bg-spirit-500/10"
+          }`}
+        >
+          {mode === "signin"? "Créer un compte gratuit": "Me connecter"}
+        </button>
+      </div>
     </form>
   );
 }

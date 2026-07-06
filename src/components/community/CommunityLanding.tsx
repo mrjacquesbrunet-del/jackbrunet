@@ -276,7 +276,7 @@ function AuthCard() {
 
             {native? (
               <div className="mt-7">
-                <EmailPasswordAuth />
+                <EmailPasswordAuth tone="dark" />
               </div>
             ): sent? (
               <div className="mt-7 rounded-2xl border border-dawn-400/30 bg-dawn-400/10 p-4 text-center text-sm text-cream">

@@ -119,7 +119,7 @@ export function Markable({
                   type="button"
                   aria-label={c.label}
                   title={c.label}
-                  onClick={() => tk.highlightWith(id, c.key)}
+                  onClick={() => tk.highlightWith(id, c.key, { text, reference, kind })}
                   className={`h-5 w-5 rounded-full ${c.swatch} transition-transform hover:scale-110 ${
                     highlighted && color === c.key? "ring-2 ring-night-900 ring-offset-1": ""
                   }`}

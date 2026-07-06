@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePlanProgress } from "@/lib/plan-progress";
 import { AuthorByline } from "@/components/ui/AuthorByline";
 import { PassageInline } from "@/components/bible/PassageInline";
+import { bibleHref } from "@/lib/bible-ref";
 import { Celebration } from "@/components/ui/Celebration";
 import type { ThemePlan } from "@/lib/types";
 
@@ -124,7 +125,7 @@ export function PlanView({ plan }: { plan: ThemePlan }) {
                 >
                   {done? "✓ Terminé": "Marquer comme fait"}
                 </button>
-                <Link href="/bible" className="btn-ghost">
+                <Link href={bibleHref(d.verses[0])?? "/bible"} className="btn-ghost">
                   Ouvrir la Bible
                 </Link>
               </div>

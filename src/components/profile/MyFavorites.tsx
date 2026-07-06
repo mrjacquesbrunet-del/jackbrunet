@@ -12,7 +12,7 @@ const KIND_LABEL: Record<string, string> = {
 };
 
 export function MyFavorites() {
-  const { saved, removeSnippet } = useToolkit();
+  const { saved, removeSnippet, highlightItems, clearHighlight } = useToolkit();
   const { profile } = useAuth();
   const verses = profile?.favorite_verses?? [];
 
@@ -23,7 +23,8 @@ export function MyFavorites() {
     return acc;
   }, {});
 
-  const isEmpty = saved.length === 0 && verses.length === 0;
+  const isEmpty =
+    saved.length === 0 && verses.length === 0 && highlightItems.length === 0;
 
   return (
     <section className="py-10">
@@ -54,6 +55,44 @@ export function MyFavorites() {
                           {v.reference}
                         </p>
                       ): null}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ): null}
+
+            {/* Passages surlignés */}
+            {highlightItems.length > 0? (
+              <div>
+                <h2 className="font-display text-lg font-bold">
+                  Mes surlignages{" "}
+                  <span className="text-sm font-semibold text-night-900/50">
+                    ({highlightItems.length})
+                  </span>
+                </h2>
+                <ul className="mt-3 space-y-2">
+                  {highlightItems.map((h) => (
+                    <li
+                      key={h.id}
+                      className="rounded-2xl border border-night-900/10 bg-white/70 p-4"
+                    >
+                      <p className="text-[15px] leading-relaxed text-night-900/85">{h.text}</p>
+                      <div className="mt-2 flex items-center justify-between">
+                        {h.reference? (
+                          <span className="text-xs font-bold uppercase tracking-wide text-spirit-700">
+                            {h.reference}
+                          </span>
+                        ): (
+                          <span />
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => clearHighlight(h.id)}
+                          className="text-xs font-semibold text-night-900/40 transition-colors hover:text-red-500"
+                        >
+                          Retirer
+                        </button>
+                      </div>
                     </li>
                   ))}
                 </ul>

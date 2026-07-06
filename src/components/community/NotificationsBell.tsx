@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
 import { Avatar } from "@/components/community/Avatar";
 import {
   listNotifications,
@@ -112,20 +113,36 @@ export function NotificationsBell({
                 </p>
               ): (
                 <ul>
-                  {items.map((n) => (
-                    <li
-                      key={n.id}
-                      className={`flex items-start gap-3 px-4 py-3 ${
-                        n.read? "": "bg-spirit-500/[0.05]"
-                      }`}
-                    >
-                      <Avatar pseudo={n.actor?.pseudo} url={n.actor?.avatar_url} size={32} />
-                      <div className="min-w-0">
-                        <p className="text-sm leading-snug text-night-900/85">{label(n)}</p>
-                        <p className="text-xs text-night-900/45">{when(n.created_at)}</p>
-                      </div>
-                    </li>
-                  ))}
+                  {items.map((n) => {
+                    const inner = (
+                      <>
+                        <Avatar pseudo={n.actor?.pseudo} url={n.actor?.avatar_url} size={32} />
+                        <div className="min-w-0">
+                          <p className="text-sm leading-snug text-night-900/85">{label(n)}</p>
+                          <p className="text-xs text-night-900/45">{when(n.created_at)}</p>
+                        </div>
+                      </>
+                    );
+                    const rowCls = `flex items-start gap-3 px-4 py-3 ${
+                      n.read? "": "bg-spirit-500/[0.05]"
+                    }`;
+                    // Cliquable vers le profil de l'auteur (sauf messages admin).
+                    return n.actor_id && n.type!== "admin"? (
+                      <li key={n.id}>
+                        <Link
+                          href={`/membre?u=${n.actor_id}`}
+                          onClick={() => setOpen(false)}
+                          className={`${rowCls} transition-colors hover:bg-night-900/[0.04]`}
+                        >
+                          {inner}
+                        </Link>
+                      </li>
+                    ): (
+                      <li key={n.id} className={rowCls}>
+                        {inner}
+                      </li>
+                    );
+                  })}
                 </ul>
               )}
             </div>

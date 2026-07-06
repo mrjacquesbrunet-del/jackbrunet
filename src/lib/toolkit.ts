@@ -31,15 +31,19 @@ export function highlightBg(color: string | undefined): string {
   return HIGHLIGHT_COLORS.find((c) => c.key === color)?.bg?? HIGHLIGHT_COLORS[0].bg;
 }
 
+/** Texte mémorisé pour un surlignage, afin de le retrouver dans le carnet. */
+export type HlMeta = { text: string; reference?: string; kind?: string };
+
 type State = {
   highlights: string[];
   colors: Record<string, string>; // id → couleur du surlignage
+  hlmeta: Record<string, HlMeta>; // id → texte surligné (pour le carnet)
   noted: string[]; // ids ayant une note (petit marqueur)
   saved: Snippet[];
 };
 
 const KEY = "jb.toolkit.v1";
-const emptyState: State = { highlights: [], colors: {}, noted: [], saved: [] };
+const emptyState: State = { highlights: [], colors: {}, hlmeta: {}, noted: [], saved: [] };
 
 let state: State = emptyState;
 let loaded = false;
@@ -92,7 +96,7 @@ export function toggleHighlight(id: string) {
 }
 
 /** Surligne avec une couleur; re-cliquer la même couleur retire le surlignage. */
-export function highlightWith(id: string, color: string) {
+export function highlightWith(id: string, color: string, meta?: HlMeta) {
   load();
   const colors = {...state.colors };
   if (state.highlights.includes(id) && colors[id] === color) {
@@ -100,10 +104,12 @@ export function highlightWith(id: string, color: string) {
     return;
   }
   colors[id] = color;
+  const hlmeta = {...state.hlmeta };
+  if (meta) hlmeta[id] = meta;
   const highlights = state.highlights.includes(id)
 ? state.highlights
 : [...state.highlights, id];
-  commit({...state, highlights, colors });
+  commit({...state, highlights, colors, hlmeta });
   sink?.highlightAdd(id);
 }
 
@@ -112,7 +118,9 @@ export function clearHighlight(id: string) {
   load();
   const colors = {...state.colors };
   delete colors[id];
-  commit({...state, colors, highlights: state.highlights.filter((x) => x!== id) });
+  const hlmeta = {...state.hlmeta };
+  delete hlmeta[id];
+  commit({...state, colors, hlmeta, highlights: state.highlights.filter((x) => x!== id) });
   sink?.highlightRemove(id);
 }
 
@@ -160,6 +168,10 @@ export function useToolkit() {
   return {
     highlights: s.highlights,
     saved: s.saved,
+    // Surlignages avec leur texte, pour les lister dans le carnet / favoris.
+    highlightItems: s.highlights
+.map((id) => ({ id, color: s.colors[id]?? DEFAULT_HL,...s.hlmeta[id] }))
+.filter((h): h is { id: string; color: string } & HlMeta => Boolean((h as HlMeta).text)),
     isHighlighted: (id: string) => s.highlights.includes(id),
     highlightColor: (id: string) => s.colors[id]?? DEFAULT_HL,
     isNoted: (id: string) => s.noted.includes(id),

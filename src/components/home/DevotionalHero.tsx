@@ -9,8 +9,19 @@ const TITLE = ["Mon", "temps", "avec", "Jésus"];
 /** En-tête animé de l'accueil de l'application (et de la page dévotionnel). */
 export function DevotionalHero({ dateLabel }: { dateLabel?: string }) {
   const [i, setI] = useState(0);
+  // La date passée en prop est calculée au build (export statique) et resterait
+  // donc figée. On la recalcule dans le navigateur pour qu'elle soit toujours
+  // celle du jour, et qu'elle bascule à minuit sans reconstruction.
+  const [today, setToday] = useState(dateLabel);
   useEffect(() => {
     const t = setInterval(() => setI((v) => (v + 1) % ROTATING.length), 2400);
+    setToday(
+      new Date().toLocaleDateString("fr-FR", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+      }),
+    );
     return () => clearInterval(t);
   }, []);
 
@@ -46,7 +57,7 @@ export function DevotionalHero({ dateLabel }: { dateLabel?: string }) {
             animate={{ scale: [1, 1.6, 1], opacity: [1, 0.5, 1] }}
             transition={{ duration: 1.8, repeat: Infinity }}
           />
-          {dateLabel? <span className="capitalize">{dateLabel}</span>: "Temps avec Jésus"}
+          {today? <span className="capitalize">{today}</span>: "Temps avec Jésus"}
         </motion.span>
 
         {/* Titre mot par mot */}

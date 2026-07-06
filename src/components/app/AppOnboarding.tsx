@@ -159,7 +159,7 @@ export function AppOnboarding() {
 
               {native? (
                 <div className="mt-8">
-                  <EmailPasswordAuth onSuccess={close} />
+                  <EmailPasswordAuth onSuccess={close} initialMode="signup" tone="dark" />
                   <button
                     onClick={close}
                     className="mt-6 w-full text-center text-sm text-cream/55 underline-offset-4 hover:underline"

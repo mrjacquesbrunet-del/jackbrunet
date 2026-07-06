@@ -28,6 +28,7 @@ import { DailyShort } from "@/components/home/DailyShort";
 import { Rewards } from "@/components/app/Rewards";
 import { Greeting } from "@/components/app/Greeting";
 import { useTodayIndex } from "@/lib/today";
+import { bibleHref } from "@/lib/bible-ref";
 import { useEngagement } from "@/lib/engagement";
 import { asset } from "@/lib/asset";
 import { MakeVersePublicButton } from "@/components/community/MakeVersePublicButton";
@@ -235,7 +236,16 @@ export function DevotionalView({
               {eng.ready? (
                 <button
                   type="button"
-                  onClick={() => eng.toggleFavorite(i)}
+                  onClick={() => {
+                    eng.toggleFavorite(i);
+                    // Aussi dans « Mes favoris » (carnet) pour retrouver le verset.
+                    tk.toggleSnippet({
+                      id: `dev:${i}:fav`,
+                      text: dev.verseText,
+                      reference: dev.verseReference,
+                      kind: "méditation",
+                    });
+                  }}
                   aria-pressed={eng.isFavorite(i)}
                   className="btn-ghost inline-flex items-center gap-1.5"
                 >
@@ -351,20 +361,25 @@ export function DevotionalView({
               </div>
             </div>
 
-            <Link href="/bible" className="btn-ghost mt-4 inline-flex">
+            <Link
+              href={bibleHref(planDay.passages[0])?? "/bible"}
+              className="btn-ghost mt-4 inline-flex"
+            >
               Ouvrir la Bible
             </Link>
 
-            {/* Plan de lecture complet (aujourd'hui mis en avant) */}
+            {/* Plan de lecture complet (aujourd'hui mis en avant) — chaque jour
+                ouvre directement le bon passage dans la Bible. */}
             <ol className="mt-4 grid max-w-2xl gap-3 sm:grid-cols-2">
               {plan.map((d) => {
                 const isToday = d.day === planDay.day;
                 return (
                   <li key={d.day}>
-                    <div
+                    <Link
+                      href={bibleHref(d.passages[0])?? "/bible"}
                       className={`flex h-full items-center gap-3 rounded-2xl border p-3.5 transition-colors ${
                         isToday
-? "border-dawn-400/60 bg-dawn-400/10"
+? "border-dawn-400/60 bg-dawn-400/10 hover:border-dawn-400"
 : "border-night-900/10 bg-white hover:border-night-900/20"
                       }`}
                     >
@@ -383,7 +398,7 @@ export function DevotionalView({
                           {d.passages.join(" · ")} &middot; {d.minutes} min
                         </p>
                       </div>
-                    </div>
+                    </Link>
                   </li>
                 );
               })}

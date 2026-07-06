@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
 import { Avatar } from "@/components/community/Avatar";
 import { PrayerMark } from "@/components/ui/PrayerMark";
 import {
@@ -101,13 +102,29 @@ export function ProfileNotifications({ userId }: { userId: string }) {
           </p>
         ): (
           <ul className="divide-y divide-night-900/5">
-            {items.slice(0, 12).map((n) => (
-              <li key={n.id} className="flex items-center gap-3 py-2.5">
-                <Avatar pseudo={n.actor?.pseudo} url={n.actor?.avatar_url} size={34} />
-                <p className="min-w-0 flex-1 text-sm text-night-900/85">{label(n)}</p>
-                <span className="shrink-0 text-xs text-night-900/40">{when(n.created_at)}</span>
-              </li>
-            ))}
+            {items.slice(0, 12).map((n) => {
+              const inner = (
+                <>
+                  <Avatar pseudo={n.actor?.pseudo} url={n.actor?.avatar_url} size={34} />
+                  <p className="min-w-0 flex-1 text-sm text-night-900/85">{label(n)}</p>
+                  <span className="shrink-0 text-xs text-night-900/40">{when(n.created_at)}</span>
+                </>
+              );
+              return n.actor_id && n.type!== "admin"? (
+                <li key={n.id}>
+                  <Link
+                    href={`/membre?u=${n.actor_id}`}
+                    className="-mx-2 flex items-center gap-3 rounded-xl px-2 py-2.5 transition-colors hover:bg-night-900/[0.04]"
+                  >
+                    {inner}
+                  </Link>
+                </li>
+              ): (
+                <li key={n.id} className="flex items-center gap-3 py-2.5">
+                  {inner}
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>

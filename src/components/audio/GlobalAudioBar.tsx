@@ -42,81 +42,90 @@ export function GlobalAudioBar() {
   // Podcast en priorité.
   if (pod.current) {
     return (
-      <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-night-900/10 bg-white/95 px-4 py-3.5 backdrop-blur">
-        <div className="container-x flex items-center gap-2 px-0">
-          <button
-            type="button"
-            onClick={pod.toggle}
-            aria-label={pod.playing? "Pause": "Lire"}
-            className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950"
-          >
-            {pod.playing? <PauseGlyph className="h-6 w-6" />: <PlayGlyph className="h-6 w-6" />}
-          </button>
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-[15px] font-semibold text-night-900/90">{pod.current.title}</p>
-            <div className="mt-1.5 flex items-center gap-2">
-              <span className="text-[10px] tabular-nums text-night-900/45">{fmt(time)}</span>
-              <input
-                type="range"
-                min={0}
-                max={dur || 0}
-                value={time}
-                onChange={(e) => pod.seek(Number(e.target.value))}
-                className="h-1.5 flex-1 accent-spirit-600"
-                aria-label="Position"
-              />
-              <span className="text-[10px] tabular-nums text-night-900/45">{fmt(dur)}</span>
+      <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-night-900/10 bg-white/95 px-4 py-3 backdrop-blur">
+        <div className="container-x px-0">
+          {/* Ligne 1 — gros bouton, titre + progression, fermer */}
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={pod.toggle}
+              aria-label={pod.playing? "Pause": "Lire"}
+              className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950 shadow-sm transition-transform active:scale-95"
+            >
+              {pod.playing? <PauseGlyph className="h-7 w-7" />: <PlayGlyph className="h-7 w-7" />}
+            </button>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-[15px] font-semibold text-night-900/90">
+                {pod.current.title}
+              </p>
+              <div className="mt-1.5 flex items-center gap-2">
+                <span className="text-[10px] tabular-nums text-night-900/45">{fmt(time)}</span>
+                <input
+                  type="range"
+                  min={0}
+                  max={dur || 0}
+                  value={time}
+                  onChange={(e) => pod.seek(Number(e.target.value))}
+                  className="h-1.5 flex-1 accent-spirit-600"
+                  aria-label="Position"
+                />
+                <span className="text-[10px] tabular-nums text-night-900/45">{fmt(dur)}</span>
+              </div>
             </div>
+            <button
+              type="button"
+              onClick={pod.stop}
+              aria-label="Fermer le lecteur"
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-night-900/40 transition-colors hover:bg-night-900/5 hover:text-night-900/70"
+            >
+              ✕
+            </button>
           </div>
-          <button
-            type="button"
-            onClick={() => {
-              if (pod.queue.length < 2) return;
-              const q = [...pod.queue];
-              for (let i = q.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [q[i], q[j]] = [q[j], q[i]];
-              }
-              pod.playQueue(q, 0);
-            }}
-            aria-label="Lecture aléatoire"
-            className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-night-900/50 transition-colors hover:bg-night-900/5"
-          >
-            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2} aria-hidden>
-              <path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              const speeds = [1, 1.25, 1.5, 0.8];
-              const i = speeds.indexOf(pod.rate);
-              pod.setRate(speeds[(i + 1) % speeds.length]);
-            }}
-            aria-label="Vitesse de lecture"
-            className="h-9 shrink-0 rounded-full border border-night-900/10 bg-night-900/[0.04] px-2.5 text-xs font-bold tabular-nums text-night-900/70"
-          >
-            {pod.rate}×
-          </button>
-          <SleepTimer />
-          <button
-            type="button"
-            onClick={pod.next}
-            aria-label="Suivant"
-            className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-night-900/50 transition-colors hover:bg-night-900/5"
-          >
-            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current" aria-hidden>
-              <path d="M6 5l9 7-9 7zM17 5h2v14h-2z" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            onClick={pod.stop}
-            aria-label="Fermer le lecteur"
-            className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-night-900/40 transition-colors hover:bg-night-900/5 hover:text-night-900/70"
-          >
-            ✕
-          </button>
+
+          {/* Ligne 2 — contrôles secondaires, bien espacés (rien ne se superpose) */}
+          <div className="mt-2 flex items-center justify-center gap-2.5">
+            <button
+              type="button"
+              onClick={() => {
+                if (pod.queue.length < 2) return;
+                const q = [...pod.queue];
+                for (let i = q.length - 1; i > 0; i--) {
+                  const j = Math.floor(Math.random() * (i + 1));
+                  [q[i], q[j]] = [q[j], q[i]];
+                }
+                pod.playQueue(q, 0);
+              }}
+              aria-label="Lecture aléatoire"
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-night-900/55 transition-colors hover:bg-night-900/5"
+            >
+              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2} aria-hidden>
+                <path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                const speeds = [1, 1.25, 1.5, 0.8];
+                const i = speeds.indexOf(pod.rate);
+                pod.setRate(speeds[(i + 1) % speeds.length]);
+              }}
+              aria-label="Vitesse de lecture"
+              className="h-9 shrink-0 rounded-full border border-night-900/10 bg-night-900/[0.04] px-3 text-xs font-bold tabular-nums text-night-900/70"
+            >
+              {pod.rate}×
+            </button>
+            <SleepTimer />
+            <button
+              type="button"
+              onClick={pod.next}
+              aria-label="Suivant"
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-night-900/55 transition-colors hover:bg-night-900/5"
+            >
+              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current" aria-hidden>
+                <path d="M6 5l9 7-9 7zM17 5h2v14h-2z" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     );

@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { shareText } from "@/lib/share";
+import { openExternal } from "@/lib/external";
 
 const SITE_URL = "https://jackbrunet.com";
 
@@ -33,29 +35,22 @@ export function ShareButtons({
   }
 
   async function nativeShare() {
-    if (typeof navigator!== "undefined" && navigator.share) {
-      try {
-        await navigator.share({ text, url });
-      } catch {
-        /* partage annulé — on ignore */
-      }
-    } else {
-      copy();
-    }
+    // Feuille de partage native (Capacitor) ou Web Share ; repli: copie.
+    const shared = await shareText(text, url);
+    if (!shared) copy();
   }
 
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <a
-        href={waHref}
-        target="_blank"
-        rel="noopener noreferrer"
+      <button
+        type="button"
+        onClick={() => openExternal(waHref)}
         className="btn-ghost px-4 py-2 text-sm"
         aria-label="Partager sur WhatsApp"
       >
         <WhatsAppIcon className="h-4 w-4" />
         WhatsApp
-      </a>
+      </button>
       <button
         type="button"
         onClick={nativeShare}
