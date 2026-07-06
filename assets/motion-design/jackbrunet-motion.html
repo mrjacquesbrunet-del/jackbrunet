@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>JACKBRUNET — Motion design</title>
+<style>
+  /* ————— Polices de la charte ————— */
+  @font-face { font-family: "Playfair Display"; src: url("fonts/playfair-display-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-style: normal; }
+  @font-face { font-family: "Playfair Display"; src: url("fonts/playfair-display-latin-600-italic.woff2") format("woff2"); font-weight: 600; font-style: italic; }
+  @font-face { font-family: "Playfair Display"; src: url("fonts/playfair-display-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-style: normal; }
+  @font-face { font-family: "Archivo"; src: url("fonts/archivo-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; }
+  @font-face { font-family: "Archivo"; src: url("fonts/archivo-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-style: normal; }
+  @font-face { font-family: "Archivo"; src: url("fonts/archivo-latin-800-normal.woff2") format("woff2"); font-weight: 800; font-style: normal; }
+
+  :root {
+    --olive: #3A3F28;
+    --lime:  #CAF000;
+    --cream: #F3F3ED;
+    --ink:   #1F2216;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #000; }
+  #stage {
+    position: relative; width: 1920px; height: 1080px;
+    overflow: hidden; background: var(--cream);
+    font-family: "Archivo", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .scene { position: absolute; inset: 0; opacity: 0; }
+  .center { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+  /* Révélation de texte par masque */
+  .mask { overflow: hidden; display: inline-block; vertical-align: bottom; }
+  .mask > span { display: inline-block; will-change: transform; }
+
+  /* Décor topographique */
+  .topo { position: absolute; inset: -200px; pointer-events: none; }
+
+  /* ————— Scène 1 : ouverture ————— */
+  #s1 { background: var(--cream); }
+  #s1 .kicker-bar { width: 14px; height: 74px; background: var(--lime); margin-bottom: 42px; }
+  #s1 .logo { font-weight: 800; font-size: 158px; letter-spacing: 0.085em; color: var(--ink); line-height: 1; white-space: nowrap; text-indent: 0.085em; }
+  #s1 .sub { margin-top: 40px; font-weight: 600; font-size: 30px; letter-spacing: 0.5em; text-indent: 0.5em; color: var(--olive); }
+  #s1 .rule { margin-top: 44px; height: 2px; width: 340px; background: var(--olive); opacity: .35; }
+
+  /* ————— Scène 2 : chaque jour ————— */
+  #s2 { background: var(--olive); }
+  #s2 .wrap { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 170px; }
+  .kicker { display: inline-flex; align-items: center; gap: 20px; font-weight: 600; font-size: 27px; letter-spacing: 0.42em; }
+  .kicker .dot { width: 16px; height: 16px; background: var(--lime); border-radius: 50%; }
+  #s2 .kicker { color: var(--lime); }
+  #s2 h2 { font-family: "Playfair Display", serif; font-style: italic; font-weight: 600; font-size: 108px; line-height: 1.12; color: var(--cream); margin-top: 46px; max-width: 900px; }
+  #s2 .card {
+    width: 620px; background: var(--cream); border-radius: 28px; padding: 58px 60px;
+    box-shadow: 0 40px 90px rgba(0,0,0,.35);
+  }
+  #s2 .card .cap { font-weight: 600; font-size: 22px; letter-spacing: .34em; color: var(--olive); opacity: .75; }
+  #s2 .card h3 { font-family: "Playfair Display", serif; font-weight: 700; font-size: 54px; color: var(--ink); margin-top: 26px; line-height: 1.18; }
+  #s2 .card .cta { display: inline-block; margin-top: 40px; background: var(--lime); color: var(--ink); font-weight: 800; font-size: 26px; padding: 20px 38px; border-radius: 999px; letter-spacing: .04em; }
+  .rings { position: absolute; border-radius: 50%; border: 2px solid var(--lime); opacity: .16; }
+
+  /* ————— Scène 3 : verset ————— */
+  #s3 { background: var(--cream); }
+  #s3 .badge { display: inline-flex; align-items: center; gap: 18px; background: var(--olive); color: var(--cream); font-weight: 600; font-size: 25px; letter-spacing: .34em; text-indent: .1em; padding: 20px 44px; border-radius: 999px; }
+  #s3 .badge .dot { width: 13px; height: 13px; background: var(--lime); border-radius: 50%; }
+  #s3 .quote-mark { font-family: "Playfair Display", serif; font-weight: 700; font-size: 190px; line-height: .55; color: var(--lime); height: 105px; }
+  #s3 .verse { font-family: "Playfair Display", serif; font-weight: 600; font-size: 92px; line-height: 1.24; color: var(--ink); text-align: center; }
+  #s3 .ref { display: inline-flex; align-items: center; gap: 24px; margin-top: 54px; font-weight: 600; font-size: 30px; letter-spacing: .38em; text-indent: .1em; color: var(--olive); }
+  #s3 .ref .bar { width: 64px; height: 6px; background: var(--lime); }
+
+  /* ————— Scène 4 : contenus ————— */
+  #s4 { background: var(--ink); }
+  #s4 .wrap { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 180px; }
+  #s4 .kicker { color: var(--lime); }
+  #s4 h2 { font-family: "Playfair Display", serif; font-weight: 700; font-size: 96px; color: var(--cream); margin-top: 44px; line-height: 1.1; }
+  #s4 ul { list-style: none; margin-top: 62px; }
+  #s4 li { display: flex; align-items: center; gap: 30px; font-weight: 600; font-size: 44px; color: var(--cream); margin-top: 38px; }
+  #s4 li .chip { width: 26px; height: 26px; background: var(--lime); border-radius: 8px; flex: none; }
+  #s4 .phone {
+    width: 460px; height: 940px; border-radius: 64px; background: var(--olive);
+    border: 10px solid rgba(243,243,237,.92); overflow: hidden; position: relative;
+    box-shadow: 0 60px 120px rgba(0,0,0,.5);
+  }
+  #s4 .feed { position: absolute; left: 34px; right: 34px; top: 0; }
+  #s4 .post { background: var(--cream); border-radius: 30px; height: 300px; margin-top: 34px; padding: 34px; position: relative; }
+  #s4 .post .play { width: 84px; height: 84px; border-radius: 50%; background: var(--lime); position: relative; }
+  #s4 .post .play::after { content: ""; position: absolute; left: 34px; top: 26px; border-left: 26px solid var(--ink); border-top: 16px solid transparent; border-bottom: 16px solid transparent; }
+  #s4 .post .l1, #s4 .post .l2 { height: 20px; border-radius: 10px; background: var(--olive); opacity: .8; margin-top: 26px; }
+  #s4 .post .l1 { width: 78%; margin-top: 40px; }
+  #s4 .post .l2 { width: 52%; opacity: .35; }
+  #s4 .post.lime { background: var(--lime); }
+  #s4 .post.lime .play { background: var(--ink); }
+  #s4 .post.lime .play::after { border-left-color: var(--lime); }
+  #s4 .post.lime .l1, #s4 .post.lime .l2 { background: var(--ink); }
+
+  /* ————— Scène 5 : communauté ————— */
+  #s5 { background: var(--cream); }
+  #s5 .kicker { color: var(--olive); }
+  #s5 h2 { font-family: "Playfair Display", serif; font-style: italic; font-weight: 600; font-size: 100px; color: var(--ink); margin-top: 40px; text-align: center; }
+  #s5 .cards { display: flex; gap: 44px; margin-top: 74px; }
+  #s5 .card { width: 520px; border-radius: 30px; padding: 52px 54px; }
+  #s5 .card.a { background: var(--olive); color: var(--cream); box-shadow: 0 40px 80px rgba(58,63,40,.35); }
+  #s5 .card.b { background: #fff; color: var(--ink); border: 3px solid var(--olive); }
+  #s5 .card h3 { font-family: "Playfair Display", serif; font-weight: 700; font-size: 52px; }
+  #s5 .card p { margin-top: 20px; font-size: 28px; line-height: 1.5; opacity: .85; }
+  #s5 .pill { display: inline-flex; align-items: center; gap: 14px; margin-top: 34px; background: var(--lime); color: var(--ink); border-radius: 999px; padding: 14px 28px; font-weight: 800; font-size: 24px; }
+  #s5 .pill .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--ink); }
+  #s5 .avatar { position: absolute; border-radius: 50%; }
+
+  /* ————— Scène 6 : final ————— */
+  #s6 { background: var(--lime); }
+  #s6 .logo { font-weight: 800; font-size: 176px; letter-spacing: 0.085em; text-indent: 0.085em; color: var(--ink); line-height: 1; white-space: nowrap; }
+  #s6 .tag { font-family: "Playfair Display", serif; font-style: italic; font-weight: 600; font-size: 58px; color: var(--ink); margin-top: 48px; }
+  #s6 .url { display: inline-flex; align-items: center; gap: 22px; margin-top: 74px; background: var(--ink); color: var(--lime); font-weight: 800; font-size: 34px; letter-spacing: .06em; padding: 26px 54px; border-radius: 999px; }
+  #s6 .yt { margin-top: 30px; font-weight: 600; font-size: 26px; letter-spacing: .3em; text-indent: .3em; color: var(--ink); opacity: .72; }
+
+  /* Rideaux de transition */
+  .wipe { position: absolute; inset: 0; transform: translateY(101%); z-index: 50; }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- Scène 1 — Ouverture -->
+  <section class="scene center" id="s1">
+    <svg class="topo" id="topo1"></svg>
+    <div class="kicker-bar" id="s1bar"></div>
+    <div class="logo" id="s1logo">JACKBRUNET</div>
+    <div class="sub" id="s1sub">MINISTÈRE CHRÉTIEN</div>
+    <div class="rule" id="s1rule"></div>
+  </section>
+
+  <!-- Scène 2 — Chaque jour -->
+  <section class="scene" id="s2">
+    <div class="rings" id="ring1" style="width:900px;height:900px;left:-320px;top:-320px;"></div>
+    <div class="rings" id="ring2" style="width:1400px;height:1400px;left:-570px;top:-570px;"></div>
+    <div class="wrap">
+      <div>
+        <div class="kicker" id="s2k"><span class="dot"></span><span>CHAQUE JOUR</span></div>
+        <h2 id="s2h">Une parole qui éclaire ta journée.</h2>
+      </div>
+      <div class="card" id="s2card">
+        <div class="cap">PENSÉE DU JOUR</div>
+        <h3>Commence ta journée avec Jésus.</h3>
+        <span class="cta">Lire la pensée&nbsp;→</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scène 3 — Verset du jour -->
+  <section class="scene center" id="s3">
+    <svg class="topo" id="topo3"></svg>
+    <div class="badge" id="s3badge"><span class="dot"></span><span>VERSET DU JOUR</span></div>
+    <div class="quote-mark" id="s3q" style="margin-top:56px;">«</div>
+    <div class="verse" id="s3v" style="margin-top:8px;">
+      <div class="mask"><span>Ta parole est une lampe à mes pieds,</span></div><br>
+      <div class="mask"><span>une lumière sur mon sentier.</span></div>
+    </div>
+    <div class="ref" id="s3ref"><span class="bar"></span><span>PSAUME 119 : 105</span></div>
+  </section>
+
+  <!-- Scène 4 — Contenus -->
+  <section class="scene" id="s4">
+    <div class="wrap">
+      <div>
+        <div class="kicker" id="s4k"><span class="dot"></span><span>SE NOURRIR</span></div>
+        <h2 id="s4h">Tout pour grandir.</h2>
+        <ul>
+          <li id="s4i1"><span class="chip"></span><span>Bible &amp; plans de lecture</span></li>
+          <li id="s4i2"><span class="chip"></span><span>Shorts &amp; prédications</span></li>
+          <li id="s4i3"><span class="chip"></span><span>Temps avec Jésus, chaque matin</span></li>
+        </ul>
+      </div>
+      <div class="phone" id="s4phone">
+        <div class="feed" id="s4feed">
+          <div class="post"><div class="play"></div><div class="l1"></div><div class="l2"></div></div>
+          <div class="post lime"><div class="play"></div><div class="l1"></div><div class="l2"></div></div>
+          <div class="post"><div class="play"></div><div class="l1"></div><div class="l2"></div></div>
+          <div class="post lime"><div class="play"></div><div class="l1"></div><div class="l2"></div></div>
+          <div class="post"><div class="play"></div><div class="l1"></div><div class="l2"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scène 5 — Communauté -->
+  <section class="scene center" id="s5">
+    <div class="avatar" id="av1" style="width:74px;height:74px;background:var(--olive);left:270px;top:210px;"></div>
+    <div class="avatar" id="av2" style="width:52px;height:52px;background:var(--lime);left:420px;top:330px;"></div>
+    <div class="avatar" id="av3" style="width:64px;height:64px;background:var(--ink);right:330px;top:250px;"></div>
+    <div class="avatar" id="av4" style="width:46px;height:46px;background:var(--lime);right:250px;top:390px;"></div>
+    <div class="kicker" id="s5k"><span class="dot"></span><span>ENSEMBLE</span></div>
+    <h2 id="s5h">Porter la prière, ensemble.</h2>
+    <div class="cards">
+      <div class="card a" id="s5c1">
+        <h3>Mur de prière</h3>
+        <p>Dépose un sujet, la communauté prie avec toi.</p>
+        <span class="pill"><span class="dot"></span>Prières exaucées</span>
+      </div>
+      <div class="card b" id="s5c2">
+        <h3>Témoignages</h3>
+        <p>Ce que Dieu fait dans des vies, aujourd&rsquo;hui.</p>
+        <span class="pill"><span class="dot"></span>Partager le mien</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scène 6 — Final -->
+  <section class="scene center" id="s6">
+    <div class="logo" id="s6logo">JACKBRUNET</div>
+    <div class="tag" id="s6tag">Grandir en Jésus, chaque jour.</div>
+    <div class="url" id="s6url">jackbrunet.com</div>
+    <div class="yt" id="s6yt">YOUTUBE&nbsp;·&nbsp;@JACK_BRNT</div>
+  </section>
+
+  <!-- Rideaux de transition -->
+  <div class="wipe" id="w12" style="background:var(--olive);"></div>
+  <div class="wipe" id="w23" style="background:var(--cream);"></div>
+  <div class="wipe" id="w34" style="background:var(--ink);"></div>
+  <div class="wipe" id="w45" style="background:var(--cream);"></div>
+  <div class="wipe" id="w56" style="background:var(--lime);"></div>
+</div>
+
+<script>
+/* ————————————————————————————————————————————————
+   Timeline déterministe (Web Animations API).
+   Toutes les animations partent de t=0 (delay = position dans la
+   timeline) ; window.SEEK(ms) fige la frame demandée.
+   ———————————————————————————————————————————————— */
+const EXPO = "cubic-bezier(0.16, 1, 0.3, 1)";   // sortie expo — signature du site
+const SOFT = "cubic-bezier(0.65, 0, 0.35, 1)";  // in-out doux (rideaux)
+const TOTAL = 25000;                             // 25 s
+window.TOTAL_MS = TOTAL;
+
+const $ = (id) => document.getElementById(id);
+const anims = [];
+function tw(el, keyframes, { at = 0, dur = 800, ease = EXPO, fill = "both" } = {}) {
+  const a = el.animate(keyframes, { delay: at, duration: dur, easing: ease, fill });
+  a.pause();
+  anims.push(a);
+}
+/* Affiche une scène sur [t0, t1] — une seule animation (fill: none),
+   hors intervalle l'opacité CSS de base (0) reprend la main. */
+function show(el, t0, t1) {
+  tw(el, [{ opacity: 1 }, { opacity: 1 }], { at: t0, dur: t1 - t0, ease: "linear", fill: "none" });
+}
+/* Rideau plein écran : monte, couvre, repart vers le haut (une seule animation). */
+function wipe(el, at) {
+  tw(el, [
+    { transform: "translateY(101%)", easing: SOFT },
+    { transform: "translateY(0%)", easing: SOFT, offset: 0.5 },
+    { transform: "translateY(-101%)" },
+  ], { at, dur: 1240, fill: "none" });
+}
+/* Découpe un texte en lettres masquées (groupées par mot, insécables),
+   révélées en cascade — pour les titres Archivo sans empattement. */
+function letters(el, at, { stagger = 55, dur = 900 } = {}) {
+  const words = el.textContent.split(" ");
+  el.textContent = "";
+  let i = 0;
+  words.forEach((word, w) => {
+    const group = document.createElement("span");
+    group.style.display = "inline-block";
+    group.style.whiteSpace = "nowrap";
+    [...word].forEach((ch) => {
+      const m = document.createElement("span");
+      m.className = "mask";
+      const s = document.createElement("span");
+      s.textContent = ch;
+      m.appendChild(s);
+      group.appendChild(m);
+      tw(s, [{ transform: "translateY(110%)" }, { transform: "translateY(0)" }], { at: at + i * stagger, dur });
+      i++;
+    });
+    el.appendChild(group);
+    if (w < words.length - 1) el.appendChild(document.createTextNode(" "));
+  });
+}
+/* Révélation par mots (fondu + montée) — pour les titres serif/italiques,
+   que les masques par lettre rogneraient. */
+function words(el, at, { stagger = 95, dur = 850 } = {}) {
+  const parts = el.textContent.split(" ");
+  el.textContent = "";
+  parts.forEach((word, w) => {
+    const s = document.createElement("span");
+    s.style.display = "inline-block";
+    s.textContent = word;
+    el.appendChild(s);
+    if (w < parts.length - 1) el.appendChild(document.createTextNode(" "));
+    tw(s, [{ opacity: 0, transform: "translateY(55px)" }, { opacity: 1, transform: "translateY(0)" }], { at: at + w * stagger, dur });
+  });
+}
+const rise = (el, at, dur = 900, dist = 60) =>
+  tw(el, [{ opacity: 0, transform: `translateY(${dist}px)` }, { opacity: 1, transform: "translateY(0)" }], { at, dur });
+
+/* Décor topographique (anneaux concentriques irréguliers) */
+function topo(svg, cx, cy, color) {
+  svg.setAttribute("viewBox", "0 0 2320 1480");
+  let d = "";
+  for (let r = 90; r < 1500; r += 95) {
+    d += `M ${cx + r} ${cy} A ${r} ${r * 0.82} 0 1 0 ${cx - r} ${cy} A ${r} ${r * 0.82} 0 1 0 ${cx + r} ${cy} `;
+  }
+  const p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  p.setAttribute("d", d);
+  p.setAttribute("fill", "none");
+  p.setAttribute("stroke", color);
+  p.setAttribute("stroke-width", "2");
+  p.setAttribute("opacity", "0.10");
+  svg.appendChild(p);
+}
+topo($("topo1"), 1750, 1150, "#3A3F28");
+topo($("topo3"), 500, 260, "#3A3F28");
+
+/* ————— SCÈNE 1 · 0 → 3.9 s ————— */
+show($("s1"), 0, 3900);
+tw($("topo1"), [{ transform: "rotate(0deg) scale(1)" }, { transform: "rotate(4deg) scale(1.06)" }], { at: 0, dur: 3900, ease: "linear" });
+tw($("s1bar"), [{ transform: "scaleY(0)" }, { transform: "scaleY(1)" }], { at: 200, dur: 700 });
+letters($("s1logo"), 420, { stagger: 62, dur: 950 });
+rise($("s1sub"), 1350, 900, 40);
+tw($("s1rule"), [{ transform: "scaleX(0)" }, { transform: "scaleX(1)" }], { at: 1650, dur: 900 });
+tw($("s1"), [{ transform: "scale(1)" }, { transform: "scale(1.045)" }], { at: 0, dur: 3900, ease: "linear" });
+wipe($("w12"), 3280);
+
+/* ————— SCÈNE 2 · 3.9 → 8.6 s ————— */
+show($("s2"), 3900, 8600);
+tw($("ring1"), [{ transform: "scale(0.9)" }, { transform: "scale(1.12)" }], { at: 3900, dur: 4700, ease: "linear" });
+tw($("ring2"), [{ transform: "scale(1.05)" }, { transform: "scale(0.92)" }], { at: 3900, dur: 4700, ease: "linear" });
+rise($("s2k"), 4050, 800, 36);
+words($("s2h"), 4200, { stagger: 110, dur: 900 });
+tw($("s2card"), [
+  { opacity: 0, transform: "translateY(140px) rotate(2.5deg)", easing: EXPO },
+  { opacity: 1, transform: "translateY(0) rotate(0deg)", easing: "linear", offset: 1100 / 3950 },
+  { opacity: 1, transform: "translateY(-18px)" },
+], { at: 4650, dur: 3950 });
+wipe($("w23"), 7980);
+
+/* ————— SCÈNE 3 · 8.6 → 13.4 s ————— */
+show($("s3"), 8600, 13400);
+tw($("topo3"), [{ transform: "rotate(0deg)" }, { transform: "rotate(-4deg)" }], { at: 8600, dur: 4800, ease: "linear" });
+rise($("s3badge"), 8750, 800, 40);
+tw($("s3q"), [{ opacity: 0, transform: "translateY(-90px) scale(0.6)" }, { opacity: 1, transform: "translateY(0) scale(1)" }], { at: 9000, dur: 900 });
+document.querySelectorAll("#s3v .mask > span").forEach((s, i) =>
+  tw(s, [{ transform: "translateY(115%)" }, { transform: "translateY(0)" }], { at: 9250 + i * 260, dur: 1000 }));
+rise($("s3ref"), 10050, 850, 34);
+tw($("s3"), [{ transform: "scale(1)" }, { transform: "scale(1.035)" }], { at: 8600, dur: 4800, ease: "linear" });
+wipe($("w34"), 12780);
+
+/* ————— SCÈNE 4 · 13.4 → 18.2 s ————— */
+show($("s4"), 13400, 18200);
+rise($("s4k"), 13550, 800, 36);
+words($("s4h"), 13700, { stagger: 120, dur: 900 });
+[["s4i1", 14150], ["s4i2", 14370], ["s4i3", 14590]].forEach(([id, at]) => {
+  tw($(id), [{ opacity: 0, transform: "translateX(-70px)" }, { opacity: 1, transform: "translateX(0)" }], { at, dur: 900 });
+});
+tw($("s4phone"),
+  [{ opacity: 0, transform: "translateY(220px) rotate(-3deg)" }, { opacity: 1, transform: "translateY(0) rotate(0deg)" }],
+  { at: 13900, dur: 1100 });
+tw($("s4feed"), [{ transform: "translateY(40px)" }, { transform: "translateY(-760px)" }], { at: 14400, dur: 3800, ease: "linear" });
+wipe($("w45"), 17580);
+
+/* ————— SCÈNE 5 · 18.2 → 21.9 s ————— */
+show($("s5"), 18200, 21900);
+rise($("s5k"), 18350, 800, 36);
+words($("s5h"), 18480, { stagger: 100, dur: 900 });
+tw($("s5c1"), [{ opacity: 0, transform: "translateY(120px) rotate(-2deg)" }, { opacity: 1, transform: "translateY(0) rotate(0deg)" }], { at: 18900, dur: 1000 });
+tw($("s5c2"), [{ opacity: 0, transform: "translateY(120px) rotate(2deg)" }, { opacity: 1, transform: "translateY(0) rotate(0deg)" }], { at: 19100, dur: 1000 });
+[["av1", 19300], ["av2", 19420], ["av3", 19360], ["av4", 19500]].forEach(([id, at]) => {
+  tw($(id), [{ opacity: 0, transform: "scale(0)" }, { opacity: 1, transform: "scale(1)" }], { at, dur: 700 });
+});
+wipe($("w56"), 21280);
+
+/* ————— SCÈNE 6 · 21.9 → 25 s ————— */
+show($("s6"), 21900, TOTAL + 400);
+letters($("s6logo"), 22050, { stagger: 55, dur: 950 });
+rise($("s6tag"), 22850, 900, 44);
+tw($("s6url"), [{ opacity: 0, transform: "scale(0.8)" }, { opacity: 1, transform: "scale(1)" }], { at: 23400, dur: 800 });
+rise($("s6yt"), 23750, 800, 26);
+
+/* ————— Contrôle externe ————— */
+window.SEEK = (ms) => { anims.forEach((a) => { a.currentTime = ms; }); };
+window.SEEK(0);
+window.READY = document.fonts.ready.then(() => true);
+</script>
+</body>
+</html>
