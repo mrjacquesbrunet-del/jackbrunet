@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useToolkit } from "@/lib/toolkit";
 import { shareImageBlob, saveImageBlob } from "@/lib/share";
+import { InAppShare } from "@/components/community/InAppShare";
 import { BookmarkGlyph, BookmarkFilledGlyph } from "@/components/ui/DevoIcons";
 
 /**
@@ -147,6 +148,7 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
         <button type="button" onClick={copyText} className="btn-ghost text-sm">
           {copied? "Copié!": "Copier la phrase"}
         </button>
+        <InAppShare text={punchline} />
         {id? (
           <button
             type="button"

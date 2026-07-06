@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { shareText } from "@/lib/share";
 import { openExternal } from "@/lib/external";
+import { InAppShare } from "@/components/community/InAppShare";
 
 const SITE_URL = "https://jackbrunet.com";
 
@@ -68,6 +69,8 @@ export function ShareButtons({
       >
         {copied? "Copié!": "Copier"}
       </button>
+      {/* Partage interne: envoyer à un ami / publier sur le mur (si connecté). */}
+      <InAppShare text={text} />
     </div>
   );
 }
