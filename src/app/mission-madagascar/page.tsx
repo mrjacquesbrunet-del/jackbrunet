@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
+import { MissionProgress } from "@/components/mission/MissionProgress";
 import { PayButton } from "@/components/ui/PayButton";
 import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
 import { asset } from "@/lib/asset";
@@ -30,7 +31,6 @@ function InstagramIcon({ className }: { className?: string }) {
 export default function MissionMadagascarPage() {
   const mission = getMission();
   const { raisedEur, objectiveEur } = mission;
-  const percent = Math.min(100, Math.round((raisedEur / objectiveEur) * 100));
 
   return (
     <div className="bg-[#FAF6F0] text-[#1F2E24]">
@@ -203,19 +203,7 @@ export default function MissionMadagascarPage() {
               œuvres que nous visiterons. Chaque don, petit ou grand, nous rapproche du but.
             </p>
 
-            <div className="mt-8">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-[#FAF6F0]/80">{raisedEur} € collectés</span>
-                <span className="font-semibold text-[#EBA94D]">Objectif {objectiveEur} €</span>
-              </div>
-              <div className="mt-3 h-3 overflow-hidden rounded-full bg-white/10">
-                <div
-                  className="h-full rounded-full bg-gradient-to-r from-[#E0892B] to-[#EBA94D]"
-                  style={{ width: `${percent}%` }}
-                />
-              </div>
-              <p className="mt-2 text-sm text-[#FAF6F0]/55">{percent}% de l'objectif atteint</p>
-            </div>
+            <MissionProgress initialRaised={raisedEur} objective={objectiveEur} />
 
             <div className="mt-8">
               <PayButton

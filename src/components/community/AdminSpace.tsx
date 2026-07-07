@@ -7,6 +7,7 @@ import { AdminAnnounce } from "@/components/community/AdminAnnounce";
 import { AnalyticsDashboard } from "@/components/community/AnalyticsDashboard";
 import { ChartGlyph, HeadphonesGlyph } from "@/components/ui/DevoIcons";
 import { BibleAudioAdmin } from "@/components/community/BibleAudioAdmin";
+import { MissionRaisedAdmin } from "@/components/community/MissionRaisedAdmin";
 
 /** Espace admin unique et masqué (/admin): stats, annonces, podcasts, etc.
  * Invisible et inaccessible pour les non-admins. */
@@ -71,6 +72,9 @@ export function AdminSpace() {
             Gérer les podcasts
           </Link>
         </div>
+
+        {/* Collecte Mission Madagascar */}
+        <MissionRaisedAdmin />
 
         {/* Bible audio */}
         <BibleAudioAdmin />
