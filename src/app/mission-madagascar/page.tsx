@@ -1,19 +1,31 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PageHero } from "@/components/ui/PageHero";
-import { SectionHeader } from "@/components/ui/Section";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { PayButton } from "@/components/ui/PayButton";
 import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
-import { MadagascarMap } from "@/components/ui/MadagascarMap";
+import { asset } from "@/lib/asset";
 import { getMission } from "@/lib/content";
 import { STRIPE_LINKS } from "@/config/stripe";
 
 export const metadata: Metadata = {
   title: "Mission Madagascar",
   description:
-    "Mission d'évangélisation à Madagascar, début novembre, 10 jours. Conférence, évangélisation de rue et soutien aux œuvres (orphelinats, prisons). Objectif de collecte: 10 000 €.",
+    "Mission d'évangélisation à Madagascar, début novembre, 10 jours. Conférence, évangélisation de rue et soutien aux œuvres (orphelinats, prisons). Annoncer, aimer, servir.",
 };
+
+// Compte Instagram de la mission (à confirmer / ajuster).
+const IG_HANDLE = "mission.madagascar";
+const IG_URL = `https://instagram.com/${IG_HANDLE}`;
+
+function InstagramIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth={1.9} aria-hidden>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
 
 export default function MissionMadagascarPage() {
   const mission = getMission();
@@ -21,119 +33,127 @@ export default function MissionMadagascarPage() {
   const percent = Math.min(100, Math.round((raisedEur / objectiveEur) * 100));
 
   return (
-    <>
-      <PageHero
-        eyebrow="Mission · Madagascar"
-        title={
-          <>
-            Madagascar ,{" "}
-            <span className="text-gradient">porter la lumière de Jésus</span>
-          </>
-        }
-        description="Début novembre, pendant 10 jours, nous partons annoncer l'Évangile à Madagascar: une conférence d'évangélisation, de l'évangélisation de rue, et la visite d'œuvres, orphelinats, prisons et autres, pour les soutenir par notre présence et nos moyens."
-      >
-        <div className="flex flex-wrap justify-center gap-3">
-          <Link href="#soutenir" className="btn-primary">
-            Soutenir la mission
-          </Link>
-          <Link href="#priere" className="btn-ghost">
-            Rejoindre l'équipe de prière
-          </Link>
-        </div>
-      </PageHero>
-
-      {/* Pourquoi Madagascar */}
-      <section className="relative overflow-hidden py-16">
-        {/* Carte de Madagascar en fond, à droite, comme une texture incrustée */}
-        <MadagascarMap className="pointer-events-none absolute right-2 top-1/2 z-0 h-[72%] w-auto -translate-y-1/2 text-spirit-600/[0.10] sm:right-6 sm:h-[80%] lg:right-12" />
-
-        <div className="container-x relative z-10">
-          <SectionHeader
-            eyebrow="Le projet"
-            title={
-              <>
-                Pourquoi <span className="text-gradient">Madagascar</span>?
-              </>
-            }
+    <div className="bg-[#FAF6F0] text-[#1F2E24]">
+      {/* HÉROS */}
+      <section className="relative overflow-hidden pt-24 pb-16 sm:pt-32">
+        <div className="pointer-events-none absolute left-1/2 top-8 h-80 w-80 -translate-x-1/2 rounded-full bg-[#E0892B]/15 blur-3xl" />
+        <div className="container-x relative text-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={asset("/mission/logo.png")}
+            alt="Mission Madagascar, annoncer, aimer, servir"
+            className="mx-auto w-full max-w-[300px] sm:max-w-[380px]"
           />
-          <p className="mt-6 max-w-2xl font-display text-xl font-bold italic text-night-900 sm:text-2xl">
+          <p className="mt-4 text-xs font-bold uppercase tracking-[0.32em] text-[#E0892B] sm:text-sm">
+            Annoncer · Aimer · Servir
+          </p>
+          <h1 className="mx-auto mt-5 max-w-3xl font-display text-4xl font-extrabold leading-[1.08] sm:text-5xl">
+            Porter la lumière de <span className="text-[#E0892B]">Jésus</span> à Madagascar
+          </h1>
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-[#1F2E24]/70">
+            Début novembre, pendant 10 jours, nous partons annoncer l'Évangile: une conférence
+            d'évangélisation, de l'évangélisation de rue, et la visite d'œuvres, orphelinats,
+            prisons et autres, pour les soutenir par notre présence et nos moyens.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Link
+              href="#soutenir"
+              className="rounded-full bg-[#E0892B] px-7 py-3.5 font-bold text-white shadow-sm transition-transform hover:-translate-y-0.5"
+            >
+              Soutenir la mission
+            </Link>
+            <a
+              href={IG_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border-2 border-[#1F2E24] px-7 py-3.5 font-bold text-[#1F2E24] transition-colors hover:bg-[#1F2E24] hover:text-[#FAF6F0]"
+            >
+              <InstagramIcon className="h-5 w-5" />
+              Suivre sur Instagram
+            </a>
+            <Link
+              href="#priere"
+              className="rounded-full px-6 py-3.5 font-semibold text-[#1F2E24]/65 transition-colors hover:text-[#1F2E24]"
+            >
+              Rejoindre la prière
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* POURQUOI MADAGASCAR */}
+      <section className="relative overflow-hidden py-16">
+        <div className="container-x relative">
+          <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#E0892B]">Le projet</span>
+          <h2 className="mt-3 font-display text-3xl font-extrabold sm:text-4xl">
+            Pourquoi Madagascar&nbsp;?
+          </h2>
+          <p className="mt-6 max-w-2xl font-display text-xl font-bold italic sm:text-2xl">
             Une terre à aimer, à servir et à toucher par l'Évangile.
           </p>
-          <div className="mt-6 max-w-2xl space-y-5 text-base leading-relaxed text-night-900/70 sm:text-lg">
-          <p>
-            Depuis quelque temps, Dieu a placé Madagascar sur mon cœur. Après plusieurs
-            confirmations, nous croyons qu'il est temps d'y aller, non pas simplement pour
-            organiser un événement, mais pour répondre à un appel: annoncer Jésus, encourager les
-            cœurs, visiter les oubliés et soutenir concrètement ceux qui œuvrent déjà sur place.
-          </p>
-          <p>
-            Madagascar est une terre magnifique, riche d'histoire, de culture et de visages. Mais
-            c'est aussi une terre où les besoins sont immenses: pauvreté, précarité, enfants
-            vulnérables, familles en difficulté, détenus oubliés, œuvres locales qui manquent
-            parfois de moyens pour continuer leur mission.
-          </p>
-          <p>
-            Au-delà des besoins matériels, nous croyons qu'il existe une faim spirituelle profonde.
-            Beaucoup ont besoin d'entendre que Dieu les aime, que Jésus sauve, qu'Il restaure,
-            qu'Il relève, qu'Il pardonne et qu'Il donne une espérance qui ne dépend pas des
-            circonstances.
-          </p>
-          <p>
-            C'est dans ce contexte que nous voulons aller, avec humilité, respect et amour. Notre
-            but n'est pas d'arriver avec des réponses toutes faites, mais de servir: proclamer
-            Jésus-Christ avec clarté, prier pour les personnes, encourager les croyants et manifester
-            l'amour de Christ par des actes concrets.
-          </p>
+          <div className="mt-6 max-w-2xl space-y-5 text-base leading-relaxed text-[#1F2E24]/75 sm:text-lg">
+            <p>
+              Depuis quelque temps, Dieu a placé Madagascar sur mon cœur. Après plusieurs
+              confirmations, nous croyons qu'il est temps d'y aller, non pas simplement pour
+              organiser un événement, mais pour répondre à un appel: annoncer Jésus, encourager les
+              cœurs, visiter les oubliés et soutenir concrètement ceux qui œuvrent déjà sur place.
+            </p>
+            <p>
+              Madagascar est une terre magnifique, riche d'histoire, de culture et de visages. Mais
+              c'est aussi une terre où les besoins sont immenses: pauvreté, précarité, enfants
+              vulnérables, familles en difficulté, détenus oubliés, œuvres locales qui manquent
+              parfois de moyens pour continuer leur mission.
+            </p>
+            <p>
+              Au-delà des besoins matériels, nous croyons qu'il existe une faim spirituelle profonde.
+              Beaucoup ont besoin d'entendre que Dieu les aime, que Jésus sauve, qu'Il restaure,
+              qu'Il relève, qu'Il pardonne et qu'Il donne une espérance qui ne dépend pas des
+              circonstances.
+            </p>
+            <p>
+              C'est dans ce contexte que nous voulons aller, avec humilité, respect et amour. Notre
+              but n'est pas d'arriver avec des réponses toutes faites, mais de servir: proclamer
+              Jésus-Christ avec clarté, prier pour les personnes, encourager les croyants et
+              manifester l'amour de Christ par des actes concrets.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Aller vers les oubliés */}
-      <section className="container-x pb-4">
-        <p className="max-w-2xl text-base leading-relaxed text-night-900/70 sm:text-lg">
-          Servir Dieu, c'est aussi aller vers ceux que beaucoup ne voient plus: les enfants
-          vulnérables, les prisonniers, les pauvres, les isolés, les oubliés. Tous ont de la valeur
-          aux yeux de Dieu.
-        </p>
-      </section>
-
-      {/* Ce que nous allons faire */}
+      {/* CE QUE NOUS ALLONS FAIRE */}
       <section className="container-x py-12">
-        <SectionHeader
-          align="center"
-          eyebrow="Sur place"
-          title="Ce que nous allons faire"
-        />
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          <div className="glass-strong flex h-full flex-col p-7">
-            <h3 className="font-display text-lg font-bold">
-              Conférence d'évangélisation
-            </h3>
-            <p className="mt-3 text-sm text-night-900/70">
-              Organiser une conférence pour que beaucoup entendent clairement le message de
-              l'Évangile et rencontrent Jésus.
-            </p>
-          </div>
-          <div className="glass-strong flex h-full flex-col p-7">
-            <h3 className="font-display text-lg font-bold">
-              Évangélisation de rue
-            </h3>
-            <p className="mt-3 text-sm text-night-900/70">
-              Aller dans les rues à la rencontre des personnes, prier avec elles, leur parler de
-              Jésus et leur annoncer l'espérance du salut.
-            </p>
-          </div>
-          <div className="glass-strong flex h-full flex-col p-7">
-            <h3 className="font-display text-lg font-bold">
-              Visite d'œuvres
-            </h3>
-            <p className="mt-3 text-sm text-night-900/70">
-              Visiter orphelinats, prisons et autres œuvres locales: encourager ceux qui se sentent
-              oubliés, bénir ceux qui servent déjà, et apporter un soutien concret selon les besoins.
-            </p>
-          </div>
+        <div className="text-center">
+          <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#E0892B]">Sur place</span>
+          <h2 className="mt-3 font-display text-3xl font-extrabold sm:text-4xl">
+            Ce que nous allons faire
+          </h2>
         </div>
-        <p className="mt-10 mx-auto max-w-2xl text-center text-base leading-relaxed text-night-900/70 sm:text-lg">
+        <div className="mt-12 grid gap-6 md:grid-cols-3">
+          {[
+            {
+              t: "Conférence d'évangélisation",
+              d: "Organiser une conférence pour que beaucoup entendent clairement le message de l'Évangile et rencontrent Jésus.",
+            },
+            {
+              t: "Évangélisation de rue",
+              d: "Aller dans les rues à la rencontre des personnes, prier avec elles, leur parler de Jésus et leur annoncer l'espérance du salut.",
+            },
+            {
+              t: "Visite d'œuvres",
+              d: "Visiter orphelinats, prisons et autres œuvres locales: encourager ceux qui se sentent oubliés, bénir ceux qui servent déjà, et apporter un soutien concret.",
+            },
+          ].map((c) => (
+            <div
+              key={c.t}
+              className="flex h-full flex-col rounded-3xl border border-[#1F2E24]/10 bg-white/60 p-7"
+            >
+              <span className="h-1.5 w-10 rounded-full bg-[#E0892B]" />
+              <h3 className="mt-4 font-display text-lg font-bold">{c.t}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-[#1F2E24]/70">{c.d}</p>
+            </div>
+          ))}
+        </div>
+        <p className="mx-auto mt-10 max-w-2xl text-center text-base leading-relaxed text-[#1F2E24]/70 sm:text-lg">
           Annoncer, mais aussi écouter. Prier, mais aussi soutenir. Prêcher, mais aussi visiter.
           Parler de Jésus, mais aussi montrer Son amour par notre présence. Notre désir est que
           cette mission soit une semence pour Madagascar: une semence de salut, d'encouragement,
@@ -141,52 +161,66 @@ export default function MissionMadagascarPage() {
         </p>
       </section>
 
-      {/* Objectif de collecte */}
-      <section
-        id="soutenir"
-        className="dark-ctx bg-topo-dark scroll-mt-24 border-y border-white/10 py-20"
-      >
+      {/* INSTAGRAM */}
+      <section className="py-14">
+        <div className="container-x">
+          <div className="relative mx-auto max-w-3xl overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#1F2E24] to-[#2C3B2E] p-8 text-center sm:p-11">
+            <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#E0892B]/25 blur-2xl" />
+            <div className="relative">
+              <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-[#E0892B] text-white">
+                <InstagramIcon className="h-7 w-7" />
+              </span>
+              <h2 className="mt-5 font-display text-2xl font-extrabold text-[#FAF6F0] sm:text-3xl">
+                Suis la mission au jour le jour
+              </h2>
+              <p className="mx-auto mt-3 max-w-xl text-[#FAF6F0]/75">
+                Photos, témoignages, préparatifs et nouvelles du terrain. Rejoins-nous sur Instagram
+                et partage la mission autour de toi.
+              </p>
+              <a
+                href={IG_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#E0892B] px-7 py-3.5 font-bold text-white transition-transform hover:-translate-y-0.5"
+              >
+                <InstagramIcon className="h-5 w-5" />@{IG_HANDLE}
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* OBJECTIF DE COLLECTE */}
+      <section id="soutenir" className="scroll-mt-24 bg-[#1F2E24] py-20 text-[#FAF6F0]">
         <div className="container-x">
           <div className="mx-auto max-w-2xl text-center">
-            <SectionHeader
-              align="center"
-              eyebrow="Objectif"
-              title={
-                <>
-                  Notre objectif:{" "}
-                  <span className="text-gradient">10 000 €</span>
-                </>
-              }
-            />
-            <p className="mt-4 text-base leading-relaxed text-cream/70 sm:text-lg">
-              Cette mission a un coût: déplacements, logistique sur place, et
-              soutien direct aux œuvres que nous visiterons. Chaque don, petit
-              ou grand, nous rapproche du but.
+            <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#EBA94D]">Objectif</span>
+            <h2 className="mt-3 font-display text-3xl font-extrabold sm:text-4xl">
+              Notre objectif&nbsp;: <span className="text-[#E0892B]">{objectiveEur.toLocaleString("fr-FR")} €</span>
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-[#FAF6F0]/70 sm:text-lg">
+              Cette mission a un coût: déplacements, logistique sur place, et soutien direct aux
+              œuvres que nous visiterons. Chaque don, petit ou grand, nous rapproche du but.
             </p>
 
-            {/* Barre de progression */}
             <div className="mt-8">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-cream/80">{raisedEur} € collectés</span>
-                <span className="font-semibold text-dawn-300">
-                  Objectif {objectiveEur} €
-                </span>
+                <span className="text-[#FAF6F0]/80">{raisedEur} € collectés</span>
+                <span className="font-semibold text-[#EBA94D]">Objectif {objectiveEur} €</span>
               </div>
-              <div className="mt-3 h-3 overflow-hidden rounded-full bg-night-700">
+              <div className="mt-3 h-3 overflow-hidden rounded-full bg-white/10">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-dawn-500 to-spirit-500"
+                  className="h-full rounded-full bg-gradient-to-r from-[#E0892B] to-[#EBA94D]"
                   style={{ width: `${percent}%` }}
                 />
               </div>
-              <p className="mt-2 text-sm text-cream/55">
-                {percent}% de l'objectif atteint
-              </p>
+              <p className="mt-2 text-sm text-[#FAF6F0]/55">{percent}% de l'objectif atteint</p>
             </div>
 
-            <div className="mt-8 text-center">
+            <div className="mt-8">
               <PayButton
                 href={STRIPE_LINKS.missionMadagascar?? STRIPE_LINKS.donOnce}
-                className="btn-primary sm:px-12"
+                className="rounded-full bg-[#E0892B] px-12 py-3.5 font-bold text-white transition-transform hover:-translate-y-0.5"
               >
                 Soutenir la mission
               </PayButton>
@@ -195,26 +229,28 @@ export default function MissionMadagascarPage() {
         </div>
       </section>
 
-      {/* Équipe de prière */}
+      {/* ÉQUIPE DE PRIÈRE */}
       <section id="priere" className="container-x scroll-mt-24 py-20">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
           <div>
-            <SectionHeader
-              eyebrow="Équipe de prière"
-              title={
-                <>
-                  Porte la mission{" "}
-                  <span className="text-gradient">dans la prière</span>
-                </>
-              }
-              description="Nous cherchons des intercesseurs qui porteront cette mission avant et pendant les 10 jours. Tu veux prier avec nous, ou même nous rejoindre sur le terrain? Laisse ton email, nous te tiendrons informé(e)."
-            />
+            <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#E0892B]">
+              Équipe de prière
+            </span>
+            <h2 className="mt-3 font-display text-3xl font-extrabold sm:text-4xl">
+              Porte la mission dans la prière
+            </h2>
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-[#1F2E24]/70 sm:text-lg">
+              Nous cherchons des intercesseurs qui porteront cette mission avant et pendant les 10
+              jours. Tu veux prier avec nous, ou même nous rejoindre sur le terrain&nbsp;? Laisse ton
+              email, nous te tiendrons informé(e).
+            </p>
           </div>
-          <div className="glass-strong p-7 sm:p-8">
+          <div className="rounded-3xl border border-[#1F2E24]/10 bg-white/60 p-7 sm:p-8">
             <NewsletterForm
               source="mission-madagascar"
               layout="stacked"
               size="lg"
+              variant="spirit"
               cta="Je rejoins la mission"
               note="Tu recevras les nouvelles et les sujets de prière."
             />
@@ -222,40 +258,38 @@ export default function MissionMadagascarPage() {
         </div>
       </section>
 
-      {/* Déclaration de foi */}
-      <section className="dark-ctx bg-topo-dark border-y border-white/10 py-20">
+      {/* DÉCLARATION DE FOI */}
+      <section className="bg-[#1F2E24] py-20 text-[#FAF6F0]">
         <div className="container-x mx-auto max-w-2xl text-center">
-          <p className="text-base leading-relaxed text-cream/75 sm:text-lg">
-            Nous partons avec un double objectif: annoncer l'Évangile et
-            manifester l'amour de Dieu de manière concrète.
+          <p className="text-base leading-relaxed text-[#FAF6F0]/75 sm:text-lg">
+            Nous partons avec un double objectif: annoncer l'Évangile et manifester l'amour de Dieu
+            de manière concrète.
           </p>
           <div className="mt-8 space-y-2 font-display text-xl font-bold leading-snug sm:text-2xl">
             <p>Nous croyons que Dieu aime Madagascar.</p>
             <p>Nous croyons que Jésus veut toucher les cœurs.</p>
             <p>
-              Nous croyons que le <span className="text-gradient">Saint-Esprit</span>{" "}
-              peut agir puissamment.
+              Nous croyons que le <span className="text-[#E0892B]">Saint-Esprit</span> peut agir
+              puissamment.
             </p>
           </div>
-          <p className="mt-6 text-base leading-relaxed text-cream/70 sm:text-lg">
-            Et nous croyons qu'ensemble, par la prière, le soutien et
-            l'obéissance, nous pouvons prendre part à ce que Dieu veut faire là-bas.
+          <p className="mt-6 text-base leading-relaxed text-[#FAF6F0]/70 sm:text-lg">
+            Et nous croyons qu'ensemble, par la prière, le soutien et l'obéissance, nous pouvons
+            prendre part à ce que Dieu veut faire là-bas.
           </p>
         </div>
       </section>
 
-      {/* Verset de clôture */}
+      {/* VERSET DE CLÔTURE */}
       <section className="container-x py-16">
-        <blockquote className="mx-auto max-w-2xl text-center font-display text-xl italic text-night-900/75">
+        <blockquote className="mx-auto max-w-2xl text-center font-display text-xl italic text-[#1F2E24]/75">
           &laquo;&nbsp;Allez par tout le monde, et prêchez la bonne nouvelle à toute la
           création.&nbsp;&raquo;
-          <cite className="mt-3 block text-sm not-italic text-night-900/50">
-            Marc 16:15
-          </cite>
+          <cite className="mt-3 block text-sm not-italic text-[#1F2E24]/50">Marc 16:15</cite>
         </blockquote>
       </section>
 
       <WhatsAppChannel />
-    </>
+    </div>
   );
 }
