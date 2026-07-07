@@ -13,9 +13,9 @@ export const metadata: Metadata = {
     "Mission d'évangélisation à Madagascar, début novembre, 10 jours. Conférence, évangélisation de rue et soutien aux œuvres (orphelinats, prisons). Annoncer, aimer, servir.",
 };
 
-// Compte Instagram de la mission (à confirmer / ajuster).
-const IG_HANDLE = "mission.madagascar";
-const IG_URL = `https://instagram.com/${IG_HANDLE}`;
+// Compte Instagram de la mission.
+const IG_HANDLE = "missionmadagascar";
+const IG_URL = `https://www.instagram.com/${IG_HANDLE}`;
 
 function InstagramIcon({ className }: { className?: string }) {
   return (
@@ -40,7 +40,7 @@ export default function MissionMadagascarPage() {
         <div className="container-x relative text-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={asset("/mission/logo.png")}
+            src={asset("/mission/logo-web.webp")}
             alt="Mission Madagascar, annoncer, aimer, servir"
             className="mx-auto w-full max-w-[300px] sm:max-w-[380px]"
           />
