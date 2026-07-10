@@ -473,7 +473,12 @@ export function BibleReader() {
                 </Markable>
 
                 {!immersive && open? (
-                  <CommentaryPanel state={commState} data={c} />
+                  <CommentaryPanel
+                    state={commState}
+                    data={c}
+                    idBase={`bible:${bookId}:${chapter}:${vn}:comm`}
+                    reference={`${book?.name} ${chapter}:${vn}`}
+                  />
                 ): null}
               </div>
             );

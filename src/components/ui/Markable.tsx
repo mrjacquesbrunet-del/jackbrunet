@@ -3,6 +3,7 @@
 import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useToolkit, HIGHLIGHT_COLORS, highlightBg } from "@/lib/toolkit";
+import { shareText } from "@/lib/share";
 import { addNote } from "@/lib/notebook";
 import {
   HighlighterGlyph,
@@ -144,6 +145,16 @@ export function Markable({
           <button type="button" className={chip} onClick={copy}>
             <CopyGlyph className="h-3.5 w-3.5" />
             {copied? "Copié!": "Copier"}
+          </button>
+          <button
+            type="button"
+            className={chip}
+            onClick={() => shareText(reference? `${text}\n${reference}`: text)}
+          >
+            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth={1.9}>
+              <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M12 3v13M8 7l4-4 4 4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            Partager
           </button>
           <button
             type="button"

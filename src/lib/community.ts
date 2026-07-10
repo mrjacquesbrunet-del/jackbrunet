@@ -532,9 +532,36 @@ export async function suggestedProfiles(userId: string, limit = 12): Promise<Pro
   exclude.add(userId);
   const { data } = await sb
 .from("profiles")
-.select("id,pseudo,avatar_url,bio")
-.limit(limit + exclude.size + 12);
-  return ((data as Profile[])?? []).filter((p) =>!exclude.has(p.id)).slice(0, limit);
+.select("id,pseudo,avatar_url,bio,verified")
+.limit(200);
+  const candidates = ((data as Profile[])?? []).filter((p) =>!exclude.has(p.id));
+  if (candidates.length === 0) return [];
+
+  // Score d'activité (proxy), même pondération que les grades: publier compte
+  // le plus, puis encourager. 2 requêtes légères (RLS: activité visible).
+  const ids = new Set(candidates.map((c) => c.id));
+  const score: Record<string, number> = {};
+  const [{ data: pr }, { data: cm }] = await Promise.all([
+    sb.from("prayers").select("author_id").limit(2000),
+    sb.from("prayer_comments").select("author_id").limit(4000),
+  ]);
+  for (const r of (pr as { author_id: string }[])?? []) {
+    if (ids.has(r.author_id)) score[r.author_id] = (score[r.author_id]?? 0) + 5;
+  }
+  for (const r of (cm as { author_id: string }[])?? []) {
+    if (ids.has(r.author_id)) score[r.author_id] = (score[r.author_id]?? 0) + 2;
+  }
+
+  // Priorité: d'abord ceux qui ONT une photo, puis les plus actifs.
+  const hasPhoto = (p: Profile) => (p.avatar_url? 1: 0);
+  return candidates
+.sort(
+      (a, b) =>
+        hasPhoto(b) - hasPhoto(a) ||
+        (score[b.id]?? 0) - (score[a.id]?? 0) ||
+        a.pseudo.localeCompare(b.pseudo),
+    )
+.slice(0, limit);
 }
 
 /** Fil des prières des membres que je suis (+ les miennes). */

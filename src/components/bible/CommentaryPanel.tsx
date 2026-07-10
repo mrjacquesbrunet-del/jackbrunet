@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { Markable } from "@/components/ui/Markable";
 
 export type Word = { mot: string; translit?: string; sens?: string };
 export type Commentary = {
@@ -12,14 +12,33 @@ export type Commentary = {
   commentaire?: string;
 };
 
-function Field({ label, children }: { label: string; children: ReactNode }) {
-  if (!children) return null;
+/** Un champ de commentaire, rendu « actionnable » (surligner / copier / partager
+ * / enregistrer / noter) comme le reste des textes, si un id est fourni. */
+function Field({
+  label,
+  text,
+  id,
+  reference,
+}: {
+  label: string;
+  text?: string;
+  id?: string;
+  reference?: string;
+}) {
+  if (!text) return null;
+  const body = <p className="mt-0.5 text-sm leading-relaxed text-night-900/80">{text}</p>;
   return (
     <div>
       <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-spirit-600">
         {label}
       </p>
-      <p className="mt-0.5 text-sm leading-relaxed text-night-900/80">{children}</p>
+      {id? (
+        <Markable id={id} text={text} reference={reference} kind="commentaire">
+          {body}
+        </Markable>
+      ): (
+        body
+      )}
     </div>
   );
 }
@@ -27,9 +46,14 @@ function Field({ label, children }: { label: string; children: ReactNode }) {
 export function CommentaryPanel({
   state,
   data,
+  idBase,
+  reference,
 }: {
   state: "idle" | "loading" | "loaded" | "none";
   data?: Commentary;
+  /** Base d'identifiant pour rendre le commentaire actionnable (surligner…). */
+  idBase?: string;
+  reference?: string;
 }) {
   if (state === "loading") {
     return (
@@ -65,11 +89,11 @@ export function CommentaryPanel({
           </ul>
         </div>
       ): null}
-      <Field label="Contexte de l'époque">{data.epoque}</Field>
-      <Field label="Contexte du passage">{data.passage}</Field>
-      <Field label="Éclairage culturel">{data.culture}</Field>
-      <Field label="Interprétation">{data.interpretation}</Field>
-      <Field label="Commentaire">{data.commentaire}</Field>
+      <Field label="Contexte de l'époque" text={data.epoque} id={idBase? `${idBase}:epoque`: undefined} reference={reference} />
+      <Field label="Contexte du passage" text={data.passage} id={idBase? `${idBase}:passage`: undefined} reference={reference} />
+      <Field label="Éclairage culturel" text={data.culture} id={idBase? `${idBase}:culture`: undefined} reference={reference} />
+      <Field label="Interprétation" text={data.interpretation} id={idBase? `${idBase}:interpretation`: undefined} reference={reference} />
+      <Field label="Commentaire" text={data.commentaire} id={idBase? `${idBase}:commentaire`: undefined} reference={reference} />
     </div>
   );
 }

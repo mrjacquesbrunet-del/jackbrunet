@@ -50,16 +50,18 @@ export function ReadingSettings() {
 
       {open? (
         <>
-        {/* Voile sur mobile: un toucher à l'extérieur referme la feuille. */}
+        {/* Voile sur mobile: un toucher à l'extérieur referme la feuille.
+            z au-dessus de la barre d'onglets (z-60) pour la neutraliser. */}
         <button
           type="button"
           aria-label="Fermer"
           onClick={() => setOpen(false)}
-          className="fixed inset-0 z-40 bg-black/20 sm:hidden"
+          className="fixed inset-0 z-[68] bg-black/20 sm:hidden"
         />
-        {/* Mobile: feuille ancrée en bas (toujours visible, jamais tronquée).
+        {/* Mobile: feuille ancrée en bas, REMONTÉE au-dessus de la barre d'onglets
+            (sinon le bas du panneau — le thème — était masqué et non cliquable).
             Écran large: petit panneau ancré sous le bouton. */}
-        <div className="fixed inset-x-3 bottom-3 z-50 max-h-[80vh] w-auto overflow-y-auto rounded-2xl border border-night-900/10 bg-white p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] shadow-xl sm:absolute sm:inset-auto sm:right-0 sm:bottom-auto sm:mt-2 sm:w-72 sm:pb-4">
+        <div className="fixed inset-x-3 bottom-[calc(4.75rem+env(safe-area-inset-bottom))] z-[70] max-h-[70vh] w-auto overflow-y-auto rounded-2xl border border-night-900/10 bg-white p-4 shadow-xl sm:absolute sm:inset-auto sm:bottom-auto sm:right-0 sm:z-50 sm:mt-2 sm:w-72">
           <p className="text-[11px] font-bold uppercase tracking-wide text-night-900/45">
             Taille du texte
           </p>
