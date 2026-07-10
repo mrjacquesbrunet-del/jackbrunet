@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useToolkit } from "@/lib/toolkit";
 import { shareImageBlob, saveImageBlob } from "@/lib/share";
-import { InAppShare } from "@/components/community/InAppShare";
 import { BookmarkGlyph, BookmarkFilledGlyph } from "@/components/ui/DevoIcons";
 
 /**
@@ -12,7 +11,6 @@ import { BookmarkGlyph, BookmarkFilledGlyph } from "@/components/ui/DevoIcons";
  */
 export function ViralCard({ punchline, id }: { punchline: string; id?: string }) {
   const [busy, setBusy] = useState(false);
-  const [copied, setCopied] = useState(false);
   const tk = useToolkit();
   const saved = id? tk.isSaved(id): false;
 
@@ -103,17 +101,6 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
     }
   }
 
-  async function copyText() {
-    try {
-      // Juste la phrase, sans lien (demande de Jack).
-      await navigator.clipboard.writeText(punchline);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      /* indisponible */
-    }
-  }
-
   return (
     <div className="rounded-3xl border border-night-900/10 bg-night-900/[0.03] p-5 sm:p-6">
       <p className="text-xs font-semibold uppercase tracking-[0.18em] text-spirit-600">
@@ -145,10 +132,6 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
         <button type="button" onClick={downloadImage} disabled={busy} className="btn-ghost text-sm">
           Télécharger l'image
         </button>
-        <button type="button" onClick={copyText} className="btn-ghost text-sm">
-          {copied? "Copié!": "Copier la phrase"}
-        </button>
-        <InAppShare text={punchline} />
         {id? (
           <button
             type="button"

@@ -4,7 +4,6 @@ import { useState } from "react";
 import { shareText, shareImageBlob, saveImageBlob } from "@/lib/share";
 import { buildVerseImage } from "@/lib/verse-image";
 import { openWhatsApp } from "@/lib/external";
-import { InAppShare } from "@/components/community/InAppShare";
 
 const SITE_URL = "https://jackbrunet.com";
 
@@ -25,24 +24,19 @@ export function ShareButtons({
   /** Si fourni, ajoute « Image » (partager) et « Enregistrer l'image ». */
   image?: { text: string; reference?: string; badge?: string; filename?: string };
 }) {
-  const [copied, setCopied] = useState(false);
   const [busy, setBusy] = useState(false);
   const message = `${text}\n\n${url}`;
-
-  async function copy() {
-    try {
-      await navigator.clipboard.writeText(message);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      /* presse-papiers indisponible, on ignore */
-    }
-  }
 
   async function nativeShare() {
     // Feuille de partage native (Capacitor) ou Web Share ; repli: copie.
     const shared = await shareText(text, url);
-    if (!shared) copy();
+    if (!shared) {
+      try {
+        await navigator.clipboard.writeText(message);
+      } catch {
+        /* presse-papiers indisponible */
+      }
+    }
   }
 
   const fileName = image?.filename?? "jackbrunet-verset.png";
@@ -111,16 +105,6 @@ export function ShareButtons({
         <ShareIcon className="h-4 w-4" />
         Partager
       </button>
-      <button
-        type="button"
-        onClick={copy}
-        className="btn-ghost px-4 py-2 text-sm"
-        aria-label="Copier le texte et le lien"
-      >
-        {copied? "Copié!": "Copier"}
-      </button>
-      {/* Partage interne: envoyer à un ami / publier sur le mur (si connecté). */}
-      <InAppShare text={text} />
     </div>
   );
 }
