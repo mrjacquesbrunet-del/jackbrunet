@@ -16,6 +16,9 @@ export type Note = {
   body: string;
   ts: number; // création / dernière modif
   answered?: boolean; // pour les sujets de prière (exaucé)
+  /** Passage relié (id Markable, ex. « bible:43:3:16 »): permet d'ouvrir/éditer
+   * la note directement sous le verset. */
+  ref?: string;
 };
 
 export const NOTE_CATEGORIES: NoteCategory[] = ["Prière", "Parole reçue", "Note"];
@@ -63,7 +66,12 @@ function commit(next: Note[]) {
   listeners.forEach((l) => l());
 }
 
-export function addNote(input: { category: NoteCategory; title: string; body: string }) {
+export function addNote(input: {
+  category: NoteCategory;
+  title: string;
+  body: string;
+  ref?: string;
+}): Note {
   load();
   const note: Note = {
     id: `n_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
@@ -71,9 +79,11 @@ export function addNote(input: { category: NoteCategory; title: string; body: st
     title: input.title.trim(),
     body: input.body.trim(),
     ts: Date.now(),
+    ref: input.ref,
   };
   commit([note,...notes]);
   sink?.upsert(note);
+  return note;
 }
 
 export function updateNote(id: string, patch: Partial<Omit<Note, "id">>) {

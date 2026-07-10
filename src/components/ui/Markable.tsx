@@ -1,10 +1,9 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import Link from "next/link";
 import { useToolkit, HIGHLIGHT_COLORS, highlightBg } from "@/lib/toolkit";
 import { shareText } from "@/lib/share";
-import { addNote } from "@/lib/notebook";
+import { addNote, updateNote, removeNote, useNotebook } from "@/lib/notebook";
 import {
   HighlighterGlyph,
   CopyGlyph,
@@ -46,23 +45,38 @@ export function Markable({
   const [showColors, setShowColors] = useState(false);
   const highlighted = tk.isHighlighted(id);
   const color = tk.highlightColor(id);
-  const noted = tk.isNoted(id);
   const saved = tk.isSaved(id);
+
+  // Note reliée à ce passage (pour l'ouvrir/l'éditer directement sous le verset).
+  const notes = useNotebook();
+  const existingNote = notes.find((n) => n.ref === id);
+  const noted = tk.isNoted(id) || Boolean(existingNote);
+
+  /** Ouvre la note directement sous le verset (création ou édition). */
+  function openNote() {
+    setOpen(true);
+    setNoteText(existingNote?.body?? "");
+    setNoting(true);
+  }
 
   function saveNote() {
     if (!noteText.trim()) return;
-    const dateStr = new Date().toLocaleDateString("fr-FR", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
-    addNote({
-      category: "Note",
-      title: reference? `${reference} · ${dateStr}`: dateStr,
-      body: noteText.trim(),
-    });
-    tk.markNoted(id); // petit marqueur « note écrite » sur le passage
-    setNoteText("");
+    if (existingNote) {
+      updateNote(existingNote.id, { body: noteText.trim() });
+    } else {
+      const dateStr = new Date().toLocaleDateString("fr-FR", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+      addNote({
+        category: "Note",
+        title: reference? `${reference} · ${dateStr}`: dateStr,
+        body: noteText.trim(),
+        ref: id,
+      });
+      tk.markNoted(id); // petit marqueur « note écrite » sur le passage
+    }
     setNoting(false);
     setNoteSaved(true);
     setTimeout(() => setNoteSaved(false), 2500);
@@ -97,15 +111,18 @@ export function Markable({
       >
         {children}
         {noted? (
-          <Link
-            href="/carnet"
-            aria-label="Voir mes notes dans le carnet"
-            title="Une note existe sur ce passage · ouvrir mon carnet"
-            onClick={(e) => e.stopPropagation()}
+          <button
+            type="button"
+            aria-label="Voir / modifier ma note"
+            title="Une note existe sur ce passage · toucher pour la voir"
+            onClick={(e) => {
+              e.stopPropagation();
+              openNote();
+            }}
             className="absolute -right-1 top-0 inline-flex h-6 w-6 items-center justify-center rounded-full bg-spirit-600 text-cream shadow-sm transition-transform hover:scale-110"
           >
             <PenGlyph className="h-3 w-3" />
-          </Link>
+          </button>
         ): null}
       </div>
 
@@ -168,9 +185,9 @@ export function Markable({
             )}
             {saved? "Enregistré": "Enregistrer"}
           </button>
-          <button type="button" className={chip} onClick={() => setNoting((n) =>!n)}>
+          <button type="button" className={chip} onClick={openNote}>
             <PenGlyph className="h-3.5 w-3.5" />
-            Noter
+            {existingNote? "Ma note": "Noter"}
           </button>
         </div>
       ): null}
@@ -189,15 +206,29 @@ export function Markable({
             className="field w-full resize-y text-sm"
             autoFocus
           />
-          <div className="mt-2 flex gap-2">
+          <div className="mt-2 flex flex-wrap gap-2">
             <button
               type="button"
               onClick={saveNote}
               disabled={!noteText.trim()}
               className="btn-primary text-sm disabled:opacity-40"
             >
-              Enregistrer dans mon carnet
+              Enregistrer
             </button>
+            {existingNote? (
+              <button
+                type="button"
+                onClick={() => {
+                  removeNote(existingNote.id);
+                  tk.unmarkNoted(id);
+                  setNoting(false);
+                  setNoteText("");
+                }}
+                className="btn-ghost text-sm text-red-500"
+              >
+                Supprimer
+              </button>
+            ): null}
             <button
               type="button"
               onClick={() => {
