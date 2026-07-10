@@ -74,9 +74,9 @@ export function NotificationsBell({
         type="button"
         onClick={toggle}
         aria-label="Notifications"
-        className={`relative grid h-10 w-10 place-items-center rounded-full border transition-colors ${
+        className={`relative grid h-10 w-10 shrink-0 place-items-center rounded-full border transition-colors ${
           tone === "dark"
-? "border-white/20 bg-white/10 text-cream hover:bg-white/20"
+? "border-dawn-400/50 bg-dawn-400/15 text-dawn-300 hover:bg-dawn-400/25"
 : "border-night-900/15 text-night-900/70 hover:border-night-900/30"
         }`}
       >

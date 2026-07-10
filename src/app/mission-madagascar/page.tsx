@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { MissionProgress } from "@/components/mission/MissionProgress";
-import { PayButton } from "@/components/ui/PayButton";
+import { MissionDonate } from "@/components/mission/MissionDonate";
 import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
 import { asset } from "@/lib/asset";
 import { getMission } from "@/lib/content";
 import { STRIPE_LINKS } from "@/config/stripe";
+import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "Mission Madagascar",
@@ -206,12 +207,16 @@ export default function MissionMadagascarPage() {
             <MissionProgress initialRaised={raisedEur} objective={objectiveEur} />
 
             <div className="mt-8">
-              <PayButton
-                href={STRIPE_LINKS.missionMadagascar?? STRIPE_LINKS.donOnce}
+              <MissionDonate
+                stripeUrl={STRIPE_LINKS.missionMadagascar?? STRIPE_LINKS.donOnce}
+                siteUrl={`${siteConfig.url}/mission-madagascar#soutenir`}
                 className="rounded-full bg-[#E0892B] px-12 py-3.5 font-bold text-white transition-transform hover:-translate-y-0.5"
               >
-                Soutenir la mission
-              </PayButton>
+                Faire un don
+              </MissionDonate>
+              <p className="mt-3 text-sm text-[#FAF6F0]/55">
+                Don sécurisé, tu es redirigé(e) vers le site.
+              </p>
             </div>
           </div>
         </div>

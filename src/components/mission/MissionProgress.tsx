@@ -20,14 +20,26 @@ export function MissionProgress({
 
   useEffect(() => {
     let alive = true;
-    getMissionStats().then((s) => {
-      if (alive && s) {
-        setRaised(s.raised);
-        if (s.objective > 0) setObj(s.objective);
-      }
-    });
+    const sync = () => {
+      getMissionStats().then((s) => {
+        if (alive && s) {
+          setRaised(s.raised);
+          if (s.objective > 0) setObj(s.objective);
+        }
+      });
+    };
+    sync();
+    // Rafraîchit quand on revient sur la page (ex. après un don, ou après avoir
+    // mis à jour le montant en admin), sans avoir à recharger.
+    const onVisible = () => {
+      if (document.visibilityState === "visible") sync();
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    window.addEventListener("focus", sync);
     return () => {
       alive = false;
+      document.removeEventListener("visibilitychange", onVisible);
+      window.removeEventListener("focus", sync);
     };
   }, []);
 
