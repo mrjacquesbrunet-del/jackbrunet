@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { shareText } from "@/lib/share";
+import { shareText, shareImageBlob, saveImageBlob } from "@/lib/share";
+import { buildVerseImage } from "@/lib/verse-image";
 import { openExternal } from "@/lib/external";
 import { InAppShare } from "@/components/community/InAppShare";
 
@@ -17,11 +18,15 @@ const SITE_URL = "https://jackbrunet.com";
 export function ShareButtons({
   text,
   url = SITE_URL,
+  image,
 }: {
   text: string;
   url?: string;
+  /** Si fourni, ajoute « Image » (partager) et « Enregistrer l'image ». */
+  image?: { text: string; reference?: string; badge?: string; filename?: string };
 }) {
   const [copied, setCopied] = useState(false);
+  const [busy, setBusy] = useState(false);
   const message = `${text}\n\n${url}`;
   const waHref = `https://wa.me/?text=${encodeURIComponent(message)}`;
 
@@ -41,8 +46,54 @@ export function ShareButtons({
     if (!shared) copy();
   }
 
+  const fileName = image?.filename?? "jackbrunet-verset.png";
+  async function shareImage() {
+    if (!image) return;
+    setBusy(true);
+    try {
+      const blob = await buildVerseImage(image);
+      if (blob) await shareImageBlob(blob, fileName, `${image.text}\n\n${url}`);
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function saveImage() {
+    if (!image) return;
+    setBusy(true);
+    try {
+      const blob = await buildVerseImage(image);
+      if (blob) await saveImageBlob(blob, fileName);
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
     <div className="flex flex-wrap items-center gap-2">
+      {image? (
+        <>
+          <button
+            type="button"
+            onClick={shareImage}
+            disabled={busy}
+            className="btn-primary px-4 py-2 text-sm disabled:opacity-50"
+            aria-label="Partager en image"
+          >
+            <ImageIcon className="h-4 w-4" />
+            {busy? "Un instant…": "Image"}
+          </button>
+          <button
+            type="button"
+            onClick={saveImage}
+            disabled={busy}
+            className="btn-ghost px-4 py-2 text-sm disabled:opacity-50"
+            aria-label="Enregistrer l'image"
+          >
+            <DownloadIcon className="h-4 w-4" />
+            Enregistrer
+          </button>
+        </>
+      ): null}
       <button
         type="button"
         onClick={() => openExternal(waHref)}
@@ -72,6 +123,24 @@ export function ShareButtons({
       {/* Partage interne: envoyer à un ami / publier sur le mur (si connecté). */}
       <InAppShare text={text} />
     </div>
+  );
+}
+
+function ImageIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className} aria-hidden="true">
+      <rect x="3" y="4" width="18" height="16" rx="2" />
+      <circle cx="8.5" cy="9.5" r="1.5" />
+      <path d="M4 17l5-5 4 4 3-3 4 4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function DownloadIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className} aria-hidden="true">
+      <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
 

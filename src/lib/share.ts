@@ -85,16 +85,29 @@ export async function shareImageBlob(
 
 /**
  * Enregistre une image. En natif, il n'y a pas de « téléchargement »: on ouvre
- * la feuille de partage (qui propose « Enregistrer dans Photos / Fichiers »).
+ * la feuille de partage (qui propose « Enregistrer l'image » / « Dans Fichiers »).
+ * IMPORTANT: on partage le fichier SEUL (sans texte ni URL), sinon iOS masque
+ * l'option « Enregistrer l'image » et ne propose que le partage du texte.
  * Sur le web, téléchargement direct.
  */
 export async function saveImageBlob(
   blob: Blob,
   filename: string,
-  text: string,
+  _text?: string,
 ): Promise<void> {
+  void _text;
   if (await isNative()) {
-    await shareImageBlob(blob, filename, text);
+    try {
+      const { Filesystem, Directory } = await import("@capacitor/filesystem");
+      const { Share } = await import("@capacitor/share");
+      const data = await blobToBase64(blob);
+      await Filesystem.writeFile({ path: filename, data, directory: Directory.Cache });
+      const { uri } = await Filesystem.getUri({ path: filename, directory: Directory.Cache });
+      // Fichier seul → « Enregistrer l'image » apparaît dans la feuille iOS/Android.
+      await Share.share({ files: [uri] });
+    } catch {
+      /* annulé ou indisponible */
+    }
     return;
   }
   downloadBlob(blob, filename);

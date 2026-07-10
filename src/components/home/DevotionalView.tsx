@@ -232,6 +232,11 @@ export function DevotionalView({
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <ShareButtons
                 text={`${dev.theme}, « ${dev.verseText} » (${dev.verseReference})`}
+                image={{
+                  text: dev.verseText,
+                  reference: dev.verseReference,
+                  filename: "jackbrunet-verset.png",
+                }}
               />
               {eng.ready? (
                 <button
@@ -291,6 +296,12 @@ export function DevotionalView({
               <div className="mt-7 flex justify-center">
                 <ShareButtons
                   text={`« ${dev.declarationText} », ${dev.declarationReference}`}
+                  image={{
+                    text: dev.declarationText,
+                    reference: dev.declarationReference,
+                    badge: "À déclarer sur ta vie",
+                    filename: "jackbrunet-declaration.png",
+                  }}
                 />
               </div>
             </div>
