@@ -28,6 +28,16 @@ export async function sendMessage(senderId: string, recipientId: string, body: s
   await sb.from("messages").insert({ sender_id: senderId, recipient_id: recipientId, body: body.trim() });
 }
 
+/** Admin: dépose un message dans la messagerie de TOUS les membres + notifie.
+ * Renvoie le nombre de membres touchés, ou null en cas d'échec. */
+export async function broadcastMessage(body: string): Promise<number | null> {
+  const sb = getSupabase();
+  if (!sb ||!body.trim()) return null;
+  const { data, error } = await sb.rpc("admin_broadcast_message", { message: body.trim() });
+  if (error) return null;
+  return typeof data === "number"? data: 0;
+}
+
 /** Fil de discussion entre moi et une personne (ancien → récent). */
 export async function listMessages(meId: string, partnerId: string): Promise<Message[]> {
   const sb = getSupabase();

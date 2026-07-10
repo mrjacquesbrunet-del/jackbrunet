@@ -126,11 +126,18 @@ export function NotificationsBell({
                     const rowCls = `flex items-start gap-3 px-4 py-3 ${
                       n.read? "": "bg-spirit-500/[0.05]"
                     }`;
-                    // Cliquable vers le profil de l'auteur (sauf messages admin).
-                    return n.actor_id && n.type!== "admin"? (
+                    // Destination du clic: le lien de la notif (ex. /messages)
+                    // en priorité, sinon le profil de l'auteur.
+                    const href =
+                      n.link && n.link.startsWith("/")
+? n.link
+: n.actor_id && n.type!== "admin"
+? `/membre?u=${n.actor_id}`
+: null;
+                    return href? (
                       <li key={n.id}>
                         <Link
-                          href={`/membre?u=${n.actor_id}`}
+                          href={href}
                           onClick={() => setOpen(false)}
                           className={`${rowCls} transition-colors hover:bg-night-900/[0.04]`}
                         >

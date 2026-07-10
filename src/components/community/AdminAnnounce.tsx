@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { postAnnouncement, clearAnnouncements } from "@/lib/announcements";
 import { broadcastNotification } from "@/lib/community";
+import { broadcastMessage } from "@/lib/messages";
 import { MegaphoneGlyph, BellGlyph } from "@/components/ui/DevoIcons";
 
 /**
@@ -21,6 +22,30 @@ export function AdminAnnounce() {
   const [notifLink, setNotifLink] = useState("");
   const [notifBusy, setNotifBusy] = useState(false);
   const [notifMsg, setNotifMsg] = useState("");
+
+  // Message privé (messagerie) à tous les membres.
+  const [dm, setDm] = useState("");
+  const [dmBusy, setDmBusy] = useState(false);
+  const [dmMsg, setDmMsg] = useState("");
+
+  async function sendDm(e: React.FormEvent) {
+    e.preventDefault();
+    if (!dm.trim()) {
+      setDmMsg("Écris ton message.");
+      return;
+    }
+    if (!confirm("Envoyer ce message dans la messagerie de TOUS les membres?")) return;
+    setDmBusy(true);
+    setDmMsg("");
+    const n = await broadcastMessage(dm);
+    setDmBusy(false);
+    if (n!== null) {
+      setDmMsg(`✓ Message envoyé à ${n} membre${n > 1? "s": ""}. Ils sont notifiés.`);
+      setDm("");
+    } else {
+      setDmMsg("Erreur: envoi impossible (vérifie la migration SQL admin_broadcast_message).");
+    }
+  }
 
   async function sendNotif(e: React.FormEvent) {
     e.preventDefault();
@@ -137,6 +162,31 @@ export function AdminAnnounce() {
             {notifBusy? "Envoi…": "Envoyer la notification"}
           </button>
           {notifMsg? <p className="text-sm text-spirit-700">{notifMsg}</p>: null}
+        </form>
+      </div>
+
+      {/* Message privé (messagerie) à tous les membres */}
+      <div className="mt-6 border-t border-dawn-400/30 pt-5">
+        <p className="flex items-center gap-2 font-display text-lg font-bold">
+          <BellGlyph className="h-5 w-5 text-spirit-600" />
+          Message privé à tous
+        </p>
+        <p className="mt-1 text-sm text-night-900/60">
+          Dépose un message dans la messagerie de chaque membre (de ta part). Chacun reçoit une
+          notification « Nouveau message » qui ouvre sa messagerie.
+        </p>
+        <form onSubmit={sendDm} className="mt-4 space-y-3">
+          <textarea
+            value={dm}
+            onChange={(e) => setDm(e.target.value)}
+            placeholder="Ton message (ex. Merci de faire partie de cette famille de prière…)"
+            rows={3}
+            className="field w-full"
+          />
+          <button type="submit" disabled={dmBusy} className="btn-primary">
+            {dmBusy? "Envoi…": "Envoyer à tous"}
+          </button>
+          {dmMsg? <p className="text-sm text-spirit-700">{dmMsg}</p>: null}
         </form>
       </div>
     </div>
