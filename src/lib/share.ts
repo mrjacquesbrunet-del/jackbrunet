@@ -101,6 +101,43 @@ export async function saveImageBlob(
 }
 
 /**
+ * Enregistre / partage un fichier distant (ex. le MP3 d'un podcast). En natif,
+ * on télécharge d'abord le fichier en mémoire puis on ouvre la feuille de
+ * partage du téléphone (« Enregistrer dans Fichiers », WhatsApp, Mail…), au
+ * lieu d'ouvrir une page de navigateur brute peu rassurante. Sur le web:
+ * téléchargement direct.
+ */
+export async function saveOrShareFile(
+  url: string,
+  filename: string,
+  text: string,
+): Promise<void> {
+  let blob: Blob;
+  try {
+    const res = await fetch(url);
+    blob = await res.blob();
+  } catch {
+    // Dernier recours: on ouvre le lien.
+    if (typeof window!== "undefined") window.open(url, "_blank");
+    return;
+  }
+  if (await isNative()) {
+    try {
+      const { Filesystem, Directory } = await import("@capacitor/filesystem");
+      const { Share } = await import("@capacitor/share");
+      const data = await blobToBase64(blob);
+      await Filesystem.writeFile({ path: filename, data, directory: Directory.Cache });
+      const { uri } = await Filesystem.getUri({ path: filename, directory: Directory.Cache });
+      await Share.share({ text, files: [uri] });
+    } catch {
+      /* partage annulé ou indisponible */
+    }
+    return;
+  }
+  downloadBlob(blob, filename);
+}
+
+/**
  * Partage un texte (+ url éventuelle). En natif: feuille de partage. Sur le web:
  * Web Share si dispo, sinon copie dans le presse-papiers. Renvoie true si un
  * vrai partage a eu lieu (utile pour afficher un repli « Copié »).

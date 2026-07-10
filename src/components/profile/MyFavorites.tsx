@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useToolkit } from "@/lib/toolkit";
 import { useAuth } from "@/components/community/useAuth";
 
@@ -10,6 +11,13 @@ const KIND_LABEL: Record<string, string> = {
   déclaration: "Déclarations",
   texte: "Textes",
 };
+
+/** Lien profond vers la Bible si l'élément vient d'un verset
+ * (id « bible:livre:chapitre:verset »). Sinon null. */
+function bibleHref(id: string): string | null {
+  const m = /^bible:(\d+):(\d+):(\d+)$/.exec(id);
+  return m? `/bible?livre=${m[1]}&chap=${m[2]}`: null;
+}
 
 export function MyFavorites() {
   const { saved, removeSnippet, highlightItems, clearHighlight } = useToolkit();
@@ -71,30 +79,49 @@ export function MyFavorites() {
                   </span>
                 </h2>
                 <ul className="mt-3 space-y-2">
-                  {highlightItems.map((h) => (
-                    <li
-                      key={h.id}
-                      className="rounded-2xl border border-night-900/10 bg-white/70 p-4"
-                    >
-                      <p className="text-[15px] leading-relaxed text-night-900/85">{h.text}</p>
-                      <div className="mt-2 flex items-center justify-between">
-                        {h.reference? (
-                          <span className="text-xs font-bold uppercase tracking-wide text-spirit-700">
-                            {h.reference}
-                          </span>
+                  {highlightItems.map((h) => {
+                    const href = bibleHref(h.id);
+                    return (
+                      <li
+                        key={h.id}
+                        className="rounded-2xl border border-night-900/10 bg-white/70 p-4"
+                      >
+                        {href? (
+                          <Link href={href} className="block transition-opacity hover:opacity-75">
+                            <p className="text-[15px] leading-relaxed text-night-900/85">{h.text}</p>
+                          </Link>
                         ): (
-                          <span />
+                          <p className="text-[15px] leading-relaxed text-night-900/85">{h.text}</p>
                         )}
-                        <button
-                          type="button"
-                          onClick={() => clearHighlight(h.id)}
-                          className="text-xs font-semibold text-night-900/40 transition-colors hover:text-red-500"
-                        >
-                          Retirer
-                        </button>
-                      </div>
-                    </li>
-                  ))}
+                        <div className="mt-2 flex items-center justify-between gap-3">
+                          {h.reference? (
+                            <span className="text-xs font-bold uppercase tracking-wide text-spirit-700">
+                              {h.reference}
+                            </span>
+                          ): (
+                            <span />
+                          )}
+                          <div className="flex items-center gap-4">
+                            {href? (
+                              <Link
+                                href={href}
+                                className="text-xs font-semibold text-spirit-600 hover:underline"
+                              >
+                                Ouvrir dans la Bible →
+                              </Link>
+                            ): null}
+                            <button
+                              type="button"
+                              onClick={() => clearHighlight(h.id)}
+                              className="text-xs font-semibold text-night-900/40 transition-colors hover:text-red-500"
+                            >
+                              Retirer
+                            </button>
+                          </div>
+                        </div>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             ): null}
@@ -107,30 +134,49 @@ export function MyFavorites() {
                   <span className="text-sm font-semibold text-night-900/50">({items.length})</span>
                 </h2>
                 <ul className="mt-3 space-y-2">
-                  {items.map((s) => (
-                    <li
-                      key={s.id}
-                      className="group rounded-2xl border border-night-900/10 bg-white/70 p-4"
-                    >
-                      <p className="text-[15px] leading-relaxed text-night-900/85">{s.text}</p>
-                      <div className="mt-2 flex items-center justify-between">
-                        {s.reference? (
-                          <span className="text-xs font-bold uppercase tracking-wide text-spirit-700">
-                            {s.reference}
-                          </span>
+                  {items.map((s) => {
+                    const href = bibleHref(s.id);
+                    return (
+                      <li
+                        key={s.id}
+                        className="group rounded-2xl border border-night-900/10 bg-white/70 p-4"
+                      >
+                        {href? (
+                          <Link href={href} className="block transition-opacity hover:opacity-75">
+                            <p className="text-[15px] leading-relaxed text-night-900/85">{s.text}</p>
+                          </Link>
                         ): (
-                          <span />
+                          <p className="text-[15px] leading-relaxed text-night-900/85">{s.text}</p>
                         )}
-                        <button
-                          type="button"
-                          onClick={() => removeSnippet(s.id)}
-                          className="text-xs font-semibold text-night-900/40 transition-colors hover:text-red-500"
-                        >
-                          Retirer
-                        </button>
-                      </div>
-                    </li>
-                  ))}
+                        <div className="mt-2 flex items-center justify-between gap-3">
+                          {s.reference? (
+                            <span className="text-xs font-bold uppercase tracking-wide text-spirit-700">
+                              {s.reference}
+                            </span>
+                          ): (
+                            <span />
+                          )}
+                          <div className="flex items-center gap-4">
+                            {href? (
+                              <Link
+                                href={href}
+                                className="text-xs font-semibold text-spirit-600 hover:underline"
+                              >
+                                Ouvrir dans la Bible →
+                              </Link>
+                            ): null}
+                            <button
+                              type="button"
+                              onClick={() => removeSnippet(s.id)}
+                              className="text-xs font-semibold text-night-900/40 transition-colors hover:text-red-500"
+                            >
+                              Retirer
+                            </button>
+                          </div>
+                        </div>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             ))}

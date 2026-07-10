@@ -15,7 +15,10 @@ import { compressToMonoMp3 } from "./audio-compress";
  */
 const AUDIO_BUCKET = "audiovf";
 const STORAGE_KEY = "jb.bible.ambient.v1";
-const VOLUME = 0.16; // volume du fond, bien en dessous de la voix
+const VOLUME_KEY = "jb.bible.ambient.vol.v1";
+const DEFAULT_VOLUME = 0.16; // volume du fond, bien en dessous de la voix
+export const AMBIENT_VOL_MIN = 0.04;
+export const AMBIENT_VOL_MAX = 0.5;
 
 export function ambientUrl(): string | null {
   const sb = getSupabase();
@@ -25,8 +28,11 @@ export function ambientUrl(): string | null {
 }
 
 let enabled = false;
+let volume = DEFAULT_VOLUME;
 try {
   enabled = typeof localStorage!== "undefined" && localStorage.getItem(STORAGE_KEY) === "1";
+  const v = typeof localStorage!== "undefined"? localStorage.getItem(VOLUME_KEY): null;
+  if (v!== null && Number.isFinite(Number(v))) volume = Number(v);
 } catch {
   /* SSR */
 }
@@ -34,10 +40,10 @@ try {
 let voiceActive = false; // vrai quand la voix de l'appareil (TTS) lit
 let audio: HTMLAudioElement | null = null;
 const listeners = new Set<() => void>();
-let snapshot = { enabled };
+let snapshot = { enabled, volume };
 
 function emit() {
-  snapshot = { enabled };
+  snapshot = { enabled, volume };
   listeners.forEach((l) => l());
 }
 
@@ -48,8 +54,20 @@ function ensure(): HTMLAudioElement | null {
   audio = new Audio(url);
   audio.loop = true; // se répète à l'infini
   audio.preload = "auto";
-  audio.volume = VOLUME;
+  audio.volume = volume;
   return audio;
+}
+
+/** Règle le volume du fond musical (persistant, appliqué en direct). */
+export function setAmbientVolume(v: number) {
+  volume = Math.min(AMBIENT_VOL_MAX, Math.max(AMBIENT_VOL_MIN, v));
+  try {
+    localStorage.setItem(VOLUME_KEY, String(volume));
+  } catch {
+    /* ignore */
+  }
+  if (audio) audio.volume = volume;
+  emit();
 }
 
 /** Faut-il jouer le fond en ce moment? (activé ET une voix est en cours) */
@@ -132,5 +150,10 @@ export function useAmbient() {
     () => snapshot,
     () => snapshot,
   );
-  return { enabled: snap.enabled, setEnabled: setAmbientEnabled };
+  return {
+    enabled: snap.enabled,
+    setEnabled: setAmbientEnabled,
+    volume: snap.volume,
+    setVolume: setAmbientVolume,
+  };
 }

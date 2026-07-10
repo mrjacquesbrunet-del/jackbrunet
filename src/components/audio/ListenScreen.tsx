@@ -8,15 +8,32 @@ import {
   deletePodcast,
   updatePodcast,
   podcastCoverUrl,
+  formatDuration,
+  loadAudioDuration,
   type AudioTrack,
 } from "@/lib/audio-library";
 import { usePodcastPlayer } from "@/lib/podcast-player";
 import { useAuth } from "@/components/community/useAuth";
 import { isAdminEmail } from "@/lib/community";
 import { siteConfig } from "@/config/site";
+import { saveOrShareFile } from "@/lib/share";
 import { PlayGlyph, PauseGlyph, HeadphonesGlyph } from "@/components/ui/DevoIcons";
 
 const FAV_KEY = "jb.podcast.favs.v1";
+const DUR_KEY = "jb.podcast.dur.v1";
+
+/** Nom de fichier propre pour le téléchargement d'un épisode. */
+function fileNameFor(title: string): string {
+  const slug =
+    (title || "podcast")
+.normalize("NFD")
+.replace(/[̀-ͯ]/g, "")
+.replace(/[^a-zA-Z0-9]+/g, "-")
+.replace(/^-+|-+$/g, "")
+.toLowerCase()
+.slice(0, 50) || "podcast";
+  return `${slug}.mp3`;
+}
 
 function when(iso?: string): string {
   if (!iso) return "";
@@ -35,6 +52,15 @@ export function ListenScreen() {
   const [coverBroken, setCoverBroken] = useState(false);
   const coverUrl = podcastCoverUrl();
   const fileRef = useRef<HTMLInputElement>(null);
+
+  // Durées des épisodes (calculées une fois, mémorisées sur l'appareil).
+  const [durations, setDurations] = useState<Record<string, number>>(() => {
+    try {
+      return JSON.parse(localStorage.getItem(DUR_KEY) || "{}") as Record<string, number>;
+    } catch {
+      return {};
+    }
+  });
 
   const load = useCallback(() => listPodcasts().then(setTracks), []);
   useEffect(() => {
@@ -61,6 +87,37 @@ export function ListenScreen() {
       }
       return next;
     });
+  }
+
+  // Calcule les durées manquantes (une par une, léger: métadonnées seules).
+  useEffect(() => {
+    if (!tracks) return;
+    let cancelled = false;
+    (async () => {
+      for (const t of tracks) {
+        if (cancelled) return;
+        if (durations[t.id]!== undefined) continue;
+        const d = await loadAudioDuration(t.url);
+        if (cancelled) return;
+        setDurations((prev) => {
+          const next = {...prev, [t.id]: d };
+          try {
+            localStorage.setItem(DUR_KEY, JSON.stringify(next));
+          } catch {
+            /* ignore */
+          }
+          return next;
+        });
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tracks]);
+
+  async function download(t: AudioTrack) {
+    await saveOrShareFile(t.url, fileNameFor(t.title), `« ${t.title} », Pasteur Jack`);
   }
 
   const shown = tracks? (tab === "fav"? tracks.filter((t) => favs.has(t.id)): tracks): null;
@@ -274,9 +331,11 @@ export function ListenScreen() {
                       {isCur && pod.playing? <PauseGlyph className="h-5 w-5" />: <PlayGlyph className="h-5 w-5" />}
                     </button>
                     <div className="min-w-0 flex-1">
-                      {t.created_at? (
+                      {t.created_at || durations[t.id]? (
                         <p className="text-[11px] font-semibold uppercase tracking-wide text-night-900/40">
-                          {when(t.created_at)}
+                          {[when(t.created_at), formatDuration(durations[t.id])]
+.filter(Boolean)
+.join(" · ")}
                         </p>
                       ): null}
                       <p className="truncate font-semibold text-night-900/90">{t.title}</p>
@@ -307,16 +366,16 @@ export function ListenScreen() {
                         <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M12 3v13M8 7l4-4 4 4" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </button>
-                    <a
-                      href={t.url}
-                      download
+                    <button
+                      type="button"
+                      onClick={() => download(t)}
                       aria-label="Télécharger"
                       className="grid h-8 w-8 place-items-center rounded-full text-night-900/45 transition-colors hover:bg-night-900/5 hover:text-spirit-700"
                     >
                       <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-none stroke-current" strokeWidth={1.8}>
                         <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
-                    </a>
+                    </button>
                     {admin? (
                       <>
                         <button

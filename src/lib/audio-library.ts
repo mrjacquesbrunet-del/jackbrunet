@@ -41,6 +41,26 @@ function safeKey(name: string): string {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 7)}-${slug}.${ext}`;
 }
 
+/** Durée « m:ss » lisible (vide si inconnue). */
+export function formatDuration(sec: number | undefined): string {
+  if (!sec ||!Number.isFinite(sec) || sec <= 0) return "";
+  const m = Math.floor(sec / 60);
+  const s = Math.round(sec % 60);
+  return `${m}:${String(s).padStart(2, "0")}`;
+}
+
+/** Lit la durée d'un audio distant (métadonnées seules), en secondes. */
+export function loadAudioDuration(url: string): Promise<number> {
+  return new Promise((resolve) => {
+    if (typeof document === "undefined") return resolve(0);
+    const a = document.createElement("audio");
+    a.preload = "metadata";
+    a.onloadedmetadata = () => resolve(Number.isFinite(a.duration)? a.duration: 0);
+    a.onerror = () => resolve(0);
+    a.src = url;
+  });
+}
+
 /** URL de la pochette du podcast (fichier « cover.jpg » du bucket audio). */
 export function podcastCoverUrl(): string | null {
   const sb = getSupabase();

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { asset } from "@/lib/asset";
 import { Markable } from "@/components/ui/Markable";
@@ -126,6 +126,19 @@ export function BibleReader() {
   const chapterCount = book?.chapters?.length?? 0;
   const verses = book?.chapters?.[chapter - 1]?? [];
 
+  // Ancre du haut du chapitre: on y ramène la lecture quand on change de
+  // chapitre (Précédent / Suivant / sélecteur), pour repartir du verset 1.
+  const topRef = useRef<HTMLDivElement>(null);
+  function scrollToChapterTop() {
+    requestAnimationFrame(() => {
+      topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+  function goToChapter(n: number) {
+    setChapter(n);
+    scrollToChapterTop();
+  }
+
   // Surlignage du verset pendant la narration MP3 (estimé au prorata de la
   // longueur des versets, faute de repères temps dans le fichier audio).
   const reading = useReading();
@@ -216,6 +229,7 @@ export function BibleReader() {
           onChange={(e) => {
             setBookId(Number(e.target.value));
             setChapter(1);
+            scrollToChapterTop();
           }}
           className="field max-w-[15rem]"
         >
@@ -228,7 +242,7 @@ export function BibleReader() {
         <select
           aria-label="Chapitre"
           value={chapter}
-          onChange={(e) => setChapter(Number(e.target.value))}
+          onChange={(e) => goToChapter(Number(e.target.value))}
           className="field max-w-[9rem]"
         >
           {Array.from({ length: chapterCount }, (_, i) => i + 1).map((n) => (
@@ -343,7 +357,8 @@ export function BibleReader() {
         <p className="mt-6 text-night-900/50">Chargement…</p>
       ): (
         <div
-          className={`mt-6 max-w-2xl space-y-2 ${
+          ref={topRef}
+          className={`mt-6 max-w-2xl scroll-mt-4 space-y-2 ${
             reading.theme === "clair"? "text-night-900/85": "rounded-2xl p-4"
           }`}
           style={{
@@ -367,7 +382,9 @@ export function BibleReader() {
             const c = comm[vn];
             const speaking = spokenVerse === i;
             return (
-              <div key={i}>
+              // La clé inclut livre + chapitre: en changeant de chapitre, les
+              // versets se remontent, ce qui referme tout menu resté ouvert.
+              <div key={`${bookId}-${chapter}-${i}`}>
                 <Markable
                   id={`bible:${bookId}:${chapter}:${vn}`}
                   text={v}
@@ -433,7 +450,7 @@ export function BibleReader() {
           <button
             type="button"
             disabled={chapter <= 1}
-            onClick={() => setChapter((c) => Math.max(1, c - 1))}
+            onClick={() => goToChapter(Math.max(1, chapter - 1))}
             className="btn-ghost disabled:opacity-40"
           >
             ← Précédent
@@ -444,7 +461,7 @@ export function BibleReader() {
           <button
             type="button"
             disabled={chapter >= chapterCount}
-            onClick={() => setChapter((c) => Math.min(chapterCount, c + 1))}
+            onClick={() => goToChapter(Math.min(chapterCount, chapter + 1))}
             className="btn-ghost disabled:opacity-40"
           >
             Suivant →
@@ -458,7 +475,7 @@ export function BibleReader() {
           <button
             type="button"
             disabled={chapter <= 1}
-            onClick={() => setChapter((c) => Math.max(1, c - 1))}
+            onClick={() => goToChapter(Math.max(1, chapter - 1))}
             aria-label="Chapitre précédent"
             className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-night-900/15 bg-white/95 text-spirit-700 shadow-card backdrop-blur disabled:opacity-40"
           >
@@ -479,7 +496,7 @@ export function BibleReader() {
           <button
             type="button"
             disabled={chapter >= chapterCount}
-            onClick={() => setChapter((c) => Math.min(chapterCount, c + 1))}
+            onClick={() => goToChapter(Math.min(chapterCount, chapter + 1))}
             aria-label="Chapitre suivant"
             className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-night-900/15 bg-white/95 text-spirit-700 shadow-card backdrop-blur disabled:opacity-40"
           >

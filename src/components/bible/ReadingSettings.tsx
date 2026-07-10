@@ -49,7 +49,17 @@ export function ReadingSettings() {
       </button>
 
       {open? (
-        <div className="absolute right-0 z-50 mt-2 w-72 rounded-2xl border border-night-900/10 bg-white p-4 shadow-xl">
+        <>
+        {/* Voile sur mobile: un toucher à l'extérieur referme la feuille. */}
+        <button
+          type="button"
+          aria-label="Fermer"
+          onClick={() => setOpen(false)}
+          className="fixed inset-0 z-40 bg-black/20 sm:hidden"
+        />
+        {/* Mobile: feuille ancrée en bas (toujours visible, jamais tronquée).
+            Écran large: petit panneau ancré sous le bouton. */}
+        <div className="fixed inset-x-3 bottom-3 z-50 max-h-[80vh] w-auto overflow-y-auto rounded-2xl border border-night-900/10 bg-white p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] shadow-xl sm:absolute sm:inset-auto sm:right-0 sm:bottom-auto sm:mt-2 sm:w-72 sm:pb-4">
           <p className="text-[11px] font-bold uppercase tracking-wide text-night-900/45">
             Taille du texte
           </p>
@@ -128,6 +138,7 @@ export function ReadingSettings() {
             ))}
           </div>
         </div>
+        </>
       ): null}
     </div>
   );

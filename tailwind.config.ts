@@ -4,6 +4,9 @@ const config: Config = {
   content: [
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    // Les classes de surlignage (couleurs) sont définies ici: à scanner aussi,
+    // sinon Tailwind les purge et le surlignage n'affiche aucune couleur.
+    "./src/lib/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {

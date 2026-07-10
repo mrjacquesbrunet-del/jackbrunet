@@ -24,6 +24,7 @@ import {
   isPseudoTaken,
   isReservedPseudo,
   reactionsFor,
+  commentCountsFor,
   isAdminEmail,
   type Prayer,
   type Reaction,
@@ -72,6 +73,7 @@ function Feed({
 }) {
   const [prayers, setPrayers] = useState<Prayer[]>([]);
   const [reactions, setReactions] = useState<Reaction[]>([]);
+  const [commentCounts, setCommentCounts] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
   const [body, setBody] = useState("");
   const [visibility, setVisibility] = useState<Visibility>("public");
@@ -86,7 +88,10 @@ function Feed({
     setLoading(true);
     const ps = tab === "following"? await listFollowingFeed(userId): await listPrayers();
     setPrayers(ps);
-    setReactions(await reactionsFor(ps.map((p) => p.id)));
+    const ids = ps.map((p) => p.id);
+    const [rx, counts] = await Promise.all([reactionsFor(ids), commentCountsFor(ids)]);
+    setReactions(rx);
+    setCommentCounts(counts);
     setLoading(false);
   }, [tab, userId]);
 
@@ -334,6 +339,7 @@ function Feed({
                 userId={userId}
                 isAdmin={admin}
                 initialReactions={reactions.filter((r) => r.prayer_id === p.id)}
+                initialCommentCount={commentCounts[p.id]?? 0}
                 onDeleted={load}
               />
             ))}

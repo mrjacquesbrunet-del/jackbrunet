@@ -285,6 +285,18 @@ export async function listComments(prayerId: string): Promise<Comment[]> {
   return comments.map((c) => ({...c, author: profs[c.author_id] }));
 }
 
+/** Nombre d'encouragements (commentaires + réponses) par prière, en un appel. */
+export async function commentCountsFor(prayerIds: string[]): Promise<Record<string, number>> {
+  const sb = getSupabase();
+  if (!sb || prayerIds.length === 0) return {};
+  const { data } = await sb.from("prayer_comments").select("prayer_id").in("prayer_id", prayerIds);
+  const counts: Record<string, number> = {};
+  for (const r of (data as { prayer_id: string }[])?? []) {
+    counts[r.prayer_id] = (counts[r.prayer_id]?? 0) + 1;
+  }
+  return counts;
+}
+
 export async function addComment(
   prayerId: string,
   body: string,

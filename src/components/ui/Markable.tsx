@@ -112,7 +112,7 @@ export function Markable({
             Surligner
           </button>
           {showColors? (
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-night-900/15 bg-white px-2 py-1">
+            <div className="mt-1 flex w-full flex-wrap items-center gap-2.5 rounded-2xl border border-night-900/15 bg-white px-3 py-2.5">
               {HIGHLIGHT_COLORS.map((c) => (
                 <button
                   key={c.key}
@@ -120,8 +120,8 @@ export function Markable({
                   aria-label={c.label}
                   title={c.label}
                   onClick={() => tk.highlightWith(id, c.key, { text, reference, kind })}
-                  className={`h-5 w-5 rounded-full ${c.swatch} transition-transform hover:scale-110 ${
-                    highlighted && color === c.key? "ring-2 ring-night-900 ring-offset-1": ""
+                  className={`h-7 w-7 shrink-0 rounded-full ${c.swatch} transition-transform hover:scale-110 ${
+                    highlighted && color === c.key? "ring-2 ring-night-900 ring-offset-2": ""
                   }`}
                 />
               ))}
@@ -131,12 +131,12 @@ export function Markable({
                   aria-label="Retirer le surlignage"
                   title="Retirer"
                   onClick={() => tk.clearHighlight(id)}
-                  className="grid h-5 w-5 place-items-center rounded-full border border-night-900/20 text-night-900/50"
+                  className="ml-auto inline-flex shrink-0 items-center gap-1 rounded-full border border-night-900/20 px-2.5 py-1 text-xs font-semibold text-night-900/55 transition-colors hover:text-night-900/80"
                 >
-                  ✕
+                  ✕ Retirer
                 </button>
               ): null}
-            </span>
+            </div>
           ): null}
           <button type="button" className={chip} onClick={copy}>
             <CopyGlyph className="h-3.5 w-3.5" />

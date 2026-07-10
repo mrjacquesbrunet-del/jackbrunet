@@ -45,18 +45,21 @@ export function PrayerCard({
   prayer,
   userId,
   initialReactions,
+  initialCommentCount = 0,
   onDeleted,
   isAdmin = false,
 }: {
   prayer: Prayer;
   userId: string;
   initialReactions: Reaction[];
+  initialCommentCount?: number;
   onDeleted: () => void;
   isAdmin?: boolean;
 }) {
   const [reactions, setReactions] = useState<Reaction[]>(initialReactions);
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState<Comment[] | null>(null);
+  const [commentCount, setCommentCount] = useState(initialCommentCount);
   const [commentText, setCommentText] = useState("");
   const [replyTo, setReplyTo] = useState<string | null>(null);
   const [replyText, setReplyText] = useState("");
@@ -93,10 +96,16 @@ export function PrayerCard({
     await setPrayerAnswered(prayer.id, next);
   }
 
+  async function refreshComments() {
+    const list = await listComments(prayer.id);
+    setComments(list);
+    setCommentCount(list.length);
+  }
+
   async function openComments() {
     const next =!showComments;
     setShowComments(next);
-    if (next && comments === null) setComments(await listComments(prayer.id));
+    if (next && comments === null) await refreshComments();
   }
 
   async function submitComment() {
@@ -106,7 +115,7 @@ export function PrayerCard({
     await addComment(prayer.id, text, userId);
     await notifyMentions(text, userId, prayer.id);
     setCommentText("");
-    setComments(await listComments(prayer.id));
+    await refreshComments();
     setBusy(false);
   }
 
@@ -118,13 +127,14 @@ export function PrayerCard({
     await notifyMentions(text, userId, prayer.id);
     setReplyText("");
     setReplyTo(null);
-    setComments(await listComments(prayer.id));
+    await refreshComments();
     setBusy(false);
   }
 
   async function removeComment(id: string) {
     await deleteComment(id);
     setComments((prev) => (prev? prev.filter((c) => c.id!== id): prev));
+    setCommentCount((n) => Math.max(0, n - 1));
   }
 
   async function remove() {
@@ -235,7 +245,11 @@ export function PrayerCard({
           <button
             type="button"
             onClick={openComments}
-            className="inline-flex items-center gap-1.5 rounded-full border border-night-900/15 px-3 py-1.5 text-sm font-semibold text-night-900/70 transition-colors hover:border-night-900/30"
+            className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
+              commentCount > 0
+? "border-spirit-500/40 bg-spirit-500/10 text-spirit-700"
+: "border-night-900/15 text-night-900/70 hover:border-night-900/30"
+            }`}
           >
             <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-none stroke-current" strokeWidth={1.8}>
               <path
@@ -244,7 +258,7 @@ export function PrayerCard({
                 strokeLinejoin="round"
               />
             </svg>
-            Encourager
+            Encourager{commentCount > 0? ` · ${commentCount}`: ""}
           </button>
 
           {/* Admin: épingler le sujet */}

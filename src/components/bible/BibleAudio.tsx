@@ -4,7 +4,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { track } from "@/lib/analytics";
 import { hasBibleNarration, bibleBookQueue, bibleFullQueue, type BibleBookMeta } from "@/lib/bible-audio";
 import { playQueue, usePodcastPlayer } from "@/lib/podcast-player";
-import { useAmbient, setVoiceActive, ambientKick } from "@/lib/ambient";
+import {
+  useAmbient,
+  setVoiceActive,
+  ambientKick,
+  AMBIENT_VOL_MIN,
+  AMBIENT_VOL_MAX,
+} from "@/lib/ambient";
 
 /**
  * Bible audio (service « Écouter la Bible »). Deux modes:
@@ -59,6 +65,9 @@ export function BibleAudio({
   const [state, setState] = useState<"idle" | "playing" | "paused">("idle");
   const idxRef = useRef(0);
   const voiceRef = useRef<SpeechSynthesisVoice | null>(null);
+
+  // Réglage du fond musical (activation + volume).
+  const [ambientMenu, setAmbientMenu] = useState(false);
 
   // Minuteur de veille (l'écoute s'arrête toute seule).
   const [sleepMin, setSleepMin] = useState<number | null>(null);
@@ -189,28 +198,79 @@ export function BibleAudio({
     }
   }
 
-  // Petit interrupteur « fond musical doux ».
+  // Réglage « fond musical doux »: activer + doser le volume par rapport à la
+  // voix (le fond était parfois trop fort pour certains chapitres narrés).
+  const volPct = Math.round(
+    ((ambient.volume - AMBIENT_VOL_MIN) / (AMBIENT_VOL_MAX - AMBIENT_VOL_MIN)) * 100,
+  );
   const ambientToggle = (
-    <button
-      type="button"
-      onClick={() => {
-        ambient.setEnabled(!ambient.enabled);
-      }}
-      aria-pressed={ambient.enabled}
-      aria-label="Fond musical doux"
-      title="Fond musical doux"
-      className={`grid h-10 w-10 shrink-0 place-items-center rounded-full border ${
-        ambient.enabled
+    <div className="relative shrink-0">
+      <button
+        type="button"
+        onClick={() => setAmbientMenu((o) =>!o)}
+        aria-expanded={ambientMenu}
+        aria-label="Fond musical doux"
+        title="Fond musical doux"
+        className={`grid h-10 w-10 place-items-center rounded-full border ${
+          ambient.enabled
 ? "border-dawn-400 bg-dawn-400/15 text-dawn-300"
 : "border-white/15 bg-white/10 text-cream/70"
-      }`}
-    >
-      <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
-        <path d="M9 18V6l10-2v12" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="7" cy="18" r="2" />
-        <circle cx="17" cy="16" r="2" />
-      </svg>
-    </button>
+        }`}
+      >
+        <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
+          <path d="M9 18V6l10-2v12" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx="7" cy="18" r="2" />
+          <circle cx="17" cy="16" r="2" />
+        </svg>
+      </button>
+      {ambientMenu? (
+        <div className="absolute right-0 top-full z-[60] mt-2 w-64 rounded-2xl border border-night-900/10 bg-white p-4 text-night-900 shadow-xl">
+          <div className="flex items-center justify-between gap-3">
+            <span className="font-display text-sm font-bold">Fond musical doux</span>
+            <button
+              type="button"
+              onClick={() => ambient.setEnabled(!ambient.enabled)}
+              aria-pressed={ambient.enabled}
+              className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${
+                ambient.enabled? "bg-spirit-600": "bg-night-900/20"
+              }`}
+            >
+              <span
+                className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all ${
+                  ambient.enabled? "left-[22px]": "left-0.5"
+                }`}
+              />
+            </button>
+          </div>
+          <p className="mt-1 text-xs text-night-900/55">
+            Une nappe instrumentale discrète sous la lecture.
+          </p>
+
+          <p className="mt-4 text-[11px] font-bold uppercase tracking-wide text-night-900/45">
+            Volume du fond
+          </p>
+          <div className="mt-2 flex items-center gap-2">
+            <span className="text-[11px] text-night-900/45">Voix</span>
+            <input
+              type="range"
+              min={AMBIENT_VOL_MIN}
+              max={AMBIENT_VOL_MAX}
+              step={0.01}
+              value={ambient.volume}
+              disabled={!ambient.enabled}
+              onChange={(e) => ambient.setVolume(Number(e.target.value))}
+              className="h-1 flex-1 accent-spirit-600 disabled:opacity-40"
+              aria-label="Volume du fond musical"
+            />
+            <span className="text-[11px] text-night-900/45">Fond</span>
+          </div>
+          <p className="mt-1 text-center text-xs tabular-nums text-night-900/45">{volPct}%</p>
+          <p className="mt-1 text-[11px] text-night-900/45">
+            Baisse le fond si la voix est un peu couverte.
+          </p>
+        </div>
+      ): null}
+    </div>
   );
 
   // MODE NARRATION: fichier hébergé → lecteur global (arrière-plan, veille…).
