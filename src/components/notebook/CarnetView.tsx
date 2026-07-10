@@ -6,6 +6,7 @@ import { Avatar } from "@/components/community/Avatar";
 import { useAuth } from "@/components/community/useAuth";
 import { useProfileAccent, ACCENTS, type AccentKey } from "@/lib/profile-accent";
 import { useToolkit, highlightBg, type Snippet } from "@/lib/toolkit";
+import { bibleHref } from "@/lib/bible-ref";
 import {
   useNotebook,
   addNote,
@@ -29,13 +30,6 @@ const KIND_LABEL: Record<string, string> = {
 /** Onglets du carnet (façon feed). */
 const FILTERS = ["Tout", "Versets", "Paroles fortes", "Publications", "Notes", "Surlignages"] as const;
 type Filter = (typeof FILTERS)[number];
-
-/** Lien profond vers la Bible pour un élément issu d'un verset. */
-function bibleHref(id?: string): string | null {
-  if (!id) return null;
-  const m = /^bible:(\d+):(\d+):(\d+)$/.exec(id);
-  return m? `/bible?livre=${m[1]}&chap=${m[2]}`: null;
-}
 
 const fmt = (ts: number) =>
   new Date(ts).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
@@ -266,8 +260,9 @@ function FeedCard({ item, onRemove }: { item: Item; onRemove: () => void }) {
   const reference =
     item.t === "snippet"? item.snip.reference: item.t === "highlight"? item.hl.reference: item.reference;
   const kind = item.t === "snippet"? item.snip.kind: item.t === "highlight"? item.hl.kind: "verset";
-  const id = item.t === "snippet"? item.snip.id: item.t === "highlight"? item.hl.id: undefined;
-  const href = bibleHref(id);
+  // Lien vers le passage: on se base sur la RÉFÉRENCE (« Jean 3:16 »), ce qui
+  // marche aussi pour les versets du jour et les favoris (pas d'id « bible: »).
+  const href = bibleHref(reference);
 
   // Publication du mur: carte dédiée (auteur + lien).
   if (item.t === "snippet" && item.snip.kind === "publication") {

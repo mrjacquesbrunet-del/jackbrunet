@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useToolkit } from "@/lib/toolkit";
 import { useAuth } from "@/components/community/useAuth";
+import { bibleHref } from "@/lib/bible-ref";
 
 const KIND_LABEL: Record<string, string> = {
   verset: "Versets",
@@ -11,13 +12,6 @@ const KIND_LABEL: Record<string, string> = {
   déclaration: "Déclarations",
   texte: "Textes",
 };
-
-/** Lien profond vers la Bible si l'élément vient d'un verset
- * (id « bible:livre:chapitre:verset »). Sinon null. */
-function bibleHref(id: string): string | null {
-  const m = /^bible:(\d+):(\d+):(\d+)$/.exec(id);
-  return m? `/bible?livre=${m[1]}&chap=${m[2]}`: null;
-}
 
 export function MyFavorites() {
   const { saved, removeSnippet, highlightItems, clearHighlight } = useToolkit();
