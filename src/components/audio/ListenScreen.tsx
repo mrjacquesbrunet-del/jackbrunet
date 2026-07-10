@@ -16,24 +16,15 @@ import { usePodcastPlayer } from "@/lib/podcast-player";
 import { useAuth } from "@/components/community/useAuth";
 import { isAdminEmail } from "@/lib/community";
 import { siteConfig } from "@/config/site";
-import { saveOrShareFile } from "@/lib/share";
+import {
+  downloadFileOffline,
+  deleteFileOffline,
+  offlineFilePaths,
+} from "@/lib/bible-offline";
 import { PlayGlyph, PauseGlyph, HeadphonesGlyph } from "@/components/ui/DevoIcons";
 
 const FAV_KEY = "jb.podcast.favs.v1";
 const DUR_KEY = "jb.podcast.dur.v1";
-
-/** Nom de fichier propre pour le téléchargement d'un épisode. */
-function fileNameFor(title: string): string {
-  const slug =
-    (title || "podcast")
-.normalize("NFD")
-.replace(/[̀-ͯ]/g, "")
-.replace(/[^a-zA-Z0-9]+/g, "-")
-.replace(/^-+|-+$/g, "")
-.toLowerCase()
-.slice(0, 50) || "podcast";
-  return `${slug}.mp3`;
-}
 
 function when(iso?: string): string {
   if (!iso) return "";
@@ -47,8 +38,12 @@ export function ListenScreen() {
 
   const [tracks, setTracks] = useState<AudioTrack[] | null>(null);
   const [upload, setUpload] = useState<{ done: number; total: number } | null>(null);
-  const [tab, setTab] = useState<"all" | "fav">("all");
+  const [tab, setTab] = useState<"all" | "fav" | "offline">("all");
   const [favs, setFavs] = useState<Set<string>>(new Set());
+
+  // Épisodes téléchargés pour l'écoute hors-ligne (stockés DANS l'app).
+  const [offline, setOffline] = useState<Set<string>>(new Set()); // par path
+  const [dlProgress, setDlProgress] = useState<Record<string, number>>({}); // path → 0..1
   const [coverBroken, setCoverBroken] = useState(false);
   const coverUrl = podcastCoverUrl();
   const fileRef = useRef<HTMLInputElement>(null);
@@ -116,11 +111,45 @@ export function ListenScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tracks]);
 
-  async function download(t: AudioTrack) {
-    await saveOrShareFile(t.url, fileNameFor(t.title), `« ${t.title} », Pasteur Jack`);
+  // Repère les épisodes déjà disponibles hors-ligne.
+  useEffect(() => {
+    if (!tracks) return;
+    offlineFilePaths(tracks.map((t) => t.path)).then(setOffline);
+  }, [tracks]);
+
+  async function toggleOffline(t: AudioTrack) {
+    if (dlProgress[t.path]!== undefined) return; // déjà en cours
+    if (offline.has(t.path)) {
+      // Retirer le téléchargement.
+      if (!confirm(`Retirer « ${t.title} » des téléchargements ?`)) return;
+      await deleteFileOffline(t.path);
+      setOffline((prev) => {
+        const next = new Set(prev);
+        next.delete(t.path);
+        return next;
+      });
+      return;
+    }
+    // Télécharger dans l'app (écoute hors-ligne).
+    setDlProgress((p) => ({...p, [t.path]: 0 }));
+    const ok = await downloadFileOffline(t.url, t.url, (r, total) =>
+      setDlProgress((p) => ({...p, [t.path]: total? r / total: 0 })),
+    );
+    setDlProgress((p) => {
+      const next = {...p };
+      delete next[t.path];
+      return next;
+    });
+    if (ok) setOffline((prev) => new Set(prev).add(t.path));
   }
 
-  const shown = tracks? (tab === "fav"? tracks.filter((t) => favs.has(t.id)): tracks): null;
+  const shown = tracks
+? tab === "fav"
+? tracks.filter((t) => favs.has(t.id))
+: tab === "offline"
+? tracks.filter((t) => offline.has(t.path))
+: tracks
+: null;
 
   // Lien profond: /ecouter?e=<id> lance l'épisode.
   useEffect(() => {
@@ -278,6 +307,7 @@ export function ListenScreen() {
           [
             ["all", "Épisodes"],
             ["fav", "Favoris"],
+            ["offline", "Hors ligne"],
           ] as const
         ).map(([key, lbl]) => (
           <button
@@ -300,11 +330,17 @@ export function ListenScreen() {
         ): shown.length === 0? (
           <div className="glass-strong p-6 text-center">
             <p className="font-display text-lg font-bold">
-              {tab === "fav"? "Aucun favori pour l'instant": "Les audios arrivent bientôt"}
+              {tab === "fav"
+? "Aucun favori pour l'instant"
+: tab === "offline"
+? "Aucun épisode hors-ligne"
+: "Les audios arrivent bientôt"}
             </p>
             <p className="mt-1 text-sm text-night-900/60">
               {tab === "fav"
 ? "Touche le cœur sur un épisode pour le retrouver ici."
+: tab === "offline"
+? "Touche l'icône de téléchargement sur un épisode: il sera écoutable sans connexion, dans l'app."
 : "De nouveaux enseignements sont en préparation."}
             </p>
           </div>
@@ -366,16 +402,48 @@ export function ListenScreen() {
                         <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M12 3v13M8 7l4-4 4 4" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </button>
-                    <button
-                      type="button"
-                      onClick={() => download(t)}
-                      aria-label="Télécharger"
-                      className="grid h-8 w-8 place-items-center rounded-full text-night-900/45 transition-colors hover:bg-night-900/5 hover:text-spirit-700"
-                    >
-                      <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-none stroke-current" strokeWidth={1.8}>
-                        <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </button>
+                    {(() => {
+                      const isOff = offline.has(t.path);
+                      const prog = dlProgress[t.path];
+                      const downloading = prog!== undefined;
+                      return (
+                        <button
+                          type="button"
+                          onClick={() => toggleOffline(t)}
+                          aria-label={
+                            isOff
+? "Retirer le téléchargement"
+: downloading
+? "Téléchargement…"
+: "Télécharger pour écouter hors-ligne"
+                          }
+                          title={
+                            isOff
+? "Disponible hors-ligne · toucher pour retirer"
+: "Télécharger dans l'app (écoute hors-ligne)"
+                          }
+                          className={`grid h-8 w-8 place-items-center rounded-full transition-colors ${
+                            isOff
+? "text-spirit-600"
+: "text-night-900/45 hover:bg-night-900/5 hover:text-spirit-700"
+                          }`}
+                        >
+                          {downloading? (
+                            <span className="text-[10px] font-bold tabular-nums">
+                              {Math.round((prog?? 0) * 100)}
+                            </span>
+                          ): isOff? (
+                            <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-none stroke-current" strokeWidth={2.2}>
+                              <path d="M9 12.5l2 2 4-4.5M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          ): (
+                            <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-none stroke-current" strokeWidth={1.8}>
+                              <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          )}
+                        </button>
+                      );
+                    })()}
                     {admin? (
                       <>
                         <button

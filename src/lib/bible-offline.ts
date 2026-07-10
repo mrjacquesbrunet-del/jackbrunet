@@ -120,3 +120,60 @@ export async function deleteBook(bookId: number, chapterCount: number): Promise<
   for (let c = 1; c <= chapterCount; c++) paths.push(bibleNarrationKey(bookId, c));
   await deleteKeys(paths);
 }
+
+/* ---------------------------------------------------------------------------
+ * Fichiers audio génériques (podcasts): même stockage hors-ligne (IndexedDB).
+ * Le lecteur global joue automatiquement la copie locale quand elle existe
+ * (voir podcast-player → getOfflineObjectUrl(path)).
+ * ------------------------------------------------------------------------- */
+
+/** Télécharge un fichier audio (ex. podcast) pour l'écoute hors-ligne DANS l'app. */
+export async function downloadFileOffline(
+  path: string,
+  url: string,
+  onProgress?: (received: number, total: number) => void,
+): Promise<boolean> {
+  try {
+    const r = await fetch(url);
+    if (!r.ok) return false;
+    const total = Number(r.headers.get("content-length")) || 0;
+    const type = r.headers.get("content-type") || "audio/mpeg";
+    if (r.body && onProgress && total > 0) {
+      const reader = r.body.getReader();
+      const chunks: BlobPart[] = [];
+      let received = 0;
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        if (value) {
+          chunks.push(value);
+          received += value.length;
+          onProgress(received, total);
+        }
+      }
+      await putBlob(path, new Blob(chunks, { type }));
+    } else {
+      await putBlob(path, await r.blob());
+    }
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** Vrai si le fichier est déjà disponible hors-ligne. */
+export async function isFileOffline(path: string): Promise<boolean> {
+  const keys = await allKeys();
+  return keys.has(path);
+}
+
+/** Supprime un fichier hors-ligne. */
+export async function deleteFileOffline(path: string): Promise<void> {
+  await deleteKeys([path]);
+}
+
+/** Parmi une liste de chemins, ceux déjà présents hors-ligne. */
+export async function offlineFilePaths(paths: string[]): Promise<Set<string>> {
+  const keys = await allKeys();
+  return new Set(paths.filter((p) => keys.has(p)));
+}
