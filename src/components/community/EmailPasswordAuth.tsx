@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { signInEmailPassword, signUpEmailPassword } from "@/lib/community";
+import { submitToBrevo } from "@/lib/brevo";
+import { newsletterEndpointForSource } from "@/config/brevo";
 
 /**
  * Connexion / inscription par e-mail + mot de passe, 100 % dans l'application
@@ -19,6 +21,7 @@ export function EmailPasswordAuth({
 }) {
   const [mode, setMode] = useState<"signin" | "signup">(initialMode);
   const dark = tone === "dark";
+  const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
@@ -26,6 +29,10 @@ export function EmailPasswordAuth({
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    if (mode === "signup" &&!firstName.trim()) {
+      setError("Indique ton prénom.");
+      return;
+    }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError("Entre une adresse e-mail valide.");
       return;
@@ -38,7 +45,17 @@ export function EmailPasswordAuth({
     setError("");
     try {
       if (mode === "signup") {
-        await signUpEmailPassword(email, password);
+        await signUpEmailPassword(email, password, firstName.trim());
+        // Récupération du contact dans Brevo (liste « membres »): e-mail + prénom.
+        // no-cors, best-effort: n'empêche jamais l'inscription.
+        try {
+          const endpoint = newsletterEndpointForSource("app-membre");
+          if (endpoint) {
+            await submitToBrevo(endpoint, { EMAIL: email, PRENOM: firstName.trim() });
+          }
+        } catch {
+          /* la collecte Brevo n'est pas bloquante */
+        }
       } else {
         await signInEmailPassword(email, password);
       }
@@ -59,6 +76,16 @@ export function EmailPasswordAuth({
 
   return (
     <form onSubmit={submit} className="space-y-3">
+      {mode === "signup"? (
+        <input
+          type="text"
+          autoComplete="given-name"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          placeholder="Ton prénom"
+          className="field w-full"
+        />
+      ): null}
       <input
         type="email"
         autoComplete="email"

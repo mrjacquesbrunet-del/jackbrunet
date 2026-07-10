@@ -91,12 +91,33 @@ export async function signInApple() {
   return data;
 }
 
-/** Inscription e-mail + mot de passe (100% dans l'app, sans navigateur). */
-export async function signUpEmailPassword(email: string, password: string) {
+/** Inscription e-mail + mot de passe (100% dans l'app, sans navigateur).
+ * Le prénom, s'il est fourni, est enregistré dans le compte et devient le
+ * pseudo affiché sur le profil (dédupliqué si déjà pris). */
+export async function signUpEmailPassword(email: string, password: string, firstName?: string) {
   const sb = getSupabase();
   if (!sb) throw new Error("non configuré");
-  const { data, error } = await sb.auth.signUp({ email, password });
+  const clean = (firstName?? "").trim();
+  const { data, error } = await sb.auth.signUp({
+    email,
+    password,
+    options: clean? { data: { first_name: clean } }: undefined,
+  });
   if (error) throw error;
+  // Renseigne le prénom comme pseudo si la session est active immédiatement
+  // (double opt-in désactivé). Best-effort: n'interrompt jamais l'inscription.
+  const uid = data.user?.id;
+  if (uid && clean && data.session) {
+    try {
+      let pseudo = clean;
+      if (await isPseudoTaken(pseudo, uid)) {
+        pseudo = `${clean}${Math.floor(Math.random() * 900 + 100)}`;
+      }
+      await sb.from("profiles").upsert({ id: uid, pseudo });
+    } catch {
+      /* le pseudo pourra être défini plus tard depuis le profil */
+    }
+  }
   return data;
 }
 
