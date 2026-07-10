@@ -4,6 +4,7 @@ import { useState } from "react";
 import {
   useNotebook,
   addNote,
+  updateNote,
   removeNote,
   toggleAnswered,
   NOTE_CATEGORIES,
@@ -33,6 +34,11 @@ export function NotebookView() {
   const [body, setBody] = useState("");
   const [filter, setFilter] = useState<NoteCategory | "Tout">("Tout");
 
+  // Édition d'une note existante (rouvrir pour modifier / compléter).
+  const [editId, setEditId] = useState<string | null>(null);
+  const [editTitle, setEditTitle] = useState("");
+  const [editBody, setEditBody] = useState("");
+
   const visible = notes.filter((n) => filter === "Tout" || n.category === filter);
 
   function submit(e: React.FormEvent) {
@@ -41,6 +47,17 @@ export function NotebookView() {
     addNote({ category, title, body });
     setTitle("");
     setBody("");
+  }
+
+  function startEdit(id: string, t: string, b: string) {
+    setEditId(id);
+    setEditTitle(t);
+    setEditBody(b);
+  }
+  function saveEdit() {
+    if (!editId) return;
+    updateNote(editId, { title: editTitle.trim(), body: editBody.trim() });
+    setEditId(null);
   }
 
   return (
@@ -142,6 +159,18 @@ export function NotebookView() {
                       {n.answered? "Rouvrir": "Marquer exaucé"}
                     </button>
                   ): null}
+                  {editId!== n.id? (
+                    <button
+                      type="button"
+                      onClick={() => startEdit(n.id, n.title, n.body)}
+                      aria-label="Modifier"
+                      className="text-night-900/35 transition-colors hover:text-spirit-700"
+                    >
+                      <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.8}>
+                        <path d="M16.5 4.5l3 3L8 19l-4 1 1-4L16.5 4.5z" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </button>
+                  ): null}
                   <button
                     type="button"
                     onClick={() => removeNote(n.id)}
@@ -152,15 +181,54 @@ export function NotebookView() {
                   </button>
                 </div>
               </div>
-              {n.title? (
-                <p className="mt-1 font-display text-lg font-bold text-night-900">{n.title}</p>
-              ): null}
-              {n.body? (
-                <p className="mt-1 whitespace-pre-wrap text-sm leading-relaxed text-night-900/80">
-                  {n.body}
-                </p>
-              ): null}
-              <p className="mt-2 text-xs text-night-900/40">{fmt(n.ts)}</p>
+
+              {editId === n.id? (
+                <div className="mt-2">
+                  <input
+                    value={editTitle}
+                    onChange={(e) => setEditTitle(e.target.value)}
+                    placeholder="Titre (facultatif)"
+                    className="field w-full"
+                  />
+                  <textarea
+                    value={editBody}
+                    onChange={(e) => setEditBody(e.target.value)}
+                    placeholder="Ta note…"
+                    rows={4}
+                    className="field mt-2 w-full resize-y"
+                    autoFocus
+                  />
+                  <div className="mt-2 flex gap-2">
+                    <button
+                      type="button"
+                      onClick={saveEdit}
+                      disabled={!editBody.trim() &&!editTitle.trim()}
+                      className="btn-primary text-sm disabled:opacity-40"
+                    >
+                      Enregistrer
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setEditId(null)}
+                      className="btn-ghost text-sm"
+                    >
+                      Annuler
+                    </button>
+                  </div>
+                </div>
+              ): (
+                <>
+                  {n.title? (
+                    <p className="mt-1 font-display text-lg font-bold text-night-900">{n.title}</p>
+                  ): null}
+                  {n.body? (
+                    <p className="mt-1 whitespace-pre-wrap text-sm leading-relaxed text-night-900/80">
+                      {n.body}
+                    </p>
+                  ): null}
+                  <p className="mt-2 text-xs text-night-900/40">{fmt(n.ts)}</p>
+                </>
+              )}
             </li>
           ))}
         </ul>

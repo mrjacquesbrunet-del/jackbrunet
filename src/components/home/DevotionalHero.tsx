@@ -83,14 +83,14 @@ export function DevotionalHero({ dateLabel }: { dateLabel?: string }) {
           transition={{ delay: 0.7, duration: 0.6 }}
         >
           Aujourd&apos;hui, reçois{" "}
-          <span className="relative inline-flex h-[1.3em] items-center overflow-hidden align-bottom">
+          <span className="relative inline-block align-baseline">
             <AnimatePresence mode="wait">
               <motion.span
                 key={i}
-                className="font-display font-extrabold text-gradient"
-                initial={{ y: "100%", opacity: 0 }}
-                animate={{ y: "0%", opacity: 1 }}
-                exit={{ y: "-100%", opacity: 0 }}
+                className="inline-block font-display font-extrabold text-gradient"
+                initial={{ y: "0.4em", opacity: 0 }}
+                animate={{ y: "0em", opacity: 1 }}
+                exit={{ y: "-0.4em", opacity: 0 }}
                 transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
               >
                 {ROTATING[i]}
