@@ -1,6 +1,7 @@
 "use client";
 
 import { getSupabase } from "./supabase";
+import { gradeFor } from "./grades";
 
 export type FavoriteVerse = { reference: string; text: string };
 export type Profile = {
@@ -545,6 +546,31 @@ export async function getActivity(
     comments: row?.comments?? 0,
     prays: row?.prays?? 0,
   };
+}
+
+/** Grade de prière (« Intercesseur », « Guerrier »…) par auteur, pour le mur.
+ * Calculé depuis l'activité de chaque membre, en parallèle. */
+export async function gradesFor(ids: string[]): Promise<Record<string, string>> {
+  const sb = getSupabase();
+  const uniq = Array.from(new Set(ids));
+  if (!sb || uniq.length === 0) return {};
+  const entries = await Promise.all(
+    uniq.map(async (id) => {
+      try {
+        const { data } = await sb.rpc("user_activity", { uid: id });
+        const row = Array.isArray(data)? data[0]: data;
+        const a = {
+          prayers: row?.prayers?? 0,
+          comments: row?.comments?? 0,
+          prays: row?.prays?? 0,
+        };
+        return [id, gradeFor(a).grade.name] as const;
+      } catch {
+        return [id, ""] as const;
+      }
+    }),
+  );
+  return Object.fromEntries(entries.filter(([, name]) => name));
 }
 
 /* ---- Notifications ---- */

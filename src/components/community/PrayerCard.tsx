@@ -46,6 +46,7 @@ export function PrayerCard({
   userId,
   initialReactions,
   initialCommentCount = 0,
+  grade,
   onDeleted,
   isAdmin = false,
 }: {
@@ -53,6 +54,7 @@ export function PrayerCard({
   userId: string;
   initialReactions: Reaction[];
   initialCommentCount?: number;
+  grade?: string;
   onDeleted: () => void;
   isAdmin?: boolean;
 }) {
@@ -180,13 +182,20 @@ export function PrayerCard({
             <Avatar pseudo={prayer.author?.pseudo} url={prayer.author?.avatar_url} />
           </Link>
           <div className="min-w-0 flex-1">
-            <Link
-              href={`/membre?u=${prayer.author_id}`}
-              className="inline-flex items-center gap-1.5 font-display font-bold leading-tight hover:underline"
-            >
-              {prayer.author?.pseudo?? "Ami(e)"}
-              {prayer.author?.verified? <VerifiedBadge className="h-4 w-4" />: null}
-            </Link>
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
+              <Link
+                href={`/membre?u=${prayer.author_id}`}
+                className="inline-flex items-center gap-1.5 font-display font-bold leading-tight hover:underline"
+              >
+                {prayer.author?.pseudo?? "Ami(e)"}
+                {prayer.author?.verified? <VerifiedBadge className="h-4 w-4" />: null}
+              </Link>
+              {grade? (
+                <span className="text-[11px] font-semibold uppercase tracking-wide text-spirit-600/55">
+                  {grade}
+                </span>
+              ): null}
+            </div>
             <p className="text-xs text-night-900/50">
               {when(prayer.created_at)} · {VIS_LABEL[prayer.visibility]}
             </p>

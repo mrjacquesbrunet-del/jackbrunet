@@ -25,6 +25,7 @@ import {
   isReservedPseudo,
   reactionsFor,
   commentCountsFor,
+  gradesFor,
   isAdminEmail,
   type Prayer,
   type Reaction,
@@ -74,6 +75,7 @@ function Feed({
   const [prayers, setPrayers] = useState<Prayer[]>([]);
   const [reactions, setReactions] = useState<Reaction[]>([]);
   const [commentCounts, setCommentCounts] = useState<Record<string, number>>({});
+  const [grades, setGrades] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [body, setBody] = useState("");
   const [visibility, setVisibility] = useState<Visibility>("public");
@@ -93,6 +95,8 @@ function Feed({
     setReactions(rx);
     setCommentCounts(counts);
     setLoading(false);
+    // Grades des auteurs (chargés après coup pour ne pas retarder le fil).
+    gradesFor(ps.map((p) => p.author_id)).then(setGrades);
   }, [tab, userId]);
 
   useEffect(() => {
@@ -340,6 +344,7 @@ function Feed({
                 isAdmin={admin}
                 initialReactions={reactions.filter((r) => r.prayer_id === p.id)}
                 initialCommentCount={commentCounts[p.id]?? 0}
+                grade={grades[p.author_id]}
                 onDeleted={load}
               />
             ))}

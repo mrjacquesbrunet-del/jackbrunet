@@ -284,6 +284,23 @@ function Profile({
       {/* En-tête façon Instagram, sur olive sombre texturé.
           Pas d'overflow-hidden: sinon le panneau de notifications serait rogné. */}
       <div className="dark-ctx bg-topo-dark relative rounded-4xl border border-white/10 p-6 shadow-card sm:p-8">
+        {/* Teinte de couleur personnalisable (bannière). Couche de décor clippée
+            à part, pour ne pas rogner le panneau de notifications. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 overflow-hidden rounded-4xl"
+        >
+          <div
+            className="absolute inset-x-0 top-0 h-40 opacity-30"
+            style={{
+              backgroundImage: `linear-gradient(120deg, ${ACCENTS[accent].from}, ${ACCENTS[accent].to})`,
+            }}
+          />
+          <div
+            className="absolute -right-8 -top-10 h-44 w-44 rounded-full opacity-40 blur-3xl"
+            style={{ backgroundColor: ACCENTS[accent].from }}
+          />
+        </div>
         {/* Jauge de grade de prière (compacte) */}
         {(() => {
           const g = gradeFor(activity);
@@ -300,8 +317,11 @@ function Profile({
               </div>
               <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-white/10">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-dawn-400 to-spirit-500"
-                  style={{ width: `${pct}%` }}
+                  className="h-full rounded-full"
+                  style={{
+                    width: `${pct}%`,
+                    backgroundImage: `linear-gradient(90deg, ${ACCENTS[accent].from}, ${ACCENTS[accent].to})`,
+                  }}
                 />
               </div>
             </div>

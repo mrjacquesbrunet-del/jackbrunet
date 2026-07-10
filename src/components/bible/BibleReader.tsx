@@ -33,15 +33,19 @@ export function BibleReader() {
   // Mode pleine lecture (immersion)
   const [immersive, setImmersive] = useState(false);
 
-  // « Reprendre où j'étais »: restaure le dernier livre/chapitre lu.
+  // « Reprendre où j'étais »: restaure le dernier livre/chapitre lu ET la
+  // position de défilement, pour revenir EXACTEMENT au passage (ex. après un
+  // aller-retour vers le carnet).
   const [restored, setRestored] = useState(false);
+  const restoreScrollRef = useRef<number | null>(null);
   useEffect(() => {
     try {
       const raw = localStorage.getItem("jb.bible.pos");
       if (raw) {
-        const p = JSON.parse(raw) as { bookId?: number; chapter?: number };
+        const p = JSON.parse(raw) as { bookId?: number; chapter?: number; scrollY?: number };
         if (p.bookId) setBookId(p.bookId);
         if (p.chapter) setChapter(p.chapter);
+        if (typeof p.scrollY === "number") restoreScrollRef.current = p.scrollY;
       }
     } catch {
       /* stockage indisponible */
@@ -49,15 +53,44 @@ export function BibleReader() {
     setRestored(true);
   }, []);
 
-  // Mémorise la position à chaque changement (après restauration).
+  // Mémorise la position (livre + chapitre + défilement) au fil de la lecture.
   useEffect(() => {
     if (!restored) return;
-    try {
-      localStorage.setItem("jb.bible.pos", JSON.stringify({ bookId, chapter }));
-    } catch {
-      /* ignore */
-    }
+    const savePos = () => {
+      try {
+        localStorage.setItem(
+          "jb.bible.pos",
+          JSON.stringify({ bookId, chapter, scrollY: window.scrollY }),
+        );
+      } catch {
+        /* ignore */
+      }
+    };
+    savePos();
+    let t: ReturnType<typeof setTimeout> | null = null;
+    const onScroll = () => {
+      if (t) return;
+      t = setTimeout(() => {
+        t = null;
+        savePos();
+      }, 400);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (t) clearTimeout(t);
+    };
   }, [restored, bookId, chapter]);
+
+  // Une fois le chapitre restauré affiché, on retourne à la position mémorisée.
+  useEffect(() => {
+    if (loading || restoreScrollRef.current === null) return;
+    if (!book?.chapters?.[chapter - 1]?.length) return;
+    const y = restoreScrollRef.current;
+    restoreScrollRef.current = null;
+    requestAnimationFrame(() => window.scrollTo(0, y));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading, book]);
 
   // Réinitialise les commentaires quand on change de livre/chapitre
   useEffect(() => {
