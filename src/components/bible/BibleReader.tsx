@@ -449,14 +449,17 @@ export function BibleReader() {
                         }}
                         aria-expanded={open}
                         aria-label="Commentaire & sens des mots"
-                        className={`ml-1 inline-flex translate-y-[2px] align-baseline transition-opacity ${
-                          open? "opacity-90": "opacity-35 hover:opacity-80"
+                        title="Commentaire & sens des mots"
+                        className={`ml-1.5 inline-grid h-6 w-6 translate-y-[4px] shrink-0 place-items-center rounded-full align-baseline transition-colors ${
+                          open
+? "bg-spirit-500/20 text-spirit-600"
+: "bg-night-900/[0.06] text-spirit-600/70 hover:bg-night-900/10 hover:text-spirit-600"
                         }`}
                       >
                         <svg
                           viewBox="0 0 24 24"
-                          className="h-[0.8em] w-[0.8em] fill-none stroke-current"
-                          strokeWidth={2.2}
+                          className="h-3.5 w-3.5 fill-none stroke-current"
+                          strokeWidth={2}
                         >
                           <path
                             d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 21 12z"

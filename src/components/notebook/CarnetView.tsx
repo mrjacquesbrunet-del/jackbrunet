@@ -58,6 +58,7 @@ export function CarnetView() {
 
   const [filter, setFilter] = useState<Filter>("Tout");
   const [adding, setAdding] = useState(false);
+  const [customizing, setCustomizing] = useState(false);
 
   const favVerses = profile?.favorite_verses?? [];
 
@@ -77,7 +78,17 @@ export function CarnetView() {
   const total = items.length;
 
   return (
-    <section className="container-x pb-28 pt-24 sm:pt-28">
+    <>
+      {/* Fond du carnet: dégradé teinté par la couleur d'accent choisie. Il est
+          fixe (il ne bouge pas au défilement) et le feed « flotte » par-dessus. */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 -z-10"
+        style={{
+          background: `linear-gradient(180deg, ${colors.from}2b 0%, ${colors.to}17 20%, #F3F3ED 52%)`,
+        }}
+      />
+      <section className="container-x pb-28 pt-24 sm:pt-28">
       {/* En-tête façon profil, avec personnalisation */}
       <div className="dark-ctx bg-topo-dark relative mx-auto max-w-2xl overflow-hidden rounded-4xl border border-white/10 p-6 shadow-card sm:p-8">
         <div
@@ -110,23 +121,51 @@ export function CarnetView() {
           </div>
         </div>
 
-        {/* Personnalisation: couleur d'accent (partagée avec le profil) */}
-        <div className="relative mt-5 flex items-center gap-2">
-          <span className="text-[11px] font-semibold uppercase tracking-wide text-cream/45">
-            Couleur
-          </span>
-          {(Object.keys(ACCENTS) as AccentKey[]).map((k) => (
-            <button
-              key={k}
-              type="button"
-              onClick={() => setAccent(k)}
-              aria-label={ACCENTS[k].label}
-              className={`h-7 w-7 rounded-full ring-2 ring-offset-2 ring-offset-night-900 transition-transform hover:scale-110 ${
-                accent === k? "ring-white": "ring-transparent"
-              }`}
-              style={{ backgroundImage: `linear-gradient(120deg, ${ACCENTS[k].from}, ${ACCENTS[k].to})` }}
-            />
-          ))}
+        {/* Personnalisation: un seul bouton « Personnaliser » qui ouvre l'outil
+            (couleur d'accent, partagée avec le profil). Se referme après. */}
+        <div className="relative mt-5">
+          <button
+            type="button"
+            onClick={() => setCustomizing((o) =>!o)}
+            className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-cream transition-colors hover:bg-white/20"
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.8}>
+              <path d="M12 3a9 9 0 1 0 0 18h1.5a2 2 0 0 0 1.8-2.9 2 2 0 0 1 1.8-2.9H19a3 3 0 0 0 3-3A8.2 8.2 0 0 0 12 3z" strokeLinejoin="round" />
+              <circle cx="7.5" cy="10.5" r="1" fill="currentColor" stroke="none" />
+              <circle cx="12" cy="7.5" r="1" fill="currentColor" stroke="none" />
+              <circle cx="16.5" cy="10.5" r="1" fill="currentColor" stroke="none" />
+            </svg>
+            {customizing? "Fermer": "Personnaliser"}
+          </button>
+
+          {customizing? (
+            <div className="mt-3 rounded-2xl border border-white/10 bg-black/25 p-4">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-cream/50">
+                Couleur d'accent
+              </p>
+              <div className="mt-2.5 flex flex-wrap gap-2.5">
+                {(Object.keys(ACCENTS) as AccentKey[]).map((k) => (
+                  <button
+                    key={k}
+                    type="button"
+                    onClick={() => setAccent(k)}
+                    aria-label={ACCENTS[k].label}
+                    className={`h-8 w-8 rounded-full ring-2 ring-offset-2 ring-offset-night-900 transition-transform hover:scale-110 ${
+                      accent === k? "ring-white": "ring-transparent"
+                    }`}
+                    style={{ backgroundImage: `linear-gradient(120deg, ${ACCENTS[k].from}, ${ACCENTS[k].to})` }}
+                  />
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() => setCustomizing(false)}
+                className="mt-4 rounded-full bg-dawn-400 px-4 py-1.5 text-sm font-bold text-night-950 transition-transform hover:-translate-y-0.5"
+              >
+                Enregistrer
+              </button>
+            </div>
+          ): null}
         </div>
       </div>
 
@@ -192,7 +231,8 @@ export function CarnetView() {
       <p className="mx-auto mt-8 max-w-2xl text-center text-xs text-night-900/45">
         Ton carnet reste privé, enregistré sur cet appareil.
       </p>
-    </section>
+      </section>
+    </>
   );
 }
 

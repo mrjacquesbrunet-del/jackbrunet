@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import Link from "next/link";
 import { useToolkit, HIGHLIGHT_COLORS, highlightBg } from "@/lib/toolkit";
 import { addNote } from "@/lib/notebook";
 import {
@@ -95,13 +96,15 @@ export function Markable({
       >
         {children}
         {noted? (
-          <span
-            aria-label="Note écrite"
-            title="Une note existe sur ce passage"
-            className="absolute right-0 top-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full bg-spirit-600 text-cream"
+          <Link
+            href="/carnet"
+            aria-label="Voir mes notes dans le carnet"
+            title="Une note existe sur ce passage · ouvrir mon carnet"
+            onClick={(e) => e.stopPropagation()}
+            className="absolute -right-1 top-0 inline-flex h-6 w-6 items-center justify-center rounded-full bg-spirit-600 text-cream shadow-sm transition-transform hover:scale-110"
           >
-            <PenGlyph className="h-2.5 w-2.5" />
-          </span>
+            <PenGlyph className="h-3 w-3" />
+          </Link>
         ): null}
       </div>
 
