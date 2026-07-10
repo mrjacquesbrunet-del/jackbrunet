@@ -32,7 +32,7 @@ export function highlightBg(color: string | undefined): string {
 }
 
 /** Texte mémorisé pour un surlignage, afin de le retrouver dans le carnet. */
-export type HlMeta = { text: string; reference?: string; kind?: string };
+export type HlMeta = { text: string; reference?: string; kind?: string; ts?: number };
 
 type State = {
   highlights: string[];
@@ -105,7 +105,7 @@ export function highlightWith(id: string, color: string, meta?: HlMeta) {
   }
   colors[id] = color;
   const hlmeta = {...state.hlmeta };
-  if (meta) hlmeta[id] = meta;
+  if (meta) hlmeta[id] = { ts: Date.now(),...meta };
   const highlights = state.highlights.includes(id)
 ? state.highlights
 : [...state.highlights, id];

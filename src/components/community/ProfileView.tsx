@@ -38,17 +38,8 @@ import { useAllPlanProgress } from "@/lib/plan-progress";
 import { getThemePlans } from "@/lib/content";
 import { YEAR_PLAN_SLUG, YEAR_PLAN_DAYS } from "@/lib/year-plan";
 import { gradeFor, type Activity } from "@/lib/grades";
+import { ACCENTS, type AccentKey, useProfileAccent } from "@/lib/profile-accent";
 import { siteConfig } from "@/config/site";
-
-/** Couleurs d'accent personnalisables (bannière du profil). */
-const ACCENTS = {
-  lime: { from: "#CAF000", to: "#5E6A3A", label: "Lime" },
-  ocean: { from: "#38BDF8", to: "#1E3A8A", label: "Océan" },
-  sunset: { from: "#FB923C", to: "#BE123C", label: "Coucher" },
-  violet: { from: "#A78BFA", to: "#5B21B6", label: "Violet" },
-  rose: { from: "#FB7185", to: "#9D174D", label: "Rose" },
-} as const;
-type AccentKey = keyof typeof ACCENTS;
 
 /** Couleur du cadre d'avatar selon le grade (bronze → argent → or). */
 function gradeRing(gradeName: string): string {
@@ -136,23 +127,7 @@ function Profile({
   const eng = useEngagement();
   const planProgress = useAllPlanProgress();
 
-  const [accent, setAccent] = useState<AccentKey>("lime");
-  useEffect(() => {
-    try {
-      const a = localStorage.getItem("jb.profile.accent") as AccentKey | null;
-      if (a && ACCENTS[a]) setAccent(a);
-    } catch {
-      /* indisponible */
-    }
-  }, []);
-  function pickAccent(k: AccentKey) {
-    setAccent(k);
-    try {
-      localStorage.setItem("jb.profile.accent", k);
-    } catch {
-      /* ignore */
-    }
-  }
+  const { accent, setAccent } = useProfileAccent();
 
   async function shareProfile() {
     const url = `${siteConfig.url}/membre?u=${userId}`;
@@ -546,7 +521,7 @@ function Profile({
               <button
                 key={k}
                 type="button"
-                onClick={() => pickAccent(k)}
+                onClick={() => setAccent(k)}
                 aria-label={ACCENTS[k].label}
                 className={`h-8 w-8 rounded-full ring-2 ring-offset-2 transition ${
                   accent === k? "ring-night-900": "ring-transparent"

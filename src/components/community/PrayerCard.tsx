@@ -6,8 +6,9 @@ import { Avatar } from "@/components/community/Avatar";
 import { Celebration } from "@/components/ui/Celebration";
 import { MentionField } from "@/components/community/MentionField";
 import { MentionText } from "@/components/community/MentionText";
-import { HandsGlyph } from "@/components/ui/DevoIcons";
+import { HandsGlyph, BookmarkGlyph, BookmarkFilledGlyph } from "@/components/ui/DevoIcons";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
+import { useToolkit } from "@/lib/toolkit";
 import {
   type Prayer,
   type Reaction,
@@ -69,6 +70,19 @@ export function PrayerCard({
   const [answered, setAnswered] = useState(prayer.answered);
   const [pinned, setPinned] = useState(!!prayer.pinned);
   const [celebrate, setCelebrate] = useState(false);
+
+  // Enregistrer la publication dans mon carnet (comme un signet).
+  const tk = useToolkit();
+  const pubId = `pub:${prayer.id}`;
+  const savedPub = tk.isSaved(pubId);
+  function toggleSavePub() {
+    tk.toggleSnippet({
+      id: pubId,
+      text: prayer.body,
+      reference: prayer.author?.pseudo? `@${prayer.author.pseudo}`: "Publication",
+      kind: "publication",
+    });
+  }
 
   async function togglePin() {
     const next =!pinned;
@@ -268,6 +282,23 @@ export function PrayerCard({
               />
             </svg>
             Encourager{commentCount > 0? ` · ${commentCount}`: ""}
+          </button>
+          <button
+            type="button"
+            onClick={toggleSavePub}
+            aria-label={savedPub? "Retirer du carnet": "Enregistrer dans mon carnet"}
+            title={savedPub? "Enregistré dans ton carnet": "Enregistrer dans mon carnet"}
+            className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
+              savedPub
+? "border-dawn-400/50 bg-dawn-400/15 text-spirit-700"
+: "border-night-900/15 text-night-900/70 hover:border-night-900/30"
+            }`}
+          >
+            {savedPub? (
+              <BookmarkFilledGlyph className="h-[18px] w-[18px] text-spirit-600" />
+            ): (
+              <BookmarkGlyph className="h-[18px] w-[18px]" />
+            )}
           </button>
 
           {/* Admin: épingler le sujet */}

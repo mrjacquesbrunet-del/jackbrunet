@@ -43,6 +43,32 @@ const callItems = [
   "Rappeler à chacun son identité d'enfant de Dieu",
 ];
 
+function InstagramMark({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth={1.9} aria-hidden>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function YouTubeMark({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden>
+      <path d="M23.5 6.9a3 3 0 0 0-2.1-2.1C19.5 4.3 12 4.3 12 4.3s-7.5 0-9.4.5A3 3 0 0 0 .5 6.9 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.1 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.1zM9.6 15.6V8.4l6.3 3.6z" />
+    </svg>
+  );
+}
+
+function TikTokMark({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden>
+      <path d="M16.5 3c.4 2.3 1.7 3.9 3.9 4.2v2.5c-1.4.1-2.7-.3-3.9-1v5.9c0 3.4-2.6 5.9-5.9 5.9A5.7 5.7 0 0 1 5 14.8c0-3.4 3-6 6.5-5.5v2.7c-.4-.1-.8-.2-1.2-.2-1.6 0-2.8 1.3-2.7 2.9 0 1.5 1.3 2.7 2.8 2.7 1.6 0 2.8-1.2 2.8-2.9V3z" />
+    </svg>
+  );
+}
+
 export default function AProposPage() {
   const about = getAbout();
 
@@ -339,9 +365,28 @@ export default function AProposPage() {
               href={siteConfig.social.instagram}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-ghost"
+              className="btn-ghost inline-flex items-center gap-2"
             >
+              <InstagramMark className="h-4 w-4" />
               Instagram
+            </a>
+            <a
+              href={siteConfig.social.youtube}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-ghost inline-flex items-center gap-2"
+            >
+              <YouTubeMark className="h-4 w-4" />
+              YouTube
+            </a>
+            <a
+              href={siteConfig.social.tiktok}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-ghost inline-flex items-center gap-2"
+            >
+              <TikTokMark className="h-4 w-4" />
+              TikTok
             </a>
           </div>
         </Reveal>

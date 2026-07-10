@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PageHero } from "@/components/ui/PageHero";
-import { NotebookView } from "@/components/notebook/NotebookView";
-import { CarnetIntro } from "@/components/notebook/CarnetIntro";
+import { CarnetView } from "@/components/notebook/CarnetView";
 import { getThemePlans } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Mon carnet",
   description:
-    "Ton carnet personnel: note tes sujets de prière, les paroles reçues de Dieu et tes réflexions. Privé, sur ton appareil.",
+    "Ton carnet personnel: versets surlignés, pensées du jour, punchlines, publications et notes, regroupés au même endroit. Privé, sur ton appareil.",
 };
 
 export default function CarnetPage() {
@@ -16,37 +14,11 @@ export default function CarnetPage() {
 
   return (
     <>
-      <PageHero
-        eyebrow="Mon carnet"
-        title={
-          <>
-            Tes <span className="text-gradient">sujets de prière</span> & paroles reçues
-          </>
-        }
-        description="Un espace à toi pour écrire ce que Dieu met sur ton cœur: sujets de prière, paroles reçues, réflexions. Tu pourras revenir voir Ses réponses."
-      />
-      <CarnetIntro />
-      <NotebookView />
-
-      {/* Raccourci: favoris */}
-      <section className="container-x pb-4">
-        <Link
-          href="/favoris"
-          className="glass flex max-w-xl items-center justify-between p-5 transition-shadow hover:shadow-lg"
-        >
-          <span>
-            <span className="block font-display font-bold">Mes favoris</span>
-            <span className="mt-1 block text-sm text-night-900/60">
-              Tes versets & méditations enregistrés, regroupés.
-            </span>
-          </span>
-          <span className="text-spirit-700">→</span>
-        </Link>
-      </section>
+      <CarnetView />
 
       {/* Plans de lecture */}
       <section className="container-x pb-16">
-        <div className="max-w-2xl">
+        <div className="mx-auto max-w-2xl">
           <h2 className="font-display text-2xl font-extrabold">Plans de lecture</h2>
           <p className="mt-1 text-sm text-night-900/60">
             Avance pas à pas, thème par thème. Choisis un parcours selon ce que tu traverses.
@@ -55,7 +27,7 @@ export default function CarnetPage() {
             Découvre nos plans →
           </Link>
         </div>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mx-auto mt-6 grid max-w-2xl gap-4 sm:grid-cols-2">
           {plans.map((p) => (
             <Link
               key={p.slug}
