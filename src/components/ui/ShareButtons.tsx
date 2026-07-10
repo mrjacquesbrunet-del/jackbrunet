@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { shareText, shareImageBlob, saveImageBlob } from "@/lib/share";
 import { buildVerseImage } from "@/lib/verse-image";
-import { openExternal } from "@/lib/external";
+import { openWhatsApp } from "@/lib/external";
 import { InAppShare } from "@/components/community/InAppShare";
 
 const SITE_URL = "https://jackbrunet.com";
@@ -28,7 +28,6 @@ export function ShareButtons({
   const [copied, setCopied] = useState(false);
   const [busy, setBusy] = useState(false);
   const message = `${text}\n\n${url}`;
-  const waHref = `https://wa.me/?text=${encodeURIComponent(message)}`;
 
   async function copy() {
     try {
@@ -96,7 +95,7 @@ export function ShareButtons({
       ): null}
       <button
         type="button"
-        onClick={() => openExternal(waHref)}
+        onClick={() => openWhatsApp(message)}
         className="btn-ghost px-4 py-2 text-sm"
         aria-label="Partager sur WhatsApp"
       >

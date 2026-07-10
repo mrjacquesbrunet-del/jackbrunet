@@ -32,7 +32,7 @@ export function CarnetBubble() {
       href={href}
       aria-label={label}
       title={label}
-      className="fixed bottom-[calc(5.25rem+env(safe-area-inset-bottom))] right-4 z-[55] inline-flex items-center gap-2 rounded-full border border-dawn-400/60 bg-night-900/95 py-2.5 pl-3 pr-4 text-cream shadow-card backdrop-blur transition-transform active:scale-95"
+      className="fixed bottom-[calc(5.25rem+env(safe-area-inset-bottom))] right-4 z-[55] inline-flex items-center gap-2 rounded-full border border-dawn-400/40 bg-night-900/70 py-2 pl-2.5 pr-3.5 text-cream shadow-lg backdrop-blur-md transition-all hover:bg-night-900/85 active:scale-95"
     >
       {onCarnet? (
         // Icône Bible (retour à la lecture)

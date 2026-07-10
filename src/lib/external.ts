@@ -19,3 +19,24 @@ export async function openExternal(url: string): Promise<void> {
   }
   window.open(url, "_blank", "noopener,noreferrer");
 }
+
+/**
+ * Ouvre WhatsApp avec un message pré-rempli. En natif, on utilise le schéma
+ * d'application « whatsapp:// » (Capacitor le confie au système, qui lance
+ * directement l'app WhatsApp) — bien plus fiable que d'ouvrir « wa.me » dans le
+ * navigateur intégré, qui affichait une page web bancale. Sur le web: wa.me.
+ */
+export async function openWhatsApp(text: string): Promise<void> {
+  const encoded = encodeURIComponent(text);
+  try {
+    const { Capacitor } = await import("@capacitor/core");
+    if (Capacitor.isNativePlatform()) {
+      // Capacitor intercepte les schémas non-http et les ouvre via l'OS.
+      window.location.href = `whatsapp://send?text=${encoded}`;
+      return;
+    }
+  } catch {
+    /* repli ci-dessous */
+  }
+  window.open(`https://wa.me/?text=${encoded}`, "_blank", "noopener,noreferrer");
+}
