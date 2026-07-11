@@ -8,6 +8,7 @@ import { AnalyticsDashboard } from "@/components/community/AnalyticsDashboard";
 import { ChartGlyph, HeadphonesGlyph } from "@/components/ui/DevoIcons";
 import { BibleAudioAdmin } from "@/components/community/BibleAudioAdmin";
 import { MissionRaisedAdmin } from "@/components/community/MissionRaisedAdmin";
+import { DevotionsAdmin } from "@/components/community/DevotionsAdmin";
 
 /** Espace admin unique et masqué (/admin): stats, annonces, podcasts, etc.
  * Invisible et inaccessible pour les non-admins. */
@@ -53,6 +54,9 @@ export function AdminSpace() {
             <AnalyticsDashboard />
           </div>
         </div>
+
+        {/* Gestion des dévotionnels */}
+        <DevotionsAdmin />
 
         {/* Annonces & notifications */}
         <div className="mt-6">

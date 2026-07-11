@@ -30,6 +30,7 @@ import { Greeting } from "@/components/app/Greeting";
 import { useTodayIndex } from "@/lib/today";
 import { bibleHref } from "@/lib/bible-ref";
 import { useEngagement } from "@/lib/engagement";
+import { fetchPublishedDevotions } from "@/lib/devotions";
 import { asset } from "@/lib/asset";
 import { MakeVersePublicButton } from "@/components/community/MakeVersePublicButton";
 import type { Devotion, ReadingPlanDay, Short } from "@/lib/types";
@@ -57,8 +58,25 @@ export function DevotionalView({
   bookCover,
   audioMap,
 }: Props) {
-  const i = useTodayIndex(devotions.length, initialIndex);
-  const dev = devotions[i]?? devotions[0];
+  // Dévotionnels gérés par l'admin (Supabase) s'ils existent, sinon repli sur
+  // les 60 intégrés au build. Le repli garantit que la méditation ne casse
+  // jamais, même hors ligne ou si la base est vide.
+  const [remote, setRemote] = useState<Devotion[] | null>(null);
+  useEffect(() => {
+    let alive = true;
+    fetchPublishedDevotions()
+.then((r) => {
+        if (alive && r && r.length > 0) setRemote(r);
+      })
+.catch(() => undefined);
+    return () => {
+      alive = false;
+    };
+  }, []);
+  const list = remote?? devotions;
+
+  const i = useTodayIndex(list.length, initialIndex);
+  const dev = list[i]?? list[0];
   const audioSrc = audioMap[String(i)]? asset(audioMap[String(i)]): null;
 
   const p = useTodayIndex(plan.length, initialPlanIndex);
@@ -426,9 +444,9 @@ export function DevotionalView({
             <SectionHeader eyebrow="Mon parcours" title="Mes méditations favorites" />
             <ul className="mt-6 grid max-w-2xl gap-3 sm:grid-cols-2">
               {eng.favorites
-.filter((idx) => devotions[idx])
+.filter((idx) => list[idx])
 .map((idx) => {
-                  const d = devotions[idx];
+                  const d = list[idx];
                   return (
                     <li key={idx}>
                       <div className="flex h-full items-start gap-3 rounded-2xl border border-night-900/10 bg-white p-3.5">
