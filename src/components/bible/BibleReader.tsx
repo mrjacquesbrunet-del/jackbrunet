@@ -333,17 +333,17 @@ export function BibleReader() {
       <div className="mt-4 grid max-w-2xl gap-3 sm:grid-cols-2">
         <Link
           href="/plans"
-          className="flex items-center justify-between gap-3 rounded-2xl border border-dawn-400/40 bg-gradient-to-br from-dawn-400/10 to-spirit-500/10 px-4 py-3 transition-shadow hover:shadow-md"
+          className="flex items-center justify-between gap-3 rounded-2xl border border-dawn-500/50 bg-gradient-to-br from-dawn-300 to-dawn-500 px-4 py-3 shadow-glow transition-transform hover:-translate-y-0.5"
         >
           <span>
-            <span className="block font-display text-sm font-bold text-spirit-700">
+            <span className="block font-display text-sm font-extrabold text-night-950">
               Découvre nos plans
             </span>
-            <span className="mt-0.5 block text-xs text-night-900/60">
+            <span className="mt-0.5 block text-xs font-medium text-night-900/70">
               Thématiques, selon ce que tu traverses.
             </span>
           </span>
-          <span className="shrink-0 text-spirit-700">→</span>
+          <span className="shrink-0 text-night-950">→</span>
         </Link>
 
         <Link
