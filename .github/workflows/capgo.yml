@@ -1,0 +1,48 @@
+name: Pousser une mise à jour OTA (Capgo)
+
+# Envoi d'une mise à jour « à chaud » (web) aux appareils, sans repasser par
+# les stores. Lancement manuel: onglet « Actions » -> ce workflow -> « Run ».
+# Nécessite le secret de dépôt CAPGO_TOKEN (clé API Capgo).
+on:
+  workflow_dispatch:
+    inputs:
+      channel:
+        description: "Canal Capgo (ex. production)"
+        required: false
+        default: "production"
+
+permissions:
+  contents: read
+
+jobs:
+  ota:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurer Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Construire l'app web (export statique)
+        run: npm run build:app
+
+      - name: Enregistrer l'app dans Capgo (ignoré si déjà créée)
+        env:
+          CAPGO_TOKEN: ${{ secrets.CAPGO_TOKEN }}
+        run: npx @capgo/cli@latest app add com.jackbrunet.app --apikey "$CAPGO_TOKEN" || true
+
+      - name: Envoyer la mise à jour OTA
+        env:
+          CAPGO_TOKEN: ${{ secrets.CAPGO_TOKEN }}
+        run: |
+          npx @capgo/cli@latest bundle upload com.jackbrunet.app \
+            --apikey "$CAPGO_TOKEN" \
+            --channel "${{ github.event.inputs.channel }}" \
+            --bundle "1.2.${{ github.run_number }}"
