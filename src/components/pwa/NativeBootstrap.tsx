@@ -19,6 +19,15 @@ export function NativeBootstrap() {
     let cleanup: (() => void) | undefined;
 
     (async () => {
+      // Mises à jour à chaud (OTA Capgo): on confirme que l'app a bien démarré,
+      // sinon Capgo annule la mise à jour et revient à la version précédente.
+      try {
+        const { CapacitorUpdater } = await import("@capgo/capacitor-updater");
+        await CapacitorUpdater.notifyAppReady();
+      } catch {
+        /* plugin absent (web) */
+      }
+
       // Barre de statut: on RÉSERVE la zone du haut (heure, notifications) au
       // lieu de laisser le contenu passer dessous — comme toutes les apps.
       // Bande sombre + texte clair, cohérente avec la barre d'onglets du bas.

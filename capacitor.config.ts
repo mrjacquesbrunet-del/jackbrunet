@@ -26,6 +26,13 @@ const config: CapacitorConfig = {
       showSpinner: false,
       androidScaleType: "CENTER_CROP",
     },
+    // Mises à jour « à chaud » (OTA) via Capgo: l'app télécharge et applique
+    // les nouvelles versions web au démarrage, sans repasser par les stores.
+    // Sécurité: si l'app n'appelle pas notifyAppReady() au lancement, Capgo
+    // annule la mise à jour et revient à la version stable précédente.
+    CapacitorUpdater: {
+      autoUpdate: true,
+    },
   },
 };
 
