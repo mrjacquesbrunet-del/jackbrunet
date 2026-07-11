@@ -32,6 +32,23 @@ export function AppShell() {
     if (isApp && pathname === "/") router.replace("/devotionnel");
   }, [isApp, pathname, router]);
 
+  // Couleur de l'heure/notifications adaptée au haut de chaque page (edge-to-edge):
+  // texte clair sur les pages à en-tête sombre, foncé sur les pages claires.
+  useEffect(() => {
+    if (!isApp) return;
+    const darkTop = ["/devotionnel", "/communaute", "/membre", "/mission-madagascar"].some(
+      (p) => pathname === p || pathname.startsWith(p + "/"),
+    );
+    (async () => {
+      try {
+        const { StatusBar, Style } = await import("@capacitor/status-bar");
+        await StatusBar.setStyle({ style: darkTop? Style.Light: Style.Dark });
+      } catch {
+        /* plugin absent */
+      }
+    })();
+  }, [isApp, pathname]);
+
   // Compte l'ouverture (une fois) pour déclencher les propositions au bon moment.
   useEffect(() => {
     if (isApp) recordOpen();

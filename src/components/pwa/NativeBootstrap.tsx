@@ -28,22 +28,17 @@ export function NativeBootstrap() {
         /* plugin absent (web) */
       }
 
-      // Barre de statut: on RÉSERVE la zone du haut (heure, notifications) au
-      // lieu de laisser le contenu passer dessous — comme toutes les apps.
-      // Bande sombre + texte clair, cohérente avec la barre d'onglets du bas.
+      // Barre de statut: edge-to-edge (le fond de l'app passe SOUS l'heure, sans
+      // bande). Le style (texte clair/foncé) est ajusté par page dans AppShell.
       try {
         const { StatusBar, Style } = await import("@capacitor/status-bar");
         try {
-          await StatusBar.setOverlaysWebView({ overlay: false });
+          await StatusBar.setOverlaysWebView({ overlay: true });
         } catch {
-          /* iOS gère l'inset automatiquement */
+          /* iOS: recouvrement géré nativement */
         }
-        try {
-          await StatusBar.setBackgroundColor({ color: "#14160E" }); // Android
-        } catch {
-          /* non supporté sur iOS */
-        }
-        await StatusBar.setStyle({ style: Style.Light }); // texte clair sur bande sombre
+        // Écran d'accueil (dévotionnel) = fond sombre → texte clair par défaut.
+        await StatusBar.setStyle({ style: Style.Light });
       } catch {
         /* plugin absent */
       }

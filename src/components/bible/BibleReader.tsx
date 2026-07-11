@@ -227,7 +227,7 @@ export function BibleReader() {
   }, [pod.current?.id]);
 
   return (
-    <section className="container-x py-10">
+    <section className="container-x pb-10 pt-[calc(2.5rem+env(safe-area-inset-top))]">
       {/* Barre fine du mode pleine lecture */}
       {immersive? (
         <div
