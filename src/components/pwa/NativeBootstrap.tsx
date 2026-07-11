@@ -19,10 +19,22 @@ export function NativeBootstrap() {
     let cleanup: (() => void) | undefined;
 
     (async () => {
-      // Barre de statut claire sur fond sombre + écran de démarrage masqué.
+      // Barre de statut: on RÉSERVE la zone du haut (heure, notifications) au
+      // lieu de laisser le contenu passer dessous — comme toutes les apps.
+      // Bande sombre + texte clair, cohérente avec la barre d'onglets du bas.
       try {
         const { StatusBar, Style } = await import("@capacitor/status-bar");
-        await StatusBar.setStyle({ style: Style.Dark });
+        try {
+          await StatusBar.setOverlaysWebView({ overlay: false });
+        } catch {
+          /* iOS gère l'inset automatiquement */
+        }
+        try {
+          await StatusBar.setBackgroundColor({ color: "#14160E" }); // Android
+        } catch {
+          /* non supporté sur iOS */
+        }
+        await StatusBar.setStyle({ style: Style.Light }); // texte clair sur bande sombre
       } catch {
         /* plugin absent */
       }

@@ -218,6 +218,10 @@ html.app-native .site-footer {
 /* Espace pour la barre d'onglets fixe en bas */
 html.app-native main {
   padding-bottom: calc(4.75rem + env(safe-area-inset-bottom));
+  /* Filet de sécurité: si la barre de statut recouvre encore la WebView
+     (selon l'appareil), le contenu ne passe jamais sous l'heure. Vaut 0 quand
+     la zone du haut est déjà réservée (setOverlaysWebView false). */
+  padding-top: env(safe-area-inset-top);
 }
 /* Les pages intérieures ont un grand padding-top (header fixe du site) :
    on le réduit dans l'app puisque le header est masqué. */
