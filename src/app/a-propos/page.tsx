@@ -3,8 +3,10 @@ import { PageHero } from "@/components/ui/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeader } from "@/components/ui/Section";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
+import { MissionBanner } from "@/components/home/MissionBanner";
+import { NextLiveBanner } from "@/components/home/NextLiveBanner";
 import { siteConfig } from "@/config/site";
-import { getAbout } from "@/lib/content";
+import { getAbout, getEvents } from "@/lib/content";
 import { asset } from "@/lib/asset";
 
 export const metadata: Metadata = {
@@ -71,6 +73,7 @@ function TikTokMark({ className }: { className?: string }) {
 
 export default function AProposPage() {
   const about = getAbout();
+  const events = getEvents();
 
   return (
     <>
@@ -353,6 +356,10 @@ export default function AProposPage() {
           </div>
         </div>
       </section>
+
+      {/* Mission Madagascar + prochain live */}
+      <MissionBanner />
+      <NextLiveBanner events={events} />
 
       {/* Boutons contact */}
       <section className="container-x py-16">

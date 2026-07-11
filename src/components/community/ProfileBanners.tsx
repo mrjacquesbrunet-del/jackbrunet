@@ -8,12 +8,12 @@ import { AnimatePresence, motion } from "framer-motion";
  * entrée ici (titre, texte, lien, dégradé). */
 const BANNERS = [
   {
-    href: "/boutique",
-    eyebrow: "Nouveau",
-    title: "Le livre RHEMA",
-    text: "365 révélations bibliques à méditer, découvre-le.",
-    from: "#2A2E1C",
-    to: "#5E6A3A",
+    href: "/mission-madagascar",
+    eyebrow: "Prochaine mission",
+    title: "Mission Madagascar",
+    text: "10 jours d'évangélisation. Rejoins la prière ou le soutien.",
+    from: "#1F2E24",
+    to: "#C9761F",
   },
   {
     href: "/exclusivites",
@@ -22,6 +22,14 @@ const BANNERS = [
     text: "Ebooks, soaking & bonus à débloquer",
     from: "#3B0764",
     to: "#6D28D9",
+  },
+  {
+    href: "/boutique",
+    eyebrow: "Nouveau",
+    title: "Le livre RHEMA",
+    text: "365 révélations bibliques à méditer, découvre-le.",
+    from: "#2A2E1C",
+    to: "#5E6A3A",
   },
 ];
 
