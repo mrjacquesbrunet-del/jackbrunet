@@ -32,15 +32,17 @@ const I = {
   search: "M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.3-4.3",
   answered: "M12 2l2.4 5 5.6.8-4 4 1 5.6L12 19.8 6.9 22l1-5.6-4-4 5.6-.8z",
   info: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 8h.01M11 12h1v4h1",
+  group: "M17 20v-1a4 4 0 0 0-3-3.9M7 20v-1a4 4 0 0 1 3-3.9M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6M3.5 20v-.5a2.5 2.5 0 0 1 2.5-2.5M20.5 20v-.5a2.5 2.5 0 0 0-2.5-2.5",
 };
 
 const TABS = [
   { href: "/devotionnel", label: "Jésus", icon: I.home, match: ["/devotionnel", "/"] },
-  { href: "/communaute", label: "Prière", icon: I.pray, img: "/icons/priere.png", match: ["/communaute", "/membre", "/groupes", "/groupe"] },
+  { href: "/communaute", label: "Prière", icon: I.pray, img: "/icons/priere.png", match: ["/communaute", "/membre"] },
   { href: "/ecouter", label: "Écouter", icon: I.headphones, match: ["/ecouter", "/videos"] },
   { href: "/bible", label: "Bible", icon: I.bible, match: ["/bible", "/plans", "/bible-1-an", "/recherche", "/carnet", "/favoris"] },
   { href: "/profil", label: "Profil", icon: I.user, match: ["/profil"] },
-  // Onglets 6 & 7: masqués par défaut, révélés en faisant glisser la barre.
+  // Onglets 6+ : masqués par défaut, révélés en faisant glisser la barre.
+  { href: "/groupes", label: "Groupes", icon: I.group, match: ["/groupes", "/groupe"] },
   { href: "/don", label: "Soutien", icon: I.heart, match: ["/don"] },
   { href: "/a-propos", label: "À propos", icon: I.info, match: ["/a-propos"] },
 ];
