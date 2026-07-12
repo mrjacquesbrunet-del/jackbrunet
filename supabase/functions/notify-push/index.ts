@@ -64,8 +64,9 @@ Deno.serve(async (req) => {
     const res = await fetch("https://api.onesignal.com/notifications", {
       method: "POST",
       headers: {
-        // Format historique, compatible. Si 401, remplacer par `Key ${apiKey}`.
-        Authorization: `Basic ${apiKey}`,
+        // Nouvelles clés OneSignal (créées via « Add Key ») → `Key <clé>`.
+        // (Les anciennes clés « Legacy » utilisaient `Basic <clé>`.)
+        Authorization: `Key ${apiKey}`,
         "content-type": "application/json; charset=utf-8",
       },
       body: JSON.stringify({

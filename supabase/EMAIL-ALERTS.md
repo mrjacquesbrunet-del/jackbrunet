@@ -96,10 +96,12 @@ Fonctionnement : chaque interaction crée une ligne dans `public.notifications`
 2. Nom : `on_new_notification`. Table : `notifications`. Événement : **Insert**.
 3. Type : **Supabase Edge Functions** → `notify-push`. **Create**.
 
+> La clé est une **nouvelle** clé OneSignal (bouton « Add Key ») → le code
+> utilise `Authorization: Key ${apiKey}`. Si tu utilises une ancienne clé
+> « Legacy », remplace `Key` par `Basic` et redéploie.
+>
 > Test : depuis un autre compte, commente/aime une de tes publications, ou
 > envoie-toi un message. Une notification push doit arriver sur ton téléphone.
-> Si OneSignal renvoie `401`, remplace dans la fonction `Basic ${apiKey}` par
-> `Key ${apiKey}` et redéploie.
 
 ---
 
