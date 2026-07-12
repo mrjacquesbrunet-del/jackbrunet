@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { asset } from "@/lib/asset";
@@ -30,6 +31,7 @@ const I = {
   gift: "M20 12v8H4v-8M2 7h20v5H2zM12 7v13M12 7S10 3 7.5 3 5 7 8 7M12 7s2-4 4.5-4S19 7 16 7",
   search: "M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.3-4.3",
   answered: "M12 2l2.4 5 5.6.8-4 4 1 5.6L12 19.8 6.9 22l1-5.6-4-4 5.6-.8z",
+  info: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 8h.01M11 12h1v4h1",
 };
 
 const TABS = [
@@ -38,43 +40,73 @@ const TABS = [
   { href: "/ecouter", label: "Écouter", icon: I.headphones, match: ["/ecouter", "/videos"] },
   { href: "/bible", label: "Bible", icon: I.bible, match: ["/bible", "/plans", "/bible-1-an", "/recherche", "/carnet", "/favoris"] },
   { href: "/profil", label: "Profil", icon: I.user, match: ["/profil"] },
+  // Onglets 6 & 7: masqués par défaut, révélés en faisant glisser la barre.
+  { href: "/don", label: "Soutien", icon: I.heart, match: ["/don"] },
+  { href: "/a-propos", label: "À propos", icon: I.info, match: ["/a-propos"] },
 ];
 
 export function BottomNav() {
   const pathname = usePathname();
+  const rowRef = useRef<HTMLDivElement>(null);
+  const [atEnd, setAtEnd] = useState(false);
 
   const isActive = (m: string[]) => m.some((p) => pathname === p || pathname.startsWith(p + "/"));
 
+  const onScroll = () => {
+    const el = rowRef.current;
+    if (!el) return;
+    setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 4);
+  };
+
   return (
     <nav className="fixed inset-x-0 bottom-0 z-[60] border-t border-white/10 bg-[#14160E]/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl">
-      <div className="mx-auto flex max-w-lg items-stretch justify-around">
-        {TABS.map((t) => {
-          const active = isActive(t.match);
-          return (
-            <Link
-              key={t.href}
-              href={t.href}
-              className={`flex flex-1 flex-col items-center gap-1 py-2.5 text-[10px] font-semibold transition-colors ${
-                active? "text-[#CAF000]": "text-cream/55"
-              }`}
-            >
-              {t.img? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={asset(t.img)}
-                  alt=""
-                  aria-hidden="true"
-                  className={`h-6 w-6 object-contain transition-all ${
-                    active? "opacity-100": "opacity-55 grayscale"
-                  }`}
-                />
-              ): (
-                <Icon d={t.icon} className="h-6 w-6" />
-              )}
-              {t.label}
-            </Link>
-          );
-        })}
+      <div className="relative mx-auto max-w-lg">
+        {/* Rangée glissante: 5 icônes visibles, on glisse vers la gauche pour
+            révéler « Soutien » et « À propos » (onglets 6 & 7). */}
+        <div
+          ref={rowRef}
+          onScroll={onScroll}
+          className="no-scrollbar flex snap-x snap-mandatory items-stretch overflow-x-auto"
+        >
+          {TABS.map((t) => {
+            const active = isActive(t.match);
+            return (
+              <Link
+                key={t.href}
+                href={t.href}
+                className={`flex shrink-0 basis-1/5 snap-start flex-col items-center gap-1 py-2.5 text-[10px] font-semibold transition-colors ${
+                  active? "text-[#CAF000]": "text-cream/55"
+                }`}
+              >
+                {t.img? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={asset(t.img)}
+                    alt=""
+                    aria-hidden="true"
+                    className={`h-6 w-6 object-contain transition-all ${
+                      active? "opacity-100": "opacity-55 grayscale"
+                    }`}
+                  />
+                ): (
+                  <Icon d={t.icon} className="h-6 w-6" />
+                )}
+                {t.label}
+              </Link>
+            );
+          })}
+        </div>
+        {/* Dégradé + chevron: indique qu'on peut faire glisser vers la gauche.
+            Masqué une fois arrivé au bout. */}
+        <div
+          className={`pointer-events-none absolute inset-y-0 right-0 flex w-8 items-center justify-end bg-gradient-to-l from-[#14160E] to-transparent pr-1 text-cream/40 transition-opacity duration-300 ${
+            atEnd? "opacity-0": "opacity-100"
+          }`}
+        >
+          <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
+            <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
       </div>
     </nav>
   );

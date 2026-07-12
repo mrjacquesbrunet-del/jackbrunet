@@ -253,3 +253,12 @@ html.app-native main > section:first-child {
   border: 3px solid rgba(202, 240, 0, 0.95);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
+
+/* Masque la barre de défilement (barre d'onglets glissante) */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
