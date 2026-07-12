@@ -370,8 +370,10 @@ function Profile({
           ))}
         </div>
 
-        {/* Actions: Modifier / Partager / Rechercher */}
-        <div className="relative mt-5 flex items-center gap-2">
+        {/* Actions: Modifier / Partager / Rechercher / Messages / Cloche.
+            flex-wrap: sur mobile les icônes passent à la ligne suivante au lieu
+            de déborder hors de la carte (cloche coupée). */}
+        <div className="relative mt-5 flex flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={() => setEditing((e) =>!e)}
@@ -386,23 +388,26 @@ function Profile({
           >
             Partager
           </button>
-          <button
-            type="button"
-            aria-label="Rechercher des profils"
-            onClick={() =>
-              document.getElementById("trouver-profils")?.scrollIntoView({ behavior: "smooth" })
-            }
-            className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/20 bg-white/10 text-cream transition-colors hover:bg-white/20"
-          >
-            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
-              <circle cx="11" cy="11" r="7" />
-              <path d="M21 21l-4.3-4.3" strokeLinecap="round" />
-            </svg>
-          </button>
-          {/* Messagerie privée */}
-          <MessagesButton tone="dark" />
-          {/* Cloche: s'allume quand on interagit avec tes sujets de prière */}
-          <NotificationsBell userId={userId} tone="dark" />
+          {/* Icônes groupées: elles passent ensemble à la ligne si besoin */}
+          <div className="flex shrink-0 items-center gap-2">
+            <button
+              type="button"
+              aria-label="Rechercher des profils"
+              onClick={() =>
+                document.getElementById("trouver-profils")?.scrollIntoView({ behavior: "smooth" })
+              }
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/20 bg-white/10 text-cream transition-colors hover:bg-white/20"
+            >
+              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
+                <circle cx="11" cy="11" r="7" />
+                <path d="M21 21l-4.3-4.3" strokeLinecap="round" />
+              </svg>
+            </button>
+            {/* Messagerie privée */}
+            <MessagesButton tone="dark" />
+            {/* Cloche: s'allume quand on interagit avec tes sujets de prière */}
+            <NotificationsBell userId={userId} tone="dark" />
+          </div>
         </div>
       </div>
 
