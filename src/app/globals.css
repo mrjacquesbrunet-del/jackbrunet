@@ -242,7 +242,7 @@ html.app-native main > section:first-child {
   height: 26px;
   border-radius: 9999px;
   background: #ffffff;
-  border: 3px solid rgba(233, 196, 92, 0.9);
+  border: 3px solid rgba(202, 240, 0, 0.95);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
 .jb-donate-range::-moz-range-thumb {
@@ -250,6 +250,6 @@ html.app-native main > section:first-child {
   height: 26px;
   border-radius: 9999px;
   background: #ffffff;
-  border: 3px solid rgba(233, 196, 92, 0.9);
+  border: 3px solid rgba(202, 240, 0, 0.95);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }

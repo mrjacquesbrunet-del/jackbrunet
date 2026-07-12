@@ -529,15 +529,15 @@ export function DevotionalView({
             <Link
               href="/don"
               className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-white/10 p-5 text-cream transition-transform hover:-translate-y-0.5"
-              style={{ backgroundImage: "linear-gradient(135deg, #12333B, #2A2E1C 60%, #C9761F)" }}
+              style={{ backgroundImage: "linear-gradient(135deg, #1F2216, #3A3F28 65%, #5E6A3A)" }}
             >
               <div className="flex items-center gap-2">
-                <span className="grid h-9 w-9 place-items-center rounded-full bg-[#E9C45C] text-night-950">
+                <span className="grid h-9 w-9 place-items-center rounded-full bg-dawn-400 text-night-950">
                   <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2}>
                     <path d="M12 20s-7-4.5-9.5-9A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9z" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </span>
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#E9C45C]">Soutenir</span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-dawn-300">Soutenir</span>
               </div>
               <div className="mt-5">
                 <p className="font-display text-xl font-extrabold leading-tight">Faire un don</p>
