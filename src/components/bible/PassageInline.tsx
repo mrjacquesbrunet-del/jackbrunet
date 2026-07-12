@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { asset } from "@/lib/asset";
+import { asset, mediaUrl } from "@/lib/asset";
 import { Markable } from "@/components/ui/Markable";
 import { CommentaryPanel, type Commentary } from "@/components/bible/CommentaryPanel";
 import { resolveRef, getBook } from "@/lib/bible-client";
@@ -46,7 +46,7 @@ export function PassageInline({ reference }: { reference: string }) {
   function loadComm(bookId: number, chapter: number) {
     if (commState!== "idle") return;
     setCommState("loading");
-    fetch(asset(`/commentary/${bookId}/${chapter}.json`))
+    fetch(mediaUrl(`/commentary/${bookId}/${chapter}.json`))
 .then((r) => (r.ok? r.json(): Promise.reject()))
 .then((d: Record<number, Commentary>) => {
         setComm(d);

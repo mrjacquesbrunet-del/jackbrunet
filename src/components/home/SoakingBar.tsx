@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useSoaking } from "@/lib/soaking";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
-import { asset } from "@/lib/asset";
+import { asset, mediaUrl } from "@/lib/asset";
 import { PlayGlyph, PauseGlyph, GiftGlyph, MusicGlyph, DownloadGlyph } from "@/components/ui/DevoIcons";
 
 /**
@@ -55,7 +55,7 @@ export function SoakingBar() {
         <div className="mt-3 border-t border-spirit-600/15 pt-3">
           {unlocked? (
             <a
-              href={asset("/audio/soaking-jack-brunet.mp3")}
+              href={mediaUrl("/audio/soaking-jack-brunet.mp3")}
               download="Soaking - Jack Brunet.mp3"
               className="btn-primary inline-flex items-center gap-1.5 text-sm"
             >

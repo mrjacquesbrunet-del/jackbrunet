@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { asset } from "@/lib/asset";
+import { asset, mediaUrl } from "@/lib/asset";
 import { Markable } from "@/components/ui/Markable";
 import { HighlighterGlyph } from "@/components/ui/DevoIcons";
 import { CommentaryPanel, type Commentary } from "@/components/bible/CommentaryPanel";
@@ -102,7 +102,7 @@ export function BibleReader() {
   function loadCommentary() {
     if (commState!== "idle") return;
     setCommState("loading");
-    fetch(asset(`/commentary/${bookId}/${chapter}.json`))
+    fetch(mediaUrl(`/commentary/${bookId}/${chapter}.json`))
 .then((r) => (r.ok? r.json(): Promise.reject()))
 .then((data: Record<number, Commentary>) => {
         setComm(data);

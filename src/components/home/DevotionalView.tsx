@@ -32,7 +32,7 @@ import { useTodayIndex } from "@/lib/today";
 import { bibleHref } from "@/lib/bible-ref";
 import { useEngagement } from "@/lib/engagement";
 import { fetchPublishedDevotions } from "@/lib/devotions";
-import { asset } from "@/lib/asset";
+import { asset, mediaUrl } from "@/lib/asset";
 import { MakeVersePublicButton } from "@/components/community/MakeVersePublicButton";
 import type { Devotion, ReadingPlanDay, Short } from "@/lib/types";
 
@@ -78,7 +78,7 @@ export function DevotionalView({
 
   const i = useTodayIndex(list.length, initialIndex);
   const dev = list[i]?? list[0];
-  const audioSrc = audioMap[String(i)]? asset(audioMap[String(i)]): null;
+  const audioSrc = audioMap[String(i)]? mediaUrl(audioMap[String(i)]): null;
 
   const p = useTodayIndex(plan.length, initialPlanIndex);
   const planDay = plan[p]?? plan[0];

@@ -33,6 +33,17 @@ jobs:
       - name: Construire l'app web (export statique)
         run: npm run build:app
 
+      # Les gros médias (audio des dévotionnels + commentaires bibliques,
+      # ~230 Mo) sont servis par le SITE (jackbrunet.com) et chargés en ligne
+      # par l'app. On les retire du bundle OTA pour qu'il reste léger (~20 Mo)
+      # et se télécharge vite sur les téléphones.
+      - name: Alléger le bundle OTA (médias servis par le site)
+        run: |
+          echo "Avant:"; du -sh out || true
+          rm -rf out/audio out/commentary
+          find out/img -type f \( -iname '*.mp3' -o -iname '*.m4a' -o -iname '*.wav' \) -delete || true
+          echo "Après:"; du -sh out || true
+
       - name: Enregistrer l'app dans Capgo (ignoré si déjà créée)
         env:
           CAPGO_TOKEN: ${{ secrets.CAPGO_TOKEN }}
