@@ -60,7 +60,10 @@ export function DonateScreen() {
   const sliderPct = ((amount - MIN) / (MAX - MIN)) * 100;
 
   return (
-    <div className="min-h-screen text-[#F3F3ED]" style={{ background: C.bg }}>
+    <div className="relative min-h-screen text-[#F3F3ED]" style={{ background: C.bg }}>
+      {/* Fond sombre plein écran (couvre aussi la zone sous la barre d'onglets),
+          pour éviter toute bande claire en bas. */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10" style={{ background: C.bg }} />
       {/* En-tête glissant: retour Accueil + fil d'ariane */}
       <header
         className="sticky top-0 z-20 px-4 pb-3 pt-[calc(0.75rem+env(safe-area-inset-top))] backdrop-blur-md"
