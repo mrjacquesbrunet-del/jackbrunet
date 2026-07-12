@@ -6,7 +6,7 @@ import type { AccentKey } from "./profile-accent";
 /** Groupes fermés: répertoire, feed, chat, personnalisation. */
 
 export type GroupRole = "owner" | "admin" | "member";
-export type GroupStatus = "pending" | "approved";
+export type GroupStatus = "pending" | "approved" | "invited";
 
 export type Group = {
   id: string;
@@ -239,6 +239,22 @@ export async function approveMember(groupId: string, userId: string): Promise<bo
 
 export async function removeMember(groupId: string, userId: string): Promise<boolean> {
   return leaveGroup(groupId, userId);
+}
+
+/** Admin: inviter un ami dans le groupe (il reçoit une notification). */
+export async function inviteToGroup(groupId: string, userId: string): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  const { error } = await sb.rpc("invite_to_group", { p_group_id: groupId, p_user_id: userId });
+  return !error;
+}
+
+/** Accepter une invitation à un groupe (statut invité → membre). */
+export async function acceptInvite(groupId: string): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  const { error } = await sb.rpc("accept_group_invite", { p_group_id: groupId });
+  return !error;
 }
 
 // ---------- Feed ----------

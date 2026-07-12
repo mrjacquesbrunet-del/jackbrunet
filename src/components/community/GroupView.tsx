@@ -4,7 +4,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useAuth, initials } from "@/components/community/useAuth";
+import { searchProfiles, type Profile } from "@/lib/community";
 import { ACCENTS, type AccentKey } from "@/lib/profile-accent";
+import { asset } from "@/lib/asset";
 import {
   getGroup,
   myMembership,
@@ -14,6 +16,8 @@ import {
   listMembers,
   approveMember,
   removeMember,
+  inviteToGroup,
+  acceptInvite,
   listPosts,
   createPost,
   deletePost,
@@ -36,6 +40,10 @@ import {
   type GroupStatus,
 } from "@/lib/groups";
 
+const BG = "#14160E";
+const fieldDark =
+  "w-full rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-2.5 text-cream placeholder:text-cream/40 outline-none focus:border-dawn-400/60";
+
 function timeAgo(iso: string): string {
   const s = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
   if (s < 60) return "à l'instant";
@@ -50,7 +58,7 @@ function Avatar({ name, url }: { name?: string | null; url?: string | null }) {
     return <img src={url} alt="" className="h-9 w-9 shrink-0 rounded-full object-cover" />;
   }
   return (
-    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-spirit-600/15 text-xs font-bold text-spirit-700">
+    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-dawn-400/20 text-xs font-bold text-dawn-300">
       {initials(name)}
     </span>
   );
@@ -81,14 +89,18 @@ export function GroupView() {
   }, [ready, reload]);
 
   if (!ready || loading) {
-    return <section className="container-x py-24 text-center text-night-900/50">Chargement…</section>;
+    return (
+      <section className="py-24 text-center text-cream/50" style={{ background: BG, minHeight: "100vh" }}>
+        Chargement…
+      </section>
+    );
   }
 
   if (!group) {
     return (
-      <section className="container-x pb-28 pt-24 text-center">
+      <section className="pb-28 pt-24 text-center text-cream" style={{ background: BG, minHeight: "100vh" }}>
         <h1 className="font-display text-2xl font-extrabold">Groupe introuvable</h1>
-        <p className="mt-2 text-night-900/60">Ce groupe n'existe pas, ou il est privé.</p>
+        <p className="mt-2 text-cream/60">Ce groupe n'existe pas, ou il est privé.</p>
         <Link href="/groupes" className="btn-primary mt-6 inline-flex">Voir les groupes</Link>
       </section>
     );
@@ -96,39 +108,66 @@ export function GroupView() {
 
   const c = ACCENTS[group.accent] ?? ACCENTS.lime;
   const isMember = membership?.status === "approved";
+  const isInvited = membership?.status === "invited";
   const isAdmin = membership?.role === "owner" || membership?.role === "admin";
 
   return (
-    <section className="pb-28">
-      {/* Bannière */}
-      <div
-        className="px-4 pb-6 pt-[calc(5rem+env(safe-area-inset-top))] text-white"
-        style={{ backgroundImage: `linear-gradient(135deg, ${c.from}, ${c.to})` }}
-      >
-        <div className="mx-auto max-w-2xl">
-          <Link href="/groupes" className="inline-flex items-center gap-1 text-sm font-semibold text-white/85">
-            ← Groupes
-          </Link>
-          <h1 className="mt-3 font-display text-3xl font-extrabold">{group.name}</h1>
-          {group.verse_text ? (
-            <p className="mt-2 max-w-xl text-sm italic text-white/90">
-              « {group.verse_text} »{group.verse_reference ? ` — ${group.verse_reference}` : ""}
+    <section className="relative pb-28 text-cream" style={{ background: BG, minHeight: "100vh" }}>
+      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10" style={{ background: BG }} />
+
+      {/* Hero avec photo intégrée + dégradé de la couleur du groupe */}
+      <div className="relative overflow-hidden">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={asset("/mission/pasteur-scene.png")}
+          alt=""
+          aria-hidden
+          className="absolute inset-0 h-full w-full object-cover opacity-40"
+        />
+        <div
+          className="absolute inset-0"
+          style={{ backgroundImage: `linear-gradient(150deg, ${c.from}cc, ${c.to}f2 70%, ${BG})` }}
+        />
+        <div className="relative px-4 pb-7 pt-[calc(5rem+env(safe-area-inset-top))]">
+          <div className="mx-auto max-w-2xl">
+            <Link href="/groupes" className="inline-flex items-center gap-1 text-sm font-semibold text-white/85">
+              ← Groupes
+            </Link>
+            <h1 className="mt-3 font-display text-3xl font-extrabold text-white">{group.name}</h1>
+            {group.verse_text ? (
+              <p className="mt-2 max-w-xl text-sm italic text-white/90">
+                « {group.verse_text} »{group.verse_reference ? ` — ${group.verse_reference}` : ""}
+              </p>
+            ) : null}
+            <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-white/85">
+              {group.description?.trim()
+                ? group.description
+                : "Bienvenue 🙏 Partagez vos plans, vos percées et vos sujets de prière. Commentez, réagissez et priez les uns pour les autres, en famille."}
             </p>
-          ) : null}
-          <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-white/80">
-            {group.member_count ?? 0} membre{(group.member_count ?? 0) > 1 ? "s" : ""}
-            {group.is_public ? " · Public" : " · Privé"}
-          </p>
+            <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-white/80">
+              {group.member_count ?? 0} membre{(group.member_count ?? 0) > 1 ? "s" : ""}
+              {group.is_public ? " · Public" : " · Privé"}
+            </p>
+          </div>
         </div>
       </div>
 
       <div className="mx-auto max-w-2xl px-4">
         {!isMember ? (
-          <JoinBox group={group} userId={userId} membership={membership} onChanged={reload} />
+          <JoinBox
+            group={group}
+            userId={userId}
+            invited={isInvited}
+            pending={membership?.status === "pending"}
+            onChanged={reload}
+          />
         ) : (
           <>
             {/* Onglets */}
-            <div className="sticky top-0 z-10 -mx-4 flex gap-2 bg-cream/80 px-4 py-3 backdrop-blur">
+            <div
+              className="sticky top-0 z-10 -mx-4 flex items-center gap-2 px-4 py-3 backdrop-blur"
+              style={{ background: "rgba(20,22,14,0.85)" }}
+            >
               {[
                 { k: "feed" as Tab, label: "Feed" },
                 { k: "chat" as Tab, label: "Chat" },
@@ -139,7 +178,7 @@ export function GroupView() {
                   type="button"
                   onClick={() => setTab(t.k)}
                   className={`rounded-full px-4 py-2 text-sm font-bold transition-colors ${
-                    tab === t.k ? "bg-spirit-600 text-cream" : "bg-night-900/[0.06] text-night-900/60"
+                    tab === t.k ? "bg-dawn-400 text-night-950" : "bg-white/10 text-cream/70"
                   }`}
                 >
                   {t.label}
@@ -160,33 +199,66 @@ export function GroupView() {
   );
 }
 
-/* ---------------- Rejoindre ---------------- */
+/* ---------------- Rejoindre / invité ---------------- */
 function JoinBox({
   group,
   userId,
-  membership,
+  invited,
+  pending,
   onChanged,
 }: {
   group: Group;
   userId: string | null;
-  membership: { role: GroupRole; status: GroupStatus } | null;
+  invited: boolean;
+  pending: boolean;
   onChanged: () => void;
 }) {
   const [busy, setBusy] = useState(false);
   if (!userId) {
     return (
-      <div className="mt-6 rounded-2xl border border-night-900/10 bg-white p-5 text-center">
-        <p className="text-night-900/70">Connecte-toi pour rejoindre ce groupe.</p>
+      <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.04] p-5 text-center">
+        <p className="text-cream/70">Connecte-toi pour rejoindre ce groupe.</p>
         <Link href="/communaute" className="btn-primary mt-4 inline-flex">Se connecter</Link>
       </div>
     );
   }
-  const pending = membership?.status === "pending";
   return (
-    <div className="mt-6 rounded-2xl border border-night-900/10 bg-white p-5 text-center">
-      {group.description ? <p className="mb-3 text-night-900/70">{group.description}</p> : null}
-      {pending ? (
-        <p className="font-semibold text-spirit-700">Demande envoyée. En attente de validation.</p>
+    <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.04] p-5 text-center">
+      {invited ? (
+        <>
+          <p className="font-display text-lg font-bold text-cream">Tu es invité(e) 🎉</p>
+          <p className="mt-1 text-sm text-cream/70">Rejoins ce groupe pour voir le feed et le chat.</p>
+          <div className="mt-4 flex justify-center gap-2">
+            <button
+              type="button"
+              disabled={busy}
+              onClick={async () => {
+                setBusy(true);
+                await acceptInvite(group.id);
+                setBusy(false);
+                onChanged();
+              }}
+              className="btn-primary text-sm"
+            >
+              {busy ? "…" : "Accepter"}
+            </button>
+            <button
+              type="button"
+              disabled={busy}
+              onClick={async () => {
+                setBusy(true);
+                await leaveGroup(group.id, userId);
+                setBusy(false);
+                window.location.href = "/groupes";
+              }}
+              className="rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-cream/70"
+            >
+              Refuser
+            </button>
+          </div>
+        </>
+      ) : pending ? (
+        <p className="font-semibold text-dawn-300">Demande envoyée. En attente de validation.</p>
       ) : (
         <button
           type="button"
@@ -240,7 +312,6 @@ function Feed({ group, userId, isAdmin }: { group: Group; userId: string; isAdmi
 
   async function react(postId: string, emoji: string) {
     const active = reacts.some((r) => r.post_id === postId && r.user_id === userId && r.emoji === emoji);
-    // maj optimiste
     setReacts((prev) =>
       active
         ? prev.filter((r) => !(r.post_id === postId && r.user_id === userId && r.emoji === emoji))
@@ -252,7 +323,7 @@ function Feed({ group, userId, isAdmin }: { group: Group; userId: string; isAdmi
   return (
     <div className="mt-4">
       {/* Composer */}
-      <div className="rounded-2xl border border-night-900/10 bg-white p-4">
+      <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
         <div className="mb-2 flex flex-wrap gap-1.5">
           {(Object.keys(KIND_LABEL) as GroupPost["kind"][]).map((k) => (
             <button
@@ -260,7 +331,7 @@ function Feed({ group, userId, isAdmin }: { group: Group; userId: string; isAdmi
               type="button"
               onClick={() => setKind(k)}
               className={`rounded-full px-3 py-1 text-xs font-bold transition-colors ${
-                kind === k ? "bg-spirit-600 text-cream" : "bg-night-900/[0.06] text-night-900/55"
+                kind === k ? "bg-dawn-400 text-night-950" : "bg-white/10 text-cream/60"
               }`}
             >
               {KIND_LABEL[k]}
@@ -272,7 +343,7 @@ function Feed({ group, userId, isAdmin }: { group: Group; userId: string; isAdmi
           onChange={(e) => setBody(e.target.value)}
           rows={3}
           placeholder="Partage un plan, une percée, un sujet de prière…"
-          className="field w-full"
+          className={fieldDark}
         />
         <div className="mt-2 flex justify-end">
           <button type="button" onClick={publish} disabled={busy} className="btn-primary text-sm">
@@ -284,9 +355,9 @@ function Feed({ group, userId, isAdmin }: { group: Group; userId: string; isAdmi
       {/* Posts */}
       <div className="mt-4 space-y-3">
         {posts === null ? (
-          <p className="text-sm text-night-900/50">Chargement…</p>
+          <p className="text-sm text-cream/50">Chargement…</p>
         ) : posts.length === 0 ? (
-          <p className="text-sm text-night-900/55">Aucune publication. Sois le premier à partager 🙏</p>
+          <p className="text-sm text-cream/55">Aucune publication. Sois le premier à partager 🙏</p>
         ) : (
           posts.map((p) => {
             const emojiCounts: Record<string, { n: number; mine: boolean }> = {};
@@ -296,21 +367,19 @@ function Feed({ group, userId, isAdmin }: { group: Group; userId: string; isAdmi
               if (r.user_id === userId) emojiCounts[r.emoji].mine = true;
             }
             return (
-              <article key={p.id} className="rounded-2xl border border-night-900/10 bg-white p-4">
+              <article key={p.id} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
                 <div className="flex items-center gap-3">
                   <Avatar name={p.author?.pseudo} url={p.author?.avatar_url} />
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-bold text-night-900">
-                      {p.author?.pseudo ?? "Membre"}
-                    </p>
-                    <p className="text-xs text-night-900/45">{timeAgo(p.created_at)}</p>
+                    <p className="truncate text-sm font-bold text-cream">{p.author?.pseudo ?? "Membre"}</p>
+                    <p className="text-xs text-cream/45">{timeAgo(p.created_at)}</p>
                   </div>
                   {p.kind !== "post" ? (
-                    <span className="rounded-full bg-spirit-500/12 px-2 py-0.5 text-[11px] font-bold text-spirit-700">
+                    <span className="rounded-full bg-dawn-400/15 px-2 py-0.5 text-[11px] font-bold text-dawn-300">
                       {KIND_LABEL[p.kind]}
                     </span>
                   ) : null}
-                  {(p.author_id === userId || isAdmin) ? (
+                  {p.author_id === userId || isAdmin ? (
                     <button
                       type="button"
                       onClick={async () => {
@@ -320,16 +389,15 @@ function Feed({ group, userId, isAdmin }: { group: Group; userId: string; isAdmi
                         }
                       }}
                       aria-label="Supprimer"
-                      className="text-night-900/30 hover:text-red-500"
+                      className="text-cream/30 hover:text-red-400"
                     >
                       ✕
                     </button>
                   ) : null}
                 </div>
 
-                <p className="mt-3 whitespace-pre-wrap text-[15px] leading-relaxed text-night-900/90">{p.body}</p>
+                <p className="mt-3 whitespace-pre-wrap text-[15px] leading-relaxed text-cream/90">{p.body}</p>
 
-                {/* Réactions */}
                 <div className="mt-3 flex flex-wrap items-center gap-1.5">
                   {GROUP_REACTIONS.map((e) => {
                     const info = emojiCounts[e];
@@ -339,20 +407,18 @@ function Feed({ group, userId, isAdmin }: { group: Group; userId: string; isAdmi
                         type="button"
                         onClick={() => react(p.id, e)}
                         className={`rounded-full border px-2.5 py-1 text-sm transition-colors ${
-                          info?.mine
-                            ? "border-spirit-600 bg-spirit-500/10"
-                            : "border-night-900/10 hover:bg-night-900/[0.03]"
+                          info?.mine ? "border-dawn-400 bg-dawn-400/15" : "border-white/12 hover:bg-white/[0.06]"
                         }`}
                       >
                         {e}
-                        {info?.n ? <span className="ml-1 text-xs font-bold text-night-900/60">{info.n}</span> : null}
+                        {info?.n ? <span className="ml-1 text-xs font-bold text-cream/60">{info.n}</span> : null}
                       </button>
                     );
                   })}
                   <button
                     type="button"
                     onClick={() => setOpenComments((o) => (o === p.id ? null : p.id))}
-                    className="ml-auto text-sm font-semibold text-spirit-700"
+                    className="ml-auto text-sm font-semibold text-dawn-300"
                   >
                     💬 {counts[p.id] ?? 0}
                   </button>
@@ -390,14 +456,14 @@ function Comments({
   }, [load]);
 
   return (
-    <div className="mt-3 border-t border-night-900/10 pt-3">
+    <div className="mt-3 border-t border-white/10 pt-3">
       <div className="space-y-2">
-        {(list ?? []).map((c) => (
-          <div key={c.id} className="flex items-start gap-2">
-            <Avatar name={c.author?.pseudo} url={c.author?.avatar_url} />
-            <div className="rounded-2xl bg-night-900/[0.04] px-3 py-2">
-              <p className="text-xs font-bold text-night-900">{c.author?.pseudo ?? "Membre"}</p>
-              <p className="text-sm text-night-900/85">{c.body}</p>
+        {(list ?? []).map((cm) => (
+          <div key={cm.id} className="flex items-start gap-2">
+            <Avatar name={cm.author?.pseudo} url={cm.author?.avatar_url} />
+            <div className="rounded-2xl bg-white/[0.06] px-3 py-2">
+              <p className="text-xs font-bold text-cream">{cm.author?.pseudo ?? "Membre"}</p>
+              <p className="text-sm text-cream/85">{cm.body}</p>
             </div>
           </div>
         ))}
@@ -413,13 +479,8 @@ function Comments({
         }}
         className="mt-2 flex items-center gap-2"
       >
-        <input
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Répondre…"
-          className="field flex-1"
-        />
-        <button type="submit" className="btn-ghost text-sm">Envoyer</button>
+        <input value={text} onChange={(e) => setText(e.target.value)} placeholder="Répondre…" className={`${fieldDark} flex-1`} />
+        <button type="submit" className="rounded-full bg-white/10 px-3 py-2 text-sm font-semibold text-cream">Envoyer</button>
       </form>
     </div>
   );
@@ -435,7 +496,7 @@ function Chat({ group, userId }: { group: Group; userId: string }) {
 
   useEffect(() => {
     load();
-    const t = setInterval(load, 5000); // rafraîchit le chat
+    const t = setInterval(load, 5000);
     return () => clearInterval(t);
   }, [load]);
 
@@ -445,15 +506,15 @@ function Chat({ group, userId }: { group: Group; userId: string }) {
 
   return (
     <div className="mt-4">
-      <div className="max-h-[55vh] space-y-2 overflow-y-auto rounded-2xl border border-night-900/10 bg-white p-3">
+      <div className="max-h-[55vh] space-y-2 overflow-y-auto rounded-2xl border border-white/10 bg-white/[0.04] p-3">
         {msgs.length === 0 ? (
-          <p className="py-8 text-center text-sm text-night-900/45">Aucun message. Lance la discussion !</p>
+          <p className="py-8 text-center text-sm text-cream/45">Aucun message. Lance la discussion !</p>
         ) : (
           msgs.map((m) => {
             const mine = m.author_id === userId;
             return (
               <div key={m.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
-                <div className={`max-w-[80%] rounded-2xl px-3 py-2 ${mine ? "bg-spirit-600 text-cream" : "bg-night-900/[0.05] text-night-900"}`}>
+                <div className={`max-w-[80%] rounded-2xl px-3 py-2 ${mine ? "bg-dawn-400 text-night-950" : "bg-white/10 text-cream"}`}>
                   {!mine ? <p className="text-[11px] font-bold opacity-70">{m.author?.pseudo ?? "Membre"}</p> : null}
                   <p className="whitespace-pre-wrap text-sm">{m.body}</p>
                 </div>
@@ -474,12 +535,7 @@ function Chat({ group, userId }: { group: Group; userId: string }) {
         }}
         className="mt-2 flex items-center gap-2"
       >
-        <input
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Ton message…"
-          className="field flex-1"
-        />
+        <input value={text} onChange={(e) => setText(e.target.value)} placeholder="Ton message…" className={`${fieldDark} flex-1`} />
         <button type="submit" className="btn-primary text-sm">Envoyer</button>
       </form>
     </div>
@@ -508,42 +564,43 @@ function Members({
 
   const approved = (members ?? []).filter((m) => m.status === "approved");
   const pending = (members ?? []).filter((m) => m.status === "pending");
-  const inviteLink =
-    typeof window !== "undefined" ? `${window.location.origin}/groupe?g=${group.id}` : "";
+  const invited = (members ?? []).filter((m) => m.status === "invited");
+  const inviteLink = typeof window !== "undefined" ? `${window.location.origin}/groupe?g=${group.id}` : "";
 
   return (
     <div className="mt-4 space-y-4">
-      {/* Invitation */}
-      <div className="rounded-2xl border border-night-900/10 bg-white p-4">
-        <p className="text-[11px] font-bold uppercase tracking-wide text-night-900/45">Inviter</p>
-        <p className="mt-1 text-sm text-night-900/70">
-          Code : <span className="font-mono font-bold tracking-widest">{group.invite_code}</span>
+      {/* Inviter des amis (admin) */}
+      {isAdmin ? <InviteFriends group={group} existing={members ?? []} onInvited={load} /> : null}
+
+      {/* Invitation par lien / code */}
+      <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+        <p className="text-[11px] font-bold uppercase tracking-wide text-cream/45">Lien d'invitation</p>
+        <p className="mt-1 text-sm text-cream/70">
+          Code : <span className="font-mono font-bold tracking-widest text-dawn-300">{group.invite_code}</span>
         </p>
         <button
           type="button"
           onClick={() => {
-            navigator.clipboard?.writeText(`${inviteLink}`).then(() => {
+            navigator.clipboard?.writeText(inviteLink).then(() => {
               setCopied(true);
               setTimeout(() => setCopied(false), 2000);
             });
           }}
-          className="btn-ghost mt-2 text-sm"
+          className="mt-2 rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-cream"
         >
-          {copied ? "✓ Lien copié" : "Copier le lien d'invitation"}
+          {copied ? "✓ Lien copié" : "Copier le lien"}
         </button>
       </div>
 
-      {/* Demandes en attente (admin) */}
+      {/* Demandes en attente */}
       {isAdmin && pending.length > 0 ? (
-        <div className="rounded-2xl border border-dawn-400/40 bg-cream/60 p-4">
-          <p className="text-[11px] font-bold uppercase tracking-wide text-night-900/45">
-            Demandes ({pending.length})
-          </p>
+        <div className="rounded-2xl border border-dawn-400/30 bg-dawn-400/[0.06] p-4">
+          <p className="text-[11px] font-bold uppercase tracking-wide text-cream/50">Demandes ({pending.length})</p>
           <div className="mt-2 space-y-2">
             {pending.map((m) => (
               <div key={m.user_id} className="flex items-center gap-3">
                 <Avatar name={m.profile?.pseudo} url={m.profile?.avatar_url} />
-                <span className="flex-1 truncate text-sm font-semibold">{m.profile?.pseudo ?? "Membre"}</span>
+                <span className="flex-1 truncate text-sm font-semibold text-cream">{m.profile?.pseudo ?? "Membre"}</span>
                 <button
                   type="button"
                   onClick={async () => {
@@ -551,7 +608,7 @@ function Members({
                     load();
                     onChanged();
                   }}
-                  className="rounded-full bg-spirit-600 px-3 py-1 text-xs font-bold text-cream"
+                  className="rounded-full bg-dawn-400 px-3 py-1 text-xs font-bold text-night-950"
                 >
                   Accepter
                 </button>
@@ -561,7 +618,7 @@ function Members({
                     await removeMember(group.id, m.user_id);
                     load();
                   }}
-                  className="text-night-900/40 hover:text-red-500"
+                  className="text-cream/40 hover:text-red-400"
                   aria-label="Refuser"
                 >
                   ✕
@@ -572,18 +629,32 @@ function Members({
         </div>
       ) : null}
 
+      {/* Invitations envoyées */}
+      {isAdmin && invited.length > 0 ? (
+        <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+          <p className="text-[11px] font-bold uppercase tracking-wide text-cream/45">Invitations envoyées ({invited.length})</p>
+          <div className="mt-2 space-y-2">
+            {invited.map((m) => (
+              <div key={m.user_id} className="flex items-center gap-3">
+                <Avatar name={m.profile?.pseudo} url={m.profile?.avatar_url} />
+                <span className="flex-1 truncate text-sm text-cream/70">{m.profile?.pseudo ?? "Membre"}</span>
+                <span className="text-xs text-cream/40">en attente…</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
       {/* Membres */}
-      <div className="rounded-2xl border border-night-900/10 bg-white p-4">
-        <p className="text-[11px] font-bold uppercase tracking-wide text-night-900/45">
-          Membres ({approved.length})
-        </p>
+      <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+        <p className="text-[11px] font-bold uppercase tracking-wide text-cream/45">Membres ({approved.length})</p>
         <div className="mt-2 space-y-2">
           {approved.map((m) => (
             <div key={m.user_id} className="flex items-center gap-3">
               <Avatar name={m.profile?.pseudo} url={m.profile?.avatar_url} />
-              <span className="flex-1 truncate text-sm font-semibold">{m.profile?.pseudo ?? "Membre"}</span>
+              <span className="flex-1 truncate text-sm font-semibold text-cream">{m.profile?.pseudo ?? "Membre"}</span>
               {m.role !== "member" ? (
-                <span className="rounded-full bg-night-900/[0.06] px-2 py-0.5 text-[11px] font-bold text-night-900/55">
+                <span className="rounded-full bg-white/10 px-2 py-0.5 text-[11px] font-bold text-cream/55">
                   {m.role === "owner" ? "Créateur" : "Admin"}
                 </span>
               ) : null}
@@ -597,7 +668,7 @@ function Members({
                       onChanged();
                     }
                   }}
-                  className="text-night-900/30 hover:text-red-500"
+                  className="text-cream/30 hover:text-red-400"
                   aria-label="Retirer"
                 >
                   ✕
@@ -608,7 +679,6 @@ function Members({
         </div>
       </div>
 
-      {/* Quitter */}
       {group.owner_id !== userId ? (
         <button
           type="button"
@@ -618,11 +688,79 @@ function Members({
               window.location.href = "/groupes";
             }
           }}
-          className="btn-ghost w-full text-sm text-red-600"
+          className="w-full rounded-full border border-white/15 py-3 text-sm font-semibold text-red-400"
         >
           Quitter le groupe
         </button>
       ) : null}
+    </div>
+  );
+}
+
+/* ---------------- Inviter des amis ---------------- */
+function InviteFriends({
+  group,
+  existing,
+  onInvited,
+}: {
+  group: Group;
+  existing: GroupMember[];
+  onInvited: () => void;
+}) {
+  const [q, setQ] = useState("");
+  const [results, setResults] = useState<Profile[]>([]);
+  const [done, setDone] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    if (q.trim().length < 2) {
+      setResults([]);
+      return;
+    }
+    const t = setTimeout(async () => setResults(await searchProfiles(q, 8)), 250);
+    return () => clearTimeout(t);
+  }, [q]);
+
+  const existingIds = new Set(existing.map((m) => m.user_id));
+
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+      <p className="text-[11px] font-bold uppercase tracking-wide text-cream/45">Inviter des amis</p>
+      <p className="mt-1 text-xs text-cream/55">Ils reçoivent une notification et acceptent (ou refusent) de rejoindre.</p>
+      <input
+        value={q}
+        onChange={(e) => setQ(e.target.value)}
+        placeholder="Rechercher un membre par pseudo…"
+        className={`${fieldDark} mt-3`}
+      />
+      <div className="mt-2 space-y-2">
+        {results.map((p) => {
+          const already = existingIds.has(p.id);
+          const invited = done[p.id];
+          return (
+            <div key={p.id} className="flex items-center gap-3">
+              <Avatar name={p.pseudo} url={p.avatar_url} />
+              <span className="flex-1 truncate text-sm font-semibold text-cream">{p.pseudo ?? "Membre"}</span>
+              {already || invited ? (
+                <span className="text-xs text-cream/45">{invited ? "Invité ✓" : "Déjà là"}</span>
+              ) : (
+                <button
+                  type="button"
+                  onClick={async () => {
+                    const ok = await inviteToGroup(group.id, p.id);
+                    if (ok) {
+                      setDone((d) => ({ ...d, [p.id]: true }));
+                      onInvited();
+                    }
+                  }}
+                  className="rounded-full bg-dawn-400 px-3 py-1 text-xs font-bold text-night-950"
+                >
+                  Inviter
+                </button>
+              )}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -632,6 +770,7 @@ function GroupSettings({ group, onSaved }: { group: Group; onSaved: () => void }
   const [open, setOpen] = useState(false);
   const [f, setF] = useState({
     name: group.name,
+    description: group.description,
     verse_text: group.verse_text,
     verse_reference: group.verse_reference,
     accent: group.accent as AccentKey,
@@ -645,21 +784,22 @@ function GroupSettings({ group, onSaved }: { group: Group; onSaved: () => void }
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Réglages du groupe"
-        className="grid h-9 w-9 place-items-center rounded-full bg-night-900/[0.06] text-night-900/60"
+        className="grid h-9 w-9 place-items-center rounded-full bg-white/10 text-cream/70"
       >
         ⚙
       </button>
       {open ? (
         <div className="fixed inset-0 z-[100] flex items-end justify-center sm:items-center" role="dialog" aria-modal="true">
-          <button type="button" aria-label="Fermer" onClick={() => setOpen(false)} className="absolute inset-0 bg-black/30" />
-          <div className="relative z-10 m-3 max-h-[85vh] w-full max-w-sm overflow-y-auto rounded-2xl bg-white p-4 shadow-xl">
+          <button type="button" aria-label="Fermer" onClick={() => setOpen(false)} className="absolute inset-0 bg-black/50" />
+          <div className="relative z-10 m-3 max-h-[85vh] w-full max-w-sm overflow-y-auto rounded-2xl border border-white/10 bg-[#1F2216] p-4 text-cream shadow-xl">
             <p className="mb-3 font-display text-lg font-bold">Réglages du groupe</p>
             <div className="space-y-3">
-              <input value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} placeholder="Nom" className="field w-full" />
-              <input value={f.verse_text} onChange={(e) => setF({ ...f, verse_text: e.target.value })} placeholder="Verset" className="field w-full" />
-              <input value={f.verse_reference} onChange={(e) => setF({ ...f, verse_reference: e.target.value })} placeholder="Référence" className="field w-full" />
+              <input value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} placeholder="Nom" className={fieldDark} />
+              <textarea value={f.description} onChange={(e) => setF({ ...f, description: e.target.value })} placeholder="Texte d'explication du groupe" rows={3} className={fieldDark} />
+              <input value={f.verse_text} onChange={(e) => setF({ ...f, verse_text: e.target.value })} placeholder="Verset" className={fieldDark} />
+              <input value={f.verse_reference} onChange={(e) => setF({ ...f, verse_reference: e.target.value })} placeholder="Référence" className={fieldDark} />
               <div>
-                <p className="text-xs font-semibold text-night-900/55">Couleur</p>
+                <p className="text-xs font-semibold text-cream/55">Couleur</p>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {(Object.keys(ACCENTS) as AccentKey[]).map((k) => (
                     <button
@@ -667,13 +807,13 @@ function GroupSettings({ group, onSaved }: { group: Group; onSaved: () => void }
                       type="button"
                       onClick={() => setF({ ...f, accent: k })}
                       aria-label={ACCENTS[k].label}
-                      className={`h-8 w-8 rounded-full ring-2 ring-offset-2 ${f.accent === k ? "ring-night-900" : "ring-transparent"}`}
+                      className={`h-8 w-8 rounded-full ring-2 ring-offset-2 ring-offset-[#1F2216] ${f.accent === k ? "ring-cream" : "ring-transparent"}`}
                       style={{ backgroundImage: `linear-gradient(135deg, ${ACCENTS[k].from}, ${ACCENTS[k].to})` }}
                     />
                   ))}
                 </div>
               </div>
-              <label className="flex items-center gap-2 text-sm text-night-900/70">
+              <label className="flex items-center gap-2 text-sm text-cream/70">
                 <input type="checkbox" checked={f.is_public} onChange={(e) => setF({ ...f, is_public: e.target.checked })} />
                 Visible dans le répertoire
               </label>
@@ -692,7 +832,7 @@ function GroupSettings({ group, onSaved }: { group: Group; onSaved: () => void }
                 >
                   {busy ? "…" : "Enregistrer"}
                 </button>
-                <button type="button" onClick={() => setOpen(false)} className="btn-ghost text-sm">Fermer</button>
+                <button type="button" onClick={() => setOpen(false)} className="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-cream">Fermer</button>
               </div>
             </div>
           </div>
