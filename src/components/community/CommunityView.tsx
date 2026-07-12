@@ -157,6 +157,23 @@ function Feed({
 
       <section className="container-x pt-6 pb-12">
       <div className="max-w-2xl">
+      {/* Accès aux groupes fermés */}
+      <Link
+        href="/groupes"
+        className="mb-4 flex items-center gap-3 rounded-2xl border border-night-900/10 bg-white p-4 transition-colors hover:bg-night-900/[0.02]"
+      >
+        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-dawn-300 to-spirit-500 text-night-950">
+          <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current" strokeWidth={1.8}>
+            <path d="M16 19v-1a4 4 0 0 0-3-3.9M8 19v-1a4 4 0 0 1 3-3.9M12 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6M4 20v-1a3 3 0 0 1 3-3M20 20v-1a3 3 0 0 0-3-3" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block font-display font-bold text-night-900">Mes groupes</span>
+          <span className="block text-xs text-night-900/55">Rejoins ou crée un groupe: feed, chat, plans, percées, prière.</span>
+        </span>
+        <span className="shrink-0 text-night-900/30">→</span>
+      </Link>
+
       {/* Module de profil (charte olive) + partage d'un sujet en extension */}
       <div className="dark-ctx bg-topo-dark rounded-4xl border border-white/10 text-cream shadow-card">
         {/* En-tête profil */}
