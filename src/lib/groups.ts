@@ -215,12 +215,18 @@ export async function leaveGroup(groupId: string, userId: string): Promise<boole
   return !error;
 }
 
-/** Upload d'une photo de couverture de groupe (réutilise le bucket avatars). */
+/** Upload d'une photo de couverture de groupe (réutilise le bucket avatars).
+ *  IMPORTANT: la politique RLS du bucket « avatars » exige que le 1er dossier
+ *  du chemin soit l'id de l'utilisateur (storage.foldername(name)[1] = uid).
+ *  On préfixe donc le chemin par l'id, sinon l'upload est rejeté en silence. */
 export async function uploadGroupCover(groupId: string, file: File): Promise<string | null> {
   const sb = getSupabase();
   if (!sb) return null;
+  const { data: auth } = await sb.auth.getUser();
+  const uid = auth.user?.id;
+  if (!uid) return null;
   const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
-  const path = `groups/${groupId}/${Date.now()}.${ext}`;
+  const path = `${uid}/groups/${groupId}/${Date.now()}.${ext}`;
   const { error } = await sb.storage
     .from("avatars")
     .upload(path, file, { upsert: true, cacheControl: "3600", contentType: file.type });
