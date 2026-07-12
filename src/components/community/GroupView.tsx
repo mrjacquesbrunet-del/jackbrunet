@@ -283,7 +283,7 @@ function JoinBox({
           }}
           className="btn-primary"
         >
-          {busy ? "…" : "Demander à rejoindre"}
+          {busy ? "…" : group.open_join ? "Rejoindre le groupe" : "Demander à rejoindre"}
         </button>
       )}
     </div>
@@ -787,6 +787,7 @@ function GroupSettings({ group, isOwner, onSaved }: { group: Group; isOwner: boo
     verse_reference: group.verse_reference,
     accent: group.accent as AccentKey,
     is_public: group.is_public,
+    open_join: group.open_join ?? false,
   });
   const [cover, setCover] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
@@ -853,6 +854,27 @@ function GroupSettings({ group, isOwner, onSaved }: { group: Group; isOwner: boo
                   <input type="checkbox" checked={f.is_public} onChange={(e) => setF({ ...f, is_public: e.target.checked })} />
                   Visible dans le répertoire
                 </label>
+                <div>
+                  <p className="text-xs font-semibold text-cream/55">Adhésion</p>
+                  <div className="mt-2 flex gap-2">
+                    {[
+                      { v: true, label: "Ouverte", hint: "on rejoint sans validation" },
+                      { v: false, label: "Sur validation", hint: "tu acceptes les demandes" },
+                    ].map((o) => (
+                      <button
+                        key={String(o.v)}
+                        type="button"
+                        onClick={() => setF({ ...f, open_join: o.v })}
+                        className={`flex-1 rounded-2xl border px-3 py-2 text-left text-xs transition-colors ${
+                          f.open_join === o.v ? "border-dawn-400 bg-dawn-400/15 text-cream" : "border-white/15 text-cream/60"
+                        }`}
+                      >
+                        <span className="block text-sm font-bold">{o.label}</span>
+                        <span className="text-[11px] text-cream/50">{o.hint}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
                 <div className="flex gap-2">
                   <button
                     type="button"

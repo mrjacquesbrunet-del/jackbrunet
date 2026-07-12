@@ -17,6 +17,7 @@ export type Group = {
   accent: AccentKey;
   invite_code: string;
   is_public: boolean;
+  open_join?: boolean;
   owner_id: string;
   image?: string;
   created_at: string;
@@ -174,6 +175,7 @@ export async function createGroup(input: {
   verse_reference?: string;
   accent?: string;
   is_public?: boolean;
+  open_join?: boolean;
 }): Promise<Group | null> {
   const sb = getSupabase();
   if (!sb) return null;
@@ -184,6 +186,7 @@ export async function createGroup(input: {
     p_verse_reference: input.verse_reference ?? "",
     p_accent: input.accent ?? "lime",
     p_is_public: input.is_public ?? true,
+    p_open_join: input.open_join ?? false,
   });
   if (error || !data) return null;
   return data as Group;
@@ -198,14 +201,21 @@ export async function joinByCode(code: string): Promise<string | null> {
   return data as string;
 }
 
-/** Demander à rejoindre un groupe public (statut « en attente »). */
-export async function requestJoin(groupId: string, userId: string): Promise<boolean> {
+/**
+ * Rejoindre un groupe. Si l'adhésion est ouverte → approuvé immédiatement ;
+ * sinon → « en attente » (le créateur valide). Renvoie le statut obtenu,
+ * ou null en cas d'échec. Le 2ᵉ paramètre n'est plus utilisé (conservé pour
+ * compatibilité des appels existants).
+ */
+export async function requestJoin(
+  groupId: string,
+  _userId?: string,
+): Promise<GroupStatus | null> {
   const sb = getSupabase();
-  if (!sb) return false;
-  const { error } = await sb
-    .from("group_members")
-    .upsert({ group_id: groupId, user_id: userId, role: "member", status: "pending" }, { onConflict: "group_id,user_id" });
-  return !error;
+  if (!sb) return null;
+  const { data, error } = await sb.rpc("join_group", { p_group_id: groupId });
+  if (error) return null;
+  return (data as GroupStatus) ?? "pending";
 }
 
 export async function leaveGroup(groupId: string, userId: string): Promise<boolean> {

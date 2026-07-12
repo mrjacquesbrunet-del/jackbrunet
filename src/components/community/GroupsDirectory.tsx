@@ -148,7 +148,7 @@ export function GroupsDirectory() {
   const [reco, setReco] = useState<Group[] | null>(null);
 
   const [creating, setCreating] = useState(false);
-  const [form, setForm] = useState({ name: "", description: "", verse_text: "", verse_reference: "", accent: "lime" as AccentKey, is_public: true });
+  const [form, setForm] = useState({ name: "", description: "", verse_text: "", verse_reference: "", accent: "lime" as AccentKey, is_public: true, open_join: true });
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
   const [code, setCode] = useState("");
@@ -273,6 +273,27 @@ export function GroupsDirectory() {
                   <input type="checkbox" checked={form.is_public} onChange={(e) => setForm((f) => ({ ...f, is_public: e.target.checked }))} />
                   Visible dans le répertoire
                 </label>
+                <div>
+                  <p className="text-[11px] font-bold uppercase tracking-wide text-cream/45">Adhésion</p>
+                  <div className="mt-1.5 flex gap-2">
+                    {[
+                      { v: true, label: "Ouverte", hint: "on rejoint sans validation" },
+                      { v: false, label: "Sur validation", hint: "tu acceptes les demandes" },
+                    ].map((o) => (
+                      <button
+                        key={String(o.v)}
+                        type="button"
+                        onClick={() => setForm((f) => ({ ...f, open_join: o.v }))}
+                        className={`flex-1 rounded-2xl border px-3 py-2 text-left transition-colors ${
+                          form.open_join === o.v ? "border-dawn-400 bg-dawn-400/15 text-cream" : "border-white/15 text-cream/60"
+                        }`}
+                      >
+                        <span className="block text-sm font-bold">{o.label}</span>
+                        <span className="text-[11px] text-cream/50">{o.hint}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
                 <div className="flex gap-2">
                   <button type="submit" disabled={busy} className="btn-primary text-sm">{busy ? "…" : "Créer"}</button>
                   <button type="button" onClick={() => setCreating(false)} className="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-cream">Annuler</button>
