@@ -27,7 +27,7 @@ create policy cm_admin_read on public.contact_messages for select using (public.
 do $$
 declare admin_id uuid; r record;
 begin
-  select id into admin_id from auth.users where lower(email) = 'mr.jacquesbrunet@gmail.com' limit 1;
+  select id into admin_id from auth.users where lower(email) = 'contact@jackbrunet.com' limit 1;
   if admin_id is null then
     raise notice 'Compte admin introuvable — aucun groupe par défaut créé.';
     return;
