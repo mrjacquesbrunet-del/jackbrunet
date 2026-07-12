@@ -268,11 +268,6 @@ export function DonateScreen() {
             text="Le bouton ouvre la page web sécurisée du site, puis Stripe traite le paiement."
             icon="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"
           />
-          <InfoRow
-            title="Reçu fiscal"
-            text="Les informations fiscales et le reçu sont gérés côté site après le paiement."
-            icon="M6 3h9l3 3v15l-3-2-3 2-3-2-3 2V3zM9 8h6M9 12h6"
-          />
         </section>
 
         {/* Note conformité */}
