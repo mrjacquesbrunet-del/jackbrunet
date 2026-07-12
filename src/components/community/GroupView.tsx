@@ -14,6 +14,7 @@ import {
   requestJoin,
   leaveGroup,
   updateGroup,
+  uploadGroupCover,
   listMembers,
   approveMember,
   removeMember,
@@ -777,6 +778,7 @@ function GroupSettings({ group, onSaved }: { group: Group; onSaved: () => void }
     accent: group.accent as AccentKey,
     is_public: group.is_public,
   });
+  const [cover, setCover] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
 
   return (
@@ -795,6 +797,27 @@ function GroupSettings({ group, onSaved }: { group: Group; onSaved: () => void }
           <div className="relative z-10 m-3 max-h-[85vh] w-full max-w-sm overflow-y-auto rounded-2xl border border-white/10 bg-[#1F2216] p-4 text-cream shadow-xl">
             <p className="mb-3 font-display text-lg font-bold">Réglages du groupe</p>
             <div className="space-y-3">
+              {/* Photo de couverture */}
+              <div>
+                <span className="text-xs font-semibold text-cream/55">Photo de couverture</span>
+                <div className="mt-1 flex items-center gap-3">
+                  <div className="relative h-16 w-24 shrink-0 overflow-hidden rounded-xl bg-white/10">
+                    {group.image ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={group.image} alt="" className="h-full w-full object-cover" />
+                    ) : null}
+                  </div>
+                  <label className="cursor-pointer rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-cream">
+                    {cover ? "Photo choisie…" : "Choisir une photo"}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => setCover(e.target.files?.[0] ?? null)}
+                    />
+                  </label>
+                </div>
+              </div>
               <input value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} placeholder="Nom" className={fieldDark} />
               <textarea value={f.description} onChange={(e) => setF({ ...f, description: e.target.value })} placeholder="Texte d'explication du groupe" rows={3} className={fieldDark} />
               <input value={f.verse_text} onChange={(e) => setF({ ...f, verse_text: e.target.value })} placeholder="Verset" className={fieldDark} />
@@ -824,7 +847,12 @@ function GroupSettings({ group, onSaved }: { group: Group; onSaved: () => void }
                   disabled={busy}
                   onClick={async () => {
                     setBusy(true);
-                    await updateGroup(group.id, f);
+                    let image: string | undefined;
+                    if (cover) {
+                      const url = await uploadGroupCover(group.id, cover);
+                      if (url) image = url;
+                    }
+                    await updateGroup(group.id, image ? { ...f, image } : f);
                     setBusy(false);
                     setOpen(false);
                     onSaved();

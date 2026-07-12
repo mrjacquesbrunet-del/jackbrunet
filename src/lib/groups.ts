@@ -215,6 +215,20 @@ export async function leaveGroup(groupId: string, userId: string): Promise<boole
   return !error;
 }
 
+/** Upload d'une photo de couverture de groupe (réutilise le bucket avatars). */
+export async function uploadGroupCover(groupId: string, file: File): Promise<string | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+  const path = `groups/${groupId}/${Date.now()}.${ext}`;
+  const { error } = await sb.storage
+    .from("avatars")
+    .upload(path, file, { upsert: true, cacheControl: "3600", contentType: file.type });
+  if (error) return null;
+  const { data } = sb.storage.from("avatars").getPublicUrl(path);
+  return data.publicUrl ?? null;
+}
+
 export async function updateGroup(id: string, patch: Partial<Group>): Promise<boolean> {
   const sb = getSupabase();
   if (!sb) return false;
