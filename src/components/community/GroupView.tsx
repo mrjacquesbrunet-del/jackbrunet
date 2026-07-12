@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useAuth, initials } from "@/components/community/useAuth";
@@ -780,6 +781,97 @@ function GroupSettings({ group, onSaved }: { group: Group; onSaved: () => void }
   });
   const [cover, setCover] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  // Le modal est rendu via un portail vers <body> pour échapper au contexte
+  // d'empilement de la barre d'onglets (sticky + backdrop-blur), qui piégeait
+  // le modal derrière le composer du feed.
+  const modal =
+    open && mounted
+      ? createPortal(
+          <div
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+            style={{ paddingTop: "calc(env(safe-area-inset-top) + 1rem)", paddingBottom: "calc(env(safe-area-inset-bottom) + 1rem)" }}
+            role="dialog"
+            aria-modal="true"
+          >
+            <button type="button" aria-label="Fermer" onClick={() => setOpen(false)} className="absolute inset-0 bg-black/60" />
+            <div className="relative z-10 max-h-full w-full max-w-sm overflow-y-auto rounded-2xl border border-white/10 bg-[#1F2216] p-4 text-cream shadow-xl">
+              <p className="mb-3 font-display text-lg font-bold">Réglages du groupe</p>
+              <div className="space-y-3">
+                {/* Photo de couverture */}
+                <div>
+                  <span className="text-xs font-semibold text-cream/55">Photo de couverture</span>
+                  <div className="mt-1 flex items-center gap-3">
+                    <div className="relative h-16 w-24 shrink-0 overflow-hidden rounded-xl bg-white/10">
+                      {group.image ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={group.image} alt="" className="h-full w-full object-cover" />
+                      ) : null}
+                    </div>
+                    <label className="cursor-pointer rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-cream">
+                      {cover ? "Photo choisie…" : "Choisir une photo"}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => setCover(e.target.files?.[0] ?? null)}
+                      />
+                    </label>
+                  </div>
+                </div>
+                <input value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} placeholder="Nom" className={fieldDark} />
+                <textarea value={f.description} onChange={(e) => setF({ ...f, description: e.target.value })} placeholder="Texte d'explication du groupe" rows={3} className={fieldDark} />
+                <input value={f.verse_text} onChange={(e) => setF({ ...f, verse_text: e.target.value })} placeholder="Verset" className={fieldDark} />
+                <input value={f.verse_reference} onChange={(e) => setF({ ...f, verse_reference: e.target.value })} placeholder="Référence" className={fieldDark} />
+                <div>
+                  <p className="text-xs font-semibold text-cream/55">Couleur</p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {(Object.keys(ACCENTS) as AccentKey[]).map((k) => (
+                      <button
+                        key={k}
+                        type="button"
+                        onClick={() => setF({ ...f, accent: k })}
+                        aria-label={ACCENTS[k].label}
+                        className={`h-8 w-8 rounded-full ring-2 ring-offset-2 ring-offset-[#1F2216] ${f.accent === k ? "ring-cream" : "ring-transparent"}`}
+                        style={{ backgroundImage: `linear-gradient(135deg, ${ACCENTS[k].from}, ${ACCENTS[k].to})` }}
+                      />
+                    ))}
+                  </div>
+                </div>
+                <label className="flex items-center gap-2 text-sm text-cream/70">
+                  <input type="checkbox" checked={f.is_public} onChange={(e) => setF({ ...f, is_public: e.target.checked })} />
+                  Visible dans le répertoire
+                </label>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    disabled={busy}
+                    onClick={async () => {
+                      setBusy(true);
+                      let image: string | undefined;
+                      if (cover) {
+                        const url = await uploadGroupCover(group.id, cover);
+                        if (url) image = url;
+                      }
+                      await updateGroup(group.id, image ? { ...f, image } : f);
+                      setBusy(false);
+                      setOpen(false);
+                      onSaved();
+                    }}
+                    className="btn-primary text-sm"
+                  >
+                    {busy ? "…" : "Enregistrer"}
+                  </button>
+                  <button type="button" onClick={() => setOpen(false)} className="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-cream">Fermer</button>
+                </div>
+              </div>
+            </div>
+          </div>,
+          document.body,
+        )
+      : null;
 
   return (
     <div className="ml-auto">
@@ -791,87 +883,7 @@ function GroupSettings({ group, onSaved }: { group: Group; onSaved: () => void }
       >
         ⚙
       </button>
-      {open ? (
-        <div
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-          style={{ paddingTop: "calc(env(safe-area-inset-top) + 1rem)", paddingBottom: "calc(env(safe-area-inset-bottom) + 1rem)" }}
-          role="dialog"
-          aria-modal="true"
-        >
-          <button type="button" aria-label="Fermer" onClick={() => setOpen(false)} className="absolute inset-0 bg-black/50" />
-          <div className="relative z-10 max-h-full w-full max-w-sm overflow-y-auto rounded-2xl border border-white/10 bg-[#1F2216] p-4 text-cream shadow-xl">
-            <p className="mb-3 font-display text-lg font-bold">Réglages du groupe</p>
-            <div className="space-y-3">
-              {/* Photo de couverture */}
-              <div>
-                <span className="text-xs font-semibold text-cream/55">Photo de couverture</span>
-                <div className="mt-1 flex items-center gap-3">
-                  <div className="relative h-16 w-24 shrink-0 overflow-hidden rounded-xl bg-white/10">
-                    {group.image ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={group.image} alt="" className="h-full w-full object-cover" />
-                    ) : null}
-                  </div>
-                  <label className="cursor-pointer rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-cream">
-                    {cover ? "Photo choisie…" : "Choisir une photo"}
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={(e) => setCover(e.target.files?.[0] ?? null)}
-                    />
-                  </label>
-                </div>
-              </div>
-              <input value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} placeholder="Nom" className={fieldDark} />
-              <textarea value={f.description} onChange={(e) => setF({ ...f, description: e.target.value })} placeholder="Texte d'explication du groupe" rows={3} className={fieldDark} />
-              <input value={f.verse_text} onChange={(e) => setF({ ...f, verse_text: e.target.value })} placeholder="Verset" className={fieldDark} />
-              <input value={f.verse_reference} onChange={(e) => setF({ ...f, verse_reference: e.target.value })} placeholder="Référence" className={fieldDark} />
-              <div>
-                <p className="text-xs font-semibold text-cream/55">Couleur</p>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {(Object.keys(ACCENTS) as AccentKey[]).map((k) => (
-                    <button
-                      key={k}
-                      type="button"
-                      onClick={() => setF({ ...f, accent: k })}
-                      aria-label={ACCENTS[k].label}
-                      className={`h-8 w-8 rounded-full ring-2 ring-offset-2 ring-offset-[#1F2216] ${f.accent === k ? "ring-cream" : "ring-transparent"}`}
-                      style={{ backgroundImage: `linear-gradient(135deg, ${ACCENTS[k].from}, ${ACCENTS[k].to})` }}
-                    />
-                  ))}
-                </div>
-              </div>
-              <label className="flex items-center gap-2 text-sm text-cream/70">
-                <input type="checkbox" checked={f.is_public} onChange={(e) => setF({ ...f, is_public: e.target.checked })} />
-                Visible dans le répertoire
-              </label>
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  disabled={busy}
-                  onClick={async () => {
-                    setBusy(true);
-                    let image: string | undefined;
-                    if (cover) {
-                      const url = await uploadGroupCover(group.id, cover);
-                      if (url) image = url;
-                    }
-                    await updateGroup(group.id, image ? { ...f, image } : f);
-                    setBusy(false);
-                    setOpen(false);
-                    onSaved();
-                  }}
-                  className="btn-primary text-sm"
-                >
-                  {busy ? "…" : "Enregistrer"}
-                </button>
-                <button type="button" onClick={() => setOpen(false)} className="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-cream">Fermer</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : null}
+      {modal}
     </div>
   );
 }
