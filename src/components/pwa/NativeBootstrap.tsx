@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { asset } from "@/lib/asset";
+import { openNotifRoute } from "@/lib/notif-route";
 import { isNativeApp, readReminder, enableDailyReminder } from "@/lib/notifications";
 import { initOneSignal } from "@/lib/onesignal";
 
@@ -19,7 +19,29 @@ export function NativeBootstrap() {
     let cleanup: (() => void) | undefined;
 
     (async () => {
-      // Mises à jour à chaud (OTA Capgo): on confirme que l'app a bien démarré,
+      // 1) EN PREMIER: brancher l'ouverture par notification, pour ne jamais
+      // manquer un tap au démarrage à froid (sinon l'app reste sur l'accueil).
+
+      // Tap sur un rappel local → ouvre la route fournie (dévotionnel).
+      try {
+        const { LocalNotifications } = await import("@capacitor/local-notifications");
+        const handle = await LocalNotifications.addListener(
+          "localNotificationActionPerformed",
+          (event) => {
+            const route = (event.notification.extra as { route?: string } | undefined)?.route;
+            openNotifRoute(route);
+          },
+        );
+        cleanup = () => handle.remove();
+      } catch {
+        /* plugin absent */
+      }
+
+      // Notifications push OneSignal (attache aussi l'écouteur de clic → ouvre
+      // « Mon temps avec Jésus », pas l'accueil).
+      await initOneSignal();
+
+      // 2) Mises à jour à chaud (OTA Capgo): confirme que l'app a bien démarré,
       // sinon Capgo annule la mise à jour et revient à la version précédente.
       try {
         const { CapacitorUpdater } = await import("@capgo/capacitor-updater");
@@ -28,8 +50,8 @@ export function NativeBootstrap() {
         /* plugin absent (web) */
       }
 
-      // Barre de statut: edge-to-edge (le fond de l'app passe SOUS l'heure, sans
-      // bande). Le style (texte clair/foncé) est ajusté par page dans AppShell.
+      // 3) Barre de statut: edge-to-edge (le fond de l'app passe SOUS l'heure,
+      // sans bande). Le style (texte clair/foncé) est ajusté par page dans AppShell.
       try {
         const { StatusBar, Style } = await import("@capacitor/status-bar");
         try {
@@ -49,31 +71,11 @@ export function NativeBootstrap() {
         /* plugin absent */
       }
 
-      // Tap sur la notification → ouvre la route fournie (dévotionnel).
-      try {
-        const { LocalNotifications } = await import("@capacitor/local-notifications");
-        const handle = await LocalNotifications.addListener(
-          "localNotificationActionPerformed",
-          (event) => {
-            const route =
-              (event.notification.extra as { route?: string } | undefined)?.route??
-              "/devotionnel/";
-            window.location.href = asset(route);
-          },
-        );
-        cleanup = () => handle.remove();
-      } catch {
-        /* plugin absent */
-      }
-
-      // Re-arme le rappel quotidien si l'utilisateur l'avait activé.
+      // 4) Re-arme le rappel quotidien si l'utilisateur l'avait activé.
       const pref = readReminder();
       if (pref.enabled) {
         await enableDailyReminder(pref.hour, pref.minute).catch(() => undefined);
       }
-
-      // Notifications push OneSignal (annonces à tous les utilisateurs).
-      await initOneSignal();
     })();
 
     return () => cleanup?.();

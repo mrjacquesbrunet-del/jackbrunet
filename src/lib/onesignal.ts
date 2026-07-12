@@ -1,7 +1,7 @@
 "use client";
 
 import { isNativeApp } from "@/lib/notifications";
-import { asset } from "@/lib/asset";
+import { openNotifRoute } from "@/lib/notif-route";
 
 /** App ID OneSignal (public, sans risque côté client). */
 export const ONESIGNAL_APP_ID = "27d280f7-9f55-4c22-9798-2566a6f24ab3";
@@ -26,15 +26,10 @@ export async function initOneSignal(): Promise<void> {
     OS.initialize(ONESIGNAL_APP_ID);
 
     // Clic sur une notification push → ouvre l'app sur « Mon temps avec Jésus »
-    // (ou la route fournie dans les données de la notif), au lieu du navigateur.
+    // (ou la route fournie dans les données de la notif), au lieu de l'accueil.
     OS.Notifications.addEventListener("click", (e: unknown) => {
       const ev = e as { notification?: { additionalData?: { route?: string } } };
-      const route = ev?.notification?.additionalData?.route?? "/devotionnel/";
-      try {
-        window.location.href = asset(route);
-      } catch {
-        /* navigation impossible */
-      }
+      openNotifRoute(ev?.notification?.additionalData?.route);
     });
 
     await OS.Notifications.requestPermission(true).catch(() => undefined);
