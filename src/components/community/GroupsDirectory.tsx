@@ -198,7 +198,9 @@ export function GroupsDirectory() {
   }
 
   return (
-    <div className="min-h-screen bg-cream">
+    // Fond olive (couleur du bas de l'en-tête) pour que les arrondis du corps
+    // crème ne laissent pas apparaître de liseré clair sur les côtés.
+    <div className="min-h-screen bg-[#26301A]">
       {/* En-tête sombre */}
       <div className="text-cream" style={{ background: `linear-gradient(160deg, ${HEADER_BG}, #26301A)` }}>
         <div className="container-x pb-6 pt-[calc(5rem+env(safe-area-inset-top))]">
@@ -283,7 +285,7 @@ export function GroupsDirectory() {
       </div>
 
       {/* Corps clair */}
-      <div className="container-x -mt-3 rounded-t-[2rem] bg-cream pb-28 pt-6">
+      <div className="container-x -mt-3 min-h-screen rounded-t-[2rem] bg-cream pb-28 pt-6">
         <div className="mx-auto max-w-2xl">
           {/* Découvrir des groupes (carrousel image + titre) */}
           <section>
