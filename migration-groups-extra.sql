@@ -38,7 +38,7 @@ begin
       ('Groupe Louanges',      'Partage tes chants, playlists et moments de louange.', 'violet'),
       ('Mission',              'Prière et soutien pour les missions et l''évangélisation.', 'sunset'),
       ('Famille en Christ',    'S''encourager et grandir ensemble dans la foi.', 'ocean'),
-      ('Intercession',         'Unis dans la prière, les uns pour les autres.', 'gold'),
+      ('Étude Biblique',       'Approfondir la Parole ensemble, autour de la Bible.', 'gold'),
       ('Jeunes & Foi',         'Un espace pour la nouvelle génération.', 'rose')
     ) as t(name, descr, accent)
   loop
