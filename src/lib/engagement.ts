@@ -113,6 +113,7 @@ export function useEngagement() {
     streak: state.streak,
     best: state.best,
     completedCount: state.completedDates.length,
+    completedDates: state.completedDates,
     isCompletedToday: state.completedDates.includes(dayStr()),
     favorites: state.favorites,
     isFavorite: (index: number) => state.favorites.includes(index),

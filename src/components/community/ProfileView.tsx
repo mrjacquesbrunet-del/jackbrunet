@@ -24,6 +24,7 @@ import { MyFavorites } from "@/components/profile/MyFavorites";
 import { AnsweredFeed } from "@/components/community/AnsweredFeed";
 import { MemberSearch } from "@/components/community/MemberSearch";
 import { MemberSuggestions } from "@/components/community/MemberSuggestions";
+import { ProfileActivity } from "@/components/community/ProfileActivity";
 import { NotificationsBell } from "@/components/community/NotificationsBell";
 import { MessagesButton } from "@/components/community/MessagesButton";
 import { DeleteAccountButton } from "@/components/community/DeleteAccountButton";
@@ -639,6 +640,9 @@ function Profile({
           </div>
         </div>
       </div>
+
+      {/* Suivi (semaine), plans de lecture, sujets de prière */}
+      <ProfileActivity />
 
       {/* Mon activité de prière */}
       <div className="mt-6">
