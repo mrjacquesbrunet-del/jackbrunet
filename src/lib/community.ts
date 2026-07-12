@@ -41,7 +41,17 @@ export type Comment = {
   author?: Profile;
 };
 export type Reaction = { prayer_id: string; user_id: string; type: "heart" | "pray" };
-export type NotifType = "pray" | "heart" | "comment" | "follow" | "mention" | "admin";
+export type NotifType =
+  | "pray"
+  | "heart"
+  | "comment"
+  | "follow"
+  | "mention"
+  | "admin"
+  | "message"
+  | "reply"
+  | "group_comment"
+  | "group_reaction";
 export type Notification = {
   id: string;
   user_id: string;

@@ -65,7 +65,47 @@ dans l'attribut `MESSAGE`, plus `PRENOM`, `NOM`, `EMAIL`, `TELEPHONE`.
 
 ---
 
+---
+
+## 3) Notifications PUSH sur le téléphone des membres (OneSignal)
+
+Pour que **chaque membre** reçoive une notification sur son téléphone quand :
+message privé reçu, réponse à son commentaire, commentaire ou réaction sous sa
+publication (groupe/prière), etc.
+
+Fonctionnement : chaque interaction crée une ligne dans `public.notifications`
+(via `migration-notifications-extra.sql`). Un webhook déclenche la fonction
+`notify-push`, qui envoie la notification à la bonne personne via OneSignal.
+
+> Pré-requis : lancer d'abord **`migration-notifications-extra.sql`**
+> (SQL Editor) et installer la mise à jour de l'app (l'app associe chaque
+> membre à OneSignal via son identifiant — `external_id`).
+
+### a. Créer la fonction
+1. Supabase → **Edge Functions** → **Deploy a new function** → nom `notify-push`.
+2. Colle le contenu de `supabase/functions/notify-push/index.ts`.
+3. **Désactive** « Verify JWT ». **Deploy**.
+
+### b. Ajouter la clé REST OneSignal (secret)
+1. OneSignal → ton app → **Settings** → **Keys & IDs** → copie la **REST API Key**.
+2. Supabase → Edge Functions → **Manage secrets** → ajoute
+   `ONESIGNAL_REST_API_KEY` = cette clé. (Ne la mets jamais dans le code.)
+
+### c. Déclencher sur chaque notification
+1. Supabase → **Database** → **Webhooks** → **Create a new hook**.
+2. Nom : `on_new_notification`. Table : `notifications`. Événement : **Insert**.
+3. Type : **Supabase Edge Functions** → `notify-push`. **Create**.
+
+> Test : depuis un autre compte, commente/aime une de tes publications, ou
+> envoie-toi un message. Une notification push doit arriver sur ton téléphone.
+> Si OneSignal renvoie `401`, remplace dans la fonction `Basic ${apiKey}` par
+> `Key ${apiKey}` et redéploie.
+
+---
+
 ## Rappel sécurité
-- La clé API Brevo vit uniquement dans les **secrets Supabase** / le compte
-  Brevo — jamais dans le dépôt ni dans l'app.
-- La fonction n'envoie qu'à `contact@jackbrunet.com` (adresse figée dans le code).
+- Les clés (Brevo, OneSignal REST) vivent uniquement dans les **secrets
+  Supabase** / les comptes respectifs — jamais dans le dépôt ni dans l'app.
+- `notify-dm` n'envoie qu'à `contact@jackbrunet.com` (adresse figée dans le code).
+- L'`App ID` OneSignal est public (déjà dans l'app) ; seule la **REST API Key**
+  est secrète.

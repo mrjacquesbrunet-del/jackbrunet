@@ -24,8 +24,18 @@ function label(n: Notification) {
       return `${who} s'est abonné(e) à toi`;
     case "mention":
       return `${who} t'a mentionné(e)`;
+    case "message":
+      return `${who} t'a envoyé un message`;
+    case "reply":
+      return `${who} a répondu à ton commentaire`;
+    case "group_comment":
+      return `${who} a commenté ta publication`;
+    case "group_reaction":
+      return `${who} a réagi à ta publication`;
     case "admin":
       return n.body? `${n.body}`: "Message de Pasteur Jack";
+    default:
+      return n.body?? "Nouvelle notification";
   }
 }
 function when(iso: string) {
@@ -59,15 +69,8 @@ export function ProfileNotifications({ userId }: { userId: string }) {
     load();
   }, [load]);
 
-  const counts: Record<NotifType, number> = {
-    pray: 0,
-    heart: 0,
-    comment: 0,
-    follow: 0,
-    mention: 0,
-    admin: 0,
-  };
-  for (const n of items?? []) counts[n.type]++;
+  const counts = {} as Record<NotifType, number>;
+  for (const n of items?? []) counts[n.type] = (counts[n.type]?? 0) + 1;
 
   return (
     <div className="glass-strong p-5 sm:p-6">
@@ -86,7 +89,7 @@ export function ProfileNotifications({ userId }: { userId: string }) {
                 </svg>
               )}
             </span>
-            <p className="mt-1.5 font-display text-xl font-extrabold text-spirit-700">{counts[t.key]}</p>
+            <p className="mt-1.5 font-display text-xl font-extrabold text-spirit-700">{counts[t.key]?? 0}</p>
             <p className="text-xs text-night-900/55">{t.label}</p>
           </div>
         ))}

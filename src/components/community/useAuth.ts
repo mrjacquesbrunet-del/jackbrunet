@@ -5,6 +5,11 @@ import { getSupabase } from "@/lib/supabase";
 import { getProfile, type Profile } from "@/lib/community";
 import { submitToBrevo } from "@/lib/brevo";
 import { newsletterEndpointForSource } from "@/config/brevo";
+import { linkOneSignalUser, unlinkOneSignalUser } from "@/lib/onesignal";
+
+// Partagé entre toutes les instances du hook: on n'associe l'appareil au
+// compte OneSignal qu'une seule fois par utilisateur.
+let lastLinkedUser: string | null = null;
 
 /**
  * Capture automatique des membres de l'app dans Brevo: à chaque connexion
@@ -74,6 +79,19 @@ export function useAuth() {
   useEffect(() => {
     syncMemberToBrevo(email, profile?.pseudo?? null);
   }, [email, profile?.pseudo]);
+
+  // Associe/dissocie l'appareil au compte pour les notifications push ciblées.
+  useEffect(() => {
+    if (userId) {
+      if (lastLinkedUser!== userId) {
+        lastLinkedUser = userId;
+        linkOneSignalUser(userId);
+      }
+    } else if (lastLinkedUser) {
+      lastLinkedUser = null;
+      unlinkOneSignalUser();
+    }
+  }, [userId]);
 
   return { ready, userId, email, profile, refreshProfile: () => refreshProfile(userId) };
 }

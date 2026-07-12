@@ -23,8 +23,18 @@ function label(n: Notification) {
       return `${who} s'est abonné(e) à toi`;
     case "mention":
       return `${who} t'a mentionné(e)`;
+    case "message":
+      return `${who} t'a envoyé un message`;
+    case "reply":
+      return `${who} a répondu à ton commentaire`;
+    case "group_comment":
+      return `${who} a commenté ta publication`;
+    case "group_reaction":
+      return `${who} a réagi à ta publication`;
     case "admin":
       return n.body? `${n.body}`: "Message de Pasteur Jack";
+    default:
+      return n.body?? "Nouvelle notification";
   }
 }
 

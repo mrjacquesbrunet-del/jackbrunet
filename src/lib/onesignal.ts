@@ -37,3 +37,33 @@ export async function initOneSignal(): Promise<void> {
     /* plugin absent (web) ou erreur d'init → ignoré */
   }
 }
+
+/**
+ * Associe l'appareil au compte (external_id = id Supabase). Indispensable pour
+ * pouvoir ENVOYER une notification push à cette personne précise (messages,
+ * commentaires, réactions…). À appeler dès qu'on connaît l'utilisateur.
+ */
+export async function linkOneSignalUser(userId: string): Promise<void> {
+  if (!isNativeApp() || !userId) return;
+  try {
+    const mod = await import("onesignal-cordova-plugin");
+    const OneSignal = (mod as { default?: unknown }).default ?? mod;
+    const OS = OneSignal as { login: (id: string) => void };
+    OS.login(userId);
+  } catch {
+    /* ignoré */
+  }
+}
+
+/** Dissocie l'appareil du compte à la déconnexion. */
+export async function unlinkOneSignalUser(): Promise<void> {
+  if (!isNativeApp()) return;
+  try {
+    const mod = await import("onesignal-cordova-plugin");
+    const OneSignal = (mod as { default?: unknown }).default ?? mod;
+    const OS = OneSignal as { logout: () => void };
+    OS.logout();
+  } catch {
+    /* ignoré */
+  }
+}
