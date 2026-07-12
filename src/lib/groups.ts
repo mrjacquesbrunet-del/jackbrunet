@@ -242,6 +242,14 @@ export async function updateGroup(id: string, patch: Partial<Group>): Promise<bo
   return !error;
 }
 
+/** Supprime un groupe (réservé au créateur — la RLS l'impose côté serveur). */
+export async function deleteGroup(id: string): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  const { error } = await sb.from("groups").delete().eq("id", id);
+  return !error;
+}
+
 export async function listMembers(groupId: string): Promise<GroupMember[]> {
   const sb = getSupabase();
   if (!sb) return [];

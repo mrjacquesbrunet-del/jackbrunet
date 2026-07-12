@@ -15,6 +15,7 @@ import {
   requestJoin,
   leaveGroup,
   updateGroup,
+  deleteGroup,
   uploadGroupCover,
   listMembers,
   approveMember,
@@ -109,45 +110,53 @@ export function GroupView() {
     );
   }
 
-  const c = ACCENTS[group.accent] ?? ACCENTS.lime;
   const isMember = membership?.status === "approved";
   const isInvited = membership?.status === "invited";
   const isAdmin = membership?.role === "owner" || membership?.role === "admin";
+  const isOwner = membership?.role === "owner" || group.owner_id === userId;
 
   return (
     <section className="relative pb-28 text-cream" style={{ background: BG, minHeight: "100vh" }}>
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-10" style={{ background: BG }} />
 
-      {/* Hero avec photo intégrée + dégradé de la couleur du groupe */}
-      <div className="relative overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={asset("/mission/pasteur-scene.png")}
-          alt=""
-          aria-hidden
-          className="absolute inset-0 h-full w-full object-cover opacity-40"
-        />
-        <div
-          className="absolute inset-0"
-          style={{ backgroundImage: `linear-gradient(150deg, ${c.from}cc, ${c.to}f2 70%, ${BG})` }}
-        />
+      {/* Hero: fond vert olive (charte), titre lime, sous-titre crème.
+          La photo de couverture éventuelle passe en fond, très assombrie. */}
+      <div
+        className="relative overflow-hidden"
+        style={{ background: "linear-gradient(160deg, #14160E, #26301A)" }}
+      >
+        {group.image ? (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={asset(group.image)}
+              alt=""
+              aria-hidden
+              className="absolute inset-0 h-full w-full object-cover opacity-20"
+            />
+            <div
+              className="absolute inset-0"
+              style={{ backgroundImage: "linear-gradient(160deg, rgba(20,22,14,0.86), rgba(38,48,26,0.92))" }}
+            />
+          </>
+        ) : null}
         <div className="relative px-4 pb-7 pt-[calc(5rem+env(safe-area-inset-top))]">
           <div className="mx-auto max-w-2xl">
-            <Link href="/groupes" className="inline-flex items-center gap-1 text-sm font-semibold text-white/85">
+            <Link href="/groupes" className="inline-flex items-center gap-1 text-sm font-semibold text-cream/80">
               ← Groupes
             </Link>
-            <h1 className="mt-3 font-display text-3xl font-extrabold text-white">{group.name}</h1>
+            <h1 className="mt-3 font-display text-3xl font-extrabold text-dawn-400">{group.name}</h1>
             {group.verse_text ? (
-              <p className="mt-2 max-w-xl text-sm italic text-white/90">
+              <p className="mt-2 max-w-xl text-sm italic text-cream/90">
                 « {group.verse_text} »{group.verse_reference ? ` — ${group.verse_reference}` : ""}
               </p>
             ) : null}
-            <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-white/85">
+            <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-cream/85">
               {group.description?.trim()
                 ? group.description
                 : "Bienvenue 🙏 Partagez vos plans, vos percées et vos sujets de prière. Commentez, réagissez et priez les uns pour les autres, en famille."}
             </p>
-            <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-white/80">
+            <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-cream/70">
               {group.member_count ?? 0} membre{(group.member_count ?? 0) > 1 ? "s" : ""}
               {group.is_public ? " · Public" : " · Privé"}
             </p>
@@ -187,7 +196,7 @@ export function GroupView() {
                   {t.label}
                 </button>
               ))}
-              {isAdmin ? <GroupSettings group={group} onSaved={reload} /> : null}
+              {isAdmin ? <GroupSettings group={group} isOwner={isOwner} onSaved={reload} /> : null}
             </div>
 
             {tab === "feed" ? <Feed group={group} userId={userId!} isAdmin={isAdmin} /> : null}
@@ -769,7 +778,7 @@ function InviteFriends({
 }
 
 /* ---------------- Réglages (admin) ---------------- */
-function GroupSettings({ group, onSaved }: { group: Group; onSaved: () => void }) {
+function GroupSettings({ group, isOwner, onSaved }: { group: Group; isOwner: boolean; onSaved: () => void }) {
   const [open, setOpen] = useState(false);
   const [f, setF] = useState({
     name: group.name,
@@ -866,6 +875,27 @@ function GroupSettings({ group, onSaved }: { group: Group; onSaved: () => void }
                   </button>
                   <button type="button" onClick={() => setOpen(false)} className="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-cream">Fermer</button>
                 </div>
+
+                {/* Suppression du groupe (créateur uniquement) */}
+                {isOwner ? (
+                  <div className="mt-4 border-t border-white/10 pt-4">
+                    <button
+                      type="button"
+                      disabled={busy}
+                      onClick={async () => {
+                        if (!confirm(`Supprimer définitivement le groupe « ${group.name} » ? Cette action est irréversible.`)) return;
+                        setBusy(true);
+                        const ok = await deleteGroup(group.id);
+                        setBusy(false);
+                        if (ok) window.location.href = "/groupes";
+                        else alert("Suppression impossible. Réessaie.");
+                      }}
+                      className="w-full rounded-full border border-red-500/40 py-2.5 text-sm font-semibold text-red-400"
+                    >
+                      Supprimer le groupe
+                    </button>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>,
