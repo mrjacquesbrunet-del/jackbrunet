@@ -10,6 +10,7 @@ import { AudioPlayer } from "@/components/ui/AudioPlayer";
 import { ViralCard } from "@/components/home/ViralCard";
 import { Markable } from "@/components/ui/Markable";
 import { QuickNote } from "@/components/home/QuickNote";
+import { HomeQuickSlider } from "@/components/home/HomeQuickSlider";
 import { useToolkit } from "@/lib/toolkit";
 import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
 import { ReminderToggle } from "@/components/pwa/ReminderToggle";
@@ -522,50 +523,10 @@ export function DevotionalView({
         <Rewards />
       </div>
 
-      {/* 6e. Accès rapides: faire un don + à propos (pages glissantes) */}
+      {/* 6e. Accès rapides glissants: Soutien + À propos (carrousel) */}
       <section className="container-x">
         <Reveal from="up">
-          <div className="grid max-w-2xl gap-3 sm:grid-cols-2">
-            <Link
-              href="/don"
-              className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-white/10 p-5 text-cream transition-transform hover:-translate-y-0.5"
-              style={{ backgroundImage: "linear-gradient(135deg, #1F2216, #3A3F28 65%, #5E6A3A)" }}
-            >
-              <div className="flex items-center gap-2">
-                <span className="grid h-9 w-9 place-items-center rounded-full bg-dawn-400 text-night-950">
-                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2}>
-                    <path d="M12 20s-7-4.5-9.5-9A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9z" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-dawn-300">Soutenir</span>
-              </div>
-              <div className="mt-5">
-                <p className="font-display text-xl font-extrabold leading-tight">Faire un don</p>
-                <p className="mt-0.5 text-sm text-cream/75">Évangélisation, aide humanitaire, ministère.</p>
-              </div>
-              <span className="absolute bottom-4 right-4 text-2xl transition-transform group-hover:translate-x-1">→</span>
-            </Link>
-
-            <Link
-              href="/a-propos"
-              className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-white/10 p-5 text-cream transition-transform hover:-translate-y-0.5"
-              style={{ backgroundImage: "linear-gradient(135deg, #1F2E24, #3B0764 90%)" }}
-            >
-              <div className="flex items-center gap-2">
-                <span className="grid h-9 w-9 place-items-center rounded-full bg-cream/15 text-cream">
-                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2}>
-                    <path d="M12 8h.01M11 12h1v4h1M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-dawn-300">Découvrir</span>
-              </div>
-              <div className="mt-5">
-                <p className="font-display text-xl font-extrabold leading-tight">À propos</p>
-                <p className="mt-0.5 text-sm text-cream/75">La vision, la mission, le pasteur.</p>
-              </div>
-              <span className="absolute bottom-4 right-4 text-2xl transition-transform group-hover:translate-x-1">→</span>
-            </Link>
-          </div>
+          <HomeQuickSlider />
         </Reveal>
       </section>
 
