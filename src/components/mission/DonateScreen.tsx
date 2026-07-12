@@ -94,13 +94,19 @@ export function DonateScreen() {
       >
         {/* Héros */}
         <section className="overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03]">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={asset("/mission/logo-web.webp")}
-            alt="Mission d'évangélisation"
-            className="h-52 w-full object-contain p-6"
-            style={{ background: "#272B1B" }}
-          />
+          <div className="relative">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={asset("/mission/pasteur-scene.png")}
+              alt="Pasteur Jack Brunet sur scène"
+              className="h-64 w-full object-cover"
+              style={{ objectPosition: "center 30%" }}
+            />
+            <div
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-24"
+              style={{ backgroundImage: "linear-gradient(to top, #14160E, rgba(20,22,14,0))" }}
+            />
+          </div>
           <div className="p-6">
             <p className="text-[11px] font-bold uppercase tracking-[0.28em]" style={{ color: C.textMuted }}>
               Mission terrain
