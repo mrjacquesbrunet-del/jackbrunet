@@ -106,12 +106,26 @@ export function DonateScreen() {
               Mission terrain
             </p>
             <h1 className="mt-2 font-display text-4xl font-extrabold leading-[1.05]">
-              Ton don peut faire la différence.
+              Ton don pour le royaume de Dieu
             </h1>
             <p className="mt-3 text-[15px] leading-relaxed" style={{ color: C.textSec }}>
               Tu soutiens des missions d&apos;évangélisation, des aides humanitaires et un
               ministère pastoral: annoncer, aimer, servir.
             </p>
+
+            {/* Verset (bloc citation) */}
+            <blockquote
+              className="mt-5 rounded-2xl border-l-4 py-3 pl-4 pr-3"
+              style={{ borderColor: C.lime, background: "rgba(202,240,0,0.06)" }}
+            >
+              <p className="font-display text-[15px] italic leading-relaxed text-[#F3F3ED]">
+                « Ce n&apos;est pas que je recherche les dons ; mais je recherche le fruit qui
+                abonde pour votre compte. »
+              </p>
+              <cite className="mt-1 block text-xs font-bold uppercase not-italic tracking-wider" style={{ color: C.lime }}>
+                Philippiens 4.17
+              </cite>
+            </blockquote>
           </div>
         </section>
 
@@ -142,7 +156,7 @@ export function DonateScreen() {
           <p className="mt-3 text-sm leading-relaxed" style={{ color: C.textSec }}>
             Avec <span className="font-bold" style={{ color: C.lime }}>{effective} €{monthly ? "/mois" : ""}</span>, tu
             soutiens <span className="font-bold" style={{ color: C.lime }}>{people} personne{people > 1 ? "s" : ""}</span>:
-            Bibles, aide humanitaire et partage de l&apos;Évangile.
+            évangélisation, aide humanitaire et ministère.
           </p>
 
           {/* Mensuel / ponctuel */}
@@ -247,16 +261,44 @@ export function DonateScreen() {
           </p>
         </section>
 
-        {/* Piliers d'impact */}
-        <section className="mt-5 grid grid-cols-3 gap-2.5">
+        {/* Piliers d'impact (icônes, mise en page verticale) */}
+        <section className="mt-5 space-y-2.5">
           {[
-            { n: "01", t: "Bibles distribuées" },
-            { n: "02", t: "Aide humanitaire" },
-            { n: "03", t: "Partage de l'Évangile" },
-          ].map((p) => (
-            <div key={p.n} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-              <p className="text-sm font-bold" style={{ color: C.textMuted }}>{p.n}</p>
-              <p className="mt-6 text-sm font-bold leading-snug text-[#F3F3ED]">{p.t}</p>
+            {
+              t: "Mission d'évangélisation",
+              d: "Annoncer l'Évangile là où Jésus n'est pas encore connu.",
+              icon: "M4 6h11a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4M8 3v3M4 6l8 5 8-5",
+            },
+            {
+              t: "Aide humanitaire",
+              d: "Servir concrètement: nourriture, soutien, présence auprès des plus fragiles.",
+              icon: "M12 20s-7-4.5-9.5-9A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9z",
+            },
+            {
+              t: "Ministère pastoral",
+              d: "Enseigner, affermir et accompagner l'Église au quotidien.",
+              icon: "M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM12 6v7M9 9h6",
+            },
+          ].map((p, i) => (
+            <div
+              key={p.t}
+              className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4"
+            >
+              <span
+                className="grid h-11 w-11 shrink-0 place-items-center rounded-xl font-display text-sm font-extrabold"
+                style={{ background: C.limeTint, color: C.lime }}
+              >
+                <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.7}>
+                  <path d={p.icon} strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+              <div className="min-w-0">
+                <p className="font-bold text-[#F3F3ED]">
+                  <span style={{ color: C.textMuted }}>{`0${i + 1} · `}</span>
+                  {p.t}
+                </p>
+                <p className="mt-0.5 text-sm leading-snug" style={{ color: C.textMuted }}>{p.d}</p>
+              </div>
             </div>
           ))}
         </section>
@@ -297,7 +339,7 @@ export function DonateScreen() {
           <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2}>
             <path d="M12 20s-7-4.5-9.5-9A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9z" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-          Continuer vers le don sécurisé
+          Je soutiens la mission
         </button>
       </motion.main>
     </div>
