@@ -18,6 +18,7 @@ export type Group = {
   invite_code: string;
   is_public: boolean;
   owner_id: string;
+  image?: string;
   created_at: string;
   member_count?: number;
   my_role?: GroupRole | null;
@@ -426,5 +427,25 @@ export async function sendMessage(groupId: string, authorId: string, body: strin
   const sb = getSupabase();
   if (!sb || !body.trim()) return false;
   const { error } = await sb.from("group_messages").insert({ group_id: groupId, author_id: authorId, body: body.trim() });
+  return !error;
+}
+
+// ---------- Témoignage / contact pasteur ----------
+export async function sendContactMessage(input: {
+  firstName: string;
+  lastName: string;
+  body: string;
+  kind: "temoignage" | "contact";
+  userId?: string | null;
+}): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb || !input.body.trim()) return false;
+  const { error } = await sb.from("contact_messages").insert({
+    user_id: input.userId ?? null,
+    first_name: input.firstName.trim(),
+    last_name: input.lastName.trim(),
+    body: input.body.trim(),
+    kind: input.kind,
+  });
   return !error;
 }
