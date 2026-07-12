@@ -23,50 +23,68 @@ const CHARTE: Charte[] = [
   { bg: "#F3F3ED", text: "#1F2216", sub: "rgba(31,34,22,0.6)", border: "1px solid rgba(31,34,22,0.12)" }, // crème
 ];
 
-type Prayer = { id: string; title: string; note: string };
-const PKEY = "jb.prayerlist.v1";
-const DEFAULT_PRAYERS: Prayer[] = [
-  { id: "famille", title: "Famille", note: "Unité et paix au foyer" },
-  { id: "sante", title: "Santé", note: "Guérison et force" },
-  { id: "travail", title: "Travail & finances", note: "Provision et sagesse" },
-  { id: "direction", title: "Direction", note: "Discerner la volonté de Dieu" },
-  { id: "reconnaissance", title: "Reconnaissance", note: "Rendre grâce à Dieu" },
-  { id: "eglise", title: "Église", note: "Mon église et mes frères" },
+type Item = { id: string; text: string; done: boolean };
+type Category = { id: string; title: string; note: string; items: Item[] };
+
+const PKEY = "jb.prayerlist.v2";
+const DEFAULT_CATS: Category[] = [
+  { id: "famille", title: "Famille", note: "Unité et paix au foyer", items: [] },
+  { id: "sante", title: "Santé", note: "Guérison et force", items: [] },
+  { id: "travail", title: "Travail & finances", note: "Provision et sagesse", items: [] },
+  { id: "direction", title: "Direction", note: "Discerner la volonté de Dieu", items: [] },
+  { id: "reconnaissance", title: "Reconnaissance", note: "Rendre grâce à Dieu", items: [] },
+  { id: "eglise", title: "Église", note: "Mon église et mes frères", items: [] },
 ];
 
-function loadPrayers(): Prayer[] {
+function loadCats(): Category[] {
   try {
     const raw = localStorage.getItem(PKEY);
-    if (!raw) return DEFAULT_PRAYERS;
-    const arr = JSON.parse(raw) as Prayer[];
-    return Array.isArray(arr) ? arr : DEFAULT_PRAYERS;
+    if (!raw) return DEFAULT_CATS;
+    const arr = JSON.parse(raw) as Category[];
+    return Array.isArray(arr) ? arr : DEFAULT_CATS;
   } catch {
-    return DEFAULT_PRAYERS;
+    return DEFAULT_CATS;
   }
 }
 
-/**
- * Sections du profil (après les suggestions), dans la charte:
- * 1) Ta semaine avec Jésus (suivi jour par jour).
- * 2) Tes plans de lecture (lime / olive / crème).
- * 3) Mes sujets de prière personnels (éditables + ajout).
- */
 export function ProfileActivity() {
   const eng = useEngagement();
   const plans = getThemePlans().slice(0, 3);
 
-  const [prayers, setPrayers] = useState<Prayer[]>(DEFAULT_PRAYERS);
-  const [editing, setEditing] = useState<Prayer | null>(null);
+  const [cats, setCats] = useState<Category[]>(DEFAULT_CATS);
+  const [drafts, setDrafts] = useState<Record<string, string>>({});
+  const [editing, setEditing] = useState<Category | null>(null);
   const [isNew, setIsNew] = useState(false);
 
-  useEffect(() => setPrayers(loadPrayers()), []);
-  function save(next: Prayer[]) {
-    setPrayers(next);
+  useEffect(() => setCats(loadCats()), []);
+  function persist(next: Category[]) {
+    setCats(next);
     try {
       localStorage.setItem(PKEY, JSON.stringify(next));
     } catch {
       /* ignore */
     }
+  }
+
+  function addItem(catId: string) {
+    const text = (drafts[catId] ?? "").trim();
+    if (!text) return;
+    persist(
+      cats.map((c) =>
+        c.id === catId ? { ...c, items: [...c.items, { id: `i-${Date.now()}`, text, done: false }] } : c,
+      ),
+    );
+    setDrafts((d) => ({ ...d, [catId]: "" }));
+  }
+  function toggleItem(catId: string, itemId: string) {
+    persist(
+      cats.map((c) =>
+        c.id === catId ? { ...c, items: c.items.map((it) => (it.id === itemId ? { ...it, done: !it.done } : it)) } : c,
+      ),
+    );
+  }
+  function delItem(catId: string, itemId: string) {
+    persist(cats.map((c) => (c.id === catId ? { ...c, items: c.items.filter((it) => it.id !== itemId) } : c)));
   }
 
   const days = Array.from({ length: 7 }, (_, i) => {
@@ -84,9 +102,7 @@ export function ProfileActivity() {
         <div className="flex items-center justify-between">
           <h3 className="font-display text-lg font-bold">Ta semaine avec Jésus</h3>
           {eng.streak > 1 ? (
-            <span className="rounded-full bg-dawn-400/20 px-3 py-1 text-xs font-bold text-spirit-700">
-              🔥 {eng.streak} jours d&apos;affilée
-            </span>
+            <span className="rounded-full bg-dawn-400/20 px-3 py-1 text-xs font-bold text-spirit-700">🔥 {eng.streak} jours d&apos;affilée</span>
           ) : null}
         </div>
         <div className="mt-3 grid grid-cols-7 gap-1.5">
@@ -98,9 +114,7 @@ export function ProfileActivity() {
               <div key={ds} className={`rounded-2xl border py-2 text-center ${isToday ? "border-night-900" : "border-night-900/10"}`}>
                 <p className="text-[11px] font-semibold text-night-900/50">{DOW[d.getDay()]}</p>
                 <p className="text-sm font-extrabold text-night-900">{d.getDate()}</p>
-                <span className={`mx-auto mt-1 grid h-5 w-5 place-items-center rounded-full text-[11px] ${done ? "bg-dawn-400 text-night-950" : "bg-night-900/[0.06] text-night-900/30"}`}>
-                  {done ? "✓" : "·"}
-                </span>
+                <span className={`mx-auto mt-1 grid h-5 w-5 place-items-center rounded-full text-[11px] ${done ? "bg-dawn-400 text-night-950" : "bg-night-900/[0.06] text-night-900/30"}`}>{done ? "✓" : "·"}</span>
               </div>
             );
           })}
@@ -108,7 +122,7 @@ export function ProfileActivity() {
         <p className="mt-2 text-xs text-night-900/50">Chaque jour où tu prends ton temps avec Jésus est marqué d&apos;un ✓.</p>
       </section>
 
-      {/* 2) Tes plans de lecture — lime / olive / crème */}
+      {/* 2) Tes plans — lime / olive / crème */}
       <section>
         <div className="flex items-center justify-between">
           <h3 className="font-display text-lg font-bold">Découvre tes plans</h3>
@@ -119,15 +133,10 @@ export function ProfileActivity() {
           {plans.map((p, i) => {
             const ch = CHARTE[i % CHARTE.length];
             return (
-              <Link
-                key={p.slug}
-                href={`/plans/${p.slug}`}
+              <Link key={p.slug} href={`/plans/${p.slug}`}
                 className="relative flex h-40 w-56 shrink-0 snap-start flex-col justify-end overflow-hidden rounded-3xl p-4"
-                style={{ background: ch.bg, color: ch.text, border: ch.border }}
-              >
-                <span className="absolute right-3 top-3 rounded-full px-2 py-0.5 text-[11px] font-bold" style={{ background: "rgba(0,0,0,0.12)" }}>
-                  {p.days.length} jours
-                </span>
+                style={{ background: ch.bg, color: ch.text, border: ch.border }}>
+                <span className="absolute right-3 top-3 rounded-full px-2 py-0.5 text-[11px] font-bold" style={{ background: "rgba(0,0,0,0.12)" }}>{p.days.length} jours</span>
                 <p className="font-display text-lg font-extrabold leading-tight">{p.title}</p>
                 <p className="mt-0.5 line-clamp-2 text-xs" style={{ color: ch.sub }}>{p.subtitle}</p>
               </Link>
@@ -136,90 +145,84 @@ export function ProfileActivity() {
         </div>
       </section>
 
-      {/* 3) Mes sujets de prière personnels */}
+      {/* 3) Ma to-do list de prière (privée, par catégories) */}
       <section>
-        <div className="flex items-center justify-between">
-          <h3 className="font-display text-lg font-bold">Mes sujets de prière</h3>
-        </div>
-        <p className="mt-1 text-sm text-night-900/55">Tes sujets personnels, rien que pour toi 🙏</p>
-        <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {prayers.map((pr, i) => {
+        <h3 className="font-display text-lg font-bold">Ma to-do list de prière</h3>
+        <p className="mt-1 text-sm text-night-900/55">Tes sujets par catégorie, privés, rien que pour toi 🙏</p>
+
+        <div className="mt-3 space-y-3">
+          {cats.map((cat, i) => {
             const ch = CHARTE[i % CHARTE.length];
             return (
-              <button
-                key={pr.id}
-                type="button"
-                onClick={() => {
-                  setIsNew(false);
-                  setEditing(pr);
-                }}
-                className="flex flex-col items-start rounded-2xl p-3 text-left transition-transform hover:-translate-y-0.5"
-                style={{ background: ch.bg, color: ch.text, border: ch.border }}
-              >
-                <span className="grid h-8 w-8 place-items-center rounded-xl" style={{ background: "rgba(0,0,0,0.12)" }}>
-                  <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.8}>
-                    <path d="M12 3.4c-.6 1.1-1.3 2-2.4 3.1-1.8 1.8-3.4 3.5-3.4 6a5.8 5.8 0 0 0 11.6 0c0-2.5-1.6-4.2-3.4-6C13.3 5.4 12.6 4.5 12 3.4z" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-                <p className="mt-2 font-display text-sm font-extrabold leading-tight">{pr.title}</p>
-                {pr.note ? <p className="mt-0.5 text-[11px]" style={{ color: ch.sub }}>{pr.note}</p> : null}
-              </button>
+              <div key={cat.id} className="overflow-hidden rounded-3xl border border-night-900/10 bg-white">
+                {/* En-tête coloré (charte) */}
+                <div className="flex items-center gap-2 px-4 py-3" style={{ background: ch.bg, color: ch.text, borderBottom: ch.border }}>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate font-display text-base font-extrabold leading-tight">{cat.title}</p>
+                    {cat.note ? <p className="truncate text-xs" style={{ color: ch.sub }}>{cat.note}</p> : null}
+                  </div>
+                  <button type="button" onClick={() => { setIsNew(false); setEditing(cat); }} aria-label="Modifier" className="text-sm opacity-70">✎</button>
+                </div>
+
+                {/* Sujets */}
+                <div className="px-4 py-3">
+                  {cat.items.length === 0 ? (
+                    <p className="text-xs text-night-900/40">Ajoute ton premier sujet de prière.</p>
+                  ) : (
+                    <ul className="space-y-1.5">
+                      {cat.items.map((it) => (
+                        <li key={it.id} className="flex items-center gap-2">
+                          <button type="button" onClick={() => toggleItem(cat.id, it.id)} aria-label="Marquer"
+                            className={`grid h-5 w-5 shrink-0 place-items-center rounded-full border text-[11px] ${it.done ? "border-spirit-600 bg-spirit-600 text-cream" : "border-night-900/25 text-transparent"}`}>✓</button>
+                          <span className={`flex-1 text-sm ${it.done ? "text-night-900/40 line-through" : "text-night-900/85"}`}>{it.text}</span>
+                          <button type="button" onClick={() => delItem(cat.id, it.id)} aria-label="Supprimer" className="text-night-900/25 hover:text-red-500">✕</button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  <form onSubmit={(e) => { e.preventDefault(); addItem(cat.id); }} className="mt-2 flex items-center gap-2">
+                    <input value={drafts[cat.id] ?? ""} onChange={(e) => setDrafts((d) => ({ ...d, [cat.id]: e.target.value }))} placeholder="Ajouter un sujet…" className="field flex-1 py-2 text-sm" />
+                    <button type="submit" className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-spirit-600 text-lg font-bold text-cream">+</button>
+                  </form>
+                </div>
+              </div>
             );
           })}
 
-          {/* Ajouter un sujet */}
-          <button
-            type="button"
-            onClick={() => {
-              setIsNew(true);
-              setEditing({ id: `p-${Date.now()}`, title: "", note: "" });
-            }}
-            className="flex flex-col items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-night-900/20 p-3 text-night-900/50 transition-colors hover:border-spirit-600 hover:text-spirit-700"
-          >
-            <span className="text-2xl leading-none">+</span>
-            <span className="text-xs font-semibold">Ajouter un sujet</span>
+          {/* Ajouter une catégorie */}
+          <button type="button" onClick={() => { setIsNew(true); setEditing({ id: `c-${Date.now()}`, title: "", note: "", items: [] }); }}
+            className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-night-900/20 py-3 text-sm font-semibold text-night-900/55 transition-colors hover:border-spirit-600 hover:text-spirit-700">
+            <span className="text-lg leading-none">+</span> Ajouter une catégorie
           </button>
         </div>
       </section>
 
-      {/* Éditeur de sujet (modal) */}
+      {/* Éditeur de catégorie */}
       {editing ? (
         <div className="fixed inset-0 z-[100] flex items-end justify-center sm:items-center" role="dialog" aria-modal="true">
           <button type="button" aria-label="Fermer" onClick={() => setEditing(null)} className="absolute inset-0 bg-black/40" />
           <div className="relative z-10 m-3 w-full max-w-sm rounded-2xl border border-night-900/10 bg-white p-4 shadow-xl">
-            <p className="mb-3 font-display text-lg font-bold">{isNew ? "Nouveau sujet" : "Modifier le sujet"}</p>
+            <p className="mb-3 font-display text-lg font-bold">{isNew ? "Nouvelle catégorie" : "Modifier la catégorie"}</p>
             <label className="block">
               <span className="text-xs font-semibold text-night-900/55">Titre</span>
-              <input value={editing.title} onChange={(e) => setEditing({ ...editing, title: e.target.value })} placeholder="Ex. Ma famille" className="field mt-1 w-full" />
+              <input value={editing.title} onChange={(e) => setEditing({ ...editing, title: e.target.value })} placeholder="Ex. Mes amis" className="field mt-1 w-full" />
             </label>
             <label className="mt-3 block">
-              <span className="text-xs font-semibold text-night-900/55">Sous-titre (perso)</span>
-              <input value={editing.note} onChange={(e) => setEditing({ ...editing, note: e.target.value })} placeholder="Ex. Pour l'unité et la paix" className="field mt-1 w-full" />
+              <span className="text-xs font-semibold text-night-900/55">Sous-titre</span>
+              <input value={editing.note} onChange={(e) => setEditing({ ...editing, note: e.target.value })} placeholder="Ex. Ceux qui ne connaissent pas Jésus" className="field mt-1 w-full" />
             </label>
             <div className="mt-4 flex flex-wrap gap-2">
-              <button
-                type="button"
+              <button type="button"
                 onClick={() => {
                   if (!editing.title.trim()) return;
-                  const exists = prayers.some((p) => p.id === editing.id);
-                  save(exists ? prayers.map((p) => (p.id === editing.id ? editing : p)) : [...prayers, editing]);
+                  const exists = cats.some((c) => c.id === editing.id);
+                  persist(exists ? cats.map((c) => (c.id === editing.id ? { ...c, title: editing.title, note: editing.note } : c)) : [...cats, editing]);
                   setEditing(null);
                 }}
-                className="btn-primary text-sm"
-              >
-                Enregistrer
-              </button>
+                className="btn-primary text-sm">Enregistrer</button>
               {!isNew ? (
-                <button
-                  type="button"
-                  onClick={() => {
-                    save(prayers.filter((p) => p.id !== editing.id));
-                    setEditing(null);
-                  }}
-                  className="rounded-full border border-night-900/15 px-4 py-2 text-sm font-semibold text-red-600"
-                >
-                  Supprimer
-                </button>
+                <button type="button" onClick={() => { persist(cats.filter((c) => c.id !== editing.id)); setEditing(null); }}
+                  className="rounded-full border border-night-900/15 px-4 py-2 text-sm font-semibold text-red-600">Supprimer</button>
               ) : null}
               <button type="button" onClick={() => setEditing(null)} className="btn-ghost text-sm">Annuler</button>
             </div>
