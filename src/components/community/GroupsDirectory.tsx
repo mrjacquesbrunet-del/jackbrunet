@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/components/community/useAuth";
+import { asset } from "@/lib/asset";
 import { ACCENTS, type AccentKey } from "@/lib/profile-accent";
 import {
   listPublicGroups,
@@ -32,20 +33,21 @@ function DiscoverCard({ g }: { g: Group }) {
     >
       {g.image ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={g.image} alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <img src={asset(g.image)} alt="" className="absolute inset-0 h-full w-full object-cover" />
       ) : null}
-      <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 35%, rgba(0,0,0,0.72))" }} />
-      <span className="absolute right-2 top-2 flex items-center gap-1 rounded-full bg-black/35 px-2 py-0.5 text-[11px] font-bold text-white">
+      <span className="absolute right-2 top-2 z-10 flex items-center gap-1 rounded-full bg-black/35 px-2 py-0.5 text-[11px] font-bold text-white">
         <svg viewBox="0 0 24 24" className="h-3 w-3 fill-none stroke-current" strokeWidth={2}>
           <path d="M17 20v-1a4 4 0 0 0-3-3.9M7 20v-1a4 4 0 0 1 3-3.9M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6" strokeLinecap="round" />
         </svg>
         {g.member_count ?? 0}
       </span>
-      <div className="absolute inset-x-0 bottom-0 p-3">
-        <p className="font-display text-base font-extrabold leading-tight text-white">{g.name}</p>
-        <p className="mt-0.5 line-clamp-2 text-[11px] text-white/80">
-          {g.description || g.verse_reference || "Groupe de prière"}
-        </p>
+      {/* Bandeau olive: « GROUPE » en lime + nom en crème */}
+      <div
+        className="absolute inset-x-0 bottom-0 px-3 pb-3 pt-8"
+        style={{ background: "linear-gradient(180deg, transparent, #1F2216 55%)" }}
+      >
+        <span className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-dawn-400">Groupe</span>
+        <p className="font-display text-base font-extrabold leading-tight text-cream">{g.name}</p>
       </div>
     </Link>
   );
@@ -62,7 +64,7 @@ function MyGroupCard({ g }: { g: Group }) {
       {g.image ? (
         <>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={g.image} alt="" className="absolute inset-0 h-full w-full object-cover" />
+          <img src={asset(g.image)} alt="" className="absolute inset-0 h-full w-full object-cover" />
           <div className="absolute inset-0 bg-black/35" />
         </>
       ) : null}
