@@ -225,3 +225,31 @@ html.app-native main > section:first-child {
   scroll-margin-top: 0;
 }
 
+
+/* ===== Curseur de don (DonateScreen) ===== */
+.jb-donate-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  border-radius: 9999px;
+  outline: none;
+  cursor: pointer;
+}
+.jb-donate-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 9999px;
+  background: #ffffff;
+  border: 3px solid rgba(233, 196, 92, 0.9);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+.jb-donate-range::-moz-range-thumb {
+  width: 26px;
+  height: 26px;
+  border-radius: 9999px;
+  background: #ffffff;
+  border: 3px solid rgba(233, 196, 92, 0.9);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
