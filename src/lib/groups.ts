@@ -64,6 +64,14 @@ export type GroupMessage = {
   author?: MiniProfile;
 };
 
+/** Post enrichi (nom du groupe + compteurs) pour le feed agrégé du répertoire. */
+export type FeedPost = GroupPost & {
+  group_name: string;
+  group_accent: AccentKey;
+  reaction_count: number;
+  comment_count: number;
+};
+
 export const GROUP_REACTIONS = ["🙏", "❤️", "👍", "🔥", "🙌", "🕊️"];
 export const KIND_LABEL: Record<GroupPost["kind"], string> = {
   post: "Message",
@@ -358,6 +366,45 @@ export async function toggleReaction(
     .from("group_reactions")
     .insert({ post_id: postId, group_id: groupId, user_id: userId, emoji });
   return !error;
+}
+
+/** Feed agrégé: derniers posts de tous mes groupes (pour le répertoire). */
+export async function listMyGroupsFeed(userId: string): Promise<FeedPost[]> {
+  const sb = getSupabase();
+  if (!sb || !userId) return [];
+  const { data: mem } = await sb
+    .from("group_members")
+    .select("group_id")
+    .eq("user_id", userId)
+    .eq("status", "approved");
+  const gids = (mem ?? []).map((r) => (r as { group_id: string }).group_id);
+  if (gids.length === 0) return [];
+  const { data: posts } = await sb
+    .from("group_posts")
+    .select("*")
+    .in("group_id", gids)
+    .order("created_at", { ascending: false })
+    .limit(30);
+  const ps = (posts ?? []) as GroupPost[];
+  if (ps.length === 0) return [];
+  const { data: gs } = await sb.from("groups").select("id, name, accent").in("id", gids);
+  const gmap: Record<string, { name: string; accent: AccentKey }> = {};
+  for (const g of (gs ?? []) as { id: string; name: string; accent: AccentKey }[]) {
+    gmap[g.id] = { name: g.name, accent: g.accent };
+  }
+  const profs = await profilesByIds(ps.map((p) => p.author_id));
+  const reacts = await reactionsFor(ps.map((p) => p.id));
+  const rc: Record<string, number> = {};
+  for (const r of reacts) rc[r.post_id] = (rc[r.post_id] ?? 0) + 1;
+  const cc = await commentCounts(ps.map((p) => p.id));
+  return ps.map((p) => ({
+    ...p,
+    author: profs[p.author_id],
+    group_name: gmap[p.group_id]?.name ?? "",
+    group_accent: gmap[p.group_id]?.accent ?? "lime",
+    reaction_count: rc[p.id] ?? 0,
+    comment_count: cc[p.id] ?? 0,
+  }));
 }
 
 // ---------- Chat ----------

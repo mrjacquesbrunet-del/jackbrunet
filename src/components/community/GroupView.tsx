@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useAuth, initials } from "@/components/community/useAuth";
 import { searchProfiles, type Profile } from "@/lib/community";
+import { RichText } from "@/components/community/RichText";
 import { ACCENTS, type AccentKey } from "@/lib/profile-accent";
 import { asset } from "@/lib/asset";
 import {
@@ -342,7 +343,7 @@ function Feed({ group, userId, isAdmin }: { group: Group; userId: string; isAdmi
           value={body}
           onChange={(e) => setBody(e.target.value)}
           rows={3}
-          placeholder="Partage un plan, une percée, un sujet de prière…"
+          placeholder="Partage un plan, une percée, un sujet de prière… (colle un lien, il sera cliquable)"
           className={fieldDark}
         />
         <div className="mt-2 flex justify-end">
@@ -396,7 +397,7 @@ function Feed({ group, userId, isAdmin }: { group: Group; userId: string; isAdmi
                   ) : null}
                 </div>
 
-                <p className="mt-3 whitespace-pre-wrap text-[15px] leading-relaxed text-cream/90">{p.body}</p>
+                <RichText text={p.body} className="mt-3 text-[15px] leading-relaxed text-cream/90" />
 
                 <div className="mt-3 flex flex-wrap items-center gap-1.5">
                   {GROUP_REACTIONS.map((e) => {
