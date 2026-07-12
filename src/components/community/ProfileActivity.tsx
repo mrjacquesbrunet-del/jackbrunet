@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useEngagement } from "@/lib/engagement";
 import { getThemePlans } from "@/lib/content";
+import { useAllPlanProgress } from "@/lib/plan-progress";
+import type { ThemePlan } from "@/lib/types";
 
 /** Date locale YYYY-MM-DD. */
 function dayStr(d: Date): string {
@@ -47,9 +49,61 @@ function loadCats(): Category[] {
   }
 }
 
+/** Carte de plan (charte: olive foncé / crème + accent lime), avec progression. */
+function PlanCard({ plan, done, total, dark }: { plan: ThemePlan; done: number; total: number; dark: boolean }) {
+  const pct = total ? Math.round((done / total) * 100) : 0;
+  const started = done > 0;
+  const finished = total > 0 && done >= total;
+  const accent = dark ? "#CAF000" : "#3A3F28";
+  const sub = dark ? "rgba(243,243,237,0.72)" : "rgba(31,34,22,0.6)";
+  return (
+    <Link
+      href={`/plans/${plan.slug}`}
+      className="block rounded-3xl p-5"
+      style={
+        dark
+          ? { background: "linear-gradient(150deg,#3A3F28,#1F2216)", color: "#F3F3ED" }
+          : { background: "#FFFFFF", color: "#1F2216", border: "1px solid rgba(31,34,22,0.08)" }
+      }
+    >
+      <div className="flex items-center justify-between">
+        <span
+          className="rounded-full px-2.5 py-0.5 text-[11px] font-extrabold uppercase tracking-wider"
+          style={{ background: dark ? "rgba(202,240,0,0.15)" : "rgba(58,63,40,0.1)", color: accent }}
+        >
+          {total} jours
+        </span>
+        {started ? (
+          <span className="text-xs font-extrabold" style={{ color: accent }}>
+            {finished ? "Terminé ✓" : `${pct}%`}
+          </span>
+        ) : null}
+      </div>
+      <p className="mt-3 font-display text-2xl font-extrabold leading-tight">{plan.title}</p>
+      <p className="mt-1 text-sm" style={{ color: sub }}>{plan.subtitle}</p>
+      {started ? (
+        <div className="mt-3 h-2 w-full overflow-hidden rounded-full" style={{ background: dark ? "rgba(255,255,255,0.12)" : "rgba(31,34,22,0.08)" }}>
+          <div className="h-full rounded-full" style={{ width: `${pct}%`, background: accent }} />
+        </div>
+      ) : null}
+      <p className="mt-3 text-sm font-bold" style={{ color: accent }}>
+        {finished ? "Revoir →" : started ? "Continuer →" : "Commencer →"}
+      </p>
+    </Link>
+  );
+}
+
 export function ProfileActivity() {
   const eng = useEngagement();
-  const plans = getThemePlans().slice(0, 3);
+  const progress = useAllPlanProgress();
+  const allPlans = getThemePlans();
+  const pInfo = (p: ThemePlan) => {
+    const total = p.days.length;
+    const done = (progress[p.slug] ?? []).length;
+    return { total, done, pct: total ? Math.round((done / total) * 100) : 0 };
+  };
+  const startedPlans = allPlans.filter((p) => pInfo(p).done > 0);
+  const recoPlans = allPlans.filter((p) => pInfo(p).done === 0);
 
   const [cats, setCats] = useState<Category[]>(DEFAULT_CATS);
   const [drafts, setDrafts] = useState<Record<string, string>>({});
@@ -122,26 +176,32 @@ export function ProfileActivity() {
         <p className="mt-2 text-xs text-night-900/50">Chaque jour où tu prends ton temps avec Jésus est marqué d&apos;un ✓.</p>
       </section>
 
-      {/* 2) Tes plans — lime / olive / crème */}
+      {/* 2) Plans: en cours (avec %) puis recommandés — charte olive/crème + lime */}
       <section>
-        <div className="flex items-center justify-between">
-          <h3 className="font-display text-lg font-bold">Découvre tes plans</h3>
-          <Link href="/plans" className="text-sm font-semibold text-spirit-700">Voir tout →</Link>
-        </div>
-        <p className="mt-1 text-sm text-night-900/55">De nouveaux plans de lecture, selon ce que tu traverses.</p>
-        <div className="no-scrollbar mt-3 flex snap-x gap-3 overflow-x-auto pb-1">
-          {plans.map((p, i) => {
-            const ch = CHARTE[i % CHARTE.length];
-            return (
-              <Link key={p.slug} href={`/plans/${p.slug}`}
-                className="relative flex h-40 w-56 shrink-0 snap-start flex-col justify-end overflow-hidden rounded-3xl p-4"
-                style={{ background: ch.bg, color: ch.text, border: ch.border }}>
-                <span className="absolute right-3 top-3 rounded-full px-2 py-0.5 text-[11px] font-bold" style={{ background: "rgba(0,0,0,0.12)" }}>{p.days.length} jours</span>
-                <p className="font-display text-lg font-extrabold leading-tight">{p.title}</p>
-                <p className="mt-0.5 line-clamp-2 text-xs" style={{ color: ch.sub }}>{p.subtitle}</p>
-              </Link>
-            );
-          })}
+        {startedPlans.length ? (
+          <div>
+            <h3 className="font-display text-lg font-bold">Mes plans en cours</h3>
+            <div className="mt-3 space-y-3">
+              {startedPlans.map((p, i) => {
+                const { done, total } = pInfo(p);
+                return <PlanCard key={p.slug} plan={p} done={done} total={total} dark={i % 2 === 0} />;
+              })}
+            </div>
+          </div>
+        ) : null}
+
+        <div className={startedPlans.length ? "mt-6" : ""}>
+          <div className="flex items-center justify-between">
+            <h3 className="font-display text-lg font-bold">Plans recommandés</h3>
+            <Link href="/plans" className="text-sm font-semibold text-spirit-700">Voir tout →</Link>
+          </div>
+          <p className="mt-1 text-sm text-night-900/55">De nouveaux plans, selon ce que tu traverses.</p>
+          <div className="mt-3 space-y-3">
+            {recoPlans.map((p, i) => {
+              const { done, total } = pInfo(p);
+              return <PlanCard key={p.slug} plan={p} done={done} total={total} dark={(startedPlans.length + i) % 2 === 0} />;
+            })}
+          </div>
         </div>
       </section>
 

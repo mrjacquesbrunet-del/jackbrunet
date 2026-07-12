@@ -792,9 +792,14 @@ function GroupSettings({ group, onSaved }: { group: Group; onSaved: () => void }
         ⚙
       </button>
       {open ? (
-        <div className="fixed inset-0 z-[100] flex items-end justify-center sm:items-center" role="dialog" aria-modal="true">
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+          style={{ paddingTop: "calc(env(safe-area-inset-top) + 1rem)", paddingBottom: "calc(env(safe-area-inset-bottom) + 1rem)" }}
+          role="dialog"
+          aria-modal="true"
+        >
           <button type="button" aria-label="Fermer" onClick={() => setOpen(false)} className="absolute inset-0 bg-black/50" />
-          <div className="relative z-10 m-3 max-h-[85vh] w-full max-w-sm overflow-y-auto rounded-2xl border border-white/10 bg-[#1F2216] p-4 text-cream shadow-xl">
+          <div className="relative z-10 max-h-full w-full max-w-sm overflow-y-auto rounded-2xl border border-white/10 bg-[#1F2216] p-4 text-cream shadow-xl">
             <p className="mb-3 font-display text-lg font-bold">Réglages du groupe</p>
             <div className="space-y-3">
               {/* Photo de couverture */}
