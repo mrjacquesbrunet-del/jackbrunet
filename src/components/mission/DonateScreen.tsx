@@ -350,6 +350,19 @@ export function DonateScreen() {
           </svg>
           Je soutiens la mission
         </button>
+
+        {/* Vers la page Mission Madagascar */}
+        <Link
+          href="/mission-madagascar"
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border py-3.5 font-display text-base font-bold transition-colors"
+          style={{ borderColor: "rgba(202,240,0,0.45)", color: C.lime }}
+        >
+          <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.8}>
+            <path d="M12 21s-6-5.2-6-10a6 6 0 0 1 12 0c0 4.8-6 10-6 10z" strokeLinecap="round" strokeLinejoin="round" />
+            <circle cx="12" cy="11" r="2.2" />
+          </svg>
+          Mission Madagascar
+        </Link>
       </motion.main>
     </div>
   );
