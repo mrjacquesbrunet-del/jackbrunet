@@ -32,14 +32,18 @@ returns boolean language sql security definer stable set search_path = public as
 $$;
 grant execute on function public.is_moderator() to authenticated, anon;
 
--- 4) Admin : nommer / retirer un modérateur
+-- 4) Admin : nommer / retirer un modérateur.
+--    Un modérateur est aussi « certifié » (sceau lime), comme l'admin.
 create or replace function public.set_moderator(p_user_id uuid, p_on boolean)
 returns void language plpgsql security definer set search_path = public as $$
 begin
   if not public.is_admin() then
     raise exception 'Réservé à l''administrateur';
   end if;
-  update public.profiles set is_moderator = coalesce(p_on, false) where id = p_user_id;
+  update public.profiles
+    set is_moderator = coalesce(p_on, false),
+        verified = coalesce(p_on, false)
+    where id = p_user_id;
 end; $$;
 grant execute on function public.set_moderator(uuid, boolean) to authenticated;
 

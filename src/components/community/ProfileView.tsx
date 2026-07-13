@@ -29,6 +29,7 @@ import { NotificationsBell } from "@/components/community/NotificationsBell";
 import { MessagesButton } from "@/components/community/MessagesButton";
 import { DeleteAccountButton } from "@/components/community/DeleteAccountButton";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
+import { ModeratorBadge } from "@/components/community/ModeratorBadge";
 import { FollowList } from "@/components/community/FollowList";
 import { ProfileBanners } from "@/components/community/ProfileBanners";
 import { useEngagement } from "@/lib/engagement";
@@ -104,6 +105,7 @@ function Profile({
     bio?: string | null;
     favorite_verses?: FavoriteVerse[];
     verified?: boolean | null;
+    is_moderator?: boolean | null;
   } | null;
   refreshProfile: () => void;
 }) {
@@ -354,6 +356,7 @@ function Profile({
             <span className="inline-flex items-center gap-1 rounded-full bg-dawn-400/20 px-2.5 py-0.5 text-[11px] font-bold text-dawn-200">
               {gradeFor(activity).grade.name}
             </span>
+            {profile?.is_moderator? <ModeratorBadge /> : null}
           </div>
           {profile?.bio? (
             <p className="mt-1.5 whitespace-pre-wrap text-sm leading-relaxed text-cream/80">

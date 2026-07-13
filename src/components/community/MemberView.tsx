@@ -7,6 +7,7 @@ import { isSupabaseConfigured } from "@/lib/supabase";
 import { useAuth } from "@/components/community/useAuth";
 import { Avatar } from "@/components/community/Avatar";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
+import { ModeratorBadge } from "@/components/community/ModeratorBadge";
 import {
   getProfile,
   getProfileByPseudo,
@@ -89,7 +90,8 @@ export function MemberView() {
     setBusy(true);
     const ok = await setModerator(memberId, next);
     setBusy(false);
-    if (ok) setProfile({...profile, is_moderator: next });
+    // Modérateur = aussi certifié (sceau lime), comme l'admin.
+    if (ok) setProfile({...profile, is_moderator: next, verified: next });
   }
 
   if (!isSupabaseConfigured) {
@@ -177,13 +179,9 @@ export function MemberView() {
           <div className="flex flex-wrap items-center gap-2">
             <h2 className="flex items-center gap-1.5 font-display text-xl font-extrabold leading-tight text-cream">
               {profile.pseudo}
-              {profile.verified? <VerifiedBadge className="h-5 w-5" />: null}
+              {profile.verified || profile.is_moderator? <VerifiedBadge className="h-5 w-5" />: null}
             </h2>
-            {profile.is_moderator? (
-              <span className="inline-flex items-center gap-1 rounded-full bg-spirit-600/25 px-2.5 py-0.5 text-[11px] font-bold text-dawn-200">
-                🛡️ Modérateur
-              </span>
-            ): null}
+            {profile.is_moderator? <ModeratorBadge /> : null}
             {g? (
               <span className="inline-flex items-center gap-1 rounded-full bg-dawn-400/20 px-2.5 py-0.5 text-[11px] font-bold text-dawn-200">
                 {g.grade.name}
