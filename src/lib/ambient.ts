@@ -39,6 +39,10 @@ try {
 
 let voiceActive = false; // vrai quand la voix de l'appareil (TTS) lit
 let audio: HTMLAudioElement | null = null;
+// iOS ignore HTMLAudioElement.volume: le seul moyen fiable de régler le volume
+// est de passer par le Web Audio API (AudioContext + GainNode).
+let actx: AudioContext | null = null;
+let gain: GainNode | null = null;
 const listeners = new Set<() => void>();
 let snapshot = { enabled, volume };
 
@@ -51,11 +55,36 @@ function ensure(): HTMLAudioElement | null {
   if (audio || typeof window === "undefined") return audio;
   const url = ambientUrl();
   if (!url) return null;
-  audio = new Audio(url);
-  audio.loop = true; // se répète à l'infini
-  audio.preload = "auto";
-  audio.volume = volume;
+  const a = new Audio();
+  // crossOrigin AVANT src: nécessaire pour router un média distant (bucket
+  // Supabase, CORS ouvert) dans le Web Audio sans le « teinter ».
+  a.crossOrigin = "anonymous";
+  a.src = url;
+  a.loop = true; // se répète à l'infini
+  a.preload = "auto";
+  a.volume = volume; // repli (ignoré sur iOS, géré par le GainNode)
+  audio = a;
   return audio;
+}
+
+/** Branche le fond musical sur un GainNode (volume réglable, iOS compris). */
+function ensureGain() {
+  if (gain || !audio || typeof window === "undefined") return;
+  const AC =
+    window.AudioContext ||
+    (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+  if (!AC) return;
+  try {
+    actx = new AC();
+    const src = actx.createMediaElementSource(audio);
+    gain = actx.createGain();
+    gain.gain.value = volume;
+    src.connect(gain).connect(actx.destination);
+  } catch {
+    // Web Audio indisponible: on garde le repli .volume (desktop/Android).
+    actx = null;
+    gain = null;
+  }
 }
 
 /** Règle le volume du fond musical (persistant, appliqué en direct). */
@@ -66,7 +95,8 @@ export function setAmbientVolume(v: number) {
   } catch {
     /* ignore */
   }
-  if (audio) audio.volume = volume;
+  if (gain) gain.gain.value = volume;
+  else if (audio) audio.volume = volume;
   emit();
 }
 
@@ -82,6 +112,8 @@ function update() {
   const a = ensure();
   if (!a) return;
   if (shouldPlay()) {
+    ensureGain();
+    if (actx && actx.state === "suspended") actx.resume().catch(() => undefined);
     if (a.paused) a.play().catch(() => undefined);
   } else if (!a.paused) {
     a.pause();
@@ -105,6 +137,12 @@ export async function uploadAmbientBed(file: File): Promise<boolean> {
   if (audio) {
     audio.pause();
     audio = null;
+  }
+  // Un nouveau média nécessite un nouveau graphe Web Audio.
+  if (actx) {
+    actx.close().catch(() => undefined);
+    actx = null;
+    gain = null;
   }
   return!error;
 }
@@ -134,7 +172,10 @@ export function setAmbientEnabled(on: boolean) {
 export function ambientKick() {
   if (!enabled) return;
   const a = ensure();
-  if (a && a.paused && shouldPlay()) a.play().catch(() => undefined);
+  if (!a) return;
+  ensureGain();
+  if (actx && actx.state === "suspended") actx.resume().catch(() => undefined);
+  if (a.paused && shouldPlay()) a.play().catch(() => undefined);
 }
 
 function subscribe(cb: () => void) {
