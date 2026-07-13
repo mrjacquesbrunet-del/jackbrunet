@@ -11,18 +11,18 @@ const config: CapacitorConfig = {
   appId: "com.jackbrunet.app",
   appName: "Jack Brunet",
   webDir: "out",
-  backgroundColor: "#070512",
+  backgroundColor: "#292E21",
   ios: {
-    backgroundColor: "#070512",
+    backgroundColor: "#292E21",
     contentInset: "always",
   },
   android: {
-    backgroundColor: "#070512",
+    backgroundColor: "#292E21",
   },
   plugins: {
     SplashScreen: {
       launchShowDuration: 800,
-      backgroundColor: "#070512",
+      backgroundColor: "#292E21",
       showSpinner: false,
       androidScaleType: "CENTER_CROP",
     },
