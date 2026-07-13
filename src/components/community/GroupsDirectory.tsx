@@ -10,9 +10,10 @@ import {
   listMyGroups,
   createGroup,
   joinByCode,
-  sendContactMessage,
   type Group,
 } from "@/lib/groups";
+import { getActiveAnnouncement, type Announcement } from "@/lib/announcements";
+import { openExternal } from "@/lib/external";
 
 const HEADER_BG = "#14160E";
 const fieldDark =
@@ -74,70 +75,82 @@ function MyGroupCard({ g }: { g: Group }) {
   );
 }
 
-function ContactBox({ userId }: { userId: string | null }) {
-  const [kind, setKind] = useState<"temoignage" | "contact">("temoignage");
-  const [first, setFirst] = useState("");
-  const [last, setLast] = useState("");
-  const [body, setBody] = useState("");
-  const [busy, setBusy] = useState(false);
-  const [done, setDone] = useState(false);
+const PASTOR_EMAIL = "contact@jackbrunet.com";
+
+/** Écrire au Pasteur (ouvre l'app e-mail) + actualités / prochain live. */
+function ContactBox() {
+  const [ann, setAnn] = useState<Announcement | null>(null);
+  useEffect(() => {
+    getActiveAnnouncement().then(setAnn);
+  }, []);
+
+  const mailto = `mailto:${PASTOR_EMAIL}?subject=${encodeURIComponent("Message pour le Pasteur Jack")}`;
 
   return (
-    <section className="mt-8 rounded-3xl bg-night-900 p-5 text-cream">
-      <p className="font-display text-xl font-extrabold">Ton témoignage · Contacter le Pasteur</p>
-      <p className="mt-1 text-sm text-cream/70">
-        Dépose ton témoignage, ou écris au Pasteur Jack et son équipe. On te lit 🙏
-      </p>
-      {done ? (
-        <p className="mt-4 rounded-2xl bg-dawn-400/15 p-4 font-semibold text-dawn-300">
-          ✓ Merci, ton message a bien été envoyé.
+    <>
+      {/* Écrire au Pasteur Jack (ouvre la boîte mail) */}
+      <section className="mt-8 rounded-3xl bg-night-900 p-5 text-cream">
+        <p className="font-display text-xl font-extrabold">Un message pour le Pasteur Jack ?</p>
+        <p className="mt-1 text-sm text-cream/70">
+          Écris-lui directement : ça ouvre ton application e-mail, ton message part à {PASTOR_EMAIL}.
         </p>
-      ) : (
-        <form
-          onSubmit={async (e) => {
-            e.preventDefault();
-            if (!body.trim()) return;
-            setBusy(true);
-            const ok = await sendContactMessage({ firstName: first, lastName: last, body, kind, userId });
-            setBusy(false);
-            if (ok) setDone(true);
-          }}
-          className="mt-4 space-y-2.5"
+        <a
+          href={mailto}
+          className="mt-4 inline-flex items-center gap-2 rounded-full bg-dawn-400 px-5 py-3 text-sm font-bold text-night-950"
         >
-          <div className="flex gap-2 rounded-2xl bg-white/[0.06] p-1">
-            {[
-              { k: "temoignage" as const, label: "Témoignage" },
-              { k: "contact" as const, label: "Contacter" },
-            ].map((o) => (
-              <button
-                key={o.k}
-                type="button"
-                onClick={() => setKind(o.k)}
-                className={`flex-1 rounded-xl py-2 text-sm font-bold transition-colors ${
-                  kind === o.k ? "bg-dawn-400 text-night-950" : "text-cream/60"
-                }`}
-              >
-                {o.label}
-              </button>
-            ))}
-          </div>
-          <div className="grid grid-cols-2 gap-2.5">
-            <input value={first} onChange={(e) => setFirst(e.target.value)} placeholder="Prénom" className={fieldDark} />
-            <input value={last} onChange={(e) => setLast(e.target.value)} placeholder="Nom" className={fieldDark} />
-          </div>
-          <textarea
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-            rows={4}
-            placeholder={kind === "temoignage" ? "Raconte ce que Dieu a fait…" : "Ton message au Pasteur et son équipe…"}
-            className={fieldDark}
-          />
-          <button type="submit" disabled={busy} className="btn-primary text-sm">
-            {busy ? "Envoi…" : "Envoyer"}
-          </button>
-        </form>
-      )}
-    </section>
+          <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
+            <path d="M4 6h16v12H4zM4 7l8 6 8-6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          Envoyer un message au Pasteur Jack
+        </a>
+      </section>
+
+      {/* Mes annonces d'actualité (prochain live…) */}
+      <section className="mt-4">
+        <h2 className="font-display text-xl font-extrabold text-night-900">Actualités</h2>
+        {ann ? (
+          <AnnouncementCard ann={ann} />
+        ) : (
+          <p className="mt-2 text-sm text-night-900/55">Aucune annonce pour le moment.</p>
+        )}
+      </section>
+    </>
+  );
+}
+
+/** Carte d'annonce (ex. « Prochain live » + date). Cliquable si un lien existe. */
+function AnnouncementCard({ ann }: { ann: Announcement }) {
+  const inner = (
+    <div className="mt-3 flex items-center gap-4 rounded-3xl border border-dawn-400/40 bg-gradient-to-br from-spirit-700 to-night-900 p-5 text-cream">
+      <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950">
+        <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current" strokeWidth={1.8}>
+          <path d="M8 5v14l11-7z" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </span>
+      <div className="min-w-0 flex-1">
+        <p className="font-display text-lg font-extrabold leading-tight">{ann.title}</p>
+        {ann.body ? <p className="mt-0.5 text-sm text-cream/80">{ann.body}</p> : null}
+      </div>
+      {ann.link ? <span className="shrink-0 text-2xl text-dawn-300">→</span> : null}
+    </div>
+  );
+
+  if (!ann.link) return inner;
+  if (ann.link.startsWith("/")) {
+    return (
+      <Link href={ann.link} className="block transition-transform active:scale-[0.99]">
+        {inner}
+      </Link>
+    );
+  }
+  return (
+    <button
+      type="button"
+      onClick={() => openExternal(ann.link!)}
+      className="block w-full text-left transition-transform active:scale-[0.99]"
+    >
+      {inner}
+    </button>
   );
 }
 
@@ -341,8 +354,8 @@ export function GroupsDirectory() {
             </div>
           ) : null}
 
-          {/* Témoignage / contact pasteur */}
-          <ContactBox userId={userId} />
+          {/* Écrire au pasteur + actualités (prochain live) */}
+          <ContactBox />
         </div>
       </div>
     </div>
