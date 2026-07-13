@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/widget_bg"
+    android:padding="16dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="VERSET DU JOUR"
+        android:textColor="#CAF000"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.12" />
+    <TextView
+        android:id="@+id/widget_verse_text"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp"
+        android:text="« Ta parole est une lampe à mes pieds. »"
+        android:textColor="#F3F3ED"
+        android:textSize="15sp"
+        android:maxLines="5"
+        android:ellipsize="end" />
+    <TextView
+        android:id="@+id/widget_verse_ref"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="Psaume 119.105"
+        android:textColor="#CAF000"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+</LinearLayout>
