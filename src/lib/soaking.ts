@@ -2,7 +2,7 @@
 
 import { useSyncExternalStore } from "react";
 import musicData from "../../content/music.json";
-import { asset } from "./asset";
+import { mediaUrl } from "./asset";
 
 /**
  * Lecteur « soaking »: musique de fond pour le temps de méditation.
@@ -77,7 +77,9 @@ function startAmbient() {
 }
 
 function startTrack() {
-  audioEl = new Audio(asset(tracks[0].src));
+  // mediaUrl (et non asset): le fichier est servi par le site (jackbrunet.com),
+  // car les gros médias audio sont retirés du bundle OTA pour l'alléger.
+  audioEl = new Audio(mediaUrl(tracks[0].src));
   audioEl.loop = true;
   audioEl.volume = 0.6;
   void audioEl.play().catch(() => undefined);
