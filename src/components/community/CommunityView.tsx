@@ -33,8 +33,9 @@ import {
 } from "@/lib/community";
 
 export function CommunityView() {
-  const { ready, userId, email, profile, refreshProfile } = useAuth();
-  const admin = isAdminEmail(email);
+  const { ready, userId, email, profile, isModerator, refreshProfile } = useAuth();
+  // Admin OU modérateur: peut supprimer les sujets/commentaires du mur de prière.
+  const admin = isAdminEmail(email) || isModerator;
 
   if (!isSupabaseConfigured) {
     return (

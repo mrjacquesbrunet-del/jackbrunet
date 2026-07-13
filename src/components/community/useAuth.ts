@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { getSupabase } from "@/lib/supabase";
-import { getProfile, type Profile } from "@/lib/community";
+import { getProfile, isAdminEmail, type Profile } from "@/lib/community";
 import { submitToBrevo } from "@/lib/brevo";
 import { newsletterEndpointForSource } from "@/config/brevo";
 import { linkOneSignalUser, unlinkOneSignalUser } from "@/lib/onesignal";
@@ -93,7 +93,11 @@ export function useAuth() {
     }
   }, [userId]);
 
-  return { ready, userId, email, profile, refreshProfile: () => refreshProfile(userId) };
+  const isAdmin = isAdminEmail(email);
+  // Modérateur global: admin, ou profil marqué is_moderator par l'admin.
+  const isModerator = isAdmin || !!profile?.is_moderator;
+
+  return { ready, userId, email, profile, isAdmin, isModerator, refreshProfile: () => refreshProfile(userId) };
 }
 
 export function initials(name?: string | null) {

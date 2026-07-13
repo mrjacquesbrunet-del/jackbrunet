@@ -11,6 +11,7 @@ export type Profile = {
   bio?: string | null;
   favorite_verses?: FavoriteVerse[];
   verified?: boolean | null;
+  is_moderator?: boolean | null;
 };
 export type Visibility = "public" | "friends" | "private";
 export type Prayer = {
@@ -160,10 +161,18 @@ export async function getProfile(id: string): Promise<Profile | null> {
   if (!sb) return null;
   const { data } = await sb
 .from("profiles")
-.select("id,pseudo,avatar_url,bio,favorite_verses,verified")
+.select("id,pseudo,avatar_url,bio,favorite_verses,verified,is_moderator")
 .eq("id", id)
 .single();
   return (data as Profile)?? null;
+}
+
+/** Admin: nommer (ou retirer) un modérateur. La RLS impose l'admin côté serveur. */
+export async function setModerator(userId: string, on: boolean): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  const { error } = await sb.rpc("set_moderator", { p_user_id: userId, p_on: on });
+  return !error;
 }
 
 export async function updateProfile(id: string, patch: Partial<Profile>) {

@@ -351,6 +351,14 @@ export async function listComments(postId: string): Promise<GroupComment[]> {
   return rows.map((r) => ({ ...r, author: profs[r.author_id] }));
 }
 
+/** Supprime un commentaire (auteur, admin du groupe ou modérateur — RLS). */
+export async function deleteComment(commentId: string): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  const { error } = await sb.from("group_comments").delete().eq("id", commentId);
+  return !error;
+}
+
 export async function commentCounts(postIds: string[]): Promise<Record<string, number>> {
   const sb = getSupabase();
   const uniq = Array.from(new Set(postIds)).filter(Boolean);

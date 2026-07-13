@@ -16,6 +16,7 @@ import {
   followCounts,
   getActivity,
   listPrayersByAuthor,
+  setModerator,
   type Profile,
   type Prayer,
 } from "@/lib/community";
@@ -25,7 +26,7 @@ export function MemberView() {
   const params = useSearchParams();
   const paramId = params.get("u");
   const paramPseudo = params.get("pseudo");
-  const { ready, userId } = useAuth();
+  const { ready, userId, isAdmin } = useAuth();
 
   const [memberId, setMemberId] = useState<string | null>(paramId);
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -80,6 +81,15 @@ export function MemberView() {
     if (next) await follow(memberId, userId);
     else await unfollow(memberId, userId);
     setBusy(false);
+  }
+
+  async function toggleModerator() {
+    if (!memberId ||!profile) return;
+    const next =!profile.is_moderator;
+    setBusy(true);
+    const ok = await setModerator(memberId, next);
+    setBusy(false);
+    if (ok) setProfile({...profile, is_moderator: next });
   }
 
   if (!isSupabaseConfigured) {
@@ -169,6 +179,11 @@ export function MemberView() {
               {profile.pseudo}
               {profile.verified? <VerifiedBadge className="h-5 w-5" />: null}
             </h2>
+            {profile.is_moderator? (
+              <span className="inline-flex items-center gap-1 rounded-full bg-spirit-600/25 px-2.5 py-0.5 text-[11px] font-bold text-dawn-200">
+                🛡️ Modérateur
+              </span>
+            ): null}
             {g? (
               <span className="inline-flex items-center gap-1 rounded-full bg-dawn-400/20 px-2.5 py-0.5 text-[11px] font-bold text-dawn-200">
                 {g.grade.name}
@@ -233,6 +248,22 @@ export function MemberView() {
             </Link>
           )}
         </div>
+
+        {/* Admin : nommer / retirer un modérateur, en un clic */}
+        {isAdmin &&!isMe? (
+          <button
+            type="button"
+            onClick={toggleModerator}
+            disabled={busy}
+            className={`mt-3 flex w-full items-center justify-center gap-2 rounded-full py-2.5 text-center text-sm font-bold transition-colors disabled:opacity-60 ${
+              profile.is_moderator
+? "border border-red-400/40 text-red-300 hover:bg-red-500/10"
+: "bg-spirit-600 text-cream hover:bg-spirit-500"
+            }`}
+          >
+            🛡️ {profile.is_moderator? "Retirer le rôle de modérateur": "Nommer modérateur/modératrice"}
+          </button>
+        ): null}
       </div>
 
       {/* Son feed: ses sujets de prière */}

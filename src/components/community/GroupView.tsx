@@ -28,6 +28,7 @@ import {
   listComments,
   commentCounts,
   addComment,
+  deleteComment,
   reactionsFor,
   toggleReaction,
   listMessages,
@@ -73,7 +74,7 @@ type Tab = "feed" | "chat" | "membres";
 export function GroupView() {
   const params = useSearchParams();
   const gid = params.get("g") ?? "";
-  const { ready, userId } = useAuth();
+  const { ready, userId, isModerator } = useAuth();
 
   const [group, setGroup] = useState<Group | null>(null);
   const [membership, setMembership] = useState<{ role: GroupRole; status: GroupStatus } | null>(null);
@@ -114,6 +115,8 @@ export function GroupView() {
   const isInvited = membership?.status === "invited";
   const isAdmin = membership?.role === "owner" || membership?.role === "admin";
   const isOwner = membership?.role === "owner" || group.owner_id === userId;
+  // Peut modérer (supprimer posts/commentaires): admin du groupe OU modérateur global.
+  const canModerate = isAdmin || isModerator;
 
   return (
     <section className="relative pb-28 text-cream" style={{ background: BG, minHeight: "100vh" }}>
@@ -196,10 +199,12 @@ export function GroupView() {
                   {t.label}
                 </button>
               ))}
-              {isAdmin ? <GroupSettings group={group} isOwner={isOwner} onSaved={reload} /> : null}
+              {isAdmin || isModerator ? (
+                <GroupSettings group={group} canEdit={isAdmin} canDelete={isOwner || isModerator} onSaved={reload} />
+              ) : null}
             </div>
 
-            {tab === "feed" ? <Feed group={group} userId={userId!} isAdmin={isAdmin} /> : null}
+            {tab === "feed" ? <Feed group={group} userId={userId!} isAdmin={canModerate} /> : null}
             {tab === "chat" ? <Chat group={group} userId={userId!} /> : null}
             {tab === "membres" ? (
               <Members group={group} userId={userId!} isAdmin={isAdmin} onChanged={reload} />
@@ -437,7 +442,7 @@ function Feed({ group, userId, isAdmin }: { group: Group; userId: string; isAdmi
                 </div>
 
                 {openComments === p.id ? (
-                  <Comments postId={p.id} groupId={group.id} userId={userId} onChange={load} />
+                  <Comments postId={p.id} groupId={group.id} userId={userId} canModerate={isAdmin} onChange={load} />
                 ) : null}
               </article>
             );
@@ -452,11 +457,13 @@ function Comments({
   postId,
   groupId,
   userId,
+  canModerate,
   onChange,
 }: {
   postId: string;
   groupId: string;
   userId: string;
+  canModerate: boolean;
   onChange: () => void;
 }) {
   const [list, setList] = useState<GroupComment[] | null>(null);
@@ -471,12 +478,28 @@ function Comments({
     <div className="mt-3 border-t border-white/10 pt-3">
       <div className="space-y-2">
         {(list ?? []).map((cm) => (
-          <div key={cm.id} className="flex items-start gap-2">
+          <div key={cm.id} className="group flex items-start gap-2">
             <Avatar name={cm.author?.pseudo} url={cm.author?.avatar_url} />
             <div className="rounded-2xl bg-white/[0.06] px-3 py-2">
               <p className="text-xs font-bold text-cream">{cm.author?.pseudo ?? "Membre"}</p>
               <p className="text-sm text-cream/85">{cm.body}</p>
             </div>
+            {cm.author_id === userId || canModerate ? (
+              <button
+                type="button"
+                onClick={async () => {
+                  if (confirm("Supprimer ce commentaire ?")) {
+                    await deleteComment(cm.id);
+                    load();
+                    onChange();
+                  }
+                }}
+                aria-label="Supprimer le commentaire"
+                className="mt-1 text-cream/30 hover:text-red-400"
+              >
+                ✕
+              </button>
+            ) : null}
           </div>
         ))}
       </div>
@@ -777,8 +800,8 @@ function InviteFriends({
   );
 }
 
-/* ---------------- Réglages (admin) ---------------- */
-function GroupSettings({ group, isOwner, onSaved }: { group: Group; isOwner: boolean; onSaved: () => void }) {
+/* ---------------- Réglages (admin) / Modération ---------------- */
+function GroupSettings({ group, canEdit, canDelete, onSaved }: { group: Group; canEdit: boolean; canDelete: boolean; onSaved: () => void }) {
   const [open, setOpen] = useState(false);
   const [f, setF] = useState({
     name: group.name,
@@ -808,8 +831,10 @@ function GroupSettings({ group, isOwner, onSaved }: { group: Group; isOwner: boo
           >
             <button type="button" aria-label="Fermer" onClick={() => setOpen(false)} className="absolute inset-0 bg-black/60" />
             <div className="relative z-10 max-h-full w-full max-w-sm overflow-y-auto rounded-2xl border border-white/10 bg-[#1F2216] p-4 text-cream shadow-xl">
-              <p className="mb-3 font-display text-lg font-bold">Réglages du groupe</p>
+              <p className="mb-3 font-display text-lg font-bold">{canEdit ? "Réglages du groupe" : "Modération du groupe"}</p>
               <div className="space-y-3">
+                {canEdit ? (
+                <>
                 {/* Photo de couverture */}
                 <div>
                   <span className="text-xs font-semibold text-cream/55">Photo de couverture</span>
@@ -897,9 +922,11 @@ function GroupSettings({ group, isOwner, onSaved }: { group: Group; isOwner: boo
                   </button>
                   <button type="button" onClick={() => setOpen(false)} className="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-cream">Fermer</button>
                 </div>
+                </>
+                ) : null}
 
-                {/* Suppression du groupe (créateur uniquement) */}
-                {isOwner ? (
+                {/* Suppression du groupe (créateur ou modérateur) */}
+                {canDelete ? (
                   <div className="mt-4 border-t border-white/10 pt-4">
                     <button
                       type="button"
@@ -917,6 +944,10 @@ function GroupSettings({ group, isOwner, onSaved }: { group: Group; isOwner: boo
                       Supprimer le groupe
                     </button>
                   </div>
+                ) : null}
+
+                {!canEdit ? (
+                  <button type="button" onClick={() => setOpen(false)} className="w-full rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-cream">Fermer</button>
                 ) : null}
               </div>
             </div>
