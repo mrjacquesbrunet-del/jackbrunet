@@ -13,11 +13,13 @@ import { AboutFounder } from "@/components/home/AboutFounder";
 import { Support } from "@/components/home/Support";
 import { NewsletterCTA } from "@/components/home/NewsletterCTA";
 import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
+import { AppHomeGuard } from "@/components/app/AppHomeGuard";
 
 export default function HomePage() {
   const events = getEvents();
   return (
     <>
+      <AppHomeGuard />
       <Hero />
       <Marquee
         items={[
