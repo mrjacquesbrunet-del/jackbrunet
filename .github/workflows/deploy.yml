@@ -47,9 +47,6 @@ jobs:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: node scripts/fetch-youtube.mjs || true
 
-      - name: Générer le flux des widgets (verset + punchline du jour)
-        run: node scripts/gen-widget-feed.mjs
-
       - name: Build (export statique)
         env:
           EXPORT: "true"
