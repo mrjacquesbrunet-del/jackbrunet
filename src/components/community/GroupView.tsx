@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { useAuth, initials } from "@/components/community/useAuth";
 import { searchProfiles, type Profile } from "@/lib/community";
 import { RichText } from "@/components/community/RichText";
+import { ReportButton } from "@/components/community/ReportButton";
 import { ACCENTS, type AccentKey } from "@/lib/profile-accent";
 import { asset } from "@/lib/asset";
 import {
@@ -410,6 +411,8 @@ function Feed({ group, userId, isAdmin }: { group: Group; userId: string; isAdmi
                     >
                       ✕
                     </button>
+                  ) : p.author_id !== userId ? (
+                    <ReportButton targetType="group_post" targetId={p.id} label="" className="text-cream/30 hover:text-red-400" />
                   ) : null}
                 </div>
 
@@ -499,6 +502,8 @@ function Comments({
               >
                 ✕
               </button>
+            ) : cm.author_id !== userId ? (
+              <ReportButton targetType="group_comment" targetId={cm.id} label="" className="mt-1 text-cream/30 hover:text-red-400" />
             ) : null}
           </div>
         ))}

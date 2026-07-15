@@ -8,6 +8,8 @@ import { useAuth } from "@/components/community/useAuth";
 import { Avatar } from "@/components/community/Avatar";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { ModeratorBadge } from "@/components/community/ModeratorBadge";
+import { ReportButton } from "@/components/community/ReportButton";
+import { blockUser, unblockUser, listBlockedIds } from "@/lib/moderation";
 import {
   getProfile,
   getProfileByPseudo,
@@ -37,6 +39,7 @@ export function MemberView() {
   const [prayers, setPrayers] = useState<Prayer[]>([]);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
+  const [blocked, setBlocked] = useState(false);
 
   const isMe =!!userId &&!!memberId && userId === memberId;
 
@@ -65,7 +68,10 @@ export function MemberView() {
     setCounts(c);
     setPrayers(pr);
     setActivity(act);
-    if (userId && userId!== id) setFollowing(await isFollowing(id, userId));
+    if (userId && userId!== id) {
+      setFollowing(await isFollowing(id, userId));
+      setBlocked((await listBlockedIds()).includes(id));
+    }
     setLoading(false);
   }, [paramId, paramPseudo, userId]);
 
@@ -82,6 +88,15 @@ export function MemberView() {
     if (next) await follow(memberId, userId);
     else await unfollow(memberId, userId);
     setBusy(false);
+  }
+
+  async function toggleBlock() {
+    if (!memberId) return;
+    const next =!blocked;
+    setBusy(true);
+    const ok = next? await blockUser(memberId): await unblockUser(memberId);
+    setBusy(false);
+    if (ok) setBlocked(next);
   }
 
   async function toggleModerator() {
@@ -246,6 +261,19 @@ export function MemberView() {
             </Link>
           )}
         </div>
+
+        {/* Signaler / Bloquer ce membre */}
+        {userId &&!isMe? (
+          <div className="mt-3 flex items-center justify-center gap-4 text-xs text-cream/60">
+            <ReportButton targetType="profile" targetId={memberId ?? ""} label="Signaler" tone="dark" />
+            <button type="button" onClick={toggleBlock} disabled={busy} className="inline-flex items-center gap-1 font-semibold hover:text-cream disabled:opacity-50">
+              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth={1.8}>
+                <circle cx="12" cy="12" r="9" /><path d="M5.6 5.6l12.8 12.8" strokeLinecap="round" />
+              </svg>
+              {blocked? "Débloquer": "Bloquer"}
+            </button>
+          </div>
+        ): null}
 
         {/* Admin : nommer / retirer un modérateur, en un clic */}
         {isAdmin &&!isMe? (

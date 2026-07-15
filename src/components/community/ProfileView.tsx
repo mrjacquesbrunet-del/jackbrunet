@@ -25,6 +25,7 @@ import { AnsweredFeed } from "@/components/community/AnsweredFeed";
 import { MemberSearch } from "@/components/community/MemberSearch";
 import { MemberSuggestions } from "@/components/community/MemberSuggestions";
 import { ProfileActivity } from "@/components/community/ProfileActivity";
+import { ModerationQueue } from "@/components/community/ModerationQueue";
 import { NotificationsBell } from "@/components/community/NotificationsBell";
 import { MessagesButton } from "@/components/community/MessagesButton";
 import { DeleteAccountButton } from "@/components/community/DeleteAccountButton";
@@ -648,6 +649,9 @@ function Profile({
           </div>
         </div>
       </div>
+
+      {/* File de modération (admin + modérateurs) */}
+      {isAdminEmail(email) || profile?.is_moderator? <ModerationQueue /> : null}
 
       {/* Suivi (semaine), plans de lecture, sujets de prière */}
       <ProfileActivity />

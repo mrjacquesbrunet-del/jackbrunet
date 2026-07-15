@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { useAuth } from "@/components/community/useAuth";
+import { listBlockedIds } from "@/lib/moderation";
 import { Avatar } from "@/components/community/Avatar";
 import { PrayerCard } from "@/components/community/PrayerCard";
 import { PrayerFocus } from "@/components/community/PrayerFocus";
@@ -86,9 +87,11 @@ function Feed({
   const [pseudoErr, setPseudoErr] = useState("");
   const [tab, setTab] = useState<"all" | "following">("all");
   const [search, setSearch] = useState("");
+  const [blockedIds, setBlockedIds] = useState<string[]>([]);
 
   const load = useCallback(async () => {
     setLoading(true);
+    setBlockedIds(await listBlockedIds());
     const ps = tab === "following"? await listFollowingFeed(userId): await listPrayers();
     setPrayers(ps);
     const ids = ps.map((p) => p.id);
@@ -137,7 +140,8 @@ function Feed({
 
   // Recherche dans les sujets de prière (filtre le fil affiché).
   const q = search.trim().toLowerCase();
-  const shown = q? prayers.filter((p) => p.body.toLowerCase().includes(q)): prayers;
+  const visible = prayers.filter((p) => !blockedIds.includes(p.author_id));
+  const shown = q? visible.filter((p) => p.body.toLowerCase().includes(q)): visible;
 
   return (
     <>

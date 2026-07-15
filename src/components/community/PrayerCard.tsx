@@ -8,6 +8,7 @@ import { MentionField } from "@/components/community/MentionField";
 import { MentionText } from "@/components/community/MentionText";
 import { HandsGlyph, BookmarkGlyph, BookmarkFilledGlyph } from "@/components/ui/DevoIcons";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
+import { ReportButton } from "@/components/community/ReportButton";
 import { useToolkit } from "@/lib/toolkit";
 import {
   type Prayer,
@@ -224,6 +225,8 @@ export function PrayerCard({
             >
               ✕
             </button>
+          ):!isAuthor? (
+            <ReportButton targetType="prayer" targetId={prayer.id} label="" tone="light" className="shrink-0 text-night-900/25 hover:text-night-900/60" />
           ): null}
         </div>
 
