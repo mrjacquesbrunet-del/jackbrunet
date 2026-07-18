@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { isNativeApp } from "@/lib/notifications";
 import { asset } from "@/lib/asset";
 
@@ -13,7 +12,6 @@ import { asset } from "@/lib/asset";
  * Pour les visiteurs web, ce composant ne fait rien.
  */
 export function AppHomeGuard() {
-  const router = useRouter();
   const [appMode, setAppMode] = useState(false);
 
   useEffect(() => {
@@ -29,22 +27,27 @@ export function AppHomeGuard() {
     if (!(isNativeApp() || preview)) return;
 
     setAppMode(true);
-    router.replace("/devotionnel");
 
-    // Filet de sécurité (démarrage à froid depuis une notification) : si la
-    // navigation douce n'a pas quitté l'accueil, on force une navigation dure.
-    const t = setTimeout(() => {
+    // Redirection DURE et immédiate vers « Mon temps avec Jésus ». Fiable au
+    // démarrage à froid (clic sur le rappel du matin), là où la navigation
+    // douce du routeur peut échouer et laisser l'utilisateur bloqué sur le
+    // voile olive. On ne dépend d'aucun routeur : window.location.replace.
+    const go = () => {
       try {
-        const p = window.location.pathname.replace(/\/+$/, "");
-        if (p === "" || p.endsWith("/index.html")) {
+        const here = window.location.pathname.replace(/\/+$/, "");
+        if (!/devotionnel$/.test(here)) {
           window.location.replace(asset("/devotionnel/"));
         }
       } catch {
-        /* ignore */
+        /* navigation impossible */
       }
-    }, 500);
+    };
+    go(); // tout de suite
+    // Filet indépendant : si le tout premier appel n'a pas encore pris effet
+    // (WebView pas prête au tout démarrage), on réessaie sans dépendre du 1er.
+    const t = setTimeout(go, 400);
     return () => clearTimeout(t);
-  }, [router]);
+  }, []);
 
   if (!appMode) return null;
   return <div aria-hidden className="fixed inset-0 z-[9999]" style={{ background: "#14160E" }} />;
