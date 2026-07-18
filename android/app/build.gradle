@@ -10,7 +10,7 @@ android {
         // Google Play exige un versionCode unique à chaque envoi. En CI on le
         // surcharge via -PversionCodeOverride=<n° de run> ; sinon valeur par défaut.
         versionCode project.hasProperty('versionCodeOverride') ? versionCodeOverride.toInteger() : 1
-        versionName "1.5"
+        versionName "1.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
