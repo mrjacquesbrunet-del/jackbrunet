@@ -56,7 +56,22 @@ Deno.serve(async (req) => {
     }
 
     const { title, text } = messageFor(String(rec.type), who, String(rec.body ?? ""));
-    const route = typeof rec.link === "string" && rec.link.startsWith("/") ? rec.link : "/";
+
+    // Destination du clic (miroir de notifHref côté app) : on ouvre
+    // directement le bon contenu au lieu de l'accueil.
+    //  - lien explicite (priorité) ;
+    //  - notif liée à un sujet de prière → /communaute?prayer=<id>
+    //    (la carte s'ouvre sur les commentaires) ;
+    //  - message privé → /messages ;
+    //  - sinon le dévotionnel.
+    let route = "/devotionnel/";
+    if (typeof rec.link === "string" && rec.link.startsWith("/")) {
+      route = rec.link;
+    } else if (rec.prayer_id) {
+      route = `/communaute/?prayer=${rec.prayer_id}`;
+    } else if (rec.type === "message") {
+      route = rec.actor_id ? `/messages/?u=${rec.actor_id}` : "/messages/";
+    }
 
     const apiKey = Deno.env.get("ONESIGNAL_REST_API_KEY");
     if (!apiKey) return new Response("ONESIGNAL_REST_API_KEY manquant", { status: 500 });

@@ -88,6 +88,17 @@ function Feed({
   const [tab, setTab] = useState<"all" | "following">("all");
   const [search, setSearch] = useState("");
   const [blockedIds, setBlockedIds] = useState<string[]>([]);
+  // Sujet ciblé par un clic sur une notification (/communaute?prayer=<id>) :
+  // sa carte s'ouvre sur les commentaires et défile jusqu'à elle.
+  const [targetPrayer, setTargetPrayer] = useState<string | null>(null);
+  useEffect(() => {
+    try {
+      const pid = new URLSearchParams(window.location.search).get("prayer");
+      if (pid) setTargetPrayer(pid);
+    } catch {
+      /* ignore */
+    }
+  }, []);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -368,6 +379,7 @@ function Feed({
                 initialCommentCount={commentCounts[p.id]?? 0}
                 grade={grades[p.author_id]}
                 onDeleted={load}
+                autoOpenComments={p.id === targetPrayer}
               />
             ))}
           </ul>

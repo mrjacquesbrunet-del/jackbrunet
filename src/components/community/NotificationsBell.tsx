@@ -7,6 +7,7 @@ import {
   listNotifications,
   unreadCount,
   markNotificationsRead,
+  notifHref,
   type Notification,
 } from "@/lib/community";
 
@@ -136,14 +137,9 @@ export function NotificationsBell({
                     const rowCls = `flex items-start gap-3 px-4 py-3 ${
                       n.read? "": "bg-spirit-500/[0.05]"
                     }`;
-                    // Destination du clic: le lien de la notif (ex. /messages)
-                    // en priorité, sinon le profil de l'auteur.
-                    const href =
-                      n.link && n.link.startsWith("/")
-? n.link
-: n.actor_id && n.type!== "admin"
-? `/membre?u=${n.actor_id}`
-: null;
+                    // Destination du clic : le bon contenu directement
+                    // (sujet de prière + commentaires, message, profil…).
+                    const href = notifHref(n);
                     return href? (
                       <li key={n.id}>
                         <Link

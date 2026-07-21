@@ -7,6 +7,7 @@ import { PrayerMark } from "@/components/ui/PrayerMark";
 import {
   listNotifications,
   markNotificationsRead,
+  notifHref,
   type Notification,
   type NotifType,
 } from "@/lib/community";
@@ -113,10 +114,11 @@ export function ProfileNotifications({ userId }: { userId: string }) {
                   <span className="shrink-0 text-xs text-night-900/40">{when(n.created_at)}</span>
                 </>
               );
-              return n.actor_id && n.type!== "admin"? (
+              const href = notifHref(n);
+              return href? (
                 <li key={n.id}>
                   <Link
-                    href={`/membre?u=${n.actor_id}`}
+                    href={href}
                     className="-mx-2 flex items-center gap-3 rounded-xl px-2 py-2.5 transition-colors hover:bg-night-900/[0.04]"
                   >
                     {inner}

@@ -641,6 +641,26 @@ export async function gradesFor(ids: string[]): Promise<Record<string, string>> 
 }
 
 /* ---- Notifications ---- */
+
+/**
+ * Destination du clic sur une notification. On ouvre directement le bon
+ * contenu :
+ *  - lien explicite fourni par le serveur (priorité) ;
+ *  - notif liée à un sujet de prière (commentaire, mention, 🙏/❤️, réponse) →
+ *    /communaute?prayer=<id> : la carte s'ouvre sur les commentaires ;
+ *  - message privé → /messages ;
+ *  - sinon le profil de l'auteur.
+ * La même logique est répliquée côté serveur (edge notify-push) pour les
+ * notifications push (démarrage à froid).
+ */
+export function notifHref(n: Notification): string | null {
+  if (n.link && n.link.startsWith("/")) return n.link;
+  if (n.prayer_id) return `/communaute/?prayer=${n.prayer_id}`;
+  if (n.type === "message") return n.actor_id ? `/messages/?u=${n.actor_id}` : "/messages/";
+  if (n.actor_id && n.type !== "admin") return `/membre/?u=${n.actor_id}`;
+  return null;
+}
+
 export async function listNotifications(userId: string, limit = 30): Promise<Notification[]> {
   const sb = getSupabase();
   if (!sb) return [];

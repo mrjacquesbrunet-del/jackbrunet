@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Avatar } from "@/components/community/Avatar";
 import { Celebration } from "@/components/ui/Celebration";
@@ -51,6 +51,7 @@ export function PrayerCard({
   grade,
   onDeleted,
   isAdmin = false,
+  autoOpenComments = false,
 }: {
   prayer: Prayer;
   userId: string;
@@ -59,6 +60,8 @@ export function PrayerCard({
   grade?: string;
   onDeleted: () => void;
   isAdmin?: boolean;
+  /** Ouvre les commentaires et fait défiler jusqu'à la carte (clic notif). */
+  autoOpenComments?: boolean;
 }) {
   const [reactions, setReactions] = useState<Reaction[]>(initialReactions);
   const [showComments, setShowComments] = useState(false);
@@ -125,6 +128,22 @@ export function PrayerCard({
     if (next && comments === null) await refreshComments();
   }
 
+  // Clic sur une notification (« X a commenté ton sujet », mention…) : on
+  // ouvre les commentaires et on fait défiler la page jusqu'à cette carte.
+  const cardRef = useRef<HTMLLIElement>(null);
+  const didAutoOpen = useRef(false);
+  useEffect(() => {
+    if (!autoOpenComments || didAutoOpen.current) return;
+    didAutoOpen.current = true;
+    setShowComments(true);
+    if (comments === null) refreshComments();
+    const t = setTimeout(() => {
+      cardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 250);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoOpenComments]);
+
   async function submitComment() {
     if (!commentText.trim()) return;
     setBusy(true);
@@ -162,7 +181,9 @@ export function PrayerCard({
 
   return (
     <li
-      className={`overflow-hidden rounded-3xl border ${
+      ref={cardRef}
+      id={`prayer-${prayer.id}`}
+      className={`scroll-mt-24 overflow-hidden rounded-3xl border ${
         answered
 ? "border-dawn-400/50 bg-gradient-to-br from-dawn-50 to-white shadow-glow"
 : "border-night-900/10 bg-white"
