@@ -3,6 +3,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { WordReveal } from "@/components/ui/WordReveal";
+import { withScript } from "@/lib/script";
 import { vision } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -51,7 +52,7 @@ export default function VisionPage() {
           <Reveal>
             <p className="kicker">{vision.love.kicker}</p>
             <h2 className="display-1 mt-6 text-pulse drop-shadow-[0_0_40px_rgba(48,255,18,0.3)]">
-              {vision.love.title}
+              {withScript(vision.love.title)}
             </h2>
             <WordReveal
               text={vision.love.text}

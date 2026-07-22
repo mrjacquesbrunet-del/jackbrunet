@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Anton, Plus_Jakarta_Sans } from "next/font/google";
+import { Bebas_Neue, Caveat, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { settings, meetings } from "@/lib/content";
@@ -8,17 +8,25 @@ import { Footer } from "@/components/layout/Footer";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 
 // Corps de texte : moderne et lisible.
+// latin-ext inclus partout : couverture complète du français (œ, accents…).
 const jakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   variable: "--font-sans",
   display: "swap",
 });
 
-// Display condensé « affiche » pour les titres géants en capitales.
-const anton = Anton({
+// Display condensé « affiche » : impactant, pour les titres géants.
+const bebas = Bebas_Neue({
   weight: "400",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   variable: "--font-display",
+  display: "swap",
+});
+
+// Manuscrite élégante : les mots d'accent qui contrastent avec l'affiche.
+const caveat = Caveat({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-script",
   display: "swap",
 });
 
@@ -115,7 +123,7 @@ function churchJsonLd() {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${jakarta.variable} ${anton.variable}`}>
+    <html lang="fr" className={`${jakarta.variable} ${bebas.variable} ${caveat.variable}`}>
       <body className="font-sans">
         <script
           type="application/ld+json"

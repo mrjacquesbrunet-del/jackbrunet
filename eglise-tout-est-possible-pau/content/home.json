@@ -33,7 +33,7 @@
   },
   "quickLinks": {
     "kicker": "Commencer ici",
-    "title": "Par où commencer ?",
+    "title": "Par où *commencer* ?",
     "items": [
       {
         "title": "Première visite",
@@ -84,13 +84,13 @@
   },
   "meetings": {
     "kicker": "Rejoins-nous",
-    "title": "On t'attend ce dimanche.",
+    "title": "On t'attend *ce dimanche.*",
     "text": "Un moment de louange, un message qui parle à ta vie, un café chaleureux. Tout est prévu pour les enfants. Viens comme tu es.",
     "cta": "Voir nos réunions"
   },
   "latestMessage": {
     "kicker": "Le dernier message",
-    "title": "Un message pour ta semaine.",
+    "title": "Un message *pour ta semaine.*",
     "text": "Simple, concret, pour ta vie de tous les jours.",
     "cta": "Tous les messages"
   },
@@ -100,11 +100,11 @@
   },
   "testimonies": {
     "kicker": "Des vies transformées",
-    "title": "L'espérance change des vies.",
+    "title": "L'espérance *change des vies.*",
     "cta": "Voir tous les témoignages"
   },
   "firstVisitBanner": {
-    "title": "Première visite ?",
+    "title": "Première *visite* ?",
     "text": "On sait que pousser la porte d'une église peut impressionner. On a tout préparé pour que tu te sentes attendu.",
     "cta": "Tout savoir avant de venir"
   }

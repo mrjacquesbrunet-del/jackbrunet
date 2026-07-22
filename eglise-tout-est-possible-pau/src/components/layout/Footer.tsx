@@ -25,7 +25,7 @@ export function Footer() {
         <div className="mt-16 grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <p className="font-display text-xl uppercase tracking-wide">
-              Tout est possible <span className="text-pulse">Pau</span>
+              Tout est possible <span className="script text-2xl text-pulse">Pau</span>
             </p>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-cream/60">
               Annoncer. Restaurer. Équiper. Envoyer. <br />

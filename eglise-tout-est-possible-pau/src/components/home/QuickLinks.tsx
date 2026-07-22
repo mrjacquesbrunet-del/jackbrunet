@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Media } from "@/components/ui/Media";
 import { Reveal } from "@/components/ui/Reveal";
+import { withScript } from "@/lib/script";
 import { home } from "@/lib/content";
 
 const variants = ["leaf", "portrait", "night"] as const;
@@ -15,7 +16,7 @@ export function QuickLinks() {
       <div className="wrap">
         <Reveal>
           <p className="kicker">{quickLinks.kicker}</p>
-          <h2 className="display-2 mt-4 max-w-3xl">{quickLinks.title}</h2>
+          <h2 className="display-2 mt-4 max-w-3xl">{withScript(quickLinks.title)}</h2>
         </Reveal>
         <div className="mt-14 grid gap-6 md:grid-cols-3">
           {quickLinks.items.map((item, i) => (

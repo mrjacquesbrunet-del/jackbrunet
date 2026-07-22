@@ -122,7 +122,7 @@ export function Hero() {
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 exit={reduce ? undefined : { opacity: 0, y: "-0.35em", filter: "blur(10px)" }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                className={`block ${finished ? "text-pulse drop-shadow-[0_0_30px_rgba(48,255,18,0.35)]" : "text-cream"}`}
+                className={`script block ${finished ? "text-pulse drop-shadow-[0_0_30px_rgba(48,255,18,0.35)]" : "text-leaf"}`}
               >
                 {currentWord}
               </motion.span>

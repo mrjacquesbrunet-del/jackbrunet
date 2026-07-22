@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import { withScript } from "@/lib/script";
 import type { PageHero as PageHeroType } from "@/lib/types";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -31,7 +32,7 @@ export function PageHero({ hero, tone = "dark" }: { hero: PageHeroType; tone?: "
           {hero.kicker}
         </motion.p>
         <motion.h1 {...appear(0.18)} className="display-2 mt-6 max-w-5xl text-balance">
-          {hero.title}
+          {withScript(hero.title)}
         </motion.h1>
         <motion.p
           {...appear(0.32)}

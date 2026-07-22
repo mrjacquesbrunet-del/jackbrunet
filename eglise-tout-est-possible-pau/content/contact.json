@@ -1,13 +1,22 @@
 {
   "hero": {
     "kicker": "Contact",
-    "title": "Parle-nous. On répond, vraiment.",
+    "title": "Parle-nous. *On répond, vraiment.*",
     "subtitle": "Une question, un besoin de prière, envie de venir dimanche ? Écris-nous : un membre de l'équipe te répondra personnellement."
   },
   "reasons": [
-    { "title": "Je prépare ma première visite", "text": "On t'explique tout et on t'accueille personnellement dimanche." },
-    { "title": "J'ai besoin de prière", "text": "Confie-nous ta situation, en toute confidentialité. Nous prierons pour toi." },
-    { "title": "J'ai une question sur la foi", "text": "Aucune question n'est taboue. On aime en parler, simplement." }
+    {
+      "title": "Je prépare ma première visite",
+      "text": "On t'explique tout et on t'accueille personnellement dimanche."
+    },
+    {
+      "title": "J'ai besoin de prière",
+      "text": "Confie-nous ta situation, en toute confidentialité. Nous prierons pour toi."
+    },
+    {
+      "title": "J'ai une question sur la foi",
+      "text": "Aucune question n'est taboue. On aime en parler, simplement."
+    }
   ],
   "legal": {
     "association": "Église Tout est possible Pau — association cultuelle (loi 1905)",

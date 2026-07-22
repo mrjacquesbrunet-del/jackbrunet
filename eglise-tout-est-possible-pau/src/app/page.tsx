@@ -8,6 +8,7 @@ import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { TestimonyCarousel } from "@/components/home/TestimonyCarousel";
 import { Countdown } from "@/components/ui/Countdown";
+import { withScript } from "@/lib/script";
 import { home, meetings, testimonies, settings } from "@/lib/content";
 
 export default function HomePage() {
@@ -54,7 +55,7 @@ export default function HomePage() {
         <div className="wrap grid items-center gap-14 lg:grid-cols-2 lg:gap-24">
           <Reveal>
             <p className="kicker text-night/60">{home.meetings.kicker}</p>
-            <h2 className="display-2 mt-4">{home.meetings.title}</h2>
+            <h2 className="display-2 mt-4">{withScript(home.meetings.title)}</h2>
             <p className="lead mt-6 max-w-xl text-night/75">{home.meetings.text}</p>
             <Link href="/reunions" className="btn-dark mt-10">
               {home.meetings.cta}
@@ -84,7 +85,7 @@ export default function HomePage() {
         <div className="wrap">
           <Reveal>
             <p className="kicker">{home.testimonies.kicker}</p>
-            <h2 className="display-2 mt-4 max-w-3xl">{home.testimonies.title}</h2>
+            <h2 className="display-2 mt-4 max-w-3xl">{withScript(home.testimonies.title)}</h2>
           </Reveal>
           <div className="mt-14">
             <Reveal delay={0.1}>
@@ -110,7 +111,7 @@ export default function HomePage() {
         <div className="glow-leaf absolute -bottom-40 left-1/2 h-[40rem] w-[60rem] -translate-x-1/2" aria-hidden />
         <div className="wrap relative text-center">
           <Reveal>
-            <h2 className="display-1 text-balance">{home.firstVisitBanner.title}</h2>
+            <h2 className="display-1 text-balance">{withScript(home.firstVisitBanner.title)}</h2>
             <p className="lead mx-auto mt-6 max-w-2xl text-cream/75">{home.firstVisitBanner.text}</p>
             <Link href="/premiere-visite" className="btn-primary mt-10">
               {home.firstVisitBanner.cta}

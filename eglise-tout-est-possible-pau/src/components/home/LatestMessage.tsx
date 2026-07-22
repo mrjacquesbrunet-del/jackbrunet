@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
 import { LiteYouTube } from "@/components/ui/LiteYouTube";
+import { withScript } from "@/lib/script";
 import { home, videos, settings } from "@/lib/content";
 import { t } from "@/i18n";
 
@@ -19,7 +20,7 @@ export function LatestMessage() {
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div>
               <p className="kicker">{latestMessage.kicker}</p>
-              <h2 className="display-2 mt-4 max-w-3xl">{latestMessage.title}</h2>
+              <h2 className="display-2 mt-4 max-w-3xl">{withScript(latestMessage.title)}</h2>
             </div>
             <Link href="/messages" className="btn-ghost-dark">
               {latestMessage.cta}

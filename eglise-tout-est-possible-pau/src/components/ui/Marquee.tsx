@@ -21,7 +21,11 @@ export function Marquee({ items, variant = "band" }: Props) {
             {sequence.map((item, i) => (
               <span
                 key={`${copy}-${i}`}
-                className="flex items-center font-display text-2xl uppercase leading-none tracking-wide sm:text-3xl"
+                className={`flex items-center text-2xl leading-none sm:text-3xl ${
+                  variant === "band" && i % 2 === 1
+                    ? "script"
+                    : "font-display uppercase tracking-wide"
+                }`}
               >
                 <span className="whitespace-nowrap px-6">{item}</span>
                 <span

@@ -88,6 +88,17 @@
     -webkit-text-stroke: 1px rgba(252, 254, 233, 0.35);
   }
 
+  /* Mot d'accent manuscrit — contraste élégant avec l'affiche.
+     Dans le CMS : entourer le mot d'astérisques (*mot*). */
+  .script {
+    font-family: var(--font-script), cursive;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 1.06em;
+    line-height: 0.9;
+  }
+
   .lead {
     font-size: clamp(1.05rem, 1.6vw, 1.35rem);
     line-height: 1.65;
