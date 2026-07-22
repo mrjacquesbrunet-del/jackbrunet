@@ -1,0 +1,2 @@
+Dépose ici la vidéo du hero sous le nom hero.mp4
+(idéalement H.264, muette, 15-30 s en boucle, compressée ≤ 10 Mo).

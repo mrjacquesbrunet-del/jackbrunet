@@ -54,11 +54,15 @@ npm run build    # build de production
 
 ## Vidéo du hero
 
-Le hero affiche une vidéo plein écran dès qu'une URL `.mp4` est renseignée dans
-**Paramètres du site → Vidéo d'accueil** (CMS) ou `content/settings.json`
-(`hero.videoUrl`). Sans vidéo, un fond cinématographique animé prend le relais —
-le site reste superbe en attendant le tournage (louange, familles, accueil,
-baptêmes…).
+Deux façons d'afficher la vidéo plein écran du hero :
+
+1. **Fichier local (le plus simple)** : dépose ta vidéo dans
+   `public/videos/hero.mp4` — elle est prise en compte automatiquement.
+2. **URL distante** : renseigne `hero.videoUrl` dans les Paramètres du CMS
+   (prioritaire sur le fichier local).
+
+Conseils : H.264, muette, 15-30 s en boucle, compressée (≤ 10 Mo). Tant
+qu'aucune vidéo n'est trouvée, un fond cinématographique animé prend le relais.
 
 ## YouTube (import automatique des messages)
 

@@ -53,26 +53,38 @@
     @apply text-[0.7rem] font-bold uppercase tracking-kicker text-leaf sm:text-xs;
   }
 
-  /* Échelle typographique — grande, imposante, fluide */
+  /* Échelle typographique « affiche » — condensée, en capitales, immense */
   .display-1 {
-    font-size: clamp(2.75rem, 8vw, 6.5rem);
-    line-height: 1.02;
-    letter-spacing: -0.03em;
-    font-weight: 800;
+    font-family: var(--font-display), Impact, sans-serif;
+    font-size: clamp(3.5rem, 11.5vw, 10rem);
+    line-height: 0.94;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
+    font-weight: 400;
   }
 
   .display-2 {
-    font-size: clamp(2rem, 5vw, 4rem);
-    line-height: 1.05;
-    letter-spacing: -0.025em;
-    font-weight: 800;
+    font-family: var(--font-display), Impact, sans-serif;
+    font-size: clamp(2.5rem, 6.5vw, 5.5rem);
+    line-height: 0.96;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
+    font-weight: 400;
   }
 
   .display-3 {
-    font-size: clamp(1.5rem, 3.2vw, 2.5rem);
-    line-height: 1.12;
-    letter-spacing: -0.02em;
-    font-weight: 700;
+    font-family: var(--font-display), Impact, sans-serif;
+    font-size: clamp(1.8rem, 3.8vw, 3.25rem);
+    line-height: 1.02;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  /* Texte géant en contour (sections sombres) */
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(252, 254, 233, 0.35);
   }
 
   .lead {
@@ -80,9 +92,9 @@
     line-height: 1.65;
   }
 
-  /* Boutons */
+  /* Boutons — pastilles énergiques, libellés en capitales */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold transition-all duration-300 ease-smooth;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-4 text-[0.72rem] font-extrabold uppercase tracking-[0.14em] transition-all duration-300 ease-smooth;
   }
 
   .btn-primary {

@@ -51,10 +51,10 @@ export function Header() {
             className="group relative z-[70] flex items-baseline gap-2 text-cream"
             aria-label={`${siteConfig.fullName} — ${t("nav.home")}`}
           >
-            <span className="text-lg font-extrabold tracking-tight">
+            <span className="font-display text-xl uppercase tracking-wide">
               Tout est possible
             </span>
-            <span className="text-lg font-light text-leaf transition-colors duration-300 group-hover:text-pulse">
+            <span className="font-display text-xl uppercase tracking-wide text-leaf transition-colors duration-300 group-hover:text-pulse">
               Pau
             </span>
           </Link>
@@ -124,7 +124,7 @@ export function Header() {
                   >
                     <Link
                       href={item.href}
-                      className={`block py-2.5 text-3xl font-extrabold tracking-tight transition-colors duration-300 ${
+                      className={`block py-2.5 font-display text-4xl uppercase transition-colors duration-300 ${
                         pathname === item.href ? "text-leaf" : "text-cream hover:text-pulse"
                       }`}
                     >

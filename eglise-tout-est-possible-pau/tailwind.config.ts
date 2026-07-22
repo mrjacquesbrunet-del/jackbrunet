@@ -31,6 +31,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Impact", "sans-serif"],
       },
       letterSpacing: {
         kicker: "0.22em",
@@ -43,11 +44,16 @@ const config: Config = {
       },
       animation: {
         "pulse-dot": "pulseDot 2.4s ease-in-out infinite",
+        marquee: "marquee 28s linear infinite",
       },
       keyframes: {
         pulseDot: {
           "0%, 100%": { opacity: "1", transform: "scale(1)" },
           "50%": { opacity: "0.45", transform: "scale(0.8)" },
+        },
+        marquee: {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(-50%)" },
         },
       },
     },

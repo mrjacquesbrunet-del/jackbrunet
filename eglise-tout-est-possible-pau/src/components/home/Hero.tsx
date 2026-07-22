@@ -13,10 +13,15 @@ import { home, settings } from "@/lib/content";
 
 const WORD_INTERVAL_MS = 3000;
 
+// Vidéo du hero : celle du CMS en priorité, sinon le fichier local
+// public/videos/hero.mp4 (il suffit d'y déposer la vidéo fournie).
+const HERO_VIDEO = settings.hero.videoUrl || "/videos/hero.mp4";
+
 export function Hero() {
   const { hero } = home;
   const reduce = useReducedMotion();
   const ref = useRef<HTMLElement>(null);
+  const [videoOk, setVideoOk] = useState(true);
 
   // -1 = phrase finale ; sinon index du mot courant.
   const [step, setStep] = useState(0);
@@ -40,30 +45,33 @@ export function Hero() {
     return () => clearInterval(timer);
   }, [hero.rotatingWords.length, reduce]);
 
-  // Parallaxe douce : le contenu remonte moins vite que le scroll.
+  // Parallaxe cinématographique : le texte remonte, la vidéo s'assombrit.
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
-  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "35%"]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.9], [0, 0.7]);
+  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
+  const videoScale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
+  const overlayOpacity = useTransform(scrollYProgress, [0, 0.9], [0, 0.75]);
 
   const currentWord = finished ? hero.finalPhrase : hero.rotatingWords[step];
 
   return (
-    <section ref={ref} className="relative flex min-h-[100svh] items-center overflow-hidden bg-night">
-      {/* Fond : vidéo plein écran si fournie via le CMS, sinon ambiance cinématographique */}
+    <section ref={ref} className="relative flex min-h-[100svh] items-end overflow-hidden bg-night">
+      {/* Fond vidéo plein écran */}
       <div className="absolute inset-0" aria-hidden>
-        {settings.hero.videoUrl ? (
-          <video
+        {videoOk ? (
+          <motion.video
             className="h-full w-full object-cover"
-            src={settings.hero.videoUrl}
+            style={reduce ? undefined : { scale: videoScale }}
+            src={HERO_VIDEO}
             poster={settings.hero.posterImage || undefined}
             autoPlay
             muted
             loop
             playsInline
             preload="metadata"
+            onError={() => setVideoOk(false)}
           />
         ) : (
           <motion.div
@@ -77,40 +85,44 @@ export function Hero() {
           />
         )}
         {/* Overlay noir transparent, texte blanc lisible */}
-        <div className="absolute inset-0 bg-night/55" />
-        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-night to-transparent" />
+        <div className="absolute inset-0 bg-night/50" />
+        <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-night to-transparent" />
         <div className="grain absolute inset-0" />
         <motion.div className="absolute inset-0 bg-night" style={{ opacity: overlayOpacity }} />
       </div>
 
-      <motion.div className="wrap relative pb-28 pt-36" style={reduce ? undefined : { y: contentY }}>
+      <motion.div
+        className="wrap relative pb-24 pt-40 sm:pb-28"
+        style={reduce ? undefined : { y: contentY }}
+      >
         <motion.p
           initial={reduce ? false : { opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-          className="kicker"
+          className="flex items-center gap-3 text-[0.7rem] font-extrabold uppercase tracking-kicker text-cream/90 sm:text-xs"
         >
+          <span className="block h-2 w-2 animate-pulse-dot rounded-full bg-pulse" aria-hidden />
           {settings.name} · {settings.city}
         </motion.p>
 
         <h1 className="display-1 mt-6 text-cream">
           <motion.span
             className="block"
-            initial={reduce ? false : { opacity: 0, y: 30 }}
+            initial={reduce ? false : { opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
           >
             {hero.fixedText}
           </motion.span>
-          <span className="relative block min-h-[1.1em]">
+          <span className="relative block min-h-[1em]">
             <AnimatePresence mode="wait">
               <motion.span
                 key={currentWord}
-                initial={reduce ? false : { opacity: 0, y: "0.5em", filter: "blur(8px)" }}
+                initial={reduce ? false : { opacity: 0, y: "0.45em", filter: "blur(10px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={reduce ? undefined : { opacity: 0, y: "-0.4em", filter: "blur(8px)" }}
-                transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-                className={`block ${finished ? "text-leaf" : "text-cream/90"}`}
+                exit={reduce ? undefined : { opacity: 0, y: "-0.35em", filter: "blur(10px)" }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                className={`block ${finished ? "text-leaf" : "text-cream"}`}
               >
                 {currentWord}
               </motion.span>
@@ -118,39 +130,22 @@ export function Hero() {
           </span>
         </h1>
 
-        <motion.p
-          initial={reduce ? false : { opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="lead mt-8 max-w-xl text-cream/80"
-        >
-          {hero.subtitle}
-        </motion.p>
-
         <motion.div
           initial={reduce ? false : { opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.75, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-10 flex flex-wrap gap-4"
+          transition={{ duration: 0.9, delay: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-10 flex flex-col gap-8 sm:flex-row sm:items-center sm:justify-between"
         >
-          <Link href="/premiere-visite" className="btn-primary">
-            {hero.ctaPrimary}
-          </Link>
-          <Link href="/messages" className="btn-ghost-dark">
-            {hero.ctaSecondary}
-          </Link>
+          <p className="lead max-w-md text-cream/80">{hero.subtitle}</p>
+          <div className="flex shrink-0 flex-wrap gap-4">
+            <Link href="/premiere-visite" className="btn-primary">
+              {hero.ctaPrimary}
+            </Link>
+            <Link href="/messages" className="btn-ghost-dark">
+              {hero.ctaSecondary}
+            </Link>
+          </div>
         </motion.div>
-      </motion.div>
-
-      {/* Indicateur de scroll */}
-      <motion.div
-        initial={reduce ? false : { opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.6, duration: 1 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        aria-hidden
-      >
-        <span className="block h-2 w-2 animate-pulse-dot rounded-full bg-pulse" />
       </motion.div>
     </section>
   );

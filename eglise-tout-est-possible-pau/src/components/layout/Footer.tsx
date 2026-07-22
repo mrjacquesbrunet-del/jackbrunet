@@ -15,7 +15,7 @@ export function Footer() {
     <footer className="grain relative overflow-hidden border-t border-cream/10 bg-night text-cream">
       <div className="wrap relative py-20 sm:py-28">
         {/* Verset signature */}
-        <p className="max-w-3xl text-balance text-2xl font-extrabold leading-snug tracking-tight sm:text-4xl">
+        <p className="display-3 max-w-4xl text-balance">
           {home.verse.text}
           <span className="mt-3 block text-sm font-semibold uppercase tracking-kicker text-leaf">
             {home.verse.reference}
@@ -24,8 +24,8 @@ export function Footer() {
 
         <div className="mt-16 grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <p className="text-lg font-extrabold tracking-tight">
-              Tout est possible <span className="font-light text-leaf">Pau</span>
+            <p className="font-display text-xl uppercase tracking-wide">
+              Tout est possible <span className="text-leaf">Pau</span>
             </p>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-cream/60">
               Annoncer. Restaurer. Équiper. Envoyer. <br />

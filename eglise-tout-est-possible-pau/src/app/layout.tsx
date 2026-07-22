@@ -1,15 +1,23 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Anton, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { settings, meetings } from "@/lib/content";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 
-// Typographie premium unique (variable) : grande, moderne, lisible.
+// Corps de texte : moderne et lisible.
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
+  display: "swap",
+});
+
+// Display condensé « affiche » pour les titres géants en capitales.
+const anton = Anton({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-display",
   display: "swap",
 });
 
@@ -106,7 +114,7 @@ function churchJsonLd() {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={jakarta.variable}>
+    <html lang="fr" className={`${jakarta.variable} ${anton.variable}`}>
       <body className="font-sans">
         <script
           type="application/ld+json"

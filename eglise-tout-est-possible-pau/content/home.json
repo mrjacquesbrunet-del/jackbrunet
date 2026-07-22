@@ -13,16 +13,51 @@
     ],
     "finalPhrase": "où tout est possible.",
     "subtitle": "Bienvenue à la maison. Quelle que soit ton histoire, il y a une place pour toi ici, à Pau.",
-    "ctaPrimary": "Prépare ta première visite",
+    "ctaPrimary": "Commencer ici",
     "ctaSecondary": "Regarder un message"
   },
-  "welcome": {
-    "kicker": "Bienvenue",
-    "title": "Bienvenue à la maison.",
-    "paragraphs": [
-      "Tu n'as pas besoin d'être parfait pour venir. Tu n'as même pas besoin de croire. Viens comme tu es, avec tes questions, tes doutes et ton histoire.",
-      "Nous sommes une famille de tous les âges et de tous les horizons, réunie autour d'une conviction simple : avec Dieu, tout est possible. Ici, tu seras accueilli, jamais jugé."
+  "marquee": {
+    "band": [
+      "Bienvenue à la maison",
+      "Tout est possible",
+      "Viens comme tu es",
+      "Dimanche 10h30",
+      "Pau"
     ],
+    "outline": [
+      "Annoncer",
+      "Restaurer",
+      "Équiper",
+      "Envoyer"
+    ]
+  },
+  "quickLinks": {
+    "kicker": "Commencer ici",
+    "title": "Par où commencer ?",
+    "items": [
+      {
+        "title": "Première visite",
+        "text": "Tout ce qu'il faut savoir avant de pousser la porte. Zéro pression, promis.",
+        "href": "/premiere-visite",
+        "photo": ""
+      },
+      {
+        "title": "Nos réunions",
+        "text": "Dimanche 10h30 et tous les rendez-vous de la semaine.",
+        "href": "/reunions",
+        "photo": ""
+      },
+      {
+        "title": "Messages",
+        "text": "Les dernières prédications en vidéo, où que tu sois.",
+        "href": "/messages",
+        "photo": ""
+      }
+    ]
+  },
+  "statement": {
+    "kicker": "Ce que nous croyons",
+    "text": "Nous croyons que chacun peut rencontrer Jésus, être restauré et trouver une nouvelle espérance. Ici, tu seras accueilli, jamais jugé.",
     "cta": "Découvre qui nous sommes"
   },
   "pillars": {
@@ -53,6 +88,12 @@
     "text": "Un moment de louange, un message qui parle à ta vie, un café chaleureux. Tout est prévu pour les enfants. Viens comme tu es.",
     "cta": "Voir nos réunions"
   },
+  "latestMessage": {
+    "kicker": "Le dernier message",
+    "title": "Un message pour ta semaine.",
+    "text": "Simple, concret, pour ta vie de tous les jours.",
+    "cta": "Tous les messages"
+  },
   "verse": {
     "text": "« Tout est possible à celui qui croit. »",
     "reference": "Marc 9, 23"
@@ -61,12 +102,6 @@
     "kicker": "Des vies transformées",
     "title": "L'espérance change des vies.",
     "cta": "Voir tous les témoignages"
-  },
-  "messages": {
-    "kicker": "Messages",
-    "title": "Un message pour ta semaine.",
-    "text": "Retrouve nos dernières prédications en vidéo, où que tu sois.",
-    "cta": "Tous les messages"
   },
   "firstVisitBanner": {
     "title": "Première visite ?",

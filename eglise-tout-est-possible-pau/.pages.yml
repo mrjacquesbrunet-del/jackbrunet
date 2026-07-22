@@ -76,13 +76,33 @@ content:
           - { name: subtitle, label: Sous-titre, type: text }
           - { name: ctaPrimary, label: Bouton principal, type: string }
           - { name: ctaSecondary, label: Bouton secondaire, type: string }
-      - name: welcome
-        label: Section Bienvenue
+      - name: marquee
+        label: Bandes défilantes
+        type: object
+        fields:
+          - { name: band, label: "Bande verte (mots)", type: string, list: true }
+          - { name: outline, label: "Bande contour (mots)", type: string, list: true }
+      - name: quickLinks
+        label: "Tuiles « Commencer ici »"
         type: object
         fields:
           - { name: kicker, label: Sur-titre, type: string }
           - { name: title, label: Titre, type: string }
-          - { name: paragraphs, label: Paragraphes, type: text, list: true }
+          - name: items
+            label: Tuiles
+            type: object
+            list: true
+            fields:
+              - { name: title, label: Titre, type: string }
+              - { name: text, label: Texte, type: text }
+              - { name: href, label: "Lien (ex. /premiere-visite)", type: string }
+              - { name: photo, label: Photo, type: image }
+      - name: statement
+        label: "Déclaration géante (scroll)"
+        type: object
+        fields:
+          - { name: kicker, label: Sur-titre, type: string }
+          - { name: text, label: Texte, type: text }
           - { name: cta, label: Bouton, type: string }
       - name: pillars
         label: Section Mission
@@ -118,8 +138,8 @@ content:
           - { name: kicker, label: Sur-titre, type: string }
           - { name: title, label: Titre, type: string }
           - { name: cta, label: Bouton, type: string }
-      - name: messages
-        label: Section Messages
+      - name: latestMessage
+        label: Section Dernier message
         type: object
         fields:
           - { name: kicker, label: Sur-titre, type: string }
