@@ -4,6 +4,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { Faq } from "@/components/ui/Faq";
+import { Marquee } from "@/components/ui/Marquee";
 import { firstVisit } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -17,6 +18,8 @@ export default function FirstVisitPage() {
   return (
     <>
       <PageHero hero={firstVisit.hero} />
+
+      <Marquee items={["Viens comme tu es", "Zéro pression", "Tu es attendu", "Dimanche 10h30"]} />
 
       <Section tone="light">
         <div className="wrap">

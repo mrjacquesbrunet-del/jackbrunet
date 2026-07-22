@@ -3,6 +3,7 @@ import Link from "next/link";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
+import { Marquee } from "@/components/ui/Marquee";
 import { TestimonyCarousel } from "@/components/home/TestimonyCarousel";
 import { testimonies } from "@/lib/content";
 
@@ -25,6 +26,8 @@ export default function TestimoniesPage() {
           </Reveal>
         </div>
       </Section>
+
+      <Marquee items={["Des vies transformées", "L'espérance change des vies"]} variant="outline" />
 
       <Section tone="leaf">
         <div className="wrap text-center">
