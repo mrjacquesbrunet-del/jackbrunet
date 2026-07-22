@@ -18,7 +18,7 @@
   }
 
   ::selection {
-    background: #a3cd86;
+    background: #30ff12;
     color: #121212;
   }
 
@@ -48,9 +48,10 @@
     @apply mx-auto w-full max-w-wrap px-5 sm:px-8 lg:px-12;
   }
 
-  /* Petit sur-titre en capitales espacées */
+  /* Petit sur-titre en capitales espacées — vert flashy sur fond sombre,
+     surchargé en vert foncé sur les fonds clairs (lisibilité) */
   .kicker {
-    @apply text-[0.7rem] font-bold uppercase tracking-kicker text-leaf sm:text-xs;
+    @apply text-[0.7rem] font-bold uppercase tracking-kicker text-pulse sm:text-xs;
   }
 
   /* Échelle typographique « affiche » — condensée, en capitales, immense */
@@ -97,8 +98,9 @@
     @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-4 text-[0.72rem] font-extrabold uppercase tracking-[0.14em] transition-all duration-300 ease-smooth;
   }
 
+  /* CTA principal : le vert flashy de la charte, assumé */
   .btn-primary {
-    @apply btn bg-leaf text-night hover:bg-pulse hover:shadow-[0_0_40px_rgba(48,255,18,0.25)];
+    @apply btn bg-pulse text-night shadow-[0_0_24px_rgba(48,255,18,0.2)] hover:bg-leaf hover:shadow-[0_0_48px_rgba(48,255,18,0.45)];
   }
 
   .btn-ghost-dark {
@@ -110,7 +112,7 @@
   }
 
   .btn-dark {
-    @apply btn bg-night text-cream hover:bg-night-mist hover:shadow-[0_0_30px_rgba(163,205,134,0.3)];
+    @apply btn bg-night text-cream hover:text-pulse hover:shadow-[0_0_30px_rgba(48,255,18,0.25)];
   }
 
   /* Lien avec soulignement animé (accent lumineux, discret) */

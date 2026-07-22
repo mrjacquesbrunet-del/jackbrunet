@@ -54,7 +54,7 @@ export function Header() {
             <span className="font-display text-xl uppercase tracking-wide">
               Tout est possible
             </span>
-            <span className="font-display text-xl uppercase tracking-wide text-leaf transition-colors duration-300 group-hover:text-pulse">
+            <span className="font-display text-xl uppercase tracking-wide text-pulse transition-colors duration-300 group-hover:text-leaf">
               Pau
             </span>
           </Link>

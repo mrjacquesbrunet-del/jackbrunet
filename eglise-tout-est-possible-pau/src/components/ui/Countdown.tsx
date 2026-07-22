@@ -43,7 +43,7 @@ export function Countdown() {
   if (!label) return null;
 
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-pulse/40 px-4 py-1.5 text-xs font-extrabold uppercase tracking-[0.14em] text-leaf">
+    <span className="inline-flex items-center gap-2 rounded-full border border-pulse/50 px-4 py-1.5 text-xs font-extrabold uppercase tracking-[0.14em] text-pulse">
       <span className="block h-1.5 w-1.5 animate-pulse-dot rounded-full bg-pulse" aria-hidden />
       Prochaine célébration {label}
     </span>

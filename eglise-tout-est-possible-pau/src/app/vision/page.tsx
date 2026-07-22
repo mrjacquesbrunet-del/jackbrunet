@@ -50,7 +50,9 @@ export default function VisionPage() {
         <div className="wrap relative text-center">
           <Reveal>
             <p className="kicker">{vision.love.kicker}</p>
-            <h2 className="display-1 mt-6 text-leaf">{vision.love.title}</h2>
+            <h2 className="display-1 mt-6 text-pulse drop-shadow-[0_0_40px_rgba(48,255,18,0.3)]">
+              {vision.love.title}
+            </h2>
             <WordReveal
               text={vision.love.text}
               dimOpacity={0.3}

@@ -10,7 +10,7 @@ export function Marquee({ items, variant = "band" }: Props) {
 
   const wrapper =
     variant === "band"
-      ? "bg-leaf text-night"
+      ? "bg-pulse text-night"
       : "border-y border-cream/10 bg-night text-outline";
 
   return (

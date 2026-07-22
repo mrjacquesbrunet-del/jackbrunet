@@ -17,7 +17,7 @@ export function Footer() {
         {/* Verset signature */}
         <p className="display-3 max-w-4xl text-balance">
           {home.verse.text}
-          <span className="mt-3 block text-sm font-semibold uppercase tracking-kicker text-leaf">
+          <span className="mt-3 block text-sm font-semibold uppercase tracking-kicker text-pulse">
             {home.verse.reference}
           </span>
         </p>
@@ -25,7 +25,7 @@ export function Footer() {
         <div className="mt-16 grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <p className="font-display text-xl uppercase tracking-wide">
-              Tout est possible <span className="text-leaf">Pau</span>
+              Tout est possible <span className="text-pulse">Pau</span>
             </p>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-cream/60">
               Annoncer. Restaurer. Équiper. Envoyer. <br />

@@ -24,7 +24,7 @@ export function PageHero({ hero, tone = "dark" }: { hero: PageHeroType; tone?: "
         <motion.p
           {...appear(0.05)}
           className={`flex items-center gap-3 text-[0.7rem] font-extrabold uppercase tracking-kicker sm:text-xs ${
-            dark ? "text-leaf" : "text-leaf-deep"
+            dark ? "text-pulse" : "text-leaf-deep"
           }`}
         >
           <span className="block h-2 w-2 animate-pulse-dot rounded-full bg-pulse" aria-hidden />

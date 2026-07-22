@@ -37,9 +37,7 @@ export default function HomePage() {
             {home.pillars.items.map((pillar, i) => (
               <Reveal key={pillar.title} delay={i * 0.08} className="h-full">
                 <div className="group h-full bg-night p-8 transition-colors duration-500 ease-smooth hover:bg-night-soft sm:p-10">
-                  <span className="text-sm font-extrabold text-leaf transition-colors duration-300 group-hover:text-pulse">
-                    0{i + 1}
-                  </span>
+                  <span className="text-sm font-extrabold text-pulse">0{i + 1}</span>
                   <h3 className="mt-4 font-display text-3xl uppercase leading-none">
                     {pillar.title}
                   </h3>
@@ -65,7 +63,7 @@ export default function HomePage() {
           <Reveal delay={0.15}>
             <div className="rounded-3xl bg-night p-10 text-cream shadow-[0_30px_80px_rgba(18,18,18,0.35)] sm:p-12">
               <p className="kicker">{sunday.day}</p>
-              <p className="mt-4 font-display text-7xl uppercase leading-none sm:text-8xl">
+              <p className="mt-4 font-display text-7xl uppercase leading-none text-pulse sm:text-8xl">
                 {sunday.time}
               </p>
               <p className="mt-5 text-lg font-bold">{sunday.title}</p>
