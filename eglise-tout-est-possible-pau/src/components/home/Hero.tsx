@@ -14,7 +14,7 @@ import {
 import { Particles3D } from "@/components/ui/Particles3D";
 import { home, settings } from "@/lib/content";
 
-const WORD_INTERVAL_MS = 3000;
+const WORD_INTERVAL_MS = 2000;
 
 // Vidéo du hero : celle du CMS en priorité, sinon le fichier local
 // public/videos/hero.mp4 (il suffit d'y déposer la vidéo fournie).
