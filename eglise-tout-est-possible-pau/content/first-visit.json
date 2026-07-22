@@ -1,0 +1,76 @@
+{
+  "hero": {
+    "kicker": "Première visite",
+    "title": "Viens comme tu es.",
+    "subtitle": "Pas besoin de connaître Dieu, la Bible ou les codes. On a écrit cette page pour répondre à toutes tes questions — et pour que tu saches qu'ici, tu es attendu."
+  },
+  "steps": {
+    "title": "À quoi ressemble un dimanche chez nous ?",
+    "items": [
+      {
+        "title": "Tu es accueilli",
+        "text": "Dès la porte, une équipe t'accueille avec le sourire. Pas de protocole : un bonjour, un café si tu veux, et on t'aide à trouver une place."
+      },
+      {
+        "title": "On chante ensemble",
+        "text": "La célébration commence par un temps de musique live. Tu peux chanter, écouter, ou simplement observer. Tu es libre."
+      },
+      {
+        "title": "Un message pour ta vie",
+        "text": "Un enseignement d'environ 30 minutes, simple et concret, tiré de la Bible. Pas de jargon : des mots d'aujourd'hui pour ta vie d'aujourd'hui."
+      },
+      {
+        "title": "On fait connaissance",
+        "text": "Après la célébration, on prend le temps de discuter autour d'un café. Tu pars quand tu veux — sans pression, promis."
+      }
+    ]
+  },
+  "faq": {
+    "title": "Tes questions, nos réponses.",
+    "items": [
+      {
+        "question": "Je ne crois pas en Dieu. Est-ce que je peux venir ?",
+        "answer": "Oui, mille fois oui. Beaucoup d'entre nous sont arrivés avec des doutes, des questions ou aucune foi du tout. Tu n'as rien à prouver et rien à faire semblant. Viens juste voir par toi-même."
+      },
+      {
+        "question": "Comment dois-je m'habiller ?",
+        "answer": "Comme tu veux ! Jean, baskets, costume… il n'y a aucun code vestimentaire. Viens comme tu es, littéralement."
+      },
+      {
+        "question": "Est-ce que je vais devoir parler ou faire quelque chose ?",
+        "answer": "Non. Personne ne te mettra en avant, ne te demandera de te lever ou de prendre la parole. Tu peux simplement t'asseoir et vivre le moment à ton rythme."
+      },
+      {
+        "question": "Est-ce que ça coûte quelque chose ?",
+        "answer": "Non, c'est entièrement gratuit. Un moment de collecte a lieu pendant la célébration, mais il concerne ceux qui font partie de la maison. Tu es notre invité."
+      },
+      {
+        "question": "Il y a quelque chose pour mes enfants ?",
+        "answer": "Oui ! Les enfants vivent un programme adapté à leur âge, encadré par une équipe formée et bienveillante, pendant que tu profites de la célébration l'esprit tranquille."
+      },
+      {
+        "question": "Combien de temps ça dure ?",
+        "answer": "Environ 1h30. Et après, tu es libre : tu peux filer directement ou rester discuter autour d'un café."
+      },
+      {
+        "question": "C'est quoi, exactement, une église évangélique ?",
+        "answer": "C'est une communauté chrétienne qui croit que Dieu est vivant, qu'il nous aime et que chacun peut le rencontrer personnellement à travers Jésus. Pas de rituel compliqué : une foi simple, vécue au quotidien."
+      }
+    ]
+  },
+  "reassurance": {
+    "title": "Ce que tu ne trouveras pas chez nous",
+    "items": [
+      "Personne ne te jugera sur ton passé ou ton présent.",
+      "Personne ne te forcera à croire, à donner ou à revenir.",
+      "Pas de discours culpabilisant ni de pression.",
+      "Pas besoin de connaître la Bible ou les chants."
+    ]
+  },
+  "cta": {
+    "title": "On t'attend ce dimanche.",
+    "text": "Si tu as la moindre question avant de venir, écris-nous. Un membre de l'équipe te répondra personnellement, avec joie.",
+    "primary": "Voir les horaires",
+    "secondary": "Nous écrire"
+  }
+}

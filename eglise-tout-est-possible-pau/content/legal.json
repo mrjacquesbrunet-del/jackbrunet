@@ -1,0 +1,68 @@
+{
+  "mentions": {
+    "title": "Mentions légales",
+    "sections": [
+      {
+        "title": "Éditeur du site",
+        "paragraphs": [
+          "Ce site est édité par l'Église Tout est possible Pau, association cultuelle régie par la loi du 9 décembre 1905.",
+          "Siège social : Pau (64000), France — adresse complète à compléter.",
+          "Contact : contact@toutestpossible-pau.fr",
+          "Directeur de la publication : représentant légal de l'association (à compléter)."
+        ]
+      },
+      {
+        "title": "Hébergement",
+        "paragraphs": [
+          "Hébergeur : à compléter selon la plateforme de déploiement (par exemple Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis)."
+        ]
+      },
+      {
+        "title": "Propriété intellectuelle",
+        "paragraphs": [
+          "L'ensemble des contenus de ce site (textes, images, vidéos, logo, identité visuelle) est la propriété de l'Église Tout est possible Pau, sauf mention contraire.",
+          "Toute reproduction, même partielle, est soumise à autorisation préalable."
+        ]
+      },
+      {
+        "title": "Responsabilité",
+        "paragraphs": [
+          "L'église s'efforce de fournir des informations exactes et à jour, mais ne peut garantir l'exhaustivité ni l'absence d'erreur. Les liens externes (YouTube, HelloAsso, réseaux sociaux) renvoient vers des services tiers dont l'église n'est pas responsable."
+        ]
+      }
+    ]
+  },
+  "privacy": {
+    "title": "Politique de confidentialité",
+    "intro": "Ta vie privée compte pour nous. Cette page explique, en toute transparence, quelles données sont collectées sur ce site et ce que nous en faisons — conformément au Règlement général sur la protection des données (RGPD).",
+    "sections": [
+      {
+        "title": "Quelles données collectons-nous ?",
+        "paragraphs": [
+          "Formulaire de contact / email : lorsque tu nous écris, nous recevons ton nom, ton adresse email et ton message. Ces informations servent uniquement à te répondre.",
+          "Dons : les dons en ligne sont traités par HelloAsso, qui agit comme responsable de traitement pour les données de paiement. Nous ne stockons aucune donnée bancaire.",
+          "Vidéos : les vidéos sont hébergées sur YouTube et ne se chargent qu'après ton clic, afin de limiter les traceurs tiers."
+        ]
+      },
+      {
+        "title": "Cookies et mesure d'audience",
+        "paragraphs": [
+          "Ce site n'utilise pas de cookies publicitaires. Si une mesure d'audience est mise en place, elle sera anonymisée et respectueuse de ta vie privée."
+        ]
+      },
+      {
+        "title": "Durée de conservation",
+        "paragraphs": [
+          "Les messages reçus sont conservés le temps nécessaire au traitement de ta demande, puis supprimés dans un délai maximal de trois ans."
+        ]
+      },
+      {
+        "title": "Tes droits",
+        "paragraphs": [
+          "Conformément au RGPD, tu disposes d'un droit d'accès, de rectification, d'opposition et de suppression de tes données. Pour l'exercer, écris-nous à contact@toutestpossible-pau.fr.",
+          "Tu peux également introduire une réclamation auprès de la CNIL (cnil.fr)."
+        ]
+      }
+    ]
+  }
+}

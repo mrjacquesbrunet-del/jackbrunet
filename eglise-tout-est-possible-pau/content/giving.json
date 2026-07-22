@@ -1,0 +1,39 @@
+{
+  "hero": {
+    "kicker": "Faire un don",
+    "title": "La générosité change des vies.",
+    "subtitle": "Chaque don permet d'annoncer l'espérance, de restaurer des vies et de servir Pau concrètement. Merci de faire partie de l'histoire."
+  },
+  "why": {
+    "title": "À quoi servent les dons ?",
+    "items": [
+      {
+        "title": "Accueillir",
+        "text": "Louer et équiper un lieu chaleureux, ouvert à tous chaque semaine."
+      },
+      {
+        "title": "Servir la ville",
+        "text": "Des actions concrètes de solidarité pour les personnes seules ou en difficulté à Pau."
+      },
+      {
+        "title": "Toucher une génération",
+        "text": "Des programmes pour les enfants, les jeunes et les familles."
+      }
+    ]
+  },
+  "transparency": {
+    "title": "Transparence totale",
+    "items": [
+      "L'église est une association cultuelle déclarée : chaque don est tracé et comptabilisé.",
+      "Les comptes sont vérifiés et présentés chaque année aux membres.",
+      "Un reçu fiscal peut être délivré : 66 % de ton don est déductible de tes impôts, dans les limites légales.",
+      "Donner est toujours un choix libre — jamais une condition pour être accueilli."
+    ]
+  },
+  "how": {
+    "title": "Donner en 1 minute",
+    "text": "Les dons en ligne passent par HelloAsso, la plateforme sécurisée de référence des associations françaises. Tu peux faire un don ponctuel ou mettre en place un soutien mensuel.",
+    "cta": "Faire un don via HelloAsso",
+    "note": "Tu préfères donner autrement ? Contacte-nous pour un don par virement ou sur place."
+  }
+}

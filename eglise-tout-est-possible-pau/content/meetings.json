@@ -1,0 +1,45 @@
+{
+  "hero": {
+    "kicker": "Nos réunions",
+    "title": "Des rendez-vous pour vivre, pas des rites à subir.",
+    "subtitle": "Chaque semaine, des moments simples et vivants pour rencontrer Dieu et les autres."
+  },
+  "items": [
+    {
+      "title": "Célébration du dimanche",
+      "day": "Dimanche",
+      "time": "10h30",
+      "duration": "1h30 environ",
+      "description": "Le grand rendez-vous de la semaine : louange live, message concret et accueil café. Programme enfants pendant la célébration.",
+      "audience": "Ouvert à tous — c'est le meilleur moment pour une première visite.",
+      "highlight": true
+    },
+    {
+      "title": "Soirée de prière",
+      "day": "Mercredi",
+      "time": "20h00",
+      "duration": "1h environ",
+      "description": "Un temps pour prier ensemble, déposer ce qui pèse et repartir léger.",
+      "audience": "Ouvert à tous.",
+      "highlight": false
+    },
+    {
+      "title": "Groupes de maison",
+      "day": "En semaine",
+      "time": "Selon les groupes",
+      "duration": "Soirée",
+      "description": "Des petits groupes conviviaux qui se retrouvent chez l'un ou chez l'autre pour partager, discuter et s'encourager.",
+      "audience": "Sur inscription — écris-nous pour trouver ton groupe.",
+      "highlight": false
+    }
+  ],
+  "practical": {
+    "title": "Infos pratiques",
+    "items": [
+      { "label": "Adresse", "value": "Pau (64000) — l'adresse exacte est communiquée sur la page contact." },
+      { "label": "Parking", "value": "Stationnement facile à proximité." },
+      { "label": "Enfants", "value": "Programme adapté pendant la célébration du dimanche." },
+      { "label": "Accessibilité", "value": "Salle accessible aux personnes à mobilité réduite." }
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "hero": {
+    "kicker": "Des vies transformées",
+    "title": "L'espérance change des vies.",
+    "subtitle": "Derrière chaque visage, une histoire vraie. Voici ce que Dieu fait, ici, aujourd'hui."
+  },
+  "items": [
+    {
+      "name": "Sarah",
+      "age": "32 ans",
+      "title": "« Je suis entrée par curiosité. J'ai trouvé une famille. »",
+      "text": "Je ne connaissais rien à la foi. Un dimanche, j'ai poussé la porte, juste pour voir. Personne ne m'a jugée, personne ne m'a forcée. Aujourd'hui, ma vie a un sens que je n'aurais jamais imaginé.",
+      "photo": "",
+      "videoUrl": ""
+    },
+    {
+      "name": "Marc",
+      "age": "45 ans",
+      "title": "« Mon couple était fini. Dieu l'a restauré. »",
+      "text": "On était à deux doigts du divorce. Des personnes de l'église nous ont écoutés, accompagnés, sans jamais nous juger. Ce qui était cassé a été reconstruit — plus fort qu'avant.",
+      "photo": "",
+      "videoUrl": ""
+    },
+    {
+      "name": "Léa",
+      "age": "21 ans",
+      "title": "« J'ai enfin trouvé ma place. »",
+      "text": "Après des années à me sentir invisible, j'ai découvert que Dieu me connaissait par mon nom. Ici, j'ai grandi, j'ai trouvé des amis vrais, et je sers maintenant dans l'équipe d'accueil.",
+      "photo": "",
+      "videoUrl": ""
+    },
+    {
+      "name": "David",
+      "age": "38 ans",
+      "title": "« Libéré de dix ans d'addiction. »",
+      "text": "J'avais tout essayé. Ce que je n'avais jamais essayé, c'était la prière. Pas à pas, entouré et aimé, j'ai été libéré. Ma famille a retrouvé son papa.",
+      "photo": "",
+      "videoUrl": ""
+    }
+  ],
+  "share": {
+    "title": "Toi aussi, tu as une histoire ?",
+    "text": "Si Dieu a fait quelque chose dans ta vie, ton histoire peut allumer l'espérance chez quelqu'un d'autre. On aimerait l'entendre.",
+    "cta": "Partager mon témoignage"
+  }
+}

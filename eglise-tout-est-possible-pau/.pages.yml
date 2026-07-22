@@ -1,0 +1,475 @@
+# Espace d'administration (Pages CMS — https://pagescms.org)
+#
+# Ouvre https://app.pagescms.org, connecte-toi avec GitHub, choisis ce dépôt :
+# tout le contenu du site (textes, photos, vidéos, horaires, équipe,
+# témoignages, dons…) se modifie dans des formulaires, sans toucher au code.
+# Chaque « Save » publie automatiquement et garde un historique sur GitHub.
+
+media:
+  input: eglise-tout-est-possible-pau/public/uploads
+  output: /uploads
+
+content:
+  - name: settings
+    label: "⚙️ Paramètres du site"
+    type: file
+    path: eglise-tout-est-possible-pau/content/settings.json
+    fields:
+      - { name: name, label: Nom de l'église, type: string }
+      - { name: city, label: Ville, type: string }
+      - { name: shortName, label: Nom court, type: string }
+      - { name: tagline, label: Slogan, type: string }
+      - { name: description, label: Description (SEO / partage), type: text }
+      - { name: url, label: URL du site, type: string }
+      - { name: contactEmail, label: Email de contact, type: string }
+      - { name: phone, label: Téléphone, type: string }
+      - { name: whatsapp, label: WhatsApp (lien), type: string }
+      - name: address
+        label: Adresse
+        type: object
+        fields:
+          - { name: venue, label: Nom du lieu, type: string }
+          - { name: street, label: Rue, type: string }
+          - { name: postalCode, label: Code postal, type: string }
+          - { name: city, label: Ville, type: string }
+          - { name: mapUrl, label: Lien Google Maps, type: string }
+      - name: social
+        label: Réseaux sociaux
+        type: object
+        fields:
+          - { name: youtube, label: YouTube (URL), type: string }
+          - { name: instagram, label: Instagram (URL), type: string }
+          - { name: facebook, label: Facebook (URL), type: string }
+          - { name: tiktok, label: TikTok (URL), type: string }
+      - name: youtube
+        label: Chaîne YouTube (import automatique)
+        type: object
+        fields:
+          - { name: handle, label: "Identifiant (ex. @monEglise)", type: string }
+          - { name: channelUrl, label: URL de la chaîne, type: string }
+          - { name: channelId, label: "ID de chaîne (optionnel)", type: string }
+      - name: helloasso
+        label: Dons HelloAsso
+        type: object
+        fields:
+          - { name: url, label: Page de don HelloAsso (URL), type: string }
+          - { name: widgetUrl, label: "Widget intégré (URL, optionnel)", type: string }
+      - name: hero
+        label: Vidéo d'accueil
+        type: object
+        fields:
+          - { name: videoUrl, label: "Vidéo plein écran (URL .mp4)", type: string }
+          - { name: posterImage, label: "Image d'attente (poster)", type: image }
+
+  - name: home
+    label: "🏠 Page d'accueil"
+    type: file
+    path: eglise-tout-est-possible-pau/content/home.json
+    fields:
+      - name: hero
+        label: Hero (haut de page)
+        type: object
+        fields:
+          - { name: fixedText, label: "Texte fixe (ex. Une église)", type: string }
+          - { name: rotatingWords, label: "Mots qui défilent", type: string, list: true }
+          - { name: finalPhrase, label: "Phrase finale", type: string }
+          - { name: subtitle, label: Sous-titre, type: text }
+          - { name: ctaPrimary, label: Bouton principal, type: string }
+          - { name: ctaSecondary, label: Bouton secondaire, type: string }
+      - name: welcome
+        label: Section Bienvenue
+        type: object
+        fields:
+          - { name: kicker, label: Sur-titre, type: string }
+          - { name: title, label: Titre, type: string }
+          - { name: paragraphs, label: Paragraphes, type: text, list: true }
+          - { name: cta, label: Bouton, type: string }
+      - name: pillars
+        label: Section Mission
+        type: object
+        fields:
+          - { name: kicker, label: Sur-titre, type: string }
+          - { name: title, label: Titre, type: string }
+          - name: items
+            label: Les 4 piliers
+            type: object
+            list: true
+            fields:
+              - { name: title, label: Titre, type: string }
+              - { name: text, label: Texte, type: text }
+      - name: meetings
+        label: Section Dimanche
+        type: object
+        fields:
+          - { name: kicker, label: Sur-titre, type: string }
+          - { name: title, label: Titre, type: string }
+          - { name: text, label: Texte, type: text }
+          - { name: cta, label: Bouton, type: string }
+      - name: verse
+        label: Verset (pied de page)
+        type: object
+        fields:
+          - { name: text, label: Verset, type: text }
+          - { name: reference, label: Référence, type: string }
+      - name: testimonies
+        label: Section Témoignages
+        type: object
+        fields:
+          - { name: kicker, label: Sur-titre, type: string }
+          - { name: title, label: Titre, type: string }
+          - { name: cta, label: Bouton, type: string }
+      - name: messages
+        label: Section Messages
+        type: object
+        fields:
+          - { name: kicker, label: Sur-titre, type: string }
+          - { name: title, label: Titre, type: string }
+          - { name: text, label: Texte, type: text }
+          - { name: cta, label: Bouton, type: string }
+      - name: firstVisitBanner
+        label: Bandeau Première visite
+        type: object
+        fields:
+          - { name: title, label: Titre, type: string }
+          - { name: text, label: Texte, type: text }
+          - { name: cta, label: Bouton, type: string }
+
+  - name: first-visit
+    label: "👋 Première visite"
+    type: file
+    path: eglise-tout-est-possible-pau/content/first-visit.json
+    fields:
+      - name: hero
+        label: En-tête
+        type: object
+        fields:
+          - { name: kicker, label: Sur-titre, type: string }
+          - { name: title, label: Titre, type: string }
+          - { name: subtitle, label: Sous-titre, type: text }
+      - name: steps
+        label: Déroulé du dimanche
+        type: object
+        fields:
+          - { name: title, label: Titre, type: string }
+          - name: items
+            label: Étapes
+            type: object
+            list: true
+            fields:
+              - { name: title, label: Titre, type: string }
+              - { name: text, label: Texte, type: text }
+      - name: faq
+        label: Questions fréquentes
+        type: object
+        fields:
+          - { name: title, label: Titre, type: string }
+          - name: items
+            label: Questions
+            type: object
+            list: true
+            fields:
+              - { name: question, label: Question, type: string }
+              - { name: answer, label: Réponse, type: text }
+      - name: reassurance
+        label: "Ce que tu ne trouveras pas"
+        type: object
+        fields:
+          - { name: title, label: Titre, type: string }
+          - { name: items, label: Points, type: string, list: true }
+      - name: cta
+        label: Appel final
+        type: object
+        fields:
+          - { name: title, label: Titre, type: string }
+          - { name: text, label: Texte, type: text }
+          - { name: primary, label: Bouton principal, type: string }
+          - { name: secondary, label: Bouton secondaire, type: string }
+
+  - name: about
+    label: "📖 À propos"
+    type: file
+    path: eglise-tout-est-possible-pau/content/about.json
+    fields:
+      - name: hero
+        label: En-tête
+        type: object
+        fields:
+          - { name: kicker, label: Sur-titre, type: string }
+          - { name: title, label: Titre, type: string }
+          - { name: subtitle, label: Sous-titre, type: text }
+      - name: story
+        label: Notre histoire
+        type: object
+        fields:
+          - { name: title, label: Titre, type: string }
+          - { name: paragraphs, label: Paragraphes, type: text, list: true }
+      - name: values
+        label: Nos valeurs
+        type: object
+        fields:
+          - { name: title, label: Titre, type: string }
+          - name: items
+            label: Valeurs
+            type: object
+            list: true
+            fields:
+              - { name: title, label: Titre, type: string }
+              - { name: text, label: Texte, type: text }
+      - name: beliefs
+        label: Ce que nous croyons
+        type: object
+        fields:
+          - { name: title, label: Titre, type: string }
+          - { name: text, label: Texte, type: text }
+
+  - name: vision
+    label: "🎯 Vision"
+    type: file
+    path: eglise-tout-est-possible-pau/content/vision.json
+    fields:
+      - name: hero
+        label: En-tête
+        type: object
+        fields:
+          - { name: kicker, label: Sur-titre, type: string }
+          - { name: title, label: Titre, type: string }
+          - { name: subtitle, label: Sous-titre, type: text }
+      - name: mission
+        label: Les 4 verbes
+        type: object
+        fields:
+          - { name: title, label: Titre, type: string }
+          - name: items
+            label: Verbes
+            type: object
+            list: true
+            fields:
+              - { name: title, label: Titre, type: string }
+              - { name: verse, label: Verset, type: string }
+              - { name: text, label: Texte, type: text }
+      - name: love
+        label: Valeur centrale (Amour)
+        type: object
+        fields:
+          - { name: kicker, label: Sur-titre, type: string }
+          - { name: title, label: Titre, type: string }
+          - { name: text, label: Texte, type: text }
+      - name: dream
+        label: Notre rêve pour Pau
+        type: object
+        fields:
+          - { name: title, label: Titre, type: string }
+          - { name: paragraphs, label: Paragraphes, type: text, list: true }
+
+  - name: team
+    label: "👥 Équipe pastorale"
+    type: file
+    path: eglise-tout-est-possible-pau/content/team.json
+    fields:
+      - name: hero
+        label: En-tête
+        type: object
+        fields:
+          - { name: kicker, label: Sur-titre, type: string }
+          - { name: title, label: Titre, type: string }
+          - { name: subtitle, label: Sous-titre, type: text }
+      - name: members
+        label: Membres
+        type: object
+        list: true
+        fields:
+          - { name: name, label: Nom, type: string }
+          - { name: role, label: Rôle, type: string }
+          - { name: photo, label: Photo, type: image }
+          - { name: bio, label: Bio, type: text }
+      - name: join
+        label: Appel à servir
+        type: object
+        fields:
+          - { name: title, label: Titre, type: string }
+          - { name: text, label: Texte, type: text }
+          - { name: cta, label: Bouton, type: string }
+
+  - name: meetings
+    label: "🗓️ Nos réunions"
+    type: file
+    path: eglise-tout-est-possible-pau/content/meetings.json
+    fields:
+      - name: hero
+        label: En-tête
+        type: object
+        fields:
+          - { name: kicker, label: Sur-titre, type: string }
+          - { name: title, label: Titre, type: string }
+          - { name: subtitle, label: Sous-titre, type: text }
+      - name: items
+        label: Réunions
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Titre, type: string }
+          - { name: day, label: Jour, type: string }
+          - { name: time, label: Heure, type: string }
+          - { name: duration, label: Durée, type: string }
+          - { name: description, label: Description, type: text }
+          - { name: audience, label: Pour qui ?, type: string }
+          - { name: highlight, label: Mise en avant (dimanche), type: boolean }
+      - name: practical
+        label: Infos pratiques
+        type: object
+        fields:
+          - { name: title, label: Titre, type: string }
+          - name: items
+            label: Infos
+            type: object
+            list: true
+            fields:
+              - { name: label, label: Libellé, type: string }
+              - { name: value, label: Valeur, type: string }
+
+  - name: testimonies
+    label: "💚 Témoignages"
+    type: file
+    path: eglise-tout-est-possible-pau/content/testimonies.json
+    fields:
+      - name: hero
+        label: En-tête
+        type: object
+        fields:
+          - { name: kicker, label: Sur-titre, type: string }
+          - { name: title, label: Titre, type: string }
+          - { name: subtitle, label: Sous-titre, type: text }
+      - name: items
+        label: Témoignages
+        type: object
+        list: true
+        fields:
+          - { name: name, label: Prénom, type: string }
+          - { name: age, label: Âge (ex. 32 ans), type: string }
+          - { name: title, label: Phrase forte (titre), type: string }
+          - { name: text, label: Témoignage, type: text }
+          - { name: photo, label: Photo, type: image }
+          - { name: videoUrl, label: "Vidéo YouTube (URL, optionnel)", type: string }
+      - name: share
+        label: Appel à témoigner
+        type: object
+        fields:
+          - { name: title, label: Titre, type: string }
+          - { name: text, label: Texte, type: text }
+          - { name: cta, label: Bouton, type: string }
+
+  - name: giving
+    label: "🤲 Faire un don"
+    type: file
+    path: eglise-tout-est-possible-pau/content/giving.json
+    fields:
+      - name: hero
+        label: En-tête
+        type: object
+        fields:
+          - { name: kicker, label: Sur-titre, type: string }
+          - { name: title, label: Titre, type: string }
+          - { name: subtitle, label: Sous-titre, type: text }
+      - name: why
+        label: À quoi servent les dons
+        type: object
+        fields:
+          - { name: title, label: Titre, type: string }
+          - name: items
+            label: Postes
+            type: object
+            list: true
+            fields:
+              - { name: title, label: Titre, type: string }
+              - { name: text, label: Texte, type: text }
+      - name: transparency
+        label: Transparence
+        type: object
+        fields:
+          - { name: title, label: Titre, type: string }
+          - { name: items, label: Points, type: string, list: true }
+      - name: how
+        label: Donner en ligne
+        type: object
+        fields:
+          - { name: title, label: Titre, type: string }
+          - { name: text, label: Texte, type: text }
+          - { name: cta, label: Bouton, type: string }
+          - { name: note, label: Note, type: string }
+
+  - name: contact
+    label: "✉️ Contact"
+    type: file
+    path: eglise-tout-est-possible-pau/content/contact.json
+    fields:
+      - name: hero
+        label: En-tête
+        type: object
+        fields:
+          - { name: kicker, label: Sur-titre, type: string }
+          - { name: title, label: Titre, type: string }
+          - { name: subtitle, label: Sous-titre, type: text }
+      - name: reasons
+        label: Raisons de nous écrire
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Titre, type: string }
+          - { name: text, label: Texte, type: text }
+      - name: legal
+        label: Infos légales
+        type: object
+        fields:
+          - { name: association, label: Association, type: string }
+          - { name: responsible, label: Représentant légal, type: string }
+
+  - name: messages
+    label: "🎬 Page Messages"
+    type: file
+    path: eglise-tout-est-possible-pau/content/messages.json
+    fields:
+      - name: hero
+        label: En-tête
+        type: object
+        fields:
+          - { name: kicker, label: Sur-titre, type: string }
+          - { name: title, label: Titre, type: string }
+          - { name: subtitle, label: Sous-titre, type: text }
+      - name: empty
+        label: "Message si aucune vidéo"
+        type: object
+        fields:
+          - { name: title, label: Titre, type: string }
+          - { name: text, label: Texte, type: text }
+          - { name: cta, label: Bouton, type: string }
+
+  - name: legal
+    label: "⚖️ Pages légales"
+    type: file
+    path: eglise-tout-est-possible-pau/content/legal.json
+    fields:
+      - name: mentions
+        label: Mentions légales
+        type: object
+        fields:
+          - { name: title, label: Titre, type: string }
+          - name: sections
+            label: Sections
+            type: object
+            list: true
+            fields:
+              - { name: title, label: Titre, type: string }
+              - { name: paragraphs, label: Paragraphes, type: text, list: true }
+      - name: privacy
+        label: Politique de confidentialité
+        type: object
+        fields:
+          - { name: title, label: Titre, type: string }
+          - { name: intro, label: Introduction, type: text }
+          - name: sections
+            label: Sections
+            type: object
+            list: true
+            fields:
+              - { name: title, label: Titre, type: string }
+              - { name: paragraphs, label: Paragraphes, type: text, list: true }

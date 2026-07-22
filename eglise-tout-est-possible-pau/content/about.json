@@ -1,0 +1,40 @@
+{
+  "hero": {
+    "kicker": "À propos",
+    "title": "Une famille, pas une institution.",
+    "subtitle": "L'Église Tout est possible Pau est née d'une conviction simple : chacun peut rencontrer Jésus, être restauré et trouver une nouvelle espérance."
+  },
+  "story": {
+    "title": "Notre histoire",
+    "paragraphs": [
+      "Tout est possible Pau est une église chrétienne implantée au cœur du Béarn. Elle est née du désir de voir une génération découvrir que Dieu n'est pas une idée lointaine, mais un Père présent, réel et bon.",
+      "Nous croyons en l'action du Saint-Esprit aujourd'hui — des vies changées, des cœurs guéris, des familles restaurées — et nous voulons le vivre avec un langage simple, accessible à ceux qui découvrent la foi.",
+      "Notre priorité, ce sont les personnes qui ne connaissent pas encore Dieu. Si c'est ton cas, cette église a été pensée pour toi."
+    ]
+  },
+  "values": {
+    "title": "Ce qui nous anime",
+    "items": [
+      {
+        "title": "L'Amour",
+        "text": "Notre valeur centrale. Avant les programmes et les projets, il y a des personnes — et chacune compte infiniment."
+      },
+      {
+        "title": "L'Accueil",
+        "text": "Tu n'es pas un visiteur, tu es un invité de marque. Bienvenue à la maison."
+      },
+      {
+        "title": "L'Authenticité",
+        "text": "Pas de masques ici. On avance ensemble, avec nos forces et nos fragilités."
+      },
+      {
+        "title": "L'Excellence",
+        "text": "Nous faisons tout avec soin, parce que ce que nous vivons en vaut la peine — et toi aussi."
+      }
+    ]
+  },
+  "beliefs": {
+    "title": "Ce que nous croyons",
+    "text": "Nous croyons que Dieu nous aime, que Jésus est venu nous rejoindre et nous relever, et que le Saint-Esprit agit encore aujourd'hui. Nous croyons que personne n'est trop loin, trop cassé ou trop en retard pour recommencer. En un mot : tout est possible."
+  }
+}

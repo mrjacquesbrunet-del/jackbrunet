@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-night text-cream antialiased;
+    font-feature-settings: "ss01" on, "cv11" on;
+  }
+
+  ::selection {
+    background: #a3cd86;
+    color: #121212;
+  }
+
+  :focus-visible {
+    outline: 2px solid #30ff12;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Conteneur principal, très aéré */
+  .wrap {
+    @apply mx-auto w-full max-w-wrap px-5 sm:px-8 lg:px-12;
+  }
+
+  /* Petit sur-titre en capitales espacées */
+  .kicker {
+    @apply text-[0.7rem] font-bold uppercase tracking-kicker text-leaf sm:text-xs;
+  }
+
+  /* Échelle typographique — grande, imposante, fluide */
+  .display-1 {
+    font-size: clamp(2.75rem, 8vw, 6.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    font-weight: 800;
+  }
+
+  .display-2 {
+    font-size: clamp(2rem, 5vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    font-weight: 800;
+  }
+
+  .display-3 {
+    font-size: clamp(1.5rem, 3.2vw, 2.5rem);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+
+  .lead {
+    font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+    line-height: 1.65;
+  }
+
+  /* Boutons */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold transition-all duration-300 ease-smooth;
+  }
+
+  .btn-primary {
+    @apply btn bg-leaf text-night hover:bg-pulse hover:shadow-[0_0_40px_rgba(48,255,18,0.25)];
+  }
+
+  .btn-ghost-dark {
+    @apply btn border border-cream/25 text-cream hover:border-pulse hover:text-pulse;
+  }
+
+  .btn-ghost-light {
+    @apply btn border border-night/20 text-night hover:border-leaf-deep hover:bg-leaf-faint;
+  }
+
+  .btn-dark {
+    @apply btn bg-night text-cream hover:bg-night-mist hover:shadow-[0_0_30px_rgba(163,205,134,0.3)];
+  }
+
+  /* Lien avec soulignement animé (accent lumineux, discret) */
+  .link-underline {
+    @apply relative;
+  }
+  .link-underline::after {
+    content: "";
+    @apply absolute -bottom-0.5 left-0 h-px w-0 bg-pulse transition-all duration-300 ease-smooth;
+  }
+  .link-underline:hover::after {
+    @apply w-full;
+  }
+
+  /* Grain cinématographique très léger sur les fonds sombres */
+  .grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  /* Masque de dégradé pour halos lumineux */
+  .glow-leaf {
+    background: radial-gradient(
+      ellipse at center,
+      rgba(163, 205, 134, 0.16) 0%,
+      transparent 65%
+    );
+  }
+}

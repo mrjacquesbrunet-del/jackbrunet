@@ -1,0 +1,37 @@
+{
+  "name": "Église Tout est possible",
+  "city": "Pau",
+  "shortName": "Tout est possible Pau",
+  "tagline": "Une église où tout est possible",
+  "description": "Église Tout est possible Pau — une église vivante, accueillante et moderne au cœur de Pau. Viens comme tu es : rencontre Jésus, trouve une famille et une nouvelle espérance.",
+  "url": "https://www.toutestpossible-pau.fr",
+  "contactEmail": "contact@toutestpossible-pau.fr",
+  "phone": "",
+  "whatsapp": "",
+  "address": {
+    "venue": "Lieu de culte — Tout est possible Pau",
+    "street": "Adresse communiquée très bientôt",
+    "postalCode": "64000",
+    "city": "Pau",
+    "mapUrl": "https://maps.google.com/?q=Pau+64000"
+  },
+  "social": {
+    "youtube": "https://www.youtube.com",
+    "instagram": "https://www.instagram.com",
+    "facebook": "https://www.facebook.com",
+    "tiktok": ""
+  },
+  "youtube": {
+    "handle": "",
+    "channelUrl": "https://www.youtube.com",
+    "channelId": ""
+  },
+  "helloasso": {
+    "url": "https://www.helloasso.com",
+    "widgetUrl": ""
+  },
+  "hero": {
+    "videoUrl": "",
+    "posterImage": ""
+  }
+}

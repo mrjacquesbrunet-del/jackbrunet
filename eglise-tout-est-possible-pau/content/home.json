@@ -1,0 +1,76 @@
+{
+  "hero": {
+    "fixedText": "Une église",
+    "rotatingWords": [
+      "vivante",
+      "accueillante",
+      "authentique",
+      "passionnée",
+      "généreuse",
+      "familiale",
+      "accessible",
+      "pour tous"
+    ],
+    "finalPhrase": "où tout est possible.",
+    "subtitle": "Bienvenue à la maison. Quelle que soit ton histoire, il y a une place pour toi ici, à Pau.",
+    "ctaPrimary": "Prépare ta première visite",
+    "ctaSecondary": "Regarder un message"
+  },
+  "welcome": {
+    "kicker": "Bienvenue",
+    "title": "Bienvenue à la maison.",
+    "paragraphs": [
+      "Tu n'as pas besoin d'être parfait pour venir. Tu n'as même pas besoin de croire. Viens comme tu es, avec tes questions, tes doutes et ton histoire.",
+      "Nous sommes une famille de tous les âges et de tous les horizons, réunie autour d'une conviction simple : avec Dieu, tout est possible. Ici, tu seras accueilli, jamais jugé."
+    ],
+    "cta": "Découvre qui nous sommes"
+  },
+  "pillars": {
+    "kicker": "Notre mission",
+    "title": "Annoncer. Restaurer. Équiper. Envoyer.",
+    "items": [
+      {
+        "title": "Annoncer",
+        "text": "Partager la bonne nouvelle de Jésus avec des mots simples, pour que chacun puisse la comprendre et la vivre."
+      },
+      {
+        "title": "Restaurer",
+        "text": "Voir des cœurs guéris, des familles réconciliées et des vies reconstruites par l'amour de Dieu."
+      },
+      {
+        "title": "Équiper",
+        "text": "Aider chacun à grandir, découvrir ses dons et devenir pleinement ce qu'il est appelé à être."
+      },
+      {
+        "title": "Envoyer",
+        "text": "Encourager chacun à rayonner autour de lui — dans sa famille, son travail, sa ville et au-delà."
+      }
+    ]
+  },
+  "meetings": {
+    "kicker": "Rejoins-nous",
+    "title": "On t'attend ce dimanche.",
+    "text": "Un moment de louange, un message qui parle à ta vie, un café chaleureux. Tout est prévu pour les enfants. Viens comme tu es.",
+    "cta": "Voir nos réunions"
+  },
+  "verse": {
+    "text": "« Tout est possible à celui qui croit. »",
+    "reference": "Marc 9, 23"
+  },
+  "testimonies": {
+    "kicker": "Des vies transformées",
+    "title": "L'espérance change des vies.",
+    "cta": "Voir tous les témoignages"
+  },
+  "messages": {
+    "kicker": "Messages",
+    "title": "Un message pour ta semaine.",
+    "text": "Retrouve nos dernières prédications en vidéo, où que tu sois.",
+    "cta": "Tous les messages"
+  },
+  "firstVisitBanner": {
+    "title": "Première visite ?",
+    "text": "On sait que pousser la porte d'une église peut impressionner. On a tout préparé pour que tu te sentes attendu.",
+    "cta": "Tout savoir avant de venir"
+  }
+}

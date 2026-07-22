@@ -1,0 +1,38 @@
+{
+  "hero": {
+    "kicker": "Équipe pastorale",
+    "title": "Des visages avant des fonctions.",
+    "subtitle": "Une équipe au service de la famille de l'église — pour t'accueillir, t'écouter et t'accompagner."
+  },
+  "members": [
+    {
+      "name": "Prénom Nom",
+      "role": "Pasteur principal",
+      "photo": "",
+      "bio": "Passionné par Jésus et par les gens, il porte la vision de Tout est possible Pau : voir chacun rencontrer Dieu et être restauré."
+    },
+    {
+      "name": "Prénom Nom",
+      "role": "Pasteure",
+      "photo": "",
+      "bio": "Son cœur : que chacun se sente à la maison et grandisse dans son identité."
+    },
+    {
+      "name": "Prénom Nom",
+      "role": "Responsable louange",
+      "photo": "",
+      "bio": "Il conduit l'église dans des moments de louange vivants et authentiques."
+    },
+    {
+      "name": "Prénom Nom",
+      "role": "Responsable accueil",
+      "photo": "",
+      "bio": "Le premier sourire que tu croiseras en poussant la porte."
+    }
+  ],
+  "join": {
+    "title": "Envie de servir ?",
+    "text": "L'église avance grâce à des dizaines de bénévoles passionnés. Accueil, musique, enfants, technique, café… il y a une place pour tes talents.",
+    "cta": "Nous contacter"
+  }
+}

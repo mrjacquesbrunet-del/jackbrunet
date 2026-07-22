@@ -1,0 +1,44 @@
+{
+  "hero": {
+    "kicker": "Notre vision",
+    "title": "Voir des vies transformées, une ville touchée.",
+    "subtitle": "Nous rêvons d'une église où chacun peut rencontrer Jésus, être restauré, grandir et rayonner. À Pau, et bien au-delà."
+  },
+  "mission": {
+    "title": "Quatre verbes qui disent tout",
+    "items": [
+      {
+        "title": "Annoncer",
+        "verse": "« Allez, faites de toutes les nations des disciples. » — Matthieu 28, 19",
+        "text": "La bonne nouvelle de Jésus est pour tout le monde. Nous voulons l'annoncer avec des mots simples et vrais, pour que chacun — croyant ou non — puisse la comprendre et se sentir concerné."
+      },
+      {
+        "title": "Restaurer",
+        "verse": "« Il guérit ceux qui ont le cœur brisé. » — Psaume 147, 3",
+        "text": "Dieu répare ce qui est cassé. Nous voulons être un lieu où les blessures trouvent la guérison, où les familles se reconstruisent, où chacun retrouve sa dignité et son identité."
+      },
+      {
+        "title": "Équiper",
+        "verse": "« … pour le perfectionnement des saints. » — Éphésiens 4, 12",
+        "text": "Chacun a reçu des dons uniques. Nous voulons t'aider à les découvrir et à grandir, pour que ta foi devienne solide, vivante et contagieuse."
+      },
+      {
+        "title": "Envoyer",
+        "verse": "« Vous serez mes témoins. » — Actes 1, 8",
+        "text": "L'église ne s'arrête pas aux murs du dimanche. Nous envoyons chacun rayonner là où il vit : sa famille, son quartier, son travail, sa ville."
+      }
+    ]
+  },
+  "love": {
+    "kicker": "Notre valeur centrale",
+    "title": "L'Amour.",
+    "text": "Tout ce que nous faisons prend sa source dans l'amour de Dieu. C'est lui qui nous accueille en premier, nous relève et nous envoie. Sans amour, tout le reste ne serait que du bruit."
+  },
+  "dream": {
+    "title": "Notre rêve pour Pau",
+    "paragraphs": [
+      "Nous rêvons d'une église qui fait du bien à sa ville. Une communauté généreuse, présente et engagée, connue pour son amour concret.",
+      "Nous rêvons de voir des générations entières — enfants, jeunes, familles, aînés — découvrir qu'avec Dieu, il n'est jamais trop tard, et que rien n'est impossible."
+    ]
+  }
+}
