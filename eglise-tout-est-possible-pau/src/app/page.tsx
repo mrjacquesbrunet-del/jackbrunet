@@ -29,8 +29,9 @@ export default function HomePage() {
       {/* Déclaration géante révélée au scroll */}
       <Statement />
 
-      {/* Mission : Annoncer. Restaurer. Équiper. Envoyer. — section claire */}
-      <Section tone="light">
+      {/* Mission : Annoncer. Restaurer. Équiper. Envoyer. — section claire,
+          rapprochée du bouton de la déclaration */}
+      <Section tone="light" className="!pt-8 sm:!pt-10">
         <div className="wrap">
           <Reveal>
             <p className="kicker text-leaf-deep">{home.pillars.kicker}</p>

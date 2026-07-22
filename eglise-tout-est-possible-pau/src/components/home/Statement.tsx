@@ -8,11 +8,11 @@ export function Statement() {
   const { statement } = home;
 
   return (
-    <section className="bg-cream py-28 text-night sm:py-40">
+    <section className="bg-cream pb-14 pt-28 text-night sm:pb-16 sm:pt-40">
       <div className="wrap">
         <p className="kicker text-leaf-deep">{statement.kicker}</p>
         <WordReveal text={statement.text} className="display-2 mt-8 max-w-5xl" />
-        <Link href="/a-propos" className="btn-dark mt-12">
+        <Link href="/a-propos" className="btn-primary mt-12">
           {statement.cta}
         </Link>
       </div>
