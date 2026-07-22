@@ -4,12 +4,12 @@ import { home } from "@/lib/content";
 
 // Style référence : blocs de couleurs pleines empilés, kicker gras,
 // titre étendu ultra-gras, lien souligné « Découvrir ».
-// Le bloc noir vient en premier pour laisser le bandeau vert flashy
-// respirer juste au-dessus.
+// Trio d'appels : noir (laisse respirer le bandeau au-dessus) →
+// crème → vert flashy en finale, textes noirs sur le flashy.
 const tones = [
   { bg: "bg-night", text: "text-cream", sub: "text-cream/70", link: "text-pulse" },
   { bg: "bg-cream", text: "text-night", sub: "text-night/70", link: "text-night" },
-  { bg: "bg-leaf", text: "text-night", sub: "text-night/75", link: "text-night" },
+  { bg: "bg-pulse", text: "text-night", sub: "text-night/80", link: "text-night" },
 ] as const;
 
 export function QuickLinks() {

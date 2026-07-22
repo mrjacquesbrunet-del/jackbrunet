@@ -45,7 +45,7 @@ const config: Config = {
       },
       animation: {
         "pulse-dot": "pulseDot 2.4s ease-in-out infinite",
-        marquee: "marquee 28s linear infinite",
+        marquee: "marquee 16s linear infinite",
       },
       keyframes: {
         pulseDot: {

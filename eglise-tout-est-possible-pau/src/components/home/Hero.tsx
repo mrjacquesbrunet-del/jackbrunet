@@ -147,7 +147,7 @@ export function Hero() {
           initial={reduce ? false : { opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.65, ease: [0.22, 1, 0.36, 1] }}
-          className="lead mt-10 max-w-md text-cream/80"
+          className="lead mt-5 max-w-md text-cream/85"
         >
           {hero.subtitle}
         </motion.p>
