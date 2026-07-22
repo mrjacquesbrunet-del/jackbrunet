@@ -86,6 +86,15 @@
     font-stretch: 125%;
   }
 
+  /* Wordmark du logo : même ADN que les titres (étendu ultra-gras) */
+  .wordmark {
+    font-family: var(--font-display), Impact, sans-serif;
+    font-weight: 800;
+    font-stretch: 125%;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+
   /* Sous-titre condensé gras (style « BIENVENUE À L'ÉGLISE ») */
   .condensed {
     font-family: var(--font-display), Impact, sans-serif;

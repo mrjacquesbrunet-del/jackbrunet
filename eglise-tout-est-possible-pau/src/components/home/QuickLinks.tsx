@@ -7,7 +7,7 @@ import { home } from "@/lib/content";
 const tones = [
   { bg: "bg-pulse", text: "text-night", sub: "text-night/75", link: "text-night" },
   { bg: "bg-cream", text: "text-night", sub: "text-night/70", link: "text-night" },
-  { bg: "bg-night", text: "text-cream", sub: "text-cream/70", link: "text-pulse" },
+  { bg: "bg-leaf", text: "text-night", sub: "text-night/75", link: "text-night" },
 ] as const;
 
 export function QuickLinks() {

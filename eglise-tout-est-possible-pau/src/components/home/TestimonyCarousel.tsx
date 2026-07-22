@@ -13,8 +13,18 @@ function youtubeId(url: string): string | null {
 
 // Carrousel immersif : défilement natif (scroll-snap) — fluide au doigt,
 // accessible au clavier, boutons de navigation en renfort.
-export function TestimonyCarousel({ items }: { items: Testimony[] }) {
+export function TestimonyCarousel({
+  items,
+  tone = "dark",
+}: {
+  items: Testimony[];
+  tone?: "dark" | "light";
+}) {
   const track = useRef<HTMLUListElement>(null);
+  const navClass =
+    tone === "light"
+      ? "border-night/25 text-night hover:border-leaf-deep hover:text-leaf-deep"
+      : "border-cream/20 text-cream hover:border-pulse hover:text-pulse";
 
   const scrollBy = (direction: 1 | -1) => {
     const el = track.current;
@@ -70,7 +80,7 @@ export function TestimonyCarousel({ items }: { items: Testimony[] }) {
           type="button"
           onClick={() => scrollBy(-1)}
           aria-label={t("a11y.previous")}
-          className="flex h-12 w-12 items-center justify-center rounded-full border border-cream/20 text-cream transition-all duration-300 ease-smooth hover:border-pulse hover:text-pulse"
+          className={`flex h-12 w-12 items-center justify-center rounded-full border transition-all duration-300 ease-smooth ${navClass}`}
         >
           <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-2" aria-hidden>
             <path d="M15 6l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
@@ -80,7 +90,7 @@ export function TestimonyCarousel({ items }: { items: Testimony[] }) {
           type="button"
           onClick={() => scrollBy(1)}
           aria-label={t("a11y.next")}
-          className="flex h-12 w-12 items-center justify-center rounded-full border border-cream/20 text-cream transition-all duration-300 ease-smooth hover:border-pulse hover:text-pulse"
+          className={`flex h-12 w-12 items-center justify-center rounded-full border transition-all duration-300 ease-smooth ${navClass}`}
         >
           <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-2" aria-hidden>
             <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />

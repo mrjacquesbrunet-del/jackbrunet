@@ -35,7 +35,7 @@ export function LatestMessage() {
           <div className="mt-14 grid gap-8 lg:grid-cols-[2fr_1fr]">
             <Reveal>
               <LiteYouTube videoId={latest.id} title={latest.title} />
-              <h3 className="mt-5 font-display text-2xl uppercase leading-tight sm:text-3xl">
+              <h3 className="mt-5 wordmark text-2xl leading-tight sm:text-3xl">
                 {latest.title}
               </h3>
             </Reveal>

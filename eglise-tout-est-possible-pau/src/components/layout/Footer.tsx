@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { siteConfig } from "@/config/site";
 import { settings, home } from "@/lib/content";
 import { t } from "@/i18n";
@@ -24,8 +25,15 @@ export function Footer() {
 
         <div className="mt-16 grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <p className="font-display text-xl uppercase tracking-wide">
-              Tout est possible <span className="script text-2xl text-pulse">Pau</span>
+            <Image
+              src="/logo.png"
+              alt=""
+              width={44}
+              height={44}
+              className="h-11 w-11 object-contain"
+            />
+            <p className="wordmark mt-4 text-lg">
+              Tout est possible <span className="text-pulse">Pau</span>
             </p>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-cream/60">
               Annoncer. Restaurer. Équiper. Envoyer. <br />

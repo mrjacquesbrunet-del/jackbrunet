@@ -24,7 +24,7 @@ export function Marquee({ items, variant = "band" }: Props) {
                 className={`flex items-center text-2xl leading-none sm:text-3xl ${
                   variant === "band" && i % 2 === 1
                     ? "script"
-                    : "font-display uppercase tracking-wide"
+                    : "wordmark tracking-wide"
                 }`}
               >
                 <span className="whitespace-nowrap px-6">{item}</span>

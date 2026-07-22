@@ -2,11 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { siteConfig } from "@/config/site";
 import { t } from "@/i18n";
 
+// Header minimaliste (style référence) : logo à gauche, « MENU » à droite.
+// Toute la navigation vit dans le panneau plein écran.
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -38,8 +41,12 @@ export function Header() {
         {t("a11y.skipToContent")}
       </a>
 
+      {/* z-index au-dessus du panneau quand le menu est ouvert, pour que
+          « Fermer » reste cliquable */}
       <header
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-smooth ${
+        className={`fixed inset-x-0 top-0 transition-all duration-500 ease-smooth ${
+          open ? "z-[70]" : "z-50"
+        } ${
           scrolled || open
             ? "bg-night/85 backdrop-blur-xl"
             : "bg-gradient-to-b from-night/70 to-transparent"
@@ -48,62 +55,31 @@ export function Header() {
         <div className="wrap flex h-20 items-center justify-between gap-4">
           <Link
             href="/"
-            className="group relative z-[70] flex items-baseline gap-2 text-cream"
+            className="relative z-[70] flex items-center transition-transform duration-300 ease-smooth hover:scale-105"
             aria-label={`${siteConfig.fullName} — ${t("nav.home")}`}
           >
-            <span className="font-display text-xl uppercase tracking-wide">
-              Tout est possible
-            </span>
-            <span className="script text-2xl text-pulse transition-colors duration-300 group-hover:text-leaf">
-              Pau
-            </span>
+            <Image
+              src="/logo.png"
+              alt={`Logo ${siteConfig.fullName}`}
+              width={52}
+              height={52}
+              priority
+              className="h-12 w-12 object-contain sm:h-[52px] sm:w-[52px]"
+            />
           </Link>
 
-          <nav className="hidden items-center gap-7 lg:flex" aria-label="Navigation principale">
-            {siteConfig.nav.slice(0, 6).map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`link-underline text-sm font-semibold transition-colors duration-300 ${
-                  pathname === item.href ? "text-leaf" : "text-cream/85 hover:text-cream"
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <Link
-              href={siteConfig.give.href}
-              className="link-underline hidden text-sm font-semibold text-cream/85 hover:text-cream sm:block"
-            >
-              {siteConfig.give.label}
-            </Link>
-            <Link href={siteConfig.cta.href} className="btn-primary hidden !px-5 !py-2.5 !text-xs md:inline-flex">
-              {siteConfig.cta.label}
-            </Link>
-            <button
-              type="button"
-              onClick={() => setOpen(!open)}
-              aria-expanded={open}
-              aria-label={open ? t("a11y.closeMenu") : t("a11y.openMenu")}
-              className="relative z-[70] flex h-11 w-11 items-center justify-center rounded-full border border-cream/20 text-cream transition-colors duration-300 hover:border-pulse lg:hidden"
-            >
-              <span className="relative block h-3.5 w-5" aria-hidden>
-                <span
-                  className={`absolute left-0 top-0 h-0.5 w-full bg-current transition-all duration-300 ease-smooth ${open ? "top-1/2 -translate-y-1/2 rotate-45" : ""}`}
-                />
-                <span
-                  className={`absolute bottom-0 left-0 h-0.5 w-full bg-current transition-all duration-300 ease-smooth ${open ? "bottom-1/2 translate-y-1/2 -rotate-45" : ""}`}
-                />
-              </span>
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={() => setOpen(!open)}
+            aria-expanded={open}
+            className="wordmark link-underline relative z-[70] text-base text-cream transition-colors duration-300 hover:text-pulse sm:text-lg"
+          >
+            {open ? t("nav.close") : t("nav.menu")}
+          </button>
         </div>
       </header>
 
-      {/* Menu mobile plein écran */}
+      {/* Menu plein écran */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -111,21 +87,21 @@ export function Header() {
             animate={{ opacity: 1 }}
             exit={reduce ? undefined : { opacity: 0 }}
             transition={{ duration: 0.35 }}
-            className="fixed inset-0 z-[60] flex flex-col justify-between bg-night px-6 pb-10 pt-28"
+            className="fixed inset-0 z-[60] flex flex-col justify-between overflow-y-auto bg-night px-6 pb-10 pt-28 sm:px-12"
           >
-            <nav aria-label="Navigation mobile" className="flex flex-col gap-1">
+            <nav aria-label="Navigation principale" className="flex flex-col gap-1">
               {[{ href: "/", label: t("nav.home") }, ...siteConfig.nav, siteConfig.give].map(
                 (item, i) => (
                   <motion.div
                     key={item.href}
                     initial={reduce ? false : { opacity: 0, x: -18 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.05 + i * 0.045, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ delay: 0.05 + i * 0.04, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
                   >
                     <Link
                       href={item.href}
-                      className={`block py-2.5 font-display text-4xl uppercase transition-colors duration-300 ${
-                        pathname === item.href ? "text-leaf" : "text-cream hover:text-pulse"
+                      className={`display-3 block py-2 transition-colors duration-300 ${
+                        pathname === item.href ? "text-pulse" : "text-cream hover:text-pulse"
                       }`}
                     >
                       {item.label}
@@ -134,7 +110,7 @@ export function Header() {
                 ),
               )}
             </nav>
-            <Link href={siteConfig.cta.href} className="btn-primary w-full">
+            <Link href={siteConfig.cta.href} className="btn-primary mt-10 w-full sm:w-auto">
               {siteConfig.cta.label}
             </Link>
           </motion.div>

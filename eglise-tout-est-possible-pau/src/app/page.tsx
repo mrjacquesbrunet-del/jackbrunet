@@ -29,24 +29,24 @@ export default function HomePage() {
       {/* Déclaration géante révélée au scroll */}
       <Statement />
 
-      {/* Mission : Annoncer. Restaurer. Équiper. Envoyer. */}
-      <Section tone="dark">
+      {/* Mission : Annoncer. Restaurer. Équiper. Envoyer. — section claire */}
+      <Section tone="light">
         <div className="wrap">
           <Reveal>
-            <p className="kicker">{home.pillars.kicker}</p>
+            <p className="kicker text-leaf-deep">{home.pillars.kicker}</p>
             <Title3D>
               <h2 className="display-2 mt-4 max-w-4xl">{home.pillars.title}</h2>
             </Title3D>
           </Reveal>
-          <div className="mt-16 grid gap-px overflow-hidden rounded-3xl bg-cream/10 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-16 grid gap-px overflow-hidden rounded-3xl border border-night/10 bg-night/10 sm:grid-cols-2 lg:grid-cols-4">
             {home.pillars.items.map((pillar, i) => (
               <Reveal key={pillar.title} delay={i * 0.08} className="h-full">
-                <div className="group h-full bg-night p-8 transition-colors duration-500 ease-smooth hover:bg-night-soft sm:p-10">
-                  <span className="text-sm font-extrabold text-pulse">0{i + 1}</span>
-                  <h3 className="mt-4 font-display text-3xl uppercase leading-none">
+                <div className="group h-full bg-cream p-8 transition-colors duration-500 ease-smooth hover:bg-leaf-faint sm:p-10">
+                  <span className="text-sm font-extrabold text-leaf-deep">0{i + 1}</span>
+                  <h3 className="mt-4 wordmark text-3xl leading-none">
                     {pillar.title}
                   </h3>
-                  <p className="mt-4 leading-relaxed text-cream/65">{pillar.text}</p>
+                  <p className="mt-4 leading-relaxed text-night/70">{pillar.text}</p>
                 </div>
               </Reveal>
             ))}
@@ -71,7 +71,7 @@ export default function HomePage() {
             <Tilt max={5}>
             <div className="rounded-3xl bg-night p-10 text-cream shadow-[0_30px_80px_rgba(18,18,18,0.35)] sm:p-12">
               <p className="kicker">{sunday.day}</p>
-              <p className="mt-4 font-display text-7xl uppercase leading-none text-pulse sm:text-8xl">
+              <p className="mt-4 wordmark text-7xl leading-none text-pulse sm:text-8xl">
                 {sunday.time}
               </p>
               <p className="mt-5 text-lg font-bold">{sunday.title}</p>
@@ -88,22 +88,22 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* Des vies transformées */}
-      <Section tone="dark">
+      {/* Des vies transformées — section claire, cartes sombres en contraste */}
+      <Section tone="light" className="!bg-leaf-faint">
         <div className="wrap">
           <Reveal>
-            <p className="kicker">{home.testimonies.kicker}</p>
+            <p className="kicker text-leaf-deep">{home.testimonies.kicker}</p>
             <Title3D>
               <h2 className="display-2 mt-4 max-w-3xl">{withScript(home.testimonies.title)}</h2>
             </Title3D>
           </Reveal>
           <div className="mt-14">
             <Reveal delay={0.1}>
-              <TestimonyCarousel items={testimonies.items} />
+              <TestimonyCarousel items={testimonies.items} tone="light" />
             </Reveal>
           </div>
           <Reveal delay={0.1}>
-            <Link href="/temoignages" className="btn-ghost-dark mt-10">
+            <Link href="/temoignages" className="btn-dark mt-10">
               {home.testimonies.cta}
             </Link>
           </Reveal>
