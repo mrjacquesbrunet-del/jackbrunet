@@ -8,6 +8,7 @@ import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { TestimonyCarousel } from "@/components/home/TestimonyCarousel";
 import { Countdown } from "@/components/ui/Countdown";
+import { Tilt } from "@/components/ui/Tilt";
 import { withScript } from "@/lib/script";
 import { home, meetings, testimonies, settings } from "@/lib/content";
 
@@ -62,6 +63,7 @@ export default function HomePage() {
             </Link>
           </Reveal>
           <Reveal delay={0.15}>
+            <Tilt max={5}>
             <div className="rounded-3xl bg-night p-10 text-cream shadow-[0_30px_80px_rgba(18,18,18,0.35)] sm:p-12">
               <p className="kicker">{sunday.day}</p>
               <p className="mt-4 font-display text-7xl uppercase leading-none text-pulse sm:text-8xl">
@@ -76,6 +78,7 @@ export default function HomePage() {
                 <Countdown />
               </div>
             </div>
+            </Tilt>
           </Reveal>
         </div>
       </Section>

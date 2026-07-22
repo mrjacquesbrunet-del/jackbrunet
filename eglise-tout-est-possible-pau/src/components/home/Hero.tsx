@@ -5,10 +5,13 @@ import Link from "next/link";
 import {
   AnimatePresence,
   motion,
+  useMotionValue,
   useReducedMotion,
   useScroll,
+  useSpring,
   useTransform,
 } from "framer-motion";
+import { Particles3D } from "@/components/ui/Particles3D";
 import { home, settings } from "@/lib/content";
 
 const WORD_INTERVAL_MS = 3000;
@@ -54,10 +57,26 @@ export function Hero() {
   const videoScale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
   const overlayOpacity = useTransform(scrollYProgress, [0, 0.9], [0, 0.75]);
 
+  // Profondeur 3D à la souris : le titre pivote très légèrement en
+  // perspective, comme suspendu devant la vidéo.
+  const mx = useMotionValue(0.5);
+  const my = useMotionValue(0.5);
+  const tiltX = useSpring(useTransform(my, [0, 1], [2.5, -2.5]), { stiffness: 60, damping: 18 });
+  const tiltY = useSpring(useTransform(mx, [0, 1], [-3.5, 3.5]), { stiffness: 60, damping: 18 });
+
+  const onMouseMove = (e: React.MouseEvent) => {
+    mx.set(e.clientX / window.innerWidth);
+    my.set(e.clientY / window.innerHeight);
+  };
+
   const currentWord = finished ? hero.finalPhrase : hero.rotatingWords[step];
 
   return (
-    <section ref={ref} className="relative flex min-h-[100svh] items-end overflow-hidden bg-night">
+    <section
+      ref={ref}
+      onMouseMove={reduce ? undefined : onMouseMove}
+      className="relative flex min-h-[100svh] items-end overflow-hidden bg-night"
+    >
       {/* Fond vidéo plein écran */}
       <div className="absolute inset-0" aria-hidden>
         {videoOk ? (
@@ -88,6 +107,8 @@ export function Hero() {
         <div className="absolute inset-0 bg-night/50" />
         <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-night to-transparent" />
         <div className="grain absolute inset-0" />
+        {/* Poussières lumineuses en profondeur, par-dessus la vidéo */}
+        <Particles3D className="absolute inset-0 h-full w-full" />
         <motion.div className="absolute inset-0 bg-night" style={{ opacity: overlayOpacity }} />
       </div>
 
@@ -105,7 +126,10 @@ export function Hero() {
           {settings.name} · {settings.city}
         </motion.p>
 
-        <h1 className="display-1 mt-6 text-cream">
+        <motion.h1
+          className="display-1 mt-6 text-cream"
+          style={reduce ? undefined : { rotateX: tiltX, rotateY: tiltY, transformPerspective: 900 }}
+        >
           <motion.span
             className="block"
             initial={reduce ? false : { opacity: 0, y: 40 }}
@@ -128,7 +152,7 @@ export function Hero() {
               </motion.span>
             </AnimatePresence>
           </span>
-        </h1>
+        </motion.h1>
 
         <motion.div
           initial={reduce ? false : { opacity: 0, y: 24 }}

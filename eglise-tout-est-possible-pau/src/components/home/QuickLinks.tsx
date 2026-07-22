@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Media } from "@/components/ui/Media";
 import { Reveal } from "@/components/ui/Reveal";
+import { Tilt } from "@/components/ui/Tilt";
 import { withScript } from "@/lib/script";
 import { home } from "@/lib/content";
 
@@ -21,7 +22,8 @@ export function QuickLinks() {
         <div className="mt-14 grid gap-6 md:grid-cols-3">
           {quickLinks.items.map((item, i) => (
             <Reveal key={item.href} delay={i * 0.08} className="h-full">
-              <Link href={item.href} className="group block h-full">
+              <Tilt className="h-full">
+                <Link href={item.href} className="group block h-full">
                 <article className="relative h-full overflow-hidden rounded-3xl">
                   <div className="transition-transform duration-700 ease-smooth group-hover:scale-105">
                     <Media
@@ -47,7 +49,8 @@ export function QuickLinks() {
                     </span>
                   </div>
                 </article>
-              </Link>
+                </Link>
+              </Tilt>
             </Reveal>
           ))}
         </div>
