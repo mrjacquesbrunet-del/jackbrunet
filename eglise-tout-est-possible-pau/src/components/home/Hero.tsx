@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import {
   AnimatePresence,
   motion,
@@ -116,18 +115,8 @@ export function Hero() {
         className="wrap relative pb-24 pt-40 sm:pb-28"
         style={reduce ? undefined : { y: contentY }}
       >
-        <motion.p
-          initial={reduce ? false : { opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-          className="flex items-center gap-3 text-[0.7rem] font-extrabold uppercase tracking-kicker text-cream/90 sm:text-xs"
-        >
-          <span className="block h-2 w-2 animate-pulse-dot rounded-full bg-pulse" aria-hidden />
-          {settings.name} · {settings.city}
-        </motion.p>
-
         <motion.h1
-          className="display-1 text-3d mt-6 text-cream"
+          className="display-1 text-3d text-cream"
           style={reduce ? undefined : { rotateX: tiltX, rotateY: tiltY, transformPerspective: 900 }}
         >
           <motion.span
@@ -154,22 +143,14 @@ export function Hero() {
           </span>
         </motion.h1>
 
-        <motion.div
+        <motion.p
           initial={reduce ? false : { opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.65, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-10 flex flex-col gap-8 sm:flex-row sm:items-center sm:justify-between"
+          className="lead mt-10 max-w-md text-cream/80"
         >
-          <p className="lead max-w-md text-cream/80">{hero.subtitle}</p>
-          <div className="flex shrink-0 flex-wrap gap-4">
-            <Link href="/premiere-visite" className="btn-primary">
-              {hero.ctaPrimary}
-            </Link>
-            <Link href="/messages" className="btn-ghost-dark">
-              {hero.ctaSecondary}
-            </Link>
-          </div>
-        </motion.div>
+          {hero.subtitle}
+        </motion.p>
       </motion.div>
     </section>
   );
