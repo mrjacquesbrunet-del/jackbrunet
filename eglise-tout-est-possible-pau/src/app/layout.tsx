@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Caveat, Montserrat, Righteous } from "next/font/google";
+import { Archivo, Caveat, Montserrat } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { settings, meetings } from "@/lib/content";
@@ -15,21 +15,12 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
-// Display stylé pour les titres géants : Righteous, l'équivalent libre
-// le plus proche de Loubag (géométrique, arrondi, rétro).
-//
-// Pour passer à la vraie Loubag (licence requise) : déposer les fichiers
-// dans src/fonts/ puis remplacer le bloc ci-dessous par :
-//   import localFont from "next/font/local";
-//   const displayFont = localFont({
-//     src: [{ path: "../fonts/Loubag-Bold.woff2", weight: "700" }],
-//     variable: "--font-display",
-//     display: "swap",
-//   });
-const displayFont = Righteous({
-  weight: "400",
+// Display : Archivo variable avec axe de largeur — la typographie des
+// références (titres étendus ultra-gras, sous-titres condensés).
+const displayFont = Archivo({
   subsets: ["latin", "latin-ext"],
   variable: "--font-display",
+  axes: ["wdth"],
   display: "swap",
 });
 

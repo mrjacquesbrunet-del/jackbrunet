@@ -33,23 +33,26 @@
   },
   "quickLinks": {
     "kicker": "Commencer ici",
-    "title": "Par où *commencer* ?",
+    "title": "Par où commencer ?",
     "items": [
       {
-        "title": "Première visite",
-        "text": "Tout ce qu'il faut savoir avant de pousser la porte. Zéro pression, promis.",
+        "kicker": "Première visite",
+        "title": "Commencer ici",
+        "text": "Découvre Tout est possible Pau, une église où tout est possible. Zéro pression, promis.",
         "href": "/premiere-visite",
         "photo": ""
       },
       {
-        "title": "Nos réunions",
-        "text": "Dimanche 10h30 et tous les rendez-vous de la semaine.",
+        "kicker": "Nos réunions",
+        "title": "On t'attend dimanche",
+        "text": "Célébration chaque dimanche à 10h30, et tous les rendez-vous de la semaine.",
         "href": "/reunions",
         "photo": ""
       },
       {
-        "title": "Messages",
-        "text": "Les dernières prédications en vidéo, où que tu sois.",
+        "kicker": "Célébrations en ligne",
+        "title": "Le dernier message",
+        "text": "Les prédications en vidéo, simples et concrètes, où que tu sois.",
         "href": "/messages",
         "photo": ""
       }
@@ -84,13 +87,13 @@
   },
   "meetings": {
     "kicker": "Rejoins-nous",
-    "title": "On t'attend *ce dimanche.*",
+    "title": "On t'attend ce dimanche.",
     "text": "Un moment de louange, un message qui parle à ta vie, un café chaleureux. Tout est prévu pour les enfants. Viens comme tu es.",
     "cta": "Voir nos réunions"
   },
   "latestMessage": {
     "kicker": "Le dernier message",
-    "title": "Un message *pour ta semaine.*",
+    "title": "Un message pour ta semaine.",
     "text": "Simple, concret, pour ta vie de tous les jours.",
     "cta": "Tous les messages"
   },
@@ -100,11 +103,11 @@
   },
   "testimonies": {
     "kicker": "Des vies transformées",
-    "title": "L'espérance *change des vies.*",
+    "title": "L'espérance change des vies.",
     "cta": "Voir tous les témoignages"
   },
   "firstVisitBanner": {
-    "title": "Première *visite* ?",
+    "title": "Première visite ?",
     "text": "On sait que pousser la porte d'une église peut impressionner. On a tout préparé pour que tu te sentes attendu.",
     "cta": "Tout savoir avant de venir"
   }

@@ -89,14 +89,15 @@ content:
           - { name: kicker, label: Sur-titre, type: string }
           - { name: title, label: Titre, type: string }
           - name: items
-            label: Tuiles
+            label: Blocs
             type: object
             list: true
             fields:
+              - { name: kicker, label: Sur-titre, type: string }
               - { name: title, label: Titre, type: string }
               - { name: text, label: Texte, type: text }
               - { name: href, label: "Lien (ex. /premiere-visite)", type: string }
-              - { name: photo, label: Photo, type: image }
+              - { name: photo, label: "Photo (optionnel)", type: image }
       - name: statement
         label: "Déclaration géante (scroll)"
         type: object
