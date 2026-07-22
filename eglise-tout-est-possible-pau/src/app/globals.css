@@ -116,26 +116,79 @@
     line-height: 1.65;
   }
 
-  /* Boutons — pastilles énergiques, libellés en capitales */
+  /* Boutons — pastilles 3D « pressables », flashy et tactiles */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-4 text-[0.72rem] font-extrabold uppercase tracking-[0.14em] transition-all duration-300 ease-smooth;
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-7 py-4 text-[0.72rem] font-extrabold uppercase tracking-[0.14em] transition-all duration-200 ease-smooth;
   }
 
-  /* CTA principal : le vert flashy de la charte, assumé */
+  /* Balayage lumineux au survol */
+  .btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -160%;
+    width: 55%;
+    height: 100%;
+    transform: skewX(-20deg);
+    background: linear-gradient(
+      105deg,
+      transparent,
+      rgba(255, 255, 255, 0.5),
+      transparent
+    );
+    transition: left 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .btn:hover::before {
+    left: 160%;
+  }
+
+  /* CTA principal : vert flashy, épaisseur 3D, halo néon, enfoncement au clic */
   .btn-primary {
-    @apply btn bg-pulse text-night shadow-[0_0_24px_rgba(48,255,18,0.2)] hover:bg-leaf hover:shadow-[0_0_48px_rgba(48,255,18,0.45)];
+    @apply btn bg-pulse text-night;
+    box-shadow: 0 6px 0 #16a509, 0 10px 24px rgba(0, 0, 0, 0.35),
+      0 0 32px rgba(48, 255, 18, 0.35);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 0 #16a509, 0 14px 28px rgba(0, 0, 0, 0.35),
+      0 0 56px rgba(48, 255, 18, 0.55);
+  }
+  .btn-primary:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 #16a509, 0 4px 10px rgba(0, 0, 0, 0.3),
+      0 0 24px rgba(48, 255, 18, 0.4);
   }
 
+  /* Secondaire sombre : contour néon */
   .btn-ghost-dark {
-    @apply btn border border-cream/25 text-cream hover:border-pulse hover:text-pulse;
+    @apply btn border border-pulse/50 text-pulse;
+    box-shadow: 0 0 0 rgba(48, 255, 18, 0);
+  }
+  .btn-ghost-dark:hover {
+    @apply border-pulse bg-pulse/10;
+    box-shadow: 0 0 28px rgba(48, 255, 18, 0.35),
+      inset 0 0 18px rgba(48, 255, 18, 0.12);
+    text-shadow: 0 0 12px rgba(48, 255, 18, 0.8);
   }
 
   .btn-ghost-light {
-    @apply btn border border-night/20 text-night hover:border-leaf-deep hover:bg-leaf-faint;
+    @apply btn border border-night/25 text-night hover:border-night hover:bg-night hover:text-pulse;
   }
 
+  /* Sombre sur fonds clairs : même mécanique 3D pressable */
   .btn-dark {
-    @apply btn bg-night text-cream hover:text-pulse hover:shadow-[0_0_30px_rgba(48,255,18,0.25)];
+    @apply btn bg-night text-cream;
+    box-shadow: 0 6px 0 rgba(10, 10, 10, 0.55), 0 10px 24px rgba(18, 18, 18, 0.35);
+  }
+  .btn-dark:hover {
+    @apply text-pulse;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 0 rgba(10, 10, 10, 0.55), 0 14px 28px rgba(18, 18, 18, 0.4),
+      0 0 30px rgba(48, 255, 18, 0.25);
+  }
+  .btn-dark:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 rgba(10, 10, 10, 0.55), 0 4px 10px rgba(18, 18, 18, 0.3);
   }
 
   /* Lien avec soulignement animé (accent lumineux, discret) */
