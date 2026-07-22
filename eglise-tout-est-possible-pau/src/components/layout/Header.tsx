@@ -53,18 +53,19 @@ export function Header() {
         }`}
       >
         <div className="wrap flex h-20 items-center justify-between gap-4">
+          {/* Logo et MENU : même couleur crème, même présence graphique */}
           <Link
             href="/"
-            className="relative z-[70] flex items-center transition-transform duration-300 ease-smooth hover:scale-105"
+            className="relative z-[70] flex items-center transition-all duration-300 ease-smooth hover:scale-105 hover:drop-shadow-[0_0_18px_rgba(48,255,18,0.5)]"
             aria-label={`${siteConfig.fullName} — ${t("nav.home")}`}
           >
             <Image
-              src="/logo.png"
+              src="/logo-blanc.png"
               alt={`Logo ${siteConfig.fullName}`}
-              width={52}
-              height={52}
+              width={44}
+              height={44}
               priority
-              className="h-12 w-12 object-contain sm:h-[52px] sm:w-[52px]"
+              className="h-10 w-auto object-contain sm:h-11"
             />
           </Link>
 
@@ -72,7 +73,7 @@ export function Header() {
             type="button"
             onClick={() => setOpen(!open)}
             aria-expanded={open}
-            className="wordmark link-underline relative z-[70] text-base text-cream transition-colors duration-300 hover:text-pulse sm:text-lg"
+            className="wordmark relative z-[70] text-xl tracking-[0.04em] text-cream transition-colors duration-300 hover:text-pulse sm:text-2xl"
           >
             {open ? t("nav.close") : t("nav.menu")}
           </button>

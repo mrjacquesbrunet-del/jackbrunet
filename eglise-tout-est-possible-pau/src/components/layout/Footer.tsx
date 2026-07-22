@@ -26,11 +26,11 @@ export function Footer() {
         <div className="mt-16 grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <Image
-              src="/logo.png"
+              src="/logo-blanc.png"
               alt=""
               width={44}
               height={44}
-              className="h-11 w-11 object-contain"
+              className="h-11 w-auto object-contain"
             />
             <p className="wordmark mt-4 text-lg">
               Tout est possible <span className="text-pulse">Pau</span>
