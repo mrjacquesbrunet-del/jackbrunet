@@ -61,8 +61,8 @@ export function Hero() {
   // perspective, comme suspendu devant la vidéo.
   const mx = useMotionValue(0.5);
   const my = useMotionValue(0.5);
-  const tiltX = useSpring(useTransform(my, [0, 1], [2.5, -2.5]), { stiffness: 60, damping: 18 });
-  const tiltY = useSpring(useTransform(mx, [0, 1], [-3.5, 3.5]), { stiffness: 60, damping: 18 });
+  const tiltX = useSpring(useTransform(my, [0, 1], [5, -5]), { stiffness: 60, damping: 18 });
+  const tiltY = useSpring(useTransform(mx, [0, 1], [-7, 7]), { stiffness: 60, damping: 18 });
 
   const onMouseMove = (e: React.MouseEvent) => {
     mx.set(e.clientX / window.innerWidth);
@@ -127,7 +127,7 @@ export function Hero() {
         </motion.p>
 
         <motion.h1
-          className="display-1 mt-6 text-cream"
+          className="display-1 text-3d mt-6 text-cream"
           style={reduce ? undefined : { rotateX: tiltX, rotateY: tiltY, transformPerspective: 900 }}
         >
           <motion.span

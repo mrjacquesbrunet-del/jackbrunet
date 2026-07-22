@@ -54,11 +54,11 @@
     @apply text-[0.7rem] font-bold uppercase tracking-kicker text-pulse sm:text-xs;
   }
 
-  /* Échelle typographique « affiche » — condensée, en capitales, immense */
+  /* Échelle typographique « affiche » — stylée, en capitales, immense */
   .display-1 {
     font-family: var(--font-display), Impact, sans-serif;
-    font-size: clamp(3.5rem, 11.5vw, 10rem);
-    line-height: 0.94;
+    font-size: clamp(2.9rem, 9.5vw, 8rem);
+    line-height: 0.98;
     letter-spacing: 0.005em;
     text-transform: uppercase;
     font-weight: 400;
@@ -66,8 +66,8 @@
 
   .display-2 {
     font-family: var(--font-display), Impact, sans-serif;
-    font-size: clamp(2.5rem, 6.5vw, 5.5rem);
-    line-height: 0.96;
+    font-size: clamp(2.1rem, 5.4vw, 4.5rem);
+    line-height: 1;
     letter-spacing: 0.005em;
     text-transform: uppercase;
     font-weight: 400;
@@ -75,11 +75,23 @@
 
   .display-3 {
     font-family: var(--font-display), Impact, sans-serif;
-    font-size: clamp(1.8rem, 3.8vw, 3.25rem);
-    line-height: 1.02;
+    font-size: clamp(1.6rem, 3.4vw, 2.9rem);
+    line-height: 1.05;
     letter-spacing: 0.005em;
     text-transform: uppercase;
     font-weight: 400;
+  }
+
+  /* Extrusion 3D style Apple : profondeur empilée + lumière ambiante */
+  .text-3d {
+    text-shadow:
+      0 1px 0 rgba(252, 254, 233, 0.14),
+      0 2px 0 rgba(10, 10, 10, 0.9),
+      0 4px 0 rgba(10, 10, 10, 0.7),
+      0 6px 0 rgba(10, 10, 10, 0.5),
+      0 9px 0 rgba(10, 10, 10, 0.3),
+      0 16px 28px rgba(0, 0, 0, 0.6),
+      0 30px 70px rgba(48, 255, 18, 0.14);
   }
 
   /* Texte géant en contour (sections sombres) */

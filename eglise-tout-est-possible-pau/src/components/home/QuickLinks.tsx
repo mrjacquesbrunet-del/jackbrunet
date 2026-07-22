@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Media } from "@/components/ui/Media";
 import { Reveal } from "@/components/ui/Reveal";
 import { Tilt } from "@/components/ui/Tilt";
+import { Title3D } from "@/components/ui/Title3D";
 import { withScript } from "@/lib/script";
 import { home } from "@/lib/content";
 
@@ -17,7 +18,9 @@ export function QuickLinks() {
       <div className="wrap">
         <Reveal>
           <p className="kicker">{quickLinks.kicker}</p>
-          <h2 className="display-2 mt-4 max-w-3xl">{withScript(quickLinks.title)}</h2>
+          <Title3D>
+            <h2 className="display-2 mt-4 max-w-3xl">{withScript(quickLinks.title)}</h2>
+          </Title3D>
         </Reveal>
         <div className="mt-14 grid gap-6 md:grid-cols-3">
           {quickLinks.items.map((item, i) => (

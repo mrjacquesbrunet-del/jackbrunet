@@ -31,7 +31,13 @@ export function PageHero({ hero, tone = "dark" }: { hero: PageHeroType; tone?: "
           <span className="block h-2 w-2 animate-pulse-dot rounded-full bg-pulse" aria-hidden />
           {hero.kicker}
         </motion.p>
-        <motion.h1 {...appear(0.18)} className="display-2 mt-6 max-w-5xl text-balance">
+        <motion.h1
+          initial={reduce ? false : { opacity: 0, y: 44, rotateX: 55 }}
+          animate={{ opacity: 1, y: 0, rotateX: 0 }}
+          transition={{ duration: 1.1, delay: 0.18, ease }}
+          style={{ transformPerspective: 900, transformOrigin: "center bottom" }}
+          className={`display-2 mt-6 max-w-5xl text-balance ${dark ? "text-3d" : ""}`}
+        >
           {withScript(hero.title)}
         </motion.h1>
         <motion.p

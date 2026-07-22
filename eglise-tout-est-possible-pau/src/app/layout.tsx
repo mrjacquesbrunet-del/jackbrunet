@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Bebas_Neue, Caveat, Plus_Jakarta_Sans } from "next/font/google";
+import { Caveat, Montserrat, Righteous } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { settings, meetings } from "@/lib/content";
@@ -7,16 +7,26 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 
-// Corps de texte : moderne et lisible.
+// Corps de texte : Montserrat, moderne et lisible.
 // latin-ext inclus partout : couverture complète du français (œ, accents…).
-const jakarta = Plus_Jakarta_Sans({
+const montserrat = Montserrat({
   subsets: ["latin", "latin-ext"],
   variable: "--font-sans",
   display: "swap",
 });
 
-// Display condensé « affiche » : impactant, pour les titres géants.
-const bebas = Bebas_Neue({
+// Display stylé pour les titres géants : Righteous, l'équivalent libre
+// le plus proche de Loubag (géométrique, arrondi, rétro).
+//
+// Pour passer à la vraie Loubag (licence requise) : déposer les fichiers
+// dans src/fonts/ puis remplacer le bloc ci-dessous par :
+//   import localFont from "next/font/local";
+//   const displayFont = localFont({
+//     src: [{ path: "../fonts/Loubag-Bold.woff2", weight: "700" }],
+//     variable: "--font-display",
+//     display: "swap",
+//   });
+const displayFont = Righteous({
   weight: "400",
   subsets: ["latin", "latin-ext"],
   variable: "--font-display",
@@ -123,7 +133,7 @@ function churchJsonLd() {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${jakarta.variable} ${bebas.variable} ${caveat.variable}`}>
+    <html lang="fr" className={`${montserrat.variable} ${displayFont.variable} ${caveat.variable}`}>
       <body className="font-sans">
         <script
           type="application/ld+json"
