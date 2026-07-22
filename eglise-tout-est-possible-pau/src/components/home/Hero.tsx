@@ -70,6 +70,9 @@ export function Hero() {
 
   const currentWord = finished ? hero.finalPhrase : hero.rotatingWords[step];
 
+  // « à Pau » mis en lumière en vert flashy dans la phrase d'accueil.
+  const subtitleParts = hero.subtitle.split(/(à Pau)/);
+
   return (
     <section
       ref={ref}
@@ -149,7 +152,15 @@ export function Hero() {
           transition={{ duration: 0.9, delay: 0.65, ease: [0.22, 1, 0.36, 1] }}
           className="lead mt-5 max-w-md text-cream/85"
         >
-          {hero.subtitle}
+          {subtitleParts.map((part, i) =>
+            part === "à Pau" ? (
+              <span key={i} className="font-bold text-pulse">
+                {part}
+              </span>
+            ) : (
+              part
+            ),
+          )}
         </motion.p>
       </motion.div>
     </section>
