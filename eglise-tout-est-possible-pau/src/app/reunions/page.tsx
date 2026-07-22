@@ -3,6 +3,7 @@ import Link from "next/link";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
+import { Countdown } from "@/components/ui/Countdown";
 import { meetings, settings } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -54,9 +55,12 @@ export default function MeetingsPage() {
                     {meeting.audience}
                   </p>
                   {meeting.highlight && (
-                    <Link href="/premiere-visite" className="btn-primary mt-8">
-                      Prépare ta première visite
-                    </Link>
+                    <div className="mt-8 flex flex-wrap items-center gap-4">
+                      <Link href="/premiere-visite" className="btn-primary">
+                        Prépare ta première visite
+                      </Link>
+                      <Countdown />
+                    </div>
                   )}
                 </div>
               </article>

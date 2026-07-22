@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
+import { WordReveal } from "@/components/ui/WordReveal";
 import { vision } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -50,7 +51,11 @@ export default function VisionPage() {
           <Reveal>
             <p className="kicker">{vision.love.kicker}</p>
             <h2 className="display-1 mt-6 text-leaf">{vision.love.title}</h2>
-            <p className="lead mx-auto mt-8 max-w-2xl text-cream/75">{vision.love.text}</p>
+            <WordReveal
+              text={vision.love.text}
+              dimOpacity={0.3}
+              className="lead mx-auto mt-8 max-w-2xl text-cream"
+            />
           </Reveal>
         </div>
       </Section>

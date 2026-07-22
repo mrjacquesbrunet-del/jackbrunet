@@ -7,6 +7,7 @@ import { Marquee } from "@/components/ui/Marquee";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { TestimonyCarousel } from "@/components/home/TestimonyCarousel";
+import { Countdown } from "@/components/ui/Countdown";
 import { home, meetings, testimonies, settings } from "@/lib/content";
 
 export default function HomePage() {
@@ -72,6 +73,9 @@ export default function HomePage() {
               <p className="mt-6 border-t border-cream/10 pt-5 text-sm text-cream/60">
                 {settings.address.venue} — {settings.address.postalCode} {settings.address.city}
               </p>
+              <div className="mt-6">
+                <Countdown />
+              </div>
             </div>
           </Reveal>
         </div>

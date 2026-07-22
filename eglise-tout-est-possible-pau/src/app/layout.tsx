@@ -5,6 +5,7 @@ import { siteConfig } from "@/config/site";
 import { settings, meetings } from "@/lib/content";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { ScrollProgress } from "@/components/ui/ScrollProgress";
 
 // Corps de texte : moderne et lisible.
 const jakarta = Plus_Jakarta_Sans({
@@ -120,6 +121,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(churchJsonLd()) }}
         />
+        <ScrollProgress />
         <Header />
         <main id="contenu">{children}</main>
         <Footer />
