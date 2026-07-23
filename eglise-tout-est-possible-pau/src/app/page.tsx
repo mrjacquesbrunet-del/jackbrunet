@@ -10,14 +10,11 @@ import { Reveal } from "@/components/ui/Reveal";
 import { AgendaCards } from "@/components/home/AgendaCards";
 import { TeamSlider } from "@/components/home/TeamSlider";
 import { TestimonyCarousel } from "@/components/home/TestimonyCarousel";
-import { Countdown } from "@/components/ui/Countdown";
-import { Tilt } from "@/components/ui/Tilt";
 import { Title3D } from "@/components/ui/Title3D";
 import { withScript } from "@/lib/script";
-import { home, meetings, testimonies, settings } from "@/lib/content";
+import { home, testimonies } from "@/lib/content";
 
 export default function HomePage() {
-  const sunday = meetings.items.find((m) => m.highlight) ?? meetings.items[0];
 
   return (
     <>
@@ -58,37 +55,20 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* Rendez-vous du dimanche */}
-      <Section tone="leaf">
-        <div className="wrap grid items-center gap-14 lg:grid-cols-2 lg:gap-24">
+      {/* Agenda — remplace le rendez-vous du dimanche, en clair */}
+      <Section tone="light" className="!bg-leaf-faint">
+        <div className="wrap">
           <Reveal>
-            <p className="kicker text-night/60">{home.meetings.kicker}</p>
             <Title3D>
-              <h2 className="display-2 mt-4">{withScript(home.meetings.title)}</h2>
+              <h2 className="display-2">Agenda</h2>
             </Title3D>
-            <p className="lead mt-6 max-w-xl text-night/75">{home.meetings.text}</p>
-            <Link href="/reunions" className="btn-dark mt-10">
-              {home.meetings.cta}
+            <Link href="/agenda" className="btn-dark mt-7">
+              Accéder à l&apos;agenda
             </Link>
           </Reveal>
-          <Reveal delay={0.15}>
-            <Tilt max={5}>
-            <div className="rounded-3xl bg-night p-10 text-cream shadow-[0_30px_80px_rgba(18,18,18,0.35)] sm:p-12">
-              <p className="kicker">{sunday.day}</p>
-              <p className="mt-4 wordmark text-7xl leading-none text-pulse sm:text-8xl">
-                {sunday.time}
-              </p>
-              <p className="mt-5 text-lg font-bold">{sunday.title}</p>
-              <p className="mt-3 leading-relaxed text-cream/65">{sunday.description}</p>
-              <p className="mt-6 border-t border-cream/10 pt-5 text-sm text-cream/60">
-                {settings.address.venue} — {settings.address.postalCode} {settings.address.city}
-              </p>
-              <div className="mt-6">
-                <Countdown />
-              </div>
-            </div>
-            </Tilt>
-          </Reveal>
+          <div className="mt-14">
+            <AgendaCards limit={3} />
+          </div>
         </div>
       </Section>
 
@@ -111,26 +91,6 @@ export default function HomePage() {
               {home.testimonies.cta}
             </Link>
           </Reveal>
-        </div>
-      </Section>
-
-      {/* Agenda — fond noir, bouton clair */}
-      <Section tone="dark">
-        <div className="wrap">
-          <Reveal>
-            <Title3D>
-              <h2 className="display-2 text-3d">Agenda</h2>
-            </Title3D>
-            <Link
-              href="/agenda"
-              className="btn mt-7 bg-cream text-night shadow-[0_6px_0_rgba(10,10,10,0.55),0_10px_24px_rgba(0,0,0,0.35)] hover:-translate-y-0.5 hover:text-leaf-deep"
-            >
-              Accéder à l&apos;agenda
-            </Link>
-          </Reveal>
-          <div className="mt-14">
-            <AgendaCards limit={3} tone="dark" />
-          </div>
         </div>
       </Section>
 
