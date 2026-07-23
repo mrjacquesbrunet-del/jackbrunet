@@ -87,11 +87,13 @@ export default function RootLayout({
         */}
         <Script id="app-home-redirect" strategy="beforeInteractive">
           {"(function(){try{var p=(location.pathname||'').replace(/\\/+$/,'');" +
-            "if(!(p===''||p==='/index'||/(^|\\/)index$/.test(p)))return;" +
             "var n=!!(window.Capacitor&&window.Capacitor.isNativePlatform&&window.Capacitor.isNativePlatform());" +
             "var s=new URLSearchParams(location.search),pv=s.get('app')==='1';" +
             "try{if(!pv)pv=sessionStorage.getItem('jb.appPreview')==='1';}catch(e){}" +
-            "if(n||pv){location.replace('/devotionnel/');}}catch(e){}})();"}
+            "if(!(n||pv))return;" +
+            "var r=null;try{r=localStorage.getItem('jb.notifRoute');if(r)localStorage.removeItem('jb.notifRoute');}catch(e){}" +
+            "if(r&&r.charAt(0)==='/'){if(r.split('?')[0].replace(/\\/+$/,'')!==p)location.replace(r);return;}" +
+            "if(p===''||p==='/index'||/(^|\\/)index$/.test(p)){location.replace('/devotionnel/');}}catch(e){}})();"}
         </Script>
         {/* Grain de surface (texture subtile) */}
         <div className="bg-noise pointer-events-none fixed inset-0 z-[1] opacity-[0.035] mix-blend-multiply" />

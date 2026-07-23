@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { isNativeApp } from "@/lib/notifications";
 import { asset } from "@/lib/asset";
+import { consumeStashedNotifRoute } from "@/lib/notif-route";
 
 /**
  * Sur l'accueil marketing « / », en mode application (natif ou aperçu ?app=1),
@@ -28,15 +29,20 @@ export function AppHomeGuard() {
 
     setAppMode(true);
 
-    // Redirection DURE et immédiate vers « Mon temps avec Jésus ». Fiable au
-    // démarrage à froid (clic sur le rappel du matin), là où la navigation
-    // douce du routeur peut échouer et laisser l'utilisateur bloqué sur le
-    // voile olive. On ne dépend d'aucun routeur : window.location.replace.
+    // Cible : la route d'une notification tapée si elle a été mémorisée
+    // (clic sur « X a commenté ta prière » → on va droit au contenu), sinon
+    // « Mon temps avec Jésus » (rappel du matin, ouverture simple de l'app).
+    const target = consumeStashedNotifRoute() || "/devotionnel/";
+    const bare = target.split("?")[0].replace(/\/+$/, "");
+
+    // Redirection DURE et immédiate. Fiable au démarrage à froid, là où la
+    // navigation douce du routeur peut échouer et laisser l'utilisateur bloqué
+    // sur le voile olive. On ne dépend d'aucun routeur : window.location.replace.
     const go = () => {
       try {
         const here = window.location.pathname.replace(/\/+$/, "");
-        if (!/devotionnel$/.test(here)) {
-          window.location.replace(asset("/devotionnel/"));
+        if (here !== bare) {
+          window.location.replace(asset(target));
         }
       } catch {
         /* navigation impossible */
