@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Hero } from "@/components/home/Hero";
 import { QuickLinks } from "@/components/home/QuickLinks";
+import { PhotoMarquee } from "@/components/home/PhotoMarquee";
 import { Statement } from "@/components/home/Statement";
 import { LatestMessage } from "@/components/home/LatestMessage";
 import { Marquee } from "@/components/ui/Marquee";
@@ -20,8 +21,8 @@ export default function HomePage() {
     <>
       <Hero />
 
-      {/* Bande défilante — l'énergie dès la sortie du hero */}
-      <Marquee items={home.marquee.band} />
+      {/* Bandeau photos des membres — humain, dès la sortie du hero */}
+      <PhotoMarquee />
 
       {/* Trois portes d'entrée */}
       <QuickLinks />

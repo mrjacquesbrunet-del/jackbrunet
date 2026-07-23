@@ -80,7 +80,8 @@ content:
         label: Bandes défilantes
         type: object
         fields:
-          - { name: band, label: "Bande verte (mots)", type: string, list: true }
+          - { name: photos, label: "Photos des membres (bandeau vert flashy)", type: image, list: true }
+          - { name: band, label: "Bande verte (mots, réserve)", type: string, list: true }
           - { name: outline, label: "Bande contour (mots)", type: string, list: true }
       - name: quickLinks
         label: "Tuiles « Commencer ici »"
