@@ -7,6 +7,7 @@ import { LatestMessage } from "@/components/home/LatestMessage";
 import { Marquee } from "@/components/ui/Marquee";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
+import { AgendaCards } from "@/components/home/AgendaCards";
 import { TeamSlider } from "@/components/home/TeamSlider";
 import { TestimonyCarousel } from "@/components/home/TestimonyCarousel";
 import { Countdown } from "@/components/ui/Countdown";
@@ -110,6 +111,23 @@ export default function HomePage() {
               {home.testimonies.cta}
             </Link>
           </Reveal>
+        </div>
+      </Section>
+
+      {/* Agenda — style référence : grand titre, lien souligné, cartes */}
+      <Section tone="light" className="!bg-[#FFFFFC]">
+        <div className="wrap">
+          <Reveal>
+            <Title3D>
+              <h2 className="display-2">Agenda</h2>
+            </Title3D>
+            <Link href="/agenda" className="link-cta mt-5 text-night">
+              Accéder à l&apos;agenda
+            </Link>
+          </Reveal>
+          <div className="mt-14">
+            <AgendaCards limit={3} />
+          </div>
         </div>
       </Section>
 

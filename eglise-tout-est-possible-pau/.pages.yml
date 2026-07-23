@@ -450,6 +450,30 @@ content:
           - { name: association, label: Association, type: string }
           - { name: responsible, label: Représentant légal, type: string }
 
+  - name: agenda
+    label: "📅 Agenda"
+    type: file
+    path: eglise-tout-est-possible-pau/content/agenda.json
+    fields:
+      - name: hero
+        label: En-tête de la page
+        type: object
+        fields:
+          - { name: kicker, label: Sur-titre, type: string }
+          - { name: title, label: Titre, type: string }
+          - { name: subtitle, label: Sous-titre, type: text }
+      - name: items
+        label: Événements
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Titre, type: string }
+          - { name: date, label: "Date (ex. Vendredi 24 juillet 2026 · 20h)", type: string }
+          - { name: location, label: Lieu, type: string }
+          - { name: by, label: "Par (ex. les jeunes)", type: string }
+          - { name: image, label: Visuel, type: image }
+          - { name: link, label: "Lien (optionnel)", type: string }
+
   - name: newsletter
     label: "📬 Annonces par mail"
     type: file

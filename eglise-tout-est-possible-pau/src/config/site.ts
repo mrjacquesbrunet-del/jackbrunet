@@ -18,6 +18,7 @@ export const siteConfig = {
     { href: "/reunions", label: t("nav.meetings") },
     { href: "/messages", label: t("nav.messages") },
     { href: "/temoignages", label: t("nav.testimonies") },
+    { href: "/agenda", label: t("nav.agenda") },
     { href: "/annonces", label: t("nav.newsletter") },
     { href: "/contact", label: t("nav.contact") },
   ],

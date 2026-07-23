@@ -10,6 +10,7 @@ const es: Record<DictionaryKey, string> = {
   "nav.messages": "Mensajes",
   "nav.testimonies": "Testimonios",
   "nav.contact": "Contacto",
+  "nav.agenda": "Agenda",
   "nav.newsletter": "Anuncios",
   "nav.give": "Apoyar",
   "nav.plan": "Planifica tu visita",

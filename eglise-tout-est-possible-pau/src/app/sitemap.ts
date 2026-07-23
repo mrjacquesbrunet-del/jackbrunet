@@ -12,6 +12,7 @@ const routes: Array<{ path: string; priority: number }> = [
   { path: "/equipe", priority: 0.7 },
   { path: "/messages", priority: 0.8 },
   { path: "/temoignages", priority: 0.8 },
+  { path: "/agenda", priority: 0.8 },
   { path: "/annonces", priority: 0.7 },
   { path: "/dons", priority: 0.7 },
   { path: "/contact", priority: 0.8 },

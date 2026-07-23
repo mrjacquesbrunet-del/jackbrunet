@@ -1,0 +1,33 @@
+{
+  "hero": {
+    "kicker": "Agenda",
+    "title": "Les prochains rendez-vous.",
+    "subtitle": "Célébrations, soirées, baptêmes, sorties : tout ce qui arrive à Tout est possible Pau. Prends ta place !"
+  },
+  "items": [
+    {
+      "title": "Célébration du dimanche",
+      "date": "Dimanche 27 juillet 2026 · 10h30",
+      "location": "Pau",
+      "by": "l'église",
+      "image": "",
+      "link": "/reunions"
+    },
+    {
+      "title": "Soirée de prière",
+      "date": "Mercredi 30 juillet 2026 · 20h00",
+      "location": "Pau",
+      "by": "l'équipe de prière",
+      "image": "",
+      "link": "/reunions"
+    },
+    {
+      "title": "Repas partagé",
+      "date": "Dimanche 3 août 2026 · après la célébration",
+      "location": "Pau",
+      "by": "la famille de l'église",
+      "image": "",
+      "link": "/contact"
+    }
+  ]
+}

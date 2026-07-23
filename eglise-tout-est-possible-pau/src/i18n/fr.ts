@@ -8,6 +8,7 @@ const fr = {
   "nav.messages": "Messages",
   "nav.testimonies": "Témoignages",
   "nav.contact": "Contact",
+  "nav.agenda": "Agenda",
   "nav.newsletter": "Annonces",
   "nav.give": "Soutenir",
   "nav.plan": "Planifie ta visite",
