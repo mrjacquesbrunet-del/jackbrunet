@@ -154,7 +154,7 @@ export function Hero() {
         >
           {subtitleParts.map((part, i) =>
             part === "à Pau" ? (
-              <span key={i} className="font-bold text-pulse">
+              <span key={i} className="whitespace-nowrap font-bold text-pulse">
                 {part}
               </span>
             ) : (
