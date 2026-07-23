@@ -69,14 +69,25 @@ export function Header() {
             />
           </Link>
 
-          <button
-            type="button"
-            onClick={() => setOpen(!open)}
-            aria-expanded={open}
-            className="wordmark relative z-[70] text-xl tracking-[0.04em] text-cream transition-colors duration-300 hover:text-pulse sm:text-2xl"
-          >
-            {open ? t("nav.close") : t("nav.menu")}
-          </button>
+          <div className="relative z-[70] flex items-center gap-4 sm:gap-6">
+            {/* « Soutenir » sur les pages intérieures uniquement — jamais sur l'accueil */}
+            {pathname !== "/" && !open && (
+              <Link
+                href={siteConfig.give.href}
+                className="btn-primary !px-5 !py-2.5 !text-[0.65rem]"
+              >
+                {siteConfig.give.label}
+              </Link>
+            )}
+            <button
+              type="button"
+              onClick={() => setOpen(!open)}
+              aria-expanded={open}
+              className="wordmark text-xl tracking-[0.04em] text-cream transition-colors duration-300 hover:text-pulse sm:text-2xl"
+            >
+              {open ? t("nav.close") : t("nav.menu")}
+            </button>
+          </div>
         </div>
       </header>
 

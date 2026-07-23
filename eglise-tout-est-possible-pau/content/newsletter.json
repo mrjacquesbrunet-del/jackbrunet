@@ -1,0 +1,17 @@
+{
+  "hero": {
+    "kicker": "Reste connecté",
+    "title": "Reçois les annonces directement par mail.",
+    "subtitle": "Une fois par semaine, l'essentiel de la vie de l'église dans ta boîte mail : annonces, événements, horaires et infos importantes. Rien d'autre, promis."
+  },
+  "benefits": [
+    { "title": "Les annonces de la semaine", "text": "Tout ce qui se passe à l'église, résumé en deux minutes de lecture." },
+    { "title": "Les événements à venir", "text": "Soirées, baptêmes, sorties, formations : sois au courant avant tout le monde." },
+    { "title": "Les infos pratiques", "text": "Changement d'horaire ou de lieu ? Tu le sauras immédiatement." }
+  ],
+  "form": {
+    "placeholder": "Ton adresse e-mail",
+    "button": "Je m'inscris",
+    "note": "En t'inscrivant, tu acceptes de recevoir nos e-mails. Tu peux te désinscrire à tout moment, en un clic, en bas de chaque e-mail. Ton adresse ne sera jamais partagée."
+  }
+}

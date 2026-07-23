@@ -60,6 +60,11 @@ content:
         fields:
           - { name: videoUrl, label: "Vidéo plein écran (URL .mp4)", type: string }
           - { name: posterImage, label: "Image d'attente (poster)", type: image }
+      - name: newsletter
+        label: Annonces par e-mail
+        type: object
+        fields:
+          - { name: formAction, label: "URL du formulaire d'inscription (Brevo/Mailchimp)", type: string }
 
   - name: home
     label: "🏠 Page d'accueil"
@@ -444,6 +449,33 @@ content:
         fields:
           - { name: association, label: Association, type: string }
           - { name: responsible, label: Représentant légal, type: string }
+
+  - name: newsletter
+    label: "📬 Annonces par mail"
+    type: file
+    path: eglise-tout-est-possible-pau/content/newsletter.json
+    fields:
+      - name: hero
+        label: En-tête
+        type: object
+        fields:
+          - { name: kicker, label: Sur-titre, type: string }
+          - { name: title, label: Titre, type: string }
+          - { name: subtitle, label: Sous-titre, type: text }
+      - name: benefits
+        label: Ce que tu recevras
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Titre, type: string }
+          - { name: text, label: Texte, type: text }
+      - name: form
+        label: Formulaire
+        type: object
+        fields:
+          - { name: placeholder, label: "Texte du champ e-mail", type: string }
+          - { name: button, label: Bouton, type: string }
+          - { name: note, label: "Note RGPD", type: text }
 
   - name: messages
     label: "🎬 Page Messages"
