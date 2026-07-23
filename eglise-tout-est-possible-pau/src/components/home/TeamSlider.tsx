@@ -77,22 +77,13 @@ export function TeamSlider() {
                     {/* Zone haute : pastilles + badge logo + nom + bio */}
                     <div className="p-6 sm:p-7">
                       <div className="flex items-start justify-between gap-3">
-                        <div className="flex flex-wrap gap-2">
-                          <span
-                            className={`rounded-full px-3.5 py-1.5 text-xs font-bold ${
-                              flashy ? "bg-cream text-night" : "bg-night/5 text-night"
-                            }`}
-                          >
-                            {member.role}
-                          </span>
-                          <span
-                            className={`rounded-full px-3.5 py-1.5 text-xs font-bold ${
-                              flashy ? "bg-night/10 text-night" : "bg-night/5 text-night"
-                            }`}
-                          >
-                            Tout est possible
-                          </span>
-                        </div>
+                        <span
+                          className={`rounded-full px-3.5 py-1.5 text-xs font-bold ${
+                            flashy ? "bg-cream text-night" : "bg-night/5 text-night"
+                          }`}
+                        >
+                          {member.role}
+                        </span>
                         <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-night">
                           <Image src="/logo-blanc.png" alt="" width={18} height={18} className="h-4 w-auto object-contain" />
                         </span>
