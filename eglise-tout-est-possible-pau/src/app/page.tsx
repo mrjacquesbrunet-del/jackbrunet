@@ -114,19 +114,22 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* Agenda — style référence : grand titre, lien souligné, cartes */}
-      <Section tone="light" className="!bg-[#FFFFFC]">
+      {/* Agenda — fond noir, bouton clair */}
+      <Section tone="dark">
         <div className="wrap">
           <Reveal>
             <Title3D>
-              <h2 className="display-2">Agenda</h2>
+              <h2 className="display-2 text-3d">Agenda</h2>
             </Title3D>
-            <Link href="/agenda" className="link-cta mt-5 text-night">
+            <Link
+              href="/agenda"
+              className="btn mt-7 bg-cream text-night shadow-[0_6px_0_rgba(10,10,10,0.55),0_10px_24px_rgba(0,0,0,0.35)] hover:-translate-y-0.5 hover:text-leaf-deep"
+            >
               Accéder à l&apos;agenda
             </Link>
           </Reveal>
           <div className="mt-14">
-            <AgendaCards limit={3} />
+            <AgendaCards limit={3} tone="dark" />
           </div>
         </div>
       </Section>

@@ -5,8 +5,15 @@ import agenda from "../../../content/agenda.json";
 
 // Cartes agenda — style référence : visuel 16:9, titre centré en
 // capitales, date grise, lieu surligné, « par … ».
-export function AgendaCards({ limit }: { limit?: number }) {
+export function AgendaCards({
+  limit,
+  tone = "light",
+}: {
+  limit?: number;
+  tone?: "light" | "dark";
+}) {
   const items = limit ? agenda.items.slice(0, limit) : agenda.items;
+  const dark = tone === "dark";
 
   return (
     <div className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
@@ -25,14 +32,26 @@ export function AgendaCards({ limit }: { limit?: number }) {
                 />
               </div>
             </div>
-            <h3 className="wordmark mt-6 text-2xl leading-tight transition-colors duration-300 group-hover:text-leaf-deep">
+            <h3
+              className={`wordmark mt-6 text-2xl leading-tight transition-colors duration-300 ${
+                dark ? "group-hover:text-pulse" : "group-hover:text-leaf-deep"
+              }`}
+            >
               {event.title}
             </h3>
-            <p className="mt-2 text-sm font-semibold uppercase tracking-[0.08em] text-night/45">
+            <p
+              className={`mt-2 text-sm font-semibold uppercase tracking-[0.08em] ${
+                dark ? "text-cream/45" : "text-night/45"
+              }`}
+            >
               {event.date}
             </p>
             <p className="mt-3">
-              <span className="inline-block bg-night/10 px-2.5 py-1 text-sm font-bold">
+              <span
+                className={`inline-block px-2.5 py-1 text-sm font-bold ${
+                  dark ? "bg-cream/15" : "bg-night/10"
+                }`}
+              >
                 {event.location}
               </span>
             </p>
