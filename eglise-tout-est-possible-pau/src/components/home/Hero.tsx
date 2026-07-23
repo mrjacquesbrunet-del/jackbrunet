@@ -14,6 +14,9 @@ import { Particles3D } from "@/components/ui/Particles3D";
 import { home, settings } from "@/lib/content";
 
 const WORD_INTERVAL_MS = 2000;
+// La phrase finale reste affichée un peu plus longtemps avant que la
+// boucle reparte — elle tourne sans jamais s'arrêter.
+const FINAL_DWELL_MS = 4000;
 
 // Vidéo du hero : celle du CMS en priorité, sinon le fichier local
 // public/videos/hero.mp4 (il suffit d'y déposer la vidéo fournie).
@@ -25,27 +28,22 @@ export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const [videoOk, setVideoOk] = useState(true);
 
-  // -1 = phrase finale ; sinon index du mot courant.
+  // Séquence infinie : les mots, puis la phrase finale, puis on repart.
+  const sequence = [...hero.rotatingWords, hero.finalPhrase];
   const [step, setStep] = useState(0);
-  const [finished, setFinished] = useState(false);
+  const isFinal = step === sequence.length - 1;
 
   useEffect(() => {
     if (reduce) {
-      setFinished(true);
+      setStep(sequence.length - 1);
       return;
     }
-    const timer = setInterval(() => {
-      setStep((current) => {
-        if (current >= hero.rotatingWords.length - 1) {
-          clearInterval(timer);
-          setFinished(true);
-          return current;
-        }
-        return current + 1;
-      });
-    }, WORD_INTERVAL_MS);
-    return () => clearInterval(timer);
-  }, [hero.rotatingWords.length, reduce]);
+    const delay = step === sequence.length - 1 ? FINAL_DWELL_MS : WORD_INTERVAL_MS;
+    const timer = setTimeout(() => {
+      setStep((current) => (current + 1) % sequence.length);
+    }, delay);
+    return () => clearTimeout(timer);
+  }, [step, sequence.length, reduce]);
 
   // Parallaxe cinématographique : le texte remonte, la vidéo s'assombrit.
   const { scrollYProgress } = useScroll({
@@ -68,7 +66,7 @@ export function Hero() {
     my.set(e.clientY / window.innerHeight);
   };
 
-  const currentWord = finished ? hero.finalPhrase : hero.rotatingWords[step];
+  const currentWord = sequence[step];
 
   // « à Pau » mis en lumière en vert flashy dans la phrase d'accueil.
   const subtitleParts = hero.subtitle.split(/(à Pau)/);
@@ -138,7 +136,7 @@ export function Hero() {
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 exit={reduce ? undefined : { opacity: 0, y: "-0.35em", filter: "blur(10px)" }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                className={`block text-pulse ${finished ? "drop-shadow-[0_0_30px_rgba(48,255,18,0.35)]" : ""}`}
+                className={`block text-pulse ${isFinal ? "drop-shadow-[0_0_30px_rgba(48,255,18,0.35)]" : ""}`}
               >
                 {currentWord}
               </motion.span>
