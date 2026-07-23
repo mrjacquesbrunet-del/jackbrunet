@@ -7,6 +7,7 @@ import { LatestMessage } from "@/components/home/LatestMessage";
 import { Marquee } from "@/components/ui/Marquee";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
+import { TeamSlider } from "@/components/home/TeamSlider";
 import { TestimonyCarousel } from "@/components/home/TestimonyCarousel";
 import { Countdown } from "@/components/ui/Countdown";
 import { Tilt } from "@/components/ui/Tilt";
@@ -111,6 +112,9 @@ export default function HomePage() {
           </Reveal>
         </div>
       </Section>
+
+      {/* Équipe pastorale — cartes défilantes style référence */}
+      <TeamSlider />
 
       {/* Le dernier message */}
       <LatestMessage />
