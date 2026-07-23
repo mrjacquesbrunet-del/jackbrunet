@@ -30,7 +30,7 @@ export function TeamSlider() {
           <div className="flex items-end justify-between gap-6">
             <div>
               <p className="kicker text-leaf-deep">Équipe pastorale</p>
-              <h2 className="display-2 mt-4 max-w-3xl">Des visages avant des fonctions.</h2>
+              <h2 className="display-2 mt-4 max-w-3xl">Une équipe là pour te servir.</h2>
             </div>
             <div className="hidden shrink-0 gap-3 sm:flex">
               <button
