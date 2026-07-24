@@ -148,6 +148,15 @@
     letter-spacing: 0;
   }
 
+  /* Variante « empilée » : le mot d'accent passe seul sur la ligne
+     du dessous, en italique plus petit (ex. UN MESSAGE / pour ta semaine.) */
+  .script-stack .script {
+    display: block;
+    font-size: 0.62em;
+    line-height: 1.15;
+    margin-top: 0.12em;
+  }
+
   .lead {
     font-size: clamp(1.05rem, 1.6vw, 1.35rem);
     line-height: 1.65;

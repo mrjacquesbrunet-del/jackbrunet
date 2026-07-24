@@ -109,7 +109,7 @@ export default function HomePage() {
         <div className="wrap relative text-center">
           <Reveal>
             <Title3D>
-              <h2 className="display-1 text-3d text-balance">
+              <h2 className="display-1 script-stack text-3d text-balance">
                 {withScript(home.firstVisitBanner.title)}
               </h2>
             </Title3D>

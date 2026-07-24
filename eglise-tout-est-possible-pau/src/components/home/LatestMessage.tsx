@@ -22,7 +22,7 @@ export function LatestMessage() {
             <div>
               <p className="kicker">{latestMessage.kicker}</p>
               <Title3D>
-                <h2 className="display-2 mt-4 max-w-3xl">{withScript(latestMessage.title)}</h2>
+                <h2 className="display-2 script-stack mt-4 max-w-3xl">{withScript(latestMessage.title)}</h2>
               </Title3D>
             </div>
             <Link href="/messages" className="btn-ghost-dark">

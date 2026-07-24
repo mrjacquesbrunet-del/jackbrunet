@@ -94,7 +94,7 @@
   },
   "latestMessage": {
     "kicker": "Le dernier message",
-    "title": "Un message pour ta semaine.",
+    "title": "Un message *pour ta semaine.*",
     "text": "Simple, concret, pour ta vie de tous les jours.",
     "cta": "Tous les messages"
   },
@@ -108,7 +108,7 @@
     "cta": "Voir tous les témoignages"
   },
   "firstVisitBanner": {
-    "title": "Première visite ?",
+    "title": "Première *visite ?*",
     "text": "On sait que pousser la porte d'une église peut impressionner. On a tout préparé pour que tu te sentes attendu.",
     "cta": "Tout savoir avant de venir"
   }
