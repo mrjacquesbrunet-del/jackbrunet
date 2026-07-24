@@ -122,12 +122,13 @@ export function FaceOff() {
   const xPanelLeft = useTransform(scrollYProgress, [0.02, 0.45], ["-26%", "0%"]);
   const xPanelRight = useTransform(scrollYProgress, [0.02, 0.45], ["26%", "0%"]);
 
-  // Les deux images partent des bords, tournées l'une vers l'autre
-  // (perspective 3D), puis se rejoignent bien droites au centre.
+  // Les deux images partent des bords et se rejoignent au centre en
+  // GARDANT leur inclinaison 3D : elles restent tournées l'une vers
+  // l'autre, vraiment face à face (24° → 12°, jamais à plat).
   const xLeft = useTransform(scrollYProgress, [0.05, 0.55], ["-38%", "0%"]);
   const xRight = useTransform(scrollYProgress, [0.05, 0.55], ["38%", "0%"]);
-  const rotLeft = useTransform(scrollYProgress, [0.05, 0.55], [16, 0]);
-  const rotRight = useTransform(scrollYProgress, [0.05, 0.55], [-16, 0]);
+  const rotLeft = useTransform(scrollYProgress, [0.05, 0.55], [24, 12]);
+  const rotRight = useTransform(scrollYProgress, [0.05, 0.55], [-24, -12]);
   const scale = useTransform(scrollYProgress, [0.05, 0.55], [0.82, 1]);
   const gap = useTransform(scrollYProgress, [0.05, 0.55], ["2.5rem", "0rem"]);
 
