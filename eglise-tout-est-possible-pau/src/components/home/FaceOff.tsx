@@ -88,7 +88,7 @@ function FaceImage({
         fill
         sizes="50vw"
         className={`object-cover ${mirror ? "-scale-x-100" : ""}`}
-        style={{ objectPosition: flip ? "72% 100%" : "40% 100%" }}
+        style={{ objectPosition: flip ? "72% 100%" : "0% 100%" }}
       />
     );
   }
