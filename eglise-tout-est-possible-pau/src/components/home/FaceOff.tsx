@@ -134,55 +134,54 @@ export function FaceOff() {
   return (
     <section
       ref={sectionRef}
-      className="overflow-hidden bg-cream py-24 text-night sm:py-32"
+      className="overflow-hidden bg-cream pt-24 text-night sm:pt-32"
     >
-      <div className="wrap">
-        {/* Mobile : textes puis images juste dessous.
-            Desktop : image | textes face à face | image. */}
-        <div
-          className="flex flex-wrap items-end sm:flex-nowrap sm:items-center sm:gap-8"
-          style={{ perspective: 1200 }}
+      {/* Pleine largeur, comme la référence : les images touchent les
+          bords de l'écran et le bas de la section ; le texte est centré.
+          Mobile : textes puis images juste dessous. */}
+      <div
+        className="flex flex-wrap items-end px-5 sm:flex-nowrap sm:gap-4 sm:px-0"
+        style={{ perspective: 1200 }}
+      >
+        {/* Image gauche — collée au bord */}
+        <motion.div
+          className="order-2 relative mt-5 aspect-[3/4] w-1/2 overflow-hidden sm:order-1 sm:mt-0 sm:w-[30%]"
+          style={
+            reduce
+              ? undefined
+              : { x: xLeft, scale, rotateY: rotLeft, transformOrigin: "bottom right" }
+          }
         >
-          {/* Image gauche */}
-          <motion.div
-            className="order-2 relative mt-5 aspect-[3/4] w-1/2 overflow-hidden sm:order-1 sm:mt-0 sm:w-1/4"
-            style={
-              reduce
-                ? undefined
-                : { x: xLeft, scale, rotateY: rotLeft, transformOrigin: "bottom right" }
-            }
-          >
-            <Link href={duo.left.href} aria-label={duo.left.title} className="absolute inset-0 z-10" />
-            <FaceImage
-              src={duo.left.image || undefined}
-              alt={duo.left.title}
-              mirror={Boolean((duo.left as { flipImage?: boolean }).flipImage)}
-            />
+          <Link href={duo.left.href} aria-label={duo.left.title} className="absolute inset-0 z-10" />
+          <FaceImage
+            src={duo.left.image || undefined}
+            alt={duo.left.title}
+            mirror={Boolean((duo.left as { flipImage?: boolean }).flipImage)}
+          />
+        </motion.div>
+
+        {/* Textes face à face, convergents, centrés entre les images */}
+        <div className="order-1 grid w-full grid-cols-2 gap-5 sm:order-2 sm:min-w-0 sm:flex-1 sm:gap-8 sm:self-center sm:px-4 sm:pb-14">
+          <motion.div style={reduce ? undefined : { x: xPanelLeft }}>
+            <SidePanel side={duo.left} align="left" />
           </motion.div>
-
-          {/* Textes face à face, convergents */}
-          <div className="order-1 grid w-full grid-cols-2 gap-5 sm:order-2 sm:min-w-0 sm:flex-1 sm:gap-10">
-            <motion.div style={reduce ? undefined : { x: xPanelLeft }}>
-              <SidePanel side={duo.left} align="left" />
-            </motion.div>
-            <motion.div style={reduce ? undefined : { x: xPanelRight }}>
-              <SidePanel side={duo.right} align="right" />
-            </motion.div>
-          </div>
-
-          {/* Image droite */}
-          <motion.div
-            className="order-3 relative mt-5 aspect-[3/4] w-1/2 overflow-hidden sm:mt-0 sm:w-1/4"
-            style={
-              reduce
-                ? undefined
-                : { x: xRight, scale, rotateY: rotRight, transformOrigin: "bottom left" }
-            }
-          >
-            <Link href={duo.right.href} aria-label={duo.right.title} className="absolute inset-0 z-10" />
-            <FaceImage src={duo.right.image || undefined} alt={duo.right.title} flip />
+          <motion.div style={reduce ? undefined : { x: xPanelRight }}>
+            <SidePanel side={duo.right} align="right" />
           </motion.div>
         </div>
+
+        {/* Image droite — collée au bord */}
+        <motion.div
+          className="order-3 relative mt-5 aspect-[3/4] w-1/2 overflow-hidden sm:mt-0 sm:w-[30%]"
+          style={
+            reduce
+              ? undefined
+              : { x: xRight, scale, rotateY: rotRight, transformOrigin: "bottom left" }
+          }
+        >
+          <Link href={duo.right.href} aria-label={duo.right.title} className="absolute inset-0 z-10" />
+          <FaceImage src={duo.right.image || undefined} alt={duo.right.title} flip />
+        </motion.div>
       </div>
     </section>
   );
