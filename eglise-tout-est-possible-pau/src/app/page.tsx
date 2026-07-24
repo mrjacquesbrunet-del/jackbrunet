@@ -55,6 +55,9 @@ export default function HomePage() {
         </div>
       </Section>
 
+      {/* Équipe pastorale — juste après la vision, cartes profil */}
+      <TeamSlider />
+
       {/* Agenda — remplace le rendez-vous du dimanche, en clair */}
       <Section tone="light" className="!bg-leaf-faint">
         <div className="wrap">
@@ -93,9 +96,6 @@ export default function HomePage() {
           </Reveal>
         </div>
       </Section>
-
-      {/* Équipe pastorale — cartes défilantes style référence */}
-      <TeamSlider />
 
       {/* Le dernier message */}
       <LatestMessage />
