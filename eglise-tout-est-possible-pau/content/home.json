@@ -118,14 +118,15 @@
       "accent": "découvre",
       "text": "Annoncer. Restaurer. Équiper. Envoyer. Le rêve que Dieu a pour Pau, et la part que tu peux y prendre.",
       "href": "/vision",
-      "image": ""
+      "image": "/uploads/duo-vision.webp",
+      "flipImage": true
     },
     "right": {
       "title": "L'histoire",
       "accent": "explore",
       "text": "D'où vient Tout est possible Pau, les vies déjà transformées, et la suite que Dieu écrit.",
       "href": "/a-propos",
-      "image": ""
+      "image": "/uploads/duo-histoire.webp"
     }
   }
 }

@@ -66,15 +66,29 @@ function SidePanel({ side, align }: { side: Side; align: "left" | "right" }) {
   );
 }
 
-function FaceImage({ src, alt, flip }: { src?: string; alt: string; flip?: boolean }) {
+function FaceImage({
+  src,
+  alt,
+  flip,
+  mirror,
+}: {
+  src?: string;
+  alt: string;
+  flip?: boolean;
+  mirror?: boolean;
+}) {
   if (src) {
+    // Photos détourées (fond transparent) : ancrées en bas, sujet
+    // ramené vers la ligne centrale ; miroir optionnel pour que les
+    // deux personnes se fassent face.
     return (
       <Image
         src={src}
         alt={alt}
         fill
         sizes="50vw"
-        className={`object-cover ${flip ? "object-left" : "object-right"}`}
+        className={`object-cover ${mirror ? "-scale-x-100" : ""}`}
+        style={{ objectPosition: flip ? "72% 100%" : "40% 100%" }}
       />
     );
   }
@@ -145,7 +159,11 @@ export function FaceOff() {
           }
         >
           <Link href={duo.left.href} aria-label={duo.left.title} className="absolute inset-0 z-10" />
-          <FaceImage src={duo.left.image || undefined} alt={duo.left.title} />
+          <FaceImage
+            src={duo.left.image || undefined}
+            alt={duo.left.title}
+            mirror={Boolean((duo.left as { flipImage?: boolean }).flipImage)}
+          />
         </motion.div>
         <motion.div
           className="relative aspect-[3/4] w-1/2 max-w-xl overflow-hidden"
