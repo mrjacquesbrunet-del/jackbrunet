@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
@@ -72,6 +73,15 @@ export default function VisionPage() {
                 {paragraph}
               </p>
             ))}
+            {/* La vision appelle une réponse : deux portes de sortie */}
+            <div className="mt-12 flex flex-wrap gap-4">
+              <Link href="/premiere-visite" className="btn-dark">
+                Prends ta place dans l&apos;aventure
+              </Link>
+              <Link href="/equipe" className="btn-ghost-light">
+                Rencontre l&apos;équipe
+              </Link>
+            </div>
           </Reveal>
         </div>
       </Section>
