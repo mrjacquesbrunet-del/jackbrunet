@@ -25,16 +25,12 @@ function SidePanel({ side, align }: { side: Side; align: "left" | "right" }) {
   return (
     <div className={align === "right" ? "sm:text-right" : ""}>
       <Link href={side.href} className="group inline-block">
-        <h3 className="relative inline-block display-2">
-          {side.title}
-          <span
-            aria-hidden
-            className={`script pointer-events-none absolute -bottom-4 text-[0.9em] lowercase text-pulse drop-shadow-[0_0_18px_rgba(48,255,18,0.35)] transition-transform duration-500 ease-smooth group-hover:scale-110 ${
-              align === "left" ? "-left-3 -rotate-6" : "-right-3 rotate-6"
-            }`}
-          >
+        {/* Deux lignes, même police : le verbe en vert flashy, le sujet en noir */}
+        <h3 className="display-2">
+          <span className="block text-pulse drop-shadow-[0_0_18px_rgba(48,255,18,0.3)] transition-transform duration-500 ease-smooth group-hover:-translate-y-0.5">
             {side.accent}
           </span>
+          <span className="block">{side.title}</span>
         </h3>
       </Link>
       <p
