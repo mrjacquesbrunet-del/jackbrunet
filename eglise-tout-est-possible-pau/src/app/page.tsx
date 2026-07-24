@@ -8,6 +8,7 @@ import { Marquee } from "@/components/ui/Marquee";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { AgendaCards } from "@/components/home/AgendaCards";
+import { FaceOff } from "@/components/home/FaceOff";
 import { TeamSlider } from "@/components/home/TeamSlider";
 import { TestimonyCarousel } from "@/components/home/TestimonyCarousel";
 import { Title3D } from "@/components/ui/Title3D";
@@ -29,31 +30,9 @@ export default function HomePage() {
       {/* Déclaration géante révélée au scroll */}
       <Statement />
 
-      {/* Mission : Annoncer. Restaurer. Équiper. Envoyer. — section claire,
-          rapprochée du bouton de la déclaration */}
-      <Section tone="light" className="!pt-8 sm:!pt-10">
-        <div className="wrap">
-          <Reveal>
-            <p className="kicker text-leaf-deep">{home.pillars.kicker}</p>
-            <Title3D>
-              <h2 className="display-2 mt-4 max-w-4xl">{home.pillars.title}</h2>
-            </Title3D>
-          </Reveal>
-          <div className="mt-16 grid gap-px overflow-hidden rounded-3xl border border-night/10 bg-night/10 sm:grid-cols-2 lg:grid-cols-4">
-            {home.pillars.items.map((pillar, i) => (
-              <Reveal key={pillar.title} delay={i * 0.08} className="h-full">
-                <div className="group h-full bg-cream p-8 transition-colors duration-500 ease-smooth hover:bg-leaf-faint sm:p-10">
-                  <span className="text-sm font-extrabold text-leaf-deep">0{i + 1}</span>
-                  <h3 className="mt-4 wordmark text-3xl leading-none">
-                    {pillar.title}
-                  </h3>
-                  <p className="mt-4 leading-relaxed text-night/70">{pillar.text}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </Section>
+      {/* Vision & histoire — face à face piloté par le scroll
+          (façon landonorris.com), remplace les quatre piliers */}
+      <FaceOff />
 
       {/* Équipe pastorale — juste après la vision, cartes profil */}
       <TeamSlider />

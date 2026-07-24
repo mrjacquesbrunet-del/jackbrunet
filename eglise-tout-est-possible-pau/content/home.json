@@ -111,5 +111,21 @@
     "title": "Première *visite ?*",
     "text": "On sait que pousser la porte d'une église peut impressionner. On a tout préparé pour que tu te sentes attendu.",
     "cta": "Tout savoir avant de venir"
+  },
+  "duo": {
+    "left": {
+      "title": "La vision",
+      "accent": "découvre",
+      "text": "Annoncer. Restaurer. Équiper. Envoyer. Le rêve que Dieu a pour Pau, et la part que tu peux y prendre.",
+      "href": "/vision",
+      "image": ""
+    },
+    "right": {
+      "title": "L'histoire",
+      "accent": "explore",
+      "text": "D'où vient Tout est possible Pau, les vies déjà transformées, et la suite que Dieu écrit.",
+      "href": "/a-propos",
+      "image": ""
+    }
   }
 }

@@ -116,6 +116,29 @@ content:
           - { name: kicker, label: Sur-titre, type: string }
           - { name: text, label: Texte, type: text }
           - { name: cta, label: Bouton, type: string }
+      - name: duo
+        label: "Vision & histoire (face à face)"
+        type: object
+        fields:
+          - name: left
+            label: "Côté gauche (vision)"
+            type: object
+            fields:
+              - { name: title, label: Titre, type: string }
+              - { name: accent, label: "Mot vert incliné (ex. découvre)", type: string }
+              - { name: text, label: Texte, type: text }
+              - { name: href, label: "Lien (ex. /vision)", type: string }
+              - { name: image, label: "Photo (regarde vers la droite)", type: image }
+          - name: right
+            label: "Côté droit (histoire)"
+            type: object
+            fields:
+              - { name: title, label: Titre, type: string }
+              - { name: accent, label: "Mot vert incliné (ex. explore)", type: string }
+              - { name: text, label: Texte, type: text }
+              - { name: href, label: "Lien (ex. /a-propos)", type: string }
+              - { name: image, label: "Photo (regarde vers la gauche)", type: image }
+
       - name: pillars
         label: Section Mission
         type: object
