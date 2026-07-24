@@ -134,7 +134,7 @@ export function FaceOff() {
   return (
     <section
       ref={sectionRef}
-      className="overflow-hidden bg-cream pt-24 text-night sm:pt-32"
+      className="overflow-hidden bg-cream pt-10 text-night sm:pt-14"
     >
       {/* Pleine largeur, comme la référence : les images touchent les
           bords de l'écran et le bas de la section ; le texte est centré.
