@@ -31,8 +31,8 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
-        display: ["var(--font-display)", "Impact", "sans-serif"],
-        script: ["var(--font-script)", "cursive"],
+        display: ["var(--font-sans)", "system-ui", "sans-serif"],
+        script: ["var(--font-sans)", "sans-serif"],
       },
       letterSpacing: {
         kicker: "0.22em",

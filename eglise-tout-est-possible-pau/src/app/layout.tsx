@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Caveat, Montserrat } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { settings, meetings } from "@/lib/content";
@@ -7,27 +7,12 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 
-// Corps de texte : Montserrat, moderne et lisible.
-// latin-ext inclus partout : couverture complète du français (œ, accents…).
+// Police unique du site : Montserrat, du corps de texte aux titres
+// géants (graisse 900 en capitales pour l'affiche).
+// latin-ext inclus : couverture complète du français (œ, accents…).
 const montserrat = Montserrat({
   subsets: ["latin", "latin-ext"],
   variable: "--font-sans",
-  display: "swap",
-});
-
-// Display : Archivo variable avec axe de largeur — la typographie des
-// références (titres étendus ultra-gras, sous-titres condensés).
-const displayFont = Archivo({
-  subsets: ["latin", "latin-ext"],
-  variable: "--font-display",
-  axes: ["wdth"],
-  display: "swap",
-});
-
-// Manuscrite élégante : les mots d'accent qui contrastent avec l'affiche.
-const caveat = Caveat({
-  subsets: ["latin", "latin-ext"],
-  variable: "--font-script",
   display: "swap",
 });
 
@@ -124,7 +109,7 @@ function churchJsonLd() {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${montserrat.variable} ${displayFont.variable} ${caveat.variable}`}>
+    <html lang="fr" className={montserrat.variable}>
       <body className="font-sans">
         <script
           type="application/ld+json"
