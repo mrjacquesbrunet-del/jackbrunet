@@ -5,9 +5,9 @@ import { home } from "@/lib/content";
 // Style référence : trois cartes de couleurs posées côte à côte sur
 // fond noir — sur-titre, grand titre étendu, texte, lien souligné.
 const tones = [
-  { bg: "bg-pulse", sub: "text-night/75" },
   { bg: "bg-[#FFFFFC]", sub: "text-night/65" },
   { bg: "bg-leaf", sub: "text-night/75" },
+  { bg: "bg-pulse", sub: "text-night/75" },
 ] as const;
 
 export function QuickLinks() {
