@@ -16,18 +16,6 @@
       "role": "Pasteur fondateur",
       "photo": "/uploads/benjamin-gimenez.jpg",
       "bio": "Fondateur de Tout est possible Pau, il est aujourd'hui pasteur principal de l'église de Tarbes. Il continue de porter les deux villes dans son cœur, avec une même vision : voir des vies restaurées."
-    },
-    {
-      "name": "Prénom Nom",
-      "role": "Responsable louange",
-      "photo": "",
-      "bio": "Il conduit l'église dans des moments de louange vivants et authentiques."
-    },
-    {
-      "name": "Prénom Nom",
-      "role": "Responsable accueil",
-      "photo": "",
-      "bio": "Le premier sourire que tu croiseras en poussant la porte."
     }
   ],
   "join": {
