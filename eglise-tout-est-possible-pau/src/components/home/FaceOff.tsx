@@ -4,7 +4,6 @@ import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
-import { Reveal } from "@/components/ui/Reveal";
 import { Title3D } from "@/components/ui/Title3D";
 import { home } from "@/lib/content";
 
@@ -95,38 +94,45 @@ function FaceImage({ src, alt, flip }: { src?: string; alt: string; flip?: boole
 
 export function FaceOff() {
   const duo = home.duo;
-  const ref = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
 
+  // La progression se mesure sur toute la section : textes ET images
+  // convergent ensemble pendant que l'on scrolle.
   const { scrollYProgress } = useScroll({
-    target: ref,
+    target: sectionRef,
     offset: ["start end", "end start"],
   });
 
+  // Les textes partent eux aussi des bords et se rapprochent
+  const xPanelLeft = useTransform(scrollYProgress, [0.02, 0.45], ["-26%", "0%"]);
+  const xPanelRight = useTransform(scrollYProgress, [0.02, 0.45], ["26%", "0%"]);
+
   // Les deux images partent des bords, tournées l'une vers l'autre
   // (perspective 3D), puis se rejoignent bien droites au centre.
-  const xLeft = useTransform(scrollYProgress, [0.05, 0.6], ["-38%", "0%"]);
-  const xRight = useTransform(scrollYProgress, [0.05, 0.6], ["38%", "0%"]);
-  const rotLeft = useTransform(scrollYProgress, [0.05, 0.6], [16, 0]);
-  const rotRight = useTransform(scrollYProgress, [0.05, 0.6], [-16, 0]);
-  const scale = useTransform(scrollYProgress, [0.05, 0.6], [0.82, 1]);
-  const gap = useTransform(scrollYProgress, [0.05, 0.6], ["2.5rem", "0rem"]);
+  const xLeft = useTransform(scrollYProgress, [0.05, 0.55], ["-38%", "0%"]);
+  const xRight = useTransform(scrollYProgress, [0.05, 0.55], ["38%", "0%"]);
+  const rotLeft = useTransform(scrollYProgress, [0.05, 0.55], [16, 0]);
+  const rotRight = useTransform(scrollYProgress, [0.05, 0.55], [-16, 0]);
+  const scale = useTransform(scrollYProgress, [0.05, 0.55], [0.82, 1]);
+  const gap = useTransform(scrollYProgress, [0.05, 0.55], ["2.5rem", "0rem"]);
 
   return (
-    <section className="overflow-hidden bg-cream pt-24 text-night sm:pt-32">
+    <section ref={sectionRef} className="overflow-hidden bg-cream pt-24 text-night sm:pt-32">
       <div className="wrap">
-        <Reveal>
-          {/* Face à face des textes : 2 colonnes, même sur mobile */}
-          <div className="grid grid-cols-2 gap-5 sm:gap-10">
+        {/* Face à face des textes : 2 colonnes qui convergent au scroll */}
+        <div className="grid grid-cols-2 gap-5 sm:gap-10">
+          <motion.div style={reduce ? undefined : { x: xPanelLeft }}>
             <SidePanel side={duo.left} align="left" />
+          </motion.div>
+          <motion.div style={reduce ? undefined : { x: xPanelRight }}>
             <SidePanel side={duo.right} align="right" />
-          </div>
-        </Reveal>
+          </motion.div>
+        </div>
       </div>
 
       {/* Le texte s'arrête juste au-dessus des photos */}
       <motion.div
-        ref={ref}
         className="mt-10 flex items-end justify-center sm:mt-12"
         style={reduce ? undefined : { gap, perspective: 1200 }}
       >
