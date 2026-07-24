@@ -2,42 +2,41 @@ import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
 import { home } from "@/lib/content";
 
-// Style référence : blocs de couleurs pleines empilés, kicker gras,
-// titre étendu ultra-gras, lien souligné « Découvrir ».
-// Trio d'appels : noir (laisse respirer le bandeau au-dessus) →
-// crème → vert flashy en finale, textes noirs sur le flashy.
+// Style référence : trois cartes de couleurs posées côte à côte sur
+// fond noir — sur-titre, grand titre étendu, texte, lien souligné.
 const tones = [
-  { bg: "bg-night", text: "text-cream", sub: "text-cream/70", link: "text-pulse" },
-  { bg: "bg-cream", text: "text-night", sub: "text-night/70", link: "text-night" },
-  { bg: "bg-pulse", text: "text-night", sub: "text-night/80", link: "text-night" },
+  { bg: "bg-pulse", sub: "text-night/75" },
+  { bg: "bg-[#FFFFFC]", sub: "text-night/65" },
+  { bg: "bg-leaf", sub: "text-night/75" },
 ] as const;
 
 export function QuickLinks() {
   const { quickLinks } = home;
 
   return (
-    <section aria-label={quickLinks.title}>
-      {quickLinks.items.map((item, i) => {
-        const tone = tones[i % tones.length];
-        return (
-          <div key={item.href} className={`${tone.bg} ${tone.text}`}>
-            <div className="wrap py-16 sm:py-20">
-              <Reveal>
-                <p className="text-xs font-extrabold uppercase tracking-[0.14em]">
+    <section aria-label={quickLinks.title} className="bg-night py-16 sm:py-20">
+      <div className="wrap grid gap-6 md:grid-cols-3">
+        {quickLinks.items.map((item, i) => {
+          const tone = tones[i % tones.length];
+          return (
+            <Reveal key={item.href} delay={i * 0.08} className="h-full">
+              <Link
+                href={item.href}
+                className={`group flex h-full min-h-[20rem] flex-col p-8 text-night transition-transform duration-500 ease-smooth hover:-translate-y-1 sm:min-h-[24rem] sm:p-10 ${tone.bg}`}
+              >
+                <p className="text-sm font-bold">
                   {(item as { kicker?: string }).kicker ?? quickLinks.kicker}
                 </p>
-                <h2 className="display-2 mt-4">{item.title}</h2>
-                <p className={`mt-4 max-w-xl text-lg leading-relaxed ${tone.sub}`}>
-                  {item.text}
-                </p>
-                <Link href={item.href} className={`link-cta mt-8 ${tone.link}`}>
-                  Découvrir
-                </Link>
-              </Reveal>
-            </div>
-          </div>
-        );
-      })}
+                <h2 className="wordmark mt-8 text-3xl leading-none sm:text-4xl">
+                  {item.title}
+                </h2>
+                <p className={`mt-5 leading-relaxed ${tone.sub}`}>{item.text}</p>
+                <span className="link-cta mt-auto pt-10">Découvrir</span>
+              </Link>
+            </Reveal>
+          );
+        })}
+      </div>
     </section>
   );
 }

@@ -27,7 +27,7 @@ export default function TestimoniesPage() {
         </div>
       </Section>
 
-      <Marquee items={["Des vies transformées", "L'espérance change des vies"]} variant="outline" />
+      <Marquee items={["Des vies transformées", "Il transforme encore aujourd'hui"]} variant="outline" />
 
       <Section tone="leaf">
         <div className="wrap text-center">
