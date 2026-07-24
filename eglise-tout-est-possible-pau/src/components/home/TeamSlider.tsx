@@ -4,7 +4,6 @@ import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Reveal } from "@/components/ui/Reveal";
-import { Media } from "@/components/ui/Media";
 import { team } from "@/lib/content";
 import { t } from "@/i18n";
 
@@ -62,66 +61,69 @@ export function TeamSlider() {
             ref={track}
             className="mt-12 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
-            {team.members.map((member, i) => {
-              const flashy = i === 0;
-              return (
-                <li
-                  key={member.name + member.role}
-                  className="w-[82%] max-w-[22rem] shrink-0 snap-start sm:w-[46%] lg:w-[31%]"
-                >
-                  <article
-                    className={`flex h-full flex-col overflow-hidden rounded-3xl ${
-                      flashy ? "bg-pulse" : "border border-night/10 bg-[#FFFFFC]"
-                    }`}
-                  >
-                    {/* Zone haute : pastilles + badge logo + nom + bio */}
-                    <div className="p-6 sm:p-7">
-                      <div className="flex items-start justify-between gap-3">
-                        <span
-                          className={`rounded-full px-3.5 py-1.5 text-xs font-bold ${
-                            flashy ? "bg-cream text-night" : "bg-night/5 text-night"
-                          }`}
-                        >
-                          {member.role}
-                        </span>
-                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-night">
-                          <Image src="/logo-blanc.png" alt="" width={18} height={18} className="h-4 w-auto object-contain" />
-                        </span>
-                      </div>
-                      <h3 className="mt-5 text-3xl font-extrabold leading-tight tracking-tight">
-                        {member.name}
-                      </h3>
-                      <p className={`mt-3 text-sm leading-relaxed ${flashy ? "text-night/75" : "text-night/60"}`}>
-                        {member.bio}
-                      </p>
-                    </div>
+            {team.members.map((member) => (
+              <li
+                key={member.name + member.role}
+                className="w-[82%] max-w-[22rem] shrink-0 snap-start sm:w-[46%] lg:w-[31%]"
+              >
+                {/* Carte « profil » : photo plein cadre, texte par-dessus
+                    sur un dégradé sombre — style référence */}
+                <article className="group relative aspect-[3/4] overflow-hidden rounded-[1.75rem] bg-night">
+                  {member.photo ? (
+                    <Image
+                      src={member.photo}
+                      alt={`Portrait de ${member.name}`}
+                      fill
+                      sizes="(max-width: 640px) 82vw, 31vw"
+                      className="object-cover object-top transition-transform duration-700 ease-smooth group-hover:scale-[1.04]"
+                    />
+                  ) : (
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        background:
+                          "radial-gradient(140% 100% at 50% 0%, rgba(163,205,134,0.45) 0%, rgba(34,35,32,0.9) 60%, #121212 100%), #191A17",
+                      }}
+                      aria-hidden
+                    />
+                  )}
 
-                    {/* Photo avec bouton pilule, comme la référence */}
-                    <div className="relative mt-auto">
-                      <Media
-                        src={member.photo || undefined}
-                        alt={`Portrait de ${member.name}`}
-                        ratio="aspect-[4/5]"
-                        variant="portrait"
-                        sizes="(max-width: 640px) 82vw, 31vw"
-                        className="!rounded-none"
-                      />
-                      <Link
-                        href="/equipe"
-                        className="group absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full bg-night/70 py-2 pl-4 pr-2 text-xs font-bold text-cream backdrop-blur transition-colors duration-300 hover:bg-night"
+                  {/* Dégradé de lisibilité */}
+                  <div
+                    className="absolute inset-x-0 bottom-0 h-[72%] bg-gradient-to-t from-night/95 via-night/60 to-transparent"
+                    aria-hidden
+                  />
+
+                  {/* Texte sur la photo */}
+                  <div className="absolute inset-x-0 bottom-0 p-6 text-cream sm:p-7">
+                    <h3 className="flex items-center gap-2.5 text-2xl font-extrabold leading-tight tracking-tight">
+                      {member.name}
+                      <span
+                        className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-pulse text-night"
+                        aria-hidden
                       >
-                        Faire connaissance
-                        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-cream text-night transition-colors duration-300 group-hover:bg-pulse">
-                          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current stroke-2" aria-hidden>
-                            <path d="M5 12h14m-6-6 6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
-                        </span>
-                      </Link>
-                    </div>
-                  </article>
-                </li>
-              );
-            })}
+                        <svg viewBox="0 0 24 24" className="h-3 w-3 fill-none stroke-current stroke-[3]">
+                          <path d="M5 13l4 4 10-10" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </span>
+                    </h3>
+                    <p className="mt-1 text-[0.65rem] font-bold uppercase tracking-kicker text-pulse">
+                      {member.role}
+                    </p>
+                    <p className="mt-2.5 text-sm leading-relaxed text-cream/75">{member.bio}</p>
+                    <Link
+                      href="/equipe"
+                      className="mt-4 inline-flex items-center gap-2 rounded-full bg-cream px-4 py-2 text-xs font-bold text-night transition-colors duration-300 hover:bg-pulse"
+                    >
+                      Faire connaissance
+                      <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current stroke-2" aria-hidden>
+                        <path d="M5 12h14m-6-6 6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </Link>
+                  </div>
+                </article>
+              </li>
+            ))}
           </ul>
         </Reveal>
       </div>
