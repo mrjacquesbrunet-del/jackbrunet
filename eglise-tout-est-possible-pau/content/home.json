@@ -119,7 +119,7 @@
       "text": "Annoncer. Restaurer. Équiper. Envoyer. Le rêve que Dieu a pour Pau, et la part que tu peux y prendre.",
       "href": "/vision",
       "image": "/uploads/duo-vision.webp",
-      "flipImage": true
+      "flipImage": false
     },
     "right": {
       "title": "L'histoire",
