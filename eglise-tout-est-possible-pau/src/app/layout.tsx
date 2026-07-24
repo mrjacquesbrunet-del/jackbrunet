@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Montserrat } from "next/font/google";
+import { Archivo } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { settings, meetings } from "@/lib/content";
@@ -7,12 +7,14 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 
-// Police unique du site : Montserrat, du corps de texte aux titres
-// géants (graisse 900 en capitales pour l'affiche).
+// Police unique du site : Archivo variable (axe de largeur) — la
+// typographie de la référence. Corps en largeur normale, titres
+// étendus ultra-gras (font-stretch 125 %, graisse 800, capitales).
 // latin-ext inclus : couverture complète du français (œ, accents…).
-const montserrat = Montserrat({
+const archivo = Archivo({
   subsets: ["latin", "latin-ext"],
   variable: "--font-sans",
+  axes: ["wdth"],
   display: "swap",
 });
 
@@ -109,7 +111,7 @@ function churchJsonLd() {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={montserrat.variable}>
+    <html lang="fr" className={archivo.variable}>
       <body className="font-sans">
         <script
           type="application/ld+json"

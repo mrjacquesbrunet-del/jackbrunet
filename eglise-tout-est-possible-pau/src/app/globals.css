@@ -54,47 +54,52 @@
     @apply text-[0.7rem] font-bold uppercase tracking-kicker text-pulse sm:text-xs;
   }
 
-  /* Échelle typographique — police générale ultra-grasse, en capitales
-     graisse 900 pour l'affiche */
+  /* Échelle typographique — Archivo étendu ultra-gras, en capitales,
+     fidèle à la référence (« AUJOURD'HUI », « COMMENCER ICI ») */
   .display-1 {
-    font-family: var(--font-sans), system-ui, sans-serif;
+    font-family: var(--font-sans), Impact, sans-serif;
     font-size: clamp(2.6rem, 8.2vw, 7rem);
     line-height: 0.96;
     letter-spacing: -0.01em;
     text-transform: uppercase;
-    font-weight: 900;
+    font-weight: 800;
+    font-stretch: 125%;
   }
 
   .display-2 {
-    font-family: var(--font-sans), system-ui, sans-serif;
+    font-family: var(--font-sans), Impact, sans-serif;
     font-size: clamp(1.9rem, 4.8vw, 4rem);
     line-height: 0.98;
     letter-spacing: -0.01em;
     text-transform: uppercase;
-    font-weight: 900;
+    font-weight: 800;
+    font-stretch: 125%;
   }
 
   .display-3 {
-    font-family: var(--font-sans), system-ui, sans-serif;
+    font-family: var(--font-sans), Impact, sans-serif;
     font-size: clamp(1.45rem, 3vw, 2.6rem);
     line-height: 1.04;
     letter-spacing: -0.005em;
     text-transform: uppercase;
-    font-weight: 900;
+    font-weight: 800;
+    font-stretch: 125%;
   }
 
   /* Wordmark du logo : même ADN que les titres (étendu ultra-gras) */
   .wordmark {
-    font-family: var(--font-sans), system-ui, sans-serif;
-    font-weight: 900;
+    font-family: var(--font-sans), Impact, sans-serif;
+    font-weight: 800;
+    font-stretch: 125%;
     text-transform: uppercase;
     letter-spacing: -0.01em;
   }
 
   /* Sous-titre condensé gras (style « BIENVENUE À L'ÉGLISE ») */
   .condensed {
-    font-family: var(--font-sans), system-ui, sans-serif;
-    font-weight: 800;
+    font-family: var(--font-sans), Impact, sans-serif;
+    font-weight: 700;
+    font-stretch: 78%;
     text-transform: uppercase;
     letter-spacing: 0.01em;
     line-height: 1.1;
@@ -104,7 +109,8 @@
   .link-cta {
     @apply inline-block text-sm font-extrabold uppercase tracking-[0.06em];
     font-family: var(--font-sans), sans-serif;
-        text-decoration: underline;
+    font-stretch: 110%;
+    text-decoration: underline;
     text-decoration-thickness: 2px;
     text-underline-offset: 5px;
     transition: text-underline-offset 0.25s cubic-bezier(0.22, 1, 0.36, 1);
@@ -131,12 +137,13 @@
     -webkit-text-stroke: 1px rgba(252, 254, 233, 0.35);
   }
 
-  /* Mot d'accent : italique gras dans la police générale.
+  /* Mot d'accent : italique gras dans la même police (Archivo).
      Dans le CMS : entourer le mot d'astérisques (*mot*). */
   .script {
     font-family: var(--font-sans), sans-serif;
     font-style: italic;
     font-weight: 700;
+    font-stretch: 100%;
     text-transform: none;
     letter-spacing: 0;
   }

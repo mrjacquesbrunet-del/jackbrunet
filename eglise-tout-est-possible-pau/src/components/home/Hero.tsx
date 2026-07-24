@@ -136,7 +136,7 @@ export function Hero() {
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 exit={reduce ? undefined : { opacity: 0, y: "-0.35em", filter: "blur(10px)" }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                className={`block text-pulse ${isFinal ? "drop-shadow-[0_0_30px_rgba(48,255,18,0.35)]" : ""}`}
+                className={`block text-pulse text-[0.8em] leading-[1.05] sm:text-[1em] sm:leading-[0.96] ${isFinal ? "drop-shadow-[0_0_30px_rgba(48,255,18,0.35)]" : ""}`}
               >
                 {currentWord}
               </motion.span>
