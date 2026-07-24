@@ -4,6 +4,11 @@
 # tout le contenu du site (textes, photos, vidéos, horaires, équipe,
 # témoignages, dons…) se modifie dans des formulaires, sans toucher au code.
 # Chaque « Save » publie automatiquement et garde un historique sur GitHub.
+#
+# Routine hebdomadaire (5 minutes) :
+#   ▶️ Vidéo de la semaine  → colle le lien YouTube du dernier message
+#   📅 Agenda               → ajoute / retire les annonces et événements
+#   🏠 Page d'accueil       → Bandes défilantes → Photos des membres
 
 media:
   input: eglise-tout-est-possible-pau/public/uploads
@@ -500,6 +505,20 @@ content:
           - { name: placeholder, label: "Texte du champ e-mail", type: string }
           - { name: button, label: Bouton, type: string }
           - { name: note, label: "Note RGPD", type: text }
+
+  - name: videos
+    label: "▶️ Vidéo de la semaine"
+    type: file
+    path: eglise-tout-est-possible-pau/content/videos.json
+    fields:
+      - name: items
+        label: "Vidéos YouTube (la 1re de la liste = le dernier message, en grand sur l'accueil)"
+        type: object
+        list: true
+        fields:
+          - { name: url, label: "Lien YouTube (colle l'URL de la vidéo)", type: string }
+          - { name: title, label: Titre du message, type: string }
+          - { name: date, label: "Date (ex. 20 juillet 2026)", type: string }
 
   - name: messages
     label: "🎬 Page Messages"
