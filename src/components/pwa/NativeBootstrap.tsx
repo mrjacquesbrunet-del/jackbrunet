@@ -19,10 +19,26 @@ export function NativeBootstrap() {
     let cleanup: (() => void) | undefined;
 
     (async () => {
-      // 1) EN PREMIER: brancher l'ouverture par notification, pour ne jamais
-      // manquer un tap au démarrage à froid (sinon l'app reste sur l'accueil).
+      // 0) EN TOUT PREMIER, et sans rien attendre d'autre : confirmer à Capgo
+      // que l'app a bien démarré. CRITIQUE — si cet appel est retardé (par ex.
+      // derrière une init qui traîne), Capgo croit la mise à jour ratée et
+      // revient à l'ancienne version, ce qui peut laisser un écran olive vide.
+      try {
+        const { CapacitorUpdater } = await import("@capgo/capacitor-updater");
+        await CapacitorUpdater.notifyAppReady();
+      } catch {
+        /* plugin absent (web) */
+      }
 
-      // Tap sur un rappel local → ouvre la route fournie (dévotionnel).
+      // 1) Cacher l'écran de démarrage tôt, sans dépendre des étapes suivantes.
+      try {
+        const { SplashScreen } = await import("@capacitor/splash-screen");
+        await SplashScreen.hide();
+      } catch {
+        /* plugin absent */
+      }
+
+      // 2) Tap sur un rappel local → ouvre la route fournie (dévotionnel).
       try {
         const { LocalNotifications } = await import("@capacitor/local-notifications");
         const handle = await LocalNotifications.addListener(
@@ -38,17 +54,8 @@ export function NativeBootstrap() {
       }
 
       // Notifications push OneSignal (attache aussi l'écouteur de clic → ouvre
-      // « Mon temps avec Jésus », pas l'accueil).
-      await initOneSignal();
-
-      // 2) Mises à jour à chaud (OTA Capgo): confirme que l'app a bien démarré,
-      // sinon Capgo annule la mise à jour et revient à la version précédente.
-      try {
-        const { CapacitorUpdater } = await import("@capgo/capacitor-updater");
-        await CapacitorUpdater.notifyAppReady();
-      } catch {
-        /* plugin absent (web) */
-      }
+      // le bon contenu). Isolé : une init lente ne bloque plus rien de critique.
+      initOneSignal().catch(() => undefined);
 
       // 3) Barre de statut: edge-to-edge (le fond de l'app passe SOUS l'heure,
       // sans bande). Le style (texte clair/foncé) est ajusté par page dans AppShell.
@@ -61,12 +68,6 @@ export function NativeBootstrap() {
         }
         // Écran d'accueil (dévotionnel) = fond sombre → texte clair par défaut.
         await StatusBar.setStyle({ style: Style.Light });
-      } catch {
-        /* plugin absent */
-      }
-      try {
-        const { SplashScreen } = await import("@capacitor/splash-screen");
-        await SplashScreen.hide();
       } catch {
         /* plugin absent */
       }
