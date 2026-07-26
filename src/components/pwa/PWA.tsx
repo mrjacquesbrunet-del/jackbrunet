@@ -20,8 +20,20 @@ export function PWA() {
   const [showIOS, setShowIOS] = useState(false);
   const [hidden, setHidden] = useState(true);
 
-  // 1) Service worker
+  // 1) Service worker — UNIQUEMENT sur le web. Dans l'app native (Capacitor),
+  // il pourrait mettre en cache d'anciens fichiers et entrer en conflit avec
+  // les mises à jour OTA (Capgo) → écrans obsolètes ou vides. On désenregistre
+  // aussi tout SW hérité d'une version précédente pour assainir les appareils.
   useEffect(() => {
+    if ((window as Window & { Capacitor?: unknown }).Capacitor) {
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .getRegistrations()
+          .then((regs) => Promise.all(regs.map((r) => r.unregister())))
+          .catch(() => undefined);
+      }
+      return;
+    }
     if (!("serviceWorker" in navigator)) return;
     const onLoad = () => {
       navigator.serviceWorker.register(asset("/sw.js")).catch(() => undefined);
