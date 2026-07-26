@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { openNotifRoute } from "@/lib/notif-route";
+import { useRouter } from "next/navigation";
+import { openNotifRoute, setNotifNavigator } from "@/lib/notif-route";
 import { isNativeApp, readReminder, enableDailyReminder } from "@/lib/notifications";
 import { initOneSignal } from "@/lib/onesignal";
 
@@ -14,6 +15,16 @@ import { initOneSignal } from "@/lib/onesignal";
  * Ne fait rien sur le web.
  */
 export function NativeBootstrap() {
+  const router = useRouter();
+
+  // Expose la navigation DOUCE du routeur au gestionnaire de notifications
+  // (hors React), pour que le tap sur une notif ouvre le bon contenu sans
+  // navigation dure (qui casse dans la WebView iOS → écran olive vide).
+  useEffect(() => {
+    setNotifNavigator((path) => router.replace(path));
+    return () => setNotifNavigator(null);
+  }, [router]);
+
   useEffect(() => {
     if (!isNativeApp()) return;
     let cleanup: (() => void) | undefined;

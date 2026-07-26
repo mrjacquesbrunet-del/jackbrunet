@@ -3,20 +3,18 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { isNativeApp } from "@/lib/notifications";
-import { asset } from "@/lib/asset";
 import { consumeStashedNotifRoute } from "@/lib/notif-route";
 
 /**
  * Sur l'accueil marketing « / », en mode application (natif ou aperçu ?app=1),
  * on ouvre « Mon temps avec Jésus » (/devotionnel) — ou le contenu d'une
- * notification tapée — au lieu de l'accueil marketing, qui ne doit pas être
- * visible dans l'app.
+ * notification tapée — au lieu de l'accueil marketing.
  *
- * Fiabilité avant tout : on privilégie la navigation DOUCE (routeur Next, qui
- * reste dans le bundle déjà chargé, sans rechargement de la WebView ni risque
- * de page blanche), puis une navigation dure en filet. Surtout, le voile olive
- * NE PIÈGE JAMAIS l'utilisateur : il propose un lien tapable et se retire tout
- * seul au bout de quelques secondes. Sur le web classique : sans effet.
+ * On utilise UNIQUEMENT la navigation douce du routeur Next (elle reste dans le
+ * bundle déjà chargé et fonctionne comme le reste de l'app). On n'utilise PAS
+ * de navigation dure vers « /devotionnel/ » : dans la WebView iOS, un chemin de
+ * dossier ne se résout pas toujours en index.html → écran olive vide. Le voile
+ * ne piège jamais l'utilisateur : lien tapable + retrait automatique.
  */
 export function AppHomeGuard() {
   const router = useRouter();
@@ -41,34 +39,24 @@ export function AppHomeGuard() {
     setTarget(dest);
     setVeil(true);
 
-    const bare = dest.split("?")[0].replace(/\/+$/, "") || "/devotionnel";
-    const atTarget = () =>
-      "/" + window.location.pathname.replace(/^\/+|\/+$/g, "") === bare;
-
-    // 1) Navigation douce immédiate (la plus fiable dans la WebView).
-    try {
-      router.replace(dest);
-    } catch {
-      /* routeur indisponible */
-    }
-
-    // 2) Filet : si on est toujours à l'accueil peu après, navigation dure.
-    const tHard = setTimeout(() => {
+    // Navigation douce (fiable dans la WebView). On réessaie une fois peu après
+    // au cas où le routeur n'était pas prêt au tout premier rendu.
+    const soft = () => {
       try {
-        if (!atTarget()) window.location.replace(asset(dest));
+        router.replace(dest);
       } catch {
-        /* ignore */
+        /* routeur indisponible */
       }
-    }, 700);
+    };
+    soft();
+    const tRetry = setTimeout(soft, 600);
 
-    // 3) Propose un lien tapable si ça traîne (l'utilisateur n'est jamais coincé).
+    // Lien tapable si ça traîne, puis retrait du voile : jamais coincé.
     const tLink = setTimeout(() => setShowLink(true), 1500);
-
-    // 4) Sécurité anti-blocage : on retire le voile quoi qu'il arrive.
     const tOff = setTimeout(() => setVeil(false), 3500);
 
     return () => {
-      clearTimeout(tHard);
+      clearTimeout(tRetry);
       clearTimeout(tLink);
       clearTimeout(tOff);
     };
@@ -87,12 +75,20 @@ export function AppHomeGuard() {
         className="h-8 w-8 animate-spin rounded-full border-2 border-dawn-400/30 border-t-dawn-400"
       />
       {showLink ? (
-        <a
-          href={asset(target)}
+        <button
+          type="button"
+          onClick={() => {
+            try {
+              router.replace(target);
+            } catch {
+              /* ignore */
+            }
+            setVeil(false);
+          }}
           className="rounded-full bg-dawn-400 px-6 py-3 text-sm font-bold text-night-950"
         >
           Ouvrir « Mon temps avec Jésus »
-        </a>
+        </button>
       ) : null}
     </div>
   );
