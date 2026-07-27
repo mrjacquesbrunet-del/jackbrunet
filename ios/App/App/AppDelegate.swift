@@ -35,7 +35,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        // Garde anti « écran olive vide » : quand iOS tue le moteur web en
+        // arrière-plan (mémoire), l'app revient sur une WebView morte — écran
+        // uni sans contenu, typiquement au tap sur la notification du matin.
+        // On vérifie que la page répond ; sinon on recharge la WebView.
+        guard let root = self.window?.rootViewController as? CAPBridgeViewController,
+              let webView = root.webView else { return }
+        webView.evaluateJavaScript("document.readyState") { result, error in
+            let dead = error != nil || (result as? String)?.isEmpty ?? true
+            if dead {
+                DispatchQueue.main.async { webView.reload() }
+            }
+        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
