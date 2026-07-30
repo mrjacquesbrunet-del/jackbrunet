@@ -271,7 +271,12 @@
     var err      = document.getElementById('usn-form-err');
     var stock    = document.getElementById('usn-stock');
     var champPl  = document.getElementById('usn-champ-places');
-    var selectPl = document.getElementById('usn-places');
+    var choixPl  = document.getElementById('usn-places');
+
+    function valeurPlaces() {
+      var coche = choixPl && choixPl.querySelector('input[name="PLACES"]:checked');
+      return coche ? parseInt(coche.value, 10) || 1 : 1;
+    }
     var bouton   = form.querySelector('button[type=submit]');
     var apiActive = false;
     var maxPlaces = 1;
@@ -284,38 +289,51 @@
 
     function afficherEtat(e) {
       var restantes = Math.max(0, e.restantes | 0);
+      var capacite  = Math.max(1, e.capacite | 0);
       var complet   = restantes === 0 || e.ouvert === false;
 
-      // On n'affiche rien tant qu'il reste des places : le client ne souhaite
-      // pas exposer le nombre restant.
       if (stock) {
-        stock.classList.toggle('usn-on', complet);
-        var sou = stock.querySelector('[data-usn-sous]');
-        if (sou) sou.textContent = complet
-          ? 'Toutes les places sont reservees. Merci de ton interet !'
-          : '';
+        stock.classList.add('usn-on');
+        stock.classList.toggle('usn-complet', complet);
+        var num = stock.querySelector('[data-usn-restantes]');
+        var lab = stock.querySelector('[data-usn-libelle]');
+        var jau = stock.querySelector('[data-usn-jauge]');
+        if (num) num.textContent = complet ? 'Complet' : restantes;
+        if (lab) lab.textContent = complet ? '' : (restantes > 1 ? 'places restantes' : 'place restante');
+        if (jau) jau.style.width = Math.min(100, ((capacite - restantes) / capacite) * 100) + '%';
       }
 
-      // Choix du nombre de places, borne par la limite et par ce qu'il reste.
+      // Pastilles : bornees par la limite et par ce qu'il reste reellement.
       maxPlaces = Math.max(1, Math.min(e.max | 0 || 1, restantes));
-      if (selectPl && champPl) {
-        var garde = selectPl.value;
-        selectPl.innerHTML = '';
+      if (choixPl && champPl) {
+        var garde = valeurPlaces();
+        choixPl.innerHTML = '';
         for (var i = 1; i <= maxPlaces; i++) {
-          var o = document.createElement('option');
-          o.value = i;
-          o.textContent = i + (i > 1 ? ' places' : ' place');
-          selectPl.appendChild(o);
+          var lab2 = document.createElement('label');
+          lab2.className = 'usn-place';
+          var input = document.createElement('input');
+          input.type = 'radio';
+          input.name = 'PLACES';
+          input.value = i;
+          if (i === (garde || 1)) input.checked = true;
+          var sp = document.createElement('span');
+          sp.appendChild(document.createTextNode(i));
+          var pt = document.createElement('small');
+          pt.textContent = i > 1 ? 'places' : 'place';
+          sp.appendChild(pt);
+          lab2.appendChild(input);
+          lab2.appendChild(sp);
+          choixPl.appendChild(lab2);
         }
-        if (garde && garde <= maxPlaces) selectPl.value = garde;
         champPl.style.display = complet ? 'none' : '';
 
         var hint = champPl.querySelector('[data-usn-hint]');
         if (hint) {
           var limite = e.max | 0 || 1;
-          hint.textContent = restantes < limite
-            ? 'Il ne reste que ' + restantes + ' place(s) disponible(s).'
-            : 'Limite de ' + limite + ' places par personne.';
+          hint.textContent = complet ? ''
+            : (restantes < limite
+                ? 'Il ne reste que ' + restantes + ' place(s) disponible(s).'
+                : 'Limite de ' + limite + ' places par personne.');
         }
       }
 
@@ -371,7 +389,7 @@
         body: JSON.stringify({
           nom: nom.value.trim(),
           email: email.value.trim(),
-          places: selectPl ? parseInt(selectPl.value, 10) || 1 : 1,
+          places: valeurPlaces(),
           site: ''
         })
       })

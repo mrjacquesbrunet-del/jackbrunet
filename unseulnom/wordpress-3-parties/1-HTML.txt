@@ -317,9 +317,14 @@
         </p>
       </div>
 
-      <!-- Ne s'affiche que lorsque toutes les places sont prises -->
+      <!-- Compteur de places, rempli par le serveur -->
       <div class="usn-stock" id="usn-stock">
-        <p class="usn-stock-sous" data-usn-sous></p>
+        <div class="usn-stock-tete">
+          <span class="usn-stock-num" data-usn-restantes>&mdash;</span>
+          <span class="usn-stock-lab" data-usn-libelle>places restantes</span>
+        </div>
+        <div class="usn-jauge"><span data-usn-jauge></span></div>
+        <p class="usn-stock-avis" data-usn-avis>Toutes les places sont r&#233;serv&#233;es. Merci de ton int&#233;r&#234;t&#160;!</p>
       </div>
 
       <!--
@@ -360,8 +365,8 @@
 
         <!-- Nombre de places : les choix sont g&#233;n&#233;r&#233;s selon la limite du serveur -->
         <div class="usn-field" id="usn-champ-places" style="display:none">
-          <label for="usn-places">Nombre de places</label>
-          <select id="usn-places" name="PLACES"></select>
+          <span class="usn-field-label">Nombre de places</span>
+          <div class="usn-places" id="usn-places" role="radiogroup" aria-label="Nombre de places"></div>
           <p class="usn-hint" data-usn-hint></p>
         </div>
 
