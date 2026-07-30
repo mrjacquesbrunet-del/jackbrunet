@@ -33,7 +33,7 @@ Toutes les animations se dégradent proprement : sans JavaScript ou avec
 **Un Seul Nom · Avignon** — Samedi 17 octobre 2026
 Parc des expos d'Avignon, 800 chemin des Félons, 84140 Montfavet
 Portes 15h00 · Conférence 16h00
-Prédication : Yanis Gautier, Chriss Campion
+Prédication : Yannis Gautier, Chriss Campion
 Louange : Patchaï Reyes, Nikita Heugebaert, Ruben Debard
 
 ## Intégration dans WordPress
@@ -58,10 +58,10 @@ Utilisez `index.html` tel quel comme modèle de page HTML.
 | **Vidéo de fond** | `► VIDÉO DE FOND` | URL d'une vidéo `.mp4` uploadée dans la médiathèque (muette, en boucle). Sans vidéo, un fond dégradé sombre s'affiche. |
 | **Logo** | `► LOGO` | URL du logo (version **blanche** conseillée sur le héros sombre). S'il n'est pas défini, il disparaît proprement. |
 | **Photos intervenants** | ✅ fournies (`images/`) | Les 5 portraits sont intégrés et optimisés. |
-| **Photos programme** | 3/4 fournies | Reste `VOTRE_PHOTO_PREDICATION.jpg` (panneau Prédication). |
+| **Photos programme** | ✅ 4/4 fournies (`images/`) | Les quatre panneaux ont leur photo. |
 | **Infos événement** | `► ÉVÉNEMENT` | Ville (grand titre), sous-titre, date, heure, lieu. |
 | **Compte à rebours** | `data-target` | Date + heure de début, ex. `2026-10-17T16:00:00`. |
-| **Lien de don** | carte « Soutiens la mission » | URL de la page de don (HelloAsso…). |
+| **Lien de don** | ✅ HelloAsso branché | « Faire un don » et « Devenir partenaire » pointent vers le formulaire HelloAsso. |
 | **Formulaire** | `► FORMULAIRE` | 3 options : plugin newsletter WordPress (MailPoet/Brevo/Mailchimp), Google Form, ou e-mail (par défaut). |
 
 ## Notes
