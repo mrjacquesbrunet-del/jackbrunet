@@ -461,6 +461,15 @@
   #usn-event .usn-stock-sous { margin-top: 9px; font-size: 13px; color: rgba(12,11,10,0.55); text-align: center; }
   #usn-event .usn-stock.usn-complet .usn-stock-num { color: var(--usn-red); }
 
+  #usn-event .usn-hint {
+    margin-top: 6px; font-size: 12.5px; color: rgba(12,11,10,0.55);
+    display: flex; align-items: center; gap: 6px;
+  }
+  #usn-event .usn-hint::before {
+    content: ""; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--usn-blue); flex: none;
+  }
+
   /* Message d'erreur du formulaire */
   #usn-event .usn-err {
     display: none; margin: 16px auto 0; max-width: 560px; padding: 14px 18px;
@@ -883,6 +892,7 @@
         <div class="usn-field" id="usn-champ-places" style="display:none">
           <label for="usn-places">Nombre de places</label>
           <select id="usn-places" name="PLACES"></select>
+          <p class="usn-hint" data-usn-hint></p>
         </div>
 
         <!-- Piège anti-robot de Brevo : ce champ doit rester vide. -->
@@ -1265,6 +1275,14 @@
         }
         if (garde && garde <= maxPlaces) selectPl.value = garde;
         champPl.style.display = restantes === 0 ? 'none' : '';
+
+        var hint = champPl.querySelector('[data-usn-hint]');
+        if (hint) {
+          var limite = e.max | 0 || 1;
+          hint.textContent = restantes < limite
+            ? 'Il ne reste que ' + restantes + ' place(s) disponible(s).'
+            : 'Limite de ' + limite + ' places par personne.';
+        }
       }
 
       if (bouton) {

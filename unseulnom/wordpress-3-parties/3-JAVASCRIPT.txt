@@ -314,6 +314,14 @@
         }
         if (garde && garde <= maxPlaces) selectPl.value = garde;
         champPl.style.display = restantes === 0 ? 'none' : '';
+
+        var hint = champPl.querySelector('[data-usn-hint]');
+        if (hint) {
+          var limite = e.max | 0 || 1;
+          hint.textContent = restantes < limite
+            ? 'Il ne reste que ' + restantes + ' place(s) disponible(s).'
+            : 'Limite de ' + limite + ' places par personne.';
+        }
       }
 
       if (bouton) {

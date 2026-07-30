@@ -425,6 +425,15 @@
   #usn-event .usn-stock-sous { margin-top: 9px; font-size: 13px; color: rgba(12,11,10,0.55); text-align: center; }
   #usn-event .usn-stock.usn-complet .usn-stock-num { color: var(--usn-red); }
 
+  #usn-event .usn-hint {
+    margin-top: 6px; font-size: 12.5px; color: rgba(12,11,10,0.55);
+    display: flex; align-items: center; gap: 6px;
+  }
+  #usn-event .usn-hint::before {
+    content: ""; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--usn-blue); flex: none;
+  }
+
   /* Message d'erreur du formulaire */
   #usn-event .usn-err {
     display: none; margin: 16px auto 0; max-width: 560px; padding: 14px 18px;
@@ -492,7 +501,7 @@
     -->
     <video class="usn-hero-video" autoplay muted loop playsinline
            poster="">
-      <!-- VIDEO : remplace cette ligne par <source src="URL.mp4" type="video/mp4" /> -->
+      <!-- VIDEO -->
     </video>
 
     <div class="usn-hero-overlay"></div>
@@ -510,7 +519,7 @@
           VOTRE_LOGO.png par son URL. S'il n'est pas d&#233;fini, il dispara&#238;t
           et le nom texte ci-dessous prend le relais.
         -->
-        <!-- LOGO : remplace par <img class="usn-hero-logo" src="URL.png" alt="Un Seul Nom" /> -->
+        <!-- LOGO -->
 
         <div class="usn-hero-eyebrow">Un&nbsp;Seul&nbsp;Nom&nbsp;&nbsp;&#8594;</div>
 
@@ -833,6 +842,7 @@
         <div class="usn-field" id="usn-champ-places" style="display:none">
           <label for="usn-places">Nombre de places</label>
           <select id="usn-places" name="PLACES"></select>
+          <p class="usn-hint" data-usn-hint></p>
         </div>
 
         <!-- Pi&#232;ge anti-robot de Brevo : ce champ doit rester vide. -->
@@ -884,7 +894,7 @@
   <!-- ============================================================= -->
   <footer class="usn-footer">
     <div class="usn-wrap">
-      <!-- LOGO (facultatif) -->
+      <!-- LOGO -->
       <div class="usn-footer-logo">Un Seul Nom</div>
       <p style="margin-top:10px;">&#169; 2026 Un seul Nom. Tous droits r&#233;serv&#233;s.</p>
       <p style="margin-top:14px;">
@@ -1212,6 +1222,14 @@
         }
         if (garde && garde <= maxPlaces) selectPl.value = garde;
         champPl.style.display = restantes === 0 ? 'none' : '';
+
+        var hint = champPl.querySelector('[data-usn-hint]');
+        if (hint) {
+          var limite = e.max | 0 || 1;
+          hint.textContent = restantes < limite
+            ? 'Il ne reste que ' + restantes + ' place(s) disponible(s).'
+            : 'Limite de ' + limite + ' places par personne.';
+        }
       }
 
       if (bouton) {
