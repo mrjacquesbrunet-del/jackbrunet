@@ -152,7 +152,7 @@
   }
   #usn-event .usn-hero h1 {
     margin: 18px auto 0;
-    font-size: clamp(64px, 17vw, 190px);
+    font-size: clamp(38px, 15vw, 190px);
     font-weight: 900; line-height: 0.92; letter-spacing: -0.02em; text-transform: uppercase;
     color: var(--usn-white);
     text-shadow: 0 8px 40px rgba(0,0,0,0.5);
@@ -824,6 +824,27 @@
 </section>
 
 <script>
+  /* ---- Le grand titre s'ajuste toujours à la largeur ----
+     « AVIGNON » débordait sur mobile ; avec un nom de ville plus long le
+     problème reviendrait. On mesure et on réduit si nécessaire. */
+  (function () {
+    var h1 = document.querySelector('#usn-event .usn-hero h1');
+    if (!h1) return;
+    function fit() {
+      h1.style.fontSize = '';                       // repart de la taille CSS
+      var avail = h1.clientWidth;
+      if (!avail) return;
+      var size = parseFloat(getComputedStyle(h1).fontSize);
+      for (var i = 0; i < 3 && h1.scrollWidth > avail; i++) {
+        size = Math.floor(size * (avail / h1.scrollWidth) * 0.99);
+        h1.style.fontSize = size + 'px';
+      }
+    }
+    fit();
+    window.addEventListener('resize', fit);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  })();
+
   /* ---- Compte à rebours ---- */
   (function () {
     var box = document.getElementById('usn-countdown');
