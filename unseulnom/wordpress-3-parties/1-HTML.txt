@@ -1,0 +1,405 @@
+<section id="usn-event">
+
+  <!-- ============================================================= -->
+  <!-- H&#201;ROS &#8212; vid&#233;o de fond + compte &#224; rebours                      -->
+  <!-- ============================================================= -->
+  <header class="usn-hero">
+
+    <!--
+      &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+      &#9658; VID&#201;O DE FOND
+      1. Uploadez votre vid&#233;o (format .mp4, id&#233;alement < 10-15 Mo,
+         muette, en boucle) dans la m&#233;diath&#232;que WordPress.
+      2. Remplacez  VOTRE_VIDEO.mp4  par l'URL du fichier.
+      3. (Facultatif) poster="..." = image affich&#233;e avant/&#224; d&#233;faut de vid&#233;o.
+      Si vous laissez l'URL vide, un joli fond d&#233;grad&#233; sombre s'affiche.
+      &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+    -->
+    <video class="usn-hero-video" autoplay muted loop playsinline
+           poster="">
+      <!-- &#9658; VIDEO : quand tu l'auras, uploade-la dans la mediatheque puis
+           remplace cette ligne par :
+           <source src="URL_DE_TA_VIDEO.mp4" type="video/mp4" />
+           En attendant, le fond degrade sombre s'affiche. -->
+    </video>
+
+    <div class="usn-hero-overlay"></div>
+
+    <div class="usn-hero-inner">
+      <div class="usn-wrap">
+        <!--
+          &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+          &#9658; &#201;V&#201;NEMENT &#8212; modifiez les textes ci-dessous
+          &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+        -->
+        <!--
+          &#9658; LOGO (version blanche recommand&#233;e sur ce fond sombre)
+          Uploadez le logo dans la m&#233;diath&#232;que WordPress puis remplacez
+          VOTRE_LOGO.png par son URL. S'il n'est pas d&#233;fini, il dispara&#238;t
+          et le nom texte ci-dessous prend le relais.
+        -->
+        <!-- &#9658; LOGO : remplace ce commentaire par
+             <img class="usn-hero-logo" src="URL_DE_TON_LOGO.png" alt="Un Seul Nom" /> -->
+
+        <div class="usn-hero-eyebrow">Un&nbsp;Seul&nbsp;Nom&nbsp;&nbsp;&#8594;</div>
+
+        <!-- Le grand mot : la ville de l'&#233;v&#233;nement -->
+        <h1>Avignon</h1>
+
+        <div class="usn-hero-tagline">&#201;vang&#233;lisation &amp; Gu&#233;rison</div>
+        <div class="usn-hero-date">Samedi 17 octobre 2026</div>
+
+        <div class="usn-hero-cta">
+          <a href="#usn-inscription" class="usn-btn usn-btn-primary">Je m'inscris</a>
+          <a href="#usn-programme" class="usn-btn usn-btn-outline">L'&#233;v&#233;nement</a>
+        </div>
+      </div>
+    </div>
+
+    <!--
+      &#9658; COMPTE &#192; REBOURS
+      R&#233;glez data-target sur la date + heure de l'&#233;v&#233;nement (format ISO).
+      Ex. le 28 mars 2026 &#224; 18h00 : data-target="2026-03-28T18:00:00"
+      (une fois la date pass&#233;e, le compteur reste &#224; z&#233;ro).
+    -->
+    <div class="usn-countdown" id="usn-countdown" data-target="2026-10-17T16:00:00">
+      <div class="usn-cd-grid">
+        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="days">0</span><span class="usn-cd-lab">Jours</span></div>
+        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="hours">00</span><span class="usn-cd-lab">Heures</span></div>
+        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="mins">00</span><span class="usn-cd-lab">Min</span></div>
+        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="secs">00</span><span class="usn-cd-lab">Sec</span></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================= -->
+  <!-- L'&#201;V&#201;NEMENT / AU PROGRAMME                                     -->
+  <!-- ============================================================= -->
+  <div id="usn-programme" class="usn-section">
+    <div class="usn-wrap">
+      <div class="usn-section-head">
+        <span class="usn-eyebrow">Le programme</span>
+        <h2>Le d&#233;roul&#233; de l'apr&#232;s-midi</h2>
+        <p>Une apr&#232;s-midi ouverte &#224; tous.</p>
+      </div>
+
+      <!--
+        &#9658; PROGRAMME &#8212; chaque panneau glisse depuis la gauche au scroll.
+        Ajoutez une photo &#224; droite en rempla&#231;ant VOTRE_PHOTO...  (repli : ic&#244;ne).
+      -->
+      <div class="usn-program">
+        <div class="usn-prog" data-usn-appear>
+          <div class="usn-prog-body">
+            <div class="usn-prog-time">15h00</div>
+            <div class="usn-prog-title">Ouverture des portes</div>
+            <p class="usn-prog-text">Accueil du public. Entr&#233;e libre, viens comme tu es et invite autour de toi.</p>
+          </div>
+          <div class="usn-prog-media">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme1.webp" alt="" onerror="this.remove()" />
+          </div>
+        </div>
+
+        <div class="usn-prog" data-usn-appear>
+          <div class="usn-prog-body">
+            <div class="usn-prog-time">16h00 &#183; D&#233;but de la conf&#233;rence</div>
+            <div class="usn-prog-title">Louange</div>
+            <p class="usn-prog-text">Un temps d'adoration conduit par Patcha&#239; Reyes, Nikita Heugebaert et Ruben Debard.</p>
+          </div>
+          <div class="usn-prog-media">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="Temps de louange" loading="lazy" onerror="this.remove()" />
+          </div>
+        </div>
+
+        <div class="usn-prog" data-usn-appear>
+          <div class="usn-prog-body">
+            <div class="usn-prog-time">La Parole</div>
+            <div class="usn-prog-title">Pr&#233;dication</div>
+            <p class="usn-prog-text">La bonne nouvelle de l'&#201;vangile annonc&#233;e par Yannis Gautier et Chriss Campion.</p>
+          </div>
+          <div class="usn-prog-media">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme3.webp" alt="Pr&#233;dication sur sc&#232;ne" loading="lazy" onerror="this.remove()" />
+          </div>
+        </div>
+
+        <div class="usn-prog" data-usn-appear>
+          <div class="usn-prog-body">
+            <div class="usn-prog-time">En cl&#244;ture</div>
+            <div class="usn-prog-title">&#201;vang&#233;lisation &amp; Gu&#233;rison</div>
+            <p class="usn-prog-text">Un appel &#224; suivre J&#233;sus et un temps de pri&#232;re pour les malades et les c&#339;urs bless&#233;s.</p>
+          </div>
+          <div class="usn-prog-media">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme4.webp" alt="Appel et pri&#232;re" loading="lazy" onerror="this.remove()" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Infos pratiques -->
+      <div class="usn-facts">
+        <div class="usn-fact">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/></svg>
+          <div><div class="usn-fact-k">Date</div><div class="usn-fact-v">Samedi 17 octobre 2026</div></div>
+        </div>
+        <div class="usn-fact">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg>
+          <div><div class="usn-fact-k">Horaires</div><div class="usn-fact-v">Portes 15h &#183; Conf&#233;rence 16h</div></div>
+        </div>
+        <div class="usn-fact">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+          <div>
+            <div class="usn-fact-k">Lieu</div>
+            <div class="usn-fact-v">Parc des expos d'Avignon</div>
+            <div class="usn-fact-k" style="text-transform:none; letter-spacing:0; margin-top:3px;">800 chemin des F&#233;lons, 84140 Montfavet</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:20px;">
+        <a class="usn-btn usn-btn-dark"
+           href="https://www.google.com/maps/search/?api=1&query=Parc+des+expositions+d%27Avignon+800+chemin+des+F%C3%A9lons+84140+Montfavet"
+           target="_blank" rel="noopener noreferrer">Voir l'itin&#233;raire</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- INTERVENANTS                                                   -->
+  <!-- ============================================================= -->
+  <div class="usn-section" style="padding-top:0; padding-bottom:48px;">
+    <div class="usn-wrap">
+      <!-- Bouton / pill avec la date -->
+      <div class="usn-datepill">
+        <div class="usn-datepill-d">Samedi 17 octobre 2026</div>
+        <div class="usn-datepill-v">Parc des expos d'Avignon <span class="usn-star">&#10022;</span> Montfavet</div>
+      </div>
+
+      <div class="usn-section-head" style="text-align:center; margin:38px auto 0;">
+        <span class="usn-eyebrow" style="justify-content:center;">Intervenants</span>
+        <h2>Ils seront l&#224;</h2>
+      </div>
+
+      <!--
+        &#9658; INTERVENANTS &#8212; cartes qui apparaissent au scroll.
+        Ajoutez la photo de chacun en rempla&#231;ant VOTRE_PHOTO...
+        (repli : initiales sur fond orange si aucune photo).
+      -->
+      <!-- Pr&#233;dication : 2 intervenants -->
+      <div class="usn-people usn-people-2">
+        <figure class="usn-person" data-usn-appear>
+          <div class="usn-person-photo">
+            <span class="usn-person-mono">YG</span>
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/yannis.webp" alt="Yannis Gautier" onerror="this.remove()" />
+          </div>
+          <figcaption>
+            <div class="usn-person-name">Yannis Gautier</div>
+            <div class="usn-person-role">Pr&#233;dication</div>
+          </figcaption>
+        </figure>
+        <figure class="usn-person" data-usn-appear>
+          <div class="usn-person-photo">
+            <span class="usn-person-mono">CC</span>
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/chriss.webp" alt="Chriss Campion" onerror="this.remove()" />
+          </div>
+          <figcaption>
+            <div class="usn-person-name">Chriss Campion</div>
+            <div class="usn-person-role">Pr&#233;dication</div>
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- Louange : 3 intervenants -->
+      <div class="usn-people usn-people-3">
+        <figure class="usn-person" data-usn-appear>
+          <div class="usn-person-photo">
+            <span class="usn-person-mono">PR</span>
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/patchai.webp" alt="Patcha&#239; Reyes" onerror="this.remove()" />
+          </div>
+          <figcaption>
+            <div class="usn-person-name">Patcha&#239; Reyes</div>
+            <div class="usn-person-role">Louange</div>
+          </figcaption>
+        </figure>
+        <figure class="usn-person" data-usn-appear>
+          <div class="usn-person-photo">
+            <span class="usn-person-mono">NH</span>
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/nikita.webp" alt="Nikita Heugebaert" onerror="this.remove()" />
+          </div>
+          <figcaption>
+            <div class="usn-person-name">Nikita Heugebaert</div>
+            <div class="usn-person-role">Louange</div>
+          </figcaption>
+        </figure>
+        <figure class="usn-person" data-usn-appear>
+          <div class="usn-person-photo">
+            <span class="usn-person-mono">RD</span>
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/ruben.webp" alt="Ruben Debard" onerror="this.remove()" />
+          </div>
+          <figcaption>
+            <div class="usn-person-name">Ruben Debard</div>
+            <div class="usn-person-role">Louange</div>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- PUNCHLINE (fond clair, photos qui arrivent des c&#244;t&#233;s)         -->
+  <!-- ============================================================= -->
+  <div class="usn-section usn-punch" id="usn-punch"
+       style="padding-top: 40px; padding-bottom: clamp(160px, 25vw, 280px);">
+
+    <!--
+      &#9658; PHOTOS LAT&#201;RALES &#8212; elles glissent depuis les bords au scroll.
+      Remplacez VOTRE_PHOTO_AMBIANCE_x.jpg par vos photos (foule, louange,
+      pri&#232;re&#8230;). Sans photo, un aplat orange s'affiche.
+    -->
+
+    <div class="usn-wrap">
+      <!--
+        &#9658; PUNCHLINE &#8212; les mots se rassemblent au scroll (effet type vouscon).
+        Sans JavaScript, le texte s'affiche normalement (assembl&#233;).
+      -->
+      <span class="usn-eyebrow" style="justify-content:center; width:100%;">L'invitation</span>
+      <p class="usn-punch-line usn-punch-1" data-usn-reveal style="margin-top:20px;">Viens tel que tu es,</p>
+      <p class="usn-punch-line usn-punch-2" data-usn-reveal>repars transform&#233; par</p>
+      <p class="usn-punch-line usn-punch-3" data-usn-reveal>un seul nom : J&#233;sus-Christ.</p>
+      <p class="usn-punch-sub" data-usn-sub>
+        Le 17 octobre &#224; Avignon, une place t'attend. Entr&#233;e libre &#8212; viens avec
+        ta famille, tes amis, ceux que tu portes dans ton c&#339;ur.
+      </p>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- DEUX CARTES D'ACTION (&#224; cheval sur la bande)                  -->
+  <!-- ============================================================= -->
+  <div class="usn-wrap">
+    <div class="usn-cta-cards">
+      <!-- Carte 1 : Inscription -->
+      <div class="usn-cta-card usn-ink">
+        <div class="usn-cta-eyebrow">Samedi 17 octobre 2026 &#183; Avignon</div>
+        <div class="usn-cta-title">Inscris-toi</div>
+        <p class="usn-cta-text">R&#233;serve ta place gratuitement pour l'apr&#232;s-midi d'&#233;vang&#233;lisation et de gu&#233;rison.</p>
+        <div class="usn-cta-actions">
+          <a href="#usn-inscription" class="usn-cta-btn fill">Je m'inscris</a>
+          <a href="#usn-programme" class="usn-cta-btn line">En savoir plus</a>
+        </div>
+      </div>
+      <!-- Carte 2 : Soutien -->
+      <div class="usn-cta-card usn-red">
+        <div class="usn-cta-eyebrow">Partenaire de la mission</div>
+        <div class="usn-cta-title">Soutiens la mission</div>
+        <p class="usn-cta-text">Aide-nous &#224; porter l'&#201;vangile en France : chaque don fait avancer l'&#339;uvre.</p>
+        <div class="usn-cta-actions">
+          <!-- &#9658; Remplacez le lien ci-dessous par votre page de don (HelloAsso, etc.) -->
+          <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3?utm_source=app_ha&amp;utm_campaign=share_campaign_button&amp;utm_medium=ios" target="_blank" rel="noopener noreferrer" class="usn-cta-btn fill">Faire un don</a>
+          <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3?utm_source=app_ha&amp;utm_campaign=share_campaign_button&amp;utm_medium=ios" target="_blank" rel="noopener noreferrer" class="usn-cta-btn line">Devenir partenaire</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- INSCRIPTION / NEWSLETTER                                       -->
+  <!-- ============================================================= -->
+  <div id="usn-inscription" class="usn-section usn-signup">
+    <div class="usn-wrap">
+      <div class="usn-section-head" style="margin:0 auto; text-align:center;">
+        <span class="usn-eyebrow" style="justify-content:center;">Inscription</span>
+        <h2>R&#233;serve ta place</h2>
+        <p style="margin-left:auto;margin-right:auto;">
+          Laisse ton nom et ton e-mail : nous te confirmerons ta pr&#233;sence et te
+          tiendrons au courant des prochaines dates Un Seul Nom.
+        </p>
+      </div>
+
+      <!--
+        &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+        &#9658; FORMULAIRE &#8212; comment le connecter (choisir UNE option) :
+
+        OPTION 1 &#8212; Plugin newsletter WordPress (MailPoet, Brevo, Mailchimp&#8230;) :
+           Le plus simple : remplacez tout ce <form> par le shortcode / bloc
+           de formulaire de votre plugin. Sinon, mettez l'URL d'action du
+           plugin dans data-endpoint et v&#233;rifiez les name="...".
+
+        OPTION 2 &#8212; Google Form :
+           Mettez l'URL &#171; formResponse &#187; dans data-endpoint et les
+           identifiants entry.XXXX dans name="entry.XXXX".
+
+        OPTION 3 &#8212; Par e-mail (aucune config) :
+           Laissez data-endpoint vide : le formulaire affiche un message de
+           confirmation et pr&#233;pare un e-mail pr&#233;-rempli vers data-mailto.
+        &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+      -->
+      <!-- Le formulaire est envoy&#233; dans l'iframe cach&#233; ci-dessous : le
+           visiteur reste sur la page au lieu d'&#234;tre redirig&#233; vers Brevo. -->
+      <iframe name="usn-brevo" title="Inscription" style="display:none;border:0;width:0;height:0"></iframe>
+
+      <form class="usn-form" id="usn-signup-form" method="POST"
+            action="https://f8944495.sibforms.com/serve/MUIFAIs9H4MOwtfawQ-nUiiNQjRmcSNQ51wCfEkSkK4X91IeG5GyZDWqGDV3oD_sUQHzLsQUO6Ky6EqX9G_I6VWvy8H5St2aXpxdhmXp81Jkl34fooTe9ukSalttOBmz1T6EwxTHhs9WLKWs2tBPCT1fhe_uubwAitTQjHmRHfmqBxQBcLifIZRDcFP9W3Vvzs_hPEa9_OySJBsT"
+            target="usn-brevo" novalidate>
+        <div class="usn-form-row">
+          <div class="usn-field">
+            <label for="usn-nom">Nom</label>
+            <input id="usn-nom" name="NOM" type="text" placeholder="Ton nom" required />
+          </div>
+          <div class="usn-field">
+            <label for="usn-email">Adresse e-mail</label>
+            <input id="usn-email" name="EMAIL" type="email" placeholder="ton@email.com" required />
+          </div>
+        </div>
+
+        <!-- Pi&#232;ge anti-robot de Brevo : ce champ doit rester vide. -->
+        <input type="text" name="email_address_check" value="" tabindex="-1"
+               aria-hidden="true" autocomplete="off"
+               style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+        <input type="hidden" name="locale" value="fr" />
+
+        <button type="submit" class="usn-btn usn-btn-primary">Je m'inscris &#224; l'&#233;v&#233;nement</button>
+        <p class="usn-consent">
+          En t'inscrivant, tu acceptes de recevoir des informations de la part
+          d'Un Seul Nom. D&#233;sinscription possible &#224; tout moment.
+        </p>
+      </form>
+
+      <div class="usn-msg" id="usn-form-msg" role="status" aria-live="polite">
+        &#128591; Merci&nbsp;! Ton inscription est bien prise en compte. &#192; tr&#232;s bient&#244;t.
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- AUTRES DATES (optionnel &#8212; supprimez ce bloc si inutile)        -->
+  <!-- ============================================================= -->
+  <div class="usn-section" style="padding-top:0;">
+    <div class="usn-wrap">
+      <div class="usn-section-head">
+        <span class="usn-eyebrow">Prochaines dates</span>
+        <h2>De ville en ville</h2>
+      </div>
+      <div class="usn-dates">
+        <!-- &#9658; Ajoutez d'autres villes/dates en dupliquant une ligne ci-dessous -->
+        <div class="usn-date-row">
+          <div>
+            <div class="usn-dr-when">Samedi 17 octobre 2026</div>
+            <div class="usn-dr-title">Un Seul Nom &#183; Avignon</div>
+            <div class="usn-dr-place">Parc des expos d'Avignon &#8212; Montfavet</div>
+          </div>
+          <a href="#usn-inscription" class="usn-btn usn-btn-dark">S'inscrire</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- FOOTER                                                         -->
+  <!-- ============================================================= -->
+  <footer class="usn-footer">
+    <div class="usn-wrap">
+      <!-- &#9658; LOGO (facultatif) : remplace ce commentaire par
+           <img src="URL_DE_TON_LOGO.png" alt="Un Seul Nom" style="width:96px;height:auto;margin:0 auto 14px;" /> -->
+      <div class="usn-footer-logo">Un Seul Nom</div>
+      <p style="margin-top:10px;">&#169; 2026 Un seul Nom. Tous droits r&#233;serv&#233;s.</p>
+    </div>
+  </footer>
+
+</section>
