@@ -287,29 +287,15 @@
     box-shadow: 0 26px 50px -26px rgba(12,11,10,0.4);
   }
   #usn-event .usn-person-mono { position: absolute; inset: 0; display: grid; place-items: center; font-size: clamp(30px, 5vw, 46px); font-weight: 800; color: rgba(255,255,255,0.92); }
-  /* Portraits en noir et blanc (comme l'affiche), qui repassent en couleur
-     au survol à la souris et sous le doigt sur mobile. Pour les laisser en
-     couleur en permanence, supprimez la ligne « filter » ci-dessous. */
+  /* Portraits en noir et blanc, comme l'affiche. Ils reprennent leurs
+     couleurs en passant au centre de l'ecran puis redeviennent noir et
+     blanc en sortant : c'est le script qui pilote le filtre. Sans
+     JavaScript, ils restent simplement en noir et blanc. */
   #usn-event .usn-person-photo img {
     position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover;
     filter: grayscale(1) contrast(1.06);
-    transition: filter .45s ease, transform .45s ease;
+    will-change: filter, transform;
   }
-  /* Souris : uniquement sur les appareils qui savent survoler, sinon certains
-     navigateurs mobiles gardent l'état « survolé » après un appui. */
-  @media (hover: hover) {
-    #usn-event .usn-person:hover .usn-person-photo img {
-      filter: grayscale(0) contrast(1);
-      transform: scale(1.04);
-    }
-  }
-  /* Doigt (mobile) et navigation au clavier */
-  #usn-event .usn-person.usn-color .usn-person-photo img,
-  #usn-event .usn-person:focus-within .usn-person-photo img {
-    filter: grayscale(0) contrast(1);
-    transform: scale(1.04);
-  }
-  #usn-event .usn-person-photo { cursor: pointer; }
   #usn-event .usn-person-name { margin-top: 14px; font-weight: 700; font-size: 16px; text-align: center; }
   #usn-event .usn-person-role { margin-top: 3px; font-size: 11px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--usn-blue); text-align: center; }
   /* L'apparition est pilotée par le moteur de scroll (JS). Sans JS : visible. */
@@ -1018,25 +1004,6 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
   })();
 
-  /* ---- Portraits : couleur sous le doigt (mobile) ----
-     Le survol CSS ne s'applique pas au tactile : on écoute donc l'appui. */
-  (function () {
-    var gens = document.querySelectorAll('#usn-event .usn-person');
-    if (!gens.length) return;
-    for (var i = 0; i < gens.length; i++) {
-      (function (el) {
-        var t;
-        function couleur() { clearTimeout(t); el.classList.add('usn-color'); }
-        function retour() { clearTimeout(t); t = setTimeout(function () {
-          el.classList.remove('usn-color'); }, 900); }
-        el.addEventListener('touchstart', couleur, { passive: true });
-        el.addEventListener('touchmove', couleur, { passive: true });
-        el.addEventListener('touchend', retour, { passive: true });
-        el.addEventListener('touchcancel', retour, { passive: true });
-      })(gens[i]);
-    }
-  })();
-
   /* ---- Compte à rebours ---- */
   (function () {
     var box = document.getElementById('usn-countdown');
@@ -1153,6 +1120,32 @@
       }
     }
     measureAll();
+
+    /* ---------- Portraits : couleur au passage au centre ----------
+       Chaque photo se colore a mesure qu'elle approche du centre de
+       l'ecran, puis retourne au noir et blanc en s'en eloignant. */
+    var photos = [];
+    (function () {
+      var imgs = root.querySelectorAll('.usn-person-photo img');
+      for (var i = 0; i < imgs.length; i++) photos.push({ el: imgs[i], p: 0 });
+    })();
+
+    function cibleCouleur(ph) {
+      var r = ph.el.getBoundingClientRect();
+      if (!r.height) return 0;
+      var h = vh();
+      var ecart = Math.abs((r.top + r.height / 2) - h / 2);
+      // Pleine couleur au centre, noir et blanc au-dela de 42% de l'ecran.
+      return clamp01(1 - ecart / (h * 0.42));
+    }
+
+    function peindre(ph) {
+      var e = easeOut(ph.p);
+      ph.el.style.filter = 'grayscale(' + (1 - e).toFixed(3) + ') contrast(' + (1 + 0.06 * (1 - e)).toFixed(3) + ')';
+      ph.el.style.transform = 'scale(' + (1 + 0.035 * e).toFixed(4) + ')';
+    }
+    for (var ip = 0; ip < photos.length; ip++) peindre(photos[ip]);
+
     // état initial immédiat (évite tout « flash » de contenu déjà en place)
     for (var s = 0; s < all.length; s++) apply(all[s], 0);
 
@@ -1231,6 +1224,13 @@
         punchP += (tp - punchP) * 0.12;
         if (Math.abs(tp - punchP) > 0.001) moving = true; else punchP = tp;
         punchApply(punchP);
+      }
+
+      for (var k = 0; k < photos.length; k++) {
+        var ph = photos[k], tc = cibleCouleur(ph);
+        ph.p += (tc - ph.p) * 0.14;
+        if (Math.abs(tc - ph.p) > 0.004) moving = true; else ph.p = tc;
+        peindre(ph);
       }
 
       if (hero && heroInner) {

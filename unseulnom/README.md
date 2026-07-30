@@ -18,8 +18,8 @@ Google Poppins) à intégrer dans le site WordPress **unseulnom.org**.
    louange, prédication, évangélisation & guérison).
 3. **Infos pratiques** + bouton « Voir l'itinéraire » (Google Maps).
 4. **Pill de date** + **intervenants** : portraits en **noir et blanc** qui
-   **apparaissent** au scroll et **repassent en couleur** au survol (souris)
-   ou sous le doigt (mobile).
+   **apparaissent** au scroll et **prennent leurs couleurs** en passant au
+   centre de l'écran, puis redeviennent noir et blanc en sortant.
 5. **Punchline animée** : les mots se **rassemblent** au scroll (effet vouscon),
    sur le thème de l'unité de l'Église pour évangéliser.
 6. **Deux cartes d'action à cheval** sur la bande : « Inscris-toi » et
