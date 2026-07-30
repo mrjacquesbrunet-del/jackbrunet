@@ -31,3 +31,6 @@ next-env.d.ts
 .vscode
 .idea
 scratch-android/
+
+# aperçus générés depuis unseulnom/index.html (polices embarquées, captures)
+unseulnom/preview-*
