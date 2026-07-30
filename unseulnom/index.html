@@ -70,6 +70,14 @@
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     overflow-x: clip;
+
+    /* La page occupe toute la largeur de l'écran, même quand le thème
+       WordPress l'enferme dans une colonne centrée (bandes blanches sur
+       les côtés). Si vous utilisez un modèle de page déjà pleine largeur,
+       ces trois lignes ne changent rien. */
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(50% - 50vw);
   }
   #usn-event *, #usn-event *::before, #usn-event *::after { box-sizing: border-box; }
   #usn-event img, #usn-event video { max-width: 100%; display: block; }
@@ -840,6 +848,12 @@
 </section>
 
 <script>
+/* Tout le code attend que la page soit construite. Sans cela, si le script
+   est inséré avant le contenu (ce que font certains plugins WordPress), il
+   ne trouve aucun élément et s'arrête sans rien faire. */
+(function () {
+  function usnInit() {
+
   /* ---- Le grand titre s'ajuste toujours à la largeur ----
      « AVIGNON » débordait sur mobile ; avec un nom de ville plus long le
      problème reviendrait. On mesure et on réduit si nécessaire. */
@@ -1114,7 +1128,13 @@
       setTimeout(function () { form.reset(); }, 100);
     });
   })();
-
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', usnInit);
+  } else {
+    usnInit();
+  }
+})();
 </script>
 
 <!-- ◄◄◄ FIN — copier jusqu'ici pour le bloc HTML WordPress ◄◄◄ -->

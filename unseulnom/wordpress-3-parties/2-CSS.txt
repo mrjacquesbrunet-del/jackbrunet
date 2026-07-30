@@ -33,6 +33,14 @@
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     overflow-x: clip;
+
+    /* La page occupe toute la largeur de l'ecran, meme quand le theme
+       WordPress l'enferme dans une colonne centree (bandes blanches sur
+       les cotes). Si vous utilisez un modele de page deja pleine largeur,
+       ces trois lignes ne changent rien. */
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(50% - 50vw);
   }
   #usn-event *, #usn-event *::before, #usn-event *::after { box-sizing: border-box; }
   #usn-event img, #usn-event video { max-width: 100%; display: block; }

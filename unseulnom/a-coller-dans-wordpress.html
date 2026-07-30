@@ -1,8 +1,3 @@
-<!-- ==========================================================================
-     UN SEUL NOM - AVIGNON : bloc pret a coller dans WordPress
-     Les adresses des images pointent deja vers ta mediatheque.
-     A coller dans un bloc " HTML personnalise ". Rien d'autre a modifier.
-     ========================================================================== -->
 <style>
   /* ===================================================================
      Styles scopes sous #usn-event pour ne pas entrer en conflit
@@ -39,6 +34,14 @@
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     overflow-x: clip;
+
+    /* La page occupe toute la largeur de l'ecran, meme quand le theme
+       WordPress l'enferme dans une colonne centree (bandes blanches sur
+       les cotes). Si vous utilisez un modele de page deja pleine largeur,
+       ces trois lignes ne changent rien. */
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(50% - 50vw);
   }
   #usn-event *, #usn-event *::before, #usn-event *::after { box-sizing: border-box; }
   #usn-event img, #usn-event video { max-width: 100%; display: block; }
@@ -411,10 +414,7 @@
     -->
     <video class="usn-hero-video" autoplay muted loop playsinline
            poster="">
-      <!-- &#9658; VIDEO : quand tu l'auras, uploade-la dans la mediatheque puis
-           remplace cette ligne par :
-           <source src="URL_DE_TA_VIDEO.mp4" type="video/mp4" />
-           En attendant, le fond degrade sombre s'affiche. -->
+      <source src="VOTRE_VIDEO.mp4" type="video/mp4" />
     </video>
 
     <div class="usn-hero-overlay"></div>
@@ -432,8 +432,8 @@
           VOTRE_LOGO.png par son URL. S'il n'est pas d&#233;fini, il dispara&#238;t
           et le nom texte ci-dessous prend le relais.
         -->
-        <!-- &#9658; LOGO : remplace ce commentaire par
-             <img class="usn-hero-logo" src="URL_DE_TON_LOGO.png" alt="Un Seul Nom" /> -->
+        <img class="usn-hero-logo" src="VOTRE_LOGO.png" alt="Un Seul Nom"
+             onerror="this.style.display='none'" />
 
         <div class="usn-hero-eyebrow">Un&nbsp;Seul&nbsp;Nom&nbsp;&nbsp;&#8594;</div>
 
@@ -789,8 +789,9 @@
   <!-- ============================================================= -->
   <footer class="usn-footer">
     <div class="usn-wrap">
-      <!-- &#9658; LOGO (facultatif) : remplace ce commentaire par
-           <img src="URL_DE_TON_LOGO.png" alt="Un Seul Nom" style="width:96px;height:auto;margin:0 auto 14px;" /> -->
+      <!-- M&#234;me logo qu'en haut (facultatif) -->
+      <img src="VOTRE_LOGO.png" alt="Un Seul Nom" style="width:96px;height:auto;margin:0 auto 14px;"
+           onerror="this.style.display='none'" />
       <div class="usn-footer-logo">Un Seul Nom</div>
       <p style="margin-top:10px;">&#169; 2026 Un seul Nom. Tous droits r&#233;serv&#233;s.</p>
     </div>
@@ -799,6 +800,12 @@
 </section>
 
 <script>
+/* Tout le code attend que la page soit construite. Sans cela, si le script
+   est insere avant le contenu (ce que font certains plugins WordPress), il
+   ne trouve aucun element et s'arrete sans rien faire. */
+(function () {
+  function usnInit() {
+
   /* ---- Le grand titre s'ajuste toujours a la largeur ----
      " AVIGNON " debordait sur mobile ; avec un nom de ville plus long le
      probleme reviendrait. On mesure et on reduit si necessaire. */
@@ -1073,5 +1080,11 @@
       setTimeout(function () { form.reset(); }, 100);
     });
   })();
-
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', usnInit);
+  } else {
+    usnInit();
+  }
+})();
 </script>

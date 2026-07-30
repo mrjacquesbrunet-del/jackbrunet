@@ -17,10 +17,8 @@
     -->
     <video class="usn-hero-video" autoplay muted loop playsinline
            poster="">
-      <!-- &#9658; VIDEO : quand tu l'auras, uploade-la dans la mediatheque puis
-           remplace cette ligne par :
-           <source src="URL_DE_TA_VIDEO.mp4" type="video/mp4" />
-           En attendant, le fond degrade sombre s'affiche. -->
+      <!-- VIDEO : quand tu l'auras, uploade-la puis remplace cette ligne par :
+           <source src="URL_DE_TA_VIDEO.mp4" type="video/mp4" /> -->
     </video>
 
     <div class="usn-hero-overlay"></div>
@@ -38,7 +36,7 @@
           VOTRE_LOGO.png par son URL. S'il n'est pas d&#233;fini, il dispara&#238;t
           et le nom texte ci-dessous prend le relais.
         -->
-        <!-- &#9658; LOGO : remplace ce commentaire par
+        <!-- LOGO : remplace ce commentaire par
              <img class="usn-hero-logo" src="URL_DE_TON_LOGO.png" alt="Un Seul Nom" /> -->
 
         <div class="usn-hero-eyebrow">Un&nbsp;Seul&nbsp;Nom&nbsp;&nbsp;&#8594;</div>
@@ -395,8 +393,7 @@
   <!-- ============================================================= -->
   <footer class="usn-footer">
     <div class="usn-wrap">
-      <!-- &#9658; LOGO (facultatif) : remplace ce commentaire par
-           <img src="URL_DE_TON_LOGO.png" alt="Un Seul Nom" style="width:96px;height:auto;margin:0 auto 14px;" /> -->
+      <!-- LOGO (facultatif) -->
       <div class="usn-footer-logo">Un Seul Nom</div>
       <p style="margin-top:10px;">&#169; 2026 Un seul Nom. Tous droits r&#233;serv&#233;s.</p>
     </div>

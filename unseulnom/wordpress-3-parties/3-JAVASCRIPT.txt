@@ -1,4 +1,10 @@
-/* ---- Le grand titre s'ajuste toujours a la largeur ----
+/* Tout le code attend que la page soit construite. Sans cela, si le script
+   est insere avant le contenu (ce que font certains plugins WordPress), il
+   ne trouve aucun element et s'arrete sans rien faire. */
+(function () {
+  function usnInit() {
+
+  /* ---- Le grand titre s'ajuste toujours a la largeur ----
      " AVIGNON " debordait sur mobile ; avec un nom de ville plus long le
      probleme reviendrait. On mesure et on reduit si necessaire. */
   (function () {
@@ -272,3 +278,10 @@
       setTimeout(function () { form.reset(); }, 100);
     });
   })();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', usnInit);
+  } else {
+    usnInit();
+  }
+})();
