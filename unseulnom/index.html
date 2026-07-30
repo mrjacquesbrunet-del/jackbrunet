@@ -151,12 +151,24 @@
      de la page, pour rester dans la meme famille visuelle. */
   #usn-event .usn-nav-brand {
     display: inline-flex; align-items: center; gap: 10px;
+    padding: 11px 20px 11px 16px; border-radius: 999px;
     font-family: var(--usn-display); font-stretch: 115%;
     font-size: 13px; font-weight: 800; letter-spacing: 0.24em; text-transform: uppercase;
-    color: var(--usn-white); opacity: .9;
-    transition: opacity .18s ease;
+    color: var(--usn-white);
+    /* Verre depoli : le fond de la page (ou la video) transparait au travers,
+       le bouton s'y integre au lieu de se poser dessus. */
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.22);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    backdrop-filter: blur(14px) saturate(140%);
+    text-shadow: 0 1px 10px rgba(0,0,0,0.35);
+    transition: background .2s ease, border-color .2s ease, transform .18s ease;
   }
-  #usn-event .usn-nav-brand:hover { opacity: 1; }
+  #usn-event .usn-nav-brand:hover {
+    background: rgba(255,255,255,0.18);
+    border-color: rgba(255,255,255,0.4);
+    transform: translateY(-1px);
+  }
   #usn-event .usn-nav-fleche {
     font-size: 16px; letter-spacing: 0; line-height: 1;
     transition: transform .18s ease;
@@ -169,12 +181,28 @@
     display: inline-flex; align-items: center; justify-content: center;
     padding: 12px 26px; border-radius: 999px;
     font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase;
-    background: var(--usn-red); color: #fff;
-    border: 2px solid transparent;
-    transition: transform .18s ease, background .18s ease;
+    color: #fff;
+    /* Meme verre depoli, teinte de rouge : la couleur reste lisible sur la
+       video sans masquer l'image. Au survol, le rouge devient plein. */
+    background: rgba(228,38,43,0.62);
+    border: 1px solid rgba(255,255,255,0.28);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    backdrop-filter: blur(14px) saturate(140%);
+    text-shadow: 0 1px 10px rgba(0,0,0,0.3);
+    transition: background .2s ease, border-color .2s ease, transform .18s ease;
   }
-  #usn-event .usn-nav-don:hover { background: var(--usn-red-2); transform: translateY(-2px); }
+  #usn-event .usn-nav-don:hover {
+    background: var(--usn-red);
+    border-color: rgba(255,255,255,0.55);
+    transform: translateY(-2px);
+  }
   #usn-event .usn-nav-don:focus-visible { outline: 3px solid rgba(255,255,255,0.6); outline-offset: 3px; }
+
+  /* Navigateurs sans flou : on opacifie pour garder la lisibilite. */
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    #usn-event .usn-nav-brand { background: rgba(12,11,10,0.55); }
+    #usn-event .usn-nav-don { background: rgba(228,38,43,0.92); }
+  }
 
   @media (max-width: 520px) {
     #usn-event .usn-nav { padding: 15px 16px; }
