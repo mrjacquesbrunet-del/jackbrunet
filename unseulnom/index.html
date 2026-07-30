@@ -138,6 +138,40 @@
     color: var(--usn-white);
     overflow: hidden;
   }
+  /* Navigation de retour vers le reste du site : le bandeau du theme etant
+     masque sur cette page, sans elle le visiteur serait sans issue. */
+  #usn-event .usn-nav {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 4;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap;
+    padding: 20px clamp(16px, 4vw, 42px);
+  }
+  #usn-event .usn-nav a { text-decoration: none; }
+  #usn-event .usn-nav-brand {
+    font-family: var(--usn-display); font-stretch: 115%;
+    font-size: 13px; font-weight: 800; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--usn-white); opacity: .95;
+  }
+  #usn-event .usn-nav-brand:hover { opacity: 1; }
+  #usn-event .usn-nav-links { display: flex; align-items: center; gap: clamp(10px, 2.4vw, 26px); }
+  #usn-event .usn-nav-links a {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255,255,255,0.82); transition: color .18s ease;
+  }
+  #usn-event .usn-nav-links a:hover { color: var(--usn-white); }
+  #usn-event .usn-nav-don {
+    background: var(--usn-red); color: #fff !important;
+    padding: 9px 18px; border-radius: 999px;
+    transition: background .18s ease, transform .18s ease;
+  }
+  #usn-event .usn-nav-don:hover { background: var(--usn-red-2); transform: translateY(-1px); }
+  @media (max-width: 520px) {
+    #usn-event .usn-nav { padding: 14px 16px; }
+    #usn-event .usn-nav-brand { font-size: 11px; letter-spacing: 0.2em; }
+    #usn-event .usn-nav-links a { font-size: 11px; letter-spacing: 0.08em; }
+    #usn-event .usn-nav-don { padding: 8px 14px; }
+  }
+
   #usn-event .usn-hero-video {
     position: absolute; inset: 0; width: 100%; height: 100%;
     object-fit: cover; z-index: 0;
@@ -437,6 +471,16 @@
   <!-- HÉROS — vidéo de fond + compte à rebours                      -->
   <!-- ============================================================= -->
   <header class="usn-hero">
+
+    <!-- Navigation de retour vers le site (le bandeau du theme est masque ici) -->
+    <nav class="usn-nav">
+      <a class="usn-nav-brand" href="https://unseulnom.org/">&#8592;&nbsp; Un Seul Nom</a>
+      <div class="usn-nav-links">
+        <a href="https://unseulnom.org/">&#192; propos</a>
+        <a href="https://unseulnom.org/contact/">Newsletter</a>
+        <a class="usn-nav-don" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Faire un don</a>
+      </div>
+    </nav>
 
     <!--
       ══════════════════════════════════════════════════════════════
@@ -842,6 +886,10 @@
            onerror="this.style.display='none'" />
       <div class="usn-footer-logo">Un Seul Nom</div>
       <p style="margin-top:10px;">© 2026 Un seul Nom. Tous droits réservés.</p>
+      <p style="margin-top:14px;">
+        <a href="https://unseulnom.org/">Retour au site</a> &nbsp;·&nbsp;
+        <a href="https://unseulnom.org/contact/">Newsletter</a>
+      </p>
     </div>
   </footer>
 

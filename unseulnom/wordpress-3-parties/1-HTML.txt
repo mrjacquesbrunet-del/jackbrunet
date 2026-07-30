@@ -5,6 +5,16 @@
   <!-- ============================================================= -->
   <header class="usn-hero">
 
+    <!-- Navigation de retour vers le site (le bandeau du theme est masque ici) -->
+    <nav class="usn-nav">
+      <a class="usn-nav-brand" href="https://unseulnom.org/">&#8592;&nbsp; Un Seul Nom</a>
+      <div class="usn-nav-links">
+        <a href="https://unseulnom.org/">&#192; propos</a>
+        <a href="https://unseulnom.org/contact/">Newsletter</a>
+        <a class="usn-nav-don" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Faire un don</a>
+      </div>
+    </nav>
+
     <!--
       &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
       &#9658; VID&#201;O DE FOND
@@ -17,7 +27,7 @@
     -->
     <video class="usn-hero-video" autoplay muted loop playsinline
            poster="">
-      <!-- VIDEO : quand tu l'auras, uploade-la puis remplace cette ligne par :
+      <!-- VIDEO : quand tu l'auras, remplace cette ligne par :
            <source src="URL_DE_TA_VIDEO.mp4" type="video/mp4" /> -->
     </video>
 
@@ -396,6 +406,10 @@
       <!-- LOGO (facultatif) -->
       <div class="usn-footer-logo">Un Seul Nom</div>
       <p style="margin-top:10px;">&#169; 2026 Un seul Nom. Tous droits r&#233;serv&#233;s.</p>
+      <p style="margin-top:14px;">
+        <a href="https://unseulnom.org/">Retour au site</a> &nbsp;&#183;&nbsp;
+        <a href="https://unseulnom.org/contact/">Newsletter</a>
+      </p>
     </div>
   </footer>
 

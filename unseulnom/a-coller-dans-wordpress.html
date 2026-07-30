@@ -1,5 +1,5 @@
 <style>
-  /* ===================================================================
+/* ===================================================================
      Styles scopes sous #usn-event pour ne pas entrer en conflit
      avec le theme WordPress. Ajustez la charte via les variables --usn-*.
      =================================================================== */
@@ -102,6 +102,40 @@
     color: var(--usn-white);
     overflow: hidden;
   }
+  /* Navigation de retour vers le reste du site : le bandeau du theme etant
+     masque sur cette page, sans elle le visiteur serait sans issue. */
+  #usn-event .usn-nav {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 4;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap;
+    padding: 20px clamp(16px, 4vw, 42px);
+  }
+  #usn-event .usn-nav a { text-decoration: none; }
+  #usn-event .usn-nav-brand {
+    font-family: var(--usn-display); font-stretch: 115%;
+    font-size: 13px; font-weight: 800; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--usn-white); opacity: .95;
+  }
+  #usn-event .usn-nav-brand:hover { opacity: 1; }
+  #usn-event .usn-nav-links { display: flex; align-items: center; gap: clamp(10px, 2.4vw, 26px); }
+  #usn-event .usn-nav-links a {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255,255,255,0.82); transition: color .18s ease;
+  }
+  #usn-event .usn-nav-links a:hover { color: var(--usn-white); }
+  #usn-event .usn-nav-don {
+    background: var(--usn-red); color: #fff !important;
+    padding: 9px 18px; border-radius: 999px;
+    transition: background .18s ease, transform .18s ease;
+  }
+  #usn-event .usn-nav-don:hover { background: var(--usn-red-2); transform: translateY(-1px); }
+  @media (max-width: 520px) {
+    #usn-event .usn-nav { padding: 14px 16px; }
+    #usn-event .usn-nav-brand { font-size: 11px; letter-spacing: 0.2em; }
+    #usn-event .usn-nav-links a { font-size: 11px; letter-spacing: 0.08em; }
+    #usn-event .usn-nav-don { padding: 8px 14px; }
+  }
+
   #usn-event .usn-hero-video {
     position: absolute; inset: 0; width: 100%; height: 100%;
     object-fit: cover; z-index: 0;
@@ -394,13 +428,22 @@
   }
   @media (prefers-reduced-motion: reduce) { #usn-event * { transition: none !important; } }
 </style>
-
 <section id="usn-event">
 
   <!-- ============================================================= -->
   <!-- H&#201;ROS &#8212; vid&#233;o de fond + compte &#224; rebours                      -->
   <!-- ============================================================= -->
   <header class="usn-hero">
+
+    <!-- Navigation de retour vers le site (le bandeau du theme est masque ici) -->
+    <nav class="usn-nav">
+      <a class="usn-nav-brand" href="https://unseulnom.org/">&#8592;&nbsp; Un Seul Nom</a>
+      <div class="usn-nav-links">
+        <a href="https://unseulnom.org/">&#192; propos</a>
+        <a href="https://unseulnom.org/contact/">Newsletter</a>
+        <a class="usn-nav-don" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Faire un don</a>
+      </div>
+    </nav>
 
     <!--
       &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
@@ -414,7 +457,8 @@
     -->
     <video class="usn-hero-video" autoplay muted loop playsinline
            poster="">
-      <source src="VOTRE_VIDEO.mp4" type="video/mp4" />
+      <!-- VIDEO : quand tu l'auras, remplace cette ligne par :
+           <source src="URL_DE_TA_VIDEO.mp4" type="video/mp4" /> -->
     </video>
 
     <div class="usn-hero-overlay"></div>
@@ -432,8 +476,8 @@
           VOTRE_LOGO.png par son URL. S'il n'est pas d&#233;fini, il dispara&#238;t
           et le nom texte ci-dessous prend le relais.
         -->
-        <img class="usn-hero-logo" src="VOTRE_LOGO.png" alt="Un Seul Nom"
-             onerror="this.style.display='none'" />
+        <!-- LOGO : remplace ce commentaire par
+             <img class="usn-hero-logo" src="URL_DE_TON_LOGO.png" alt="Un Seul Nom" /> -->
 
         <div class="usn-hero-eyebrow">Un&nbsp;Seul&nbsp;Nom&nbsp;&nbsp;&#8594;</div>
 
@@ -789,16 +833,17 @@
   <!-- ============================================================= -->
   <footer class="usn-footer">
     <div class="usn-wrap">
-      <!-- M&#234;me logo qu'en haut (facultatif) -->
-      <img src="VOTRE_LOGO.png" alt="Un Seul Nom" style="width:96px;height:auto;margin:0 auto 14px;"
-           onerror="this.style.display='none'" />
+      <!-- LOGO (facultatif) -->
       <div class="usn-footer-logo">Un Seul Nom</div>
       <p style="margin-top:10px;">&#169; 2026 Un seul Nom. Tous droits r&#233;serv&#233;s.</p>
+      <p style="margin-top:14px;">
+        <a href="https://unseulnom.org/">Retour au site</a> &nbsp;&#183;&nbsp;
+        <a href="https://unseulnom.org/contact/">Newsletter</a>
+      </p>
     </div>
   </footer>
 
 </section>
-
 <script>
 /* Tout le code attend que la page soit construite. Sans cela, si le script
    est insere avant le contenu (ce que font certains plugins WordPress), il
