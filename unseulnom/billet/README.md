@@ -8,6 +8,13 @@
   s'imprime net, sans dépendre des polices installées sur l'appareil.
 - Le QR code renvoie vers **unseulnom.org**.
 
+Deux versions PNG accompagnent le PDF, générées depuis celui-ci :
+
+| Fichier | Taille | Usage |
+|---|---|---|
+| `billet-un-seul-nom-avignon.png` | 1751 × 2483 px (300 dpi) | impression, flyer |
+| `billet-un-seul-nom-avignon-web.png` | 876 × 1242 px (150 dpi) | web, réseaux sociaux, corps d'e-mail |
+
 ## Modifier le billet
 
 Éditez `generer-billet.py` (le HTML est dedans), puis relancez la génération
