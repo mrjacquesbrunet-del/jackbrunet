@@ -235,12 +235,8 @@
   #usn-event .usn-people { margin: 26px auto 0; display: grid; gap: 18px; align-items: start; }
   #usn-event .usn-people-2 { grid-template-columns: repeat(2, 1fr); max-width: 600px; }
   #usn-event .usn-people-3 { grid-template-columns: repeat(3, 1fr); max-width: 860px; }
-  /* Intitulé de chaque groupe (Prédication / Louange) */
-  #usn-event .usn-people-label {
-    margin-top: 44px; text-align: center;
-    font-size: 12px; font-weight: 800; letter-spacing: 0.24em; text-transform: uppercase;
-    color: var(--usn-blue);
-  }
+  /* Espace entre le groupe prédication et le groupe louange */
+  #usn-event .usn-people + .usn-people { margin-top: 46px; }
   #usn-event .usn-person { margin: 0; }
   #usn-event .usn-people .usn-person:nth-child(even) { margin-top: 38px; }
   #usn-event .usn-person-photo {
@@ -527,7 +523,7 @@
           <div class="usn-prog-body">
             <div class="usn-prog-time">La Parole</div>
             <div class="usn-prog-title">Prédication</div>
-            <p class="usn-prog-text">La bonne nouvelle de l'Évangile annoncée par Yanis Gautier et Chriss Campion.</p>
+            <p class="usn-prog-text">La bonne nouvelle de l'Évangile annoncée par Yannis Gautier et Chriss Campion.</p>
           </div>
           <div class="usn-prog-media">
             <img src="VOTRE_PHOTO_PREDICATION.jpg" alt="" onerror="this.remove()" />
@@ -541,7 +537,7 @@
             <p class="usn-prog-text">Un appel à suivre Jésus et un temps de prière pour les malades et les cœurs blessés.</p>
           </div>
           <div class="usn-prog-media">
-            <img src="VOTRE_PHOTO_GUERISON.jpg" alt="" onerror="this.remove()" />
+            <img src="images/programme-4.webp" alt="Appel et prière" loading="lazy" onerror="this.remove()" />
           </div>
         </div>
       </div>
@@ -595,15 +591,14 @@
         (repli : initiales sur fond orange si aucune photo).
       -->
       <!-- Prédication : 2 intervenants -->
-      <div class="usn-people-label">Prédication</div>
       <div class="usn-people usn-people-2">
         <figure class="usn-person" data-usn-appear>
           <div class="usn-person-photo">
             <span class="usn-person-mono">YG</span>
-            <img src="images/yanis.webp" alt="Yanis Gautier" onerror="this.remove()" />
+            <img src="images/yannis.webp" alt="Yannis Gautier" onerror="this.remove()" />
           </div>
           <figcaption>
-            <div class="usn-person-name">Yanis Gautier</div>
+            <div class="usn-person-name">Yannis Gautier</div>
             <div class="usn-person-role">Prédication</div>
           </figcaption>
         </figure>
@@ -620,7 +615,6 @@
       </div>
 
       <!-- Louange : 3 intervenants -->
-      <div class="usn-people-label">Louange</div>
       <div class="usn-people usn-people-3">
         <figure class="usn-person" data-usn-appear>
           <div class="usn-person-photo">

@@ -58,7 +58,7 @@ Utilisez `index.html` tel quel comme modèle de page HTML.
 | **Vidéo de fond** | `► VIDÉO DE FOND` | URL d'une vidéo `.mp4` uploadée dans la médiathèque (muette, en boucle). Sans vidéo, un fond dégradé sombre s'affiche. |
 | **Logo** | `► LOGO` | URL du logo (version **blanche** conseillée sur le héros sombre). S'il n'est pas défini, il disparaît proprement. |
 | **Photos intervenants** | ✅ fournies (`images/`) | Les 5 portraits sont intégrés et optimisés. |
-| **Photos programme** | 2/4 fournies | Restent `VOTRE_PHOTO_PREDICATION.jpg` et `VOTRE_PHOTO_GUERISON.jpg`. |
+| **Photos programme** | 3/4 fournies | Reste `VOTRE_PHOTO_PREDICATION.jpg` (panneau Prédication). |
 | **Infos événement** | `► ÉVÉNEMENT` | Ville (grand titre), sous-titre, date, heure, lieu. |
 | **Compte à rebours** | `data-target` | Date + heure de début, ex. `2026-10-17T16:00:00`. |
 | **Lien de don** | carte « Soutiens la mission » | URL de la page de don (HelloAsso…). |
