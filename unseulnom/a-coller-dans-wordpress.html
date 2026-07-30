@@ -1,0 +1,1077 @@
+<!-- ==========================================================================
+     UN SEUL NOM - AVIGNON : bloc pret a coller dans WordPress
+     Les adresses des images pointent deja vers ta mediatheque.
+     A coller dans un bloc « HTML personnalise ». Rien d'autre a modifier.
+     ========================================================================== -->
+<style>
+  /* ===================================================================
+     Styles scopés sous #usn-event pour ne pas entrer en conflit
+     avec le thème WordPress. Ajustez la charte via les variables --usn-*.
+     =================================================================== */
+  /* Poppins (corps) + Archive large/black pour les gros titres.
+     Note : le site vouscon utilise « Druk Wide » (police payante, non
+     hébergeable librement) ; Archivo Expanded Black en est l'équivalent
+     gratuit le plus proche (titres larges et massifs). */
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
+  #usn-event {
+    /* ── Charte : bleu, blanc, rouge (drapeau français) ── */
+    --usn-blue: #1B2FC4;       /* bleu — accent principal */
+    --usn-blue-2: #2B41E0;     /* bleu clair — survol / éclat */
+    --usn-red: #E4262B;        /* rouge — boutons d'action */
+    --usn-red-2: #F5393E;      /* rouge clair — survol */
+    --usn-white: #FFFFFF;      /* blanc */
+    --usn-paper: #F4F5F9;      /* gris très clair — fonds alternés */
+    --usn-ink: #0C0B0A;        /* noir — textes */
+    --usn-ink-soft: #15141A;
+
+    --usn-radius: 18px;
+
+    /* Police des gros titres (large + massif, façon Druk Wide) */
+    --usn-display: 'Archivo', 'Poppins', system-ui, -apple-system, "Segoe UI", sans-serif;
+    /* Police des sous-titres (grotesque neutre, façon Helvetica Now / Neue Montreal) */
+    --usn-sub: 'Inter', system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+
+    box-sizing: border-box;
+    font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--usn-ink);
+    background: var(--usn-white);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+  #usn-event *, #usn-event *::before, #usn-event *::after { box-sizing: border-box; }
+  #usn-event img, #usn-event video { max-width: 100%; display: block; }
+
+  #usn-event .usn-wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+
+  #usn-event h1, #usn-event h2, #usn-event h3 { margin: 0; font-weight: 800; line-height: 1.05; letter-spacing: -0.01em; }
+  #usn-event p { margin: 0; }
+
+  /* Gros titres en Archivo large (façon Druk Wide) */
+  #usn-event h1, #usn-event h2,
+  #usn-event .usn-hero h1, #usn-event .usn-punch-line, #usn-event .usn-prog-title,
+  #usn-event .usn-cta-title, #usn-event .usn-datepill-d, #usn-event .usn-cd-num {
+    font-family: var(--usn-display);
+    font-stretch: 125%;
+  }
+
+  /* Sous-titres en Inter (grotesque neutre, façon Helvetica Now) */
+  #usn-event .usn-datepill-v, #usn-event .usn-hero-tagline, #usn-event .usn-hero-date,
+  #usn-event .usn-section-head p, #usn-event .usn-prog-text, #usn-event .usn-cta-text,
+  #usn-event .usn-punch-sub, #usn-event .usn-fact-v, #usn-event .usn-person-name,
+  #usn-event .usn-dr-title, #usn-event .usn-dr-place {
+    font-family: var(--usn-sub);
+  }
+
+  #usn-event .usn-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 13px; font-weight: 800; letter-spacing: 0.34em; text-transform: uppercase;
+    color: var(--usn-blue);
+  }
+
+  /* ---------- Boutons ---------- */
+  #usn-event .usn-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 15px 34px; border-radius: 999px; font-weight: 700; font-size: 14px;
+    letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; cursor: pointer;
+    border: 2px solid transparent; transition: transform .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
+  }
+  #usn-event .usn-btn-primary { background: var(--usn-blue); color: #fff; }
+  #usn-event .usn-btn-primary:hover { background: var(--usn-red); transform: translateY(-2px); }
+  #usn-event .usn-btn-outline { background: transparent; color: var(--usn-white); border-color: rgba(255,255,255,0.7); }
+  #usn-event .usn-btn-outline:hover { background: var(--usn-white); color: var(--usn-ink); border-color: var(--usn-white); }
+  #usn-event .usn-btn-dark { background: var(--usn-ink); color: var(--usn-white); }
+  #usn-event .usn-btn-dark:hover { background: var(--usn-ink-soft); transform: translateY(-2px); }
+
+  /* =================================================================== */
+  /* HÉROS PLEIN ÉCRAN AVEC VIDÉO DE FOND                                 */
+  /* =================================================================== */
+  #usn-event .usn-hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex; flex-direction: column;
+    /* Fond de secours élégant si la vidéo est absente/en cours de chargement */
+    background:
+      radial-gradient(900px 600px at 50% 0%, rgba(27,47,196,0.55), transparent 60%),
+      radial-gradient(700px 500px at 80% 90%, rgba(228,38,43,0.34), transparent 60%),
+      var(--usn-ink);
+    color: var(--usn-white);
+    overflow: hidden;
+  }
+  #usn-event .usn-hero-video {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; z-index: 0;
+  }
+  #usn-event .usn-hero-overlay {
+    position: absolute; inset: 0; z-index: 1;
+    background:
+      linear-gradient(to bottom, rgba(12,11,10,0.35) 0%, rgba(12,11,10,0.15) 40%, rgba(12,11,10,0.75) 100%);
+  }
+  #usn-event .usn-hero-inner {
+    position: relative; z-index: 2;
+    flex: 1 1 auto; display: flex; align-items: center;
+    padding: 120px 0 40px; text-align: center;
+  }
+  #usn-event .usn-hero-logo { width: clamp(90px, 16vw, 150px); height: auto; margin: 0 auto 6px; }
+  #usn-event .usn-hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 14px; font-weight: 800; letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--usn-red);
+  }
+  #usn-event .usn-hero h1 {
+    margin: 18px auto 0;
+    font-size: clamp(38px, 15vw, 190px);
+    font-weight: 900; line-height: 0.92; letter-spacing: -0.02em; text-transform: uppercase;
+    color: var(--usn-white);
+    text-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  }
+  #usn-event .usn-hero-tagline {
+    margin: 16px auto 0; font-size: clamp(16px, 3vw, 24px); font-weight: 700;
+    letter-spacing: 0.02em; text-transform: uppercase; color: var(--usn-red);
+  }
+  #usn-event .usn-hero-date {
+    margin: 10px auto 0; font-size: clamp(13px, 2.4vw, 17px); font-weight: 600;
+    letter-spacing: 0.28em; text-transform: uppercase; color: rgba(255,255,255,0.9);
+  }
+  #usn-event .usn-hero-cta { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+
+  /* ---------- Compte à rebours (bas du héros) ---------- */
+  #usn-event .usn-countdown {
+    position: relative; z-index: 2;
+    background: var(--usn-ink);
+    border-top: 1px solid rgba(255,255,255,0.12);
+    padding: 22px 0;
+  }
+  #usn-event .usn-cd-grid { display: flex; justify-content: center; gap: clamp(18px, 6vw, 70px); }
+  #usn-event .usn-cd-item { text-align: center; position: relative; }
+  #usn-event .usn-cd-num {
+    display: block; font-size: clamp(38px, 9vw, 74px); font-weight: 800; line-height: 1;
+    color: var(--usn-white); font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
+  }
+  #usn-event .usn-cd-lab {
+    display: block; margin-top: 6px; font-size: 12px; font-weight: 800;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--usn-blue);
+  }
+
+  /* =================================================================== */
+  /* SECTIONS CLAIRES (crème)                                             */
+  /* =================================================================== */
+  #usn-event .usn-section { padding: clamp(64px, 10vw, 110px) 0; }
+  #usn-event .usn-section-head { max-width: 760px; }
+  #usn-event .usn-section-head h2 { margin-top: 16px; font-size: clamp(30px, 5.5vw, 54px); text-transform: uppercase; }
+  #usn-event .usn-section-head p { margin-top: 18px; font-size: clamp(15px, 2.2vw, 18px); color: rgba(12,11,10,0.7); }
+
+  /* Panneaux « programme » (glissent depuis la gauche au scroll) */
+  #usn-event .usn-program { margin-top: 46px; display: flex; flex-direction: column; gap: 20px; }
+  #usn-event .usn-prog {
+    display: grid; grid-template-columns: 1.15fr 1fr; align-items: stretch;
+    background: var(--usn-blue); color: var(--usn-white);
+    border-radius: 30px; overflow: hidden; min-height: 200px;
+  }
+  /* Alternance bleu / rouge, façon drapeau */
+  #usn-event .usn-prog:nth-child(even) { background: var(--usn-red); }
+  #usn-event .usn-prog:nth-child(even) .usn-prog-media { background: #8E1418; }
+  #usn-event .usn-prog-body { padding: 34px 40px; display: flex; flex-direction: column; justify-content: center; }
+  #usn-event .usn-prog-time { font-size: 13px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.78); }
+  #usn-event .usn-prog-title { margin-top: 8px; font-size: clamp(26px, 4vw, 44px); font-weight: 800; text-transform: uppercase; line-height: 1.02; }
+  #usn-event .usn-prog-text { margin-top: 12px; font-size: 15px; line-height: 1.55; color: rgba(255,255,255,0.88); max-width: 46ch; }
+  /* Zone image 16:9 à droite du panneau */
+  #usn-event .usn-prog-media {
+    position: relative; align-self: center; margin: 22px 22px 22px 0;
+    aspect-ratio: 16 / 9; border-radius: 18px; overflow: hidden;
+    background: #141C6E;
+  }
+  #usn-event .usn-prog-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  /* L'apparition est pilotée par le moteur de scroll (JS). Sans JS : visible. */
+  #usn-event .usn-prog { will-change: transform, opacity; }
+  @media (max-width: 720px) {
+    #usn-event .usn-prog { grid-template-columns: 1fr; }
+    #usn-event .usn-prog-media { order: -1; margin: 22px 22px 0; }
+    #usn-event .usn-prog-body { padding: 28px 26px; }
+  }
+
+  /* Bouton / pill avec la date */
+  #usn-event .usn-datepill {
+    max-width: 640px; margin: 0 auto; text-align: center;
+    background: #EAECF6; border-radius: 999px; padding: 20px 36px;
+  }
+  #usn-event .usn-datepill-d { font-weight: 800; font-size: clamp(18px, 3vw, 27px); text-transform: uppercase; letter-spacing: 0.02em; }
+  #usn-event .usn-datepill-v { margin-top: 4px; font-size: clamp(14px, 2vw, 17px); color: rgba(12,11,10,0.72); }
+  #usn-event .usn-datepill-v .usn-star { color: var(--usn-blue); margin: 0 6px; }
+
+  /* Intervenants — cartes photos qui apparaissent au scroll */
+  #usn-event .usn-people { margin: 26px auto 0; display: grid; gap: 18px; align-items: start; }
+  #usn-event .usn-people-2 { grid-template-columns: repeat(2, 1fr); max-width: 600px; }
+  #usn-event .usn-people-3 { grid-template-columns: repeat(3, 1fr); max-width: 860px; }
+  /* Espace entre le groupe prédication et le groupe louange */
+  #usn-event .usn-people + .usn-people { margin-top: 46px; }
+  #usn-event .usn-person { margin: 0; }
+  #usn-event .usn-people .usn-person:nth-child(even) { margin-top: 38px; }
+  #usn-event .usn-person-photo {
+    position: relative; aspect-ratio: 3 / 4; border-radius: 22px; overflow: hidden;
+    background: linear-gradient(140deg, var(--usn-blue), #101861);
+    box-shadow: 0 26px 50px -26px rgba(12,11,10,0.4);
+  }
+  #usn-event .usn-person-mono { position: absolute; inset: 0; display: grid; place-items: center; font-size: clamp(30px, 5vw, 46px); font-weight: 800; color: rgba(255,255,255,0.92); }
+  /* Portraits en noir et blanc (comme l'affiche), qui repassent en couleur
+     au survol à la souris et sous le doigt sur mobile. Pour les laisser en
+     couleur en permanence, supprimez la ligne « filter » ci-dessous. */
+  #usn-event .usn-person-photo img {
+    position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover;
+    filter: grayscale(1) contrast(1.06);
+    transition: filter .45s ease, transform .45s ease;
+  }
+  /* Souris : uniquement sur les appareils qui savent survoler, sinon certains
+     navigateurs mobiles gardent l'état « survolé » après un appui. */
+  @media (hover: hover) {
+    #usn-event .usn-person:hover .usn-person-photo img {
+      filter: grayscale(0) contrast(1);
+      transform: scale(1.04);
+    }
+  }
+  /* Doigt (mobile) et navigation au clavier */
+  #usn-event .usn-person.usn-color .usn-person-photo img,
+  #usn-event .usn-person:focus-within .usn-person-photo img {
+    filter: grayscale(0) contrast(1);
+    transform: scale(1.04);
+  }
+  #usn-event .usn-person-photo { cursor: pointer; }
+  #usn-event .usn-person-name { margin-top: 14px; font-weight: 700; font-size: 16px; text-align: center; }
+  #usn-event .usn-person-role { margin-top: 3px; font-size: 11px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--usn-blue); text-align: center; }
+  /* L'apparition est pilotée par le moteur de scroll (JS). Sans JS : visible. */
+  #usn-event .usn-person { will-change: transform, opacity; }
+
+  @media (max-width: 560px) {
+    #usn-event .usn-people-3 { grid-template-columns: repeat(2, 1fr); }
+    #usn-event .usn-people .usn-person:nth-child(even) { margin-top: 0; }
+  }
+
+  /* Infos clés */
+  #usn-event .usn-facts { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  #usn-event .usn-fact {
+    display: flex; align-items: center; gap: 14px; padding: 20px 22px;
+    border-radius: var(--usn-radius); background: #fff; border: 1px solid rgba(12,11,10,0.08);
+  }
+  #usn-event .usn-fact svg { flex: none; width: 26px; height: 26px; color: var(--usn-blue); }
+  #usn-event .usn-fact .usn-fact-k { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(12,11,10,0.55); }
+  #usn-event .usn-fact .usn-fact-v { font-size: 16px; font-weight: 700; }
+
+  /* =================================================================== */
+  /* BANDE SOMBRE « MOUVEMENT »                                           */
+  /* =================================================================== */
+  #usn-event .usn-band {
+    position: relative; overflow: hidden; color: var(--usn-white);
+    background:
+      radial-gradient(700px 420px at 12% 15%, rgba(27,47,196,0.42), transparent 60%),
+      radial-gradient(700px 420px at 92% 92%, rgba(228,38,43,0.34), transparent 60%),
+      var(--usn-ink);
+  }
+  /* Punchline : fond clair, texte noir, photos qui arrivent des côtés */
+  #usn-event .usn-punch { position: relative; overflow: hidden; background: var(--usn-white); text-align: center; }
+  #usn-event .usn-punch-line {
+    position: relative; z-index: 2;
+    margin: 0 auto; max-width: 100%; text-wrap: balance;
+    font-weight: 800; text-transform: uppercase; line-height: 1.02; letter-spacing: -0.02em;
+    color: var(--usn-ink);
+  }
+  #usn-event .usn-punch-1 { font-size: clamp(26px, 5.6vw, 60px); }
+  #usn-event .usn-punch-2 { font-size: clamp(26px, 5.6vw, 60px); margin-top: 6px; }
+  #usn-event .usn-punch-3 { font-size: clamp(26px, 5.6vw, 60px); margin-top: 6px; color: var(--usn-blue); }
+  #usn-event .usn-word { display: inline-block; will-change: transform, opacity, filter; }
+  #usn-event .usn-punch-sub {
+    position: relative; z-index: 2;
+    max-width: 620px; margin: 34px auto 0; text-align: center;
+    font-size: 16px; font-weight: 400; text-transform: none; color: rgba(12,11,10,0.66);
+    will-change: transform, opacity;
+  }
+  /* Photos latérales (arrivent de la gauche / de la droite au scroll) */
+  #usn-event .usn-side {
+    position: absolute; z-index: 1; width: clamp(150px, 20vw, 280px);
+    aspect-ratio: 4 / 5; border-radius: 20px; overflow: hidden;
+    background: linear-gradient(140deg, var(--usn-blue), #101861);
+    box-shadow: 0 30px 60px -28px rgba(12,11,10,0.45);
+    will-change: transform, opacity;
+  }
+  #usn-event .usn-side img { width: 100%; height: 100%; object-fit: cover; }
+  #usn-event .usn-side-1 { left: -3%;  top: 12%; transform: rotate(-7deg); }
+  #usn-event .usn-side-2 { right: -3%; top: 20%; transform: rotate(6deg); }
+  #usn-event .usn-side-3 { left: 4%;   bottom: 6%; width: clamp(120px, 15vw, 210px); }
+  #usn-event .usn-side-4 { right: 4%;  bottom: 10%; width: clamp(120px, 15vw, 210px); }
+  @media (max-width: 900px) {
+    #usn-event .usn-side-3, #usn-event .usn-side-4 { display: none; }
+    #usn-event .usn-side-1 { top: 4%; opacity: 0.5; }
+    #usn-event .usn-side-2 { top: auto; bottom: 4%; opacity: 0.5; }
+  }
+
+  /* Deux cartes d'action « à cheval » sur la bande */
+  #usn-event .usn-cta-cards {
+    position: relative; z-index: 4; max-width: 1000px; margin: 0 auto;
+    margin-top: clamp(-210px, -20vw, -150px);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 22px;
+  }
+  #usn-event .usn-cta-card {
+    border-radius: 24px; padding: 34px 30px;
+    box-shadow: 0 44px 90px -34px rgba(0,0,0,0.65);
+    display: flex; flex-direction: column;
+  }
+  #usn-event .usn-cta-card.usn-ink { background: var(--usn-ink); color: var(--usn-white); }
+  #usn-event .usn-cta-card.usn-red { background: var(--usn-red); color: #fff; }
+  #usn-event .usn-cta-eyebrow { font-size: 12px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.75; }
+  #usn-event .usn-cta-title { margin-top: 10px; font-size: clamp(28px, 4vw, 40px); font-weight: 800; line-height: 1.03; text-transform: uppercase; }
+  #usn-event .usn-cta-text { margin-top: 12px; font-size: 15px; line-height: 1.55; opacity: 0.82; }
+  #usn-event .usn-cta-actions { margin-top: auto; padding-top: 26px; display: grid; gap: 12px; }
+  #usn-event .usn-cta-btn {
+    display: flex; align-items: center; justify-content: center; padding: 16px;
+    border-radius: 13px; font-weight: 800; font-size: 14px; letter-spacing: 0.06em;
+    text-transform: uppercase; text-decoration: none; border: 2px solid transparent;
+    transition: transform .16s ease, opacity .16s ease, border-color .16s ease;
+  }
+  #usn-event .usn-cta-btn:hover { transform: translateY(-2px); }
+  #usn-event .usn-ink .usn-cta-btn.fill { background: var(--usn-blue); color: #fff; }
+  #usn-event .usn-ink .usn-cta-btn.line { background: transparent; color: var(--usn-white); border-color: rgba(255,255,255,0.4); }
+  #usn-event .usn-ink .usn-cta-btn.line:hover { border-color: var(--usn-white); }
+  #usn-event .usn-red .usn-cta-btn.fill { background: #fff; color: var(--usn-red); }
+  #usn-event .usn-red .usn-cta-btn.line { background: transparent; color: #fff; border-color: rgba(255,255,255,0.6); }
+  #usn-event .usn-red .usn-cta-btn.line:hover { border-color: #fff; }
+  @media (max-width: 760px) {
+    #usn-event .usn-cta-cards { grid-template-columns: 1fr; margin-top: clamp(-90px, -14vw, -60px); }
+  }
+
+  /* =================================================================== */
+  /* INSCRIPTION / NEWSLETTER                                             */
+  /* =================================================================== */
+  #usn-event .usn-signup { text-align: center; }
+  #usn-event .usn-form { max-width: 560px; margin: 36px auto 0; display: grid; gap: 14px; text-align: left; }
+  #usn-event .usn-field { display: grid; gap: 7px; }
+  #usn-event .usn-field label { font-size: 13px; font-weight: 700; color: rgba(12,11,10,0.7); }
+  #usn-event .usn-form input {
+    width: 100%; padding: 15px 17px; border-radius: 13px;
+    border: 1px solid rgba(12,11,10,0.16); background: #fff; color: var(--usn-ink);
+    font-family: inherit; font-size: 15px; transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  #usn-event .usn-form input::placeholder { color: rgba(12,11,10,0.4); }
+  #usn-event .usn-form input:focus { outline: none; border-color: var(--usn-blue); box-shadow: 0 0 0 3px rgba(27,47,196,0.22); }
+  #usn-event .usn-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  #usn-event .usn-form button { width: 100%; margin-top: 4px; padding: 17px; font-size: 15px; }
+  #usn-event .usn-consent { font-size: 12.5px; color: rgba(12,11,10,0.6); text-align: center; }
+  #usn-event .usn-msg {
+    display: none; margin: 18px auto 0; max-width: 560px; padding: 16px 18px; border-radius: 13px;
+    background: rgba(27,47,196,0.10); border: 1px solid rgba(27,47,196,0.42);
+    color: #101861; font-size: 15px; font-weight: 700; text-align: center;
+  }
+
+  /* Autres dates */
+  #usn-event .usn-dates { margin-top: 44px; display: grid; gap: 14px; }
+  #usn-event .usn-date-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    padding: 22px 24px; border-radius: var(--usn-radius); background: #fff; border: 1px solid rgba(12,11,10,0.08);
+  }
+  #usn-event .usn-date-row .usn-dr-when { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--usn-blue); font-weight: 800; }
+  #usn-event .usn-date-row .usn-dr-title { font-size: 19px; font-weight: 700; margin-top: 4px; text-transform: uppercase; }
+  #usn-event .usn-date-row .usn-dr-place { font-size: 14px; color: rgba(12,11,10,0.6); margin-top: 2px; }
+
+  /* Footer */
+  #usn-event .usn-footer { background: var(--usn-ink); color: rgba(255,255,255,0.7); padding: 46px 0; text-align: center; font-size: 14px; }
+  #usn-event .usn-footer .usn-footer-logo { color: var(--usn-white); font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase; font-size: 15px; }
+  #usn-event .usn-footer a { color: var(--usn-red); text-decoration: none; }
+  #usn-event .usn-footer a:hover { text-decoration: underline; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    #usn-event .usn-cards { grid-template-columns: repeat(2, 1fr); }
+    #usn-event .usn-facts { grid-template-columns: 1fr; max-width: 460px; }
+  }
+  @media (max-width: 540px) {
+    #usn-event .usn-cards { grid-template-columns: 1fr; }
+    #usn-event .usn-form-row { grid-template-columns: 1fr; }
+    #usn-event .usn-hero-cta { flex-direction: column; }
+    #usn-event .usn-hero-cta .usn-btn { width: 100%; }
+    #usn-event .usn-cd-grid { gap: 14px; }
+  }
+  @media (prefers-reduced-motion: reduce) { #usn-event * { transition: none !important; } }
+</style>
+
+<section id="usn-event">
+
+  <!-- ============================================================= -->
+  <!-- HÉROS — vidéo de fond + compte à rebours                      -->
+  <!-- ============================================================= -->
+  <header class="usn-hero">
+
+    <!--
+      ══════════════════════════════════════════════════════════════
+      ► VIDÉO DE FOND
+      1. Uploadez votre vidéo (format .mp4, idéalement < 10-15 Mo,
+         muette, en boucle) dans la médiathèque WordPress.
+      2. Remplacez  VOTRE_VIDEO.mp4  par l'URL du fichier.
+      3. (Facultatif) poster="..." = image affichée avant/à défaut de vidéo.
+      Si vous laissez l'URL vide, un joli fond dégradé sombre s'affiche.
+      ══════════════════════════════════════════════════════════════
+    -->
+    <video class="usn-hero-video" autoplay muted loop playsinline
+           poster="">
+      <!-- ► VIDEO : quand tu l'auras, uploade-la dans la mediatheque puis
+           remplace cette ligne par :
+           <source src="URL_DE_TA_VIDEO.mp4" type="video/mp4" />
+           En attendant, le fond degrade sombre s'affiche. -->
+    </video>
+
+    <div class="usn-hero-overlay"></div>
+
+    <div class="usn-hero-inner">
+      <div class="usn-wrap">
+        <!--
+          ══════════════════════════════════════════════════════════
+          ► ÉVÉNEMENT — modifiez les textes ci-dessous
+          ══════════════════════════════════════════════════════════
+        -->
+        <!--
+          ► LOGO (version blanche recommandée sur ce fond sombre)
+          Uploadez le logo dans la médiathèque WordPress puis remplacez
+          VOTRE_LOGO.png par son URL. S'il n'est pas défini, il disparaît
+          et le nom texte ci-dessous prend le relais.
+        -->
+        <!-- ► LOGO : remplace ce commentaire par
+             <img class="usn-hero-logo" src="URL_DE_TON_LOGO.png" alt="Un Seul Nom" /> -->
+
+        <div class="usn-hero-eyebrow">Un&nbsp;Seul&nbsp;Nom&nbsp;&nbsp;→</div>
+
+        <!-- Le grand mot : la ville de l'événement -->
+        <h1>Avignon</h1>
+
+        <div class="usn-hero-tagline">Évangélisation &amp; Guérison</div>
+        <div class="usn-hero-date">Samedi 17 octobre 2026</div>
+
+        <div class="usn-hero-cta">
+          <a href="#usn-inscription" class="usn-btn usn-btn-primary">Je m'inscris</a>
+          <a href="#usn-programme" class="usn-btn usn-btn-outline">L'événement</a>
+        </div>
+      </div>
+    </div>
+
+    <!--
+      ► COMPTE À REBOURS
+      Réglez data-target sur la date + heure de l'événement (format ISO).
+      Ex. le 28 mars 2026 à 18h00 : data-target="2026-03-28T18:00:00"
+      (une fois la date passée, le compteur reste à zéro).
+    -->
+    <div class="usn-countdown" id="usn-countdown" data-target="2026-10-17T16:00:00">
+      <div class="usn-cd-grid">
+        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="days">0</span><span class="usn-cd-lab">Jours</span></div>
+        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="hours">00</span><span class="usn-cd-lab">Heures</span></div>
+        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="mins">00</span><span class="usn-cd-lab">Min</span></div>
+        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="secs">00</span><span class="usn-cd-lab">Sec</span></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================= -->
+  <!-- L'ÉVÉNEMENT / AU PROGRAMME                                     -->
+  <!-- ============================================================= -->
+  <div id="usn-programme" class="usn-section">
+    <div class="usn-wrap">
+      <div class="usn-section-head">
+        <span class="usn-eyebrow">Le programme</span>
+        <h2>Le déroulé de l'après-midi</h2>
+        <p>Une après-midi ouverte à tous.</p>
+      </div>
+
+      <!--
+        ► PROGRAMME — chaque panneau glisse depuis la gauche au scroll.
+        Ajoutez une photo à droite en remplaçant VOTRE_PHOTO...  (repli : icône).
+      -->
+      <div class="usn-program">
+        <div class="usn-prog" data-usn-appear>
+          <div class="usn-prog-body">
+            <div class="usn-prog-time">15h00</div>
+            <div class="usn-prog-title">Ouverture des portes</div>
+            <p class="usn-prog-text">Accueil du public. Entrée libre, viens comme tu es et invite autour de toi.</p>
+          </div>
+          <div class="usn-prog-media">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme1.webp" alt="" onerror="this.remove()" />
+          </div>
+        </div>
+
+        <div class="usn-prog" data-usn-appear>
+          <div class="usn-prog-body">
+            <div class="usn-prog-time">16h00 · Début de la conférence</div>
+            <div class="usn-prog-title">Louange</div>
+            <p class="usn-prog-text">Un temps d'adoration conduit par Patchaï Reyes, Nikita Heugebaert et Ruben Debard.</p>
+          </div>
+          <div class="usn-prog-media">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="Temps de louange" loading="lazy" onerror="this.remove()" />
+          </div>
+        </div>
+
+        <div class="usn-prog" data-usn-appear>
+          <div class="usn-prog-body">
+            <div class="usn-prog-time">La Parole</div>
+            <div class="usn-prog-title">Prédication</div>
+            <p class="usn-prog-text">La bonne nouvelle de l'Évangile annoncée par Yannis Gautier et Chriss Campion.</p>
+          </div>
+          <div class="usn-prog-media">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme3.webp" alt="Prédication sur scène" loading="lazy" onerror="this.remove()" />
+          </div>
+        </div>
+
+        <div class="usn-prog" data-usn-appear>
+          <div class="usn-prog-body">
+            <div class="usn-prog-time">En clôture</div>
+            <div class="usn-prog-title">Évangélisation &amp; Guérison</div>
+            <p class="usn-prog-text">Un appel à suivre Jésus et un temps de prière pour les malades et les cœurs blessés.</p>
+          </div>
+          <div class="usn-prog-media">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme4.webp" alt="Appel et prière" loading="lazy" onerror="this.remove()" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Infos pratiques -->
+      <div class="usn-facts">
+        <div class="usn-fact">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/></svg>
+          <div><div class="usn-fact-k">Date</div><div class="usn-fact-v">Samedi 17 octobre 2026</div></div>
+        </div>
+        <div class="usn-fact">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg>
+          <div><div class="usn-fact-k">Horaires</div><div class="usn-fact-v">Portes 15h · Conférence 16h</div></div>
+        </div>
+        <div class="usn-fact">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+          <div>
+            <div class="usn-fact-k">Lieu</div>
+            <div class="usn-fact-v">Parc des expos d'Avignon</div>
+            <div class="usn-fact-k" style="text-transform:none; letter-spacing:0; margin-top:3px;">800 chemin des Félons, 84140 Montfavet</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:20px;">
+        <a class="usn-btn usn-btn-dark"
+           href="https://www.google.com/maps/search/?api=1&query=Parc+des+expositions+d%27Avignon+800+chemin+des+F%C3%A9lons+84140+Montfavet"
+           target="_blank" rel="noopener noreferrer">Voir l'itinéraire</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- INTERVENANTS                                                   -->
+  <!-- ============================================================= -->
+  <div class="usn-section" style="padding-top:0; padding-bottom:48px;">
+    <div class="usn-wrap">
+      <!-- Bouton / pill avec la date -->
+      <div class="usn-datepill">
+        <div class="usn-datepill-d">Samedi 17 octobre 2026</div>
+        <div class="usn-datepill-v">Parc des expos d'Avignon <span class="usn-star">✦</span> Montfavet</div>
+      </div>
+
+      <div class="usn-section-head" style="text-align:center; margin:38px auto 0;">
+        <span class="usn-eyebrow" style="justify-content:center;">Intervenants</span>
+        <h2>Ils seront là</h2>
+      </div>
+
+      <!--
+        ► INTERVENANTS — cartes qui apparaissent au scroll.
+        Ajoutez la photo de chacun en remplaçant VOTRE_PHOTO...
+        (repli : initiales sur fond orange si aucune photo).
+      -->
+      <!-- Prédication : 2 intervenants -->
+      <div class="usn-people usn-people-2">
+        <figure class="usn-person" data-usn-appear>
+          <div class="usn-person-photo">
+            <span class="usn-person-mono">YG</span>
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/yannis.webp" alt="Yannis Gautier" onerror="this.remove()" />
+          </div>
+          <figcaption>
+            <div class="usn-person-name">Yannis Gautier</div>
+            <div class="usn-person-role">Prédication</div>
+          </figcaption>
+        </figure>
+        <figure class="usn-person" data-usn-appear>
+          <div class="usn-person-photo">
+            <span class="usn-person-mono">CC</span>
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/chriss.webp" alt="Chriss Campion" onerror="this.remove()" />
+          </div>
+          <figcaption>
+            <div class="usn-person-name">Chriss Campion</div>
+            <div class="usn-person-role">Prédication</div>
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- Louange : 3 intervenants -->
+      <div class="usn-people usn-people-3">
+        <figure class="usn-person" data-usn-appear>
+          <div class="usn-person-photo">
+            <span class="usn-person-mono">PR</span>
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/patchai.webp" alt="Patchaï Reyes" onerror="this.remove()" />
+          </div>
+          <figcaption>
+            <div class="usn-person-name">Patchaï Reyes</div>
+            <div class="usn-person-role">Louange</div>
+          </figcaption>
+        </figure>
+        <figure class="usn-person" data-usn-appear>
+          <div class="usn-person-photo">
+            <span class="usn-person-mono">NH</span>
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/nikita.webp" alt="Nikita Heugebaert" onerror="this.remove()" />
+          </div>
+          <figcaption>
+            <div class="usn-person-name">Nikita Heugebaert</div>
+            <div class="usn-person-role">Louange</div>
+          </figcaption>
+        </figure>
+        <figure class="usn-person" data-usn-appear>
+          <div class="usn-person-photo">
+            <span class="usn-person-mono">RD</span>
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/ruben.webp" alt="Ruben Debard" onerror="this.remove()" />
+          </div>
+          <figcaption>
+            <div class="usn-person-name">Ruben Debard</div>
+            <div class="usn-person-role">Louange</div>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- PUNCHLINE (fond clair, photos qui arrivent des côtés)         -->
+  <!-- ============================================================= -->
+  <div class="usn-section usn-punch" id="usn-punch"
+       style="padding-top: 40px; padding-bottom: clamp(160px, 25vw, 280px);">
+
+    <!--
+      ► PHOTOS LATÉRALES — elles glissent depuis les bords au scroll.
+      Remplacez VOTRE_PHOTO_AMBIANCE_x.jpg par vos photos (foule, louange,
+      prière…). Sans photo, un aplat orange s'affiche.
+    -->
+
+    <div class="usn-wrap">
+      <!--
+        ► PUNCHLINE — les mots se rassemblent au scroll (effet type vouscon).
+        Sans JavaScript, le texte s'affiche normalement (assemblé).
+      -->
+      <span class="usn-eyebrow" style="justify-content:center; width:100%;">L'invitation</span>
+      <p class="usn-punch-line usn-punch-1" data-usn-reveal style="margin-top:20px;">Viens tel que tu es,</p>
+      <p class="usn-punch-line usn-punch-2" data-usn-reveal>repars transformé par</p>
+      <p class="usn-punch-line usn-punch-3" data-usn-reveal>un seul nom : Jésus-Christ.</p>
+      <p class="usn-punch-sub" data-usn-sub>
+        Le 17 octobre à Avignon, une place t'attend. Entrée libre — viens avec
+        ta famille, tes amis, ceux que tu portes dans ton cœur.
+      </p>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- DEUX CARTES D'ACTION (à cheval sur la bande)                  -->
+  <!-- ============================================================= -->
+  <div class="usn-wrap">
+    <div class="usn-cta-cards">
+      <!-- Carte 1 : Inscription -->
+      <div class="usn-cta-card usn-ink">
+        <div class="usn-cta-eyebrow">Samedi 17 octobre 2026 · Avignon</div>
+        <div class="usn-cta-title">Inscris-toi</div>
+        <p class="usn-cta-text">Réserve ta place gratuitement pour l'après-midi d'évangélisation et de guérison.</p>
+        <div class="usn-cta-actions">
+          <a href="#usn-inscription" class="usn-cta-btn fill">Je m'inscris</a>
+          <a href="#usn-programme" class="usn-cta-btn line">En savoir plus</a>
+        </div>
+      </div>
+      <!-- Carte 2 : Soutien -->
+      <div class="usn-cta-card usn-red">
+        <div class="usn-cta-eyebrow">Partenaire de la mission</div>
+        <div class="usn-cta-title">Soutiens la mission</div>
+        <p class="usn-cta-text">Aide-nous à porter l'Évangile en France : chaque don fait avancer l'œuvre.</p>
+        <div class="usn-cta-actions">
+          <!-- ► Remplacez le lien ci-dessous par votre page de don (HelloAsso, etc.) -->
+          <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3?utm_source=app_ha&amp;utm_campaign=share_campaign_button&amp;utm_medium=ios" target="_blank" rel="noopener noreferrer" class="usn-cta-btn fill">Faire un don</a>
+          <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3?utm_source=app_ha&amp;utm_campaign=share_campaign_button&amp;utm_medium=ios" target="_blank" rel="noopener noreferrer" class="usn-cta-btn line">Devenir partenaire</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- INSCRIPTION / NEWSLETTER                                       -->
+  <!-- ============================================================= -->
+  <div id="usn-inscription" class="usn-section usn-signup">
+    <div class="usn-wrap">
+      <div class="usn-section-head" style="margin:0 auto; text-align:center;">
+        <span class="usn-eyebrow" style="justify-content:center;">Inscription</span>
+        <h2>Réserve ta place</h2>
+        <p style="margin-left:auto;margin-right:auto;">
+          Laisse ton nom et ton e-mail : nous te confirmerons ta présence et te
+          tiendrons au courant des prochaines dates Un Seul Nom.
+        </p>
+      </div>
+
+      <!--
+        ══════════════════════════════════════════════════════════
+        ► FORMULAIRE — comment le connecter (choisir UNE option) :
+
+        OPTION 1 — Plugin newsletter WordPress (MailPoet, Brevo, Mailchimp…) :
+           Le plus simple : remplacez tout ce <form> par le shortcode / bloc
+           de formulaire de votre plugin. Sinon, mettez l'URL d'action du
+           plugin dans data-endpoint et vérifiez les name="...".
+
+        OPTION 2 — Google Form :
+           Mettez l'URL « formResponse » dans data-endpoint et les
+           identifiants entry.XXXX dans name="entry.XXXX".
+
+        OPTION 3 — Par e-mail (aucune config) :
+           Laissez data-endpoint vide : le formulaire affiche un message de
+           confirmation et prépare un e-mail pré-rempli vers data-mailto.
+        ══════════════════════════════════════════════════════════
+      -->
+      <!-- Le formulaire est envoyé dans l'iframe caché ci-dessous : le
+           visiteur reste sur la page au lieu d'être redirigé vers Brevo. -->
+      <iframe name="usn-brevo" title="Inscription" style="display:none;border:0;width:0;height:0"></iframe>
+
+      <form class="usn-form" id="usn-signup-form" method="POST"
+            action="https://f8944495.sibforms.com/serve/MUIFAIs9H4MOwtfawQ-nUiiNQjRmcSNQ51wCfEkSkK4X91IeG5GyZDWqGDV3oD_sUQHzLsQUO6Ky6EqX9G_I6VWvy8H5St2aXpxdhmXp81Jkl34fooTe9ukSalttOBmz1T6EwxTHhs9WLKWs2tBPCT1fhe_uubwAitTQjHmRHfmqBxQBcLifIZRDcFP9W3Vvzs_hPEa9_OySJBsT"
+            target="usn-brevo" novalidate>
+        <div class="usn-form-row">
+          <div class="usn-field">
+            <label for="usn-nom">Nom</label>
+            <input id="usn-nom" name="NOM" type="text" placeholder="Ton nom" required />
+          </div>
+          <div class="usn-field">
+            <label for="usn-email">Adresse e-mail</label>
+            <input id="usn-email" name="EMAIL" type="email" placeholder="ton@email.com" required />
+          </div>
+        </div>
+
+        <!-- Piège anti-robot de Brevo : ce champ doit rester vide. -->
+        <input type="text" name="email_address_check" value="" tabindex="-1"
+               aria-hidden="true" autocomplete="off"
+               style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+        <input type="hidden" name="locale" value="fr" />
+
+        <button type="submit" class="usn-btn usn-btn-primary">Je m'inscris à l'événement</button>
+        <p class="usn-consent">
+          En t'inscrivant, tu acceptes de recevoir des informations de la part
+          d'Un Seul Nom. Désinscription possible à tout moment.
+        </p>
+      </form>
+
+      <div class="usn-msg" id="usn-form-msg" role="status" aria-live="polite">
+        🙏 Merci&nbsp;! Ton inscription est bien prise en compte. À très bientôt.
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- AUTRES DATES (optionnel — supprimez ce bloc si inutile)        -->
+  <!-- ============================================================= -->
+  <div class="usn-section" style="padding-top:0;">
+    <div class="usn-wrap">
+      <div class="usn-section-head">
+        <span class="usn-eyebrow">Prochaines dates</span>
+        <h2>De ville en ville</h2>
+      </div>
+      <div class="usn-dates">
+        <!-- ► Ajoutez d'autres villes/dates en dupliquant une ligne ci-dessous -->
+        <div class="usn-date-row">
+          <div>
+            <div class="usn-dr-when">Samedi 17 octobre 2026</div>
+            <div class="usn-dr-title">Un Seul Nom · Avignon</div>
+            <div class="usn-dr-place">Parc des expos d'Avignon — Montfavet</div>
+          </div>
+          <a href="#usn-inscription" class="usn-btn usn-btn-dark">S'inscrire</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- FOOTER                                                         -->
+  <!-- ============================================================= -->
+  <footer class="usn-footer">
+    <div class="usn-wrap">
+      <!-- ► LOGO (facultatif) : remplace ce commentaire par
+           <img src="URL_DE_TON_LOGO.png" alt="Un Seul Nom" style="width:96px;height:auto;margin:0 auto 14px;" /> -->
+      <div class="usn-footer-logo">Un Seul Nom</div>
+      <p style="margin-top:10px;">© 2026 Un seul Nom. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+</section>
+
+<script>
+  /* ---- Le grand titre s'ajuste toujours à la largeur ----
+     « AVIGNON » débordait sur mobile ; avec un nom de ville plus long le
+     problème reviendrait. On mesure et on réduit si nécessaire. */
+  (function () {
+    var h1 = document.querySelector('#usn-event .usn-hero h1');
+    if (!h1) return;
+    function fit() {
+      h1.style.fontSize = '';                       // repart de la taille CSS
+      var avail = h1.clientWidth;
+      if (!avail) return;
+      var size = parseFloat(getComputedStyle(h1).fontSize);
+      for (var i = 0; i < 3 && h1.scrollWidth > avail; i++) {
+        size = Math.floor(size * (avail / h1.scrollWidth) * 0.99);
+        h1.style.fontSize = size + 'px';
+      }
+    }
+    fit();
+    window.addEventListener('resize', fit);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  })();
+
+  /* ---- Portraits : couleur sous le doigt (mobile) ----
+     Le survol CSS ne s'applique pas au tactile : on écoute donc l'appui. */
+  (function () {
+    var gens = document.querySelectorAll('#usn-event .usn-person');
+    if (!gens.length) return;
+    for (var i = 0; i < gens.length; i++) {
+      (function (el) {
+        var t;
+        function couleur() { clearTimeout(t); el.classList.add('usn-color'); }
+        function retour() { clearTimeout(t); t = setTimeout(function () {
+          el.classList.remove('usn-color'); }, 900); }
+        el.addEventListener('touchstart', couleur, { passive: true });
+        el.addEventListener('touchmove', couleur, { passive: true });
+        el.addEventListener('touchend', retour, { passive: true });
+        el.addEventListener('touchcancel', retour, { passive: true });
+      })(gens[i]);
+    }
+  })();
+
+  /* ---- Compte à rebours ---- */
+  (function () {
+    var box = document.getElementById('usn-countdown');
+    if (!box) return;
+    var target = new Date(box.getAttribute('data-target') || '').getTime();
+    if (isNaN(target)) return;
+    var els = {
+      days: box.querySelector('[data-cd="days"]'),
+      hours: box.querySelector('[data-cd="hours"]'),
+      mins: box.querySelector('[data-cd="mins"]'),
+      secs: box.querySelector('[data-cd="secs"]')
+    };
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function tick() {
+      var diff = Math.max(0, target - Date.now());
+      var s = Math.floor(diff / 1000);
+      var d = Math.floor(s / 86400); s -= d * 86400;
+      var h = Math.floor(s / 3600); s -= h * 3600;
+      var m = Math.floor(s / 60); s -= m * 60;
+      if (els.days) els.days.textContent = d;
+      if (els.hours) els.hours.textContent = pad(h);
+      if (els.mins) els.mins.textContent = pad(m);
+      if (els.secs) els.secs.textContent = pad(s);
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+
+  /* =================================================================
+     MOTEUR D'ANIMATION AU SCROLL
+     Reproduit le comportement de GSAP ScrollTrigger en mode « scrub » :
+     - les éléments partent d'une demi-hauteur d'écran plus bas (50svh),
+     - ils remontent AU RYTHME DU SCROLL (et redescendent si on remonte),
+     - avec un chevauchement entre les éléments d'un même groupe,
+     - le tout lissé (inertie) pour un rendu fluide.
+     Sans JS ou avec « prefers-reduced-motion », tout reste visible.
+     ================================================================= */
+  (function () {
+    var root = document.getElementById('usn-event');
+    if (!root) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+    function vh() { return window.innerHeight || 800; }
+
+    /* ---------- 1. Découpe la punchline en mots ---------- */
+    var punch = document.getElementById('usn-punch');
+    var words = [];
+    if (punch) {
+      var lines = punch.querySelectorAll('[data-usn-reveal]');
+      for (var l = 0; l < lines.length; l++) {
+        var parts = (lines[l].textContent || '').trim().split(/\s+/);
+        lines[l].textContent = '';
+        for (var k = 0; k < parts.length; k++) {
+          var sp = document.createElement('span');
+          sp.className = 'usn-word';
+          sp.textContent = parts[k];
+          lines[l].appendChild(sp);
+          if (k < parts.length - 1) lines[l].appendChild(document.createTextNode(' '));
+          words.push(sp);
+        }
+      }
+      for (var w = 0; w < words.length; w++) {
+        var a = Math.sin(w * 12.9898) * 43758.5453; a -= Math.floor(a);
+        var b = Math.sin(w * 78.233) * 12543.123;  b -= Math.floor(b);
+        words[w].__dx = (a - 0.5) * 2 * Math.min(window.innerWidth * 0.45, 520);
+        words[w].__dy = (b - 0.5) * 2 * 260;
+        words[w].__rot = (a - 0.5) * 55;
+      }
+    }
+
+    if (reduce) return; // mouvement désactivé : tout reste en place
+
+    /* ---------- 2. Déclare les groupes animés ---------- */
+    // rise : monte depuis 50svh ; slide : arrive de la gauche ; pop : grossit
+    var groups = [];
+    function group(sel, opts) {
+      var els = root.querySelectorAll(sel);
+      if (els.length) groups.push({ els: els, o: opts });
+    }
+    group('.usn-prog',        { type: 'slide', dist: 0.42, stagger: 0.16, span: 0.62 });
+    group('.usn-person',      { type: 'rise',  dist: 0.50, stagger: 0.13, span: 0.60 });
+    group('.usn-datepill',    { type: 'pop',   stagger: 0,    span: 0.55 });
+    group('.usn-cta-card',    { type: 'rise',  dist: 0.40, stagger: 0.20, span: 0.60 });
+    group('.usn-date-row',    { type: 'slide', dist: 0.30, stagger: 0.16, span: 0.60 });
+    group('[data-usn-side="left"]',  { type: 'slide',  dist: 0.55, stagger: 0.10, span: 0.85 });
+    group('[data-usn-side="right"]', { type: 'slideR', dist: 0.55, stagger: 0.10, span: 0.85 });
+    group('.usn-section-head',{ type: 'rise',  dist: 0.28, stagger: 0.10, span: 0.55 });
+    group('.usn-fact',        { type: 'rise',  dist: 0.32, stagger: 0.12, span: 0.58 });
+
+    var all = [];
+    for (var g = 0; g < groups.length; g++) {
+      for (var i = 0; i < groups[g].els.length; i++) {
+        var el = groups[g].els[i];
+        all.push({
+          el: el, i: i, o: groups[g].o, p: 0, top: 0,
+          rot: parseFloat(el.getAttribute('data-rot') || '0')
+        });
+      }
+    }
+
+    function scrollY() { return window.pageYOffset || document.documentElement.scrollTop || 0; }
+
+    /* Position NATURELLE de chaque élément (transform neutralisé), mise en
+       cache : sinon le décalage appliqué fausse la mesure et l'élément
+       n'entre jamais dans la zone de déclenchement. */
+    function measureAll() {
+      for (var i = 0; i < all.length; i++) {
+        var it = all[i], prev = it.el.style.transform;
+        it.el.style.transform = 'none';
+        it.top = it.el.getBoundingClientRect().top + scrollY();
+        it.el.style.transform = prev;
+      }
+    }
+    measureAll();
+    // état initial immédiat (évite tout « flash » de contenu déjà en place)
+    for (var s = 0; s < all.length; s++) apply(all[s], 0);
+
+    /* ---------- 3. Calcul de l'avancement lié au scroll ---------- */
+    function target(item) {
+      var h = vh();
+      var top = item.top - scrollY();
+      // 0 quand le haut de l'élément entre par le bas, 1 quand il a monté
+      var raw = (h * 0.92 - top) / (h * item.o.span);
+      var st = item.i * item.o.stagger;
+      return clamp01((clamp01(raw) - st) / Math.max(0.2, 1 - st));
+    }
+
+    function apply(item, p) {
+      var e = easeOut(p), inv = 1 - e, o = item.o, st = item.el.style;
+      var rot = item.rot ? ' rotate(' + item.rot + 'deg)' : '';
+      if (o.type === 'rise') {
+        st.transform = 'translate3d(0,' + (inv * o.dist * vh()).toFixed(1) + 'px,0)' + rot;
+      } else if (o.type === 'slide') {
+        st.transform = 'translate3d(' + (-inv * o.dist * Math.min(window.innerWidth, 900)).toFixed(1) + 'px,0,0)' + rot;
+      } else if (o.type === 'slideR') {
+        st.transform = 'translate3d(' + (inv * o.dist * Math.min(window.innerWidth, 900)).toFixed(1) + 'px,0,0)' + rot;
+      } else { // pop
+        st.transform = 'scale(' + (0.3 + 0.7 * e).toFixed(3) + ')' + rot;
+      }
+      st.opacity = e.toFixed(3);
+    }
+
+    /* ---------- 4. Punchline : les mots se rassemblent ---------- */
+    var punchP = 0;
+    // Ancré sur la première ligne de texte (et non sur la section, bien plus
+    // haute) : les mots se rassemblent dès que le texte entre à l'écran.
+    var punchAnchor = punch && punch.querySelector('[data-usn-reveal]');
+    function punchTarget() {
+      if (!punchAnchor) return 0;
+      var r = punchAnchor.getBoundingClientRect(), h = vh();
+      return clamp01((h * 1.0 - r.top) / (h * 0.5));
+    }
+    function punchApply(p) {
+      var n = words.length;
+      for (var i = 0; i < n; i++) {
+        var t = clamp01((p - (i / n) * 0.45) / 0.55);
+        var e = easeOut(t), inv = 1 - e, ws = words[i];
+        ws.style.transform = 'translate3d(' + (ws.__dx * inv).toFixed(1) + 'px,' + (ws.__dy * inv).toFixed(1) + 'px,0) rotate(' + (ws.__rot * inv).toFixed(1) + 'deg)';
+        ws.style.opacity = e.toFixed(3);
+        ws.style.filter = inv > 0.02 ? 'blur(' + (inv * 9).toFixed(1) + 'px)' : 'none';
+      }
+      var sub = punch && punch.querySelector('[data-usn-sub]');
+      if (sub) {
+        var sp = clamp01((p - 0.6) / 0.4);
+        sub.style.opacity = sp.toFixed(3);
+        sub.style.transform = 'translate3d(0,' + ((1 - sp) * 40).toFixed(1) + 'px,0)';
+      }
+    }
+    punchApply(0);
+
+    /* ---------- 5. Parallaxe du héros ---------- */
+    var hero = root.querySelector('.usn-hero');
+    var heroInner = root.querySelector('.usn-hero-inner');
+    var heroVideo = root.querySelector('.usn-hero-video');
+
+    /* ---------- 6. Boucle de rendu (lissage type ScrollSmoother) ---------- */
+    var running = false;
+    function frame() {
+      var moving = false;
+
+      for (var i = 0; i < all.length; i++) {
+        var it = all[i], t = target(it);
+        it.p += (t - it.p) * 0.12;             // lissage
+        if (Math.abs(t - it.p) > 0.001) moving = true; else it.p = t;
+        apply(it, it.p);
+      }
+
+      if (punch) {
+        var tp = punchTarget();
+        punchP += (tp - punchP) * 0.12;
+        if (Math.abs(tp - punchP) > 0.001) moving = true; else punchP = tp;
+        punchApply(punchP);
+      }
+
+      if (hero && heroInner) {
+        var hr = hero.getBoundingClientRect();
+        var prog = clamp01(-hr.top / Math.max(1, hr.height));
+        heroInner.style.transform = 'translate3d(0,' + (prog * 130).toFixed(1) + 'px,0)';
+        heroInner.style.opacity = (1 - prog * 0.85).toFixed(3);
+        if (heroVideo) heroVideo.style.transform = 'scale(' + (1 + prog * 0.16).toFixed(3) + ')';
+      }
+
+      if (moving) { requestAnimationFrame(frame); } else { running = false; }
+    }
+    function kick() { if (!running) { running = true; requestAnimationFrame(frame); } }
+
+    window.addEventListener('scroll', kick, { passive: true });
+    window.addEventListener('resize', function () { measureAll(); kick(); });
+    window.addEventListener('load', function () { measureAll(); kick(); });
+    kick();
+  })();
+
+  /* ---- Formulaire : envoi vers Brevo sans quitter la page ---- */
+  (function () {
+    var form = document.getElementById('usn-signup-form');
+    if (!form) return;
+    var msg = document.getElementById('usn-form-msg');
+
+    form.addEventListener('submit', function (e) {
+      var nom = form.querySelector('#usn-nom');
+      var email = form.querySelector('#usn-email');
+      // Validation simple : si elle échoue, on laisse le navigateur signaler.
+      if (!nom.value.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value)) {
+        e.preventDefault();
+        (nom.value.trim() ? email : nom).focus();
+        return;
+      }
+      // L'envoi part vers l'iframe caché : on remercie et on vide le formulaire.
+      if (msg) msg.style.display = 'block';
+      setTimeout(function () { form.reset(); }, 100);
+    });
+  })();
+
+</script>

@@ -2,8 +2,12 @@
 
 Temps estimé : **15 à 20 minutes**. Aucune compétence technique requise.
 
-Fichier à utiliser : **`index-wordpress.html`** (et non `index.html`, qui est la
-version de travail).
+Fichier à utiliser : **`a-coller-dans-wordpress.html`** — les adresses des
+images pointent déjà vers la médiathèque d'unseulnom.org, il n'y a **rien à
+modifier**, juste à copier-coller.
+
+(`index-wordpress.html` est la version générique, avec un jeton `__URL_IMAGES__`
+à remplacer ; `index.html` est la version de travail.)
 
 ---
 
