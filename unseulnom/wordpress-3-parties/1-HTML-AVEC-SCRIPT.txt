@@ -7,12 +7,10 @@
 
     <!-- Navigation de retour vers le site (le bandeau du theme est masque ici) -->
     <nav class="usn-nav">
-      <a class="usn-nav-brand" href="https://unseulnom.org/">&#8592;&nbsp; Un Seul Nom</a>
-      <div class="usn-nav-links">
-        <a href="https://unseulnom.org/">&#192; propos</a>
-        <a href="https://unseulnom.org/contact/">Newsletter</a>
-        <a class="usn-nav-don" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Faire un don</a>
-      </div>
+      <a class="usn-nav-brand" href="https://unseulnom.org/">
+        <span class="usn-nav-fleche" aria-hidden="true">&#8592;</span> Un Seul Nom
+      </a>
+      <a class="usn-nav-don" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Faire un don</a>
     </nav>
 
     <!--
