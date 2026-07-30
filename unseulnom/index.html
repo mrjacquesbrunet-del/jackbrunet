@@ -748,22 +748,30 @@
            confirmation et prépare un e-mail pré-rempli vers data-mailto.
         ══════════════════════════════════════════════════════════
       -->
-      <form class="usn-form" id="usn-signup-form" method="post"
-            data-endpoint="" data-mailto="contact@unseulnom.org" novalidate>
+      <!-- Le formulaire est envoyé dans l'iframe caché ci-dessous : le
+           visiteur reste sur la page au lieu d'être redirigé vers Brevo. -->
+      <iframe name="usn-brevo" title="Inscription" style="display:none;border:0;width:0;height:0"></iframe>
+
+      <form class="usn-form" id="usn-signup-form" method="POST"
+            action="https://f8944495.sibforms.com/serve/MUIFAIs9H4MOwtfawQ-nUiiNQjRmcSNQ51wCfEkSkK4X91IeG5GyZDWqGDV3oD_sUQHzLsQUO6Ky6EqX9G_I6VWvy8H5St2aXpxdhmXp81Jkl34fooTe9ukSalttOBmz1T6EwxTHhs9WLKWs2tBPCT1fhe_uubwAitTQjHmRHfmqBxQBcLifIZRDcFP9W3Vvzs_hPEa9_OySJBsT"
+            target="usn-brevo" novalidate>
         <div class="usn-form-row">
           <div class="usn-field">
-            <label for="usn-firstname">Prénom</label>
-            <input id="usn-firstname" name="prenom" type="text" placeholder="Ton prénom" required />
+            <label for="usn-nom">Nom</label>
+            <input id="usn-nom" name="NOM" type="text" placeholder="Ton nom" required />
           </div>
           <div class="usn-field">
-            <label for="usn-city">Ville</label>
-            <input id="usn-city" name="ville" type="text" placeholder="Ta ville" />
+            <label for="usn-email">Adresse e-mail</label>
+            <input id="usn-email" name="EMAIL" type="email" placeholder="ton@email.com" required />
           </div>
         </div>
-        <div class="usn-field">
-          <label for="usn-email">Adresse e-mail</label>
-          <input id="usn-email" name="email" type="email" placeholder="ton@email.com" required />
-        </div>
+
+        <!-- Piège anti-robot de Brevo : ce champ doit rester vide. -->
+        <input type="text" name="email_address_check" value="" tabindex="-1"
+               aria-hidden="true" autocomplete="off"
+               style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+        <input type="hidden" name="locale" value="fr" />
+
         <button type="submit" class="usn-btn usn-btn-primary">Je m'inscris à l'événement</button>
         <p class="usn-consent">
           En t'inscrivant, tu acceptes de recevoir des informations de la part
@@ -1030,29 +1038,27 @@
     kick();
   })();
 
-  /* ---- Formulaire (amélioration progressive) ---- */
+  /* ---- Formulaire : envoi vers Brevo sans quitter la page ---- */
   (function () {
     var form = document.getElementById('usn-signup-form');
     if (!form) return;
     var msg = document.getElementById('usn-form-msg');
+
     form.addEventListener('submit', function (e) {
-      var endpoint = (form.getAttribute('data-endpoint') || '').trim();
+      var nom = form.querySelector('#usn-nom');
       var email = form.querySelector('#usn-email');
-      var prenom = form.querySelector('#usn-firstname');
-      if (!email.value || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value) || !prenom.value) return;
-      if (endpoint) { form.setAttribute('action', endpoint); return; }
-      e.preventDefault();
-      var mailto = (form.getAttribute('data-mailto') || '').trim();
-      if (mailto) {
-        var ville = form.querySelector('#usn-city');
-        var subject = encodeURIComponent('Inscription — Événement Un Seul Nom');
-        var body = encodeURIComponent('Prénom : ' + prenom.value + '\nVille : ' + (ville ? ville.value : '') + '\nE-mail : ' + email.value);
-        window.location.href = 'mailto:' + mailto + '?subject=' + subject + '&body=' + body;
+      // Validation simple : si elle échoue, on laisse le navigateur signaler.
+      if (!nom.value.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value)) {
+        e.preventDefault();
+        (nom.value.trim() ? email : nom).focus();
+        return;
       }
+      // L'envoi part vers l'iframe caché : on remercie et on vide le formulaire.
       if (msg) msg.style.display = 'block';
-      form.reset();
+      setTimeout(function () { form.reset(); }, 100);
     });
   })();
+
 </script>
 
 <!-- ◄◄◄ FIN — copier jusqu'ici pour le bloc HTML WordPress ◄◄◄ -->

@@ -62,7 +62,7 @@ Utilisez `index.html` tel quel comme modèle de page HTML.
 | **Infos événement** | `► ÉVÉNEMENT` | Ville (grand titre), sous-titre, date, heure, lieu. |
 | **Compte à rebours** | `data-target` | Date + heure de début, ex. `2026-10-17T16:00:00`. |
 | **Lien de don** | ✅ HelloAsso branché | « Faire un don » et « Devenir partenaire » pointent vers le formulaire HelloAsso. |
-| **Formulaire** | `► FORMULAIRE` | 3 options : plugin newsletter WordPress (MailPoet/Brevo/Mailchimp), Google Form, ou e-mail (par défaut). |
+| **Formulaire** | ✅ Brevo branché | Champs `NOM` et `EMAIL`, envoi vers le formulaire Brevo sans quitter la page. |
 
 ## Notes
 
