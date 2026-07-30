@@ -28,7 +28,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Un Seul Nom — Événement</title>
+  <title>Un Seul Nom — Avignon · 17 octobre 2026</title>
 </head>
 <body>
 
@@ -39,7 +39,11 @@
      Styles scopés sous #usn-event pour ne pas entrer en conflit
      avec le thème WordPress. Ajustez la charte via les variables --usn-*.
      =================================================================== */
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+  /* Poppins (corps) + Archive large/black pour les gros titres.
+     Note : le site vouscon utilise « Druk Wide » (police payante, non
+     hébergeable librement) ; Archivo Expanded Black en est l'équivalent
+     gratuit le plus proche (titres larges et massifs). */
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap');
 
   #usn-event {
     /* ── Charte : 3 couleurs ── */
@@ -50,6 +54,11 @@
     --usn-ink-soft: #17140F;
 
     --usn-radius: 18px;
+
+    /* Police des gros titres (large + massif, façon Druk Wide) */
+    --usn-display: 'Archivo', 'Poppins', system-ui, -apple-system, "Segoe UI", sans-serif;
+    /* Police des sous-titres (grotesque neutre, façon Helvetica Now / Neue Montreal) */
+    --usn-sub: 'Inter', system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
 
     box-sizing: border-box;
     font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -66,6 +75,22 @@
 
   #usn-event h1, #usn-event h2, #usn-event h3 { margin: 0; font-weight: 800; line-height: 1.05; letter-spacing: -0.01em; }
   #usn-event p { margin: 0; }
+
+  /* Gros titres en Archivo large (façon Druk Wide) */
+  #usn-event h1, #usn-event h2,
+  #usn-event .usn-hero h1, #usn-event .usn-punch-line, #usn-event .usn-prog-title,
+  #usn-event .usn-cta-title, #usn-event .usn-datepill-d, #usn-event .usn-cd-num {
+    font-family: var(--usn-display);
+    font-stretch: 125%;
+  }
+
+  /* Sous-titres en Inter (grotesque neutre, façon Helvetica Now) */
+  #usn-event .usn-datepill-v, #usn-event .usn-hero-tagline, #usn-event .usn-hero-date,
+  #usn-event .usn-section-head p, #usn-event .usn-prog-text, #usn-event .usn-cta-text,
+  #usn-event .usn-punch-sub, #usn-event .usn-fact-v, #usn-event .usn-person-name,
+  #usn-event .usn-dr-title, #usn-event .usn-dr-place {
+    font-family: var(--usn-sub);
+  }
 
   #usn-event .usn-eyebrow {
     display: inline-flex; align-items: center; gap: 10px;
@@ -165,21 +190,63 @@
   #usn-event .usn-section-head h2 { margin-top: 16px; font-size: clamp(30px, 5.5vw, 54px); text-transform: uppercase; }
   #usn-event .usn-section-head p { margin-top: 18px; font-size: clamp(15px, 2.2vw, 18px); color: rgba(12,11,10,0.7); }
 
-  /* Cartes « au programme » */
-  #usn-event .usn-cards { margin-top: 46px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-  #usn-event .usn-card {
-    padding: 28px 24px; border-radius: var(--usn-radius);
-    background: #fff; border: 1px solid rgba(12,11,10,0.08);
-    transition: transform .2s ease, box-shadow .2s ease;
+  /* Panneaux « programme » (glissent depuis la gauche au scroll) */
+  #usn-event .usn-program { margin-top: 46px; display: flex; flex-direction: column; gap: 20px; }
+  #usn-event .usn-prog {
+    display: grid; grid-template-columns: 1.15fr 1fr; align-items: stretch;
+    background: var(--usn-orange); color: var(--usn-cream);
+    border-radius: 30px; overflow: hidden; min-height: 200px;
   }
-  #usn-event .usn-card:hover { transform: translateY(-4px); box-shadow: 0 24px 50px -22px rgba(12,11,10,0.35); }
-  #usn-event .usn-card .usn-ic {
-    display: grid; place-items: center; width: 48px; height: 48px; border-radius: 13px;
-    background: var(--usn-orange); color: #fff; margin-bottom: 16px;
+  #usn-event .usn-prog-body { padding: 34px 40px; display: flex; flex-direction: column; justify-content: center; }
+  #usn-event .usn-prog-time { font-size: 13px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.78); }
+  #usn-event .usn-prog-title { margin-top: 8px; font-size: clamp(26px, 4vw, 44px); font-weight: 800; text-transform: uppercase; line-height: 1.02; }
+  #usn-event .usn-prog-text { margin-top: 12px; font-size: 15px; line-height: 1.55; color: rgba(255,255,255,0.88); max-width: 46ch; }
+  #usn-event .usn-prog-media { position: relative; background: #b23417; min-height: 100%; }
+  #usn-event .usn-prog-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  #usn-event .usn-prog-ic { position: absolute; inset: 0; display: grid; place-items: center; color: rgba(255,255,255,0.32); }
+  #usn-event .usn-prog-ic svg { width: 62px; height: 62px; }
+  /* apparition depuis la gauche (piloté par JS ; sans JS, visible) */
+  #usn-event .usn-prog { transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+  #usn-event .usn-prog.usn-pre { opacity: 0; transform: translateX(-70px); }
+  #usn-event .usn-prog.usn-in { opacity: 1; transform: none; }
+  @media (max-width: 720px) {
+    #usn-event .usn-prog { grid-template-columns: 1fr; }
+    #usn-event .usn-prog-media { min-height: 158px; order: -1; }
+    #usn-event .usn-prog-body { padding: 28px 26px; }
   }
-  #usn-event .usn-card .usn-ic svg { width: 25px; height: 25px; }
-  #usn-event .usn-card h3 { font-size: 19px; text-transform: uppercase; letter-spacing: 0.01em; }
-  #usn-event .usn-card p { margin-top: 9px; font-size: 14px; color: rgba(12,11,10,0.66); }
+
+  /* Bouton / pill avec la date */
+  #usn-event .usn-datepill {
+    max-width: 640px; margin: 0 auto; text-align: center;
+    background: #E7E1D5; border-radius: 999px; padding: 20px 36px;
+  }
+  #usn-event .usn-datepill-d { font-weight: 800; font-size: clamp(18px, 3vw, 27px); text-transform: uppercase; letter-spacing: 0.02em; }
+  #usn-event .usn-datepill-v { margin-top: 4px; font-size: clamp(14px, 2vw, 17px); color: rgba(12,11,10,0.72); }
+  #usn-event .usn-datepill-v .usn-star { color: var(--usn-orange); margin: 0 6px; }
+
+  /* Intervenants — cartes photos qui apparaissent au scroll */
+  #usn-event .usn-people { margin-top: 44px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; align-items: start; }
+  #usn-event .usn-person { margin: 0; }
+  #usn-event .usn-people .usn-person:nth-child(even) { margin-top: 38px; }
+  #usn-event .usn-person-photo {
+    position: relative; aspect-ratio: 3 / 4; border-radius: 22px; overflow: hidden;
+    background: linear-gradient(140deg, var(--usn-orange), #a5361b);
+    box-shadow: 0 26px 50px -26px rgba(12,11,10,0.4);
+  }
+  #usn-event .usn-person-mono { position: absolute; inset: 0; display: grid; place-items: center; font-size: clamp(30px, 5vw, 46px); font-weight: 800; color: rgba(255,255,255,0.92); }
+  #usn-event .usn-person-photo img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; }
+  #usn-event .usn-person-name { margin-top: 14px; font-weight: 700; font-size: 16px; text-align: center; }
+  #usn-event .usn-person-role { margin-top: 3px; font-size: 11px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--usn-orange); text-align: center; }
+  /* état d'apparition (piloté par JS ; sans JS les cartes restent visibles) */
+  #usn-event .usn-person { transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+  #usn-event .usn-person.usn-pre { opacity: 0; transform: translateY(46px) scale(0.97); }
+  #usn-event .usn-person.usn-in { opacity: 1; transform: none; }
+
+  @media (max-width: 900px) { #usn-event .usn-people { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 560px) {
+    #usn-event .usn-people { grid-template-columns: repeat(2, 1fr); }
+    #usn-event .usn-people .usn-person:nth-child(even) { margin-top: 0; }
+  }
 
   /* Infos clés */
   #usn-event .usn-facts { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
@@ -201,15 +268,55 @@
       radial-gradient(700px 420px at 92% 92%, rgba(218,74,38,0.28), transparent 60%),
       var(--usn-ink);
   }
-  #usn-event .usn-band .usn-quote {
-    max-width: 960px; margin: 0 auto; text-align: center;
-    font-size: clamp(24px, 4.8vw, 46px); font-weight: 800; line-height: 1.14;
-    text-transform: uppercase; letter-spacing: -0.01em;
+  /* Punchline animée au scroll (mots qui se rassemblent) */
+  #usn-event .usn-punch { text-align: center; }
+  #usn-event .usn-punch-line {
+    margin: 0 auto; max-width: 18ch;
+    font-weight: 800; text-transform: uppercase; line-height: 1.05; letter-spacing: -0.01em;
   }
-  #usn-event .usn-band .usn-quote .usn-hl { color: var(--usn-orange-2); }
-  #usn-event .usn-band .usn-quote-sub {
-    max-width: 680px; margin: 24px auto 0; text-align: center;
+  #usn-event .usn-punch-1 { font-size: clamp(24px, 5vw, 50px); color: var(--usn-cream); }
+  #usn-event .usn-punch-2 { font-size: clamp(28px, 6.2vw, 64px); color: var(--usn-cream); margin-top: 8px; }
+  #usn-event .usn-punch-3 { font-size: clamp(34px, 8vw, 88px); color: var(--usn-orange-2); margin-top: 8px; }
+  #usn-event .usn-word { display: inline-block; will-change: transform, opacity, filter; }
+  #usn-event .usn-punch-sub {
+    max-width: 620px; margin: 30px auto 0; text-align: center;
     font-size: 16px; font-weight: 400; text-transform: none; color: rgba(241,237,229,0.72);
+    opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease;
+  }
+  #usn-event .usn-punch-sub.usn-in { opacity: 1; transform: none; }
+
+  /* Deux cartes d'action « à cheval » sur la bande */
+  #usn-event .usn-cta-cards {
+    position: relative; z-index: 4; max-width: 1000px; margin: 0 auto;
+    margin-top: clamp(-210px, -20vw, -150px);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 22px;
+  }
+  #usn-event .usn-cta-card {
+    border-radius: 24px; padding: 34px 30px;
+    box-shadow: 0 44px 90px -34px rgba(0,0,0,0.65);
+    display: flex; flex-direction: column;
+  }
+  #usn-event .usn-cta-card.usn-cream { background: var(--usn-cream); color: var(--usn-ink); }
+  #usn-event .usn-cta-card.usn-orange { background: var(--usn-orange); color: #fff; }
+  #usn-event .usn-cta-eyebrow { font-size: 12px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.75; }
+  #usn-event .usn-cta-title { margin-top: 10px; font-size: clamp(28px, 4vw, 40px); font-weight: 800; line-height: 1.03; text-transform: uppercase; }
+  #usn-event .usn-cta-text { margin-top: 12px; font-size: 15px; line-height: 1.55; opacity: 0.82; }
+  #usn-event .usn-cta-actions { margin-top: auto; padding-top: 26px; display: grid; gap: 12px; }
+  #usn-event .usn-cta-btn {
+    display: flex; align-items: center; justify-content: center; padding: 16px;
+    border-radius: 13px; font-weight: 800; font-size: 14px; letter-spacing: 0.06em;
+    text-transform: uppercase; text-decoration: none; border: 2px solid transparent;
+    transition: transform .16s ease, opacity .16s ease, border-color .16s ease;
+  }
+  #usn-event .usn-cta-btn:hover { transform: translateY(-2px); }
+  #usn-event .usn-cream .usn-cta-btn.fill { background: var(--usn-ink); color: var(--usn-cream); }
+  #usn-event .usn-cream .usn-cta-btn.line { background: transparent; color: var(--usn-ink); border-color: rgba(12,11,10,0.32); }
+  #usn-event .usn-cream .usn-cta-btn.line:hover { border-color: var(--usn-ink); }
+  #usn-event .usn-orange .usn-cta-btn.fill { background: #fff; color: var(--usn-orange); }
+  #usn-event .usn-orange .usn-cta-btn.line { background: transparent; color: #fff; border-color: rgba(255,255,255,0.6); }
+  #usn-event .usn-orange .usn-cta-btn.line:hover { border-color: #fff; }
+  @media (max-width: 760px) {
+    #usn-event .usn-cta-cards { grid-template-columns: 1fr; margin-top: clamp(-90px, -14vw, -60px); }
   }
 
   /* =================================================================== */
@@ -309,10 +416,10 @@
         <div class="usn-hero-eyebrow">Un&nbsp;Seul&nbsp;Nom&nbsp;&nbsp;→</div>
 
         <!-- Le grand mot : la ville de l'événement -->
-        <h1>Lille</h1>
+        <h1>Avignon</h1>
 
         <div class="usn-hero-tagline">Évangélisation &amp; Guérison</div>
-        <div class="usn-hero-date">Samedi 28 mars 2026</div>
+        <div class="usn-hero-date">Samedi 17 octobre 2026</div>
 
         <div class="usn-hero-cta">
           <a href="#usn-inscription" class="usn-btn usn-btn-primary">Je m'inscris</a>
@@ -327,7 +434,7 @@
       Ex. le 28 mars 2026 à 18h00 : data-target="2026-03-28T18:00:00"
       (une fois la date passée, le compteur reste à zéro).
     -->
-    <div class="usn-countdown" id="usn-countdown" data-target="2026-03-28T18:00:00">
+    <div class="usn-countdown" id="usn-countdown" data-target="2026-10-17T16:00:00">
       <div class="usn-cd-grid">
         <div class="usn-cd-item"><span class="usn-cd-num" data-cd="days">0</span><span class="usn-cd-lab">Jours</span></div>
         <div class="usn-cd-item"><span class="usn-cd-num" data-cd="hours">00</span><span class="usn-cd-lab">Heures</span></div>
@@ -343,35 +450,65 @@
   <div id="usn-programme" class="usn-section">
     <div class="usn-wrap">
       <div class="usn-section-head">
-        <span class="usn-eyebrow">L'événement</span>
-        <h2>Une soirée pour rencontrer Jésus</h2>
+        <span class="usn-eyebrow">Le programme</span>
+        <h2>Le déroulé de la soirée</h2>
         <p>
-          Louange, prédication de l'Évangile, prière et guérison : un temps fort,
-          ouvert à tous — croyants comme curieux, en quête de vérité, de paix ou
-          de restauration. Viens comme tu es.
+          Une soirée ouverte à tous — croyants comme curieux, en quête de vérité,
+          de paix ou de restauration. Viens comme tu es.
         </p>
       </div>
 
-      <div class="usn-cards">
-        <div class="usn-card">
-          <span class="usn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18V6l10-2v12"/><circle cx="6" cy="18" r="3"/><circle cx="19" cy="16" r="3"/></svg></span>
-          <h3>Louange</h3>
-          <p>Un temps d'adoration pour élever un seul nom : celui de Jésus-Christ.</p>
+      <!--
+        ► PROGRAMME — chaque panneau glisse depuis la gauche au scroll.
+        Ajoutez une photo à droite en remplaçant VOTRE_PHOTO...  (repli : icône).
+      -->
+      <div class="usn-program">
+        <div class="usn-prog" data-usn-appear>
+          <div class="usn-prog-body">
+            <div class="usn-prog-time">15h00</div>
+            <div class="usn-prog-title">Ouverture des portes</div>
+            <p class="usn-prog-text">Accueil du public. Entrée libre, viens comme tu es et invite autour de toi.</p>
+          </div>
+          <div class="usn-prog-media">
+            <img src="VOTRE_PHOTO_OUVERTURE.jpg" alt="" onerror="this.remove()" />
+            <span class="usn-prog-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 21V9l9-6 9 6v12h-6v-7h-6v7Z"/></svg></span>
+          </div>
         </div>
-        <div class="usn-card">
-          <span class="usn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16v11H8l-4 4V5Z"/><path d="M8.5 10.5h7M8.5 13h4"/></svg></span>
-          <h3>La Parole</h3>
-          <p>Une prédication claire et vivante de la bonne nouvelle de l'Évangile.</p>
+
+        <div class="usn-prog" data-usn-appear>
+          <div class="usn-prog-body">
+            <div class="usn-prog-time">16h00 · Début de la conférence</div>
+            <div class="usn-prog-title">Louange</div>
+            <p class="usn-prog-text">Un temps d'adoration conduit par Patchaï Reyes, Nikita Heugebaert et Ruben Debard.</p>
+          </div>
+          <div class="usn-prog-media">
+            <img src="VOTRE_PHOTO_LOUANGE.jpg" alt="" onerror="this.remove()" />
+            <span class="usn-prog-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18V6l10-2v12"/><circle cx="6" cy="18" r="3"/><circle cx="19" cy="16" r="3"/></svg></span>
+          </div>
         </div>
-        <div class="usn-card">
-          <span class="usn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-4.3-7-9.5A4.5 4.5 0 0 1 12 8a4.5 4.5 0 0 1 7 3.5C19 16.7 12 21 12 21Z"/></svg></span>
-          <h3>Guérison</h3>
-          <p>Un moment de prière pour les malades et les cœurs blessés.</p>
+
+        <div class="usn-prog" data-usn-appear>
+          <div class="usn-prog-body">
+            <div class="usn-prog-time">La Parole</div>
+            <div class="usn-prog-title">Prédication</div>
+            <p class="usn-prog-text">La bonne nouvelle de l'Évangile annoncée par Yanis Gautier et Chriss Campion.</p>
+          </div>
+          <div class="usn-prog-media">
+            <img src="VOTRE_PHOTO_PREDICATION.jpg" alt="" onerror="this.remove()" />
+            <span class="usn-prog-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16v11H8l-4 4V5Z"/><path d="M8.5 10.5h7M8.5 13h4"/></svg></span>
+          </div>
         </div>
-        <div class="usn-card">
-          <span class="usn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M17 5.2a3.2 3.2 0 0 1 0 5.6M18.5 20a6.5 6.5 0 0 0-3.2-5.6"/></svg></span>
-          <h3>Ensemble</h3>
-          <p>Des ministères unis et des églises locales rassemblés pour l'occasion.</p>
+
+        <div class="usn-prog" data-usn-appear>
+          <div class="usn-prog-body">
+            <div class="usn-prog-time">En clôture</div>
+            <div class="usn-prog-title">Évangélisation &amp; Guérison</div>
+            <p class="usn-prog-text">Un appel à suivre Jésus et un temps de prière pour les malades et les cœurs blessés.</p>
+          </div>
+          <div class="usn-prog-media">
+            <img src="VOTRE_PHOTO_GUERISON.jpg" alt="" onerror="this.remove()" />
+            <span class="usn-prog-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.3-7-9.5A4.5 4.5 0 0 1 12 8a4.5 4.5 0 0 1 7 3.5C19 16.7 12 21 12 21Z"/></svg></span>
+          </div>
         </div>
       </div>
 
@@ -379,16 +516,101 @@
       <div class="usn-facts">
         <div class="usn-fact">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/></svg>
-          <div><div class="usn-fact-k">Date</div><div class="usn-fact-v">Samedi 28 mars 2026</div></div>
+          <div><div class="usn-fact-k">Date</div><div class="usn-fact-v">Samedi 17 octobre 2026</div></div>
         </div>
         <div class="usn-fact">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg>
-          <div><div class="usn-fact-k">Horaire</div><div class="usn-fact-v">à partir de 18h00</div></div>
+          <div><div class="usn-fact-k">Horaires</div><div class="usn-fact-v">Portes 15h · Conférence 16h</div></div>
         </div>
         <div class="usn-fact">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
-          <div><div class="usn-fact-k">Lieu</div><div class="usn-fact-v">Lille Métropole</div></div>
+          <div>
+            <div class="usn-fact-k">Lieu</div>
+            <div class="usn-fact-v">Parc des expos d'Avignon</div>
+            <div class="usn-fact-k" style="text-transform:none; letter-spacing:0; margin-top:3px;">800 chemin des Félons, 84140 Montfavet</div>
+          </div>
         </div>
+      </div>
+      <div style="margin-top:20px;">
+        <a class="usn-btn usn-btn-dark"
+           href="https://www.google.com/maps/search/?api=1&query=Parc+des+expositions+d%27Avignon+800+chemin+des+F%C3%A9lons+84140+Montfavet"
+           target="_blank" rel="noopener noreferrer">Voir l'itinéraire</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- INTERVENANTS                                                   -->
+  <!-- ============================================================= -->
+  <div class="usn-section" style="padding-top:0;">
+    <div class="usn-wrap">
+      <!-- Bouton / pill avec la date -->
+      <div class="usn-datepill">
+        <div class="usn-datepill-d">Samedi 17 octobre 2026</div>
+        <div class="usn-datepill-v">Parc des expos d'Avignon <span class="usn-star">✦</span> Montfavet</div>
+      </div>
+
+      <div class="usn-section-head" style="text-align:center; margin:38px auto 0;">
+        <span class="usn-eyebrow" style="justify-content:center;">Intervenants</span>
+        <h2>Ils seront là</h2>
+      </div>
+
+      <!--
+        ► INTERVENANTS — cartes qui apparaissent au scroll.
+        Ajoutez la photo de chacun en remplaçant VOTRE_PHOTO...
+        (repli : initiales sur fond orange si aucune photo).
+      -->
+      <div class="usn-people">
+        <figure class="usn-person" data-usn-appear>
+          <div class="usn-person-photo">
+            <span class="usn-person-mono">YG</span>
+            <img src="VOTRE_PHOTO_YANIS.jpg" alt="Yanis Gautier" onerror="this.remove()" />
+          </div>
+          <figcaption>
+            <div class="usn-person-name">Yanis Gautier</div>
+            <div class="usn-person-role">Prédication</div>
+          </figcaption>
+        </figure>
+        <figure class="usn-person" data-usn-appear>
+          <div class="usn-person-photo">
+            <span class="usn-person-mono">CC</span>
+            <img src="VOTRE_PHOTO_CHRISS.jpg" alt="Chriss Campion" onerror="this.remove()" />
+          </div>
+          <figcaption>
+            <div class="usn-person-name">Chriss Campion</div>
+            <div class="usn-person-role">Prédication</div>
+          </figcaption>
+        </figure>
+        <figure class="usn-person" data-usn-appear>
+          <div class="usn-person-photo">
+            <span class="usn-person-mono">PR</span>
+            <img src="VOTRE_PHOTO_PATCHAI.jpg" alt="Patchaï Reyes" onerror="this.remove()" />
+          </div>
+          <figcaption>
+            <div class="usn-person-name">Patchaï Reyes</div>
+            <div class="usn-person-role">Louange</div>
+          </figcaption>
+        </figure>
+        <figure class="usn-person" data-usn-appear>
+          <div class="usn-person-photo">
+            <span class="usn-person-mono">NH</span>
+            <img src="VOTRE_PHOTO_NIKITA.jpg" alt="Nikita Heugebaert" onerror="this.remove()" />
+          </div>
+          <figcaption>
+            <div class="usn-person-name">Nikita Heugebaert</div>
+            <div class="usn-person-role">Louange</div>
+          </figcaption>
+        </figure>
+        <figure class="usn-person" data-usn-appear>
+          <div class="usn-person-photo">
+            <span class="usn-person-mono">RD</span>
+            <img src="VOTRE_PHOTO_RUBEN.jpg" alt="Ruben Debard" onerror="this.remove()" />
+          </div>
+          <figcaption>
+            <div class="usn-person-name">Ruben Debard</div>
+            <div class="usn-person-role">Louange</div>
+          </figcaption>
+        </figure>
       </div>
     </div>
   </div>
@@ -396,16 +618,49 @@
   <!-- ============================================================= -->
   <!-- BANDE MOUVEMENT                                                -->
   <!-- ============================================================= -->
-  <div class="usn-band usn-section">
+  <div class="usn-band usn-section usn-punch" id="usn-punch"
+       style="padding-bottom: clamp(150px, 24vw, 260px);">
     <div class="usn-wrap">
-      <p class="usn-quote">
-        Unir, rassembler et élever <span class="usn-hl">un seul nom</span> —
-        celui de Jésus-Christ — au-dessus de tout.
+      <!--
+        ► PUNCHLINE — les mots se rassemblent au scroll (effet type vouscon).
+        Sans JavaScript, le texte s'affiche normalement (assemblé).
+      -->
+      <span class="usn-eyebrow" style="justify-content:center; width:100%;">Un seul nom</span>
+      <p class="usn-punch-line usn-punch-1" data-usn-reveal style="margin-top:18px;">L'Évangile n'avance pas dans la division.</p>
+      <p class="usn-punch-line usn-punch-2" data-usn-reveal>Il avance quand l'Église s'unit,</p>
+      <p class="usn-punch-line usn-punch-3" data-usn-reveal>sous un seul nom : Jésus-Christ.</p>
+      <p class="usn-punch-sub" data-usn-sub>
+        L'unité, c'est notre force pour annoncer Christ à la France, de ville en ville.
       </p>
-      <p class="usn-quote-sub">
-        Un Seul Nom est un mouvement d'évangélisation qui rassemble des ministères
-        et des églises pour voir le nom de Jésus élevé avec audace en France, de ville en ville.
-      </p>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- DEUX CARTES D'ACTION (à cheval sur la bande)                  -->
+  <!-- ============================================================= -->
+  <div class="usn-wrap">
+    <div class="usn-cta-cards">
+      <!-- Carte 1 : Inscription -->
+      <div class="usn-cta-card usn-cream">
+        <div class="usn-cta-eyebrow">Samedi 17 octobre 2026 · Avignon</div>
+        <div class="usn-cta-title">Inscris-toi</div>
+        <p class="usn-cta-text">Réserve ta place gratuitement pour la soirée d'évangélisation et de guérison.</p>
+        <div class="usn-cta-actions">
+          <a href="#usn-inscription" class="usn-cta-btn fill">Je m'inscris</a>
+          <a href="#usn-programme" class="usn-cta-btn line">En savoir plus</a>
+        </div>
+      </div>
+      <!-- Carte 2 : Soutien -->
+      <div class="usn-cta-card usn-orange">
+        <div class="usn-cta-eyebrow">Partenaire de la mission</div>
+        <div class="usn-cta-title">Soutiens la mission</div>
+        <p class="usn-cta-text">Aide-nous à porter l'Évangile en France : chaque don fait avancer l'œuvre.</p>
+        <div class="usn-cta-actions">
+          <!-- ► Remplacez le lien ci-dessous par votre page de don (HelloAsso, etc.) -->
+          <a href="https://unseulnom.org/" target="_blank" rel="noopener noreferrer" class="usn-cta-btn fill">Faire un don</a>
+          <a href="#usn-inscription" class="usn-cta-btn line">Devenir partenaire</a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -480,19 +735,12 @@
         <h2>De ville en ville</h2>
       </div>
       <div class="usn-dates">
+        <!-- ► Ajoutez d'autres villes/dates en dupliquant une ligne ci-dessous -->
         <div class="usn-date-row">
           <div>
-            <div class="usn-dr-when">Samedi 28 mars 2026</div>
-            <div class="usn-dr-title">Évangélisation &amp; Guérison</div>
-            <div class="usn-dr-place">Lille Métropole</div>
-          </div>
-          <a href="#usn-inscription" class="usn-btn usn-btn-dark">S'inscrire</a>
-        </div>
-        <div class="usn-date-row">
-          <div>
-            <div class="usn-dr-when">Samedi 9 mai 2026</div>
-            <div class="usn-dr-title">Évangélisation &amp; Réveil</div>
-            <div class="usn-dr-place">À venir</div>
+            <div class="usn-dr-when">Samedi 17 octobre 2026</div>
+            <div class="usn-dr-title">Un Seul Nom · Avignon</div>
+            <div class="usn-dr-place">Parc des expos d'Avignon — Montfavet</div>
           </div>
           <a href="#usn-inscription" class="usn-btn usn-btn-dark">S'inscrire</a>
         </div>
@@ -542,6 +790,82 @@
     }
     tick();
     setInterval(tick, 1000);
+  })();
+
+  /* ---- Punchline : les mots se rassemblent au scroll ---- */
+  (function () {
+    var section = document.getElementById('usn-punch');
+    if (!section) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var lines = section.querySelectorAll('[data-usn-reveal]');
+    var sub = section.querySelector('[data-usn-sub]');
+    var words = [];
+
+    for (var l = 0; l < lines.length; l++) {
+      var parts = (lines[l].textContent || '').trim().split(/\s+/);
+      lines[l].textContent = '';
+      for (var k = 0; k < parts.length; k++) {
+        var span = document.createElement('span');
+        span.className = 'usn-word';
+        span.textContent = parts[k];
+        lines[l].appendChild(span);
+        if (k < parts.length - 1) lines[l].appendChild(document.createTextNode(' '));
+        words.push(span);
+      }
+    }
+
+    if (reduce) { if (sub) sub.classList.add('usn-in'); return; }
+
+    for (var i = 0; i < words.length; i++) {
+      var s1 = Math.sin(i * 12.9898) * 43758.5453; var r1 = s1 - Math.floor(s1);
+      var s2 = Math.sin(i * 78.233) * 12543.123;  var r2 = s2 - Math.floor(s2);
+      words[i].__dx = (r1 - 0.5) * 2 * Math.min(window.innerWidth * 0.28, 320);
+      words[i].__dy = (r2 - 0.5) * 2 * 150;
+      words[i].__rot = (r1 - 0.5) * 42;
+    }
+
+    function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+    function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
+    var ticking = false;
+    function render() {
+      ticking = false;
+      var rect = section.getBoundingClientRect();
+      var vh = window.innerHeight || 800;
+      var p = clamp01((vh * 0.9 - rect.top) / (vh * 0.7));
+      var n = words.length;
+      for (var i = 0; i < n; i++) {
+        var t = clamp01((p - (i / n) * 0.4) / 0.6);
+        var e = easeOutCubic(t), inv = 1 - e;
+        words[i].style.transform = 'translate(' + (words[i].__dx * inv).toFixed(1) + 'px,' + (words[i].__dy * inv).toFixed(1) + 'px) rotate(' + (words[i].__rot * inv).toFixed(1) + 'deg)';
+        words[i].style.opacity = e.toFixed(3);
+        words[i].style.filter = inv > 0.02 ? 'blur(' + (inv * 6).toFixed(1) + 'px)' : 'none';
+      }
+      if (sub) { if (p > 0.85) sub.classList.add('usn-in'); }
+    }
+    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(render); } }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    render();
+  })();
+
+  /* ---- Apparition au scroll (panneaux programme + cartes intervenants) ---- */
+  (function () {
+    var items = document.querySelectorAll('#usn-event [data-usn-appear]');
+    if (!items.length) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !('IntersectionObserver' in window)) return; // sans JS/anim : visibles
+
+    for (var i = 0; i < items.length; i++) {
+      items[i].classList.add('usn-pre');
+      items[i].style.transitionDelay = ((i % 5) * 0.09).toFixed(2) + 's';
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('usn-in'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+    for (var j = 0; j < items.length; j++) io.observe(items[j]);
   })();
 
   /* ---- Formulaire (amélioration progressive) ---- */
