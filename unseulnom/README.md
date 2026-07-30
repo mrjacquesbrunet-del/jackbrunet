@@ -5,7 +5,8 @@ Google Poppins) à intégrer dans le site WordPress **unseulnom.org**.
 
 - Fichier : [`index.html`](./index.html)
 - Style « scopé » sous `#usn-event` → n'affecte pas le thème WordPress.
-- Charte : orange terracotta `#DA4A26`, crème `#F1EDE5`, noir `#0C0B0A`.
+- Charte : **bleu-blanc-rouge** — bleu `#1B2FC4`, rouge `#E4262B`, blanc `#FFFFFF`,
+  textes en noir `#0C0B0A`. Panneaux du programme en alternance bleu / rouge.
 - Typographies : **Archivo** (gros titres, larges et massifs — équivalent libre
   de « Druk Wide » utilisé par vouscon.com), **Inter** (sous-titres),
   **Poppins** (texte courant).
@@ -16,7 +17,8 @@ Google Poppins) à intégrer dans le site WordPress **unseulnom.org**.
 2. **Programme** : panneaux qui **glissent depuis la gauche** au scroll (ouverture,
    louange, prédication, évangélisation & guérison).
 3. **Infos pratiques** + bouton « Voir l'itinéraire » (Google Maps).
-4. **Pill de date** + **intervenants** : cartes photos qui **apparaissent** au scroll.
+4. **Pill de date** + **intervenants** : portraits en **noir et blanc** qui
+   **apparaissent** au scroll (retirer `filter: grayscale(1)` pour la couleur).
 5. **Punchline animée** : les mots se **rassemblent** au scroll (effet vouscon),
    sur le thème de l'unité de l'Église pour évangéliser.
 6. **Deux cartes d'action à cheval** sur la bande : « Inscris-toi » et
@@ -55,8 +57,8 @@ Utilisez `index.html` tel quel comme modèle de page HTML.
 |---|---|---|
 | **Vidéo de fond** | `► VIDÉO DE FOND` | URL d'une vidéo `.mp4` uploadée dans la médiathèque (muette, en boucle). Sans vidéo, un fond dégradé sombre s'affiche. |
 | **Logo** | `► LOGO` | URL du logo (version **blanche** conseillée sur le héros sombre). S'il n'est pas défini, il disparaît proprement. |
-| **Photos intervenants** | `VOTRE_PHOTO_YANIS.jpg`, etc. | URL de la photo de chaque intervenant. Sans photo : initiales sur fond orange. |
-| **Photos programme** | `VOTRE_PHOTO_OUVERTURE.jpg`, etc. | URL d'une photo par étape du programme. Sans photo : icône. |
+| **Photos intervenants** | ✅ fournies (`images/`) | Les 5 portraits sont intégrés et optimisés. |
+| **Photos programme** | 2/4 fournies | Restent `VOTRE_PHOTO_PREDICATION.jpg` et `VOTRE_PHOTO_GUERISON.jpg`. |
 | **Infos événement** | `► ÉVÉNEMENT` | Ville (grand titre), sous-titre, date, heure, lieu. |
 | **Compte à rebours** | `data-target` | Date + heure de début, ex. `2026-10-17T16:00:00`. |
 | **Lien de don** | carte « Soutiens la mission » | URL de la page de don (HelloAsso…). |

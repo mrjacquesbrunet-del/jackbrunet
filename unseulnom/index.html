@@ -46,12 +46,15 @@
   @import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap');
 
   #usn-event {
-    /* ── Charte : 3 couleurs ── */
-    --usn-orange: #DA4A26;     /* accent principal (terracotta) */
-    --usn-orange-2: #E85E2C;   /* survol / éclat */
-    --usn-cream: #F1EDE5;      /* crème (fond clair / texte sur noir) */
-    --usn-ink: #0C0B0A;        /* noir */
-    --usn-ink-soft: #17140F;
+    /* ── Charte : bleu, blanc, rouge (drapeau français) ── */
+    --usn-blue: #1B2FC4;       /* bleu — accent principal */
+    --usn-blue-2: #2B41E0;     /* bleu clair — survol / éclat */
+    --usn-red: #E4262B;        /* rouge — boutons d'action */
+    --usn-red-2: #F5393E;      /* rouge clair — survol */
+    --usn-white: #FFFFFF;      /* blanc */
+    --usn-paper: #F4F5F9;      /* gris très clair — fonds alternés */
+    --usn-ink: #0C0B0A;        /* noir — textes */
+    --usn-ink-soft: #15141A;
 
     --usn-radius: 18px;
 
@@ -63,7 +66,7 @@
     box-sizing: border-box;
     font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     color: var(--usn-ink);
-    background: var(--usn-cream);
+    background: var(--usn-white);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     overflow-x: clip;
@@ -95,7 +98,7 @@
   #usn-event .usn-eyebrow {
     display: inline-flex; align-items: center; gap: 10px;
     font-size: 13px; font-weight: 800; letter-spacing: 0.34em; text-transform: uppercase;
-    color: var(--usn-orange);
+    color: var(--usn-blue);
   }
 
   /* ---------- Boutons ---------- */
@@ -105,11 +108,11 @@
     letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; cursor: pointer;
     border: 2px solid transparent; transition: transform .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
   }
-  #usn-event .usn-btn-primary { background: var(--usn-orange); color: #fff; }
-  #usn-event .usn-btn-primary:hover { background: var(--usn-orange-2); transform: translateY(-2px); }
-  #usn-event .usn-btn-outline { background: transparent; color: var(--usn-cream); border-color: rgba(241,237,229,0.7); }
-  #usn-event .usn-btn-outline:hover { background: var(--usn-cream); color: var(--usn-ink); border-color: var(--usn-cream); }
-  #usn-event .usn-btn-dark { background: var(--usn-ink); color: var(--usn-cream); }
+  #usn-event .usn-btn-primary { background: var(--usn-blue); color: #fff; }
+  #usn-event .usn-btn-primary:hover { background: var(--usn-red); transform: translateY(-2px); }
+  #usn-event .usn-btn-outline { background: transparent; color: var(--usn-white); border-color: rgba(255,255,255,0.7); }
+  #usn-event .usn-btn-outline:hover { background: var(--usn-white); color: var(--usn-ink); border-color: var(--usn-white); }
+  #usn-event .usn-btn-dark { background: var(--usn-ink); color: var(--usn-white); }
   #usn-event .usn-btn-dark:hover { background: var(--usn-ink-soft); transform: translateY(-2px); }
 
   /* =================================================================== */
@@ -121,10 +124,10 @@
     display: flex; flex-direction: column;
     /* Fond de secours élégant si la vidéo est absente/en cours de chargement */
     background:
-      radial-gradient(900px 600px at 50% 0%, rgba(218,74,38,0.45), transparent 60%),
-      radial-gradient(700px 500px at 80% 90%, rgba(218,74,38,0.28), transparent 60%),
+      radial-gradient(900px 600px at 50% 0%, rgba(27,47,196,0.55), transparent 60%),
+      radial-gradient(700px 500px at 80% 90%, rgba(228,38,43,0.34), transparent 60%),
       var(--usn-ink);
-    color: var(--usn-cream);
+    color: var(--usn-white);
     overflow: hidden;
   }
   #usn-event .usn-hero-video {
@@ -145,22 +148,22 @@
   #usn-event .usn-hero-eyebrow {
     display: inline-flex; align-items: center; gap: 12px;
     font-size: 14px; font-weight: 800; letter-spacing: 0.4em; text-transform: uppercase;
-    color: var(--usn-orange-2);
+    color: var(--usn-red);
   }
   #usn-event .usn-hero h1 {
     margin: 18px auto 0;
     font-size: clamp(64px, 17vw, 190px);
     font-weight: 900; line-height: 0.92; letter-spacing: -0.02em; text-transform: uppercase;
-    color: var(--usn-cream);
+    color: var(--usn-white);
     text-shadow: 0 8px 40px rgba(0,0,0,0.5);
   }
   #usn-event .usn-hero-tagline {
     margin: 16px auto 0; font-size: clamp(16px, 3vw, 24px); font-weight: 700;
-    letter-spacing: 0.02em; text-transform: uppercase; color: var(--usn-orange-2);
+    letter-spacing: 0.02em; text-transform: uppercase; color: var(--usn-red);
   }
   #usn-event .usn-hero-date {
     margin: 10px auto 0; font-size: clamp(13px, 2.4vw, 17px); font-weight: 600;
-    letter-spacing: 0.28em; text-transform: uppercase; color: rgba(241,237,229,0.9);
+    letter-spacing: 0.28em; text-transform: uppercase; color: rgba(255,255,255,0.9);
   }
   #usn-event .usn-hero-cta { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
 
@@ -168,18 +171,18 @@
   #usn-event .usn-countdown {
     position: relative; z-index: 2;
     background: var(--usn-ink);
-    border-top: 1px solid rgba(241,237,229,0.12);
+    border-top: 1px solid rgba(255,255,255,0.12);
     padding: 22px 0;
   }
   #usn-event .usn-cd-grid { display: flex; justify-content: center; gap: clamp(18px, 6vw, 70px); }
   #usn-event .usn-cd-item { text-align: center; position: relative; }
   #usn-event .usn-cd-num {
     display: block; font-size: clamp(38px, 9vw, 74px); font-weight: 800; line-height: 1;
-    color: var(--usn-cream); font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
+    color: var(--usn-white); font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
   }
   #usn-event .usn-cd-lab {
     display: block; margin-top: 6px; font-size: 12px; font-weight: 800;
-    letter-spacing: 0.22em; text-transform: uppercase; color: var(--usn-orange);
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--usn-blue);
   }
 
   /* =================================================================== */
@@ -194,9 +197,12 @@
   #usn-event .usn-program { margin-top: 46px; display: flex; flex-direction: column; gap: 20px; }
   #usn-event .usn-prog {
     display: grid; grid-template-columns: 1.15fr 1fr; align-items: stretch;
-    background: var(--usn-orange); color: var(--usn-cream);
+    background: var(--usn-blue); color: var(--usn-white);
     border-radius: 30px; overflow: hidden; min-height: 200px;
   }
+  /* Alternance bleu / rouge, façon drapeau */
+  #usn-event .usn-prog:nth-child(even) { background: var(--usn-red); }
+  #usn-event .usn-prog:nth-child(even) .usn-prog-media { background: #8E1418; }
   #usn-event .usn-prog-body { padding: 34px 40px; display: flex; flex-direction: column; justify-content: center; }
   #usn-event .usn-prog-time { font-size: 13px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.78); }
   #usn-event .usn-prog-title { margin-top: 8px; font-size: clamp(26px, 4vw, 44px); font-weight: 800; text-transform: uppercase; line-height: 1.02; }
@@ -205,7 +211,7 @@
   #usn-event .usn-prog-media {
     position: relative; align-self: center; margin: 22px 22px 22px 0;
     aspect-ratio: 16 / 9; border-radius: 18px; overflow: hidden;
-    background: #b23417;
+    background: #141C6E;
   }
   #usn-event .usn-prog-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   /* L'apparition est pilotée par le moteur de scroll (JS). Sans JS : visible. */
@@ -219,11 +225,11 @@
   /* Bouton / pill avec la date */
   #usn-event .usn-datepill {
     max-width: 640px; margin: 0 auto; text-align: center;
-    background: #E7E1D5; border-radius: 999px; padding: 20px 36px;
+    background: #EAECF6; border-radius: 999px; padding: 20px 36px;
   }
   #usn-event .usn-datepill-d { font-weight: 800; font-size: clamp(18px, 3vw, 27px); text-transform: uppercase; letter-spacing: 0.02em; }
   #usn-event .usn-datepill-v { margin-top: 4px; font-size: clamp(14px, 2vw, 17px); color: rgba(12,11,10,0.72); }
-  #usn-event .usn-datepill-v .usn-star { color: var(--usn-orange); margin: 0 6px; }
+  #usn-event .usn-datepill-v .usn-star { color: var(--usn-blue); margin: 0 6px; }
 
   /* Intervenants — cartes photos qui apparaissent au scroll */
   #usn-event .usn-people { margin: 26px auto 0; display: grid; gap: 18px; align-items: start; }
@@ -233,19 +239,25 @@
   #usn-event .usn-people-label {
     margin-top: 44px; text-align: center;
     font-size: 12px; font-weight: 800; letter-spacing: 0.24em; text-transform: uppercase;
-    color: var(--usn-orange);
+    color: var(--usn-blue);
   }
   #usn-event .usn-person { margin: 0; }
   #usn-event .usn-people .usn-person:nth-child(even) { margin-top: 38px; }
   #usn-event .usn-person-photo {
     position: relative; aspect-ratio: 3 / 4; border-radius: 22px; overflow: hidden;
-    background: linear-gradient(140deg, var(--usn-orange), #a5361b);
+    background: linear-gradient(140deg, var(--usn-blue), #101861);
     box-shadow: 0 26px 50px -26px rgba(12,11,10,0.4);
   }
   #usn-event .usn-person-mono { position: absolute; inset: 0; display: grid; place-items: center; font-size: clamp(30px, 5vw, 46px); font-weight: 800; color: rgba(255,255,255,0.92); }
-  #usn-event .usn-person-photo img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; }
+  /* Portraits en noir et blanc (comme l'affiche) — retirez « filter »
+     ci-dessous pour les repasser en couleur. */
+  #usn-event .usn-person-photo img {
+    position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover;
+    filter: grayscale(1) contrast(1.06);
+    transition: filter .4s ease;
+  }
   #usn-event .usn-person-name { margin-top: 14px; font-weight: 700; font-size: 16px; text-align: center; }
-  #usn-event .usn-person-role { margin-top: 3px; font-size: 11px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--usn-orange); text-align: center; }
+  #usn-event .usn-person-role { margin-top: 3px; font-size: 11px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--usn-blue); text-align: center; }
   /* L'apparition est pilotée par le moteur de scroll (JS). Sans JS : visible. */
   #usn-event .usn-person { will-change: transform, opacity; }
 
@@ -260,7 +272,7 @@
     display: flex; align-items: center; gap: 14px; padding: 20px 22px;
     border-radius: var(--usn-radius); background: #fff; border: 1px solid rgba(12,11,10,0.08);
   }
-  #usn-event .usn-fact svg { flex: none; width: 26px; height: 26px; color: var(--usn-orange); }
+  #usn-event .usn-fact svg { flex: none; width: 26px; height: 26px; color: var(--usn-blue); }
   #usn-event .usn-fact .usn-fact-k { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(12,11,10,0.55); }
   #usn-event .usn-fact .usn-fact-v { font-size: 16px; font-weight: 700; }
 
@@ -268,14 +280,14 @@
   /* BANDE SOMBRE « MOUVEMENT »                                           */
   /* =================================================================== */
   #usn-event .usn-band {
-    position: relative; overflow: hidden; color: var(--usn-cream);
+    position: relative; overflow: hidden; color: var(--usn-white);
     background:
-      radial-gradient(700px 420px at 12% 15%, rgba(218,74,38,0.4), transparent 60%),
-      radial-gradient(700px 420px at 92% 92%, rgba(218,74,38,0.28), transparent 60%),
+      radial-gradient(700px 420px at 12% 15%, rgba(27,47,196,0.42), transparent 60%),
+      radial-gradient(700px 420px at 92% 92%, rgba(228,38,43,0.34), transparent 60%),
       var(--usn-ink);
   }
   /* Punchline : fond clair, texte noir, photos qui arrivent des côtés */
-  #usn-event .usn-punch { position: relative; overflow: hidden; background: var(--usn-cream); text-align: center; }
+  #usn-event .usn-punch { position: relative; overflow: hidden; background: var(--usn-white); text-align: center; }
   #usn-event .usn-punch-line {
     position: relative; z-index: 2;
     margin: 0 auto; max-width: 100%; text-wrap: balance;
@@ -284,7 +296,7 @@
   }
   #usn-event .usn-punch-1 { font-size: clamp(26px, 5.6vw, 60px); }
   #usn-event .usn-punch-2 { font-size: clamp(26px, 5.6vw, 60px); margin-top: 6px; }
-  #usn-event .usn-punch-3 { font-size: clamp(26px, 5.6vw, 60px); margin-top: 6px; color: var(--usn-orange); }
+  #usn-event .usn-punch-3 { font-size: clamp(26px, 5.6vw, 60px); margin-top: 6px; color: var(--usn-blue); }
   #usn-event .usn-word { display: inline-block; will-change: transform, opacity, filter; }
   #usn-event .usn-punch-sub {
     position: relative; z-index: 2;
@@ -296,7 +308,7 @@
   #usn-event .usn-side {
     position: absolute; z-index: 1; width: clamp(150px, 20vw, 280px);
     aspect-ratio: 4 / 5; border-radius: 20px; overflow: hidden;
-    background: linear-gradient(140deg, var(--usn-orange), #a5361b);
+    background: linear-gradient(140deg, var(--usn-blue), #101861);
     box-shadow: 0 30px 60px -28px rgba(12,11,10,0.45);
     will-change: transform, opacity;
   }
@@ -322,8 +334,8 @@
     box-shadow: 0 44px 90px -34px rgba(0,0,0,0.65);
     display: flex; flex-direction: column;
   }
-  #usn-event .usn-cta-card.usn-ink { background: var(--usn-ink); color: var(--usn-cream); }
-  #usn-event .usn-cta-card.usn-orange { background: var(--usn-orange); color: #fff; }
+  #usn-event .usn-cta-card.usn-ink { background: var(--usn-ink); color: var(--usn-white); }
+  #usn-event .usn-cta-card.usn-red { background: var(--usn-red); color: #fff; }
   #usn-event .usn-cta-eyebrow { font-size: 12px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.75; }
   #usn-event .usn-cta-title { margin-top: 10px; font-size: clamp(28px, 4vw, 40px); font-weight: 800; line-height: 1.03; text-transform: uppercase; }
   #usn-event .usn-cta-text { margin-top: 12px; font-size: 15px; line-height: 1.55; opacity: 0.82; }
@@ -335,12 +347,12 @@
     transition: transform .16s ease, opacity .16s ease, border-color .16s ease;
   }
   #usn-event .usn-cta-btn:hover { transform: translateY(-2px); }
-  #usn-event .usn-ink .usn-cta-btn.fill { background: var(--usn-orange); color: #fff; }
-  #usn-event .usn-ink .usn-cta-btn.line { background: transparent; color: var(--usn-cream); border-color: rgba(241,237,229,0.4); }
-  #usn-event .usn-ink .usn-cta-btn.line:hover { border-color: var(--usn-cream); }
-  #usn-event .usn-orange .usn-cta-btn.fill { background: #fff; color: var(--usn-orange); }
-  #usn-event .usn-orange .usn-cta-btn.line { background: transparent; color: #fff; border-color: rgba(255,255,255,0.6); }
-  #usn-event .usn-orange .usn-cta-btn.line:hover { border-color: #fff; }
+  #usn-event .usn-ink .usn-cta-btn.fill { background: var(--usn-blue); color: #fff; }
+  #usn-event .usn-ink .usn-cta-btn.line { background: transparent; color: var(--usn-white); border-color: rgba(255,255,255,0.4); }
+  #usn-event .usn-ink .usn-cta-btn.line:hover { border-color: var(--usn-white); }
+  #usn-event .usn-red .usn-cta-btn.fill { background: #fff; color: var(--usn-red); }
+  #usn-event .usn-red .usn-cta-btn.line { background: transparent; color: #fff; border-color: rgba(255,255,255,0.6); }
+  #usn-event .usn-red .usn-cta-btn.line:hover { border-color: #fff; }
   @media (max-width: 760px) {
     #usn-event .usn-cta-cards { grid-template-columns: 1fr; margin-top: clamp(-90px, -14vw, -60px); }
   }
@@ -358,14 +370,14 @@
     font-family: inherit; font-size: 15px; transition: border-color .15s ease, box-shadow .15s ease;
   }
   #usn-event .usn-form input::placeholder { color: rgba(12,11,10,0.4); }
-  #usn-event .usn-form input:focus { outline: none; border-color: var(--usn-orange); box-shadow: 0 0 0 3px rgba(218,74,38,0.2); }
+  #usn-event .usn-form input:focus { outline: none; border-color: var(--usn-blue); box-shadow: 0 0 0 3px rgba(27,47,196,0.22); }
   #usn-event .usn-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   #usn-event .usn-form button { width: 100%; margin-top: 4px; padding: 17px; font-size: 15px; }
   #usn-event .usn-consent { font-size: 12.5px; color: rgba(12,11,10,0.6); text-align: center; }
   #usn-event .usn-msg {
     display: none; margin: 18px auto 0; max-width: 560px; padding: 16px 18px; border-radius: 13px;
-    background: rgba(218,74,38,0.1); border: 1px solid rgba(218,74,38,0.4);
-    color: #a5361b; font-size: 15px; font-weight: 700; text-align: center;
+    background: rgba(27,47,196,0.10); border: 1px solid rgba(27,47,196,0.42);
+    color: #101861; font-size: 15px; font-weight: 700; text-align: center;
   }
 
   /* Autres dates */
@@ -374,14 +386,14 @@
     display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
     padding: 22px 24px; border-radius: var(--usn-radius); background: #fff; border: 1px solid rgba(12,11,10,0.08);
   }
-  #usn-event .usn-date-row .usn-dr-when { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--usn-orange); font-weight: 800; }
+  #usn-event .usn-date-row .usn-dr-when { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--usn-blue); font-weight: 800; }
   #usn-event .usn-date-row .usn-dr-title { font-size: 19px; font-weight: 700; margin-top: 4px; text-transform: uppercase; }
   #usn-event .usn-date-row .usn-dr-place { font-size: 14px; color: rgba(12,11,10,0.6); margin-top: 2px; }
 
   /* Footer */
-  #usn-event .usn-footer { background: var(--usn-ink); color: rgba(241,237,229,0.7); padding: 46px 0; text-align: center; font-size: 14px; }
-  #usn-event .usn-footer .usn-footer-logo { color: var(--usn-cream); font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase; font-size: 15px; }
-  #usn-event .usn-footer a { color: var(--usn-orange-2); text-decoration: none; }
+  #usn-event .usn-footer { background: var(--usn-ink); color: rgba(255,255,255,0.7); padding: 46px 0; text-align: center; font-size: 14px; }
+  #usn-event .usn-footer .usn-footer-logo { color: var(--usn-white); font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase; font-size: 15px; }
+  #usn-event .usn-footer a { color: var(--usn-red); text-decoration: none; }
   #usn-event .usn-footer a:hover { text-decoration: underline; }
 
   /* Responsive */
@@ -496,7 +508,7 @@
             <p class="usn-prog-text">Accueil du public. Entrée libre, viens comme tu es et invite autour de toi.</p>
           </div>
           <div class="usn-prog-media">
-            <img src="VOTRE_PHOTO_OUVERTURE.jpg" alt="" onerror="this.remove()" />
+            <img src="images/programme-1.webp" alt="" onerror="this.remove()" />
           </div>
         </div>
 
@@ -507,7 +519,7 @@
             <p class="usn-prog-text">Un temps d'adoration conduit par Patchaï Reyes, Nikita Heugebaert et Ruben Debard.</p>
           </div>
           <div class="usn-prog-media">
-            <img src="images/programme-2-louange.webp" alt="Temps de louange" loading="lazy" onerror="this.remove()" />
+            <img src="images/programme-2.webp" alt="Temps de louange" loading="lazy" onerror="this.remove()" />
           </div>
         </div>
 
@@ -588,7 +600,7 @@
         <figure class="usn-person" data-usn-appear>
           <div class="usn-person-photo">
             <span class="usn-person-mono">YG</span>
-            <img src="VOTRE_PHOTO_YANIS.jpg" alt="Yanis Gautier" onerror="this.remove()" />
+            <img src="images/yanis.webp" alt="Yanis Gautier" onerror="this.remove()" />
           </div>
           <figcaption>
             <div class="usn-person-name">Yanis Gautier</div>
@@ -598,7 +610,7 @@
         <figure class="usn-person" data-usn-appear>
           <div class="usn-person-photo">
             <span class="usn-person-mono">CC</span>
-            <img src="VOTRE_PHOTO_CHRISS.jpg" alt="Chriss Campion" onerror="this.remove()" />
+            <img src="images/chriss.webp" alt="Chriss Campion" onerror="this.remove()" />
           </div>
           <figcaption>
             <div class="usn-person-name">Chriss Campion</div>
@@ -613,7 +625,7 @@
         <figure class="usn-person" data-usn-appear>
           <div class="usn-person-photo">
             <span class="usn-person-mono">PR</span>
-            <img src="VOTRE_PHOTO_PATCHAI.jpg" alt="Patchaï Reyes" onerror="this.remove()" />
+            <img src="images/patchai.webp" alt="Patchaï Reyes" onerror="this.remove()" />
           </div>
           <figcaption>
             <div class="usn-person-name">Patchaï Reyes</div>
@@ -623,7 +635,7 @@
         <figure class="usn-person" data-usn-appear>
           <div class="usn-person-photo">
             <span class="usn-person-mono">NH</span>
-            <img src="VOTRE_PHOTO_NIKITA.jpg" alt="Nikita Heugebaert" onerror="this.remove()" />
+            <img src="images/nikita.webp" alt="Nikita Heugebaert" onerror="this.remove()" />
           </div>
           <figcaption>
             <div class="usn-person-name">Nikita Heugebaert</div>
@@ -633,7 +645,7 @@
         <figure class="usn-person" data-usn-appear>
           <div class="usn-person-photo">
             <span class="usn-person-mono">RD</span>
-            <img src="VOTRE_PHOTO_RUBEN.jpg" alt="Ruben Debard" onerror="this.remove()" />
+            <img src="images/ruben.webp" alt="Ruben Debard" onerror="this.remove()" />
           </div>
           <figcaption>
             <div class="usn-person-name">Ruben Debard</div>
@@ -656,16 +668,16 @@
       prière…). Sans photo, un aplat orange s'affiche.
     -->
     <div class="usn-side usn-side-1" data-usn-side="left">
-      <img src="VOTRE_PHOTO_AMBIANCE_1.jpg" alt="" onerror="this.remove()" />
+      <img src="VOTRE_PHOTO_AMBIANCE_1.jpg" alt="" onerror="this.parentNode.remove()" />
     </div>
     <div class="usn-side usn-side-2" data-usn-side="right">
-      <img src="VOTRE_PHOTO_AMBIANCE_2.jpg" alt="" onerror="this.remove()" />
+      <img src="VOTRE_PHOTO_AMBIANCE_2.jpg" alt="" onerror="this.parentNode.remove()" />
     </div>
     <div class="usn-side usn-side-3" data-usn-side="left">
-      <img src="VOTRE_PHOTO_AMBIANCE_3.jpg" alt="" onerror="this.remove()" />
+      <img src="VOTRE_PHOTO_AMBIANCE_3.jpg" alt="" onerror="this.parentNode.remove()" />
     </div>
     <div class="usn-side usn-side-4" data-usn-side="right">
-      <img src="VOTRE_PHOTO_AMBIANCE_4.jpg" alt="" onerror="this.remove()" />
+      <img src="VOTRE_PHOTO_AMBIANCE_4.jpg" alt="" onerror="this.parentNode.remove()" />
     </div>
 
     <div class="usn-wrap">
@@ -700,7 +712,7 @@
         </div>
       </div>
       <!-- Carte 2 : Soutien -->
-      <div class="usn-cta-card usn-orange">
+      <div class="usn-cta-card usn-red">
         <div class="usn-cta-eyebrow">Partenaire de la mission</div>
         <div class="usn-cta-title">Soutiens la mission</div>
         <p class="usn-cta-text">Aide-nous à porter l'Évangile en France : chaque don fait avancer l'œuvre.</p>
