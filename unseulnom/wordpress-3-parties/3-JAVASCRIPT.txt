@@ -258,26 +258,146 @@
     kick();
   })();
 
-  /* ---- Formulaire : envoi vers Brevo sans quitter la page ---- */
+  /* ---- Reservation des places + envoi vers Brevo ----
+     Le comptage est fait par le serveur (module " Un Seul Nom - Reservations ").
+     Si l'API n'est pas disponible, le compteur reste masque et le formulaire
+     continue de fonctionner comme un simple envoi vers Brevo. */
   (function () {
     var form = document.getElementById('usn-signup-form');
     if (!form) return;
-    var msg = document.getElementById('usn-form-msg');
+
+    var API      = '/wp-json/usn/v1/';
+    var msg      = document.getElementById('usn-form-msg');
+    var err      = document.getElementById('usn-form-err');
+    var stock    = document.getElementById('usn-stock');
+    var champPl  = document.getElementById('usn-champ-places');
+    var selectPl = document.getElementById('usn-places');
+    var bouton   = form.querySelector('button[type=submit]');
+    var apiActive = false;
+    var maxPlaces = 1;
+
+    function erreur(texte) {
+      if (!err) return;
+      err.textContent = texte;
+      err.style.display = texte ? 'block' : 'none';
+    }
+
+    function afficherEtat(e) {
+      if (!stock) return;
+      var restantes = Math.max(0, e.restantes | 0);
+      var capacite  = Math.max(1, e.capacite | 0);
+      stock.classList.add('usn-on');
+      stock.classList.toggle('usn-complet', restantes === 0);
+
+      var num = stock.querySelector('[data-usn-restantes]');
+      var lab = stock.querySelector('[data-usn-libelle]');
+      var jau = stock.querySelector('[data-usn-jauge]');
+      var sou = stock.querySelector('[data-usn-sous]');
+
+      if (num) num.textContent = restantes === 0 ? 'Complet' : restantes;
+      if (lab) lab.textContent = restantes === 0 ? '' : (restantes > 1 ? 'places restantes' : 'place restante');
+      if (jau) jau.style.width = Math.min(100, ((capacite - restantes) / capacite) * 100) + '%';
+      if (sou) sou.textContent = restantes === 0
+        ? 'Toutes les places sont reservees. Merci de ton interet !'
+        : (capacite - restantes) + ' places deja reservees sur ' + capacite;
+
+      // Choix du nombre de places, borne par la limite et par ce qu'il reste.
+      maxPlaces = Math.max(1, Math.min(e.max | 0 || 1, restantes));
+      if (selectPl && champPl) {
+        var garde = selectPl.value;
+        selectPl.innerHTML = '';
+        for (var i = 1; i <= maxPlaces; i++) {
+          var o = document.createElement('option');
+          o.value = i;
+          o.textContent = i + (i > 1 ? ' places' : ' place');
+          selectPl.appendChild(o);
+        }
+        if (garde && garde <= maxPlaces) selectPl.value = garde;
+        champPl.style.display = restantes === 0 ? 'none' : '';
+      }
+
+      if (bouton) {
+        var ferme = restantes === 0 || e.ouvert === false;
+        bouton.disabled = ferme;
+        bouton.textContent = ferme ? 'Complet' : "Je reserve ma place";
+      }
+    }
+
+    // Lecture de l'etat au chargement.
+    if (window.fetch) {
+      fetch(API + 'places', { credentials: 'same-origin' })
+        .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+        .then(function (e) { apiActive = true; afficherEtat(e); })
+        .catch(function () { /* module absent : on garde le formulaire simple */ });
+    }
+
+    function envoyerVersBrevo() {
+      // Le formulaire vise l'iframe cache : le visiteur reste sur la page.
+      form.submit();
+    }
+
+    function succes(restantes) {
+      if (msg) {
+        msg.textContent = typeof restantes === 'number'
+          ? 'Merci ! Ta reservation est enregistree. Il reste ' + restantes + ' place(s).'
+          : 'Merci ! Ton inscription est bien prise en compte. A tres bientot.';
+        msg.style.display = 'block';
+      }
+      erreur('');
+      setTimeout(function () { form.reset(); }, 100);
+    }
 
     form.addEventListener('submit', function (e) {
-      var nom = form.querySelector('#usn-nom');
+      var nom   = form.querySelector('#usn-nom');
       var email = form.querySelector('#usn-email');
-      // Validation simple : si elle echoue, on laisse le navigateur signaler.
       if (!nom.value.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value)) {
         e.preventDefault();
         (nom.value.trim() ? email : nom).focus();
         return;
       }
-      // L'envoi part vers l'iframe cache : on remercie et on vide le formulaire.
-      if (msg) msg.style.display = 'block';
-      setTimeout(function () { form.reset(); }, 100);
+
+      // Sans module de reservation : comportement precedent (Brevo seul).
+      if (!apiActive || !window.fetch) { succes(); return; }
+
+      // Avec module : on reserve d'abord, on n'envoie a Brevo qu'en cas de succes.
+      e.preventDefault();
+      erreur('');
+      if (bouton) { bouton.disabled = true; bouton.textContent = 'Reservation...'; }
+
+      fetch(API + 'reserver', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nom: nom.value.trim(),
+          email: email.value.trim(),
+          places: selectPl ? parseInt(selectPl.value, 10) || 1 : 1,
+          site: ''
+        })
+      })
+        .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+        .then(function (res) {
+          if (bouton) { bouton.disabled = false; bouton.textContent = 'Je reserve ma place'; }
+          if (res.ok && res.d && res.d.ok) {
+            envoyerVersBrevo();
+            succes(res.d.restantes);
+            fetch(API + 'places', { credentials: 'same-origin' })
+              .then(function (r) { return r.json(); }).then(afficherEtat).catch(function () {});
+          } else {
+            erreur((res.d && res.d.message) || 'La reservation a echoue, reessaie.');
+            if (res.d && typeof res.d.restantes === 'number') {
+              fetch(API + 'places', { credentials: 'same-origin' })
+                .then(function (r) { return r.json(); }).then(afficherEtat).catch(function () {});
+            }
+          }
+        })
+        .catch(function () {
+          if (bouton) { bouton.disabled = false; bouton.textContent = 'Je reserve ma place'; }
+          erreur('Connexion impossible. Verifie ta connexion et reessaie.');
+        });
     });
   })();
+
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', usnInit);

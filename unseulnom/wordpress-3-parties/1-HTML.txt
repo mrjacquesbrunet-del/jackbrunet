@@ -27,8 +27,7 @@
     -->
     <video class="usn-hero-video" autoplay muted loop playsinline
            poster="">
-      <!-- VIDEO : quand tu l'auras, remplace cette ligne par :
-           <source src="URL_DE_TA_VIDEO.mp4" type="video/mp4" /> -->
+      <!-- VIDEO : remplace cette ligne par <source src="URL.mp4" type="video/mp4" /> -->
     </video>
 
     <div class="usn-hero-overlay"></div>
@@ -46,8 +45,7 @@
           VOTRE_LOGO.png par son URL. S'il n'est pas d&#233;fini, il dispara&#238;t
           et le nom texte ci-dessous prend le relais.
         -->
-        <!-- LOGO : remplace ce commentaire par
-             <img class="usn-hero-logo" src="URL_DE_TON_LOGO.png" alt="Un Seul Nom" /> -->
+        <!-- LOGO : remplace par <img class="usn-hero-logo" src="URL.png" alt="Un Seul Nom" /> -->
 
         <div class="usn-hero-eyebrow">Un&nbsp;Seul&nbsp;Nom&nbsp;&nbsp;&#8594;</div>
 
@@ -320,6 +318,16 @@
         </p>
       </div>
 
+      <!-- Compteur de places : rempli par le serveur, masqu&#233; si indisponible -->
+      <div class="usn-stock" id="usn-stock">
+        <div class="usn-stock-tete">
+          <span class="usn-stock-num" data-usn-restantes>&mdash;</span>
+          <span class="usn-stock-lab" data-usn-libelle>places restantes</span>
+        </div>
+        <div class="usn-jauge"><span data-usn-jauge></span></div>
+        <p class="usn-stock-sous" data-usn-sous></p>
+      </div>
+
       <!--
         &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
         &#9658; FORMULAIRE &#8212; comment le connecter (choisir UNE option) :
@@ -356,6 +364,12 @@
           </div>
         </div>
 
+        <!-- Nombre de places : les choix sont g&#233;n&#233;r&#233;s selon la limite du serveur -->
+        <div class="usn-field" id="usn-champ-places" style="display:none">
+          <label for="usn-places">Nombre de places</label>
+          <select id="usn-places" name="PLACES"></select>
+        </div>
+
         <!-- Pi&#232;ge anti-robot de Brevo : ce champ doit rester vide. -->
         <input type="text" name="email_address_check" value="" tabindex="-1"
                aria-hidden="true" autocomplete="off"
@@ -368,6 +382,8 @@
           d'Un Seul Nom. D&#233;sinscription possible &#224; tout moment.
         </p>
       </form>
+
+      <div class="usn-err" id="usn-form-err" role="alert"></div>
 
       <div class="usn-msg" id="usn-form-msg" role="status" aria-live="polite">
         &#128591; Merci&nbsp;! Ton inscription est bien prise en compte. &#192; tr&#232;s bient&#244;t.
