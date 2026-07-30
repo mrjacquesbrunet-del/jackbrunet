@@ -569,7 +569,7 @@
   <!-- ============================================================= -->
   <!-- INTERVENANTS                                                   -->
   <!-- ============================================================= -->
-  <div class="usn-section" style="padding-top:0;">
+  <div class="usn-section" style="padding-top:0; padding-bottom:48px;">
     <div class="usn-wrap">
       <!-- Bouton / pill avec la date -->
       <div class="usn-datepill">
@@ -651,7 +651,7 @@
   <!-- PUNCHLINE (fond clair, photos qui arrivent des côtés)         -->
   <!-- ============================================================= -->
   <div class="usn-section usn-punch" id="usn-punch"
-       style="padding-bottom: clamp(160px, 25vw, 280px);">
+       style="padding-top: 40px; padding-bottom: clamp(160px, 25vw, 280px);">
 
     <!--
       ► PHOTOS LATÉRALES — elles glissent depuis les bords au scroll.
@@ -962,10 +962,13 @@
 
     /* ---------- 4. Punchline : les mots se rassemblent ---------- */
     var punchP = 0;
+    // Ancré sur la première ligne de texte (et non sur la section, bien plus
+    // haute) : les mots se rassemblent dès que le texte entre à l'écran.
+    var punchAnchor = punch && punch.querySelector('[data-usn-reveal]');
     function punchTarget() {
-      if (!punch) return 0;
-      var r = punch.getBoundingClientRect(), h = vh();
-      return clamp01((h * 0.85 - r.top) / (h * 0.75));
+      if (!punchAnchor) return 0;
+      var r = punchAnchor.getBoundingClientRect(), h = vh();
+      return clamp01((h * 1.0 - r.top) / (h * 0.5));
     }
     function punchApply(p) {
       var n = words.length;
