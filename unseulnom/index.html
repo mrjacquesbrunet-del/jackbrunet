@@ -201,17 +201,18 @@
   #usn-event .usn-prog-time { font-size: 13px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.78); }
   #usn-event .usn-prog-title { margin-top: 8px; font-size: clamp(26px, 4vw, 44px); font-weight: 800; text-transform: uppercase; line-height: 1.02; }
   #usn-event .usn-prog-text { margin-top: 12px; font-size: 15px; line-height: 1.55; color: rgba(255,255,255,0.88); max-width: 46ch; }
-  #usn-event .usn-prog-media { position: relative; background: #b23417; min-height: 100%; }
+  /* Zone image 16:9 à droite du panneau */
+  #usn-event .usn-prog-media {
+    position: relative; align-self: center; margin: 22px 22px 22px 0;
+    aspect-ratio: 16 / 9; border-radius: 18px; overflow: hidden;
+    background: #b23417;
+  }
   #usn-event .usn-prog-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  #usn-event .usn-prog-ic { position: absolute; inset: 0; display: grid; place-items: center; color: rgba(255,255,255,0.32); }
-  #usn-event .usn-prog-ic svg { width: 62px; height: 62px; }
-  /* apparition depuis la gauche (piloté par JS ; sans JS, visible) */
-  #usn-event .usn-prog { transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
-  #usn-event .usn-prog.usn-pre { opacity: 0; transform: translateX(-70px); }
-  #usn-event .usn-prog.usn-in { opacity: 1; transform: none; }
+  /* L'apparition est pilotée par le moteur de scroll (JS). Sans JS : visible. */
+  #usn-event .usn-prog { will-change: transform, opacity; }
   @media (max-width: 720px) {
     #usn-event .usn-prog { grid-template-columns: 1fr; }
-    #usn-event .usn-prog-media { min-height: 158px; order: -1; }
+    #usn-event .usn-prog-media { order: -1; margin: 22px 22px 0; }
     #usn-event .usn-prog-body { padding: 28px 26px; }
   }
 
@@ -237,10 +238,8 @@
   #usn-event .usn-person-photo img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; }
   #usn-event .usn-person-name { margin-top: 14px; font-weight: 700; font-size: 16px; text-align: center; }
   #usn-event .usn-person-role { margin-top: 3px; font-size: 11px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--usn-orange); text-align: center; }
-  /* état d'apparition (piloté par JS ; sans JS les cartes restent visibles) */
-  #usn-event .usn-person { transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
-  #usn-event .usn-person.usn-pre { opacity: 0; transform: translateY(46px) scale(0.97); }
-  #usn-event .usn-person.usn-in { opacity: 1; transform: none; }
+  /* L'apparition est pilotée par le moteur de scroll (JS). Sans JS : visible. */
+  #usn-event .usn-person { will-change: transform, opacity; }
 
   @media (max-width: 900px) { #usn-event .usn-people { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 560px) {
@@ -268,22 +267,42 @@
       radial-gradient(700px 420px at 92% 92%, rgba(218,74,38,0.28), transparent 60%),
       var(--usn-ink);
   }
-  /* Punchline animée au scroll (mots qui se rassemblent) */
-  #usn-event .usn-punch { text-align: center; }
+  /* Punchline : fond clair, texte noir, photos qui arrivent des côtés */
+  #usn-event .usn-punch { position: relative; overflow: hidden; background: var(--usn-cream); text-align: center; }
   #usn-event .usn-punch-line {
-    margin: 0 auto; max-width: 18ch;
-    font-weight: 800; text-transform: uppercase; line-height: 1.05; letter-spacing: -0.01em;
+    position: relative; z-index: 2;
+    margin: 0 auto; max-width: 100%; text-wrap: balance;
+    font-weight: 800; text-transform: uppercase; line-height: 1.02; letter-spacing: -0.02em;
+    color: var(--usn-ink);
   }
-  #usn-event .usn-punch-1 { font-size: clamp(24px, 5vw, 50px); color: var(--usn-cream); }
-  #usn-event .usn-punch-2 { font-size: clamp(28px, 6.2vw, 64px); color: var(--usn-cream); margin-top: 8px; }
-  #usn-event .usn-punch-3 { font-size: clamp(34px, 8vw, 88px); color: var(--usn-orange-2); margin-top: 8px; }
+  #usn-event .usn-punch-1 { font-size: clamp(26px, 5.6vw, 60px); }
+  #usn-event .usn-punch-2 { font-size: clamp(26px, 5.6vw, 60px); margin-top: 6px; }
+  #usn-event .usn-punch-3 { font-size: clamp(26px, 5.6vw, 60px); margin-top: 6px; color: var(--usn-orange); }
   #usn-event .usn-word { display: inline-block; will-change: transform, opacity, filter; }
   #usn-event .usn-punch-sub {
-    max-width: 620px; margin: 30px auto 0; text-align: center;
-    font-size: 16px; font-weight: 400; text-transform: none; color: rgba(241,237,229,0.72);
-    opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease;
+    position: relative; z-index: 2;
+    max-width: 620px; margin: 34px auto 0; text-align: center;
+    font-size: 16px; font-weight: 400; text-transform: none; color: rgba(12,11,10,0.66);
+    will-change: transform, opacity;
   }
-  #usn-event .usn-punch-sub.usn-in { opacity: 1; transform: none; }
+  /* Photos latérales (arrivent de la gauche / de la droite au scroll) */
+  #usn-event .usn-side {
+    position: absolute; z-index: 1; width: clamp(150px, 20vw, 280px);
+    aspect-ratio: 4 / 5; border-radius: 20px; overflow: hidden;
+    background: linear-gradient(140deg, var(--usn-orange), #a5361b);
+    box-shadow: 0 30px 60px -28px rgba(12,11,10,0.45);
+    will-change: transform, opacity;
+  }
+  #usn-event .usn-side img { width: 100%; height: 100%; object-fit: cover; }
+  #usn-event .usn-side-1 { left: -3%;  top: 12%; transform: rotate(-7deg); }
+  #usn-event .usn-side-2 { right: -3%; top: 20%; transform: rotate(6deg); }
+  #usn-event .usn-side-3 { left: 4%;   bottom: 6%; width: clamp(120px, 15vw, 210px); }
+  #usn-event .usn-side-4 { right: 4%;  bottom: 10%; width: clamp(120px, 15vw, 210px); }
+  @media (max-width: 900px) {
+    #usn-event .usn-side-3, #usn-event .usn-side-4 { display: none; }
+    #usn-event .usn-side-1 { top: 4%; opacity: 0.5; }
+    #usn-event .usn-side-2 { top: auto; bottom: 4%; opacity: 0.5; }
+  }
 
   /* Deux cartes d'action « à cheval » sur la bande */
   #usn-event .usn-cta-cards {
@@ -296,7 +315,7 @@
     box-shadow: 0 44px 90px -34px rgba(0,0,0,0.65);
     display: flex; flex-direction: column;
   }
-  #usn-event .usn-cta-card.usn-cream { background: var(--usn-cream); color: var(--usn-ink); }
+  #usn-event .usn-cta-card.usn-ink { background: var(--usn-ink); color: var(--usn-cream); }
   #usn-event .usn-cta-card.usn-orange { background: var(--usn-orange); color: #fff; }
   #usn-event .usn-cta-eyebrow { font-size: 12px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.75; }
   #usn-event .usn-cta-title { margin-top: 10px; font-size: clamp(28px, 4vw, 40px); font-weight: 800; line-height: 1.03; text-transform: uppercase; }
@@ -309,9 +328,9 @@
     transition: transform .16s ease, opacity .16s ease, border-color .16s ease;
   }
   #usn-event .usn-cta-btn:hover { transform: translateY(-2px); }
-  #usn-event .usn-cream .usn-cta-btn.fill { background: var(--usn-ink); color: var(--usn-cream); }
-  #usn-event .usn-cream .usn-cta-btn.line { background: transparent; color: var(--usn-ink); border-color: rgba(12,11,10,0.32); }
-  #usn-event .usn-cream .usn-cta-btn.line:hover { border-color: var(--usn-ink); }
+  #usn-event .usn-ink .usn-cta-btn.fill { background: var(--usn-orange); color: #fff; }
+  #usn-event .usn-ink .usn-cta-btn.line { background: transparent; color: var(--usn-cream); border-color: rgba(241,237,229,0.4); }
+  #usn-event .usn-ink .usn-cta-btn.line:hover { border-color: var(--usn-cream); }
   #usn-event .usn-orange .usn-cta-btn.fill { background: #fff; color: var(--usn-orange); }
   #usn-event .usn-orange .usn-cta-btn.line { background: transparent; color: #fff; border-color: rgba(255,255,255,0.6); }
   #usn-event .usn-orange .usn-cta-btn.line:hover { border-color: #fff; }
@@ -471,7 +490,6 @@
           </div>
           <div class="usn-prog-media">
             <img src="VOTRE_PHOTO_OUVERTURE.jpg" alt="" onerror="this.remove()" />
-            <span class="usn-prog-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 21V9l9-6 9 6v12h-6v-7h-6v7Z"/></svg></span>
           </div>
         </div>
 
@@ -483,7 +501,6 @@
           </div>
           <div class="usn-prog-media">
             <img src="VOTRE_PHOTO_LOUANGE.jpg" alt="" onerror="this.remove()" />
-            <span class="usn-prog-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18V6l10-2v12"/><circle cx="6" cy="18" r="3"/><circle cx="19" cy="16" r="3"/></svg></span>
           </div>
         </div>
 
@@ -495,7 +512,6 @@
           </div>
           <div class="usn-prog-media">
             <img src="VOTRE_PHOTO_PREDICATION.jpg" alt="" onerror="this.remove()" />
-            <span class="usn-prog-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16v11H8l-4 4V5Z"/><path d="M8.5 10.5h7M8.5 13h4"/></svg></span>
           </div>
         </div>
 
@@ -507,7 +523,6 @@
           </div>
           <div class="usn-prog-media">
             <img src="VOTRE_PHOTO_GUERISON.jpg" alt="" onerror="this.remove()" />
-            <span class="usn-prog-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.3-7-9.5A4.5 4.5 0 0 1 12 8a4.5 4.5 0 0 1 7 3.5C19 16.7 12 21 12 21Z"/></svg></span>
           </div>
         </div>
       </div>
@@ -616,21 +631,41 @@
   </div>
 
   <!-- ============================================================= -->
-  <!-- BANDE MOUVEMENT                                                -->
+  <!-- PUNCHLINE (fond clair, photos qui arrivent des côtés)         -->
   <!-- ============================================================= -->
-  <div class="usn-band usn-section usn-punch" id="usn-punch"
-       style="padding-bottom: clamp(150px, 24vw, 260px);">
+  <div class="usn-section usn-punch" id="usn-punch"
+       style="padding-bottom: clamp(160px, 25vw, 280px);">
+
+    <!--
+      ► PHOTOS LATÉRALES — elles glissent depuis les bords au scroll.
+      Remplacez VOTRE_PHOTO_AMBIANCE_x.jpg par vos photos (foule, louange,
+      prière…). Sans photo, un aplat orange s'affiche.
+    -->
+    <div class="usn-side usn-side-1" data-usn-side="left">
+      <img src="VOTRE_PHOTO_AMBIANCE_1.jpg" alt="" onerror="this.remove()" />
+    </div>
+    <div class="usn-side usn-side-2" data-usn-side="right">
+      <img src="VOTRE_PHOTO_AMBIANCE_2.jpg" alt="" onerror="this.remove()" />
+    </div>
+    <div class="usn-side usn-side-3" data-usn-side="left">
+      <img src="VOTRE_PHOTO_AMBIANCE_3.jpg" alt="" onerror="this.remove()" />
+    </div>
+    <div class="usn-side usn-side-4" data-usn-side="right">
+      <img src="VOTRE_PHOTO_AMBIANCE_4.jpg" alt="" onerror="this.remove()" />
+    </div>
+
     <div class="usn-wrap">
       <!--
         ► PUNCHLINE — les mots se rassemblent au scroll (effet type vouscon).
         Sans JavaScript, le texte s'affiche normalement (assemblé).
       -->
-      <span class="usn-eyebrow" style="justify-content:center; width:100%;">Un seul nom</span>
-      <p class="usn-punch-line usn-punch-1" data-usn-reveal style="margin-top:18px;">L'Évangile n'avance pas dans la division.</p>
-      <p class="usn-punch-line usn-punch-2" data-usn-reveal>Il avance quand l'Église s'unit,</p>
-      <p class="usn-punch-line usn-punch-3" data-usn-reveal>sous un seul nom : Jésus-Christ.</p>
+      <span class="usn-eyebrow" style="justify-content:center; width:100%;">L'invitation</span>
+      <p class="usn-punch-line usn-punch-1" data-usn-reveal style="margin-top:20px;">Viens tel que tu es,</p>
+      <p class="usn-punch-line usn-punch-2" data-usn-reveal>repars transformé par</p>
+      <p class="usn-punch-line usn-punch-3" data-usn-reveal>un seul nom : Jésus-Christ.</p>
       <p class="usn-punch-sub" data-usn-sub>
-        L'unité, c'est notre force pour annoncer Christ à la France, de ville en ville.
+        Le 17 octobre à Avignon, une place t'attend. Entrée libre — viens avec
+        ta famille, tes amis, ceux que tu portes dans ton cœur.
       </p>
     </div>
   </div>
@@ -641,7 +676,7 @@
   <div class="usn-wrap">
     <div class="usn-cta-cards">
       <!-- Carte 1 : Inscription -->
-      <div class="usn-cta-card usn-cream">
+      <div class="usn-cta-card usn-ink">
         <div class="usn-cta-eyebrow">Samedi 17 octobre 2026 · Avignon</div>
         <div class="usn-cta-title">Inscris-toi</div>
         <p class="usn-cta-text">Réserve ta place gratuitement pour la soirée d'évangélisation et de guérison.</p>
@@ -792,80 +827,187 @@
     setInterval(tick, 1000);
   })();
 
-  /* ---- Punchline : les mots se rassemblent au scroll ---- */
+  /* =================================================================
+     MOTEUR D'ANIMATION AU SCROLL
+     Reproduit le comportement de GSAP ScrollTrigger en mode « scrub » :
+     - les éléments partent d'une demi-hauteur d'écran plus bas (50svh),
+     - ils remontent AU RYTHME DU SCROLL (et redescendent si on remonte),
+     - avec un chevauchement entre les éléments d'un même groupe,
+     - le tout lissé (inertie) pour un rendu fluide.
+     Sans JS ou avec « prefers-reduced-motion », tout reste visible.
+     ================================================================= */
   (function () {
-    var section = document.getElementById('usn-punch');
-    if (!section) return;
+    var root = document.getElementById('usn-event');
+    if (!root) return;
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var lines = section.querySelectorAll('[data-usn-reveal]');
-    var sub = section.querySelector('[data-usn-sub]');
-    var words = [];
-
-    for (var l = 0; l < lines.length; l++) {
-      var parts = (lines[l].textContent || '').trim().split(/\s+/);
-      lines[l].textContent = '';
-      for (var k = 0; k < parts.length; k++) {
-        var span = document.createElement('span');
-        span.className = 'usn-word';
-        span.textContent = parts[k];
-        lines[l].appendChild(span);
-        if (k < parts.length - 1) lines[l].appendChild(document.createTextNode(' '));
-        words.push(span);
-      }
-    }
-
-    if (reduce) { if (sub) sub.classList.add('usn-in'); return; }
-
-    for (var i = 0; i < words.length; i++) {
-      var s1 = Math.sin(i * 12.9898) * 43758.5453; var r1 = s1 - Math.floor(s1);
-      var s2 = Math.sin(i * 78.233) * 12543.123;  var r2 = s2 - Math.floor(s2);
-      words[i].__dx = (r1 - 0.5) * 2 * Math.min(window.innerWidth * 0.28, 320);
-      words[i].__dy = (r2 - 0.5) * 2 * 150;
-      words[i].__rot = (r1 - 0.5) * 42;
-    }
 
     function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
-    function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+    function vh() { return window.innerHeight || 800; }
 
-    var ticking = false;
-    function render() {
-      ticking = false;
-      var rect = section.getBoundingClientRect();
-      var vh = window.innerHeight || 800;
-      var p = clamp01((vh * 0.9 - rect.top) / (vh * 0.7));
+    /* ---------- 1. Découpe la punchline en mots ---------- */
+    var punch = document.getElementById('usn-punch');
+    var words = [];
+    if (punch) {
+      var lines = punch.querySelectorAll('[data-usn-reveal]');
+      for (var l = 0; l < lines.length; l++) {
+        var parts = (lines[l].textContent || '').trim().split(/\s+/);
+        lines[l].textContent = '';
+        for (var k = 0; k < parts.length; k++) {
+          var sp = document.createElement('span');
+          sp.className = 'usn-word';
+          sp.textContent = parts[k];
+          lines[l].appendChild(sp);
+          if (k < parts.length - 1) lines[l].appendChild(document.createTextNode(' '));
+          words.push(sp);
+        }
+      }
+      for (var w = 0; w < words.length; w++) {
+        var a = Math.sin(w * 12.9898) * 43758.5453; a -= Math.floor(a);
+        var b = Math.sin(w * 78.233) * 12543.123;  b -= Math.floor(b);
+        words[w].__dx = (a - 0.5) * 2 * Math.min(window.innerWidth * 0.45, 520);
+        words[w].__dy = (b - 0.5) * 2 * 260;
+        words[w].__rot = (a - 0.5) * 55;
+      }
+    }
+
+    if (reduce) return; // mouvement désactivé : tout reste en place
+
+    /* ---------- 2. Déclare les groupes animés ---------- */
+    // rise : monte depuis 50svh ; slide : arrive de la gauche ; pop : grossit
+    var groups = [];
+    function group(sel, opts) {
+      var els = root.querySelectorAll(sel);
+      if (els.length) groups.push({ els: els, o: opts });
+    }
+    group('.usn-prog',        { type: 'slide', dist: 0.42, stagger: 0.16, span: 0.62 });
+    group('.usn-person',      { type: 'rise',  dist: 0.50, stagger: 0.13, span: 0.60 });
+    group('.usn-datepill',    { type: 'pop',   stagger: 0,    span: 0.55 });
+    group('.usn-cta-card',    { type: 'rise',  dist: 0.40, stagger: 0.20, span: 0.60 });
+    group('.usn-date-row',    { type: 'slide', dist: 0.30, stagger: 0.16, span: 0.60 });
+    group('[data-usn-side="left"]',  { type: 'slide',  dist: 0.55, stagger: 0.10, span: 0.85 });
+    group('[data-usn-side="right"]', { type: 'slideR', dist: 0.55, stagger: 0.10, span: 0.85 });
+    group('.usn-section-head',{ type: 'rise',  dist: 0.28, stagger: 0.10, span: 0.55 });
+    group('.usn-fact',        { type: 'rise',  dist: 0.32, stagger: 0.12, span: 0.58 });
+
+    var all = [];
+    for (var g = 0; g < groups.length; g++) {
+      for (var i = 0; i < groups[g].els.length; i++) {
+        var el = groups[g].els[i];
+        all.push({
+          el: el, i: i, o: groups[g].o, p: 0, top: 0,
+          rot: parseFloat(el.getAttribute('data-rot') || '0')
+        });
+      }
+    }
+
+    function scrollY() { return window.pageYOffset || document.documentElement.scrollTop || 0; }
+
+    /* Position NATURELLE de chaque élément (transform neutralisé), mise en
+       cache : sinon le décalage appliqué fausse la mesure et l'élément
+       n'entre jamais dans la zone de déclenchement. */
+    function measureAll() {
+      for (var i = 0; i < all.length; i++) {
+        var it = all[i], prev = it.el.style.transform;
+        it.el.style.transform = 'none';
+        it.top = it.el.getBoundingClientRect().top + scrollY();
+        it.el.style.transform = prev;
+      }
+    }
+    measureAll();
+    // état initial immédiat (évite tout « flash » de contenu déjà en place)
+    for (var s = 0; s < all.length; s++) apply(all[s], 0);
+
+    /* ---------- 3. Calcul de l'avancement lié au scroll ---------- */
+    function target(item) {
+      var h = vh();
+      var top = item.top - scrollY();
+      // 0 quand le haut de l'élément entre par le bas, 1 quand il a monté
+      var raw = (h * 0.92 - top) / (h * item.o.span);
+      var st = item.i * item.o.stagger;
+      return clamp01((clamp01(raw) - st) / Math.max(0.2, 1 - st));
+    }
+
+    function apply(item, p) {
+      var e = easeOut(p), inv = 1 - e, o = item.o, st = item.el.style;
+      var rot = item.rot ? ' rotate(' + item.rot + 'deg)' : '';
+      if (o.type === 'rise') {
+        st.transform = 'translate3d(0,' + (inv * o.dist * vh()).toFixed(1) + 'px,0)' + rot;
+      } else if (o.type === 'slide') {
+        st.transform = 'translate3d(' + (-inv * o.dist * Math.min(window.innerWidth, 900)).toFixed(1) + 'px,0,0)' + rot;
+      } else if (o.type === 'slideR') {
+        st.transform = 'translate3d(' + (inv * o.dist * Math.min(window.innerWidth, 900)).toFixed(1) + 'px,0,0)' + rot;
+      } else { // pop
+        st.transform = 'scale(' + (0.3 + 0.7 * e).toFixed(3) + ')' + rot;
+      }
+      st.opacity = e.toFixed(3);
+    }
+
+    /* ---------- 4. Punchline : les mots se rassemblent ---------- */
+    var punchP = 0;
+    function punchTarget() {
+      if (!punch) return 0;
+      var r = punch.getBoundingClientRect(), h = vh();
+      return clamp01((h * 0.85 - r.top) / (h * 0.75));
+    }
+    function punchApply(p) {
       var n = words.length;
       for (var i = 0; i < n; i++) {
-        var t = clamp01((p - (i / n) * 0.4) / 0.6);
-        var e = easeOutCubic(t), inv = 1 - e;
-        words[i].style.transform = 'translate(' + (words[i].__dx * inv).toFixed(1) + 'px,' + (words[i].__dy * inv).toFixed(1) + 'px) rotate(' + (words[i].__rot * inv).toFixed(1) + 'deg)';
-        words[i].style.opacity = e.toFixed(3);
-        words[i].style.filter = inv > 0.02 ? 'blur(' + (inv * 6).toFixed(1) + 'px)' : 'none';
+        var t = clamp01((p - (i / n) * 0.45) / 0.55);
+        var e = easeOut(t), inv = 1 - e, ws = words[i];
+        ws.style.transform = 'translate3d(' + (ws.__dx * inv).toFixed(1) + 'px,' + (ws.__dy * inv).toFixed(1) + 'px,0) rotate(' + (ws.__rot * inv).toFixed(1) + 'deg)';
+        ws.style.opacity = e.toFixed(3);
+        ws.style.filter = inv > 0.02 ? 'blur(' + (inv * 9).toFixed(1) + 'px)' : 'none';
       }
-      if (sub) { if (p > 0.85) sub.classList.add('usn-in'); }
+      var sub = punch && punch.querySelector('[data-usn-sub]');
+      if (sub) {
+        var sp = clamp01((p - 0.6) / 0.4);
+        sub.style.opacity = sp.toFixed(3);
+        sub.style.transform = 'translate3d(0,' + ((1 - sp) * 40).toFixed(1) + 'px,0)';
+      }
     }
-    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(render); } }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-    render();
-  })();
+    punchApply(0);
 
-  /* ---- Apparition au scroll (panneaux programme + cartes intervenants) ---- */
-  (function () {
-    var items = document.querySelectorAll('#usn-event [data-usn-appear]');
-    if (!items.length) return;
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce || !('IntersectionObserver' in window)) return; // sans JS/anim : visibles
+    /* ---------- 5. Parallaxe du héros ---------- */
+    var hero = root.querySelector('.usn-hero');
+    var heroInner = root.querySelector('.usn-hero-inner');
+    var heroVideo = root.querySelector('.usn-hero-video');
 
-    for (var i = 0; i < items.length; i++) {
-      items[i].classList.add('usn-pre');
-      items[i].style.transitionDelay = ((i % 5) * 0.09).toFixed(2) + 's';
+    /* ---------- 6. Boucle de rendu (lissage type ScrollSmoother) ---------- */
+    var running = false;
+    function frame() {
+      var moving = false;
+
+      for (var i = 0; i < all.length; i++) {
+        var it = all[i], t = target(it);
+        it.p += (t - it.p) * 0.12;             // lissage
+        if (Math.abs(t - it.p) > 0.001) moving = true; else it.p = t;
+        apply(it, it.p);
+      }
+
+      if (punch) {
+        var tp = punchTarget();
+        punchP += (tp - punchP) * 0.12;
+        if (Math.abs(tp - punchP) > 0.001) moving = true; else punchP = tp;
+        punchApply(punchP);
+      }
+
+      if (hero && heroInner) {
+        var hr = hero.getBoundingClientRect();
+        var prog = clamp01(-hr.top / Math.max(1, hr.height));
+        heroInner.style.transform = 'translate3d(0,' + (prog * 130).toFixed(1) + 'px,0)';
+        heroInner.style.opacity = (1 - prog * 0.85).toFixed(3);
+        if (heroVideo) heroVideo.style.transform = 'scale(' + (1 + prog * 0.16).toFixed(3) + ')';
+      }
+
+      if (moving) { requestAnimationFrame(frame); } else { running = false; }
     }
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) { en.target.classList.add('usn-in'); io.unobserve(en.target); }
-      });
-    }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
-    for (var j = 0; j < items.length; j++) io.observe(items[j]);
+    function kick() { if (!running) { running = true; requestAnimationFrame(frame); } }
+
+    window.addEventListener('scroll', kick, { passive: true });
+    window.addEventListener('resize', function () { measureAll(); kick(); });
+    window.addEventListener('load', function () { measureAll(); kick(); });
+    kick();
   })();
 
   /* ---- Formulaire (amélioration progressive) ---- */
