@@ -226,7 +226,15 @@
   #usn-event .usn-datepill-v .usn-star { color: var(--usn-orange); margin: 0 6px; }
 
   /* Intervenants — cartes photos qui apparaissent au scroll */
-  #usn-event .usn-people { margin-top: 44px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; align-items: start; }
+  #usn-event .usn-people { margin: 26px auto 0; display: grid; gap: 18px; align-items: start; }
+  #usn-event .usn-people-2 { grid-template-columns: repeat(2, 1fr); max-width: 600px; }
+  #usn-event .usn-people-3 { grid-template-columns: repeat(3, 1fr); max-width: 860px; }
+  /* Intitulé de chaque groupe (Prédication / Louange) */
+  #usn-event .usn-people-label {
+    margin-top: 44px; text-align: center;
+    font-size: 12px; font-weight: 800; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--usn-orange);
+  }
   #usn-event .usn-person { margin: 0; }
   #usn-event .usn-people .usn-person:nth-child(even) { margin-top: 38px; }
   #usn-event .usn-person-photo {
@@ -241,9 +249,8 @@
   /* L'apparition est pilotée par le moteur de scroll (JS). Sans JS : visible. */
   #usn-event .usn-person { will-change: transform, opacity; }
 
-  @media (max-width: 900px) { #usn-event .usn-people { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 560px) {
-    #usn-event .usn-people { grid-template-columns: repeat(2, 1fr); }
+    #usn-event .usn-people-3 { grid-template-columns: repeat(2, 1fr); }
     #usn-event .usn-people .usn-person:nth-child(even) { margin-top: 0; }
   }
 
@@ -500,7 +507,7 @@
             <p class="usn-prog-text">Un temps d'adoration conduit par Patchaï Reyes, Nikita Heugebaert et Ruben Debard.</p>
           </div>
           <div class="usn-prog-media">
-            <img src="VOTRE_PHOTO_LOUANGE.jpg" alt="" onerror="this.remove()" />
+            <img src="images/programme-2-louange.webp" alt="Temps de louange" loading="lazy" onerror="this.remove()" />
           </div>
         </div>
 
@@ -575,7 +582,9 @@
         Ajoutez la photo de chacun en remplaçant VOTRE_PHOTO...
         (repli : initiales sur fond orange si aucune photo).
       -->
-      <div class="usn-people">
+      <!-- Prédication : 2 intervenants -->
+      <div class="usn-people-label">Prédication</div>
+      <div class="usn-people usn-people-2">
         <figure class="usn-person" data-usn-appear>
           <div class="usn-person-photo">
             <span class="usn-person-mono">YG</span>
@@ -596,6 +605,11 @@
             <div class="usn-person-role">Prédication</div>
           </figcaption>
         </figure>
+      </div>
+
+      <!-- Louange : 3 intervenants -->
+      <div class="usn-people-label">Louange</div>
+      <div class="usn-people usn-people-3">
         <figure class="usn-person" data-usn-appear>
           <div class="usn-person-photo">
             <span class="usn-person-mono">PR</span>
