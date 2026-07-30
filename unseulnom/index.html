@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<!--
+  ==========================================================================
+  UN SEUL NOM - Page evenement (a integrer dans WordPress)
+  ==========================================================================
+
+  COMMENT L'INTEGRER DANS WORDPRESS :
+  ------------------------------------
+  Option A (la plus simple) - Bloc « HTML personnalise » :
+     1. Creez/editez une page WordPress.
+     2. Ajoutez un bloc « HTML personnalise ».
+     3. Copiez TOUT ce qui se trouve entre les reperes « DEBUT » et « FIN »
+        plus bas (le style, la section et le script), puis collez-le.
+     Le style est « scope » sous #usn-event : il n'affecte pas le reste du theme.
+
+  Option B - Page complete : utilisez ce fichier tel quel comme modele de page.
+
+  --------------------------------------------------------------------------
+  LES REGLAGES A FAIRE (tout est commente et regroupe plus bas) :
+     - VIDEO DE FOND    : cherchez le repere VIDEO DE FOND (URL de votre video)
+     - LOGO             : cherchez le repere LOGO (URL du logo)
+     - EVENEMENT        : cherchez le repere EVENEMENT (titre, ville, date, heure)
+     - COMPTE A REBOURS : cherchez data-target (date/heure de fin du decompte)
+     - FORMULAIRE       : cherchez le repere FORMULAIRE (newsletter / e-mail)
+  ==========================================================================
+-->
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Un Seul Nom — Événement</title>
+</head>
+<body>
+
+<!-- ►►► DÉBUT — copier à partir d'ici pour le bloc HTML WordPress ►►► -->
+
+<style>
+  /* ===================================================================
+     Styles scopés sous #usn-event pour ne pas entrer en conflit
+     avec le thème WordPress. Ajustez la charte via les variables --usn-*.
+     =================================================================== */
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
+  #usn-event {
+    /* ── Charte : 3 couleurs ── */
+    --usn-orange: #DA4A26;     /* accent principal (terracotta) */
+    --usn-orange-2: #E85E2C;   /* survol / éclat */
+    --usn-cream: #F1EDE5;      /* crème (fond clair / texte sur noir) */
+    --usn-ink: #0C0B0A;        /* noir */
+    --usn-ink-soft: #17140F;
+
+    --usn-radius: 18px;
+
+    box-sizing: border-box;
+    font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--usn-ink);
+    background: var(--usn-cream);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+  #usn-event *, #usn-event *::before, #usn-event *::after { box-sizing: border-box; }
+  #usn-event img, #usn-event video { max-width: 100%; display: block; }
+
+  #usn-event .usn-wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+
+  #usn-event h1, #usn-event h2, #usn-event h3 { margin: 0; font-weight: 800; line-height: 1.05; letter-spacing: -0.01em; }
+  #usn-event p { margin: 0; }
+
+  #usn-event .usn-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 13px; font-weight: 800; letter-spacing: 0.34em; text-transform: uppercase;
+    color: var(--usn-orange);
+  }
+
+  /* ---------- Boutons ---------- */
+  #usn-event .usn-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 15px 34px; border-radius: 999px; font-weight: 700; font-size: 14px;
+    letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; cursor: pointer;
+    border: 2px solid transparent; transition: transform .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
+  }
+  #usn-event .usn-btn-primary { background: var(--usn-orange); color: #fff; }
+  #usn-event .usn-btn-primary:hover { background: var(--usn-orange-2); transform: translateY(-2px); }
+  #usn-event .usn-btn-outline { background: transparent; color: var(--usn-cream); border-color: rgba(241,237,229,0.7); }
+  #usn-event .usn-btn-outline:hover { background: var(--usn-cream); color: var(--usn-ink); border-color: var(--usn-cream); }
+  #usn-event .usn-btn-dark { background: var(--usn-ink); color: var(--usn-cream); }
+  #usn-event .usn-btn-dark:hover { background: var(--usn-ink-soft); transform: translateY(-2px); }
+
+  /* =================================================================== */
+  /* HÉROS PLEIN ÉCRAN AVEC VIDÉO DE FOND                                 */
+  /* =================================================================== */
+  #usn-event .usn-hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex; flex-direction: column;
+    /* Fond de secours élégant si la vidéo est absente/en cours de chargement */
+    background:
+      radial-gradient(900px 600px at 50% 0%, rgba(218,74,38,0.45), transparent 60%),
+      radial-gradient(700px 500px at 80% 90%, rgba(218,74,38,0.28), transparent 60%),
+      var(--usn-ink);
+    color: var(--usn-cream);
+    overflow: hidden;
+  }
+  #usn-event .usn-hero-video {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; z-index: 0;
+  }
+  #usn-event .usn-hero-overlay {
+    position: absolute; inset: 0; z-index: 1;
+    background:
+      linear-gradient(to bottom, rgba(12,11,10,0.35) 0%, rgba(12,11,10,0.15) 40%, rgba(12,11,10,0.75) 100%);
+  }
+  #usn-event .usn-hero-inner {
+    position: relative; z-index: 2;
+    flex: 1 1 auto; display: flex; align-items: center;
+    padding: 120px 0 40px; text-align: center;
+  }
+  #usn-event .usn-hero-logo { width: clamp(90px, 16vw, 150px); height: auto; margin: 0 auto 6px; }
+  #usn-event .usn-hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 14px; font-weight: 800; letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--usn-orange-2);
+  }
+  #usn-event .usn-hero h1 {
+    margin: 18px auto 0;
+    font-size: clamp(64px, 17vw, 190px);
+    font-weight: 900; line-height: 0.92; letter-spacing: -0.02em; text-transform: uppercase;
+    color: var(--usn-cream);
+    text-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  }
+  #usn-event .usn-hero-tagline {
+    margin: 16px auto 0; font-size: clamp(16px, 3vw, 24px); font-weight: 700;
+    letter-spacing: 0.02em; text-transform: uppercase; color: var(--usn-orange-2);
+  }
+  #usn-event .usn-hero-date {
+    margin: 10px auto 0; font-size: clamp(13px, 2.4vw, 17px); font-weight: 600;
+    letter-spacing: 0.28em; text-transform: uppercase; color: rgba(241,237,229,0.9);
+  }
+  #usn-event .usn-hero-cta { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+
+  /* ---------- Compte à rebours (bas du héros) ---------- */
+  #usn-event .usn-countdown {
+    position: relative; z-index: 2;
+    background: var(--usn-ink);
+    border-top: 1px solid rgba(241,237,229,0.12);
+    padding: 22px 0;
+  }
+  #usn-event .usn-cd-grid { display: flex; justify-content: center; gap: clamp(18px, 6vw, 70px); }
+  #usn-event .usn-cd-item { text-align: center; position: relative; }
+  #usn-event .usn-cd-num {
+    display: block; font-size: clamp(38px, 9vw, 74px); font-weight: 800; line-height: 1;
+    color: var(--usn-cream); font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
+  }
+  #usn-event .usn-cd-lab {
+    display: block; margin-top: 6px; font-size: 12px; font-weight: 800;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--usn-orange);
+  }
+
+  /* =================================================================== */
+  /* SECTIONS CLAIRES (crème)                                             */
+  /* =================================================================== */
+  #usn-event .usn-section { padding: clamp(64px, 10vw, 110px) 0; }
+  #usn-event .usn-section-head { max-width: 760px; }
+  #usn-event .usn-section-head h2 { margin-top: 16px; font-size: clamp(30px, 5.5vw, 54px); text-transform: uppercase; }
+  #usn-event .usn-section-head p { margin-top: 18px; font-size: clamp(15px, 2.2vw, 18px); color: rgba(12,11,10,0.7); }
+
+  /* Cartes « au programme » */
+  #usn-event .usn-cards { margin-top: 46px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  #usn-event .usn-card {
+    padding: 28px 24px; border-radius: var(--usn-radius);
+    background: #fff; border: 1px solid rgba(12,11,10,0.08);
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  #usn-event .usn-card:hover { transform: translateY(-4px); box-shadow: 0 24px 50px -22px rgba(12,11,10,0.35); }
+  #usn-event .usn-card .usn-ic {
+    display: grid; place-items: center; width: 48px; height: 48px; border-radius: 13px;
+    background: var(--usn-orange); color: #fff; margin-bottom: 16px;
+  }
+  #usn-event .usn-card .usn-ic svg { width: 25px; height: 25px; }
+  #usn-event .usn-card h3 { font-size: 19px; text-transform: uppercase; letter-spacing: 0.01em; }
+  #usn-event .usn-card p { margin-top: 9px; font-size: 14px; color: rgba(12,11,10,0.66); }
+
+  /* Infos clés */
+  #usn-event .usn-facts { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  #usn-event .usn-fact {
+    display: flex; align-items: center; gap: 14px; padding: 20px 22px;
+    border-radius: var(--usn-radius); background: #fff; border: 1px solid rgba(12,11,10,0.08);
+  }
+  #usn-event .usn-fact svg { flex: none; width: 26px; height: 26px; color: var(--usn-orange); }
+  #usn-event .usn-fact .usn-fact-k { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(12,11,10,0.55); }
+  #usn-event .usn-fact .usn-fact-v { font-size: 16px; font-weight: 700; }
+
+  /* =================================================================== */
+  /* BANDE SOMBRE « MOUVEMENT »                                           */
+  /* =================================================================== */
+  #usn-event .usn-band {
+    position: relative; overflow: hidden; color: var(--usn-cream);
+    background:
+      radial-gradient(700px 420px at 12% 15%, rgba(218,74,38,0.4), transparent 60%),
+      radial-gradient(700px 420px at 92% 92%, rgba(218,74,38,0.28), transparent 60%),
+      var(--usn-ink);
+  }
+  #usn-event .usn-band .usn-quote {
+    max-width: 960px; margin: 0 auto; text-align: center;
+    font-size: clamp(24px, 4.8vw, 46px); font-weight: 800; line-height: 1.14;
+    text-transform: uppercase; letter-spacing: -0.01em;
+  }
+  #usn-event .usn-band .usn-quote .usn-hl { color: var(--usn-orange-2); }
+  #usn-event .usn-band .usn-quote-sub {
+    max-width: 680px; margin: 24px auto 0; text-align: center;
+    font-size: 16px; font-weight: 400; text-transform: none; color: rgba(241,237,229,0.72);
+  }
+
+  /* =================================================================== */
+  /* INSCRIPTION / NEWSLETTER                                             */
+  /* =================================================================== */
+  #usn-event .usn-signup { text-align: center; }
+  #usn-event .usn-form { max-width: 560px; margin: 36px auto 0; display: grid; gap: 14px; text-align: left; }
+  #usn-event .usn-field { display: grid; gap: 7px; }
+  #usn-event .usn-field label { font-size: 13px; font-weight: 700; color: rgba(12,11,10,0.7); }
+  #usn-event .usn-form input {
+    width: 100%; padding: 15px 17px; border-radius: 13px;
+    border: 1px solid rgba(12,11,10,0.16); background: #fff; color: var(--usn-ink);
+    font-family: inherit; font-size: 15px; transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  #usn-event .usn-form input::placeholder { color: rgba(12,11,10,0.4); }
+  #usn-event .usn-form input:focus { outline: none; border-color: var(--usn-orange); box-shadow: 0 0 0 3px rgba(218,74,38,0.2); }
+  #usn-event .usn-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  #usn-event .usn-form button { width: 100%; margin-top: 4px; padding: 17px; font-size: 15px; }
+  #usn-event .usn-consent { font-size: 12.5px; color: rgba(12,11,10,0.6); text-align: center; }
+  #usn-event .usn-msg {
+    display: none; margin: 18px auto 0; max-width: 560px; padding: 16px 18px; border-radius: 13px;
+    background: rgba(218,74,38,0.1); border: 1px solid rgba(218,74,38,0.4);
+    color: #a5361b; font-size: 15px; font-weight: 700; text-align: center;
+  }
+
+  /* Autres dates */
+  #usn-event .usn-dates { margin-top: 44px; display: grid; gap: 14px; }
+  #usn-event .usn-date-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    padding: 22px 24px; border-radius: var(--usn-radius); background: #fff; border: 1px solid rgba(12,11,10,0.08);
+  }
+  #usn-event .usn-date-row .usn-dr-when { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--usn-orange); font-weight: 800; }
+  #usn-event .usn-date-row .usn-dr-title { font-size: 19px; font-weight: 700; margin-top: 4px; text-transform: uppercase; }
+  #usn-event .usn-date-row .usn-dr-place { font-size: 14px; color: rgba(12,11,10,0.6); margin-top: 2px; }
+
+  /* Footer */
+  #usn-event .usn-footer { background: var(--usn-ink); color: rgba(241,237,229,0.7); padding: 46px 0; text-align: center; font-size: 14px; }
+  #usn-event .usn-footer .usn-footer-logo { color: var(--usn-cream); font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase; font-size: 15px; }
+  #usn-event .usn-footer a { color: var(--usn-orange-2); text-decoration: none; }
+  #usn-event .usn-footer a:hover { text-decoration: underline; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    #usn-event .usn-cards { grid-template-columns: repeat(2, 1fr); }
+    #usn-event .usn-facts { grid-template-columns: 1fr; max-width: 460px; }
+  }
+  @media (max-width: 540px) {
+    #usn-event .usn-cards { grid-template-columns: 1fr; }
+    #usn-event .usn-form-row { grid-template-columns: 1fr; }
+    #usn-event .usn-hero-cta { flex-direction: column; }
+    #usn-event .usn-hero-cta .usn-btn { width: 100%; }
+    #usn-event .usn-cd-grid { gap: 14px; }
+  }
+  @media (prefers-reduced-motion: reduce) { #usn-event * { transition: none !important; } }
+</style>
+
+<section id="usn-event">
+
+  <!-- ============================================================= -->
+  <!-- HÉROS — vidéo de fond + compte à rebours                      -->
+  <!-- ============================================================= -->
+  <header class="usn-hero">
+
+    <!--
+      ══════════════════════════════════════════════════════════════
+      ► VIDÉO DE FOND
+      1. Uploadez votre vidéo (format .mp4, idéalement < 10-15 Mo,
+         muette, en boucle) dans la médiathèque WordPress.
+      2. Remplacez  VOTRE_VIDEO.mp4  par l'URL du fichier.
+      3. (Facultatif) poster="..." = image affichée avant/à défaut de vidéo.
+      Si vous laissez l'URL vide, un joli fond dégradé sombre s'affiche.
+      ══════════════════════════════════════════════════════════════
+    -->
+    <video class="usn-hero-video" autoplay muted loop playsinline
+           poster="">
+      <source src="VOTRE_VIDEO.mp4" type="video/mp4" />
+    </video>
+
+    <div class="usn-hero-overlay"></div>
+
+    <div class="usn-hero-inner">
+      <div class="usn-wrap">
+        <!--
+          ══════════════════════════════════════════════════════════
+          ► ÉVÉNEMENT — modifiez les textes ci-dessous
+          ══════════════════════════════════════════════════════════
+        -->
+        <!--
+          ► LOGO (version blanche recommandée sur ce fond sombre)
+          Uploadez le logo dans la médiathèque WordPress puis remplacez
+          VOTRE_LOGO.png par son URL. S'il n'est pas défini, il disparaît
+          et le nom texte ci-dessous prend le relais.
+        -->
+        <img class="usn-hero-logo" src="VOTRE_LOGO.png" alt="Un Seul Nom"
+             onerror="this.style.display='none'" />
+
+        <div class="usn-hero-eyebrow">Un&nbsp;Seul&nbsp;Nom&nbsp;&nbsp;→</div>
+
+        <!-- Le grand mot : la ville de l'événement -->
+        <h1>Lille</h1>
+
+        <div class="usn-hero-tagline">Évangélisation &amp; Guérison</div>
+        <div class="usn-hero-date">Samedi 28 mars 2026</div>
+
+        <div class="usn-hero-cta">
+          <a href="#usn-inscription" class="usn-btn usn-btn-primary">Je m'inscris</a>
+          <a href="#usn-programme" class="usn-btn usn-btn-outline">L'événement</a>
+        </div>
+      </div>
+    </div>
+
+    <!--
+      ► COMPTE À REBOURS
+      Réglez data-target sur la date + heure de l'événement (format ISO).
+      Ex. le 28 mars 2026 à 18h00 : data-target="2026-03-28T18:00:00"
+      (une fois la date passée, le compteur reste à zéro).
+    -->
+    <div class="usn-countdown" id="usn-countdown" data-target="2026-03-28T18:00:00">
+      <div class="usn-cd-grid">
+        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="days">0</span><span class="usn-cd-lab">Jours</span></div>
+        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="hours">00</span><span class="usn-cd-lab">Heures</span></div>
+        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="mins">00</span><span class="usn-cd-lab">Min</span></div>
+        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="secs">00</span><span class="usn-cd-lab">Sec</span></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================= -->
+  <!-- L'ÉVÉNEMENT / AU PROGRAMME                                     -->
+  <!-- ============================================================= -->
+  <div id="usn-programme" class="usn-section">
+    <div class="usn-wrap">
+      <div class="usn-section-head">
+        <span class="usn-eyebrow">L'événement</span>
+        <h2>Une soirée pour rencontrer Jésus</h2>
+        <p>
+          Louange, prédication de l'Évangile, prière et guérison : un temps fort,
+          ouvert à tous — croyants comme curieux, en quête de vérité, de paix ou
+          de restauration. Viens comme tu es.
+        </p>
+      </div>
+
+      <div class="usn-cards">
+        <div class="usn-card">
+          <span class="usn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18V6l10-2v12"/><circle cx="6" cy="18" r="3"/><circle cx="19" cy="16" r="3"/></svg></span>
+          <h3>Louange</h3>
+          <p>Un temps d'adoration pour élever un seul nom : celui de Jésus-Christ.</p>
+        </div>
+        <div class="usn-card">
+          <span class="usn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16v11H8l-4 4V5Z"/><path d="M8.5 10.5h7M8.5 13h4"/></svg></span>
+          <h3>La Parole</h3>
+          <p>Une prédication claire et vivante de la bonne nouvelle de l'Évangile.</p>
+        </div>
+        <div class="usn-card">
+          <span class="usn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-4.3-7-9.5A4.5 4.5 0 0 1 12 8a4.5 4.5 0 0 1 7 3.5C19 16.7 12 21 12 21Z"/></svg></span>
+          <h3>Guérison</h3>
+          <p>Un moment de prière pour les malades et les cœurs blessés.</p>
+        </div>
+        <div class="usn-card">
+          <span class="usn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M17 5.2a3.2 3.2 0 0 1 0 5.6M18.5 20a6.5 6.5 0 0 0-3.2-5.6"/></svg></span>
+          <h3>Ensemble</h3>
+          <p>Des ministères unis et des églises locales rassemblés pour l'occasion.</p>
+        </div>
+      </div>
+
+      <!-- Infos pratiques -->
+      <div class="usn-facts">
+        <div class="usn-fact">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/></svg>
+          <div><div class="usn-fact-k">Date</div><div class="usn-fact-v">Samedi 28 mars 2026</div></div>
+        </div>
+        <div class="usn-fact">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg>
+          <div><div class="usn-fact-k">Horaire</div><div class="usn-fact-v">à partir de 18h00</div></div>
+        </div>
+        <div class="usn-fact">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+          <div><div class="usn-fact-k">Lieu</div><div class="usn-fact-v">Lille Métropole</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- BANDE MOUVEMENT                                                -->
+  <!-- ============================================================= -->
+  <div class="usn-band usn-section">
+    <div class="usn-wrap">
+      <p class="usn-quote">
+        Unir, rassembler et élever <span class="usn-hl">un seul nom</span> —
+        celui de Jésus-Christ — au-dessus de tout.
+      </p>
+      <p class="usn-quote-sub">
+        Un Seul Nom est un mouvement d'évangélisation qui rassemble des ministères
+        et des églises pour voir le nom de Jésus élevé avec audace en France, de ville en ville.
+      </p>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- INSCRIPTION / NEWSLETTER                                       -->
+  <!-- ============================================================= -->
+  <div id="usn-inscription" class="usn-section usn-signup">
+    <div class="usn-wrap">
+      <div class="usn-section-head" style="margin:0 auto; text-align:center;">
+        <span class="usn-eyebrow" style="justify-content:center;">Inscription</span>
+        <h2>Réserve ta place</h2>
+        <p style="margin-left:auto;margin-right:auto;">
+          Laisse ton nom et ton e-mail : nous te confirmerons ta présence et te
+          tiendrons au courant des prochaines dates Un Seul Nom.
+        </p>
+      </div>
+
+      <!--
+        ══════════════════════════════════════════════════════════
+        ► FORMULAIRE — comment le connecter (choisir UNE option) :
+
+        OPTION 1 — Plugin newsletter WordPress (MailPoet, Brevo, Mailchimp…) :
+           Le plus simple : remplacez tout ce <form> par le shortcode / bloc
+           de formulaire de votre plugin. Sinon, mettez l'URL d'action du
+           plugin dans data-endpoint et vérifiez les name="...".
+
+        OPTION 2 — Google Form :
+           Mettez l'URL « formResponse » dans data-endpoint et les
+           identifiants entry.XXXX dans name="entry.XXXX".
+
+        OPTION 3 — Par e-mail (aucune config) :
+           Laissez data-endpoint vide : le formulaire affiche un message de
+           confirmation et prépare un e-mail pré-rempli vers data-mailto.
+        ══════════════════════════════════════════════════════════
+      -->
+      <form class="usn-form" id="usn-signup-form" method="post"
+            data-endpoint="" data-mailto="contact@unseulnom.org" novalidate>
+        <div class="usn-form-row">
+          <div class="usn-field">
+            <label for="usn-firstname">Prénom</label>
+            <input id="usn-firstname" name="prenom" type="text" placeholder="Ton prénom" required />
+          </div>
+          <div class="usn-field">
+            <label for="usn-city">Ville</label>
+            <input id="usn-city" name="ville" type="text" placeholder="Ta ville" />
+          </div>
+        </div>
+        <div class="usn-field">
+          <label for="usn-email">Adresse e-mail</label>
+          <input id="usn-email" name="email" type="email" placeholder="ton@email.com" required />
+        </div>
+        <button type="submit" class="usn-btn usn-btn-primary">Je m'inscris à l'événement</button>
+        <p class="usn-consent">
+          En t'inscrivant, tu acceptes de recevoir des informations de la part
+          d'Un Seul Nom. Désinscription possible à tout moment.
+        </p>
+      </form>
+
+      <div class="usn-msg" id="usn-form-msg" role="status" aria-live="polite">
+        🙏 Merci&nbsp;! Ton inscription est bien prise en compte. À très bientôt.
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- AUTRES DATES (optionnel — supprimez ce bloc si inutile)        -->
+  <!-- ============================================================= -->
+  <div class="usn-section" style="padding-top:0;">
+    <div class="usn-wrap">
+      <div class="usn-section-head">
+        <span class="usn-eyebrow">Prochaines dates</span>
+        <h2>De ville en ville</h2>
+      </div>
+      <div class="usn-dates">
+        <div class="usn-date-row">
+          <div>
+            <div class="usn-dr-when">Samedi 28 mars 2026</div>
+            <div class="usn-dr-title">Évangélisation &amp; Guérison</div>
+            <div class="usn-dr-place">Lille Métropole</div>
+          </div>
+          <a href="#usn-inscription" class="usn-btn usn-btn-dark">S'inscrire</a>
+        </div>
+        <div class="usn-date-row">
+          <div>
+            <div class="usn-dr-when">Samedi 9 mai 2026</div>
+            <div class="usn-dr-title">Évangélisation &amp; Réveil</div>
+            <div class="usn-dr-place">À venir</div>
+          </div>
+          <a href="#usn-inscription" class="usn-btn usn-btn-dark">S'inscrire</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- FOOTER                                                         -->
+  <!-- ============================================================= -->
+  <footer class="usn-footer">
+    <div class="usn-wrap">
+      <!-- Même logo qu'en haut (facultatif) -->
+      <img src="VOTRE_LOGO.png" alt="Un Seul Nom" style="width:96px;height:auto;margin:0 auto 14px;"
+           onerror="this.style.display='none'" />
+      <div class="usn-footer-logo">Un Seul Nom</div>
+      <p style="margin-top:10px;">© 2026 Un seul Nom. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+</section>
+
+<script>
+  /* ---- Compte à rebours ---- */
+  (function () {
+    var box = document.getElementById('usn-countdown');
+    if (!box) return;
+    var target = new Date(box.getAttribute('data-target') || '').getTime();
+    if (isNaN(target)) return;
+    var els = {
+      days: box.querySelector('[data-cd="days"]'),
+      hours: box.querySelector('[data-cd="hours"]'),
+      mins: box.querySelector('[data-cd="mins"]'),
+      secs: box.querySelector('[data-cd="secs"]')
+    };
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function tick() {
+      var diff = Math.max(0, target - Date.now());
+      var s = Math.floor(diff / 1000);
+      var d = Math.floor(s / 86400); s -= d * 86400;
+      var h = Math.floor(s / 3600); s -= h * 3600;
+      var m = Math.floor(s / 60); s -= m * 60;
+      if (els.days) els.days.textContent = d;
+      if (els.hours) els.hours.textContent = pad(h);
+      if (els.mins) els.mins.textContent = pad(m);
+      if (els.secs) els.secs.textContent = pad(s);
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+
+  /* ---- Formulaire (amélioration progressive) ---- */
+  (function () {
+    var form = document.getElementById('usn-signup-form');
+    if (!form) return;
+    var msg = document.getElementById('usn-form-msg');
+    form.addEventListener('submit', function (e) {
+      var endpoint = (form.getAttribute('data-endpoint') || '').trim();
+      var email = form.querySelector('#usn-email');
+      var prenom = form.querySelector('#usn-firstname');
+      if (!email.value || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value) || !prenom.value) return;
+      if (endpoint) { form.setAttribute('action', endpoint); return; }
+      e.preventDefault();
+      var mailto = (form.getAttribute('data-mailto') || '').trim();
+      if (mailto) {
+        var ville = form.querySelector('#usn-city');
+        var subject = encodeURIComponent('Inscription — Événement Un Seul Nom');
+        var body = encodeURIComponent('Prénom : ' + prenom.value + '\nVille : ' + (ville ? ville.value : '') + '\nE-mail : ' + email.value);
+        window.location.href = 'mailto:' + mailto + '?subject=' + subject + '&body=' + body;
+      }
+      if (msg) msg.style.display = 'block';
+      form.reset();
+    });
+  })();
+</script>
+
+<!-- ◄◄◄ FIN — copier jusqu'ici pour le bloc HTML WordPress ◄◄◄ -->
+
+</body>
+</html>
