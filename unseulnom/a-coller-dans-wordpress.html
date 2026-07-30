@@ -398,37 +398,22 @@
     color: #101861; font-size: 15px; font-weight: 700; text-align: center;
   }
 
-  /* Compteur de places restantes */
-  #usn-event .usn-stock { display: none; max-width: 560px; margin: 30px auto 0; }
+  /* Avis " complet " : n'apparait que lorsqu'il ne reste plus de place */
+  #usn-event .usn-stock { display: none; max-width: 560px; margin: 26px auto 0; }
   #usn-event .usn-stock.usn-on { display: block; }
-  #usn-event .usn-stock-tete {
-    display: flex; align-items: baseline; justify-content: center; gap: 10px; flex-wrap: wrap;
+  #usn-event .usn-stock-sous {
+    text-align: center; font-weight: 700; font-size: 15px;
+    color: var(--usn-red);
+    background: rgba(228,38,43,0.07); border: 1px solid rgba(228,38,43,0.3);
+    border-radius: 13px; padding: 14px 18px;
   }
-  #usn-event .usn-stock-num {
-    font-family: var(--usn-display); font-stretch: 125%; font-weight: 800;
-    font-size: clamp(30px, 6vw, 46px); line-height: 1; color: var(--usn-blue);
-    font-variant-numeric: tabular-nums;
-  }
-  #usn-event .usn-stock-lab {
-    font-size: 13px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
-    color: rgba(12,11,10,0.6);
-  }
-  #usn-event .usn-jauge {
-    margin-top: 12px; height: 8px; border-radius: 99px;
-    background: rgba(12,11,10,0.10); overflow: hidden;
-  }
-  #usn-event .usn-jauge span {
-    display: block; height: 100%; width: 0;
-    background: linear-gradient(90deg, var(--usn-blue), var(--usn-red));
-    transition: width .8s cubic-bezier(.2,.7,.2,1);
-  }
-  #usn-event .usn-stock-sous { margin-top: 9px; font-size: 13px; color: rgba(12,11,10,0.55); text-align: center; }
-  #usn-event .usn-stock.usn-complet .usn-stock-num { color: var(--usn-red); }
 
+  /* Mention sous le choix des places */
   #usn-event .usn-hint {
     margin-top: 6px; font-size: 12.5px; color: rgba(12,11,10,0.55);
-    display: flex; align-items: center; gap: 6px;
+    display: flex; align-items: center; gap: 7px;
   }
+  #usn-event .usn-hint:empty { display: none; }
   #usn-event .usn-hint::before {
     content: ""; width: 5px; height: 5px; border-radius: 50%;
     background: var(--usn-blue); flex: none;
@@ -787,18 +772,12 @@
         <span class="usn-eyebrow" style="justify-content:center;">Inscription</span>
         <h2>R&#233;serve ta place</h2>
         <p style="margin-left:auto;margin-right:auto;">
-          Laisse ton nom et ton e-mail : nous te confirmerons ta pr&#233;sence et te
-          tiendrons au courant des prochaines dates Un Seul Nom.
+          Laisse ton nom et ton e-mail : nous te confirmerons ta pr&#233;sence.
         </p>
       </div>
 
-      <!-- Compteur de places : rempli par le serveur, masqu&#233; si indisponible -->
+      <!-- Ne s'affiche que lorsque toutes les places sont prises -->
       <div class="usn-stock" id="usn-stock">
-        <div class="usn-stock-tete">
-          <span class="usn-stock-num" data-usn-restantes>&mdash;</span>
-          <span class="usn-stock-lab" data-usn-libelle>places restantes</span>
-        </div>
-        <div class="usn-jauge"><span data-usn-jauge></span></div>
         <p class="usn-stock-sous" data-usn-sous></p>
       </div>
 
@@ -1191,23 +1170,18 @@
     }
 
     function afficherEtat(e) {
-      if (!stock) return;
       var restantes = Math.max(0, e.restantes | 0);
-      var capacite  = Math.max(1, e.capacite | 0);
-      stock.classList.add('usn-on');
-      stock.classList.toggle('usn-complet', restantes === 0);
+      var complet   = restantes === 0 || e.ouvert === false;
 
-      var num = stock.querySelector('[data-usn-restantes]');
-      var lab = stock.querySelector('[data-usn-libelle]');
-      var jau = stock.querySelector('[data-usn-jauge]');
-      var sou = stock.querySelector('[data-usn-sous]');
-
-      if (num) num.textContent = restantes === 0 ? 'Complet' : restantes;
-      if (lab) lab.textContent = restantes === 0 ? '' : (restantes > 1 ? 'places restantes' : 'place restante');
-      if (jau) jau.style.width = Math.min(100, ((capacite - restantes) / capacite) * 100) + '%';
-      if (sou) sou.textContent = restantes === 0
-        ? 'Toutes les places sont reservees. Merci de ton interet !'
-        : (capacite - restantes) + ' places deja reservees sur ' + capacite;
+      // On n'affiche rien tant qu'il reste des places : le client ne souhaite
+      // pas exposer le nombre restant.
+      if (stock) {
+        stock.classList.toggle('usn-on', complet);
+        var sou = stock.querySelector('[data-usn-sous]');
+        if (sou) sou.textContent = complet
+          ? 'Toutes les places sont reservees. Merci de ton interet !'
+          : '';
+      }
 
       // Choix du nombre de places, borne par la limite et par ce qu'il reste.
       maxPlaces = Math.max(1, Math.min(e.max | 0 || 1, restantes));
@@ -1221,7 +1195,7 @@
           selectPl.appendChild(o);
         }
         if (garde && garde <= maxPlaces) selectPl.value = garde;
-        champPl.style.display = restantes === 0 ? 'none' : '';
+        champPl.style.display = complet ? 'none' : '';
 
         var hint = champPl.querySelector('[data-usn-hint]');
         if (hint) {
@@ -1233,9 +1207,8 @@
       }
 
       if (bouton) {
-        var ferme = restantes === 0 || e.ouvert === false;
-        bouton.disabled = ferme;
-        bouton.textContent = ferme ? 'Complet' : "Je reserve ma place";
+        bouton.disabled = complet;
+        bouton.textContent = complet ? 'Complet' : "Je reserve ma place";
       }
     }
 
@@ -1254,9 +1227,7 @@
 
     function succes(restantes) {
       if (msg) {
-        msg.textContent = typeof restantes === 'number'
-          ? 'Merci ! Ta reservation est enregistree. Il reste ' + restantes + ' place(s).'
-          : 'Merci ! Ton inscription est bien prise en compte. A tres bientot.';
+        msg.textContent = 'Merci ! Ta reservation est enregistree. A tres bientot.';
         msg.style.display = 'block';
       }
       erreur('');

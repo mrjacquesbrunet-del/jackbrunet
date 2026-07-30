@@ -313,18 +313,12 @@
         <span class="usn-eyebrow" style="justify-content:center;">Inscription</span>
         <h2>R&#233;serve ta place</h2>
         <p style="margin-left:auto;margin-right:auto;">
-          Laisse ton nom et ton e-mail : nous te confirmerons ta pr&#233;sence et te
-          tiendrons au courant des prochaines dates Un Seul Nom.
+          Laisse ton nom et ton e-mail : nous te confirmerons ta pr&#233;sence.
         </p>
       </div>
 
-      <!-- Compteur de places : rempli par le serveur, masqu&#233; si indisponible -->
+      <!-- Ne s'affiche que lorsque toutes les places sont prises -->
       <div class="usn-stock" id="usn-stock">
-        <div class="usn-stock-tete">
-          <span class="usn-stock-num" data-usn-restantes>&mdash;</span>
-          <span class="usn-stock-lab" data-usn-libelle>places restantes</span>
-        </div>
-        <div class="usn-jauge"><span data-usn-jauge></span></div>
         <p class="usn-stock-sous" data-usn-sous></p>
       </div>
 

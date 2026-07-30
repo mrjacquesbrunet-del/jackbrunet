@@ -283,23 +283,18 @@
     }
 
     function afficherEtat(e) {
-      if (!stock) return;
       var restantes = Math.max(0, e.restantes | 0);
-      var capacite  = Math.max(1, e.capacite | 0);
-      stock.classList.add('usn-on');
-      stock.classList.toggle('usn-complet', restantes === 0);
+      var complet   = restantes === 0 || e.ouvert === false;
 
-      var num = stock.querySelector('[data-usn-restantes]');
-      var lab = stock.querySelector('[data-usn-libelle]');
-      var jau = stock.querySelector('[data-usn-jauge]');
-      var sou = stock.querySelector('[data-usn-sous]');
-
-      if (num) num.textContent = restantes === 0 ? 'Complet' : restantes;
-      if (lab) lab.textContent = restantes === 0 ? '' : (restantes > 1 ? 'places restantes' : 'place restante');
-      if (jau) jau.style.width = Math.min(100, ((capacite - restantes) / capacite) * 100) + '%';
-      if (sou) sou.textContent = restantes === 0
-        ? 'Toutes les places sont reservees. Merci de ton interet !'
-        : (capacite - restantes) + ' places deja reservees sur ' + capacite;
+      // On n'affiche rien tant qu'il reste des places : le client ne souhaite
+      // pas exposer le nombre restant.
+      if (stock) {
+        stock.classList.toggle('usn-on', complet);
+        var sou = stock.querySelector('[data-usn-sous]');
+        if (sou) sou.textContent = complet
+          ? 'Toutes les places sont reservees. Merci de ton interet !'
+          : '';
+      }
 
       // Choix du nombre de places, borne par la limite et par ce qu'il reste.
       maxPlaces = Math.max(1, Math.min(e.max | 0 || 1, restantes));
@@ -313,7 +308,7 @@
           selectPl.appendChild(o);
         }
         if (garde && garde <= maxPlaces) selectPl.value = garde;
-        champPl.style.display = restantes === 0 ? 'none' : '';
+        champPl.style.display = complet ? 'none' : '';
 
         var hint = champPl.querySelector('[data-usn-hint]');
         if (hint) {
@@ -325,9 +320,8 @@
       }
 
       if (bouton) {
-        var ferme = restantes === 0 || e.ouvert === false;
-        bouton.disabled = ferme;
-        bouton.textContent = ferme ? 'Complet' : "Je reserve ma place";
+        bouton.disabled = complet;
+        bouton.textContent = complet ? 'Complet' : "Je reserve ma place";
       }
     }
 
@@ -346,9 +340,7 @@
 
     function succes(restantes) {
       if (msg) {
-        msg.textContent = typeof restantes === 'number'
-          ? 'Merci ! Ta reservation est enregistree. Il reste ' + restantes + ' place(s).'
-          : 'Merci ! Ton inscription est bien prise en compte. A tres bientot.';
+        msg.textContent = 'Merci ! Ta reservation est enregistree. A tres bientot.';
         msg.style.display = 'block';
       }
       erreur('');
