@@ -1,35 +1,35 @@
 <!-- ==========================================================================
      UN SEUL NOM - AVIGNON : bloc pret a coller dans WordPress
      Les adresses des images pointent deja vers ta mediatheque.
-     A coller dans un bloc « HTML personnalise ». Rien d'autre a modifier.
+     A coller dans un bloc " HTML personnalise ". Rien d'autre a modifier.
      ========================================================================== -->
 <style>
   /* ===================================================================
-     Styles scopés sous #usn-event pour ne pas entrer en conflit
-     avec le thème WordPress. Ajustez la charte via les variables --usn-*.
+     Styles scopes sous #usn-event pour ne pas entrer en conflit
+     avec le theme WordPress. Ajustez la charte via les variables --usn-*.
      =================================================================== */
   /* Poppins (corps) + Archive large/black pour les gros titres.
-     Note : le site vouscon utilise « Druk Wide » (police payante, non
-     hébergeable librement) ; Archivo Expanded Black en est l'équivalent
+     Note : le site vouscon utilise " Druk Wide " (police payante, non
+     hebergeable librement) ; Archivo Expanded Black en est l'equivalent
      gratuit le plus proche (titres larges et massifs). */
   @import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap');
 
   #usn-event {
-    /* ── Charte : bleu, blanc, rouge (drapeau français) ── */
-    --usn-blue: #1B2FC4;       /* bleu — accent principal */
-    --usn-blue-2: #2B41E0;     /* bleu clair — survol / éclat */
-    --usn-red: #E4262B;        /* rouge — boutons d'action */
-    --usn-red-2: #F5393E;      /* rouge clair — survol */
+    /* -- Charte : bleu, blanc, rouge (drapeau francais) -- */
+    --usn-blue: #1B2FC4;       /* bleu - accent principal */
+    --usn-blue-2: #2B41E0;     /* bleu clair - survol / eclat */
+    --usn-red: #E4262B;        /* rouge - boutons d'action */
+    --usn-red-2: #F5393E;      /* rouge clair - survol */
     --usn-white: #FFFFFF;      /* blanc */
-    --usn-paper: #F4F5F9;      /* gris très clair — fonds alternés */
-    --usn-ink: #0C0B0A;        /* noir — textes */
+    --usn-paper: #F4F5F9;      /* gris tres clair - fonds alternes */
+    --usn-ink: #0C0B0A;        /* noir - textes */
     --usn-ink-soft: #15141A;
 
     --usn-radius: 18px;
 
-    /* Police des gros titres (large + massif, façon Druk Wide) */
+    /* Police des gros titres (large + massif, facon Druk Wide) */
     --usn-display: 'Archivo', 'Poppins', system-ui, -apple-system, "Segoe UI", sans-serif;
-    /* Police des sous-titres (grotesque neutre, façon Helvetica Now / Neue Montreal) */
+    /* Police des sous-titres (grotesque neutre, facon Helvetica Now / Neue Montreal) */
     --usn-sub: 'Inter', system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
 
     box-sizing: border-box;
@@ -48,7 +48,7 @@
   #usn-event h1, #usn-event h2, #usn-event h3 { margin: 0; font-weight: 800; line-height: 1.05; letter-spacing: -0.01em; }
   #usn-event p { margin: 0; }
 
-  /* Gros titres en Archivo large (façon Druk Wide) */
+  /* Gros titres en Archivo large (facon Druk Wide) */
   #usn-event h1, #usn-event h2,
   #usn-event .usn-hero h1, #usn-event .usn-punch-line, #usn-event .usn-prog-title,
   #usn-event .usn-cta-title, #usn-event .usn-datepill-d, #usn-event .usn-cd-num {
@@ -56,7 +56,7 @@
     font-stretch: 125%;
   }
 
-  /* Sous-titres en Inter (grotesque neutre, façon Helvetica Now) */
+  /* Sous-titres en Inter (grotesque neutre, facon Helvetica Now) */
   #usn-event .usn-datepill-v, #usn-event .usn-hero-tagline, #usn-event .usn-hero-date,
   #usn-event .usn-section-head p, #usn-event .usn-prog-text, #usn-event .usn-cta-text,
   #usn-event .usn-punch-sub, #usn-event .usn-fact-v, #usn-event .usn-person-name,
@@ -85,13 +85,13 @@
   #usn-event .usn-btn-dark:hover { background: var(--usn-ink-soft); transform: translateY(-2px); }
 
   /* =================================================================== */
-  /* HÉROS PLEIN ÉCRAN AVEC VIDÉO DE FOND                                 */
+  /* HEROS PLEIN ECRAN AVEC VIDEO DE FOND                                 */
   /* =================================================================== */
   #usn-event .usn-hero {
     position: relative;
     min-height: 100svh;
     display: flex; flex-direction: column;
-    /* Fond de secours élégant si la vidéo est absente/en cours de chargement */
+    /* Fond de secours elegant si la video est absente/en cours de chargement */
     background:
       radial-gradient(900px 600px at 50% 0%, rgba(27,47,196,0.55), transparent 60%),
       radial-gradient(700px 500px at 80% 90%, rgba(228,38,43,0.34), transparent 60%),
@@ -136,7 +136,7 @@
   }
   #usn-event .usn-hero-cta { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
 
-  /* ---------- Compte à rebours (bas du héros) ---------- */
+  /* ---------- Compte a rebours (bas du heros) ---------- */
   #usn-event .usn-countdown {
     position: relative; z-index: 2;
     background: var(--usn-ink);
@@ -155,35 +155,35 @@
   }
 
   /* =================================================================== */
-  /* SECTIONS CLAIRES (crème)                                             */
+  /* SECTIONS CLAIRES (creme)                                             */
   /* =================================================================== */
   #usn-event .usn-section { padding: clamp(64px, 10vw, 110px) 0; }
   #usn-event .usn-section-head { max-width: 760px; }
   #usn-event .usn-section-head h2 { margin-top: 16px; font-size: clamp(30px, 5.5vw, 54px); text-transform: uppercase; }
   #usn-event .usn-section-head p { margin-top: 18px; font-size: clamp(15px, 2.2vw, 18px); color: rgba(12,11,10,0.7); }
 
-  /* Panneaux « programme » (glissent depuis la gauche au scroll) */
+  /* Panneaux " programme " (glissent depuis la gauche au scroll) */
   #usn-event .usn-program { margin-top: 46px; display: flex; flex-direction: column; gap: 20px; }
   #usn-event .usn-prog {
     display: grid; grid-template-columns: 1.15fr 1fr; align-items: stretch;
     background: var(--usn-blue); color: var(--usn-white);
     border-radius: 30px; overflow: hidden; min-height: 200px;
   }
-  /* Alternance bleu / rouge, façon drapeau */
+  /* Alternance bleu / rouge, facon drapeau */
   #usn-event .usn-prog:nth-child(even) { background: var(--usn-red); }
   #usn-event .usn-prog:nth-child(even) .usn-prog-media { background: #8E1418; }
   #usn-event .usn-prog-body { padding: 34px 40px; display: flex; flex-direction: column; justify-content: center; }
   #usn-event .usn-prog-time { font-size: 13px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.78); }
   #usn-event .usn-prog-title { margin-top: 8px; font-size: clamp(26px, 4vw, 44px); font-weight: 800; text-transform: uppercase; line-height: 1.02; }
   #usn-event .usn-prog-text { margin-top: 12px; font-size: 15px; line-height: 1.55; color: rgba(255,255,255,0.88); max-width: 46ch; }
-  /* Zone image 16:9 à droite du panneau */
+  /* Zone image 16:9 a droite du panneau */
   #usn-event .usn-prog-media {
     position: relative; align-self: center; margin: 22px 22px 22px 0;
     aspect-ratio: 16 / 9; border-radius: 18px; overflow: hidden;
     background: #141C6E;
   }
   #usn-event .usn-prog-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  /* L'apparition est pilotée par le moteur de scroll (JS). Sans JS : visible. */
+  /* L'apparition est pilotee par le moteur de scroll (JS). Sans JS : visible. */
   #usn-event .usn-prog { will-change: transform, opacity; }
   @media (max-width: 720px) {
     #usn-event .usn-prog { grid-template-columns: 1fr; }
@@ -200,11 +200,11 @@
   #usn-event .usn-datepill-v { margin-top: 4px; font-size: clamp(14px, 2vw, 17px); color: rgba(12,11,10,0.72); }
   #usn-event .usn-datepill-v .usn-star { color: var(--usn-blue); margin: 0 6px; }
 
-  /* Intervenants — cartes photos qui apparaissent au scroll */
+  /* Intervenants - cartes photos qui apparaissent au scroll */
   #usn-event .usn-people { margin: 26px auto 0; display: grid; gap: 18px; align-items: start; }
   #usn-event .usn-people-2 { grid-template-columns: repeat(2, 1fr); max-width: 600px; }
   #usn-event .usn-people-3 { grid-template-columns: repeat(3, 1fr); max-width: 860px; }
-  /* Espace entre le groupe prédication et le groupe louange */
+  /* Espace entre le groupe predication et le groupe louange */
   #usn-event .usn-people + .usn-people { margin-top: 46px; }
   #usn-event .usn-person { margin: 0; }
   #usn-event .usn-people .usn-person:nth-child(even) { margin-top: 38px; }
@@ -215,15 +215,15 @@
   }
   #usn-event .usn-person-mono { position: absolute; inset: 0; display: grid; place-items: center; font-size: clamp(30px, 5vw, 46px); font-weight: 800; color: rgba(255,255,255,0.92); }
   /* Portraits en noir et blanc (comme l'affiche), qui repassent en couleur
-     au survol à la souris et sous le doigt sur mobile. Pour les laisser en
-     couleur en permanence, supprimez la ligne « filter » ci-dessous. */
+     au survol a la souris et sous le doigt sur mobile. Pour les laisser en
+     couleur en permanence, supprimez la ligne " filter " ci-dessous. */
   #usn-event .usn-person-photo img {
     position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover;
     filter: grayscale(1) contrast(1.06);
     transition: filter .45s ease, transform .45s ease;
   }
   /* Souris : uniquement sur les appareils qui savent survoler, sinon certains
-     navigateurs mobiles gardent l'état « survolé » après un appui. */
+     navigateurs mobiles gardent l'etat " survole " apres un appui. */
   @media (hover: hover) {
     #usn-event .usn-person:hover .usn-person-photo img {
       filter: grayscale(0) contrast(1);
@@ -239,7 +239,7 @@
   #usn-event .usn-person-photo { cursor: pointer; }
   #usn-event .usn-person-name { margin-top: 14px; font-weight: 700; font-size: 16px; text-align: center; }
   #usn-event .usn-person-role { margin-top: 3px; font-size: 11px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--usn-blue); text-align: center; }
-  /* L'apparition est pilotée par le moteur de scroll (JS). Sans JS : visible. */
+  /* L'apparition est pilotee par le moteur de scroll (JS). Sans JS : visible. */
   #usn-event .usn-person { will-change: transform, opacity; }
 
   @media (max-width: 560px) {
@@ -247,7 +247,7 @@
     #usn-event .usn-people .usn-person:nth-child(even) { margin-top: 0; }
   }
 
-  /* Infos clés */
+  /* Infos cles */
   #usn-event .usn-facts { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
   #usn-event .usn-fact {
     display: flex; align-items: center; gap: 14px; padding: 20px 22px;
@@ -258,7 +258,7 @@
   #usn-event .usn-fact .usn-fact-v { font-size: 16px; font-weight: 700; }
 
   /* =================================================================== */
-  /* BANDE SOMBRE « MOUVEMENT »                                           */
+  /* BANDE SOMBRE " MOUVEMENT "                                           */
   /* =================================================================== */
   #usn-event .usn-band {
     position: relative; overflow: hidden; color: var(--usn-white);
@@ -267,7 +267,7 @@
       radial-gradient(700px 420px at 92% 92%, rgba(228,38,43,0.34), transparent 60%),
       var(--usn-ink);
   }
-  /* Punchline : fond clair, texte noir, photos qui arrivent des côtés */
+  /* Punchline : fond clair, texte noir, photos qui arrivent des cotes */
   #usn-event .usn-punch { position: relative; overflow: hidden; background: var(--usn-white); text-align: center; }
   #usn-event .usn-punch-line {
     position: relative; z-index: 2;
@@ -285,7 +285,7 @@
     font-size: 16px; font-weight: 400; text-transform: none; color: rgba(12,11,10,0.66);
     will-change: transform, opacity;
   }
-  /* Photos latérales (arrivent de la gauche / de la droite au scroll) */
+  /* Photos laterales (arrivent de la gauche / de la droite au scroll) */
   #usn-event .usn-side {
     position: absolute; z-index: 1; width: clamp(150px, 20vw, 280px);
     aspect-ratio: 4 / 5; border-radius: 20px; overflow: hidden;
@@ -304,7 +304,7 @@
     #usn-event .usn-side-2 { top: auto; bottom: 4%; opacity: 0.5; }
   }
 
-  /* Deux cartes d'action « à cheval » sur la bande */
+  /* Deux cartes d'action " a cheval " sur la bande */
   #usn-event .usn-cta-cards {
     position: relative; z-index: 4; max-width: 1000px; margin: 0 auto;
     margin-top: clamp(-210px, -20vw, -150px);
@@ -395,23 +395,23 @@
 <section id="usn-event">
 
   <!-- ============================================================= -->
-  <!-- HÉROS — vidéo de fond + compte à rebours                      -->
+  <!-- H&#201;ROS &#8212; vid&#233;o de fond + compte &#224; rebours                      -->
   <!-- ============================================================= -->
   <header class="usn-hero">
 
     <!--
-      ══════════════════════════════════════════════════════════════
-      ► VIDÉO DE FOND
-      1. Uploadez votre vidéo (format .mp4, idéalement < 10-15 Mo,
-         muette, en boucle) dans la médiathèque WordPress.
+      &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+      &#9658; VID&#201;O DE FOND
+      1. Uploadez votre vid&#233;o (format .mp4, id&#233;alement < 10-15 Mo,
+         muette, en boucle) dans la m&#233;diath&#232;que WordPress.
       2. Remplacez  VOTRE_VIDEO.mp4  par l'URL du fichier.
-      3. (Facultatif) poster="..." = image affichée avant/à défaut de vidéo.
-      Si vous laissez l'URL vide, un joli fond dégradé sombre s'affiche.
-      ══════════════════════════════════════════════════════════════
+      3. (Facultatif) poster="..." = image affich&#233;e avant/&#224; d&#233;faut de vid&#233;o.
+      Si vous laissez l'URL vide, un joli fond d&#233;grad&#233; sombre s'affiche.
+      &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
     -->
     <video class="usn-hero-video" autoplay muted loop playsinline
            poster="">
-      <!-- ► VIDEO : quand tu l'auras, uploade-la dans la mediatheque puis
+      <!-- &#9658; VIDEO : quand tu l'auras, uploade-la dans la mediatheque puis
            remplace cette ligne par :
            <source src="URL_DE_TA_VIDEO.mp4" type="video/mp4" />
            En attendant, le fond degrade sombre s'affiche. -->
@@ -422,39 +422,39 @@
     <div class="usn-hero-inner">
       <div class="usn-wrap">
         <!--
-          ══════════════════════════════════════════════════════════
-          ► ÉVÉNEMENT — modifiez les textes ci-dessous
-          ══════════════════════════════════════════════════════════
+          &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+          &#9658; &#201;V&#201;NEMENT &#8212; modifiez les textes ci-dessous
+          &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
         -->
         <!--
-          ► LOGO (version blanche recommandée sur ce fond sombre)
-          Uploadez le logo dans la médiathèque WordPress puis remplacez
-          VOTRE_LOGO.png par son URL. S'il n'est pas défini, il disparaît
+          &#9658; LOGO (version blanche recommand&#233;e sur ce fond sombre)
+          Uploadez le logo dans la m&#233;diath&#232;que WordPress puis remplacez
+          VOTRE_LOGO.png par son URL. S'il n'est pas d&#233;fini, il dispara&#238;t
           et le nom texte ci-dessous prend le relais.
         -->
-        <!-- ► LOGO : remplace ce commentaire par
+        <!-- &#9658; LOGO : remplace ce commentaire par
              <img class="usn-hero-logo" src="URL_DE_TON_LOGO.png" alt="Un Seul Nom" /> -->
 
-        <div class="usn-hero-eyebrow">Un&nbsp;Seul&nbsp;Nom&nbsp;&nbsp;→</div>
+        <div class="usn-hero-eyebrow">Un&nbsp;Seul&nbsp;Nom&nbsp;&nbsp;&#8594;</div>
 
-        <!-- Le grand mot : la ville de l'événement -->
+        <!-- Le grand mot : la ville de l'&#233;v&#233;nement -->
         <h1>Avignon</h1>
 
-        <div class="usn-hero-tagline">Évangélisation &amp; Guérison</div>
+        <div class="usn-hero-tagline">&#201;vang&#233;lisation &amp; Gu&#233;rison</div>
         <div class="usn-hero-date">Samedi 17 octobre 2026</div>
 
         <div class="usn-hero-cta">
           <a href="#usn-inscription" class="usn-btn usn-btn-primary">Je m'inscris</a>
-          <a href="#usn-programme" class="usn-btn usn-btn-outline">L'événement</a>
+          <a href="#usn-programme" class="usn-btn usn-btn-outline">L'&#233;v&#233;nement</a>
         </div>
       </div>
     </div>
 
     <!--
-      ► COMPTE À REBOURS
-      Réglez data-target sur la date + heure de l'événement (format ISO).
-      Ex. le 28 mars 2026 à 18h00 : data-target="2026-03-28T18:00:00"
-      (une fois la date passée, le compteur reste à zéro).
+      &#9658; COMPTE &#192; REBOURS
+      R&#233;glez data-target sur la date + heure de l'&#233;v&#233;nement (format ISO).
+      Ex. le 28 mars 2026 &#224; 18h00 : data-target="2026-03-28T18:00:00"
+      (une fois la date pass&#233;e, le compteur reste &#224; z&#233;ro).
     -->
     <div class="usn-countdown" id="usn-countdown" data-target="2026-10-17T16:00:00">
       <div class="usn-cd-grid">
@@ -467,26 +467,26 @@
   </header>
 
   <!-- ============================================================= -->
-  <!-- L'ÉVÉNEMENT / AU PROGRAMME                                     -->
+  <!-- L'&#201;V&#201;NEMENT / AU PROGRAMME                                     -->
   <!-- ============================================================= -->
   <div id="usn-programme" class="usn-section">
     <div class="usn-wrap">
       <div class="usn-section-head">
         <span class="usn-eyebrow">Le programme</span>
-        <h2>Le déroulé de l'après-midi</h2>
-        <p>Une après-midi ouverte à tous.</p>
+        <h2>Le d&#233;roul&#233; de l'apr&#232;s-midi</h2>
+        <p>Une apr&#232;s-midi ouverte &#224; tous.</p>
       </div>
 
       <!--
-        ► PROGRAMME — chaque panneau glisse depuis la gauche au scroll.
-        Ajoutez une photo à droite en remplaçant VOTRE_PHOTO...  (repli : icône).
+        &#9658; PROGRAMME &#8212; chaque panneau glisse depuis la gauche au scroll.
+        Ajoutez une photo &#224; droite en rempla&#231;ant VOTRE_PHOTO...  (repli : ic&#244;ne).
       -->
       <div class="usn-program">
         <div class="usn-prog" data-usn-appear>
           <div class="usn-prog-body">
             <div class="usn-prog-time">15h00</div>
             <div class="usn-prog-title">Ouverture des portes</div>
-            <p class="usn-prog-text">Accueil du public. Entrée libre, viens comme tu es et invite autour de toi.</p>
+            <p class="usn-prog-text">Accueil du public. Entr&#233;e libre, viens comme tu es et invite autour de toi.</p>
           </div>
           <div class="usn-prog-media">
             <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme1.webp" alt="" onerror="this.remove()" />
@@ -495,9 +495,9 @@
 
         <div class="usn-prog" data-usn-appear>
           <div class="usn-prog-body">
-            <div class="usn-prog-time">16h00 · Début de la conférence</div>
+            <div class="usn-prog-time">16h00 &#183; D&#233;but de la conf&#233;rence</div>
             <div class="usn-prog-title">Louange</div>
-            <p class="usn-prog-text">Un temps d'adoration conduit par Patchaï Reyes, Nikita Heugebaert et Ruben Debard.</p>
+            <p class="usn-prog-text">Un temps d'adoration conduit par Patcha&#239; Reyes, Nikita Heugebaert et Ruben Debard.</p>
           </div>
           <div class="usn-prog-media">
             <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="Temps de louange" loading="lazy" onerror="this.remove()" />
@@ -507,22 +507,22 @@
         <div class="usn-prog" data-usn-appear>
           <div class="usn-prog-body">
             <div class="usn-prog-time">La Parole</div>
-            <div class="usn-prog-title">Prédication</div>
-            <p class="usn-prog-text">La bonne nouvelle de l'Évangile annoncée par Yannis Gautier et Chriss Campion.</p>
+            <div class="usn-prog-title">Pr&#233;dication</div>
+            <p class="usn-prog-text">La bonne nouvelle de l'&#201;vangile annonc&#233;e par Yannis Gautier et Chriss Campion.</p>
           </div>
           <div class="usn-prog-media">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme3.webp" alt="Prédication sur scène" loading="lazy" onerror="this.remove()" />
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme3.webp" alt="Pr&#233;dication sur sc&#232;ne" loading="lazy" onerror="this.remove()" />
           </div>
         </div>
 
         <div class="usn-prog" data-usn-appear>
           <div class="usn-prog-body">
-            <div class="usn-prog-time">En clôture</div>
-            <div class="usn-prog-title">Évangélisation &amp; Guérison</div>
-            <p class="usn-prog-text">Un appel à suivre Jésus et un temps de prière pour les malades et les cœurs blessés.</p>
+            <div class="usn-prog-time">En cl&#244;ture</div>
+            <div class="usn-prog-title">&#201;vang&#233;lisation &amp; Gu&#233;rison</div>
+            <p class="usn-prog-text">Un appel &#224; suivre J&#233;sus et un temps de pri&#232;re pour les malades et les c&#339;urs bless&#233;s.</p>
           </div>
           <div class="usn-prog-media">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme4.webp" alt="Appel et prière" loading="lazy" onerror="this.remove()" />
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme4.webp" alt="Appel et pri&#232;re" loading="lazy" onerror="this.remove()" />
           </div>
         </div>
       </div>
@@ -535,21 +535,21 @@
         </div>
         <div class="usn-fact">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg>
-          <div><div class="usn-fact-k">Horaires</div><div class="usn-fact-v">Portes 15h · Conférence 16h</div></div>
+          <div><div class="usn-fact-k">Horaires</div><div class="usn-fact-v">Portes 15h &#183; Conf&#233;rence 16h</div></div>
         </div>
         <div class="usn-fact">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
           <div>
             <div class="usn-fact-k">Lieu</div>
             <div class="usn-fact-v">Parc des expos d'Avignon</div>
-            <div class="usn-fact-k" style="text-transform:none; letter-spacing:0; margin-top:3px;">800 chemin des Félons, 84140 Montfavet</div>
+            <div class="usn-fact-k" style="text-transform:none; letter-spacing:0; margin-top:3px;">800 chemin des F&#233;lons, 84140 Montfavet</div>
           </div>
         </div>
       </div>
       <div style="margin-top:20px;">
         <a class="usn-btn usn-btn-dark"
            href="https://www.google.com/maps/search/?api=1&query=Parc+des+expositions+d%27Avignon+800+chemin+des+F%C3%A9lons+84140+Montfavet"
-           target="_blank" rel="noopener noreferrer">Voir l'itinéraire</a>
+           target="_blank" rel="noopener noreferrer">Voir l'itin&#233;raire</a>
       </div>
     </div>
   </div>
@@ -562,20 +562,20 @@
       <!-- Bouton / pill avec la date -->
       <div class="usn-datepill">
         <div class="usn-datepill-d">Samedi 17 octobre 2026</div>
-        <div class="usn-datepill-v">Parc des expos d'Avignon <span class="usn-star">✦</span> Montfavet</div>
+        <div class="usn-datepill-v">Parc des expos d'Avignon <span class="usn-star">&#10022;</span> Montfavet</div>
       </div>
 
       <div class="usn-section-head" style="text-align:center; margin:38px auto 0;">
         <span class="usn-eyebrow" style="justify-content:center;">Intervenants</span>
-        <h2>Ils seront là</h2>
+        <h2>Ils seront l&#224;</h2>
       </div>
 
       <!--
-        ► INTERVENANTS — cartes qui apparaissent au scroll.
-        Ajoutez la photo de chacun en remplaçant VOTRE_PHOTO...
+        &#9658; INTERVENANTS &#8212; cartes qui apparaissent au scroll.
+        Ajoutez la photo de chacun en rempla&#231;ant VOTRE_PHOTO...
         (repli : initiales sur fond orange si aucune photo).
       -->
-      <!-- Prédication : 2 intervenants -->
+      <!-- Pr&#233;dication : 2 intervenants -->
       <div class="usn-people usn-people-2">
         <figure class="usn-person" data-usn-appear>
           <div class="usn-person-photo">
@@ -584,7 +584,7 @@
           </div>
           <figcaption>
             <div class="usn-person-name">Yannis Gautier</div>
-            <div class="usn-person-role">Prédication</div>
+            <div class="usn-person-role">Pr&#233;dication</div>
           </figcaption>
         </figure>
         <figure class="usn-person" data-usn-appear>
@@ -594,7 +594,7 @@
           </div>
           <figcaption>
             <div class="usn-person-name">Chriss Campion</div>
-            <div class="usn-person-role">Prédication</div>
+            <div class="usn-person-role">Pr&#233;dication</div>
           </figcaption>
         </figure>
       </div>
@@ -604,10 +604,10 @@
         <figure class="usn-person" data-usn-appear>
           <div class="usn-person-photo">
             <span class="usn-person-mono">PR</span>
-            <img src="https://unseulnom.org/wp-content/uploads/2026/07/patchai.webp" alt="Patchaï Reyes" onerror="this.remove()" />
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/patchai.webp" alt="Patcha&#239; Reyes" onerror="this.remove()" />
           </div>
           <figcaption>
-            <div class="usn-person-name">Patchaï Reyes</div>
+            <div class="usn-person-name">Patcha&#239; Reyes</div>
             <div class="usn-person-role">Louange</div>
           </figcaption>
         </figure>
@@ -636,43 +636,43 @@
   </div>
 
   <!-- ============================================================= -->
-  <!-- PUNCHLINE (fond clair, photos qui arrivent des côtés)         -->
+  <!-- PUNCHLINE (fond clair, photos qui arrivent des c&#244;t&#233;s)         -->
   <!-- ============================================================= -->
   <div class="usn-section usn-punch" id="usn-punch"
        style="padding-top: 40px; padding-bottom: clamp(160px, 25vw, 280px);">
 
     <!--
-      ► PHOTOS LATÉRALES — elles glissent depuis les bords au scroll.
+      &#9658; PHOTOS LAT&#201;RALES &#8212; elles glissent depuis les bords au scroll.
       Remplacez VOTRE_PHOTO_AMBIANCE_x.jpg par vos photos (foule, louange,
-      prière…). Sans photo, un aplat orange s'affiche.
+      pri&#232;re&#8230;). Sans photo, un aplat orange s'affiche.
     -->
 
     <div class="usn-wrap">
       <!--
-        ► PUNCHLINE — les mots se rassemblent au scroll (effet type vouscon).
-        Sans JavaScript, le texte s'affiche normalement (assemblé).
+        &#9658; PUNCHLINE &#8212; les mots se rassemblent au scroll (effet type vouscon).
+        Sans JavaScript, le texte s'affiche normalement (assembl&#233;).
       -->
       <span class="usn-eyebrow" style="justify-content:center; width:100%;">L'invitation</span>
       <p class="usn-punch-line usn-punch-1" data-usn-reveal style="margin-top:20px;">Viens tel que tu es,</p>
-      <p class="usn-punch-line usn-punch-2" data-usn-reveal>repars transformé par</p>
-      <p class="usn-punch-line usn-punch-3" data-usn-reveal>un seul nom : Jésus-Christ.</p>
+      <p class="usn-punch-line usn-punch-2" data-usn-reveal>repars transform&#233; par</p>
+      <p class="usn-punch-line usn-punch-3" data-usn-reveal>un seul nom : J&#233;sus-Christ.</p>
       <p class="usn-punch-sub" data-usn-sub>
-        Le 17 octobre à Avignon, une place t'attend. Entrée libre — viens avec
-        ta famille, tes amis, ceux que tu portes dans ton cœur.
+        Le 17 octobre &#224; Avignon, une place t'attend. Entr&#233;e libre &#8212; viens avec
+        ta famille, tes amis, ceux que tu portes dans ton c&#339;ur.
       </p>
     </div>
   </div>
 
   <!-- ============================================================= -->
-  <!-- DEUX CARTES D'ACTION (à cheval sur la bande)                  -->
+  <!-- DEUX CARTES D'ACTION (&#224; cheval sur la bande)                  -->
   <!-- ============================================================= -->
   <div class="usn-wrap">
     <div class="usn-cta-cards">
       <!-- Carte 1 : Inscription -->
       <div class="usn-cta-card usn-ink">
-        <div class="usn-cta-eyebrow">Samedi 17 octobre 2026 · Avignon</div>
+        <div class="usn-cta-eyebrow">Samedi 17 octobre 2026 &#183; Avignon</div>
         <div class="usn-cta-title">Inscris-toi</div>
-        <p class="usn-cta-text">Réserve ta place gratuitement pour l'après-midi d'évangélisation et de guérison.</p>
+        <p class="usn-cta-text">R&#233;serve ta place gratuitement pour l'apr&#232;s-midi d'&#233;vang&#233;lisation et de gu&#233;rison.</p>
         <div class="usn-cta-actions">
           <a href="#usn-inscription" class="usn-cta-btn fill">Je m'inscris</a>
           <a href="#usn-programme" class="usn-cta-btn line">En savoir plus</a>
@@ -682,9 +682,9 @@
       <div class="usn-cta-card usn-red">
         <div class="usn-cta-eyebrow">Partenaire de la mission</div>
         <div class="usn-cta-title">Soutiens la mission</div>
-        <p class="usn-cta-text">Aide-nous à porter l'Évangile en France : chaque don fait avancer l'œuvre.</p>
+        <p class="usn-cta-text">Aide-nous &#224; porter l'&#201;vangile en France : chaque don fait avancer l'&#339;uvre.</p>
         <div class="usn-cta-actions">
-          <!-- ► Remplacez le lien ci-dessous par votre page de don (HelloAsso, etc.) -->
+          <!-- &#9658; Remplacez le lien ci-dessous par votre page de don (HelloAsso, etc.) -->
           <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3?utm_source=app_ha&amp;utm_campaign=share_campaign_button&amp;utm_medium=ios" target="_blank" rel="noopener noreferrer" class="usn-cta-btn fill">Faire un don</a>
           <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3?utm_source=app_ha&amp;utm_campaign=share_campaign_button&amp;utm_medium=ios" target="_blank" rel="noopener noreferrer" class="usn-cta-btn line">Devenir partenaire</a>
         </div>
@@ -699,33 +699,33 @@
     <div class="usn-wrap">
       <div class="usn-section-head" style="margin:0 auto; text-align:center;">
         <span class="usn-eyebrow" style="justify-content:center;">Inscription</span>
-        <h2>Réserve ta place</h2>
+        <h2>R&#233;serve ta place</h2>
         <p style="margin-left:auto;margin-right:auto;">
-          Laisse ton nom et ton e-mail : nous te confirmerons ta présence et te
+          Laisse ton nom et ton e-mail : nous te confirmerons ta pr&#233;sence et te
           tiendrons au courant des prochaines dates Un Seul Nom.
         </p>
       </div>
 
       <!--
-        ══════════════════════════════════════════════════════════
-        ► FORMULAIRE — comment le connecter (choisir UNE option) :
+        &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+        &#9658; FORMULAIRE &#8212; comment le connecter (choisir UNE option) :
 
-        OPTION 1 — Plugin newsletter WordPress (MailPoet, Brevo, Mailchimp…) :
+        OPTION 1 &#8212; Plugin newsletter WordPress (MailPoet, Brevo, Mailchimp&#8230;) :
            Le plus simple : remplacez tout ce <form> par le shortcode / bloc
            de formulaire de votre plugin. Sinon, mettez l'URL d'action du
-           plugin dans data-endpoint et vérifiez les name="...".
+           plugin dans data-endpoint et v&#233;rifiez les name="...".
 
-        OPTION 2 — Google Form :
-           Mettez l'URL « formResponse » dans data-endpoint et les
+        OPTION 2 &#8212; Google Form :
+           Mettez l'URL &#171; formResponse &#187; dans data-endpoint et les
            identifiants entry.XXXX dans name="entry.XXXX".
 
-        OPTION 3 — Par e-mail (aucune config) :
+        OPTION 3 &#8212; Par e-mail (aucune config) :
            Laissez data-endpoint vide : le formulaire affiche un message de
-           confirmation et prépare un e-mail pré-rempli vers data-mailto.
-        ══════════════════════════════════════════════════════════
+           confirmation et pr&#233;pare un e-mail pr&#233;-rempli vers data-mailto.
+        &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
       -->
-      <!-- Le formulaire est envoyé dans l'iframe caché ci-dessous : le
-           visiteur reste sur la page au lieu d'être redirigé vers Brevo. -->
+      <!-- Le formulaire est envoy&#233; dans l'iframe cach&#233; ci-dessous : le
+           visiteur reste sur la page au lieu d'&#234;tre redirig&#233; vers Brevo. -->
       <iframe name="usn-brevo" title="Inscription" style="display:none;border:0;width:0;height:0"></iframe>
 
       <form class="usn-form" id="usn-signup-form" method="POST"
@@ -742,27 +742,27 @@
           </div>
         </div>
 
-        <!-- Piège anti-robot de Brevo : ce champ doit rester vide. -->
+        <!-- Pi&#232;ge anti-robot de Brevo : ce champ doit rester vide. -->
         <input type="text" name="email_address_check" value="" tabindex="-1"
                aria-hidden="true" autocomplete="off"
                style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
         <input type="hidden" name="locale" value="fr" />
 
-        <button type="submit" class="usn-btn usn-btn-primary">Je m'inscris à l'événement</button>
+        <button type="submit" class="usn-btn usn-btn-primary">Je m'inscris &#224; l'&#233;v&#233;nement</button>
         <p class="usn-consent">
           En t'inscrivant, tu acceptes de recevoir des informations de la part
-          d'Un Seul Nom. Désinscription possible à tout moment.
+          d'Un Seul Nom. D&#233;sinscription possible &#224; tout moment.
         </p>
       </form>
 
       <div class="usn-msg" id="usn-form-msg" role="status" aria-live="polite">
-        🙏 Merci&nbsp;! Ton inscription est bien prise en compte. À très bientôt.
+        &#128591; Merci&nbsp;! Ton inscription est bien prise en compte. &#192; tr&#232;s bient&#244;t.
       </div>
     </div>
   </div>
 
   <!-- ============================================================= -->
-  <!-- AUTRES DATES (optionnel — supprimez ce bloc si inutile)        -->
+  <!-- AUTRES DATES (optionnel &#8212; supprimez ce bloc si inutile)        -->
   <!-- ============================================================= -->
   <div class="usn-section" style="padding-top:0;">
     <div class="usn-wrap">
@@ -771,12 +771,12 @@
         <h2>De ville en ville</h2>
       </div>
       <div class="usn-dates">
-        <!-- ► Ajoutez d'autres villes/dates en dupliquant une ligne ci-dessous -->
+        <!-- &#9658; Ajoutez d'autres villes/dates en dupliquant une ligne ci-dessous -->
         <div class="usn-date-row">
           <div>
             <div class="usn-dr-when">Samedi 17 octobre 2026</div>
-            <div class="usn-dr-title">Un Seul Nom · Avignon</div>
-            <div class="usn-dr-place">Parc des expos d'Avignon — Montfavet</div>
+            <div class="usn-dr-title">Un Seul Nom &#183; Avignon</div>
+            <div class="usn-dr-place">Parc des expos d'Avignon &#8212; Montfavet</div>
           </div>
           <a href="#usn-inscription" class="usn-btn usn-btn-dark">S'inscrire</a>
         </div>
@@ -789,19 +789,19 @@
   <!-- ============================================================= -->
   <footer class="usn-footer">
     <div class="usn-wrap">
-      <!-- ► LOGO (facultatif) : remplace ce commentaire par
+      <!-- &#9658; LOGO (facultatif) : remplace ce commentaire par
            <img src="URL_DE_TON_LOGO.png" alt="Un Seul Nom" style="width:96px;height:auto;margin:0 auto 14px;" /> -->
       <div class="usn-footer-logo">Un Seul Nom</div>
-      <p style="margin-top:10px;">© 2026 Un seul Nom. Tous droits réservés.</p>
+      <p style="margin-top:10px;">&#169; 2026 Un seul Nom. Tous droits r&#233;serv&#233;s.</p>
     </div>
   </footer>
 
 </section>
 
 <script>
-  /* ---- Le grand titre s'ajuste toujours à la largeur ----
-     « AVIGNON » débordait sur mobile ; avec un nom de ville plus long le
-     problème reviendrait. On mesure et on réduit si nécessaire. */
+  /* ---- Le grand titre s'ajuste toujours a la largeur ----
+     " AVIGNON " debordait sur mobile ; avec un nom de ville plus long le
+     probleme reviendrait. On mesure et on reduit si necessaire. */
   (function () {
     var h1 = document.querySelector('#usn-event .usn-hero h1');
     if (!h1) return;
@@ -821,7 +821,7 @@
   })();
 
   /* ---- Portraits : couleur sous le doigt (mobile) ----
-     Le survol CSS ne s'applique pas au tactile : on écoute donc l'appui. */
+     Le survol CSS ne s'applique pas au tactile : on ecoute donc l'appui. */
   (function () {
     var gens = document.querySelectorAll('#usn-event .usn-person');
     if (!gens.length) return;
@@ -839,7 +839,7 @@
     }
   })();
 
-  /* ---- Compte à rebours ---- */
+  /* ---- Compte a rebours ---- */
   (function () {
     var box = document.getElementById('usn-countdown');
     if (!box) return;
@@ -869,12 +869,12 @@
 
   /* =================================================================
      MOTEUR D'ANIMATION AU SCROLL
-     Reproduit le comportement de GSAP ScrollTrigger en mode « scrub » :
-     - les éléments partent d'une demi-hauteur d'écran plus bas (50svh),
+     Reproduit le comportement de GSAP ScrollTrigger en mode " scrub " :
+     - les elements partent d'une demi-hauteur d'ecran plus bas (50svh),
      - ils remontent AU RYTHME DU SCROLL (et redescendent si on remonte),
-     - avec un chevauchement entre les éléments d'un même groupe,
-     - le tout lissé (inertie) pour un rendu fluide.
-     Sans JS ou avec « prefers-reduced-motion », tout reste visible.
+     - avec un chevauchement entre les elements d'un meme groupe,
+     - le tout lisse (inertie) pour un rendu fluide.
+     Sans JS ou avec " prefers-reduced-motion ", tout reste visible.
      ================================================================= */
   (function () {
     var root = document.getElementById('usn-event');
@@ -885,7 +885,7 @@
     function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
     function vh() { return window.innerHeight || 800; }
 
-    /* ---------- 1. Découpe la punchline en mots ---------- */
+    /* ---------- 1. Decoupe la punchline en mots ---------- */
     var punch = document.getElementById('usn-punch');
     var words = [];
     if (punch) {
@@ -911,9 +911,9 @@
       }
     }
 
-    if (reduce) return; // mouvement désactivé : tout reste en place
+    if (reduce) return; // mouvement desactive : tout reste en place
 
-    /* ---------- 2. Déclare les groupes animés ---------- */
+    /* ---------- 2. Declare les groupes animes ---------- */
     // rise : monte depuis 50svh ; slide : arrive de la gauche ; pop : grossit
     var groups = [];
     function group(sel, opts) {
@@ -943,9 +943,9 @@
 
     function scrollY() { return window.pageYOffset || document.documentElement.scrollTop || 0; }
 
-    /* Position NATURELLE de chaque élément (transform neutralisé), mise en
-       cache : sinon le décalage appliqué fausse la mesure et l'élément
-       n'entre jamais dans la zone de déclenchement. */
+    /* Position NATURELLE de chaque element (transform neutralise), mise en
+       cache : sinon le decalage applique fausse la mesure et l'element
+       n'entre jamais dans la zone de declenchement. */
     function measureAll() {
       for (var i = 0; i < all.length; i++) {
         var it = all[i], prev = it.el.style.transform;
@@ -955,14 +955,14 @@
       }
     }
     measureAll();
-    // état initial immédiat (évite tout « flash » de contenu déjà en place)
+    // etat initial immediat (evite tout " flash " de contenu deja en place)
     for (var s = 0; s < all.length; s++) apply(all[s], 0);
 
-    /* ---------- 3. Calcul de l'avancement lié au scroll ---------- */
+    /* ---------- 3. Calcul de l'avancement lie au scroll ---------- */
     function target(item) {
       var h = vh();
       var top = item.top - scrollY();
-      // 0 quand le haut de l'élément entre par le bas, 1 quand il a monté
+      // 0 quand le haut de l'element entre par le bas, 1 quand il a monte
       var raw = (h * 0.92 - top) / (h * item.o.span);
       var st = item.i * item.o.stagger;
       return clamp01((clamp01(raw) - st) / Math.max(0.2, 1 - st));
@@ -985,8 +985,8 @@
 
     /* ---------- 4. Punchline : les mots se rassemblent ---------- */
     var punchP = 0;
-    // Ancré sur la première ligne de texte (et non sur la section, bien plus
-    // haute) : les mots se rassemblent dès que le texte entre à l'écran.
+    // Ancre sur la premiere ligne de texte (et non sur la section, bien plus
+    // haute) : les mots se rassemblent des que le texte entre a l'ecran.
     var punchAnchor = punch && punch.querySelector('[data-usn-reveal]');
     function punchTarget() {
       if (!punchAnchor) return 0;
@@ -1011,7 +1011,7 @@
     }
     punchApply(0);
 
-    /* ---------- 5. Parallaxe du héros ---------- */
+    /* ---------- 5. Parallaxe du heros ---------- */
     var hero = root.querySelector('.usn-hero');
     var heroInner = root.querySelector('.usn-hero-inner');
     var heroVideo = root.querySelector('.usn-hero-video');
@@ -1062,13 +1062,13 @@
     form.addEventListener('submit', function (e) {
       var nom = form.querySelector('#usn-nom');
       var email = form.querySelector('#usn-email');
-      // Validation simple : si elle échoue, on laisse le navigateur signaler.
+      // Validation simple : si elle echoue, on laisse le navigateur signaler.
       if (!nom.value.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value)) {
         e.preventDefault();
         (nom.value.trim() ? email : nom).focus();
         return;
       }
-      // L'envoi part vers l'iframe caché : on remercie et on vide le formulaire.
+      // L'envoi part vers l'iframe cache : on remercie et on vide le formulaire.
       if (msg) msg.style.display = 'block';
       setTimeout(function () { form.reset(); }, 100);
     });
