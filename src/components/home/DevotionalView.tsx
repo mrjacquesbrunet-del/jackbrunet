@@ -33,6 +33,7 @@ import { bibleHref } from "@/lib/bible-ref";
 import { useEngagement } from "@/lib/engagement";
 import { fetchPublishedDevotions } from "@/lib/devotions";
 import { asset, mediaUrl } from "@/lib/asset";
+import { trace } from "@/lib/boot-trace";
 import { MakeVersePublicButton } from "@/components/community/MakeVersePublicButton";
 import type { Devotion, ReadingPlanDay, Short } from "@/lib/types";
 
@@ -65,6 +66,7 @@ export function DevotionalView({
   const [remote, setRemote] = useState<Devotion[] | null>(null);
   useEffect(() => {
     let alive = true;
+    trace("page:devotionnel-affichee");
     fetchPublishedDevotions()
 .then((r) => {
         if (alive && r && r.length > 0) setRemote(r);

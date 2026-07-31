@@ -1,6 +1,7 @@
 "use client";
 
 import { asset } from "./asset";
+import { trace } from "./boot-trace";
 
 /** Clé où l'on mémorise la route d'une notification tapée, le temps que
  * l'app démarre/se recharge et puisse y naviguer (démarrage à froid). */
@@ -68,6 +69,7 @@ export function openNotifRoute(route?: string): void {
   const target = normalizeNotifRoute(route);
   try {
     if (barePath(window.location.pathname) === barePath(target)) {
+      trace("notif:deja-sur-place", target);
       clearStash();
       return; // déjà au bon endroit
     }
@@ -75,13 +77,15 @@ export function openNotifRoute(route?: string): void {
     if (_softNavigate) {
       try {
         _softNavigate(target);
+        trace("notif:nav-douce", target);
         return;
       } catch {
-        /* on retombe sur le rechargement racine ci-dessous */
+        trace("notif:nav-douce-erreur", target);
       }
     }
     // Filet : recharge index.html (racine), qui se résout toujours ; la garde
     // d'accueil lira le mémo et fera la navigation douce vers la cible.
+    trace("notif:nav-dure-racine", target);
     window.location.replace(asset("/"));
   } catch {
     /* navigation impossible */

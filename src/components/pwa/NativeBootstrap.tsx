@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { openNotifRoute, setNotifNavigator } from "@/lib/notif-route";
 import { isNativeApp, readReminder, enableDailyReminder } from "@/lib/notifications";
 import { initOneSignal } from "@/lib/onesignal";
+import { trace } from "@/lib/boot-trace";
 
 /**
  * Initialisation propre à l'application native (Capacitor):
@@ -28,6 +29,7 @@ export function NativeBootstrap() {
   useEffect(() => {
     if (!isNativeApp()) return;
     let cleanup: (() => void) | undefined;
+    trace("js:demarrage", window.location.pathname + window.location.search);
 
     (async () => {
       // 0) EN TOUT PREMIER, et sans rien attendre d'autre : confirmer à Capgo
@@ -37,6 +39,7 @@ export function NativeBootstrap() {
       try {
         const { CapacitorUpdater } = await import("@capgo/capacitor-updater");
         await CapacitorUpdater.notifyAppReady();
+        trace("capgo:appReady");
       } catch {
         /* plugin absent (web) */
       }
@@ -45,6 +48,7 @@ export function NativeBootstrap() {
       try {
         const { SplashScreen } = await import("@capacitor/splash-screen");
         await SplashScreen.hide();
+        trace("splash:cache");
       } catch {
         /* plugin absent */
       }
@@ -56,10 +60,12 @@ export function NativeBootstrap() {
           "localNotificationActionPerformed",
           (event) => {
             const route = (event.notification.extra as { route?: string } | undefined)?.route;
+            trace("notif:tap", route ?? "(sans route)");
             openNotifRoute(route);
           },
         );
         cleanup = () => handle.remove();
+        trace("notif:ecouteur-pret");
       } catch {
         /* plugin absent */
       }

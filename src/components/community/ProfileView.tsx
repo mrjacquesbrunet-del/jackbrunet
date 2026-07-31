@@ -29,6 +29,7 @@ import { ModerationQueue } from "@/components/community/ModerationQueue";
 import { NotificationsBell } from "@/components/community/NotificationsBell";
 import { MessagesButton } from "@/components/community/MessagesButton";
 import { DeleteAccountButton } from "@/components/community/DeleteAccountButton";
+import { BootDiagnostic } from "@/components/app/BootDiagnostic";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { ModeratorBadge } from "@/components/community/ModeratorBadge";
 import { FollowList } from "@/components/community/FollowList";
@@ -855,6 +856,7 @@ function Profile({
           Déconnexion
         </button>
         <DeleteAccountButton />
+        <BootDiagnostic />
       </div>
 
       {followModal? (

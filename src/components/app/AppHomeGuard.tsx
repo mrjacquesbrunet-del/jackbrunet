@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { isNativeApp } from "@/lib/notifications";
 import { consumeStashedNotifRoute } from "@/lib/notif-route";
+import { trace } from "@/lib/boot-trace";
 
 /**
  * Sur l'accueil marketing « / », en mode application (natif ou aperçu ?app=1),
@@ -38,14 +39,16 @@ export function AppHomeGuard() {
     const dest = consumeStashedNotifRoute() || "/devotionnel/";
     setTarget(dest);
     setVeil(true);
+    trace("garde:accueil", dest);
 
     // Navigation douce (fiable dans la WebView). On réessaie une fois peu après
     // au cas où le routeur n'était pas prêt au tout premier rendu.
     const soft = () => {
       try {
         router.replace(dest);
+        trace("garde:router.replace", dest);
       } catch {
-        /* routeur indisponible */
+        trace("garde:router-erreur");
       }
     };
     soft();
