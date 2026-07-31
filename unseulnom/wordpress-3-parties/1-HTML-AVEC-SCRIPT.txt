@@ -37,7 +37,7 @@
           &#9658; &#201;V&#201;NEMENT &#8212; modifiez les textes ci-dessous
           &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
         -->
-        <img class="usn-hero-logo" src="https://unseulnom.org/wp-content/uploads/2026/07/logoblanc.webp" alt="Un Seul Nom" width="150" height="150" />
+        <div class="usn-logo-mark usn-logo-blanc usn-hero-logo" role="img" aria-label="Un Seul Nom"></div>
 
         <!-- Le grand mot : la ville de l'&#233;v&#233;nement -->
         <h1>Avignon</h1>
@@ -377,7 +377,7 @@
 
       <!-- Logo, en cloture de la section d'inscription -->
       <div class="usn-logo-fin">
-        <img src="https://unseulnom.org/wp-content/uploads/2026/07/logonoir.webp" alt="Un Seul Nom" width="120" height="120" loading="lazy" />
+        <div class="usn-logo-mark usn-logo-noir" role="img" aria-label="Un Seul Nom"></div>
       </div>
 
       <div class="usn-msg" id="usn-form-msg" role="status" aria-live="polite">
@@ -414,8 +414,7 @@
   <!-- ============================================================= -->
   <footer class="usn-footer">
     <div class="usn-wrap">
-      <img src="https://unseulnom.org/wp-content/uploads/2026/07/logoblanc.webp" alt="Un Seul Nom" width="76" height="76"
-           style="width:76px;height:auto;margin:0 auto 14px;opacity:.85" loading="lazy" />
+      <div class="usn-logo-mark usn-logo-blanc usn-footer-mark" role="img" aria-label="Un Seul Nom"></div>
       <div class="usn-footer-logo">Un Seul Nom</div>
       <p style="margin-top:10px;">&#169; 2026 Un seul Nom. Tous droits r&#233;serv&#233;s.</p>
       <p style="margin-top:14px;">

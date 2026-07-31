@@ -57,7 +57,7 @@ Utilisez `index.html` tel quel comme modèle de page HTML.
 | Réglage | Où | Quoi mettre |
 |---|---|---|
 | **Vidéo de fond** | `► VIDÉO DE FOND` | URL d'une vidéo `.mp4` uploadée dans la médiathèque (muette, en boucle). Sans vidéo, un fond dégradé sombre s'affiche. |
-| **Logo** | `► LOGO` | URL du logo (version **blanche** conseillée sur le héros sombre). S'il n'est pas défini, il disparaît proprement. |
+| **Logo** | ✅ intégré | Le logo est **vectoriel, embarqué dans le CSS** (repère `LOGO UN SEUL NOM`) : rien à envoyer dans la médiathèque, net à toutes les tailles, en blanc sur le héros et le pied de page, en noir sous le formulaire. |
 | **Photos intervenants** | ✅ fournies (`images/`) | Les 5 portraits sont intégrés et optimisés. |
 | **Photos programme** | ✅ 4/4 fournies (`images/`) | Les quatre panneaux ont leur photo. |
 | **Infos événement** | `► ÉVÉNEMENT` | Ville (grand titre), sous-titre, date, heure, lieu. |
@@ -71,3 +71,16 @@ Utilisez `index.html` tel quel comme modèle de page HTML.
   `prefers-reduced-motion`.
 - Les emplacements photos sont facultatifs : tant qu'ils ne sont pas renseignés,
   un repli visuel propre s'affiche (icône ou initiales).
+
+## Régénérer les fichiers WordPress
+
+`index.html` est le fichier de travail. Après toute modification :
+
+```
+python3 generer-fichiers-wordpress.py
+```
+
+Le script découpe la page en trois parties, remplace les chemins d'images par
+les adresses de la médiathèque, retire les repères des fichiers non encore
+fournis (vidéo, photos d'ambiance) et écrit le tout en **ASCII pur**, ce qui
+évite les accents cassés au copier-coller.

@@ -99,13 +99,15 @@ Sur la page publiée, contrôle :
 
 ## Ajouter plus tard le logo, la vidéo et les photos d'ambiance
 
-Ces éléments ne sont pas encore fournis : ils ont été **retirés du code**
+Le **logo n'est plus dans cette liste** : il est désormais vectoriel et
+embarqué directement dans le CSS, il n'y a donc aucun fichier à envoyer pour
+lui. Les éléments ci-dessous, eux, ne sont pas encore fournis : ils ont été
+**retirés du code**
 plutôt que laissés en liens morts, qui auraient provoqué une erreur à chaque
 visite. Pour les ajouter :
 
 | Élément | Où chercher dans le fichier | Quoi faire |
 |---|---|---|
-| **Logo** | `► LOGO` (2 endroits : héros et pied de page) | Uploader le logo (version **blanche** pour le héros sombre), puis remplacer le commentaire par la ligne `<img …>` indiquée |
 | **Vidéo de fond** | `► VIDEO` | Uploader un `.mp4` **muet, en boucle, 5 à 15 Mo**, puis remplacer le commentaire par la ligne `<source …>` indiquée |
 | **Photos d'ambiance** | section `usn-punch` | Me les envoyer : je régénère le bloc avec les 4 photos latérales |
 
