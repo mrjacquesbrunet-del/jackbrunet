@@ -73,6 +73,100 @@ def en_entites(texte):
     return "".join(c if ord(c) < 128 else "&#%d;" % ord(c) for c in texte)
 
 
+# Un caractere qui, juste avant un "/", annonce une expression reguliere et
+# non une division. Sert au decoupage du JavaScript ci-dessous.
+AVANT_REGEX = set("(,=:[!&|?{};+-*%~^") | {""}
+
+
+def decouper_js(js):
+    """Decoupe le JavaScript en morceaux (type, texte).
+
+    Types produits : "chaine" pour le contenu des guillemets, "code" pour
+    tout le reste (code, commentaires, expressions regulieres). On distingue
+    les deux parce qu'ils ne se traitent pas pareil : dans une chaine le
+    texte est lu par le visiteur, ailleurs il ne l'est pas.
+    """
+    morceaux = []
+    tampon = []
+    i, n = 0, len(js)
+    precedent = ""
+
+    def vider():
+        if tampon:
+            morceaux.append(("code", "".join(tampon)))
+            del tampon[:]
+
+    while i < n:
+        c = js[i]
+        suivant = js[i + 1] if i + 1 < n else ""
+
+        if c == "/" and suivant == "/":                      # commentaire //
+            fin = js.find("\n", i)
+            fin = n if fin == -1 else fin
+            tampon.append(js[i:fin]); i = fin; continue
+
+        if c == "/" and suivant == "*":                      # commentaire /* */
+            fin = js.find("*/", i + 2)
+            fin = n if fin == -1 else fin + 2
+            tampon.append(js[i:fin]); i = fin; continue
+
+        if c == "/" and precedent in AVANT_REGEX:            # /expression/
+            j = i + 1
+            while j < n and js[j] != "\n":
+                if js[j] == "\\":
+                    j += 2; continue
+                if js[j] == "[":
+                    while j < n and js[j] != "]":
+                        j += 2 if js[j] == "\\" else 1
+                if js[j] == "/":
+                    j += 1; break
+                j += 1
+            tampon.append(js[i:j]); i = j
+            precedent = "/"
+            continue
+
+        if c in "'\"`":                                      # chaine
+            j = i + 1
+            while j < n:
+                if js[j] == "\\":
+                    j += 2; continue
+                if js[j] == c:
+                    break
+                j += 1
+            vider()
+            morceaux.append(("code", c))
+            morceaux.append(("chaine", js[i + 1:j]))
+            morceaux.append(("code", js[j:j + 1]))
+            i = j + 1
+            precedent = c
+            continue
+
+        tampon.append(c)
+        if not c.isspace():
+            precedent = c
+        i += 1
+
+    vider()
+    return morceaux
+
+
+def js_en_ascii(js):
+    """Rend le JavaScript ASCII sans abimer le francais affiche.
+
+    Les commentaires sont translitteres (personne ne les lit sur le site),
+    mais le texte des chaines de caracteres est echappe en \\uXXXX : le
+    fichier reste en ASCII pur et le visiteur voit malgre tout
+    "Je reserve ma place" avec son accent.
+    """
+    morceaux = decouper_js(js)
+    assert "".join(t for _, t in morceaux) == js, "decoupage du JavaScript errone"
+    return "".join(
+        "".join(c if ord(c) < 128 else "\\u%04x" % ord(c) for c in texte)
+        if genre == "chaine" else en_ascii(texte)
+        for genre, texte in morceaux
+    )
+
+
 def vers_mediatheque(texte, base=URL_MEDIAS):
     """Reecrit les chemins images/xxx.webp vers la mediatheque WordPress."""
     def remplace(m):
@@ -123,7 +217,7 @@ def main():
     source = SOURCE.read_text(encoding="utf-8")
 
     css = en_ascii(extraire(source, "style"))
-    js = en_ascii(extraire(source, "script"))
+    js = js_en_ascii(extraire(source, "script"))
     section = sans_reperes(extraire_section(source))
     html = en_entites(vers_mediatheque(section))
     # Version generique : l'adresse de la mediatheque reste a remplacer.

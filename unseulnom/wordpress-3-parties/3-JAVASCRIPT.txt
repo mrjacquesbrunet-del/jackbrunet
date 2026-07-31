@@ -347,13 +347,13 @@
           hint.textContent = complet ? ''
             : (restantes < limite
                 ? 'Il ne reste que ' + restantes + ' place(s) disponible(s).'
-                : 'Limite de ' + limite + ' places par personne.');
+                : 'Limite de ' + limite + ' places par r\u00e9servation.');
         }
       }
 
       if (bouton) {
         bouton.disabled = complet;
-        bouton.textContent = complet ? 'Complet' : "Je reserve ma place";
+        bouton.textContent = complet ? 'Complet' : "Je r\u00e9serve ma place";
       }
     }
 
@@ -372,7 +372,7 @@
 
     function succes(restantes) {
       if (msg) {
-        msg.textContent = 'Merci ! Ta reservation est enregistree. A tres bientot.';
+        msg.textContent = 'Merci ! Ta r\u00e9servation est enregistr\u00e9e. \u00c0 tr\u00e8s bient\u00f4t.';
         msg.style.display = 'block';
       }
       erreur('');
@@ -409,14 +409,14 @@
       })
         .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
         .then(function (res) {
-          if (bouton) { bouton.disabled = false; bouton.textContent = 'Je reserve ma place'; }
+          if (bouton) { bouton.disabled = false; bouton.textContent = 'Je r\u00e9serve ma place'; }
           if (res.ok && res.d && res.d.ok) {
             envoyerVersBrevo();
             succes(res.d.restantes);
             fetch(API + 'places', { credentials: 'same-origin' })
               .then(function (r) { return r.json(); }).then(afficherEtat).catch(function () {});
           } else {
-            erreur((res.d && res.d.message) || 'La reservation a echoue, reessaie.');
+            erreur((res.d && res.d.message) || 'La r\u00e9servation a \u00e9chou\u00e9, r\u00e9essaie.');
             if (res.d && typeof res.d.restantes === 'number') {
               fetch(API + 'places', { credentials: 'same-origin' })
                 .then(function (r) { return r.json(); }).then(afficherEtat).catch(function () {});
@@ -424,8 +424,8 @@
           }
         })
         .catch(function () {
-          if (bouton) { bouton.disabled = false; bouton.textContent = 'Je reserve ma place'; }
-          erreur('Connexion impossible. Verifie ta connexion et reessaie.');
+          if (bouton) { bouton.disabled = false; bouton.textContent = 'Je r\u00e9serve ma place'; }
+          erreur('Connexion impossible. V\u00e9rifie ta connexion et r\u00e9essaie.');
         });
     });
   })();

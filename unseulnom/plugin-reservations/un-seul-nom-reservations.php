@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Un Seul Nom - Reservations
- * Description: Reservation de places pour les evenements Un Seul Nom : compteur de places, limite par personne, liste des inscrits et export CSV.
+ * Description: Reservation de places pour les evenements Un Seul Nom : compteur de places, limite par reservation, liste des inscrits et export CSV.
  * Version:     1.0.0
  * Author:      Un Seul Nom
  * License:     GPL-2.0-or-later
@@ -350,7 +350,7 @@ final class USN_Reservations {
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><label for="usn_max">Maximum par personne</label></th>
+						<th scope="row"><label for="usn_max">Maximum par r&eacute;servation</label></th>
 						<td>
 							<input name="<?php echo esc_attr( self::OPT_MAX ); ?>" id="usn_max" type="number" min="1" max="20" step="1"
 								value="<?php echo esc_attr( self::max_par_personne() ); ?>" class="small-text">

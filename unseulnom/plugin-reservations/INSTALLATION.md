@@ -1,7 +1,7 @@
 # Réservation des places — installation
 
 Module WordPress qui gère les places de l'événement : compteur partagé,
-limite par personne, liste des inscrits et export CSV.
+limite par réservation, liste des inscrits et export CSV.
 
 ## Pourquoi un module serveur
 
@@ -31,7 +31,7 @@ Un menu **« Réservations »** apparaît dans la colonne de gauche.
 | Réglage | Valeur conseillée | À quoi ça sert |
 |---|---|---|
 | **Places ouvertes** | `650` | Total accepté, **surbooking compris**. Salle de 500 + 30 % de marge pour les absents. |
-| **Maximum par personne** | `4` | Nombre de places par réservation. |
+| **Maximum par réservation** | `4` | Nombre de places qu'une même réservation peut prendre. |
 | **Inscriptions ouvertes** | coché | Décocher ferme les inscriptions sans toucher au compteur. |
 
 Ces valeurs se modifient à tout moment, même après l'ouverture des inscriptions.
