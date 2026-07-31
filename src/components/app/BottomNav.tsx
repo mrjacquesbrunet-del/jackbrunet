@@ -76,17 +76,22 @@ export function BottomNav() {
               <Link
                 key={t.href}
                 href={t.href}
-                className={`flex shrink-0 basis-1/5 snap-start flex-col items-center gap-1 py-2.5 text-[10px] font-semibold transition-colors ${
+                // touch-manipulation + tap-highlight transparent : évite l'état
+                // « appuyé » qui reste collé dans la WebView iOS après un tap.
+                style={{ WebkitTapHighlightColor: "transparent" }}
+                className={`flex shrink-0 basis-1/5 snap-start select-none flex-col items-center gap-1 py-2.5 text-[10px] font-semibold transition-colors touch-manipulation ${
                   active? "text-[#CAF000]": "text-cream/55"
                 }`}
               >
                 {t.img? (
                   // eslint-disable-next-line @next/next/no-img-element
+                  // Pas de transition sur `filter` (grayscale) : WebKit iOS peut
+                  // figer l'animation et laisser l'icône « allumée ».
                   <img
                     src={asset(t.img)}
                     alt=""
                     aria-hidden="true"
-                    className={`h-6 w-6 object-contain transition-all ${
+                    className={`h-6 w-6 object-contain ${
                       active? "opacity-100": "opacity-55 grayscale"
                     }`}
                   />

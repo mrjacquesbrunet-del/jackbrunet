@@ -17,7 +17,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             // session audio indisponible : lecture normale (au premier plan)
         }
+
+        // Filet anti « écran olive vide » au démarrage à froid depuis une
+        // notification : si, quelques secondes après le lancement, la WebView
+        // n'a toujours rien chargé, on force le chargement de l'app.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) { [weak self] in
+            self?.healWebViewIfDead()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 9.0) { [weak self] in
+            self?.healWebViewIfDead()
+        }
         return true
+    }
+
+    /// Détecte une WebView « morte » (jamais chargée, page vide, ou moteur web
+    /// tué par iOS en arrière-plan) et recharge l'application. Sans effet quand
+    /// tout va bien : la page répond « loading/interactive/complete » et rien
+    /// n'est rechargé.
+    private func healWebViewIfDead() {
+        guard let root = self.window?.rootViewController as? CAPBridgeViewController,
+              let webView = root.webView else { return }
+        let reloadHome: () -> Void = {
+            DispatchQueue.main.async {
+                if webView.url != nil {
+                    webView.reload()
+                } else if let url = URL(string: "capacitor://localhost/") {
+                    webView.load(URLRequest(url: url))
+                }
+            }
+        }
+        // Jamais chargée (échec silencieux du chargement initial) → charge.
+        if webView.url == nil {
+            reloadHome()
+            return
+        }
+        // Chargée mais moteur mort / page vide → recharge.
+        webView.evaluateJavaScript("document.readyState") { result, error in
+            let state = result as? String
+            if error != nil || state == nil || state!.isEmpty {
+                reloadHome()
+            }
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -36,16 +76,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Garde anti « écran olive vide » : quand iOS tue le moteur web en
-        // arrière-plan (mémoire), l'app revient sur une WebView morte — écran
-        // uni sans contenu, typiquement au tap sur la notification du matin.
-        // On vérifie que la page répond ; sinon on recharge la WebView.
-        guard let root = self.window?.rootViewController as? CAPBridgeViewController,
-              let webView = root.webView else { return }
-        webView.evaluateJavaScript("document.readyState") { result, error in
-            let dead = error != nil || (result as? String)?.isEmpty ?? true
-            if dead {
-                DispatchQueue.main.async { webView.reload() }
-            }
+        // arrière-plan, ou quand un lancement par notification laisse la
+        // WebView vide, on répare dès le retour au premier plan.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
+            self?.healWebViewIfDead()
         }
     }
 
