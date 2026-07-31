@@ -44,6 +44,7 @@ export const mainNav = [
 
 /** Onglets secondaires, accessibles via le menu « Plus » (desktop) et le menu mobile. */
 export const secondaryNav = [
+  { label: "L'application 📱", href: "/app" },
   { label: "Vidéos", href: "/videos" },
   { label: "Mon carnet", href: "/carnet" },
   { label: "Exclusivités", href: "/exclusivites" },
@@ -56,6 +57,7 @@ export const footerNav = [
   {
     title: "Chaque jour",
     links: [
+      { label: "Télécharger l'app", href: "/app" },
       { label: "Temps avec Jésus", href: "/devotionnel" },
       { label: "Plans thématiques", href: "/plans" },
       { label: "Mon carnet", href: "/carnet" },

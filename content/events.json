@@ -10,11 +10,11 @@
     },
     {
       "type": "annonce",
-      "title": "L'application mobile arrive",
-      "description": "Le dévotionnel, la Bible et les plans dans ta poche, même hors-ligne, avec un rappel chaque matin.",
-      "link": "/devotionnel",
-      "linkLabel": "En savoir plus",
-      "badge": "Bientôt"
+      "title": "L'application est disponible !",
+      "description": "Le dévotionnel, la Bible, les plans et la communauté de prière dans ta poche, avec un rappel chaque matin. Sur iPhone et Android.",
+      "link": "/app",
+      "linkLabel": "Télécharger l'app",
+      "badge": "Nouveau"
     },
     {
       "type": "annonce",
