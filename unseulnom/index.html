@@ -516,6 +516,14 @@
   }
   #usn-event .usn-place input:checked + span small { color: rgba(255,255,255,0.72); }
 
+  /* Logo de fin de section, sous le formulaire */
+  #usn-event .usn-logo-fin { margin: 46px auto 0; text-align: center; }
+  #usn-event .usn-logo-fin img {
+    width: clamp(84px, 12vw, 120px); height: auto; margin: 0 auto;
+    opacity: .9; transition: opacity .2s ease;
+  }
+  #usn-event .usn-logo-fin img:hover { opacity: 1; }
+
   /* Mention sous le choix des places */
   #usn-event .usn-hint {
     margin-top: 6px; font-size: 12.5px; color: rgba(12,11,10,0.55);
@@ -605,16 +613,7 @@
           ► ÉVÉNEMENT — modifiez les textes ci-dessous
           ══════════════════════════════════════════════════════════
         -->
-        <!--
-          ► LOGO (version blanche recommandée sur ce fond sombre)
-          Uploadez le logo dans la médiathèque WordPress puis remplacez
-          VOTRE_LOGO.png par son URL. S'il n'est pas défini, il disparaît
-          et le nom texte ci-dessous prend le relais.
-        -->
-        <img class="usn-hero-logo" src="VOTRE_LOGO.png" alt="Un Seul Nom"
-             onerror="this.style.display='none'" />
-
-        <div class="usn-hero-eyebrow">Un&nbsp;Seul&nbsp;Nom&nbsp;&nbsp;→</div>
+        <img class="usn-hero-logo" src="images/logoblanc.webp" alt="Un Seul Nom" width="150" height="150" />
 
         <!-- Le grand mot : la ville de l'événement -->
         <h1>Avignon</h1>
@@ -964,6 +963,11 @@
 
       <div class="usn-err" id="usn-form-err" role="alert"></div>
 
+      <!-- Logo, en cloture de la section d'inscription -->
+      <div class="usn-logo-fin">
+        <img src="images/logonoir.webp" alt="Un Seul Nom" width="120" height="120" loading="lazy" />
+      </div>
+
       <div class="usn-msg" id="usn-form-msg" role="status" aria-live="polite">
         🙏 Merci&nbsp;! Ton inscription est bien prise en compte. À très bientôt.
       </div>
@@ -998,9 +1002,8 @@
   <!-- ============================================================= -->
   <footer class="usn-footer">
     <div class="usn-wrap">
-      <!-- Même logo qu'en haut (facultatif) -->
-      <img src="VOTRE_LOGO.png" alt="Un Seul Nom" style="width:96px;height:auto;margin:0 auto 14px;"
-           onerror="this.style.display='none'" />
+      <img src="images/logoblanc.webp" alt="Un Seul Nom" width="76" height="76"
+           style="width:76px;height:auto;margin:0 auto 14px;opacity:.85" loading="lazy" />
       <div class="usn-footer-logo">Un Seul Nom</div>
       <p style="margin-top:10px;">© 2026 Un seul Nom. Tous droits réservés.</p>
       <p style="margin-top:14px;">

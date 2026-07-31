@@ -479,6 +479,14 @@
   }
   #usn-event .usn-place input:checked + span small { color: rgba(255,255,255,0.72); }
 
+  /* Logo de fin de section, sous le formulaire */
+  #usn-event .usn-logo-fin { margin: 46px auto 0; text-align: center; }
+  #usn-event .usn-logo-fin img {
+    width: clamp(84px, 12vw, 120px); height: auto; margin: 0 auto;
+    opacity: .9; transition: opacity .2s ease;
+  }
+  #usn-event .usn-logo-fin img:hover { opacity: 1; }
+
   /* Mention sous le choix des places */
   #usn-event .usn-hint {
     margin-top: 6px; font-size: 12.5px; color: rgba(12,11,10,0.55);
