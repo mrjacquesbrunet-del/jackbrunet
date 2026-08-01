@@ -25,6 +25,9 @@ function messageFor(type: string, who: string, body: string): { title: string; t
     case "group_comment":  return { title: "Nouveau commentaire", text: `${who} a commenté ta publication` };
     case "group_reaction": return { title: "Nouvelle réaction", text: `${who} a réagi à ta publication` };
     case "comment":        return { title: "Nouveau commentaire", text: `${who} t'a encouragé(e)` };
+    case "group_post":     return { title: body ? `Groupe « ${body} »` : "Ton groupe", text: `${who} a publié dans le groupe` };
+    case "group_message":  return { title: body ? `Groupe « ${body} »` : "Ton groupe", text: `${who} a écrit dans la discussion` };
+    case "group_join":     return { title: body ? `Groupe « ${body} »` : "Ton groupe", text: `${who} a rejoint le groupe` };
     case "pray":           return { title: "Prière", text: `${who} prie pour ton sujet` };
     case "heart":          return { title: "J'aime", text: `${who} a aimé ton sujet` };
     case "follow":         return { title: "Nouvel abonné", text: `${who} s'est abonné(e) à toi` };

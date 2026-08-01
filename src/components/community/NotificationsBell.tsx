@@ -32,6 +32,12 @@ function label(n: Notification) {
       return `${who} a commenté ta publication`;
     case "group_reaction":
       return `${who} a réagi à ta publication`;
+    case "group_post":
+      return `${who} a publié dans ${n.body? `« ${n.body} »`: "ton groupe"}`;
+    case "group_message":
+      return `${who} a écrit dans ${n.body? `« ${n.body} »`: "ton groupe"}`;
+    case "group_join":
+      return `${who} a rejoint ${n.body? `« ${n.body} »`: "ton groupe"}`;
     case "admin":
       return n.body? `${n.body}`: "Message de Pasteur Jack";
     default:

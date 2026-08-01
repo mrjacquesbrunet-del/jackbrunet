@@ -52,7 +52,10 @@ export type NotifType =
   | "message"
   | "reply"
   | "group_comment"
-  | "group_reaction";
+  | "group_reaction"
+  | "group_post"
+  | "group_message"
+  | "group_join";
 export type Notification = {
   id: string;
   user_id: string;
