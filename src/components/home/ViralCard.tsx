@@ -5,9 +5,29 @@ import { useToolkit } from "@/lib/toolkit";
 import { shareImageBlob, saveImageBlob } from "@/lib/share";
 import { BookmarkGlyph, BookmarkFilledGlyph } from "@/components/ui/DevoIcons";
 
+/** Mots « forts » mis en lumière (lime) dans la punchline — 2 maximum. */
+const IMPACT_WORDS = new Set([
+  "dieu","jesus","christ","pere","esprit","foi","priere","prie","arme","puissante",
+  "puissance","victoire","lumiere","force","grace","amour","vie","esperance","joie",
+  "paix","repos","libre","liberte","vainqueur","vainqueurs","misericorde","gratitude",
+  "louange","cantique","berger","royaume","parole","croix","guerison","guerit","aime",
+  "aimes","source","ancre","jesus","seigneur","gloire","promis","suffit","inebranlable",
+]);
+function normWord(w: string): string {
+  return w.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z]/g, "");
+}
+/** Indices des mots à colorer en lime (le premier et le dernier mot fort). */
+function pickHighlights(words: string[]): Set<number> {
+  const hits = words.map((w, i) => (IMPACT_WORDS.has(normWord(w)) ? i : -1)).filter((i) => i >= 0);
+  if (hits.length === 0) return new Set([words.length - 1]);
+  if (hits.length === 1) return new Set(hits);
+  return new Set([hits[0], hits[hits.length - 1]]);
+}
+
 /**
  * Carte « virale »: une punchline percutante, joliment mise en page, que le
  * visiteur peut partager en image (story Instagram, WhatsApp…) ou télécharger.
+ * Design: fond olive quasi noir, texte blanc, 1-2 mots forts en lime.
  */
 export function ViralCard({ punchline, id }: { punchline: string; id?: string }) {
   const [busy, setBusy] = useState(false);
@@ -24,10 +44,10 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
     const ctx = canvas.getContext("2d");
     if (!ctx) return null;
 
-    // Fond nuit olive, dégradé subtil
+    // Fond olive très sombre, presque noir
     const bg = ctx.createLinearGradient(0, 0, 0, H);
-    bg.addColorStop(0, "#1F2216");
-    bg.addColorStop(1, "#2B3020");
+    bg.addColorStop(0, "#0D0F09");
+    bg.addColorStop(1, "#171A10");
     ctx.fillStyle = bg;
     ctx.fillRect(0, 0, W, H);
     // Halos lime (deux coins opposés)
@@ -58,36 +78,57 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
     ctx.textBaseline = "top";
     ctx.fillText("“", W / 2, 70);
 
-    // Punchline centrée (les deux axes), taille auto pour remplir sans déborder
-    ctx.fillStyle = "#F3F3ED";
+    // Punchline centrée, taille auto — mots normaux en blanc, mots forts en lime.
     ctx.textBaseline = "middle";
-    const maxWidth = W - 320;
-    const wrap = (size: number): string[] => {
+    const words = punchline.split(" ");
+    const highlights = pickHighlights(words);
+    const maxWidth = W - 300;
+    type Line = { idx: number[]; width: number };
+    const setFont = (size: number) => {
       ctx.font = `italic 700 ${size}px Georgia, "Times New Roman", serif`;
-      const words = punchline.split(" ");
-      const lines: string[] = [];
-      let line = "";
-      for (const w of words) {
-        const test = line? `${line} ${w}`: w;
-        if (ctx.measureText(test).width > maxWidth && line) {
-          lines.push(line);
-          line = w;
+    };
+    const wrap = (size: number): Line[] => {
+      setFont(size);
+      const space = ctx.measureText(" ").width;
+      const lines: Line[] = [];
+      let cur: number[] = [];
+      let curW = 0;
+      words.forEach((w, i) => {
+        const ww = ctx.measureText(w).width;
+        const test = cur.length? curW + space + ww: ww;
+        if (test > maxWidth && cur.length) {
+          lines.push({ idx: cur, width: curW });
+          cur = [i];
+          curW = ww;
         } else {
-          line = test;
+          cur.push(i);
+          curW = test;
         }
-      }
-      if (line) lines.push(line);
+      });
+      if (cur.length) lines.push({ idx: cur, width: curW });
       return lines;
     };
-    let size = 92;
+    let size = 96;
     let lines = wrap(size);
-    while (lines.length * size * 1.32 > H - 520 && size > 56) {
+    while (lines.length * size * 1.3 > H - 520 && size > 56) {
       size -= 6;
       lines = wrap(size);
     }
-    const lineHeight = size * 1.32;
+    setFont(size);
+    const space = ctx.measureText(" ").width;
+    const lineHeight = size * 1.3;
     const startY = H / 2 - ((lines.length - 1) * lineHeight) / 2 + 10;
-    lines.forEach((l, i) => ctx.fillText(l, W / 2, startY + i * lineHeight));
+    ctx.textAlign = "left";
+    lines.forEach((line, li) => {
+      let x = W / 2 - line.width / 2;
+      const y = startY + li * lineHeight;
+      for (const wi of line.idx) {
+        ctx.fillStyle = highlights.has(wi)? "#CAF000": "#FDFDF9";
+        ctx.fillText(words[wi], x, y);
+        x += ctx.measureText(words[wi]).width + space;
+      }
+    });
+    ctx.textAlign = "center";
 
     // Pied centré : trait lime légèrement courbé + signature
     ctx.strokeStyle = "#CAF000";
@@ -137,23 +178,35 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
         À partager
       </p>
 
-      {/* Aperçu de la carte — format 4:3, composition centrée */}
-      <div className="dark-ctx bg-topo-dark relative mt-4 aspect-[4/3] w-full max-w-sm overflow-hidden rounded-2xl border border-dawn-400/30 shadow-card">
-        <div className="blob -right-12 -top-10 h-40 w-40 bg-dawn-500/25" />
-        <div className="blob -bottom-12 -left-10 h-32 w-32 bg-dawn-500/15" />
-        <div className="pointer-events-none absolute inset-2 rounded-xl border border-dawn-400/30" />
+      {/* Aperçu de la carte — 4:3, olive quasi noir, mots forts en lime */}
+      <div
+        className="dark-ctx relative mt-4 aspect-[4/3] w-full max-w-sm overflow-hidden rounded-2xl border border-dawn-400/30 shadow-card"
+        style={{ background: "linear-gradient(180deg,#0D0F09,#171A10)" }}
+      >
+        <div className="blob -right-12 -top-10 h-40 w-40 bg-dawn-500/20" />
+        <div className="blob -bottom-12 -left-10 h-32 w-32 bg-dawn-500/10" />
+        <div className="pointer-events-none absolute inset-2 rounded-xl border border-dawn-400/25" />
         <div className="relative flex h-full flex-col items-center px-6 py-4 text-center">
-          <span className="font-display text-4xl leading-none text-dawn-300/80">&ldquo;</span>
+          <span className="font-display text-4xl leading-none text-dawn-400/90">&ldquo;</span>
           <div className="flex min-h-0 flex-1 items-center">
-            <p className="font-display text-lg font-extrabold italic leading-snug text-cream sm:text-xl">
-              {punchline}
+            <p className="font-display text-lg font-extrabold italic leading-snug text-white sm:text-xl">
+              {(() => {
+                const words = punchline.split(" ");
+                const hl = pickHighlights(words);
+                return words.map((w, i) => (
+                  <span key={i} className={hl.has(i)? "text-dawn-400": undefined}>
+                    {w}
+                    {i < words.length - 1? " ": ""}
+                  </span>
+                ));
+              })()}
             </p>
           </div>
           <div className="flex flex-col items-center gap-0.5 pb-1">
             <svg width="70" height="10" viewBox="0 0 70 10" className="text-dawn-400" aria-hidden>
               <path d="M3 7 Q 35 2, 67 5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" fill="none" />
             </svg>
-            <span className="font-display text-xs font-bold text-cream">Jack Brunet</span>
+            <span className="font-display text-xs font-bold text-white">Jack Brunet</span>
             <span className="text-[10px] font-semibold text-dawn-300">jackbrunet.com/app</span>
           </div>
         </div>
