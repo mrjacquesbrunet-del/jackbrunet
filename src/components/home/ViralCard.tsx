@@ -79,23 +79,20 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
     ctx.fillText("“", W / 2, 70);
 
     // Punchline centrée, taille auto — mots normaux en blanc, mots forts en lime.
-    // Police « impact » de la charte (Archivo très gras), récupérée depuis la
-    // page pour que l'image exportée utilise la vraie typo de l'app.
+    // Typo élégante de la charte (serif d'affichage), en plus grand qu'avant.
     try {
       await document.fonts.ready;
     } catch {
       /* polices système en repli */
     }
-    const impactFamily =
-      (typeof window !== "undefined" && getComputedStyle(document.body).fontFamily) ||
-      '"Arial Black", Arial, sans-serif';
+    const serifFamily = 'Georgia, "Times New Roman", serif';
     ctx.textBaseline = "middle";
     const words = punchline.split(" ");
     const highlights = pickHighlights(words);
     const maxWidth = W - 260;
     type Line = { idx: number[]; width: number };
     const setFont = (size: number) => {
-      ctx.font = `900 ${size}px ${impactFamily}`;
+      ctx.font = `italic 700 ${size}px ${serifFamily}`;
     };
     const wrap = (size: number): Line[] => {
       setFont(size);
@@ -118,15 +115,15 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
       if (cur.length) lines.push({ idx: cur, width: curW });
       return lines;
     };
-    let size = 118;
+    let size = 106;
     let lines = wrap(size);
-    while (lines.length * size * 1.22 > H - 480 && size > 64) {
+    while (lines.length * size * 1.28 > H - 480 && size > 58) {
       size -= 6;
       lines = wrap(size);
     }
     setFont(size);
     const space = ctx.measureText(" ").width;
-    const lineHeight = size * 1.22;
+    const lineHeight = size * 1.28;
     const startY = H / 2 - ((lines.length - 1) * lineHeight) / 2 + 10;
     ctx.textAlign = "left";
     lines.forEach((line, li) => {
@@ -199,7 +196,7 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
         <div className="relative flex h-full flex-col items-center px-6 py-4 text-center">
           <span className="font-display text-4xl leading-none text-dawn-400/90">&ldquo;</span>
           <div className="flex min-h-0 flex-1 items-center">
-            <p className="font-sans text-[1.35rem] font-black leading-[1.15] tracking-tight text-white sm:text-2xl">
+            <p className="font-display text-xl font-extrabold italic leading-snug text-white sm:text-[1.45rem]">
               {(() => {
                 const words = punchline.split(" ");
                 const hl = pickHighlights(words);
