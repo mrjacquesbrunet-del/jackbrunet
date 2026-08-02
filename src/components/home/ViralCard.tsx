@@ -61,11 +61,37 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, W, H);
     }
-    // Grille discrète (charte)
-    ctx.strokeStyle = "rgba(243,243,237,0.045)";
-    ctx.lineWidth = 1;
-    for (let x = 0; x <= W; x += 100) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
-    for (let y = 0; y <= H; y += 100) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+    // Texture topographique de la charte (mêmes courbes que .bg-topo-dark)
+    const s = W / 700;
+    ctx.lineWidth = 2.2;
+    for (const yb of [-70, 30, 130, 230, 330, 430, 530, 630]) {
+      ctx.strokeStyle = yb === 330? "rgba(202,240,0,0.06)": "rgba(255,255,255,0.055)";
+      ctx.beginPath();
+      ctx.moveTo(-50 * s, yb * s);
+      ctx.bezierCurveTo(160 * s, (yb - 90) * s, 320 * s, (yb + 120) * s, 520 * s, (yb + 10) * s);
+      ctx.bezierCurveTo(720 * s, (yb - 100) * s, 820 * s, (yb - 60) * s, 900 * s, (yb + 60) * s);
+      ctx.stroke();
+    }
+    // Grain (bruit léger, fondu « overlay »)
+    const noise = document.createElement("canvas");
+    noise.width = 160;
+    noise.height = 160;
+    const nctx = noise.getContext("2d");
+    if (nctx) {
+      const img = nctx.createImageData(160, 160);
+      for (let i = 0; i < img.data.length; i += 4) {
+        const v = Math.floor(Math.random() * 255);
+        img.data[i] = v; img.data[i + 1] = v; img.data[i + 2] = v; img.data[i + 3] = 255;
+      }
+      nctx.putImageData(img, 0, 0);
+      ctx.save();
+      ctx.globalAlpha = 0.05;
+      ctx.globalCompositeOperation = "overlay";
+      for (let x = 0; x < W; x += 160) {
+        for (let y = 0; y < H; y += 160) ctx.drawImage(noise, x, y);
+      }
+      ctx.restore();
+    }
     // Fin cadre lime
     ctx.strokeStyle = "rgba(202,240,0,0.45)";
     ctx.lineWidth = 3;
@@ -190,6 +216,12 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
         className="dark-ctx relative mt-4 aspect-[4/3] w-full max-w-sm overflow-hidden rounded-2xl border border-dawn-400/30 shadow-card"
         style={{ background: "linear-gradient(180deg,#0D0F09,#171A10)" }}
       >
+        {/* Textures de la charte : courbes topographiques + grain */}
+        <div
+          className="bg-topo-dark pointer-events-none absolute inset-0 opacity-80"
+          style={{ backgroundColor: "transparent" }}
+        />
+        <div className="bg-noise pointer-events-none absolute inset-0 opacity-[0.08] mix-blend-overlay" />
         <div className="blob -right-12 -top-10 h-40 w-40 bg-dawn-500/20" />
         <div className="blob -bottom-12 -left-10 h-32 w-32 bg-dawn-500/10" />
         <div className="pointer-events-none absolute inset-2 rounded-xl border border-dawn-400/25" />
