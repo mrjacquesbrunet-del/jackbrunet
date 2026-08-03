@@ -56,4 +56,8 @@ jobs:
           npx @capgo/cli@latest bundle upload com.jackbrunet.app \
             --apikey "$CAPGO_TOKEN" \
             --channel "${{ github.event.inputs.channel }}" \
-            --bundle "1.2.${{ github.run_number }}"
+            # IMPORTANT: la version du bundle doit rester SUPÉRIEURE à la
+            # version native installée (ex. 1.7, 1.8…), sinon Capgo refuse
+            # silencieusement la mise à jour (« disableAutoUpdateUnderNative »).
+            # 1.99.x reste au-dessus de toutes les versions natives 1.x.
+            --bundle "1.99.${{ github.run_number }}"
