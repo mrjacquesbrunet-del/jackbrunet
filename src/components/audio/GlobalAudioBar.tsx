@@ -34,8 +34,9 @@ export function GlobalAudioBar() {
     const apply = () => {
       const bar = document.querySelector(".global-audio-bar");
       if (!bar) return;
-      const top = bar.getBoundingClientRect().top;
-      main.style.paddingBottom = `${Math.max(0, window.innerHeight - top) + 12}px`;
+      const rect = bar.getBoundingClientRect();
+      main.style.paddingBottom = `${Math.max(0, window.innerHeight - rect.top) + 12}px`;
+      document.documentElement.style.setProperty("--audio-bar-h", `${rect.height}px`);
     };
     if (visible) {
       const t = setTimeout(apply, 50);
@@ -44,9 +45,11 @@ export function GlobalAudioBar() {
         clearTimeout(t);
         window.removeEventListener("resize", apply);
         main.style.paddingBottom = "";
+        document.documentElement.style.setProperty("--audio-bar-h", "0px");
       };
     }
     main.style.paddingBottom = "";
+    document.documentElement.style.setProperty("--audio-bar-h", "0px");
   }, [visible, pod.current?.title, soak.playing]);
 
   useEffect(() => {
@@ -67,7 +70,7 @@ export function GlobalAudioBar() {
   // Podcast en priorité.
   if (pod.current) {
     return (
-      <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-dawn-400/25 bg-[#1F2216]/98 px-4 py-3 backdrop-blur">
+      <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-dawn-400/25 bg-[#1F2216] px-4 py-3 backdrop-blur">
         <div className="container-x px-0">
           {/* Ligne 1, gros bouton, titre + progression, fermer */}
           <div className="flex items-center gap-3">
@@ -159,7 +162,7 @@ export function GlobalAudioBar() {
   // Sinon: musique soaking en cours.
   if (soak.playing) {
     return (
-      <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-dawn-400/25 bg-[#1F2216]/98 px-4 py-3.5 backdrop-blur">
+      <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-dawn-400/25 bg-[#1F2216] px-4 py-3.5 backdrop-blur">
         <div className="container-x flex items-center gap-3 px-0">
           <button
             type="button"
