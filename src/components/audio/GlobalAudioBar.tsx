@@ -24,6 +24,31 @@ export function GlobalAudioBar() {
   const [time, setTime] = useState(0);
   const [dur, setDur] = useState(0);
 
+  // Réserve la place de la barre : tant qu'elle est visible, le bas de page
+  // est rembourré de (hauteur barre + menu) pour que plus AUCUN bouton ou
+  // texte ne soit caché dessous (ex. « chapitre suivant » dans la Bible).
+  const visible = !!pod.current || soak.playing;
+  useEffect(() => {
+    const main = document.querySelector("main") as HTMLElement | null;
+    if (!main) return;
+    const apply = () => {
+      const bar = document.querySelector(".global-audio-bar");
+      if (!bar) return;
+      const top = bar.getBoundingClientRect().top;
+      main.style.paddingBottom = `${Math.max(0, window.innerHeight - top) + 12}px`;
+    };
+    if (visible) {
+      const t = setTimeout(apply, 50);
+      window.addEventListener("resize", apply);
+      return () => {
+        clearTimeout(t);
+        window.removeEventListener("resize", apply);
+        main.style.paddingBottom = "";
+      };
+    }
+    main.style.paddingBottom = "";
+  }, [visible, pod.current?.title, soak.playing]);
+
   useEffect(() => {
     const a = getPodcastAudio();
     if (!a) return;
@@ -42,7 +67,7 @@ export function GlobalAudioBar() {
   // Podcast en priorité.
   if (pod.current) {
     return (
-      <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-night-900/10 bg-white/95 px-4 py-3 backdrop-blur">
+      <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-dawn-400/25 bg-[#1F2216]/98 px-4 py-3 backdrop-blur">
         <div className="container-x px-0">
           {/* Ligne 1, gros bouton, titre + progression, fermer */}
           <div className="flex items-center gap-3">
@@ -55,28 +80,28 @@ export function GlobalAudioBar() {
               {pod.playing? <PauseGlyph className="h-7 w-7" />: <PlayGlyph className="h-7 w-7" />}
             </button>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-[15px] font-semibold text-night-900/90">
+              <p className="truncate text-[15px] font-semibold text-cream">
                 {pod.current.title}
               </p>
               <div className="mt-1.5 flex items-center gap-2">
-                <span className="text-[10px] tabular-nums text-night-900/45">{fmt(time)}</span>
+                <span className="text-[10px] tabular-nums text-cream/45">{fmt(time)}</span>
                 <input
                   type="range"
                   min={0}
                   max={dur || 0}
                   value={time}
                   onChange={(e) => pod.seek(Number(e.target.value))}
-                  className="h-1.5 flex-1 accent-spirit-600"
+                  className="h-1.5 flex-1 accent-dawn-400"
                   aria-label="Position"
                 />
-                <span className="text-[10px] tabular-nums text-night-900/45">{fmt(dur)}</span>
+                <span className="text-[10px] tabular-nums text-cream/45">{fmt(dur)}</span>
               </div>
             </div>
             <button
               type="button"
               onClick={pod.stop}
               aria-label="Fermer le lecteur"
-              className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-night-900/40 transition-colors hover:bg-night-900/5 hover:text-night-900/70"
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-cream/50 transition-colors hover:bg-white/10 hover:text-cream"
             >
               ✕
             </button>
@@ -96,7 +121,7 @@ export function GlobalAudioBar() {
                 pod.playQueue(q, 0);
               }}
               aria-label="Lecture aléatoire"
-              className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-night-900/55 transition-colors hover:bg-night-900/5"
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-cream/60 transition-colors hover:bg-white/10"
             >
               <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2} aria-hidden>
                 <path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5" strokeLinecap="round" strokeLinejoin="round" />
@@ -110,7 +135,7 @@ export function GlobalAudioBar() {
                 pod.setRate(speeds[(i + 1) % speeds.length]);
               }}
               aria-label="Vitesse de lecture"
-              className="h-9 shrink-0 rounded-full border border-night-900/10 bg-night-900/[0.04] px-3 text-xs font-bold tabular-nums text-night-900/70"
+              className="h-9 shrink-0 rounded-full border border-white/15 bg-white/10 px-3 text-xs font-bold tabular-nums text-cream/80"
             >
               {pod.rate}×
             </button>
@@ -119,7 +144,7 @@ export function GlobalAudioBar() {
               type="button"
               onClick={pod.next}
               aria-label="Suivant"
-              className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-night-900/55 transition-colors hover:bg-night-900/5"
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-cream/60 transition-colors hover:bg-white/10"
             >
               <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current" aria-hidden>
                 <path d="M6 5l9 7-9 7zM17 5h2v14h-2z" />
@@ -134,28 +159,28 @@ export function GlobalAudioBar() {
   // Sinon: musique soaking en cours.
   if (soak.playing) {
     return (
-      <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-spirit-600/20 bg-spirit-500/[0.12] px-4 py-3.5 backdrop-blur">
+      <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-dawn-400/25 bg-[#1F2216]/98 px-4 py-3.5 backdrop-blur">
         <div className="container-x flex items-center gap-3 px-0">
           <button
             type="button"
             onClick={soak.toggle}
             aria-label="Pause"
-            className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-spirit-500 text-cream"
+            className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950 shadow-[0_0_18px_rgba(202,240,0,0.45)] transition-transform active:scale-95"
           >
             <PauseGlyph className="h-6 w-6" />
           </button>
           <div className="min-w-0 flex-1">
-            <p className="flex items-center gap-1.5 text-[15px] font-semibold text-night-900/90">
-              <MusicGlyph className="h-4 w-4 text-spirit-600" />
+            <p className="flex items-center gap-1.5 text-[15px] font-semibold text-cream">
+              <MusicGlyph className="h-4 w-4 text-dawn-400" />
               Musique soaking
             </p>
-            <p className="truncate text-xs text-night-900/55">En cours · {soak.label}</p>
+            <p className="truncate text-xs text-cream/55">En cours · {soak.label}</p>
           </div>
           <button
             type="button"
             onClick={soak.toggle}
             aria-label="Fermer le lecteur"
-            className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-night-900/40 transition-colors hover:bg-night-900/5 hover:text-night-900/70"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-cream/50 transition-colors hover:bg-white/10 hover:text-cream"
           >
             ✕
           </button>
