@@ -61,7 +61,7 @@ export function BottomNav() {
   };
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-[60] border-t border-white/10 bg-[#14160E]/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl">
+    <nav className="bottom-nav fixed inset-x-0 bottom-0 z-[60] border-t border-white/10 bg-[#14160E]/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl">
       <div className="relative mx-auto max-w-lg">
         {/* Rangée glissante: 5 icônes visibles, on glisse vers la gauche pour
             révéler « Soutien » et « À propos » (onglets 6 & 7). */}

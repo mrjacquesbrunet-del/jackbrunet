@@ -27,18 +27,25 @@ export function GlobalAudioBar() {
   // Réserve la place de la barre : tant qu'elle est visible, le bas de page
   // est rembourré de (hauteur barre + menu) pour que plus AUCUN bouton ou
   // texte ne soit caché dessous (ex. « chapitre suivant » dans la Bible).
+  // On mesure aussi la VRAIE hauteur du menu du bas (--bottom-nav-h) pour
+  // coller la barre pile dessus, sans aucun jour entre les deux.
   const visible = !!pod.current || soak.playing;
   useEffect(() => {
     const main = document.querySelector("main") as HTMLElement | null;
     if (!main) return;
     const apply = () => {
-      const bar = document.querySelector(".global-audio-bar");
+      const bar = document.querySelector(".global-audio-bar") as HTMLElement | null;
       if (!bar) return;
-      const rect = bar.getBoundingClientRect();
-      main.style.paddingBottom = `${Math.max(0, window.innerHeight - rect.top) + 12}px`;
-      document.documentElement.style.setProperty("--audio-bar-h", `${rect.height}px`);
+      const nav = document.querySelector(".bottom-nav") as HTMLElement | null;
+      const navH = nav? Math.max(0, window.innerHeight - nav.getBoundingClientRect().top): 0;
+      // 1px de chevauchement sur le menu : aucun liseré clair possible.
+      document.documentElement.style.setProperty("--bottom-nav-h", `${Math.max(0, navH - 1)}px`);
+      const barH = bar.getBoundingClientRect().height;
+      main.style.paddingBottom = `${navH + barH + 12}px`;
+      document.documentElement.style.setProperty("--audio-bar-h", `${barH}px`);
     };
     if (visible) {
+      apply();
       const t = setTimeout(apply, 50);
       window.addEventListener("resize", apply);
       return () => {
@@ -70,7 +77,7 @@ export function GlobalAudioBar() {
   // Podcast en priorité.
   if (pod.current) {
     return (
-      <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-dawn-400/25 bg-[#1F2216] px-4 py-3 backdrop-blur">
+      <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-dawn-400/25 bg-[#1F2216] px-4 py-3.5 backdrop-blur">
         <div className="container-x px-0">
           {/* Ligne 1, gros bouton, titre + progression, fermer */}
           <div className="flex items-center gap-3">
@@ -162,7 +169,7 @@ export function GlobalAudioBar() {
   // Sinon: musique soaking en cours.
   if (soak.playing) {
     return (
-      <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-dawn-400/25 bg-[#1F2216] px-4 py-3.5 backdrop-blur">
+      <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-dawn-400/25 bg-[#1F2216] px-4 py-4 backdrop-blur">
         <div className="container-x flex items-center gap-3 px-0">
           <button
             type="button"
