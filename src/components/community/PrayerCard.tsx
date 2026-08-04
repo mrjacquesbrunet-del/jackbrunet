@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Avatar } from "@/components/community/Avatar";
 import { Celebration } from "@/components/ui/Celebration";
 import { MentionField } from "@/components/community/MentionField";
+import { VoiceRecorderButton, VoiceNotePlayer } from "@/components/community/VoiceNote";
 import { MentionText } from "@/components/community/MentionText";
 import { HandsGlyph, BookmarkGlyph, BookmarkFilledGlyph } from "@/components/ui/DevoIcons";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
@@ -151,6 +152,14 @@ export function PrayerCard({
     await addComment(prayer.id, text, userId);
     await notifyMentions(text, userId, prayer.id);
     setCommentText("");
+    await refreshComments();
+    setBusy(false);
+  }
+
+  /** Note vocale envoyée en encouragement (au lieu du texte). */
+  async function submitVoiceComment(audioUrl: string) {
+    setBusy(true);
+    await addComment(prayer.id, "", userId, null, audioUrl);
     await refreshComments();
     setBusy(false);
   }
@@ -377,7 +386,14 @@ export function PrayerCard({
                                 {c.author?.pseudo?? "Ami(e)"}
                                 {c.author?.verified? <VerifiedBadge className="h-3.5 w-3.5" />: null}
                               </p>
-                              <MentionText text={c.body} className="text-sm text-night-900/85" />
+                              {c.audio_url? (
+                                <div className="mt-1">
+                                  <VoiceNotePlayer src={c.audio_url} />
+                                </div>
+                              ): null}
+                              {c.body? (
+                                <MentionText text={c.body} className="text-sm text-night-900/85" />
+                              ): null}
                             </div>
                             <button
                               type="button"
@@ -415,7 +431,14 @@ export function PrayerCard({
                                       {r.author?.pseudo?? "Ami(e)"}
                                       {r.author?.verified? <VerifiedBadge className="h-3 w-3" />: null}
                                     </p>
-                                    <MentionText text={r.body} className="text-sm text-night-900/85" />
+                                    {r.audio_url? (
+                                      <div className="mt-1">
+                                        <VoiceNotePlayer src={r.audio_url} />
+                                      </div>
+                                    ): null}
+                                    {r.body? (
+                                      <MentionText text={r.body} className="text-sm text-night-900/85" />
+                                    ): null}
                                   </div>
                                   <button
                                     type="button"
@@ -472,7 +495,7 @@ export function PrayerCard({
               </ul>
             )}
 
-            <div className="mt-3 flex gap-2">
+            <div className="mt-3 flex items-center gap-2">
               <MentionField
                 value={commentText}
                 onChange={setCommentText}
@@ -480,6 +503,7 @@ export function PrayerCard({
                 placeholder="Un mot d'encouragement… cite avec @"
                 className="field w-full text-sm"
               />
+              <VoiceRecorderButton userId={userId} onSend={submitVoiceComment} />
               <button
                 type="button"
                 onClick={submitComment}

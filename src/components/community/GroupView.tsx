@@ -45,6 +45,7 @@ import {
   type GroupRole,
   type GroupStatus,
 } from "@/lib/groups";
+import { VoiceRecorderButton, VoiceNotePlayer } from "@/components/community/VoiceNote";
 
 const BG = "#14160E";
 const fieldDark =
@@ -556,7 +557,12 @@ function Chat({ group, userId }: { group: Group; userId: string }) {
               <div key={m.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
                 <div className={`max-w-[80%] rounded-2xl px-3 py-2 ${mine ? "bg-dawn-400 text-night-950" : "bg-white/10 text-cream"}`}>
                   {!mine ? <p className="text-[11px] font-bold opacity-70">{m.author?.pseudo ?? "Membre"}</p> : null}
-                  <p className="whitespace-pre-wrap text-sm">{m.body}</p>
+                  {m.audio_url ? (
+                    <div className="py-0.5">
+                      <VoiceNotePlayer src={m.audio_url} tone={mine ? "light" : "dark"} />
+                    </div>
+                  ) : null}
+                  {m.body ? <p className="whitespace-pre-wrap text-sm">{m.body}</p> : null}
                 </div>
               </div>
             );
@@ -576,6 +582,14 @@ function Chat({ group, userId }: { group: Group; userId: string }) {
         className="mt-2 flex items-center gap-2"
       >
         <input value={text} onChange={(e) => setText(e.target.value)} placeholder="Ton message…" className={`${fieldDark} flex-1`} />
+        <VoiceRecorderButton
+          userId={userId}
+          tone="dark"
+          onSend={async (url) => {
+            await sendMessage(group.id, userId, "", url);
+            load();
+          }}
+        />
         <button type="submit" className="btn-primary text-sm">Envoyer</button>
       </form>
     </div>

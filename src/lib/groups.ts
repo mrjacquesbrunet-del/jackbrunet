@@ -63,6 +63,8 @@ export type GroupMessage = {
   author_id: string;
   body: string;
   created_at: string;
+  /** Note vocale (URL publique) — remplace le texte quand présente. */
+  audio_url?: string | null;
   author?: MiniProfile;
 };
 
@@ -469,10 +471,20 @@ export async function listMessages(groupId: string): Promise<GroupMessage[]> {
   return rows.map((r) => ({ ...r, author: profs[r.author_id] }));
 }
 
-export async function sendMessage(groupId: string, authorId: string, body: string): Promise<boolean> {
+export async function sendMessage(
+  groupId: string,
+  authorId: string,
+  body: string,
+  audioUrl?: string | null,
+): Promise<boolean> {
   const sb = getSupabase();
-  if (!sb || !body.trim()) return false;
-  const { error } = await sb.from("group_messages").insert({ group_id: groupId, author_id: authorId, body: body.trim() });
+  if (!sb || (!body.trim() && !audioUrl)) return false;
+  const { error } = await sb.from("group_messages").insert({
+    group_id: groupId,
+    author_id: authorId,
+    body: body.trim(),
+    ...(audioUrl ? { audio_url: audioUrl } : {}),
+  });
   return !error;
 }
 

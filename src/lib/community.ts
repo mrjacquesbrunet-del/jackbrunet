@@ -39,6 +39,8 @@ export type Comment = {
   created_at: string;
   /** Réponse à un commentaire (null = commentaire de 1er niveau). */
   parent_id?: string | null;
+  /** Note vocale (URL publique) — remplace le texte quand présent. */
+  audio_url?: string | null;
   author?: Profile;
 };
 export type Reaction = { prayer_id: string; user_id: string; type: "heart" | "pray" };
@@ -389,12 +391,17 @@ export async function addComment(
   body: string,
   authorId: string,
   parentId?: string | null,
+  audioUrl?: string | null,
 ) {
   const sb = getSupabase();
   if (!sb) return;
-  await sb
-.from("prayer_comments")
-.insert({ prayer_id: prayerId, body, author_id: authorId, parent_id: parentId?? null });
+  await sb.from("prayer_comments").insert({
+    prayer_id: prayerId,
+    body,
+    author_id: authorId,
+    parent_id: parentId?? null,
+    ...(audioUrl? { audio_url: audioUrl }: {}),
+  });
 }
 
 export async function deleteComment(id: string) {

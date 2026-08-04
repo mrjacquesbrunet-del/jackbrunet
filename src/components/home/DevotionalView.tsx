@@ -11,6 +11,7 @@ import { ViralCard } from "@/components/home/ViralCard";
 import { Markable } from "@/components/ui/Markable";
 import { QuickNote } from "@/components/home/QuickNote";
 import { MoodCheckin } from "@/components/home/MoodCheckin";
+import { DailyPrayerSpotlight } from "@/components/home/DailyPrayerSpotlight";
 import { HomeQuickSlider } from "@/components/home/HomeQuickSlider";
 import { useToolkit } from "@/lib/toolkit";
 import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
@@ -575,6 +576,9 @@ export function DevotionalView({
           <HomeQuickSlider />
         </Reveal>
       </section>
+
+      {/* 6f. Le sujet du jour du mur : prie pour quelqu'un avant de partir */}
+      <DailyPrayerSpotlight />
 
       {/* Promotion du livre RHEMA, avant « Reviens demain » */}
       <section className="container-x">
