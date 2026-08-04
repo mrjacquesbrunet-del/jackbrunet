@@ -10,6 +10,7 @@ import { AudioPlayer } from "@/components/ui/AudioPlayer";
 import { ViralCard } from "@/components/home/ViralCard";
 import { Markable } from "@/components/ui/Markable";
 import { QuickNote } from "@/components/home/QuickNote";
+import { MoodCheckin } from "@/components/home/MoodCheckin";
 import { HomeQuickSlider } from "@/components/home/HomeQuickSlider";
 import { useToolkit } from "@/lib/toolkit";
 import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
@@ -217,6 +218,11 @@ export function DevotionalView({
               </span>
               <span className="font-display text-sm font-bold leading-tight">Récompenses</span>
             </button>
+          </div>
+
+          {/* Check-in émotionnel : un verset selon comment on se sent */}
+          <div className="mt-4">
+            <MoodCheckin />
           </div>
 
           {/* Rappel quotidien (app native uniquement) */}

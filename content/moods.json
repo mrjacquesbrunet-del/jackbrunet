@@ -1,0 +1,143 @@
+{
+  "question": "Comment te sens-tu aujourd'hui ?",
+  "moods": [
+    {
+      "id": "reconnaissant",
+      "label": "Reconnaissant(e)",
+      "emoji": "🙏",
+      "entries": [
+        {
+          "verse": "Rendez grâces en toutes choses, car c'est à votre égard la volonté de Dieu en Jésus-Christ.",
+          "ref": "1 Thessaloniciens 5.18"
+        },
+        {
+          "verse": "Je te louerai de tout mon cœur, je raconterai toutes tes merveilles.",
+          "ref": "Psaume 9.2"
+        },
+        {
+          "verse": "Toute grâce excellente et tout don parfait descendent d'en haut, du Père des lumières.",
+          "ref": "Jacques 1.17"
+        },
+        {
+          "verse": "Bénis l'Éternel, mon âme, et n'oublie aucun de ses bienfaits !",
+          "ref": "Psaume 103.2"
+        }
+      ]
+    },
+    {
+      "id": "joyeux",
+      "label": "Joyeux(se)",
+      "emoji": "😄",
+      "entries": [
+        {
+          "verse": "C'est ici la journée que l'Éternel a faite : qu'elle soit pour nous un sujet d'allégresse et de joie !",
+          "ref": "Psaume 118.24"
+        },
+        {
+          "verse": "La joie de l'Éternel sera votre force.",
+          "ref": "Néhémie 8.10"
+        },
+        {
+          "verse": "Réjouissez-vous toujours dans le Seigneur ; je le répète, réjouissez-vous.",
+          "ref": "Philippiens 4.4"
+        },
+        {
+          "verse": "Tu mets dans mon cœur plus de joie qu'ils n'en ont quand abondent leur froment et leur moût.",
+          "ref": "Psaume 4.8"
+        }
+      ]
+    },
+    {
+      "id": "fatigue",
+      "label": "Fatigué(e)",
+      "emoji": "😮‍💨",
+      "entries": [
+        {
+          "verse": "Venez à moi, vous tous qui êtes fatigués et chargés, et je vous donnerai du repos.",
+          "ref": "Matthieu 11.28"
+        },
+        {
+          "verse": "Il donne de la force à celui qui est fatigué, et il augmente la vigueur de celui qui tombe en défaillance.",
+          "ref": "Ésaïe 40.29"
+        },
+        {
+          "verse": "Ceux qui se confient en l'Éternel renouvellent leur force. Ils prennent le vol comme les aigles.",
+          "ref": "Ésaïe 40.31"
+        },
+        {
+          "verse": "En paix je me couche et je m'endors, car toi seul, ô Éternel, tu me donnes la sécurité dans ma demeure.",
+          "ref": "Psaume 4.9"
+        }
+      ]
+    },
+    {
+      "id": "anxieux",
+      "label": "Anxieux(se)",
+      "emoji": "😟",
+      "entries": [
+        {
+          "verse": "Ne vous inquiétez de rien ; mais en toute chose faites connaître vos besoins à Dieu par des prières et des supplications, avec des actions de grâces.",
+          "ref": "Philippiens 4.6"
+        },
+        {
+          "verse": "Déchargez-vous sur lui de tous vos soucis, car lui-même prend soin de vous.",
+          "ref": "1 Pierre 5.7"
+        },
+        {
+          "verse": "Quand je suis dans la crainte, en toi je me confie.",
+          "ref": "Psaume 56.4"
+        },
+        {
+          "verse": "Je vous laisse la paix, je vous donne ma paix. Que votre cœur ne se trouble point, et ne s'alarme point.",
+          "ref": "Jean 14.27"
+        }
+      ]
+    },
+    {
+      "id": "triste",
+      "label": "Triste",
+      "emoji": "😢",
+      "entries": [
+        {
+          "verse": "L'Éternel est près de ceux qui ont le cœur brisé, et il sauve ceux qui ont l'esprit dans l'abattement.",
+          "ref": "Psaume 34.19"
+        },
+        {
+          "verse": "Il guérit ceux qui ont le cœur brisé, et il panse leurs blessures.",
+          "ref": "Psaume 147.3"
+        },
+        {
+          "verse": "Ceux qui sèment avec larmes moissonneront avec chants d'allégresse.",
+          "ref": "Psaume 126.5"
+        },
+        {
+          "verse": "Pourquoi t'abats-tu, mon âme, et gémis-tu au dedans de moi ? Espère en Dieu, car je le louerai encore.",
+          "ref": "Psaume 42.6"
+        }
+      ]
+    },
+    {
+      "id": "lutte",
+      "label": "En plein combat",
+      "emoji": "⚔️",
+      "entries": [
+        {
+          "verse": "L'Éternel combattra pour vous ; et vous, gardez le silence.",
+          "ref": "Exode 14.14"
+        },
+        {
+          "verse": "Fortifiez-vous dans le Seigneur, et par sa force toute-puissante. Revêtez-vous de toutes les armes de Dieu.",
+          "ref": "Éphésiens 6.10-11"
+        },
+        {
+          "verse": "Tu es mon secours et mon libérateur.",
+          "ref": "Psaume 40.18"
+        },
+        {
+          "verse": "Si Dieu est pour nous, qui sera contre nous ?",
+          "ref": "Romains 8.31"
+        }
+      ]
+    }
+  ]
+}
