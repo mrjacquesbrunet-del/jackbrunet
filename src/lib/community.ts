@@ -574,16 +574,24 @@ export async function suggestedProfiles(userId: string, limit = 12): Promise<Pro
     if (ids.has(r.author_id)) score[r.author_id] = (score[r.author_id]?? 0) + 2;
   }
 
-  // Priorité: d'abord ceux qui ONT une photo, puis les plus actifs.
-  const hasPhoto = (p: Profile) => (p.avatar_url? 1: 0);
-  return candidates
-.sort(
-      (a, b) =>
-        hasPhoto(b) - hasPhoto(a) ||
-        (score[b.id]?? 0) - (score[a.id]?? 0) ||
-        a.pseudo.localeCompare(b.pseudo),
-    )
-.slice(0, limit);
+  // Ordre stable dans chaque groupe : les plus actifs d'abord.
+  const stable = (a: Profile, b: Profile) =>
+    (score[b.id]?? 0) - (score[a.id]?? 0) || a.pseudo.localeCompare(b.pseudo);
+  const withPhoto = candidates.filter((p) => p.avatar_url).sort(stable);
+  const noPhoto = candidates.filter((p) =>!p.avatar_url).sort(stable);
+
+  // Rotation QUOTIDIENNE : chaque jour, une « fenêtre » différente parmi les
+  // profils avec photo (priorité), pour ne pas toujours montrer les mêmes.
+  // Une fois tous les profils avec photo épuisés, le cycle recommence au début.
+  const day = Math.floor(Date.now() / 86_400_000);
+  const rotate = (arr: Profile[]): Profile[] => {
+    if (arr.length <= limit) return arr;
+    const start = (day * limit) % arr.length;
+    return [...arr.slice(start), ...arr.slice(0, start)];
+  };
+  // S'il manque des profils avec photo pour remplir, on complète (aussi en
+  // rotation) avec les autres membres actifs.
+  return [...rotate(withPhoto), ...rotate(noPhoto)].slice(0, limit);
 }
 
 /** Fil des prières des membres que je suis (+ les miennes). */
