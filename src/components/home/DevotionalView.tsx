@@ -169,8 +169,9 @@ export function DevotionalView({
           {/* Palier de série atteint → petite fête */}
           {celebrate? (
             <div className="mt-4 animate-[pulse_1.2s_ease-in-out_2] rounded-2xl border border-dawn-400/40 bg-dawn-400/15 px-4 py-3 text-center">
-              <p className="font-display text-lg font-extrabold">
-                🎉 {celebrate} jours avec Dieu d&apos;affilée !
+              <p className="flex items-center justify-center gap-2 font-display text-lg font-extrabold">
+                <FlameGlyph className="h-5 w-5 text-dawn-600" />
+                {celebrate} jours avec Dieu d&apos;affilée !
               </p>
               <p className="mt-0.5 text-sm text-night-900/65">
                 Ta fidélité porte du fruit. Continue comme ça.

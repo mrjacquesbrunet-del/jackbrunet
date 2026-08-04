@@ -72,7 +72,7 @@ function reminderMessage(streak: number): { title: string; body: string } {
   );
   const base = MORNING_MESSAGES[dayOfYear % MORNING_MESSAGES.length];
   if (streak >= 3) {
-    return { title: `${streak} jours avec Dieu d'affilée 🔥`, body: base.body };
+    return { title: `${streak} jours avec Dieu d'affilée !`, body: base.body };
   }
   return base;
 }

@@ -4,7 +4,6 @@
     {
       "id": "reconnaissant",
       "label": "Reconnaissant(e)",
-      "emoji": "🙏",
       "entries": [
         {
           "verse": "Rendez grâces en toutes choses, car c'est à votre égard la volonté de Dieu en Jésus-Christ.",
@@ -27,7 +26,6 @@
     {
       "id": "joyeux",
       "label": "Joyeux(se)",
-      "emoji": "😄",
       "entries": [
         {
           "verse": "C'est ici la journée que l'Éternel a faite : qu'elle soit pour nous un sujet d'allégresse et de joie !",
@@ -50,7 +48,6 @@
     {
       "id": "fatigue",
       "label": "Fatigué(e)",
-      "emoji": "😮‍💨",
       "entries": [
         {
           "verse": "Venez à moi, vous tous qui êtes fatigués et chargés, et je vous donnerai du repos.",
@@ -73,7 +70,6 @@
     {
       "id": "anxieux",
       "label": "Anxieux(se)",
-      "emoji": "😟",
       "entries": [
         {
           "verse": "Ne vous inquiétez de rien ; mais en toute chose faites connaître vos besoins à Dieu par des prières et des supplications, avec des actions de grâces.",
@@ -96,7 +92,6 @@
     {
       "id": "triste",
       "label": "Triste",
-      "emoji": "😢",
       "entries": [
         {
           "verse": "L'Éternel est près de ceux qui ont le cœur brisé, et il sauve ceux qui ont l'esprit dans l'abattement.",
@@ -119,7 +114,6 @@
     {
       "id": "lutte",
       "label": "En plein combat",
-      "emoji": "⚔️",
       "entries": [
         {
           "verse": "L'Éternel combattra pour vous ; et vous, gardez le silence.",
