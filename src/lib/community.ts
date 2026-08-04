@@ -327,6 +327,14 @@ export async function deletePrayer(id: string) {
 /** Marque une prière comme exaucée (« Dieu a agi ») ou la rouvre. */
 export async function setPrayerAnswered(id: string, answered: boolean) {
   await getSupabase()?.from("prayers").update({ answered }).eq("id", id);
+  // Une prière exaucée = moment de joie → la demande de note peut se montrer.
+  if (answered) {
+    try {
+      window.dispatchEvent(new Event("jb:joy"));
+    } catch {
+      /* hors navigateur */
+    }
+  }
 }
 
 /* ---- Réactions ---- */

@@ -4,39 +4,92 @@ import { useEffect, useState } from "react";
 import { isNativeApp } from "@/lib/notifications";
 import { getOpens } from "@/lib/usage";
 
-const KEY = "jb.rated.v1";
+const DONE = "jb.rated.v1"; // « done » = a ouvert la notation → on ne redemande plus
+const ASKS = "jb.rateasks.v1"; // { n, last } : nombre de demandes + date de la dernière
+
+const MAX_ASKS = 3;
+const COOLDOWN_MS = 14 * 86_400_000; // 14 jours entre deux demandes
+
+type Asks = { n: number; last: number };
+
+function readAsks(): Asks {
+  try {
+    // Migration depuis l'ancienne version : « 1 » signifiait « déjà proposé »
+    // (même sur « Plus tard ») → on le compte comme UNE demande passée.
+    const legacy = localStorage.getItem(DONE);
+    if (legacy === "1") {
+      localStorage.removeItem(DONE);
+      const migrated: Asks = { n: 1, last: Date.now() };
+      localStorage.setItem(ASKS, JSON.stringify(migrated));
+      return migrated;
+    }
+    const raw = localStorage.getItem(ASKS);
+    if (!raw) return { n: 0, last: 0 };
+    return { n: 0, last: 0, ...(JSON.parse(raw) as Partial<Asks>) };
+  } catch {
+    return { n: 0, last: 0 };
+  }
+}
+
+function eligible(): boolean {
+  try {
+    if (localStorage.getItem(DONE) === "done") return false;
+    const a = readAsks();
+    if (a.n >= MAX_ASKS) return false;
+    if (Date.now() - a.last < COOLDOWN_MS) return false;
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function bumpAsks() {
+  try {
+    const a = readAsks();
+    localStorage.setItem(ASKS, JSON.stringify({ n: a.n + 1, last: Date.now() }));
+  } catch {
+    /* ignore */
+  }
+}
 
 /**
- * Demande de note (une fois) après quelques utilisations. On propose d'abord un
- * message doux; si l'utilisateur accepte, on ouvre la fenêtre de notation native
- * du store (App Store / Play Store) via le plugin in-app review.
- * Application native uniquement.
+ * Demande de note, au BON moment :
+ *  - après quelques utilisations (comme avant) ;
+ *  - et surtout aux « moments de joie » (palier de série atteint, prière
+ *    marquée exaucée) via l'événement `jb:joy` — c'est là qu'on a le plus
+ *    envie de dire merci.
+ * Jamais harcelant : 3 demandes maximum, espacées d'au moins 14 jours, et
+ * plus aucune dès que la fenêtre de notation a été ouverte.
  */
 export function RatingPrompt() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
     if (!isNativeApp()) return;
-    try {
-      if (localStorage.getItem(KEY)) return; // déjà proposé
-      if (getOpens() < 4) return; // seulement après quelques utilisations
-    } catch {
-      return;
+    let t: ReturnType<typeof setTimeout> | undefined;
+    if (getOpens() >= 4 && eligible()) {
+      t = setTimeout(() => setShow(true), 1500);
     }
-    const t = setTimeout(() => setShow(true), 1500);
-    return () => clearTimeout(t);
+    // Moment de joie (série, prière exaucée) → moment idéal pour demander.
+    const onJoy = () => {
+      if (eligible()) {
+        clearTimeout(t);
+        t = setTimeout(() => setShow(true), 800);
+      }
+    };
+    window.addEventListener("jb:joy", onJoy);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener("jb:joy", onJoy);
+    };
   }, []);
 
-  function remember() {
+  async function rate() {
     try {
-      localStorage.setItem(KEY, "1");
+      localStorage.setItem(DONE, "done");
     } catch {
       /* ignore */
     }
-  }
-
-  async function rate() {
-    remember();
     setShow(false);
     try {
       const { InAppReview } = await import("@capacitor-community/in-app-review");
@@ -47,7 +100,7 @@ export function RatingPrompt() {
   }
 
   function later() {
-    remember();
+    bumpAsks();
     setShow(false);
   }
 
@@ -70,15 +123,15 @@ export function RatingPrompt() {
           ))}
         </div>
         <h2 className="mt-4 font-display text-2xl font-extrabold text-night-900">
-          Tu aimes l'application ?
+          Tu aimes l&apos;application ?
         </h2>
         <p className="mt-2 text-night-900/65">
-          Ton avis nous aide énormément et permet à d'autres de découvrir ce temps avec Dieu.
-          Merci du fond du cœur.
+          Ta note aide d&apos;autres personnes à découvrir ce temps avec Dieu. Ça prend 10
+          secondes, et ça compte énormément. Merci du fond du cœur.
         </p>
         <div className="mt-6 space-y-3">
           <button type="button" onClick={rate} className="btn-primary w-full justify-center">
-            Noter l'application
+            Noter l&apos;application
           </button>
           <button
             type="button"

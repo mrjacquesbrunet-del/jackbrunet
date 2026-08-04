@@ -102,6 +102,15 @@ export function DevotionalView({
     if (milestones.includes(after)) {
       setCelebrate(after);
       setTimeout(() => setCelebrate(null), 5000);
+      // Moment de joie → occasion idéale de proposer de noter l'app
+      // (après la célébration, jamais pendant).
+      setTimeout(() => {
+        try {
+          window.dispatchEvent(new Event("jb:joy"));
+        } catch {
+          /* ignore */
+        }
+      }, 5600);
     }
   }
 
