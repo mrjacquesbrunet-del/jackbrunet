@@ -36,6 +36,15 @@ jobs:
       - name: Build web (export statique)
         run: npm run build:app
 
+      # Les gros médias (audio des dévotionnels + commentaires, ~230 Mo) sont
+      # servis EN LIGNE par jackbrunet.com (mediaUrl) : on les retire du bundle
+      # natif, sinon l'app dépasse la limite Google Play (200 Mo).
+      - name: Alléger l'app (médias servis par le site)
+        run: |
+          echo "Avant:"; du -sh out || true
+          rm -rf out/audio out/commentary
+          echo "Après:"; du -sh out || true
+
       - name: Synchroniser Capacitor (Android)
         run: npx cap sync android
 

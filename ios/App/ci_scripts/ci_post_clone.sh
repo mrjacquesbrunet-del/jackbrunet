@@ -29,6 +29,12 @@ npm --version
 # Manager), export statique Next.js, puis synchronisation vers iOS.
 npm ci
 npm run build:app
+
+# Les gros médias (audio des dévotionnels + commentaires, ~230 Mo) sont servis
+# EN LIGNE par jackbrunet.com (mediaUrl) : on les retire de l'app pour qu'elle
+# reste légère à télécharger.
+rm -rf out/audio out/commentary
+
 npx cap sync ios
 
 # --- Résolution des paquets Swift (OneSignal, cordova-ios, etc.) -------------
