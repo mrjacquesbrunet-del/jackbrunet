@@ -75,6 +75,13 @@ export function AppOnboarding() {
       /* ignore */
     }
     setDismissed(true);
+    // Pic de motivation : NotifOptIn écoute cet événement pour proposer le
+    // rappel quotidien juste après l'onboarding.
+    try {
+      window.dispatchEvent(new Event("jb:onboarded"));
+    } catch {
+      /* ignore */
+    }
   }
 
   async function apple() {

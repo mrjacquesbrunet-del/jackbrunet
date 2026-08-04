@@ -2,14 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { isNativeApp, readReminder, enableDailyReminder } from "@/lib/notifications";
+import { requestPushPermission } from "@/lib/onesignal";
 import { getOpens } from "@/lib/usage";
 
 const KEY = "jb.notifoptin.v1";
 
 /**
- * Proposition (une fois) d'activer un rappel quotidien à 8h30, si l'utilisateur
- * n'en a pas encore configuré. Application native uniquement. S'affiche après
- * quelques ouvertures pour ne pas déranger au tout premier lancement.
+ * Proposition (une fois) d'activer un rappel quotidien à 8h00, si l'utilisateur
+ * n'en a pas encore configuré. Application native uniquement. S'affiche dès la
+ * fin de l'onboarding (pic de motivation) ou à partir de la 2ᵉ ouverture.
+ * C'est ICI (avec du contexte) que la permission de notification est demandée
+ * — jamais à froid au lancement.
  */
 export function NotifOptIn() {
   const [show, setShow] = useState(false);
@@ -18,15 +21,40 @@ export function NotifOptIn() {
 
   useEffect(() => {
     if (!isNativeApp()) return;
+    const eligible = () => {
+      try {
+        if (localStorage.getItem(KEY)) return false; // déjà décidé
+        if (readReminder().enabled) return false; // rappel déjà actif
+      } catch {
+        return false;
+      }
+      return true;
+    };
+    if (!eligible()) return;
+
+    let t: ReturnType<typeof setTimeout> | undefined;
+    // Dès la 2ᵉ ouverture, ou dès le 1er lancement si l'onboarding est passé.
+    let onboarded = false;
     try {
-      if (localStorage.getItem(KEY)) return; // déjà décidé
-      if (readReminder().enabled) return; // rappel déjà actif
-      if (getOpens() < 2) return; // pas au tout premier lancement
+      onboarded = localStorage.getItem("jb.onboarded") === "1";
     } catch {
-      return;
+      /* ignore */
     }
-    const t = setTimeout(() => setShow(true), 1200);
-    return () => clearTimeout(t);
+    if (getOpens() >= 2 || onboarded) {
+      t = setTimeout(() => setShow(true), 1200);
+    }
+    // L'onboarding vient de se terminer → proposer le rappel dans la foulée.
+    const onOnboarded = () => {
+      if (eligible()) {
+        clearTimeout(t);
+        t = setTimeout(() => setShow(true), 600);
+      }
+    };
+    window.addEventListener("jb:onboarded", onOnboarded);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener("jb:onboarded", onOnboarded);
+    };
   }, []);
 
   function remember() {
@@ -39,11 +67,17 @@ export function NotifOptIn() {
 
   async function activate() {
     setBusy(true);
-    const ok = await enableDailyReminder(8, 30);
+    const ok = await enableDailyReminder(8, 0);
+    if (ok) {
+      // Même moment de contexte → on enregistre aussi l'appareil pour le push
+      // (messages, commentaires…). Sur iOS c'est la même permission : aucune
+      // 2ᵉ fenêtre ne s'affiche.
+      requestPushPermission().catch(() => undefined);
+    }
     setBusy(false);
     remember();
     if (ok) {
-      setMsg("C'est activé. Rendez-vous chaque matin à 8h30.");
+      setMsg("C'est activé. Rendez-vous chaque matin à 8h00.");
       setTimeout(() => setShow(false), 1700);
     } else {
       setMsg("Notifications refusées. Tu peux les autoriser dans les réglages du téléphone.");
@@ -77,7 +111,7 @@ export function NotifOptIn() {
           Ta pensée du jour, <span className="text-gradient">chaque matin</span>
         </h2>
         <p className="mt-2 text-cream/75">
-          On t'envoie un petit rappel chaque jour à 8h30 pour ton temps avec Dieu. Tu pourras
+          On t'envoie un petit rappel chaque jour à 8h00 pour ton temps avec Dieu. Tu pourras
           changer l'heure quand tu veux.
         </p>
 

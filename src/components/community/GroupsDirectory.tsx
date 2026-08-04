@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/community/useAuth";
 import { asset } from "@/lib/asset";
 import { ACCENTS, type AccentKey } from "@/lib/profile-accent";
@@ -28,7 +29,7 @@ function DiscoverCard({ g }: { g: Group }) {
   const c = accentOf(g);
   return (
     <Link
-      href={`/groupe?g=${g.id}`}
+      href={`/groupe/?g=${g.id}`}
       className="relative flex h-48 w-40 shrink-0 snap-start overflow-hidden rounded-3xl"
       style={g.image ? undefined : { backgroundImage: `linear-gradient(150deg, ${c.from}, ${c.to})` }}
     >
@@ -58,7 +59,7 @@ function MyGroupCard({ g }: { g: Group }) {
   const c = accentOf(g);
   return (
     <Link
-      href={`/groupe?g=${g.id}`}
+      href={`/groupe/?g=${g.id}`}
       className="relative flex h-28 w-56 shrink-0 snap-start flex-col justify-end overflow-hidden rounded-3xl p-4 text-white"
       style={g.image ? undefined : { backgroundImage: `linear-gradient(150deg, ${c.from}, ${c.to})` }}
     >
@@ -100,6 +101,7 @@ function ContactBox() {
 }
 
 export function GroupsDirectory() {
+  const router = useRouter();
   const { ready, userId } = useAuth();
   const [query, setQuery] = useState("");
   const [mine, setMine] = useState<Group[] | null>(null);
@@ -142,7 +144,7 @@ export function GroupsDirectory() {
     setMsg("");
     const g = await createGroup(form);
     setBusy(false);
-    if (g) window.location.href = `/groupe?g=${g.id}`;
+    if (g) router.push(`/groupe/?g=${g.id}`);
     else setMsg("Création impossible (vérifie la migration SQL groups, et sois connecté).");
   }
 
@@ -151,7 +153,7 @@ export function GroupsDirectory() {
     if (!code.trim()) return;
     setCodeMsg("…");
     const gid = await joinByCode(code);
-    if (gid) window.location.href = `/groupe?g=${gid}`;
+    if (gid) router.push(`/groupe/?g=${gid}`);
     else setCodeMsg("Code invalide.");
   }
 

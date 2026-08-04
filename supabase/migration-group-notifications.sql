@@ -32,7 +32,7 @@ begin
   select name into gname from public.groups where id = new.group_id;
   insert into public.notifications (user_id, actor_id, type, body, link)
   select gm.user_id, new.author_id, 'group_post', coalesce(gname, ''),
-         '/groupe?g=' || new.group_id
+         '/groupe/?g=' || new.group_id
   from public.group_members gm
   where gm.group_id = new.group_id
     and gm.user_id <> new.author_id
@@ -54,7 +54,7 @@ begin
   select name into gname from public.groups where id = new.group_id;
   insert into public.notifications (user_id, actor_id, type, body, link)
   select gm.user_id, new.author_id, 'group_message', coalesce(gname, ''),
-         '/groupe?g=' || new.group_id
+         '/groupe/?g=' || new.group_id
   from public.group_members gm
   where gm.group_id = new.group_id
     and gm.user_id <> new.author_id
@@ -63,7 +63,7 @@ begin
       select 1 from public.notifications n
       where n.user_id = gm.user_id
         and n.type = 'group_message'
-        and n.link = '/groupe?g=' || new.group_id
+        and n.link = '/groupe/?g=' || new.group_id
         and n.read = false
     );
   return new;
@@ -85,13 +85,13 @@ begin
   -- Arrivée directe (groupe ouvert) → prévient le propriétaire.
   if (tg_op = 'INSERT' and new.status = 'approved' and new.user_id <> gowner) then
     insert into public.notifications (user_id, actor_id, type, body, link)
-    values (gowner, new.user_id, 'group_join', coalesce(gname, ''), '/groupe?g=' || new.group_id);
+    values (gowner, new.user_id, 'group_join', coalesce(gname, ''), '/groupe/?g=' || new.group_id);
   end if;
 
   -- Demande acceptée → prévient le nouveau membre.
   if (tg_op = 'UPDATE' and old.status = 'pending' and new.status = 'approved') then
     insert into public.notifications (user_id, actor_id, type, body, link)
-    values (new.user_id, gowner, 'group_join', coalesce(gname, ''), '/groupe?g=' || new.group_id);
+    values (new.user_id, gowner, 'group_join', coalesce(gname, ''), '/groupe/?g=' || new.group_id);
   end if;
 
   return new;

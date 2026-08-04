@@ -27,15 +27,17 @@ export function DeleteAccountButton() {
       return;
     setBusy(true);
     setMsg("");
-    const ok = await deleteAccount();
-    if (ok) {
+    const res = await deleteAccount();
+    if (res.ok) {
       setMsg("Ton compte a été supprimé. À bientôt.");
       setTimeout(() => {
         window.location.href = "/";
       }, 1400);
     } else {
       setBusy(false);
-      setMsg("La suppression a échoué. Réessaie, ou écris-nous à contact@jackbrunet.com.");
+      setMsg(
+        `La suppression a échoué${res.error ? ` (${res.error})` : ""}. Réessaie, ou écris-nous à contact@jackbrunet.com.`,
+      );
     }
   }
 

@@ -605,7 +605,7 @@ function Members({
   const approved = (members ?? []).filter((m) => m.status === "approved");
   const pending = (members ?? []).filter((m) => m.status === "pending");
   const invited = (members ?? []).filter((m) => m.status === "invited");
-  const inviteLink = typeof window !== "undefined" ? `${window.location.origin}/groupe?g=${group.id}` : "";
+  const inviteLink = typeof window !== "undefined" ? `${window.location.origin}/groupe/?g=${group.id}` : "";
 
   return (
     <div className="mt-4 space-y-4">

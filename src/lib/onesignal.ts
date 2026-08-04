@@ -6,13 +6,20 @@ import { openNotifRoute } from "@/lib/notif-route";
 /** App ID OneSignal (public, sans risque côté client). */
 export const ONESIGNAL_APP_ID = "27d280f7-9f55-4c22-9798-2566a6f24ab3";
 
+/** Évite d'empiler plusieurs écouteurs « click » si l'init est rappelée. */
+let _osInitDone = false;
+
 /**
  * Initialise OneSignal (notifications push), application native uniquement.
  * Charge le plugin dynamiquement pour ne jamais l'inclure côté web.
- * Demande la permission de notification au lancement.
+ * NE demande PAS la permission ici : la demander « à froid » au premier
+ * lancement fait refuser la plupart des gens, et sur iOS ce refus bloque
+ * aussi le rappel quotidien (permission partagée push + locale). La
+ * permission est demandée au bon moment, avec du contexte (NotifOptIn).
  */
 export async function initOneSignal(): Promise<void> {
-  if (!isNativeApp()) return;
+  if (!isNativeApp() || _osInitDone) return;
+  _osInitDone = true;
   try {
     const mod = await import("onesignal-cordova-plugin");
     const OneSignal = (mod as { default?: unknown }).default?? mod;
@@ -31,10 +38,28 @@ export async function initOneSignal(): Promise<void> {
       const ev = e as { notification?: { additionalData?: { route?: string } } };
       openNotifRoute(ev?.notification?.additionalData?.route);
     });
-
-    await OS.Notifications.requestPermission(true).catch(() => undefined);
   } catch {
+    _osInitDone = false;
     /* plugin absent (web) ou erreur d'init → ignoré */
+  }
+}
+
+/**
+ * Demande la permission de notification (et enregistre l'appareil pour le
+ * push). À appeler UNIQUEMENT dans un moment de contexte (l'utilisateur vient
+ * d'activer son rappel, par exemple) — jamais à froid au lancement.
+ */
+export async function requestPushPermission(): Promise<boolean> {
+  if (!isNativeApp()) return false;
+  try {
+    const mod = await import("onesignal-cordova-plugin");
+    const OneSignal = (mod as { default?: unknown }).default ?? mod;
+    const OS = OneSignal as {
+      Notifications: { requestPermission: (fallback: boolean) => Promise<boolean> };
+    };
+    return await OS.Notifications.requestPermission(true);
+  } catch {
+    return false;
   }
 }
 

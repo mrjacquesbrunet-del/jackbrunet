@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useAppMode } from "@/lib/app-mode";
 import { BottomNav } from "@/components/app/BottomNav";
 import { AppOnboarding } from "@/components/app/AppOnboarding";
@@ -21,7 +21,6 @@ import { recordOpen } from "@/lib/usage";
 export function AppShell() {
   const isApp = useAppMode();
   const pathname = usePathname();
-  const router = useRouter();
 
   useEffect(() => {
     const root = document.documentElement;
@@ -29,9 +28,10 @@ export function AppShell() {
     else root.classList.remove("app-native");
   }, [isApp]);
 
-  useEffect(() => {
-    if (isApp && pathname === "/") router.replace("/devotionnel");
-  }, [isApp, pathname, router]);
+  // NOTE: la redirection de l'accueil « / » est gérée UNIQUEMENT par
+  // AppHomeGuard (qui sait aussi ouvrir le contenu d'une notification tapée).
+  // Ne pas rediriger ici : deux redirections concurrentes peuvent écraser le
+  // deep-link d'une notification.
 
   // Couleur de l'heure/notifications adaptée au haut de chaque page (edge-to-edge):
   // texte clair sur les pages à en-tête sombre, foncé sur les pages claires.

@@ -88,6 +88,19 @@ export function DevotionalView({
   const eng = useEngagement();
   const tk = useToolkit();
 
+  // Mini-célébration quand la série atteint un palier (3, 5, 7, 14, 21, 30…).
+  const [celebrate, setCelebrate] = useState<number | null>(null);
+  function meditate() {
+    const before = eng.streak;
+    eng.markCompletedToday();
+    // La série vient d'avancer : si on touche un palier, on le fête.
+    const milestones = [3, 5, 7, 14, 21, 30, 60, 100];
+    const after = before + 1;
+    if (milestones.includes(after)) {
+      setCelebrate(after);
+      setTimeout(() => setCelebrate(null), 5000);
+    }
+  }
 
   const paragraphs = dev.meditation.split("\n\n");
 
@@ -122,7 +135,7 @@ export function DevotionalView({
                 </p>
                 <p className="text-xs text-night-900/55">
                   de suite
-                  {eng.best > eng.streak? ` · record ${eng.best}`: ""}
+                  {eng.best > 1? ` · record ${eng.best}`: ""}
                 </p>
               </div>
             </div>
@@ -144,13 +157,37 @@ export function DevotionalView({
 
             <button
               type="button"
-              onClick={eng.markCompletedToday}
+              onClick={meditate}
               disabled={eng.isCompletedToday}
               className={`sm:ml-auto ${eng.isCompletedToday? "btn-ghost": "btn-primary"}`}
             >
               {eng.isCompletedToday? "✓ Médité aujourd'hui": "J'ai médité aujourd'hui"}
             </button>
           </div>
+
+          {/* Palier de série atteint → petite fête */}
+          {celebrate? (
+            <div className="mt-4 animate-[pulse_1.2s_ease-in-out_2] rounded-2xl border border-dawn-400/40 bg-dawn-400/15 px-4 py-3 text-center">
+              <p className="font-display text-lg font-extrabold">
+                🎉 {celebrate} jours avec Dieu d&apos;affilée !
+              </p>
+              <p className="mt-0.5 text-sm text-night-900/65">
+                Ta fidélité porte du fruit. Continue comme ça.
+              </p>
+            </div>
+          ): null}
+
+          {/* Série perdue récemment → encouragement doux à la reconstruire */}
+          {!celebrate && eng.previousStreak >= 3 && eng.streak <= 2? (
+            <div className="mt-4 rounded-2xl border border-spirit-500/25 bg-spirit-500/[0.07] px-4 py-3">
+              <p className="text-sm font-semibold text-night-900/80">
+                Ta série repart — tu étais monté(e) à {eng.previousStreak} jours de suite.
+              </p>
+              <p className="mt-0.5 text-xs text-night-900/55">
+                Aucune culpabilité : un jour après l&apos;autre, tu vas les retrouver.
+              </p>
+            </div>
+          ): null}
 
           {/* Musique de fond pour méditer + cadeau */}
           <div className="mt-4">

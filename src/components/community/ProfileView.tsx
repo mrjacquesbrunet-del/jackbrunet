@@ -569,8 +569,11 @@ function Profile({
                 )
               )
                 return;
-              const ok = await deleteAccount();
-              if (!ok) alert("La suppression a échoué. Réessaie ou écris-nous.");
+              const res = await deleteAccount();
+              if (!res.ok)
+                alert(
+                  `La suppression a échoué${res.error ? ` (${res.error})` : ""}. Réessaie ou écris-nous.`,
+                );
             }}
             className="text-red-600/70 hover:underline"
           >

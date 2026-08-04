@@ -70,12 +70,30 @@ export type Notification = {
 };
 
 /* ---- Auth ---- */
+
+/**
+ * Base des URLs de redirection d'authentification. Dans l'app native,
+ * `window.location.origin` vaut `capacitor://localhost` : un magic-link ou un
+ * OAuth qui y redirige est inutilisable (lien mort). On force alors le site.
+ * NOTE : `https://jackbrunet.com/communaute/` doit figurer dans les
+ * « Redirect URLs » de Supabase Auth.
+ */
+function authRedirectBase(): string {
+  try {
+    const origin = window.location.origin;
+    if (origin.startsWith("http")) return origin;
+  } catch {
+    /* ignore */
+  }
+  return "https://jackbrunet.com";
+}
+
 export async function signInEmail(email: string) {
   const sb = getSupabase();
   if (!sb) throw new Error("non configuré");
   return sb.auth.signInWithOtp({
     email,
-    options: { emailRedirectTo: `${window.location.origin}/communaute/` },
+    options: { emailRedirectTo: `${authRedirectBase()}/communaute/` },
   });
 }
 
@@ -84,7 +102,7 @@ export async function signInGoogle() {
   if (!sb) throw new Error("non configuré");
   const { data, error } = await sb.auth.signInWithOAuth({
     provider: "google",
-    options: { redirectTo: `${window.location.origin}/communaute/` },
+    options: { redirectTo: `${authRedirectBase()}/communaute/` },
   });
   if (error) throw error;
   // Au cas où la redirection automatique ne se déclenche pas (certains
@@ -98,7 +116,7 @@ export async function signInApple() {
   if (!sb) throw new Error("non configuré");
   const { data, error } = await sb.auth.signInWithOAuth({
     provider: "apple",
-    options: { redirectTo: `${window.location.origin}/communaute/` },
+    options: { redirectTo: `${authRedirectBase()}/communaute/` },
   });
   if (error) throw error;
   if (data?.url) window.location.assign(data.url);
@@ -144,14 +162,15 @@ export async function signInEmailPassword(email: string, password: string) {
   return data;
 }
 
-/** Suppression du compte (exigence App Store) via une fonction Supabase. */
-export async function deleteAccount(): Promise<boolean> {
+/** Suppression du compte (exigence App Store) via une fonction Supabase.
+ * Renvoie le détail de l'erreur pour l'afficher (plutôt qu'un échec muet). */
+export async function deleteAccount(): Promise<{ ok: boolean; error?: string }> {
   const sb = getSupabase();
-  if (!sb) return false;
+  if (!sb) return { ok: false, error: "Service non configuré." };
   const { error } = await sb.rpc("delete_user");
-  if (error) return false;
+  if (error) return { ok: false, error: error.message };
   await sb.auth.signOut();
-  return true;
+  return { ok: true };
 }
 
 export async function signOut() {
@@ -212,20 +231,44 @@ async function profilesByIds(ids: string[]): Promise<Record<string, Profile>> {
 }
 
 /* ---- Prières ---- */
-export async function listPrayers(): Promise<Prayer[]> {
+
+/** Le mur de prières. Renvoie `null` en cas d'ERREUR réseau/serveur, pour que
+ * l'interface distingue « problème de connexion » d'un mur réellement vide. */
+export async function listPrayers(): Promise<Prayer[] | null> {
   const sb = getSupabase();
   if (!sb) return [];
-  const { data } = await sb
-.from("prayers")
-.select("*")
-.order("created_at", { ascending: false })
-.limit(60);
-  const prayers = (data as Prayer[])?? [];
+  // Les 60 plus récentes + TOUS les sujets épinglés (même anciens) : un sujet
+  // épinglé par l'admin ne doit jamais disparaître du haut du mur.
+  const [recent, pinned] = await Promise.all([
+    sb.from("prayers").select("*").order("created_at", { ascending: false }).limit(60),
+    sb.from("prayers").select("*").eq("pinned", true).limit(10),
+  ]);
+  if (recent.error) return null;
+  const seen = new Set<string>();
+  const prayers: Prayer[] = [];
+  for (const p of [...(((pinned.data as Prayer[]) ?? [])), ...(((recent.data as Prayer[]) ?? []))]) {
+    if (!seen.has(p.id)) {
+      seen.add(p.id);
+      prayers.push(p);
+    }
+  }
   const profs = await profilesByIds(prayers.map((p) => p.author_id));
   // Les sujets épinglés (par l'admin) remontent en tête, sans casser l'ordre.
   return prayers
 .map((p) => ({...p, author: profs[p.author_id] }))
 .sort((a, b) => Number(b.pinned?? false) - Number(a.pinned?? false));
+}
+
+/** Une prière précise (deep-link de notification) même si elle n'est plus dans
+ * les 60 récentes du mur. RLS : visible seulement si on y a droit. */
+export async function getPrayer(id: string): Promise<Prayer | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  const { data } = await sb.from("prayers").select("*").eq("id", id).maybeSingle();
+  const p = (data as Prayer) ?? null;
+  if (!p) return null;
+  const profs = await profilesByIds([p.author_id]);
+  return { ...p, author: profs[p.author_id] };
 }
 
 /** Admin: épingle / désépingle un sujet de prière. */
@@ -594,18 +637,20 @@ export async function suggestedProfiles(userId: string, limit = 12): Promise<Pro
   return [...rotate(withPhoto), ...rotate(noPhoto)].slice(0, limit);
 }
 
-/** Fil des prières des membres que je suis (+ les miennes). */
-export async function listFollowingFeed(userId: string): Promise<Prayer[]> {
+/** Fil des prières des membres que je suis (+ les miennes).
+ * Renvoie `null` en cas d'erreur réseau/serveur (≠ fil réellement vide). */
+export async function listFollowingFeed(userId: string): Promise<Prayer[] | null> {
   const sb = getSupabase();
   if (!sb) return [];
   const ids = await listFollowingIds(userId);
   const authors = Array.from(new Set([...ids, userId]));
-  const { data } = await sb
+  const { data, error } = await sb
 .from("prayers")
 .select("*")
 .in("author_id", authors)
 .order("created_at", { ascending: false })
 .limit(60);
+  if (error) return null;
   const prayers = (data as Prayer[])?? [];
   const profs = await profilesByIds(prayers.map((p) => p.author_id));
   return prayers.map((p) => ({...p, author: profs[p.author_id] }));
@@ -627,28 +672,31 @@ export async function getActivity(
 }
 
 /** Grade de prière (« Intercesseur », « Guerrier »…) par auteur, pour le mur.
- * Calculé depuis l'activité de chaque membre, en parallèle. */
+ * 3 requêtes groupées pour TOUS les auteurs à la fois (au lieu d'un appel RPC
+ * par membre — jusqu'à 60 requêtes par chargement du mur auparavant). */
 export async function gradesFor(ids: string[]): Promise<Record<string, string>> {
   const sb = getSupabase();
   const uniq = Array.from(new Set(ids));
   if (!sb || uniq.length === 0) return {};
-  const entries = await Promise.all(
-    uniq.map(async (id) => {
-      try {
-        const { data } = await sb.rpc("user_activity", { uid: id });
-        const row = Array.isArray(data)? data[0]: data;
-        const a = {
-          prayers: row?.prayers?? 0,
-          comments: row?.comments?? 0,
-          prays: row?.prays?? 0,
-        };
-        return [id, gradeFor(a).grade.name] as const;
-      } catch {
-        return [id, ""] as const;
-      }
-    }),
-  );
-  return Object.fromEntries(entries.filter(([, name]) => name));
+  try {
+    const [pr, cm, rx] = await Promise.all([
+      sb.from("prayers").select("author_id").in("author_id", uniq).limit(4000),
+      sb.from("prayer_comments").select("author_id").in("author_id", uniq).limit(8000),
+      sb.from("prayer_reactions").select("user_id").eq("type", "pray").in("user_id", uniq).limit(8000),
+    ]);
+    const acc: Record<string, { prayers: number; comments: number; prays: number }> = {};
+    const bump = (id: string, k: "prayers" | "comments" | "prays") => {
+      (acc[id] ??= { prayers: 0, comments: 0, prays: 0 })[k] += 1;
+    };
+    for (const r of ((pr.data as { author_id: string }[]) ?? [])) bump(r.author_id, "prayers");
+    for (const r of ((cm.data as { author_id: string }[]) ?? [])) bump(r.author_id, "comments");
+    for (const r of ((rx.data as { user_id: string }[]) ?? [])) bump(r.user_id, "prays");
+    const out: Record<string, string> = {};
+    for (const id of uniq) out[id] = gradeFor(acc[id] ?? { prayers: 0, comments: 0, prays: 0 }).grade.name;
+    return out;
+  } catch {
+    return {};
+  }
 }
 
 /* ---- Notifications ---- */

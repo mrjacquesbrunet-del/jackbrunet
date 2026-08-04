@@ -20,6 +20,7 @@ import {
   updateProfile,
   listPrayers,
   listFollowingFeed,
+  getPrayer,
   createPrayer,
   notifyMentions,
   isPseudoTaken,
@@ -79,6 +80,7 @@ function Feed({
   const [commentCounts, setCommentCounts] = useState<Record<string, number>>({});
   const [grades, setGrades] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
   const [body, setBody] = useState("");
   const [visibility, setVisibility] = useState<Visibility>("public");
   const [posting, setPosting] = useState(false);
@@ -102,8 +104,28 @@ function Feed({
 
   const load = useCallback(async () => {
     setLoading(true);
+    setLoadError(false);
     setBlockedIds(await listBlockedIds());
-    const ps = tab === "following"? await listFollowingFeed(userId): await listPrayers();
+    const result = tab === "following"? await listFollowingFeed(userId): await listPrayers();
+    // `null` = erreur réseau/serveur : on l'affiche (≠ mur réellement vide).
+    if (result === null) {
+      setLoadError(true);
+      setLoading(false);
+      return;
+    }
+    let ps = result;
+    // Deep-link de notification : si la prière ciblée n'est plus dans les 60
+    // récentes, on va la chercher directement et on l'affiche en tête.
+    let pid: string | null = null;
+    try {
+      pid = new URLSearchParams(window.location.search).get("prayer");
+    } catch {
+      /* ignore */
+    }
+    if (pid && !ps.some((p) => p.id === pid)) {
+      const missing = await getPrayer(pid);
+      if (missing) ps = [missing, ...ps];
+    }
     setPrayers(ps);
     const ids = ps.map((p) => p.id);
     const [rx, counts] = await Promise.all([reactionsFor(ids), commentCountsFor(ids)]);
@@ -359,6 +381,18 @@ function Feed({
       <div className="mt-5">
         {loading? (
           <p className="text-night-900/50">Chargement du fil…</p>
+        ): loadError? (
+          <div className="rounded-2xl border border-night-900/10 bg-night-900/[0.03] p-5 text-center">
+            <p className="font-semibold text-night-900/75">
+              Impossible de charger le mur de prière.
+            </p>
+            <p className="mt-1 text-sm text-night-900/55">
+              Vérifie ta connexion internet, puis réessaie.
+            </p>
+            <button type="button" onClick={load} className="btn-primary mt-4 text-sm">
+              Réessayer
+            </button>
+          </div>
         ): shown.length === 0? (
           <p className="text-night-900/55">
             {q
