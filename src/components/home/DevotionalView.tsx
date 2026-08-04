@@ -401,6 +401,9 @@ export function DevotionalView({
         </Reveal>
       </section>
 
+      {/* 4b. Le sujet du jour du mur : porter quelqu'un dans la prière */}
+      <DailyPrayerSpotlight />
+
       {/* 5. Vidéo du jour (avant la lecture) */}
       {latestShort? (
         <section className="container-x">
@@ -576,9 +579,6 @@ export function DevotionalView({
           <HomeQuickSlider />
         </Reveal>
       </section>
-
-      {/* 6f. Le sujet du jour du mur : prie pour quelqu'un avant de partir */}
-      <DailyPrayerSpotlight />
 
       {/* Promotion du livre RHEMA, avant « Reviens demain » */}
       <section className="container-x">
