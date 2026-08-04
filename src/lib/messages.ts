@@ -64,6 +64,24 @@ export async function markMessagesRead(meId: string, partnerId: string) {
 .eq("read", false);
 }
 
+/** Remet une conversation « non lue » (pour y revenir plus tard) : le dernier
+ * message reçu de cette personne repasse en non lu → la pastille revient. */
+export async function markConversationUnread(meId: string, partnerId: string): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  const { data } = await sb
+.from("messages")
+.select("id")
+.eq("recipient_id", meId)
+.eq("sender_id", partnerId)
+.order("created_at", { ascending: false })
+.limit(1);
+  const id = (data as { id: string }[] | null)?.[0]?.id;
+  if (!id) return false;
+  const { error } = await sb.from("messages").update({ read: false }).eq("id", id);
+  return !error;
+}
+
 /** Liste des conversations (dernier message + non-lus par personne). */
 export async function listConversations(): Promise<Conversation[]> {
   const sb = getSupabase();

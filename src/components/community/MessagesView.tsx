@@ -12,6 +12,7 @@ import {
   listConversations,
   listMessages,
   markMessagesRead,
+  markConversationUnread,
   sendMessage,
   type Conversation,
   type Message,
@@ -121,11 +122,30 @@ function StartSearch() {
 
 /* ---------- Liste des conversations ---------- */
 function Inbox() {
+  const { userId } = useAuth();
   const [convos, setConvos] = useState<Conversation[] | null>(null);
 
   useEffect(() => {
     listConversations().then(setConvos);
   }, []);
+
+  /** Repasse la conversation en « non lu » (pour y revenir plus tard). */
+  async function toUnread(c: Conversation) {
+    if (!userId) return;
+    setConvos((prev) =>
+      prev? prev.map((x) => (x.partner_id === c.partner_id? {...x, unread: Math.max(1, x.unread) }: x)): prev,
+    );
+    await markConversationUnread(userId, c.partner_id);
+  }
+
+  /** Marque la conversation comme lue sans l'ouvrir. */
+  async function toRead(c: Conversation) {
+    if (!userId) return;
+    setConvos((prev) =>
+      prev? prev.map((x) => (x.partner_id === c.partner_id? {...x, unread: 0 }: x)): prev,
+    );
+    await markMessagesRead(userId, c.partner_id);
+  }
 
   return (
     <section className="container-x pb-16 pt-24 sm:pt-28">
@@ -150,25 +170,57 @@ function Inbox() {
         ): (
           <ul className="mt-6 space-y-2">
             {convos.map((c) => (
-              <li key={c.partner_id}>
+              <li
+                key={c.partner_id}
+                className="flex items-center gap-1 rounded-2xl border border-night-900/10 bg-white p-1.5 transition-colors hover:bg-night-900/[0.02]"
+              >
                 <Link
                   href={`/messages?u=${c.partner_id}`}
-                  className="flex items-center gap-3 rounded-2xl border border-night-900/10 bg-white p-3 transition-colors hover:bg-night-900/[0.02]"
+                  className="flex min-w-0 flex-1 items-center gap-3 rounded-xl p-1.5"
                 >
                   <Avatar pseudo={c.partner?.pseudo} url={c.partner?.avatar_url} size={44} />
                   <div className="min-w-0 flex-1">
-                    <p className="flex items-center gap-1 font-semibold text-night-900/85">
+                    <p
+                      className={`flex items-center gap-1 text-night-900/85 ${
+                        c.unread > 0? "font-bold": "font-semibold"
+                      }`}
+                    >
                       {c.partner?.pseudo?? "Membre"}
                       {c.partner?.verified? <VerifiedBadge className="h-4 w-4" />: null}
                     </p>
-                    <p className="truncate text-sm text-night-900/55">{c.last_body}</p>
+                    <p
+                      className={`truncate text-sm ${
+                        c.unread > 0? "font-semibold text-night-900/80": "text-night-900/55"
+                      }`}
+                    >
+                      {c.last_body}
+                    </p>
                   </div>
-                  {c.unread > 0? (
-                    <span className="grid min-w-[22px] place-items-center rounded-full bg-dawn-400 px-1.5 text-xs font-bold text-night-900">
-                      {c.unread}
-                    </span>
-                  ): null}
                 </Link>
+                {c.unread > 0? (
+                  <button
+                    type="button"
+                    onClick={() => toRead(c)}
+                    aria-label="Marquer comme lu"
+                    title="Marquer comme lu"
+                    className="mr-1 grid h-9 min-w-[26px] shrink-0 place-items-center rounded-full bg-dawn-400 px-2 text-xs font-bold text-night-900 active:scale-95"
+                  >
+                    {c.unread}
+                  </button>
+                ): (
+                  <button
+                    type="button"
+                    onClick={() => toUnread(c)}
+                    aria-label="Remettre en non lu"
+                    title="Remettre en non lu (pour y revenir plus tard)"
+                    className="mr-1 grid h-9 w-9 shrink-0 place-items-center rounded-full text-night-900/35 transition-colors hover:bg-night-900/[0.06] hover:text-night-900/70 active:scale-95"
+                  >
+                    <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-none stroke-current" strokeWidth={1.7} aria-hidden>
+                      <path d="M4 7.5A2.5 2.5 0 0 1 6.5 5h11A2.5 2.5 0 0 1 20 7.5v9a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 16.5zM4.5 7l7.5 6 7.5-6" strokeLinecap="round" strokeLinejoin="round" />
+                      <circle cx="19" cy="6" r="4" className="fill-dawn-400 stroke-none" />
+                    </svg>
+                  </button>
+                )}
               </li>
             ))}
           </ul>
