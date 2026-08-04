@@ -16,6 +16,12 @@
 alter table public.notifications add column if not exists body text;
 alter table public.notifications add column if not exists link text;
 
+-- 0b) Répare les liens de groupe déjà enregistrés (slash final requis par
+--     l'app : « /groupe/?g=… » et non « /groupe?g=… »).
+update public.notifications
+  set link = replace(link, '/groupe?g=', '/groupe/?g=')
+  where link like '/groupe?g=%';
+
 -- 1) Liste complète des types autorisés
 alter table public.notifications drop constraint if exists notifications_type_check;
 alter table public.notifications add constraint notifications_type_check
