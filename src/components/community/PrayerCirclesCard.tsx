@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 
-/** Icône groupe (charte, trait fin — même code que le menu). */
-function CircleIcon({ className }: { className?: string }) {
+/** Icônes en trait (charte — mêmes codes que le menu). */
+function GroupsIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth={1.7} aria-hidden>
       <path
@@ -14,33 +14,49 @@ function CircleIcon({ className }: { className?: string }) {
     </svg>
   );
 }
+function CreateCircleIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth={1.7} aria-hidden>
+      <path
+        d="M12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6M6.5 20v-.8a5.5 5.5 0 0 1 11 0v.8M19 4v4M21 6h-4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
 
 /**
- * Accès DISCRET aux « cercles de prière » depuis le mur : une fine rangée
- * (créer un cercle privé / rejoindre avec un code), pour ne pas retarder
- * l'arrivée sur le mur lui-même.
+ * Deux tuiles compactes côte à côte sur le mur : « Mes groupes » et
+ * « Créer ton cercle » (prière privée entre proches). Discrètes, pour ne
+ * pas retarder l'arrivée sur le mur.
  */
 export function PrayerCirclesCard() {
   return (
-    <div className="dark-ctx mt-4 flex items-center gap-3 rounded-2xl bg-[#1F2216] px-3.5 py-2.5 text-cream">
-      <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-dawn-400/15 text-dawn-300">
-        <CircleIcon className="h-4 w-4" />
-      </span>
-      <div className="min-w-0 flex-1 leading-tight">
-        <p className="truncate text-sm font-bold">Cercles de prière</p>
-        <p className="truncate text-[11px] text-cream/55">Prie en privé avec tes proches</p>
-      </div>
+    <div className="mt-4 grid grid-cols-2 gap-2">
       <Link
-        href="/groupes/?nouveau=cercle"
-        className="shrink-0 rounded-full bg-dawn-400 px-3 py-1.5 text-xs font-bold text-night-950"
+        href="/groupes"
+        className="dark-ctx flex flex-col items-center gap-1.5 rounded-2xl bg-[#1F2216] px-3 py-4 text-center text-cream transition-transform active:scale-[0.98]"
       >
-        Créer
+        <span className="grid h-9 w-9 place-items-center rounded-full bg-dawn-400/15 text-dawn-300">
+          <GroupsIcon className="h-[18px] w-[18px]" />
+        </span>
+        <span className="text-xs font-bold leading-tight">Mes groupes</span>
+        <span className="text-[10px] leading-tight text-cream/55">
+          Retrouver et rejoindre des groupes
+        </span>
       </Link>
       <Link
-        href="/groupes/?rejoindre=1"
-        className="shrink-0 rounded-full border border-white/20 px-3 py-1.5 text-xs font-semibold text-cream/85"
+        href="/groupes/?nouveau=cercle"
+        className="dark-ctx flex flex-col items-center gap-1.5 rounded-2xl bg-[#1F2216] px-3 py-4 text-center text-cream transition-transform active:scale-[0.98]"
       >
-        Code
+        <span className="grid h-9 w-9 place-items-center rounded-full bg-dawn-400/15 text-dawn-300">
+          <CreateCircleIcon className="h-[18px] w-[18px]" />
+        </span>
+        <span className="text-xs font-bold leading-tight">Créer ton cercle</span>
+        <span className="text-[10px] leading-tight text-cream/55">
+          Prière privée entre proches
+        </span>
       </Link>
     </div>
   );
