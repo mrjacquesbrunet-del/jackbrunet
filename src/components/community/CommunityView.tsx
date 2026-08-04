@@ -90,6 +90,9 @@ function Feed({
   const [pseudoErr, setPseudoErr] = useState("");
   const [tab, setTab] = useState<"all" | "following">("all");
   const [search, setSearch] = useState("");
+  // Filtre d'état des sujets : tout / en cours / exaucés.
+  const [statusFilter, setStatusFilter] = useState<"all" | "encours" | "exaucees">("all");
+  const [showFilter, setShowFilter] = useState(false);
   const [blockedIds, setBlockedIds] = useState<string[]>([]);
   // Sujet ciblé par un clic sur une notification (/communaute?prayer=<id>) :
   // sa carte s'ouvre sur les commentaires et défile jusqu'à elle.
@@ -175,7 +178,14 @@ function Feed({
   // Recherche dans les sujets de prière (filtre le fil affiché).
   const q = search.trim().toLowerCase();
   const visible = prayers.filter((p) => !blockedIds.includes(p.author_id));
-  const shown = q? visible.filter((p) => p.body.toLowerCase().includes(q)): visible;
+  const searched = q? visible.filter((p) => p.body.toLowerCase().includes(q)): visible;
+  // Puis filtre d'état : prières en cours / exaucées.
+  const shown =
+    statusFilter === "exaucees"
+? searched.filter((p) => p.answered)
+: statusFilter === "encours"
+? searched.filter((p) => !p.answered)
+: searched;
 
   return (
     <>
@@ -347,24 +357,65 @@ function Feed({
         ))}
       </div>
 
-      {/* Recherche sur le mur de prière, carte sombre, écriture fluo */}
-      <div className="relative mt-4">
-        <svg
-          viewBox="0 0 24 24"
-          className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 fill-none stroke-dawn-400"
-          strokeWidth={2}
-          aria-hidden
+      {/* Recherche sur le mur de prière + filtre d'état (en cours / exaucées) */}
+      <div className="mt-4 flex items-center gap-2">
+        <div className="relative flex-1">
+          <svg
+            viewBox="0 0 24 24"
+            className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 fill-none stroke-dawn-400"
+            strokeWidth={2}
+            aria-hidden
+          >
+            <circle cx="11" cy="11" r="7" />
+            <path d="M21 21l-4.3-4.3" strokeLinecap="round" />
+          </svg>
+          <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Rechercher sur le mur de prière…"
+            className="w-full rounded-full border border-white/10 bg-night-950 py-3 pl-11 pr-4 text-sm font-semibold text-dawn-300 placeholder:font-medium placeholder:text-dawn-300/45 focus:border-dawn-400/60 focus:outline-none"
+          />
+        </div>
+        <button
+          type="button"
+          onClick={() => setShowFilter((s) => !s)}
+          aria-label="Filtrer les prières"
+          title="Filtrer : en cours / exaucées"
+          className={`grid h-11 w-11 shrink-0 place-items-center rounded-full border transition-colors active:scale-95 ${
+            statusFilter !== "all"
+? "border-dawn-400 bg-dawn-400 text-night-950"
+: "border-white/10 bg-night-950 text-dawn-300"
+          }`}
         >
-          <circle cx="11" cy="11" r="7" />
-          <path d="M21 21l-4.3-4.3" strokeLinecap="round" />
-        </svg>
-        <input
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Rechercher sur le mur de prière…"
-          className="w-full rounded-full border border-white/10 bg-night-950 py-3 pl-11 pr-4 text-sm font-semibold text-dawn-300 placeholder:font-medium placeholder:text-dawn-300/45 focus:border-dawn-400/60 focus:outline-none"
-        />
+          <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-none stroke-current" strokeWidth={1.9} aria-hidden>
+            <path d="M4 6h16M7 12h10M10 18h4" strokeLinecap="round" />
+          </svg>
+        </button>
       </div>
+      {showFilter? (
+        <div className="mt-2 flex flex-wrap gap-1.5">
+          {(
+            [
+              ["all", "Toutes"],
+              ["encours", "En cours"],
+              ["exaucees", "Exaucées"],
+            ] as const
+          ).map(([key, lbl]) => (
+            <button
+              key={key}
+              type="button"
+              onClick={() => setStatusFilter(key)}
+              className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition-colors ${
+                statusFilter === key
+? "bg-dawn-400 text-night-950"
+: "border border-night-900/15 bg-white text-night-900/60 hover:border-night-900/30"
+              }`}
+            >
+              {lbl}
+            </button>
+          ))}
+        </div>
+      ): null}
 
       {/* Fil */}
       <div className="mt-5">
@@ -386,6 +437,10 @@ function Feed({
           <p className="text-night-900/55">
             {q
 ? "Aucun sujet ne correspond à ta recherche."
+: statusFilter === "exaucees"
+? "Aucune prière exaucée pour l'instant — elles apparaîtront ici quand Dieu agit."
+: statusFilter === "encours"
+? "Aucune prière en cours pour l'instant."
 : tab === "following"
 ? "Abonne-toi à des membres pour voir leurs prières ici."
 : "Aucune prière pour l'instant. Sois le premier à partager."}
