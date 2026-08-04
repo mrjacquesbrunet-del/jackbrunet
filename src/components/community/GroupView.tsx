@@ -527,26 +527,126 @@ function Comments({
   );
 }
 
+/* Icône mains en prière (trait de la charte). */
+function PrayGlyphChat({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth={1.7} aria-hidden>
+      <path
+        d="M12 3.4c-.6 1.1-1.3 2-2.4 3.1L6.3 9.8c-.6.6-.9 1.5-.7 2.3l.8 4A1.8 1.8 0 0 0 8.2 19.5H12ZM12 3.4c.6 1.1 1.3 2 2.4 3.1L17.7 9.8c.6.6.9 1.5.7 2.3l-.8 4A1.8 1.8 0 0 1 15.8 19.5H12ZM9.4 12.1c1.7-.9 3.5-.9 5.2 0"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 /* ---------------- Chat ---------------- */
 function Chat({ group, userId }: { group: Group; userId: string }) {
   const [msgs, setMsgs] = useState<GroupMessage[]>([]);
   const [text, setText] = useState("");
   const endRef = useRef<HTMLDivElement>(null);
 
+  // Sujets de prière du cercle (posts kind « priere ») + qui a prié (🙏).
+  const [subjects, setSubjects] = useState<GroupPost[]>([]);
+  const [subjectRx, setSubjectRx] = useState<GroupReaction[]>([]);
+  const [showSubjects, setShowSubjects] = useState(true);
+  const [subjectMode, setSubjectMode] = useState(false);
+
   const load = useCallback(async () => setMsgs(await listMessages(group.id)), [group.id]);
+  const loadSubjects = useCallback(async () => {
+    const posts = (await listPosts(group.id)).filter((p) => p.kind === "priere").slice(0, 12);
+    setSubjects(posts);
+    setSubjectRx(posts.length ? await reactionsFor(posts.map((p) => p.id)) : []);
+  }, [group.id]);
 
   useEffect(() => {
     load();
+    loadSubjects();
     const t = setInterval(load, 5000);
     return () => clearInterval(t);
-  }, [load]);
+  }, [load, loadSubjects]);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [msgs.length]);
 
+  /** Compte des « J'ai prié » et état pour moi, par sujet. */
+  const prayedFor = (postId: string) => subjectRx.filter((r) => r.post_id === postId && r.emoji === "🙏");
+
+  async function togglePrayed(p: GroupPost) {
+    const mine = prayedFor(p.id).some((r) => r.user_id === userId);
+    // Optimiste, puis synchro.
+    setSubjectRx((rx) =>
+      mine
+        ? rx.filter((r) => !(r.post_id === p.id && r.user_id === userId && r.emoji === "🙏"))
+        : [...rx, { post_id: p.id, user_id: userId, emoji: "🙏" }],
+    );
+    await toggleReaction(p.id, group.id, userId, "🙏", mine);
+    loadSubjects();
+  }
+
+  async function shareSubject() {
+    const t = text.trim();
+    if (!t) return;
+    setText("");
+    setSubjectMode(false);
+    await createPost(group.id, userId, t, "priere");
+    await sendMessage(group.id, userId, `Nouveau sujet de prière — ${t}`);
+    await Promise.all([load(), loadSubjects()]);
+  }
+
   return (
     <div className="mt-4">
+      {/* Sujets de prière épinglés du cercle */}
+      {subjects.length > 0 ? (
+        <div className="mb-3 rounded-2xl border border-dawn-400/25 bg-dawn-400/[0.07] p-3">
+          <button
+            type="button"
+            onClick={() => setShowSubjects((s) => !s)}
+            className="flex w-full items-center justify-between gap-2 text-left"
+          >
+            <span className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-dawn-300">
+              <PrayGlyphChat className="h-4 w-4" />
+              Sujets du cercle · {subjects.length}
+            </span>
+            <span className="text-xs text-cream/50">{showSubjects ? "Réduire" : "Voir"}</span>
+          </button>
+          {showSubjects ? (
+            <ul className="mt-2 space-y-2">
+              {subjects.map((p) => {
+                const rx = prayedFor(p.id);
+                const mine = rx.some((r) => r.user_id === userId);
+                return (
+                  <li key={p.id} className="rounded-xl bg-white/[0.05] px-3 py-2">
+                    <p className="text-sm leading-snug text-cream/90">{p.body}</p>
+                    <div className="mt-1.5 flex items-center justify-between gap-2">
+                      <span className="text-[11px] text-cream/50">
+                        {p.author?.pseudo ?? "Membre"}
+                        {rx.length > 0
+                          ? ` · ${rx.length} ${rx.length > 1 ? "ont prié" : "a prié"}`
+                          : ""}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => togglePrayed(p)}
+                        className={`flex min-h-[32px] items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold transition-colors active:scale-95 ${
+                          mine
+                            ? "bg-dawn-400 text-night-950"
+                            : "border border-dawn-400/40 text-dawn-300 hover:bg-dawn-400/10"
+                        }`}
+                      >
+                        <PrayGlyphChat className="h-3.5 w-3.5" />
+                        {mine ? "J'ai prié" : "Je prie"}
+                      </button>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          ) : null}
+        </div>
+      ) : null}
+
       <div className="max-h-[55vh] space-y-2 overflow-y-auto rounded-2xl border border-white/10 bg-white/[0.04] p-3">
         {msgs.length === 0 ? (
           <p className="py-8 text-center text-sm text-cream/45">Aucun message. Lance la discussion !</p>
@@ -573,6 +673,10 @@ function Chat({ group, userId }: { group: Group; userId: string }) {
       <form
         onSubmit={async (e) => {
           e.preventDefault();
+          if (subjectMode) {
+            await shareSubject();
+            return;
+          }
           if (!text.trim()) return;
           const t = text;
           setText("");
@@ -581,7 +685,23 @@ function Chat({ group, userId }: { group: Group; userId: string }) {
         }}
         className="mt-2 flex items-center gap-2"
       >
-        <input value={text} onChange={(e) => setText(e.target.value)} placeholder="Ton message…" className={`${fieldDark} flex-1`} />
+        <button
+          type="button"
+          onClick={() => setSubjectMode((s) => !s)}
+          aria-label="Partager un sujet de prière"
+          title="Sujet de prière"
+          className={`grid h-10 w-10 shrink-0 place-items-center rounded-full transition-colors active:scale-95 ${
+            subjectMode ? "bg-dawn-400 text-night-950" : "bg-white/10 text-cream/80 hover:bg-white/15"
+          }`}
+        >
+          <PrayGlyphChat className="h-5 w-5" />
+        </button>
+        <input
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder={subjectMode ? "Ton sujet de prière (épinglé pour le cercle)…" : "Ton message…"}
+          className={`${fieldDark} flex-1 ${subjectMode ? "border-dawn-400/50" : ""}`}
+        />
         <VoiceRecorderButton
           userId={userId}
           tone="dark"
@@ -590,7 +710,9 @@ function Chat({ group, userId }: { group: Group; userId: string }) {
             load();
           }}
         />
-        <button type="submit" className="btn-primary text-sm">Envoyer</button>
+        <button type="submit" className="btn-primary text-sm">
+          {subjectMode ? "Partager" : "Envoyer"}
+        </button>
       </form>
     </div>
   );

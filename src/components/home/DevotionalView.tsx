@@ -12,6 +12,7 @@ import { Markable } from "@/components/ui/Markable";
 import { QuickNote } from "@/components/home/QuickNote";
 import { MoodCheckin } from "@/components/home/MoodCheckin";
 import { DailyPrayerSpotlight } from "@/components/home/DailyPrayerSpotlight";
+import { MyPrayerTodo } from "@/components/community/MyPrayerList";
 import { HomeQuickSlider } from "@/components/home/HomeQuickSlider";
 import { useToolkit } from "@/lib/toolkit";
 import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
@@ -403,6 +404,9 @@ export function DevotionalView({
 
       {/* 4b. Le sujet du jour du mur : porter quelqu'un dans la prière */}
       <DailyPrayerSpotlight />
+
+      {/* 4c. Ma liste de prière : mes sujets à porter, à cocher quand Dieu agit */}
+      <MyPrayerTodo />
 
       {/* 5. Vidéo du jour (avant la lecture) */}
       {latestShort? (

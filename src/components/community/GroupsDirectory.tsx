@@ -127,6 +127,22 @@ export function GroupsDirectory() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready, userId]);
 
+  // Arrivée depuis la carte « Cercles de prière » du mur : on ouvre
+  // directement le bon formulaire (création privée, ou code d'invitation).
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("nouveau") === "cercle") {
+        setCreating(true);
+        setForm((f) => ({ ...f, is_public: false, open_join: false }));
+      } else if (params.get("rejoindre") === "1") {
+        setShowCode(true);
+      }
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
   useEffect(() => {
     if (!ready) return;
     const t = setTimeout(loadReco, 250);

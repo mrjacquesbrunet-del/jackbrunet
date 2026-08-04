@@ -12,6 +12,7 @@ import {
   isPseudoTaken,
   isReservedPseudo,
   listMyPrayers,
+  setPrayerAnswered,
   followCounts,
   getActivity,
   uploadAvatar,
@@ -20,6 +21,7 @@ import {
   type FavoriteVerse,
 } from "@/lib/community";
 import { ProfileSignIn } from "@/components/community/ProfileSignIn";
+import { PrayerListQuickAdd } from "@/components/community/MyPrayerList";
 import { MyFavorites } from "@/components/profile/MyFavorites";
 import { AnsweredFeed } from "@/components/community/AnsweredFeed";
 import { MemberSearch } from "@/components/community/MemberSearch";
@@ -753,17 +755,23 @@ function Profile({
         </p>
       </div>
 
-      {/* Mes prières */}
+      {/* Ma liste de prière (mes sujets, privés ou partagés) */}
       <div className="mt-8">
-        <h3 className="font-display text-lg font-bold">Mes sujets de prière</h3>
+        <h3 className="font-display text-lg font-bold">Ma liste de prière</h3>
+        <p className="mt-1 text-sm text-night-900/55">
+          Les sujets que tu portes devant Dieu. Coche-les quand Il agit : ils passent en
+          « Exaucé ».
+        </p>
+        <PrayerListQuickAdd userId={userId} onAdded={load} />
         {loading? (
           <p className="mt-3 text-night-900/50">Chargement…</p>
         ): myPrayers.length === 0? (
           <p className="mt-3 text-night-900/55">
-            Tu n'as pas encore partagé de prière.{" "}
+            Ta liste est vide : ajoute ton premier sujet ci-dessus, ou{" "}
             <Link href="/communaute" className="font-semibold text-spirit-600 hover:underline">
-              Partager maintenant
+              partage-le sur le mur
             </Link>
+            .
           </p>
         ): (
           <ul className="mt-3 space-y-3">
@@ -772,15 +780,31 @@ function Profile({
                 <p className="whitespace-pre-wrap text-[15px] leading-relaxed text-night-900/85">
                   {p.body}
                 </p>
-                <p className="mt-2 text-xs text-night-900/45">
-                  {new Date(p.created_at).toLocaleDateString("fr-FR")} ·{" "}
-                  {p.visibility === "public"
+                <div className="mt-2 flex items-center justify-between gap-3">
+                  <p className="text-xs text-night-900/45">
+                    {new Date(p.created_at).toLocaleDateString("fr-FR")} ·{" "}
+                    {p.visibility === "public"
 ? "Public"
 : p.visibility === "friends"
 ? "Abonnés"
 : "Privé"}
-                  {p.answered? " · Exaucé": ""}
-                </p>
+                    {p.answered? " · Exaucé": ""}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      await setPrayerAnswered(p.id, !p.answered);
+                      load();
+                    }}
+                    className={`shrink-0 rounded-full px-3 py-1 text-xs font-bold transition-colors ${
+                      p.answered
+? "bg-dawn-400/20 text-dawn-700"
+: "border border-night-900/15 text-night-900/60 hover:border-dawn-500 hover:text-dawn-700"
+                    }`}
+                  >
+                    {p.answered? "✓ Exaucé": "Exaucé ?"}
+                  </button>
+                </div>
               </li>
             ))}
           </ul>

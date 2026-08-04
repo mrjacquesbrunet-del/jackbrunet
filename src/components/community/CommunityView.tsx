@@ -13,6 +13,7 @@ import { MemberSearch } from "@/components/community/MemberSearch";
 import { MemberSuggestions } from "@/components/community/MemberSuggestions";
 import { MentionField } from "@/components/community/MentionField";
 import { CommunityLanding } from "@/components/community/CommunityLanding";
+import { PrayerCirclesCard } from "@/components/community/PrayerCirclesCard";
 import { openExternal } from "@/lib/external";
 import { siteConfig } from "@/config/site";
 import {
@@ -329,6 +330,9 @@ function Feed({
           </div>
         </div>
       </div>
+
+      {/* Cercles de prière : prier en privé avec ses proches */}
+      <PrayerCirclesCard />
 
       {/* Focus de prière de la semaine */}
       <div className="mt-8">
