@@ -16,38 +16,32 @@ function CircleIcon({ className }: { className?: string }) {
 }
 
 /**
- * Invitation aux « cercles de prière » sur le mur : un espace PRIVÉ, sur
- * invitation, pour prier avec ses proches (famille, amis, église) — avec
- * discussion, sujets épinglés et notes vocales.
+ * Accès DISCRET aux « cercles de prière » depuis le mur : une fine rangée
+ * (créer un cercle privé / rejoindre avec un code), pour ne pas retarder
+ * l'arrivée sur le mur lui-même.
  */
 export function PrayerCirclesCard() {
   return (
-    <div className="dark-ctx bg-topo-dark relative mt-8 overflow-hidden rounded-3xl p-5 text-cream sm:p-6">
-      <div className="blob -right-10 -top-8 h-32 w-32 bg-dawn-400/20" />
-      <div className="relative">
-        <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-dawn-300">
-          <span className="grid h-7 w-7 place-items-center rounded-full bg-dawn-400/15">
-            <CircleIcon className="h-4 w-4" />
-          </span>
-          Cercles de prière
-        </p>
-        <h3 className="mt-3 font-display text-xl font-extrabold leading-tight">
-          Prie avec tes proches
-        </h3>
-        <p className="mt-1.5 text-sm text-cream/75">
-          Crée un cercle privé avec ta famille, tes amis ou ton église : partagez vos
-          sujets de prière, discutez, envoyez des notes vocales — entre vous uniquement,
-          sur invitation.
-        </p>
-        <div className="mt-4 flex flex-wrap gap-2">
-          <Link href="/groupes/?nouveau=cercle" className="btn-primary text-sm">
-            Créer mon cercle
-          </Link>
-          <Link href="/groupes/?rejoindre=1" className="btn-ghost text-sm">
-            Rejoindre avec un code
-          </Link>
-        </div>
+    <div className="dark-ctx mt-4 flex items-center gap-3 rounded-2xl bg-[#1F2216] px-3.5 py-2.5 text-cream">
+      <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-dawn-400/15 text-dawn-300">
+        <CircleIcon className="h-4 w-4" />
+      </span>
+      <div className="min-w-0 flex-1 leading-tight">
+        <p className="truncate text-sm font-bold">Cercles de prière</p>
+        <p className="truncate text-[11px] text-cream/55">Prie en privé avec tes proches</p>
       </div>
+      <Link
+        href="/groupes/?nouveau=cercle"
+        className="shrink-0 rounded-full bg-dawn-400 px-3 py-1.5 text-xs font-bold text-night-950"
+      >
+        Créer
+      </Link>
+      <Link
+        href="/groupes/?rejoindre=1"
+        className="shrink-0 rounded-full border border-white/20 px-3 py-1.5 text-xs font-semibold text-cream/85"
+      >
+        Code
+      </Link>
     </div>
   );
 }

@@ -331,16 +331,16 @@ function Feed({
         </div>
       </div>
 
-      {/* Cercles de prière : prier en privé avec ses proches */}
+      {/* Cercles de prière (rangée discrète) */}
       <PrayerCirclesCard />
 
-      {/* Focus de prière de la semaine */}
-      <div className="mt-8">
+      {/* Focus de prière de la semaine (replié par défaut) */}
+      <div className="mt-3">
         <PrayerFocus />
       </div>
 
       {/* Onglets, mis en valeur (olive + actif lime) */}
-      <div className="dark-ctx bg-topo-dark mt-8 flex gap-1.5 rounded-full border border-white/10 p-1.5 shadow-card">
+      <div className="dark-ctx bg-topo-dark mt-5 flex gap-1.5 rounded-full border border-white/10 p-1.5 shadow-card">
         {(
           [
             ["all", "Le mur"],
