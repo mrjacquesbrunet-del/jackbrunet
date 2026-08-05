@@ -181,7 +181,7 @@ function MotDeJack() {
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dawn-300">
             Le mot de Jack
           </p>
-          <div className="mt-4 space-y-3 font-display text-lg font-bold italic leading-relaxed text-cream/90 sm:text-xl">
+          <div className="mt-4 space-y-3 text-[15px] font-medium leading-relaxed text-cream/85 sm:text-base">
             <p>« Ce livre est né bien avant d&apos;être écrit.</p>
             <p>
               Il est né dans ces instants où je m&apos;isolais avec Dieu, où je fermais
