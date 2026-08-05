@@ -92,6 +92,14 @@ function AccessForAll() {
           dehors de l&apos;Europe et de l&apos;Amérique du Nord, et que même cela
           représente un obstacle pour toi : écris-moi. Je te l&apos;offre, de tout cœur.
         </p>
+        <p className="mx-auto mt-4 max-w-xl rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-4 text-sm leading-relaxed text-cream/70">
+          Un mot de transparence : RHEMA représente six années de travail et un vrai
+          investissement, en temps comme en argent — et je ne roule pas sur l&apos;or.
+          Cette offre est réservée à ceux qui ne peuvent <em>vraiment</em> pas. Si tu as
+          les moyens de l&apos;acheter, même à 5 €, fais-le : c&apos;est ce qui me permet
+          de continuer à l&apos;offrir à ceux qui n&apos;ont rien. Merci de jouer le jeu,
+          avec un cœur honnête.
+        </p>
         <a href={GIFT_MAILTO} className="btn-ghost mt-6 inline-flex">
           Demander l&apos;e-book offert
         </a>
