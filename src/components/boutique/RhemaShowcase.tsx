@@ -124,10 +124,49 @@ export function RhemaShowcase() {
       <Inside />
       <Manifesto />
       <BackCover />
+      <CarnetBlock />
       <Preorder />
       <AppBlock />
       <AccessForAll />
     </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* 4c. Le carnet RHEMA : le compagnon du livre                         */
+/* ------------------------------------------------------------------ */
+function CarnetBlock() {
+  return (
+    <section className="px-6 pb-24 sm:pb-28">
+      <FadeUp>
+        <div className="relative mx-auto max-w-2xl overflow-hidden rounded-4xl border border-dawn-400/25 bg-[#12140C] p-7 sm:p-10">
+          <div className="blob -right-14 -bottom-12 h-44 w-44 bg-dawn-400/15" />
+          <div className="relative text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dawn-300">
+              Le carnet RHEMA
+            </p>
+            <h2 className="mt-3 font-display text-3xl font-extrabold leading-tight sm:text-4xl">
+              Écris ce que
+              <br />
+              <span className="text-gradient">Dieu te dit.</span>
+            </h2>
+            <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-cream/65 sm:text-base">
+              Le compagnon du livre, qui sort le même jour : chaque matin, un espace
+              pour noter la révélation reçue, tes prières et tes pas de foi. Ce qui
+              est écrit reste — et un an de rhémas notés, c&apos;est un trésor.
+            </p>
+            <p className="mt-4 text-sm font-semibold text-cream/85">
+              <span className="mr-1.5 text-cream/40 line-through">11,90 €</span>
+              10,90 € · ou en pack livre + carnet à{" "}
+              <span className="text-dawn-300">35,90 €</span>
+            </p>
+            <a href="#precommande" className="btn-primary mt-5 inline-flex">
+              Voir les offres
+            </a>
+          </div>
+        </div>
+      </FadeUp>
+    </section>
   );
 }
 
@@ -325,23 +364,6 @@ function Inside() {
           <span className="text-gradient">Une journée avec Dieu.</span>
         </h2>
         <div className="relative mx-auto mt-10 w-full max-w-2xl">
-          {/* Étiquettes superposées : écrans larges uniquement */}
-          <div className="hidden sm:contents">
-            <Callout
-              n="01"
-              title="La méditation"
-              text="Le rhéma du jour et son verset, à gauche."
-              side="left"
-              className="left-0 top-[-9%]"
-            />
-            <Callout
-              n="02"
-              title="Tes notes"
-              text="Ce que Dieu te dit, écrit de ta main, à droite."
-              side="right"
-              className="bottom-[-9%] right-0"
-            />
-          </div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={asset("/img/rhema-open.webp")}
@@ -351,8 +373,8 @@ function Inside() {
           />
         </div>
 
-        {/* Mobile : les deux repères SOUS l'image, lisibles */}
-        <div className="mt-6 grid grid-cols-2 gap-5 text-left sm:hidden">
+        {/* Les deux repères SOUS l'image (même style que sur téléphone) */}
+        <div className="mx-auto mt-8 grid max-w-xl grid-cols-2 gap-5 text-left">
           {[
             { n: "01", title: "La méditation", text: "Le rhéma du jour et son verset, à gauche." },
             { n: "02", title: "Tes notes", text: "Ce que Dieu te dit, écrit de ta main, à droite." },
@@ -406,9 +428,7 @@ function BackCover() {
             <span className="text-gradient">Vécue.</span>
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-cream/65">
-            L&apos;essentiel est écrit au dos — et l&apos;objet est à la hauteur du
-            contenu : 740 pages, une couverture texturée sobre, un livre pensé pour
-            être ouvert, souligné et annoté chaque jour pendant un an.
+            365 méditations, une par jour, pour marcher avec Dieu toute une année.
           </p>
           <p className="mt-3 text-xs font-semibold text-cream/40">
             Jack Brunet · pasteur et créateur de contenu chrétien
