@@ -389,23 +389,13 @@ function BackCover() {
   return (
     <section className="px-6 pb-24 sm:pb-28">
       <FadeUp className="mx-auto grid max-w-3xl items-center gap-10 sm:grid-cols-2">
-        <div className="relative mx-auto">
-          <div className="hidden sm:contents">
-            <Callout
-              n="✦"
-              title="Préface de Josy W.Brunet"
-              side="right"
-              className="right-[-4%] top-[-7%]"
-            />
-          </div>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={asset("/img/rhema-back.webp")}
-            alt="Quatrième de couverture du livre RHEMA"
-            className="mx-auto w-56 -rotate-2 drop-shadow-[0_30px_50px_rgba(0,0,0,0.55)] sm:w-72"
-            loading="lazy"
-          />
-        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={asset("/img/rhema-back.webp")}
+          alt="Quatrième de couverture du livre RHEMA"
+          className="mx-auto w-56 -rotate-2 drop-shadow-[0_30px_50px_rgba(0,0,0,0.55)] sm:w-72"
+          loading="lazy"
+        />
         <div className="text-center sm:text-left">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dawn-300">
             La 4ᵉ de couverture
