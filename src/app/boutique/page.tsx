@@ -1,27 +1,12 @@
 import type { Metadata } from "next";
-import { PageHero } from "@/components/ui/PageHero";
-import { Shop } from "@/components/home/Shop";
+import { RhemaShowcase } from "@/components/boutique/RhemaShowcase";
 
 export const metadata: Metadata = {
-  title: "Boutique",
+  title: "RHEMA — le livre",
   description:
-    "RHEMA, 365 révélations bibliques à méditer chaque jour. Le livre de Jack Brunet, bientôt disponible.",
+    "RHEMA, 365 révélations bibliques à méditer chaque jour. Le livre de Jack Brunet — réserve ton exemplaire.",
 };
 
 export default function BoutiquePage() {
-  return (
-    <>
-      <PageHero
-        eyebrow="Boutique"
-        title={
-          <>
-            Le livre <span className="text-gradient">RHEMA</span>
-          </>
-        }
-        description="L'aboutissement de ces dernières années, 365 révélations bibliques à méditer chaque jour."
-      />
-
-      <Shop />
-    </>
-  );
+  return <RhemaShowcase />;
 }

@@ -16,6 +16,13 @@ export const STRIPE_LINKS = {
 };
 
 /**
+ * Lien de PRÉCOMMANDE du livre RHEMA (boutique Shopify quand elle sera prête,
+ * ou lien Stripe). Tant qu'il est null, la page /boutique affiche la liste
+ * d'attente (email + ebook offert) à la place du bouton d'achat.
+ */
+export const RHEMA_PREORDER_URL: string | null = null;
+
+/**
  * Liens de paiement mensuels, un par palier (la clé = le nom du palier dans
  * content/support-tiers.json). `null` = lien pas encore créé.
  */
