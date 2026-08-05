@@ -65,9 +65,11 @@ export function VoiceRecorderButton({
   tone?: "light" | "dark";
 }) {
   const [supported, setSupported] = useState(false);
-  const [state, setState] = useState<"idle" | "recording" | "sending">("idle");
+  const [state, setState] = useState<"idle" | "recording" | "preview" | "sending">("idle");
   const [seconds, setSeconds] = useState(0);
   const [err, setErr] = useState("");
+  // Enregistrement terminé, en attente d'envoi (pré-écoute possible).
+  const [pending, setPending] = useState<{ blob: Blob; url: string } | null>(null);
   const recRef = useRef<VoiceRecording | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -123,6 +125,8 @@ export function VoiceRecorderButton({
     }, 1000);
   }
 
+  /** Stop (carré) : termine l'enregistrement et passe en PRÉ-ÉCOUTE — la note
+   * n'est envoyée que quand on touche « Envoyer ». */
   async function finish() {
     if (timerRef.current) clearInterval(timerRef.current);
     const rec = recRef.current;
@@ -131,30 +135,97 @@ export function VoiceRecorderButton({
       setState("idle");
       return;
     }
-    setState("sending");
     const blob = await rec.stop();
     if (!blob || blob.size < 1000) {
+      setErr("Enregistrement trop court.");
+      setTimeout(() => setErr(""), 2500);
       setState("idle");
-      return; // trop court / vide
+      return;
     }
-    const url = await uploadVoice(userId, blob);
+    setPending({ blob, url: URL.createObjectURL(blob) });
+    setState("preview");
+  }
+
+  /** Envoi effectif dans la conversation. */
+  async function sendPending() {
+    if (!pending) return;
+    setState("sending");
+    setErr("");
+    const url = await uploadVoice(userId, pending.blob);
     if (url) {
-      await onSend(url);
-    } else {
-      setErr("Envoi impossible. Vérifie ta connexion.");
-      setTimeout(() => setErr(""), 3500);
+      try {
+        await onSend(url);
+        URL.revokeObjectURL(pending.url);
+        setPending(null);
+        setState("idle");
+        return;
+      } catch {
+        /* l'insertion a échoué → on garde la note pour réessayer */
+      }
     }
-    setState("idle");
+    setErr("Échec de l'envoi. Vérifie ta connexion et réessaie.");
+    setState("preview");
   }
 
   function cancel() {
     if (timerRef.current) clearInterval(timerRef.current);
     recRef.current?.cancel();
     recRef.current = null;
+    if (pending) URL.revokeObjectURL(pending.url);
+    setPending(null);
+    setErr("");
     setState("idle");
   }
 
   const dark = tone === "dark";
+
+  // Pré-écoute + envoi : la note est prête, on peut l'écouter puis l'envoyer.
+  if (state === "preview" || (state === "sending" && pending)) {
+    return (
+      <div
+        className={`flex flex-wrap items-center gap-2 rounded-2xl px-2.5 py-2 ${
+          dark ? "bg-white/10" : "bg-night-900/[0.06]"
+        }`}
+      >
+        {pending ? <VoiceNotePlayer src={pending.url} tone={tone} /> : null}
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={cancel}
+            disabled={state === "sending"}
+            className={`text-xs font-semibold underline-offset-2 hover:underline disabled:opacity-50 ${
+              dark ? "text-cream/60" : "text-night-900/50"
+            }`}
+          >
+            Annuler
+          </button>
+          <button
+            type="button"
+            onClick={sendPending}
+            disabled={state === "sending"}
+            className="flex min-h-[36px] items-center gap-1.5 rounded-full bg-dawn-400 px-4 py-1.5 text-xs font-bold text-night-950 shadow-sm active:scale-95 disabled:opacity-60"
+          >
+            {state === "sending" ? (
+              <>
+                <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                Envoi…
+              </>
+            ) : (
+              <>
+                <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current" aria-hidden>
+                  <path d="M3 11l18-8-8 18-2.5-7.5z" />
+                </svg>
+                Envoyer
+              </>
+            )}
+          </button>
+        </div>
+        {err ? (
+          <p className={`w-full text-xs ${dark ? "text-cream/60" : "text-night-900/50"}`}>{err}</p>
+        ) : null}
+      </div>
+    );
+  }
 
   if (state === "recording") {
     return (

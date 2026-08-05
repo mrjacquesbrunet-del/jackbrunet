@@ -156,12 +156,16 @@ export function PrayerCard({
     setBusy(false);
   }
 
-  /** Note vocale envoyée en encouragement (au lieu du texte). */
+  /** Note vocale envoyée en encouragement (au lieu du texte).
+   * Le corps « Note vocale » sert de repli (la base refuse un corps vide, et
+   * les anciennes versions de l'app affichent ce texte) ; il est masqué à
+   * l'affichage quand la note audio est présente. */
   async function submitVoiceComment(audioUrl: string) {
     setBusy(true);
-    await addComment(prayer.id, "", userId, null, audioUrl);
+    const ok = await addComment(prayer.id, "Note vocale", userId, null, audioUrl);
     await refreshComments();
     setBusy(false);
+    if (!ok) throw new Error("envoi impossible");
   }
 
   async function submitReply(parentId: string) {
@@ -391,7 +395,7 @@ export function PrayerCard({
                                   <VoiceNotePlayer src={c.audio_url} />
                                 </div>
                               ): null}
-                              {c.body? (
+                              {c.body &&!c.audio_url? (
                                 <MentionText text={c.body} className="text-sm text-night-900/85" />
                               ): null}
                             </div>
@@ -436,7 +440,7 @@ export function PrayerCard({
                                         <VoiceNotePlayer src={r.audio_url} />
                                       </div>
                                     ): null}
-                                    {r.body? (
+                                    {r.body &&!r.audio_url? (
                                       <MentionText text={r.body} className="text-sm text-night-900/85" />
                                     ): null}
                                   </div>

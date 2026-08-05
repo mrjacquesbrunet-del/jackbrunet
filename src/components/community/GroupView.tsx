@@ -662,7 +662,9 @@ function Chat({ group, userId }: { group: Group; userId: string }) {
                       <VoiceNotePlayer src={m.audio_url} tone={mine ? "light" : "dark"} />
                     </div>
                   ) : null}
-                  {m.body ? <p className="whitespace-pre-wrap text-sm">{m.body}</p> : null}
+                  {m.body && !m.audio_url ? (
+                    <p className="whitespace-pre-wrap text-sm">{m.body}</p>
+                  ) : null}
                 </div>
               </div>
             );
@@ -706,8 +708,11 @@ function Chat({ group, userId }: { group: Group; userId: string }) {
           userId={userId}
           tone="dark"
           onSend={async (url) => {
-            await sendMessage(group.id, userId, "", url);
+            // Corps « Note vocale » : repli exigé par la base (corps non vide),
+            // masqué à l'affichage quand l'audio est présent.
+            const ok = await sendMessage(group.id, userId, "Note vocale", url);
             load();
+            if (!ok) throw new Error("envoi impossible");
           }}
         />
         <button type="submit" className="btn-primary text-sm">

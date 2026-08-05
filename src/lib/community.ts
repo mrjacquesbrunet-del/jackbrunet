@@ -400,16 +400,17 @@ export async function addComment(
   authorId: string,
   parentId?: string | null,
   audioUrl?: string | null,
-) {
+): Promise<boolean> {
   const sb = getSupabase();
-  if (!sb) return;
-  await sb.from("prayer_comments").insert({
+  if (!sb) return false;
+  const { error } = await sb.from("prayer_comments").insert({
     prayer_id: prayerId,
     body,
     author_id: authorId,
     parent_id: parentId?? null,
     ...(audioUrl? { audio_url: audioUrl }: {}),
   });
+  return !error;
 }
 
 export async function deleteComment(id: string) {
