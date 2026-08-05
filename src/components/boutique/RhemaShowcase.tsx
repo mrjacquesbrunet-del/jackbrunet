@@ -419,8 +419,9 @@ function BackCover() {
                 Écris ce que <span className="text-gradient">Dieu te dit.</span>
               </h3>
               <p className="mt-3 max-w-lg text-sm leading-relaxed text-cream/65">
-                Le compagnon du livre, qui sort le même jour : 92 pages pour noter
-                chaque matin la révélation reçue, tes prières et tes pas de foi.
+                Le compagnon du livre, qui sort le même jour : chaque matin, une page
+                pour ton verset du jour, le rhéma reçu, tes sujets de prière, tes
+                actions de grâce — et ce que Dieu te dit de faire.
               </p>
               <p className="mt-3 text-sm font-semibold text-cream/85">
                 <span className="mr-1.5 text-cream/40 line-through">11,90 €</span>
@@ -431,6 +432,20 @@ function BackCover() {
                 Voir les offres
               </a>
             </div>
+          </div>
+
+          {/* L'intérieur du carnet : la page quotidienne */}
+          <div className="relative mt-8">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={asset("/img/carnet-open.webp")}
+              alt="Le carnet RHEMA ouvert : verset du jour, rhéma, sujets de prière, actions de grâce, ce que Dieu me dit de faire, notes"
+              className="mx-auto w-full max-w-xl drop-shadow-[0_30px_50px_rgba(0,0,0,0.55)]"
+              loading="lazy"
+            />
+            <p className="mx-auto mt-4 max-w-md text-center text-xs text-cream/50">
+              Une page par jour, guidée : tout est prêt, il ne manque que ta plume.
+            </p>
           </div>
         </div>
       </FadeUp>
