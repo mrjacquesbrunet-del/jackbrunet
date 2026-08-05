@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
+import { StoreBadges } from "@/components/app/StoreBadges";
 import { asset } from "@/lib/asset";
 import { RHEMA_PREORDER_URL } from "@/config/stripe";
 
@@ -46,9 +47,34 @@ function Countdown() {
  * livre en vue ÉCLATÉE au fil du scroll (les 4 éléments d'une journée se
  * détachent du livre), bandeaux de chiffres, et précommande forte.
  */
+/** Apparition douce au défilement (dynamisme des sections). */
+function FadeUp({
+  children,
+  delay = 0,
+  className,
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 32 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.6, delay, ease: "easeOut" }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 export function RhemaShowcase() {
   return (
-    <div className="dark-ctx bg-[#0A0B07] text-cream">
+    // pb-24 -mb-24 : peint en sombre l'espace au-dessus du pied de page
+    // (sinon le fond crème du site apparaît en bande claire).
+    <div className="dark-ctx -mb-24 bg-[#0A0B07] pb-24 text-cream">
       <Hero />
       <Exploded />
       <Stats />
@@ -58,8 +84,42 @@ export function RhemaShowcase() {
       <Manifesto />
       <BackCover />
       <Preorder />
+      <AppBlock />
       <AccessForAll />
     </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* 5b. L'application mobile — le même objectif, gratuitement           */
+/* ------------------------------------------------------------------ */
+function AppBlock() {
+  return (
+    <section className="px-6 pb-24 sm:pb-28">
+      <FadeUp>
+        <div className="bg-topo-dark relative mx-auto max-w-2xl overflow-hidden rounded-4xl border border-white/10 p-7 text-center sm:p-10">
+          <div className="blob -left-14 -top-12 h-44 w-44 bg-spirit-500/25" />
+          <div className="relative">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dawn-300">
+              L&apos;application mobile
+            </p>
+            <h2 className="mt-3 font-display text-3xl font-extrabold leading-tight sm:text-4xl">
+              Le même objectif,
+              <br />
+              <span className="text-gradient">accessible gratuitement.</span>
+            </h2>
+            <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-cream/65 sm:text-base">
+              RHEMA sur papier, et l&apos;application dans ta poche : une méditation
+              chaque matin, la Bible, la communauté de prière et des rappels pour ne
+              jamais perdre le fil. 100 % gratuite, sur iPhone et Android.
+            </p>
+            <div className="mt-6">
+              <StoreBadges center />
+            </div>
+          </div>
+        </div>
+      </FadeUp>
+    </section>
   );
 }
 
@@ -78,7 +138,7 @@ const GIFT_MAILTO =
 function AccessForAll() {
   return (
     <section className="border-t border-white/[0.06] px-6 py-20 sm:py-24">
-      <div className="mx-auto max-w-2xl text-center">
+      <FadeUp className="mx-auto max-w-2xl text-center">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dawn-300">
           RHEMA pour tous
         </p>
@@ -108,7 +168,7 @@ function AccessForAll() {
           Un simple email avec ton prénom, ton pays et ta situation — je réponds
           personnellement.
         </p>
-      </div>
+      </FadeUp>
     </section>
   );
 }
@@ -125,7 +185,7 @@ const STORY_STATS = [
 function Story() {
   return (
     <section className="px-6 pt-24 sm:pt-28">
-      <div className="mx-auto max-w-2xl text-center">
+      <FadeUp className="mx-auto max-w-2xl text-center">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dawn-300">
           L&apos;histoire de RHEMA
         </p>
@@ -158,7 +218,7 @@ function Story() {
             </div>
           ))}
         </div>
-      </div>
+      </FadeUp>
     </section>
   );
 }
@@ -169,7 +229,7 @@ function Story() {
 function MotDeJack() {
   return (
     <section className="px-6 pt-24 sm:pt-28">
-      <div className="mx-auto grid max-w-3xl items-center gap-10 sm:grid-cols-[auto_1fr]">
+      <FadeUp className="mx-auto grid max-w-3xl items-center gap-10 sm:grid-cols-[auto_1fr]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={asset("/img/jack-mot.webp")}
@@ -203,7 +263,7 @@ function MotDeJack() {
           </div>
           <p className="mt-4 font-display text-2xl font-extrabold text-dawn-400">Jack</p>
         </div>
-      </div>
+      </FadeUp>
     </section>
   );
 }
@@ -214,7 +274,7 @@ function MotDeJack() {
 function Inside() {
   return (
     <section className="overflow-hidden px-6 pt-24 sm:pt-28">
-      <div className="mx-auto max-w-3xl text-center">
+      <FadeUp className="mx-auto max-w-3xl text-center">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dawn-300">
           À l&apos;intérieur
         </p>
@@ -234,7 +294,7 @@ function Inside() {
           À gauche, la méditation du jour et son verset. À droite, tu incarnes la
           révélation, tu pries, tu déclares — et tu notes ce que Dieu te dit.
         </p>
-      </div>
+      </FadeUp>
     </section>
   );
 }
@@ -245,7 +305,7 @@ function Inside() {
 function BackCover() {
   return (
     <section className="px-6 pb-24 sm:pb-28">
-      <div className="mx-auto grid max-w-3xl items-center gap-10 sm:grid-cols-2">
+      <FadeUp className="mx-auto grid max-w-3xl items-center gap-10 sm:grid-cols-2">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={asset("/img/rhema-back.webp")}
@@ -274,7 +334,7 @@ function BackCover() {
             Préface de Josy W.Brunet
           </p>
         </div>
-      </div>
+      </FadeUp>
     </section>
   );
 }
@@ -444,11 +504,11 @@ function Stats() {
   return (
     <section className="border-y border-white/[0.06] bg-[#0D0F09] px-6 py-14">
       <div className="mx-auto grid max-w-3xl grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4">
-        {STATS.map((s) => (
-          <div key={s.small} className="text-center">
+        {STATS.map((s, i) => (
+          <FadeUp key={s.small} delay={i * 0.1} className="text-center">
             <p className="font-display text-4xl font-extrabold text-dawn-400 sm:text-5xl">{s.big}</p>
             <p className="mt-1.5 text-xs text-cream/50">{s.small}</p>
-          </div>
+          </FadeUp>
         ))}
       </div>
     </section>
@@ -462,7 +522,7 @@ function Manifesto() {
   return (
     <section className="px-6 py-24 sm:py-32">
       <div className="mx-auto max-w-2xl space-y-24">
-        <div>
+        <FadeUp>
           <h2 className="font-display text-3xl font-extrabold leading-tight sm:text-5xl">
             Pas un livre à lire.
             <br />
@@ -474,8 +534,8 @@ function Manifesto() {
             dévotionnel a été conçu pour t&apos;accompagner jour après jour, afin que la
             Parole ne soit pas seulement écoutée, mais méditée, priée et vécue.
           </p>
-        </div>
-        <div className="sm:text-right">
+        </FadeUp>
+        <FadeUp className="sm:text-right">
           <h2 className="font-display text-3xl font-extrabold leading-tight sm:text-5xl">
             Certains messages t&apos;encourageront.
             <br />
@@ -487,7 +547,7 @@ function Manifesto() {
             méditation poursuit le même objectif : faire passer la Parole de la page
             jusqu&apos;au cœur, puis du cœur jusqu&apos;à la vie.
           </p>
-        </div>
+        </FadeUp>
       </div>
     </section>
   );
