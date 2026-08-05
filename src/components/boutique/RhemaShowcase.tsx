@@ -575,31 +575,46 @@ function Preorder() {
                 </p>
               </div>
             </div>
-            {RHEMA_PREORDER_URL? (
-              <a
-                href={RHEMA_PREORDER_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary mt-5 inline-flex"
-              >
-                Précommander maintenant
-              </a>
-            ): (
-              <div className="mt-5">
-                <p className="text-sm font-semibold text-cream/85">
-                  Sois averti(e) en premier à l&apos;ouverture des précommandes — et reçois
-                  dès maintenant <span className="text-dawn-300">les 7 premières méditations
-                  offertes</span> en ebook.
-                </p>
-                <div className="mt-3">
-                  <NewsletterForm
-                    source="rhema-precommande"
-                    cta="Je réserve ma place"
-                    note="Zéro spam : uniquement la sortie du livre."
-                  />
-                </div>
-              </div>
-            )}
+          </div>
+        </div>
+
+        {/* Précommander directement, ou laisser son email — pleine largeur */}
+        <div className="relative mt-8">
+          {RHEMA_PREORDER_URL? (
+            <a
+              href={RHEMA_PREORDER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary flex w-full justify-center py-4 text-base"
+            >
+              Précommander maintenant
+            </a>
+          ): (
+            <p className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-center text-sm text-cream/60">
+              Le paiement en ligne ouvre dans quelques jours.
+            </p>
+          )}
+
+          <div className="my-5 flex items-center gap-3 text-xs uppercase tracking-widest text-cream/35">
+            <span aria-hidden className="h-px flex-1 bg-white/10" />
+            ou
+            <span aria-hidden className="h-px flex-1 bg-white/10" />
+          </div>
+
+          <p className="text-sm font-semibold text-cream/85">
+            Laisse ton email : tu seras averti(e) en premier à l&apos;ouverture des
+            précommandes, et tu reçois dès maintenant{" "}
+            <span className="text-dawn-300">les 7 premières méditations offertes</span>{" "}
+            en ebook.
+          </p>
+          <div className="mt-3">
+            <NewsletterForm
+              source="rhema-precommande"
+              layout="stacked"
+              size="lg"
+              cta="Être averti(e) par email"
+              note="Zéro spam : uniquement la sortie du livre."
+            />
           </div>
         </div>
       </div>
