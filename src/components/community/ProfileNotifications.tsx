@@ -33,6 +33,8 @@ function label(n: Notification) {
       return `${who} a commenté ta publication`;
     case "group_reaction":
       return `${who} a réagi à ta publication`;
+    case "comment_reaction":
+      return `${who} a réagi ${n.body ?? ""} à ton commentaire`;
     case "group_post":
       return `${who} a publié dans ${n.body? `« ${n.body} »`: "ton groupe"}`;
     case "group_message":

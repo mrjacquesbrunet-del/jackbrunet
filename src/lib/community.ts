@@ -57,7 +57,8 @@ export type NotifType =
   | "group_reaction"
   | "group_post"
   | "group_message"
-  | "group_join";
+  | "group_join"
+  | "comment_reaction";
 export type Notification = {
   id: string;
   user_id: string;
@@ -415,6 +416,46 @@ export async function addComment(
 
 export async function deleteComment(id: string) {
   await getSupabase()?.from("prayer_comments").delete().eq("id", id);
+}
+
+/* ---- Réactions sur les commentaires (appui long, façon WhatsApp) ---- */
+export type CommentReaction = { comment_id: string; user_id: string; emoji: string };
+
+/** Palette de réactions du mur : prière, amour, Saint-Esprit, louange, gloire. */
+export const COMMENT_REACTIONS = ["🙏", "❤️", "🕊️", "🙌", "✨"];
+
+export async function commentReactionsFor(commentIds: string[]): Promise<CommentReaction[]> {
+  const sb = getSupabase();
+  const uniq = Array.from(new Set(commentIds)).filter(Boolean);
+  if (!sb || uniq.length === 0) return [];
+  const { data } = await sb
+.from("comment_reactions")
+.select("comment_id,user_id,emoji")
+.in("comment_id", uniq);
+  return (data as CommentReaction[])?? [];
+}
+
+/** Pose (ou remplace) ma réaction sur un commentaire ; `null` = la retirer.
+ * Une seule réaction par personne et par commentaire. */
+export async function setCommentReaction(
+  commentId: string,
+  userId: string,
+  emoji: string | null,
+): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  if (emoji === null) {
+    const { error } = await sb
+.from("comment_reactions")
+.delete()
+.eq("comment_id", commentId)
+.eq("user_id", userId);
+    return !error;
+  }
+  const { error } = await sb
+.from("comment_reactions")
+.upsert({ comment_id: commentId, user_id: userId, emoji }, { onConflict: "comment_id,user_id" });
+  return !error;
 }
 
 /** Téléverse une photo de profil et renvoie son URL publique. */

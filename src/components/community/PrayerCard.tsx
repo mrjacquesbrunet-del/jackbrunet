@@ -24,9 +24,82 @@ import {
   deletePrayer,
   setPrayerAnswered,
   setPrayerPinned,
+  commentReactionsFor,
+  setCommentReaction,
+  COMMENT_REACTIONS,
+  type CommentReaction,
 } from "@/lib/community";
 
 const VIS_LABEL: Record<string, string> = { public: "Public", friends: "Abonnés", private: "Privé" };
+
+/** Réactions d'un commentaire : sélecteur (appui long / « Réagir ») + puces
+ * agrégées (🙏 3, ❤️ 1…). Une réaction par personne, re-tap = retirer. */
+function CommentReactionsRow({
+  reactions,
+  mine,
+  open,
+  onClose,
+  onPick,
+}: {
+  reactions: CommentReaction[];
+  mine: string | null;
+  open: boolean;
+  onClose: () => void;
+  onPick: (emoji: string) => void;
+}) {
+  const counts: Record<string, number> = {};
+  for (const r of reactions) counts[r.emoji] = (counts[r.emoji]?? 0) + 1;
+  const entries = COMMENT_REACTIONS.filter((e) => counts[e]).map(
+    (e) => [e, counts[e]] as const,
+  );
+  return (
+    <div className="relative">
+      {open? (
+        <>
+          <button
+            type="button"
+            aria-label="Fermer"
+            onClick={onClose}
+            className="fixed inset-0 z-40 cursor-default"
+          />
+          <div className="absolute bottom-0 left-2 z-50 flex gap-0.5 rounded-full border border-night-900/10 bg-white px-1.5 py-1 shadow-xl">
+            {COMMENT_REACTIONS.map((e) => (
+              <button
+                key={e}
+                type="button"
+                onClick={() => onPick(e)}
+                className={`grid h-10 w-10 place-items-center rounded-full text-xl transition-transform hover:scale-110 active:scale-90 ${
+                  mine === e? "bg-dawn-400/25": "hover:bg-night-900/[0.05]"
+                }`}
+              >
+                {e}
+              </button>
+            ))}
+          </div>
+        </>
+      ): null}
+      {entries.length > 0? (
+        <div className="mt-1 flex flex-wrap gap-1 pl-3">
+          {entries.map(([e, n]) => (
+            <button
+              key={e}
+              type="button"
+              onClick={() => onPick(e)}
+              className={`flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs transition-colors active:scale-95 ${
+                mine === e
+? "border-dawn-500/60 bg-dawn-400/15"
+: "border-night-900/10 bg-white hover:border-night-900/25"
+              }`}
+            >
+              <span>{e}</span>
+              <span className="font-semibold text-night-900/60">{n}</span>
+            </button>
+          ))}
+        </div>
+      ): null}
+    </div>
+  );
+}
 
 function PinIcon({ className }: { className?: string }) {
   return (
@@ -73,6 +146,9 @@ export function PrayerCard({
   const [replyTo, setReplyTo] = useState<string | null>(null);
   const [replyText, setReplyText] = useState("");
   const [busy, setBusy] = useState(false);
+  // Réactions sur les commentaires (appui long / bouton « Réagir »).
+  const [crx, setCrx] = useState<CommentReaction[]>([]);
+  const [pickerFor, setPickerFor] = useState<string | null>(null);
   const [answered, setAnswered] = useState(prayer.answered);
   const [pinned, setPinned] = useState(!!prayer.pinned);
   const [celebrate, setCelebrate] = useState(false);
@@ -122,6 +198,39 @@ export function PrayerCard({
     const list = await listComments(prayer.id);
     setComments(list);
     setCommentCount(list.length);
+    setCrx(await commentReactionsFor(list.map((c) => c.id)));
+  }
+
+  /** Ma réaction actuelle sur un commentaire (ou null). */
+  const myReaction = (commentId: string) =>
+    crx.find((r) => r.comment_id === commentId && r.user_id === userId)?.emoji?? null;
+
+  /** Pose / change / retire ma réaction (optimiste). */
+  async function reactToComment(commentId: string, emoji: string) {
+    const current = myReaction(commentId);
+    const next = current === emoji? null: emoji;
+    setPickerFor(null);
+    setCrx((prev) => {
+      const rest = prev.filter((r) =>!(r.comment_id === commentId && r.user_id === userId));
+      return next? [...rest, { comment_id: commentId, user_id: userId, emoji: next }]: rest;
+    });
+    await setCommentReaction(commentId, userId, next);
+  }
+
+  /** Appui long (450 ms) sur une bulle → ouvre le sélecteur de réactions. */
+  function longPress(id: string) {
+    let t: ReturnType<typeof setTimeout>;
+    return {
+      onTouchStart: () => {
+        t = setTimeout(() => setPickerFor(id), 450);
+      },
+      onTouchEnd: () => clearTimeout(t),
+      onTouchMove: () => clearTimeout(t),
+      onContextMenu: (e: React.MouseEvent) => {
+        e.preventDefault();
+        setPickerFor(id);
+      },
+    };
   }
 
   async function openComments() {
@@ -386,7 +495,10 @@ export function PrayerCard({
                         <div className="group flex items-start gap-2.5">
                           <Avatar pseudo={c.author?.pseudo} url={c.author?.avatar_url} size={30} />
                           <div className="min-w-0 flex-1">
-                            <div className="rounded-2xl bg-night-900/[0.04] px-3 py-2">
+                            <div
+                              {...longPress(c.id)}
+                              className="select-none rounded-2xl bg-night-900/[0.04] px-3 py-2"
+                            >
                               <p className="flex items-center gap-1 text-xs font-semibold text-night-900/70">
                                 {c.author?.pseudo?? "Ami(e)"}
                                 {c.author?.verified? <VerifiedBadge className="h-3.5 w-3.5" />: null}
@@ -406,16 +518,32 @@ export function PrayerCard({
                                 <MentionText text={c.body} className="text-sm text-night-900/85" />
                               ): null}
                             </div>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setReplyTo(replyTo === c.id? null: c.id);
-                                setReplyText(c.author?.pseudo? `@${c.author.pseudo} `: "");
-                              }}
-                              className="mt-1 pl-3 text-[11px] font-semibold text-spirit-600 hover:underline"
-                            >
-                              Répondre
-                            </button>
+                            <CommentReactionsRow
+                              reactions={crx.filter((r) => r.comment_id === c.id)}
+                              mine={myReaction(c.id)}
+                              open={pickerFor === c.id}
+                              onClose={() => setPickerFor(null)}
+                              onPick={(e) => reactToComment(c.id, e)}
+                            />
+                            <div className="mt-1 flex items-center gap-3 pl-3">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setReplyTo(replyTo === c.id? null: c.id);
+                                  setReplyText(c.author?.pseudo? `@${c.author.pseudo} `: "");
+                                }}
+                                className="text-[11px] font-semibold text-spirit-600 hover:underline"
+                              >
+                                Répondre
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setPickerFor(pickerFor === c.id? null: c.id)}
+                                className="text-[11px] font-semibold text-spirit-600 hover:underline"
+                              >
+                                Réagir
+                              </button>
+                            </div>
                           </div>
                           {isAdmin || c.author_id === userId? (
                             <button
@@ -437,7 +565,10 @@ export function PrayerCard({
                               <li key={r.id} className="group flex items-start gap-2">
                                 <Avatar pseudo={r.author?.pseudo} url={r.author?.avatar_url} size={24} />
                                 <div className="min-w-0 flex-1">
-                                  <div className="rounded-2xl bg-night-900/[0.04] px-3 py-1.5">
+                                  <div
+                                    {...longPress(r.id)}
+                                    className="select-none rounded-2xl bg-night-900/[0.04] px-3 py-1.5"
+                                  >
                                     <p className="flex items-center gap-1 text-[11px] font-semibold text-night-900/70">
                                       {r.author?.pseudo?? "Ami(e)"}
                                       {r.author?.verified? <VerifiedBadge className="h-3 w-3" />: null}
@@ -457,16 +588,32 @@ export function PrayerCard({
                                       <MentionText text={r.body} className="text-sm text-night-900/85" />
                                     ): null}
                                   </div>
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      setReplyTo(c.id);
-                                      setReplyText(r.author?.pseudo? `@${r.author.pseudo} `: "");
-                                    }}
-                                    className="mt-0.5 pl-3 text-[11px] font-semibold text-spirit-600 hover:underline"
-                                  >
-                                    Répondre
-                                  </button>
+                                  <CommentReactionsRow
+                                    reactions={crx.filter((x) => x.comment_id === r.id)}
+                                    mine={myReaction(r.id)}
+                                    open={pickerFor === r.id}
+                                    onClose={() => setPickerFor(null)}
+                                    onPick={(e) => reactToComment(r.id, e)}
+                                  />
+                                  <div className="mt-0.5 flex items-center gap-3 pl-3">
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setReplyTo(c.id);
+                                        setReplyText(r.author?.pseudo? `@${r.author.pseudo} `: "");
+                                      }}
+                                      className="text-[11px] font-semibold text-spirit-600 hover:underline"
+                                    >
+                                      Répondre
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => setPickerFor(pickerFor === r.id? null: r.id)}
+                                      className="text-[11px] font-semibold text-spirit-600 hover:underline"
+                                    >
+                                      Réagir
+                                    </button>
+                                  </div>
                                 </div>
                                 {isAdmin || r.author_id === userId? (
                                   <button
