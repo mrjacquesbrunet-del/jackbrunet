@@ -290,16 +290,42 @@ function Preorder() {
               Réserve ton exemplaire
             </h3>
             <p className="mt-2 text-sm text-cream/65">
-              RHEMA · 365 révélations · 740 pages ·{" "}
-              <strong className="text-cream">29,90 €</strong>
-              <br />
               Sortie officielle le <strong className="text-dawn-300">{RELEASE_LABEL}</strong>
             </p>
-            <p className="mt-2 rounded-xl border border-white/10 bg-white/[0.05] px-3 py-2 text-xs text-cream/70">
-              Disponible seul, ou en <strong className="text-cream">pack avec le carnet
-              RHEMA</strong> (sortie le même jour) pour noter ce que Dieu te dit chaque
-              matin.
-            </p>
+
+            {/* Les 3 offres — le pack mis en avant */}
+            <div className="mt-4 space-y-2">
+              <div className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5">
+                <div>
+                  <p className="text-sm font-bold">Le livre RHEMA</p>
+                  <p className="text-[11px] text-cream/50">365 révélations · 740 pages</p>
+                </div>
+                <p className="shrink-0 font-display text-base font-extrabold">29,90 €</p>
+              </div>
+              <div className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5">
+                <div>
+                  <p className="text-sm font-bold">Le carnet RHEMA</p>
+                  <p className="text-[11px] text-cream/50">
+                    Pour noter ce que Dieu te dit chaque matin
+                  </p>
+                </div>
+                <p className="shrink-0 font-display text-base font-extrabold">11,90 €</p>
+              </div>
+              <div className="relative flex items-center justify-between gap-3 rounded-xl border border-dawn-400/60 bg-dawn-400/10 px-3.5 py-3">
+                <span className="absolute -top-2 left-3 rounded-full bg-dawn-400 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wide text-night-950">
+                  Le pack complet
+                </span>
+                <div>
+                  <p className="text-sm font-bold">Livre + carnet</p>
+                  <p className="text-[11px] text-cream/55">
+                    <span className="line-through">41,80 €</span> · tu économises 2,90 €
+                  </p>
+                </div>
+                <p className="shrink-0 font-display text-lg font-extrabold text-dawn-300">
+                  38,90 €
+                </p>
+              </div>
+            </div>
             {RHEMA_PREORDER_URL? (
               <a
                 href={RHEMA_PREORDER_URL}
