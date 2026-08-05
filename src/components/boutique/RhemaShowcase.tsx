@@ -388,10 +388,9 @@ function BackCover() {
             <span className="text-gradient">Vécue.</span>
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-cream/65">
-            Depuis plusieurs années, je cherche à transmettre des révélations bibliques
-            simples et pratiques, pour amener chacun à méditer autrement. Ce livre
-            rassemble l&apos;esprit de ces rhémas partagés au fil du temps — pour les
-            faire passer de l&apos;écran à la page.
+            L&apos;essentiel est écrit au dos — et l&apos;objet est à la hauteur du
+            contenu : 740 pages, une couverture texturée sobre, un livre pensé pour
+            être ouvert, souligné et annoté chaque jour pendant un an.
           </p>
           <p className="mt-3 text-xs font-semibold text-cream/40">
             Jack Brunet · pasteur et créateur de contenu chrétien
@@ -444,10 +443,15 @@ function Hero() {
           Offre de lancement
         </span>{" "}
         <span className="line-through">29,90 €</span>{" "}
-        <span className="text-cream">26,90 €</span> · 740 pages · Sortie le {RELEASE_LABEL}
+        <span className="text-cream">26,90 €</span> · 740 pages
       </p>
-      <div className="mt-5">
-        <Countdown />
+      <div className="mt-5 rounded-2xl border border-dawn-400/30 bg-dawn-400/[0.08] px-6 py-4">
+        <p className="text-sm font-extrabold uppercase tracking-[0.25em] text-dawn-300">
+          Sortie le {RELEASE_LABEL}
+        </p>
+        <div className="mt-3">
+          <Countdown />
+        </div>
       </div>
       <div className="mt-7 flex items-center gap-3">
         <a href="#precommande" className="btn-primary">
@@ -533,23 +537,47 @@ function Exploded() {
         </p>
 
         <div className="relative flex w-full max-w-2xl items-center justify-center">
-          <Layer progress={scrollYProgress} index={0} side="left" />
-          <Layer progress={scrollYProgress} index={1} side="left" />
-          <Layer progress={scrollYProgress} index={2} side="right" />
-          <Layer progress={scrollYProgress} index={3} side="right" />
+          {/* Étiquettes autour du livre : écrans larges uniquement */}
+          <div className="hidden sm:contents">
+            <Layer progress={scrollYProgress} index={0} side="left" />
+            <Layer progress={scrollYProgress} index={1} side="left" />
+            <Layer progress={scrollYProgress} index={2} side="right" />
+            <Layer progress={scrollYProgress} index={3} side="right" />
+          </div>
 
           <motion.img
             src={asset(COVER)}
             alt=""
             aria-hidden
             style={{ scale, rotate }}
-            className="w-[180px] drop-shadow-[0_30px_50px_rgba(0,0,0,0.6)] sm:w-[240px]"
+            className="w-[190px] drop-shadow-[0_30px_50px_rgba(0,0,0,0.6)] sm:w-[240px]"
           />
         </div>
 
-        <p className="mt-8 max-w-sm text-center text-sm text-cream/50 sm:hidden">
-          Méditer, incarner, prier et déclarer, noter.
-        </p>
+        {/* Mobile : les 4 temps SOUS le livre, en cascade (lisible, sans
+            chevauchement) — même style schéma technique. */}
+        <div className="mt-10 grid w-full grid-cols-2 gap-x-5 gap-y-6 sm:hidden">
+          {LAYERS.map((l, i) => (
+            <motion.div
+              key={l.n}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-30px" }}
+              transition={{ duration: 0.5, delay: i * 0.12, ease: "easeOut" }}
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-bold tracking-[0.25em] text-dawn-300">
+                  {l.n}
+                </span>
+                <span aria-hidden className="h-px flex-1 bg-dawn-400/40" />
+              </div>
+              <p className="mt-1 font-display text-base font-extrabold leading-tight">
+                {l.title}
+              </p>
+              <p className="mt-1 text-xs leading-snug text-cream/55">{l.text}</p>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );
