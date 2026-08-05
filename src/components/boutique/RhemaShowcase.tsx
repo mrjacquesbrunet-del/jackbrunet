@@ -289,7 +289,7 @@ const STATS = [
   { big: "365", small: "révélations bibliques" },
   { big: "740", small: "pages à vivre" },
   { big: "1", small: "par jour, toute l'année" },
-  { big: "2 min", small: "pour nourrir ta foi" },
+  { big: "10 min", small: "pour nourrir ta foi" },
 ];
 
 function Stats() {
