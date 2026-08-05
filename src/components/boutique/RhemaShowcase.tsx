@@ -181,16 +181,26 @@ function MotDeJack() {
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dawn-300">
             Le mot de Jack
           </p>
-          <p className="mt-4 font-display text-lg font-bold italic leading-relaxed text-cream/90 sm:text-xl">
-            « Ce livre est né bien avant d&apos;être écrit. Il est né dans mes moments
-            seuls avec Dieu, puis dans six années de vidéos où j&apos;ai cherché une
-            seule chose : pas des informations bibliques de plus, mais le rhéma — cette
-            parole qui devient vivante et qui te rejoint exactement là où tu es.
-            J&apos;ai vu des vies changer par quelques minutes de vidéo arrivées au bon
-            moment. Alors j&apos;ai prié pour que ces 365 méditations arrivent, elles
-            aussi, au bon moment dans ta vie. Une page par jour. Et laisse Dieu faire le
-            reste. »
-          </p>
+          <div className="mt-4 space-y-3 font-display text-lg font-bold italic leading-relaxed text-cream/90 sm:text-xl">
+            <p>« Ce livre est né bien avant d&apos;être écrit.</p>
+            <p>
+              Il est né dans ces instants où je m&apos;isolais avec Dieu, où je fermais
+              la porte et lui ouvrais mon cœur. C&apos;est là qu&apos;il déposait des
+              rhémas, des révélations. Non pas de simples connaissances bibliques, mais
+              une Parole vivante, qui vient nous rejoindre exactement là où nous en
+              avons besoin.
+            </p>
+            <p>
+              Au fil des années, j&apos;ai vu des vies transformées par quelques minutes
+              de vidéo, simplement parce que Dieu avait choisi le bon moment pour
+              parler.
+            </p>
+            <p>
+              Alors j&apos;ai prié pour que ces 365 méditations puissent, elles aussi,
+              arriver au bon moment dans ta vie.
+            </p>
+            <p>Une page par jour… et laisse Dieu faire le reste. »</p>
+          </div>
           <p className="mt-4 font-display text-2xl font-extrabold text-dawn-400">Jack</p>
         </div>
       </div>
