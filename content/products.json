@@ -5,7 +5,8 @@
       "type": "Livre · à méditer chaque jour",
       "price": "26,90 €",
       "badge": "Bientôt disponible",
-      "available": false
+      "available": false,
+      "image": "/img/rhema-cover.webp"
     }
   ]
 }

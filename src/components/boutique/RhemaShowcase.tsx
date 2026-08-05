@@ -53,6 +53,7 @@ export function RhemaShowcase() {
       <Exploded />
       <Stats />
       <Story />
+      <MotDeJack />
       <Inside />
       <Manifesto />
       <BackCover />
@@ -156,6 +157,41 @@ function Story() {
               <p className="mt-1 text-[11px] text-cream/50">{s.small}</p>
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* 3a-bis. Le mot de Jack : la photo qui incarne la couverture         */
+/* ------------------------------------------------------------------ */
+function MotDeJack() {
+  return (
+    <section className="px-6 pt-24 sm:pt-28">
+      <div className="mx-auto grid max-w-3xl items-center gap-10 sm:grid-cols-[auto_1fr]">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={asset("/img/jack-mot.webp")}
+          alt="Jack Brunet lisant RHEMA dans le fauteuil de la couverture"
+          className="mx-auto w-64 rounded-3xl shadow-[0_30px_60px_rgba(0,0,0,0.6)] sm:w-72"
+          loading="lazy"
+        />
+        <div className="text-center sm:text-left">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dawn-300">
+            Le mot de Jack
+          </p>
+          <p className="mt-4 font-display text-lg font-bold italic leading-relaxed text-cream/90 sm:text-xl">
+            « Ce livre est né bien avant d&apos;être écrit. Il est né dans mes moments
+            seuls avec Dieu, puis dans six années de vidéos où j&apos;ai cherché une
+            seule chose : pas des informations bibliques de plus, mais le rhéma — cette
+            parole qui devient vivante et qui te rejoint exactement là où tu es.
+            J&apos;ai vu des vies changer par quelques minutes de vidéo arrivées au bon
+            moment. Alors j&apos;ai prié pour que ces 365 méditations arrivent, elles
+            aussi, au bon moment dans ta vie. Une page par jour. Et laisse Dieu faire le
+            reste. »
+          </p>
+          <p className="mt-4 font-display text-2xl font-extrabold text-dawn-400">Jack</p>
         </div>
       </div>
     </section>
