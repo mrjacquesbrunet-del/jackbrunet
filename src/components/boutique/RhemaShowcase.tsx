@@ -325,20 +325,23 @@ function Inside() {
           <span className="text-gradient">Une journée avec Dieu.</span>
         </h2>
         <div className="relative mx-auto mt-10 w-full max-w-2xl">
-          <Callout
-            n="01"
-            title="La méditation"
-            text="Le rhéma du jour et son verset, à gauche."
-            side="left"
-            className="left-0 top-[-8%] sm:top-[-4%]"
-          />
-          <Callout
-            n="02"
-            title="Tes notes"
-            text="Ce que Dieu te dit, écrit de ta main, à droite."
-            side="right"
-            className="bottom-[-8%] right-0 sm:bottom-[-4%]"
-          />
+          {/* Étiquettes superposées : écrans larges uniquement */}
+          <div className="hidden sm:contents">
+            <Callout
+              n="01"
+              title="La méditation"
+              text="Le rhéma du jour et son verset, à gauche."
+              side="left"
+              className="left-0 top-[-9%]"
+            />
+            <Callout
+              n="02"
+              title="Tes notes"
+              text="Ce que Dieu te dit, écrit de ta main, à droite."
+              side="right"
+              className="bottom-[-9%] right-0"
+            />
+          </div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={asset("/img/rhema-open.webp")}
@@ -346,6 +349,29 @@ function Inside() {
             className="w-full drop-shadow-[0_40px_60px_rgba(0,0,0,0.6)]"
             loading="lazy"
           />
+        </div>
+
+        {/* Mobile : les deux repères SOUS l'image, lisibles */}
+        <div className="mt-6 grid grid-cols-2 gap-5 text-left sm:hidden">
+          {[
+            { n: "01", title: "La méditation", text: "Le rhéma du jour et son verset, à gauche." },
+            { n: "02", title: "Tes notes", text: "Ce que Dieu te dit, écrit de ta main, à droite." },
+          ].map((l, i) => (
+            <motion.div
+              key={l.n}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-30px" }}
+              transition={{ duration: 0.5, delay: i * 0.12, ease: "easeOut" }}
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-bold tracking-[0.25em] text-dawn-300">{l.n}</span>
+                <span aria-hidden className="h-px flex-1 bg-dawn-400/40" />
+              </div>
+              <p className="mt-1 font-display text-base font-extrabold leading-tight">{l.title}</p>
+              <p className="mt-1 text-xs leading-snug text-cream/55">{l.text}</p>
+            </motion.div>
+          ))}
         </div>
         <p className="mx-auto mt-6 max-w-md text-sm text-cream/55">
           À gauche, la méditation du jour et son verset. À droite, tu incarnes la
@@ -364,12 +390,14 @@ function BackCover() {
     <section className="px-6 pb-24 sm:pb-28">
       <FadeUp className="mx-auto grid max-w-3xl items-center gap-10 sm:grid-cols-2">
         <div className="relative mx-auto">
-          <Callout
-            n="✦"
-            title="Préface de Josy W.Brunet"
-            side="right"
-            className="right-[-4%] top-[-7%]"
-          />
+          <div className="hidden sm:contents">
+            <Callout
+              n="✦"
+              title="Préface de Josy W.Brunet"
+              side="right"
+              className="right-[-4%] top-[-7%]"
+            />
+          </div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={asset("/img/rhema-back.webp")}
