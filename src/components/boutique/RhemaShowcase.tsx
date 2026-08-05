@@ -47,6 +47,47 @@ function Countdown() {
  * livre en vue ÉCLATÉE au fil du scroll (les 4 éléments d'une journée se
  * détachent du livre), bandeaux de chiffres, et précommande forte.
  */
+/** Étiquette numérotée avec trait (style « schéma technique », comme la vue
+ * éclatée) : glisse en place quand elle entre à l'écran. */
+function Callout({
+  n,
+  title,
+  text,
+  side,
+  className,
+}: {
+  n: string;
+  title: string;
+  text?: string;
+  side: "left" | "right";
+  className?: string;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: side === "left"? 50: -50 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.55, ease: "easeOut" }}
+      className={`pointer-events-none absolute z-10 w-[42%] max-w-[220px] ${
+        side === "left"? "text-right": "text-left"
+      } ${className?? ""}`}
+    >
+      <div className={`flex items-start gap-2 ${side === "left"? "flex-row-reverse": ""}`}>
+        <span aria-hidden className="mt-2 h-px w-6 bg-dawn-400/60 sm:w-12" />
+        <div>
+          <p className="text-[10px] font-bold tracking-[0.25em] text-dawn-300">{n}</p>
+          <p className="mt-0.5 font-display text-sm font-extrabold leading-tight sm:text-lg">
+            {title}
+          </p>
+          {text? (
+            <p className="mt-1 hidden text-xs leading-snug text-cream/55 sm:block">{text}</p>
+          ): null}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 /** Apparition douce au défilement (dynamisme des sections). */
 function FadeUp({
   children,
@@ -283,13 +324,29 @@ function Inside() {
           <br />
           <span className="text-gradient">Une journée avec Dieu.</span>
         </h2>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={asset("/img/rhema-open.webp")}
-          alt="Le livre RHEMA ouvert : la méditation du jour à gauche, Incarne la révélation, Prie et déclare, et l'espace de notes à droite"
-          className="mx-auto mt-10 w-full max-w-2xl drop-shadow-[0_40px_60px_rgba(0,0,0,0.6)]"
-          loading="lazy"
-        />
+        <div className="relative mx-auto mt-10 w-full max-w-2xl">
+          <Callout
+            n="01"
+            title="La méditation"
+            text="Le rhéma du jour et son verset, à gauche."
+            side="left"
+            className="left-0 top-[-8%] sm:top-[-4%]"
+          />
+          <Callout
+            n="02"
+            title="Tes notes"
+            text="Ce que Dieu te dit, écrit de ta main, à droite."
+            side="right"
+            className="bottom-[-8%] right-0 sm:bottom-[-4%]"
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={asset("/img/rhema-open.webp")}
+            alt="Le livre RHEMA ouvert : la méditation du jour à gauche, Incarne la révélation, Prie et déclare, et l'espace de notes à droite"
+            className="w-full drop-shadow-[0_40px_60px_rgba(0,0,0,0.6)]"
+            loading="lazy"
+          />
+        </div>
         <p className="mx-auto mt-6 max-w-md text-sm text-cream/55">
           À gauche, la méditation du jour et son verset. À droite, tu incarnes la
           révélation, tu pries, tu déclares — et tu notes ce que Dieu te dit.
@@ -306,13 +363,21 @@ function BackCover() {
   return (
     <section className="px-6 pb-24 sm:pb-28">
       <FadeUp className="mx-auto grid max-w-3xl items-center gap-10 sm:grid-cols-2">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={asset("/img/rhema-back.webp")}
-          alt="Quatrième de couverture du livre RHEMA"
-          className="mx-auto w-56 -rotate-2 drop-shadow-[0_30px_50px_rgba(0,0,0,0.55)] sm:w-72"
-          loading="lazy"
-        />
+        <div className="relative mx-auto">
+          <Callout
+            n="✦"
+            title="Préface de Josy W.Brunet"
+            side="right"
+            className="right-[-4%] top-[-7%]"
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={asset("/img/rhema-back.webp")}
+            alt="Quatrième de couverture du livre RHEMA"
+            className="mx-auto w-56 -rotate-2 drop-shadow-[0_30px_50px_rgba(0,0,0,0.55)] sm:w-72"
+            loading="lazy"
+          />
+        </div>
         <div className="text-center sm:text-left">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dawn-300">
             La 4ᵉ de couverture
