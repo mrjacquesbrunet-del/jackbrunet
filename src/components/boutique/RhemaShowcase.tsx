@@ -219,9 +219,9 @@ function Layer({
   index: number;
   side: "left" | "right";
 }) {
-  const start = 0.12 + index * 0.17;
-  const opacity = useTransform(progress, [start, start + 0.1], [0, 1]);
-  const x = useTransform(progress, [start, start + 0.14], [side === "left"? 60: -60, 0]);
+  const start = 0.08 + index * 0.2;
+  const opacity = useTransform(progress, [start, start + 0.12], [0, 1]);
+  const x = useTransform(progress, [start, start + 0.16], [side === "left"? 60: -60, 0]);
   const l = LAYERS[index];
   return (
     <motion.div
@@ -246,20 +246,18 @@ function Layer({
 
 function Exploded() {
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const scale = useTransform(scrollYProgress, [0, 0.25], [1, 0.86]);
+  // La progression suit la traversée de la section dans l'écran (pas de
+  // position sticky : elle est cassée par l'overflow-x global du site).
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.85", "center 0.45"] });
+  const scale = useTransform(scrollYProgress, [0, 0.3], [1.05, 0.9]);
   const rotate = useTransform(scrollYProgress, [0, 1], [0, -4]);
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.08, 0.9, 1], [0, 1, 1, 0.4]);
 
   return (
-    <section ref={ref} className="relative h-[320vh]">
-      <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center overflow-hidden px-6">
-        <motion.p
-          style={{ opacity: titleOpacity }}
-          className="mb-8 max-w-md text-center font-display text-2xl font-extrabold leading-tight sm:text-4xl"
-        >
+    <section ref={ref} className="relative px-6 py-24 sm:py-32">
+      <div className="mx-auto flex max-w-2xl flex-col items-center">
+        <p className="mb-10 max-w-md text-center font-display text-2xl font-extrabold leading-tight sm:text-4xl">
           Chaque jour, <span className="text-gradient">quatre temps</span>.
-        </motion.p>
+        </p>
 
         <div className="relative flex w-full max-w-2xl items-center justify-center">
           <Layer progress={scrollYProgress} index={0} side="left" />
@@ -276,12 +274,9 @@ function Exploded() {
           />
         </div>
 
-        <motion.p
-          style={{ opacity: titleOpacity }}
-          className="mt-8 max-w-sm text-center text-sm text-cream/50 sm:hidden"
-        >
-          La révélation, le verset, la méditation, la mise en pratique.
-        </motion.p>
+        <p className="mt-8 max-w-sm text-center text-sm text-cream/50 sm:hidden">
+          Méditer, incarner, prier et déclarer, noter.
+        </p>
       </div>
     </section>
   );
