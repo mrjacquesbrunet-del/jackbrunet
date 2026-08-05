@@ -124,49 +124,10 @@ export function RhemaShowcase() {
       <Inside />
       <Manifesto />
       <BackCover />
-      <CarnetBlock />
       <Preorder />
       <AppBlock />
       <AccessForAll />
     </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* 4c. Le carnet RHEMA : le compagnon du livre                         */
-/* ------------------------------------------------------------------ */
-function CarnetBlock() {
-  return (
-    <section className="px-6 pb-24 sm:pb-28">
-      <FadeUp>
-        <div className="relative mx-auto max-w-2xl overflow-hidden rounded-4xl border border-dawn-400/25 bg-[#12140C] p-7 sm:p-10">
-          <div className="blob -right-14 -bottom-12 h-44 w-44 bg-dawn-400/15" />
-          <div className="relative text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dawn-300">
-              Le carnet RHEMA
-            </p>
-            <h2 className="mt-3 font-display text-3xl font-extrabold leading-tight sm:text-4xl">
-              Écris ce que
-              <br />
-              <span className="text-gradient">Dieu te dit.</span>
-            </h2>
-            <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-cream/65 sm:text-base">
-              Le compagnon du livre, qui sort le même jour : chaque matin, un espace
-              pour noter la révélation reçue, tes prières et tes pas de foi. Ce qui
-              est écrit reste — et un an de rhémas notés, c&apos;est un trésor.
-            </p>
-            <p className="mt-4 text-sm font-semibold text-cream/85">
-              <span className="mr-1.5 text-cream/40 line-through">11,90 €</span>
-              10,90 € · ou en pack livre + carnet à{" "}
-              <span className="text-dawn-300">35,90 €</span>
-            </p>
-            <a href="#precommande" className="btn-primary mt-5 inline-flex">
-              Voir les offres
-            </a>
-          </div>
-        </div>
-      </FadeUp>
-    </section>
   );
 }
 
@@ -435,6 +396,33 @@ function BackCover() {
             <br />
             Préface de Josy W.Brunet
           </p>
+        </div>
+      </FadeUp>
+
+      {/* Le carnet, juste en dessous */}
+      <FadeUp className="mx-auto mt-12 max-w-3xl">
+        <div className="relative overflow-hidden rounded-4xl border border-dawn-400/25 bg-[#12140C] p-7 sm:p-9">
+          <div className="blob -right-14 -bottom-12 h-44 w-44 bg-dawn-400/15" />
+          <div className="relative text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dawn-300">
+              Le carnet RHEMA
+            </p>
+            <h3 className="mt-3 font-display text-2xl font-extrabold leading-tight sm:text-3xl">
+              Écris ce que <span className="text-gradient">Dieu te dit.</span>
+            </h3>
+            <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-cream/65">
+              Le compagnon du livre, qui sort le même jour : chaque matin, un espace
+              pour noter la révélation reçue, tes prières et tes pas de foi.
+            </p>
+            <p className="mt-3 text-sm font-semibold text-cream/85">
+              <span className="mr-1.5 text-cream/40 line-through">11,90 €</span>
+              10,90 € · ou en pack livre + carnet à{" "}
+              <span className="text-dawn-300">35,90 €</span>
+            </p>
+            <a href="#precommande" className="btn-primary mt-4 inline-flex text-sm">
+              Voir les offres
+            </a>
+          </div>
         </div>
       </FadeUp>
     </section>
