@@ -91,7 +91,11 @@ function Hero() {
         L&apos;aboutissement de tout ce que je partage.
       </p>
       <p className="mt-3 text-sm font-semibold text-cream/45">
-        29,90 € · 740 pages · Sortie le {RELEASE_LABEL}
+        <span className="rounded-full bg-dawn-400/15 px-2.5 py-1 text-dawn-300">
+          Offre de lancement
+        </span>{" "}
+        <span className="line-through">29,90 €</span>{" "}
+        <span className="text-cream">26,90 €</span> · 740 pages · Sortie le {RELEASE_LABEL}
       </p>
       <div className="mt-5">
         <Countdown />
@@ -293,14 +297,22 @@ function Preorder() {
               Sortie officielle le <strong className="text-dawn-300">{RELEASE_LABEL}</strong>
             </p>
 
-            {/* Les 3 offres — le pack mis en avant */}
+            {/* Les 3 offres (prix de lancement) — le pack mis en avant */}
             <div className="mt-4 space-y-2">
               <div className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5">
                 <div>
                   <p className="text-sm font-bold">Le livre RHEMA</p>
-                  <p className="text-[11px] text-cream/50">365 révélations · 740 pages</p>
+                  <p className="text-[11px] text-cream/50">
+                    365 révélations · 740 pages ·{" "}
+                    <span className="text-dawn-300">offre de lancement</span>
+                  </p>
                 </div>
-                <p className="shrink-0 font-display text-base font-extrabold">29,90 €</p>
+                <p className="shrink-0 text-right font-display text-base font-extrabold">
+                  <span className="mr-1.5 text-xs font-semibold text-cream/40 line-through">
+                    29,90 €
+                  </span>
+                  26,90 €
+                </p>
               </div>
               <div className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5">
                 <div>
@@ -318,11 +330,11 @@ function Preorder() {
                 <div>
                   <p className="text-sm font-bold">Livre + carnet</p>
                   <p className="text-[11px] text-cream/55">
-                    <span className="line-through">41,80 €</span> · tu économises 2,90 €
+                    <span className="line-through">41,80 €</span> · tu économises 5,90 €
                   </p>
                 </div>
                 <p className="shrink-0 font-display text-lg font-extrabold text-dawn-300">
-                  38,90 €
+                  35,90 €
                 </p>
               </div>
             </div>
