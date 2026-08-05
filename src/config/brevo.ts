@@ -65,6 +65,8 @@ export function brevoKeyForSource(source: string): BrevoFormKey {
       return "rhema";
     case "boutique":
     case "page-boutique":
+    // Liste d'attente précommande RHEMA (vitrine /boutique).
+    case "rhema-precommande":
       return "boutique";
     case "page-dons":
       return "dons";

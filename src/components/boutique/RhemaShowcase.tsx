@@ -57,7 +57,50 @@ export function RhemaShowcase() {
       <Manifesto />
       <BackCover />
       <Preorder />
+      <AccessForAll />
     </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* 6. RHEMA pour tous : la Parole n'a pas de frontières                */
+/* ------------------------------------------------------------------ */
+const GIFT_MAILTO =
+  "mailto:contact@jackbrunet.com" +
+  "?subject=" +
+  encodeURIComponent("RHEMA pour tous — demande d'e-book offert") +
+  "&body=" +
+  encodeURIComponent(
+    "Bonjour Jack,\n\nJe souhaite recevoir l'e-book RHEMA offert.\n\nMon prénom :\nMon pays :\nMa situation (en quelques mots) :\n\nMerci de tout cœur !",
+  );
+
+function AccessForAll() {
+  return (
+    <section className="border-t border-white/[0.06] px-6 py-20 sm:py-24">
+      <div className="mx-auto max-w-2xl text-center">
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dawn-300">
+          RHEMA pour tous
+        </p>
+        <h2 className="mt-3 font-display text-3xl font-extrabold leading-tight sm:text-4xl">
+          La Parole n&apos;a pas
+          <br />
+          <span className="text-gradient">de frontières.</span>
+        </h2>
+        <p className="mx-auto mt-5 max-w-xl text-cream/65">
+          Ce livre doit pouvoir toucher chacun, où qu&apos;il vive. C&apos;est pour cela
+          que l&apos;e-book sera disponible à 5 € partout dans le monde. Et si tu vis en
+          dehors de l&apos;Europe et de l&apos;Amérique du Nord, et que même cela
+          représente un obstacle pour toi : écris-moi. Je te l&apos;offre, de tout cœur.
+        </p>
+        <a href={GIFT_MAILTO} className="btn-ghost mt-6 inline-flex">
+          Demander l&apos;e-book offert
+        </a>
+        <p className="mt-3 text-xs text-cream/40">
+          Un simple email avec ton prénom, ton pays et ta situation — je réponds
+          personnellement.
+        </p>
+      </div>
+    </section>
   );
 }
 
@@ -453,6 +496,15 @@ function Preorder() {
                   </span>
                   10,90 €
                 </p>
+              </div>
+              <div className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5">
+                <div>
+                  <p className="text-sm font-bold">L&apos;e-book RHEMA</p>
+                  <p className="text-[11px] text-cream/50">
+                    Lisible partout dans le monde, dès la sortie
+                  </p>
+                </div>
+                <p className="shrink-0 font-display text-base font-extrabold">5 €</p>
               </div>
               <div className="relative flex items-center justify-between gap-3 rounded-xl border border-dawn-400/60 bg-dawn-400/10 px-3.5 py-3">
                 <span className="absolute -top-2 left-3 rounded-full bg-dawn-400 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wide text-night-950">
