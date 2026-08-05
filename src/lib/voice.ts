@@ -10,6 +10,17 @@ import { getSupabase } from "./supabase";
 
 export const VOICE_MAX_SECONDS = 120;
 
+/** Durée de vie d'une note vocale (éphémère) : 7 jours. */
+export const VOICE_TTL_DAYS = 7;
+
+/** Une note vocale datée de `createdAt` est-elle expirée ? (Le nettoyage
+ * serveur supprime ensuite les fichiers ; côté app on masque dès J+7.) */
+export function voiceExpired(createdAt: string): boolean {
+  const t = new Date(createdAt).getTime();
+  if (Number.isNaN(t)) return false;
+  return Date.now() - t > VOICE_TTL_DAYS * 86_400_000;
+}
+
 export type VoiceRecording = {
   stop: () => Promise<Blob | null>;
   cancel: () => void;

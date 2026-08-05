@@ -220,6 +220,9 @@ export function VoiceRecorderButton({
             )}
           </button>
         </div>
+        <p className={`w-full text-[11px] ${dark ? "text-cream/45" : "text-night-900/40"}`}>
+          Message éphémère : ta note reste écoutable 7 jours.
+        </p>
         {err ? (
           <p className={`w-full text-xs ${dark ? "text-cream/60" : "text-night-900/50"}`}>{err}</p>
         ) : null}

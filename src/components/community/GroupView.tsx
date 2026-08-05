@@ -46,6 +46,7 @@ import {
   type GroupStatus,
 } from "@/lib/groups";
 import { VoiceRecorderButton, VoiceNotePlayer } from "@/components/community/VoiceNote";
+import { voiceExpired } from "@/lib/voice";
 
 const BG = "#14160E";
 const fieldDark =
@@ -659,7 +660,13 @@ function Chat({ group, userId }: { group: Group; userId: string }) {
                   {!mine ? <p className="text-[11px] font-bold opacity-70">{m.author?.pseudo ?? "Membre"}</p> : null}
                   {m.audio_url ? (
                     <div className="py-0.5">
-                      <VoiceNotePlayer src={m.audio_url} tone={mine ? "light" : "dark"} />
+                      {voiceExpired(m.created_at) ? (
+                        <p className={`text-xs italic ${mine ? "text-night-950/60" : "text-cream/50"}`}>
+                          Note vocale expirée (les vocaux durent 7 jours)
+                        </p>
+                      ) : (
+                        <VoiceNotePlayer src={m.audio_url} tone={mine ? "light" : "dark"} />
+                      )}
                     </div>
                   ) : null}
                   {m.body && !m.audio_url ? (

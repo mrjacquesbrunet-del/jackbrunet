@@ -6,6 +6,7 @@ import { Avatar } from "@/components/community/Avatar";
 import { Celebration } from "@/components/ui/Celebration";
 import { MentionField } from "@/components/community/MentionField";
 import { VoiceRecorderButton, VoiceNotePlayer } from "@/components/community/VoiceNote";
+import { voiceExpired } from "@/lib/voice";
 import { MentionText } from "@/components/community/MentionText";
 import { HandsGlyph, BookmarkGlyph, BookmarkFilledGlyph } from "@/components/ui/DevoIcons";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
@@ -392,7 +393,13 @@ export function PrayerCard({
                               </p>
                               {c.audio_url? (
                                 <div className="mt-1">
-                                  <VoiceNotePlayer src={c.audio_url} />
+                                  {voiceExpired(c.created_at)? (
+                                    <p className="text-xs italic text-night-900/45">
+                                      Note vocale expirée (les vocaux durent 7 jours)
+                                    </p>
+                                  ): (
+                                    <VoiceNotePlayer src={c.audio_url} />
+                                  )}
                                 </div>
                               ): null}
                               {c.body &&!c.audio_url? (
@@ -437,7 +444,13 @@ export function PrayerCard({
                                     </p>
                                     {r.audio_url? (
                                       <div className="mt-1">
-                                        <VoiceNotePlayer src={r.audio_url} />
+                                        {voiceExpired(r.created_at)? (
+                                          <p className="text-xs italic text-night-900/45">
+                                            Note vocale expirée (les vocaux durent 7 jours)
+                                          </p>
+                                        ): (
+                                          <VoiceNotePlayer src={r.audio_url} />
+                                        )}
                                       </div>
                                     ): null}
                                     {r.body &&!r.audio_url? (
