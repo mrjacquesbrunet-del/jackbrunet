@@ -403,25 +403,34 @@ function BackCover() {
       <FadeUp className="mx-auto mt-12 max-w-3xl">
         <div className="relative overflow-hidden rounded-4xl border border-dawn-400/25 bg-[#12140C] p-7 sm:p-9">
           <div className="blob -right-14 -bottom-12 h-44 w-44 bg-dawn-400/15" />
-          <div className="relative text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dawn-300">
-              Le carnet RHEMA
-            </p>
-            <h3 className="mt-3 font-display text-2xl font-extrabold leading-tight sm:text-3xl">
-              Écris ce que <span className="text-gradient">Dieu te dit.</span>
-            </h3>
-            <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-cream/65">
-              Le compagnon du livre, qui sort le même jour : chaque matin, un espace
-              pour noter la révélation reçue, tes prières et tes pas de foi.
-            </p>
-            <p className="mt-3 text-sm font-semibold text-cream/85">
-              <span className="mr-1.5 text-cream/40 line-through">11,90 €</span>
-              10,90 € · ou en pack livre + carnet à{" "}
-              <span className="text-dawn-300">35,90 €</span>
-            </p>
-            <a href="#precommande" className="btn-primary mt-4 inline-flex text-sm">
-              Voir les offres
-            </a>
+          <div className="relative grid items-center gap-8 sm:grid-cols-[auto_1fr]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={asset("/img/carnet-cover.webp")}
+              alt="Le carnet de méditation RHEMA"
+              className="mx-auto w-40 rotate-2 drop-shadow-[0_25px_40px_rgba(0,0,0,0.55)] sm:w-48"
+              loading="lazy"
+            />
+            <div className="text-center sm:text-left">
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dawn-300">
+                Le carnet RHEMA
+              </p>
+              <h3 className="mt-3 font-display text-2xl font-extrabold leading-tight sm:text-3xl">
+                Écris ce que <span className="text-gradient">Dieu te dit.</span>
+              </h3>
+              <p className="mt-3 max-w-lg text-sm leading-relaxed text-cream/65">
+                Le compagnon du livre, qui sort le même jour : 92 pages pour noter
+                chaque matin la révélation reçue, tes prières et tes pas de foi.
+              </p>
+              <p className="mt-3 text-sm font-semibold text-cream/85">
+                <span className="mr-1.5 text-cream/40 line-through">11,90 €</span>
+                10,90 € · ou en pack livre + carnet à{" "}
+                <span className="text-dawn-300">35,90 €</span>
+              </p>
+              <a href="#precommande" className="btn-primary mt-4 inline-flex text-sm">
+                Voir les offres
+              </a>
+            </div>
           </div>
         </div>
       </FadeUp>
