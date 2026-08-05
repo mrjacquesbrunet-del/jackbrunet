@@ -307,9 +307,12 @@ export function VoiceNotePlayer({
   const [playing, setPlaying] = useState(false);
   const [time, setTime] = useState(0);
   const [dur, setDur] = useState(0);
+  // Vitesse de lecture (comme WhatsApp) : 1× → 1,5× → 2×.
+  const [rate, setRate] = useState(1);
 
   useEffect(() => {
     const a = new Audio(src);
+    a.playbackRate = rate;
     audioRef.current = a;
     const onT = () => setTime(a.currentTime);
     const onM = () => setDur(Number.isFinite(a.duration) ? a.duration : 0);
@@ -342,12 +345,19 @@ export function VoiceNotePlayer({
     }
   }
 
+  function cycleRate() {
+    const next = rate === 1? 1.5: rate === 1.5? 2: 1;
+    setRate(next);
+    const a = audioRef.current;
+    if (a) a.playbackRate = next;
+  }
+
   const dark = tone === "dark";
   const pct = dur > 0 ? Math.min(100, (time / dur) * 100) : 0;
 
   return (
     <div
-      className={`flex w-full max-w-[240px] items-center gap-2.5 rounded-2xl px-3 py-2 ${
+      className={`flex w-full max-w-[280px] items-center gap-2 rounded-2xl px-3 py-2 ${
         dark ? "bg-white/10" : "bg-night-900/[0.05]"
       }`}
     >
@@ -365,6 +375,21 @@ export function VoiceNotePlayer({
       <span className={`shrink-0 text-[11px] font-semibold tabular-nums ${dark ? "text-cream/60" : "text-night-900/50"}`}>
         {fmt(playing || time > 0 ? time : dur)}
       </span>
+      <button
+        type="button"
+        onClick={cycleRate}
+        aria-label="Vitesse de lecture"
+        title="Vitesse de lecture"
+        className={`shrink-0 rounded-full px-2 py-1 text-[11px] font-bold tabular-nums transition-colors active:scale-95 ${
+          rate !== 1
+            ? "bg-dawn-400 text-night-950"
+            : dark
+              ? "bg-white/15 text-cream/75"
+              : "bg-night-900/10 text-night-900/60"
+        }`}
+      >
+        {rate === 1.5 ? "1,5×" : `${rate}×`}
+      </button>
     </div>
   );
 }
