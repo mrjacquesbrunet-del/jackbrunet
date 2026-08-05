@@ -91,7 +91,7 @@ function Hero() {
         L&apos;aboutissement de tout ce que je partage.
       </p>
       <p className="mt-3 text-sm font-semibold text-cream/45">
-        20 € · Sortie le {RELEASE_LABEL}
+        29,90 € · 740 pages · Sortie le {RELEASE_LABEL}
       </p>
       <div className="mt-5">
         <Countdown />
@@ -212,9 +212,9 @@ function Exploded() {
 /* ------------------------------------------------------------------ */
 const STATS = [
   { big: "365", small: "révélations bibliques" },
+  { big: "740", small: "pages à vivre" },
   { big: "1", small: "par jour, toute l'année" },
   { big: "2 min", small: "pour nourrir ta foi" },
-  { big: "12", small: "mois transformés" },
 ];
 
 function Stats() {
@@ -290,9 +290,15 @@ function Preorder() {
               Réserve ton exemplaire
             </h3>
             <p className="mt-2 text-sm text-cream/65">
-              RHEMA · 365 révélations bibliques · <strong className="text-cream">20 €</strong>
+              RHEMA · 365 révélations · 740 pages ·{" "}
+              <strong className="text-cream">29,90 €</strong>
               <br />
               Sortie officielle le <strong className="text-dawn-300">{RELEASE_LABEL}</strong>
+            </p>
+            <p className="mt-2 rounded-xl border border-white/10 bg-white/[0.05] px-3 py-2 text-xs text-cream/70">
+              Disponible seul, ou en <strong className="text-cream">pack avec le carnet
+              RHEMA</strong> (sortie le même jour) pour noter ce que Dieu te dit chaque
+              matin.
             </p>
             {RHEMA_PREORDER_URL? (
               <a
