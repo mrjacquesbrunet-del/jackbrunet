@@ -90,6 +90,9 @@ function Hero() {
         365 révélations bibliques à méditer, une par jour, pendant un an.
         L&apos;aboutissement de tout ce que je partage.
       </p>
+      <p className="mt-2 text-xs font-semibold uppercase tracking-[0.22em] text-cream/40">
+        Préface de Josy W.Brunet
+      </p>
       <p className="mt-3 text-sm font-semibold text-cream/45">
         <span className="rounded-full bg-dawn-400/15 px-2.5 py-1 text-dawn-300">
           Offre de lancement
@@ -250,9 +253,10 @@ function Manifesto() {
             <span className="text-gradient">Un livre à vivre.</span>
           </h2>
           <p className="mt-5 max-w-xl text-cream/65">
-            RHEMA n&apos;est pas fait pour être dévoré en trois soirs puis rangé. C&apos;est un
-            compagnon de route : une page par jour, une révélation à la fois, pour que la
-            Parole descende de la tête au cœur — et du cœur dans ta journée.
+            RHEMA est né d&apos;un chemin personnel avec Dieu, et de plusieurs années de
+            partages, de méditations et de vidéos quotidiennes autour de la Parole. Ce
+            dévotionnel a été conçu pour t&apos;accompagner jour après jour, afin que la
+            Parole ne soit pas seulement écoutée, mais méditée, priée et vécue.
           </p>
         </div>
         <div className="sm:text-right">
