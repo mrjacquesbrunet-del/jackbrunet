@@ -52,10 +52,42 @@ export function RhemaShowcase() {
       <Hero />
       <Exploded />
       <Stats />
+      <Inside />
       <Manifesto />
       <BackCover />
       <Preorder />
     </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* 3b. À l'intérieur : le livre ouvert                                 */
+/* ------------------------------------------------------------------ */
+function Inside() {
+  return (
+    <section className="overflow-hidden px-6 pt-24 sm:pt-28">
+      <div className="mx-auto max-w-3xl text-center">
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dawn-300">
+          À l&apos;intérieur
+        </p>
+        <h2 className="mt-3 font-display text-3xl font-extrabold leading-tight sm:text-4xl">
+          Une double page.
+          <br />
+          <span className="text-gradient">Une journée avec Dieu.</span>
+        </h2>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={asset("/img/rhema-open.webp")}
+          alt="Le livre RHEMA ouvert : la méditation du jour à gauche, Incarne la révélation, Prie et déclare, et l'espace de notes à droite"
+          className="mx-auto mt-10 w-full max-w-2xl drop-shadow-[0_40px_60px_rgba(0,0,0,0.6)]"
+          loading="lazy"
+        />
+        <p className="mx-auto mt-6 max-w-md text-sm text-cream/55">
+          À gauche, la méditation du jour et son verset. À droite, tu incarnes la
+          révélation, tu pries, tu déclares — et tu notes ce que Dieu te dit.
+        </p>
+      </div>
+    </section>
   );
 }
 
@@ -172,10 +204,10 @@ function Hero() {
 /* 2. Vue éclatée au scroll : les 4 éléments d'une journée             */
 /* ------------------------------------------------------------------ */
 const LAYERS = [
-  { n: "01", title: "La révélation", text: "Le RHEMA du jour : une parole qui ouvre le verset autrement." },
-  { n: "02", title: "Le verset", text: "Ancré dans la Bible, noir sur blanc, à souligner." },
-  { n: "03", title: "La méditation", text: "Deux minutes pour descendre en profondeur." },
-  { n: "04", title: "La mise en pratique", text: "Une prière pour le vivre — pas seulement le lire." },
+  { n: "01", title: "La méditation", text: "Un titre, un verset, une révélation à méditer." },
+  { n: "02", title: "Incarne la révélation", text: "Pour la vivre concrètement dans ta journée." },
+  { n: "03", title: "Prie et déclare", text: "Une prière et une déclaration de foi." },
+  { n: "04", title: "Lecture & notes", text: "Une lecture recommandée, et l'espace pour écrire." },
 ];
 
 function Layer({
