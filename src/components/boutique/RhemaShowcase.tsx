@@ -52,11 +52,62 @@ export function RhemaShowcase() {
       <Hero />
       <Exploded />
       <Stats />
+      <Story />
       <Inside />
       <Manifesto />
       <BackCover />
       <Preorder />
     </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* 3a. L'histoire de RHEMA                                             */
+/* ------------------------------------------------------------------ */
+const STORY_STATS = [
+  { big: "6", small: "années de partage" },
+  { big: "+1 000", small: "vidéos publiées" },
+  { big: "+100 M", small: "de personnes touchées" },
+];
+
+function Story() {
+  return (
+    <section className="px-6 pt-24 sm:pt-28">
+      <div className="mx-auto max-w-2xl text-center">
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dawn-300">
+          L&apos;histoire de RHEMA
+        </p>
+        <h2 className="mt-3 font-display text-3xl font-extrabold leading-tight sm:text-5xl">
+          Six années. Mille vidéos.
+          <br />
+          <span className="text-gradient">Une parole vivante.</span>
+        </h2>
+        <p className="mx-auto mt-6 max-w-xl text-cream/65">
+          Pendant six ans, j&apos;ai publié plus de mille vidéos avec une conviction
+          profonde : la Parole de Dieu n&apos;a pas été donnée pour augmenter nos
+          connaissances, mais pour transformer notre vie. Ces messages ont touché plus
+          d&apos;une centaine de millions de personnes — et derrière les chiffres, des
+          histoires : des retours à Dieu, des vies données à Jésus, de l&apos;espérance
+          retrouvée au milieu de saisons difficiles.
+        </p>
+        <p className="mx-auto mt-4 max-w-xl text-cream/65">
+          Je ne voulais pas que ces paroles restent emportées par le rythme des réseaux.
+          RHEMA en rassemble l&apos;essentiel : les révélations les plus fortes,
+          retravaillées une à une pour devenir une véritable expérience de méditation —
+          s&apos;arrêter, réfléchir, prier, et mettre en pratique.
+        </p>
+        <div className="mx-auto mt-10 grid max-w-lg grid-cols-3 gap-6">
+          {STORY_STATS.map((s) => (
+            <div key={s.small} className="text-center">
+              <p className="font-display text-3xl font-extrabold text-dawn-400 sm:text-4xl">
+                {s.big}
+              </p>
+              <p className="mt-1 text-[11px] text-cream/50">{s.small}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -160,8 +211,8 @@ function Hero() {
         <span className="text-gradient">Chaque jour.</span>
       </h1>
       <p className="mt-5 max-w-md text-base text-cream/65 sm:text-lg">
-        365 révélations bibliques à méditer, une par jour, pendant un an.
-        L&apos;aboutissement de tout ce que je partage.
+        365 révélations bibliques à méditer, une par jour, pendant un an. Le condensé de
+        six années de partage et de plus de mille vidéos autour de la Parole.
       </p>
       <p className="mt-2 text-xs font-semibold uppercase tracking-[0.22em] text-cream/40">
         Préface de Josy W.Brunet
@@ -329,13 +380,15 @@ function Manifesto() {
         </div>
         <div className="sm:text-right">
           <h2 className="font-display text-3xl font-extrabold leading-tight sm:text-5xl">
-            Ta première pensée
+            Certains messages t&apos;encourageront.
             <br />
-            <span className="text-gradient">du matin.</span>
+            <span className="text-gradient">D&apos;autres te confronteront.</span>
           </h2>
           <p className="mt-5 max-w-xl text-cream/65 sm:ml-auto">
-            Avant les réseaux, avant les messages, avant le bruit. Un an de rendez-vous
-            quotidiens avec Dieu, à poser sur ta table de nuit.
+            La foi, la peur, l&apos;identité, les relations, le pardon, les saisons
+            d&apos;attente, les combats intérieurs, l&apos;appel de Dieu… Chaque
+            méditation poursuit le même objectif : faire passer la Parole de la page
+            jusqu&apos;au cœur, puis du cœur jusqu&apos;à la vie.
           </p>
         </div>
       </div>
