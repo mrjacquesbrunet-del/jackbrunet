@@ -318,10 +318,16 @@ function Preorder() {
                 <div>
                   <p className="text-sm font-bold">Le carnet RHEMA</p>
                   <p className="text-[11px] text-cream/50">
-                    Pour noter ce que Dieu te dit chaque matin
+                    Pour noter ce que Dieu te dit ·{" "}
+                    <span className="text-dawn-300">offre de lancement</span>
                   </p>
                 </div>
-                <p className="shrink-0 font-display text-base font-extrabold">11,90 €</p>
+                <p className="shrink-0 text-right font-display text-base font-extrabold">
+                  <span className="mr-1.5 text-xs font-semibold text-cream/40 line-through">
+                    11,90 €
+                  </span>
+                  10,90 €
+                </p>
               </div>
               <div className="relative flex items-center justify-between gap-3 rounded-xl border border-dawn-400/60 bg-dawn-400/10 px-3.5 py-3">
                 <span className="absolute -top-2 left-3 rounded-full bg-dawn-400 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wide text-night-950">
