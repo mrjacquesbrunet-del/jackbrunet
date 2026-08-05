@@ -1,12 +1,45 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { asset } from "@/lib/asset";
 import { RHEMA_PREORDER_URL } from "@/config/stripe";
 
 const COVER = "/img/rhema-cover.png";
+
+/** Sortie officielle du livre. */
+const RELEASE_AT = new Date("2026-09-07T00:00:00+02:00");
+const RELEASE_LABEL = "7 septembre";
+
+/** Compte à rebours sobre jusqu'à la sortie (masqué une fois passée). */
+function Countdown() {
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const t = setInterval(() => setNow(Date.now()), 30_000);
+    return () => clearInterval(t);
+  }, []);
+  const diff = RELEASE_AT.getTime() - now;
+  if (diff <= 0) return null;
+  const d = Math.floor(diff / 86_400_000);
+  const h = Math.floor((diff % 86_400_000) / 3_600_000);
+  const m = Math.floor((diff % 3_600_000) / 60_000);
+  const cell = (v: number, label: string) => (
+    <div className="text-center">
+      <p className="font-display text-2xl font-extrabold text-dawn-400 tabular-nums sm:text-3xl">
+        {v}
+      </p>
+      <p className="text-[10px] uppercase tracking-widest text-cream/45">{label}</p>
+    </div>
+  );
+  return (
+    <div className="flex items-center justify-center gap-5">
+      {cell(d, d > 1? "jours": "jour")}
+      {cell(h, "heures")}
+      {cell(m, "min")}
+    </div>
+  );
+}
 
 /**
  * Vitrine RHEMA façon « keynote » : sombre, épurée, typographie géante,
@@ -57,7 +90,12 @@ function Hero() {
         365 révélations bibliques à méditer, une par jour, pendant un an.
         L&apos;aboutissement de tout ce que je partage.
       </p>
-      <p className="mt-3 text-sm font-semibold text-cream/45">20 € · Sortie très bientôt</p>
+      <p className="mt-3 text-sm font-semibold text-cream/45">
+        20 € · Sortie le {RELEASE_LABEL}
+      </p>
+      <div className="mt-5">
+        <Countdown />
+      </div>
       <div className="mt-7 flex items-center gap-3">
         <a href="#precommande" className="btn-primary">
           {RHEMA_PREORDER_URL? "Précommander": "Réserver mon exemplaire"}
@@ -253,6 +291,8 @@ function Preorder() {
             </h3>
             <p className="mt-2 text-sm text-cream/65">
               RHEMA · 365 révélations bibliques · <strong className="text-cream">20 €</strong>
+              <br />
+              Sortie officielle le <strong className="text-dawn-300">{RELEASE_LABEL}</strong>
             </p>
             {RHEMA_PREORDER_URL? (
               <a
