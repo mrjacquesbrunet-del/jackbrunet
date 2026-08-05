@@ -6,7 +6,7 @@ import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { asset } from "@/lib/asset";
 import { RHEMA_PREORDER_URL } from "@/config/stripe";
 
-const COVER = "/img/rhema-cover.png";
+const COVER = "/img/rhema-cover.webp";
 
 /** Sortie officielle du livre. */
 const RELEASE_AT = new Date("2026-09-07T00:00:00+02:00");
