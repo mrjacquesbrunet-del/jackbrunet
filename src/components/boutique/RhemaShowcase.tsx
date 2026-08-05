@@ -53,8 +53,49 @@ export function RhemaShowcase() {
       <Exploded />
       <Stats />
       <Manifesto />
+      <BackCover />
       <Preorder />
     </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* 4b. La 4ᵉ de couverture                                             */
+/* ------------------------------------------------------------------ */
+function BackCover() {
+  return (
+    <section className="px-6 pb-24 sm:pb-28">
+      <div className="mx-auto grid max-w-3xl items-center gap-10 sm:grid-cols-2">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={asset("/img/rhema-back.webp")}
+          alt="Quatrième de couverture du livre RHEMA"
+          className="mx-auto w-56 -rotate-2 drop-shadow-[0_30px_50px_rgba(0,0,0,0.55)] sm:w-72"
+          loading="lazy"
+        />
+        <div className="text-center sm:text-left">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dawn-300">
+            La 4ᵉ de couverture
+          </p>
+          <h2 className="mt-3 font-display text-3xl font-extrabold leading-tight sm:text-4xl">
+            Méditée. Priée.
+            <br />
+            <span className="text-gradient">Vécue.</span>
+          </h2>
+          <p className="mt-4 text-sm leading-relaxed text-cream/65">
+            Depuis plusieurs années, je cherche à transmettre des révélations bibliques
+            simples et pratiques, pour amener chacun à méditer autrement. Ce livre
+            rassemble l&apos;esprit de ces rhémas partagés au fil du temps — pour les
+            faire passer de l&apos;écran à la page.
+          </p>
+          <p className="mt-3 text-xs font-semibold text-cream/40">
+            Jack Brunet · pasteur et créateur de contenu chrétien
+            <br />
+            Préface de Josy W.Brunet
+          </p>
+        </div>
+      </div>
+    </section>
   );
 }
 
