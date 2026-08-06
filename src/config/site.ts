@@ -38,7 +38,8 @@ export const mainNav = [
   { label: "Plans", href: "/plans" },
   { label: "Mur de prière", href: "/communaute" },
   { label: "Madagascar", href: "/mission-madagascar" },
-  { label: "Boutique", href: "/boutique" },
+  { label: "Livre RHEMA", href: "/boutique" },
+  { label: "Boutique", href: "https://ippngf-9s.myshopify.com/" },
   { label: "À propos", href: "/a-propos" },
 ] as const;
 
@@ -79,7 +80,8 @@ export const footerNav = [
     title: "Le ministère",
     links: [
       { label: "Notre histoire", href: "/a-propos" },
-      { label: "Boutique", href: "/boutique" },
+      { label: "Livre RHEMA", href: "/boutique" },
+      { label: "Boutique", href: "https://ippngf-9s.myshopify.com/" },
       { label: "Soutenir la mission", href: "/dons" },
       { label: "Contact", href: `mailto:${siteConfig.contactEmail}` },
     ],
