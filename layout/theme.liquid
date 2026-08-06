@@ -26,7 +26,8 @@
     <a class="brand" href="{{ routes.root_url }}">JACK<strong>BRUNET</strong></a>
     <nav class="nav">
       <a href="{{ routes.all_products_collection_url }}">La boutique</a>
-      <a href="https://jackbrunet.com/boutique/">Le livre</a>
+      {%- assign livre_p = all_products['rhema-365-revelations-bibliques-livre'] -%}
+      <a href="{% if livre_p.url != blank %}{{ livre_p.url }}{% else %}/products/rhema-365-revelations-bibliques-livre{% endif %}">Le livre</a>
       <a href="https://jackbrunet.com">Le site</a>
     </nav>
     <a class="cart-link" href="{{ routes.cart_url }}" aria-label="Panier">
