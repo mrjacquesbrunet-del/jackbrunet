@@ -1,11 +1,41 @@
 <div class="wrap collection">
-  <h1>{{ collection.title | default: "La boutique" }}</h1>
-  {%- paginate collection.products by 24 -%}
+  {%- if collection.handle == 'all' or collection.title == 'Products' -%}
+    <h1>Les offres de lancement</h1>
+  {%- else -%}
+    <h1>{{ collection.title | default: "La boutique" }}</h1>
+  {%- endif -%}
+  {%- paginate collection.products by 48 -%}
     <div class="grid">
-      {%- for product in collection.products -%}
-        {%- render 'product-card', product: product -%}
-      {%- else -%}
+      {%- if collection.products.size == 0 -%}
         <p class="muted">Aucun produit ici pour l'instant.</p>
+      {%- endif -%}
+      {%- comment -%} Ordre voulu : 1. livre · 2. carnet · 3. pack · 4. e-book · puis le reste {%- endcomment -%}
+      {%- assign kind_order = 'livre,carnet,pack,ebook' | split: ',' -%}
+      {%- for k in kind_order -%}
+        {%- for product in collection.products -%}
+          {%- assign in_josy = false -%}
+          {%- for c in product.collections -%}
+            {%- if c.handle == 'livres-josy' -%}{%- assign in_josy = true -%}{%- endif -%}
+          {%- endfor -%}
+          {%- assign pkind = 'livre' -%}
+          {%- if product.handle contains 'pack' -%}{%- assign pkind = 'pack' -%}
+          {%- elsif product.handle contains 'carnet' -%}{%- assign pkind = 'carnet' -%}
+          {%- elsif product.handle contains 'e-book' or product.handle contains 'ebook' -%}{%- assign pkind = 'ebook' -%}
+          {%- endif -%}
+          {%- if pkind == k and in_josy == false -%}
+            {%- render 'product-card', product: product -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endfor -%}
+      {%- comment -%} Les livres de Josy, à la suite {%- endcomment -%}
+      {%- for product in collection.products -%}
+        {%- assign in_josy = false -%}
+        {%- for c in product.collections -%}
+          {%- if c.handle == 'livres-josy' -%}{%- assign in_josy = true -%}{%- endif -%}
+        {%- endfor -%}
+        {%- if in_josy -%}
+          {%- render 'product-card', product: product -%}
+        {%- endif -%}
       {%- endfor -%}
     </div>
   {%- endpaginate -%}
