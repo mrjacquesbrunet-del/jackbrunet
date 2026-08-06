@@ -4,7 +4,24 @@
   if v.compare_at_price > v.price
     assign save = v.compare_at_price | minus: v.price
   endif
+
+  comment
+    Accroche ÉMOTIONNELLE et bénéfices par produit (livre / carnet / pack /
+    e-book), avec repli générique.
+  endcomment
+  assign hook = "Et si Dieu avait une parole pour toi, aujourd'hui ?"
+  if product.handle contains 'pack'
+    assign hook = "Reçois la révélation. Puis écris ce que Dieu te dit."
+  elsif product.handle contains 'carnet'
+    assign hook = "Ce que Dieu te dit mérite d'être écrit."
+  elsif product.handle contains 'e-book' or product.handle contains 'ebook'
+    assign hook = "La Parole dans ta poche, où que tu vives."
+  elsif product.handle contains 'livre' or product.handle contains 'rhema'
+    assign hook = "Et si chaque matin, Dieu te parlait personnellement ?"
+  endif
 -%}
+
+{%- comment -%} 1. ÉMOTION + ACTION IMMÉDIATE : le haut de page vend déjà {%- endcomment -%}
 <div class="wrap product">
   <div class="p-media">
     {%- if product.featured_image -%}
@@ -20,7 +37,7 @@
   </div>
 
   <div class="p-info">
-    <p class="eyebrow">Précommande · RHEMA</p>
+    <p class="p-hook">{{ hook }}</p>
     <h1>{{ product.title }}</h1>
     <p class="p-price">
       {%- if save > 0 -%}
@@ -30,10 +47,10 @@
         {{ v.price | money }}
       {%- endif -%}
     </p>
-    <p class="p-date">Expédition à partir du 7 septembre</p>
-    <div class="p-desc rte">{{ product.description }}</div>
+    {%- if save > 0 -%}<p class="p-offer-note">Offre de lancement — prix garanti jusqu'à la sortie.</p>{%- endif -%}
+    <p class="p-date">Précommande · expédition à partir du 7 septembre</p>
 
-    {%- form 'product', product, class: 'p-form' -%}
+    {%- form 'product', product, class: 'p-form', id: 'buy-form' -%}
       <input type="hidden" name="id" value="{{ v.id }}">
       <div class="qty">
         <input type="number" name="quantity" value="1" min="1" aria-label="Quantité">
@@ -44,11 +61,103 @@
     {%- endform -%}
 
     <div class="p-reassure">
-      <span>Paiement 100&nbsp;% sécurisé (CB, Apple&nbsp;Pay, PayPal)</span>
-      <span>Expédition soignée dès la sortie officielle</span>
-      <span>Une question ? contact@jackbrunet.com</span>
+      <span>Paiement 100&nbsp;% sécurisé — CB, Apple&nbsp;Pay, PayPal</span>
+      <span>Expédition soignée dès le 7 septembre</span>
+      <span>Une question ? contact@jackbrunet.com — je réponds personnellement</span>
     </div>
   </div>
+</div>
+
+{%- comment -%} 2. COMPRÉHENSION : ce que c'est, très clair {%- endcomment -%}
+<section class="p-section">
+  <div class="wrap narrow">
+    <p class="eyebrow">Ce que c'est</p>
+    <div class="p-desc rte">{{ product.description }}</div>
+  </div>
+</section>
+
+{%- comment -%} 3. DÉSIR : ce que ça change, concrètement {%- endcomment -%}
+<section class="p-section p-section--alt">
+  <div class="wrap narrow">
+    <p class="eyebrow">Ce que ça va changer</p>
+    <ul class="benefits">
+      {%- if product.handle contains 'carnet' -%}
+        <li><b>Un rendez-vous d'écriture chaque matin</b> — verset du jour, rhéma reçu, sujets de prière, actions de grâce.</li>
+        <li><b>Une trace qui reste</b> — relis dans un an ce que Dieu t'a dit : c'est un trésor qui fortifie la foi.</li>
+        <li><b>Une page guidée</b> — tout est prêt, il ne manque que ta plume.</li>
+      {%- elsif product.handle contains 'e-book' or product.handle contains 'ebook' -%}
+        <li><b>Partout avec toi</b> — téléphone, tablette, liseuse : ta méditation ne te quitte plus.</li>
+        <li><b>Accessible à tous</b> — 5&nbsp;€ partout dans le monde, pour qu'aucune frontière n'arrête la Parole.</li>
+        <li><b>Disponible le jour de la sortie</b> — reçu automatiquement par email.</li>
+      {%- elsif product.handle contains 'pack' -%}
+        <li><b>L'expérience complète</b> — tu lis la révélation dans le livre, tu l'écris dans le carnet.</li>
+        <li><b>La Parole qui s'ancre</b> — ce qu'on écrit descend du cerveau au cœur, et du cœur dans la vie.</li>
+        <li><b>5,90&nbsp;€ d'économie</b> — le meilleur prix pour vivre l'année RHEMA en entier.</li>
+      {%- else -%}
+        <li><b>Un rendez-vous quotidien avec Dieu</b> — 365 jours, une révélation par jour, environ 10 minutes.</li>
+        <li><b>Pas des connaissances en plus : une Parole vivante</b> — qui te rejoint exactement là où tu en es.</li>
+        <li><b>De la page au cœur, du cœur à la vie</b> — chaque jour : méditation, mise en pratique, prière et déclaration.</li>
+      {%- endif -%}
+    </ul>
+  </div>
+</section>
+
+{%- comment -%} 4. PREUVE : les chiffres qui crédibilisent {%- endcomment -%}
+<section class="p-section">
+  <div class="wrap narrow center">
+    <p class="eyebrow">Pourquoi lui faire confiance</p>
+    <div class="proof">
+      <div><b>6</b><span>années de partage quotidien</span></div>
+      <div><b>+1&nbsp;000</b><span>vidéos autour de la Parole</span></div>
+      <div><b>+100&nbsp;M</b><span>de personnes touchées</span></div>
+    </div>
+    <p class="proof-note">Derrière ces chiffres, des centaines de témoignages reçus : des retours à Dieu, des vies données à Jésus, de l'espérance retrouvée — souvent parce qu'un message est arrivé <em>au bon moment</em>. RHEMA rassemble l'essentiel de ces révélations, retravaillées une à une.</p>
+  </div>
+</section>
+
+{%- comment -%} 5. RÉASSURANCE : zéro risque, zéro doute {%- endcomment -%}
+<section class="p-section p-section--alt">
+  <div class="wrap narrow">
+    <p class="eyebrow">En toute confiance</p>
+    <div class="faq">
+      <details>
+        <summary>Quand vais-je recevoir ma commande ?</summary>
+        <p>C'est une précommande : les expéditions commencent le 7 septembre, jour de la sortie officielle. Tu recevras un email de suivi dès l'envoi.</p>
+      </details>
+      <details>
+        <summary>Le paiement est-il sécurisé ?</summary>
+        <p>Oui — le paiement est traité par Shopify (CB, Apple&nbsp;Pay, Google&nbsp;Pay, PayPal), le même système que des millions de boutiques dans le monde. Tes données bancaires ne me sont jamais transmises.</p>
+      </details>
+      <details>
+        <summary>Et si je ne suis pas satisfait(e) ?</summary>
+        <p>Écris-moi à contact@jackbrunet.com : je réponds personnellement, et on trouve toujours une solution.</p>
+      </details>
+      <details>
+        <summary>Je n'ai pas les moyens — RHEMA pour tous</summary>
+        <p>L'e-book est à 5&nbsp;€ partout dans le monde. Et si tu vis hors Europe / Amérique du Nord et que même cela est un obstacle, écris-moi : je te l'offre, de tout cœur.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} 6. ACTION : dernier appel, sans friction {%- endcomment -%}
+<section class="p-section p-final">
+  <div class="wrap narrow center">
+    <h2>{{ hook }}</h2>
+    <p class="p-final-price">
+      {%- if save > 0 -%}<s>{{ v.compare_at_price | money }}</s> {% endif %}<b>{{ v.price | money }}</b> · Sortie le 7 septembre
+    </p>
+    <button type="submit" form="buy-form" class="btn btn--big p-final-btn" {% unless v.available %}disabled{% endunless %}>Précommander maintenant</button>
+  </div>
+</section>
+
+{%- comment -%} Barre d'achat collante (mobile) {%- endcomment -%}
+<div class="sticky-buy" id="sticky-buy">
+  <div>
+    <p class="sb-title">{{ product.title | truncate: 34 }}</p>
+    <p class="sb-price">{%- if save > 0 -%}<s>{{ v.compare_at_price | money }}</s> {% endif %}<b>{{ v.price | money }}</b></p>
+  </div>
+  <button type="submit" form="buy-form" class="btn" {% unless v.available %}disabled{% endunless %}>Précommander</button>
 </div>
 
 <script>
@@ -57,4 +166,13 @@
       document.getElementById('p-main').src = t.dataset.full;
     });
   });
+  // Barre collante : visible une fois le bouton principal hors écran.
+  (function () {
+    var bar = document.getElementById('sticky-buy');
+    var form = document.getElementById('buy-form');
+    if (!bar || !form || !('IntersectionObserver' in window)) return;
+    new IntersectionObserver(function (e) {
+      bar.classList.toggle('show', !e[0].isIntersecting);
+    }, { threshold: 0 }).observe(form);
+  })();
 </script>
