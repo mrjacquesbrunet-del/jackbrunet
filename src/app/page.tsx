@@ -1,6 +1,7 @@
 import { Hero } from "@/components/home/Hero";
 import { Marquee } from "@/components/ui/Marquee";
 import { AppDownloadBanner } from "@/components/home/AppDownloadBanner";
+import { RhemaBanner } from "@/components/home/RhemaBanner";
 import { MissionBanner } from "@/components/home/MissionBanner";
 import { NextLiveBanner } from "@/components/home/NextLiveBanner";
 import { DailyHub } from "@/components/home/DailyHub";
@@ -32,6 +33,7 @@ export default function HomePage() {
           "Édifie ta foi chaque jour",
         ]}
       />
+      <RhemaBanner />
       <AppDownloadBanner />
       <MissionBanner />
       <NextLiveBanner events={events} />
