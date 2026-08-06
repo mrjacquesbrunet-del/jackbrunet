@@ -199,36 +199,45 @@
   <div class="wrap narrow">
     <p class="eyebrow center" style="display:block;text-align:center">Choisis ta formule</p>
     <div class="offer-grid">
-      {%- for p in collections.all.products -%}
-        {%- assign p_josy = false -%}
-        {%- for c in p.collections -%}
-          {%- if c.handle == 'livres-josy' -%}{%- assign p_josy = true -%}{%- endif -%}
+      {%- comment -%} Ordre voulu : 1. livre · 2. carnet · 3. pack {%- endcomment -%}
+      {%- assign offer_order = 'livre,carnet,pack' | split: ',' -%}
+      {%- for ok in offer_order -%}
+        {%- for p in collections.all.products -%}
+          {%- assign p_josy = false -%}
+          {%- for c in p.collections -%}
+            {%- if c.handle == 'livres-josy' -%}{%- assign p_josy = true -%}{%- endif -%}
+          {%- endfor -%}
+          {%- assign p_kind = 'livre' -%}
+          {%- if p.handle contains 'pack' -%}{%- assign p_kind = 'pack' -%}
+          {%- elsif p.handle contains 'carnet' -%}{%- assign p_kind = 'carnet' -%}
+          {%- elsif p.handle contains 'e-book' or p.handle contains 'ebook' -%}{%- assign p_kind = 'ebook' -%}
+          {%- endif -%}
+          {%- if p_kind == ok and p_josy == false -%}
+            {%- liquid
+              assign pv = p.selected_or_first_available_variant
+              assign is_current = false
+              if p.id == product.id
+                assign is_current = true
+              endif
+              assign is_pack = false
+              if p_kind == 'pack'
+                assign is_pack = true
+              endif
+            -%}
+            <a class="offer{% if is_current %} offer--current{% endif %}{% if is_pack %} offer--best{% endif %}" href="{{ p.url }}">
+              {%- if is_pack -%}<span class="offer-badge">Meilleure valeur</span>{%- endif -%}
+              <span class="offer-title">{{ p.title | remove: 'RHEMA — ' | remove: ' (livre)' }}</span>
+              <span class="offer-price">
+                {%- if pv.compare_at_price > pv.price -%}
+                  <s>{{ pv.compare_at_price | money }}</s> {{ pv.price | money }}
+                {%- else -%}
+                  {{ pv.price | money }}
+                {%- endif -%}
+              </span>
+              <span class="offer-cta">{% if is_current %}Tu es ici ✓{% else %}Choisir{% endif %}</span>
+            </a>
+          {%- endif -%}
         {%- endfor -%}
-        {%- unless p.handle contains 'e-book' or p.handle contains 'ebook' or p_josy -%}
-          {%- liquid
-            assign pv = p.selected_or_first_available_variant
-            assign is_current = false
-            if p.id == product.id
-              assign is_current = true
-            endif
-            assign is_pack = false
-            if p.handle contains 'pack'
-              assign is_pack = true
-            endif
-          -%}
-          <a class="offer{% if is_current %} offer--current{% endif %}{% if is_pack %} offer--best{% endif %}" href="{{ p.url }}">
-            {%- if is_pack -%}<span class="offer-badge">Meilleure valeur</span>{%- endif -%}
-            <span class="offer-title">{{ p.title | remove: 'RHEMA — ' | remove: ' (livre)' }}</span>
-            <span class="offer-price">
-              {%- if pv.compare_at_price > pv.price -%}
-                <s>{{ pv.compare_at_price | money }}</s> {{ pv.price | money }}
-              {%- else -%}
-                {{ pv.price | money }}
-              {%- endif -%}
-            </span>
-            <span class="offer-cta">{% if is_current %}Tu es ici ✓{% else %}Choisir{% endif %}</span>
-          </a>
-        {%- endunless -%}
       {%- endfor -%}
     </div>
   </div>

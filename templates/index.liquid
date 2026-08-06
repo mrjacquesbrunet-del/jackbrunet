@@ -27,16 +27,26 @@
       <h2>Les offres de lancement</h2>
     </div>
     <div class="grid">
-      {%- for product in collections.all.products limit: 12 -%}
-        {%- assign in_josy = false -%}
-        {%- for c in product.collections -%}
-          {%- if c.handle == 'livres-josy' -%}{%- assign in_josy = true -%}{%- endif -%}
-        {%- endfor -%}
-        {%- unless in_josy -%}
-          {%- render 'product-card', product: product -%}
-        {%- endunless -%}
-      {%- else -%}
+      {%- if collections.all.products.size == 0 -%}
         <p class="muted">Les produits arrivent très bientôt.</p>
+      {%- endif -%}
+      {%- comment -%} Ordre voulu : 1. livre · 2. carnet · 3. pack · 4. e-book {%- endcomment -%}
+      {%- assign kind_order = 'livre,carnet,pack,ebook' | split: ',' -%}
+      {%- for k in kind_order -%}
+        {%- for product in collections.all.products limit: 24 -%}
+          {%- assign in_josy = false -%}
+          {%- for c in product.collections -%}
+            {%- if c.handle == 'livres-josy' -%}{%- assign in_josy = true -%}{%- endif -%}
+          {%- endfor -%}
+          {%- assign pkind = 'livre' -%}
+          {%- if product.handle contains 'pack' -%}{%- assign pkind = 'pack' -%}
+          {%- elsif product.handle contains 'carnet' -%}{%- assign pkind = 'carnet' -%}
+          {%- elsif product.handle contains 'e-book' or product.handle contains 'ebook' -%}{%- assign pkind = 'ebook' -%}
+          {%- endif -%}
+          {%- if pkind == k and in_josy == false -%}
+            {%- render 'product-card', product: product -%}
+          {%- endif -%}
+        {%- endfor -%}
       {%- endfor -%}
     </div>
   </div>
