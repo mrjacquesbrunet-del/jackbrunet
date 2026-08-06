@@ -1,0 +1,8 @@
+<div class="page-simple">
+  <h1>Mes adresses</h1>
+  {%- for address in customer.addresses -%}
+    <p>{{ address.summary }}</p>
+  {%- else -%}
+    <p class="muted">Aucune adresse enregistrée.</p>
+  {%- endfor -%}
+</div>

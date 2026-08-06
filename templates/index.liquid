@@ -1,0 +1,76 @@
+{%- comment -%} Accueil « keynote » RHEMA {%- endcomment -%}
+
+<section class="hero">
+  <p class="eyebrow">RHEMA — le livre</p>
+  <h1>Une révélation.<br><span class="lime">Chaque jour.</span></h1>
+  <p class="sub">365 révélations bibliques à méditer, une par jour, pendant un an. Le condensé de six années de partage et de plus de mille vidéos autour de la Parole.</p>
+  <p class="hero-offer"><span class="tag">Offre de lancement</span> <s>29,90&nbsp;€</s> <strong>26,90&nbsp;€</strong> · 740 pages</p>
+  <div class="hero-date">
+    <p class="d-label">Sortie le 7 septembre</p>
+    <div class="countdown" id="cd" data-date="2026-09-07T00:00:00+02:00">
+      <div><b id="cd-j">–</b><span>jours</span></div>
+      <div><b id="cd-h">–</b><span>heures</span></div>
+      <div><b id="cd-m">–</b><span>min</span></div>
+    </div>
+  </div>
+  <img class="hero-cover" src="{{ 'rhema-cover.webp' | asset_url }}" alt="Couverture du livre RHEMA" width="811" height="1261">
+  <div class="hero-cta">
+    <a class="btn" href="#offres">Précommander</a>
+    <a class="btn btn--ghost" href="https://jackbrunet.com/boutique/">Découvrir le livre</a>
+  </div>
+</section>
+
+<section class="products" id="offres">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Précommande</p>
+      <h2>Les offres de lancement</h2>
+    </div>
+    <div class="grid">
+      {%- for product in collections.all.products limit: 8 -%}
+        {%- render 'product-card', product: product -%}
+      {%- else -%}
+        <p class="muted">Les produits arrivent très bientôt.</p>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<section class="mot">
+  <div class="wrap inner">
+    <img src="{{ 'jack-mot.webp' | asset_url }}" alt="Jack Brunet lisant RHEMA" loading="lazy">
+    <div>
+      <p class="eyebrow">Le mot de Jack</p>
+      <div class="quote">
+        <p>« Ce livre est né bien avant d'être écrit.</p>
+        <p>Il est né dans ces instants où je m'isolais avec Dieu, où je fermais la porte et lui ouvrais mon cœur. C'est là qu'il déposait des rhémas, des révélations. Non pas de simples connaissances bibliques, mais une Parole vivante, qui vient nous rejoindre exactement là où nous en avons besoin.</p>
+        <p>Alors j'ai prié pour que ces 365 méditations puissent, elles aussi, arriver au bon moment dans ta vie.</p>
+        <p>Une page par jour… et laisse Dieu faire le reste. »</p>
+      </div>
+      <p class="sign">Jack</p>
+    </div>
+  </div>
+</section>
+
+<section class="pourtous">
+  <p class="eyebrow">RHEMA pour tous</p>
+  <h2>La Parole n'a pas<br><span class="lime">de frontières.</span></h2>
+  <p>L'e-book est à 5&nbsp;€ partout dans le monde. Et si tu vis en dehors de l'Europe et de l'Amérique du Nord, et que même cela représente un obstacle : écris-moi à contact@jackbrunet.com — je te l'offre, de tout cœur.</p>
+</section>
+
+<script>
+  (function () {
+    var el = document.getElementById('cd');
+    if (!el) return;
+    var target = new Date(el.dataset.date).getTime();
+    function tick() {
+      var d = target - Date.now();
+      if (d <= 0) { el.parentElement.style.display = 'none'; return; }
+      document.getElementById('cd-j').textContent = Math.floor(d / 864e5);
+      document.getElementById('cd-h').textContent = Math.floor(d % 864e5 / 36e5);
+      document.getElementById('cd-m').textContent = Math.floor(d % 36e5 / 6e4);
+    }
+    tick();
+    setInterval(tick, 30000);
+  })();
+</script>

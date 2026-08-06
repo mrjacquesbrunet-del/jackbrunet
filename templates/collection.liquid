@@ -1,0 +1,12 @@
+<div class="wrap collection">
+  <h1>{{ collection.title | default: "La boutique" }}</h1>
+  {%- paginate collection.products by 24 -%}
+    <div class="grid">
+      {%- for product in collection.products -%}
+        {%- render 'product-card', product: product -%}
+      {%- else -%}
+        <p class="muted">Aucun produit ici pour l'instant.</p>
+      {%- endfor -%}
+    </div>
+  {%- endpaginate -%}
+</div>

@@ -1,0 +1,8 @@
+<div class="center-page">
+  <h1>Connexion</h1>
+  {%- form 'customer_login', class: 'form-stack' -%}
+    <input type="email" name="customer[email]" placeholder="Email" autocomplete="email">
+    <input type="password" name="customer[password]" placeholder="Mot de passe" autocomplete="current-password">
+    <button type="submit" class="btn">Se connecter</button>
+  {%- endform -%}
+</div>

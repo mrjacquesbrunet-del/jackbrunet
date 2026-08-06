@@ -1,0 +1,8 @@
+<div class="center-page">
+  <h1>Activer mon compte</h1>
+  {%- form 'activate_customer_password', class: 'form-stack' -%}
+    <input type="password" name="customer[password]" placeholder="Mot de passe">
+    <input type="password" name="customer[password_confirmation]" placeholder="Confirme le mot de passe">
+    <button type="submit" class="btn">Activer</button>
+  {%- endform -%}
+</div>

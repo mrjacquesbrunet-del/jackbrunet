@@ -1,0 +1,9 @@
+<div class="page-simple">
+  <h1>Mon compte</h1>
+  <p class="muted">{{ customer.email }}</p>
+  {%- for order in customer.orders -%}
+    <p><a class="lime" href="{{ order.customer_url }}">Commande {{ order.name }}</a> — {{ order.total_price | money }}</p>
+  {%- else -%}
+    <p class="muted">Aucune commande pour l'instant.</p>
+  {%- endfor -%}
+</div>

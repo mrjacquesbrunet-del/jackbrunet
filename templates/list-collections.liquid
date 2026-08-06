@@ -1,0 +1,8 @@
+<div class="wrap collection">
+  <h1>Collections</h1>
+  <div class="grid">
+    {%- for collection in collections -%}
+      <a class="card" href="{{ collection.url }}"><span class="c-title">{{ collection.title }}</span></a>
+    {%- endfor -%}
+  </div>
+</div>

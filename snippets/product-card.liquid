@@ -1,0 +1,23 @@
+{%- comment -%} Carte produit charte : image, titre, prix barré, bouton. {%- endcomment -%}
+<div class="card">
+  <a href="{{ product.url }}">
+    {%- if product.featured_image -%}
+      <img src="{{ product.featured_image | image_url: width: 480 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" loading="lazy">
+    {%- endif -%}
+  </a>
+  <a class="c-title" href="{{ product.url }}">{{ product.title }}</a>
+  {%- liquid
+    assign v = product.selected_or_first_available_variant
+  -%}
+  <p class="c-price">
+    {%- if v.compare_at_price > v.price -%}
+      <s>{{ v.compare_at_price | money }}</s><span class="sale">{{ v.price | money }}</span>
+    {%- else -%}
+      {{ v.price | money }}
+    {%- endif -%}
+  </p>
+  {%- if v.compare_at_price > v.price -%}
+    <span class="badge">Offre de lancement</span>
+  {%- endif -%}
+  <a class="btn" href="{{ product.url }}">Précommander</a>
+</div>

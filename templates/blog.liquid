@@ -1,0 +1,8 @@
+<div class="page-simple">
+  <h1>{{ blog.title }}</h1>
+  {%- for article in blog.articles -%}
+    <p><a class="lime" href="{{ article.url }}">{{ article.title }}</a></p>
+  {%- else -%}
+    <p class="muted">Aucun article pour l'instant.</p>
+  {%- endfor -%}
+</div>

@@ -1,0 +1,39 @@
+<div class="cart">
+  <h1>Ton panier</h1>
+
+  {%- if cart.item_count == 0 -%}
+    <p class="cart-empty">Ton panier est vide pour l'instant.</p>
+    <div class="cart-actions">
+      <a class="btn btn--big" href="{{ routes.all_products_collection_url }}">Voir les offres</a>
+    </div>
+  {%- else -%}
+    <form action="{{ routes.cart_url }}" method="post" novalidate>
+      <div class="cart-lines">
+        {%- for item in cart.items -%}
+          <div class="line">
+            {%- if item.image -%}
+              <img src="{{ item.image | image_url: width: 160 }}" alt="">
+            {%- else -%}
+              <span></span>
+            {%- endif -%}
+            <div>
+              <p class="l-title">{{ item.product.title }}</p>
+              <p class="l-price">{{ item.final_price | money }} l'unité</p>
+              <a class="l-remove" href="{{ item.url_to_remove }}">Retirer</a>
+            </div>
+            <div class="qty">
+              <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" aria-label="Quantité pour {{ item.product.title | escape }}">
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <p class="cart-total">Total : <b>{{ cart.total_price | money }}</b></p>
+      <div class="cart-actions">
+        <button type="submit" name="checkout" class="btn btn--big">Passer au paiement</button>
+        <button type="submit" name="update" class="btn btn--ghost">Mettre à jour le panier</button>
+      </div>
+      <p class="cart-note">Précommande : expédition à partir du 7 septembre. Taxes incluses, livraison calculée au paiement.</p>
+    </form>
+  {%- endif -%}
+</div>

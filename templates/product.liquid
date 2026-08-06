@@ -1,0 +1,60 @@
+{%- liquid
+  assign v = product.selected_or_first_available_variant
+  assign save = 0
+  if v.compare_at_price > v.price
+    assign save = v.compare_at_price | minus: v.price
+  endif
+-%}
+<div class="wrap product">
+  <div class="p-media">
+    {%- if product.featured_image -%}
+      <img id="p-main" class="main-img" src="{{ product.featured_image | image_url: width: 900 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}">
+    {%- endif -%}
+    {%- if product.images.size > 1 -%}
+      <div class="thumbs">
+        {%- for image in product.images -%}
+          <img src="{{ image | image_url: width: 160 }}" alt="" data-full="{{ image | image_url: width: 900 }}" loading="lazy">
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="p-info">
+    <p class="eyebrow">Précommande · RHEMA</p>
+    <h1>{{ product.title }}</h1>
+    <p class="p-price">
+      {%- if save > 0 -%}
+        <s>{{ v.compare_at_price | money }}</s><span class="sale">{{ v.price | money }}</span>
+        <span class="p-save">−{{ save | money }}</span>
+      {%- else -%}
+        {{ v.price | money }}
+      {%- endif -%}
+    </p>
+    <p class="p-date">Expédition à partir du 7 septembre</p>
+    <div class="p-desc rte">{{ product.description }}</div>
+
+    {%- form 'product', product, class: 'p-form' -%}
+      <input type="hidden" name="id" value="{{ v.id }}">
+      <div class="qty">
+        <input type="number" name="quantity" value="1" min="1" aria-label="Quantité">
+      </div>
+      <button type="submit" class="btn btn--big" {% unless v.available %}disabled{% endunless %}>
+        {%- if v.available -%}Précommander maintenant{%- else -%}Épuisé{%- endif -%}
+      </button>
+    {%- endform -%}
+
+    <div class="p-reassure">
+      <span>Paiement 100&nbsp;% sécurisé (CB, Apple&nbsp;Pay, PayPal)</span>
+      <span>Expédition soignée dès la sortie officielle</span>
+      <span>Une question ? contact@jackbrunet.com</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.thumbs img').forEach(function (t) {
+    t.addEventListener('click', function () {
+      document.getElementById('p-main').src = t.dataset.full;
+    });
+  });
+</script>

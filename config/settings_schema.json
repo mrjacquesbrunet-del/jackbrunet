@@ -1,0 +1,20 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "RHEMA Keynote",
+    "theme_version": "1.0.0",
+    "theme_author": "Jack Brunet",
+    "theme_documentation_url": "https://jackbrunet.com",
+    "theme_support_url": "https://jackbrunet.com"
+  },
+  {
+    "name": "Identité",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
+    ]
+  }
+]
