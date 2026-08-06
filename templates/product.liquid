@@ -32,6 +32,7 @@
 -%}
 
 {%- comment -%} ÉCRAN 1 — Promesse et achat (tout est visible sans scroller) {%- endcomment -%}
+<div class="product-hero">
 <div class="wrap product">
   <div class="p-media">
     {%- if product.featured_image -%}
@@ -101,6 +102,7 @@
       <span>Paiement sécurisé — CB, Apple&nbsp;Pay, Google&nbsp;Pay, PayPal</span>
     </div>
   </div>
+</div>
 </div>
 
 {%- comment -%} ÉCRAN 2 — Identification émotionnelle {%- endcomment -%}
@@ -180,9 +182,9 @@
 </section>
 
 {%- comment -%} ÉCRAN 6 — Preuve (chiffres réels ; les avis vérifiés viendront) {%- endcomment -%}
-<section class="p-section">
+<section class="p-section p-proof">
   <div class="wrap narrow center">
-    <p class="eyebrow">Pourquoi lui faire confiance</p>
+    <p class="eyebrow">RHEMA en quelques chiffres</p>
     <div class="proof">
       <div><b>6</b><span>années de partage quotidien</span></div>
       <div><b>+1&nbsp;000</b><span>vidéos autour de la Parole</span></div>
@@ -198,7 +200,11 @@
     <p class="eyebrow center" style="display:block;text-align:center">Choisis ta formule</p>
     <div class="offer-grid">
       {%- for p in collections.all.products -%}
-        {%- unless p.handle contains 'e-book' or p.handle contains 'ebook' -%}
+        {%- assign p_josy = false -%}
+        {%- for c in p.collections -%}
+          {%- if c.handle == 'livres-josy' -%}{%- assign p_josy = true -%}{%- endif -%}
+        {%- endfor -%}
+        {%- unless p.handle contains 'e-book' or p.handle contains 'ebook' or p_josy -%}
           {%- liquid
             assign pv = p.selected_or_first_available_variant
             assign is_current = false

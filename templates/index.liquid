@@ -27,14 +27,38 @@
       <h2>Les offres de lancement</h2>
     </div>
     <div class="grid">
-      {%- for product in collections.all.products limit: 8 -%}
-        {%- render 'product-card', product: product -%}
+      {%- for product in collections.all.products limit: 12 -%}
+        {%- assign in_josy = false -%}
+        {%- for c in product.collections -%}
+          {%- if c.handle == 'livres-josy' -%}{%- assign in_josy = true -%}{%- endif -%}
+        {%- endfor -%}
+        {%- unless in_josy -%}
+          {%- render 'product-card', product: product -%}
+        {%- endunless -%}
       {%- else -%}
         <p class="muted">Les produits arrivent très bientôt.</p>
       {%- endfor -%}
     </div>
   </div>
 </section>
+
+{%- assign josy = collections['livres-josy'] -%}
+{%- if josy.products.size > 0 -%}
+<section class="products josy" id="josy">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Par mon épouse</p>
+      <h2>Les livres de Josy W.Brunet</h2>
+      <p class="sub-note">Josy signe la préface de RHEMA. Découvre aussi ses propres livres, écrits avec le même cœur : nourrir ta foi au quotidien.</p>
+    </div>
+    <div class="grid">
+      {%- for product in josy.products limit: 8 -%}
+        {%- render 'product-card', product: product -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
 
 <section class="mot">
   <div class="wrap inner">
