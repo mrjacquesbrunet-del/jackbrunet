@@ -49,5 +49,39 @@
     </nav>
     <p class="foot-legal">© {{ 'now' | date: '%Y' }} Jack Brunet. Tous droits réservés.</p>
   </footer>
+
+  <script>
+    (function () {
+      if (!('IntersectionObserver' in window)) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var sel = '.card, .offer, .benefits li, .risk-grid > div, .faq details, .aa-col, ' +
+        '.proof div, .proof-note, .p-demo-img, .p-h2, .p-lead, .mot img, .mot .quote, ' +
+        '.store-badges a, .products .head, .p-final h2, .p-final-price';
+      var els = document.querySelectorAll(sel);
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          var el = e.target;
+          el.classList.add('in');
+          io.unobserve(el);
+          setTimeout(function () {
+            el.classList.remove('rv', 'in');
+            el.style.transitionDelay = '';
+          }, 900);
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+      els.forEach(function (el, i) {
+        el.classList.add('rv');
+        el.style.transitionDelay = (i % 4) * 70 + 'ms';
+        io.observe(el);
+      });
+      setTimeout(function () {
+        document.querySelectorAll('.rv:not(.in)').forEach(function (el) {
+          var r = el.getBoundingClientRect();
+          if (r.top < window.innerHeight && r.bottom > 0) el.classList.add('in');
+        });
+      }, 600);
+    })();
+  </script>
 </body>
 </html>
