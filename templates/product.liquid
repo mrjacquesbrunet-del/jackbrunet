@@ -23,7 +23,7 @@
       assign cta = "J'écris ce que Dieu me dit"
     when 'ebook'
       assign promesse = "365 révélations dans ta poche, où que tu vives dans le monde."
-      assign cta = "Je reçois l'e-book le 7 septembre"
+      assign cta = "Je reçois mon e-book maintenant"
     else
       assign promesse = "Un rendez-vous avec Dieu chaque matin, pendant 365 jours."
       assign cta = "Je commence mes 365 jours"
@@ -62,7 +62,7 @@
           <li>Assorti au livre RHEMA, sortie le même jour</li>
         {%- when 'ebook' -%}
           <li>Lisible sur téléphone, tablette et liseuse</li>
-          <li>Reçu automatiquement par email le jour J</li>
+          <li>Reçu immédiatement par email après l'achat</li>
           <li>5&nbsp;€ partout dans le monde, sans frais de port</li>
         {%- else -%}
           <li>365 révélations — une par jour, ~10 minutes</li>
@@ -94,7 +94,7 @@
 
     <div class="p-reassure">
       {%- if kind == 'ebook' -%}
-        <span>Envoi automatique par email le 7 septembre</span>
+        <span>Reçu immédiatement par email, dès le paiement</span>
       {%- else -%}
         <span>Expédition estimée : à partir du 7 septembre (sortie officielle)</span>
       {%- endif -%}
@@ -167,7 +167,7 @@
         {%- when 'ebook' -%}
           <li><b>Toujours disponible</b> — ta méditation au moment où tu es prêt(e), même loin de chez toi.</li>
           <li><b>Accessible partout</b> — 5&nbsp;€ dans le monde entier : aucune frontière n'arrête la Parole.</li>
-          <li><b>Reçu le jour J</b> — envoi automatique par email le 7 septembre, aucune attente.</li>
+          <li><b>Disponible tout de suite</b> — reçu par email dès le paiement, aucune attente.</li>
         {%- when 'pack' -%}
           <li><b>Le livre + le carnet</b> — tu lis la révélation, puis tu écris ce que Dieu te dit : l'expérience complète.</li>
           <li><b>Un rituel complet</b> — méditer, incarner, prier, noter : les 4 temps de chaque matin.</li>
@@ -249,7 +249,7 @@
     <p class="eyebrow">Zéro mauvaise surprise</p>
     <div class="risk-grid">
       {%- if kind == 'ebook' -%}
-        <div><b>Livraison</b><span>Par email, automatiquement, le 7 septembre (jour de la sortie).</span></div>
+        <div><b>Livraison</b><span>Par email, immédiatement après le paiement — lien de téléchargement.</span></div>
         <div><b>Formats</b><span>Lisible sur téléphone, tablette, ordinateur et liseuse.</span></div>
       {%- else -%}
         <div><b>Livraison</b><span>Expédition à partir du 7 septembre, numéro de suivi envoyé par email.</span></div>
@@ -269,7 +269,7 @@
     <div class="faq">
       <details>
         <summary>Quand vais-je recevoir ma commande ?</summary>
-        <p>{% if kind == 'ebook' %}L'e-book est envoyé automatiquement par email le 7 septembre, jour de la sortie.{% else %}C'est une précommande : les expéditions commencent le 7 septembre, jour de la sortie officielle. Tu recevras un email avec le suivi dès l'envoi.{% endif %}</p>
+        <p>{% if kind == 'ebook' %}L'e-book est disponible tout de suite : tu reçois ton lien de téléchargement par email immédiatement après le paiement.{% else %}C'est une précommande : les expéditions commencent le 7 septembre, jour de la sortie officielle. Tu recevras un email avec le suivi dès l'envoi.{% endif %}</p>
       </details>
       <details>
         <summary>Comment suivre ma commande ?</summary>
@@ -295,7 +295,7 @@
   <div class="wrap narrow center">
     <h2>Prêt(e) à vivre une année<br>qui transforme ?</h2>
     <p class="p-final-price">
-      {%- if save > 0 -%}<s>{{ v.compare_at_price | money }}</s> {% endif %}<b>{{ v.price | money }}</b> · Sortie le 7 septembre · Retour 14 jours
+      {%- if save > 0 -%}<s>{{ v.compare_at_price | money }}</s> {% endif %}<b>{{ v.price | money }}</b> · {% if kind == 'ebook' %}Reçu immédiatement par email{% else %}Sortie le 7 septembre · Retour 14 jours{% endif %}
     </p>
     <button type="submit" form="buy-form" class="btn btn--big p-final-btn" {% unless v.available %}disabled{% endunless %}>{{ cta }}</button>
   </div>
