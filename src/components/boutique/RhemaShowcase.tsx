@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform, type MotionValue } from "framer-motion
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { StoreBadges } from "@/components/app/StoreBadges";
 import { asset } from "@/lib/asset";
-import { RHEMA_PREORDER_URL } from "@/config/stripe";
+import { RHEMA_PREORDER_URL, SHOP_LINKS } from "@/config/stripe";
 
 const COVER = "/img/rhema-cover.webp";
 
@@ -85,6 +85,32 @@ function Callout({
         </div>
       </div>
     </motion.div>
+  );
+}
+
+/** Ligne d'offre : cliquable vers sa page produit Shopify quand elle existe. */
+function OfferRow({
+  href,
+  highlight = false,
+  children,
+}: {
+  href: string | null;
+  highlight?: boolean;
+  children: React.ReactNode;
+}) {
+  const base = highlight
+    ? "relative flex items-center justify-between gap-3 rounded-xl border border-dawn-400/60 bg-dawn-400/10 px-3.5 py-3"
+    : "flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5";
+  if (!href) return <div className={base}>{children}</div>;
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`${base} transition-all hover:border-dawn-400 hover:bg-dawn-400/[0.12] active:scale-[0.99]`}
+    >
+      {children}
+    </a>
   );
 }
 
@@ -724,7 +750,7 @@ function Preorder() {
 
             {/* Les 3 offres (prix de lancement) — le pack mis en avant */}
             <div className="mt-4 space-y-2">
-              <div className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5">
+              <OfferRow href={SHOP_LINKS.livre}>
                 <div>
                   <p className="text-sm font-bold">Le livre RHEMA</p>
                   <p className="text-[11px] text-cream/50">
@@ -738,8 +764,8 @@ function Preorder() {
                   </span>
                   26,90 €
                 </p>
-              </div>
-              <div className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5">
+              </OfferRow>
+              <OfferRow href={SHOP_LINKS.carnet}>
                 <div>
                   <p className="text-sm font-bold">Le carnet RHEMA</p>
                   <p className="text-[11px] text-cream/50">
@@ -753,8 +779,8 @@ function Preorder() {
                   </span>
                   10,90 €
                 </p>
-              </div>
-              <div className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5">
+              </OfferRow>
+              <OfferRow href={SHOP_LINKS.ebook}>
                 <div>
                   <p className="text-sm font-bold">L&apos;e-book RHEMA</p>
                   <p className="text-[11px] text-cream/50">
@@ -762,8 +788,8 @@ function Preorder() {
                   </p>
                 </div>
                 <p className="shrink-0 font-display text-base font-extrabold">5 €</p>
-              </div>
-              <div className="relative flex items-center justify-between gap-3 rounded-xl border border-dawn-400/60 bg-dawn-400/10 px-3.5 py-3">
+              </OfferRow>
+              <OfferRow href={SHOP_LINKS.pack} highlight>
                 <span className="absolute -top-2 left-3 rounded-full bg-dawn-400 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wide text-night-950">
                   Le pack complet
                 </span>
@@ -776,7 +802,7 @@ function Preorder() {
                 <p className="shrink-0 font-display text-lg font-extrabold text-dawn-300">
                   35,90 €
                 </p>
-              </div>
+              </OfferRow>
             </div>
           </div>
         </div>

@@ -16,11 +16,25 @@ export const STRIPE_LINKS = {
 };
 
 /**
- * Lien de PRÉCOMMANDE du livre RHEMA (boutique Shopify quand elle sera prête,
- * ou lien Stripe). Tant qu'il est null, la page /boutique affiche la liste
- * d'attente (email + ebook offert) à la place du bouton d'achat.
+ * Boutique Shopify RHEMA : les pages produits définitives. `null` = pas
+ * encore créée (la ligne d'offre reste non cliquable).
  */
-export const RHEMA_PREORDER_URL: string | null = null;
+export const SHOP_LINKS = {
+  livre: null as string | null,
+  carnet: null as string | null,
+  pack: "https://ippngf-9s.myshopify.com/products/pack-rhema-livre-carnet" as string | null,
+  ebook:
+    "https://ippngf-9s.myshopify.com/products/rhema-e-book-365-revelations-bibliques" as
+      | string
+      | null,
+};
+
+/**
+ * Lien du bouton « Précommander maintenant » de la page /boutique : le PACK
+ * (panier moyen le plus élevé), sinon le livre. Tant que tout est null, la
+ * page affiche la liste d'attente (email + ebook offert).
+ */
+export const RHEMA_PREORDER_URL: string | null = SHOP_LINKS.pack ?? SHOP_LINKS.livre;
 
 /**
  * Liens de paiement mensuels, un par palier (la clé = le nom du palier dans
