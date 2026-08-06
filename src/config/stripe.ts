@@ -20,7 +20,10 @@ export const STRIPE_LINKS = {
  * encore créée (la ligne d'offre reste non cliquable).
  */
 export const SHOP_LINKS = {
-  livre: null as string | null,
+  livre:
+    "https://ippngf-9s.myshopify.com/products/rhema-365-revelations-bibliques-livre" as
+      | string
+      | null,
   carnet: null as string | null,
   pack: "https://ippngf-9s.myshopify.com/products/pack-rhema-livre-carnet" as string | null,
   ebook:
