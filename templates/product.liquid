@@ -105,6 +105,33 @@
 </div>
 </div>
 
+{%- comment -%} Vente additionnelle : proposer le pack aux acheteurs du livre ou du carnet seul {%- endcomment -%}
+{%- if kind == 'livre' or kind == 'carnet' -%}
+  {%- assign pack = all_products['pack-rhema-livre-carnet'] -%}
+  {%- if pack.url != blank -%}
+    {%- assign packv = pack.selected_or_first_available_variant -%}
+    {%- assign pack_save = packv.compare_at_price | minus: packv.price -%}
+    <section class="p-section p-section--alt">
+      <div class="wrap narrow">
+        <div class="crosssell">
+          {%- if pack.featured_image -%}
+            <img src="{{ pack.featured_image | image_url: width: 360 }}" alt="Pack RHEMA — livre + carnet" loading="lazy">
+          {%- endif -%}
+          <div class="crosssell-body">
+            <p class="eyebrow">Le meilleur choix</p>
+            <h2 class="p-h2">{% if kind == 'livre' %}Ajoute le carnet et vis l'expérience complète{% else %}Ajoute le livre et vis l'expérience complète{% endif %}</h2>
+            <p class="p-lead">Lis la révélation, puis écris ce que Dieu te dit. Le <b>pack</b> réunit le livre (740&nbsp;pages) et le carnet guidé (92&nbsp;pages){% if pack_save > 0 %}, et te fait économiser <b>{{ pack_save | money }}</b>{% endif %}.</p>
+            <p class="crosssell-price">
+              {%- if packv.compare_at_price > packv.price -%}<s>{{ packv.compare_at_price | money }}</s> {% endif %}<b>{{ packv.price | money }}</b>
+            </p>
+            <a class="btn" href="{{ pack.url }}">Voir le pack</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+{%- endif -%}
+
 {%- comment -%} ÉCRAN 2 — Identification émotionnelle {%- endcomment -%}
 <section class="p-section p-section--alt">
   <div class="wrap narrow">
@@ -324,4 +351,24 @@
       bar.classList.toggle('show', !e[0].isIntersecting);
     }, { threshold: 0 }).observe(form);
   })();
+</script>
+
+{%- comment -%} Données structurées SEO (Google : prix, disponibilité) {%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "image": ["https:{{ product.featured_image | image_url: width: 900 }}"],
+  "description": {{ product.description | strip_html | truncate: 300 | json }},
+  "brand": { "@type": "Brand", "name": "Jack Brunet" },
+  "offers": {
+    "@type": "Offer",
+    "url": "{{ request.origin }}{{ product.url }}",
+    "priceCurrency": {{ cart.currency.iso_code | json }},
+    "price": "{{ v.price | divided_by: 100.0 }}",
+    "availability": "https://schema.org/{% if v.available %}InStock{% else %}OutOfStock{% endif %}",
+    "seller": { "@type": "Organization", "name": "Jack Brunet" }
+  }
+}
 </script>
