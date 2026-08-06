@@ -319,7 +319,8 @@ h1, h2, h3 { font-weight: 900; letter-spacing: -0.01em; line-height: 1.05; margi
 .aa-col li { padding-left: 20px; position: relative; }
 .aa-col li::before { content: "—"; position: absolute; left: 0; color: var(--ink-50); }
 .aa-col--after li::before { content: "✓"; color: var(--accent-ink); font-weight: 800; }
-.p-demo-img { margin: 34px auto 0; max-width: 560px; filter: drop-shadow(0 24px 40px rgba(28, 30, 19, 0.25)); }
+.p-demo-img { margin: 34px auto 0; max-width: min(560px, 100%); filter: drop-shadow(0 24px 40px rgba(28, 30, 19, 0.25)); }
+.p-demo-img--portrait { max-width: min(380px, 78vw); }
 .p-demo-cap { text-align: center; font-size: 12px; color: var(--ink-50); margin-top: 12px; }
 
 /* ---------- Chiffres (preuve) — section sombre ---------- */
