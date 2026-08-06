@@ -39,7 +39,7 @@ export const mainNav = [
   { label: "Mur de prière", href: "/communaute" },
   { label: "Madagascar", href: "/mission-madagascar" },
   { label: "Livre RHEMA", href: "/boutique" },
-  { label: "Boutique", href: "https://ippngf-9s.myshopify.com/" },
+  { label: "Boutique", href: "https://boutique.jackbrunet.com/" },
   { label: "À propos", href: "/a-propos" },
 ] as const;
 
@@ -81,7 +81,7 @@ export const footerNav = [
     links: [
       { label: "Notre histoire", href: "/a-propos" },
       { label: "Livre RHEMA", href: "/boutique" },
-      { label: "Boutique", href: "https://ippngf-9s.myshopify.com/" },
+      { label: "Boutique", href: "https://boutique.jackbrunet.com/" },
       { label: "Soutenir la mission", href: "/dons" },
       { label: "Contact", href: `mailto:${siteConfig.contactEmail}` },
     ],
