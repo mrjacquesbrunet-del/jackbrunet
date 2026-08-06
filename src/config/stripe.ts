@@ -24,7 +24,8 @@ export const SHOP_LINKS = {
     "https://ippngf-9s.myshopify.com/products/rhema-365-revelations-bibliques-livre" as
       | string
       | null,
-  carnet: null as string | null,
+  carnet:
+    "https://ippngf-9s.myshopify.com/products/carnet-de-meditation-rhema" as string | null,
   pack: "https://ippngf-9s.myshopify.com/products/pack-rhema-livre-carnet" as string | null,
   ebook:
     "https://ippngf-9s.myshopify.com/products/rhema-e-book-365-revelations-bibliques" as
