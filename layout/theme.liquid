@@ -22,14 +22,36 @@
   {%- comment -%} Barre d'annonce lime {%- endcomment -%}
   <div class="annonce">PRÉCOMMANDE — SORTIE LE 7 SEPTEMBRE · OFFRE DE LANCEMENT</div>
 
+  {%- liquid
+    assign livre_p = all_products['rhema-365-revelations-bibliques-livre']
+    assign carnet_p = all_products['carnet-de-meditation-rhema']
+    assign pack_p = all_products['pack-rhema-livre-carnet']
+    assign ebook_p = all_products['rhema-e-book-365-revelations-bibliques']
+  -%}
   <header class="site-header">
     <a class="brand" href="{{ routes.root_url }}">JACK<strong>BRUNET</strong></a>
     <nav class="nav">
       <a href="{{ routes.all_products_collection_url }}">La boutique</a>
-      {%- assign livre_p = all_products['rhema-365-revelations-bibliques-livre'] -%}
       <a href="{% if livre_p.url != blank %}{{ livre_p.url }}{% else %}/products/rhema-365-revelations-bibliques-livre{% endif %}">Le livre</a>
       <a href="https://jackbrunet.com">Le site</a>
     </nav>
+
+    {%- comment -%} Menu burger mobile : accès rapide aux produits {%- endcomment -%}
+    <details class="mnav">
+      <summary aria-label="Menu">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </summary>
+      <nav class="mnav-panel">
+        <a class="mnav-strong" href="{{ routes.all_products_collection_url }}">Tous les produits</a>
+        <a href="{% if livre_p.url != blank %}{{ livre_p.url }}{% else %}/products/rhema-365-revelations-bibliques-livre{% endif %}">Le livre RHEMA</a>
+        <a href="{% if carnet_p.url != blank %}{{ carnet_p.url }}{% else %}/products/carnet-de-meditation-rhema{% endif %}">Le carnet de méditation</a>
+        <a href="{% if pack_p.url != blank %}{{ pack_p.url }}{% else %}/products/pack-rhema-livre-carnet{% endif %}">Le pack livre + carnet</a>
+        <a href="{% if ebook_p.url != blank %}{{ ebook_p.url }}{% else %}/products/rhema-e-book-365-revelations-bibliques{% endif %}">L'e-book</a>
+        <a href="{{ routes.cart_url }}">Mon panier{% if cart.item_count > 0 %} ({{ cart.item_count }}){% endif %}</a>
+        <a href="https://jackbrunet.com">Le site jackbrunet.com</a>
+      </nav>
+    </details>
+
     <a class="cart-link" href="{{ routes.cart_url }}" aria-label="Panier">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 7h12l1 13H5zM9 7a3 3 0 0 1 6 0" stroke-linecap="round" stroke-linejoin="round"/></svg>
       {% if cart.item_count > 0 %}<span class="cart-count">{{ cart.item_count }}</span>{% endif %}
@@ -82,6 +104,17 @@
           if (r.top < window.innerHeight && r.bottom > 0) el.classList.add('in');
         });
       }, 600);
+    })();
+
+    (function () {
+      var m = document.querySelector('.mnav');
+      if (!m) return;
+      m.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', function () { m.removeAttribute('open'); });
+      });
+      document.addEventListener('click', function (e) {
+        if (m.hasAttribute('open') && !m.contains(e.target)) m.removeAttribute('open');
+      });
     })();
   </script>
 </body>

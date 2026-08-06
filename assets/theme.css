@@ -106,7 +106,34 @@ h1, h2, h3 { font-weight: 900; letter-spacing: -0.01em; line-height: 1.05; margi
   font-size: 11px; font-weight: 800; min-width: 18px; height: 18px;
   border-radius: 999px; display: grid; place-items: center; padding: 0 4px;
 }
-@media (max-width: 640px) { .nav { display: none; } .cart-link { margin-left: auto; } }
+/* Menu burger mobile — accès rapide aux produits */
+.mnav { display: none; }
+.mnav summary {
+  list-style: none; cursor: pointer;
+  display: grid; place-items: center; width: 40px; height: 40px;
+  border: 1px solid var(--border-d); border-radius: 999px;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.mnav summary::-webkit-details-marker { display: none; }
+.mnav[open] summary { border-color: var(--lime); color: var(--lime); }
+.mnav-panel {
+  position: absolute; left: 0; right: 0; top: 100%;
+  background: rgba(10, 11, 7, 0.97); backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-d);
+  display: grid; padding: 8px 16px 16px;
+}
+.mnav-panel a {
+  padding: 13px 8px; font-size: 15px; font-weight: 600; color: var(--cream);
+  border-bottom: 1px solid var(--border-d);
+}
+.mnav-panel a:last-child { border-bottom: none; }
+.mnav-panel a:active { color: var(--lime); }
+.mnav-panel .mnav-strong { color: var(--lime); font-weight: 800; }
+@media (max-width: 640px) {
+  .nav { display: none; }
+  .mnav { display: block; margin-left: auto; }
+  .cart-link { margin-left: 0; }
+}
 
 /* ---------- Héros accueil — sombre, halo derrière la couverture ---------- */
 .hero {
