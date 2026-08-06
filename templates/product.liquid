@@ -5,23 +5,33 @@
     assign save = v.compare_at_price | minus: v.price
   endif
 
-  comment
-    Accroche ÉMOTIONNELLE et bénéfices par produit (livre / carnet / pack /
-    e-book), avec repli générique.
-  endcomment
-  assign hook = "Et si Dieu avait une parole pour toi, aujourd'hui ?"
+  comment — Contenus par produit : promesse, CTA bénéfice, identification —
+  assign kind = 'livre'
   if product.handle contains 'pack'
-    assign hook = "Reçois la révélation. Puis écris ce que Dieu te dit."
+    assign kind = 'pack'
   elsif product.handle contains 'carnet'
-    assign hook = "Ce que Dieu te dit mérite d'être écrit."
+    assign kind = 'carnet'
   elsif product.handle contains 'e-book' or product.handle contains 'ebook'
-    assign hook = "La Parole dans ta poche, où que tu vives."
-  elsif product.handle contains 'livre' or product.handle contains 'rhema'
-    assign hook = "Et si chaque matin, Dieu te parlait personnellement ?"
+    assign kind = 'ebook'
   endif
+
+  case kind
+    when 'pack'
+      assign promesse = "Reçois la révélation chaque matin — et écris ce que Dieu te dit."
+      assign cta = "Je vis l'expérience complète"
+    when 'carnet'
+      assign promesse = "Ce que Dieu te dit mérite d'être écrit — et relu."
+      assign cta = "J'écris ce que Dieu me dit"
+    when 'ebook'
+      assign promesse = "365 révélations dans ta poche, où que tu vives dans le monde."
+      assign cta = "Je reçois l'e-book le 7 septembre"
+    else
+      assign promesse = "Un rendez-vous avec Dieu chaque matin, pendant 365 jours."
+      assign cta = "Je commence mes 365 jours"
+  endcase
 -%}
 
-{%- comment -%} 1. ÉMOTION + ACTION IMMÉDIATE : le haut de page vend déjà {%- endcomment -%}
+{%- comment -%} ÉCRAN 1 — Promesse et achat (tout est visible sans scroller) {%- endcomment -%}
 <div class="wrap product">
   <div class="p-media">
     {%- if product.featured_image -%}
@@ -37,8 +47,30 @@
   </div>
 
   <div class="p-info">
-    <p class="p-hook">{{ hook }}</p>
     <h1>{{ product.title }}</h1>
+    <p class="p-hook">{{ promesse }}</p>
+
+    <ul class="mini-benefits">
+      {%- case kind -%}
+        {%- when 'pack' -%}
+          <li>Le livre (740 pages) + le carnet guidé (92 pages)</li>
+          <li>Lire, méditer, puis écrire : la Parole qui s'ancre</li>
+          <li>La meilleure valeur : 5,90&nbsp;€ d'économie</li>
+        {%- when 'carnet' -%}
+          <li>Une page guidée par jour : verset, rhéma, prières</li>
+          <li>92 pages — un an de trésors à relire</li>
+          <li>Assorti au livre RHEMA, sortie le même jour</li>
+        {%- when 'ebook' -%}
+          <li>Lisible sur téléphone, tablette et liseuse</li>
+          <li>Reçu automatiquement par email le jour J</li>
+          <li>5&nbsp;€ partout dans le monde, sans frais de port</li>
+        {%- else -%}
+          <li>365 révélations — une par jour, ~10 minutes</li>
+          <li>Méditer, incarner, prier et déclarer, noter</li>
+          <li>740 pages · Préface de Josy W.Brunet</li>
+      {%- endcase -%}
+    </ul>
+
     <p class="p-price">
       {%- if save > 0 -%}
         <s>{{ v.compare_at_price | money }}</s><span class="sale">{{ v.price | money }}</span>
@@ -47,8 +79,7 @@
         {{ v.price | money }}
       {%- endif -%}
     </p>
-    {%- if save > 0 -%}<p class="p-offer-note">Offre de lancement — prix garanti jusqu'à la sortie.</p>{%- endif -%}
-    <p class="p-date">Précommande · expédition à partir du 7 septembre</p>
+    {%- if save > 0 -%}<p class="p-offer-note">Offre de lancement, garantie jusqu'à la sortie.</p>{%- endif -%}
 
     {%- form 'product', product, class: 'p-form', id: 'buy-form' -%}
       <input type="hidden" name="id" value="{{ v.id }}">
@@ -56,53 +87,99 @@
         <input type="number" name="quantity" value="1" min="1" aria-label="Quantité">
       </div>
       <button type="submit" class="btn btn--big" {% unless v.available %}disabled{% endunless %}>
-        {%- if v.available -%}Précommander maintenant{%- else -%}Épuisé{%- endif -%}
+        {%- if v.available -%}{{ cta }}{%- else -%}Épuisé{%- endif -%}
       </button>
     {%- endform -%}
 
     <div class="p-reassure">
-      <span>Paiement 100&nbsp;% sécurisé — CB, Apple&nbsp;Pay, PayPal</span>
-      <span>Expédition soignée dès le 7 septembre</span>
-      <span>Une question ? contact@jackbrunet.com — je réponds personnellement</span>
+      {%- if kind == 'ebook' -%}
+        <span>Envoi automatique par email le 7 septembre</span>
+      {%- else -%}
+        <span>Expédition estimée : à partir du 7 septembre (sortie officielle)</span>
+      {%- endif -%}
+      <span>Retour possible 14 jours après réception</span>
+      <span>Paiement sécurisé — CB, Apple&nbsp;Pay, Google&nbsp;Pay, PayPal</span>
     </div>
   </div>
 </div>
 
-{%- comment -%} 2. COMPRÉHENSION : ce que c'est, très clair {%- endcomment -%}
-<section class="p-section">
+{%- comment -%} ÉCRAN 2 — Identification émotionnelle {%- endcomment -%}
+<section class="p-section p-section--alt">
   <div class="wrap narrow">
-    <p class="eyebrow">Ce que c'est</p>
-    <div class="p-desc rte">{{ product.description }}</div>
+    {%- case kind -%}
+      {%- when 'carnet' -%}
+        <h2 class="p-h2">Dieu te parle… et trois jours après, tu as oublié ?</h2>
+        <p class="p-lead">Une parole te touche pendant une prédication, une prière, une lecture — et la semaine l'efface. À force, on a l'impression de toujours repartir de zéro. Ce carnet existe pour que plus rien ne se perde : ce que Dieu te dit, tu l'écris, et tu peux y revenir.</p>
+      {%- when 'ebook' -%}
+        <h2 class="p-h2">Ta journée est remplie — et ta méditation attend toujours « plus tard » ?</h2>
+        <p class="p-lead">Dans le métro, en pause, en voyage : les moments existent, mais le livre n'est pas là. Avec l'e-book, ta méditation du jour est dans ta poche, prête au moment où toi tu l'es.</p>
+      {%- else -%}
+        <h2 class="p-h2">Tu ouvres ta Bible… et tu ne sais pas par où commencer ?</h2>
+        <p class="p-lead">Tu veux nourrir ta foi chaque jour, mais entre le rythme des journées et le bruit des réseaux, la lecture reste irrégulière — et la Parole reste théorique. Ce n'est pas un manque d'envie : c'est l'absence d'un rendez-vous simple et guidé. C'est exactement ce que RHEMA vient créer.</p>
+    {%- endcase -%}
   </div>
 </section>
 
-{%- comment -%} 3. DÉSIR : ce que ça change, concrètement {%- endcomment -%}
+{%- comment -%} ÉCRAN 3 — La transformation (avant / après) {%- endcomment -%}
+<section class="p-section">
+  <div class="wrap narrow">
+    <p class="eyebrow">La transformation</p>
+    <div class="avant-apres">
+      <div class="aa-col">
+        <p class="aa-label">Avant</p>
+        <ul>
+          <li>Des lectures irrégulières, au hasard</li>
+          <li>Une Parole qu'on écoute… puis qu'on oublie</li>
+          <li>La journée qui démarre par le téléphone</li>
+        </ul>
+      </div>
+      <div class="aa-col aa-col--after">
+        <p class="aa-label">Après</p>
+        <ul>
+          <li>Un rendez-vous fixe avec Dieu, chaque matin</li>
+          <li>Une révélation méditée, priée, mise en pratique</li>
+          <li>Une année qui transforme en profondeur</li>
+        </ul>
+      </div>
+    </div>
+    {%- if kind == 'carnet' -%}
+      <img class="p-demo-img" src="{{ 'carnet-open.webp' | asset_url }}" alt="Le carnet RHEMA ouvert sur sa page quotidienne guidée" loading="lazy">
+      <p class="p-demo-cap">La page quotidienne : tout est prêt, il ne manque que ta plume.</p>
+    {%- else -%}
+      <img class="p-demo-img" src="{{ 'rhema-open.webp' | asset_url }}" alt="Le livre RHEMA ouvert sur une double page quotidienne" loading="lazy">
+      <p class="p-demo-cap">Une double page = une journée : la méditation à gauche, la mise en pratique et tes notes à droite.</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{%- comment -%} ÉCRAN 4 — Bénéfices (caractéristique → avantage → émotion) {%- endcomment -%}
 <section class="p-section p-section--alt">
   <div class="wrap narrow">
-    <p class="eyebrow">Ce que ça va changer</p>
+    <p class="eyebrow">Ce que ça change pour toi</p>
     <ul class="benefits">
-      {%- if product.handle contains 'carnet' -%}
-        <li><b>Un rendez-vous d'écriture chaque matin</b> — verset du jour, rhéma reçu, sujets de prière, actions de grâce.</li>
-        <li><b>Une trace qui reste</b> — relis dans un an ce que Dieu t'a dit : c'est un trésor qui fortifie la foi.</li>
-        <li><b>Une page guidée</b> — tout est prêt, il ne manque que ta plume.</li>
-      {%- elsif product.handle contains 'e-book' or product.handle contains 'ebook' -%}
-        <li><b>Partout avec toi</b> — téléphone, tablette, liseuse : ta méditation ne te quitte plus.</li>
-        <li><b>Accessible à tous</b> — 5&nbsp;€ partout dans le monde, pour qu'aucune frontière n'arrête la Parole.</li>
-        <li><b>Disponible le jour de la sortie</b> — reçu automatiquement par email.</li>
-      {%- elsif product.handle contains 'pack' -%}
-        <li><b>L'expérience complète</b> — tu lis la révélation dans le livre, tu l'écris dans le carnet.</li>
-        <li><b>La Parole qui s'ancre</b> — ce qu'on écrit descend du cerveau au cœur, et du cœur dans la vie.</li>
-        <li><b>5,90&nbsp;€ d'économie</b> — le meilleur prix pour vivre l'année RHEMA en entier.</li>
-      {%- else -%}
-        <li><b>Un rendez-vous quotidien avec Dieu</b> — 365 jours, une révélation par jour, environ 10 minutes.</li>
-        <li><b>Pas des connaissances en plus : une Parole vivante</b> — qui te rejoint exactement là où tu en es.</li>
-        <li><b>De la page au cœur, du cœur à la vie</b> — chaque jour : méditation, mise en pratique, prière et déclaration.</li>
-      {%- endif -%}
+      {%- case kind -%}
+        {%- when 'carnet' -%}
+          <li><b>Une structure guidée</b> — tu n'affrontes jamais la page blanche : verset, rhéma, sujets de prière, actions de grâce.</li>
+          <li><b>92 pages reliées</b> — un objet qui dure, à relire dans un an pour voir le chemin parcouru.</li>
+          <li><b>Le geste d'écrire</b> — ce qu'on écrit s'ancre : la Parole descend de la tête au cœur.</li>
+        {%- when 'ebook' -%}
+          <li><b>Toujours disponible</b> — ta méditation au moment où tu es prêt(e), même loin de chez toi.</li>
+          <li><b>Accessible partout</b> — 5&nbsp;€ dans le monde entier : aucune frontière n'arrête la Parole.</li>
+          <li><b>Reçu le jour J</b> — envoi automatique par email le 7 septembre, aucune attente.</li>
+        {%- when 'pack' -%}
+          <li><b>Le livre + le carnet</b> — tu lis la révélation, puis tu écris ce que Dieu te dit : l'expérience complète.</li>
+          <li><b>Un rituel complet</b> — méditer, incarner, prier, noter : les 4 temps de chaque matin.</li>
+          <li><b>5,90&nbsp;€ d'économie</b> — la meilleure valeur pour vivre l'année RHEMA en entier.</li>
+        {%- else -%}
+          <li><b>365 jours structurés</b> — tu sais exactement quoi lire chaque matin : fini la page ouverte au hasard.</li>
+          <li><b>~10 minutes par jour</b> — un format tenable, même dans une vie remplie.</li>
+          <li><b>4 temps chaque jour</b> — méditation, incarnation, prière et déclaration, notes : la Parole se vit, pas seulement se lit.</li>
+      {%- endcase -%}
     </ul>
   </div>
 </section>
 
-{%- comment -%} 4. PREUVE : les chiffres qui crédibilisent {%- endcomment -%}
+{%- comment -%} ÉCRAN 6 — Preuve (chiffres réels ; les avis vérifiés viendront) {%- endcomment -%}
 <section class="p-section">
   <div class="wrap narrow center">
     <p class="eyebrow">Pourquoi lui faire confiance</p>
@@ -111,26 +188,85 @@
       <div><b>+1&nbsp;000</b><span>vidéos autour de la Parole</span></div>
       <div><b>+100&nbsp;M</b><span>de personnes touchées</span></div>
     </div>
-    <p class="proof-note">Derrière ces chiffres, des centaines de témoignages reçus : des retours à Dieu, des vies données à Jésus, de l'espérance retrouvée — souvent parce qu'un message est arrivé <em>au bon moment</em>. RHEMA rassemble l'essentiel de ces révélations, retravaillées une à une.</p>
+    <p class="proof-note">Derrière ces chiffres, des centaines de messages reçus au fil des années : des retours à Dieu, des vies données à Jésus, de l'espérance retrouvée — souvent parce qu'un message est arrivé <em>au bon moment</em>. RHEMA rassemble l'essentiel de ces révélations, retravaillées une à une pour la page.</p>
   </div>
 </section>
 
-{%- comment -%} 5. RÉASSURANCE : zéro risque, zéro doute {%- endcomment -%}
+{%- comment -%} ÉCRAN 7 — L'offre : trois choix, décision facile {%- endcomment -%}
 <section class="p-section p-section--alt">
   <div class="wrap narrow">
-    <p class="eyebrow">En toute confiance</p>
+    <p class="eyebrow center" style="display:block;text-align:center">Choisis ta formule</p>
+    <div class="offer-grid">
+      {%- for p in collections.all.products -%}
+        {%- unless p.handle contains 'e-book' or p.handle contains 'ebook' -%}
+          {%- liquid
+            assign pv = p.selected_or_first_available_variant
+            assign is_current = false
+            if p.id == product.id
+              assign is_current = true
+            endif
+            assign is_pack = false
+            if p.handle contains 'pack'
+              assign is_pack = true
+            endif
+          -%}
+          <a class="offer{% if is_current %} offer--current{% endif %}{% if is_pack %} offer--best{% endif %}" href="{{ p.url }}">
+            {%- if is_pack -%}<span class="offer-badge">Meilleure valeur</span>{%- endif -%}
+            <span class="offer-title">{{ p.title | remove: 'RHEMA — ' | remove: ' (livre)' }}</span>
+            <span class="offer-price">
+              {%- if pv.compare_at_price > pv.price -%}
+                <s>{{ pv.compare_at_price | money }}</s> {{ pv.price | money }}
+              {%- else -%}
+                {{ pv.price | money }}
+              {%- endif -%}
+            </span>
+            <span class="offer-cta">{% if is_current %}Tu es ici ✓{% else %}Choisir{% endif %}</span>
+          </a>
+        {%- endunless -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ÉCRAN 9 — Réduction du risque {%- endcomment -%}
+<section class="p-section">
+  <div class="wrap narrow">
+    <p class="eyebrow">Zéro mauvaise surprise</p>
+    <div class="risk-grid">
+      {%- if kind == 'ebook' -%}
+        <div><b>Livraison</b><span>Par email, automatiquement, le 7 septembre (jour de la sortie).</span></div>
+        <div><b>Formats</b><span>Lisible sur téléphone, tablette, ordinateur et liseuse.</span></div>
+      {%- else -%}
+        <div><b>Livraison</b><span>Expédition à partir du 7 septembre, numéro de suivi envoyé par email.</span></div>
+        <div><b>Contenu du colis</b><span>{% if kind == 'pack' %}Le livre RHEMA (740 pages) + le carnet de méditation (92 pages), emballés avec soin.{% elsif kind == 'carnet' %}Le carnet de méditation RHEMA (92 pages), emballé avec soin.{% else %}Le livre RHEMA (740 pages), emballé avec soin.{% endif %}</span></div>
+      {%- endif -%}
+      <div><b>Retours</b><span>14 jours après réception pour changer d'avis (droit de rétractation).</span></div>
+      <div><b>Paiement</b><span>Sécurisé par Shopify : CB, Apple&nbsp;Pay, Google&nbsp;Pay, PayPal.</span></div>
+      <div><b>Service client</b><span>contact@jackbrunet.com — c'est moi qui réponds, personnellement.</span></div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ÉCRAN 10 — FAQ + dernier CTA (rappel de la transformation) {%- endcomment -%}
+<section class="p-section p-section--alt">
+  <div class="wrap narrow">
+    <p class="eyebrow">Questions fréquentes</p>
     <div class="faq">
       <details>
         <summary>Quand vais-je recevoir ma commande ?</summary>
-        <p>C'est une précommande : les expéditions commencent le 7 septembre, jour de la sortie officielle. Tu recevras un email de suivi dès l'envoi.</p>
+        <p>{% if kind == 'ebook' %}L'e-book est envoyé automatiquement par email le 7 septembre, jour de la sortie.{% else %}C'est une précommande : les expéditions commencent le 7 septembre, jour de la sortie officielle. Tu recevras un email avec le suivi dès l'envoi.{% endif %}</p>
       </details>
       <details>
-        <summary>Le paiement est-il sécurisé ?</summary>
-        <p>Oui — le paiement est traité par Shopify (CB, Apple&nbsp;Pay, Google&nbsp;Pay, PayPal), le même système que des millions de boutiques dans le monde. Tes données bancaires ne me sont jamais transmises.</p>
+        <summary>Comment suivre ma commande ?</summary>
+        <p>Dès l'expédition, tu reçois un email de confirmation avec le lien de suivi du colis.</p>
       </details>
       <details>
-        <summary>Et si je ne suis pas satisfait(e) ?</summary>
-        <p>Écris-moi à contact@jackbrunet.com : je réponds personnellement, et on trouve toujours une solution.</p>
+        <summary>Puis-je retourner ma commande ?</summary>
+        <p>Oui : tu disposes de 14 jours après réception (droit de rétractation). Écris simplement à contact@jackbrunet.com.</p>
+      </details>
+      <details>
+        <summary>Je débute dans la foi — est-ce pour moi ?</summary>
+        <p>Oui. RHEMA a été écrit pour être simple, accessible et applicable — que tu marches avec Dieu depuis vingt ans ou depuis hier.</p>
       </details>
       <details>
         <summary>Je n'ai pas les moyens — RHEMA pour tous</summary>
@@ -140,14 +276,13 @@
   </div>
 </section>
 
-{%- comment -%} 6. ACTION : dernier appel, sans friction {%- endcomment -%}
 <section class="p-section p-final">
   <div class="wrap narrow center">
-    <h2>{{ hook }}</h2>
+    <h2>Prêt(e) à vivre une année<br>qui transforme ?</h2>
     <p class="p-final-price">
-      {%- if save > 0 -%}<s>{{ v.compare_at_price | money }}</s> {% endif %}<b>{{ v.price | money }}</b> · Sortie le 7 septembre
+      {%- if save > 0 -%}<s>{{ v.compare_at_price | money }}</s> {% endif %}<b>{{ v.price | money }}</b> · Sortie le 7 septembre · Retour 14 jours
     </p>
-    <button type="submit" form="buy-form" class="btn btn--big p-final-btn" {% unless v.available %}disabled{% endunless %}>Précommander maintenant</button>
+    <button type="submit" form="buy-form" class="btn btn--big p-final-btn" {% unless v.available %}disabled{% endunless %}>{{ cta }}</button>
   </div>
 </section>
 
@@ -157,7 +292,7 @@
     <p class="sb-title">{{ product.title | truncate: 34 }}</p>
     <p class="sb-price">{%- if save > 0 -%}<s>{{ v.compare_at_price | money }}</s> {% endif %}<b>{{ v.price | money }}</b></p>
   </div>
-  <button type="submit" form="buy-form" class="btn" {% unless v.available %}disabled{% endunless %}>Précommander</button>
+  <button type="submit" form="buy-form" class="btn" {% unless v.available %}disabled{% endunless %}>{{ cta | truncate: 26 }}</button>
 </div>
 
 <script>
@@ -166,7 +301,6 @@
       document.getElementById('p-main').src = t.dataset.full;
     });
   });
-  // Barre collante : visible une fois le bouton principal hors écran.
   (function () {
     var bar = document.getElementById('sticky-buy');
     var form = document.getElementById('buy-form');
