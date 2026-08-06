@@ -89,6 +89,7 @@
       <button type="submit" class="btn btn--big" {% unless v.available %}disabled{% endunless %}>
         {%- if v.available -%}{{ cta }}{%- else -%}Épuisé{%- endif -%}
       </button>
+      {%- if v.available -%}{{ form | payment_button }}{%- endif -%}
     {%- endform -%}
 
     <div class="p-reassure">

@@ -81,10 +81,12 @@ h1, h2, h3 { font-weight: 900; letter-spacing: -0.01em; line-height: 1.05; margi
 
 /* ---------- Annonce + header (sombres, comme le héros) ---------- */
 .annonce {
+  display: block;
   background: var(--lime); color: var(--night-2);
   text-align: center; font-weight: 800; font-size: 12px;
   letter-spacing: 0.12em; padding: 9px 16px;
 }
+.annonce:active { background: #D6F72A; }
 .site-header {
   position: sticky; top: 0; z-index: 50;
   display: flex; align-items: center; gap: 28px;
@@ -464,6 +466,51 @@ input[type="text"], input[type="email"], input[type="password"], input[type="sea
 }
 input:focus, textarea:focus { outline: 2px solid rgba(92, 107, 0, 0.45); border-color: transparent; }
 .form-stack { display: grid; gap: 12px; max-width: 420px; margin: 26px auto 0; }
+
+/* ---------- Paiement express (Apple Pay / Google Pay / Shop Pay) ---------- */
+.shopify-payment-button { margin-top: 10px; }
+.shopify-payment-button__button {
+  border-radius: 999px !important; font-family: inherit !important;
+  font-weight: 700 !important; min-height: 52px;
+}
+.shopify-payment-button__button--unbranded {
+  background: transparent !important; color: var(--cream) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+.shopify-payment-button__button--unbranded:hover {
+  background: rgba(255, 255, 255, 0.06) !important; border-color: var(--lime) !important; color: var(--lime) !important;
+}
+.shopify-payment-button__button--branded { border-radius: 999px; overflow: hidden; }
+.shopify-payment-button__more-options { color: var(--cream-60) !important; font-family: inherit !important; }
+
+/* ---------- Optimisations mobile (vente d'abord) ---------- */
+@media (max-width: 640px) {
+  /* Héros : CTA visible dès le premier écran */
+  .hero { padding: 44px 20px 44px; }
+  .hero .sub { font-size: 15px; margin-top: 14px; }
+  .hero-cta { margin-top: 22px; }
+  .hero-cta .btn { width: 100%; max-width: 340px; }
+  .hero-date { margin-top: 18px; padding: 12px 20px; }
+  .hero-cover { width: min(210px, 54vw); margin-top: 30px; }
+
+  /* Grille produits : 2 colonnes compactes, tout visible d'un coup */
+  .grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .card { padding: 16px 10px 14px; }
+  .card img { height: 130px; }
+  .card .c-title { margin-top: 12px; font-size: 13px; }
+  .card .c-price { margin-top: 6px; font-size: 14px; }
+  .card .c-price s { font-size: 12px; }
+  .card .badge { margin-top: 8px; font-size: 9px; padding: 2px 9px; }
+  .card .btn { margin-top: 10px; padding: 9px 14px; font-size: 12.5px; width: 100%; }
+  .products { padding: 48px 0; }
+  .products .head { margin-bottom: 26px; }
+
+  /* Fiche produit : arriver plus vite au prix et au bouton */
+  .product { gap: 30px; padding: 36px 0 56px; }
+  .p-media .main-img { width: min(300px, 70vw); }
+  .thumbs img { width: 56px; height: 56px; }
+  .p-section { padding: 44px 0; }
+}
 
 /* ---------- Badges stores (bloc application, sombre) ---------- */
 .store-badges { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 28px; }

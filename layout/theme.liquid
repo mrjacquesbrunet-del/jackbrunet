@@ -19,8 +19,8 @@
 <body>
   <a class="skip" href="#main">Aller au contenu</a>
 
-  {%- comment -%} Barre d'annonce lime {%- endcomment -%}
-  <div class="annonce">PRÉCOMMANDE — SORTIE LE 7 SEPTEMBRE · OFFRE DE LANCEMENT</div>
+  {%- comment -%} Barre d'annonce lime, cliquable vers les offres {%- endcomment -%}
+  <a class="annonce" href="{{ routes.all_products_collection_url }}">PRÉCOMMANDE — SORTIE LE 7 SEPTEMBRE · OFFRE DE LANCEMENT</a>
 
   {%- liquid
     assign livre_p = all_products['rhema-365-revelations-bibliques-livre']
