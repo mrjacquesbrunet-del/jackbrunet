@@ -198,8 +198,11 @@ h1, h2, h3 { font-weight: 900; letter-spacing: -0.01em; line-height: 1.05; margi
   color: var(--cream); position: relative; overflow: hidden;
 }
 .product { display: grid; gap: 48px; padding: 56px 0 72px; grid-template-columns: 1fr; }
-@media (min-width: 820px) { .product { grid-template-columns: 1fr 1fr; align-items: start; } }
-.p-media { position: sticky; top: 90px; }
+.p-media { position: relative; }
+@media (min-width: 820px) {
+  .product { grid-template-columns: 1fr 1fr; align-items: start; }
+  .p-media { position: sticky; top: 90px; }
+}
 .product-hero .p-media::before {
   content: ""; position: absolute; left: 50%; top: 42%;
   width: 480px; height: 480px; transform: translate(-50%, -50%);

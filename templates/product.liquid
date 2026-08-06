@@ -5,7 +5,6 @@
     assign save = v.compare_at_price | minus: v.price
   endif
 
-  comment — Contenus par produit : promesse, CTA bénéfice, identification —
   assign kind = 'livre'
   if product.handle contains 'pack'
     assign kind = 'pack'
