@@ -1,11 +1,2924 @@
 {
   "items": [
-    { "day": 1, "theme": "La lumière qui se lève", "passages": ["Jean 1.1-18"], "minutes": 6 },
-    { "day": 2, "theme": "Une nouvelle naissance", "passages": ["Jean 3.1-21"], "minutes": 7 },
-    { "day": 3, "theme": "L'eau vive", "passages": ["Jean 4.1-30"], "minutes": 8 },
-    { "day": 4, "theme": "Le pain de vie", "passages": ["Jean 6.22-40"], "minutes": 7 },
-    { "day": 5, "theme": "La liberté véritable", "passages": ["Jean 8.31-47"], "minutes": 6 },
-    { "day": 6, "theme": "Le bon berger", "passages": ["Jean 10.1-21"], "minutes": 6 },
-    { "day": 7, "theme": "La résurrection et la vie", "passages": ["Jean 11.1-44"], "minutes": 9 }
+    {
+      "day": 1,
+      "theme": "Au commencement, Dieu crée",
+      "passages": [
+        "Genèse 1"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 2,
+      "theme": "Le souffle de vie et le jardin",
+      "passages": [
+        "Genèse 2"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 3,
+      "theme": "La chute et la première promesse",
+      "passages": [
+        "Genèse 3"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 4,
+      "theme": "Caïn et Abel : le cœur en question",
+      "passages": [
+        "Genèse 4"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 5,
+      "theme": "Noé trouve grâce",
+      "passages": [
+        "Genèse 6"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 6,
+      "theme": "Après le déluge, l'alliance qui vient",
+      "passages": [
+        "Genèse 8"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 7,
+      "theme": "L'arc-en-ciel, signe de fidélité",
+      "passages": [
+        "Genèse 9"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 8,
+      "theme": "L'appel d'Abram : pars, je te bénirai",
+      "passages": [
+        "Genèse 12"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 9,
+      "theme": "Une alliance scellée par la foi",
+      "passages": [
+        "Genèse 15"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 10,
+      "theme": "Rien n'est trop difficile pour Dieu",
+      "passages": [
+        "Genèse 18"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 11,
+      "theme": "Le sacrifice d'Abraham : Dieu pourvoira",
+      "passages": [
+        "Genèse 22"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 12,
+      "theme": "L'échelle de Jacob : le ciel s'ouvre",
+      "passages": [
+        "Genèse 28"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 13,
+      "theme": "Jacob lutte et reçoit un nouveau nom",
+      "passages": [
+        "Genèse 32"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 14,
+      "theme": "Joseph et le rêve mal accueilli",
+      "passages": [
+        "Genèse 37"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 15,
+      "theme": "Fidèle même dans l'épreuve",
+      "passages": [
+        "Genèse 39"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 16,
+      "theme": "De la prison au palais",
+      "passages": [
+        "Genèse 41"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 17,
+      "theme": "Joseph pardonne à ses frères",
+      "passages": [
+        "Genèse 45"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 18,
+      "theme": "Vous pensiez faire du mal, Dieu l'a changé en bien",
+      "passages": [
+        "Genèse 50"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 19,
+      "theme": "Le buisson ardent : Je suis",
+      "passages": [
+        "Exode 3"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 20,
+      "theme": "La Pâque et le sang qui protège",
+      "passages": [
+        "Exode 12"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 21,
+      "theme": "La mer s'ouvre : Dieu combat pour toi",
+      "passages": [
+        "Exode 14"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 22,
+      "theme": "Le chant de la délivrance",
+      "passages": [
+        "Exode 15"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 23,
+      "theme": "La manne : le pain de chaque jour",
+      "passages": [
+        "Exode 16"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 24,
+      "theme": "Dieu descend sur la montagne",
+      "passages": [
+        "Exode 19"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 25,
+      "theme": "Les dix paroles de l'alliance",
+      "passages": [
+        "Exode 20"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 26,
+      "theme": "Fais-moi voir ta gloire",
+      "passages": [
+        "Exode 33"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 27,
+      "theme": "L'Éternel, plein de compassion",
+      "passages": [
+        "Exode 34"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 28,
+      "theme": "Deux chemins, un seul qui mène à la vie",
+      "passages": [
+        "Psaumes 1"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 29,
+      "theme": "Qu'est-ce que l'homme que tu penses à lui ?",
+      "passages": [
+        "Psaumes 8"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 30,
+      "theme": "Les cieux racontent la gloire de Dieu",
+      "passages": [
+        "Psaumes 19"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 31,
+      "theme": "La Parole faite chair",
+      "passages": [
+        "Jean 1"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 32,
+      "theme": "Le premier signe à Cana",
+      "passages": [
+        "Jean 2"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 33,
+      "theme": "Il faut naître de nouveau",
+      "passages": [
+        "Jean 3"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 34,
+      "theme": "L'eau vive pour la Samaritaine",
+      "passages": [
+        "Jean 4"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 35,
+      "theme": "Veux-tu être guéri ?",
+      "passages": [
+        "Jean 5"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 36,
+      "theme": "Je suis le pain de vie",
+      "passages": [
+        "Jean 6"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 37,
+      "theme": "Des fleuves d'eau vive",
+      "passages": [
+        "Jean 7"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 38,
+      "theme": "La vérité vous rendra libres",
+      "passages": [
+        "Jean 8"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 39,
+      "theme": "L'aveugle-né : d'obscurité en lumière",
+      "passages": [
+        "Jean 9"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 40,
+      "theme": "Le bon berger donne sa vie",
+      "passages": [
+        "Jean 10"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 41,
+      "theme": "Je suis la résurrection et la vie",
+      "passages": [
+        "Jean 11"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 42,
+      "theme": "Le grain de blé qui tombe en terre",
+      "passages": [
+        "Jean 12"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 43,
+      "theme": "Il les aima jusqu'au bout",
+      "passages": [
+        "Jean 13"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 44,
+      "theme": "Je suis le chemin, la vérité, la vie",
+      "passages": [
+        "Jean 14"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 45,
+      "theme": "Demeurez en moi, le cep véritable",
+      "passages": [
+        "Jean 15"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 46,
+      "theme": "Le Consolateur promis",
+      "passages": [
+        "Jean 16"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 47,
+      "theme": "La prière du grand berger",
+      "passages": [
+        "Jean 17"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 48,
+      "theme": "L'arrestation et la fidélité",
+      "passages": [
+        "Jean 18"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 49,
+      "theme": "Tout est accompli",
+      "passages": [
+        "Jean 19"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 50,
+      "theme": "Le tombeau vide, la joie du matin",
+      "passages": [
+        "Jean 20"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 51,
+      "theme": "M'aimes-tu ? Suis-moi",
+      "passages": [
+        "Jean 21"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 52,
+      "theme": "L'Éternel est mon berger",
+      "passages": [
+        "Psaumes 23"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 53,
+      "theme": "L'Éternel est ma lumière et mon salut",
+      "passages": [
+        "Psaumes 27"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 54,
+      "theme": "Goûtez et voyez combien l'Éternel est bon",
+      "passages": [
+        "Psaumes 34"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 55,
+      "theme": "Recommande ton sort à l'Éternel",
+      "passages": [
+        "Psaumes 37"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 56,
+      "theme": "Mon âme a soif de Dieu",
+      "passages": [
+        "Psaumes 42"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 57,
+      "theme": "Dieu est notre refuge et notre force",
+      "passages": [
+        "Psaumes 46"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 58,
+      "theme": "Crée en moi un cœur pur",
+      "passages": [
+        "Psaumes 51"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 59,
+      "theme": "Vous recevrez une puissance",
+      "passages": [
+        "Actes 1"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 60,
+      "theme": "La Pentecôte : le feu de l'Esprit",
+      "passages": [
+        "Actes 2"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 61,
+      "theme": "Lève-toi et marche",
+      "passages": [
+        "Actes 3"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 62,
+      "theme": "La hardiesse des disciples",
+      "passages": [
+        "Actes 4"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 63,
+      "theme": "Il faut obéir à Dieu plutôt qu'aux hommes",
+      "passages": [
+        "Actes 5"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 64,
+      "theme": "Des serviteurs pleins de l'Esprit",
+      "passages": [
+        "Actes 6"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 65,
+      "theme": "Étienne, le premier témoin",
+      "passages": [
+        "Actes 7"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 66,
+      "theme": "L'Évangile se répand",
+      "passages": [
+        "Actes 8"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 67,
+      "theme": "La conversion de Saul",
+      "passages": [
+        "Actes 9"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 68,
+      "theme": "Dieu ne fait pas de favoritisme",
+      "passages": [
+        "Actes 10"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 69,
+      "theme": "L'Église prie, les portes s'ouvrent",
+      "passages": [
+        "Actes 12"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 70,
+      "theme": "Envoyés par l'Esprit",
+      "passages": [
+        "Actes 13"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 71,
+      "theme": "Crois au Seigneur et tu seras sauvé",
+      "passages": [
+        "Actes 16"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 72,
+      "theme": "Le Dieu inconnu révélé",
+      "passages": [
+        "Actes 17"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 73,
+      "theme": "Il y a plus de bonheur à donner",
+      "passages": [
+        "Actes 20"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 74,
+      "theme": "Le témoignage devant les rois",
+      "passages": [
+        "Actes 26"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 75,
+      "theme": "La tempête et la promesse tenue",
+      "passages": [
+        "Actes 27"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 76,
+      "theme": "La crainte de l'Éternel, début de la sagesse",
+      "passages": [
+        "Proverbes 1"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 77,
+      "theme": "Cherche la sagesse comme un trésor",
+      "passages": [
+        "Proverbes 2"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 78,
+      "theme": "Confie-toi en l'Éternel de tout ton cœur",
+      "passages": [
+        "Proverbes 3"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 79,
+      "theme": "Garde ton cœur plus que tout",
+      "passages": [
+        "Proverbes 4"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 80,
+      "theme": "La sagesse appelle sur les places",
+      "passages": [
+        "Proverbes 8"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 81,
+      "theme": "Une réponse douce calme la fureur",
+      "passages": [
+        "Proverbes 15"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 82,
+      "theme": "Recommande à l'Éternel tes œuvres",
+      "passages": [
+        "Proverbes 16"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 83,
+      "theme": "La femme vaillante",
+      "passages": [
+        "Proverbes 31"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 84,
+      "theme": "Rien n'est impossible à Dieu",
+      "passages": [
+        "Luc 1"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 85,
+      "theme": "Un Sauveur vous est né",
+      "passages": [
+        "Luc 2"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 86,
+      "theme": "L'Esprit du Seigneur est sur moi",
+      "passages": [
+        "Luc 4"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 87,
+      "theme": "Sur ta parole, je jetterai les filets",
+      "passages": [
+        "Luc 5"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 88,
+      "theme": "Aimez vos ennemis",
+      "passages": [
+        "Luc 6"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 89,
+      "theme": "Ses péchés lui sont pardonnés, car elle a beaucoup aimé",
+      "passages": [
+        "Luc 7"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 90,
+      "theme": "La semence et les cœurs",
+      "passages": [
+        "Luc 8"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 91,
+      "theme": "Qui dites-vous que je suis ?",
+      "passages": [
+        "Luc 9"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 92,
+      "theme": "Le bon Samaritain",
+      "passages": [
+        "Luc 10"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 93,
+      "theme": "Seigneur, enseigne-nous à prier",
+      "passages": [
+        "Luc 11"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 94,
+      "theme": "Ne vous inquiétez pas",
+      "passages": [
+        "Luc 12"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 95,
+      "theme": "Le fils prodigue et le Père qui court",
+      "passages": [
+        "Luc 15"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 96,
+      "theme": "Prier sans se décourager",
+      "passages": [
+        "Luc 18"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 97,
+      "theme": "Zachée : le salut entre dans la maison",
+      "passages": [
+        "Luc 19"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 98,
+      "theme": "La dernière Cène",
+      "passages": [
+        "Luc 22"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 99,
+      "theme": "Père, pardonne-leur",
+      "passages": [
+        "Luc 23"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 100,
+      "theme": "Il est ressuscité, nos cœurs brûlent",
+      "passages": [
+        "Luc 24"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 101,
+      "theme": "Mon âme se repose en Dieu seul",
+      "passages": [
+        "Psaumes 62"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 102,
+      "theme": "Ta bonté vaut mieux que la vie",
+      "passages": [
+        "Psaumes 63"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 103,
+      "theme": "Un jour dans tes parvis",
+      "passages": [
+        "Psaumes 84"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 104,
+      "theme": "À l'ombre du Tout-Puissant",
+      "passages": [
+        "Psaumes 91"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 105,
+      "theme": "Bénis l'Éternel, ô mon âme",
+      "passages": [
+        "Psaumes 103"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 106,
+      "theme": "Je lève les yeux vers les montagnes",
+      "passages": [
+        "Psaumes 121"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 107,
+      "theme": "Tu me connais parfaitement",
+      "passages": [
+        "Psaumes 139"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 108,
+      "theme": "L'Évangile, puissance de Dieu",
+      "passages": [
+        "Romains 1"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 109,
+      "theme": "Justifiés gratuitement par sa grâce",
+      "passages": [
+        "Romains 3"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 110,
+      "theme": "La paix avec Dieu par la foi",
+      "passages": [
+        "Romains 5"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 111,
+      "theme": "Morts au péché, vivants pour Dieu",
+      "passages": [
+        "Romains 6"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 112,
+      "theme": "Rien ne peut nous séparer de son amour",
+      "passages": [
+        "Romains 8"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 113,
+      "theme": "La foi vient de ce qu'on entend",
+      "passages": [
+        "Romains 10"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 114,
+      "theme": "Offrez-vous comme un sacrifice vivant",
+      "passages": [
+        "Romains 12"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 115,
+      "theme": "Le Dieu de l'espérance vous remplisse de joie",
+      "passages": [
+        "Romains 15"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 116,
+      "theme": "La folie de la croix, sagesse de Dieu",
+      "passages": [
+        "1 Corinthiens 1"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 117,
+      "theme": "Un seul corps, des dons variés",
+      "passages": [
+        "1 Corinthiens 12"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 118,
+      "theme": "L'amour, le plus excellent chemin",
+      "passages": [
+        "1 Corinthiens 13"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 119,
+      "theme": "La résurrection, notre espérance",
+      "passages": [
+        "1 Corinthiens 15"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 120,
+      "theme": "Un trésor dans des vases d'argile",
+      "passages": [
+        "2 Corinthiens 4"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 121,
+      "theme": "Une nouvelle création",
+      "passages": [
+        "2 Corinthiens 5"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 122,
+      "theme": "Dieu aime celui qui donne avec joie",
+      "passages": [
+        "2 Corinthiens 9"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 123,
+      "theme": "Ma grâce te suffit",
+      "passages": [
+        "2 Corinthiens 12"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 124,
+      "theme": "Le fruit de l'Esprit",
+      "passages": [
+        "Galates 5"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 125,
+      "theme": "Bénis de toute bénédiction en Christ",
+      "passages": [
+        "Éphésiens 1"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 126,
+      "theme": "Sauvés par grâce, par le moyen de la foi",
+      "passages": [
+        "Éphésiens 2"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 127,
+      "theme": "Enracinés et fondés dans l'amour",
+      "passages": [
+        "Éphésiens 3"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 128,
+      "theme": "Un seul corps, un seul Esprit",
+      "passages": [
+        "Éphésiens 4"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 129,
+      "theme": "Marchez dans l'amour, comme Christ",
+      "passages": [
+        "Éphésiens 5"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 130,
+      "theme": "Revêtez toutes les armes de Dieu",
+      "passages": [
+        "Éphésiens 6"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 131,
+      "theme": "Christ est ma vie",
+      "passages": [
+        "Philippiens 1"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 132,
+      "theme": "Ayez les sentiments de Jésus-Christ",
+      "passages": [
+        "Philippiens 2"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 133,
+      "theme": "Je cours vers le but",
+      "passages": [
+        "Philippiens 3"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 134,
+      "theme": "Ne vous inquiétez de rien, la paix vous gardera",
+      "passages": [
+        "Philippiens 4"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 135,
+      "theme": "En lui tout subsiste",
+      "passages": [
+        "Colossiens 1"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 136,
+      "theme": "Recherchez les choses d'en haut",
+      "passages": [
+        "Colossiens 3"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 137,
+      "theme": "Réjouissez-vous, priez, rendez grâce",
+      "passages": [
+        "1 Thessaloniciens 5"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 138,
+      "theme": "La piété avec le contentement, un grand gain",
+      "passages": [
+        "1 Timothée 6"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 139,
+      "theme": "Un esprit de force, d'amour et de sagesse",
+      "passages": [
+        "2 Timothée 1"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 140,
+      "theme": "Sois fort dans la grâce",
+      "passages": [
+        "2 Timothée 2"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 141,
+      "theme": "Entrons dans son repos",
+      "passages": [
+        "Hébreux 4"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 142,
+      "theme": "La foi, ferme assurance",
+      "passages": [
+        "Hébreux 11"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 143,
+      "theme": "Courons avec persévérance, les yeux sur Jésus",
+      "passages": [
+        "Hébreux 12"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 144,
+      "theme": "Jésus, le même hier, aujourd'hui, éternellement",
+      "passages": [
+        "Hébreux 13"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 145,
+      "theme": "La persévérance dans l'épreuve",
+      "passages": [
+        "Jacques 1"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 146,
+      "theme": "Maîtriser la langue",
+      "passages": [
+        "Jacques 3"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 147,
+      "theme": "Une espérance vivante",
+      "passages": [
+        "1 Pierre 1"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 148,
+      "theme": "Déchargez sur lui tous vos soucis",
+      "passages": [
+        "1 Pierre 5"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 149,
+      "theme": "Dieu est lumière, marchons dans la lumière",
+      "passages": [
+        "1 Jean 1"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 150,
+      "theme": "Dieu est amour",
+      "passages": [
+        "1 Jean 4"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 151,
+      "theme": "Dès le matin, je me tourne vers toi",
+      "passages": [
+        "Psaumes 5"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 152,
+      "theme": "Les pleurs durent un soir, la joie vient au matin",
+      "passages": [
+        "Psaumes 30"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 153,
+      "theme": "Voici le jour que l'Éternel a fait",
+      "passages": [
+        "Psaumes 118"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 154,
+      "theme": "Fais-moi connaître le chemin dès le matin",
+      "passages": [
+        "Psaumes 143"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 155,
+      "theme": "L'Évangile commence : suivez-moi",
+      "passages": [
+        "Marc 1"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 156,
+      "theme": "Le pardon et la guérison",
+      "passages": [
+        "Marc 2"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 157,
+      "theme": "La tempête apaisée : où est votre foi ?",
+      "passages": [
+        "Marc 4"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 158,
+      "theme": "Ta foi t'a sauvée",
+      "passages": [
+        "Marc 5"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 159,
+      "theme": "Cinq pains, deux poissons, une foule rassasiée",
+      "passages": [
+        "Marc 6"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 160,
+      "theme": "Que sert à l'homme de gagner le monde ?",
+      "passages": [
+        "Marc 8"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 161,
+      "theme": "Je crois, viens au secours de mon incrédulité",
+      "passages": [
+        "Marc 9"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 162,
+      "theme": "Le plus grand se fait serviteur",
+      "passages": [
+        "Marc 10"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 163,
+      "theme": "La foi qui déplace les montagnes",
+      "passages": [
+        "Marc 11"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 164,
+      "theme": "Le plus grand commandement : aimer",
+      "passages": [
+        "Marc 12"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 165,
+      "theme": "Que ta volonté soit faite",
+      "passages": [
+        "Marc 14"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 166,
+      "theme": "La croix : il a porté nos douleurs",
+      "passages": [
+        "Marc 15"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 167,
+      "theme": "Allez par tout le monde",
+      "passages": [
+        "Marc 16"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 168,
+      "theme": "Me voici, envoie-moi",
+      "passages": [
+        "Ésaïe 6"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 169,
+      "theme": "Un enfant nous est né",
+      "passages": [
+        "Ésaïe 9"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 170,
+      "theme": "Une paix parfaite à qui s'appuie sur toi",
+      "passages": [
+        "Ésaïe 26"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 171,
+      "theme": "Ceux qui espèrent en l'Éternel renouvellent leur force",
+      "passages": [
+        "Ésaïe 40"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 172,
+      "theme": "Ne crains rien, je suis avec toi",
+      "passages": [
+        "Ésaïe 41"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 173,
+      "theme": "Je t'ai appelé par ton nom, tu es à moi",
+      "passages": [
+        "Ésaïe 43"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 174,
+      "theme": "Il a porté nos souffrances",
+      "passages": [
+        "Ésaïe 53"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 175,
+      "theme": "Vous tous qui avez soif, venez",
+      "passages": [
+        "Ésaïe 55"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 176,
+      "theme": "Le jeûne qui plaît à Dieu",
+      "passages": [
+        "Ésaïe 58"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 177,
+      "theme": "L'Esprit du Seigneur pour annoncer la bonne nouvelle",
+      "passages": [
+        "Ésaïe 61"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 178,
+      "theme": "Heureux celui dont la faute est pardonnée",
+      "passages": [
+        "Psaumes 32"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 179,
+      "theme": "Il m'a retiré du bourbier",
+      "passages": [
+        "Psaumes 40"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 180,
+      "theme": "Dieu est le rocher de mon cœur",
+      "passages": [
+        "Psaumes 73"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 181,
+      "theme": "Enseigne-nous à compter nos jours",
+      "passages": [
+        "Psaumes 90"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 182,
+      "theme": "Servez l'Éternel avec joie",
+      "passages": [
+        "Psaumes 100"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 183,
+      "theme": "J'aime l'Éternel, car il m'a entendu",
+      "passages": [
+        "Psaumes 116"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 184,
+      "theme": "Du fond de l'abîme, je crie vers toi",
+      "passages": [
+        "Psaumes 130"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 185,
+      "theme": "L'Éternel est bon envers tous",
+      "passages": [
+        "Psaumes 145"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 186,
+      "theme": "Il y a un temps pour tout",
+      "passages": [
+        "Ecclésiaste 3"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 187,
+      "theme": "Souviens-toi de ton créateur",
+      "passages": [
+        "Ecclésiaste 12"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 188,
+      "theme": "L'Éternel a donné, l'Éternel a repris",
+      "passages": [
+        "Job 1"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 189,
+      "theme": "Où étais-tu quand je fondais la terre ?",
+      "passages": [
+        "Job 38"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 190,
+      "theme": "Maintenant mon œil te voit",
+      "passages": [
+        "Job 42"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 191,
+      "theme": "La sagesse contre la paresse",
+      "passages": [
+        "Proverbes 6"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 192,
+      "theme": "La bouche du juste est une source de vie",
+      "passages": [
+        "Proverbes 10"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 193,
+      "theme": "La langue a pouvoir de vie ou de mort",
+      "passages": [
+        "Proverbes 18"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 194,
+      "theme": "Un bon nom vaut mieux que la richesse",
+      "passages": [
+        "Proverbes 22"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 195,
+      "theme": "Le juste tombe et se relève",
+      "passages": [
+        "Proverbes 24"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 196,
+      "theme": "Le fer aiguise le fer",
+      "passages": [
+        "Proverbes 27"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 197,
+      "theme": "Qui confesse ses fautes trouve miséricorde",
+      "passages": [
+        "Proverbes 28"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 198,
+      "theme": "Emmanuel, Dieu avec nous",
+      "passages": [
+        "Matthieu 1"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 199,
+      "theme": "Préparez le chemin du Seigneur",
+      "passages": [
+        "Matthieu 3"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 200,
+      "theme": "L'homme ne vivra pas de pain seulement",
+      "passages": [
+        "Matthieu 4"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 201,
+      "theme": "Les Béatitudes : heureux êtes-vous",
+      "passages": [
+        "Matthieu 5"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 202,
+      "theme": "Cherchez d'abord le Royaume",
+      "passages": [
+        "Matthieu 6"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 203,
+      "theme": "Demandez, cherchez, frappez",
+      "passages": [
+        "Matthieu 7"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 204,
+      "theme": "Seigneur, dis un mot et je serai guéri",
+      "passages": [
+        "Matthieu 8"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 205,
+      "theme": "La moisson est grande",
+      "passages": [
+        "Matthieu 9"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 206,
+      "theme": "Venez à moi, vous qui êtes fatigués",
+      "passages": [
+        "Matthieu 11"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 207,
+      "theme": "Les paraboles du Royaume",
+      "passages": [
+        "Matthieu 13"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 208,
+      "theme": "Aie confiance, c'est moi, n'aie pas peur",
+      "passages": [
+        "Matthieu 14"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 209,
+      "theme": "Tu es le Christ, le Fils du Dieu vivant",
+      "passages": [
+        "Matthieu 16"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 210,
+      "theme": "Le pardon sans limite",
+      "passages": [
+        "Matthieu 18"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 211,
+      "theme": "Aime Dieu et ton prochain",
+      "passages": [
+        "Matthieu 22"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 212,
+      "theme": "Les talents : sois fidèle dans le peu",
+      "passages": [
+        "Matthieu 25"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 213,
+      "theme": "Non pas ce que je veux, mais ce que tu veux",
+      "passages": [
+        "Matthieu 26"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 214,
+      "theme": "La croix pour nous",
+      "passages": [
+        "Matthieu 27"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 215,
+      "theme": "Je suis avec vous tous les jours",
+      "passages": [
+        "Matthieu 28"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 216,
+      "theme": "Tu es un bouclier autour de moi",
+      "passages": [
+        "Psaumes 3"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 217,
+      "theme": "Je t'aime, ô Éternel, ma force",
+      "passages": [
+        "Psaumes 18"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 218,
+      "theme": "Ce pauvre a crié, l'Éternel l'a entendu",
+      "passages": [
+        "Psaumes 34"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 219,
+      "theme": "Quand je suis dans la crainte, je me confie en toi",
+      "passages": [
+        "Psaumes 56"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 220,
+      "theme": "J'ai confiance à l'ombre de tes ailes",
+      "passages": [
+        "Psaumes 57"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 221,
+      "theme": "Tu es mon espérance dès ma jeunesse",
+      "passages": [
+        "Psaumes 71"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 222,
+      "theme": "Fortifie-toi et prends courage",
+      "passages": [
+        "Josué 1"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 223,
+      "theme": "Va avec la force que tu as, Gédéon",
+      "passages": [
+        "Juges 6"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 224,
+      "theme": "Ton peuple sera mon peuple",
+      "passages": [
+        "Ruth 1"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 225,
+      "theme": "Parle, ton serviteur écoute",
+      "passages": [
+        "1 Samuel 3"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 226,
+      "theme": "Dieu regarde au cœur",
+      "passages": [
+        "1 Samuel 16"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 227,
+      "theme": "David et Goliath : le combat est à l'Éternel",
+      "passages": [
+        "1 Samuel 17"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 228,
+      "theme": "La promesse d'une maison éternelle",
+      "passages": [
+        "2 Samuel 7"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 229,
+      "theme": "Salomon demande un cœur intelligent",
+      "passages": [
+        "1 Rois 3"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 230,
+      "theme": "L'Éternel, c'est lui qui est Dieu",
+      "passages": [
+        "1 Rois 18"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 231,
+      "theme": "Le murmure doux et léger",
+      "passages": [
+        "1 Rois 19"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 232,
+      "theme": "Ceux qui sont avec nous sont plus nombreux",
+      "passages": [
+        "2 Rois 6"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 233,
+      "theme": "La prière avant l'action",
+      "passages": [
+        "Néhémie 1"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 234,
+      "theme": "La joie de l'Éternel est votre force",
+      "passages": [
+        "Néhémie 8"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 235,
+      "theme": "Peut-être est-ce pour un temps comme celui-ci",
+      "passages": [
+        "Esther 4"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 236,
+      "theme": "Fidèle dans les petites décisions",
+      "passages": [
+        "Daniel 1"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 237,
+      "theme": "Notre Dieu peut nous délivrer",
+      "passages": [
+        "Daniel 3"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 238,
+      "theme": "Dans la fosse aux lions, la fidélité",
+      "passages": [
+        "Daniel 6"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 239,
+      "theme": "Du ventre du poisson, il crie et Dieu entend",
+      "passages": [
+        "Jonas 2"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 240,
+      "theme": "Des projets de paix et d'avenir",
+      "passages": [
+        "Jérémie 29"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 241,
+      "theme": "Je t'aime d'un amour éternel",
+      "passages": [
+        "Jérémie 31"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 242,
+      "theme": "Ses compassions se renouvellent chaque matin",
+      "passages": [
+        "Lamentations 3"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 243,
+      "theme": "Un cœur nouveau, un esprit nouveau",
+      "passages": [
+        "Ézéchiel 36"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 244,
+      "theme": "Les ossements desséchés reprennent vie",
+      "passages": [
+        "Ézéchiel 37"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 245,
+      "theme": "Connaissons, cherchons à connaître l'Éternel",
+      "passages": [
+        "Osée 6"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 246,
+      "theme": "Je répandrai mon Esprit sur toute chair",
+      "passages": [
+        "Joël 2"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 247,
+      "theme": "Marcher humblement avec ton Dieu",
+      "passages": [
+        "Michée 6"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 248,
+      "theme": "Je me réjouirai en l'Éternel malgré tout",
+      "passages": [
+        "Habacuc 3"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 249,
+      "theme": "Il se réjouit en toi avec des chants",
+      "passages": [
+        "Sophonie 3"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 250,
+      "theme": "Ni par la puissance, mais par mon Esprit",
+      "passages": [
+        "Zacharie 4"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 251,
+      "theme": "Rapportez les dîmes, éprouvez-moi",
+      "passages": [
+        "Malachie 3"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 252,
+      "theme": "Fais-moi connaître tes voies",
+      "passages": [
+        "Psaumes 25"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 253,
+      "theme": "Sa parole a fait les cieux",
+      "passages": [
+        "Psaumes 33"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 254,
+      "theme": "Ta bonté atteint jusqu'aux cieux",
+      "passages": [
+        "Psaumes 36"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 255,
+      "theme": "Tu couronnes l'année de tes biens",
+      "passages": [
+        "Psaumes 65"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 256,
+      "theme": "Il est bon de louer l'Éternel",
+      "passages": [
+        "Psaumes 92"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 257,
+      "theme": "Venez, chantons avec allégresse",
+      "passages": [
+        "Psaumes 95"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 258,
+      "theme": "Chantez à l'Éternel un cantique nouveau",
+      "passages": [
+        "Psaumes 96"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 259,
+      "theme": "Qu'ils célèbrent sa bonté",
+      "passages": [
+        "Psaumes 107"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 260,
+      "theme": "Le début de la sagesse, la crainte de l'Éternel",
+      "passages": [
+        "Psaumes 111"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 261,
+      "theme": "Heureux l'homme qui craint l'Éternel",
+      "passages": [
+        "Psaumes 112"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 262,
+      "theme": "Ta parole, une lampe à mes pieds",
+      "passages": [
+        "Psaumes 119.1-40"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 263,
+      "theme": "Je médite tes préceptes",
+      "passages": [
+        "Psaumes 119.105-144"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 264,
+      "theme": "Ceux qui sèment avec larmes moissonneront avec chants",
+      "passages": [
+        "Psaumes 126"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 265,
+      "theme": "Qu'il est bon d'habiter unis",
+      "passages": [
+        "Psaumes 133"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 266,
+      "theme": "Tu m'exauces le jour où je t'invoque",
+      "passages": [
+        "Psaumes 138"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 267,
+      "theme": "Heureux qui a pour secours le Dieu de Jacob",
+      "passages": [
+        "Psaumes 146"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 268,
+      "theme": "Il guérit ceux qui ont le cœur brisé",
+      "passages": [
+        "Psaumes 147"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 269,
+      "theme": "Que tout ce qui respire loue l'Éternel",
+      "passages": [
+        "Psaumes 150"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 270,
+      "theme": "L'amour, l'accomplissement de la loi",
+      "passages": [
+        "Romains 13"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 271,
+      "theme": "Ne jugeons plus, édifions-nous",
+      "passages": [
+        "Romains 14"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 272,
+      "theme": "Vous êtes le temple de Dieu",
+      "passages": [
+        "1 Corinthiens 3"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 273,
+      "theme": "Faites tout pour la gloire de Dieu",
+      "passages": [
+        "1 Corinthiens 10"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 274,
+      "theme": "Le Dieu de toute consolation",
+      "passages": [
+        "2 Corinthiens 1"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 275,
+      "theme": "Ce n'est plus moi qui vis, c'est Christ",
+      "passages": [
+        "Galates 2"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 276,
+      "theme": "On récolte ce que l'on sème",
+      "passages": [
+        "Galates 6"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 277,
+      "theme": "Brillez comme des flambeaux dans le monde",
+      "passages": [
+        "Philippiens 2"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 278,
+      "theme": "Enracinés et fortifiés dans la foi",
+      "passages": [
+        "Colossiens 2"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 279,
+      "theme": "Vivre pour plaire à Dieu",
+      "passages": [
+        "1 Thessaloniciens 4"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 280,
+      "theme": "Le Seigneur affermit vos cœurs",
+      "passages": [
+        "2 Thessaloniciens 3"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 281,
+      "theme": "Sois un modèle pour les croyants",
+      "passages": [
+        "1 Timothée 4"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 282,
+      "theme": "La grâce qui nous enseigne",
+      "passages": [
+        "Tite 2"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 283,
+      "theme": "Un frère bien-aimé",
+      "passages": [
+        "Philémon 1"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 284,
+      "theme": "La vierge enfantera Emmanuel",
+      "passages": [
+        "Ésaïe 7"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 285,
+      "theme": "Un rameau du tronc d'Isaï",
+      "passages": [
+        "Ésaïe 11"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 286,
+      "theme": "Le désert se réjouira et fleurira",
+      "passages": [
+        "Ésaïe 35"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 287,
+      "theme": "De Bethléhem sortira le dominateur",
+      "passages": [
+        "Michée 5"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 288,
+      "theme": "Le Magnificat : mon âme exalte le Seigneur",
+      "passages": [
+        "Luc 1"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 289,
+      "theme": "Gloire à Dieu, paix sur la terre",
+      "passages": [
+        "Luc 2"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 290,
+      "theme": "Les mages cherchent le Roi",
+      "passages": [
+        "Matthieu 2"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 291,
+      "theme": "La lumière brille dans les ténèbres",
+      "passages": [
+        "Jean 1"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 292,
+      "theme": "La bonté et l'amour de Dieu ont paru",
+      "passages": [
+        "Tite 3"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 293,
+      "theme": "Voyez quel amour le Père nous a donné",
+      "passages": [
+        "1 Jean 3"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 294,
+      "theme": "La victoire qui triomphe du monde, la foi",
+      "passages": [
+        "1 Jean 5"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 295,
+      "theme": "Tout ce qui contribue à la vie et à la piété",
+      "passages": [
+        "2 Pierre 1"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 296,
+      "theme": "Nous attendons de nouveaux cieux",
+      "passages": [
+        "2 Pierre 3"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 297,
+      "theme": "Gardés pour Jésus-Christ",
+      "passages": [
+        "Jude 1"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 298,
+      "theme": "Le premier et le dernier, le vivant",
+      "passages": [
+        "Apocalypse 1"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 299,
+      "theme": "Je me tiens à la porte et je frappe",
+      "passages": [
+        "Apocalypse 3"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 300,
+      "theme": "L'Agneau est digne",
+      "passages": [
+        "Apocalypse 5"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 301,
+      "theme": "Une foule que nul ne peut compter",
+      "passages": [
+        "Apocalypse 7"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 302,
+      "theme": "Un ciel nouveau, une terre nouvelle",
+      "passages": [
+        "Apocalypse 21"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 303,
+      "theme": "Viens, Seigneur Jésus",
+      "passages": [
+        "Apocalypse 22"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 304,
+      "theme": "Le Fils établi Roi",
+      "passages": [
+        "Psaumes 2"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 305,
+      "theme": "Dans la paix, je me couche et je dors",
+      "passages": [
+        "Psaumes 4"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 306,
+      "theme": "Je te louerai de tout mon cœur",
+      "passages": [
+        "Psaumes 9"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 307,
+      "theme": "En l'Éternel, je cherche mon refuge",
+      "passages": [
+        "Psaumes 11"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 308,
+      "theme": "Jusqu'à quand ? Je me confie en ta bonté",
+      "passages": [
+        "Psaumes 13"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 309,
+      "theme": "Tu me fais connaître le sentier de la vie",
+      "passages": [
+        "Psaumes 16"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 310,
+      "theme": "Que l'Éternel t'exauce au jour de détresse",
+      "passages": [
+        "Psaumes 20"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 311,
+      "theme": "À l'Éternel la terre et tout ce qu'elle contient",
+      "passages": [
+        "Psaumes 24"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 312,
+      "theme": "L'Éternel est ma force et mon bouclier",
+      "passages": [
+        "Psaumes 28"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 313,
+      "theme": "L'Éternel donne la force à son peuple",
+      "passages": [
+        "Psaumes 29"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 314,
+      "theme": "En tes mains je remets mon esprit",
+      "passages": [
+        "Psaumes 31"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 315,
+      "theme": "Beaucoup de maux, l'Éternel délivre de tous",
+      "passages": [
+        "Psaumes 34"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 316,
+      "theme": "Envoie ta lumière et ta fidélité",
+      "passages": [
+        "Psaumes 43"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 317,
+      "theme": "Battez des mains, tous les peuples",
+      "passages": [
+        "Psaumes 47"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 318,
+      "theme": "Grand est l'Éternel, digne de louange",
+      "passages": [
+        "Psaumes 48"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 319,
+      "theme": "Je me confie en la bonté de Dieu",
+      "passages": [
+        "Psaumes 52"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 320,
+      "theme": "Je chanterai ta force dès le matin",
+      "passages": [
+        "Psaumes 59"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 321,
+      "theme": "Conduis-moi sur le rocher",
+      "passages": [
+        "Psaumes 61"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 322,
+      "theme": "Venez et voyez les œuvres de Dieu",
+      "passages": [
+        "Psaumes 66"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 323,
+      "theme": "Que Dieu nous fasse grâce et nous bénisse",
+      "passages": [
+        "Psaumes 67"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 324,
+      "theme": "Béni soit le Seigneur chaque jour",
+      "passages": [
+        "Psaumes 68"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 325,
+      "theme": "Que toute la terre soit remplie de sa gloire",
+      "passages": [
+        "Psaumes 72"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 326,
+      "theme": "Je me souviens des œuvres de l'Éternel",
+      "passages": [
+        "Psaumes 77"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 327,
+      "theme": "Enseigne-moi ta voie, j'y marcherai",
+      "passages": [
+        "Psaumes 86"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 328,
+      "theme": "Je chanterai à jamais les bontés de l'Éternel",
+      "passages": [
+        "Psaumes 89"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 329,
+      "theme": "L'Éternel règne, il est revêtu de majesté",
+      "passages": [
+        "Psaumes 93"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 330,
+      "theme": "L'Éternel règne, que la terre soit dans l'allégresse",
+      "passages": [
+        "Psaumes 97"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 331,
+      "theme": "Chantez à l'Éternel, car il a fait des merveilles",
+      "passages": [
+        "Psaumes 98"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 332,
+      "theme": "L'Éternel règne, saint est-il",
+      "passages": [
+        "Psaumes 99"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 333,
+      "theme": "Que de tes œuvres, ô Éternel !",
+      "passages": [
+        "Psaumes 104"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 334,
+      "theme": "Cherchez l'Éternel et sa force",
+      "passages": [
+        "Psaumes 105"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 335,
+      "theme": "Du lever au coucher du soleil, loué soit son nom",
+      "passages": [
+        "Psaumes 113"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 336,
+      "theme": "Non à nous, mais à ton nom la gloire",
+      "passages": [
+        "Psaumes 115"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 337,
+      "theme": "Louez l'Éternel, vous toutes les nations",
+      "passages": [
+        "Psaumes 117"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 338,
+      "theme": "Je me réjouis d'aller à la maison de l'Éternel",
+      "passages": [
+        "Psaumes 122"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 339,
+      "theme": "Je lève mes yeux vers toi",
+      "passages": [
+        "Psaumes 123"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 340,
+      "theme": "Ceux qui se confient sont comme la montagne",
+      "passages": [
+        "Psaumes 125"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 341,
+      "theme": "Si l'Éternel ne bâtit la maison",
+      "passages": [
+        "Psaumes 127"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 342,
+      "theme": "Heureux quiconque craint l'Éternel",
+      "passages": [
+        "Psaumes 128"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 343,
+      "theme": "Mon âme est apaisée comme un enfant",
+      "passages": [
+        "Psaumes 131"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 344,
+      "theme": "Souviens-toi, Éternel, de tes promesses",
+      "passages": [
+        "Psaumes 132"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 345,
+      "theme": "Bénissez l'Éternel, vous ses serviteurs",
+      "passages": [
+        "Psaumes 134"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 346,
+      "theme": "Sa bonté dure à toujours",
+      "passages": [
+        "Psaumes 136"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 347,
+      "theme": "Je te célèbre de tout mon cœur",
+      "passages": [
+        "Psaumes 138"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 348,
+      "theme": "Que ma prière monte comme l'encens",
+      "passages": [
+        "Psaumes 141"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 349,
+      "theme": "Je répands ma plainte devant lui",
+      "passages": [
+        "Psaumes 142"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 350,
+      "theme": "Béni soit l'Éternel, mon rocher",
+      "passages": [
+        "Psaumes 144"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 351,
+      "theme": "Honore l'Éternel avec tes biens",
+      "passages": [
+        "Proverbes 3"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 352,
+      "theme": "La générosité prospère",
+      "passages": [
+        "Proverbes 11"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 353,
+      "theme": "La vérité subsiste à toujours",
+      "passages": [
+        "Proverbes 12"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 354,
+      "theme": "L'espérance différée rend le cœur malade",
+      "passages": [
+        "Proverbes 13"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 355,
+      "theme": "La crainte de l'Éternel, source de vie",
+      "passages": [
+        "Proverbes 14"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 356,
+      "theme": "Un ami aime en tout temps",
+      "passages": [
+        "Proverbes 17"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 357,
+      "theme": "La bonté fait le charme d'un homme",
+      "passages": [
+        "Proverbes 19"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 358,
+      "theme": "Les pas de l'homme dépendent de l'Éternel",
+      "passages": [
+        "Proverbes 20"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 359,
+      "theme": "Le cœur du roi est dans la main de l'Éternel",
+      "passages": [
+        "Proverbes 21"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 360,
+      "theme": "Applique ton cœur à l'instruction",
+      "passages": [
+        "Proverbes 23"
+      ],
+      "minutes": 5
+    },
+    {
+      "day": 361,
+      "theme": "Une parole dite à propos",
+      "passages": [
+        "Proverbes 25"
+      ],
+      "minutes": 8
+    },
+    {
+      "day": 362,
+      "theme": "La confiance en l'Éternel protège",
+      "passages": [
+        "Proverbes 29"
+      ],
+      "minutes": 6
+    },
+    {
+      "day": 363,
+      "theme": "Toute parole de Dieu est éprouvée",
+      "passages": [
+        "Proverbes 30"
+      ],
+      "minutes": 9
+    },
+    {
+      "day": 364,
+      "theme": "Ne craignez pas, vous valez beaucoup",
+      "passages": [
+        "Matthieu 10"
+      ],
+      "minutes": 7
+    },
+    {
+      "day": 365,
+      "theme": "Le sabbat fait pour l'homme",
+      "passages": [
+        "Matthieu 12"
+      ],
+      "minutes": 5
+    }
   ]
 }
