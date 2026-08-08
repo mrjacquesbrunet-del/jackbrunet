@@ -449,12 +449,14 @@ export function PrayerCard({
 
                         {/* Champ de réponse */}
                         {replyTo === c.id? (
-                          <div className="mt-2 flex gap-2 sm:ml-10">
+                          <div className="mt-2 flex items-end gap-2 sm:ml-10">
                             <MentionField
                               value={replyText}
                               onChange={setReplyText}
                               onEnter={() => submitReply(c.id)}
                               placeholder="Ta réponse…"
+                              rows={2}
+                              autoGrow
                               className="field w-full text-sm"
                             />
                             <button
@@ -476,12 +478,14 @@ export function PrayerCard({
               </ul>
             )}
 
-            <div className="mt-3 flex gap-2">
+            <div className="mt-3 flex items-end gap-2">
               <MentionField
                 value={commentText}
                 onChange={setCommentText}
                 onEnter={submitComment}
                 placeholder="Un mot d'encouragement… cite avec @"
+                rows={2}
+                autoGrow
                 className="field w-full text-sm"
               />
               <button
