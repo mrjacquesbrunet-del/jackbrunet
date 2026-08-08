@@ -674,7 +674,7 @@ export function PrayerCard({
                               onChange={setReplyText}
                               onEnter={() => submitReply(c.id)}
                               placeholder="Ta réponse…"
-                              rows={2}
+                              rows={1}
                               autoGrow
                               className="field w-full text-sm"
                             />
@@ -703,7 +703,7 @@ export function PrayerCard({
                 onChange={setCommentText}
                 onEnter={submitComment}
                 placeholder="Un mot d'encouragement… cite avec @"
-                rows={2}
+                rows={1}
                 autoGrow
                 className="field w-full text-sm"
               />
