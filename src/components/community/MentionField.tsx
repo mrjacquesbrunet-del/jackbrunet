@@ -15,6 +15,7 @@ export function MentionField({
   onEnter,
   placeholder,
   rows,
+  autoGrow,
   className,
 }: {
   value: string;
@@ -22,9 +23,23 @@ export function MentionField({
   onEnter?: () => void;
   placeholder?: string;
   rows?: number;
+  /** La zone de texte grandit automatiquement avec le contenu (jusqu'à une limite). */
+  autoGrow?: boolean;
   className?: string;
 }) {
   const ref = useRef<HTMLTextAreaElement & HTMLInputElement>(null);
+
+  // Agrandit la zone de texte pour épouser le contenu (mode autoGrow).
+  function autosize() {
+    const el = ref.current;
+    if (!el || !autoGrow) return;
+    el.style.height = "auto";
+    el.style.height = `${Math.min(el.scrollHeight, 220)}px`;
+  }
+  useEffect(() => {
+    autosize();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, autoGrow]);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [results, setResults] = useState<Profile[]>([]);
   const [open, setOpen] = useState(false);
@@ -95,7 +110,20 @@ export function MentionField({
   return (
     <div className="relative flex-1">
       {rows? (
-        <textarea {...common} rows={rows} className={`${common.className} resize-y`} />
+        <textarea
+          {...common}
+          rows={rows}
+          onInput={autosize}
+          onKeyDown={(e) => {
+            // Entrée = envoyer, Maj+Entrée = nouvelle ligne (seulement si onEnter existe)
+            if (e.key === "Enter" &&!e.shiftKey &&!open && onEnter) {
+              e.preventDefault();
+              onEnter();
+            }
+          }}
+          className={`${common.className} ${autoGrow? "resize-none overflow-y-auto": "resize-y"}`}
+          style={autoGrow? { maxHeight: 220 }: undefined}
+        />
       ): (
         <input
           {...common}
