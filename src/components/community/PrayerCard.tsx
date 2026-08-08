@@ -127,6 +127,7 @@ export function PrayerCard({
   onDeleted,
   isAdmin = false,
   autoOpenComments = false,
+  targetCommentId = null,
 }: {
   prayer: Prayer;
   userId: string;
@@ -137,6 +138,9 @@ export function PrayerCard({
   isAdmin?: boolean;
   /** Ouvre les commentaires et fait défiler jusqu'à la carte (clic notif). */
   autoOpenComments?: boolean;
+  /** Commentaire précis à mettre en avant (clic sur une notif de commentaire,
+   *  réaction ou mention) : on défile jusqu'à lui et on le surligne. */
+  targetCommentId?: string | null;
 }) {
   const [reactions, setReactions] = useState<Reaction[]>(initialReactions);
   const [showComments, setShowComments] = useState(false);
@@ -247,6 +251,8 @@ export function PrayerCard({
   // ouvre les commentaires et on fait défiler la page jusqu'à cette carte.
   const cardRef = useRef<HTMLLIElement>(null);
   const didAutoOpen = useRef(false);
+  // Commentaire à surligner brièvement après un clic sur une notification.
+  const [highlightId, setHighlightId] = useState<string | null>(null);
   useEffect(() => {
     if (!autoOpenComments || didAutoOpen.current) return;
     didAutoOpen.current = true;
@@ -259,12 +265,30 @@ export function PrayerCard({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoOpenComments]);
 
+  // Défilement + surbrillance du commentaire ciblé, une fois les commentaires
+  // chargés (clic sur « X a réagi / répondu / t'a mentionné »).
+  const didAutoComment = useRef(false);
+  useEffect(() => {
+    if (!targetCommentId || didAutoComment.current) return;
+    if (comments === null) return; // on attend le chargement
+    didAutoComment.current = true;
+    const t = setTimeout(() => {
+      const el = document.getElementById(`c-${targetCommentId}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        setHighlightId(targetCommentId);
+        setTimeout(() => setHighlightId(null), 2600);
+      }
+    }, 300);
+    return () => clearTimeout(t);
+  }, [targetCommentId, comments]);
+
   async function submitComment() {
     if (!commentText.trim()) return;
     setBusy(true);
     const text = commentText.trim();
-    await addComment(prayer.id, text, userId);
-    await notifyMentions(text, userId, prayer.id);
+    const cid = await addComment(prayer.id, text, userId);
+    await notifyMentions(text, userId, prayer.id, cid);
     setCommentText("");
     await refreshComments();
     setBusy(false);
@@ -286,8 +310,8 @@ export function PrayerCard({
     if (!replyText.trim()) return;
     setBusy(true);
     const text = replyText.trim();
-    await addComment(prayer.id, text, userId, parentId);
-    await notifyMentions(text, userId, prayer.id);
+    const cid = await addComment(prayer.id, text, userId, parentId);
+    await notifyMentions(text, userId, prayer.id, cid);
     setReplyText("");
     setReplyTo(null);
     await refreshComments();
@@ -495,13 +519,17 @@ export function PrayerCard({
 .map((c) => {
                     const replies = comments.filter((r) => r.parent_id === c.id);
                     return (
-                      <li key={c.id}>
+                      <li key={c.id} id={`c-${c.id}`} className="scroll-mt-24">
                         <div className="group flex items-start gap-2.5">
                           <Avatar pseudo={c.author?.pseudo} url={c.author?.avatar_url} size={30} />
                           <div className="min-w-0 flex-1">
                             <div
                               {...longPress(c.id)}
-                              className="select-none rounded-2xl bg-night-900/[0.04] px-3 py-2"
+                              className={`select-none rounded-2xl px-3 py-2 transition-colors duration-700 ${
+                                highlightId === c.id
+                                  ? "bg-dawn-400/25 ring-2 ring-dawn-400"
+                                  : "bg-night-900/[0.04]"
+                              }`}
                             >
                               <p className="flex items-center gap-1 text-xs font-semibold text-night-900/70">
                                 {c.author?.pseudo?? "Ami(e)"}
@@ -566,12 +594,16 @@ export function PrayerCard({
                         {replies.length > 0? (
                           <ul className="mt-2 space-y-2 border-l-2 border-night-900/10 pl-3 sm:ml-10">
                             {replies.map((r) => (
-                              <li key={r.id} className="group flex items-start gap-2">
+                              <li key={r.id} id={`c-${r.id}`} className="group flex items-start gap-2 scroll-mt-24">
                                 <Avatar pseudo={r.author?.pseudo} url={r.author?.avatar_url} size={24} />
                                 <div className="min-w-0 flex-1">
                                   <div
                                     {...longPress(r.id)}
-                                    className="select-none rounded-2xl bg-night-900/[0.04] px-3 py-1.5"
+                                    className={`select-none rounded-2xl px-3 py-1.5 transition-colors duration-700 ${
+                                      highlightId === r.id
+                                        ? "bg-dawn-400/25 ring-2 ring-dawn-400"
+                                        : "bg-night-900/[0.04]"
+                                    }`}
                                   >
                                     <p className="flex items-center gap-1 text-[11px] font-semibold text-night-900/70">
                                       {r.author?.pseudo?? "Ami(e)"}

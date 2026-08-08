@@ -65,6 +65,7 @@ export type Notification = {
   actor_id: string | null;
   type: NotifType;
   prayer_id: string | null;
+  comment_id?: string | null;
   body?: string | null;
   link?: string | null;
   read: boolean;
@@ -402,17 +403,24 @@ export async function addComment(
   authorId: string,
   parentId?: string | null,
   audioUrl?: string | null,
-): Promise<boolean> {
+): Promise<string | null> {
   const sb = getSupabase();
-  if (!sb) return false;
-  const { error } = await sb.from("prayer_comments").insert({
-    prayer_id: prayerId,
-    body,
-    author_id: authorId,
-    parent_id: parentId?? null,
-    ...(audioUrl? { audio_url: audioUrl }: {}),
-  });
-  return !error;
+  if (!sb) return null;
+  const { data, error } = await sb
+.from("prayer_comments")
+.insert({
+      prayer_id: prayerId,
+      body,
+      author_id: authorId,
+      parent_id: parentId?? null,
+      ...(audioUrl? { audio_url: audioUrl }: {}),
+    })
+.select("id")
+.single();
+  if (error) return null;
+  // Renvoie l'id du commentaire créé (chaîne truthy) ou null en cas d'échec ;
+  // les appelants qui testent `if (id)` restent valides.
+  return (data as { id: string } | null)?.id?? null;
 }
 
 export async function deleteComment(id: string) {
@@ -596,8 +604,15 @@ export function extractMentions(text: string): string[] {
   return Array.from(out);
 }
 
-/** Crée une notification « mention » pour chaque membre cité (@pseudo). */
-export async function notifyMentions(text: string, actorId: string, prayerId?: string | null) {
+/** Crée une notification « mention » pour chaque membre cité (@pseudo).
+ *  Si la mention est dans un commentaire, `commentId` permet à la notif de
+ *  pointer vers ce commentaire précis (sinon on ne pointe que vers le sujet). */
+export async function notifyMentions(
+  text: string,
+  actorId: string,
+  prayerId?: string | null,
+  commentId?: string | null,
+) {
   const sb = getSupabase();
   if (!sb) return;
   const pseudos = extractMentions(text);
@@ -605,12 +620,16 @@ export async function notifyMentions(text: string, actorId: string, prayerId?: s
   const { data } = await sb.from("profiles").select("id,pseudo").in("pseudo", pseudos);
   const targets = ((data as { id: string }[])?? []).map((r) => r.id).filter((id) => id!== actorId);
   await Promise.all(
-    targets.map((target) =>
-      sb.rpc("notify_mention", { target, prayer: prayerId?? null }).then(
+    targets.map((target) => {
+      // On n'envoie `cmt` que s'il existe : les mentions dans le corps d'un
+      // sujet gardent l'appel à 2 arguments (compatible avant la migration).
+      const args: Record<string, unknown> = { target, prayer: prayerId?? null };
+      if (commentId) args.cmt = commentId;
+      return sb.rpc("notify_mention", args).then(
         () => undefined,
         () => undefined,
-      ),
-    ),
+      );
+    }),
   );
 }
 
@@ -772,7 +791,8 @@ export async function gradesFor(ids: string[]): Promise<Record<string, string>> 
  */
 export function notifHref(n: Notification): string | null {
   if (n.link && n.link.startsWith("/")) return n.link;
-  if (n.prayer_id) return `/communaute/?prayer=${n.prayer_id}`;
+  if (n.prayer_id)
+    return `/communaute/?prayer=${n.prayer_id}${n.comment_id ? `&c=${n.comment_id}` : ""}`;
   if (n.type === "message") return n.actor_id ? `/messages/?u=${n.actor_id}` : "/messages/";
   if (n.actor_id && n.type !== "admin") return `/membre/?u=${n.actor_id}`;
   return null;

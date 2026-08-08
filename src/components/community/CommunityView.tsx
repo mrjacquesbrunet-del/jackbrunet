@@ -97,10 +97,15 @@ function Feed({
   // Sujet ciblé par un clic sur une notification (/communaute?prayer=<id>) :
   // sa carte s'ouvre sur les commentaires et défile jusqu'à elle.
   const [targetPrayer, setTargetPrayer] = useState<string | null>(null);
+  // Commentaire précis ciblé par la notif (/communaute?prayer=<id>&c=<comment>).
+  const [targetComment, setTargetComment] = useState<string | null>(null);
   useEffect(() => {
     try {
-      const pid = new URLSearchParams(window.location.search).get("prayer");
+      const q = new URLSearchParams(window.location.search);
+      const pid = q.get("prayer");
       if (pid) setTargetPrayer(pid);
+      const cid = q.get("c");
+      if (cid) setTargetComment(cid);
     } catch {
       /* ignore */
     }
@@ -458,6 +463,7 @@ function Feed({
                 grade={grades[p.author_id]}
                 onDeleted={load}
                 autoOpenComments={p.id === targetPrayer}
+                targetCommentId={p.id === targetPrayer ? targetComment : null}
               />
             ))}
           </ul>
