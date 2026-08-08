@@ -91,8 +91,12 @@ export function PrayerCard({
   async function togglePin() {
     const next =!pinned;
     setPinned(next);
-    await setPrayerPinned(prayer.id, next);
-    onDeleted(); // recharge le fil pour remonter/redescendre le sujet
+    try {
+      await setPrayerPinned(prayer.id, next);
+      onDeleted(); // recharge le fil pour remonter/redescendre le sujet
+    } catch {
+      setPinned(!next); // le serveur a refusé : on annule l'affichage
+    }
   }
 
   const isAuthor = prayer.author_id === userId;
@@ -325,7 +329,7 @@ export function PrayerCard({
             )}
           </button>
 
-          {/* Admin: épingler le sujet */}
+          {/* Modérateur / admin : épingler le sujet */}
           {isAdmin? (
             <button
               type="button"
