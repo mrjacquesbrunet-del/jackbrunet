@@ -46,6 +46,12 @@
 
   html {
     scroll-behavior: smooth;
+    /* Fond visible sous l'effet élastique (overscroll) : crème sur le site,
+       gris-noir dans l'app native (évite l'olive qui apparaissait en haut). */
+    background-color: #f3f3ed;
+  }
+  html[data-native] {
+    background-color: #17181a;
   }
 
   /* App stable : pas de décalage horizontal au swipe, pas de zoom texte iOS. */
