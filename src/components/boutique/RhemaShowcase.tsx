@@ -141,7 +141,7 @@ export function RhemaShowcase() {
   return (
     // pb-24 -mb-24 : peint en sombre l'espace au-dessus du pied de page
     // (sinon le fond crème du site apparaît en bande claire).
-    <div className="dark-ctx -mb-24 bg-[#0A0B07] pb-24 text-cream">
+    <div className="dark-ctx -mb-24 bg-night-950 pb-24 text-cream">
       <Hero />
       <Exploded />
       <Stats />
@@ -427,7 +427,7 @@ function BackCover() {
 
       {/* Le carnet, juste en dessous */}
       <FadeUp className="mx-auto mt-12 max-w-3xl">
-        <div className="relative overflow-hidden rounded-4xl border border-dawn-400/25 bg-[#12140C] p-7 sm:p-9">
+        <div className="relative overflow-hidden rounded-4xl border border-dawn-400/25 bg-night-950 p-7 sm:p-9">
           <div className="blob -right-14 -bottom-12 h-44 w-44 bg-dawn-400/15" />
           <div className="relative grid items-center gap-8 sm:grid-cols-[auto_1fr]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -671,7 +671,7 @@ const STATS = [
 
 function Stats() {
   return (
-    <section className="border-y border-white/[0.06] bg-[#0D0F09] px-6 py-14">
+    <section className="border-y border-white/[0.06] bg-night-950 px-6 py-14">
       <div className="mx-auto grid max-w-3xl grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4">
         {STATS.map((s, i) => (
           <FadeUp key={s.small} delay={i * 0.1} className="text-center">

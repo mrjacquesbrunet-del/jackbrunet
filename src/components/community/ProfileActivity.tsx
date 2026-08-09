@@ -20,9 +20,9 @@ const DOW = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"];
 /** Les 3 couleurs de la charte: lime, olive, crème. */
 type Charte = { bg: string; text: string; sub: string; chip: string; border?: string };
 const CHARTE: Charte[] = [
-  { bg: "linear-gradient(150deg, #CAF000, #AAD000)", text: "#14160E", sub: "rgba(20,22,14,0.68)", chip: "rgba(20,22,14,0.15)" }, // lime
-  { bg: "linear-gradient(150deg, #3A3F28, #1F2216)", text: "#F3F3ED", sub: "rgba(243,243,237,0.72)", chip: "rgba(255,255,255,0.15)" }, // olive
-  { bg: "#F3F3ED", text: "#1F2216", sub: "rgba(31,34,22,0.6)", chip: "rgba(31,34,22,0.08)", border: "1px solid rgba(31,34,22,0.12)" }, // crème
+  { bg: "linear-gradient(150deg, #CAF000, #AAD000)", text: "rgb(var(--n-950))", sub: "rgb(var(--n-950) / 0.68)", chip: "rgb(var(--n-950) / 0.15)" }, // lime
+  { bg: "linear-gradient(150deg, rgb(var(--n-700)), rgb(var(--n-900)))", text: "#F3F3ED", sub: "rgba(243,243,237,0.72)", chip: "rgba(255,255,255,0.15)" }, // olive
+  { bg: "#F3F3ED", text: "rgb(var(--n-900))", sub: "rgb(var(--n-900) / 0.6)", chip: "rgb(var(--n-900) / 0.08)", border: "1px solid rgb(var(--n-900) / 0.12)" }, // crème
 ];
 
 type Item = { id: string; text: string; done: boolean };

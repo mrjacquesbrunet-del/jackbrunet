@@ -48,7 +48,7 @@ import {
 import { VoiceRecorderButton, VoiceNotePlayer } from "@/components/community/VoiceNote";
 import { voiceExpired } from "@/lib/voice";
 
-const BG = "#14160E";
+const BG = "rgb(var(--n-950))";
 const fieldDark =
   "w-full rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-2.5 text-cream placeholder:text-cream/40 outline-none focus:border-dawn-400/60";
 
@@ -129,7 +129,7 @@ export function GroupView() {
           La photo de couverture éventuelle passe en fond, très assombrie. */}
       <div
         className="relative overflow-hidden"
-        style={{ background: "linear-gradient(160deg, #14160E, #26301A)" }}
+        style={{ background: "linear-gradient(160deg, rgb(var(--n-950)), rgb(var(--n-800)))" }}
       >
         {group.image ? (
           <>
@@ -142,7 +142,7 @@ export function GroupView() {
             />
             <div
               className="absolute inset-0"
-              style={{ backgroundImage: "linear-gradient(160deg, rgba(20,22,14,0.86), rgba(38,48,26,0.92))" }}
+              style={{ backgroundImage: "linear-gradient(160deg, rgb(var(--n-950) / 0.86), rgba(38,48,26,0.92))" }}
             />
           </>
         ) : null}
@@ -184,7 +184,7 @@ export function GroupView() {
             {/* Onglets */}
             <div
               className="sticky top-0 z-10 -mx-4 flex items-center gap-2 px-4 py-3 backdrop-blur"
-              style={{ background: "rgba(20,22,14,0.85)" }}
+              style={{ background: "rgb(var(--n-950) / 0.85)" }}
             >
               {[
                 { k: "feed" as Tab, label: "Feed" },
@@ -983,7 +983,7 @@ function GroupSettings({ group, canEdit, canDelete, onSaved }: { group: Group; c
             aria-modal="true"
           >
             <button type="button" aria-label="Fermer" onClick={() => setOpen(false)} className="absolute inset-0 bg-black/60" />
-            <div className="relative z-10 max-h-full w-full max-w-sm overflow-y-auto rounded-2xl border border-white/10 bg-[#1F2216] p-4 text-cream shadow-xl">
+            <div className="relative z-10 max-h-full w-full max-w-sm overflow-y-auto rounded-2xl border border-white/10 bg-night-900 p-4 text-cream shadow-xl">
               <p className="mb-3 font-display text-lg font-bold">{canEdit ? "Réglages du groupe" : "Modération du groupe"}</p>
               <div className="space-y-3">
                 {canEdit ? (
@@ -1022,7 +1022,7 @@ function GroupSettings({ group, canEdit, canDelete, onSaved }: { group: Group; c
                         type="button"
                         onClick={() => setF({ ...f, accent: k })}
                         aria-label={ACCENTS[k].label}
-                        className={`h-8 w-8 rounded-full ring-2 ring-offset-2 ring-offset-[#1F2216] ${f.accent === k ? "ring-cream" : "ring-transparent"}`}
+                        className={`h-8 w-8 rounded-full ring-2 ring-offset-2 ring-offset-night-900 ${f.accent === k ? "ring-cream" : "ring-transparent"}`}
                         style={{ backgroundImage: `linear-gradient(135deg, ${ACCENTS[k].from}, ${ACCENTS[k].to})` }}
                       />
                     ))}

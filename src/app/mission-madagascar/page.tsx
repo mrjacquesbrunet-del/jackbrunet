@@ -34,7 +34,7 @@ export default function MissionMadagascarPage() {
   const { raisedEur, objectiveEur } = mission;
 
   return (
-    <div className="bg-[#FAF6F0] text-[#1F2E24]">
+    <div className="bg-[#FAF6F0] text-night-900">
       {/* HÉROS */}
       <section className="relative overflow-hidden pt-24 pb-16 sm:pt-32">
         <div className="pointer-events-none absolute left-1/2 top-8 h-80 w-80 -translate-x-1/2 rounded-full bg-[#E0892B]/15 blur-3xl" />
@@ -51,7 +51,7 @@ export default function MissionMadagascarPage() {
           <h1 className="mx-auto mt-5 max-w-3xl font-display text-4xl font-extrabold leading-[1.08] sm:text-5xl">
             Porter la lumière de <span className="text-[#E0892B]">Jésus</span> à Madagascar
           </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-[#1F2E24]/70">
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-night-900/70">
             Début novembre, pendant 10 jours, nous partons annoncer l'Évangile: une conférence
             d'évangélisation, de l'évangélisation de rue, et la visite d'œuvres, orphelinats,
             prisons et autres, pour les soutenir par notre présence et nos moyens.
@@ -67,14 +67,14 @@ export default function MissionMadagascarPage() {
               href={IG_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border-2 border-[#1F2E24] px-7 py-3.5 font-bold text-[#1F2E24] transition-colors hover:bg-[#1F2E24] hover:text-[#FAF6F0]"
+              className="inline-flex items-center gap-2 rounded-full border-2 border-night-900 px-7 py-3.5 font-bold text-night-900 transition-colors hover:bg-night-900 hover:text-[#FAF6F0]"
             >
               <InstagramIcon className="h-5 w-5" />
               Suivre sur Instagram
             </a>
             <Link
               href="#priere"
-              className="rounded-full px-6 py-3.5 font-semibold text-[#1F2E24]/65 transition-colors hover:text-[#1F2E24]"
+              className="rounded-full px-6 py-3.5 font-semibold text-night-900/65 transition-colors hover:text-night-900"
             >
               Rejoindre la prière
             </Link>
@@ -92,7 +92,7 @@ export default function MissionMadagascarPage() {
           <p className="mt-6 max-w-2xl font-display text-xl font-bold italic sm:text-2xl">
             Une terre à aimer, à servir et à toucher par l'Évangile.
           </p>
-          <div className="mt-6 max-w-2xl space-y-5 text-base leading-relaxed text-[#1F2E24]/75 sm:text-lg">
+          <div className="mt-6 max-w-2xl space-y-5 text-base leading-relaxed text-night-900/75 sm:text-lg">
             <p>
               Depuis quelque temps, Dieu a placé Madagascar sur mon cœur. Après plusieurs
               confirmations, nous croyons qu'il est temps d'y aller, non pas simplement pour
@@ -146,15 +146,15 @@ export default function MissionMadagascarPage() {
           ].map((c) => (
             <div
               key={c.t}
-              className="flex h-full flex-col rounded-3xl border border-[#1F2E24]/10 bg-white/60 p-7"
+              className="flex h-full flex-col rounded-3xl border border-night-900/10 bg-white/60 p-7"
             >
               <span className="h-1.5 w-10 rounded-full bg-[#E0892B]" />
               <h3 className="mt-4 font-display text-lg font-bold">{c.t}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-[#1F2E24]/70">{c.d}</p>
+              <p className="mt-3 text-sm leading-relaxed text-night-900/70">{c.d}</p>
             </div>
           ))}
         </div>
-        <p className="mx-auto mt-10 max-w-2xl text-center text-base leading-relaxed text-[#1F2E24]/70 sm:text-lg">
+        <p className="mx-auto mt-10 max-w-2xl text-center text-base leading-relaxed text-night-900/70 sm:text-lg">
           Annoncer, mais aussi écouter. Prier, mais aussi soutenir. Prêcher, mais aussi visiter.
           Parler de Jésus, mais aussi montrer Son amour par notre présence. Notre désir est que
           cette mission soit une semence pour Madagascar: une semence de salut, d'encouragement,
@@ -165,7 +165,7 @@ export default function MissionMadagascarPage() {
       {/* INSTAGRAM */}
       <section className="py-14">
         <div className="container-x">
-          <div className="relative mx-auto max-w-3xl overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#1F2E24] to-[#2C3B2E] p-8 text-center sm:p-11">
+          <div className="relative mx-auto max-w-3xl overflow-hidden rounded-[2rem] bg-gradient-to-br from-night-900 to-[#2C3B2E] p-8 text-center sm:p-11">
             <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#E0892B]/25 blur-2xl" />
             <div className="relative">
               <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-[#E0892B] text-white">
@@ -192,7 +192,7 @@ export default function MissionMadagascarPage() {
       </section>
 
       {/* OBJECTIF DE COLLECTE */}
-      <section id="soutenir" className="scroll-mt-24 bg-[#1F2E24] py-20 text-[#FAF6F0]">
+      <section id="soutenir" className="scroll-mt-24 bg-night-900 py-20 text-[#FAF6F0]">
         <div className="container-x">
           <div className="mx-auto max-w-2xl text-center">
             <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#EBA94D]">Objectif</span>
@@ -232,13 +232,13 @@ export default function MissionMadagascarPage() {
             <h2 className="mt-3 font-display text-3xl font-extrabold sm:text-4xl">
               Porte la mission dans la prière
             </h2>
-            <p className="mt-4 max-w-xl text-base leading-relaxed text-[#1F2E24]/70 sm:text-lg">
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-night-900/70 sm:text-lg">
               Nous cherchons des intercesseurs qui porteront cette mission avant et pendant les 10
               jours. Tu veux prier avec nous, ou même nous rejoindre sur le terrain&nbsp;? Laisse ton
               email, nous te tiendrons informé(e).
             </p>
           </div>
-          <div className="rounded-3xl border border-[#1F2E24]/10 bg-white/60 p-7 sm:p-8">
+          <div className="rounded-3xl border border-night-900/10 bg-white/60 p-7 sm:p-8">
             <NewsletterForm
               source="mission-madagascar"
               layout="stacked"
@@ -252,7 +252,7 @@ export default function MissionMadagascarPage() {
       </section>
 
       {/* DÉCLARATION DE FOI */}
-      <section className="bg-[#1F2E24] py-20 text-[#FAF6F0]">
+      <section className="bg-night-900 py-20 text-[#FAF6F0]">
         <div className="container-x mx-auto max-w-2xl text-center">
           <p className="text-base leading-relaxed text-[#FAF6F0]/75 sm:text-lg">
             Nous partons avec un double objectif: annoncer l'Évangile et manifester l'amour de Dieu
@@ -275,10 +275,10 @@ export default function MissionMadagascarPage() {
 
       {/* VERSET DE CLÔTURE */}
       <section className="container-x py-16">
-        <blockquote className="mx-auto max-w-2xl text-center font-display text-xl italic text-[#1F2E24]/75">
+        <blockquote className="mx-auto max-w-2xl text-center font-display text-xl italic text-night-900/75">
           &laquo;&nbsp;Allez par tout le monde, et prêchez la bonne nouvelle à toute la
           création.&nbsp;&raquo;
-          <cite className="mt-3 block text-sm not-italic text-[#1F2E24]/50">Marc 16:15</cite>
+          <cite className="mt-3 block text-sm not-italic text-night-900/50">Marc 16:15</cite>
         </blockquote>
       </section>
 

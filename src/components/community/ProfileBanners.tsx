@@ -12,7 +12,7 @@ const BANNERS = [
     eyebrow: "Prochaine mission",
     title: "Mission Madagascar",
     text: "10 jours d'évangélisation. Rejoins la prière ou le soutien.",
-    from: "#1F2E24",
+    from: "rgb(var(--n-900))",
     to: "#C9761F",
   },
   {
@@ -28,8 +28,8 @@ const BANNERS = [
     eyebrow: "Nouveau",
     title: "Le livre RHEMA",
     text: "365 révélations bibliques à méditer, découvre-le.",
-    from: "#2A2E1C",
-    to: "#5E6A3A",
+    from: "rgb(var(--s-700))",
+    to: "rgb(var(--s-500))",
   },
 ];
 

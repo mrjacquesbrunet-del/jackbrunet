@@ -28,6 +28,9 @@ export function NativeBootstrap() {
 
   useEffect(() => {
     if (!isNativeApp()) return;
+    // Active le thème gris-noir réservé à l'app (le site garde l'olive).
+    // Les variables de couleur sont surchargées sous html[data-native].
+    document.documentElement.setAttribute("data-native", "");
     let cleanup: (() => void) | undefined;
     trace("js:demarrage", window.location.pathname + window.location.search);
 

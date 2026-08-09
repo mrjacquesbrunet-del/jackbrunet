@@ -8,7 +8,7 @@ import { useSyncExternalStore } from "react";
  * deux écrans en direct.
  */
 export const ACCENTS = {
-  lime: { from: "#CAF000", to: "#5E6A3A", label: "Lime" },
+  lime: { from: "#CAF000", to: "rgb(var(--s-500))", label: "Lime" },
   ocean: { from: "#38BDF8", to: "#1E3A8A", label: "Océan" },
   sunset: { from: "#FB923C", to: "#BE123C", label: "Coucher" },
   violet: { from: "#A78BFA", to: "#5B21B6", label: "Violet" },

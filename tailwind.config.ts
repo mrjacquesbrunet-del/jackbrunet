@@ -11,13 +11,14 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Sombres : Encre (#1F2216) + Olive (#3A3F28)
+        // Sombres — pilotés par variables CSS : olive par défaut (site),
+        // gris-noir sombre dans l'app native (html[data-native], cf. globals.css).
         night: {
-          950: "#14160E",
-          900: "#1F2216", // Encre — texte & fonds sombres
-          800: "#272B1B",
-          700: "#3A3F28", // Olive — primaire
-          600: "#4B5133",
+          950: "rgb(var(--n-950) / <alpha-value>)",
+          900: "rgb(var(--n-900) / <alpha-value>)", // Encre — texte & fonds sombres
+          800: "rgb(var(--n-800) / <alpha-value>)",
+          700: "rgb(var(--n-700) / <alpha-value>)", // primaire
+          600: "rgb(var(--n-600) / <alpha-value>)",
         },
         // Accent — Lime #CAF000
         dawn: {
@@ -29,13 +30,13 @@ const config: Config = {
           500: "#AAD000",
           600: "#879E00",
         },
-        // Secondaire — Olive / vert profond
+        // Secondaire — pilotée par variables CSS (olive site / gris app)
         spirit: {
-          300: "#AEB98C",
-          400: "#8A9760",
-          500: "#5E6A3A",
-          600: "#3A3F28",
-          700: "#2A2E1C",
+          300: "rgb(var(--s-300) / <alpha-value>)",
+          400: "rgb(var(--s-400) / <alpha-value>)",
+          500: "rgb(var(--s-500) / <alpha-value>)",
+          600: "rgb(var(--s-600) / <alpha-value>)",
+          700: "rgb(var(--s-700) / <alpha-value>)",
         },
         // Tertiaire — vert clair / lime adouci
         glow: {

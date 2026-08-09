@@ -70,7 +70,7 @@ export function AppHomeGuard() {
   return (
     <div
       className="fixed inset-0 z-[9999] flex flex-col items-center justify-center gap-6 px-8 text-center"
-      style={{ background: "#14160E" }}
+      style={{ background: "rgb(var(--n-950))" }}
     >
       <p className="font-display text-xl font-bold text-dawn-400">Jack Brunet</p>
       <span

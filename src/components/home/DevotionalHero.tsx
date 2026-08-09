@@ -30,7 +30,7 @@ export function DevotionalHero({ dateLabel }: { dateLabel?: string }) {
       <div className="absolute inset-0 bg-grid opacity-[0.08]" />
       {/* Halos vivants */}
       <motion.div
-        className="blob left-1/4 top-6 h-72 w-72 rounded-[44%] bg-dawn-400/45"
+        className="hero-glow blob left-1/4 top-6 h-72 w-72 rounded-[44%] bg-dawn-400/45"
         animate={{ y: [0, -22, 0], x: [0, 12, 0], scale: [1, 1.08, 1] }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
       />
@@ -40,7 +40,7 @@ export function DevotionalHero({ dateLabel }: { dateLabel?: string }) {
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
-        className="blob left-1/2 top-0 h-56 w-56 -translate-x-1/2 bg-glow-300/30"
+        className="hero-glow blob left-1/2 top-0 h-56 w-56 -translate-x-1/2 bg-glow-300/30"
         animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.4, 0.2] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       />

@@ -46,7 +46,7 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
 
     // Fond olive très sombre, presque noir
     const bg = ctx.createLinearGradient(0, 0, 0, H);
-    bg.addColorStop(0, "#0D0F09");
+    bg.addColorStop(0, "rgb(var(--n-950))");
     bg.addColorStop(1, "#171A10");
     ctx.fillStyle = bg;
     ctx.fillRect(0, 0, W, H);
@@ -214,7 +214,7 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
       {/* Aperçu de la carte — 4:3, olive quasi noir, mots forts en lime */}
       <div
         className="dark-ctx relative mt-4 aspect-[4/3] w-full max-w-sm overflow-hidden rounded-2xl border border-dawn-400/30 shadow-card"
-        style={{ background: "linear-gradient(180deg,#0D0F09,#171A10)" }}
+        style={{ background: "linear-gradient(180deg,rgb(var(--n-950)),#171A10)" }}
       >
         {/* Textures de la charte : courbes topographiques + grain */}
         <div
