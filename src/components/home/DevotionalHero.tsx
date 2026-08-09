@@ -14,8 +14,9 @@ const ROTATING = [
   "Sa présence",
 ];
 
-/** En-tête « RHEMA » : photo d'ambiance en fond + bloc de titre à droite,
- *  avec le mot qui tourne (grâce, joie, amour…). App et page dévotionnel. */
+/** En-tête « RHEMA » : la photo occupe tout le cadre (proportions d'origine),
+ *  le bloc de titre est posé à droite, dimensionné proportionnellement à la
+ *  largeur pour reproduire exactement la maquette à toutes les tailles. */
 export function DevotionalHero() {
   const [i, setI] = useState(0);
   useEffect(() => {
@@ -30,46 +31,48 @@ export function DevotionalHero() {
   }
 
   return (
-    <section className="relative min-h-[92svh] overflow-hidden">
-      {/* Photo d'ambiance en fond */}
+    <section className="relative w-full overflow-hidden aspect-[1448/1086] lg:aspect-auto lg:h-[64vh] lg:max-h-[620px]">
+      {/* Photo d'ambiance : cadre entier, proportions d'origine */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={asset("/img/hero-rhema.webp")}
         alt=""
         aria-hidden
-        className="absolute inset-0 h-full w-full object-cover object-[28%_center]"
+        className="absolute inset-0 h-full w-full object-cover"
       />
-      {/* Voiles pour la lisibilité du texte (plus sombre à droite / en bas) */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/45 to-black/85" />
-      <div className="absolute inset-0 hidden bg-gradient-to-r from-black/0 via-black/25 to-black/70 lg:block" />
+      {/* Voile léger côté droit pour la lisibilité du texte */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/0 via-black/10 to-black/60" />
 
-      <div className="container-x relative flex min-h-[92svh] items-center justify-center lg:justify-end">
-        <motion.div
-          initial={{ opacity: 0, y: 22 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="w-full max-w-md pt-16 text-center lg:pt-0 lg:text-right"
-        >
+      {/* Bloc de titre, poussé à droite DANS le conteneur borné au viewport
+          (évite tout débordement). Tailles en vw sur mobile, fixes dès lg. */}
+      <div className="absolute inset-0 flex items-center">
+        <div className="container-x w-full">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="ml-auto max-w-[56%] text-right lg:max-w-sm"
+          >
           <h1
-            className="font-sans text-5xl font-extrabold text-white sm:text-6xl"
-            style={{ letterSpacing: "0.3em", paddingLeft: "0.3em" }}
+            className="font-sans font-extrabold text-white text-[clamp(20px,4.8vw,3.75rem)]"
+            style={{ letterSpacing: "0.14em" }}
           >
             RHEMA
           </h1>
-          <div className="mx-auto mt-4 h-[3px] w-12 rounded-full bg-dawn-400 lg:ml-auto lg:mr-0" />
-          <p className="mt-5 text-lg font-medium tracking-wide text-cream/85 sm:text-xl">
+          <div className="ml-auto mt-[1.2vw] h-[0.35vw] w-[6vw] rounded-full bg-dawn-400 lg:mt-4 lg:h-[3px] lg:w-12" />
+          <p className="mt-[1.4vw] font-medium tracking-wide text-cream/85 text-[clamp(13px,2.05vw,1.25rem)] lg:mt-5">
             Ton temps avec Jésus
           </p>
 
           {/* Séparateur : ligne lime + point */}
-          <div className="mt-8 flex items-center gap-3">
+          <div className="mt-[2.2vw] flex items-center gap-[1.2vw] lg:mt-8 lg:gap-3">
             <span className="h-px flex-1 bg-dawn-400/50" />
-            <span className="h-2 w-2 shrink-0 rounded-full bg-dawn-400" />
+            <span className="h-[0.9vw] w-[0.9vw] shrink-0 rounded-full bg-dawn-400 lg:h-2 lg:w-2" />
             <span className="h-px flex-1 bg-dawn-400/50" />
           </div>
 
           {/* Phrase à mot tournant */}
-          <p className="mt-8 text-xl text-cream sm:text-2xl">
+          <p className="mt-[2.2vw] text-cream text-[clamp(15px,2.3vw,1.5rem)] lg:mt-8">
             Aujourd&apos;hui, reçois{" "}
             <span className="relative inline-block align-baseline">
               <AnimatePresence mode="wait">
@@ -89,21 +92,22 @@ export function DevotionalHero() {
           </p>
 
           {/* Bouton pilule vers la méditation */}
-          <div className="mt-9 flex justify-center lg:justify-end">
+          <div className="mt-[2.4vw] flex justify-end lg:mt-9">
             <button
               type="button"
               onClick={toMeditation}
-              className="group inline-flex items-center gap-2.5 rounded-full border border-white/25 bg-white/[0.05] px-5 py-3 text-xs font-bold uppercase tracking-[0.18em] text-cream backdrop-blur-sm transition-colors hover:border-dawn-400 hover:text-white"
+              className="group inline-flex items-center gap-[1.2vw] rounded-full border border-white/25 bg-white/[0.05] px-[2.4vw] py-[1.2vw] font-bold uppercase tracking-[0.12em] text-cream backdrop-blur-sm transition-colors text-[clamp(10px,1.4vw,0.75rem)] hover:border-dawn-400 hover:text-white lg:gap-2.5 lg:px-5 lg:py-3"
             >
               <motion.span
-                className="h-2 w-2 rounded-full bg-dawn-400"
+                className="h-[1vw] w-[1vw] rounded-full bg-dawn-400 lg:h-2 lg:w-2"
                 animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
                 transition={{ duration: 1.8, repeat: Infinity }}
               />
               La méditation du jour
             </button>
           </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
