@@ -77,7 +77,7 @@ export function GlobalAudioBar() {
   // Podcast en priorité.
   if (pod.current) {
     return (
-      <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-dawn-400/25 bg-[#1F2216] px-4 py-3.5 backdrop-blur">
+      <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-dawn-400/25 bg-[#1C1C1B] px-4 py-3.5 backdrop-blur">
         <div className="container-x px-0">
           {/* Ligne 1, gros bouton, titre + progression, fermer */}
           <div className="flex items-center gap-3">
@@ -169,7 +169,7 @@ export function GlobalAudioBar() {
   // Sinon: musique soaking en cours.
   if (soak.playing) {
     return (
-      <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-dawn-400/25 bg-[#1F2216] px-4 py-4 backdrop-blur">
+      <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-dawn-400/25 bg-[#1C1C1B] px-4 py-4 backdrop-blur">
         <div className="container-x flex items-center gap-3 px-0">
           <button
             type="button"

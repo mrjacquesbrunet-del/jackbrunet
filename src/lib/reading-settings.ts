@@ -24,8 +24,8 @@ export const THEME_STYLE: Record<
   ReadingTheme,
   { bg: string; text: string; num: string; swatch: string }
 > = {
-  clair: { bg: "transparent", text: "#1A1B14", num: "#5E6A3A", swatch: "#F3F3ED" },
-  olive: { bg: "#E7E4D2", text: "#2A2E1C", num: "#5E6A3A", swatch: "#E7E4D2" },
+  clair: { bg: "transparent", text: "#1A1A19", num: "#5E5E5C", swatch: "#F3F3ED" },
+  olive: { bg: "#E7E4DE", text: "#2A2A29", num: "#5E5E5C", swatch: "#E7E4DE" },
   sombre: { bg: "#1B1F14", text: "#F3F3ED", num: "#CAF000", swatch: "#23271A" },
 };
 export const THEME_LABEL: Record<ReadingTheme, string> = {

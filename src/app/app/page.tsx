@@ -53,7 +53,7 @@ function FeatureIcon({ d }: { d: string }) {
 /** Maquette de téléphone (CSS pur) montrant l'esprit de l'app. */
 function PhoneMockup() {
   return (
-    <div className="relative mx-auto w-[270px] rotate-[3deg] rounded-[2.6rem] border-[10px] border-night-950 bg-[#14160E] p-4 shadow-2xl sm:w-[300px]">
+    <div className="relative mx-auto w-[270px] rotate-[3deg] rounded-[2.6rem] border-[10px] border-night-950 bg-[#131312] p-4 shadow-2xl sm:w-[300px]">
       <div className="mx-auto mb-4 h-5 w-28 rounded-full bg-night-950" />
       <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-dawn-400">
         Mon temps avec Jésus

@@ -141,7 +141,7 @@ export function RhemaShowcase() {
   return (
     // pb-24 -mb-24 : peint en sombre l'espace au-dessus du pied de page
     // (sinon le fond crème du site apparaît en bande claire).
-    <div className="dark-ctx -mb-24 bg-[#0A0B07] pb-24 text-cream">
+    <div className="dark-ctx -mb-24 bg-[#0E0E0D] pb-24 text-cream">
       <Hero />
       <Exploded />
       <Stats />

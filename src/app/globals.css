@@ -176,12 +176,12 @@
   /* Fond clair + texture topographique (bande claire décalée) */
   .bg-topo-light {
     background-color: #E9EADF;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700' viewBox='0 0 700 700'%3E%3Cg fill='none' stroke='%233A3F28' stroke-opacity='0.07' stroke-width='1.2'%3E%3Cpath d='M-50 130 C 160 40 320 250 520 140 S 820 70 900 190'/%3E%3Cpath d='M-50 230 C 160 140 320 350 520 240 S 820 170 900 290'/%3E%3Cpath d='M-50 330 C 160 240 320 450 520 340 S 820 270 900 390'/%3E%3Cpath d='M-50 430 C 160 340 320 550 520 440 S 820 370 900 490'/%3E%3Cpath d='M-50 530 C 160 440 320 650 520 540 S 820 470 900 590'/%3E%3Cpath d='M-50 630 C 160 540 320 750 520 640 S 820 570 900 690'/%3E%3C/g%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700' viewBox='0 0 700 700'%3E%3Cg fill='none' stroke='%2330302F' stroke-opacity='0.07' stroke-width='1.2'%3E%3Cpath d='M-50 130 C 160 40 320 250 520 140 S 820 70 900 190'/%3E%3Cpath d='M-50 230 C 160 140 320 350 520 240 S 820 170 900 290'/%3E%3Cpath d='M-50 330 C 160 240 320 450 520 340 S 820 270 900 390'/%3E%3Cpath d='M-50 430 C 160 340 320 550 520 440 S 820 370 900 490'/%3E%3Cpath d='M-50 530 C 160 440 320 650 520 540 S 820 470 900 590'/%3E%3Cpath d='M-50 630 C 160 540 320 750 520 640 S 820 570 900 690'/%3E%3C/g%3E%3C/svg%3E");
     background-size: 700px 700px;
   }
   /* Fond sombre + texture topographique (bandes sombres) */
   .bg-topo-dark {
-    background-color: #23271a;
+    background-color: #23231F;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700' viewBox='0 0 700 700'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.06' stroke-width='1.2'%3E%3Cpath d='M-50 130 C 160 40 320 250 520 140 S 820 70 900 190'/%3E%3Cpath d='M-50 230 C 160 140 320 350 520 240 S 820 170 900 290'/%3E%3Cpath d='M-50 330 C 160 240 320 450 520 340 S 820 270 900 390'/%3E%3Cpath d='M-50 430 C 160 340 320 550 520 440 S 820 370 900 490'/%3E%3Cpath d='M-50 530 C 160 440 320 650 520 540 S 820 470 900 590'/%3E%3Cpath d='M-50 630 C 160 540 320 750 520 640 S 820 570 900 690'/%3E%3C/g%3E%3C/svg%3E");
     background-size: 700px 700px;
   }

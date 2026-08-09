@@ -36,7 +36,7 @@ export function PrayerCirclesCard() {
     <div className="mt-4 grid grid-cols-2 gap-2">
       <Link
         href="/groupes"
-        className="dark-ctx flex flex-col items-center gap-1.5 rounded-2xl bg-[#1F2216] px-3 py-4 text-center text-cream transition-transform active:scale-[0.98]"
+        className="dark-ctx flex flex-col items-center gap-1.5 rounded-2xl bg-[#1C1C1B] px-3 py-4 text-center text-cream transition-transform active:scale-[0.98]"
       >
         <span className="grid h-9 w-9 place-items-center rounded-full bg-dawn-400/15 text-dawn-300">
           <GroupsIcon className="h-[18px] w-[18px]" />
@@ -48,7 +48,7 @@ export function PrayerCirclesCard() {
       </Link>
       <Link
         href="/groupes/?nouveau=cercle"
-        className="dark-ctx flex flex-col items-center gap-1.5 rounded-2xl bg-[#1F2216] px-3 py-4 text-center text-cream transition-transform active:scale-[0.98]"
+        className="dark-ctx flex flex-col items-center gap-1.5 rounded-2xl bg-[#1C1C1B] px-3 py-4 text-center text-cream transition-transform active:scale-[0.98]"
       >
         <span className="grid h-9 w-9 place-items-center rounded-full bg-dawn-400/15 text-dawn-300">
           <CreateCircleIcon className="h-[18px] w-[18px]" />

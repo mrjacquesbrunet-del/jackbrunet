@@ -16,7 +16,7 @@ import {
 import { getEvents } from "@/lib/content";
 import { NextLiveBanner } from "@/components/home/NextLiveBanner";
 
-const HEADER_BG = "#14160E";
+const HEADER_BG = "#131312";
 const fieldDark =
   "w-full rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-2.5 text-cream placeholder:text-cream/40 outline-none focus:border-dawn-400/60";
 
@@ -46,7 +46,7 @@ function DiscoverCard({ g }: { g: Group }) {
       {/* Bandeau olive: « GROUPE » en lime + nom en crème */}
       <div
         className="absolute inset-x-0 bottom-0 px-3 pb-3 pt-8"
-        style={{ background: "linear-gradient(180deg, transparent, #1F2216 55%)" }}
+        style={{ background: "linear-gradient(180deg, transparent, #1C1C1B 55%)" }}
       >
         <span className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-dawn-400">Groupe</span>
         <p className="font-display text-base font-extrabold leading-tight text-cream">{g.name}</p>
@@ -176,9 +176,9 @@ export function GroupsDirectory() {
   return (
     // Fond olive (couleur du bas de l'en-tête) pour que les arrondis du corps
     // crème ne laissent pas apparaître de liseré clair sur les côtés.
-    <div className="min-h-screen bg-[#26301A]">
+    <div className="min-h-screen bg-[#2A2A29]">
       {/* En-tête sombre */}
-      <div className="text-cream" style={{ background: `linear-gradient(160deg, ${HEADER_BG}, #26301A)` }}>
+      <div className="text-cream" style={{ background: `linear-gradient(160deg, ${HEADER_BG}, #2A2A29)` }}>
         <div className="container-x pb-6 pt-[calc(5rem+env(safe-area-inset-top))]">
           <div className="mx-auto max-w-2xl">
             <div className="flex items-start justify-between gap-3">
