@@ -11,13 +11,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Sombres : gris-noir neutre, centré sur #30302F (ex-olive)
+        // Sombres : Encre (#1F2216) + Olive (#3A3F28)
         night: {
-          950: "#131312",
-          900: "#1C1C1B", // Encre — texte & fonds sombres
-          800: "#242423",
-          700: "#30302F", // Gris-noir — primaire (référence charte)
-          600: "#3E3E3D",
+          950: "#14160E",
+          900: "#1F2216", // Encre — texte & fonds sombres
+          800: "#272B1B",
+          700: "#3A3F28", // Olive — primaire
+          600: "#4B5133",
         },
         // Accent — Lime #CAF000
         dawn: {
@@ -29,13 +29,13 @@ const config: Config = {
           500: "#AAD000",
           600: "#879E00",
         },
-        // Secondaire — gris neutre (ex-olive)
+        // Secondaire — Olive / vert profond
         spirit: {
-          300: "#B4B4B1",
-          400: "#8C8C89",
-          500: "#5E5E5C",
-          600: "#3E3E3D",
-          700: "#2A2A29",
+          300: "#AEB98C",
+          400: "#8A9760",
+          500: "#5E6A3A",
+          600: "#3A3F28",
+          700: "#2A2E1C",
         },
         // Tertiaire — vert clair / lime adouci
         glow: {
@@ -55,7 +55,7 @@ const config: Config = {
       },
       boxShadow: {
         glow: "0 0 60px -15px rgba(202, 240, 0, 0.55)",
-        spirit: "0 0 70px -20px rgba(48, 48, 47, 0.5)",
+        spirit: "0 0 70px -20px rgba(58, 63, 40, 0.5)",
         card: "0 20px 60px -20px rgba(0, 0, 0, 0.6)",
       },
       keyframes: {

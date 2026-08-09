@@ -11,7 +11,7 @@ import { siteConfig } from "@/config/site";
 
 /** Charte de l'app: nuit/olive + accent lime + crème. */
 const C = {
-  bg: "#131312",
+  bg: "#14160E",
   lime: "#CAF000",
   limeSoft: "#D8F53A",
   cream: "#F3F3ED",
@@ -67,7 +67,7 @@ export function DonateScreen() {
       {/* En-tête glissant: retour Accueil + fil d'ariane */}
       <header
         className="sticky top-0 z-20 px-4 pb-3 pt-[calc(0.75rem+env(safe-area-inset-top))] backdrop-blur-md"
-        style={{ background: "rgba(19, 19, 18,0.85)" }}
+        style={{ background: "rgba(20,22,14,0.85)" }}
       >
         <div className="mx-auto flex max-w-lg items-center gap-3">
           <Link
@@ -107,7 +107,7 @@ export function DonateScreen() {
             />
             <div
               className="pointer-events-none absolute inset-x-0 bottom-0 h-24"
-              style={{ backgroundImage: "linear-gradient(to top, #131312, rgba(19, 19, 18,0))" }}
+              style={{ backgroundImage: "linear-gradient(to top, #14160E, rgba(20,22,14,0))" }}
             />
           </div>
           <div className="p-6">
@@ -201,7 +201,7 @@ export function DonateScreen() {
               onChange={(e) => pick(Number(e.target.value))}
               className="jb-donate-range w-full"
               style={{
-                background: `linear-gradient(90deg, #5E5E5C 0%, ${C.lime} ${sliderPct}%, rgba(255,255,255,0.12) ${sliderPct}%)`,
+                background: `linear-gradient(90deg, #5E6A3A 0%, ${C.lime} ${sliderPct}%, rgba(255,255,255,0.12) ${sliderPct}%)`,
               }}
               aria-label="Montant du don"
             />

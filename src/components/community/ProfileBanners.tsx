@@ -28,8 +28,8 @@ const BANNERS = [
     eyebrow: "Nouveau",
     title: "Le livre RHEMA",
     text: "365 révélations bibliques à méditer, découvre-le.",
-    from: "#2A2A29",
-    to: "#5E5E5C",
+    from: "#2A2E1C",
+    to: "#5E6A3A",
   },
 ];
 

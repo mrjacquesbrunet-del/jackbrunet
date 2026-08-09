@@ -17,10 +17,10 @@ const SLIDES = [
     eyebrow: "Soutien",
     title: "Faire un don",
     text: "Évangélisation, aide humanitaire, ministère.",
-    gradient: "linear-gradient(135deg, #1C1C1B, #30302F 65%, #5E5E5C)",
+    gradient: "linear-gradient(135deg, #1F2216, #3A3F28 65%, #5E6A3A)",
     accent: "#CAF000",
     iconBg: "#CAF000",
-    iconColor: "#131312",
+    iconColor: "#14160E",
     icon: "M12 20s-7-4.5-9.5-9A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9z",
   },
   {
