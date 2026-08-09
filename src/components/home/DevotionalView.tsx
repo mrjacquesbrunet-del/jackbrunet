@@ -429,73 +429,39 @@ export function DevotionalView({
         </section>
       ): null}
 
-      {/* 6. Passage de lecture du jour */}
+      {/* 6. Passage de lecture du jour — uniquement le jour, cliquable vers le passage */}
       {planDay? (
         <section className="container-x">
           <Reveal from="right">
             <SectionHeader eyebrow="Plan de lecture" title="Le passage du jour" />
-            <div className="mt-6 glass-strong max-w-2xl overflow-hidden p-6">
-              <div className="flex items-center gap-4">
-                <div className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-dawn-400 to-spirit-500 text-night-950">
-                  <div className="text-center leading-none">
-                    <span className="block text-[10px] font-bold uppercase">Jour</span>
-                    <span className="block text-2xl font-extrabold">{planDay.day}</span>
-                  </div>
-                </div>
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-wider text-spirit-600">
-                    À lire aujourd'hui
-                  </p>
-                  <h3 className="mt-1 font-display text-xl font-bold">{planDay.theme}</h3>
-                  <p className="text-sm text-night-900/60">
-                    {planDay.passages.join(" · ")} &middot; {planDay.minutes} min
-                  </p>
-                </div>
-              </div>
-            </div>
-
             <Link
               href={bibleHref(planDay.passages[0])?? "/bible"}
-              className="btn-ghost mt-4 inline-flex"
+              className="group mt-6 flex max-w-2xl items-center gap-4 rounded-3xl border border-night-900/10 bg-white p-6 shadow-card transition-colors hover:border-dawn-400/60"
             >
-              Ouvrir la Bible
+              <div className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-dawn-400 to-spirit-500 text-night-950">
+                <div className="text-center leading-none">
+                  <span className="block text-[10px] font-bold uppercase">Jour</span>
+                  <span className="block text-2xl font-extrabold">{planDay.day}</span>
+                </div>
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-semibold uppercase tracking-wider text-spirit-600">
+                  À lire aujourd'hui
+                </p>
+                <h3 className="mt-1 font-display text-xl font-bold">{planDay.theme}</h3>
+                <p className="text-sm text-night-900/60">
+                  {planDay.passages.join(" · ")} &middot; {planDay.minutes} min
+                </p>
+              </div>
+              <span className="shrink-0 text-night-900/30 transition-colors group-hover:text-dawn-500" aria-hidden>
+                <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current" strokeWidth={2}>
+                  <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
             </Link>
-
-            {/* Plan de lecture complet (aujourd'hui mis en avant), chaque jour
-                ouvre directement le bon passage dans la Bible. */}
-            <ol className="mt-4 grid max-w-2xl gap-3 sm:grid-cols-2">
-              {plan.map((d) => {
-                const isToday = d.day === planDay.day;
-                return (
-                  <li key={d.day}>
-                    <Link
-                      href={bibleHref(d.passages[0])?? "/bible"}
-                      className={`flex h-full items-center gap-3 rounded-2xl border p-3.5 transition-colors ${
-                        isToday
-? "border-dawn-400/60 bg-dawn-400/10 hover:border-dawn-400"
-: "border-night-900/10 bg-white hover:border-night-900/20"
-                      }`}
-                    >
-                      <span
-                        className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl font-display text-base font-bold ${
-                          isToday
-? "bg-dawn-400 text-night-950"
-: "bg-night-900/[0.05] text-night-900/60"
-                        }`}
-                      >
-                        {d.day}
-                      </span>
-                      <div className="min-w-0">
-                        <p className="truncate font-semibold text-night-900">{d.theme}</p>
-                        <p className="truncate text-xs text-night-900/50">
-                          {d.passages.join(" · ")} &middot; {d.minutes} min
-                        </p>
-                      </div>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ol>
+            <p className="mt-3 text-sm text-night-900/50">
+              Touche la carte pour ouvrir directement le passage dans la Bible.
+            </p>
           </Reveal>
         </section>
       ): null}
