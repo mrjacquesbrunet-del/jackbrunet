@@ -146,6 +146,12 @@ function Hero() {
           </motion.div>
         </motion.div>
       </div>
+
+      {/* Fusion douce vers la section claire suivante (pas de coupure nette) */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent to-[#E9EADF]"
+      />
     </section>
   );
 }

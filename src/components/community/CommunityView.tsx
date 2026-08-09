@@ -195,7 +195,7 @@ function Feed({
   return (
     <>
       {/* Bandeau du mur */}
-      <div className="dark-ctx relative overflow-hidden bg-night-950 pt-28 pb-10 sm:pt-32">
+      <div className="dark-ctx relative overflow-hidden bg-night-950 pt-28 pb-28 sm:pt-32">
         <div className="absolute inset-0 bg-grid opacity-[0.1]" />
         <div className="blob -right-10 top-6 h-56 w-56 bg-dawn-400/25" />
         <div className="container-x relative">
@@ -207,6 +207,11 @@ function Feed({
             Partage, prie pour les autres, encourage la famille. Vous portez les uns les autres.
           </p>
         </div>
+        {/* Fusion douce vers le fond clair (pas de coupure nette) */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-cream"
+        />
       </div>
 
       <section className="container-x pt-6 pb-12">
