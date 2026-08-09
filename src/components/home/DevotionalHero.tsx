@@ -27,21 +27,21 @@ export function DevotionalHero({ dateLabel }: { dateLabel?: string }) {
 
   return (
     <section className="dark-ctx bg-topo-dark relative overflow-hidden pt-28 pb-10 sm:pt-36 sm:pb-14">
-      <div className="absolute inset-0 bg-grid opacity-[0.08]" />
-      {/* Halos vivants */}
+      <div className="absolute inset-0 bg-grid opacity-[0.10]" />
+      {/* Profondeur en gris (texture) + un accent lime discret pour le dynamisme */}
       <motion.div
-        className="blob left-1/4 top-6 h-72 w-72 rounded-[44%] bg-dawn-400/45"
+        className="blob left-1/4 top-6 h-72 w-72 rounded-[44%] bg-white/[0.05]"
         animate={{ y: [0, -22, 0], x: [0, 12, 0], scale: [1, 1.08, 1] }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
-        className="blob right-1/4 top-1/3 h-64 w-64 bg-spirit-400/30"
-        animate={{ y: [0, 20, 0], opacity: [0.25, 0.45, 0.25] }}
+        className="blob right-1/4 top-1/3 h-64 w-64 bg-white/[0.04]"
+        animate={{ y: [0, 20, 0], opacity: [0.5, 0.8, 0.5] }}
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
-        className="blob left-1/2 top-0 h-56 w-56 -translate-x-1/2 bg-glow-300/30"
-        animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.4, 0.2] }}
+        className="blob left-1/2 top-2 h-40 w-40 -translate-x-1/2 bg-dawn-400/12"
+        animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.9, 0.5] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       />
 

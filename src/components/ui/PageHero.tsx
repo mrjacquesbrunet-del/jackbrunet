@@ -12,7 +12,7 @@ export function PageHero({ eyebrow, title, description, children }: PageHeroProp
   return (
     <section className="relative overflow-hidden pt-32 sm:pt-40">
       <div className="absolute inset-0 bg-grid opacity-60" />
-      <div className="blob left-1/3 top-10 h-80 w-80 rotate-[-12deg] rounded-[42%] bg-dawn-400/50 animate-pulse-glow" />
+      <div className="blob left-1/3 top-10 h-80 w-80 rotate-[-12deg] rounded-[42%] bg-dawn-400/[0.18] animate-pulse-glow" />
       <div className="blob right-1/4 top-1/2 h-72 w-72 bg-spirit-400/25 animate-pulse-glow" />
       <div className="container-x relative pb-12 text-center">
         <span className="eyebrow">{eyebrow}</span>
