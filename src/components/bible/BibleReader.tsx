@@ -452,8 +452,8 @@ export function BibleReader() {
                         title="Commentaire & sens des mots"
                         className={`ml-1.5 inline-grid h-6 w-6 translate-y-[4px] shrink-0 place-items-center rounded-full align-baseline transition-colors ${
                           open
-? "bg-spirit-500/20 text-spirit-600"
-: "bg-night-900/[0.06] text-spirit-600/70 hover:bg-night-900/10 hover:text-spirit-600"
+? "bg-dawn-400 text-night-950"
+: "bg-dawn-400/25 text-dawn-600 hover:bg-dawn-400/45 hover:text-night-900"
                         }`}
                       >
                         <svg
