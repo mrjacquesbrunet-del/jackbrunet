@@ -24,15 +24,10 @@ export default function DevotionnelPage() {
   const latestShort = getLatestShort();
   const shorts = getShorts();
   const book = getProducts()[0];
-  const todayLabel = new Date().toLocaleDateString("fr-FR", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-  });
 
   return (
     <>
-      <DevotionalHero dateLabel={todayLabel} />
+      <DevotionalHero />
       <DevotionalView
         devotions={devotions}
         initialIndex={todayIndex(devotions.length)}

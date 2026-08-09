@@ -119,7 +119,7 @@ export function DevotionalView({
   return (
     <div className="space-y-16 py-12 sm:space-y-20 sm:py-16">
       {/* 1. Date + thème */}
-      <section className="container-x">
+      <section id="meditation" className="container-x scroll-mt-20">
         <Reveal>
           <Greeting />
           <p className="mt-1 text-sm font-semibold capitalize text-spirit-600">Méditation du jour</p>
