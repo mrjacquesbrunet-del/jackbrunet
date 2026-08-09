@@ -16,6 +16,10 @@ function label(n: Notification) {
   switch (n.type) {
     case "pray":
       return `${who} prie pour ton sujet`;
+    case "pray_digest":
+      return `${n.body ?? "Plusieurs"} personnes ont prié pour toi aujourd'hui`;
+    case "follow_up":
+      return "Comment évolue ton sujet ? Viens donner des nouvelles";
     case "heart":
       return `${who} a aimé ton sujet`;
     case "comment":

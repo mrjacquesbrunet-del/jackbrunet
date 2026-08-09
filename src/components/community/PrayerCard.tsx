@@ -182,6 +182,27 @@ export function PrayerCard({
   }
 
   const isAuthor = prayer.author_id === userId;
+
+  // Suivi « Comment évolue ton sujet ? » : proposé à l'auteur à partir de
+  // 3 jours, tant que le sujet n'est pas exaucé ; masquable (mémorisé).
+  const [fuDismissed, setFuDismissed] = useState(true);
+  useEffect(() => {
+    try {
+      setFuDismissed(localStorage.getItem(`jb.fu.${prayer.id}`) === "1");
+    } catch {
+      /* stockage indisponible */
+    }
+  }, [prayer.id]);
+  const olderThan3Days = Date.now() - new Date(prayer.created_at).getTime() > 3 * 86_400_000;
+  const showFollowUp = isAuthor && !answered && olderThan3Days && !fuDismissed;
+  function dismissFollowUp() {
+    setFuDismissed(true);
+    try {
+      localStorage.setItem(`jb.fu.${prayer.id}`, "1");
+    } catch {
+      /* ignore */
+    }
+  }
   const count = (t: "heart" | "pray") => reactions.filter((r) => r.type === t).length;
   const mine = (t: "heart" | "pray") => reactions.some((r) => r.type === t && r.user_id === userId);
 
@@ -406,6 +427,43 @@ export function PrayerCard({
           text={prayer.body}
           className="mt-3 block whitespace-pre-wrap text-[15px] leading-relaxed text-night-900/85"
         />
+
+        {/* Suivi du sujet (auteur, à partir de J+3, tant que non exaucé) */}
+        {showFollowUp ? (
+          <div className="mt-4 rounded-2xl border border-dawn-400/40 bg-dawn-400/10 p-3.5">
+            <p className="text-sm font-semibold text-night-900/85">Comment évolue ton sujet ?</p>
+            <div className="mt-2.5 flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={dismissFollowUp}
+                className="rounded-full border border-night-900/15 px-3 py-1.5 text-xs font-semibold text-night-900/70 transition-colors hover:border-night-900/30"
+              >
+                Continuer à prier
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  dismissFollowUp();
+                  setShowComments(true);
+                  if (comments === null) refreshComments();
+                }}
+                className="rounded-full border border-night-900/15 px-3 py-1.5 text-xs font-semibold text-night-900/70 transition-colors hover:border-night-900/30"
+              >
+                Donner des nouvelles
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  dismissFollowUp();
+                  toggleAnswered();
+                }}
+                className="rounded-full bg-dawn-400 px-3 py-1.5 text-xs font-bold text-night-950 transition-transform active:scale-95"
+              >
+                Prière exaucée
+              </button>
+            </div>
+          </div>
+        ) : null}
 
         <div className="mt-4 flex flex-wrap items-center gap-2">
           <button

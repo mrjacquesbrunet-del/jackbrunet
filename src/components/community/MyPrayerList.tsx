@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useAuth } from "@/components/community/useAuth";
 import {
   listMyPrayers,
+  listPrayingFor,
   createPrayer,
   setPrayerAnswered,
   type Prayer,
@@ -86,12 +87,17 @@ export function PrayerListQuickAdd({
 export function MyPrayerTodo() {
   const { ready, userId } = useAuth();
   const [items, setItems] = useState<Prayer[] | null>(null);
+  // Les sujets des autres pour lesquels je prie (mes « Je prie » actifs).
+  const [prayingFor, setPrayingFor] = useState<Prayer[]>([]);
 
   useEffect(() => {
     if (!ready || !userId) return;
     let active = true;
     listMyPrayers(userId).then((ps) => {
       if (active) setItems(ps.filter((p) => !p.answered));
+    });
+    listPrayingFor(userId, 5).then((ps) => {
+      if (active) setPrayingFor(ps);
     });
     return () => {
       active = false;
@@ -158,6 +164,42 @@ export function MyPrayerTodo() {
             ) : null}
           </ul>
         )}
+
+        {/* Les sujets des autres que je porte (mes « Je prie » sur le mur) */}
+        {prayingFor.length > 0 ? (
+          <div className="mt-5 border-t border-night-900/10 pt-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-spirit-600">
+              Je prie pour…
+            </p>
+            <ul className="mt-3 space-y-2">
+              {prayingFor.map((p) => (
+                <li key={p.id}>
+                  <Link
+                    href={`/communaute/?prayer=${p.id}`}
+                    className="flex items-center gap-3 rounded-2xl border border-night-900/10 bg-white px-3.5 py-2.5 transition-colors hover:border-night-900/25"
+                  >
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-xs font-semibold text-spirit-600">
+                        {p.author?.pseudo ?? "Ami(e)"}
+                      </span>
+                      <span className="line-clamp-1 block text-sm leading-snug text-night-900/80">
+                        {p.body}
+                      </span>
+                    </span>
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="h-4 w-4 shrink-0 fill-none stroke-current text-night-900/30"
+                      strokeWidth={2}
+                      aria-hidden
+                    >
+                      <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
       </div>
     </section>
   );

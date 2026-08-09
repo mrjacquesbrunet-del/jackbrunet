@@ -58,7 +58,9 @@ export type NotifType =
   | "group_post"
   | "group_message"
   | "group_join"
-  | "comment_reaction";
+  | "comment_reaction"
+  | "pray_digest"
+  | "follow_up";
 export type Notification = {
   id: string;
   user_id: string;
@@ -306,6 +308,33 @@ export async function listMyPrayers(userId: string): Promise<Prayer[]> {
 .eq("author_id", userId)
 .order("created_at", { ascending: false });
   return (data as Prayer[])?? [];
+}
+
+/** Les sujets des AUTRES pour lesquels je prie (mes « Je prie » actifs),
+ *  non exaucés, avec l'auteur — pour la section « Je prie pour… ». */
+export async function listPrayingFor(userId: string, limit = 10): Promise<Prayer[]> {
+  const sb = getSupabase();
+  if (!sb) return [];
+  const { data: rx } = await sb
+.from("prayer_reactions")
+.select("prayer_id")
+.eq("user_id", userId)
+.eq("type", "pray")
+.order("created_at", { ascending: false })
+.limit(50);
+  const ids = ((rx as { prayer_id: string }[])?? []).map((r) => r.prayer_id);
+  if (ids.length === 0) return [];
+  const { data } = await sb
+.from("prayers")
+.select("*")
+.in("id", ids)
+.eq("answered", false)
+.neq("author_id", userId)
+.order("created_at", { ascending: false })
+.limit(limit);
+  const ps = (data as Prayer[])?? [];
+  const profs = await profilesByIds(ps.map((p) => p.author_id));
+  return ps.map((p) => ({...p, author: profs[p.author_id] }));
 }
 
 export async function createPrayer(
