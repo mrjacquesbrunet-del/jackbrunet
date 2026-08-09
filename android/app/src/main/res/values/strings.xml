@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Jack Brunet</string>
-    <string name="title_activity_main">Jack Brunet</string>
+    <string name="app_name">RHEMA</string>
+    <string name="title_activity_main">RHEMA</string>
     <string name="package_name">com.jackbrunet.app</string>
     <string name="custom_url_scheme">com.jackbrunet.app</string>
 </resources>

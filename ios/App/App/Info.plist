@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Jack Brunet</string>
+	<string>RHEMA</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Le micro permet d'envoyer des notes vocales de prière et d'encouragement à la communauté.</string>
 	<key>CFBundleExecutable</key>

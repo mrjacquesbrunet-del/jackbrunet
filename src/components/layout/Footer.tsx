@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { footerNav, siteConfig } from "@/config/site";
+import { FooterBrand } from "@/components/layout/FooterBrand";
 
 export function Footer() {
   return (
@@ -11,12 +12,7 @@ export function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <Link href="/" className="flex items-baseline">
-              <span className="font-display text-2xl font-bold uppercase tracking-tight text-cream">
-                {siteConfig.name.split(" ")[0]}
-              </span>
-              <span className="font-sans text-2xl font-extrabold uppercase tracking-tight text-dawn-400">
-                {siteConfig.name.split(" ").slice(1).join("")}
-              </span>
+              <FooterBrand />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-cream/60">
               {siteConfig.description}

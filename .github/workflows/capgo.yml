@@ -60,4 +60,4 @@ jobs:
           npx @capgo/cli@latest bundle upload com.jackbrunet.app \
             --apikey "$CAPGO_TOKEN" \
             --channel "${{ github.event.inputs.channel }}" \
-            --bundle "1.99.${{ github.run_number }}"
+            --bundle "2.99.${{ github.run_number }}"

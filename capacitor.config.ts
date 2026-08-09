@@ -9,7 +9,7 @@ import type { CapacitorConfig } from "@capacitor/cli";
  */
 const config: CapacitorConfig = {
   appId: "com.jackbrunet.app",
-  appName: "Jack Brunet",
+  appName: "RHEMA",
   webDir: "out",
   backgroundColor: "#17181A",
   ios: {

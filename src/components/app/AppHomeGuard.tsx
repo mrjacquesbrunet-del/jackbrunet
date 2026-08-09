@@ -72,7 +72,7 @@ export function AppHomeGuard() {
       className="fixed inset-0 z-[9999] flex flex-col items-center justify-center gap-6 px-8 text-center"
       style={{ background: "rgb(var(--n-950))" }}
     >
-      <p className="font-display text-xl font-bold text-dawn-400">Jack Brunet</p>
+      <p className="font-sans text-xl font-extrabold tracking-[0.25em] text-cream">RHEMA</p>
       <span
         aria-hidden
         className="h-8 w-8 animate-spin rounded-full border-2 border-dawn-400/30 border-t-dawn-400"
