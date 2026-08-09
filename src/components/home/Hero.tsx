@@ -30,7 +30,7 @@ export function Hero() {
       <div className="absolute inset-0 bg-grid opacity-60" />
       <motion.div
         style={{ y: yBlob }}
-        className="blob left-[8%] top-24 h-[34rem] w-[34rem] rotate-[-12deg] rounded-[42%] bg-dawn-400/[0.14] animate-pulse-glow"
+        className="blob left-[8%] top-24 h-[34rem] w-[34rem] rotate-[-12deg] rounded-[42%] bg-dawn-400/60 animate-pulse-glow"
       />
       <motion.div
         style={{ y: yBlob }}
@@ -126,7 +126,7 @@ export function Hero() {
             transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="relative mx-auto w-full max-w-md lg:mx-0"
           >
-            <div className="blob -left-8 top-6 h-56 w-56 bg-dawn-400/20 animate-pulse-glow" />
+            <div className="blob -left-8 top-6 h-56 w-56 bg-dawn-400/45 animate-pulse-glow" />
             <div className="blob -bottom-8 -right-6 h-48 w-48 bg-spirit-400/30" />
             <div className="relative aspect-[4/5] overflow-hidden rounded-5xl border border-night-900/10 shadow-card animate-float">
               {/* eslint-disable-next-line @next/next/no-img-element */}
