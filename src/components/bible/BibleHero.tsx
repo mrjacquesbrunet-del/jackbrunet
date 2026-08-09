@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
  */
 export function BibleHero() {
   return (
-    <section className="dark-ctx relative overflow-hidden bg-night-950 pt-28 pb-28 text-cream sm:pt-36">
+    <section className="dark-ctx relative overflow-hidden bg-night-950 pt-28 pb-10 text-cream sm:pt-36">
       <div className="absolute inset-0 bg-grid opacity-[0.1]" />
       <div className="blob -right-10 top-6 h-56 w-56 bg-dawn-400/25 animate-pulse-glow" />
 
@@ -41,12 +41,6 @@ export function BibleHero() {
           prendre racine.
         </motion.p>
       </div>
-
-      {/* Fusion douce vers le fond clair (pas de coupure nette) */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-cream"
-      />
     </section>
   );
 }
