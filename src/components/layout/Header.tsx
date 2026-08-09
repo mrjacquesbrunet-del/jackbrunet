@@ -4,10 +4,13 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { mainNav, secondaryNav, siteConfig, supportCta } from "@/config/site";
+import { useAppMode } from "@/lib/app-mode";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  // Dans l'app native, la marque devient RHEMA ; le site garde « Jack Brunet ».
+  const isApp = useAppMode();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -38,12 +41,20 @@ export function Header() {
           className="group flex items-baseline"
           onClick={() => setOpen(false)}
         >
-          <span className="font-display text-2xl font-bold uppercase tracking-tight text-night-900">
-            {siteConfig.name.split(" ")[0]}
-          </span>
-          <span className="font-sans text-2xl font-extrabold uppercase tracking-tight text-night-900">
-            {siteConfig.name.split(" ").slice(1).join("")}
-          </span>
+          {isApp ? (
+            <span className="font-sans text-2xl font-extrabold uppercase tracking-[0.2em] text-night-900">
+              RHEMA
+            </span>
+          ) : (
+            <>
+              <span className="font-display text-2xl font-bold uppercase tracking-tight text-night-900">
+                {siteConfig.name.split(" ")[0]}
+              </span>
+              <span className="font-sans text-2xl font-extrabold uppercase tracking-tight text-night-900">
+                {siteConfig.name.split(" ").slice(1).join("")}
+              </span>
+            </>
+          )}
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">
