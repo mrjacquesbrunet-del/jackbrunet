@@ -45,21 +45,21 @@ export function DevotionalHero() {
 
       {/* Bloc de titre, poussé à droite DANS le conteneur borné au viewport
           (évite tout débordement). Tailles en vw sur mobile, fixes dès lg. */}
-      <div className="absolute inset-0 flex items-center">
-        <div className="container-x w-full">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="ml-auto max-w-[56%] text-right lg:max-w-sm"
-          >
+      {/* Zone droite (espace vide de la photo) : le bloc y est centré. */}
+      <div className="absolute inset-y-0 right-0 flex w-[47%] items-center justify-center px-3 sm:px-5">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="w-full max-w-xs text-center"
+        >
           <h1
             className="font-sans font-extrabold text-white text-[clamp(20px,4.8vw,3.75rem)]"
             style={{ letterSpacing: "0.14em" }}
           >
             RHEMA
           </h1>
-          <div className="ml-auto mt-[1.2vw] h-[0.35vw] w-[6vw] rounded-full bg-dawn-400 lg:mt-4 lg:h-[3px] lg:w-12" />
+          <div className="mx-auto mt-[1.2vw] h-[0.35vw] w-[6vw] rounded-full bg-dawn-400 lg:mt-4 lg:h-[3px] lg:w-12" />
           <p className="mt-[1.4vw] font-medium tracking-wide text-cream/85 text-[clamp(13px,2.05vw,1.25rem)] lg:mt-5">
             Ton temps avec Jésus
           </p>
@@ -92,7 +92,7 @@ export function DevotionalHero() {
           </p>
 
           {/* Bouton pilule vers la méditation */}
-          <div className="mt-[2.4vw] flex justify-end lg:mt-9">
+          <div className="mt-[2.4vw] flex justify-center lg:mt-9">
             <button
               type="button"
               onClick={toMeditation}
@@ -106,8 +106,7 @@ export function DevotionalHero() {
               La méditation du jour
             </button>
           </div>
-          </motion.div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
