@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { isNativeApp } from "@/lib/notifications";
 import { consumeStashedNotifRoute } from "@/lib/notif-route";
 import { trace } from "@/lib/boot-trace";
+import { asset } from "@/lib/asset";
 
 /**
  * Sur l'accueil marketing « / », en mode application (natif ou aperçu ?app=1),
@@ -70,8 +71,17 @@ export function AppHomeGuard() {
   return (
     <div
       className="fixed inset-0 z-[9999] flex flex-col items-center justify-center gap-6 px-8 text-center"
-      style={{ background: "rgb(var(--n-950))" }}
+      /* Gris de la charte codé en dur : fiable dès la première image,
+         avant même que le thème de l'app soit appliqué (plus d'olive). */
+      style={{ background: "#17181A" }}
     >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={asset("/img/logo-rhema.webp")}
+        alt=""
+        aria-hidden
+        className="h-28 w-auto"
+      />
       <p className="font-sans text-xl font-extrabold tracking-[0.25em] text-cream">RHEMA</p>
       <span
         aria-hidden
