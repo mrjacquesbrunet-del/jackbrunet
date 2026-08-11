@@ -51,6 +51,20 @@ export async function analyticsSummary(): Promise<AnalyticsSummary | null> {
   return data as AnalyticsSummary;
 }
 
+export type AnalyticsTotals = {
+  visits_total: number;
+  visitors_total: number;
+};
+
+/** Totaux depuis le lancement (toutes les visites + appareils uniques). */
+export async function analyticsTotals(): Promise<AnalyticsTotals | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  const { data, error } = await sb.rpc("analytics_totals");
+  if (error) return null;
+  return data as AnalyticsTotals;
+}
+
 export async function analyticsTop(
   kind: "page" | "play",
   days = 30,

@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { analyticsSummary, analyticsTop, type AnalyticsSummary } from "@/lib/analytics";
+import {
+  analyticsSummary,
+  analyticsTop,
+  analyticsTotals,
+  type AnalyticsSummary,
+  type AnalyticsTotals,
+} from "@/lib/analytics";
 import { listPodcasts } from "@/lib/audio-library";
 
 function Stat({ label, value }: { label: string; value: number }) {
@@ -15,6 +21,7 @@ function Stat({ label, value }: { label: string; value: number }) {
 
 export function AnalyticsDashboard() {
   const [sum, setSum] = useState<AnalyticsSummary | null>(null);
+  const [totals, setTotals] = useState<AnalyticsTotals | null>(null);
   const [pages, setPages] = useState<{ label: string; n: number }[]>([]);
   const [plays, setPlays] = useState<{ label: string; n: number }[]>([]);
   const [titles, setTitles] = useState<Record<string, string>>({});
@@ -22,13 +29,15 @@ export function AnalyticsDashboard() {
 
   useEffect(() => {
     (async () => {
-      const [s, p, pl, pods] = await Promise.all([
+      const [s, t, p, pl, pods] = await Promise.all([
         analyticsSummary(),
+        analyticsTotals(),
         analyticsTop("page", 30),
         analyticsTop("play", 30),
         listPodcasts(),
       ]);
       setSum(s);
+      setTotals(t);
       setPages(p);
       setPlays(pl);
       const map: Record<string, string> = {};
@@ -49,6 +58,21 @@ export function AnalyticsDashboard() {
 
   return (
     <div className="space-y-6">
+      {/* Total depuis le lancement — mis en avant */}
+      {totals ? (
+        <div className="dark-ctx rounded-3xl bg-night-900 p-6 text-center text-cream shadow-card">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-dawn-400">
+            Visites totales
+          </p>
+          <p className="mt-2 font-display text-5xl font-extrabold">
+            {totals.visits_total.toLocaleString("fr-FR")}
+          </p>
+          <p className="mt-2 text-sm text-cream/60">
+            {totals.visitors_total.toLocaleString("fr-FR")} visiteurs uniques depuis le lancement
+          </p>
+        </div>
+      ) : null}
+
       {/* Visiteurs */}
       <div>
         <p className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
