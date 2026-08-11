@@ -1,6 +1,7 @@
 "use client";
 
 import { getSupabase } from "./supabase";
+import { isNativeApp } from "./notifications";
 
 /** Identifiant d'appareil anonyme (aucune donnée personnelle). */
 function deviceId(): string {
@@ -19,16 +20,22 @@ function deviceId(): string {
   }
 }
 
-/** Enregistre un évènement anonyme (vue de page ou écoute). */
+/** Enregistre un évènement anonyme (vue de page ou écoute), avec sa
+ *  provenance (app native ou site). Si la colonne `source` n'existe pas
+ *  encore en base, on réessaie sans elle : la mesure n'est jamais perdue. */
 export function track(type: "page" | "play", page: string) {
   const sb = getSupabase();
   if (!sb) return;
-  sb.from("analytics_events")
-.insert({ type, page, device_id: deviceId() })
-.then(
-      () => undefined,
-      () => undefined,
-    );
+  const base = { type, page, device_id: deviceId() };
+  const source = isNativeApp() ? "app" : "site";
+  (async () => {
+    try {
+      const { error } = await sb.from("analytics_events").insert({ ...base, source });
+      if (error) await sb.from("analytics_events").insert(base);
+    } catch {
+      /* silencieux : la mesure ne doit jamais gêner l'app */
+    }
+  })();
 }
 
 export type AnalyticsSummary = {
@@ -54,6 +61,9 @@ export async function analyticsSummary(): Promise<AnalyticsSummary | null> {
 export type AnalyticsTotals = {
   visits_total: number;
   visitors_total: number;
+  /** Ventilation (mesurée à partir de l'ajout de la colonne source). */
+  visits_app?: number;
+  visits_site?: number;
 };
 
 /** Totaux depuis le lancement (toutes les visites + appareils uniques). */

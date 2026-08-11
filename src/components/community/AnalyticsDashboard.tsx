@@ -70,6 +70,12 @@ export function AnalyticsDashboard() {
           <p className="mt-2 text-sm text-cream/60">
             {totals.visitors_total.toLocaleString("fr-FR")} visiteurs uniques depuis le lancement
           </p>
+          {(totals.visits_app ?? 0) + (totals.visits_site ?? 0) > 0 ? (
+            <p className="mt-1 text-xs text-cream/45">
+              dont {(totals.visits_app ?? 0).toLocaleString("fr-FR")} sur l'app ·{" "}
+              {(totals.visits_site ?? 0).toLocaleString("fr-FR")} sur le site
+            </p>
+          ) : null}
         </div>
       ) : null}
 
