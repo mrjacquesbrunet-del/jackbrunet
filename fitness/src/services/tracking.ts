@@ -1,11 +1,5 @@
 import { supabase } from '@/src/lib/supabase';
-import type {
-  MeasurementEntry,
-  ProgressPhoto,
-  StepEntry,
-  WaterEntry,
-  WeightEntry,
-} from '@/src/types/domain';
+import type { ProgressPhoto, StepEntry, WaterEntry, WeightEntry } from '@/src/types/domain';
 
 async function userId(): Promise<string> {
   const { data } = await supabase.auth.getUser();
@@ -85,26 +79,8 @@ export async function upsertWeight(date: string, weightKg: number, notes?: strin
   if (error) throw error;
 }
 
-// --- Mensurations ----------------------------------------------------------
-
-export async function listMeasurements(limit = 100): Promise<MeasurementEntry[]> {
-  const { data, error } = await supabase
-    .from('measurement_entries')
-    .select('*')
-    .order('entry_date', { ascending: false })
-    .limit(limit);
-  if (error) throw error;
-  return data ?? [];
-}
-
-export async function upsertMeasurement(
-  entry: Partial<MeasurementEntry> & { entry_date: string },
-): Promise<void> {
-  const { error } = await supabase
-    .from('measurement_entries')
-    .upsert({ ...entry, user_id: await userId() }, { onConflict: 'user_id,entry_date' });
-  if (error) throw error;
-}
+// Les mensurations détaillées (côté, relâché/contracté, bilans) sont dans
+// src/services/checkins.ts (tables body_checkins / body_measurements).
 
 // --- Photos de progression (bucket privé + URLs signées) --------------------
 
@@ -130,7 +106,8 @@ export async function getPhotoUrl(imagePath: string): Promise<string> {
 
 export async function uploadPhoto(
   localUri: string,
-  meta: Pick<ProgressPhoto, 'taken_on' | 'photo_type'> & Partial<Pick<ProgressPhoto, 'weight_kg' | 'notes'>>,
+  meta: Pick<ProgressPhoto, 'taken_on' | 'photo_type'> &
+    Partial<Pick<ProgressPhoto, 'weight_kg' | 'notes' | 'checkin_id'>>,
 ): Promise<void> {
   const uid = await userId();
   const path = `${uid}/${Date.now()}-${meta.photo_type}.jpg`;

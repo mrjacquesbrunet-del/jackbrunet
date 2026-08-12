@@ -12,6 +12,8 @@ export type MainGoal =
   | 'condition_physique'
   | 'maintien';
 
+export type MeasurementUnit = 'cm' | 'in';
+
 export interface Profile {
   user_id: string;
   first_name: string | null;
@@ -27,6 +29,9 @@ export interface Profile {
   daily_water_goal_ml: number;
   program_start_date: string | null;
   onboarding_completed: boolean;
+  measurement_unit: MeasurementUnit;
+  photo_biometric_lock: boolean;
+  checkin_snoozed_until: string | null;
 }
 
 export interface NutritionGoal {
@@ -144,22 +149,45 @@ export interface WeightEntry {
   notes: string | null;
 }
 
-export interface MeasurementEntry {
+export type CheckinType = 'initial' | 'monthly' | 'manual';
+
+export interface BodyCheckin {
   id: string;
   user_id: string;
-  entry_date: string;
-  waist_cm: number | null;
-  chest_cm: number | null;
-  hips_cm: number | null;
-  left_arm_cm: number | null;
-  right_arm_cm: number | null;
-  left_thigh_cm: number | null;
-  right_thigh_cm: number | null;
-  left_calf_cm: number | null;
-  right_calf_cm: number | null;
-  neck_cm: number | null;
-  custom: Record<string, number>;
+  checkin_date: string;
+  checkin_type: CheckinType;
+  weight_kg: number | null;
+  energy: number | null;
+  motivation: number | null;
   notes: string | null;
+}
+
+export type MeasurementType =
+  | 'neck'
+  | 'shoulders'
+  | 'chest'
+  | 'waist'   // tour de taille (au plus étroit)
+  | 'abdomen' // tour de ventre (au nombril) — distinct de la taille
+  | 'hips'
+  | 'biceps'
+  | 'forearm'
+  | 'thigh'
+  | 'calf'
+  | 'custom';
+
+export type MeasurementSide = 'left' | 'right' | 'center';
+export type MeasurementState = 'relaxed' | 'flexed' | 'not_applicable';
+
+export interface BodyMeasurement {
+  id: string;
+  user_id: string;
+  checkin_id: string | null; // null = mesure ponctuelle hors bilan
+  measured_on: string;
+  measurement_type: MeasurementType;
+  custom_label: string | null;
+  side: MeasurementSide;
+  measurement_state: MeasurementState;
+  value_cm: number; // toujours stocké en cm (conversion à l'affichage)
 }
 
 export type PhotoType = 'face' | 'profil' | 'dos' | 'autre';
@@ -172,6 +200,7 @@ export interface ProgressPhoto {
   image_path: string;
   weight_kg: number | null;
   notes: string | null;
+  checkin_id: string | null; // photo rattachée à un bilan corporel
 }
 
 export type ExerciseType =

@@ -73,6 +73,33 @@ export const darkTheme: Theme = {
 export const spacing = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24, xxl: 32 } as const;
 export const radius = { md: 12, lg: 16, xl: 24 } as const;
 
+/**
+ * Échelle typographique du design system — trois niveaux de hiérarchie
+ * maximum par écran (essentiel / contexte / détail). Les grandes valeurs
+ * chiffrées (« 128,4 kg ») utilisent metricLarge, jamais un style ad hoc.
+ */
+export const typography = {
+  display: { fontSize: 34, fontWeight: '800', letterSpacing: -0.8 },
+  heading1: { fontSize: 28, fontWeight: '800', letterSpacing: -0.5 },
+  heading2: { fontSize: 20, fontWeight: '700' },
+  body: { fontSize: 16, fontWeight: '400' },
+  caption: { fontSize: 13, fontWeight: '400' },
+  metricLarge: { fontSize: 30, fontWeight: '800', fontVariant: ['tabular-nums'] },
+  metricSmall: { fontSize: 18, fontWeight: '700', fontVariant: ['tabular-nums'] },
+} as const;
+
+/** Durées d'animation (micro-animations discrètes, jamais bloquantes). */
+export const durations = { fast: 150, base: 250, slow: 400 } as const;
+
+/** Ombre douce des cartes (bordure fine + ombre légère, pas de gros drop shadow). */
+export const cardShadow = {
+  shadowColor: '#000',
+  shadowOpacity: 0.05,
+  shadowRadius: 8,
+  shadowOffset: { width: 0, height: 2 },
+  elevation: 2,
+} as const;
+
 export function useTheme(): Theme {
   return useColorScheme() === 'dark' ? darkTheme : lightTheme;
 }

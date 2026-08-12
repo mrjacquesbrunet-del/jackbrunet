@@ -66,15 +66,35 @@ fitness/
 
 ## 3. Schéma PostgreSQL
 
-Voir `supabase/migrations/001_init_fitness.sql` (schéma complet V1 : 23
-tables + RLS + index + triggers + buckets privés + données de base).
+Voir `supabase/migrations/` : `001_init_fitness.sql` (schéma initial + RLS
++ index + triggers + buckets privés + données de base) puis
+`002_body_checkins.sql` (bilans corporels).
 
 Tables V1 : `profiles`, `nutrition_goals`, `foods`, `recipes`,
 `recipe_ingredients`, `meal_entries`, `water_entries`, `step_entries`,
-`weight_entries`, `measurement_entries`, `progress_photos`, `exercises`,
+`weight_entries`, `progress_photos`, `exercises`,
 `workouts`, `workout_exercises`, `workout_programs`, `program_days`,
 `workout_sessions`, `workout_sets`, `goals`, `weekly_checkins`,
-`daily_logs`, `favorites`, `notification_prefs`.
+`daily_logs`, `favorites`, `notification_prefs`, `body_checkins`,
+`body_measurements`.
+
+Bilans corporels (migration 002) :
+
+- `body_checkins` — bilan **initial** (unique par utilisateur, jamais
+  écrasé : c'est la référence départ → aujourd'hui), **mensuel** ou
+  **manuel** ; poids, ressenti (énergie/motivation 1-5), notes. Le poids
+  d'un bilan alimente aussi `weight_entries` (une seule courbe de poids).
+- `body_measurements` — mensurations détaillées : type (cou, épaules,
+  poitrine, **taille** ET **ventre** distincts, hanches, biceps,
+  avant-bras, cuisse, mollet, personnalisée), côté (gauche/droit/centre),
+  état (relâché/contracté), **toujours stockées en cm** (conversion
+  cm ↔ pouces à l'affichage selon `profiles.measurement_unit`).
+  Rattachées à un bilan (`checkin_id`) ou ponctuelles. Remplace
+  l'ancienne table `measurement_entries`.
+- Photos de bilan : `progress_photos.checkin_id` (une seule table photos ;
+  l'entité « CheckInPhoto » du cahier des charges est couverte par ce lien).
+- Rappel mensuel : dû un mois après le dernier bilan (`isCheckinDue`),
+  reportable via `profiles.checkin_snoozed_until`.
 
 Phase 2 (tables prévues, non créées) : `shopping_lists`,
 `shopping_list_items`, `activity_entries` (import HealthKit / Health
@@ -218,13 +238,15 @@ et ne contient **aucun calcul** (les calculs sont dans `src/logic`).
 
 | Étape | Contenu | Statut |
 |---|---|---|
-| 1 | Architecture + schéma SQL + RLS + squelette app (tabs, thème, auth, calculs testés) | ✅ cette étape |
-| 2 | Onboarding + profil + objectifs nutritionnels | à faire |
+| 1 | Architecture + schéma SQL + RLS + squelette app (tabs, thème, auth, calculs testés) | ✅ fait |
+| 1b | Bilans corporels : schéma (002), services, calculs de comparaison, design system étendu | ✅ fait |
+| 2 | Onboarding = **bilan de départ en 5 étapes** (poids/infos, photos guidées, mensurations, objectifs, récapitulatif) + profil + objectifs nutritionnels | à faire |
 | 3 | Dashboard Aujourd'hui complet (eau, pas, poids en saisie rapide) | entamé (eau fonctionnelle) |
 | 4 | Aliments + recettes + journal des repas (prévu/consommé) | à faire |
 | 5 | Programmes + séances + planning hebdo | à faire |
 | 6 | Mode entraînement (séries, chrono repos) + historique/records | à faire |
 | 7 | Progression : courbe poids, mensurations, photos + comparateur | à faire |
 | 8 | Calendrier global + historique + bouton « + » global | à faire |
+| 8b | Check-in mensuel (même protocole que le bilan de départ, rappel reportable, comparaison automatique, vue Transformation) | à faire |
 | 9 | Phase 2 : stats avancées, liste de courses, check-in hebdo, notifications, HealthKit/Health Connect, scanner code-barres | à faire |
 | 10 | Phase 3 : IA (recettes, menus, ajustement programme — toujours avec validation) | à faire |
