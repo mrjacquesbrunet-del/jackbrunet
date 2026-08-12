@@ -13,7 +13,7 @@ liste : la page est donc claire, et l'agenda tient la vedette.
 
 | | Page événement | Page à venir |
 |---|---|---|
-| En-tête | plein écran, sombre, vidéo de fond | claire et compacte, sans vidéo |
+| En-tête | plein écran, titre centré, compte à rebours géant | bande cinématique, titre calé en bas à gauche |
 | Compte à rebours | quatre grands cadrans | une ligne, dans un bandeau sombre |
 | Le contenu | panneaux bleu/rouge avec photo | agenda typographique groupé par année |
 | Punchline | mots dispersés qui se rassemblent | bande bleue, lignes qui montent |
@@ -23,7 +23,10 @@ liste : la page est donc claire, et l'agenda tient la vedette.
 ## Ce que contient la page
 
 1. **Filet tricolore** et barre de navigation en verre dépoli, sombre sur clair.
-2. **En-tête claire** — logo noir, grand titre « À venir » en Archivo.
+2. **En-tête cinématique** — une photo (ou une vidéo) en plein cadre, deux
+   voiles superposés pour la lisibilité, et le titre « À venir » calé en bas
+   à gauche. La bande fait environ trois quarts d'écran, pas la totalité :
+   l'agenda reste visible sans avoir à défiler.
 3. **Bandeau défilant** bleu avec les villes et leurs dates, en boucle.
 4. **Prochaine date** — bande sombre compacte : le compte à rebours tient sur
    une ligne, avec le bouton de réservation.
@@ -64,6 +67,21 @@ par la pastille active, suivie du lien :
 - Le **bandeau défilant** : la liste des villes y figure **deux fois**, pour
   que la boucle se referme sans saut. Ajoutez la nouvelle ville dans les deux
   listes, sinon le ruban saccade.
+
+## Mettre une vidéo à la place de la photo
+
+Dans `agenda.html`, cherchez `L'IMAGE DE FOND`. Il y a une balise `<video>`
+avec une image `poster`. Pour passer à la vidéo, ajoutez une ligne :
+
+```html
+<source src="ADRESSE_DE_VOTRE_VIDEO.mp4" type="video/mp4" />
+```
+
+La photo reste affichée le temps du chargement et sur les téléphones en
+économie de données. Format conseillé : `.mp4` muet, 10 à 15 secondes,
+moins de 15 Mo.
+
+Pour changer seulement la photo, remplacez l'adresse du `poster`.
 
 ## Régénérer les fichiers WordPress
 

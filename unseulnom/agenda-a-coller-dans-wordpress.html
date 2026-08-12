@@ -130,32 +130,68 @@
   }
 
   /* ===================================================================
-     EN-TETE CLAIRE
-     Pas de video ni de plein ecran ici : la page annonce des dates, elle
-     n'a pas d'ambiance a poser. Le titre suffit, et l'agenda commence
-     tout de suite en dessous.
+     EN-TETE CINEMATIQUE
+
+     Une bande large, pas un plein ecran : l'image donne l'ambiance sans
+     repousser l'agenda sous la ligne de flottaison. Le titre est pose en
+     bas a gauche, sur un degrade qui garantit sa lisibilite quelle que
+     soit la photo.
+
+     PHOTO OU VIDEO ? Les deux. La balise <video> affiche son image
+     "poster" tant qu'aucune video n'est fournie : il suffira d'ajouter la
+     ligne <source> pour que la video prenne la place de la photo, sans
+     rien changer d'autre.
      =================================================================== */
-  #usn-agenda .usn-tete { padding: clamp(48px, 8vw, 96px) 0 clamp(28px, 4vw, 46px); }
-  #usn-agenda .usn-tete-grille {
-    display: grid; grid-template-columns: auto 1fr; gap: clamp(20px, 4vw, 46px);
-    align-items: center;
+  #usn-agenda .usn-hero {
+    position: relative; overflow: hidden;
+    min-height: clamp(440px, 74svh, 780px);
+    display: flex; align-items: flex-end;
+    background: var(--usn-ink); color: var(--usn-white);
+    isolation: isolate;
   }
-  #usn-agenda .usn-tete-logo { width: clamp(76px, 11vw, 128px); }
+  #usn-agenda .usn-hero-video {
+    position: absolute; inset: 0; z-index: 0;
+    width: 100%; height: 100%; object-fit: cover;
+    will-change: transform;
+  }
+  /* Deux voiles superposes : un bleu profond qui rattache l'image a la
+     charte, et un degrade vertical qui assombrit le bas pour le texte. */
+  #usn-agenda .usn-hero-voile {
+    position: absolute; inset: 0; z-index: 1;
+    background:
+      linear-gradient(180deg, rgba(12,11,10,0.42) 0%, rgba(12,11,10,0.14) 26%,
+                      rgba(12,11,10,0.58) 58%, rgba(12,11,10,0.94) 100%),
+      linear-gradient(90deg, rgba(12,11,10,0.55) 0%, rgba(12,11,10,0) 58%),
+      radial-gradient(120% 95% at 10% 100%, rgba(27,47,196,0.58), transparent 64%),
+      radial-gradient(90% 70% at 95% 6%, rgba(228,38,43,0.26), transparent 58%);
+  }
+  #usn-agenda .usn-hero-inner {
+    position: relative; z-index: 2; width: 100%;
+    padding: clamp(46px, 9vw, 96px) 0 clamp(30px, 5vw, 54px);
+    will-change: transform, opacity;
+  }
+  #usn-agenda .usn-hero .usn-eyebrow { color: var(--usn-white); opacity: .78; }
+  /* Le logo est cale a gauche comme le reste du bloc. Le selecteur porte
+     deux classes a dessein : la regle commune a toutes les declinaisons du
+     logo est ecrite plus bas dans la feuille et centre les logos ; a
+     specificite egale, c'est elle qui l'emporterait. */
+  #usn-agenda .usn-hero .usn-hero-logo {
+    width: clamp(58px, 7vw, 84px); margin: 0 0 22px;
+  }
   /* L'interligne tres serre fait deborder l'accent du A vers le haut :
      sans cette marge, il vient chevaucher l'intitule juste au-dessus. */
-  #usn-agenda .usn-tete h1 {
-    margin-top: 18px;
-    font-size: clamp(52px, 13vw, 168px); text-transform: uppercase;
-    letter-spacing: -0.02em; line-height: 0.86;
+  #usn-agenda .usn-hero h1 {
+    margin-top: 14px;
+    font-size: clamp(56px, 14vw, 190px); text-transform: uppercase;
+    letter-spacing: -0.02em; line-height: 0.84;
+    text-shadow: 0 6px 40px rgba(0,0,0,0.45);
   }
-  #usn-agenda .usn-tete-sous {
-    margin-top: 18px; font-family: var(--usn-sub); font-size: clamp(15px, 2vw, 20px);
-    color: var(--usn-gris); max-width: 52ch;
+  #usn-agenda .usn-hero-sous {
+    margin-top: 20px; font-family: var(--usn-sub);
+    font-size: clamp(15px, 2vw, 20px); color: rgba(255,255,255,0.82);
+    max-width: 52ch; text-shadow: 0 2px 18px rgba(0,0,0,0.5);
   }
-  #usn-agenda .usn-tete-sous b { color: var(--usn-ink); font-weight: 700; }
-  @media (max-width: 720px) {
-    #usn-agenda .usn-tete-grille { grid-template-columns: 1fr; gap: 18px; }
-  }
+  #usn-agenda .usn-hero-sous b { color: var(--usn-white); font-weight: 700; }
 
   /* ---------- Bandeau defilant : les villes en continu ----------
      Un ruban qui rappelle l'affiche d'un festival. Il s'arrete si le
@@ -426,21 +462,42 @@
   </nav>
 
   <!-- ============================================================= -->
-  <!-- EN-TETE                                                        -->
+  <!-- EN-TETE CINEMATIQUE                                            -->
   <!-- ============================================================= -->
-  <header class="usn-tete">
-    <div class="usn-wrap">
-      <div class="usn-tete-grille">
-        <div class="usn-logo-mark usn-logo-noir usn-tete-logo" role="img" aria-label="Un Seul Nom"></div>
-        <div>
-          <span class="usn-eyebrow">L'agenda</span>
-          <h1>&Agrave; venir</h1>
-          <p class="usn-tete-sous">
-            <b>&Eacute;vang&eacute;lisation &amp; Gu&eacute;rison</b>, une ville apr&egrave;s l'autre.
-            Chaque rendez-vous est gratuit et ouvert &agrave; tous&nbsp;: croyants,
-            curieux, malades, chercheurs de Dieu.
-          </p>
-        </div>
+  <header class="usn-hero">
+
+    <!--
+      &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+      &#9658; L'IMAGE DE FOND
+
+      Aujourd'hui c'est une photo, posee en attribut poster="...".
+      Pour la remplacer, changez simplement cette adresse.
+
+      &#9658; POUR PASSER A LA VIDEO
+      Ajoutez une ligne juste avant </video> :
+
+          <source src="ADRESSE_DE_VOTRE_VIDEO.mp4" type="video/mp4" />
+
+      La video prendra la place de la photo, qui restera affichee le
+      temps du chargement et sur les telephones en economie de donnees.
+      Format conseille : .mp4 muet, 10 a 15 secondes, moins de 15 Mo.
+      &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+    -->
+    <video class="usn-hero-video" autoplay muted loop playsinline
+           poster="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp"></video>
+
+    <div class="usn-hero-voile"></div>
+
+    <div class="usn-hero-inner">
+      <div class="usn-wrap">
+        <div class="usn-logo-mark usn-logo-blanc usn-hero-logo" role="img" aria-label="Un Seul Nom"></div>
+        <span class="usn-eyebrow">L'agenda</span>
+        <h1>&Agrave; venir</h1>
+        <p class="usn-hero-sous">
+          <b>&Eacute;vang&eacute;lisation &amp; Gu&eacute;rison</b>, une ville apr&egrave;s l'autre.
+          Chaque rendez-vous est gratuit et ouvert &agrave; tous&nbsp;: croyants,
+          curieux, malades, chercheurs de Dieu.
+        </p>
       </div>
     </div>
   </header>
@@ -520,7 +577,7 @@
         <div>
           <div class="usn-ville">Avignon</div>
           <div class="usn-lieu">Parc des expos &middot; 800 chemin des F&eacute;lons, Montfavet &middot; Portes 15h00, conf&eacute;rence 16h00</div>
-          <div class="usn-invites">Pr&eacute;dication&nbsp;: Yannis Gautier, Chriss Campion &middot; Louange&nbsp;: Patcha&iuml; Reyes, Nikita Heugebaert, Ruben Debard</div>
+          <div class="usn-invites">Pr&eacute;dication&nbsp;: Yannis Gautier, Pasteur Chriss Campion &middot; Louange&nbsp;: Patcha&iuml; Reyes, Nikita Heugebaert, Ruben Debard</div>
         </div>
         <div class="usn-etat">
           <span class="usn-pastille">Inscriptions ouvertes</span>
@@ -533,7 +590,7 @@
         <div>
           <div class="usn-ville">Madagascar</div>
           <div class="usn-lieu">Lieu et horaires &agrave; confirmer</div>
-          <div class="usn-invites">Pr&eacute;dication&nbsp;: Pasteur Jack Brunet, Patane</div>
+          <div class="usn-invites">Pr&eacute;dication&nbsp;: Pasteur Jack Brunet, Pasteur Patan</div>
         </div>
         <div class="usn-etat">
           <span class="usn-pastille usn-attente">Bient&ocirc;t</span>
@@ -547,7 +604,7 @@
         <div>
           <div class="usn-ville">Marseille</div>
           <div class="usn-lieu">Lieu et horaires &agrave; confirmer</div>
-          <div class="usn-invites">Pr&eacute;dication&nbsp;: Yannis Gautier, Chriss Campion &middot; Louange&nbsp;: Patcha&iuml; Reyes, Nikita Heugebaert, Ruben Debard</div>
+          <div class="usn-invites">Pr&eacute;dication&nbsp;: Yannis Gautier, Pasteur Chriss Campion &middot; Louange&nbsp;: Patcha&iuml; Reyes, Nikita Heugebaert, Ruben Debard</div>
         </div>
         <div class="usn-etat">
           <span class="usn-pastille usn-attente">Bient&ocirc;t</span>
@@ -559,7 +616,7 @@
         <div>
           <div class="usn-ville">Bordeaux</div>
           <div class="usn-lieu">Lieu et horaires &agrave; confirmer</div>
-          <div class="usn-invites">Pr&eacute;dication&nbsp;: Pasteur Marcello Tunasi &middot; Louange&nbsp;: Dan Luiten, Nikita Heugebaert</div>
+          <div class="usn-invites">Pr&eacute;dication&nbsp;: Pasteur Marcello Tunasi, Pasteur Chriss Campion &middot; Louange&nbsp;: Dan Luiten, Nikita Heugebaert</div>
         </div>
         <div class="usn-etat">
           <span class="usn-pastille usn-attente">Bient&ocirc;t</span>
