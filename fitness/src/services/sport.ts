@@ -1,6 +1,7 @@
 import { supabase } from '@/src/lib/supabase';
 import type {
   Exercise,
+  ExerciseRecord,
   ProgramDay,
   Workout,
   WorkoutExercise,
@@ -166,6 +167,49 @@ export async function completeSession(sessionId: string, durationMin: number): P
       duration_min: durationMin,
     })
     .eq('id', sessionId);
+  if (error) throw error;
+}
+
+// --- Records personnels (saisis manuellement, conservés jusqu'à modification) ---
+
+export async function listExerciseRecords(): Promise<ExerciseRecord[]> {
+  const { data, error } = await supabase
+    .from('exercise_records')
+    .select('*, exercise:exercises(*)')
+    .order('updated_at', { ascending: false });
+  if (error) throw error;
+  return (data ?? []) as ExerciseRecord[];
+}
+
+/**
+ * Enregistre ou met à jour LE record d'un exercice (un seul record courant
+ * par exercice : il reste tel quel jusqu'à la prochaine modification).
+ */
+export async function upsertExerciseRecord(
+  exerciseId: string,
+  recordWeightKg: number,
+  recordReps?: number | null,
+  achievedOn?: string,
+): Promise<void> {
+  const { error } = await supabase.from('exercise_records').upsert(
+    {
+      user_id: await userId(),
+      exercise_id: exerciseId,
+      record_weight_kg: recordWeightKg,
+      record_reps: recordReps ?? null,
+      achieved_on: achievedOn ?? new Date().toISOString().slice(0, 10),
+    },
+    { onConflict: 'user_id,exercise_id' },
+  );
+  if (error) throw error;
+}
+
+export async function deleteExerciseRecord(exerciseId: string): Promise<void> {
+  const { error } = await supabase
+    .from('exercise_records')
+    .delete()
+    .eq('exercise_id', exerciseId)
+    .eq('user_id', await userId());
   if (error) throw error;
 }
 

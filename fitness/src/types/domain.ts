@@ -224,6 +224,17 @@ export interface Exercise {
   video_url: string | null;
 }
 
+export interface ExerciseRecord {
+  id: string;
+  user_id: string;
+  exercise_id: string;
+  record_weight_kg: number;
+  record_reps: number | null;
+  achieved_on: string;
+  notes: string | null;
+  exercise?: Exercise;
+}
+
 export interface Workout {
   id: string;
   user_id: string;

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  beatsRecord,
   calculateWorkoutVolume,
   estimatedOneRepMax,
   personalRecord,
@@ -40,6 +41,19 @@ describe('personalRecord', () => {
   it('ignore les séries non complétées', () => {
     const pr = personalRecord([{ actual_reps: 5, actual_weight_kg: 200, completed: false }]);
     expect(pr.bestWeight).toBe(0);
+  });
+});
+
+describe('beatsRecord', () => {
+  it('vrai quand la charge dépasse le record', () => {
+    expect(beatsRecord(90, 92.5)).toBe(true);
+    expect(beatsRecord(90, 90)).toBe(false);
+    expect(beatsRecord(90, 85)).toBe(false);
+  });
+
+  it('toute première charge valide devient un record potentiel', () => {
+    expect(beatsRecord(null, 60)).toBe(true);
+    expect(beatsRecord(null, 0)).toBe(false);
   });
 });
 

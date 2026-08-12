@@ -36,6 +36,16 @@ export function personalRecord(sets: SetLike[]): PersonalRecord {
 }
 
 /**
+ * Une charge validée bat-elle le record enregistré ?
+ * Sert à proposer « Nouveau record — l'enregistrer ? » après une série
+ * (jamais de mise à jour automatique : l'utilisateur garde la main).
+ */
+export function beatsRecord(recordWeightKg: number | null, weightKg: number): boolean {
+  if (weightKg <= 0) return false;
+  return recordWeightKg == null || weightKg > recordWeightKg;
+}
+
+/**
  * 1RM estimé — formule d'Epley (indicatif uniquement).
  * `weight × (1 + reps / 30)` ; pour 1 rep, renvoie la charge elle-même.
  */
