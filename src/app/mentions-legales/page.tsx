@@ -15,7 +15,7 @@ export default function MentionsLegalesPage() {
 
       <section className="container-x py-12">
         <div className="mx-auto max-w-3xl space-y-8 text-night-900/80 leading-relaxed">
-          <p className="text-sm text-night-900/50">Dernière mise à jour: juin 2026</p>
+          <p className="text-sm text-night-900/50">Dernière mise à jour: août 2026</p>
 
           <div>
             <h2 className="font-display text-2xl font-bold text-night-900">Éditeur du site</h2>
@@ -25,7 +25,7 @@ export default function MentionsLegalesPage() {
             <ul className="mt-3 list-disc pl-5 space-y-1.5">
               <li>Nom: Jack Brunet</li>
               <li>Adresse: 24 rue Maurice Ravel, 64000 Pau</li>
-              <li>SIRET: 94164311600010</li>
+              <li>SIRET: 80263958300029</li>
               <li>
                 Email:{" "}
                 <a href={`mailto:${siteConfig.contactEmail}`} className="underline underline-offset-2">
