@@ -1,30 +1,32 @@
 <style>
   /* ===================================================================
-     Styles scopes sous #usn-agenda pour ne pas entrer en conflit
-     avec le theme WordPress. Ajustez la charte via les variables --usn-*.
+     PAGE DES DATES A VENIR
+
+     Meme charte que la page evenement : memes couleurs, memes polices,
+     meme logo vectoriel, meme moteur d'animation au scroll. La mise en
+     page, elle, est differente : ici le sujet n'est pas un evenement mais
+     une liste, alors la page est claire et l'agenda tient la vedette,
+     ecrit en grand, groupe par annee.
+
+     Tout est scope sous #usn-agenda : les deux pages peuvent cohabiter
+     sur le site sans se marcher dessus.
      =================================================================== */
-  /* Poppins (corps) + Archive large/black pour les gros titres.
-     Note : le site vouscon utilise " Druk Wide " (police payante, non
-     hebergeable librement) ; Archivo Expanded Black en est l'equivalent
-     gratuit le plus proche (titres larges et massifs). */
   @import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap');
 
   #usn-agenda {
-    /* -- Charte : bleu, blanc, rouge (drapeau francais) -- */
-    --usn-blue: #1B2FC4;       /* bleu - accent principal */
-    --usn-blue-2: #2B41E0;     /* bleu clair - survol / eclat */
-    --usn-red: #E4262B;        /* rouge - boutons d'action */
-    --usn-red-2: #F5393E;      /* rouge clair - survol */
-    --usn-white: #FFFFFF;      /* blanc */
-    --usn-paper: #F4F5F9;      /* gris tres clair - fonds alternes */
-    --usn-ink: #0C0B0A;        /* noir - textes */
+    /* Charte : bleu, blanc, rouge (drapeau francais) */
+    --usn-blue: #1B2FC4;
+    --usn-blue-2: #2B41E0;
+    --usn-red: #E4262B;
+    --usn-white: #FFFFFF;
+    --usn-paper: #F4F5F9;
+    --usn-ink: #0C0B0A;
     --usn-ink-soft: #15141A;
+    /* Gris legerement bleutes, pour rester dans la famille du bleu */
+    --usn-gris: #5A5C6B;
+    --usn-trait: #E3E5EE;
 
-    --usn-radius: 18px;
-
-    /* Police des gros titres (large + massif, facon Druk Wide) */
     --usn-display: 'Archivo', 'Poppins', system-ui, -apple-system, "Segoe UI", sans-serif;
-    /* Police des sous-titres (grotesque neutre, facon Helvetica Now / Neue Montreal) */
     --usn-sub: 'Inter', system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
 
     box-sizing: border-box;
@@ -35,38 +37,18 @@
     -webkit-font-smoothing: antialiased;
     overflow-x: clip;
 
-    /* La page occupe toute la largeur de l'ecran, meme quand le theme
-       WordPress l'enferme dans une colonne centree (bandes blanches sur
-       les cotes). Si vous utilisez un modele de page deja pleine largeur,
-       ces trois lignes ne changent rien. */
-    width: 100vw;
-    max-width: 100vw;
-    margin-left: calc(50% - 50vw);
+    /* Pleine largeur, meme quand le theme WordPress enferme la page dans
+       une colonne centree. */
+    width: 100vw; max-width: 100vw; margin-left: calc(50% - 50vw);
   }
   #usn-agenda *, #usn-agenda *::before, #usn-agenda *::after { box-sizing: border-box; }
-  #usn-agenda img, #usn-agenda video { max-width: 100%; display: block; }
-
-  #usn-agenda .usn-wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 24px; }
-
-  #usn-agenda h1, #usn-agenda h2, #usn-agenda h3 { margin: 0; font-weight: 800; line-height: 1.05; letter-spacing: -0.01em; }
+  #usn-agenda img { max-width: 100%; display: block; }
   #usn-agenda p { margin: 0; }
-
-  /* Gros titres en Archivo large (facon Druk Wide) */
-  #usn-agenda h1, #usn-agenda h2,
-  #usn-agenda .usn-hero h1, #usn-agenda .usn-punch-line, #usn-agenda .usn-prog-title,
-  #usn-agenda .usn-cta-title, #usn-agenda .usn-datepill-d, #usn-agenda .usn-cd-num {
-    font-family: var(--usn-display);
-    font-stretch: 125%;
+  #usn-agenda h1, #usn-agenda h2, #usn-agenda h3 {
+    margin: 0; font-weight: 800; line-height: 1.02; letter-spacing: -0.01em;
+    font-family: var(--usn-display); font-stretch: 125%;
   }
-
-  /* Sous-titres en Inter (grotesque neutre, facon Helvetica Now) */
-  #usn-agenda .usn-datepill-v, #usn-agenda .usn-hero-tagline, #usn-agenda .usn-hero-date,
-  #usn-agenda .usn-section-head p, #usn-agenda .usn-prog-text, #usn-agenda .usn-cta-text,
-  #usn-agenda .usn-punch-sub, #usn-agenda .usn-fact-v, #usn-agenda .usn-person-name,
-  #usn-agenda .usn-dr-title, #usn-agenda .usn-dr-place {
-    font-family: var(--usn-sub);
-  }
-
+  #usn-agenda .usn-wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 24px; }
   #usn-agenda .usn-eyebrow {
     display: inline-flex; align-items: center; gap: 10px;
     font-size: 13px; font-weight: 800; letter-spacing: 0.34em; text-transform: uppercase;
@@ -78,116 +60,340 @@
     display: inline-flex; align-items: center; justify-content: center; gap: 10px;
     padding: 15px 34px; border-radius: 999px; font-weight: 700; font-size: 14px;
     letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; cursor: pointer;
-    border: 2px solid transparent; transition: transform .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
+    border: 2px solid transparent;
+    transition: transform .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
   }
   #usn-agenda .usn-btn-primary { background: var(--usn-blue); color: #fff; }
   #usn-agenda .usn-btn-primary:hover { background: var(--usn-red); transform: translateY(-2px); }
-  #usn-agenda .usn-btn-outline { background: transparent; color: var(--usn-white); border-color: rgba(255,255,255,0.7); }
-  #usn-agenda .usn-btn-outline:hover { background: var(--usn-white); color: var(--usn-ink); border-color: var(--usn-white); }
-  #usn-agenda .usn-btn-dark { background: var(--usn-ink); color: var(--usn-white); }
-  #usn-agenda .usn-btn-dark:hover { background: var(--usn-ink-soft); transform: translateY(-2px); }
-
-  /* =================================================================== */
-  /* HEROS PLEIN ECRAN AVEC VIDEO DE FOND                                 */
-  /* =================================================================== */
-  #usn-agenda .usn-hero {
-    position: relative;
-    min-height: 100svh;
-    display: flex; flex-direction: column;
-    /* Fond de secours elegant si la video est absente/en cours de chargement */
-    background:
-      radial-gradient(900px 600px at 50% 0%, rgba(27,47,196,0.55), transparent 60%),
-      radial-gradient(700px 500px at 80% 90%, rgba(228,38,43,0.34), transparent 60%),
-      var(--usn-ink);
-    color: var(--usn-white);
-    overflow: hidden;
+  #usn-agenda .usn-btn-clair { background: var(--usn-white); color: var(--usn-ink); }
+  #usn-agenda .usn-btn-clair:hover { transform: translateY(-2px); }
+  #usn-agenda .usn-btn-ligne { background: transparent; color: var(--usn-white); border-color: rgba(255,255,255,0.6); }
+  #usn-agenda .usn-btn-ligne:hover { background: var(--usn-white); color: var(--usn-ink); }
+  #usn-agenda a:focus-visible, #usn-agenda button:focus-visible {
+    outline: 3px solid rgba(27,47,196,0.55); outline-offset: 3px;
   }
-  /* Navigation de retour vers le reste du site : le bandeau du theme etant
-     masque sur cette page, sans elle le visiteur serait sans issue. */
+
+  /* ---------- Filet tricolore, signature de la marque ---------- */
+  #usn-agenda .usn-drapeau { display: flex; height: 6px; }
+  #usn-agenda .usn-drapeau i { flex: 1; }
+  #usn-agenda .usn-drapeau .b { background: var(--usn-blue); }
+  #usn-agenda .usn-drapeau .w { background: var(--usn-white); }
+  #usn-agenda .usn-drapeau .r { background: var(--usn-red); }
+
+  /* ---------- Barre de navigation, en verre depoli sur fond clair ------
+     La page evenement a la meme barre, en clair sur fond sombre ; ici
+     c'est l'inverse, puisque le fond est blanc. */
   #usn-agenda .usn-nav {
-    position: absolute; top: 0; left: 0; right: 0; z-index: 4;
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 14px; padding: 22px clamp(16px, 4vw, 42px);
-  }
-  #usn-agenda .usn-nav a { text-decoration: none; }
-
-  /* Retour au site : meme graisse et meme espacement que les intitules
-     de la page, pour rester dans la meme famille visuelle. */
-  #usn-agenda .usn-nav-brand {
-    display: inline-flex; align-items: center; gap: 10px;
-    padding: 11px 20px 11px 16px; border-radius: 999px;
-    font-family: var(--usn-display); font-stretch: 115%;
-    font-size: 13px; font-weight: 800; letter-spacing: 0.24em; text-transform: uppercase;
-    color: var(--usn-white);
-    /* Verre depoli : le fond de la page (ou la video) transparait au travers,
-       le bouton s'y integre au lieu de se poser dessus. */
-    background: rgba(255,255,255,0.10);
-    border: 1px solid rgba(255,255,255,0.22);
+    position: sticky; top: 0; z-index: 20;
+    display: flex; align-items: center; justify-content: space-between; gap: 14px;
+    padding: 14px clamp(16px, 4vw, 42px);
+    background: rgba(255,255,255,0.72);
+    border-bottom: 1px solid var(--usn-trait);
     -webkit-backdrop-filter: blur(14px) saturate(140%);
     backdrop-filter: blur(14px) saturate(140%);
-    text-shadow: 0 1px 10px rgba(0,0,0,0.35);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    #usn-agenda .usn-nav { background: rgba(255,255,255,0.96); }
+  }
+  #usn-agenda .usn-nav a { text-decoration: none; }
+  #usn-agenda .usn-nav-brand {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 10px 20px 10px 16px; border-radius: 999px;
+    font-family: var(--usn-display); font-stretch: 115%;
+    font-size: 13px; font-weight: 800; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--usn-ink);
+    background: rgba(12,11,10,0.05); border: 1px solid rgba(12,11,10,0.10);
     transition: background .2s ease, border-color .2s ease, transform .18s ease;
   }
   #usn-agenda .usn-nav-brand:hover {
-    background: rgba(255,255,255,0.18);
-    border-color: rgba(255,255,255,0.4);
+    background: rgba(12,11,10,0.09); border-color: rgba(12,11,10,0.18);
     transform: translateY(-1px);
   }
-  #usn-agenda .usn-nav-fleche {
-    font-size: 16px; letter-spacing: 0; line-height: 1;
-    transition: transform .18s ease;
-  }
+  #usn-agenda .usn-nav-fleche { font-size: 16px; letter-spacing: 0; line-height: 1; transition: transform .18s ease; }
   #usn-agenda .usn-nav-brand:hover .usn-nav-fleche { transform: translateX(-3px); }
-
-  /* Bouton de don : meme pastille que les boutons de la page (.usn-btn),
-     simplement plus compacte pour tenir dans la barre. */
   #usn-agenda .usn-nav-don {
-    display: inline-flex; align-items: center; justify-content: center;
-    padding: 12px 26px; border-radius: 999px;
+    display: inline-flex; align-items: center; padding: 11px 24px; border-radius: 999px;
     font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase;
-    color: #fff;
-    /* Meme verre depoli, teinte de rouge : la couleur reste lisible sur la
-       video sans masquer l'image. Au survol, le rouge devient plein. */
-    background: rgba(228,38,43,0.62);
-    border: 1px solid rgba(255,255,255,0.28);
-    -webkit-backdrop-filter: blur(14px) saturate(140%);
-    backdrop-filter: blur(14px) saturate(140%);
-    text-shadow: 0 1px 10px rgba(0,0,0,0.3);
-    transition: background .2s ease, border-color .2s ease, transform .18s ease;
+    color: #fff; background: var(--usn-red); border: 1px solid transparent;
+    transition: background .2s ease, transform .18s ease;
   }
-  #usn-agenda .usn-nav-don:hover {
-    background: var(--usn-red);
-    border-color: rgba(255,255,255,0.55);
-    transform: translateY(-2px);
-  }
-  #usn-agenda .usn-nav-don:focus-visible { outline: 3px solid rgba(255,255,255,0.6); outline-offset: 3px; }
-
-  /* Navigateurs sans flou : on opacifie pour garder la lisibilite. */
-  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    #usn-agenda .usn-nav-brand { background: rgba(12,11,10,0.55); }
-    #usn-agenda .usn-nav-don { background: rgba(228,38,43,0.92); }
+  #usn-agenda .usn-nav-don:hover { background: #C51D22; transform: translateY(-2px); }
+  #usn-agenda .usn-nav-brand, #usn-agenda .usn-nav-don { white-space: nowrap; }
+  /* Sur un petit ecran, les deux boutons se serrent plutot que de passer
+     leur texte sur deux lignes. */
+  @media (max-width: 430px) {
+    #usn-agenda .usn-nav { padding: 12px 14px; }
+    #usn-agenda .usn-nav-brand {
+      padding: 9px 14px 9px 12px; font-size: 11px; letter-spacing: 0.16em; gap: 7px;
+    }
+    #usn-agenda .usn-nav-don { padding: 10px 16px; font-size: 11px; letter-spacing: 0.04em; }
   }
 
-  @media (max-width: 520px) {
-    #usn-agenda .usn-nav { padding: 15px 16px; }
-    #usn-agenda .usn-nav-brand { font-size: 11px; letter-spacing: 0.16em; }
-    #usn-agenda .usn-nav-don { padding: 10px 18px; font-size: 11.5px; }
+  /* ===================================================================
+     EN-TETE CLAIRE
+     Pas de video ni de plein ecran ici : la page annonce des dates, elle
+     n'a pas d'ambiance a poser. Le titre suffit, et l'agenda commence
+     tout de suite en dessous.
+     =================================================================== */
+  #usn-agenda .usn-tete { padding: clamp(48px, 8vw, 96px) 0 clamp(28px, 4vw, 46px); }
+  #usn-agenda .usn-tete-grille {
+    display: grid; grid-template-columns: auto 1fr; gap: clamp(20px, 4vw, 46px);
+    align-items: center;
+  }
+  #usn-agenda .usn-tete-logo { width: clamp(76px, 11vw, 128px); }
+  /* L'interligne tres serre fait deborder l'accent du A vers le haut :
+     sans cette marge, il vient chevaucher l'intitule juste au-dessus. */
+  #usn-agenda .usn-tete h1 {
+    margin-top: 18px;
+    font-size: clamp(52px, 13vw, 168px); text-transform: uppercase;
+    letter-spacing: -0.02em; line-height: 0.86;
+  }
+  #usn-agenda .usn-tete-sous {
+    margin-top: 18px; font-family: var(--usn-sub); font-size: clamp(15px, 2vw, 20px);
+    color: var(--usn-gris); max-width: 52ch;
+  }
+  #usn-agenda .usn-tete-sous b { color: var(--usn-ink); font-weight: 700; }
+  @media (max-width: 720px) {
+    #usn-agenda .usn-tete-grille { grid-template-columns: 1fr; gap: 18px; }
   }
 
-  #usn-agenda .usn-hero-video {
-    position: absolute; inset: 0; width: 100%; height: 100%;
-    object-fit: cover; z-index: 0;
+  /* ---------- Bandeau defilant : les villes en continu ----------
+     Un ruban qui rappelle l'affiche d'un festival. Il s'arrete si le
+     visiteur a demande moins d'animations. */
+  #usn-agenda .usn-defile {
+    background: var(--usn-blue); color: #fff; overflow: hidden;
+    padding: 16px 0; user-select: none;
   }
-  #usn-agenda .usn-hero-overlay {
-    position: absolute; inset: 0; z-index: 1;
-    background:
-      linear-gradient(to bottom, rgba(12,11,10,0.35) 0%, rgba(12,11,10,0.15) 40%, rgba(12,11,10,0.75) 100%);
+  #usn-agenda .usn-defile-piste {
+    display: flex; width: max-content; gap: 0;
+    animation: usn-glisse 38s linear infinite;
   }
-  #usn-agenda .usn-hero-inner {
-    position: relative; z-index: 2;
-    flex: 1 1 auto; display: flex; align-items: center;
-    padding: 120px 0 40px; text-align: center;
+  #usn-agenda .usn-defile-suite { display: flex; align-items: center; gap: 34px; padding-right: 34px; }
+  #usn-agenda .usn-defile b {
+    font-family: var(--usn-display); font-stretch: 125%; font-weight: 900;
+    font-size: clamp(20px, 3.4vw, 40px); text-transform: uppercase; letter-spacing: 0.01em;
+    white-space: nowrap;
   }
+  #usn-agenda .usn-defile span { color: rgba(255,255,255,0.62); font-size: clamp(13px, 1.6vw, 17px); white-space: nowrap; }
+  #usn-agenda .usn-defile i { color: var(--usn-red); font-style: normal; font-size: 22px; }
+  @keyframes usn-glisse { from { transform: translate3d(0,0,0); } to { transform: translate3d(-50%,0,0); } }
+  @media (prefers-reduced-motion: reduce) {
+    #usn-agenda .usn-defile-piste { animation: none; }
+  }
+
+  /* ===================================================================
+     LA PROCHAINE DATE
+     Une bande sombre et compacte : le compte a rebours tient sur une
+     ligne, au lieu des quatre grands cadrans de la page evenement.
+     =================================================================== */
+  #usn-agenda .usn-prochain { background: var(--usn-ink); color: #fff; padding: 26px 0; }
+  #usn-agenda .usn-prochain-grille {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: clamp(16px, 3vw, 34px); flex-wrap: wrap;
+  }
+  #usn-agenda .usn-prochain-k {
+    font-size: 11px; font-weight: 800; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--usn-red);
+  }
+  #usn-agenda .usn-prochain-v {
+    margin-top: 4px; font-family: var(--usn-display); font-stretch: 118%;
+    font-weight: 800; font-size: clamp(18px, 2.6vw, 26px); text-transform: uppercase;
+  }
+  #usn-agenda .usn-chrono { display: flex; align-items: baseline; gap: 18px; }
+  #usn-agenda .usn-chrono div { text-align: center; }
+  #usn-agenda .usn-chrono b {
+    display: block; font-family: var(--usn-display); font-stretch: 118%; font-weight: 900;
+    font-size: clamp(22px, 3.4vw, 34px); line-height: 1; font-variant-numeric: tabular-nums;
+  }
+  #usn-agenda .usn-chrono small {
+    display: block; margin-top: 4px; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.5);
+  }
+
+  /* ===================================================================
+     L'AGENDA - le coeur de la page
+     Chaque date est une ligne pleine largeur : le jour a gauche, la ville
+     en tres grand, les details dessous, l'etat des inscriptions a droite.
+     Les lignes arrivent par la gauche au scroll.
+     =================================================================== */
+  #usn-agenda .usn-agenda { padding: clamp(40px, 6vw, 74px) 0 clamp(30px, 5vw, 60px); }
+
+  /* Separateur d'annee : il porte une information, il ne decore pas. */
+  #usn-agenda .usn-an {
+    display: flex; align-items: center; gap: 18px;
+    margin: 0 0 6px; padding-top: 26px;
+  }
+  #usn-agenda .usn-an:first-child { padding-top: 0; }
+  #usn-agenda .usn-an b {
+    font-family: var(--usn-display); font-stretch: 125%; font-weight: 900;
+    font-size: clamp(15px, 2vw, 20px); letter-spacing: 0.08em;
+    font-variant-numeric: tabular-nums;
+  }
+  #usn-agenda .usn-an::after { content: ''; flex: 1; height: 2px; background: var(--usn-trait); }
+
+  #usn-agenda .usn-ligne {
+    display: grid; grid-template-columns: 108px 1fr auto;
+    gap: clamp(14px, 3vw, 34px); align-items: center;
+    padding: clamp(20px, 3vw, 30px) 0;
+    border-top: 1px solid var(--usn-trait);
+    will-change: transform, opacity;
+  }
+  #usn-agenda .usn-ligne:last-child { border-bottom: 1px solid var(--usn-trait); }
+
+  #usn-agenda .usn-jour { text-align: left; }
+  #usn-agenda .usn-jour b {
+    display: block; font-family: var(--usn-display); font-stretch: 118%; font-weight: 900;
+    font-size: clamp(30px, 4.4vw, 46px); line-height: 0.9;
+    font-variant-numeric: tabular-nums; color: var(--usn-blue);
+  }
+  #usn-agenda .usn-jour span {
+    display: block; margin-top: 5px; font-size: 11px; font-weight: 800;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--usn-gris);
+  }
+
+  #usn-agenda .usn-ville {
+    font-family: var(--usn-display); font-stretch: 125%; font-weight: 900;
+    font-size: clamp(30px, 6.2vw, 76px); line-height: 0.92; text-transform: uppercase;
+    letter-spacing: -0.015em;
+  }
+  #usn-agenda .usn-lieu {
+    margin-top: 8px; font-family: var(--usn-sub); font-size: clamp(13.5px, 1.6vw, 16px);
+    color: var(--usn-ink);
+  }
+  #usn-agenda .usn-invites {
+    margin-top: 3px; font-family: var(--usn-sub); font-size: clamp(13px, 1.5vw, 15px);
+    color: var(--usn-gris); max-width: 62ch;
+  }
+
+  #usn-agenda .usn-etat { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+  #usn-agenda .usn-pastille {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px; border-radius: 999px;
+    font-size: 11px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+    background: rgba(27,47,196,0.08); color: var(--usn-blue);
+    white-space: nowrap;
+  }
+  #usn-agenda .usn-pastille::before {
+    content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--usn-blue);
+  }
+  #usn-agenda .usn-pastille.usn-attente { background: rgba(12,11,10,0.05); color: var(--usn-gris); }
+  #usn-agenda .usn-pastille.usn-attente::before { background: #C9CBD6; }
+  #usn-agenda .usn-reserver {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 24px; border-radius: 999px;
+    background: var(--usn-ink); color: #fff; text-decoration: none;
+    font-weight: 800; font-size: 13.5px; white-space: nowrap;
+    transition: background .18s ease, transform .18s ease;
+  }
+  #usn-agenda .usn-reserver:hover { background: var(--usn-blue); transform: translateY(-2px); }
+  #usn-agenda .usn-reserver span { transition: transform .18s ease; }
+  #usn-agenda .usn-reserver:hover span { transform: translateX(3px); }
+
+  @media (max-width: 760px) {
+    #usn-agenda .usn-ligne { grid-template-columns: 76px 1fr; }
+    #usn-agenda .usn-etat { grid-column: 1 / -1; align-items: flex-start; }
+  }
+
+  /* ===================================================================
+     BANDE BLEUE - l'appel aux eglises
+     =================================================================== */
+  #usn-agenda .usn-bande {
+    background: var(--usn-blue); color: #fff;
+    padding: clamp(52px, 8vw, 96px) 0;
+  }
+  #usn-agenda .usn-bande h2 {
+    font-size: clamp(30px, 5.6vw, 66px); text-transform: uppercase; max-width: 16ch;
+  }
+  #usn-agenda .usn-bande .usn-mot { display: block; }
+  #usn-agenda .usn-bande p {
+    margin-top: 20px; font-family: var(--usn-sub); font-size: clamp(15px, 1.8vw, 18px);
+    color: rgba(255,255,255,0.82); max-width: 56ch;
+  }
+  #usn-agenda .usn-bande-actions { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; }
+
+  /* ===================================================================
+     PELLICULE DES EDITIONS PASSEES
+     Les affiches defilent horizontalement et reprennent leurs couleurs
+     en passant au centre de l'ecran.
+     =================================================================== */
+  #usn-agenda .usn-passe { padding: clamp(46px, 7vw, 84px) 0 clamp(30px, 5vw, 56px); }
+  #usn-agenda .usn-passe-tete { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  #usn-agenda .usn-passe h2 { font-size: clamp(28px, 4.6vw, 52px); text-transform: uppercase; }
+  #usn-agenda .usn-passe-tete p { font-family: var(--usn-sub); color: var(--usn-gris); max-width: 40ch; font-size: 15px; }
+
+  #usn-agenda .usn-pellicule {
+    margin-top: 30px; display: flex; gap: 18px;
+    overflow-x: auto; scroll-snap-type: x mandatory;
+    padding-bottom: 14px; -webkit-overflow-scrolling: touch;
+  }
+  #usn-agenda .usn-pellicule::-webkit-scrollbar { height: 6px; }
+  #usn-agenda .usn-pellicule::-webkit-scrollbar-thumb { background: var(--usn-trait); border-radius: 99px; }
+  #usn-agenda .usn-affiche {
+    flex: 0 0 clamp(210px, 24vw, 268px); margin: 0; scroll-snap-align: start;
+    will-change: transform, opacity;
+  }
+  #usn-agenda .usn-affiche-img {
+    position: relative; aspect-ratio: 3 / 4; border-radius: 20px; overflow: hidden;
+    background: linear-gradient(140deg, var(--usn-blue), #101861);
+    box-shadow: 0 24px 46px -26px rgba(12,11,10,0.42);
+  }
+  #usn-agenda .usn-affiche-img img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: grayscale(1) contrast(1.06); will-change: filter, transform;
+  }
+  #usn-agenda .usn-affiche-quand {
+    margin-top: 13px; font-size: 11px; font-weight: 800;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--usn-red);
+  }
+  #usn-agenda .usn-affiche-ou { margin-top: 4px; font-weight: 800; font-size: 17px; }
+  #usn-agenda .usn-affiche-salle { margin-top: 2px; font-family: var(--usn-sub); font-size: 13px; color: var(--usn-gris); }
+
+  /* ===================================================================
+     LETTRE D'INFORMATION - compacte, sur une ligne
+     =================================================================== */
+  #usn-agenda .usn-lettre { background: var(--usn-paper); padding: clamp(44px, 6vw, 72px) 0; }
+  #usn-agenda .usn-lettre-grille {
+    display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 4vw, 54px); align-items: center;
+  }
+  #usn-agenda .usn-lettre h2 { font-size: clamp(26px, 3.8vw, 42px); text-transform: uppercase; }
+  #usn-agenda .usn-lettre p { margin-top: 12px; font-family: var(--usn-sub); color: var(--usn-gris); max-width: 44ch; }
+  #usn-agenda .usn-form { display: grid; gap: 12px; }
+  #usn-agenda .usn-form input {
+    width: 100%; padding: 15px 17px; border-radius: 13px;
+    border: 1px solid rgba(12,11,10,0.16); background: #fff; color: var(--usn-ink);
+    font-family: inherit; font-size: 15px;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  #usn-agenda .usn-form input::placeholder { color: rgba(12,11,10,0.4); }
+  #usn-agenda .usn-form input:focus {
+    outline: none; border-color: var(--usn-blue); box-shadow: 0 0 0 3px rgba(27,47,196,0.22);
+  }
+  #usn-agenda .usn-form-duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  #usn-agenda .usn-form button { width: 100%; padding: 16px; font-size: 14px; }
+  #usn-agenda .usn-consent { font-size: 12.5px; color: rgba(12,11,10,0.6); }
+  #usn-agenda .usn-msg {
+    display: none; margin-top: 12px; padding: 14px 16px; border-radius: 13px;
+    background: rgba(27,47,196,0.08); color: var(--usn-blue); font-weight: 700; font-size: 14px;
+  }
+  @media (max-width: 800px) {
+    #usn-agenda .usn-lettre-grille { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 460px) {
+    #usn-agenda .usn-form-duo { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Pied de page ---------- */
+  #usn-agenda .usn-footer {
+    background: var(--usn-ink); color: rgba(255,255,255,0.7);
+    padding: 46px 0; text-align: center; font-size: 14px;
+  }
+  #usn-agenda .usn-footer-logo {
+    color: var(--usn-white); font-weight: 900; letter-spacing: 0.3em;
+    text-transform: uppercase; font-size: 15px;
+  }
+  #usn-agenda .usn-footer a { color: var(--usn-red); text-decoration: none; }
+  #usn-agenda .usn-footer a:hover { text-decoration: underline; }
+
   /* ---------------------------------------------------------------
      LOGO UN SEUL NOM
      Le dessin du logo est integre directement dans cette feuille de
@@ -201,785 +407,309 @@
   }
   #usn-agenda .usn-logo-blanc { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 1200'%3E%3Cg fill='%23ffffff' transform='translate(0,1200) scale(0.1,-0.1)'%3E%3Cpath d='M5483 11990 c-11 -5 -61 -13 -110 -19 -555 -64 -1095 -195 -1518 -366 -44 -18 -91 -36 -105 -40 -61 -18 -391 -173 -540 -252 -1094 -584 -1938 -1428 -2523 -2523 -82 -154 -232 -477 -257 -555 -7 -21 -23 -62 -35 -90 -12 -27 -46 -119 -75 -203 -146 -428 -235 -830 -291 -1316 -6 -48 -15 -99 -20 -113 -12 -32 -12 -994 0 -1026 5 -14 14 -65 20 -113 64 -554 204 -1134 370 -1539 275 -667 534 -1112 940 -1615 245 -304 689 -744 922 -915 15 -11 65 -49 111 -85 593 -463 1385 -848 2128 -1035 307 -77 405 -96 695 -135 88 -11 201 -28 250 -36 129 -22 1031 -15 1180 8 55 9 152 23 215 32 250 33 570 99 760 156 483 144 749 248 1130 442 1376 703 2417 1896 2943 3373 32 90 50 148 117 375 57 192 123 511 156 760 9 63 23 160 32 215 20 128 24 1107 5 1215 -7 36 -22 135 -33 220 -41 294 -59 387 -135 690 -64 253 -216 704 -290 855 -8 17 -44 95 -81 175 -171 374 -421 787 -664 1098 -36 46 -74 96 -85 111 -11 15 -42 54 -70 87 -557 662 -1202 1174 -1945 1544 -155 78 -236 114 -515 230 -396 165 -983 307 -1539 371 -48 6 -99 15 -113 20 -31 12 -1000 11 -1030 -1z m1007 -450 c182 -16 518 -64 650 -94 584 -131 1144 -341 1570 -588 52 -30 124 -72 160 -93 1091 -637 2055 -1846 2419 -3035 13 -41 34 -106 46 -145 13 -38 35 -119 49 -180 14 -60 30 -123 35 -140 136 -422 186 -1486 95 -2030 -54 -329 -68 -398 -119 -600 -541 -2153 -2364 -3812 -4545 -4135 -30 -4 -82 -13 -115 -19 -494 -86 -1590 -32 -2000 100 -16 5 -79 21 -140 35 -60 14 -141 36 -180 49 -38 12 -104 33 -145 46 -1187 364 -2399 1330 -3035 2419 -21 36 -63 108 -93 160 -250 430 -466 1010 -591 1585 -182 837 -132 1944 124 2735 106 328 171 497 278 725 1005 2139 3197 3408 5537 3205z'/%3E%3Cpath d='M2576 8818 c-19 -27 -24 -1716 -5 -1797 81 -353 761 -380 900 -35 l24 59 3 860 c3 886 3 893 -24 919 -22 22 -320 24 -350 2 -19 -14 -19 -36 -22 -865 l-2 -852 -25 -11 c-17 -8 -40 -8 -73 -2 l-47 9 -5 853 c-5 830 -6 854 -24 868 -37 27 -331 20 -350 -8z'/%3E%3Cpath d='M3667 8822 c-29 -32 -26 -2003 3 -2032 21 -21 267 -31 297 -12 29 18 33 70 33 443 0 223 4 379 9 379 12 0 34 -60 61 -165 11 -44 27 -98 34 -120 7 -22 21 -69 31 -105 9 -36 32 -114 50 -175 18 -60 40 -138 50 -173 26 -89 33 -92 196 -92 197 0 173 -135 177 999 3 978 2 1030 -24 1056 -17 16 -267 22 -291 7 -29 -18 -33 -70 -33 -428 0 -390 -4 -417 -43 -298 -21 62 -81 274 -147 514 -48 174 -57 198 -81 210 -36 20 -304 12 -322 -8z'/%3E%3Cpath d='M6416 8824 c-332 -72 -495 -329 -597 -944 -94 -566 -171 -716 -388 -751 -86 -13 -91 -24 -91 -185 0 -184 15 -195 209 -163 333 54 513 336 621 974 11 61 24 139 30 175 56 332 175 528 335 555 116 20 125 33 125 186 0 97 -10 147 -33 161 -19 12 -136 8 -211 -8z'/%3E%3Cpath d='M6834 8826 c-19 -14 -19 -38 -22 -988 -3 -997 -2 -1026 24 -1053 23 -23 719 -23 752 1 23 16 35 288 14 322 -15 23 -77 32 -229 32 -189 0 -173 -25 -173 269 0 277 -8 261 124 261 128 0 126 -2 126 178 0 180 -1 182 -123 182 -131 0 -127 -8 -127 224 0 136 3 195 12 204 8 8 60 12 168 12 178 0 194 3 209 36 18 40 15 285 -5 312 l-15 22 -358 0 c-293 0 -361 -3 -377 -14z'/%3E%3Cpath d='M7716 8821 c-15 -17 -16 -87 -14 -912 l3 -894 36 -65 c159 -291 711 -280 860 17 l34 68 0 888 c0 868 0 889 -19 903 -35 25 -330 20 -356 -6 -20 -20 -20 -33 -20 -865 l0 -845 -27 -11 c-18 -7 -44 -8 -73 -2 l-45 8 -5 853 c-5 830 -6 854 -24 868 -33 24 -327 20 -350 -5z'/%3E%3Cpath d='M8806 8818 c-28 -40 -24 -2000 4 -2028 30 -30 687 -31 713 -2 23 25 25 297 3 328 -13 17 -31 20 -177 24 l-163 5 -7 25 c-4 14 -7 390 -8 837 -1 792 -1 813 -20 823 -43 22 -328 13 -345 -12z'/%3E%3Cpath d='M5582 6660 c-606 -92 -1090 -445 -1352 -985 -121 -249 -172 -474 -172 -760 -1 -976 779 -1755 1758 -1755 253 0 350 16 592 97 684 229 1171 918 1171 1658 2 1058 -964 1901 -1997 1745z'/%3E%3Cpath d='M2240 6627 c-13 -7 -27 -23 -31 -37 -15 -54 -10 -3298 5 -3334 21 -50 51 -56 280 -56 199 0 236 6 268 42 2 2 5 321 8 711 3 462 8 707 15 706 13 0 51 -116 131 -404 18 -66 54 -192 80 -280 25 -88 66 -230 90 -315 146 -514 100 -460 401 -460 227 0 259 6 283 49 7 13 10 561 10 1681 l0 1661 -25 24 -24 25 -226 0 -226 0 -24 -25 -25 -24 -1 -688 c-1 -803 -3 -819 -63 -598 -22 83 -101 358 -161 565 -66 226 -82 285 -100 360 -8 30 -19 69 -25 85 -6 17 -27 86 -45 155 -49 181 -28 170 -328 170 -173 0 -249 -4 -267 -13z'/%3E%3Cpath d='M7875 6615 l-25 -24 0 -1655 c0 -1029 4 -1664 10 -1680 20 -53 48 -57 320 -54 247 3 249 3 274 27 l26 24 0 352 c0 516 2 519 105 190 32 -99 74 -233 95 -297 21 -64 46 -144 56 -177 37 -133 140 -153 177 -33 8 26 31 99 51 162 19 63 58 189 86 280 80 260 84 272 95 273 6 1 12 -130 15 -368 5 -390 6 -397 51 -420 42 -22 497 -22 539 0 52 27 50 -45 50 1715 l0 1661 -25 24 -24 25 -278 0 c-308 0 -312 -1 -332 -63 -11 -37 -30 -130 -71 -352 -16 -88 -38 -205 -49 -260 -17 -86 -61 -314 -141 -735 -47 -248 -54 -244 -115 60 -14 69 -32 163 -41 210 -8 47 -22 112 -29 145 -8 33 -23 110 -35 170 -11 61 -34 175 -50 255 -17 80 -44 215 -60 300 -57 297 -19 270 -372 270 l-279 0 -24 -25z'/%3E%3C/g%3E%3C/svg%3E"); }
   #usn-agenda .usn-logo-noir  { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 1200'%3E%3Cg fill='%230C0B0A' transform='translate(0,1200) scale(0.1,-0.1)'%3E%3Cpath d='M5483 11990 c-11 -5 -61 -13 -110 -19 -555 -64 -1095 -195 -1518 -366 -44 -18 -91 -36 -105 -40 -61 -18 -391 -173 -540 -252 -1094 -584 -1938 -1428 -2523 -2523 -82 -154 -232 -477 -257 -555 -7 -21 -23 -62 -35 -90 -12 -27 -46 -119 -75 -203 -146 -428 -235 -830 -291 -1316 -6 -48 -15 -99 -20 -113 -12 -32 -12 -994 0 -1026 5 -14 14 -65 20 -113 64 -554 204 -1134 370 -1539 275 -667 534 -1112 940 -1615 245 -304 689 -744 922 -915 15 -11 65 -49 111 -85 593 -463 1385 -848 2128 -1035 307 -77 405 -96 695 -135 88 -11 201 -28 250 -36 129 -22 1031 -15 1180 8 55 9 152 23 215 32 250 33 570 99 760 156 483 144 749 248 1130 442 1376 703 2417 1896 2943 3373 32 90 50 148 117 375 57 192 123 511 156 760 9 63 23 160 32 215 20 128 24 1107 5 1215 -7 36 -22 135 -33 220 -41 294 -59 387 -135 690 -64 253 -216 704 -290 855 -8 17 -44 95 -81 175 -171 374 -421 787 -664 1098 -36 46 -74 96 -85 111 -11 15 -42 54 -70 87 -557 662 -1202 1174 -1945 1544 -155 78 -236 114 -515 230 -396 165 -983 307 -1539 371 -48 6 -99 15 -113 20 -31 12 -1000 11 -1030 -1z m1007 -450 c182 -16 518 -64 650 -94 584 -131 1144 -341 1570 -588 52 -30 124 -72 160 -93 1091 -637 2055 -1846 2419 -3035 13 -41 34 -106 46 -145 13 -38 35 -119 49 -180 14 -60 30 -123 35 -140 136 -422 186 -1486 95 -2030 -54 -329 -68 -398 -119 -600 -541 -2153 -2364 -3812 -4545 -4135 -30 -4 -82 -13 -115 -19 -494 -86 -1590 -32 -2000 100 -16 5 -79 21 -140 35 -60 14 -141 36 -180 49 -38 12 -104 33 -145 46 -1187 364 -2399 1330 -3035 2419 -21 36 -63 108 -93 160 -250 430 -466 1010 -591 1585 -182 837 -132 1944 124 2735 106 328 171 497 278 725 1005 2139 3197 3408 5537 3205z'/%3E%3Cpath d='M2576 8818 c-19 -27 -24 -1716 -5 -1797 81 -353 761 -380 900 -35 l24 59 3 860 c3 886 3 893 -24 919 -22 22 -320 24 -350 2 -19 -14 -19 -36 -22 -865 l-2 -852 -25 -11 c-17 -8 -40 -8 -73 -2 l-47 9 -5 853 c-5 830 -6 854 -24 868 -37 27 -331 20 -350 -8z'/%3E%3Cpath d='M3667 8822 c-29 -32 -26 -2003 3 -2032 21 -21 267 -31 297 -12 29 18 33 70 33 443 0 223 4 379 9 379 12 0 34 -60 61 -165 11 -44 27 -98 34 -120 7 -22 21 -69 31 -105 9 -36 32 -114 50 -175 18 -60 40 -138 50 -173 26 -89 33 -92 196 -92 197 0 173 -135 177 999 3 978 2 1030 -24 1056 -17 16 -267 22 -291 7 -29 -18 -33 -70 -33 -428 0 -390 -4 -417 -43 -298 -21 62 -81 274 -147 514 -48 174 -57 198 -81 210 -36 20 -304 12 -322 -8z'/%3E%3Cpath d='M6416 8824 c-332 -72 -495 -329 -597 -944 -94 -566 -171 -716 -388 -751 -86 -13 -91 -24 -91 -185 0 -184 15 -195 209 -163 333 54 513 336 621 974 11 61 24 139 30 175 56 332 175 528 335 555 116 20 125 33 125 186 0 97 -10 147 -33 161 -19 12 -136 8 -211 -8z'/%3E%3Cpath d='M6834 8826 c-19 -14 -19 -38 -22 -988 -3 -997 -2 -1026 24 -1053 23 -23 719 -23 752 1 23 16 35 288 14 322 -15 23 -77 32 -229 32 -189 0 -173 -25 -173 269 0 277 -8 261 124 261 128 0 126 -2 126 178 0 180 -1 182 -123 182 -131 0 -127 -8 -127 224 0 136 3 195 12 204 8 8 60 12 168 12 178 0 194 3 209 36 18 40 15 285 -5 312 l-15 22 -358 0 c-293 0 -361 -3 -377 -14z'/%3E%3Cpath d='M7716 8821 c-15 -17 -16 -87 -14 -912 l3 -894 36 -65 c159 -291 711 -280 860 17 l34 68 0 888 c0 868 0 889 -19 903 -35 25 -330 20 -356 -6 -20 -20 -20 -33 -20 -865 l0 -845 -27 -11 c-18 -7 -44 -8 -73 -2 l-45 8 -5 853 c-5 830 -6 854 -24 868 -33 24 -327 20 -350 -5z'/%3E%3Cpath d='M8806 8818 c-28 -40 -24 -2000 4 -2028 30 -30 687 -31 713 -2 23 25 25 297 3 328 -13 17 -31 20 -177 24 l-163 5 -7 25 c-4 14 -7 390 -8 837 -1 792 -1 813 -20 823 -43 22 -328 13 -345 -12z'/%3E%3Cpath d='M5582 6660 c-606 -92 -1090 -445 -1352 -985 -121 -249 -172 -474 -172 -760 -1 -976 779 -1755 1758 -1755 253 0 350 16 592 97 684 229 1171 918 1171 1658 2 1058 -964 1901 -1997 1745z'/%3E%3Cpath d='M2240 6627 c-13 -7 -27 -23 -31 -37 -15 -54 -10 -3298 5 -3334 21 -50 51 -56 280 -56 199 0 236 6 268 42 2 2 5 321 8 711 3 462 8 707 15 706 13 0 51 -116 131 -404 18 -66 54 -192 80 -280 25 -88 66 -230 90 -315 146 -514 100 -460 401 -460 227 0 259 6 283 49 7 13 10 561 10 1681 l0 1661 -25 24 -24 25 -226 0 -226 0 -24 -25 -25 -24 -1 -688 c-1 -803 -3 -819 -63 -598 -22 83 -101 358 -161 565 -66 226 -82 285 -100 360 -8 30 -19 69 -25 85 -6 17 -27 86 -45 155 -49 181 -28 170 -328 170 -173 0 -249 -4 -267 -13z'/%3E%3Cpath d='M7875 6615 l-25 -24 0 -1655 c0 -1029 4 -1664 10 -1680 20 -53 48 -57 320 -54 247 3 249 3 274 27 l26 24 0 352 c0 516 2 519 105 190 32 -99 74 -233 95 -297 21 -64 46 -144 56 -177 37 -133 140 -153 177 -33 8 26 31 99 51 162 19 63 58 189 86 280 80 260 84 272 95 273 6 1 12 -130 15 -368 5 -390 6 -397 51 -420 42 -22 497 -22 539 0 52 27 50 -45 50 1715 l0 1661 -25 24 -24 25 -278 0 c-308 0 -312 -1 -332 -63 -11 -37 -30 -130 -71 -352 -16 -88 -38 -205 -49 -260 -17 -86 -61 -314 -141 -735 -47 -248 -54 -244 -115 60 -14 69 -32 163 -41 210 -8 47 -22 112 -29 145 -8 33 -23 110 -35 170 -11 61 -34 175 -50 255 -17 80 -44 215 -60 300 -57 297 -19 270 -372 270 l-279 0 -24 -25z'/%3E%3C/g%3E%3C/svg%3E"); }
-  #usn-agenda .usn-hero-logo { width: clamp(90px, 16vw, 150px); margin-bottom: 6px; }
+    #usn-agenda .usn-tete-logo { aspect-ratio: 1 / 1; }
   #usn-agenda .usn-footer-mark { width: 76px; opacity: .85; margin-bottom: 14px; }
-  #usn-agenda .usn-hero-eyebrow {
-    display: inline-flex; align-items: center; gap: 12px;
-    font-size: 14px; font-weight: 800; letter-spacing: 0.4em; text-transform: uppercase;
-    color: var(--usn-red);
-  }
-  #usn-agenda .usn-hero h1 {
-    margin: 18px auto 0;
-    font-size: clamp(38px, 15vw, 190px);
-    font-weight: 900; line-height: 0.92; letter-spacing: -0.02em; text-transform: uppercase;
-    color: var(--usn-white);
-    text-shadow: 0 8px 40px rgba(0,0,0,0.5);
-  }
-  #usn-agenda .usn-hero-tagline {
-    margin: 16px auto 0; font-size: clamp(16px, 3vw, 24px); font-weight: 700;
-    letter-spacing: 0.02em; text-transform: uppercase; color: var(--usn-red);
-  }
-  #usn-agenda .usn-hero-date {
-    margin: 10px auto 0; font-size: clamp(13px, 2.4vw, 17px); font-weight: 600;
-    letter-spacing: 0.28em; text-transform: uppercase; color: rgba(255,255,255,0.9);
-  }
-  #usn-agenda .usn-hero-cta { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
 
-  /* ---------- Compte a rebours (bas du heros) ---------- */
-  #usn-agenda .usn-countdown {
-    position: relative; z-index: 2;
-    background: var(--usn-ink);
-    border-top: 1px solid rgba(255,255,255,0.12);
-    padding: 22px 0;
-  }
-  #usn-agenda .usn-cd-grid { display: flex; justify-content: center; gap: clamp(18px, 6vw, 70px); }
-  #usn-agenda .usn-cd-item { text-align: center; position: relative; }
-  #usn-agenda .usn-cd-num {
-    display: block; font-size: clamp(38px, 9vw, 74px); font-weight: 800; line-height: 1;
-    color: var(--usn-white); font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
-  }
-  #usn-agenda .usn-cd-lab {
-    display: block; margin-top: 6px; font-size: 12px; font-weight: 800;
-    letter-spacing: 0.22em; text-transform: uppercase; color: var(--usn-blue);
-  }
-
-  /* =================================================================== */
-  /* SECTIONS CLAIRES (creme)                                             */
-  /* =================================================================== */
-  #usn-agenda .usn-section { padding: clamp(64px, 10vw, 110px) 0; }
-  #usn-agenda .usn-section-head { max-width: 760px; }
-  #usn-agenda .usn-section-head h2 { margin-top: 16px; font-size: clamp(30px, 5.5vw, 54px); text-transform: uppercase; }
-  #usn-agenda .usn-section-head p { margin-top: 18px; font-size: clamp(15px, 2.2vw, 18px); color: rgba(12,11,10,0.7); }
-
-  /* Panneaux " programme " (glissent depuis la gauche au scroll) */
-  #usn-agenda .usn-program { margin-top: 46px; display: flex; flex-direction: column; gap: 20px; }
-  #usn-agenda .usn-prog {
-    display: grid; grid-template-columns: 1.15fr 1fr; align-items: stretch;
-    background: var(--usn-blue); color: var(--usn-white);
-    border-radius: 30px; overflow: hidden; min-height: 200px;
-  }
-  /* Alternance bleu / rouge, facon drapeau */
-  #usn-agenda .usn-prog:nth-child(even) { background: var(--usn-red); }
-  #usn-agenda .usn-prog:nth-child(even) .usn-prog-media { background: #8E1418; }
-  #usn-agenda .usn-prog-body { padding: 34px 40px; display: flex; flex-direction: column; justify-content: center; }
-  #usn-agenda .usn-prog-time { font-size: 13px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.78); }
-  #usn-agenda .usn-prog-title { margin-top: 8px; font-size: clamp(26px, 4vw, 44px); font-weight: 800; text-transform: uppercase; line-height: 1.02; }
-  #usn-agenda .usn-prog-text { margin-top: 12px; font-size: 15px; line-height: 1.55; color: rgba(255,255,255,0.88); max-width: 46ch; }
-  /* Zone image 16:9 a droite du panneau */
-  #usn-agenda .usn-prog-media {
-    position: relative; align-self: center; margin: 22px 22px 22px 0;
-    aspect-ratio: 16 / 9; border-radius: 18px; overflow: hidden;
-    background: #141C6E;
-  }
-  #usn-agenda .usn-prog-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  /* L'apparition est pilotee par le moteur de scroll (JS). Sans JS : visible. */
-  #usn-agenda .usn-prog { will-change: transform, opacity; }
-  @media (max-width: 720px) {
-    #usn-agenda .usn-prog { grid-template-columns: 1fr; }
-    #usn-agenda .usn-prog-media { order: -1; margin: 22px 22px 0; }
-    #usn-agenda .usn-prog-body { padding: 28px 26px; }
-  }
-
-  /* Bouton / pill avec la date */
-  #usn-agenda .usn-datepill {
-    max-width: 640px; margin: 0 auto; text-align: center;
-    background: #EAECF6; border-radius: 999px; padding: 20px 36px;
-  }
-  #usn-agenda .usn-datepill-d { font-weight: 800; font-size: clamp(18px, 3vw, 27px); text-transform: uppercase; letter-spacing: 0.02em; }
-  #usn-agenda .usn-datepill-v { margin-top: 4px; font-size: clamp(14px, 2vw, 17px); color: rgba(12,11,10,0.72); }
-  #usn-agenda .usn-datepill-v .usn-star { color: var(--usn-blue); margin: 0 6px; }
-
-  /* Intervenants - cartes photos qui apparaissent au scroll */
-  #usn-agenda .usn-people { margin: 26px auto 0; display: grid; gap: 18px; align-items: start; }
-  #usn-agenda .usn-people-2 { grid-template-columns: repeat(2, 1fr); max-width: 600px; }
-  #usn-agenda .usn-people-3 { grid-template-columns: repeat(3, 1fr); max-width: 860px; }
-  /* Espace entre le groupe predication et le groupe louange */
-  #usn-agenda .usn-people + .usn-people { margin-top: 46px; }
-  #usn-agenda .usn-person { margin: 0; }
-  #usn-agenda .usn-people .usn-person:nth-child(even) { margin-top: 38px; }
-  #usn-agenda .usn-person-photo {
-    position: relative; aspect-ratio: 3 / 4; border-radius: 22px; overflow: hidden;
-    background: linear-gradient(140deg, var(--usn-blue), #101861);
-    box-shadow: 0 26px 50px -26px rgba(12,11,10,0.4);
-  }
-  #usn-agenda .usn-person-mono { position: absolute; inset: 0; display: grid; place-items: center; font-size: clamp(30px, 5vw, 46px); font-weight: 800; color: rgba(255,255,255,0.92); }
-  /* Portraits en noir et blanc, comme l'affiche. Ils reprennent leurs
-     couleurs en passant au centre de l'ecran puis redeviennent noir et
-     blanc en sortant : c'est le script qui pilote le filtre. Sans
-     JavaScript, ils restent simplement en noir et blanc. */
-  #usn-agenda .usn-person-photo img {
-    position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover;
-    filter: grayscale(1) contrast(1.06);
-    will-change: filter, transform;
-  }
-  #usn-agenda .usn-person-name { margin-top: 14px; font-weight: 700; font-size: 16px; text-align: center; }
-  #usn-agenda .usn-person-role { margin-top: 3px; font-size: 11px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--usn-blue); text-align: center; }
-  /* L'apparition est pilotee par le moteur de scroll (JS). Sans JS : visible. */
-  #usn-agenda .usn-person { will-change: transform, opacity; }
-
-  @media (max-width: 560px) {
-    #usn-agenda .usn-people-3 { grid-template-columns: repeat(2, 1fr); }
-    #usn-agenda .usn-people .usn-person:nth-child(even) { margin-top: 0; }
-  }
-
-  /* Infos cles */
-  #usn-agenda .usn-facts { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  #usn-agenda .usn-fact {
-    display: flex; align-items: center; gap: 14px; padding: 20px 22px;
-    border-radius: var(--usn-radius); background: #fff; border: 1px solid rgba(12,11,10,0.08);
-  }
-  #usn-agenda .usn-fact svg { flex: none; width: 26px; height: 26px; color: var(--usn-blue); }
-  #usn-agenda .usn-fact .usn-fact-k { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(12,11,10,0.55); }
-  #usn-agenda .usn-fact .usn-fact-v { font-size: 16px; font-weight: 700; }
-
-  /* =================================================================== */
-  /* BANDE SOMBRE " MOUVEMENT "                                           */
-  /* =================================================================== */
-  #usn-agenda .usn-band {
-    position: relative; overflow: hidden; color: var(--usn-white);
-    background:
-      radial-gradient(700px 420px at 12% 15%, rgba(27,47,196,0.42), transparent 60%),
-      radial-gradient(700px 420px at 92% 92%, rgba(228,38,43,0.34), transparent 60%),
-      var(--usn-ink);
-  }
-  /* Punchline : fond clair, texte noir, photos qui arrivent des cotes */
-  #usn-agenda .usn-punch { position: relative; overflow: hidden; background: var(--usn-white); text-align: center; }
-  #usn-agenda .usn-punch-line {
-    position: relative; z-index: 2;
-    margin: 0 auto; max-width: 100%; text-wrap: balance;
-    font-weight: 800; text-transform: uppercase; line-height: 1.02; letter-spacing: -0.02em;
-    color: var(--usn-ink);
-  }
-  #usn-agenda .usn-punch-1 { font-size: clamp(26px, 5.6vw, 60px); }
-  #usn-agenda .usn-punch-2 { font-size: clamp(26px, 5.6vw, 60px); margin-top: 6px; }
-  #usn-agenda .usn-punch-3 { font-size: clamp(26px, 5.6vw, 60px); margin-top: 6px; color: var(--usn-blue); }
-  #usn-agenda .usn-word { display: inline-block; will-change: transform, opacity, filter; }
-  #usn-agenda .usn-punch-sub {
-    position: relative; z-index: 2;
-    max-width: 620px; margin: 34px auto 0; text-align: center;
-    font-size: 16px; font-weight: 400; text-transform: none; color: rgba(12,11,10,0.66);
-    will-change: transform, opacity;
-  }
-  /* Photos laterales (arrivent de la gauche / de la droite au scroll) */
-  #usn-agenda .usn-side {
-    position: absolute; z-index: 1; width: clamp(150px, 20vw, 280px);
-    aspect-ratio: 4 / 5; border-radius: 20px; overflow: hidden;
-    background: linear-gradient(140deg, var(--usn-blue), #101861);
-    box-shadow: 0 30px 60px -28px rgba(12,11,10,0.45);
-    will-change: transform, opacity;
-  }
-  #usn-agenda .usn-side img { width: 100%; height: 100%; object-fit: cover; }
-  #usn-agenda .usn-side-1 { left: -3%;  top: 12%; transform: rotate(-7deg); }
-  #usn-agenda .usn-side-2 { right: -3%; top: 20%; transform: rotate(6deg); }
-  #usn-agenda .usn-side-3 { left: 4%;   bottom: 6%; width: clamp(120px, 15vw, 210px); }
-  #usn-agenda .usn-side-4 { right: 4%;  bottom: 10%; width: clamp(120px, 15vw, 210px); }
-  @media (max-width: 900px) {
-    #usn-agenda .usn-side-3, #usn-agenda .usn-side-4 { display: none; }
-    #usn-agenda .usn-side-1 { top: 4%; opacity: 0.5; }
-    #usn-agenda .usn-side-2 { top: auto; bottom: 4%; opacity: 0.5; }
-  }
-
-  /* Deux cartes d'action " a cheval " sur la bande */
-  #usn-agenda .usn-cta-cards {
-    position: relative; z-index: 4; max-width: 1000px; margin: 0 auto;
-    margin-top: clamp(-210px, -20vw, -150px);
-    display: grid; grid-template-columns: 1fr 1fr; gap: 22px;
-  }
-  #usn-agenda .usn-cta-card {
-    border-radius: 24px; padding: 34px 30px;
-    box-shadow: 0 44px 90px -34px rgba(0,0,0,0.65);
-    display: flex; flex-direction: column;
-  }
-  #usn-agenda .usn-cta-card.usn-ink { background: var(--usn-ink); color: var(--usn-white); }
-  #usn-agenda .usn-cta-card.usn-red { background: var(--usn-red); color: #fff; }
-  #usn-agenda .usn-cta-eyebrow { font-size: 12px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.75; }
-  #usn-agenda .usn-cta-title { margin-top: 10px; font-size: clamp(28px, 4vw, 40px); font-weight: 800; line-height: 1.03; text-transform: uppercase; }
-  #usn-agenda .usn-cta-text { margin-top: 12px; font-size: 15px; line-height: 1.55; opacity: 0.82; }
-  #usn-agenda .usn-cta-actions { margin-top: auto; padding-top: 26px; display: grid; gap: 12px; }
-  #usn-agenda .usn-cta-btn {
-    display: flex; align-items: center; justify-content: center; padding: 16px;
-    border-radius: 13px; font-weight: 800; font-size: 14px; letter-spacing: 0.06em;
-    text-transform: uppercase; text-decoration: none; border: 2px solid transparent;
-    transition: transform .16s ease, opacity .16s ease, border-color .16s ease;
-  }
-  #usn-agenda .usn-cta-btn:hover { transform: translateY(-2px); }
-  #usn-agenda .usn-ink .usn-cta-btn.fill { background: var(--usn-blue); color: #fff; }
-  #usn-agenda .usn-ink .usn-cta-btn.line { background: transparent; color: var(--usn-white); border-color: rgba(255,255,255,0.4); }
-  #usn-agenda .usn-ink .usn-cta-btn.line:hover { border-color: var(--usn-white); }
-  #usn-agenda .usn-red .usn-cta-btn.fill { background: #fff; color: var(--usn-red); }
-  #usn-agenda .usn-red .usn-cta-btn.line { background: transparent; color: #fff; border-color: rgba(255,255,255,0.6); }
-  #usn-agenda .usn-red .usn-cta-btn.line:hover { border-color: #fff; }
-  @media (max-width: 760px) {
-    #usn-agenda .usn-cta-cards { grid-template-columns: 1fr; margin-top: clamp(-90px, -14vw, -60px); }
-  }
-
-  /* =================================================================== */
-  /* INSCRIPTION / NEWSLETTER                                             */
-  /* =================================================================== */
-  #usn-agenda .usn-signup { text-align: center; }
-  #usn-agenda .usn-form { max-width: 560px; margin: 36px auto 0; display: grid; gap: 14px; text-align: left; }
-  #usn-agenda .usn-field { display: grid; gap: 7px; }
-  #usn-agenda .usn-field label { font-size: 13px; font-weight: 700; color: rgba(12,11,10,0.7); }
-  #usn-agenda .usn-form input {
-    width: 100%; padding: 15px 17px; border-radius: 13px;
-    border: 1px solid rgba(12,11,10,0.16); background: #fff; color: var(--usn-ink);
-    font-family: inherit; font-size: 15px; transition: border-color .15s ease, box-shadow .15s ease;
-  }
-  #usn-agenda .usn-form input::placeholder { color: rgba(12,11,10,0.4); }
-  #usn-agenda .usn-form input:focus { outline: none; border-color: var(--usn-blue); box-shadow: 0 0 0 3px rgba(27,47,196,0.22); }
-  #usn-agenda .usn-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  #usn-agenda .usn-form button { width: 100%; margin-top: 4px; padding: 17px; font-size: 15px; }
-  #usn-agenda .usn-consent { font-size: 12.5px; color: rgba(12,11,10,0.6); text-align: center; }
-  #usn-agenda .usn-msg {
-    display: none; margin: 18px auto 0; max-width: 560px; padding: 16px 18px; border-radius: 13px;
-    background: rgba(27,47,196,0.10); border: 1px solid rgba(27,47,196,0.42);
-    color: #101861; font-size: 15px; font-weight: 700; text-align: center;
-  }
-
-  /* Compteur de places : chiffre + jauge */
-  #usn-agenda .usn-stock { display: none; max-width: 560px; margin: 30px auto 0; }
-  #usn-agenda .usn-stock.usn-on { display: block; }
-  #usn-agenda .usn-stock-tete {
-    display: flex; align-items: baseline; justify-content: center; gap: 11px; flex-wrap: wrap;
-  }
-  #usn-agenda .usn-stock-num {
-    font-family: var(--usn-display); font-stretch: 125%; font-weight: 800;
-    font-size: clamp(32px, 6.4vw, 50px); line-height: 1; color: var(--usn-blue);
-    font-variant-numeric: tabular-nums;
-  }
-  #usn-agenda .usn-stock-lab {
-    font-size: 13px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
-    color: rgba(12,11,10,0.55);
-  }
-  #usn-agenda .usn-jauge {
-    margin-top: 14px; height: 9px; border-radius: 99px;
-    background: rgba(12,11,10,0.09); overflow: hidden;
-  }
-  #usn-agenda .usn-jauge span {
-    display: block; height: 100%; width: 0;
-    background: linear-gradient(90deg, var(--usn-blue), var(--usn-red));
-    transition: width .9s cubic-bezier(.2,.7,.2,1);
-  }
-  #usn-agenda .usn-stock.usn-complet .usn-stock-num { color: var(--usn-red); }
-  #usn-agenda .usn-stock-avis {
-    display: none; margin-top: 14px; text-align: center; font-weight: 700; font-size: 15px;
-    color: var(--usn-red); background: rgba(228,38,43,0.07);
-    border: 1px solid rgba(228,38,43,0.3); border-radius: 13px; padding: 13px 18px;
-  }
-  #usn-agenda .usn-stock.usn-complet .usn-stock-avis { display: block; }
-
-  /* Choix du nombre de places : pastilles plutot qu'un menu deroulant */
-  #usn-agenda .usn-field-label { font-size: 13px; font-weight: 700; color: rgba(12,11,10,0.7); }
-  #usn-agenda .usn-places { display: flex; gap: 10px; flex-wrap: wrap; }
-  #usn-agenda .usn-place { position: relative; flex: 1 1 0; min-width: 62px; }
-  #usn-agenda .usn-place input {
-    position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer;
-  }
-  #usn-agenda .usn-place span {
-    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
-    padding: 13px 8px; border-radius: 14px;
-    border: 2px solid rgba(12,11,10,0.14); background: #fff;
-    font-family: var(--usn-display); font-stretch: 110%;
-    font-weight: 800; font-size: 20px; line-height: 1; color: var(--usn-ink);
-    transition: border-color .16s ease, background .16s ease, color .16s ease, transform .16s ease;
-  }
-  #usn-agenda .usn-place span small {
-    font-family: var(--usn-sub); font-size: 9.5px; font-weight: 700;
-    letter-spacing: 0.12em; text-transform: uppercase; color: rgba(12,11,10,0.42);
-  }
-  #usn-agenda .usn-place input:hover + span { border-color: rgba(27,47,196,0.5); transform: translateY(-1px); }
-  #usn-agenda .usn-place input:focus-visible + span { outline: 3px solid rgba(27,47,196,0.35); outline-offset: 2px; }
-  #usn-agenda .usn-place input:checked + span {
-    background: var(--usn-blue); border-color: var(--usn-blue); color: #fff;
-  }
-  #usn-agenda .usn-place input:checked + span small { color: rgba(255,255,255,0.72); }
-
-  /* Logo de fin de section, sous le formulaire */
-  #usn-agenda .usn-logo-fin { margin: 46px auto 0; text-align: center; }
-  #usn-agenda .usn-logo-fin .usn-logo-mark {
-    width: clamp(84px, 12vw, 120px);
-    opacity: .9; transition: opacity .2s ease;
-  }
-  #usn-agenda .usn-logo-fin:hover .usn-logo-mark { opacity: 1; }
-
-  /* Mention sous le choix des places */
-  #usn-agenda .usn-hint {
-    margin-top: 6px; font-size: 12.5px; color: rgba(12,11,10,0.55);
-    display: flex; align-items: center; gap: 7px;
-  }
-  #usn-agenda .usn-hint:empty { display: none; }
-  #usn-agenda .usn-hint::before {
-    content: ""; width: 5px; height: 5px; border-radius: 50%;
-    background: var(--usn-blue); flex: none;
-  }
-
-  /* Message d'erreur du formulaire */
-  #usn-agenda .usn-err {
-    display: none; margin: 16px auto 0; max-width: 560px; padding: 14px 18px;
-    border-radius: 13px; background: rgba(228,38,43,0.08); border: 1px solid rgba(228,38,43,0.35);
-    color: #a8161a; font-size: 14.5px; font-weight: 600; text-align: center;
-  }
-  #usn-agenda .usn-form button[disabled] { opacity: .55; cursor: not-allowed; transform: none; }
-
-  /* Autres dates */
-  #usn-agenda .usn-dates { margin-top: 44px; display: grid; gap: 14px; }
-  #usn-agenda .usn-date-row {
-    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
-    padding: 22px 24px; border-radius: var(--usn-radius); background: #fff; border: 1px solid rgba(12,11,10,0.08);
-  }
-  #usn-agenda .usn-date-row .usn-dr-when { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--usn-blue); font-weight: 800; }
-  #usn-agenda .usn-date-row .usn-dr-title { font-size: 19px; font-weight: 700; margin-top: 4px; text-transform: uppercase; }
-  #usn-agenda .usn-date-row .usn-dr-place { font-size: 14px; color: rgba(12,11,10,0.6); margin-top: 2px; }
-
-  /* Footer */
-  #usn-agenda .usn-footer { background: var(--usn-ink); color: rgba(255,255,255,0.7); padding: 46px 0; text-align: center; font-size: 14px; }
-  #usn-agenda .usn-footer .usn-footer-logo { color: var(--usn-white); font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase; font-size: 15px; }
-  #usn-agenda .usn-footer a { color: var(--usn-red); text-decoration: none; }
-  #usn-agenda .usn-footer a:hover { text-decoration: underline; }
-
-  /* Responsive */
-  @media (max-width: 900px) {
-    #usn-agenda .usn-cards { grid-template-columns: repeat(2, 1fr); }
-    #usn-agenda .usn-facts { grid-template-columns: 1fr; max-width: 460px; }
-  }
-  @media (max-width: 540px) {
-    #usn-agenda .usn-cards { grid-template-columns: 1fr; }
-    #usn-agenda .usn-form-row { grid-template-columns: 1fr; }
-    #usn-agenda .usn-hero-cta { flex-direction: column; }
-    #usn-agenda .usn-hero-cta .usn-btn { width: 100%; }
-    #usn-agenda .usn-cd-grid { gap: 14px; }
-  }
   @media (prefers-reduced-motion: reduce) { #usn-agenda * { transition: none !important; } }
-  /* ===============================================================
-     PAGE DES DATES - ce qui s'ajoute au style de la page evenement
-     =============================================================== */
-
-  /* Bouton place a l'interieur d'un panneau de date */
-  #usn-agenda .usn-prog-cta { margin-top: 18px; }
-  /* Le bouton d'une date ouverte est un lien ; celui d'une date a venir est
-     un simple <span>. Les deux partagent la meme forme de pastille. */
-  #usn-agenda .usn-prog-cta a,
-  #usn-agenda .usn-prog-cta .usn-attente {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--usn-white); color: var(--usn-ink);
-    border-radius: 999px; padding: 12px 24px;
-    font-weight: 800; font-size: 14px; text-decoration: none;
-    transition: transform .18s ease, box-shadow .18s ease;
-  }
-  #usn-agenda .usn-prog-cta a:hover { transform: translateY(-2px); box-shadow: 0 14px 26px -14px rgba(0,0,0,.55); }
-  #usn-agenda .usn-prog-cta .usn-attente {
-    background: transparent; color: rgba(255,255,255,.9);
-    box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.45); cursor: default;
-  }
-
-  /* Pastille d'etat en haut du panneau */
-  #usn-agenda .usn-badge {
-    display: inline-flex; align-items: center; gap: 7px;
-    background: rgba(255,255,255,.16); border-radius: 999px;
-    padding: 5px 13px; font-size: 11px; font-weight: 800;
-    letter-spacing: .14em; text-transform: uppercase;
-  }
-  #usn-agenda .usn-badge::before {
-    content: ''; width: 7px; height: 7px; border-radius: 50%;
-    background: #6FE39B;
-  }
-  #usn-agenda .usn-badge.usn-bientot::before { background: #FFD166; }
-  #usn-agenda .usn-prog-time + .usn-badge { margin-top: 10px; }
-
-  /* Editions passees : affiches en noir et blanc qui reprennent leurs
-     couleurs en passant au centre de l'ecran, comme les portraits. */
-  #usn-agenda .usn-editions {
-    margin-top: 30px; display: grid; gap: 20px;
-    grid-template-columns: repeat(4, 1fr);
-  }
-  #usn-agenda .usn-edition { margin: 0; }
-  #usn-agenda .usn-editions .usn-edition:nth-child(even) { margin-top: 34px; }
-  #usn-agenda .usn-edition-photo {
-    position: relative; aspect-ratio: 3 / 4; border-radius: 22px; overflow: hidden;
-    background: linear-gradient(140deg, var(--usn-blue), #101861);
-    box-shadow: 0 26px 50px -26px rgba(12,11,10,.4);
-  }
-  #usn-agenda .usn-edition-photo img {
-    position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover;
-    filter: grayscale(1) contrast(1.06); will-change: filter, transform;
-  }
-  #usn-agenda .usn-edition-when {
-    margin-top: 14px; font-size: 11px; font-weight: 800;
-    letter-spacing: .16em; text-transform: uppercase; color: var(--usn-red);
-  }
-  #usn-agenda .usn-edition-city { margin-top: 5px; font-weight: 800; font-size: 18px; }
-  #usn-agenda .usn-edition-place { margin-top: 3px; font-size: 13px; color: rgba(12,11,10,.62); line-height: 1.45; }
-
-  @media (max-width: 900px) {
-    #usn-agenda .usn-editions { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 520px) {
-    #usn-agenda .usn-editions { grid-template-columns: 1fr; }
-    #usn-agenda .usn-editions .usn-edition:nth-child(even) { margin-top: 0; }
-  }
 
 </style>
 
 <section id="usn-agenda">
 
+  <div class="usn-drapeau"><i class="b"></i><i class="w"></i><i class="r"></i></div>
+
+  <nav class="usn-nav">
+    <a class="usn-nav-brand" href="https://unseulnom.org/">
+      <span class="usn-nav-fleche" aria-hidden="true">&#8592;</span> Un Seul Nom
+    </a>
+    <a class="usn-nav-don" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Faire un don</a>
+  </nav>
+
   <!-- ============================================================= -->
-  <!-- H&#201;ROS                                                          -->
+  <!-- EN-TETE                                                        -->
   <!-- ============================================================= -->
-  <header class="usn-hero">
-
-    <nav class="usn-nav">
-      <a class="usn-nav-brand" href="https://unseulnom.org/">
-        <span class="usn-nav-fleche" aria-hidden="true">&#8592;</span> Un Seul Nom
-      </a>
-      <a class="usn-nav-don" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Faire un don</a>
-    </nav>
-
-    <!--
-      &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
-      &#9658; VID&#201;O DE FOND &#8212; m&#234;me principe que la page &#233;v&#233;nement.
-      Remplacez VOTRE_VIDEO.mp4 par l'URL du fichier de la m&#233;diath&#232;que.
-      Sans vid&#233;o, le d&#233;grad&#233; sombre s'affiche.
-      &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
-    -->
-    <video class="usn-hero-video" autoplay muted loop playsinline poster="">
-      <!-- VIDEO -->
-    </video>
-
-    <div class="usn-hero-overlay"></div>
-
-    <div class="usn-hero-inner">
-      <div class="usn-wrap">
-        <div class="usn-logo-mark usn-logo-blanc usn-hero-logo" role="img" aria-label="Un Seul Nom"></div>
-
-        <h1>&#192; venir</h1>
-
-        <div class="usn-hero-tagline">&#201;vang&#233;lisation &amp; Gu&#233;rison</div>
-        <div class="usn-hero-date">Les prochaines dates, de ville en ville</div>
-
-        <div class="usn-hero-cta">
-          <a href="#usn-dates" class="usn-btn usn-btn-primary">Voir les dates</a>
-          <a href="#usn-alerte" class="usn-btn usn-btn-outline">&#202;tre pr&#233;venu</a>
+  <header class="usn-tete">
+    <div class="usn-wrap">
+      <div class="usn-tete-grille">
+        <div class="usn-logo-mark usn-logo-noir usn-tete-logo" role="img" aria-label="Un Seul Nom"></div>
+        <div>
+          <span class="usn-eyebrow">L'agenda</span>
+          <h1>&Agrave; venir</h1>
+          <p class="usn-tete-sous">
+            <b>&Eacute;vang&eacute;lisation &amp; Gu&eacute;rison</b>, une ville apr&egrave;s l'autre.
+            Chaque rendez-vous est gratuit et ouvert &agrave; tous&nbsp;: croyants,
+            curieux, malades, chercheurs de Dieu.
+          </p>
         </div>
-      </div>
-    </div>
-
-    <!--
-      &#9658; COMPTE &#192; REBOURS &#8212; r&#233;gl&#233; sur la PROCHAINE date.
-      &#192; chaque nouvel &#233;v&#233;nement, changez data-target (format ISO).
-    -->
-    <div class="usn-countdown" id="usn-countdown" data-target="2026-10-17T16:00:00">
-      <div class="usn-cd-grid">
-        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="days">0</span><span class="usn-cd-lab">Jours</span></div>
-        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="hours">00</span><span class="usn-cd-lab">Heures</span></div>
-        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="mins">00</span><span class="usn-cd-lab">Min</span></div>
-        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="secs">00</span><span class="usn-cd-lab">Sec</span></div>
       </div>
     </div>
   </header>
 
+  <!--
+    &#9658; BANDEAU DEFILANT &#8212; la liste des villes, repetee deux fois pour que
+      le defilement boucle sans saut. Si vous ajoutez une ville, ajoutez-la
+      dans LES DEUX listes, sinon le ruban saccade.
+  -->
+  <div class="usn-defile" aria-hidden="true">
+    <div class="usn-defile-piste">
+      <div class="usn-defile-suite">
+        <b>Avignon</b> <span>17.10.26</span> <i>&#10022;</i>
+        <b>Madagascar</b> <span>14.11.26</span> <i>&#10022;</i>
+        <b>Marseille</b> <span>06.03.27</span> <i>&#10022;</i>
+        <b>Bordeaux</b> <span>15.05.27</span> <i>&#10022;</i>
+      </div>
+      <div class="usn-defile-suite">
+        <b>Avignon</b> <span>17.10.26</span> <i>&#10022;</i>
+        <b>Madagascar</b> <span>14.11.26</span> <i>&#10022;</i>
+        <b>Marseille</b> <span>06.03.27</span> <i>&#10022;</i>
+        <b>Bordeaux</b> <span>15.05.27</span> <i>&#10022;</i>
+      </div>
+    </div>
+  </div>
+
   <!-- ============================================================= -->
   <!-- LA PROCHAINE DATE                                              -->
   <!-- ============================================================= -->
-  <div class="usn-section" style="padding-bottom: 30px;">
-    <div class="usn-wrap">
-      <div class="usn-datepill">
-        <div class="usn-datepill-d">Prochaine date &middot; Samedi 17 octobre 2026</div>
-        <div class="usn-datepill-v">Avignon <span class="usn-star">&#10022;</span> Parc des expos, Montfavet</div>
+  <!--
+    &#9658; COMPTE A REBOURS &#8212; data-target vise toujours la PROCHAINE date,
+      au format 2026-10-17T16:00:00. A changer apres chaque evenement.
+  -->
+  <div class="usn-prochain" id="usn-countdown" data-target="2026-10-17T16:00:00">
+    <div class="usn-wrap usn-prochain-grille">
+      <div>
+        <div class="usn-prochain-k">Prochaine date</div>
+        <div class="usn-prochain-v">Avignon &middot; Samedi 17 octobre 2026</div>
       </div>
+      <div class="usn-chrono">
+        <div><b data-cd="days">0</b><small>Jours</small></div>
+        <div><b data-cd="hours">00</b><small>Heures</small></div>
+        <div><b data-cd="mins">00</b><small>Min</small></div>
+        <div><b data-cd="secs">00</b><small>Sec</small></div>
+      </div>
+      <a class="usn-btn usn-btn-primary" href="https://unseulnom.org/evenement/">Je r&eacute;serve ma place</a>
     </div>
   </div>
 
   <!-- ============================================================= -->
-  <!-- LES DATES &#192; VENIR                                              -->
+  <!-- L'AGENDA                                                       -->
   <!-- ============================================================= -->
-  <div id="usn-dates" class="usn-section" style="padding-top: 24px;">
+  <div class="usn-agenda" id="usn-dates">
     <div class="usn-wrap">
-      <div class="usn-section-head">
-        <span class="usn-eyebrow">Les dates</span>
-        <h2>Une ville apr&#232;s l'autre</h2>
-        <p>Chaque rendez-vous est gratuit et ouvert &#224; tous. R&#233;serve ta place d&#232;s que les inscriptions sont ouvertes.</p>
-      </div>
 
       <!--
         &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
-        &#9658; LES DATES &#8212; un panneau par &#233;v&#233;nement, qui glisse depuis la
-          gauche au scroll. Les couleurs alternent bleu / rouge toutes
-          seules : il n'y a rien &#224; r&#233;gler.
+        &#9658; LES DATES &#8212; une ligne par evenement, groupees par annee.
+          Les lignes arrivent par la gauche au scroll.
 
-          POUR AJOUTER UNE DATE : copiez un bloc <div class="usn-prog">
-          entier et changez les textes. Pour une date dont les
-          inscriptions ne sont pas encore ouvertes, remplacez la pastille
-          par  <span class="usn-badge usn-bientot">Bient&#244;t</span>  et le
-          bouton par  <span class="usn-attente">Inscriptions bient&#244;t</span>.
+          POUR AJOUTER UNE DATE : copiez une ligne entiere
+          <div class="usn-ligne"> et changez les textes. Pour une
+          nouvelle annee, ajoutez un separateur <div class="usn-an">.
+
+          Quand les inscriptions ouvrent, remplacez
+            <span class="usn-pastille usn-attente">Bient&ocirc;t</span>
+          par
+            <span class="usn-pastille">Inscriptions ouvertes</span>
+          et ajoutez le lien <a class="usn-reserver"> en dessous.
         &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
       -->
-      <div class="usn-program">
 
-        <div class="usn-prog" data-usn-appear>
-          <div class="usn-prog-body">
-            <div class="usn-prog-time">Samedi 17 octobre 2026 &middot; 16h00</div>
-            <div><span class="usn-badge">Inscriptions ouvertes</span></div>
-            <div class="usn-prog-title">Avignon</div>
-            <p class="usn-prog-text">
-              Parc des expos d'Avignon, 800 chemin des F&#233;lons, Montfavet.
-              Ouverture des portes &#224; 15h00. Pr&#233;dication : Yannis Gautier et
-              Chriss Campion. Louange : Patcha&#239; Reyes, Nikita Heugebaert et
-              Ruben Debard.
-            </p>
-            <div class="usn-prog-cta">
-              <a href="https://unseulnom.org/evenement/">Je r&#233;serve ma place</a>
-            </div>
-          </div>
-          <div class="usn-prog-media">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme3.webp" alt="Un Seul Nom &#224; Avignon" loading="lazy" onerror="this.remove()" />
-          </div>
+      <div class="usn-an"><b>2026</b></div>
+
+      <div class="usn-ligne">
+        <div class="usn-jour"><b>17</b><span>Octobre</span></div>
+        <div>
+          <div class="usn-ville">Avignon</div>
+          <div class="usn-lieu">Parc des expos &middot; 800 chemin des F&eacute;lons, Montfavet &middot; Portes 15h00, conf&eacute;rence 16h00</div>
+          <div class="usn-invites">Pr&eacute;dication&nbsp;: Yannis Gautier, Chriss Campion &middot; Louange&nbsp;: Patcha&iuml; Reyes, Nikita Heugebaert, Ruben Debard</div>
         </div>
-
-        <div class="usn-prog" data-usn-appear>
-          <div class="usn-prog-body">
-            <div class="usn-prog-time">Samedi 14 novembre 2026</div>
-            <div><span class="usn-badge usn-bientot">Bient&#244;t</span></div>
-            <div class="usn-prog-title">Madagascar</div>
-            <p class="usn-prog-text">
-              Pr&#233;dication : Pasteur Jack Brunet et Patane.
-              Lieu et horaires &#224; confirmer.
-            </p>
-            <div class="usn-prog-cta">
-              <span class="usn-attente">Inscriptions bient&#244;t</span>
-            </div>
-          </div>
-          <div class="usn-prog-media">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme4.webp" alt="" loading="lazy" onerror="this.remove()" />
-          </div>
+        <div class="usn-etat">
+          <span class="usn-pastille">Inscriptions ouvertes</span>
+          <a class="usn-reserver" href="https://unseulnom.org/evenement/">R&eacute;server <span aria-hidden="true">&#8594;</span></a>
         </div>
-
-        <div class="usn-prog" data-usn-appear>
-          <div class="usn-prog-body">
-            <div class="usn-prog-time">Samedi 6 mars 2027</div>
-            <div><span class="usn-badge usn-bientot">Bient&#244;t</span></div>
-            <div class="usn-prog-title">Marseille</div>
-            <p class="usn-prog-text">
-              Pr&#233;dication : Yannis Gautier et Chriss Campion.
-              Louange : Patcha&#239; Reyes, Nikita Heugebaert et Ruben Debard.
-              Lieu et horaires &#224; confirmer.
-            </p>
-            <div class="usn-prog-cta">
-              <span class="usn-attente">Inscriptions bient&#244;t</span>
-            </div>
-          </div>
-          <div class="usn-prog-media">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme1.webp" alt="" loading="lazy" onerror="this.remove()" />
-          </div>
-        </div>
-
-        <div class="usn-prog" data-usn-appear>
-          <div class="usn-prog-body">
-            <div class="usn-prog-time">Samedi 15 mai 2027</div>
-            <div><span class="usn-badge usn-bientot">Bient&#244;t</span></div>
-            <div class="usn-prog-title">Bordeaux</div>
-            <p class="usn-prog-text">
-              Pr&#233;dication : Pasteur Marcello Tunasi.
-              Louange : Dan Luiten et Nikita Heugebaert.
-              Lieu et horaires &#224; confirmer.
-            </p>
-            <div class="usn-prog-cta">
-              <span class="usn-attente">Inscriptions bient&#244;t</span>
-            </div>
-          </div>
-          <div class="usn-prog-media">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="" loading="lazy" onerror="this.remove()" />
-          </div>
-        </div>
-
-        <!--
-          &#9658; POUR AJOUTER UNE DATE : copiez un des blocs ci-dessus en entier
-            et changez les textes. Les couleurs alternent toutes seules.
-            Quand les inscriptions ouvrent, remplacez
-              <span class="usn-badge usn-bientot">Bient&#244;t</span>
-            par
-              <span class="usn-badge">Inscriptions ouvertes</span>
-            et le <span class="usn-attente"> par un <a> vers la page
-            d'inscription de l'&#233;v&#233;nement.
-        -->
-
       </div>
+
+      <div class="usn-ligne">
+        <div class="usn-jour"><b>14</b><span>Novembre</span></div>
+        <div>
+          <div class="usn-ville">Madagascar</div>
+          <div class="usn-lieu">Lieu et horaires &agrave; confirmer</div>
+          <div class="usn-invites">Pr&eacute;dication&nbsp;: Pasteur Jack Brunet, Patane</div>
+        </div>
+        <div class="usn-etat">
+          <span class="usn-pastille usn-attente">Bient&ocirc;t</span>
+        </div>
+      </div>
+
+      <div class="usn-an"><b>2027</b></div>
+
+      <div class="usn-ligne">
+        <div class="usn-jour"><b>06</b><span>Mars</span></div>
+        <div>
+          <div class="usn-ville">Marseille</div>
+          <div class="usn-lieu">Lieu et horaires &agrave; confirmer</div>
+          <div class="usn-invites">Pr&eacute;dication&nbsp;: Yannis Gautier, Chriss Campion &middot; Louange&nbsp;: Patcha&iuml; Reyes, Nikita Heugebaert, Ruben Debard</div>
+        </div>
+        <div class="usn-etat">
+          <span class="usn-pastille usn-attente">Bient&ocirc;t</span>
+        </div>
+      </div>
+
+      <div class="usn-ligne">
+        <div class="usn-jour"><b>15</b><span>Mai</span></div>
+        <div>
+          <div class="usn-ville">Bordeaux</div>
+          <div class="usn-lieu">Lieu et horaires &agrave; confirmer</div>
+          <div class="usn-invites">Pr&eacute;dication&nbsp;: Pasteur Marcello Tunasi &middot; Louange&nbsp;: Dan Luiten, Nikita Heugebaert</div>
+        </div>
+        <div class="usn-etat">
+          <span class="usn-pastille usn-attente">Bient&ocirc;t</span>
+        </div>
+      </div>
+
     </div>
   </div>
 
   <!-- ============================================================= -->
-  <!-- PUNCHLINE                                                      -->
+  <!-- APPEL AUX EGLISES                                              -->
   <!-- ============================================================= -->
-  <div class="usn-section usn-punch" id="usn-punch"
-       style="padding-top: 40px; padding-bottom: clamp(160px, 25vw, 280px);">
-
-    <!--
-      &#9658; PHOTOS LAT&#201;RALES &#8212; elles glissent depuis les bords au scroll.
-      Remplacez VOTRE_PHOTO_AMBIANCE_x.jpg par vos photos.
-    -->
-
+  <div class="usn-bande">
     <div class="usn-wrap">
-      <span class="usn-eyebrow" style="justify-content:center; width:100%;">La suite</span>
-      <p class="usn-punch-line usn-punch-1" data-usn-reveal style="margin-top:20px;">Ville apr&#232;s ville,</p>
-      <p class="usn-punch-line usn-punch-2" data-usn-reveal>l'&#201;glise se l&#232;ve</p>
-      <p class="usn-punch-line usn-punch-3" data-usn-reveal>sous un seul nom.</p>
-      <p class="usn-punch-sub" data-usn-sub>
-        Chaque date est un rendez-vous de plus donn&#233; &#224; ceux qui n'ont encore
-        jamais entendu parler de J&#233;sus. La prochaine est peut-&#234;tre chez toi.
+      <h2>
+        <span class="usn-mot">La prochaine</span>
+        <span class="usn-mot">ville sera</span>
+        <span class="usn-mot">peut-&ecirc;tre</span>
+        <span class="usn-mot">la v&ocirc;tre.</span>
+      </h2>
+      <p>
+        Vous &ecirc;tes pasteur ou responsable et vous souhaitez accueillir
+        Un Seul Nom&nbsp;? &Eacute;crivez-nous&nbsp;: nous regardons ensemble
+        les dates, la salle et la mobilisation des &eacute;glises locales.
       </p>
-    </div>
-  </div>
-
-  <!-- ============================================================= -->
-  <!-- DEUX CARTES D'ACTION                                           -->
-  <!-- ============================================================= -->
-  <div class="usn-wrap">
-    <div class="usn-cta-cards">
-      <div class="usn-cta-card usn-ink">
-        <div class="usn-cta-eyebrow">Votre ville, la prochaine ?</div>
-        <div class="usn-cta-title">Invitez-nous</div>
-        <p class="usn-cta-text">Vous &#234;tes pasteur ou responsable et vous souhaitez accueillir Un Seul Nom dans votre ville ? &#201;crivez-nous, nous en parlons ensemble.</p>
-        <div class="usn-cta-actions">
-          <a href="mailto:75unseulnomjesus@gmail.com?subject=Accueillir%20Un%20Seul%20Nom%20dans%20notre%20ville" class="usn-cta-btn fill">Nous &#233;crire</a>
-          <a href="#usn-alerte" class="usn-cta-btn line">&#202;tre pr&#233;venu</a>
-        </div>
-      </div>
-      <div class="usn-cta-card usn-red">
-        <div class="usn-cta-eyebrow">Partenaire de la mission</div>
-        <div class="usn-cta-title">Soutiens la mission</div>
-        <p class="usn-cta-text">Chaque &#233;v&#233;nement a un co&#251;t : la salle, le son, l'accueil. Ton don permet la prochaine ville.</p>
-        <div class="usn-cta-actions">
-          <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3?utm_source=app_ha&amp;utm_campaign=share_campaign_button&amp;utm_medium=ios" target="_blank" rel="noopener noreferrer" class="usn-cta-btn fill">Faire un don</a>
-          <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3?utm_source=app_ha&amp;utm_campaign=share_campaign_button&amp;utm_medium=ios" target="_blank" rel="noopener noreferrer" class="usn-cta-btn line">Devenir partenaire</a>
-        </div>
+      <div class="usn-bande-actions">
+        <a class="usn-btn usn-btn-clair" href="mailto:75unseulnomjesus@gmail.com?subject=Accueillir%20Un%20Seul%20Nom%20dans%20notre%20ville">Nous &eacute;crire</a>
+        <a class="usn-btn usn-btn-ligne" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3?utm_source=app_ha&amp;utm_campaign=share_campaign_button&amp;utm_medium=ios" target="_blank" rel="noopener noreferrer">Soutenir la mission</a>
       </div>
     </div>
   </div>
 
   <!-- ============================================================= -->
-  <!-- &#202;TRE PR&#201;VENU DES PROCHAINES DATES                              -->
+  <!-- EDITIONS PASSEES                                               -->
   <!-- ============================================================= -->
-  <div id="usn-alerte" class="usn-section usn-signup">
+  <div class="usn-passe">
     <div class="usn-wrap">
-      <div class="usn-section-head" style="margin:0 auto; text-align:center;">
-        <span class="usn-eyebrow" style="justify-content:center;">Ne rate aucune date</span>
-        <h2>Sois pr&#233;venu</h2>
-        <p style="margin-left:auto;margin-right:auto;">
-          Laisse ton nom et ton e-mail : tu seras averti d&#232;s qu'une nouvelle
-          ville est annonc&#233;e, avant l'ouverture des inscriptions.
-        </p>
-      </div>
-
-      <!-- Le formulaire est envoy&#233; dans l'iframe cach&#233; : le visiteur reste
-           sur la page au lieu d'&#234;tre redirig&#233; vers Brevo. -->
-      <iframe name="usn-brevo" title="Inscription" style="display:none;border:0;width:0;height:0"></iframe>
-
-      <form class="usn-form" id="usn-agenda-form" method="POST"
-            action="https://f8944495.sibforms.com/serve/MUIFAIs9H4MOwtfawQ-nUiiNQjRmcSNQ51wCfEkSkK4X91IeG5GyZDWqGDV3oD_sUQHzLsQUO6Ky6EqX9G_I6VWvy8H5St2aXpxdhmXp81Jkl34fooTe9ukSalttOBmz1T6EwxTHhs9WLKWs2tBPCT1fhe_uubwAitTQjHmRHfmqBxQBcLifIZRDcFP9W3Vvzs_hPEa9_OySJBsT"
-            target="usn-brevo" novalidate>
-        <div class="usn-form-row">
-          <div class="usn-field">
-            <label for="usn-nom">Nom</label>
-            <input id="usn-nom" name="NOM" type="text" placeholder="Ton nom" required />
-          </div>
-          <div class="usn-field">
-            <label for="usn-email">Adresse e-mail</label>
-            <input id="usn-email" name="EMAIL" type="email" placeholder="ton@email.com" required />
-          </div>
+      <div class="usn-passe-tete">
+        <div>
+          <span class="usn-eyebrow">D&eacute;j&agrave; v&eacute;cu</span>
+          <h2 style="margin-top:12px;">L&agrave; o&ugrave; nous sommes pass&eacute;s</h2>
         </div>
-
-        <!-- Pi&#232;ge anti-robot de Brevo : ce champ doit rester vide. -->
-        <input type="text" name="email_address_check" value="" tabindex="-1"
-               aria-hidden="true" autocomplete="off"
-               style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
-        <input type="hidden" name="locale" value="fr" />
-
-        <button type="submit" class="usn-btn usn-btn-primary">Pr&#233;viens-moi</button>
-        <p class="usn-consent">
-          En t'inscrivant, tu acceptes de recevoir des informations de la part
-          d'Un Seul Nom. D&#233;sinscription possible &#224; tout moment.
-        </p>
-      </form>
-
-      <div class="usn-logo-fin">
-        <div class="usn-logo-mark usn-logo-noir" role="img" aria-label="Un Seul Nom"></div>
-      </div>
-
-      <div class="usn-msg" id="usn-form-msg" role="status" aria-live="polite">
-        Merci&nbsp;! Tu seras pr&#233;venu d&#232;s qu'une nouvelle date est annonc&#233;e.
-      </div>
-    </div>
-  </div>
-
-  <!-- ============================================================= -->
-  <!-- D&#201;J&#192; V&#201;CU                                                      -->
-  <!-- ============================================================= -->
-  <div class="usn-section" style="padding-top:0;">
-    <div class="usn-wrap">
-      <div class="usn-section-head">
-        <span class="usn-eyebrow">D&#233;j&#224; v&#233;cu</span>
-        <h2>L&#224; o&#249; nous sommes pass&#233;s</h2>
-        <p>Les affiches reprennent leurs couleurs au passage. Chaque ville a &#233;t&#233; une salle pleine et des vies chang&#233;es.</p>
+        <p>Les affiches reprennent leurs couleurs au passage. Faites glisser pour les parcourir.</p>
       </div>
 
       <!--
-        &#9658; &#201;DITIONS PASS&#201;ES &#8212; l'affiche passe du noir et blanc &#224; la couleur
-          en arrivant au centre de l'&#233;cran. Pour en ajouter une, copiez un
-          bloc <figure class="usn-edition"> et changez l'image et les textes.
+        &#9658; EDITIONS PASSEES &#8212; pour en ajouter une, copiez un bloc
+          <figure class="usn-affiche"> et changez l'image et les textes.
       -->
-      <div class="usn-editions">
-        <figure class="usn-edition" data-usn-appear>
-          <div class="usn-edition-photo">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-1-768x948.jpg" alt="Un Seul Nom &#224; Paris, 4 mai 2024" loading="lazy" onerror="this.remove()" />
+      <div class="usn-pellicule">
+        <figure class="usn-affiche">
+          <div class="usn-affiche-img">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-1-768x948.jpg" alt="Affiche d'Un Seul Nom &agrave; Paris, 4 mai 2024" loading="lazy" onerror="this.remove()" />
           </div>
-          <div class="usn-edition-when">4 mai 2024</div>
-          <div class="usn-edition-city">Paris</div>
-          <div class="usn-edition-place">Stade S&#233;bastien Charl&#233;ty</div>
+          <div class="usn-affiche-quand">4 mai 2024</div>
+          <div class="usn-affiche-ou">Paris</div>
+          <div class="usn-affiche-salle">Stade S&eacute;bastien Charl&eacute;ty</div>
         </figure>
 
-        <figure class="usn-edition" data-usn-appear>
-          <div class="usn-edition-photo">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-3-768x954.jpg" alt="Un Seul Nom Paris, 21 et 22 juin 2025" loading="lazy" onerror="this.remove()" />
+        <figure class="usn-affiche">
+          <div class="usn-affiche-img">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-3-768x954.jpg" alt="Affiche d'Un Seul Nom &agrave; Croissy-Beaubourg, 21 et 22 juin 2025" loading="lazy" onerror="this.remove()" />
           </div>
-          <div class="usn-edition-when">21 &amp; 22 juin 2025</div>
-          <div class="usn-edition-city">Croissy-Beaubourg</div>
-          <div class="usn-edition-place">La Cit&#233; Royale</div>
+          <div class="usn-affiche-quand">21 &amp; 22 juin 2025</div>
+          <div class="usn-affiche-ou">Croissy-Beaubourg</div>
+          <div class="usn-affiche-salle">La Cit&eacute; Royale</div>
         </figure>
 
-        <figure class="usn-edition" data-usn-appear>
-          <div class="usn-edition-photo">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-4-768x945.jpg" alt="Un Seul Nom &#224; Wasquehal, 28 mars 2026" loading="lazy" onerror="this.remove()" />
+        <figure class="usn-affiche">
+          <div class="usn-affiche-img">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-4-768x945.jpg" alt="Affiche d'Un Seul Nom &agrave; Wasquehal, 28 mars 2026" loading="lazy" onerror="this.remove()" />
           </div>
-          <div class="usn-edition-when">28 mars 2026</div>
-          <div class="usn-edition-city">Wasquehal</div>
-          <div class="usn-edition-place">Espace Lille M&#233;tropole</div>
+          <div class="usn-affiche-quand">28 mars 2026</div>
+          <div class="usn-affiche-ou">Wasquehal</div>
+          <div class="usn-affiche-salle">Espace Lille M&eacute;tropole</div>
         </figure>
 
-        <figure class="usn-edition" data-usn-appear>
-          <div class="usn-edition-photo">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-5-768x950.jpg" alt="Un Seul Nom &#224; Perpignan, 9 mai 2026" loading="lazy" onerror="this.remove()" />
+        <figure class="usn-affiche">
+          <div class="usn-affiche-img">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-5-768x950.jpg" alt="Affiche d'Un Seul Nom &agrave; Perpignan, 9 mai 2026" loading="lazy" onerror="this.remove()" />
           </div>
-          <div class="usn-edition-when">9 mai 2026</div>
-          <div class="usn-edition-city">Perpignan</div>
-          <div class="usn-edition-place">Palais des congr&#232;s</div>
+          <div class="usn-affiche-quand">9 mai 2026</div>
+          <div class="usn-affiche-ou">Perpignan</div>
+          <div class="usn-affiche-salle">Palais des congr&egrave;s</div>
         </figure>
       </div>
     </div>
   </div>
 
   <!-- ============================================================= -->
-  <!-- FOOTER                                                         -->
+  <!-- LETTRE D'INFORMATION                                           -->
+  <!-- ============================================================= -->
+  <div class="usn-lettre" id="usn-alerte">
+    <div class="usn-wrap usn-lettre-grille">
+      <div>
+        <span class="usn-eyebrow">Ne ratez aucune date</span>
+        <h2 style="margin-top:12px;">Soyez pr&eacute;venu</h2>
+        <p>
+          D&egrave;s qu'une ville est annonc&eacute;e, vous recevez un message&nbsp;:
+          avant l'ouverture des inscriptions, et avant que la salle ne se remplisse.
+        </p>
+      </div>
+
+      <div>
+        <!-- Le formulaire part dans l'iframe cache : le visiteur reste sur
+             la page au lieu d'etre redirige vers Brevo. -->
+        <iframe name="usn-brevo" title="Inscription" style="display:none;border:0;width:0;height:0"></iframe>
+
+        <form class="usn-form" id="usn-agenda-form" method="POST"
+              action="https://f8944495.sibforms.com/serve/MUIFAIs9H4MOwtfawQ-nUiiNQjRmcSNQ51wCfEkSkK4X91IeG5GyZDWqGDV3oD_sUQHzLsQUO6Ky6EqX9G_I6VWvy8H5St2aXpxdhmXp81Jkl34fooTe9ukSalttOBmz1T6EwxTHhs9WLKWs2tBPCT1fhe_uubwAitTQjHmRHfmqBxQBcLifIZRDcFP9W3Vvzs_hPEa9_OySJBsT"
+              target="usn-brevo" novalidate>
+          <div class="usn-form-duo">
+            <input id="usn-nom" name="NOM" type="text" placeholder="Votre nom" aria-label="Nom" required />
+            <input id="usn-email" name="EMAIL" type="email" placeholder="vous@email.com" aria-label="Adresse e-mail" required />
+          </div>
+
+          <!-- Piege anti-robot de Brevo : ce champ doit rester vide. -->
+          <input type="text" name="email_address_check" value="" tabindex="-1"
+                 aria-hidden="true" autocomplete="off"
+                 style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+          <input type="hidden" name="locale" value="fr" />
+
+          <button type="submit" class="usn-btn usn-btn-primary">Pr&eacute;venez-moi</button>
+          <p class="usn-consent">
+            En vous inscrivant, vous acceptez de recevoir des informations de la
+            part d'Un Seul Nom. D&eacute;sinscription possible &agrave; tout moment.
+          </p>
+        </form>
+
+        <div class="usn-msg" id="usn-form-msg" role="status" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- PIED DE PAGE                                                   -->
   <!-- ============================================================= -->
   <footer class="usn-footer">
     <div class="usn-wrap">
       <div class="usn-logo-mark usn-logo-blanc usn-footer-mark" role="img" aria-label="Un Seul Nom"></div>
       <div class="usn-footer-logo">Un Seul Nom</div>
-      <p style="margin-top:10px;">&copy; 2026 Un seul Nom. Tous droits r&#233;serv&#233;s.</p>
+      <p style="margin-top:10px;">&copy; 2026 Un seul Nom. Tous droits r&eacute;serv&eacute;s.</p>
       <p style="margin-top:14px;">
         <a href="https://unseulnom.org/">Retour au site</a> &nbsp;&middot;&nbsp;
         <a href="https://unseulnom.org/evenement/">Avignon</a>
       </p>
     </div>
   </footer>
+
+  <div class="usn-drapeau"><i class="b"></i><i class="w"></i><i class="r"></i></div>
 
 </section>
 
@@ -989,27 +719,6 @@
    ne trouve aucun element et s'arrete sans rien faire. */
 (function () {
   function usnInit() {
-
-  /* ---- Le grand titre s'ajuste toujours a la largeur ----
-     " AVIGNON " debordait sur mobile ; avec un nom de ville plus long le
-     probleme reviendrait. On mesure et on reduit si necessaire. */
-  (function () {
-    var h1 = document.querySelector('#usn-agenda .usn-hero h1');
-    if (!h1) return;
-    function fit() {
-      h1.style.fontSize = '';                       // repart de la taille CSS
-      var avail = h1.clientWidth;
-      if (!avail) return;
-      var size = parseFloat(getComputedStyle(h1).fontSize);
-      for (var i = 0; i < 3 && h1.scrollWidth > avail; i++) {
-        size = Math.floor(size * (avail / h1.scrollWidth) * 0.99);
-        h1.style.fontSize = size + 'px';
-      }
-    }
-    fit();
-    window.addEventListener('resize', fit);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
-  })();
 
   /* ---- Compte a rebours ---- */
   (function () {
@@ -1038,6 +747,7 @@
     tick();
     setInterval(tick, 1000);
   })();
+
 
   /* =================================================================
      MOTEUR D'ANIMATION AU SCROLL
@@ -1092,16 +802,10 @@
       var els = root.querySelectorAll(sel);
       if (els.length) groups.push({ els: els, o: opts });
     }
-    group('.usn-prog',        { type: 'slide', dist: 0.42, stagger: 0.16, span: 0.62 });
-    group('.usn-person',      { type: 'rise',  dist: 0.50, stagger: 0.13, span: 0.60 });
-    group('.usn-datepill',    { type: 'pop',   stagger: 0,    span: 0.55 });
-    group('.usn-cta-card',    { type: 'rise',  dist: 0.40, stagger: 0.20, span: 0.60 });
-    group('.usn-date-row',    { type: 'slide', dist: 0.30, stagger: 0.16, span: 0.60 });
-    group('[data-usn-side="left"]',  { type: 'slide',  dist: 0.55, stagger: 0.10, span: 0.85 });
-    group('[data-usn-side="right"]', { type: 'slideR', dist: 0.55, stagger: 0.10, span: 0.85 });
-    group('.usn-section-head',{ type: 'rise',  dist: 0.28, stagger: 0.10, span: 0.55 });
-    group('.usn-fact',        { type: 'rise',  dist: 0.32, stagger: 0.12, span: 0.58 });
-    group('.usn-edition',     { type: 'rise',  dist: 0.42, stagger: 0.12, span: 0.60 });
+    group('.usn-an',      { type: 'rise',  dist: 0.22, stagger: 0,    span: 0.45 });
+    group('.usn-ligne',   { type: 'slide', dist: 0.34, stagger: 0.13, span: 0.58 });
+    group('.usn-affiche', { type: 'rise',  dist: 0.40, stagger: 0.11, span: 0.58 });
+    group('.usn-mot',     { type: 'rise',  dist: 0.26, stagger: 0.14, span: 0.50 });
 
     var all = [];
     for (var g = 0; g < groups.length; g++) {
@@ -1134,7 +838,7 @@
        l'ecran, puis retourne au noir et blanc en s'en eloignant. */
     var photos = [];
     (function () {
-      var imgs = root.querySelectorAll('.usn-person-photo img, .usn-edition-photo img');
+      var imgs = root.querySelectorAll('.usn-affiche img');
       for (var i = 0; i < imgs.length; i++) photos.push({ el: imgs[i], p: 0 });
     })();
 
@@ -1259,10 +963,10 @@
     kick();
   })();
 
-  /* ---- Inscription a la lettre d'information ----
+
+  /* ---- Lettre d'information ----
      Pas de compteur de places ici : la page annonce des dates, elle ne
-     reserve rien. Le formulaire part directement vers Brevo, dans un
-     iframe cache, pour que le visiteur reste sur la page. */
+     reserve rien. Le formulaire part vers Brevo dans un iframe cache. */
   (function () {
     var form = document.getElementById('usn-agenda-form');
     if (!form) return;
@@ -1277,7 +981,7 @@
         return;
       }
       if (msg) {
-        msg.textContent = 'Merci ! Tu seras pr\u00e9venu d\u00e8s qu\'une nouvelle date est annonc\u00e9e.';
+        msg.textContent = 'Merci ! Vous serez pr\u00e9venu d\u00e8s qu\'une nouvelle date est annonc\u00e9e.';
         msg.style.display = 'block';
       }
       setTimeout(function () { form.reset(); }, 100);

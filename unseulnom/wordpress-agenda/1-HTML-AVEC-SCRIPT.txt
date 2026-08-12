@@ -1,363 +1,299 @@
 <section id="usn-agenda">
 
+  <div class="usn-drapeau"><i class="b"></i><i class="w"></i><i class="r"></i></div>
+
+  <nav class="usn-nav">
+    <a class="usn-nav-brand" href="https://unseulnom.org/">
+      <span class="usn-nav-fleche" aria-hidden="true">&#8592;</span> Un Seul Nom
+    </a>
+    <a class="usn-nav-don" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Faire un don</a>
+  </nav>
+
   <!-- ============================================================= -->
-  <!-- H&#201;ROS                                                          -->
+  <!-- EN-TETE                                                        -->
   <!-- ============================================================= -->
-  <header class="usn-hero">
-
-    <nav class="usn-nav">
-      <a class="usn-nav-brand" href="https://unseulnom.org/">
-        <span class="usn-nav-fleche" aria-hidden="true">&#8592;</span> Un Seul Nom
-      </a>
-      <a class="usn-nav-don" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Faire un don</a>
-    </nav>
-
-    <!--
-      &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
-      &#9658; VID&#201;O DE FOND &#8212; m&#234;me principe que la page &#233;v&#233;nement.
-      Remplacez VOTRE_VIDEO.mp4 par l'URL du fichier de la m&#233;diath&#232;que.
-      Sans vid&#233;o, le d&#233;grad&#233; sombre s'affiche.
-      &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
-    -->
-    <video class="usn-hero-video" autoplay muted loop playsinline poster="">
-      <!-- VIDEO -->
-    </video>
-
-    <div class="usn-hero-overlay"></div>
-
-    <div class="usn-hero-inner">
-      <div class="usn-wrap">
-        <div class="usn-logo-mark usn-logo-blanc usn-hero-logo" role="img" aria-label="Un Seul Nom"></div>
-
-        <h1>&#192; venir</h1>
-
-        <div class="usn-hero-tagline">&#201;vang&#233;lisation &amp; Gu&#233;rison</div>
-        <div class="usn-hero-date">Les prochaines dates, de ville en ville</div>
-
-        <div class="usn-hero-cta">
-          <a href="#usn-dates" class="usn-btn usn-btn-primary">Voir les dates</a>
-          <a href="#usn-alerte" class="usn-btn usn-btn-outline">&#202;tre pr&#233;venu</a>
+  <header class="usn-tete">
+    <div class="usn-wrap">
+      <div class="usn-tete-grille">
+        <div class="usn-logo-mark usn-logo-noir usn-tete-logo" role="img" aria-label="Un Seul Nom"></div>
+        <div>
+          <span class="usn-eyebrow">L'agenda</span>
+          <h1>&Agrave; venir</h1>
+          <p class="usn-tete-sous">
+            <b>&Eacute;vang&eacute;lisation &amp; Gu&eacute;rison</b>, une ville apr&egrave;s l'autre.
+            Chaque rendez-vous est gratuit et ouvert &agrave; tous&nbsp;: croyants,
+            curieux, malades, chercheurs de Dieu.
+          </p>
         </div>
-      </div>
-    </div>
-
-    <!--
-      &#9658; COMPTE &#192; REBOURS &#8212; r&#233;gl&#233; sur la PROCHAINE date.
-      &#192; chaque nouvel &#233;v&#233;nement, changez data-target (format ISO).
-    -->
-    <div class="usn-countdown" id="usn-countdown" data-target="2026-10-17T16:00:00">
-      <div class="usn-cd-grid">
-        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="days">0</span><span class="usn-cd-lab">Jours</span></div>
-        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="hours">00</span><span class="usn-cd-lab">Heures</span></div>
-        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="mins">00</span><span class="usn-cd-lab">Min</span></div>
-        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="secs">00</span><span class="usn-cd-lab">Sec</span></div>
       </div>
     </div>
   </header>
 
+  <!--
+    &#9658; BANDEAU DEFILANT &#8212; la liste des villes, repetee deux fois pour que
+      le defilement boucle sans saut. Si vous ajoutez une ville, ajoutez-la
+      dans LES DEUX listes, sinon le ruban saccade.
+  -->
+  <div class="usn-defile" aria-hidden="true">
+    <div class="usn-defile-piste">
+      <div class="usn-defile-suite">
+        <b>Avignon</b> <span>17.10.26</span> <i>&#10022;</i>
+        <b>Madagascar</b> <span>14.11.26</span> <i>&#10022;</i>
+        <b>Marseille</b> <span>06.03.27</span> <i>&#10022;</i>
+        <b>Bordeaux</b> <span>15.05.27</span> <i>&#10022;</i>
+      </div>
+      <div class="usn-defile-suite">
+        <b>Avignon</b> <span>17.10.26</span> <i>&#10022;</i>
+        <b>Madagascar</b> <span>14.11.26</span> <i>&#10022;</i>
+        <b>Marseille</b> <span>06.03.27</span> <i>&#10022;</i>
+        <b>Bordeaux</b> <span>15.05.27</span> <i>&#10022;</i>
+      </div>
+    </div>
+  </div>
+
   <!-- ============================================================= -->
   <!-- LA PROCHAINE DATE                                              -->
   <!-- ============================================================= -->
-  <div class="usn-section" style="padding-bottom: 30px;">
-    <div class="usn-wrap">
-      <div class="usn-datepill">
-        <div class="usn-datepill-d">Prochaine date &middot; Samedi 17 octobre 2026</div>
-        <div class="usn-datepill-v">Avignon <span class="usn-star">&#10022;</span> Parc des expos, Montfavet</div>
+  <!--
+    &#9658; COMPTE A REBOURS &#8212; data-target vise toujours la PROCHAINE date,
+      au format 2026-10-17T16:00:00. A changer apres chaque evenement.
+  -->
+  <div class="usn-prochain" id="usn-countdown" data-target="2026-10-17T16:00:00">
+    <div class="usn-wrap usn-prochain-grille">
+      <div>
+        <div class="usn-prochain-k">Prochaine date</div>
+        <div class="usn-prochain-v">Avignon &middot; Samedi 17 octobre 2026</div>
       </div>
+      <div class="usn-chrono">
+        <div><b data-cd="days">0</b><small>Jours</small></div>
+        <div><b data-cd="hours">00</b><small>Heures</small></div>
+        <div><b data-cd="mins">00</b><small>Min</small></div>
+        <div><b data-cd="secs">00</b><small>Sec</small></div>
+      </div>
+      <a class="usn-btn usn-btn-primary" href="https://unseulnom.org/evenement/">Je r&eacute;serve ma place</a>
     </div>
   </div>
 
   <!-- ============================================================= -->
-  <!-- LES DATES &#192; VENIR                                              -->
+  <!-- L'AGENDA                                                       -->
   <!-- ============================================================= -->
-  <div id="usn-dates" class="usn-section" style="padding-top: 24px;">
+  <div class="usn-agenda" id="usn-dates">
     <div class="usn-wrap">
-      <div class="usn-section-head">
-        <span class="usn-eyebrow">Les dates</span>
-        <h2>Une ville apr&#232;s l'autre</h2>
-        <p>Chaque rendez-vous est gratuit et ouvert &#224; tous. R&#233;serve ta place d&#232;s que les inscriptions sont ouvertes.</p>
-      </div>
 
       <!--
         &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
-        &#9658; LES DATES &#8212; un panneau par &#233;v&#233;nement, qui glisse depuis la
-          gauche au scroll. Les couleurs alternent bleu / rouge toutes
-          seules : il n'y a rien &#224; r&#233;gler.
+        &#9658; LES DATES &#8212; une ligne par evenement, groupees par annee.
+          Les lignes arrivent par la gauche au scroll.
 
-          POUR AJOUTER UNE DATE : copiez un bloc <div class="usn-prog">
-          entier et changez les textes. Pour une date dont les
-          inscriptions ne sont pas encore ouvertes, remplacez la pastille
-          par  <span class="usn-badge usn-bientot">Bient&#244;t</span>  et le
-          bouton par  <span class="usn-attente">Inscriptions bient&#244;t</span>.
+          POUR AJOUTER UNE DATE : copiez une ligne entiere
+          <div class="usn-ligne"> et changez les textes. Pour une
+          nouvelle annee, ajoutez un separateur <div class="usn-an">.
+
+          Quand les inscriptions ouvrent, remplacez
+            <span class="usn-pastille usn-attente">Bient&ocirc;t</span>
+          par
+            <span class="usn-pastille">Inscriptions ouvertes</span>
+          et ajoutez le lien <a class="usn-reserver"> en dessous.
         &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
       -->
-      <div class="usn-program">
 
-        <div class="usn-prog" data-usn-appear>
-          <div class="usn-prog-body">
-            <div class="usn-prog-time">Samedi 17 octobre 2026 &middot; 16h00</div>
-            <div><span class="usn-badge">Inscriptions ouvertes</span></div>
-            <div class="usn-prog-title">Avignon</div>
-            <p class="usn-prog-text">
-              Parc des expos d'Avignon, 800 chemin des F&#233;lons, Montfavet.
-              Ouverture des portes &#224; 15h00. Pr&#233;dication : Yannis Gautier et
-              Chriss Campion. Louange : Patcha&#239; Reyes, Nikita Heugebaert et
-              Ruben Debard.
-            </p>
-            <div class="usn-prog-cta">
-              <a href="https://unseulnom.org/evenement/">Je r&#233;serve ma place</a>
-            </div>
-          </div>
-          <div class="usn-prog-media">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme3.webp" alt="Un Seul Nom &#224; Avignon" loading="lazy" onerror="this.remove()" />
-          </div>
+      <div class="usn-an"><b>2026</b></div>
+
+      <div class="usn-ligne">
+        <div class="usn-jour"><b>17</b><span>Octobre</span></div>
+        <div>
+          <div class="usn-ville">Avignon</div>
+          <div class="usn-lieu">Parc des expos &middot; 800 chemin des F&eacute;lons, Montfavet &middot; Portes 15h00, conf&eacute;rence 16h00</div>
+          <div class="usn-invites">Pr&eacute;dication&nbsp;: Yannis Gautier, Chriss Campion &middot; Louange&nbsp;: Patcha&iuml; Reyes, Nikita Heugebaert, Ruben Debard</div>
         </div>
-
-        <div class="usn-prog" data-usn-appear>
-          <div class="usn-prog-body">
-            <div class="usn-prog-time">Samedi 14 novembre 2026</div>
-            <div><span class="usn-badge usn-bientot">Bient&#244;t</span></div>
-            <div class="usn-prog-title">Madagascar</div>
-            <p class="usn-prog-text">
-              Pr&#233;dication : Pasteur Jack Brunet et Patane.
-              Lieu et horaires &#224; confirmer.
-            </p>
-            <div class="usn-prog-cta">
-              <span class="usn-attente">Inscriptions bient&#244;t</span>
-            </div>
-          </div>
-          <div class="usn-prog-media">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme4.webp" alt="" loading="lazy" onerror="this.remove()" />
-          </div>
+        <div class="usn-etat">
+          <span class="usn-pastille">Inscriptions ouvertes</span>
+          <a class="usn-reserver" href="https://unseulnom.org/evenement/">R&eacute;server <span aria-hidden="true">&#8594;</span></a>
         </div>
-
-        <div class="usn-prog" data-usn-appear>
-          <div class="usn-prog-body">
-            <div class="usn-prog-time">Samedi 6 mars 2027</div>
-            <div><span class="usn-badge usn-bientot">Bient&#244;t</span></div>
-            <div class="usn-prog-title">Marseille</div>
-            <p class="usn-prog-text">
-              Pr&#233;dication : Yannis Gautier et Chriss Campion.
-              Louange : Patcha&#239; Reyes, Nikita Heugebaert et Ruben Debard.
-              Lieu et horaires &#224; confirmer.
-            </p>
-            <div class="usn-prog-cta">
-              <span class="usn-attente">Inscriptions bient&#244;t</span>
-            </div>
-          </div>
-          <div class="usn-prog-media">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme1.webp" alt="" loading="lazy" onerror="this.remove()" />
-          </div>
-        </div>
-
-        <div class="usn-prog" data-usn-appear>
-          <div class="usn-prog-body">
-            <div class="usn-prog-time">Samedi 15 mai 2027</div>
-            <div><span class="usn-badge usn-bientot">Bient&#244;t</span></div>
-            <div class="usn-prog-title">Bordeaux</div>
-            <p class="usn-prog-text">
-              Pr&#233;dication : Pasteur Marcello Tunasi.
-              Louange : Dan Luiten et Nikita Heugebaert.
-              Lieu et horaires &#224; confirmer.
-            </p>
-            <div class="usn-prog-cta">
-              <span class="usn-attente">Inscriptions bient&#244;t</span>
-            </div>
-          </div>
-          <div class="usn-prog-media">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="" loading="lazy" onerror="this.remove()" />
-          </div>
-        </div>
-
-        <!--
-          &#9658; POUR AJOUTER UNE DATE : copiez un des blocs ci-dessus en entier
-            et changez les textes. Les couleurs alternent toutes seules.
-            Quand les inscriptions ouvrent, remplacez
-              <span class="usn-badge usn-bientot">Bient&#244;t</span>
-            par
-              <span class="usn-badge">Inscriptions ouvertes</span>
-            et le <span class="usn-attente"> par un <a> vers la page
-            d'inscription de l'&#233;v&#233;nement.
-        -->
-
       </div>
+
+      <div class="usn-ligne">
+        <div class="usn-jour"><b>14</b><span>Novembre</span></div>
+        <div>
+          <div class="usn-ville">Madagascar</div>
+          <div class="usn-lieu">Lieu et horaires &agrave; confirmer</div>
+          <div class="usn-invites">Pr&eacute;dication&nbsp;: Pasteur Jack Brunet, Patane</div>
+        </div>
+        <div class="usn-etat">
+          <span class="usn-pastille usn-attente">Bient&ocirc;t</span>
+        </div>
+      </div>
+
+      <div class="usn-an"><b>2027</b></div>
+
+      <div class="usn-ligne">
+        <div class="usn-jour"><b>06</b><span>Mars</span></div>
+        <div>
+          <div class="usn-ville">Marseille</div>
+          <div class="usn-lieu">Lieu et horaires &agrave; confirmer</div>
+          <div class="usn-invites">Pr&eacute;dication&nbsp;: Yannis Gautier, Chriss Campion &middot; Louange&nbsp;: Patcha&iuml; Reyes, Nikita Heugebaert, Ruben Debard</div>
+        </div>
+        <div class="usn-etat">
+          <span class="usn-pastille usn-attente">Bient&ocirc;t</span>
+        </div>
+      </div>
+
+      <div class="usn-ligne">
+        <div class="usn-jour"><b>15</b><span>Mai</span></div>
+        <div>
+          <div class="usn-ville">Bordeaux</div>
+          <div class="usn-lieu">Lieu et horaires &agrave; confirmer</div>
+          <div class="usn-invites">Pr&eacute;dication&nbsp;: Pasteur Marcello Tunasi &middot; Louange&nbsp;: Dan Luiten, Nikita Heugebaert</div>
+        </div>
+        <div class="usn-etat">
+          <span class="usn-pastille usn-attente">Bient&ocirc;t</span>
+        </div>
+      </div>
+
     </div>
   </div>
 
   <!-- ============================================================= -->
-  <!-- PUNCHLINE                                                      -->
+  <!-- APPEL AUX EGLISES                                              -->
   <!-- ============================================================= -->
-  <div class="usn-section usn-punch" id="usn-punch"
-       style="padding-top: 40px; padding-bottom: clamp(160px, 25vw, 280px);">
-
-    <!--
-      &#9658; PHOTOS LAT&#201;RALES &#8212; elles glissent depuis les bords au scroll.
-      Remplacez VOTRE_PHOTO_AMBIANCE_x.jpg par vos photos.
-    -->
-
+  <div class="usn-bande">
     <div class="usn-wrap">
-      <span class="usn-eyebrow" style="justify-content:center; width:100%;">La suite</span>
-      <p class="usn-punch-line usn-punch-1" data-usn-reveal style="margin-top:20px;">Ville apr&#232;s ville,</p>
-      <p class="usn-punch-line usn-punch-2" data-usn-reveal>l'&#201;glise se l&#232;ve</p>
-      <p class="usn-punch-line usn-punch-3" data-usn-reveal>sous un seul nom.</p>
-      <p class="usn-punch-sub" data-usn-sub>
-        Chaque date est un rendez-vous de plus donn&#233; &#224; ceux qui n'ont encore
-        jamais entendu parler de J&#233;sus. La prochaine est peut-&#234;tre chez toi.
+      <h2>
+        <span class="usn-mot">La prochaine</span>
+        <span class="usn-mot">ville sera</span>
+        <span class="usn-mot">peut-&ecirc;tre</span>
+        <span class="usn-mot">la v&ocirc;tre.</span>
+      </h2>
+      <p>
+        Vous &ecirc;tes pasteur ou responsable et vous souhaitez accueillir
+        Un Seul Nom&nbsp;? &Eacute;crivez-nous&nbsp;: nous regardons ensemble
+        les dates, la salle et la mobilisation des &eacute;glises locales.
       </p>
-    </div>
-  </div>
-
-  <!-- ============================================================= -->
-  <!-- DEUX CARTES D'ACTION                                           -->
-  <!-- ============================================================= -->
-  <div class="usn-wrap">
-    <div class="usn-cta-cards">
-      <div class="usn-cta-card usn-ink">
-        <div class="usn-cta-eyebrow">Votre ville, la prochaine ?</div>
-        <div class="usn-cta-title">Invitez-nous</div>
-        <p class="usn-cta-text">Vous &#234;tes pasteur ou responsable et vous souhaitez accueillir Un Seul Nom dans votre ville ? &#201;crivez-nous, nous en parlons ensemble.</p>
-        <div class="usn-cta-actions">
-          <a href="mailto:75unseulnomjesus@gmail.com?subject=Accueillir%20Un%20Seul%20Nom%20dans%20notre%20ville" class="usn-cta-btn fill">Nous &#233;crire</a>
-          <a href="#usn-alerte" class="usn-cta-btn line">&#202;tre pr&#233;venu</a>
-        </div>
-      </div>
-      <div class="usn-cta-card usn-red">
-        <div class="usn-cta-eyebrow">Partenaire de la mission</div>
-        <div class="usn-cta-title">Soutiens la mission</div>
-        <p class="usn-cta-text">Chaque &#233;v&#233;nement a un co&#251;t : la salle, le son, l'accueil. Ton don permet la prochaine ville.</p>
-        <div class="usn-cta-actions">
-          <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3?utm_source=app_ha&amp;utm_campaign=share_campaign_button&amp;utm_medium=ios" target="_blank" rel="noopener noreferrer" class="usn-cta-btn fill">Faire un don</a>
-          <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3?utm_source=app_ha&amp;utm_campaign=share_campaign_button&amp;utm_medium=ios" target="_blank" rel="noopener noreferrer" class="usn-cta-btn line">Devenir partenaire</a>
-        </div>
+      <div class="usn-bande-actions">
+        <a class="usn-btn usn-btn-clair" href="mailto:75unseulnomjesus@gmail.com?subject=Accueillir%20Un%20Seul%20Nom%20dans%20notre%20ville">Nous &eacute;crire</a>
+        <a class="usn-btn usn-btn-ligne" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3?utm_source=app_ha&amp;utm_campaign=share_campaign_button&amp;utm_medium=ios" target="_blank" rel="noopener noreferrer">Soutenir la mission</a>
       </div>
     </div>
   </div>
 
   <!-- ============================================================= -->
-  <!-- &#202;TRE PR&#201;VENU DES PROCHAINES DATES                              -->
+  <!-- EDITIONS PASSEES                                               -->
   <!-- ============================================================= -->
-  <div id="usn-alerte" class="usn-section usn-signup">
+  <div class="usn-passe">
     <div class="usn-wrap">
-      <div class="usn-section-head" style="margin:0 auto; text-align:center;">
-        <span class="usn-eyebrow" style="justify-content:center;">Ne rate aucune date</span>
-        <h2>Sois pr&#233;venu</h2>
-        <p style="margin-left:auto;margin-right:auto;">
-          Laisse ton nom et ton e-mail : tu seras averti d&#232;s qu'une nouvelle
-          ville est annonc&#233;e, avant l'ouverture des inscriptions.
-        </p>
-      </div>
-
-      <!-- Le formulaire est envoy&#233; dans l'iframe cach&#233; : le visiteur reste
-           sur la page au lieu d'&#234;tre redirig&#233; vers Brevo. -->
-      <iframe name="usn-brevo" title="Inscription" style="display:none;border:0;width:0;height:0"></iframe>
-
-      <form class="usn-form" id="usn-agenda-form" method="POST"
-            action="https://f8944495.sibforms.com/serve/MUIFAIs9H4MOwtfawQ-nUiiNQjRmcSNQ51wCfEkSkK4X91IeG5GyZDWqGDV3oD_sUQHzLsQUO6Ky6EqX9G_I6VWvy8H5St2aXpxdhmXp81Jkl34fooTe9ukSalttOBmz1T6EwxTHhs9WLKWs2tBPCT1fhe_uubwAitTQjHmRHfmqBxQBcLifIZRDcFP9W3Vvzs_hPEa9_OySJBsT"
-            target="usn-brevo" novalidate>
-        <div class="usn-form-row">
-          <div class="usn-field">
-            <label for="usn-nom">Nom</label>
-            <input id="usn-nom" name="NOM" type="text" placeholder="Ton nom" required />
-          </div>
-          <div class="usn-field">
-            <label for="usn-email">Adresse e-mail</label>
-            <input id="usn-email" name="EMAIL" type="email" placeholder="ton@email.com" required />
-          </div>
+      <div class="usn-passe-tete">
+        <div>
+          <span class="usn-eyebrow">D&eacute;j&agrave; v&eacute;cu</span>
+          <h2 style="margin-top:12px;">L&agrave; o&ugrave; nous sommes pass&eacute;s</h2>
         </div>
-
-        <!-- Pi&#232;ge anti-robot de Brevo : ce champ doit rester vide. -->
-        <input type="text" name="email_address_check" value="" tabindex="-1"
-               aria-hidden="true" autocomplete="off"
-               style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
-        <input type="hidden" name="locale" value="fr" />
-
-        <button type="submit" class="usn-btn usn-btn-primary">Pr&#233;viens-moi</button>
-        <p class="usn-consent">
-          En t'inscrivant, tu acceptes de recevoir des informations de la part
-          d'Un Seul Nom. D&#233;sinscription possible &#224; tout moment.
-        </p>
-      </form>
-
-      <div class="usn-logo-fin">
-        <div class="usn-logo-mark usn-logo-noir" role="img" aria-label="Un Seul Nom"></div>
-      </div>
-
-      <div class="usn-msg" id="usn-form-msg" role="status" aria-live="polite">
-        Merci&nbsp;! Tu seras pr&#233;venu d&#232;s qu'une nouvelle date est annonc&#233;e.
-      </div>
-    </div>
-  </div>
-
-  <!-- ============================================================= -->
-  <!-- D&#201;J&#192; V&#201;CU                                                      -->
-  <!-- ============================================================= -->
-  <div class="usn-section" style="padding-top:0;">
-    <div class="usn-wrap">
-      <div class="usn-section-head">
-        <span class="usn-eyebrow">D&#233;j&#224; v&#233;cu</span>
-        <h2>L&#224; o&#249; nous sommes pass&#233;s</h2>
-        <p>Les affiches reprennent leurs couleurs au passage. Chaque ville a &#233;t&#233; une salle pleine et des vies chang&#233;es.</p>
+        <p>Les affiches reprennent leurs couleurs au passage. Faites glisser pour les parcourir.</p>
       </div>
 
       <!--
-        &#9658; &#201;DITIONS PASS&#201;ES &#8212; l'affiche passe du noir et blanc &#224; la couleur
-          en arrivant au centre de l'&#233;cran. Pour en ajouter une, copiez un
-          bloc <figure class="usn-edition"> et changez l'image et les textes.
+        &#9658; EDITIONS PASSEES &#8212; pour en ajouter une, copiez un bloc
+          <figure class="usn-affiche"> et changez l'image et les textes.
       -->
-      <div class="usn-editions">
-        <figure class="usn-edition" data-usn-appear>
-          <div class="usn-edition-photo">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-1-768x948.jpg" alt="Un Seul Nom &#224; Paris, 4 mai 2024" loading="lazy" onerror="this.remove()" />
+      <div class="usn-pellicule">
+        <figure class="usn-affiche">
+          <div class="usn-affiche-img">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-1-768x948.jpg" alt="Affiche d'Un Seul Nom &agrave; Paris, 4 mai 2024" loading="lazy" onerror="this.remove()" />
           </div>
-          <div class="usn-edition-when">4 mai 2024</div>
-          <div class="usn-edition-city">Paris</div>
-          <div class="usn-edition-place">Stade S&#233;bastien Charl&#233;ty</div>
+          <div class="usn-affiche-quand">4 mai 2024</div>
+          <div class="usn-affiche-ou">Paris</div>
+          <div class="usn-affiche-salle">Stade S&eacute;bastien Charl&eacute;ty</div>
         </figure>
 
-        <figure class="usn-edition" data-usn-appear>
-          <div class="usn-edition-photo">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-3-768x954.jpg" alt="Un Seul Nom Paris, 21 et 22 juin 2025" loading="lazy" onerror="this.remove()" />
+        <figure class="usn-affiche">
+          <div class="usn-affiche-img">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-3-768x954.jpg" alt="Affiche d'Un Seul Nom &agrave; Croissy-Beaubourg, 21 et 22 juin 2025" loading="lazy" onerror="this.remove()" />
           </div>
-          <div class="usn-edition-when">21 &amp; 22 juin 2025</div>
-          <div class="usn-edition-city">Croissy-Beaubourg</div>
-          <div class="usn-edition-place">La Cit&#233; Royale</div>
+          <div class="usn-affiche-quand">21 &amp; 22 juin 2025</div>
+          <div class="usn-affiche-ou">Croissy-Beaubourg</div>
+          <div class="usn-affiche-salle">La Cit&eacute; Royale</div>
         </figure>
 
-        <figure class="usn-edition" data-usn-appear>
-          <div class="usn-edition-photo">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-4-768x945.jpg" alt="Un Seul Nom &#224; Wasquehal, 28 mars 2026" loading="lazy" onerror="this.remove()" />
+        <figure class="usn-affiche">
+          <div class="usn-affiche-img">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-4-768x945.jpg" alt="Affiche d'Un Seul Nom &agrave; Wasquehal, 28 mars 2026" loading="lazy" onerror="this.remove()" />
           </div>
-          <div class="usn-edition-when">28 mars 2026</div>
-          <div class="usn-edition-city">Wasquehal</div>
-          <div class="usn-edition-place">Espace Lille M&#233;tropole</div>
+          <div class="usn-affiche-quand">28 mars 2026</div>
+          <div class="usn-affiche-ou">Wasquehal</div>
+          <div class="usn-affiche-salle">Espace Lille M&eacute;tropole</div>
         </figure>
 
-        <figure class="usn-edition" data-usn-appear>
-          <div class="usn-edition-photo">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-5-768x950.jpg" alt="Un Seul Nom &#224; Perpignan, 9 mai 2026" loading="lazy" onerror="this.remove()" />
+        <figure class="usn-affiche">
+          <div class="usn-affiche-img">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-5-768x950.jpg" alt="Affiche d'Un Seul Nom &agrave; Perpignan, 9 mai 2026" loading="lazy" onerror="this.remove()" />
           </div>
-          <div class="usn-edition-when">9 mai 2026</div>
-          <div class="usn-edition-city">Perpignan</div>
-          <div class="usn-edition-place">Palais des congr&#232;s</div>
+          <div class="usn-affiche-quand">9 mai 2026</div>
+          <div class="usn-affiche-ou">Perpignan</div>
+          <div class="usn-affiche-salle">Palais des congr&egrave;s</div>
         </figure>
       </div>
     </div>
   </div>
 
   <!-- ============================================================= -->
-  <!-- FOOTER                                                         -->
+  <!-- LETTRE D'INFORMATION                                           -->
+  <!-- ============================================================= -->
+  <div class="usn-lettre" id="usn-alerte">
+    <div class="usn-wrap usn-lettre-grille">
+      <div>
+        <span class="usn-eyebrow">Ne ratez aucune date</span>
+        <h2 style="margin-top:12px;">Soyez pr&eacute;venu</h2>
+        <p>
+          D&egrave;s qu'une ville est annonc&eacute;e, vous recevez un message&nbsp;:
+          avant l'ouverture des inscriptions, et avant que la salle ne se remplisse.
+        </p>
+      </div>
+
+      <div>
+        <!-- Le formulaire part dans l'iframe cache : le visiteur reste sur
+             la page au lieu d'etre redirige vers Brevo. -->
+        <iframe name="usn-brevo" title="Inscription" style="display:none;border:0;width:0;height:0"></iframe>
+
+        <form class="usn-form" id="usn-agenda-form" method="POST"
+              action="https://f8944495.sibforms.com/serve/MUIFAIs9H4MOwtfawQ-nUiiNQjRmcSNQ51wCfEkSkK4X91IeG5GyZDWqGDV3oD_sUQHzLsQUO6Ky6EqX9G_I6VWvy8H5St2aXpxdhmXp81Jkl34fooTe9ukSalttOBmz1T6EwxTHhs9WLKWs2tBPCT1fhe_uubwAitTQjHmRHfmqBxQBcLifIZRDcFP9W3Vvzs_hPEa9_OySJBsT"
+              target="usn-brevo" novalidate>
+          <div class="usn-form-duo">
+            <input id="usn-nom" name="NOM" type="text" placeholder="Votre nom" aria-label="Nom" required />
+            <input id="usn-email" name="EMAIL" type="email" placeholder="vous@email.com" aria-label="Adresse e-mail" required />
+          </div>
+
+          <!-- Piege anti-robot de Brevo : ce champ doit rester vide. -->
+          <input type="text" name="email_address_check" value="" tabindex="-1"
+                 aria-hidden="true" autocomplete="off"
+                 style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+          <input type="hidden" name="locale" value="fr" />
+
+          <button type="submit" class="usn-btn usn-btn-primary">Pr&eacute;venez-moi</button>
+          <p class="usn-consent">
+            En vous inscrivant, vous acceptez de recevoir des informations de la
+            part d'Un Seul Nom. D&eacute;sinscription possible &agrave; tout moment.
+          </p>
+        </form>
+
+        <div class="usn-msg" id="usn-form-msg" role="status" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- PIED DE PAGE                                                   -->
   <!-- ============================================================= -->
   <footer class="usn-footer">
     <div class="usn-wrap">
       <div class="usn-logo-mark usn-logo-blanc usn-footer-mark" role="img" aria-label="Un Seul Nom"></div>
       <div class="usn-footer-logo">Un Seul Nom</div>
-      <p style="margin-top:10px;">&copy; 2026 Un seul Nom. Tous droits r&#233;serv&#233;s.</p>
+      <p style="margin-top:10px;">&copy; 2026 Un seul Nom. Tous droits r&eacute;serv&eacute;s.</p>
       <p style="margin-top:14px;">
         <a href="https://unseulnom.org/">Retour au site</a> &nbsp;&middot;&nbsp;
         <a href="https://unseulnom.org/evenement/">Avignon</a>
       </p>
     </div>
   </footer>
+
+  <div class="usn-drapeau"><i class="b"></i><i class="w"></i><i class="r"></i></div>
 
 </section>
 
@@ -367,27 +303,6 @@
    ne trouve aucun element et s'arrete sans rien faire. */
 (function () {
   function usnInit() {
-
-  /* ---- Le grand titre s'ajuste toujours a la largeur ----
-     " AVIGNON " debordait sur mobile ; avec un nom de ville plus long le
-     probleme reviendrait. On mesure et on reduit si necessaire. */
-  (function () {
-    var h1 = document.querySelector('#usn-agenda .usn-hero h1');
-    if (!h1) return;
-    function fit() {
-      h1.style.fontSize = '';                       // repart de la taille CSS
-      var avail = h1.clientWidth;
-      if (!avail) return;
-      var size = parseFloat(getComputedStyle(h1).fontSize);
-      for (var i = 0; i < 3 && h1.scrollWidth > avail; i++) {
-        size = Math.floor(size * (avail / h1.scrollWidth) * 0.99);
-        h1.style.fontSize = size + 'px';
-      }
-    }
-    fit();
-    window.addEventListener('resize', fit);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
-  })();
 
   /* ---- Compte a rebours ---- */
   (function () {
@@ -416,6 +331,7 @@
     tick();
     setInterval(tick, 1000);
   })();
+
 
   /* =================================================================
      MOTEUR D'ANIMATION AU SCROLL
@@ -470,16 +386,10 @@
       var els = root.querySelectorAll(sel);
       if (els.length) groups.push({ els: els, o: opts });
     }
-    group('.usn-prog',        { type: 'slide', dist: 0.42, stagger: 0.16, span: 0.62 });
-    group('.usn-person',      { type: 'rise',  dist: 0.50, stagger: 0.13, span: 0.60 });
-    group('.usn-datepill',    { type: 'pop',   stagger: 0,    span: 0.55 });
-    group('.usn-cta-card',    { type: 'rise',  dist: 0.40, stagger: 0.20, span: 0.60 });
-    group('.usn-date-row',    { type: 'slide', dist: 0.30, stagger: 0.16, span: 0.60 });
-    group('[data-usn-side="left"]',  { type: 'slide',  dist: 0.55, stagger: 0.10, span: 0.85 });
-    group('[data-usn-side="right"]', { type: 'slideR', dist: 0.55, stagger: 0.10, span: 0.85 });
-    group('.usn-section-head',{ type: 'rise',  dist: 0.28, stagger: 0.10, span: 0.55 });
-    group('.usn-fact',        { type: 'rise',  dist: 0.32, stagger: 0.12, span: 0.58 });
-    group('.usn-edition',     { type: 'rise',  dist: 0.42, stagger: 0.12, span: 0.60 });
+    group('.usn-an',      { type: 'rise',  dist: 0.22, stagger: 0,    span: 0.45 });
+    group('.usn-ligne',   { type: 'slide', dist: 0.34, stagger: 0.13, span: 0.58 });
+    group('.usn-affiche', { type: 'rise',  dist: 0.40, stagger: 0.11, span: 0.58 });
+    group('.usn-mot',     { type: 'rise',  dist: 0.26, stagger: 0.14, span: 0.50 });
 
     var all = [];
     for (var g = 0; g < groups.length; g++) {
@@ -512,7 +422,7 @@
        l'ecran, puis retourne au noir et blanc en s'en eloignant. */
     var photos = [];
     (function () {
-      var imgs = root.querySelectorAll('.usn-person-photo img, .usn-edition-photo img');
+      var imgs = root.querySelectorAll('.usn-affiche img');
       for (var i = 0; i < imgs.length; i++) photos.push({ el: imgs[i], p: 0 });
     })();
 
@@ -637,10 +547,10 @@
     kick();
   })();
 
-  /* ---- Inscription a la lettre d'information ----
+
+  /* ---- Lettre d'information ----
      Pas de compteur de places ici : la page annonce des dates, elle ne
-     reserve rien. Le formulaire part directement vers Brevo, dans un
-     iframe cache, pour que le visiteur reste sur la page. */
+     reserve rien. Le formulaire part vers Brevo dans un iframe cache. */
   (function () {
     var form = document.getElementById('usn-agenda-form');
     if (!form) return;
@@ -655,7 +565,7 @@
         return;
       }
       if (msg) {
-        msg.textContent = 'Merci ! Tu seras pr\u00e9venu d\u00e8s qu\'une nouvelle date est annonc\u00e9e.';
+        msg.textContent = 'Merci ! Vous serez pr\u00e9venu d\u00e8s qu\'une nouvelle date est annonc\u00e9e.';
         msg.style.display = 'block';
       }
       setTimeout(function () { form.reset(); }, 100);

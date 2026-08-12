@@ -1,48 +1,69 @@
 # Page « À venir » — les dates Un Seul Nom
 
-Deuxième page, dans la même charte et avec les mêmes modules que la page
-événement : héros plein écran, compte à rebours, panneaux qui glissent depuis
-la gauche, punchline qui se rassemble au scroll, cartes d'action à cheval,
-formulaire Brevo.
+Deuxième page, dans la **même charte** que la page événement — mêmes
+couleurs, mêmes polices, même logo, même moteur d'animation — mais avec une
+**mise en page qui lui est propre**. Le sujet n'est pas un événement mais une
+liste : la page est donc claire, et l'agenda tient la vedette.
 
 - Fichier de travail : [`agenda.html`](./agenda.html)
 - Style « scopé » sous `#usn-agenda` — les deux pages peuvent donc cohabiter
   sur le site sans se marcher dessus.
 
+## Ce qui change par rapport à la page événement
+
+| | Page événement | Page à venir |
+|---|---|---|
+| En-tête | plein écran, sombre, vidéo de fond | claire et compacte, sans vidéo |
+| Compte à rebours | quatre grands cadrans | une ligne, dans un bandeau sombre |
+| Le contenu | panneaux bleu/rouge avec photo | agenda typographique groupé par année |
+| Punchline | mots dispersés qui se rassemblent | bande bleue, lignes qui montent |
+| Actions | deux cartes à cheval sur la bande | une seule bande bleue |
+| Formulaire | grande section centrée + compteur de places | deux champs sur une ligne, sans compteur |
+
 ## Ce que contient la page
 
-1. **Héros** — logo, grand titre « À venir », et le **compte à rebours réglé
-   sur la prochaine date** (Avignon).
-2. **Pill de date** rappelant la prochaine échéance.
-3. **Les dates** — un panneau par événement, qui glisse depuis la gauche,
-   bleu et rouge en alternance, avec la photo, la salle, les intervenants et
-   un bouton. Une pastille indique si les inscriptions sont ouvertes.
-4. **Punchline animée** — « Ville après ville, l'Église se lève sous un seul
-   nom. »
-5. **Deux cartes d'action** — « Invitez-nous » (pour les pasteurs qui veulent
-   accueillir l'événement) et « Soutiens la mission » (HelloAsso).
-6. **Sois prévenu** — formulaire Brevo, sans compteur de places : cette page
-   annonce, elle ne réserve pas. Les réservations restent sur la page de
-   chaque événement.
-7. **Déjà vécu** — les affiches des éditions passées, en noir et blanc, qui
-   **reprennent leurs couleurs** en passant au centre de l'écran.
+1. **Filet tricolore** et barre de navigation en verre dépoli, sombre sur clair.
+2. **En-tête claire** — logo noir, grand titre « À venir » en Archivo.
+3. **Bandeau défilant** bleu avec les villes et leurs dates, en boucle.
+4. **Prochaine date** — bande sombre compacte : le compte à rebours tient sur
+   une ligne, avec le bouton de réservation.
+5. **L'agenda** — une ligne par date, groupée par année : le jour à gauche, la
+   ville en très grand, les détails dessous, l'état des inscriptions à droite.
+   Les lignes arrivent par la gauche au scroll.
+6. **Bande bleue** — « La prochaine ville sera peut-être la vôtre », l'appel
+   aux pasteurs et responsables.
+7. **Déjà vécu** — les affiches des éditions passées défilent
+   horizontalement et **reprennent leurs couleurs** en passant au centre de
+   l'écran.
+8. **Soyez prévenu** — formulaire Brevo compact. Cette page annonce, elle ne
+   réserve pas : les réservations restent sur la page de chaque événement.
 
 ## Ajouter une date
 
-Dans `agenda.html`, cherchez `EXEMPLE À DUPLIQUER` : un panneau complet vous
-attend en commentaire. Retirez les balises de commentaire autour, changez les
-textes, et régénérez.
+Dans `agenda.html`, copiez une ligne `<div class="usn-ligne">` entière et
+changez les textes. Pour une nouvelle année, ajoutez un séparateur
+`<div class="usn-an"><b>2028</b></div>`.
 
-Pour une date dont les inscriptions ne sont pas encore ouvertes :
+Quand les inscriptions ouvrent, remplacez :
 
 ```html
-<span class="usn-badge usn-bientot">Bientôt</span>
-...
-<span class="usn-attente">Inscriptions bientôt</span>
+<span class="usn-pastille usn-attente">Bientôt</span>
 ```
 
-**Pensez au compte à rebours** : `data-target` dans le héros doit toujours
-viser la **prochaine** date (format `2026-10-17T16:00:00`).
+par la pastille active, suivie du lien :
+
+```html
+<span class="usn-pastille">Inscriptions ouvertes</span>
+<a class="usn-reserver" href="…">Réserver <span aria-hidden="true">→</span></a>
+```
+
+**Deux choses à ne pas oublier :**
+
+- Le **compte à rebours** : `data-target` doit toujours viser la **prochaine**
+  date (format `2026-10-17T16:00:00`).
+- Le **bandeau défilant** : la liste des villes y figure **deux fois**, pour
+  que la boucle se referme sans saut. Ajoutez la nouvelle ville dans les deux
+  listes, sinon le ruban saccade.
 
 ## Régénérer les fichiers WordPress
 
