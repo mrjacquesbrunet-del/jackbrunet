@@ -556,7 +556,10 @@
 
   /* Bouton place a l'interieur d'un panneau de date */
   #usn-agenda .usn-prog-cta { margin-top: 18px; }
-  #usn-agenda .usn-prog-cta a {
+  /* Le bouton d'une date ouverte est un lien ; celui d'une date a venir est
+     un simple <span>. Les deux partagent la meme forme de pastille. */
+  #usn-agenda .usn-prog-cta a,
+  #usn-agenda .usn-prog-cta .usn-attente {
     display: inline-flex; align-items: center; gap: 8px;
     background: var(--usn-white); color: var(--usn-ink);
     border-radius: 999px; padding: 12px 24px;
@@ -568,7 +571,6 @@
     background: transparent; color: rgba(255,255,255,.9);
     box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.45); cursor: default;
   }
-  #usn-agenda .usn-prog-cta .usn-attente:hover { transform: none; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.45); }
 
   /* Pastille d'etat en haut du panneau */
   #usn-agenda .usn-badge {
@@ -733,16 +735,53 @@
           </div>
         </div>
 
-        <!--
-          &#9658; EXEMPLE &#192; DUPLIQUER &#8212; retirez les balises de commentaire
-            autour du bloc suivant pour l'activer, puis changez les textes.
+        <div class="usn-prog" data-usn-appear>
+          <div class="usn-prog-body">
+            <div class="usn-prog-time">Samedi 14 novembre 2026</div>
+            <div><span class="usn-badge usn-bientot">Bient&#244;t</span></div>
+            <div class="usn-prog-title">Madagascar</div>
+            <p class="usn-prog-text">
+              Pr&#233;dication : Pasteur Jack Brunet et Patane.
+              Lieu et horaires &#224; confirmer.
+            </p>
+            <div class="usn-prog-cta">
+              <span class="usn-attente">Inscriptions bient&#244;t</span>
+            </div>
+          </div>
+          <div class="usn-prog-media">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme4.webp" alt="" loading="lazy" onerror="this.remove()" />
+          </div>
+        </div>
 
         <div class="usn-prog" data-usn-appear>
           <div class="usn-prog-body">
-            <div class="usn-prog-time">Samedi 00 mois 2027</div>
+            <div class="usn-prog-time">Samedi 6 mars 2027</div>
             <div><span class="usn-badge usn-bientot">Bient&#244;t</span></div>
-            <div class="usn-prog-title">Ville</div>
-            <p class="usn-prog-text">Salle, adresse, ville. Ouverture des portes &#224; 15h00. Pr&#233;dication : &#8230; Louange : &#8230;</p>
+            <div class="usn-prog-title">Marseille</div>
+            <p class="usn-prog-text">
+              Pr&#233;dication : Yannis Gautier et Chriss Campion.
+              Louange : Patcha&#239; Reyes, Nikita Heugebaert et Ruben Debard.
+              Lieu et horaires &#224; confirmer.
+            </p>
+            <div class="usn-prog-cta">
+              <span class="usn-attente">Inscriptions bient&#244;t</span>
+            </div>
+          </div>
+          <div class="usn-prog-media">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme1.webp" alt="" loading="lazy" onerror="this.remove()" />
+          </div>
+        </div>
+
+        <div class="usn-prog" data-usn-appear>
+          <div class="usn-prog-body">
+            <div class="usn-prog-time">Samedi 15 mai 2027</div>
+            <div><span class="usn-badge usn-bientot">Bient&#244;t</span></div>
+            <div class="usn-prog-title">Bordeaux</div>
+            <p class="usn-prog-text">
+              Pr&#233;dication : Pasteur Marcello Tunasi.
+              Louange : Dan Luiten et Nikita Heugebaert.
+              Lieu et horaires &#224; confirmer.
+            </p>
             <div class="usn-prog-cta">
               <span class="usn-attente">Inscriptions bient&#244;t</span>
             </div>
@@ -751,6 +790,16 @@
             <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="" loading="lazy" onerror="this.remove()" />
           </div>
         </div>
+
+        <!--
+          &#9658; POUR AJOUTER UNE DATE : copiez un des blocs ci-dessus en entier
+            et changez les textes. Les couleurs alternent toutes seules.
+            Quand les inscriptions ouvrent, remplacez
+              <span class="usn-badge usn-bientot">Bient&#244;t</span>
+            par
+              <span class="usn-badge">Inscriptions ouvertes</span>
+            et le <span class="usn-attente"> par un <a> vers la page
+            d'inscription de l'&#233;v&#233;nement.
         -->
 
       </div>
