@@ -57,6 +57,7 @@ export function useToday() {
     stepCount,
     stepGoal,
     latestWeight: weights.data?.[0] ?? null,
+    weights: weights.data ?? [],
     session: session.data ?? null,
     completion,
     isLoading: profile.isLoading || goal.isLoading || meals.isLoading,
