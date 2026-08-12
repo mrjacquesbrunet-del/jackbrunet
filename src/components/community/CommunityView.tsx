@@ -14,6 +14,7 @@ import { MemberSuggestions } from "@/components/community/MemberSuggestions";
 import { MentionField } from "@/components/community/MentionField";
 import { CommunityLanding } from "@/components/community/CommunityLanding";
 import { PrayerCirclesCard } from "@/components/community/PrayerCirclesCard";
+import { TopIntercessors } from "@/components/community/TopIntercessors";
 import { openExternal } from "@/lib/external";
 import { siteConfig } from "@/config/site";
 import {
@@ -330,6 +331,9 @@ function Feed({
           </div>
         </div>
       </div>
+
+      {/* Intercesseurs de la semaine — mettre en avant ceux qui prient */}
+      <TopIntercessors />
 
       {/* Cercles de prière (rangée discrète) */}
       <PrayerCirclesCard />

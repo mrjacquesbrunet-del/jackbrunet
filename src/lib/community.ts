@@ -662,6 +662,21 @@ export async function notifyMentions(
   );
 }
 
+/** Intercesseurs les plus actifs de la semaine (réactions « Je prie » +
+ *  commentaires d'encouragement), avec leur profil. */
+export type Intercessor = { profile: Profile; score: number };
+export async function topIntercessors(days = 7, lim = 4): Promise<Intercessor[]> {
+  const sb = getSupabase();
+  if (!sb) return [];
+  const { data, error } = await sb.rpc("top_intercessors", { days, lim });
+  if (error) return [];
+  const rows = (data as { user_id: string; score: number }[])?? [];
+  const profs = await profilesByIds(rows.map((r) => r.user_id));
+  return rows
+.filter((r) => profs[r.user_id])
+.map((r) => ({ profile: profs[r.user_id], score: Number(r.score) }));
+}
+
 /** Ids des membres auxquels je suis abonné. */
 export async function listFollowingIds(userId: string): Promise<string[]> {
   const sb = getSupabase();
