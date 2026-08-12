@@ -190,6 +190,16 @@ export interface BodyMeasurement {
   value_cm: number; // toujours stocké en cm (conversion à l'affichage)
 }
 
+export interface SleepEntry {
+  id: string;
+  user_id: string;
+  entry_date: string; // date du réveil
+  bed_time: string;   // « 23:30 »
+  wake_time: string;  // « 07:00 »
+  quality: number | null; // 1-5
+  notes: string | null;
+}
+
 export type PhotoType = 'face' | 'profil' | 'dos' | 'autre';
 
 export interface ProgressPhoto {

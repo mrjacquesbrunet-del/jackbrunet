@@ -1,5 +1,11 @@
 import { supabase } from '@/src/lib/supabase';
-import type { ProgressPhoto, StepEntry, WaterEntry, WeightEntry } from '@/src/types/domain';
+import type {
+  ProgressPhoto,
+  SleepEntry,
+  StepEntry,
+  WaterEntry,
+  WeightEntry,
+} from '@/src/types/domain';
 
 async function userId(): Promise<string> {
   const { data } = await supabase.auth.getUser();
@@ -76,6 +82,28 @@ export async function upsertWeight(date: string, weightKg: number, notes?: strin
       { user_id: await userId(), entry_date: date, weight_kg: weightKg, notes: notes ?? null },
       { onConflict: 'user_id,entry_date' },
     );
+  if (error) throw error;
+}
+
+// --- Sommeil -----------------------------------------------------------------
+
+export async function getSleep(date: string): Promise<SleepEntry | null> {
+  const { data, error } = await supabase
+    .from('sleep_entries')
+    .select('*')
+    .eq('entry_date', date)
+    .maybeSingle();
+  if (error) throw error;
+  return data;
+}
+
+export async function upsertSleep(
+  entry: Pick<SleepEntry, 'entry_date' | 'bed_time' | 'wake_time'> &
+    Partial<Pick<SleepEntry, 'quality' | 'notes'>>,
+): Promise<void> {
+  const { error } = await supabase
+    .from('sleep_entries')
+    .upsert({ ...entry, user_id: await userId() }, { onConflict: 'user_id,entry_date' });
   if (error) throw error;
 }
 

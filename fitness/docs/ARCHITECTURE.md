@@ -244,9 +244,10 @@ et ne contient **aucun calcul** (les calculs sont dans `src/logic`).
 | 3 | Dashboard Aujourd'hui complet (eau, pas, poids en saisie rapide) | entamé (eau fonctionnelle) |
 | 4 | Aliments + recettes + journal des repas (prévu/consommé) | à faire |
 | 5 | Programmes + séances + planning hebdo | à faire |
-| 6 | Mode entraînement (séries, chrono repos) + historique/records | à faire |
+| 6 | Mode entraînement (séries, chrono repos) + historique/records + **mode salle** (écran toujours allumé, vibration à la fin du repos, +15 s / pause / passer, proposition « Nouveau record ? » via `beatsRecord`) | à faire |
 | 7 | Progression : courbe poids, mensurations, photos + comparateur | à faire |
 | 8 | Calendrier global + historique + bouton « + » global | à faire |
 | 8b | Check-in mensuel (même protocole que le bilan de départ, rappel reportable, comparaison automatique, vue Transformation) | à faire |
+| 8c | Saisie sommeil (coucher/lever, qualité) intégrée au score de la journée + **rappel d'hydratation intelligent** (notification locale seulement si retard réel — logique `isBehindOnWater` déjà testée) | données prêtes (migration 004), UI à faire |
 | 9 | Phase 2 : stats avancées, liste de courses, check-in hebdo, notifications, HealthKit/Health Connect, scanner code-barres | à faire |
 | 10 | Phase 3 : IA (recettes, menus, ajustement programme — toujours avec validation) | à faire |
