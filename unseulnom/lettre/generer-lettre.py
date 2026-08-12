@@ -152,7 +152,7 @@ strong { font-weight: 700; }
   </div>
   <div class="quand">
     <div class="j">Samedi<br>17 octobre 2026</div>
-    <div class="h">Portes 15h00 &middot; Conf&eacute;rence 16h00</div>
+    <div class="h">Ouverture &agrave; 15h00 &middot; Conf&eacute;rence 16h00</div>
   </div>
 </div>
 
