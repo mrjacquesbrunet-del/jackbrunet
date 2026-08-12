@@ -1,15 +1,21 @@
 #!/usr/bin/env python3
 """
-Genere les fichiers a coller dans WordPress a partir de index.html.
+Genere les fichiers a coller dans WordPress a partir des pages sources.
 
-    python3 generer-fichiers-wordpress.py
+    python3 generer-fichiers-wordpress.py            # les deux pages
+    python3 generer-fichiers-wordpress.py agenda     # une seule
 
-Produit :
-  wordpress-3-parties/1-HTML.txt              -> onglet HTML du bloc
-  wordpress-3-parties/2-CSS.txt               -> onglet CSS du bloc
-  wordpress-3-parties/3-JAVASCRIPT.txt        -> "CSS et JS personnalises"
-  wordpress-3-parties/1-HTML-AVEC-SCRIPT.txt  -> HTML + script en un seul bloc
-  a-coller-dans-wordpress.html                -> version tout-en-un
+Deux pages sont produites :
+
+  evenement  index.html   -> wordpress-3-parties/   (la page Avignon)
+  agenda     agenda.html  -> wordpress-agenda/      (les dates a venir)
+
+Pour chacune :
+  1-HTML.txt              -> onglet HTML du bloc
+  2-CSS.txt               -> onglet CSS du bloc
+  3-JAVASCRIPT.txt        -> "CSS et JS personnalises"
+  1-HTML-AVEC-SCRIPT.txt  -> HTML + script en un seul bloc
+  ..-a-coller.html        -> version tout-en-un
 
 Trois transformations sont appliquees a la volee :
 
@@ -30,14 +36,29 @@ Trois transformations sont appliquees a la volee :
 """
 
 import re
+import sys
 import unicodedata
 from pathlib import Path
 
 RACINE = Path(__file__).resolve().parent
-SOURCE = RACINE / "index.html"
-SORTIE = RACINE / "wordpress-3-parties"
+
+PAGES = {
+    "evenement": {
+        "source": "index.html",
+        "sortie": "wordpress-3-parties",
+        "seul": "a-coller-dans-wordpress.html",
+        "generique": "index-wordpress.html",
+    },
+    "agenda": {
+        "source": "agenda.html",
+        "sortie": "wordpress-agenda",
+        "seul": "agenda-a-coller-dans-wordpress.html",
+        "generique": None,
+    },
+}
 
 URL_MEDIAS = "https://unseulnom.org/wp-content/uploads/2026/07"
+URL_2026_04 = "https://unseulnom.org/wp-content/uploads/2026/04"
 
 # WordPress a retire les traits d'union des noms de fichiers a l'envoi :
 # programme-1.webp est servi sous programme1.webp.
@@ -46,6 +67,18 @@ RENOMMAGES = {
     "programme-2.webp": "programme2.webp",
     "programme-3.webp": "programme3.webp",
     "programme-4.webp": "programme4.webp",
+}
+
+# Images deja presentes dans la mediatheque : on pointe dessus au lieu d'en
+# envoyer de nouvelles. Ce sont les affiches des editions passees, et c'est
+# la taille intermediaire generee par WordPress qui est utilisee (768 px de
+# large, soit quatre fois plus legere que l'originale, largement assez pour
+# une vignette).
+ADRESSES = {
+    "edition-paris.webp":     URL_2026_04 + "/conference-Un-seul-nom-1-768x948.jpg",
+    "edition-croissy.webp":   URL_2026_04 + "/conference-Un-seul-nom-3-768x954.jpg",
+    "edition-wasquehal.webp": URL_2026_04 + "/conference-Un-seul-nom-4-768x945.jpg",
+    "edition-perpignan.webp": URL_2026_04 + "/conference-Un-seul-nom-5-768x950.jpg",
 }
 
 # Ponctuation typographique et filets -> equivalent ASCII
@@ -170,8 +203,10 @@ def js_en_ascii(js):
 def vers_mediatheque(texte, base=URL_MEDIAS):
     """Reecrit les chemins images/xxx.webp vers la mediatheque WordPress."""
     def remplace(m):
-        nom = RENOMMAGES.get(m.group(1), m.group(1))
-        return '"%s/%s"' % (base, nom)
+        nom = m.group(1)
+        if nom in ADRESSES:
+            return '"%s"' % ADRESSES[nom]
+        return '"%s/%s"' % (base, RENOMMAGES.get(nom, nom))
     return re.sub(r'"images/([^"]+)"', remplace, texte)
 
 
@@ -192,18 +227,20 @@ def sans_reperes(html):
     return html
 
 
-def extraire(source, balise):
+def extraire(source, balise, nom_source):
     """Recupere le contenu entre <balise> et </balise> (premiere occurrence)."""
     m = re.search(r"<%s>\n(.*?)\n</%s>" % (balise, balise), source, re.S)
     if not m:
-        raise SystemExit("balise <%s> introuvable dans index.html" % balise)
+        raise SystemExit("balise <%s> introuvable dans %s" % (balise, nom_source))
     return m.group(1)
 
 
-def extraire_section(source):
-    debut = source.index('<section id="usn-event">')
-    fin = source.index("</section>", debut) + len("</section>")
-    return source[debut:fin]
+def extraire_section(source, nom_source):
+    m = re.search(r'<section id="usn-[a-z]+">', source)
+    if not m:
+        raise SystemExit("aucune <section id=\"usn-...\"> dans %s" % nom_source)
+    fin = source.index("</section>", m.start()) + len("</section>")
+    return source[m.start():fin]
 
 
 def verifier(css):
@@ -213,33 +250,49 @@ def verifier(css):
             raise SystemExit("url() contient un saut de ligne : CSS invalide")
 
 
-def main():
-    source = SOURCE.read_text(encoding="utf-8")
+def construire(nom, page):
+    chemin = RACINE / page["source"]
+    source = chemin.read_text(encoding="utf-8")
 
-    css = en_ascii(extraire(source, "style"))
-    js = js_en_ascii(extraire(source, "script"))
-    section = sans_reperes(extraire_section(source))
+    css = en_ascii(extraire(source, "style", page["source"]))
+    js = js_en_ascii(extraire(source, "script", page["source"]))
+    section = sans_reperes(extraire_section(source, page["source"]))
     html = en_entites(vers_mediatheque(section))
-    # Version generique : l'adresse de la mediatheque reste a remplacer.
-    html_generique = en_entites(vers_mediatheque(section, "__URL_IMAGES__"))
     verifier(css)
 
-    SORTIE.mkdir(exist_ok=True)
+    sortie = RACINE / page["sortie"]
+    sortie.mkdir(exist_ok=True)
     fichiers = {
-        SORTIE / "1-HTML.txt": html + "\n",
-        SORTIE / "2-CSS.txt": css + "\n",
-        SORTIE / "3-JAVASCRIPT.txt": js + "\n",
-        SORTIE / "1-HTML-AVEC-SCRIPT.txt": html + "\n\n<script>\n" + js + "\n</script>\n",
-        RACINE / "a-coller-dans-wordpress.html":
+        sortie / "1-HTML.txt": html + "\n",
+        sortie / "2-CSS.txt": css + "\n",
+        sortie / "3-JAVASCRIPT.txt": js + "\n",
+        sortie / "1-HTML-AVEC-SCRIPT.txt":
+            html + "\n\n<script>\n" + js + "\n</script>\n",
+        RACINE / page["seul"]:
             "<style>\n" + css + "\n</style>\n\n" + html
             + "\n\n<script>\n" + js + "\n</script>\n",
-        RACINE / "index-wordpress.html":
-            "<style>\n" + css + "\n</style>\n\n" + html_generique
-            + "\n\n<script>\n" + js + "\n</script>\n",
     }
-    for chemin, contenu in fichiers.items():
-        chemin.write_text(contenu, encoding="ascii")
-        print("%7d octets  %s" % (chemin.stat().st_size, chemin.name))
+    if page["generique"]:
+        # Version generique : l'adresse de la mediatheque reste a remplacer.
+        generique = en_entites(vers_mediatheque(section, "__URL_IMAGES__"))
+        fichiers[RACINE / page["generique"]] = (
+            "<style>\n" + css + "\n</style>\n\n" + generique
+            + "\n\n<script>\n" + js + "\n</script>\n")
+
+    print("== %s (%s)" % (nom, page["source"]))
+    for chemin_sortie, contenu in fichiers.items():
+        chemin_sortie.write_text(contenu, encoding="ascii")
+        print("   %7d octets  %s" % (chemin_sortie.stat().st_size,
+                                     chemin_sortie.relative_to(RACINE)))
+
+
+def main():
+    voulues = sys.argv[1:] or list(PAGES)
+    for nom in voulues:
+        if nom not in PAGES:
+            raise SystemExit("page inconnue : %s (au choix : %s)"
+                             % (nom, ", ".join(PAGES)))
+        construire(nom, PAGES[nom])
 
 
 if __name__ == "__main__":

@@ -1,0 +1,625 @@
+<section id="usn-agenda">
+
+  <!-- ============================================================= -->
+  <!-- H&#201;ROS                                                          -->
+  <!-- ============================================================= -->
+  <header class="usn-hero">
+
+    <nav class="usn-nav">
+      <a class="usn-nav-brand" href="https://unseulnom.org/">
+        <span class="usn-nav-fleche" aria-hidden="true">&#8592;</span> Un Seul Nom
+      </a>
+      <a class="usn-nav-don" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Faire un don</a>
+    </nav>
+
+    <!--
+      &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+      &#9658; VID&#201;O DE FOND &#8212; m&#234;me principe que la page &#233;v&#233;nement.
+      Remplacez VOTRE_VIDEO.mp4 par l'URL du fichier de la m&#233;diath&#232;que.
+      Sans vid&#233;o, le d&#233;grad&#233; sombre s'affiche.
+      &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+    -->
+    <video class="usn-hero-video" autoplay muted loop playsinline poster="">
+      <!-- VIDEO -->
+    </video>
+
+    <div class="usn-hero-overlay"></div>
+
+    <div class="usn-hero-inner">
+      <div class="usn-wrap">
+        <div class="usn-logo-mark usn-logo-blanc usn-hero-logo" role="img" aria-label="Un Seul Nom"></div>
+
+        <h1>&#192; venir</h1>
+
+        <div class="usn-hero-tagline">&#201;vang&#233;lisation &amp; Gu&#233;rison</div>
+        <div class="usn-hero-date">Les prochaines dates, de ville en ville</div>
+
+        <div class="usn-hero-cta">
+          <a href="#usn-dates" class="usn-btn usn-btn-primary">Voir les dates</a>
+          <a href="#usn-alerte" class="usn-btn usn-btn-outline">&#202;tre pr&#233;venu</a>
+        </div>
+      </div>
+    </div>
+
+    <!--
+      &#9658; COMPTE &#192; REBOURS &#8212; r&#233;gl&#233; sur la PROCHAINE date.
+      &#192; chaque nouvel &#233;v&#233;nement, changez data-target (format ISO).
+    -->
+    <div class="usn-countdown" id="usn-countdown" data-target="2026-10-17T16:00:00">
+      <div class="usn-cd-grid">
+        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="days">0</span><span class="usn-cd-lab">Jours</span></div>
+        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="hours">00</span><span class="usn-cd-lab">Heures</span></div>
+        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="mins">00</span><span class="usn-cd-lab">Min</span></div>
+        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="secs">00</span><span class="usn-cd-lab">Sec</span></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================= -->
+  <!-- LA PROCHAINE DATE                                              -->
+  <!-- ============================================================= -->
+  <div class="usn-section" style="padding-bottom: 30px;">
+    <div class="usn-wrap">
+      <div class="usn-datepill">
+        <div class="usn-datepill-d">Prochaine date &middot; Samedi 17 octobre 2026</div>
+        <div class="usn-datepill-v">Avignon <span class="usn-star">&#10022;</span> Parc des expos, Montfavet</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- LES DATES &#192; VENIR                                              -->
+  <!-- ============================================================= -->
+  <div id="usn-dates" class="usn-section" style="padding-top: 24px;">
+    <div class="usn-wrap">
+      <div class="usn-section-head">
+        <span class="usn-eyebrow">Les dates</span>
+        <h2>Une ville apr&#232;s l'autre</h2>
+        <p>Chaque rendez-vous est gratuit et ouvert &#224; tous. R&#233;serve ta place d&#232;s que les inscriptions sont ouvertes.</p>
+      </div>
+
+      <!--
+        &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+        &#9658; LES DATES &#8212; un panneau par &#233;v&#233;nement, qui glisse depuis la
+          gauche au scroll. Les couleurs alternent bleu / rouge toutes
+          seules : il n'y a rien &#224; r&#233;gler.
+
+          POUR AJOUTER UNE DATE : copiez un bloc <div class="usn-prog">
+          entier et changez les textes. Pour une date dont les
+          inscriptions ne sont pas encore ouvertes, remplacez la pastille
+          par  <span class="usn-badge usn-bientot">Bient&#244;t</span>  et le
+          bouton par  <span class="usn-attente">Inscriptions bient&#244;t</span>.
+        &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+      -->
+      <div class="usn-program">
+
+        <div class="usn-prog" data-usn-appear>
+          <div class="usn-prog-body">
+            <div class="usn-prog-time">Samedi 17 octobre 2026 &middot; 16h00</div>
+            <div><span class="usn-badge">Inscriptions ouvertes</span></div>
+            <div class="usn-prog-title">Avignon</div>
+            <p class="usn-prog-text">
+              Parc des expos d'Avignon, 800 chemin des F&#233;lons, Montfavet.
+              Ouverture des portes &#224; 15h00. Pr&#233;dication : Yannis Gautier et
+              Chriss Campion. Louange : Patcha&#239; Reyes, Nikita Heugebaert et
+              Ruben Debard.
+            </p>
+            <div class="usn-prog-cta">
+              <a href="https://unseulnom.org/evenement/">Je r&#233;serve ma place</a>
+            </div>
+          </div>
+          <div class="usn-prog-media">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme3.webp" alt="Un Seul Nom &#224; Avignon" loading="lazy" onerror="this.remove()" />
+          </div>
+        </div>
+
+        <!--
+          &#9658; EXEMPLE &#192; DUPLIQUER &#8212; retirez les balises de commentaire
+            autour du bloc suivant pour l'activer, puis changez les textes.
+
+        <div class="usn-prog" data-usn-appear>
+          <div class="usn-prog-body">
+            <div class="usn-prog-time">Samedi 00 mois 2027</div>
+            <div><span class="usn-badge usn-bientot">Bient&#244;t</span></div>
+            <div class="usn-prog-title">Ville</div>
+            <p class="usn-prog-text">Salle, adresse, ville. Ouverture des portes &#224; 15h00. Pr&#233;dication : &#8230; Louange : &#8230;</p>
+            <div class="usn-prog-cta">
+              <span class="usn-attente">Inscriptions bient&#244;t</span>
+            </div>
+          </div>
+          <div class="usn-prog-media">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="" loading="lazy" onerror="this.remove()" />
+          </div>
+        </div>
+        -->
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- PUNCHLINE                                                      -->
+  <!-- ============================================================= -->
+  <div class="usn-section usn-punch" id="usn-punch"
+       style="padding-top: 40px; padding-bottom: clamp(160px, 25vw, 280px);">
+
+    <!--
+      &#9658; PHOTOS LAT&#201;RALES &#8212; elles glissent depuis les bords au scroll.
+      Remplacez VOTRE_PHOTO_AMBIANCE_x.jpg par vos photos.
+    -->
+
+    <div class="usn-wrap">
+      <span class="usn-eyebrow" style="justify-content:center; width:100%;">La suite</span>
+      <p class="usn-punch-line usn-punch-1" data-usn-reveal style="margin-top:20px;">Ville apr&#232;s ville,</p>
+      <p class="usn-punch-line usn-punch-2" data-usn-reveal>l'&#201;glise se l&#232;ve</p>
+      <p class="usn-punch-line usn-punch-3" data-usn-reveal>sous un seul nom.</p>
+      <p class="usn-punch-sub" data-usn-sub>
+        Chaque date est un rendez-vous de plus donn&#233; &#224; ceux qui n'ont encore
+        jamais entendu parler de J&#233;sus. La prochaine est peut-&#234;tre chez toi.
+      </p>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- DEUX CARTES D'ACTION                                           -->
+  <!-- ============================================================= -->
+  <div class="usn-wrap">
+    <div class="usn-cta-cards">
+      <div class="usn-cta-card usn-ink">
+        <div class="usn-cta-eyebrow">Votre ville, la prochaine ?</div>
+        <div class="usn-cta-title">Invitez-nous</div>
+        <p class="usn-cta-text">Vous &#234;tes pasteur ou responsable et vous souhaitez accueillir Un Seul Nom dans votre ville ? &#201;crivez-nous, nous en parlons ensemble.</p>
+        <div class="usn-cta-actions">
+          <a href="mailto:75unseulnomjesus@gmail.com?subject=Accueillir%20Un%20Seul%20Nom%20dans%20notre%20ville" class="usn-cta-btn fill">Nous &#233;crire</a>
+          <a href="#usn-alerte" class="usn-cta-btn line">&#202;tre pr&#233;venu</a>
+        </div>
+      </div>
+      <div class="usn-cta-card usn-red">
+        <div class="usn-cta-eyebrow">Partenaire de la mission</div>
+        <div class="usn-cta-title">Soutiens la mission</div>
+        <p class="usn-cta-text">Chaque &#233;v&#233;nement a un co&#251;t : la salle, le son, l'accueil. Ton don permet la prochaine ville.</p>
+        <div class="usn-cta-actions">
+          <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3?utm_source=app_ha&amp;utm_campaign=share_campaign_button&amp;utm_medium=ios" target="_blank" rel="noopener noreferrer" class="usn-cta-btn fill">Faire un don</a>
+          <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3?utm_source=app_ha&amp;utm_campaign=share_campaign_button&amp;utm_medium=ios" target="_blank" rel="noopener noreferrer" class="usn-cta-btn line">Devenir partenaire</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- &#202;TRE PR&#201;VENU DES PROCHAINES DATES                              -->
+  <!-- ============================================================= -->
+  <div id="usn-alerte" class="usn-section usn-signup">
+    <div class="usn-wrap">
+      <div class="usn-section-head" style="margin:0 auto; text-align:center;">
+        <span class="usn-eyebrow" style="justify-content:center;">Ne rate aucune date</span>
+        <h2>Sois pr&#233;venu</h2>
+        <p style="margin-left:auto;margin-right:auto;">
+          Laisse ton nom et ton e-mail : tu seras averti d&#232;s qu'une nouvelle
+          ville est annonc&#233;e, avant l'ouverture des inscriptions.
+        </p>
+      </div>
+
+      <!-- Le formulaire est envoy&#233; dans l'iframe cach&#233; : le visiteur reste
+           sur la page au lieu d'&#234;tre redirig&#233; vers Brevo. -->
+      <iframe name="usn-brevo" title="Inscription" style="display:none;border:0;width:0;height:0"></iframe>
+
+      <form class="usn-form" id="usn-agenda-form" method="POST"
+            action="https://f8944495.sibforms.com/serve/MUIFAIs9H4MOwtfawQ-nUiiNQjRmcSNQ51wCfEkSkK4X91IeG5GyZDWqGDV3oD_sUQHzLsQUO6Ky6EqX9G_I6VWvy8H5St2aXpxdhmXp81Jkl34fooTe9ukSalttOBmz1T6EwxTHhs9WLKWs2tBPCT1fhe_uubwAitTQjHmRHfmqBxQBcLifIZRDcFP9W3Vvzs_hPEa9_OySJBsT"
+            target="usn-brevo" novalidate>
+        <div class="usn-form-row">
+          <div class="usn-field">
+            <label for="usn-nom">Nom</label>
+            <input id="usn-nom" name="NOM" type="text" placeholder="Ton nom" required />
+          </div>
+          <div class="usn-field">
+            <label for="usn-email">Adresse e-mail</label>
+            <input id="usn-email" name="EMAIL" type="email" placeholder="ton@email.com" required />
+          </div>
+        </div>
+
+        <!-- Pi&#232;ge anti-robot de Brevo : ce champ doit rester vide. -->
+        <input type="text" name="email_address_check" value="" tabindex="-1"
+               aria-hidden="true" autocomplete="off"
+               style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+        <input type="hidden" name="locale" value="fr" />
+
+        <button type="submit" class="usn-btn usn-btn-primary">Pr&#233;viens-moi</button>
+        <p class="usn-consent">
+          En t'inscrivant, tu acceptes de recevoir des informations de la part
+          d'Un Seul Nom. D&#233;sinscription possible &#224; tout moment.
+        </p>
+      </form>
+
+      <div class="usn-logo-fin">
+        <div class="usn-logo-mark usn-logo-noir" role="img" aria-label="Un Seul Nom"></div>
+      </div>
+
+      <div class="usn-msg" id="usn-form-msg" role="status" aria-live="polite">
+        Merci&nbsp;! Tu seras pr&#233;venu d&#232;s qu'une nouvelle date est annonc&#233;e.
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- D&#201;J&#192; V&#201;CU                                                      -->
+  <!-- ============================================================= -->
+  <div class="usn-section" style="padding-top:0;">
+    <div class="usn-wrap">
+      <div class="usn-section-head">
+        <span class="usn-eyebrow">D&#233;j&#224; v&#233;cu</span>
+        <h2>L&#224; o&#249; nous sommes pass&#233;s</h2>
+        <p>Les affiches reprennent leurs couleurs au passage. Chaque ville a &#233;t&#233; une salle pleine et des vies chang&#233;es.</p>
+      </div>
+
+      <!--
+        &#9658; &#201;DITIONS PASS&#201;ES &#8212; l'affiche passe du noir et blanc &#224; la couleur
+          en arrivant au centre de l'&#233;cran. Pour en ajouter une, copiez un
+          bloc <figure class="usn-edition"> et changez l'image et les textes.
+      -->
+      <div class="usn-editions">
+        <figure class="usn-edition" data-usn-appear>
+          <div class="usn-edition-photo">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-1-768x948.jpg" alt="Un Seul Nom &#224; Paris, 4 mai 2024" loading="lazy" onerror="this.remove()" />
+          </div>
+          <div class="usn-edition-when">4 mai 2024</div>
+          <div class="usn-edition-city">Paris</div>
+          <div class="usn-edition-place">Stade S&#233;bastien Charl&#233;ty</div>
+        </figure>
+
+        <figure class="usn-edition" data-usn-appear>
+          <div class="usn-edition-photo">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-3-768x954.jpg" alt="Un Seul Nom Paris, 21 et 22 juin 2025" loading="lazy" onerror="this.remove()" />
+          </div>
+          <div class="usn-edition-when">21 &amp; 22 juin 2025</div>
+          <div class="usn-edition-city">Croissy-Beaubourg</div>
+          <div class="usn-edition-place">La Cit&#233; Royale</div>
+        </figure>
+
+        <figure class="usn-edition" data-usn-appear>
+          <div class="usn-edition-photo">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-4-768x945.jpg" alt="Un Seul Nom &#224; Wasquehal, 28 mars 2026" loading="lazy" onerror="this.remove()" />
+          </div>
+          <div class="usn-edition-when">28 mars 2026</div>
+          <div class="usn-edition-city">Wasquehal</div>
+          <div class="usn-edition-place">Espace Lille M&#233;tropole</div>
+        </figure>
+
+        <figure class="usn-edition" data-usn-appear>
+          <div class="usn-edition-photo">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-5-768x950.jpg" alt="Un Seul Nom &#224; Perpignan, 9 mai 2026" loading="lazy" onerror="this.remove()" />
+          </div>
+          <div class="usn-edition-when">9 mai 2026</div>
+          <div class="usn-edition-city">Perpignan</div>
+          <div class="usn-edition-place">Palais des congr&#232;s</div>
+        </figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- FOOTER                                                         -->
+  <!-- ============================================================= -->
+  <footer class="usn-footer">
+    <div class="usn-wrap">
+      <div class="usn-logo-mark usn-logo-blanc usn-footer-mark" role="img" aria-label="Un Seul Nom"></div>
+      <div class="usn-footer-logo">Un Seul Nom</div>
+      <p style="margin-top:10px;">&copy; 2026 Un seul Nom. Tous droits r&#233;serv&#233;s.</p>
+      <p style="margin-top:14px;">
+        <a href="https://unseulnom.org/">Retour au site</a> &nbsp;&middot;&nbsp;
+        <a href="https://unseulnom.org/evenement/">Avignon</a>
+      </p>
+    </div>
+  </footer>
+
+</section>
+
+<script>
+/* Tout le code attend que la page soit construite. Sans cela, si le script
+   est insere avant le contenu (ce que font certains plugins WordPress), il
+   ne trouve aucun element et s'arrete sans rien faire. */
+(function () {
+  function usnInit() {
+
+  /* ---- Le grand titre s'ajuste toujours a la largeur ----
+     " AVIGNON " debordait sur mobile ; avec un nom de ville plus long le
+     probleme reviendrait. On mesure et on reduit si necessaire. */
+  (function () {
+    var h1 = document.querySelector('#usn-agenda .usn-hero h1');
+    if (!h1) return;
+    function fit() {
+      h1.style.fontSize = '';                       // repart de la taille CSS
+      var avail = h1.clientWidth;
+      if (!avail) return;
+      var size = parseFloat(getComputedStyle(h1).fontSize);
+      for (var i = 0; i < 3 && h1.scrollWidth > avail; i++) {
+        size = Math.floor(size * (avail / h1.scrollWidth) * 0.99);
+        h1.style.fontSize = size + 'px';
+      }
+    }
+    fit();
+    window.addEventListener('resize', fit);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  })();
+
+  /* ---- Compte a rebours ---- */
+  (function () {
+    var box = document.getElementById('usn-countdown');
+    if (!box) return;
+    var target = new Date(box.getAttribute('data-target') || '').getTime();
+    if (isNaN(target)) return;
+    var els = {
+      days: box.querySelector('[data-cd="days"]'),
+      hours: box.querySelector('[data-cd="hours"]'),
+      mins: box.querySelector('[data-cd="mins"]'),
+      secs: box.querySelector('[data-cd="secs"]')
+    };
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function tick() {
+      var diff = Math.max(0, target - Date.now());
+      var s = Math.floor(diff / 1000);
+      var d = Math.floor(s / 86400); s -= d * 86400;
+      var h = Math.floor(s / 3600); s -= h * 3600;
+      var m = Math.floor(s / 60); s -= m * 60;
+      if (els.days) els.days.textContent = d;
+      if (els.hours) els.hours.textContent = pad(h);
+      if (els.mins) els.mins.textContent = pad(m);
+      if (els.secs) els.secs.textContent = pad(s);
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+
+  /* =================================================================
+     MOTEUR D'ANIMATION AU SCROLL
+     Reproduit le comportement de GSAP ScrollTrigger en mode " scrub " :
+     - les elements partent d'une demi-hauteur d'ecran plus bas (50svh),
+     - ils remontent AU RYTHME DU SCROLL (et redescendent si on remonte),
+     - avec un chevauchement entre les elements d'un meme groupe,
+     - le tout lisse (inertie) pour un rendu fluide.
+     Sans JS ou avec " prefers-reduced-motion ", tout reste visible.
+     ================================================================= */
+  (function () {
+    var root = document.getElementById('usn-agenda');
+    if (!root) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+    function vh() { return window.innerHeight || 800; }
+
+    /* ---------- 1. Decoupe la punchline en mots ---------- */
+    var punch = document.getElementById('usn-punch');
+    var words = [];
+    if (punch) {
+      var lines = punch.querySelectorAll('[data-usn-reveal]');
+      for (var l = 0; l < lines.length; l++) {
+        var parts = (lines[l].textContent || '').trim().split(/\s+/);
+        lines[l].textContent = '';
+        for (var k = 0; k < parts.length; k++) {
+          var sp = document.createElement('span');
+          sp.className = 'usn-word';
+          sp.textContent = parts[k];
+          lines[l].appendChild(sp);
+          if (k < parts.length - 1) lines[l].appendChild(document.createTextNode(' '));
+          words.push(sp);
+        }
+      }
+      for (var w = 0; w < words.length; w++) {
+        var a = Math.sin(w * 12.9898) * 43758.5453; a -= Math.floor(a);
+        var b = Math.sin(w * 78.233) * 12543.123;  b -= Math.floor(b);
+        words[w].__dx = (a - 0.5) * 2 * Math.min(window.innerWidth * 0.45, 520);
+        words[w].__dy = (b - 0.5) * 2 * 260;
+        words[w].__rot = (a - 0.5) * 55;
+      }
+    }
+
+    if (reduce) return; // mouvement desactive : tout reste en place
+
+    /* ---------- 2. Declare les groupes animes ---------- */
+    // rise : monte depuis 50svh ; slide : arrive de la gauche ; pop : grossit
+    var groups = [];
+    function group(sel, opts) {
+      var els = root.querySelectorAll(sel);
+      if (els.length) groups.push({ els: els, o: opts });
+    }
+    group('.usn-prog',        { type: 'slide', dist: 0.42, stagger: 0.16, span: 0.62 });
+    group('.usn-person',      { type: 'rise',  dist: 0.50, stagger: 0.13, span: 0.60 });
+    group('.usn-datepill',    { type: 'pop',   stagger: 0,    span: 0.55 });
+    group('.usn-cta-card',    { type: 'rise',  dist: 0.40, stagger: 0.20, span: 0.60 });
+    group('.usn-date-row',    { type: 'slide', dist: 0.30, stagger: 0.16, span: 0.60 });
+    group('[data-usn-side="left"]',  { type: 'slide',  dist: 0.55, stagger: 0.10, span: 0.85 });
+    group('[data-usn-side="right"]', { type: 'slideR', dist: 0.55, stagger: 0.10, span: 0.85 });
+    group('.usn-section-head',{ type: 'rise',  dist: 0.28, stagger: 0.10, span: 0.55 });
+    group('.usn-fact',        { type: 'rise',  dist: 0.32, stagger: 0.12, span: 0.58 });
+    group('.usn-edition',     { type: 'rise',  dist: 0.42, stagger: 0.12, span: 0.60 });
+
+    var all = [];
+    for (var g = 0; g < groups.length; g++) {
+      for (var i = 0; i < groups[g].els.length; i++) {
+        var el = groups[g].els[i];
+        all.push({
+          el: el, i: i, o: groups[g].o, p: 0, top: 0,
+          rot: parseFloat(el.getAttribute('data-rot') || '0')
+        });
+      }
+    }
+
+    function scrollY() { return window.pageYOffset || document.documentElement.scrollTop || 0; }
+
+    /* Position NATURELLE de chaque element (transform neutralise), mise en
+       cache : sinon le decalage applique fausse la mesure et l'element
+       n'entre jamais dans la zone de declenchement. */
+    function measureAll() {
+      for (var i = 0; i < all.length; i++) {
+        var it = all[i], prev = it.el.style.transform;
+        it.el.style.transform = 'none';
+        it.top = it.el.getBoundingClientRect().top + scrollY();
+        it.el.style.transform = prev;
+      }
+    }
+    measureAll();
+
+    /* ---------- Portraits : couleur au passage au centre ----------
+       Chaque photo se colore a mesure qu'elle approche du centre de
+       l'ecran, puis retourne au noir et blanc en s'en eloignant. */
+    var photos = [];
+    (function () {
+      var imgs = root.querySelectorAll('.usn-person-photo img, .usn-edition-photo img');
+      for (var i = 0; i < imgs.length; i++) photos.push({ el: imgs[i], p: 0 });
+    })();
+
+    function cibleCouleur(ph) {
+      var r = ph.el.getBoundingClientRect();
+      if (!r.height) return 0;
+      var h = vh();
+      var ecart = Math.abs((r.top + r.height / 2) - h / 2);
+      // Pleine couleur au centre, noir et blanc au-dela de 42% de l'ecran.
+      return clamp01(1 - ecart / (h * 0.42));
+    }
+
+    function peindre(ph) {
+      var e = easeOut(ph.p);
+      ph.el.style.filter = 'grayscale(' + (1 - e).toFixed(3) + ') contrast(' + (1 + 0.06 * (1 - e)).toFixed(3) + ')';
+      ph.el.style.transform = 'scale(' + (1 + 0.035 * e).toFixed(4) + ')';
+    }
+    for (var ip = 0; ip < photos.length; ip++) peindre(photos[ip]);
+
+    // etat initial immediat (evite tout " flash " de contenu deja en place)
+    for (var s = 0; s < all.length; s++) apply(all[s], 0);
+
+    /* ---------- 3. Calcul de l'avancement lie au scroll ---------- */
+    function target(item) {
+      var h = vh();
+      var top = item.top - scrollY();
+      // 0 quand le haut de l'element entre par le bas, 1 quand il a monte
+      var raw = (h * 0.92 - top) / (h * item.o.span);
+      var st = item.i * item.o.stagger;
+      return clamp01((clamp01(raw) - st) / Math.max(0.2, 1 - st));
+    }
+
+    function apply(item, p) {
+      var e = easeOut(p), inv = 1 - e, o = item.o, st = item.el.style;
+      var rot = item.rot ? ' rotate(' + item.rot + 'deg)' : '';
+      if (o.type === 'rise') {
+        st.transform = 'translate3d(0,' + (inv * o.dist * vh()).toFixed(1) + 'px,0)' + rot;
+      } else if (o.type === 'slide') {
+        st.transform = 'translate3d(' + (-inv * o.dist * Math.min(window.innerWidth, 900)).toFixed(1) + 'px,0,0)' + rot;
+      } else if (o.type === 'slideR') {
+        st.transform = 'translate3d(' + (inv * o.dist * Math.min(window.innerWidth, 900)).toFixed(1) + 'px,0,0)' + rot;
+      } else { // pop
+        st.transform = 'scale(' + (0.3 + 0.7 * e).toFixed(3) + ')' + rot;
+      }
+      st.opacity = e.toFixed(3);
+    }
+
+    /* ---------- 4. Punchline : les mots se rassemblent ---------- */
+    var punchP = 0;
+    // Ancre sur la premiere ligne de texte (et non sur la section, bien plus
+    // haute) : les mots se rassemblent des que le texte entre a l'ecran.
+    var punchAnchor = punch && punch.querySelector('[data-usn-reveal]');
+    function punchTarget() {
+      if (!punchAnchor) return 0;
+      var r = punchAnchor.getBoundingClientRect(), h = vh();
+      return clamp01((h * 1.0 - r.top) / (h * 0.5));
+    }
+    function punchApply(p) {
+      var n = words.length;
+      for (var i = 0; i < n; i++) {
+        var t = clamp01((p - (i / n) * 0.45) / 0.55);
+        var e = easeOut(t), inv = 1 - e, ws = words[i];
+        ws.style.transform = 'translate3d(' + (ws.__dx * inv).toFixed(1) + 'px,' + (ws.__dy * inv).toFixed(1) + 'px,0) rotate(' + (ws.__rot * inv).toFixed(1) + 'deg)';
+        ws.style.opacity = e.toFixed(3);
+        ws.style.filter = inv > 0.02 ? 'blur(' + (inv * 9).toFixed(1) + 'px)' : 'none';
+      }
+      var sub = punch && punch.querySelector('[data-usn-sub]');
+      if (sub) {
+        var sp = clamp01((p - 0.6) / 0.4);
+        sub.style.opacity = sp.toFixed(3);
+        sub.style.transform = 'translate3d(0,' + ((1 - sp) * 40).toFixed(1) + 'px,0)';
+      }
+    }
+    punchApply(0);
+
+    /* ---------- 5. Parallaxe du heros ---------- */
+    var hero = root.querySelector('.usn-hero');
+    var heroInner = root.querySelector('.usn-hero-inner');
+    var heroVideo = root.querySelector('.usn-hero-video');
+
+    /* ---------- 6. Boucle de rendu (lissage type ScrollSmoother) ---------- */
+    var running = false;
+    function frame() {
+      var moving = false;
+
+      for (var i = 0; i < all.length; i++) {
+        var it = all[i], t = target(it);
+        it.p += (t - it.p) * 0.12;             // lissage
+        if (Math.abs(t - it.p) > 0.001) moving = true; else it.p = t;
+        apply(it, it.p);
+      }
+
+      if (punch) {
+        var tp = punchTarget();
+        punchP += (tp - punchP) * 0.12;
+        if (Math.abs(tp - punchP) > 0.001) moving = true; else punchP = tp;
+        punchApply(punchP);
+      }
+
+      for (var k = 0; k < photos.length; k++) {
+        var ph = photos[k], tc = cibleCouleur(ph);
+        ph.p += (tc - ph.p) * 0.14;
+        if (Math.abs(tc - ph.p) > 0.004) moving = true; else ph.p = tc;
+        peindre(ph);
+      }
+
+      if (hero && heroInner) {
+        var hr = hero.getBoundingClientRect();
+        var prog = clamp01(-hr.top / Math.max(1, hr.height));
+        heroInner.style.transform = 'translate3d(0,' + (prog * 130).toFixed(1) + 'px,0)';
+        heroInner.style.opacity = (1 - prog * 0.85).toFixed(3);
+        if (heroVideo) heroVideo.style.transform = 'scale(' + (1 + prog * 0.16).toFixed(3) + ')';
+      }
+
+      if (moving) { requestAnimationFrame(frame); } else { running = false; }
+    }
+    function kick() { if (!running) { running = true; requestAnimationFrame(frame); } }
+
+    window.addEventListener('scroll', kick, { passive: true });
+    window.addEventListener('resize', function () { measureAll(); kick(); });
+    window.addEventListener('load', function () { measureAll(); kick(); });
+    kick();
+  })();
+
+  /* ---- Inscription a la lettre d'information ----
+     Pas de compteur de places ici : la page annonce des dates, elle ne
+     reserve rien. Le formulaire part directement vers Brevo, dans un
+     iframe cache, pour que le visiteur reste sur la page. */
+  (function () {
+    var form = document.getElementById('usn-agenda-form');
+    if (!form) return;
+    var msg = document.getElementById('usn-form-msg');
+
+    form.addEventListener('submit', function (e) {
+      var nom   = form.querySelector('#usn-nom');
+      var email = form.querySelector('#usn-email');
+      if (!nom.value.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value)) {
+        e.preventDefault();
+        (nom.value.trim() ? email : nom).focus();
+        return;
+      }
+      if (msg) {
+        msg.textContent = 'Merci ! Tu seras pr\u00e9venu d\u00e8s qu\'une nouvelle date est annonc\u00e9e.';
+        msg.style.display = 'block';
+      }
+      setTimeout(function () { form.reset(); }, 100);
+    });
+  })();
+
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', usnInit);
+  } else {
+    usnInit();
+  }
+})();
+</script>

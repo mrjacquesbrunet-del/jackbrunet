@@ -72,12 +72,20 @@ Utilisez `index.html` tel quel comme modèle de page HTML.
 - Les emplacements photos sont facultatifs : tant qu'ils ne sont pas renseignés,
   un repli visuel propre s'affiche (icône ou initiales).
 
+## Les deux pages
+
+| Page | Fichier de travail | Sortie WordPress | Doc |
+|---|---|---|---|
+| Événement (Avignon) | `index.html` | `wordpress-3-parties/` | ce fichier |
+| À venir (les dates) | `agenda.html` | `wordpress-agenda/` | [`AGENDA.md`](./AGENDA.md) |
+
 ## Régénérer les fichiers WordPress
 
-`index.html` est le fichier de travail. Après toute modification :
+Après toute modification d'un fichier de travail :
 
 ```
-python3 generer-fichiers-wordpress.py
+python3 generer-fichiers-wordpress.py            # les deux pages
+python3 generer-fichiers-wordpress.py agenda     # une seule
 ```
 
 Le script découpe la page en trois parties, remplace les chemins d'images par
