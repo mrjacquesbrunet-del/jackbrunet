@@ -103,29 +103,18 @@ p { margin-top: 3mm; text-align: justify; }
 strong { font-weight: 700; }
 .souligne { color: var(--bleu); font-weight: 700; }
 
-/* ---- encadre des informations pratiques ---- */
-.infos {
-  margin-top: 4mm; background: var(--papier); border: 1px solid var(--trait);
-  border-left: 3px solid var(--rouge); border-radius: 2mm; padding: 4mm 5mm;
-}
-.infos h2 {
-  font-family: var(--titre); font-stretch: 115%; font-weight: 800;
-  font-size: 10pt; text-transform: uppercase; letter-spacing: .04em;
-  margin-bottom: 3mm;
-}
-.ligne { display: flex; gap: 4mm; align-items: baseline; }
-.ligne + .ligne { margin-top: 2mm; }
-.ligne .cle {
-  flex: none; width: 26mm; font-size: 6.8pt; font-weight: 800;
-  letter-spacing: .16em; text-transform: uppercase; color: var(--bleu);
-}
-.ligne .val { font-size: 9.4pt; }
-.ligne .val em { font-style: normal; color: var(--gris); }
+/* ---- informations pratiques ----
+   Volontairement sobre : pas de tableau ni de pastilles, seulement un
+   retrait et un filet rouge. On est dans une lettre, pas dans une fiche. */
+.infos { margin: 4.5mm 0 1mm; padding-left: 6mm; border-left: 2px solid var(--rouge); }
+.infos h2 { font-weight: 700; font-size: 9.6pt; margin-bottom: 2.5mm; }
+.ligne { margin-top: 1.6mm; }
+.ligne b { font-weight: 700; }
+.ligne em { font-style: normal; color: var(--gris); }
 
 /* ---- signature ---- */
 .fin { margin-top: 5mm; }
-.salut { font-family: var(--titre); font-stretch: 112%; font-weight: 800;
-  font-size: 12pt; text-transform: uppercase; }
+.salut { font-weight: 700; font-size: 9.8pt; }
 .signataires { margin-top: 3mm; font-size: 9.6pt; line-height: 1.6; }
 .signataires b { font-weight: 700; }
 .signataires span { color: var(--gris); }
@@ -201,19 +190,14 @@ strong { font-weight: 700; }
 
   <div class="infos">
     <h2>Informations pratiques</h2>
-    <div class="ligne"><div class="cle">Date</div>
-      <div class="val">Samedi 17 octobre 2026</div></div>
-    <div class="ligne"><div class="cle">Lieu</div>
-      <div class="val">Parc des expos d'Avignon<br>
-        <em>800, chemin des F&eacute;lons, 84140 Montfavet (Avignon)</em></div></div>
-    <div class="ligne"><div class="cle">Horaires</div>
-      <div class="val">Ouverture des portes 15h00 &middot; D&eacute;but de la conf&eacute;rence 16h00</div></div>
-    <div class="ligne"><div class="cle">Pr&eacute;dication</div>
-      <div class="val">Yannis Gautier &middot; Chriss Campion</div></div>
-    <div class="ligne"><div class="cle">Louange</div>
-      <div class="val">Patcha&iuml; Reyes &middot; Nikita Heugebaert &middot; Ruben Debard</div></div>
-    <div class="ligne"><div class="cle">Objectifs</div>
-      <div class="val">&Eacute;vang&eacute;lisation &ndash; Gu&eacute;rison</div></div>
+    <div class="ligne"><b>Date&nbsp;:</b> samedi 17 octobre 2026.</div>
+    <div class="ligne"><b>Lieu&nbsp;:</b> parc des expos d'Avignon,
+      800 chemin des F&eacute;lons, 84140 Montfavet.</div>
+    <div class="ligne"><b>Horaires&nbsp;:</b> ouverture des portes &agrave; 15h00,
+      d&eacute;but de la conf&eacute;rence &agrave; 16h00.</div>
+    <div class="ligne"><b>Pr&eacute;dication&nbsp;:</b> Yannis Gautier et Chriss Campion.
+      <b>Louange&nbsp;:</b> Patcha&iuml; Reyes, Nikita Heugebaert et Ruben Debard.</div>
+    <div class="ligne"><b>Objectifs&nbsp;:</b> &eacute;vang&eacute;lisation et gu&eacute;rison.</div>
   </div>
 
   <p>Nous prions afin que cet &eacute;v&eacute;nement soit un temps de r&eacute;veil spirituel
@@ -234,13 +218,13 @@ strong { font-weight: 700; }
 <div class="pied">
   <img src="data:image/png;base64,__QR__" alt="unseulnom.org">
   <div>
-    <div class="t">Mobilise ton &eacute;glise</div>
+    <div class="t">Mobilisez votre &eacute;glise</div>
     <div class="s">Toutes les infos et les inscriptions sur <b>unseulnom.org</b><br>
-      &Eacute;cris-nous&nbsp;: <b>__COURRIEL__</b></div>
+      &Eacute;crivez-nous&nbsp;: <b>__COURRIEL__</b></div>
   </div>
   <div class="cta">
     <div class="p">Entr&eacute;e libre</div>
-    <div class="u">Scanne le code pour r&eacute;server</div>
+    <div class="u">Scannez le code pour r&eacute;server</div>
   </div>
 </div>
 
