@@ -4,8 +4,10 @@
 
   <nav class="usn-nav">
     <a class="usn-nav-brand" href="https://unseulnom.org/">
-      <span class="usn-nav-fleche" aria-hidden="true">&#8592;</span> Un Seul Nom
+      <span class="usn-nav-fleche" aria-hidden="true">&#8592;</span> Retour<span class="usn-nav-long">&nbsp;au site</span>
     </a>
+    <a href="https://unseulnom.org/" class="usn-logo-mark usn-logo-noir usn-nav-logo"
+       aria-label="Un Seul Nom &#8212; accueil"></a>
     <a class="usn-nav-don" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Faire un don</a>
   </nav>
 
@@ -37,15 +39,22 @@
     <div class="usn-hero-voile"></div>
 
     <div class="usn-hero-inner">
-      <div class="usn-wrap">
-        <div class="usn-logo-mark usn-logo-blanc usn-hero-logo" role="img" aria-label="Un Seul Nom"></div>
-        <span class="usn-eyebrow">L'agenda</span>
-        <h1>&Agrave; venir</h1>
+      <div class="usn-hero-ligne">
+        <span class="usn-etiquette">L'agenda</span>
+        <span class="usn-hero-filet"></span>
+        <span class="usn-annees">2026 &middot; 2027</span>
+      </div>
+
+      <h1>&Agrave; venir</h1>
+
+      <div class="usn-hero-bas">
         <p class="usn-hero-sous">
           <b>&Eacute;vang&eacute;lisation &amp; Gu&eacute;rison</b>, une ville apr&egrave;s l'autre.
           Chaque rendez-vous est gratuit et ouvert &agrave; tous&nbsp;: croyants,
           curieux, malades, chercheurs de Dieu.
         </p>
+        <!-- &#9658; Pensez a mettre ce nombre a jour en ajoutant une date. -->
+        <div class="usn-hero-compte"><b>4</b><span>dates annonc&eacute;es</span></div>
       </div>
     </div>
   </header>

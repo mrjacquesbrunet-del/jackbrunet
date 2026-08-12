@@ -22,11 +22,16 @@ liste : la page est donc claire, et l'agenda tient la vedette.
 
 ## Ce que contient la page
 
-1. **Filet tricolore** et barre de navigation en verre dépoli, sombre sur clair.
+1. **Filet tricolore** et barre de navigation en verre dépoli, sombre sur
+   clair, avec **le logo au centre**. La barre étant collante, le logo reste
+   visible pendant toute la lecture — c'est pour cela qu'il n'apparaît plus
+   dans l'en-tête, où il ne faisait que flotter.
 2. **En-tête cinématique** — une photo (ou une vidéo) en plein cadre, deux
-   voiles superposés pour la lisibilité, et le titre « À venir » calé en bas
-   à gauche. La bande fait environ trois quarts d'écran, pas la totalité :
-   l'agenda reste visible sans avoir à défiler.
+   voiles superposés pour la lisibilité, et un titre composé en cartouche
+   d'affiche : une ligne « L'agenda ——— 2026 · 2027 », puis « À VENIR » d'un
+   bord à l'autre, et en pied la phrase d'accroche à gauche face au nombre de
+   dates à droite. La bande fait environ trois quarts d'écran, pas la
+   totalité : l'agenda reste visible sans avoir à défiler.
 3. **Bandeau défilant** bleu avec les villes et leurs dates, en boucle.
 4. **Prochaine date** — bande sombre compacte : le compte à rebours tient sur
    une ligne, avec le bouton de réservation.
@@ -111,3 +116,9 @@ avec la portée `#usn-agenda`. C'est ce qui permet de coller les deux pages
 indépendamment dans WordPress, mais cela veut dire qu'une modification de la
 charte (couleurs, typographies, animations) faite sur `index.html` doit être
 reportée ici — et inversement.
+
+## Le nombre de dates dans l'en-tête
+
+Le « 4 dates annoncées » du pied de l'en-tête est écrit en clair dans le HTML :
+pensez à le mettre à jour en ajoutant une date. Il est masqué sur les écrans
+étroits, où il n'apporte rien.

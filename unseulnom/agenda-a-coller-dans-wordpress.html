@@ -119,6 +119,30 @@
   }
   #usn-agenda .usn-nav-don:hover { background: #C51D22; transform: translateY(-2px); }
   #usn-agenda .usn-nav-brand, #usn-agenda .usn-nav-don { white-space: nowrap; }
+
+  /* Le logo vit dans la barre, au centre : il reste visible pendant toute
+     la lecture au lieu de flotter dans l'en-tete, et la barre etant
+     collante il accompagne le visiteur jusqu'en bas de page. */
+  /* La barre etant en position collante, elle sert de repere : le logo
+     peut donc s'y centrer sans dependre de la largeur des deux boutons. */
+  #usn-agenda .usn-nav .usn-nav-logo {
+    width: 40px; margin: 0;
+    position: absolute; left: 50%; transform: translateX(-50%);
+    transition: transform .2s ease;
+  }
+  #usn-agenda .usn-nav .usn-nav-logo:hover { transform: translateX(-50%) scale(1.06); }
+  /* Sur un petit ecran, le logo centre viendrait se poser sur le bouton de
+     retour : il reprend alors sa place dans le flux, en tete de barre, et
+     l'intitule du bouton se raccourcit. */
+  @media (max-width: 640px) {
+    #usn-agenda .usn-nav { gap: 10px; }
+    #usn-agenda .usn-nav .usn-nav-logo {
+      position: static; transform: none; width: 34px; order: -1;
+    }
+    #usn-agenda .usn-nav .usn-nav-logo:hover { transform: none; }
+    #usn-agenda .usn-nav-long { display: none; }
+    #usn-agenda .usn-nav-brand { margin-right: auto; }
+  }
   /* Sur un petit ecran, les deux boutons se serrent plutot que de passer
      leur texte sur deux lignes. */
   @media (max-width: 430px) {
@@ -165,31 +189,69 @@
       radial-gradient(120% 95% at 10% 100%, rgba(27,47,196,0.58), transparent 64%),
       radial-gradient(90% 70% at 95% 6%, rgba(228,38,43,0.26), transparent 58%);
   }
+  /* Le titre va d'un bord a l'autre, comme le titre d'une affiche : il
+     n'est donc pas enferme dans la colonne centrale du reste de la page,
+     mais aligne sur les marges de la barre de navigation. */
   #usn-agenda .usn-hero-inner {
     position: relative; z-index: 2; width: 100%;
-    padding: clamp(46px, 9vw, 96px) 0 clamp(30px, 5vw, 54px);
+    padding: clamp(46px, 9vw, 96px) clamp(18px, 4vw, 46px) clamp(26px, 4vw, 46px);
     will-change: transform, opacity;
   }
-  #usn-agenda .usn-hero .usn-eyebrow { color: var(--usn-white); opacity: .78; }
-  /* Le logo est cale a gauche comme le reste du bloc. Le selecteur porte
-     deux classes a dessein : la regle commune a toutes les declinaisons du
-     logo est ecrite plus bas dans la feuille et centre les logos ; a
-     specificite egale, c'est elle qui l'emporterait. */
-  #usn-agenda .usn-hero .usn-hero-logo {
-    width: clamp(58px, 7vw, 84px); margin: 0 0 22px;
+
+  /* Ligne de titre : l'intitule a gauche, les annees a droite, un filet
+     qui court entre les deux. */
+  #usn-agenda .usn-hero-ligne {
+    display: flex; align-items: center; gap: clamp(14px, 2.5vw, 26px);
   }
-  /* L'interligne tres serre fait deborder l'accent du A vers le haut :
-     sans cette marge, il vient chevaucher l'intitule juste au-dessus. */
+  #usn-agenda .usn-hero-ligne .usn-etiquette,
+  #usn-agenda .usn-hero-ligne .usn-annees {
+    font-size: clamp(11px, 1.3vw, 13px); font-weight: 800;
+    letter-spacing: 0.34em; text-transform: uppercase; white-space: nowrap;
+  }
+  #usn-agenda .usn-hero-ligne .usn-etiquette { color: var(--usn-white); }
+  #usn-agenda .usn-hero-ligne .usn-annees {
+    color: rgba(255,255,255,0.72); font-variant-numeric: tabular-nums;
+  }
+  #usn-agenda .usn-hero-filet { flex: 1; height: 1px; background: rgba(255,255,255,0.34); }
+
+  /* Titre pleine largeur, lettres presque jointives. */
   #usn-agenda .usn-hero h1 {
-    margin-top: 14px;
-    font-size: clamp(56px, 14vw, 190px); text-transform: uppercase;
-    letter-spacing: -0.02em; line-height: 0.84;
+    /* L'accent du A deborde vers le haut : cette marge l'empeche de venir
+       toucher le filet juste au-dessus. */
+    margin-top: clamp(26px, 3.6vw, 48px);
+    font-size: clamp(58px, 17.5vw, 268px); text-transform: uppercase;
+    letter-spacing: -0.045em; line-height: 0.8;
     text-shadow: 0 6px 40px rgba(0,0,0,0.45);
   }
+
+  /* Pied de l'en-tete : la phrase a gauche, le decompte des dates a droite. */
+  #usn-agenda .usn-hero-bas {
+    margin-top: clamp(20px, 3vw, 32px);
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: clamp(20px, 4vw, 48px); flex-wrap: wrap;
+  }
   #usn-agenda .usn-hero-sous {
-    margin-top: 20px; font-family: var(--usn-sub);
-    font-size: clamp(15px, 2vw, 20px); color: rgba(255,255,255,0.82);
-    max-width: 52ch; text-shadow: 0 2px 18px rgba(0,0,0,0.5);
+    font-family: var(--usn-sub);
+    font-size: clamp(15px, 1.9vw, 19px); color: rgba(255,255,255,0.84);
+    max-width: 46ch; text-shadow: 0 2px 18px rgba(0,0,0,0.5);
+  }
+  #usn-agenda .usn-hero-sous b { color: var(--usn-white); font-weight: 700; }
+  #usn-agenda .usn-hero-compte { display: flex; align-items: baseline; gap: 12px; }
+  #usn-agenda .usn-hero-compte b {
+    font-family: var(--usn-display); font-stretch: 125%; font-weight: 900;
+    font-size: clamp(34px, 5vw, 58px); line-height: 0.9;
+    font-variant-numeric: tabular-nums; color: var(--usn-white);
+  }
+  /* Une largeur fixe, pas un maximum : sans elle le libelle s'etire sur une
+     seule ligne et deborde de la marge droite. */
+  #usn-agenda .usn-hero-compte span {
+    width: 9ch; flex: none;
+    font-size: 11px; font-weight: 800; letter-spacing: 0.2em;
+    text-transform: uppercase; color: rgba(255,255,255,0.66);
+    line-height: 1.35;
+  }
+  @media (max-width: 560px) {
+    #usn-agenda .usn-hero-compte { display: none; }
   }
   #usn-agenda .usn-hero-sous b { color: var(--usn-white); font-weight: 700; }
 
@@ -456,8 +518,10 @@
 
   <nav class="usn-nav">
     <a class="usn-nav-brand" href="https://unseulnom.org/">
-      <span class="usn-nav-fleche" aria-hidden="true">&#8592;</span> Un Seul Nom
+      <span class="usn-nav-fleche" aria-hidden="true">&#8592;</span> Retour<span class="usn-nav-long">&nbsp;au site</span>
     </a>
+    <a href="https://unseulnom.org/" class="usn-logo-mark usn-logo-noir usn-nav-logo"
+       aria-label="Un Seul Nom &#8212; accueil"></a>
     <a class="usn-nav-don" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Faire un don</a>
   </nav>
 
@@ -489,15 +553,22 @@
     <div class="usn-hero-voile"></div>
 
     <div class="usn-hero-inner">
-      <div class="usn-wrap">
-        <div class="usn-logo-mark usn-logo-blanc usn-hero-logo" role="img" aria-label="Un Seul Nom"></div>
-        <span class="usn-eyebrow">L'agenda</span>
-        <h1>&Agrave; venir</h1>
+      <div class="usn-hero-ligne">
+        <span class="usn-etiquette">L'agenda</span>
+        <span class="usn-hero-filet"></span>
+        <span class="usn-annees">2026 &middot; 2027</span>
+      </div>
+
+      <h1>&Agrave; venir</h1>
+
+      <div class="usn-hero-bas">
         <p class="usn-hero-sous">
           <b>&Eacute;vang&eacute;lisation &amp; Gu&eacute;rison</b>, une ville apr&egrave;s l'autre.
           Chaque rendez-vous est gratuit et ouvert &agrave; tous&nbsp;: croyants,
           curieux, malades, chercheurs de Dieu.
         </p>
+        <!-- &#9658; Pensez a mettre ce nombre a jour en ajoutant une date. -->
+        <div class="usn-hero-compte"><b>4</b><span>dates annonc&eacute;es</span></div>
       </div>
     </div>
   </header>
