@@ -20,10 +20,11 @@ function deviceId(): string {
   }
 }
 
-/** Enregistre un évènement anonyme (vue de page ou écoute), avec sa
- *  provenance (app native ou site). Si la colonne `source` n'existe pas
- *  encore en base, on réessaie sans elle : la mesure n'est jamais perdue. */
-export function track(type: "page" | "play", page: string) {
+/** Enregistre un évènement anonyme (vue de page, écoute, plan commencé,
+ *  méditation complétée), avec sa provenance (app native ou site). Si la
+ *  colonne `source` n'existe pas encore en base, on réessaie sans elle :
+ *  la mesure n'est jamais perdue. */
+export function track(type: "page" | "play" | "plan_start" | "meditate", page: string) {
   const sb = getSupabase();
   if (!sb) return;
   const base = { type, page, device_id: deviceId() };
@@ -73,6 +74,30 @@ export async function analyticsTotals(): Promise<AnalyticsTotals | null> {
   const { data, error } = await sb.rpc("analytics_totals");
   if (error) return null;
   return data as AnalyticsTotals;
+}
+
+export type AppInsights = {
+  app_active_day: number;
+  app_active_week: number;
+  app_active_month: number;
+  regulars_week: number;
+  returning_rate: number;
+  plan_starts_month: number;
+  plan_starts_total: number;
+  meditations_day: number;
+  meditations_week: number;
+  meditations_month: number;
+  top_plans: { label: string; n: number }[];
+  top_app_pages: { label: string; n: number }[];
+};
+
+/** Statistiques d'engagement de l'application (espace admin). */
+export async function analyticsAppInsights(): Promise<AppInsights | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  const { data, error } = await sb.rpc("analytics_app_insights");
+  if (error) return null;
+  return data as AppInsights;
 }
 
 export async function analyticsTop(

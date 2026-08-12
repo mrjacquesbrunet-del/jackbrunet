@@ -34,6 +34,7 @@ import { Greeting } from "@/components/app/Greeting";
 import { useTodayIndex } from "@/lib/today";
 import { bibleHref } from "@/lib/bible-ref";
 import { useEngagement } from "@/lib/engagement";
+import { track } from "@/lib/analytics";
 import { fetchPublishedDevotions } from "@/lib/devotions";
 import { asset, mediaUrl } from "@/lib/asset";
 import { trace } from "@/lib/boot-trace";
@@ -96,6 +97,17 @@ export function DevotionalView({
   function meditate() {
     const before = eng.streak;
     eng.markCompletedToday();
+    // Statistique « méditation complétée » (anonyme, une fois par jour).
+    try {
+      const day = new Date().toISOString().slice(0, 10);
+      const key = `jb.track.meditate.${day}`;
+      if (!localStorage.getItem(key)) {
+        localStorage.setItem(key, "1");
+        track("meditate", "devotionnel");
+      }
+    } catch {
+      /* ignore */
+    }
     // La série vient d'avancer : si on touche un palier, on le fête.
     const milestones = [3, 5, 7, 14, 21, 30, 60, 100];
     const after = before + 1;

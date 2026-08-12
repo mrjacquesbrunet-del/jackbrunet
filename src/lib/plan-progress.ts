@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { track } from "./analytics";
 
 /**
  * Progression des plans thématiques, sur l'appareil (localStorage).
@@ -55,6 +56,19 @@ export function toggleDay(slug: string, day: number) {
   load();
   const done = state[slug]?? [];
   const next = done.includes(day)? done.filter((d) => d!== day): [...done, day];
+  // Statistique « plan commencé » : au tout premier jour coché de ce plan,
+  // une seule fois par appareil (anonyme).
+  if (done.length === 0 && next.length === 1) {
+    try {
+      const key = `jb.plan.started.${slug}`;
+      if (!localStorage.getItem(key)) {
+        localStorage.setItem(key, "1");
+        track("plan_start", slug);
+      }
+    } catch {
+      /* ignore */
+    }
+  }
   commit({...state, [slug]: next });
   sink?.set(slug, next);
 }
