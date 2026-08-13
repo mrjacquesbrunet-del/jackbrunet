@@ -606,11 +606,30 @@
     <!--
       ══════════════════════════════════════════════════════════════
       ► VIDÉO DE FOND
-      1. Uploadez votre vidéo (format .mp4, idéalement < 10-15 Mo,
-         muette, en boucle) dans la médiathèque WordPress.
-      2. Remplacez  VOTRE_VIDEO.mp4  par l'URL du fichier.
-      3. (Facultatif) poster="..." = image affichée avant/à défaut de vidéo.
-      Si vous laissez l'URL vide, un joli fond dégradé sombre s'affiche.
+
+      Tant qu'aucune vidéo n'est indiquée, le dégradé sombre s'affiche :
+      la page reste belle, il n'y a pas d'image cassée.
+
+      POUR AJOUTER LA VIDÉO
+      1. Médias → Ajouter un fichier média, envoyez le .mp4, puis copiez
+         « URL du fichier » (elle finit par .mp4).
+      2. Juste en dessous, entre <video ...> et </video>, il y a une ligne
+         qui ne contient que le mot VIDEO. Remplacez-la entièrement par
+         celle-ci, avec votre adresse à la place de la nôtre :
+
+         <source src="https://unseulnom.org/wp-content/uploads/2026/08/ma-video.mp4" type="video/mp4" />
+
+      3. Mettez la page à jour. C'est tout : le son est coupé et la
+         lecture tourne en boucle d'elle-même.
+
+      LE FICHIER
+      .mp4, muet (sans piste audio : sans quoi les navigateurs refusent
+      de lancer la lecture tout seuls), 10 à 20 secondes, 1280 × 720
+      suffisent largement, et moins de 15 Mo.
+
+      POSTER (facultatif)
+      poster="adresse d'une image" affiche cette image le temps du
+      chargement de la vidéo.
       ══════════════════════════════════════════════════════════════
     -->
     <video class="usn-hero-video" autoplay muted loop playsinline
