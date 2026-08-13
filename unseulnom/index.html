@@ -132,20 +132,19 @@
     color: var(--usn-white);
   }
   /* ---------- La bande vidéo ----------
-     Elle garde le format d'origine du film, 16/9, sur toutes les tailles
-     d'écran : c'est la seule façon de voir l'image entière. Un plein écran
-     rognerait le haut et le bas sur un ordinateur, et couperait presque
-     tout sur un téléphone, qui est bien plus haut que large.
+     La bande adopte le format du film, 16/9. Sur un téléphone, la vidéo
+     s'y inscrit donc exactement : on voit l'image entière, alors qu'un
+     plein écran n'en aurait montré qu'une colonne au milieu.
 
-     max-height empêche la bande de dépasser l'écran sur les très grands
-     moniteurs, et object-fit: contain garantit qu'aucun bord n'est coupé :
-     si le format de l'écran ne tombe pas juste, ce sont deux bandes noires
-     qui apparaissent, sur un fond déjà noir. */
+     max-height empêche la bande de dépasser l'écran sur les grands
+     moniteurs. Dans ce cas la vidéo remplit toute la largeur et se trouve
+     rognée de quelques dizaines de pixels en haut et en bas — c'est le
+     prix à payer pour n'avoir aucune bande noire sur les côtés. */
   #usn-event .usn-hero-media {
     position: relative;
     width: 100%;
     aspect-ratio: 16 / 9;
-    max-height: 84svh;
+    max-height: 88svh;
     overflow: hidden;
     background: var(--usn-ink);
   }
@@ -223,7 +222,7 @@
 
   #usn-event .usn-hero-video {
     position: absolute; inset: 0; width: 100%; height: 100%;
-    object-fit: contain; z-index: 0;
+    object-fit: cover; z-index: 0;
   }
   /* Plus aucun texte par-dessus la video : le voile ne sert qu'a poser
      la barre de retour sur un fond lisible, en haut. Le reste de l'image
@@ -271,8 +270,19 @@
      =================================================================== */
   #usn-event .usn-titre {
     background: var(--usn-ink); color: var(--usn-white);
-    padding: clamp(38px, 6vw, 76px) 0 clamp(42px, 6vw, 80px);
+    padding: clamp(30px, 6vw, 76px) 0 clamp(32px, 6vw, 80px);
     text-align: center;
+  }
+  /* Sur un telephone, le bandeau occupait un ecran entier a lui seul :
+     tout y est resserre, du logo aux boutons. */
+  @media (max-width: 620px) {
+    #usn-event .usn-titre { padding: 26px 0 30px; }
+    #usn-event .usn-titre .usn-titre-logo { width: 62px; margin-bottom: 4px; }
+    #usn-event .usn-titre h1 { margin-top: 10px; font-size: clamp(34px, 12.5vw, 60px); }
+    #usn-event .usn-hero-tagline { margin-top: 10px; font-size: 15px; }
+    #usn-event .usn-hero-date { margin-top: 7px; font-size: 12px; letter-spacing: 0.2em; }
+    #usn-event .usn-hero-cta { margin-top: 20px; gap: 10px; }
+    #usn-event .usn-hero-cta .usn-btn { padding: 13px 26px; font-size: 13px; }
   }
   /* ---------------------------------------------------------------
      LOGO UN SEUL NOM
@@ -312,11 +322,13 @@
   #usn-event .usn-hero-cta { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
 
   /* ---------- Compte à rebours (bas du héros) ---------- */
+  /* Le compte a rebours est bleu, et non noir comme le bandeau du titre
+     juste en dessous : sans cela les deux se collaient en un seul grand
+     aplat sombre, surtout sur telephone ou ils se suivent de pres. */
   #usn-event .usn-countdown {
     position: relative; z-index: 2;
-    background: var(--usn-ink);
-    border-top: 1px solid rgba(255,255,255,0.12);
-    padding: 22px 0;
+    background: var(--usn-blue);
+    padding: 20px 0;
   }
   #usn-event .usn-cd-grid { display: flex; justify-content: center; gap: clamp(18px, 6vw, 70px); }
   #usn-event .usn-cd-item { text-align: center; position: relative; }
@@ -326,7 +338,7 @@
   }
   #usn-event .usn-cd-lab {
     display: block; margin-top: 6px; font-size: 12px; font-weight: 800;
-    letter-spacing: 0.22em; text-transform: uppercase; color: var(--usn-blue);
+    letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.62);
   }
 
   /* =================================================================== */
@@ -750,15 +762,16 @@
         ► ÉVÉNEMENT — modifiez les textes ci-dessous
         ══════════════════════════════════════════════════════════
       -->
-      <div class="usn-logo-mark usn-logo-blanc usn-titre-logo" role="img" aria-label="Un Seul Nom"></div>
+      <!-- data-usn-monte : ces elements montent l'un apres l'autre au scroll -->
+      <div class="usn-logo-mark usn-logo-blanc usn-titre-logo" role="img" aria-label="Un Seul Nom" data-usn-monte></div>
 
       <!-- Le grand mot : la ville de l'événement -->
-      <h1>Avignon</h1>
+      <h1 data-usn-monte>Avignon</h1>
 
-      <div class="usn-hero-tagline">Évangélisation &amp; Guérison</div>
-      <div class="usn-hero-date">Samedi 17 octobre 2026</div>
+      <div class="usn-hero-tagline" data-usn-monte>Évangélisation &amp; Guérison</div>
+      <div class="usn-hero-date" data-usn-monte>Samedi 17 octobre 2026</div>
 
-      <div class="usn-hero-cta">
+      <div class="usn-hero-cta" data-usn-monte>
         <a href="#usn-inscription" class="usn-btn usn-btn-primary">Je m'inscris</a>
         <a href="#usn-programme" class="usn-btn usn-btn-outline">L'événement</a>
       </div>
@@ -1287,6 +1300,8 @@
       var els = root.querySelectorAll(sel);
       if (els.length) groups.push({ els: els, o: opts });
     }
+    group('[data-usn-monte]', { type: 'rise',  dist: 0.30, stagger: 0.11, span: 0.52 });
+    group('.usn-cd-item',     { type: 'rise',  dist: 0.16, stagger: 0.07, span: 0.42 });
     group('.usn-prog',        { type: 'slide', dist: 0.42, stagger: 0.16, span: 0.62 });
     group('.usn-person',      { type: 'rise',  dist: 0.50, stagger: 0.13, span: 0.60 });
     group('.usn-datepill',    { type: 'pop',   stagger: 0,    span: 0.55 });

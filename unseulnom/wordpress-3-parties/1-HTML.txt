@@ -99,15 +99,16 @@
         &#9658; &#201;V&#201;NEMENT &#8212; modifiez les textes ci-dessous
         &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
       -->
-      <div class="usn-logo-mark usn-logo-blanc usn-titre-logo" role="img" aria-label="Un Seul Nom"></div>
+      <!-- data-usn-monte : ces elements montent l'un apres l'autre au scroll -->
+      <div class="usn-logo-mark usn-logo-blanc usn-titre-logo" role="img" aria-label="Un Seul Nom" data-usn-monte></div>
 
       <!-- Le grand mot : la ville de l'&#233;v&#233;nement -->
-      <h1>Avignon</h1>
+      <h1 data-usn-monte>Avignon</h1>
 
-      <div class="usn-hero-tagline">&#201;vang&#233;lisation &amp; Gu&#233;rison</div>
-      <div class="usn-hero-date">Samedi 17 octobre 2026</div>
+      <div class="usn-hero-tagline" data-usn-monte>&#201;vang&#233;lisation &amp; Gu&#233;rison</div>
+      <div class="usn-hero-date" data-usn-monte>Samedi 17 octobre 2026</div>
 
-      <div class="usn-hero-cta">
+      <div class="usn-hero-cta" data-usn-monte>
         <a href="#usn-inscription" class="usn-btn usn-btn-primary">Je m'inscris</a>
         <a href="#usn-programme" class="usn-btn usn-btn-outline">L'&#233;v&#233;nement</a>
       </div>

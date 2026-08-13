@@ -95,20 +95,19 @@
     color: var(--usn-white);
   }
   /* ---------- La bande video ----------
-     Elle garde le format d'origine du film, 16/9, sur toutes les tailles
-     d'ecran : c'est la seule facon de voir l'image entiere. Un plein ecran
-     rognerait le haut et le bas sur un ordinateur, et couperait presque
-     tout sur un telephone, qui est bien plus haut que large.
+     La bande adopte le format du film, 16/9. Sur un telephone, la video
+     s'y inscrit donc exactement : on voit l'image entiere, alors qu'un
+     plein ecran n'en aurait montre qu'une colonne au milieu.
 
-     max-height empeche la bande de depasser l'ecran sur les tres grands
-     moniteurs, et object-fit: contain garantit qu'aucun bord n'est coupe :
-     si le format de l'ecran ne tombe pas juste, ce sont deux bandes noires
-     qui apparaissent, sur un fond deja noir. */
+     max-height empeche la bande de depasser l'ecran sur les grands
+     moniteurs. Dans ce cas la video remplit toute la largeur et se trouve
+     rognee de quelques dizaines de pixels en haut et en bas - c'est le
+     prix a payer pour n'avoir aucune bande noire sur les cotes. */
   #usn-event .usn-hero-media {
     position: relative;
     width: 100%;
     aspect-ratio: 16 / 9;
-    max-height: 84svh;
+    max-height: 88svh;
     overflow: hidden;
     background: var(--usn-ink);
   }
@@ -186,7 +185,7 @@
 
   #usn-event .usn-hero-video {
     position: absolute; inset: 0; width: 100%; height: 100%;
-    object-fit: contain; z-index: 0;
+    object-fit: cover; z-index: 0;
   }
   /* Plus aucun texte par-dessus la video : le voile ne sert qu'a poser
      la barre de retour sur un fond lisible, en haut. Le reste de l'image
@@ -234,8 +233,19 @@
      =================================================================== */
   #usn-event .usn-titre {
     background: var(--usn-ink); color: var(--usn-white);
-    padding: clamp(38px, 6vw, 76px) 0 clamp(42px, 6vw, 80px);
+    padding: clamp(30px, 6vw, 76px) 0 clamp(32px, 6vw, 80px);
     text-align: center;
+  }
+  /* Sur un telephone, le bandeau occupait un ecran entier a lui seul :
+     tout y est resserre, du logo aux boutons. */
+  @media (max-width: 620px) {
+    #usn-event .usn-titre { padding: 26px 0 30px; }
+    #usn-event .usn-titre .usn-titre-logo { width: 62px; margin-bottom: 4px; }
+    #usn-event .usn-titre h1 { margin-top: 10px; font-size: clamp(34px, 12.5vw, 60px); }
+    #usn-event .usn-hero-tagline { margin-top: 10px; font-size: 15px; }
+    #usn-event .usn-hero-date { margin-top: 7px; font-size: 12px; letter-spacing: 0.2em; }
+    #usn-event .usn-hero-cta { margin-top: 20px; gap: 10px; }
+    #usn-event .usn-hero-cta .usn-btn { padding: 13px 26px; font-size: 13px; }
   }
   /* ---------------------------------------------------------------
      LOGO UN SEUL NOM
@@ -275,11 +285,13 @@
   #usn-event .usn-hero-cta { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
 
   /* ---------- Compte a rebours (bas du heros) ---------- */
+  /* Le compte a rebours est bleu, et non noir comme le bandeau du titre
+     juste en dessous : sans cela les deux se collaient en un seul grand
+     aplat sombre, surtout sur telephone ou ils se suivent de pres. */
   #usn-event .usn-countdown {
     position: relative; z-index: 2;
-    background: var(--usn-ink);
-    border-top: 1px solid rgba(255,255,255,0.12);
-    padding: 22px 0;
+    background: var(--usn-blue);
+    padding: 20px 0;
   }
   #usn-event .usn-cd-grid { display: flex; justify-content: center; gap: clamp(18px, 6vw, 70px); }
   #usn-event .usn-cd-item { text-align: center; position: relative; }
@@ -289,7 +301,7 @@
   }
   #usn-event .usn-cd-lab {
     display: block; margin-top: 6px; font-size: 12px; font-weight: 800;
-    letter-spacing: 0.22em; text-transform: uppercase; color: var(--usn-blue);
+    letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.62);
   }
 
   /* =================================================================== */
