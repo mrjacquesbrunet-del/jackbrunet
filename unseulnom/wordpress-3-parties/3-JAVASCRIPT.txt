@@ -149,8 +149,11 @@
       var els = root.querySelectorAll(sel);
       if (els.length) groups.push({ els: els, o: opts });
     }
-    group('[data-usn-monte]', { type: 'rise',  dist: 0.30, stagger: 0.11, span: 0.52 });
-    group('.usn-cd-item',     { type: 'rise',  dist: 0.16, stagger: 0.07, span: 0.42 });
+    // Les deux boutons du bandeau se rejoignent : l'un vient de la
+    // gauche, l'autre de la droite. Le reste du bandeau - logo, ville,
+    // accroche, date - et le compte a rebours restent immobiles.
+    group('[data-usn-gauche]', { type: 'slide',  dist: 0.60, stagger: 0, span: 0.50 });
+    group('[data-usn-droite]', { type: 'slideR', dist: 0.60, stagger: 0, span: 0.50 });
     group('.usn-prog',        { type: 'slide', dist: 0.42, stagger: 0.16, span: 0.62 });
     group('.usn-person',      { type: 'rise',  dist: 0.50, stagger: 0.13, span: 0.60 });
     group('.usn-datepill',    { type: 'pop',   stagger: 0,    span: 0.55 });
