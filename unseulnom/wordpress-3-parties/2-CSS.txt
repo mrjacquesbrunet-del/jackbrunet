@@ -91,17 +91,26 @@
   /* =================================================================== */
   #usn-event .usn-hero {
     position: relative;
-    min-height: 100svh;
-    /* Seul le compte a rebours est dans le flux : sans cet alignement il
-       remonterait en haut de la bande, par-dessus la video. */
-    display: flex; flex-direction: column; justify-content: flex-end;
-    /* Fond de secours elegant si la video est absente/en cours de chargement */
-    background:
-      radial-gradient(900px 600px at 50% 0%, rgba(27,47,196,0.55), transparent 60%),
-      radial-gradient(700px 500px at 80% 90%, rgba(228,38,43,0.34), transparent 60%),
-      var(--usn-ink);
+    background: var(--usn-ink);
     color: var(--usn-white);
+  }
+  /* ---------- La bande video ----------
+     Elle garde le format d'origine du film, 16/9, sur toutes les tailles
+     d'ecran : c'est la seule facon de voir l'image entiere. Un plein ecran
+     rognerait le haut et le bas sur un ordinateur, et couperait presque
+     tout sur un telephone, qui est bien plus haut que large.
+
+     max-height empeche la bande de depasser l'ecran sur les tres grands
+     moniteurs, et object-fit: contain garantit qu'aucun bord n'est coupe :
+     si le format de l'ecran ne tombe pas juste, ce sont deux bandes noires
+     qui apparaissent, sur un fond deja noir. */
+  #usn-event .usn-hero-media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: 84svh;
     overflow: hidden;
+    background: var(--usn-ink);
   }
   /* Navigation de retour vers le reste du site : le bandeau du theme etant
      masque sur cette page, sans elle le visiteur serait sans issue. */
@@ -177,16 +186,14 @@
 
   #usn-event .usn-hero-video {
     position: absolute; inset: 0; width: 100%; height: 100%;
-    object-fit: cover; z-index: 0;
+    object-fit: contain; z-index: 0;
   }
-  /* La video n'a plus de texte par-dessus : le voile reste donc leger.
-     Il ne sert qu'a fondre le bas de l'image dans le bandeau noir du
-     compte a rebours, et a assombrir le haut pour la barre de retour. */
+  /* Plus aucun texte par-dessus la video : le voile ne sert qu'a poser
+     la barre de retour sur un fond lisible, en haut. Le reste de l'image
+     est laisse intact. */
   #usn-event .usn-hero-overlay {
-    position: absolute; inset: 0; z-index: 1;
-    background:
-      linear-gradient(to bottom, rgba(12,11,10,0.42) 0%, rgba(12,11,10,0) 26%,
-                      rgba(12,11,10,0) 66%, rgba(12,11,10,0.85) 100%);
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: linear-gradient(to bottom, rgba(12,11,10,0.55) 0%, rgba(12,11,10,0) 22%);
   }
   /* ---------- Bouton d'activation du son ----------
      Un navigateur ne lance jamais tout seul une video qui parle : elle
@@ -591,4 +598,15 @@
     #usn-event .usn-hero-cta .usn-btn { width: 100%; }
     #usn-event .usn-cd-grid { gap: 14px; }
   }
+  /* Sur un telephone, la bande video ne fait qu'une centaine de pixels de
+     haut : la barre de retour, posee dessus, viendrait couvrir l'image.
+     Elle passe donc au-dessus, dans le flux. */
+  @media (max-width: 720px) {
+    #usn-event .usn-nav {
+      position: static; background: var(--usn-ink);
+      padding: 14px clamp(14px, 4vw, 24px);
+    }
+    #usn-event .usn-hero-overlay { display: none; }
+  }
+
   @media (prefers-reduced-motion: reduce) { #usn-event * { transition: none !important; } }

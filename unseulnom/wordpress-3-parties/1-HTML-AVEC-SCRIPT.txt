@@ -38,17 +38,19 @@
       chargement de la vid&#233;o.
       &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
     -->
-    <video class="usn-hero-video" autoplay muted loop playsinline
-           poster="">
-      <!-- Deux fichiers, dans cet ordre : le navigateur prend le premier
-           qui repond. teaser-web.mp4 est la version allegee (3 Mo au lieu
-           de 29, sans piste audio) ; tant qu'elle n'est pas dans la
-           mediatheque, la ligne suivante prend le relais. -->
-      <source src="https://unseulnom.org/wp-content/uploads/2026/08/teaser-web.mp4" type="video/mp4" />
-      <source src="https://unseulnom.org/wp-content/uploads/2026/08/Teaser-1.mp4" type="video/mp4" />
-    </video>
+    <div class="usn-hero-media">
+      <video class="usn-hero-video" autoplay muted loop playsinline
+             poster="">
+        <!-- Deux fichiers, dans cet ordre : le navigateur prend le premier
+             qui repond. teaser-web.mp4 est la version allegee (3,8 Mo au
+             lieu de 29, son compris) ; tant qu'elle n'est pas dans la
+             mediatheque, la ligne suivante prend le relais. -->
+        <source src="https://unseulnom.org/wp-content/uploads/2026/08/teaser-web.mp4" type="video/mp4" />
+        <source src="https://unseulnom.org/wp-content/uploads/2026/08/Teaser-1.mp4" type="video/mp4" />
+      </video>
 
-    <div class="usn-hero-overlay"></div>
+      <div class="usn-hero-overlay"></div>
+    </div>
 
     <!--
       &#9658; SON &#8212; la lecture automatique n'est autorisee que sans son. Ce
@@ -742,7 +744,6 @@
     /* ---------- 5. Parallaxe du heros ---------- */
     var hero = root.querySelector('.usn-hero');
     var heroInner = root.querySelector('.usn-hero-inner');
-    var heroVideo = root.querySelector('.usn-hero-video');
 
     /* ---------- 6. Boucle de rendu (lissage type ScrollSmoother) ---------- */
     var running = false;
@@ -777,7 +778,6 @@
           heroInner.style.transform = 'translate3d(0,' + (prog * 130).toFixed(1) + 'px,0)';
           heroInner.style.opacity = (1 - prog * 0.85).toFixed(3);
         }
-        if (heroVideo) heroVideo.style.transform = 'scale(' + (1 + prog * 0.16).toFixed(3) + ')';
       }
 
       if (moving) { requestAnimationFrame(frame); } else { running = false; }

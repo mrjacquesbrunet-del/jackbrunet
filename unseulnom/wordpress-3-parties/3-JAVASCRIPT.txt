@@ -269,7 +269,6 @@
     /* ---------- 5. Parallaxe du heros ---------- */
     var hero = root.querySelector('.usn-hero');
     var heroInner = root.querySelector('.usn-hero-inner');
-    var heroVideo = root.querySelector('.usn-hero-video');
 
     /* ---------- 6. Boucle de rendu (lissage type ScrollSmoother) ---------- */
     var running = false;
@@ -304,7 +303,6 @@
           heroInner.style.transform = 'translate3d(0,' + (prog * 130).toFixed(1) + 'px,0)';
           heroInner.style.opacity = (1 - prog * 0.85).toFixed(3);
         }
-        if (heroVideo) heroVideo.style.transform = 'scale(' + (1 + prog * 0.16).toFixed(3) + ')';
       }
 
       if (moving) { requestAnimationFrame(frame); } else { running = false; }
