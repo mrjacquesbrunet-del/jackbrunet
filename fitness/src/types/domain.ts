@@ -230,7 +230,8 @@ export interface Exercise {
   exercise_type: ExerciseType;
   description: string | null;
   instructions: string | null;
-  image_path: string | null;
+  image_path: string | null; // photo perso dans le bucket privé "media"
+  image_url: string | null;  // photo publique (exercices de la base globale)
   video_url: string | null;
 }
 

@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ChevronRight, Dumbbell, Search, Trophy } from 'lucide-react-native';
 import { useState } from 'react';
 import {
+  Image,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -175,6 +176,17 @@ function RecordsCard() {
               onPress={() => (isEditing ? setEditingId(null) : startEditing(exercise))}
               accessibilityLabel={`Modifier le record de ${exercise.name}`}
             >
+              {exercise.image_url ? (
+                <Image
+                  source={{ uri: exercise.image_url }}
+                  style={[styles.recordThumb, { backgroundColor: colors.cardAlt }]}
+                  accessibilityIgnoresInvertColors
+                />
+              ) : (
+                <View style={[styles.recordThumb, styles.recordThumbEmpty, { backgroundColor: colors.cardAlt }]}>
+                  <Dumbbell size={16} color={colors.textMuted} strokeWidth={2} />
+                </View>
+              )}
               <View style={styles.recordInfo}>
                 <Text style={[styles.recordName, { color: colors.text }]}>{exercise.name}</Text>
                 {exercise.muscle_group ? (
@@ -264,8 +276,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.md,
-    paddingVertical: 8,
+    paddingVertical: 6,
   },
+  recordThumb: { width: 44, height: 44, borderRadius: 10 },
+  recordThumbEmpty: { alignItems: 'center', justifyContent: 'center' },
   recordInfo: { flex: 1, gap: 1 },
   recordName: { fontSize: 15, fontWeight: '600' },
   recordValue: { flexDirection: 'row', alignItems: 'center', gap: 5 },
