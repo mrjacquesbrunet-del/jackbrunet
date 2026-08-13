@@ -50,28 +50,11 @@
 
     <div class="usn-hero-overlay"></div>
 
-    <div class="usn-hero-inner">
-      <div class="usn-wrap">
-        <!--
-          &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
-          &#9658; &#201;V&#201;NEMENT &#8212; modifiez les textes ci-dessous
-          &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
-        -->
-        <div class="usn-logo-mark usn-logo-blanc usn-hero-logo" role="img" aria-label="Un Seul Nom"></div>
-
-        <!-- Le grand mot : la ville de l'&#233;v&#233;nement -->
-        <h1>Avignon</h1>
-
-        <div class="usn-hero-tagline">&#201;vang&#233;lisation &amp; Gu&#233;rison</div>
-        <div class="usn-hero-date">Samedi 17 octobre 2026</div>
-
-        <div class="usn-hero-cta">
-          <a href="#usn-inscription" class="usn-btn usn-btn-primary">Je m'inscris</a>
-          <a href="#usn-programme" class="usn-btn usn-btn-outline">L'&#233;v&#233;nement</a>
-        </div>
-      </div>
-    </div>
-
+    <!--
+      &#9658; SON &#8212; la lecture automatique n'est autorisee que sans son. Ce
+      bouton permet au visiteur de l'activer d'un clic. S'il n'y a pas de
+      piste audio dans la video, le script retire le bouton tout seul.
+    -->
     <!--
       &#9658; COMPTE &#192; REBOURS
       R&#233;glez data-target sur la date + heure de l'&#233;v&#233;nement (format ISO).
@@ -79,6 +62,19 @@
       (une fois la date pass&#233;e, le compteur reste &#224; z&#233;ro).
     -->
     <div class="usn-countdown" id="usn-countdown" data-target="2026-10-17T16:00:00">
+
+      <!--
+        &#9658; SON &#8212; la lecture automatique n'est autorisee que sans son. Ce
+        bouton rend la main au visiteur. Il est place ici, et non dans la
+        video, pour se caler juste au-dessus du compte a rebours quelle
+        que soit la hauteur de celui-ci. Sans piste audio dans le fichier,
+        le script le retire de lui-meme.
+      -->
+      <button type="button" class="usn-son" id="usn-son" aria-pressed="false">
+        <span class="usn-son-icone" aria-hidden="true">&#9834;</span>
+        <span class="usn-son-texte">Activer le son</span>
+      </button>
+
       <div class="usn-cd-grid">
         <div class="usn-cd-item"><span class="usn-cd-num" data-cd="days">0</span><span class="usn-cd-lab">Jours</span></div>
         <div class="usn-cd-item"><span class="usn-cd-num" data-cd="hours">00</span><span class="usn-cd-lab">Heures</span></div>
@@ -87,6 +83,34 @@
       </div>
     </div>
   </header>
+
+  <!-- ============================================================= -->
+  <!-- BANDEAU TITRE                                                  -->
+  <!-- Le titre a quitte la video : le teaser porte deja ses propres  -->
+  <!-- ecritures, les deux se chevauchaient. Il a maintenant son      -->
+  <!-- propre bandeau, ou rien ne vient le gener.                     -->
+  <!-- ============================================================= -->
+  <div class="usn-titre">
+    <div class="usn-wrap">
+      <!--
+        &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+        &#9658; &#201;V&#201;NEMENT &#8212; modifiez les textes ci-dessous
+        &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+      -->
+      <div class="usn-logo-mark usn-logo-blanc usn-titre-logo" role="img" aria-label="Un Seul Nom"></div>
+
+      <!-- Le grand mot : la ville de l'&#233;v&#233;nement -->
+      <h1>Avignon</h1>
+
+      <div class="usn-hero-tagline">&#201;vang&#233;lisation &amp; Gu&#233;rison</div>
+      <div class="usn-hero-date">Samedi 17 octobre 2026</div>
+
+      <div class="usn-hero-cta">
+        <a href="#usn-inscription" class="usn-btn usn-btn-primary">Je m'inscris</a>
+        <a href="#usn-programme" class="usn-btn usn-btn-outline">L'&#233;v&#233;nement</a>
+      </div>
+    </div>
+  </div>
 
   <!-- ============================================================= -->
   <!-- L'&#201;V&#201;NEMENT / AU PROGRAMME                                     -->
