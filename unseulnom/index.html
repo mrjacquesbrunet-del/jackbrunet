@@ -610,22 +610,18 @@
       Tant qu'aucune vidéo n'est indiquée, le dégradé sombre s'affiche :
       la page reste belle, il n'y a pas d'image cassée.
 
-      POUR AJOUTER LA VIDÉO
+      POUR CHANGER DE VIDÉO
       1. Médias → Ajouter un fichier média, envoyez le .mp4, puis copiez
          « URL du fichier » (elle finit par .mp4).
-      2. Juste en dessous, entre <video ...> et </video>, il y a une ligne
-         qui ne contient que le mot VIDEO. Remplacez-la entièrement par
-         celle-ci, avec votre adresse à la place de la nôtre :
-
-         <source src="https://unseulnom.org/wp-content/uploads/2026/08/ma-video.mp4" type="video/mp4" />
-
-      3. Mettez la page à jour. C'est tout : le son est coupé et la
-         lecture tourne en boucle d'elle-même.
+      2. Remplacez l'adresse dans la ligne <source ...> ci-dessous.
+      3. Mettez la page à jour. Le son est coupé et la lecture tourne en
+         boucle d'elle-même.
 
       LE FICHIER
       .mp4, muet (sans piste audio : sans quoi les navigateurs refusent
       de lancer la lecture tout seuls), 10 à 20 secondes, 1280 × 720
-      suffisent largement, et moins de 15 Mo.
+      suffisent largement, et moins de 5 Mo si possible : c'est ce que
+      chaque visiteur telechargera, telephone compris.
 
       POSTER (facultatif)
       poster="adresse d'une image" affiche cette image le temps du
@@ -634,7 +630,12 @@
     -->
     <video class="usn-hero-video" autoplay muted loop playsinline
            poster="">
-      <source src="VOTRE_VIDEO.mp4" type="video/mp4" />
+      <!-- Deux fichiers, dans cet ordre : le navigateur prend le premier
+           qui repond. teaser-web.mp4 est la version allegee (3 Mo au lieu
+           de 29, sans piste audio) ; tant qu'elle n'est pas dans la
+           mediatheque, la ligne suivante prend le relais. -->
+      <source src="https://unseulnom.org/wp-content/uploads/2026/08/teaser-web.mp4" type="video/mp4" />
+      <source src="https://unseulnom.org/wp-content/uploads/2026/08/Teaser-1.mp4" type="video/mp4" />
     </video>
 
     <div class="usn-hero-overlay"></div>

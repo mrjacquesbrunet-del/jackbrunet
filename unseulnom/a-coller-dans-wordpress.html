@@ -574,22 +574,18 @@
       Tant qu'aucune vid&#233;o n'est indiqu&#233;e, le d&#233;grad&#233; sombre s'affiche :
       la page reste belle, il n'y a pas d'image cass&#233;e.
 
-      POUR AJOUTER LA VID&#201;O
+      POUR CHANGER DE VID&#201;O
       1. M&#233;dias &#8594; Ajouter un fichier m&#233;dia, envoyez le .mp4, puis copiez
          &#171; URL du fichier &#187; (elle finit par .mp4).
-      2. Juste en dessous, entre <video ...> et </video>, il y a une ligne
-         qui ne contient que le mot VIDEO. Remplacez-la enti&#232;rement par
-         celle-ci, avec votre adresse &#224; la place de la n&#244;tre :
-
-         <source src="https://unseulnom.org/wp-content/uploads/2026/08/ma-video.mp4" type="video/mp4" />
-
-      3. Mettez la page &#224; jour. C'est tout : le son est coup&#233; et la
-         lecture tourne en boucle d'elle-m&#234;me.
+      2. Remplacez l'adresse dans la ligne <source ...> ci-dessous.
+      3. Mettez la page &#224; jour. Le son est coup&#233; et la lecture tourne en
+         boucle d'elle-m&#234;me.
 
       LE FICHIER
       .mp4, muet (sans piste audio : sans quoi les navigateurs refusent
       de lancer la lecture tout seuls), 10 &#224; 20 secondes, 1280 &#215; 720
-      suffisent largement, et moins de 15 Mo.
+      suffisent largement, et moins de 5 Mo si possible : c'est ce que
+      chaque visiteur telechargera, telephone compris.
 
       POSTER (facultatif)
       poster="adresse d'une image" affiche cette image le temps du
@@ -598,7 +594,12 @@
     -->
     <video class="usn-hero-video" autoplay muted loop playsinline
            poster="">
-      <!-- VIDEO -->
+      <!-- Deux fichiers, dans cet ordre : le navigateur prend le premier
+           qui repond. teaser-web.mp4 est la version allegee (3 Mo au lieu
+           de 29, sans piste audio) ; tant qu'elle n'est pas dans la
+           mediatheque, la ligne suivante prend le relais. -->
+      <source src="https://unseulnom.org/wp-content/uploads/2026/08/teaser-web.mp4" type="video/mp4" />
+      <source src="https://unseulnom.org/wp-content/uploads/2026/08/Teaser-1.mp4" type="video/mp4" />
     </video>
 
     <div class="usn-hero-overlay"></div>
