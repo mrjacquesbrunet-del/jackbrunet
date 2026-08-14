@@ -122,6 +122,8 @@ export type ThemePlan = {
   cover?: string;
   /** Auteur affiché sur la vignette. Défaut: Pasteur Jack Brunet. */
   author?: string;
+  /** Synopsis « façon Netflix » (2-3 phrases) affiché sur la vue du plan. */
+  summary?: string;
 };
 
 export type Devotion = {

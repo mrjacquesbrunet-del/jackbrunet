@@ -195,6 +195,15 @@ export function PlanView({ plan }: { plan: ThemePlan }) {
         </div>
       </section>
 
+      {/* ---------- Synopsis (façon Netflix) ---------- */}
+      {plan.summary ? (
+        <div className="container-x pt-5">
+          <p className="mx-auto max-w-2xl text-[15px] leading-relaxed text-cream/80">
+            {plan.summary}
+          </p>
+        </div>
+      ) : null}
+
       {/* ---------- Progression ---------- */}
       <div className="container-x pt-6">
         <div className="mx-auto max-w-2xl">
