@@ -21,6 +21,37 @@ export type PlanPosterData = {
   author?: string;
 };
 
+/** Couverture d'un plan : image si fournie, sinon fond sombre RHEMA + halo lime
+ * (position variable) + texture. Voile en bas pour la lisibilité du texte.
+ * Réutilisée par les vignettes du catalogue et par le carrousel en vedette. */
+export function PlanCover({ cover, glowIndex = 0 }: { cover?: string; glowIndex?: number }) {
+  const glow = GLOWS[glowIndex % GLOWS.length];
+  return (
+    <>
+      {cover ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={asset(cover)}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+      ) : (
+        <div className="absolute inset-0 bg-gradient-to-br from-night-800 to-night-950">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `radial-gradient(60% 55% at ${glow}, rgb(202 240 0 / 0.30), transparent 70%)`,
+            }}
+          />
+          <div className="bg-topo-dark absolute inset-0 opacity-[0.22]" />
+        </div>
+      )}
+      <div className="absolute inset-0 bg-gradient-to-t from-night-950/85 via-night-950/10 to-transparent" />
+    </>
+  );
+}
+
 /**
  * Vignette de plan façon « affiche » (catalogue type Netflix) : couverture
  * (image ou dégradé de la charte), badge du nombre de jours, titre, auteur.

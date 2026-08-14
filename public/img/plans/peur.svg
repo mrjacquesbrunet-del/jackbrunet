@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800" fill="none">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#30302F"/>
+    <stop offset="1" stop-color="#17181A"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="80%" cy="18%" r="42%">
+    <stop offset="0" stop-color="#CAF000" stop-opacity="0.22"/>
+    <stop offset="0.65" stop-color="#CAF000" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="veil" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0.45" stop-color="#17181A" stop-opacity="0"/>
+    <stop offset="1" stop-color="#17181A" stop-opacity="0.9"/>
+  </linearGradient>
+</defs>
+<rect width="600" height="800" fill="url(#bg)"/>
+<rect width="600" height="800" fill="url(#glow)"/><path d="M0 560 L120 470 L210 530 L330 420 L430 500 L540 400 L600 450 L600 800 L0 800 Z" fill="#CAF000" fill-opacity="0.18"/><path d="M0 600 L120 510 L210 570 L330 460 L430 540 L540 440 L600 490 L600 800 L0 800 Z" fill="#CAF000" fill-opacity="0.30"/><path d="M0 650 L120 560 L210 620 L330 510 L430 590 L540 490 L600 540 L600 800 L0 800 Z" fill="#CAF000" fill-opacity="0.9"/><path d="M0 560 L120 470 L210 530 L330 420 L430 500 L540 440 L600 490" stroke="#CAF000" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/><rect width="600" height="800" fill="url(#veil)"/>
+</svg>

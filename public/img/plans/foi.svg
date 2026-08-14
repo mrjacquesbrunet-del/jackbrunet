@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800" fill="none">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#30302F"/>
+    <stop offset="1" stop-color="#17181A"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="50%" cy="12%" r="42%">
+    <stop offset="0" stop-color="#CAF000" stop-opacity="0.22"/>
+    <stop offset="0.65" stop-color="#CAF000" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="veil" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0.45" stop-color="#17181A" stop-opacity="0"/>
+    <stop offset="1" stop-color="#17181A" stop-opacity="0.9"/>
+  </linearGradient>
+</defs>
+<rect width="600" height="800" fill="url(#bg)"/>
+<rect width="600" height="800" fill="url(#glow)"/><line x1="60" y1="800" x2="20" y2="680" stroke="#CAF000" stroke-opacity="0.12" stroke-width="3"/><line x1="155" y1="800" x2="115" y2="610" stroke="#CAF000" stroke-opacity="0.17" stroke-width="3"/><line x1="250" y1="800" x2="210" y2="540" stroke="#CAF000" stroke-opacity="0.22" stroke-width="3"/><line x1="345" y1="800" x2="305" y2="470" stroke="#CAF000" stroke-opacity="0.27" stroke-width="3"/><line x1="440" y1="800" x2="400" y2="400" stroke="#CAF000" stroke-opacity="0.32" stroke-width="3"/><line x1="535" y1="800" x2="495" y2="330" stroke="#CAF000" stroke-opacity="0.37" stroke-width="3"/><path d="M300 720 C 300 620, 300 540, 300 430" stroke="#CAF000" stroke-width="6" stroke-linecap="round"/><path d="M300 560 C 230 540, 210 470, 230 430 C 270 470, 290 520, 300 560 Z" fill="#CAF000" fill-opacity="0.85"/><path d="M300 500 C 370 480, 390 410, 370 370 C 330 410, 310 460, 300 500 Z" fill="#CAF000" fill-opacity="0.6"/><rect width="600" height="800" fill="url(#veil)"/>
+</svg>

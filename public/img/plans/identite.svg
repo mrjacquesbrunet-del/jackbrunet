@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800" fill="none">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#30302F"/>
+    <stop offset="1" stop-color="#17181A"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="50%" cy="20%" r="42%">
+    <stop offset="0" stop-color="#CAF000" stop-opacity="0.22"/>
+    <stop offset="0.65" stop-color="#CAF000" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="veil" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0.45" stop-color="#17181A" stop-opacity="0"/>
+    <stop offset="1" stop-color="#17181A" stop-opacity="0.9"/>
+  </linearGradient>
+</defs>
+<rect width="600" height="800" fill="url(#bg)"/>
+<rect width="600" height="800" fill="url(#glow)"/><circle cx="300" cy="330" r="210" stroke="#CAF000" stroke-opacity="0.14" stroke-width="4" fill="none"/><circle cx="300" cy="330" r="160" stroke="#CAF000" stroke-opacity="0.22" stroke-width="4" fill="none"/><circle cx="300" cy="330" r="110" stroke="#CAF000" stroke-opacity="0.4" stroke-width="4" fill="none"/><circle cx="300" cy="330" r="60" stroke="#CAF000" stroke-opacity="0.85" stroke-width="4" fill="none"/><polygon points="300,284 312,314 344,316 319,336 327,367 300,350 273,367 281,336 256,316 288,314" fill="#CAF000"/><rect width="600" height="800" fill="url(#veil)"/>
+</svg>
