@@ -269,6 +269,14 @@ html.app-native main > section:first-child {
   scroll-margin-top: 0;
 }
 
+/* Pages Plans (catalogue + plan) : fond noir continu derrière la barre de
+   statut ET l'overscroll, exactement la couleur de la page (night-950), pour
+   supprimer les liserés clairs en haut et en bas. */
+html.plans-dark,
+html.plans-dark body {
+  background-color: rgb(var(--n-950)) !important;
+}
+
 
 /* ===== Curseur de don (DonateScreen) ===== */
 .jb-donate-range {

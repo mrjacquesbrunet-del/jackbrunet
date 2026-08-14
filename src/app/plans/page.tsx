@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getThemePlans } from "@/lib/content";
 import { PlanRow, type PlanPosterData } from "@/components/plans/PlanPoster";
 import { FeaturedPlans } from "@/components/plans/FeaturedPlans";
+import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
 
 export const metadata: Metadata = {
   title: "Plans de lecture",
@@ -56,6 +57,7 @@ export default function PlansPage() {
 
   return (
     <div className="min-h-screen bg-night-950 pb-20 text-cream">
+      <PlansDarkBg />
       {/* En-tête compact — fond noir-gris, accent lime (pas d'olive) */}
       <div className="container-x pt-7">
         <span className="text-xs font-semibold uppercase tracking-[0.22em] text-dawn-400">

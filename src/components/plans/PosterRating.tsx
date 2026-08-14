@@ -28,11 +28,11 @@ export function PosterRating({ slug, className }: { slug: string; className?: st
     };
   }, [slug]);
 
-  if (!s || s.cnt === 0) return null;
+  const rated = !!s && s.cnt > 0;
 
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded-full bg-night-950/60 px-2 py-1 text-[10px] font-bold text-cream backdrop-blur-sm ${className ?? ""}`}
+      className={`inline-flex items-center gap-1 rounded-full bg-night-950/55 px-2 py-1 text-[10px] font-bold text-cream/90 backdrop-blur-sm ${className ?? ""}`}
     >
       <svg viewBox="0 0 24 24" className="h-3 w-3" aria-hidden>
         <path
@@ -40,7 +40,7 @@ export function PosterRating({ slug, className }: { slug: string; className?: st
           fill="rgb(202 240 0)"
         />
       </svg>
-      {s.avg.toFixed(1)}
+      {rated ? s!.avg.toFixed(1) : "Nouveau"}
     </span>
   );
 }

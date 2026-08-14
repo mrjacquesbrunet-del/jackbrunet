@@ -9,6 +9,7 @@ import { PassageInline } from "@/components/bible/PassageInline";
 import { bibleHref } from "@/lib/bible-ref";
 import { Celebration } from "@/components/ui/Celebration";
 import { PlanRating } from "@/components/plans/PlanRating";
+import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
 import { useAuth } from "@/components/community/useAuth";
 import { getSupabase } from "@/lib/supabase";
 import { isPlanSaved, togglePlanSave } from "@/lib/community";
@@ -141,6 +142,7 @@ export function PlanView({
 
   return (
     <div className="min-h-screen bg-night-950 pb-24 text-cream">
+      <PlansDarkBg />
       <Celebration
         open={celebrate}
         emoji=""
