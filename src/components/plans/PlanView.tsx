@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { asset } from "@/lib/asset";
+import { asset, mediaUrl } from "@/lib/asset";
 import { usePlanProgress } from "@/lib/plan-progress";
+import { AudioPlayer } from "@/components/ui/AudioPlayer";
 import { PassageInline } from "@/components/bible/PassageInline";
 import { bibleHref } from "@/lib/bible-ref";
 import { Celebration } from "@/components/ui/Celebration";
@@ -75,7 +76,13 @@ function IconBtn({
   );
 }
 
-export function PlanView({ plan }: { plan: ThemePlan }) {
+export function PlanView({
+  plan,
+  audioMap = {},
+}: {
+  plan: ThemePlan;
+  audioMap?: Record<string, string>;
+}) {
   const progress = usePlanProgress(plan.slug);
   const { userId } = useAuth();
   const total = plan.days.length;
@@ -322,6 +329,13 @@ export function PlanView({ plan }: { plan: ThemePlan }) {
               {/* Contenu du jour */}
               {open ? (
                 <div className="px-5 pb-6">
+                  {/* Version audio (voix de Jack) si générée */}
+                  {audioMap[String(d.day)] ? (
+                    <div className="mb-5">
+                      <AudioPlayer src={mediaUrl(audioMap[String(d.day)])} label="Écouter ce jour" />
+                    </div>
+                  ) : null}
+
                   <div className="space-y-4 text-[15px] leading-relaxed text-cream/85">
                     {d.meditation.split("\n\n").map((para, idx) => (
                       <p key={idx}>{para}</p>

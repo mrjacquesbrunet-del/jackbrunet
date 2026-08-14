@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PlanView } from "@/components/plans/PlanView";
 import { getThemePlan, getThemePlans } from "@/lib/content";
+import audioData from "../../../../content/audio.generated.json";
 
 export function generateStaticParams() {
   return getThemePlans().map((p) => ({ slug: p.slug }));
@@ -27,5 +28,9 @@ export default async function PlanPage({
   const plan = getThemePlan(slug);
   if (!plan) notFound();
 
-  return <PlanView plan={plan} />;
+  // Audio du plan (voix clonée) généré par scripts/generate-audio.mjs, ou {}.
+  const plans = (audioData as { plans?: Record<string, Record<string, string>> }).plans ?? {};
+  const audioMap = plans[slug] ?? {};
+
+  return <PlanView plan={plan} audioMap={audioMap} />;
 }
