@@ -118,6 +118,10 @@ export type ThemePlan = {
   title: string;
   subtitle: string;
   days: ThemePlanDay[];
+  /** Image de couverture optionnelle (vignette catalogue). Sinon dégradé. */
+  cover?: string;
+  /** Auteur affiché sur la vignette. Défaut: Pasteur Jack Brunet. */
+  author?: string;
 };
 
 export type Devotion = {

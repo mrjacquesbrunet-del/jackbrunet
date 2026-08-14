@@ -1,107 +1,89 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { PageHero } from "@/components/ui/PageHero";
-import { Reveal } from "@/components/ui/Reveal";
 import { getThemePlans } from "@/lib/content";
-import { AuthorChip } from "@/components/plans/AuthorChip";
+import { PlanRow, type PlanPosterData } from "@/components/plans/PlanPoster";
 
 export const metadata: Metadata = {
-  title: "Plans thématiques",
+  title: "Plans de lecture",
   description:
-    "Des parcours de méditation par thème, peur, anxiété, foi, Saint-Esprit, identité, avec une méditation et des versets chaque jour.",
+    "Choisis ton parcours comme dans un catalogue : petits parcours de quelques jours, parcours moyens, ou le grand parcours de la Bible en 1 an.",
 };
 
 export default function PlansPage() {
   const plans = getThemePlans();
 
+  // Chaque plan devient une « affiche » du catalogue.
+  const posters: PlanPosterData[] = plans.map((p) => ({
+    href: `/plans/${p.slug}`,
+    title: p.title,
+    days: p.days.length,
+    subtitle: p.subtitle,
+    cover: p.cover,
+    author: p.author,
+  }));
+
+  // Répartition par longueur de parcours.
+  const petits = posters.filter((p) => p.days <= 10);
+  const moyens = posters.filter((p) => p.days > 10 && p.days <= 60);
+
+  // Le grand parcours : la Bible en 1 an (route dédiée).
+  const grand: PlanPosterData[] = [
+    { href: "/bible-1-an", title: "La Bible en 1 an", days: 365 },
+    ...posters.filter((p) => p.days > 60),
+  ];
+
   return (
     <>
-      <PageHero
-        eyebrow="Plans thématiques"
-        title={
-          <>
-            Avance pas à pas, <span className="text-gradient">thème par thème</span>
-          </>
-        }
-        description="Choisis un parcours selon ce que tu traverses. Chaque jour: une méditation courte et des versets à lire. À ton rythme."
-      />
+      {/* Héros du catalogue — photo en arrière-plan, texte centré au-dessus.
+          Pour changer l'image : dépose ta photo dans public/img/plans-hero.webp
+          puis décommente la balise <img> ci-dessous (le dégradé sert de repli). */}
+      <section className="relative overflow-hidden">
+        <div className="relative aspect-[16/10] w-full sm:aspect-[21/9] lg:max-h-[460px]">
+          {/* Repli visuel : dégradé de la charte + texture topographique */}
+          <div className="absolute inset-0 bg-gradient-to-br from-spirit-700 via-night-900 to-night-950" />
+          <div className="bg-topo-dark absolute inset-0 opacity-20" />
+          {/*
+          <img
+            src={asset("/img/plans-hero.webp")}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          */}
+          <div className="absolute inset-0 bg-gradient-to-t from-night-950/90 via-night-950/40 to-night-950/30" />
 
-      <section className="container-x pt-12">
-        <Reveal from="up">
-          <Link
-            href="/bible-1-an"
-            className="dark-ctx group flex items-center justify-between gap-4 overflow-hidden rounded-4xl border border-dawn-500/40 bg-night-900 p-7 text-cream transition-transform hover:-translate-y-1 sm:p-9"
-          >
-            <div>
-              <span className="eyebrow">Grand parcours</span>
-              <h2 className="mt-2 font-display text-2xl font-extrabold sm:text-3xl">
-                La Bible en <span className="text-gradient">1 an</span>
-              </h2>
-              <p className="mt-2 max-w-xl text-cream/70">
-                Un court passage chaque jour pour traverser toute la Parole en une année, avec ta
-                progression.
-              </p>
-            </div>
-            <span className="shrink-0 text-2xl transition-transform group-hover:translate-x-1">→</span>
-          </Link>
-        </Reveal>
-      </section>
-
-      <section className="container-x py-12">
-        <div className="grid gap-6 sm:grid-cols-2">
-          {plans.map((p, i) => {
-            const dark = i % 2 === 1; // une carte sur deux en version sombre
-            return (
-              <Reveal key={p.slug} from="up" delay={i * 0.06}>
-                <Link
-                  href={`/plans/${p.slug}`}
-                  className={`group relative flex h-full flex-col overflow-hidden rounded-3xl border p-7 transition-all hover:-translate-y-1 hover:shadow-card ${
-                    dark
-? "border-white/10 bg-gradient-to-br from-spirit-700 to-night-900 text-cream"
-: "border-night-900/10 bg-white hover:border-dawn-400/50"
-                  }`}
-                >
-                  {/* Entête: durée + auteur */}
-                  <div className="flex items-center justify-between gap-3">
-                    <span
-                      className={`text-xs font-semibold uppercase tracking-[0.18em] ${
-                        dark? "text-dawn-300": "text-spirit-600"
-                      }`}
-                    >
-                      {p.days.length} jours
-                    </span>
-                    <AuthorChip dark={dark} />
-                  </div>
-
-                  <h2
-                    className={`mt-4 font-display text-2xl font-extrabold ${
-                      dark? "text-cream": "text-night-900"
-                    }`}
-                  >
-                    {p.title}
-                  </h2>
-                  <p
-                    className={`mt-2 flex-1 text-sm leading-relaxed ${
-                      dark? "text-cream/70": "text-night-900/65"
-                    }`}
-                  >
-                    {p.subtitle}
-                  </p>
-                  <span
-                    className={`mt-5 inline-flex items-center gap-1 font-semibold ${
-                      dark? "text-dawn-300": "text-spirit-700"
-                    }`}
-                  >
-                    Commencer
-                    <span className="transition-transform group-hover:translate-x-1">→</span>
-                  </span>
-                </Link>
-              </Reveal>
-            );
-          })}
+          <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
+            <span className="eyebrow text-dawn-300">Tes parcours</span>
+            <h1 className="mt-3 max-w-2xl font-display text-3xl font-extrabold leading-tight text-cream sm:text-4xl lg:text-5xl">
+              Avance un jour <span className="text-dawn-300">à la fois</span>
+            </h1>
+            <p className="mt-3 max-w-xl text-sm text-cream/75 sm:text-base">
+              Choisis ton parcours selon ce que tu traverses. Une méditation
+              courte et des versets chaque jour, à ton rythme.
+            </p>
+          </div>
         </div>
       </section>
+
+      <div className="pb-16 pt-2">
+        <PlanRow
+          label="Petits parcours"
+          hint="Quelques jours pour traverser une saison précise."
+          items={petits}
+          startAccent={0}
+        />
+        <PlanRow
+          label="Parcours moyens"
+          hint="Un peu plus long, pour aller en profondeur."
+          items={moyens}
+          startAccent={2}
+        />
+        <PlanRow
+          label="Grand parcours"
+          hint="Un passage chaque jour, sur toute une année."
+          items={grand}
+          startAccent={4}
+        />
+      </div>
     </>
   );
 }
-
