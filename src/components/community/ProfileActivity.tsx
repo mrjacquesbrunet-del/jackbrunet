@@ -159,21 +159,6 @@ export function ProfileActivity() {
         <p className="mt-2 text-xs text-night-900/50">Chaque jour où tu prends ton temps avec Jésus est marqué d&apos;un ✓.</p>
       </section>
 
-      {/* 2) Plans (carrousel, charte lime/olive/crème, suivis d'abord + %) */}
-      <section>
-        <div className="flex items-center justify-between">
-          <h3 className="font-display text-lg font-bold">Découvre tes plans</h3>
-          <Link href="/plans" className="text-sm font-semibold text-spirit-700">Voir tout →</Link>
-        </div>
-        <p className="mt-1 text-sm text-night-900/55">Tes plans en cours d&apos;abord, puis de nouveaux à découvrir.</p>
-        <div className="no-scrollbar mt-3 flex snap-x gap-3 overflow-x-auto pb-1">
-          {orderedPlans.map((p, i) => {
-            const { done, total } = pInfo(p);
-            return <PlanCard key={p.slug} plan={p} done={done} total={total} ch={CHARTE[i % CHARTE.length]} />;
-          })}
-        </div>
-      </section>
-
       {/* 3) Ma to-do list de prière (grille 2 colonnes, charte) */}
       <section>
         <h3 className="font-display text-lg font-bold">Ma to-do list de prière</h3>
