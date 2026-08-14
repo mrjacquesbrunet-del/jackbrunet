@@ -131,8 +131,8 @@ export function PlanRow({
   return (
     <section className="mt-8">
       <div className="container-x">
-        <h2 className="font-display text-xl font-extrabold text-night-900 sm:text-2xl">{label}</h2>
-        {hint ? <p className="mt-1 text-sm text-night-900/55">{hint}</p> : null}
+        <h2 className="font-display text-xl font-extrabold text-cream sm:text-2xl">{label}</h2>
+        {hint ? <p className="mt-1 text-sm text-cream/55">{hint}</p> : null}
       </div>
       <div className="no-scrollbar mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 sm:px-8">
         {items.map((it, i) => (

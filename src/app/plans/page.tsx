@@ -11,6 +11,15 @@ export const metadata: Metadata = {
 
 const DEFAULT_AUTHOR = "Pasteur Jack Brunet";
 
+const YEAR_PLAN: PlanPosterData = {
+  href: "/bible-1-an",
+  title: "La Bible en 1 an",
+  days: 365,
+  subtitle: "Un court passage chaque jour pour traverser toute la Parole en une année.",
+  cover: "/img/plans/bible-1-an.webp",
+  author: DEFAULT_AUTHOR,
+};
+
 export default function PlansPage() {
   const plans = getThemePlans();
 
@@ -23,30 +32,20 @@ export default function PlansPage() {
     author: p.author ?? DEFAULT_AUTHOR,
   }));
 
-  // Carrousel mis en avant : les 3 premiers plans.
-  const featured = posters.slice(0, 3);
+  // Carrousel en vedette : TOUS les plans (6-7 affiches à faire défiler),
+  // avec le grand parcours glissé au milieu.
+  const featured: PlanPosterData[] = [...posters];
+  featured.splice(Math.ceil(featured.length / 2), 0, YEAR_PLAN);
 
-  // Sections par longueur de parcours. On ne les affiche que lorsqu'il existe
-  // vraiment plusieurs longueurs parmi les plans thématiques : sinon
-  // « Parcours courts » ferait doublon avec « Recommandé pour toi ».
+  // Sections par longueur (visibles dès qu'il existe plusieurs longueurs).
   const courts = posters.filter((p) => p.days <= 10);
   const moyens = posters.filter((p) => p.days > 10 && p.days <= 60);
   const longsThematiques = posters.filter((p) => p.days > 60);
   const lengthVariety =
     [courts.length, moyens.length, longsThematiques.length].filter((n) => n > 0).length > 1;
-  const grand: PlanPosterData[] = [
-    {
-      href: "/bible-1-an",
-      title: "La Bible en 1 an",
-      days: 365,
-      subtitle: "Un court passage chaque jour pour traverser toute la Parole en une année.",
-      cover: "/img/plans/bible-1-an.webp",
-      author: DEFAULT_AUTHOR,
-    },
-    ...posters.filter((p) => p.days > 60),
-  ];
+  const grand: PlanPosterData[] = [YEAR_PLAN, ...longsThematiques];
 
-  // Sections par auteur : n'apparaissent que lorsqu'il y a plusieurs auteurs.
+  // Sections par auteur : dès qu'il y a plusieurs auteurs.
   const authors = Array.from(new Set(posters.map((p) => p.author ?? DEFAULT_AUTHOR)));
   const authorRows =
     authors.length > 1
@@ -54,16 +53,18 @@ export default function PlansPage() {
       : [];
 
   return (
-    <div className="pb-16">
-      {/* En-tête compact */}
-      <div className="container-x pt-6">
-        <span className="eyebrow text-spirit-600">Plans de lecture</span>
-        <h1 className="mt-2 font-display text-3xl font-extrabold text-night-900">
-          Trouve ton <span className="text-gradient">parcours</span>
+    <div className="min-h-screen bg-night-950 pb-20 text-cream">
+      {/* En-tête compact — fond noir-gris, accent lime (pas d'olive) */}
+      <div className="container-x pt-7">
+        <span className="text-xs font-semibold uppercase tracking-[0.22em] text-dawn-400">
+          Plans de lecture
+        </span>
+        <h1 className="mt-2 font-display text-3xl font-extrabold text-cream">
+          Trouve ton <span className="text-dawn-400">parcours</span>
         </h1>
       </div>
 
-      {/* Carrousel des plans mis en avant */}
+      {/* Carrousel des plans mis en avant (défile, auto-avance) */}
       <FeaturedPlans items={featured} />
 
       {/* Recommandé pour toi */}
@@ -71,42 +72,26 @@ export default function PlansPage() {
         label="Recommandé pour toi"
         hint="Nos parcours à découvrir en premier."
         items={posters}
-        startAccent={0}
       />
 
-      {/* Sections par longueur — visibles dès qu'il existe plusieurs longueurs */}
+      {/* Sections par longueur */}
       {lengthVariety ? (
         <>
-          <PlanRow
-            label="Parcours courts"
-            hint="Quelques jours, pour une saison précise."
-            items={courts}
-            startAccent={0}
-          />
-          <PlanRow
-            label="Parcours moyens"
-            hint="Un peu plus long, pour aller en profondeur."
-            items={moyens}
-            startAccent={2}
-          />
+          <PlanRow label="Parcours courts" hint="Quelques jours, pour une saison précise." items={courts} />
+          <PlanRow label="Parcours moyens" hint="Un peu plus long, pour aller en profondeur." items={moyens} />
         </>
       ) : null}
 
+      {/* Grand parcours */}
       <PlanRow
         label="Grand parcours"
         hint="Un passage chaque jour, sur toute une année."
         items={grand}
-        startAccent={4}
       />
 
       {/* Sections par auteur (dès qu'il y a plusieurs auteurs) */}
-      {authorRows.map((row, i) => (
-        <PlanRow
-          key={row.author}
-          label={`Les plans de ${row.author}`}
-          items={row.items}
-          startAccent={i}
-        />
+      {authorRows.map((row) => (
+        <PlanRow key={row.author} label={`Les plans de ${row.author}`} items={row.items} />
       ))}
     </div>
   );

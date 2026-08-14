@@ -6,25 +6,35 @@ import { PlanCover, type PlanPosterData } from "@/components/plans/PlanPoster";
 
 /**
  * Carrousel « coverflow » à la Netflix : l'affiche centrée est agrandie, les
- * deux voisines dépassent de chaque côté (plus petites, colorées). On démarre
- * centré sur l'affiche du milieu pour voir tout de suite gauche + centre +
- * droite. Cliquer une affiche ouvre le plan.
+ * deux voisines dépassent de chaque côté. Il défile tout seul (auto-avance),
+ * se met en pause dès qu'on le touche, et repart après quelques secondes.
  */
 export function FeaturedPlans({ items }: { items: PlanPosterData[] }) {
   const mid = Math.floor(items.length / 2);
   const [active, setActive] = useState(mid);
+  const activeRef = useRef(mid);
   const scroller = useRef<HTMLDivElement>(null);
   const cards = useRef<(HTMLAnchorElement | null)[]>([]);
+  const paused = useRef(false);
+  const resumeT = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const centerOn = (i: number, smooth = true) => {
+    const root = scroller.current;
+    const el = cards.current[i];
+    if (!root || !el) return;
+    root.scrollTo({
+      left: el.offsetLeft - (root.clientWidth - el.clientWidth) / 2,
+      behavior: smooth ? "smooth" : "auto",
+    });
+  };
 
   // Centre l'affiche du milieu au montage (sans animation).
   useEffect(() => {
-    const root = scroller.current;
-    const el = cards.current[mid];
-    if (!root || !el) return;
-    root.scrollLeft = el.offsetLeft - (root.clientWidth - el.clientWidth) / 2;
+    centerOn(mid, false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mid]);
 
-  // Suit l'affiche la plus centrée pour l'agrandir + mettre à jour les points.
+  // Suit l'affiche la plus centrée (agrandissement + points).
   useEffect(() => {
     const root = scroller.current;
     if (!root) return;
@@ -33,7 +43,10 @@ export function FeaturedPlans({ items }: { items: PlanPosterData[] }) {
         entries.forEach((e) => {
           if (e.isIntersecting) {
             const i = Number((e.target as HTMLElement).dataset.i);
-            if (!Number.isNaN(i)) setActive(i);
+            if (!Number.isNaN(i)) {
+              activeRef.current = i;
+              setActive(i);
+            }
           }
         });
       },
@@ -43,19 +56,42 @@ export function FeaturedPlans({ items }: { items: PlanPosterData[] }) {
     return () => io.disconnect();
   }, [items.length]);
 
+  // Auto-avance : passe à l'affiche suivante toutes les 4,5 s, sauf si en pause.
+  useEffect(() => {
+    if (items.length <= 1) return;
+    const id = setInterval(() => {
+      if (paused.current) return;
+      centerOn((activeRef.current + 1) % items.length);
+    }, 4500);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items.length]);
+
+  // Met en pause l'auto-avance quand l'utilisateur interagit, reprend après 7 s.
+  const pause = () => {
+    paused.current = true;
+    if (resumeT.current) clearTimeout(resumeT.current);
+    resumeT.current = setTimeout(() => {
+      paused.current = false;
+    }, 7000);
+  };
+
   if (items.length === 0) return null;
 
   return (
     <section className="pt-4">
       <div
         ref={scroller}
+        onPointerDown={pause}
+        onTouchStart={pause}
+        onWheel={pause}
         className="no-scrollbar flex snap-x snap-mandatory items-center gap-3 overflow-x-auto px-[20vw] py-6"
       >
         {items.map((it, i) => {
           const on = active === i;
           return (
             <Link
-              key={it.href}
+              key={`${it.href}-${i}`}
               href={it.href}
               ref={(el) => {
                 cards.current[i] = el;
@@ -64,10 +100,10 @@ export function FeaturedPlans({ items }: { items: PlanPosterData[] }) {
               className="group block w-[58vw] max-w-[260px] shrink-0 snap-center"
             >
               <div
-                className={`relative aspect-[3/4] overflow-hidden rounded-[1.6rem] border transition-all duration-300 ease-out ${
+                className={`relative aspect-[3/4] overflow-hidden rounded-[1.6rem] border transition-all duration-500 ease-out ${
                   on
                     ? "scale-105 border-dawn-400/40 opacity-100 shadow-[0_18px_50px_-12px_rgba(202,240,0,0.35)]"
-                    : "scale-90 border-white/10 opacity-80"
+                    : "scale-90 border-white/10 opacity-70"
                 }`}
               >
                 <PlanCover cover={it.cover} glowIndex={i} />
@@ -88,7 +124,6 @@ export function FeaturedPlans({ items }: { items: PlanPosterData[] }) {
                   ) : null}
                 </div>
               </div>
-              {/* Bouton visible seulement sous l'affiche active */}
               <div className={`mt-3 flex justify-center transition-opacity duration-300 ${on ? "opacity-100" : "opacity-0"}`}>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-dawn-400 px-5 py-2 text-sm font-bold text-night-950">
                   Commencer
@@ -103,12 +138,12 @@ export function FeaturedPlans({ items }: { items: PlanPosterData[] }) {
       </div>
 
       {/* Points de pagination */}
-      <div className="mt-1 flex justify-center gap-1.5">
+      <div className="mt-1 flex flex-wrap justify-center gap-1.5">
         {items.map((it, i) => (
           <span
-            key={it.href}
+            key={`${it.href}-dot-${i}`}
             className={`h-1.5 rounded-full transition-all duration-300 ${
-              active === i ? "w-5 bg-dawn-400" : "w-1.5 bg-night-900/20"
+              active === i ? "w-5 bg-dawn-400" : "w-1.5 bg-cream/25"
             }`}
           />
         ))}
