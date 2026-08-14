@@ -37,6 +37,15 @@ rm -rf out/audio out/commentary
 
 npx cap sync ios
 
+# --- Numéro de build unique (évite les rejets TestFlight) --------------------
+# TestFlight refuse un envoi dont le couple version+build existe déjà. On aligne
+# le numéro de build (CFBundleVersion) sur le numéro de build Xcode Cloud, qui
+# est unique et croissant à chaque compilation. « || true » : si agvtool échoue,
+# on garde le numéro du projet plutôt que de casser le build.
+if [ -n "$CI_BUILD_NUMBER" ]; then
+  ( cd ios/App && agvtool new-version -all "$CI_BUILD_NUMBER" ) || true
+fi
+
 # --- Résolution des paquets Swift (OneSignal, cordova-ios, etc.) -------------
 # Dans le cloud, `cap sync` ajoute OneSignal au graphe Swift (via le plugin
 # onesignal-cordova-plugin, qui dépend de OneSignal-XCFramework + cordova-ios).
