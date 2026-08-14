@@ -40,7 +40,7 @@ export default function PlansPage() {
       title: "La Bible en 1 an",
       days: 365,
       subtitle: "Un court passage chaque jour pour traverser toute la Parole en une année.",
-      cover: "/img/plans/bible-1-an.svg",
+      cover: "/img/plans/bible-1-an.webp",
       author: DEFAULT_AUTHOR,
     },
     ...posters.filter((p) => p.days > 60),
