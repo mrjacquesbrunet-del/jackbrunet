@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { PlanCover, type PlanPosterData } from "@/components/plans/PlanPoster";
+import { PosterRating } from "@/components/plans/PosterRating";
 
 /**
  * Carrousel « coverflow » à la Netflix : l'affiche centrée est agrandie, les
@@ -111,6 +112,7 @@ export function FeaturedPlans({ items }: { items: PlanPosterData[] }) {
                 <span className="absolute left-3 top-3 rounded-full border border-dawn-400/40 bg-night-950/50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-dawn-300 backdrop-blur-sm">
                   {it.days} j
                 </span>
+                {it.slug ? <PosterRating slug={it.slug} className="absolute right-3 top-3" /> : null}
 
                 <div className="absolute inset-x-0 bottom-0 p-4">
                   <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-dawn-300">

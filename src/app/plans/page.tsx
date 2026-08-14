@@ -18,6 +18,7 @@ const YEAR_PLAN: PlanPosterData = {
   subtitle: "Un court passage chaque jour pour traverser toute la Parole en une année.",
   cover: "/img/plans/bible-1-an.webp",
   author: DEFAULT_AUTHOR,
+  slug: "bible-1-an",
 };
 
 export default function PlansPage() {
@@ -30,6 +31,7 @@ export default function PlansPage() {
     subtitle: p.subtitle,
     cover: p.cover,
     author: p.author ?? DEFAULT_AUTHOR,
+    slug: p.slug,
   }));
 
   // Carrousel en vedette : TOUS les plans (6-7 affiches à faire défiler),

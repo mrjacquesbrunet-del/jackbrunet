@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { asset } from "@/lib/asset";
 import { AuthorChip } from "@/components/plans/AuthorChip";
+import { PosterRating } from "@/components/plans/PosterRating";
 
 /** Position du halo lime sur la couverture (varie d'une affiche à l'autre pour
  * donner du rythme au catalogue, même sans photo). */
@@ -19,6 +20,7 @@ export type PlanPosterData = {
   subtitle?: string;
   cover?: string;
   author?: string;
+  slug?: string;
 };
 
 /** Couverture d'un plan : image si fournie, sinon fond sombre RHEMA + halo lime
@@ -93,10 +95,13 @@ export function PlanPoster({
         {/* Voile pour la lisibilité du texte */}
         <div className="absolute inset-0 bg-gradient-to-t from-night-950/85 via-night-950/10 to-transparent" />
 
-        {/* Badge durée */}
+        {/* Badge durée (haut gauche) */}
         <span className="absolute left-3 top-3 rounded-full border border-dawn-400/40 bg-night-950/50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-dawn-300 backdrop-blur-sm">
           {data.days} jour{data.days > 1 ? "s" : ""}
         </span>
+
+        {/* Note en étoiles (haut droite) */}
+        {data.slug ? <PosterRating slug={data.slug} className="absolute right-3 top-3" /> : null}
 
         {/* Titre + auteur en bas de l'affiche */}
         <div className="absolute inset-x-0 bottom-0 p-3.5">
