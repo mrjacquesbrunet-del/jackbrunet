@@ -190,6 +190,75 @@ export async function updatePassword(newPassword: string) {
   if (error) throw error;
 }
 
+// ============ Plans : notes (étoiles) + enregistrements ============
+
+export type PlanStats = { avg: number; cnt: number };
+
+/** Moyenne + nombre d'avis pour tous les plans. */
+export async function planRatingsSummary(): Promise<Record<string, PlanStats>> {
+  const sb = getSupabase();
+  if (!sb) return {};
+  const { data, error } = await sb.rpc("plan_ratings_summary");
+  if (error || !data) return {};
+  const map: Record<string, PlanStats> = {};
+  for (const r of data as { plan_slug: string; avg: number; cnt: number }[]) {
+    map[r.plan_slug] = { avg: Number(r.avg) || 0, cnt: Number(r.cnt) || 0 };
+  }
+  return map;
+}
+
+/** Ma note pour un plan (1..5), ou null si pas encore noté. */
+export async function myPlanRating(slug: string, userId: string): Promise<number | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  const { data } = await sb
+    .from("plan_ratings")
+    .select("stars")
+    .eq("user_id", userId)
+    .eq("plan_slug", slug)
+    .maybeSingle();
+  return (data?.stars as number | undefined) ?? null;
+}
+
+/** Noter un plan (1..5). Renvoie true si enregistré. */
+export async function ratePlan(slug: string, stars: number, userId: string): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  const { error } = await sb
+    .from("plan_ratings")
+    .upsert({ user_id: userId, plan_slug: slug, stars, updated_at: new Date().toISOString() });
+  return !error;
+}
+
+/** Le plan est-il enregistré par cette personne ? */
+export async function isPlanSaved(slug: string, userId: string): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  const { data } = await sb
+    .from("plan_saves")
+    .select("plan_slug")
+    .eq("user_id", userId)
+    .eq("plan_slug", slug)
+    .maybeSingle();
+  return !!data;
+}
+
+/** Enregistre (on=true) ou retire (on=false) un plan. */
+export async function togglePlanSave(slug: string, userId: string, on: boolean): Promise<void> {
+  const sb = getSupabase();
+  if (!sb) return;
+  if (on) await sb.from("plan_saves").upsert({ user_id: userId, plan_slug: slug });
+  else await sb.from("plan_saves").delete().eq("user_id", userId).eq("plan_slug", slug);
+}
+
+/** Slugs des plans enregistrés par cette personne. */
+export async function listSavedPlans(userId: string): Promise<string[]> {
+  const sb = getSupabase();
+  if (!sb) return [];
+  const { data } = await sb.from("plan_saves").select("plan_slug").eq("user_id", userId);
+  return ((data as { plan_slug: string }[] | null) ?? []).map((r) => r.plan_slug);
+}
+
 /** Suppression du compte (exigence App Store) via une fonction Supabase.
  * Renvoie le détail de l'erreur pour l'afficher (plutôt qu'un échec muet). */
 export async function deleteAccount(): Promise<{ ok: boolean; error?: string }> {
