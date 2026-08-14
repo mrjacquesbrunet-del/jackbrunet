@@ -124,6 +124,12 @@ export type ThemePlan = {
   author?: string;
   /** Synopsis « façon Netflix » (2-3 phrases) affiché sur la vue du plan. */
   summary?: string;
+  /** Fiche auteur (au clic sur le nom de l'auteur). Repli sur l'auteur par défaut. */
+  authorPhoto?: string;
+  authorRole?: string;
+  authorBio?: string;
+  authorInstagram?: string;
+  authorResources?: { label: string; url: string }[];
 };
 
 export type Devotion = {

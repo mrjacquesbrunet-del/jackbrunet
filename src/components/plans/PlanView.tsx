@@ -10,6 +10,8 @@ import { bibleHref } from "@/lib/bible-ref";
 import { Celebration } from "@/components/ui/Celebration";
 import { PlanRating } from "@/components/plans/PlanRating";
 import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
+import { AuthorCard } from "@/components/plans/AuthorCard";
+import { DEFAULT_AUTHOR, type AuthorInfo } from "@/config/author";
 import { useAuth } from "@/components/community/useAuth";
 import { getSupabase } from "@/lib/supabase";
 import { isPlanSaved, togglePlanSave } from "@/lib/community";
@@ -24,9 +26,9 @@ const AVATARS = (() => {
   );
 })();
 
-function PlanAuthor({ name }: { name: string }) {
+function PlanAuthor({ name, photoSrc }: { name: string; photoSrc?: string }) {
   const [i, setI] = useState(0);
-  const src = AVATARS[i];
+  const src = photoSrc ?? AVATARS[i];
   return (
     <div className="flex items-center gap-2.5">
       {src ? (
@@ -89,7 +91,17 @@ export function PlanView({
   const total = plan.days.length;
   const doneCount = progress.done.length;
   const percent = total ? Math.round((doneCount / total) * 100) : 0;
-  const author = plan.author ?? "Pasteur Jack Brunet";
+  const author = plan.author ?? DEFAULT_AUTHOR.name;
+
+  // Fiche auteur : les champs du plan surchargent l'auteur par défaut (Jack).
+  const authorInfo: AuthorInfo = {
+    name: author,
+    role: plan.authorRole ?? DEFAULT_AUTHOR.role,
+    bio: plan.authorBio ?? DEFAULT_AUTHOR.bio,
+    instagram: plan.authorInstagram ?? DEFAULT_AUTHOR.instagram,
+    resources: plan.authorResources?.length ? plan.authorResources : DEFAULT_AUTHOR.resources,
+  };
+  const authorPhotoSrc = plan.authorPhoto ? asset(plan.authorPhoto) : AVATARS[0];
 
   // Jour courant = premier jour non terminé. Les jours suivants sont verrouillés.
   const currentDay = plan.days.find((d) => !progress.isDone(d.day))?.day ?? total + 1;
@@ -97,6 +109,7 @@ export function PlanView({
   const [reread, setReread] = useState<number | null>(null);
   const [saved, setSaved] = useState(false);
   const [celebrate, setCelebrate] = useState(false);
+  const [authorOpen, setAuthorOpen] = useState(false);
 
   useEffect(() => {
     if (userId) isPlanSaved(plan.slug, userId).then(setSaved);
@@ -143,6 +156,12 @@ export function PlanView({
   return (
     <div className="min-h-screen bg-night-950 pb-24 text-cream">
       <PlansDarkBg />
+      <AuthorCard
+        open={authorOpen}
+        onClose={() => setAuthorOpen(false)}
+        author={authorInfo}
+        photo={authorPhotoSrc}
+      />
       <Celebration
         open={celebrate}
         emoji=""
@@ -197,7 +216,9 @@ export function PlanView({
             </h1>
             <p className="mt-1.5 max-w-md text-sm text-cream/75">{plan.subtitle}</p>
             <div className="mt-4 flex items-end justify-between gap-3">
-              <PlanAuthor name={author} />
+              <button type="button" onClick={() => setAuthorOpen(true)} className="text-left" aria-label="Voir la fiche de l'auteur">
+                <PlanAuthor name={author} photoSrc={authorPhotoSrc} />
+              </button>
               <PlanRating slug={plan.slug} />
             </div>
           </div>

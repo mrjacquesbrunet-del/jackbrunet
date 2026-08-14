@@ -208,7 +208,7 @@ content:
       - { name: raisedEur, label: "Montant collecté (en €)", type: number }
 
   - name: plans
-    label: Plans thématiques
+    label: Plans de lecture
     type: file
     path: content/plans.json
     fields:
@@ -217,18 +217,32 @@ content:
         type: object
         list: true
         fields:
-          - { name: slug, label: "Identifiant URL (ex. peur)", type: string }
-          - { name: title, label: Titre, type: string }
-          - { name: subtitle, label: Sous-titre, type: string }
+          - { name: slug, label: "Identifiant URL (ex. peur) — sans espace ni accent", type: string }
+          - { name: title, label: "Titre du plan", type: string }
+          - { name: subtitle, label: "Sous-titre (une ligne, ex. 5 jours pour…)", type: string }
+          - { name: summary, label: "Résumé accrocheur (2-3 phrases, façon Netflix)", type: text }
+          - { name: cover, label: "Photo de couverture (format vertical)", type: image }
+          - { name: author, label: "Nom de l'auteur", type: string }
+          - { name: authorPhoto, label: "Photo de l'auteur (ronde)", type: image }
+          - { name: authorRole, label: "Rôle de l'auteur (ex. Pasteur)", type: string }
+          - { name: authorBio, label: "Bio de l'auteur (fiche présentée au clic)", type: text }
+          - { name: authorInstagram, label: "Instagram de l'auteur (URL)", type: string }
+          - name: authorResources
+            label: "Ressources de l'auteur (boutons de la fiche)"
+            type: object
+            list: true
+            fields:
+              - { name: label, label: "Nom (ex. Podcast, YouTube, Boutique)", type: string }
+              - { name: url, label: "Lien (URL ou /page interne)", type: string }
           - name: days
-            label: Jours
+            label: Jours du parcours
             type: object
             list: true
             fields:
               - { name: day, label: Jour n°, type: number }
-              - { name: title, label: Titre du jour, type: string }
-              - { name: verses, label: Versets (références), type: string, list: true }
-              - { name: meditation, label: Méditation, type: text }
+              - { name: title, label: "Titre du jour", type: string }
+              - { name: verses, label: "Passages à lire (références, ex. Ésaïe 41:10)", type: string, list: true }
+              - { name: meditation, label: "Méditation / exhortation", type: text }
 
   - name: events
     label: Actualité & agenda
