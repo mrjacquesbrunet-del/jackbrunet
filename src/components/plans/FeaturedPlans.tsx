@@ -5,15 +5,26 @@ import Link from "next/link";
 import { PlanCover, type PlanPosterData } from "@/components/plans/PlanPoster";
 
 /**
- * Carrousel « à la Netflix » des plans mis en avant : affiches larges qu'on
- * fait glisser, les voisines dépassent sur les côtés, l'affiche centrée est
- * mise en valeur. Cliquer une affiche ouvre le plan.
+ * Carrousel « coverflow » à la Netflix : l'affiche centrée est agrandie, les
+ * deux voisines dépassent de chaque côté (plus petites, colorées). On démarre
+ * centré sur l'affiche du milieu pour voir tout de suite gauche + centre +
+ * droite. Cliquer une affiche ouvre le plan.
  */
 export function FeaturedPlans({ items }: { items: PlanPosterData[] }) {
-  const [active, setActive] = useState(0);
+  const mid = Math.floor(items.length / 2);
+  const [active, setActive] = useState(mid);
   const scroller = useRef<HTMLDivElement>(null);
   const cards = useRef<(HTMLAnchorElement | null)[]>([]);
 
+  // Centre l'affiche du milieu au montage (sans animation).
+  useEffect(() => {
+    const root = scroller.current;
+    const el = cards.current[mid];
+    if (!root || !el) return;
+    root.scrollLeft = el.offsetLeft - (root.clientWidth - el.clientWidth) / 2;
+  }, [mid]);
+
+  // Suit l'affiche la plus centrée pour l'agrandir + mettre à jour les points.
   useEffect(() => {
     const root = scroller.current;
     if (!root) return;
@@ -26,7 +37,7 @@ export function FeaturedPlans({ items }: { items: PlanPosterData[] }) {
           }
         });
       },
-      { root, threshold: 0.66 }
+      { root, threshold: 0.72 }
     );
     cards.current.forEach((el) => el && io.observe(el));
     return () => io.disconnect();
@@ -38,7 +49,7 @@ export function FeaturedPlans({ items }: { items: PlanPosterData[] }) {
     <section className="pt-4">
       <div
         ref={scroller}
-        className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto px-[11vw] pb-3"
+        className="no-scrollbar flex snap-x snap-mandatory items-center gap-3 overflow-x-auto px-[20vw] py-6"
       >
         {items.map((it, i) => {
           const on = active === i;
@@ -50,36 +61,41 @@ export function FeaturedPlans({ items }: { items: PlanPosterData[] }) {
                 cards.current[i] = el;
               }}
               data-i={i}
-              className="group relative block w-[78vw] max-w-sm shrink-0 snap-center"
+              className="group block w-[58vw] max-w-[260px] shrink-0 snap-center"
             >
               <div
-                className={`relative aspect-[4/5] overflow-hidden rounded-[1.8rem] border border-white/10 shadow-card transition-all duration-300 ${
-                  on ? "scale-100 opacity-100" : "scale-[0.94] opacity-60"
+                className={`relative aspect-[3/4] overflow-hidden rounded-[1.6rem] border transition-all duration-300 ease-out ${
+                  on
+                    ? "scale-105 border-dawn-400/40 opacity-100 shadow-[0_18px_50px_-12px_rgba(202,240,0,0.35)]"
+                    : "scale-90 border-white/10 opacity-80"
                 }`}
               >
                 <PlanCover cover={it.cover} glowIndex={i} />
 
-                <span className="absolute left-4 top-4 rounded-full border border-dawn-400/40 bg-night-950/50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-dawn-300 backdrop-blur-sm">
-                  {it.days} jour{it.days > 1 ? "s" : ""}
+                <span className="absolute left-3 top-3 rounded-full border border-dawn-400/40 bg-night-950/50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-dawn-300 backdrop-blur-sm">
+                  {it.days} j
                 </span>
 
-                <div className="absolute inset-x-0 bottom-0 p-5">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-dawn-300">
+                <div className="absolute inset-x-0 bottom-0 p-4">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-dawn-300">
                     Plan de lecture
                   </p>
-                  <h3 className="mt-1 font-display text-2xl font-extrabold leading-tight text-cream">
+                  <h3 className="mt-1 font-display text-xl font-extrabold leading-tight text-cream">
                     {it.title}
                   </h3>
-                  {it.subtitle ? (
-                    <p className="mt-1.5 line-clamp-2 text-sm text-cream/75">{it.subtitle}</p>
+                  {on && it.subtitle ? (
+                    <p className="mt-1 line-clamp-2 text-xs text-cream/75">{it.subtitle}</p>
                   ) : null}
-                  <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-dawn-400 px-4 py-2 text-sm font-bold text-night-950">
-                    Commencer
-                    <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.4} aria-hidden>
-                      <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
                 </div>
+              </div>
+              {/* Bouton visible seulement sous l'affiche active */}
+              <div className={`mt-3 flex justify-center transition-opacity duration-300 ${on ? "opacity-100" : "opacity-0"}`}>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-dawn-400 px-5 py-2 text-sm font-bold text-night-950">
+                  Commencer
+                  <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.4} aria-hidden>
+                    <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
               </div>
             </Link>
           );
