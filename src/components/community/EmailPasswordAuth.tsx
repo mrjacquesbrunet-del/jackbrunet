@@ -1,7 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { signInEmailPassword, signUpEmailPassword } from "@/lib/community";
+import {
+  signInEmailPassword,
+  signUpEmailPassword,
+  sendPasswordReset,
+} from "@/lib/community";
 import { submitToBrevo } from "@/lib/brevo";
 import { newsletterEndpointForSource } from "@/config/brevo";
 
@@ -26,6 +30,25 @@ export function EmailPasswordAuth({
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [resetSent, setResetSent] = useState(false);
+
+  async function handleForgot() {
+    setError("");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError("Entre d'abord ton adresse e-mail, puis clique sur « Mot de passe oublié ».");
+      return;
+    }
+    setBusy(true);
+    try {
+      await sendPasswordReset(email);
+      setResetSent(true);
+    } catch {
+      // On reste volontairement discret (on ne révèle pas si l'e-mail existe).
+      setResetSent(true);
+    } finally {
+      setBusy(false);
+    }
+  }
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -106,6 +129,29 @@ export function EmailPasswordAuth({
         {busy? "…": mode === "signup"? "Créer mon compte": "Se connecter"}
       </button>
       {error? <p className="field-error text-center">{error}</p>: null}
+
+      {/* Mot de passe oublié — uniquement à la connexion */}
+      {mode === "signin"? (
+        resetSent? (
+          <p className={`text-center text-sm ${dark? "text-dawn-300": "text-spirit-700"}`}>
+            Si un compte existe avec cet e-mail, tu vas recevoir un lien pour
+            choisir un nouveau mot de passe. Pense à vérifier tes spams.
+          </p>
+        ): (
+          <div className="text-center">
+            <button
+              type="button"
+              onClick={handleForgot}
+              disabled={busy}
+              className={`text-sm underline underline-offset-2 ${
+                dark? "text-cream/70 hover:text-cream": "text-night-900/55 hover:text-night-900"
+              }`}
+            >
+              Mot de passe oublié ?
+            </button>
+          </div>
+        )
+      ): null}
 
       {/* Bascule connexion/inscription, rendue bien visible (bouton encadré) */}
       <div className="pt-1 text-center">

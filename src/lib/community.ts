@@ -168,6 +168,28 @@ export async function signInEmailPassword(email: string, password: string) {
   return data;
 }
 
+/** Mot de passe oublié : envoie un e-mail avec un lien de réinitialisation.
+ * Le lien ouvre la page /reinitialiser-mot-de-passe où l'utilisateur choisit
+ * un nouveau mot de passe. On redirige toujours vers le site public
+ * (authRedirectBase renvoie jackbrunet.com dans l'app native). */
+export async function sendPasswordReset(email: string) {
+  const sb = getSupabase();
+  if (!sb) throw new Error("non configuré");
+  const { error } = await sb.auth.resetPasswordForEmail(email, {
+    redirectTo: `${authRedirectBase()}/reinitialiser-mot-de-passe/`,
+  });
+  if (error) throw error;
+}
+
+/** Définit un nouveau mot de passe (une fois la session de récupération
+ * ouverte via le lien reçu par e-mail). */
+export async function updatePassword(newPassword: string) {
+  const sb = getSupabase();
+  if (!sb) throw new Error("non configuré");
+  const { error } = await sb.auth.updateUser({ password: newPassword });
+  if (error) throw error;
+}
+
 /** Suppression du compte (exigence App Store) via une fonction Supabase.
  * Renvoie le détail de l'erreur pour l'afficher (plutôt qu'un échec muet). */
 export async function deleteAccount(): Promise<{ ok: boolean; error?: string }> {
