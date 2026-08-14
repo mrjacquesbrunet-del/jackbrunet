@@ -5,6 +5,7 @@
 media:
   input: public/uploads
   output: /uploads
+  extensions: [jpg, jpeg, png, gif, svg, webp, avif, JPG, JPEG, PNG, GIF, WEBP, AVIF]
 
 content:
   - name: settings
