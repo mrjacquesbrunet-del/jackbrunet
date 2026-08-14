@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-/** Routes « lecture » où le carnet est à portée de main. */
-const READING_ROUTES = ["/bible", "/plans", "/bible-1-an", "/recherche"];
+/** Routes « lecture » où le carnet est à portée de main (pas sur les plans). */
+const READING_ROUTES = ["/bible", "/recherche"];
 /** Routes du carnet / favoris: on propose alors le retour à la Bible. */
 const CARNET_ROUTES = ["/carnet", "/favoris"];
 
