@@ -474,6 +474,15 @@ export function DevotionalView({
             <p className="mt-3 text-sm text-night-900/50">
               Touche la carte pour ouvrir directement le passage dans la Bible.
             </p>
+            <Link
+              href="/plans"
+              className="mt-4 inline-flex items-center gap-2 rounded-full bg-night-900 px-5 py-3 text-sm font-bold text-cream transition-colors hover:bg-night-800"
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+                <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Mon plan de lecture
+            </Link>
           </Reveal>
         </section>
       ): null}

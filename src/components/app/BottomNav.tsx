@@ -39,9 +39,10 @@ const TABS = [
   { href: "/devotionnel", label: "Jésus", icon: I.home, match: ["/devotionnel", "/"] },
   { href: "/communaute", label: "Prière", icon: I.pray, img: "/icons/priere.png", match: ["/communaute", "/membre"] },
   { href: "/ecouter", label: "Écouter", icon: I.headphones, match: ["/ecouter", "/videos"] },
-  { href: "/bible", label: "Bible", icon: I.bible, match: ["/bible", "/plans", "/bible-1-an", "/recherche", "/carnet", "/favoris"] },
+  { href: "/bible", label: "Bible", icon: I.bible, match: ["/bible", "/recherche", "/carnet", "/favoris"] },
   { href: "/profil", label: "Profil", icon: I.user, match: ["/profil"] },
   // Onglets 6+ : masqués par défaut, révélés en faisant glisser la barre.
+  { href: "/plans", label: "Plans", icon: I.list, match: ["/plans", "/bible-1-an"] },
   { href: "/groupes", label: "Groupes", icon: I.group, match: ["/groupes", "/groupe"] },
   { href: "/don", label: "Soutien", icon: I.heart, match: ["/don"] },
   { href: "/a-propos", label: "À propos", icon: I.info, match: ["/a-propos"] },
