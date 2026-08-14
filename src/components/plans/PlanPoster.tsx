@@ -2,14 +2,14 @@ import Link from "next/link";
 import { asset } from "@/lib/asset";
 import { AuthorChip } from "@/components/plans/AuthorChip";
 
-/** Dégradés de couverture (charte). En app, night/spirit deviennent gris via
- * les variables CSS ; l'accent lime reste. */
-const ACCENTS = [
-  "from-spirit-700 via-night-900 to-night-950",
-  "from-night-800 via-spirit-700 to-night-900",
-  "from-spirit-600 via-night-800 to-night-950",
-  "from-night-900 via-spirit-700 to-spirit-600",
-  "from-spirit-700 to-night-950",
+/** Position du halo lime sur la couverture (varie d'une affiche à l'autre pour
+ * donner du rythme au catalogue, même sans photo). */
+const GLOWS = [
+  "80% 15%",
+  "20% 20%",
+  "50% 0%",
+  "85% 80%",
+  "15% 85%",
 ];
 
 export type PlanPosterData = {
@@ -32,7 +32,7 @@ export function PlanPoster({
   data: PlanPosterData;
   accentIndex?: number;
 }) {
-  const accent = ACCENTS[accentIndex % ACCENTS.length];
+  const glow = GLOWS[accentIndex % GLOWS.length];
   return (
     <Link
       href={data.href}
@@ -48,8 +48,15 @@ export function PlanPoster({
             className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
         ) : (
-          <div className={`absolute inset-0 bg-gradient-to-br ${accent}`}>
-            <div className="bg-topo-dark absolute inset-0 opacity-[0.18]" />
+          <div className="absolute inset-0 bg-gradient-to-br from-night-800 to-night-950">
+            {/* Halo lime (position variable) pour un rendu premium sans photo */}
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: `radial-gradient(60% 55% at ${glow}, rgb(202 240 0 / 0.30), transparent 70%)`,
+              }}
+            />
+            <div className="bg-topo-dark absolute inset-0 opacity-[0.22]" />
           </div>
         )}
         {/* Voile pour la lisibilité du texte */}
