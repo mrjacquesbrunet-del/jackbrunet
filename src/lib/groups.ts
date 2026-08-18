@@ -254,7 +254,7 @@ export async function updateGroup(id: string, patch: Partial<Group>): Promise<bo
   return !error;
 }
 
-/** Supprime un groupe (réservé au créateur — la RLS l'impose côté serveur). */
+/** Supprime un groupe (créateur ou administrateur — la RLS l'impose côté serveur). */
 export async function deleteGroup(id: string): Promise<boolean> {
   const sb = getSupabase();
   if (!sb) return false;
