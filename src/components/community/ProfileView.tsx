@@ -79,7 +79,7 @@ export function ProfileView() {
         <ProfileSignIn />
         <p className="mx-auto mt-6 max-w-md text-center text-sm text-night-900/55">
           Tu peux aussi continuer à utiliser l'app sans compte ,{" "}
-          <Link href="/communaute" className="font-semibold text-spirit-600 hover:underline">
+          <Link href="/communaute" className="font-semibold text-dawn-300 hover:underline">
             découvrir la communauté
           </Link>
 .
@@ -704,7 +704,7 @@ function Profile({
             <button
               type="button"
               onClick={addVerse}
-              className="text-sm font-semibold text-spirit-600 hover:underline"
+              className="text-sm font-semibold text-dawn-300 hover:underline"
             >
               + Ajouter un verset
             </button>
@@ -773,11 +773,11 @@ function Profile({
           <button type="button" onClick={() => setEditing(false)} className="btn-ghost">
             Annuler
           </button>
-          {saved? <span className="text-sm text-spirit-600">✓ Enregistré</span>: null}
+          {saved? <span className="text-sm text-dawn-300">✓ Enregistré</span>: null}
         </div>
 
         <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-white/10 pt-4 text-sm">
-          <Link href={`/membre?u=${userId}`} className="font-semibold text-spirit-600 hover:underline">
+          <Link href={`/membre?u=${userId}`} className="font-semibold text-dawn-300 hover:underline">
             Voir mon profil public
           </Link>
           <button type="button" onClick={() => signOut()} className="text-cream/50 hover:underline">
@@ -817,7 +817,7 @@ function Profile({
               <path d="M5 4h11l3 3v13H5zM15 4v4h4" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </span>
-          <span className="font-display text-sm font-bold text-spirit-700">Mon carnet</span>
+          <span className="font-display text-sm font-bold text-cream">Mon carnet</span>
         </Link>
         <Link
           href="/plans"
@@ -828,7 +828,7 @@ function Profile({
               <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </span>
-          <span className="font-display text-sm font-bold text-spirit-700">Mes plans</span>
+          <span className="font-display text-sm font-bold text-cream">Mes plans</span>
         </Link>
       </div>
 
@@ -847,7 +847,7 @@ function Profile({
             {FIDELITY_REWARDS.filter((r) => eng.best >= r.days).map((r) => (
               <span
                 key={r.id}
-                className="inline-flex items-center gap-1.5 rounded-full border border-dawn-400/40 bg-dawn-400/10 px-3 py-1 text-sm font-semibold text-spirit-700"
+                className="inline-flex items-center gap-1.5 rounded-full border border-dawn-400/40 bg-dawn-400/10 px-3 py-1 text-sm font-semibold text-cream"
               >
                 <BadgeGlyph id={r.id} /> {r.days} jours
               </span>
@@ -888,15 +888,15 @@ function Profile({
         <h3 className="font-display text-lg font-bold">Mon activité</h3>
         <div className="mt-3 grid grid-cols-3 gap-3 text-center">
           <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-3">
-            <p className="font-display text-xl font-extrabold text-spirit-700">{activity.prayers}</p>
+            <p className="font-display text-xl font-extrabold text-cream">{activity.prayers}</p>
             <p className="text-xs text-cream/55">prières</p>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-3">
-            <p className="font-display text-xl font-extrabold text-spirit-700">{activity.prays}</p>
+            <p className="font-display text-xl font-extrabold text-cream">{activity.prays}</p>
             <p className="text-xs text-cream/55">je prie</p>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-3">
-            <p className="font-display text-xl font-extrabold text-spirit-700">{activity.comments}</p>
+            <p className="font-display text-xl font-extrabold text-cream">{activity.comments}</p>
             <p className="text-xs text-cream/55">encouragements</p>
           </div>
         </div>
@@ -917,9 +917,9 @@ function Profile({
                   <path d="M5 4h11l3 3v13H5zM15 4v4h4M8.5 12h7M8.5 15.5h5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </span>
-              <span className="text-cream/30 transition-transform group-hover:translate-x-0.5 group-hover:text-spirit-600">→</span>
+              <span className="text-cream/30 transition-transform group-hover:translate-x-0.5 group-hover:text-dawn-300">→</span>
             </div>
-            <p className="mt-4 font-display text-base font-extrabold text-spirit-700">Mon carnet</p>
+            <p className="mt-4 font-display text-base font-extrabold text-cream">Mon carnet</p>
             <p className="mt-0.5 text-sm text-cream/65">
               {notes.length} note{notes.length > 1? "s": ""} · prières & paroles reçues
             </p>
@@ -936,9 +936,9 @@ function Profile({
                   <path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </span>
-              <span className="text-cream/30 transition-transform group-hover:translate-x-0.5 group-hover:text-spirit-600">→</span>
+              <span className="text-cream/30 transition-transform group-hover:translate-x-0.5 group-hover:text-dawn-300">→</span>
             </div>
-            <p className="mt-4 font-display text-base font-extrabold text-spirit-700">Mes plans</p>
+            <p className="mt-4 font-display text-base font-extrabold text-cream">Mes plans</p>
             <p className="mt-0.5 text-sm text-cream/65">
               {activePlans > 0
 ? `${activePlans} plan${activePlans > 1? "s": ""} en cours`
@@ -989,7 +989,7 @@ function Profile({
         ): myPrayers.length === 0? (
           <p className="mt-3 text-cream/55">
             Ta liste est vide : ajoute ton premier sujet ci-dessus, ou{" "}
-            <Link href="/communaute" className="font-semibold text-spirit-600 hover:underline">
+            <Link href="/communaute" className="font-semibold text-dawn-300 hover:underline">
               partage-le sur le mur
             </Link>
             .
@@ -1045,7 +1045,7 @@ function Profile({
               >
                 <div className="flex items-center justify-between gap-3">
                   <p className="font-display font-bold">{p.title}</p>
-                  <span className="shrink-0 text-sm font-semibold text-spirit-700">{p.pct}%</span>
+                  <span className="shrink-0 text-sm font-semibold text-cream">{p.pct}%</span>
                 </div>
                 <div className="mt-2 h-2 overflow-hidden rounded-full bg-night-900/10">
                   <div
