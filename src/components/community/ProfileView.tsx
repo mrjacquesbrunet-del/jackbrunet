@@ -402,7 +402,8 @@ function Profile({
             </div>
           </div>
 
-          {profile?.bio? (
+          {profile?.bio &&
+          profile.bio.trim().toLowerCase()!== (profile?.pseudo?? "").trim().toLowerCase()? (
             <p className="mx-auto mt-4 max-w-md rounded-2xl bg-white/[0.07] px-4 py-3 text-sm leading-relaxed text-cream/85 backdrop-blur">
               {profile.bio}
             </p>
