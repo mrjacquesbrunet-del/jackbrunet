@@ -22,6 +22,8 @@ export type Profile = {
   life_phrase?: string | null;
   /** Bannière du profil (grande image plein écran, personnalisable). */
   banner_url?: string | null;
+  /** Couleur du nom affiché sur le profil (hex), choisie par le membre. */
+  name_color?: string | null;
 };
 export type Visibility = "public" | "friends" | "private";
 export type Prayer = {

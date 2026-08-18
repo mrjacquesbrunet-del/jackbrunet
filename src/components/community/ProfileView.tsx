@@ -114,6 +114,7 @@ function Profile({
     verified?: boolean | null;
     is_moderator?: boolean | null;
     banner_url?: string | null;
+    name_color?: string | null;
     church?: string | null;
     city?: string | null;
     country?: string | null;
@@ -134,6 +135,7 @@ function Profile({
   const [locPrivVal, setLocPrivVal] = useState<"public" | "prive">(profile?.location_privacy === "prive"? "prive": "public");
   const [phraseVal, setPhraseVal] = useState(profile?.life_phrase?? "");
   const [bannerVal, setBannerVal] = useState(profile?.banner_url?? "");
+  const [nameColorVal, setNameColorVal] = useState(profile?.name_color?? "");
   const [bannerBusy, setBannerBusy] = useState(false);
   const bannerRef = useRef<HTMLInputElement>(null);
   const [counts, setCounts] = useState({ followers: 0, following: 0 });
@@ -216,9 +218,10 @@ function Profile({
     setLocPrivVal(profile?.location_privacy === "prive"? "prive": "public");
     setPhraseVal(profile?.life_phrase?? "");
     setBannerVal(profile?.banner_url?? "");
+    setNameColorVal(profile?.name_color?? "");
   }, [profile?.pseudo, profile?.avatar_url, profile?.bio, profile?.favorite_verses,
       profile?.church, profile?.city, profile?.country, profile?.location_privacy,
-      profile?.life_phrase, profile?.banner_url]);
+      profile?.life_phrase, profile?.banner_url, profile?.name_color]);
 
   /** Téléverse la bannière (même bucket que les avatars). */
   async function onPickBanner(e: React.ChangeEvent<HTMLInputElement>) {
@@ -298,6 +301,7 @@ function Profile({
       location_privacy: locPrivVal,
       life_phrase: phraseVal.trim() || null,
       banner_url: bannerVal.trim() || null,
+      name_color: nameColorVal || null,
     });
     setVerses(cleanVerses);
     refreshProfile();
@@ -312,12 +316,21 @@ function Profile({
       <PlansDarkBg />
       {/* ---- Bloc total : la photo fond dans le flou sombre, le texte vient dessus ---- */}
       <div className="dark-ctx relative h-[calc(100svh-7.5rem-env(safe-area-inset-bottom))] min-h-[580px] w-full overflow-hidden bg-night-950">
+        {/* Fond : la même photo floutée remplit l'écran… */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={profile?.banner_url || profile?.avatar_url || asset("/img/profil-defaut.webp")}
           alt=""
           aria-hidden
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full scale-110 object-cover opacity-70 blur-2xl"
+        />
+        {/* …et la photo s'affiche ENTIÈRE par-dessus (pas de recadrage). */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={profile?.banner_url || profile?.avatar_url || asset("/img/profil-defaut.webp")}
+          alt=""
+          aria-hidden
+          className="absolute inset-0 h-full w-full object-contain"
         />
         {/* Flou progressif : la photo reste nette en haut et fond en bas */}
         <div
@@ -338,7 +351,10 @@ function Profile({
 
         {/* Contenu posé directement sur la photo (réf. Olivia Beits) */}
         <div className="absolute inset-x-0 bottom-0 px-5 pb-5 text-center">
-          <h2 className="font-display text-4xl font-extrabold leading-tight text-cream">
+          <h2
+            className="text-balance font-display text-3xl font-extrabold leading-tight text-cream sm:text-4xl"
+            style={profile?.name_color? { color: profile.name_color }: undefined}
+          >
             {profile?.pseudo?? "Ami(e)"}
             {profile?.verified || isAdminEmail(email)? (
               <VerifiedBadge className="ml-2 inline-block h-7 w-7 align-middle" />
@@ -588,6 +604,34 @@ function Profile({
             className="field mt-1 w-full"
           />
         </label>
+
+        <div className="mt-4">
+          <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+            Couleur de ton nom (sur ta photo)
+          </span>
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            {[
+              ["", "Crème (défaut)"],
+              ["#CAF000", "Lime"],
+              ["#FFD86B", "Or"],
+              ["#38BDF8", "Ciel"],
+              ["#FB7185", "Rose"],
+              ["#171716", "Noir"],
+            ].map(([c, label]) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => setNameColorVal(c)}
+                aria-label={label}
+                title={label}
+                className={`h-9 w-9 rounded-full border-2 ${
+                  nameColorVal === c? "border-night-900": "border-night-900/15"
+                }`}
+                style={{ background: c || "#F3F3ED" }}
+              />
+            ))}
+          </div>
+        </div>
 
         <label className="mt-4 block">
           <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
