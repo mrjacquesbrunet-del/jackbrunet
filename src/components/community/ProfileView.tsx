@@ -500,10 +500,10 @@ function Profile({
       </div>
 
       {editing? (
-        <div className="glass-strong mt-4 p-6 sm:p-8">
+        <div className="dark-ctx glass-strong mt-4 p-6 text-cream sm:p-8">
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="block">
-            <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+            <span className="text-xs font-semibold uppercase tracking-wide text-cream/50">
               Pseudo
             </span>
             <input
@@ -518,7 +518,7 @@ function Profile({
             {pseudoError? <p className="field-error mt-1">{pseudoError}</p>: null}
           </label>
           <div className="block">
-            <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+            <span className="text-xs font-semibold uppercase tracking-wide text-cream/50">
               Photo de profil
             </span>
             <div className="mt-1 flex items-center gap-3">
@@ -545,12 +545,12 @@ function Profile({
 
         {/* Bannière du profil (grande image plein écran) */}
         <div className="mt-4">
-          <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+          <span className="text-xs font-semibold uppercase tracking-wide text-cream/50">
             Bannière du profil
           </span>
           <div className="mt-2 flex items-center gap-3">
             <div
-              className="h-16 w-28 shrink-0 overflow-hidden rounded-xl border border-night-900/10 bg-night-900/5 bg-cover bg-center"
+              className="h-16 w-28 shrink-0 overflow-hidden rounded-xl border border-white/10 bg-white/10 bg-cover bg-center"
               style={{ backgroundImage: `url(${bannerVal || asset("/img/profil-defaut.webp")})` }}
             />
             <input
@@ -572,7 +572,7 @@ function Profile({
               <button
                 type="button"
                 onClick={() => setBannerVal("")}
-                className="text-sm text-night-900/45 hover:text-night-900/70"
+                className="text-sm text-cream/45 hover:text-cream/80"
               >
                 Retirer
               </button>
@@ -582,7 +582,7 @@ function Profile({
         </div>
 
         <label className="mt-4 block">
-          <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+          <span className="text-xs font-semibold uppercase tracking-wide text-cream/50">
             Bio
           </span>
           <textarea
@@ -595,7 +595,7 @@ function Profile({
         </label>
 
         <label className="mt-4 block">
-          <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+          <span className="text-xs font-semibold uppercase tracking-wide text-cream/50">
             Ta phrase (facultatif)
           </span>
           <input
@@ -607,7 +607,7 @@ function Profile({
         </label>
 
         <div className="mt-4">
-          <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+          <span className="text-xs font-semibold uppercase tracking-wide text-cream/50">
             Couleur de ton nom (sur ta photo)
           </span>
           <div className="mt-2 flex flex-wrap items-center gap-2">
@@ -626,7 +626,7 @@ function Profile({
                 aria-label={label}
                 title={label}
                 className={`h-9 w-9 rounded-full border-2 ${
-                  nameColorVal === c? "border-night-900": "border-night-900/15"
+                  nameColorVal === c? "border-dawn-400": "border-white/20"
                 }`}
                 style={{ background: c || "#F3F3ED" }}
               />
@@ -635,7 +635,7 @@ function Profile({
         </div>
 
         <label className="mt-4 block">
-          <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+          <span className="text-xs font-semibold uppercase tracking-wide text-cream/50">
             Ton église (facultatif)
           </span>
           <input
@@ -648,7 +648,7 @@ function Profile({
 
         <div className="mt-4 grid grid-cols-2 gap-2">
           <label className="block">
-            <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+            <span className="text-xs font-semibold uppercase tracking-wide text-cream/50">
               Ville (facultatif)
             </span>
             <input
@@ -659,7 +659,7 @@ function Profile({
             />
           </label>
           <label className="block">
-            <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+            <span className="text-xs font-semibold uppercase tracking-wide text-cream/50">
               Pays (facultatif)
             </span>
             <input
@@ -672,7 +672,7 @@ function Profile({
         </div>
 
         <div className="mt-3">
-          <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+          <span className="text-xs font-semibold uppercase tracking-wide text-cream/50">
             Qui peut voir ta ville / ton pays ?
           </span>
           <div className="mt-2 flex gap-2">
@@ -686,8 +686,8 @@ function Profile({
                 onClick={() => setLocPrivVal(k)}
                 className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
                   locPrivVal === k
-                    ? "bg-night-900 text-cream"
-                    : "border border-night-900/15 bg-night-900/[0.03] text-night-900/70"
+                    ? "bg-cream text-night-950"
+                    : "border border-white/15 bg-white/5 text-cream/70"
                 }`}
               >
                 {label}
@@ -698,7 +698,7 @@ function Profile({
 
         <div className="mt-5">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+            <span className="text-xs font-semibold uppercase tracking-wide text-cream/50">
               Mes versets préférés
             </span>
             <button
@@ -711,12 +711,12 @@ function Profile({
           </div>
           <div className="mt-2 space-y-3">
             {verses.length === 0? (
-              <p className="text-sm text-night-900/45">
+              <p className="text-sm text-cream/45">
                 Ajoute les versets qui te portent, ils s'afficheront sur ton profil.
               </p>
             ): (
               verses.map((v, i) => (
-                <div key={i} className="rounded-2xl border border-night-900/10 p-3">
+                <div key={i} className="rounded-2xl border border-white/10 p-3">
                   <textarea
                     value={v.text}
                     onChange={(e) => updateVerse(i, { text: e.target.value })}
@@ -734,7 +734,7 @@ function Profile({
                     <button
                       type="button"
                       onClick={() => removeVerse(i)}
-                      className="shrink-0 text-sm text-night-900/40 hover:text-night-900/70"
+                      className="shrink-0 text-sm text-cream/40 hover:text-cream/80"
                     >
                       Retirer
                     </button>
@@ -747,7 +747,7 @@ function Profile({
 
         {/* Couleur d'accent du profil (bannière) */}
         <div className="mt-5">
-          <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+          <span className="text-xs font-semibold uppercase tracking-wide text-cream/50">
             Couleur du profil
           </span>
           <div className="mt-2 flex flex-wrap gap-2">
@@ -776,11 +776,11 @@ function Profile({
           {saved? <span className="text-sm text-spirit-600">✓ Enregistré</span>: null}
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-night-900/10 pt-4 text-sm">
+        <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-white/10 pt-4 text-sm">
           <Link href={`/membre?u=${userId}`} className="font-semibold text-spirit-600 hover:underline">
             Voir mon profil public
           </Link>
-          <button type="button" onClick={() => signOut()} className="text-night-900/50 hover:underline">
+          <button type="button" onClick={() => signOut()} className="text-cream/50 hover:underline">
             Déconnexion
           </button>
           <button
@@ -840,7 +840,7 @@ function Profile({
       {/* Badges débloqués */}
       {eng.ready && eng.best >= FIDELITY_REWARDS[0].days? (
         <div className="mt-4">
-          <p className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+          <p className="text-xs font-semibold uppercase tracking-wide text-cream/50">
             Badges débloqués
           </p>
           <div className="mt-2 flex flex-wrap gap-2">
@@ -859,7 +859,7 @@ function Profile({
       {/* Trouver des profils à suivre */}
       <div id="trouver-profils" className="mt-6 scroll-mt-20">
         <h3 className="font-display text-lg font-bold">Trouver des profils</h3>
-        <p className="mt-1 text-sm text-night-900/60">
+        <p className="mt-1 text-sm text-cream/65">
           Cherche un membre par pseudo et abonne-toi, comme sur un réseau social.
         </p>
         <div className="mt-3">
@@ -868,7 +868,7 @@ function Profile({
 
         {/* Suggestions de contacts (intercesseurs) à suivre */}
         <div className="mt-5">
-          <p className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+          <p className="text-xs font-semibold uppercase tracking-wide text-cream/50">
             Suggestions pour toi
           </p>
           <div className="mt-3">
@@ -887,17 +887,17 @@ function Profile({
       <div className="mt-6">
         <h3 className="font-display text-lg font-bold">Mon activité</h3>
         <div className="mt-3 grid grid-cols-3 gap-3 text-center">
-          <div className="rounded-2xl border border-night-900/10 bg-white p-3">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-3">
             <p className="font-display text-xl font-extrabold text-spirit-700">{activity.prayers}</p>
-            <p className="text-xs text-night-900/55">prières</p>
+            <p className="text-xs text-cream/55">prières</p>
           </div>
-          <div className="rounded-2xl border border-night-900/10 bg-white p-3">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-3">
             <p className="font-display text-xl font-extrabold text-spirit-700">{activity.prays}</p>
-            <p className="text-xs text-night-900/55">je prie</p>
+            <p className="text-xs text-cream/55">je prie</p>
           </div>
-          <div className="rounded-2xl border border-night-900/10 bg-white p-3">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-3">
             <p className="font-display text-xl font-extrabold text-spirit-700">{activity.comments}</p>
-            <p className="text-xs text-night-900/55">encouragements</p>
+            <p className="text-xs text-cream/55">encouragements</p>
           </div>
         </div>
       </div>
@@ -917,10 +917,10 @@ function Profile({
                   <path d="M5 4h11l3 3v13H5zM15 4v4h4M8.5 12h7M8.5 15.5h5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </span>
-              <span className="text-night-900/30 transition-transform group-hover:translate-x-0.5 group-hover:text-spirit-600">→</span>
+              <span className="text-cream/30 transition-transform group-hover:translate-x-0.5 group-hover:text-spirit-600">→</span>
             </div>
             <p className="mt-4 font-display text-base font-extrabold text-spirit-700">Mon carnet</p>
-            <p className="mt-0.5 text-sm text-night-900/60">
+            <p className="mt-0.5 text-sm text-cream/65">
               {notes.length} note{notes.length > 1? "s": ""} · prières & paroles reçues
             </p>
           </Link>
@@ -936,10 +936,10 @@ function Profile({
                   <path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </span>
-              <span className="text-night-900/30 transition-transform group-hover:translate-x-0.5 group-hover:text-spirit-600">→</span>
+              <span className="text-cream/30 transition-transform group-hover:translate-x-0.5 group-hover:text-spirit-600">→</span>
             </div>
             <p className="mt-4 font-display text-base font-extrabold text-spirit-700">Mes plans</p>
-            <p className="mt-0.5 text-sm text-night-900/60">
+            <p className="mt-0.5 text-sm text-cream/65">
               {activePlans > 0
 ? `${activePlans} plan${activePlans > 1? "s": ""} en cours`
 : "Démarrer un plan"}
@@ -970,7 +970,7 @@ function Profile({
             </p>
           </Link>
         </div>
-        <p className="mt-3 text-xs text-night-900/45">
+        <p className="mt-3 text-xs text-cream/45">
           ✓ Carnet, versets et plans sont synchronisés sur ton compte: tu les retrouves
           sur tous tes appareils dès que tu te connectes.
         </p>
@@ -979,15 +979,15 @@ function Profile({
       {/* Ma liste de prière (mes sujets, privés ou partagés) */}
       <div className="mt-8">
         <h3 className="font-display text-lg font-bold">Ma liste de prière</h3>
-        <p className="mt-1 text-sm text-night-900/55">
+        <p className="mt-1 text-sm text-cream/55">
           Les sujets que tu portes devant Dieu. Coche-les quand Il agit : ils passent en
           « Exaucé ».
         </p>
         <PrayerListQuickAdd userId={userId} onAdded={load} />
         {loading? (
-          <p className="mt-3 text-night-900/50">Chargement…</p>
+          <p className="mt-3 text-cream/50">Chargement…</p>
         ): myPrayers.length === 0? (
-          <p className="mt-3 text-night-900/55">
+          <p className="mt-3 text-cream/55">
             Ta liste est vide : ajoute ton premier sujet ci-dessus, ou{" "}
             <Link href="/communaute" className="font-semibold text-spirit-600 hover:underline">
               partage-le sur le mur
@@ -997,12 +997,12 @@ function Profile({
         ): (
           <ul className="mt-3 space-y-3">
             {myPrayers.map((p) => (
-              <li key={p.id} className="rounded-2xl border border-night-900/10 bg-white p-4">
-                <p className="whitespace-pre-wrap text-[15px] leading-relaxed text-night-900/85">
+              <li key={p.id} className="rounded-2xl border border-white/10 bg-white/[0.05] p-4">
+                <p className="whitespace-pre-wrap text-[15px] leading-relaxed text-cream/85">
                   {p.body}
                 </p>
                 <div className="mt-2 flex items-center justify-between gap-3">
-                  <p className="text-xs text-night-900/45">
+                  <p className="text-xs text-cream/45">
                     {new Date(p.created_at).toLocaleDateString("fr-FR")} ·{" "}
                     {p.visibility === "public"
 ? "Public"
@@ -1020,7 +1020,7 @@ function Profile({
                     className={`shrink-0 rounded-full px-3 py-1 text-xs font-bold transition-colors ${
                       p.answered
 ? "bg-dawn-400/20 text-dawn-700"
-: "border border-night-900/15 text-night-900/60 hover:border-dawn-500 hover:text-dawn-700"
+: "border border-white/15 text-cream/65 hover:border-dawn-500 hover:text-dawn-700"
                     }`}
                   >
                     {p.answered? "✓ Exaucé": "Exaucé ?"}
@@ -1041,7 +1041,7 @@ function Profile({
               <Link
                 key={p.slug}
                 href={p.slug === YEAR_PLAN_SLUG? "/bible-1-an": `/plans/${p.slug}`}
-                className="block rounded-2xl border border-night-900/10 bg-white p-4 transition-shadow hover:shadow-lg"
+                className="block rounded-2xl border border-white/10 bg-white/[0.05] p-4 transition-shadow hover:shadow-lg"
               >
                 <div className="flex items-center justify-between gap-3">
                   <p className="font-display font-bold">{p.title}</p>
@@ -1053,7 +1053,7 @@ function Profile({
                     style={{ width: `${p.pct}%` }}
                   />
                 </div>
-                <p className="mt-1.5 text-xs text-night-900/55">
+                <p className="mt-1.5 text-xs text-cream/55">
                   {p.done} / {p.total} jours
                 </p>
               </Link>
@@ -1099,7 +1099,7 @@ function Profile({
         <button
           type="button"
           onClick={() => signOut()}
-          className="text-sm font-semibold text-night-900/50 hover:underline"
+          className="text-sm font-semibold text-cream/50 hover:underline"
         >
           Déconnexion
         </button>
