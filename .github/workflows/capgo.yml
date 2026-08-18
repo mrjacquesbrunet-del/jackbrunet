@@ -10,6 +10,13 @@ on:
         description: "Canal Capgo (ex. production)"
         required: false
         default: "production"
+  # Déclenchement « par commit »: toucher le fichier .ota-release (à la racine)
+  # lance l'envoi OTA. Pratique pour déclencher sans passer par l'onglet Actions.
+  push:
+    branches:
+      - claude/great-hamilton-ieokug
+    paths:
+      - ".ota-release"
 
 permissions:
   contents: read
@@ -59,5 +66,5 @@ jobs:
         run: |
           npx @capgo/cli@latest bundle upload com.jackbrunet.app \
             --apikey "$CAPGO_TOKEN" \
-            --channel "${{ github.event.inputs.channel }}" \
+            --channel "${{ github.event.inputs.channel || 'production' }}" \
             --bundle "2.99.${{ github.run_number }}"
