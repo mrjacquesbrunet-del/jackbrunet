@@ -160,8 +160,8 @@ export function MemberView() {
         <div
           className="absolute inset-0 backdrop-blur-2xl"
           style={{
-            WebkitMaskImage: "linear-gradient(to bottom, transparent 42%, black 66%)",
-            maskImage: "linear-gradient(to bottom, transparent 42%, black 66%)",
+            WebkitMaskImage: "linear-gradient(to bottom, transparent 48%, black 72%)",
+            maskImage: "linear-gradient(to bottom, transparent 48%, black 72%)",
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-night-950/25 via-transparent to-night-950" />
