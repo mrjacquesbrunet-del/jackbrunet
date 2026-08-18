@@ -89,7 +89,7 @@ export async function buildVerseImage(opts: {
   ctx.fillStyle = "rgba(243,243,237,0.6)";
   ctx.font = '400 30px Arial, sans-serif';
   ctx.textAlign = "right";
-  ctx.fillText("jackbrunet.com", W - 100, H - 110);
+  ctx.fillText("jackbrunet.com/app", W - 100, H - 110);
   ctx.textAlign = "left";
 
   return new Promise((resolve) => canvas.toBlob((b) => resolve(b), "image/png"));

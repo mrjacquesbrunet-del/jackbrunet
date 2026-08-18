@@ -144,8 +144,8 @@ function Profile({
       };
       if (nav.share) {
         await nav.share({
-          title: "Mon profil, Jack Brunet",
-          text: "Rejoins-moi sur l'application Jack Brunet: Foi & Prière",
+          title: "Mon profil RHEMA",
+          text: "Rejoins-moi sur l'application RHEMA – Bible & Prière",
           url,
         });
       } else {

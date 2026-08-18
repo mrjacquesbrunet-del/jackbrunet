@@ -50,6 +50,7 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     title: `${siteConfig.name}, ${siteConfig.tagline}`,
     description: siteConfig.description,
+    images: [{ url: "/img/og-app.png", width: 1200, height: 630, alt: "RHEMA – Ton temps avec Jésus" }],
   },
   // Prépare l'usage « installable » (PWA / future app)
   appleWebApp: {

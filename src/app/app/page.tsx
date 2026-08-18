@@ -3,10 +3,23 @@ import Link from "next/link";
 import { StoreBadges } from "@/components/app/StoreBadges";
 import { siteConfig } from "@/config/site";
 
+const APP_DESCRIPTION =
+  "Télécharge RHEMA – Bible & Prière : ton temps avec Jésus chaque jour. Méditation du jour, Bible, plans de lecture, mur de prière et musique d'adoration. Gratuite sur iPhone et Android.";
+
 export const metadata: Metadata = {
-  title: "L'application",
-  description:
-    "Télécharge l'application Jack Brunet : Foi & Prière — dévotionnel quotidien, Bible, plans de lecture, musique d'adoration et communauté de prière. Gratuite sur iPhone et Android.",
+  title: "RHEMA – Bible & Prière",
+  description: APP_DESCRIPTION,
+  openGraph: {
+    title: "RHEMA – Bible & Prière",
+    description: APP_DESCRIPTION,
+    images: [{ url: "/img/og-app.png", width: 1200, height: 630, alt: "RHEMA – Ton temps avec Jésus" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "RHEMA – Bible & Prière",
+    description: APP_DESCRIPTION,
+    images: ["/img/og-app.png"],
+  },
 };
 
 const FEATURES = [

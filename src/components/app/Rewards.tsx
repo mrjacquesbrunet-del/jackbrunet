@@ -69,7 +69,7 @@ export function Rewards() {
   }, [eng.ready, eng.best, shared]);
 
   async function onShare() {
-    const ok = await shareApp(siteConfig.url);
+    const ok = await shareApp(`${siteConfig.url}/app`);
     if (ok) {
       setShared(true);
       setCopied(true);

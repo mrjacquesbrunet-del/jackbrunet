@@ -5,7 +5,7 @@ import { siteConfig } from "@/config/site";
 export const metadata: Metadata = {
   title: "Supprimer mon compte",
   description:
-    "Comment supprimer votre compte de l'application Jack Brunet : Foi & Prière et les données associées.",
+    "Comment supprimer votre compte de l'application RHEMA – Bible & Prière et les données associées.",
 };
 
 export default function SuppressionComptePage() {
@@ -18,7 +18,7 @@ export default function SuppressionComptePage() {
             Supprimer mon <span className="text-gradient">compte</span>
           </>
         }
-        description="Application « Jack Brunet : Foi & Prière », procédure de suppression de compte et de données."
+        description="Application « RHEMA – Bible & Prière », procédure de suppression de compte et de données."
       />
 
       <section className="container-x py-12">

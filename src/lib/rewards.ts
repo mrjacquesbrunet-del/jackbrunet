@@ -99,13 +99,13 @@ export function markShared() {
 
 /** Partage l'application (partage natif si dispo, sinon copie le lien). */
 export async function shareApp(url: string): Promise<boolean> {
-  const text = "Découvre l'application Jack Brunet: Foi & Prière";
+  const text = "Découvre l'application RHEMA – Bible & Prière";
   try {
     const nav = navigator as Navigator & {
       share?: (data: { title?: string; text?: string; url?: string }) => Promise<void>;
     };
     if (typeof nav.share === "function") {
-      await nav.share({ title: "Jack Brunet: Foi & Prière", text, url });
+      await nav.share({ title: "RHEMA – Bible & Prière", text, url });
       markShared();
       return true;
     }

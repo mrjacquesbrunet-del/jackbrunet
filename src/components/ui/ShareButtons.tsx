@@ -5,7 +5,8 @@ import { shareText, shareImageBlob, saveImageBlob } from "@/lib/share";
 import { buildVerseImage } from "@/lib/verse-image";
 import { openWhatsApp } from "@/lib/external";
 
-const SITE_URL = "https://jackbrunet.com";
+/** Par défaut, tout partage renvoie vers la page de l'application. */
+const SITE_URL = "https://jackbrunet.com/app";
 
 /**
  * Boutons de partage réutilisables.
@@ -39,7 +40,7 @@ export function ShareButtons({
     }
   }
 
-  const fileName = image?.filename?? "jackbrunet-verset.png";
+  const fileName = image?.filename?? "rhema-verset.png";
   async function shareImage() {
     if (!image) return;
     setBusy(true);
