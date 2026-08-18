@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { useAuth } from "@/components/community/useAuth";
+import { asset } from "@/lib/asset";
 import { Avatar } from "@/components/community/Avatar";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { ModeratorBadge } from "@/components/community/ModeratorBadge";
@@ -160,9 +161,14 @@ export function MemberView() {
                 className="absolute inset-0 h-full w-full object-cover"
               />
             ): (
-              <div className="absolute inset-0 grid place-items-center bg-night-800">
-                <Avatar pseudo={profile.pseudo} url={null} size={120} />
-              </div>
+              // Image de référence de la charte (croix) quand pas de photo.
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={asset("/img/profil-defaut.webp")}
+                alt=""
+                aria-hidden
+                className="absolute inset-0 h-full w-full object-cover"
+              />
             )}
             <div className="absolute inset-0 bg-gradient-to-t from-night-950 via-night-950/25 to-transparent" />
             {g? (
