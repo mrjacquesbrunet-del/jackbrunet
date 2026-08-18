@@ -338,7 +338,18 @@ html.plans-dark body {
   border-color: rgb(255 255 255 / 0.12) !important;
 }
 .profile-dark .bg-white {
-  background-color: rgb(255 255 255 / 0.05) !important;
+  /* Fond OPAQUE : indispensable pour les panneaux flottants (notifications). */
+  background-color: rgb(var(--n-800)) !important;
+}
+.profile-dark .field,
+.profile-dark .field-area {
+  border-color: rgb(255 255 255 / 0.15) !important;
+  background-color: rgb(var(--n-900) / 0.85) !important;
+  color: #f3f3ed !important;
+}
+.profile-dark .field::placeholder,
+.profile-dark .field-area::placeholder {
+  color: rgb(243 243 237 / 0.45) !important;
 }
 .profile-dark [class*="bg-night-900/"] {
   background-color: rgb(255 255 255 / 0.08) !important;

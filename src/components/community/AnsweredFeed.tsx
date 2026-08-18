@@ -40,7 +40,7 @@ export function AnsweredFeed() {
             {prayers.map((p) => (
               <li
                 key={p.id}
-                className="overflow-hidden rounded-3xl border border-dawn-400/50 bg-gradient-to-br from-dawn-50 to-white shadow-glow"
+                className="overflow-hidden rounded-3xl border border-dawn-400/40 bg-night-900 text-cream shadow-glow"
               >
                 <div className="flex items-center gap-2 bg-gradient-to-r from-dawn-400 to-dawn-300 px-5 py-2 text-sm font-extrabold text-night-950">
                   <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden>
@@ -56,14 +56,14 @@ export function AnsweredFeed() {
                     <div className="min-w-0 flex-1">
                       <Link
                         href={`/membre?u=${p.author_id}`}
-                        className="font-display font-bold leading-tight hover:underline"
+                        className="font-display font-bold leading-tight text-cream hover:underline"
                       >
                         {p.author?.pseudo?? "Ami(e)"}
                       </Link>
-                      <p className="text-xs text-night-900/50">{when(p.created_at)}</p>
+                      <p className="text-xs text-cream/50">{when(p.created_at)}</p>
                     </div>
                   </div>
-                  <p className="mt-4 whitespace-pre-line text-[15px] leading-relaxed text-night-900/85">
+                  <p className="mt-4 whitespace-pre-line text-[15px] leading-relaxed text-cream/85">
                     {p.body}
                   </p>
                 </div>
