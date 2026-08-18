@@ -7,23 +7,24 @@
     --font-sans: "Archivo", system-ui, sans-serif;
     --font-display: "Fraunces", Georgia, serif;
 
-    /* Palette « sombre » par défaut = OLIVE (site jackbrunet.com).
-       Valeurs en « R G B » pour l'opacité Tailwind (bg-night-900/60). */
-    --n-950: 20 22 14;   /* #14160E */
-    --n-900: 31 34 22;   /* #1F2216 — encre */
-    --n-800: 39 43 27;   /* #272B1B */
-    --n-700: 58 63 40;   /* #3A3F28 — olive */
-    --n-600: 75 81 51;   /* #4B5133 */
-    --s-300: 174 185 140; /* #AEB98C */
-    --s-400: 138 151 96;  /* #8A9760 */
-    --s-500: 94 106 58;   /* #5E6A3A */
-    --s-600: 58 63 40;    /* #3A3F28 */
-    --s-700: 42 46 28;    /* #2A2E1C */
-    --topo-dark: 35 39 26; /* #23271A */
+    /* Palette « sombre » par défaut = GRIS-NOIR neutre (site ET app),
+       gamme ancrée sur #30302F. Valeurs en « R G B » pour l'opacité
+       Tailwind (bg-night-900/60). */
+    --n-950: 12 12 11;   /* #0C0C0B */
+    --n-900: 23 23 22;   /* #171716 — encre */
+    --n-800: 30 30 29;   /* #1E1E1D */
+    --n-700: 48 48 47;   /* #30302F — référence charte */
+    --n-600: 58 58 57;   /* #3A3A39 */
+    --s-300: 154 154 151; /* #9A9A97 */
+    --s-400: 108 108 106; /* #6C6C6A */
+    --s-500: 76 76 74;    /* #4C4C4A */
+    --s-600: 48 48 47;    /* #30302F */
+    --s-700: 34 34 33;    /* #222221 */
+    --topo-dark: 30 30 29; /* #1E1E1D */
   }
 
-  /* Palette de l'APPLICATION native uniquement : gris-noir, gamme sombre
-     ancrée sur #30302F (le site n'est jamais affecté). */
+  /* L'application native partage désormais la même palette (conservé pour
+     d'éventuels réglages spécifiques app). */
   html[data-native] {
     --n-950: 12 12 11;   /* #0C0C0B */
     --n-900: 23 23 22;   /* #171716 — encre */
@@ -51,7 +52,7 @@
     background-color: #f3f3ed;
   }
   html[data-native] {
-    background-color: #17181a;
+    background-color: #171716;
   }
 
   /* App stable : pas de décalage horizontal au swipe, pas de zoom texte iOS. */
@@ -62,7 +63,7 @@
     -webkit-text-size-adjust: 100%;
   }
 
-  /* Thème clair dominant : crème + texte sombre olive */
+  /* Thème clair dominant : crème + texte gris-noir */
   body {
     @apply bg-cream text-night-900 antialiased;
     background-image:
@@ -217,8 +218,8 @@
   }
   /* Fond clair + texture topographique (bande claire décalée) */
   .bg-topo-light {
-    background-color: #E9EADF;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700' viewBox='0 0 700 700'%3E%3Cg fill='none' stroke='%233A3F28' stroke-opacity='0.07' stroke-width='1.2'%3E%3Cpath d='M-50 130 C 160 40 320 250 520 140 S 820 70 900 190'/%3E%3Cpath d='M-50 230 C 160 140 320 350 520 240 S 820 170 900 290'/%3E%3Cpath d='M-50 330 C 160 240 320 450 520 340 S 820 270 900 390'/%3E%3Cpath d='M-50 430 C 160 340 320 550 520 440 S 820 370 900 490'/%3E%3Cpath d='M-50 530 C 160 440 320 650 520 540 S 820 470 900 590'/%3E%3Cpath d='M-50 630 C 160 540 320 750 520 640 S 820 570 900 690'/%3E%3C/g%3E%3C/svg%3E");
+    background-color: #EAEAE4;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700' viewBox='0 0 700 700'%3E%3Cg fill='none' stroke='%23303030' stroke-opacity='0.07' stroke-width='1.2'%3E%3Cpath d='M-50 130 C 160 40 320 250 520 140 S 820 70 900 190'/%3E%3Cpath d='M-50 230 C 160 140 320 350 520 240 S 820 170 900 290'/%3E%3Cpath d='M-50 330 C 160 240 320 450 520 340 S 820 270 900 390'/%3E%3Cpath d='M-50 430 C 160 340 320 550 520 440 S 820 370 900 490'/%3E%3Cpath d='M-50 530 C 160 440 320 650 520 540 S 820 470 900 590'/%3E%3Cpath d='M-50 630 C 160 540 320 750 520 640 S 820 570 900 690'/%3E%3C/g%3E%3C/svg%3E");
     background-size: 700px 700px;
   }
   /* Fond sombre + texture topographique (bandes sombres) */

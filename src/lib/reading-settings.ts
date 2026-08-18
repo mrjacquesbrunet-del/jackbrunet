@@ -26,7 +26,7 @@ export const THEME_STYLE: Record<
 > = {
   clair: { bg: "transparent", text: "rgb(var(--n-900))", num: "rgb(var(--s-500))", swatch: "#F3F3ED" },
   olive: { bg: "#E7E4D2", text: "rgb(var(--s-700))", num: "rgb(var(--s-500))", swatch: "#E7E4D2" },
-  sombre: { bg: "#1B1F14", text: "#F3F3ED", num: "#CAF000", swatch: "#23271A" },
+  sombre: { bg: "#171716", text: "#F3F3ED", num: "#CAF000", swatch: "#1E1E1D" },
 };
 export const THEME_LABEL: Record<ReadingTheme, string> = {
   clair: "Clair",

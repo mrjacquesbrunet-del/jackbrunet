@@ -2,7 +2,7 @@
 
 /**
  * Génère une belle image partageable (1080×1350, format story/portrait) pour
- * un verset ou une déclaration, dans la charte de l'app (olive + lime, serif).
+ * un verset ou une déclaration, dans la charte de l'app (gris-noir + lime, serif).
  * Utilisée pour « Partager en image » et « Enregistrer l'image ».
  */
 export async function buildVerseImage(opts: {
@@ -19,8 +19,15 @@ export async function buildVerseImage(opts: {
   const ctx = canvas.getContext("2d");
   if (!ctx) return null;
 
-  // Fond olive
-  ctx.fillStyle = "#2b3020";
+  // Fond gris-noir de la charte (un canvas ne résout pas les variables CSS:
+  // on lit les valeurs calculées du thème, avec repli neutre).
+  const css = getComputedStyle(document.documentElement);
+  const n950 = css.getPropertyValue("--n-950").trim() || "12 12 11";
+  const n900 = css.getPropertyValue("--n-900").trim() || "23 23 22";
+  const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
+  bgGrad.addColorStop(0, `rgb(${n950})`);
+  bgGrad.addColorStop(1, `rgb(${n900})`);
+  ctx.fillStyle = bgGrad;
   ctx.fillRect(0, 0, W, H);
   // Halo lime discret
   const grad = ctx.createRadialGradient(W * 0.85, H * 0.12, 0, W * 0.85, H * 0.12, 720);

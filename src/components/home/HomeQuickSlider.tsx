@@ -28,7 +28,7 @@ const SLIDES = [
     eyebrow: "Découvrir",
     title: "À propos",
     text: "La vision, la mission, le pasteur.",
-    gradient: "linear-gradient(135deg, rgb(var(--n-900)), #3B0764 90%)",
+    gradient: "linear-gradient(135deg, rgb(var(--n-900)), rgb(var(--n-700)) 90%)",
     accent: "#D8F53A",
     iconBg: "rgba(243,243,237,0.15)",
     iconColor: "#F3F3ED",

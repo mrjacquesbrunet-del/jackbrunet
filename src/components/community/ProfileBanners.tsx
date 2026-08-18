@@ -13,15 +13,15 @@ const BANNERS = [
     title: "Mission Madagascar",
     text: "10 jours d'évangélisation. Rejoins la prière ou le soutien.",
     from: "rgb(var(--n-900))",
-    to: "#C9761F",
+    to: "rgb(var(--s-500))",
   },
   {
     href: "/exclusivites",
     eyebrow: "Offert",
     title: "Tes exclusivités",
     text: "Ebooks, soaking & bonus à débloquer",
-    from: "#3B0764",
-    to: "#6D28D9",
+    from: "rgb(var(--n-950))",
+    to: "rgb(var(--n-700))",
   },
   {
     href: "/boutique",

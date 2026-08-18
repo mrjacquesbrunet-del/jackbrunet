@@ -15,7 +15,6 @@ import type {
   Product,
   ReadingPlanDay,
   Short,
-  AgendaEvent,
   SupportTier,
   Testimony,
   ThemePlan,
@@ -38,7 +37,6 @@ import aboutData from "../../content/about.json";
 import missionData from "../../content/mission.json";
 import devotionsData from "../../content/devotions.json";
 import plansData from "../../content/plans.json";
-import eventsData from "../../content/events.json";
 
 /** Sélection déterministe basée sur le jour de l'année (rotation quotidienne). */
 function dayOfYear(date = new Date()): number {
@@ -302,6 +300,3 @@ export function getThemePlan(slug: string): ThemePlan | undefined {
   return (plansData.items as ThemePlan[]).find((p) => p.slug === slug);
 }
 
-export function getEvents(): AgendaEvent[] {
-  return eventsData.items as AgendaEvent[];
-}

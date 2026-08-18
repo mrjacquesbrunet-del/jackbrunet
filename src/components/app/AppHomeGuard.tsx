@@ -73,7 +73,7 @@ export function AppHomeGuard() {
       className="fixed inset-0 z-[9999] flex flex-col items-center justify-center gap-6 px-8 text-center"
       /* Gris de la charte codé en dur : fiable dès la première image,
          avant même que le thème de l'app soit appliqué (plus d'olive). */
-      style={{ background: "#17181A" }}
+      style={{ background: "#171716" }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img

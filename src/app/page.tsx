@@ -3,9 +3,7 @@ import { Marquee } from "@/components/ui/Marquee";
 import { AppDownloadBanner } from "@/components/home/AppDownloadBanner";
 import { RhemaBanner } from "@/components/home/RhemaBanner";
 import { MissionBanner } from "@/components/home/MissionBanner";
-import { NextLiveBanner } from "@/components/home/NextLiveBanner";
 import { DailyHub } from "@/components/home/DailyHub";
-import { getEvents } from "@/lib/content";
 import { ReadingPlan } from "@/components/home/ReadingPlan";
 import { FeaturedPredications } from "@/components/home/FeaturedPredications";
 import { Reels } from "@/components/home/Reels";
@@ -18,7 +16,6 @@ import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
 import { AppHomeGuard } from "@/components/app/AppHomeGuard";
 
 export default function HomePage() {
-  const events = getEvents();
   return (
     <>
       <AppHomeGuard />
@@ -36,7 +33,6 @@ export default function HomePage() {
       <RhemaBanner />
       <AppDownloadBanner />
       <MissionBanner />
-      <NextLiveBanner events={events} />
       <DailyHub />
       <ReadingPlan />
       <FeaturedPredications />

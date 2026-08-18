@@ -15,9 +15,9 @@ const C = {
   lime: "#CAF000",
   limeSoft: "#D8F53A",
   cream: "#F3F3ED",
-  textSec: "#CBD0B8",
-  textMuted: "#9AA184",
-  placeholder: "#6E7356",
+  textSec: "#CFCFCB",
+  textMuted: "#A5A5A1",
+  placeholder: "#77776F",
   cardBorder: "rgba(202,240,0,0.28)",
   limeTint: "rgba(202,240,0,0.12)",
 };
@@ -381,7 +381,7 @@ function InfoRow({ title, text, icon }: { title: string; text: string; icon: str
       </span>
       <div className="min-w-0">
         <p className="font-bold text-[#F3F3ED]">{title}</p>
-        <p className="mt-0.5 text-sm leading-relaxed" style={{ color: "#9AA184" }}>{text}</p>
+        <p className="mt-0.5 text-sm leading-relaxed" style={{ color: "#A5A5A1" }}>{text}</p>
       </div>
     </div>
   );

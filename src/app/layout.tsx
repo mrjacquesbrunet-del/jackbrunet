@@ -61,7 +61,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#070512",
+  themeColor: "#0C0C0B",
   width: "device-width",
   initialScale: 1,
   // Empêche le zoom (pincer/double-tap) pour une appli stable, sans décalage.

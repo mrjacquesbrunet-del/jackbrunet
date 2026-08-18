@@ -50,7 +50,6 @@ export const secondaryNav = [
   { label: "Mon carnet", href: "/carnet" },
   { label: "Exclusivités", href: "/exclusivites" },
   { label: "Témoignages", href: "/temoignages" },
-  { label: "Actualité", href: "/actualite" },
 ] as const;
 
 /** Liens secondaires (footer). */
@@ -72,8 +71,7 @@ export const footerNav = [
     links: [
       { label: "Mur de prière", href: "/communaute" },
       { label: "Témoignages", href: "/temoignages" },
-      { label: "Actualité", href: "/actualite" },
-      { label: "Newsletter", href: "/#newsletter" },
+          { label: "Newsletter", href: "/#newsletter" },
     ],
   },
   {

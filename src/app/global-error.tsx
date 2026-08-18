@@ -69,8 +69,8 @@ export default function GlobalError({
           alignItems: "center",
           justifyContent: "center",
           fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, sans-serif",
-          background: "#f7f6f1",
-          color: "#1a1726",
+          background: "#F3F3ED",
+          color: "#171716",
           padding: "24px",
           textAlign: "center",
         }}
@@ -101,8 +101,8 @@ export default function GlobalError({
               padding: "12px 22px",
               fontSize: 15,
               fontWeight: 700,
-              color: "#fff",
-              background: "linear-gradient(135deg,#7c5cff,#b06cff)",
+              color: "#0C0C0B",
+              background: "#CAF000",
               cursor: "pointer",
             }}
           >

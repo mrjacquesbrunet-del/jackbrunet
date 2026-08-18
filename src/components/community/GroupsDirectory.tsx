@@ -13,8 +13,6 @@ import {
   joinByCode,
   type Group,
 } from "@/lib/groups";
-import { getEvents } from "@/lib/content";
-import { NextLiveBanner } from "@/components/home/NextLiveBanner";
 
 const HEADER_BG = "rgb(var(--n-950))";
 const fieldDark =
@@ -319,9 +317,6 @@ export function GroupsDirectory() {
 
           {/* Écrire au pasteur */}
           <ContactBox />
-
-          {/* Prochain live (même bandeau que « À propos ») */}
-          <NextLiveBanner events={getEvents()} />
         </div>
       </div>
     </div>
