@@ -11,6 +11,7 @@ import type {
   DailyThought,
   Devotion,
   LongVideo,
+  AgendaEvent,
   Mission,
   Product,
   ReadingPlanDay,
@@ -34,6 +35,7 @@ import videosData from "../../content/videos.json";
 import videosGenerated from "../../content/videos.generated.json";
 import homeData from "../../content/home.json";
 import aboutData from "../../content/about.json";
+import eventsData from "../../content/events.json";
 import missionData from "../../content/mission.json";
 import devotionsData from "../../content/devotions.json";
 import plansData from "../../content/plans.json";
@@ -300,3 +302,8 @@ export function getThemePlan(slug: string): ThemePlan | undefined {
   return (plansData.items as ThemePlan[]).find((p) => p.slug === slug);
 }
 
+
+/** Agenda du SITE (lives, présentiel, annonces) — masqué dans l'app. */
+export function getEvents(): AgendaEvent[] {
+  return eventsData.items as AgendaEvent[];
+}

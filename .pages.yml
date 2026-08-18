@@ -244,6 +244,26 @@ content:
               - { name: verses, label: "Passages à lire (références, ex. Ésaïe 41:10)", type: string, list: true }
               - { name: meditation, label: "Méditation / exhortation", type: text }
 
+  - name: events
+    label: Actualité & agenda
+    type: file
+    path: content/events.json
+    fields:
+      - name: items
+        label: Événements
+        type: object
+        list: true
+        fields:
+          - { name: type, label: "Type (live = en ligne, presentiel, annonce)", type: select, options: { values: [live, presentiel, annonce] } }
+          - { name: title, label: Titre, type: string }
+          - { name: date, label: "Date (AAAA-MM-JJ) — pour l'agenda", type: string }
+          - { name: time, label: "Heure (ex. 20:30)", type: string }
+          - { name: location, label: "Lieu (ex. En ligne · TikTok / Pau (64))", type: string }
+          - { name: description, label: Description, type: text }
+          - { name: link, label: "Lien (URL ou /page interne)", type: string }
+          - { name: linkLabel, label: "Texte du bouton (ex. Rejoindre le live)", type: string }
+          - { name: badge, label: "Badge (annonces : ex. Bientôt)", type: string }
+
   - name: music
     label: Musique soaking
     type: file

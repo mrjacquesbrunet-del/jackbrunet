@@ -45,6 +45,13 @@
     background-color: rgb(202 240 0 / 0.06) !important;
   }
 
+  /* Éléments réservés au SITE (ex. agenda/événements du pasteur) :
+     masqués dans l'application RHEMA, marque neutre. */
+  html[data-native] .site-only,
+  html.app-native .site-only {
+    display: none !important;
+  }
+
   html {
     scroll-behavior: smooth;
     /* Fond visible sous l'effet élastique (overscroll) : crème sur le site,

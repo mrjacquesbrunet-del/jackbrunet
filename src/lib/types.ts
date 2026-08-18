@@ -95,6 +95,18 @@ export type Mission = {
 };
 
 
+export type AgendaEvent = {
+  type: "live" | "presentiel" | "annonce";
+  title: string;
+  date?: string; // YYYY-MM-DD (agenda), facultatif pour les annonces
+  time?: string; // ex. "20:30"
+  location?: string; // ex. "En ligne · TikTok" ou "Pau (64)"
+  description?: string;
+  link?: string; // URL externe ou chemin interne (/boutique)
+  linkLabel?: string;
+  badge?: string; // ex. "Bientôt", "Début novembre"
+};
+
 export type ThemePlanDay = {
   day: number;
   title: string;

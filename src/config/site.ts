@@ -47,6 +47,7 @@ export const mainNav = [
 export const secondaryNav = [
   { label: "L'application 📱", href: "/app" },
   { label: "Vidéos", href: "/videos" },
+  { label: "Actualité", href: "/actualite" },
   { label: "Mon carnet", href: "/carnet" },
   { label: "Exclusivités", href: "/exclusivites" },
   { label: "Témoignages", href: "/temoignages" },
@@ -71,7 +72,8 @@ export const footerNav = [
     links: [
       { label: "Mur de prière", href: "/communaute" },
       { label: "Témoignages", href: "/temoignages" },
-          { label: "Newsletter", href: "/#newsletter" },
+      { label: "Actualité", href: "/actualite" },
+      { label: "Newsletter", href: "/#newsletter" },
     ],
   },
   {
