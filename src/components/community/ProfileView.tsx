@@ -426,7 +426,7 @@ function Profile({
         </div>
       </div>
 
-      <div className="container-x relative mt-2">
+      <div className="profile-dark container-x relative mt-2">
       <div className="dark-ctx bg-topo-dark relative rounded-4xl border border-white/10 p-6 shadow-card sm:p-8">
         {/* Teinte de couleur personnalisable (bannière). Couche de décor clippée
             à part, pour ne pas rogner le panneau de notifications. */}

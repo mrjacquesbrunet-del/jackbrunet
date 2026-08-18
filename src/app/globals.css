@@ -322,3 +322,29 @@ html.plans-dark body {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* ---- Profil sombre : convertit les composants hérités du thème clair.
+   Tout texte/carte pensé pour fond crème devient lisible sur gris-noir. ---- */
+.profile-dark [class*="text-night-900"] {
+  color: rgb(243 243 237 / 0.85) !important;
+}
+.profile-dark [class*="text-spirit-7"] {
+  color: rgb(243 243 237 / 0.95) !important;
+}
+.profile-dark [class*="text-spirit-6"] {
+  color: #d8f53a !important;
+}
+.profile-dark [class*="border-night-900"] {
+  border-color: rgb(255 255 255 / 0.12) !important;
+}
+.profile-dark .bg-white {
+  background-color: rgb(255 255 255 / 0.05) !important;
+}
+.profile-dark [class*="bg-night-900/"] {
+  background-color: rgb(255 255 255 / 0.08) !important;
+}
+.profile-dark .glass,
+.profile-dark .glass-strong {
+  border-color: rgb(255 255 255 / 0.1);
+  background-color: rgb(var(--n-800) / 0.7);
+}
