@@ -10,12 +10,15 @@ export function ProfileInfoPills({
   city,
   country,
   show,
+  centered = false,
 }: {
   church?: string | null;
   city?: string | null;
   country?: string | null;
   /** Afficher la localisation (selon la confidentialité choisie). */
   show: boolean;
+  /** Centre les pastilles (héros du profil). */
+  centered?: boolean;
 }) {
   const location = [city?.trim(), country?.trim()].filter(Boolean).join(", ");
   const hasChurch = !!church?.trim();
@@ -23,7 +26,7 @@ export function ProfileInfoPills({
   if (!hasChurch && !hasLocation) return null;
 
   return (
-    <div className="mt-2.5 flex flex-wrap items-center gap-2">
+    <div className={`mt-2.5 flex flex-wrap items-center gap-2 ${centered? "justify-center": ""}`}>
       {hasChurch ? (
         <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.06] px-3 py-1 text-xs font-semibold text-cream/85">
           {/* Icône église (trait) */}

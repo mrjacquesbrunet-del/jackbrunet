@@ -10,6 +10,7 @@ import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { ModeratorBadge } from "@/components/community/ModeratorBadge";
 import { ReportButton } from "@/components/community/ReportButton";
 import { ProfileInfoPills } from "@/components/community/ProfileInfoPills";
+import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
 import { blockUser, unblockUser, listBlockedIds } from "@/lib/moderation";
 import {
   getProfile,
@@ -145,9 +146,10 @@ export function MemberView() {
   const pct = g?.next? Math.min(100, Math.round((g.points / g.next.min) * 100)): 100;
 
   return (
-    <section className="pb-10">
-      {/* ---- Photo plein écran + carte de verre intégrée (réf. Oliver Bennet) ---- */}
-      <div className="dark-ctx relative h-[calc(100svh-5.5rem)] min-h-[560px] w-full overflow-hidden bg-night-900">
+    <section className="bg-night-950 pb-10 text-cream">
+      <PlansDarkBg />
+      {/* ---- Bloc total : la photo fond dans le flou sombre, le texte vient dessus ---- */}
+      <div className="dark-ctx relative h-[calc(100svh-4.5rem)] min-h-[640px] w-full overflow-hidden bg-night-950">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={profile.banner_url || profile.avatar_url || asset("/img/profil-defaut.webp")}
@@ -155,7 +157,15 @@ export function MemberView() {
           aria-hidden
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-night-950/60 via-transparent to-night-950/25" />
+        <div
+          className="absolute inset-0 backdrop-blur-2xl"
+          style={{
+            WebkitMaskImage: "linear-gradient(to bottom, transparent 30%, black 55%)",
+            maskImage: "linear-gradient(to bottom, transparent 30%, black 55%)",
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-night-950/25 via-transparent to-night-950" />
+
         <Link
           href="/communaute"
           aria-label="Retour à la communauté"
@@ -171,20 +181,52 @@ export function MemberView() {
           </span>
         ): null}
 
-        {/* Carte de verre sombre, posée sur la photo */}
-        <div className="absolute inset-x-3 bottom-3 rounded-3xl border border-white/10 bg-night-950/55 p-5 backdrop-blur-xl">
-          <div className="flex items-start justify-between gap-3">
-            <h2 className="min-w-0 font-display text-4xl font-extrabold leading-[1.05] text-cream">
-              {profile.pseudo}
-              {profile.verified || profile.is_moderator? (
-                <VerifiedBadge className="ml-2 inline-block h-7 w-7 align-middle" />
-              ): null}
-            </h2>
+        {/* Contenu posé directement sur la photo (réf. Olivia Beits) */}
+        <div className="absolute inset-x-0 bottom-0 px-5 pb-7 text-center">
+          <h2 className="font-display text-4xl font-extrabold leading-tight text-cream">
+            {profile.pseudo}
+            {profile.verified || profile.is_moderator? (
+              <VerifiedBadge className="ml-2 inline-block h-7 w-7 align-middle" />
+            ): null}
+          </h2>
+          {profile.life_phrase? (
+            <p className="mt-1 text-sm italic text-dawn-300">{profile.life_phrase}</p>
+          ): null}
+
+          <div className="mx-auto mt-5 flex max-w-md items-center gap-2">
+            {isMe? (
+              <Link
+                href="/profil"
+                className="flex-1 rounded-full bg-cream py-3 text-center text-sm font-bold text-night-950"
+              >
+                Modifier mon profil
+              </Link>
+            ): userId? (
+              <button
+                type="button"
+                onClick={toggleFollow}
+                disabled={busy}
+                className={`flex-1 rounded-full py-3 text-center text-sm font-bold transition-colors disabled:opacity-60 ${
+                  following
+? "border border-white/20 bg-white/10 text-cream hover:bg-white/20"
+: "bg-cream text-night-950 hover:-translate-y-0.5"
+                }`}
+              >
+                {following? "Abonné(e) ✓": "S'abonner"}
+              </button>
+            ): (
+              <Link
+                href="/communaute"
+                className="flex-1 rounded-full bg-cream py-3 text-center text-sm font-bold text-night-950"
+              >
+                Se connecter pour s'abonner
+              </Link>
+            )}
             {userId &&!isMe? (
               <Link
                 href={`/messages?u=${memberId}`}
                 aria-label="Envoyer un message"
-                className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-cream text-night-950"
+                className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-white/15 bg-white/10 text-cream backdrop-blur"
               >
                 <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
                   <rect x="3" y="5" width="18" height="14" rx="2" />
@@ -193,14 +235,8 @@ export function MemberView() {
               </Link>
             ): null}
           </div>
-          {profile.life_phrase? (
-            <p className="mt-1 text-sm italic text-dawn-300">{profile.life_phrase}</p>
-          ): null}
-          {profile.bio? (
-            <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-cream/80">{profile.bio}</p>
-          ): null}
 
-          <div className="mt-4 grid grid-cols-3 gap-2">
+          <div className="mx-auto mt-5 grid max-w-md grid-cols-3 gap-2">
             <div>
               <p className="font-display text-2xl font-extrabold text-cream">{counts.followers}</p>
               <p className="text-[11px] text-cream/55">Abonnés</p>
@@ -215,56 +251,30 @@ export function MemberView() {
             </div>
           </div>
 
+          {profile.bio? (
+            <p className="mx-auto mt-4 max-w-md rounded-2xl bg-white/[0.07] px-4 py-3 text-sm leading-relaxed text-cream/85 backdrop-blur">
+              {profile.bio}
+            </p>
+          ): null}
           <ProfileInfoPills
             church={profile.church}
             city={profile.city}
             country={profile.country}
             show={isMe || profile.location_privacy!== "prive"}
+            centered
           />
           {verses.slice(0, 1).map((v, i) => (
-            <p key={i} className="mt-2.5 border-l-2 border-dawn-400 pl-2.5 text-sm italic text-cream/75">
+            <p key={i} className="mx-auto mt-3 max-w-md text-sm italic text-cream/75">
               «&nbsp;{v.text}&nbsp;»{" "}
               {v.reference? (
                 <span className="font-semibold not-italic text-dawn-200">{v.reference}</span>
               ): null}
             </p>
           ))}
-
-          {/* Bouton principal, pleine largeur (réf.) */}
-          <div className="mt-4">
-            {isMe? (
-              <Link
-                href="/profil"
-                className="block w-full rounded-full border border-white/20 bg-white/10 py-2.5 text-center text-sm font-bold text-cream"
-              >
-                Modifier mon profil
-              </Link>
-            ): userId? (
-              <button
-                type="button"
-                onClick={toggleFollow}
-                disabled={busy}
-                className={`w-full rounded-full py-2.5 text-center text-sm font-bold transition-colors disabled:opacity-60 ${
-                  following
-? "border border-white/20 bg-white/10 text-cream hover:bg-white/20"
-: "bg-dawn-400 text-night-950 hover:-translate-y-0.5"
-                }`}
-              >
-                {following? "Abonné(e) ✓": "S'abonner"}
-              </button>
-            ): (
-              <Link
-                href="/communaute"
-                className="block w-full rounded-full bg-dawn-400 py-2.5 text-center text-sm font-bold text-night-950"
-              >
-                Se connecter pour s'abonner
-              </Link>
-            )}
-          </div>
         </div>
       </div>
 
-      <div className="container-x relative -mt-4">
+      <div className="container-x relative mt-2">
       <div className="dark-ctx bg-topo-dark relative rounded-4xl border border-white/10 p-6 text-cream shadow-card sm:p-8">
         {/* Jauge de grade de la personne */}
         {g? (
@@ -320,18 +330,18 @@ export function MemberView() {
       <div className="mx-auto mt-8 max-w-2xl">
         <h3 className="font-display text-lg font-bold">Ses sujets de prière</h3>
         {prayers.length === 0? (
-          <p className="mt-3 text-night-900/55">
+          <p className="mt-3 text-cream/55">
             Aucun sujet visible pour l'instant.
             {!isMe &&!following? " Abonne-toi pour voir ses prières réservées à ses abonnés.": ""}
           </p>
         ): (
           <ul className="mt-3 space-y-3">
             {prayers.map((p) => (
-              <li key={p.id} className="rounded-2xl border border-night-900/10 bg-white p-4 shadow-sm">
-                <p className="whitespace-pre-wrap text-[15px] leading-relaxed text-night-900/85">
+              <li key={p.id} className="rounded-2xl border border-white/10 bg-white/[0.05] p-4">
+                <p className="whitespace-pre-wrap text-[15px] leading-relaxed text-cream/85">
                   {p.body}
                 </p>
-                <p className="mt-2 text-xs text-night-900/45">
+                <p className="mt-2 text-xs text-cream/45">
                   {new Date(p.created_at).toLocaleDateString("fr-FR")}
                   {p.answered? " · Exaucé": ""}
                 </p>

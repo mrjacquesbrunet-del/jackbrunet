@@ -38,6 +38,7 @@ import { ModeratorBadge } from "@/components/community/ModeratorBadge";
 import { FollowList } from "@/components/community/FollowList";
 import { ProfileBanners } from "@/components/community/ProfileBanners";
 import { ProfileInfoPills } from "@/components/community/ProfileInfoPills";
+import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
 import { useEngagement } from "@/lib/engagement";
 import { FIDELITY_REWARDS } from "@/lib/rewards";
 import { FlameGlyph, StarGlyph, GiftGlyph } from "@/components/ui/DevoIcons";
@@ -307,9 +308,10 @@ function Profile({
   }
 
   return (
-    <section className="pb-8">
-      {/* ---- Photo plein écran + carte de verre intégrée (réf. Oliver Bennet) ---- */}
-      <div className="dark-ctx relative h-[calc(100svh-5.5rem)] min-h-[560px] w-full overflow-hidden bg-night-900">
+    <section className="bg-night-950 pb-8 text-cream">
+      <PlansDarkBg />
+      {/* ---- Bloc total : la photo fond dans le flou sombre, le texte vient dessus ---- */}
+      <div className="dark-ctx relative h-[calc(100svh-4.5rem)] min-h-[640px] w-full overflow-hidden bg-night-950">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={profile?.banner_url || profile?.avatar_url || asset("/img/profil-defaut.webp")}
@@ -317,60 +319,66 @@ function Profile({
           aria-hidden
           className="absolute inset-0 h-full w-full object-cover"
         />
-        {/* Léger voile pour la lisibilité, la photo reste maîtresse */}
-        <div className="absolute inset-0 bg-gradient-to-t from-night-950/60 via-transparent to-night-950/25" />
+        {/* Flou progressif : la photo reste nette en haut et fond en bas */}
+        <div
+          className="absolute inset-0 backdrop-blur-2xl"
+          style={{
+            WebkitMaskImage: "linear-gradient(to bottom, transparent 30%, black 55%)",
+            maskImage: "linear-gradient(to bottom, transparent 30%, black 55%)",
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-night-950/25 via-transparent to-night-950" />
+
         <span
           className="absolute left-4 top-[calc(env(safe-area-inset-top)+1rem)] rounded-full px-3 py-1 text-[11px] font-bold text-night-950"
           style={{ background: gradeRing(gradeFor(activity).grade.name) }}
         >
           {gradeFor(activity).grade.name}
         </span>
-        <button
-          type="button"
-          onClick={() => setEditing((e) =>!e)}
-          className="absolute right-4 top-[calc(env(safe-area-inset-top)+1rem)] rounded-full bg-night-950/70 px-4 py-2 text-xs font-bold text-cream backdrop-blur transition-colors hover:bg-night-950/90"
-        >
-          {editing? "Fermer": "Modifier le profil"}
-        </button>
 
-        {/* Carte de verre sombre, posée sur la photo */}
-        <div className="absolute inset-x-3 bottom-3 rounded-3xl border border-white/10 bg-night-950/55 p-5 backdrop-blur-xl">
-          <div className="flex items-start justify-between gap-3">
-            <h2 className="min-w-0 font-display text-4xl font-extrabold leading-[1.05] text-cream">
-              {profile?.pseudo?? "Ami(e)"}
-              {profile?.verified || isAdminEmail(email)? (
-                <VerifiedBadge className="ml-2 inline-block h-7 w-7 align-middle" />
-              ): null}
-            </h2>
+        {/* Contenu posé directement sur la photo (réf. Olivia Beits) */}
+        <div className="absolute inset-x-0 bottom-0 px-5 pb-7 text-center">
+          <h2 className="font-display text-4xl font-extrabold leading-tight text-cream">
+            {profile?.pseudo?? "Ami(e)"}
+            {profile?.verified || isAdminEmail(email)? (
+              <VerifiedBadge className="ml-2 inline-block h-7 w-7 align-middle" />
+            ): null}
+          </h2>
+          {profile?.life_phrase? (
+            <p className="mt-1 text-sm italic text-dawn-300">{profile.life_phrase}</p>
+          ): null}
+
+          <div className="mx-auto mt-5 flex max-w-md items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setEditing((e) =>!e)}
+              className="flex-1 rounded-full bg-cream py-3 text-sm font-bold text-night-950 transition-transform hover:-translate-y-0.5"
+            >
+              {editing? "Fermer": "Modifier le profil"}
+            </button>
             <button
               type="button"
               onClick={shareProfile}
               aria-label="Partager mon profil"
-              className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-cream text-night-950"
+              className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-white/15 bg-white/10 text-cream backdrop-blur"
             >
               <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
                 <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v14" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
           </div>
-          {profile?.life_phrase? (
-            <p className="mt-1 text-sm italic text-dawn-300">{profile.life_phrase}</p>
-          ): null}
-          {profile?.bio? (
-            <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-cream/80">{profile.bio}</p>
-          ): null}
 
-          <div className="mt-4 grid grid-cols-3 gap-2">
-            <button type="button" onClick={() => setFollowModal("followers")} className="text-left">
+          <div className="mx-auto mt-5 grid max-w-md grid-cols-3 gap-2">
+            <button type="button" onClick={() => setFollowModal("followers")}>
               <p className="font-display text-2xl font-extrabold text-cream">{counts.followers}</p>
               <p className="text-[11px] text-cream/55">Abonnés</p>
             </button>
-            <button type="button" onClick={() => setFollowModal("following")} className="text-left">
+            <button type="button" onClick={() => setFollowModal("following")}>
               <p className="font-display text-2xl font-extrabold text-cream">{counts.following}</p>
               <p className="text-[11px] text-cream/55">Abonnements</p>
             </button>
             <div>
-              <p className="flex items-center gap-1 font-display text-2xl font-extrabold text-dawn-300">
+              <p className="flex items-center justify-center gap-1 font-display text-2xl font-extrabold text-dawn-300">
                 <FlameGlyph className="h-5 w-5" />
                 {eng.ready? eng.streak: 0}
               </p>
@@ -378,14 +386,20 @@ function Profile({
             </div>
           </div>
 
+          {profile?.bio? (
+            <p className="mx-auto mt-4 max-w-md rounded-2xl bg-white/[0.07] px-4 py-3 text-sm leading-relaxed text-cream/85 backdrop-blur">
+              {profile.bio}
+            </p>
+          ): null}
           <ProfileInfoPills
             church={profile?.church}
             city={profile?.city}
             country={profile?.country}
             show
+            centered
           />
           {(profile?.favorite_verses?? []).slice(0, 1).map((v, i) => (
-            <p key={i} className="mt-2.5 border-l-2 border-dawn-400 pl-2.5 text-sm italic text-cream/75">
+            <p key={i} className="mx-auto mt-3 max-w-md text-sm italic text-cream/75">
               «&nbsp;{v.text}&nbsp;»{" "}
               {v.reference? (
                 <span className="font-semibold not-italic text-dawn-200">{v.reference}</span>
@@ -395,7 +409,7 @@ function Profile({
         </div>
       </div>
 
-      <div className="container-x relative -mt-4">
+      <div className="container-x relative mt-2">
       <div className="dark-ctx bg-topo-dark relative rounded-4xl border border-white/10 p-6 shadow-card sm:p-8">
         {/* Teinte de couleur personnalisable (bannière). Couche de décor clippée
             à part, pour ne pas rogner le panneau de notifications. */}
