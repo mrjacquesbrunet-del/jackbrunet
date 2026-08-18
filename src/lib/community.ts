@@ -288,9 +288,12 @@ export async function signOut() {
 export async function getProfile(id: string): Promise<Profile | null> {
   const sb = getSupabase();
   if (!sb) return null;
+  // `*` plutôt qu'une liste de colonnes : si une migration (église, bannière…)
+  // n'est pas encore passée côté Supabase, la requête réussit quand même au
+  // lieu d'échouer entièrement (profil « Ami(e) » + photo par défaut).
   const { data } = await sb
 .from("profiles")
-.select("id,pseudo,avatar_url,bio,favorite_verses,verified,is_moderator,church,city,country,location_privacy,life_phrase,banner_url")
+.select("*")
 .eq("id", id)
 .single();
   return (data as Profile)?? null;
@@ -307,7 +310,23 @@ export async function setModerator(userId: string, on: boolean): Promise<boolean
 export async function updateProfile(id: string, patch: Partial<Profile>) {
   const sb = getSupabase();
   if (!sb) return;
-  await sb.from("profiles").update(patch).eq("id", id);
+  const { error } = await sb.from("profiles").update(patch).eq("id", id);
+  if (error) {
+    // Migration pas encore passée (colonnes église/bannière absentes) :
+    // on sauvegarde au moins les champs de base plutôt que rien.
+    const base: Partial<Profile> = {
+      pseudo: patch.pseudo,
+      avatar_url: patch.avatar_url,
+      bio: patch.bio,
+      favorite_verses: patch.favorite_verses,
+    };
+    const cleaned = Object.fromEntries(
+      Object.entries(base).filter(([, v]) => v!== undefined),
+    );
+    if (Object.keys(cleaned).length) {
+      await sb.from("profiles").update(cleaned).eq("id", id);
+    }
+  }
 }
 
 /** Ajoute un verset aux versets publics du profil (dédupliqué). */

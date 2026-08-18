@@ -149,7 +149,7 @@ export function MemberView() {
     <section className="bg-night-950 pb-10 text-cream">
       <PlansDarkBg />
       {/* ---- Bloc total : la photo fond dans le flou sombre, le texte vient dessus ---- */}
-      <div className="dark-ctx relative h-[calc(100svh-4.5rem)] min-h-[640px] w-full overflow-hidden bg-night-950">
+      <div className="dark-ctx relative h-[calc(100svh-7.5rem-env(safe-area-inset-bottom))] min-h-[580px] w-full overflow-hidden bg-night-950">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={profile.banner_url || profile.avatar_url || asset("/img/profil-defaut.webp")}
@@ -182,7 +182,7 @@ export function MemberView() {
         ): null}
 
         {/* Contenu posé directement sur la photo (réf. Olivia Beits) */}
-        <div className="absolute inset-x-0 bottom-0 px-5 pb-7 text-center">
+        <div className="absolute inset-x-0 bottom-0 px-5 pb-5 text-center">
           <h2 className="font-display text-4xl font-extrabold leading-tight text-cream">
             {profile.pseudo}
             {profile.verified || profile.is_moderator? (
