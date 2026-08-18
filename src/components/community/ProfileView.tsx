@@ -308,16 +308,17 @@ function Profile({
 
   return (
     <section className="pb-8">
-      {/* ---- Bannière plein écran (personnalisable) + photo de profil ronde ---- */}
-      <div className="dark-ctx relative h-[56vh] min-h-[430px] w-full overflow-hidden bg-night-900">
+      {/* ---- Photo plein écran + carte de verre intégrée (réf. Oliver Bennet) ---- */}
+      <div className="dark-ctx relative h-[calc(100svh-5.5rem)] min-h-[560px] w-full overflow-hidden bg-night-900">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={profile?.banner_url || asset("/img/profil-defaut.webp")}
+          src={profile?.banner_url || profile?.avatar_url || asset("/img/profil-defaut.webp")}
           alt=""
           aria-hidden
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-night-950 via-night-950/15 to-night-950/30" />
+        {/* Léger voile pour la lisibilité, la photo reste maîtresse */}
+        <div className="absolute inset-0 bg-gradient-to-t from-night-950/60 via-transparent to-night-950/25" />
         <span
           className="absolute left-4 top-[calc(env(safe-area-inset-top)+1rem)] rounded-full px-3 py-1 text-[11px] font-bold text-night-950"
           style={{ background: gradeRing(gradeFor(activity).grade.name) }}
@@ -331,24 +332,66 @@ function Profile({
         >
           {editing? "Fermer": "Modifier le profil"}
         </button>
-        {/* Photo ronde (façon Instagram) + nom, centrés en bas de la bannière */}
-        <div className="absolute inset-x-0 bottom-0 flex flex-col items-center px-5 pb-6 text-center">
-          <span
-            className="rounded-full p-[3px]"
-            style={{ background: gradeRing(gradeFor(activity).grade.name) }}
-          >
-            <span className="block rounded-full bg-night-950 p-[3px]">
-              <Avatar pseudo={profile?.pseudo} url={profile?.avatar_url} size={96} />
-            </span>
-          </span>
-          <h2 className="mt-3 flex items-center justify-center gap-2 font-display text-3xl font-extrabold leading-tight text-cream">
-            {profile?.pseudo?? "Ami(e)"}
-            {profile?.verified || isAdminEmail(email)? <VerifiedBadge className="h-6 w-6" />: null}
-          </h2>
+
+        {/* Carte de verre sombre, posée sur la photo */}
+        <div className="absolute inset-x-3 bottom-3 rounded-3xl border border-white/10 bg-night-950/55 p-5 backdrop-blur-xl">
+          <div className="flex items-start justify-between gap-3">
+            <h2 className="min-w-0 font-display text-4xl font-extrabold leading-[1.05] text-cream">
+              {profile?.pseudo?? "Ami(e)"}
+              {profile?.verified || isAdminEmail(email)? (
+                <VerifiedBadge className="ml-2 inline-block h-7 w-7 align-middle" />
+              ): null}
+            </h2>
+            <button
+              type="button"
+              onClick={shareProfile}
+              aria-label="Partager mon profil"
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-cream text-night-950"
+            >
+              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
+                <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v14" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          </div>
           {profile?.life_phrase? (
             <p className="mt-1 text-sm italic text-dawn-300">{profile.life_phrase}</p>
           ): null}
-          {profile?.is_moderator? <div className="mt-1"><ModeratorBadge /></div>: null}
+          {profile?.bio? (
+            <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-cream/80">{profile.bio}</p>
+          ): null}
+
+          <div className="mt-4 grid grid-cols-3 gap-2">
+            <button type="button" onClick={() => setFollowModal("followers")} className="text-left">
+              <p className="font-display text-2xl font-extrabold text-cream">{counts.followers}</p>
+              <p className="text-[11px] text-cream/55">Abonnés</p>
+            </button>
+            <button type="button" onClick={() => setFollowModal("following")} className="text-left">
+              <p className="font-display text-2xl font-extrabold text-cream">{counts.following}</p>
+              <p className="text-[11px] text-cream/55">Abonnements</p>
+            </button>
+            <div>
+              <p className="flex items-center gap-1 font-display text-2xl font-extrabold text-dawn-300">
+                <FlameGlyph className="h-5 w-5" />
+                {eng.ready? eng.streak: 0}
+              </p>
+              <p className="text-[11px] text-cream/55">Série</p>
+            </div>
+          </div>
+
+          <ProfileInfoPills
+            church={profile?.church}
+            city={profile?.city}
+            country={profile?.country}
+            show
+          />
+          {(profile?.favorite_verses?? []).slice(0, 1).map((v, i) => (
+            <p key={i} className="mt-2.5 border-l-2 border-dawn-400 pl-2.5 text-sm italic text-cream/75">
+              «&nbsp;{v.text}&nbsp;»{" "}
+              {v.reference? (
+                <span className="font-semibold not-italic text-dawn-200">{v.reference}</span>
+              ): null}
+            </p>
+          ))}
         </div>
       </div>
 
@@ -398,77 +441,11 @@ function Profile({
           );
         })()}
 
-        {/* Statistiques (le portrait est dans le héros photo) */}
-        <div className="relative">
-          <div className="grid grid-cols-3 gap-1 rounded-2xl border border-white/10 bg-white/[0.05] py-2 text-center">
-            <button
-              type="button"
-              onClick={() => setFollowModal("followers")}
-              className="rounded-xl py-1 transition-colors hover:bg-white/10"
-            >
-              <p className="font-display text-xl font-extrabold text-cream">{counts.followers}</p>
-              <p className="text-[11px] text-cream/60">Abonnés</p>
-            </button>
-            <button
-              type="button"
-              onClick={() => setFollowModal("following")}
-              className="rounded-xl py-1 transition-colors hover:bg-white/10"
-            >
-              <p className="font-display text-xl font-extrabold text-cream">{counts.following}</p>
-              <p className="text-[11px] text-cream/60">Abonnements</p>
-            </button>
-            <div className="rounded-xl py-1">
-              <p className="flex items-center justify-center gap-1 font-display text-xl font-extrabold text-dawn-300">
-                <FlameGlyph className="h-4 w-4" />
-                {eng.ready? eng.streak: 0}
-              </p>
-              <p className="text-[11px] text-cream/60">Série</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Bio + église/localisation + versets (lecture seule) */}
-        <div className="relative mt-4">
-          {profile?.bio? (
-            <p className="whitespace-pre-wrap text-sm leading-relaxed text-cream/80">
-              {profile.bio}
-            </p>
-          ): null}
-          <ProfileInfoPills
-            church={profile?.church}
-            city={profile?.city}
-            country={profile?.country}
-            show
-          />
-          {(profile?.favorite_verses?? []).slice(0, 2).map((v, i) => (
-            <p key={i} className="mt-1.5 border-l-2 border-dawn-400 pl-2.5 text-sm italic text-cream/75">
-              «&nbsp;{v.text}&nbsp;»{" "}
-              {v.reference? (
-                <span className="font-semibold not-italic text-dawn-200">{v.reference}</span>
-              ): null}
-            </p>
-          ))}
-        </div>
-
         {/* Actions: Modifier / Partager / Rechercher / Messages / Cloche.
             flex-wrap: sur mobile les icônes passent à la ligne suivante au lieu
             de déborder hors de la carte (cloche coupée). */}
-        <div className="relative mt-5 flex flex-wrap items-center gap-2">
-          <button
-            type="button"
-            onClick={() => setEditing((e) =>!e)}
-            className="btn-primary flex-1 justify-center text-sm sm:flex-none sm:px-8"
-          >
-            {editing? "Fermer": "Modifier le profil"}
-          </button>
-          <button
-            type="button"
-            onClick={shareProfile}
-            className="btn-ghost flex-1 justify-center text-sm sm:flex-none sm:px-8"
-          >
-            Partager
-          </button>
-          {/* Icônes groupées: elles passent ensemble à la ligne si besoin */}
+        <div className="relative mt-4 flex flex-wrap items-center justify-end gap-2">
+          {/* Icônes groupées: recherche, messages, notifications */}
           <div className="flex shrink-0 items-center gap-2">
             <button
               type="button"
