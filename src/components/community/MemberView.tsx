@@ -9,6 +9,7 @@ import { Avatar } from "@/components/community/Avatar";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { ModeratorBadge } from "@/components/community/ModeratorBadge";
 import { ReportButton } from "@/components/community/ReportButton";
+import { ProfileInfoPills } from "@/components/community/ProfileInfoPills";
 import { blockUser, unblockUser, listBlockedIds } from "@/lib/moderation";
 import {
   getProfile,
@@ -59,7 +60,8 @@ export function MemberView() {
       return;
     }
     const [prof, c, pr, act] = await Promise.all([
-      p? Promise.resolve(p): getProfile(id),
+      // Toujours le profil complet (la recherche par pseudo n'en renvoie qu'une partie).
+      getProfile(id),
       followCounts(id),
       listPrayersByAuthor(id),
       getActivity(id),
@@ -144,8 +146,45 @@ export function MemberView() {
 
   return (
     <section className="container-x pb-10 pt-24 sm:pt-32">
-      {/* En-tête façon Instagram, sur olive sombre texturé (comme le profil). */}
+      {/* En-tête nouveau design : grande photo, nom par-dessus, carte sombre. */}
       <div className="dark-ctx bg-topo-dark relative rounded-4xl border border-white/10 p-6 text-cream shadow-card sm:p-8">
+        {/* ---- Héros photo ---- */}
+        <div className="relative -mx-6 -mt-6 mb-5 overflow-hidden rounded-t-4xl sm:-mx-8 sm:-mt-8">
+          <div className="relative aspect-[4/5] max-h-[440px] w-full sm:aspect-[16/9]">
+            {profile.avatar_url? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={profile.avatar_url}
+                alt=""
+                aria-hidden
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            ): (
+              <div className="absolute inset-0 grid place-items-center bg-night-800">
+                <Avatar pseudo={profile.pseudo} url={null} size={120} />
+              </div>
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-night-950 via-night-950/25 to-transparent" />
+            {g? (
+              <span className="absolute left-4 top-4 rounded-full bg-night-950/70 px-3 py-1 text-[11px] font-bold text-dawn-300 backdrop-blur">
+                {g.grade.name}
+              </span>
+            ): null}
+            <div className="absolute inset-x-0 bottom-0 p-5">
+              <h2 className="flex items-center gap-2 font-display text-3xl font-extrabold leading-tight text-cream">
+                {profile.pseudo}
+                {profile.verified || profile.is_moderator? <VerifiedBadge className="h-6 w-6" />: null}
+              </h2>
+              <div className="mt-1 flex flex-wrap items-center gap-2">
+                {profile.is_moderator? <ModeratorBadge /> : null}
+                {profile.life_phrase? (
+                  <p className="text-sm italic text-dawn-300">{profile.life_phrase}</p>
+                ): null}
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Jauge de grade de la personne */}
         {g? (
           <div className="mb-4">
@@ -166,14 +205,9 @@ export function MemberView() {
           </div>
         ): null}
 
-        {/* Avatar + stats */}
-        <div className="flex items-end gap-5">
-          <span className="shrink-0 rounded-full bg-dawn-400 p-[3px]">
-            <span className="block rounded-full bg-night-900 p-[3px]">
-              <Avatar pseudo={profile.pseudo} url={profile.avatar_url} size={84} />
-            </span>
-          </span>
-          <div className="grid flex-1 grid-cols-3 gap-1 text-center">
+        {/* Statistiques (le portrait est dans le héros photo) */}
+        <div>
+          <div className="grid grid-cols-3 gap-1 rounded-2xl border border-white/10 bg-white/[0.05] py-2 text-center">
             <div className="py-1">
               <p className="font-display text-xl font-extrabold text-cream">{counts.followers}</p>
               <p className="text-[11px] text-cream/60">Abonnés</p>
@@ -189,25 +223,19 @@ export function MemberView() {
           </div>
         </div>
 
-        {/* Nom + grade + bio + versets */}
+        {/* Bio + église/localisation + versets */}
         <div className="mt-4">
-          <div className="flex flex-wrap items-center gap-2">
-            <h2 className="flex items-center gap-1.5 font-display text-xl font-extrabold leading-tight text-cream">
-              {profile.pseudo}
-              {profile.verified || profile.is_moderator? <VerifiedBadge className="h-5 w-5" />: null}
-            </h2>
-            {profile.is_moderator? <ModeratorBadge /> : null}
-            {g? (
-              <span className="inline-flex items-center gap-1 rounded-full bg-dawn-400/20 px-2.5 py-0.5 text-[11px] font-bold text-dawn-200">
-                {g.grade.name}
-              </span>
-            ): null}
-          </div>
           {profile.bio? (
-            <p className="mt-1.5 whitespace-pre-wrap text-sm leading-relaxed text-cream/80">
+            <p className="whitespace-pre-wrap text-sm leading-relaxed text-cream/80">
               {profile.bio}
             </p>
           ): null}
+          <ProfileInfoPills
+            church={profile.church}
+            city={profile.city}
+            country={profile.country}
+            show={isMe || profile.location_privacy!== "prive"}
+          />
           {verses.slice(0, 3).map((v, i) => (
             <p key={i} className="mt-1.5 border-l-2 border-dawn-400 pl-2.5 text-sm italic text-cream/75">
               «&nbsp;{v.text}&nbsp;»{" "}
@@ -236,7 +264,7 @@ export function MemberView() {
                 className={`flex-1 rounded-full py-2.5 text-center text-sm font-bold transition-colors disabled:opacity-60 ${
                   following
 ? "border border-white/20 bg-white/10 text-cream hover:bg-white/20"
-: "bg-dawn-400 text-night-900 hover:-translate-y-0.5"
+: "bg-cream text-night-950 hover:-translate-y-0.5"
                 }`}
               >
                 {following? "Abonné(e) ✓": "S'abonner"}
@@ -287,7 +315,7 @@ export function MemberView() {
 : "bg-spirit-600 text-cream hover:bg-spirit-500"
             }`}
           >
-            🛡️ {profile.is_moderator? "Retirer le rôle de modérateur": "Nommer modérateur/modératrice"}
+            {profile.is_moderator? "Retirer le rôle de modérateur": "Nommer modérateur/modératrice"}
           </button>
         ): null}
       </div>

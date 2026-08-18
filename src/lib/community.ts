@@ -12,6 +12,14 @@ export type Profile = {
   favorite_verses?: FavoriteVerse[];
   verified?: boolean | null;
   is_moderator?: boolean | null;
+  /* Personnalisation du profil (tous facultatifs) */
+  church?: string | null;
+  city?: string | null;
+  country?: string | null;
+  /** Confidentialité de la localisation : visible par tous, ou par moi seul. */
+  location_privacy?: "public" | "prive" | null;
+  /** Phrase personnelle, ex. « Jésus a changé ma vie en 2019 ». */
+  life_phrase?: string | null;
 };
 export type Visibility = "public" | "friends" | "private";
 export type Prayer = {
@@ -280,7 +288,7 @@ export async function getProfile(id: string): Promise<Profile | null> {
   if (!sb) return null;
   const { data } = await sb
 .from("profiles")
-.select("id,pseudo,avatar_url,bio,favorite_verses,verified,is_moderator")
+.select("id,pseudo,avatar_url,bio,favorite_verses,verified,is_moderator,church,city,country,location_privacy,life_phrase")
 .eq("id", id)
 .single();
   return (data as Profile)?? null;

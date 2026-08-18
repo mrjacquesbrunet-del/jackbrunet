@@ -34,10 +34,11 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
   const tk = useToolkit();
   const saved = id? tk.isSaved(id): false;
 
-  async function buildImage(): Promise<Blob | null> {
-    // Format 4:3 — plus compact et élégant pour le partage.
-    const W = 1600;
-    const H = 1200;
+  async function buildImage(story = false): Promise<Blob | null> {
+    // Format 4:3 (partage) ou 9:16 plein écran (story Instagram/Snap).
+    const W = story? 1080: 1600;
+    const H = story? 1920: 1200;
+    const k = W / 1600; // échelle des tailles pensées pour 1600 de large
     const canvas = document.createElement("canvas");
     canvas.width = W;
     canvas.height = H;
@@ -100,14 +101,14 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
     // Fin cadre lime
     ctx.strokeStyle = "rgba(202,240,0,0.45)";
     ctx.lineWidth = 3;
-    ctx.strokeRect(44, 44, W - 88, H - 88);
+    ctx.strokeRect(44 * k, 44 * k, W - 88 * k, H - 88 * k);
 
     // Guillemet décoratif centré en haut
     ctx.fillStyle = "rgba(202,240,0,0.9)";
-    ctx.font = '700 150px Georgia, "Times New Roman", serif';
+    ctx.font = `700 ${Math.round(150 * k)}px Georgia, "Times New Roman", serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
-    ctx.fillText("“", W / 2, 70);
+    ctx.fillText("“", W / 2, 70 * k);
 
     // Punchline centrée, taille auto — mots normaux en blanc, mots forts en lime.
     // Typo élégante de la charte (serif d'affichage), en plus grand qu'avant.
@@ -120,7 +121,7 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
     ctx.textBaseline = "middle";
     const words = punchline.split(" ");
     const highlights = pickHighlights(words);
-    const maxWidth = W - 260;
+    const maxWidth = W - 260 * k;
     type Line = { idx: number[]; width: number };
     const setFont = (size: number) => {
       ctx.font = `italic 700 ${size}px ${serifFamily}`;
@@ -146,9 +147,9 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
       if (cur.length) lines.push({ idx: cur, width: curW });
       return lines;
     };
-    let size = 106;
+    let size = Math.round(106 * k);
     let lines = wrap(size);
-    while (lines.length * size * 1.28 > H - 480 && size > 58) {
+    while (lines.length * size * 1.28 > H - 480 && size > Math.round(58 * k)) {
       size -= 6;
       lines = wrap(size);
     }
@@ -173,8 +174,8 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
     ctx.lineWidth = 6;
     ctx.lineCap = "round";
     ctx.beginPath();
-    ctx.moveTo(W / 2 - 130, H - 208);
-    ctx.quadraticCurveTo(W / 2, H - 226, W / 2 + 130, H - 214);
+    ctx.moveTo(W / 2 - 130 * k, H - 208);
+    ctx.quadraticCurveTo(W / 2, H - 226, W / 2 + 130 * k, H - 214);
     ctx.stroke();
     ctx.fillStyle = "#F3F3ED";
     ctx.font = '700 40px Georgia, "Times New Roman", serif';
@@ -205,6 +206,17 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
     try {
       const blob = await buildImage();
       if (blob) await saveImageBlob(blob, "rhema-pensee.png", `${punchline}\n\nhttps://jackbrunet.com/app`);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  /** Image plein format story (1080×1920) → feuille de partage (Instagram, Snap…). */
+  async function shareStory() {
+    setBusy(true);
+    try {
+      const blob = await buildImage(true);
+      if (blob) await saveImageBlob(blob, "rhema-story.png");
     } finally {
       setBusy(false);
     }
@@ -260,6 +272,13 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
       <div className="mt-4 flex flex-wrap gap-2">
         <button type="button" onClick={share} disabled={busy} className="btn-primary text-sm">
           {busy? "Un instant…": "Partager la carte"}
+        </button>
+        <button type="button" onClick={shareStory} disabled={busy} className="btn-ghost inline-flex items-center gap-1.5 text-sm">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-4 w-4" aria-hidden>
+            <circle cx="12" cy="12" r="9" strokeDasharray="4 3" />
+            <path d="M12 8.5v7M8.5 12h7" strokeLinecap="round" />
+          </svg>
+          Story
         </button>
         <button type="button" onClick={downloadImage} disabled={busy} className="btn-ghost text-sm">
           Télécharger l'image

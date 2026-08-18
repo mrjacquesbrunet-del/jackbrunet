@@ -51,6 +51,17 @@ export function ShareButtons({
       setBusy(false);
     }
   }
+  /** Image plein format story (1080×1920) → feuille de partage (Instagram, Snap…). */
+  async function shareStory() {
+    if (!image) return;
+    setBusy(true);
+    try {
+      const blob = await buildVerseImage({ ...image, height: 1920 });
+      if (blob) await saveImageBlob(blob, "rhema-story.png");
+    } finally {
+      setBusy(false);
+    }
+  }
   async function saveImage() {
     if (!image) return;
     setBusy(true);
@@ -75,6 +86,16 @@ export function ShareButtons({
           >
             <ImageIcon className="h-4 w-4" />
             {busy? "Un instant…": "Image"}
+          </button>
+          <button
+            type="button"
+            onClick={shareStory}
+            disabled={busy}
+            className="btn-ghost px-4 py-2 text-sm disabled:opacity-50"
+            aria-label="Partager en story (format 1080×1920)"
+          >
+            <StoryIcon className="h-4 w-4" />
+            Story
           </button>
           <button
             type="button"
@@ -116,6 +137,16 @@ function ImageIcon({ className }: { className?: string }) {
       <rect x="3" y="4" width="18" height="16" rx="2" />
       <circle cx="8.5" cy="9.5" r="1.5" />
       <path d="M4 17l5-5 4 4 3-3 4 4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function StoryIcon({ className }: { className?: string }) {
+  // Anneau de story (cercle pointillé) + « + »
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className} aria-hidden="true">
+      <circle cx="12" cy="12" r="9" strokeDasharray="4 3" />
+      <path d="M12 8.5v7M8.5 12h7" strokeLinecap="round" />
     </svg>
   );
 }

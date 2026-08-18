@@ -36,6 +36,7 @@ import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { ModeratorBadge } from "@/components/community/ModeratorBadge";
 import { FollowList } from "@/components/community/FollowList";
 import { ProfileBanners } from "@/components/community/ProfileBanners";
+import { ProfileInfoPills } from "@/components/community/ProfileInfoPills";
 import { useEngagement } from "@/lib/engagement";
 import { FIDELITY_REWARDS } from "@/lib/rewards";
 import { FlameGlyph, StarGlyph, GiftGlyph } from "@/components/ui/DevoIcons";
@@ -110,6 +111,11 @@ function Profile({
     favorite_verses?: FavoriteVerse[];
     verified?: boolean | null;
     is_moderator?: boolean | null;
+    church?: string | null;
+    city?: string | null;
+    country?: string | null;
+    location_privacy?: "public" | "prive" | null;
+    life_phrase?: string | null;
   } | null;
   refreshProfile: () => void;
 }) {
@@ -119,6 +125,11 @@ function Profile({
   const [avatarVal, setAvatarVal] = useState(profile?.avatar_url?? "");
   const [bioVal, setBioVal] = useState(profile?.bio?? "");
   const [verses, setVerses] = useState<FavoriteVerse[]>(profile?.favorite_verses?? []);
+  const [churchVal, setChurchVal] = useState(profile?.church?? "");
+  const [cityVal, setCityVal] = useState(profile?.city?? "");
+  const [countryVal, setCountryVal] = useState(profile?.country?? "");
+  const [locPrivVal, setLocPrivVal] = useState<"public" | "prive">(profile?.location_privacy === "prive"? "prive": "public");
+  const [phraseVal, setPhraseVal] = useState(profile?.life_phrase?? "");
   const [counts, setCounts] = useState({ followers: 0, following: 0 });
   const [activity, setActivity] = useState<Activity>({ prayers: 0, comments: 0, prays: 0 });
   const [saving, setSaving] = useState(false);
@@ -193,7 +204,13 @@ function Profile({
     setAvatarVal(profile?.avatar_url?? "");
     setBioVal(profile?.bio?? "");
     setVerses(profile?.favorite_verses?? []);
-  }, [profile?.pseudo, profile?.avatar_url, profile?.bio, profile?.favorite_verses]);
+    setChurchVal(profile?.church?? "");
+    setCityVal(profile?.city?? "");
+    setCountryVal(profile?.country?? "");
+    setLocPrivVal(profile?.location_privacy === "prive"? "prive": "public");
+    setPhraseVal(profile?.life_phrase?? "");
+  }, [profile?.pseudo, profile?.avatar_url, profile?.bio, profile?.favorite_verses,
+      profile?.church, profile?.city, profile?.country, profile?.location_privacy, profile?.life_phrase]);
 
   async function onPickFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -252,6 +269,11 @@ function Profile({
       avatar_url: avatarVal.trim() || null,
       bio: bioVal.trim() || null,
       favorite_verses: cleanVerses,
+      church: churchVal.trim() || null,
+      city: cityVal.trim() || null,
+      country: countryVal.trim() || null,
+      location_privacy: locPrivVal,
+      life_phrase: phraseVal.trim() || null,
     });
     setVerses(cleanVerses);
     refreshProfile();
@@ -283,6 +305,55 @@ function Profile({
             style={{ backgroundColor: ACCENTS[accent].from }}
           />
         </div>
+        {/* ---- Héros photo (nouveau design) : grande photo, nom par-dessus ---- */}
+        <div className="relative -mx-6 -mt-6 mb-5 overflow-hidden rounded-t-4xl sm:-mx-8 sm:-mt-8">
+          <div className="relative aspect-[4/5] max-h-[440px] w-full sm:aspect-[16/9]">
+            {profile?.avatar_url? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={profile.avatar_url}
+                alt=""
+                aria-hidden
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            ): (
+              <div className="absolute inset-0 grid place-items-center bg-night-800">
+                <Avatar pseudo={profile?.pseudo} url={null} size={120} />
+              </div>
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-night-950 via-night-950/25 to-transparent" />
+
+            {/* Grade en haut à gauche, bouton Modifier en haut à droite (pilule) */}
+            <span
+              className="absolute left-4 top-4 rounded-full px-3 py-1 text-[11px] font-bold text-night-950"
+              style={{ background: gradeRing(gradeFor(activity).grade.name) }}
+            >
+              {gradeFor(activity).grade.name}
+            </span>
+            <button
+              type="button"
+              onClick={() => setEditing((e) =>!e)}
+              className="absolute right-4 top-4 rounded-full bg-night-950/70 px-4 py-2 text-xs font-bold text-cream backdrop-blur transition-colors hover:bg-night-950/90"
+            >
+              {editing? "Fermer": "Modifier le profil"}
+            </button>
+
+            {/* Nom + badges en bas de la photo */}
+            <div className="absolute inset-x-0 bottom-0 p-5">
+              <h2 className="flex items-center gap-2 font-display text-3xl font-extrabold leading-tight text-cream">
+                {profile?.pseudo?? "Ami(e)"}
+                {profile?.verified || isAdminEmail(email)? <VerifiedBadge className="h-6 w-6" />: null}
+              </h2>
+              <div className="mt-1 flex flex-wrap items-center gap-2">
+                {profile?.is_moderator? <ModeratorBadge /> : null}
+                {profile?.life_phrase? (
+                  <p className="text-sm italic text-dawn-300">{profile.life_phrase}</p>
+                ): null}
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Jauge de grade de prière (compacte) */}
         {(() => {
           const g = gradeFor(activity);
@@ -310,18 +381,9 @@ function Profile({
           );
         })()}
 
-        {/* Ligne avatar + stats (façon Instagram) */}
-        <div className="relative flex items-end gap-5">
-          <span
-            className="shrink-0 rounded-full p-[3px]"
-            style={{ background: gradeRing(gradeFor(activity).grade.name) }}
-            title={gradeFor(activity).grade.name}
-          >
-            <span className="block rounded-full bg-night-900 p-[3px]">
-              <Avatar pseudo={profile?.pseudo} url={profile?.avatar_url} size={84} />
-            </span>
-          </span>
-          <div className="grid flex-1 grid-cols-3 gap-1 text-center">
+        {/* Statistiques (le portrait est dans le héros photo) */}
+        <div className="relative">
+          <div className="grid grid-cols-3 gap-1 rounded-2xl border border-white/10 bg-white/[0.05] py-2 text-center">
             <button
               type="button"
               onClick={() => setFollowModal("followers")}
@@ -348,25 +410,19 @@ function Profile({
           </div>
         </div>
 
-        {/* Nom + grade + bio + versets (lecture seule) */}
+        {/* Bio + église/localisation + versets (lecture seule) */}
         <div className="relative mt-4">
-          <div className="flex flex-wrap items-center gap-2">
-            <h2 className="flex items-center gap-1.5 font-display text-xl font-extrabold leading-tight text-cream">
-              {profile?.pseudo?? "Ami(e)"}
-              {profile?.verified || isAdminEmail(email)? (
-                <VerifiedBadge className="h-5 w-5" />
-              ): null}
-            </h2>
-            <span className="inline-flex items-center gap-1 rounded-full bg-dawn-400/20 px-2.5 py-0.5 text-[11px] font-bold text-dawn-200">
-              {gradeFor(activity).grade.name}
-            </span>
-            {profile?.is_moderator? <ModeratorBadge /> : null}
-          </div>
           {profile?.bio? (
-            <p className="mt-1.5 whitespace-pre-wrap text-sm leading-relaxed text-cream/80">
+            <p className="whitespace-pre-wrap text-sm leading-relaxed text-cream/80">
               {profile.bio}
             </p>
           ): null}
+          <ProfileInfoPills
+            church={profile?.church}
+            city={profile?.city}
+            country={profile?.country}
+            show
+          />
           {(profile?.favorite_verses?? []).slice(0, 2).map((v, i) => (
             <p key={i} className="mt-1.5 border-l-2 border-dawn-400 pl-2.5 text-sm italic text-cream/75">
               «&nbsp;{v.text}&nbsp;»{" "}
@@ -470,10 +526,84 @@ function Profile({
             value={bioVal}
             onChange={(e) => setBioVal(e.target.value)}
             rows={3}
-            placeholder="Présente-toi en quelques mots…"
+            placeholder="Ex. Marié, papa de 3 enfants • Bordeaux"
             className="field mt-1 w-full resize-y"
           />
         </label>
+
+        <label className="mt-4 block">
+          <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+            Ta phrase (facultatif)
+          </span>
+          <input
+            value={phraseVal}
+            onChange={(e) => setPhraseVal(e.target.value)}
+            placeholder="Ex. Jésus a changé ma vie en 2019"
+            className="field mt-1 w-full"
+          />
+        </label>
+
+        <label className="mt-4 block">
+          <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+            Ton église (facultatif)
+          </span>
+          <input
+            value={churchVal}
+            onChange={(e) => setChurchVal(e.target.value)}
+            placeholder="Ex. Église Vie Nouvelle, Bordeaux"
+            className="field mt-1 w-full"
+          />
+        </label>
+
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          <label className="block">
+            <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+              Ville (facultatif)
+            </span>
+            <input
+              value={cityVal}
+              onChange={(e) => setCityVal(e.target.value)}
+              placeholder="Ex. Bordeaux"
+              className="field mt-1 w-full"
+            />
+          </label>
+          <label className="block">
+            <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+              Pays (facultatif)
+            </span>
+            <input
+              value={countryVal}
+              onChange={(e) => setCountryVal(e.target.value)}
+              placeholder="Ex. France"
+              className="field mt-1 w-full"
+            />
+          </label>
+        </div>
+
+        <div className="mt-3">
+          <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+            Qui peut voir ta ville / ton pays ?
+          </span>
+          <div className="mt-2 flex gap-2">
+            {([
+              ["public", "Tout le monde"],
+              ["prive", "Seulement moi"],
+            ] as const).map(([k, label]) => (
+              <button
+                key={k}
+                type="button"
+                onClick={() => setLocPrivVal(k)}
+                className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                  locPrivVal === k
+                    ? "bg-night-900 text-cream"
+                    : "border border-night-900/15 bg-night-900/[0.03] text-night-900/70"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
 
         <div className="mt-5">
           <div className="flex items-center justify-between">

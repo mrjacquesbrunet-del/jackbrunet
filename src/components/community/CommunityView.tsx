@@ -347,7 +347,7 @@ function Feed({
       <div className="dark-ctx bg-topo-dark mt-5 flex gap-1.5 rounded-full border border-white/10 p-1.5 shadow-card">
         {(
           [
-            ["all", "Le mur"],
+            ["all", "Pour toi"],
             ["following", "Mes amis"],
           ] as const
         ).map(([key, lbl]) => (

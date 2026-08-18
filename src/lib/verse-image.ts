@@ -9,10 +9,12 @@ export async function buildVerseImage(opts: {
   text: string;
   reference?: string;
   badge?: string;
+  /** Hauteur du canevas : 1350 (portrait) par défaut, 1920 pour une story. */
+  height?: number;
 }): Promise<Blob | null> {
   const { text, reference, badge } = opts;
   const W = 1080;
-  const H = 1350;
+  const H = opts.height?? 1350;
   const canvas = document.createElement("canvas");
   canvas.width = W;
   canvas.height = H;
