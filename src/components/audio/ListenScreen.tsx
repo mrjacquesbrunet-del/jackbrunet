@@ -180,7 +180,8 @@ export function ListenScreen() {
   }
 
   async function share(t: AudioTrack) {
-    const url = `${siteConfig.url}/ecouter?e=${t.id}`;
+    // Tout partage renvoie vers la page de l'application.
+    const url = "https://jackbrunet.com/app";
     try {
       const nav = navigator as Navigator & { share?: (d: object) => Promise<void> };
       if (nav.share) await nav.share({ title: t.title, text: `Écoute « ${t.title} », Pasteur Jack`, url });

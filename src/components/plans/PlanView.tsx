@@ -138,9 +138,8 @@ export function PlanView({
   }
 
   async function share() {
-    const url =
-      (typeof window !== "undefined" ? window.location.origin : "https://jackbrunet.com") +
-      `/plans/${plan.slug}`;
+    // Tout partage renvoie vers la page de l'application.
+    const url = "https://jackbrunet.com/app";
     const data = { title: plan.title, text: `Découvre le parcours « ${plan.title} » sur RHEMA`, url };
     try {
       if (navigator.share) await navigator.share(data);

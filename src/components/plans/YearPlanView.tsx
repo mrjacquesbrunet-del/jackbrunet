@@ -137,9 +137,8 @@ export function YearPlanView() {
   }
 
   async function share() {
-    const url =
-      (typeof window !== "undefined" ? window.location.origin : "https://jackbrunet.com") +
-      "/bible-1-an";
+    // Tout partage renvoie vers la page de l'application.
+    const url = "https://jackbrunet.com/app";
     const data = {
       title: "La Bible en 1 an",
       text: "Découvre le parcours « La Bible en 1 an » sur RHEMA",
