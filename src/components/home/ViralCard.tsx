@@ -44,10 +44,15 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
     const ctx = canvas.getContext("2d");
     if (!ctx) return null;
 
-    // Fond olive très sombre, presque noir
+    // Fond très sombre de la charte. Un canvas ne résout PAS les variables
+    // CSS: on lit les valeurs calculées du thème (app grise / site olive),
+    // avec repli neutre si indisponible.
+    const css = getComputedStyle(document.documentElement);
+    const n950 = css.getPropertyValue("--n-950").trim() || "12 12 11";
+    const n900 = css.getPropertyValue("--n-900").trim() || "23 23 22";
     const bg = ctx.createLinearGradient(0, 0, 0, H);
-    bg.addColorStop(0, "rgb(var(--n-950))");
-    bg.addColorStop(1, "#171A10");
+    bg.addColorStop(0, `rgb(${n950})`);
+    bg.addColorStop(1, `rgb(${n900})`);
     ctx.fillStyle = bg;
     ctx.fillRect(0, 0, W, H);
     // Halos lime (deux coins opposés)
@@ -214,7 +219,7 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
       {/* Aperçu de la carte — 4:3, olive quasi noir, mots forts en lime */}
       <div
         className="dark-ctx relative mt-4 aspect-[4/3] w-full max-w-sm overflow-hidden rounded-2xl border border-dawn-400/30 shadow-card"
-        style={{ background: "linear-gradient(180deg,rgb(var(--n-950)),#171A10)" }}
+        style={{ background: "linear-gradient(180deg,rgb(var(--n-950)),rgb(var(--n-900)))" }}
       >
         {/* Textures de la charte : courbes topographiques + grain */}
         <div
