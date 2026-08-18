@@ -146,51 +146,51 @@ export function MemberView() {
   const pct = g?.next? Math.min(100, Math.round((g.points / g.next.min) * 100)): 100;
 
   return (
-    <section className="container-x pb-10 pt-24 sm:pt-32">
-      {/* En-tête nouveau design : grande photo, nom par-dessus, carte sombre. */}
-      <div className="dark-ctx bg-topo-dark relative rounded-4xl border border-white/10 p-6 text-cream shadow-card sm:p-8">
-        {/* ---- Héros photo ---- */}
-        <div className="relative -mx-6 -mt-6 mb-5 overflow-hidden rounded-t-4xl sm:-mx-8 sm:-mt-8">
-          <div className="relative aspect-[4/5] max-h-[440px] w-full sm:aspect-[16/9]">
-            {profile.avatar_url? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={profile.avatar_url}
-                alt=""
-                aria-hidden
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-            ): (
-              // Image de référence de la charte (croix) quand pas de photo.
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={asset("/img/profil-defaut.webp")}
-                alt=""
-                aria-hidden
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-            )}
-            <div className="absolute inset-0 bg-gradient-to-t from-night-950 via-night-950/25 to-transparent" />
-            {g? (
-              <span className="absolute left-4 top-4 rounded-full bg-night-950/70 px-3 py-1 text-[11px] font-bold text-dawn-300 backdrop-blur">
-                {g.grade.name}
-              </span>
-            ): null}
-            <div className="absolute inset-x-0 bottom-0 p-5">
-              <h2 className="flex items-center gap-2 font-display text-3xl font-extrabold leading-tight text-cream">
-                {profile.pseudo}
-                {profile.verified || profile.is_moderator? <VerifiedBadge className="h-6 w-6" />: null}
-              </h2>
-              <div className="mt-1 flex flex-wrap items-center gap-2">
-                {profile.is_moderator? <ModeratorBadge /> : null}
-                {profile.life_phrase? (
-                  <p className="text-sm italic text-dawn-300">{profile.life_phrase}</p>
-                ): null}
-              </div>
-            </div>
-          </div>
+    <section className="pb-10">
+      {/* ---- Bannière plein écran + photo de profil ronde ---- */}
+      <div className="dark-ctx relative h-[56vh] min-h-[430px] w-full overflow-hidden bg-night-900">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={profile.banner_url || asset("/img/profil-defaut.webp")}
+          alt=""
+          aria-hidden
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-night-950 via-night-950/15 to-night-950/30" />
+        <Link
+          href="/communaute"
+          aria-label="Retour à la communauté"
+          className="absolute left-4 top-[calc(env(safe-area-inset-top)+1rem)] grid h-10 w-10 place-items-center rounded-full bg-night-950/60 text-cream backdrop-blur"
+        >
+          <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2}>
+            <path d="M15 6l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </Link>
+        {g? (
+          <span className="absolute right-4 top-[calc(env(safe-area-inset-top)+1rem)] rounded-full bg-night-950/70 px-3 py-1 text-[11px] font-bold text-dawn-300 backdrop-blur">
+            {g.grade.name}
+          </span>
+        ): null}
+        {/* Photo ronde (façon Instagram) + nom, centrés en bas de la bannière */}
+        <div className="absolute inset-x-0 bottom-0 flex flex-col items-center px-5 pb-6 text-center">
+          <span className="rounded-full bg-dawn-400 p-[3px]">
+            <span className="block rounded-full bg-night-950 p-[3px]">
+              <Avatar pseudo={profile.pseudo} url={profile.avatar_url} size={96} />
+            </span>
+          </span>
+          <h2 className="mt-3 flex items-center justify-center gap-2 font-display text-3xl font-extrabold leading-tight text-cream">
+            {profile.pseudo}
+            {profile.verified || profile.is_moderator? <VerifiedBadge className="h-6 w-6" />: null}
+          </h2>
+          {profile.life_phrase? (
+            <p className="mt-1 text-sm italic text-dawn-300">{profile.life_phrase}</p>
+          ): null}
+          {profile.is_moderator? <div className="mt-1"><ModeratorBadge /></div>: null}
         </div>
+      </div>
 
+      <div className="container-x relative -mt-4">
+      <div className="dark-ctx bg-topo-dark relative rounded-4xl border border-white/10 p-6 text-cream shadow-card sm:p-8">
         {/* Jauge de grade de la personne */}
         {g? (
           <div className="mb-4">
@@ -349,6 +349,7 @@ export function MemberView() {
             ))}
           </ul>
         )}
+      </div>
       </div>
     </section>
   );

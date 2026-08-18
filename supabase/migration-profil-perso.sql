@@ -12,4 +12,5 @@ alter table public.profiles
   add column if not exists country text,
   add column if not exists location_privacy text not null default 'public'
     check (location_privacy in ('public','prive')),
-  add column if not exists life_phrase text;
+  add column if not exists life_phrase text,
+  add column if not exists banner_url text;

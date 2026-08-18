@@ -112,6 +112,7 @@ function Profile({
     favorite_verses?: FavoriteVerse[];
     verified?: boolean | null;
     is_moderator?: boolean | null;
+    banner_url?: string | null;
     church?: string | null;
     city?: string | null;
     country?: string | null;
@@ -131,6 +132,9 @@ function Profile({
   const [countryVal, setCountryVal] = useState(profile?.country?? "");
   const [locPrivVal, setLocPrivVal] = useState<"public" | "prive">(profile?.location_privacy === "prive"? "prive": "public");
   const [phraseVal, setPhraseVal] = useState(profile?.life_phrase?? "");
+  const [bannerVal, setBannerVal] = useState(profile?.banner_url?? "");
+  const [bannerBusy, setBannerBusy] = useState(false);
+  const bannerRef = useRef<HTMLInputElement>(null);
   const [counts, setCounts] = useState({ followers: 0, following: 0 });
   const [activity, setActivity] = useState<Activity>({ prayers: 0, comments: 0, prays: 0 });
   const [saving, setSaving] = useState(false);
@@ -210,8 +214,25 @@ function Profile({
     setCountryVal(profile?.country?? "");
     setLocPrivVal(profile?.location_privacy === "prive"? "prive": "public");
     setPhraseVal(profile?.life_phrase?? "");
+    setBannerVal(profile?.banner_url?? "");
   }, [profile?.pseudo, profile?.avatar_url, profile?.bio, profile?.favorite_verses,
-      profile?.church, profile?.city, profile?.country, profile?.location_privacy, profile?.life_phrase]);
+      profile?.church, profile?.city, profile?.country, profile?.location_privacy,
+      profile?.life_phrase, profile?.banner_url]);
+
+  /** Téléverse la bannière (même bucket que les avatars). */
+  async function onPickBanner(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    setBannerBusy(true);
+    const url = await uploadAvatar(userId, file);
+    setBannerBusy(false);
+    if (url) {
+      setBannerVal(url);
+      await updateProfile(userId, { banner_url: url });
+      refreshProfile();
+    }
+  }
 
   async function onPickFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -275,6 +296,7 @@ function Profile({
       country: countryVal.trim() || null,
       location_privacy: locPrivVal,
       life_phrase: phraseVal.trim() || null,
+      banner_url: bannerVal.trim() || null,
     });
     setVerses(cleanVerses);
     refreshProfile();
@@ -285,9 +307,52 @@ function Profile({
   }
 
   return (
-    <section className="container-x pb-8 pt-24 sm:pt-32">
-      {/* En-tête façon Instagram, sur olive sombre texturé.
-          Pas d'overflow-hidden: sinon le panneau de notifications serait rogné. */}
+    <section className="pb-8">
+      {/* ---- Bannière plein écran (personnalisable) + photo de profil ronde ---- */}
+      <div className="dark-ctx relative h-[56vh] min-h-[430px] w-full overflow-hidden bg-night-900">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={profile?.banner_url || asset("/img/profil-defaut.webp")}
+          alt=""
+          aria-hidden
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-night-950 via-night-950/15 to-night-950/30" />
+        <span
+          className="absolute left-4 top-[calc(env(safe-area-inset-top)+1rem)] rounded-full px-3 py-1 text-[11px] font-bold text-night-950"
+          style={{ background: gradeRing(gradeFor(activity).grade.name) }}
+        >
+          {gradeFor(activity).grade.name}
+        </span>
+        <button
+          type="button"
+          onClick={() => setEditing((e) =>!e)}
+          className="absolute right-4 top-[calc(env(safe-area-inset-top)+1rem)] rounded-full bg-night-950/70 px-4 py-2 text-xs font-bold text-cream backdrop-blur transition-colors hover:bg-night-950/90"
+        >
+          {editing? "Fermer": "Modifier le profil"}
+        </button>
+        {/* Photo ronde (façon Instagram) + nom, centrés en bas de la bannière */}
+        <div className="absolute inset-x-0 bottom-0 flex flex-col items-center px-5 pb-6 text-center">
+          <span
+            className="rounded-full p-[3px]"
+            style={{ background: gradeRing(gradeFor(activity).grade.name) }}
+          >
+            <span className="block rounded-full bg-night-950 p-[3px]">
+              <Avatar pseudo={profile?.pseudo} url={profile?.avatar_url} size={96} />
+            </span>
+          </span>
+          <h2 className="mt-3 flex items-center justify-center gap-2 font-display text-3xl font-extrabold leading-tight text-cream">
+            {profile?.pseudo?? "Ami(e)"}
+            {profile?.verified || isAdminEmail(email)? <VerifiedBadge className="h-6 w-6" />: null}
+          </h2>
+          {profile?.life_phrase? (
+            <p className="mt-1 text-sm italic text-dawn-300">{profile.life_phrase}</p>
+          ): null}
+          {profile?.is_moderator? <div className="mt-1"><ModeratorBadge /></div>: null}
+        </div>
+      </div>
+
+      <div className="container-x relative -mt-4">
       <div className="dark-ctx bg-topo-dark relative rounded-4xl border border-white/10 p-6 shadow-card sm:p-8">
         {/* Teinte de couleur personnalisable (bannière). Couche de décor clippée
             à part, pour ne pas rogner le panneau de notifications. */}
@@ -306,60 +371,6 @@ function Profile({
             style={{ backgroundColor: ACCENTS[accent].from }}
           />
         </div>
-        {/* ---- Héros photo (nouveau design) : grande photo, nom par-dessus ---- */}
-        <div className="relative -mx-6 -mt-6 mb-5 overflow-hidden rounded-t-4xl sm:-mx-8 sm:-mt-8">
-          <div className="relative aspect-[4/5] max-h-[440px] w-full sm:aspect-[16/9]">
-            {profile?.avatar_url? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={profile.avatar_url}
-                alt=""
-                aria-hidden
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-            ): (
-              // Image de référence de la charte (croix) quand pas de photo.
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={asset("/img/profil-defaut.webp")}
-                alt=""
-                aria-hidden
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-            )}
-            <div className="absolute inset-0 bg-gradient-to-t from-night-950 via-night-950/25 to-transparent" />
-
-            {/* Grade en haut à gauche, bouton Modifier en haut à droite (pilule) */}
-            <span
-              className="absolute left-4 top-4 rounded-full px-3 py-1 text-[11px] font-bold text-night-950"
-              style={{ background: gradeRing(gradeFor(activity).grade.name) }}
-            >
-              {gradeFor(activity).grade.name}
-            </span>
-            <button
-              type="button"
-              onClick={() => setEditing((e) =>!e)}
-              className="absolute right-4 top-4 rounded-full bg-night-950/70 px-4 py-2 text-xs font-bold text-cream backdrop-blur transition-colors hover:bg-night-950/90"
-            >
-              {editing? "Fermer": "Modifier le profil"}
-            </button>
-
-            {/* Nom + badges en bas de la photo */}
-            <div className="absolute inset-x-0 bottom-0 p-5">
-              <h2 className="flex items-center gap-2 font-display text-3xl font-extrabold leading-tight text-cream">
-                {profile?.pseudo?? "Ami(e)"}
-                {profile?.verified || isAdminEmail(email)? <VerifiedBadge className="h-6 w-6" />: null}
-              </h2>
-              <div className="mt-1 flex flex-wrap items-center gap-2">
-                {profile?.is_moderator? <ModeratorBadge /> : null}
-                {profile?.life_phrase? (
-                  <p className="text-sm italic text-dawn-300">{profile.life_phrase}</p>
-                ): null}
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Jauge de grade de prière (compacte) */}
         {(() => {
           const g = gradeFor(activity);
@@ -522,6 +533,44 @@ function Profile({
             </div>
             {uploadError? <p className="field-error mt-1">{uploadError}</p>: null}
           </div>
+        </div>
+
+        {/* Bannière du profil (grande image plein écran) */}
+        <div className="mt-4">
+          <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+            Bannière du profil
+          </span>
+          <div className="mt-2 flex items-center gap-3">
+            <div
+              className="h-16 w-28 shrink-0 overflow-hidden rounded-xl border border-night-900/10 bg-night-900/5 bg-cover bg-center"
+              style={{ backgroundImage: `url(${bannerVal || asset("/img/profil-defaut.webp")})` }}
+            />
+            <input
+              ref={bannerRef}
+              type="file"
+              accept="image/*"
+              onChange={onPickBanner}
+              className="hidden"
+            />
+            <button
+              type="button"
+              onClick={() => bannerRef.current?.click()}
+              disabled={bannerBusy}
+              className="btn-ghost text-sm disabled:opacity-50"
+            >
+              {bannerBusy? "Envoi…": "Changer la bannière"}
+            </button>
+            {bannerVal? (
+              <button
+                type="button"
+                onClick={() => setBannerVal("")}
+                className="text-sm text-night-900/45 hover:text-night-900/70"
+              >
+                Retirer
+              </button>
+            ): null}
+          </div>
+          <p className="field-note mt-1">Grande photo affichée en haut de ton profil (paysage de préférence).</p>
         </div>
 
         <label className="mt-4 block">
@@ -1030,6 +1079,7 @@ function Profile({
           onChange={load}
         />
       ): null}
+      </div>
     </section>
   );
 }

@@ -20,6 +20,8 @@ export type Profile = {
   location_privacy?: "public" | "prive" | null;
   /** Phrase personnelle, ex. « Jésus a changé ma vie en 2019 ». */
   life_phrase?: string | null;
+  /** Bannière du profil (grande image plein écran, personnalisable). */
+  banner_url?: string | null;
 };
 export type Visibility = "public" | "friends" | "private";
 export type Prayer = {
@@ -288,7 +290,7 @@ export async function getProfile(id: string): Promise<Profile | null> {
   if (!sb) return null;
   const { data } = await sb
 .from("profiles")
-.select("id,pseudo,avatar_url,bio,favorite_verses,verified,is_moderator,church,city,country,location_privacy,life_phrase")
+.select("id,pseudo,avatar_url,bio,favorite_verses,verified,is_moderator,church,city,country,location_privacy,life_phrase,banner_url")
 .eq("id", id)
 .single();
   return (data as Profile)?? null;
