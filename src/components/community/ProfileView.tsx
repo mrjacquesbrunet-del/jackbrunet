@@ -867,10 +867,9 @@ function Profile({
         </div>
       </div>
 
-      {/* Mon espace (carnet, plans, à propos) */}
+      {/* À propos + soutien */}
       <div className="mt-8">
-        <h3 className="font-display text-lg font-bold">Mon espace</h3>
-        <div className="mt-3">
+        <div>
           {/* À propos, carte sombre premium */}
           <Link
             href="/a-propos"
@@ -895,10 +894,29 @@ function Profile({
             </p>
           </Link>
         </div>
-        <p className="mt-3 text-xs text-cream/45">
-          ✓ Carnet, versets et plans sont synchronisés sur ton compte: tu les retrouves
-          sur tous tes appareils dès que tu te connectes.
-        </p>
+        {/* Soutenir : appel au cœur, bien visible */}
+        <Link
+          href="/don"
+          className="group mt-4 flex items-center gap-4 rounded-3xl bg-dawn-400 p-5 text-night-950 shadow-glow transition-all hover:-translate-y-0.5 hover:bg-dawn-300"
+        >
+          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-night-950 text-dawn-400">
+            <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current" strokeWidth={1.8}>
+              <path
+                d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6.6 5.5 5.5 0 0 1 21.5 12c-2.5 4.5-9.5 9-9.5 9z"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block font-display text-lg font-extrabold leading-tight">
+              Soutiens cette application
+            </span>
+            <span className="mt-0.5 block text-sm font-semibold text-night-950/70">
+              Ton don fait vivre RHEMA et les projets de Jack.
+            </span>
+          </span>
+          <span className="shrink-0 text-2xl transition-transform group-hover:translate-x-1">→</span>
+        </Link>
       </div>
 
       {/* Ma liste de prière (mes sujets, privés ou partagés) */}
