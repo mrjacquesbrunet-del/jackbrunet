@@ -23,8 +23,6 @@ import {
 } from "@/lib/community";
 import { ProfileSignIn } from "@/components/community/ProfileSignIn";
 import { PrayerListQuickAdd } from "@/components/community/MyPrayerList";
-import { MyFavorites } from "@/components/profile/MyFavorites";
-import { AnsweredFeed } from "@/components/community/AnsweredFeed";
 import { MemberSearch } from "@/components/community/MemberSearch";
 import { MemberSuggestions } from "@/components/community/MemberSuggestions";
 import { ProfileActivity } from "@/components/community/ProfileActivity";
@@ -877,47 +875,7 @@ function Profile({
       {/* Mon espace (carnet, plans, à propos) */}
       <div className="mt-8">
         <h3 className="font-display text-lg font-bold">Mon espace</h3>
-        <div className="mt-3 grid gap-4 sm:grid-cols-3">
-          {/* Mon carnet, accent lime */}
-          <Link
-            href="/carnet"
-            className="group relative flex flex-col overflow-hidden rounded-3xl border border-dawn-400/40 bg-gradient-to-br from-dawn-400/20 via-dawn-300/[0.06] to-cream p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg"
-          >
-            <div className="flex items-center justify-between">
-              <span className="grid h-11 w-11 place-items-center rounded-2xl bg-night-900 text-dawn-400 shadow-sm">
-                <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.7}>
-                  <path d="M5 4h11l3 3v13H5zM15 4v4h4M8.5 12h7M8.5 15.5h5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
-              <span className="text-cream/30 transition-transform group-hover:translate-x-0.5 group-hover:text-dawn-300">→</span>
-            </div>
-            <p className="mt-4 font-display text-base font-extrabold text-cream">Mon carnet</p>
-            <p className="mt-0.5 text-sm text-cream/65">
-              {notes.length} note{notes.length > 1? "s": ""} · prières & paroles reçues
-            </p>
-          </Link>
-
-          {/* Mes plans, accent olive */}
-          <Link
-            href="/plans"
-            className="group relative flex flex-col overflow-hidden rounded-3xl border border-spirit-500/35 bg-gradient-to-br from-spirit-500/18 via-spirit-400/[0.06] to-cream p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg"
-          >
-            <div className="flex items-center justify-between">
-              <span className="grid h-11 w-11 place-items-center rounded-2xl bg-night-900 text-dawn-400 shadow-sm">
-                <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.7}>
-                  <path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
-              <span className="text-cream/30 transition-transform group-hover:translate-x-0.5 group-hover:text-dawn-300">→</span>
-            </div>
-            <p className="mt-4 font-display text-base font-extrabold text-cream">Mes plans</p>
-            <p className="mt-0.5 text-sm text-cream/65">
-              {activePlans > 0
-? `${activePlans} plan${activePlans > 1? "s": ""} en cours`
-: "Démarrer un plan"}
-            </p>
-          </Link>
-
+        <div className="mt-3">
           {/* À propos, carte sombre premium */}
           <Link
             href="/a-propos"
@@ -1033,18 +991,6 @@ function Profile({
           </div>
         </div>
       ): null}
-
-      {/* Mes favoris, regroupés directement dans le profil */}
-      <div className="mt-8">
-        <h3 className="font-display text-lg font-bold">Mes favoris</h3>
-        <MyFavorites />
-      </div>
-
-      {/* Prières exaucées, directement dans le profil */}
-      <div className="mt-8">
-        <h3 className="font-display text-lg font-bold">Prières exaucées</h3>
-        <AnsweredFeed />
-      </div>
 
       {isAdminEmail(email)? (
         <div className="mt-8">
