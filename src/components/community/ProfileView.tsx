@@ -342,11 +342,27 @@ function Profile({
         />
         <div className="absolute inset-0 bg-gradient-to-b from-night-950/25 via-transparent to-night-950" />
 
+        {/* Progression du grade : fine barre design en haut de la photo */}
+        {(() => {
+          const g = gradeFor(activity);
+          const pct = g.next? Math.min(100, Math.round((g.points / g.next.min) * 100)): 100;
+          return (
+            <div
+              className="absolute inset-x-4 top-[calc(env(safe-area-inset-top)+0.5rem)] h-1 overflow-hidden rounded-full bg-white/15"
+              title={g.next? `Plus que ${g.toNext} pts → ${g.next.name}`: "Grade maximal"}
+            >
+              <div
+                className="h-full rounded-full bg-gradient-to-r from-dawn-400 to-dawn-300"
+                style={{ width: `${pct}%` }}
+              />
+            </div>
+          );
+        })()}
         <span
-          className="absolute left-4 top-[calc(env(safe-area-inset-top)+1rem)] rounded-full px-3 py-1 text-[11px] font-bold text-night-950"
+          className="absolute left-4 top-[calc(env(safe-area-inset-top)+1.4rem)] rounded-full px-3 py-1 text-[11px] font-bold text-night-950"
           style={{ background: gradeRing(gradeFor(activity).grade.name) }}
         >
-          {gradeFor(activity).grade.name}
+          {gradeFor(activity).grade.name} · {gradeFor(activity).points} pts
         </span>
 
         {/* Contenu posé directement sur la photo (réf. Olivia Beits) */}
@@ -428,50 +444,6 @@ function Profile({
 
       <div className="profile-dark container-x relative mt-2">
       <div className="dark-ctx bg-topo-dark relative rounded-4xl border border-white/10 p-6 shadow-card sm:p-8">
-        {/* Teinte de couleur personnalisable (bannière). Couche de décor clippée
-            à part, pour ne pas rogner le panneau de notifications. */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 overflow-hidden rounded-4xl"
-        >
-          <div
-            className="absolute inset-x-0 top-0 h-40 opacity-30"
-            style={{
-              backgroundImage: `linear-gradient(120deg, ${ACCENTS[accent].from}, ${ACCENTS[accent].to})`,
-            }}
-          />
-          <div
-            className="absolute -right-8 -top-10 h-44 w-44 rounded-full opacity-40 blur-3xl"
-            style={{ backgroundColor: ACCENTS[accent].from }}
-          />
-        </div>
-        {/* Jauge de grade de prière (compacte) */}
-        {(() => {
-          const g = gradeFor(activity);
-          const pct = g.next? Math.min(100, Math.round((g.points / g.next.min) * 100)): 100;
-          return (
-            <div className="relative mb-4">
-              <div className="flex items-center justify-between text-[11px]">
-                <span className="font-bold text-dawn-300">
-                  {g.grade.name} · {g.points} pts
-                </span>
-                <span className="text-cream/60">
-                  {g.next? `Plus que ${g.toNext} pts → ${g.next.name}`: "Grade maximal"}
-                </span>
-              </div>
-              <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-white/10">
-                <div
-                  className="h-full rounded-full"
-                  style={{
-                    width: `${pct}%`,
-                    backgroundImage: `linear-gradient(90deg, ${ACCENTS[accent].from}, ${ACCENTS[accent].to})`,
-                  }}
-                />
-              </div>
-            </div>
-          );
-        })()}
-
         {/* Actions: Modifier / Partager / Rechercher / Messages / Cloche.
             flex-wrap: sur mobile les icônes passent à la ligne suivante au lieu
             de déborder hors de la carte (cloche coupée). */}

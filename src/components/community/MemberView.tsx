@@ -175,17 +175,28 @@ export function MemberView() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-night-950/25 via-transparent to-night-950" />
 
+        {g? (
+          <div
+            className="absolute inset-x-4 top-[calc(env(safe-area-inset-top)+0.5rem)] h-1 overflow-hidden rounded-full bg-white/15"
+            title={g.next? `Plus que ${g.toNext} pts → ${g.next.name}`: "Grade maximal"}
+          >
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-dawn-400 to-dawn-300"
+              style={{ width: `${pct}%` }}
+            />
+          </div>
+        ): null}
         <Link
           href="/communaute"
           aria-label="Retour à la communauté"
-          className="absolute left-4 top-[calc(env(safe-area-inset-top)+1rem)] grid h-10 w-10 place-items-center rounded-full bg-night-950/60 text-cream backdrop-blur"
+          className="absolute left-4 top-[calc(env(safe-area-inset-top)+1.4rem)] grid h-10 w-10 place-items-center rounded-full bg-night-950/60 text-cream backdrop-blur"
         >
           <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2}>
             <path d="M15 6l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </Link>
         {g? (
-          <span className="absolute right-4 top-[calc(env(safe-area-inset-top)+1rem)] rounded-full bg-night-950/70 px-3 py-1 text-[11px] font-bold text-dawn-300 backdrop-blur">
+          <span className="absolute right-4 top-[calc(env(safe-area-inset-top)+1.4rem)] rounded-full bg-night-950/70 px-3 py-1 text-[11px] font-bold text-dawn-300 backdrop-blur">
             {g.grade.name}
           </span>
         ): null}
@@ -289,26 +300,6 @@ export function MemberView() {
 
       <div className="profile-dark container-x relative mt-2">
       <div className="dark-ctx bg-topo-dark relative rounded-4xl border border-white/10 p-6 text-cream shadow-card sm:p-8">
-        {/* Jauge de grade de la personne */}
-        {g? (
-          <div className="mb-4">
-            <div className="flex items-center justify-between text-[11px]">
-              <span className="font-bold text-dawn-300">
-                {g.grade.name} · {g.points} pts
-              </span>
-              <span className="text-cream/60">
-                {g.next? `Plus que ${g.toNext} pts → ${g.next.name}`: "Grade maximal"}
-              </span>
-            </div>
-            <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-white/10">
-              <div
-                className="h-full rounded-full bg-gradient-to-r from-dawn-400 to-spirit-500"
-                style={{ width: `${pct}%` }}
-              />
-            </div>
-          </div>
-        ): null}
-
         {/* Signaler / Bloquer ce membre */}
         {userId &&!isMe? (
           <div className="mt-3 flex items-center justify-center gap-4 text-xs text-cream/60">
