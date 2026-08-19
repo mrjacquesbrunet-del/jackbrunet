@@ -36,7 +36,7 @@ import { ModeratorBadge } from "@/components/community/ModeratorBadge";
 import { FollowList } from "@/components/community/FollowList";
 import { ProfileBanners } from "@/components/community/ProfileBanners";
 import { ProfileInfoPills } from "@/components/community/ProfileInfoPills";
-import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
+import { ProfileThemeBg, ProfileThemeToggle, useProfileTheme } from "@/components/community/ProfileTheme";
 import { useEngagement } from "@/lib/engagement";
 import { FIDELITY_REWARDS } from "@/lib/rewards";
 import { FlameGlyph, StarGlyph, GiftGlyph } from "@/components/ui/DevoIcons";
@@ -152,6 +152,7 @@ function Profile({
   const planProgress = useAllPlanProgress();
 
   const { accent, setAccent } = useProfileAccent();
+  const { jour, toggle: toggleTheme } = useProfileTheme();
 
   async function shareProfile() {
     const url = `${siteConfig.url}/membre?u=${userId}`;
@@ -310,10 +311,10 @@ function Profile({
   }
 
   return (
-    <section className="bg-night-950 pb-8 text-cream">
-      <PlansDarkBg />
+    <section className={jour? "bg-cream pb-8 text-night-900": "bg-night-950 pb-8 text-cream"}>
+      <ProfileThemeBg jour={jour} />
       {/* ---- Bloc total : la photo fond dans le flou sombre, le texte vient dessus ---- */}
-      <div className="dark-ctx relative h-[calc(100svh-7.5rem-env(safe-area-inset-bottom))] min-h-[580px] w-full overflow-hidden bg-night-950">
+      <div className={`relative h-[calc(100svh-7.5rem-env(safe-area-inset-bottom))] min-h-[580px] w-full overflow-hidden ${jour? "bg-cream": "dark-ctx bg-night-950"}`}>
         {/* Fond : la même photo floutée remplit l'écran… */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -338,7 +339,7 @@ function Profile({
             maskImage: "linear-gradient(to bottom, transparent 48%, black 72%)",
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-night-950/25 via-transparent to-night-950" />
+        <div className={`absolute inset-0 bg-gradient-to-b via-transparent ${jour? "from-night-950/10 to-cream": "from-night-950/25 to-night-950"}`} />
 
         {/* Progression du grade : fine barre design en haut de la photo */}
         {(() => {
@@ -346,7 +347,7 @@ function Profile({
           const pct = g.next? Math.min(100, Math.round((g.points / g.next.min) * 100)): 100;
           return (
             <div
-              className="absolute inset-x-4 top-[calc(env(safe-area-inset-top)+0.5rem)] h-1 overflow-hidden rounded-full bg-white/15"
+              className={`absolute inset-x-4 top-[calc(env(safe-area-inset-top)+0.5rem)] h-1 overflow-hidden rounded-full ${jour? "bg-night-900/15": "bg-white/15"}`}
               title={g.next? `Plus que ${g.toNext} pts → ${g.next.name}`: "Grade maximal"}
             >
               <div
@@ -366,7 +367,7 @@ function Profile({
         {/* Contenu posé directement sur la photo (réf. Olivia Beits) */}
         <div className="absolute inset-x-0 bottom-0 px-5 pb-5 text-center">
           <h2
-            className="text-balance font-display text-3xl font-extrabold leading-tight text-cream sm:text-4xl"
+            className={`text-balance font-display text-3xl font-extrabold leading-tight sm:text-4xl ${jour? "text-night-900": "text-cream"}`}
             style={profile?.name_color? { color: profile.name_color }: undefined}
           >
             {profile?.pseudo?? "Ami(e)"}
@@ -375,14 +376,14 @@ function Profile({
             ): null}
           </h2>
           {profile?.life_phrase? (
-            <p className="mt-1 text-sm italic text-dawn-300">{profile.life_phrase}</p>
+            <p className={`mt-1 text-sm italic ${jour? "text-dawn-600": "text-dawn-300"}`}>{profile.life_phrase}</p>
           ): null}
 
           <div className="mx-auto mt-5 flex max-w-md items-center gap-2">
             <button
               type="button"
               onClick={() => setEditing((e) =>!e)}
-              className="flex-1 rounded-full bg-cream py-3 text-sm font-bold text-night-950 transition-transform hover:-translate-y-0.5"
+              className={`flex-1 rounded-full py-3 text-sm font-bold transition-transform hover:-translate-y-0.5 ${jour? "bg-night-900 text-cream": "bg-cream text-night-950"}`}
             >
               {editing? "Fermer": "Modifier le profil"}
             </button>
@@ -390,7 +391,7 @@ function Profile({
               type="button"
               onClick={shareProfile}
               aria-label="Partager mon profil"
-              className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-white/15 bg-white/10 text-cream backdrop-blur"
+              className={`grid h-12 w-12 shrink-0 place-items-center rounded-full border backdrop-blur ${jour? "border-night-900/15 bg-night-900/10 text-night-900": "border-white/15 bg-white/10 text-cream"}`}
             >
               <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
                 <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v14" strokeLinecap="round" strokeLinejoin="round" />
@@ -418,7 +419,7 @@ function Profile({
 
           {profile?.bio &&
           profile.bio.trim().toLowerCase()!== (profile?.pseudo?? "").trim().toLowerCase()? (
-            <p className="mx-auto mt-4 max-w-md rounded-2xl bg-white/[0.07] px-4 py-3 text-sm leading-relaxed text-cream/85 backdrop-blur">
+            <p className={`mx-auto mt-4 max-w-md rounded-2xl px-4 py-3 text-sm leading-relaxed backdrop-blur ${jour? "bg-night-900/[0.06] text-night-900/85": "bg-white/[0.07] text-cream/85"}`}>
               {profile.bio}
             </p>
           ): null}
@@ -428,21 +429,22 @@ function Profile({
             country={profile?.country}
             show
             centered
+            light={jour}
           />
           {(profile?.favorite_verses?? []).slice(0, 1).map((v, i) => (
-            <p key={i} className="mx-auto mt-3 max-w-md text-sm italic text-cream/75">
+            <p key={i} className={`mx-auto mt-3 max-w-md text-sm italic ${jour? "text-night-900/75": "text-cream/75"}`}>
               «&nbsp;{v.text}&nbsp;»{" "}
               {v.reference? (
-                <span className="font-semibold not-italic text-dawn-200">{v.reference}</span>
+                <span className={`font-semibold not-italic ${jour? "text-dawn-600": "text-dawn-200"}`}>{v.reference}</span>
               ): null}
             </p>
           ))}
         </div>
       </div>
 
-      <div className="profile-dark container-x relative mt-2">
+      <div className={`${jour? "profile-jour-scope": "profile-dark"} container-x relative mt-2`}>
       {/* Recherche / Messages / Notifications — rangée sobre, sans carte */}
-      <div className="dark-ctx relative flex items-center justify-end gap-2">
+      <div className={`relative flex items-center justify-end gap-2 ${jour? "": "dark-ctx"}`}>
           <div className="flex shrink-0 items-center gap-2">
             <button
               type="button"
@@ -461,11 +463,12 @@ function Profile({
             <MessagesButton tone="dark" />
             {/* Cloche: s'allume quand on interagit avec tes sujets de prière */}
             <NotificationsBell userId={userId} tone="dark" />
+            <ProfileThemeToggle jour={jour} onToggle={toggleTheme} />
           </div>
       </div>
 
       {editing? (
-        <div className="dark-ctx glass-strong mt-4 p-6 text-cream sm:p-8">
+        <div className={`glass-strong mt-4 p-6 sm:p-8 ${jour? "": "dark-ctx text-cream"}`}>
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="block">
             <span className="text-xs font-semibold uppercase tracking-wide text-cream/50">
@@ -873,7 +876,7 @@ function Profile({
           {/* À propos, carte sombre premium */}
           <Link
             href="/a-propos"
-            className="group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-spirit-700 to-night-900 p-5 text-cream shadow-card transition-all hover:-translate-y-0.5 hover:shadow-lg"
+            className="keep-dark group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-spirit-700 to-night-900 p-5 text-cream shadow-card transition-all hover:-translate-y-0.5 hover:shadow-lg"
           >
             <div
               aria-hidden

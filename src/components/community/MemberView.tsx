@@ -10,7 +10,7 @@ import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { ModeratorBadge } from "@/components/community/ModeratorBadge";
 import { ReportButton } from "@/components/community/ReportButton";
 import { ProfileInfoPills } from "@/components/community/ProfileInfoPills";
-import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
+import { ProfileThemeBg, useProfileTheme } from "@/components/community/ProfileTheme";
 import { blockUser, unblockUser, listBlockedIds } from "@/lib/moderation";
 import {
   getProfile,
@@ -44,6 +44,7 @@ export function MemberView() {
   const [blocked, setBlocked] = useState(false);
 
   const isMe =!!userId &&!!memberId && userId === memberId;
+  const { jour } = useProfileTheme();
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -146,10 +147,10 @@ export function MemberView() {
   const pct = g?.next? Math.min(100, Math.round((g.points / g.next.min) * 100)): 100;
 
   return (
-    <section className="bg-night-950 pb-10 text-cream">
-      <PlansDarkBg />
+    <section className={jour? "bg-cream pb-10 text-night-900": "bg-night-950 pb-10 text-cream"}>
+      <ProfileThemeBg jour={jour} />
       {/* ---- Bloc total : la photo fond dans le flou sombre, le texte vient dessus ---- */}
-      <div className="dark-ctx relative h-[calc(100svh-7.5rem-env(safe-area-inset-bottom))] min-h-[580px] w-full overflow-hidden bg-night-950">
+      <div className={`relative h-[calc(100svh-7.5rem-env(safe-area-inset-bottom))] min-h-[580px] w-full overflow-hidden ${jour? "bg-cream": "dark-ctx bg-night-950"}`}>
         {/* Fond : la même photo floutée remplit l'écran… */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -173,11 +174,11 @@ export function MemberView() {
             maskImage: "linear-gradient(to bottom, transparent 48%, black 72%)",
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-night-950/25 via-transparent to-night-950" />
+        <div className={`absolute inset-0 bg-gradient-to-b via-transparent ${jour? "from-night-950/10 to-cream": "from-night-950/25 to-night-950"}`} />
 
         {g? (
           <div
-            className="absolute inset-x-4 top-[calc(env(safe-area-inset-top)+0.5rem)] h-1 overflow-hidden rounded-full bg-white/15"
+            className={`absolute inset-x-4 top-[calc(env(safe-area-inset-top)+0.5rem)] h-1 overflow-hidden rounded-full ${jour? "bg-night-900/15": "bg-white/15"}`}
             title={g.next? `Plus que ${g.toNext} pts → ${g.next.name}`: "Grade maximal"}
           >
             <div
@@ -189,14 +190,14 @@ export function MemberView() {
         <Link
           href="/communaute"
           aria-label="Retour à la communauté"
-          className="absolute left-4 top-[calc(env(safe-area-inset-top)+1.4rem)] grid h-10 w-10 place-items-center rounded-full bg-night-950/60 text-cream backdrop-blur"
+          className={`absolute left-4 top-[calc(env(safe-area-inset-top)+1.4rem)] grid h-10 w-10 place-items-center rounded-full backdrop-blur ${jour? "bg-white/80 text-night-900": "bg-night-950/60 text-cream"}`}
         >
           <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2}>
             <path d="M15 6l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </Link>
         {g? (
-          <span className="absolute right-4 top-[calc(env(safe-area-inset-top)+1.4rem)] rounded-full bg-night-950/70 px-3 py-1 text-[11px] font-bold text-dawn-300 backdrop-blur">
+          <span className={`absolute right-4 top-[calc(env(safe-area-inset-top)+1.4rem)] rounded-full px-3 py-1 text-[11px] font-bold backdrop-blur ${jour? "bg-white/80 text-dawn-600": "bg-night-950/70 text-dawn-300"}`}>
             {g.grade.name}
           </span>
         ): null}
@@ -204,7 +205,7 @@ export function MemberView() {
         {/* Contenu posé directement sur la photo (réf. Olivia Beits) */}
         <div className="absolute inset-x-0 bottom-0 px-5 pb-5 text-center">
           <h2
-            className="text-balance font-display text-3xl font-extrabold leading-tight text-cream sm:text-4xl"
+            className={`text-balance font-display text-3xl font-extrabold leading-tight sm:text-4xl ${jour? "text-night-900": "text-cream"}`}
             style={profile.name_color? { color: profile.name_color }: undefined}
           >
             {profile.pseudo}
@@ -213,14 +214,14 @@ export function MemberView() {
             ): null}
           </h2>
           {profile.life_phrase? (
-            <p className="mt-1 text-sm italic text-dawn-300">{profile.life_phrase}</p>
+            <p className={`mt-1 text-sm italic ${jour? "text-dawn-600": "text-dawn-300"}`}>{profile.life_phrase}</p>
           ): null}
 
           <div className="mx-auto mt-5 flex max-w-md items-center gap-2">
             {isMe? (
               <Link
                 href="/profil"
-                className="flex-1 rounded-full bg-cream py-3 text-center text-sm font-bold text-night-950"
+                className={`flex-1 rounded-full py-3 text-center text-sm font-bold ${jour? "bg-night-900 text-cream": "bg-cream text-night-950"}`}
               >
                 Modifier mon profil
               </Link>
@@ -231,7 +232,11 @@ export function MemberView() {
                 disabled={busy}
                 className={`flex-1 rounded-full py-3 text-center text-sm font-bold transition-colors disabled:opacity-60 ${
                   following
-? "border border-white/20 bg-white/10 text-cream hover:bg-white/20"
+? jour
+? "border border-night-900/20 bg-night-900/5 text-night-900 hover:bg-night-900/10"
+: "border border-white/20 bg-white/10 text-cream hover:bg-white/20"
+: jour
+? "bg-night-900 text-cream hover:-translate-y-0.5"
 : "bg-cream text-night-950 hover:-translate-y-0.5"
                 }`}
               >
@@ -240,7 +245,7 @@ export function MemberView() {
             ): (
               <Link
                 href="/communaute"
-                className="flex-1 rounded-full bg-cream py-3 text-center text-sm font-bold text-night-950"
+                className={`flex-1 rounded-full py-3 text-center text-sm font-bold ${jour? "bg-night-900 text-cream": "bg-cream text-night-950"}`}
               >
                 Se connecter pour s'abonner
               </Link>
@@ -249,7 +254,7 @@ export function MemberView() {
               <Link
                 href={`/messages?u=${memberId}`}
                 aria-label="Envoyer un message"
-                className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-white/15 bg-white/10 text-cream backdrop-blur"
+                className={`grid h-12 w-12 shrink-0 place-items-center rounded-full border backdrop-blur ${jour? "border-night-900/15 bg-night-900/10 text-night-900": "border-white/15 bg-white/10 text-cream"}`}
               >
                 <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
                   <rect x="3" y="5" width="18" height="14" rx="2" />
@@ -261,22 +266,22 @@ export function MemberView() {
 
           <div className="mx-auto mt-5 grid max-w-md grid-cols-3 gap-2">
             <div>
-              <p className="font-display text-2xl font-extrabold text-cream">{counts.followers}</p>
-              <p className="text-[11px] text-cream/55">Abonnés</p>
+              <p className={`font-display text-2xl font-extrabold ${jour? "text-night-900": "text-cream"}`}>{counts.followers}</p>
+              <p className={`text-[11px] ${jour? "text-night-900/50": "text-cream/55"}`}>Abonnés</p>
             </div>
             <div>
-              <p className="font-display text-2xl font-extrabold text-cream">{counts.following}</p>
-              <p className="text-[11px] text-cream/55">Abonnements</p>
+              <p className={`font-display text-2xl font-extrabold ${jour? "text-night-900": "text-cream"}`}>{counts.following}</p>
+              <p className={`text-[11px] ${jour? "text-night-900/50": "text-cream/55"}`}>Abonnements</p>
             </div>
             <div>
-              <p className="font-display text-2xl font-extrabold text-dawn-300">{prayers.length}</p>
-              <p className="text-[11px] text-cream/55">Sujets</p>
+              <p className={`font-display text-2xl font-extrabold ${jour? "text-dawn-600": "text-dawn-300"}`}>{prayers.length}</p>
+              <p className={`text-[11px] ${jour? "text-night-900/50": "text-cream/55"}`}>Sujets</p>
             </div>
           </div>
 
           {profile.bio &&
           profile.bio.trim().toLowerCase()!== profile.pseudo.trim().toLowerCase()? (
-            <p className="mx-auto mt-4 max-w-md rounded-2xl bg-white/[0.07] px-4 py-3 text-sm leading-relaxed text-cream/85 backdrop-blur">
+            <p className={`mx-auto mt-4 max-w-md rounded-2xl px-4 py-3 text-sm leading-relaxed backdrop-blur ${jour? "bg-night-900/[0.06] text-night-900/85": "bg-white/[0.07] text-cream/85"}`}>
               {profile.bio}
             </p>
           ): null}
@@ -286,19 +291,20 @@ export function MemberView() {
             country={profile.country}
             show={isMe || profile.location_privacy!== "prive"}
             centered
+            light={jour}
           />
           {verses.slice(0, 1).map((v, i) => (
-            <p key={i} className="mx-auto mt-3 max-w-md text-sm italic text-cream/75">
+            <p key={i} className={`mx-auto mt-3 max-w-md text-sm italic ${jour? "text-night-900/75": "text-cream/75"}`}>
               «&nbsp;{v.text}&nbsp;»{" "}
               {v.reference? (
-                <span className="font-semibold not-italic text-dawn-200">{v.reference}</span>
+                <span className={`font-semibold not-italic ${jour? "text-dawn-600": "text-dawn-200"}`}>{v.reference}</span>
               ): null}
             </p>
           ))}
         </div>
       </div>
 
-      <div className="profile-dark container-x relative mt-2">
+      <div className={`${jour? "profile-jour-scope": "profile-dark"} container-x relative mt-2`}>
       <div className="dark-ctx bg-topo-dark relative rounded-4xl border border-white/10 p-6 text-cream shadow-card sm:p-8">
         {/* Signaler / Bloquer ce membre */}
         {userId &&!isMe? (

@@ -11,6 +11,7 @@ export function ProfileInfoPills({
   country,
   show,
   centered = false,
+  light = false,
 }: {
   church?: string | null;
   city?: string | null;
@@ -19,6 +20,8 @@ export function ProfileInfoPills({
   show: boolean;
   /** Centre les pastilles (héros du profil). */
   centered?: boolean;
+  /** Version claire (mode jour du profil). */
+  light?: boolean;
 }) {
   const location = [city?.trim(), country?.trim()].filter(Boolean).join(", ");
   const hasChurch = !!church?.trim();
@@ -28,9 +31,9 @@ export function ProfileInfoPills({
   return (
     <div className={`mt-2.5 flex flex-wrap items-center gap-2 ${centered? "justify-center": ""}`}>
       {hasChurch ? (
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.06] px-3 py-1 text-xs font-semibold text-cream/85">
+        <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${light? "border-night-900/15 bg-night-900/5 text-night-900/85": "border-white/15 bg-white/[0.06] text-cream/85"}`}>
           {/* Icône église (trait) */}
-          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-dawn-300" strokeWidth={1.8}>
+          <svg viewBox="0 0 24 24" className={`h-3.5 w-3.5 fill-none ${light? "stroke-dawn-600": "stroke-dawn-300"}`} strokeWidth={1.8}>
             <path
               d="M12 3v4M10 5h4M12 7l5 4v9h-4v-4a1 1 0 0 0-2 0v4H7v-9l5-4zM4 20h16"
               strokeLinecap="round"
@@ -41,9 +44,9 @@ export function ProfileInfoPills({
         </span>
       ) : null}
       {hasLocation ? (
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.06] px-3 py-1 text-xs font-semibold text-cream/85">
+        <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${light? "border-night-900/15 bg-night-900/5 text-night-900/85": "border-white/15 bg-white/[0.06] text-cream/85"}`}>
           {/* Icône épingle (trait) */}
-          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-dawn-300" strokeWidth={1.8}>
+          <svg viewBox="0 0 24 24" className={`h-3.5 w-3.5 fill-none ${light? "stroke-dawn-600": "stroke-dawn-300"}`} strokeWidth={1.8}>
             <path
               d="M12 21s-6.5-5.2-6.5-10a6.5 6.5 0 0 1 13 0c0 4.8-6.5 10-6.5 10z"
               strokeLinejoin="round"
