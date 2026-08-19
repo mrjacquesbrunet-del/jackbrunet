@@ -1012,7 +1012,7 @@ function Profile({
         <div className="mt-8">
           <Link
             href="/admin"
-            className="group flex items-center justify-between gap-4 rounded-3xl border border-dawn-400/40 bg-gradient-to-br from-spirit-700 to-night-900 p-5 text-cream transition-transform hover:-translate-y-0.5"
+            className="keep-dark group flex items-center justify-between gap-4 rounded-3xl border border-dawn-400/40 bg-gradient-to-br from-spirit-700 to-night-900 p-5 text-cream transition-transform hover:-translate-y-0.5"
           >
             <div>
               <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-dawn-300">

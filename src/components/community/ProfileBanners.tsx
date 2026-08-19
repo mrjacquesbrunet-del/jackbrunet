@@ -56,7 +56,7 @@ export function ProfileBanners() {
         >
           <Link
             href={b.href}
-            className="group flex items-center justify-between gap-4 overflow-hidden rounded-3xl border border-white/10 p-5 text-cream transition-transform hover:-translate-y-0.5"
+            className="keep-dark group flex items-center justify-between gap-4 overflow-hidden rounded-3xl border border-white/10 p-5 text-cream transition-transform hover:-translate-y-0.5"
             style={{ backgroundImage: `linear-gradient(120deg, ${b.from}, ${b.to})` }}
           >
             <div className="min-w-0">
