@@ -441,12 +441,8 @@ function Profile({
       </div>
 
       <div className="profile-dark container-x relative mt-2">
-      <div className="dark-ctx bg-topo-dark relative rounded-4xl border border-white/10 p-6 shadow-card sm:p-8">
-        {/* Actions: Modifier / Partager / Rechercher / Messages / Cloche.
-            flex-wrap: sur mobile les icônes passent à la ligne suivante au lieu
-            de déborder hors de la carte (cloche coupée). */}
-        <div className="relative mt-4 flex flex-wrap items-center justify-end gap-2">
-          {/* Icônes groupées: recherche, messages, notifications */}
+      {/* Recherche / Messages / Notifications — rangée sobre, sans carte */}
+      <div className="dark-ctx relative flex items-center justify-end gap-2">
           <div className="flex shrink-0 items-center gap-2">
             <button
               type="button"
@@ -466,7 +462,6 @@ function Profile({
             {/* Cloche: s'allume quand on interagit avec tes sujets de prière */}
             <NotificationsBell userId={userId} tone="dark" />
           </div>
-        </div>
       </div>
 
       {editing? (
