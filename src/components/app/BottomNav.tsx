@@ -107,12 +107,13 @@ export function BottomNav() {
         {/* Dégradé + chevron: indique qu'on peut faire glisser vers la gauche.
             Masqué une fois arrivé au bout. */}
         <div
-          className={`pointer-events-none absolute inset-y-0 right-0 flex w-8 items-center justify-end bg-gradient-to-l from-night-950 to-transparent pr-1 text-cream/40 transition-opacity duration-300 ${
+          className={`pointer-events-none absolute inset-y-0 right-0 flex w-12 items-center justify-end bg-gradient-to-l from-night-950 via-night-950/70 to-transparent pr-1.5 text-dawn-400 transition-opacity duration-300 ${
             atEnd? "opacity-0": "opacity-100"
           }`}
         >
-          <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
-            <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+          {/* Double chevron lime animé : « il y a d'autres onglets à droite » */}
+          <svg viewBox="0 0 24 24" className="nav-nudge h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2.4}>
+            <path d="M6.5 6l6 6-6 6M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
       </div>

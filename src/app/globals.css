@@ -366,19 +366,49 @@ html.profile-jour,
 html.profile-jour body {
   background-color: #f3f3ed !important;
 }
-.profile-jour-scope [class*="text-cream"]:not(.keep-dark):not(.keep-dark *) {
+.profile-jour-scope [class*="text-cream"] {
   color: rgb(23 23 22 / 0.85) !important;
 }
-.profile-jour-scope [class*="text-dawn-2"]:not(.keep-dark):not(.keep-dark *),
-.profile-jour-scope [class*="text-dawn-3"]:not(.keep-dark):not(.keep-dark *) {
+.profile-jour-scope [class*="text-dawn-2"],
+.profile-jour-scope [class*="text-dawn-3"] {
   color: #879e00 !important;
 }
-.profile-jour-scope [class*="border-white/"]:not(.keep-dark):not(.keep-dark *) {
+.profile-jour-scope [class*="border-white/"] {
   border-color: rgb(23 23 22 / 0.12) !important;
 }
-.profile-jour-scope [class*="bg-white/"]:not(.keep-dark):not(.keep-dark *) {
+.profile-jour-scope [class*="bg-white/"] {
   background-color: rgb(23 23 22 / 0.05) !important;
 }
-.profile-jour-scope [class*="bg-night-900/8"]:not(.keep-dark):not(.keep-dark *) {
+.profile-jour-scope [class*="bg-night-900/8"] {
   background-color: rgb(255 255 255 / 0.9) !important;
+}
+/* Restauration des cartes qui restent sombres en mode jour (déclarées
+   après et plus spécifiques : elles gagnent sur les règles ci-dessus). */
+.profile-jour-scope .keep-dark {
+  color: #f3f3ed !important;
+}
+.profile-jour-scope .keep-dark [class*="text-cream"] {
+  color: rgb(243 243 237 / 0.85) !important;
+}
+.profile-jour-scope .keep-dark [class*="text-dawn-2"],
+.profile-jour-scope .keep-dark [class*="text-dawn-3"] {
+  color: #d8f53a !important;
+}
+.profile-jour-scope .keep-dark [class*="border-white/"] {
+  border-color: rgb(255 255 255 / 0.12) !important;
+}
+.profile-jour-scope .keep-dark [class*="bg-white/"] {
+  background-color: rgb(255 255 255 / 0.08) !important;
+}
+
+/* Chevron du menu du bas : léger va-et-vient pour inviter au glissement. */
+@keyframes nav-nudge {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(4px); }
+}
+.nav-nudge {
+  animation: nav-nudge 1.3s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-nudge { animation: none; }
 }
