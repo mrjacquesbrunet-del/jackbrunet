@@ -10,7 +10,7 @@ import { getMissionStats, setMissionRaised } from "@/lib/mission";
  */
 export function MissionRaisedAdmin() {
   const [val, setVal] = useState("");
-  const [obj, setObj] = useState(10000);
+  const [obj, setObj] = useState(15000);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
 
