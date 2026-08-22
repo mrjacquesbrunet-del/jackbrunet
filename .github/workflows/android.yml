@@ -5,6 +5,13 @@ name: Build Android (.aab pour Google Play)
 # À la fin, le fichier .aab est téléchargeable dans « Artifacts ».
 on:
   workflow_dispatch:
+  # Déclenchement « par commit » : toucher le fichier .android-release lance
+  # la fabrication du .aab (pratique sans passer par l'onglet Actions).
+  push:
+    branches:
+      - claude/great-hamilton-ieokug
+    paths:
+      - ".android-release"
 
 permissions:
   contents: read
