@@ -1,0 +1,74 @@
+name: Générer des images (couvertures de plans)
+
+# Génère des photos via Pollinations (Flux, gratuit, sans clé) depuis le
+# runner GitHub (qui a un accès réseau complet, contrairement à la session
+# Claude qui prépare les plans). Les candidats sont committés dans
+# assets/generated/ pour être relus, raccordés en colorimétrie, puis
+# intégrés comme affiches des plans.
+#
+# Déclenchement : committer le fichier « .image-request » (une demande par
+# ligne, au format « nom | prompt »). Le commit du workflow porte
+# « [skip ci] » pour ne pas déclencher les autres builds.
+on:
+  push:
+    branches: [claude/great-hamilton-ieokug]
+    paths: [".image-request"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: generate-image
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: claude/great-hamilton-ieokug
+
+      - name: Générer les images demandées
+        run: |
+          mkdir -p assets/generated
+          while IFS='|' read -r name prompt; do
+            name=$(echo "$name" | xargs)
+            prompt=$(echo "$prompt" | xargs)
+            [ -z "$name" ] && continue
+            [ -z "$prompt" ] && continue
+            encoded=$(python3 -c "import urllib.parse,sys; print(urllib.parse.quote(sys.argv[1]))" "$prompt")
+            for seed in 11 42 77 123; do
+              out="assets/generated/${name}-${seed}.jpg"
+              for try in 1 2 3; do
+                code=$(curl -s -o "$out" -w '%{http_code}' --max-time 300 \
+                  "https://image.pollinations.ai/prompt/${encoded}?width=900&height=1200&nologo=true&model=flux&seed=${seed}")
+                type=$(file -b --mime-type "$out" || echo none)
+                size=$(stat -c%s "$out" 2>/dev/null || echo 0)
+                echo "$name seed=$seed try=$try code=$code type=$type size=$size"
+                if [ "$code" = "200" ] && [ "${type#image/}" != "$type" ] && [ "$size" -gt 30000 ]; then
+                  break
+                fi
+                rm -f "$out"
+                sleep 10
+              done
+            done
+          done < .image-request
+
+      - name: Committer les images générées
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/generated
+          if git diff --cached --quiet; then
+            echo "Aucune image générée."
+            exit 1
+          fi
+          git commit -m "chore(images): candidats générés pour les couvertures [skip ci]"
+          git pull --rebase origin claude/great-hamilton-ieokug || true
+          for i in 1 2 3 4; do
+            git push origin "HEAD:claude/great-hamilton-ieokug" && break
+            echo "push échoué, nouvelle tentative $i"; sleep $((2**i))
+          done
