@@ -57,7 +57,7 @@ export function AuthorCard({
             <img src={photo} alt={author.name} className="h-16 w-16 rounded-full object-cover ring-2 ring-dawn-400/70" />
           ) : (
             <span className="grid h-16 w-16 place-items-center rounded-full bg-spirit-500 font-display text-xl font-extrabold text-cream ring-2 ring-dawn-400/70">
-              {author.name.slice(0, 1)}
+              {author.name.replace(/^Pasteur\s+/i, "").slice(0, 1)}
             </span>
           )}
           <div>

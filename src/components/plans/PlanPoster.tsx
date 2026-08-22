@@ -109,7 +109,7 @@ export function PlanPoster({
             {data.title}
           </h3>
           <div className="mt-2">
-            <AuthorChip dark />
+            <AuthorChip dark name={data.author} />
           </div>
         </div>
 

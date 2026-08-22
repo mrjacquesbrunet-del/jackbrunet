@@ -15,9 +15,13 @@ const CANDIDATES = (() => {
   );
 })();
 
-export function AuthorChip({ dark }: { dark?: boolean }) {
+export function AuthorChip({ dark, name }: { dark?: boolean; name?: string }) {
+  // Sans nom (ou pour Jack), on garde la photo de Jack ; un autre auteur
+  // affiche son monogramme et son nom.
+  const isJack = !name || name === "Pasteur Jack Brunet";
+  const display = isJack ? "Pasteur Jack" : name;
   const [i, setI] = useState(0);
-  const src = CANDIDATES[i];
+  const src = isJack ? CANDIDATES[i] : undefined;
 
   return (
     <span
@@ -29,13 +33,13 @@ export function AuthorChip({ dark }: { dark?: boolean }) {
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={src}
-          alt="Pasteur Jack Brunet"
+          alt={display}
           onError={() => setI((n) => n + 1)}
           className="h-7 w-7 rounded-full object-cover"
         />
       ): (
         <span className="grid h-7 w-7 place-items-center rounded-full bg-spirit-500 font-display text-xs font-extrabold text-cream">
-          J
+          {display.replace(/^Pasteur\s+/i, "").slice(0, 1)}
         </span>
       )}
       <span className="leading-tight">
@@ -47,7 +51,7 @@ export function AuthorChip({ dark }: { dark?: boolean }) {
           Auteur
         </span>
         <span className={`block text-[11px] font-bold ${dark? "text-cream": "text-spirit-700"}`}>
-          Pasteur Jack
+          {display}
         </span>
       </span>
     </span>

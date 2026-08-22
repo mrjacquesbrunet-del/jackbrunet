@@ -28,20 +28,24 @@ const AVATARS = (() => {
 
 function PlanAuthor({ name, photoSrc }: { name: string; photoSrc?: string }) {
   const [i, setI] = useState(0);
+  const [broken, setBroken] = useState(false);
   const src = photoSrc ?? AVATARS[i];
   return (
     <div className="flex items-center gap-2.5">
-      {src ? (
+      {src && !broken ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={src}
           alt={name}
-          onError={() => setI((n) => n + 1)}
+          onError={() => {
+            if (photoSrc || i + 1 >= AVATARS.length) setBroken(true);
+            else setI((n) => n + 1);
+          }}
           className="h-11 w-11 rounded-full object-cover ring-2 ring-dawn-400/70"
         />
       ) : (
         <span className="grid h-11 w-11 place-items-center rounded-full bg-spirit-500 font-display text-sm font-extrabold text-cream ring-2 ring-dawn-400/70">
-          J
+          {name.replace(/^Pasteur\s+/i, "").slice(0, 1)}
         </span>
       )}
       <span className="leading-tight">
@@ -92,16 +96,31 @@ export function PlanView({
   const doneCount = progress.done.length;
   const percent = total ? Math.round((doneCount / total) * 100) : 0;
   const author = plan.author ?? DEFAULT_AUTHOR.name;
+  const isDefaultAuthor = author === DEFAULT_AUTHOR.name;
 
   // Fiche auteur : les champs du plan surchargent l'auteur par défaut (Jack).
-  const authorInfo: AuthorInfo = {
-    name: author,
-    role: plan.authorRole ?? DEFAULT_AUTHOR.role,
-    bio: plan.authorBio ?? DEFAULT_AUTHOR.bio,
-    instagram: plan.authorInstagram ?? DEFAULT_AUTHOR.instagram,
-    resources: plan.authorResources?.length ? plan.authorResources : DEFAULT_AUTHOR.resources,
-  };
-  const authorPhotoSrc = plan.authorPhoto ? asset(plan.authorPhoto) : AVATARS[0];
+  // Un plan signé par quelqu'un d'autre n'hérite ni de la bio, ni de
+  // l'Instagram, ni des ressources, ni de la photo de Jack.
+  const authorInfo: AuthorInfo = isDefaultAuthor
+    ? {
+        name: author,
+        role: plan.authorRole ?? DEFAULT_AUTHOR.role,
+        bio: plan.authorBio ?? DEFAULT_AUTHOR.bio,
+        instagram: plan.authorInstagram ?? DEFAULT_AUTHOR.instagram,
+        resources: plan.authorResources?.length ? plan.authorResources : DEFAULT_AUTHOR.resources,
+      }
+    : {
+        name: author,
+        role: plan.authorRole,
+        bio: plan.authorBio,
+        instagram: plan.authorInstagram,
+        resources: plan.authorResources ?? [],
+      };
+  const authorPhotoSrc = plan.authorPhoto
+    ? asset(plan.authorPhoto)
+    : isDefaultAuthor
+      ? AVATARS[0]
+      : undefined;
 
   // Jour courant = premier jour non terminé. Les jours suivants sont verrouillés.
   const currentDay = plan.days.find((d) => !progress.isDone(d.day))?.day ?? total + 1;
@@ -364,14 +383,16 @@ export function PlanView({
                     ))}
                   </div>
 
-                  <div className="mt-5 space-y-3">
-                    <p className="text-xs font-semibold uppercase tracking-[0.14em] text-dawn-300">
-                      À lire & méditer
-                    </p>
-                    {d.verses.map((v) => (
-                      <PassageInline key={v} reference={v} />
-                    ))}
-                  </div>
+                  {d.verses.length > 0 ? (
+                    <div className="mt-5 space-y-3">
+                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-dawn-300">
+                        À lire & méditer
+                      </p>
+                      {d.verses.map((v) => (
+                        <PassageInline key={v} reference={v} />
+                      ))}
+                    </div>
+                  ) : null}
 
                   <div className="mt-5 flex flex-wrap items-center gap-3">
                     <button
@@ -385,12 +406,14 @@ export function PlanView({
                     >
                       {done ? "✓ Terminé — annuler" : "J'ai terminé ce jour"}
                     </button>
-                    <Link
-                      href={bibleHref(d.verses[0]) ?? "/bible"}
-                      className="inline-flex items-center gap-2 rounded-full border border-cream/20 px-5 py-2.5 text-sm font-bold text-cream/80"
-                    >
-                      Ouvrir la Bible
-                    </Link>
+                    {d.verses.length > 0 ? (
+                      <Link
+                        href={bibleHref(d.verses[0]) ?? "/bible"}
+                        className="inline-flex items-center gap-2 rounded-full border border-cream/20 px-5 py-2.5 text-sm font-bold text-cream/80"
+                      >
+                        Ouvrir la Bible
+                      </Link>
+                    ) : null}
                   </div>
                 </div>
               ) : null}
