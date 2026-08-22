@@ -9,6 +9,7 @@ import { PlanRating } from "@/components/plans/PlanRating";
 import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
 import { AuthorCard } from "@/components/plans/AuthorCard";
 import { DEFAULT_AUTHOR } from "@/config/author";
+import { appShareUrl } from "@/config/app-links";
 import { useAuth } from "@/components/community/useAuth";
 import { getSupabase } from "@/lib/supabase";
 import { isPlanSaved, togglePlanSave } from "@/lib/community";
@@ -137,8 +138,8 @@ export function YearPlanView() {
   }
 
   async function share() {
-    // Tout partage renvoie vers la page de l'application.
-    const url = "https://jackbrunet.com/app";
+    // Lien intelligent : ouvre l'app sur ce parcours, sinon le store.
+    const url = appShareUrl("/bible-1-an");
     const data = {
       title: "La Bible en 1 an",
       text: "Découvre le parcours « La Bible en 1 an » sur RHEMA",

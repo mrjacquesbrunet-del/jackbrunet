@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useToolkit } from "@/lib/toolkit";
 import { shareImageBlob, saveImageBlob } from "@/lib/share";
+import { appShareUrl } from "@/config/app-links";
 import { BookmarkGlyph, BookmarkFilledGlyph } from "@/components/ui/DevoIcons";
 
 /** Mots « forts » mis en lumière (lime) dans la punchline — 2 maximum. */
@@ -193,7 +194,7 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
     setBusy(true);
     try {
       const blob = await buildImage();
-      if (blob) await shareImageBlob(blob, "rhema-pensee.png", `${punchline}\n\nhttps://jackbrunet.com/app`);
+      if (blob) await shareImageBlob(blob, "rhema-pensee.png", `${punchline}\n\n${appShareUrl()}`);
     } catch {
       /* partage annulé */
     } finally {
@@ -205,7 +206,7 @@ export function ViralCard({ punchline, id }: { punchline: string; id?: string })
     setBusy(true);
     try {
       const blob = await buildImage();
-      if (blob) await saveImageBlob(blob, "rhema-pensee.png", `${punchline}\n\nhttps://jackbrunet.com/app`);
+      if (blob) await saveImageBlob(blob, "rhema-pensee.png", `${punchline}\n\n${appShareUrl()}`);
     } finally {
       setBusy(false);
     }

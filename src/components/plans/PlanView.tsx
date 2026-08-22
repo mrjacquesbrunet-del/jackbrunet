@@ -11,6 +11,7 @@ import { Celebration } from "@/components/ui/Celebration";
 import { PlanRating } from "@/components/plans/PlanRating";
 import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
 import { AuthorCard } from "@/components/plans/AuthorCard";
+import { appShareUrl } from "@/config/app-links";
 import { DEFAULT_AUTHOR, type AuthorInfo } from "@/config/author";
 import { useAuth } from "@/components/community/useAuth";
 import { getSupabase } from "@/lib/supabase";
@@ -157,8 +158,8 @@ export function PlanView({
   }
 
   async function share() {
-    // Tout partage renvoie vers la page de l'application.
-    const url = "https://jackbrunet.com/app";
+    // Lien intelligent : ouvre l'app sur ce plan, sinon renvoie au store.
+    const url = appShareUrl(`/plans/${plan.slug}`);
     const data = { title: plan.title, text: `Découvre le parcours « ${plan.title} » sur RHEMA`, url };
     try {
       if (navigator.share) await navigator.share(data);

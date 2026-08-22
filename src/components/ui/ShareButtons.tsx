@@ -4,9 +4,11 @@ import { useState } from "react";
 import { shareText, shareImageBlob, saveImageBlob } from "@/lib/share";
 import { buildVerseImage } from "@/lib/verse-image";
 import { openWhatsApp } from "@/lib/external";
+import { appShareUrl } from "@/config/app-links";
 
-/** Par défaut, tout partage renvoie vers la page de l'application. */
-const SITE_URL = "https://jackbrunet.com/app";
+/** Par défaut, tout partage renvoie vers le lien intelligent de l'application
+ * (ouvre l'app si installée, sinon le store). */
+const SITE_URL = appShareUrl();
 
 /**
  * Boutons de partage réutilisables.

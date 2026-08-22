@@ -77,6 +77,47 @@ export function NativeBootstrap() {
       // le bon contenu). Isolé : une init lente ne bloque plus rien de critique.
       initOneSignal().catch(() => undefined);
 
+      // 2bis) Liens profonds : un partage tapé sur le téléphone ouvre l'app
+      // directement sur le contenu (rhema://plans/xxx ou
+      // https://jackbrunet.com/lien?to=/plans/xxx).
+      try {
+        const { App } = await import("@capacitor/app");
+        const ouvreLien = (url: string) => {
+          try {
+            let path = "";
+            if (url.startsWith("rhema://")) {
+              path = "/" + url.slice("rhema://".length).replace(/^\/+/, "");
+            } else {
+              const u = new URL(url);
+              path = u.pathname.startsWith("/lien")
+                ? u.searchParams.get("to") || "/"
+                : u.pathname + u.search;
+            }
+            trace("lien:ouverture", path);
+            if (path) openNotifRoute(path);
+          } catch {
+            /* lien invalide : on reste où on est */
+          }
+        };
+        const lienHandle = await App.addListener("appUrlOpen", ({ url }) => ouvreLien(url));
+        // Démarrage à froid : l'app a pu être LANCÉE par le lien avant que
+        // l'écouteur soit prêt — on rattrape l'URL de lancement.
+        try {
+          const launch = await App.getLaunchUrl();
+          if (launch?.url) ouvreLien(launch.url);
+        } catch {
+          /* pas d'URL de lancement */
+        }
+        const prev = cleanup;
+        cleanup = () => {
+          prev?.();
+          lienHandle.remove();
+        };
+        trace("lien:ecouteur-pret");
+      } catch {
+        /* plugin absent */
+      }
+
       // 3) Barre de statut: edge-to-edge (le fond de l'app passe SOUS l'heure,
       // sans bande). Le style (texte clair/foncé) est ajusté par page dans AppShell.
       try {

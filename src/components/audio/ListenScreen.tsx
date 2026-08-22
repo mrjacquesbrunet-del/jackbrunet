@@ -13,6 +13,7 @@ import {
   type AudioTrack,
 } from "@/lib/audio-library";
 import { usePodcastPlayer } from "@/lib/podcast-player";
+import { appShareUrl } from "@/config/app-links";
 import { useAuth } from "@/components/community/useAuth";
 import { isAdminEmail } from "@/lib/community";
 import { siteConfig } from "@/config/site";
@@ -180,8 +181,8 @@ export function ListenScreen() {
   }
 
   async function share(t: AudioTrack) {
-    // Tout partage renvoie vers la page de l'application.
-    const url = "https://jackbrunet.com/app";
+    // Lien intelligent : ouvre l'app sur le podcast, sinon le store.
+    const url = appShareUrl("/ecouter");
     try {
       const nav = navigator as Navigator & { share?: (d: object) => Promise<void> };
       if (nav.share) await nav.share({ title: t.title, text: `Écoute « ${t.title} », Pasteur Jack`, url });
