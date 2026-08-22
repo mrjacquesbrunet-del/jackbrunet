@@ -20,6 +20,7 @@ export type PlanPosterData = {
   subtitle?: string;
   cover?: string;
   author?: string;
+  authorPhoto?: string;
   slug?: string;
 };
 
@@ -109,7 +110,11 @@ export function PlanPoster({
             {data.title}
           </h3>
           <div className="mt-2">
-            <AuthorChip dark name={data.author} />
+            <AuthorChip
+              dark
+              name={data.author}
+              photo={data.authorPhoto ? asset(data.authorPhoto) : undefined}
+            />
           </div>
         </div>
 

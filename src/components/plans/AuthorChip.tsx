@@ -15,13 +15,22 @@ const CANDIDATES = (() => {
   );
 })();
 
-export function AuthorChip({ dark, name }: { dark?: boolean; name?: string }) {
+export function AuthorChip({
+  dark,
+  name,
+  photo,
+}: {
+  dark?: boolean;
+  name?: string;
+  photo?: string;
+}) {
   // Sans nom (ou pour Jack), on garde la photo de Jack ; un autre auteur
-  // affiche son monogramme et son nom.
+  // affiche sa photo si le plan en fournit une, sinon son monogramme.
   const isJack = !name || name === "Pasteur Jack Brunet";
   const display = isJack ? "Pasteur Jack" : name;
   const [i, setI] = useState(0);
-  const src = isJack ? CANDIDATES[i] : undefined;
+  const [broken, setBroken] = useState(false);
+  const src = broken ? undefined : photo ?? (isJack ? CANDIDATES[i] : undefined);
 
   return (
     <span
@@ -34,7 +43,10 @@ export function AuthorChip({ dark, name }: { dark?: boolean; name?: string }) {
         <img
           src={src}
           alt={display}
-          onError={() => setI((n) => n + 1)}
+          onError={() => {
+            if (photo || i + 1 >= CANDIDATES.length) setBroken(true);
+            else setI((n) => n + 1);
+          }}
           className="h-7 w-7 rounded-full object-cover"
         />
       ): (

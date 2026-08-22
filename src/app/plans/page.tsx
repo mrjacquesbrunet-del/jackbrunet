@@ -32,6 +32,7 @@ export default function PlansPage() {
     subtitle: p.subtitle,
     cover: p.cover,
     author: p.author ?? DEFAULT_AUTHOR,
+    authorPhoto: p.authorPhoto,
     slug: p.slug,
   }));
 
