@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { markReviewed, type MemorizeItem } from "@/lib/memorize";
+import { addMemorizeXp, markReviewed, GAME_BEST_KEY, type MemorizeItem } from "@/lib/memorize";
 
 /**
  * « Le jeu du verset » — leçon plein écran façon jeu mobile (style Duolingo,
@@ -11,7 +11,6 @@ import { markReviewed, type MemorizeItem } from "@/lib/memorize";
  * combo ×5, 3 vies, bonus, meilleur score sur l'appareil.
  */
 
-const BEST_KEY = "jb.memorize.game.best.v1";
 const MODES = ["puzzle", "trous", "reference", "type"] as const;
 type Mode = (typeof MODES)[number];
 
@@ -197,13 +196,13 @@ function BlanksRound({
           );
         })}
       </p>
-      <div className="mt-5 flex flex-wrap gap-2.5">
+      <div className="mt-5 grid gap-2.5">
         {options.map((w) => (
           <button
             key={w}
             type="button"
             onClick={() => pick(w)}
-            className={wrong === w ? chipWrongCls : chipCls}
+            className={`${wrong === w ? chipWrongCls : chipCls} w-full text-center`}
           >
             {w}
           </button>
@@ -374,7 +373,12 @@ function TypeRound({
 /* Le jeu complet — plein écran                                        */
 /* ------------------------------------------------------------------ */
 export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: () => void }) {
-  const order = useMemo(() => shuffle(items, (Date.now() % 233280) + 1), [items]);
+  // Difficulté progressive : on commence par les versets courts,
+  // puis de plus en plus longs.
+  const order = useMemo(
+    () => [...items].sort((a, b) => a.text.split(/\s+/).length - b.text.split(/\s+/).length),
+    [items],
+  );
   const [verseIdx, setVerseIdx] = useState(0);
   const [modeIdx, setModeIdx] = useState(0);
   const [lives, setLives] = useState(3);
@@ -396,25 +400,28 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
 
   useEffect(() => {
     try {
-      const b = Number(localStorage.getItem(BEST_KEY));
+      const b = Number(localStorage.getItem(GAME_BEST_KEY));
       if (Number.isFinite(b)) setBest(b);
     } catch {
       /* stockage indisponible */
     }
   }, []);
 
+  const [xpGiven, setXpGiven] = useState(false);
   useEffect(() => {
-    if (!over) return;
+    if (!over || xpGiven) return;
+    setXpGiven(true);
+    addMemorizeXp(score);
     setBest((b) => {
       const nb = Math.max(b, score);
       try {
-        localStorage.setItem(BEST_KEY, String(nb));
+        localStorage.setItem(GAME_BEST_KEY, String(nb));
       } catch {
         /* ignore */
       }
       return nb;
     });
-  }, [over, score]);
+  }, [over, score, xpGiven]);
 
   function good(mult = 1) {
     setScore((s) => s + 10 * combo * mult);
@@ -481,6 +488,7 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
               setGoodInRow(0);
               setVerseClean(true);
               setPhase("play");
+              setXpGiven(false);
             }}
             className={`${chunky} w-full border-dawn-400 bg-dawn-400 px-5 py-3.5 text-base font-extrabold uppercase tracking-wide text-night-950 shadow-[0_5px_0_rgba(140,168,0,1)]`}
           >
@@ -565,8 +573,13 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
       {phase === "won" ? (
         <div className="border-t-2 border-dawn-400/30 bg-dawn-400/[0.12] px-5 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-4">
           <div className="mx-auto w-full max-w-lg">
-            <p className="font-display text-xl font-extrabold text-dawn-300">
-              {lastOfVerse ? "Verset bouclé ! +100" : "Excellent !"}
+            <p className="flex items-center gap-2 font-display text-xl font-extrabold text-dawn-300">
+              <span className="grid h-7 w-7 place-items-center rounded-full bg-dawn-400 text-night-950">
+                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={3}>
+                  <path d="M5 12l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+              {lastOfVerse ? "Verset bouclé ! +100" : "C'est bien !"}
             </p>
             <p className="mt-0.5 text-sm text-cream/70">
               {lastOfVerse
@@ -594,7 +607,17 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
           </div>
         </div>
       ) : (
-        <div className="pb-[env(safe-area-inset-bottom)]" />
+        <div className="border-t-2 border-white/8 px-5 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-4">
+          <div className="mx-auto w-full max-w-lg">
+            <button
+              type="button"
+              disabled
+              className="w-full rounded-2xl border-2 border-white/10 bg-white/[0.05] px-5 py-3.5 text-center text-base font-extrabold uppercase tracking-wide text-cream/30"
+            >
+              Continuer
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

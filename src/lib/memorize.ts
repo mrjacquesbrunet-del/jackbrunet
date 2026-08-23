@@ -87,6 +87,47 @@ export function isMemorizing(reference: string): boolean {
   return items.some((it) => it.id === normId(reference));
 }
 
+/* ---------- Niveau du joueur (XP gagnés au jeu) ---------- */
+
+const XP_KEY = "jb.memorize.xp.v1";
+export const GAME_BEST_KEY = "jb.memorize.game.best.v1";
+
+export function getMemorizeXp(): number {
+  try {
+    const v = Number(localStorage.getItem(XP_KEY));
+    return Number.isFinite(v) && v > 0 ? v : 0;
+  } catch {
+    return 0;
+  }
+}
+
+export function addMemorizeXp(n: number): number {
+  const total = getMemorizeXp() + Math.max(0, Math.round(n));
+  try {
+    localStorage.setItem(XP_KEY, String(total));
+  } catch {
+    /* ignore */
+  }
+  return total;
+}
+
+/**
+ * Niveau à partir des XP : le palier grandit à chaque niveau
+ * (niveau 1 → 100 XP, puis +40 par niveau). Renvoie aussi la progression
+ * dans le niveau courant pour la jauge.
+ */
+export function levelFromXp(xp: number): { level: number; into: number; span: number } {
+  let level = 1;
+  let rest = xp;
+  let span = 100;
+  while (rest >= span) {
+    rest -= span;
+    level += 1;
+    span += 40;
+  }
+  return { level, into: rest, span };
+}
+
 /** Un verset appris redevient « à réviser » après quelques jours. */
 const REVIEW_AFTER_MS = 3 * 24 * 3600 * 1000;
 

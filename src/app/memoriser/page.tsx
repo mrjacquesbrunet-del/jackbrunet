@@ -4,6 +4,9 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
   useMemorize,
+  getMemorizeXp,
+  levelFromXp,
+  GAME_BEST_KEY,
   addMemorizeVerse,
   removeMemorizeVerse,
   advanceMemorize,
@@ -230,6 +233,23 @@ export default function MemoriserPage() {
   const [training, setTraining] = useState<string | null>(null);
   const [gaming, setGaming] = useState(false);
 
+  // Niveau du joueur (XP gagnés au jeu) + record, rechargés en sortant du jeu.
+  const [xp, setXp] = useState(0);
+  const [record, setRecord] = useState(0);
+  useEffect(() => {
+    if (gaming) return;
+    setXp(getMemorizeXp());
+    try {
+      const b = Number(localStorage.getItem(GAME_BEST_KEY));
+      if (Number.isFinite(b)) setRecord(b);
+    } catch {
+      /* stockage indisponible */
+    }
+  }, [gaming]);
+  const lvl = levelFromXp(xp);
+  const learned = items.filter((it) => it.level >= MEMORIZE_MAX_LEVEL).length;
+  const inProgress = items.length - learned;
+
   // Jeu de révision figé à l'arrivée sur la page (les cartes ne bougent pas
   // pendant qu'on les valide).
   const [deckIds, setDeckIds] = useState<string[] | null>(null);
@@ -322,31 +342,78 @@ export default function MemoriserPage() {
           </p>
         </div>
 
-        {/* Le jeu : remets les mots du verset dans l'ordre */}
-        {items.length > 0 ? (
-          gaming ? (
-            <VerseGame items={items} onClose={() => setGaming(false)} />
-          ) : (
-            <div className="mt-6 flex items-center justify-between gap-4 rounded-3xl border border-white/10 bg-white/[0.04] p-5">
-              <div className="min-w-0">
-                <p className="font-display text-lg font-bold leading-tight">Le jeu du verset</p>
-                <p className="mt-1 text-sm text-cream/60">
-                  4 manches par verset : puzzle, trous, référence, par cœur — points, combo, 3 vies.
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setGaming(true)}
-                className="inline-flex shrink-0 items-center gap-2 rounded-full bg-dawn-400 px-5 py-2.5 text-sm font-bold text-night-950"
-              >
-                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.9} aria-hidden>
-                  <path d="M6 5v14l12-7z" strokeLinejoin="round" />
-                </svg>
-                Jouer
-              </button>
+        {/* Le hub du jeu : niveau, jauge d'XP, stats et bouton JOUER */}
+        {gaming ? <VerseGame items={items} onClose={() => setGaming(false)} /> : null}
+        <div className="mt-6 rounded-3xl border-2 border-white/10 bg-night-900/60 p-5">
+          <div className="flex items-center gap-4">
+            {/* Badge de niveau */}
+            <div className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl border-2 border-dawn-400 bg-dawn-400 shadow-[0_5px_0_rgba(140,168,0,1)]">
+              <span className="text-center leading-none">
+                <span className="block text-[9px] font-bold uppercase tracking-wide text-night-950/70">
+                  Niveau
+                </span>
+                <span className="block font-display text-2xl font-extrabold text-night-950">
+                  {lvl.level}
+                </span>
+              </span>
             </div>
-          )
-        ) : null}
+            {/* Jauge d'XP */}
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center justify-between text-xs font-bold text-cream/50">
+                <span>{xp} XP</span>
+                <span className="tabular-nums">
+                  {lvl.into} / {lvl.span}
+                </span>
+              </div>
+              <div className="mt-1.5 h-4 overflow-hidden rounded-full bg-white/10">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-dawn-400 to-dawn-300 transition-all duration-500"
+                  style={{ width: `${Math.min(100, Math.max(3, (lvl.into / lvl.span) * 100))}%` }}
+                />
+              </div>
+              <p className="mt-1 text-xs text-cream/45">
+                Encore {lvl.span - lvl.into} XP avant le niveau {lvl.level + 1}
+              </p>
+            </div>
+          </div>
+
+          {/* Statistiques */}
+          <div className="mt-4 grid grid-cols-3 gap-2.5 text-center">
+            <div className="rounded-2xl border-2 border-white/8 bg-white/[0.04] px-2 py-3">
+              <p className="font-display text-2xl font-extrabold text-dawn-300">{learned}</p>
+              <p className="mt-0.5 text-[11px] font-bold uppercase tracking-wide text-cream/45">
+                Appris
+              </p>
+            </div>
+            <div className="rounded-2xl border-2 border-white/8 bg-white/[0.04] px-2 py-3">
+              <p className="font-display text-2xl font-extrabold text-cream">{inProgress}</p>
+              <p className="mt-0.5 text-[11px] font-bold uppercase tracking-wide text-cream/45">
+                En cours
+              </p>
+            </div>
+            <div className="rounded-2xl border-2 border-white/8 bg-white/[0.04] px-2 py-3">
+              <p className="font-display text-2xl font-extrabold text-cream">{record}</p>
+              <p className="mt-0.5 text-[11px] font-bold uppercase tracking-wide text-cream/45">
+                Record
+              </p>
+            </div>
+          </div>
+
+          {/* JOUER */}
+          <button
+            type="button"
+            onClick={() => setGaming(true)}
+            disabled={items.length === 0}
+            className="mt-4 w-full select-none rounded-2xl border-2 border-dawn-400 bg-dawn-400 px-5 py-3.5 text-center text-base font-extrabold uppercase tracking-wide text-night-950 shadow-[0_5px_0_rgba(140,168,0,1)] transition-all duration-100 active:translate-y-[3px] active:shadow-none disabled:opacity-40 disabled:shadow-none"
+          >
+            Jouer
+          </button>
+          {items.length === 0 ? (
+            <p className="mt-2 text-center text-xs text-cream/45">
+              Ajoute d&apos;abord un verset pour lancer une partie.
+            </p>
+          ) : null}
+        </div>
 
         {/* Révision des versets déjà appris (cartes à trous) */}
         {!gaming && due.length > 0 ? <ReviewDeck due={due} /> : null}
