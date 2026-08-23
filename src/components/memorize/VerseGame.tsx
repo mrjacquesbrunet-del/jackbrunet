@@ -16,16 +16,21 @@ import { addMemorizeXp, markReviewed, GAME_BEST_KEY, type MemorizeItem } from "@
  * mascottes. Score → XP (niveaux), combo ×5, 3 vies, meilleur score gardé.
  */
 
-const MODES = ["puzzle", "trous", "reference", "type"] as const;
-type Mode = (typeof MODES)[number];
 const STUDY_SECONDS = 30;
 
-const MODE_TITLES: Record<Mode, string> = {
-  puzzle: "Remets les mots dans l'ordre",
-  trous: "Choisis le bon mot",
-  reference: "D'où vient ce verset ?",
-  type: "Retape le verset de mémoire",
-};
+/**
+ * Progression pédagogique par verset : on retient d'abord (trous faciles),
+ * puis on cache de plus en plus de mots, une phase de variété, et la phase
+ * finale = tout remettre dans l'ordre (le plus exigeant).
+ */
+const MODES = [
+  { kind: "trous", ratio: 0.22, title: "Complète — quelques mots cachés", mult: 1 },
+  { kind: "trous", ratio: 0.45, title: "Complète — un peu plus de mots", mult: 2 },
+  { kind: "trous", ratio: 0.72, title: "Complète — presque tout de mémoire", mult: 2 },
+  { kind: "reference", ratio: 0, title: "D'où vient ce verset ?", mult: 2 },
+  { kind: "puzzle", ratio: 1, title: "Remets le verset entier dans l'ordre", mult: 3 },
+] as const;
+type Mode = (typeof MODES)[number]["kind"];
 
 const chunky =
   "select-none rounded-2xl border-2 transition-all duration-100 active:translate-y-[3px] active:shadow-none";
@@ -98,16 +103,6 @@ function shuffle<T>(arr: T[], seed: number): T[] {
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
-}
-
-function normalize(s: string): string {
-  return s
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .replace(/[^a-z0-9\s]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
 }
 
 function HeartIcon({ filled }: { filled: boolean }) {
@@ -256,16 +251,18 @@ function PuzzleRound({ words, locked, onGood, onBad, onDone }: {
 /* ------------------------------------------------------------------ */
 /* Manche 2 — À trous                                                  */
 /* ------------------------------------------------------------------ */
-function BlanksRound({ words, locked, onGood, onBad, onDone }: {
-  words: string[]; locked: boolean; onGood: () => void; onBad: () => void; onDone: () => void;
+function BlanksRound({ words, ratio, locked, onGood, onBad, onDone }: {
+  words: string[]; ratio: number; locked: boolean; onGood: () => void; onBad: () => void; onDone: () => void;
 }) {
   const blanks = useMemo(() => {
-    const n = Math.max(1, Math.round(words.length / 3));
-    const out: number[] = [];
-    const step = words.length / n;
-    for (let k = 0; k < n; k++) out.push(Math.min(words.length - 1, Math.floor(k * step + step / 2)));
-    return Array.from(new Set(out));
-  }, [words]);
+    // Nombre de trous selon la difficulté (on garde au moins un mot visible).
+    const n = Math.min(
+      Math.max(1, words.length - 1),
+      Math.max(1, Math.round(words.length * ratio)),
+    );
+    const seed = words.length * 13 + Math.round(ratio * 100) + 7;
+    return shuffle(words.map((_, i) => i), seed).slice(0, n).sort((a, b) => a - b);
+  }, [words, ratio]);
   const [current, setCurrent] = useState(0);
   const [wrong, setWrong] = useState<string | null>(null);
 
@@ -369,54 +366,6 @@ function ReferenceRound({ item, all, locked, onGood, onBad, onDone }: {
 }
 
 /* ------------------------------------------------------------------ */
-/* Manche 4 — Par cœur (retaper)                                       */
-/* ------------------------------------------------------------------ */
-function TypeRound({ item, locked, onGood, onBad, onDone }: {
-  item: MemorizeItem; locked: boolean; onGood: (n: number) => void; onBad: () => void; onDone: () => void;
-}) {
-  const [typed, setTyped] = useState("");
-  const [result, setResult] = useState<null | { ok: boolean; pct: number }>(null);
-
-  function check() {
-    if (locked) return;
-    const want = normalize(item.text).split(" ");
-    const got = normalize(typed).split(" ").filter(Boolean);
-    let match = 0;
-    const used = new Array(got.length).fill(false);
-    for (const w of want) {
-      const idx = got.findIndex((g, i) => !used[i] && g === w);
-      if (idx !== -1) { used[idx] = true; match += 1; }
-    }
-    const pct = Math.round((match / want.length) * 100);
-    const ok = pct >= 85;
-    setResult({ ok, pct });
-    if (ok) { onGood(Math.max(1, Math.round(want.length / 2))); onDone(); }
-    else onBad();
-  }
-
-  return (
-    <>
-      <textarea value={typed} onChange={(e) => { setTyped(e.target.value); setResult(null); }} rows={4}
-        placeholder="Tape le verset ici…"
-        className="w-full rounded-3xl border-2 border-white/12 bg-night-900/70 p-4 font-game text-[17px] leading-relaxed text-cream placeholder:text-cream/30 focus:border-dawn-400/60 focus:outline-none" />
-      <p className="mt-2 text-xs text-cream/45">Accents et ponctuation ignorés — il faut 85 % des mots.</p>
-      {result && !result.ok ? (
-        <div className="mt-3 rounded-2xl border-2 border-rose-400/40 bg-rose-400/10 p-3.5">
-          <p className="font-game text-sm font-bold text-rose-200">{result.pct}% retrouvés — relis-le et réessaie.</p>
-          <p className="mt-1 text-sm text-cream/70">« {item.text} »</p>
-        </div>
-      ) : null}
-      {!result?.ok ? (
-        <button type="button" onClick={check} disabled={!typed.trim()}
-          className={`${chunky} mt-4 w-full border-dawn-400 bg-dawn-400 px-5 py-3.5 text-center font-game text-base font-bold uppercase tracking-wide text-night-950 shadow-[0_5px_0_rgba(140,168,0,1)] disabled:opacity-40`}>
-          Vérifier
-        </button>
-      ) : null}
-    </>
-  );
-}
-
-/* ------------------------------------------------------------------ */
 /* Le jeu complet — plein écran                                        */
 /* ------------------------------------------------------------------ */
 export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: () => void }) {
@@ -441,7 +390,8 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
 
   const item = order[verseIdx];
   const words = useMemo(() => (item ? item.text.split(/\s+/) : []), [item]);
-  const mode: Mode = MODES[modeIdx];
+  const modeDef = MODES[modeIdx];
+  const mode: Mode = modeDef.kind;
   const over = lives <= 0 || verseIdx >= order.length;
   const totalSteps = order.length * (MODES.length + 1);
   const step = verseIdx * (MODES.length + 1) + (phase === "study" ? 0 : modeIdx + 1) + (phase === "won" ? 1 : 0);
@@ -573,7 +523,7 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
           </div>
         </div>
         <div className="mt-2 flex items-center justify-between text-xs font-bold text-cream/45">
-          <span>Verset {verseIdx + 1}/{order.length}{phase !== "study" ? ` · Manche ${modeIdx + 1}/4` : ""}</span>
+          <span>Verset {verseIdx + 1}/{order.length}{phase !== "study" ? ` · Manche ${modeIdx + 1}/${MODES.length}` : ""}</span>
           <span className="relative flex items-center gap-2">
             <span className={`tabular-nums text-cream/80 ${pop ? "jb-pop inline-block" : ""}`}>{score}</span> pts
             <span className={`inline-flex items-center gap-0.5 ${combo > 1 ? "text-dawn-300" : "text-cream/40"}`}>
@@ -596,13 +546,12 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
         <StudyPhase item={item} onReady={() => setPhase("play")} />
       ) : (
         <div className="mx-auto w-full max-w-lg flex-1 overflow-y-auto px-5 pb-6 pt-5">
-          <h2 className="font-game text-2xl font-bold leading-tight">{MODE_TITLES[mode]}</h2>
+          <h2 className="font-game text-2xl font-bold leading-tight">{modeDef.title}</h2>
           {mode !== "reference" ? <p className="mt-1 text-sm font-bold text-dawn-300">{item.reference}</p> : null}
           <div className="mt-5">
-            {mode === "puzzle" ? <PuzzleRound key={item.id} words={words} locked={phase === "won"} onGood={() => good()} onBad={bad} onDone={roundDone} /> : null}
-            {mode === "trous" ? <BlanksRound key={item.id} words={words} locked={phase === "won"} onGood={() => good(2)} onBad={bad} onDone={roundDone} /> : null}
-            {mode === "reference" ? <ReferenceRound key={item.id} item={item} all={items} locked={phase === "won"} onGood={() => good(3)} onBad={bad} onDone={roundDone} /> : null}
-            {mode === "type" ? <TypeRound key={item.id} item={item} locked={phase === "won"} onGood={(n) => good(n)} onBad={bad} onDone={roundDone} /> : null}
+            {mode === "puzzle" ? <PuzzleRound key={`${item.id}-${modeIdx}`} words={words} locked={phase === "won"} onGood={() => good(modeDef.mult)} onBad={bad} onDone={roundDone} /> : null}
+            {mode === "trous" ? <BlanksRound key={`${item.id}-${modeIdx}`} words={words} ratio={modeDef.ratio} locked={phase === "won"} onGood={() => good(modeDef.mult)} onBad={bad} onDone={roundDone} /> : null}
+            {mode === "reference" ? <ReferenceRound key={`${item.id}-${modeIdx}`} item={item} all={items} locked={phase === "won"} onGood={() => good(modeDef.mult)} onBad={bad} onDone={roundDone} /> : null}
           </div>
         </div>
       )}
