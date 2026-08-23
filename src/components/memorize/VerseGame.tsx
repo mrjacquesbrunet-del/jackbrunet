@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { addMemorizeXp, markReviewed, GAME_BEST_KEY, type MemorizeItem } from "@/lib/memorize";
+import { isMusicOn, startGameMusic, stopGameMusic, toggleGameMusic } from "@/lib/game-audio";
 
 /**
  * « Le jeu du verset » — vrai mini-jeu mobile plein écran (esprit Duolingo,
@@ -183,8 +184,8 @@ function StudyPhase({ item, onReady }: { item: MemorizeItem; onReady: () => void
         <p className="font-game text-2xl font-medium leading-relaxed text-cream">
           «{" "}
           {item.text.split(/\s+/).map((w, i) => (
-            <span key={i} className="jb-chip inline-block" style={{ animationDelay: `${i * 55}ms` }}>
-              {w}{" "}
+            <span key={i} className="jb-chip inline-block" style={{ animationDelay: `${i * 55}ms`, marginRight: "0.28em" }}>
+              {w}
             </span>
           ))}
           »
@@ -424,6 +425,17 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
   const floatId = useRef(0);
   const [losing, setLosing] = useState(false); // cœur qui s'envole
   const [comboToast, setComboToast] = useState<number | null>(null); // « COMBO ×N »
+  const [music, setMusic] = useState(false);
+
+  // Musique de jeu : reprend la préférence à l'ouverture, se coupe à la sortie
+  // (sans oublier le choix). L'activation manuelle passe par le bouton.
+  useEffect(() => {
+    if (isMusicOn()) {
+      startGameMusic();
+      setMusic(true);
+    }
+    return () => stopGameMusic(false);
+  }, []);
 
   const item = order[verseIdx];
   const words = useMemo(() => (item ? item.text.split(/\s+/) : []), [item]);
@@ -568,6 +580,21 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
             <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2.4}>
               <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
             </svg>
+          </button>
+          {/* Musique du jeu */}
+          <button type="button" onClick={() => setMusic(toggleGameMusic())}
+            aria-label={music ? "Couper la musique" : "Activer la musique"}
+            aria-pressed={music}
+            className={`grid h-9 w-9 shrink-0 place-items-center rounded-full transition-colors ${music ? "bg-dawn-400 text-night-950" : "text-cream/50 hover:bg-white/10 hover:text-cream"}`}>
+            {music ? (
+              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.9}>
+                <path d="M4 10v4a1 1 0 0 0 1 1h3l4 4V5L8 9H5a1 1 0 0 0-1 1zM16 8.5a4.5 4.5 0 0 1 0 7M18.5 6a8 8 0 0 1 0 12" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.9}>
+                <path d="M4 10v4a1 1 0 0 0 1 1h3l4 4V5L8 9H5a1 1 0 0 0-1 1zM22 9l-6 6M16 9l6 6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            )}
           </button>
           <div className="relative h-4 flex-1 overflow-hidden rounded-full bg-white/10">
             <div className="h-full rounded-full bg-gradient-to-r from-dawn-400 to-dawn-300 transition-all duration-500"
