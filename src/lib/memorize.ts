@@ -87,6 +87,31 @@ export function isMemorizing(reference: string): boolean {
   return items.some((it) => it.id === normId(reference));
 }
 
+/** Un verset appris redevient « à réviser » après quelques jours. */
+const REVIEW_AFTER_MS = 3 * 24 * 3600 * 1000;
+
+export function isReviewDue(it: MemorizeItem, now = Date.now()): boolean {
+  return it.level >= MEMORIZE_MAX_LEVEL && (!it.lastAt || now - it.lastAt > REVIEW_AFTER_MS);
+}
+
+/** Révision réussie : le verset repart pour quelques jours. */
+export function markReviewed(id: string) {
+  load();
+  items = items.map((it) => (it.id === id ? { ...it, lastAt: Date.now() } : it));
+  persist();
+}
+
+/** Révision ratée : on redescend d'une étape pour retravailler le verset. */
+export function regressMemorize(id: string) {
+  load();
+  items = items.map((it) =>
+    it.id === id
+      ? { ...it, level: Math.max(0, MEMORIZE_MAX_LEVEL - 1), lastAt: Date.now() }
+      : it,
+  );
+  persist();
+}
+
 function subscribe(cb: () => void) {
   listeners.add(cb);
   return () => listeners.delete(cb);

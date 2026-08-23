@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
   useMemorize,
@@ -8,6 +8,9 @@ import {
   removeMemorizeVerse,
   advanceMemorize,
   maskedIndices,
+  isReviewDue,
+  markReviewed,
+  regressMemorize,
   MEMORIZE_MAX_LEVEL,
   type MemorizeItem,
 } from "@/lib/memorize";
@@ -124,11 +127,118 @@ function Trainer({ item, onClose }: { item: MemorizeItem; onClose: () => void })
   );
 }
 
+/**
+ * Carte de révision : le verset appris réapparaît entièrement à trous,
+ * référence affichée en dessous — on le récite, puis on valide.
+ */
+function ReviewDeck({ due }: { due: MemorizeItem[] }) {
+  const [index, setIndex] = useState(0);
+  const item = due[index];
+  const words = useMemo(() => (item ? item.text.split(/\s+/) : []), [item]);
+  const hidden = useMemo(() => maskedIndices(words, MEMORIZE_MAX_LEVEL), [words]);
+  const [revealed, setRevealed] = useState<Set<number>>(new Set());
+  const [shown, setShown] = useState(false);
+
+  if (!item) {
+    if (index === 0) return null;
+    return (
+      <div className="mt-6 rounded-3xl border border-dawn-400/35 bg-dawn-400/[0.07] p-5 text-center">
+        <p className="font-display text-lg font-bold text-cream">Révision terminée</p>
+        <p className="mt-1 text-sm text-cream/60">
+          Bien joué — la Parole reste vivante dans ton cœur.
+        </p>
+      </div>
+    );
+  }
+
+  function next() {
+    setRevealed(new Set());
+    setShown(false);
+    setIndex((i) => i + 1);
+  }
+
+  return (
+    <div className="mt-6 rounded-3xl border border-dawn-400/35 bg-dawn-400/[0.07] p-5">
+      <div className="flex items-center justify-between">
+        <p className="text-[11px] font-bold uppercase tracking-wide text-dawn-300">
+          Révision — anciens versets
+        </p>
+        <span className="text-xs font-semibold text-cream/45">
+          {Math.min(index + 1, due.length)} / {due.length}
+        </span>
+      </div>
+      <p className="mt-3 text-[16px] leading-relaxed text-cream/90">
+        {words.map((w, i) => (
+          <Word
+            key={`${item.id}-${i}`}
+            word={w}
+            hidden={hidden.has(i) && !shown}
+            revealed={revealed.has(i)}
+            onReveal={() =>
+              setRevealed((p) => {
+                const n = new Set(p);
+                n.add(i);
+                return n;
+              })
+            }
+          />
+        ))}
+      </p>
+      {/* La référence, en dessous, comme repère */}
+      <p className="mt-2 text-sm font-bold text-dawn-300">{item.reference}</p>
+      <div className="mt-4 flex flex-wrap items-center gap-2.5">
+        <button
+          type="button"
+          onClick={() => {
+            markReviewed(item.id);
+            next();
+          }}
+          className="rounded-full bg-dawn-400 px-4 py-2 text-sm font-bold text-night-950"
+        >
+          Je m&apos;en souviens
+        </button>
+        {!shown ? (
+          <button
+            type="button"
+            onClick={() => setShown(true)}
+            className="rounded-full border border-cream/20 px-4 py-2 text-sm font-semibold text-cream/75"
+          >
+            Tout révéler
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => {
+              regressMemorize(item.id);
+              next();
+            }}
+            className="rounded-full border border-cream/20 px-4 py-2 text-sm font-semibold text-cream/75"
+          >
+            À retravailler
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function MemoriserPage() {
   const items = useMemorize();
   const [ref, setRef] = useState("");
   const [state, setState] = useState<"idle" | "loading" | "notfound" | "duplicate">("idle");
   const [training, setTraining] = useState<string | null>(null);
+
+  // Jeu de révision figé à l'arrivée sur la page (les cartes ne bougent pas
+  // pendant qu'on les valide).
+  const [deckIds, setDeckIds] = useState<string[] | null>(null);
+  useEffect(() => {
+    if (deckIds === null) {
+      setDeckIds(items.filter((it) => isReviewDue(it)).map((it) => it.id));
+    }
+  }, [items, deckIds]);
+  const due = (deckIds ?? [])
+    .map((id) => items.find((it) => it.id === id))
+    .filter(Boolean) as MemorizeItem[];
 
   async function add() {
     const query = ref.trim();
@@ -209,6 +319,9 @@ export default function MemoriserPage() {
             Astuce : depuis la Bible, tape sur un verset puis « Mémoriser ».
           </p>
         </div>
+
+        {/* Révision des versets déjà appris (cartes à trous) */}
+        {due.length > 0 ? <ReviewDeck due={due} /> : null}
 
         {/* Liste des versets */}
         {items.length === 0 ? (
