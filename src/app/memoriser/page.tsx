@@ -16,6 +16,7 @@ import {
 } from "@/lib/memorize";
 import { resolveRef, getBook } from "@/lib/bible-client";
 import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
+import { VerseGame } from "@/components/memorize/VerseGame";
 
 const LEVEL_LABELS = ["Découverte", "Quelques trous", "La moitié", "Presque tout", "Par cœur"];
 
@@ -227,6 +228,7 @@ export default function MemoriserPage() {
   const [ref, setRef] = useState("");
   const [state, setState] = useState<"idle" | "loading" | "notfound" | "duplicate">("idle");
   const [training, setTraining] = useState<string | null>(null);
+  const [gaming, setGaming] = useState(false);
 
   // Jeu de révision figé à l'arrivée sur la page (les cartes ne bougent pas
   // pendant qu'on les valide).
@@ -320,8 +322,34 @@ export default function MemoriserPage() {
           </p>
         </div>
 
+        {/* Le jeu : remets les mots du verset dans l'ordre */}
+        {items.length > 0 ? (
+          gaming ? (
+            <VerseGame items={items} onClose={() => setGaming(false)} />
+          ) : (
+            <div className="mt-6 flex items-center justify-between gap-4 rounded-3xl border border-white/10 bg-white/[0.04] p-5">
+              <div className="min-w-0">
+                <p className="font-display text-lg font-bold leading-tight">Le jeu du verset</p>
+                <p className="mt-1 text-sm text-cream/60">
+                  Remets les mots dans l&apos;ordre — points, combo, 3 vies.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setGaming(true)}
+                className="inline-flex shrink-0 items-center gap-2 rounded-full bg-dawn-400 px-5 py-2.5 text-sm font-bold text-night-950"
+              >
+                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.9} aria-hidden>
+                  <path d="M6 5v14l12-7z" strokeLinejoin="round" />
+                </svg>
+                Jouer
+              </button>
+            </div>
+          )
+        ) : null}
+
         {/* Révision des versets déjà appris (cartes à trous) */}
-        {due.length > 0 ? <ReviewDeck due={due} /> : null}
+        {!gaming && due.length > 0 ? <ReviewDeck due={due} /> : null}
 
         {/* Liste des versets */}
         {items.length === 0 ? (
