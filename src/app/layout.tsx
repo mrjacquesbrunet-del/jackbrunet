@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Playfair_Display } from "next/font/google";
+import { Archivo, Playfair_Display, Fredoka } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { Header } from "@/components/layout/Header";
@@ -23,6 +23,14 @@ const archivo = Archivo({
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-display",
+  display: "swap",
+});
+
+// Sans arrondie et joueuse, réservée au jeu de mémorisation (esprit jeu mobile)
+const fredoka = Fredoka({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-game",
   display: "swap",
 });
 
@@ -74,7 +82,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="fr" className={`${archivo.variable} ${playfair.variable}`}>
+    <html lang="fr" className={`${archivo.variable} ${playfair.variable} ${fredoka.variable}`}>
       <body className="min-h-screen font-sans">
         {/* Grain de surface (texture subtile) */}
         <div className="bg-noise pointer-events-none fixed inset-0 z-[1] opacity-[0.035] mix-blend-multiply" />
