@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useSoaking } from "@/lib/soaking";
+import { useSoaking, SOAKING_VOL_MIN, SOAKING_VOL_MAX } from "@/lib/soaking";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { asset, mediaUrl } from "@/lib/asset";
 import { PlayGlyph, PauseGlyph, GiftGlyph, MusicGlyph, DownloadGlyph } from "@/components/ui/DevoIcons";
@@ -11,9 +11,12 @@ import { PlayGlyph, PauseGlyph, GiftGlyph, MusicGlyph, DownloadGlyph } from "@/c
  * contre email) replié dans la même barre.
  */
 export function SoakingBar() {
-  const { playing, toggle, label } = useSoaking();
+  const { playing, toggle, label, volume, setVolume } = useSoaking();
   const [open, setOpen] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
+  const volPct = Math.round(
+    ((volume - SOAKING_VOL_MIN) / (SOAKING_VOL_MAX - SOAKING_VOL_MIN)) * 100,
+  );
 
   return (
     <div className="rounded-3xl border border-spirit-600/20 bg-spirit-500/[0.08] p-3 sm:p-4">
@@ -50,6 +53,36 @@ export function SoakingBar() {
           Offerte
         </button>
       </div>
+
+      {playing ? (
+        <div className="mt-3 flex items-center gap-2.5 border-t border-spirit-600/15 pt-3">
+          {/* Volume de la musique, indépendant de la voix de la méditation */}
+          <svg
+            viewBox="0 0 24 24"
+            className="h-4 w-4 shrink-0 fill-none stroke-spirit-600"
+            strokeWidth={1.8}
+            aria-hidden="true"
+          >
+            <path
+              d="M4 10v4a1 1 0 0 0 1 1h3l4 4V5L8 9H5a1 1 0 0 0-1 1zM16.5 12a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <input
+            type="range"
+            min={SOAKING_VOL_MIN}
+            max={SOAKING_VOL_MAX}
+            step={0.01}
+            value={volume}
+            onChange={(e) => setVolume(Number(e.target.value))}
+            className="h-1 flex-1 accent-spirit-600"
+            aria-label="Volume de la musique soaking"
+          />
+          <span className="w-9 text-right text-[11px] tabular-nums text-night-900/50">
+            {volPct}%
+          </span>
+        </div>
+      ) : null}
 
       {open? (
         <div className="mt-3 border-t border-spirit-600/15 pt-3">
