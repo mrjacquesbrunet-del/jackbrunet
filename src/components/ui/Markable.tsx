@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { useToolkit, HIGHLIGHT_COLORS, highlightBg } from "@/lib/toolkit";
 import { shareText } from "@/lib/share";
 import { appShareUrl } from "@/config/app-links";
 import { bibleHref } from "@/lib/bible-ref";
 import { addMemorizeVerse, isMemorizing } from "@/lib/memorize";
+import { isNativeApp } from "@/lib/notifications";
 import { addNote, updateNote, removeNote, useNotebook } from "@/lib/notebook";
 import {
   HighlighterGlyph,
@@ -45,6 +46,9 @@ export function Markable({
   const [noteText, setNoteText] = useState("");
   const [noteSaved, setNoteSaved] = useState(false);
   const [memorizing, setMemorizing] = useState(false);
+  // La mémorisation est réservée à l'application (le site reste épuré).
+  const [nativeApp, setNativeApp] = useState(false);
+  useEffect(() => setNativeApp(isNativeApp()), []);
 
   const [showColors, setShowColors] = useState(false);
   const highlighted = tk.isHighlighted(id);
@@ -193,7 +197,7 @@ export function Markable({
             <PenGlyph className="h-3.5 w-3.5" />
             {existingNote? "Ma note": "Noter"}
           </button>
-          {reference && kind === "verset" ? (
+          {nativeApp && reference && kind === "verset" ? (
             <button
               type="button"
               className={chip}

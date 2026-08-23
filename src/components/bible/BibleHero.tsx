@@ -1,13 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { isNativeApp } from "@/lib/notifications";
 
 /**
  * En-tête de la page Bible, épuré, dans la charte (olive profond + accent
  * lime), aligné sur le style du mur de prière. Légère animation d'apparition.
  */
 export function BibleHero() {
+  // La mémorisation vit dans l'application (le site reste épuré).
+  const [native, setNative] = useState(false);
+  useEffect(() => setNative(isNativeApp()), []);
   return (
     <section className="dark-ctx relative overflow-hidden bg-night-950 pt-28 pb-10 text-cream sm:pt-36">
       <div className="absolute inset-0 bg-grid opacity-[0.1]" />
@@ -42,7 +47,8 @@ export function BibleHero() {
           prendre racine.
         </motion.p>
 
-        {/* Petit accès à la mémorisation de versets */}
+        {/* Petit accès à la mémorisation de versets (application uniquement) */}
+        {native ? (
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
@@ -63,6 +69,7 @@ export function BibleHero() {
             Mémoriser des versets
           </Link>
         </motion.div>
+        ) : null}
       </div>
     </section>
   );
