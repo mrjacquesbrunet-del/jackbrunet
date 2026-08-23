@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { addMemorizeXp, markReviewed, GAME_BEST_KEY, type MemorizeItem } from "@/lib/memorize";
+import { addMemorizeXp, markReviewed, recordPlaySession, GAME_BEST_KEY, type MemorizeItem } from "@/lib/memorize";
 import { isMusicOn, startGameMusic, stopGameMusic, toggleGameMusic } from "@/lib/game-audio";
 
 /**
@@ -455,6 +455,7 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
     if (!over || xpGiven) return;
     setXpGiven(true);
     addMemorizeXp(score);
+    recordPlaySession(score);
     setBest((b) => {
       const nb = Math.max(b, score);
       try { localStorage.setItem(GAME_BEST_KEY, String(nb)); } catch { /* */ }

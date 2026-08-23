@@ -153,6 +153,117 @@ export function regressMemorize(id: string) {
   persist();
 }
 
+/* ---------- Série de jours + objectif quotidien ---------- */
+
+const STREAK_KEY = "jb.memorize.streak.v1"; // { days, last: "YYYY-MM-DD" }
+const DAILY_KEY = "jb.memorize.daily.v1"; // { day, xp }
+export const DAILY_GOAL = 50;
+
+function todayStr(d = new Date()): string {
+  return d.toISOString().slice(0, 10);
+}
+function yesterdayStr(): string {
+  const d = new Date();
+  d.setDate(d.getDate() - 1);
+  return todayStr(d);
+}
+
+export function getStreak(): { days: number; last: string } {
+  try {
+    const raw = localStorage.getItem(STREAK_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch {
+    /* */
+  }
+  return { days: 0, last: "" };
+}
+
+/** Série « active » : 0 si on n'a pas joué aujourd'hui ni hier. */
+export function currentStreak(): number {
+  const s = getStreak();
+  if (s.last === todayStr() || s.last === yesterdayStr()) return s.days;
+  return 0;
+}
+
+export function getDailyXp(): number {
+  try {
+    const raw = localStorage.getItem(DAILY_KEY);
+    if (raw) {
+      const d = JSON.parse(raw) as { day: string; xp: number };
+      if (d.day === todayStr()) return d.xp;
+    }
+  } catch {
+    /* */
+  }
+  return 0;
+}
+
+/** À appeler à la fin d'une partie : met à jour la série et l'XP du jour. */
+export function recordPlaySession(gainedXp: number): void {
+  const today = todayStr();
+  // Série
+  const s = getStreak();
+  let days = s.days;
+  if (s.last === today) {
+    // déjà compté aujourd'hui
+    days = Math.max(1, days);
+  } else if (s.last === yesterdayStr()) {
+    days = s.days + 1;
+  } else {
+    days = 1;
+  }
+  try {
+    localStorage.setItem(STREAK_KEY, JSON.stringify({ days, last: today }));
+  } catch {
+    /* */
+  }
+  // XP du jour
+  const prev = getDailyXp();
+  try {
+    localStorage.setItem(DAILY_KEY, JSON.stringify({ day: today, xp: prev + Math.max(0, gainedXp) }));
+  } catch {
+    /* */
+  }
+}
+
+/* ---------- Trophées ---------- */
+
+export type Badge = {
+  id: string;
+  title: string;
+  desc: string;
+  color: string;
+  reached: (s: BadgeStats) => boolean;
+};
+export type BadgeStats = { xp: number; streak: number; learned: number; best: number };
+
+export const BADGES: Badge[] = [
+  { id: "first", title: "Premiers pas", desc: "Ta première partie jouée.", color: "#CAF000", reached: (s) => s.xp > 0 },
+  { id: "parcoeur", title: "Par cœur", desc: "Un premier verset mémorisé.", color: "#38BDF8", reached: (s) => s.learned >= 1 },
+  { id: "studieux", title: "Studieux", desc: "100 XP au total.", color: "#F472B6", reached: (s) => s.xp >= 100 },
+  { id: "regulier", title: "Régulier", desc: "3 jours d'affilée.", color: "#FB923C", reached: (s) => s.streak >= 3 },
+  { id: "biblio", title: "Bibliothèque", desc: "5 versets mémorisés.", color: "#A78BFA", reached: (s) => s.learned >= 5 },
+  { id: "fidele", title: "Fidèle", desc: "7 jours d'affilée.", color: "#F59E0B", reached: (s) => s.streak >= 7 },
+  { id: "erudit", title: "Érudit", desc: "500 XP au total.", color: "#2DD4BF", reached: (s) => s.xp >= 500 },
+  { id: "champion", title: "Champion", desc: "500 points en une partie.", color: "#FBBF24", reached: (s) => s.best >= 500 },
+];
+
+const SEEN_BADGES_KEY = "jb.memorize.badges.seen.v1";
+export function getSeenBadges(): string[] {
+  try {
+    return JSON.parse(localStorage.getItem(SEEN_BADGES_KEY) || "[]");
+  } catch {
+    return [];
+  }
+}
+export function markBadgesSeen(ids: string[]): void {
+  try {
+    localStorage.setItem(SEEN_BADGES_KEY, JSON.stringify(ids));
+  } catch {
+    /* */
+  }
+}
+
 function subscribe(cb: () => void) {
   listeners.add(cb);
   return () => listeners.delete(cb);

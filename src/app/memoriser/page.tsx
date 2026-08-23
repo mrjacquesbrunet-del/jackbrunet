@@ -14,6 +14,12 @@ import {
   isReviewDue,
   markReviewed,
   regressMemorize,
+  currentStreak,
+  getDailyXp,
+  DAILY_GOAL,
+  BADGES,
+  getSeenBadges,
+  markBadgesSeen,
   MEMORIZE_MAX_LEVEL,
   type MemorizeItem,
 } from "@/lib/memorize";
@@ -234,12 +240,18 @@ export default function MemoriserPage() {
   const [training, setTraining] = useState<string | null>(null);
   const [gaming, setGaming] = useState(false);
 
-  // Niveau du joueur (XP gagnés au jeu) + record, rechargés en sortant du jeu.
+  // Niveau du joueur (XP gagnés au jeu) + record + série + XP du jour,
+  // rechargés en sortant du jeu.
   const [xp, setXp] = useState(0);
   const [record, setRecord] = useState(0);
+  const [streak, setStreak] = useState(0);
+  const [dailyXp, setDailyXp] = useState(0);
+  const [newBadges, setNewBadges] = useState<string[]>([]);
   useEffect(() => {
     if (gaming) return;
     setXp(getMemorizeXp());
+    setStreak(currentStreak());
+    setDailyXp(getDailyXp());
     try {
       const b = Number(localStorage.getItem(GAME_BEST_KEY));
       if (Number.isFinite(b)) setRecord(b);
@@ -250,6 +262,18 @@ export default function MemoriserPage() {
   const lvl = levelFromXp(xp);
   const learned = items.filter((it) => it.level >= MEMORIZE_MAX_LEVEL).length;
   const inProgress = items.length - learned;
+
+  // Trophées : calcule ceux atteints, repère les nouveaux (fraîchement débloqués).
+  const badgeStats = { xp, streak, learned, best: record };
+  const unlockedIds = BADGES.filter((b) => b.reached(badgeStats)).map((b) => b.id);
+  useEffect(() => {
+    if (gaming) return;
+    const seen = getSeenBadges();
+    const fresh = unlockedIds.filter((id) => !seen.includes(id));
+    setNewBadges(fresh);
+    if (fresh.length) markBadgesSeen(unlockedIds);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gaming, xp, record, streak, learned]);
 
   // Jeu de révision figé à l'arrivée sur la page (les cartes ne bougent pas
   // pendant qu'on les valide).
@@ -431,6 +455,101 @@ export default function MemoriserPage() {
             </p>
           ) : null}
         </div>
+
+        {/* Série de jours + objectif quotidien */}
+        <div className="mt-4 grid grid-cols-2 gap-3">
+          {/* Série (flamme) */}
+          <div className="flex items-center gap-3 rounded-3xl border-2 border-[#FB923C]/40 bg-[#FB923C]/10 p-4">
+            <svg viewBox="0 0 24 24" className="h-9 w-9 shrink-0 fill-[#FB923C]" aria-hidden>
+              <path d="M12 2c1.5 3.5-1 5.5-2 7.5s-.5 5 2 5 3.5-2 3.5-4.5c2 1.2 3.5 3.2 3.5 5.5a7 7 0 1 1-13-3.5c1.2 2.2 2.5 2.2 2.5 0 0-3.5 1.5-6 3-10z" />
+            </svg>
+            <div>
+              <p className="font-game text-2xl font-bold leading-none text-[#FB923C]">{streak}</p>
+              <p className="mt-1 font-game text-[11px] font-bold uppercase tracking-wide text-cream/55">
+                {streak > 1 ? "jours de suite" : "jour de suite"}
+              </p>
+            </div>
+          </div>
+          {/* Objectif du jour */}
+          <div className="flex items-center gap-3 rounded-3xl border-2 border-[#38BDF8]/40 bg-[#38BDF8]/10 p-4">
+            <div className="relative h-9 w-9 shrink-0">
+              <svg viewBox="0 0 36 36" className="h-9 w-9 -rotate-90">
+                <circle cx="18" cy="18" r="15" className="fill-none stroke-white/12" strokeWidth="4" />
+                <circle
+                  cx="18" cy="18" r="15"
+                  className="fill-none stroke-[#38BDF8] transition-all duration-500"
+                  strokeWidth="4" strokeLinecap="round"
+                  strokeDasharray={2 * Math.PI * 15}
+                  strokeDashoffset={2 * Math.PI * 15 * (1 - Math.min(1, dailyXp / DAILY_GOAL))}
+                />
+              </svg>
+              {dailyXp >= DAILY_GOAL ? (
+                <svg viewBox="0 0 24 24" className="absolute inset-0 m-auto h-4 w-4 fill-none stroke-[#38BDF8]" strokeWidth={3}>
+                  <path d="M5 12l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              ) : null}
+            </div>
+            <div>
+              <p className="font-game text-2xl font-bold leading-none text-[#38BDF8]">
+                {Math.min(dailyXp, DAILY_GOAL)}<span className="text-sm text-cream/50">/{DAILY_GOAL}</span>
+              </p>
+              <p className="mt-1 font-game text-[11px] font-bold uppercase tracking-wide text-cream/55">
+                objectif du jour
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Trophées */}
+        <section className="mt-8">
+          <h2 className="font-game text-2xl font-bold">
+            Tes <span className="text-[#FBBF24]">trophées</span>
+            <span className="ml-2 align-middle font-game text-sm font-bold text-cream/45">
+              {unlockedIds.length}/{BADGES.length}
+            </span>
+          </h2>
+          <div className="mt-4 grid grid-cols-4 gap-3 sm:grid-cols-4">
+            {BADGES.map((b) => {
+              const on = unlockedIds.includes(b.id);
+              const fresh = newBadges.includes(b.id);
+              return (
+                <div key={b.id} className="flex flex-col items-center text-center" title={b.desc}>
+                  <div
+                    className={`relative grid h-16 w-16 place-items-center rounded-2xl ${fresh ? "animate-bounce" : ""}`}
+                    style={
+                      on
+                        ? { background: `${b.color}22`, border: `2px solid ${b.color}` }
+                        : { background: "rgba(255,255,255,0.03)", border: "2px solid rgba(255,255,255,0.08)" }
+                    }
+                  >
+                    {/* Médaille */}
+                    <svg viewBox="0 0 24 24" className="h-8 w-8 fill-none" strokeWidth={1.8}
+                      style={{ stroke: on ? b.color : "rgba(243,243,237,0.28)" }}>
+                      <circle cx="12" cy="14" r="6" />
+                      <path d="M9 8.5L7 3h10l-2 5.5" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M12 11.5l1 2 2 .2-1.5 1.4.4 2-1.9-1-1.9 1 .4-2L9.5 13.7l2-.2z" style={{ fill: on ? b.color : "transparent" }} />
+                    </svg>
+                    {fresh ? (
+                      <span className="absolute -right-1 -top-1 rounded-full bg-[#FB7185] px-1.5 py-0.5 text-[8px] font-bold text-white">
+                        NEW
+                      </span>
+                    ) : null}
+                    {!on ? (
+                      <span className="absolute -bottom-1 -right-1 grid h-5 w-5 place-items-center rounded-full bg-night-900">
+                        <svg viewBox="0 0 24 24" className="h-3 w-3 fill-none stroke-cream/40" strokeWidth={2.2}>
+                          <path d="M7 10V8a5 5 0 0 1 10 0v2M6 10h12v10H6z" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </span>
+                    ) : null}
+                  </div>
+                  <p className={`mt-1.5 font-game text-[10px] font-bold leading-tight ${on ? "text-cream/80" : "text-cream/35"}`}>
+                    {b.title}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </section>
 
         {/* Parcours de versets proposés, débloqués par niveau */}
         <section className="mt-8">
