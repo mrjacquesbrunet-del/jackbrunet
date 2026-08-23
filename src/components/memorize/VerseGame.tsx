@@ -61,6 +61,68 @@ function HeartIcon({ filled }: { filled: boolean }) {
   );
 }
 
+/** Mascotte contente (bonne réponse) : visage lime qui rebondit. */
+function HappyFace() {
+  return (
+    <svg viewBox="0 0 48 48" className="h-14 w-14 shrink-0 animate-bounce" aria-hidden="true">
+      <circle cx="24" cy="26" r="17" className="fill-dawn-400/15 stroke-dawn-400" strokeWidth="2.5" />
+      {/* rayons de joie */}
+      <path
+        d="M24 2v4M9 7l2.8 2.8M39 7l-2.8 2.8"
+        className="stroke-dawn-300 fill-none"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+      {/* yeux fermés de bonheur */}
+      <path
+        d="M15.5 23c1.6-2.2 4.4-2.2 6 0M26.5 23c1.6-2.2 4.4-2.2 6 0"
+        className="stroke-dawn-300 fill-none"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+      {/* grand sourire */}
+      <path
+        d="M15.5 30c2.4 4.4 6 6.4 8.5 6.4s6.1-2 8.5-6.4"
+        className="stroke-dawn-300 fill-none"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+/** Mascotte déçue (mauvaise réponse) : visage rosé qui tremble. */
+function SadFace() {
+  return (
+    <svg
+      viewBox="0 0 48 48"
+      className="h-14 w-14 shrink-0"
+      style={{ animation: "jb-shake 0.5s ease-in-out 2" }}
+      aria-hidden="true"
+    >
+      <style>{"@keyframes jb-shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}"}</style>
+      <circle cx="24" cy="26" r="17" className="fill-rose-400/15 stroke-rose-400" strokeWidth="2.5" />
+      {/* sourcils tombants */}
+      <path
+        d="M15 20l6 2M33 20l-6 2"
+        className="stroke-rose-300 fill-none"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+      {/* yeux */}
+      <circle cx="18.5" cy="26" r="1.6" className="fill-rose-300" />
+      <circle cx="29.5" cy="26" r="1.6" className="fill-rose-300" />
+      {/* bouche déçue */}
+      <path
+        d="M17 35c2.2-3.4 5-4.8 7-4.8s4.8 1.4 7 4.8"
+        className="stroke-rose-300 fill-none"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 /* ------------------------------------------------------------------ */
 /* Manche 1 — Puzzle                                                   */
 /* ------------------------------------------------------------------ */
@@ -572,7 +634,9 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
       {/* Bandeau bas : vert (gagné) / rouge (erreur) */}
       {phase === "won" ? (
         <div className="border-t-2 border-dawn-400/30 bg-dawn-400/[0.12] px-5 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-4">
-          <div className="mx-auto w-full max-w-lg">
+          <div className="mx-auto flex w-full max-w-lg items-start gap-4">
+            <HappyFace />
+            <div className="min-w-0 flex-1">
             <p className="flex items-center gap-2 font-display text-xl font-extrabold text-dawn-300">
               <span className="grid h-7 w-7 place-items-center rounded-full bg-dawn-400 text-night-950">
                 <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={3}>
@@ -595,15 +659,19 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
             >
               Continuer
             </button>
+            </div>
           </div>
         </div>
       ) : oops ? (
         <div className="border-t-2 border-rose-400/40 bg-rose-400/[0.12] px-5 pb-[calc(env(safe-area-inset-bottom)+1.2rem)] pt-4">
-          <div className="mx-auto w-full max-w-lg">
-            <p className="font-display text-xl font-extrabold text-rose-300">Oups !</p>
-            <p className="mt-0.5 text-sm text-cream/70">
-              Une vie en moins — le combo repart à ×1.
-            </p>
+          <div className="mx-auto flex w-full max-w-lg items-center gap-4">
+            <SadFace />
+            <div>
+              <p className="font-display text-xl font-extrabold text-rose-300">Oups !</p>
+              <p className="mt-0.5 text-sm text-cream/70">
+                Une vie en moins — le combo repart à ×1.
+              </p>
+            </div>
           </div>
         </div>
       ) : (

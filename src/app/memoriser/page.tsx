@@ -20,6 +20,7 @@ import {
 import { resolveRef, getBook } from "@/lib/bible-client";
 import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
 import { VerseGame } from "@/components/memorize/VerseGame";
+import { VERSE_PACKS } from "@/config/verse-packs";
 
 const LEVEL_LABELS = ["Découverte", "Quelques trous", "La moitié", "Presque tout", "Par cœur"];
 
@@ -262,27 +263,32 @@ export default function MemoriserPage() {
     .map((id) => items.find((it) => it.id === id))
     .filter(Boolean) as MemorizeItem[];
 
-  async function add() {
-    const query = ref.trim();
-    if (!query) return;
-    setState("loading");
+  async function addByReference(query: string): Promise<"ok" | "notfound" | "duplicate"> {
     const r = await resolveRef(query);
-    if (!r) {
-      setState("notfound");
-      return;
-    }
+    if (!r) return "notfound";
     const book = await getBook(r.bookId);
     const chap = book.chapters[r.chapter - 1] || [];
     const verses: string[] = [];
     for (let v = r.vStart; v <= Math.min(r.vEnd, chap.length); v++) verses.push(chap[v - 1]);
-    if (verses.length === 0) {
-      setState("notfound");
-      return;
-    }
+    if (verses.length === 0) return "notfound";
     const reference = `${r.bookName} ${r.chapter}:${r.vStart}${r.vEnd > r.vStart ? `-${r.vEnd}` : ""}`;
-    const ok = addMemorizeVerse(reference, verses.join(" "));
-    setState(ok ? "idle" : "duplicate");
-    if (ok) setRef("");
+    return addMemorizeVerse(reference, verses.join(" ")) ? "ok" : "duplicate";
+  }
+
+  async function add() {
+    const query = ref.trim();
+    if (!query) return;
+    setState("loading");
+    const res = await addByReference(query);
+    setState(res === "ok" ? "idle" : res);
+    if (res === "ok") setRef("");
+  }
+
+  // Parcours proposés : ajout d'un verset ou de tout le niveau.
+  const [openPack, setOpenPack] = useState<number | null>(null);
+  const memorizedRefs = new Set(items.map((it) => it.reference.toLowerCase()));
+  async function addPack(refs: string[]) {
+    for (const q of refs) await addByReference(q);
   }
 
   return (
@@ -406,7 +412,7 @@ export default function MemoriserPage() {
             disabled={items.length === 0}
             className="mt-4 w-full select-none rounded-2xl border-2 border-dawn-400 bg-dawn-400 px-5 py-3.5 text-center text-base font-extrabold uppercase tracking-wide text-night-950 shadow-[0_5px_0_rgba(140,168,0,1)] transition-all duration-100 active:translate-y-[3px] active:shadow-none disabled:opacity-40 disabled:shadow-none"
           >
-            Jouer
+            {items.length > 0 ? "Continuer" : "Jouer"}
           </button>
           {items.length === 0 ? (
             <p className="mt-2 text-center text-xs text-cream/45">
@@ -414,6 +420,106 @@ export default function MemoriserPage() {
             </p>
           ) : null}
         </div>
+
+        {/* Parcours de versets proposés, débloqués par niveau */}
+        <section className="mt-8">
+          <h2 className="font-display text-xl font-extrabold">
+            Parcours <span className="text-dawn-400">proposés</span>
+          </h2>
+          <p className="mt-1 text-sm text-cream/55">
+            Des versets choisis pour la vie chrétienne — monte de niveau au jeu pour tout débloquer.
+          </p>
+          <div className="mt-4 space-y-3">
+            {VERSE_PACKS.map((pack) => {
+              const locked = lvl.level < pack.level;
+              const open = openPack === pack.level;
+              const addedCount = pack.refs.filter((r) => memorizedRefs.has(r.toLowerCase())).length;
+              return (
+                <div
+                  key={pack.level}
+                  className={`rounded-3xl border-2 p-4 ${
+                    locked
+                      ? "border-white/8 bg-white/[0.02] opacity-70"
+                      : "border-white/10 bg-night-900/60"
+                  }`}
+                >
+                  <button
+                    type="button"
+                    onClick={() => !locked && setOpenPack(open ? null : pack.level)}
+                    className="flex w-full items-center gap-3.5 text-left"
+                  >
+                    <span
+                      className={`grid h-11 w-11 shrink-0 place-items-center rounded-2xl border-2 font-display text-lg font-extrabold ${
+                        locked
+                          ? "border-white/10 bg-white/[0.04] text-cream/35"
+                          : "border-dawn-400 bg-dawn-400 text-night-950 shadow-[0_4px_0_rgba(140,168,0,1)]"
+                      }`}
+                    >
+                      {pack.level}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block font-display text-base font-bold leading-tight">
+                        {pack.title}
+                      </span>
+                      <span className="mt-0.5 block text-xs text-cream/55">
+                        {locked
+                          ? `Atteins le niveau ${pack.level} au jeu pour débloquer.`
+                          : pack.subtitle}
+                      </span>
+                    </span>
+                    {locked ? (
+                      <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 fill-none stroke-cream/35" strokeWidth={1.8}>
+                        <path d="M7 10V8a5 5 0 0 1 10 0v2M6 10h12v10H6z" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    ) : (
+                      <span className="shrink-0 text-xs font-bold text-cream/40">
+                        {addedCount}/{pack.refs.length}
+                      </span>
+                    )}
+                  </button>
+
+                  {open && !locked ? (
+                    <div className="mt-3 space-y-2 border-t border-white/10 pt-3">
+                      {pack.refs.map((r) => {
+                        const added = memorizedRefs.has(r.toLowerCase());
+                        return (
+                          <div key={r} className="flex items-center justify-between gap-3">
+                            <span className="text-sm font-semibold text-cream/85">{r}</span>
+                            <button
+                              type="button"
+                              disabled={added}
+                              onClick={() => addByReference(r)}
+                              className={`rounded-full px-3.5 py-1.5 text-xs font-bold ${
+                                added
+                                  ? "border border-dawn-400/40 text-dawn-300"
+                                  : "bg-dawn-400 text-night-950"
+                              }`}
+                            >
+                              {added ? "Ajouté" : "Ajouter"}
+                            </button>
+                          </div>
+                        );
+                      })}
+                      {addedCount < pack.refs.length ? (
+                        <button
+                          type="button"
+                          onClick={() => addPack(pack.refs)}
+                          className="mt-1 w-full rounded-full border border-cream/20 px-4 py-2 text-sm font-bold text-cream/80"
+                        >
+                          Tout ajouter à ma liste
+                        </button>
+                      ) : (
+                        <p className="mt-1 text-center text-xs font-semibold text-dawn-300">
+                          Parcours complet dans ta liste — joue pour l&apos;ancrer !
+                        </p>
+                      )}
+                    </div>
+                  ) : null}
+                </div>
+              );
+            })}
+          </div>
+        </section>
 
         {/* Révision des versets déjà appris (cartes à trous) */}
         {!gaming && due.length > 0 ? <ReviewDeck due={due} /> : null}
