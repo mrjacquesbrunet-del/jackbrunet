@@ -331,7 +331,7 @@ export default function MemoriserPage() {
               <div className="min-w-0">
                 <p className="font-display text-lg font-bold leading-tight">Le jeu du verset</p>
                 <p className="mt-1 text-sm text-cream/60">
-                  Remets les mots dans l&apos;ordre — points, combo, 3 vies.
+                  4 manches par verset : puzzle, trous, référence, par cœur — points, combo, 3 vies.
                 </p>
               </div>
               <button
