@@ -4,27 +4,29 @@ import { useEffect, useMemo, useState } from "react";
 import { markReviewed, type MemorizeItem } from "@/lib/memorize";
 
 /**
- * « Le jeu du verset » — apprendre en s'amusant, façon jeu mobile.
- * Pour CHAQUE verset, 4 manches de difficulté croissante :
- *   1. Puzzle — remets les mots dans l'ordre ;
- *   2. À trous — choisis le bon mot pour chaque trou ;
- *   3. Référence — retrouve d'où vient le verset ;
- *   4. Par cœur — retape le verset entier.
- * Score, combo (jusqu'à ×5), 3 vies partagées, bonus par manche et par
- * verset ; un verset bouclé sans perdre de vie compte comme une révision.
- * Meilleur score gardé sur l'appareil.
+ * « Le jeu du verset » — leçon plein écran façon jeu mobile (style Duolingo,
+ * dans la charte RHEMA) : barre de progression épaisse, gros boutons qui
+ * s'enfoncent, bandeau vert « Excellent ! » + CONTINUER, bandeau rouge en cas
+ * d'erreur. 4 manches par verset (puzzle, à trous, référence, par cœur),
+ * combo ×5, 3 vies, bonus, meilleur score sur l'appareil.
  */
 
 const BEST_KEY = "jb.memorize.game.best.v1";
 const MODES = ["puzzle", "trous", "reference", "type"] as const;
 type Mode = (typeof MODES)[number];
 
-const MODE_LABELS: Record<Mode, string> = {
-  puzzle: "Puzzle — remets les mots dans l'ordre",
-  trous: "À trous — choisis le bon mot",
+const MODE_TITLES: Record<Mode, string> = {
+  puzzle: "Remets les mots dans l'ordre",
+  trous: "Choisis le bon mot pour chaque trou",
   reference: "D'où vient ce verset ?",
-  type: "Par cœur — retape le verset",
+  type: "Retape le verset de mémoire",
 };
+
+/** Bouton « 3D » qui s'enfonce quand on appuie (style jeu mobile). */
+const chunky =
+  "select-none rounded-2xl border-2 transition-all duration-100 active:translate-y-[3px] active:shadow-none";
+const chipCls = `${chunky} border-white/12 bg-night-800 px-4 py-2.5 text-[15px] font-bold text-cream shadow-[0_4px_0_rgba(255,255,255,0.10)] hover:border-dawn-400/40`;
+const chipWrongCls = `${chunky} border-rose-400/80 bg-rose-400/15 px-4 py-2.5 text-[15px] font-bold text-rose-200 shadow-[0_4px_0_rgba(251,113,133,0.35)]`;
 
 function shuffle<T>(arr: T[], seed: number): T[] {
   const a = [...arr];
@@ -51,7 +53,7 @@ function HeartIcon({ filled }: { filled: boolean }) {
   return (
     <svg
       viewBox="0 0 24 24"
-      className={`h-5 w-5 ${filled ? "fill-dawn-400 stroke-dawn-400" : "fill-none stroke-cream/25"}`}
+      className={`h-6 w-6 ${filled ? "fill-dawn-400 stroke-dawn-400" : "fill-none stroke-cream/25"}`}
       strokeWidth={1.8}
       aria-hidden="true"
     >
@@ -61,15 +63,17 @@ function HeartIcon({ filled }: { filled: boolean }) {
 }
 
 /* ------------------------------------------------------------------ */
-/* Manche 1 — Puzzle : remets les mots dans l'ordre                    */
+/* Manche 1 — Puzzle                                                   */
 /* ------------------------------------------------------------------ */
 function PuzzleRound({
   words,
+  locked,
   onGood,
   onBad,
   onDone,
 }: {
   words: string[];
+  locked: boolean;
   onGood: () => void;
   onBad: () => void;
   onDone: () => void;
@@ -80,7 +84,7 @@ function PuzzleRound({
   const [wrong, setWrong] = useState<number | null>(null);
 
   function tap(poolIdx: number) {
-    if (used.has(poolIdx)) return;
+    if (locked || used.has(poolIdx)) return;
     if (words[pool[poolIdx]] === words[placed]) {
       const nu = new Set(used);
       nu.add(poolIdx);
@@ -88,7 +92,7 @@ function PuzzleRound({
       onGood();
       const np = placed + 1;
       setPlaced(np);
-      if (np >= words.length) setTimeout(onDone, 700);
+      if (np >= words.length) onDone();
     } else {
       setWrong(poolIdx);
       onBad();
@@ -98,22 +102,18 @@ function PuzzleRound({
 
   return (
     <>
-      <p className="min-h-[4.5rem] rounded-2xl border border-white/10 bg-night-950/60 p-3.5 text-[15px] leading-relaxed text-cream/90">
+      <p className="min-h-[5.5rem] rounded-3xl border-2 border-white/10 bg-night-900/70 p-4 text-[16px] leading-relaxed text-cream">
         {words.slice(0, placed).join(" ")}
-        <span className="text-dawn-300"> ▍</span>
+        {placed < words.length ? <span className="text-dawn-300"> ▍</span> : null}
       </p>
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div className="mt-5 flex flex-wrap gap-2.5">
         {pool.map((wordIdx, poolIdx) =>
           used.has(poolIdx) ? null : (
             <button
               key={poolIdx}
               type="button"
               onClick={() => tap(poolIdx)}
-              className={`rounded-full border px-3 py-1.5 text-sm font-semibold transition-all ${
-                wrong === poolIdx
-                  ? "translate-x-0.5 border-rose-400/70 bg-rose-400/15 text-rose-200"
-                  : "border-white/15 bg-white/[0.06] text-cream/85 hover:border-dawn-400/50"
-              }`}
+              className={wrong === poolIdx ? chipWrongCls : chipCls}
             >
               {words[wordIdx]}
             </button>
@@ -125,20 +125,21 @@ function PuzzleRound({
 }
 
 /* ------------------------------------------------------------------ */
-/* Manche 2 — À trous : choisis le bon mot pour chaque trou            */
+/* Manche 2 — À trous                                                  */
 /* ------------------------------------------------------------------ */
 function BlanksRound({
   words,
+  locked,
   onGood,
   onBad,
   onDone,
 }: {
   words: string[];
+  locked: boolean;
   onGood: () => void;
   onBad: () => void;
   onDone: () => void;
 }) {
-  // ~1 mot sur 3 devient un trou (au moins 1), répartis régulièrement.
   const blanks = useMemo(() => {
     const n = Math.max(1, Math.round(words.length / 3));
     const out: number[] = [];
@@ -146,11 +147,10 @@ function BlanksRound({
     for (let k = 0; k < n; k++) out.push(Math.min(words.length - 1, Math.floor(k * step + step / 2)));
     return Array.from(new Set(out));
   }, [words]);
-  const [current, setCurrent] = useState(0); // index dans blanks
+  const [current, setCurrent] = useState(0);
   const [wrong, setWrong] = useState<string | null>(null);
 
   const target = blanks[current];
-  // 3 propositions : le bon mot + 2 leurres pris ailleurs dans le verset.
   const options = useMemo(() => {
     if (target === undefined) return [];
     const good = words[target];
@@ -160,13 +160,13 @@ function BlanksRound({
   }, [words, target]);
 
   function pick(w: string) {
-    if (target === undefined) return;
+    if (locked || target === undefined) return;
     if (w === words[target]) {
       onGood();
       setWrong(null);
       const next = current + 1;
       setCurrent(next);
-      if (next >= blanks.length) setTimeout(onDone, 700);
+      if (next >= blanks.length) onDone();
     } else {
       setWrong(w);
       onBad();
@@ -176,7 +176,7 @@ function BlanksRound({
 
   return (
     <>
-      <p className="rounded-2xl border border-white/10 bg-night-950/60 p-3.5 text-[15px] leading-relaxed text-cream/90">
+      <p className="rounded-3xl border-2 border-white/10 bg-night-900/70 p-4 text-[16px] leading-relaxed text-cream">
         {words.map((w, i) => {
           const bi = blanks.indexOf(i);
           if (bi === -1 || bi < current) {
@@ -189,25 +189,21 @@ function BlanksRound({
           return (
             <span
               key={i}
-              className={`mx-0.5 inline-block h-[1.15em] translate-y-[0.2em] rounded-md align-baseline ${
-                bi === current ? "bg-dawn-400/40 ring-1 ring-dawn-400" : "bg-cream/15"
+              className={`mx-0.5 inline-block h-[1.2em] translate-y-[0.22em] rounded-lg align-baseline ${
+                bi === current ? "bg-dawn-400/40 ring-2 ring-dawn-400" : "bg-cream/15"
               }`}
               style={{ width: `${Math.max(2, w.length * 0.62)}ch` }}
             />
           );
         })}
       </p>
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div className="mt-5 flex flex-wrap gap-2.5">
         {options.map((w) => (
           <button
             key={w}
             type="button"
             onClick={() => pick(w)}
-            className={`rounded-full border px-4 py-2 text-sm font-bold transition-all ${
-              wrong === w
-                ? "translate-x-0.5 border-rose-400/70 bg-rose-400/15 text-rose-200"
-                : "border-white/15 bg-white/[0.06] text-cream/90 hover:border-dawn-400/50"
-            }`}
+            className={wrong === w ? chipWrongCls : chipCls}
           >
             {w}
           </button>
@@ -218,17 +214,19 @@ function BlanksRound({
 }
 
 /* ------------------------------------------------------------------ */
-/* Manche 3 — Référence : d'où vient ce verset ?                       */
+/* Manche 3 — Référence                                                */
 /* ------------------------------------------------------------------ */
 function ReferenceRound({
   item,
   all,
+  locked,
   onGood,
   onBad,
   onDone,
 }: {
   item: MemorizeItem;
   all: MemorizeItem[];
+  locked: boolean;
   onGood: () => void;
   onBad: () => void;
   onDone: () => void;
@@ -238,29 +236,26 @@ function ReferenceRound({
 
   const options = useMemo(() => {
     const decoys = new Set<string>();
-    // D'abord les références des autres versets appris…
     for (const it of all) {
       if (it.id !== item.id) decoys.add(it.reference);
       if (decoys.size >= 3) break;
     }
-    // …complétées par des variantes proches (chapitre / verset décalés).
     const m = item.reference.match(/^(.*?)(\d+):(\d+)(.*)$/);
     let guard = 0;
     while (decoys.size < 3 && m && guard < 10) {
       guard += 1;
-      const chap = Number(m[2]) + guard;
-      const fake = `${m[1]}${chap}:${m[3]}${m[4]}`;
+      const fake = `${m[1]}${Number(m[2]) + guard}:${m[3]}${m[4]}`;
       if (fake !== item.reference) decoys.add(fake);
     }
     return shuffle([item.reference, ...Array.from(decoys).slice(0, 3)], item.text.length * 13 + 1);
   }, [item, all]);
 
   function pick(r: string) {
-    if (found) return;
+    if (locked || found) return;
     if (r === item.reference) {
       setFound(true);
       onGood();
-      setTimeout(onDone, 700);
+      onDone();
     } else {
       setWrong(r);
       onBad();
@@ -270,21 +265,21 @@ function ReferenceRound({
 
   return (
     <>
-      <p className="rounded-2xl border border-white/10 bg-night-950/60 p-3.5 text-[15px] leading-relaxed text-cream/90">
+      <p className="rounded-3xl border-2 border-white/10 bg-night-900/70 p-4 text-[16px] leading-relaxed text-cream">
         « {item.text} »
       </p>
-      <div className="mt-4 grid gap-2">
+      <div className="mt-5 grid gap-2.5">
         {options.map((r) => (
           <button
             key={r}
             type="button"
             onClick={() => pick(r)}
-            className={`rounded-2xl border px-4 py-3 text-left text-sm font-bold transition-all ${
+            className={`${chunky} px-4 py-3.5 text-left text-[15px] font-bold ${
               found && r === item.reference
-                ? "border-dawn-400 bg-dawn-400/15 text-dawn-300"
+                ? "border-dawn-400 bg-dawn-400/15 text-dawn-300 shadow-[0_4px_0_rgba(202,240,0,0.35)]"
                 : wrong === r
-                  ? "border-rose-400/70 bg-rose-400/15 text-rose-200"
-                  : "border-white/15 bg-white/[0.06] text-cream/90 hover:border-dawn-400/50"
+                  ? "border-rose-400/80 bg-rose-400/15 text-rose-200 shadow-[0_4px_0_rgba(251,113,133,0.35)]"
+                  : "border-white/12 bg-night-800 text-cream shadow-[0_4px_0_rgba(255,255,255,0.10)] hover:border-dawn-400/40"
             }`}
           >
             {r}
@@ -296,15 +291,17 @@ function ReferenceRound({
 }
 
 /* ------------------------------------------------------------------ */
-/* Manche 4 — Par cœur : retape le verset                              */
+/* Manche 4 — Par cœur (retaper)                                       */
 /* ------------------------------------------------------------------ */
 function TypeRound({
   item,
+  locked,
   onGood,
   onBad,
   onDone,
 }: {
   item: MemorizeItem;
+  locked: boolean;
   onGood: (n: number) => void;
   onBad: () => void;
   onDone: () => void;
@@ -313,6 +310,7 @@ function TypeRound({
   const [result, setResult] = useState<null | { ok: boolean; pct: number }>(null);
 
   function check() {
+    if (locked) return;
     const want = normalize(item.text).split(" ");
     const got = normalize(typed).split(" ").filter(Boolean);
     let match = 0;
@@ -329,7 +327,7 @@ function TypeRound({
     setResult({ ok, pct });
     if (ok) {
       onGood(Math.max(1, Math.round(want.length / 2)));
-      setTimeout(onDone, 1300);
+      onDone();
     } else {
       onBad();
     }
@@ -337,9 +335,6 @@ function TypeRound({
 
   return (
     <>
-      <p className="text-sm text-cream/65">
-        Écris le verset de mémoire ({item.reference}) — les accents et la ponctuation ne comptent pas.
-      </p>
       <textarea
         value={typed}
         onChange={(e) => {
@@ -348,32 +343,35 @@ function TypeRound({
         }}
         rows={4}
         placeholder="Tape le verset ici…"
-        className="mt-3 w-full rounded-2xl border border-white/15 bg-night-950/70 p-3.5 text-[15px] leading-relaxed text-cream placeholder:text-cream/30 focus:border-dawn-400/60 focus:outline-none"
+        className="w-full rounded-3xl border-2 border-white/12 bg-night-900/70 p-4 text-[16px] leading-relaxed text-cream placeholder:text-cream/30 focus:border-dawn-400/60 focus:outline-none"
       />
-      {result ? (
-        <p className={`mt-2 text-sm font-bold ${result.ok ? "text-dawn-300" : "text-rose-300"}`}>
-          {result.ok
-            ? `Bravo — ${result.pct}% du verset retrouvé.`
-            : `${result.pct}% — relis-le et réessaie (il en faut 85 %).`}
-        </p>
-      ) : null}
+      <p className="mt-2 text-xs text-cream/45">
+        Les accents et la ponctuation ne comptent pas — il faut 85 % des mots.
+      </p>
       {result && !result.ok ? (
-        <p className="mt-1 text-xs text-cream/50">« {item.text} »</p>
+        <div className="mt-3 rounded-2xl border-2 border-rose-400/40 bg-rose-400/10 p-3.5">
+          <p className="text-sm font-bold text-rose-200">
+            {result.pct}% retrouvés — relis-le et réessaie.
+          </p>
+          <p className="mt-1 text-sm text-cream/70">« {item.text} »</p>
+        </div>
       ) : null}
-      <button
-        type="button"
-        onClick={check}
-        disabled={!typed.trim() || Boolean(result?.ok)}
-        className="mt-3 rounded-full bg-dawn-400 px-5 py-2.5 text-sm font-bold text-night-950 disabled:opacity-50"
-      >
-        Vérifier
-      </button>
+      {!result?.ok ? (
+        <button
+          type="button"
+          onClick={check}
+          disabled={!typed.trim()}
+          className={`${chunky} mt-4 w-full border-dawn-400 bg-dawn-400 px-5 py-3.5 text-center text-base font-extrabold uppercase tracking-wide text-night-950 shadow-[0_5px_0_rgba(140,168,0,1)] disabled:opacity-40`}
+        >
+          Vérifier
+        </button>
+      ) : null}
     </>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* Le jeu complet                                                      */
+/* Le jeu complet — plein écran                                        */
 /* ------------------------------------------------------------------ */
 export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: () => void }) {
   const order = useMemo(() => shuffle(items, (Date.now() % 233280) + 1), [items]);
@@ -384,13 +382,17 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
   const [combo, setCombo] = useState(1);
   const [goodInRow, setGoodInRow] = useState(0);
   const [verseClean, setVerseClean] = useState(true);
-  const [flash, setFlash] = useState<"bonus" | null>(null);
+  const [phase, setPhase] = useState<"play" | "won">("play"); // won = bandeau vert + CONTINUER
+  const [oops, setOops] = useState(false); // bandeau rouge bref
   const [best, setBest] = useState(0);
 
   const item = order[verseIdx];
   const words = useMemo(() => (item ? item.text.split(/\s+/) : []), [item]);
   const mode: Mode = MODES[modeIdx];
   const over = lives <= 0 || verseIdx >= order.length;
+  const totalSteps = order.length * MODES.length;
+  const step = verseIdx * MODES.length + modeIdx + (phase === "won" ? 1 : 0);
+  const lastOfVerse = modeIdx === MODES.length - 1;
 
   useEffect(() => {
     try {
@@ -428,44 +430,46 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
     setCombo(1);
     setGoodInRow(0);
     setVerseClean(false);
+    setOops(true);
+    setTimeout(() => setOops(false), 1100);
   }
 
   function roundDone() {
-    setScore((s) => s + 30);
-    if (modeIdx + 1 < MODES.length) {
-      setModeIdx(modeIdx + 1);
+    setScore((s) => s + 30 + (lastOfVerse ? 100 : 0));
+    if (lastOfVerse && verseClean && item) markReviewed(item.id);
+    setPhase("won");
+  }
+
+  function continueGame() {
+    if (lastOfVerse) {
+      setVerseIdx((i) => i + 1);
+      setModeIdx(0);
+      setVerseClean(true);
     } else {
-      // Verset bouclé : gros bonus, révision validée s'il est resté propre.
-      setScore((s) => s + 100);
-      setFlash("bonus");
-      if (verseClean && item) markReviewed(item.id);
-      setTimeout(() => {
-        setFlash(null);
-        setVerseIdx((i) => i + 1);
-        setModeIdx(0);
-        setVerseClean(true);
-      }, 1100);
+      setModeIdx((m) => m + 1);
     }
+    setPhase("play");
   }
 
   /* ---------- Écran de fin ---------- */
   if (over) {
     const win = lives > 0;
     return (
-      <div className="mt-6 rounded-3xl border border-dawn-400/35 bg-dawn-400/[0.07] p-6 text-center">
-        <p className="text-[11px] font-bold uppercase tracking-wide text-dawn-300">
+      <div className="fixed inset-0 z-[80] flex flex-col items-center justify-center bg-night-950 px-6 text-center text-cream">
+        <p className="text-xs font-bold uppercase tracking-[0.22em] text-dawn-400">
           {win ? "Partie terminée" : "Plus de vies"}
         </p>
-        <p className="mt-2 font-display text-3xl font-extrabold text-cream">{score} points</p>
-        <p className="mt-1 text-sm text-cream/60">
+        <p className="mt-4 font-display text-5xl font-extrabold">{score}</p>
+        <p className="mt-1 text-sm font-semibold text-cream/55">points</p>
+        <p className="mt-3 text-sm text-cream/65">
           Meilleur score : <span className="font-bold text-dawn-300">{Math.max(best, score)}</span>
         </p>
-        <p className="mt-2 text-sm text-cream/65">
+        <p className="mt-4 max-w-xs text-sm text-cream/65">
           {win
             ? "La Parole s'ancre en jouant — reviens battre ton record."
             : "Pas grave — chaque essai grave le verset un peu plus profond."}
         </p>
-        <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+        <div className="mt-8 w-full max-w-xs space-y-3">
           <button
             type="button"
             onClick={() => {
@@ -476,93 +480,122 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
               setCombo(1);
               setGoodInRow(0);
               setVerseClean(true);
+              setPhase("play");
             }}
-            className="rounded-full bg-dawn-400 px-5 py-2.5 text-sm font-bold text-night-950"
+            className={`${chunky} w-full border-dawn-400 bg-dawn-400 px-5 py-3.5 text-base font-extrabold uppercase tracking-wide text-night-950 shadow-[0_5px_0_rgba(140,168,0,1)]`}
           >
             Rejouer
           </button>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-cream/20 px-5 py-2.5 text-sm font-semibold text-cream/75"
+            className={`${chunky} w-full border-white/15 bg-night-900 px-5 py-3.5 text-base font-extrabold uppercase tracking-wide text-cream/80 shadow-[0_5px_0_rgba(255,255,255,0.08)]`}
           >
-            Fermer
+            Quitter
           </button>
         </div>
       </div>
     );
   }
 
-  /* ---------- Manche en cours ---------- */
+  /* ---------- Leçon plein écran ---------- */
   return (
-    <div className="relative mt-6 overflow-hidden rounded-3xl border border-dawn-400/35 bg-night-900/70 p-5">
-      {/* Bandeau bonus quand un verset est bouclé */}
-      {flash === "bonus" ? (
-        <div className="absolute inset-0 z-10 grid place-items-center bg-night-950/85">
-          <div className="text-center">
-            <p className="font-display text-2xl font-extrabold text-dawn-300">+100 points</p>
-            <p className="mt-1 text-sm font-semibold text-cream/80">Verset bouclé !</p>
+    <div className="fixed inset-0 z-[80] flex flex-col bg-night-950 text-cream">
+      {/* Entête : quitter + progression + vies */}
+      <div className="mx-auto w-full max-w-lg px-4 pt-[calc(env(safe-area-inset-top)+0.9rem)]">
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Quitter la partie"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-cream/50 hover:bg-white/10 hover:text-cream"
+          >
+            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2.4}>
+              <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+            </svg>
+          </button>
+          <div className="h-4 flex-1 overflow-hidden rounded-full bg-white/10">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-dawn-400 to-dawn-300 transition-all duration-500"
+              style={{ width: `${Math.max(4, (step / totalSteps) * 100)}%` }}
+            />
+          </div>
+          <div className="flex shrink-0 items-center gap-1">
+            {[0, 1, 2].map((i) => (
+              <HeartIcon key={i} filled={i < lives} />
+            ))}
           </div>
         </div>
-      ) : null}
-
-      <div className="flex items-center justify-between gap-3">
-        <p className="text-[11px] font-bold uppercase tracking-wide text-dawn-300">
-          Verset {verseIdx + 1} / {order.length}
-        </p>
-        <div className="flex items-center gap-1">
-          {[0, 1, 2].map((i) => (
-            <HeartIcon key={i} filled={i < lives} />
-          ))}
+        <div className="mt-2 flex items-center justify-between text-xs font-bold text-cream/45">
+          <span>
+            Verset {verseIdx + 1}/{order.length} · Manche {modeIdx + 1}/4
+          </span>
+          <span>
+            <span className="tabular-nums text-cream/80">{score}</span> pts
+            <span className={`ml-2 ${combo > 1 ? "text-dawn-300" : ""}`}>×{combo}</span>
+          </span>
         </div>
       </div>
 
-      {/* Progression des 4 manches du verset */}
-      <div className="mt-2 flex gap-1.5">
-        {MODES.map((m, i) => (
-          <span
-            key={m}
-            className={`h-1.5 flex-1 rounded-full ${i < modeIdx ? "bg-dawn-400" : i === modeIdx ? "bg-dawn-400/50" : "bg-cream/12"}`}
-          />
-        ))}
+      {/* Contenu de la manche */}
+      <div className="mx-auto w-full max-w-lg flex-1 overflow-y-auto px-5 pb-6 pt-5">
+        <h2 className="font-display text-2xl font-extrabold leading-tight">
+          {MODE_TITLES[mode]}
+        </h2>
+        {mode !== "reference" ? (
+          <p className="mt-1 text-sm font-bold text-dawn-300">{item.reference}</p>
+        ) : null}
+        <div className="mt-5">
+          {mode === "puzzle" ? (
+            <PuzzleRound key={item.id} words={words} locked={phase === "won"} onGood={() => good()} onBad={bad} onDone={roundDone} />
+          ) : null}
+          {mode === "trous" ? (
+            <BlanksRound key={item.id} words={words} locked={phase === "won"} onGood={() => good(2)} onBad={bad} onDone={roundDone} />
+          ) : null}
+          {mode === "reference" ? (
+            <ReferenceRound key={item.id} item={item} all={items} locked={phase === "won"} onGood={() => good(3)} onBad={bad} onDone={roundDone} />
+          ) : null}
+          {mode === "type" ? (
+            <TypeRound key={item.id} item={item} locked={phase === "won"} onGood={(n) => good(n)} onBad={bad} onDone={roundDone} />
+          ) : null}
+        </div>
       </div>
 
-      <div className="mt-2 flex items-center justify-between text-xs font-semibold text-cream/50">
-        <span>
-          Score <span className="tabular-nums text-cream/85">{score}</span>
-        </span>
-        <span className={combo > 1 ? "text-dawn-300" : undefined}>Combo ×{combo}</span>
-      </div>
-
-      <p className="mt-4 text-sm font-bold text-cream/85">
-        Manche {modeIdx + 1}/4 · {MODE_LABELS[mode]}
-      </p>
-      {mode !== "reference" ? (
-        <p className="mb-3 mt-0.5 text-sm font-bold text-dawn-300">{item.reference}</p>
+      {/* Bandeau bas : vert (gagné) / rouge (erreur) */}
+      {phase === "won" ? (
+        <div className="border-t-2 border-dawn-400/30 bg-dawn-400/[0.12] px-5 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-4">
+          <div className="mx-auto w-full max-w-lg">
+            <p className="font-display text-xl font-extrabold text-dawn-300">
+              {lastOfVerse ? "Verset bouclé ! +100" : "Excellent !"}
+            </p>
+            <p className="mt-0.5 text-sm text-cream/70">
+              {lastOfVerse
+                ? verseClean
+                  ? "Sans faute — révision validée."
+                  : "Verset terminé, on passe au suivant."
+                : "+30 points, manche suivante."}
+            </p>
+            <button
+              type="button"
+              onClick={continueGame}
+              className={`${chunky} mt-3 w-full border-dawn-400 bg-dawn-400 px-5 py-3.5 text-center text-base font-extrabold uppercase tracking-wide text-night-950 shadow-[0_5px_0_rgba(140,168,0,1)]`}
+            >
+              Continuer
+            </button>
+          </div>
+        </div>
+      ) : oops ? (
+        <div className="border-t-2 border-rose-400/40 bg-rose-400/[0.12] px-5 pb-[calc(env(safe-area-inset-bottom)+1.2rem)] pt-4">
+          <div className="mx-auto w-full max-w-lg">
+            <p className="font-display text-xl font-extrabold text-rose-300">Oups !</p>
+            <p className="mt-0.5 text-sm text-cream/70">
+              Une vie en moins — le combo repart à ×1.
+            </p>
+          </div>
+        </div>
       ) : (
-        <div className="mb-3" />
+        <div className="pb-[env(safe-area-inset-bottom)]" />
       )}
-
-      {mode === "puzzle" ? (
-        <PuzzleRound key={item.id} words={words} onGood={() => good()} onBad={bad} onDone={roundDone} />
-      ) : null}
-      {mode === "trous" ? (
-        <BlanksRound key={item.id} words={words} onGood={() => good(2)} onBad={bad} onDone={roundDone} />
-      ) : null}
-      {mode === "reference" ? (
-        <ReferenceRound key={item.id} item={item} all={items} onGood={() => good(3)} onBad={bad} onDone={roundDone} />
-      ) : null}
-      {mode === "type" ? (
-        <TypeRound key={item.id} item={item} onGood={(n) => good(n)} onBad={bad} onDone={roundDone} />
-      ) : null}
-
-      <button
-        type="button"
-        onClick={onClose}
-        className="mt-5 rounded-full border border-cream/15 px-4 py-2 text-sm font-semibold text-cream/55"
-      >
-        Quitter la partie
-      </button>
     </div>
   );
 }
