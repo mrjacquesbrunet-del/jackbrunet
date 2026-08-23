@@ -48,10 +48,20 @@ function GameStyles() {
       @keyframes jb-fall{0%{transform:translateY(-10vh) rotate(0);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0.9}}
       @keyframes jb-ring{to{stroke-dashoffset:0}}
       @keyframes jb-glowpulse{0%,100%{box-shadow:0 5px 0 rgba(140,168,0,1),0 0 0 rgba(202,240,0,0)}50%{box-shadow:0 5px 0 rgba(140,168,0,1),0 0 26px rgba(202,240,0,0.55)}}
+      @keyframes jb-slidein{0%{transform:translateY(18px);opacity:0}100%{transform:translateY(0);opacity:1}}
+      @keyframes jb-wordin{0%{transform:scale(1.5);color:#F6FFB8}60%{transform:scale(0.94)}100%{transform:scale(1)}}
+      @keyframes jb-toast{0%{transform:scale(0.5) translateY(10px);opacity:0}20%{transform:scale(1.1) translateY(0);opacity:1}80%{transform:scale(1);opacity:1}100%{transform:scale(0.9) translateY(-14px);opacity:0}}
+      @keyframes jb-heartloss{0%{transform:scale(1)}40%{transform:scale(1.5) rotate(-12deg)}100%{transform:scale(0) rotate(20deg);opacity:0}}
+      @keyframes jb-chipin{0%{transform:translateY(10px) scale(0.85);opacity:0}100%{transform:translateY(0) scale(1);opacity:1}}
       .jb-pop{animation:jb-pop .28s ease-out}
       .jb-shake{animation:jb-shake .45s ease-in-out}
+      .jb-slidein{animation:jb-slidein .35s cubic-bezier(.2,.9,.3,1.2)}
+      .jb-wordin{display:inline-block;animation:jb-wordin .32s ease-out}
+      .jb-toast{animation:jb-toast 1s ease-out forwards}
+      .jb-heartloss{animation:jb-heartloss .5s ease-in forwards}
       .jb-shimmer{background:linear-gradient(100deg,rgba(202,240,0,0) 20%,rgba(255,255,255,0.55) 50%,rgba(202,240,0,0) 80%);background-size:200% 100%;animation:jb-shimmer 1.6s linear infinite}
       .jb-glow{animation:jb-glowpulse 1.8s ease-in-out infinite}
+      .jb-chip{animation:jb-chipin .3s ease-out backwards}
     `}</style>
   );
 }
@@ -170,7 +180,15 @@ function StudyPhase({ item, onReady }: { item: MemorizeItem; onReady: () => void
     <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
       <p className="text-xs font-bold uppercase tracking-[0.22em] text-dawn-400">Mémorise ce verset</p>
       <div className="mt-6 jb-pop rounded-3xl border-2 border-dawn-400/30 bg-night-900/70 p-6">
-        <p className="font-game text-2xl font-medium leading-relaxed text-cream">« {item.text} »</p>
+        <p className="font-game text-2xl font-medium leading-relaxed text-cream">
+          «{" "}
+          {item.text.split(/\s+/).map((w, i) => (
+            <span key={i} className="jb-chip inline-block" style={{ animationDelay: `${i * 55}ms` }}>
+              {w}{" "}
+            </span>
+          ))}
+          »
+        </p>
         <p className="mt-4 font-game text-base font-bold text-dawn-300">{item.reference}</p>
       </div>
 
@@ -214,6 +232,7 @@ function PuzzleRound({ words, locked, onGood, onBad, onDone }: {
   const [placed, setPlaced] = useState(0);
   const [used, setUsed] = useState<Set<number>>(new Set());
   const [wrong, setWrong] = useState<number | null>(null);
+  const [shake, setShake] = useState(false);
 
   function tap(poolIdx: number) {
     if (locked || used.has(poolIdx)) return;
@@ -224,21 +243,26 @@ function PuzzleRound({ words, locked, onGood, onBad, onDone }: {
       if (np >= words.length) onDone();
     } else {
       setWrong(poolIdx); onBad();
+      setShake(true);
+      setTimeout(() => setShake(false), 450);
       setTimeout(() => setWrong(null), 450);
     }
   }
 
   return (
     <>
-      <p className="min-h-[5.5rem] rounded-3xl border-2 border-white/10 bg-night-900/70 p-4 font-game text-[17px] leading-relaxed text-cream">
-        {words.slice(0, placed).join(" ")}
-        {placed < words.length ? <span className="text-dawn-300"> ▍</span> : null}
+      <p className={`min-h-[5.5rem] rounded-3xl border-2 border-white/10 bg-night-900/70 p-4 font-game text-[17px] leading-relaxed text-cream ${shake ? "jb-shake" : ""}`}>
+        {words.slice(0, placed).map((w, i) => (
+          <span key={i} className={i === placed - 1 ? "jb-wordin" : undefined}>{w} </span>
+        ))}
+        {placed < words.length ? <span className="text-dawn-300">▍</span> : null}
       </p>
       <div className="mt-5 flex flex-wrap gap-2.5">
         {pool.map((wordIdx, poolIdx) =>
           used.has(poolIdx) ? null : (
             <button key={poolIdx} type="button" onClick={() => tap(poolIdx)}
-              className={`font-game ${wrong === poolIdx ? chipWrongCls : chipCls}`}>
+              style={{ animationDelay: `${poolIdx * 45}ms` }}
+              className={`jb-chip font-game ${wrong === poolIdx ? chipWrongCls : chipCls}`}>
               {words[wordIdx]}
             </button>
           ),
@@ -265,6 +289,7 @@ function BlanksRound({ words, ratio, locked, onGood, onBad, onDone }: {
   }, [words, ratio]);
   const [current, setCurrent] = useState(0);
   const [wrong, setWrong] = useState<string | null>(null);
+  const [shake, setShake] = useState(false);
 
   const target = blanks[current];
   const options = useMemo(() => {
@@ -283,29 +308,38 @@ function BlanksRound({ words, ratio, locked, onGood, onBad, onDone }: {
       if (next >= blanks.length) onDone();
     } else {
       setWrong(w); onBad();
+      setShake(true);
+      setTimeout(() => setShake(false), 450);
       setTimeout(() => setWrong(null), 450);
     }
   }
 
   return (
     <>
-      <p className="rounded-3xl border-2 border-white/10 bg-night-900/70 p-4 font-game text-[17px] leading-relaxed text-cream">
+      <p className={`rounded-3xl border-2 border-white/10 bg-night-900/70 p-4 font-game text-[17px] leading-relaxed text-cream ${shake ? "jb-shake" : ""}`}>
         {words.map((w, i) => {
           const bi = blanks.indexOf(i);
           if (bi === -1 || bi < current) {
-            return <span key={i} className={bi !== -1 ? "font-bold text-dawn-300" : undefined}>{w}{" "}</span>;
+            // Un mot qu'on vient de compléter apparaît avec un « pop ».
+            const justFilled = bi === current - 1;
+            return (
+              <span key={i} className={bi !== -1 ? `font-bold text-dawn-300 ${justFilled ? "jb-wordin" : ""}` : undefined}>
+                {w}{" "}
+              </span>
+            );
           }
           return (
             <span key={i}
-              className={`mx-0.5 inline-block h-[1.2em] translate-y-[0.22em] rounded-lg align-baseline ${bi === current ? "bg-dawn-400/40 ring-2 ring-dawn-400" : "bg-cream/15"}`}
+              className={`mx-0.5 inline-block h-[1.2em] translate-y-[0.22em] rounded-lg align-baseline ${bi === current ? "bg-dawn-400/40 ring-2 ring-dawn-400 animate-pulse" : "bg-cream/15"}`}
               style={{ width: `${Math.max(2, w.length * 0.62)}ch` }} />
           );
         })}
       </p>
       <div className="mt-5 grid gap-2.5">
-        {options.map((w) => (
+        {options.map((w, oi) => (
           <button key={w} type="button" onClick={() => pick(w)}
-            className={`font-game w-full text-center ${wrong === w ? chipWrongCls : chipCls}`}>
+            style={{ animationDelay: `${oi * 60}ms` }}
+            className={`jb-chip font-game w-full text-center ${wrong === w ? chipWrongCls : chipCls}`}>
             {w}
           </button>
         ))}
@@ -348,9 +382,10 @@ function ReferenceRound({ item, all, locked, onGood, onBad, onDone }: {
         « {item.text} »
       </p>
       <div className="mt-5 grid gap-2.5">
-        {options.map((r) => (
+        {options.map((r, oi) => (
           <button key={r} type="button" onClick={() => pick(r)}
-            className={`${chunky} font-game px-4 py-3.5 text-left text-[16px] font-semibold ${
+            style={{ animationDelay: `${oi * 60}ms` }}
+            className={`jb-chip ${chunky} font-game px-4 py-3.5 text-left text-[16px] font-semibold ${
               found && r === item.reference
                 ? "border-dawn-400 bg-dawn-400/15 text-dawn-300 shadow-[0_4px_0_rgba(202,240,0,0.35)]"
                 : wrong === r
@@ -387,6 +422,8 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
   const [pop, setPop] = useState(false); // pulse du score
   const [floats, setFloats] = useState<{ id: number; text: string }[]>([]);
   const floatId = useRef(0);
+  const [losing, setLosing] = useState(false); // cœur qui s'envole
+  const [comboToast, setComboToast] = useState<number | null>(null); // « COMBO ×N »
 
   const item = order[verseIdx];
   const words = useMemo(() => (item ? item.text.split(/\s+/) : []), [item]);
@@ -427,13 +464,22 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
     spawnFloat(`+${gain}`);
     setGoodInRow((g) => {
       const ng = g + 1;
-      if (ng % 5 === 0) setCombo((c) => Math.min(5, c + 1));
+      if (ng % 5 === 0) {
+        setCombo((c) => {
+          const nc = Math.min(5, c + 1);
+          setComboToast(nc);
+          setTimeout(() => setComboToast(null), 950);
+          return nc;
+        });
+      }
       return ng;
     });
   }
 
   function bad() {
     setLives((v) => v - 1);
+    setLosing(true);
+    setTimeout(() => setLosing(false), 500);
     setCombo(1);
     setGoodInRow(0);
     setVerseClean(false);
@@ -504,6 +550,16 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
       <GameStyles />
       {showConfetti ? <Confetti /> : null}
 
+      {/* Toast de combo au centre de l'écran */}
+      {comboToast ? (
+        <div className="pointer-events-none absolute inset-x-0 top-1/3 z-40 flex justify-center">
+          <div className="jb-toast flex items-center gap-2 rounded-full border-2 border-dawn-400 bg-night-950/90 px-6 py-3 shadow-[0_0_30px_rgba(202,240,0,0.5)]">
+            <svg viewBox="0 0 24 24" className="h-6 w-6 fill-dawn-400" aria-hidden><path d="M12 2c1 3-1 5-2 7s0 5 2 5 3-2 3-4c2 1 3 3 3 5a6 6 0 1 1-11-3c1 2 2 2 2 0 0-3 1-5 3-6z" /></svg>
+            <span className="font-game text-2xl font-bold text-dawn-300">Combo ×{comboToast} !</span>
+          </div>
+        </div>
+      ) : null}
+
       {/* Entête : quitter + progression animée + vies */}
       <div className="mx-auto w-full max-w-lg px-4 pt-[calc(env(safe-area-inset-top)+0.9rem)]">
         <div className="flex items-center gap-3">
@@ -519,7 +575,11 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
             <div className="jb-shimmer absolute inset-0 rounded-full opacity-70" />
           </div>
           <div className="flex shrink-0 items-center gap-1">
-            {[0, 1, 2].map((i) => <HeartIcon key={i} filled={i < lives} />)}
+            {[0, 1, 2].map((i) => (
+              <span key={i} className={losing && i === lives ? "jb-heartloss" : ""}>
+                <HeartIcon filled={i < lives || (losing && i === lives)} />
+              </span>
+            ))}
           </div>
         </div>
         <div className="mt-2 flex items-center justify-between text-xs font-bold text-cream/45">
@@ -545,7 +605,7 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
       {phase === "study" ? (
         <StudyPhase item={item} onReady={() => setPhase("play")} />
       ) : (
-        <div className="mx-auto w-full max-w-lg flex-1 overflow-y-auto px-5 pb-6 pt-5">
+        <div key={`${verseIdx}-${modeIdx}`} className="jb-slidein mx-auto w-full max-w-lg flex-1 overflow-y-auto px-5 pb-6 pt-5">
           <h2 className="font-game text-2xl font-bold leading-tight">{modeDef.title}</h2>
           {mode !== "reference" ? <p className="mt-1 text-sm font-bold text-dawn-300">{item.reference}</p> : null}
           <div className="mt-5">
