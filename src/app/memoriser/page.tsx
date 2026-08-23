@@ -298,15 +298,18 @@ export default function MemoriserPage() {
         <Link href="/bible" className="text-xs font-semibold text-cream/50 hover:text-cream/80">
           ← Retour à la Bible
         </Link>
-        <span className="mt-3 block text-xs font-semibold uppercase tracking-[0.22em] text-dawn-400">
-          Mémoriser la Parole
+        <span className="mt-3 block font-game text-xs font-bold uppercase tracking-[0.22em] text-[#FFB020]">
+          Le jeu de la Parole
         </span>
-        <h1 className="mt-2 font-display text-3xl font-extrabold">
-          Apprends tes versets <span className="text-dawn-400">par cœur</span>
+        <h1 className="mt-2 font-game text-4xl font-bold leading-tight">
+          Apprends en{" "}
+          <span className="bg-gradient-to-r from-[#CAF000] via-[#38BDF8] to-[#FF5CA8] bg-clip-text text-transparent">
+            jouant
+          </span>
         </h1>
-        <p className="mt-2 text-sm text-cream/65">
-          Ajoute un verset, puis entraîne-toi : à chaque étape, des mots disparaissent —
-          jusqu&apos;à le connaître entièrement. « Je serre ta parole dans mon cœur » (Psaume 119:11).
+        <p className="mt-2 font-game text-sm text-cream/65">
+          Mémorise tes versets par cœur, manche après manche. « Je serre ta parole dans mon cœur »
+          (Psaume 119:11).
         </p>
 
         {/* Ajout par référence */}
@@ -348,74 +351,82 @@ export default function MemoriserPage() {
           </p>
         </div>
 
-        {/* Le hub du jeu : niveau, jauge d'XP, stats et bouton JOUER */}
+        {/* Le hub du jeu : carte colorée façon jeu mobile */}
         {gaming ? <VerseGame items={items} onClose={() => setGaming(false)} /> : null}
-        <div className="mt-6 rounded-3xl border-2 border-white/10 bg-night-900/60 p-5">
-          <div className="flex items-center gap-4">
-            {/* Badge de niveau */}
-            <div className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl border-2 border-dawn-400 bg-dawn-400 shadow-[0_5px_0_rgba(140,168,0,1)]">
+        <div
+          className="relative mt-6 overflow-hidden rounded-[2rem] p-5 shadow-[0_18px_40px_-18px_rgba(124,92,255,0.7)]"
+          style={{ background: "linear-gradient(140deg, #6D28D9 0%, #C026D3 48%, #FB7185 100%)" }}
+        >
+          {/* Bulles décoratives */}
+          <div className="pointer-events-none absolute -right-8 -top-10 h-32 w-32 rounded-full bg-white/15 blur-2xl" />
+          <div className="pointer-events-none absolute -bottom-12 -left-6 h-32 w-32 rounded-full bg-[#38BDF8]/30 blur-2xl" />
+
+          <div className="relative flex items-center gap-4">
+            {/* Badge de niveau lumineux */}
+            <div className="grid h-[4.5rem] w-[4.5rem] shrink-0 place-items-center rounded-3xl bg-white/95 shadow-[0_6px_0_rgba(0,0,0,0.18)]">
               <span className="text-center leading-none">
-                <span className="block text-[9px] font-bold uppercase tracking-wide text-night-950/70">
+                <span className="block font-game text-[9px] font-bold uppercase tracking-wide text-[#7C3AED]/70">
                   Niveau
                 </span>
-                <span className="block font-display text-2xl font-extrabold text-night-950">
+                <span
+                  className="block font-game text-3xl font-bold"
+                  style={{ background: "linear-gradient(135deg,#6D28D9,#C026D3)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}
+                >
                   {lvl.level}
                 </span>
               </span>
             </div>
             {/* Jauge d'XP */}
             <div className="min-w-0 flex-1">
-              <div className="flex items-center justify-between text-xs font-bold text-cream/50">
+              <div className="flex items-center justify-between font-game text-xs font-bold text-white/85">
                 <span>{xp} XP</span>
-                <span className="tabular-nums">
-                  {lvl.into} / {lvl.span}
-                </span>
+                <span className="tabular-nums">{lvl.into} / {lvl.span}</span>
               </div>
-              <div className="mt-1.5 h-4 overflow-hidden rounded-full bg-white/10">
+              <div className="mt-1.5 h-4 overflow-hidden rounded-full bg-black/25">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-dawn-400 to-dawn-300 transition-all duration-500"
-                  style={{ width: `${Math.min(100, Math.max(3, (lvl.into / lvl.span) * 100))}%` }}
+                  className="h-full rounded-full transition-all duration-500"
+                  style={{
+                    width: `${Math.min(100, Math.max(4, (lvl.into / lvl.span) * 100))}%`,
+                    background: "linear-gradient(90deg,#FDE047,#FB923C,#F472B6)",
+                  }}
                 />
               </div>
-              <p className="mt-1 text-xs text-cream/45">
+              <p className="mt-1 font-game text-xs text-white/70">
                 Encore {lvl.span - lvl.into} XP avant le niveau {lvl.level + 1}
               </p>
             </div>
           </div>
 
-          {/* Statistiques */}
-          <div className="mt-4 grid grid-cols-3 gap-2.5 text-center">
-            <div className="rounded-2xl border-2 border-white/8 bg-white/[0.04] px-2 py-3">
-              <p className="font-display text-2xl font-extrabold text-dawn-300">{learned}</p>
-              <p className="mt-0.5 text-[11px] font-bold uppercase tracking-wide text-cream/45">
-                Appris
-              </p>
-            </div>
-            <div className="rounded-2xl border-2 border-white/8 bg-white/[0.04] px-2 py-3">
-              <p className="font-display text-2xl font-extrabold text-cream">{inProgress}</p>
-              <p className="mt-0.5 text-[11px] font-bold uppercase tracking-wide text-cream/45">
-                En cours
-              </p>
-            </div>
-            <div className="rounded-2xl border-2 border-white/8 bg-white/[0.04] px-2 py-3">
-              <p className="font-display text-2xl font-extrabold text-cream">{record}</p>
-              <p className="mt-0.5 text-[11px] font-bold uppercase tracking-wide text-cream/45">
-                Record
-              </p>
-            </div>
+          {/* Statistiques colorées */}
+          <div className="relative mt-4 grid grid-cols-3 gap-2.5 text-center">
+            {[
+              { v: learned, label: "Appris", c: "#CAF000" },
+              { v: inProgress, label: "En cours", c: "#38BDF8" },
+              { v: record, label: "Record", c: "#FDE047" },
+            ].map((s) => (
+              <div key={s.label} className="rounded-2xl bg-white/15 px-2 py-3 backdrop-blur-sm">
+                <p className="font-game text-2xl font-bold" style={{ color: s.c }}>{s.v}</p>
+                <p className="mt-0.5 font-game text-[11px] font-bold uppercase tracking-wide text-white/70">
+                  {s.label}
+                </p>
+              </div>
+            ))}
           </div>
 
-          {/* JOUER */}
+          {/* JOUER — gros bouton blanc qui rebondit */}
           <button
             type="button"
             onClick={() => setGaming(true)}
             disabled={items.length === 0}
-            className="mt-4 w-full select-none rounded-2xl border-2 border-dawn-400 bg-dawn-400 px-5 py-3.5 text-center text-base font-extrabold uppercase tracking-wide text-night-950 shadow-[0_5px_0_rgba(140,168,0,1)] transition-all duration-100 active:translate-y-[3px] active:shadow-none disabled:opacity-40 disabled:shadow-none"
+            className="relative mt-4 w-full select-none rounded-2xl bg-white px-5 py-4 text-center font-game text-lg font-bold uppercase tracking-wide text-[#7C3AED] shadow-[0_6px_0_rgba(0,0,0,0.2)] transition-all duration-100 hover:brightness-105 active:translate-y-[4px] active:shadow-none disabled:opacity-50 disabled:shadow-none"
           >
-            {items.length > 0 ? "Continuer" : "Jouer"}
+            <span className="inline-flex items-center gap-2">
+              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current" aria-hidden><path d="M6 5v14l12-7z" /></svg>
+              {items.length > 0 ? "Continuer" : "Jouer"}
+            </span>
           </button>
           {items.length === 0 ? (
-            <p className="mt-2 text-center text-xs text-cream/45">
+            <p className="relative mt-2 text-center font-game text-xs text-white/75">
               Ajoute d&apos;abord un verset pour lancer une partie.
             </p>
           ) : null}
@@ -423,10 +434,10 @@ export default function MemoriserPage() {
 
         {/* Parcours de versets proposés, débloqués par niveau */}
         <section className="mt-8">
-          <h2 className="font-display text-xl font-extrabold">
-            Parcours <span className="text-dawn-400">proposés</span>
+          <h2 className="font-game text-2xl font-bold">
+            Parcours <span className="text-[#FB7185]">à débloquer</span>
           </h2>
-          <p className="mt-1 text-sm text-cream/55">
+          <p className="mt-1 font-game text-sm text-cream/55">
             Des versets choisis pour la vie chrétienne — monte de niveau au jeu pour tout débloquer.
           </p>
           <div className="mt-4 space-y-3">
@@ -434,14 +445,17 @@ export default function MemoriserPage() {
               const locked = lvl.level < pack.level;
               const open = openPack === pack.level;
               const addedCount = pack.refs.filter((r) => memorizedRefs.has(r.toLowerCase())).length;
+              const colors = ["#CAF000", "#38BDF8", "#F472B6", "#FB923C", "#A78BFA"];
+              const c = colors[(pack.level - 1) % colors.length];
               return (
                 <div
                   key={pack.level}
-                  className={`rounded-3xl border-2 p-4 ${
+                  className="overflow-hidden rounded-3xl border-2 p-4 transition-colors"
+                  style={
                     locked
-                      ? "border-white/8 bg-white/[0.02] opacity-70"
-                      : "border-white/10 bg-night-900/60"
-                  }`}
+                      ? { borderColor: "rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.02)", opacity: 0.7 }
+                      : { borderColor: `${c}55`, background: `linear-gradient(135deg, ${c}22, rgba(23,23,22,0.6))` }
+                  }
                 >
                   <button
                     type="button"
@@ -449,19 +463,20 @@ export default function MemoriserPage() {
                     className="flex w-full items-center gap-3.5 text-left"
                   >
                     <span
-                      className={`grid h-11 w-11 shrink-0 place-items-center rounded-2xl border-2 font-display text-lg font-extrabold ${
+                      className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl font-game text-xl font-bold"
+                      style={
                         locked
-                          ? "border-white/10 bg-white/[0.04] text-cream/35"
-                          : "border-dawn-400 bg-dawn-400 text-night-950 shadow-[0_4px_0_rgba(140,168,0,1)]"
-                      }`}
+                          ? { background: "rgba(255,255,255,0.05)", color: "rgba(243,243,237,0.35)" }
+                          : { background: c, color: "#0C0C0B", boxShadow: `0 4px 0 ${c}99` }
+                      }
                     >
                       {pack.level}
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block font-display text-base font-bold leading-tight">
+                      <span className="block font-game text-base font-bold leading-tight">
                         {pack.title}
                       </span>
-                      <span className="mt-0.5 block text-xs text-cream/55">
+                      <span className="mt-0.5 block font-game text-xs text-cream/55">
                         {locked
                           ? `Atteins le niveau ${pack.level} au jeu pour débloquer.`
                           : pack.subtitle}
@@ -472,7 +487,7 @@ export default function MemoriserPage() {
                         <path d="M7 10V8a5 5 0 0 1 10 0v2M6 10h12v10H6z" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     ) : (
-                      <span className="shrink-0 text-xs font-bold text-cream/40">
+                      <span className="shrink-0 rounded-full px-2 py-0.5 font-game text-xs font-bold" style={{ background: `${c}22`, color: c }}>
                         {addedCount}/{pack.refs.length}
                       </span>
                     )}
