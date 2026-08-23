@@ -26,6 +26,7 @@ import {
 import { resolveRef, getBook } from "@/lib/bible-client";
 import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
 import { VerseGame } from "@/components/memorize/VerseGame";
+import { WeeklyChampions } from "@/components/memorize/WeeklyChampions";
 import { VERSE_PACKS } from "@/config/verse-packs";
 
 const LEVEL_LABELS = ["Découverte", "Quelques trous", "La moitié", "Presque tout", "Par cœur"];
@@ -550,6 +551,9 @@ export default function MemoriserPage() {
             })}
           </div>
         </section>
+
+        {/* Champions de la semaine (classement social, Supabase) */}
+        <WeeklyChampions />
 
         {/* Parcours de versets proposés, débloqués par niveau */}
         <section className="mt-8">

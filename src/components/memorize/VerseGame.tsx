@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { addMemorizeXp, markReviewed, recordPlaySession, GAME_BEST_KEY, type MemorizeItem } from "@/lib/memorize";
+import { submitWeeklyPoints } from "@/lib/game-leaderboard";
 import { isMusicOn, startGameMusic, stopGameMusic, toggleGameMusic } from "@/lib/game-audio";
 
 /**
@@ -456,6 +457,7 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
     setXpGiven(true);
     addMemorizeXp(score);
     recordPlaySession(score);
+    submitWeeklyPoints(score); // classement hebdo (si connecté)
     setBest((b) => {
       const nb = Math.max(b, score);
       try { localStorage.setItem(GAME_BEST_KEY, String(nb)); } catch { /* */ }
