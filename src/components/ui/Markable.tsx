@@ -5,6 +5,7 @@ import { useToolkit, HIGHLIGHT_COLORS, highlightBg } from "@/lib/toolkit";
 import { shareText } from "@/lib/share";
 import { appShareUrl } from "@/config/app-links";
 import { bibleHref } from "@/lib/bible-ref";
+import { addMemorizeVerse, isMemorizing } from "@/lib/memorize";
 import { addNote, updateNote, removeNote, useNotebook } from "@/lib/notebook";
 import {
   HighlighterGlyph,
@@ -43,6 +44,7 @@ export function Markable({
   const [noting, setNoting] = useState(false);
   const [noteText, setNoteText] = useState("");
   const [noteSaved, setNoteSaved] = useState(false);
+  const [memorizing, setMemorizing] = useState(false);
 
   const [showColors, setShowColors] = useState(false);
   const highlighted = tk.isHighlighted(id);
@@ -191,6 +193,26 @@ export function Markable({
             <PenGlyph className="h-3.5 w-3.5" />
             {existingNote? "Ma note": "Noter"}
           </button>
+          {reference && kind === "verset" ? (
+            <button
+              type="button"
+              className={chip}
+              onClick={() => {
+                addMemorizeVerse(reference, text);
+                setMemorizing(true);
+              }}
+            >
+              {/* Icône ampoule (apprendre par cœur) */}
+              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth={1.9}>
+                <path
+                  d="M12 3a6 6 0 0 0-3.5 10.9c.7.5 1 1.3 1 2.1h5c0-.8.3-1.6 1-2.1A6 6 0 0 0 12 3zM10 19h4M10.8 21.5h2.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              {memorizing || isMemorizing(reference) ? "À mémoriser ✓" : "Mémoriser"}
+            </button>
+          ) : null}
         </div>
       ): null}
 

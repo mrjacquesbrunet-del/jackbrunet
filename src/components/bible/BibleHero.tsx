@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 
 /**
@@ -40,6 +41,28 @@ export function BibleHero() {
           Lis, écoute et médite la Parole. Choisis un livre, un chapitre, et laisse-la
           prendre racine.
         </motion.p>
+
+        {/* Petit accès à la mémorisation de versets */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mt-4"
+        >
+          <Link
+            href="/memoriser"
+            className="inline-flex items-center gap-2 rounded-full border border-dawn-400/40 bg-dawn-400/10 px-4 py-2 text-xs font-bold text-dawn-300 transition-colors hover:bg-dawn-400/20"
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.8}>
+              <path
+                d="M12 3a6 6 0 0 0-3.5 10.9c.7.5 1 1.3 1 2.1h5c0-.8.3-1.6 1-2.1A6 6 0 0 0 12 3zM10 19h4M10.8 21.5h2.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            Mémoriser des versets
+          </Link>
+        </motion.div>
       </div>
     </section>
   );
