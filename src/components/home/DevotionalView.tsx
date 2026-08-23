@@ -38,6 +38,7 @@ import { fetchPublishedDevotions } from "@/lib/devotions";
 import { asset, mediaUrl } from "@/lib/asset";
 import { trace } from "@/lib/boot-trace";
 import { MakeVersePublicButton } from "@/components/community/MakeVersePublicButton";
+import { isNativeApp } from "@/lib/notifications";
 import type { Devotion, ReadingPlanDay, Short } from "@/lib/types";
 
 type Props = {
@@ -67,6 +68,9 @@ export function DevotionalView({
   // les 60 intégrés au build. Le repli garantit que la méditation ne casse
   // jamais, même hors ligne ou si la base est vide.
   const [remote, setRemote] = useState<Devotion[] | null>(null);
+  // La mémorisation de versets est réservée à l'application.
+  const [nativeApp, setNativeApp] = useState(false);
+  useEffect(() => setNativeApp(isNativeApp()), []);
   useEffect(() => {
     let alive = true;
     trace("page:devotionnel-affichee");
@@ -470,15 +474,28 @@ export function DevotionalView({
             <p className="mt-3 text-sm text-night-900/50">
               Touche la carte pour ouvrir directement le passage dans la Bible.
             </p>
-            <Link
-              href="/plans"
-              className="mt-4 inline-flex items-center gap-2 rounded-full bg-night-900 px-5 py-3 text-sm font-bold text-cream transition-colors hover:bg-night-800"
-            >
-              <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
-                <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              Mon plan de lecture
-            </Link>
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <Link
+                href="/plans"
+                className="inline-flex items-center gap-2 rounded-full bg-night-900 px-5 py-3 text-sm font-bold text-cream transition-colors hover:bg-night-800"
+              >
+                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+                  <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                Mon plan de lecture
+              </Link>
+              {nativeApp ? (
+                <Link
+                  href="/memoriser"
+                  className="inline-flex items-center gap-2 rounded-full bg-dawn-400 px-5 py-3 text-sm font-bold text-night-950 transition-colors hover:bg-dawn-300"
+                >
+                  <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+                    <path d="M12 3a6 6 0 0 0-3.5 10.9c.7.5 1 1.3 1 2.1h5c0-.8.3-1.6 1-2.1A6 6 0 0 0 12 3zM10 19h4M10.8 21.5h2.4" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  Mémoriser des versets
+                </Link>
+              ) : null}
+            </div>
           </Reveal>
         </section>
       ): null}
