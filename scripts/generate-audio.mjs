@@ -40,7 +40,18 @@ async function tts(text) {
     }),
   });
   if (!res.ok) {
-    console.error("[audio] Échec ElevenLabs:", res.status, await res.text());
+    const body = await res.text();
+    console.error("[audio] Échec ElevenLabs:", res.status, body);
+    // Erreur d'authentification (clé invalide/expirée) : inutile de continuer,
+    // toutes les autres requêtes échoueront pareil. On arrête net pour que le
+    // workflow soit marqué EN ÉCHEC (sinon « succès » silencieux sans audio).
+    if (res.status === 401 || res.status === 403 || /invalid_api_key|authentication_error/i.test(body)) {
+      console.error(
+        "[audio] Clé ELEVENLABS_API_KEY invalide. Mets à jour le secret GitHub " +
+          "avec la vraie clé (elle commence par « sk_ »), puis relance le workflow.",
+      );
+      process.exit(1);
+    }
     return null;
   }
   return Buffer.from(await res.arrayBuffer());
