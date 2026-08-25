@@ -287,7 +287,7 @@ export function DevotionalView({
 
             {/* Punchline du jour, carte à partager */}
             <div className="mt-6">
-              <ViralCard punchline={dev.punchline} id={`dev:${i}:punchline`} index={i} />
+              <ViralCard punchline={dev.punchline} id={`dev:${i}:punchline`} index={i} card={dev.card} />
             </div>
 
             {audioSrc? (

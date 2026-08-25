@@ -139,6 +139,8 @@ export type Devotion = {
   verseReference: string;
   punchline: string;
   meditation: string;
+  /** Carte punchline (image) à afficher, nom du fichier dans le bucket « medias ». */
+  card?: string;
   declarationText: string;
   declarationReference: string;
   questions: string[];

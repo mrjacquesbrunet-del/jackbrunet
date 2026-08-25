@@ -76,3 +76,11 @@ export async function deleteMedia(name: string): Promise<boolean> {
   const { error } = await sb.storage.from(BUCKET).remove([name]);
   return !error;
 }
+
+/** URL publique d'une carte (bucket « medias »), ex. "rhema-01-noir.png". */
+export function mediaCardUrl(name?: string | null): string | null {
+  if (!name) return null;
+  const sb = getSupabase();
+  if (!sb) return null;
+  return sb.storage.from(BUCKET).getPublicUrl(name).data.publicUrl ?? null;
+}

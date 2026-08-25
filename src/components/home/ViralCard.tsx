@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useToolkit } from "@/lib/toolkit";
 import { shareImageBlob, saveImageBlob } from "@/lib/share";
 import { appShareUrl } from "@/config/app-links";
+import { mediaCardUrl } from "@/lib/media";
 import { BookmarkGlyph, BookmarkFilledGlyph } from "@/components/ui/DevoIcons";
 
 /**
@@ -87,12 +88,35 @@ function RhemaMark({ className, stroke }: { className?: string; stroke: string }
   );
 }
 
-export function ViralCard({ punchline, id, index = 0 }: { punchline: string; id?: string; index?: number }) {
+export function ViralCard({
+  punchline,
+  id,
+  index = 0,
+  card,
+}: {
+  punchline: string;
+  id?: string;
+  index?: number;
+  /** Carte-image fournie (Claude Design) dans le bucket « medias ». */
+  card?: string;
+}) {
   const [busy, setBusy] = useState(false);
   const tk = useToolkit();
   const saved = id ? tk.isSaved(id) : false;
   const sc = schemeForIndex(index);
   const { words, accent } = parsePunchline(punchline);
+  const cardUrl = mediaCardUrl(card);
+
+  /** Récupère l'image de carte fournie (pour partage/enregistrement). */
+  async function fetchCardBlob(): Promise<Blob | null> {
+    if (!cardUrl) return null;
+    try {
+      const r = await fetch(cardUrl);
+      return r.ok ? await r.blob() : null;
+    } catch {
+      return null;
+    }
+  }
 
   /* ---------- Export image (canvas) ---------- */
   async function buildImage(story = false): Promise<Blob | null> {
@@ -288,7 +312,7 @@ export function ViralCard({ punchline, id, index = 0 }: { punchline: string; id?
   async function share() {
     setBusy(true);
     try {
-      const blob = await buildImage();
+      const blob = cardUrl ? await fetchCardBlob() : await buildImage();
       if (blob) await shareImageBlob(blob, "rhema-punchline.png", `${punchline.replace(/\*/g, "")}\n\n${appShareUrl()}`);
     } catch {
       /* annulé */
@@ -299,7 +323,7 @@ export function ViralCard({ punchline, id, index = 0 }: { punchline: string; id?
   async function downloadImage() {
     setBusy(true);
     try {
-      const blob = await buildImage();
+      const blob = cardUrl ? await fetchCardBlob() : await buildImage();
       if (blob) await saveImageBlob(blob, "rhema-punchline.png", `${punchline.replace(/\*/g, "")}\n\n${appShareUrl()}`);
     } finally {
       setBusy(false);
@@ -308,7 +332,7 @@ export function ViralCard({ punchline, id, index = 0 }: { punchline: string; id?
   async function shareStory() {
     setBusy(true);
     try {
-      const blob = await buildImage(true);
+      const blob = cardUrl ? await fetchCardBlob() : await buildImage(true);
       if (blob) await saveImageBlob(blob, "rhema-story.png");
     } finally {
       setBusy(false);
@@ -320,6 +344,12 @@ export function ViralCard({ punchline, id, index = 0 }: { punchline: string; id?
     <div className="rounded-3xl border border-night-900/10 bg-night-900/[0.03] p-5 sm:p-6">
       <p className="text-xs font-semibold uppercase tracking-[0.18em] text-spirit-600">À partager</p>
 
+      {cardUrl ? (
+        <div className="relative mt-4 w-full max-w-sm overflow-hidden rounded-2xl shadow-card">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={cardUrl} alt={punchline.replace(/\*/g, "")} className="aspect-[4/5] w-full object-cover" />
+        </div>
+      ) : (
       <div
         className="relative mt-4 aspect-[4/5] w-full max-w-sm overflow-hidden rounded-2xl shadow-card"
         style={{ background: sc.bg }}
@@ -376,6 +406,7 @@ export function ViralCard({ punchline, id, index = 0 }: { punchline: string; id?
           </div>
         </div>
       </div>
+      )}
 
       {/* Actions */}
       <div className="mt-4 flex flex-wrap gap-2">
