@@ -9,6 +9,7 @@ import { ChartGlyph, HeadphonesGlyph } from "@/components/ui/DevoIcons";
 import { BibleAudioAdmin } from "@/components/community/BibleAudioAdmin";
 import { MissionRaisedAdmin } from "@/components/community/MissionRaisedAdmin";
 import { DevotionsAdmin } from "@/components/community/DevotionsAdmin";
+import { MediasAdmin } from "@/components/community/MediasAdmin";
 
 /** Espace admin unique et masqué (/admin): stats, annonces, podcasts, etc.
  * Invisible et inaccessible pour les non-admins. */
@@ -57,6 +58,9 @@ export function AdminSpace() {
 
         {/* Gestion des dévotionnels */}
         <DevotionsAdmin />
+
+        {/* Médias : import multiple d'images */}
+        <MediasAdmin />
 
         {/* Annonces & notifications */}
         <div className="mt-6">
