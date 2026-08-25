@@ -1,0 +1,80 @@
+name: Importer les médias (cartes) pour lecture
+
+# Télécharge les images du bucket public « medias » (Supabase) dans le dépôt,
+# en version allégée, pour que l'assistant puisse en lire les punchlines et
+# associer chaque carte à sa méditation. Déclenché en committant « .import-medias ».
+on:
+  push:
+    branches: [claude/great-hamilton-ieokug]
+    paths: [".import-medias"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: import-medias
+  cancel-in-progress: false
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: claude/great-hamilton-ieokug
+
+      - name: Installer ImageMagick
+        run: sudo apt-get update && sudo apt-get install -y imagemagick
+
+      - name: Télécharger et alléger les cartes
+        run: |
+          set -a; . ./.env.production; set +a
+          URL="$NEXT_PUBLIC_SUPABASE_URL"
+          KEY="$NEXT_PUBLIC_SUPABASE_ANON_KEY"
+          mkdir -p assets/medias-import
+          rm -f assets/medias-import/*.jpg assets/medias-import/index.txt
+
+          # Liste des objets du bucket (jusqu'à 500)
+          curl -s -X POST "$URL/storage/v1/object/list/medias" \
+            -H "apikey: $KEY" -H "Authorization: Bearer $KEY" \
+            -H "Content-Type: application/json" \
+            -d '{"prefix":"","limit":500,"sortBy":{"column":"name","order":"asc"}}' > /tmp/list.json
+
+          python3 - <<'PY'
+          import json
+          d = json.load(open("/tmp/list.json"))
+          names = [x["name"] for x in d if x.get("name") and not x["name"].startswith(".")]
+          open("/tmp/names.txt","w").write("\n".join(names))
+          print("objets:", len(names))
+          PY
+
+          while IFS= read -r name; do
+            [ -z "$name" ] && continue
+            enc=$(python3 -c "import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1]))" "$name")
+            curl -s -o /tmp/orig "$URL/storage/v1/object/public/medias/$enc" \
+              -H "apikey: $KEY"
+            out="assets/medias-import/${name%.*}.jpg"
+            # Allège pour lecture (largeur 720, qualité 80), fond blanc si transparence
+            convert /tmp/orig -background white -flatten -resize 720x -quality 80 "$out" 2>/dev/null \
+              && echo "${name} -> ${out##*/}" >> assets/medias-import/index.txt \
+              || echo "ECHEC $name"
+          done < /tmp/names.txt
+          echo "Fichiers:"; ls -1 assets/medias-import | head
+
+      - name: Committer les cartes allégées
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/medias-import
+          if git diff --cached --quiet; then
+            echo "Aucun média."
+            exit 1
+          fi
+          git commit -m "chore(medias): cartes importées pour lecture [skip ci]"
+          git pull --rebase origin claude/great-hamilton-ieokug || true
+          for i in 1 2 3 4; do
+            git push origin "HEAD:claude/great-hamilton-ieokug" && break
+            sleep $((2**i))
+          done
