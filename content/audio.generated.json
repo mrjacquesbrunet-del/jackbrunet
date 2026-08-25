@@ -122,5 +122,14 @@
     "57": "d1d60edf81e8",
     "58": "e090eb4dcb72",
     "59": "f64e32bcbf35"
-  }
+  },
+  "plans": {
+    "dieu-je-ne-vais-pas-bien": {},
+    "peur": {},
+    "anxiete": {},
+    "foi": {},
+    "saint-esprit": {},
+    "identite": {}
+  },
+  "planHashes": {}
 }
