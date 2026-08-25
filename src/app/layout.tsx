@@ -19,9 +19,11 @@ const archivo = Archivo({
   display: "swap",
 });
 
-// Serif élégant à fort contraste pour « Jack » et les titres
+// Serif élégant à fort contraste pour « Jack », les titres, et le mot accentué
+// (italique) des cartes punchline.
 const playfair = Playfair_Display({
   subsets: ["latin"],
+  style: ["normal", "italic"],
   variable: "--font-display",
   display: "swap",
 });
