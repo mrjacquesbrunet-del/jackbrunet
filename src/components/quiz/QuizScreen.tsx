@@ -125,6 +125,14 @@ export function QuizScreen() {
   const [confetti, setConfetti] = useState(false);
   const [cardShake, setCardShake] = useState(false);
   const [fly, setFly] = useState<string | null>(null);
+  const [milestone, setMilestone] = useState<string | null>(null);
+  const milestoneT = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const showMilestone = (t: string) => {
+    setMilestone(null);
+    requestAnimationFrame(() => setMilestone(t));
+    if (milestoneT.current) clearTimeout(milestoneT.current);
+    milestoneT.current = setTimeout(() => setMilestone(null), 1900);
+  };
   const [countWon, setCountWon] = useState(0);
   const toastT = useRef<ReturnType<typeof setTimeout> | null>(null);
   const popToast = (t: string) => {
@@ -236,9 +244,14 @@ export function QuizScreen() {
         const rung = step + 1;
         const newCombo = combo + 1;
         setCombo(newCombo);
-        if (rung === LADDER.length) popToast("LE MILLION !");
-        else if (SAFE_RUNGS.includes(rung)) popToast("Palier sûr atteint !");
-        else if (newCombo >= 3) popToast(`Série de ${newCombo} !`);
+        if (rung === LADDER.length) {
+          popToast("LE MILLION !");
+          showMilestone("LE MILLION !");
+        } else if (SAFE_RUNGS.includes(rung)) {
+          popToast("Palier sûr atteint !");
+          showMilestone(`FILET ASSURÉ · ${formatCoins(LADDER[step])}`);
+          play([659, 784, 988, 1319], 0.14);
+        } else if (newCombo >= 3) popToast(`Série de ${newCombo} !`);
         else popToast("Bonne réponse !");
         if (step === LADDER.length - 1) {
           setTimeout(() => endGame(LADDER[step], "win", LADDER.length), 1400);
@@ -315,7 +328,7 @@ export function QuizScreen() {
               <br />
               Biblique
             </h1>
-            <p className="mt-2 text-sm text-cream/70">Grimpe les 15 paliers jusqu&apos;au million.</p>
+            <p className="mt-2 text-sm text-cream/70">Grimpe les {LADDER.length} paliers jusqu&apos;au million.</p>
 
             {/* Pseudo */}
             <div className="mt-6 flex items-center gap-2 rounded-2xl bg-white/10 p-2 pl-4">
@@ -375,7 +388,7 @@ export function QuizScreen() {
                   Ton meilleur palier
                 </p>
                 <p className="font-game text-lg font-extrabold text-amber-300">
-                  {bestRung > 0 ? `${bestRung}/15` : "—"}
+                  {bestRung > 0 ? `${bestRung}/${LADDER.length}` : "—"}
                   {bestRung > 0 ? (
                     <span className="ml-2 text-sm text-cream/70">{formatCoins(LADDER[bestRung - 1])}</span>
                   ) : null}
@@ -436,10 +449,10 @@ export function QuizScreen() {
           </p>
           <div className="mt-5 flex items-center justify-center gap-3 font-game text-sm">
             <span className="rounded-full bg-white/10 px-4 py-2">
-              Palier atteint <span className="font-extrabold text-amber-300">{reachedRung}/15</span>
+              Palier atteint <span className="font-extrabold text-amber-300">{reachedRung}/{LADDER.length}</span>
             </span>
             <span className="rounded-full bg-white/10 px-4 py-2">
-              Record <span className="font-extrabold text-[#8FE23C]">{bestRung}/15</span>
+              Record <span className="font-extrabold text-[#8FE23C]">{bestRung}/{LADDER.length}</span>
             </span>
           </div>
           <p className="mt-4 text-sm">
@@ -490,6 +503,7 @@ export function QuizScreen() {
       <QzFx />
       {confetti ? <Confetti /> : null}
       {toast ? <Toast text={toast} /> : null}
+      {milestone ? <Milestone text={milestone} /> : null}
       {/* Entête : quitter / minuteur / palier */}
       <div className="mb-3 flex items-center justify-between">
         <button
@@ -505,7 +519,7 @@ export function QuizScreen() {
           onClick={() => setShowLadder(true)}
           className="rounded-full bg-white/10 px-4 py-2 font-game text-sm font-bold"
         >
-          Palier {step + 1}/15
+          Palier {step + 1}/{LADDER.length}
         </button>
         {/* Minuteur */}
         <div className={`relative grid h-12 w-12 place-items-center ${timeLeft <= 10 && !locked ? "qz-tick" : ""}`}>
@@ -546,7 +560,7 @@ export function QuizScreen() {
       {/* Échelle des paliers — toujours visible : on voit sa progression et
           les paliers « sûrs » (gardés même en cas d'erreur). */}
       <div className="mb-4">
-        <div className="flex items-end gap-1">
+        <div className="flex items-end gap-[2px]">
           {LADDER.map((_, li) => {
             const rung = li + 1;
             const done = rung <= step;
@@ -573,9 +587,9 @@ export function QuizScreen() {
           <span className="text-cream/60">
             Filet : <span className="font-bold text-amber-300">{formatCoins(guaranteedCoins(step))}</span>
           </span>
-          <span className="text-cream/50">Palier {step + 1}/15</span>
+          <span className="text-cream/50">Palier {step + 1}/{LADDER.length}</span>
           <span className="text-cream/60">
-            Sommet : <span className="font-bold text-[#8FE23C]">1 000 000</span>
+            Sommet : <span className="font-bold text-[#8FE23C]">{formatCoins(LADDER[LADDER.length - 1])}</span>
           </span>
         </div>
       </div>
@@ -721,25 +735,30 @@ function LadderView({ step, onClose }: { step: number; onClose: () => void }) {
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-6" role="dialog" aria-modal="true">
       <button aria-label="Fermer" onClick={onClose} className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
       <div className="relative z-10 w-full max-w-xs rounded-3xl bg-gradient-to-b from-indigo-900 to-violet-950 p-4 text-cream shadow-2xl">
-        {LADDER.map((v, i) => {
-          const rung = LADDER.length - i; // affichage du haut (15) vers le bas (1)
-          const idx = rung - 1;
-          const isCurrent = idx === step;
-          const isSafe = SAFE_RUNGS.includes(rung);
-          return (
-            <div
-              key={rung}
-              className={`flex items-center justify-between rounded-xl px-4 py-1.5 font-game ${
-                isCurrent ? "bg-[#8FE23C] text-night-950" : isSafe ? "text-white" : "text-amber-300/90"
-              }`}
-            >
-              <span className={`text-sm ${isSafe ? "font-extrabold" : ""}`}>{rung}</span>
-              <span className={`text-sm ${isSafe || isCurrent ? "font-extrabold" : ""}`}>
-                {formatCoins(LADDER[idx])}
-              </span>
-            </div>
-          );
-        })}
+        <div className="max-h-[64vh] overflow-y-auto pr-1">
+          {LADDER.map((v, i) => {
+            const rung = LADDER.length - i; // affichage du haut (sommet) vers le bas (1)
+            const idx = rung - 1;
+            const isCurrent = idx === step;
+            const isSafe = SAFE_RUNGS.includes(rung);
+            return (
+              <div
+                key={rung}
+                className={`flex items-center justify-between rounded-xl px-4 py-1 font-game ${
+                  isCurrent ? "bg-[#8FE23C] text-night-950" : isSafe ? "text-white" : "text-amber-300/90"
+                }`}
+              >
+                <span className={`text-sm ${isSafe ? "font-extrabold" : ""}`}>
+                  {rung}
+                  {isSafe ? " ·" : ""}
+                </span>
+                <span className={`text-sm ${isSafe || isCurrent ? "font-extrabold" : ""}`}>
+                  {formatCoins(LADDER[idx])}
+                </span>
+              </div>
+            );
+          })}
+        </div>
         <button
           type="button"
           onClick={onClose}
@@ -815,6 +834,7 @@ const FX = `
 @keyframes qz-toast{0%{transform:scale(.5) translateY(12px);opacity:0}18%{transform:scale(1.14) translateY(0);opacity:1}82%{transform:scale(1);opacity:1}100%{transform:scale(.92) translateY(-16px);opacity:0}}
 @keyframes qz-glow{0%,100%{box-shadow:0 6px 0 #5b9e1f,0 0 0 rgba(143,226,60,0)}50%{box-shadow:0 6px 0 #5b9e1f,0 0 30px rgba(143,226,60,.6)}}
 @keyframes qz-tick{0%,100%{transform:scale(1)}50%{transform:scale(1.16)}}
+@keyframes qz-sweep{0%{transform:translateX(-100%) skewX(-8deg);opacity:0}20%{opacity:1}50%{transform:translateX(0) skewX(-8deg)}80%{opacity:1}100%{transform:translateX(100%) skewX(-8deg);opacity:0}}
 .qz-pop{animation:qz-pop .3s ease-out}
 .qz-shake{animation:qz-shake .5s ease-in-out}
 .qz-tick{animation:qz-tick .5s ease-in-out infinite}
@@ -860,6 +880,20 @@ function Toast({ text }: { text: string }) {
       <div
         style={{ animation: "qz-toast 1.4s ease-out forwards" }}
         className="rounded-2xl bg-night-950/90 px-7 py-3.5 font-game text-2xl font-extrabold text-[#8FE23C] shadow-2xl ring-2 ring-[#8FE23C]/40"
+      >
+        {text}
+      </div>
+    </div>
+  );
+}
+
+/** Bannière « palier franchi » : un bandeau doré qui balaie l'écran. */
+function Milestone({ text }: { text: string }) {
+  return (
+    <div className="pointer-events-none fixed inset-x-0 top-1/3 z-[87] flex justify-center overflow-hidden">
+      <div
+        style={{ animation: "qz-sweep 1.9s cubic-bezier(.2,.7,.2,1) forwards" }}
+        className="w-full bg-gradient-to-r from-transparent via-amber-400 to-transparent py-3 text-center font-game text-xl font-extrabold uppercase tracking-wide text-night-950 shadow-2xl"
       >
         {text}
       </div>

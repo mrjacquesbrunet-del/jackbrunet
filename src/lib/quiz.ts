@@ -15,22 +15,25 @@ export type QuizQuestion = {
 
 export const QUIZ: QuizQuestion[] = (quizData as { items: QuizQuestion[] }).items;
 
-/** Échelle des gains — 15 paliers. */
+/** Échelle des gains — 30 paliers, du plus facile au million. */
 export const LADDER = [
-  500, 1000, 2000, 3000, 5000, 7500, 10000, 12500, 15000, 25000, 50000, 100000, 250000, 500000,
-  1000000,
+  100, 200, 300, 500, 1000, 2000, 3000, 5000, 7500, 10000, 15000, 20000, 30000, 40000, 50000,
+  65000, 80000, 100000, 125000, 150000, 200000, 250000, 300000, 350000, 400000, 500000, 600000,
+  750000, 850000, 1000000,
 ];
-/** Paliers « sûrs » (1-indexés) : le gain est garanti une fois atteints. */
-export const SAFE_RUNGS = [5, 10];
+/** Paliers « sûrs » (1-indexés) : le gain est garanti une fois atteints.
+ * En cas d'erreur, on retombe au dernier filet franchi (0, 10 ou 20). */
+export const SAFE_RUNGS = [10, 20];
 /** Durée d'une question (secondes). */
 export const QUESTION_TIME = 45;
 
-/** Niveau de difficulté attendu pour un palier (1-indexé). */
+/** Niveau de difficulté attendu pour un palier (1-indexé), sur 30 paliers :
+ * facile au départ, de plus en plus difficile. */
 export function tierForRung(rung: number): number {
-  if (rung <= 3) return 1;
-  if (rung <= 5) return 2;
-  if (rung <= 8) return 3;
-  if (rung <= 11) return 4;
+  if (rung <= 6) return 1;
+  if (rung <= 12) return 2;
+  if (rung <= 18) return 3;
+  if (rung <= 24) return 4;
   return 5;
 }
 
@@ -41,8 +44,21 @@ export function guaranteedCoins(correctCount: number): number {
   return g;
 }
 
-/** Construit une partie : 15 questions, une par palier, difficulté croissante,
- * sans répétition (repli sur les autres niveaux si un niveau est épuisé). */
+/** Mélange les 4 propositions d'une question et met à jour l'index correct,
+ * pour que la bonne réponse ne soit jamais toujours à la même place. */
+function shuffleOptions(q: QuizQuestion): QuizQuestion {
+  const order = [0, 1, 2, 3];
+  for (let i = order.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  const options = order.map((k) => q.options[k]);
+  return { ...q, options, correct: order.indexOf(q.correct) };
+}
+
+/** Construit une partie : une question par palier (30), difficulté croissante,
+ * sans répétition (repli sur les autres niveaux si un niveau est épuisé).
+ * Les propositions sont remélangées à chaque partie (anti-« toujours A »). */
 export function buildGame(): QuizQuestion[] {
   const used = new Set<number>();
   const pick = (tier: number): QuizQuestion => {
@@ -51,9 +67,9 @@ export function buildGame(): QuizQuestion[] {
     if (!pool.length) pool = QUIZ;
     const q = pool[Math.floor(Math.random() * pool.length)];
     used.add(q.id);
-    return q;
+    return shuffleOptions(q);
   };
-  return Array.from({ length: 15 }, (_, i) => pick(tierForRung(i + 1)));
+  return Array.from({ length: LADDER.length }, (_, i) => pick(tierForRung(i + 1)));
 }
 
 /** Formatte un montant : 1 000 000 → « 1 000 000 ». */
