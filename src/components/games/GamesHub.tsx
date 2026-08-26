@@ -15,6 +15,7 @@ import {
   getUnlockedAchievements,
 } from "@/lib/quiz";
 import { getMemorizeXp, levelFromXp } from "@/lib/memorize";
+import { getVfXp } from "@/lib/vraifaux";
 import { CHARACTERS, getCharId, setCharId as saveCharId, charById, CharAvatar as Avatar } from "@/lib/game-avatar";
 
 /* ---------------- Icônes ---------------- */
@@ -40,8 +41,8 @@ type Game = {
 };
 const GAMES: Game[] = [
   { id: "quiz", title: "Le Défi Biblique", tag: "Quiz · 30 paliers", href: "/quiz", from: "#4c1d95", to: "#9d174d" },
+  { id: "vraifaux", title: "Vrai ou Faux", tag: "Rapide · réflexes", href: "/vrai-faux", from: "#0e7490", to: "#083344" },
   { id: "memo", title: "Mémoriser", tag: "Grave la Parole", href: "/memoriser", from: "#3f6212", to: "#0b0713" },
-  { id: "vraifaux", title: "Vrai ou Faux", tag: "Bientôt", from: "#0e7490", to: "#0b0713", soon: true },
   { id: "mystere", title: "Le Verset Mystère", tag: "Bientôt", from: "#7c2d12", to: "#0b0713", soon: true },
 ];
 
@@ -56,6 +57,7 @@ export function GamesHub() {
   const [bestRung, setBestRung] = useState(0);
   const [unlocked, setUnlocked] = useState<Set<string>>(new Set());
   const [memoXp, setMemoXp] = useState(0);
+  const [vfXp, setVfXp] = useState(0);
 
   useEffect(() => {
     setName(getQuizName());
@@ -66,6 +68,7 @@ export function GamesHub() {
     setBestRung(getQuizBestRung());
     setUnlocked(getUnlockedAchievements());
     setMemoXp(getMemorizeXp());
+    setVfXp(getVfXp());
   }, []);
 
   const char = charById(charId);
@@ -80,7 +83,7 @@ export function GamesHub() {
   };
 
   // Niveau joueur = XP mémorisation + XP dérivée du cumul du Défi.
-  const totalXp = memoXp + Math.floor(coins / 500);
+  const totalXp = memoXp + vfXp + Math.floor(coins / 500);
   const { level, into, span } = useMemo(() => levelFromXp(totalXp), [totalXp]);
   const trophyCount = ACHIEVEMENTS.filter((a) => unlocked.has(a.id)).length;
   const unlockedList = ACHIEVEMENTS.filter((a) => unlocked.has(a.id));

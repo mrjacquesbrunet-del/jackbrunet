@@ -35,6 +35,7 @@ import {
   type QuizRow,
 } from "@/lib/quiz-leaderboard";
 import { getMemorizeXp, levelFromXp } from "@/lib/memorize";
+import { getVfXp } from "@/lib/vraifaux";
 import { getCharId, charById, CharAvatar } from "@/lib/game-avatar";
 
 type IconCmp = (p: { className?: string }) => ReactElement;
@@ -434,7 +435,7 @@ export function QuizScreen() {
   /* =========================================================== HUB */
   if (phase === "hub") {
     const char = charById(charId);
-    const totalXp = memoXp + Math.floor(coins / 500);
+    const totalXp = memoXp + getVfXp() + Math.floor(coins / 500);
     const lvl = levelFromXp(totalXp);
     const unlockedSet = getUnlockedAchievements();
     const trophyCount = ACHIEVEMENTS.filter((a) => unlockedSet.has(a.id)).length;
