@@ -64,6 +64,10 @@ export default function QuestionsPage() {
             Des réponses claires et bibliques aux questions que chacun se pose — sur Dieu, Jésus,
             la foi, la souffrance, la vie chrétienne.
           </p>
+          <p className="mt-2 text-sm text-night-900/55">
+            Ici, aucune question n&apos;est bête, et aucune n&apos;est jugée. On te répond avec la
+            Parole de Dieu et avec amour.
+          </p>
         </header>
 
         {/* Recherche */}
