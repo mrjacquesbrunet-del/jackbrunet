@@ -53,7 +53,7 @@ export function BibleHero() {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-4"
+          className="mt-4 flex flex-wrap gap-2"
         >
           <Link
             href="/memoriser"
@@ -67,6 +67,19 @@ export function BibleHero() {
               />
             </svg>
             Mémoriser des versets
+          </Link>
+          <Link
+            href="/questions"
+            className="inline-flex items-center gap-2 rounded-full border border-dawn-400/40 bg-dawn-400/10 px-4 py-2 text-xs font-bold text-dawn-300 transition-colors hover:bg-dawn-400/20"
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.8}>
+              <path
+                d="M9.2 9a3 3 0 1 1 4 2.8c-.8.5-1.2 1-1.2 1.9M12 17.5h.01"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            Tu te poses une question ?
           </Link>
         </motion.div>
         ) : null}
