@@ -14,7 +14,7 @@ import {
   type CommunityQuestion,
 } from "../../lib/faq-questions";
 
-type Item = { id: number; category: string; q: string; a: string; verse: string };
+type Item = { id: number; category: string; q: string; a: string; verse: string; evidence?: string };
 const ITEMS = (faq as { items: Item[] }).items;
 const CATEGORIES = Array.from(new Set(ITEMS.map((i) => i.category)));
 
@@ -52,11 +52,15 @@ function RichText({ text }: { text: string }) {
     <>
       {text.split("\n\n").map((para, pi) => (
         <p key={pi} className={pi === 0 ? "" : "mt-3"}>
-          {para.split(/(\*\*[^*]+\*\*)/g).map((chunk, ci) =>
+          {para.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g).map((chunk, ci) =>
             chunk.startsWith("**") && chunk.endsWith("**") ? (
               <strong key={ci} className="font-bold text-night-900">
                 {chunk.slice(2, -2)}
               </strong>
+            ) : chunk.startsWith("*") && chunk.endsWith("*") && chunk.length > 2 ? (
+              <em key={ci} className="font-semibold not-italic text-night-900/90">
+                {chunk.slice(1, -1)}
+              </em>
             ) : (
               <span key={ci}>{chunk}</span>
             ),
@@ -103,6 +107,7 @@ type Detail = {
   category?: string | null;
   a: string;
   verse?: string | null;
+  evidence?: string | null;
   who?: "jack" | "member";
   name?: string | null;
 };
@@ -130,6 +135,12 @@ const Ico = {
       d="M12 3l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.9 6.8 19l1-5.8L3.6 9.1l5.8-.8z"
       strokeLinejoin="round"
     />
+  ),
+  shield: (
+    <>
+      <path d="M12 3l7 3v5c0 4.4-3 7.7-7 9-4-1.3-7-4.6-7-9V6z" strokeLinejoin="round" />
+      <path d="M9 12l2 2 4-4" strokeLinecap="round" strokeLinejoin="round" />
+    </>
   ),
 };
 function Svg({ children, className = "h-5 w-5", sw = 1.9 }: { children: React.ReactNode; className?: string; sw?: number }) {
@@ -287,7 +298,7 @@ export default function QuestionsPage() {
   }
 
   function openFaq(i: Item) {
-    setDetail({ q: i.q, category: i.category, a: i.a, verse: i.verse, who: "jack" });
+    setDetail({ q: i.q, category: i.category, a: i.a, verse: i.verse, evidence: i.evidence, who: "jack" });
   }
 
   return (
@@ -657,6 +668,21 @@ export default function QuestionsPage() {
   );
 }
 
+/* ---------- Bloc « Ce qui le confirme » (preuves / véracité) ---------- */
+function EvidenceBlock({ text }: { text?: string | null }) {
+  if (!text) return null;
+  return (
+    <div className="mt-4 rounded-2xl border border-dawn-400/30 bg-dawn-400/[0.07] p-4">
+      <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-dawn-600">
+        <Svg className="h-4 w-4" sw={2}>{Ico.shield}</Svg> Ce qui le confirme
+      </p>
+      <div className="mt-2 text-[14px] leading-relaxed text-night-900/70">
+        <RichText text={text} />
+      </div>
+    </div>
+  );
+}
+
 /* ---------- Accordéon (recherche / catégorie) ---------- */
 function Accordion({ item, open, onToggle, delay }: { item: Item; open: boolean; onToggle: () => void; delay: number }) {
   return (
@@ -682,6 +708,7 @@ function Accordion({ item, open, onToggle, delay }: { item: Item; open: boolean;
       {open ? (
         <div className="border-t border-night-900/10 px-5 py-4 text-[15px] leading-relaxed text-night-900/75">
           <RichText text={item.a} />
+          <EvidenceBlock text={item.evidence} />
           <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-dawn-400/15 px-3 py-1 text-xs font-bold text-dawn-600">
             {item.verse}
           </p>
@@ -833,6 +860,7 @@ function DetailSheet({ detail, onClose }: { detail: Detail; onClose: () => void 
           <div className="text-[15px] leading-relaxed text-night-900/80">
             <RichText text={detail.a} />
           </div>
+          <EvidenceBlock text={detail.evidence} />
           {detail.verse ? (
             <p className="mt-5 inline-flex items-center gap-2 rounded-full bg-dawn-400/15 px-3.5 py-1.5 text-sm font-bold text-dawn-600">
               <Svg className="h-4 w-4" sw={2}>{Ico.book}</Svg> {detail.verse}
