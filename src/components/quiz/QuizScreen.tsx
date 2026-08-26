@@ -19,6 +19,11 @@ import {
   ACHIEVEMENTS,
   getUnlockedAchievements,
   evaluateAchievements,
+  buildDailyGame,
+  buildThemedGame,
+  THEMES,
+  getDailyState,
+  markDailyDone,
   type Achievement,
   type QuizQuestion,
 } from "@/lib/quiz";
@@ -29,6 +34,8 @@ import {
   isSignedIn,
   type QuizRow,
 } from "@/lib/quiz-leaderboard";
+import { getMemorizeXp, levelFromXp } from "@/lib/memorize";
+import { getCharId, charById, CharAvatar } from "@/lib/game-avatar";
 
 type IconCmp = (p: { className?: string }) => ReactElement;
 
@@ -81,6 +88,14 @@ const IconPeople = S("M17 20v-1a4 4 0 0 0-3-3.9M7 20v-1a4 4 0 0 1 3-3.9M12 12a3 
 const IconHalf = S("M12 3v18M3 12h18M4 4h16v16H4z");
 const IconEdit = S("M4 20h4L18 10l-4-4L4 16zM14 6l4 4");
 const IconFlame = S("M12 3c1.5 3 4.5 4 4.5 8.5A4.5 4.5 0 0 1 7.5 11.5c0-1 .4-2 1-2.7C9.5 10.5 10 7 12 3z");
+const IconCheck = S("M5 12l4.5 4.5L19 7");
+const IconPlay = S("M8 5l11 7-11 7z");
+const IconArrowR = S("M5 12h14M13 6l6 6-6 6");
+const IconScroll = S("M7 4h9v13a2 2 0 0 0 2 2H8a2 2 0 0 1-2-2zM16 4a2 2 0 0 1 2 2v2M9 8h5M9 12h5");
+const IconCalendar = S("M4 7h16v13H4zM4 7V5h16v2M8 3v4M16 3v4M8 12h3");
+const IconCoin = S("M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM9.6 14c0 1 1 1.6 2.4 1.6s2.4-.6 2.4-1.6c0-2.3-4.5-1.2-4.5-3.3 0-1 1-1.5 2.1-1.5s2.2.5 2.2 1.4M12 8v1.2M12 15v1.2");
+const IconGem = S("M6 3h12l3 5-9 13L3 8zM3 8h18M9 3l-1 5M15 3l1 5");
+const IconCrown = S("M4 8l4 3.5L12 5l4 6.5L20 8l-1.4 10H5.4z");
 const IconMedal = S("M8 3l2 6M16 3l-2 6M12 21a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 14.5l1 2 2 .2-1.5 1.4.4 2-1.9-1-1.9 1 .4-2L9 16.7l2-.2z");
 const IconLock = S("M6 10V8a6 6 0 0 1 12 0v2M5 10h14v10H5zM12 14v3");
 
@@ -113,13 +128,34 @@ export function QuizScreen() {
   const [sound, setSound] = useState(true);
   const [newBadges, setNewBadges] = useState<Achievement[]>([]);
   const maxComboRef = useRef(0);
+  const sourceRef = useRef<"normal" | "daily" | "themed">("normal");
+  const [daily, setDaily] = useState<{ streak: number; doneToday: boolean }>({ streak: 0, doneToday: false });
+  const [top3, setTop3] = useState<QuizRow[] | null>(null);
+  const [showThemes, setShowThemes] = useState(false);
+  const [charId, setCharId] = useState("lime");
+  const [memoXp, setMemoXp] = useState(0);
 
   useEffect(() => {
     setName(getQuizName());
     setCoins(getQuizCoins());
     setBest(getQuizBest());
     setBestRung(getQuizBestRung());
+    setCharId(getCharId());
+    setMemoXp(getMemorizeXp());
+    setDaily(getDailyState());
   }, []);
+
+  // Rafraîchit le hub (série du jour + podium) à chaque retour à l'accueil.
+  useEffect(() => {
+    if (phase !== "hub") return;
+    setDaily(getDailyState());
+    setMemoXp(getMemorizeXp());
+    let alive = true;
+    fetchQuizLeaderboard(3).then((r) => alive && setTop3(r));
+    return () => {
+      alive = false;
+    };
+  }, [phase]);
 
   const play = (freqs: number[], dur?: number, type?: OscillatorType) => {
     if (sound) tone(freqs, dur, type);
@@ -182,7 +218,7 @@ export function QuizScreen() {
 
   const q = game[step];
 
-  const startGame = () => {
+  const startGame = (source: "normal" | "daily" | "themed" = "normal", themeId?: string) => {
     // Plein écran immersif (best-effort ; sans effet dans l'app native déjà plein écran).
     try {
       const el = document.documentElement as HTMLElement & { requestFullscreen?: () => Promise<void> };
@@ -190,7 +226,11 @@ export function QuizScreen() {
     } catch {
       /* API indisponible */
     }
-    setGame(buildGame());
+    sourceRef.current = source;
+    setShowThemes(false);
+    const g =
+      source === "daily" ? buildDailyGame() : source === "themed" && themeId ? buildThemedGame(themeId) : buildGame();
+    setGame(g);
     setStep(0);
     resetQuestion();
     setUsedJokers({ half: false, hint: false, poll: false });
@@ -286,6 +326,10 @@ export function QuizScreen() {
       setBest(res.best);
       setBestRung(res.bestRung);
       submitQuizCoins(amount, res.best);
+      if (sourceRef.current === "daily") {
+        const d = markDailyDone();
+        setDaily({ streak: d.streak, doneToday: true });
+      }
     },
     [],
   );
@@ -389,126 +433,190 @@ export function QuizScreen() {
 
   /* =========================================================== HUB */
   if (phase === "hub") {
+    const char = charById(charId);
+    const totalXp = memoXp + Math.floor(coins / 500);
+    const lvl = levelFromXp(totalXp);
+    const unlockedSet = getUnlockedAchievements();
+    const trophyCount = ACHIEVEMENTS.filter((a) => unlockedSet.has(a.id)).length;
+    const streakDots = Array.from({ length: 7 }, (_, i) => i < Math.min(daily.streak, 7));
+    const cats = [
+      { key: "defis", title: "DÉFIS", sub: "Affronte d'autres joueurs", from: "#4c1d95", to: "#7c3aed", icon: <IconTrophy className="h-7 w-7" />, onClick: openBoard },
+      { key: "themes", title: "THÈMES", sub: "Choisis ton sujet", from: "#0e7490", to: "#0f766e", icon: <IconScroll className="h-7 w-7" />, onClick: () => setShowThemes(true) },
+      { key: "quotidien", title: "QUOTIDIEN", sub: daily.doneToday ? "Fait aujourd'hui" : "Défi du jour", from: "#9d174d", to: "#be185d", icon: <IconCalendar className="h-7 w-7" />, onClick: () => startGame("daily") },
+    ];
+    const podium = top3 && top3.length ? [top3[1], top3[0], top3[2]].filter(Boolean) : [];
+
     return (
-      <div className="qz-immersive fixed inset-0 z-[100] flex flex-col overflow-y-auto text-cream">
+      <div className="qz-immersive fixed inset-0 z-[100] overflow-y-auto text-cream">
         <QzFx />
         <div className="qz-bg-orb qz-bg-1" />
         <div className="qz-bg-orb qz-bg-2" />
-        <div className="qz-bg-orb qz-bg-3" />
         <Particles />
-        <div className="relative m-auto w-full max-w-md px-5 pb-10 pt-[calc(1.5rem+env(safe-area-inset-top))] text-center">
-          <div className="relative">
-            <div className="mx-auto flex w-fit items-center gap-2 rounded-full bg-amber-500 px-6 py-2 font-game text-xl font-extrabold text-night-950 shadow-lg">
-              {formatCoins(coins)}
+        <div className="relative mx-auto w-full max-w-md px-4 pb-10 pt-[calc(0.75rem+env(safe-area-inset-top))]">
+          {/* HUD joueur */}
+          <div className="flex items-center gap-2.5">
+            <Link href="/jeux" aria-label="Personnaliser mon personnage" className="shrink-0">
+              <CharAvatar char={char} size={50} rounded="rounded-2xl" ring />
+            </Link>
+            <div className="min-w-0 flex-1">
+              <p className="font-game text-sm font-extrabold">Niveau {lvl.level}</p>
+              <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-white/15">
+                <div className="h-full rounded-full bg-gradient-to-r from-[#8FE23C] to-amber-400" style={{ width: `${Math.round((lvl.into / lvl.span) * 100)}%` }} />
+              </div>
+              <p className="mt-0.5 font-game text-[10px] text-cream/50">{lvl.into} / {lvl.span} XP</p>
             </div>
-            <h1 className="mt-6 font-game text-4xl font-extrabold leading-none drop-shadow">
-              Le Défi
-              <br />
-              Biblique
-            </h1>
-            <p className="mt-2 text-sm text-cream/70">Grimpe les {LADDER.length} paliers jusqu&apos;au million.</p>
+            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-black/25 px-2 py-1 font-game text-xs font-extrabold text-amber-300">
+              <IconCoin className="h-4 w-4" /> {formatCoins(coins)}
+            </span>
+            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-black/25 px-2 py-1 font-game text-xs font-extrabold text-fuchsia-300">
+              <IconGem className="h-4 w-4" /> {trophyCount}
+            </span>
+          </div>
 
-            {/* Pseudo */}
-            <div className="mt-6 flex items-center gap-2 rounded-2xl bg-white/10 p-2 pl-4">
-              {editingName ? (
-                <input
-                  autoFocus
-                  value={name}
-                  onChange={(e) => saveName(e.target.value)}
-                  onBlur={() => setEditingName(false)}
-                  onKeyDown={(e) => e.key === "Enter" && setEditingName(false)}
-                  placeholder="Ton pseudo"
-                  className="w-full bg-transparent text-center font-game text-lg font-bold text-cream placeholder:text-cream/40 focus:outline-none"
-                />
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => setEditingName(true)}
-                  className="flex w-full items-center justify-center gap-2 font-game text-lg font-bold"
-                >
-                  {name || "Choisis ton pseudo"}
-                  <IconEdit className="h-4 w-4 text-cream/60" />
-                </button>
-              )}
+          {/* Héros */}
+          <div className="relative mt-4 overflow-hidden rounded-3xl bg-gradient-to-br from-violet-800 via-fuchsia-800 to-amber-700 p-5 shadow-2xl">
+            <div className="pointer-events-none absolute -right-6 -top-10 h-44 w-44 rounded-full bg-amber-300/40 blur-2xl" />
+            <div className="relative flex items-start justify-between gap-2">
+              <div className="min-w-0">
+                <h1 className="font-game text-4xl font-black leading-[0.9] drop-shadow">
+                  QUIZ
+                  <br />
+                  BIBLIQUE
+                </h1>
+                <p className="mt-2 max-w-[11rem] text-sm text-cream/85">
+                  Teste tes connaissances et grandis chaque jour&nbsp;!
+                </p>
+              </div>
+              <BibleCrossArt className="h-24 w-24 shrink-0 drop-shadow" />
             </div>
-
             <button
               type="button"
-              onClick={startGame}
-              className="qz-glow mt-4 w-full rounded-2xl bg-[#8FE23C] py-4 font-game text-xl font-extrabold text-night-950 shadow-[0_6px_0_#5b9e1f] active:translate-y-1 active:shadow-[0_2px_0_#5b9e1f]"
+              onClick={() => startGame("normal")}
+              className="qz-glow mt-5 flex w-full items-center justify-center gap-3 rounded-2xl bg-amber-400 py-4 font-game font-extrabold text-night-950 shadow-[0_6px_0_#b45309] active:translate-y-1 active:shadow-[0_2px_0_#b45309]"
             >
-              NOUVELLE PARTIE
+              <span className="grid h-8 w-8 place-items-center rounded-full bg-night-950/15">
+                <IconPlay className="h-5 w-5" />
+              </span>
+              <span className="text-left leading-tight">
+                <span className="block text-xl">JOUER</span>
+                <span className="block text-xs font-bold text-night-950/70">Nouvelle partie</span>
+              </span>
             </button>
-            <div className="mt-3 grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={openBoard}
-                className="flex items-center justify-center gap-2 rounded-2xl bg-white/10 py-3.5 font-game text-base font-bold"
-              >
-                <IconTrophy className="h-5 w-5 text-amber-300" />
-                Classement
-              </button>
-              <button
-                type="button"
-                onClick={() => setShowTrophies(true)}
-                className="flex items-center justify-center gap-2 rounded-2xl bg-white/10 py-3.5 font-game text-base font-bold"
-              >
-                <IconMedal className="h-5 w-5 text-amber-300" />
-                Trophées
-              </button>
-            </div>
-
-            <div className="mt-4 grid grid-cols-2 gap-3 text-left">
-              <div className="rounded-2xl bg-white/10 p-3">
-                <p className="text-[10px] font-bold uppercase tracking-wide text-cream/50">Ton cumul</p>
-                <p className="font-game text-lg font-extrabold text-amber-300">{formatCoins(coins)}</p>
-              </div>
-              <div className="rounded-2xl bg-white/10 p-3">
-                <p className="text-[10px] font-bold uppercase tracking-wide text-cream/50">Meilleure partie</p>
-                <p className="font-game text-lg font-extrabold text-[#8FE23C]">{formatCoins(best)}</p>
-              </div>
-            </div>
-
-            {/* Objectif : monter le plus haut possible */}
-            <div className="mt-3 flex items-center justify-between rounded-2xl bg-white/10 px-4 py-3">
-              <div className="text-left">
-                <p className="text-[10px] font-bold uppercase tracking-wide text-cream/50">
-                  Ton meilleur palier
-                </p>
-                <p className="font-game text-lg font-extrabold text-amber-300">
-                  {bestRung > 0 ? `${bestRung}/${LADDER.length}` : "—"}
-                  {bestRung > 0 ? (
-                    <span className="ml-2 text-sm text-cream/70">{formatCoins(LADDER[bestRung - 1])}</span>
-                  ) : null}
-                </p>
-              </div>
-              <p className="max-w-[9rem] text-right font-game text-[11px] text-cream/60">
-                Monte le plus haut possible !
-              </p>
-            </div>
-
-            <div className="mt-5 flex items-center justify-center gap-3">
-              <button
-                type="button"
-                onClick={() => setSound((s) => !s)}
-                aria-label={sound ? "Couper le son" : "Activer le son"}
-                className="grid h-11 w-11 place-items-center rounded-full bg-white/10"
-              >
-                {sound ? <SoundOn className="h-5 w-5" /> : <SoundOff className="h-5 w-5" />}
-              </button>
-              <Link
-                href="/devotionnel"
-                className="grid h-11 w-11 place-items-center rounded-full bg-white/10"
-                aria-label="Retour"
-              >
-                <IconClose className="h-5 w-5" />
-              </Link>
-            </div>
           </div>
+
+          {/* 3 cartes catégories */}
+          <div className="mt-4 grid grid-cols-3 gap-2.5">
+            {cats.map((c) => (
+              <button
+                key={c.key}
+                type="button"
+                onClick={c.onClick}
+                className="relative flex aspect-[3/4] flex-col justify-between overflow-hidden rounded-2xl p-3 text-left shadow-card"
+                style={{ background: `linear-gradient(160deg, ${c.from}, ${c.to})` }}
+              >
+                <div>
+                  <p className="font-game text-base font-extrabold leading-tight">{c.title}</p>
+                  <p className="mt-0.5 text-[11px] font-semibold text-cream/70">{c.sub}</p>
+                </div>
+                <span className="text-cream/90">{c.icon}</span>
+                <span className="absolute bottom-2 right-2 grid h-7 w-7 place-items-center rounded-full bg-black/30">
+                  {c.key === "quotidien" && daily.doneToday ? (
+                    <IconCheck className="h-4 w-4 text-[#8FE23C]" />
+                  ) : (
+                    <IconArrowR className="h-4 w-4" />
+                  )}
+                </span>
+              </button>
+            ))}
+          </div>
+
+          {/* Série + Classement */}
+          <div className="mt-4 grid grid-cols-2 gap-3">
+            <div className="rounded-2xl bg-white/[0.07] p-4">
+              <p className="flex items-center gap-1.5 font-game text-[11px] font-bold uppercase tracking-wide text-cream/60">
+                Série <IconFlame className="h-4 w-4 text-orange-400" />
+              </p>
+              <p className="mt-1 font-game text-2xl font-extrabold">
+                {daily.streak} <span className="text-sm">jour{daily.streak > 1 ? "s" : ""}</span>
+              </p>
+              <p className="text-[11px] text-cream/55">
+                {daily.streak > 0 ? "Continue comme ça !" : "Fais le défi du jour"}
+              </p>
+              <div className="mt-2 flex gap-1">
+                {streakDots.map((on, i) => (
+                  <span
+                    key={i}
+                    className={`grid h-5 w-5 place-items-center rounded-full text-[10px] font-bold ${on ? "bg-[#8FE23C] text-night-950" : "bg-white/10 text-cream/50"}`}
+                  >
+                    {on ? <IconCheck className="h-3 w-3" /> : i + 1}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <button type="button" onClick={openBoard} className="rounded-2xl bg-white/[0.07] p-4 text-left">
+              <p className="flex items-center gap-1.5 font-game text-[11px] font-bold uppercase tracking-wide text-cream/60">
+                Classement <IconTrophy className="h-4 w-4 text-amber-300" />
+              </p>
+              {podium.length ? (
+                <div className="mt-2 flex items-end justify-center gap-1.5">
+                  {podium.map((r, idx) => {
+                    const center = idx === 1;
+                    return (
+                      <div key={r.user_id} className="flex flex-col items-center">
+                        {center ? <IconCrown className="mb-0.5 h-4 w-4 text-amber-300" /> : null}
+                        {r.avatar_url ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={r.avatar_url} alt="" className={`rounded-full object-cover ring-2 ${center ? "h-11 w-11 ring-amber-300" : "h-8 w-8 ring-white/20"}`} />
+                        ) : (
+                          <span className={`grid place-items-center rounded-full bg-white/15 font-game font-bold ${center ? "h-11 w-11 text-base" : "h-8 w-8 text-xs"}`}>
+                            {(r.pseudo || "?").slice(0, 1)}
+                          </span>
+                        )}
+                        <span className="mt-0.5 font-game text-[10px] font-bold text-amber-300">{formatCoins(r.coins)}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <p className="mt-3 text-[11px] text-cream/55">Sois le premier au classement&nbsp;!</p>
+              )}
+              <p className="mt-2 text-center font-game text-[11px] font-bold text-[#8FE23C]">Voir le classement</p>
+            </button>
+          </div>
+
+          {/* Trophées + réglages + pseudo */}
+          <div className="mt-4 flex items-center justify-center gap-3">
+            <button type="button" onClick={() => setShowTrophies(true)} className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 font-game text-sm font-bold">
+              <IconMedal className="h-4 w-4 text-amber-300" /> Trophées
+            </button>
+            <button type="button" onClick={() => setSound((s) => !s)} aria-label={sound ? "Couper le son" : "Activer le son"} className="grid h-10 w-10 place-items-center rounded-full bg-white/10">
+              {sound ? <SoundOn className="h-5 w-5" /> : <SoundOff className="h-5 w-5" />}
+            </button>
+            <Link href="/devotionnel" aria-label="Retour" className="grid h-10 w-10 place-items-center rounded-full bg-white/10">
+              <IconClose className="h-5 w-5" />
+            </Link>
+          </div>
+
+          {editingName ? (
+            <input
+              autoFocus
+              value={name}
+              onChange={(e) => saveName(e.target.value)}
+              onBlur={() => setEditingName(false)}
+              onKeyDown={(e) => e.key === "Enter" && setEditingName(false)}
+              placeholder="Ton pseudo"
+              className="mx-auto mt-3 block w-52 rounded-xl bg-white/10 px-3 py-2 text-center font-game text-sm font-bold text-cream focus:outline-none"
+            />
+          ) : (
+            <button type="button" onClick={() => setEditingName(true)} className="mx-auto mt-3 block font-game text-xs font-bold text-cream/50">
+              {name ? `${name} · modifier le pseudo` : "Choisis ton pseudo"}
+            </button>
+          )}
         </div>
 
         {showBoard ? <Leaderboard onClose={() => setShowBoard(false)} /> : null}
         {showTrophies ? <Trophies onClose={() => setShowTrophies(false)} /> : null}
+        {showThemes ? <ThemesPicker onPick={(id) => startGame("themed", id)} onClose={() => setShowThemes(false)} /> : null}
       </div>
     );
   }
@@ -571,7 +679,7 @@ export function QuizScreen() {
 
           <button
             type="button"
-            onClick={startGame}
+            onClick={() => startGame("normal")}
             className="qz-glow mt-6 w-full rounded-2xl bg-[#8FE23C] py-4 font-game text-xl font-extrabold text-night-950 shadow-[0_6px_0_#5b9e1f] active:translate-y-1 active:shadow-[0_2px_0_#5b9e1f]"
           >
             REJOUER
@@ -1098,6 +1206,52 @@ function Flash({ kind }: { kind: "good" | "bad" }) {
 
 const SoundOn = S("M4 9v6h4l5 4V5L8 9zM16 8a4 4 0 0 1 0 8M18.5 6a7 7 0 0 1 0 12");
 const SoundOff = S("M4 9v6h4l5 4V5L8 9zM17 9l4 6M21 9l-4 6");
+
+/* ---- Illustration Bible ouverte + croix + halo ---- */
+function BibleCrossArt({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 100 100" className={className} aria-hidden fill="none">
+      <circle cx="62" cy="34" r="24" fill="rgba(253,224,71,.45)" />
+      {/* croix */}
+      <rect x="59" y="10" width="6" height="34" rx="2" fill="#F3F3ED" />
+      <rect x="50" y="19" width="24" height="6" rx="2" fill="#F3F3ED" />
+      {/* livre ouvert */}
+      <path d="M14 58c10-5 22-5 30 1 8-6 20-6 30-1v22c-10-5-22-5-30 1-8-6-20-6-30-1z" fill="#F3F3ED" />
+      <path d="M44 59v22" stroke="#0C0C0B" strokeWidth="2" opacity=".25" />
+      <path d="M20 64c6-2 13-2 19 1M20 70c6-2 13-2 19 1M49 65c6-3 13-3 19-1M49 71c6-3 13-3 19-1" stroke="#0C0C0B" strokeWidth="1.6" opacity=".2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/* ---- Sélecteur de thèmes ---- */
+function ThemesPicker({ onPick, onClose }: { onPick: (id: string) => void; onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-[120] flex items-end justify-center sm:items-center" role="dialog" aria-modal="true">
+      <button aria-label="Fermer" onClick={onClose} className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+      <div className="relative z-10 w-full max-w-md rounded-t-3xl bg-gradient-to-b from-teal-800 to-teal-950 p-5 text-cream shadow-2xl sm:rounded-3xl">
+        <h3 className="text-center font-game text-xl font-extrabold">Choisis ton thème</h3>
+        <p className="mt-1 text-center text-sm text-cream/60">Une partie centrée sur le sujet choisi.</p>
+        <div className="mt-4 space-y-2">
+          {THEMES.map((t) => (
+            <button
+              key={t.id}
+              type="button"
+              onClick={() => onPick(t.id)}
+              className="flex w-full items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 text-left font-game font-bold active:bg-white/10"
+            >
+              <IconScroll className="h-5 w-5 shrink-0 text-teal-200" />
+              <span className="flex-1">{t.label}</span>
+              <IconArrowR className="h-5 w-5 shrink-0 text-cream/50" />
+            </button>
+          ))}
+        </div>
+        <button type="button" onClick={onClose} className="mt-4 w-full rounded-2xl bg-amber-500 py-3 font-game text-lg font-bold text-night-950">
+          Fermer
+        </button>
+      </div>
+    </div>
+  );
+}
 
 /* ---------------- Effets (animations) ---------------- */
 const FX = `

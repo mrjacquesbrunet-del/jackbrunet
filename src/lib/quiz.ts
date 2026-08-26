@@ -44,12 +44,14 @@ export function guaranteedCoins(correctCount: number): number {
   return g;
 }
 
+type Rng = () => number;
+
 /** Mélange les 4 propositions d'une question et met à jour l'index correct,
  * pour que la bonne réponse ne soit jamais toujours à la même place. */
-function shuffleOptions(q: QuizQuestion): QuizQuestion {
+function shuffleOptions(q: QuizQuestion, rng: Rng = Math.random): QuizQuestion {
   const order = [0, 1, 2, 3];
   for (let i = order.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(rng() * (i + 1));
     [order[i], order[j]] = [order[j], order[i]];
   }
   const options = order.map((k) => q.options[k]);
@@ -99,6 +101,110 @@ export function buildGame(): QuizQuestion[] {
   for (const q of game) merged.add(q.id);
   saveSeen(merged);
   return game;
+}
+
+/* ---------------- Modes : Thèmes & Défi du jour ---------------- */
+
+/** Générateur pseudo-aléatoire déterministe (mulberry32). */
+function mulberry32(seed: number): Rng {
+  let a = seed >>> 0;
+  return () => {
+    a |= 0;
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+/** Assemble une partie de 30 questions (difficulté croissante) avec un tirage
+ * `rng` donné, en privilégiant éventuellement un sous-ensemble (`prefer`). */
+function assembleGame(rng: Rng, prefer?: (q: QuizQuestion) => boolean): QuizQuestion[] {
+  const used = new Set<number>();
+  const pickFrom = (arr: QuizQuestion[]) => arr[Math.floor(rng() * arr.length)];
+  const pick = (tier: number): QuizQuestion => {
+    const free = (q: QuizQuestion) => !used.has(q.id);
+    let pool = QUIZ.filter((q) => q.difficulty === tier && free(q) && (!prefer || prefer(q)));
+    if (!pool.length) pool = QUIZ.filter((q) => q.difficulty === tier && free(q));
+    if (!pool.length) pool = QUIZ.filter((q) => free(q) && (!prefer || prefer(q)));
+    if (!pool.length) pool = QUIZ.filter(free);
+    if (!pool.length) pool = QUIZ;
+    const q = pickFrom(pool);
+    used.add(q.id);
+    return shuffleOptions(q, rng);
+  };
+  return Array.from({ length: LADDER.length }, (_, i) => pick(tierForRung(i + 1)));
+}
+
+/** Thèmes larges (regroupent plusieurs catégories) pour le mode « Thèmes ». */
+export const THEMES: { id: string; label: string; cats: string[] }[] = [
+  { id: "recits", label: "Récits & personnages", cats: ["Récits", "Personnages", "Familles", "Femmes", "Création", "Juges"] },
+  { id: "jesus", label: "Jésus", cats: ["Jésus", "Vie de Jésus", "Paraboles"] },
+  { id: "rois", label: "Rois & prophètes", cats: ["Rois", "Prophètes", "Rois & prophètes"] },
+  { id: "eglise", label: "Église & apôtres", cats: ["Apôtres", "Église", "Épîtres", "Apocalypse"] },
+  { id: "bible", label: "La Bible & la foi", cats: ["Bible", "Loi"] },
+];
+
+/** Partie sur un thème : privilégie les catégories du thème (complète au besoin). */
+export function buildThemedGame(themeId: string): QuizQuestion[] {
+  const cats = new Set(THEMES.find((t) => t.id === themeId)?.cats ?? []);
+  const game = assembleGame(Math.random, (q) => cats.has(q.category));
+  const merged = getSeenIds();
+  for (const q of game) merged.add(q.id);
+  saveSeen(merged);
+  return game;
+}
+
+/** Clé du jour (année-mois-jour), pour un défi identique pour tous ce jour-là. */
+function todayKey(d = new Date()): string {
+  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+}
+function seedFromKey(k: string): number {
+  let h = 2166136261;
+  for (let i = 0; i < k.length; i++) {
+    h ^= k.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+/** Défi du jour : partie déterministe (mêmes questions pour tous aujourd'hui). */
+export function buildDailyGame(): QuizQuestion[] {
+  return assembleGame(mulberry32(seedFromKey(todayKey())));
+}
+
+/* ---- Série quotidienne (défi du jour) ---- */
+const DAILY_KEY = "jb.quiz.daily.v1";
+type DailyRec = { lastDate?: string; streak?: number };
+function readDaily(): DailyRec {
+  try {
+    return JSON.parse(localStorage.getItem(DAILY_KEY) || "{}") as DailyRec;
+  } catch {
+    return {};
+  }
+}
+/** { streak, doneToday } du défi du jour. */
+export function getDailyState(): { streak: number; doneToday: boolean } {
+  const r = readDaily();
+  return { streak: r.streak || 0, doneToday: r.lastDate === todayKey() };
+}
+export function getQuizStreak(): number {
+  return getDailyState().streak;
+}
+/** Marque le défi du jour comme fait ; prolonge ou réinitialise la série. */
+export function markDailyDone(): { streak: number } {
+  const r = readDaily();
+  const t = todayKey();
+  if (r.lastDate === t) return { streak: r.streak || 0 };
+  const y = new Date();
+  y.setDate(y.getDate() - 1);
+  const streak = r.lastDate === todayKey(y) ? (r.streak || 0) + 1 : 1;
+  try {
+    localStorage.setItem(DAILY_KEY, JSON.stringify({ lastDate: t, streak }));
+  } catch {
+    /* ignore */
+  }
+  return { streak };
 }
 
 /** Formatte un montant : 1 000 000 → « 1 000 000 ». */
