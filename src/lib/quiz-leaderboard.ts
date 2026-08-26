@@ -25,7 +25,7 @@ export async function submitQuizCoins(won: number, best: number): Promise<void> 
   }
 }
 
-/** Top du classement mondial (cumul de tous les temps). */
+/** Top du classement national (cumul de tous les temps, tous les joueurs). */
 export async function fetchQuizLeaderboard(limit = 50): Promise<QuizRow[]> {
   const sb = getSupabase();
   if (!sb) return [];
@@ -34,6 +34,31 @@ export async function fetchQuizLeaderboard(limit = 50): Promise<QuizRow[]> {
     return (data as QuizRow[]) || [];
   } catch {
     return [];
+  }
+}
+
+/** Classement des amis (les membres que je suis + moi). Nécessite d'être
+ * connecté ; renvoie [] sinon. */
+export async function fetchQuizFriendsLeaderboard(limit = 100): Promise<QuizRow[]> {
+  const sb = getSupabase();
+  if (!sb) return [];
+  try {
+    const { data } = await sb.rpc("quiz_leaderboard_friends", { p_limit: limit });
+    return (data as QuizRow[]) || [];
+  } catch {
+    return [];
+  }
+}
+
+/** Suis-je connecté ? (pour proposer l'onglet Amis ou inviter à se connecter). */
+export async function isSignedIn(): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  try {
+    const { data } = await sb.auth.getUser();
+    return !!data.user;
+  } catch {
+    return false;
   }
 }
 

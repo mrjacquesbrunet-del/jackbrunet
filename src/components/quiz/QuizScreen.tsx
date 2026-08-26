@@ -17,7 +17,13 @@ import {
   recordQuizResult,
   type QuizQuestion,
 } from "@/lib/quiz";
-import { submitQuizCoins, fetchQuizLeaderboard, type QuizRow } from "@/lib/quiz-leaderboard";
+import {
+  submitQuizCoins,
+  fetchQuizLeaderboard,
+  fetchQuizFriendsLeaderboard,
+  isSignedIn,
+  type QuizRow,
+} from "@/lib/quiz-leaderboard";
 
 type IconCmp = (p: { className?: string }) => ReactElement;
 
@@ -84,7 +90,6 @@ export function QuizScreen() {
   const [coins, setCoins] = useState(0);
   const [best, setBest] = useState(0);
   const [bestRung, setBestRung] = useState(0);
-  const [board, setBoard] = useState<QuizRow[] | null>(null);
   const [showBoard, setShowBoard] = useState(false);
   const [showLadder, setShowLadder] = useState(false);
   const [sound, setSound] = useState(true);
@@ -124,6 +129,14 @@ export function QuizScreen() {
   const [toast, setToast] = useState<string | null>(null);
   const [confetti, setConfetti] = useState(false);
   const [cardShake, setCardShake] = useState(false);
+  const [flash, setFlash] = useState<null | "good" | "bad">(null);
+  const flashT = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const doFlash = (k: "good" | "bad") => {
+    setFlash(null);
+    requestAnimationFrame(() => setFlash(k));
+    if (flashT.current) clearTimeout(flashT.current);
+    flashT.current = setTimeout(() => setFlash(null), 520);
+  };
   const [fly, setFly] = useState<string | null>(null);
   const [milestone, setMilestone] = useState<string | null>(null);
   const milestoneT = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -150,6 +163,13 @@ export function QuizScreen() {
   const q = game[step];
 
   const startGame = () => {
+    // Plein écran immersif (best-effort ; sans effet dans l'app native déjà plein écran).
+    try {
+      const el = document.documentElement as HTMLElement & { requestFullscreen?: () => Promise<void> };
+      if (el.requestFullscreen && !document.fullscreenElement) el.requestFullscreen().catch(() => {});
+    } catch {
+      /* API indisponible */
+    }
     setGame(buildGame());
     setStep(0);
     resetQuestion();
@@ -158,6 +178,16 @@ export function QuizScreen() {
     setPhase("play");
     play([523, 659, 784], 0.12);
   };
+
+  // Sortie du plein écran quand on revient à l'accueil.
+  useEffect(() => {
+    if (phase !== "hub") return;
+    try {
+      if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+    } catch {
+      /* ignore */
+    }
+  }, [phase]);
 
   // Compteur des gains qui monte sur l'écran de fin.
   useEffect(() => {
@@ -239,6 +269,7 @@ export function QuizScreen() {
       if (correct) {
         play([659, 784, 988], 0.14);
         burst();
+        doFlash("good");
         setFly(`+ ${formatCoins(LADDER[step])}`);
         setTimeout(() => setFly(null), 950);
         const rung = step + 1;
@@ -258,6 +289,7 @@ export function QuizScreen() {
         }
       } else {
         play([233, 175], 0.32, "sawtooth");
+        doFlash("bad");
         setCombo(0);
         setCardShake(true);
         setTimeout(() => setCardShake(false), 550);
@@ -299,11 +331,7 @@ export function QuizScreen() {
   };
 
   /* -------- Classement -------- */
-  const openBoard = async () => {
-    setShowBoard(true);
-    setBoard(null);
-    setBoard(await fetchQuizLeaderboard(50));
-  };
+  const openBoard = () => setShowBoard(true);
 
   const saveName = (v: string) => {
     setName(v);
@@ -419,7 +447,7 @@ export function QuizScreen() {
           </div>
         </div>
 
-        {showBoard ? <Leaderboard rows={board} onClose={() => setShowBoard(false)} /> : null}
+        {showBoard ? <Leaderboard onClose={() => setShowBoard(false)} /> : null}
       </div>
     );
   }
@@ -428,10 +456,14 @@ export function QuizScreen() {
   if (phase === "over") {
     const isWin = reason === "win";
     return (
-      <div className="mx-auto max-w-md px-4 py-10 text-center text-cream">
+      <div className="qz-immersive fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto px-4 py-10 text-center text-cream">
         <QzFx />
+        <div className="qz-bg-orb qz-bg-1" />
+        <div className="qz-bg-orb qz-bg-2" />
+        <div className="qz-bg-orb qz-bg-3" />
+        <Particles />
         {won > 0 ? <Confetti /> : null}
-        <div className="qz-pop rounded-[2rem] border border-white/10 bg-gradient-to-b from-indigo-900 to-fuchsia-900/80 p-8 shadow-2xl">
+        <div className="qz-pop relative w-full max-w-md rounded-[2rem] border border-white/10 bg-white/[0.06] p-8 shadow-2xl backdrop-blur-md">
           <p className="font-game text-lg text-cream/70">
             {isWin ? "Incroyable !" : reason === "walk" ? "Tu t'arrêtes là" : "Partie terminée"}
           </p>
@@ -484,7 +516,7 @@ export function QuizScreen() {
             </button>
           </div>
         </div>
-        {showBoard ? <Leaderboard rows={board} onClose={() => setShowBoard(false)} /> : null}
+        {showBoard ? <Leaderboard onClose={() => setShowBoard(false)} /> : null}
       </div>
     );
   }
@@ -499,11 +531,17 @@ export function QuizScreen() {
   const bg = bgs[step % bgs.length];
 
   return (
-    <div className="mx-auto max-w-md px-4 py-4 text-cream">
+    <div className="qz-immersive fixed inset-0 z-[100] overflow-y-auto text-cream">
       <QzFx />
+      <div className="qz-bg-orb qz-bg-1" />
+      <div className="qz-bg-orb qz-bg-2" />
+      <div className="qz-bg-orb qz-bg-3" />
+      <Particles />
+      {flash ? <Flash kind={flash} /> : null}
       {confetti ? <Confetti /> : null}
       {toast ? <Toast text={toast} /> : null}
       {milestone ? <Milestone text={milestone} /> : null}
+      <div className="relative mx-auto max-w-md px-4 pb-10 pt-[calc(0.75rem+env(safe-area-inset-top))]">
       {/* Entête : quitter / minuteur / palier */}
       <div className="mb-3 flex items-center justify-between">
         <button
@@ -691,6 +729,7 @@ export function QuizScreen() {
         </button>
       ) : null}
 
+      </div>
       {showLadder ? (
         <LadderView step={step} onClose={() => setShowLadder(false)} />
       ) : null}
@@ -771,18 +810,63 @@ function LadderView({ step, onClose }: { step: number; onClose: () => void }) {
   );
 }
 
-function Leaderboard({ rows, onClose }: { rows: QuizRow[] | null; onClose: () => void }) {
+function Leaderboard({ onClose }: { onClose: () => void }) {
+  const [tab, setTab] = useState<"national" | "amis">("national");
+  const [rows, setRows] = useState<QuizRow[] | null>(null);
+  const [signed, setSigned] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    isSignedIn().then(setSigned);
+  }, []);
+  useEffect(() => {
+    let alive = true;
+    setRows(null);
+    const p = tab === "amis" ? fetchQuizFriendsLeaderboard(100) : fetchQuizLeaderboard(50);
+    p.then((r) => {
+      if (alive) setRows(r);
+    });
+    return () => {
+      alive = false;
+    };
+  }, [tab]);
+
+  const medal = (rank: number) =>
+    rank === 1 ? "bg-amber-400" : rank === 2 ? "bg-slate-300" : rank === 3 ? "bg-orange-400" : "bg-amber-500";
+
   return (
-    <div className="fixed inset-0 z-[80] flex items-end justify-center sm:items-center" role="dialog" aria-modal="true">
+    <div className="fixed inset-0 z-[120] flex items-end justify-center sm:items-center" role="dialog" aria-modal="true">
       <button aria-label="Fermer" onClick={onClose} className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
       <div className="relative z-10 w-full max-w-md rounded-t-3xl bg-gradient-to-b from-indigo-900 to-violet-950 p-5 text-cream shadow-2xl sm:rounded-3xl">
-        <h2 className="text-center font-game text-2xl font-extrabold">Classement mondial</h2>
-        <div className="mt-4 max-h-[60vh] space-y-2 overflow-y-auto">
-          {rows === null ? (
+        <h2 className="text-center font-game text-2xl font-extrabold">Classement</h2>
+
+        {/* Onglets National / Amis */}
+        <div className="mx-auto mt-3 flex w-full max-w-xs rounded-full bg-white/10 p-1">
+          {(["national", "amis"] as const).map((t) => (
+            <button
+              key={t}
+              type="button"
+              onClick={() => setTab(t)}
+              className={`flex-1 rounded-full py-2 font-game text-sm font-bold transition-colors ${
+                tab === t ? "bg-amber-500 text-night-950" : "text-cream/70"
+              }`}
+            >
+              {t === "national" ? "National" : "Amis"}
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-4 max-h-[56vh] space-y-2 overflow-y-auto">
+          {tab === "amis" && signed === false ? (
+            <p className="py-8 text-center text-sm text-cream/60">
+              Connecte-toi et suis des membres pour voir le classement de tes amis.
+            </p>
+          ) : rows === null ? (
             <p className="py-8 text-center text-sm text-cream/60">Chargement…</p>
           ) : rows.length === 0 ? (
             <p className="py-8 text-center text-sm text-cream/60">
-              Sois le premier ! Connecte-toi pour apparaître au classement.
+              {tab === "amis"
+                ? "Aucun ami classé pour l'instant — suis des membres et défie-les !"
+                : "Sois le premier ! Connecte-toi pour apparaître au classement."}
             </p>
           ) : (
             rows.map((r) => (
@@ -790,7 +874,11 @@ function Leaderboard({ rows, onClose }: { rows: QuizRow[] | null; onClose: () =>
                 key={r.user_id}
                 className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.06] px-3 py-2"
               >
-                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-amber-500 font-game text-xs font-extrabold text-night-950">
+                <span
+                  className={`grid h-8 w-8 shrink-0 place-items-center rounded-full font-game text-xs font-extrabold text-night-950 ${medal(
+                    r.rank,
+                  )}`}
+                >
                   {r.rank}
                 </span>
                 {r.avatar_url ? (
@@ -821,6 +909,52 @@ function Leaderboard({ rows, onClose }: { rows: QuizRow[] | null; onClose: () =>
   );
 }
 
+/* ---- Particules ambiantes (immersion) ---- */
+function Particles() {
+  const bits = Array.from({ length: 16 }, (_, i) => ({
+    left: (i * 61) % 100,
+    size: 3 + ((i * 7) % 5),
+    dur: 6 + ((i * 5) % 7),
+    delay: (i * 0.7) % 6,
+  }));
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      {bits.map((b, i) => (
+        <span
+          key={i}
+          style={{
+            position: "absolute",
+            left: `${b.left}%`,
+            bottom: "-6%",
+            width: b.size,
+            height: b.size,
+            borderRadius: "9999px",
+            background: "rgba(202,240,0,.5)",
+            filter: "blur(1px)",
+            animation: `qz-rise ${b.dur}s linear ${b.delay}s infinite`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+/* ---- Flash plein écran (bonne / mauvaise réponse) ---- */
+function Flash({ kind }: { kind: "good" | "bad" }) {
+  return (
+    <div
+      className="pointer-events-none fixed inset-0 z-[95]"
+      style={{
+        animation: "qz-flash .5s ease-out forwards",
+        background:
+          kind === "good"
+            ? "radial-gradient(circle at 50% 60%, rgba(143,226,60,.45), transparent 70%)"
+            : "radial-gradient(circle at 50% 60%, rgba(239,68,68,.45), transparent 70%)",
+      }}
+    />
+  );
+}
+
 const SoundOn = S("M4 9v6h4l5 4V5L8 9zM16 8a4 4 0 0 1 0 8M18.5 6a7 7 0 0 1 0 12");
 const SoundOff = S("M4 9v6h4l5 4V5L8 9zM17 9l4 6M21 9l-4 6");
 
@@ -839,6 +973,14 @@ const FX = `
 .qz-shake{animation:qz-shake .5s ease-in-out}
 .qz-tick{animation:qz-tick .5s ease-in-out infinite}
 .qz-glow{animation:qz-glow 1.8s ease-in-out infinite}
+@keyframes qz-rise{0%{transform:translateY(0);opacity:0}12%{opacity:.9}100%{transform:translateY(-108vh);opacity:0}}
+@keyframes qz-flash{0%{opacity:0}22%{opacity:1}100%{opacity:0}}
+@keyframes qz-drift{0%,100%{transform:translate(0,0)}50%{transform:translate(24px,-20px)}}
+.qz-immersive{background:radial-gradient(circle at 18% 8%,#3b0764 0%,transparent 42%),radial-gradient(circle at 82% 14%,#831843 0%,transparent 42%),radial-gradient(circle at 50% 96%,#1e1b4b 0%,transparent 55%),#0b0713;}
+.qz-bg-orb{position:absolute;border-radius:9999px;filter:blur(60px);pointer-events:none;opacity:.5;}
+.qz-bg-1{width:300px;height:300px;background:#7c3aed;top:-80px;right:-60px;animation:qz-drift 14s ease-in-out infinite;}
+.qz-bg-2{width:260px;height:260px;background:#db2777;bottom:-70px;left:-50px;animation:qz-drift 18s ease-in-out infinite reverse;}
+.qz-bg-3{width:200px;height:200px;background:#8FE23C;top:40%;left:44%;opacity:.16;animation:qz-drift 20s ease-in-out infinite;}
 `;
 function QzFx() {
   return <style dangerouslySetInnerHTML={{ __html: FX }} />;

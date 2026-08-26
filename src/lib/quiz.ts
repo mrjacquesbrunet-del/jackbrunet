@@ -56,20 +56,49 @@ function shuffleOptions(q: QuizQuestion): QuizQuestion {
   return { ...q, options, correct: order.indexOf(q.correct) };
 }
 
-/** Construit une partie : une question par palier (30), difficulté croissante,
- * sans répétition (repli sur les autres niveaux si un niveau est épuisé).
- * Les propositions sont remélangées à chaque partie (anti-« toujours A »). */
+const SEEN_KEY = "jb.quiz.seen.v1"; // ids déjà tombés (fraîcheur des questions)
+
+function getSeenIds(): Set<number> {
+  try {
+    const raw = JSON.parse(localStorage.getItem(SEEN_KEY) || "[]");
+    return new Set(Array.isArray(raw) ? (raw as number[]) : []);
+  } catch {
+    return new Set();
+  }
+}
+function saveSeen(ids: Set<number>) {
+  try {
+    // Quand toute la banque a été vue, on repart pour un cycle neuf.
+    const next = ids.size >= QUIZ.length ? [] : Array.from(ids);
+    localStorage.setItem(SEEN_KEY, JSON.stringify(next));
+  } catch {
+    /* stockage indisponible */
+  }
+}
+
+/** Construit une partie : une question par palier (30), difficulté croissante.
+ * Les questions déjà vues sont évitées en priorité (renouvellement à chaque
+ * partie), et les propositions sont remélangées (anti-« toujours A »). */
 export function buildGame(): QuizQuestion[] {
+  const seen = getSeenIds();
   const used = new Set<number>();
   const pick = (tier: number): QuizQuestion => {
-    let pool = QUIZ.filter((q) => q.difficulty === tier && !used.has(q.id));
+    // Priorité : ce niveau, non joué dans cette partie ET jamais vu.
+    let pool = QUIZ.filter((q) => q.difficulty === tier && !used.has(q.id) && !seen.has(q.id));
+    if (!pool.length) pool = QUIZ.filter((q) => q.difficulty === tier && !used.has(q.id));
+    if (!pool.length) pool = QUIZ.filter((q) => !used.has(q.id) && !seen.has(q.id));
     if (!pool.length) pool = QUIZ.filter((q) => !used.has(q.id));
     if (!pool.length) pool = QUIZ;
     const q = pool[Math.floor(Math.random() * pool.length)];
     used.add(q.id);
     return shuffleOptions(q);
   };
-  return Array.from({ length: LADDER.length }, (_, i) => pick(tierForRung(i + 1)));
+  const game = Array.from({ length: LADDER.length }, (_, i) => pick(tierForRung(i + 1)));
+  // Mémorise les questions vues pour renouveler les prochaines parties.
+  const merged = getSeenIds();
+  for (const q of game) merged.add(q.id);
+  saveSeen(merged);
+  return game;
 }
 
 /** Formatte un montant : 1 000 000 → « 1 000 000 ». */

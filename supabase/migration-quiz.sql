@@ -82,6 +82,41 @@ as $$
   where s.user_id = auth.uid();
 $$;
 
+-- Classement des amis : les membres que je suis (table follows) + moi-même.
+create or replace function public.quiz_leaderboard_friends(p_limit integer default 100)
+returns table (
+  user_id uuid,
+  pseudo text,
+  avatar_url text,
+  verified boolean,
+  coins bigint,
+  rank bigint
+)
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  with friends as (
+    select following_id as uid from public.follows where follower_id = auth.uid()
+    union
+    select auth.uid()
+  )
+  select s.user_id,
+         p.pseudo,
+         p.avatar_url,
+         p.verified,
+         s.coins,
+         rank() over (order by s.coins desc) as rank
+  from public.quiz_scores s
+  join friends f on f.uid = s.user_id
+  left join public.profiles p on p.id = s.user_id
+  where s.coins > 0
+  order by s.coins desc
+  limit greatest(coalesce(p_limit, 100), 1);
+$$;
+
 grant execute on function public.quiz_add(bigint, bigint) to anon, authenticated;
 grant execute on function public.quiz_leaderboard(integer) to anon, authenticated;
+grant execute on function public.quiz_leaderboard_friends(integer) to anon, authenticated;
 grant execute on function public.quiz_me() to anon, authenticated;
