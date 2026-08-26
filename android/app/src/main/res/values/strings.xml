@@ -4,4 +4,8 @@
     <string name="title_activity_main">RHEMA</string>
     <string name="package_name">com.jackbrunet.app</string>
     <string name="custom_url_scheme">com.jackbrunet.app</string>
+    <string name="widget_punchline_label">RHEMA — Punchline du jour</string>
+    <string name="widget_verse_label">RHEMA — Verset du jour</string>
+    <string name="widget_punchline_desc">La punchline du jour, directement sur ton écran d\'accueil.</string>
+    <string name="widget_verse_desc">Le verset du jour, directement sur ton écran d\'accueil.</string>
 </resources>
