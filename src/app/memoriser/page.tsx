@@ -378,6 +378,31 @@ export default function MemoriserPage() {
 
         {/* Le hub du jeu : carte colorée façon jeu mobile */}
         {gaming ? <VerseGame items={items} onClose={() => setGaming(false)} /> : null}
+
+        {/* Nouveau jeu : Le Défi Biblique (quiz millionnaire) */}
+        <Link
+          href="/quiz"
+          className="relative mt-6 flex items-center gap-4 overflow-hidden rounded-[2rem] p-5 shadow-[0_18px_40px_-18px_rgba(59,7,100,0.7)]"
+          style={{ background: "linear-gradient(140deg, #312E81 0%, #6D28D9 55%, #A21CAF 100%)" }}
+        >
+          <div className="pointer-events-none absolute -right-8 -top-10 h-32 w-32 rounded-full bg-amber-300/20 blur-2xl" />
+          <div className="grid h-[4.5rem] w-[4.5rem] shrink-0 place-items-center rounded-3xl bg-amber-400 font-game text-3xl font-extrabold text-night-950 shadow-[0_6px_0_rgba(0,0,0,0.2)]">
+            ?
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="font-game text-[10px] font-bold uppercase tracking-wide text-amber-200/80">
+              Nouveau jeu
+            </p>
+            <p className="font-game text-xl font-extrabold text-cream">Le Défi Biblique</p>
+            <p className="mt-0.5 font-game text-xs text-cream/70">
+              15 paliers, des jokers, jusqu&apos;au million. Grimpe le classement mondial.
+            </p>
+          </div>
+          <span className="shrink-0 rounded-full bg-[#8FE23C] px-4 py-2 font-game text-sm font-extrabold text-night-950">
+            Jouer
+          </span>
+        </Link>
+
         <div
           className="relative mt-6 overflow-hidden rounded-[2rem] p-5 shadow-[0_18px_40px_-18px_rgba(124,92,255,0.7)]"
           style={{ background: "linear-gradient(140deg, #6D28D9 0%, #C026D3 48%, #FB7185 100%)" }}
