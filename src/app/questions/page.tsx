@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import faq from "../../../content/questions-faq.json";
-import { asset } from "../../lib/asset";
+import { getSupabase } from "../../lib/supabase";
+import { DEFAULT_AUTHOR } from "../../config/author";
 import {
   askQuestion,
   answerQuestion,
@@ -136,6 +137,59 @@ function Svg({ children, className = "h-5 w-5", sw = 1.9 }: { children: React.Re
     <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth={sw}>
       {children}
     </svg>
+  );
+}
+
+/* ---------- Profil d'auteur de l'app (Pasteur Jack) ---------- */
+/** Photos candidates de Jack (bucket Supabase « audiovf »), comme les
+ * dévotionnels et les plans : c'est le profil d'auteur de l'application. */
+const JACK_PHOTOS = (() => {
+  const sb = getSupabase();
+  if (!sb) return [] as string[];
+  return ["auteurjack.jpg", "auteurjack.png", "pasteur-jack.jpg"].map(
+    (n) => sb.storage.from("audiovf").getPublicUrl(n).data.publicUrl,
+  );
+})();
+
+/** Avatar rond de Jack, avec repli en cascade puis monogramme. */
+function JackAvatar({ size = 36 }: { size?: number }) {
+  const [i, setI] = useState(0);
+  const [broken, setBroken] = useState(false);
+  const src = broken ? undefined : JACK_PHOTOS[i];
+  return src ? (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={src}
+      alt=""
+      onError={() => (i + 1 >= JACK_PHOTOS.length ? setBroken(true) : setI((n) => n + 1))}
+      className="shrink-0 rounded-full bg-spirit-500 object-cover object-top ring-2 ring-dawn-400/60"
+      style={{ width: size, height: size }}
+    />
+  ) : (
+    <span
+      className="grid shrink-0 place-items-center rounded-full bg-spirit-500 font-display font-extrabold text-cream ring-2 ring-dawn-400/60"
+      style={{ width: size, height: size }}
+    >
+      J
+    </span>
+  );
+}
+
+/** Signature « Pasteur Jack Brunet · Pasteur & fondateur » (profil auteur app). */
+function JackByline({ avatar = 40 }: { avatar?: number }) {
+  return (
+    <>
+      <JackAvatar size={avatar} />
+      <div className="min-w-0">
+        <p className="flex items-center gap-1 text-sm font-bold text-night-900">
+          {DEFAULT_AUTHOR.name}
+          <span className="inline-grid h-3.5 w-3.5 place-items-center rounded-full bg-dawn-400 text-night-900">
+            <Svg className="h-2.5 w-2.5" sw={3}>{Ico.check}</Svg>
+          </span>
+        </p>
+        <p className="truncate text-xs text-night-900/50">{DEFAULT_AUTHOR.role}</p>
+      </div>
+    </>
   );
 }
 
@@ -412,21 +466,8 @@ export default function QuestionsPage() {
                       {i.q}
                     </p>
                     <div className="relative mt-5 flex items-center gap-3 border-t border-night-900/10 pt-4">
-                      <img
-                        src={asset("/img/jack-mot.webp")}
-                        alt=""
-                        className="h-9 w-9 rounded-full object-cover"
-                      />
-                      <div className="min-w-0">
-                        <p className="flex items-center gap-1 text-sm font-bold text-night-900">
-                          Pasteur Jack
-                          <span className="inline-grid h-3.5 w-3.5 place-items-center rounded-full bg-dawn-400 text-night-900">
-                            <Svg className="h-2.5 w-2.5" sw={3}>{Ico.check}</Svg>
-                          </span>
-                        </p>
-                        <p className="text-xs text-night-900/50">Réponse pastorale</p>
-                      </div>
-                      <span className="ml-auto text-dawn-600">
+                      <JackByline avatar={36} />
+                      <span className="ml-auto shrink-0 text-dawn-600">
                         <Svg className="h-5 w-5" sw={2.2}>{Ico.arrow}</Svg>
                       </span>
                     </div>
@@ -799,18 +840,7 @@ function DetailSheet({ detail, onClose }: { detail: Detail; onClose: () => void 
           ) : null}
 
           <div className="mt-6 flex items-center gap-3 border-t border-night-900/10 pt-5">
-            <img src={asset("/img/jack-mot.webp")} alt="" className="h-10 w-10 rounded-full object-cover" />
-            <div>
-              <p className="flex items-center gap-1 text-sm font-bold text-night-900">
-                Pasteur Jack
-                <span className="inline-grid h-3.5 w-3.5 place-items-center rounded-full bg-dawn-400 text-night-900">
-                  <Svg className="h-2.5 w-2.5" sw={3}>{Ico.check}</Svg>
-                </span>
-              </p>
-              <p className="text-xs text-night-900/50">
-                {detail.who === "member" ? "Question d'un membre" : "Réponse pastorale"}
-              </p>
-            </div>
+            <JackByline avatar={40} />
           </div>
         </div>
       </div>
@@ -819,13 +849,13 @@ function DetailSheet({ detail, onClose }: { detail: Detail; onClose: () => void 
 }
 
 const FX = `
-.qa-hero{background:linear-gradient(165deg,#1b1f14 0%,#2c3319 45%,#0c0c0b 100%);}
+.qa-hero{background:linear-gradient(165deg,rgb(var(--n-900)) 0%,rgb(var(--n-700)) 48%,rgb(var(--n-950)) 100%);}
 .qa-title{background:linear-gradient(90deg,#F3F3ED,#CAF000,#F3F3ED);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:qa-grad 6s linear infinite;}
 @keyframes qa-grad{to{background-position:200% center}}
-.qa-orb{position:absolute;border-radius:9999px;filter:blur(42px);pointer-events:none;}
-.qa-orb-1{width:230px;height:230px;background:#CAF000;opacity:.28;top:-70px;right:-40px;animation:qa-float1 9s ease-in-out infinite;}
-.qa-orb-2{width:190px;height:190px;background:#879E00;opacity:.35;bottom:-60px;left:-30px;animation:qa-float2 11s ease-in-out infinite;}
-.qa-orb-3{width:150px;height:150px;background:#E4FB6E;opacity:.18;top:20px;left:44%;animation:qa-float1 13s ease-in-out infinite;}
+.qa-orb{position:absolute;border-radius:9999px;filter:blur(46px);pointer-events:none;}
+.qa-orb-1{width:230px;height:230px;background:#CAF000;opacity:.22;top:-70px;right:-40px;animation:qa-float1 9s ease-in-out infinite;}
+.qa-orb-2{width:190px;height:190px;background:#CAF000;opacity:.12;bottom:-60px;left:-30px;animation:qa-float2 11s ease-in-out infinite;}
+.qa-orb-3{width:150px;height:150px;background:#E4FB6E;opacity:.14;top:20px;left:44%;animation:qa-float1 13s ease-in-out infinite;}
 @keyframes qa-float1{0%,100%{transform:translateY(0)}50%{transform:translateY(22px)}}
 @keyframes qa-float2{0%,100%{transform:translateY(0)}50%{transform:translateY(-24px)}}
 .qa-search:focus-within{border-color:rgba(202,240,0,.55);box-shadow:0 0 0 3px rgba(202,240,0,.16)}
