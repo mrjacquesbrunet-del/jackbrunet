@@ -98,6 +98,41 @@ export function DevotionalView({
 
   // Mini-célébration quand la série atteint un palier (3, 5, 7, 14, 21, 30…).
   const [celebrate, setCelebrate] = useState<number | null>(null);
+
+  // Semaine en cours (lundi → dimanche) pour l'anneau de progression.
+  const dayStrLocal = (d: Date) =>
+    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  const todayStr = dayStrLocal(new Date());
+  const weekDays = (() => {
+    const now = new Date();
+    const dow = (now.getDay() + 6) % 7; // 0 = lundi
+    const monday = new Date(now);
+    monday.setDate(now.getDate() - dow);
+    return Array.from({ length: 7 }, (_, i) => {
+      const d = new Date(monday);
+      d.setDate(monday.getDate() + i);
+      return dayStrLocal(d);
+    });
+  })();
+  const weekLabels = ["L", "M", "M", "J", "V", "S", "D"];
+  const weekDoneCount = weekDays.filter((d) => eng.completedDates.includes(d)).length;
+  // Alerte douce « ne casse pas ta série » : série en cours, mais pas encore
+  // médité aujourd'hui.
+  const streakAtRisk = eng.ready && eng.streak >= 1 && !eng.isCompletedToday;
+
+  // Tags OneSignal pour cibler les relances push (série en danger, inactifs…).
+  useEffect(() => {
+    if (!eng.ready) return;
+    import("@/lib/onesignal")
+      .then((m) =>
+        m.updateEngagementTags({
+          streak: String(eng.streak),
+          meditated_today: eng.isCompletedToday ? "1" : "0",
+          last_active: todayStr,
+        }),
+      )
+      .catch(() => undefined);
+  }, [eng.ready, eng.streak, eng.isCompletedToday, todayStr]);
   function meditate() {
     const before = eng.streak;
     eng.markCompletedToday();
@@ -192,6 +227,60 @@ export function DevotionalView({
               {eng.isCompletedToday? "✓ Médité aujourd'hui": "J'ai médité aujourd'hui"}
             </button>
           </div>
+
+          {/* Anneau de progression de la semaine : 7 jours, rempli quand on médite */}
+          <div className="glass mt-3 flex items-center justify-between gap-2 p-4">
+            <div className="flex items-center gap-1.5 sm:gap-2.5">
+              {weekDays.map((d, i) => {
+                const done = eng.completedDates.includes(d);
+                const isToday = d === todayStr;
+                return (
+                  <div key={d} className="flex flex-col items-center gap-1">
+                    <span
+                      className={`grid h-8 w-8 place-items-center rounded-full text-[11px] font-bold transition-colors ${
+                        done
+                          ? "bg-dawn-400 text-night-950"
+                          : isToday
+                            ? "border-2 border-dawn-400/70 text-dawn-600"
+                            : "bg-night-900/[0.06] text-night-900/40"
+                      }`}
+                    >
+                      {done ? (
+                        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={3}>
+                          <path d="M5 12l5 5L20 7" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      ) : (
+                        weekLabels[i]
+                      )}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="text-right leading-tight">
+              <p className="font-display text-lg font-extrabold text-night-900">{weekDoneCount}/7</p>
+              <p className="text-[11px] text-night-900/55">cette semaine</p>
+            </div>
+          </div>
+
+          {/* Alerte douce : ne casse pas ta série */}
+          {streakAtRisk && !celebrate? (
+            <a
+              href="#meditation"
+              className="mt-3 flex items-center gap-3 rounded-2xl border border-dawn-400/40 bg-dawn-400/10 px-4 py-3 transition-colors hover:bg-dawn-400/15"
+            >
+              <FlameGlyph className="h-6 w-6 shrink-0 text-dawn-600" />
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-semibold text-night-900/85">
+                  Ne casse pas ta série — {eng.streak} jour{eng.streak > 1? "s": ""} d&apos;affilée
+                </p>
+                <p className="text-xs text-night-900/55">
+                  Prends ton temps avec Jésus aujourd&apos;hui pour la garder.
+                </p>
+              </div>
+              <span className="shrink-0 text-sm font-bold text-spirit-600">Y aller</span>
+            </a>
+          ): null}
 
           {/* Palier de série atteint → petite fête */}
           {celebrate? (

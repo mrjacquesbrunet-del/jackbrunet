@@ -80,6 +80,25 @@ export async function linkOneSignalUser(userId: string): Promise<void> {
   }
 }
 
+/**
+ * Pose des « tags » OneSignal sur l'appareil (série, médité aujourd'hui, dernier
+ * jour actif…). Ils permettent de CIBLER les relances push depuis OneSignal
+ * (ex. segment « série ≥ 3 ET médité aujourd'hui = 0 » → « ne casse pas ta
+ * série », ou « inactif depuis 3 jours » → « on t'attend »). Sans effet sur le
+ * web ; silencieux si le plugin est absent.
+ */
+export async function updateEngagementTags(tags: Record<string, string>): Promise<void> {
+  if (!isNativeApp()) return;
+  try {
+    const mod = await import("onesignal-cordova-plugin");
+    const OneSignal = (mod as { default?: unknown }).default ?? mod;
+    const OS = OneSignal as { User: { addTags: (t: Record<string, string>) => void } };
+    OS.User.addTags(tags);
+  } catch {
+    /* ignoré */
+  }
+}
+
 /** Dissocie l'appareil du compte à la déconnexion. */
 export async function unlinkOneSignalUser(): Promise<void> {
   if (!isNativeApp()) return;
