@@ -4,127 +4,750 @@
       "id": 1,
       "category": "Dieu & la foi",
       "q": "Dieu existe-t-il vraiment ?",
-      "a": "On ne prouve pas Dieu comme on prouve un théorème, mais tout autour de nous invite à lever les yeux : un univers ordonné, la beauté, ta propre conscience du bien et du mal, ce désir d'infini qu'aucune chose ne comble vraiment. La Bible dit que la création parle de Lui à qui veut regarder.\n\nMais Dieu ne veut pas seulement être « prouvé » : il veut être rencontré. Beaucoup ont commencé par une simple prière honnête : « Dieu, si tu existes, montre-toi à moi. » Fais l'expérience de le chercher sincèrement — il promet de se laisser trouver.",
+      "a": "On ne prouve pas Dieu comme un théorème, mais tout invite à lever les yeux : un univers ordonné, la beauté, ta conscience du bien et du mal, ce désir d'infini qu'aucune chose ne comble. La création parle de Lui à qui veut regarder.\n\nMais Dieu ne veut pas seulement être prouvé, il veut être rencontré. Commence par une prière honnête : « Dieu, si tu existes, montre-toi à moi. » Cherche-le sincèrement — il promet de se laisser trouver.",
       "verse": "Romains 1.20"
     },
     {
       "id": 2,
       "category": "Dieu & la foi",
       "q": "Comment savoir que Dieu m'aime ?",
-      "a": "Parce qu'il l'a prouvé, pas seulement dit. Il n'a pas attendu que tu sois parfait : « Christ est mort pour nous lorsque nous étions encore pécheurs. » L'amour de Dieu ne dépend pas de tes performances ni de ton passé — il vient de qui Il est, pas de ce que tu mérites.\n\nSon amour n'est pas une idée lointaine : il te connaît par ton nom, compte tes larmes et t'attend comme un père attend son enfant. Même quand tu ne le ressens pas, c'est vrai. Tu peux le lui demander : « Père, fais-moi connaître ton amour. »",
+      "a": "Parce qu'il l'a prouvé, pas seulement dit : « Christ est mort pour nous lorsque nous étions encore pécheurs. » Son amour ne dépend pas de tes performances ni de ton passé, mais de qui Il est.\n\nIl te connaît par ton nom, compte tes larmes et t'attend comme un père son enfant. Même quand tu ne le ressens pas, c'est vrai. Demande-lui : « Père, fais-moi connaître ton amour. »",
       "verse": "Romains 5.8"
     },
     {
       "id": 3,
       "category": "Dieu & la foi",
       "q": "Comment prier ? Est-ce que Dieu m'entend ?",
-      "a": "Prier, c'est parler à Dieu simplement, avec tes vrais mots. Pas besoin de formules : dis-lui ce que tu vis, remercie-le, demande-lui son aide, écoute. Il n'attend pas de la performance, mais un cœur sincère.\n\nEt oui, il t'entend. Jésus nous a appris à l'appeler « Père ». Un père ne fait pas la sourde oreille à son enfant. Parfois la réponse est « oui », parfois « pas encore », parfois « j'ai mieux » — mais aucune prière sincère ne tombe dans le vide.",
+      "a": "Prier, c'est parler à Dieu avec tes vrais mots : dis-lui ce que tu vis, remercie, demande, écoute. Pas besoin de formules, il attend un cœur sincère, pas de la performance.\n\nEt oui, il t'entend : Jésus nous apprend à l'appeler « Père ». Parfois la réponse est oui, parfois pas encore, parfois j'ai mieux — mais aucune prière sincère ne tombe dans le vide.",
       "verse": "Matthieu 6.6"
     },
     {
       "id": 4,
-      "category": "Jésus",
-      "q": "Qui est vraiment Jésus ?",
-      "a": "Jésus n'est pas seulement un bon maître ou un prophète parmi d'autres. La Bible le présente comme Dieu venu jusqu'à nous : « La Parole a été faite chair. » Il a vécu notre vie, porté nos souffrances, puis il est mort et ressuscité pour nous rouvrir le chemin vers Dieu.\n\nC'est pour cela qu'il est unique : il ne se contente pas de montrer la route, il dit « Je SUIS le chemin ». Le connaître, ce n'est pas adopter une religion, c'est rencontrer une personne vivante.",
-      "verse": "Jean 1.14"
+      "category": "Dieu & la foi",
+      "q": "Toutes les religions ne mènent-elles pas au même Dieu ?",
+      "a": "Elles posent de vraies questions mais donnent des réponses opposées : elles ne peuvent pas toutes être vraies en même temps. Le christianisme a une particularité : il ne dit pas « voici comment monter jusqu'à Dieu » mais « Dieu est descendu jusqu'à toi » en Jésus.\n\nJésus a fait une affirmation unique : « Nul ne vient au Père que par moi. » Ce n'est pas de l'arrogance, c'est une porte ouverte : le chemin vers Dieu n'est pas à mériter, il est offert en Christ.",
+      "verse": "Jean 14.6"
     },
     {
       "id": 5,
-      "category": "Jésus",
-      "q": "Pourquoi Jésus est-il mort sur la croix ?",
-      "a": "Parce que le mal a un prix, et qu'il a choisi de le payer à notre place. Nos fautes nous séparaient de Dieu ; sur la croix, Jésus a pris sur lui ce qui aurait dû nous revenir, pour nous offrir le pardon gratuitement.\n\nCe n'est pas un échec, c'est le plus grand acte d'amour de l'histoire : « Il n'y a pas de plus grand amour que de donner sa vie pour ses amis. » La croix te dit à quel point tu comptes pour Dieu.",
-      "verse": "1 Pierre 2.24"
+      "category": "Dieu & la foi",
+      "q": "C'est quoi la Trinité ?",
+      "a": "Un seul Dieu, en trois personnes : le Père, le Fils et le Saint-Esprit. Pas trois dieux, ni un Dieu qui change de casquette, mais un Dieu unique qui est éternellement relation et amour. Jésus l'a montré : au baptême, le Fils est dans l'eau, l'Esprit descend, le Père parle du ciel.\n\nOn ne comprend pas tout d'un mystère plus grand que nous, mais on le vit : on vient au Père, par le Fils, dans l'Esprit. C'est une bonne nouvelle — Dieu n'est pas solitaire, il est amour partagé, et il t'y invite.",
+      "verse": "Matthieu 28.19"
     },
     {
       "id": 6,
-      "category": "Jésus",
-      "q": "Jésus est-il vraiment ressuscité ?",
-      "a": "C'est le cœur de la foi chrétienne. Le tombeau a été trouvé vide, et des centaines de personnes ont vu Jésus vivant après sa mort — au point de donner leur vie pour ce témoignage. On ne meurt pas pour un mensonge qu'on aurait inventé.\n\nSa résurrection change tout : la mort n'a plus le dernier mot. Parce qu'il est vivant, il peut être présent dans ta vie aujourd'hui, et ce qu'il promet — une vie nouvelle, l'éternité avec lui — tient debout.",
-      "verse": "1 Corinthiens 15.3-4"
+      "category": "Dieu & la foi",
+      "q": "Pourquoi croire alors qu'on ne voit pas Dieu ?",
+      "a": "On croit chaque jour à beaucoup de choses qu'on ne voit pas : l'amour, le vent, sa propre pensée. Ne pas voir ne veut pas dire ne pas exister. Dieu est esprit ; on le perçoit à ses effets — une vie changée, une paix inexplicable, une prière exaucée.\n\nEt surtout, Dieu s'est rendu visible en Jésus : « Celui qui m'a vu a vu le Père. » La foi n'est pas un saut dans le noir, c'est une confiance fondée sur ce que Dieu a déjà montré.",
+      "verse": "Hébreux 11.1"
     },
     {
       "id": 7,
-      "category": "Le salut",
-      "q": "C'est quoi « être sauvé » ?",
-      "a": "Être sauvé, c'est être remis en règle avec Dieu et recevoir une vie nouvelle. Sauvé de quoi ? De la séparation d'avec Dieu que le péché avait creusée. Sauvé pour quoi ? Pour une relation vivante avec Lui, maintenant et pour l'éternité.\n\nCe n'est pas une récompense qu'on gagne, c'est un cadeau qu'on reçoit : « C'est par la grâce que vous êtes sauvés, par le moyen de la foi. » Tu n'as pas à devenir parfait d'abord ; tu viens à Jésus tel que tu es, et c'est Lui qui te transforme.",
-      "verse": "Éphésiens 2.8"
+      "category": "Dieu & la foi",
+      "q": "Dieu est-il vraiment bon, avec tout ce qui se passe dans le monde ?",
+      "a": "Le mal du monde n'est pas le projet de Dieu : c'est le résultat d'un monde qui s'est éloigné de Lui, et l'ennemi qu'il est venu vaincre. Dieu n'a pas créé la haine, la maladie et la mort ; il a promis d'y mettre fin.\n\nSa bonté, il l'a prouvée en venant lui-même dans notre souffrance, jusqu'à la croix, pour nous sauver. Un jour « il essuiera toute larme ». En attendant, il reste bon, présent, et il transforme même ce que le mal a brisé.",
+      "verse": "Nahum 1.7"
     },
     {
       "id": 8,
-      "category": "Le salut",
-      "q": "Comment donner ma vie à Jésus ?",
-      "a": "C'est plus simple que tu ne crois, et ça part du cœur. Reconnais devant Dieu que tu as besoin de lui, crois que Jésus est mort et ressuscité pour toi, et invite-le à devenir le Seigneur de ta vie. Tu peux le lui dire avec tes mots.\n\nPar exemple : « Jésus, je crois que tu es mort et ressuscité pour moi. Pardonne-moi, entre dans ma vie, je te donne les commandes. » Si tu pries ça sincèrement, c'est le début d'une vie nouvelle. Ensuite, entoure-toi d'autres croyants et commence à lire la Bible et à prier.",
-      "verse": "Romains 10.9"
+      "category": "Dieu & la foi",
+      "q": "Comment avoir plus de foi ?",
+      "a": "La foi grandit par ce qu'on écoute : « La foi vient de ce qu'on entend, et ce qu'on entend vient de la parole de Christ. » Nourris ton cœur de la Bible, de témoignages, de louange — et ta foi montera sans que tu forces.\n\nLa foi grandit aussi en marchant : chaque petit pas de confiance en prépare un plus grand. Tu n'as pas besoin d'une grande foi, mais d'une foi placée dans un grand Dieu — même « grosse comme un grain de moutarde » suffit.",
+      "verse": "Romains 10.17"
     },
     {
       "id": 9,
-      "category": "Le salut",
-      "q": "Peut-on perdre son salut à la moindre chute ?",
-      "a": "Le salut ne repose pas sur ta performance, mais sur ce que Jésus a accompli. Un enfant qui tombe ne cesse pas d'être l'enfant de ses parents. Quand tu chutes, tu ne perds pas ton Père : tu reviens à lui, tu confesses, et sa grâce te relève.\n\nDieu s'engage à achever ce qu'il a commencé en toi. Cela ne veut pas dire prendre le péché à la légère, mais vivre en sécurité dans son amour plutôt que dans la peur d'être rejeté à chaque faux pas.",
-      "verse": "Philippiens 1.6"
+      "category": "Dieu & la foi",
+      "q": "La science ne rend-elle pas la foi dépassée ?",
+      "a": "La science répond au « comment » du monde, la foi au « pourquoi » — elles ne sont pas rivales. Beaucoup de grands scientifiques ont été et sont croyants ; l'ordre même de l'univers a poussé plus d'un chercheur à s'émerveiller devant un Créateur.\n\nLa Bible n'est pas un manuel de physique ; elle dit qui a fait le monde et pourquoi, pas les équations. Croire, ce n'est pas éteindre son cerveau, c'est reconnaître qu'au-delà des mécanismes, il y a une intention et un amour.",
+      "verse": "Psaume 19.1"
     },
     {
       "id": 10,
-      "category": "La Bible",
-      "q": "Peut-on faire confiance à la Bible ?",
-      "a": "La Bible n'est pas un seul livre écrit d'un trait, mais une bibliothèque cohérente rédigée sur des siècles, avec une trame unique : Dieu qui vient sauver l'humanité en Jésus. Sa fiabilité de transmission est remarquablement bien attestée par les manuscrits.\n\nMais au-delà des arguments, des millions de vies transformées témoignent qu'elle est vivante. Le mieux, c'est de l'ouvrir toi-même et de commencer à lire : beaucoup de doutes tombent quand on la découvre de l'intérieur.",
-      "verse": "2 Timothée 3.16"
+      "category": "Dieu & la foi",
+      "q": "Dieu se soucie-t-il vraiment de MOI, un individu parmi des milliards ?",
+      "a": "Oui — Dieu n'est pas dépassé par le nombre. Jésus dit que même les cheveux de ta tête sont comptés, et qu'un seul moineau ne tombe pas sans que le Père le sache. Tu n'es pas un matricule pour Lui, tu es un fils, une fille.\n\nIl te connaissait avant ta naissance et il a un dessein pour ta vie. Aussi petit que tu te sentes, tu occupes une place unique dans son cœur — au point qu'il a donné son Fils pour toi.",
+      "verse": "Luc 12.7"
     },
     {
       "id": 11,
-      "category": "La Bible",
-      "q": "Par où commencer à lire la Bible ?",
-      "a": "Ne commence pas au début en essayant de tout lire d'affilée — commence par **l'Évangile de Jean** pour rencontrer Jésus, puis les Psaumes pour prier avec des mots vrais. Quelques versets par jour valent mieux que des chapitres oubliés.\n\nLis en te posant trois questions : qu'est-ce que ça me dit sur Dieu ? sur moi ? qu'est-ce que je fais de ce que je lis aujourd'hui ? Et demande à Dieu, avant d'ouvrir : « Parle-moi. » L'app t'accompagne avec un plan et une méditation chaque jour.",
-      "verse": "Josué 1.8"
+      "category": "Dieu & la foi",
+      "q": "Pourquoi Dieu semble-t-il silencieux quand j'ai le plus besoin de Lui ?",
+      "a": "Le silence ressenti n'est pas de l'absence. Dieu a promis : « Je ne te délaisserai point. » Souvent, dans l'épreuve, il travaille en profondeur ce qui ne se voit pas encore, et il forme en nous une confiance qui ne dépend plus des sensations.\n\nContinue à lui parler même sans réponse immédiate, reste dans sa Parole et entouré de croyants. Beaucoup témoignent qu'après le silence est venue une rencontre plus profonde. Il n'est jamais aussi proche que dans nos nuits.",
+      "verse": "Hébreux 13.5"
     },
     {
       "id": 12,
-      "category": "Souffrance & doute",
-      "q": "Pourquoi Dieu permet-il la souffrance ?",
-      "a": "C'est la question la plus honnête et la plus douloureuse. La Bible ne donne pas une explication froide : elle montre un Dieu qui ne reste pas à distance de la souffrance, mais qui y entre lui-même en Jésus, jusqu'à la croix. Dieu n'est pas indifférent — il pleure avec toi.\n\nLe mal n'est pas son projet ; il est l'ennemi qu'il est venu vaincre. Il promet qu'un jour « il essuiera toute larme ». En attendant, il ne gaspille rien : même ce qui te brise, il peut le reprendre pour en tirer du bien.",
-      "verse": "Romains 8.28"
+      "category": "Dieu & la foi",
+      "q": "Comment savoir si c'est Dieu qui me parle ?",
+      "a": "Dieu parle d'abord par sa Parole : sa voix ne contredit jamais la Bible. Une pensée qui te pousse à aimer, à la vérité, à la sainteté et à la paix vient de son Esprit ; ce qui pousse à la peur, à l'orgueil ou au mal ne vient pas de Lui.\n\nIl parle aussi par une paix intérieure, par des impressions, par d'autres croyants, parfois par des songes. Dans le doute, prie, pèse à la lumière de l'Écriture, et demande conseil : « Mes brebis entendent ma voix », dit Jésus — ça s'apprend en marchant avec Lui.",
+      "verse": "Jean 10.27"
     },
     {
       "id": 13,
-      "category": "Souffrance & doute",
-      "q": "Dieu peut-il me pardonner ce que j'ai fait ?",
-      "a": "Oui — et il n'y a pas d'exception écrite en petits caractères. Aussi lourd que soit ton passé, le sang de Jésus est plus grand. « Si nous confessons nos péchés, il est fidèle et juste pour nous les pardonner. » Ce n'est pas mérité, c'est offert.\n\nLe pardon de Dieu n'est pas un « on efface pour cette fois ». Il te lave, te relève et ne te le ressort plus. Le plus dur, souvent, c'est de te pardonner toi-même : reçois d'abord le sien, à genoux, et laisse-le te libérer.",
-      "verse": "1 Jean 1.9"
+      "category": "Jésus",
+      "q": "Qui est vraiment Jésus ?",
+      "a": "Pas seulement un bon maître ou un prophète : « La Parole a été faite chair. » Jésus est Dieu venu jusqu'à nous, qui a vécu notre vie, porté nos souffrances, puis est mort et ressuscité pour rouvrir le chemin vers Dieu.\n\nC'est pour cela qu'il est unique : il ne montre pas seulement la route, il dit « Je SUIS le chemin ». Le connaître, ce n'est pas une religion, c'est rencontrer une personne vivante.",
+      "verse": "Jean 1.14"
     },
     {
       "id": 14,
-      "category": "Souffrance & doute",
-      "q": "J'ai des doutes. Est-ce que c'est grave ?",
-      "a": "Non. Le doute n'est pas le contraire de la foi — l'indifférence l'est. Beaucoup de croyants solides sont passés par des questions profondes. Dieu ne te rejette pas parce que tu cherches ; il accueille les cœurs sincères, même hésitants.\n\nUn père a dit un jour à Jésus : « Je crois, viens au secours de mon incrédulité ! » — et Jésus l'a aidé. Apporte-lui tes doutes au lieu de les fuir. Une foi qui a traversé les questions est souvent la plus solide.",
-      "verse": "Marc 9.24"
+      "category": "Jésus",
+      "q": "Pourquoi Jésus est-il mort sur la croix ?",
+      "a": "Parce que le mal a un prix, et qu'il a choisi de le payer à notre place. Nos fautes nous séparaient de Dieu ; sur la croix, Jésus a pris ce qui aurait dû nous revenir, pour nous offrir le pardon gratuitement.\n\nCe n'est pas un échec, c'est le plus grand acte d'amour : « Il n'y a pas de plus grand amour que de donner sa vie pour ses amis. » La croix te dit à quel point tu comptes pour Dieu.",
+      "verse": "1 Pierre 2.24"
     },
     {
       "id": 15,
-      "category": "La vie chrétienne",
-      "q": "Comment connaître la volonté de Dieu pour ma vie ?",
-      "a": "Commence par ce qui est déjà clair : aimer Dieu, aimer les autres, marcher dans l'intégrité. On cherche souvent « le grand plan » alors que Dieu nous conduit surtout pas à pas, à mesure qu'on lui obéit dans le présent.\n\nNourris-toi de sa Parole, prie, demande conseil à des chrétiens mûrs, et avance : Dieu dirige un bateau en mouvement. « Confie-toi en l'Éternel de tout ton cœur… il aplanira tes sentiers. » Tu n'as pas à tout voir d'avance, juste le prochain pas.",
-      "verse": "Proverbes 3.5-6"
+      "category": "Jésus",
+      "q": "Jésus est-il vraiment ressuscité ?",
+      "a": "C'est le cœur de la foi. Le tombeau a été trouvé vide, des centaines de personnes ont vu Jésus vivant, au point de donner leur vie pour ce témoignage — on ne meurt pas pour un mensonge qu'on aurait inventé.\n\nSa résurrection change tout : la mort n'a plus le dernier mot. Parce qu'il est vivant, il peut être présent dans ta vie aujourd'hui, et ses promesses tiennent debout.",
+      "verse": "1 Corinthiens 15.3-4"
     },
     {
       "id": 16,
-      "category": "La vie chrétienne",
-      "q": "Je retombe toujours dans les mêmes choses. Que faire ?",
-      "a": "D'abord, ne te condamne pas : « Il n'y a aucune condamnation pour ceux qui sont en Jésus-Christ. » La honte t'enferme, la grâce te relève. Chaque fois que tu tombes, reviens vite, sans te cacher de Dieu.\n\nEnsuite, ne combats pas seul et à la seule force de ta volonté. Marche par l'Esprit, coupe ce qui t'expose, parle-en à quelqu'un de confiance, remplis le vide par la présence de Dieu. La liberté vient rarement d'un coup — mais elle vient, à mesure que Christ prend plus de place.",
-      "verse": "Romains 8.1"
+      "category": "Jésus",
+      "q": "Jésus était-il vraiment Dieu, ou juste un grand homme ?",
+      "a": "Il a dit et fait ce qu'aucun simple homme ne pouvait : pardonner les péchés, recevoir l'adoration, s'appeler « Je suis », affirmer être un avec le Père. Un grand homme sage n'aurait jamais prétendu cela — soit c'était vrai, soit c'était un imposteur ou un fou.\n\nSa vie sans péché, ses miracles et surtout sa résurrection confirment ses paroles. Thomas, en le voyant ressuscité, tombe et dit : « Mon Seigneur et mon Dieu ! » — et Jésus le reçoit.",
+      "verse": "Jean 20.28"
     },
     {
       "id": 17,
-      "category": "La vie chrétienne",
-      "q": "Ai-je besoin de l'église, ou je peux croire seul ?",
-      "a": "On devient chrétien personnellement, mais on ne grandit pas en solitaire. La Bible compare les croyants aux membres d'un même corps : une main coupée du corps se dessèche. On a besoin les uns des autres pour tenir, être encouragés et aimés.\n\nL'église n'est pas d'abord un bâtiment ou une obligation, c'est une famille. Trouve une communauté vivante où l'on aime Jésus et les gens. Tu verras : ta foi tient bien mieux à plusieurs qu'isolé.",
-      "verse": "Hébreux 10.24-25"
+      "category": "Jésus",
+      "q": "Comment Jésus peut-il être la seule voie vers Dieu ?",
+      "a": "Non par étroitesse, mais parce qu'il est le seul à avoir réglé le vrai problème : nos péchés qui nous séparent de Dieu. Les autres voies disent « fais ceci pour t'approcher » ; Jésus dit « c'est fait, viens ». Il est le pont que Dieu lui-même a bâti.\n\nLoin d'exclure, c'est la plus grande ouverture : le chemin n'est pas réservé aux forts ou aux méritants, il est offert à tous, gratuitement, en Christ. La porte est unique, mais elle est grande ouverte.",
+      "verse": "Actes 4.12"
     },
     {
       "id": 18,
-      "category": "Dieu & la foi",
-      "q": "Toutes les religions ne mènent-elles pas au même Dieu ?",
-      "a": "Elles posent souvent de vraies questions, mais donnent des réponses différentes, parfois opposées — elles ne peuvent donc pas toutes être vraies en même temps. Le christianisme a une particularité : il ne dit pas « voici comment monter jusqu'à Dieu », mais « Dieu est descendu jusqu'à toi » en Jésus.\n\nJésus a fait une affirmation que nul autre n'a faite : « Nul ne vient au Père que par moi. » Ce n'est pas de l'arrogance, c'est une porte grande ouverte : le chemin vers Dieu n'est pas à mériter, il est offert en Christ.",
-      "verse": "Jean 14.6"
+      "category": "Jésus",
+      "q": "Jésus reviendra-t-il vraiment ?",
+      "a": "Oui — il l'a promis, et les anges l'ont confirmé à son départ : « Ce Jésus reviendra de la même manière. » Il reviendra non plus dans la faiblesse d'un bébé, mais dans la gloire, pour juger, restaurer toutes choses et régner.\n\nPersonne n'en connaît le jour ; c'est pourquoi Jésus dit de veiller et d'être prêts. Ce n'est pas une menace pour qui l'aime, c'est une espérance : notre Sauveur revient chercher les siens.",
+      "verse": "Actes 1.11"
+    },
+    {
+      "id": 19,
+      "category": "Jésus",
+      "q": "Que voulait dire Jésus par « naître de nouveau » ?",
+      "a": "Ce n'est pas retourner dans le ventre de sa mère, mais recevoir une vie nouvelle par l'Esprit de Dieu. Notre premier naissance nous donne la vie physique ; la nouvelle naissance nous donne la vie spirituelle — un cœur transformé, régénéré d'en haut.\n\nCela arrive quand on croit en Jésus et qu'on l'accueille : « À tous ceux qui l'ont reçue, elle a donné le pouvoir de devenir enfants de Dieu. » Ce n'est pas se réformer soi-même, c'est renaître par Dieu.",
+      "verse": "Jean 3.3"
+    },
+    {
+      "id": 20,
+      "category": "Jésus",
+      "q": "Pourquoi Jésus a-t-il dû naître d'une vierge ?",
+      "a": "Parce qu'il n'est pas seulement un homme de plus dans la lignée d'Adam : il est Dieu entré dans notre humanité. La naissance virginale marque ce commencement unique — conçu par l'Esprit, il est pleinement homme sans hériter de notre séparation d'avec Dieu.\n\nCe n'est pas un détail : c'est le signe que le salut vient de Dieu, pas de nos efforts. Marie n'a rien produit par elle-même ; elle a reçu. Comme nous, face à la grâce.",
+      "verse": "Luc 1.35"
+    },
+    {
+      "id": 21,
+      "category": "Jésus",
+      "q": "Que ressent Jésus pour moi aujourd'hui ?",
+      "a": "Le même amour qu'à la croix, intact. La Bible dit qu'il « intercède » pour toi en ce moment même, et qu'il n'a pas honte de t'appeler son frère, sa sœur. Il connaît tes faiblesses de l'intérieur et te regarde avec compassion, pas avec mépris.\n\nIl ne t'aime pas « à condition que » : il t'aime, point. Ton passé ne le dégoûte pas, tes chutes ne le font pas partir. Il t'attend, bras ouverts, aujourd'hui.",
+      "verse": "Hébreux 4.15"
+    },
+    {
+      "id": 22,
+      "category": "Jésus",
+      "q": "Comment développer une vraie relation avec Jésus ?",
+      "a": "Comme toute relation vivante : par le temps passé ensemble. Parle-lui chaque jour comme à un ami, écoute-le dans sa Parole, obéis à ce qu'il te montre, et invite-le dans ton quotidien — pas seulement le dimanche.\n\nLa relation grandit aussi dans l'obéissance et l'adoration : « Celui qui a mes commandements et qui les garde, c'est celui qui m'aime… je me ferai connaître à lui. » Plus tu marches avec Lui, plus tu le connais.",
+      "verse": "Jean 14.21"
+    },
+    {
+      "id": 23,
+      "category": "Le Saint-Esprit & les dons",
+      "q": "Qui est le Saint-Esprit ?",
+      "a": "Le Saint-Esprit est Dieu lui-même, la troisième personne de la Trinité — pas une simple force ou une énergie, mais une personne qu'on peut connaître, attrister ou réjouir. C'est l'Esprit de Dieu, envoyé par le Père au nom de Jésus pour habiter en nous.\n\nIl enseigne, console, convainc, guide, fortifie et distribue des dons. Jésus a dit qu'il valait mieux qu'il parte pour que l'Esprit vienne : car ce que Jésus faisait à côté de ses disciples, l'Esprit le fait désormais EN nous.",
+      "verse": "Jean 14.26"
+    },
+    {
+      "id": 24,
+      "category": "Le Saint-Esprit & les dons",
+      "q": "Le Saint-Esprit est-il une personne ou une force ?",
+      "a": "Une personne. La Bible dit qu'il parle, enseigne, décide, aime, peut être attristé et même blasphémé — ce qu'on ne dit pas d'une simple énergie. Jésus l'appelle « il », un « autre consolateur » semblable à lui.\n\nC'est une bonne nouvelle : tu n'as pas reçu une force impersonnelle à manipuler, mais une Personne divine à connaître et à aimer. On ne « se sert » pas du Saint-Esprit ; on marche avec Lui, dans l'intimité.",
+      "verse": "Éphésiens 4.30"
+    },
+    {
+      "id": 25,
+      "category": "Le Saint-Esprit & les dons",
+      "q": "C'est quoi le baptême du Saint-Esprit ?",
+      "a": "C'est une immersion, un revêtement de puissance de l'Esprit pour vivre et témoigner de Jésus. Jésus a dit à ses disciples déjà croyants : « Vous serez baptisés du Saint-Esprit dans peu de jours… vous recevrez une puissance. » À la Pentecôte, ils en ont été remplis et l'Église est née.\n\nC'est distinct de la conversion : on reçoit l'Esprit à la nouvelle naissance, et il y a aussi un débordement de puissance à demander. Ce n'est pas réservé à l'Église primitive : la promesse est « pour vous, pour vos enfants, et pour tous ceux qui sont au loin ».",
+      "verse": "Actes 1.8"
+    },
+    {
+      "id": 26,
+      "category": "Le Saint-Esprit & les dons",
+      "q": "Comment être rempli du Saint-Esprit ?",
+      "a": "Demande-le avec foi : Jésus promet que le Père donne le Saint-Esprit « à ceux qui le lui demandent ». Approche-toi, soif au cœur — « Si quelqu'un a soif, qu'il vienne à moi et qu'il boive » — et reçois, sans forcer, en t'abandonnant à Lui.\n\nÊtre rempli n'est pas un événement unique mais un mode de vie : « Soyez remplis de l'Esprit » est au présent continu. On se laisse remplir chaque jour par la prière, la louange, l'obéissance et le renoncement à ce qui l'attriste.",
+      "verse": "Luc 11.13"
+    },
+    {
+      "id": 27,
+      "category": "Le Saint-Esprit & les dons",
+      "q": "Les dons du Saint-Esprit existent-ils encore aujourd'hui ?",
+      "a": "Oui. Rien dans la Bible n'annonce leur arrêt à la fin des apôtres. Au contraire : la promesse de la Pentecôte est pour « tous ceux qui sont au loin, en aussi grand nombre que le Seigneur les appellera » — c'est nous. Et « Jésus-Christ est le même hier, aujourd'hui et éternellement ».\n\nLes dons — guérisons, prophétie, langues, miracles, discernement… — sont donnés pour bâtir l'Église et servir les autres, pas pour se mettre en avant. Des millions de croyants dans le monde en font aujourd'hui l'expérience. Nous croyons que Dieu agit encore avec puissance.",
+      "verse": "1 Corinthiens 12.7"
+    },
+    {
+      "id": 28,
+      "category": "Le Saint-Esprit & les dons",
+      "q": "C'est quoi parler en langues ?",
+      "a": "C'est un don de l'Esprit : prier ou louer dans un langage que l'Esprit donne, au-delà de notre intelligence. Paul dit : « Celui qui parle en langue s'édifie lui-même » et « je prie par l'esprit ». C'est un langage de prière intime avec Dieu, et parfois un message pour l'assemblée (avec interprétation).\n\nCe n'est pas de l'irrationnel ni de la magie : c'est une manière de prier quand les mots manquent, qui fortifie la foi et l'intimité avec Dieu. À la Pentecôte, les disciples remplis de l'Esprit ont commencé à parler en langues.",
+      "verse": "1 Corinthiens 14.4"
+    },
+    {
+      "id": 29,
+      "category": "Le Saint-Esprit & les dons",
+      "q": "Faut-il parler en langues pour être sauvé ?",
+      "a": "Non. On est sauvé par la foi en Jésus, pas par un don particulier. Le brigand sur la croix a été sauvé sans parler en langues. Le parler en langues est un don précieux, offert, à désirer — mais ce n'est pas la condition du salut ni la preuve qu'on appartient à Christ.\n\nPaul demande : « Tous parlent-ils en langues ? » — la réponse attendue est non, les dons sont répartis diversement. Recherche l'Esprit lui-même et sa puissance ; les dons suivent, dans la liberté, sans culpabilité ni compétition.",
+      "verse": "1 Corinthiens 12.30"
+    },
+    {
+      "id": 30,
+      "category": "Le Saint-Esprit & les dons",
+      "q": "Comment recevoir le don des langues ?",
+      "a": "Commence par désirer l'Esprit lui-même, pas seulement le don. Demande à Jésus de te baptiser dans le Saint-Esprit, avec foi et simplicité, sans peur. Puis, dans la louange, ouvre la bouche et laisse l'Esprit te donner de prier au-delà de ta langue maternelle — c'est toi qui parles, mais par Lui.\n\nNe cherche pas à imiter ni à impressionner : reçois comme un enfant. Si ça ne vient pas tout de suite, ne te condamne pas ; reste dans sa présence. Dieu donne de bonnes choses à ceux qui les lui demandent.",
+      "verse": "Actes 2.4"
+    },
+    {
+      "id": 31,
+      "category": "Le Saint-Esprit & les dons",
+      "q": "Dieu guérit-il encore aujourd'hui ?",
+      "a": "Oui. La guérison fait partie de ce que Jésus a acquis à la croix : « par ses meurtrissures nous sommes guéris. » Il guérissait les malades, et il a envoyé ses disciples faire de même — un mandat qui n'a jamais été retiré. Aujourd'hui encore, d'innombrables personnes témoignent de guérisons réelles.\n\nOn prie avec foi, on impose les mains, on demande au nom de Jésus. La guérison est un cadeau de sa grâce, pas un dû qu'on arrache. Nous croyons à un Dieu qui guérit — tout en gardant confiance même quand la réponse tarde.",
+      "verse": "Jacques 5.14-15"
+    },
+    {
+      "id": 32,
+      "category": "Le Saint-Esprit & les dons",
+      "q": "Pourquoi certaines personnes ne sont-elles pas guéries ?",
+      "a": "C'est un mystère qu'on ne doit ni banaliser ni sur-expliquer. La guérison est acquise à la croix, mais nous vivons entre le « déjà » et le « pas encore » du Royaume : toutes les promesses ne s'accomplissent pas pleinement maintenant. Parfois Dieu guérit tout de suite, parfois progressivement, parfois il donne autre chose — une grâce, une force, et la guérison parfaite à la résurrection.\n\nNe charge jamais un malade de culpabilité (« tu manques de foi »). Continue à prier avec foi et compassion, sans juger, en laissant à Dieu le comment et le quand. Sa bonté demeure, guérison ou pas.",
+      "verse": "2 Corinthiens 12.9"
+    },
+    {
+      "id": 33,
+      "category": "Le Saint-Esprit & les dons",
+      "q": "Les miracles sont-ils encore possibles aujourd'hui ?",
+      "a": "Oui. Le Dieu de la Bible n'a pas pris sa retraite : « Jésus-Christ est le même hier, aujourd'hui et éternellement. » Il a promis que ceux qui croient feraient des œuvres semblables aux siennes, et le livre des Actes montre l'Église marcher dans le miraculeux.\n\nUn miracle n'est pas un spectacle mais un signe qui pointe vers Jésus et son amour. Nous les désirons avec foi, tout en gardant Christ au centre — car le plus grand miracle reste une vie transformée et un cœur sauvé.",
+      "verse": "Jean 14.12"
+    },
+    {
+      "id": 34,
+      "category": "Le Saint-Esprit & les dons",
+      "q": "C'est quoi le don de prophétie ?",
+      "a": "C'est parler de la part de Dieu pour édifier, exhorter et consoler l'Église. Ce n'est pas de la voyance ni de la divination : la prophétie chrétienne relève, encourage et ramène à Jésus. Paul dit : « Aspirez surtout à prophétiser », car ce don bâtit les autres.\n\nLa prophétie d'aujourd'hui ne s'ajoute pas à la Bible et ne la contredit jamais ; elle s'éprouve. « Éprouvez tout, retenez ce qui est bon. » Un mot prophétique juste confirme souvent ce que Dieu murmurait déjà à un cœur.",
+      "verse": "1 Corinthiens 14.3"
+    },
+    {
+      "id": 35,
+      "category": "Le Saint-Esprit & les dons",
+      "q": "Comment reconnaître une vraie prophétie d'une fausse ?",
+      "a": "On l'éprouve, toujours. D'abord par la Bible : une vraie parole de Dieu ne contredit jamais l'Écriture. Ensuite par le fruit : elle édifie, exhorte, console, et glorifie Jésus — elle ne sème pas la peur, l'orgueil ou la confusion. Enfin par le discernement de l'Église et le temps.\n\nNe méprise pas les prophéties, mais ne les avale pas non plus sans les peser. Un vrai prophète pointe vers Christ et l'humilité ; méfie-toi de ce qui flatte, manipule ou attire l'attention sur l'homme.",
+      "verse": "1 Thessaloniciens 5.20-21"
+    },
+    {
+      "id": 36,
+      "category": "Le Saint-Esprit & les dons",
+      "q": "Comment entendre la voix de Dieu ?",
+      "a": "Jésus dit : « Mes brebis entendent ma voix. » Elle passe d'abord par sa Parole : plus tu la connais, plus tu reconnais son ton. Elle passe aussi par une paix intérieure, des impressions douces, d'autres croyants, parfois des songes — jamais en contradiction avec la Bible.\n\nFais du silence, calme le bruit, demande et attends. Sa voix conduit à l'amour, à la vérité et à la paix ; celle de l'ennemi accuse, presse et effraie. Ça s'apprend en marchant : plus on écoute, mieux on distingue.",
+      "verse": "Jean 10.27"
+    },
+    {
+      "id": 37,
+      "category": "Le Saint-Esprit & les dons",
+      "q": "C'est quoi le discernement des esprits ?",
+      "a": "C'est un don qui aide à distinguer ce qui vient de Dieu, de l'homme, ou de l'ennemi — dans une parole, une atmosphère, une situation. Tout ce qui est spirituel n'est pas forcément du Saint-Esprit : « Éprouvez les esprits, pour savoir s'ils sont de Dieu. »\n\nCe discernement se vit dans l'humilité, pas dans la suspicion permanente. Le critère central reste Jésus : « Tout esprit qui confesse Jésus-Christ venu en chair est de Dieu. » L'Esprit de Dieu exalte toujours Christ.",
+      "verse": "1 Jean 4.1"
+    },
+    {
+      "id": 38,
+      "category": "Le Saint-Esprit & les dons",
+      "q": "Les démons existent-ils, et un chrétien peut-il en être délivré ?",
+      "a": "Oui, le monde spirituel est réel : Jésus chassait les démons et a donné cette autorité à ses disciples. Nous ne devons ni tout diaboliser ni tout nier ; l'ennemi est vaincu à la croix, mais encore actif pour voler, tuer, détruire.\n\nUn croyant appartient à Christ, mais il peut avoir des domaines à libérer (peurs, chaînes, oppressions). La délivrance se fait au nom de Jésus, avec autorité et amour, souvent accompagnée de repentance et d'accompagnement. « Celui qui est en vous est plus grand que celui qui est dans le monde. »",
+      "verse": "Luc 10.19"
+    },
+    {
+      "id": 39,
+      "category": "Le Saint-Esprit & les dons",
+      "q": "Comment savoir si une pensée vient de Dieu, de moi, ou de l'ennemi ?",
+      "a": "Regarde la direction et le fruit. L'Esprit de Dieu conduit à l'amour, la vérité, la paix, l'humilité et vers Jésus. L'ennemi accuse, condamne, presse, effraie et isole. Nos propres pensées, elles, tournent souvent autour de nos peurs ou de nos désirs.\n\nLe filtre reste la Bible et la paix : « la sagesse d'en haut est pure, paisible, modérée. » Dans le doute, prie, attends, demande conseil. Dieu n'a pas peur de tes questions et confirme volontiers ce qui vient de Lui.",
+      "verse": "Galates 5.22-23"
+    },
+    {
+      "id": 40,
+      "category": "Le Saint-Esprit & les dons",
+      "q": "C'est quoi être conduit par l'Esprit ?",
+      "a": "« Tous ceux qui sont conduits par l'Esprit de Dieu sont fils de Dieu. » C'est laisser l'Esprit diriger nos choix, nos paroles, nos pas — au lieu de la seule logique, de la chair ou de la peur. Ce n'est pas de la passivité : c'est une sensibilité qui s'affine en marchant avec Lui.\n\nConcrètement : on prie avant de décider, on obéit aux impulsions saintes (aller vers quelqu'un, pardonner, donner), on garde la paix comme boussole. Plus on obéit, plus sa conduite devient claire.",
+      "verse": "Romains 8.14"
+    },
+    {
+      "id": 41,
+      "category": "Le Saint-Esprit & les dons",
+      "q": "Le Saint-Esprit peut-il me parler par des rêves ou des visions ?",
+      "a": "Oui, Dieu l'a fait dans toute la Bible et l'a promis pour les derniers temps : « Vos fils et vos filles prophétiseront, vos jeunes gens auront des visions, vos vieillards des songes. » Beaucoup, aujourd'hui encore, rencontrent Dieu ainsi, y compris des personnes loin de l'Évangile.\n\nTout songe n'est pas un message : on l'éprouve à la Bible, à la paix et au fruit, sans en faire une obsession. Dieu peut parler par un rêve, mais sa Parole écrite reste la référence sûre.",
+      "verse": "Actes 2.17"
+    },
+    {
+      "id": 42,
+      "category": "Le Saint-Esprit & les dons",
+      "q": "Quelle différence entre les dons et le fruit de l'Esprit ?",
+      "a": "Les dons sont ce que l'Esprit fait à travers toi (guérison, prophétie, langues…) ; le fruit est ce que l'Esprit fait en toi (amour, joie, paix, patience, bonté…). On peut avoir des dons puissants et un caractère pauvre — c'est pourquoi Paul place l'amour au-dessus de tout : « Quand je parlerais les langues des anges, si je n'ai pas l'amour, je ne suis rien. »\n\nDésire les dons, mais recherche surtout le fruit. Les dons impressionnent, le fruit révèle. Un ministère qui dure repose sur le caractère, pas seulement sur la puissance.",
+      "verse": "1 Corinthiens 13.1-2"
+    },
+    {
+      "id": 43,
+      "category": "Le Saint-Esprit & les dons",
+      "q": "Peut-on attrister le Saint-Esprit ?",
+      "a": "Oui, la Bible le dit : « N'attristez pas le Saint-Esprit. » On l'attriste par ce qui blesse l'amour : l'amertume, le mensonge, la méchanceté, l'impureté, l'orgueil. Non parce qu'il est susceptible, mais parce qu'il nous aime et que le péché nous éloigne de l'intimité.\n\nLa bonne nouvelle : il ne s'en va pas au premier faux pas. Quand tu l'as attristé, reviens vite, confesse, et laisse-le te restaurer. La sensibilité à sa présence est un trésor à garder tendrement.",
+      "verse": "Éphésiens 4.30"
+    },
+    {
+      "id": 44,
+      "category": "Le Saint-Esprit & les dons",
+      "q": "Comment grandir dans l'intimité avec le Saint-Esprit ?",
+      "a": "Traite-le comme la Personne qu'il est : parle-lui, écoute-le, remercie-le, invite-le dans ton quotidien. « Que la communion du Saint-Esprit soit avec vous » : l'intimité se cultive par la présence, pas seulement par des demandes.\n\nFais-lui de la place — dans la louange, le silence, l'obéissance — et retire ce qui l'attriste. Plus tu lui donnes le gouvernail, plus tu perçois sa voix, sa paix et sa puissance. C'est une amitié qui s'approfondit toute une vie.",
+      "verse": "2 Corinthiens 13.14"
+    },
+    {
+      "id": 45,
+      "category": "Le Saint-Esprit & les dons",
+      "q": "Comment savoir quel est mon don spirituel ?",
+      "a": "Souvent, ton don se révèle en servant, pas en théorisant. Mets-toi au service, sois disponible, et observe : où Dieu te rend fécond ? qu'est-ce qui édifie les autres à travers toi ? qu'est-ce que d'autres croyants confirment en toi ?\n\nDemande à l'Esprit de te révéler et d'activer ses dons — « aspirez aux dons les meilleurs ». Ne les enterre pas par fausse humilité, ne les gonfle pas par orgueil : reçois-les comme des outils pour aimer et bâtir l'Église.",
+      "verse": "1 Pierre 4.10"
+    },
+    {
+      "id": 46,
+      "category": "Le salut",
+      "q": "C'est quoi « être sauvé » ?",
+      "a": "Être remis en règle avec Dieu et recevoir une vie nouvelle. Sauvé de la séparation d'avec Lui que le péché avait creusée ; sauvé pour une relation vivante, maintenant et pour l'éternité.\n\nCe n'est pas une récompense qu'on gagne, mais un cadeau qu'on reçoit : « C'est par la grâce que vous êtes sauvés, par le moyen de la foi. » Tu viens à Jésus tel que tu es, et c'est Lui qui te transforme.",
+      "verse": "Éphésiens 2.8"
+    },
+    {
+      "id": 47,
+      "category": "Le salut",
+      "q": "Comment donner ma vie à Jésus ?",
+      "a": "Reconnais devant Dieu que tu as besoin de Lui, crois que Jésus est mort et ressuscité pour toi, et invite-le à devenir le Seigneur de ta vie. Tu peux le dire avec tes mots.\n\nPar exemple : « Jésus, je crois que tu es mort et ressuscité pour moi. Pardonne-moi, entre dans ma vie, je te donne les commandes. » Prié sincèrement, c'est le début d'une vie nouvelle. Ensuite, entoure-toi de croyants, lis la Bible et prie.",
+      "verse": "Romains 10.9"
+    },
+    {
+      "id": 48,
+      "category": "Le salut",
+      "q": "Peut-on perdre son salut à la moindre chute ?",
+      "a": "Le salut repose sur ce que Jésus a accompli, pas sur ta performance. Un enfant qui tombe ne cesse pas d'être l'enfant de ses parents. Quand tu chutes, reviens à ton Père, confesse, et sa grâce te relève.\n\nDieu s'engage à achever ce qu'il a commencé en toi. Ce n'est pas prendre le péché à la légère, mais vivre en sécurité dans son amour plutôt que dans la peur du rejet.",
+      "verse": "Philippiens 1.6"
+    },
+    {
+      "id": 49,
+      "category": "Le salut",
+      "q": "Suis-je vraiment sauvé ? Comment en être sûr ?",
+      "a": "L'assurance ne vient pas de tes sentiments changeants, mais des promesses de Dieu : « Quiconque invoque le nom du Seigneur sera sauvé. » Si tu as remis ta vie à Jésus, tu es à Lui — il l'a dit, et il ne ment pas.\n\nL'Esprit lui-même en rend témoignage à ton cœur, et ta vie qui change le confirme peu à peu. Fonde ton assurance sur la Parole, pas sur ton humeur : « Je sais en qui j'ai cru. »",
+      "verse": "1 Jean 5.13"
+    },
+    {
+      "id": 50,
+      "category": "Le salut",
+      "q": "Suffit-il de croire, ou faut-il aussi faire de bonnes œuvres ?",
+      "a": "On est sauvé par la foi seule, pas par nos œuvres : « afin que personne ne se glorifie. » Mais une foi vivante produit des fruits — « la foi sans les œuvres est morte ». Les œuvres ne nous sauvent pas ; elles montrent que le salut est réel.\n\nL'ordre compte : on ne fait pas le bien pour être aimé de Dieu, on le fait parce qu'on est déjà aimé. La reconnaissance, pas la peur, devient le moteur.",
+      "verse": "Éphésiens 2.9-10"
+    },
+    {
+      "id": 51,
+      "category": "Le salut",
+      "q": "Ai-je besoin d'être baptisé dans l'eau ?",
+      "a": "Le baptême est le premier pas d'obéissance du croyant : une déclaration publique qu'on est mort et ressuscité avec Christ. Jésus l'a commandé et pratiqué. Ce n'est pas ce qui sauve (le brigand sur la croix ne l'a pas été), mais un croyant a tout à gagner à l'obéir.\n\nLe baptême biblique suit la foi : on croit, puis on est baptisé. Si tu as donné ta vie à Jésus et que tu ne l'as pas encore fait, franchis ce pas avec joie.",
+      "verse": "Marc 16.16"
+    },
+    {
+      "id": 52,
+      "category": "Le salut",
+      "q": "Dieu peut-il vraiment pardonner MON passé ?",
+      "a": "Oui, sans exception écrite en petits caractères. Aussi lourd que soit ton passé, le sang de Jésus est plus grand : « Si nous confessons nos péchés, il est fidèle et juste pour nous les pardonner. »\n\nLe pardon de Dieu te lave, te relève et ne te le ressort plus. Le plus dur est souvent de te pardonner toi-même : reçois d'abord le sien, à genoux, et laisse-le te libérer.",
+      "verse": "1 Jean 1.9"
+    },
+    {
+      "id": 53,
+      "category": "Le salut",
+      "q": "Que se passe-t-il si je meurs sans avoir tout réglé ?",
+      "a": "Le salut ne dépend pas d'avoir « tout réglé », mais d'appartenir à Jésus. Le brigand crucifié n'a rien pu réparer, et Jésus lui a dit : « Aujourd'hui tu seras avec moi dans le paradis. » Ce qui compte, c'est à qui tu t'es confié.\n\nNe remets pas à demain : « Voici maintenant le jour du salut. » Confie-lui ta vie aujourd'hui, et laisse-le t'aider à mettre de l'ordre ensuite, jour après jour.",
+      "verse": "Luc 23.43"
+    },
+    {
+      "id": 54,
+      "category": "Le salut",
+      "q": "Est-ce que je dois d'abord changer avant de venir à Dieu ?",
+      "a": "Non — tu ne te laves pas avant d'entrer sous la douche. Jésus « accueillait les pécheurs et mangeait avec eux ». Viens tel que tu es ; c'est en venant qu'on est changé, pas avant.\n\nLa sainteté n'est pas la condition d'entrée, c'est le fruit de la rencontre. Ne laisse pas la honte te tenir loin de Celui qui, justement, est venu pour toi.",
+      "verse": "Marc 2.17"
+    },
+    {
+      "id": 55,
+      "category": "Le salut",
+      "q": "Un très grand pécheur peut-il être sauvé ?",
+      "a": "Oui. Paul, qui persécutait les chrétiens, a été sauvé et a écrit : « Christ est venu sauver les pécheurs, dont je suis le premier. » Aucun péché n'est plus grand que la croix. Là où le péché a abondé, la grâce a surabondé.\n\nDieu se spécialise dans les cas désespérés. Ton dossier n'est pas trop lourd pour Lui ; il attend juste que tu le lui remettes.",
+      "verse": "1 Timothée 1.15"
+    },
+    {
+      "id": 56,
+      "category": "Le salut",
+      "q": "C'est quoi la repentance ?",
+      "a": "Ce n'est pas seulement des regrets, mais un changement de direction : se détourner du péché pour se tourner vers Dieu. Le mot signifie « changer de pensée » — on cesse de justifier, on reconnaît, et on revient vers le Père.\n\nLa repentance n'est pas une punition, c'est une libération : « Repentez-vous, afin que vos péchés soient effacés. » Elle ouvre la porte à la grâce et au rafraîchissement de Dieu.",
+      "verse": "Actes 3.19"
+    },
+    {
+      "id": 57,
+      "category": "Le salut",
+      "q": "Faut-il « mériter » l'amour de Dieu ?",
+      "a": "Non, et c'est le scandale merveilleux de l'Évangile : Dieu t'aime avant que tu bouges le petit doigt. « Dieu prouve son amour envers nous, en ce que Christ est mort pour nous lorsque nous étions encore pécheurs. »\n\nTu ne peux ni gagner ni perdre cet amour par tes performances. Cesse de courir pour être aimé ; reçois d'abord l'amour, et de là jaillira le désir de Lui plaire.",
+      "verse": "Romains 5.8"
+    },
+    {
+      "id": 58,
+      "category": "La Bible",
+      "q": "Peut-on faire confiance à la Bible ?",
+      "a": "La Bible est une bibliothèque cohérente écrite sur des siècles, avec une trame unique : Dieu qui vient sauver l'humanité en Jésus. Sa transmission est remarquablement bien attestée par des milliers de manuscrits.\n\nAu-delà des arguments, des millions de vies transformées témoignent qu'elle est vivante. Le mieux, c'est de l'ouvrir toi-même : beaucoup de doutes tombent quand on la découvre de l'intérieur.",
+      "verse": "2 Timothée 3.16"
+    },
+    {
+      "id": 59,
+      "category": "La Bible",
+      "q": "Par où commencer à lire la Bible ?",
+      "a": "Commence par **l'Évangile de Jean** pour rencontrer Jésus, puis les Psaumes pour prier avec des mots vrais. Quelques versets par jour valent mieux que des chapitres oubliés.\n\nLis en te posant trois questions : qu'est-ce que ça me dit sur Dieu ? sur moi ? qu'est-ce que j'en fais aujourd'hui ? Et demande avant d'ouvrir : « Parle-moi. »",
+      "verse": "Josué 1.8"
+    },
+    {
+      "id": 60,
+      "category": "La Bible",
+      "q": "La Bible n'a-t-elle pas été modifiée au fil des siècles ?",
+      "a": "C'est une crainte répandue, mais les faits rassurent : nous possédons des milliers de manuscrits anciens qui, comparés, montrent un texte étonnamment stable. Les rares variantes touchent des détails, jamais le message central.\n\nLoin d'être un livre bricolé, la Bible est l'un des textes anciens les mieux attestés au monde. Dieu a veillé sur sa Parole : « Le ciel et la terre passeront, mais mes paroles ne passeront point. »",
+      "verse": "Matthieu 24.35"
+    },
+    {
+      "id": 61,
+      "category": "La Bible",
+      "q": "Comment comprendre les passages difficiles ou choquants ?",
+      "a": "Lis chaque passage dans son contexte, à la lumière de l'ensemble et surtout de Jésus, qui est la clé de toute l'Écriture. Certains textes décrivent des faits sans les approuver ; d'autres appartiennent à une étape de l'histoire du salut menant à Christ.\n\nNe reste pas seul avec tes questions : prie, cherche, demande à des chrétiens mûrs, laisse les passages clairs éclairer les obscurs. Une difficulté n'est pas une contradiction — c'est une invitation à creuser.",
+      "verse": "2 Pierre 3.16"
+    },
+    {
+      "id": 62,
+      "category": "La Bible",
+      "q": "La Bible se contredit-elle ?",
+      "a": "La plupart des « contradictions » disparaissent avec le contexte : points de vue complémentaires (comme quatre témoins d'un même événement), genres littéraires différents, ou traductions. Sur l'essentiel — qui est Dieu, qui est Jésus, comment être sauvé — le message est d'une cohérence frappante.\n\nAborde les tensions avec honnêteté et patience : d'autres avant toi ont buté puis trouvé la réponse. La Bible n'a pas peur de tes questions.",
+      "verse": "Psaume 119.160"
+    },
+    {
+      "id": 63,
+      "category": "La Bible",
+      "q": "La Bible est-elle vraiment la Parole de Dieu, ou des mots d'hommes ?",
+      "a": "Les deux, sans contradiction : « des hommes ont parlé de la part de Dieu, poussés par le Saint-Esprit. » Dieu a inspiré des auteurs réels, avec leur style et leur époque, pour transmettre fidèlement son message — comme une lettre écrite par une main mais dictée par un cœur.\n\nC'est ce qui la rend à la fois humaine et divine, proche et faisant autorité. On ne la lit pas comme un simple livre ancien, mais comme Dieu qui te parle aujourd'hui.",
+      "verse": "2 Pierre 1.21"
+    },
+    {
+      "id": 64,
+      "category": "La Bible",
+      "q": "Comment appliquer la Bible à ma vie concrète ?",
+      "a": "Ne lis pas seulement pour savoir, mais pour vivre : après chaque lecture, demande « qu'est-ce que je fais de ça aujourd'hui ? ». Un seul verset obéi vaut mieux qu'un chapitre admiré. « Mettez en pratique la parole, et ne l'écoutez pas seulement. »\n\nNote une chose à appliquer, prie pour la vivre, et laisse la Parole te corriger avec douceur. Peu à peu, elle façonne ta manière de penser, de parler et d'aimer.",
+      "verse": "Jacques 1.22"
+    },
+    {
+      "id": 65,
+      "category": "La Bible",
+      "q": "Les autres écrits religieux se valent-ils ?",
+      "a": "On peut lire beaucoup de choses avec respect, mais tout ne se vaut pas. La particularité de la Bible, c'est Jésus : un Dieu qui vient, meurt et ressuscite pour nous — vérifiable dans l'histoire, et vivant aujourd'hui. Elle ne demande pas de mériter Dieu, elle annonce Dieu qui nous rejoint.\n\nCompare sans peur : la Bible tient la route par sa cohérence, sa transmission et surtout par les vies qu'elle transforme.",
+      "verse": "Jean 6.68"
+    },
+    {
+      "id": 66,
+      "category": "La Bible",
+      "q": "Comment mémoriser et méditer la Parole ?",
+      "a": "Choisis un verset qui te parle, relis-le à voix haute plusieurs fois, décompose-le, prie-le et rumine-le dans la journée : « Heureux l'homme qui médite la loi de l'Éternel jour et nuit. » Méditer, ce n'est pas vider sa tête, c'est la remplir de Dieu.\n\nL'app t'y aide avec un jeu de mémorisation et un verset chaque jour. Un verset caché dans le cœur est une arme prête pour les jours d'épreuve.",
+      "verse": "Psaume 1.2"
+    },
+    {
+      "id": 67,
+      "category": "La Bible",
+      "q": "Faut-il lire la Bible chaque jour ?",
+      "a": "Ce n'est pas une obligation religieuse, c'est une nourriture : « L'homme ne vivra pas de pain seulement, mais de toute parole qui sort de la bouche de Dieu. » Comme on mange chaque jour, l'âme a besoin de son pain quotidien.\n\nMieux vaut cinq minutes fidèles qu'une heure culpabilisée de temps en temps. Prends un rendez-vous simple et régulier ; la constance, pas la quantité, fait grandir.",
+      "verse": "Matthieu 4.4"
+    },
+    {
+      "id": 68,
+      "category": "Souffrance & doute",
+      "q": "Pourquoi Dieu permet-il la souffrance ?",
+      "a": "La Bible ne donne pas une explication froide : elle montre un Dieu qui entre lui-même dans la souffrance en Jésus, jusqu'à la croix. Le mal n'est pas son projet ; il est l'ennemi qu'il est venu vaincre.\n\nIl promet qu'un jour « il essuiera toute larme ». En attendant, il ne gaspille rien : même ce qui te brise, il peut le reprendre pour en tirer du bien.",
+      "verse": "Romains 8.28"
+    },
+    {
+      "id": 69,
+      "category": "Souffrance & doute",
+      "q": "J'ai des doutes. Est-ce grave ?",
+      "a": "Non. Le doute n'est pas le contraire de la foi — l'indifférence l'est. Beaucoup de croyants solides sont passés par des questions profondes. Dieu accueille les cœurs sincères, même hésitants.\n\nUn père a dit à Jésus : « Je crois, viens au secours de mon incrédulité ! » — et Jésus l'a aidé. Apporte-lui tes doutes au lieu de les fuir.",
+      "verse": "Marc 9.24"
+    },
+    {
+      "id": 70,
+      "category": "Souffrance & doute",
+      "q": "Dieu m'entend-il quand je prie et que rien ne change ?",
+      "a": "Oui, il t'entend, même dans le silence apparent. Parfois la réponse est « pas encore », parfois Dieu travaille l'invisible avant le visible, parfois il change ton cœur avant tes circonstances.\n\nContinue à prier sans te décourager, comme la veuve insistante de la parabole. Beaucoup témoignent qu'après l'attente est venue une réponse — ou une paix plus grande que la réponse.",
+      "verse": "Luc 18.1"
+    },
+    {
+      "id": 71,
+      "category": "Souffrance & doute",
+      "q": "Comment traverser un deuil, la perte d'un proche ?",
+      "a": "Dieu ne te demande pas de faire semblant d'aller bien : Jésus lui-même a pleuré devant le tombeau d'un ami. Il est « proche de ceux qui ont le cœur brisé ». Laisse-toi porter, entoure-toi, et confie-lui ta peine sans filtre.\n\nPour ceux qui sont en Christ, la mort n'est pas la fin mais un passage : « nous ne voulons pas que vous soyez dans la tristesse comme les autres qui n'ont point d'espérance. » Le chagrin et l'espérance peuvent habiter le même cœur.",
+      "verse": "1 Thessaloniciens 4.13"
+    },
+    {
+      "id": 72,
+      "category": "Souffrance & doute",
+      "q": "Où est Dieu quand tout s'effondre ?",
+      "a": "Plus près que jamais. « L'Éternel est près de ceux qui ont le cœur brisé. » Il ne promet pas une vie sans tempête, mais sa présence dans la tempête : « Quand tu passeras par les eaux, je serai avec toi. »\n\nSouvent, on ne le voit qu'après coup — mais il portait. Accroche-toi à sa promesse plus qu'à ton ressenti : il n'a pas lâché ta main, même dans le noir.",
+      "verse": "Ésaïe 43.2"
+    },
+    {
+      "id": 73,
+      "category": "Souffrance & doute",
+      "q": "Pourquoi les méchants prospèrent-ils et les justes souffrent-ils ?",
+      "a": "Cette injustice a troublé les croyants de tout temps (lis le Psaume 73). La réponse de la Bible : ne juge pas la partie avant la fin. La prospérité des méchants est passagère ; Dieu voit tout et rendra justice, dans cette vie ou dans l'éternité.\n\nEn attendant, ne t'aigris pas : « Le bonheur des impies est un souffle. » Confie la justice à Dieu, garde ton cœur pur, et rappelle-toi que le dernier mot Lui appartient.",
+      "verse": "Psaume 37.1-2"
+    },
+    {
+      "id": 74,
+      "category": "Souffrance & doute",
+      "q": "Je me sens indigne et honteux. Que faire ?",
+      "a": "La honte te dit « tu es un problème » ; l'Évangile te dit « tu es aimé et racheté ». « Il n'y a aucune condamnation pour ceux qui sont en Jésus-Christ. » Ta valeur ne vient pas de ta performance, mais du prix que Dieu a payé pour toi.\n\nApporte ta honte à la lumière, confesse ce qui pèse, et reçois le pardon. Dieu ne te regarde pas avec dégoût mais avec tendresse. Tu n'es pas défini par ton pire jour.",
+      "verse": "Romains 8.1"
+    },
+    {
+      "id": 75,
+      "category": "Souffrance & doute",
+      "q": "Comment vaincre l'anxiété et la peur ?",
+      "a": "Dieu ne se moque pas de ton angoisse ; il t'invite à la lui remettre : « Déchargez-vous sur lui de tous vos soucis, car il prend soin de vous. » L'anxiété grandit dans le silence ; la prière et la reconnaissance la désamorcent.\n\nRemplace la rumination par la Parole et la louange, respire, et fais un pas à la fois. « Ne vous inquiétez de rien, mais priez… et la paix de Dieu gardera vos cœurs. » Cette paix n'attend pas que tout soit réglé.",
+      "verse": "Philippiens 4.6-7"
+    },
+    {
+      "id": 76,
+      "category": "Souffrance & doute",
+      "q": "Dieu est-il en colère contre moi quand je souffre ?",
+      "a": "Pas forcément — la souffrance n'est pas toujours une punition. Jésus l'a dit clairement d'un aveugle : « Ce n'est pas qu'il ait péché. » Dans un monde brisé, l'épreuve touche aussi ceux que Dieu aime tendrement.\n\nSur la croix, Jésus a porté toute la colère méritée par le péché : pour qui est en Christ, il ne reste que l'amour d'un Père. Ne lis pas ta souffrance comme un rejet ; cherche plutôt sa présence au cœur de l'épreuve.",
+      "verse": "Jean 9.3"
+    },
+    {
+      "id": 77,
+      "category": "Souffrance & doute",
+      "q": "Comment pardonner à quelqu'un qui m'a profondément blessé ?",
+      "a": "Pardonner n'est pas dire que le mal n'était rien, ni forcément se remettre en danger. C'est renoncer à te venger et remettre la justice à Dieu, pour te libérer toi-même de la prison de l'amertume. « Pardonnez-vous… comme Dieu vous a pardonné en Christ. »\n\nÇa se décide, puis se répète, parfois longtemps. Tu ne le fais pas seul : demande à Dieu sa grâce pour aimer ce que tu ne peux pas aimer par toi-même. Le pardon est d'abord un cadeau que tu te fais.",
+      "verse": "Éphésiens 4.32"
+    },
+    {
+      "id": 78,
+      "category": "Souffrance & doute",
+      "q": "Pourquoi ma prière semble-t-elle sans réponse ?",
+      "a": "Plusieurs raisons possibles, sans culpabilité : le « pas encore » du temps de Dieu, un « j'ai mieux », une chose à ajuster dans nos cœurs, ou simplement le mystère. Dieu répond toujours, mais pas toujours comme on l'attend.\n\nNe cesse pas de prier : Jésus raconte la veuve qui insiste et finit par obtenir. Et rappelle-toi : parfois la meilleure réponse n'est pas un changement de situation, mais une paix et une présence au milieu d'elle.",
+      "verse": "Ésaïe 55.8-9"
+    },
+    {
+      "id": 79,
+      "category": "Souffrance & doute",
+      "q": "Le suicide, la dépression : que dit la foi ?",
+      "a": "D'abord ceci : ta vie a une immense valeur aux yeux de Dieu, même quand tu ne la ressens plus. La dépression n'est pas un manque de foi ni un péché ; de grands croyants (comme Élie, épuisé, voulant mourir) l'ont traversée, et Dieu l'a traité avec une extrême douceur — repos, nourriture, présence.\n\nTu n'es pas seul et tu n'as pas à t'en sortir seul : parle à Dieu sans filtre, mais parle aussi à un proche, un pasteur, un médecin. Cherche de l'aide, c'est courageux. Si tu penses à te faire du mal, contacte tout de suite une personne de confiance ou un service d'urgence. Dieu tient à toi, et il y a de l'espoir.",
+      "verse": "1 Rois 19.4-8"
+    },
+    {
+      "id": 80,
+      "category": "La vie chrétienne",
+      "q": "Comment connaître la volonté de Dieu pour ma vie ?",
+      "a": "Commence par ce qui est déjà clair : aimer Dieu, aimer les autres, marcher dans l'intégrité. Dieu conduit surtout pas à pas, à mesure qu'on lui obéit dans le présent.\n\nNourris-toi de sa Parole, prie, demande conseil, et avance : « Confie-toi en l'Éternel de tout ton cœur… il aplanira tes sentiers. » Tu n'as pas à tout voir d'avance, juste le prochain pas.",
+      "verse": "Proverbes 3.5-6"
+    },
+    {
+      "id": 81,
+      "category": "La vie chrétienne",
+      "q": "Je retombe toujours dans les mêmes péchés. Que faire ?",
+      "a": "D'abord, ne te condamne pas : la honte enferme, la grâce relève. Reviens vite, sans te cacher de Dieu. Ensuite, ne combats pas seul et à la seule volonté : marche par l'Esprit, coupe ce qui t'expose, parle-en à quelqu'un de confiance, remplis le vide par la présence de Dieu.\n\nLa liberté vient rarement d'un coup, mais elle vient, à mesure que Christ prend plus de place. « Marchez selon l'Esprit, et vous n'accomplirez pas les désirs de la chair. »",
+      "verse": "Galates 5.16"
+    },
+    {
+      "id": 82,
+      "category": "La vie chrétienne",
+      "q": "Ai-je besoin de l'église, ou je peux croire seul ?",
+      "a": "On devient chrétien personnellement, mais on ne grandit pas en solitaire. La Bible compare les croyants aux membres d'un corps : une main coupée se dessèche. On a besoin les uns des autres pour tenir, être encouragés et aimés.\n\nL'église n'est pas d'abord un bâtiment, c'est une famille. Trouve une communauté vivante où l'on aime Jésus et les gens ; ta foi tient bien mieux à plusieurs qu'isolé.",
+      "verse": "Hébreux 10.24-25"
+    },
+    {
+      "id": 83,
+      "category": "La vie chrétienne",
+      "q": "Comment résister à la tentation ?",
+      "a": "La tentation n'est pas le péché : Jésus a été tenté sans pécher. Ne t'en étonne pas, ne culpabilise pas d'être tenté, mais ne joue pas avec le feu — fuis, coupe l'occasion, et appuie-toi sur la Parole comme Jésus au désert.\n\nDieu promet : « Avec la tentation il préparera aussi le moyen d'en sortir. » Cherche cette porte de sortie, demande la force de l'Esprit, et ne reste pas seul avec tes combats.",
+      "verse": "1 Corinthiens 10.13"
+    },
+    {
+      "id": 84,
+      "category": "La vie chrétienne",
+      "q": "Faut-il donner la dîme ? Que dit la Bible sur l'argent ?",
+      "a": "Donner fait partie d'une vie de foi : la dîme (un dixième) est un principe ancien, et le Nouveau Testament invite à donner « selon ce qu'on a résolu dans son cœur, avec joie, non à regret ». Le but n'est pas un impôt religieux, mais un cœur libéré de l'argent et confiant en Dieu.\n\nL'argent est un bon serviteur et un mauvais maître : « Vous ne pouvez servir Dieu et Mamon. » Donne avec joie, gère avec sagesse, et rappelle-toi que Dieu aime celui qui donne avec joie.",
+      "verse": "2 Corinthiens 9.7"
+    },
+    {
+      "id": 85,
+      "category": "La vie chrétienne",
+      "q": "Comment entendre Dieu pour mes décisions ?",
+      "a": "Prie avant de décider, cherche dans la Parole des principes clairs, garde la paix comme boussole (« que la paix de Christ règne dans vos cœurs »), demande conseil à des croyants mûrs, et regarde les portes que Dieu ouvre ou ferme.\n\nDieu dirige un bateau en mouvement : avance dans ce qui est bon, il corrigera la route. Tu n'as pas besoin d'une certitude parfaite, mais d'un cœur disposé à Lui obéir.",
+      "verse": "Colossiens 3.15"
+    },
+    {
+      "id": 86,
+      "category": "La vie chrétienne",
+      "q": "Le jeûne, c'est quoi et pourquoi le faire ?",
+      "a": "Jeûner, c'est se priver un temps (souvent de nourriture) pour se consacrer à Dieu et affamer la chair au profit de l'esprit. Ce n'est pas un moyen de forcer Dieu, mais de s'humilier, de chercher sa face et de gagner en clarté et en autorité spirituelle. Jésus a jeûné et a dit « quand vous jeûnez », pas « si ».\n\nCommence simplement (un repas, une journée), remplace le temps libéré par la prière, et garde le cœur discret. Le jeûne aiguise la faim de Dieu.",
+      "verse": "Matthieu 6.16-18"
+    },
+    {
+      "id": 87,
+      "category": "La vie chrétienne",
+      "q": "Comment partager ma foi sans être lourd ?",
+      "a": "Le meilleur témoignage est une vie transformée et de l'amour vrai : « qu'ils voient vos bonnes œuvres. » Écoute plus que tu ne prêches, aime les gens pour eux-mêmes, et sois prêt à raconter simplement ce que Dieu a fait dans ta vie.\n\nTu n'as pas à convaincre — c'est l'Esprit qui touche les cœurs. « Sois toujours prêt à te défendre… avec douceur et respect. » Sème avec bonté, prie, et laisse Dieu faire grandir.",
+      "verse": "1 Pierre 3.15"
+    },
+    {
+      "id": 88,
+      "category": "La vie chrétienne",
+      "q": "Comment gérer la colère et les conflits ?",
+      "a": "La colère n'est pas toujours un péché, mais elle le devient vite : « Mettez-vous en colère et ne péchez point ; que le soleil ne se couche pas sur votre colère. » Ne la nourris pas, ne la laisse pas dormir : parle, pardonne, cherche la paix.\n\nSois « prompt à écouter, lent à parler, lent à te mettre en colère ». Face au conflit, vise la réconciliation plutôt que la victoire, et demande à l'Esprit une douceur qui ne vient pas de toi.",
+      "verse": "Jacques 1.19"
+    },
+    {
+      "id": 89,
+      "category": "La vie chrétienne",
+      "q": "Que dit la Bible sur le couple, le mariage et le célibat ?",
+      "a": "Le mariage est un don de Dieu : l'union d'un homme et d'une femme, image de l'amour fidèle de Christ pour son Église. Il s'y vit l'engagement, le respect, le pardon et un amour qui se donne. Le célibat aussi est un don, une vie pleine et féconde consacrée à Dieu — Paul le présente comme une bénédiction.\n\nQue tu sois marié ou célibataire, ta valeur ne dépend pas de ton statut mais de ton identité en Christ. Cherche d'abord le Royaume, et laisse Dieu écrire ton histoire.",
+      "verse": "Éphésiens 5.25"
+    },
+    {
+      "id": 90,
+      "category": "La vie chrétienne",
+      "q": "Comment garder la foi quand la vie est routinière ou difficile ?",
+      "a": "La foi se vit surtout dans l'ordinaire, pas seulement dans les sommets. « Ne nous lassons pas de faire le bien ; nous moissonnerons au temps convenable, si nous ne nous relâchons pas. » La fidélité des petits jours construit les grandes choses.\n\nAppuie-toi sur des habitudes simples — un temps avec Dieu, la louange, la communauté — et rappelle-toi le pourquoi. Dieu est aussi présent dans le quotidien gris que dans les grands moments.",
+      "verse": "Galates 6.9"
+    },
+    {
+      "id": 91,
+      "category": "La vie chrétienne",
+      "q": "Comment savoir si je suis appelé à servir Dieu / au ministère ?",
+      "a": "L'appel se confirme par plusieurs signaux : un désir profond qui ne passe pas, des dons que Dieu utilise, des fruits dans la vie des autres, et la confirmation de responsables spirituels. Sers d'abord là où tu es ; la fidélité dans les petites choses ouvre les plus grandes.\n\nNe cours pas après un titre : cherche à connaître Jésus et à aimer les gens, et laisse Dieu élargir. « Fidèle sur peu de choses, je te confierai beaucoup. »",
+      "verse": "Matthieu 25.21"
+    },
+    {
+      "id": 92,
+      "category": "La vie chrétienne",
+      "q": "Comment vivre une vie sainte sans tomber dans le légalisme ?",
+      "a": "La sainteté n'est pas une liste de règles pour être aimé, mais le fruit d'un cœur qui aime Dieu. Le légalisme dit « obéis pour être accepté » ; l'Évangile dit « tu es accepté, alors obéis par amour ». La différence, c'est le moteur : la peur ou la reconnaissance.\n\nReste près de Jésus, laisse l'Esprit te transformer de l'intérieur, et poursuis la sainteté comme une réponse d'amour, pas comme une performance. « Nous l'aimons, parce qu'il nous a aimés le premier. »",
+      "verse": "1 Jean 4.19"
+    },
+    {
+      "id": 93,
+      "category": "La vie chrétienne",
+      "q": "Comment surmonter le découragement dans le service ?",
+      "a": "Le découragement guette même les plus zélés (Élie voulait mourir après une victoire). Reviens à la source : le repos, la présence de Dieu, et le rappel que tu sers Lui, pas les applaudissements. « C'est le Seigneur Christ que vous servez. »\n\nNe porte pas tout seul : partage, délègue, reçois du soutien. Et garde les yeux sur la récompense éternelle plutôt que sur les résultats immédiats. Ta fidélité n'est jamais vaine dans le Seigneur.",
+      "verse": "1 Corinthiens 15.58"
+    },
+    {
+      "id": 94,
+      "category": "Questions difficiles",
+      "q": "L'enfer existe-t-il vraiment ? Comment un Dieu d'amour peut-il l'autoriser ?",
+      "a": "Jésus lui-même a parlé de l'enfer, plus que quiconque — non pour effrayer, mais pour avertir par amour. C'est le résultat d'un refus définitif de Dieu : Dieu respecte notre liberté, même celle de le rejeter. L'enfer, au fond, c'est vivre pour toujours loin de la source de toute vie et de tout bien.\n\nMais toute la Bible crie que Dieu ne le veut pour personne : « Il ne veut qu'aucun périsse. » Il a tout donné pour nous en sauver. La croix est la mesure à laquelle Dieu a tenu à nous éviter cela.",
+      "verse": "2 Pierre 3.9"
+    },
+    {
+      "id": 95,
+      "category": "Questions difficiles",
+      "q": "Que deviennent ceux qui n'ont jamais entendu parler de Jésus ?",
+      "a": "C'est une vraie question, et la réponse ultime appartient à Dieu, qui est parfaitement juste et bon : « Le juge de toute la terre ne fera-t-il pas ce qui est juste ? » Personne ne sera traité injustement ; Dieu tient compte de ce que chacun a réellement reçu.\n\nCe que nous savons, c'est que Jésus est le chemin, et que Dieu se révèle à qui le cherche sincèrement — parfois de façons surprenantes. Cela ne nous rend pas passifs : cela nous pousse à faire connaître l'Évangile, justement.",
+      "verse": "Genèse 18.25"
+    },
+    {
+      "id": 96,
+      "category": "Questions difficiles",
+      "q": "Science et création : faut-il choisir entre la Bible et l'évolution ?",
+      "a": "La Bible affirme le fait — Dieu a tout créé avec intention et amour — sans donner le mode d'emploi scientifique. Des chrétiens sincères et sérieux interprètent les « comment » différemment, tout en confessant le même Créateur. On peut garder la foi sans avoir tranché tous les débats.\n\nL'essentiel de Genèse n'est pas un cours de biologie mais une vérité : le monde n'est pas un accident, tu n'es pas un hasard, tu es voulu. « C'est lui qui nous a faits, et non pas nous. »",
+      "verse": "Psaume 100.3"
+    },
+    {
+      "id": 97,
+      "category": "Questions difficiles",
+      "q": "Pourquoi y a-t-il autant d'églises et de dénominations différentes ?",
+      "a": "Parce que les chrétiens, imparfaits, ont divergé sur des points secondaires — styles, organisations, interprétations. C'est une faiblesse humaine, pas la volonté de Dieu, qui prie « que tous soient un ». Mais sur le cœur de la foi — Jésus mort et ressuscité, sauveur unique — l'immense majorité s'accorde.\n\nNe te laisse pas décourager par les étiquettes : cherche une église qui aime Jésus, la Bible et les gens. L'unité vraie n'est pas l'uniformité, c'est un même amour pour le même Seigneur.",
+      "verse": "Jean 17.21"
+    },
+    {
+      "id": 98,
+      "category": "Questions difficiles",
+      "q": "Que dit la Bible sur les autres pratiques spirituelles (voyance, horoscope, occultisme) ?",
+      "a": "La Bible met clairement en garde : divination, voyance, horoscope, spiritisme ouvrent des portes à ce qui n'est pas de Dieu et cherchent à connaître l'avenir en dehors de Lui. « Qu'on ne trouve chez toi personne qui exerce le métier de devin. » Ce n'est pas de la superstition inversée : c'est une question de source.\n\nLa bonne nouvelle : en Jésus, tu n'as pas besoin de ces choses. Dieu te guide par son Esprit et sa Parole, en sécurité. Si tu t'y es engagé, tu peux le confesser et en être libéré au nom de Jésus.",
+      "verse": "Deutéronome 18.10-12"
+    },
+    {
+      "id": 99,
+      "category": "Questions difficiles",
+      "q": "Comment un chrétien doit-il aborder des sujets sensibles (sexualité, société) avec amour ?",
+      "a": "Avec « la grâce et la vérité » que Jésus tenait ensemble. La vérité sans amour blesse ; l'amour sans vérité trompe. Un chrétien tient les convictions de l'Écriture, mais traite chaque personne avec une dignité et une bienveillance sans faille — car chacun est aimé de Dieu et créé à son image.\n\nJésus n'a jamais méprisé personne ; il a mangé avec ceux que la religion rejetait, tout en appelant chacun à la vie nouvelle. Notre posture : écouter, aimer d'abord, ne jamais mépriser, et présenter Jésus, qui accueille tous ceux qui viennent à Lui.",
+      "verse": "Jean 1.14"
+    },
+    {
+      "id": 100,
+      "category": "Questions difficiles",
+      "q": "Si Dieu savait qu'Adam pécherait, pourquoi l'avoir créé ?",
+      "a": "Parce que l'amour véritable exige la liberté. Dieu aurait pu faire des marionnettes obéissantes ; il a préféré des êtres capables d'aimer vraiment — ce qui implique le risque du refus. Un amour forcé n'est pas de l'amour.\n\nEt Dieu n'a pas été pris de court : avant même la chute, il avait prévu le salut en Jésus. Il tire de notre histoire brisée une rédemption plus glorieuse encore. Là où le mal a abondé, la grâce a surabondé.",
+      "verse": "Éphésiens 1.4"
+    },
+    {
+      "id": 101,
+      "category": "Questions difficiles",
+      "q": "La foi n'est-elle pas juste une béquille pour les faibles ?",
+      "a": "Reconnaître qu'on a besoin d'aide n'est pas une faiblesse, c'est de la lucidité — nous sommes tous fragiles. La foi n'endort pas ; elle a soutenu des gens d'un immense courage, des martyrs aux réformateurs sociaux. Suivre un Jésus qui appelle à aimer ses ennemis et à se donner n'a rien de confortable.\n\nEn vérité, l'Évangile dit l'inverse d'une béquille facile : « ma grâce te suffit, car ma puissance s'accomplit dans la faiblesse. » C'est en reconnaissant nos limites qu'on découvre une force qui nous dépasse.",
+      "verse": "2 Corinthiens 12.9"
+    },
+    {
+      "id": 102,
+      "category": "La fin des temps",
+      "q": "Comment sera le retour de Jésus ?",
+      "a": "Visible, glorieux et certain : « Il vient sur les nuées, et tout œil le verra. » Non plus dans la faiblesse d'un bébé, mais comme Roi, pour juger, restaurer toutes choses et rassembler les siens. Les anges l'ont promis à son départ.\n\nPersonne n'en connaît le jour ; d'où l'appel de Jésus à veiller et à être prêts. Pour qui l'aime, ce n'est pas une menace mais une espérance : notre Sauveur revient.",
+      "verse": "Apocalypse 1.7"
+    },
+    {
+      "id": 103,
+      "category": "La fin des temps",
+      "q": "C'est quoi le ciel / la vie éternelle ?",
+      "a": "Ce n'est pas un vague nuage ennuyeux, mais la plénitude de la vie avec Dieu, sans mal, sans larme, sans mort : « Il essuiera toute larme… la mort ne sera plus. » La Bible parle même de nouveaux cieux et d'une nouvelle terre — la création guérie.\n\nLa vie éternelle commence déjà : « La vie éternelle, c'est qu'ils te connaissent, toi le seul vrai Dieu. » Ce n'est pas d'abord une durée, c'est une relation qui ne finit jamais.",
+      "verse": "Apocalypse 21.4"
+    },
+    {
+      "id": 104,
+      "category": "La fin des temps",
+      "q": "Aurai-je un corps après la mort ? Reverrai-je mes proches croyants ?",
+      "a": "Oui. L'espérance chrétienne n'est pas de flotter en esprit, mais la résurrection du corps : « les morts en Christ ressusciteront », avec un corps nouveau, glorieux, sans maladie ni vieillissement. Christ ressuscité en est les prémices.\n\nEt oui, la Bible console : les croyants seront « ensemble avec le Seigneur », réunis. Le deuil n'est pas un adieu définitif pour ceux qui sont en Christ, mais un « au revoir ».",
+      "verse": "1 Thessaloniciens 4.16-17"
+    },
+    {
+      "id": 105,
+      "category": "La fin des temps",
+      "q": "Comment savoir si on est dans les « derniers temps » ?",
+      "a": "La Bible dit que les « derniers jours » ont commencé avec la venue de Jésus : nous y sommes depuis la Pentecôte. Jésus a décrit des signes (guerres, séismes, annonce de l'Évangile à toutes les nations) tout en avertissant : « Vous ne savez ni le jour ni l'heure. »\n\nLe but n'est pas de calculer des dates — beaucoup s'y sont trompés — mais de vivre prêts : « Veillez. » La meilleure préparation, c'est d'aimer Jésus et de faire connaître son amour aujourd'hui.",
+      "verse": "Matthieu 24.42"
+    },
+    {
+      "id": 106,
+      "category": "La fin des temps",
+      "q": "Y aura-t-il un jugement ? Sur quoi serai-je jugé ?",
+      "a": "Oui, la Bible parle d'un jugement où toute vie sera mise en lumière devant Dieu. Mais voici la bonne nouvelle centrale : pour qui est en Christ, le jugement a déjà été porté à la croix. « Il n'y a aucune condamnation pour ceux qui sont en Jésus-Christ. »\n\nLa vraie question n'est donc pas « ai-je été assez bon ? » mais « à qui appartient ma vie ? ». Mets-la entre les mains de Jésus, et tu passeras « de la mort à la vie ».",
+      "verse": "Jean 5.24"
+    },
+    {
+      "id": 107,
+      "category": "La fin des temps",
+      "q": "Faut-il avoir peur de la fin du monde ?",
+      "a": "Pas si tu es en Jésus. La Bible ne présente pas la fin comme un désastre pour les croyants, mais comme l'accomplissement de l'espérance : Christ revient, le mal est jugé, tout est restauré. « Redressez-vous et levez vos têtes, parce que votre délivrance approche. »\n\nLa peur regarde le chaos ; la foi regarde Celui qui règne au-dessus. Ne vis pas dans l'angoisse des scénarios, mais dans la confiance : ton avenir est entre de bonnes mains.",
+      "verse": "Luc 21.28"
     }
   ]
 }
