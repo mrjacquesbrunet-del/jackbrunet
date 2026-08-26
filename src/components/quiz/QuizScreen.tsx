@@ -115,6 +115,26 @@ export function QuizScreen() {
   const [won, setWon] = useState(0);
   const [reason, setReason] = useState<"win" | "wrong" | "timeout" | "walk">("win");
 
+  // Effets / dynamisme
+  const [combo, setCombo] = useState(0);
+  const [toast, setToast] = useState<string | null>(null);
+  const [confetti, setConfetti] = useState(false);
+  const [cardShake, setCardShake] = useState(false);
+  const [fly, setFly] = useState<string | null>(null);
+  const [countWon, setCountWon] = useState(0);
+  const toastT = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const popToast = (t: string) => {
+    setToast(null);
+    requestAnimationFrame(() => setToast(t));
+    if (toastT.current) clearTimeout(toastT.current);
+    toastT.current = setTimeout(() => setToast(null), 1400);
+  };
+  const burst = () => {
+    setConfetti(false);
+    requestAnimationFrame(() => setConfetti(true));
+    setTimeout(() => setConfetti(false), 1400);
+  };
+
   const q = game[step];
 
   const startGame = () => {
@@ -122,9 +142,25 @@ export function QuizScreen() {
     setStep(0);
     resetQuestion();
     setUsedJokers({ half: false, hint: false, poll: false });
+    setCombo(0);
     setPhase("play");
     play([523, 659, 784], 0.12);
   };
+
+  // Compteur des gains qui monte sur l'écran de fin.
+  useEffect(() => {
+    if (phase !== "over") return;
+    let raf = 0;
+    const start = performance.now();
+    const dur = 900;
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - start) / dur);
+      setCountWon(Math.round(won * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [phase, won]);
 
   const resetQuestion = () => {
     setPicked(null);
@@ -188,11 +224,24 @@ export function QuizScreen() {
       const correct = idx === q.correct;
       if (correct) {
         play([659, 784, 988], 0.14);
+        burst();
+        setFly(`+ ${formatCoins(LADDER[step])}`);
+        setTimeout(() => setFly(null), 950);
+        const rung = step + 1;
+        const newCombo = combo + 1;
+        setCombo(newCombo);
+        if (rung === LADDER.length) popToast("LE MILLION !");
+        else if (SAFE_RUNGS.includes(rung)) popToast("Palier sûr atteint !");
+        else if (newCombo >= 3) popToast(`Série de ${newCombo} !`);
+        else popToast("Bonne réponse !");
         if (step === LADDER.length - 1) {
           setTimeout(() => endGame(LADDER[step], "win"), 1400);
         }
       } else {
         play([233, 175], 0.32, "sawtooth");
+        setCombo(0);
+        setCardShake(true);
+        setTimeout(() => setCardShake(false), 550);
         setTimeout(() => endGame(guaranteedCoins(step), "wrong"), 1800);
       }
     }, 900);
@@ -248,6 +297,7 @@ export function QuizScreen() {
   if (phase === "hub") {
     return (
       <div className="mx-auto max-w-md px-4 py-6 text-cream">
+        <QzFx />
         <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-b from-indigo-900 via-violet-900 to-fuchsia-900/80 p-6 text-center shadow-2xl">
           <div className="pointer-events-none absolute inset-0 opacity-30 [background:radial-gradient(circle_at_50%_0,rgba(255,255,255,.5),transparent_60%)]" />
           <div className="relative">
@@ -288,7 +338,7 @@ export function QuizScreen() {
             <button
               type="button"
               onClick={startGame}
-              className="mt-4 w-full rounded-2xl bg-[#8FE23C] py-4 font-game text-xl font-extrabold text-night-950 shadow-[0_6px_0_#5b9e1f] active:translate-y-1 active:shadow-[0_2px_0_#5b9e1f]"
+              className="qz-glow mt-4 w-full rounded-2xl bg-[#8FE23C] py-4 font-game text-xl font-extrabold text-night-950 shadow-[0_6px_0_#5b9e1f] active:translate-y-1 active:shadow-[0_2px_0_#5b9e1f]"
             >
               NOUVELLE PARTIE
             </button>
@@ -342,13 +392,15 @@ export function QuizScreen() {
     const isWin = reason === "win";
     return (
       <div className="mx-auto max-w-md px-4 py-10 text-center text-cream">
-        <div className="rounded-[2rem] border border-white/10 bg-gradient-to-b from-indigo-900 to-fuchsia-900/80 p-8 shadow-2xl">
+        <QzFx />
+        {won > 0 ? <Confetti /> : null}
+        <div className="qz-pop rounded-[2rem] border border-white/10 bg-gradient-to-b from-indigo-900 to-fuchsia-900/80 p-8 shadow-2xl">
           <p className="font-game text-lg text-cream/70">
             {isWin ? "Incroyable !" : reason === "walk" ? "Tu t'arrêtes là" : "Partie terminée"}
           </p>
           <div className="my-5 flex items-center justify-center">
             <span className="rounded-full bg-amber-500 px-8 py-3 font-game text-3xl font-extrabold text-night-950 shadow-lg">
-              {formatCoins(won)}
+              {formatCoins(countWon)}
             </span>
           </div>
           <p className="text-sm text-cream/70">
@@ -365,7 +417,7 @@ export function QuizScreen() {
           <button
             type="button"
             onClick={startGame}
-            className="mt-6 w-full rounded-2xl bg-[#8FE23C] py-4 font-game text-xl font-extrabold text-night-950 shadow-[0_6px_0_#5b9e1f] active:translate-y-1 active:shadow-[0_2px_0_#5b9e1f]"
+            className="qz-glow mt-6 w-full rounded-2xl bg-[#8FE23C] py-4 font-game text-xl font-extrabold text-night-950 shadow-[0_6px_0_#5b9e1f] active:translate-y-1 active:shadow-[0_2px_0_#5b9e1f]"
           >
             REJOUER
           </button>
@@ -403,6 +455,9 @@ export function QuizScreen() {
 
   return (
     <div className="mx-auto max-w-md px-4 py-4 text-cream">
+      <QzFx />
+      {confetti ? <Confetti /> : null}
+      {toast ? <Toast text={toast} /> : null}
       {/* Entête : quitter / minuteur / palier */}
       <div className="mb-3 flex items-center justify-between">
         <button
@@ -421,7 +476,7 @@ export function QuizScreen() {
           Palier {step + 1}/15
         </button>
         {/* Minuteur */}
-        <div className="relative grid h-12 w-12 place-items-center">
+        <div className={`relative grid h-12 w-12 place-items-center ${timeLeft <= 10 && !locked ? "qz-tick" : ""}`}>
           <svg viewBox="0 0 40 40" className="absolute inset-0 -rotate-90">
             <circle cx="20" cy="20" r="17" fill="none" stroke="rgba(255,255,255,.15)" strokeWidth="4" />
             <circle
@@ -442,12 +497,26 @@ export function QuizScreen() {
       </div>
 
       {/* Montant du palier */}
-      <div className="mx-auto mb-3 w-fit rounded-full bg-amber-400 px-6 py-1.5 font-game text-lg font-extrabold text-night-950 shadow">
-        {formatCoins(LADDER[step])}
+      <div className="relative mx-auto mb-3 w-fit">
+        <div className="rounded-full bg-amber-400 px-6 py-1.5 font-game text-lg font-extrabold text-night-950 shadow">
+          {formatCoins(LADDER[step])}
+        </div>
+        {fly ? (
+          <span
+            className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 font-game text-lg font-extrabold text-[#8FE23C]"
+            style={{ animation: "qz-float .95s ease-out forwards" }}
+          >
+            {fly}
+          </span>
+        ) : null}
       </div>
 
       {/* Question */}
-      <div className={`rounded-3xl bg-gradient-to-b ${bg} p-5 shadow-xl`}>
+      <div
+        key={`q-${step}`}
+        className={`rounded-3xl bg-gradient-to-b ${bg} p-5 shadow-xl ${cardShake ? "qz-shake" : ""}`}
+        style={{ animation: cardShake ? undefined : "qz-optin .4s ease-out" }}
+      >
         <div className="flex items-start gap-3">
           <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-amber-500 font-game text-sm font-extrabold text-night-950">
             {String(step + 1).padStart(2, "0")}
@@ -477,11 +546,14 @@ export function QuizScreen() {
                 : "bg-night-900/60 text-cream border-white/15";
           return (
             <button
-              key={i}
+              key={`${step}-${i}`}
               type="button"
               disabled={locked}
               onClick={() => answer(i)}
-              className={`flex w-full items-center gap-3 rounded-2xl border-2 px-4 py-3 text-left font-game text-base font-bold transition-colors ${cls}`}
+              style={reveal ? undefined : { animation: `qz-optin .4s ease-out ${0.08 * i + 0.1}s both` }}
+              className={`flex w-full items-center gap-3 rounded-2xl border-2 px-4 py-3 text-left font-game text-base font-bold transition-colors ${cls} ${
+                showCorrect ? "qz-pop" : ""
+              }`}
             >
               <span className="font-extrabold text-amber-400">{LETTERS[i]}:</span>
               <span className="flex-1">{opt}</span>
@@ -511,7 +583,7 @@ export function QuizScreen() {
           <button
             type="button"
             onClick={nextQuestion}
-            className="w-full rounded-2xl bg-[#8FE23C] py-3.5 font-game text-lg font-extrabold text-night-950 shadow-[0_5px_0_#5b9e1f] active:translate-y-1 active:shadow-[0_1px_0_#5b9e1f]"
+            className="qz-glow w-full rounded-2xl bg-[#8FE23C] py-3.5 font-game text-lg font-extrabold text-night-950 shadow-[0_5px_0_#5b9e1f] active:translate-y-1 active:shadow-[0_1px_0_#5b9e1f]"
           >
             CONTINUER · {formatCoins(LADDER[step + 1])}
           </button>
@@ -663,3 +735,65 @@ function Leaderboard({ rows, onClose }: { rows: QuizRow[] | null; onClose: () =>
 
 const SoundOn = S("M4 9v6h4l5 4V5L8 9zM16 8a4 4 0 0 1 0 8M18.5 6a7 7 0 0 1 0 12");
 const SoundOff = S("M4 9v6h4l5 4V5L8 9zM17 9l4 6M21 9l-4 6");
+
+/* ---------------- Effets (animations) ---------------- */
+const FX = `
+@keyframes qz-pop{0%{transform:scale(.6);opacity:0}55%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+@keyframes qz-optin{0%{transform:translateY(14px);opacity:0}100%{transform:translateY(0);opacity:1}}
+@keyframes qz-shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes qz-float{0%{transform:translate(-50%,0) scale(1);opacity:1}100%{transform:translate(-50%,-58px) scale(1.5);opacity:0}}
+@keyframes qz-fall{0%{transform:translateY(-12vh) rotate(0);opacity:1}100%{transform:translateY(112vh) rotate(720deg);opacity:.9}}
+@keyframes qz-toast{0%{transform:scale(.5) translateY(12px);opacity:0}18%{transform:scale(1.14) translateY(0);opacity:1}82%{transform:scale(1);opacity:1}100%{transform:scale(.92) translateY(-16px);opacity:0}}
+@keyframes qz-glow{0%,100%{box-shadow:0 6px 0 #5b9e1f,0 0 0 rgba(143,226,60,0)}50%{box-shadow:0 6px 0 #5b9e1f,0 0 30px rgba(143,226,60,.6)}}
+@keyframes qz-tick{0%,100%{transform:scale(1)}50%{transform:scale(1.16)}}
+.qz-pop{animation:qz-pop .3s ease-out}
+.qz-shake{animation:qz-shake .5s ease-in-out}
+.qz-tick{animation:qz-tick .5s ease-in-out infinite}
+.qz-glow{animation:qz-glow 1.8s ease-in-out infinite}
+`;
+function QzFx() {
+  return <style dangerouslySetInnerHTML={{ __html: FX }} />;
+}
+
+function Confetti() {
+  const colors = ["#8FE23C", "#FBBF24", "#F472B6", "#38BDF8", "#FDE68A"];
+  const bits = Array.from({ length: 80 }, (_, i) => ({
+    left: Math.random() * 100,
+    delay: Math.random() * 0.5,
+    dur: 1.5 + Math.random() * 1.3,
+    color: colors[i % colors.length],
+    size: 6 + Math.random() * 8,
+  }));
+  return (
+    <div className="pointer-events-none fixed inset-0 z-[85] overflow-hidden">
+      {bits.map((b, i) => (
+        <span
+          key={i}
+          style={{
+            position: "absolute",
+            left: `${b.left}%`,
+            top: 0,
+            width: b.size,
+            height: b.size * 0.5,
+            background: b.color,
+            borderRadius: 2,
+            animation: `qz-fall ${b.dur}s linear ${b.delay}s forwards`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function Toast({ text }: { text: string }) {
+  return (
+    <div className="pointer-events-none fixed inset-0 z-[86] flex items-center justify-center">
+      <div
+        style={{ animation: "qz-toast 1.4s ease-out forwards" }}
+        className="rounded-2xl bg-night-950/90 px-7 py-3.5 font-game text-2xl font-extrabold text-[#8FE23C] shadow-2xl ring-2 ring-[#8FE23C]/40"
+      >
+        {text}
+      </div>
+    </div>
+  );
+}
