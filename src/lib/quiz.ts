@@ -154,6 +154,74 @@ export function getQuizBestRung(): number {
   return read(BESTRUNG_KEY);
 }
 
+/* ---------------- Badges / trophées ---------------- */
+
+export type Achievement = { id: string; name: string; desc: string };
+
+/** Liste des trophées à débloquer (dans l'ordre d'affichage). */
+export const ACHIEVEMENTS: Achievement[] = [
+  { id: "first", name: "Premier pas", desc: "Jouer ta première partie" },
+  { id: "streak5", name: "En forme", desc: "5 bonnes réponses d'affilée" },
+  { id: "safe1", name: "Premier filet", desc: "Atteindre le palier 10" },
+  { id: "nojoker10", name: "En autonomie", desc: "Atteindre le palier 10 sans joker" },
+  { id: "streak10", name: "Série de 10", desc: "10 bonnes réponses d'affilée" },
+  { id: "safe2", name: "Sang-froid", desc: "Atteindre le palier 20" },
+  { id: "games10", name: "Fidèle", desc: "Jouer 10 parties" },
+  { id: "coins100k", name: "Trésorier", desc: "Cumuler 100 000 pièces" },
+  { id: "games50", name: "Passionné", desc: "Jouer 50 parties" },
+  { id: "million", name: "Millionnaire", desc: "Atteindre le million (palier 30)" },
+  { id: "coins1m", name: "Maître de la Parole", desc: "Cumuler 1 000 000 au total" },
+];
+
+const ACH_KEY = "jb.quiz.ach.v1";
+
+/** Ids des trophées déjà débloqués. */
+export function getUnlockedAchievements(): Set<string> {
+  try {
+    const raw = JSON.parse(localStorage.getItem(ACH_KEY) || "[]");
+    return new Set(Array.isArray(raw) ? (raw as string[]) : []);
+  } catch {
+    return new Set();
+  }
+}
+
+/** Débloque des trophées ; renvoie la liste de ceux réellement nouveaux. */
+export function unlockAchievements(ids: string[]): Achievement[] {
+  const have = getUnlockedAchievements();
+  const fresh = ids.filter((id) => !have.has(id));
+  if (!fresh.length) return [];
+  for (const id of fresh) have.add(id);
+  try {
+    localStorage.setItem(ACH_KEY, JSON.stringify(Array.from(have)));
+  } catch {
+    /* stockage indisponible */
+  }
+  return ACHIEVEMENTS.filter((a) => fresh.includes(a.id));
+}
+
+/** Évalue les trophées atteignables après une partie et les débloque.
+ * Renvoie les nouveaux trophées (pour l'animation de fin). */
+export function evaluateAchievements(stats: {
+  rung: number;
+  maxCombo: number;
+  usedJoker: boolean;
+  games: number;
+  coins: number;
+}): Achievement[] {
+  const got: string[] = ["first"];
+  if (stats.maxCombo >= 5) got.push("streak5");
+  if (stats.maxCombo >= 10) got.push("streak10");
+  if (stats.rung >= 10) got.push("safe1");
+  if (stats.rung >= 10 && !stats.usedJoker) got.push("nojoker10");
+  if (stats.rung >= 20) got.push("safe2");
+  if (stats.rung >= LADDER.length) got.push("million");
+  if (stats.games >= 10) got.push("games10");
+  if (stats.games >= 50) got.push("games50");
+  if (stats.coins >= 100000) got.push("coins100k");
+  if (stats.coins >= 1000000) got.push("coins1m");
+  return unlockAchievements(got);
+}
+
 /** Enregistre le résultat d'une partie en local. Renvoie le nouveau cumul. */
 export function recordQuizResult(
   won: number,

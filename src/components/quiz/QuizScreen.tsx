@@ -14,7 +14,12 @@ import {
   getQuizCoins,
   getQuizBest,
   getQuizBestRung,
+  getQuizGames,
   recordQuizResult,
+  ACHIEVEMENTS,
+  getUnlockedAchievements,
+  evaluateAchievements,
+  type Achievement,
   type QuizQuestion,
 } from "@/lib/quiz";
 import {
@@ -54,6 +59,15 @@ function tone(freqs: number[], dur = 0.16, type: OscillatorType = "sine") {
   }
 }
 
+/** Vibration best-effort (Android WebView ; sans effet sur iOS/desktop). */
+function buzz(pattern: number | number[]) {
+  try {
+    if (typeof navigator !== "undefined" && "vibrate" in navigator) navigator.vibrate(pattern);
+  } catch {
+    /* non supporté */
+  }
+}
+
 /* ---------------- Icônes (trait) ---------------- */
 const S = (d: string) => (p: { className?: string }) => (
   <svg viewBox="0 0 24 24" className={p.className} fill="none" stroke="currentColor" strokeWidth={1.8}>
@@ -66,6 +80,9 @@ const IconBulb = S("M12 3a6 6 0 0 0-3.5 10.9c.7.5 1 1.3 1 2.1h5c0-.8.3-1.6 1-2.1
 const IconPeople = S("M17 20v-1a4 4 0 0 0-3-3.9M7 20v-1a4 4 0 0 1 3-3.9M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6");
 const IconHalf = S("M12 3v18M3 12h18M4 4h16v16H4z");
 const IconEdit = S("M4 20h4L18 10l-4-4L4 16zM14 6l4 4");
+const IconFlame = S("M12 3c1.5 3 4.5 4 4.5 8.5A4.5 4.5 0 0 1 7.5 11.5c0-1 .4-2 1-2.7C9.5 10.5 10 7 12 3z");
+const IconMedal = S("M8 3l2 6M16 3l-2 6M12 21a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 14.5l1 2 2 .2-1.5 1.4.4 2-1.9-1-1.9 1 .4-2L9 16.7l2-.2z");
+const IconLock = S("M6 10V8a6 6 0 0 1 12 0v2M5 10h14v10H5zM12 14v3");
 
 const LETTERS = ["A", "B", "C", "D"];
 
@@ -92,7 +109,10 @@ export function QuizScreen() {
   const [bestRung, setBestRung] = useState(0);
   const [showBoard, setShowBoard] = useState(false);
   const [showLadder, setShowLadder] = useState(false);
+  const [showTrophies, setShowTrophies] = useState(false);
   const [sound, setSound] = useState(true);
+  const [newBadges, setNewBadges] = useState<Achievement[]>([]);
+  const maxComboRef = useRef(0);
 
   useEffect(() => {
     setName(getQuizName());
@@ -175,8 +195,11 @@ export function QuizScreen() {
     resetQuestion();
     setUsedJokers({ half: false, hint: false, poll: false });
     setCombo(0);
+    maxComboRef.current = 0;
+    setNewBadges([]);
     setPhase("play");
     play([523, 659, 784], 0.12);
+    buzz(20);
   };
 
   // Sortie du plein écran quand on revient à l'accueil.
@@ -204,6 +227,22 @@ export function QuizScreen() {
     return () => cancelAnimationFrame(raf);
   }, [phase, won]);
 
+  // Trophées débloqués à la fin d'une partie.
+  useEffect(() => {
+    if (phase !== "over") return;
+    const usedJoker = usedJokers.half || usedJokers.hint || usedJokers.poll;
+    const fresh = evaluateAchievements({
+      rung: reachedRung,
+      maxCombo: maxComboRef.current,
+      usedJoker,
+      games: getQuizGames(),
+      coins: getQuizCoins(),
+    });
+    setNewBadges(fresh);
+    if (fresh.length) buzz([20, 40, 20, 40]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase]);
+
   const resetQuestion = () => {
     setPicked(null);
     setLocked(false);
@@ -223,6 +262,10 @@ export function QuizScreen() {
         if (t <= 1) {
           clearInterval(timerRef.current!);
           return 0;
+        }
+        if (t <= 6) {
+          play([880], 0.05);
+          buzz(12);
         }
         return t - 1;
       });
@@ -270,11 +313,13 @@ export function QuizScreen() {
         play([659, 784, 988], 0.14);
         burst();
         doFlash("good");
+        buzz(25);
         setFly(`+ ${formatCoins(LADDER[step])}`);
         setTimeout(() => setFly(null), 950);
         const rung = step + 1;
         const newCombo = combo + 1;
         setCombo(newCombo);
+        maxComboRef.current = Math.max(maxComboRef.current, newCombo);
         if (rung === LADDER.length) {
           popToast("LE MILLION !");
           showMilestone("LE MILLION !");
@@ -282,6 +327,7 @@ export function QuizScreen() {
           popToast("Palier sûr atteint !");
           showMilestone(`FILET ASSURÉ · ${formatCoins(LADDER[step])}`);
           play([659, 784, 988, 1319], 0.14);
+          buzz([20, 40, 80]);
         } else if (newCombo >= 3) popToast(`Série de ${newCombo} !`);
         else popToast("Bonne réponse !");
         if (step === LADDER.length - 1) {
@@ -290,6 +336,7 @@ export function QuizScreen() {
       } else {
         play([233, 175], 0.32, "sawtooth");
         doFlash("bad");
+        buzz([40, 60, 40]);
         setCombo(0);
         setCardShake(true);
         setTimeout(() => setCardShake(false), 550);
@@ -389,14 +436,24 @@ export function QuizScreen() {
             >
               NOUVELLE PARTIE
             </button>
-            <button
-              type="button"
-              onClick={openBoard}
-              className="mt-3 flex w-full items-center justify-center gap-3 rounded-2xl bg-white/10 py-3.5 font-game text-lg font-bold"
-            >
-              <IconTrophy className="h-6 w-6 text-amber-300" />
-              Classement
-            </button>
+            <div className="mt-3 grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={openBoard}
+                className="flex items-center justify-center gap-2 rounded-2xl bg-white/10 py-3.5 font-game text-base font-bold"
+              >
+                <IconTrophy className="h-5 w-5 text-amber-300" />
+                Classement
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowTrophies(true)}
+                className="flex items-center justify-center gap-2 rounded-2xl bg-white/10 py-3.5 font-game text-base font-bold"
+              >
+                <IconMedal className="h-5 w-5 text-amber-300" />
+                Trophées
+              </button>
+            </div>
 
             <div className="mt-4 grid grid-cols-2 gap-3 text-left">
               <div className="rounded-2xl bg-white/10 p-3">
@@ -448,6 +505,7 @@ export function QuizScreen() {
         </div>
 
         {showBoard ? <Leaderboard onClose={() => setShowBoard(false)} /> : null}
+        {showTrophies ? <Trophies onClose={() => setShowTrophies(false)} /> : null}
       </div>
     );
   }
@@ -490,6 +548,23 @@ export function QuizScreen() {
           <p className="mt-4 text-sm">
             Cumul : <span className="font-game font-bold text-amber-300">{formatCoins(coins)}</span>
           </p>
+
+          {newBadges.length ? (
+            <div className="mt-4 rounded-2xl bg-white/10 p-3 text-left">
+              <p className="text-center font-game text-xs font-bold uppercase tracking-wide text-amber-300">
+                Nouveau{newBadges.length > 1 ? "x" : ""} trophée{newBadges.length > 1 ? "s" : ""} !
+              </p>
+              <div className="mt-2 space-y-1.5">
+                {newBadges.map((b) => (
+                  <div key={b.id} className="qz-pop flex items-center gap-2">
+                    <IconTrophy className="h-5 w-5 shrink-0 text-amber-300" />
+                    <span className="font-game text-sm font-bold">{b.name}</span>
+                    <span className="ml-auto text-xs text-cream/50">{b.desc}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
 
           <button
             type="button"
@@ -594,6 +669,17 @@ export function QuizScreen() {
           </span>
         ) : null}
       </div>
+
+      {/* Compteur de série (multiplicateur visible) */}
+      {combo >= 2 ? (
+        <div
+          key={`combo-${combo}`}
+          className="qz-pop mx-auto mb-3 flex w-fit items-center gap-2 rounded-full bg-orange-500/25 px-3 py-1 ring-1 ring-orange-400/50"
+        >
+          <IconFlame className="h-4 w-4 text-orange-400" />
+          <span className="font-game text-sm font-extrabold text-orange-200">Série ×{combo}</span>
+        </div>
+      ) : null}
 
       {/* Échelle des paliers — toujours visible : on voit sa progression et
           les paliers « sûrs » (gardés même en cas d'erreur). */}
@@ -935,6 +1021,58 @@ function Particles() {
           }}
         />
       ))}
+    </div>
+  );
+}
+
+/* ---- Vitrine des trophées ---- */
+function Trophies({ onClose }: { onClose: () => void }) {
+  const [unlocked, setUnlocked] = useState<Set<string>>(new Set());
+  useEffect(() => {
+    setUnlocked(getUnlockedAchievements());
+  }, []);
+  const count = ACHIEVEMENTS.filter((a) => unlocked.has(a.id)).length;
+  return (
+    <div className="fixed inset-0 z-[120] flex items-end justify-center sm:items-center" role="dialog" aria-modal="true">
+      <button aria-label="Fermer" onClick={onClose} className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+      <div className="relative z-10 w-full max-w-md rounded-t-3xl bg-gradient-to-b from-indigo-900 to-violet-950 p-5 text-cream shadow-2xl sm:rounded-3xl">
+        <h2 className="text-center font-game text-2xl font-extrabold">Trophées</h2>
+        <p className="mt-1 text-center font-game text-sm text-amber-300">
+          {count}/{ACHIEVEMENTS.length} débloqués
+        </p>
+        <div className="mt-4 max-h-[58vh] space-y-2 overflow-y-auto">
+          {ACHIEVEMENTS.map((a) => {
+            const has = unlocked.has(a.id);
+            return (
+              <div
+                key={a.id}
+                className={`flex items-center gap-3 rounded-2xl border px-3 py-2.5 ${
+                  has ? "border-amber-400/40 bg-amber-400/10" : "border-white/10 bg-white/[0.04] opacity-60"
+                }`}
+              >
+                <span
+                  className={`grid h-9 w-9 shrink-0 place-items-center rounded-full ${
+                    has ? "bg-amber-500 text-night-950" : "bg-white/10 text-cream/50"
+                  }`}
+                >
+                  {has ? <IconTrophy className="h-5 w-5" /> : <IconLock className="h-4 w-4" />}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block font-game text-sm font-bold">{a.name}</span>
+                  <span className="block text-xs text-cream/55">{a.desc}</span>
+                </span>
+              </div>
+            );
+          })}
+        </div>
+        <button
+          type="button"
+          onClick={onClose}
+          className="mt-4 w-full rounded-2xl bg-amber-500 py-3 font-game text-lg font-bold text-night-950"
+        >
+          Fermer
+        </button>
+      </div>
     </div>
   );
 }
