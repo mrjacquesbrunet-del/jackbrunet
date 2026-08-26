@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeader } from "@/components/ui/Section";
@@ -84,7 +84,25 @@ export function DevotionalView({
       alive = false;
     };
   }, []);
-  const list = remote?? devotions;
+  // Cartes-images (bucket « medias ») indexées par punchline, depuis le contenu
+  // intégré au build (qui référence les fichiers de cartes).
+  const bundledCardByPunch = useMemo(() => {
+    const m = new Map<string, string>();
+    for (const d of devotions) {
+      if (d.card && d.punchline) m.set(d.punchline.trim(), d.card);
+    }
+    return m;
+  }, [devotions]);
+  // Base = données publiées (Supabase) si présentes, sinon contenu intégré.
+  // On complète la carte manquante par celle du contenu intégré, pour que les
+  // images de cartes déposées dans « medias » s'affichent même si la base n'a
+  // pas encore la colonne `card` renseignée.
+  const list = useMemo(() => {
+    const base = remote ?? devotions;
+    return base.map((d) =>
+      d.card ? d : { ...d, card: bundledCardByPunch.get((d.punchline || "").trim()) ?? d.card },
+    );
+  }, [remote, devotions, bundledCardByPunch]);
 
   const i = useTodayIndex(list.length, initialIndex);
   const dev = list[i]?? list[0];
@@ -116,9 +134,6 @@ export function DevotionalView({
   })();
   const weekLabels = ["L", "M", "M", "J", "V", "S", "D"];
   const weekDoneCount = weekDays.filter((d) => eng.completedDates.includes(d)).length;
-  // Alerte douce « ne casse pas ta série » : série en cours, mais pas encore
-  // médité aujourd'hui.
-  const streakAtRisk = eng.ready && eng.streak >= 1 && !eng.isCompletedToday;
 
   // Tags OneSignal pour cibler les relances push (série en danger, inactifs…).
   useEffect(() => {
@@ -262,25 +277,6 @@ export function DevotionalView({
               <p className="text-[11px] text-night-900/55">cette semaine</p>
             </div>
           </div>
-
-          {/* Alerte douce : ne casse pas ta série */}
-          {streakAtRisk && !celebrate? (
-            <a
-              href="#meditation"
-              className="mt-3 flex items-center gap-3 rounded-2xl border border-dawn-400/40 bg-dawn-400/10 px-4 py-3 transition-colors hover:bg-dawn-400/15"
-            >
-              <FlameGlyph className="h-6 w-6 shrink-0 text-dawn-600" />
-              <div className="min-w-0 flex-1">
-                <p className="text-sm font-semibold text-night-900/85">
-                  Ne casse pas ta série — {eng.streak} jour{eng.streak > 1? "s": ""} d&apos;affilée
-                </p>
-                <p className="text-xs text-night-900/55">
-                  Prends ton temps avec Jésus aujourd&apos;hui pour la garder.
-                </p>
-              </div>
-              <span className="shrink-0 text-sm font-bold text-spirit-600">Y aller</span>
-            </a>
-          ): null}
 
           {/* Palier de série atteint → petite fête */}
           {celebrate? (
