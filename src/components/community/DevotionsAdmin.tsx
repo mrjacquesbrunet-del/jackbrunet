@@ -7,6 +7,7 @@ import {
   adminSaveDevotion,
   adminDeleteDevotion,
   adminSeedDevotions,
+  adminSyncCardsAndNew,
   type DbDevotion,
 } from "@/lib/devotions";
 import { BookGlyph } from "@/components/ui/DevoIcons";
@@ -98,6 +99,22 @@ function DevotionForm({
           onChange={(e) => set("punchline", e.target.value)}
           rows={2}
           className="field mt-1 w-full"
+        />
+      </label>
+
+      <label className="block">
+        <span className="text-xs font-semibold text-night-900/60">
+          Carte image (fichier du bucket « medias »)
+        </span>
+        <span className="block text-[11px] text-night-900/45">
+          Nom du fichier tel qu&apos;uploadé dans Médias, ex. rhema-01-noir.png. Laisse vide
+          pour la carte générée automatiquement.
+        </span>
+        <input
+          value={d.card ?? ""}
+          onChange={(e) => set("card", e.target.value.trim() || undefined)}
+          className="field mt-1 w-full"
+          placeholder="rhema-01-noir.png"
         />
       </label>
 
@@ -197,6 +214,23 @@ export function DevotionsAdmin() {
     await reload();
   }
 
+  async function syncCardsAndNew() {
+    setBusy(true);
+    setMsg("");
+    const res = await adminSyncCardsAndNew(getDevotions());
+    setBusy(false);
+    if (!res) {
+      setMsg(
+        "Synchronisation impossible. Vérifie d'abord la migration SQL (colonne « card »).",
+      );
+    } else {
+      setMsg(
+        `Cartes mises à jour : ${res.updated}. Nouvelles exhortations ajoutées : ${res.inserted}.`,
+      );
+    }
+    await reload();
+  }
+
   function addNew() {
     const nextPos = list && list.length > 0 ? Math.max(...list.map((d) => d.position)) + 1 : 0;
     setEditing(nextPos);
@@ -260,6 +294,14 @@ export function DevotionsAdmin() {
           <div className="mt-4 flex flex-wrap items-center gap-2">
             <button type="button" onClick={addNew} className="btn-primary text-sm">
               + Nouveau dévotionnel
+            </button>
+            <button
+              type="button"
+              onClick={syncCardsAndNew}
+              disabled={busy}
+              className="btn-ghost text-sm"
+            >
+              {busy ? "Synchronisation…" : "Mettre à jour les cartes + intégrer les nouvelles"}
             </button>
             <span className="text-sm text-night-900/55">
               {list.length} dévotionnel{list.length > 1 ? "s" : ""} en base
