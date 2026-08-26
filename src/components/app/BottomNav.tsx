@@ -44,8 +44,8 @@ const TABS = [
   { href: "/profil", label: "Profil", icon: I.user, match: ["/profil"] },
   // Onglets 6+ : masqués par défaut, révélés en faisant glisser la barre.
   { href: "/ecouter", label: "Écouter", icon: I.headphones, match: ["/ecouter", "/videos"] },
-  { href: "/groupes", label: "Groupes", icon: I.group, match: ["/groupes", "/groupe"] },
   { href: "/memoriser", label: "Mémoriser", icon: I.bulb, match: ["/memoriser"] },
+  { href: "/groupes", label: "Groupes", icon: I.group, match: ["/groupes", "/groupe"] },
   { href: "/don", label: "Soutien", icon: I.heart, match: ["/don"] },
   { href: "/a-propos", label: "À propos", icon: I.info, match: ["/a-propos"] },
 ];
