@@ -28,6 +28,11 @@ if (!API_KEY || !VOICE_ID) {
 
 const sha = (t) => crypto.createHash("sha1").update(t).digest("hex").slice(0, 12);
 
+// Génération partielle : passé à true quand le quota ElevenLabs est épuisé.
+// On arrête proprement et on COMMITE ce qui a déjà été produit (pas de perte),
+// pour reprendre au prochain cycle de quota / mois.
+let quotaExhausted = false;
+
 /** Appel ElevenLabs → Buffer MP3, ou null en cas d'échec. */
 async function tts(text) {
   const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`, {
@@ -42,9 +47,18 @@ async function tts(text) {
   if (!res.ok) {
     const body = await res.text();
     console.error("[audio] Échec ElevenLabs:", res.status, body);
-    // Erreur d'authentification (clé invalide/expirée) : inutile de continuer,
-    // toutes les autres requêtes échoueront pareil. On arrête net pour que le
-    // workflow soit marqué EN ÉCHEC (sinon « succès » silencieux sans audio).
+    // Quota épuisé : on ne peut plus générer ce mois-ci. On s'arrête mais on
+    // GARDE ce qui a déjà été produit (commit), pour reprendre plus tard.
+    if (/quota_exceeded/i.test(body)) {
+      quotaExhausted = true;
+      console.error(
+        "[audio] Quota ElevenLabs épuisé. Les fichiers déjà générés sont conservés ; " +
+          "relance le workflow après recharge du quota (ou passage à un forfait supérieur).",
+      );
+      return null;
+    }
+    // Clé invalide/expirée : inutile de continuer, tout échouera pareil. On
+    // arrête EN ÉCHEC (sinon « succès » silencieux sans audio).
     if (res.status === 401 || res.status === 403 || /invalid_api_key|authentication_error/i.test(body)) {
       console.error(
         "[audio] Clé ELEVENLABS_API_KEY invalide. Mets à jour le secret GitHub " +
@@ -73,16 +87,25 @@ manifest.planHashes ??= {};
 
 let generated = 0;
 
+// Par défaut on ne génère QUE l'audio manquant (fichier absent), pour ne pas
+// consommer inutilement le quota à revoicer l'existant. AUDIO_FORCE=1 force la
+// régénération quand le texte a changé (empreinte différente) — à réserver aux
+// forfaits avec assez de quota.
+const FORCE = process.env.AUDIO_FORCE === "1";
+
 // ---------- Dévotionnels ----------
 const devotions = JSON.parse(fs.readFileSync("content/devotions.json", "utf8")).items;
 for (let i = 0; i < devotions.length; i++) {
+  if (quotaExhausted) break;
   const d = devotions[i];
   const text = `${d.verseText} — ${d.verseReference}.\n\n${d.meditation}`;
   const hash = sha(text);
   const file = `devotion-${i}.mp3`;
   const out = `public/audio/${file}`;
-  if (manifest.hashes[i] === hash && fs.existsSync(out)) {
+  const upToDate = FORCE ? manifest.hashes[i] === hash : true;
+  if (fs.existsSync(out) && upToDate) {
     manifest.devotions[i] = `/audio/${file}`;
+    if (!manifest.hashes[i]) manifest.hashes[i] = hash;
     continue;
   }
   console.log(`[audio] Dévotionnel ${i} (${d.theme})…`);
@@ -97,16 +120,20 @@ for (let i = 0; i < devotions.length; i++) {
 // ---------- Plans de lecture ----------
 const plans = JSON.parse(fs.readFileSync("content/plans.json", "utf8")).items;
 for (const p of plans) {
+  if (quotaExhausted) break;
   manifest.plans[p.slug] ??= {};
   for (const d of p.days) {
+    if (quotaExhausted) break;
     // On lit le titre du jour puis la méditation (les versets sont lus dans la Bible).
     const text = `Jour ${d.day}. ${d.title}.\n\n${d.meditation}`;
     const hash = sha(text);
     const key = `${p.slug}:${d.day}`;
     const file = `plan-${p.slug}-${d.day}.mp3`;
     const out = `public/audio/${file}`;
-    if (manifest.planHashes[key] === hash && fs.existsSync(out)) {
+    const upToDate = FORCE ? manifest.planHashes[key] === hash : true;
+    if (fs.existsSync(out) && upToDate) {
       manifest.plans[p.slug][d.day] = `/audio/${file}`;
+      if (!manifest.planHashes[key]) manifest.planHashes[key] = hash;
       continue;
     }
     console.log(`[audio] Plan ${p.slug} — jour ${d.day}…`);
@@ -121,3 +148,9 @@ for (const p of plans) {
 
 fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + "\n");
 console.log(`[audio] Terminé. ${generated} fichier(s) généré(s).`);
+if (quotaExhausted) {
+  console.log(
+    "[audio] Arrêt sur quota épuisé — relance le workflow après recharge pour " +
+      "générer la suite (reprise automatique là où ça s'est arrêté).",
+  );
+}
