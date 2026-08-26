@@ -1,0 +1,70 @@
+name: Vérifier la table devotions (diagnostic)
+
+# Interroge la table Supabase « devotions » (lecture publique des publiés) pour
+# savoir combien de lignes existent et si une colonne « card » est présente.
+# Écrit le résultat dans assets/devotions-check.txt. Déclenché par « .check-devotions ».
+on:
+  push:
+    branches: [claude/great-hamilton-ieokug]
+    paths: [".check-devotions"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: check-devotions
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: claude/great-hamilton-ieokug
+
+      - name: Interroger Supabase
+        run: |
+          set -a; . ./.env.production; set +a
+          URL="$NEXT_PUBLIC_SUPABASE_URL"
+          KEY="$NEXT_PUBLIC_SUPABASE_ANON_KEY"
+          OUT="assets/devotions-check.txt"
+          mkdir -p assets
+          : > "$OUT"
+
+          # 1) Nombre de lignes publiées (via l'entête Content-Range)
+          echo "== published=true, count exact ==" >> "$OUT"
+          curl -s -D - -o /tmp/pub.json \
+            "$URL/rest/v1/devotions?select=position&published=eq.true&order=position.asc" \
+            -H "apikey: $KEY" -H "Authorization: Bearer $KEY" \
+            -H "Range-Unit: items" -H "Range: 0-0" -H "Prefer: count=exact" \
+            | grep -i "content-range" >> "$OUT" || echo "(pas d'entête content-range)" >> "$OUT"
+
+          # 2) Toutes les positions publiées
+          echo "== positions publiées ==" >> "$OUT"
+          curl -s "$URL/rest/v1/devotions?select=position&published=eq.true&order=position.asc" \
+            -H "apikey: $KEY" -H "Authorization: Bearer $KEY" >> "$OUT"
+          echo "" >> "$OUT"
+
+          # 3) La colonne « card » existe-t-elle ? (sélection ciblée)
+          echo "== test colonne card (position 0) ==" >> "$OUT"
+          curl -s "$URL/rest/v1/devotions?select=position,card&order=position.asc&limit=3" \
+            -H "apikey: $KEY" -H "Authorization: Bearer $KEY" >> "$OUT"
+          echo "" >> "$OUT"
+
+          echo "----- Résultat -----"; cat "$OUT"
+
+      - name: Committer le diagnostic
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/devotions-check.txt
+          if git diff --cached --quiet; then echo "Aucun changement."; exit 0; fi
+          git commit -m "chore(diagnostic): état de la table devotions [skip ci]"
+          git pull --rebase origin claude/great-hamilton-ieokug || true
+          for i in 1 2 3 4; do
+            git push origin "HEAD:claude/great-hamilton-ieokug" && break
+            sleep $((2**i))
+          done
