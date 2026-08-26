@@ -221,6 +221,9 @@ export default function QuestionsPage() {
   /* Communauté */
   const [community, setCommunity] = useState<CommunityQuestion[]>([]);
   const [isAdmin, setIsAdmin] = useState(false);
+  // Fonctionnalité masquée : accessible aux admins seulement, le temps de
+  // revoir les réponses (les boutons publics ont été retirés).
+  const [checked, setChecked] = useState(false);
 
   const toks = tokens(query);
   const isSearch = query.trim().length >= 2;
@@ -233,6 +236,7 @@ export default function QuestionsPage() {
       if (!alive) return;
       setCommunity(list);
       setIsAdmin(admin);
+      setChecked(true);
     })();
     return () => {
       alive = false;
@@ -299,6 +303,26 @@ export default function QuestionsPage() {
 
   function openFaq(i: Item) {
     setDetail({ q: i.q, category: i.category, a: i.a, verse: i.verse, evidence: i.evidence, who: "jack" });
+  }
+
+  // Accès réservé : masqué tant que les réponses ne sont pas validées.
+  if (!checked) {
+    return <main className="min-h-[60vh]" />;
+  }
+  if (!isAdmin) {
+    return (
+      <main className="flex min-h-[70vh] items-center justify-center px-6 text-center">
+        <div className="max-w-sm">
+          <p className="font-display text-2xl font-bold text-night-900">Bientôt disponible</p>
+          <p className="mt-2 text-night-900/60">
+            L&apos;espace Questions &amp; Réponses arrive prochainement. Reviens vite&nbsp;!
+          </p>
+          <Link href="/devotionnel" className="btn-primary mt-6 inline-flex text-sm">
+            Retour à l&apos;accueil
+          </Link>
+        </div>
+      </main>
+    );
   }
 
   return (

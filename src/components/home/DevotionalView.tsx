@@ -509,21 +509,6 @@ export function DevotionalView({
                 </li>
               ))}
             </ul>
-            <a
-              href="/questions"
-              className="mt-6 flex items-center gap-3 rounded-2xl border border-spirit-500/20 bg-spirit-500/[0.06] px-4 py-3 transition-colors hover:bg-spirit-500/[0.1]"
-            >
-              <svg viewBox="0 0 24 24" className="h-6 w-6 shrink-0 text-spirit-600" fill="none" stroke="currentColor" strokeWidth={1.8}>
-                <path d="M9.2 9a3 3 0 1 1 4 2.8c-.8.5-1.2 1-1.2 1.9M12 17.5h.01" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <div className="min-w-0 flex-1">
-                <p className="text-sm font-bold text-night-900">Tu te poses une question ?</p>
-                <p className="text-xs text-night-900/55">
-                  Des réponses claires sur Dieu, la foi, la souffrance, le salut…
-                </p>
-              </div>
-              <span className="shrink-0 text-sm font-bold text-spirit-600">Voir</span>
-            </a>
           </div>
         </Reveal>
       </section>
