@@ -8,6 +8,7 @@ import { ShareButtons } from "@/components/ui/ShareButtons";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { AudioPlayer } from "@/components/ui/AudioPlayer";
 import { ViralCard } from "@/components/home/ViralCard";
+import { DevotionAuthor } from "@/components/home/DevotionAuthor";
 import { Markable } from "@/components/ui/Markable";
 import { QuickNote } from "@/components/home/QuickNote";
 import { MoodCheckin } from "@/components/home/MoodCheckin";
@@ -320,6 +321,14 @@ export function DevotionalView({
               </Markable>
             ))}
             </div>
+            <DevotionAuthor
+              author={dev.author}
+              authorRole={dev.authorRole}
+              authorBio={dev.authorBio}
+              authorInstagram={dev.authorInstagram}
+              authorPhoto={dev.authorPhoto}
+              authorResources={dev.authorResources}
+            />
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <ShareButtons
                 text={`${dev.theme}, « ${dev.verseText} » (${dev.verseReference})`}

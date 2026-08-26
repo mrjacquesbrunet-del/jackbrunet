@@ -144,4 +144,12 @@ export type Devotion = {
   declarationText: string;
   declarationReference: string;
   questions: string[];
+  /** Auteur de l'exhortation. Défaut: Pasteur Jack Brunet. */
+  author?: string;
+  /** Fiche auteur (au clic sur le nom). Repli sur l'auteur par défaut. */
+  authorPhoto?: string;
+  authorRole?: string;
+  authorBio?: string;
+  authorInstagram?: string;
+  authorResources?: { label: string; url: string }[];
 };
