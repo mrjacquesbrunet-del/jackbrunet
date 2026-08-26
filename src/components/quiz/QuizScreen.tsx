@@ -390,10 +390,13 @@ export function QuizScreen() {
   /* =========================================================== HUB */
   if (phase === "hub") {
     return (
-      <div className="mx-auto max-w-md px-4 py-6 text-cream">
+      <div className="qz-immersive fixed inset-0 z-[100] flex flex-col overflow-y-auto text-cream">
         <QzFx />
-        <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-b from-indigo-900 via-violet-900 to-fuchsia-900/80 p-6 text-center shadow-2xl">
-          <div className="pointer-events-none absolute inset-0 opacity-30 [background:radial-gradient(circle_at_50%_0,rgba(255,255,255,.5),transparent_60%)]" />
+        <div className="qz-bg-orb qz-bg-1" />
+        <div className="qz-bg-orb qz-bg-2" />
+        <div className="qz-bg-orb qz-bg-3" />
+        <Particles />
+        <div className="relative m-auto w-full max-w-md px-5 pb-10 pt-[calc(1.5rem+env(safe-area-inset-top))] text-center">
           <div className="relative">
             <div className="mx-auto flex w-fit items-center gap-2 rounded-full bg-amber-500 px-6 py-2 font-game text-xl font-extrabold text-night-950 shadow-lg">
               {formatCoins(coins)}
