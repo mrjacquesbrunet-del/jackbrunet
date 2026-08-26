@@ -8,16 +8,6 @@ import { isNativeApp } from "@/lib/notifications";
 import { asset } from "@/lib/asset";
 import { STRIPE_LINKS } from "@/config/stripe";
 import { siteConfig } from "@/config/site";
-import { getAbout } from "@/lib/content";
-import { DEFAULT_AUTHOR } from "@/config/author";
-
-/** Quatre valeurs (piliers), version condensée pour la fiche « À propos ». */
-const VALUES = [
-  { t: "L'humilité", d: "Rester à genoux devant Dieu, même quand le ministère devient visible." },
-  { t: "L'amour", d: "L'Évangile n'est pas qu'un message à annoncer, c'est une vie à manifester." },
-  { t: "La foi", d: "Avancer quand tout n'est pas visible : Dieu agit, guérit et transforme encore." },
-  { t: "Le zèle", d: "Refuser la foi tiède : servir Dieu avec feu, passion et persévérance." },
-];
 
 /** Charte de l'app: nuit/olive + accent lime + crème. */
 const C = {
@@ -68,7 +58,6 @@ export function DonateScreen() {
   }
 
   const sliderPct = ((amount - MIN) / (MAX - MIN)) * 100;
-  const about = getAbout();
 
   return (
     <div className="relative min-h-screen text-[#F3F3ED]" style={{ background: C.bg }}>
@@ -374,82 +363,6 @@ export function DonateScreen() {
           </svg>
           Mission Madagascar
         </Link>
-
-        {/* ---------------- À propos (fusionné dans la page Soutien) ---------------- */}
-        <section id="a-propos" className="mt-10 border-t border-white/10 pt-8">
-          <p className="text-[11px] font-bold uppercase tracking-[0.28em]" style={{ color: C.lime }}>
-            À propos
-          </p>
-          <h2 className="mt-2 font-display text-3xl font-extrabold leading-[1.05]">
-            Une foi vivante, simple et profonde
-          </h2>
-
-          <div className="mt-5 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03]">
-            <div className="relative">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={asset(about.photo)} alt={about.title} className="h-60 w-full object-cover" />
-              <div
-                className="pointer-events-none absolute inset-x-0 bottom-0 h-24"
-                style={{ background: "linear-gradient(to top, rgb(var(--n-950)), transparent)" }}
-              />
-              <div className="absolute inset-x-0 bottom-0 p-5">
-                <p className="font-display text-lg font-bold text-[#F3F3ED]">{about.title}</p>
-                <p className="text-xs font-bold uppercase tracking-[0.18em]" style={{ color: C.lime }}>
-                  {about.role}
-                </p>
-              </div>
-            </div>
-            <div className="space-y-3 p-6">
-              {about.paragraphs.map((p: string, i: number) => (
-                <p key={i} className="text-[15px] leading-relaxed" style={{ color: C.textSec }}>
-                  {p}
-                </p>
-              ))}
-            </div>
-          </div>
-
-          {/* Quatre valeurs */}
-          <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.2em]" style={{ color: C.textMuted }}>
-            Quatre piliers
-          </p>
-          <div className="mt-2 grid gap-2.5 sm:grid-cols-2">
-            {VALUES.map((v) => (
-              <div key={v.t} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-                <p className="font-display font-extrabold text-[#F3F3ED]">{v.t}</p>
-                <p className="mt-1 text-sm leading-snug" style={{ color: C.textMuted }}>
-                  {v.d}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          {/* Réseaux + page complète */}
-          <div className="mt-6 grid grid-cols-2 gap-2.5">
-            <button
-              type="button"
-              onClick={() => openExternal(DEFAULT_AUTHOR.instagram || siteConfig.url)}
-              className="flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/[0.03] py-3 font-bold"
-              style={{ color: C.cream }}
-            >
-              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.9}>
-                <rect x="3" y="3" width="18" height="18" rx="5" />
-                <circle cx="12" cy="12" r="4" />
-                <circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none" />
-              </svg>
-              Instagram
-            </button>
-            <Link
-              href="/a-propos"
-              className="flex items-center justify-center gap-2 rounded-2xl border py-3 font-bold"
-              style={{ borderColor: "rgba(202,240,0,0.45)", color: C.lime }}
-            >
-              En savoir plus
-              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
-                <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </Link>
-          </div>
-        </section>
       </motion.main>
     </div>
   );

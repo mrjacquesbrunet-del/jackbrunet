@@ -45,13 +45,15 @@ const TABS = [
   { href: "/bible", label: "Bible", icon: I.bible, match: ["/bible", "/recherche", "/carnet", "/favoris"] },
   { href: "/profil", label: "Profil", icon: I.user, match: ["/profil"] },
   // Onglets 6+ : masqués par défaut, révélés en faisant glisser la barre.
-  { href: "/questions", label: "Questions", icon: I.qa, match: ["/questions"] },
+  // Page 2 : podcast, Q&R et jeu mis en avant.
   { href: "/ecouter", label: "Écouter", icon: I.headphones, match: ["/ecouter", "/videos"] },
-  { href: "/memoriser", label: "Mémoriser", icon: I.bulb, match: ["/memoriser"] },
+  { href: "/questions", label: "Questions", icon: I.qa, match: ["/questions"] },
   { href: "/quiz", label: "Défi", icon: I.quiz, match: ["/quiz"] },
+  { href: "/memoriser", label: "Mémoriser", icon: I.bulb, match: ["/memoriser"] },
   { href: "/groupes", label: "Groupes", icon: I.group, match: ["/groupes", "/groupe"] },
-  // « Soutien » regroupe désormais le don ET la fiche « À propos ».
-  { href: "/don", label: "Soutien", icon: I.heart, match: ["/don", "/a-propos"] },
+  // Page 3 : soutien puis « À propos » (tout au bout).
+  { href: "/don", label: "Soutien", icon: I.heart, match: ["/don"] },
+  { href: "/a-propos", label: "À propos", icon: I.info, match: ["/a-propos"] },
 ];
 
 export function BottomNav() {
