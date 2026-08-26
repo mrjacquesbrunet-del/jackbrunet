@@ -13,6 +13,7 @@ import {
   setQuizName,
   getQuizCoins,
   getQuizBest,
+  getQuizBestRung,
   recordQuizResult,
   type QuizQuestion,
 } from "@/lib/quiz";
@@ -82,6 +83,7 @@ export function QuizScreen() {
   const [editingName, setEditingName] = useState(false);
   const [coins, setCoins] = useState(0);
   const [best, setBest] = useState(0);
+  const [bestRung, setBestRung] = useState(0);
   const [board, setBoard] = useState<QuizRow[] | null>(null);
   const [showBoard, setShowBoard] = useState(false);
   const [showLadder, setShowLadder] = useState(false);
@@ -91,6 +93,7 @@ export function QuizScreen() {
     setName(getQuizName());
     setCoins(getQuizCoins());
     setBest(getQuizBest());
+    setBestRung(getQuizBestRung());
   }, []);
 
   const play = (freqs: number[], dur?: number, type?: OscillatorType) => {
@@ -114,6 +117,7 @@ export function QuizScreen() {
   const [timeLeft, setTimeLeft] = useState(QUESTION_TIME);
   const [won, setWon] = useState(0);
   const [reason, setReason] = useState<"win" | "wrong" | "timeout" | "walk">("win");
+  const [reachedRung, setReachedRung] = useState(0);
 
   // Effets / dynamisme
   const [combo, setCombo] = useState(0);
@@ -191,13 +195,15 @@ export function QuizScreen() {
   }, [phase, locked, step]);
 
   const endGame = useCallback(
-    (amount: number, why: "win" | "wrong" | "timeout" | "walk") => {
+    (amount: number, why: "win" | "wrong" | "timeout" | "walk", rung: number) => {
       setWon(amount);
       setReason(why);
+      setReachedRung(rung);
       setPhase("over");
-      const res = recordQuizResult(amount);
+      const res = recordQuizResult(amount, rung);
       setCoins(res.coins);
       setBest(res.best);
+      setBestRung(res.bestRung);
       submitQuizCoins(amount, res.best);
     },
     [],
@@ -209,7 +215,7 @@ export function QuizScreen() {
       setLocked(true);
       setReveal(true);
       play([220, 160], 0.3, "sawtooth");
-      setTimeout(() => endGame(guaranteedCoins(step), "timeout"), 1600);
+      setTimeout(() => endGame(guaranteedCoins(step), "timeout", step), 1600);
     }
   }, [timeLeft, phase, locked, step, endGame]);
 
@@ -235,14 +241,14 @@ export function QuizScreen() {
         else if (newCombo >= 3) popToast(`Série de ${newCombo} !`);
         else popToast("Bonne réponse !");
         if (step === LADDER.length - 1) {
-          setTimeout(() => endGame(LADDER[step], "win"), 1400);
+          setTimeout(() => endGame(LADDER[step], "win", LADDER.length), 1400);
         }
       } else {
         play([233, 175], 0.32, "sawtooth");
         setCombo(0);
         setCardShake(true);
         setTimeout(() => setCardShake(false), 550);
-        setTimeout(() => endGame(guaranteedCoins(step), "wrong"), 1800);
+        setTimeout(() => endGame(guaranteedCoins(step), "wrong", step), 1800);
       }
     }, 900);
   };
@@ -253,7 +259,7 @@ export function QuizScreen() {
   };
   const walkAway = () => {
     const secured = step > 0 ? LADDER[step - 1] : 0;
-    endGame(secured, "walk");
+    endGame(secured, "walk", step);
   };
 
   /* -------- Jokers -------- */
@@ -362,6 +368,24 @@ export function QuizScreen() {
               </div>
             </div>
 
+            {/* Objectif : monter le plus haut possible */}
+            <div className="mt-3 flex items-center justify-between rounded-2xl bg-white/10 px-4 py-3">
+              <div className="text-left">
+                <p className="text-[10px] font-bold uppercase tracking-wide text-cream/50">
+                  Ton meilleur palier
+                </p>
+                <p className="font-game text-lg font-extrabold text-amber-300">
+                  {bestRung > 0 ? `${bestRung}/15` : "—"}
+                  {bestRung > 0 ? (
+                    <span className="ml-2 text-sm text-cream/70">{formatCoins(LADDER[bestRung - 1])}</span>
+                  ) : null}
+                </p>
+              </div>
+              <p className="max-w-[9rem] text-right font-game text-[11px] text-cream/60">
+                Monte le plus haut possible !
+              </p>
+            </div>
+
             <div className="mt-5 flex items-center justify-center gap-3">
               <button
                 type="button"
@@ -410,6 +434,14 @@ export function QuizScreen() {
                 ? "Sagesse : tu repars avec tes gains assurés."
                 : "Tu gardes ton palier sûr. Rejoue pour aller plus loin."}
           </p>
+          <div className="mt-5 flex items-center justify-center gap-3 font-game text-sm">
+            <span className="rounded-full bg-white/10 px-4 py-2">
+              Palier atteint <span className="font-extrabold text-amber-300">{reachedRung}/15</span>
+            </span>
+            <span className="rounded-full bg-white/10 px-4 py-2">
+              Record <span className="font-extrabold text-[#8FE23C]">{bestRung}/15</span>
+            </span>
+          </div>
           <p className="mt-4 text-sm">
             Cumul : <span className="font-game font-bold text-amber-300">{formatCoins(coins)}</span>
           </p>
@@ -509,6 +541,43 @@ export function QuizScreen() {
             {fly}
           </span>
         ) : null}
+      </div>
+
+      {/* Échelle des paliers — toujours visible : on voit sa progression et
+          les paliers « sûrs » (gardés même en cas d'erreur). */}
+      <div className="mb-4">
+        <div className="flex items-end gap-1">
+          {LADDER.map((_, li) => {
+            const rung = li + 1;
+            const done = rung <= step;
+            const current = rung === step + 1;
+            const safe = SAFE_RUNGS.includes(rung);
+            return (
+              <div
+                key={rung}
+                className={`flex-1 rounded-full transition-all ${
+                  current
+                    ? "h-3 bg-amber-400 qz-tick"
+                    : done
+                      ? "h-2.5 bg-[#8FE23C]"
+                      : safe
+                        ? "h-3 bg-amber-400/50"
+                        : "h-2 bg-white/25"
+                }`}
+                title={safe ? `Palier sûr : ${formatCoins(LADDER[li])}` : formatCoins(LADDER[li])}
+              />
+            );
+          })}
+        </div>
+        <div className="mt-1.5 flex items-center justify-between font-game text-[11px]">
+          <span className="text-cream/60">
+            Filet : <span className="font-bold text-amber-300">{formatCoins(guaranteedCoins(step))}</span>
+          </span>
+          <span className="text-cream/50">Palier {step + 1}/15</span>
+          <span className="text-cream/60">
+            Sommet : <span className="font-bold text-[#8FE23C]">1 000 000</span>
+          </span>
+        </div>
       </div>
 
       {/* Question */}

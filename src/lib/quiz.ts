@@ -67,6 +67,7 @@ const NAME_KEY = "jb.quiz.name.v1";
 const COINS_KEY = "jb.quiz.coins.v1"; // cumul local (miroir du serveur)
 const BEST_KEY = "jb.quiz.best.v1";
 const GAMES_KEY = "jb.quiz.games.v1";
+const BESTRUNG_KEY = "jb.quiz.bestrung.v1"; // meilleur palier atteint (1..15)
 
 function read(key: string, def = 0): number {
   try {
@@ -103,13 +104,22 @@ export function getQuizBest(): number {
 export function getQuizGames(): number {
   return read(GAMES_KEY);
 }
+/** Meilleur palier atteint (1..15), 0 si jamais joué. */
+export function getQuizBestRung(): number {
+  return read(BESTRUNG_KEY);
+}
 
 /** Enregistre le résultat d'une partie en local. Renvoie le nouveau cumul. */
-export function recordQuizResult(won: number): { coins: number; best: number } {
+export function recordQuizResult(
+  won: number,
+  rung = 0,
+): { coins: number; best: number; bestRung: number } {
   const coins = getQuizCoins() + Math.max(0, won);
   const best = Math.max(getQuizBest(), Math.max(0, won));
+  const bestRung = Math.max(getQuizBestRung(), Math.max(0, rung));
   write(COINS_KEY, coins);
   write(BEST_KEY, best);
+  write(BESTRUNG_KEY, bestRung);
   write(GAMES_KEY, getQuizGames() + 1);
-  return { coins, best };
+  return { coins, best, bestRung };
 }
