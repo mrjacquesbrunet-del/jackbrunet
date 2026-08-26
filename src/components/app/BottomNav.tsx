@@ -48,8 +48,7 @@ const TABS = [
   // Page 2 : podcast, Q&R et jeu mis en avant.
   { href: "/ecouter", label: "Écouter", icon: I.headphones, match: ["/ecouter", "/videos"] },
   { href: "/questions", label: "Questions", icon: I.qa, match: ["/questions"] },
-  { href: "/quiz", label: "Défi", icon: I.quiz, match: ["/quiz"] },
-  { href: "/memoriser", label: "Mémoriser", icon: I.bulb, match: ["/memoriser"] },
+  { href: "/jeux", label: "Jeux", icon: I.quiz, match: ["/jeux", "/quiz", "/memoriser"] },
   { href: "/groupes", label: "Groupes", icon: I.group, match: ["/groupes", "/groupe"] },
   // Page 3 : soutien puis « À propos » (tout au bout).
   { href: "/don", label: "Soutien", icon: I.heart, match: ["/don"] },
