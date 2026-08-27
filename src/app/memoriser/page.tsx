@@ -26,6 +26,7 @@ import {
 import { resolveRef, getBook } from "@/lib/bible-client";
 import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
 import { VerseGame } from "@/components/memorize/VerseGame";
+import { asset } from "@/lib/asset";
 import { WeeklyChampions } from "@/components/memorize/WeeklyChampions";
 import { VERSE_PACKS } from "@/config/verse-packs";
 import { getSupabase } from "@/lib/supabase";
@@ -430,60 +431,70 @@ export default function MemoriserPage() {
           {/* Profil joueur */}
           <div className="relative flex items-center gap-3">
             <Link href="/profil" aria-label="Mon profil" className="shrink-0">
-              {avatar ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={avatar} alt="" className="h-14 w-14 rounded-full object-cover shadow-lg ring-2 ring-amber-300/70" />
-              ) : (
-                <span className="grid h-14 w-14 place-items-center rounded-full bg-white/10 text-white/70 ring-2 ring-white/15">
-                  <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM5 20a7 7 0 0 1 14 0" /></svg>
-                </span>
-              )}
+              <span className="relative block rounded-full p-[3px]" style={{ background: "linear-gradient(180deg,#c084fc,#7c3aed)", boxShadow: "0 0 18px rgba(168,85,247,.5)" }}>
+                {avatar ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={avatar} alt="" className="h-14 w-14 rounded-full object-cover" />
+                ) : (
+                  <span className="grid h-14 w-14 place-items-center rounded-full bg-[#3b1d6e] text-white/75">
+                    <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM5 20a7 7 0 0 1 14 0" /></svg>
+                  </span>
+                )}
+              </span>
             </Link>
             <div className="min-w-0 flex-1">
-              <p className="truncate font-game text-base font-extrabold leading-tight">{name || "Joueur"}</p>
-              <p className="font-game text-[11px] font-bold tracking-wide text-amber-300">NIVEAU {lvl.level}</p>
+              <div className="flex items-center gap-2">
+                <p className="truncate font-game text-xl font-black leading-tight">{name || "Joueur"}</p>
+                <span className="shrink-0 rounded-full bg-gradient-to-b from-[#8b5cf6] to-[#6d28d9] px-2 py-0.5 font-game text-[10px] font-extrabold text-white shadow-[inset_0_1px_0_rgba(255,255,255,.25)]">NIV. {lvl.level}</span>
+              </div>
               <div className="mt-1 h-2.5 w-full overflow-hidden rounded-full bg-black/40 ring-1 ring-white/10">
                 <div className="h-full rounded-full bg-gradient-to-r from-amber-300 to-amber-500" style={{ width: `${Math.round((lvl.into / lvl.span) * 100)}%` }} />
               </div>
+              <p className="mt-0.5 font-game text-[10px] font-bold text-white/70">{lvl.into} / {lvl.span} <span className="text-amber-300">XP</span></p>
             </div>
-            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#3b1d6e] px-3 py-1.5 font-game text-xs font-extrabold text-amber-300 ring-1 ring-white/10">
-              Record {record}
+            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#1c0b40] py-1.5 pl-3 pr-1.5 font-game text-sm font-black text-white shadow-[inset_0_1px_0_rgba(255,255,255,.12)] ring-1 ring-white/10">
+              <svg viewBox="0 0 24 24" className="h-4 w-4 text-fuchsia-300" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M6 3h12l3 5-9 13L3 8zM3 8h18M9 3l-1 5M15 3l1 5" /></svg>
+              {record}
+              <span className="grid h-6 w-6 place-items-center rounded-full bg-gradient-to-b from-[#a855f7] to-[#7c3aed] text-white">
+                <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round"><path d="M12 6v12M6 12h12" /></svg>
+              </span>
             </span>
           </div>
 
           {/* Héros */}
           <div
-            className="relative mt-4 overflow-hidden rounded-2xl border border-amber-400/20 p-4"
-            style={{ background: "radial-gradient(130% 120% at 0% 0%, rgba(251,191,36,.20), rgba(23,23,22,.55) 62%)" }}
+            className="relative mt-4 overflow-hidden rounded-2xl border border-white/12 p-4"
+            style={{ background: "radial-gradient(120% 120% at 100% 0%, rgba(251,146,60,.28), transparent 55%), linear-gradient(135deg,#5a2d9c 0%,#3b1d6e 62%,#2e1065 100%)" }}
           >
-            <svg viewBox="0 0 24 24" className="pointer-events-none absolute -right-3 -top-2 h-32 w-32 text-amber-300/10" fill="none" stroke="currentColor" strokeWidth={1.2}>
-              <path d="M4 5a2 2 0 0 1 2-2h6v16H6a2 2 0 0 0-2 2zM20 5a2 2 0 0 0-2-2h-6v16h6a2 2 0 0 1 2 2z" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
             <span className="inline-block rounded-lg bg-amber-400 px-3 py-0.5 font-game text-[10px] font-extrabold text-night-950">LE JEU DE LA PAROLE</span>
-            <h1 className="mt-2 font-game text-3xl font-black leading-[0.95]">
-              MÉMORISER
-              <br />
-              <span className="text-amber-300">DES VERSETS</span>
-            </h1>
-            <p className="mt-2 max-w-[16rem] font-game text-sm font-semibold text-white/70">
-              Grave la Parole dans ton cœur, manche après manche.
-            </p>
+            <div className="relative max-w-[54%]">
+              <h1 className="mt-2 font-game text-[1.6rem] font-black leading-[0.92] drop-shadow">
+                MÉMORISER
+                <br />
+                <span className="text-amber-300">DES VERSETS</span>
+              </h1>
+              <p className="mt-2 font-game text-[12px] font-semibold leading-tight text-white/80">
+                Grave la Parole dans ton cœur, manche après manche.
+              </p>
+            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={asset("/img/jeux/memo-hero.jpg")} alt="" className="pointer-events-none absolute -bottom-2 -right-2 h-32 w-auto object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.3)]" />
           </div>
 
           {/* Objectif + Record */}
           <div className="mt-3 grid grid-cols-2 gap-3">
-            <div className="flex items-center gap-2.5 rounded-2xl border border-white/8 bg-white/[0.04] p-3.5">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-gradient-to-b from-amber-300 to-amber-500 text-night-950 shadow">
-                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" /></svg>
+            <div className="flex items-center gap-2.5 rounded-2xl border border-white/10 bg-white/[0.05] p-3.5">
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-gradient-to-b from-[#f472b6] to-[#c026a3] text-white shadow-[inset_0_2px_3px_rgba(255,255,255,.4)]">
+                <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" /></svg>
               </span>
               <div className="min-w-0">
-                <p className="font-game text-xs font-extrabold text-amber-300">OBJECTIF</p>
-                <p className="text-[11px] leading-tight text-white/60">Chaque verset par cœur, étape par étape.</p>
+                <p className="font-game text-xs font-extrabold text-fuchsia-300">OBJECTIF</p>
+                <p className="text-[11px] leading-tight text-white/70">Chaque verset par cœur, étape par étape.</p>
               </div>
             </div>
-            <div className="flex items-center gap-2.5 rounded-2xl border border-amber-400/40 bg-white/[0.04] p-3.5">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-gradient-to-b from-amber-300 to-amber-500 text-night-950 shadow">
-                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M8 4h8v3a4 4 0 0 1-8 0zM9 20h6M12 11v4" /></svg>
+            <div className="flex items-center gap-2.5 rounded-2xl border border-amber-400/45 bg-white/[0.05] p-3.5">
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-gradient-to-b from-[#f59e0b] to-[#d97706] text-white shadow-[inset_0_2px_3px_rgba(255,255,255,.4)]">
+                <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M8 4h8v3a4 4 0 0 1-8 0zM8 5H5v1a3 3 0 0 0 3 3M16 5h3v1a3 3 0 0 1-3 3M9 20h6M12 12v4" /></svg>
               </span>
               <div className="min-w-0">
                 <p className="font-game text-[10px] font-extrabold text-amber-300">RECORD</p>
@@ -495,15 +506,24 @@ export default function MemoriserPage() {
           {/* Stats */}
           <div className="mt-3 grid grid-cols-3 gap-2 text-center">
             <div className="rounded-2xl bg-white/[0.06] py-3">
-              <p className="font-game text-lg font-extrabold text-amber-300">{learned}</p>
+              <p className="flex items-center justify-center gap-1.5 font-game text-lg font-extrabold text-white">
+                <svg viewBox="0 0 24 24" className="h-4 w-4 text-fuchsia-300" fill="none" stroke="currentColor" strokeWidth={1.9} strokeLinecap="round" strokeLinejoin="round"><path d="M4 5a2 2 0 0 1 2-2h6v16H6a2 2 0 0 0-2 2zM20 5a2 2 0 0 0-2-2h-6v16h6a2 2 0 0 1 2 2z" /></svg>
+                {learned}
+              </p>
               <p className="text-[10px] font-bold uppercase tracking-wide text-white/50">Appris</p>
             </div>
             <div className="rounded-2xl bg-white/[0.06] py-3">
-              <p className="font-game text-lg font-extrabold text-amber-300">{inProgress}</p>
+              <p className="flex items-center justify-center gap-1.5 font-game text-lg font-extrabold text-white">
+                <svg viewBox="0 0 24 24" className="h-4 w-4 text-amber-400" fill="currentColor" aria-hidden><path d="M12 3c1 3-1 4-2 6-1 2 0 4 2 4s3-2 2-4c2 1 3 3 3 5a5 5 0 0 1-10 0c0-4 4-6 5-11z" /></svg>
+                {inProgress}
+              </p>
               <p className="text-[10px] font-bold uppercase tracking-wide text-white/50">En cours</p>
             </div>
             <div className="rounded-2xl bg-white/[0.06] py-3">
-              <p className="font-game text-lg font-extrabold text-amber-300">{streak}</p>
+              <p className="flex items-center justify-center gap-1.5 font-game text-lg font-extrabold text-white">
+                <svg viewBox="0 0 24 24" className="h-4 w-4 text-violet-300" fill="currentColor" aria-hidden><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 17.8 6.8 20.5l1-5.8L3.5 9.2l5.9-.9z" /></svg>
+                {streak}
+              </p>
               <p className="text-[10px] font-bold uppercase tracking-wide text-white/50">Série</p>
             </div>
           </div>
