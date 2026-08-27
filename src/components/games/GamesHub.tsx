@@ -33,6 +33,10 @@ const IconCap = S("M3 9l9-4 9 4-9 4zM7 11v4c0 1.5 2.5 2.5 5 2.5s5-1 5-2.5v-4");
 const IconBulb = S("M9 18h6M10 21h4M12 3a6 6 0 0 1 4 10 3 3 0 0 0-1 2H9a3 3 0 0 0-1-2 6 6 0 0 1 4-10z");
 const IconScale = S("M12 4v16M8 20h8M6 7h12M6 7l-2.5 5a3 3 0 0 0 5 0zM18 7l-2.5 5a3 3 0 0 0 5 0z");
 const IconMask = S("M12 3C7 3 3 6 3 11c0 4 3 6 4 8 .5 1 1.5 2 5 2s4.5-1 5-2c1-2 4-4 4-8 0-5-4-8-9-8zM8.5 11h.01M15.5 11h.01M9 15c1 1 5 1 6 0");
+const IconTrophy = S("M8 4h8v3a4 4 0 0 1-8 0zM8 5H5v1a3 3 0 0 0 3 3M16 5h3v1a3 3 0 0 1-3 3M9 20h6M12 12v4");
+
+/** Illustration 3D du bouton « Défier un ami » (vide tant que Jack n'a pas fourni la sienne). */
+const DEFI_ILLO = "";
 
 type Game = {
   id: string;
@@ -237,8 +241,17 @@ export function GamesHub() {
         {/* ---------- Défier un ami ---------- */}
         <Link href="/defi" className="jx-card mt-4 flex items-center gap-3 p-4" style={{ background: "linear-gradient(120deg, #7C3AED, #9333EA)", animationDelay: ".4s" }}>
           <span className="jx-shine" />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={asset("/img/quiz/trophy.jpg")} alt="" className="jx-illo h-16 w-16 shrink-0 rounded-2xl object-cover shadow-lg" />
+          {DEFI_ILLO ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={asset(DEFI_ILLO)} alt="" className="jx-illo h-16 w-16 shrink-0 object-contain drop-shadow-[0_8px_10px_rgba(0,0,0,0.35)]" />
+          ) : (
+            <span
+              className="jx-illo grid h-16 w-16 shrink-0 place-items-center rounded-2xl text-amber-300 shadow-[0_10px_20px_-6px_rgba(0,0,0,.5),inset_0_2px_0_rgba(255,255,255,.4)] ring-1 ring-white/30"
+              style={{ background: "radial-gradient(circle at 32% 28%, rgba(255,255,255,.4), rgba(255,255,255,.1) 60%, rgba(0,0,0,.15))" }}
+            >
+              <IconTrophy className="h-8 w-8" />
+            </span>
+          )}
           <div className="relative min-w-0 flex-1">
             <p className="font-game text-lg font-black uppercase leading-tight drop-shadow">Défier un ami</p>
             <p className="font-game text-[11px] font-semibold text-white/85">
