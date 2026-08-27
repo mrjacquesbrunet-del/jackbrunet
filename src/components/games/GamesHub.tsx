@@ -41,16 +41,18 @@ type Game = {
   desc: string;
   href: string;
   illo: string;
+  /** Illustration pleine carte (style maquette) : titre + illustration déjà intégrés. */
+  card?: string;
   Icon: (p: { className?: string }) => React.ReactElement;
   from: string;
   to: string;
   arrow: string;
 };
 const GAMES: Game[] = [
-  { id: "quiz", title1: "QUIZ", title2: "BIBLIQUE", desc: "Réponds aux questions et deviens incollable sur la Bible !", href: "/quiz", illo: "/img/jeux/quiz.jpg", Icon: IconCap, from: "#FBBF24", to: "#F59E0B", arrow: "#F59E0B" },
-  { id: "memo", title1: "MÉMORISER", title2: "LES VERSETS", desc: "Grave la Parole dans ton cœur, verset après verset !", href: "/memoriser", illo: "/img/jeux/memoriser.jpg", Icon: IconBulb, from: "#2DD4BF", to: "#0D9488", arrow: "#0D9488" },
-  { id: "quisuisje", title1: "QUI", title2: "SUIS-JE ?", desc: "Devine le personnage biblique grâce aux indices !", href: "/qui-suis-je", illo: "/img/jeux/quisuisje.jpg", Icon: IconMask, from: "#60A5FA", to: "#3B82F6", arrow: "#2563EB" },
-  { id: "vraifaux", title1: "VRAI", title2: "OU FAUX", desc: "Réponds vite et enchaîne les bonnes réponses !", href: "/vrai-faux", illo: "/img/jeux/vraifaux.jpg", Icon: IconScale, from: "#F472B6", to: "#EC4899", arrow: "#DB2777" },
+  { id: "quiz", title1: "QUIZ", title2: "BIBLIQUE", desc: "Réponds aux questions et deviens incollable sur la Bible !", href: "/quiz", illo: "/img/jeux/quiz.jpg", card: "/img/jeux/card_quiz.jpg", Icon: IconCap, from: "#FBBF24", to: "#F59E0B", arrow: "#F59E0B" },
+  { id: "memo", title1: "MÉMORISER", title2: "LES VERSETS", desc: "Grave la Parole dans ton cœur, verset après verset !", href: "/memoriser", illo: "", Icon: IconBulb, from: "#2DD4BF", to: "#0D9488", arrow: "#0D9488" },
+  { id: "quisuisje", title1: "QUI", title2: "SUIS-JE ?", desc: "Devine le personnage biblique grâce aux indices !", href: "/qui-suis-je", illo: "", Icon: IconMask, from: "#60A5FA", to: "#3B82F6", arrow: "#2563EB" },
+  { id: "vraifaux", title1: "VRAI", title2: "OU FAUX", desc: "Réponds vite et enchaîne les bonnes réponses !", href: "/vrai-faux", illo: "/img/jeux/vraifaux.jpg", card: "/img/jeux/card_vraifaux.jpg", Icon: IconScale, from: "#F472B6", to: "#EC4899", arrow: "#DB2777" },
 ];
 
 const CSS = `
@@ -183,34 +185,53 @@ export function GamesHub() {
 
         {/* ---------- Cartes ---------- */}
         <div className="mt-5 grid grid-cols-2 gap-4">
-          {GAMES.map((g, i) => (
-            <Link key={g.id} href={g.href} className="jx-card block" style={{ background: `linear-gradient(160deg, ${g.from}, ${g.to})`, animationDelay: `${0.08 * i}s` }}>
-              <span className="jx-shine" />
-              <div className="relative flex h-full min-h-[15rem] flex-col p-4">
-                <p className="font-game text-xl font-black uppercase leading-[0.95] drop-shadow">{g.title1}<br />{g.title2}</p>
-                <p className="mt-1.5 font-game text-[11px] font-semibold leading-tight text-white/90">{g.desc}</p>
-                {/* Illustration (avec repli icône) */}
-                <div className="jx-illo relative mt-2 flex flex-1 items-end justify-center">
-                  {!broken.has(g.id) ? (
-                    // eslint-disable-next-line @next/next/no-img-element
+          {GAMES.map((g, i) => {
+            // Carte « maquette » : illustration pleine carte (titre + visuel intégrés).
+            const useCard = g.card && !broken.has(g.id);
+            return (
+              <Link key={g.id} href={g.href} className="jx-card block" style={{ background: `linear-gradient(160deg, ${g.from}, ${g.to})`, animationDelay: `${0.08 * i}s` }}>
+                <span className="jx-shine" />
+                {useCard ? (
+                  <div className="relative min-h-[15rem]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={asset(g.illo)}
-                      alt=""
+                      src={asset(g.card!)}
+                      alt={`${g.title1} ${g.title2}`}
                       onError={() => setBroken((s) => new Set(s).add(g.id))}
-                      className="h-28 w-auto object-contain drop-shadow-[0_10px_12px_rgba(0,0,0,0.3)]"
+                      className="block h-full w-full object-cover"
                     />
-                  ) : (
-                    <span className="mb-2 grid h-24 w-24 place-items-center rounded-full bg-white/20 ring-1 ring-white/25">
-                      <g.Icon className="h-12 w-12 text-white" />
+                  </div>
+                ) : (
+                  <div className="relative flex h-full min-h-[15rem] flex-col p-4">
+                    <p className="font-game text-xl font-black uppercase leading-[0.95] drop-shadow">{g.title1}<br />{g.title2}</p>
+                    <p className="mt-1.5 font-game text-[11px] font-semibold leading-tight text-white/90">{g.desc}</p>
+                    {/* Illustration (avec repli icône) */}
+                    <div className="jx-illo relative mt-2 flex flex-1 items-end justify-center">
+                      {g.illo && !broken.has(g.id) ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={asset(g.illo)}
+                          alt=""
+                          onError={() => setBroken((s) => new Set(s).add(g.id))}
+                          className="h-28 w-auto object-contain drop-shadow-[0_10px_12px_rgba(0,0,0,0.3)]"
+                        />
+                      ) : (
+                        <span
+                          className="mb-4 grid h-28 w-28 place-items-center rounded-[2rem] text-white shadow-[0_14px_28px_-8px_rgba(0,0,0,.5),inset_0_2px_0_rgba(255,255,255,.4)] ring-1 ring-white/30"
+                          style={{ background: "radial-gradient(circle at 32% 28%, rgba(255,255,255,.45), rgba(255,255,255,.12) 60%, rgba(0,0,0,.12))" }}
+                        >
+                          <g.Icon className="h-14 w-14 drop-shadow" />
+                        </span>
+                      )}
+                    </div>
+                    <span className="pointer-events-none absolute bottom-3 right-3 grid h-11 w-11 place-items-center rounded-full bg-white shadow-lg" style={{ color: g.arrow }}>
+                      <IconArrow className="h-5 w-5" />
                     </span>
-                  )}
-                </div>
-                <span className="pointer-events-none absolute bottom-3 right-3 grid h-11 w-11 place-items-center rounded-full bg-white shadow-lg" style={{ color: g.arrow }}>
-                  <IconArrow className="h-5 w-5" />
-                </span>
-              </div>
-            </Link>
-          ))}
+                  </div>
+                )}
+              </Link>
+            );
+          })}
         </div>
 
         {/* ---------- Défier un ami ---------- */}
