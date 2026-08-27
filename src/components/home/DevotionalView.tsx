@@ -54,6 +54,16 @@ type Props = {
   audioMap: Record<string, string>;
 };
 
+/** Clé de punchline normalisée (minuscules, sans accents ni ponctuation). */
+function normPunch(s: string): string {
+  return s
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
 export function DevotionalView({
   devotions,
   initialIndex,
@@ -84,12 +94,14 @@ export function DevotionalView({
       alive = false;
     };
   }, []);
-  // Cartes-images (bucket « medias ») indexées par punchline, depuis le contenu
-  // intégré au build (qui référence les fichiers de cartes).
+  // Cartes-images (bucket « medias ») indexées par punchline normalisée, depuis
+  // le contenu intégré au build (qui référence les fichiers de cartes). La
+  // normalisation (minuscules, sans accents ni ponctuation) évite qu'une
+  // petite différence de texte côté CMS empêche de retrouver la carte.
   const bundledCardByPunch = useMemo(() => {
     const m = new Map<string, string>();
     for (const d of devotions) {
-      if (d.card && d.punchline) m.set(d.punchline.trim(), d.card);
+      if (d.card && d.punchline) m.set(normPunch(d.punchline), d.card);
     }
     return m;
   }, [devotions]);
@@ -100,7 +112,7 @@ export function DevotionalView({
   const list = useMemo(() => {
     const base = remote ?? devotions;
     return base.map((d) =>
-      d.card ? d : { ...d, card: bundledCardByPunch.get((d.punchline || "").trim()) ?? d.card },
+      d.card ? d : { ...d, card: bundledCardByPunch.get(normPunch(d.punchline || "")) ?? d.card },
     );
   }, [remote, devotions, bundledCardByPunch]);
 
