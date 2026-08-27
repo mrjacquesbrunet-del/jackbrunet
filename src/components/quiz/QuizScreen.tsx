@@ -40,6 +40,8 @@ import { getVfXp } from "@/lib/vraifaux";
 import { asset } from "@/lib/asset";
 import { getSupabase } from "@/lib/supabase";
 import { getProfile } from "@/lib/community";
+import { submitGameScore } from "@/lib/game-scores";
+import { ScoreBoard } from "@/components/games/ScoreBoard";
 
 type IconCmp = (p: { className?: string }) => ReactElement;
 
@@ -356,6 +358,7 @@ export function QuizScreen() {
       setBest(res.best);
       setBestRung(res.bestRung);
       submitQuizCoins(amount, res.best);
+      submitGameScore("quiz", Math.floor(res.coins / 500));
       if (sourceRef.current === "daily") {
         const d = markDailyDone();
         setDaily({ streak: d.streak, doneToday: true });
@@ -640,6 +643,11 @@ export function QuizScreen() {
             <Link href="/devotionnel" aria-label="Retour" className="grid h-9 w-9 place-items-center rounded-full bg-white/10">
               <IconClose className="h-4 w-4" />
             </Link>
+          </div>
+
+          {/* Classement de ce jeu */}
+          <div className="mt-5">
+            <ScoreBoard mode="quiz" accent="#CAF000" title="Classement · Connaissances" />
           </div>
         </div>
 

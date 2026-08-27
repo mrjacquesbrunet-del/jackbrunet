@@ -30,6 +30,8 @@ import { WeeklyChampions } from "@/components/memorize/WeeklyChampions";
 import { VERSE_PACKS } from "@/config/verse-packs";
 import { getSupabase } from "@/lib/supabase";
 import { getProfile } from "@/lib/community";
+import { submitGameScore } from "@/lib/game-scores";
+import { ScoreBoard } from "@/components/games/ScoreBoard";
 
 const LEVEL_LABELS = ["Découverte", "Quelques trous", "La moitié", "Presque tout", "Par cœur"];
 
@@ -275,7 +277,9 @@ export default function MemoriserPage() {
   }, []);
   useEffect(() => {
     if (gaming) return;
-    setXp(getMemorizeXp());
+    const mx = getMemorizeXp();
+    setXp(mx);
+    submitGameScore("memoriser", mx);
     setStreak(currentStreak());
     setDailyXp(getDailyXp());
     try {
@@ -461,6 +465,11 @@ export default function MemoriserPage() {
             </p>
           ) : null}
         </section>
+
+        {/* Classement de ce jeu */}
+        <div className="mt-6">
+          <ScoreBoard mode="memoriser" accent="#FBBF24" title="Classement · Mémoriser" />
+        </div>
 
         {/* Ajout par référence */}
         <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.04] p-4">

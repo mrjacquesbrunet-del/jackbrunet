@@ -7,6 +7,8 @@ import { getMemorizeXp, levelFromXp } from "@/lib/memorize";
 import { getQuizCoins } from "@/lib/quiz";
 import { getSupabase } from "@/lib/supabase";
 import { getProfile } from "@/lib/community";
+import { submitGameScore } from "@/lib/game-scores";
+import { ScoreBoard } from "@/components/games/ScoreBoard";
 
 function buzz(p: number | number[]) {
   try {
@@ -73,6 +75,7 @@ export function VraiFauxScreen() {
   useEffect(() => {
     setBest(getVfBest());
     setXp(getMemorizeXp() + getVfXp() + Math.floor(getQuizCoins() / 500));
+    submitGameScore("vraifaux", getVfXp());
     (async () => {
       const sb = getSupabase();
       if (!sb) return;
@@ -130,6 +133,7 @@ export function VraiFauxScreen() {
     const res = recordVf(finalScore, finalPoints);
     setBest(res.best);
     setXp(getMemorizeXp() + getVfXp() + Math.floor(getQuizCoins() / 500));
+    submitGameScore("vraifaux", getVfXp());
   }, []);
 
   const doFlash = (k: "good" | "bad") => {
@@ -289,6 +293,11 @@ export function VraiFauxScreen() {
           >
             Retour aux jeux
           </Link>
+
+          {/* Classement de ce jeu */}
+          <div className="mt-5">
+            <ScoreBoard mode="vraifaux" accent="#0d9488" title="Classement · Vrai ou Faux" light />
+          </div>
         </div>
       </div>
     );

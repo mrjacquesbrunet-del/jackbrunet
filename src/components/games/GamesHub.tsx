@@ -14,6 +14,8 @@ import { getMemorizeXp, levelFromXp } from "@/lib/memorize";
 import { getVfXp } from "@/lib/vraifaux";
 import { getSupabase } from "@/lib/supabase";
 import { getProfile } from "@/lib/community";
+import { submitGameScore } from "@/lib/game-scores";
+import { ScoreBoard } from "@/components/games/ScoreBoard";
 
 /* ---------------- Icônes (trait de la charte) ---------------- */
 const S = (d: string) => (p: { className?: string }) => (
@@ -89,8 +91,17 @@ export function GamesHub() {
     setGames(getQuizGames());
     setStreak(getQuizStreak());
     setUnlocked(getUnlockedAchievements());
-    setMemoXp(getMemorizeXp());
-    setVfXp(getVfXp());
+    const memo = getMemorizeXp();
+    const vf = getVfXp();
+    const cn = getQuizCoins();
+    setMemoXp(memo);
+    setVfXp(vf);
+
+    // Enregistre les scores cumulés des trois jeux (registre le joueur au
+    // classement, même sans lancer de partie ici).
+    submitGameScore("quiz", Math.floor(cn / 500));
+    submitGameScore("vraifaux", vf);
+    submitGameScore("memoriser", memo);
 
     // Profil réel : photo + prénom (pseudo) de l'utilisateur connecté.
     (async () => {
@@ -208,6 +219,14 @@ export function GamesHub() {
             </span>
           </Link>
         ))}
+      </div>
+
+      {/* ---------- Classement général (cumul des 3 jeux) ---------- */}
+      <div className="mt-7">
+        <ScoreBoard mode="total" accent="#CAF000" title="Classement général" />
+        <p className="mt-2 text-center font-game text-[11px] text-cream/40">
+          Cumul de tes scores sur les trois jeux.
+        </p>
       </div>
 
       {/* ---------- Récap discret ---------- */}

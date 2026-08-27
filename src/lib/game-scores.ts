@@ -1,0 +1,66 @@
+"use client";
+
+import { getSupabase } from "./supabase";
+
+/** Un jeu de la section Jeux. */
+export type GameId = "quiz" | "vraifaux" | "memoriser";
+
+/** Une ligne de classement (score = points/XP du jeu, ou cumul des trois). */
+export type ScoreRow = {
+  user_id: string;
+  pseudo: string | null;
+  avatar_url: string | null;
+  points: number;
+  rank: number;
+};
+
+/**
+ * Envoie le score (points cumulés) de l'utilisateur pour un jeu.
+ * Le serveur garde le meilleur (les points sont cumulatifs).
+ * Sans effet si non connecté / Supabase indisponible.
+ */
+export async function submitGameScore(game: GameId, points: number): Promise<void> {
+  const sb = getSupabase();
+  if (!sb || !Number.isFinite(points) || points <= 0) return;
+  try {
+    await sb.rpc("game_submit", { p_game: game, p_points: Math.round(points) });
+  } catch {
+    /* hors ligne : on réessaiera à la prochaine partie */
+  }
+}
+
+/** Classement d'un jeu (top joueurs, avec pseudo + photo). */
+export async function fetchGameLeaderboard(game: GameId, limit = 50): Promise<ScoreRow[]> {
+  const sb = getSupabase();
+  if (!sb) return [];
+  try {
+    const { data } = await sb.rpc("game_leaderboard", { p_game: game, p_limit: limit });
+    return (data as ScoreRow[]) || [];
+  } catch {
+    return [];
+  }
+}
+
+/** Classement général : cumul des points des trois jeux. */
+export async function fetchTotalLeaderboard(limit = 50): Promise<ScoreRow[]> {
+  const sb = getSupabase();
+  if (!sb) return [];
+  try {
+    const { data } = await sb.rpc("game_leaderboard_total", { p_limit: limit });
+    return (data as ScoreRow[]) || [];
+  } catch {
+    return [];
+  }
+}
+
+/** Id de l'utilisateur connecté (pour surligner sa ligne), ou null. */
+export async function currentUserId(): Promise<string | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  try {
+    const { data } = await sb.auth.getUser();
+    return data.user?.id ?? null;
+  } catch {
+    return null;
+  }
+}
