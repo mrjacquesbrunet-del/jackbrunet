@@ -31,6 +31,16 @@ export const IcoPlay = S("M8 5l11 7-11 7z");
 export const IcoTrophy = S("M8 4h8v3a4 4 0 0 1-8 0zM8 5H5v1a3 3 0 0 0 3 3M16 5h3v1a3 3 0 0 1-3 3M9 20h6M12 12v4");
 export const IcoStar = S("M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 17.8 6.8 20.5l1-5.8L3.5 9.2l5.9-.9z");
 export const IcoRefresh = S("M4 12a8 8 0 0 1 13.7-5.6L20 8M20 4v4h-4M20 12a8 8 0 0 1-13.7 5.6L4 16M4 20v-4h4");
+export const IcoBolt = S("M13 3L4 14h6l-1 7 9-11h-6z");
+export const IcoTarget = S("M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2z");
+export const IcoHeartFill = (p: { className?: string }) => (
+  <svg viewBox="0 0 24 24" className={p.className} fill="currentColor" aria-hidden><path d="M12 20s-7-4.6-9.2-9C1.3 8 3 5 6 5c1.8 0 3.2 1 3.99 2C10.8 6 12.2 5 14 5c3 0 4.7 3 3.2 6-2.2 4.4-9.2 9-9.2 9z" /></svg>
+);
+export const IcoGear = S("M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM4.5 12c0-.5.1-.9.1-1.3L2.8 9.2l1.7-3 2.1.9c.6-.5 1.3-.9 2-1.2L9 3.6h3.4l.4 2.3c.7.3 1.4.7 2 1.2l2.1-.9 1.7 3-1.8 1.5c.1.4.1.8.1 1.3s0 .9-.1 1.3l1.8 1.5-1.7 3-2.1-.9c-.6.5-1.3.9-2 1.2l-.4 2.3H9l-.4-2.3c-.7-.3-1.4-.7-2-1.2l-2.1.9-1.7-3 1.8-1.5c0-.4-.1-.8-.1-1.3z");
+export const IcoHand = S("M7 11V6.5a1.4 1.4 0 0 1 2.8 0V10M9.8 10V4.8a1.4 1.4 0 0 1 2.8 0V10M12.6 10V6a1.4 1.4 0 0 1 2.8 0v6.5c0 3.3-2.4 6-5.7 6S5.4 16 5 14l-1-2a1.35 1.35 0 0 1 2.1-1.7L7 11");
+export const IcoFlameF = (p: { className?: string }) => (
+  <svg viewBox="0 0 24 24" className={p.className} fill="currentColor" aria-hidden><path d="M12 3c1 3-1 4-2 6-1 2 0 4 2 4s3-2 2-4c2 1 3 3 3 5a5 5 0 0 1-10 0c0-4 4-6 5-11z" /></svg>
+);
 
 /* ---------------- Thème « millionnaire » violet ---------------- */
 export const ARCADE_CSS = `
@@ -91,6 +101,22 @@ export const ARCADE_CSS = `
 .qm-valid:disabled{background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.1));color:rgba(255,255,255,.4);box-shadow:none}
 .qm-ghost{border-radius:16px;padding:15px;font-family:var(--font-game);font-weight:900;font-size:15px;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.15)}
 .qm-ghost:active{transform:translateY(1px)}
+/* ----- Accueil (hub) style maquette ----- */
+.qm-gear{display:grid;place-items:center;width:42px;height:42px;border-radius:9999px;background:linear-gradient(180deg,#8B5CF6,#6D28D9);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 4px 10px rgba(0,0,0,.25)}
+.qm-gear:active{transform:scale(.94)}
+.qm-hero{position:relative;overflow:hidden;border-radius:26px;padding:20px;border:1px solid rgba(255,255,255,.2);box-shadow:0 16px 34px rgba(23,10,54,.45)}
+.qm-rapide{display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border-radius:9999px;background:linear-gradient(180deg,#FCD34D,#F59E0B);font-family:var(--font-game);font-weight:900;font-size:11px;letter-spacing:.04em;color:#4a2600;box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+.qm-obj{border-radius:20px;padding:14px;background:linear-gradient(180deg,#a7f3e4,#5eead4);border:1px solid rgba(13,148,136,.28);box-shadow:0 10px 22px rgba(13,148,136,.22)}
+.qm-obj-ic{display:grid;place-items:center;width:44px;height:44px;flex:0 0 auto;border-radius:14px;background:linear-gradient(180deg,#2dd4bf,#0d9488);color:#fff;box-shadow:inset 0 2px 3px rgba(255,255,255,.4)}
+.qm-rec{border-radius:20px;padding:14px;background:linear-gradient(180deg,#fde68a,#fbbf24);border:1px solid rgba(245,158,11,.4);box-shadow:0 10px 22px rgba(245,158,11,.22)}
+.qm-rec-ic{display:grid;place-items:center;width:44px;height:44px;flex:0 0 auto;border-radius:14px;background:linear-gradient(180deg,#f59e0b,#d97706);color:#fff;box-shadow:inset 0 2px 3px rgba(255,255,255,.4)}
+.qm-howto{border-radius:22px;padding:16px;background:linear-gradient(180deg,rgba(238,234,255,.96),rgba(224,218,252,.94));box-shadow:0 12px 26px rgba(23,10,54,.32)}
+.qm-mini{border-radius:16px;padding:12px 6px;text-align:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}
+.qm-mini-ic{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:9999px;color:#fff;box-shadow:inset 0 2px 4px rgba(255,255,255,.45),0 5px 10px rgba(0,0,0,.14)}
+.qm-jouer{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border-radius:20px;padding:18px;font-family:var(--font-game);font-weight:900;font-size:22px;letter-spacing:.03em;color:#fff;background:linear-gradient(180deg,#4ade80,#22c55e);box-shadow:inset 0 2px 0 rgba(255,255,255,.45),0 7px 0 #15803d;text-shadow:0 2px 4px rgba(0,0,0,.25)}
+.qm-jouer:active{transform:translateY(4px);box-shadow:inset 0 2px 0 rgba(255,255,255,.45),0 3px 0 #15803d}
+.qm-retour{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:9999px;padding:12px 22px;font-family:var(--font-game);font-weight:900;font-size:14px;color:#fff;background:linear-gradient(180deg,#7C3AED,#6D28D9);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 6px 14px rgba(23,10,54,.4)}
+.qm-retour:active{transform:translateY(1px)}
 `;
 
 /** Racine plein écran : fond violet + verrou du défilement de fond + CSS injecté. */
@@ -167,6 +193,68 @@ export function ArcadeHeader({
         {gems}
         <span className="qm-gem-plus"><IcoPlus className="h-3.5 w-3.5" /></span>
       </span>
+    </div>
+  );
+}
+
+/** En-tête d'accueil (hub) : salutation · profil · niveau/XP · gemmes · réglages. */
+export function HubHeader({
+  name,
+  avatarUrl,
+  level,
+  xpInto,
+  xpSpan,
+  gems,
+  onGear,
+}: {
+  name: string;
+  avatarUrl: string | null;
+  level: number;
+  xpInto: number;
+  xpSpan: number;
+  gems: number | string;
+  onGear?: () => void;
+}) {
+  const pct = xpSpan > 0 ? Math.round((xpInto / xpSpan) * 100) : 0;
+  return (
+    <div className="flex items-center gap-3">
+      <span className="relative shrink-0 rounded-full p-[3px]" style={{ background: "linear-gradient(180deg,#FCD34D,#F59E0B)", boxShadow: "0 0 18px rgba(252,211,77,.4)" }}>
+        {avatarUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={avatarUrl} alt="" className="h-14 w-14 rounded-full object-cover" />
+        ) : (
+          <span className="grid h-14 w-14 place-items-center rounded-full bg-[#3b1d6e] text-white/80">
+            <IcoUser className="h-8 w-8" />
+          </span>
+        )}
+      </span>
+      <div className="min-w-0 flex-1">
+        <p className="flex items-center gap-1.5 font-game text-sm font-semibold text-white/80">
+          Bonjour <IcoHand className="h-4 w-4 text-amber-300" />
+        </p>
+        <div className="flex items-center gap-2">
+          <p className="truncate font-game text-xl font-black leading-tight">{name || "Joueur"}</p>
+          <span className="qm-niv shrink-0">NIV. {level}</span>
+        </div>
+        <div className="qm-xpbar mt-1">
+          <i style={{ width: `${pct}%` }} />
+        </div>
+        <p className="mt-0.5 font-game text-[10px] font-bold text-white/70">
+          {xpInto} / {xpSpan} <span className="text-amber-300">XP</span>
+        </p>
+      </div>
+      <div className="flex shrink-0 flex-col items-end gap-2">
+        <span className="qm-gem">
+          <IcoGem className="h-4 w-4 text-fuchsia-300" />
+          {gems}
+          <span className="qm-gem-plus"><IcoPlus className="h-3.5 w-3.5" /></span>
+        </span>
+        {onGear ? (
+          <button type="button" onClick={onGear} aria-label="Réglages" className="qm-gear">
+            <IcoGear className="h-5 w-5" />
+          </button>
+        ) : null}
+      </div>
     </div>
   );
 }

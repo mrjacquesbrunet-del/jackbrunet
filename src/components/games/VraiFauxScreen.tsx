@@ -9,15 +9,21 @@ import { getSupabase } from "@/lib/supabase";
 import { getProfile } from "@/lib/community";
 import { submitGameScore, submitWeeklyPoints } from "@/lib/game-scores";
 import { ScoreBoard } from "@/components/games/ScoreBoard";
+import { asset } from "@/lib/asset";
 import {
   ArcadeShell,
   ArcadeHeader,
+  HubHeader,
   IcoClock,
   IcoCheck,
   IcoCross,
   IcoPlay,
   IcoRefresh,
   IcoTrophy,
+  IcoTarget,
+  IcoBolt,
+  IcoHeartFill,
+  IcoFlameF,
 } from "./ArcadeUI";
 
 function buzz(p: number | number[]) {
@@ -194,40 +200,88 @@ export function VraiFauxScreen() {
   if (phase === "hub") {
     return (
       <ArcadeShell>
-        <ArcadeHeader name={name} avatarUrl={avatar} level={lvl.level} xpInto={lvl.into} xpSpan={lvl.span} gems={best} onBack={() => router.push("/jeux")} />
+        <HubHeader name={name} avatarUrl={avatar} level={lvl.level} xpInto={lvl.into} xpSpan={lvl.span} gems={best} onGear={() => router.push("/profil")} />
 
         {/* Héros */}
-        <div className="qm-card relative mt-4 overflow-hidden p-5">
-          <span className="qm-pill-o">JEU RAPIDE</span>
-          <h1 className="mt-2 font-game text-4xl font-black leading-[0.95]">
-            VRAI <span className="text-fuchsia-300">ou</span> FAUX
-          </h1>
-          <p className="mt-2 max-w-[15rem] font-game text-sm font-semibold text-white/75">
-            Vrai ou faux&nbsp;? Réponds avant la fin du temps et enchaîne les bonnes réponses.
-          </p>
+        <div className="qm-hero mt-4" style={{ background: "linear-gradient(135deg,#7C3AED 0%,#9333EA 55%,#C0409A 100%)" }}>
+          <span className="pointer-events-none absolute right-4 top-4 text-white/10">
+            <svg viewBox="0 0 24 24" className="h-24 w-24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round"><path d="M12 4v16M8 20h8M6 7h12M6 7l-2.5 5a3 3 0 0 0 5 0zM18 7l-2.5 5a3 3 0 0 0 5 0z" /></svg>
+          </span>
+          <div className="relative max-w-[58%]">
+            <span className="qm-rapide"><IcoBolt className="h-3.5 w-3.5" /> JEU RAPIDE</span>
+            <h1 className="mt-2.5 font-game text-[2rem] font-black leading-[0.9] drop-shadow">
+              VRAI <span className="text-amber-300">ou</span> FAUX
+            </h1>
+            <p className="mt-2.5 font-game text-[13px] font-semibold leading-tight text-white/85">
+              Réponds avant la fin du temps et enchaîne les bonnes réponses&nbsp;!
+            </p>
+          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={asset("/img/jeux/vf-hero.jpg")} alt="" className="pointer-events-none absolute bottom-0 -right-2 h-32 w-auto object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.3)]" />
+        </div>
+
+        {/* Objectif + Record */}
+        <div className="mt-4 grid grid-cols-2 gap-3">
+          <div className="qm-obj flex items-center gap-3">
+            <span className="qm-obj-ic"><IcoTarget className="h-6 w-6" /></span>
+            <div className="min-w-0">
+              <p className="font-game text-xs font-black text-teal-800">OBJECTIF</p>
+              <p className="text-[11px] font-semibold leading-tight text-teal-900/80">Enchaîne un max de bonnes réponses&nbsp;!</p>
+            </div>
+          </div>
+          <div className="qm-rec flex items-center gap-3">
+            <span className="qm-rec-ic"><IcoTrophy className="h-6 w-6" /></span>
+            <div className="min-w-0">
+              <p className="font-game text-xs font-black text-amber-700">RECORD</p>
+              <p className="font-game text-2xl font-black leading-none text-[#4a2600]">{best}</p>
+            </div>
+          </div>
         </div>
 
         {/* Comment jouer */}
-        <div className="mt-3 grid grid-cols-3 gap-2.5">
-          <MiniTip d={HEART} tint="#fb7185" label={`${VF_LIVES} vies`} sub="Ne les perds pas" />
-          <MiniTip d="M13 3L4 14h6l-1 7 9-11h-6z" tint="#22d3ee" label={`${VF_TIME}s`} sub="Réponds vite" />
-          <MiniTip d="M12 3c1 3-1 4-2 6-1 2 0 4 2 4s3-2 2-4c2 1 3 3 3 5a5 5 0 0 1-10 0c0-4 4-6 5-11z" tint="#fbbf24" label="Série" sub="Bonus combo" />
+        <div className="qm-howto mt-4">
+          <p className="font-game text-sm font-black tracking-wide text-[#5B21B6]">COMMENT JOUER</p>
+          <div className="mt-3 grid grid-cols-3 gap-2.5">
+            <div className="qm-mini" style={{ background: "linear-gradient(180deg,#fce7f3,#fbcfe8)" }}>
+              <span className="qm-mini-ic" style={{ background: "linear-gradient(180deg,#f472b6,#db2777)" }}><IcoHeartFill className="h-5 w-5" /></span>
+              <p className="mt-1.5 font-game text-[13px] font-black text-[#831843]">{VF_LIVES} vies</p>
+              <p className="text-[9px] font-semibold text-[#9d174d]/70">Ne les perds pas</p>
+            </div>
+            <div className="qm-mini" style={{ background: "linear-gradient(180deg,#cffafe,#a5f3fc)" }}>
+              <span className="qm-mini-ic" style={{ background: "linear-gradient(180deg,#22d3ee,#0891b2)" }}><IcoBolt className="h-5 w-5" /></span>
+              <p className="mt-1.5 font-game text-[13px] font-black text-[#155e75]">{VF_TIME}s</p>
+              <p className="text-[9px] font-semibold text-[#155e75]/70">Réponds vite</p>
+            </div>
+            <div className="qm-mini" style={{ background: "linear-gradient(180deg,#ffedd5,#fed7aa)" }}>
+              <span className="qm-mini-ic" style={{ background: "linear-gradient(180deg,#fb923c,#ea580c)" }}><IcoFlameF className="h-5 w-5" /></span>
+              <p className="mt-1.5 font-game text-[13px] font-black text-[#7c2d12]">Série</p>
+              <p className="text-[9px] font-semibold text-[#7c2d12]/70">Bonus combo</p>
+            </div>
+          </div>
         </div>
 
+        {/* JOUER */}
         {resumable ? (
-          <button type="button" onClick={resume} className="qm-valid mt-4 flex w-full items-center justify-center gap-2">
-            <IcoPlay className="h-5 w-5" /> REPRENDRE · score {resumable.score}
+          <button type="button" onClick={resume} className="qm-jouer mt-4">
+            <IcoPlay className="h-6 w-6" /> REPRENDRE · {resumable.score}
           </button>
+        ) : (
+          <button type="button" onClick={start} className="qm-jouer mt-4">
+            <IcoPlay className="h-6 w-6" /> JOUER
+          </button>
+        )}
+        {resumable ? (
+          <button type="button" onClick={start} className="mt-3 w-full font-game text-sm font-bold text-white/70">Nouvelle partie</button>
         ) : null}
-        <button type="button" onClick={start} className={resumable ? "qm-ghost mt-3 flex w-full items-center justify-center gap-2" : "qm-valid mt-4 flex w-full items-center justify-center gap-2"}>
-          {resumable ? "Nouvelle partie" : <><IcoPlay className="h-5 w-5" /> JOUER</>}
-        </button>
-        <button type="button" onClick={() => router.push("/jeux")} className="qm-ghost mt-3 w-full">
-          Accueil des jeux
-        </button>
+
+        <div className="mt-4 flex justify-center">
+          <button type="button" onClick={() => router.push("/jeux")} className="qm-retour">
+            <IcoRefresh className="h-4 w-4" /> RETOUR AUX JEUX
+          </button>
+        </div>
 
         <div className="mt-5">
-          <ScoreBoard mode="vraifaux" accent="#A855F7" title="Classement · Vrai ou Faux" />
+          <ScoreBoard mode="vraifaux" accent="#7C3AED" title="Classement · Vrai ou Faux" light />
         </div>
       </ArcadeShell>
     );
@@ -329,14 +383,3 @@ export function VraiFauxScreen() {
   );
 }
 
-function MiniTip({ d, tint, label, sub }: { d: string; tint: string; label: string; sub: string }) {
-  return (
-    <div className="qm-card p-3 text-center">
-      <span className="inline-grid h-9 w-9 place-items-center rounded-full" style={{ background: `${tint}33`, color: tint }}>
-        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d={d} /></svg>
-      </span>
-      <p className="mt-1 font-game text-[12px] font-extrabold text-white">{label}</p>
-      <p className="text-[9px] leading-tight text-white/60">{sub}</p>
-    </div>
-  );
-}
