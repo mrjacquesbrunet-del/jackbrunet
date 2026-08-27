@@ -3,7 +3,7 @@
     {
       "id": 1,
       "difficulty": 1,
-      "category": "Récits",
+      "category": "Bible",
       "q": "Qui a construit l'arche sur l'ordre de Dieu ?",
       "options": [
         "Abraham",
@@ -12,728 +12,679 @@
         "Noé"
       ],
       "correct": 3,
-      "reference": "Genèse 6",
-      "hint": ""
+      "reference": "Genèse 6"
     },
     {
       "id": 2,
       "difficulty": 1,
-      "category": "Création",
-      "q": "En combien de jours Dieu a-t-il créé le monde avant de se reposer ?",
+      "category": "Bible",
+      "q": "Dans quelle ville Jésus est-il né ?",
       "options": [
-        "Quarante",
-        "Trois",
-        "Six",
-        "Sept"
+        "Capernaüm",
+        "Jérusalem",
+        "Bethléem",
+        "Nazareth"
       ],
       "correct": 2,
-      "reference": "Genèse 1",
-      "hint": ""
+      "reference": "Matthieu 2"
     },
     {
       "id": 3,
       "difficulty": 1,
-      "category": "Prophètes",
-      "q": "Qui fut avalé par un grand poisson ?",
+      "category": "Bible",
+      "q": "Combien Jésus avait-il d'apôtres ?",
       "options": [
-        "Élie",
-        "Paul",
-        "Pierre",
-        "Jonas"
+        "10",
+        "24",
+        "7",
+        "12"
       ],
       "correct": 3,
-      "reference": "Jonas 1",
-      "hint": ""
+      "reference": "Matthieu 10"
     },
     {
       "id": 4,
       "difficulty": 1,
-      "category": "Jésus",
-      "q": "Dans quelle ville Jésus est-il né ?",
+      "category": "Bible",
+      "q": "Qui fut avalé par un grand poisson ?",
       "options": [
-        "Nazareth",
-        "Jérusalem",
-        "Bethléem",
-        "Capernaüm"
+        "Élie",
+        "Job",
+        "Jonas",
+        "Daniel"
       ],
       "correct": 2,
-      "reference": "Luc 2",
-      "hint": ""
+      "reference": "Jonas 1"
     },
     {
       "id": 5,
       "difficulty": 1,
-      "category": "Jésus",
-      "q": "Combien d'apôtres Jésus a-t-il choisis ?",
+      "category": "Bible",
+      "q": "Qui a vaincu le géant Goliath ?",
       "options": [
-        "Dix",
-        "Sept",
-        "Trois",
-        "Douze"
+        "Saül",
+        "Samson",
+        "Josué",
+        "David"
       ],
       "correct": 3,
-      "reference": "Marc 3",
-      "hint": ""
+      "reference": "1 Samuel 17"
     },
     {
       "id": 6,
       "difficulty": 1,
-      "category": "Récits",
-      "q": "Qui fut jeté dans la fosse aux lions ?",
+      "category": "Bible",
+      "q": "Comment s'appelait le jardin d'Adam et Ève ?",
       "options": [
-        "Joseph",
-        "Ésaïe",
-        "Jérémie",
-        "Daniel"
+        "Gethsémané",
+        "Le Sinaï",
+        "Canaan",
+        "Le jardin d'Éden"
       ],
       "correct": 3,
-      "reference": "Daniel 6",
-      "hint": ""
+      "reference": "Genèse 2"
     },
     {
       "id": 7,
       "difficulty": 1,
       "category": "Bible",
-      "q": "Quel est le premier livre de la Bible ?",
+      "q": "Qui a conduit les Hébreux hors d'Égypte ?",
       "options": [
-        "Matthieu",
-        "Exode",
-        "Genèse",
-        "Psaumes"
+        "Josué",
+        "Aaron",
+        "Moïse",
+        "Abraham"
       ],
       "correct": 2,
-      "reference": "",
-      "hint": ""
+      "reference": "Exode 3"
     },
     {
       "id": 8,
       "difficulty": 1,
-      "category": "Jésus",
-      "q": "Qui a trahi Jésus pour trente pièces d'argent ?",
+      "category": "Bible",
+      "q": "Comment s'appelait la mère de Jésus ?",
       "options": [
-        "Pierre",
-        "Jean",
-        "Judas",
-        "Thomas"
+        "Marthe",
+        "Anne",
+        "Marie",
+        "Élisabeth"
       ],
       "correct": 2,
-      "reference": "Matthieu 26",
-      "hint": ""
+      "reference": "Luc 1"
     },
     {
       "id": 9,
       "difficulty": 1,
-      "category": "Récits",
-      "q": "Sur quelle montagne Moïse a-t-il reçu les Dix Commandements ?",
+      "category": "Bible",
+      "q": "En combien de jours Dieu créa-t-il le monde avant de se reposer ?",
       "options": [
-        "Le Sinaï",
-        "Le Carmel",
-        "Le mont des Oliviers",
-        "Le Nébo"
+        "6 jours",
+        "3 jours",
+        "7 jours",
+        "40 jours"
       ],
       "correct": 0,
-      "reference": "Exode 19",
-      "hint": ""
+      "reference": "Genèse 1"
     },
     {
       "id": 10,
       "difficulty": 1,
-      "category": "Récits",
+      "category": "Bible",
       "q": "Quel animal parla à Balaam ?",
       "options": [
-        "Un corbeau",
         "Un lion",
+        "Un corbeau",
         "Une ânesse",
         "Un serpent"
       ],
       "correct": 2,
-      "reference": "Nombres 22",
-      "hint": ""
+      "reference": "Nombres 22"
     },
     {
       "id": 11,
       "difficulty": 1,
-      "category": "Jésus",
-      "q": "Quel disciple marcha sur l'eau vers Jésus ?",
+      "category": "Bible",
+      "q": "Qui fut jeté dans la fosse aux lions ?",
       "options": [
-        "Jacques",
-        "Jean",
-        "André",
-        "Pierre"
+        "Jérémie",
+        "Joseph",
+        "Pierre",
+        "Daniel"
       ],
       "correct": 3,
-      "reference": "Matthieu 14",
-      "hint": ""
+      "reference": "Daniel 6"
     },
     {
       "id": 12,
       "difficulty": 1,
-      "category": "Récits",
-      "q": "Qui était le frère d'Abel, tué par jalousie ?",
+      "category": "Bible",
+      "q": "Sur quelle montagne Moïse reçut-il les tables de la Loi ?",
       "options": [
-        "Esaü",
-        "Cham",
-        "Seth",
-        "Caïn"
+        "Le mont Nébo",
+        "Le mont Sion",
+        "Le mont Carmel",
+        "Le mont Sinaï"
       ],
       "correct": 3,
-      "reference": "Genèse 4",
-      "hint": ""
+      "reference": "Exode 19"
     },
     {
       "id": 13,
       "difficulty": 1,
-      "category": "Récits",
-      "q": "Qui fut le premier homme créé par Dieu ?",
+      "category": "Bible",
+      "q": "Combien de commandements Dieu donna-t-il à Moïse ?",
       "options": [
-        "Ève",
-        "Caïn",
-        "Seth",
-        "Adam"
+        "5",
+        "7",
+        "10",
+        "12"
       ],
-      "correct": 3,
-      "reference": "Genèse 2",
-      "hint": ""
+      "correct": 2,
+      "reference": "Exode 20"
     },
     {
       "id": 14,
       "difficulty": 1,
-      "category": "Récits",
-      "q": "Combien de personnes furent sauvées dans l'arche de Noé ?",
+      "category": "Bible",
+      "q": "Qui a trahi Jésus pour trente pièces d'argent ?",
       "options": [
-        "Quatre",
-        "Douze",
-        "Huit",
-        "Deux"
+        "Thomas",
+        "Jean",
+        "Pierre",
+        "Judas"
       ],
-      "correct": 2,
-      "reference": "1 Pierre 3.20",
-      "hint": ""
+      "correct": 3,
+      "reference": "Matthieu 26"
     },
     {
       "id": 15,
       "difficulty": 1,
-      "category": "Personnages",
-      "q": "Quel jeune berger devint roi d'Israël ?",
+      "category": "Bible",
+      "q": "Dans quel fleuve Jean baptisait-il ?",
       "options": [
-        "Saül",
-        "Jonathan",
-        "David",
-        "Absalom"
+        "Le Jourdain",
+        "Le Nil",
+        "Le Tibre",
+        "L'Euphrate"
       ],
-      "correct": 2,
-      "reference": "1 Samuel 16",
-      "hint": ""
+      "correct": 0,
+      "reference": "Matthieu 3"
     },
     {
       "id": 16,
       "difficulty": 1,
-      "category": "Vie de Jésus",
-      "q": "Quel repas Jésus partagea-t-il avec ses disciples la veille de sa mort ?",
+      "category": "Bible",
+      "q": "Qui était le premier homme créé ?",
       "options": [
-        "La Cène",
-        "Un mariage",
-        "Un banquet royal",
-        "Un sacrifice"
+        "Seth",
+        "Adam",
+        "Abel",
+        "Caïn"
       ],
-      "correct": 0,
-      "reference": "Luc 22",
-      "hint": ""
+      "correct": 1,
+      "reference": "Genèse 2"
     },
     {
       "id": 17,
       "difficulty": 1,
-      "category": "Loi",
-      "q": "Combien de commandements Dieu donna-t-il à Moïse ?",
+      "category": "Bible",
+      "q": "Quel jour Jésus est-il ressuscité ?",
       "options": [
-        "Cinq",
-        "Dix",
-        "Douze",
-        "Sept"
+        "Le vendredi",
+        "Le sixième jour",
+        "Le sabbat",
+        "Le premier jour de la semaine"
       ],
-      "correct": 1,
-      "reference": "Exode 20",
-      "hint": ""
+      "correct": 3,
+      "reference": "Marc 16"
     },
     {
       "id": 18,
       "difficulty": 1,
-      "category": "Rois",
-      "q": "Quel roi fit construire un temple magnifique à Jérusalem ?",
+      "category": "Bible",
+      "q": "Que Dieu sépara-t-il pour laisser passer le peuple ?",
       "options": [
-        "Josias",
-        "David",
-        "Salomon",
-        "Néhémie"
+        "Le Jourdain",
+        "Le Nil",
+        "La mer Rouge",
+        "La mer de Galilée"
       ],
       "correct": 2,
-      "reference": "1 Rois 6",
-      "hint": ""
+      "reference": "Exode 14"
     },
     {
       "id": 19,
       "difficulty": 1,
-      "category": "Vie de Jésus",
-      "q": "Quel animal Jésus monta-t-il pour entrer à Jérusalem ?",
+      "category": "Bible",
+      "q": "Qui bâtit un temple célèbre à Jérusalem ?",
       "options": [
-        "Un cheval",
-        "Un chameau",
-        "Un ânon",
-        "Un mulet"
+        "Néhémie",
+        "Saül",
+        "David",
+        "Salomon"
       ],
-      "correct": 2,
-      "reference": "Matthieu 21",
-      "hint": ""
+      "correct": 3,
+      "reference": "1 Rois 6"
     },
     {
       "id": 20,
       "difficulty": 1,
-      "category": "Vie de Jésus",
-      "q": "Comment s'appelait la mère de Jésus ?",
+      "category": "Bible",
+      "q": "Quel fut le premier miracle de Jésus à Cana ?",
       "options": [
-        "Anne",
-        "Marthe",
-        "Élisabeth",
-        "Marie"
+        "Changer l'eau en vin",
+        "Marcher sur l'eau",
+        "Multiplier les pains",
+        "Guérir un aveugle"
       ],
-      "correct": 3,
-      "reference": "Luc 1",
-      "hint": ""
+      "correct": 0,
+      "reference": "Jean 2"
     },
     {
       "id": 21,
       "difficulty": 1,
-      "category": "Apôtres",
-      "q": "Quel disciple renia Jésus trois fois avant le chant du coq ?",
+      "category": "Bible",
+      "q": "Qui renia Jésus trois fois ?",
       "options": [
         "Pierre",
-        "Thomas",
         "Jean",
-        "Jacques"
+        "Jacques",
+        "Judas"
       ],
       "correct": 0,
-      "reference": "Luc 22",
-      "hint": ""
+      "reference": "Luc 22"
     },
     {
       "id": 22,
       "difficulty": 1,
-      "category": "Vie de Jésus",
-      "q": "Quel jour Jésus est-il ressuscité ?",
+      "category": "Bible",
+      "q": "Dans quel pays les Hébreux étaient-ils esclaves ?",
       "options": [
-        "Le sabbat",
-        "Le premier jour de la semaine",
-        "Le vendredi",
-        "Le sixième jour"
+        "En Égypte",
+        "En Perse",
+        "En Canaan",
+        "À Babylone"
       ],
-      "correct": 1,
-      "reference": "Marc 16",
-      "hint": ""
+      "correct": 0,
+      "reference": "Exode 1"
     },
     {
       "id": 23,
       "difficulty": 1,
-      "category": "Récits",
-      "q": "Quel signe Dieu plaça-t-il dans le ciel comme alliance après le déluge ?",
+      "category": "Bible",
+      "q": "Quel signe Dieu plaça-t-il dans le ciel après le déluge ?",
       "options": [
-        "La lune",
         "Une étoile",
         "Une colombe",
+        "La lune",
         "L'arc-en-ciel"
       ],
       "correct": 3,
-      "reference": "Genèse 9",
-      "hint": ""
+      "reference": "Genèse 9"
     },
     {
       "id": 24,
       "difficulty": 1,
-      "category": "Vie de Jésus",
-      "q": "Combien d'Évangiles racontent la vie de Jésus ?",
+      "category": "Bible",
+      "q": "Qui était le frère jumeau d'Ésaü ?",
       "options": [
-        "Trois",
-        "Sept",
-        "Quatre",
-        "Cinq"
+        "Joseph",
+        "Benjamin",
+        "Jacob",
+        "Isaac"
       ],
       "correct": 2,
-      "reference": "Nouveau Testament",
-      "hint": ""
+      "reference": "Genèse 25"
     },
     {
       "id": 25,
       "difficulty": 2,
-      "category": "Récits",
+      "category": "Bible",
       "q": "Qui interpréta les rêves de Pharaon en Égypte ?",
       "options": [
-        "Aaron",
-        "Daniel",
+        "Moïse",
         "Joseph",
-        "Moïse"
+        "Daniel",
+        "Aaron"
       ],
-      "correct": 2,
-      "reference": "Genèse 41",
-      "hint": ""
+      "correct": 1,
+      "reference": "Genèse 41"
     },
     {
       "id": 26,
       "difficulty": 2,
-      "category": "Rois",
-      "q": "Quel roi demanda la sagesse à Dieu plutôt que la richesse ?",
+      "category": "Bible",
+      "q": "Quel roi voulut faire tuer l'enfant Jésus ?",
       "options": [
-        "Saül",
-        "Josias",
-        "David",
-        "Salomon"
+        "Pilate",
+        "Néron",
+        "Hérode",
+        "César"
       ],
-      "correct": 3,
-      "reference": "1 Rois 3",
-      "hint": ""
+      "correct": 2,
+      "reference": "Matthieu 2"
     },
     {
       "id": 27,
       "difficulty": 2,
-      "category": "Rois",
-      "q": "Qui fut le premier roi d'Israël ?",
+      "category": "Bible",
+      "q": "Combien de jours dura la pluie du déluge ?",
       "options": [
-        "Saül",
-        "David",
-        "Samuel",
-        "Salomon"
+        "100 jours",
+        "30 jours",
+        "7 jours",
+        "40 jours et 40 nuits"
       ],
-      "correct": 0,
-      "reference": "1 Samuel 10",
-      "hint": ""
+      "correct": 3,
+      "reference": "Genèse 7"
     },
     {
       "id": 28,
       "difficulty": 2,
-      "category": "Récits",
-      "q": "Combien de plaies frappèrent l'Égypte ?",
+      "category": "Bible",
+      "q": "Qui était le frère aîné de Moïse ?",
       "options": [
-        "Trois",
-        "Dix",
-        "Douze",
-        "Sept"
+        "Josué",
+        "Hur",
+        "Aaron",
+        "Caleb"
       ],
-      "correct": 1,
-      "reference": "Exode 7-12",
-      "hint": ""
+      "correct": 2,
+      "reference": "Exode 4"
     },
     {
       "id": 29,
       "difficulty": 2,
-      "category": "Récits",
-      "q": "Qui succéda à Moïse pour faire entrer le peuple en Canaan ?",
-      "options": [
-        "Caleb",
-        "Gédéon",
-        "Aaron",
-        "Josué"
-      ],
-      "correct": 3,
-      "reference": "Josué 1",
-      "hint": ""
-    },
-    {
-      "id": 30,
-      "difficulty": 2,
-      "category": "Prophètes",
+      "category": "Bible",
       "q": "Quel prophète fut enlevé au ciel dans un char de feu ?",
       "options": [
-        "Élisée",
         "Ésaïe",
+        "Élisée",
         "Élie",
         "Énoch"
       ],
       "correct": 2,
-      "reference": "2 Rois 2",
-      "hint": ""
+      "reference": "2 Rois 2"
+    },
+    {
+      "id": 30,
+      "difficulty": 2,
+      "category": "Bible",
+      "q": "Qui succéda à Moïse pour entrer en Canaan ?",
+      "options": [
+        "Josué",
+        "Aaron",
+        "Caleb",
+        "Éléazar"
+      ],
+      "correct": 0,
+      "reference": "Josué 1"
     },
     {
       "id": 31,
       "difficulty": 2,
-      "category": "Récits",
-      "q": "Quelle mer les Hébreux ont-ils traversée à pied sec ?",
+      "category": "Bible",
+      "q": "Quelle reine juive sauva son peuple d'un massacre ?",
       "options": [
-        "La Méditerranée",
-        "Le lac de Galilée",
-        "La mer Morte",
-        "La mer Rouge"
+        "Débora",
+        "Esther",
+        "Rahab",
+        "Ruth"
       ],
-      "correct": 3,
-      "reference": "Exode 14",
-      "hint": ""
+      "correct": 1,
+      "reference": "Esther 4"
     },
     {
       "id": 32,
       "difficulty": 2,
-      "category": "Femmes",
-      "q": "Quelle Moabite devint l'arrière-grand-mère du roi David ?",
+      "category": "Bible",
+      "q": "Combien de personnes furent sauvées dans l'arche ?",
       "options": [
-        "Ruth",
-        "Rahab",
-        "Déborah",
-        "Abigaïl"
+        "8",
+        "4",
+        "12",
+        "2"
       ],
       "correct": 0,
-      "reference": "Ruth 4",
-      "hint": ""
+      "reference": "1 Pierre 3:20"
     },
     {
       "id": 33,
       "difficulty": 2,
-      "category": "Jésus",
-      "q": "Combien de jours Jésus a-t-il jeûné au désert ?",
+      "category": "Bible",
+      "q": "Quel roi écrivit de nombreux Psaumes ?",
       "options": [
-        "Quarante",
-        "Sept",
-        "Trente",
-        "Trois"
+        "David",
+        "Salomon",
+        "Moïse",
+        "Asaph"
       ],
       "correct": 0,
-      "reference": "Matthieu 4",
-      "hint": ""
+      "reference": "Psaumes"
     },
     {
       "id": 34,
       "difficulty": 2,
-      "category": "Jésus",
-      "q": "Qui baptisa Jésus dans le Jourdain ?",
+      "category": "Bible",
+      "q": "Quel apôtre marcha sur l'eau vers Jésus ?",
       "options": [
-        "Jean-Baptiste",
-        "Élie",
+        "Jean",
         "André",
-        "Pierre"
+        "Pierre",
+        "Jacques"
       ],
-      "correct": 0,
-      "reference": "Matthieu 3",
-      "hint": ""
+      "correct": 2,
+      "reference": "Matthieu 14"
     },
     {
       "id": 35,
       "difficulty": 2,
-      "category": "Apôtres",
-      "q": "Quel apôtre était collecteur d'impôts ?",
+      "category": "Bible",
+      "q": "Qui tua son frère Abel par jalousie ?",
       "options": [
-        "Pierre",
-        "Philippe",
-        "Thomas",
-        "Matthieu"
+        "Ésaü",
+        "Lémec",
+        "Caïn",
+        "Cham"
       ],
-      "correct": 3,
-      "reference": "Matthieu 9",
-      "hint": ""
+      "correct": 2,
+      "reference": "Genèse 4"
     },
     {
       "id": 36,
       "difficulty": 2,
-      "category": "Paraboles",
-      "q": "Dans la parabole, qui secourut l'homme blessé sur la route ?",
+      "category": "Bible",
+      "q": "Qui perdit sa force quand on lui coupa les cheveux ?",
       "options": [
-        "Un lévite",
-        "Un pharisien",
-        "Un Samaritain",
-        "Un prêtre"
+        "Saül",
+        "Absalom",
+        "Goliath",
+        "Samson"
       ],
-      "correct": 2,
-      "reference": "Luc 10",
-      "hint": ""
+      "correct": 3,
+      "reference": "Juges 16"
     },
     {
       "id": 37,
       "difficulty": 2,
-      "category": "Personnages",
-      "q": "Combien de frères Joseph avait-il en tout ?",
+      "category": "Bible",
+      "q": "Sur quel chemin Paul se convertit-il ?",
       "options": [
-        "Dix",
-        "Sept",
-        "Onze",
-        "Douze"
+        "Le chemin de Rome",
+        "Le chemin de Damas",
+        "Le chemin d'Éphèse",
+        "Le chemin d'Emmaüs"
       ],
-      "correct": 2,
-      "reference": "Genèse 35",
-      "hint": ""
+      "correct": 1,
+      "reference": "Actes 9"
     },
     {
       "id": 38,
       "difficulty": 2,
-      "category": "Rois & prophètes",
-      "q": "Quelle femme mena Israël comme juge et prophétesse ?",
+      "category": "Bible",
+      "q": "Qui baptisa Jésus dans le Jourdain ?",
       "options": [
-        "Myriam",
-        "Débora",
-        "Anne",
-        "Rahab"
+        "Jean-Baptiste",
+        "André",
+        "Pierre",
+        "Élie"
       ],
-      "correct": 1,
-      "reference": "Juges 4",
-      "hint": ""
+      "correct": 0,
+      "reference": "Matthieu 3"
     },
     {
       "id": 39,
       "difficulty": 2,
-      "category": "Rois & prophètes",
-      "q": "Quel prophète affronta les prophètes de Baal sur le mont Carmel ?",
+      "category": "Bible",
+      "q": "Quel prophète affronta les prophètes de Baal au Carmel ?",
       "options": [
-        "Ésaïe",
-        "Élie",
         "Élisée",
-        "Jérémie"
+        "Élie",
+        "Jérémie",
+        "Michée"
       ],
       "correct": 1,
-      "reference": "1 Rois 18",
-      "hint": ""
+      "reference": "1 Rois 18"
     },
     {
       "id": 40,
       "difficulty": 2,
-      "category": "Vie de Jésus",
-      "q": "Combien de jours Jésus resta-t-il sur terre après sa résurrection ?",
+      "category": "Bible",
+      "q": "Quel disciple était collecteur d'impôts ?",
       "options": [
-        "Trois",
-        "Cinquante",
-        "Sept",
-        "Quarante"
+        "Thomas",
+        "Luc",
+        "Marc",
+        "Matthieu"
       ],
       "correct": 3,
-      "reference": "Actes 1",
-      "hint": ""
+      "reference": "Matthieu 9"
     },
     {
       "id": 41,
       "difficulty": 2,
-      "category": "Apôtres",
-      "q": "Quel disciple était pêcheur et frère d'André ?",
+      "category": "Bible",
+      "q": "Qui fut vendu par ses frères comme esclave ?",
       "options": [
-        "Jean",
-        "Barthélemy",
-        "Philippe",
-        "Pierre"
+        "Ruben",
+        "Benjamin",
+        "Joseph",
+        "Juda"
       ],
-      "correct": 3,
-      "reference": "Matthieu 4",
-      "hint": ""
+      "correct": 2,
+      "reference": "Genèse 37"
     },
     {
       "id": 42,
       "difficulty": 2,
-      "category": "Église",
-      "q": "Dans quelle ville l'Esprit descendit-il le jour de la Pentecôte ?",
+      "category": "Bible",
+      "q": "Quel roi remplaça Saül sur le trône d'Israël ?",
       "options": [
-        "Antioche",
-        "Rome",
-        "Éphèse",
-        "Jérusalem"
+        "Jonathan",
+        "Salomon",
+        "David",
+        "Samuel"
       ],
-      "correct": 3,
-      "reference": "Actes 2",
-      "hint": ""
+      "correct": 2,
+      "reference": "2 Samuel 5"
     },
     {
       "id": 43,
       "difficulty": 2,
-      "category": "Rois",
-      "q": "Quel roi dansa devant l'arche de l'alliance ?",
+      "category": "Bible",
+      "q": "Combien de livres compte la Bible protestante ?",
       "options": [
-        "David",
-        "Ézéchias",
-        "Salomon",
-        "Saül"
+        "73",
+        "39",
+        "27",
+        "66"
       ],
-      "correct": 0,
-      "reference": "2 Samuel 6",
-      "hint": ""
+      "correct": 3,
+      "reference": "—"
     },
     {
       "id": 44,
       "difficulty": 2,
-      "category": "Récits",
-      "q": "Quelle femme rit en apprenant qu'elle aurait un fils dans sa vieillesse ?",
+      "category": "Bible",
+      "q": "Quelle mer Jésus calma-t-il par sa parole ?",
       "options": [
-        "Rachel",
-        "Sara",
-        "Léa",
-        "Rébecca"
+        "La mer Morte",
+        "La mer de Galilée",
+        "La Méditerranée",
+        "La mer Rouge"
       ],
       "correct": 1,
-      "reference": "Genèse 18",
-      "hint": ""
+      "reference": "Marc 4"
     },
     {
       "id": 45,
       "difficulty": 2,
-      "category": "Vie de Jésus",
-      "q": "Quel premier miracle Jésus accomplit-il à Cana ?",
+      "category": "Bible",
+      "q": "Qui était l'épouse d'Abraham ?",
       "options": [
-        "Marcher sur l'eau",
-        "Changer l'eau en vin",
-        "Multiplier les pains",
-        "Guérir un lépreux"
+        "Rebecca",
+        "Sara",
+        "Agar",
+        "Rachel"
       ],
       "correct": 1,
-      "reference": "Jean 2",
-      "hint": ""
+      "reference": "Genèse 17"
     },
     {
       "id": 46,
       "difficulty": 2,
-      "category": "Récits",
-      "q": "Quel objet le peuple fabriqua-t-il pour l'adorer pendant que Moïse était sur la montagne ?",
+      "category": "Bible",
+      "q": "Quel roi jugea les deux femmes réclamant le même enfant ?",
       "options": [
-        "Un veau d'or",
-        "Une idole de bois",
-        "Un serpent d'airain",
-        "Un autel de pierre"
+        "Josaphat",
+        "Salomon",
+        "Ézéchias",
+        "David"
       ],
-      "correct": 0,
-      "reference": "Exode 32",
-      "hint": ""
+      "correct": 1,
+      "reference": "1 Rois 3"
     },
     {
       "id": 47,
       "difficulty": 2,
-      "category": "Vie de Jésus",
-      "q": "Quel homme, riche et petit de taille, monta sur un arbre pour voir Jésus ?",
+      "category": "Bible",
+      "q": "Qui vit en songe une échelle dressée jusqu'au ciel ?",
       "options": [
-        "Zachée",
-        "Corneille",
-        "Nicodème",
-        "Barnabas"
+        "Abraham",
+        "Isaac",
+        "Joseph",
+        "Jacob"
       ],
-      "correct": 0,
-      "reference": "Luc 19",
-      "hint": ""
+      "correct": 3,
+      "reference": "Genèse 28"
     },
     {
       "id": 48,
       "difficulty": 2,
-      "category": "Récits",
-      "q": "Quelle épouse de Jacob mourut en donnant naissance à Benjamin ?",
+      "category": "Bible",
+      "q": "Quel apôtre était le frère de Pierre ?",
       "options": [
-        "Bilha",
-        "Zilpa",
-        "Rachel",
-        "Léa"
+        "Jacques",
+        "Jean",
+        "André",
+        "Philippe"
       ],
       "correct": 2,
-      "reference": "Genèse 35",
-      "hint": ""
+      "reference": "Jean 1:40"
     },
     {
       "id": 49,
       "difficulty": 3,
-      "category": "Familles",
+      "category": "Bible",
       "q": "Qui était le père de Jean-Baptiste ?",
       "options": [
-        "Siméon",
+        "Éli",
         "Zacharie",
-        "Élisée",
-        "Nicodème"
+        "Zébédée",
+        "Siméon"
       ],
       "correct": 1,
-      "reference": "Luc 1",
-      "hint": ""
+      "reference": "Luc 1"
     },
     {
       "id": 50,
@@ -741,1064 +692,1329 @@
       "category": "Bible",
       "q": "Combien de livres compte le Nouveau Testament ?",
       "options": [
-        "Trente-neuf",
-        "Soixante-six",
-        "Vingt-sept",
-        "Vingt-quatre"
+        "39",
+        "24",
+        "21",
+        "27"
       ],
-      "correct": 2,
-      "reference": "",
-      "hint": ""
+      "correct": 3,
+      "reference": "—"
     },
     {
       "id": 51,
       "difficulty": 3,
-      "category": "Apôtres",
-      "q": "Quel apôtre douta jusqu'à toucher les plaies de Jésus ?",
+      "category": "Bible",
+      "q": "Qui remplaça Judas parmi les douze apôtres ?",
       "options": [
-        "Barthélemy",
-        "Jacques",
-        "Pierre",
-        "Thomas"
+        "Silas",
+        "Barnabas",
+        "Étienne",
+        "Matthias"
       ],
       "correct": 3,
-      "reference": "Jean 20",
-      "hint": ""
+      "reference": "Actes 1:26"
     },
     {
       "id": 52,
       "difficulty": 3,
-      "category": "Apôtres",
-      "q": "Qui écrivit la majorité des épîtres du Nouveau Testament ?",
+      "category": "Bible",
+      "q": "Qui était le roi de Salem, prêtre du Dieu Très-Haut ?",
       "options": [
-        "Pierre",
-        "Luc",
-        "Paul",
-        "Jean"
+        "Aaron",
+        "Abimélec",
+        "Éli",
+        "Melchisédek"
       ],
-      "correct": 2,
-      "reference": "",
-      "hint": ""
+      "correct": 3,
+      "reference": "Genèse 14:18"
     },
     {
       "id": 53,
       "difficulty": 3,
-      "category": "Récits",
-      "q": "Sur quelle montagne l'arche de Noé s'est-elle posée ?",
+      "category": "Bible",
+      "q": "Comment s'appelait la femme de Moïse ?",
       "options": [
-        "L'Horeb",
-        "Le Sinaï",
-        "L'Ararat",
-        "Le Carmel"
+        "Séphora",
+        "Aksa",
+        "Débora",
+        "Miriam"
       ],
-      "correct": 2,
-      "reference": "Genèse 8",
-      "hint": ""
+      "correct": 0,
+      "reference": "Exode 2:21"
     },
     {
       "id": 54,
       "difficulty": 3,
-      "category": "Récits",
-      "q": "Quel géant David a-t-il vaincu avec une fronde ?",
+      "category": "Bible",
+      "q": "Quel prophète épousa Gomer sur l'ordre de Dieu ?",
       "options": [
-        "Goliath",
-        "Og",
-        "Sisera",
-        "Absalom"
+        "Osée",
+        "Joël",
+        "Michée",
+        "Amos"
       ],
       "correct": 0,
-      "reference": "1 Samuel 17",
-      "hint": ""
+      "reference": "Osée 1"
     },
     {
       "id": 55,
       "difficulty": 3,
-      "category": "Juges",
-      "q": "Quel juge avait une force liée à ses cheveux ?",
+      "category": "Bible",
+      "q": "Sur quelle montagne l'arche de Noé s'arrêta-t-elle ?",
       "options": [
-        "Jephté",
-        "Samson",
-        "Ehud",
-        "Gédéon"
+        "L'Horeb",
+        "Le mont Ararat",
+        "Le Nébo",
+        "Le Sinaï"
       ],
       "correct": 1,
-      "reference": "Juges 16",
-      "hint": ""
+      "reference": "Genèse 8:4"
     },
     {
       "id": 56,
       "difficulty": 3,
-      "category": "Familles",
-      "q": "Combien de fils Jacob a-t-il eus ?",
+      "category": "Bible",
+      "q": "Qui était le beau-père de Moïse ?",
       "options": [
-        "Douze",
-        "Quatorze",
-        "Sept",
-        "Dix"
+        "Jéthro",
+        "Béthuel",
+        "Laban",
+        "Nachor"
       ],
       "correct": 0,
-      "reference": "Genèse 35",
-      "hint": ""
+      "reference": "Exode 3:1"
     },
     {
       "id": 57,
       "difficulty": 3,
-      "category": "Femmes",
-      "q": "Quelle reine sauva son peuple juif en Perse ?",
+      "category": "Bible",
+      "q": "Combien d'années les Hébreux errèrent-ils dans le désert ?",
       "options": [
-        "Esther",
-        "Vasthi",
-        "Bethsabée",
-        "Mical"
+        "40 ans",
+        "70 ans",
+        "400 ans",
+        "12 ans"
       ],
       "correct": 0,
-      "reference": "Esther 7",
-      "hint": ""
+      "reference": "Nombres 14"
     },
     {
       "id": 58,
       "difficulty": 3,
-      "category": "Apôtres",
-      "q": "Qui fut choisi pour remplacer Judas parmi les douze ?",
+      "category": "Bible",
+      "q": "Quel disciple douta de la résurrection avant de voir Jésus ?",
       "options": [
-        "Barnabas",
-        "Silas",
-        "Matthias",
-        "Étienne"
+        "Philippe",
+        "Nathanaël",
+        "Barthélemy",
+        "Thomas"
       ],
-      "correct": 2,
-      "reference": "Actes 1",
-      "hint": ""
+      "correct": 3,
+      "reference": "Jean 20"
     },
     {
       "id": 59,
       "difficulty": 3,
-      "category": "Apôtres",
-      "q": "Près de quelle ville Paul fut-il aveuglé par une lumière ?",
+      "category": "Bible",
+      "q": "Quel était le fils promis d'Abraham et Sara ?",
       "options": [
-        "Antioche",
-        "Éphèse",
-        "Damas",
-        "Tarse"
+        "Jacob",
+        "Ésaü",
+        "Ismaël",
+        "Isaac"
       ],
-      "correct": 2,
-      "reference": "Actes 9",
-      "hint": ""
+      "correct": 3,
+      "reference": "Genèse 21"
     },
     {
       "id": 60,
       "difficulty": 3,
-      "category": "Paraboles",
-      "q": "Dans la parabole de l'homme riche et de Lazare, qui Lazare rejoint-il ?",
+      "category": "Bible",
+      "q": "Quelle ville tomba après sept tours de son mur ?",
       "options": [
-        "Jean le Baptiste",
-        "Jésus",
-        "David",
-        "Abraham"
+        "Hébron",
+        "Jéricho",
+        "Gabaon",
+        "Aï"
       ],
-      "correct": 3,
-      "reference": "Luc 16",
-      "hint": ""
+      "correct": 1,
+      "reference": "Josué 6"
     },
     {
       "id": 61,
       "difficulty": 3,
-      "category": "Apôtres",
-      "q": "Quel compagnon de Paul était médecin ?",
+      "category": "Bible",
+      "q": "Qui fut le premier roi d'Israël ?",
       "options": [
-        "Silas",
-        "Tite",
-        "Luc",
-        "Marc"
+        "David",
+        "Samuel",
+        "Salomon",
+        "Saül"
       ],
-      "correct": 2,
-      "reference": "Colossiens 4.14",
-      "hint": ""
+      "correct": 3,
+      "reference": "1 Samuel 10"
     },
     {
       "id": 62,
       "difficulty": 3,
-      "category": "Rois",
-      "q": "Quel roi de Juda retrouva le livre de la Loi et lança une grande réforme ?",
+      "category": "Bible",
+      "q": "Dans quel jardin Jésus pria-t-il avant son arrestation ?",
       "options": [
-        "Ézéchias",
-        "Joas",
-        "Josias",
-        "Manassé"
+        "Béthanie",
+        "Golgotha",
+        "Gethsémané",
+        "Éden"
       ],
       "correct": 2,
-      "reference": "2 Rois 22",
-      "hint": ""
+      "reference": "Matthieu 26"
     },
     {
       "id": 63,
       "difficulty": 3,
-      "category": "Prophètes",
-      "q": "Quel prophète eut une vision d'une vallée d'ossements desséchés ?",
+      "category": "Bible",
+      "q": "Quel prophète fut nourri par des corbeaux au torrent de Kerith ?",
       "options": [
-        "Daniel",
+        "Élisée",
         "Ézéchiel",
-        "Jérémie",
-        "Amos"
+        "Élie",
+        "Jérémie"
       ],
-      "correct": 1,
-      "reference": "Ézéchiel 37",
-      "hint": ""
+      "correct": 2,
+      "reference": "1 Rois 17"
     },
     {
       "id": 64,
       "difficulty": 3,
-      "category": "Récits",
-      "q": "Combien de jours Jonas passa-t-il dans le ventre du poisson ?",
+      "category": "Bible",
+      "q": "Qui était la belle-mère fidèle de Ruth ?",
       "options": [
-        "Sept",
-        "Un",
-        "Quarante",
-        "Trois"
+        "Naomi",
+        "Orpa",
+        "Peninna",
+        "Anne"
       ],
-      "correct": 3,
-      "reference": "Jonas 1.17",
-      "hint": ""
+      "correct": 0,
+      "reference": "Ruth 1"
     },
     {
       "id": 65,
       "difficulty": 3,
-      "category": "Création",
-      "q": "Quelle fut la première parole créatrice de Dieu ?",
+      "category": "Bible",
+      "q": "Qui interpréta l'écriture « Mené, Mené, Thékel, Parsin » ?",
       "options": [
-        "« Croissez et multipliez »",
-        "« Que les eaux se rassemblent »",
-        "« Que la lumière soit »",
-        "« Faisons l'homme »"
+        "Mardochée",
+        "Daniel",
+        "Esdras",
+        "Néhémie"
       ],
-      "correct": 2,
-      "reference": "Genèse 1.3",
-      "hint": ""
+      "correct": 1,
+      "reference": "Daniel 5"
     },
     {
       "id": 66,
       "difficulty": 3,
-      "category": "Personnages",
-      "q": "Qui était le beau-père de Moïse, prêtre de Madian ?",
+      "category": "Bible",
+      "q": "Quel évangile commence par « Au commencement était la Parole » ?",
       "options": [
-        "Aaron",
-        "Jéthro",
-        "Nachschon",
-        "Laban"
+        "Marc",
+        "Matthieu",
+        "Jean",
+        "Luc"
       ],
-      "correct": 1,
-      "reference": "Exode 3",
-      "hint": ""
+      "correct": 2,
+      "reference": "Jean 1"
     },
     {
       "id": 67,
       "difficulty": 3,
-      "category": "Apôtres",
-      "q": "Quel disciple est appelé « celui que Jésus aimait » ?",
+      "category": "Bible",
+      "q": "Qui grimpa dans un sycomore pour voir Jésus ?",
       "options": [
-        "André",
-        "Jean",
-        "Jacques",
-        "Pierre"
+        "Nicodème",
+        "Lazare",
+        "Zachée",
+        "Barthélemy"
       ],
-      "correct": 1,
-      "reference": "Jean 21",
-      "hint": ""
+      "correct": 2,
+      "reference": "Luc 19"
     },
     {
       "id": 68,
       "difficulty": 3,
-      "category": "Église",
-      "q": "Dans quelle ville Paul et Silas furent-ils délivrés de prison par un tremblement de terre ?",
+      "category": "Bible",
+      "q": "Qui était le frère de Marthe, ressuscité par Jésus ?",
       "options": [
-        "Bérée",
-        "Thessalonique",
-        "Corinthe",
-        "Philippes"
+        "Éléazar",
+        "Simon",
+        "Jaïrus",
+        "Lazare"
       ],
       "correct": 3,
-      "reference": "Actes 16",
-      "hint": ""
+      "reference": "Jean 11"
     },
     {
       "id": 69,
       "difficulty": 3,
-      "category": "Vie de Jésus",
-      "q": "Quel roi ordonna le massacre des enfants de Bethléhem ?",
+      "category": "Bible",
+      "q": "Combien de paniers de restes après la multiplication des cinq pains ?",
       "options": [
-        "Archélaüs",
-        "Ponce Pilate",
-        "Hérode",
-        "Auguste"
+        "12",
+        "3",
+        "7",
+        "5"
       ],
-      "correct": 2,
-      "reference": "Matthieu 2",
-      "hint": ""
+      "correct": 0,
+      "reference": "Matthieu 14:20"
     },
     {
       "id": 70,
       "difficulty": 3,
-      "category": "Prophètes",
-      "q": "Quel prophète fut appelé enfant, alors qu'il servait au temple ?",
+      "category": "Bible",
+      "q": "Quel roi perse autorisa les Juifs à rentrer d'exil ?",
       "options": [
-        "Samuel",
-        "Jérémie",
-        "Nathan",
-        "Élie"
+        "Darius",
+        "Cyrus",
+        "Nébucadnetsar",
+        "Assuérus"
       ],
-      "correct": 0,
-      "reference": "1 Samuel 3",
-      "hint": ""
+      "correct": 1,
+      "reference": "Esdras 1"
     },
     {
       "id": 71,
       "difficulty": 3,
-      "category": "Vie de Jésus",
-      "q": "Que signifie le nom « Emmanuel » donné à l'enfant annoncé ?",
+      "category": "Bible",
+      "q": "Depuis combien de jours Lazare était-il mort quand Jésus l'appela ?",
       "options": [
-        "Dieu avec nous",
-        "Fils du Très-Haut",
-        "Prince de paix",
-        "Le Sauveur"
+        "2 jours",
+        "3 jours",
+        "7 jours",
+        "4 jours"
       ],
-      "correct": 0,
-      "reference": "Matthieu 1.23",
-      "hint": ""
+      "correct": 3,
+      "reference": "Jean 11:39"
     },
     {
       "id": 72,
       "difficulty": 3,
-      "category": "Récits",
-      "q": "Combien de tribus formaient le peuple d'Israël ?",
+      "category": "Bible",
+      "q": "Qui était le père du roi Salomon ?",
       "options": [
-        "Sept",
-        "Douze",
-        "Dix",
-        "Quatorze"
+        "Saül",
+        "Urie",
+        "David",
+        "Nathan"
       ],
-      "correct": 1,
-      "reference": "Genèse 49",
-      "hint": ""
+      "correct": 2,
+      "reference": "2 Samuel 12"
     },
     {
       "id": 73,
       "difficulty": 4,
-      "category": "Prophètes",
-      "q": "Quel prophète épousa Gomer sur l'ordre de Dieu ?",
+      "category": "Bible",
+      "q": "Combien d'années dura la construction du temple de Salomon ?",
       "options": [
-        "Amos",
-        "Osée",
-        "Joël",
-        "Michée"
+        "3 ans",
+        "40 ans",
+        "7 ans",
+        "20 ans"
       ],
-      "correct": 1,
-      "reference": "Osée 1",
-      "hint": ""
+      "correct": 2,
+      "reference": "1 Rois 6:38"
     },
     {
       "id": 74,
       "difficulty": 4,
-      "category": "Récits",
-      "q": "Combien d'années les Hébreux ont-ils erré dans le désert ?",
+      "category": "Bible",
+      "q": "Qui était le père du roi David ?",
       "options": [
-        "Quarante",
-        "Douze",
-        "Soixante-dix",
-        "Sept"
+        "Boaz",
+        "Isaï (Jessé)",
+        "Nachschon",
+        "Obed"
       ],
-      "correct": 0,
-      "reference": "Nombres 14",
-      "hint": ""
+      "correct": 1,
+      "reference": "1 Samuel 16"
     },
     {
       "id": 75,
       "difficulty": 4,
-      "category": "Jésus",
-      "q": "Quel grand-prêtre présida le procès de Jésus ?",
+      "category": "Bible",
+      "q": "Quel juge fit un vœu imprudent au sujet de sa fille ?",
       "options": [
-        "Anne",
-        "Caïphe",
-        "Nicodème",
-        "Gamaliel"
+        "Éhud",
+        "Jephté",
+        "Gédéon",
+        "Barak"
       ],
       "correct": 1,
-      "reference": "Matthieu 26",
-      "hint": ""
+      "reference": "Juges 11"
     },
     {
       "id": 76,
       "difficulty": 4,
-      "category": "Rois",
-      "q": "Quel roi de Babylone fit dresser une statue d'or ?",
+      "category": "Bible",
+      "q": "Dans quelle vallée David affronta-t-il Goliath ?",
       "options": [
-        "Cyrus",
-        "Belschatsar",
-        "Darius",
-        "Nebucadnetsar"
+        "La vallée de Jizreel",
+        "La vallée de Sittim",
+        "La vallée de Hinnom",
+        "La vallée d'Éla"
       ],
       "correct": 3,
-      "reference": "Daniel 3",
-      "hint": ""
+      "reference": "1 Samuel 17:2"
     },
     {
       "id": 77,
       "difficulty": 4,
       "category": "Bible",
-      "q": "Combien de psaumes compte le livre des Psaumes ?",
+      "q": "Quel scribe lut la Loi au peuple revenu d'exil ?",
       "options": [
-        "Soixante-douze",
-        "Cent",
-        "Cent cinquante",
-        "Deux cents"
+        "Néhémie",
+        "Séraja",
+        "Baruc",
+        "Esdras"
       ],
-      "correct": 2,
-      "reference": "",
-      "hint": ""
+      "correct": 3,
+      "reference": "Néhémie 8"
     },
     {
       "id": 78,
       "difficulty": 4,
-      "category": "Apôtres",
-      "q": "Qui écrivit le livre des Actes des Apôtres ?",
+      "category": "Bible",
+      "q": "Quel roi de Juda commença à régner à l'âge de 8 ans ?",
       "options": [
-        "Pierre",
-        "Paul",
-        "Luc",
-        "Marc"
+        "Joas",
+        "Ézéchias",
+        "Manassé",
+        "Josias"
       ],
-      "correct": 2,
-      "reference": "",
-      "hint": ""
+      "correct": 3,
+      "reference": "2 Rois 22:1"
     },
     {
       "id": 79,
       "difficulty": 4,
-      "category": "Jésus",
-      "q": "Quel ami Jésus ressuscita-t-il à Béthanie ?",
+      "category": "Bible",
+      "q": "Combien de fils Gédéon eut-il ?",
       "options": [
-        "Nicodème",
-        "Jaïrus",
-        "Malchus",
-        "Lazare"
+        "70",
+        "30",
+        "12",
+        "7"
       ],
-      "correct": 3,
-      "reference": "Jean 11",
-      "hint": ""
+      "correct": 0,
+      "reference": "Juges 8:30"
     },
     {
       "id": 80,
       "difficulty": 4,
-      "category": "Église",
-      "q": "Qui fut lapidé, premier martyr de l'Église ?",
+      "category": "Bible",
+      "q": "Qui succéda à Élie comme prophète ?",
       "options": [
-        "Silas",
-        "Étienne",
-        "Barnabas",
-        "Jacques"
+        "Michée",
+        "Élisée",
+        "Abdias",
+        "Guéhazi"
       ],
       "correct": 1,
-      "reference": "Actes 7",
-      "hint": ""
+      "reference": "2 Rois 2"
     },
     {
       "id": 81,
       "difficulty": 4,
-      "category": "Rois",
+      "category": "Bible",
       "q": "Quel roi vit une main écrire sur le mur de son palais ?",
       "options": [
-        "Nebucadnetsar",
+        "Darius",
         "Belschatsar",
-        "Achab",
-        "Saül"
+        "Cyrus",
+        "Nébucadnetsar"
       ],
       "correct": 1,
-      "reference": "Daniel 5",
-      "hint": ""
+      "reference": "Daniel 5"
     },
     {
       "id": 82,
       "difficulty": 4,
-      "category": "Récits",
-      "q": "Quelle fut la première des dix plaies d'Égypte ?",
+      "category": "Bible",
+      "q": "Près de quel puits Jésus parla-t-il à la Samaritaine ?",
       "options": [
-        "Les ténèbres",
-        "L'eau changée en sang",
-        "La grêle",
-        "Les grenouilles"
+        "Le puits de Jacob",
+        "La piscine de Béthesda",
+        "La piscine de Siloé",
+        "La source d'Enrogel"
       ],
-      "correct": 1,
-      "reference": "Exode 7",
-      "hint": ""
+      "correct": 0,
+      "reference": "Jean 4"
     },
     {
       "id": 83,
       "difficulty": 4,
-      "category": "Femmes",
-      "q": "Quelle marchande de pourpre Paul convertit-il à Philippes ?",
+      "category": "Bible",
+      "q": "Quel centurion romain Pierre baptisa-t-il ?",
       "options": [
-        "Phœbé",
-        "Priscille",
-        "Dorcas",
-        "Lydie"
+        "Corneille",
+        "Cornélius le tribun",
+        "Jules",
+        "Claude"
       ],
-      "correct": 3,
-      "reference": "Actes 16",
-      "hint": ""
+      "correct": 0,
+      "reference": "Actes 10"
     },
     {
       "id": 84,
       "difficulty": 4,
-      "category": "Jésus",
-      "q": "Depuis combien de jours Lazare était-il au tombeau quand Jésus le ressuscita ?",
+      "category": "Bible",
+      "q": "Combien de jours Jésus jeûna-t-il au désert ?",
       "options": [
-        "Deux",
-        "Trois",
-        "Quatre",
-        "Sept"
+        "3 jours",
+        "30 jours",
+        "40 jours",
+        "7 jours"
       ],
       "correct": 2,
-      "reference": "Jean 11",
-      "hint": ""
+      "reference": "Matthieu 4:2"
     },
     {
       "id": 85,
       "difficulty": 4,
       "category": "Bible",
-      "q": "Combien de livres compte la Bible protestante entière ?",
+      "q": "Quel apôtre était surnommé « le Zélote » ?",
       "options": [
-        "Trente-neuf",
-        "Vingt-sept",
-        "Soixante-treize",
-        "Soixante-six"
+        "Barthélemy",
+        "Thaddée",
+        "Simon",
+        "Jude"
       ],
-      "correct": 3,
-      "reference": "Canon protestant",
-      "hint": ""
+      "correct": 2,
+      "reference": "Luc 6:15"
     },
     {
       "id": 86,
       "difficulty": 4,
-      "category": "Prophètes",
-      "q": "Quel prophète mangea un rouleau doux comme le miel dans sa bouche ?",
+      "category": "Bible",
+      "q": "Quel roi de Babylone détruisit Jérusalem et le temple ?",
       "options": [
-        "Daniel",
-        "Osée",
-        "Amos",
-        "Ézéchiel"
+        "Belschatsar",
+        "Cyrus",
+        "Nébucadnetsar",
+        "Sennachérib"
       ],
-      "correct": 3,
-      "reference": "Ézéchiel 3.3",
-      "hint": ""
+      "correct": 2,
+      "reference": "2 Rois 25"
     },
     {
       "id": 87,
       "difficulty": 4,
-      "category": "Rois",
-      "q": "Quel grand-prêtre cacha puis couronna le jeune roi Joas ?",
+      "category": "Bible",
+      "q": "Combien d'années Jacob servit-il en tout pour ses deux femmes ?",
       "options": [
-        "Abiathar",
-        "Éli",
-        "Jehojada",
-        "Tsadok"
+        "7 ans",
+        "14 ans",
+        "20 ans",
+        "10 ans"
       ],
-      "correct": 2,
-      "reference": "2 Rois 11",
-      "hint": ""
+      "correct": 1,
+      "reference": "Genèse 29-31"
     },
     {
       "id": 88,
       "difficulty": 4,
-      "category": "Apôtres",
-      "q": "Quel apôtre écrivit deux épîtres portant son nom et fut, dit la tradition, crucifié la tête en bas ?",
+      "category": "Bible",
+      "q": "Quel prophète vit une vallée d'ossements desséchés ?",
       "options": [
-        "Jacques",
-        "Jean",
-        "Jude",
-        "Pierre"
+        "Jérémie",
+        "Ésaïe",
+        "Daniel",
+        "Ézéchiel"
       ],
       "correct": 3,
-      "reference": "2 Pierre",
-      "hint": ""
+      "reference": "Ézéchiel 37"
     },
     {
       "id": 89,
       "difficulty": 4,
-      "category": "Rois",
-      "q": "Combien d'années dura le règne du roi David ?",
+      "category": "Bible",
+      "q": "Quel évangéliste était médecin ?",
       "options": [
-        "Cinquante",
-        "Trente",
-        "Quarante",
-        "Vingt"
+        "Jean",
+        "Matthieu",
+        "Luc",
+        "Marc"
       ],
       "correct": 2,
-      "reference": "2 Samuel 5.4",
-      "hint": ""
+      "reference": "Colossiens 4:14"
     },
     {
       "id": 90,
       "difficulty": 4,
-      "category": "Récits",
-      "q": "Quel homme fut enlevé par Dieu sans connaître la mort, avant le déluge ?",
+      "category": "Bible",
+      "q": "Quel roi d'Israël épousa la reine Jézabel ?",
       "options": [
-        "Élie",
-        "Hénoc",
-        "Mathusalem",
-        "Melchisédek"
+        "Omri",
+        "Achab",
+        "Josaphat",
+        "Jéroboam"
       ],
       "correct": 1,
-      "reference": "Genèse 5.24",
-      "hint": ""
+      "reference": "1 Rois 16:31"
     },
     {
       "id": 91,
       "difficulty": 4,
-      "category": "Église",
-      "q": "Dans quelle ville Paul parla-t-il à l'Aréopage, au milieu des idoles ?",
+      "category": "Bible",
+      "q": "Combien d'hommes Élisée nourrit-il avec vingt pains d'orge ?",
       "options": [
-        "Corinthe",
-        "Athènes",
-        "Éphèse",
-        "Rome"
+        "20",
+        "100",
+        "500",
+        "50"
       ],
       "correct": 1,
-      "reference": "Actes 17",
-      "hint": ""
+      "reference": "2 Rois 4:42-44"
     },
     {
       "id": 92,
       "difficulty": 4,
-      "category": "Rois",
-      "q": "Quel roi assyrien assiégea Jérusalem sous le règne d'Ézéchias ?",
+      "category": "Bible",
+      "q": "Qui succéda à David comme roi d'Israël ?",
       "options": [
-        "Tiglath-Piléser",
-        "Sanchérib",
-        "Cyrus",
-        "Nebucadnetsar"
+        "Roboam",
+        "Adonija",
+        "Absalom",
+        "Salomon"
       ],
-      "correct": 1,
-      "reference": "2 Rois 18-19",
-      "hint": ""
+      "correct": 3,
+      "reference": "1 Rois 1"
     },
     {
       "id": 93,
       "difficulty": 4,
-      "category": "Épîtres",
-      "q": "À quel jeune responsable Paul confia-t-il l'Église de Crète ?",
+      "category": "Bible",
+      "q": "Combien d'apôtres assistèrent à la transfiguration ?",
       "options": [
-        "Timothée",
-        "Onésime",
-        "Philémon",
-        "Tite"
+        "2",
+        "12",
+        "3",
+        "4"
       ],
-      "correct": 3,
-      "reference": "Tite 1",
-      "hint": ""
+      "correct": 2,
+      "reference": "Matthieu 17:1"
     },
     {
       "id": 94,
       "difficulty": 4,
-      "category": "Récits",
-      "q": "Quelle femme cacha les espions israélites à Jéricho ?",
+      "category": "Bible",
+      "q": "Quel bon roi de Juda brisa le serpent d'airain devenu idole ?",
       "options": [
-        "Abigaïl",
-        "Rahab",
-        "Débora",
-        "Jaël"
+        "Ézéchias",
+        "Asa",
+        "Joas",
+        "Josias"
       ],
-      "correct": 1,
-      "reference": "Josué 2",
-      "hint": ""
+      "correct": 0,
+      "reference": "2 Rois 18:4"
     },
     {
       "id": 95,
       "difficulty": 4,
-      "category": "Prophètes",
-      "q": "Quel prophète acheta un champ en signe d'espérance pendant le siège de Jérusalem ?",
+      "category": "Bible",
+      "q": "Quel prophète prophétisa la chute de Ninive (livre) ?",
       "options": [
-        "Osée",
-        "Ésaïe",
-        "Jérémie",
-        "Ézéchiel"
+        "Nahum",
+        "Sophonie",
+        "Habaquq",
+        "Abdias"
       ],
-      "correct": 2,
-      "reference": "Jérémie 32",
-      "hint": ""
+      "correct": 0,
+      "reference": "Nahum 1"
     },
     {
       "id": 96,
       "difficulty": 4,
-      "category": "Église",
-      "q": "Qui, dans les Actes, tomba mort pour avoir menti à l'Esprit sur le prix d'un champ ?",
+      "category": "Bible",
+      "q": "Qui était la prophétesse qui jugea Israël sous un palmier ?",
       "options": [
-        "Élymas",
-        "Ananias",
-        "Simon",
-        "Démas"
+        "Miriam",
+        "Débora",
+        "Hulda",
+        "Anne"
       ],
       "correct": 1,
-      "reference": "Actes 5",
-      "hint": ""
+      "reference": "Juges 4"
     },
     {
       "id": 97,
       "difficulty": 5,
-      "category": "Jésus",
-      "q": "Combien d'hommes Jésus nourrit-il avec cinq pains et deux poissons ?",
+      "category": "Bible",
+      "q": "Combien d'années vécut Mathusalem ?",
       "options": [
-        "Deux mille",
-        "Cinq mille",
-        "Quatre mille",
-        "Sept mille"
+        "777 ans",
+        "930 ans",
+        "950 ans",
+        "969 ans"
       ],
-      "correct": 1,
-      "reference": "Matthieu 14",
-      "hint": ""
+      "correct": 3,
+      "reference": "Genèse 5:27"
     },
     {
       "id": 98,
       "difficulty": 5,
-      "category": "Prophètes",
-      "q": "Quel prophète, en un seul chapitre, annonce le jugement d'Édom ?",
+      "category": "Bible",
+      "q": "Selon la Genèse, combien de personnes de la famille de Jacob vinrent en Égypte ?",
       "options": [
-        "Aggée",
-        "Nahum",
-        "Sophonie",
-        "Abdias"
+        "66",
+        "12",
+        "75",
+        "70"
       ],
       "correct": 3,
-      "reference": "Abdias 1",
-      "hint": ""
+      "reference": "Genèse 46:27"
     },
     {
       "id": 99,
       "difficulty": 5,
-      "category": "Familles",
-      "q": "Comment s'appelait le père du roi David ?",
+      "category": "Bible",
+      "q": "Qui était le père de Noé ?",
       "options": [
-        "Nachschon",
-        "Obed",
-        "Booz",
-        "Isaï"
+        "Jared",
+        "Hénoc",
+        "Lémec",
+        "Mathusalem"
       ],
-      "correct": 3,
-      "reference": "1 Samuel 16",
-      "hint": ""
+      "correct": 2,
+      "reference": "Genèse 5:28-29"
     },
     {
       "id": 100,
       "difficulty": 5,
-      "category": "Récits",
-      "q": "Pour combien de justes Abraham obtint-il d'épargner Sodome, au minimum ?",
+      "category": "Bible",
+      "q": "Combien de fils de Jacob naquirent de Léa ?",
       "options": [
-        "Cinquante",
-        "Cinq",
-        "Vingt",
-        "Dix"
+        "2",
+        "4",
+        "8",
+        "6"
       ],
       "correct": 3,
-      "reference": "Genèse 18",
-      "hint": ""
+      "reference": "Genèse 35"
     },
     {
       "id": 101,
       "difficulty": 5,
-      "category": "Apôtres",
-      "q": "Quel apôtre fut exilé sur l'île de Patmos ?",
+      "category": "Bible",
+      "q": "Combien d'années David régna-t-il en tout ?",
       "options": [
-        "Jean",
-        "Jacques",
-        "Paul",
-        "Pierre"
+        "7 ans",
+        "33 ans",
+        "40 ans",
+        "20 ans"
       ],
-      "correct": 0,
-      "reference": "Apocalypse 1",
-      "hint": ""
+      "correct": 2,
+      "reference": "2 Samuel 5:4"
     },
     {
       "id": 102,
       "difficulty": 5,
-      "category": "Familles",
-      "q": "Quel homme vécut 969 ans, le plus âgé de la Bible ?",
+      "category": "Bible",
+      "q": "Quel roi de Juda fut frappé de lèpre pour avoir offert l'encens ?",
       "options": [
-        "Mathusalem",
-        "Jared",
-        "Noé",
-        "Hénoc"
+        "Achaz",
+        "Ozias",
+        "Amatsia",
+        "Joas"
       ],
-      "correct": 0,
-      "reference": "Genèse 5",
-      "hint": ""
+      "correct": 1,
+      "reference": "2 Chroniques 26:19"
     },
     {
       "id": 103,
       "difficulty": 5,
-      "category": "Jésus",
-      "q": "Dans quel jardin Jésus pria-t-il avant son arrestation ?",
+      "category": "Bible",
+      "q": "Quel fut le premier roi du royaume du Nord après la division ?",
       "options": [
-        "Le mont des Oliviers",
-        "Gethsémané",
-        "Le tombeau neuf",
-        "Éden"
+        "Roboam",
+        "Jéroboam",
+        "Achab",
+        "Omri"
       ],
       "correct": 1,
-      "reference": "Matthieu 26",
-      "hint": ""
+      "reference": "1 Rois 12"
     },
     {
       "id": 104,
       "difficulty": 5,
-      "category": "Jésus",
-      "q": "Qui coupa l'oreille du serviteur du grand-prêtre à l'arrestation de Jésus ?",
+      "category": "Bible",
+      "q": "De combien de degrés l'ombre recula-t-elle sur le cadran d'Achaz ?",
       "options": [
-        "Pierre",
-        "Jacques",
-        "Jean",
-        "Judas"
+        "3 degrés",
+        "10 degrés",
+        "7 degrés",
+        "15 degrés"
       ],
-      "correct": 0,
-      "reference": "Jean 18",
-      "hint": ""
+      "correct": 1,
+      "reference": "2 Rois 20:11"
     },
     {
       "id": 105,
       "difficulty": 5,
       "category": "Bible",
-      "q": "Combien de livres compte l'Ancien Testament protestant ?",
+      "q": "Comment appela-t-on le champ acheté avec l'argent de Judas ?",
       "options": [
-        "Trente-neuf",
-        "Vingt-sept",
-        "Quarante-six",
-        "Vingt-quatre"
+        "La géhenne",
+        "Le mont des Oliviers",
+        "Le champ des oliviers",
+        "Le champ du sang (Hakeldama)"
       ],
-      "correct": 0,
-      "reference": "",
-      "hint": ""
+      "correct": 3,
+      "reference": "Matthieu 27:8"
     },
     {
       "id": 106,
       "difficulty": 5,
-      "category": "Récits",
-      "q": "Quelle ville tomba après que le peuple eut marché sept fois autour ?",
+      "category": "Bible",
+      "q": "Combien d'hommes Gédéon garda-t-il pour combattre Madian ?",
       "options": [
-        "Aï",
-        "Gabaon",
-        "Sichem",
-        "Jéricho"
+        "100",
+        "300",
+        "32 000",
+        "10 000"
       ],
-      "correct": 3,
-      "reference": "Josué 6",
-      "hint": ""
+      "correct": 1,
+      "reference": "Juges 7:7"
     },
     {
       "id": 107,
       "difficulty": 5,
-      "category": "Rois",
-      "q": "Quel roi de Juda vit l'ombre du cadran reculer de dix degrés ?",
+      "category": "Bible",
+      "q": "Comment s'appelait le fils de Saül, ami de David ?",
       "options": [
-        "Asa",
-        "Ozias",
-        "Josias",
-        "Ézéchias"
+        "Malkischua",
+        "Ish-Boscheth",
+        "Jonathan",
+        "Abinadab"
       ],
-      "correct": 3,
-      "reference": "2 Rois 20",
-      "hint": ""
+      "correct": 2,
+      "reference": "1 Samuel 18"
     },
     {
       "id": 108,
       "difficulty": 5,
-      "category": "Épîtres",
-      "q": "Combien d'épîtres Paul adressa-t-il à Timothée ?",
+      "category": "Bible",
+      "q": "Combien d'années de famine Joseph annonça-t-il à Pharaon ?",
       "options": [
-        "Quatre",
-        "Deux",
-        "Trois",
-        "Une"
+        "40 ans",
+        "7 ans",
+        "3 ans",
+        "14 ans"
       ],
       "correct": 1,
-      "reference": "",
-      "hint": ""
+      "reference": "Genèse 41"
     },
     {
       "id": 109,
       "difficulty": 5,
-      "category": "Personnages",
-      "q": "Comment s'appelait la femme de Moïse, fille de Jéthro ?",
+      "category": "Bible",
+      "q": "Quel apôtre Hérode Agrippa fit-il décapiter ?",
       "options": [
-        "Rahab",
-        "Myriam",
-        "Kétura",
-        "Séphora"
+        "Jean",
+        "Étienne",
+        "Pierre",
+        "Jacques, frère de Jean"
       ],
       "correct": 3,
-      "reference": "Exode 2.21",
-      "hint": ""
+      "reference": "Actes 12:2"
     },
     {
       "id": 110,
       "difficulty": 5,
       "category": "Bible",
-      "q": "Quel est le plus court verset de la Bible ?",
+      "q": "Combien mesurait l'arche de Noé en longueur ?",
       "options": [
-        "« Dieu est amour »",
-        "« Il est ressuscité »",
-        "« Jésus pleura »",
-        "« Priez sans cesse »"
+        "150 coudées",
+        "100 coudées",
+        "300 coudées",
+        "450 coudées"
       ],
       "correct": 2,
-      "reference": "Jean 11.35",
-      "hint": ""
+      "reference": "Genèse 6:15"
     },
     {
       "id": 111,
       "difficulty": 5,
-      "category": "Prophètes",
-      "q": "Quel prophète annonça : « Et toi, Bethléhem… de toi sortira le dominateur d'Israël » ?",
+      "category": "Bible",
+      "q": "Quel roi assyrien assiégea Jérusalem sous Ézéchias ?",
       "options": [
-        "Nahum",
-        "Osée",
-        "Michée",
-        "Joël"
+        "Sargon",
+        "Salmanasar",
+        "Sennachérib",
+        "Tiglath-Piléser"
       ],
       "correct": 2,
-      "reference": "Michée 5.2",
-      "hint": ""
+      "reference": "2 Rois 19"
     },
     {
       "id": 112,
       "difficulty": 5,
-      "category": "Récits",
-      "q": "Combien de personnes de la famille de Jacob entrèrent en Égypte ?",
+      "category": "Bible",
+      "q": "Combien de tribus formèrent le royaume de Juda (au Sud) ?",
       "options": [
-        "Soixante-dix",
-        "Quarante",
-        "Cent",
-        "Douze"
+        "2 (Juda et Benjamin)",
+        "1",
+        "3",
+        "10"
       ],
       "correct": 0,
-      "reference": "Genèse 46.27",
-      "hint": ""
+      "reference": "1 Rois 12"
     },
     {
       "id": 113,
       "difficulty": 5,
-      "category": "Rois",
-      "q": "Quel roi de Juda fut frappé de lèpre pour avoir offert l'encens dans le temple ?",
+      "category": "Bible",
+      "q": "Quel souverain sacrificateur présida le procès de Jésus ?",
       "options": [
-        "Achaz",
-        "Ozias",
-        "Joas",
-        "Amatsia"
+        "Anne",
+        "Caïphe",
+        "Gamaliel",
+        "Zacharie"
       ],
       "correct": 1,
-      "reference": "2 Chroniques 26",
-      "hint": ""
+      "reference": "Matthieu 26:57"
     },
     {
       "id": 114,
       "difficulty": 5,
-      "category": "Vie de Jésus",
-      "q": "Quel homme porta la croix de Jésus jusqu'au Golgotha ?",
+      "category": "Bible",
+      "q": "Combien de fils Job eut-il de nouveau après son épreuve ?",
       "options": [
-        "Joseph d'Arimathée",
-        "Nicodème",
-        "Barabbas",
-        "Simon de Cyrène"
+        "10 fils",
+        "3 fils",
+        "12 fils",
+        "7 fils"
       ],
       "correct": 3,
-      "reference": "Marc 15.21",
-      "hint": ""
+      "reference": "Job 42:13"
     },
     {
       "id": 115,
       "difficulty": 5,
-      "category": "Apôtres",
-      "q": "Quel disciple est surnommé « Didyme », c'est-à-dire jumeau ?",
+      "category": "Bible",
+      "q": "Quel prophète acheta un champ à Anathoth pendant le siège de Jérusalem ?",
       "options": [
-        "Nathanaël",
-        "Matthias",
-        "Thaddée",
-        "Thomas"
+        "Baruc",
+        "Michée",
+        "Ézéchiel",
+        "Jérémie"
       ],
       "correct": 3,
-      "reference": "Jean 11.16",
-      "hint": ""
+      "reference": "Jérémie 32"
     },
     {
       "id": 116,
       "difficulty": 5,
-      "category": "Prophètes",
-      "q": "Quel roi païen la Bible appelle-t-elle « mon oint », choisi pour libérer Israël ?",
+      "category": "Bible",
+      "q": "Combien de fils de Jacob naquirent des servantes Bilha et Zilpa ?",
       "options": [
-        "Darius",
-        "Assuérus",
-        "Cyrus",
-        "Artaxerxès"
+        "2",
+        "6",
+        "4",
+        "8"
       ],
       "correct": 2,
-      "reference": "Ésaïe 45.1",
-      "hint": ""
+      "reference": "Genèse 35"
     },
     {
       "id": 117,
       "difficulty": 5,
-      "category": "Épîtres",
-      "q": "Combien d'épîtres de l'apôtre Jean figurent dans le Nouveau Testament ?",
+      "category": "Bible",
+      "q": "Combien de temps Salomon régna-t-il sur Israël ?",
       "options": [
-        "Quatre",
-        "Trois",
-        "Deux",
-        "Une"
+        "25 ans",
+        "40 ans",
+        "33 ans",
+        "20 ans"
       ],
       "correct": 1,
-      "reference": "1-3 Jean",
-      "hint": ""
+      "reference": "1 Rois 11:42"
     },
     {
       "id": 118,
       "difficulty": 5,
-      "category": "Église",
-      "q": "Quel jeune homme, tombé d'une fenêtre pendant un long discours, fut relevé par Paul ?",
+      "category": "Bible",
+      "q": "Quel roi de Juda fut le plus jeune à monter sur le trône (7 ans) ?",
       "options": [
-        "Énée",
-        "Sopater",
-        "Eutyche",
-        "Publius"
+        "Josias",
+        "Ozias",
+        "Joas",
+        "Manassé"
       ],
       "correct": 2,
-      "reference": "Actes 20.9",
-      "hint": ""
+      "reference": "2 Rois 11:21"
     },
     {
       "id": 119,
       "difficulty": 5,
-      "category": "Apocalypse",
-      "q": "À quelle Église est adressée la première des sept lettres de l'Apocalypse ?",
+      "category": "Bible",
+      "q": "Combien de personnes Élisée ressuscita-t-il (le fils de la Sunamite) ?",
       "options": [
-        "Pergame",
-        "Laodicée",
-        "Smyrne",
-        "Éphèse"
+        "aucun",
+        "3 enfants",
+        "2 enfants",
+        "1 enfant"
       ],
       "correct": 3,
-      "reference": "Apocalypse 2.1",
-      "hint": ""
+      "reference": "2 Rois 4"
     },
     {
       "id": 120,
       "difficulty": 5,
-      "category": "Récits",
-      "q": "Quel patriarche lutta toute une nuit avec Dieu et fut renommé Israël ?",
+      "category": "Bible",
+      "q": "Comment s'appelait la ville natale d'Abraham ?",
       "options": [
-        "Joseph",
-        "Abraham",
-        "Jacob",
-        "Isaac"
+        "Béthel",
+        "Sichem",
+        "Ur en Chaldée",
+        "Harân"
       ],
       "correct": 2,
-      "reference": "Genèse 32",
-      "hint": ""
+      "reference": "Genèse 11:31"
+    },
+    {
+      "id": 121,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Combien d'années les Israélites séjournèrent-ils en Égypte ?",
+      "options": [
+        "210 ans",
+        "430 ans",
+        "40 ans",
+        "400 ans"
+      ],
+      "correct": 1,
+      "reference": "Exode 12:40"
+    },
+    {
+      "id": 122,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Quel était le nom du frère de Goliath, tué par Elchanan ?",
+      "options": [
+        "Lachmi",
+        "Goliath",
+        "Saph",
+        "Ischbi-Benob"
+      ],
+      "correct": 0,
+      "reference": "1 Chroniques 20:5"
+    },
+    {
+      "id": 123,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Combien de proverbes Salomon prononça-t-il selon 1 Rois ?",
+      "options": [
+        "1005",
+        "3000",
+        "1000",
+        "700"
+      ],
+      "correct": 1,
+      "reference": "1 Rois 4:32"
+    },
+    {
+      "id": 124,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Combien de cantiques Salomon composa-t-il ?",
+      "options": [
+        "3000",
+        "1000",
+        "1005",
+        "150"
+      ],
+      "correct": 2,
+      "reference": "1 Rois 4:32"
+    },
+    {
+      "id": 125,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Combien de personnes revinrent d'exil avec Zorobabel (l'assemblée) ?",
+      "options": [
+        "10 000",
+        "4 000",
+        "42 360",
+        "7 000"
+      ],
+      "correct": 2,
+      "reference": "Esdras 2:64"
+    },
+    {
+      "id": 126,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Combien de portes possède la nouvelle Jérusalem dans l'Apocalypse ?",
+      "options": [
+        "4",
+        "24",
+        "12",
+        "7"
+      ],
+      "correct": 2,
+      "reference": "Apocalypse 21:12"
+    },
+    {
+      "id": 127,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Quel livre prophétique ne contient qu'un seul chapitre ?",
+      "options": [
+        "Joël",
+        "Abdias",
+        "Aggée",
+        "Malachie"
+      ],
+      "correct": 1,
+      "reference": "Abdias"
+    },
+    {
+      "id": 128,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Quelle était la hauteur de la statue d'or de Nébucadnetsar ?",
+      "options": [
+        "100 coudées",
+        "30 coudées",
+        "60 coudées",
+        "6 coudées"
+      ],
+      "correct": 2,
+      "reference": "Daniel 3:1"
+    },
+    {
+      "id": 129,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Quel roi d'Israël ne régna que 7 jours ?",
+      "options": [
+        "Zimri",
+        "Éla",
+        "Nadab",
+        "Schallum"
+      ],
+      "correct": 0,
+      "reference": "1 Rois 16:15"
+    },
+    {
+      "id": 130,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Quel est le verset le plus court de la Bible ?",
+      "options": [
+        "« Réjouissez-vous »",
+        "« Dieu est amour »",
+        "« Priez sans cesse »",
+        "« Jésus pleura »"
+      ],
+      "correct": 3,
+      "reference": "Jean 11:35"
+    },
+    {
+      "id": 131,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Combien de fils et de filles Job avait-il au début ?",
+      "options": [
+        "7 fils et 3 filles",
+        "10 fils",
+        "5 fils et 5 filles",
+        "12 fils"
+      ],
+      "correct": 0,
+      "reference": "Job 1:2"
+    },
+    {
+      "id": 132,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Qui fut le tout premier juge d'Israël (délivra d'Aram) ?",
+      "options": [
+        "Barak",
+        "Éhud",
+        "Gédéon",
+        "Othniel"
+      ],
+      "correct": 3,
+      "reference": "Juges 3:9"
+    },
+    {
+      "id": 133,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Combien pesaient les cheveux d'Absalom lorsqu'il les coupait ?",
+      "options": [
+        "200 sicles",
+        "300 sicles",
+        "50 sicles",
+        "100 sicles"
+      ],
+      "correct": 0,
+      "reference": "2 Samuel 14:26"
+    },
+    {
+      "id": 134,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Quel roi de Juda régna le plus longtemps (55 ans) ?",
+      "options": [
+        "Ézéchias",
+        "Ozias",
+        "Asa",
+        "Manassé"
+      ],
+      "correct": 3,
+      "reference": "2 Rois 21:1"
+    },
+    {
+      "id": 135,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Comment s'appelait le serviteur dont Pierre coupa l'oreille ?",
+      "options": [
+        "Malchus",
+        "Malchisua",
+        "Marc",
+        "Malchiel"
+      ],
+      "correct": 0,
+      "reference": "Jean 18:10"
+    },
+    {
+      "id": 136,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Combien de marches menaient au trône de Salomon ?",
+      "options": [
+        "12",
+        "6",
+        "10",
+        "7"
+      ],
+      "correct": 1,
+      "reference": "1 Rois 10:19"
+    },
+    {
+      "id": 137,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Combien de princes (fils) Ismaël engendra-t-il ?",
+      "options": [
+        "10",
+        "12",
+        "7",
+        "8"
+      ],
+      "correct": 1,
+      "reference": "Genèse 25:16"
+    },
+    {
+      "id": 138,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Combien de jours les eaux du déluge prévalurent-elles sur la terre ?",
+      "options": [
+        "370 jours",
+        "40 jours",
+        "150 jours",
+        "100 jours"
+      ],
+      "correct": 2,
+      "reference": "Genèse 7:24"
+    },
+    {
+      "id": 139,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Combien de personnes étaient à bord du navire lors du naufrage de Paul ?",
+      "options": [
+        "200",
+        "76",
+        "300",
+        "276"
+      ],
+      "correct": 3,
+      "reference": "Actes 27:37"
+    },
+    {
+      "id": 140,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Quelle femme moabite est l'arrière-grand-mère du roi David ?",
+      "options": [
+        "Naomi",
+        "Ruth",
+        "Rahab",
+        "Tamar"
+      ],
+      "correct": 1,
+      "reference": "Ruth 4:17"
+    },
+    {
+      "id": 141,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Combien de bases (supports) de bronze Salomon fit-il pour le temple ?",
+      "options": [
+        "10",
+        "12",
+        "5",
+        "7"
+      ],
+      "correct": 0,
+      "reference": "1 Rois 7:27"
+    },
+    {
+      "id": 142,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "À quel roi de Juda Dieu accorda-t-il 15 années de vie supplémentaires ?",
+      "options": [
+        "Asa",
+        "Josias",
+        "Ozias",
+        "Ézéchias"
+      ],
+      "correct": 3,
+      "reference": "2 Rois 20:6"
+    },
+    {
+      "id": 143,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Qui, selon la tradition, écrivit le livre des Lamentations ?",
+      "options": [
+        "Jérémie",
+        "Baruc",
+        "Daniel",
+        "Ézéchiel"
+      ],
+      "correct": 0,
+      "reference": "Lamentations"
+    },
+    {
+      "id": 144,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Combien d'années Anne resta-t-elle mariée avant son veuvage, dans l'évangile ?",
+      "options": [
+        "7 ans",
+        "12 ans",
+        "10 ans",
+        "3 ans"
+      ],
+      "correct": 0,
+      "reference": "Luc 2:36"
     }
   ]
 }

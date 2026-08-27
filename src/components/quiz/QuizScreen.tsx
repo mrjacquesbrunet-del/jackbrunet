@@ -8,6 +8,7 @@ import {
   formatCoins,
   LADDER,
   tierForRung,
+  TIER_LABELS,
   SAFE_RUNGS,
   QUESTION_TIME,
   getQuizName,
@@ -112,6 +113,8 @@ const IconGames = S("M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z");
 const IconLock = S("M6 10V8a6 6 0 0 1 12 0v2M5 10h14v10H5zM12 14v3");
 
 const LETTERS = ["A", "B", "C", "D"];
+/** Couleur du badge de difficulté (très facile → extrêmement dur). */
+const TIER_COLORS = ["#8FE23C", "#CAF000", "#FCD34D", "#FB923C", "#F87171", "#EF4444"];
 
 /** Répartition « communauté » simulée, pondérée vers la bonne réponse. */
 function fakePoll(correct: number, removed: number[]): number[] {
@@ -643,7 +646,7 @@ export function QuizScreen() {
               ))}
             </div>
             <p className="mt-1 text-center font-game text-[10px] text-cream/45">
-              Filets aux paliers {SAFE_RUNGS.join(" et ")} · Sommet {formatCoins(LADDER[LADDER.length - 1])}
+              Tu gardes le dernier palier franchi · Sommet {formatCoins(LADDER[LADDER.length - 1])}
             </p>
           </div>
 
@@ -874,9 +877,15 @@ export function QuizScreen() {
         <div className="mt-3 flex gap-2">
           <div className="min-w-0 flex-1">
             <div key={`q-${step}`} className={`qzp-card p-3.5 ${cardShake ? "qz-shake" : ""}`} style={{ animation: cardShake ? undefined : "qz-optin .35s ease-out" }}>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-2">
                 <span className="rounded-full bg-dawn-400 text-night-950 px-3 py-1 font-game text-[11px] font-extrabold">QUESTION {step + 1}/{LADDER.length}</span>
-                <span className={`font-game text-sm font-extrabold ${timeLeft <= 10 ? "text-rose-300" : "text-cream/80"}`}>{timeLeft}s</span>
+                <span
+                  className="truncate rounded-full px-2.5 py-1 font-game text-[10px] font-extrabold uppercase tracking-wide"
+                  style={{ background: `${TIER_COLORS[tierForRung(step + 1) - 1]}22`, color: TIER_COLORS[tierForRung(step + 1) - 1] }}
+                >
+                  {TIER_LABELS[tierForRung(step + 1) - 1]}
+                </span>
+                <span className={`ml-auto font-game text-sm font-extrabold ${timeLeft <= 10 ? "text-rose-300" : "text-cream/80"}`}>{timeLeft}s</span>
               </div>
               <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-black/40">
                 <div className={`h-full rounded-full ${timeLeft <= 10 ? "bg-rose-400" : "bg-amber-400"}`} style={{ width: `${timePct}%`, transition: "width 1s linear" }} />

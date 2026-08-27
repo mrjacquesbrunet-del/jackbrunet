@@ -4,7 +4,7 @@ import quizData from "../../content/quiz.json";
 
 export type QuizQuestion = {
   id: number;
-  difficulty: number; // 1 (facile) → 5 (très difficile)
+  difficulty: number; // 1 (très facile) → 6 (extrêmement dur)
   category: string;
   q: string;
   options: string[]; // 4 propositions
@@ -27,21 +27,29 @@ export const SAFE_RUNGS = [10, 20];
 /** Durée d'une question (secondes). */
 export const QUESTION_TIME = 45;
 
-/** Niveau de difficulté attendu pour un palier (1-indexé), sur 30 paliers :
- * facile au départ, de plus en plus difficile. */
+/** Niveau de difficulté attendu pour un palier (1-indexé), sur 30 paliers,
+ * réparti sur 6 tiers de 5 paliers : très facile → extrêmement dur.
+ *  1-5 : très facile · 6-10 : facile · 11-15 : moyen ·
+ *  16-20 : difficile · 21-25 : très difficile · 26-30 : extrêmement dur. */
 export function tierForRung(rung: number): number {
-  if (rung <= 6) return 1;
-  if (rung <= 12) return 2;
-  if (rung <= 18) return 3;
-  if (rung <= 24) return 4;
-  return 5;
+  return Math.min(6, Math.floor((rung - 1) / 5) + 1);
 }
 
-/** Gain garanti si on se trompe alors qu'on a validé `correctCount` questions. */
+/** Étiquette du niveau de difficulté (1-6). */
+export const TIER_LABELS = [
+  "Très facile",
+  "Facile",
+  "Moyen",
+  "Difficile",
+  "Très difficile",
+  "Extrêmement dur",
+];
+
+/** Gain garanti si on se trompe : on garde le dernier palier franchi
+ * (le montant de la dernière bonne réponse). */
 export function guaranteedCoins(correctCount: number): number {
-  let g = 0;
-  for (const s of SAFE_RUNGS) if (correctCount >= s) g = LADDER[s - 1];
-  return g;
+  if (correctCount <= 0) return 0;
+  return LADDER[Math.min(correctCount, LADDER.length) - 1];
 }
 
 type Rng = () => number;
