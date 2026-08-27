@@ -483,10 +483,10 @@ export function QuizScreen() {
     });
 
     return (
-      <div className="qzp fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden bg-[#0d1030] text-cream [overscroll-behavior:contain] [-webkit-overflow-scrolling:touch]">
+      <div className="qzp fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden bg-night-950 text-cream [overscroll-behavior:contain] [-webkit-overflow-scrolling:touch]">
         <style dangerouslySetInnerHTML={{ __html: PREMIUM_CSS }} />
         <img src={asset("/img/quiz/bg.jpg")} alt="" className="pointer-events-none fixed inset-0 h-full w-full object-cover opacity-25" />
-        <div className="pointer-events-none fixed inset-0 bg-gradient-to-b from-[#1b1d4d]/85 via-[#241c56]/92 to-[#0d1030]/97" />
+        <div className="pointer-events-none fixed inset-0 bg-gradient-to-b from-night-900/80 via-night-800/90 to-night-950/97" />
 
         <div className="relative mx-auto w-full max-w-md px-4 pb-10 pt-[calc(0.75rem+env(safe-area-inset-top))]">
           {/* HUD */}
@@ -515,7 +515,7 @@ export function QuizScreen() {
               <IconCoin className="h-4 w-4 text-amber-300" /> {formatCoins(coins)}
             </span>
             <span className="qzp-pill">
-              <IconGem className="h-4 w-4 text-fuchsia-300" /> {trophyCount}
+              <IconGem className="h-4 w-4 text-dawn-300" /> {trophyCount}
             </span>
           </div>
 
@@ -523,12 +523,12 @@ export function QuizScreen() {
           <div className="relative mt-4 overflow-hidden rounded-3xl shadow-2xl ring-1 ring-white/10">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={asset("/img/quiz/hero.jpg")} alt="" className="absolute inset-0 h-full w-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#1b1d4d]/90 via-[#1b1d4d]/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-night-950/90 via-night-950/40 to-transparent" />
             <div className="relative p-5">
               <span className="qzp-ribbon font-game text-3xl font-black text-white drop-shadow">QUIZ</span>
               <br />
-              <span className="qzp-ribbon2 mt-1 font-game text-3xl font-black text-[#12204a] drop-shadow">BIBLIQUE</span>
-              <p className="mt-3 max-w-[10rem] font-game text-sm font-bold text-white/90 drop-shadow">
+              <span className="qzp-ribbon2 mt-1 font-game text-3xl font-black text-night-950 drop-shadow">BIBLIQUE</span>
+              <p className="mt-3 max-w-[10rem] font-game text-sm font-bold text-cream/90 drop-shadow">
                 Teste tes connaissances et va jusqu&apos;au bout&nbsp;!
               </p>
             </div>
@@ -627,7 +627,7 @@ export function QuizScreen() {
               <IconScroll className="h-4 w-4 text-teal-300" /> Thèmes
             </button>
             <button type="button" onClick={() => startGame("daily")} className="qzp-mini">
-              <IconCalendar className="h-4 w-4 text-fuchsia-300" /> {daily.doneToday ? "Fait" : "Défi jour"}
+              <IconCalendar className="h-4 w-4 text-dawn-300" /> {daily.doneToday ? "Fait" : "Défi jour"}
             </button>
           </div>
           <div className="mt-3 flex items-center justify-center gap-3">
@@ -654,7 +654,7 @@ export function QuizScreen() {
   if (phase === "over") {
     const isWin = reason === "win";
     return (
-      <div className="qz-immersive fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overflow-x-hidden bg-[#0d1030] px-4 py-10 text-center text-cream [overscroll-behavior:contain] [-webkit-overflow-scrolling:touch]">
+      <div className="qz-immersive fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overflow-x-hidden bg-night-950 px-4 py-10 text-center text-cream [overscroll-behavior:contain] [-webkit-overflow-scrolling:touch]">
         <QzFx />
         <div className="qz-bg-orb qz-bg-1" />
         <div className="qz-bg-orb qz-bg-2" />
@@ -742,11 +742,11 @@ export function QuizScreen() {
   const canValidate = selected !== null && !reveal && !locked;
 
   return (
-    <div className="qzp fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden bg-[#0d1030] text-cream [overscroll-behavior:contain] [-webkit-overflow-scrolling:touch]">
+    <div className="qzp fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden bg-night-950 text-cream [overscroll-behavior:contain] [-webkit-overflow-scrolling:touch]">
       <style dangerouslySetInnerHTML={{ __html: PREMIUM_CSS }} />
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={asset("/img/quiz/bg.jpg")} alt="" className="pointer-events-none fixed inset-0 h-full w-full object-cover opacity-20" />
-      <div className="pointer-events-none fixed inset-0 bg-gradient-to-b from-[#1b1d4d]/90 via-[#241c56]/94 to-[#0d1030]/97" />
+      <div className="pointer-events-none fixed inset-0 bg-gradient-to-b from-night-900/85 via-night-800/92 to-night-950/97" />
       {flash ? <Flash kind={flash} /> : null}
       {confetti ? <Confetti /> : null}
       {toast ? <Toast text={toast} /> : null}
@@ -776,10 +776,10 @@ export function QuizScreen() {
         <div className="relative mt-3 overflow-hidden rounded-2xl ring-1 ring-white/10">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={asset("/img/quiz/stairway.jpg")} alt="" className="absolute inset-0 h-full w-full object-cover object-top" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#1b1d4d]/92 via-[#1b1d4d]/45 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-night-950/92 via-night-950/45 to-transparent" />
           <div className="relative flex items-center gap-2 p-3">
-            <span className="rounded-lg bg-violet-600 px-2 py-0.5 font-game text-[10px] font-extrabold">OBJECTIF</span>
-            <p className="max-w-[14.5rem] text-[11px] font-semibold leading-tight text-white/90">
+            <span className="rounded-lg bg-dawn-400 text-night-950 px-2 py-0.5 font-game text-[10px] font-extrabold">OBJECTIF</span>
+            <p className="max-w-[14.5rem] text-[11px] font-semibold leading-tight text-cream/90">
               Atteins le palier final pour remporter <span className="whitespace-nowrap font-black text-amber-300">1&nbsp;000&nbsp;000</span>
             </p>
           </div>
@@ -790,7 +790,7 @@ export function QuizScreen() {
           <div className="min-w-0 flex-1">
             <div key={`q-${step}`} className={`qzp-card p-3.5 ${cardShake ? "qz-shake" : ""}`} style={{ animation: cardShake ? undefined : "qz-optin .35s ease-out" }}>
               <div className="flex items-center justify-between">
-                <span className="rounded-full bg-violet-600 px-3 py-1 font-game text-[11px] font-extrabold">QUESTION {step + 1}/{LADDER.length}</span>
+                <span className="rounded-full bg-dawn-400 text-night-950 px-3 py-1 font-game text-[11px] font-extrabold">QUESTION {step + 1}/{LADDER.length}</span>
                 <span className={`font-game text-sm font-extrabold ${timeLeft <= 10 ? "text-rose-300" : "text-cream/80"}`}>{timeLeft}s</span>
               </div>
               <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-black/40">
@@ -828,8 +828,8 @@ export function QuizScreen() {
                 const done = rung <= step;
                 const safe = SAFE_RUNGS.includes(rung);
                 return (
-                  <div key={rung} className={`my-0.5 flex items-center gap-1 rounded-full px-1 py-1 font-game text-[10px] font-bold ${cur ? "bg-violet-500 text-white ring-2 ring-fuchsia-300" : done ? "text-[#8FE23C]" : safe ? "text-amber-300" : "text-cream/45"}`}>
-                    <span className={`grid h-4 w-4 shrink-0 place-items-center rounded-full text-[9px] ${cur ? "bg-white text-violet-700" : "bg-white/15"}`}>{rung}</span>
+                  <div key={rung} className={`my-0.5 flex items-center gap-1 rounded-full px-1 py-1 font-game text-[10px] font-bold ${cur ? "bg-dawn-400 text-night-950 ring-2 ring-dawn-200" : done ? "text-[#8FE23C]" : safe ? "text-amber-300" : "text-cream/45"}`}>
+                    <span className={`grid h-4 w-4 shrink-0 place-items-center rounded-full text-[9px] ${cur ? "bg-night-950 text-dawn-400" : "bg-white/15"}`}>{rung}</span>
                     <span className="truncate">{shortCoin(coinVal)}</span>
                   </div>
                 );
@@ -925,7 +925,7 @@ function LadderView({ step, onClose }: { step: number; onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-6" role="dialog" aria-modal="true">
       <button aria-label="Fermer" onClick={onClose} className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
-      <div className="relative z-10 w-full max-w-xs rounded-3xl bg-gradient-to-b from-indigo-900 to-violet-950 p-4 text-cream shadow-2xl">
+      <div className="relative z-10 w-full max-w-xs rounded-3xl bg-gradient-to-b from-night-900 to-night-950 p-4 text-cream shadow-2xl">
         <div className="max-h-[64vh] overflow-y-auto pr-1">
           {LADDER.map((v, i) => {
             const rung = LADDER.length - i; // affichage du haut (sommet) vers le bas (1)
@@ -988,7 +988,7 @@ function Leaderboard({ onClose }: { onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-[120] flex items-end justify-center sm:items-center" role="dialog" aria-modal="true">
       <button aria-label="Fermer" onClick={onClose} className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
-      <div className="relative z-10 w-full max-w-md rounded-t-3xl bg-gradient-to-b from-indigo-900 to-violet-950 p-5 text-cream shadow-2xl sm:rounded-3xl">
+      <div className="relative z-10 w-full max-w-md rounded-t-3xl bg-gradient-to-b from-night-900 to-night-950 p-5 text-cream shadow-2xl sm:rounded-3xl">
         <h2 className="text-center font-game text-2xl font-extrabold">Classement</h2>
 
         {/* Onglets National / Amis */}
@@ -1101,7 +1101,7 @@ function Trophies({ onClose }: { onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-[120] flex items-end justify-center sm:items-center" role="dialog" aria-modal="true">
       <button aria-label="Fermer" onClick={onClose} className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
-      <div className="relative z-10 w-full max-w-md rounded-t-3xl bg-gradient-to-b from-indigo-900 to-violet-950 p-5 text-cream shadow-2xl sm:rounded-3xl">
+      <div className="relative z-10 w-full max-w-md rounded-t-3xl bg-gradient-to-b from-night-900 to-night-950 p-5 text-cream shadow-2xl sm:rounded-3xl">
         <h2 className="text-center font-game text-2xl font-extrabold">Trophées</h2>
         <p className="mt-1 text-center font-game text-sm text-amber-300">
           {count}/{ACHIEVEMENTS.length} débloqués
@@ -1211,33 +1211,34 @@ function ThemesPicker({ onPick, onClose }: { onPick: (id: string) => void; onClo
 /* ---------------- Styles premium (accueil) ---------------- */
 const PREMIUM_CSS = `
 @keyframes qz-tick{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
-.qzp{background:#0d1030}
-.qzp-pill{display:inline-flex;align-items:center;gap:4px;padding:5px 9px;border-radius:9999px;background:linear-gradient(180deg,#2a2f66,#1a1d44);box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 2px 6px rgba(0,0,0,.4);font-family:var(--font-game);font-weight:800;font-size:12px;color:#fde68a}
-.qzp-card{background:linear-gradient(180deg,rgba(40,44,96,.82),rgba(22,25,60,.9));border:1px solid rgba(255,255,255,.08);border-radius:20px;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 8px 24px rgba(0,0,0,.35)}
-.qzp-gold-ring{border-color:rgba(251,191,36,.5);box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 0 0 1px rgba(251,191,36,.3),0 8px 24px rgba(0,0,0,.35)}
+.qzp{background:#0C0C0B}
+.qzp-pill{display:inline-flex;align-items:center;gap:4px;padding:5px 9px;border-radius:9999px;background:linear-gradient(180deg,#30302F,#171716);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 2px 6px rgba(0,0,0,.5);font-family:var(--font-game);font-weight:800;font-size:12px;color:#CAF000}
+.qzp-card{background:linear-gradient(180deg,rgba(30,30,29,.9),rgba(12,12,11,.94));border:1px solid rgba(243,243,237,.08);border-radius:20px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 8px 24px rgba(0,0,0,.5)}
+.qzp-gold-ring{border-color:rgba(202,240,0,.4);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 0 0 1px rgba(202,240,0,.28),0 8px 24px rgba(0,0,0,.5)}
 .qzp-ribbon{display:inline-block;background:linear-gradient(180deg,#fbbf24,#f59e0b);padding:1px 14px;border-radius:8px;transform:skewX(-7deg);box-shadow:0 3px 0 #b45309}
-.qzp-ribbon2{display:inline-block;background:linear-gradient(180deg,#fde68a,#f59e0b);padding:1px 14px;border-radius:8px;transform:skewX(-7deg);box-shadow:0 3px 0 #b45309}
-.qzp-play{background:linear-gradient(180deg,#fcd34d,#f59e0b);border-radius:20px;padding:14px;box-shadow:inset 0 2px 0 rgba(255,255,255,.45),0 6px 0 #b45309}
-.qzp-play:active{transform:translateY(3px);box-shadow:inset 0 2px 0 rgba(255,255,255,.45),0 3px 0 #b45309}
-.qzp-joker{border-radius:14px;padding:8px 6px;text-align:center;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 4px 10px rgba(0,0,0,.3)}
-.qzp-joker-blue{background:linear-gradient(180deg,#3b82f6,#1e40af)}
+.qzp-ribbon2{display:inline-block;background:linear-gradient(180deg,#D8F53A,#AAD000);padding:1px 14px;border-radius:8px;transform:skewX(-7deg);box-shadow:0 3px 0 #5b7300}
+.qzp-play{background:linear-gradient(180deg,#D8F53A,#AAD000);border-radius:20px;padding:14px;box-shadow:inset 0 2px 0 rgba(255,255,255,.4),0 6px 0 #5b7300}
+.qzp-play:active{transform:translateY(3px);box-shadow:inset 0 2px 0 rgba(255,255,255,.4),0 3px 0 #5b7300}
+.qzp-joker{border-radius:14px;padding:8px 6px;text-align:center;color:#F3F3ED;box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 4px 10px rgba(0,0,0,.45)}
+.qzp-joker-blue{background:linear-gradient(180deg,#3b82f6,#1e3a8a)}
 .qzp-joker-green{background:linear-gradient(180deg,#10b981,#065f46)}
-.qzp-joker-purple{background:linear-gradient(180deg,#8b5cf6,#5b21b6)}
+.qzp-joker-purple{background:linear-gradient(180deg,#CAF000,#879E00);color:#0C0C0B}
+.qzp-joker-purple .qzp-joker-ic{color:#0C0C0B;background:rgba(0,0,0,.14);box-shadow:inset 0 2px 4px rgba(255,255,255,.25)}
 .qzp-joker-ic{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:9999px;background:rgba(255,255,255,.22);box-shadow:inset 0 2px 4px rgba(255,255,255,.3);font-family:var(--font-game);font-weight:800;color:#fff}
 .qzp-hex{width:42px;height:46px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);box-shadow:inset 0 2px 3px rgba(255,255,255,.45)}
-.qzp-hex-cur{outline:3px solid #38bdf8;outline-offset:1px;border-radius:6px;animation:qz-tick 1s ease-in-out infinite}
-.qzp-opt{display:flex;align-items:center;gap:10px;width:100%;padding:11px 12px;border-radius:14px;font-family:var(--font-game);font-weight:800;font-size:14px;background:linear-gradient(180deg,rgba(60,64,120,.7),rgba(34,37,80,.85));border:1px solid rgba(255,255,255,.08);color:#ececff;transition:background .15s}
-.qzp-opt-sel{background:linear-gradient(180deg,rgba(124,92,255,.85),rgba(91,60,220,.9));border-color:#a78bfa;color:#fff;box-shadow:0 0 0 2px rgba(167,139,250,.55) inset}
+.qzp-hex-cur{outline:3px solid #CAF000;outline-offset:1px;border-radius:6px;animation:qz-tick 1s ease-in-out infinite}
+.qzp-opt{display:flex;align-items:center;gap:10px;width:100%;padding:11px 12px;border-radius:14px;font-family:var(--font-game);font-weight:800;font-size:14px;background:linear-gradient(180deg,rgba(48,48,47,.75),rgba(23,23,22,.9));border:1px solid rgba(243,243,237,.08);color:#F3F3ED;transition:background .15s}
+.qzp-opt-sel{background:linear-gradient(180deg,#D8F53A,#AAD000);border-color:#CAF000;color:#0C0C0B;box-shadow:0 0 0 2px rgba(202,240,0,.5) inset}
 .qzp-opt-correct{background:linear-gradient(180deg,#22c55e,#15803d);border-color:#22c55e;color:#fff}
 .qzp-opt-wrong{background:linear-gradient(180deg,#ef4444,#991b1b);border-color:#ef4444;color:#fff}
-.qzp-opt-badge{display:grid;place-items:center;width:30px;height:30px;flex:0 0 auto;border-radius:9999px;background:linear-gradient(180deg,#8b5cf6,#6d28d9);color:#fff;box-shadow:inset 0 2px 3px rgba(255,255,255,.3)}
-.qzp-opt-badge-sel{background:linear-gradient(180deg,#ffffff,#ede9fe);color:#6d28d9}
+.qzp-opt-badge{display:grid;place-items:center;width:30px;height:30px;flex:0 0 auto;border-radius:9999px;background:linear-gradient(180deg,#D8F53A,#AAD000);color:#0C0C0B;box-shadow:inset 0 2px 3px rgba(255,255,255,.3)}
+.qzp-opt-badge-sel{background:#0C0C0B;color:#CAF000}
 .qzp-opt-badge-correct{background:linear-gradient(180deg,#ffffff,#d1fae5);color:#15803d}
 .qzp-opt-badge-wrong{background:linear-gradient(180deg,#ffffff,#fee2e2);color:#991b1b}
 .qzp-trail{scrollbar-width:none}
 .qzp-trail::-webkit-scrollbar{display:none}
-.qzp-mini{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 4px;border-radius:14px;background:linear-gradient(180deg,rgba(40,44,96,.82),rgba(22,25,60,.9));border:1px solid rgba(255,255,255,.08);font-family:var(--font-game);font-weight:800;font-size:12px;color:#e6e6f5}
-.qzp-mini2{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:9999px;background:rgba(255,255,255,.08);font-family:var(--font-game);font-weight:800;font-size:13px;color:#e6e6f5}
+.qzp-mini{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 4px;border-radius:14px;background:linear-gradient(180deg,rgba(30,30,29,.9),rgba(12,12,11,.94));border:1px solid rgba(243,243,237,.08);font-family:var(--font-game);font-weight:800;font-size:12px;color:#F3F3ED}
+.qzp-mini2{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:9999px;background:rgba(243,243,237,.08);font-family:var(--font-game);font-weight:800;font-size:13px;color:#F3F3ED}
 `;
 
 /* ---------------- Effets (animations) ---------------- */
@@ -1258,11 +1259,11 @@ const FX = `
 @keyframes qz-rise{0%{transform:translateY(0);opacity:0}12%{opacity:.9}100%{transform:translateY(-108vh);opacity:0}}
 @keyframes qz-flash{0%{opacity:0}22%{opacity:1}100%{opacity:0}}
 @keyframes qz-drift{0%,100%{transform:translate(0,0)}50%{transform:translate(24px,-20px)}}
-.qz-immersive{background:radial-gradient(circle at 18% 8%,#3b0764 0%,transparent 42%),radial-gradient(circle at 82% 14%,#831843 0%,transparent 42%),radial-gradient(circle at 50% 96%,#1e1b4b 0%,transparent 55%),#0b0713;}
+.qz-immersive{background:radial-gradient(circle at 18% 8%,#30302F 0%,transparent 42%),radial-gradient(circle at 82% 14%,#1E1E1D 0%,transparent 42%),radial-gradient(circle at 50% 96%,rgba(202,240,0,.12) 0%,transparent 55%),#0C0C0B;}
 .qz-bg-orb{position:absolute;border-radius:9999px;filter:blur(60px);pointer-events:none;opacity:.5;}
-.qz-bg-1{width:300px;height:300px;background:#7c3aed;top:-80px;right:-60px;animation:qz-drift 14s ease-in-out infinite;}
-.qz-bg-2{width:260px;height:260px;background:#db2777;bottom:-70px;left:-50px;animation:qz-drift 18s ease-in-out infinite reverse;}
-.qz-bg-3{width:200px;height:200px;background:#8FE23C;top:40%;left:44%;opacity:.16;animation:qz-drift 20s ease-in-out infinite;}
+.qz-bg-1{width:300px;height:300px;background:#CAF000;top:-80px;right:-60px;opacity:.18;animation:qz-drift 14s ease-in-out infinite;}
+.qz-bg-2{width:260px;height:260px;background:#30302F;bottom:-70px;left:-50px;opacity:.6;animation:qz-drift 18s ease-in-out infinite reverse;}
+.qz-bg-3{width:200px;height:200px;background:#CAF000;top:40%;left:44%;opacity:.12;animation:qz-drift 20s ease-in-out infinite;}
 `;
 function QzFx() {
   return <style dangerouslySetInnerHTML={{ __html: FX }} />;

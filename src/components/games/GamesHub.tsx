@@ -28,6 +28,8 @@ const IconChevron = S("M9 6l6 6-6 6");
 const IconBulb = S("M9 18h6M10 21h4M12 3a6 6 0 0 1 4 10 3 3 0 0 0-1 2H9a3 3 0 0 0-1-2 6 6 0 0 1 4-10z");
 /* Connaissances : toque de diplômé (le jeu de savoir) */
 const IconCap = S("M3 9l9-4 9 4-9 4zM7 11v4c0 1.5 2.5 2.5 5 2.5s5-1 5-2.5v-4M21 9v4");
+/* Vrai ou Faux : balance (vrai / faux) */
+const IconScale = S("M12 4v16M8 20h8M6 7h12M6 7l-2.5 5a3 3 0 0 0 5 0zM18 7l-2.5 5a3 3 0 0 0 5 0z");
 
 /* ---------------- Les deux jeux ---------------- */
 type Game = {
@@ -57,6 +59,15 @@ const GAMES: Game[] = [
     Icon: IconBulb,
     from: "#3f6212",
     to: "#0b3b2e",
+  },
+  {
+    id: "vraifaux",
+    title: "Vrai ou Faux",
+    tag: "Rapide · teste tes réflexes",
+    href: "/vrai-faux",
+    Icon: IconScale,
+    from: "#0e7490",
+    to: "#083344",
   },
 ];
 
