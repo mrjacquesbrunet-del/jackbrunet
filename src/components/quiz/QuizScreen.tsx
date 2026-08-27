@@ -262,13 +262,9 @@ export function QuizScreen() {
   const q = game[step];
 
   const startGame = (source: "normal" | "daily" | "themed" = "normal", themeId?: string) => {
-    // Plein écran immersif (best-effort ; sans effet dans l'app native déjà plein écran).
-    try {
-      const el = document.documentElement as HTMLElement & { requestFullscreen?: () => Promise<void> };
-      if (el.requestFullscreen && !document.fullscreenElement) el.requestFullscreen().catch(() => {});
-    } catch {
-      /* API indisponible */
-    }
+    // Note : on n'appelle PAS l'API requestFullscreen — l'écran est déjà en plein
+    // écran via l'overlay, et l'API déclenche sur iOS le bandeau natif
+    // « … is in full screen. Swipe down to exit. » au défilement.
     sourceRef.current = source;
     setShowThemes(false);
     const g =
@@ -284,16 +280,6 @@ export function QuizScreen() {
     play([523, 659, 784], 0.12);
     buzz(20);
   };
-
-  // Sortie du plein écran quand on revient à l'accueil.
-  useEffect(() => {
-    if (phase !== "hub") return;
-    try {
-      if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
-    } catch {
-      /* ignore */
-    }
-  }, [phase]);
 
   // Compteur des gains qui monte sur l'écran de fin.
   useEffect(() => {
