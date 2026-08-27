@@ -7,6 +7,7 @@ import {
   guaranteedCoins,
   formatCoins,
   LADDER,
+  tierForRung,
   SAFE_RUNGS,
   QUESTION_TIME,
   getQuizName,
@@ -36,7 +37,7 @@ import {
 } from "@/lib/quiz-leaderboard";
 import { getMemorizeXp, levelFromXp } from "@/lib/memorize";
 import { getVfXp } from "@/lib/vraifaux";
-import { getCharId, charById, CharAvatar } from "@/lib/game-avatar";
+import { asset } from "@/lib/asset";
 
 type IconCmp = (p: { className?: string }) => ReactElement;
 
@@ -133,7 +134,6 @@ export function QuizScreen() {
   const [daily, setDaily] = useState<{ streak: number; doneToday: boolean }>({ streak: 0, doneToday: false });
   const [top3, setTop3] = useState<QuizRow[] | null>(null);
   const [showThemes, setShowThemes] = useState(false);
-  const [charId, setCharId] = useState("lime");
   const [memoXp, setMemoXp] = useState(0);
 
   useEffect(() => {
@@ -141,7 +141,6 @@ export function QuizScreen() {
     setCoins(getQuizCoins());
     setBest(getQuizBest());
     setBestRung(getQuizBestRung());
-    setCharId(getCharId());
     setMemoXp(getMemorizeXp());
     setDaily(getDailyState());
   }, []);
@@ -434,185 +433,177 @@ export function QuizScreen() {
 
   /* =========================================================== HUB */
   if (phase === "hub") {
-    const char = charById(charId);
     const totalXp = memoXp + getVfXp() + Math.floor(coins / 500);
     const lvl = levelFromXp(totalXp);
     const unlockedSet = getUnlockedAchievements();
     const trophyCount = ACHIEVEMENTS.filter((a) => unlockedSet.has(a.id)).length;
-    const streakDots = Array.from({ length: 7 }, (_, i) => i < Math.min(daily.streak, 7));
-    const cats = [
-      { key: "defis", title: "DÉFIS", sub: "Affronte d'autres joueurs", from: "#4c1d95", to: "#7c3aed", icon: <IconTrophy className="h-7 w-7" />, onClick: openBoard },
-      { key: "themes", title: "THÈMES", sub: "Choisis ton sujet", from: "#0e7490", to: "#0f766e", icon: <IconScroll className="h-7 w-7" />, onClick: () => setShowThemes(true) },
-      { key: "quotidien", title: "QUOTIDIEN", sub: daily.doneToday ? "Fait aujourd'hui" : "Défi du jour", from: "#9d174d", to: "#be185d", icon: <IconCalendar className="h-7 w-7" />, onClick: () => startGame("daily") },
-    ];
-    const podium = top3 && top3.length ? [top3[1], top3[0], top3[2]].filter(Boolean) : [];
+    const reached = bestRung;
+    const tierColor = (t: number) =>
+      t === 1 ? "#34d399" : t === 2 ? "#2dd4bf" : t === 3 ? "#38bdf8" : t === 4 ? "#a78bfa" : "#fbbf24";
+    const nodes = LADDER.map((coinVal, idx2) => {
+      const rung = idx2 + 1;
+      return {
+        rung,
+        coinVal,
+        color: tierColor(tierForRung(rung)),
+        final: rung === LADDER.length,
+        done: rung <= reached,
+        current: rung === reached + 1,
+      };
+    });
 
     return (
-      <div className="qz-immersive fixed inset-0 z-[100] overflow-y-auto text-cream">
-        <QzFx />
-        <div className="qz-bg-orb qz-bg-1" />
-        <div className="qz-bg-orb qz-bg-2" />
-        <Particles />
+      <div className="qzp fixed inset-0 z-[100] overflow-y-auto text-cream">
+        <style dangerouslySetInnerHTML={{ __html: PREMIUM_CSS }} />
+        <img src={asset("/img/quiz/bg.jpg")} alt="" className="pointer-events-none fixed inset-0 h-full w-full object-cover opacity-25" />
+        <div className="pointer-events-none fixed inset-0 bg-gradient-to-b from-[#1b1d4d]/85 via-[#241c56]/92 to-[#0d1030]/97" />
+
         <div className="relative mx-auto w-full max-w-md px-4 pb-10 pt-[calc(0.75rem+env(safe-area-inset-top))]">
-          {/* HUD joueur */}
-          <div className="flex items-center gap-2.5">
-            <Link href="/jeux" aria-label="Personnaliser mon personnage" className="shrink-0">
-              <CharAvatar char={char} size={50} rounded="rounded-2xl" ring />
+          {/* HUD */}
+          <div className="flex items-center gap-3">
+            <Link href="/jeux" aria-label="Profil" className="shrink-0">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={asset("/img/quiz/avatar-h.jpg")} alt="" className="h-14 w-14 rounded-full object-cover object-top shadow-lg ring-2 ring-amber-300/70" />
             </Link>
             <div className="min-w-0 flex-1">
-              <p className="font-game text-sm font-extrabold">Niveau {lvl.level}</p>
-              <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-white/15">
-                <div className="h-full rounded-full bg-gradient-to-r from-[#8FE23C] to-amber-400" style={{ width: `${Math.round((lvl.into / lvl.span) * 100)}%` }} />
+              <p className="font-game text-sm font-extrabold tracking-wide">NIVEAU {lvl.level}</p>
+              <div className="mt-1 h-2.5 w-full overflow-hidden rounded-full bg-black/40 ring-1 ring-white/10">
+                <div className="h-full rounded-full bg-gradient-to-r from-amber-300 to-amber-500" style={{ width: `${Math.round((lvl.into / lvl.span) * 100)}%` }} />
               </div>
-              <p className="mt-0.5 font-game text-[10px] text-cream/50">{lvl.into} / {lvl.span} XP</p>
+              <p className="mt-0.5 font-game text-[11px] text-cream/60">
+                {lvl.into} / {lvl.span} <span className="text-amber-300">XP</span>
+              </p>
             </div>
-            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-black/25 px-2 py-1 font-game text-xs font-extrabold text-amber-300">
-              <IconCoin className="h-4 w-4" /> {formatCoins(coins)}
+            <span className="qzp-pill">
+              <IconCoin className="h-4 w-4 text-amber-300" /> {formatCoins(coins)}
             </span>
-            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-black/25 px-2 py-1 font-game text-xs font-extrabold text-fuchsia-300">
-              <IconGem className="h-4 w-4" /> {trophyCount}
+            <span className="qzp-pill">
+              <IconGem className="h-4 w-4 text-fuchsia-300" /> {trophyCount}
             </span>
           </div>
 
           {/* Héros */}
-          <div className="relative mt-4 overflow-hidden rounded-3xl bg-gradient-to-br from-violet-800 via-fuchsia-800 to-amber-700 p-5 shadow-2xl">
-            <div className="pointer-events-none absolute -right-6 -top-10 h-44 w-44 rounded-full bg-amber-300/40 blur-2xl" />
-            <div className="relative flex items-start justify-between gap-2">
+          <div className="relative mt-4 overflow-hidden rounded-3xl shadow-2xl ring-1 ring-white/10">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={asset("/img/quiz/hero.jpg")} alt="" className="absolute inset-0 h-full w-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#1b1d4d]/90 via-[#1b1d4d]/40 to-transparent" />
+            <div className="relative p-5">
+              <span className="qzp-ribbon font-game text-3xl font-black text-white drop-shadow">QUIZ</span>
+              <br />
+              <span className="qzp-ribbon2 mt-1 font-game text-3xl font-black text-[#12204a] drop-shadow">BIBLIQUE</span>
+              <p className="mt-3 max-w-[10rem] font-game text-sm font-bold text-white/90 drop-shadow">
+                Teste tes connaissances et va jusqu&apos;au bout&nbsp;!
+              </p>
+            </div>
+          </div>
+
+          {/* Objectif + Récompense */}
+          <div className="mt-3 grid grid-cols-2 gap-3">
+            <div className="qzp-card flex items-center gap-2.5 p-3.5">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-gradient-to-b from-amber-300 to-amber-500 text-night-950 shadow">
+                <IconCrown className="h-5 w-5" />
+              </span>
               <div className="min-w-0">
-                <h1 className="font-game text-4xl font-black leading-[0.9] drop-shadow">
-                  QUIZ
-                  <br />
-                  BIBLIQUE
-                </h1>
-                <p className="mt-2 max-w-[11rem] text-sm text-cream/85">
-                  Teste tes connaissances et grandis chaque jour&nbsp;!
-                </p>
+                <p className="font-game text-xs font-extrabold text-amber-300">OBJECTIF</p>
+                <p className="text-[11px] leading-tight text-cream/70">Atteins le palier final et remporte le million&nbsp;!</p>
               </div>
-              <BibleCrossArt className="h-24 w-24 shrink-0 drop-shadow" />
             </div>
-            <button
-              type="button"
-              onClick={() => startGame("normal")}
-              className="qz-glow mt-5 flex w-full items-center justify-center gap-3 rounded-2xl bg-amber-400 py-4 font-game font-extrabold text-night-950 shadow-[0_6px_0_#b45309] active:translate-y-1 active:shadow-[0_2px_0_#b45309]"
-            >
-              <span className="grid h-8 w-8 place-items-center rounded-full bg-night-950/15">
-                <IconPlay className="h-5 w-5" />
-              </span>
-              <span className="text-left leading-tight">
-                <span className="block text-xl">JOUER</span>
-                <span className="block text-xs font-bold text-night-950/70">Nouvelle partie</span>
-              </span>
-            </button>
+            <div className="qzp-card qzp-gold-ring flex items-center gap-2.5 p-3.5">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={asset("/img/quiz/trophy.jpg")} alt="" className="h-11 w-11 shrink-0 rounded-xl object-cover" />
+              <div className="min-w-0">
+                <p className="font-game text-[10px] font-extrabold text-amber-300">RÉCOMPENSE</p>
+                <p className="font-game text-base font-black leading-tight text-amber-300">{formatCoins(LADDER[LADDER.length - 1])}</p>
+                <p className="text-[10px] text-cream/60">Tu peux le faire&nbsp;!</p>
+              </div>
+            </div>
           </div>
 
-          {/* 3 cartes catégories */}
-          <div className="mt-4 grid grid-cols-3 gap-2.5">
-            {cats.map((c) => (
-              <button
-                key={c.key}
-                type="button"
-                onClick={c.onClick}
-                className="relative flex aspect-[3/4] flex-col justify-between overflow-hidden rounded-2xl p-3 text-left shadow-card"
-                style={{ background: `linear-gradient(160deg, ${c.from}, ${c.to})` }}
-              >
-                <div>
-                  <p className="font-game text-base font-extrabold leading-tight">{c.title}</p>
-                  <p className="mt-0.5 text-[11px] font-semibold text-cream/70">{c.sub}</p>
-                </div>
-                <span className="text-cream/90">{c.icon}</span>
-                <span className="absolute bottom-2 right-2 grid h-7 w-7 place-items-center rounded-full bg-black/30">
-                  {c.key === "quotidien" && daily.doneToday ? (
-                    <IconCheck className="h-4 w-4 text-[#8FE23C]" />
-                  ) : (
-                    <IconArrowR className="h-4 w-4" />
-                  )}
-                </span>
-              </button>
-            ))}
+          {/* Jokers */}
+          <div className="qzp-card mt-3 p-3">
+            <p className="mb-2 font-game text-sm font-extrabold text-cream/80">TES JOKERS</p>
+            <div className="grid grid-cols-3 gap-2">
+              <div className="qzp-joker qzp-joker-blue">
+                <span className="qzp-joker-ic">50</span>
+                <p className="mt-1 font-game text-[11px] font-bold">50/50</p>
+                <p className="text-[9px] leading-tight text-cream/70">Élimine 2 mauvaises réponses</p>
+              </div>
+              <div className="qzp-joker qzp-joker-green">
+                <span className="qzp-joker-ic"><IconBulb className="h-5 w-5" /></span>
+                <p className="mt-1 font-game text-[11px] font-bold">Indice</p>
+                <p className="text-[9px] leading-tight text-cream/70">Une aide pour t&apos;orienter</p>
+              </div>
+              <div className="qzp-joker qzp-joker-purple">
+                <span className="qzp-joker-ic"><IconPeople className="h-5 w-5" /></span>
+                <p className="mt-1 font-game text-[11px] font-bold">Communauté</p>
+                <p className="text-[9px] leading-tight text-cream/70">Demande conseil</p>
+              </div>
+            </div>
           </div>
 
-          {/* Série + Classement */}
-          <div className="mt-4 grid grid-cols-2 gap-3">
-            <div className="rounded-2xl bg-white/[0.07] p-4">
-              <p className="flex items-center gap-1.5 font-game text-[11px] font-bold uppercase tracking-wide text-cream/60">
-                Série <IconFlame className="h-4 w-4 text-orange-400" />
-              </p>
-              <p className="mt-1 font-game text-2xl font-extrabold">
-                {daily.streak} <span className="text-sm">jour{daily.streak > 1 ? "s" : ""}</span>
-              </p>
-              <p className="text-[11px] text-cream/55">
-                {daily.streak > 0 ? "Continue comme ça !" : "Fais le défi du jour"}
-              </p>
-              <div className="mt-2 flex gap-1">
-                {streakDots.map((on, i) => (
+          {/* Progression */}
+          <div className="qzp-card mt-3 p-3">
+            <div className="mb-2 flex items-center justify-between">
+              <p className="font-game text-sm font-extrabold text-cream/80">TA PROGRESSION</p>
+              <span className="rounded-full bg-black/30 px-2.5 py-0.5 font-game text-[11px] font-bold text-amber-300">
+                Palier {Math.max(reached, 1)}/{LADDER.length}
+              </span>
+            </div>
+            <div className="qzp-trail flex gap-2 overflow-x-auto pb-2">
+              {nodes.map((n) => (
+                <div key={n.rung} className="flex shrink-0 flex-col items-center">
                   <span
-                    key={i}
-                    className={`grid h-5 w-5 place-items-center rounded-full text-[10px] font-bold ${on ? "bg-[#8FE23C] text-night-950" : "bg-white/10 text-cream/50"}`}
+                    className={`qzp-hex grid place-items-center font-game text-sm font-black text-night-950 ${n.current ? "qzp-hex-cur" : ""}`}
+                    style={{
+                      background: n.final ? "linear-gradient(180deg,#fde68a,#f59e0b)" : `linear-gradient(180deg,#ffffff66,${n.color})`,
+                      opacity: n.done || n.current ? 1 : 0.5,
+                    }}
                   >
-                    {on ? <IconCheck className="h-3 w-3" /> : i + 1}
+                    {n.final ? <IconCrown className="h-5 w-5" /> : n.rung}
                   </span>
-                ))}
-              </div>
-            </div>
-            <button type="button" onClick={openBoard} className="rounded-2xl bg-white/[0.07] p-4 text-left">
-              <p className="flex items-center gap-1.5 font-game text-[11px] font-bold uppercase tracking-wide text-cream/60">
-                Classement <IconTrophy className="h-4 w-4 text-amber-300" />
-              </p>
-              {podium.length ? (
-                <div className="mt-2 flex items-end justify-center gap-1.5">
-                  {podium.map((r, idx) => {
-                    const center = idx === 1;
-                    return (
-                      <div key={r.user_id} className="flex flex-col items-center">
-                        {center ? <IconCrown className="mb-0.5 h-4 w-4 text-amber-300" /> : null}
-                        {r.avatar_url ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img src={r.avatar_url} alt="" className={`rounded-full object-cover ring-2 ${center ? "h-11 w-11 ring-amber-300" : "h-8 w-8 ring-white/20"}`} />
-                        ) : (
-                          <span className={`grid place-items-center rounded-full bg-white/15 font-game font-bold ${center ? "h-11 w-11 text-base" : "h-8 w-8 text-xs"}`}>
-                            {(r.pseudo || "?").slice(0, 1)}
-                          </span>
-                        )}
-                        <span className="mt-0.5 font-game text-[10px] font-bold text-amber-300">{formatCoins(r.coins)}</span>
-                      </div>
-                    );
-                  })}
+                  <span className="mt-1 font-game text-[10px] font-bold text-amber-300">{formatCoins(n.coinVal)}</span>
                 </div>
-              ) : (
-                <p className="mt-3 text-[11px] text-cream/55">Sois le premier au classement&nbsp;!</p>
-              )}
-              <p className="mt-2 text-center font-game text-[11px] font-bold text-[#8FE23C]">Voir le classement</p>
-            </button>
+              ))}
+            </div>
+            <p className="mt-1 text-center font-game text-[10px] text-cream/45">
+              Filets aux paliers {SAFE_RUNGS.join(" et ")} · Sommet {formatCoins(LADDER[LADDER.length - 1])}
+            </p>
           </div>
 
-          {/* Trophées + réglages + pseudo */}
-          <div className="mt-4 flex items-center justify-center gap-3">
-            <button type="button" onClick={() => setShowTrophies(true)} className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 font-game text-sm font-bold">
+          {/* JOUER */}
+          <button type="button" onClick={() => startGame("normal")} className="qzp-play mt-4 flex w-full items-center justify-center gap-4 font-game text-night-950">
+            <span className="grid h-11 w-11 place-items-center rounded-full bg-night-950/15">
+              <IconPlay className="h-6 w-6" />
+            </span>
+            <span className="text-left leading-tight">
+              <span className="block text-2xl font-black">JOUER</span>
+              <span className="block text-xs font-bold text-night-950/70">Continuer l&apos;aventure</span>
+            </span>
+          </button>
+
+          {/* Accès secondaires */}
+          <div className="mt-3 grid grid-cols-3 gap-2">
+            <button type="button" onClick={openBoard} className="qzp-mini">
+              <IconTrophy className="h-4 w-4 text-amber-300" /> Classement
+            </button>
+            <button type="button" onClick={() => setShowThemes(true)} className="qzp-mini">
+              <IconScroll className="h-4 w-4 text-teal-300" /> Thèmes
+            </button>
+            <button type="button" onClick={() => startGame("daily")} className="qzp-mini">
+              <IconCalendar className="h-4 w-4 text-fuchsia-300" /> {daily.doneToday ? "Fait" : "Défi jour"}
+            </button>
+          </div>
+          <div className="mt-3 flex items-center justify-center gap-3">
+            <button type="button" onClick={() => setShowTrophies(true)} className="qzp-mini2">
               <IconMedal className="h-4 w-4 text-amber-300" /> Trophées
             </button>
-            <button type="button" onClick={() => setSound((s) => !s)} aria-label={sound ? "Couper le son" : "Activer le son"} className="grid h-10 w-10 place-items-center rounded-full bg-white/10">
-              {sound ? <SoundOn className="h-5 w-5" /> : <SoundOff className="h-5 w-5" />}
+            <button type="button" onClick={() => setSound((v) => !v)} aria-label="Son" className="grid h-9 w-9 place-items-center rounded-full bg-white/10">
+              {sound ? <SoundOn className="h-4 w-4" /> : <SoundOff className="h-4 w-4" />}
             </button>
-            <Link href="/devotionnel" aria-label="Retour" className="grid h-10 w-10 place-items-center rounded-full bg-white/10">
-              <IconClose className="h-5 w-5" />
+            <Link href="/devotionnel" aria-label="Retour" className="grid h-9 w-9 place-items-center rounded-full bg-white/10">
+              <IconClose className="h-4 w-4" />
             </Link>
           </div>
-
-          {editingName ? (
-            <input
-              autoFocus
-              value={name}
-              onChange={(e) => saveName(e.target.value)}
-              onBlur={() => setEditingName(false)}
-              onKeyDown={(e) => e.key === "Enter" && setEditingName(false)}
-              placeholder="Ton pseudo"
-              className="mx-auto mt-3 block w-52 rounded-xl bg-white/10 px-3 py-2 text-center font-game text-sm font-bold text-cream focus:outline-none"
-            />
-          ) : (
-            <button type="button" onClick={() => setEditingName(true)} className="mx-auto mt-3 block font-game text-xs font-bold text-cream/50">
-              {name ? `${name} · modifier le pseudo` : "Choisis ton pseudo"}
-            </button>
-          )}
         </div>
 
         {showBoard ? <Leaderboard onClose={() => setShowBoard(false)} /> : null}
@@ -1253,6 +1244,30 @@ function ThemesPicker({ onPick, onClose }: { onPick: (id: string) => void; onClo
     </div>
   );
 }
+
+/* ---------------- Styles premium (accueil) ---------------- */
+const PREMIUM_CSS = `
+@keyframes qz-tick{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.qzp{background:#0d1030}
+.qzp-pill{display:inline-flex;align-items:center;gap:4px;padding:5px 9px;border-radius:9999px;background:linear-gradient(180deg,#2a2f66,#1a1d44);box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 2px 6px rgba(0,0,0,.4);font-family:var(--font-game);font-weight:800;font-size:12px;color:#fde68a}
+.qzp-card{background:linear-gradient(180deg,rgba(40,44,96,.82),rgba(22,25,60,.9));border:1px solid rgba(255,255,255,.08);border-radius:20px;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 8px 24px rgba(0,0,0,.35)}
+.qzp-gold-ring{border-color:rgba(251,191,36,.5);box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 0 0 1px rgba(251,191,36,.3),0 8px 24px rgba(0,0,0,.35)}
+.qzp-ribbon{display:inline-block;background:linear-gradient(180deg,#fbbf24,#f59e0b);padding:1px 14px;border-radius:8px;transform:skewX(-7deg);box-shadow:0 3px 0 #b45309}
+.qzp-ribbon2{display:inline-block;background:linear-gradient(180deg,#fde68a,#f59e0b);padding:1px 14px;border-radius:8px;transform:skewX(-7deg);box-shadow:0 3px 0 #b45309}
+.qzp-play{background:linear-gradient(180deg,#fcd34d,#f59e0b);border-radius:20px;padding:14px;box-shadow:inset 0 2px 0 rgba(255,255,255,.45),0 6px 0 #b45309}
+.qzp-play:active{transform:translateY(3px);box-shadow:inset 0 2px 0 rgba(255,255,255,.45),0 3px 0 #b45309}
+.qzp-joker{border-radius:14px;padding:8px 6px;text-align:center;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 4px 10px rgba(0,0,0,.3)}
+.qzp-joker-blue{background:linear-gradient(180deg,#3b82f6,#1e40af)}
+.qzp-joker-green{background:linear-gradient(180deg,#10b981,#065f46)}
+.qzp-joker-purple{background:linear-gradient(180deg,#8b5cf6,#5b21b6)}
+.qzp-joker-ic{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:9999px;background:rgba(255,255,255,.22);box-shadow:inset 0 2px 4px rgba(255,255,255,.3);font-family:var(--font-game);font-weight:800;color:#fff}
+.qzp-hex{width:42px;height:46px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);box-shadow:inset 0 2px 3px rgba(255,255,255,.45)}
+.qzp-hex-cur{outline:3px solid #38bdf8;outline-offset:1px;border-radius:6px;animation:qz-tick 1s ease-in-out infinite}
+.qzp-trail{scrollbar-width:none}
+.qzp-trail::-webkit-scrollbar{display:none}
+.qzp-mini{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 4px;border-radius:14px;background:linear-gradient(180deg,rgba(40,44,96,.82),rgba(22,25,60,.9));border:1px solid rgba(255,255,255,.08);font-family:var(--font-game);font-weight:800;font-size:12px;color:#e6e6f5}
+.qzp-mini2{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:9999px;background:rgba(255,255,255,.08);font-family:var(--font-game);font-weight:800;font-size:13px;color:#e6e6f5}
+`;
 
 /* ---------------- Effets (animations) ---------------- */
 const FX = `
