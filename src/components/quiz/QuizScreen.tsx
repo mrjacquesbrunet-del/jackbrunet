@@ -25,8 +25,12 @@ import {
   THEMES,
   getDailyState,
   markDailyDone,
+  saveQuizProgress,
+  getQuizProgress,
+  clearQuizProgress,
   type Achievement,
   type QuizQuestion,
+  type QuizProgress,
 } from "@/lib/quiz";
 import {
   submitQuizCoins,
@@ -150,6 +154,7 @@ export function QuizScreen() {
     setBestRung(getQuizBestRung());
     setMemoXp(getMemorizeXp());
     setDaily(getDailyState());
+    setResumable(getQuizProgress());
 
     // Profil réel : photo + prénom (pseudo) de l'utilisateur connecté.
     (async () => {
@@ -195,6 +200,7 @@ export function QuizScreen() {
     if (phase !== "hub") return;
     setDaily(getDailyState());
     setMemoXp(getMemorizeXp());
+    setResumable(getQuizProgress());
     let alive = true;
     fetchQuizLeaderboard(3).then((r) => alive && setTop3(r));
     return () => {
@@ -209,6 +215,7 @@ export function QuizScreen() {
   /* -------- État de la partie -------- */
   const [game, setGame] = useState<QuizQuestion[]>([]);
   const [step, setStep] = useState(0); // 0..14
+  const [resumable, setResumable] = useState<QuizProgress | null>(null);
   const [picked, setPicked] = useState<number | null>(null);
   const [selected, setSelected] = useState<number | null>(null);
   const [locked, setLocked] = useState(false);
@@ -270,6 +277,8 @@ export function QuizScreen() {
     // « … is in full screen. Swipe down to exit. » au défilement.
     sourceRef.current = source;
     setShowThemes(false);
+    clearQuizProgress();
+    setResumable(null);
     const g =
       source === "daily" ? buildDailyGame() : source === "themed" && themeId ? buildThemedGame(themeId) : buildGame();
     setGame(g);
@@ -326,6 +335,30 @@ export function QuizScreen() {
     setTimeLeft(QUESTION_TIME);
   };
 
+  // Sauvegarde continue de la partie en cours (pour la reprendre si on quitte
+  // sans finir). On enregistre au début de chaque question (état propre).
+  useEffect(() => {
+    if (phase !== "play" || game.length === 0) return;
+    saveQuizProgress({ game, step, usedJokers, combo, source: sourceRef.current, savedAt: Date.now() });
+  }, [phase, game, step, usedJokers, combo]);
+
+  // Reprend la partie sauvegardée là où elle s'était arrêtée.
+  const resumeGame = () => {
+    const p = resumable;
+    if (!p) return;
+    sourceRef.current = p.source;
+    setShowThemes(false);
+    setGame(p.game);
+    setStep(p.step);
+    setUsedJokers(p.usedJokers);
+    setCombo(p.combo);
+    maxComboRef.current = p.combo;
+    setNewBadges([]);
+    resetQuestion();
+    setPhase("play");
+    buzz(15);
+  };
+
   /* -------- Minuteur -------- */
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   useEffect(() => {
@@ -354,6 +387,8 @@ export function QuizScreen() {
       setReason(why);
       setReachedRung(rung);
       setPhase("over");
+      clearQuizProgress();
+      setResumable(null);
       const res = recordQuizResult(amount, rung);
       setCoins(res.coins);
       setBest(res.best);
@@ -612,14 +647,47 @@ export function QuizScreen() {
           </div>
 
           {/* JOUER */}
-          <button type="button" onClick={() => startGame("normal")} className="qzp-play mt-4 flex w-full items-center justify-center gap-4 font-game text-night-950">
-            <span className="grid h-11 w-11 place-items-center rounded-full bg-night-950/15">
-              <IconPlay className="h-6 w-6" />
-            </span>
-            <span className="text-left leading-tight">
-              <span className="block text-2xl font-black">JOUER</span>
-              <span className="block text-xs font-bold text-night-950/70">Continuer l&apos;aventure</span>
-            </span>
+          {/* Reprise : si une partie a été quittée sans être finie */}
+          {resumable ? (
+            <button
+              type="button"
+              onClick={resumeGame}
+              className="qzp-play mt-4 flex w-full items-center justify-center gap-4 font-game text-night-950"
+            >
+              <span className="grid h-11 w-11 place-items-center rounded-full bg-night-950/15">
+                <IconPlay className="h-6 w-6" />
+              </span>
+              <span className="text-left leading-tight">
+                <span className="block text-2xl font-black">REPRENDRE</span>
+                <span className="block text-xs font-bold text-night-950/70">
+                  Palier {resumable.step + 1}/{LADDER.length} · tu reprends où tu t&apos;es arrêté
+                </span>
+              </span>
+            </button>
+          ) : null}
+
+          <button
+            type="button"
+            onClick={() => startGame("normal")}
+            className={
+              resumable
+                ? "mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-white/12 bg-white/[0.06] py-3 font-game text-sm font-bold text-cream active:bg-white/10"
+                : "qzp-play mt-4 flex w-full items-center justify-center gap-4 font-game text-night-950"
+            }
+          >
+            {resumable ? (
+              <>Nouvelle partie</>
+            ) : (
+              <>
+                <span className="grid h-11 w-11 place-items-center rounded-full bg-night-950/15">
+                  <IconPlay className="h-6 w-6" />
+                </span>
+                <span className="text-left leading-tight">
+                  <span className="block text-2xl font-black">JOUER</span>
+                  <span className="block text-xs font-bold text-night-950/70">Continuer l&apos;aventure</span>
+                </span>
+              </>
+            )}
           </button>
 
           {/* Accès secondaires */}

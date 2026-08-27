@@ -406,10 +406,17 @@ function ReferenceRound({ item, all, locked, onGood, onBad, onDone }: {
 /* Le jeu complet — plein écran                                        */
 /* ------------------------------------------------------------------ */
 export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: () => void }) {
-  const order = useMemo(
-    () => [...items].sort((a, b) => a.text.split(/\s+/).length - b.text.split(/\s+/).length),
-    [items],
-  );
+  // Ordre aléatoire : « Jouer » lance un verset au hasard (mélange à chaque
+  // partie). On mélange une seule fois à l'ouverture du jeu.
+  const order = useMemo(() => {
+    const a = [...items];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items.length]);
   const [verseIdx, setVerseIdx] = useState(0);
   const [modeIdx, setModeIdx] = useState(0);
   const [phase, setPhase] = useState<"study" | "play" | "won">("study");

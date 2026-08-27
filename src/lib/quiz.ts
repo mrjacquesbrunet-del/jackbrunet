@@ -220,6 +220,46 @@ const BEST_KEY = "jb.quiz.best.v1";
 const GAMES_KEY = "jb.quiz.games.v1";
 const BESTRUNG_KEY = "jb.quiz.bestrung.v1"; // meilleur palier atteint (1..15)
 
+/* -------- Reprise de partie (si on quitte sans finir) -------- */
+const PROGRESS_KEY = "jb.quiz.progress.v1";
+export type QuizProgress = {
+  game: QuizQuestion[];
+  step: number;
+  usedJokers: { half: boolean; hint: boolean; poll: boolean };
+  combo: number;
+  source: "normal" | "daily" | "themed";
+  savedAt: number;
+};
+/** Sauvegarde l'état de la partie en cours (pour pouvoir la reprendre). */
+export function saveQuizProgress(p: QuizProgress): void {
+  try {
+    localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+  } catch {
+    /* stockage indisponible */
+  }
+}
+/** Partie en cours à reprendre, ou null. */
+export function getQuizProgress(): QuizProgress | null {
+  try {
+    const raw = localStorage.getItem(PROGRESS_KEY);
+    if (!raw) return null;
+    const p = JSON.parse(raw) as QuizProgress;
+    if (!p || !Array.isArray(p.game) || p.game.length === 0) return null;
+    if (typeof p.step !== "number" || p.step < 0 || p.step >= p.game.length) return null;
+    return p;
+  } catch {
+    return null;
+  }
+}
+/** Efface la partie en cours (fin de partie, ou nouvelle partie). */
+export function clearQuizProgress(): void {
+  try {
+    localStorage.removeItem(PROGRESS_KEY);
+  } catch {
+    /* ignore */
+  }
+}
+
 function read(key: string, def = 0): number {
   try {
     const v = Number(localStorage.getItem(key));
