@@ -7,6 +7,7 @@ import { BottomNav } from "@/components/app/BottomNav";
 import { AppOnboarding } from "@/components/app/AppOnboarding";
 import { AnnouncementBanner } from "@/components/app/AnnouncementBanner";
 import { NotifOptIn } from "@/components/app/NotifOptIn";
+import { GamesNewsModal } from "@/components/app/GamesNewsModal";
 import { RatingPrompt } from "@/components/app/RatingPrompt";
 import { CarnetBubble } from "@/components/app/CarnetBubble";
 import { recordOpen } from "@/lib/usage";
@@ -62,6 +63,7 @@ export function AppShell() {
       <CarnetBubble />
       <AppOnboarding />
       <AnnouncementBanner />
+      <GamesNewsModal />
       <NotifOptIn />
       <RatingPrompt />
     </>
