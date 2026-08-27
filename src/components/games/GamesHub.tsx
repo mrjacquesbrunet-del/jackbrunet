@@ -16,6 +16,7 @@ import { getSupabase } from "@/lib/supabase";
 import { getProfile } from "@/lib/community";
 import { submitGameScore } from "@/lib/game-scores";
 import { ScoreBoard } from "@/components/games/ScoreBoard";
+import { pendingChallenges } from "@/lib/challenges";
 
 /* ---------------- Icônes (trait de la charte) ---------------- */
 const S = (d: string) => (p: { className?: string }) => (
@@ -85,8 +86,10 @@ export function GamesHub() {
   const [unlocked, setUnlocked] = useState<Set<string>>(new Set());
   const [memoXp, setMemoXp] = useState(0);
   const [vfXp, setVfXp] = useState(0);
+  const [pending, setPending] = useState(0);
 
   useEffect(() => {
+    pendingChallenges().then(setPending);
     setCoins(getQuizCoins());
     setGames(getQuizGames());
     setStreak(getQuizStreak());
@@ -220,6 +223,32 @@ export function GamesHub() {
           </Link>
         ))}
       </div>
+
+      {/* ---------- Défier un ami ---------- */}
+      <Link
+        href="/defi"
+        className="group relative mt-4 flex items-center gap-4 overflow-hidden rounded-3xl border border-dawn-400/25 bg-gradient-to-br from-night-800 via-night-900 to-night-950 p-4 shadow-card active:scale-[.99]"
+      >
+        <span className="pointer-events-none absolute -left-8 top-1/2 h-40 w-40 -translate-y-1/2 rounded-full bg-dawn-400/15 blur-2xl" />
+        <span className="relative grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-dawn-400/15 ring-1 ring-dawn-400/40">
+          <svg viewBox="0 0 24 24" className="h-7 w-7 text-dawn-300" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+            <path d="M14.5 4H20v5.5L9.5 20 4 14.5zM15 9l-6 6M4 20l3-3" />
+          </svg>
+        </span>
+        <div className="relative min-w-0 flex-1">
+          <p className="font-game text-lg font-extrabold uppercase leading-tight tracking-wide">Défier un ami</p>
+          <p className="mt-0.5 font-game text-xs font-semibold text-cream/60">
+            {pending > 0 ? `${pending} défi${pending > 1 ? "s" : ""} à relever !` : "Duel sur 10 questions, tu choisis le jeu"}
+          </p>
+        </div>
+        {pending > 0 ? (
+          <span className="relative grid h-7 min-w-[1.75rem] place-items-center rounded-full bg-dawn-400 px-2 font-game text-sm font-extrabold text-night-950">
+            {pending}
+          </span>
+        ) : (
+          <svg viewBox="0 0 24 24" className="relative h-6 w-6 shrink-0 text-cream/60" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6" /></svg>
+        )}
+      </Link>
 
       {/* ---------- Ligue de la semaine ---------- */}
       <div className="mt-7">
