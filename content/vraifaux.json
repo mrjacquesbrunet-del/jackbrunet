@@ -1,54 +1,1166 @@
 {
   "items": [
-    { "id": 1, "text": "Noé a construit une arche pour survivre au déluge.", "answer": true, "reference": "Genèse 6", "note": "Dieu ordonne à Noé de bâtir l'arche." },
-    { "id": 2, "text": "Jonas a été avalé par une baleine.", "answer": false, "reference": "Jonas 1.17", "note": "La Bible parle d'un « grand poisson », pas d'une baleine." },
-    { "id": 3, "text": "David a vaincu Goliath avec une épée.", "answer": false, "reference": "1 Samuel 17", "note": "Il l'a terrassé avec une fronde et une pierre." },
-    { "id": 4, "text": "Jésus est né à Bethléhem.", "answer": true, "reference": "Luc 2", "note": "Comme l'avait annoncé le prophète Michée." },
-    { "id": 5, "text": "Les dix commandements ont été donnés par Dieu à Moïse.", "answer": true, "reference": "Exode 20", "note": "Sur le mont Sinaï." },
-    { "id": 6, "text": "La Bible dit qu'il y avait exactement trois mages.", "answer": false, "reference": "Matthieu 2", "note": "Le texte ne précise pas leur nombre, seulement trois présents." },
-    { "id": 7, "text": "Adam et Ève ont mangé une pomme.", "answer": false, "reference": "Genèse 3", "note": "La Bible dit « le fruit », sans préciser lequel." },
-    { "id": 8, "text": "Jésus a changé l'eau en vin à Cana.", "answer": true, "reference": "Jean 2", "note": "Son tout premier miracle." },
-    { "id": 9, "text": "Jésus a choisi douze apôtres.", "answer": true, "reference": "Marc 3", "note": "Douze, comme les tribus d'Israël." },
-    { "id": 10, "text": "Le premier livre du Nouveau Testament est la Genèse.", "answer": false, "reference": "—", "note": "C'est l'Évangile de Matthieu ; la Genèse ouvre l'Ancien Testament." },
-    { "id": 11, "text": "Samson tirait sa force de ses cheveux.", "answer": true, "reference": "Juges 16", "note": "Il la perd quand Dalila les fait couper." },
-    { "id": 12, "text": "Le mot « Trinité » apparaît tel quel dans la Bible.", "answer": false, "reference": "—", "note": "La réalité y est enseignée, mais le mot n'y figure pas." },
-    { "id": 13, "text": "Jésus a marché sur l'eau.", "answer": true, "reference": "Matthieu 14", "note": "Et Pierre aussi, un instant." },
-    { "id": 14, "text": "Judas a trahi Jésus pour trente pièces d'argent.", "answer": true, "reference": "Matthieu 26", "note": "Le prix d'un esclave." },
-    { "id": 15, "text": "La Bible dit que l'argent est la racine de tous les maux.", "answer": false, "reference": "1 Timothée 6.10", "note": "C'est « l'amour de l'argent » qui est visé, pas l'argent." },
-    { "id": 16, "text": "Abraham était prêt à offrir son fils Isaac.", "answer": true, "reference": "Genèse 22", "note": "Dieu l'arrête et pourvoit un bélier." },
-    { "id": 17, "text": "Le peuple d'Israël a erré quarante ans dans le désert.", "answer": true, "reference": "Nombres 14", "note": "Une génération entière." },
-    { "id": 18, "text": "Jésus est ressuscité le troisième jour.", "answer": true, "reference": "1 Corinthiens 15", "note": "Le cœur de l'Évangile." },
-    { "id": 19, "text": "Goliath était un soldat israélite.", "answer": false, "reference": "1 Samuel 17", "note": "C'était un géant philistin, ennemi d'Israël." },
-    { "id": 20, "text": "Pierre a renié Jésus trois fois.", "answer": true, "reference": "Luc 22", "note": "Avant que le coq chante." },
-    { "id": 21, "text": "L'arche de Noé s'est posée sur le mont Sinaï.", "answer": false, "reference": "Genèse 8", "note": "Elle s'est posée sur les monts d'Ararat." },
-    { "id": 22, "text": "Jésus a nourri cinq mille hommes avec cinq pains et deux poissons.", "answer": true, "reference": "Matthieu 14", "note": "Il resta douze paniers." },
-    { "id": 23, "text": "Le livre des Psaumes contient cent psaumes.", "answer": false, "reference": "Psaumes", "note": "Il en compte cent cinquante." },
-    { "id": 24, "text": "Ève a été formée à partir d'une côte d'Adam.", "answer": true, "reference": "Genèse 2", "note": "Pour être une aide semblable à lui." },
-    { "id": 25, "text": "Moïse est entré dans la Terre promise.", "answer": false, "reference": "Deutéronome 34", "note": "Il l'a vue de loin ; c'est Josué qui y fait entrer le peuple." },
-    { "id": 26, "text": "Les murailles de Jéricho sont tombées après sept tours.", "answer": true, "reference": "Josué 6", "note": "Au septième jour, après sept tours et un grand cri." },
-    { "id": 27, "text": "Daniel a été jeté dans une fournaise ardente.", "answer": false, "reference": "Daniel 6", "note": "Daniel fut jeté dans la fosse aux lions ; la fournaise, c'était ses trois amis." },
-    { "id": 28, "text": "Le Saint-Esprit est descendu sur les disciples à la Pentecôte.", "answer": true, "reference": "Actes 2", "note": "Avec des langues de feu." },
-    { "id": 29, "text": "La Bible a été écrite par un seul auteur.", "answer": false, "reference": "—", "note": "Une quarantaine d'auteurs sur environ 1 500 ans." },
-    { "id": 30, "text": "Élie a été enlevé au ciel dans un char de feu.", "answer": true, "reference": "2 Rois 2", "note": "Élisée reçoit son manteau." },
-    { "id": 31, "text": "Le premier miracle de Jésus fut la résurrection de Lazare.", "answer": false, "reference": "Jean 2", "note": "Son premier miracle fut l'eau changée en vin à Cana." },
-    { "id": 32, "text": "Salomon a demandé la sagesse à Dieu.", "answer": true, "reference": "1 Rois 3", "note": "Plutôt que la richesse ou une longue vie." },
-    { "id": 33, "text": "Il a plu quarante jours et quarante nuits pendant le déluge.", "answer": true, "reference": "Genèse 7", "note": "Les eaux ont tout recouvert." },
-    { "id": 34, "text": "Caïn a tué son frère Abel.", "answer": true, "reference": "Genèse 4", "note": "Le premier meurtre, par jalousie." },
-    { "id": 35, "text": "Les dix plaies ont frappé le peuple d'Israël.", "answer": false, "reference": "Exode 7-12", "note": "Elles ont frappé l'Égypte, pour libérer Israël." },
-    { "id": 36, "text": "Jésus a été baptisé par Jean-Baptiste dans le Jourdain.", "answer": true, "reference": "Matthieu 3", "note": "L'Esprit descend comme une colombe." },
-    { "id": 37, "text": "Le fruit de l'Esprit comprend l'amour, la joie et la paix.", "answer": true, "reference": "Galates 5.22", "note": "Ainsi que la patience, la bonté…" },
-    { "id": 38, "text": "Zachée était un homme de très grande taille.", "answer": false, "reference": "Luc 19", "note": "Il était petit ; il monta sur un arbre pour voir Jésus." },
-    { "id": 39, "text": "La Bible se termine par le livre de l'Apocalypse.", "answer": true, "reference": "Apocalypse", "note": "La vision du monde renouvelé." },
-    { "id": 40, "text": "Thomas a douté de la résurrection de Jésus.", "answer": true, "reference": "Jean 20", "note": "« Si je ne vois… je ne croirai point. »" },
-    { "id": 41, "text": "La Bible protestante compte soixante-six livres.", "answer": true, "reference": "—", "note": "Trente-neuf dans l'Ancien, vingt-sept dans le Nouveau." },
-    { "id": 42, "text": "Jésus est mort par lapidation.", "answer": false, "reference": "Jean 19", "note": "Il est mort crucifié sous Ponce Pilate." },
-    { "id": 43, "text": "Marie était la mère de Jésus.", "answer": true, "reference": "Luc 1", "note": "L'ange Gabriel le lui annonce." },
-    { "id": 44, "text": "Jésus a ressuscité son ami Lazare.", "answer": true, "reference": "Jean 11", "note": "Après quatre jours au tombeau." },
-    { "id": 45, "text": "Le roi David était berger dans sa jeunesse.", "answer": true, "reference": "1 Samuel 16", "note": "Le plus jeune des fils d'Isaï." },
-    { "id": 46, "text": "Paul a écrit une lettre aux Romains.", "answer": true, "reference": "Romains", "note": "L'une de ses plus grandes épîtres." },
-    { "id": 47, "text": "Ésaü a vendu son droit d'aînesse pour un plat de lentilles.", "answer": true, "reference": "Genèse 25", "note": "À son frère Jacob." },
-    { "id": 48, "text": "Jésus a dit : « Je suis le chemin, la vérité et la vie. »", "answer": true, "reference": "Jean 14.6", "note": "« Nul ne vient au Père que par moi. »" },
-    { "id": 49, "text": "Il y a quatre évangiles dans le Nouveau Testament.", "answer": true, "reference": "—", "note": "Matthieu, Marc, Luc et Jean." },
-    { "id": 50, "text": "Sodome et Gomorrhe ont été détruites par un tremblement de terre.", "answer": false, "reference": "Genèse 19", "note": "Par une pluie de soufre et de feu." }
+    {
+      "id": 1,
+      "text": "Noé a construit une arche pour survivre au déluge.",
+      "answer": true,
+      "reference": "Genèse 6",
+      "note": "Dieu ordonne à Noé de bâtir l'arche."
+    },
+    {
+      "id": 2,
+      "text": "Jonas a été avalé par une baleine.",
+      "answer": false,
+      "reference": "Jonas 1.17",
+      "note": "La Bible parle d'un « grand poisson », pas d'une baleine."
+    },
+    {
+      "id": 3,
+      "text": "David a vaincu Goliath avec une épée.",
+      "answer": false,
+      "reference": "1 Samuel 17",
+      "note": "Il l'a terrassé avec une fronde et une pierre."
+    },
+    {
+      "id": 4,
+      "text": "Jésus est né à Bethléhem.",
+      "answer": true,
+      "reference": "Luc 2",
+      "note": "Comme l'avait annoncé le prophète Michée."
+    },
+    {
+      "id": 5,
+      "text": "Les dix commandements ont été donnés par Dieu à Moïse.",
+      "answer": true,
+      "reference": "Exode 20",
+      "note": "Sur le mont Sinaï."
+    },
+    {
+      "id": 6,
+      "text": "La Bible dit qu'il y avait exactement trois mages.",
+      "answer": false,
+      "reference": "Matthieu 2",
+      "note": "Le texte ne précise pas leur nombre, seulement trois présents."
+    },
+    {
+      "id": 7,
+      "text": "Adam et Ève ont mangé une pomme.",
+      "answer": false,
+      "reference": "Genèse 3",
+      "note": "La Bible dit « le fruit », sans préciser lequel."
+    },
+    {
+      "id": 8,
+      "text": "Jésus a changé l'eau en vin à Cana.",
+      "answer": true,
+      "reference": "Jean 2",
+      "note": "Son tout premier miracle."
+    },
+    {
+      "id": 9,
+      "text": "Jésus a choisi douze apôtres.",
+      "answer": true,
+      "reference": "Marc 3",
+      "note": "Douze, comme les tribus d'Israël."
+    },
+    {
+      "id": 10,
+      "text": "Le premier livre du Nouveau Testament est la Genèse.",
+      "answer": false,
+      "reference": "—",
+      "note": "C'est l'Évangile de Matthieu ; la Genèse ouvre l'Ancien Testament."
+    },
+    {
+      "id": 11,
+      "text": "Samson tirait sa force de ses cheveux.",
+      "answer": true,
+      "reference": "Juges 16",
+      "note": "Il la perd quand Dalila les fait couper."
+    },
+    {
+      "id": 12,
+      "text": "Le mot « Trinité » apparaît tel quel dans la Bible.",
+      "answer": false,
+      "reference": "—",
+      "note": "La réalité y est enseignée, mais le mot n'y figure pas."
+    },
+    {
+      "id": 13,
+      "text": "Jésus a marché sur l'eau.",
+      "answer": true,
+      "reference": "Matthieu 14",
+      "note": "Et Pierre aussi, un instant."
+    },
+    {
+      "id": 14,
+      "text": "Judas a trahi Jésus pour trente pièces d'argent.",
+      "answer": true,
+      "reference": "Matthieu 26",
+      "note": "Le prix d'un esclave."
+    },
+    {
+      "id": 15,
+      "text": "La Bible dit que l'argent est la racine de tous les maux.",
+      "answer": false,
+      "reference": "1 Timothée 6.10",
+      "note": "C'est « l'amour de l'argent » qui est visé, pas l'argent."
+    },
+    {
+      "id": 16,
+      "text": "Abraham était prêt à offrir son fils Isaac.",
+      "answer": true,
+      "reference": "Genèse 22",
+      "note": "Dieu l'arrête et pourvoit un bélier."
+    },
+    {
+      "id": 17,
+      "text": "Le peuple d'Israël a erré quarante ans dans le désert.",
+      "answer": true,
+      "reference": "Nombres 14",
+      "note": "Une génération entière."
+    },
+    {
+      "id": 18,
+      "text": "Jésus est ressuscité le troisième jour.",
+      "answer": true,
+      "reference": "1 Corinthiens 15",
+      "note": "Le cœur de l'Évangile."
+    },
+    {
+      "id": 19,
+      "text": "Goliath était un soldat israélite.",
+      "answer": false,
+      "reference": "1 Samuel 17",
+      "note": "C'était un géant philistin, ennemi d'Israël."
+    },
+    {
+      "id": 20,
+      "text": "Pierre a renié Jésus trois fois.",
+      "answer": true,
+      "reference": "Luc 22",
+      "note": "Avant que le coq chante."
+    },
+    {
+      "id": 21,
+      "text": "L'arche de Noé s'est posée sur le mont Sinaï.",
+      "answer": false,
+      "reference": "Genèse 8",
+      "note": "Elle s'est posée sur les monts d'Ararat."
+    },
+    {
+      "id": 22,
+      "text": "Jésus a nourri cinq mille hommes avec cinq pains et deux poissons.",
+      "answer": true,
+      "reference": "Matthieu 14",
+      "note": "Il resta douze paniers."
+    },
+    {
+      "id": 23,
+      "text": "Le livre des Psaumes contient cent psaumes.",
+      "answer": false,
+      "reference": "Psaumes",
+      "note": "Il en compte cent cinquante."
+    },
+    {
+      "id": 24,
+      "text": "Ève a été formée à partir d'une côte d'Adam.",
+      "answer": true,
+      "reference": "Genèse 2",
+      "note": "Pour être une aide semblable à lui."
+    },
+    {
+      "id": 25,
+      "text": "Moïse est entré dans la Terre promise.",
+      "answer": false,
+      "reference": "Deutéronome 34",
+      "note": "Il l'a vue de loin ; c'est Josué qui y fait entrer le peuple."
+    },
+    {
+      "id": 26,
+      "text": "Les murailles de Jéricho sont tombées après sept tours.",
+      "answer": true,
+      "reference": "Josué 6",
+      "note": "Au septième jour, après sept tours et un grand cri."
+    },
+    {
+      "id": 27,
+      "text": "Daniel a été jeté dans une fournaise ardente.",
+      "answer": false,
+      "reference": "Daniel 6",
+      "note": "Daniel fut jeté dans la fosse aux lions ; la fournaise, c'était ses trois amis."
+    },
+    {
+      "id": 28,
+      "text": "Le Saint-Esprit est descendu sur les disciples à la Pentecôte.",
+      "answer": true,
+      "reference": "Actes 2",
+      "note": "Avec des langues de feu."
+    },
+    {
+      "id": 29,
+      "text": "La Bible a été écrite par un seul auteur.",
+      "answer": false,
+      "reference": "—",
+      "note": "Une quarantaine d'auteurs sur environ 1 500 ans."
+    },
+    {
+      "id": 30,
+      "text": "Élie a été enlevé au ciel dans un char de feu.",
+      "answer": true,
+      "reference": "2 Rois 2",
+      "note": "Élisée reçoit son manteau."
+    },
+    {
+      "id": 31,
+      "text": "Le premier miracle de Jésus fut la résurrection de Lazare.",
+      "answer": false,
+      "reference": "Jean 2",
+      "note": "Son premier miracle fut l'eau changée en vin à Cana."
+    },
+    {
+      "id": 32,
+      "text": "Salomon a demandé la sagesse à Dieu.",
+      "answer": true,
+      "reference": "1 Rois 3",
+      "note": "Plutôt que la richesse ou une longue vie."
+    },
+    {
+      "id": 33,
+      "text": "Il a plu quarante jours et quarante nuits pendant le déluge.",
+      "answer": true,
+      "reference": "Genèse 7",
+      "note": "Les eaux ont tout recouvert."
+    },
+    {
+      "id": 34,
+      "text": "Caïn a tué son frère Abel.",
+      "answer": true,
+      "reference": "Genèse 4",
+      "note": "Le premier meurtre, par jalousie."
+    },
+    {
+      "id": 35,
+      "text": "Les dix plaies ont frappé le peuple d'Israël.",
+      "answer": false,
+      "reference": "Exode 7-12",
+      "note": "Elles ont frappé l'Égypte, pour libérer Israël."
+    },
+    {
+      "id": 36,
+      "text": "Jésus a été baptisé par Jean-Baptiste dans le Jourdain.",
+      "answer": true,
+      "reference": "Matthieu 3",
+      "note": "L'Esprit descend comme une colombe."
+    },
+    {
+      "id": 37,
+      "text": "Le fruit de l'Esprit comprend l'amour, la joie et la paix.",
+      "answer": true,
+      "reference": "Galates 5.22",
+      "note": "Ainsi que la patience, la bonté…"
+    },
+    {
+      "id": 38,
+      "text": "Zachée était un homme de très grande taille.",
+      "answer": false,
+      "reference": "Luc 19",
+      "note": "Il était petit ; il monta sur un arbre pour voir Jésus."
+    },
+    {
+      "id": 39,
+      "text": "La Bible se termine par le livre de l'Apocalypse.",
+      "answer": true,
+      "reference": "Apocalypse",
+      "note": "La vision du monde renouvelé."
+    },
+    {
+      "id": 40,
+      "text": "Thomas a douté de la résurrection de Jésus.",
+      "answer": true,
+      "reference": "Jean 20",
+      "note": "« Si je ne vois… je ne croirai point. »"
+    },
+    {
+      "id": 41,
+      "text": "La Bible protestante compte soixante-six livres.",
+      "answer": true,
+      "reference": "—",
+      "note": "Trente-neuf dans l'Ancien, vingt-sept dans le Nouveau."
+    },
+    {
+      "id": 42,
+      "text": "Jésus est mort par lapidation.",
+      "answer": false,
+      "reference": "Jean 19",
+      "note": "Il est mort crucifié sous Ponce Pilate."
+    },
+    {
+      "id": 43,
+      "text": "Marie était la mère de Jésus.",
+      "answer": true,
+      "reference": "Luc 1",
+      "note": "L'ange Gabriel le lui annonce."
+    },
+    {
+      "id": 44,
+      "text": "Jésus a ressuscité son ami Lazare.",
+      "answer": true,
+      "reference": "Jean 11",
+      "note": "Après quatre jours au tombeau."
+    },
+    {
+      "id": 45,
+      "text": "Le roi David était berger dans sa jeunesse.",
+      "answer": true,
+      "reference": "1 Samuel 16",
+      "note": "Le plus jeune des fils d'Isaï."
+    },
+    {
+      "id": 46,
+      "text": "Paul a écrit une lettre aux Romains.",
+      "answer": true,
+      "reference": "Romains",
+      "note": "L'une de ses plus grandes épîtres."
+    },
+    {
+      "id": 47,
+      "text": "Ésaü a vendu son droit d'aînesse pour un plat de lentilles.",
+      "answer": true,
+      "reference": "Genèse 25",
+      "note": "À son frère Jacob."
+    },
+    {
+      "id": 48,
+      "text": "Jésus a dit : « Je suis le chemin, la vérité et la vie. »",
+      "answer": true,
+      "reference": "Jean 14.6",
+      "note": "« Nul ne vient au Père que par moi. »"
+    },
+    {
+      "id": 49,
+      "text": "Il y a quatre évangiles dans le Nouveau Testament.",
+      "answer": true,
+      "reference": "—",
+      "note": "Matthieu, Marc, Luc et Jean."
+    },
+    {
+      "id": 50,
+      "text": "Sodome et Gomorrhe ont été détruites par un tremblement de terre.",
+      "answer": false,
+      "reference": "Genèse 19",
+      "note": "Par une pluie de soufre et de feu."
+    },
+    {
+      "id": 51,
+      "text": "Il y avait trois rois mages à la naissance de Jésus.",
+      "answer": false,
+      "reference": "Matthieu 2",
+      "note": "La Bible parle de mages venus d'Orient, sans préciser leur nombre."
+    },
+    {
+      "id": 52,
+      "text": "Judas a trahi Jésus pour trente pièces d'or.",
+      "answer": false,
+      "reference": "Matthieu 26:15",
+      "note": "C'étaient des pièces d'argent."
+    },
+    {
+      "id": 53,
+      "text": "Le premier miracle de Jésus fut de multiplier les pains.",
+      "answer": false,
+      "reference": "Jean 2",
+      "note": "Son premier miracle fut de changer l'eau en vin à Cana."
+    },
+    {
+      "id": 54,
+      "text": "Paul s'appelait Saul avant sa conversion.",
+      "answer": true,
+      "reference": "Actes 13:9",
+      "note": ""
+    },
+    {
+      "id": 55,
+      "text": "L'apôtre Paul faisait partie des douze apôtres de Jésus.",
+      "answer": false,
+      "reference": "—",
+      "note": "Paul fut appelé après la résurrection, il n'était pas des douze."
+    },
+    {
+      "id": 56,
+      "text": "Le mont Sinaï est aussi appelé mont Horeb.",
+      "answer": true,
+      "reference": "Exode 3:1",
+      "note": ""
+    },
+    {
+      "id": 57,
+      "text": "Élie est mort et fut enterré.",
+      "answer": false,
+      "reference": "2 Rois 2:11",
+      "note": "Il fut enlevé au ciel dans un char de feu."
+    },
+    {
+      "id": 58,
+      "text": "Le fils qu'Abraham offrit en sacrifice était Ismaël.",
+      "answer": false,
+      "reference": "Genèse 22",
+      "note": "C'était Isaac."
+    },
+    {
+      "id": 59,
+      "text": "Huit personnes furent sauvées dans l'arche de Noé.",
+      "answer": true,
+      "reference": "1 Pierre 3:20",
+      "note": ""
+    },
+    {
+      "id": 60,
+      "text": "Il y a eu douze plaies en Égypte.",
+      "answer": false,
+      "reference": "Exode 7-12",
+      "note": "Il y en a eu dix."
+    },
+    {
+      "id": 61,
+      "text": "Le veau d'or a été fabriqué par Aaron.",
+      "answer": true,
+      "reference": "Exode 32:4",
+      "note": ""
+    },
+    {
+      "id": 62,
+      "text": "David était le plus jeune des fils de Jessé.",
+      "answer": true,
+      "reference": "1 Samuel 16:11",
+      "note": ""
+    },
+    {
+      "id": 63,
+      "text": "Salomon a demandé la richesse à Dieu.",
+      "answer": false,
+      "reference": "1 Rois 3:9",
+      "note": "Il a demandé la sagesse."
+    },
+    {
+      "id": 64,
+      "text": "La reine de Séba est venue rendre visite à David.",
+      "answer": false,
+      "reference": "1 Rois 10",
+      "note": "Elle est venue voir Salomon."
+    },
+    {
+      "id": 65,
+      "text": "Les trois amis de Daniel s'appelaient Schadrac, Méschac et Abed-Nego.",
+      "answer": true,
+      "reference": "Daniel 1:7",
+      "note": ""
+    },
+    {
+      "id": 66,
+      "text": "Jonas fut envoyé prêcher à Babylone.",
+      "answer": false,
+      "reference": "Jonas 1",
+      "note": "Il fut envoyé à Ninive."
+    },
+    {
+      "id": 67,
+      "text": "Jean-Baptiste se nourrissait de sauterelles et de miel sauvage.",
+      "answer": true,
+      "reference": "Matthieu 3:4",
+      "note": ""
+    },
+    {
+      "id": 68,
+      "text": "Jésus a été baptisé par l'apôtre Pierre.",
+      "answer": false,
+      "reference": "Matthieu 3",
+      "note": "Il fut baptisé par Jean-Baptiste."
+    },
+    {
+      "id": 69,
+      "text": "Jésus a jeûné quarante jours dans le désert.",
+      "answer": true,
+      "reference": "Matthieu 4:2",
+      "note": ""
+    },
+    {
+      "id": 70,
+      "text": "Lazare est resté mort quatre jours avant d'être ressuscité.",
+      "answer": true,
+      "reference": "Jean 11:39",
+      "note": ""
+    },
+    {
+      "id": 71,
+      "text": "Zachée était un pharisien.",
+      "answer": false,
+      "reference": "Luc 19:2",
+      "note": "C'était un chef des collecteurs d'impôts."
+    },
+    {
+      "id": 72,
+      "text": "Simon de Cyrène a porté la croix de Jésus.",
+      "answer": true,
+      "reference": "Matthieu 27:32",
+      "note": ""
+    },
+    {
+      "id": 73,
+      "text": "Thomas a mis son doigt dans les plaies de Jésus ressuscité.",
+      "answer": true,
+      "reference": "Jean 20:27",
+      "note": ""
+    },
+    {
+      "id": 74,
+      "text": "Le jour de la Pentecôte, l'Esprit descendit sous forme de langues de feu.",
+      "answer": true,
+      "reference": "Actes 2:3",
+      "note": ""
+    },
+    {
+      "id": 75,
+      "text": "Étienne fut le premier martyr chrétien.",
+      "answer": true,
+      "reference": "Actes 7",
+      "note": ""
+    },
+    {
+      "id": 76,
+      "text": "L'Apocalypse a été écrite par l'apôtre Paul.",
+      "answer": false,
+      "reference": "Apocalypse 1",
+      "note": "Elle a été écrite par Jean."
+    },
+    {
+      "id": 77,
+      "text": "L'évangéliste Luc était médecin.",
+      "answer": true,
+      "reference": "Colossiens 4:14",
+      "note": ""
+    },
+    {
+      "id": 78,
+      "text": "L'apôtre Matthieu était pêcheur.",
+      "answer": false,
+      "reference": "Matthieu 9:9",
+      "note": "Il était collecteur d'impôts."
+    },
+    {
+      "id": 79,
+      "text": "Pierre a coupé l'oreille d'un serviteur lors de l'arrestation de Jésus.",
+      "answer": true,
+      "reference": "Jean 18:10",
+      "note": ""
+    },
+    {
+      "id": 80,
+      "text": "Le serviteur dont Pierre coupa l'oreille s'appelait Malchus.",
+      "answer": true,
+      "reference": "Jean 18:10",
+      "note": ""
+    },
+    {
+      "id": 81,
+      "text": "Barabbas fut relâché à la place de Jésus.",
+      "answer": true,
+      "reference": "Matthieu 27:26",
+      "note": ""
+    },
+    {
+      "id": 82,
+      "text": "Nicodème vint voir Jésus de nuit.",
+      "answer": true,
+      "reference": "Jean 3:2",
+      "note": ""
+    },
+    {
+      "id": 83,
+      "text": "Le bon Samaritain de la parabole était un prêtre.",
+      "answer": false,
+      "reference": "Luc 10",
+      "note": "C'était un Samaritain."
+    },
+    {
+      "id": 84,
+      "text": "Après la multiplication des pains, il resta douze paniers de morceaux.",
+      "answer": true,
+      "reference": "Matthieu 14:20",
+      "note": ""
+    },
+    {
+      "id": 85,
+      "text": "Goliath était un Amalécite.",
+      "answer": false,
+      "reference": "1 Samuel 17",
+      "note": "C'était un Philistin."
+    },
+    {
+      "id": 86,
+      "text": "Le roi Saül consulta une magicienne à En-Dor.",
+      "answer": true,
+      "reference": "1 Samuel 28",
+      "note": ""
+    },
+    {
+      "id": 87,
+      "text": "Absalom mourut les cheveux pris dans un térébinthe.",
+      "answer": true,
+      "reference": "2 Samuel 18:9",
+      "note": ""
+    },
+    {
+      "id": 88,
+      "text": "Le temple de Salomon fut construit en sept ans.",
+      "answer": true,
+      "reference": "1 Rois 6:38",
+      "note": ""
+    },
+    {
+      "id": 89,
+      "text": "Élie affronta 450 prophètes de Baal au mont Carmel.",
+      "answer": true,
+      "reference": "1 Rois 18:22",
+      "note": ""
+    },
+    {
+      "id": 90,
+      "text": "Naaman le lépreux se plongea sept fois dans le Nil.",
+      "answer": false,
+      "reference": "2 Rois 5",
+      "note": "Il se plongea dans le Jourdain."
+    },
+    {
+      "id": 91,
+      "text": "Le roi Nébucadnetsar vécut comme un animal pendant un temps.",
+      "answer": true,
+      "reference": "Daniel 4",
+      "note": ""
+    },
+    {
+      "id": 92,
+      "text": "L'écriture sur le mur apparut au festin du roi Belschatsar.",
+      "answer": true,
+      "reference": "Daniel 5",
+      "note": ""
+    },
+    {
+      "id": 93,
+      "text": "Le premier roi d'Israël fut David.",
+      "answer": false,
+      "reference": "1 Samuel 10",
+      "note": "Le premier roi fut Saül."
+    },
+    {
+      "id": 94,
+      "text": "Le prophète Samuel oignit David comme roi.",
+      "answer": true,
+      "reference": "1 Samuel 16",
+      "note": ""
+    },
+    {
+      "id": 95,
+      "text": "Méthusélah est l'homme le plus âgé mentionné dans la Bible.",
+      "answer": true,
+      "reference": "Genèse 5:27",
+      "note": "969 ans."
+    },
+    {
+      "id": 96,
+      "text": "Hénoc fut enlevé par Dieu sans connaître la mort.",
+      "answer": true,
+      "reference": "Genèse 5:24",
+      "note": ""
+    },
+    {
+      "id": 97,
+      "text": "Sara donna naissance à Isaac dans sa vieillesse.",
+      "answer": true,
+      "reference": "Genèse 21",
+      "note": ""
+    },
+    {
+      "id": 98,
+      "text": "Le déluge dura quarante jours et quarante nuits de pluie.",
+      "answer": true,
+      "reference": "Genèse 7:12",
+      "note": ""
+    },
+    {
+      "id": 99,
+      "text": "Le buisson ardent brûlait sans se consumer.",
+      "answer": true,
+      "reference": "Exode 3:2",
+      "note": ""
+    },
+    {
+      "id": 100,
+      "text": "Le fils prodigue dépensa son héritage puis revint vers son père.",
+      "answer": true,
+      "reference": "Luc 15",
+      "note": ""
+    },
+    {
+      "id": 101,
+      "text": "La dernière Cène était un repas de la Pâque.",
+      "answer": true,
+      "reference": "Luc 22",
+      "note": ""
+    },
+    {
+      "id": 102,
+      "text": "Ponce Pilate livra Jésus pour être crucifié.",
+      "answer": true,
+      "reference": "Matthieu 27",
+      "note": ""
+    },
+    {
+      "id": 103,
+      "text": "Bath-Schéba était la femme d'Urie le Héthien.",
+      "answer": true,
+      "reference": "2 Samuel 11:3",
+      "note": ""
+    },
+    {
+      "id": 104,
+      "text": "Le prophète Osée épousa une femme infidèle, Gomer.",
+      "answer": true,
+      "reference": "Osée 1",
+      "note": ""
+    },
+    {
+      "id": 105,
+      "text": "Jéricho fut la première ville conquise en Canaan.",
+      "answer": true,
+      "reference": "Josué 6",
+      "note": ""
+    },
+    {
+      "id": 106,
+      "text": "Le prophète Élisée était le serviteur d'Élie.",
+      "answer": true,
+      "reference": "1 Rois 19:21",
+      "note": ""
+    },
+    {
+      "id": 107,
+      "text": "Marie-Madeleine était la mère de Jésus.",
+      "answer": false,
+      "reference": "—",
+      "note": "La mère de Jésus était Marie."
+    },
+    {
+      "id": 108,
+      "text": "Le livre des Psaumes est le livre le plus long de la Bible.",
+      "answer": true,
+      "reference": "—",
+      "note": "150 chapitres."
+    },
+    {
+      "id": 109,
+      "text": "La Bible protestante compte 66 livres.",
+      "answer": true,
+      "reference": "—",
+      "note": ""
+    },
+    {
+      "id": 110,
+      "text": "Le mont des Oliviers est le lieu où Jésus fut crucifié.",
+      "answer": false,
+      "reference": "Jean 19:17",
+      "note": "Il fut crucifié à Golgotha."
+    },
+    {
+      "id": 111,
+      "text": "Job perdit tous ses biens et ses enfants mais garda la foi.",
+      "answer": true,
+      "reference": "Job 1",
+      "note": ""
+    },
+    {
+      "id": 112,
+      "text": "Ézéchiel vit une vallée d'ossements desséchés qui reprirent vie.",
+      "answer": true,
+      "reference": "Ézéchiel 37",
+      "note": ""
+    },
+    {
+      "id": 113,
+      "text": "Jacob eut douze fils qui donnèrent naissance aux tribus d'Israël.",
+      "answer": true,
+      "reference": "Genèse 35",
+      "note": ""
+    },
+    {
+      "id": 114,
+      "text": "Le roi Hérode fit décapiter Jean-Baptiste.",
+      "answer": true,
+      "reference": "Marc 6:27",
+      "note": ""
+    },
+    {
+      "id": 115,
+      "text": "Salomon écrivit le livre du Cantique des cantiques.",
+      "answer": true,
+      "reference": "Cantique 1:1",
+      "note": ""
+    },
+    {
+      "id": 116,
+      "text": "La femme de Lot se retourna et fut changée en statue de sel.",
+      "answer": true,
+      "reference": "Genèse 19:26",
+      "note": ""
+    },
+    {
+      "id": 117,
+      "text": "Melchisédek était à la fois roi et prêtre.",
+      "answer": true,
+      "reference": "Genèse 14:18",
+      "note": ""
+    },
+    {
+      "id": 118,
+      "text": "Il y a 27 livres dans le Nouveau Testament.",
+      "answer": true,
+      "reference": "—",
+      "note": ""
+    },
+    {
+      "id": 119,
+      "text": "Paul écrivit l'épître aux Romains.",
+      "answer": true,
+      "reference": "Romains 1",
+      "note": ""
+    },
+    {
+      "id": 120,
+      "text": "Le géant Og, roi de Basan, dormait dans un lit de fer.",
+      "answer": true,
+      "reference": "Deutéronome 3:11",
+      "note": ""
+    },
+    {
+      "id": 121,
+      "text": "Gédéon vainquit les Madianites avec seulement trois cents hommes.",
+      "answer": true,
+      "reference": "Juges 7:7",
+      "note": ""
+    },
+    {
+      "id": 122,
+      "text": "Le premier meurtre de la Bible fut commis par Caïn sur Abel.",
+      "answer": true,
+      "reference": "Genèse 4",
+      "note": ""
+    },
+    {
+      "id": 123,
+      "text": "Le prophète Daniel interpréta les rêves du roi Nébucadnetsar.",
+      "answer": true,
+      "reference": "Daniel 2",
+      "note": ""
+    },
+    {
+      "id": 124,
+      "text": "Jésus a écrit lui-même plusieurs livres du Nouveau Testament.",
+      "answer": false,
+      "reference": "—",
+      "note": "Jésus n'a laissé aucun écrit ; les évangiles ont été rédigés par d'autres."
+    },
+    {
+      "id": 125,
+      "text": "Moïse entra dans la Terre promise avec le peuple.",
+      "answer": false,
+      "reference": "Deutéronome 34",
+      "note": "Il mourut avant, en voyant le pays depuis le mont Nébo."
+    },
+    {
+      "id": 126,
+      "text": "Le géant Goliath fut tué par le roi Saül.",
+      "answer": false,
+      "reference": "1 Samuel 17",
+      "note": "C'est David qui tua Goliath."
+    },
+    {
+      "id": 127,
+      "text": "Moïse a écrit le livre de l'Apocalypse.",
+      "answer": false,
+      "reference": "Apocalypse 1",
+      "note": "L'Apocalypse a été écrite par Jean."
+    },
+    {
+      "id": 128,
+      "text": "Dieu a créé le monde en sept jours avant de se reposer.",
+      "answer": false,
+      "reference": "Genèse 1",
+      "note": "La création dura six jours, le repos eut lieu le septième."
+    },
+    {
+      "id": 129,
+      "text": "Jésus est né à Nazareth.",
+      "answer": false,
+      "reference": "Luc 2",
+      "note": "Jésus est né à Bethléem."
+    },
+    {
+      "id": 130,
+      "text": "Les dix commandements furent donnés au mont Carmel.",
+      "answer": false,
+      "reference": "Exode 20",
+      "note": "Ils furent donnés au mont Sinaï."
+    },
+    {
+      "id": 131,
+      "text": "Le roi David a construit le temple de Jérusalem.",
+      "answer": false,
+      "reference": "1 Rois 6",
+      "note": "C'est son fils Salomon qui le construisit."
+    },
+    {
+      "id": 132,
+      "text": "Abraham était le père de Moïse.",
+      "answer": false,
+      "reference": "—",
+      "note": "Ils sont séparés par plusieurs siècles."
+    },
+    {
+      "id": 133,
+      "text": "Saül devint roi après David.",
+      "answer": false,
+      "reference": "1 Samuel 10",
+      "note": "Saül régna avant David."
+    },
+    {
+      "id": 134,
+      "text": "Caïn était le fils de Noé.",
+      "answer": false,
+      "reference": "Genèse 4",
+      "note": "Caïn était le fils d'Adam et Ève."
+    },
+    {
+      "id": 135,
+      "text": "Les Hébreux ont erré dix ans dans le désert.",
+      "answer": false,
+      "reference": "Nombres 14",
+      "note": "Ils y errèrent quarante ans."
+    },
+    {
+      "id": 136,
+      "text": "L'apôtre Paul était pêcheur de métier.",
+      "answer": false,
+      "reference": "Actes 18:3",
+      "note": "Paul était fabricant de tentes."
+    },
+    {
+      "id": 137,
+      "text": "Jésus a été crucifié avec un seul brigand.",
+      "answer": false,
+      "reference": "Luc 23:33",
+      "note": "Il fut crucifié entre deux brigands."
+    },
+    {
+      "id": 138,
+      "text": "Ruth était une Égyptienne.",
+      "answer": false,
+      "reference": "Ruth 1",
+      "note": "Ruth était Moabite."
+    },
+    {
+      "id": 139,
+      "text": "Jésus a nourri cinq mille femmes avec cinq pains.",
+      "answer": false,
+      "reference": "Matthieu 14:21",
+      "note": "Il nourrit cinq mille hommes, sans compter femmes et enfants."
+    },
+    {
+      "id": 140,
+      "text": "Le baptême de Jésus eut lieu dans le lac de Galilée.",
+      "answer": false,
+      "reference": "Matthieu 3",
+      "note": "Il fut baptisé dans le Jourdain."
+    },
+    {
+      "id": 141,
+      "text": "Le roi Nébucadnetsar était roi d'Égypte.",
+      "answer": false,
+      "reference": "Daniel 1",
+      "note": "Il était roi de Babylone."
+    },
+    {
+      "id": 142,
+      "text": "Le livre des Actes a été écrit par l'apôtre Pierre.",
+      "answer": false,
+      "reference": "Actes 1",
+      "note": "Il a été écrit par Luc."
+    },
+    {
+      "id": 143,
+      "text": "Le prophète Daniel fut jeté dans une fournaise ardente.",
+      "answer": false,
+      "reference": "Daniel 6",
+      "note": "Daniel fut jeté dans la fosse aux lions."
+    },
+    {
+      "id": 144,
+      "text": "Josué fit tomber les murailles de Babylone.",
+      "answer": false,
+      "reference": "Josué 6",
+      "note": "Il fit tomber les murailles de Jéricho."
+    },
+    {
+      "id": 145,
+      "text": "À Cana, Jésus changea le vin en eau.",
+      "answer": false,
+      "reference": "Jean 2",
+      "note": "Il changea l'eau en vin."
+    },
+    {
+      "id": 146,
+      "text": "Il y a cinquante psaumes dans la Bible.",
+      "answer": false,
+      "reference": "—",
+      "note": "Le livre des Psaumes en compte 150."
+    },
+    {
+      "id": 147,
+      "text": "L'ange qui annonça la naissance de Jésus à Marie s'appelait Michel.",
+      "answer": false,
+      "reference": "Luc 1:26",
+      "note": "C'était l'ange Gabriel."
+    },
+    {
+      "id": 148,
+      "text": "Lazare, ressuscité par Jésus, était le frère de Pierre.",
+      "answer": false,
+      "reference": "Jean 11",
+      "note": "Il était le frère de Marthe et Marie."
+    },
+    {
+      "id": 149,
+      "text": "Judas Iscariote fut remplacé par Barnabas.",
+      "answer": false,
+      "reference": "Actes 1:26",
+      "note": "Il fut remplacé par Matthias."
+    },
+    {
+      "id": 150,
+      "text": "Le fils qu'Abraham faillit sacrifier était Jacob.",
+      "answer": false,
+      "reference": "Genèse 22",
+      "note": "C'était Isaac."
+    },
+    {
+      "id": 151,
+      "text": "Le prophète Ésaïe fut avalé par un grand poisson.",
+      "answer": false,
+      "reference": "Jonas 1",
+      "note": "C'est Jonas qui fut avalé."
+    },
+    {
+      "id": 152,
+      "text": "Le roi Pharaon libéra les Hébreux dès la première plaie.",
+      "answer": false,
+      "reference": "Exode 12",
+      "note": "Il les laissa partir après la dixième plaie."
+    },
+    {
+      "id": 153,
+      "text": "Les douze espions revinrent tous confiants d'explorer Canaan.",
+      "answer": false,
+      "reference": "Nombres 13",
+      "note": "Dix furent découragés ; seuls Josué et Caleb eurent foi."
+    },
+    {
+      "id": 154,
+      "text": "Le mont Ararat est l'endroit où Moïse reçut la Loi.",
+      "answer": false,
+      "reference": "Genèse 8",
+      "note": "L'arche s'y arrêta ; la Loi fut donnée au Sinaï."
+    },
+    {
+      "id": 155,
+      "text": "Jésus resta quarante ans dans le désert avant son ministère.",
+      "answer": false,
+      "reference": "Matthieu 4",
+      "note": "Il y resta quarante jours."
+    },
+    {
+      "id": 156,
+      "text": "La manne tombait le jour du sabbat.",
+      "answer": false,
+      "reference": "Exode 16",
+      "note": "Elle ne tombait pas le sabbat ; une double portion tombait la veille."
+    },
+    {
+      "id": 157,
+      "text": "Le premier homme mentionné mort de la Bible est Adam.",
+      "answer": false,
+      "reference": "Genèse 4",
+      "note": "Abel, tué par Caïn, meurt le premier dans le récit."
+    },
+    {
+      "id": 158,
+      "text": "Salomon succéda à son fils Roboam.",
+      "answer": false,
+      "reference": "1 Rois 11",
+      "note": "C'est Roboam qui succéda à Salomon."
+    },
+    {
+      "id": 159,
+      "text": "Le prophète Élie affronta les prophètes de Baal au mont Sinaï.",
+      "answer": false,
+      "reference": "1 Rois 18",
+      "note": "Ce fut au mont Carmel."
+    },
+    {
+      "id": 160,
+      "text": "Marie, mère de Jésus, était l'épouse de Joseph d'Arimathée.",
+      "answer": false,
+      "reference": "Matthieu 1",
+      "note": "Elle était l'épouse de Joseph, le charpentier."
+    },
+    {
+      "id": 161,
+      "text": "Le roi Hérode adora l'enfant Jésus à Bethléem.",
+      "answer": false,
+      "reference": "Matthieu 2",
+      "note": "Hérode cherchait à le faire mourir."
+    },
+    {
+      "id": 162,
+      "text": "Pierre a marché sur l'eau sans jamais couler.",
+      "answer": false,
+      "reference": "Matthieu 14:30",
+      "note": "Il commença à enfoncer et cria au secours."
+    },
+    {
+      "id": 163,
+      "text": "Il y a dix apôtres dans le Nouveau Testament.",
+      "answer": false,
+      "reference": "—",
+      "note": "Jésus choisit douze apôtres."
+    },
+    {
+      "id": 164,
+      "text": "Goliath mesurait environ un mètre cinquante.",
+      "answer": false,
+      "reference": "1 Samuel 17:4",
+      "note": "Il mesurait près de trois mètres."
+    },
+    {
+      "id": 165,
+      "text": "Le veau d'or fut fabriqué par Josué pendant l'absence de Moïse.",
+      "answer": false,
+      "reference": "Exode 32",
+      "note": "Il fut fabriqué par Aaron."
+    },
+    {
+      "id": 166,
+      "text": "La tour de Babel fut bâtie après la traversée de la mer Rouge.",
+      "answer": false,
+      "reference": "Genèse 11",
+      "note": "Elle fut bâtie bien avant, aux origines des nations."
+    }
   ]
 }
