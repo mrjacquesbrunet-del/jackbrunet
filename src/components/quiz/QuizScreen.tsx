@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type ReactElement } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState, type ReactElement } from "react";
 import Link from "next/link";
 import {
   buildGame,
@@ -111,6 +111,10 @@ const IconCrown = S("M4 8l4 3.5L12 5l4 6.5L20 8l-1.4 10H5.4z");
 const IconMedal = S("M8 3l2 6M16 3l-2 6M12 21a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 14.5l1 2 2 .2-1.5 1.4.4 2-1.9-1-1.9 1 .4-2L9 16.7l2-.2z");
 const IconGames = S("M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z");
 const IconLock = S("M6 10V8a6 6 0 0 1 12 0v2M5 10h14v10H5zM12 14v3");
+const IconClock = S("M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 8v4l3 2");
+const IconFlag = S("M5 21V4M5 4h11l-1.6 3.5L16 11H5");
+const IconPlus = S("M12 6v12M6 12h12");
+const IconArrowL = S("M19 12H5M11 6l-6 6 6 6");
 
 const LETTERS = ["A", "B", "C", "D"];
 /** Couleur du badge de difficulté (très facile → extrêmement dur). */
@@ -828,140 +832,153 @@ export function QuizScreen() {
   const correctIdx = q.correct;
   const shortCoin = (n: number) => (n >= 1000000 ? `${n / 1000000}M` : n >= 1000 ? `${Math.round(n / 1000)}k` : String(n));
   const canValidate = selected !== null && !reveal && !locked;
+  const rung = step + 1;
+  const target = LADDER[step];
+  const playLvl = levelFromXp(memoXp + getVfXp() + Math.floor(coins / 500));
+  // Fenêtre de paliers autour du palier courant + couronne finale (palier 1M).
+  const lastRung = LADDER.length;
+  const winStart = Math.max(1, Math.min(rung - 2, lastRung - 5));
+  const winRungs: number[] = [];
+  for (let r = winStart; r < winStart + 5 && r <= lastRung; r++) winRungs.push(r);
+  const includesCrown = winRungs.includes(lastRung);
 
   return (
-    <div className="qzp fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden bg-night-950 text-cream [overscroll-behavior:contain] [-webkit-overflow-scrolling:touch]">
-      <style dangerouslySetInnerHTML={{ __html: PREMIUM_CSS }} />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={asset("/img/quiz/bg.jpg")} alt="" className="pointer-events-none fixed inset-0 h-full w-full object-cover opacity-20" />
-      <div className="pointer-events-none fixed inset-0 bg-gradient-to-b from-night-900/85 via-night-800/92 to-night-950/97" />
+    <div className="qm fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden text-white [overscroll-behavior:contain] [-webkit-overflow-scrolling:touch]">
+      <style dangerouslySetInnerHTML={{ __html: PLAY_CSS }} />
       {flash ? <Flash kind={flash} /> : null}
       {confetti ? <Confetti /> : null}
       {toast ? <Toast text={toast} /> : null}
       {milestone ? <Milestone text={milestone} /> : null}
 
-      <div className="relative mx-auto w-full max-w-md px-3 pb-5 pt-[calc(0.6rem+env(safe-area-inset-top))]">
-        {/* HUD */}
+      <div className="relative mx-auto w-full max-w-md px-4 pb-6 pt-[calc(0.75rem+env(safe-area-inset-top))]">
+        {/* En-tête : retour · profil · niveau/XP · gemmes */}
         <div className="flex items-center gap-2.5">
+          <button type="button" onClick={() => setPhase("hub")} aria-label="Retour" className="qm-back shrink-0">
+            <IconArrowL className="h-5 w-5" />
+          </button>
           {avatarUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={avatarUrl} alt="" className="h-11 w-11 rounded-full object-cover ring-2 ring-amber-300/70" />
+            <img src={avatarUrl} alt="" className="h-12 w-12 shrink-0 rounded-full object-cover ring-2 ring-white/40" />
           ) : (
-            <span className="grid h-11 w-11 place-items-center rounded-full bg-white/10 text-cream/70 ring-2 ring-white/15">
-              <IconUser className="h-6 w-6" />
+            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white/12 text-white/80 ring-2 ring-white/25">
+              <IconUser className="h-7 w-7" />
             </span>
           )}
           <div className="min-w-0 flex-1">
-            <p className="truncate font-game text-xs font-extrabold">{name || "Joueur"} · NIVEAU {levelFromXp(memoXp + getVfXp() + Math.floor(coins / 500)).level}</p>
-            <div className="mt-0.5 h-2 w-full overflow-hidden rounded-full bg-black/40">
-              <div className="h-full rounded-full bg-gradient-to-r from-amber-300 to-amber-500" style={{ width: "45%" }} />
+            <div className="flex items-center gap-1.5">
+              <p className="truncate font-game text-sm font-extrabold">{name || "Joueur"}</p>
+              <span className="qm-niv shrink-0">NIV. {playLvl.level}</span>
             </div>
-          </div>
-          <span className="qzp-pill"><IconCoin className="h-4 w-4 text-amber-300" /> {formatCoins(coins)}</span>
-        </div>
-
-        {/* Objectif (escalier) */}
-        <div className="relative mt-3 overflow-hidden rounded-2xl ring-1 ring-white/10">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={asset("/img/quiz/stairway.jpg")} alt="" className="absolute inset-0 h-full w-full object-cover object-top" />
-          <div className="absolute inset-0 bg-gradient-to-r from-night-950/92 via-night-950/45 to-transparent" />
-          <div className="relative flex items-center gap-2 p-3">
-            <span className="rounded-lg bg-dawn-400 text-night-950 px-2 py-0.5 font-game text-[10px] font-extrabold">OBJECTIF</span>
-            <p className="max-w-[14.5rem] text-[11px] font-semibold leading-tight text-cream/90">
-              Atteins le palier final pour remporter <span className="whitespace-nowrap font-black text-amber-300">1&nbsp;000&nbsp;000</span>
+            <div className="qm-xpbar mt-1">
+              <i style={{ width: `${Math.round((playLvl.into / playLvl.span) * 100)}%` }} />
+            </div>
+            <p className="mt-0.5 text-right font-game text-[10px] font-bold text-white/70">
+              {playLvl.into} / {playLvl.span} <span className="text-amber-300">XP</span>
             </p>
           </div>
+          <span className="qm-gem shrink-0">
+            <IconGem className="h-4 w-4 text-fuchsia-300" />
+            {shortCoin(coins)}
+            <span className="qm-gem-plus"><IconPlus className="h-3.5 w-3.5" /></span>
+          </span>
         </div>
 
-        {/* Question + échelle */}
-        <div className="mt-3 flex gap-2">
-          <div className="min-w-0 flex-1">
-            <div key={`q-${step}`} className={`qzp-card p-3.5 ${cardShake ? "qz-shake" : ""}`} style={{ animation: cardShake ? undefined : "qz-optin .35s ease-out" }}>
-              <div className="flex items-center justify-between gap-2">
-                <span className="rounded-full bg-dawn-400 text-night-950 px-3 py-1 font-game text-[11px] font-extrabold">QUESTION {step + 1}/{LADDER.length}</span>
-                <span
-                  className="truncate rounded-full px-2.5 py-1 font-game text-[10px] font-extrabold uppercase tracking-wide"
-                  style={{ background: `${TIER_COLORS[tierForRung(step + 1) - 1]}22`, color: TIER_COLORS[tierForRung(step + 1) - 1] }}
-                >
-                  {TIER_LABELS[tierForRung(step + 1) - 1]}
-                </span>
-                <span className={`ml-auto font-game text-sm font-extrabold ${timeLeft <= 10 ? "text-rose-300" : "text-cream/80"}`}>{timeLeft}s</span>
-              </div>
-              <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-black/40">
-                <div className={`h-full rounded-full ${timeLeft <= 10 ? "bg-rose-400" : "bg-amber-400"}`} style={{ width: `${timePct}%`, transition: "width 1s linear" }} />
-              </div>
-              <p className="mt-3 font-game text-base font-bold leading-snug">{q.q}</p>
-              {hint ? <p className="mt-2 rounded-xl bg-amber-400/15 px-3 py-2 text-xs text-amber-100">{hint}</p> : null}
+        {/* Carte palier : objectif + échelle + récompense */}
+        <div className="qm-card relative mt-4 overflow-hidden p-4">
+          <span className="qm-pill-o">PALIER {rung}</span>
+          <div className="mt-2 flex items-end gap-2">
+            <span className="font-game text-4xl font-black leading-none tracking-tight">{formatCoins(target)}</span>
+            <IconGem className="mb-1 h-6 w-6 text-fuchsia-400" />
+          </div>
+          <p className="mt-2 max-w-[15rem] font-game text-xs font-semibold leading-tight text-white/75">
+            Réponds correctement pour atteindre le palier suivant&nbsp;!
+          </p>
+          {/* Illustration récompense */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={asset("/img/quiz/trophy.jpg")} alt="" className="pointer-events-none absolute -right-2 -top-1 h-24 w-24 rounded-2xl object-contain opacity-95 drop-shadow-[0_6px_16px_rgba(252,211,77,.4)]" />
+          {/* Échelle horizontale des paliers */}
+          <div className="mt-3 flex items-center gap-1">
+            {winRungs.map((r, i) => (
+              <Fragment key={r}>
+                {i > 0 ? (
+                  <span className="qm-line" style={{ background: r <= step + 1 ? "linear-gradient(90deg,#a3e635,#65a30d)" : "rgba(255,255,255,.14)" }} />
+                ) : null}
+                <PalierNode r={r} step={step} final={r === lastRung} />
+              </Fragment>
+            ))}
+            {!includesCrown ? (
+              <>
+                <span className="qm-line" style={{ background: "rgba(255,255,255,.14)" }} />
+                <span className="font-game text-sm font-black text-white/45">···</span>
+                <span className="qm-line" style={{ background: "rgba(255,255,255,.14)" }} />
+                <PalierNode r={lastRung} step={step} final />
+              </>
+            ) : null}
+          </div>
+        </div>
 
-              <div className="mt-3 space-y-2">
-                {q.options.map((opt, i) => {
-                  if (removed.includes(i)) return <div key={i} className="h-[46px] rounded-xl border border-white/5 bg-white/[0.02]" />;
-                  const isSel = selected === i;
-                  const showCorrect = reveal && i === correctIdx;
-                  const showWrong = reveal && picked === i && i !== correctIdx;
-                  const state = showCorrect ? "correct" : showWrong ? "wrong" : isSel ? "sel" : "idle";
-                  return (
-                    <button key={`${step}-${i}`} type="button" disabled={reveal || locked} onClick={() => setSelected(i)} className={`qzp-opt qzp-opt-${state}`}>
-                      <span className={`qzp-opt-badge qzp-opt-badge-${state}`}>{LETTERS[i]}</span>
-                      <span className="flex-1 text-left">{opt}</span>
-                      {poll && !reveal ? <span className="text-xs font-bold text-cream/60">{poll[i]}%</span> : null}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+        {/* Carte question */}
+        <div key={`q-${step}`} className={`qm-card mt-4 p-4 ${cardShake ? "qz-shake" : ""}`} style={{ animation: cardShake ? undefined : "qz-optin .35s ease-out" }}>
+          <div className="flex items-center justify-between gap-2">
+            <span className="qm-pill-p">QUESTION {rung} / {lastRung}</span>
+            <span className={`qm-clock ${timeLeft <= 10 ? "text-rose-300" : ""}`}>
+              <IconClock className="h-4 w-4" /> {timeLeft}s
+            </span>
+          </div>
+          <div className="qm-timebar mt-2">
+            <i style={{ width: `${timePct}%`, transition: "width 1s linear", background: timeLeft <= 10 ? "linear-gradient(90deg,#fb7185,#e11d48)" : undefined }} />
           </div>
 
-          {/* Échelle verticale des paliers */}
-          <div className="w-[76px] shrink-0">
-            <div className="qzp-card max-h-[54vh] overflow-y-auto p-1.5 [scrollbar-width:none]">
-              <p className="py-1 text-center font-game text-[10px] font-extrabold text-amber-300">PALIERS</p>
-              {LADDER.slice().reverse().map((coinVal, ri) => {
-                const rung = LADDER.length - ri;
-                const cur = rung === step + 1;
-                const done = rung <= step;
-                const safe = SAFE_RUNGS.includes(rung);
-                return (
-                  <div key={rung} className={`my-0.5 flex items-center gap-1 rounded-full px-1 py-1 font-game text-[10px] font-bold ${cur ? "bg-dawn-400 text-night-950 ring-2 ring-dawn-200" : done ? "text-[#8FE23C]" : safe ? "text-amber-300" : "text-cream/45"}`}>
-                    <span className={`grid h-4 w-4 shrink-0 place-items-center rounded-full text-[9px] ${cur ? "bg-night-950 text-dawn-400" : "bg-white/15"}`}>{rung}</span>
-                    <span className="truncate">{shortCoin(coinVal)}</span>
-                  </div>
-                );
-              })}
-            </div>
+          <p className="mt-4 text-center font-game text-xl font-black leading-snug">{q.q}</p>
+          {hint ? <p className="mt-3 rounded-xl bg-amber-400/15 px-3 py-2 text-center text-xs font-semibold text-amber-100">{hint}</p> : null}
+
+          <div className="mt-4 space-y-2.5">
+            {q.options.map((opt, i) => {
+              if (removed.includes(i)) return <div key={i} className="h-[56px] rounded-2xl border border-white/8 bg-white/[0.03]" />;
+              const isSel = selected === i;
+              const showCorrect = reveal && i === correctIdx;
+              const showWrong = reveal && picked === i && i !== correctIdx;
+              const state = showCorrect ? "correct" : showWrong ? "wrong" : isSel ? "sel" : "idle";
+              return (
+                <button key={`${step}-${i}`} type="button" disabled={reveal || locked} onClick={() => setSelected(i)} className={`qm-opt ${state !== "idle" ? `qm-opt-${state}` : ""}`}>
+                  <span className="qm-opt-badge">{LETTERS[i]}</span>
+                  <span className="flex-1 text-left">{opt}</span>
+                  {poll && !reveal ? <span className="text-xs font-bold text-white/70">{poll[i]}%</span> : null}
+                </button>
+              );
+            })}
           </div>
         </div>
 
         {/* Jokers */}
         {!reveal ? (
-          <div className="mt-3 grid grid-cols-3 gap-2">
-            <JokerCard label="50/50" tip="Élimine 2" used={usedJokers.half} onClick={useHalf} tone="blue" ic={<span className="font-game text-sm font-extrabold">50</span>} />
-            <JokerCard label="Indice" tip="Coup de pouce" used={usedJokers.hint} onClick={useHint} tone="green" ic={<IconBulb className="h-5 w-5" />} />
-            <JokerCard label="Communauté" tip="Demande" used={usedJokers.poll} onClick={usePoll} tone="purple" ic={<IconPeople className="h-5 w-5" />} />
+          <div className="mt-4 grid grid-cols-3 gap-2.5">
+            <JokerCard label="50/50" title="50/50" tip="Élimine deux mauvaises réponses" used={usedJokers.half} onClick={useHalf} tone="blue" ic={null} />
+            <JokerCard label="Indice" title="INDICE" tip="Reçois un indice sur la réponse" used={usedJokers.hint} onClick={useHint} tone="gold" ic={<IconBulb className="h-7 w-7" />} />
+            <JokerCard label="Communauté" title="COMMUNAUTÉ" tip="Demande à la communauté" used={usedJokers.poll} onClick={usePoll} tone="purple" ic={<IconPeople className="h-7 w-7" />} />
           </div>
         ) : null}
 
-        {/* Action */}
-        <div className="mt-3 flex items-center gap-2">
+        {/* Actions */}
+        <div className="mt-4 flex items-center gap-2.5">
           {reveal && picked === correctIdx && step < LADDER.length - 1 ? (
             <>
-              <button type="button" onClick={walkAway} className="qzp-mini2 whitespace-nowrap">Se retirer · {shortCoin(LADDER[step])}</button>
-              <button type="button" onClick={nextQuestion} className="qzp-play flex flex-1 items-center justify-center gap-2 py-3 font-game text-lg font-black text-night-950">
+              <button type="button" onClick={walkAway} className="qm-quit whitespace-nowrap">Se retirer · {shortCoin(LADDER[step])}</button>
+              <button type="button" onClick={nextQuestion} className="qm-valid flex items-center justify-center gap-2">
                 CONTINUER · {shortCoin(LADDER[step + 1])}
               </button>
             </>
           ) : reveal ? (
-            <div className="flex-1 rounded-2xl bg-white/10 py-3 text-center font-game font-bold text-cream/80">
+            <div className="flex-1 rounded-2xl bg-white/10 py-4 text-center font-game font-black">
               {picked === correctIdx ? "Bravo !" : "Mauvaise réponse…"}
             </div>
           ) : (
             <>
-              <button type="button" onClick={() => setPhase("hub")} className="qzp-mini2 whitespace-nowrap">
-                <IconClose className="h-4 w-4" /> Quitter
+              <button type="button" onClick={() => setPhase("hub")} className="qm-quit whitespace-nowrap">
+                <IconFlag className="h-4 w-4" /> QUITTER
               </button>
-              <button type="button" disabled={!canValidate} onClick={() => selected !== null && answer(selected)}
-                className={`flex flex-1 items-center justify-center py-3.5 font-game text-lg font-black ${canValidate ? "qzp-play text-night-950" : "rounded-2xl bg-white/10 text-cream/40"}`}>
-                VALIDER LA RÉPONSE
+              <button type="button" disabled={!canValidate} onClick={() => selected !== null && answer(selected)} className="qm-valid">
+                VALIDER MA RÉPONSE
               </button>
             </>
           )}
@@ -973,12 +990,46 @@ export function QuizScreen() {
   );
 }
 
-function JokerCard({ label, tip, used, onClick, tone, ic }: { label: string; tip: string; used: boolean; onClick: () => void; tone: "blue" | "green" | "purple"; ic: ReactElement }) {
+/** Nœud de l'échelle horizontale des paliers (fait / courant / verrouillé / couronne). */
+function PalierNode({ r, step, final }: { r: number; step: number; final?: boolean }) {
+  if (final) {
+    const reached = r <= step;
+    return (
+      <span className={`qm-node qm-node-crown ${reached ? "" : "opacity-90"}`} title={`Palier ${r}`}>
+        <IconCrown className="h-4 w-4" />
+      </span>
+    );
+  }
+  if (r <= step) {
+    return (
+      <span className="qm-node qm-node-done" title={`Palier ${r} · réussi`}>
+        <IconCheck className="h-4 w-4" />
+      </span>
+    );
+  }
+  if (r === step + 1) {
+    return (
+      <span className="qm-node qm-node-cur" title={`Palier ${r} · en cours`}>
+        {r}
+      </span>
+    );
+  }
   return (
-    <button type="button" disabled={used} onClick={onClick} className={`qzp-joker qzp-joker-${tone} ${used ? "opacity-40" : ""}`}>
-      <span className="qzp-joker-ic">{ic}</span>
-      <p className="mt-1 font-game text-[11px] font-bold">{label}</p>
-      <p className="text-[9px] leading-tight text-cream/75">{used ? "Utilisé" : tip}</p>
+    <span className="qm-node qm-node-lock" title={`Palier ${r} · verrouillé`}>
+      <IconLock className="h-3.5 w-3.5" />
+    </span>
+  );
+}
+
+function JokerCard({ label, title, tip, used, onClick, tone, ic }: { label: string; title: string; tip: string; used: boolean; onClick: () => void; tone: "blue" | "gold" | "purple"; ic: ReactElement | null }) {
+  return (
+    <button type="button" disabled={used} onClick={onClick} className={`qm-joker qm-joker-${tone}`} aria-label={label}>
+      <span className="qm-joker-lab">{title}</span>
+      <div className="mt-1.5 grid h-8 place-items-center">
+        {ic ? ic : <span className="font-game text-lg font-black leading-none">50/50</span>}
+      </div>
+      <p className="mt-1 px-0.5 text-[9px] font-semibold leading-tight text-white/85">{tip}</p>
+      <span className="qm-joker-cnt">{used ? <IconClose className="h-3.5 w-3.5" /> : 1}</span>
     </button>
   );
 }
@@ -1333,6 +1384,62 @@ const PREMIUM_CSS = `
 .qzp-trail::-webkit-scrollbar{display:none}
 .qzp-mini{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 4px;border-radius:14px;background:linear-gradient(180deg,rgba(30,30,29,.9),rgba(12,12,11,.94));border:1px solid rgba(243,243,237,.08);font-family:var(--font-game);font-weight:800;font-size:12px;color:#F3F3ED}
 .qzp-mini2{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:9999px;background:rgba(243,243,237,.08);font-family:var(--font-game);font-weight:800;font-size:13px;color:#F3F3ED}
+`;
+
+/* ---------------- Thème « millionnaire » violet (écran de jeu) ---------------- */
+const PLAY_CSS = `
+.qm{background:
+  radial-gradient(120% 55% at 50% -5%, #6D28D9 0%, transparent 60%),
+  radial-gradient(70% 45% at -5% 42%, rgba(236,72,153,.4) 0%, transparent 55%),
+  radial-gradient(70% 45% at 105% 42%, rgba(236,72,153,.4) 0%, transparent 55%),
+  linear-gradient(180deg,#4C1D95 0%,#5B21B6 45%,#7E22CE 100%);
+  background-attachment:fixed;}
+.qm-back{display:grid;place-items:center;width:42px;height:42px;border-radius:9999px;background:rgba(255,255,255,.12);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 2px 6px rgba(0,0,0,.25)}
+.qm-back:active{transform:scale(.94)}
+.qm-niv{display:inline-block;padding:2px 8px;border-radius:9999px;background:linear-gradient(180deg,#8B5CF6,#6D28D9);font-family:var(--font-game);font-weight:800;font-size:10px;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+.qm-gem{display:inline-flex;align-items:center;gap:6px;padding:5px 5px 5px 12px;border-radius:9999px;background:linear-gradient(180deg,rgba(30,18,66,.92),rgba(20,10,48,.96));box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 2px 8px rgba(0,0,0,.4);font-family:var(--font-game);font-weight:900;font-size:14px;color:#fff}
+.qm-gem-plus{display:grid;place-items:center;width:26px;height:26px;border-radius:9999px;background:linear-gradient(180deg,#A855F7,#7C3AED);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
+.qm-xpbar{height:8px;border-radius:9999px;background:rgba(0,0,0,.32);overflow:hidden}
+.qm-xpbar > i{display:block;height:100%;border-radius:9999px;background:linear-gradient(90deg,#FCD34D,#F59E0B)}
+.qm-card{background:linear-gradient(180deg,rgba(49,32,110,.72),rgba(29,18,64,.9));border:1px solid rgba(167,139,250,.24);border-radius:24px;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 14px 34px rgba(23,10,54,.5)}
+.qm-pill-o{display:inline-block;padding:4px 12px;border-radius:9999px;background:linear-gradient(180deg,#FBBF24,#F59E0B);font-family:var(--font-game);font-weight:900;font-size:11px;letter-spacing:.03em;color:#4a2600;box-shadow:inset 0 1px 0 rgba(255,255,255,.45)}
+.qm-pill-p{display:inline-block;padding:5px 13px;border-radius:9999px;background:linear-gradient(180deg,#8B5CF6,#6D28D9);font-family:var(--font-game);font-weight:900;font-size:11px;letter-spacing:.03em;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.22)}
+.qm-clock{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-game);font-weight:900;font-size:15px;color:#fff}
+.qm-timebar{height:6px;border-radius:9999px;background:rgba(0,0,0,.32);overflow:hidden}
+.qm-timebar > i{display:block;height:100%;border-radius:9999px;background:linear-gradient(90deg,#FCD34D,#F59E0B)}
+.qm-node{display:grid;place-items:center;width:30px;height:30px;border-radius:9999px;font-family:var(--font-game);font-weight:900;font-size:12px;flex:0 0 auto}
+.qm-node-done{background:linear-gradient(180deg,#a3e635,#65a30d);color:#183a06;box-shadow:inset 0 1px 0 rgba(255,255,255,.45)}
+.qm-node-cur{background:linear-gradient(180deg,#FCD34D,#F59E0B);color:#4a2600;box-shadow:0 0 0 3px rgba(252,211,77,.35),inset 0 1px 0 rgba(255,255,255,.5);animation:qm-pulse 1.2s ease-in-out infinite}
+.qm-node-lock{background:rgba(255,255,255,.12);color:rgba(255,255,255,.55)}
+.qm-node-crown{background:linear-gradient(180deg,#FDE68A,#F59E0B);color:#4a2600;box-shadow:0 0 12px rgba(252,211,77,.55),inset 0 1px 0 rgba(255,255,255,.5)}
+.qm-line{height:3px;flex:1;border-radius:2px;min-width:6px}
+@keyframes qm-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.qm-opt{display:flex;align-items:center;gap:12px;width:100%;padding:13px 14px;border-radius:16px;font-family:var(--font-game);font-weight:800;font-size:15px;background:linear-gradient(180deg,rgba(76,52,140,.5),rgba(49,32,110,.68));border:1px solid rgba(167,139,250,.28);color:#fff;transition:transform .1s,background .15s,box-shadow .15s}
+.qm-opt:active{transform:scale(.99)}
+.qm-opt:disabled{cursor:default}
+.qm-opt-badge{display:grid;place-items:center;width:34px;height:34px;flex:0 0 auto;border-radius:9999px;background:linear-gradient(180deg,#8B5CF6,#5B21B6);color:#fff;font-weight:900;box-shadow:inset 0 1px 0 rgba(255,255,255,.28)}
+.qm-opt-sel{background:linear-gradient(180deg,#A3E635,#65A30D);border-color:#bef264;color:#18320a;box-shadow:0 0 0 2px rgba(163,230,53,.55),0 8px 18px rgba(101,163,9,.4)}
+.qm-opt-sel .qm-opt-badge{background:#fff;color:#3f6212}
+.qm-opt-correct{background:linear-gradient(180deg,#22c55e,#15803d);border-color:#4ade80;color:#fff}
+.qm-opt-correct .qm-opt-badge{background:#fff;color:#15803d}
+.qm-opt-wrong{background:linear-gradient(180deg,#ef4444,#991b1b);border-color:#f87171;color:#fff}
+.qm-opt-wrong .qm-opt-badge{background:#fff;color:#991b1b}
+.qm-joker{position:relative;border-radius:18px;padding:9px 6px 12px;text-align:center;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 6px 14px rgba(23,10,54,.4)}
+.qm-joker:active{transform:translateY(1px)}
+.qm-joker:disabled{opacity:.5}
+.qm-joker-blue{background:linear-gradient(180deg,#3B82F6,#1D4ED8)}
+.qm-joker-gold{background:linear-gradient(180deg,#F59E0B,#D97706)}
+.qm-joker-purple{background:linear-gradient(180deg,#A855F7,#7C3AED)}
+.qm-joker-lab{display:inline-block;padding:2px 10px;border-radius:9999px;background:rgba(255,255,255,.92);font-family:var(--font-game);font-weight:900;font-size:9px;letter-spacing:.04em}
+.qm-joker-blue .qm-joker-lab{color:#1D4ED8}
+.qm-joker-gold .qm-joker-lab{color:#B45309}
+.qm-joker-purple .qm-joker-lab{color:#6D28D9}
+.qm-joker-cnt{display:grid;place-items:center;width:24px;height:24px;margin:5px auto 0;border-radius:9999px;background:rgba(0,0,0,.28);font-family:var(--font-game);font-weight:900;font-size:12px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
+.qm-quit{display:inline-flex;align-items:center;gap:8px;padding:15px 18px;border-radius:16px;background:linear-gradient(180deg,rgba(30,18,66,.92),rgba(20,10,48,.96));font-family:var(--font-game);font-weight:900;font-size:14px;letter-spacing:.02em;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+.qm-quit:active{transform:translateY(1px)}
+.qm-valid{flex:1;border-radius:16px;padding:16px;font-family:var(--font-game);font-weight:900;font-size:17px;letter-spacing:.02em;background:linear-gradient(180deg,#FCD34D,#F59E0B);color:#4a2600;box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 6px 0 #b45309}
+.qm-valid:active{transform:translateY(3px);box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 3px 0 #b45309}
+.qm-valid:disabled{background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.1));color:rgba(255,255,255,.4);box-shadow:none}
 `;
 
 /* ---------------- Effets (animations) ---------------- */
