@@ -412,3 +412,12 @@ html.profile-jour body {
 @media (prefers-reduced-motion: reduce) {
   .nav-nudge { animation: none; }
 }
+
+/* Fond violet « arcade » pour l'accueil du jeu Mémoriser (cohérence avec les autres jeux). */
+.mem-hub {
+  background:
+    radial-gradient(120% 45% at 50% -5%, #6D28D9 0%, transparent 60%),
+    radial-gradient(60% 40% at -5% 30%, rgba(236,72,153,.35) 0%, transparent 55%),
+    radial-gradient(60% 40% at 105% 30%, rgba(236,72,153,.35) 0%, transparent 55%),
+    linear-gradient(180deg, #4C1D95 0%, #5B21B6 45%, #7E22CE 100%) !important;
+}

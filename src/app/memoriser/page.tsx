@@ -67,14 +67,14 @@ function Word({
   onReveal: () => void;
 }) {
   if (!hidden || revealed) {
-    return <span className={hidden ? "text-dawn-300" : undefined}>{word} </span>;
+    return <span className={hidden ? "text-amber-300" : undefined}>{word} </span>;
   }
   return (
     <button
       type="button"
       onClick={onReveal}
       aria-label="Révéler le mot"
-      className="mx-0.5 inline-block h-[1.15em] translate-y-[0.2em] rounded-md bg-cream/15 align-baseline transition-colors hover:bg-cream/25"
+      className="mx-0.5 inline-block h-[1.15em] translate-y-[0.2em] rounded-md bg-white/15 align-baseline transition-colors hover:bg-white/25"
       style={{ width: `${Math.max(2, word.length * 0.62)}ch` }}
     />
   );
@@ -100,11 +100,11 @@ function Trainer({ item, onClose }: { item: MemorizeItem; onClose: () => void })
   const finished = item.level >= MEMORIZE_MAX_LEVEL;
 
   return (
-    <div className="mt-4 rounded-2xl border border-dawn-400/25 bg-night-950/60 p-4">
-      <p className="text-[11px] font-bold uppercase tracking-wide text-dawn-300">
+    <div className="mt-4 rounded-2xl border border-amber-400/25 bg-[#2e1065]/60 p-4">
+      <p className="text-[11px] font-bold uppercase tracking-wide text-amber-300">
         {finished ? "Révision — par cœur" : `Entraînement — étape ${level}/${MEMORIZE_MAX_LEVEL} · ${LEVEL_LABELS[level]}`}
       </p>
-      <p className="mt-3 text-[16px] leading-relaxed text-cream/90">
+      <p className="mt-3 text-[16px] leading-relaxed text-white/90">
         {words.map((w, i) => (
           <Word
             key={i}
@@ -121,8 +121,8 @@ function Trainer({ item, onClose }: { item: MemorizeItem; onClose: () => void })
           />
         ))}
       </p>
-      <p className="mt-2 text-xs font-semibold text-cream/45">{item.reference}</p>
-      <p className="mt-1 text-xs text-cream/40">
+      <p className="mt-2 text-xs font-semibold text-white/45">{item.reference}</p>
+      <p className="mt-1 text-xs text-white/40">
         Récite à voix haute, tape sur un trou si un mot t&apos;échappe.
       </p>
       <div className="mt-4 flex flex-wrap items-center gap-2.5">
@@ -131,20 +131,20 @@ function Trainer({ item, onClose }: { item: MemorizeItem; onClose: () => void })
             <button
               type="button"
               onClick={validate}
-              className="rounded-full bg-dawn-400 px-4 py-2 text-sm font-bold text-night-950"
+              className="rounded-full bg-amber-400 px-4 py-2 text-sm font-bold text-night-950"
             >
               {finished ? "Révision faite" : "Je l'ai récité"}
             </button>
             <button
               type="button"
               onClick={revealAll}
-              className="rounded-full border border-cream/20 px-4 py-2 text-sm font-semibold text-cream/75"
+              className="rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white/75"
             >
               Tout révéler
             </button>
           </>
         ) : (
-          <p className="text-sm font-semibold text-dawn-300">
+          <p className="text-sm font-semibold text-amber-300">
             {item.level >= MEMORIZE_MAX_LEVEL
               ? "Bravo, ce verset est ancré dans ton cœur."
               : "Bien joué — étape validée."}
@@ -153,7 +153,7 @@ function Trainer({ item, onClose }: { item: MemorizeItem; onClose: () => void })
         <button
           type="button"
           onClick={onClose}
-          className="ml-auto rounded-full border border-cream/15 px-4 py-2 text-sm font-semibold text-cream/60"
+          className="ml-auto rounded-full border border-white/15 px-4 py-2 text-sm font-semibold text-white/60"
         >
           Fermer
         </button>
@@ -177,9 +177,9 @@ function ReviewDeck({ due }: { due: MemorizeItem[] }) {
   if (!item) {
     if (index === 0) return null;
     return (
-      <div className="mt-6 rounded-3xl border border-dawn-400/35 bg-dawn-400/[0.07] p-5 text-center">
-        <p className="font-display text-lg font-bold text-cream">Révision terminée</p>
-        <p className="mt-1 text-sm text-cream/60">
+      <div className="mt-6 rounded-3xl border border-amber-400/35 bg-amber-400/[0.07] p-5 text-center">
+        <p className="font-display text-lg font-bold text-white">Révision terminée</p>
+        <p className="mt-1 text-sm text-white/60">
           Bien joué — la Parole reste vivante dans ton cœur.
         </p>
       </div>
@@ -193,16 +193,16 @@ function ReviewDeck({ due }: { due: MemorizeItem[] }) {
   }
 
   return (
-    <div className="mt-6 rounded-3xl border border-dawn-400/35 bg-dawn-400/[0.07] p-5">
+    <div className="mt-6 rounded-3xl border border-amber-400/35 bg-amber-400/[0.07] p-5">
       <div className="flex items-center justify-between">
-        <p className="text-[11px] font-bold uppercase tracking-wide text-dawn-300">
+        <p className="text-[11px] font-bold uppercase tracking-wide text-amber-300">
           Révision — anciens versets
         </p>
-        <span className="text-xs font-semibold text-cream/45">
+        <span className="text-xs font-semibold text-white/45">
           {Math.min(index + 1, due.length)} / {due.length}
         </span>
       </div>
-      <p className="mt-3 text-[16px] leading-relaxed text-cream/90">
+      <p className="mt-3 text-[16px] leading-relaxed text-white/90">
         {words.map((w, i) => (
           <Word
             key={`${item.id}-${i}`}
@@ -220,7 +220,7 @@ function ReviewDeck({ due }: { due: MemorizeItem[] }) {
         ))}
       </p>
       {/* La référence, en dessous, comme repère */}
-      <p className="mt-2 text-sm font-bold text-dawn-300">{item.reference}</p>
+      <p className="mt-2 text-sm font-bold text-amber-300">{item.reference}</p>
       <div className="mt-4 flex flex-wrap items-center gap-2.5">
         <button
           type="button"
@@ -228,7 +228,7 @@ function ReviewDeck({ due }: { due: MemorizeItem[] }) {
             markReviewed(item.id);
             next();
           }}
-          className="rounded-full bg-dawn-400 px-4 py-2 text-sm font-bold text-night-950"
+          className="rounded-full bg-amber-400 px-4 py-2 text-sm font-bold text-night-950"
         >
           Je m&apos;en souviens
         </button>
@@ -236,7 +236,7 @@ function ReviewDeck({ due }: { due: MemorizeItem[] }) {
           <button
             type="button"
             onClick={() => setShown(true)}
-            className="rounded-full border border-cream/20 px-4 py-2 text-sm font-semibold text-cream/75"
+            className="rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white/75"
           >
             Tout révéler
           </button>
@@ -247,7 +247,7 @@ function ReviewDeck({ due }: { due: MemorizeItem[] }) {
               regressMemorize(item.id);
               next();
             }}
-            className="rounded-full border border-cream/20 px-4 py-2 text-sm font-semibold text-cream/75"
+            className="rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white/75"
           >
             À retravailler
           </button>
@@ -407,7 +407,7 @@ export default function MemoriserPage() {
   // En partie : on n'affiche que le jeu (comme les autres jeux, plein écran).
   if (gaming) {
     return (
-      <div className="dark-ctx min-h-screen bg-night-950 pb-24 pt-24 text-cream sm:pt-28">
+      <div className="dark-ctx min-h-screen mem-hub pb-24 pt-24 text-white sm:pt-28">
         <PlansDarkBg />
         <div className="container-x mx-auto max-w-2xl">
           <VerseGame items={items} onClose={() => setGaming(false)} />
@@ -417,14 +417,14 @@ export default function MemoriserPage() {
   }
 
   return (
-    <div className="dark-ctx min-h-screen bg-night-950 pb-24 pt-24 text-cream sm:pt-28">
+    <div className="dark-ctx min-h-screen mem-hub pb-24 pt-24 text-white sm:pt-28">
       <PlansDarkBg />
       <div className="container-x mx-auto max-w-2xl">
-        <Link href="/bible" className="text-xs font-semibold text-cream/50 hover:text-cream/80">
+        <Link href="/bible" className="text-xs font-semibold text-white/50 hover:text-white/80">
           ← Retour à la Bible
         </Link>
         {/* ---------- Hub premium (or / ambre) ---------- */}
-        <section className="relative mt-3 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-night-800 via-night-900 to-night-950 p-4 shadow-2xl">
+        <section className="relative mt-3 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#3b1d6e] via-[#2e1065] to-[#1c0b40] p-4 shadow-2xl">
           <div className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full bg-amber-400/15 blur-3xl" />
 
           {/* Profil joueur */}
@@ -434,7 +434,7 @@ export default function MemoriserPage() {
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={avatar} alt="" className="h-14 w-14 rounded-full object-cover shadow-lg ring-2 ring-amber-300/70" />
               ) : (
-                <span className="grid h-14 w-14 place-items-center rounded-full bg-white/10 text-cream/70 ring-2 ring-white/15">
+                <span className="grid h-14 w-14 place-items-center rounded-full bg-white/10 text-white/70 ring-2 ring-white/15">
                   <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM5 20a7 7 0 0 1 14 0" /></svg>
                 </span>
               )}
@@ -446,7 +446,7 @@ export default function MemoriserPage() {
                 <div className="h-full rounded-full bg-gradient-to-r from-amber-300 to-amber-500" style={{ width: `${Math.round((lvl.into / lvl.span) * 100)}%` }} />
               </div>
             </div>
-            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-night-800 px-3 py-1.5 font-game text-xs font-extrabold text-amber-300 ring-1 ring-white/10">
+            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#3b1d6e] px-3 py-1.5 font-game text-xs font-extrabold text-amber-300 ring-1 ring-white/10">
               Record {record}
             </span>
           </div>
@@ -465,7 +465,7 @@ export default function MemoriserPage() {
               <br />
               <span className="text-amber-300">DES VERSETS</span>
             </h1>
-            <p className="mt-2 max-w-[16rem] font-game text-sm font-semibold text-cream/70">
+            <p className="mt-2 max-w-[16rem] font-game text-sm font-semibold text-white/70">
               Grave la Parole dans ton cœur, manche après manche.
             </p>
           </div>
@@ -478,7 +478,7 @@ export default function MemoriserPage() {
               </span>
               <div className="min-w-0">
                 <p className="font-game text-xs font-extrabold text-amber-300">OBJECTIF</p>
-                <p className="text-[11px] leading-tight text-cream/60">Chaque verset par cœur, étape par étape.</p>
+                <p className="text-[11px] leading-tight text-white/60">Chaque verset par cœur, étape par étape.</p>
               </div>
             </div>
             <div className="flex items-center gap-2.5 rounded-2xl border border-amber-400/40 bg-white/[0.04] p-3.5">
@@ -496,15 +496,15 @@ export default function MemoriserPage() {
           <div className="mt-3 grid grid-cols-3 gap-2 text-center">
             <div className="rounded-2xl bg-white/[0.06] py-3">
               <p className="font-game text-lg font-extrabold text-amber-300">{learned}</p>
-              <p className="text-[10px] font-bold uppercase tracking-wide text-cream/50">Appris</p>
+              <p className="text-[10px] font-bold uppercase tracking-wide text-white/50">Appris</p>
             </div>
             <div className="rounded-2xl bg-white/[0.06] py-3">
               <p className="font-game text-lg font-extrabold text-amber-300">{inProgress}</p>
-              <p className="text-[10px] font-bold uppercase tracking-wide text-cream/50">En cours</p>
+              <p className="text-[10px] font-bold uppercase tracking-wide text-white/50">En cours</p>
             </div>
             <div className="rounded-2xl bg-white/[0.06] py-3">
               <p className="font-game text-lg font-extrabold text-amber-300">{streak}</p>
-              <p className="text-[10px] font-bold uppercase tracking-wide text-cream/50">Série</p>
+              <p className="text-[10px] font-bold uppercase tracking-wide text-white/50">Série</p>
             </div>
           </div>
 
@@ -523,7 +523,7 @@ export default function MemoriserPage() {
             {items.length > 0 ? "CONTINUER" : "JOUER"}
           </button>
           {items.length === 0 ? (
-            <p className="mt-2 text-center font-game text-xs text-cream/55">
+            <p className="mt-2 text-center font-game text-xs text-white/55">
               Ajoute d&apos;abord un verset pour lancer une partie.
             </p>
           ) : null}
@@ -536,7 +536,7 @@ export default function MemoriserPage() {
 
         {/* Ajout par référence */}
         <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-          <label htmlFor="memo-ref" className="text-[11px] font-bold uppercase tracking-wide text-cream/45">
+          <label htmlFor="memo-ref" className="text-[11px] font-bold uppercase tracking-wide text-white/45">
             Ajouter un verset
           </label>
           <div className="mt-2 flex gap-2">
@@ -549,13 +549,13 @@ export default function MemoriserPage() {
               }}
               onKeyDown={(e) => e.key === "Enter" && add()}
               placeholder="Ex. Jean 3:16 ou Psaume 23:1-3"
-              className="min-w-0 flex-1 rounded-full border border-white/15 bg-night-900 px-4 py-2.5 text-sm text-cream placeholder:text-cream/35 focus:border-dawn-400/60 focus:outline-none"
+              className="min-w-0 flex-1 rounded-full border border-white/15 bg-[#2e1065] px-4 py-2.5 text-sm text-white placeholder:text-white/35 focus:border-amber-400/60 focus:outline-none"
             />
             <button
               type="button"
               onClick={add}
               disabled={state === "loading"}
-              className="shrink-0 rounded-full bg-dawn-400 px-5 py-2.5 text-sm font-bold text-night-950 disabled:opacity-50"
+              className="shrink-0 rounded-full bg-amber-400 px-5 py-2.5 text-sm font-bold text-night-950 disabled:opacity-50"
             >
               {state === "loading" ? "…" : "Ajouter"}
             </button>
@@ -566,9 +566,9 @@ export default function MemoriserPage() {
             </p>
           ) : null}
           {state === "duplicate" ? (
-            <p className="mt-2 text-xs text-cream/55">Ce verset est déjà dans ta liste.</p>
+            <p className="mt-2 text-xs text-white/55">Ce verset est déjà dans ta liste.</p>
           ) : null}
-          <p className="mt-2 text-xs text-cream/40">
+          <p className="mt-2 text-xs text-white/40">
             Astuce : depuis la Bible, tape sur un verset puis « Mémoriser ».
           </p>
         </div>
@@ -582,7 +582,7 @@ export default function MemoriserPage() {
             </svg>
             <div>
               <p className="font-game text-2xl font-bold leading-none text-[#FB923C]">{streak}</p>
-              <p className="mt-1 font-game text-[11px] font-bold uppercase tracking-wide text-cream/55">
+              <p className="mt-1 font-game text-[11px] font-bold uppercase tracking-wide text-white/55">
                 {streak > 1 ? "jours de suite" : "jour de suite"}
               </p>
             </div>
@@ -608,9 +608,9 @@ export default function MemoriserPage() {
             </div>
             <div>
               <p className="font-game text-2xl font-bold leading-none text-[#38BDF8]">
-                {Math.min(dailyXp, DAILY_GOAL)}<span className="text-sm text-cream/50">/{DAILY_GOAL}</span>
+                {Math.min(dailyXp, DAILY_GOAL)}<span className="text-sm text-white/50">/{DAILY_GOAL}</span>
               </p>
-              <p className="mt-1 font-game text-[11px] font-bold uppercase tracking-wide text-cream/55">
+              <p className="mt-1 font-game text-[11px] font-bold uppercase tracking-wide text-white/55">
                 objectif du jour
               </p>
             </div>
@@ -621,7 +621,7 @@ export default function MemoriserPage() {
         <section className="mt-8">
           <h2 className="font-game text-2xl font-bold">
             Tes <span className="text-[#FBBF24]">trophées</span>
-            <span className="ml-2 align-middle font-game text-sm font-bold text-cream/45">
+            <span className="ml-2 align-middle font-game text-sm font-bold text-white/45">
               {unlockedIds.length}/{BADGES.length}
             </span>
           </h2>
@@ -652,14 +652,14 @@ export default function MemoriserPage() {
                       </span>
                     ) : null}
                     {!on ? (
-                      <span className="absolute -bottom-1 -right-1 grid h-5 w-5 place-items-center rounded-full bg-night-900">
-                        <svg viewBox="0 0 24 24" className="h-3 w-3 fill-none stroke-cream/40" strokeWidth={2.2}>
+                      <span className="absolute -bottom-1 -right-1 grid h-5 w-5 place-items-center rounded-full bg-[#2e1065]">
+                        <svg viewBox="0 0 24 24" className="h-3 w-3 fill-none stroke-white/40" strokeWidth={2.2}>
                           <path d="M7 10V8a5 5 0 0 1 10 0v2M6 10h12v10H6z" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       </span>
                     ) : null}
                   </div>
-                  <p className={`mt-1.5 font-game text-[10px] font-bold leading-tight ${on ? "text-cream/80" : "text-cream/35"}`}>
+                  <p className={`mt-1.5 font-game text-[10px] font-bold leading-tight ${on ? "text-white/80" : "text-white/35"}`}>
                     {b.title}
                   </p>
                 </div>
@@ -676,7 +676,7 @@ export default function MemoriserPage() {
           <h2 className="font-game text-2xl font-bold">
             Parcours <span className="text-[#FB7185]">à débloquer</span>
           </h2>
-          <p className="mt-1 font-game text-sm text-cream/55">
+          <p className="mt-1 font-game text-sm text-white/55">
             Des versets choisis pour la vie chrétienne — monte de niveau au jeu pour tout débloquer.
           </p>
           <div className="mt-4 space-y-3">
@@ -715,14 +715,14 @@ export default function MemoriserPage() {
                       <span className="block font-game text-base font-bold leading-tight">
                         {pack.title}
                       </span>
-                      <span className="mt-0.5 block font-game text-xs text-cream/55">
+                      <span className="mt-0.5 block font-game text-xs text-white/55">
                         {locked
                           ? `Atteins le niveau ${pack.level} au jeu pour débloquer.`
                           : pack.subtitle}
                       </span>
                     </span>
                     {locked ? (
-                      <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 fill-none stroke-cream/35" strokeWidth={1.8}>
+                      <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 fill-none stroke-white/35" strokeWidth={1.8}>
                         <path d="M7 10V8a5 5 0 0 1 10 0v2M6 10h12v10H6z" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     ) : (
@@ -738,15 +738,15 @@ export default function MemoriserPage() {
                         const added = memorizedRefs.has(r.toLowerCase());
                         return (
                           <div key={r} className="flex items-center justify-between gap-3">
-                            <span className="text-sm font-semibold text-cream/85">{r}</span>
+                            <span className="text-sm font-semibold text-white/85">{r}</span>
                             <button
                               type="button"
                               disabled={added}
                               onClick={() => addByReference(r)}
                               className={`rounded-full px-3.5 py-1.5 text-xs font-bold ${
                                 added
-                                  ? "border border-dawn-400/40 text-dawn-300"
-                                  : "bg-dawn-400 text-night-950"
+                                  ? "border border-amber-400/40 text-amber-300"
+                                  : "bg-amber-400 text-night-950"
                               }`}
                             >
                               {added ? "Ajouté" : "Ajouter"}
@@ -758,12 +758,12 @@ export default function MemoriserPage() {
                         <button
                           type="button"
                           onClick={() => addPack(pack.refs)}
-                          className="mt-1 w-full rounded-full border border-cream/20 px-4 py-2 text-sm font-bold text-cream/80"
+                          className="mt-1 w-full rounded-full border border-white/20 px-4 py-2 text-sm font-bold text-white/80"
                         >
                           Tout ajouter à ma liste
                         </button>
                       ) : (
-                        <p className="mt-1 text-center text-xs font-semibold text-dawn-300">
+                        <p className="mt-1 text-center text-xs font-semibold text-amber-300">
                           Parcours complet dans ta liste — joue pour l&apos;ancrer !
                         </p>
                       )}
@@ -781,10 +781,10 @@ export default function MemoriserPage() {
         {/* Liste des versets */}
         {items.length === 0 ? (
           <div className="mt-8 rounded-3xl border border-white/8 bg-white/[0.03] p-8 text-center">
-            <p className="font-display text-lg font-bold text-cream/85">
+            <p className="font-display text-lg font-bold text-white/85">
               Commence par ton premier verset
             </p>
-            <p className="mt-1 text-sm text-cream/55">
+            <p className="mt-1 text-sm text-white/55">
               Par exemple Jean 3:16, Philippiens 4:13 ou Psaume 23:1.
             </p>
           </div>
@@ -796,20 +796,20 @@ export default function MemoriserPage() {
                 <li
                   key={it.id}
                   className={`rounded-3xl border p-5 ${
-                    memorized ? "border-dawn-400/40 bg-dawn-400/[0.06]" : "border-white/8 bg-white/[0.04]"
+                    memorized ? "border-amber-400/40 bg-amber-400/[0.06]" : "border-white/8 bg-white/[0.04]"
                   }`}
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
                       <p className="font-display text-lg font-bold leading-tight">{it.reference}</p>
-                      <p className="mt-1 line-clamp-2 text-sm text-cream/60">{it.text}</p>
+                      <p className="mt-1 line-clamp-2 text-sm text-white/60">{it.text}</p>
                     </div>
                     <button
                       type="button"
                       onClick={() => removeMemorizeVerse(it.id)}
                       aria-label="Retirer ce verset"
                       title="Retirer"
-                      className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-white/10 text-cream/45 hover:text-cream/80"
+                      className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-white/10 text-white/45 hover:text-white/80"
                     >
                       <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2}>
                         <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
@@ -824,12 +824,12 @@ export default function MemoriserPage() {
                         <span
                           key={i}
                           className={`h-1.5 w-6 rounded-full ${
-                            i < it.level ? "bg-dawn-400" : "bg-cream/15"
+                            i < it.level ? "bg-amber-400" : "bg-white/15"
                           }`}
                         />
                       ))}
                     </div>
-                    <span className={`text-xs font-semibold ${memorized ? "text-dawn-300" : "text-cream/45"}`}>
+                    <span className={`text-xs font-semibold ${memorized ? "text-amber-300" : "text-white/45"}`}>
                       {memorized ? "Mémorisé" : LEVEL_LABELS[it.level]}
                     </span>
                   </div>
@@ -842,8 +842,8 @@ export default function MemoriserPage() {
                       onClick={() => setTraining(it.id)}
                       className={`mt-4 rounded-full px-4 py-2 text-sm font-bold ${
                         memorized
-                          ? "border border-dawn-400/40 text-dawn-300"
-                          : "bg-dawn-400 text-night-950"
+                          ? "border border-amber-400/40 text-amber-300"
+                          : "bg-amber-400 text-night-950"
                       }`}
                     >
                       {memorized ? "Réviser" : "S'entraîner"}
