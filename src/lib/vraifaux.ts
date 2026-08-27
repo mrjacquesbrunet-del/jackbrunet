@@ -64,3 +64,42 @@ export function recordVf(score: number, points: number): { best: number } {
   write(XP_KEY, getVfXp() + Math.max(0, points));
   return { best };
 }
+
+/* -------- Reprise de partie (si on quitte sans finir) -------- */
+const VF_PROGRESS_KEY = "jb.vf.progress.v1";
+export type VfProgress = {
+  deck: VFItem[];
+  idx: number;
+  lives: number;
+  score: number;
+  combo: number;
+  points: number;
+  savedAt: number;
+};
+export function saveVfProgress(p: VfProgress): void {
+  try {
+    localStorage.setItem(VF_PROGRESS_KEY, JSON.stringify(p));
+  } catch {
+    /* stockage indisponible */
+  }
+}
+export function getVfProgress(): VfProgress | null {
+  try {
+    const raw = localStorage.getItem(VF_PROGRESS_KEY);
+    if (!raw) return null;
+    const p = JSON.parse(raw) as VfProgress;
+    if (!p || !Array.isArray(p.deck) || p.deck.length === 0) return null;
+    if (typeof p.idx !== "number" || p.idx < 0 || p.idx >= p.deck.length) return null;
+    if (typeof p.lives !== "number" || p.lives <= 0) return null;
+    return p;
+  } catch {
+    return null;
+  }
+}
+export function clearVfProgress(): void {
+  try {
+    localStorage.removeItem(VF_PROGRESS_KEY);
+  } catch {
+    /* ignore */
+  }
+}

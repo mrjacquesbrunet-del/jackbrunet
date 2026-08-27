@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { buildDeck, recordVf, getVfBest, getVfXp, VF_LIVES, VF_TIME, type VFItem } from "@/lib/vraifaux";
+import { buildDeck, recordVf, getVfBest, getVfXp, saveVfProgress, getVfProgress, clearVfProgress, VF_LIVES, VF_TIME, type VFItem, type VfProgress } from "@/lib/vraifaux";
 import { getMemorizeXp, levelFromXp } from "@/lib/memorize";
 import { getQuizCoins } from "@/lib/quiz";
 import { getSupabase } from "@/lib/supabase";
@@ -70,10 +70,12 @@ export function VraiFauxScreen() {
   const [name, setName] = useState("");
   const [avatar, setAvatar] = useState<string | null>(null);
   const [xp, setXp] = useState(0);
+  const [resumable, setResumable] = useState<VfProgress | null>(null);
   const locked = reveal;
 
   useEffect(() => {
     setBest(getVfBest());
+    setResumable(getVfProgress());
     setXp(getMemorizeXp() + getVfXp() + Math.floor(getQuizCoins() / 500));
     submitGameScore("vraifaux", getVfXp());
     (async () => {
@@ -114,6 +116,8 @@ export function VraiFauxScreen() {
   const cur = deck[idx];
 
   const start = () => {
+    clearVfProgress();
+    setResumable(null);
     const d = buildDeck();
     setDeck(d);
     setIdx(0);
@@ -128,13 +132,38 @@ export function VraiFauxScreen() {
     buzz(20);
   };
 
+  // Reprend la partie sauvegardée là où elle s'était arrêtée.
+  const resume = () => {
+    const p = resumable;
+    if (!p) return;
+    setDeck(p.deck);
+    setIdx(p.idx);
+    setLives(p.lives);
+    setScore(p.score);
+    setCombo(p.combo);
+    setPoints(p.points);
+    setPicked(null);
+    setReveal(false);
+    setTimeLeft(VF_TIME);
+    setPhase("play");
+    buzz(15);
+  };
+
   const end = useCallback((finalScore: number, finalPoints: number) => {
     setPhase("over");
+    clearVfProgress();
+    setResumable(null);
     const res = recordVf(finalScore, finalPoints);
     setBest(res.best);
     setXp(getMemorizeXp() + getVfXp() + Math.floor(getQuizCoins() / 500));
     submitGameScore("vraifaux", getVfXp());
   }, []);
+
+  // Sauvegarde continue de la partie (au début de chaque affirmation).
+  useEffect(() => {
+    if (phase !== "play" || deck.length === 0 || reveal) return;
+    saveVfProgress({ deck, idx, lives, score, combo, points, savedAt: Date.now() });
+  }, [phase, deck, idx, lives, score, combo, points, reveal]);
 
   const doFlash = (k: "good" | "bad") => {
     setFlash(null);
@@ -278,13 +307,28 @@ export function VraiFauxScreen() {
             </div>
           </div>
 
+          {/* Reprise : si une partie a été quittée sans être finie */}
+          {resumable ? (
+            <button
+              type="button"
+              onClick={resume}
+              className="vfp-play mt-4 flex w-full items-center justify-center gap-3 py-4 font-game text-xl font-black"
+            >
+              {Path(Ico.play, "h-6 w-6", 2.4)} REPRENDRE · score {resumable.score}
+            </button>
+          ) : null}
+
           {/* JOUER */}
           <button
             type="button"
             onClick={start}
-            className="vfp-play mt-4 flex w-full items-center justify-center gap-3 py-4 font-game text-2xl font-black"
+            className={
+              resumable
+                ? "mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-night-900/15 bg-white/70 py-3 font-game text-sm font-bold text-night-900"
+                : "vfp-play mt-4 flex w-full items-center justify-center gap-3 py-4 font-game text-2xl font-black"
+            }
           >
-            {Path(Ico.play, "h-6 w-6", 2.4)} JOUER
+            {resumable ? "Nouvelle partie" : <>{Path(Ico.play, "h-6 w-6", 2.4)} JOUER</>}
           </button>
 
           <Link
@@ -348,7 +392,14 @@ export function VraiFauxScreen() {
       <div className="relative mx-auto flex min-h-full w-full max-w-md flex-col px-4 pb-8 pt-[calc(0.6rem+env(safe-area-inset-top))]">
         {/* HUD */}
         <div className="flex items-center gap-2.5">
-          <div className="flex-1"><Hud compact /></div>
+          <Link
+            href="/jeux"
+            aria-label="Quitter vers l'accueil des jeux"
+            className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-night-900/[0.06] text-night-900/70 ring-1 ring-night-900/10"
+          >
+            {Path(Ico.close, "h-5 w-5")}
+          </Link>
+          <div className="min-w-0 flex-1"><Hud compact /></div>
           <span className="vfp-pill">Score {score}</span>
         </div>
 
