@@ -31,3 +31,6 @@ next-env.d.ts
 .vscode
 .idea
 scratch-android/
+
+# Fichiers de travail temporaires (captures, scripts de session)
+scratchpad/
