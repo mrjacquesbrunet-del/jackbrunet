@@ -26,7 +26,6 @@ import {
 import { resolveRef, getBook } from "@/lib/bible-client";
 import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
 import { VerseGame } from "@/components/memorize/VerseGame";
-import { asset } from "@/lib/asset";
 import { WeeklyChampions } from "@/components/memorize/WeeklyChampions";
 import { VERSE_PACKS } from "@/config/verse-packs";
 import { getSupabase } from "@/lib/supabase";
@@ -466,19 +465,20 @@ export default function MemoriserPage() {
             className="relative mt-4 overflow-hidden rounded-2xl border border-white/12 p-4"
             style={{ background: "radial-gradient(120% 120% at 100% 0%, rgba(251,146,60,.28), transparent 55%), linear-gradient(135deg,#5a2d9c 0%,#3b1d6e 62%,#2e1065 100%)" }}
           >
+            <svg viewBox="0 0 24 24" className="pointer-events-none absolute -right-3 -top-2 h-32 w-32 text-amber-300/10" fill="none" stroke="currentColor" strokeWidth={1.2}>
+              <path d="M4 5a2 2 0 0 1 2-2h6v16H6a2 2 0 0 0-2 2zM20 5a2 2 0 0 0-2-2h-6v16h6a2 2 0 0 1 2 2z" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
             <span className="inline-block rounded-lg bg-amber-400 px-3 py-0.5 font-game text-[10px] font-extrabold text-night-950">LE JEU DE LA PAROLE</span>
-            <div className="relative max-w-[54%]">
-              <h1 className="mt-2 font-game text-[1.6rem] font-black leading-[0.92] drop-shadow">
+            <div className="relative max-w-[16rem]">
+              <h1 className="mt-2 font-game text-3xl font-black leading-[0.95] drop-shadow">
                 MÉMORISER
                 <br />
                 <span className="text-amber-300">DES VERSETS</span>
               </h1>
-              <p className="mt-2 font-game text-[12px] font-semibold leading-tight text-white/80">
+              <p className="mt-2 font-game text-sm font-semibold leading-tight text-white/80">
                 Grave la Parole dans ton cœur, manche après manche.
               </p>
             </div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={asset("/img/jeux/memo-hero.jpg")} alt="" className="pointer-events-none absolute -bottom-2 -right-2 h-32 w-auto object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.3)]" />
           </div>
 
           {/* Objectif + Record */}
