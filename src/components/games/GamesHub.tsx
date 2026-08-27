@@ -3,86 +3,102 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
-  getQuizName,
-  setQuizName,
   getQuizCoins,
   getQuizGames,
   getQuizBest,
-  getQuizBestRung,
   formatCoins,
-  LADDER,
   ACHIEVEMENTS,
   getUnlockedAchievements,
 } from "@/lib/quiz";
 import { getMemorizeXp, levelFromXp } from "@/lib/memorize";
 import { getVfXp } from "@/lib/vraifaux";
-import { CHARACTERS, getCharId, setCharId as saveCharId, charById, CharAvatar as Avatar } from "@/lib/game-avatar";
+import { getSupabase } from "@/lib/supabase";
+import { getProfile } from "@/lib/community";
 
-/* ---------------- Icônes ---------------- */
+/* ---------------- Icônes (trait de la charte) ---------------- */
 const S = (d: string) => (p: { className?: string }) => (
   <svg viewBox="0 0 24 24" className={p.className} fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
     <path d={d} />
   </svg>
 );
-const IconEdit = S("M4 20h4L18 10l-4-4L4 16zM14 6l4 4");
 const IconTrophy = S("M8 4h8v3a4 4 0 0 1-8 0zM8 5H5v1a3 3 0 0 0 3 3M16 5h3v1a3 3 0 0 1-3 3M9 20h6M12 12v4");
-const IconPlay = S("M8 5v14l11-7z");
-const IconLock = S("M6 10V8a6 6 0 0 1 12 0v2M5 10h14v10H5z");
+const IconUser = S("M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM5 20a7 7 0 0 1 14 0");
+const IconChevron = S("M9 6l6 6-6 6");
+/* Mémoriser : ampoule (grave la Parole dans la mémoire) */
+const IconBulb = S("M9 18h6M10 21h4M12 3a6 6 0 0 1 4 10 3 3 0 0 0-1 2H9a3 3 0 0 0-1-2 6 6 0 0 1 4-10z");
+/* Connaissances : toque de diplômé (le jeu de savoir) */
+const IconCap = S("M3 9l9-4 9 4-9 4zM7 11v4c0 1.5 2.5 2.5 5 2.5s5-1 5-2.5v-4M21 9v4");
 
-/* ---------------- Catalogue des jeux ---------------- */
+/* ---------------- Les deux jeux ---------------- */
 type Game = {
   id: string;
   title: string;
   tag: string;
-  href?: string;
+  href: string;
+  Icon: (p: { className?: string }) => React.ReactElement;
   from: string;
   to: string;
-  soon?: boolean;
 };
 const GAMES: Game[] = [
-  { id: "quiz", title: "Le Défi Biblique", tag: "Quiz · 30 paliers", href: "/quiz", from: "#4c1d95", to: "#9d174d" },
-  { id: "vraifaux", title: "Vrai ou Faux", tag: "Rapide · réflexes", href: "/vrai-faux", from: "#0e7490", to: "#083344" },
-  { id: "memo", title: "Mémoriser", tag: "Grave la Parole", href: "/memoriser", from: "#3f6212", to: "#0b0713" },
-  { id: "mystere", title: "Le Verset Mystère", tag: "Bientôt", from: "#7c2d12", to: "#0b0713", soon: true },
+  {
+    id: "connaissances",
+    title: "Le jeu des connaissances",
+    tag: "Quiz biblique · 30 paliers",
+    href: "/quiz",
+    Icon: IconCap,
+    from: "#4c1d95",
+    to: "#9d174d",
+  },
+  {
+    id: "memo",
+    title: "Mémoriser",
+    tag: "Grave la Parole dans ton cœur",
+    href: "/memoriser",
+    Icon: IconBulb,
+    from: "#3f6212",
+    to: "#0b3b2e",
+  },
 ];
 
 export function GamesHub() {
   const [name, setName] = useState("");
-  const [editing, setEditing] = useState(false);
-  const [charId, setCharId] = useState(CHARACTERS[0].id);
-  const [picker, setPicker] = useState(false);
+  const [avatar, setAvatar] = useState<string | null>(null);
   const [coins, setCoins] = useState(0);
   const [games, setGames] = useState(0);
   const [best, setBest] = useState(0);
-  const [bestRung, setBestRung] = useState(0);
   const [unlocked, setUnlocked] = useState<Set<string>>(new Set());
   const [memoXp, setMemoXp] = useState(0);
   const [vfXp, setVfXp] = useState(0);
 
   useEffect(() => {
-    setName(getQuizName());
-    setCharId(getCharId());
     setCoins(getQuizCoins());
     setGames(getQuizGames());
     setBest(getQuizBest());
-    setBestRung(getQuizBestRung());
     setUnlocked(getUnlockedAchievements());
     setMemoXp(getMemorizeXp());
     setVfXp(getVfXp());
+
+    // Profil réel : photo + prénom (pseudo) de l'utilisateur connecté.
+    (async () => {
+      const sb = getSupabase();
+      if (!sb) return;
+      try {
+        const { data } = await sb.auth.getUser();
+        const uid = data.user?.id;
+        if (!uid) return;
+        const prof = await getProfile(uid);
+        const first =
+          (prof?.pseudo && prof.pseudo.trim()) ||
+          (data.user?.user_metadata?.first_name as string | undefined) ||
+          "";
+        setName(first);
+        setAvatar(prof?.avatar_url || null);
+      } catch {
+        /* pas connecté : on garde l'avatar neutre */
+      }
+    })();
   }, []);
 
-  const char = charById(charId);
-  const chooseChar = (id: string) => {
-    setCharId(id);
-    saveCharId(id);
-    setPicker(false);
-  };
-  const saveName = (v: string) => {
-    setName(v);
-    setQuizName(v);
-  };
-
-  // Niveau joueur = XP mémorisation + XP dérivée du cumul du Défi.
   const totalXp = memoXp + vfXp + Math.floor(coins / 500);
   const { level, into, span } = useMemo(() => levelFromXp(totalXp), [totalXp]);
   const trophyCount = ACHIEVEMENTS.filter((a) => unlocked.has(a.id)).length;
@@ -90,40 +106,29 @@ export function GamesHub() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 pb-24 pt-[calc(4.5rem+env(safe-area-inset-top))] text-cream">
-      {/* ---------- Profil joueur ---------- */}
+      {/* ---------- Profil joueur (photo réelle + prénom) ---------- */}
       <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-violet-900 via-violet-950 to-night-950 p-5 shadow-2xl">
         <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-fuchsia-600/30 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-12 -left-8 h-40 w-40 rounded-full bg-[#8FE23C]/20 blur-3xl" />
 
         <div className="relative flex items-center gap-4">
-          <button type="button" onClick={() => setPicker(true)} className="relative" aria-label="Changer d'avatar">
-            <Avatar char={char} size={92} />
-            <span className="absolute -bottom-1 -right-1 grid h-7 w-7 place-items-center rounded-full bg-[#8FE23C] text-night-950 ring-2 ring-violet-950">
-              <IconEdit className="h-3.5 w-3.5" />
-            </span>
-          </button>
+          {avatar ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={avatar}
+              alt=""
+              className="h-[84px] w-[84px] shrink-0 rounded-full object-cover ring-2 ring-[#8FE23C]/70"
+            />
+          ) : (
+            <div className="grid h-[84px] w-[84px] shrink-0 place-items-center rounded-full bg-white/10 text-cream/70 ring-2 ring-white/15">
+              <IconUser className="h-10 w-10" />
+            </div>
+          )}
           <div className="min-w-0 flex-1">
             <span className="inline-flex items-center gap-1 rounded-full bg-amber-500 px-3 py-0.5 font-game text-xs font-extrabold text-night-950">
               Niveau {level}
             </span>
-            <div className="mt-1 flex items-center gap-2">
-              {editing ? (
-                <input
-                  autoFocus
-                  value={name}
-                  onChange={(e) => saveName(e.target.value)}
-                  onBlur={() => setEditing(false)}
-                  onKeyDown={(e) => e.key === "Enter" && setEditing(false)}
-                  placeholder="Ton pseudo"
-                  className="w-full bg-transparent font-game text-2xl font-extrabold text-cream placeholder:text-cream/40 focus:outline-none"
-                />
-              ) : (
-                <button type="button" onClick={() => setEditing(true)} className="flex items-center gap-2 font-game text-2xl font-extrabold">
-                  {name || "Ton pseudo"}
-                  <IconEdit className="h-4 w-4 text-cream/50" />
-                </button>
-              )}
-            </div>
+            <p className="mt-1 truncate font-game text-2xl font-extrabold">{name || "Joueur"}</p>
             {/* Jauge de niveau */}
             <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-white/10">
               <div className="h-full rounded-full bg-gradient-to-r from-[#8FE23C] to-amber-400" style={{ width: `${Math.round((into / span) * 100)}%` }} />
@@ -142,13 +147,35 @@ export function GamesHub() {
         </div>
       </section>
 
+      {/* ---------- Les deux jeux ---------- */}
+      <section className="mt-7">
+        <h2 className="font-game text-xl font-extrabold">Choisis ton jeu</h2>
+        <div className="mt-3 space-y-3">
+          {GAMES.map((g) => (
+            <Link
+              key={g.id}
+              href={g.href}
+              className="group relative flex items-center gap-4 overflow-hidden rounded-3xl border border-white/10 p-4 shadow-card active:scale-[.99]"
+              style={{ background: `linear-gradient(120deg, ${g.from}, ${g.to})` }}
+            >
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_15%,rgba(255,255,255,.16),transparent_55%)]" />
+              <span className="relative grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-white/12 ring-1 ring-white/15">
+                <g.Icon className="h-8 w-8 text-white" />
+              </span>
+              <div className="relative min-w-0 flex-1">
+                <p className="font-game text-xl font-extrabold leading-tight text-white drop-shadow">{g.title}</p>
+                <p className="mt-0.5 font-game text-xs font-semibold text-white/70">{g.tag}</p>
+              </div>
+              <IconChevron className="relative h-6 w-6 shrink-0 text-white/60 transition-transform group-hover:translate-x-0.5" />
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {/* ---------- Accomplissements ---------- */}
-      <section className="mt-6">
+      <section className="mt-7">
         <div className="flex items-center justify-between">
           <h2 className="font-game text-xl font-extrabold">Accomplissements</h2>
-          <Link href="/quiz" className="font-game text-xs font-bold text-[#8FE23C]">
-            Voir tout
-          </Link>
         </div>
         {unlockedList.length ? (
           <div className="mt-3 flex flex-wrap gap-2">
@@ -165,78 +192,6 @@ export function GamesHub() {
           </p>
         )}
       </section>
-
-      {/* ---------- Catalogue (façon Netflix) ---------- */}
-      <section className="mt-7">
-        <h2 className="font-game text-xl font-extrabold">Choisis ton jeu</h2>
-        <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-2">
-          {GAMES.map((g) => {
-            const inner = (
-              <div
-                className="group relative flex aspect-[3/4] flex-col justify-end overflow-hidden rounded-3xl p-4 shadow-card"
-                style={{ background: `linear-gradient(160deg, ${g.from}, ${g.to})` }}
-              >
-                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(255,255,255,.18),transparent_55%)]" />
-                <span className="pointer-events-none absolute right-4 top-2 select-none font-game text-[5rem] font-black leading-none text-white/10">
-                  {g.soon ? "?" : g.title.charAt(0)}
-                </span>
-                {g.soon ? (
-                  <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-black/40 px-2.5 py-1 font-game text-[11px] font-bold text-cream/80">
-                    <IconLock className="h-3 w-3" /> Bientôt
-                  </span>
-                ) : null}
-                <div className="relative">
-                  <p className="font-game text-xl font-extrabold leading-tight text-white drop-shadow">{g.title}</p>
-                  <p className="mt-0.5 font-game text-xs font-semibold text-white/70">{g.tag}</p>
-                  {!g.soon ? (
-                    <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-[#8FE23C] px-3 py-1.5 font-game text-sm font-extrabold text-night-950">
-                      <IconPlay className="h-4 w-4" /> Jouer
-                    </span>
-                  ) : null}
-                </div>
-              </div>
-            );
-            return g.href ? (
-              <Link key={g.id} href={g.href} className="block">
-                {inner}
-              </Link>
-            ) : (
-              <div key={g.id} className="cursor-not-allowed opacity-80">
-                {inner}
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* ---------- Sélecteur d'avatar ---------- */}
-      {picker ? (
-        <div className="fixed inset-0 z-[120] flex items-end justify-center sm:items-center" role="dialog" aria-modal="true">
-          <button aria-label="Fermer" onClick={() => setPicker(false)} className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
-          <div className="relative z-10 w-full max-w-md rounded-t-3xl bg-gradient-to-b from-violet-900 to-violet-950 p-5 text-cream shadow-2xl sm:rounded-3xl">
-            <h3 className="text-center font-game text-xl font-extrabold">Choisis ton personnage</h3>
-            <div className="mt-4 grid grid-cols-4 gap-3">
-              {CHARACTERS.map((c) => (
-                <button
-                  key={c.id}
-                  type="button"
-                  onClick={() => chooseChar(c.id)}
-                  className={`grid place-items-center rounded-2xl p-1.5 ${charId === c.id ? "ring-2 ring-[#8FE23C]" : ""}`}
-                >
-                  <Avatar char={c} size={64} ring={false} />
-                </button>
-              ))}
-            </div>
-            <button
-              type="button"
-              onClick={() => setPicker(false)}
-              className="mt-5 w-full rounded-2xl bg-amber-500 py-3 font-game text-lg font-bold text-night-950"
-            >
-              Valider
-            </button>
-          </div>
-        </div>
-      ) : null}
     </div>
   );
 }
