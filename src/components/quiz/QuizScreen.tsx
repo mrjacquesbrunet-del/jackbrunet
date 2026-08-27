@@ -38,6 +38,8 @@ import {
 import { getMemorizeXp, levelFromXp } from "@/lib/memorize";
 import { getVfXp } from "@/lib/vraifaux";
 import { asset } from "@/lib/asset";
+import { getSupabase } from "@/lib/supabase";
+import { getProfile } from "@/lib/community";
 
 type IconCmp = (p: { className?: string }) => ReactElement;
 
@@ -87,6 +89,7 @@ const IconClose = S("M6 6l12 12M18 6L6 18");
 const IconTrophy = S("M8 4h8v3a4 4 0 0 1-8 0zM8 5H5v1a3 3 0 0 0 3 3M16 5h3v1a3 3 0 0 1-3 3M9 20h6M12 12v4");
 const IconBulb = S("M12 3a6 6 0 0 0-3.5 10.9c.7.5 1 1.3 1 2.1h5c0-.8.3-1.6 1-2.1A6 6 0 0 0 12 3zM10 19h4");
 const IconPeople = S("M17 20v-1a4 4 0 0 0-3-3.9M7 20v-1a4 4 0 0 1 3-3.9M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6");
+const IconUser = S("M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM5 20a7 7 0 0 1 14 0");
 const IconHalf = S("M12 3v18M3 12h18M4 4h16v16H4z");
 const IconEdit = S("M4 20h4L18 10l-4-4L4 16zM14 6l4 4");
 const IconFlame = S("M12 3c1.5 3 4.5 4 4.5 8.5A4.5 4.5 0 0 1 7.5 11.5c0-1 .4-2 1-2.7C9.5 10.5 10 7 12 3z");
@@ -120,6 +123,7 @@ type Phase = "hub" | "play" | "over";
 export function QuizScreen() {
   const [phase, setPhase] = useState<Phase>("hub");
   const [name, setName] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [editingName, setEditingName] = useState(false);
   const [coins, setCoins] = useState(0);
   const [best, setBest] = useState(0);
@@ -143,6 +147,44 @@ export function QuizScreen() {
     setBestRung(getQuizBestRung());
     setMemoXp(getMemorizeXp());
     setDaily(getDailyState());
+
+    // Profil réel : photo + prénom (pseudo) de l'utilisateur connecté.
+    (async () => {
+      const sb = getSupabase();
+      if (!sb) return;
+      try {
+        const { data } = await sb.auth.getUser();
+        const uid = data.user?.id;
+        if (!uid) return;
+        const prof = await getProfile(uid);
+        const first =
+          (prof?.pseudo && prof.pseudo.trim()) ||
+          (data.user?.user_metadata?.first_name as string | undefined) ||
+          "";
+        if (first) setName(first);
+        setAvatarUrl(prof?.avatar_url || null);
+      } catch {
+        /* pas connecté : avatar neutre */
+      }
+    })();
+  }, []);
+
+  // Écran plein écran : on fige le défilement de la page derrière pour que
+  // l'affichage reste stable (pas de « rebond » du corps de page).
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+    const prevBody = body.style.overflow;
+    const prevHtml = html.style.overflow;
+    const prevOver = body.style.overscrollBehavior;
+    body.style.overflow = "hidden";
+    html.style.overflow = "hidden";
+    body.style.overscrollBehavior = "none";
+    return () => {
+      body.style.overflow = prevBody;
+      html.style.overflow = prevHtml;
+      body.style.overscrollBehavior = prevOver;
+    };
   }, []);
 
   // Rafraîchit le hub (série du jour + podium) à chaque retour à l'accueil.
@@ -455,7 +497,7 @@ export function QuizScreen() {
     });
 
     return (
-      <div className="qzp fixed inset-0 z-[100] overflow-y-auto text-cream">
+      <div className="qzp fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden bg-[#0d1030] text-cream [overscroll-behavior:contain] [-webkit-overflow-scrolling:touch]">
         <style dangerouslySetInnerHTML={{ __html: PREMIUM_CSS }} />
         <img src={asset("/img/quiz/bg.jpg")} alt="" className="pointer-events-none fixed inset-0 h-full w-full object-cover opacity-25" />
         <div className="pointer-events-none fixed inset-0 bg-gradient-to-b from-[#1b1d4d]/85 via-[#241c56]/92 to-[#0d1030]/97" />
@@ -464,11 +506,18 @@ export function QuizScreen() {
           {/* HUD */}
           <div className="flex items-center gap-3">
             <Link href="/jeux" aria-label="Profil" className="shrink-0">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={asset("/img/quiz/avatar-h.jpg")} alt="" className="h-14 w-14 rounded-full object-cover object-top shadow-lg ring-2 ring-amber-300/70" />
+              {avatarUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={avatarUrl} alt="" className="h-14 w-14 rounded-full object-cover shadow-lg ring-2 ring-amber-300/70" />
+              ) : (
+                <span className="grid h-14 w-14 place-items-center rounded-full bg-white/10 text-cream/70 shadow-lg ring-2 ring-white/15">
+                  <IconUser className="h-8 w-8" />
+                </span>
+              )}
             </Link>
             <div className="min-w-0 flex-1">
-              <p className="font-game text-sm font-extrabold tracking-wide">NIVEAU {lvl.level}</p>
+              <p className="truncate font-game text-base font-extrabold leading-tight">{name || "Joueur"}</p>
+              <p className="font-game text-[11px] font-bold tracking-wide text-amber-300">NIVEAU {lvl.level}</p>
               <div className="mt-1 h-2.5 w-full overflow-hidden rounded-full bg-black/40 ring-1 ring-white/10">
                 <div className="h-full rounded-full bg-gradient-to-r from-amber-300 to-amber-500" style={{ width: `${Math.round((lvl.into / lvl.span) * 100)}%` }} />
               </div>
@@ -619,7 +668,7 @@ export function QuizScreen() {
   if (phase === "over") {
     const isWin = reason === "win";
     return (
-      <div className="qz-immersive fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto px-4 py-10 text-center text-cream">
+      <div className="qz-immersive fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overflow-x-hidden bg-[#0d1030] px-4 py-10 text-center text-cream [overscroll-behavior:contain] [-webkit-overflow-scrolling:touch]">
         <QzFx />
         <div className="qz-bg-orb qz-bg-1" />
         <div className="qz-bg-orb qz-bg-2" />
@@ -707,7 +756,7 @@ export function QuizScreen() {
   const canValidate = selected !== null && !reveal && !locked;
 
   return (
-    <div className="qzp fixed inset-0 z-[100] overflow-y-auto text-cream">
+    <div className="qzp fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden bg-[#0d1030] text-cream [overscroll-behavior:contain] [-webkit-overflow-scrolling:touch]">
       <style dangerouslySetInnerHTML={{ __html: PREMIUM_CSS }} />
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={asset("/img/quiz/bg.jpg")} alt="" className="pointer-events-none fixed inset-0 h-full w-full object-cover opacity-20" />
@@ -720,10 +769,16 @@ export function QuizScreen() {
       <div className="relative mx-auto w-full max-w-md px-3 pb-5 pt-[calc(0.6rem+env(safe-area-inset-top))]">
         {/* HUD */}
         <div className="flex items-center gap-2.5">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={asset("/img/quiz/avatar-h.jpg")} alt="" className="h-11 w-11 rounded-full object-cover object-top ring-2 ring-amber-300/70" />
+          {avatarUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={avatarUrl} alt="" className="h-11 w-11 rounded-full object-cover ring-2 ring-amber-300/70" />
+          ) : (
+            <span className="grid h-11 w-11 place-items-center rounded-full bg-white/10 text-cream/70 ring-2 ring-white/15">
+              <IconUser className="h-6 w-6" />
+            </span>
+          )}
           <div className="min-w-0 flex-1">
-            <p className="font-game text-xs font-extrabold">NIVEAU {levelFromXp(memoXp + getVfXp() + Math.floor(coins / 500)).level}</p>
+            <p className="truncate font-game text-xs font-extrabold">{name || "Joueur"} · NIVEAU {levelFromXp(memoXp + getVfXp() + Math.floor(coins / 500)).level}</p>
             <div className="mt-0.5 h-2 w-full overflow-hidden rounded-full bg-black/40">
               <div className="h-full rounded-full bg-gradient-to-r from-amber-300 to-amber-500" style={{ width: "45%" }} />
             </div>
