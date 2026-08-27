@@ -165,6 +165,7 @@ export function QuizScreen() {
   const [game, setGame] = useState<QuizQuestion[]>([]);
   const [step, setStep] = useState(0); // 0..14
   const [picked, setPicked] = useState<number | null>(null);
+  const [selected, setSelected] = useState<number | null>(null);
   const [locked, setLocked] = useState(false);
   const [reveal, setReveal] = useState(false);
   const [removed, setRemoved] = useState<number[]>([]);
@@ -285,6 +286,7 @@ export function QuizScreen() {
 
   const resetQuestion = () => {
     setPicked(null);
+    setSelected(null);
     setLocked(false);
     setReveal(false);
     setRemoved([]);
@@ -701,228 +703,148 @@ export function QuizScreen() {
 
   /* =========================================================== JEU */
   const correctIdx = q.correct;
-  const bgs = [
-    "from-sky-800 to-indigo-950",
-    "from-amber-900 to-indigo-950",
-    "from-indigo-900 to-fuchsia-950",
-  ];
-  const bg = bgs[step % bgs.length];
+  const shortCoin = (n: number) => (n >= 1000000 ? `${n / 1000000}M` : n >= 1000 ? `${Math.round(n / 1000)}k` : String(n));
+  const canValidate = selected !== null && !reveal && !locked;
 
   return (
-    <div className="qz-immersive fixed inset-0 z-[100] overflow-y-auto text-cream">
-      <QzFx />
-      <div className="qz-bg-orb qz-bg-1" />
-      <div className="qz-bg-orb qz-bg-2" />
-      <div className="qz-bg-orb qz-bg-3" />
-      <Particles />
+    <div className="qzp fixed inset-0 z-[100] overflow-y-auto text-cream">
+      <style dangerouslySetInnerHTML={{ __html: PREMIUM_CSS }} />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={asset("/img/quiz/bg.jpg")} alt="" className="pointer-events-none fixed inset-0 h-full w-full object-cover opacity-20" />
+      <div className="pointer-events-none fixed inset-0 bg-gradient-to-b from-[#1b1d4d]/90 via-[#241c56]/94 to-[#0d1030]/97" />
       {flash ? <Flash kind={flash} /> : null}
       {confetti ? <Confetti /> : null}
       {toast ? <Toast text={toast} /> : null}
       {milestone ? <Milestone text={milestone} /> : null}
-      <div className="relative mx-auto max-w-md px-4 pb-10 pt-[calc(0.75rem+env(safe-area-inset-top))]">
-      {/* Entête : quitter / minuteur / palier */}
-      <div className="mb-3 flex items-center justify-between">
-        <button
-          type="button"
-          onClick={() => setPhase("hub")}
-          aria-label="Quitter"
-          className="grid h-10 w-10 place-items-center rounded-full bg-white/10"
-        >
-          <IconClose className="h-5 w-5" />
-        </button>
-        <button
-          type="button"
-          onClick={() => setShowLadder(true)}
-          className="rounded-full bg-white/10 px-4 py-2 font-game text-sm font-bold"
-        >
-          Palier {step + 1}/{LADDER.length}
-        </button>
-        {/* Minuteur */}
-        <div className={`relative grid h-12 w-12 place-items-center ${timeLeft <= 10 && !locked ? "qz-tick" : ""}`}>
-          <svg viewBox="0 0 40 40" className="absolute inset-0 -rotate-90">
-            <circle cx="20" cy="20" r="17" fill="none" stroke="rgba(255,255,255,.15)" strokeWidth="4" />
-            <circle
-              cx="20"
-              cy="20"
-              r="17"
-              fill="none"
-              stroke={timeLeft <= 10 ? "#f87171" : "#8FE23C"}
-              strokeWidth="4"
-              strokeLinecap="round"
-              strokeDasharray={2 * Math.PI * 17}
-              strokeDashoffset={2 * Math.PI * 17 * (1 - timePct / 100)}
-              style={{ transition: "stroke-dashoffset 1s linear" }}
-            />
-          </svg>
-          <span className="font-game text-sm font-extrabold">{timeLeft}</span>
-        </div>
-      </div>
 
-      {/* Montant du palier */}
-      <div className="relative mx-auto mb-3 w-fit">
-        <div className="rounded-full bg-amber-400 px-6 py-1.5 font-game text-lg font-extrabold text-night-950 shadow">
-          {formatCoins(LADDER[step])}
-        </div>
-        {fly ? (
-          <span
-            className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 font-game text-lg font-extrabold text-[#8FE23C]"
-            style={{ animation: "qz-float .95s ease-out forwards" }}
-          >
-            {fly}
-          </span>
-        ) : null}
-      </div>
-
-      {/* Compteur de série (multiplicateur visible) */}
-      {combo >= 2 ? (
-        <div
-          key={`combo-${combo}`}
-          className="qz-pop mx-auto mb-3 flex w-fit items-center gap-2 rounded-full bg-orange-500/25 px-3 py-1 ring-1 ring-orange-400/50"
-        >
-          <IconFlame className="h-4 w-4 text-orange-400" />
-          <span className="font-game text-sm font-extrabold text-orange-200">Série ×{combo}</span>
-        </div>
-      ) : null}
-
-      {/* Échelle des paliers — toujours visible : on voit sa progression et
-          les paliers « sûrs » (gardés même en cas d'erreur). */}
-      <div className="mb-4">
-        <div className="flex items-end gap-[2px]">
-          {LADDER.map((_, li) => {
-            const rung = li + 1;
-            const done = rung <= step;
-            const current = rung === step + 1;
-            const safe = SAFE_RUNGS.includes(rung);
-            return (
-              <div
-                key={rung}
-                className={`flex-1 rounded-full transition-all ${
-                  current
-                    ? "h-3 bg-amber-400 qz-tick"
-                    : done
-                      ? "h-2.5 bg-[#8FE23C]"
-                      : safe
-                        ? "h-3 bg-amber-400/50"
-                        : "h-2 bg-white/25"
-                }`}
-                title={safe ? `Palier sûr : ${formatCoins(LADDER[li])}` : formatCoins(LADDER[li])}
-              />
-            );
-          })}
-        </div>
-        <div className="mt-1.5 flex items-center justify-between font-game text-[11px]">
-          <span className="text-cream/60">
-            Filet : <span className="font-bold text-amber-300">{formatCoins(guaranteedCoins(step))}</span>
-          </span>
-          <span className="text-cream/50">Palier {step + 1}/{LADDER.length}</span>
-          <span className="text-cream/60">
-            Sommet : <span className="font-bold text-[#8FE23C]">{formatCoins(LADDER[LADDER.length - 1])}</span>
-          </span>
-        </div>
-      </div>
-
-      {/* Question */}
-      <div
-        key={`q-${step}`}
-        className={`rounded-3xl bg-gradient-to-b ${bg} p-5 shadow-xl ${cardShake ? "qz-shake" : ""}`}
-        style={{ animation: cardShake ? undefined : "qz-optin .4s ease-out" }}
-      >
-        <div className="flex items-start gap-3">
-          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-amber-500 font-game text-sm font-extrabold text-night-950">
-            {String(step + 1).padStart(2, "0")}
-          </span>
-          <p className="font-game text-lg font-bold leading-snug">{q.q}</p>
-        </div>
-        {hint ? (
-          <p className="mt-3 rounded-xl bg-white/10 px-3 py-2 text-sm text-amber-100">{hint}</p>
-        ) : null}
-      </div>
-
-      {/* Réponses */}
-      <div className="mt-4 space-y-2.5">
-        {q.options.map((opt, i) => {
-          if (removed.includes(i)) {
-            return <div key={i} className="h-[52px] rounded-2xl border border-white/5 bg-white/[0.02]" />;
-          }
-          const isPicked = picked === i;
-          const showCorrect = reveal && i === correctIdx;
-          const showWrong = reveal && isPicked && i !== correctIdx;
-          const cls = showCorrect
-            ? "bg-[#8FE23C] text-night-950 border-[#8FE23C]"
-            : showWrong
-              ? "bg-red-500 text-white border-red-500"
-              : isPicked
-                ? "bg-amber-400 text-night-950 border-amber-400"
-                : "bg-night-900/60 text-cream border-white/15";
-          return (
-            <button
-              key={`${step}-${i}`}
-              type="button"
-              disabled={locked}
-              onClick={() => answer(i)}
-              style={reveal ? undefined : { animation: `qz-optin .4s ease-out ${0.08 * i + 0.1}s both` }}
-              className={`flex w-full items-center gap-3 rounded-2xl border-2 px-4 py-3 text-left font-game text-base font-bold transition-colors ${cls} ${
-                showCorrect ? "qz-pop" : ""
-              }`}
-            >
-              <span className="font-extrabold text-amber-400">{LETTERS[i]}:</span>
-              <span className="flex-1">{opt}</span>
-              {poll && !reveal ? (
-                <span className="text-xs font-bold text-cream/70">{poll[i]}%</span>
-              ) : null}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Jokers */}
-      {!reveal ? (
-        <div className="mt-4 flex items-center justify-center gap-4">
-          <Joker label="50:50" used={usedJokers.half} onClick={useHalf} Icon={IconHalf} />
-          <Joker label="Indice" used={usedJokers.hint} onClick={useHint} Icon={IconBulb} />
-          <Joker label="Communauté" used={usedJokers.poll} onClick={usePoll} Icon={IconPeople} />
-        </div>
-      ) : null}
-
-      {/* Après réponse : bandeau + continuer / se retirer */}
-      {reveal && picked === correctIdx && step < LADDER.length - 1 ? (
-        <div className="mt-4 space-y-2.5">
-          <div className="rounded-2xl bg-[#8FE23C]/15 px-4 py-2 text-center font-game font-bold text-[#a8f05a]">
-            Bonne réponse !
+      <div className="relative mx-auto w-full max-w-md px-3 pb-5 pt-[calc(0.6rem+env(safe-area-inset-top))]">
+        {/* HUD */}
+        <div className="flex items-center gap-2.5">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={asset("/img/quiz/avatar-h.jpg")} alt="" className="h-11 w-11 rounded-full object-cover object-top ring-2 ring-amber-300/70" />
+          <div className="min-w-0 flex-1">
+            <p className="font-game text-xs font-extrabold">NIVEAU {levelFromXp(memoXp + getVfXp() + Math.floor(coins / 500)).level}</p>
+            <div className="mt-0.5 h-2 w-full overflow-hidden rounded-full bg-black/40">
+              <div className="h-full rounded-full bg-gradient-to-r from-amber-300 to-amber-500" style={{ width: "45%" }} />
+            </div>
           </div>
-          <button
-            type="button"
-            onClick={nextQuestion}
-            className="qz-glow w-full rounded-2xl bg-[#8FE23C] py-3.5 font-game text-lg font-extrabold text-night-950 shadow-[0_5px_0_#5b9e1f] active:translate-y-1 active:shadow-[0_1px_0_#5b9e1f]"
-          >
-            CONTINUER · {formatCoins(LADDER[step + 1])}
-          </button>
-          <button
-            type="button"
-            onClick={walkAway}
-            className="w-full rounded-2xl bg-white/10 py-3 font-game font-bold"
-          >
-            Se retirer avec {formatCoins(LADDER[step])}
-          </button>
+          <span className="qzp-pill"><IconCoin className="h-4 w-4 text-amber-300" /> {formatCoins(coins)}</span>
         </div>
-      ) : null}
 
-      {/* Se retirer (avant de répondre) */}
-      {!locked && step > 0 ? (
-        <button
-          type="button"
-          onClick={walkAway}
-          className="mt-4 w-full rounded-2xl border border-white/15 py-2.5 text-sm font-semibold text-cream/70"
-        >
-          Se retirer avec {formatCoins(LADDER[step - 1])}
-        </button>
-      ) : null}
+        {/* Objectif (escalier) */}
+        <div className="relative mt-3 overflow-hidden rounded-2xl ring-1 ring-white/10">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={asset("/img/quiz/stairway.jpg")} alt="" className="absolute inset-0 h-full w-full object-cover object-top" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#1b1d4d]/92 via-[#1b1d4d]/45 to-transparent" />
+          <div className="relative flex items-center gap-2 p-3">
+            <span className="rounded-lg bg-violet-600 px-2 py-0.5 font-game text-[10px] font-extrabold">OBJECTIF</span>
+            <p className="max-w-[14.5rem] text-[11px] font-semibold leading-tight text-white/90">
+              Atteins le palier final pour remporter <span className="whitespace-nowrap font-black text-amber-300">1&nbsp;000&nbsp;000</span>
+            </p>
+          </div>
+        </div>
 
+        {/* Question + échelle */}
+        <div className="mt-3 flex gap-2">
+          <div className="min-w-0 flex-1">
+            <div key={`q-${step}`} className={`qzp-card p-3.5 ${cardShake ? "qz-shake" : ""}`} style={{ animation: cardShake ? undefined : "qz-optin .35s ease-out" }}>
+              <div className="flex items-center justify-between">
+                <span className="rounded-full bg-violet-600 px-3 py-1 font-game text-[11px] font-extrabold">QUESTION {step + 1}/{LADDER.length}</span>
+                <span className={`font-game text-sm font-extrabold ${timeLeft <= 10 ? "text-rose-300" : "text-cream/80"}`}>{timeLeft}s</span>
+              </div>
+              <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-black/40">
+                <div className={`h-full rounded-full ${timeLeft <= 10 ? "bg-rose-400" : "bg-amber-400"}`} style={{ width: `${timePct}%`, transition: "width 1s linear" }} />
+              </div>
+              <p className="mt-3 font-game text-base font-bold leading-snug">{q.q}</p>
+              {hint ? <p className="mt-2 rounded-xl bg-amber-400/15 px-3 py-2 text-xs text-amber-100">{hint}</p> : null}
+
+              <div className="mt-3 space-y-2">
+                {q.options.map((opt, i) => {
+                  if (removed.includes(i)) return <div key={i} className="h-[46px] rounded-xl border border-white/5 bg-white/[0.02]" />;
+                  const isSel = selected === i;
+                  const showCorrect = reveal && i === correctIdx;
+                  const showWrong = reveal && picked === i && i !== correctIdx;
+                  const state = showCorrect ? "correct" : showWrong ? "wrong" : isSel ? "sel" : "idle";
+                  return (
+                    <button key={`${step}-${i}`} type="button" disabled={reveal || locked} onClick={() => setSelected(i)} className={`qzp-opt qzp-opt-${state}`}>
+                      <span className={`qzp-opt-badge qzp-opt-badge-${state}`}>{LETTERS[i]}</span>
+                      <span className="flex-1 text-left">{opt}</span>
+                      {poll && !reveal ? <span className="text-xs font-bold text-cream/60">{poll[i]}%</span> : null}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Échelle verticale des paliers */}
+          <div className="w-[76px] shrink-0">
+            <div className="qzp-card max-h-[54vh] overflow-y-auto p-1.5 [scrollbar-width:none]">
+              <p className="py-1 text-center font-game text-[10px] font-extrabold text-amber-300">PALIERS</p>
+              {LADDER.slice().reverse().map((coinVal, ri) => {
+                const rung = LADDER.length - ri;
+                const cur = rung === step + 1;
+                const done = rung <= step;
+                const safe = SAFE_RUNGS.includes(rung);
+                return (
+                  <div key={rung} className={`my-0.5 flex items-center gap-1 rounded-full px-1 py-1 font-game text-[10px] font-bold ${cur ? "bg-violet-500 text-white ring-2 ring-fuchsia-300" : done ? "text-[#8FE23C]" : safe ? "text-amber-300" : "text-cream/45"}`}>
+                    <span className={`grid h-4 w-4 shrink-0 place-items-center rounded-full text-[9px] ${cur ? "bg-white text-violet-700" : "bg-white/15"}`}>{rung}</span>
+                    <span className="truncate">{shortCoin(coinVal)}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Jokers */}
+        {!reveal ? (
+          <div className="mt-3 grid grid-cols-3 gap-2">
+            <JokerCard label="50/50" tip="Élimine 2" used={usedJokers.half} onClick={useHalf} tone="blue" ic={<span className="font-game text-sm font-extrabold">50</span>} />
+            <JokerCard label="Indice" tip="Coup de pouce" used={usedJokers.hint} onClick={useHint} tone="green" ic={<IconBulb className="h-5 w-5" />} />
+            <JokerCard label="Communauté" tip="Demande" used={usedJokers.poll} onClick={usePoll} tone="purple" ic={<IconPeople className="h-5 w-5" />} />
+          </div>
+        ) : null}
+
+        {/* Action */}
+        <div className="mt-3 flex items-center gap-2">
+          {reveal && picked === correctIdx && step < LADDER.length - 1 ? (
+            <>
+              <button type="button" onClick={walkAway} className="qzp-mini2 whitespace-nowrap">Se retirer · {shortCoin(LADDER[step])}</button>
+              <button type="button" onClick={nextQuestion} className="qzp-play flex flex-1 items-center justify-center gap-2 py-3 font-game text-lg font-black text-night-950">
+                CONTINUER · {shortCoin(LADDER[step + 1])}
+              </button>
+            </>
+          ) : reveal ? (
+            <div className="flex-1 rounded-2xl bg-white/10 py-3 text-center font-game font-bold text-cream/80">
+              {picked === correctIdx ? "Bravo !" : "Mauvaise réponse…"}
+            </div>
+          ) : (
+            <>
+              <button type="button" onClick={() => setPhase("hub")} className="qzp-mini2 whitespace-nowrap">
+                <IconClose className="h-4 w-4" /> Quitter
+              </button>
+              <button type="button" disabled={!canValidate} onClick={() => selected !== null && answer(selected)}
+                className={`flex flex-1 items-center justify-center py-3.5 font-game text-lg font-black ${canValidate ? "qzp-play text-night-950" : "rounded-2xl bg-white/10 text-cream/40"}`}>
+                VALIDER LA RÉPONSE
+              </button>
+            </>
+          )}
+        </div>
       </div>
-      {showLadder ? (
-        <LadderView step={step} onClose={() => setShowLadder(false)} />
-      ) : null}
+
+      {showLadder ? <LadderView step={step} onClose={() => setShowLadder(false)} /> : null}
     </div>
+  );
+}
+
+function JokerCard({ label, tip, used, onClick, tone, ic }: { label: string; tip: string; used: boolean; onClick: () => void; tone: "blue" | "green" | "purple"; ic: ReactElement }) {
+  return (
+    <button type="button" disabled={used} onClick={onClick} className={`qzp-joker qzp-joker-${tone} ${used ? "opacity-40" : ""}`}>
+      <span className="qzp-joker-ic">{ic}</span>
+      <p className="mt-1 font-game text-[11px] font-bold">{label}</p>
+      <p className="text-[9px] leading-tight text-cream/75">{used ? "Utilisé" : tip}</p>
+    </button>
   );
 }
 
@@ -1263,6 +1185,14 @@ const PREMIUM_CSS = `
 .qzp-joker-ic{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:9999px;background:rgba(255,255,255,.22);box-shadow:inset 0 2px 4px rgba(255,255,255,.3);font-family:var(--font-game);font-weight:800;color:#fff}
 .qzp-hex{width:42px;height:46px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);box-shadow:inset 0 2px 3px rgba(255,255,255,.45)}
 .qzp-hex-cur{outline:3px solid #38bdf8;outline-offset:1px;border-radius:6px;animation:qz-tick 1s ease-in-out infinite}
+.qzp-opt{display:flex;align-items:center;gap:10px;width:100%;padding:11px 12px;border-radius:14px;font-family:var(--font-game);font-weight:800;font-size:14px;background:linear-gradient(180deg,rgba(60,64,120,.7),rgba(34,37,80,.85));border:1px solid rgba(255,255,255,.08);color:#ececff;transition:background .15s}
+.qzp-opt-sel{background:linear-gradient(180deg,rgba(124,92,255,.85),rgba(91,60,220,.9));border-color:#a78bfa;color:#fff;box-shadow:0 0 0 2px rgba(167,139,250,.55) inset}
+.qzp-opt-correct{background:linear-gradient(180deg,#22c55e,#15803d);border-color:#22c55e;color:#fff}
+.qzp-opt-wrong{background:linear-gradient(180deg,#ef4444,#991b1b);border-color:#ef4444;color:#fff}
+.qzp-opt-badge{display:grid;place-items:center;width:30px;height:30px;flex:0 0 auto;border-radius:9999px;background:linear-gradient(180deg,#8b5cf6,#6d28d9);color:#fff;box-shadow:inset 0 2px 3px rgba(255,255,255,.3)}
+.qzp-opt-badge-sel{background:linear-gradient(180deg,#ffffff,#ede9fe);color:#6d28d9}
+.qzp-opt-badge-correct{background:linear-gradient(180deg,#ffffff,#d1fae5);color:#15803d}
+.qzp-opt-badge-wrong{background:linear-gradient(180deg,#ffffff,#fee2e2);color:#991b1b}
 .qzp-trail{scrollbar-width:none}
 .qzp-trail::-webkit-scrollbar{display:none}
 .qzp-mini{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 4px;border-radius:14px;background:linear-gradient(180deg,rgba(40,44,96,.82),rgba(22,25,60,.9));border:1px solid rgba(255,255,255,.08);font-family:var(--font-game);font-weight:800;font-size:12px;color:#e6e6f5}
