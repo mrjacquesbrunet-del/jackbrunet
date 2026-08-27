@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { fetchGameLeaderboard, fetchTotalLeaderboard, fetchWeeklyLeague, currentUserId, type GameId, type ScoreRow } from "@/lib/game-scores";
 
 const MEDALS = ["#FCD34D", "#CBD5E1", "#D9843B"]; // or, argent, bronze
@@ -88,19 +89,20 @@ export function ScoreBoard({
                 >
                   {r.rank}
                 </span>
-                {/* Photo */}
-                {r.avatar_url ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={r.avatar_url} alt="" className="h-9 w-9 shrink-0 rounded-full object-cover ring-1 ring-black/10" />
-                ) : (
-                  <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-full ${light ? "bg-night-900/10 text-night-900/50" : "bg-white/10 text-cream/60"}`}>
-                    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM5 20a7 7 0 0 1 14 0" /></svg>
+                {/* Photo + nom : clic -> profil du joueur */}
+                <Link href={`/membre/?u=${r.user_id}`} className="flex min-w-0 flex-1 items-center gap-3">
+                  {r.avatar_url ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={r.avatar_url} alt="" className="h-9 w-9 shrink-0 rounded-full object-cover ring-1 ring-black/10" />
+                  ) : (
+                    <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-full ${light ? "bg-night-900/10 text-night-900/50" : "bg-white/10 text-cream/60"}`}>
+                      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM5 20a7 7 0 0 1 14 0" /></svg>
+                    </span>
+                  )}
+                  <span className={`min-w-0 flex-1 truncate font-game text-sm font-bold ${txt}`}>
+                    {r.pseudo || "Joueur"} {me ? <span style={{ color: accent }}>· toi</span> : null}
                   </span>
-                )}
-                {/* Nom */}
-                <span className={`min-w-0 flex-1 truncate font-game text-sm font-bold ${txt}`}>
-                  {r.pseudo || "Joueur"} {me ? <span style={{ color: accent }}>· toi</span> : null}
-                </span>
+                </Link>
                 {/* Score */}
                 <span className="shrink-0 font-game text-sm font-extrabold" style={{ color: accent }}>
                   {fmt(r.points)}

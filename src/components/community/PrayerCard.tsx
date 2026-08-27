@@ -579,7 +579,9 @@ export function PrayerCard({
                     return (
                       <li key={c.id} id={`c-${c.id}`} className="scroll-mt-24">
                         <div className="group flex items-start gap-2.5">
-                          <Avatar pseudo={c.author?.pseudo} url={c.author?.avatar_url} size={30} />
+                          <Link href={`/membre?u=${c.author_id}`} aria-label="Voir le profil">
+                            <Avatar pseudo={c.author?.pseudo} url={c.author?.avatar_url} size={30} />
+                          </Link>
                           <div className="min-w-0 flex-1">
                             <div
                               {...longPress(c.id)}
@@ -589,10 +591,10 @@ export function PrayerCard({
                                   : "bg-night-900/[0.04]"
                               }`}
                             >
-                              <p className="flex items-center gap-1 text-xs font-semibold text-night-900/70">
+                              <Link href={`/membre?u=${c.author_id}`} className="flex items-center gap-1 text-xs font-semibold text-night-900/70 hover:underline">
                                 {c.author?.pseudo?? "Ami(e)"}
                                 {c.author?.verified? <VerifiedBadge className="h-3.5 w-3.5" />: null}
-                              </p>
+                              </Link>
                               {c.audio_url? (
                                 <div className="mt-1">
                                   {voiceExpired(c.created_at)? (

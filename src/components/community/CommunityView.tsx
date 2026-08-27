@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { useAuth } from "@/components/community/useAuth";
 import { listBlockedIds } from "@/lib/moderation";
@@ -100,17 +101,29 @@ function Feed({
   const [targetPrayer, setTargetPrayer] = useState<string | null>(null);
   // Commentaire précis ciblé par la notif (/communaute?prayer=<id>&c=<comment>).
   const [targetComment, setTargetComment] = useState<string | null>(null);
+  // Deep-link de notification, réactif à l'URL : fonctionne aussi quand on
+  // clique une notif de la cloche alors qu'on est déjà sur le mur (l'URL change
+  // sans remonter le composant).
+  const searchParams = useSearchParams();
+  const prayerParam = searchParams.get("prayer");
+  const commentParam = searchParams.get("c");
   useEffect(() => {
-    try {
-      const q = new URLSearchParams(window.location.search);
-      const pid = q.get("prayer");
-      if (pid) setTargetPrayer(pid);
-      const cid = q.get("c");
-      if (cid) setTargetComment(cid);
-    } catch {
-      /* ignore */
-    }
-  }, []);
+    if (prayerParam) setTargetPrayer(prayerParam);
+    setTargetComment(commentParam);
+  }, [prayerParam, commentParam]);
+  // Si la prière ciblée n'est pas déjà chargée, on va la chercher et on la met
+  // en tête (sans recharger tout le fil).
+  useEffect(() => {
+    if (!prayerParam || prayers.length === 0) return;
+    if (prayers.some((p) => p.id === prayerParam)) return;
+    let alive = true;
+    getPrayer(prayerParam).then((m) => {
+      if (alive && m) setPrayers((prev) => (prev.some((p) => p.id === m.id) ? prev : [m, ...prev]));
+    });
+    return () => {
+      alive = false;
+    };
+  }, [prayerParam, prayers]);
 
   const load = useCallback(async () => {
     setLoading(true);
