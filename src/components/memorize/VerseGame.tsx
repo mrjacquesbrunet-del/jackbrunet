@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { addMemorizeXp, markReviewed, recordPlaySession, GAME_BEST_KEY, type MemorizeItem } from "@/lib/memorize";
 import { submitWeeklyPoints } from "@/lib/game-leaderboard";
 import { isMusicOn, startGameMusic, stopGameMusic, toggleGameMusic } from "@/lib/game-audio";
@@ -591,6 +592,13 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
               <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
             </svg>
           </button>
+          {/* Accueil des jeux */}
+          <Link href="/jeux" aria-label="Accueil des jeux"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-cream/50 hover:bg-white/10 hover:text-cream">
+            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.9}>
+              <path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </Link>
           {/* Musique du jeu */}
           <button type="button" onClick={() => setMusic(toggleGameMusic())}
             aria-label={music ? "Couper la musique" : "Activer la musique"}

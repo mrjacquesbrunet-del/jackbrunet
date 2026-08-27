@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchGameLeaderboard, fetchTotalLeaderboard, currentUserId, type GameId, type ScoreRow } from "@/lib/game-scores";
+import { fetchGameLeaderboard, fetchTotalLeaderboard, fetchWeeklyLeague, currentUserId, type GameId, type ScoreRow } from "@/lib/game-scores";
 
 const MEDALS = ["#FCD34D", "#CBD5E1", "#D9843B"]; // or, argent, bronze
 
@@ -20,7 +20,7 @@ export function ScoreBoard({
   light = false,
   limit = 20,
 }: {
-  mode: GameId | "total";
+  mode: GameId | "total" | "weekly";
   accent: string;
   title: string;
   light?: boolean;
@@ -32,7 +32,12 @@ export function ScoreBoard({
   useEffect(() => {
     let alive = true;
     currentUserId().then((id) => alive && setMeId(id));
-    const load = mode === "total" ? fetchTotalLeaderboard(limit) : fetchGameLeaderboard(mode, limit);
+    const load =
+      mode === "total"
+        ? fetchTotalLeaderboard(limit)
+        : mode === "weekly"
+          ? fetchWeeklyLeague(limit)
+          : fetchGameLeaderboard(mode, limit);
     load.then((r) => alive && setRows(r));
     return () => {
       alive = false;

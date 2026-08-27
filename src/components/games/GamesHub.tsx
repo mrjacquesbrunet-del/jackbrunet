@@ -221,11 +221,19 @@ export function GamesHub() {
         ))}
       </div>
 
-      {/* ---------- Classement général (cumul des 3 jeux) ---------- */}
+      {/* ---------- Ligue de la semaine ---------- */}
       <div className="mt-7">
+        <ScoreBoard mode="weekly" accent="#FB923C" title="Ligue de la semaine" />
+        <p className="mt-2 text-center font-game text-[11px] text-cream/40">
+          Points gagnés cette semaine, tous jeux confondus — remise à zéro chaque lundi.
+        </p>
+      </div>
+
+      {/* ---------- Classement général (cumul des 3 jeux) ---------- */}
+      <div className="mt-6">
         <ScoreBoard mode="total" accent="#CAF000" title="Classement général" />
         <p className="mt-2 text-center font-game text-[11px] text-cream/40">
-          Cumul de tes scores sur les trois jeux.
+          Cumul de tes scores sur les trois jeux (depuis toujours).
         </p>
       </div>
 

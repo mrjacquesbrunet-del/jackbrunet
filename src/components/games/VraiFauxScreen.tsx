@@ -7,7 +7,7 @@ import { getMemorizeXp, levelFromXp } from "@/lib/memorize";
 import { getQuizCoins } from "@/lib/quiz";
 import { getSupabase } from "@/lib/supabase";
 import { getProfile } from "@/lib/community";
-import { submitGameScore } from "@/lib/game-scores";
+import { submitGameScore, submitWeeklyPoints } from "@/lib/game-scores";
 import { ScoreBoard } from "@/components/games/ScoreBoard";
 
 function buzz(p: number | number[]) {
@@ -157,6 +157,7 @@ export function VraiFauxScreen() {
     setBest(res.best);
     setXp(getMemorizeXp() + getVfXp() + Math.floor(getQuizCoins() / 500));
     submitGameScore("vraifaux", getVfXp());
+    submitWeeklyPoints(finalScore); // bonnes réponses -> ligue de la semaine
   }, []);
 
   // Sauvegarde continue de la partie (au début de chaque affirmation).

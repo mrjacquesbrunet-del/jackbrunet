@@ -30,7 +30,7 @@ import { WeeklyChampions } from "@/components/memorize/WeeklyChampions";
 import { VERSE_PACKS } from "@/config/verse-packs";
 import { getSupabase } from "@/lib/supabase";
 import { getProfile } from "@/lib/community";
-import { submitGameScore } from "@/lib/game-scores";
+import { submitGameScore, submitWeeklyPoints } from "@/lib/game-scores";
 import { ScoreBoard } from "@/components/games/ScoreBoard";
 
 const LEVEL_LABELS = ["Découverte", "Quelques trous", "La moitié", "Presque tout", "Par cœur"];
@@ -326,11 +326,19 @@ export default function MemoriserPage() {
       }
     })();
   }, []);
+  const memoBaseRef = useRef(0);
+  const playedRef = useRef(false);
   useEffect(() => {
     if (gaming) return;
     const mx = getMemorizeXp();
     setXp(mx);
     submitGameScore("memoriser", mx);
+    // Retour d'une partie : envoie le gain d'XP (réduit) à la ligue de la semaine.
+    if (playedRef.current) {
+      playedRef.current = false;
+      const gain = Math.max(0, mx - memoBaseRef.current);
+      if (gain > 0) submitWeeklyPoints(Math.max(1, Math.round(gain / 10)));
+    }
     setStreak(currentStreak());
     setDailyXp(getDailyXp());
     try {
@@ -503,7 +511,11 @@ export default function MemoriserPage() {
           {/* JOUER */}
           <button
             type="button"
-            onClick={() => setGaming(true)}
+            onClick={() => {
+              memoBaseRef.current = getMemorizeXp();
+              playedRef.current = true;
+              setGaming(true);
+            }}
             disabled={items.length === 0}
             className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-b from-amber-300 to-amber-500 py-4 font-game text-xl font-black text-night-950 shadow-[inset_0_2px_0_rgba(255,255,255,.45),0_6px_0_#b45309] transition-all active:translate-y-[3px] active:shadow-[inset_0_2px_0_rgba(255,255,255,.45),0_3px_0_#b45309] disabled:opacity-50"
           >

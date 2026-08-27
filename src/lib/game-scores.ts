@@ -53,6 +53,32 @@ export async function fetchTotalLeaderboard(limit = 50): Promise<ScoreRow[]> {
   }
 }
 
+/**
+ * Ligue de la semaine : ajoute les points d'une partie au pot de la semaine
+ * en cours (repart chaque lundi). Sans effet si non connecté.
+ */
+export async function submitWeeklyPoints(points: number): Promise<void> {
+  const sb = getSupabase();
+  if (!sb || !Number.isFinite(points) || points <= 0) return;
+  try {
+    await sb.rpc("arcade_week_add", { p_points: Math.round(points) });
+  } catch {
+    /* hors ligne */
+  }
+}
+
+/** Classement de la semaine en cours (tous jeux confondus). */
+export async function fetchWeeklyLeague(limit = 50): Promise<ScoreRow[]> {
+  const sb = getSupabase();
+  if (!sb) return [];
+  try {
+    const { data } = await sb.rpc("arcade_week_leaderboard", { p_limit: limit });
+    return (data as ScoreRow[]) || [];
+  } catch {
+    return [];
+  }
+}
+
 /** Id de l'utilisateur connecté (pour surligner sa ligne), ou null. */
 export async function currentUserId(): Promise<string | null> {
   const sb = getSupabase();

@@ -44,7 +44,7 @@ import { getVfXp } from "@/lib/vraifaux";
 import { asset } from "@/lib/asset";
 import { getSupabase } from "@/lib/supabase";
 import { getProfile } from "@/lib/community";
-import { submitGameScore } from "@/lib/game-scores";
+import { submitGameScore, submitWeeklyPoints } from "@/lib/game-scores";
 import { ScoreBoard } from "@/components/games/ScoreBoard";
 
 type IconCmp = (p: { className?: string }) => ReactElement;
@@ -395,6 +395,7 @@ export function QuizScreen() {
       setBestRung(res.bestRung);
       submitQuizCoins(amount, res.best);
       submitGameScore("quiz", Math.floor(res.coins / 500));
+      submitWeeklyPoints(rung); // palier atteint -> ligue de la semaine (comparable aux autres jeux)
       if (sourceRef.current === "daily") {
         const d = markDailyDone();
         setDaily({ streak: d.streak, doneToday: true });
