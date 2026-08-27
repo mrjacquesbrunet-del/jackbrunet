@@ -28,6 +28,8 @@ import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
 import { VerseGame } from "@/components/memorize/VerseGame";
 import { WeeklyChampions } from "@/components/memorize/WeeklyChampions";
 import { VERSE_PACKS } from "@/config/verse-packs";
+import { getSupabase } from "@/lib/supabase";
+import { getProfile } from "@/lib/community";
 
 const LEVEL_LABELS = ["Découverte", "Quelques trous", "La moitié", "Presque tout", "Par cœur"];
 
@@ -248,6 +250,29 @@ export default function MemoriserPage() {
   const [streak, setStreak] = useState(0);
   const [dailyXp, setDailyXp] = useState(0);
   const [newBadges, setNewBadges] = useState<string[]>([]);
+  const [name, setName] = useState("");
+  const [avatar, setAvatar] = useState<string | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      const sb = getSupabase();
+      if (!sb) return;
+      try {
+        const { data } = await sb.auth.getUser();
+        const uid = data.user?.id;
+        if (!uid) return;
+        const prof = await getProfile(uid);
+        const first =
+          (prof?.pseudo && prof.pseudo.trim()) ||
+          (data.user?.user_metadata?.first_name as string | undefined) ||
+          "";
+        setName(first);
+        setAvatar(prof?.avatar_url || null);
+      } catch {
+        /* avatar neutre */
+      }
+    })();
+  }, []);
   useEffect(() => {
     if (gaming) return;
     setXp(getMemorizeXp());
@@ -316,6 +341,18 @@ export default function MemoriserPage() {
     for (const q of refs) await addByReference(q);
   }
 
+  // En partie : on n'affiche que le jeu (comme les autres jeux, plein écran).
+  if (gaming) {
+    return (
+      <div className="dark-ctx min-h-screen bg-night-950 pb-24 pt-24 text-cream sm:pt-28">
+        <PlansDarkBg />
+        <div className="container-x mx-auto max-w-2xl">
+          <VerseGame items={items} onClose={() => setGaming(false)} />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="dark-ctx min-h-screen bg-night-950 pb-24 pt-24 text-cream sm:pt-28">
       <PlansDarkBg />
@@ -323,19 +360,107 @@ export default function MemoriserPage() {
         <Link href="/bible" className="text-xs font-semibold text-cream/50 hover:text-cream/80">
           ← Retour à la Bible
         </Link>
-        <span className="mt-3 block font-game text-xs font-bold uppercase tracking-[0.22em] text-[#FFB020]">
-          Le jeu de la Parole
-        </span>
-        <h1 className="mt-2 font-game text-4xl font-bold leading-tight">
-          Apprends en{" "}
-          <span className="bg-gradient-to-r from-[#CAF000] via-[#38BDF8] to-[#FF5CA8] bg-clip-text text-transparent">
-            jouant
-          </span>
-        </h1>
-        <p className="mt-2 font-game text-sm text-cream/65">
-          Mémorise tes versets par cœur, manche après manche. « Je serre ta parole dans mon cœur »
-          (Psaume 119:11).
-        </p>
+        {/* ---------- Hub premium (or / ambre) ---------- */}
+        <section className="relative mt-3 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-night-800 via-night-900 to-night-950 p-4 shadow-2xl">
+          <div className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full bg-amber-400/15 blur-3xl" />
+
+          {/* Profil joueur */}
+          <div className="relative flex items-center gap-3">
+            <Link href="/profil" aria-label="Mon profil" className="shrink-0">
+              {avatar ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={avatar} alt="" className="h-14 w-14 rounded-full object-cover shadow-lg ring-2 ring-amber-300/70" />
+              ) : (
+                <span className="grid h-14 w-14 place-items-center rounded-full bg-white/10 text-cream/70 ring-2 ring-white/15">
+                  <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM5 20a7 7 0 0 1 14 0" /></svg>
+                </span>
+              )}
+            </Link>
+            <div className="min-w-0 flex-1">
+              <p className="truncate font-game text-base font-extrabold leading-tight">{name || "Joueur"}</p>
+              <p className="font-game text-[11px] font-bold tracking-wide text-amber-300">NIVEAU {lvl.level}</p>
+              <div className="mt-1 h-2.5 w-full overflow-hidden rounded-full bg-black/40 ring-1 ring-white/10">
+                <div className="h-full rounded-full bg-gradient-to-r from-amber-300 to-amber-500" style={{ width: `${Math.round((lvl.into / lvl.span) * 100)}%` }} />
+              </div>
+            </div>
+            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-night-800 px-3 py-1.5 font-game text-xs font-extrabold text-amber-300 ring-1 ring-white/10">
+              Record {record}
+            </span>
+          </div>
+
+          {/* Héros */}
+          <div
+            className="relative mt-4 overflow-hidden rounded-2xl border border-amber-400/20 p-4"
+            style={{ background: "radial-gradient(130% 120% at 0% 0%, rgba(251,191,36,.20), rgba(23,23,22,.55) 62%)" }}
+          >
+            <svg viewBox="0 0 24 24" className="pointer-events-none absolute -right-3 -top-2 h-32 w-32 text-amber-300/10" fill="none" stroke="currentColor" strokeWidth={1.2}>
+              <path d="M4 5a2 2 0 0 1 2-2h6v16H6a2 2 0 0 0-2 2zM20 5a2 2 0 0 0-2-2h-6v16h6a2 2 0 0 1 2 2z" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <span className="inline-block rounded-lg bg-amber-400 px-3 py-0.5 font-game text-[10px] font-extrabold text-night-950">LE JEU DE LA PAROLE</span>
+            <h1 className="mt-2 font-game text-3xl font-black leading-[0.95]">
+              MÉMORISER
+              <br />
+              <span className="text-amber-300">DES VERSETS</span>
+            </h1>
+            <p className="mt-2 max-w-[16rem] font-game text-sm font-semibold text-cream/70">
+              Grave la Parole dans ton cœur, manche après manche.
+            </p>
+          </div>
+
+          {/* Objectif + Record */}
+          <div className="mt-3 grid grid-cols-2 gap-3">
+            <div className="flex items-center gap-2.5 rounded-2xl border border-white/8 bg-white/[0.04] p-3.5">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-gradient-to-b from-amber-300 to-amber-500 text-night-950 shadow">
+                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" /></svg>
+              </span>
+              <div className="min-w-0">
+                <p className="font-game text-xs font-extrabold text-amber-300">OBJECTIF</p>
+                <p className="text-[11px] leading-tight text-cream/60">Chaque verset par cœur, étape par étape.</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2.5 rounded-2xl border border-amber-400/40 bg-white/[0.04] p-3.5">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-gradient-to-b from-amber-300 to-amber-500 text-night-950 shadow">
+                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M8 4h8v3a4 4 0 0 1-8 0zM9 20h6M12 11v4" /></svg>
+              </span>
+              <div className="min-w-0">
+                <p className="font-game text-[10px] font-extrabold text-amber-300">RECORD</p>
+                <p className="font-game text-2xl font-black leading-tight text-amber-300">{record}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+            <div className="rounded-2xl bg-white/[0.06] py-3">
+              <p className="font-game text-lg font-extrabold text-amber-300">{learned}</p>
+              <p className="text-[10px] font-bold uppercase tracking-wide text-cream/50">Appris</p>
+            </div>
+            <div className="rounded-2xl bg-white/[0.06] py-3">
+              <p className="font-game text-lg font-extrabold text-amber-300">{inProgress}</p>
+              <p className="text-[10px] font-bold uppercase tracking-wide text-cream/50">En cours</p>
+            </div>
+            <div className="rounded-2xl bg-white/[0.06] py-3">
+              <p className="font-game text-lg font-extrabold text-amber-300">{streak}</p>
+              <p className="text-[10px] font-bold uppercase tracking-wide text-cream/50">Série</p>
+            </div>
+          </div>
+
+          {/* JOUER */}
+          <button
+            type="button"
+            onClick={() => setGaming(true)}
+            disabled={items.length === 0}
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-b from-amber-300 to-amber-500 py-4 font-game text-xl font-black text-night-950 shadow-[inset_0_2px_0_rgba(255,255,255,.45),0_6px_0_#b45309] transition-all active:translate-y-[3px] active:shadow-[inset_0_2px_0_rgba(255,255,255,.45),0_3px_0_#b45309] disabled:opacity-50"
+          >
+            <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current" aria-hidden><path d="M8 5l11 7-11 7z" /></svg>
+            {items.length > 0 ? "CONTINUER" : "JOUER"}
+          </button>
+          {items.length === 0 ? (
+            <p className="mt-2 text-center font-game text-xs text-cream/55">
+              Ajoute d&apos;abord un verset pour lancer une partie.
+            </p>
+          ) : null}
+        </section>
 
         {/* Ajout par référence */}
         <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
@@ -374,112 +499,6 @@ export default function MemoriserPage() {
           <p className="mt-2 text-xs text-cream/40">
             Astuce : depuis la Bible, tape sur un verset puis « Mémoriser ».
           </p>
-        </div>
-
-        {/* Le hub du jeu : carte colorée façon jeu mobile */}
-        {gaming ? <VerseGame items={items} onClose={() => setGaming(false)} /> : null}
-
-        {/* Nouveau jeu : Le Défi Biblique (quiz millionnaire) */}
-        <Link
-          href="/quiz"
-          className="relative mt-6 flex items-center gap-4 overflow-hidden rounded-[2rem] p-5 shadow-[0_18px_40px_-18px_rgba(59,7,100,0.7)]"
-          style={{ background: "linear-gradient(140deg, #312E81 0%, #6D28D9 55%, #A21CAF 100%)" }}
-        >
-          <div className="pointer-events-none absolute -right-8 -top-10 h-32 w-32 rounded-full bg-amber-300/20 blur-2xl" />
-          <div className="grid h-[4.5rem] w-[4.5rem] shrink-0 place-items-center rounded-3xl bg-amber-400 font-game text-3xl font-extrabold text-night-950 shadow-[0_6px_0_rgba(0,0,0,0.2)]">
-            ?
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="font-game text-[10px] font-bold uppercase tracking-wide text-amber-200/80">
-              Nouveau jeu
-            </p>
-            <p className="font-game text-xl font-extrabold text-cream">Le Défi Biblique</p>
-            <p className="mt-0.5 font-game text-xs text-cream/70">
-              15 paliers, des jokers, jusqu&apos;au million. Grimpe le classement mondial.
-            </p>
-          </div>
-          <span className="shrink-0 rounded-full bg-[#8FE23C] px-4 py-2 font-game text-sm font-extrabold text-night-950">
-            Jouer
-          </span>
-        </Link>
-
-        <div
-          className="relative mt-6 overflow-hidden rounded-[2rem] p-5 shadow-[0_18px_40px_-18px_rgba(124,92,255,0.7)]"
-          style={{ background: "linear-gradient(140deg, #6D28D9 0%, #C026D3 48%, #FB7185 100%)" }}
-        >
-          {/* Bulles décoratives */}
-          <div className="pointer-events-none absolute -right-8 -top-10 h-32 w-32 rounded-full bg-white/15 blur-2xl" />
-          <div className="pointer-events-none absolute -bottom-12 -left-6 h-32 w-32 rounded-full bg-[#38BDF8]/30 blur-2xl" />
-
-          <div className="relative flex items-center gap-4">
-            {/* Badge de niveau lumineux */}
-            <div className="grid h-[4.5rem] w-[4.5rem] shrink-0 place-items-center rounded-3xl bg-white/95 shadow-[0_6px_0_rgba(0,0,0,0.18)]">
-              <span className="text-center leading-none">
-                <span className="block font-game text-[9px] font-bold uppercase tracking-wide text-[#7C3AED]/70">
-                  Niveau
-                </span>
-                <span
-                  className="block font-game text-3xl font-bold"
-                  style={{ background: "linear-gradient(135deg,#6D28D9,#C026D3)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}
-                >
-                  {lvl.level}
-                </span>
-              </span>
-            </div>
-            {/* Jauge d'XP */}
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center justify-between font-game text-xs font-bold text-white/85">
-                <span>{xp} XP</span>
-                <span className="tabular-nums">{lvl.into} / {lvl.span}</span>
-              </div>
-              <div className="mt-1.5 h-4 overflow-hidden rounded-full bg-black/25">
-                <div
-                  className="h-full rounded-full transition-all duration-500"
-                  style={{
-                    width: `${Math.min(100, Math.max(4, (lvl.into / lvl.span) * 100))}%`,
-                    background: "linear-gradient(90deg,#FDE047,#FB923C,#F472B6)",
-                  }}
-                />
-              </div>
-              <p className="mt-1 font-game text-xs text-white/70">
-                Encore {lvl.span - lvl.into} XP avant le niveau {lvl.level + 1}
-              </p>
-            </div>
-          </div>
-
-          {/* Statistiques colorées */}
-          <div className="relative mt-4 grid grid-cols-3 gap-2.5 text-center">
-            {[
-              { v: learned, label: "Appris", c: "#CAF000" },
-              { v: inProgress, label: "En cours", c: "#38BDF8" },
-              { v: record, label: "Record", c: "#FDE047" },
-            ].map((s) => (
-              <div key={s.label} className="rounded-2xl bg-white/15 px-2 py-3 backdrop-blur-sm">
-                <p className="font-game text-2xl font-bold" style={{ color: s.c }}>{s.v}</p>
-                <p className="mt-0.5 font-game text-[11px] font-bold uppercase tracking-wide text-white/70">
-                  {s.label}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          {/* JOUER — gros bouton blanc qui rebondit */}
-          <button
-            type="button"
-            onClick={() => setGaming(true)}
-            disabled={items.length === 0}
-            className="relative mt-4 w-full select-none rounded-2xl bg-white px-5 py-4 text-center font-game text-lg font-bold uppercase tracking-wide text-[#7C3AED] shadow-[0_6px_0_rgba(0,0,0,0.2)] transition-all duration-100 hover:brightness-105 active:translate-y-[4px] active:shadow-none disabled:opacity-50 disabled:shadow-none"
-          >
-            <span className="inline-flex items-center gap-2">
-              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current" aria-hidden><path d="M6 5v14l12-7z" /></svg>
-              {items.length > 0 ? "Continuer" : "Jouer"}
-            </span>
-          </button>
-          {items.length === 0 ? (
-            <p className="relative mt-2 text-center font-game text-xs text-white/75">
-              Ajoute d&apos;abord un verset pour lancer une partie.
-            </p>
-          ) : null}
         </div>
 
         {/* Série de jours + objectif quotidien */}
