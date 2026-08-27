@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import {
   useMemorize,
@@ -34,6 +34,25 @@ import { submitGameScore } from "@/lib/game-scores";
 import { ScoreBoard } from "@/components/games/ScoreBoard";
 
 const LEVEL_LABELS = ["Découverte", "Quelques trous", "La moitié", "Presque tout", "Par cœur"];
+
+/**
+ * Versets pré-chargés au tout premier lancement (thème « identité en Christ »),
+ * pour que chacun puisse commencer à apprendre sans rien ajouter. On ne le fait
+ * qu'une seule fois : ceux qui suppriment/ajoutent gardent la main.
+ */
+const SEED_KEY = "jb.memorize.seeded.v1";
+const SEED_VERSES = [
+  "2 Corinthiens 5:17",
+  "Galates 2:20",
+  "Romains 8:1",
+  "Éphésiens 2:10",
+  "1 Pierre 2:9",
+  "Jean 1:12",
+  "Romains 8:37",
+  "Colossiens 2:10",
+  "Éphésiens 1:7",
+  "Philippiens 4:13",
+];
 
 /** Un mot du verset : visible, ou masqué (tap pour révéler). */
 function Word({
@@ -254,6 +273,38 @@ export default function MemoriserPage() {
   const [newBadges, setNewBadges] = useState<string[]>([]);
   const [name, setName] = useState("");
   const [avatar, setAvatar] = useState<string | null>(null);
+
+  // Pré-chargement des versets « identité en Christ » au tout premier lancement.
+  const seededRef = useRef(false);
+  useEffect(() => {
+    if (seededRef.current) return;
+    seededRef.current = true;
+    let already = false;
+    try {
+      already = !!localStorage.getItem(SEED_KEY);
+    } catch {
+      /* stockage indisponible */
+    }
+    if (already) return;
+    // Déjà des versets (utilisateur existant) : on marque fait, sans rien ajouter.
+    if (items.length > 0) {
+      try {
+        localStorage.setItem(SEED_KEY, "1");
+      } catch {
+        /* ignore */
+      }
+      return;
+    }
+    (async () => {
+      for (const r of SEED_VERSES) await addByReference(r);
+      try {
+        localStorage.setItem(SEED_KEY, "1");
+      } catch {
+        /* ignore */
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     (async () => {

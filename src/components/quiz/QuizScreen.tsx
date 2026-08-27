@@ -104,6 +104,7 @@ const IconCoin = S("M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM9.6 14c0 1 1 1.6 2.4 1.
 const IconGem = S("M6 3h12l3 5-9 13L3 8zM3 8h18M9 3l-1 5M15 3l1 5");
 const IconCrown = S("M4 8l4 3.5L12 5l4 6.5L20 8l-1.4 10H5.4z");
 const IconMedal = S("M8 3l2 6M16 3l-2 6M12 21a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 14.5l1 2 2 .2-1.5 1.4.4 2-1.9-1-1.9 1 .4-2L9 16.7l2-.2z");
+const IconGames = S("M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z");
 const IconLock = S("M6 10V8a6 6 0 0 1 12 0v2M5 10h14v10H5zM12 14v3");
 
 const LETTERS = ["A", "B", "C", "D"];
@@ -633,6 +634,13 @@ export function QuizScreen() {
               <IconCalendar className="h-4 w-4 text-dawn-300" /> {daily.doneToday ? "Fait" : "Défi jour"}
             </button>
           </div>
+          {/* Retour à l'accueil des jeux */}
+          <Link
+            href="/jeux"
+            className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-white/12 bg-white/[0.06] py-3 font-game text-sm font-bold text-cream active:bg-white/10"
+          >
+            <IconGames className="h-4 w-4 text-dawn-300" /> Accueil des jeux
+          </Link>
           <div className="mt-3 flex items-center justify-center gap-3">
             <button type="button" onClick={() => setShowTrophies(true)} className="qzp-mini2">
               <IconMedal className="h-4 w-4 text-amber-300" /> Trophées
@@ -640,7 +648,7 @@ export function QuizScreen() {
             <button type="button" onClick={() => setSound((v) => !v)} aria-label="Son" className="grid h-9 w-9 place-items-center rounded-full bg-white/10">
               {sound ? <SoundOn className="h-4 w-4" /> : <SoundOff className="h-4 w-4" />}
             </button>
-            <Link href="/devotionnel" aria-label="Retour" className="grid h-9 w-9 place-items-center rounded-full bg-white/10">
+            <Link href="/devotionnel" aria-label="Accueil de l'app" className="grid h-9 w-9 place-items-center rounded-full bg-white/10">
               <IconClose className="h-4 w-4" />
             </Link>
           </div>
