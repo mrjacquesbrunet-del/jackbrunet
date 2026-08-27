@@ -3541,6 +3541,846 @@
       ],
       "correct": 0,
       "reference": "Apocalypse 5:1"
+    },
+    {
+      "id": 254,
+      "difficulty": 1,
+      "category": "Bible",
+      "q": "Combien de fils Isaac eut-il de Rebecca ?",
+      "options": [
+        "1",
+        "2",
+        "12",
+        "4"
+      ],
+      "correct": 1,
+      "reference": "Genèse 25"
+    },
+    {
+      "id": 255,
+      "difficulty": 1,
+      "category": "Bible",
+      "q": "Combien de fois par jour Daniel priait-il ?",
+      "options": [
+        "1 fois",
+        "7 fois",
+        "5 fois",
+        "3 fois"
+      ],
+      "correct": 3,
+      "reference": "Daniel 6:10"
+    },
+    {
+      "id": 256,
+      "difficulty": 1,
+      "category": "Bible",
+      "q": "Quel roi fit tuer les petits enfants de Bethléem ?",
+      "options": [
+        "Pilate",
+        "Hérode",
+        "Néron",
+        "César"
+      ],
+      "correct": 1,
+      "reference": "Matthieu 2:16"
+    },
+    {
+      "id": 257,
+      "difficulty": 1,
+      "category": "Bible",
+      "q": "Sur quel arbre Zachée grimpa-t-il ?",
+      "options": [
+        "Un cèdre",
+        "Un figuier",
+        "Un sycomore",
+        "Un olivier"
+      ],
+      "correct": 2,
+      "reference": "Luc 19:4"
+    },
+    {
+      "id": 258,
+      "difficulty": 1,
+      "category": "Bible",
+      "q": "Qui a écrit beaucoup de proverbes ?",
+      "options": [
+        "David",
+        "Moïse",
+        "Job",
+        "Salomon"
+      ],
+      "correct": 3,
+      "reference": "Proverbes 1"
+    },
+    {
+      "id": 259,
+      "difficulty": 1,
+      "category": "Bible",
+      "q": "Qui monta sur un ânon en entrant à Jérusalem ?",
+      "options": [
+        "Jésus",
+        "Salomon",
+        "Pierre",
+        "David"
+      ],
+      "correct": 0,
+      "reference": "Matthieu 21"
+    },
+    {
+      "id": 260,
+      "difficulty": 1,
+      "category": "Bible",
+      "q": "Qui construisit un autel après le déluge ?",
+      "options": [
+        "Abraham",
+        "Job",
+        "Noé",
+        "Moïse"
+      ],
+      "correct": 2,
+      "reference": "Genèse 8:20"
+    },
+    {
+      "id": 261,
+      "difficulty": 1,
+      "category": "Bible",
+      "q": "Quelle femme trahit Samson aux Philistins ?",
+      "options": [
+        "Dalila",
+        "Jézabel",
+        "Athalie",
+        "Michal"
+      ],
+      "correct": 0,
+      "reference": "Juges 16"
+    },
+    {
+      "id": 262,
+      "difficulty": 1,
+      "category": "Bible",
+      "q": "Combien y a-t-il d'évangiles dans la Bible ?",
+      "options": [
+        "3",
+        "5",
+        "4",
+        "12"
+      ],
+      "correct": 2,
+      "reference": "—"
+    },
+    {
+      "id": 263,
+      "difficulty": 1,
+      "category": "Bible",
+      "q": "Qui a reçu la Loi sur deux tables de pierre ?",
+      "options": [
+        "Aaron",
+        "Moïse",
+        "Élie",
+        "Josué"
+      ],
+      "correct": 1,
+      "reference": "Exode 24"
+    },
+    {
+      "id": 264,
+      "difficulty": 2,
+      "category": "Bible",
+      "q": "Quel prophète est surnommé « le prophète des larmes » ?",
+      "options": [
+        "Ésaïe",
+        "Daniel",
+        "Jérémie",
+        "Ézéchiel"
+      ],
+      "correct": 2,
+      "reference": "Lamentations"
+    },
+    {
+      "id": 265,
+      "difficulty": 2,
+      "category": "Bible",
+      "q": "Quelle femme cacha les espions israélites à Jéricho ?",
+      "options": [
+        "Débora",
+        "Rahab",
+        "Anne",
+        "Ruth"
+      ],
+      "correct": 1,
+      "reference": "Josué 2"
+    },
+    {
+      "id": 266,
+      "difficulty": 2,
+      "category": "Bible",
+      "q": "Comment Jésus renomma-t-il Simon ?",
+      "options": [
+        "André",
+        "Jacques",
+        "Thomas",
+        "Pierre"
+      ],
+      "correct": 3,
+      "reference": "Jean 1:42"
+    },
+    {
+      "id": 267,
+      "difficulty": 2,
+      "category": "Bible",
+      "q": "Quel roi bâtit son trône en ivoire et or ?",
+      "options": [
+        "Salomon",
+        "David",
+        "Ézéchias",
+        "Achab"
+      ],
+      "correct": 0,
+      "reference": "1 Rois 10:18"
+    },
+    {
+      "id": 268,
+      "difficulty": 2,
+      "category": "Bible",
+      "q": "Qui fut jeté dans une citerne par ses frères ?",
+      "options": [
+        "Juda",
+        "Benjamin",
+        "Joseph",
+        "Ruben"
+      ],
+      "correct": 2,
+      "reference": "Genèse 37:24"
+    },
+    {
+      "id": 269,
+      "difficulty": 2,
+      "category": "Bible",
+      "q": "Quel apôtre fut d'abord un persécuteur des chrétiens ?",
+      "options": [
+        "Paul",
+        "Pierre",
+        "Barnabas",
+        "Jean"
+      ],
+      "correct": 0,
+      "reference": "Actes 8:3"
+    },
+    {
+      "id": 270,
+      "difficulty": 2,
+      "category": "Bible",
+      "q": "Qui pria pour avoir un enfant et enfanta Samuel ?",
+      "options": [
+        "Anne",
+        "Ruth",
+        "Peninna",
+        "Naomi"
+      ],
+      "correct": 0,
+      "reference": "1 Samuel 1"
+    },
+    {
+      "id": 271,
+      "difficulty": 2,
+      "category": "Bible",
+      "q": "Combien de disciples Jésus envoya chercher l'ânon ?",
+      "options": [
+        "3",
+        "12",
+        "2",
+        "5"
+      ],
+      "correct": 2,
+      "reference": "Matthieu 21:1"
+    },
+    {
+      "id": 272,
+      "difficulty": 2,
+      "category": "Bible",
+      "q": "Qui reçut la promesse d'une descendance nombreuse comme les étoiles ?",
+      "options": [
+        "Abraham",
+        "Isaac",
+        "Jacob",
+        "Noé"
+      ],
+      "correct": 0,
+      "reference": "Genèse 15:5"
+    },
+    {
+      "id": 273,
+      "difficulty": 2,
+      "category": "Bible",
+      "q": "Quel roi fut le fils et successeur de David ?",
+      "options": [
+        "Absalom",
+        "Roboam",
+        "Salomon",
+        "Adonija"
+      ],
+      "correct": 2,
+      "reference": "1 Rois 2"
+    },
+    {
+      "id": 274,
+      "difficulty": 3,
+      "category": "Bible",
+      "q": "Combien de fois faut-il pardonner selon Jésus ?",
+      "options": [
+        "10 fois",
+        "70 fois 7 fois",
+        "3 fois",
+        "7 fois"
+      ],
+      "correct": 1,
+      "reference": "Matthieu 18:22"
+    },
+    {
+      "id": 275,
+      "difficulty": 3,
+      "category": "Bible",
+      "q": "Quel prophète eut une vision de roues et de créatures ailées ?",
+      "options": [
+        "Daniel",
+        "Ézéchiel",
+        "Zacharie",
+        "Ésaïe"
+      ],
+      "correct": 1,
+      "reference": "Ézéchiel 1"
+    },
+    {
+      "id": 276,
+      "difficulty": 3,
+      "category": "Bible",
+      "q": "Combien de lépreux Jésus guérit-il, dont un seul revint remercier ?",
+      "options": [
+        "10",
+        "5",
+        "12",
+        "7"
+      ],
+      "correct": 0,
+      "reference": "Luc 17:12-17"
+    },
+    {
+      "id": 277,
+      "difficulty": 3,
+      "category": "Bible",
+      "q": "Sous quel roi retrouva-t-on le livre de la Loi, qui en pleura ?",
+      "options": [
+        "Asa",
+        "Ézéchias",
+        "Josias",
+        "David"
+      ],
+      "correct": 2,
+      "reference": "2 Rois 22:11"
+    },
+    {
+      "id": 278,
+      "difficulty": 3,
+      "category": "Bible",
+      "q": "Quel roi vit le royaume se diviser à cause de sa dureté ?",
+      "options": [
+        "Abija",
+        "Jéroboam",
+        "Roboam",
+        "Asa"
+      ],
+      "correct": 2,
+      "reference": "1 Rois 12"
+    },
+    {
+      "id": 279,
+      "difficulty": 3,
+      "category": "Bible",
+      "q": "Qui furent les parents de Jean-Baptiste ?",
+      "options": [
+        "Zacharie et Élisabeth",
+        "Amram et Jokébed",
+        "Joseph et Marie",
+        "Éli et Anne"
+      ],
+      "correct": 0,
+      "reference": "Luc 1"
+    },
+    {
+      "id": 280,
+      "difficulty": 3,
+      "category": "Bible",
+      "q": "Quel roi fit dresser une statue d'or dans la plaine de Dura ?",
+      "options": [
+        "Belschatsar",
+        "Nébucadnetsar",
+        "Cyrus",
+        "Darius"
+      ],
+      "correct": 1,
+      "reference": "Daniel 3:1"
+    },
+    {
+      "id": 281,
+      "difficulty": 3,
+      "category": "Bible",
+      "q": "Combien d'années environ dura le ministère public de Jésus ?",
+      "options": [
+        "Environ 3 ans",
+        "7 ans",
+        "10 ans",
+        "1 an"
+      ],
+      "correct": 0,
+      "reference": "—"
+    },
+    {
+      "id": 282,
+      "difficulty": 3,
+      "category": "Bible",
+      "q": "Qui écrivit, selon la tradition, la plupart des Proverbes ?",
+      "options": [
+        "Salomon",
+        "Asaph",
+        "David",
+        "Moïse"
+      ],
+      "correct": 0,
+      "reference": "Proverbes 1:1"
+    },
+    {
+      "id": 283,
+      "difficulty": 3,
+      "category": "Bible",
+      "q": "Quel jeune prophète répondit « Parle, ton serviteur écoute » ?",
+      "options": [
+        "Élisée",
+        "Jérémie",
+        "David",
+        "Samuel"
+      ],
+      "correct": 3,
+      "reference": "1 Samuel 3:10"
+    },
+    {
+      "id": 284,
+      "difficulty": 4,
+      "category": "Bible",
+      "q": "Dans quelle ville Paul vit-il l'autel « au dieu inconnu » ?",
+      "options": [
+        "Athènes",
+        "Éphèse",
+        "Corinthe",
+        "Rome"
+      ],
+      "correct": 0,
+      "reference": "Actes 17:23"
+    },
+    {
+      "id": 285,
+      "difficulty": 4,
+      "category": "Bible",
+      "q": "Comment s'appelait le fils rebelle de David ?",
+      "options": [
+        "Adonija",
+        "Salomon",
+        "Amnon",
+        "Absalom"
+      ],
+      "correct": 3,
+      "reference": "2 Samuel 15"
+    },
+    {
+      "id": 286,
+      "difficulty": 4,
+      "category": "Bible",
+      "q": "Quel roi de Perse épousa Esther ?",
+      "options": [
+        "Darius",
+        "Assuérus",
+        "Cyrus",
+        "Artaxerxès"
+      ],
+      "correct": 1,
+      "reference": "Esther 2"
+    },
+    {
+      "id": 287,
+      "difficulty": 4,
+      "category": "Bible",
+      "q": "Qui voulut exterminer les Juifs dans le livre d'Esther ?",
+      "options": [
+        "Haman",
+        "Memucan",
+        "Bigthan",
+        "Mardochée"
+      ],
+      "correct": 0,
+      "reference": "Esther 3"
+    },
+    {
+      "id": 288,
+      "difficulty": 4,
+      "category": "Bible",
+      "q": "Quel prophète oignit Jéhu roi d'Israël ?",
+      "options": [
+        "Élisée",
+        "Élie",
+        "Samuel",
+        "Nathan"
+      ],
+      "correct": 0,
+      "reference": "2 Rois 9"
+    },
+    {
+      "id": 289,
+      "difficulty": 4,
+      "category": "Bible",
+      "q": "Comment s'appelait la ville où Jésus grandit ?",
+      "options": [
+        "Capernaüm",
+        "Bethléem",
+        "Cana",
+        "Nazareth"
+      ],
+      "correct": 3,
+      "reference": "Matthieu 2:23"
+    },
+    {
+      "id": 290,
+      "difficulty": 4,
+      "category": "Bible",
+      "q": "Quel roi tourna sa face vers le mur et obtint 15 ans de vie ?",
+      "options": [
+        "Ézéchias",
+        "David",
+        "Asa",
+        "Josias"
+      ],
+      "correct": 0,
+      "reference": "2 Rois 20:2"
+    },
+    {
+      "id": 291,
+      "difficulty": 4,
+      "category": "Bible",
+      "q": "Combien de fils de Rachel Jacob eut-il ?",
+      "options": [
+        "4",
+        "6",
+        "2",
+        "1"
+      ],
+      "correct": 2,
+      "reference": "Genèse 35"
+    },
+    {
+      "id": 292,
+      "difficulty": 4,
+      "category": "Bible",
+      "q": "Quel bon roi de Juda purifia le temple et régna 29 ans ?",
+      "options": [
+        "Joas",
+        "Ézéchias",
+        "Asa",
+        "Josias"
+      ],
+      "correct": 1,
+      "reference": "2 Chroniques 29"
+    },
+    {
+      "id": 293,
+      "difficulty": 4,
+      "category": "Bible",
+      "q": "Quel jeune prophète dit « je ne suis qu'un enfant » à son appel ?",
+      "options": [
+        "Samuel",
+        "Jérémie",
+        "Daniel",
+        "Ésaïe"
+      ],
+      "correct": 1,
+      "reference": "Jérémie 1:6"
+    },
+    {
+      "id": 294,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "Combien de fils d'Aaron furent consumés par le feu pour un feu étranger ?",
+      "options": [
+        "1",
+        "3",
+        "2",
+        "4"
+      ],
+      "correct": 2,
+      "reference": "Lévitique 10:1-2"
+    },
+    {
+      "id": 295,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "Combien de fils de Gédéon furent tués par Abimélec ?",
+      "options": [
+        "30",
+        "7",
+        "12",
+        "70"
+      ],
+      "correct": 3,
+      "reference": "Juges 9:5"
+    },
+    {
+      "id": 296,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "Sous quel roi célébra-t-on une Pâque unique depuis les juges ?",
+      "options": [
+        "Josias",
+        "David",
+        "Asa",
+        "Ézéchias"
+      ],
+      "correct": 0,
+      "reference": "2 Rois 23:22"
+    },
+    {
+      "id": 297,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "Combien de talents d'or Salomon recevait-il chaque année ?",
+      "options": [
+        "666",
+        "1000",
+        "600",
+        "300"
+      ],
+      "correct": 0,
+      "reference": "1 Rois 10:14"
+    },
+    {
+      "id": 298,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "Comment s'appelait la vieille prophétesse qui vit l'enfant Jésus au temple ?",
+      "options": [
+        "Hulda",
+        "Élisabeth",
+        "Anne",
+        "Débora"
+      ],
+      "correct": 2,
+      "reference": "Luc 2:36"
+    },
+    {
+      "id": 299,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "Quel roi consulta le prophète Michée avant la bataille de Ramoth ?",
+      "options": [
+        "Jéhu",
+        "Achab",
+        "Joram",
+        "Josaphat"
+      ],
+      "correct": 1,
+      "reference": "1 Rois 22:8"
+    },
+    {
+      "id": 300,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "Combien de temps l'apôtre Paul resta-t-il à Éphèse environ ?",
+      "options": [
+        "6 mois",
+        "7 ans",
+        "Environ 3 ans",
+        "1 an"
+      ],
+      "correct": 2,
+      "reference": "Actes 20:31"
+    },
+    {
+      "id": 301,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "Quel roi fit couvrir d'or le sanctuaire du temple ?",
+      "options": [
+        "Salomon",
+        "Ézéchias",
+        "David",
+        "Josias"
+      ],
+      "correct": 0,
+      "reference": "1 Rois 6:22"
+    },
+    {
+      "id": 302,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "Quel prophète fut envoyé vers la veuve de Sarepta ?",
+      "options": [
+        "Amos",
+        "Jérémie",
+        "Élisée",
+        "Élie"
+      ],
+      "correct": 3,
+      "reference": "1 Rois 17:9"
+    },
+    {
+      "id": 303,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "Combien de personnes le prophète Élisée ressuscita-t-il de son vivant ?",
+      "options": [
+        "3",
+        "2",
+        "1",
+        "0"
+      ],
+      "correct": 2,
+      "reference": "2 Rois 4"
+    },
+    {
+      "id": 304,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Sur quelle ville le soleil s'arrêta-t-il à la prière de Josué ?",
+      "options": [
+        "Gabaon",
+        "Jéricho",
+        "Ajalon",
+        "Aï"
+      ],
+      "correct": 0,
+      "reference": "Josué 10:12"
+    },
+    {
+      "id": 305,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Combien de fils de Haman furent pendus ?",
+      "options": [
+        "10",
+        "12",
+        "7",
+        "3"
+      ],
+      "correct": 0,
+      "reference": "Esther 9:13-14"
+    },
+    {
+      "id": 306,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Quel roi de Babylone mangea de l'herbe comme un bœuf ?",
+      "options": [
+        "Nabonide",
+        "Nébucadnetsar",
+        "Évil-Merodac",
+        "Belschatsar"
+      ],
+      "correct": 1,
+      "reference": "Daniel 4:33"
+    },
+    {
+      "id": 307,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Quel patriarche vécut 962 ans, juste après Mathusalem ?",
+      "options": [
+        "Lémec",
+        "Hénoc",
+        "Jared",
+        "Noé"
+      ],
+      "correct": 2,
+      "reference": "Genèse 5:20"
+    },
+    {
+      "id": 308,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Quelle était la profession de Lydie, convertie à Philippes ?",
+      "options": [
+        "Boulangère",
+        "Potière",
+        "Tisserande",
+        "Marchande de pourpre"
+      ],
+      "correct": 3,
+      "reference": "Actes 16:14"
+    },
+    {
+      "id": 309,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Quel autre nom portait l'apôtre Matthieu ?",
+      "options": [
+        "Cléopas",
+        "Lévi",
+        "Nathanaël",
+        "Thaddée"
+      ],
+      "correct": 1,
+      "reference": "Marc 2:14"
+    },
+    {
+      "id": 310,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Quel mauvais roi de Juda mourut « sans être regretté » ?",
+      "options": [
+        "Achaz",
+        "Amon",
+        "Joram",
+        "Manassé"
+      ],
+      "correct": 2,
+      "reference": "2 Chroniques 21:20"
+    },
+    {
+      "id": 311,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Combien d'épîtres l'apôtre Jean écrivit-il ?",
+      "options": [
+        "4",
+        "1",
+        "3",
+        "2"
+      ],
+      "correct": 2,
+      "reference": "—"
+    },
+    {
+      "id": 312,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Quel roi de Juda fit passer son fils par le feu et éleva des autels à Baal ?",
+      "options": [
+        "Joas",
+        "Ézéchias",
+        "Josias",
+        "Achaz"
+      ],
+      "correct": 3,
+      "reference": "2 Rois 16:3"
+    },
+    {
+      "id": 313,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Combien de bœufs de bronze soutenaient la « mer » du temple de Salomon ?",
+      "options": [
+        "4",
+        "24",
+        "10",
+        "12"
+      ],
+      "correct": 3,
+      "reference": "1 Rois 7:25"
     }
   ]
 }

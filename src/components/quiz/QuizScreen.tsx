@@ -592,9 +592,9 @@ export function QuizScreen() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={asset("/img/quiz/trophy.jpg")} alt="" className="h-11 w-11 shrink-0 rounded-xl object-cover" />
               <div className="min-w-0">
-                <p className="font-game text-[10px] font-extrabold text-amber-300">RÉCOMPENSE</p>
-                <p className="font-game text-base font-black leading-tight text-amber-300">{formatCoins(LADDER[LADDER.length - 1])}</p>
-                <p className="text-[10px] text-cream/60">Tu peux le faire&nbsp;!</p>
+                <p className="font-game text-[10px] font-extrabold text-amber-300">TON RECORD</p>
+                <p className="font-game text-base font-black leading-tight text-amber-300">{best > 0 ? formatCoins(best) : "—"}</p>
+                <p className="text-[10px] text-cream/60">{bestRung > 0 ? `Palier ${bestRung}/${LADDER.length}` : "Joue ta 1ʳᵉ partie !"}</p>
               </div>
             </div>
           </div>

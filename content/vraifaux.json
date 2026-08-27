@@ -1161,6 +1161,279 @@
       "answer": false,
       "reference": "Genèse 11",
       "note": "Elle fut bâtie bien avant, aux origines des nations."
+    },
+    {
+      "id": 167,
+      "text": "Le prophète Nathan reprit David après son péché avec Bath-Schéba.",
+      "answer": true,
+      "reference": "2 Samuel 12",
+      "note": ""
+    },
+    {
+      "id": 168,
+      "text": "Daniel refusa les mets du roi et resta pourtant en bonne santé.",
+      "answer": true,
+      "reference": "Daniel 1",
+      "note": ""
+    },
+    {
+      "id": 169,
+      "text": "Jésus ressuscita la fille de Jaïrus.",
+      "answer": true,
+      "reference": "Marc 5",
+      "note": ""
+    },
+    {
+      "id": 170,
+      "text": "Pierre fut délivré de prison par un ange.",
+      "answer": true,
+      "reference": "Actes 12",
+      "note": ""
+    },
+    {
+      "id": 171,
+      "text": "Le prophète Amos était berger avant d'être appelé.",
+      "answer": true,
+      "reference": "Amos 7:14",
+      "note": ""
+    },
+    {
+      "id": 172,
+      "text": "La ville de Ninive se repentit à la prédication de Jonas.",
+      "answer": true,
+      "reference": "Jonas 3",
+      "note": ""
+    },
+    {
+      "id": 173,
+      "text": "Jésus guérit un aveugle-né en lui appliquant de la boue.",
+      "answer": true,
+      "reference": "Jean 9",
+      "note": ""
+    },
+    {
+      "id": 174,
+      "text": "Le roi Josias avait huit ans quand il monta sur le trône.",
+      "answer": true,
+      "reference": "2 Rois 22:1",
+      "note": ""
+    },
+    {
+      "id": 175,
+      "text": "Abraham reçut trois visiteurs près des chênes de Mamré.",
+      "answer": true,
+      "reference": "Genèse 18",
+      "note": ""
+    },
+    {
+      "id": 176,
+      "text": "Élisée guérit Naaman de la lèpre.",
+      "answer": true,
+      "reference": "2 Rois 5",
+      "note": ""
+    },
+    {
+      "id": 177,
+      "text": "Jésus multiplia sept pains pour quatre mille hommes.",
+      "answer": true,
+      "reference": "Marc 8",
+      "note": ""
+    },
+    {
+      "id": 178,
+      "text": "Marie et Joseph retrouvèrent Jésus au temple à douze ans.",
+      "answer": true,
+      "reference": "Luc 2:42",
+      "note": ""
+    },
+    {
+      "id": 179,
+      "text": "Dieu mit un signe sur Caïn pour qu'on ne le tue pas.",
+      "answer": true,
+      "reference": "Genèse 4:15",
+      "note": ""
+    },
+    {
+      "id": 180,
+      "text": "Jacob travailla quatorze ans en tout pour Léa et Rachel.",
+      "answer": true,
+      "reference": "Genèse 29-31",
+      "note": ""
+    },
+    {
+      "id": 181,
+      "text": "L'apôtre Paul fit naufrage près de l'île de Malte.",
+      "answer": true,
+      "reference": "Actes 28",
+      "note": ""
+    },
+    {
+      "id": 182,
+      "text": "Jésus lava les pieds de ses disciples avant sa mort.",
+      "answer": true,
+      "reference": "Jean 13",
+      "note": ""
+    },
+    {
+      "id": 183,
+      "text": "Le roi Salomon reçut la visite de la reine de Séba.",
+      "answer": true,
+      "reference": "1 Rois 10",
+      "note": ""
+    },
+    {
+      "id": 184,
+      "text": "Élie fut nourri par des corbeaux au torrent de Kerith.",
+      "answer": true,
+      "reference": "1 Rois 17",
+      "note": ""
+    },
+    {
+      "id": 185,
+      "text": "Jésus a calmé une tempête sur la mer de Galilée.",
+      "answer": true,
+      "reference": "Marc 4",
+      "note": ""
+    },
+    {
+      "id": 186,
+      "text": "Le voile du temple se déchira en deux à la mort de Jésus.",
+      "answer": true,
+      "reference": "Matthieu 27:51",
+      "note": ""
+    },
+    {
+      "id": 187,
+      "text": "Le roi Salomon eut un seul fils appelé David.",
+      "answer": false,
+      "reference": "—",
+      "note": "David était le père de Salomon, non son fils."
+    },
+    {
+      "id": 188,
+      "text": "Jésus est resté trois ans dans le tombeau.",
+      "answer": false,
+      "reference": "—",
+      "note": "Il y resta trois jours."
+    },
+    {
+      "id": 189,
+      "text": "Le prophète Jonas fut envoyé prêcher à Jérusalem.",
+      "answer": false,
+      "reference": "Jonas 1",
+      "note": "Il fut envoyé à Ninive."
+    },
+    {
+      "id": 190,
+      "text": "C'est Moïse qui fit traverser le Jourdain à pied sec au peuple.",
+      "answer": false,
+      "reference": "Josué 3",
+      "note": "C'est Josué ; Moïse traversa la mer Rouge."
+    },
+    {
+      "id": 191,
+      "text": "L'arche de Noé s'arrêta sur le mont Sinaï.",
+      "answer": false,
+      "reference": "Genèse 8:4",
+      "note": "Elle s'arrêta sur le mont Ararat."
+    },
+    {
+      "id": 192,
+      "text": "Le prophète Élie fut avalé par un grand poisson.",
+      "answer": false,
+      "reference": "Jonas 1",
+      "note": "C'est Jonas qui fut avalé."
+    },
+    {
+      "id": 193,
+      "text": "Les dix commandements étaient gravés sur trois tables de pierre.",
+      "answer": false,
+      "reference": "Exode 31:18",
+      "note": "Ils étaient sur deux tables."
+    },
+    {
+      "id": 194,
+      "text": "Judas Iscariote fut remplacé par l'apôtre Paul.",
+      "answer": false,
+      "reference": "Actes 1:26",
+      "note": "Il fut remplacé par Matthias."
+    },
+    {
+      "id": 195,
+      "text": "Lors de la tentation, Jésus changea des pierres en pain.",
+      "answer": false,
+      "reference": "Matthieu 4:3-4",
+      "note": "Il refusa de le faire."
+    },
+    {
+      "id": 196,
+      "text": "David était le fils du roi Saül.",
+      "answer": false,
+      "reference": "1 Samuel 16",
+      "note": "David était le fils de Jessé."
+    },
+    {
+      "id": 197,
+      "text": "La femme de Job lui conseilla de rester fidèle à Dieu.",
+      "answer": false,
+      "reference": "Job 2:9",
+      "note": "Elle lui dit : « Maudis Dieu, et meurs ! »"
+    },
+    {
+      "id": 198,
+      "text": "Le roi Salomon fabriqua l'arche de l'alliance.",
+      "answer": false,
+      "reference": "Exode 37",
+      "note": "Elle fut faite au désert, du temps de Moïse."
+    },
+    {
+      "id": 199,
+      "text": "Le prophète Daniel vécut au temps de Moïse.",
+      "answer": false,
+      "reference": "Daniel 1",
+      "note": "Il vécut pendant l'exil à Babylone."
+    },
+    {
+      "id": 200,
+      "text": "Les mages offrirent à Jésus de l'or, de l'argent et du bronze.",
+      "answer": false,
+      "reference": "Matthieu 2:11",
+      "note": "Ils offrirent de l'or, de l'encens et de la myrrhe."
+    },
+    {
+      "id": 201,
+      "text": "Jésus a été trahi par l'apôtre Thomas.",
+      "answer": false,
+      "reference": "Matthieu 26",
+      "note": "Il fut trahi par Judas."
+    },
+    {
+      "id": 202,
+      "text": "Le géant Goliath était un ami et allié de David.",
+      "answer": false,
+      "reference": "1 Samuel 17",
+      "note": "C'était son ennemi."
+    },
+    {
+      "id": 203,
+      "text": "Le roi Hérode était le père de Ponce Pilate.",
+      "answer": false,
+      "reference": "—",
+      "note": "Ils n'avaient aucun lien de parenté."
+    },
+    {
+      "id": 204,
+      "text": "Adam et Ève n'eurent que deux fils, Caïn et Abel.",
+      "answer": false,
+      "reference": "Genèse 5:4",
+      "note": "Ils eurent aussi Seth et d'autres enfants."
+    },
+    {
+      "id": 205,
+      "text": "Le prophète Ésaïe fut jeté dans la fosse aux lions.",
+      "answer": false,
+      "reference": "Daniel 6",
+      "note": "C'est Daniel qui y fut jeté."
     }
   ]
 }
