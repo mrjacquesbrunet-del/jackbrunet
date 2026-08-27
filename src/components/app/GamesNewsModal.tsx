@@ -100,7 +100,7 @@ export function GamesNewsModal() {
 
         {/* Nouveautés */}
         <div className="mt-6 space-y-2.5 px-6">
-          <Feature Icon={IconPlay} tint="#CAF000" title="3 jeux bibliques" desc="Défi du million, verset au hasard, vrai ou faux." />
+          <Feature Icon={IconPlay} tint="#CAF000" title="4 jeux bibliques" desc="Quiz, mémoriser, vrai ou faux, qui suis-je ?" />
           <Feature Icon={IconTrophy} tint="#FB923C" title="Classements & Ligue de la semaine" desc="Grimpe le classement, remis à zéro chaque lundi." />
           <Feature Icon={IconSword} tint="#34D3C6" title="Défie tes amis" desc="Même questions pour vous deux, le meilleur gagne." />
         </div>
