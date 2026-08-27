@@ -1,0 +1,521 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "difficulty": 1,
+      "name": "Noé",
+      "clues": [
+        "J'ai obéi à Dieu quand personne ne me comprenait.",
+        "J'ai passé des années à bâtir un immense ouvrage.",
+        "J'ai rassemblé les animaux deux par deux.",
+        "J'ai construit l'arche pour survivre au déluge."
+      ]
+    },
+    {
+      "id": 2,
+      "difficulty": 1,
+      "name": "Moïse",
+      "clues": [
+        "Bébé, j'ai été sauvé des eaux.",
+        "Dieu m'a parlé depuis un buisson en feu.",
+        "J'ai fait sortir un peuple de l'esclavage.",
+        "J'ai ouvert la mer Rouge."
+      ]
+    },
+    {
+      "id": 3,
+      "difficulty": 1,
+      "name": "David",
+      "clues": [
+        "J'étais berger, le plus jeune de ma famille.",
+        "Je jouais de la harpe pour apaiser un roi.",
+        "Je suis devenu roi d'Israël.",
+        "J'ai vaincu Goliath avec une fronde."
+      ]
+    },
+    {
+      "id": 4,
+      "difficulty": 1,
+      "name": "Jonas",
+      "clues": [
+        "J'ai fui l'appel de Dieu en montant sur un bateau.",
+        "Une tempête m'a fait jeter à la mer.",
+        "J'ai fini par prêcher à Ninive.",
+        "J'ai passé trois jours dans un grand poisson."
+      ]
+    },
+    {
+      "id": 5,
+      "difficulty": 1,
+      "name": "Adam",
+      "clues": [
+        "J'ai donné un nom à tous les animaux.",
+        "Ma compagne a été tirée de mon côté.",
+        "J'ai vécu dans le jardin d'Éden.",
+        "Je suis le premier homme créé."
+      ]
+    },
+    {
+      "id": 6,
+      "difficulty": 1,
+      "name": "Marie",
+      "clues": [
+        "Un ange est venu me visiter.",
+        "J'étais fiancée à un charpentier.",
+        "J'ai voyagé jusqu'à Bethléem.",
+        "Je suis la mère de Jésus."
+      ]
+    },
+    {
+      "id": 7,
+      "difficulty": 1,
+      "name": "Daniel",
+      "clues": [
+        "J'ai refusé la nourriture du roi.",
+        "J'interprétais les songes et les visions.",
+        "J'ai lu l'écriture apparue sur un mur.",
+        "J'ai survécu dans la fosse aux lions."
+      ]
+    },
+    {
+      "id": 8,
+      "difficulty": 1,
+      "name": "Abraham",
+      "clues": [
+        "J'ai quitté mon pays sur l'ordre de Dieu.",
+        "Dieu m'a promis une descendance nombreuse.",
+        "J'ai failli sacrifier mon fils Isaac.",
+        "On m'appelle le père des croyants."
+      ]
+    },
+    {
+      "id": 9,
+      "difficulty": 1,
+      "name": "Samson",
+      "clues": [
+        "Ma force était un don de Dieu.",
+        "Je ne coupais jamais mes cheveux.",
+        "Dalila m'a trahi.",
+        "J'ai renversé un temple sur les Philistins."
+      ]
+    },
+    {
+      "id": 10,
+      "difficulty": 1,
+      "name": "Pierre",
+      "clues": [
+        "J'étais pêcheur au bord d'un lac.",
+        "J'ai marché sur l'eau vers Jésus.",
+        "J'ai renié Jésus trois fois.",
+        "Jésus m'a confié les clés du royaume."
+      ]
+    },
+    {
+      "id": 11,
+      "difficulty": 1,
+      "name": "Ève",
+      "clues": [
+        "J'ai été formée à partir d'une côte.",
+        "Un serpent m'a parlé.",
+        "J'ai goûté au fruit défendu.",
+        "Je suis la première femme."
+      ]
+    },
+    {
+      "id": 12,
+      "difficulty": 1,
+      "name": "Josué",
+      "clues": [
+        "J'étais le bras droit de Moïse.",
+        "J'ai exploré le pays de Canaan.",
+        "J'ai fait tomber des murailles par des tours.",
+        "J'ai conduit le peuple en Terre promise."
+      ]
+    },
+    {
+      "id": 13,
+      "difficulty": 2,
+      "name": "Joseph",
+      "clues": [
+        "Mon père m'a offert un habit remarquable.",
+        "Mes frères m'ont vendu comme esclave.",
+        "J'interprétais les rêves en Égypte.",
+        "Je suis devenu gouverneur d'Égypte."
+      ]
+    },
+    {
+      "id": 14,
+      "difficulty": 2,
+      "name": "Élie",
+      "clues": [
+        "J'ai annoncé une grande sécheresse.",
+        "Des corbeaux m'ont nourri.",
+        "J'ai affronté les prophètes de Baal au Carmel.",
+        "J'ai été enlevé au ciel dans un char de feu."
+      ]
+    },
+    {
+      "id": 15,
+      "difficulty": 2,
+      "name": "Salomon",
+      "clues": [
+        "J'ai demandé la sagesse plutôt que la richesse.",
+        "J'ai jugé deux femmes réclamant un enfant.",
+        "La reine de Séba est venue m'éprouver.",
+        "J'ai bâti le temple de Jérusalem."
+      ]
+    },
+    {
+      "id": 16,
+      "difficulty": 2,
+      "name": "Ruth",
+      "clues": [
+        "Je venais d'un pays étranger, Moab.",
+        "J'ai suivi ma belle-mère Naomi.",
+        "J'ai glané dans les champs de Boaz.",
+        "Je suis l'arrière-grand-mère du roi David."
+      ]
+    },
+    {
+      "id": 17,
+      "difficulty": 2,
+      "name": "Jean-Baptiste",
+      "clues": [
+        "Je vivais au désert.",
+        "Je me nourrissais de sauterelles et de miel.",
+        "Je baptisais dans le Jourdain.",
+        "J'ai baptisé Jésus."
+      ]
+    },
+    {
+      "id": 18,
+      "difficulty": 2,
+      "name": "Esther",
+      "clues": [
+        "Orpheline, j'ai été élevée par mon cousin.",
+        "Je suis devenue reine de Perse.",
+        "J'ai risqué ma vie en approchant le roi.",
+        "J'ai sauvé mon peuple d'un massacre."
+      ]
+    },
+    {
+      "id": 19,
+      "difficulty": 2,
+      "name": "Gédéon",
+      "clues": [
+        "Un ange m'a appelé pendant que je battais le blé.",
+        "J'ai demandé un signe avec une toison.",
+        "J'ai réduit mon armée à 300 hommes.",
+        "J'ai vaincu les Madianites."
+      ]
+    },
+    {
+      "id": 20,
+      "difficulty": 2,
+      "name": "Paul",
+      "clues": [
+        "Je persécutais les chrétiens.",
+        "Une lumière m'a aveuglé sur une route.",
+        "Je suis devenu apôtre des nations.",
+        "J'ai écrit de nombreuses épîtres."
+      ]
+    },
+    {
+      "id": 21,
+      "difficulty": 2,
+      "name": "Zachée",
+      "clues": [
+        "J'étais petit de taille.",
+        "J'étais riche mais mal aimé.",
+        "Je collectais les impôts.",
+        "Je suis monté dans un sycomore pour voir Jésus."
+      ]
+    },
+    {
+      "id": 22,
+      "difficulty": 2,
+      "name": "Jacob",
+      "clues": [
+        "J'ai acheté un droit d'aînesse contre un plat.",
+        "J'ai vu en songe une échelle vers le ciel.",
+        "J'ai lutté toute une nuit avec Dieu.",
+        "Mes douze fils ont formé les tribus d'Israël."
+      ]
+    },
+    {
+      "id": 23,
+      "difficulty": 2,
+      "name": "Marthe",
+      "clues": [
+        "J'habitais à Béthanie.",
+        "Je m'affairais pendant que ma sœur écoutait Jésus.",
+        "Mon frère est tombé malade et est mort.",
+        "Jésus a ressuscité mon frère Lazare."
+      ]
+    },
+    {
+      "id": 24,
+      "difficulty": 3,
+      "name": "Néhémie",
+      "clues": [
+        "J'étais échanson du roi de Perse.",
+        "J'ai pleuré en apprenant l'état de ma ville.",
+        "J'ai reconstruit les murailles de Jérusalem.",
+        "Un livre de la Bible porte mon nom."
+      ]
+    },
+    {
+      "id": 25,
+      "difficulty": 3,
+      "name": "Débora",
+      "clues": [
+        "Je rendais la justice sous un palmier.",
+        "Je suis prophétesse.",
+        "J'ai poussé Barak au combat.",
+        "J'ai chanté un cantique de victoire, en juge d'Israël."
+      ]
+    },
+    {
+      "id": 26,
+      "difficulty": 3,
+      "name": "Élisée",
+      "clues": [
+        "J'ai reçu une double part de l'esprit de mon maître.",
+        "J'ai fait remonter une hache de fer.",
+        "J'ai guéri Naaman de la lèpre.",
+        "J'ai succédé au prophète Élie."
+      ]
+    },
+    {
+      "id": 27,
+      "difficulty": 3,
+      "name": "Nébucadnetsar",
+      "clues": [
+        "J'ai rêvé d'une immense statue.",
+        "J'ai jeté trois hommes dans une fournaise.",
+        "J'ai brouté l'herbe comme un bœuf.",
+        "Roi de Babylone, j'ai détruit Jérusalem."
+      ]
+    },
+    {
+      "id": 28,
+      "difficulty": 3,
+      "name": "Rahab",
+      "clues": [
+        "Je vivais dans une ville condamnée.",
+        "J'ai caché deux espions.",
+        "J'ai attaché un cordon rouge à ma fenêtre.",
+        "J'ai été épargnée à la chute de Jéricho."
+      ]
+    },
+    {
+      "id": 29,
+      "difficulty": 3,
+      "name": "Nathan",
+      "clues": [
+        "J'étais prophète à la cour du roi.",
+        "J'ai raconté une parabole sur une petite brebis.",
+        "J'ai repris le roi David pour son péché.",
+        "J'ai soutenu Salomon comme successeur."
+      ]
+    },
+    {
+      "id": 30,
+      "difficulty": 3,
+      "name": "Étienne",
+      "clues": [
+        "J'étais l'un des sept diacres.",
+        "J'ai tenu un long discours devant le sanhédrin.",
+        "J'ai vu le ciel ouvert avant de mourir.",
+        "Je suis le premier martyr chrétien."
+      ]
+    },
+    {
+      "id": 31,
+      "difficulty": 3,
+      "name": "Anne",
+      "clues": [
+        "J'étais stérile et je pleurais au temple.",
+        "Le prêtre Éli me crut ivre.",
+        "J'ai promis mon fils à Dieu.",
+        "Je suis la mère de Samuel."
+      ]
+    },
+    {
+      "id": 32,
+      "difficulty": 3,
+      "name": "Caleb",
+      "clues": [
+        "J'ai exploré Canaan avec onze autres.",
+        "Je suis resté confiant quand les autres avaient peur.",
+        "Josué et moi seuls avons cru à la promesse.",
+        "À 85 ans, j'ai réclamé ma montagne."
+      ]
+    },
+    {
+      "id": 33,
+      "difficulty": 3,
+      "name": "Barnabas",
+      "clues": [
+        "J'ai vendu un champ pour les apôtres.",
+        "On me surnommait « fils de consolation ».",
+        "J'ai accompagné Paul en mission.",
+        "Je me suis séparé de Paul au sujet de Marc."
+      ]
+    },
+    {
+      "id": 34,
+      "difficulty": 3,
+      "name": "Josaphat",
+      "clues": [
+        "J'étais un roi fidèle de Juda.",
+        "J'ai envoyé des enseignants de la Loi dans le pays.",
+        "J'ai remporté une bataille par la louange.",
+        "Une vallée porte mon nom."
+      ]
+    },
+    {
+      "id": 35,
+      "difficulty": 3,
+      "name": "Lévi",
+      "clues": [
+        "J'étais assis au bureau des impôts.",
+        "Jésus m'a dit « Suis-moi ».",
+        "J'ai tout quitté pour le suivre.",
+        "On me connaît surtout sous le nom de Matthieu."
+      ]
+    },
+    {
+      "id": 36,
+      "difficulty": 4,
+      "name": "Melchisédek",
+      "clues": [
+        "Je suis roi de Salem.",
+        "Je suis prêtre du Dieu Très-Haut.",
+        "J'ai béni Abraham et reçu la dîme.",
+        "L'épître aux Hébreux me compare au Christ."
+      ]
+    },
+    {
+      "id": 37,
+      "difficulty": 4,
+      "name": "Jephté",
+      "clues": [
+        "Rejeté par mes frères, j'ai fui.",
+        "On m'a rappelé pour mener la guerre.",
+        "J'ai fait un vœu imprudent avant la bataille.",
+        "J'ai dû sacrifier ma fille unique."
+      ]
+    },
+    {
+      "id": 38,
+      "difficulty": 4,
+      "name": "Abigaïl",
+      "clues": [
+        "Mon mari Nabal était dur et insensé.",
+        "J'ai apporté des vivres pour apaiser David.",
+        "Par ma sagesse, j'ai empêché un massacre.",
+        "Après la mort de Nabal, j'ai épousé David."
+      ]
+    },
+    {
+      "id": 39,
+      "difficulty": 4,
+      "name": "Onésime",
+      "clues": [
+        "J'étais un esclave en fuite.",
+        "J'ai rencontré Paul emprisonné.",
+        "Mon maître se nommait Philémon.",
+        "Une courte épître entière parle de moi."
+      ]
+    },
+    {
+      "id": 40,
+      "difficulty": 4,
+      "name": "Schamgar",
+      "clues": [
+        "Je suis un juge très peu connu.",
+        "Je n'avais pas d'armée.",
+        "J'ai frappé six cents Philistins.",
+        "Je me suis servi d'un aiguillon à bœufs."
+      ]
+    },
+    {
+      "id": 41,
+      "difficulty": 4,
+      "name": "Jaël",
+      "clues": [
+        "J'ai accueilli un général en fuite sous ma tente.",
+        "Je lui ai offert du lait pour l'endormir.",
+        "Je l'ai frappé pendant son sommeil.",
+        "J'ai planté un pieu dans la tempe de Sisera."
+      ]
+    },
+    {
+      "id": 42,
+      "difficulty": 4,
+      "name": "Épaphras",
+      "clues": [
+        "Je suis cité dans les lettres de Paul.",
+        "Je combattais dans la prière pour mon Église.",
+        "J'ai porté l'Évangile à Colosses.",
+        "Paul m'appelle un fidèle serviteur du Christ."
+      ]
+    },
+    {
+      "id": 43,
+      "difficulty": 4,
+      "name": "Achitophel",
+      "clues": [
+        "J'étais un conseiller très écouté de David.",
+        "Mes conseils passaient pour des oracles.",
+        "J'ai trahi David en ralliant Absalom.",
+        "Désespéré, je me suis pendu."
+      ]
+    },
+    {
+      "id": 44,
+      "difficulty": 4,
+      "name": "Jabez",
+      "clues": [
+        "Ma mère m'a nommé ainsi à cause d'un enfantement douloureux.",
+        "Je suis niché dans une généalogie.",
+        "J'étais plus honoré que mes frères.",
+        "J'ai fait une célèbre prière pour être béni."
+      ]
+    },
+    {
+      "id": 45,
+      "difficulty": 4,
+      "name": "Dorcas",
+      "clues": [
+        "Je faisais beaucoup de bien et d'aumônes.",
+        "Je cousais des habits pour les veuves.",
+        "Je suis tombée malade et morte à Joppé.",
+        "L'apôtre Pierre m'a ramenée à la vie."
+      ]
+    },
+    {
+      "id": 46,
+      "difficulty": 4,
+      "name": "Ehud",
+      "clues": [
+        "J'étais gaucher.",
+        "J'ai apporté un présent au roi de Moab.",
+        "Je l'ai frappé avec une épée cachée.",
+        "J'ai délivré Israël du roi Églon."
+      ]
+    },
+    {
+      "id": 47,
+      "difficulty": 4,
+      "name": "Baruc",
+      "clues": [
+        "J'étais secrétaire d'un grand prophète.",
+        "J'écrivais ses paroles sous sa dictée.",
+        "Le roi a brûlé le rouleau que j'avais écrit.",
+        "J'ai servi le prophète Jérémie."
+      ]
+    }
+  ]
+}

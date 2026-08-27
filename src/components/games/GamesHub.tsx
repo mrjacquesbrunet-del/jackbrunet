@@ -36,8 +36,10 @@ const IconCap = S("M3 9l9-4 9 4-9 4zM7 11v4c0 1.5 2.5 2.5 5 2.5s5-1 5-2.5v-4M21 
 const IconBulb = S("M9 18h6M10 21h4M12 3a6 6 0 0 1 4 10 3 3 0 0 0-1 2H9a3 3 0 0 0-1-2 6 6 0 0 1 4-10z");
 /* Vrai ou Faux : balance */
 const IconScale = S("M12 4v16M8 20h8M6 7h12M6 7l-2.5 5a3 3 0 0 0 5 0zM18 7l-2.5 5a3 3 0 0 0 5 0z");
+/* Qui suis-je : masque */
+const IconMask = S("M12 3C7 3 3 6 3 11c0 4 3 6 4 8 .5 1 1.5 2 5 2s4.5-1 5-2c1-2 4-4 4-8 0-5-4-8-9-8zM8.5 11h.01M15.5 11h.01M9 15c1 1 5 1 6 0");
 
-/* ---------------- Les trois jeux ---------------- */
+/* ---------------- Les jeux ---------------- */
 type Game = {
   id: string;
   title1: string;
@@ -74,6 +76,15 @@ const GAMES: Game[] = [
     href: "/vrai-faux",
     Icon: IconScale,
     accent: "#34D3C6",
+  },
+  {
+    id: "quisuisje",
+    title1: "Qui",
+    title2: "suis-je ?",
+    desc: "Devine le personnage biblique à partir d'indices.",
+    href: "/qui-suis-je",
+    Icon: IconMask,
+    accent: "#8B5CF6",
   },
 ];
 
