@@ -9,6 +9,8 @@ import { Avatar } from "@/components/community/Avatar";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { VoiceRecorderButton, VoiceNotePlayer } from "@/components/community/VoiceNote";
 import { voiceExpired } from "@/lib/voice";
+import { presenceLabel } from "@/lib/presence";
+import { getSupabase } from "@/lib/supabase";
 import { getProfile, searchProfiles, type Profile } from "@/lib/community";
 import {
   listConversations,
@@ -238,7 +240,41 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
   const [messages, setMessages] = useState<Message[]>([]);
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
+  const [partnerTyping, setPartnerTyping] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const typingChanRef = useRef<ReturnType<NonNullable<ReturnType<typeof getSupabase>>["channel"]> | null>(null);
+  const typingSentRef = useRef(0);
+  const typingOffRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Canal temps réel « X est en train d'écrire… » (partagé par les deux).
+  useEffect(() => {
+    const sb = getSupabase();
+    if (!sb) return;
+    const name = `dm-typing:${[meId, partnerId].sort().join(":")}`;
+    const chan = sb.channel(name, { config: { broadcast: { self: false } } });
+    chan.on("broadcast", { event: "typing" }, (msg) => {
+      const from = (msg as { payload?: { from?: string } }).payload?.from;
+      if (from !== partnerId) return;
+      setPartnerTyping(true);
+      if (typingOffRef.current) clearTimeout(typingOffRef.current);
+      typingOffRef.current = setTimeout(() => setPartnerTyping(false), 3500);
+    });
+    chan.subscribe();
+    typingChanRef.current = chan;
+    return () => {
+      if (typingOffRef.current) clearTimeout(typingOffRef.current);
+      typingChanRef.current = null;
+      void sb.removeChannel(chan);
+    };
+  }, [meId, partnerId]);
+
+  /** Signale que je tape (throttlé à 1 envoi / 1,5 s). */
+  const signalTyping = useCallback(() => {
+    const now = Date.now();
+    if (now - typingSentRef.current < 1500) return;
+    typingSentRef.current = now;
+    void typingChanRef.current?.send({ type: "broadcast", event: "typing", payload: { from: meId } });
+  }, [meId]);
 
   const refresh = useCallback(async () => {
     const msgs = await listMessages(meId, partnerId);
@@ -278,6 +314,9 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
     setBusy(false);
   }
 
+  // « Vu » : id de mon dernier message lu par l'autre.
+  const lastSeenId = [...messages].reverse().find((m) => m.sender_id === meId && m.read)?.id ?? null;
+
   return (
     <section className="container-x pb-28 pt-24 sm:pt-28">
       <div className="mx-auto max-w-2xl">
@@ -289,10 +328,22 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
             </svg>
           </Link>
           <Link href={`/membre?u=${partnerId}`} className="flex items-center gap-2.5">
-            <Avatar pseudo={partner?.pseudo} url={partner?.avatar_url} size={40} />
-            <span className="flex items-center gap-1 font-display text-lg font-bold">
-              {partner?.pseudo?? "Membre"}
-              {partner?.verified? <VerifiedBadge className="h-4 w-4" />: null}
+            <span className="relative">
+              <Avatar pseudo={partner?.pseudo} url={partner?.avatar_url} size={40} />
+              {presenceLabel(partner?.last_seen_at)?.online ? (
+                <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-emerald-400 ring-2 ring-white" />
+              ) : null}
+            </span>
+            <span className="flex flex-col">
+              <span className="flex items-center gap-1 font-display text-lg font-bold leading-tight">
+                {partner?.pseudo?? "Membre"}
+                {partner?.verified? <VerifiedBadge className="h-4 w-4" />: null}
+              </span>
+              {partnerTyping ? (
+                <span className="text-xs font-semibold italic text-spirit-600">est en train d&apos;écrire…</span>
+              ) : presenceLabel(partner?.last_seen_at) ? (
+                <span className="text-xs text-night-900/50">{presenceLabel(partner?.last_seen_at)!.label}</span>
+              ) : null}
             </span>
           </Link>
         </div>
@@ -307,7 +358,7 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
             messages.map((m) => {
               const mine = m.sender_id === meId;
               return (
-                <div key={m.id} className={`flex ${mine? "justify-end": "justify-start"}`}>
+                <div key={m.id} className={`flex flex-col ${mine? "items-end": "items-start"}`}>
                   <div
                     className={`max-w-[80%] whitespace-pre-wrap rounded-2xl px-4 py-2 text-[15px] leading-snug ${
                       mine
@@ -326,6 +377,9 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
                     ) : null}
                     {m.body}
                   </div>
+                  {mine && m.id === lastSeenId ? (
+                    <p className="mt-0.5 pr-1 text-[10px] font-semibold text-night-900/40">Vu</p>
+                  ) : null}
                 </div>
               );
             })
@@ -339,7 +393,10 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
         <div className="container-x flex max-w-2xl items-center gap-2 px-0">
           <input
             value={text}
-            onChange={(e) => setText(e.target.value)}
+            onChange={(e) => {
+              setText(e.target.value);
+              signalTyping();
+            }}
             onKeyDown={(e) => {
               if (e.key === "Enter") send();
             }}

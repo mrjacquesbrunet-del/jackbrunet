@@ -32,6 +32,9 @@ import {
 
 const VIS_LABEL: Record<string, string> = { public: "Public", friends: "Abonnés", private: "Privé" };
 
+/** Réactions rapides des sujets (appui long sur « Je prie ») : mêmes emojis que les commentaires. */
+const PRAYER_QUICK: [string, string][] = [["🙏", "pray"], ["❤️", "heart"], ["🕊️", "dove"], ["🙌", "hands"], ["✨", "sparkles"]];
+
 /** Réactions d'un commentaire : sélecteur (appui long / « Réagir ») + puces
  * agrégées (🙏 3, ❤️ 1…). Une réaction par personne, re-tap = retirer. */
 function CommentReactionsRow({
@@ -143,6 +146,10 @@ export function PrayerCard({
   targetCommentId?: string | null;
 }) {
   const [reactions, setReactions] = useState<Reaction[]>(initialReactions);
+  // Réactions rapides (appui long sur « Je prie ») : 🙏 ❤️ 🕊️ 🙌 ✨
+  const [quickOpen, setQuickOpen] = useState(false);
+  const quickTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const quickFired = useRef(false);
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState<Comment[] | null>(null);
   const [commentCount, setCommentCount] = useState(initialCommentCount);
@@ -203,10 +210,10 @@ export function PrayerCard({
       /* ignore */
     }
   }
-  const count = (t: "heart" | "pray") => reactions.filter((r) => r.type === t).length;
-  const mine = (t: "heart" | "pray") => reactions.some((r) => r.type === t && r.user_id === userId);
+  const count = (t: string) => reactions.filter((r) => r.type === t).length;
+  const mine = (t: string) => reactions.some((r) => r.type === t && r.user_id === userId);
 
-  async function react(t: "heart" | "pray") {
+  async function react(t: string) {
     const on =!mine(t);
     setReactions((prev) =>
       on
@@ -477,17 +484,63 @@ export function PrayerCard({
         ) : null}
 
         <div className="mt-4 flex flex-wrap items-center gap-2">
-          <button
-            type="button"
-            onClick={() => react("pray")}
-            className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
-              mine("pray")
+          <span className="relative inline-flex">
+            <button
+              type="button"
+              onClick={() => {
+                if (quickFired.current) {
+                  quickFired.current = false;
+                  return; // l'appui long a ouvert le picker, pas de toggle
+                }
+                react("pray");
+              }}
+              onPointerDown={() => {
+                quickFired.current = false;
+                if (quickTimer.current) clearTimeout(quickTimer.current);
+                quickTimer.current = setTimeout(() => {
+                  quickFired.current = true;
+                  setQuickOpen(true);
+                }, 420);
+              }}
+              onPointerUp={() => {
+                if (quickTimer.current) clearTimeout(quickTimer.current);
+              }}
+              onPointerLeave={() => {
+                if (quickTimer.current) clearTimeout(quickTimer.current);
+              }}
+              onContextMenu={(e) => e.preventDefault()}
+              className={`inline-flex select-none items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
+                mine("pray")
 ? "border-spirit-500/40 bg-spirit-500/10 text-spirit-700"
 : "border-night-900/15 text-night-900/70 hover:border-night-900/30"
-            }`}
-          >
-            <HandsGlyph className="h-[18px] w-[18px]" /> Je prie{count("pray") > 0? ` · ${count("pray")}`: ""}
-          </button>
+              }`}
+              title="Appui long : plus de réactions"
+            >
+              <HandsGlyph className="h-[18px] w-[18px]" /> Je prie{count("pray") > 0? ` · ${count("pray")}`: ""}
+            </button>
+            {quickOpen ? (
+              <>
+                <button aria-label="Fermer" onClick={() => setQuickOpen(false)} className="fixed inset-0 z-[60] cursor-default" />
+                <div className="absolute bottom-full left-0 z-[61] mb-2 flex items-center gap-0.5 rounded-full border border-night-900/10 bg-white px-1.5 py-1 shadow-xl" style={{ animation: "qr-pop .18s ease-out" }}>
+                  <style dangerouslySetInnerHTML={{ __html: "@keyframes qr-pop{0%{transform:scale(.6) translateY(6px);opacity:0}100%{transform:scale(1) translateY(0);opacity:1}}" }} />
+                  {PRAYER_QUICK.map(([emo, t]) => (
+                    <button
+                      key={t}
+                      type="button"
+                      onClick={() => {
+                        setQuickOpen(false);
+                        react(t);
+                      }}
+                      aria-label={`Réagir ${emo}`}
+                      className={`grid h-9 w-9 place-items-center rounded-full text-xl transition-transform hover:scale-110 ${mine(t) ? "bg-dawn-400/25" : ""}`}
+                    >
+                      {emo}
+                    </button>
+                  ))}
+                </div>
+              </>
+            ) : null}
+          </span>
           <button
             type="button"
             onClick={() => react("heart")}
@@ -509,6 +562,22 @@ export function PrayerCard({
             </svg>
             {count("heart") > 0? count("heart"): ""}
           </button>
+          {/* Réactions rapides supplémentaires (🕊️ 🙌 ✨) — visibles si utilisées */}
+          {PRAYER_QUICK.filter(([, t]) => t !== "pray" && t !== "heart" && (count(t) > 0 || mine(t))).map(([emo, t]) => (
+            <button
+              key={t}
+              type="button"
+              onClick={() => react(t)}
+              className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1.5 text-sm font-semibold transition-colors ${
+                mine(t)
+                  ? "border-dawn-400/50 bg-dawn-400/15 text-spirit-700"
+                  : "border-night-900/15 text-night-900/70 hover:border-night-900/30"
+              }`}
+            >
+              <span className="text-base leading-none">{emo}</span>
+              {count(t) > 0 ? count(t) : ""}
+            </button>
+          ))}
           <button
             type="button"
             onClick={openComments}

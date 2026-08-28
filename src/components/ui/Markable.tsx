@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import { useToolkit, HIGHLIGHT_COLORS, highlightBg } from "@/lib/toolkit";
 import { shareText } from "@/lib/share";
@@ -40,6 +41,7 @@ export function Markable({
   children: ReactNode;
 }) {
   const tk = useToolkit();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [noting, setNoting] = useState(false);
@@ -181,6 +183,26 @@ export function Markable({
             </svg>
             Partager
           </button>
+          {kind === "verset" && reference ? (
+            <button
+              type="button"
+              className={chip}
+              onClick={() => {
+                // Pré-remplit le composeur du mur de prière avec ce verset.
+                try {
+                  localStorage.setItem("jb.wall.draft", `« ${text} »\n${reference}`);
+                } catch {
+                  /* stockage indisponible */
+                }
+                router.push("/communaute");
+              }}
+            >
+              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth={1.9}>
+                <path d="M4 6h16M4 12h16M4 18h9" strokeLinecap="round" />
+              </svg>
+              Sur le mur
+            </button>
+          ) : null}
           <button
             type="button"
             className={chip}

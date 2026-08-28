@@ -6,6 +6,7 @@ import { getProfile, isAdminEmail, type Profile } from "@/lib/community";
 import { submitToBrevo } from "@/lib/brevo";
 import { newsletterEndpointForSource } from "@/config/brevo";
 import { linkOneSignalUser, unlinkOneSignalUser } from "@/lib/onesignal";
+import { pingPresence } from "@/lib/presence";
 
 // Partagé entre toutes les instances du hook: on n'associe l'appareil au
 // compte OneSignal qu'une seule fois par utilisateur.
@@ -83,6 +84,8 @@ export function useAuth() {
   // Associe/dissocie l'appareil au compte pour les notifications push ciblées.
   useEffect(() => {
     if (userId) {
+      // Présence : signale l'activité (throttlé à 1/min dans pingPresence).
+      pingPresence(userId);
       if (lastLinkedUser!== userId) {
         lastLinkedUser = userId;
         linkOneSignalUser(userId);

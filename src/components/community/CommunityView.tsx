@@ -168,6 +168,19 @@ function Feed({
     setPseudoVal(profile?.pseudo?? "");
   }, [profile?.pseudo]);
 
+  // Brouillon « Sur le mur » depuis la Bible : pré-remplit le composeur.
+  useEffect(() => {
+    try {
+      const draft = localStorage.getItem("jb.wall.draft");
+      if (draft) {
+        localStorage.removeItem("jb.wall.draft");
+        setBody((b) => (b ? b : draft));
+      }
+    } catch {
+      /* stockage indisponible */
+    }
+  }, []);
+
   async function post() {
     if (!body.trim()) return;
     setPosting(true);

@@ -3,6 +3,8 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useAppMode } from "@/lib/app-mode";
+import { getSupabase } from "@/lib/supabase";
+import { pingPresence } from "@/lib/presence";
 import { BottomNav } from "@/components/app/BottomNav";
 import { AppOnboarding } from "@/components/app/AppOnboarding";
 import { AnnouncementBanner } from "@/components/app/AnnouncementBanner";
@@ -54,6 +56,22 @@ export function AppShell() {
   // Compte l'ouverture (une fois) pour déclencher les propositions au bon moment.
   useEffect(() => {
     if (isApp) recordOpen();
+  }, [isApp]);
+
+  // Présence « En ligne » : battement régulier tant que l'app est ouverte.
+  useEffect(() => {
+    if (!isApp) return;
+    const beat = async () => {
+      try {
+        const { data } = (await getSupabase()?.auth.getUser()) ?? { data: null };
+        pingPresence(data?.user?.id);
+      } catch {
+        /* hors ligne */
+      }
+    };
+    void beat();
+    const t = setInterval(beat, 120_000);
+    return () => clearInterval(t);
   }, [isApp]);
 
   if (!isApp) return null;

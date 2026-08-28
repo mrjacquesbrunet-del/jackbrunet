@@ -26,6 +26,8 @@ export type Profile = {
   banner_url?: string | null;
   /** Couleur du nom affiché sur le profil (hex), choisie par le membre. */
   name_color?: string | null;
+  /** Dernière activité (présence « En ligne » / « Actif il y a X »). */
+  last_seen_at?: string | null;
 };
 export type Visibility = "public" | "friends" | "private";
 export type Prayer = {
@@ -59,7 +61,7 @@ export type Comment = {
   audio_url?: string | null;
   author?: Profile;
 };
-export type Reaction = { prayer_id: string; user_id: string; type: "heart" | "pray" };
+export type Reaction = { prayer_id: string; user_id: string; type: string };
 export type NotifType =
   | "pray"
   | "heart"
@@ -511,7 +513,7 @@ export async function reactionsFor(prayerIds: string[]): Promise<Reaction[]> {
 export async function toggleReaction(
   prayerId: string,
   userId: string,
-  type: "heart" | "pray",
+  type: string, // 'pray' | 'heart' | 'dove' | 'hands' | 'sparkles'
   on: boolean,
 ) {
   const sb = getSupabase();
