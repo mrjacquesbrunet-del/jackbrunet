@@ -125,6 +125,20 @@ export const ARCADE_CSS = `
 .qm-jouer{animation:qm-jouerglow 2.2s ease-in-out infinite}
 @keyframes qm-goldglow{0%,100%{box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 6px 0 #b45309,0 0 0 rgba(252,211,77,0)}50%{box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 6px 0 #b45309,0 0 24px rgba(252,211,77,.4)}}
 .qm-goldglow{animation:qm-goldglow 2.2s ease-in-out infinite}
+/* ----- Mode compact (écran de jeu : tout tient sans défilement) ----- */
+.qm-compact .qm-back{width:36px;height:36px}
+.qm-compact .qm-card{border-radius:20px}
+.qm-compact .qm-pill-o{font-size:10px;padding:3px 10px}
+.qm-compact .qm-pill-p{font-size:10px;padding:4px 11px}
+.qm-compact .qm-clock{font-size:13px}
+.qm-compact .qm-node{width:25px;height:25px;font-size:11px}
+.qm-compact .qm-opt{padding:9px 12px;font-size:14px;border-radius:14px;gap:10px}
+.qm-compact .qm-opt-badge{width:27px;height:27px;font-size:13px}
+.qm-compact .qm-joker{padding:5px 5px 7px;border-radius:13px}
+.qm-compact .qm-joker-lab{font-size:8px;padding:1px 8px}
+.qm-compact .qm-joker-cnt{width:19px;height:19px;font-size:11px;margin-top:3px}
+.qm-compact .qm-valid{padding:13px;font-size:15px;border-radius:14px}
+.qm-compact .qm-quit{padding:11px 14px;font-size:13px;border-radius:14px}
 `;
 
 /** Racine plein écran : fond violet + verrou du défilement de fond + CSS injecté. */

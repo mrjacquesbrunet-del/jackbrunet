@@ -814,14 +814,14 @@ export function QuizScreen() {
   const includesCrown = winRungs.includes(lastRung);
 
   return (
-    <div className="qm fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden text-white [overscroll-behavior:contain] [-webkit-overflow-scrolling:touch]">
+    <div className="qm qm-compact fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden text-white [overscroll-behavior:contain] [-webkit-overflow-scrolling:touch]">
       <style dangerouslySetInnerHTML={{ __html: PLAY_CSS }} />
       {flash ? <Flash kind={flash} /> : null}
       {confetti ? <Confetti /> : null}
       {toast ? <Toast text={toast} /> : null}
       {milestone ? <Milestone text={milestone} /> : null}
 
-      <div className="relative mx-auto w-full max-w-md px-4 pb-6 pt-[calc(0.75rem+env(safe-area-inset-top))]">
+      <div className="relative mx-auto flex min-h-full w-full max-w-md flex-col px-4 pb-3 pt-[calc(0.5rem+env(safe-area-inset-top))]">
         {/* En-tête : retour · profil · niveau/XP · gemmes */}
         <div className="flex items-center gap-2.5">
           <button type="button" onClick={() => setPhase("hub")} aria-label="Retour" className="qm-back shrink-0">
@@ -829,10 +829,10 @@ export function QuizScreen() {
           </button>
           {avatarUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={avatarUrl} alt="" className="h-12 w-12 shrink-0 rounded-full object-cover ring-2 ring-white/40" />
+            <img src={avatarUrl} alt="" className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-white/40" />
           ) : (
-            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white/12 text-white/80 ring-2 ring-white/25">
-              <IconUser className="h-7 w-7" />
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/12 text-white/80 ring-2 ring-white/25">
+              <IconUser className="h-6 w-6" />
             </span>
           )}
           <div className="min-w-0 flex-1">
@@ -843,9 +843,6 @@ export function QuizScreen() {
             <div className="qm-xpbar mt-1">
               <i style={{ width: `${Math.round((playLvl.into / playLvl.span) * 100)}%` }} />
             </div>
-            <p className="mt-0.5 text-right font-game text-[10px] font-bold text-white/70">
-              {playLvl.into} / {playLvl.span} <span className="text-amber-300">XP</span>
-            </p>
           </div>
           <span className="qm-gem shrink-0">
             <IconGem className="h-4 w-4 text-[#CAF000]" />
@@ -855,24 +852,22 @@ export function QuizScreen() {
         </div>
 
         {/* Carte palier : objectif + échelle + récompense */}
-        <div className="qm-card relative mt-4 overflow-hidden p-4">
-          <span className="qm-pill-o">PALIER {rung}</span>
-          <div className="mt-2 flex items-end gap-2">
-            <span className="font-game text-4xl font-black leading-none tracking-tight">{formatCoins(target)}</span>
-            <IconGem className="mb-1 h-6 w-6 text-[#CAF000]" />
+        <div className="qm-card relative mt-2.5 overflow-hidden p-3">
+          <div className="flex items-center gap-2.5">
+            <span className="qm-pill-o">PALIER {rung}</span>
+            <span className="flex items-center gap-1.5 font-game text-[1.55rem] font-black leading-none tracking-tight">
+              {formatCoins(target)} <IconGem className="h-5 w-5 text-[#CAF000]" />
+            </span>
+            {/* Médaillon récompense */}
+            <span
+              className="pointer-events-none ml-auto grid h-9 w-9 shrink-0 place-items-center rounded-xl text-amber-200 shadow-[0_8px_16px_-6px_rgba(0,0,0,.5),inset_0_2px_0_rgba(255,255,255,.4)] ring-1 ring-white/25"
+              style={{ background: "radial-gradient(circle at 32% 28%, rgba(255,255,255,.4), rgba(245,158,11,.35) 60%, rgba(180,83,9,.5))" }}
+            >
+              <IconCrown className="h-5 w-5" />
+            </span>
           </div>
-          <p className="mt-2 max-w-[15rem] font-game text-xs font-semibold leading-tight text-white/75">
-            Réponds correctement pour atteindre le palier suivant&nbsp;!
-          </p>
-          {/* Médaillon récompense (icône, sans photo) */}
-          <span
-            className="pointer-events-none absolute right-3 top-3 grid h-16 w-16 place-items-center rounded-2xl text-amber-200 shadow-[0_10px_20px_-6px_rgba(0,0,0,.5),inset_0_2px_0_rgba(255,255,255,.4)] ring-1 ring-white/25"
-            style={{ background: "radial-gradient(circle at 32% 28%, rgba(255,255,255,.4), rgba(245,158,11,.35) 60%, rgba(180,83,9,.5))" }}
-          >
-            <IconCrown className="h-8 w-8" />
-          </span>
           {/* Échelle horizontale des paliers */}
-          <div className="mt-3 flex items-center gap-1">
+          <div className="mt-2.5 flex items-center gap-1">
             {winRungs.map((r, i) => (
               <Fragment key={r}>
                 {i > 0 ? (
@@ -893,23 +888,23 @@ export function QuizScreen() {
         </div>
 
         {/* Carte question */}
-        <div key={`q-${step}`} className={`qm-card mt-4 p-4 ${cardShake ? "qz-shake" : ""}`} style={{ animation: cardShake ? undefined : "qz-optin .35s ease-out" }}>
+        <div key={`q-${step}`} className={`qm-card mt-2.5 p-3 ${cardShake ? "qz-shake" : ""}`} style={{ animation: cardShake ? undefined : "qz-optin .35s ease-out" }}>
           <div className="flex items-center justify-between gap-2">
             <span className="qm-pill-p">QUESTION {rung} / {lastRung}</span>
             <span className={`qm-clock ${timeLeft <= 10 ? "text-rose-300" : ""}`}>
               <IconClock className="h-4 w-4" /> {timeLeft}s
             </span>
           </div>
-          <div className="qm-timebar mt-2">
+          <div className="qm-timebar mt-1.5">
             <i style={{ width: `${timePct}%`, transition: "width 1s linear", background: timeLeft <= 10 ? "linear-gradient(90deg,#fb7185,#e11d48)" : undefined }} />
           </div>
 
-          <p className="mt-4 text-center font-game text-xl font-black leading-snug">{q.q}</p>
-          {hint ? <p className="mt-3 rounded-xl bg-amber-400/15 px-3 py-2 text-center text-xs font-semibold text-amber-100">{hint}</p> : null}
+          <p className="mt-2.5 text-center font-game text-[17px] font-black leading-snug">{q.q}</p>
+          {hint ? <p className="mt-2 rounded-xl bg-amber-400/15 px-3 py-1.5 text-center text-xs font-semibold text-amber-100">{hint}</p> : null}
 
-          <div className="mt-4 space-y-2.5">
+          <div className="mt-2.5 space-y-2">
             {q.options.map((opt, i) => {
-              if (removed.includes(i)) return <div key={i} className="h-[56px] rounded-2xl border border-white/8 bg-white/[0.03]" />;
+              if (removed.includes(i)) return <div key={i} className="h-[45px] rounded-xl border border-white/8 bg-white/[0.03]" />;
               const isSel = selected === i;
               const showCorrect = reveal && i === correctIdx;
               const showWrong = reveal && picked === i && i !== correctIdx;
@@ -927,15 +922,15 @@ export function QuizScreen() {
 
         {/* Jokers */}
         {!reveal ? (
-          <div className="mt-4 grid grid-cols-3 gap-2.5">
-            <JokerCard label="50/50" title="50/50" tip="Élimine deux mauvaises réponses" used={usedJokers.half} onClick={useHalf} tone="blue" ic={null} />
-            <JokerCard label="Indice" title="INDICE" tip="Reçois un indice sur la réponse" used={usedJokers.hint} onClick={useHint} tone="gold" ic={<IconBulb className="h-7 w-7" />} />
-            <JokerCard label="Communauté" title="COMMUNAUTÉ" tip="Demande à la communauté" used={usedJokers.poll} onClick={usePoll} tone="purple" ic={<IconPeople className="h-7 w-7" />} />
+          <div className="mt-2.5 grid grid-cols-3 gap-2">
+            <JokerCard label="50/50" title="50/50" tip="Élimine 2 mauvaises réponses" used={usedJokers.half} onClick={useHalf} tone="blue" ic={null} />
+            <JokerCard label="Indice" title="INDICE" tip="Un indice sur la réponse" used={usedJokers.hint} onClick={useHint} tone="gold" ic={<IconBulb className="h-5 w-5" />} />
+            <JokerCard label="Communauté" title="COMMUNAUTÉ" tip="Demande à la communauté" used={usedJokers.poll} onClick={usePoll} tone="purple" ic={<IconPeople className="h-5 w-5" />} />
           </div>
         ) : null}
 
-        {/* Actions */}
-        <div className="mt-4 flex items-center gap-2.5">
+        {/* Actions (collées en bas de l'écran) */}
+        <div className="mt-auto flex items-center gap-2.5 pt-2.5">
           {reveal && picked === correctIdx && step < LADDER.length - 1 ? (
             <>
               <button type="button" onClick={walkAway} className="qm-quit whitespace-nowrap">Se retirer · {shortCoin(LADDER[step])}</button>
@@ -1000,10 +995,10 @@ function JokerCard({ label, title, tip, used, onClick, tone, ic }: { label: stri
   return (
     <button type="button" disabled={used} onClick={onClick} className={`qm-joker qm-joker-${tone}`} aria-label={label}>
       <span className="qm-joker-lab">{title}</span>
-      <div className="mt-1.5 grid h-8 place-items-center">
-        {ic ? ic : <span className="font-game text-lg font-black leading-none">50/50</span>}
+      <div className="mt-1 grid h-6 place-items-center">
+        {ic ? ic : <span className="font-game text-sm font-black leading-none">50/50</span>}
       </div>
-      <p className="mt-1 px-0.5 text-[9px] font-semibold leading-tight text-white/85">{tip}</p>
+      <p className="mt-0.5 px-0.5 text-[8px] font-semibold leading-tight text-white/85">{tip}</p>
       <span className="qm-joker-cnt">{used ? <IconClose className="h-3.5 w-3.5" /> : 1}</span>
     </button>
   );
