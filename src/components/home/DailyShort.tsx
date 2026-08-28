@@ -74,35 +74,34 @@ export function FloatingDailyShort({ latest, all }: { latest: Short; all: Short[
 
   return (
     <>
-      <div
-        className="fixed bottom-[calc(env(safe-area-inset-bottom)+5.25rem)] right-3 z-40 w-24 overflow-hidden rounded-2xl border-2 border-dawn-400 bg-night-950 shadow-card"
-        style={{ aspectRatio: "9 / 16" }}
-      >
-        <iframe
-          src={`https://www.youtube-nocookie.com/embed/${latest.id}?autoplay=1&mute=1&controls=0&playsinline=1&loop=1&playlist=${latest.id}&modestbranding=1&rel=0`}
-          title={latest.title}
-          allow="autoplay; encrypted-media"
-          className="pointer-events-none h-full w-full"
-        />
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          aria-label={`Lire la vidéo du jour : ${latest.title}`}
-          className="absolute inset-0"
-        />
-        <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-night-950/90 to-transparent px-1.5 pb-1.5 pt-5 text-center text-[9px] font-bold uppercase tracking-wide text-cream">
-          Vidéo du jour
-        </span>
-        <button
-          type="button"
-          onClick={() => setHidden(true)}
-          aria-label="Masquer la vidéo du jour"
-          className="absolute right-1 top-1 grid h-5 w-5 place-items-center rounded-full bg-night-950/75 text-cream/90"
-        >
-          <svg viewBox="0 0 24 24" className="h-3 w-3 fill-none stroke-current" strokeWidth={2.4} aria-hidden>
-            <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
-          </svg>
-        </button>
+      {/* Petite bulle RONDE et discrète : la vidéo tourne en muet dedans */}
+      <div className="fixed bottom-[calc(env(safe-area-inset-bottom)+5.25rem)] right-3 z-40">
+        <div className="relative h-[4.5rem] w-[4.5rem]">
+          <div className="h-full w-full overflow-hidden rounded-full border-2 border-dawn-400 bg-night-950 shadow-card">
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${latest.id}?autoplay=1&mute=1&controls=0&playsinline=1&loop=1&playlist=${latest.id}&modestbranding=1&rel=0`}
+              title={latest.title}
+              allow="autoplay; encrypted-media"
+              className="pointer-events-none absolute left-1/2 top-1/2 h-32 w-[4.5rem] -translate-x-1/2 -translate-y-1/2"
+            />
+          </div>
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            aria-label={`Lire la vidéo du jour : ${latest.title}`}
+            className="absolute inset-0 rounded-full"
+          />
+          <button
+            type="button"
+            onClick={() => setHidden(true)}
+            aria-label="Masquer la vidéo du jour"
+            className="absolute -right-1 -top-1 grid h-[18px] w-[18px] place-items-center rounded-full bg-night-950/85 text-cream/85 ring-1 ring-white/20"
+          >
+            <svg viewBox="0 0 24 24" className="h-2.5 w-2.5 fill-none stroke-current" strokeWidth={2.6} aria-hidden>
+              <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+            </svg>
+          </button>
+        </div>
       </div>
 
       <AnimatePresence>
