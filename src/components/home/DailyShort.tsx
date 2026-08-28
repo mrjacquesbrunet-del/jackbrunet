@@ -63,12 +63,11 @@ export function DailyShort({ latest, all }: { latest: Short; all: Short[] }) {
 }
 
 /**
- * Bulle flottante « Vidéo du jour » : la vidéo tourne en muet dans un petit
- * cadre 9:16 accroché en bas à droite ; un toucher ouvre le lecteur plein
- * écran. La petite croix la masque pour la session.
+ * Bulle flottante RONDE « Vidéo du jour » : la vidéo tourne en muet dans un
+ * petit cercle en bas à droite ; un toucher fait défiler la page jusqu'à la
+ * section « La vidéo du jour ». La petite croix la masque pour la session.
  */
-export function FloatingDailyShort({ latest, all }: { latest: Short; all: Short[] }) {
-  const [open, setOpen] = useState(false);
+export function FloatingDailyShort({ latest, targetId = "video-jour" }: { latest: Short; targetId?: string }) {
   const [hidden, setHidden] = useState(false);
 
   if (hidden) return null;
@@ -88,8 +87,8 @@ export function FloatingDailyShort({ latest, all }: { latest: Short; all: Short[
           </div>
           <button
             type="button"
-            onClick={() => setOpen(true)}
-            aria-label={`Lire la vidéo du jour : ${latest.title}`}
+            onClick={() => document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth" })}
+            aria-label={`Aller à la vidéo du jour : ${latest.title}`}
             className="absolute inset-0 rounded-full"
           />
           <button
@@ -104,10 +103,6 @@ export function FloatingDailyShort({ latest, all }: { latest: Short; all: Short[
           </button>
         </div>
       </div>
-
-      <AnimatePresence>
-        {open ? <ShortsPlayer shorts={all} startIndex={0} onClose={() => setOpen(false)} /> : null}
-      </AnimatePresence>
     </>
   );
 }

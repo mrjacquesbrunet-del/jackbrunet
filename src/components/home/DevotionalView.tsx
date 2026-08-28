@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeader } from "@/components/ui/Section";
 import { ShareButtons } from "@/components/ui/ShareButtons";
+import { shareText } from "@/lib/share";
+import { appShareUrl } from "@/config/app-links";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { AudioPlayer } from "@/components/ui/AudioPlayer";
 import { ViralCard } from "@/components/home/ViralCard";
@@ -382,15 +384,21 @@ export function DevotionalView({
               authorPhoto={dev.authorPhoto}
               authorResources={dev.authorResources}
             />
+            {/* Un seul « Partager » (texte) ici — les boutons complets (Image,
+                Story, WhatsApp…) sont sur la carte à déclarer juste en dessous */}
             <div className="mt-6 flex flex-wrap items-center gap-3">
-              <ShareButtons
-                text={`${dev.theme}, « ${dev.verseText} » (${dev.verseReference})`}
-                image={{
-                  text: dev.verseText,
-                  reference: dev.verseReference,
-                  filename: "jackbrunet-verset.png",
-                }}
-              />
+              <button
+                type="button"
+                onClick={() =>
+                  shareText(`${dev.theme}, « ${dev.verseText} » (${dev.verseReference})`, appShareUrl())
+                }
+                className="btn-ghost inline-flex items-center gap-1.5"
+              >
+                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+                  <path d="M12 3v12M8 7l4-4 4 4M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                Partager
+              </button>
               {eng.ready? (
                 <button
                   type="button"
@@ -501,12 +509,13 @@ export function DevotionalView({
       {/* 4b. Le sujet du jour du mur : porter UN seul sujet dans la prière */}
       <DailyPrayerSpotlight />
 
-      {/* Bulle flottante : la vidéo du jour tourne en muet, un toucher l'ouvre */}
-      {latestShort ? <FloatingDailyShort latest={latestShort} all={shorts} /> : null}
+      {/* Bulle flottante ronde : la vidéo tourne en muet, un toucher fait
+          défiler jusqu'à la section « La vidéo du jour » */}
+      {latestShort ? <FloatingDailyShort latest={latestShort} /> : null}
 
       {/* 5. Vidéo du jour (avant la lecture) */}
       {latestShort? (
-        <section className="container-x">
+        <section id="video-jour" className="container-x scroll-mt-24">
           <Reveal from="up">
             <SectionHeader eyebrow="Shorts" title="La vidéo du jour" />
             <div className="mt-6 max-w-sm">
