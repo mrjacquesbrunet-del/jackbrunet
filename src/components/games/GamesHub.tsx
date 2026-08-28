@@ -36,7 +36,7 @@ const IconMask = S("M12 3C7 3 3 6 3 11c0 4 3 6 4 8 .5 1 1.5 2 5 2s4.5-1 5-2c1-2 
 const IconTrophy = S("M8 4h8v3a4 4 0 0 1-8 0zM8 5H5v1a3 3 0 0 0 3 3M16 5h3v1a3 3 0 0 1-3 3M9 20h6M12 12v4");
 
 /** Illustration 3D du bouton « Défier un ami » (vide tant que Jack n'a pas fourni la sienne). */
-const DEFI_ILLO = "";
+const DEFI_ILLO = "/img/jeux/trophee.png";
 
 type Game = {
   id: string;
