@@ -893,9 +893,13 @@ export function QuizScreen() {
           <p className="mt-2 max-w-[15rem] font-game text-xs font-semibold leading-tight text-white/75">
             Réponds correctement pour atteindre le palier suivant&nbsp;!
           </p>
-          {/* Illustration récompense */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={asset("/img/quiz/trophy.jpg")} alt="" className="pointer-events-none absolute -right-2 -top-1 h-24 w-24 rounded-2xl object-contain opacity-95 drop-shadow-[0_6px_16px_rgba(252,211,77,.4)]" />
+          {/* Médaillon récompense (icône, sans photo) */}
+          <span
+            className="pointer-events-none absolute right-3 top-3 grid h-16 w-16 place-items-center rounded-2xl text-amber-200 shadow-[0_10px_20px_-6px_rgba(0,0,0,.5),inset_0_2px_0_rgba(255,255,255,.4)] ring-1 ring-white/25"
+            style={{ background: "radial-gradient(circle at 32% 28%, rgba(255,255,255,.4), rgba(245,158,11,.35) 60%, rgba(180,83,9,.5))" }}
+          >
+            <IconCrown className="h-8 w-8" />
+          </span>
           {/* Échelle horizontale des paliers */}
           <div className="mt-3 flex items-center gap-1">
             {winRungs.map((r, i) => (
