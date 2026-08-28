@@ -203,8 +203,16 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
           !p.answered &&
           p.body.trim().length <= MAX_BODY_CHARS,
       );
+      // On ne repropose JAMAIS un sujet pour lequel on a déjà prié
+      // (réaction « Je prie » posée aujourd'hui ou lors d'une session passée).
+      const rx = await reactionsFor(candidates.map((p) => p.id));
+      if (!alive) return;
+      const alreadyPrayed = new Set(
+        rx.filter((r) => r.user_id === userId && r.type === "pray").map((r) => r.prayer_id),
+      );
+      const fresh = candidates.filter((p) => !alreadyPrayed.has(p.id));
       const tiers = new Map<number, Prayer[]>();
-      for (const p of candidates) {
+      for (const p of fresh) {
         const tier = Math.floor((now - new Date(p.created_at).getTime()) / WEEK_MS);
         const list = tiers.get(tier) ?? [];
         list.push(p);
@@ -212,9 +220,6 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
       }
       const pool = [...tiers.keys()].sort((a, b) => a - b).flatMap((t) => shuffle(tiers.get(t)!));
       setPrayers(pool);
-      const rx = await reactionsFor(pool.map((p) => p.id));
-      if (!alive) return;
-      setPrayed(new Set(rx.filter((r) => r.user_id === userId && r.type === "pray").map((r) => r.prayer_id)));
     })();
     return () => {
       alive = false;
@@ -405,8 +410,10 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
         ) : (
           <div className="text-center">
             <PrayerMark className="mx-auto h-14 w-14" />
-            <p className="mt-4 font-display text-xl font-bold">Aucun sujet à porter pour le moment</p>
-            <p className="mt-2 text-sm text-cream/60">Les sujets de prière du mur apparaissent ici.</p>
+            <p className="mt-4 font-display text-xl font-bold">Aucun nouveau sujet à porter</p>
+            <p className="mt-2 text-sm text-cream/60">
+              Tu as déjà prié pour les sujets du moment. Reviens quand la famille en aura publié de nouveaux.
+            </p>
             <button type="button" onClick={onClose} className="pt-pray mt-6 rounded-full px-8 py-3 font-display font-extrabold">
               Retour au mur
             </button>
