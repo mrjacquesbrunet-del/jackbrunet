@@ -86,6 +86,8 @@ export function useAuth() {
     if (userId) {
       // Présence : signale l'activité (throttlé à 1/min dans pingPresence).
       pingPresence(userId);
+      // Anneau doré : synchronise mon meilleur palier de badges (1×/jour).
+      import("@/lib/badges").then((m) => m.syncMyBadgeTier(userId)).catch(() => undefined);
       if (lastLinkedUser!== userId) {
         lastLinkedUser = userId;
         linkOneSignalUser(userId);

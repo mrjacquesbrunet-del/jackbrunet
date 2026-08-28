@@ -218,7 +218,7 @@ function Inbox() {
                   href={`/messages?u=${c.partner_id}`}
                   className="flex min-w-0 flex-1 items-center gap-3 rounded-xl p-1.5"
                 >
-                  <Avatar pseudo={c.partner?.pseudo} url={c.partner?.avatar_url} size={44} />
+                  <Avatar pseudo={c.partner?.pseudo} url={c.partner?.avatar_url} size={44} streak={c.partner?.streak_days} badge={c.partner?.badge_tier} />
                   <div className="min-w-0 flex-1">
                     <p
                       className={`flex items-center gap-1 text-night-900/85 ${
@@ -368,7 +368,7 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
           </Link>
           <Link href={`/membre?u=${partnerId}`} className="flex items-center gap-2.5">
             <span className="relative">
-              <Avatar pseudo={partner?.pseudo} url={partner?.avatar_url} size={40} streak={partner?.streak_days} />
+              <Avatar pseudo={partner?.pseudo} url={partner?.avatar_url} size={40} streak={partner?.streak_days} badge={partner?.badge_tier} />
               {presenceLabel(partner?.last_seen_at)?.online ? (
                 <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-emerald-400 ring-2 ring-white" />
               ) : null}

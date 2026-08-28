@@ -394,7 +394,7 @@ export function PrayerCard({
         ): null}
         <div className="flex items-center gap-3">
           <Link href={`/membre?u=${prayer.author_id}`} aria-label="Voir le profil">
-            <Avatar pseudo={prayer.author?.pseudo} url={prayer.author?.avatar_url} streak={prayer.author?.streak_days} />
+            <Avatar pseudo={prayer.author?.pseudo} url={prayer.author?.avatar_url} streak={prayer.author?.streak_days} badge={prayer.author?.badge_tier} />
           </Link>
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">

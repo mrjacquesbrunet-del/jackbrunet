@@ -70,6 +70,38 @@ function state(kind: BadgeKind, count: number): BadgeState {
   return { kind, label: BADGE_LABELS[kind], tier, count, next, detail: DETAILS[kind] };
 }
 
+/** Meilleur métal porté (pour l'anneau d'or autour de la photo). */
+export function bestTier(pb: ProfileBadges): BadgeTier | null {
+  if (pb.weeklyTop) return "or";
+  const tiers = pb.states.map((s) => s.tier).filter(Boolean) as BadgeTier[];
+  if (tiers.includes("or")) return "or";
+  if (tiers.includes("argent")) return "argent";
+  if (tiers.includes("bronze")) return "bronze";
+  return null;
+}
+
+const TIER_SYNC_KEY = "jb.badgetier.sync.v1";
+
+/**
+ * Synchronise MON meilleur palier vers profiles.badge_tier (1×/jour max) :
+ * c'est lui qui donne l'anneau doré autour de l'avatar partout dans l'app,
+ * sans recalculer les badges à chaque affichage.
+ */
+export async function syncMyBadgeTier(userId: string, streakDays?: number | null): Promise<void> {
+  try {
+    const today = new Date().toISOString().slice(0, 10);
+    if (localStorage.getItem(TIER_SYNC_KEY) === today) return;
+    localStorage.setItem(TIER_SYNC_KEY, today);
+  } catch {
+    /* stockage indisponible : on synchronise quand même */
+  }
+  const sb = getSupabase();
+  if (!sb) return;
+  const pb = await fetchProfileBadges(userId, streakDays);
+  if (!pb) return;
+  await sb.from("profiles").update({ badge_tier: bestTier(pb) }).eq("id", userId);
+}
+
 /** Calcule les badges d'un membre (streakDays vient du profil déjà chargé). */
 export async function fetchProfileBadges(
   userId: string,

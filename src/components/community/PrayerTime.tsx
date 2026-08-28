@@ -451,7 +451,7 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
               <div className="pt-card w-full max-w-md">
                 {/* Auteur */}
                 <div className="flex items-center justify-center gap-2.5">
-                  <Avatar pseudo={p.author?.pseudo} url={p.author?.avatar_url} size={38} streak={p.author?.streak_days} />
+                  <Avatar pseudo={p.author?.pseudo} url={p.author?.avatar_url} size={38} streak={p.author?.streak_days} badge={p.author?.badge_tier} />
                   <div className="text-left">
                     <p className="flex items-center gap-1 text-sm font-bold">
                       {p.author?.pseudo ?? "Un membre"}

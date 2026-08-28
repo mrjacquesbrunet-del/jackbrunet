@@ -32,6 +32,8 @@ export type Profile = {
   streak_days?: number | null;
   /** Date de la rencontre avec Jésus → « X ans avec Jésus ». */
   converted_at?: string | null;
+  /** Meilleur métal de badges (bronze/argent/or) → anneau doré sur l'avatar. */
+  badge_tier?: string | null;
 };
 export type Visibility = "public" | "friends" | "private";
 export type Prayer = {
@@ -362,7 +364,7 @@ async function profilesByIds(ids: string[]): Promise<Record<string, Profile>> {
   if (!sb || ids.length === 0) return {};
   const { data } = await sb
 .from("profiles")
-.select("id,pseudo,avatar_url,verified,streak_days")
+.select("id,pseudo,avatar_url,verified,streak_days,badge_tier")
 .in("id", Array.from(new Set(ids)));
   const map: Record<string, Profile> = {};
   for (const p of (data as Profile[])?? []) map[p.id] = p;
