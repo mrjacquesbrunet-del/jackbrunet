@@ -100,7 +100,7 @@ function Trainer({ item, onClose }: { item: MemorizeItem; onClose: () => void })
   const finished = item.level >= MEMORIZE_MAX_LEVEL;
 
   return (
-    <div className="mt-4 rounded-2xl border border-amber-400/25 bg-[#2e1065]/60 p-4">
+    <div className="mt-4 rounded-2xl border border-amber-400/25 bg-[#1E1E1D]/60 p-4">
       <p className="text-[11px] font-bold uppercase tracking-wide text-amber-300">
         {finished ? "Révision — par cœur" : `Entraînement — étape ${level}/${MEMORIZE_MAX_LEVEL} · ${LEVEL_LABELS[level]}`}
       </p>
@@ -424,18 +424,18 @@ export default function MemoriserPage() {
           ← Retour à la Bible
         </Link>
         {/* ---------- Hub premium (or / ambre) ---------- */}
-        <section className="relative mt-3 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#3b1d6e] via-[#2e1065] to-[#1c0b40] p-4 shadow-2xl">
+        <section className="relative mt-3 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#30302F] via-[#1E1E1D] to-[#0C0C0B] p-4 shadow-2xl">
           <div className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full bg-amber-400/15 blur-3xl" />
 
           {/* Profil joueur */}
           <div className="relative flex items-center gap-3">
             <Link href="/profil" aria-label="Mon profil" className="shrink-0">
-              <span className="relative block rounded-full p-[3px]" style={{ background: "linear-gradient(180deg,#c084fc,#7c3aed)", boxShadow: "0 0 18px rgba(168,85,247,.5)" }}>
+              <span className="relative block rounded-full p-[3px]" style={{ background: "linear-gradient(180deg,#D8F53A,#AAD000)", boxShadow: "0 0 18px rgba(202,240,0,.5)" }}>
                 {avatar ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={avatar} alt="" className="h-14 w-14 rounded-full object-cover" />
                 ) : (
-                  <span className="grid h-14 w-14 place-items-center rounded-full bg-[#3b1d6e] text-white/75">
+                  <span className="grid h-14 w-14 place-items-center rounded-full bg-[#30302F] text-white/75">
                     <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM5 20a7 7 0 0 1 14 0" /></svg>
                   </span>
                 )}
@@ -444,17 +444,17 @@ export default function MemoriserPage() {
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
                 <p className="truncate font-game text-xl font-black leading-tight">{name || "Joueur"}</p>
-                <span className="shrink-0 rounded-full bg-gradient-to-b from-[#8b5cf6] to-[#6d28d9] px-2 py-0.5 font-game text-[10px] font-extrabold text-white shadow-[inset_0_1px_0_rgba(255,255,255,.25)]">NIV. {lvl.level}</span>
+                <span className="shrink-0 rounded-full bg-gradient-to-b from-[#D8F53A] to-[#AAD000] px-2 py-0.5 font-game text-[10px] font-extrabold text-white shadow-[inset_0_1px_0_rgba(255,255,255,.25)]">NIV. {lvl.level}</span>
               </div>
               <div className="mt-1 h-2.5 w-full overflow-hidden rounded-full bg-black/40 ring-1 ring-white/10">
                 <div className="h-full rounded-full bg-gradient-to-r from-amber-300 to-amber-500" style={{ width: `${Math.round((lvl.into / lvl.span) * 100)}%` }} />
               </div>
               <p className="mt-0.5 font-game text-[10px] font-bold text-white/70">{lvl.into} / {lvl.span} <span className="text-amber-300">XP</span></p>
             </div>
-            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#1c0b40] py-1.5 pl-3 pr-1.5 font-game text-sm font-black text-white shadow-[inset_0_1px_0_rgba(255,255,255,.12)] ring-1 ring-white/10">
-              <svg viewBox="0 0 24 24" className="h-4 w-4 text-fuchsia-300" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M6 3h12l3 5-9 13L3 8zM3 8h18M9 3l-1 5M15 3l1 5" /></svg>
+            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#0C0C0B] py-1.5 pl-3 pr-1.5 font-game text-sm font-black text-white shadow-[inset_0_1px_0_rgba(255,255,255,.12)] ring-1 ring-white/10">
+              <svg viewBox="0 0 24 24" className="h-4 w-4 text-[#CAF000]" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M6 3h12l3 5-9 13L3 8zM3 8h18M9 3l-1 5M15 3l1 5" /></svg>
               {record}
-              <span className="grid h-6 w-6 place-items-center rounded-full bg-gradient-to-b from-[#a855f7] to-[#7c3aed] text-white">
+              <span className="grid h-6 w-6 place-items-center rounded-full bg-gradient-to-b from-[#D8F53A] to-[#AAD000] text-white">
                 <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round"><path d="M12 6v12M6 12h12" /></svg>
               </span>
             </span>
@@ -463,7 +463,7 @@ export default function MemoriserPage() {
           {/* Héros */}
           <div
             className="relative mt-4 overflow-hidden rounded-2xl border border-white/12 p-4"
-            style={{ background: "radial-gradient(120% 120% at 100% 0%, rgba(251,146,60,.28), transparent 55%), linear-gradient(135deg,#5a2d9c 0%,#3b1d6e 62%,#2e1065 100%)" }}
+            style={{ background: "radial-gradient(120% 120% at 100% 0%, rgba(251,146,60,.28), transparent 55%), linear-gradient(135deg,#30302F 0%,#30302F 62%,#1E1E1D 100%)" }}
           >
             <svg viewBox="0 0 24 24" className="pointer-events-none absolute -right-3 -top-2 h-32 w-32 text-amber-300/10" fill="none" stroke="currentColor" strokeWidth={1.2}>
               <path d="M4 5a2 2 0 0 1 2-2h6v16H6a2 2 0 0 0-2 2zM20 5a2 2 0 0 0-2-2h-6v16h6a2 2 0 0 1 2 2z" strokeLinecap="round" strokeLinejoin="round" />
@@ -488,7 +488,7 @@ export default function MemoriserPage() {
                 <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" /></svg>
               </span>
               <div className="min-w-0">
-                <p className="font-game text-xs font-extrabold text-fuchsia-300">OBJECTIF</p>
+                <p className="font-game text-xs font-extrabold text-[#CAF000]">OBJECTIF</p>
                 <p className="text-[11px] leading-tight text-white/70">Chaque verset par cœur, étape par étape.</p>
               </div>
             </div>
@@ -507,7 +507,7 @@ export default function MemoriserPage() {
           <div className="mt-3 grid grid-cols-3 gap-2 text-center">
             <div className="rounded-2xl bg-white/[0.06] py-3">
               <p className="flex items-center justify-center gap-1.5 font-game text-lg font-extrabold text-white">
-                <svg viewBox="0 0 24 24" className="h-4 w-4 text-fuchsia-300" fill="none" stroke="currentColor" strokeWidth={1.9} strokeLinecap="round" strokeLinejoin="round"><path d="M4 5a2 2 0 0 1 2-2h6v16H6a2 2 0 0 0-2 2zM20 5a2 2 0 0 0-2-2h-6v16h6a2 2 0 0 1 2 2z" /></svg>
+                <svg viewBox="0 0 24 24" className="h-4 w-4 text-[#CAF000]" fill="none" stroke="currentColor" strokeWidth={1.9} strokeLinecap="round" strokeLinejoin="round"><path d="M4 5a2 2 0 0 1 2-2h6v16H6a2 2 0 0 0-2 2zM20 5a2 2 0 0 0-2-2h-6v16h6a2 2 0 0 1 2 2z" /></svg>
                 {learned}
               </p>
               <p className="text-[10px] font-bold uppercase tracking-wide text-white/50">Appris</p>
@@ -569,7 +569,7 @@ export default function MemoriserPage() {
               }}
               onKeyDown={(e) => e.key === "Enter" && add()}
               placeholder="Ex. Jean 3:16 ou Psaume 23:1-3"
-              className="min-w-0 flex-1 rounded-full border border-white/15 bg-[#2e1065] px-4 py-2.5 text-sm text-white placeholder:text-white/35 focus:border-amber-400/60 focus:outline-none"
+              className="min-w-0 flex-1 rounded-full border border-white/15 bg-[#1E1E1D] px-4 py-2.5 text-sm text-white placeholder:text-white/35 focus:border-amber-400/60 focus:outline-none"
             />
             <button
               type="button"
@@ -672,7 +672,7 @@ export default function MemoriserPage() {
                       </span>
                     ) : null}
                     {!on ? (
-                      <span className="absolute -bottom-1 -right-1 grid h-5 w-5 place-items-center rounded-full bg-[#2e1065]">
+                      <span className="absolute -bottom-1 -right-1 grid h-5 w-5 place-items-center rounded-full bg-[#1E1E1D]">
                         <svg viewBox="0 0 24 24" className="h-3 w-3 fill-none stroke-white/40" strokeWidth={2.2}>
                           <path d="M7 10V8a5 5 0 0 1 10 0v2M6 10h12v10H6z" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>

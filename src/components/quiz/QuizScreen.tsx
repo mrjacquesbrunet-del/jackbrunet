@@ -47,6 +47,7 @@ import { getSupabase } from "@/lib/supabase";
 import { getProfile } from "@/lib/community";
 import { submitGameScore, submitWeeklyPoints } from "@/lib/game-scores";
 import { ScoreBoard } from "@/components/games/ScoreBoard";
+import { ARCADE_CSS } from "@/components/games/ArcadeUI";
 
 type IconCmp = (p: { className?: string }) => ReactElement;
 
@@ -877,7 +878,7 @@ export function QuizScreen() {
             </p>
           </div>
           <span className="qm-gem shrink-0">
-            <IconGem className="h-4 w-4 text-fuchsia-300" />
+            <IconGem className="h-4 w-4 text-[#CAF000]" />
             {shortCoin(coins)}
             <span className="qm-gem-plus"><IconPlus className="h-3.5 w-3.5" /></span>
           </span>
@@ -888,7 +889,7 @@ export function QuizScreen() {
           <span className="qm-pill-o">PALIER {rung}</span>
           <div className="mt-2 flex items-end gap-2">
             <span className="font-game text-4xl font-black leading-none tracking-tight">{formatCoins(target)}</span>
-            <IconGem className="mb-1 h-6 w-6 text-fuchsia-400" />
+            <IconGem className="mb-1 h-6 w-6 text-[#CAF000]" />
           </div>
           <p className="mt-2 max-w-[15rem] font-game text-xs font-semibold leading-tight text-white/75">
             Réponds correctement pour atteindre le palier suivant&nbsp;!
@@ -1391,60 +1392,8 @@ const PREMIUM_CSS = `
 `;
 
 /* ---------------- Thème « millionnaire » violet (écran de jeu) ---------------- */
-const PLAY_CSS = `
-.qm{background:
-  radial-gradient(120% 55% at 50% -5%, #6D28D9 0%, transparent 60%),
-  radial-gradient(70% 45% at -5% 42%, rgba(236,72,153,.4) 0%, transparent 55%),
-  radial-gradient(70% 45% at 105% 42%, rgba(236,72,153,.4) 0%, transparent 55%),
-  linear-gradient(180deg,#4C1D95 0%,#5B21B6 45%,#7E22CE 100%);
-  background-attachment:fixed;}
-.qm-back{display:grid;place-items:center;width:42px;height:42px;border-radius:9999px;background:rgba(255,255,255,.12);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 2px 6px rgba(0,0,0,.25)}
-.qm-back:active{transform:scale(.94)}
-.qm-niv{display:inline-block;padding:2px 8px;border-radius:9999px;background:linear-gradient(180deg,#8B5CF6,#6D28D9);font-family:var(--font-game);font-weight:800;font-size:10px;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
-.qm-gem{display:inline-flex;align-items:center;gap:6px;padding:5px 5px 5px 12px;border-radius:9999px;background:linear-gradient(180deg,rgba(30,18,66,.92),rgba(20,10,48,.96));box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 2px 8px rgba(0,0,0,.4);font-family:var(--font-game);font-weight:900;font-size:14px;color:#fff}
-.qm-gem-plus{display:grid;place-items:center;width:26px;height:26px;border-radius:9999px;background:linear-gradient(180deg,#A855F7,#7C3AED);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
-.qm-xpbar{height:8px;border-radius:9999px;background:rgba(0,0,0,.32);overflow:hidden}
-.qm-xpbar > i{display:block;height:100%;border-radius:9999px;background:linear-gradient(90deg,#FCD34D,#F59E0B)}
-.qm-card{background:linear-gradient(180deg,rgba(49,32,110,.72),rgba(29,18,64,.9));border:1px solid rgba(167,139,250,.24);border-radius:24px;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 14px 34px rgba(23,10,54,.5)}
-.qm-pill-o{display:inline-block;padding:4px 12px;border-radius:9999px;background:linear-gradient(180deg,#FBBF24,#F59E0B);font-family:var(--font-game);font-weight:900;font-size:11px;letter-spacing:.03em;color:#4a2600;box-shadow:inset 0 1px 0 rgba(255,255,255,.45)}
-.qm-pill-p{display:inline-block;padding:5px 13px;border-radius:9999px;background:linear-gradient(180deg,#8B5CF6,#6D28D9);font-family:var(--font-game);font-weight:900;font-size:11px;letter-spacing:.03em;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.22)}
-.qm-clock{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-game);font-weight:900;font-size:15px;color:#fff}
-.qm-timebar{height:6px;border-radius:9999px;background:rgba(0,0,0,.32);overflow:hidden}
-.qm-timebar > i{display:block;height:100%;border-radius:9999px;background:linear-gradient(90deg,#FCD34D,#F59E0B)}
-.qm-node{display:grid;place-items:center;width:30px;height:30px;border-radius:9999px;font-family:var(--font-game);font-weight:900;font-size:12px;flex:0 0 auto}
-.qm-node-done{background:linear-gradient(180deg,#a3e635,#65a30d);color:#183a06;box-shadow:inset 0 1px 0 rgba(255,255,255,.45)}
-.qm-node-cur{background:linear-gradient(180deg,#FCD34D,#F59E0B);color:#4a2600;box-shadow:0 0 0 3px rgba(252,211,77,.35),inset 0 1px 0 rgba(255,255,255,.5);animation:qm-pulse 1.2s ease-in-out infinite}
-.qm-node-lock{background:rgba(255,255,255,.12);color:rgba(255,255,255,.55)}
-.qm-node-crown{background:linear-gradient(180deg,#FDE68A,#F59E0B);color:#4a2600;box-shadow:0 0 12px rgba(252,211,77,.55),inset 0 1px 0 rgba(255,255,255,.5)}
-.qm-line{height:3px;flex:1;border-radius:2px;min-width:6px}
-@keyframes qm-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
-.qm-opt{display:flex;align-items:center;gap:12px;width:100%;padding:13px 14px;border-radius:16px;font-family:var(--font-game);font-weight:800;font-size:15px;background:linear-gradient(180deg,rgba(76,52,140,.5),rgba(49,32,110,.68));border:1px solid rgba(167,139,250,.28);color:#fff;transition:transform .1s,background .15s,box-shadow .15s}
-.qm-opt:active{transform:scale(.99)}
-.qm-opt:disabled{cursor:default}
-.qm-opt-badge{display:grid;place-items:center;width:34px;height:34px;flex:0 0 auto;border-radius:9999px;background:linear-gradient(180deg,#8B5CF6,#5B21B6);color:#fff;font-weight:900;box-shadow:inset 0 1px 0 rgba(255,255,255,.28)}
-.qm-opt-sel{background:linear-gradient(180deg,#A3E635,#65A30D);border-color:#bef264;color:#18320a;box-shadow:0 0 0 2px rgba(163,230,53,.55),0 8px 18px rgba(101,163,9,.4)}
-.qm-opt-sel .qm-opt-badge{background:#fff;color:#3f6212}
-.qm-opt-correct{background:linear-gradient(180deg,#22c55e,#15803d);border-color:#4ade80;color:#fff}
-.qm-opt-correct .qm-opt-badge{background:#fff;color:#15803d}
-.qm-opt-wrong{background:linear-gradient(180deg,#ef4444,#991b1b);border-color:#f87171;color:#fff}
-.qm-opt-wrong .qm-opt-badge{background:#fff;color:#991b1b}
-.qm-joker{position:relative;border-radius:18px;padding:9px 6px 12px;text-align:center;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 6px 14px rgba(23,10,54,.4)}
-.qm-joker:active{transform:translateY(1px)}
-.qm-joker:disabled{opacity:.5}
-.qm-joker-blue{background:linear-gradient(180deg,#3B82F6,#1D4ED8)}
-.qm-joker-gold{background:linear-gradient(180deg,#F59E0B,#D97706)}
-.qm-joker-purple{background:linear-gradient(180deg,#A855F7,#7C3AED)}
-.qm-joker-lab{display:inline-block;padding:2px 10px;border-radius:9999px;background:rgba(255,255,255,.92);font-family:var(--font-game);font-weight:900;font-size:9px;letter-spacing:.04em}
-.qm-joker-blue .qm-joker-lab{color:#1D4ED8}
-.qm-joker-gold .qm-joker-lab{color:#B45309}
-.qm-joker-purple .qm-joker-lab{color:#6D28D9}
-.qm-joker-cnt{display:grid;place-items:center;width:24px;height:24px;margin:5px auto 0;border-radius:9999px;background:rgba(0,0,0,.28);font-family:var(--font-game);font-weight:900;font-size:12px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
-.qm-quit{display:inline-flex;align-items:center;gap:8px;padding:15px 18px;border-radius:16px;background:linear-gradient(180deg,rgba(30,18,66,.92),rgba(20,10,48,.96));font-family:var(--font-game);font-weight:900;font-size:14px;letter-spacing:.02em;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
-.qm-quit:active{transform:translateY(1px)}
-.qm-valid{flex:1;border-radius:16px;padding:16px;font-family:var(--font-game);font-weight:900;font-size:17px;letter-spacing:.02em;background:linear-gradient(180deg,#FCD34D,#F59E0B);color:#4a2600;box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 6px 0 #b45309}
-.qm-valid:active{transform:translateY(3px);box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 3px 0 #b45309}
-.qm-valid:disabled{background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.1));color:rgba(255,255,255,.4);box-shadow:none}
-`;
+/** Le quiz réutilise le thème « arcade » partagé (nuit + lime). */
+const PLAY_CSS = ARCADE_CSS;
 
 /* ---------------- Effets (animations) ---------------- */
 const FX = `

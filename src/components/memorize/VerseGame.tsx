@@ -37,7 +37,7 @@ type Mode = (typeof MODES)[number]["kind"];
 
 const chunky =
   "select-none rounded-2xl border-2 transition-all duration-100 active:translate-y-[3px] active:shadow-none";
-const chipCls = `${chunky} border-white/12 bg-[#3b1d6e] px-4 py-2.5 text-[16px] font-semibold text-white shadow-[0_4px_0_rgba(255,255,255,0.10)] hover:border-amber-400/40`;
+const chipCls = `${chunky} border-white/12 bg-[#30302F] px-4 py-2.5 text-[16px] font-semibold text-white shadow-[0_4px_0_rgba(255,255,255,0.10)] hover:border-amber-400/40`;
 const chipWrongCls = `${chunky} border-rose-400/80 bg-rose-400/15 px-4 py-2.5 text-[16px] font-semibold text-rose-200 shadow-[0_4px_0_rgba(251,113,133,0.35)]`;
 
 /** Styles/animations du jeu, injectés une fois. */
@@ -66,10 +66,9 @@ function GameStyles() {
       .jb-glow{animation:jb-glowpulse 1.8s ease-in-out infinite}
       .jb-chip{animation:jb-chipin .3s ease-out backwards}
       .mem-root{background:
-        radial-gradient(120% 55% at 50% -5%, #6D28D9 0%, transparent 60%),
-        radial-gradient(70% 45% at -5% 42%, rgba(236,72,153,.4) 0%, transparent 55%),
-        radial-gradient(70% 45% at 105% 42%, rgba(236,72,153,.4) 0%, transparent 55%),
-        linear-gradient(180deg,#4C1D95 0%,#5B21B6 45%,#7E22CE 100%);
+        radial-gradient(120% 55% at 50% -5%, #30302F 0%, transparent 60%),
+        radial-gradient(85% 50% at 50% 108%, rgba(202,240,0,.12) 0%, transparent 55%),
+        linear-gradient(180deg,#0C0C0B 0%,#171716 55%,#0C0C0B 100%);
         background-attachment:fixed;}
     `}</style>
   );
@@ -188,7 +187,7 @@ function StudyPhase({ item, onReady }: { item: MemorizeItem; onReady: () => void
   return (
     <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
       <p className="text-xs font-bold uppercase tracking-[0.22em] text-amber-400">Mémorise ce verset</p>
-      <div className="mt-6 jb-pop rounded-3xl border-2 border-amber-400/30 bg-[#2e1065]/72 p-6">
+      <div className="mt-6 jb-pop rounded-3xl border-2 border-amber-400/30 bg-[#1E1E1D]/72 p-6">
         <p className="font-game text-2xl font-medium leading-relaxed text-white">
           «{" "}
           {item.text.split(/\s+/).map((w, i) => (
@@ -260,7 +259,7 @@ function PuzzleRound({ words, locked, onGood, onBad, onDone }: {
 
   return (
     <>
-      <p className={`min-h-[5.5rem] rounded-3xl border-2 border-white/10 bg-[#2e1065]/72 p-4 font-game text-[17px] leading-relaxed text-white ${shake ? "jb-shake" : ""}`}>
+      <p className={`min-h-[5.5rem] rounded-3xl border-2 border-white/10 bg-[#1E1E1D]/72 p-4 font-game text-[17px] leading-relaxed text-white ${shake ? "jb-shake" : ""}`}>
         {words.slice(0, placed).map((w, i) => (
           <span key={i} className={i === placed - 1 ? "jb-wordin" : undefined}>{w} </span>
         ))}
@@ -325,7 +324,7 @@ function BlanksRound({ words, ratio, locked, onGood, onBad, onDone }: {
 
   return (
     <>
-      <p className={`rounded-3xl border-2 border-white/10 bg-[#2e1065]/72 p-4 font-game text-[17px] leading-relaxed text-white ${shake ? "jb-shake" : ""}`}>
+      <p className={`rounded-3xl border-2 border-white/10 bg-[#1E1E1D]/72 p-4 font-game text-[17px] leading-relaxed text-white ${shake ? "jb-shake" : ""}`}>
         {words.map((w, i) => {
           const bi = blanks.indexOf(i);
           if (bi === -1 || bi < current) {
@@ -387,7 +386,7 @@ function ReferenceRound({ item, all, locked, onGood, onBad, onDone }: {
 
   return (
     <>
-      <p className="rounded-3xl border-2 border-white/10 bg-[#2e1065]/72 p-4 font-game text-[17px] leading-relaxed text-white">
+      <p className="rounded-3xl border-2 border-white/10 bg-[#1E1E1D]/72 p-4 font-game text-[17px] leading-relaxed text-white">
         « {item.text} »
       </p>
       <div className="mt-5 grid gap-2.5">
@@ -399,7 +398,7 @@ function ReferenceRound({ item, all, locked, onGood, onBad, onDone }: {
                 ? "border-amber-400 bg-amber-400/15 text-amber-300 shadow-[0_4px_0_rgba(251,191,36,0.35)]"
                 : wrong === r
                   ? "border-rose-400/80 bg-rose-400/15 text-rose-200 shadow-[0_4px_0_rgba(251,113,133,0.35)]"
-                  : "border-white/12 bg-[#3b1d6e] text-white shadow-[0_4px_0_rgba(255,255,255,0.10)] hover:border-amber-400/40"
+                  : "border-white/12 bg-[#30302F] text-white shadow-[0_4px_0_rgba(255,255,255,0.10)] hover:border-amber-400/40"
             }`}>
             {r}
           </button>
@@ -565,7 +564,7 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
             Rejouer
           </button>
           <button type="button" onClick={onClose}
-            className={`${chunky} w-full border-white/15 bg-[#2e1065] px-5 py-3.5 text-base font-bold uppercase tracking-wide text-white/80 shadow-[0_5px_0_rgba(255,255,255,0.08)]`}>
+            className={`${chunky} w-full border-white/15 bg-[#1E1E1D] px-5 py-3.5 text-base font-bold uppercase tracking-wide text-white/80 shadow-[0_5px_0_rgba(255,255,255,0.08)]`}>
             Quitter
           </button>
         </div>
@@ -582,7 +581,7 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
       {/* Toast de combo au centre de l'écran */}
       {comboToast ? (
         <div className="pointer-events-none absolute inset-x-0 top-1/3 z-40 flex justify-center">
-          <div className="jb-toast flex items-center gap-2 rounded-full border-2 border-amber-400 bg-[#1c0b40]/92 px-6 py-3 shadow-[0_0_30px_rgba(251,191,36,0.5)]">
+          <div className="jb-toast flex items-center gap-2 rounded-full border-2 border-amber-400 bg-[#0C0C0B]/92 px-6 py-3 shadow-[0_0_30px_rgba(251,191,36,0.5)]">
             <svg viewBox="0 0 24 24" className="h-6 w-6 fill-amber-400" aria-hidden><path d="M12 2c1 3-1 5-2 7s0 5 2 5 3-2 3-4c2 1 3 3 3 5a6 6 0 1 1-11-3c1 2 2 2 2 0 0-3 1-5 3-6z" /></svg>
             <span className="font-game text-2xl font-bold text-amber-300">Combo ×{comboToast} !</span>
           </div>

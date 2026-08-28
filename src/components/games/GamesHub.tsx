@@ -123,11 +123,11 @@ export function GamesHub() {
   const pct = Math.max(4, Math.round((into / span) * 100));
 
   return (
-    <div className="relative min-h-[100dvh] overflow-hidden bg-gradient-to-b from-[#5B21B6] via-[#7C3AED] to-[#9D2BC0] px-4 pb-28 pt-[calc(0.75rem+env(safe-area-inset-top))] text-white">
+    <div className="relative min-h-[100dvh] overflow-hidden bg-gradient-to-b from-[#171716] via-[#0C0C0B] to-[#171716] px-4 pb-28 pt-[calc(0.75rem+env(safe-area-inset-top))] text-white">
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       {/* halos + étincelles décoratifs */}
-      <div className="pointer-events-none absolute -right-16 top-24 h-56 w-56 rounded-full bg-fuchsia-500/30 blur-3xl" />
-      <div className="pointer-events-none absolute -left-20 top-1/2 h-64 w-64 rounded-full bg-violet-400/20 blur-3xl" />
+      <div className="pointer-events-none absolute -right-16 top-24 h-56 w-56 rounded-full bg-[#CAF000]/12 blur-3xl" />
+      <div className="pointer-events-none absolute -left-20 top-1/2 h-64 w-64 rounded-full bg-[#AAD000]/8 blur-3xl" />
       {[
         { l: "16%", t: "18%", s: 6, d: "0s" },
         { l: "82%", t: "14%", s: 8, d: ".6s" },
@@ -149,7 +149,7 @@ export function GamesHub() {
                 <IconUser className="h-9 w-9" />
               </span>
             )}
-            <span className="absolute -bottom-1 -right-1 grid h-6 w-6 place-items-center rounded-full bg-white text-[#7C3AED] shadow">
+            <span className="absolute -bottom-1 -right-1 grid h-6 w-6 place-items-center rounded-full bg-white text-[#171716] shadow">
               <IconEdit className="h-3.5 w-3.5" />
             </span>
           </Link>
@@ -164,7 +164,7 @@ export function GamesHub() {
             </p>
             <p className="truncate font-game text-2xl font-black leading-none drop-shadow">{name || "Joueur"}</p>
             <div className="mt-1.5 flex items-center gap-2">
-              <span className="shrink-0 rounded-full bg-white/20 px-2.5 py-0.5 font-game text-[11px] font-extrabold ring-1 ring-white/25">NIV. {level}</span>
+              <span className="shrink-0 rounded-full bg-gradient-to-b from-[#D8F53A] to-[#AAD000] px-2.5 py-0.5 font-game text-[11px] font-extrabold text-[#0C0C0B]">NIV. {level}</span>
               <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-black/25">
                 <div className="h-full rounded-full bg-gradient-to-r from-amber-300 to-amber-500 transition-all duration-700" style={{ width: `${pct}%` }} />
               </div>
@@ -176,7 +176,7 @@ export function GamesHub() {
               <IconGear className="h-5 w-5" />
             </Link>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-black/25 px-3 py-1.5 font-game text-sm font-extrabold ring-1 ring-white/15">
-              <IconGem className="h-4 w-4 text-fuchsia-300" /> {formatCoins(coins)}
+              <IconGem className="h-4 w-4 text-[#CAF000]" /> {formatCoins(coins)}
             </span>
           </div>
         </header>
@@ -239,7 +239,7 @@ export function GamesHub() {
         </div>
 
         {/* ---------- Défier un ami ---------- */}
-        <Link href="/defi" className="jx-card mt-4 flex items-center gap-3 p-4" style={{ background: "linear-gradient(120deg, #7C3AED, #9333EA)", animationDelay: ".4s" }}>
+        <Link href="/defi" className="jx-card mt-4 flex items-center gap-3 p-4" style={{ background: "linear-gradient(120deg,#1E1E1D,#0C0C0B)", animationDelay: ".4s" }}>
           <span className="jx-shine" />
           {DEFI_ILLO ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -262,7 +262,7 @@ export function GamesHub() {
             DÉFIER <IconArrow className="h-4 w-4" />
           </span>
           {pending > 0 ? (
-            <span className="absolute -right-1 -top-1 grid h-6 min-w-[1.5rem] place-items-center rounded-full bg-rose-500 px-1.5 font-game text-xs font-extrabold text-white ring-2 ring-[#7C3AED]">{pending}</span>
+            <span className="absolute -right-1 -top-1 grid h-6 min-w-[1.5rem] place-items-center rounded-full bg-rose-500 px-1.5 font-game text-xs font-extrabold text-white ring-2 ring-[#30302F]">{pending}</span>
           ) : null}
         </Link>
 

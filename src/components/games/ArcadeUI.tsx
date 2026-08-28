@@ -45,23 +45,22 @@ export const IcoFlameF = (p: { className?: string }) => (
 /* ---------------- Thème « millionnaire » violet ---------------- */
 export const ARCADE_CSS = `
 .qm{background:
-  radial-gradient(120% 55% at 50% -5%, #6D28D9 0%, transparent 60%),
-  radial-gradient(70% 45% at -5% 42%, rgba(236,72,153,.4) 0%, transparent 55%),
-  radial-gradient(70% 45% at 105% 42%, rgba(236,72,153,.4) 0%, transparent 55%),
-  linear-gradient(180deg,#4C1D95 0%,#5B21B6 45%,#7E22CE 100%);
+  radial-gradient(120% 55% at 50% -5%, #30302F 0%, transparent 60%),
+  radial-gradient(85% 50% at 50% 108%, rgba(202,240,0,.13) 0%, transparent 55%),
+  linear-gradient(180deg,#0C0C0B 0%,#171716 55%,#0C0C0B 100%);
   background-attachment:fixed;}
-.qm-back{display:grid;place-items:center;width:42px;height:42px;border-radius:9999px;background:rgba(255,255,255,.12);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 2px 6px rgba(0,0,0,.25)}
+.qm-back{display:grid;place-items:center;width:42px;height:42px;border-radius:9999px;background:rgba(202,240,0,.14);color:#CAF000;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 2px 6px rgba(0,0,0,.35)}
 .qm-back:active{transform:scale(.94)}
-.qm-niv{display:inline-block;padding:2px 8px;border-radius:9999px;background:linear-gradient(180deg,#8B5CF6,#6D28D9);font-family:var(--font-game);font-weight:800;font-size:10px;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
-.qm-gem{display:inline-flex;align-items:center;gap:6px;padding:5px 5px 5px 12px;border-radius:9999px;background:linear-gradient(180deg,rgba(30,18,66,.92),rgba(20,10,48,.96));box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 2px 8px rgba(0,0,0,.4);font-family:var(--font-game);font-weight:900;font-size:14px;color:#fff}
-.qm-gem-plus{display:grid;place-items:center;width:26px;height:26px;border-radius:9999px;background:linear-gradient(180deg,#A855F7,#7C3AED);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
-.qm-xpbar{height:8px;border-radius:9999px;background:rgba(0,0,0,.32);overflow:hidden}
-.qm-xpbar > i{display:block;height:100%;border-radius:9999px;background:linear-gradient(90deg,#FCD34D,#F59E0B)}
-.qm-card{background:linear-gradient(180deg,rgba(49,32,110,.72),rgba(29,18,64,.9));border:1px solid rgba(167,139,250,.24);border-radius:24px;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 14px 34px rgba(23,10,54,.5)}
+.qm-niv{display:inline-block;padding:2px 8px;border-radius:9999px;background:linear-gradient(180deg,#D8F53A,#AAD000);font-family:var(--font-game);font-weight:800;font-size:10px;color:#0C0C0B;box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+.qm-gem{display:inline-flex;align-items:center;gap:6px;padding:5px 5px 5px 12px;border-radius:9999px;background:linear-gradient(180deg,#30302F,#171716);box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 2px 8px rgba(0,0,0,.45);font-family:var(--font-game);font-weight:900;font-size:14px;color:#F3F3ED}
+.qm-gem-plus{display:grid;place-items:center;width:26px;height:26px;border-radius:9999px;background:linear-gradient(180deg,#D8F53A,#AAD000);color:#0C0C0B;box-shadow:inset 0 1px 0 rgba(255,255,255,.4)}
+.qm-xpbar{height:8px;border-radius:9999px;background:rgba(0,0,0,.4);overflow:hidden}
+.qm-xpbar > i{display:block;height:100%;border-radius:9999px;background:linear-gradient(90deg,#D8F53A,#AAD000)}
+.qm-card{background:linear-gradient(180deg,rgba(30,30,29,.92),rgba(12,12,11,.95));border:1px solid rgba(202,240,0,.16);border-radius:24px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 14px 34px rgba(0,0,0,.55)}
 .qm-pill-o{display:inline-block;padding:4px 12px;border-radius:9999px;background:linear-gradient(180deg,#FBBF24,#F59E0B);font-family:var(--font-game);font-weight:900;font-size:11px;letter-spacing:.03em;color:#4a2600;box-shadow:inset 0 1px 0 rgba(255,255,255,.45)}
-.qm-pill-p{display:inline-block;padding:5px 13px;border-radius:9999px;background:linear-gradient(180deg,#8B5CF6,#6D28D9);font-family:var(--font-game);font-weight:900;font-size:11px;letter-spacing:.03em;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.22)}
-.qm-clock{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-game);font-weight:900;font-size:15px;color:#fff}
-.qm-timebar{height:6px;border-radius:9999px;background:rgba(0,0,0,.32);overflow:hidden}
+.qm-pill-p{display:inline-block;padding:5px 13px;border-radius:9999px;background:linear-gradient(180deg,#D8F53A,#AAD000);font-family:var(--font-game);font-weight:900;font-size:11px;letter-spacing:.03em;color:#0C0C0B;box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+.qm-clock{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-game);font-weight:900;font-size:15px;color:#F3F3ED}
+.qm-timebar{height:6px;border-radius:9999px;background:rgba(0,0,0,.4);overflow:hidden}
 .qm-timebar > i{display:block;height:100%;border-radius:9999px;background:linear-gradient(90deg,#FCD34D,#F59E0B)}
 .qm-node{display:grid;place-items:center;width:30px;height:30px;border-radius:9999px;font-family:var(--font-game);font-weight:900;font-size:12px;flex:0 0 auto}
 .qm-node-done{background:linear-gradient(180deg,#a3e635,#65a30d);color:#183a06;box-shadow:inset 0 1px 0 rgba(255,255,255,.45)}
@@ -73,10 +72,10 @@ export const ARCADE_CSS = `
 @keyframes qm-optin{0%{transform:translateY(14px);opacity:0}100%{transform:translateY(0);opacity:1}}
 @keyframes qm-shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
 .qm-shake{animation:qm-shake .5s ease-in-out}
-.qm-opt{display:flex;align-items:center;gap:12px;width:100%;padding:13px 14px;border-radius:16px;font-family:var(--font-game);font-weight:800;font-size:15px;background:linear-gradient(180deg,rgba(76,52,140,.5),rgba(49,32,110,.68));border:1px solid rgba(167,139,250,.28);color:#fff;transition:transform .1s,background .15s,box-shadow .15s}
+.qm-opt{display:flex;align-items:center;gap:12px;width:100%;padding:13px 14px;border-radius:16px;font-family:var(--font-game);font-weight:800;font-size:15px;background:linear-gradient(180deg,rgba(48,48,47,.65),rgba(23,23,22,.85));border:1px solid rgba(202,240,0,.14);color:#F3F3ED;transition:transform .1s,background .15s,box-shadow .15s}
 .qm-opt:active{transform:scale(.99)}
 .qm-opt:disabled{cursor:default}
-.qm-opt-badge{display:grid;place-items:center;width:34px;height:34px;flex:0 0 auto;border-radius:9999px;background:linear-gradient(180deg,#8B5CF6,#5B21B6);color:#fff;font-weight:900;box-shadow:inset 0 1px 0 rgba(255,255,255,.28)}
+.qm-opt-badge{display:grid;place-items:center;width:34px;height:34px;flex:0 0 auto;border-radius:9999px;background:linear-gradient(180deg,#30302F,#171716);color:#CAF000;font-weight:900;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
 .qm-opt-sel{background:linear-gradient(180deg,#A3E635,#65A30D);border-color:#bef264;color:#18320a;box-shadow:0 0 0 2px rgba(163,230,53,.55),0 8px 18px rgba(101,163,9,.4)}
 .qm-opt-sel .qm-opt-badge{background:#fff;color:#3f6212}
 .qm-opt-correct{background:linear-gradient(180deg,#22c55e,#15803d);border-color:#4ade80;color:#fff}
@@ -88,34 +87,34 @@ export const ARCADE_CSS = `
 .qm-joker:disabled{opacity:.5}
 .qm-joker-blue{background:linear-gradient(180deg,#3B82F6,#1D4ED8)}
 .qm-joker-gold{background:linear-gradient(180deg,#F59E0B,#D97706)}
-.qm-joker-purple{background:linear-gradient(180deg,#A855F7,#7C3AED)}
+.qm-joker-purple{background:linear-gradient(180deg,#AAD000,#7a9200);color:#14320a}
 .qm-joker-lab{display:inline-block;padding:2px 10px;border-radius:9999px;background:rgba(255,255,255,.92);font-family:var(--font-game);font-weight:900;font-size:9px;letter-spacing:.04em}
 .qm-joker-blue .qm-joker-lab{color:#1D4ED8}
 .qm-joker-gold .qm-joker-lab{color:#B45309}
-.qm-joker-purple .qm-joker-lab{color:#6D28D9}
+.qm-joker-purple .qm-joker-lab{color:#4d7c0f}
 .qm-joker-cnt{display:grid;place-items:center;width:24px;height:24px;margin:5px auto 0;border-radius:9999px;background:rgba(0,0,0,.28);font-family:var(--font-game);font-weight:900;font-size:12px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
-.qm-quit{display:inline-flex;align-items:center;gap:8px;padding:15px 18px;border-radius:16px;background:linear-gradient(180deg,rgba(30,18,66,.92),rgba(20,10,48,.96));font-family:var(--font-game);font-weight:900;font-size:14px;letter-spacing:.02em;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+.qm-quit{display:inline-flex;align-items:center;gap:8px;padding:15px 18px;border-radius:16px;background:linear-gradient(180deg,#30302F,#171716);font-family:var(--font-game);font-weight:900;font-size:14px;letter-spacing:.02em;color:#F3F3ED;box-shadow:inset 0 1px 0 rgba(255,255,255,.1)}
 .qm-quit:active{transform:translateY(1px)}
-.qm-valid{flex:1;border-radius:16px;padding:16px;font-family:var(--font-game);font-weight:900;font-size:17px;letter-spacing:.02em;background:linear-gradient(180deg,#FCD34D,#F59E0B);color:#4a2600;box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 6px 0 #b45309}
-.qm-valid:active{transform:translateY(3px);box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 3px 0 #b45309}
+.qm-valid{flex:1;border-radius:16px;padding:16px;font-family:var(--font-game);font-weight:900;font-size:17px;letter-spacing:.02em;background:linear-gradient(180deg,#D8F53A,#AAD000);color:#0C0C0B;box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 6px 0 #5b7300}
+.qm-valid:active{transform:translateY(3px);box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 3px 0 #5b7300}
 .qm-valid:disabled{background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.1));color:rgba(255,255,255,.4);box-shadow:none}
 .qm-ghost{border-radius:16px;padding:15px;font-family:var(--font-game);font-weight:900;font-size:15px;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.15)}
 .qm-ghost:active{transform:translateY(1px)}
 /* ----- Accueil (hub) style maquette ----- */
-.qm-gear{display:grid;place-items:center;width:42px;height:42px;border-radius:9999px;background:linear-gradient(180deg,#8B5CF6,#6D28D9);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 4px 10px rgba(0,0,0,.25)}
+.qm-gear{display:grid;place-items:center;width:42px;height:42px;border-radius:9999px;background:linear-gradient(180deg,#30302F,#171716);color:#CAF000;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 4px 10px rgba(0,0,0,.3)}
 .qm-gear:active{transform:scale(.94)}
-.qm-hero{position:relative;overflow:hidden;border-radius:26px;padding:20px;border:1px solid rgba(255,255,255,.2);box-shadow:0 16px 34px rgba(23,10,54,.45)}
+.qm-hero{position:relative;overflow:hidden;border-radius:26px;padding:20px;border:1px solid rgba(202,240,0,.18);box-shadow:0 16px 34px rgba(0,0,0,.5)}
 .qm-rapide{display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border-radius:9999px;background:linear-gradient(180deg,#FCD34D,#F59E0B);font-family:var(--font-game);font-weight:900;font-size:11px;letter-spacing:.04em;color:#4a2600;box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
 .qm-obj{border-radius:20px;padding:14px;background:linear-gradient(180deg,#a7f3e4,#5eead4);border:1px solid rgba(13,148,136,.28);box-shadow:0 10px 22px rgba(13,148,136,.22)}
 .qm-obj-ic{display:grid;place-items:center;width:44px;height:44px;flex:0 0 auto;border-radius:14px;background:linear-gradient(180deg,#2dd4bf,#0d9488);color:#fff;box-shadow:inset 0 2px 3px rgba(255,255,255,.4)}
 .qm-rec{border-radius:20px;padding:14px;background:linear-gradient(180deg,#fde68a,#fbbf24);border:1px solid rgba(245,158,11,.4);box-shadow:0 10px 22px rgba(245,158,11,.22)}
 .qm-rec-ic{display:grid;place-items:center;width:44px;height:44px;flex:0 0 auto;border-radius:14px;background:linear-gradient(180deg,#f59e0b,#d97706);color:#fff;box-shadow:inset 0 2px 3px rgba(255,255,255,.4)}
-.qm-howto{border-radius:22px;padding:16px;background:linear-gradient(180deg,rgba(238,234,255,.96),rgba(224,218,252,.94));box-shadow:0 12px 26px rgba(23,10,54,.32)}
+.qm-howto{border-radius:22px;padding:16px;background:linear-gradient(180deg,rgba(30,30,29,.92),rgba(12,12,11,.95));border:1px solid rgba(202,240,0,.14);box-shadow:0 12px 26px rgba(0,0,0,.5)}
 .qm-mini{border-radius:16px;padding:12px 6px;text-align:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}
 .qm-mini-ic{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:9999px;color:#fff;box-shadow:inset 0 2px 4px rgba(255,255,255,.45),0 5px 10px rgba(0,0,0,.14)}
-.qm-jouer{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border-radius:20px;padding:18px;font-family:var(--font-game);font-weight:900;font-size:22px;letter-spacing:.03em;color:#fff;background:linear-gradient(180deg,#4ade80,#22c55e);box-shadow:inset 0 2px 0 rgba(255,255,255,.45),0 7px 0 #15803d;text-shadow:0 2px 4px rgba(0,0,0,.25)}
-.qm-jouer:active{transform:translateY(4px);box-shadow:inset 0 2px 0 rgba(255,255,255,.45),0 3px 0 #15803d}
-.qm-retour{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:9999px;padding:12px 22px;font-family:var(--font-game);font-weight:900;font-size:14px;color:#fff;background:linear-gradient(180deg,#7C3AED,#6D28D9);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 6px 14px rgba(23,10,54,.4)}
+.qm-jouer{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border-radius:20px;padding:18px;font-family:var(--font-game);font-weight:900;font-size:22px;letter-spacing:.03em;color:#0C0C0B;background:linear-gradient(180deg,#D8F53A,#AAD000);box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 7px 0 #5b7300;text-shadow:none}
+.qm-jouer:active{transform:translateY(4px);box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 3px 0 #5b7300}
+.qm-retour{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:9999px;padding:12px 22px;font-family:var(--font-game);font-weight:900;font-size:14px;color:#CAF000;background:linear-gradient(180deg,#30302F,#171716);box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 6px 14px rgba(0,0,0,.45)}
 .qm-retour:active{transform:translateY(1px)}
 `;
 

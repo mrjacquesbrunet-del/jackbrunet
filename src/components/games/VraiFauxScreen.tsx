@@ -202,14 +202,14 @@ export function VraiFauxScreen() {
         <HubHeader name={name} avatarUrl={avatar} level={lvl.level} xpInto={lvl.into} xpSpan={lvl.span} gems={best} onGear={() => router.push("/profil")} />
 
         {/* Héros */}
-        <div className="qm-hero mt-4" style={{ background: "linear-gradient(135deg,#7C3AED 0%,#9333EA 55%,#C0409A 100%)" }}>
-          <span className="pointer-events-none absolute right-4 top-4 text-white/10">
+        <div className="qm-hero mt-4" style={{ background: "radial-gradient(120% 120% at 100% 0%, rgba(202,240,0,.16), transparent 55%), linear-gradient(135deg,#1E1E1D 0%,#0C0C0B 100%)" }}>
+          <span className="pointer-events-none absolute right-4 top-4 text-[#CAF000]/10">
             <svg viewBox="0 0 24 24" className="h-24 w-24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round"><path d="M12 4v16M8 20h8M6 7h12M6 7l-2.5 5a3 3 0 0 0 5 0zM18 7l-2.5 5a3 3 0 0 0 5 0z" /></svg>
           </span>
           <div className="relative max-w-[58%]">
             <span className="qm-rapide"><IcoBolt className="h-3.5 w-3.5" /> JEU RAPIDE</span>
             <h1 className="mt-2.5 font-game text-[2rem] font-black leading-[0.9] drop-shadow">
-              VRAI <span className="text-amber-300">ou</span> FAUX
+              VRAI <span className="text-[#CAF000]">ou</span> FAUX
             </h1>
             <p className="mt-2.5 font-game text-[13px] font-semibold leading-tight text-white/85">
               Réponds avant la fin du temps et enchaîne les bonnes réponses&nbsp;!
@@ -237,7 +237,7 @@ export function VraiFauxScreen() {
 
         {/* Comment jouer */}
         <div className="qm-howto mt-4">
-          <p className="font-game text-sm font-black tracking-wide text-[#5B21B6]">COMMENT JOUER</p>
+          <p className="font-game text-sm font-black tracking-wide text-[#CAF000]">COMMENT JOUER</p>
           <div className="mt-3 grid grid-cols-3 gap-2.5">
             <div className="qm-mini" style={{ background: "linear-gradient(180deg,#fce7f3,#fbcfe8)" }}>
               <span className="qm-mini-ic" style={{ background: "linear-gradient(180deg,#f472b6,#db2777)" }}><IcoHeartFill className="h-5 w-5" /></span>
@@ -278,7 +278,7 @@ export function VraiFauxScreen() {
         </div>
 
         <div className="mt-5">
-          <ScoreBoard mode="vraifaux" accent="#7C3AED" title="Classement · Vrai ou Faux" light />
+          <ScoreBoard mode="vraifaux" accent="#CAF000" title="Classement · Vrai ou Faux" />
         </div>
       </ArcadeShell>
     );
@@ -291,7 +291,7 @@ export function VraiFauxScreen() {
         <ArcadeHeader name={name} avatarUrl={avatar} level={lvl.level} xpInto={lvl.into} xpSpan={lvl.span} gems={best} onBack={() => setPhase("hub")} />
         <div className="qm-card mt-6 p-8 text-center" style={{ animation: "qm-optin .3s ease-out" }}>
           <p className="font-game text-lg text-white/60">Partie terminée</p>
-          <p className="my-3 font-game text-6xl font-black text-fuchsia-300">{score}</p>
+          <p className="my-3 font-game text-6xl font-black text-[#CAF000]">{score}</p>
           <p className="text-sm text-white/70">bonne{score > 1 ? "s" : ""} réponse{score > 1 ? "s" : ""}</p>
           <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 font-game text-sm">
             <IcoTrophy className="h-4 w-4 text-amber-300" /> Record <span className="font-extrabold text-amber-300">{best}</span>

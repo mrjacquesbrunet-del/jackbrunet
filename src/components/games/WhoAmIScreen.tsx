@@ -166,12 +166,12 @@ export function WhoAmIScreen() {
 
         {/* En-tête profil + Record */}
         <div className="mt-3 flex items-center gap-3">
-          <span className="relative shrink-0 rounded-full p-[3px]" style={{ background: "linear-gradient(180deg,#c084fc,#7c3aed)", boxShadow: "0 0 18px rgba(168,85,247,.5)" }}>
+          <span className="relative shrink-0 rounded-full p-[3px]" style={{ background: "linear-gradient(180deg,#D8F53A,#AAD000)", boxShadow: "0 0 18px rgba(202,240,0,.4)" }}>
             {avatar ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={avatar} alt="" className="h-14 w-14 rounded-full object-cover" />
             ) : (
-              <span className="grid h-14 w-14 place-items-center rounded-full bg-[#3b1d6e] text-white/75">
+              <span className="grid h-14 w-14 place-items-center rounded-full bg-[#1E1E1D] text-white/75">
                 <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM5 20a7 7 0 0 1 14 0" /></svg>
               </span>
             )}
@@ -179,25 +179,25 @@ export function WhoAmIScreen() {
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
               <p className="truncate font-game text-xl font-black leading-tight">{name || "Joueur"}</p>
-              <span className="shrink-0 rounded-full bg-gradient-to-b from-[#8b5cf6] to-[#6d28d9] px-2 py-0.5 font-game text-[10px] font-extrabold text-white">NIV. {lvl.level}</span>
+              <span className="shrink-0 rounded-full bg-gradient-to-b from-[#D8F53A] to-[#AAD000] px-2 py-0.5 font-game text-[10px] font-extrabold text-[#0C0C0B]">NIV. {lvl.level}</span>
             </div>
             <div className="qm-xpbar mt-1"><i style={{ width: `${Math.round((lvl.into / lvl.span) * 100)}%` }} /></div>
             <p className="mt-0.5 font-game text-[10px] font-bold text-white/70">{lvl.into} / {lvl.span} <span className="text-amber-300">XP</span></p>
           </div>
           <div className="flex shrink-0 flex-col items-end gap-2">
-            <span className="qm-gem"><IcoGem className="h-4 w-4 text-fuchsia-300" /> {xp}<span className="qm-gem-plus"><IcoPlus className="h-3.5 w-3.5" /></span></span>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#1c0b40] px-3 py-1.5 font-game text-xs font-black text-fuchsia-300 ring-1 ring-white/10">
+            <span className="qm-gem"><IcoGem className="h-4 w-4 text-[#CAF000]" /> {xp}<span className="qm-gem-plus"><IcoPlus className="h-3.5 w-3.5" /></span></span>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#0C0C0B] px-3 py-1.5 font-game text-xs font-black text-amber-300 ring-1 ring-white/10">
               <IcoTrophy className="h-4 w-4" /> Record {best}
             </span>
           </div>
         </div>
 
         {/* Héros */}
-        <div className="qm-hero mt-4" style={{ background: "radial-gradient(120% 120% at 100% 0%, rgba(168,85,247,.4), transparent 55%), linear-gradient(135deg,#3b1d6e 0%,#2a1360 100%)" }}>
-          <span className="inline-block rounded-full bg-[#6d28d9] px-3.5 py-1.5 font-game text-[11px] font-black tracking-wide text-white shadow-[inset_0_1px_0_rgba(255,255,255,.25)]">DEVINE LE PERSONNAGE</span>
+        <div className="qm-hero mt-4" style={{ background: "radial-gradient(120% 120% at 100% 0%, rgba(202,240,0,.16), transparent 55%), linear-gradient(135deg,#1E1E1D 0%,#0C0C0B 100%)" }}>
+          <span className="inline-block rounded-full bg-gradient-to-b from-[#D8F53A] to-[#AAD000] px-3.5 py-1.5 font-game text-[11px] font-black tracking-wide text-[#0C0C0B] shadow-[inset_0_1px_0_rgba(255,255,255,.35)]">DEVINE LE PERSONNAGE</span>
           <div className="relative max-w-[54%]">
             <h1 className="mt-2.5 font-game text-4xl font-black leading-[0.88] drop-shadow">
-              QUI<br /><span className="text-violet-300">SUIS-JE</span> ?
+              QUI<br /><span className="text-[#CAF000]">SUIS-JE</span> ?
             </h1>
             <p className="mt-2.5 font-game text-[13px] font-semibold leading-tight text-white/80">
               Des indices se dévoilent un par un. Devine le plus tôt possible pour marquer plus de points.
@@ -262,7 +262,7 @@ export function WhoAmIScreen() {
         <ArcadeHeader name={name} avatarUrl={avatar} level={lvl.level} xpInto={lvl.into} xpSpan={lvl.span} gems={best} onBack={() => setPhase("hub")} />
         <div className="qm-card mt-6 p-6 text-center">
           <p className="font-game text-sm text-white/60">Partie terminée · {WHO_LEVELS[level - 1]}</p>
-          <p className="my-3 font-game text-6xl font-black text-fuchsia-300">{score}</p>
+          <p className="my-3 font-game text-6xl font-black text-[#CAF000]">{score}</p>
           <p className="text-sm text-white/70">{correct}/{deck.length} bien devinés</p>
           <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 font-game text-sm">
             <IcoTrophy className="h-4 w-4 text-amber-300" /> Record <span className="font-extrabold text-amber-300">{best}</span>
@@ -308,14 +308,14 @@ export function WhoAmIScreen() {
         <ul className="mt-3 space-y-2">
           {cur?.item.clues.slice(0, clues).map((cl, i) => (
             <li key={i} className="flex gap-2 font-game text-[15px] font-semibold leading-snug text-white/95">
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-fuchsia-300" />
+              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#CAF000]" />
               <span>{cl}</span>
             </li>
           ))}
         </ul>
         {reveal ? (
           <p className="mt-3 rounded-xl bg-white/[0.08] px-3 py-2 font-game text-sm font-bold">
-            Réponse : <span className="text-fuchsia-300">{cur?.item.name}</span>
+            Réponse : <span className="text-[#CAF000]">{cur?.item.name}</span>
           </p>
         ) : null}
 
