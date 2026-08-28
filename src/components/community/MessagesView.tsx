@@ -7,6 +7,8 @@ import { isSupabaseConfigured } from "@/lib/supabase";
 import { useAuth } from "@/components/community/useAuth";
 import { Avatar } from "@/components/community/Avatar";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
+import { VoiceRecorderButton, VoiceNotePlayer } from "@/components/community/VoiceNote";
+import { voiceExpired } from "@/lib/voice";
 import { getProfile, searchProfiles, type Profile } from "@/lib/community";
 import {
   listConversations,
@@ -268,6 +270,14 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
     setBusy(false);
   }
 
+  /** Envoie un message vocal (déjà téléversé — expire après 7 jours). */
+  async function sendVoice(audioUrl: string) {
+    setBusy(true);
+    await sendMessage(meId, partnerId, "", audioUrl);
+    await refresh();
+    setBusy(false);
+  }
+
   return (
     <section className="container-x pb-28 pt-24 sm:pt-28">
       <div className="mx-auto max-w-2xl">
@@ -305,6 +315,15 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
 : "border border-night-900/10 bg-white text-night-900/85"
                     }`}
                   >
+                    {m.audio_url ? (
+                      voiceExpired(m.created_at) ? (
+                        <span className="text-sm italic opacity-60">Note vocale expirée (les vocaux durent 7 jours)</span>
+                      ) : (
+                        <div className="min-w-[13rem]">
+                          <VoiceNotePlayer src={m.audio_url} />
+                        </div>
+                      )
+                    ) : null}
                     {m.body}
                   </div>
                 </div>
@@ -328,6 +347,7 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
             className="field w-full"
             aria-label="Message"
           />
+          <VoiceRecorderButton userId={meId} onSend={sendVoice} />
           <button
             type="button"
             onClick={send}

@@ -9,6 +9,8 @@ export type Message = {
   sender_id: string;
   recipient_id: string;
   body: string;
+  /** Message vocal (URL publique) — expire au bout de 7 jours. */
+  audio_url?: string | null;
   created_at: string;
   read: boolean;
 };
@@ -21,11 +23,16 @@ export type Conversation = {
   partner?: Profile | null;
 };
 
-/** Envoie un message privé. */
-export async function sendMessage(senderId: string, recipientId: string, body: string) {
+/** Envoie un message privé (texte et/ou message vocal). */
+export async function sendMessage(senderId: string, recipientId: string, body: string, audioUrl?: string | null) {
   const sb = getSupabase();
-  if (!sb ||!body.trim()) return;
-  await sb.from("messages").insert({ sender_id: senderId, recipient_id: recipientId, body: body.trim() });
+  if (!sb || (!body.trim() && !audioUrl)) return;
+  await sb.from("messages").insert({
+    sender_id: senderId,
+    recipient_id: recipientId,
+    body: body.trim(),
+    audio_url: audioUrl ?? null,
+  });
 }
 
 /** Admin: dépose un message dans la messagerie de TOUS les membres + notifie.

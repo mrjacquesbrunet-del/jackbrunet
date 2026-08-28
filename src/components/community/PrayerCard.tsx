@@ -423,6 +423,17 @@ export function PrayerCard({
           ): null}
         </div>
 
+        {/* Message vocal joint (expire après 7 jours) */}
+        {prayer.audio_url ? (
+          voiceExpired(prayer.created_at) ? (
+            <p className="mt-3 text-sm italic text-night-900/45">Note vocale expirée (les vocaux durent 7 jours)</p>
+          ) : (
+            <div className="mt-3">
+              <VoiceNotePlayer src={prayer.audio_url} />
+            </div>
+          )
+        ) : null}
+
         <MentionText
           text={prayer.body}
           className="mt-3 block whitespace-pre-wrap text-[15px] leading-relaxed text-night-900/85"

@@ -13,6 +13,7 @@ import { NotificationsBell } from "@/components/community/NotificationsBell";
 import { MemberSearch } from "@/components/community/MemberSearch";
 import { MemberSuggestions } from "@/components/community/MemberSuggestions";
 import { MentionField } from "@/components/community/MentionField";
+import { VoiceRecorderButton } from "@/components/community/VoiceNote";
 import { CommunityLanding } from "@/components/community/CommunityLanding";
 import { PrayerCirclesCard } from "@/components/community/PrayerCirclesCard";
 import { TopIntercessors } from "@/components/community/TopIntercessors";
@@ -178,6 +179,17 @@ function Feed({
     setPosting(false);
   }
 
+  /** Publie un sujet vocal (audio déjà téléversé — expire après 7 jours). */
+  async function postVoice(audioUrl: string) {
+    setPosting(true);
+    const text = body.trim();
+    const newId = await createPrayer(text, visibility, userId, audioUrl);
+    if (text) await notifyMentions(text, userId, newId);
+    setBody("");
+    await load();
+    setPosting(false);
+  }
+
   async function savePseudo() {
     const p = pseudoVal.trim() || "Ami(e)";
     if (isReservedPseudo(p) &&!admin) {
@@ -314,14 +326,17 @@ function Feed({
               <option value="friends">Abonnés, ceux qui me suivent</option>
               <option value="private">Privé, moi seul</option>
             </select>
-            <button
-              type="button"
-              onClick={post}
-              disabled={posting ||!body.trim()}
-              className="ml-auto rounded-full bg-dawn-400 px-5 py-2 text-sm font-bold text-night-900 transition-transform hover:-translate-y-0.5 disabled:opacity-40"
-            >
-              {posting? "Publication…": "Publier"}
-            </button>
+            <div className="ml-auto flex items-center gap-2">
+              <VoiceRecorderButton userId={userId} onSend={postVoice} tone="dark" />
+              <button
+                type="button"
+                onClick={post}
+                disabled={posting ||!body.trim()}
+                className="rounded-full bg-dawn-400 px-5 py-2 text-sm font-bold text-night-900 transition-transform hover:-translate-y-0.5 disabled:opacity-40"
+              >
+                {posting? "Publication…": "Publier"}
+              </button>
+            </div>
           </div>
         </div>
       </div>

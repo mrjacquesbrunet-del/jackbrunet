@@ -33,6 +33,8 @@ export type Prayer = {
   author_id: string;
   body: string;
   visibility: Visibility;
+  /** Message vocal joint (URL publique) — expire au bout de 7 jours. */
+  audio_url?: string | null;
   answered: boolean;
   pinned?: boolean;
   created_at: string;
@@ -466,12 +468,13 @@ export async function createPrayer(
   body: string,
   visibility: Visibility,
   authorId: string,
+  audioUrl?: string | null,
 ): Promise<string | null> {
   const sb = getSupabase();
   if (!sb) return null;
   const { data } = await sb
 .from("prayers")
-.insert({ body, visibility, author_id: authorId })
+.insert({ body, visibility, author_id: authorId, audio_url: audioUrl ?? null })
 .select("id")
 .single();
   return (data as { id: string } | null)?.id?? null;
