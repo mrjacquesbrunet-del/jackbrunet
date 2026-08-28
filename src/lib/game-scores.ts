@@ -3,7 +3,7 @@
 import { getSupabase } from "./supabase";
 
 /** Un jeu de la section Jeux. */
-export type GameId = "quiz" | "vraifaux" | "memoriser";
+export type GameId = "quiz" | "vraifaux" | "memoriser" | "quisuisje";
 
 /** Une ligne de classement (score = points/XP du jeu, ou cumul des trois). */
 export type ScoreRow = {

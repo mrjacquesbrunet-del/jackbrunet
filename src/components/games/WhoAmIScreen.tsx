@@ -8,6 +8,7 @@ import {
   recordWho,
   getWhoBest,
   getWhoGames,
+  getWhoXp,
   getWhoCorrect,
   getWhoStreak,
   WHO_LEVELS,
@@ -19,7 +20,8 @@ import { getVfXp } from "@/lib/vraifaux";
 import { getQuizCoins } from "@/lib/quiz";
 import { getSupabase } from "@/lib/supabase";
 import { getProfile } from "@/lib/community";
-import { submitWeeklyPoints } from "@/lib/game-scores";
+import { submitGameScore, submitWeeklyPoints } from "@/lib/game-scores";
+import { ScoreBoard } from "@/components/games/ScoreBoard";
 import { asset } from "@/lib/asset";
 import {
   ArcadeShell,
@@ -82,6 +84,7 @@ export function WhoAmIScreen() {
   useEffect(() => {
     refreshStats();
     setXp(getMemorizeXp() + getVfXp() + Math.floor(getQuizCoins() / 500));
+    submitGameScore("quisuisje", getWhoXp());
     (async () => {
       const sb = getSupabase();
       if (!sb) return;
@@ -144,6 +147,7 @@ export function WhoAmIScreen() {
         const res = recordWho(ns, finalCorrect, bestStreakRef.current);
         setBest(res.best);
         refreshStats();
+        submitGameScore("quisuisje", getWhoXp());
         submitWeeklyPoints(finalCorrect); // bonnes réponses -> ligue
         setPhase("over");
       } else {
@@ -250,6 +254,11 @@ export function WhoAmIScreen() {
               <p className="mt-1 text-[9px] font-bold uppercase tracking-wide text-white/55">{s.lab}</p>
             </div>
           ))}
+        </div>
+
+        {/* Classement de ce jeu */}
+        <div className="mt-5">
+          <ScoreBoard mode="quisuisje" accent="#CAF000" title="Classement · Qui suis-je" />
         </div>
       </ArcadeShell>
     );

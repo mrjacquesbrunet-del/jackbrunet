@@ -102,6 +102,18 @@ function PodiumCard({ r, tier, weekly, me }: { r: ScoreRow; tier: 0 | 1 | 2; wee
           </p>
           <p className="font-game text-[9px] font-bold uppercase tracking-[0.15em] text-cream/40">points</p>
         </div>
+        {/* Médaille / couronne à droite (mise en avant du podium) */}
+        <span className="shrink-0" style={{ color: t.ring }}>
+          {tier === 0 ? (
+            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" stroke="#B45309" strokeWidth={0.8} strokeLinejoin="round" aria-hidden>
+              <path d="M4 8l4 3.5L12 5l4 6.5L20 8l-1.4 10H5.4z" />
+            </svg>
+          ) : (
+            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M8 3l2 6M16 3l-2 6M12 21a5 5 0 1 0 0-10 5 5 0 0 0 0 10z" />
+            </svg>
+          )}
+        </span>
       </div>
     </div>
   );
@@ -150,8 +162,8 @@ export function ScoreBoard({
 
   const podium = rows ? rows.slice(0, 3) : [];
   const rest = rows ? rows.slice(3) : [];
-  const visible = expanded ? rest : rest.slice(0, 7); // podium (3) + 7 = top 10
-  const hasMore = rest.length > 7;
+  const visible = expanded ? rest : rest.slice(0, 2); // podium (3) + 2 = top 5
+  const hasMore = rest.length > 2;
 
   return (
     <section className={`rounded-3xl p-4 ${cardBg}`}>

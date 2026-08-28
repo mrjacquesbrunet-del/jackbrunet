@@ -12,6 +12,7 @@ import {
 } from "@/lib/quiz";
 import { getMemorizeXp, levelFromXp } from "@/lib/memorize";
 import { getVfXp } from "@/lib/vraifaux";
+import { getWhoXp } from "@/lib/whoami";
 import { getSupabase } from "@/lib/supabase";
 import { getProfile } from "@/lib/community";
 import { submitGameScore } from "@/lib/game-scores";
@@ -96,6 +97,7 @@ export function GamesHub() {
     submitGameScore("quiz", Math.floor(cn / 500));
     submitGameScore("vraifaux", vf);
     submitGameScore("memoriser", memo);
+    submitGameScore("quisuisje", getWhoXp());
 
     (async () => {
       const sb = getSupabase();
