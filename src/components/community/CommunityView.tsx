@@ -399,9 +399,11 @@ function Feed({
           <PrayerMark className="h-9 w-9" />
         </span>
         <span className="min-w-0 flex-1">
-          <span className="block font-display text-lg font-extrabold text-cream">Temps de prière</span>
+          <span className="block font-display text-lg font-extrabold text-cream">
+            Scrolle <span className="text-dawn-300">&amp;</span> prie
+          </span>
           <span className="mt-0.5 block text-xs text-cream/60">
-            Plein écran, en musique : prie pour la famille, un sujet à la fois.
+            Un sujet à la fois, en musique. Ta génération scrolle — toi, tu pries.
           </span>
         </span>
         <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950">

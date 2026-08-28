@@ -246,10 +246,10 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
             <PrayerMark className="h-12 w-12" />
           </div>
           <h2 className="pt-step mt-5 text-center font-display text-3xl font-extrabold" style={{ animationDelay: ".1s" }}>
-            Temps de prière
+            Scrolle <span className="text-dawn-300">&amp;</span> prie
           </h2>
           <p className="pt-step mt-2 text-center text-sm text-cream/65" style={{ animationDelay: ".2s" }}>
-            Un moment à part, en musique, pour porter la famille dans la prière — un sujet à la fois.
+            Ta génération scrolle. Ici, chaque scroll porte quelqu&apos;un dans la prière — un sujet à la fois, en musique.
           </p>
 
           <div className="mt-7 space-y-3.5">
@@ -314,7 +314,7 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
             Commencer
           </button>
           <p className="pt-step mt-3 text-center text-[11px] text-cream/45" style={{ animationDelay: "1.05s" }}>
-            La musique t&apos;accompagne pendant tout le temps de prière.
+            La musique t&apos;accompagne pendant tout ton temps de prière.
           </p>
         </div>
       </div>
@@ -375,7 +375,7 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
           <CloseX onClick={() => (sessionPrayed > 0 ? setEnded(true) : onClose())} />
         </div>
         {prayers === null ? (
-          <p className="text-cream/60">Préparation du temps de prière…</p>
+          <p className="text-cream/60">Préparation de ton temps de prière…</p>
         ) : (
           <div className="text-center">
             <PrayerMark className="mx-auto h-14 w-14" />
@@ -404,7 +404,7 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
         <div className="rounded-full border border-white/10 bg-night-950/70 px-3.5 py-1.5 backdrop-blur">
           <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-dawn-300">
             <PrayerMark className="h-3.5 w-3.5" />
-            Temps de prière
+            Scrolle &amp; prie
           </p>
         </div>
         <CloseX onClick={() => setEnded(true)} />
@@ -756,7 +756,7 @@ function CloseX({ onClick }: { onClick: () => void }) {
     <button
       type="button"
       onClick={onClick}
-      aria-label="Quitter le temps de prière"
+      aria-label="Quitter Scrolle & prie"
       className="pointer-events-auto grid h-10 w-10 place-items-center rounded-full border border-white/15 bg-night-950/70 text-cream/85 backdrop-blur transition-colors hover:text-cream"
     >
       <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2.2} strokeLinecap="round" aria-hidden>
