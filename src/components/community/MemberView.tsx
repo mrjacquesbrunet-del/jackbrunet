@@ -10,6 +10,7 @@ import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { ModeratorBadge } from "@/components/community/ModeratorBadge";
 import { ReportButton } from "@/components/community/ReportButton";
 import { ProfileInfoPills } from "@/components/community/ProfileInfoPills";
+import { FollowListModal } from "@/components/community/FollowListModal";
 import { ProfileThemeBg, useProfileTheme } from "@/components/community/ProfileTheme";
 import { blockUser, unblockUser, listBlockedIds } from "@/lib/moderation";
 import {
@@ -42,6 +43,7 @@ export function MemberView() {
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [blocked, setBlocked] = useState(false);
+  const [showList, setShowList] = useState<null | "followers" | "following">(null);
 
   const isMe =!!userId &&!!memberId && userId === memberId;
   const { jour } = useProfileTheme();
@@ -265,14 +267,14 @@ export function MemberView() {
           </div>
 
           <div className="mx-auto mt-5 grid max-w-md grid-cols-3 gap-2">
-            <div>
+            <button type="button" onClick={() => setShowList("followers")} className="rounded-2xl py-1 active:bg-white/10">
               <p className={`font-display text-2xl font-extrabold ${jour? "text-night-900": "text-cream"}`}>{counts.followers}</p>
               <p className={`text-[11px] ${jour? "text-night-900/50": "text-cream/55"}`}>Abonnés</p>
-            </div>
-            <div>
+            </button>
+            <button type="button" onClick={() => setShowList("following")} className="rounded-2xl py-1 active:bg-white/10">
               <p className={`font-display text-2xl font-extrabold ${jour? "text-night-900": "text-cream"}`}>{counts.following}</p>
               <p className={`text-[11px] ${jour? "text-night-900/50": "text-cream/55"}`}>Abonnements</p>
-            </div>
+            </button>
             <div>
               <p className={`font-display text-2xl font-extrabold ${jour? "text-dawn-600": "text-dawn-300"}`}>{prayers.length}</p>
               <p className={`text-[11px] ${jour? "text-night-900/50": "text-cream/55"}`}>Sujets</p>
@@ -361,6 +363,16 @@ export function MemberView() {
         )}
       </div>
       </div>
+
+      {/* Liste des abonnés / abonnements (privée si le membre l'a choisi) */}
+      {showList && memberId ? (
+        <FollowListModal
+          userId={memberId}
+          kind={showList}
+          locked={profile.follows_privacy === "prive" && !isMe && !isAdmin}
+          onClose={() => setShowList(null)}
+        />
+      ) : null}
     </section>
   );
 }

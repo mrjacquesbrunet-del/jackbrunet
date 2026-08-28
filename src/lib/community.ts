@@ -18,6 +18,8 @@ export type Profile = {
   country?: string | null;
   /** Confidentialité de la localisation : visible par tous, ou par moi seul. */
   location_privacy?: "public" | "prive" | null;
+  /** Confidentialité des abonnés / abonnements : visibles par tous (défaut), ou par moi seul. */
+  follows_privacy?: "public" | "prive" | null;
   /** Phrase personnelle, ex. « Jésus a changé ma vie en 2019 ». */
   life_phrase?: string | null;
   /** Bannière du profil (grande image plein écran, personnalisable). */

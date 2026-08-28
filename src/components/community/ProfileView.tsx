@@ -117,6 +117,7 @@ function Profile({
     city?: string | null;
     country?: string | null;
     location_privacy?: "public" | "prive" | null;
+    follows_privacy?: "public" | "prive" | null;
     life_phrase?: string | null;
   } | null;
   refreshProfile: () => void;
@@ -131,6 +132,7 @@ function Profile({
   const [cityVal, setCityVal] = useState(profile?.city?? "");
   const [countryVal, setCountryVal] = useState(profile?.country?? "");
   const [locPrivVal, setLocPrivVal] = useState<"public" | "prive">(profile?.location_privacy === "prive"? "prive": "public");
+  const [followsPrivVal, setFollowsPrivVal] = useState<"public" | "prive">(profile?.follows_privacy === "prive"? "prive": "public");
   const [phraseVal, setPhraseVal] = useState(profile?.life_phrase?? "");
   const [bannerVal, setBannerVal] = useState(profile?.banner_url?? "");
   const [nameColorVal, setNameColorVal] = useState(profile?.name_color?? "");
@@ -215,11 +217,12 @@ function Profile({
     setCityVal(profile?.city?? "");
     setCountryVal(profile?.country?? "");
     setLocPrivVal(profile?.location_privacy === "prive"? "prive": "public");
+    setFollowsPrivVal(profile?.follows_privacy === "prive"? "prive": "public");
     setPhraseVal(profile?.life_phrase?? "");
     setBannerVal(profile?.banner_url?? "");
     setNameColorVal(profile?.name_color?? "");
   }, [profile?.pseudo, profile?.avatar_url, profile?.bio, profile?.favorite_verses,
-      profile?.church, profile?.city, profile?.country, profile?.location_privacy,
+      profile?.church, profile?.city, profile?.country, profile?.location_privacy, profile?.follows_privacy,
       profile?.life_phrase, profile?.banner_url, profile?.name_color]);
 
   /** Téléverse la bannière (même bucket que les avatars). */
@@ -298,6 +301,7 @@ function Profile({
       city: cityVal.trim() || null,
       country: countryVal.trim() || null,
       location_privacy: locPrivVal,
+      follows_privacy: followsPrivVal,
       life_phrase: phraseVal.trim() || null,
       banner_url: bannerVal.trim() || null,
       name_color: nameColorVal || null,
@@ -654,6 +658,31 @@ function Profile({
                 onClick={() => setLocPrivVal(k)}
                 className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
                   locPrivVal === k
+                    ? "bg-cream text-night-950"
+                    : "border border-white/15 bg-white/5 text-cream/70"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-3">
+          <span className="text-xs font-semibold uppercase tracking-wide text-cream/50">
+            Qui peut voir tes abonnés / abonnements ?
+          </span>
+          <div className="mt-2 flex gap-2">
+            {([
+              ["public", "Tout le monde"],
+              ["prive", "Seulement moi"],
+            ] as const).map(([k, label]) => (
+              <button
+                key={k}
+                type="button"
+                onClick={() => setFollowsPrivVal(k)}
+                className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                  followsPrivVal === k
                     ? "bg-cream text-night-950"
                     : "border border-white/15 bg-white/5 text-cream/70"
                 }`}
