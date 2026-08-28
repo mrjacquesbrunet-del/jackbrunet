@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { AnimatePresence } from "framer-motion";
 import type { Short } from "@/lib/types";
 import { ShortsPlayer } from "@/components/home/ShortsPlayer";
 import { PlayIcon } from "@/components/ui/PlayIcon";
-import { videoEmbedSrc } from "@/lib/youtube";
 
 /** Colonne « Vidéo du jour »: le dernier Short publié, jouable sur place. */
 export function DailyShort({ latest, all }: { latest: Short; all: Short[] }) {
@@ -69,59 +68,39 @@ export function DailyShort({ latest, all }: { latest: Short; all: Short[] }) {
  */
 export function FloatingDailyShort({ latest, targetId = "video-jour" }: { latest: Short; targetId?: string }) {
   const [hidden, setHidden] = useState(false);
-  const frameRef = useRef<HTMLIFrameElement>(null);
-
-  // iOS bloque l'autoplay au chargement (aucun geste utilisateur). La page
-  // lecteur du site écoute des commandes postMessage : on relance donc la
-  // lecture muette nous-mêmes — quelques tentatives au chargement, puis au
-  // premier toucher / défilement (le geste débloque la lecture).
-  useEffect(() => {
-    function kick() {
-      const w = frameRef.current?.contentWindow;
-      if (!w) return;
-      try {
-        w.postMessage({ jb: "mute" }, "*");
-        w.postMessage({ jb: "play" }, "*");
-      } catch {
-        /* iframe pas prête */
-      }
-    }
-    let tries = 0;
-    const it = setInterval(() => {
-      tries += 1;
-      kick();
-      if (tries >= 6) clearInterval(it);
-    }, 1500);
-    window.addEventListener("touchstart", kick, { passive: true });
-    window.addEventListener("scroll", kick, { passive: true });
-    return () => {
-      clearInterval(it);
-      window.removeEventListener("touchstart", kick);
-      window.removeEventListener("scroll", kick);
-    };
-  }, []);
 
   if (hidden) return null;
 
   return (
     <>
-      {/* Petite bulle RONDE et discrète : la vidéo tourne en muet dedans */}
+      {/* Petite bulle RONDE et discrète : vignette VIVANTE de la vidéo du
+          jour (lent zoom-panoramique en boucle). iOS/YouTube refusent le
+          démarrage automatique d'une vidéo intégrée sans geste dans son
+          cadre : la vignette animée donne le mouvement, sans bouton rouge. */}
+      <style>{`
+        @keyframes fds-kb{0%{transform:scale(1.05) translate(0,0)}50%{transform:scale(1.22) translate(-4%,-5%)}100%{transform:scale(1.05) translate(3%,2%)}}
+        @keyframes fds-pulse{0%,100%{box-shadow:0 0 0 0 rgba(202,240,0,.5)}70%{box-shadow:0 0 0 8px rgba(202,240,0,0)}}
+      `}</style>
       <div className="fixed bottom-[calc(env(safe-area-inset-bottom)+5.25rem)] right-3 z-40">
         <div className="relative h-[4.5rem] w-[4.5rem]">
-          {/* `relative` est indispensable : sans lui, l'iframe absolue se cale
-              sur le parent extérieur et échappe au masque rond. Le masque
-              radial WebKit force l'arrondi sur iOS (bug Safari + iframes). */}
-          <div
-            className="relative isolate h-full w-full overflow-hidden rounded-full border-2 border-dawn-400 bg-night-950 shadow-card"
-            style={{ WebkitMaskImage: "-webkit-radial-gradient(white, black)", transform: "translateZ(0)" }}
-          >
-            <iframe
-              ref={frameRef}
-              src={videoEmbedSrc(latest.id, { autoplay: true, mute: true, loop: true })}
-              title={latest.title}
-              allow="autoplay; encrypted-media"
-              className="pointer-events-none absolute left-1/2 top-1/2 h-32 w-[4.5rem] -translate-x-1/2 -translate-y-1/2"
+          <div className="relative h-full w-full overflow-hidden rounded-full border-2 border-dawn-400 bg-night-950 shadow-card">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`https://i.ytimg.com/vi/${latest.id}/hqdefault.jpg`}
+              alt=""
+              aria-hidden
+              className="pointer-events-none h-full w-full object-cover"
+              style={{ animation: "fds-kb 14s ease-in-out infinite alternate" }}
             />
+            {/* Pastille lecture, pulsante */}
+            <span
+              className="pointer-events-none absolute bottom-1 left-1/2 grid h-5 w-5 -translate-x-1/2 place-items-center rounded-full bg-dawn-400 text-night-950"
+              style={{ animation: "fds-pulse 2.2s ease-out infinite" }}
+            >
+              <svg viewBox="0 0 24 24" className="h-3 w-3 fill-current" aria-hidden>
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </span>
           </div>
           <button
             type="button"
