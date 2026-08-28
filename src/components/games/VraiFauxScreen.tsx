@@ -9,6 +9,7 @@ import { getSupabase } from "@/lib/supabase";
 import { getProfile } from "@/lib/community";
 import { submitGameScore, submitWeeklyPoints } from "@/lib/game-scores";
 import { ScoreBoard } from "@/components/games/ScoreBoard";
+import { asset } from "@/lib/asset";
 import {
   ArcadeShell,
   ArcadeHeader,
@@ -215,6 +216,8 @@ export function VraiFauxScreen() {
               Réponds avant la fin du temps et enchaîne les bonnes réponses&nbsp;!
             </p>
           </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={asset("/img/jeux/vraifaux.png")} alt="" className="pointer-events-none absolute -bottom-2 -right-2 h-36 w-auto object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.35)]" />
         </div>
 
         {/* Objectif + Record */}

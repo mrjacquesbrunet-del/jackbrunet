@@ -26,6 +26,7 @@ import {
 import { resolveRef, getBook } from "@/lib/bible-client";
 import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
 import { VerseGame } from "@/components/memorize/VerseGame";
+import { asset } from "@/lib/asset";
 import { WeeklyChampions } from "@/components/memorize/WeeklyChampions";
 import { VERSE_PACKS } from "@/config/verse-packs";
 import { getSupabase } from "@/lib/supabase";
@@ -469,16 +470,18 @@ export default function MemoriserPage() {
               <path d="M4 5a2 2 0 0 1 2-2h6v16H6a2 2 0 0 0-2 2zM20 5a2 2 0 0 0-2-2h-6v16h6a2 2 0 0 1 2 2z" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             <span className="inline-block rounded-lg bg-amber-400 px-3 py-0.5 font-game text-[10px] font-extrabold text-night-950">LE JEU DE LA PAROLE</span>
-            <div className="relative max-w-[16rem]">
-              <h1 className="mt-2 font-game text-3xl font-black leading-[0.95] drop-shadow">
+            <div className="relative max-w-[56%]">
+              <h1 className="mt-2 font-game text-[1.7rem] font-black leading-[0.95] drop-shadow">
                 MÉMORISER
                 <br />
                 <span className="text-amber-300">DES VERSETS</span>
               </h1>
-              <p className="mt-2 font-game text-sm font-semibold leading-tight text-white/80">
+              <p className="mt-2 font-game text-[13px] font-semibold leading-tight text-white/80">
                 Grave la Parole dans ton cœur, manche après manche.
               </p>
             </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={asset("/img/jeux/memoriser.png")} alt="" className="pointer-events-none absolute -bottom-2 -right-2 h-36 w-auto object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.35)]" />
           </div>
 
           {/* Objectif + Record */}
