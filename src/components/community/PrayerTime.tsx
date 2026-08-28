@@ -5,7 +5,14 @@ import { Avatar } from "@/components/community/Avatar";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { PrayerMark } from "@/components/ui/PrayerMark";
 import { VoiceNotePlayer } from "@/components/community/VoiceNote";
-import { voiceExpired } from "@/lib/voice";
+import {
+  voiceExpired,
+  canRecordVoice,
+  startRecording,
+  uploadVoice,
+  VOICE_MAX_SECONDS,
+  type VoiceRecording,
+} from "@/lib/voice";
 import { startSoaking, stopSoaking, isSoakingPlaying } from "@/lib/soaking";
 import {
   listPrayersForPrayerTime,
@@ -46,6 +53,8 @@ const PT_CSS = `
 .pt-done{background:#1E1E1D;color:#CAF000;border:1px solid rgba(202,240,0,.35);box-shadow:none;animation:none}
 @keyframes pt-burst{0%{opacity:1;transform:translate(-50%,-50%) scale(.4)}100%{opacity:0;transform:translate(-50%,-50%) scale(2.4)}}
 .pt-burst{position:absolute;left:50%;top:50%;width:120px;height:120px;border-radius:9999px;border:3px solid #CAF000;animation:pt-burst .7s ease-out both;pointer-events:none}
+@keyframes pt-rec{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.45)}50%{box-shadow:0 0 0 16px rgba(239,68,68,0)}}
+.pt-recing{background:linear-gradient(180deg,#f87171,#dc2626);color:#fff;animation:pt-rec 1.4s ease-out infinite}
 @keyframes pt-hint{0%,100%{transform:translateY(0);opacity:.55}50%{transform:translateY(7px);opacity:1}}
 .pt-hint{animation:pt-hint 1.8s ease-in-out infinite}
 @keyframes pt-endpop{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
@@ -66,13 +75,31 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
   const [prayed, setPrayed] = useState<Set<string>>(new Set()); // déjà « prié » (avant + pendant)
   const [sessionPrayed, setSessionPrayed] = useState(0); // compteur de CE temps de prière
   const [burst, setBurst] = useState<string | null>(null);
-  const [commentFor, setCommentFor] = useState<string | null>(null);
-  const [commentText, setCommentText] = useState("");
-  const [sending, setSending] = useState(false);
-  const [sentFor, setSentFor] = useState<Set<string>>(new Set());
   const [ended, setEnded] = useState(false);
+  // Micro disponible ? (même garde-fou de version native que VoiceRecorderButton)
+  const [micOk, setMicOk] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const startedMusic = useRef(false);
+
+  useEffect(() => {
+    (async () => {
+      if (!canRecordVoice()) return;
+      try {
+        const { Capacitor } = await import("@capacitor/core");
+        if (Capacitor.isNativePlatform()) {
+          const { App } = await import("@capacitor/app");
+          const info = await App.getInfo();
+          const [maj = 0, min = 0] = String(info.version)
+            .split(".")
+            .map((x) => parseInt(x, 10) || 0);
+          if (maj < 1 || (maj === 1 && min < 8)) return;
+        }
+        setMicOk(true);
+      } catch {
+        setMicOk(true);
+      }
+    })();
+  }, []);
 
   // Musique : on lance le soaking (même ambiance que la Bible) si elle ne joue
   // pas déjà, et on ne coupe en sortant que ce qu'on a lancé nous-mêmes.
@@ -143,17 +170,6 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
     setTimeout(() => setBurst(null), 750);
     void toggleReaction(p.id, userId, "pray", true);
     setTimeout(() => next(at), 650);
-  }
-
-  async function sendComment(p: Prayer) {
-    const text = commentText.trim();
-    if (!text || sending) return;
-    setSending(true);
-    await addComment(p.id, text, userId);
-    setSending(false);
-    setSentFor((s) => new Set(s).add(p.id));
-    setCommentText("");
-    setCommentFor(null);
   }
 
   const twinkles = useMemo(
@@ -260,7 +276,6 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
       <div ref={scrollRef} className="pt-scroll">
         {prayers.map((p, i) => {
           const hasPrayed = prayed.has(p.id);
-          const isCommenting = commentFor === p.id;
           return (
             <section key={p.id} className="pt-slide">
               <div className="pt-card w-full max-w-md">
@@ -286,63 +301,16 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
                   </div>
                 ) : null}
 
-                {/* Actions */}
-                <div className="relative mx-auto mt-9 w-full max-w-xs">
+                {/* Actions : Je prie · gros micro (vocal → commentaire) · message */}
+                <div className="relative mx-auto mt-9 w-full max-w-sm">
                   {burst === p.id ? <span className="pt-burst" /> : null}
-                  <button
-                    type="button"
-                    onClick={() => pray(p, i)}
-                    className={`w-full rounded-full py-4 font-display text-lg font-extrabold transition-transform ${hasPrayed ? "pt-done" : "pt-pray"}`}
-                  >
-                    <span className="inline-flex items-center gap-2">
-                      <PrayerMark className="h-6 w-6" />
-                      {hasPrayed ? "Tu as prié" : "J'ai prié"}
-                    </span>
-                  </button>
-
-                  {isCommenting ? (
-                    <div className="mt-3">
-                      <textarea
-                        value={commentText}
-                        onChange={(e) => setCommentText(e.target.value)}
-                        rows={2}
-                        autoFocus
-                        placeholder={`Encourage ${p.author?.pseudo ?? "ce membre"}…`}
-                        className="w-full resize-none rounded-2xl border border-white/15 bg-night-900/90 px-4 py-3 text-sm text-cream placeholder:text-cream/40 focus:border-dawn-400/60 focus:outline-none"
-                      />
-                      <div className="mt-2 flex gap-2">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setCommentFor(null);
-                            setCommentText("");
-                          }}
-                          className="flex-1 rounded-full border border-white/15 py-2.5 text-sm font-bold text-cream/70"
-                        >
-                          Annuler
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => sendComment(p)}
-                          disabled={sending || !commentText.trim()}
-                          className="flex-1 rounded-full bg-dawn-400 py-2.5 text-sm font-bold text-night-950 disabled:opacity-40"
-                        >
-                          {sending ? "Envoi…" : "Envoyer"}
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setCommentFor(p.id);
-                        setCommentText("");
-                      }}
-                      className="mt-3 w-full rounded-full border border-white/15 bg-night-900/70 py-3 text-sm font-bold text-cream/85"
-                    >
-                      {sentFor.has(p.id) ? "Encouragement envoyé — en écrire un autre" : "Laisser un encouragement"}
-                    </button>
-                  )}
+                  <SlideActions
+                    p={p}
+                    userId={userId}
+                    micOk={micOk}
+                    hasPrayed={hasPrayed}
+                    onPray={() => pray(p, i)}
+                  />
                 </div>
               </div>
 
@@ -376,6 +344,271 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
           </div>
         </section>
       </div>
+    </div>
+  );
+}
+
+/**
+ * Les trois actions d'un sujet : « Je prie » (réaction sur la publication),
+ * GROS micro au centre (le vocal part en commentaire de la publication) et
+ * bulle message (encouragement écrit → commentaire). Tout part directement
+ * sur la publication, sans quitter le mode.
+ */
+function SlideActions({
+  p,
+  userId,
+  micOk,
+  hasPrayed,
+  onPray,
+}: {
+  p: Prayer;
+  userId: string;
+  micOk: boolean;
+  hasPrayed: boolean;
+  onPray: () => void;
+}) {
+  const [mode, setMode] = useState<"idle" | "rec" | "preview" | "sendingVoice" | "text">("idle");
+  const [seconds, setSeconds] = useState(0);
+  const [pending, setPending] = useState<{ blob: Blob; url: string } | null>(null);
+  const [text, setText] = useState("");
+  const [sendingText, setSendingText] = useState(false);
+  const [done, setDone] = useState<"" | "vocal" | "texte">("");
+  const [err, setErr] = useState("");
+  const recRef = useRef<VoiceRecording | null>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(
+    () => () => {
+      recRef.current?.cancel();
+      if (timerRef.current) clearInterval(timerRef.current);
+    },
+    [],
+  );
+
+  async function beginRec() {
+    setErr("");
+    setDone("");
+    try {
+      recRef.current = await startRecording();
+    } catch {
+      setErr("Micro refusé. Autorise-le dans les réglages du téléphone.");
+      setTimeout(() => setErr(""), 3500);
+      return;
+    }
+    setSeconds(0);
+    setMode("rec");
+    timerRef.current = setInterval(() => {
+      setSeconds((s) => {
+        if (s + 1 >= VOICE_MAX_SECONDS) void stopRec();
+        return s + 1;
+      });
+    }, 1000);
+  }
+
+  async function stopRec() {
+    if (timerRef.current) clearInterval(timerRef.current);
+    const rec = recRef.current;
+    recRef.current = null;
+    if (!rec) {
+      setMode("idle");
+      return;
+    }
+    const blob = await rec.stop();
+    if (!blob || blob.size < 1000) {
+      setErr("Enregistrement trop court.");
+      setTimeout(() => setErr(""), 2500);
+      setMode("idle");
+      return;
+    }
+    setPending({ blob, url: URL.createObjectURL(blob) });
+    setMode("preview");
+  }
+
+  function cancelPending() {
+    if (pending) URL.revokeObjectURL(pending.url);
+    setPending(null);
+    setMode("idle");
+  }
+
+  /** Envoie le vocal en COMMENTAIRE de la publication (expire après 7 jours). */
+  async function sendVoice() {
+    if (!pending) return;
+    setMode("sendingVoice");
+    setErr("");
+    const url = await uploadVoice(userId, pending.blob);
+    if (url) {
+      const ok = await addComment(p.id, "Note vocale", userId, null, url);
+      if (ok) {
+        URL.revokeObjectURL(pending.url);
+        setPending(null);
+        setMode("idle");
+        setDone("vocal");
+        return;
+      }
+    }
+    setErr("Échec de l'envoi. Vérifie ta connexion et réessaie.");
+    setMode("preview");
+  }
+
+  /** Envoie l'encouragement écrit en commentaire de la publication. */
+  async function sendText() {
+    const t = text.trim();
+    if (!t || sendingText) return;
+    setSendingText(true);
+    await addComment(p.id, t, userId);
+    setSendingText(false);
+    setText("");
+    setMode("idle");
+    setDone("texte");
+  }
+
+  const recording = mode === "rec";
+
+  return (
+    <div>
+      {/* La rangée des trois boutons */}
+      <div className="flex items-start justify-center gap-8">
+        {/* Je prie — la réaction qu'on connaît, posée sur la publication */}
+        <div className="flex w-16 flex-col items-center gap-1.5 pt-3">
+          <button
+            type="button"
+            onClick={onPray}
+            aria-label={hasPrayed ? "Tu as prié" : "Je prie"}
+            className={`grid h-14 w-14 place-items-center rounded-full transition-transform active:scale-95 ${
+              hasPrayed ? "pt-done" : "border border-white/15 bg-night-900/80"
+            }`}
+          >
+            <PrayerMark className="h-8 w-8" />
+          </button>
+          <span className={`text-[11px] font-bold ${hasPrayed ? "text-dawn-300" : "text-cream/70"}`}>
+            {hasPrayed ? "Tu pries" : "Je prie"}
+          </span>
+        </div>
+
+        {/* Le GROS micro : prie à voix haute, le vocal part en commentaire */}
+        {micOk ? (
+          <div className="flex flex-col items-center gap-1.5">
+            <button
+              type="button"
+              onClick={recording ? stopRec : mode === "idle" ? beginRec : undefined}
+              aria-label={recording ? "Terminer l'enregistrement" : "Prier en vocal"}
+              className={`grid h-[5.5rem] w-[5.5rem] place-items-center rounded-full transition-transform active:scale-95 ${
+                recording ? "pt-recing" : "pt-pray"
+              }`}
+            >
+              {recording ? (
+                <svg viewBox="0 0 24 24" className="h-9 w-9 fill-current" aria-hidden>
+                  <rect x="7" y="7" width="10" height="10" rx="2" />
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" className="h-11 w-11 fill-none stroke-current" strokeWidth={1.7} aria-hidden>
+                  <path
+                    d="M12 3a3 3 0 0 1 3 3v5a3 3 0 0 1-6 0V6a3 3 0 0 1 3-3zM6 11a6 6 0 0 0 12 0M12 17v4M9 21h6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              )}
+            </button>
+            <span className={`text-[11px] font-bold tabular-nums ${recording ? "text-red-300" : "text-cream/70"}`}>
+              {recording
+                ? `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padStart(2, "0")}`
+                : "Prier en vocal"}
+            </span>
+          </div>
+        ) : null}
+
+        {/* Bulle message : un mot d'encouragement, en commentaire */}
+        <div className="flex w-16 flex-col items-center gap-1.5 pt-3">
+          <button
+            type="button"
+            onClick={() => {
+              setDone("");
+              setMode(mode === "text" ? "idle" : "text");
+            }}
+            aria-label="Laisser un encouragement écrit"
+            className={`grid h-14 w-14 place-items-center rounded-full transition-transform active:scale-95 ${
+              mode === "text" ? "bg-dawn-400 text-night-950" : "border border-white/15 bg-night-900/80 text-cream/85"
+            }`}
+          >
+            <svg viewBox="0 0 24 24" className="h-7 w-7 fill-none stroke-current" strokeWidth={1.7} aria-hidden>
+              <path
+                d="M21 12a8 8 0 0 1-8 8H5.6L3 21.4V12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8z"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+          <span className="text-[11px] font-bold text-cream/70">Encourager</span>
+        </div>
+      </div>
+
+      {/* Pré-écoute du vocal avant envoi */}
+      {mode === "preview" || mode === "sendingVoice" ? (
+        <div className="mt-4 rounded-2xl border border-white/10 bg-night-900/85 p-3">
+          {pending ? <VoiceNotePlayer src={pending.url} tone="dark" /> : null}
+          <div className="mt-2.5 flex gap-2">
+            <button
+              type="button"
+              onClick={cancelPending}
+              disabled={mode === "sendingVoice"}
+              className="flex-1 rounded-full border border-white/15 py-2.5 text-sm font-bold text-cream/70 disabled:opacity-50"
+            >
+              Annuler
+            </button>
+            <button
+              type="button"
+              onClick={sendVoice}
+              disabled={mode === "sendingVoice"}
+              className="flex-1 rounded-full bg-dawn-400 py-2.5 text-sm font-bold text-night-950 disabled:opacity-60"
+            >
+              {mode === "sendingVoice" ? "Envoi…" : "Envoyer ma prière"}
+            </button>
+          </div>
+          <p className="mt-2 text-[11px] text-cream/45">Ta prière vocale reste écoutable 7 jours dans les commentaires.</p>
+        </div>
+      ) : null}
+
+      {/* Encouragement écrit */}
+      {mode === "text" ? (
+        <div className="mt-4">
+          <textarea
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            rows={2}
+            autoFocus
+            placeholder={`Encourage ${p.author?.pseudo ?? "ce membre"}…`}
+            className="w-full resize-none rounded-2xl border border-white/15 bg-night-900/90 px-4 py-3 text-sm text-cream placeholder:text-cream/40 focus:border-dawn-400/60 focus:outline-none"
+          />
+          <div className="mt-2 flex gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setMode("idle");
+                setText("");
+              }}
+              className="flex-1 rounded-full border border-white/15 py-2.5 text-sm font-bold text-cream/70"
+            >
+              Annuler
+            </button>
+            <button
+              type="button"
+              onClick={sendText}
+              disabled={sendingText || !text.trim()}
+              className="flex-1 rounded-full bg-dawn-400 py-2.5 text-sm font-bold text-night-950 disabled:opacity-40"
+            >
+              {sendingText ? "Envoi…" : "Envoyer"}
+            </button>
+          </div>
+        </div>
+      ) : null}
+
+      {done ? (
+        <p className="mt-3 text-center text-xs font-semibold text-dawn-300">
+          {done === "vocal" ? "Prière vocale envoyée dans les commentaires" : "Encouragement envoyé dans les commentaires"}
+        </p>
+      ) : null}
+      {err ? <p className="mt-3 text-center text-xs font-semibold text-red-300">{err}</p> : null}
     </div>
   );
 }
