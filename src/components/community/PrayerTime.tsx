@@ -34,6 +34,17 @@ import { listBlockedIds } from "@/lib/moderation";
  */
 
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000; // tranche d'ancienneté (7 jours)
+// Au-delà de cette longueur, un sujet ne tient plus sur un écran avec les
+// boutons : on le laisse sur le mur classique, hors du scroll.
+const MAX_BODY_CHARS = 300;
+
+/** Taille de texte adaptée à la longueur du sujet (tout doit tenir à l'écran). */
+function bodySizeClass(body: string): string {
+  const n = body.trim().length;
+  if (n <= 90) return "text-2xl leading-snug sm:text-3xl";
+  if (n <= 180) return "text-xl leading-snug sm:text-2xl";
+  return "text-base leading-relaxed sm:text-lg";
+}
 const INTRO_KEY = "jb.praytime.intro.v1"; // intro vue (une seule fois)
 
 function localStorageIntroSeen(): boolean {
@@ -175,7 +186,11 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
       if (!alive) return;
       const now = Date.now();
       const candidates = all.filter(
-        (p) => p.author_id !== userId && !blocked.includes(p.author_id) && !p.answered,
+        (p) =>
+          p.author_id !== userId &&
+          !blocked.includes(p.author_id) &&
+          !p.answered &&
+          p.body.trim().length <= MAX_BODY_CHARS,
       );
       const tiers = new Map<number, Prayer[]>();
       for (const p of candidates) {
@@ -428,8 +443,8 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
                   </div>
                 </div>
 
-                {/* Le sujet, au centre, en grand */}
-                <p className="mt-6 text-balance text-center font-display text-2xl font-bold leading-snug sm:text-3xl">
+                {/* Le sujet, au centre, en grand (taille adaptée à sa longueur) */}
+                <p className={`mt-6 text-balance text-center font-display font-bold ${bodySizeClass(p.body)}`}>
                   {p.body}
                 </p>
                 {p.audio_url && !voiceExpired(p.created_at) ? (
