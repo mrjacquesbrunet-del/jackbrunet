@@ -36,14 +36,15 @@ import { listBlockedIds } from "@/lib/moderation";
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000; // tranche d'ancienneté (7 jours)
 // Au-delà de cette longueur, un sujet ne tient plus sur un écran avec les
 // boutons : on le laisse sur le mur classique, hors du scroll.
-const MAX_BODY_CHARS = 300;
+const MAX_BODY_CHARS = 500;
 
 /** Taille de texte adaptée à la longueur du sujet (tout doit tenir à l'écran). */
 function bodySizeClass(body: string): string {
   const n = body.trim().length;
   if (n <= 90) return "text-2xl leading-snug sm:text-3xl";
   if (n <= 180) return "text-xl leading-snug sm:text-2xl";
-  return "text-base leading-relaxed sm:text-lg";
+  if (n <= 320) return "text-base leading-relaxed sm:text-lg";
+  return "text-sm leading-relaxed sm:text-base";
 }
 const INTRO_KEY = "jb.praytime.intro.v1"; // intro vue (une seule fois)
 
