@@ -22,6 +22,37 @@ import {
   type Message,
 } from "@/lib/messages";
 
+/** Date discrète d'une conversation : heure si aujourd'hui, « hier », puis
+ * « il y a X j », puis la date courte. */
+function convoWhen(iso: string): string {
+  const d = new Date(iso);
+  if (!Number.isFinite(d.getTime())) return "";
+  const now = new Date();
+  if (d.toDateString() === now.toDateString())
+    return d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+  const yesterday = new Date(now);
+  yesterday.setDate(now.getDate() - 1);
+  if (d.toDateString() === yesterday.toDateString()) return "hier";
+  const days = Math.floor((now.getTime() - d.getTime()) / 86_400_000);
+  if (days <= 7) return `il y a ${days} j`;
+  return d.toLocaleDateString("fr-FR", { day: "numeric", month: "short" });
+}
+
+/** Étiquette de jour dans le fil : « Aujourd'hui », « Hier », « 12 août ». */
+function dayLabel(iso: string): string {
+  const d = new Date(iso);
+  const now = new Date();
+  if (d.toDateString() === now.toDateString()) return "Aujourd'hui";
+  const yesterday = new Date(now);
+  yesterday.setDate(now.getDate() - 1);
+  if (d.toDateString() === yesterday.toDateString()) return "Hier";
+  return d.toLocaleDateString("fr-FR", {
+    day: "numeric",
+    month: "long",
+    ...(d.getFullYear() !== now.getFullYear() ? { year: "numeric" as const } : {}),
+  });
+}
+
 export function MessagesView() {
   const { ready, userId } = useAuth();
   const params = useSearchParams();
@@ -130,7 +161,12 @@ function Inbox() {
   const [convos, setConvos] = useState<Conversation[] | null>(null);
 
   useEffect(() => {
-    listConversations().then(setConvos);
+    // Tri garanti : la conversation au message le plus récent en premier.
+    listConversations().then((cs) =>
+      setConvos(
+        [...cs].sort((a, b) => new Date(b.last_at).getTime() - new Date(a.last_at).getTime()),
+      ),
+    );
   }, []);
 
   /** Repasse la conversation en « non lu » (pour y revenir plus tard). */
@@ -189,8 +225,11 @@ function Inbox() {
                         c.unread > 0? "font-bold": "font-semibold"
                       }`}
                     >
-                      {c.partner?.pseudo?? "Membre"}
-                      {c.partner?.verified? <VerifiedBadge className="h-4 w-4" />: null}
+                      <span className="min-w-0 truncate">{c.partner?.pseudo?? "Membre"}</span>
+                      {c.partner?.verified? <VerifiedBadge className="h-4 w-4 shrink-0" />: null}
+                      <span className="ml-auto shrink-0 pl-2 text-[11px] font-medium text-night-900/40">
+                        {convoWhen(c.last_at)}
+                      </span>
                     </p>
                     <p
                       className={`truncate text-sm ${
@@ -355,10 +394,20 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
               Écris le premier message à {partner?.pseudo?? "ce membre"}.
             </p>
           ): (
-            messages.map((m) => {
+            messages.map((m, i) => {
               const mine = m.sender_id === meId;
+              // Séparateur de jour quand la date change dans le fil.
+              const newDay =
+                i === 0 ||
+                new Date(messages[i - 1].created_at).toDateString() !==
+                  new Date(m.created_at).toDateString();
               return (
                 <div key={m.id} className={`flex flex-col ${mine? "items-end": "items-start"}`}>
+                  {newDay ? (
+                    <p className="my-2 w-full self-center text-center text-[11px] font-semibold text-night-900/35">
+                      {dayLabel(m.created_at)}
+                    </p>
+                  ) : null}
                   <div
                     className={`max-w-[80%] whitespace-pre-wrap rounded-2xl px-4 py-2 text-[15px] leading-snug ${
                       mine
