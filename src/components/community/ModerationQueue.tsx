@@ -62,7 +62,7 @@ export function ModerationQueue() {
       </div>
 
       {reports.length === 0 ? (
-        <p className="mt-2 text-sm text-night-900/55">Aucun signalement en attente 🙏</p>
+        <p className="mt-2 text-sm text-night-900/55">Aucun signalement en attente.</p>
       ) : (
         <ul className="mt-3 space-y-3">
           {reports.map((r) => (

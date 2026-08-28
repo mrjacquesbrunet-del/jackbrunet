@@ -934,9 +934,6 @@ function Profile({
         </div>
       </div>
 
-      {/* File de modération (admin + modérateurs) */}
-      {isAdminEmail(email) || profile?.is_moderator? <ModerationQueue /> : null}
-
       {/* Suivi (semaine), plans de lecture, sujets de prière */}
       <ProfileActivity />
 
@@ -1116,6 +1113,9 @@ function Profile({
           </Link>
         </div>
       ): null}
+
+      {/* File de modération (admin + modérateurs) — tout en bas du profil */}
+      {isAdminEmail(email) || profile?.is_moderator? <ModerationQueue /> : null}
 
       {/* Gestion du compte: déconnexion + suppression (exigence App Store) */}
       <div className="mt-8">
