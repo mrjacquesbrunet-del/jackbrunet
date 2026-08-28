@@ -431,30 +431,46 @@ export function DevotionalView({
       {/* 3. Verset à retenir et à déclarer (carte partageable) */}
       <section className="container-x">
         <Reveal from="scale">
-          <div className="dark-ctx bg-topo-dark relative overflow-hidden rounded-4xl border border-dawn-400/30 p-8 shadow-glow sm:p-12">
-            <div className="blob -right-12 top-1/4 h-56 w-56 bg-dawn-500/20" />
-            <div className="blob -left-10 bottom-0 h-44 w-44 bg-spirit-500/20" />
-            <div className="relative text-center">
-              <span className="inline-flex items-center rounded-full border border-dawn-400/30 bg-dawn-400/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-dawn-300">
-                À retenir et à déclarer sur ta vie
-              </span>
-              <span className="mt-6 block font-display text-6xl leading-none text-dawn-300/60">
-                &ldquo;
-              </span>
+          <div
+            className="dark-ctx relative overflow-hidden rounded-3xl border border-dawn-400/25 p-6 sm:p-8"
+            style={{
+              background:
+                "radial-gradient(110% 70% at 100% 0%, rgba(202,240,0,.16) 0%, transparent 55%), radial-gradient(90% 60% at 0% 100%, rgba(202,240,0,.08) 0%, transparent 50%), linear-gradient(160deg, #171716 0%, #0C0C0B 60%, #101010 100%)",
+            }}
+          >
+            {/* Guillemet géant en filigrane */}
+            <span
+              aria-hidden
+              className="pointer-events-none absolute -top-7 right-2 select-none font-display text-[9rem] font-bold leading-none text-dawn-400/10"
+            >
+              &ldquo;
+            </span>
+
+            <div className="relative">
+              {/* Chapeau typographique entre deux filets */}
+              <div className="flex items-center gap-3">
+                <span className="h-px flex-1 bg-gradient-to-r from-transparent to-dawn-400/50" />
+                <span className="shrink-0 text-[10px] font-bold uppercase tracking-[0.3em] text-dawn-300">
+                  À déclarer sur ta vie
+                </span>
+                <span className="h-px flex-1 bg-gradient-to-l from-transparent to-dawn-400/50" />
+              </div>
+
               <Markable
                 id={`dev:${i}:declaration`}
                 text={dev.declarationText}
                 reference={dev.declarationReference}
                 kind="déclaration"
               >
-                <blockquote className="-mt-4 font-display text-2xl font-bold leading-snug text-cream sm:text-3xl md:text-4xl">
+                <blockquote className="mt-5 text-balance text-center font-display text-xl font-bold leading-snug text-cream sm:text-2xl">
                   {dev.declarationText}
                 </blockquote>
-                <p className="mt-4 text-sm font-semibold text-dawn-200">
-                  {dev.declarationReference}
+                <p className="mt-3 text-right font-display text-sm italic text-dawn-300">
+                  — {dev.declarationReference}
                 </p>
               </Markable>
-              <div className="mt-7 flex justify-center">
+
+              <div className="mt-5 flex justify-center">
                 <ShareButtons
                   text={`« ${dev.declarationText} », ${dev.declarationReference}`}
                   image={{
