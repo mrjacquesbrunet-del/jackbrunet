@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/components/community/useAuth";
 import { listPrayers, type Prayer } from "@/lib/community";
+import { PrayerTime } from "@/components/community/PrayerTime";
+import { PrayerMark } from "@/components/ui/PrayerMark";
 
 /** Icône mains en prière (charte, même trait que le menu). */
 function PrayIcon({ className }: { className?: string }) {
@@ -27,6 +29,8 @@ function PrayIcon({ className }: { className?: string }) {
 export function DailyPrayerSpotlight() {
   const { ready, userId } = useAuth();
   const [prayer, setPrayer] = useState<Prayer | null>(null);
+  // Mode « Scrolle & prie » lancé directement depuis l'accueil.
+  const [scrollPrie, setScrollPrie] = useState(false);
 
   useEffect(() => {
     if (!ready || !userId) return;
@@ -76,6 +80,38 @@ export function DailyPrayerSpotlight() {
           </div>
         </div>
       </div>
+
+      {/* Scrolle & prie, accessible dès le temps avec Jésus */}
+      <button
+        type="button"
+        onClick={() => setScrollPrie(true)}
+        className="dark-ctx group relative mt-3 flex w-full items-center gap-4 overflow-hidden rounded-3xl border border-dawn-400/30 bg-night-950 p-4 text-left shadow-card transition-transform hover:-translate-y-0.5"
+      >
+        <span className="pointer-events-none absolute -right-8 -top-10 h-32 w-32 rounded-full bg-dawn-400/20 blur-2xl" />
+        <span
+          className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl border border-dawn-400/35 bg-night-900"
+          style={{ boxShadow: "0 0 22px rgba(202,240,0,.25)" }}
+        >
+          <PrayerMark className="h-8 w-8" />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block font-display text-base font-extrabold text-cream">
+            Scrolle <span className="text-dawn-300">&amp;</span> prie
+          </span>
+          <span className="mt-0.5 block text-xs text-cream/60">
+            Un sujet à la fois, en musique. Ta génération scrolle — toi, tu pries.
+          </span>
+        </span>
+        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950">
+          <svg viewBox="0 0 24 24" className="h-4.5 w-4.5 fill-current" style={{ width: 18, height: 18 }} aria-hidden>
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </span>
+      </button>
+
+      {scrollPrie && userId ? (
+        <PrayerTime userId={userId} onClose={() => setScrollPrie(false)} />
+      ) : null}
     </section>
   );
 }
