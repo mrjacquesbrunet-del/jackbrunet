@@ -39,6 +39,9 @@ import { fetchPublishedDevotions } from "@/lib/devotions";
 import { asset, mediaUrl } from "@/lib/asset";
 import { trace } from "@/lib/boot-trace";
 import { MakeVersePublicButton } from "@/components/community/MakeVersePublicButton";
+import { useAuth } from "@/components/community/useAuth";
+import { NotificationsBell } from "@/components/community/NotificationsBell";
+import { MessagesButton } from "@/components/community/MessagesButton";
 import { isNativeApp } from "@/lib/notifications";
 import type { Devotion, ReadingPlanDay, Short } from "@/lib/types";
 
@@ -79,6 +82,8 @@ export function DevotionalView({
   // les 60 intégrés au build. Le repli garantit que la méditation ne casse
   // jamais, même hors ligne ou si la base est vide.
   const [remote, setRemote] = useState<Devotion[] | null>(null);
+  // Connecté ? → cloche de notifications + messagerie dans l'en-tête.
+  const { userId } = useAuth();
   // La mémorisation de versets est réservée à l'application.
   const [nativeApp, setNativeApp] = useState(false);
   useEffect(() => setNativeApp(isNativeApp()), []);
@@ -199,8 +204,20 @@ export function DevotionalView({
       {/* 1. Date + thème */}
       <section id="meditation" className="container-x scroll-mt-20">
         <Reveal>
-          <Greeting />
-          <p className="mt-1 text-sm font-semibold capitalize text-spirit-600">Méditation du jour</p>
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <Greeting />
+              <p className="mt-1 text-sm font-semibold capitalize text-spirit-600">Méditation du jour</p>
+            </div>
+            {/* Cloche + messagerie, discrètes (mêmes composants que le profil,
+                notifications avec lien intelligent vers le bon écran) */}
+            {userId ? (
+              <div className="flex shrink-0 items-center gap-2">
+                <NotificationsBell userId={userId} tone="light" />
+                <MessagesButton tone="light" />
+              </div>
+            ) : null}
+          </div>
           <h2 className="mt-3 font-display text-3xl font-extrabold leading-[1.05] sm:text-4xl md:text-5xl">
             {dev.theme}
           </h2>
