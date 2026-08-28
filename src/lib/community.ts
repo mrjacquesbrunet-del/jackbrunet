@@ -28,6 +28,10 @@ export type Profile = {
   name_color?: string | null;
   /** Dernière activité (présence « En ligne » / « Actif il y a X »). */
   last_seen_at?: string | null;
+  /** Série de jours consécutifs (badge flamme public à partir de 7). */
+  streak_days?: number | null;
+  /** Date de la rencontre avec Jésus → « X ans avec Jésus ». */
+  converted_at?: string | null;
 };
 export type Visibility = "public" | "friends" | "private";
 export type Prayer = {
@@ -358,7 +362,7 @@ async function profilesByIds(ids: string[]): Promise<Record<string, Profile>> {
   if (!sb || ids.length === 0) return {};
   const { data } = await sb
 .from("profiles")
-.select("id,pseudo,avatar_url,verified")
+.select("id,pseudo,avatar_url,verified,streak_days")
 .in("id", Array.from(new Set(ids)));
   const map: Record<string, Profile> = {};
   for (const p of (data as Profile[])?? []) map[p.id] = p;

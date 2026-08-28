@@ -6,6 +6,7 @@ import { isSupabaseConfigured } from "@/lib/supabase";
 import { useAuth } from "@/components/community/useAuth";
 import { asset } from "@/lib/asset";
 import { Avatar } from "@/components/community/Avatar";
+import { withJesusLabel, STREAK_BADGE_MIN } from "@/lib/spiritual";
 import {
   signOut,
   deleteAccount,
@@ -119,6 +120,8 @@ function Profile({
     location_privacy?: "public" | "prive" | null;
     follows_privacy?: "public" | "prive" | null;
     life_phrase?: string | null;
+    converted_at?: string | null;
+    streak_days?: number | null;
   } | null;
   refreshProfile: () => void;
 }) {
@@ -134,6 +137,7 @@ function Profile({
   const [locPrivVal, setLocPrivVal] = useState<"public" | "prive">(profile?.location_privacy === "prive"? "prive": "public");
   const [followsPrivVal, setFollowsPrivVal] = useState<"public" | "prive">(profile?.follows_privacy === "prive"? "prive": "public");
   const [phraseVal, setPhraseVal] = useState(profile?.life_phrase?? "");
+  const [convertedVal, setConvertedVal] = useState(profile?.converted_at?? "");
   const [bannerVal, setBannerVal] = useState(profile?.banner_url?? "");
   const [nameColorVal, setNameColorVal] = useState(profile?.name_color?? "");
   const [bannerBusy, setBannerBusy] = useState(false);
@@ -219,11 +223,12 @@ function Profile({
     setLocPrivVal(profile?.location_privacy === "prive"? "prive": "public");
     setFollowsPrivVal(profile?.follows_privacy === "prive"? "prive": "public");
     setPhraseVal(profile?.life_phrase?? "");
+    setConvertedVal(profile?.converted_at?? "");
     setBannerVal(profile?.banner_url?? "");
     setNameColorVal(profile?.name_color?? "");
   }, [profile?.pseudo, profile?.avatar_url, profile?.bio, profile?.favorite_verses,
       profile?.church, profile?.city, profile?.country, profile?.location_privacy, profile?.follows_privacy,
-      profile?.life_phrase, profile?.banner_url, profile?.name_color]);
+      profile?.life_phrase, profile?.converted_at, profile?.banner_url, profile?.name_color]);
 
   /** Téléverse la bannière (même bucket que les avatars). */
   async function onPickBanner(e: React.ChangeEvent<HTMLInputElement>) {
@@ -303,6 +308,7 @@ function Profile({
       location_privacy: locPrivVal,
       follows_privacy: followsPrivVal,
       life_phrase: phraseVal.trim() || null,
+      converted_at: convertedVal || null,
       banner_url: bannerVal.trim() || null,
       name_color: nameColorVal || null,
     });
@@ -382,6 +388,32 @@ function Profile({
           {profile?.life_phrase? (
             <p className={`mt-1 text-sm italic ${jour? "text-dawn-600": "text-dawn-300"}`}>{profile.life_phrase}</p>
           ): null}
+
+          {/* Pastilles : ancienneté avec Jésus + série de jours */}
+          {withJesusLabel(profile?.converted_at) || (profile?.streak_days ?? 0) >= STREAK_BADGE_MIN ? (
+            <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
+              {withJesusLabel(profile?.converted_at) ? (
+                <span
+                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold backdrop-blur ${jour? "bg-dawn-500/15 text-dawn-600": "bg-dawn-400/15 text-dawn-300"}`}
+                >
+                  <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+                    <path d="M12 3v18M7 8h10" />
+                  </svg>
+                  {withJesusLabel(profile?.converted_at)}
+                </span>
+              ) : null}
+              {(profile?.streak_days ?? 0) >= STREAK_BADGE_MIN ? (
+                <span
+                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold backdrop-blur ${jour? "bg-orange-500/15 text-orange-600": "bg-orange-400/15 text-orange-300"}`}
+                >
+                  <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor" aria-hidden>
+                    <path d="M12 3c1 3-1 4-2 6-1 2 0 4 2 4s3-2 2-4c2 1 3 3 3 5a5 5 0 0 1-10 0c0-4 4-6 5-11z" />
+                  </svg>
+                  Série de {profile?.streak_days} jours
+                </span>
+              ) : null}
+            </div>
+          ) : null}
 
           <div className="mx-auto mt-5 flex max-w-md items-center gap-2">
             <button
@@ -616,6 +648,23 @@ function Profile({
             placeholder="Ex. Église Vie Nouvelle, Bordeaux"
             className="field mt-1 w-full"
           />
+        </label>
+
+        <label className="mt-4 block">
+          <span className="text-xs font-semibold uppercase tracking-wide text-cream/50">
+            Ta rencontre avec Jésus (facultatif)
+          </span>
+          <input
+            type="date"
+            value={convertedVal}
+            onChange={(e) => setConvertedVal(e.target.value)}
+            className="field mt-1 w-full"
+          />
+          <span className="mt-1 block text-[11px] text-cream/40">
+            {withJesusLabel(convertedVal)
+              ? <>Ton profil affichera « {withJesusLabel(convertedVal)} ».</>
+              : "La date de ta conversion — ton profil affichera « X ans avec Jésus »."}
+          </span>
         </label>
 
         <div className="mt-4 grid grid-cols-2 gap-2">

@@ -329,7 +329,7 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
           </Link>
           <Link href={`/membre?u=${partnerId}`} className="flex items-center gap-2.5">
             <span className="relative">
-              <Avatar pseudo={partner?.pseudo} url={partner?.avatar_url} size={40} />
+              <Avatar pseudo={partner?.pseudo} url={partner?.avatar_url} size={40} streak={partner?.streak_days} />
               {presenceLabel(partner?.last_seen_at)?.online ? (
                 <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-emerald-400 ring-2 ring-white" />
               ) : null}

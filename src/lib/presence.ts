@@ -13,6 +13,17 @@ const ONLINE_MS = 3 * 60_000;
 
 let lastPing = 0;
 
+/** Série locale (engagement) — lue telle quelle pour l'afficher aux autres. */
+function localStreak(): number {
+  try {
+    const st = JSON.parse(localStorage.getItem("jb.engagement.v1") || "null") as { streak?: number } | null;
+    const n = Number(st?.streak);
+    return Number.isFinite(n) && n > 0 ? Math.floor(n) : 0;
+  } catch {
+    return 0;
+  }
+}
+
 /** Signale que l'utilisateur est actif (throttlé, sans await nécessaire). */
 export function pingPresence(userId: string | null | undefined): void {
   if (!userId) return;
@@ -23,7 +34,7 @@ export function pingPresence(userId: string | null | undefined): void {
   if (!sb) return;
   void sb
     .from("profiles")
-    .update({ last_seen_at: new Date().toISOString() })
+    .update({ last_seen_at: new Date().toISOString(), streak_days: localStreak() })
     .eq("id", userId)
     .then(() => {});
 }
