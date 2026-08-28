@@ -312,6 +312,9 @@ export function VoiceNotePlayer({
 
   useEffect(() => {
     const a = new Audio(src);
+    // Ne précharge que l'en-tête (durée) : sans ça, chaque note vocale affichée
+    // télécharge tout son audio d'un coup et vient perturber la musique en cours.
+    a.preload = "metadata";
     a.playbackRate = rate;
     audioRef.current = a;
     const onT = () => setTime(a.currentTime);

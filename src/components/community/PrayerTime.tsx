@@ -51,14 +51,18 @@ const PT_CSS = `
   linear-gradient(180deg,#0C0C0B,#171716 55%,#0C0C0B);color:#F3F3ED}
 .pt-scroll{height:100%;overflow-y:auto;scroll-snap-type:y mandatory;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .pt-scroll::-webkit-scrollbar{display:none}
-.pt-slide{height:100%;scroll-snap-align:start;scroll-snap-stop:always;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5.5rem 1.5rem 2rem;position:relative}
+.pt-slide{height:100%;scroll-snap-align:start;scroll-snap-stop:always;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5.5rem 1.5rem 2rem;position:relative;content-visibility:auto}
 @keyframes pt-in{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
 .pt-card{animation:pt-in .5s cubic-bezier(.2,.8,.3,1) both}
 @keyframes pt-tw{0%,100%{opacity:.15;transform:scale(.8)}50%{opacity:.8;transform:scale(1.15)}}
 .pt-tw{position:absolute;width:6px;height:6px;border-radius:9999px;background:#CAF000;filter:blur(.5px);animation:pt-tw 3.2s ease-in-out infinite;pointer-events:none}
-@keyframes pt-pulse{0%,100%{box-shadow:0 6px 0 #5b7300,0 0 24px rgba(202,240,0,.35)}50%{box-shadow:0 6px 0 #5b7300,0 0 44px rgba(202,240,0,.6)}}
-.pt-pray{background:linear-gradient(180deg,#D8F53A,#AAD000);color:#1a2000;box-shadow:0 6px 0 #5b7300,0 0 24px rgba(202,240,0,.35);animation:pt-pulse 2.6s ease-in-out infinite}
+.pt-pray{position:relative;background:linear-gradient(180deg,#D8F53A,#AAD000);color:#1a2000;box-shadow:0 6px 0 #5b7300,0 0 24px rgba(202,240,0,.35)}
 .pt-pray:active{transform:translateY(3px);box-shadow:0 3px 0 #5b7300}
+/* Halo pulsant peu coûteux : ombre FIXE sur un pseudo-élément dont seule
+   l'OPACITÉ varie (compositée par le GPU) — l'animation d'ombre elle-même
+   forçait des redessins permanents et faisait bégayer la musique. */
+.pt-pray::after{content:"";position:absolute;inset:-4px;border-radius:9999px;box-shadow:0 0 36px 8px rgba(202,240,0,.5);opacity:0;animation:pt-glow 2.6s ease-in-out infinite;pointer-events:none}
+@keyframes pt-glow{0%,100%{opacity:0}50%{opacity:1}}
 .pt-done{background:#1E1E1D;color:#CAF000;border:1px solid rgba(202,240,0,.35);box-shadow:none;animation:none}
 @keyframes pt-burst{0%{opacity:1;transform:translate(-50%,-50%) scale(.4)}100%{opacity:0;transform:translate(-50%,-50%) scale(2.4)}}
 .pt-burst{position:absolute;left:50%;top:50%;width:120px;height:120px;border-radius:9999px;border:3px solid #CAF000;animation:pt-burst .7s ease-out both;pointer-events:none}
