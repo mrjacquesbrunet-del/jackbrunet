@@ -47,7 +47,7 @@ import { getSupabase } from "@/lib/supabase";
 import { getProfile } from "@/lib/community";
 import { submitGameScore, submitWeeklyPoints } from "@/lib/game-scores";
 import { ScoreBoard } from "@/components/games/ScoreBoard";
-import { ARCADE_CSS } from "@/components/games/ArcadeUI";
+import { ARCADE_CSS, ArcadeShell } from "@/components/games/ArcadeUI";
 
 type IconCmp = (p: { className?: string }) => ReactElement;
 
@@ -116,6 +116,8 @@ const IconClock = S("M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 8v4l3 2");
 const IconFlag = S("M5 21V4M5 4h11l-1.6 3.5L16 11H5");
 const IconPlus = S("M12 6v12M6 12h12");
 const IconArrowL = S("M19 12H5M11 6l-6 6 6 6");
+const IconPad = S("M6 8h12a4 4 0 0 1 4 4l-.6 4.5a2.2 2.2 0 0 1-4 1L15 15H9l-2.4 2.5a2.2 2.2 0 0 1-4-1L2 12a4 4 0 0 1 4-4zM7 11v3M5.5 12.5h3M15.5 11.5h.01M18 13.5h.01");
+const IconTargetQ = S("M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2z");
 
 const LETTERS = ["A", "B", "C", "D"];
 /** Couleur du badge de difficulté (très facile → extrêmement dur). */
@@ -530,216 +532,184 @@ export function QuizScreen() {
       };
     });
 
+    const games = getQuizGames();
+    const winStart = Math.max(1, Math.min(reached - 2, LADDER.length - 8));
+    const trail = nodes.filter((n) => n.rung >= winStart && n.rung < winStart + 8);
     return (
-      <div className="qzp fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden bg-night-950 text-cream [overscroll-behavior:contain] [-webkit-overflow-scrolling:touch]">
-        <style dangerouslySetInnerHTML={{ __html: PREMIUM_CSS }} />
-        <img src={asset("/img/quiz/bg.jpg")} alt="" className="pointer-events-none fixed inset-0 h-full w-full object-cover opacity-25" />
-        <div className="pointer-events-none fixed inset-0 bg-gradient-to-b from-night-900/80 via-night-800/90 to-night-950/97" />
-
-        <div className="relative mx-auto w-full max-w-md px-4 pb-10 pt-[calc(0.75rem+env(safe-area-inset-top))]">
-          {/* HUD */}
-          <div className="flex items-center gap-3">
-            <Link href="/jeux" aria-label="Profil" className="shrink-0">
+      <ArcadeShell>
+        {/* En-tête : profil · niveau/XP · gemmes · parties */}
+        <div className="flex items-center gap-3">
+          <Link href="/profil" aria-label="Profil" className="shrink-0">
+            <span className="relative block rounded-full p-[3px]" style={{ background: "linear-gradient(180deg,#D8F53A,#AAD000)", boxShadow: "0 0 18px rgba(202,240,0,.4)" }}>
               {avatarUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={avatarUrl} alt="" className="h-14 w-14 rounded-full object-cover shadow-lg ring-2 ring-amber-300/70" />
+                <img src={avatarUrl} alt="" className="h-14 w-14 rounded-full object-cover" />
               ) : (
-                <span className="grid h-14 w-14 place-items-center rounded-full bg-white/10 text-cream/70 shadow-lg ring-2 ring-white/15">
+                <span className="grid h-14 w-14 place-items-center rounded-full bg-[#1E1E1D] text-white/75">
                   <IconUser className="h-8 w-8" />
                 </span>
               )}
-            </Link>
-            <div className="min-w-0 flex-1">
-              <p className="truncate font-game text-base font-extrabold leading-tight">{name || "Joueur"}</p>
-              <p className="font-game text-[11px] font-bold tracking-wide text-amber-300">NIVEAU {lvl.level}</p>
-              <div className="mt-1 h-2.5 w-full overflow-hidden rounded-full bg-black/40 ring-1 ring-white/10">
-                <div className="h-full rounded-full bg-gradient-to-r from-amber-300 to-amber-500" style={{ width: `${Math.round((lvl.into / lvl.span) * 100)}%` }} />
-              </div>
-              <p className="mt-0.5 font-game text-[11px] text-cream/60">
-                {lvl.into} / {lvl.span} <span className="text-amber-300">XP</span>
-              </p>
-            </div>
-            <span className="qzp-pill">
-              <IconCoin className="h-4 w-4 text-amber-300" /> {formatCoins(coins)}
             </span>
-            <span className="qzp-pill">
-              <IconGem className="h-4 w-4 text-dawn-300" /> {trophyCount}
+          </Link>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2">
+              <p className="truncate font-game text-xl font-black leading-tight">{name || "Joueur"}</p>
+              <span className="shrink-0 rounded-full bg-gradient-to-b from-[#D8F53A] to-[#AAD000] px-2 py-0.5 font-game text-[10px] font-extrabold text-[#0C0C0B]">NIV. {lvl.level}</span>
+            </div>
+            <div className="qm-xpbar mt-1"><i style={{ width: `${Math.round((lvl.into / lvl.span) * 100)}%` }} /></div>
+            <p className="mt-0.5 font-game text-[10px] font-bold text-white/70">{lvl.into} / {lvl.span} <span className="text-amber-300">XP</span></p>
+          </div>
+          <div className="flex shrink-0 flex-col items-end gap-2">
+            <span className="qm-gem"><IconGem className="h-4 w-4 text-[#CAF000]" /> {formatCoins(coins)}<span className="qm-gem-plus"><IconPlus className="h-3.5 w-3.5" /></span></span>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#171716] px-3 py-1.5 font-game text-xs font-black text-white/85 ring-1 ring-white/10">
+              <IconPad className="h-4 w-4 text-[#CAF000]" /> {games} joués
             </span>
           </div>
+        </div>
 
-          {/* Héros */}
-          <div className="relative mt-4 overflow-hidden rounded-3xl shadow-2xl ring-1 ring-white/10">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={asset("/img/quiz/hero.jpg")} alt="" className="absolute inset-0 h-full w-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-r from-night-950/90 via-night-950/40 to-transparent" />
-            <div className="relative p-5">
-              <span className="qzp-ribbon font-game text-3xl font-black text-white drop-shadow">QUIZ</span>
-              <br />
-              <span className="qzp-ribbon2 mt-1 font-game text-3xl font-black text-night-950 drop-shadow">BIBLIQUE</span>
-              <p className="mt-3 max-w-[10rem] font-game text-sm font-bold text-cream/90 drop-shadow">
-                Teste tes connaissances et va jusqu&apos;au bout&nbsp;!
-              </p>
-            </div>
-          </div>
-
-          {/* Objectif + Récompense */}
-          <div className="mt-3 grid grid-cols-2 gap-3">
-            <div className="qzp-card flex items-center gap-2.5 p-3.5">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-gradient-to-b from-amber-300 to-amber-500 text-night-950 shadow">
-                <IconCrown className="h-5 w-5" />
-              </span>
-              <div className="min-w-0">
-                <p className="font-game text-xs font-extrabold text-amber-300">OBJECTIF</p>
-                <p className="text-[11px] leading-tight text-cream/70">Atteins le palier final et remporte le million&nbsp;!</p>
-              </div>
-            </div>
-            <div className="qzp-card qzp-gold-ring flex items-center gap-2.5 p-3.5">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={asset("/img/quiz/trophy.jpg")} alt="" className="h-11 w-11 shrink-0 rounded-xl object-cover" />
-              <div className="min-w-0">
-                <p className="font-game text-[10px] font-extrabold text-amber-300">TON RECORD</p>
-                <p className="font-game text-base font-black leading-tight text-amber-300">{best > 0 ? formatCoins(best) : "—"}</p>
-                <p className="text-[10px] text-cream/60">{bestRung > 0 ? `Palier ${bestRung}/${LADDER.length}` : "Joue ta 1ʳᵉ partie !"}</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Jokers */}
-          <div className="qzp-card mt-3 p-3">
-            <p className="mb-2 font-game text-sm font-extrabold text-cream/80">TES JOKERS</p>
-            <div className="grid grid-cols-3 gap-2">
-              <div className="qzp-joker qzp-joker-blue">
-                <span className="qzp-joker-ic">50</span>
-                <p className="mt-1 font-game text-[11px] font-bold">50/50</p>
-                <p className="text-[9px] leading-tight text-cream/70">Élimine 2 mauvaises réponses</p>
-              </div>
-              <div className="qzp-joker qzp-joker-green">
-                <span className="qzp-joker-ic"><IconBulb className="h-5 w-5" /></span>
-                <p className="mt-1 font-game text-[11px] font-bold">Indice</p>
-                <p className="text-[9px] leading-tight text-cream/70">Une aide pour t&apos;orienter</p>
-              </div>
-              <div className="qzp-joker qzp-joker-purple">
-                <span className="qzp-joker-ic"><IconPeople className="h-5 w-5" /></span>
-                <p className="mt-1 font-game text-[11px] font-bold">Communauté</p>
-                <p className="text-[9px] leading-tight text-cream/70">Demande conseil</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Progression */}
-          <div className="qzp-card mt-3 p-3">
-            <div className="mb-2 flex items-center justify-between">
-              <p className="font-game text-sm font-extrabold text-cream/80">TA PROGRESSION</p>
-              <span className="rounded-full bg-black/30 px-2.5 py-0.5 font-game text-[11px] font-bold text-amber-300">
-                Palier {Math.max(reached, 1)}/{LADDER.length}
-              </span>
-            </div>
-            <div className="qzp-trail flex gap-2 overflow-x-auto pb-2">
-              {nodes.map((n) => (
-                <div key={n.rung} className="flex shrink-0 flex-col items-center">
-                  <span
-                    className={`qzp-hex grid place-items-center font-game text-sm font-black text-night-950 ${n.current ? "qzp-hex-cur" : ""}`}
-                    style={{
-                      background: n.final ? "linear-gradient(180deg,#fde68a,#f59e0b)" : `linear-gradient(180deg,#ffffff66,${n.color})`,
-                      opacity: n.done || n.current ? 1 : 0.5,
-                    }}
-                  >
-                    {n.final ? <IconCrown className="h-5 w-5" /> : n.rung}
-                  </span>
-                  <span className="mt-1 font-game text-[10px] font-bold text-amber-300">{formatCoins(n.coinVal)}</span>
-                </div>
-              ))}
-            </div>
-            <p className="mt-1 text-center font-game text-[10px] text-cream/45">
-              Tu gardes le dernier palier franchi · Sommet {formatCoins(LADDER[LADDER.length - 1])}
+        {/* Héros */}
+        <div className="qm-hero mt-4" style={{ background: "radial-gradient(120% 120% at 100% 0%, rgba(202,240,0,.16), transparent 55%), linear-gradient(135deg,#1E1E1D 0%,#0C0C0B 100%)" }}>
+          <div className="relative max-w-[54%]">
+            <span className="inline-block rounded-xl px-4 py-1 font-game text-2xl font-black text-white" style={{ background: "linear-gradient(180deg,#fb923c,#ea580c)", boxShadow: "0 4px 0 #9a3412,inset 0 1px 0 rgba(255,255,255,.4)" }}>QUIZ</span>
+            <br />
+            <span className="mt-2 inline-block rounded-xl px-4 py-1 font-game text-2xl font-black text-[#0C0C0B]" style={{ background: "linear-gradient(180deg,#D8F53A,#AAD000)", boxShadow: "0 4px 0 #5b7300,inset 0 1px 0 rgba(255,255,255,.5)" }}>BIBLIQUE</span>
+            <p className="mt-3 font-game text-[13px] font-bold leading-tight text-white/85">
+              Teste tes connaissances et va jusqu&apos;au bout&nbsp;!
             </p>
           </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={asset("/img/jeux/quiz.png")} alt="" className="pointer-events-none absolute -bottom-2 -right-2 h-40 w-auto object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.35)]" />
+        </div>
 
-          {/* JOUER */}
-          {/* Reprise : si une partie a été quittée sans être finie */}
-          {resumable ? (
-            <button
-              type="button"
-              onClick={resumeGame}
-              className="qzp-play mt-4 flex w-full items-center justify-center gap-4 font-game text-night-950"
-            >
-              <span className="grid h-11 w-11 place-items-center rounded-full bg-night-950/15">
-                <IconPlay className="h-6 w-6" />
-              </span>
-              <span className="text-left leading-tight">
-                <span className="block text-2xl font-black">REPRENDRE</span>
-                <span className="block text-xs font-bold text-night-950/70">
-                  Palier {resumable.step + 1}/{LADDER.length} · tu reprends où tu t&apos;es arrêté
-                </span>
-              </span>
-            </button>
-          ) : null}
+        {/* Objectif + Record */}
+        <div className="mt-4 grid grid-cols-2 gap-3">
+          <div className="qm-card flex items-center gap-2.5 p-3.5">
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-gradient-to-b from-[#f472b6] to-[#c026a3] text-white shadow-[inset_0_2px_3px_rgba(255,255,255,.4)]">
+              <IconTargetQ className="h-6 w-6" />
+            </span>
+            <div className="min-w-0">
+              <p className="font-game text-xs font-extrabold text-fuchsia-300">OBJECTIF</p>
+              <p className="text-[11px] leading-tight text-white/70">Atteins le palier final et remporte le million&nbsp;!</p>
+            </div>
+          </div>
+          <div className="qm-card flex items-center gap-2.5 p-3.5" style={{ borderColor: "rgba(245,158,11,.45)" }}>
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-gradient-to-b from-[#f59e0b] to-[#d97706] text-white shadow-[inset_0_2px_3px_rgba(255,255,255,.4)]">
+              <IconTrophy className="h-6 w-6" />
+            </span>
+            <div className="min-w-0">
+              <p className="font-game text-[10px] font-extrabold text-amber-300">TON RECORD</p>
+              <p className="font-game text-lg font-black leading-tight text-amber-300">{best > 0 ? formatCoins(best) : "—"}</p>
+              <p className="text-[10px] text-white/60">{bestRung > 0 ? `Palier ${bestRung}/${LADDER.length}` : "Joue ta 1ʳᵉ partie !"}</p>
+            </div>
+          </div>
+        </div>
 
-          <button
-            type="button"
-            onClick={() => startGame("normal")}
-            className={
-              resumable
-                ? "mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-white/12 bg-white/[0.06] py-3 font-game text-sm font-bold text-cream active:bg-white/10"
-                : "qzp-play mt-4 flex w-full items-center justify-center gap-4 font-game text-night-950"
-            }
-          >
-            {resumable ? (
-              <>Nouvelle partie</>
-            ) : (
-              <>
-                <span className="grid h-11 w-11 place-items-center rounded-full bg-night-950/15">
-                  <IconPlay className="h-6 w-6" />
+        {/* Jokers */}
+        <div className="qm-card mt-4 p-3">
+          <p className="mb-2 font-game text-sm font-extrabold text-white/85">TES JOKERS</p>
+          <div className="grid grid-cols-3 gap-2">
+            {[
+              { g: "linear-gradient(180deg,#3B82F6,#1D4ED8)", ic: <span className="font-game text-base font-black">50</span>, t: "50/50", d: "Élimine 2 mauvaises réponses" },
+              { g: "linear-gradient(180deg,#14b8a6,#0d9488)", ic: <IconBulb className="h-5 w-5" />, t: "Indice", d: "Une aide pour t'orienter" },
+              { g: "linear-gradient(180deg,#AAD000,#7a9200)", ic: <IconPeople className="h-5 w-5" />, t: "Communauté", d: "Demande conseil" },
+            ].map((j) => (
+              <div key={j.t} className="rounded-2xl p-2.5 text-center text-white shadow-[inset_0_1px_0_rgba(255,255,255,.2)]" style={{ background: j.g }}>
+                <span className="mx-auto grid h-9 w-9 place-items-center rounded-full bg-white/25 shadow-[inset_0_2px_3px_rgba(255,255,255,.35)]">{j.ic}</span>
+                <p className="mt-1 font-game text-[11px] font-black">{j.t}</p>
+                <p className="text-[9px] font-semibold leading-tight text-white/85">{j.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Progression */}
+        <div className="qm-card mt-4 p-3">
+          <div className="mb-2 flex items-center justify-between">
+            <p className="font-game text-sm font-extrabold text-white/85">TA PROGRESSION</p>
+            <span className="font-game text-xs font-black text-amber-300">Palier {Math.max(reached, 1)}/{LADDER.length}</span>
+          </div>
+          <div className="flex gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none]">
+            {trail.map((n) => (
+              <div key={n.rung} className="flex shrink-0 flex-col items-center">
+                <span
+                  className="grid place-items-center font-game text-sm font-black text-white"
+                  style={{
+                    width: 42,
+                    height: 46,
+                    clipPath: "polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)",
+                    background: n.final ? "linear-gradient(180deg,#FDE68A,#F59E0B)" : n.current ? "linear-gradient(180deg,#FCD34D,#F59E0B)" : "linear-gradient(180deg,#f472b6,#db2777)",
+                    color: n.final || n.current ? "#4a2600" : "#fff",
+                    opacity: n.done || n.current ? 1 : 0.65,
+                    boxShadow: n.current ? "0 0 0 3px rgba(252,211,77,.4)" : "inset 0 2px 3px rgba(255,255,255,.4)",
+                  }}
+                >
+                  {n.final ? <IconCrown className="h-5 w-5" /> : n.rung}
                 </span>
-                <span className="text-left leading-tight">
-                  <span className="block text-2xl font-black">JOUER</span>
-                  <span className="block text-xs font-bold text-night-950/70">Continuer l&apos;aventure</span>
-                </span>
-              </>
-            )}
+                <span className="mt-1 font-game text-[10px] font-bold text-amber-300">{formatCoins(n.coinVal)}</span>
+              </div>
+            ))}
+          </div>
+          <p className="mt-1 text-center font-game text-[10px] text-white/50">
+            Tu gardes le dernier palier franchi · Sommet <span className="text-amber-300">{formatCoins(LADDER[LADDER.length - 1])}</span>
+          </p>
+        </div>
+
+        {/* JOUER / REPRENDRE */}
+        {resumable ? (
+          <button type="button" onClick={resumeGame} className="mt-4 flex w-full items-center justify-center gap-4 rounded-2xl py-4 font-game text-[#4a2600]" style={{ background: "linear-gradient(180deg,#FCD34D,#F59E0B)", boxShadow: "inset 0 2px 0 rgba(255,255,255,.5),0 6px 0 #b45309" }}>
+            <span className="grid h-11 w-11 place-items-center rounded-full bg-black/15"><IconPlay className="h-6 w-6" /></span>
+            <span className="text-left leading-tight">
+              <span className="block text-2xl font-black">REPRENDRE</span>
+              <span className="block text-xs font-bold text-[#4a2600]/70">Palier {resumable.step + 1}/{LADDER.length} · tu reprends où tu t&apos;es arrêté</span>
+            </span>
           </button>
+        ) : (
+          <button type="button" onClick={() => startGame("normal")} className="mt-4 flex w-full items-center justify-center gap-4 rounded-2xl py-4 font-game text-[#4a2600]" style={{ background: "linear-gradient(180deg,#FCD34D,#F59E0B)", boxShadow: "inset 0 2px 0 rgba(255,255,255,.5),0 6px 0 #b45309" }}>
+            <span className="grid h-11 w-11 place-items-center rounded-full bg-black/15"><IconPlay className="h-6 w-6" /></span>
+            <span className="text-left leading-tight">
+              <span className="block text-2xl font-black">JOUER</span>
+              <span className="block text-xs font-bold text-[#4a2600]/70">Continuer l&apos;aventure</span>
+            </span>
+          </button>
+        )}
+        {resumable ? (
+          <button type="button" onClick={() => startGame("normal")} className="mt-3 w-full rounded-2xl border border-white/12 bg-white/[0.06] py-3 font-game text-sm font-bold text-white">Nouvelle partie</button>
+        ) : null}
 
-          {/* Accès secondaires */}
-          <div className="mt-3 grid grid-cols-3 gap-2">
-            <button type="button" onClick={openBoard} className="qzp-mini">
-              <IconTrophy className="h-4 w-4 text-amber-300" /> Classement
-            </button>
-            <button type="button" onClick={() => setShowThemes(true)} className="qzp-mini">
-              <IconScroll className="h-4 w-4 text-teal-300" /> Thèmes
-            </button>
-            <button type="button" onClick={() => startGame("daily")} className="qzp-mini">
-              <IconCalendar className="h-4 w-4 text-dawn-300" /> {daily.doneToday ? "Fait" : "Défi jour"}
-            </button>
-          </div>
-          {/* Retour à l'accueil des jeux */}
-          <Link
-            href="/jeux"
-            className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-white/12 bg-white/[0.06] py-3 font-game text-sm font-bold text-cream active:bg-white/10"
-          >
-            <IconGames className="h-4 w-4 text-dawn-300" /> Accueil des jeux
-          </Link>
-          <div className="mt-3 flex items-center justify-center gap-3">
-            <button type="button" onClick={() => setShowTrophies(true)} className="qzp-mini2">
-              <IconMedal className="h-4 w-4 text-amber-300" /> Trophées
-            </button>
-            <button type="button" onClick={() => setSound((v) => !v)} aria-label="Son" className="grid h-9 w-9 place-items-center rounded-full bg-white/10">
-              {sound ? <SoundOn className="h-4 w-4" /> : <SoundOff className="h-4 w-4" />}
-            </button>
-            <Link href="/devotionnel" aria-label="Accueil de l'app" className="grid h-9 w-9 place-items-center rounded-full bg-white/10">
-              <IconClose className="h-4 w-4" />
-            </Link>
-          </div>
+        {/* Accès secondaires */}
+        <div className="mt-3 grid grid-cols-3 gap-2">
+          <button type="button" onClick={openBoard} className="flex items-center justify-center gap-1.5 rounded-2xl border border-white/10 bg-white/[0.05] py-3 font-game text-xs font-bold text-white">
+            <IconTrophy className="h-4 w-4 text-amber-300" /> Classement
+          </button>
+          <button type="button" onClick={() => setShowThemes(true)} className="flex items-center justify-center gap-1.5 rounded-2xl border border-white/10 bg-white/[0.05] py-3 font-game text-xs font-bold text-white">
+            <IconScroll className="h-4 w-4 text-teal-300" /> Thèmes
+          </button>
+          <button type="button" onClick={() => startGame("daily")} className="flex items-center justify-center gap-1.5 rounded-2xl border border-white/10 bg-white/[0.05] py-3 font-game text-xs font-bold text-white">
+            <IconCalendar className="h-4 w-4 text-[#CAF000]" /> {daily.doneToday ? "Fait" : "Défi jour"}
+          </button>
+        </div>
 
-          {/* Classement de ce jeu */}
-          <div className="mt-5">
-            <ScoreBoard mode="quiz" accent="#CAF000" title="Classement · Connaissances" />
-          </div>
+        <Link href="/jeux" className="qm-retour mt-3 flex w-full items-center justify-center gap-2">
+          <IconGames className="h-4 w-4" /> Accueil des jeux
+        </Link>
+        <div className="mt-3 flex items-center justify-center gap-3">
+          <button type="button" onClick={() => setShowTrophies(true)} className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-4 py-2 font-game text-xs font-bold text-white">
+            <IconMedal className="h-4 w-4 text-amber-300" /> Trophées
+          </button>
+          <button type="button" onClick={() => setSound((v) => !v)} aria-label="Son" className="grid h-9 w-9 place-items-center rounded-full bg-white/10">
+            {sound ? <SoundOn className="h-4 w-4" /> : <SoundOff className="h-4 w-4" />}
+          </button>
+        </div>
+
+        {/* Classement de ce jeu */}
+        <div className="mt-5">
+          <ScoreBoard mode="quiz" accent="#CAF000" title="Classement · Connaissances" />
         </div>
 
         {showBoard ? <Leaderboard onClose={() => setShowBoard(false)} /> : null}
         {showTrophies ? <Trophies onClose={() => setShowTrophies(false)} /> : null}
         {showThemes ? <ThemesPicker onPick={(id) => startGame("themed", id)} onClose={() => setShowThemes(false)} /> : null}
-      </div>
+      </ArcadeShell>
     );
   }
 
