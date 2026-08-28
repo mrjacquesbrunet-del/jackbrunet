@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence } from "framer-motion";
 import type { Short } from "@/lib/types";
@@ -69,6 +69,37 @@ export function DailyShort({ latest, all }: { latest: Short; all: Short[] }) {
  */
 export function FloatingDailyShort({ latest, targetId = "video-jour" }: { latest: Short; targetId?: string }) {
   const [hidden, setHidden] = useState(false);
+  const frameRef = useRef<HTMLIFrameElement>(null);
+
+  // iOS bloque l'autoplay au chargement (aucun geste utilisateur). La page
+  // lecteur du site écoute des commandes postMessage : on relance donc la
+  // lecture muette nous-mêmes — quelques tentatives au chargement, puis au
+  // premier toucher / défilement (le geste débloque la lecture).
+  useEffect(() => {
+    function kick() {
+      const w = frameRef.current?.contentWindow;
+      if (!w) return;
+      try {
+        w.postMessage({ jb: "mute" }, "*");
+        w.postMessage({ jb: "play" }, "*");
+      } catch {
+        /* iframe pas prête */
+      }
+    }
+    let tries = 0;
+    const it = setInterval(() => {
+      tries += 1;
+      kick();
+      if (tries >= 6) clearInterval(it);
+    }, 1500);
+    window.addEventListener("touchstart", kick, { passive: true });
+    window.addEventListener("scroll", kick, { passive: true });
+    return () => {
+      clearInterval(it);
+      window.removeEventListener("touchstart", kick);
+      window.removeEventListener("scroll", kick);
+    };
+  }, []);
 
   if (hidden) return null;
 
@@ -85,6 +116,7 @@ export function FloatingDailyShort({ latest, targetId = "video-jour" }: { latest
             style={{ WebkitMaskImage: "-webkit-radial-gradient(white, black)", transform: "translateZ(0)" }}
           >
             <iframe
+              ref={frameRef}
               src={videoEmbedSrc(latest.id, { autoplay: true, mute: true, loop: true })}
               title={latest.title}
               allow="autoplay; encrypted-media"
