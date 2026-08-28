@@ -6,6 +6,7 @@ import { AnimatePresence } from "framer-motion";
 import type { Short } from "@/lib/types";
 import { ShortsPlayer } from "@/components/home/ShortsPlayer";
 import { PlayIcon } from "@/components/ui/PlayIcon";
+import { videoEmbedSrc } from "@/lib/youtube";
 
 /** Colonne « Vidéo du jour »: le dernier Short publié, jouable sur place. */
 export function DailyShort({ latest, all }: { latest: Short; all: Short[] }) {
@@ -79,7 +80,7 @@ export function FloatingDailyShort({ latest, all }: { latest: Short; all: Short[
         <div className="relative h-[4.5rem] w-[4.5rem]">
           <div className="h-full w-full overflow-hidden rounded-full border-2 border-dawn-400 bg-night-950 shadow-card">
             <iframe
-              src={`https://www.youtube-nocookie.com/embed/${latest.id}?autoplay=1&mute=1&controls=0&playsinline=1&loop=1&playlist=${latest.id}&modestbranding=1&rel=0`}
+              src={videoEmbedSrc(latest.id, { autoplay: true, mute: true, loop: true })}
               title={latest.title}
               allow="autoplay; encrypted-media"
               className="pointer-events-none absolute left-1/2 top-1/2 h-32 w-[4.5rem] -translate-x-1/2 -translate-y-1/2"
