@@ -21,14 +21,12 @@ import { SoakingBar } from "@/components/home/SoakingBar";
 import {
   FlameGlyph,
   BookGlyph,
-  PenGlyph,
-  GiftGlyph,
   ArrowRightGlyph,
   HighlighterGlyph,
   BookmarkFilledGlyph,
   BookmarkGlyph,
 } from "@/components/ui/DevoIcons";
-import { DailyShort } from "@/components/home/DailyShort";
+import { DailyShort, FloatingDailyShort } from "@/components/home/DailyShort";
 import { Rewards } from "@/components/app/Rewards";
 import { Greeting } from "@/components/app/Greeting";
 import { useTodayIndex } from "@/lib/today";
@@ -245,14 +243,6 @@ export function DevotionalView({
               </div>
             </div>
 
-            <button
-              type="button"
-              onClick={meditate}
-              disabled={eng.isCompletedToday}
-              className={`sm:ml-auto ${eng.isCompletedToday? "btn-ghost": "btn-primary"}`}
-            >
-              {eng.isCompletedToday? "✓ Médité aujourd'hui": "J'ai médité aujourd'hui"}
-            </button>
           </div>
 
           {/* Anneau de progression de la semaine : 7 jours, rempli quand on médite */}
@@ -320,39 +310,15 @@ export function DevotionalView({
             <SoakingBar />
           </div>
 
-          {/* Raccourcis compacts: carnet + récompenses (côte à côte) */}
-          <div className="mt-4 grid grid-cols-2 gap-3">
-            <Link
-              href="/carnet"
-              className="flex items-center gap-2.5 rounded-2xl border border-dawn-400/30 bg-dawn-400/10 px-3 py-3 transition-colors hover:bg-dawn-400/20"
-            >
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-night-900 text-cream">
-                <PenGlyph className="h-4 w-4" />
-              </span>
-              <span className="font-display text-sm font-bold leading-tight">Mon carnet</span>
-            </Link>
-            <button
-              type="button"
-              onClick={() =>
-                document.getElementById("recompenses")?.scrollIntoView({ behavior: "smooth" })
-              }
-              className="flex items-center gap-2.5 rounded-2xl border border-dawn-400/30 bg-dawn-400/10 px-3 py-3 text-left transition-colors hover:bg-dawn-400/20"
-            >
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-night-900 text-cream">
-                <GiftGlyph className="h-4 w-4" />
-              </span>
-              <span className="font-display text-sm font-bold leading-tight">Récompenses</span>
-            </button>
-          </div>
-
-          {/* Check-in émotionnel : un verset selon comment on se sent */}
+          {/* Check-in émotionnel, compact : s'ouvre au toucher */}
           <div className="mt-4">
             <MoodCheckin />
           </div>
 
-          {/* Rappel quotidien (app native uniquement) */}
+          {/* Rappel quotidien (app native) — disparaît une fois activé,
+              le réglage reste dans la personnalisation du profil */}
           <div className="mt-4">
-            <ReminderToggle />
+            <ReminderToggle hideWhenEnabled />
           </div>
         </section>
       ): null}
@@ -532,8 +498,21 @@ export function DevotionalView({
         </Reveal>
       </section>
 
+      {/* 4c. Marquer la méditation du jour (nourrit la série) — en fin de
+          parcours, là où on a réellement fini de méditer */}
+      {eng.ready && !eng.isCompletedToday ? (
+        <section className="container-x">
+          <button type="button" onClick={meditate} className="btn-primary w-full max-w-2xl">
+            J&apos;ai médité aujourd&apos;hui
+          </button>
+        </section>
+      ) : null}
+
       {/* 4b. Le sujet du jour du mur : porter UN seul sujet dans la prière */}
       <DailyPrayerSpotlight />
+
+      {/* Bulle flottante : la vidéo du jour tourne en muet, un toucher l'ouvre */}
+      {latestShort ? <FloatingDailyShort latest={latestShort} all={shorts} /> : null}
 
       {/* 5. Vidéo du jour (avant la lecture) */}
       {latestShort? (

@@ -83,6 +83,9 @@ function save(s: Saved) {
 export function MoodCheckin() {
   const [picked, setPicked] = useState<Saved | null>(null);
   const [ready, setReady] = useState(false);
+  // Replié par défaut : une simple ligne discrète, les humeurs ne s'ouvrent
+  // qu'au toucher (la page reste légère).
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setPicked(readSaved());
@@ -120,16 +123,49 @@ export function MoodCheckin() {
     setPicked(null);
   }
 
+  // Rien de choisi et fermé → simple ligne compacte qui ouvre le choix.
+  if ((!mood || !entry) && !open) {
+    return (
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="dark-ctx flex w-full items-center gap-3 rounded-2xl bg-night-950 px-4 py-3 text-left text-cream transition-colors hover:bg-night-900"
+      >
+        <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-dawn-400/15 text-dawn-300">
+          <MoodIcon id="reconnaissant" className="h-4 w-4" />
+        </span>
+        <span className="min-w-0 flex-1 text-sm font-bold">{QUESTION}</span>
+        <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 fill-none stroke-cream/50" strokeWidth={2} aria-hidden>
+          <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+    );
+  }
+
   return (
     <div className="dark-ctx bg-topo-dark relative overflow-hidden rounded-3xl p-5 text-cream sm:p-6">
       <div className="blob -right-10 -top-8 h-32 w-32 bg-dawn-400/20" />
 
       {!mood || !entry ? (
         <div className="relative">
-          <p className="font-display text-lg font-extrabold">{QUESTION}</p>
-          <p className="mt-0.5 text-xs text-cream/55">
-            Dieu a une parole pour chaque saison du cœur.
-          </p>
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="font-display text-lg font-extrabold">{QUESTION}</p>
+              <p className="mt-0.5 text-xs text-cream/55">
+                Dieu a une parole pour chaque saison du cœur.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              aria-label="Refermer"
+              className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white/10 text-cream/70"
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2} aria-hidden>
+                <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+              </svg>
+            </button>
+          </div>
           <div className="mt-4 flex flex-wrap gap-2">
             {MOODS.map((m) => (
               <button

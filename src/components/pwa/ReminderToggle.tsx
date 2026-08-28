@@ -13,7 +13,7 @@ import { BellGlyph } from "@/components/ui/DevoIcons";
  * Réglage du rappel quotidien « pensée du jour ».
  * Affiché uniquement dans l'application native (notifications locales).
  */
-export function ReminderToggle() {
+export function ReminderToggle({ hideWhenEnabled = false }: { hideWhenEnabled?: boolean } = {}) {
   const [native, setNative] = useState(false);
   const [enabled, setEnabled] = useState(false);
   const [time, setTime] = useState("08:00");
@@ -31,6 +31,9 @@ export function ReminderToggle() {
   }, []);
 
   if (!native) return null;
+  // Sur la page du jour : une fois le rappel activé, la carte disparaît
+  // (le réglage reste accessible dans la personnalisation du profil).
+  if (hideWhenEnabled && enabled) return null;
 
   async function apply(nextEnabled: boolean, nextTime: string) {
     setBusy(true);

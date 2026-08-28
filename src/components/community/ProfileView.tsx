@@ -7,6 +7,7 @@ import { useAuth } from "@/components/community/useAuth";
 import { asset } from "@/lib/asset";
 import { Avatar } from "@/components/community/Avatar";
 import { withJesusLabel, STREAK_BADGE_MIN } from "@/lib/spiritual";
+import { ReminderToggle } from "@/components/pwa/ReminderToggle";
 import {
   signOut,
   deleteAccount,
@@ -740,6 +741,12 @@ function Profile({
               </button>
             ))}
           </div>
+        </div>
+
+        {/* Rappel quotidien « pensée du jour » (app native) : le réglage vit
+            ici — sur la page du jour, la carte disparaît une fois activé. */}
+        <div className="mt-5">
+          <ReminderToggle />
         </div>
 
         <div className="mt-5">
