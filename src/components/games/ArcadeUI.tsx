@@ -116,6 +116,15 @@ export const ARCADE_CSS = `
 .qm-jouer:active{transform:translateY(4px);box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 3px 0 #5b7300}
 .qm-retour{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:9999px;padding:12px 22px;font-family:var(--font-game);font-weight:900;font-size:14px;color:#CAF000;background:linear-gradient(180deg,#30302F,#171716);box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 6px 14px rgba(0,0,0,.45)}
 .qm-retour:active{transform:translateY(1px)}
+/* ----- Dynamisme (animations d'ambiance) ----- */
+@keyframes qm-tw{0%,100%{opacity:.12;transform:scale(.6)}50%{opacity:.85;transform:scale(1.15)}}
+.qm-tw{position:absolute;border-radius:9999px;background:#CAF000;animation:qm-tw 2.6s ease-in-out infinite;pointer-events:none;z-index:0}
+@keyframes qm-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.qm-illo{animation:qm-float 3.4s ease-in-out infinite}
+@keyframes qm-jouerglow{0%,100%{box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 7px 0 #5b7300,0 0 0 rgba(202,240,0,0)}50%{box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 7px 0 #5b7300,0 0 24px rgba(202,240,0,.4)}}
+.qm-jouer{animation:qm-jouerglow 2.2s ease-in-out infinite}
+@keyframes qm-goldglow{0%,100%{box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 6px 0 #b45309,0 0 0 rgba(252,211,77,0)}50%{box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 6px 0 #b45309,0 0 24px rgba(252,211,77,.4)}}
+.qm-goldglow{animation:qm-goldglow 2.2s ease-in-out infinite}
 `;
 
 /** Racine plein écran : fond violet + verrou du défilement de fond + CSS injecté. */
@@ -138,7 +147,18 @@ export function ArcadeShell({ children }: { children: ReactNode }) {
   return (
     <div className="qm fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden text-white [overscroll-behavior:contain] [-webkit-overflow-scrolling:touch]">
       <style dangerouslySetInnerHTML={{ __html: ARCADE_CSS }} />
-      <div className="relative mx-auto w-full max-w-md px-4 pb-6 pt-[calc(0.75rem+env(safe-area-inset-top))]">{children}</div>
+      <div className="relative mx-auto w-full max-w-md px-4 pb-6 pt-[calc(0.75rem+env(safe-area-inset-top))]">
+        {/* Étincelles d'ambiance */}
+        {[
+          { l: "12%", t: "8%", s: 5, d: "0s" },
+          { l: "86%", t: "6%", s: 6, d: ".7s" },
+          { l: "64%", t: "14%", s: 4, d: "1.3s" },
+          { l: "28%", t: "20%", s: 4, d: "1.9s" },
+        ].map((sp, i) => (
+          <span key={i} className="qm-tw" style={{ left: sp.l, top: sp.t, width: sp.s, height: sp.s, animationDelay: sp.d }} />
+        ))}
+        {children}
+      </div>
     </div>
   );
 }

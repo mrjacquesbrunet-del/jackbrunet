@@ -481,7 +481,7 @@ export default function MemoriserPage() {
               </p>
             </div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={asset("/img/jeux/memoriser.png")} alt="" className="pointer-events-none absolute -bottom-2 -right-2 h-36 w-auto object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.35)]" />
+            <img src={asset("/img/jeux/memoriser.png")} alt="" className="mem-float pointer-events-none absolute -bottom-2 -right-2 h-36 w-auto object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.35)]" />
           </div>
 
           {/* Objectif + Record */}
@@ -540,7 +540,7 @@ export default function MemoriserPage() {
               setGaming(true);
             }}
             disabled={items.length === 0}
-            className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-b from-amber-300 to-amber-500 py-4 font-game text-xl font-black text-night-950 shadow-[inset_0_2px_0_rgba(255,255,255,.45),0_6px_0_#b45309] transition-all active:translate-y-[3px] active:shadow-[inset_0_2px_0_rgba(255,255,255,.45),0_3px_0_#b45309] disabled:opacity-50"
+            className="mem-glow mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-b from-amber-300 to-amber-500 py-4 font-game text-xl font-black text-night-950 shadow-[inset_0_2px_0_rgba(255,255,255,.45),0_6px_0_#b45309] transition-all active:translate-y-[3px] active:shadow-[inset_0_2px_0_rgba(255,255,255,.45),0_3px_0_#b45309] disabled:opacity-50"
           >
             <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current" aria-hidden><path d="M8 5l11 7-11 7z" /></svg>
             {items.length > 0 ? "CONTINUER" : "JOUER"}
@@ -550,6 +550,14 @@ export default function MemoriserPage() {
               Ajoute d&apos;abord un verset pour lancer une partie.
             </p>
           ) : null}
+          {/* Retour à l'accueil des jeux (changer de jeu) */}
+          <Link
+            href="/jeux"
+            className="mt-3 flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-b from-[#30302F] to-[#171716] py-3 font-game text-sm font-black text-[#CAF000] shadow-[inset_0_1px_0_rgba(255,255,255,.1)] active:translate-y-[1px]"
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.9} strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z" /></svg>
+            Accueil des jeux
+          </Link>
         </section>
 
         {/* Classement de ce jeu */}

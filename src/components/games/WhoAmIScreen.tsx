@@ -204,7 +204,7 @@ export function WhoAmIScreen() {
             </p>
           </div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={asset("/img/jeux/quisuisje.png")} alt="" className="pointer-events-none absolute -bottom-1 -right-2 h-40 w-auto object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.3)]" />
+          <img src={asset("/img/jeux/quisuisje.png")} alt="" className="qm-illo pointer-events-none absolute -bottom-1 -right-2 h-40 w-auto object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.3)]" />
         </div>
 
         {/* Choix du niveau */}

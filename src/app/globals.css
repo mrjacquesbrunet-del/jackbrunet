@@ -420,3 +420,12 @@ html.profile-jour body {
     radial-gradient(85% 45% at 50% 106%, rgba(202,240,0,.11) 0%, transparent 55%),
     linear-gradient(180deg, #0C0C0B 0%, #171716 55%, #0C0C0B 100%) !important;
 }
+
+/* Animations d'ambiance du hub Mémoriser (flottement de l'icône, pulsation du bouton). */
+@keyframes mem-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+.mem-float { animation: mem-float 3.4s ease-in-out infinite; }
+@keyframes mem-glow {
+  0%, 100% { box-shadow: inset 0 2px 0 rgba(255,255,255,.45), 0 6px 0 #b45309, 0 0 0 rgba(252,211,77,0); }
+  50% { box-shadow: inset 0 2px 0 rgba(255,255,255,.45), 0 6px 0 #b45309, 0 0 24px rgba(252,211,77,.4); }
+}
+.mem-glow { animation: mem-glow 2.2s ease-in-out infinite; }

@@ -578,7 +578,7 @@ export function QuizScreen() {
             </p>
           </div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={asset("/img/jeux/quiz.png")} alt="" className="pointer-events-none absolute -bottom-2 -right-2 h-40 w-auto object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.35)]" />
+          <img src={asset("/img/jeux/quiz.png")} alt="" className="qm-illo pointer-events-none absolute -bottom-2 -right-2 h-40 w-auto object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.35)]" />
         </div>
 
         {/* Objectif + Record */}
@@ -656,7 +656,7 @@ export function QuizScreen() {
 
         {/* JOUER / REPRENDRE */}
         {resumable ? (
-          <button type="button" onClick={resumeGame} className="mt-4 flex w-full items-center justify-center gap-4 rounded-2xl py-4 font-game text-[#4a2600]" style={{ background: "linear-gradient(180deg,#FCD34D,#F59E0B)", boxShadow: "inset 0 2px 0 rgba(255,255,255,.5),0 6px 0 #b45309" }}>
+          <button type="button" onClick={resumeGame} className="qm-goldglow mt-4 flex w-full items-center justify-center gap-4 rounded-2xl py-4 font-game text-[#4a2600]" style={{ background: "linear-gradient(180deg,#FCD34D,#F59E0B)", boxShadow: "inset 0 2px 0 rgba(255,255,255,.5),0 6px 0 #b45309" }}>
             <span className="grid h-11 w-11 place-items-center rounded-full bg-black/15"><IconPlay className="h-6 w-6" /></span>
             <span className="text-left leading-tight">
               <span className="block text-2xl font-black">REPRENDRE</span>
@@ -664,7 +664,7 @@ export function QuizScreen() {
             </span>
           </button>
         ) : (
-          <button type="button" onClick={() => startGame("normal")} className="mt-4 flex w-full items-center justify-center gap-4 rounded-2xl py-4 font-game text-[#4a2600]" style={{ background: "linear-gradient(180deg,#FCD34D,#F59E0B)", boxShadow: "inset 0 2px 0 rgba(255,255,255,.5),0 6px 0 #b45309" }}>
+          <button type="button" onClick={() => startGame("normal")} className="qm-goldglow mt-4 flex w-full items-center justify-center gap-4 rounded-2xl py-4 font-game text-[#4a2600]" style={{ background: "linear-gradient(180deg,#FCD34D,#F59E0B)", boxShadow: "inset 0 2px 0 rgba(255,255,255,.5),0 6px 0 #b45309" }}>
             <span className="grid h-11 w-11 place-items-center rounded-full bg-black/15"><IconPlay className="h-6 w-6" /></span>
             <span className="text-left leading-tight">
               <span className="block text-2xl font-black">JOUER</span>
