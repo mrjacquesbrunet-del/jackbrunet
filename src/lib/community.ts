@@ -398,6 +398,23 @@ export async function listPrayers(): Promise<Prayer[] | null> {
 .sort((a, b) => Number(b.pinned?? false) - Number(a.pinned?? false));
 }
 
+/** Tous les sujets du mur pour le « Temps de prière » (bien au-delà des 60
+ * récents du fil) : celui qui veut prier toute une journée doit pouvoir
+ * descendre jusqu'aux sujets les plus anciens. RLS appliqué comme partout. */
+export async function listPrayersForPrayerTime(): Promise<Prayer[]> {
+  const sb = getSupabase();
+  if (!sb) return [];
+  const { data } = await sb
+.from("prayers")
+.select("*")
+.eq("answered", false)
+.order("created_at", { ascending: false })
+.limit(500);
+  const prayers = (data as Prayer[]) ?? [];
+  const profs = await profilesByIds(prayers.map((p) => p.author_id));
+  return prayers.map((p) => ({ ...p, author: profs[p.author_id] }));
+}
+
 /** Une prière précise (deep-link de notification) même si elle n'est plus dans
  * les 60 récentes du mur. RLS : visible seulement si on y a droit. */
 export async function getPrayer(id: string): Promise<Prayer | null> {

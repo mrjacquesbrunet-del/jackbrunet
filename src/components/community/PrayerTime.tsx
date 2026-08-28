@@ -8,7 +8,7 @@ import { VoiceNotePlayer } from "@/components/community/VoiceNote";
 import { voiceExpired } from "@/lib/voice";
 import { startSoaking, stopSoaking, isSoakingPlaying } from "@/lib/soaking";
 import {
-  listPrayers,
+  listPrayersForPrayerTime,
   reactionsFor,
   toggleReaction,
   addComment,
@@ -19,13 +19,14 @@ import { listBlockedIds } from "@/lib/moderation";
 /**
  * « Temps de prière » — mode plein écran, focus total :
  * la musique de méditation (soaking, la même que la Bible) démarre, les sujets
- * de prière de moins de 7 jours défilent UN PAR UN (scroll vertical, un sujet
- * par écran, ordre aléatoire). Sur chaque sujet : « J'ai prié » et un mot
- * d'encouragement. La croix en haut à droite quitte et affiche le bilan :
- * « Tu as prié pour X personnes ».
+ * de prière défilent UN PAR UN (scroll vertical, un sujet par écran). D'abord
+ * les sujets de moins de 7 jours (mélangés), puis ceux de moins de 14 jours,
+ * puis les plus anciens : celui qui veut prier toute une journée le peut.
+ * Sur chaque sujet : « J'ai prié » et un mot d'encouragement. La croix en haut
+ * à droite quitte et affiche le bilan : « Tu as prié pour X personnes ».
  */
 
-const MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000; // sujets de moins de 7 jours
+const WEEK_MS = 7 * 24 * 60 * 60 * 1000; // tranche d'ancienneté (7 jours)
 
 const PT_CSS = `
 .pt-root{position:fixed;inset:0;z-index:120;background:
@@ -70,7 +71,6 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
   const [sending, setSending] = useState(false);
   const [sentFor, setSentFor] = useState<Set<string>>(new Set());
   const [ended, setEnded] = useState(false);
-  const [idx, setIdx] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
   const startedMusic = useRef(false);
 
@@ -95,23 +95,27 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
     };
   }, []);
 
-  // Charge les sujets : moins de 7 jours, pas les miens, pas les bloqués,
-  // pas les exaucés — mélangés pour que chaque temps de prière soit différent.
+  // Charge les sujets : pas les miens, pas les bloqués, pas les exaucés.
+  // Ordre : les moins de 7 jours d'abord (mélangés), puis 7-14 jours, puis
+  // 14-21 jours, etc. — mélangés dans chaque tranche : le fil ne s'arrête
+  // que quand TOUT le mur a été porté.
   useEffect(() => {
     let alive = true;
     (async () => {
-      const [all, blocked] = await Promise.all([listPrayers(), listBlockedIds()]);
+      const [all, blocked] = await Promise.all([listPrayersForPrayerTime(), listBlockedIds()]);
       if (!alive) return;
       const now = Date.now();
-      const pool = shuffle(
-        (all ?? []).filter(
-          (p) =>
-            p.author_id !== userId &&
-            !blocked.includes(p.author_id) &&
-            !p.answered &&
-            now - new Date(p.created_at).getTime() < MAX_AGE_MS,
-        ),
+      const candidates = all.filter(
+        (p) => p.author_id !== userId && !blocked.includes(p.author_id) && !p.answered,
       );
+      const tiers = new Map<number, Prayer[]>();
+      for (const p of candidates) {
+        const tier = Math.floor((now - new Date(p.created_at).getTime()) / WEEK_MS);
+        const list = tiers.get(tier) ?? [];
+        list.push(p);
+        tiers.set(tier, list);
+      }
+      const pool = [...tiers.keys()].sort((a, b) => a - b).flatMap((t) => shuffle(tiers.get(t)!));
       setPrayers(pool);
       const rx = await reactionsFor(pool.map((p) => p.id));
       if (!alive) return;
@@ -121,13 +125,6 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
       alive = false;
     };
   }, [userId]);
-
-  // Position courante (pour « sujet X / N »).
-  function onScroll() {
-    const el = scrollRef.current;
-    if (!el) return;
-    setIdx(Math.round(el.scrollTop / el.clientHeight));
-  }
 
   function next(after: number) {
     const el = scrollRef.current;
@@ -229,8 +226,8 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
         ) : (
           <div className="text-center">
             <PrayerMark className="mx-auto h-14 w-14" />
-            <p className="mt-4 font-display text-xl font-bold">Aucun sujet récent à porter</p>
-            <p className="mt-2 text-sm text-cream/60">Les sujets de moins de 7 jours apparaissent ici.</p>
+            <p className="mt-4 font-display text-xl font-bold">Aucun sujet à porter pour le moment</p>
+            <p className="mt-2 text-sm text-cream/60">Les sujets de prière du mur apparaissent ici.</p>
             <button type="button" onClick={onClose} className="pt-pray mt-6 rounded-full px-8 py-3 font-display font-extrabold">
               Retour au mur
             </button>
@@ -248,18 +245,19 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
         <span key={i} className="pt-tw" style={{ left: t.left, top: t.top, animationDelay: t.d }} />
       ))}
 
-      {/* En-tête fixe : titre + position + croix pour quitter */}
+      {/* En-tête fixe : titre + croix pour quitter (pas de compteur : on prie
+          aussi longtemps qu'on veut, sans notion de progression) */}
       <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-center justify-between px-4 pt-[calc(env(safe-area-inset-top)+0.9rem)]">
         <div className="rounded-full border border-white/10 bg-night-950/70 px-3.5 py-1.5 backdrop-blur">
           <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-dawn-300">
             <PrayerMark className="h-3.5 w-3.5" />
-            Temps de prière · {Math.min(idx + 1, prayers.length)}/{prayers.length}
+            Temps de prière
           </p>
         </div>
         <CloseX onClick={() => setEnded(true)} />
       </div>
 
-      <div ref={scrollRef} className="pt-scroll" onScroll={onScroll}>
+      <div ref={scrollRef} className="pt-scroll">
         {prayers.map((p, i) => {
           const hasPrayed = prayed.has(p.id);
           const isCommenting = commentFor === p.id;
@@ -366,8 +364,8 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
             <div className="mx-auto grid h-20 w-20 place-items-center rounded-full border border-dawn-400/40 bg-night-900" style={{ boxShadow: "0 0 50px rgba(202,240,0,.28)" }}>
               <PrayerMark className="h-12 w-12" />
             </div>
-            <h3 className="mt-5 font-display text-2xl font-extrabold">Tu as porté tous les sujets</h3>
-            <p className="mt-2 text-sm text-cream/65">Chaque sujet récent du mur est passé devant toi. Merci pour eux.</p>
+            <h3 className="mt-5 font-display text-2xl font-extrabold">Tu as porté tout le mur</h3>
+            <p className="mt-2 text-sm text-cream/65">Chaque sujet du mur de prière est passé devant toi. Merci pour eux.</p>
             <button
               type="button"
               onClick={() => setEnded(true)}
