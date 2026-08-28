@@ -38,6 +38,16 @@ const WEEK_MS = 7 * 24 * 60 * 60 * 1000; // tranche d'ancienneté (7 jours)
 // boutons : on le laisse sur le mur classique, hors du scroll.
 const MAX_BODY_CHARS = 500;
 
+/** Date du sujet, en discret : « aujourd'hui », « hier », « il y a X j »,
+ * puis la date courte au-delà de deux semaines. */
+function whenLabel(iso: string): string {
+  const d = Math.floor((Date.now() - new Date(iso).getTime()) / 86_400_000);
+  if (d <= 0) return "aujourd'hui";
+  if (d === 1) return "hier";
+  if (d <= 14) return `il y a ${d} j`;
+  return new Date(iso).toLocaleDateString("fr-FR", { day: "numeric", month: "short" });
+}
+
 /** Taille de texte adaptée à la longueur du sujet (tout doit tenir à l'écran). */
 function bodySizeClass(body: string): string {
   const n = body.trim().length;
@@ -440,7 +450,9 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
                       {p.author?.pseudo ?? "Un membre"}
                       {p.author?.verified ? <VerifiedBadge className="h-4 w-4" /> : null}
                     </p>
-                    <p className="text-[11px] text-cream/50">demande la prière</p>
+                    <p className="text-[11px] text-cream/50">
+                      demande la prière <span className="text-cream/35">· {whenLabel(p.created_at)}</span>
+                    </p>
                   </div>
                 </div>
 
