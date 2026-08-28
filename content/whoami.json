@@ -516,6 +516,127 @@
         "Le roi a brûlé le rouleau que j'avais écrit.",
         "J'ai servi le prophète Jérémie."
       ]
+    },
+    {
+      "id": 48,
+      "difficulty": 3,
+      "name": "Balaam",
+      "clues": [
+        "On m'a payé pour maudire un peuple, je n'ai pu que le bénir.",
+        "Un roi de Moab m'a fait chercher de loin.",
+        "Sur la route, ma monture a vu ce que je ne voyais pas.",
+        "Mon ânesse m'a parlé pour m'arrêter."
+      ]
+    },
+    {
+      "id": 49,
+      "difficulty": 3,
+      "name": "Lydie",
+      "clues": [
+        "Mon commerce touchait à la couleur des rois.",
+        "Le Seigneur a ouvert mon cœur au bord d'une rivière.",
+        "J'ai accueilli Paul et Silas dans ma maison à Philippes.",
+        "Je vendais de la pourpre, première convertie d'Europe."
+      ]
+    },
+    {
+      "id": 50,
+      "difficulty": 3,
+      "name": "Corneille",
+      "clues": [
+        "Je commandais une centaine de soldats romains.",
+        "Mes prières et mes aumônes sont montées devant Dieu.",
+        "Un ange m'a dit d'envoyer chercher un homme à Jaffa.",
+        "Pierre est venu chez moi, et ma maison a cru tout entière."
+      ]
+    },
+    {
+      "id": 51,
+      "difficulty": 3,
+      "name": "Absalom",
+      "clues": [
+        "On vantait ma beauté dans tout Israël.",
+        "À la porte de la ville, je volais le cœur des hommes.",
+        "Je me suis révolté contre mon propre père, le roi.",
+        "Ma chevelure s'est prise dans un térébinthe en pleine fuite."
+      ]
+    },
+    {
+      "id": 52,
+      "difficulty": 3,
+      "name": "Agar",
+      "clues": [
+        "Servante, j'ai fui au désert loin de ma maîtresse.",
+        "Près d'une source, Quelqu'un m'a appelée par mon nom.",
+        "Dieu a ouvert mes yeux sur un puits pour sauver mon fils.",
+        "Servante de Sara, je suis la mère d'Ismaël."
+      ]
+    },
+    {
+      "id": 53,
+      "difficulty": 4,
+      "name": "Mephiboscheth",
+      "clues": [
+        "Une chute dans l'enfance m'a laissé infirme des deux pieds.",
+        "Je vivais oublié à Lodebar.",
+        "Un roi m'a cherché pour l'amour de mon père.",
+        "Fils de Jonathan, j'ai mangé à la table de David."
+      ]
+    },
+    {
+      "id": 54,
+      "difficulty": 4,
+      "name": "Guéhazi",
+      "clues": [
+        "Je servais un grand prophète.",
+        "J'ai couru derrière un général guéri pour lui réclamer un cadeau.",
+        "J'ai menti à mon maître en rentrant.",
+        "La lèpre de Naaman s'est attachée à moi pour toujours."
+      ]
+    },
+    {
+      "id": 55,
+      "difficulty": 4,
+      "name": "Achan",
+      "clues": [
+        "À cause de moi, Israël a perdu une bataille pourtant facile.",
+        "J'ai caché sous ma tente ce qui était voué à l'interdit.",
+        "Un manteau de Schinear, de l'argent et de l'or m'ont perdu.",
+        "J'ai été jugé dans la vallée d'Acor, après la chute de Jéricho."
+      ]
+    },
+    {
+      "id": 56,
+      "difficulty": 4,
+      "name": "Apollos",
+      "clues": [
+        "Je venais d'Alexandrie et je parlais avec une grande éloquence.",
+        "Je ne connaissais d'abord que le baptême de Jean.",
+        "Un couple d'artisans m'a exposé la voie plus exactement.",
+        "J'ai arrosé ce que Paul avait planté."
+      ]
+    },
+    {
+      "id": 57,
+      "difficulty": 4,
+      "name": "Athalie",
+      "clues": [
+        "J'ai pris un trône par le sang.",
+        "J'ai fait périr presque toute une descendance royale.",
+        "Un enfant caché six ans dans le temple a causé ma perte.",
+        "Mère du roi Achazia, j'ai régné sur Juda."
+      ]
+    },
+    {
+      "id": 58,
+      "difficulty": 4,
+      "name": "Ananias",
+      "clues": [
+        "Le Seigneur m'a appelé en vision, et j'ai eu peur de sa mission.",
+        "On m'envoyait vers un homme connu pour ses persécutions.",
+        "Je suis allé dans la rue appelée la Droite, à Damas.",
+        "J'ai imposé les mains à Saul pour qu'il retrouve la vue."
+      ]
     }
   ]
 }

@@ -1434,6 +1434,181 @@
       "answer": false,
       "reference": "Daniel 6",
       "note": "C'est Daniel qui y fut jeté."
+    },
+    {
+      "id": 206,
+      "text": "Les mages ont trouvé l'enfant Jésus dans une étable.",
+      "answer": false,
+      "reference": "Matthieu 2:11",
+      "note": "Ils entrèrent « dans la maison » : la visite eut lieu plus tard qu'on l'imagine."
+    },
+    {
+      "id": 207,
+      "text": "Selon les Évangiles, Jésus est tombé trois fois en portant sa croix.",
+      "answer": false,
+      "reference": "Évangiles",
+      "note": "Les trois chutes viennent de la tradition, pas du texte biblique."
+    },
+    {
+      "id": 208,
+      "text": "Dalila a elle-même rasé les cheveux de Samson.",
+      "answer": false,
+      "reference": "Juges 16:19",
+      "note": "Elle appela un homme pour raser les sept tresses."
+    },
+    {
+      "id": 209,
+      "text": "« Aide-toi, le ciel t'aidera » est un verset de la Bible.",
+      "answer": false,
+      "reference": "—",
+      "note": "C'est une citation de La Fontaine, pas de la Bible."
+    },
+    {
+      "id": 210,
+      "text": "Jésus s'est assis pour enseigner le sermon sur la montagne.",
+      "answer": true,
+      "reference": "Matthieu 5:1",
+      "note": "« Il s'assit, et ses disciples s'approchèrent de lui. »"
+    },
+    {
+      "id": 211,
+      "text": "Le verset le plus court de la Bible est « Jésus pleura ».",
+      "answer": true,
+      "reference": "Jean 11:35",
+      "note": "Deux mots devant le tombeau de Lazare."
+    },
+    {
+      "id": 212,
+      "text": "Le Nouveau Testament raconte que Pierre fut crucifié la tête en bas.",
+      "answer": false,
+      "reference": "—",
+      "note": "C'est une tradition ancienne, absente du texte biblique."
+    },
+    {
+      "id": 213,
+      "text": "Jonas a fui en direction de Ninive.",
+      "answer": false,
+      "reference": "Jonas 1:3",
+      "note": "Il fuyait À L'OPPOSÉ, vers Tarsis — Ninive était sa mission."
+    },
+    {
+      "id": 214,
+      "text": "Quatre hommes ont descendu le paralytique par le toit devant Jésus.",
+      "answer": true,
+      "reference": "Marc 2:3-4",
+      "note": "Ils découvrirent le toit, faute de place à la porte."
+    },
+    {
+      "id": 215,
+      "text": "Moïse a parlé au rocher, comme Dieu le lui avait demandé.",
+      "answer": false,
+      "reference": "Nombres 20:8-11",
+      "note": "Il l'a frappé deux fois — cela lui coûta l'entrée en Terre promise."
+    },
+    {
+      "id": 216,
+      "text": "Jésus est resté quarante jours sur terre après sa résurrection.",
+      "answer": true,
+      "reference": "Actes 1:3",
+      "note": "Il apparut aux siens pendant quarante jours avant l'ascension."
+    },
+    {
+      "id": 217,
+      "text": "L'épître aux Hébreux nomme clairement son auteur.",
+      "answer": false,
+      "reference": "Hébreux 1:1",
+      "note": "L'auteur n'est jamais nommé — le seul livre du NT dans ce cas parmi les épîtres."
+    },
+    {
+      "id": 218,
+      "text": "Jaël a tué le général Sisera avec un pieu de tente.",
+      "answer": true,
+      "reference": "Juges 4:21",
+      "note": "Elle l'enfonça pendant son sommeil."
+    },
+    {
+      "id": 219,
+      "text": "Adam et Ève ont été chassés du jardin pour avoir mangé de l'arbre de vie.",
+      "answer": false,
+      "reference": "Genèse 3:6,22",
+      "note": "C'était l'arbre de la CONNAISSANCE du bien et du mal ; l'arbre de vie leur fut ensuite interdit."
+    },
+    {
+      "id": 220,
+      "text": "Goliath mesurait environ trois mètres.",
+      "answer": true,
+      "reference": "1 Samuel 17:4",
+      "note": "Six coudées et un empan, soit près de 2,90 m."
+    },
+    {
+      "id": 221,
+      "text": "Marie et Joseph ont offert deux tourterelles au temple pour Jésus.",
+      "answer": true,
+      "reference": "Luc 2:24",
+      "note": "L'offrande des familles modestes."
+    },
+    {
+      "id": 222,
+      "text": "Jésus a écrit un livre du Nouveau Testament.",
+      "answer": false,
+      "reference": "—",
+      "note": "Jésus n'a laissé aucun écrit ; les Évangiles témoignent de lui."
+    },
+    {
+      "id": 223,
+      "text": "Dans le récit d'Éden, le serpent est appelé « Satan ».",
+      "answer": false,
+      "reference": "Apocalypse 12:9",
+      "note": "La Genèse dit « le serpent » ; l'identification vient de l'Apocalypse."
+    },
+    {
+      "id": 224,
+      "text": "Paul et Silas chantaient des hymnes à minuit dans la prison de Philippes.",
+      "answer": true,
+      "reference": "Actes 16:25",
+      "note": "Et les prisonniers les écoutaient."
+    },
+    {
+      "id": 225,
+      "text": "Un ange a ouvert les portes de la prison de Philippes pour libérer Paul et Silas.",
+      "answer": false,
+      "reference": "Actes 16:26",
+      "note": "Ce fut un tremblement de terre — l'ange, c'était pour Pierre à Jérusalem."
+    },
+    {
+      "id": 226,
+      "text": "Abraham a sacrifié un agneau à la place d'Isaac.",
+      "answer": false,
+      "reference": "Genèse 22:13",
+      "note": "C'était un BÉLIER, retenu par les cornes dans un buisson."
+    },
+    {
+      "id": 227,
+      "text": "Selon Matthieu, l'étoile s'est arrêtée au-dessus du lieu où était l'enfant.",
+      "answer": true,
+      "reference": "Matthieu 2:9",
+      "note": "Elle allait devant les mages et s'arrêta."
+    },
+    {
+      "id": 228,
+      "text": "David a écrit tous les psaumes.",
+      "answer": false,
+      "reference": "Psaumes",
+      "note": "Asaph, les fils de Koré, Salomon et Moïse en ont aussi écrit."
+    },
+    {
+      "id": 229,
+      "text": "Daniel a refusé de manger les mets du roi de Babylone.",
+      "answer": true,
+      "reference": "Daniel 1:8",
+      "note": "Il résolut de ne pas se souiller, et demanda des légumes."
+    },
+    {
+      "id": 230,
+      "text": "Hénoc est mort très âgé, comme les autres patriarches.",
+      "answer": false,
+      "reference": "Genèse 5:24",
+      "note": "Il « ne fut plus, parce que Dieu le prit » — enlevé sans voir la mort."
     }
   ]
 }

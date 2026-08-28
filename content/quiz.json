@@ -4381,6 +4381,454 @@
       ],
       "correct": 3,
       "reference": "1 Rois 7:25"
+    },
+    {
+      "id": 314,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Qui a rasé les sept tresses de Samson ?",
+      "options": [
+        "Dalila",
+        "Un homme appelé par Dalila",
+        "Les princes des Philistins",
+        "Un jeune serviteur philistin"
+      ],
+      "correct": 1,
+      "reference": "Juges 16:19"
+    },
+    {
+      "id": 315,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Vers quelle ville Jonas s'enfuyait-il pour échapper à Dieu ?",
+      "options": [
+        "Ninive",
+        "Tarsis",
+        "Joppé",
+        "Babylone"
+      ],
+      "correct": 1,
+      "reference": "Jonas 1:3"
+    },
+    {
+      "id": 316,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "Dans quelle ville les disciples furent-ils appelés « chrétiens » pour la première fois ?",
+      "options": [
+        "Jérusalem",
+        "Antioche",
+        "Rome",
+        "Éphèse"
+      ],
+      "correct": 1,
+      "reference": "Actes 11:26"
+    },
+    {
+      "id": 317,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Qui a tué Sisera, le chef de l'armée de Jabin ?",
+      "options": [
+        "Débora",
+        "Barak",
+        "Jaël",
+        "Samson"
+      ],
+      "correct": 2,
+      "reference": "Juges 4:21"
+    },
+    {
+      "id": 318,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "Quel jeune homme s'endormit et tomba d'une fenêtre pendant que Paul prêchait ?",
+      "options": [
+        "Timothée",
+        "Eutychus",
+        "Trophime",
+        "Marc"
+      ],
+      "correct": 1,
+      "reference": "Actes 20:9"
+    },
+    {
+      "id": 319,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Combien de couples d'animaux PURS Noé devait-il prendre dans l'arche ?",
+      "options": [
+        "Un",
+        "Trois",
+        "Sept",
+        "Quatorze"
+      ],
+      "correct": 2,
+      "reference": "Genèse 7:2"
+    },
+    {
+      "id": 320,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "Quel magicien Paul frappa-t-il d'aveuglement à Chypre ?",
+      "options": [
+        "Simon",
+        "Élymas",
+        "Hyménée",
+        "Alexandre"
+      ],
+      "correct": 1,
+      "reference": "Actes 13:8-11"
+    },
+    {
+      "id": 321,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Sous quel arbre l'Ange de l'Éternel s'assit-il en apparaissant à Gédéon ?",
+      "options": [
+        "Un térébinthe",
+        "Un figuier",
+        "Un olivier",
+        "Un sycomore"
+      ],
+      "correct": 0,
+      "reference": "Juges 6:11"
+    },
+    {
+      "id": 322,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "Quel apôtre a repris publiquement Pierre à Antioche ?",
+      "options": [
+        "Jacques",
+        "Paul",
+        "Jean",
+        "Barnabas"
+      ],
+      "correct": 1,
+      "reference": "Galates 2:11"
+    },
+    {
+      "id": 323,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Qui a ressuscité Dorcas (Tabitha) à Jaffa ?",
+      "options": [
+        "Paul",
+        "Pierre",
+        "Philippe",
+        "Étienne"
+      ],
+      "correct": 1,
+      "reference": "Actes 9:40"
+    },
+    {
+      "id": 324,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "Que signifie le nom « Emmanuel » ?",
+      "options": [
+        "Dieu sauve",
+        "Dieu avec nous",
+        "Dieu est lumière",
+        "L'Éternel voit"
+      ],
+      "correct": 1,
+      "reference": "Matthieu 1:23"
+    },
+    {
+      "id": 325,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Qui a répondu : « Me voici, envoie-moi » ?",
+      "options": [
+        "Samuel",
+        "Jérémie",
+        "Ésaïe",
+        "Moïse"
+      ],
+      "correct": 2,
+      "reference": "Ésaïe 6:8"
+    },
+    {
+      "id": 326,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "Quel disciple était de Bethsaïda, la ville de Pierre et d'André ?",
+      "options": [
+        "Philippe",
+        "Thomas",
+        "Jacques",
+        "Matthieu"
+      ],
+      "correct": 0,
+      "reference": "Jean 1:44"
+    },
+    {
+      "id": 327,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Quel livre de la Bible ne mentionne jamais le nom de Dieu ?",
+      "options": [
+        "Ruth",
+        "Esther",
+        "Abdias",
+        "Aggée"
+      ],
+      "correct": 1,
+      "reference": "Livre d'Esther"
+    },
+    {
+      "id": 328,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "Sur quelle île Paul fut-il mordu par une vipère sans en mourir ?",
+      "options": [
+        "Chypre",
+        "La Crète",
+        "Malte",
+        "Patmos"
+      ],
+      "correct": 2,
+      "reference": "Actes 28:3-6"
+    },
+    {
+      "id": 329,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Quel prophète vit une chaudière bouillonnante penchée du côté du nord ?",
+      "options": [
+        "Ézéchiel",
+        "Jérémie",
+        "Amos",
+        "Habacuc"
+      ],
+      "correct": 1,
+      "reference": "Jérémie 1:13"
+    },
+    {
+      "id": 330,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "Qui a porté la croix de Jésus derrière lui ?",
+      "options": [
+        "Jean",
+        "Joseph d'Arimathée",
+        "Simon de Cyrène",
+        "Nicodème"
+      ],
+      "correct": 2,
+      "reference": "Luc 23:26"
+    },
+    {
+      "id": 331,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Comment s'appelait la servante qui reconnut la voix de Pierre libéré de prison ?",
+      "options": [
+        "Rhode",
+        "Lydie",
+        "Priscille",
+        "Damaris"
+      ],
+      "correct": 0,
+      "reference": "Actes 12:13"
+    },
+    {
+      "id": 332,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "Quel couple a enseigné « la voie de Dieu » plus exactement à Apollos ?",
+      "options": [
+        "Aquilas et Priscille",
+        "Ananias et Saphira",
+        "Zacharie et Élisabeth",
+        "Philémon et Apphia"
+      ],
+      "correct": 0,
+      "reference": "Actes 18:26"
+    },
+    {
+      "id": 333,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Combien d'années Hénoc vécut-il sur terre avant d'être enlevé ?",
+      "options": [
+        "300 ans",
+        "365 ans",
+        "120 ans",
+        "969 ans"
+      ],
+      "correct": 1,
+      "reference": "Genèse 5:23"
+    },
+    {
+      "id": 334,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "Quel roi fut frappé de lèpre pour avoir brûlé de l'encens dans le temple ?",
+      "options": [
+        "Ozias",
+        "Achaz",
+        "Manassé",
+        "Joas"
+      ],
+      "correct": 0,
+      "reference": "2 Chroniques 26:19"
+    },
+    {
+      "id": 335,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Qu'est-ce que Rachel a volé à son père Laban ?",
+      "options": [
+        "Ses théraphim (idoles familiales)",
+        "Un anneau d'or",
+        "Une coupe d'argent",
+        "Un manteau royal"
+      ],
+      "correct": 0,
+      "reference": "Genèse 31:19"
+    },
+    {
+      "id": 336,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "Combien de frères avait l'homme riche de la parabole du pauvre Lazare ?",
+      "options": [
+        "Cinq",
+        "Sept",
+        "Trois",
+        "Douze"
+      ],
+      "correct": 0,
+      "reference": "Luc 16:28"
+    },
+    {
+      "id": 337,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Quel roi découpa et brûla le rouleau des paroles de Jérémie ?",
+      "options": [
+        "Jojakim",
+        "Sédécias",
+        "Joas",
+        "Manassé"
+      ],
+      "correct": 0,
+      "reference": "Jérémie 36:23"
+    },
+    {
+      "id": 338,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "À quelle heure Jésus s'écria-t-il « Éli, Éli, lama sabachthani » ?",
+      "options": [
+        "La troisième heure",
+        "La sixième heure",
+        "La neuvième heure",
+        "À minuit"
+      ],
+      "correct": 2,
+      "reference": "Matthieu 27:46"
+    },
+    {
+      "id": 339,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Quel prophète dut rester couché 390 jours sur le côté gauche en signe ?",
+      "options": [
+        "Jérémie",
+        "Ézéchiel",
+        "Osée",
+        "Daniel"
+      ],
+      "correct": 1,
+      "reference": "Ézéchiel 4:5"
+    },
+    {
+      "id": 340,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "De quel mal Dieu guérit-il Ézéchias en ajoutant quinze ans à sa vie ?",
+      "options": [
+        "Un ulcère mortel",
+        "La lèpre",
+        "La cécité",
+        "La paralysie"
+      ],
+      "correct": 0,
+      "reference": "2 Rois 20:7"
+    },
+    {
+      "id": 341,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Quel signe Dieu donna-t-il à Ézéchias pour confirmer sa guérison ?",
+      "options": [
+        "L'ombre recula de dix degrés",
+        "Le soleil s'arrêta",
+        "La lune devint rouge",
+        "Une pluie tomba en été"
+      ],
+      "correct": 0,
+      "reference": "2 Rois 20:11"
+    },
+    {
+      "id": 342,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "Quels fils d'Aaron moururent pour avoir offert un feu étranger ?",
+      "options": [
+        "Nadab et Abihu",
+        "Éléazar et Ithamar",
+        "Hophni et Phinées",
+        "Guerschom et Éliézer"
+      ],
+      "correct": 0,
+      "reference": "Lévitique 10:1-2"
+    },
+    {
+      "id": 343,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Quel psaume est attribué à Moïse ?",
+      "options": [
+        "Le Psaume 90",
+        "Le Psaume 23",
+        "Le Psaume 1",
+        "Le Psaume 119"
+      ],
+      "correct": 0,
+      "reference": "Psaume 90:1"
+    },
+    {
+      "id": 344,
+      "difficulty": 6,
+      "category": "Bible",
+      "q": "Quel roi d'Israël ne régna que sept jours ?",
+      "options": [
+        "Zimri",
+        "Nadab",
+        "Éla",
+        "Schallum"
+      ],
+      "correct": 0,
+      "reference": "1 Rois 16:15"
+    },
+    {
+      "id": 345,
+      "difficulty": 5,
+      "category": "Bible",
+      "q": "Quelle est la seule femme dont la Bible précise l'âge à sa mort ?",
+      "options": [
+        "Sara",
+        "Rebecca",
+        "Rachel",
+        "Débora"
+      ],
+      "correct": 0,
+      "reference": "Genèse 23:1"
     }
   ]
 }
