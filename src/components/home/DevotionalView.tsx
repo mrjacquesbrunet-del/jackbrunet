@@ -209,52 +209,42 @@ export function DevotionalView({
       {/* 1b. Engagement: série + progression */}
       {eng.ready? (
         <section className="container-x">
-          <div className="glass flex flex-wrap items-center gap-4 p-4 sm:gap-5 sm:p-5">
-            <div className="flex items-center gap-3">
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-dawn-400/15 text-dawn-600">
-                <FlameGlyph className="h-6 w-6" />
-              </span>
-              <div className="leading-tight">
-                <p className="font-display text-xl font-extrabold">
-                  {eng.streak}{" "}
-                  <span className="text-sm font-semibold text-night-900/60">
-                    jour{eng.streak > 1? "s": ""}
+          {/* Une seule carte compacte : série + méditations + semaine */}
+          <div className="glass p-3.5 sm:p-4">
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+              <p className="flex items-center gap-2">
+                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-dawn-400/15 text-dawn-600">
+                  <FlameGlyph className="h-4 w-4" />
+                </span>
+                <span className="font-display text-base font-extrabold leading-none">
+                  {eng.streak}
+                  <span className="ml-1 text-xs font-semibold text-night-900/55">
+                    j de suite{eng.best > 1 ? ` · record ${eng.best}` : ""}
                   </span>
-                </p>
-                <p className="text-xs text-night-900/55">
-                  de suite
-                  {eng.best > 1? ` · record ${eng.best}`: ""}
-                </p>
-              </div>
+                </span>
+              </p>
+              <p className="flex items-center gap-2">
+                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-spirit-500/15 text-spirit-600">
+                  <BookGlyph className="h-4 w-4" />
+                </span>
+                <span className="font-display text-base font-extrabold leading-none">
+                  {eng.completedCount}
+                  <span className="ml-1 text-xs font-semibold text-night-900/55">
+                    méditée{eng.completedCount > 1 ? "s" : ""}
+                  </span>
+                </span>
+              </p>
             </div>
 
-            <div className="hidden h-9 w-px bg-night-900/10 sm:block" />
-
-            <div className="flex items-center gap-3">
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-spirit-500/15 text-spirit-600">
-                <BookGlyph className="h-6 w-6" />
-              </span>
-              <div className="leading-tight">
-                <p className="font-display text-xl font-extrabold">{eng.completedCount}</p>
-                <p className="text-xs text-night-900/55">
-                  méditation{eng.completedCount > 1? "s": ""} méditée
-                  {eng.completedCount > 1? "s": ""}
-                </p>
-              </div>
-            </div>
-
-          </div>
-
-          {/* Anneau de progression de la semaine : 7 jours, rempli quand on médite */}
-          <div className="glass mt-3 flex items-center justify-between gap-2 p-4">
-            <div className="flex items-center gap-1.5 sm:gap-2.5">
-              {weekDays.map((d, i) => {
-                const done = eng.completedDates.includes(d);
-                const isToday = d === todayStr;
-                return (
-                  <div key={d} className="flex flex-col items-center gap-1">
+            <div className="mt-3 flex items-center justify-between gap-2">
+              <div className="flex items-center gap-1 sm:gap-1.5">
+                {weekDays.map((d, i) => {
+                  const done = eng.completedDates.includes(d);
+                  const isToday = d === todayStr;
+                  return (
                     <span
-                      className={`grid h-8 w-8 place-items-center rounded-full text-[11px] font-bold transition-colors ${
+                      key={d}
+                      className={`grid h-6 w-6 place-items-center rounded-full text-[10px] font-bold transition-colors ${
                         done
                           ? "bg-dawn-400 text-night-950"
                           : isToday
@@ -263,20 +253,20 @@ export function DevotionalView({
                       }`}
                     >
                       {done ? (
-                        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={3}>
+                        <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth={3}>
                           <path d="M5 12l5 5L20 7" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       ) : (
                         weekLabels[i]
                       )}
                     </span>
-                  </div>
-                );
-              })}
-            </div>
-            <div className="text-right leading-tight">
-              <p className="font-display text-lg font-extrabold text-night-900">{weekDoneCount}/7</p>
-              <p className="text-[11px] text-night-900/55">cette semaine</p>
+                  );
+                })}
+              </div>
+              <p className="text-sm font-extrabold text-night-900">
+                {weekDoneCount}/7
+                <span className="ml-1 text-[11px] font-medium text-night-900/50">semaine</span>
+              </p>
             </div>
           </div>
 
