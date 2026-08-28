@@ -34,6 +34,15 @@ import { listBlockedIds } from "@/lib/moderation";
  */
 
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000; // tranche d'ancienneté (7 jours)
+const INTRO_KEY = "jb.praytime.intro.v1"; // intro vue (une seule fois)
+
+function localStorageIntroSeen(): boolean {
+  try {
+    return localStorage.getItem(INTRO_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
 
 const PT_CSS = `
 .pt-root{position:fixed;inset:0;z-index:120;background:
@@ -59,6 +68,10 @@ const PT_CSS = `
 .pt-hint{animation:pt-hint 1.8s ease-in-out infinite}
 @keyframes pt-endpop{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
 .pt-end{animation:pt-endpop .5s cubic-bezier(.2,.8,.3,1) both}
+@keyframes pt-step{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:none}}
+.pt-step{animation:pt-step .55s cubic-bezier(.2,.8,.3,1) both}
+@keyframes pt-up{0%{transform:translateY(12px);opacity:0}30%{opacity:1}100%{transform:translateY(-14px);opacity:0}}
+.pt-up{animation:pt-up 1.7s ease-in-out infinite}
 `;
 
 function shuffle<T>(arr: T[]): T[] {
@@ -101,17 +114,42 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
     })();
   }, []);
 
-  // Musique : on lance le soaking (même ambiance que la Bible) si elle ne joue
-  // pas déjà, et on ne coupe en sortant que ce qu'on a lancé nous-mêmes.
-  useEffect(() => {
+  // Écran d'introduction animé : seulement à la PREMIÈRE utilisation (il
+  // explique les gestes) ; ensuite on entre directement dans la prière.
+  const [intro, setIntro] = useState(() => {
+    try {
+      return localStorage.getItem(INTRO_KEY) !== "1";
+    } catch {
+      return true;
+    }
+  });
+
+  function startMusic() {
     if (!isSoakingPlaying()) {
       startedMusic.current = true;
       startSoaking();
     }
+  }
+
+  // Intro déjà vue → musique dès l'entrée ; en sortant, on ne coupe que ce
+  // qu'on a lancé nous-mêmes.
+  useEffect(() => {
+    if (localStorageIntroSeen()) startMusic();
     return () => {
       if (startedMusic.current) stopSoaking();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  function begin() {
+    try {
+      localStorage.setItem(INTRO_KEY, "1");
+    } catch {
+      /* stockage indisponible */
+    }
+    startMusic();
+    setIntro(false);
+  }
 
   // Verrouille le défilement de la page derrière.
   useEffect(() => {
@@ -183,6 +221,101 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
       ] as const,
     [],
   );
+
+  /* ---------- Intro animée (première utilisation seulement) ---------- */
+  if (intro) {
+    return (
+      <div className="pt-root grid place-items-center overflow-y-auto px-6 py-10">
+        <style>{PT_CSS}</style>
+        {twinkles.map((t, i) => (
+          <span key={i} className="pt-tw" style={{ left: t.left, top: t.top, animationDelay: t.d }} />
+        ))}
+        <div className="absolute right-4 top-[calc(env(safe-area-inset-top)+0.9rem)]">
+          <CloseX onClick={onClose} />
+        </div>
+
+        <div className="w-full max-w-sm">
+          <div
+            className="pt-step mx-auto grid h-20 w-20 place-items-center rounded-full border border-dawn-400/40 bg-night-900"
+            style={{ boxShadow: "0 0 50px rgba(202,240,0,.28)" }}
+          >
+            <PrayerMark className="h-12 w-12" />
+          </div>
+          <h2 className="pt-step mt-5 text-center font-display text-3xl font-extrabold" style={{ animationDelay: ".1s" }}>
+            Temps de prière
+          </h2>
+          <p className="pt-step mt-2 text-center text-sm text-cream/65" style={{ animationDelay: ".2s" }}>
+            Un moment à part, en musique, pour porter la famille dans la prière — un sujet à la fois.
+          </p>
+
+          <div className="mt-7 space-y-3.5">
+            <div className="pt-step flex items-center gap-3.5" style={{ animationDelay: ".35s" }}>
+              <span className="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-2xl border border-white/10 bg-night-900 text-dawn-300">
+                <svg viewBox="0 0 24 24" className="pt-up h-6 w-6 fill-none stroke-current" strokeWidth={2} strokeLinecap="round" aria-hidden>
+                  <path d="M12 19V5M6 11l6-6 6 6" />
+                </svg>
+              </span>
+              <p className="text-sm text-cream/85">
+                <span className="font-bold text-cream">Glisse vers le haut</span> pour passer au sujet suivant.
+              </p>
+            </div>
+
+            <div className="pt-step flex items-center gap-3.5" style={{ animationDelay: ".5s" }}>
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl border border-white/10 bg-night-900">
+                <PrayerMark className="h-7 w-7" />
+              </span>
+              <p className="text-sm text-cream/85">
+                <span className="font-bold text-cream">« Je prie »</span> : la personne saura que tu as prié pour elle.
+              </p>
+            </div>
+
+            <div className="pt-step flex items-center gap-3.5" style={{ animationDelay: ".65s" }}>
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl border border-dawn-400/35 bg-night-900 text-dawn-300">
+                <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current" strokeWidth={1.7} aria-hidden>
+                  <path
+                    d="M12 3a3 3 0 0 1 3 3v5a3 3 0 0 1-6 0V6a3 3 0 0 1 3-3zM6 11a6 6 0 0 0 12 0M12 17v4M9 21h6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
+              <p className="text-sm text-cream/85">
+                <span className="font-bold text-cream">Le gros micro</span> : prie à voix haute, ta prière part dans les
+                commentaires du sujet.
+              </p>
+            </div>
+
+            <div className="pt-step flex items-center gap-3.5" style={{ animationDelay: ".8s" }}>
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl border border-white/10 bg-night-900 text-cream/85">
+                <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current" strokeWidth={1.7} aria-hidden>
+                  <path
+                    d="M21 12a8 8 0 0 1-8 8H5.6L3 21.4V12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
+              <p className="text-sm text-cream/85">
+                <span className="font-bold text-cream">La bulle</span> : laisse un mot d&apos;encouragement écrit.
+              </p>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={begin}
+            className="pt-pray pt-step mt-8 w-full rounded-full py-4 font-display text-lg font-extrabold"
+            style={{ animationDelay: ".95s" }}
+          >
+            Commencer
+          </button>
+          <p className="pt-step mt-3 text-center text-[11px] text-cream/45" style={{ animationDelay: "1.05s" }}>
+            La musique t&apos;accompagne pendant tout le temps de prière.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   /* ---------- Écran de fin (croix ou liste terminée) ---------- */
   if (ended) {
