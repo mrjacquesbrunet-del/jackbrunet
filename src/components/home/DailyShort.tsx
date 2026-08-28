@@ -77,7 +77,13 @@ export function FloatingDailyShort({ latest, targetId = "video-jour" }: { latest
       {/* Petite bulle RONDE et discrète : la vidéo tourne en muet dedans */}
       <div className="fixed bottom-[calc(env(safe-area-inset-bottom)+5.25rem)] right-3 z-40">
         <div className="relative h-[4.5rem] w-[4.5rem]">
-          <div className="h-full w-full overflow-hidden rounded-full border-2 border-dawn-400 bg-night-950 shadow-card">
+          {/* `relative` est indispensable : sans lui, l'iframe absolue se cale
+              sur le parent extérieur et échappe au masque rond. Le masque
+              radial WebKit force l'arrondi sur iOS (bug Safari + iframes). */}
+          <div
+            className="relative isolate h-full w-full overflow-hidden rounded-full border-2 border-dawn-400 bg-night-950 shadow-card"
+            style={{ WebkitMaskImage: "-webkit-radial-gradient(white, black)", transform: "translateZ(0)" }}
+          >
             <iframe
               src={videoEmbedSrc(latest.id, { autoplay: true, mute: true, loop: true })}
               title={latest.title}
