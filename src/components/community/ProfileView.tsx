@@ -8,6 +8,7 @@ import { asset } from "@/lib/asset";
 import { Avatar } from "@/components/community/Avatar";
 import { withJesusLabel, STREAK_BADGE_MIN } from "@/lib/spiritual";
 import { ReminderToggle } from "@/components/pwa/ReminderToggle";
+import { ProfileBadgesRow } from "@/components/community/ProfileBadges";
 import {
   signOut,
   deleteAccount,
@@ -415,6 +416,9 @@ function Profile({
               ) : null}
             </div>
           ) : null}
+
+          {/* Badges de récompense (médaillons premium sur la photo) */}
+          <ProfileBadgesRow userId={userId} streakDays={profile?.streak_days} />
 
           <div className="mx-auto mt-5 flex max-w-md items-center gap-2">
             <button

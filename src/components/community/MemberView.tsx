@@ -13,6 +13,7 @@ import { ProfileInfoPills } from "@/components/community/ProfileInfoPills";
 import { FollowListModal } from "@/components/community/FollowListModal";
 import { presenceLabel } from "@/lib/presence";
 import { withJesusLabel, STREAK_BADGE_MIN } from "@/lib/spiritual";
+import { ProfileBadgesRow } from "@/components/community/ProfileBadges";
 import { ProfileThemeBg, useProfileTheme } from "@/components/community/ProfileTheme";
 import { blockUser, unblockUser, listBlockedIds } from "@/lib/moderation";
 import {
@@ -255,6 +256,9 @@ export function MemberView() {
               ) : null}
             </div>
           ) : null}
+
+          {/* Badges de récompense (médaillons premium sur la photo) */}
+          <ProfileBadgesRow userId={profile.id} streakDays={profile.streak_days} />
 
           <div className="mx-auto mt-5 flex max-w-md items-center gap-2">
             {isMe? (
