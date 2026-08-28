@@ -417,8 +417,6 @@ function Profile({
             </div>
           ) : null}
 
-          {/* Badges de récompense (médaillons premium sur la photo) */}
-          <ProfileBadgesRow userId={userId} streakDays={profile?.streak_days} />
 
           <div className="mx-auto mt-5 flex max-w-md items-center gap-2">
             <button
@@ -484,8 +482,10 @@ function Profile({
       </div>
 
       <div className={`${jour? "profile-jour-scope": "profile-dark"} container-x relative mt-2`}>
-      {/* Recherche / Messages / Notifications — rangée sobre, sans carte */}
+      {/* Recherche / Messages / Notifications — rangée sobre, sans carte.
+          Les badges de récompense se glissent discrètement à gauche. */}
       <div className={`relative flex items-center justify-end gap-2 ${jour? "": "dark-ctx"}`}>
+          <ProfileBadgesRow userId={userId} streakDays={profile?.streak_days} compact />
           <div className="flex shrink-0 items-center gap-2">
             <button
               type="button"

@@ -109,9 +109,12 @@ function Medallion({
 export function ProfileBadgesRow({
   userId,
   streakDays,
+  compact = false,
 }: {
   userId: string;
   streakDays?: number | null;
+  /** Version discrète : petits médaillons alignés à gauche (rangée d'icônes). */
+  compact?: boolean;
 }) {
   const [data, setData] = useState<ProfileBadges | null>(null);
   const [open, setOpen] = useState(false);
@@ -132,12 +135,19 @@ export function ProfileBadgesRow({
   return (
     <>
       <style>{BDG_CSS}</style>
-      <div className="mt-3 flex flex-wrap items-center justify-center gap-2.5">
+      <div
+        className={
+          compact
+            ? "mr-auto flex min-w-0 flex-wrap items-center gap-1.5"
+            : "mt-3 flex flex-wrap items-center justify-center gap-2.5"
+        }
+      >
         {data.weeklyTop ? (
           <Medallion
             kind="hebdo"
             tier="or"
             hebdo
+            small={compact}
             title="Intercesseur de la semaine"
             onClick={() => setOpen(true)}
           />
@@ -147,6 +157,7 @@ export function ProfileBadgesRow({
             key={s.kind}
             kind={s.kind}
             tier={s.tier}
+            small={compact}
             delay={0.08 * (i + 1)}
             title={`${s.label} ${s.tier ? TIER_LABEL[s.tier] : ""}`}
             onClick={() => setOpen(true)}
