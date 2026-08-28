@@ -167,6 +167,21 @@ export function toggleSoaking() {
   else play();
 }
 
+/** Démarre la musique si elle ne joue pas déjà (mode Temps de prière). */
+export function startSoaking() {
+  play();
+}
+
+/** Coupe la musique (fin du Temps de prière). */
+export function stopSoaking() {
+  stop();
+}
+
+/** La musique joue-t-elle en ce moment ? (lecture ponctuelle, hors React) */
+export function isSoakingPlaying(): boolean {
+  return playing;
+}
+
 /** Règle le volume du soaking (persistant, appliqué en direct). */
 export function setSoakingVolume(v: number) {
   volume = Math.min(SOAKING_VOL_MAX, Math.max(SOAKING_VOL_MIN, v));

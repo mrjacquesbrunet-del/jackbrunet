@@ -9,6 +9,8 @@ import { listBlockedIds } from "@/lib/moderation";
 import { Avatar } from "@/components/community/Avatar";
 import { PrayerCard } from "@/components/community/PrayerCard";
 import { PrayerFocus } from "@/components/community/PrayerFocus";
+import { PrayerTime } from "@/components/community/PrayerTime";
+import { PrayerMark } from "@/components/ui/PrayerMark";
 import { NotificationsBell } from "@/components/community/NotificationsBell";
 import { MemberSearch } from "@/components/community/MemberSearch";
 import { MemberSuggestions } from "@/components/community/MemberSuggestions";
@@ -97,6 +99,8 @@ function Feed({
   const [statusFilter, setStatusFilter] = useState<"all" | "encours" | "exaucees">("all");
   const [showFilter, setShowFilter] = useState(false);
   const [blockedIds, setBlockedIds] = useState<string[]>([]);
+  // Mode « Temps de prière » plein écran (musique + sujets un par un).
+  const [prayerTime, setPrayerTime] = useState(false);
   // Sujet ciblé par un clic sur une notification (/communaute?prayer=<id>) :
   // sa carte s'ouvre sur les commentaires et défile jusqu'à elle.
   const [targetPrayer, setTargetPrayer] = useState<string | null>(null);
@@ -384,6 +388,29 @@ function Feed({
         <PrayerFocus />
       </div>
 
+      {/* Temps de prière : mode plein écran, musique + sujets un par un */}
+      <button
+        type="button"
+        onClick={() => setPrayerTime(true)}
+        className="dark-ctx group relative mt-5 flex w-full items-center gap-4 overflow-hidden rounded-4xl border border-dawn-400/30 bg-night-950 p-4 text-left shadow-card transition-transform hover:-translate-y-0.5"
+      >
+        <span className="pointer-events-none absolute -right-8 -top-10 h-32 w-32 rounded-full bg-dawn-400/20 blur-2xl transition-opacity group-hover:opacity-100" />
+        <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl border border-dawn-400/35 bg-night-900" style={{ boxShadow: "0 0 26px rgba(202,240,0,.25)" }}>
+          <PrayerMark className="h-9 w-9" />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block font-display text-lg font-extrabold text-cream">Temps de prière</span>
+          <span className="mt-0.5 block text-xs text-cream/60">
+            Plein écran, en musique : prie pour la famille, un sujet à la fois.
+          </span>
+        </span>
+        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950">
+          <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current" aria-hidden>
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </span>
+      </button>
+
       {/* Onglets, mis en valeur (olive + actif lime) */}
       <div className="dark-ctx bg-topo-dark mt-5 flex gap-1.5 rounded-full border border-white/10 p-1.5 shadow-card">
         {(
@@ -550,6 +577,18 @@ function Feed({
       </div>
       </div>
       </section>
+
+      {/* Temps de prière plein écran ; au retour, on rafraîchit le fil pour
+          voir les « J'ai prié » et commentaires laissés pendant la session. */}
+      {prayerTime ? (
+        <PrayerTime
+          userId={userId}
+          onClose={() => {
+            setPrayerTime(false);
+            load();
+          }}
+        />
+      ) : null}
     </>
   );
 }
