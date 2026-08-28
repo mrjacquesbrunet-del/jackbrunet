@@ -79,6 +79,8 @@ export function buildWhoRound(level: number): WhoRound[] {
 const BEST_KEY = "jb.whoami.best.v1";
 const GAMES_KEY = "jb.whoami.games.v1";
 const XP_KEY = "jb.whoami.xp.v1";
+const CORRECT_KEY = "jb.whoami.correct.v1"; // total de bonnes réponses (cumulé)
+const STREAK_KEY = "jb.whoami.streak.v1"; // meilleure série (consécutives)
 
 function read(key: string): number {
   try {
@@ -105,12 +107,20 @@ export function getWhoGames(): number {
 export function getWhoXp(): number {
   return read(XP_KEY);
 }
+export function getWhoCorrect(): number {
+  return read(CORRECT_KEY);
+}
+export function getWhoStreak(): number {
+  return read(STREAK_KEY);
+}
 
-/** Enregistre une partie : meilleur score + parties + XP cumulée. */
-export function recordWho(score: number): { best: number } {
+/** Enregistre une partie : meilleur score + parties + XP + bonnes réponses + meilleure série. */
+export function recordWho(score: number, correct = 0, streak = 0): { best: number } {
   const best = Math.max(getWhoBest(), Math.max(0, score));
   write(BEST_KEY, best);
   write(GAMES_KEY, getWhoGames() + 1);
   write(XP_KEY, getWhoXp() + Math.max(0, Math.round(score / 10)));
+  write(CORRECT_KEY, getWhoCorrect() + Math.max(0, correct));
+  write(STREAK_KEY, Math.max(getWhoStreak(), Math.max(0, streak)));
   return { best };
 }
