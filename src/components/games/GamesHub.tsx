@@ -53,7 +53,7 @@ type Game = {
   arrow: string;
 };
 const GAMES: Game[] = [
-  { id: "quiz", title1: "QUIZ", title2: "BIBLIQUE", desc: "Réponds aux questions et deviens incollable sur la Bible !", href: "/quiz", illo: "", Icon: IconCap, from: "#FBBF24", to: "#F59E0B", arrow: "#F59E0B" },
+  { id: "quiz", title1: "QUIZ", title2: "BIBLIQUE", desc: "Réponds aux questions et deviens incollable sur la Bible !", href: "/quiz", illo: "/img/jeux/quiz.png", Icon: IconCap, from: "#FBBF24", to: "#F59E0B", arrow: "#F59E0B" },
   { id: "memo", title1: "MÉMORISER", title2: "LES VERSETS", desc: "Grave la Parole dans ton cœur, verset après verset !", href: "/memoriser", illo: "", Icon: IconBulb, from: "#2DD4BF", to: "#0D9488", arrow: "#0D9488" },
   { id: "quisuisje", title1: "QUI", title2: "SUIS-JE ?", desc: "Devine le personnage biblique grâce aux indices !", href: "/qui-suis-je", illo: "", Icon: IconMask, from: "#60A5FA", to: "#3B82F6", arrow: "#2563EB" },
   { id: "vraifaux", title1: "VRAI", title2: "OU FAUX", desc: "Réponds vite et enchaîne les bonnes réponses !", href: "/vrai-faux", illo: "", Icon: IconScale, from: "#F472B6", to: "#EC4899", arrow: "#DB2777" },
@@ -217,7 +217,7 @@ export function GamesHub() {
                           src={asset(g.illo)}
                           alt=""
                           onError={() => setBroken((s) => new Set(s).add(g.id))}
-                          className="h-28 w-auto object-contain drop-shadow-[0_10px_12px_rgba(0,0,0,0.3)]"
+                          className="h-36 w-auto object-contain drop-shadow-[0_12px_14px_rgba(0,0,0,0.3)]"
                         />
                       ) : (
                         <span
