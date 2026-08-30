@@ -2,37 +2,47 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { getSupabase } from "@/lib/supabase";
-import { VF_ITEMS, type VFItem } from "@/lib/vraifaux";
+import { VF_ITEMS } from "@/lib/vraifaux";
+import { QUIZ } from "@/lib/quiz";
 import { appShareUrl } from "@/config/app-links";
 import { shareText } from "@/lib/share";
 import { Avatar } from "@/components/community/Avatar";
+import { primeSfx, sfxTick, sfxWin, sfxLose, sfxWrong, sfxVs, sfxVictory } from "@/lib/duel-sfx";
 
 /**
- * DUEL Vrai ou Faux EN LIGNE, en direct : chacun sur SON téléphone.
+ * DUEL EN LIGNE en direct (moteur commun Quiz + Vrai ou Faux) :
+ * chacun sur SON téléphone.
  * - L'hôte crée un salon (code 6 lettres) et partage le lien intelligent,
  *   ou défie un membre connecté (notification).
- * - Les deux téléphones rejoignent le canal Realtime `vfduel:{code}` :
- *   même deck (graine = code), mêmes questions au même moment.
- * - Le premier qui touche la BONNE réponse marque (l'hôte arbitre l'ordre
- *   d'arrivée) ; une erreur bloque la manche ; premier à 7.
+ * - Canal Realtime `duel:{game}:{code}` : même deck (graine = code),
+ *   mêmes questions au même moment.
+ * - Le premier qui touche la BONNE réponse marque (l'hôte arbitre) ;
+ *   une erreur bloque la manche ; premier à 7. Sons + vibrations.
  */
 
 const TARGET = 7;
-const ROUND_TIME = 10; // secondes par affirmation
 const REVEAL_MS = 2600;
 
+export type DuelGame = "quiz" | "vraifaux";
 export type DuelRole = "host" | "guest";
 type Phase = "lobby" | "play" | "reveal" | "end";
 
+/** Question de duel unifiée (Quiz = 4 options, V/F = 2). */
+type DuelQ = { q: string; options: string[]; correct: number; reference?: string };
+
+const GAME_LABEL: Record<DuelGame, string> = { quiz: "Quiz biblique", vraifaux: "Vrai ou Faux" };
+const GAME_PATH: Record<DuelGame, string> = { quiz: "/quiz", vraifaux: "/vrai-faux" };
+const ROUND_TIME: Record<DuelGame, number> = { quiz: 14, vraifaux: 10 };
+
 type Evt =
   | { t: "start"; epoch: number }
-  | { t: "answer"; p: DuelRole; round: number; val: boolean }
+  | { t: "answer"; p: DuelRole; round: number; val: number }
   | { t: "locked"; p: DuelRole; round: number }
   | { t: "result"; round: number; winner: DuelRole | null; scores: { host: number; guest: number } }
   | { t: "next"; round: number }
   | { t: "rematch"; epoch: number };
 
-/* RNG déterministe : même code → même ordre de questions des deux côtés. */
+/* RNG déterministe : même code → même deck des deux côtés. */
 function hashCode(s: string): number {
   let h = 2166136261;
   for (let i = 0; i < s.length; i++) {
@@ -51,14 +61,38 @@ function mulberry32(seed: number) {
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
 }
-function seededDeck(seedStr: string): VFItem[] {
-  const rng = mulberry32(hashCode(seedStr));
-  const a = [...VF_ITEMS];
+function shuffled<T>(arr: T[], rng: () => number): T[] {
+  const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(rng() * (i + 1));
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
+}
+
+function seededDeck(game: DuelGame, seedStr: string): DuelQ[] {
+  const rng = mulberry32(hashCode(seedStr));
+  if (game === "vraifaux") {
+    return shuffled(VF_ITEMS, rng).map((it) => ({
+      q: it.text,
+      options: ["VRAI", "FAUX"],
+      correct: it.answer ? 0 : 1,
+      reference: it.reference,
+    }));
+  }
+  // Quiz : mélange puis tri par difficulté CROISSANTE (le duel monte en tension),
+  // options remélangées de façon déterministe.
+  return shuffled(QUIZ, rng)
+    .sort((a, b) => a.difficulty - b.difficulty)
+    .map((it) => {
+      const order = shuffled(it.options.map((_, i) => i), rng);
+      return {
+        q: it.q,
+        options: order.map((i) => it.options[i]),
+        correct: order.indexOf(it.correct),
+        reference: it.reference,
+      };
+    });
 }
 
 /** Code de salon : 6 caractères sans ambiguïté (pas de O/0, I/1…). */
@@ -69,8 +103,6 @@ export function newDuelCode(): string {
   return c;
 }
 
-type OnlineMember = { id: string; pseudo: string | null; avatar_url: string | null };
-
 function buzz(p: number | number[]) {
   try {
     if (typeof navigator !== "undefined" && "vibrate" in navigator) navigator.vibrate(p);
@@ -79,25 +111,31 @@ function buzz(p: number | number[]) {
   }
 }
 
-export function VfDuelLive({
+type OnlineMember = { id: string; pseudo: string | null; avatar_url: string | null };
+
+export function DuelLive({
+  game,
   code,
   role,
   me,
   onClose,
 }: {
+  game: DuelGame;
   code: string;
   role: DuelRole;
   me: { id: string; pseudo: string; avatar: string | null };
   onClose: () => void;
 }) {
+  const roundTime = ROUND_TIME[game];
   const [phase, setPhase] = useState<Phase>("lobby");
   const [epoch, setEpoch] = useState(0);
   const [round, setRound] = useState(0);
   const [scores, setScores] = useState<{ host: number; guest: number }>({ host: 0, guest: 0 });
   const [locked, setLocked] = useState<{ host: boolean; guest: boolean }>({ host: false, guest: false });
   const [roundWinner, setRoundWinner] = useState<DuelRole | null>(null);
+  const [myPick, setMyPick] = useState<number | null>(null);
   const [opp, setOpp] = useState<{ id: string; pseudo: string | null; avatar: string | null } | null>(null);
-  const [timeLeft, setTimeLeft] = useState(ROUND_TIME);
+  const [timeLeft, setTimeLeft] = useState(roundTime);
   const [online, setOnline] = useState<OnlineMember[]>([]);
   const [invited, setInvited] = useState<Set<string>>(new Set());
   const [shareDone, setShareDone] = useState(false);
@@ -117,7 +155,7 @@ export function VfDuelLive({
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const nextRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const deck = useMemo(() => seededDeck(`${code}:${epoch}`), [code, epoch]);
+  const deck = useMemo(() => seededDeck(game, `${code}:${epoch}`), [game, code, epoch]);
   const cur = deck[round % deck.length];
   const myRole = role;
   const champion: DuelRole | null = scores.host >= TARGET ? "host" : scores.guest >= TARGET ? "guest" : null;
@@ -128,7 +166,7 @@ export function VfDuelLive({
   useEffect(() => {
     const sb = getSupabase();
     if (!sb) return;
-    const ch = sb.channel(`vfduel:${code}`, {
+    const ch = sb.channel(`duel:${game}:${code}`, {
       config: { broadcast: { self: false }, presence: { key: me.id } },
     });
     chRef.current = ch;
@@ -157,7 +195,7 @@ export function VfDuelLive({
       void sb.removeChannel(ch);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [code]);
+  }, [game, code]);
 
   function send(evt: Evt) {
     void chRef.current?.send({ type: "broadcast", event: "evt", payload: evt });
@@ -171,16 +209,18 @@ export function VfDuelLive({
     setRound(r);
     setLocked({ host: false, guest: false });
     setRoundWinner(null);
-    setTimeLeft(ROUND_TIME);
+    setMyPick(null);
+    setTimeLeft(roundTime);
     setPhase("play");
     if (r === 0) {
       // Splash « VS » d'entrée en matière.
       setSplash(true);
+      sfxVs();
       setTimeout(() => setSplash(false), 1600);
       buzz(40);
     }
     if (myRole === "host") {
-      timeoutRef.current = setTimeout(() => resolveRound(null), ROUND_TIME * 1000 + 350);
+      timeoutRef.current = setTimeout(() => resolveRound(null), roundTime * 1000 + 350);
     }
   }
 
@@ -199,16 +239,19 @@ export function VfDuelLive({
     setScores(s);
     setRoundWinner(winner);
     setPhase("reveal");
-    // Flash d'écran + vibration selon l'issue de la manche.
+    const finished = s.host >= TARGET || s.guest >= TARGET;
+    // Flash + son + vibration selon l'issue de la manche.
     if (winner === myRole) {
       setFlash("win");
+      if (finished) sfxVictory();
+      else sfxWin();
       buzz([30, 40, 60]);
     } else if (winner) {
       setFlash("lose");
+      sfxLose();
       buzz(120);
     }
     setTimeout(() => setFlash(""), 750);
-    const finished = s.host >= TARGET || s.guest >= TARGET;
     if (nextRef.current) clearTimeout(nextRef.current);
     nextRef.current = setTimeout(() => {
       if (finished) setPhase("end");
@@ -221,9 +264,9 @@ export function VfDuelLive({
   }
 
   /** HÔTE : reçoit une réponse (la sienne ou celle de l'invité). */
-  function hostHandleAnswer(p: DuelRole, r: number, val: boolean) {
+  function hostHandleAnswer(p: DuelRole, r: number, val: number) {
     if (r !== roundRef.current || answersRef.current.resolved || answersRef.current.locked[p]) return;
-    if (val === deck[r % deck.length].answer) {
+    if (val === deck[r % deck.length].correct) {
       resolveRound(p);
     } else {
       answersRef.current.locked[p] = true;
@@ -269,12 +312,18 @@ export function VfDuelLive({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [myRole, phase, opp, epoch]);
 
-  /* Compte à rebours d'affichage (+ vibration de stress sous 3 s). */
+  /* Compte à rebours (+ bip et vibration de stress). */
   useEffect(() => {
     if (phase !== "play" || timeLeft <= 0) return;
-    if (timeLeft <= 3) buzz(25);
+    if (timeLeft <= 3) {
+      sfxTick(true);
+      buzz(25);
+    } else if (timeLeft <= Math.min(6, roundTime - 1)) {
+      sfxTick(false);
+    }
     const t = setTimeout(() => setTimeLeft((s) => s - 1), 1000);
     return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, timeLeft]);
 
   /* Membres connectés (pour défier) — hôte en salon uniquement. */
@@ -298,11 +347,12 @@ export function VfDuelLive({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [myRole, phase]);
 
-  const duelLink = appShareUrl(`/vrai-faux?duel=${code}`);
+  const duelLink = appShareUrl(`${GAME_PATH[game]}?duel=${code}`);
 
   async function shareInvite() {
+    primeSfx();
     await shareText(
-      `Je te défie en DIRECT à Vrai ou Faux sur RHEMA ! Code du salon : ${code}. Touche le lien pour me rejoindre :`,
+      `Je te défie en DIRECT au ${GAME_LABEL[game]} sur RHEMA ! Code du salon : ${code}. Touche le lien pour me rejoindre :`,
       duelLink,
     );
     setShareDone(true);
@@ -310,25 +360,29 @@ export function VfDuelLive({
 
   /** Défie un membre connecté : notification avec lien direct vers le salon. */
   async function inviteMember(m: OnlineMember) {
+    primeSfx();
     const sb = getSupabase();
     if (!sb) return;
     setInvited((s) => new Set(s).add(m.id));
     try {
       await sb.rpc("notify_duel", {
         target: m.id,
-        body: `${me.pseudo || "Un membre"} te défie en DIRECT à Vrai ou Faux !`,
-        link: `/vrai-faux?duel=${code}`,
+        body: `${me.pseudo || "Un membre"} te défie en DIRECT au ${GAME_LABEL[game]} !`,
+        link: `${GAME_PATH[game]}?duel=${code}`,
       });
     } catch {
       /* RPC absente : le lien partagé reste la voie principale */
     }
   }
 
-  function myTap(val: boolean) {
+  function myTap(val: number) {
     if (phase !== "play" || locked[myRole]) return;
-    if (val !== cur.answer) {
-      // Erreur : secousse + vibration immédiates.
+    primeSfx();
+    setMyPick(val);
+    if (val !== cur.correct) {
+      // Erreur : secousse + buzz + son immédiats.
       setShake((s) => s + 1);
+      sfxWrong();
       buzz(90);
     }
     if (myRole === "host") {
@@ -336,11 +390,12 @@ export function VfDuelLive({
     } else {
       send({ t: "answer", p: "guest", round: roundRef.current, val });
       // Optimiste : une erreur se voit tout de suite de mon côté.
-      if (val !== cur.answer) setLocked((l) => ({ ...l, guest: true }));
+      if (val !== cur.correct) setLocked((l) => ({ ...l, guest: true }));
     }
   }
 
   function rematch() {
+    primeSfx();
     const n = epoch + 1;
     send({ t: "rematch", epoch: n });
     setEpoch(n);
@@ -351,6 +406,7 @@ export function VfDuelLive({
   const myScore = scores[myRole];
   const oppRole: DuelRole = myRole === "host" ? "guest" : "host";
   const oppScore = scores[oppRole];
+  const accent = game === "quiz" ? "#FCD34D" : "#CAF000";
 
   /* ================= RENDU ================= */
 
@@ -366,38 +422,30 @@ export function VfDuelLive({
         @keyframes vfl-pulse{0%,100%{opacity:.5}50%{opacity:1}}
         @keyframes vfl-pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
         .vfl-pop{animation:vfl-pop .35s cubic-bezier(.2,.8,.3,1) both}
-        /* Chrono : impact à chaque seconde */
         @keyframes vfl-tick{0%{transform:scale(1.55);opacity:.4}60%{transform:scale(.95)}100%{transform:scale(1);opacity:1}}
         .vfl-tick{animation:vfl-tick .5s cubic-bezier(.2,.8,.3,1) both}
-        /* Panique sous 3 s : tremble + halo rouge qui bat */
         @keyframes vfl-danger{0%,100%{transform:scale(1) rotate(0)}20%{transform:scale(1.12) rotate(-2.5deg)}45%{transform:scale(1.04) rotate(2deg)}70%{transform:scale(1.1) rotate(-1.5deg)}}
         .vfl-danger{animation:vfl-danger .5s ease-in-out both}
         @keyframes vfl-heart{0%,100%{opacity:0}50%{opacity:.55}}
         .vfl-heart{animation:vfl-heart 1s ease-in-out infinite}
-        /* Flash d'écran : point gagné / perdu */
         @keyframes vfl-flash{0%{opacity:.55}100%{opacity:0}}
         .vfl-flash{animation:vfl-flash .7s ease-out both}
-        /* Secousse quand on rate */
         @keyframes vfl-shake{0%,100%{transform:translateX(0)}15%{transform:translateX(-10px)}35%{transform:translateX(9px)}55%{transform:translateX(-7px)}75%{transform:translateX(5px)}90%{transform:translateX(-2px)}}
         .vfl-shake{animation:vfl-shake .45s ease-in-out both}
-        /* Splash VS au départ */
         @keyframes vfl-slam-l{from{opacity:0;transform:translateX(-70px) scale(.7)}to{opacity:1;transform:none}}
         @keyframes vfl-slam-r{from{opacity:0;transform:translateX(70px) scale(.7)}to{opacity:1;transform:none}}
         @keyframes vfl-vs{0%{opacity:0;transform:scale(3)}55%{opacity:1;transform:scale(.9)}75%{transform:scale(1.12)}100%{transform:scale(1)}}
         @keyframes vfl-fadeout{to{opacity:0;visibility:hidden}}
-        /* Score qui claque quand il monte */
         @keyframes vfl-score{0%{transform:scale(1.7)}100%{transform:scale(1)}}
         .vfl-score{animation:vfl-score .45s cubic-bezier(.2,.8,.3,1) both}
       `}</style>
 
       {/* Flash d'écran : vert = point pour moi, rouge = point adverse */}
       {flash ? (
-        <div
-          className={`vfl-flash pointer-events-none fixed inset-0 z-[145] ${flash === "win" ? "bg-emerald-400" : "bg-rose-500"}`}
-        />
+        <div className={`vfl-flash pointer-events-none fixed inset-0 z-[145] ${flash === "win" ? "bg-emerald-400" : "bg-rose-500"}`} />
       ) : null}
 
-      {/* Vignette rouge qui bat sous 3 secondes : le stress monte */}
+      {/* Vignette rouge qui bat sous 3 secondes */}
       {phase === "play" && timeLeft <= 3 ? (
         <div
           className="vfl-heart pointer-events-none fixed inset-0 z-[135]"
@@ -405,12 +453,9 @@ export function VfDuelLive({
         />
       ) : null}
 
-      {/* Splash VS au lancement de la partie */}
+      {/* Splash VS au lancement */}
       {splash ? (
-        <div
-          className="pointer-events-none fixed inset-0 z-[150] grid place-items-center bg-night-950/85"
-          style={{ animation: "vfl-fadeout .4s ease 1.15s both" }}
-        >
+        <div className="pointer-events-none fixed inset-0 z-[150] grid place-items-center bg-night-950/85" style={{ animation: "vfl-fadeout .4s ease 1.15s both" }}>
           <div className="flex items-center gap-6">
             <div className="flex flex-col items-center gap-1.5" style={{ animation: "vfl-slam-l .5s cubic-bezier(.2,.8,.3,1) both" }}>
               <Avatar pseudo={me.pseudo} url={me.avatar} size={68} />
@@ -461,7 +506,9 @@ export function VfDuelLive({
       {phase === "lobby" ? (
         <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-5 pb-8">
           <div className="vfl-pop mx-auto w-full max-w-sm text-center">
-            <p className="font-game text-xs font-black uppercase tracking-[0.25em] text-[#CAF000]">Duel en ligne · en direct</p>
+            <p className="font-game text-xs font-black uppercase tracking-[0.25em]" style={{ color: accent }}>
+              Duel {GAME_LABEL[game]} · en direct
+            </p>
             <p className="mt-3 text-sm text-cream/65">
               {myRole === "host"
                 ? opp
@@ -549,7 +596,7 @@ export function VfDuelLive({
                 key={`t${timeLeft}`}
                 className={`mt-1.5 grid h-[4.6rem] w-[4.6rem] place-items-center rounded-full ${timeLeft <= 3 ? "vfl-danger" : ""}`}
                 style={{
-                  background: `conic-gradient(${timeLeft <= 3 ? "#f43f5e" : "#CAF000"} ${(timeLeft / ROUND_TIME) * 100}%, rgba(255,255,255,.08) 0)`,
+                  background: `conic-gradient(${timeLeft <= 3 ? "#f43f5e" : "#CAF000"} ${(timeLeft / roundTime) * 100}%, rgba(255,255,255,.08) 0)`,
                   boxShadow: timeLeft <= 3 ? "0 0 30px rgba(244,63,94,.55)" : "0 0 18px rgba(202,240,0,.25)",
                 }}
               >
@@ -564,16 +611,17 @@ export function VfDuelLive({
             )}
           </div>
 
-          <div className="flex min-h-0 flex-1 items-center justify-center">
-            <p key={`${epoch}:${round}`} className={`vfl-pop text-balance text-center font-game font-black leading-snug ${cur.text.length > 90 ? "text-lg" : "text-xl sm:text-2xl"}`}>
-              {cur.text}
+          <div className="flex min-h-0 flex-1 items-center justify-center py-2">
+            <p key={`${epoch}:${round}`} className={`vfl-pop text-balance text-center font-game font-black leading-snug ${cur.q.length > 90 ? "text-base" : "text-lg sm:text-xl"}`}>
+              {cur.q}
             </p>
           </div>
 
           {/* Statut de manche */}
           {phase === "reveal" ? (
-            <p className="pb-2 text-center font-game text-sm font-black">
-              <span className={cur.answer ? "text-emerald-300" : "text-rose-300"}>{cur.answer ? "VRAI" : "FAUX"}</span>
+            <p className="pb-2 text-center font-game text-xs font-black">
+              <span className="text-emerald-300">{cur.options[cur.correct]}</span>
+              {cur.reference ? <span className="ml-2 font-semibold text-cream/45">({cur.reference})</span> : null}
               <span className="ml-2 text-cream/60">
                 {roundWinner === myRole ? "Point pour toi !" : roundWinner ? `Point pour ${opp?.pseudo ?? "l'adversaire"}` : "Personne !"}
               </span>
@@ -584,26 +632,58 @@ export function VfDuelLive({
             <p className="pb-2 text-center font-game text-xs font-black text-emerald-300">{opp?.pseudo ?? "L'adversaire"} a raté — à toi !</p>
           ) : null}
 
-          <div className="flex shrink-0 gap-2.5">
-            <button
-              type="button"
-              disabled={phase !== "play" || locked[myRole]}
-              onClick={() => myTap(true)}
-              className="flex-1 rounded-2xl py-5 font-game text-2xl font-black text-white transition-transform active:scale-[.97] disabled:opacity-40"
-              style={{ background: "linear-gradient(180deg,#10b981,#047857)", boxShadow: "0 5px 0 #064e3b" }}
-            >
-              VRAI
-            </button>
-            <button
-              type="button"
-              disabled={phase !== "play" || locked[myRole]}
-              onClick={() => myTap(false)}
-              className="flex-1 rounded-2xl py-5 font-game text-2xl font-black text-white transition-transform active:scale-[.97] disabled:opacity-40"
-              style={{ background: "linear-gradient(180deg,#f43f5e,#be123c)", boxShadow: "0 5px 0 #881337" }}
-            >
-              FAUX
-            </button>
-          </div>
+          {/* Réponses : 2 gros boutons (V/F) ou grille A-D (Quiz) */}
+          {game === "vraifaux" ? (
+            <div className="flex shrink-0 gap-2.5">
+              {[0, 1].map((i) => (
+                <button
+                  key={i}
+                  type="button"
+                  disabled={phase !== "play" || locked[myRole]}
+                  onClick={() => myTap(i)}
+                  className="flex-1 rounded-2xl py-5 font-game text-2xl font-black text-white transition-transform active:scale-[.97] disabled:opacity-40"
+                  style={
+                    i === 0
+                      ? { background: "linear-gradient(180deg,#10b981,#047857)", boxShadow: "0 5px 0 #064e3b" }
+                      : { background: "linear-gradient(180deg,#f43f5e,#be123c)", boxShadow: "0 5px 0 #881337" }
+                  }
+                >
+                  {cur.options[i]}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="grid shrink-0 grid-cols-1 gap-2">
+              {cur.options.map((opt, i) => {
+                const isCorrect = phase === "reveal" && i === cur.correct;
+                const isMyWrong = phase === "reveal" && myPick === i && i !== cur.correct;
+                return (
+                  <button
+                    key={i}
+                    type="button"
+                    disabled={phase !== "play" || locked[myRole]}
+                    onClick={() => myTap(i)}
+                    className="flex items-center gap-2.5 rounded-2xl border px-3.5 py-3 text-left font-game text-sm font-bold transition-transform active:scale-[.98] disabled:opacity-60"
+                    style={
+                      isCorrect
+                        ? { background: "rgba(16,185,129,.25)", borderColor: "#10b981", color: "#d1fae5" }
+                        : isMyWrong
+                          ? { background: "rgba(244,63,94,.22)", borderColor: "#f43f5e", color: "#ffe4e6" }
+                          : { background: "rgba(255,255,255,.06)", borderColor: "rgba(255,255,255,.14)", color: "#F3F3ED" }
+                    }
+                  >
+                    <span
+                      className="grid h-7 w-7 shrink-0 place-items-center rounded-full font-black"
+                      style={{ background: isCorrect ? "#10b981" : "rgba(202,240,0,.9)", color: "#1a2000" }}
+                    >
+                      {String.fromCharCode(65 + i)}
+                    </span>
+                    <span className="min-w-0 flex-1">{opt}</span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </div>
       )}
     </div>

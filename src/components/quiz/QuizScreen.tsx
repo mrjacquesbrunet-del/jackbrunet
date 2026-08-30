@@ -48,6 +48,8 @@ import { getProfile } from "@/lib/community";
 import { submitGameScore, submitWeeklyPoints } from "@/lib/game-scores";
 import { ScoreBoard } from "@/components/games/ScoreBoard";
 import { ARCADE_CSS, ArcadeShell } from "@/components/games/ArcadeUI";
+import { DuelLive, newDuelCode, type DuelRole } from "@/components/games/DuelLive";
+import { useSearchParams } from "next/navigation";
 
 type IconCmp = (p: { className?: string }) => ReactElement;
 
@@ -139,6 +141,16 @@ type Phase = "hub" | "play" | "over";
 
 export function QuizScreen() {
   const [phase, setPhase] = useState<Phase>("hub");
+  // Duel EN LIGNE (temps réel, chacun son téléphone).
+  const [live, setLive] = useState<{ code: string; role: DuelRole } | null>(null);
+  const [liveMenu, setLiveMenu] = useState(false);
+  const [joinCode, setJoinCode] = useState("");
+  const [userId, setUserId] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+  const duelParam = searchParams.get("duel");
+  useEffect(() => {
+    if (duelParam) setLive({ code: duelParam.toUpperCase(), role: "guest" });
+  }, [duelParam]);
   const [name, setName] = useState("");
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [editingName, setEditingName] = useState(false);
@@ -174,6 +186,7 @@ export function QuizScreen() {
         const { data } = await sb.auth.getUser();
         const uid = data.user?.id;
         if (!uid) return;
+        setUserId(uid);
         const prof = await getProfile(uid);
         const first =
           (prof?.pseudo && prof.pseudo.trim()) ||
@@ -689,6 +702,17 @@ export function QuizScreen() {
           </button>
         </div>
 
+        {/* DUEL EN LIGNE : chacun son téléphone, en direct */}
+        {userId ? (
+          <button
+            type="button"
+            onClick={() => setLiveMenu(true)}
+            className="mt-3 flex w-full items-center justify-center gap-2 rounded-full border border-[#CAF000]/50 bg-[#CAF000]/10 py-3.5 font-game text-base font-black text-[#CAF000] transition-transform active:scale-[.98]"
+          >
+            DUEL EN LIGNE · EN DIRECT
+          </button>
+        ) : null}
+
         <Link href="/jeux" className="qm-retour mt-3 flex w-full items-center justify-center gap-2">
           <IconGames className="h-4 w-4" /> Accueil des jeux
         </Link>
@@ -709,6 +733,59 @@ export function QuizScreen() {
         {showBoard ? <Leaderboard onClose={() => setShowBoard(false)} /> : null}
         {showTrophies ? <Trophies onClose={() => setShowTrophies(false)} /> : null}
         {showThemes ? <ThemesPicker onPick={(id) => startGame("themed", id)} onClose={() => setShowThemes(false)} /> : null}
+
+        {/* Choix du duel en ligne : créer un salon ou rejoindre avec un code */}
+        {liveMenu ? (
+          <div className="fixed inset-0 z-[125] flex items-end justify-center sm:items-center">
+            <button type="button" aria-label="Fermer" onClick={() => setLiveMenu(false)} className="absolute inset-0 bg-night-950/70 backdrop-blur-sm" />
+            <div className="relative w-full max-w-sm rounded-t-3xl border border-white/10 bg-night-900 p-5 pb-[calc(env(safe-area-inset-bottom)+1.25rem)] text-cream sm:rounded-3xl sm:pb-5">
+              <p className="font-game text-lg font-black">Duel en ligne · Quiz</p>
+              <button
+                type="button"
+                onClick={() => {
+                  setLiveMenu(false);
+                  setLive({ code: newDuelCode(), role: "host" });
+                }}
+                className="mt-4 w-full rounded-full py-3.5 font-game text-base font-black text-[#1a2000]"
+                style={{ background: "linear-gradient(180deg,#D8F53A,#AAD000)", boxShadow: "0 4px 0 #5b7300" }}
+              >
+                CRÉER UN SALON
+              </button>
+              <p className="mt-2 text-center text-[11px] text-cream/50">
+                Tu obtiens un code et un lien à envoyer — la partie démarre dès que l&apos;autre rejoint.
+              </p>
+              <div className="mt-4 flex items-center gap-2">
+                <input
+                  value={joinCode}
+                  onChange={(e) => setJoinCode(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6))}
+                  placeholder="CODE DU SALON"
+                  className="min-w-0 flex-1 rounded-full border border-white/15 bg-white/[0.06] px-4 py-3 text-center font-game text-base font-black tracking-[0.25em] text-cream placeholder:text-cream/30 placeholder:tracking-normal focus:border-[#CAF000]/60 focus:outline-none"
+                />
+                <button
+                  type="button"
+                  disabled={joinCode.length !== 6}
+                  onClick={() => {
+                    setLiveMenu(false);
+                    setLive({ code: joinCode, role: "guest" });
+                  }}
+                  className="shrink-0 rounded-full bg-dawn-400 px-5 py-3 font-game text-sm font-black text-night-950 disabled:opacity-40"
+                >
+                  REJOINDRE
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : null}
+
+        {live && userId ? (
+          <DuelLive
+            game="quiz"
+            code={live.code}
+            role={live.role}
+            me={{ id: userId, pseudo: name, avatar: avatarUrl }}
+            onClose={() => setLive(null)}
+          />
+        ) : null}
       </ArcadeShell>
     );
   }

@@ -27,7 +27,7 @@ import {
   IcoPeople,
 } from "./ArcadeUI";
 import { VfDuel } from "@/components/games/VfDuel";
-import { VfDuelLive, newDuelCode, type DuelRole } from "@/components/games/VfDuelLive";
+import { DuelLive, newDuelCode, type DuelRole } from "@/components/games/DuelLive";
 import { useSearchParams } from "next/navigation";
 
 function buzz(p: number | number[]) {
@@ -376,7 +376,8 @@ export function VraiFauxScreen() {
 
         {duel ? <VfDuel onClose={() => setDuel(false)} /> : null}
         {live && userId ? (
-          <VfDuelLive
+          <DuelLive
+            game="vraifaux"
             code={live.code}
             role={live.role}
             me={{ id: userId, pseudo: name, avatar }}
