@@ -27,6 +27,8 @@ import {
   IcoPeople,
 } from "./ArcadeUI";
 import { VfDuel } from "@/components/games/VfDuel";
+import { VfDuelLive, newDuelCode, type DuelRole } from "@/components/games/VfDuelLive";
+import { useSearchParams } from "next/navigation";
 
 function buzz(p: number | number[]) {
   try {
@@ -45,6 +47,18 @@ export function VraiFauxScreen() {
   const [phase, setPhase] = useState<Phase>("hub");
   // Duel local à deux sur le même téléphone (écran miroir).
   const [duel, setDuel] = useState(false);
+  // Duel EN LIGNE (temps réel, chacun son téléphone).
+  const [live, setLive] = useState<{ code: string; role: DuelRole } | null>(null);
+  const [liveMenu, setLiveMenu] = useState(false);
+  const [joinCode, setJoinCode] = useState("");
+  const [userId, setUserId] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+
+  // Lien de défi reçu (/vrai-faux?duel=CODE) → on rejoint le salon.
+  const duelParam = searchParams.get("duel");
+  useEffect(() => {
+    if (duelParam) setLive({ code: duelParam.toUpperCase(), role: "guest" });
+  }, [duelParam]);
   const [deck, setDeck] = useState<VFItem[]>([]);
   const [idx, setIdx] = useState(0);
   const [lives, setLives] = useState(VF_LIVES);
@@ -74,6 +88,7 @@ export function VraiFauxScreen() {
         const { data } = await sb.auth.getUser();
         const uid = data.user?.id;
         if (!uid) return;
+        setUserId(uid);
         const prof = await getProfile(uid);
         const first =
           (prof?.pseudo && prof.pseudo.trim()) ||
@@ -290,6 +305,65 @@ export function VraiFauxScreen() {
           Un seul téléphone posé entre vous : l&apos;écran se coupe en deux, chacun son côté.
         </p>
 
+        {/* DUEL EN LIGNE : chacun son téléphone, en direct */}
+        {userId ? (
+          <>
+            <button
+              type="button"
+              onClick={() => setLiveMenu(true)}
+              className="mt-3 flex w-full items-center justify-center gap-2 rounded-full border border-[#CAF000]/50 bg-[#CAF000]/10 py-3.5 font-game text-base font-black text-[#CAF000] transition-transform active:scale-[.98]"
+            >
+              <IcoBolt className="h-5 w-5" /> DUEL EN LIGNE · EN DIRECT
+            </button>
+            <p className="mt-1.5 text-center text-[11px] font-semibold text-white/45">
+              Chacun son téléphone : envoie un lien de défi ou joue avec un membre connecté.
+            </p>
+          </>
+        ) : null}
+
+        {/* Choix du duel en ligne : créer un salon ou rejoindre avec un code */}
+        {liveMenu ? (
+          <div className="fixed inset-0 z-[125] flex items-end justify-center sm:items-center">
+            <button type="button" aria-label="Fermer" onClick={() => setLiveMenu(false)} className="absolute inset-0 bg-night-950/70 backdrop-blur-sm" />
+            <div className="relative w-full max-w-sm rounded-t-3xl border border-white/10 bg-night-900 p-5 pb-[calc(env(safe-area-inset-bottom)+1.25rem)] text-cream sm:rounded-3xl sm:pb-5">
+              <p className="font-game text-lg font-black">Duel en ligne</p>
+              <button
+                type="button"
+                onClick={() => {
+                  setLiveMenu(false);
+                  setLive({ code: newDuelCode(), role: "host" });
+                }}
+                className="mt-4 w-full rounded-full py-3.5 font-game text-base font-black text-[#1a2000]"
+                style={{ background: "linear-gradient(180deg,#D8F53A,#AAD000)", boxShadow: "0 4px 0 #5b7300" }}
+              >
+                CRÉER UN SALON
+              </button>
+              <p className="mt-2 text-center text-[11px] text-cream/50">
+                Tu obtiens un code et un lien à envoyer — la partie démarre dès que l&apos;autre rejoint.
+              </p>
+              <div className="mt-4 flex items-center gap-2">
+                <input
+                  value={joinCode}
+                  onChange={(e) => setJoinCode(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6))}
+                  placeholder="CODE DU SALON"
+                  className="min-w-0 flex-1 rounded-full border border-white/15 bg-white/[0.06] px-4 py-3 text-center font-game text-base font-black tracking-[0.25em] text-cream placeholder:text-cream/30 placeholder:tracking-normal focus:border-[#CAF000]/60 focus:outline-none"
+                />
+                <button
+                  type="button"
+                  disabled={joinCode.length !== 6}
+                  onClick={() => {
+                    setLiveMenu(false);
+                    setLive({ code: joinCode, role: "guest" });
+                  }}
+                  className="shrink-0 rounded-full bg-dawn-400 px-5 py-3 font-game text-sm font-black text-night-950 disabled:opacity-40"
+                >
+                  REJOINDRE
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : null}
+
         <div className="mt-4 flex justify-center">
           <button type="button" onClick={() => router.push("/jeux")} className="qm-retour">
             <IcoRefresh className="h-4 w-4" /> RETOUR AUX JEUX
@@ -301,6 +375,14 @@ export function VraiFauxScreen() {
         </div>
 
         {duel ? <VfDuel onClose={() => setDuel(false)} /> : null}
+        {live && userId ? (
+          <VfDuelLive
+            code={live.code}
+            role={live.role}
+            me={{ id: userId, pseudo: name, avatar }}
+            onClose={() => setLive(null)}
+          />
+        ) : null}
       </ArcadeShell>
     );
   }
