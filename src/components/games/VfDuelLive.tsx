@@ -71,6 +71,14 @@ export function newDuelCode(): string {
 
 type OnlineMember = { id: string; pseudo: string | null; avatar_url: string | null };
 
+function buzz(p: number | number[]) {
+  try {
+    if (typeof navigator !== "undefined" && "vibrate" in navigator) navigator.vibrate(p);
+  } catch {
+    /* non supporté */
+  }
+}
+
 export function VfDuelLive({
   code,
   role,
@@ -93,6 +101,10 @@ export function VfDuelLive({
   const [online, setOnline] = useState<OnlineMember[]>([]);
   const [invited, setInvited] = useState<Set<string>>(new Set());
   const [shareDone, setShareDone] = useState(false);
+  // Effets : splash VS, flash de point, secousse d'erreur.
+  const [splash, setSplash] = useState(false);
+  const [flash, setFlash] = useState<"" | "win" | "lose">("");
+  const [shake, setShake] = useState(0);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const chRef = useRef<any>(null);
@@ -161,6 +173,12 @@ export function VfDuelLive({
     setRoundWinner(null);
     setTimeLeft(ROUND_TIME);
     setPhase("play");
+    if (r === 0) {
+      // Splash « VS » d'entrée en matière.
+      setSplash(true);
+      setTimeout(() => setSplash(false), 1600);
+      buzz(40);
+    }
     if (myRole === "host") {
       timeoutRef.current = setTimeout(() => resolveRound(null), ROUND_TIME * 1000 + 350);
     }
@@ -181,6 +199,15 @@ export function VfDuelLive({
     setScores(s);
     setRoundWinner(winner);
     setPhase("reveal");
+    // Flash d'écran + vibration selon l'issue de la manche.
+    if (winner === myRole) {
+      setFlash("win");
+      buzz([30, 40, 60]);
+    } else if (winner) {
+      setFlash("lose");
+      buzz(120);
+    }
+    setTimeout(() => setFlash(""), 750);
     const finished = s.host >= TARGET || s.guest >= TARGET;
     if (nextRef.current) clearTimeout(nextRef.current);
     nextRef.current = setTimeout(() => {
@@ -242,9 +269,10 @@ export function VfDuelLive({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [myRole, phase, opp, epoch]);
 
-  /* Compte à rebours d'affichage. */
+  /* Compte à rebours d'affichage (+ vibration de stress sous 3 s). */
   useEffect(() => {
     if (phase !== "play" || timeLeft <= 0) return;
+    if (timeLeft <= 3) buzz(25);
     const t = setTimeout(() => setTimeLeft((s) => s - 1), 1000);
     return () => clearTimeout(t);
   }, [phase, timeLeft]);
@@ -298,6 +326,11 @@ export function VfDuelLive({
 
   function myTap(val: boolean) {
     if (phase !== "play" || locked[myRole]) return;
+    if (val !== cur.answer) {
+      // Erreur : secousse + vibration immédiates.
+      setShake((s) => s + 1);
+      buzz(90);
+    }
     if (myRole === "host") {
       hostHandleAnswer("host", roundRef.current, val);
     } else {
@@ -333,7 +366,66 @@ export function VfDuelLive({
         @keyframes vfl-pulse{0%,100%{opacity:.5}50%{opacity:1}}
         @keyframes vfl-pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
         .vfl-pop{animation:vfl-pop .35s cubic-bezier(.2,.8,.3,1) both}
+        /* Chrono : impact à chaque seconde */
+        @keyframes vfl-tick{0%{transform:scale(1.55);opacity:.4}60%{transform:scale(.95)}100%{transform:scale(1);opacity:1}}
+        .vfl-tick{animation:vfl-tick .5s cubic-bezier(.2,.8,.3,1) both}
+        /* Panique sous 3 s : tremble + halo rouge qui bat */
+        @keyframes vfl-danger{0%,100%{transform:scale(1) rotate(0)}20%{transform:scale(1.12) rotate(-2.5deg)}45%{transform:scale(1.04) rotate(2deg)}70%{transform:scale(1.1) rotate(-1.5deg)}}
+        .vfl-danger{animation:vfl-danger .5s ease-in-out both}
+        @keyframes vfl-heart{0%,100%{opacity:0}50%{opacity:.55}}
+        .vfl-heart{animation:vfl-heart 1s ease-in-out infinite}
+        /* Flash d'écran : point gagné / perdu */
+        @keyframes vfl-flash{0%{opacity:.55}100%{opacity:0}}
+        .vfl-flash{animation:vfl-flash .7s ease-out both}
+        /* Secousse quand on rate */
+        @keyframes vfl-shake{0%,100%{transform:translateX(0)}15%{transform:translateX(-10px)}35%{transform:translateX(9px)}55%{transform:translateX(-7px)}75%{transform:translateX(5px)}90%{transform:translateX(-2px)}}
+        .vfl-shake{animation:vfl-shake .45s ease-in-out both}
+        /* Splash VS au départ */
+        @keyframes vfl-slam-l{from{opacity:0;transform:translateX(-70px) scale(.7)}to{opacity:1;transform:none}}
+        @keyframes vfl-slam-r{from{opacity:0;transform:translateX(70px) scale(.7)}to{opacity:1;transform:none}}
+        @keyframes vfl-vs{0%{opacity:0;transform:scale(3)}55%{opacity:1;transform:scale(.9)}75%{transform:scale(1.12)}100%{transform:scale(1)}}
+        @keyframes vfl-fadeout{to{opacity:0;visibility:hidden}}
+        /* Score qui claque quand il monte */
+        @keyframes vfl-score{0%{transform:scale(1.7)}100%{transform:scale(1)}}
+        .vfl-score{animation:vfl-score .45s cubic-bezier(.2,.8,.3,1) both}
       `}</style>
+
+      {/* Flash d'écran : vert = point pour moi, rouge = point adverse */}
+      {flash ? (
+        <div
+          className={`vfl-flash pointer-events-none fixed inset-0 z-[145] ${flash === "win" ? "bg-emerald-400" : "bg-rose-500"}`}
+        />
+      ) : null}
+
+      {/* Vignette rouge qui bat sous 3 secondes : le stress monte */}
+      {phase === "play" && timeLeft <= 3 ? (
+        <div
+          className="vfl-heart pointer-events-none fixed inset-0 z-[135]"
+          style={{ background: "radial-gradient(120% 120% at 50% 50%, transparent 52%, rgba(244,63,94,.55))" }}
+        />
+      ) : null}
+
+      {/* Splash VS au lancement de la partie */}
+      {splash ? (
+        <div
+          className="pointer-events-none fixed inset-0 z-[150] grid place-items-center bg-night-950/85"
+          style={{ animation: "vfl-fadeout .4s ease 1.15s both" }}
+        >
+          <div className="flex items-center gap-6">
+            <div className="flex flex-col items-center gap-1.5" style={{ animation: "vfl-slam-l .5s cubic-bezier(.2,.8,.3,1) both" }}>
+              <Avatar pseudo={me.pseudo} url={me.avatar} size={68} />
+              <p className="max-w-[6rem] truncate font-game text-xs font-black text-[#CAF000]">{me.pseudo || "TOI"}</p>
+            </div>
+            <p className="font-game text-6xl font-black text-cream" style={{ animation: "vfl-vs .6s cubic-bezier(.2,.8,.3,1) .15s both", textShadow: "0 0 30px rgba(202,240,0,.6)" }}>
+              VS
+            </p>
+            <div className="flex flex-col items-center gap-1.5" style={{ animation: "vfl-slam-r .5s cubic-bezier(.2,.8,.3,1) both" }}>
+              <Avatar pseudo={opp?.pseudo} url={opp?.avatar} size={68} />
+              <p className="max-w-[6rem] truncate font-game text-xs font-black text-[#FCD34D]">{opp?.pseudo ?? "…"}</p>
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       {/* En-tête : adversaire + scores + quitter */}
       <div className="flex items-center justify-between gap-3 px-4 pb-3 pt-[calc(env(safe-area-inset-top)+0.9rem)]">
@@ -349,9 +441,9 @@ export function VfDuelLive({
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <span className="rounded-full bg-[#FCD34D]/15 px-3 py-1 font-game text-lg font-black text-[#FCD34D]">{oppScore}</span>
+          <span key={`o${oppScore}`} className="vfl-score rounded-full bg-[#FCD34D]/15 px-3 py-1 font-game text-lg font-black text-[#FCD34D]">{oppScore}</span>
           <span className="font-game text-xs text-cream/40">·</span>
-          <span className="rounded-full bg-[#CAF000]/15 px-3 py-1 font-game text-lg font-black text-[#CAF000]">{myScore}</span>
+          <span key={`m${myScore}`} className="vfl-score rounded-full bg-[#CAF000]/15 px-3 py-1 font-game text-lg font-black text-[#CAF000]">{myScore}</span>
           <button
             type="button"
             onClick={onClose}
@@ -448,12 +540,28 @@ export function VfDuelLive({
         </div>
       ) : (
         /* ---------- MANCHE ---------- */
-        <div className="flex min-h-0 flex-1 flex-col px-5 pb-[calc(env(safe-area-inset-bottom)+1rem)]">
-          <div className="flex items-center justify-between">
-            <p className="font-game text-[11px] font-bold text-cream/50">Premier à {TARGET}</p>
-            <p className={`font-game text-sm font-black tabular-nums ${phase === "play" && timeLeft <= 3 ? "text-rose-300" : "text-cream/70"}`}>
-              {phase === "play" ? `${timeLeft}s` : ""}
-            </p>
+        <div key={shake || undefined} className={`flex min-h-0 flex-1 flex-col px-5 pb-[calc(env(safe-area-inset-bottom)+1rem)] ${shake ? "vfl-shake" : ""}`}>
+          {/* GROS chrono central : anneau qui se vide + impact chaque seconde */}
+          <div className="flex flex-col items-center">
+            <p className="font-game text-[10px] font-bold uppercase tracking-[0.2em] text-cream/45">Premier à {TARGET}</p>
+            {phase === "play" ? (
+              <div
+                key={`t${timeLeft}`}
+                className={`mt-1.5 grid h-[4.6rem] w-[4.6rem] place-items-center rounded-full ${timeLeft <= 3 ? "vfl-danger" : ""}`}
+                style={{
+                  background: `conic-gradient(${timeLeft <= 3 ? "#f43f5e" : "#CAF000"} ${(timeLeft / ROUND_TIME) * 100}%, rgba(255,255,255,.08) 0)`,
+                  boxShadow: timeLeft <= 3 ? "0 0 30px rgba(244,63,94,.55)" : "0 0 18px rgba(202,240,0,.25)",
+                }}
+              >
+                <div className="grid h-[3.8rem] w-[3.8rem] place-items-center rounded-full bg-night-950">
+                  <span className={`vfl-tick font-game text-4xl font-black tabular-nums ${timeLeft <= 3 ? "text-rose-300" : "text-cream"}`}>
+                    {timeLeft}
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <div className="mt-1.5 h-[4.6rem]" />
+            )}
           </div>
 
           <div className="flex min-h-0 flex-1 items-center justify-center">

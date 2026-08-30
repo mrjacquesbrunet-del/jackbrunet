@@ -26,9 +26,23 @@ const DUEL_CSS = `
 .vfd-pop{animation:vfd-pop .35s cubic-bezier(.2,.8,.3,1) both}
 @keyframes vfd-win{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
 .vfd-win{animation:vfd-win 1.1s ease-in-out infinite}
-@keyframes vfd-tick{0%,100%{opacity:.85}50%{opacity:.45}}
-.vfd-tick{animation:vfd-tick 1s ease-in-out infinite}
+@keyframes vfd-tick{0%{transform:scale(1.5);opacity:.4}60%{transform:scale(.95)}100%{transform:scale(1);opacity:1}}
+.vfd-tick{animation:vfd-tick .5s cubic-bezier(.2,.8,.3,1) both}
+@keyframes vfd-danger{0%,100%{transform:scale(1) rotate(0)}20%{transform:scale(1.14) rotate(-2.5deg)}45%{transform:scale(1.04) rotate(2deg)}70%{transform:scale(1.1) rotate(-1.5deg)}}
+.vfd-danger{animation:vfd-danger .5s ease-in-out both}
+@keyframes vfd-heart{0%,100%{opacity:0}50%{opacity:.5}}
+.vfd-heart{animation:vfd-heart 1s ease-in-out infinite}
+@keyframes vfd-score{0%{transform:scale(1.7)}100%{transform:scale(1)}}
+.vfd-score{animation:vfd-score .45s cubic-bezier(.2,.8,.3,1) both}
 `;
+
+function buzz(p: number | number[]) {
+  try {
+    if (typeof navigator !== "undefined" && "vibrate" in navigator) navigator.vibrate(p);
+  } catch {
+    /* non supporté */
+  }
+}
 
 export function VfDuel({ onClose }: { onClose: () => void }) {
   const [deck, setDeck] = useState<VFItem[]>(() => buildDeck());
@@ -53,13 +67,14 @@ export function VfDuel({ onClose }: { onClose: () => void }) {
     };
   }, []);
 
-  // Compte à rebours de la manche.
+  // Compte à rebours de la manche (+ vibration de stress sous 3 s).
   useEffect(() => {
     if (phase !== "play") return;
     if (timeLeft <= 0) {
       reveal(null);
       return;
     }
+    if (timeLeft <= 3) buzz(25);
     const t = setTimeout(() => setTimeLeft((s) => s - 1), 1000);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -87,9 +102,11 @@ export function VfDuel({ onClose }: { onClose: () => void }) {
   function tap(p: P, val: boolean) {
     if (phase !== "play" || locked[p]) return;
     if (val === cur.answer) {
+      buzz([30, 40, 60]);
       setScores((s) => ({ ...s, [p]: s[p] + 1 }));
       reveal(p);
     } else {
+      buzz(90);
       setLocked((l) => {
         const nl = { ...l, [p]: true };
         if (nl.a && nl.b) reveal(null);
@@ -129,12 +146,20 @@ export function VfDuel({ onClose }: { onClose: () => void }) {
         />
       </div>
 
-      {/* Barre centrale : scores + chrono + quitter */}
-      <div className="flex shrink-0 items-center justify-between gap-3 border-y border-white/10 bg-night-950/90 px-4 py-2.5">
-        <span className="rounded-full bg-[#FCD34D]/15 px-3 py-1 font-game text-lg font-black text-[#FCD34D]">
+      {/* Vignette rouge des 3 dernières secondes (des deux côtés) */}
+      {phase === "play" && timeLeft <= 3 ? (
+        <div
+          className="vfd-heart pointer-events-none fixed inset-0 z-[135]"
+          style={{ background: "radial-gradient(120% 120% at 50% 50%, transparent 52%, rgba(244,63,94,.55))" }}
+        />
+      ) : null}
+
+      {/* Barre centrale : scores + GROS chrono à impact + quitter */}
+      <div className="relative z-[136] flex shrink-0 items-center justify-between gap-3 border-y border-white/10 bg-night-950/90 px-4 py-2">
+        <span key={`b${scores.b}`} className="vfd-score rounded-full bg-[#FCD34D]/15 px-3 py-1 font-game text-xl font-black text-[#FCD34D]">
           {scores.b}
         </span>
-        <div className="flex items-center gap-2 text-center">
+        <div className="flex items-center gap-2.5 text-center">
           <button
             type="button"
             onClick={onClose}
@@ -145,16 +170,26 @@ export function VfDuel({ onClose }: { onClose: () => void }) {
               <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
             </svg>
           </button>
-          <p className="font-game text-[11px] font-bold text-cream/60">
-            Premier à {TARGET}
-            {phase === "play" ? (
-              <span className={`ml-2 tabular-nums ${timeLeft <= 3 ? "text-rose-300 vfd-tick" : "text-cream/80"}`}>
-                {timeLeft}s
-              </span>
-            ) : null}
-          </p>
+          {phase === "play" ? (
+            <div
+              key={`t${timeLeft}`}
+              className={`grid h-14 w-14 place-items-center rounded-full ${timeLeft <= 3 ? "vfd-danger" : ""}`}
+              style={{
+                background: `conic-gradient(${timeLeft <= 3 ? "#f43f5e" : "#CAF000"} ${(timeLeft / ROUND_TIME) * 100}%, rgba(255,255,255,.08) 0)`,
+                boxShadow: timeLeft <= 3 ? "0 0 24px rgba(244,63,94,.6)" : "0 0 14px rgba(202,240,0,.25)",
+              }}
+            >
+              <div className="grid h-11 w-11 place-items-center rounded-full bg-night-950">
+                <span className={`vfd-tick font-game text-2xl font-black tabular-nums ${timeLeft <= 3 ? "text-rose-300" : "text-cream"}`}>
+                  {timeLeft}
+                </span>
+              </div>
+            </div>
+          ) : (
+            <p className="font-game text-[11px] font-bold text-cream/60">Premier à {TARGET}</p>
+          )}
         </div>
-        <span className="rounded-full bg-[#CAF000]/15 px-3 py-1 font-game text-lg font-black text-[#CAF000]">
+        <span key={`a${scores.a}`} className="vfd-score rounded-full bg-[#CAF000]/15 px-3 py-1 font-game text-xl font-black text-[#CAF000]">
           {scores.a}
         </span>
       </div>
