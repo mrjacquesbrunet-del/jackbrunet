@@ -46,6 +46,8 @@ function label(n: Notification) {
       return `${who} a rejoint ${n.body? `« ${n.body} »`: "ton groupe"}`;
     case "admin":
       return n.body? `${n.body}`: "Message de Pasteur Jack";
+    case "challenge":
+      return n.body ?? `${who} te défie en direct !`;
     default:
       return n.body?? "Nouvelle notification";
   }

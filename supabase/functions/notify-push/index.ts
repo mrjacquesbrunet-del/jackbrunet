@@ -35,6 +35,7 @@ function messageFor(type: string, who: string, body: string): { title: string; t
     case "follow":         return { title: "Nouvel abonné", text: `${who} s'est abonné(e) à toi` };
     case "mention":        return { title: "Mention", text: `${who} t'a mentionné(e)` };
     case "admin":          return { title: "Pasteur Jack", text: body || "Nouveau message" };
+    case "challenge":      return { title: "Défi en direct !", text: body || `${who} te défie en direct !` };
     default:               return { title: "Notification", text: body || "Tu as une nouvelle notification" };
   }
 }
