@@ -24,7 +24,9 @@ import {
   IcoBolt,
   IcoHeartFill,
   IcoFlameF,
+  IcoPeople,
 } from "./ArcadeUI";
+import { VfDuel } from "@/components/games/VfDuel";
 
 function buzz(p: number | number[]) {
   try {
@@ -41,6 +43,8 @@ type Phase = "hub" | "play" | "over";
 export function VraiFauxScreen() {
   const router = useRouter();
   const [phase, setPhase] = useState<Phase>("hub");
+  // Duel local à deux sur le même téléphone (écran miroir).
+  const [duel, setDuel] = useState(false);
   const [deck, setDeck] = useState<VFItem[]>([]);
   const [idx, setIdx] = useState(0);
   const [lives, setLives] = useState(VF_LIVES);
@@ -274,6 +278,18 @@ export function VraiFauxScreen() {
           <button type="button" onClick={start} className="mt-3 w-full font-game text-sm font-bold text-white/70">Nouvelle partie</button>
         ) : null}
 
+        {/* DUEL à deux sur le même téléphone (écran miroir face à face) */}
+        <button
+          type="button"
+          onClick={() => setDuel(true)}
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-full border border-[#FCD34D]/50 bg-[#FCD34D]/10 py-3.5 font-game text-base font-black text-[#FCD34D] transition-transform active:scale-[.98]"
+        >
+          <IcoPeople className="h-5 w-5" /> DUEL À DEUX · FACE À FACE
+        </button>
+        <p className="mt-1.5 text-center text-[11px] font-semibold text-white/45">
+          Un seul téléphone posé entre vous : l&apos;écran se coupe en deux, chacun son côté.
+        </p>
+
         <div className="mt-4 flex justify-center">
           <button type="button" onClick={() => router.push("/jeux")} className="qm-retour">
             <IcoRefresh className="h-4 w-4" /> RETOUR AUX JEUX
@@ -283,6 +299,8 @@ export function VraiFauxScreen() {
         <div className="mt-5">
           <ScoreBoard mode="vraifaux" accent="#CAF000" title="Classement · Vrai ou Faux" />
         </div>
+
+        {duel ? <VfDuel onClose={() => setDuel(false)} /> : null}
       </ArcadeShell>
     );
   }
