@@ -45,7 +45,7 @@
   (function () {
     var nav = document.getElementById('usn-nav');
     if (!nav) return;
-    var nuit = document.getElementById('usn-message');
+    var nuit = document.getElementById('usn-frise');
     var nom = nav.querySelector('.usn-nav-nom');
 
     function verifier() {
@@ -424,51 +424,58 @@
     }
     sceneAppliquer();
 
-    /* ---------- 5 bis. Le bloc du message ----------
-       En descendant : la photo se dezoome et s'assombrit, et le logo se
-       trace par-dessus, trait par trait, comme une signature. */
-    var msg      = root.querySelector('.usn-message');
-    var msgImage = root.querySelector('#usn-msg-photo img');
-    var msgSigne = document.getElementById('usn-signature');
-    var traces   = msgSigne ? msgSigne.querySelectorAll('path') : [];
+    /* ---------- 5 bis. La frise ----------
+       Le defilement vertical tire la bande vers la gauche. La hauteur du
+       bloc est calee sur la largeur reelle de la bande : la traversee se
+       fait donc a la meme vitesse sur un telephone et sur un grand ecran,
+       au lieu de defiler en un eclair d'un cote et de trainer de l'autre. */
+    var frise  = root.querySelector('.usn-frise');
+    var piste  = document.getElementById('usn-frise-piste');
+    var jauge  = document.getElementById('usn-frise-part');
+    var signe  = document.getElementById('usn-fr-signe');
+    var signes = signe ? signe.querySelectorAll('path') : [];
+    var course = 0;
 
-    // Chaque trait a sa propre longueur : on la mesure une fois, et on
-    // s'en sert comme d'un pointille que l'on decale jusqu'a le remplir.
-    for (var t = 0; t < traces.length; t++) {
-      var lg = 0;
-      try { lg = traces[t].getTotalLength(); } catch (e) { lg = 0; }
-      traces[t].__lg = lg;
-      if (lg) {
-        traces[t].style.strokeDasharray = lg;
-        traces[t].style.strokeDashoffset = lg;
+    for (var g = 0; g < signes.length; g++) {
+      var lg2 = 0;
+      try { lg2 = signes[g].getTotalLength(); } catch (e) { lg2 = 0; }
+      signes[g].__lg = lg2;
+      if (lg2) {
+        signes[g].style.strokeDasharray = lg2;
+        signes[g].style.strokeDashoffset = lg2;
       }
     }
 
-    function messageAppliquer() {
-      if (!msg) return;
-      var r = msg.getBoundingClientRect();
-      var course = Math.max(1, r.height - vh());
-      var p = clamp01(-r.top / course);
+    function mesurerFrise() {
+      if (!frise || !piste) return;
+      course = Math.max(0, piste.scrollWidth - window.innerWidth);
+      // Un peu moins d'un pixel de defilement par pixel parcouru : la
+      // bande avance sans obliger a une descente interminable.
+      frise.style.height = (vh() + course * 0.85) + 'px';
+    }
 
-      if (msgImage) {
-        // Elle arrive large et claire, elle finit serree et sombre.
-        var e = easeOut(clamp01(p / 0.72));
-        msgImage.style.transform = 'scale(' + (1.24 - 0.24 * e).toFixed(4) + ')';
-        msgImage.style.filter = 'brightness(' + (0.94 - 0.70 * e).toFixed(3)
-                              + ') saturate(' + (1 - 0.55 * e).toFixed(3) + ')';
-      }
+    function friseAppliquer() {
+      if (!frise || !piste) return;
+      var r = frise.getBoundingClientRect();
+      var c = Math.max(1, r.height - vh());
+      var p = clamp01(-r.top / c);
+      piste.style.transform = 'translate3d(' + (-course * p).toFixed(1) + 'px,0,0)';
+      if (jauge) jauge.style.width = (p * 100).toFixed(2) + '%';
 
-      // Le trace commence une fois la photo bien entamee, et chaque trait
-      // part un peu apres le precedent : c'est ce decalage qui donne
-      // l'impression d'une main qui ecrit.
-      for (var i = 0; i < traces.length; i++) {
-        var tr = traces[i];
-        if (!tr.__lg) continue;
-        var q = clamp01((p - 0.16 - i * 0.042) / 0.40);
-        tr.style.strokeDashoffset = (tr.__lg * (1 - q)).toFixed(1);
+      // La signature se trace quand son panneau traverse l'ecran.
+      if (signe && signes.length) {
+        var rs = signe.getBoundingClientRect();
+        var q = clamp01((window.innerWidth * 0.78 - rs.left) / (window.innerWidth * 0.42));
+        for (var i = 0; i < signes.length; i++) {
+          var tr = signes[i];
+          if (!tr.__lg) continue;
+          var qi = clamp01((q - i * 0.05) / 0.45);
+          tr.style.strokeDashoffset = (tr.__lg * (1 - qi)).toFixed(1);
+        }
       }
     }
-    messageAppliquer();
+    mesurerFrise();
+    friseAppliquer();
 
     /* ---------- 6. Parallaxes ----------
        Chaque element marque monte a sa propre vitesse pendant qu'il
@@ -513,7 +520,7 @@
       var y = scrollY();
       if (y !== dernierY) { dernierY = y; moving = true; }
       sceneAppliquer();
-      messageAppliquer();
+      friseAppliquer();
       parallaxes();
       visagesAppliquer();
 
@@ -552,8 +559,8 @@
     function kick() { if (!running) { running = true; requestAnimationFrame(frame); } }
 
     window.addEventListener('scroll', kick, { passive: true });
-    window.addEventListener('resize', function () { measureAll(); kick(); });
-    window.addEventListener('load', function () { measureAll(); kick(); });
+    window.addEventListener('resize', function () { measureAll(); mesurerFrise(); kick(); });
+    window.addEventListener('load', function () { measureAll(); mesurerFrise(); kick(); });
     kick();
   })();
 

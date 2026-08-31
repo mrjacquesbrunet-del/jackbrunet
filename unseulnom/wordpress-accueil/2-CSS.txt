@@ -582,119 +582,106 @@
   }
 
   /* ===================================================================
-     LE MESSAGE
+     LA FRISE
 
-     Un bloc de nuit, apres la creme du haut. Deux punchlines traversent
-     l'ecran en sens contraire ; entre elles, une photo qui s'assombrit et
-     se dezoome a mesure qu'on descend ; par-dessus, le logo qui se trace
-     comme une signature.
+     Apres le premier bloc, on tombe sur un fond de nuit ou les photos des
+     editions passees arrivent de la droite. Le bloc reste colle en haut
+     pendant qu'on le traverse, et c'est le defilement vertical qui tire
+     la bande vers la gauche : le visiteur ne change pas de geste, mais
+     l'image, elle, va de cote.
 
-     Le bloc fait deux hauteurs d'ecran et son contenu reste colle en
-     haut : c'est le defilement qui joue la scene.
+     La hauteur du bloc est calculee par le script d'apres la largeur
+     reelle de la bande, pour que la traversee se fasse a la meme vitesse
+     quelle que soit la taille de l'ecran.
      =================================================================== */
-  #usn-accueil .usn-message { position: relative; height: 220svh; background: var(--usn-nuit); }
-  #usn-accueil .usn-message-fixe {
-    position: sticky; top: 0; height: 100svh; overflow: hidden;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-  }
+  #usn-accueil .usn-frise { position: relative; height: 300svh; background: var(--usn-nuit); }
+  #usn-accueil .usn-frise-fixe { position: sticky; top: 0; height: 100svh; overflow: hidden; }
 
-  /* --- la matiere de la nuit : meme principe qu'en haut, mais en clair
-         sur fond sombre --- */
-  #usn-accueil .usn-msg-fond { position: absolute; inset: 0; pointer-events: none; }
-  #usn-accueil .usn-msg-fond i { position: absolute; inset: 0; display: block; }
-  #usn-accueil .usn-msg-lueur {
+  /* --- la matiere de la nuit --- */
+  #usn-accueil .usn-frise-fond { position: absolute; inset: 0; pointer-events: none; }
+  #usn-accueil .usn-frise-fond i { position: absolute; inset: 0; display: block; }
+  #usn-accueil .usn-fr-lueur {
     background:
-      radial-gradient(60vmax 50vmax at 18% 12%, rgba(228,38,43,0.16), transparent 70%),
-      radial-gradient(58vmax 52vmax at 84% 88%, rgba(27,47,196,0.20), transparent 70%);
+      radial-gradient(58vmax 48vmax at 12% 10%, rgba(228,38,43,0.14), transparent 70%),
+      radial-gradient(56vmax 50vmax at 88% 90%, rgba(27,47,196,0.18), transparent 70%);
   }
-  #usn-accueil .usn-msg-grain {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
-    background-size: 200px 200px; opacity: 0.14; mix-blend-mode: screen;
-  }
-  #usn-accueil .usn-msg-filets {
-    background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.045) 0 1px, transparent 1px 100%);
-    background-size: 12.5% 100%;
+  #usn-accueil .usn-fr-grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23f)' opacity='0.6'/%3E%3C/svg%3E");
+    background-size: 200px 200px; opacity: 0.13; mix-blend-mode: screen;
   }
 
-  /* --- l'en-tete : la marque, puis l'intitule --- */
-  #usn-accueil .usn-msg-haut {
-    /* Sous la barre du haut, sinon elle passe dessus. */
-    position: absolute; top: clamp(96px, 11vh, 112px); left: 50%; transform: translateX(-50%);
-    z-index: 4; text-align: center;
+  /* --- l'intitule, fixe dans le coin --- */
+  #usn-accueil .usn-frise-titre {
+    position: absolute; z-index: 4; left: clamp(16px, 3.4vw, 44px); top: clamp(92px, 12vh, 124px);
+    font-size: 10.5px; font-weight: 800; letter-spacing: 0.26em; text-transform: uppercase;
+    color: rgba(240,238,231,0.6);
   }
-  #usn-accueil .usn-msg-haut .usn-logo-mark { width: clamp(30px, 3.4vw, 42px); margin: 0 auto 10px; }
-  #usn-accueil .usn-msg-haut span {
-    display: block; font-size: 10.5px; font-weight: 800; letter-spacing: 0.26em;
-    text-transform: uppercase; color: rgba(240,238,231,0.62);
+  /* La barre de progression, en bas : elle dit ou l'on en est. */
+  #usn-accueil .usn-frise-jauge {
+    position: absolute; z-index: 4; left: clamp(16px, 3.4vw, 44px); right: clamp(16px, 3.4vw, 44px);
+    bottom: clamp(20px, 4vh, 40px); height: 1px; background: rgba(240,238,231,0.16);
   }
-
-  /* --- les deux punchlines, tirees en sens contraire --- */
-  #usn-accueil .usn-punch { position: absolute; inset: 0; z-index: 1; display: grid; align-content: center; gap: clamp(2px, 0.6vh, 10px); }
-  #usn-accueil .usn-punch-ligne { overflow: hidden; user-select: none; }
-  #usn-accueil .usn-punch-piste { display: flex; width: max-content; }
-  #usn-accueil .usn-punch-piste > span { padding-right: clamp(28px, 5vw, 80px); white-space: nowrap; }
-
-  #usn-accueil .usn-punch-1 .usn-punch-piste { animation: usn-tire-gauche 30s linear infinite; }
-  #usn-accueil .usn-punch-2 .usn-punch-piste { animation: usn-tire-droite 34s linear infinite; }
-  /* La suite est ecrite deux fois : on la deplace d'exactement une
-     moitie, donc la boucle se referme sans saut. */
-  @keyframes usn-tire-gauche { to { transform: translate3d(-50%, 0, 0); } }
-  @keyframes usn-tire-droite { from { transform: translate3d(-50%, 0, 0); } }
-  @media (prefers-reduced-motion: reduce) {
-    #usn-accueil .usn-punch-piste { animation: none !important; }
+  #usn-accueil .usn-frise-jauge b {
+    position: absolute; left: 0; top: -1px; height: 3px; width: 0;
+    background: var(--usn-degrade); background-size: 100vw 100%;
   }
 
-  /* La premiere ligne, a empattements, en italique, dans le degrade. */
-  #usn-accueil .usn-punch-1 span {
-    font-family: var(--usn-serif); font-style: italic; font-weight: 400;
-    font-size: clamp(46px, 11vw, 168px); line-height: 1.02; letter-spacing: -0.01em;
-    background-image: var(--usn-degrade);
-    -webkit-background-clip: text; background-clip: text;
-    color: transparent;
+  /* --- la bande --- */
+  #usn-accueil .usn-frise-piste {
+    position: absolute; top: 0; left: 0; height: 100%;
+    display: flex; align-items: center; width: max-content;
+    gap: clamp(28px, 4.6vw, 84px); padding: 0 clamp(24px, 8vw, 140px);
+    will-change: transform;
   }
-  /* La seconde, en batons, creme, en capitales. */
-  #usn-accueil .usn-punch-2 span {
-    font-family: var(--usn-display); font-weight: 900; text-transform: uppercase;
-    font-size: clamp(34px, 8vw, 122px); line-height: 1.02; letter-spacing: -0.035em;
-    color: var(--usn-ivoire);
+  #usn-accueil .usn-fr-vue { margin: 0; flex: none; transform: translateY(var(--dy, 0)); }
+  #usn-accueil .usn-fr-vue figcaption {
+    font-size: 10.5px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(240,238,231,0.66); margin-bottom: 14px;
   }
+  #usn-accueil .usn-fr-vue img {
+    display: block; width: 100%; height: auto;
+    filter: saturate(0.78) brightness(0.88);
+    transition: filter .4s ease;
+  }
+  #usn-accueil .usn-fr-vue:hover img { filter: none; }
 
-  /* --- la photo, au centre, entre les deux lignes --- */
-  #usn-accueil .usn-msg-scene {
-    position: relative; z-index: 2;
-    width: min(46vw, 560px); aspect-ratio: 5 / 4;
+  /* --- le panneau de citation, au milieu de la bande --- */
+  #usn-accueil .usn-fr-mot { flex: none; width: clamp(300px, 32vw, 460px); align-self: center; }
+  #usn-accueil .usn-fr-mot p {
+    font-family: var(--usn-serif); font-size: clamp(26px, 2.9vw, 42px);
+    line-height: 1.16; color: var(--usn-ivoire); margin: 0 0 22px;
   }
-  #usn-accueil .usn-msg-photo {
-    position: absolute; inset: 0; overflow: hidden;
-    background: #0B0810;
-  }
-  #usn-accueil .usn-msg-photo img {
-    width: 100%; height: 100%; object-fit: cover; display: block;
-    will-change: transform, filter;
-  }
-  /* Un voile qui reste, meme au plus clair : la photo ne doit jamais
-     redevenir un aplat lumineux au milieu de la nuit. */
-  #usn-accueil .usn-msg-photo::after {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(180deg, rgba(21,17,28,0.30), rgba(21,17,28,0.62));
-  }
-
-  /* --- la signature : le logo trace au fil du defilement --- */
-  #usn-accueil .usn-signature {
-    position: absolute; z-index: 3; top: 50%; left: 50%;
-    width: min(60vw, 660px); aspect-ratio: 760 / 570;
-    transform: translate(-50%, -50%) rotate(-4deg);
-    overflow: visible; pointer-events: none;
-  }
-  #usn-accueil .usn-signature path {
-    fill: none; stroke: url(#usn-sig-degrade);
-    stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round;
+  #usn-accueil .usn-fr-mot p em { font-style: italic; color: #F7C948; }
+  #usn-accueil .usn-fr-signe { width: clamp(150px, 15vw, 210px); aspect-ratio: 760 / 570; overflow: visible; }
+  #usn-accueil .usn-fr-signe path {
+    fill: none; stroke: url(#usn-fr-degrade);
+    stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
     vector-effect: non-scaling-stroke;
   }
 
+  /* --- la derniere carte : celle qui vient --- */
+  #usn-accueil .usn-fr-suite {
+    flex: none; align-self: center; width: clamp(260px, 26vw, 380px);
+    padding: clamp(26px, 3vw, 40px); border-radius: 4px; text-decoration: none;
+    background: var(--usn-degrade); background-size: 190% 100%; background-position: 0% 50%;
+    color: #fff; transition: background-position .5s ease, transform .25s ease;
+  }
+  #usn-accueil .usn-fr-suite:hover { background-position: 100% 50%; transform: translateY(-4px); }
+  #usn-accueil .usn-fr-suite span {
+    display: block; font-size: 10.5px; font-weight: 800; letter-spacing: 0.22em;
+    text-transform: uppercase; opacity: 0.85;
+  }
+  #usn-accueil .usn-fr-suite strong {
+    display: block; margin: 12px 0 6px; font-family: var(--usn-display); font-weight: 900;
+    font-size: clamp(34px, 3.6vw, 52px); line-height: 0.94; letter-spacing: -0.035em;
+    text-transform: uppercase;
+  }
+  #usn-accueil .usn-fr-suite i { font-style: normal; font-family: var(--usn-sub); font-size: 13px; opacity: 0.9; }
+
   @media (max-width: 720px) {
-    #usn-accueil .usn-msg-scene { width: 74vw; }
-    #usn-accueil .usn-signature { width: 88vw; }
+    #usn-accueil .usn-frise-piste { gap: 24px; padding: 0 20px; }
+    #usn-accueil .usn-fr-vue img { filter: none; }
+    #usn-accueil .usn-fr-grain { display: none; }
   }
 
   /* ===================================================================
