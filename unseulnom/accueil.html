@@ -300,8 +300,16 @@
   /* La couronne : le nom et la promesse ecrits sur un cercle, autour de
      la pastille, et qui tournent lentement. C'est ce qui remplit l'espace
      autour du logo sans y poser un decor de plus. */
+  /* La taille est donnee en largeur et hauteur, jamais par "inset". Un
+     <svg> est un element remplace : quand sa largeur est automatique et
+     que les quatre cotes sont poses, la regle CSS veut que ce soit sa
+     taille intrinseque qui l'emporte et que "right" et "bottom" soient
+     ignores. Safari applique la regle a la lettre — le cercle de texte
+     restait a la taille du logo, cale en haut a gauche, et mordait donc
+     sur la pastille. */
   #usn-accueil .usn-couronne {
-    position: absolute; inset: -17%; overflow: visible;
+    position: absolute; top: -17%; left: -17%; width: 134%; height: 134%;
+    overflow: visible;
     animation: usn-tourne 46s linear infinite;
   }
   #usn-accueil .usn-couronne text {
