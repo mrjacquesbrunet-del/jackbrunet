@@ -987,7 +987,9 @@ export async function gradesFor(ids: string[]): Promise<Record<string, string>> 
  * notifications push (démarrage à froid).
  */
 export function notifHref(n: Notification): string | null {
-  if (n.link && n.link.startsWith("/")) return n.link;
+  // Chemin INTERNE uniquement : « /x » accepté, mais pas « //evil.com »
+  // (protocole relatif → sortie du site) ni les antislashs.
+  if (n.link && /^\/(?!\/)/.test(n.link) && !n.link.includes("\\")) return n.link;
   if (n.prayer_id)
     return `/communaute/?prayer=${n.prayer_id}${n.comment_id ? `&c=${n.comment_id}` : ""}`;
   if (n.type === "message") return n.actor_id ? `/messages/?u=${n.actor_id}` : "/messages/";

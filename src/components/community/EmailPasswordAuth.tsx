@@ -128,6 +128,20 @@ export function EmailPasswordAuth({
       <button type="submit" disabled={busy} className="btn-primary w-full justify-center">
         {busy? "…": mode === "signup"? "Créer mon compte": "Se connecter"}
       </button>
+      {mode === "signup" ? (
+        <p className={`text-center text-xs ${dark ? "text-cream/50" : "text-night-900/50"}`}>
+          En créant un compte, tu acceptes notre{" "}
+          <a
+            href="https://jackbrunet.com/confidentialite"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline underline-offset-2"
+          >
+            politique de confidentialité
+          </a>
+          .
+        </p>
+      ) : null}
       {error? <p className="field-error text-center">{error}</p>: null}
 
       {/* Mot de passe oublié — uniquement à la connexion */}

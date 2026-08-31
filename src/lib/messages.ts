@@ -45,10 +45,15 @@ export async function broadcastMessage(body: string): Promise<number | null> {
   return typeof data === "number"? data: 0;
 }
 
+/** Garde-fou : les ids injectés dans le filtre `.or(...)` (chaîne construite)
+ * doivent être des UUID — jamais une valeur libre venue de l'URL. */
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 /** Fil de discussion entre moi et une personne (ancien → récent). */
 export async function listMessages(meId: string, partnerId: string): Promise<Message[]> {
   const sb = getSupabase();
   if (!sb) return [];
+  if (!UUID_RE.test(meId) || !UUID_RE.test(partnerId)) return [];
   const { data } = await sb
 .from("messages")
 .select("*")

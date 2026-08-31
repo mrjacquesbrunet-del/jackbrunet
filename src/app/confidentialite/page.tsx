@@ -169,6 +169,28 @@ export default function ConfidentialitePage() {
               l'application (onglet Profil → « Supprimer mon compte »), ce qui
               efface définitivement vos données.
             </p>
+            <p className="mt-3">
+              Les <strong>notes vocales</strong> (messages privés, sujets et
+              commentaires du mur de prière) sont éphémères : elles sont
+              automatiquement et définitivement supprimées au bout de{" "}
+              <strong>7 jours</strong>.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="font-display text-2xl font-bold text-night-900">
+              Visibilité communautaire
+            </h2>
+            <p className="mt-3">
+              Certaines informations de votre profil sont visibles des autres
+              membres dans les espaces communautaires : pseudo, photo, contenus
+              que vous publiez, indicateur de présence (« En ligne / Actif il y
+              a X »), série de fidélité et badges. Vous contrôlez la visibilité
+              de votre localisation et de vos listes d'abonnés / abonnements
+              depuis les réglages de votre profil, et vous choisissez la
+              visibilité de chaque sujet de prière (public, abonnés ou privé)
+              au moment de le publier.
+            </p>
           </div>
 
           <div>
