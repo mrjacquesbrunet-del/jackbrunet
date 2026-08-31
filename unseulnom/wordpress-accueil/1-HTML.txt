@@ -69,9 +69,29 @@
           <i class="usn-lavis usn-l1"></i>
           <i class="usn-lavis usn-l2"></i>
         </div>
+        <div class="usn-matiere" aria-hidden="true"></div>
+        <div class="usn-filets" aria-hidden="true"></div>
 
         <div class="usn-marque">
           <div class="usn-logo-badge" role="img" aria-label="Un Seul Nom"></div>
+
+          <!-- La couronne : le texte suit un cercle et tourne autour de la
+               pastille. textLength force la phrase a faire exactement le
+               tour, quelle que soit la police du visiteur. -->
+          <svg class="usn-couronne" viewBox="0 0 220 220" aria-hidden="true">
+            <defs>
+              <path id="usn-cercle-texte" fill="none"
+                    d="M110,110 m-96,0 a96,96 0 1,1 192,0 a96,96 0 1,1 -192,0" />
+            </defs>
+            <text>
+              <textPath href="#usn-cercle-texte" startOffset="0" textLength="603" lengthAdjust="spacing">Un Seul Nom &#8226; &Eacute;vang&eacute;lisation &amp; gu&eacute;rison &#8226; De ville en ville &#8226; Entr&eacute;e libre &#8226;</textPath>
+            </text>
+          </svg>
+        </div>
+
+        <!-- le filet du bord droit -->
+        <div class="usn-rail" aria-hidden="true">
+          <i></i><span>Depuis 2024 &#8212; France</span><i></i>
         </div>
 
         <!--

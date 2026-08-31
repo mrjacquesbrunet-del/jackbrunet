@@ -241,12 +241,68 @@
     #usn-accueil .usn-lavis { animation: none; }
   }
 
+  /* La matiere : un grain de papier tres fin, et une grille de filets
+     comme sur une maquette de journal. Ni l'un ni l'autre ne se remarque
+     vraiment - mais sans eux la creme parait un aplat imprime a plat. */
+  #usn-accueil .usn-matiere {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23m)' opacity='0.6'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+    opacity: 0.16; mix-blend-mode: multiply;
+  }
+  /* Les filets : une colonne tous les huitiemes de largeur, rien de plus.
+     Un trait horizontal avait ete essaye : il coupait le bloc sans rien
+     souligner, et se lisait comme une erreur. */
+  #usn-accueil .usn-filets {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: repeating-linear-gradient(90deg, rgba(17,17,16,0.045) 0 1px, transparent 1px 100%);
+    background-size: 12.5% 100%;
+  }
+
   /* Le logo, pose au centre. */
   #usn-accueil .usn-marque {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
     width: min(56vw, 50svh); aspect-ratio: 1 / 1; z-index: 2;
   }
   #usn-accueil .usn-marque .usn-logo-mark { position: absolute; inset: 0; width: 100%; }
+
+  /* La couronne : le nom et la promesse ecrits sur un cercle, autour de
+     la pastille, et qui tournent lentement. C'est ce qui remplit l'espace
+     autour du logo sans y poser un decor de plus. */
+  #usn-accueil .usn-couronne {
+    position: absolute; inset: -17%; overflow: visible;
+    animation: usn-tourne 46s linear infinite;
+  }
+  #usn-accueil .usn-couronne text {
+    font-family: var(--usn-sub); font-size: 7.4px; font-weight: 700;
+    letter-spacing: 0.02em; text-transform: uppercase;
+    fill: var(--usn-gris); opacity: 0.62;
+  }
+  @media (prefers-reduced-motion: reduce) { #usn-accueil .usn-couronne { animation: none; } }
+  @media (max-width: 720px) { #usn-accueil .usn-couronne { display: none; } }
+
+  /* Le filet vertical, le long du bord droit : une mention en tout petit,
+     tournee, et un trait qui descend. Il occupe une bande restee vide et
+     donne au bloc un bord franc. */
+  #usn-accueil .usn-rail {
+    position: absolute; z-index: 5; right: clamp(14px, 2.4vw, 30px);
+    top: 50%; transform: translateY(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+  }
+  #usn-accueil .usn-rail i {
+    display: block; width: 1px; height: clamp(40px, 9vh, 90px);
+    background: linear-gradient(180deg, transparent, var(--usn-trait));
+  }
+  #usn-accueil .usn-rail span {
+    writing-mode: vertical-rl;
+    font-size: 10px; font-weight: 800; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--usn-gris); white-space: nowrap;
+  }
+  #usn-accueil .usn-rail i:last-child {
+    background: linear-gradient(180deg, var(--usn-trait), transparent);
+  }
+  @media (max-width: 900px) { #usn-accueil .usn-rail { display: none; } }
 
   /* Le logo en couleur : la pastille de l'affiche, degrade jaune, orange,
      magenta, violet, bleu, et le nom decoupe en blanc dedans. Une seule
@@ -413,7 +469,10 @@
   #usn-accueil .usn-prochain:hover .usn-prochain-bouton i { transform: translateX(4px); }
 
   #usn-accueil .usn-scene-invite {
-    position: absolute; z-index: 5; right: clamp(16px, 3.4vw, 44px); bottom: clamp(22px, 4vh, 46px);
+    /* Au centre, et non plus a droite : le filet vertical occupe
+       desormais ce bord. */
+    position: absolute; z-index: 5; left: 50%; transform: translateX(-50%);
+    bottom: clamp(22px, 4vh, 46px);
     font-size: 11px; font-weight: 800; letter-spacing: 0.24em; text-transform: uppercase;
     color: var(--usn-gris); display: flex; align-items: center; gap: 10px;
   }
@@ -767,9 +826,29 @@
           <i class="usn-lavis usn-l1"></i>
           <i class="usn-lavis usn-l2"></i>
         </div>
+        <div class="usn-matiere" aria-hidden="true"></div>
+        <div class="usn-filets" aria-hidden="true"></div>
 
         <div class="usn-marque">
           <div class="usn-logo-badge" role="img" aria-label="Un Seul Nom"></div>
+
+          <!-- La couronne : le texte suit un cercle et tourne autour de la
+               pastille. textLength force la phrase a faire exactement le
+               tour, quelle que soit la police du visiteur. -->
+          <svg class="usn-couronne" viewBox="0 0 220 220" aria-hidden="true">
+            <defs>
+              <path id="usn-cercle-texte" fill="none"
+                    d="M110,110 m-96,0 a96,96 0 1,1 192,0 a96,96 0 1,1 -192,0" />
+            </defs>
+            <text>
+              <textPath href="#usn-cercle-texte" startOffset="0" textLength="603" lengthAdjust="spacing">Un Seul Nom &#8226; &Eacute;vang&eacute;lisation &amp; gu&eacute;rison &#8226; De ville en ville &#8226; Entr&eacute;e libre &#8226;</textPath>
+            </text>
+          </svg>
+        </div>
+
+        <!-- le filet du bord droit -->
+        <div class="usn-rail" aria-hidden="true">
+          <i></i><span>Depuis 2024 &#8212; France</span><i></i>
         </div>
 
         <!--
