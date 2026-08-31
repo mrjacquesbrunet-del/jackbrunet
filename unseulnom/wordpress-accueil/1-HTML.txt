@@ -85,8 +85,13 @@
             </defs>
             <text>
               <!-- &#9658; Le nom est deja ecrit dans la pastille : la couronne
-                   dit ce que le nom ne dit pas. Changez la phrase ici. -->
-              <textPath href="#usn-cercle-texte" startOffset="0" textLength="603" lengthAdjust="spacing">Des &eacute;glises unies &#8226; &Eacute;vang&eacute;lisation &amp; gu&eacute;rison &#8226; De ville en ville &#8226; Entr&eacute;e libre &#8226;</textPath>
+                   dit ce que le nom ne dit pas. Changez la phrase ici.
+
+                   L'espace insecable a la fin n'est pas un oubli : une
+                   espace ordinaire en fin de texte est supprimee par le
+                   navigateur, et le dernier point venait alors coller au
+                   premier mot au moment ou le cercle se referme. -->
+              <textPath href="#usn-cercle-texte" startOffset="0" textLength="603" lengthAdjust="spacing">Vivre l'unit&eacute; &#8226; &Eacute;vang&eacute;lisation &amp; gu&eacute;rison &#8226; De ville en ville &#8226; Entr&eacute;e libre &#8226;&#160;</textPath>
             </text>
           </svg>
         </div>
