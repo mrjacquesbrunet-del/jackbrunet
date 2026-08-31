@@ -79,15 +79,26 @@
         </div>
 
         <!--
-          &#9658; LES PHOTOS D&#201;COUVERTES PAR LE BALAYAGE.
-            Ajoutez-en autant que vous voulez : &#224; chaque passage de la
-            lame, c'est la suivante qui appara&#238;t.
+          &#9658; LES PHOTOS D&#201;COUVERTES PAR LES BALAYAGES.
+            Quatre lames se relaient : &#224; droite, &#224; gauche, en haut, en bas.
+            Dans chacune, mettez autant de photos que vous voulez &#8212; &#224;
+            chaque passage, c'est la suivante qui appara&#238;t.
         -->
-        <div class="usn-balai" id="usn-balai" aria-hidden="true">
+        <div class="usn-balai usn-b1" aria-hidden="true">
           <img class="est-vue" src="https://unseulnom.org/wp-content/uploads/2026/07/programme1.webp" alt="" />
-          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="" />
           <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme3.webp" alt="" />
+        </div>
+        <div class="usn-balai usn-b2" aria-hidden="true">
+          <img class="est-vue" src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="" />
           <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme4.webp" alt="" />
+        </div>
+        <div class="usn-balai usn-b3" aria-hidden="true">
+          <img class="est-vue" src="https://unseulnom.org/wp-content/uploads/2026/07/programme3.webp" alt="" />
+          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme1.webp" alt="" />
+        </div>
+        <div class="usn-balai usn-b4" aria-hidden="true">
+          <img class="est-vue" src="https://unseulnom.org/wp-content/uploads/2026/07/programme4.webp" alt="" />
+          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="" />
         </div>
 
         <!-- la fen&#234;tre qui suit le doigt ou la souris -->
@@ -495,19 +506,22 @@
   })();
 
   /* ---- La photo change a chaque passage de la lame ----
-     Le balayage est entierement en CSS ; ce script se contente de faire
-     tourner les photos, une par passage. */
+     Les balayages sont entierement en CSS ; ce script se contente de
+     faire tourner les photos, une par passage. */
   (function () {
-    var balai = document.getElementById('usn-balai');
-    if (!balai) return;
-    var vues = balai.querySelectorAll('img');
-    if (vues.length < 2) return;
-    var i = 0;
-    balai.addEventListener('animationiteration', function () {
-      vues[i].classList.remove('est-vue');
-      i = (i + 1) % vues.length;
-      vues[i].classList.add('est-vue');
-    });
+    var lames = document.querySelectorAll('#usn-accueil .usn-balai');
+    for (var n = 0; n < lames.length; n++) {
+      (function (lame) {
+        var vues = lame.querySelectorAll('img');
+        if (vues.length < 2) return;
+        var i = 0;
+        lame.addEventListener('animationiteration', function () {
+          vues[i].classList.remove('est-vue');
+          i = (i + 1) % vues.length;
+          vues[i].classList.add('est-vue');
+        });
+      })(lames[n]);
+    }
   })();
 
   /* ---- La fenetre qui suit le doigt ou la souris ----

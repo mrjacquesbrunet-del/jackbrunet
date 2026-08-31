@@ -52,19 +52,22 @@
   })();
 
   /* ---- La photo change a chaque passage de la lame ----
-     Le balayage est entierement en CSS ; ce script se contente de faire
-     tourner les photos, une par passage. */
+     Les balayages sont entierement en CSS ; ce script se contente de
+     faire tourner les photos, une par passage. */
   (function () {
-    var balai = document.getElementById('usn-balai');
-    if (!balai) return;
-    var vues = balai.querySelectorAll('img');
-    if (vues.length < 2) return;
-    var i = 0;
-    balai.addEventListener('animationiteration', function () {
-      vues[i].classList.remove('est-vue');
-      i = (i + 1) % vues.length;
-      vues[i].classList.add('est-vue');
-    });
+    var lames = document.querySelectorAll('#usn-accueil .usn-balai');
+    for (var n = 0; n < lames.length; n++) {
+      (function (lame) {
+        var vues = lame.querySelectorAll('img');
+        if (vues.length < 2) return;
+        var i = 0;
+        lame.addEventListener('animationiteration', function () {
+          vues[i].classList.remove('est-vue');
+          i = (i + 1) % vues.length;
+          vues[i].classList.add('est-vue');
+        });
+      })(lames[n]);
+    }
   })();
 
   /* ---- La fenetre qui suit le doigt ou la souris ----

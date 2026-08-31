@@ -16,6 +16,7 @@
     /* Les couleurs de l'affiche, de gauche a droite : le soleil, le rouge,
        le magenta, le violet, puis le bleu nuit. */
     --usn-or: #F7941D;
+    --usn-rose: #F2569E;
     --usn-magenta: #C9268F;
     --usn-violet: #6B2FB5;
     --usn-degrade: linear-gradient(100deg, var(--usn-or) 0%, var(--usn-red) 30%, var(--usn-magenta) 56%, var(--usn-violet) 78%, var(--usn-blue) 100%);
@@ -254,30 +255,32 @@
               border-radius: 30% 70% 63% 37% / 68% 31% 69% 32%; }
   }
 
-  /* --- les traits : trois trames a des angles differents, qui glissent
-         chacune dans son sens. C'est ce qui empeche le fond de paraitre
-         lisse et fabrique. --- */
+  /* --- les vagues : trois nappes de lignes ondulees, chacune tiree
+         dans un sens different. La tuile se raccorde des deux cotes, donc
+         le deplacement peut tourner en boucle sans raccord visible. --- */
   #usn-accueil .usn-trame {
-    position: absolute; display: block; inset: -60%; will-change: transform;
+    position: absolute; display: block; inset: 0;
+    will-change: background-position;
   }
   #usn-accueil .usn-tr1 {
-    background: repeating-linear-gradient(72deg,
-      rgba(17,17,16,0.07) 0px, rgba(17,17,16,0.07) 1px, transparent 1px, transparent 17px);
-    animation: usn-glisse-a 21s linear infinite;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='120'%3E%3Cg fill='none' stroke='%23111110' stroke-width='1'%3E%3Cpath d='M0 10 Q15 1 30 10 T60 10 T90 10 T120 10 T150 10 T180 10 T210 10 T240 10'/%3E%3Cpath d='M0 30 Q15 21 30 30 T60 30 T90 30 T120 30 T150 30 T180 30 T210 30 T240 30'/%3E%3Cpath d='M0 50 Q15 41 30 50 T60 50 T90 50 T120 50 T150 50 T180 50 T210 50 T240 50'/%3E%3Cpath d='M0 70 Q15 61 30 70 T60 70 T90 70 T120 70 T150 70 T180 70 T210 70 T240 70'/%3E%3Cpath d='M0 90 Q15 81 30 90 T60 90 T90 90 T120 90 T150 90 T180 90 T210 90 T240 90'/%3E%3Cpath d='M0 110 Q15 101 30 110 T60 110 T90 110 T120 110 T150 110 T180 110 T210 110 T240 110'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 240px 120px; opacity: 0.16;
+    animation: usn-vague-a 26s linear infinite;
   }
   #usn-accueil .usn-tr2 {
-    background: repeating-linear-gradient(-31deg,
-      rgba(27,47,196,0.06) 0px, rgba(27,47,196,0.06) 1px, transparent 1px, transparent 29px);
-    animation: usn-glisse-b 34s linear infinite;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='160'%3E%3Cg fill='none' stroke='%231B2FC4' stroke-width='1'%3E%3Cpath d='M0 16 Q20 3 40 16 T80 16 T120 16 T160 16 T200 16 T240 16 T280 16 T320 16'/%3E%3Cpath d='M0 48 Q20 35 40 48 T80 48 T120 48 T160 48 T200 48 T240 48 T280 48 T320 48'/%3E%3Cpath d='M0 80 Q20 67 40 80 T80 80 T120 80 T160 80 T200 80 T240 80 T280 80 T320 80'/%3E%3Cpath d='M0 112 Q20 99 40 112 T80 112 T120 112 T160 112 T200 112 T240 112 T280 112 T320 112'/%3E%3Cpath d='M0 144 Q20 131 40 144 T80 144 T120 144 T160 144 T200 144 T240 144 T280 144 T320 144'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 320px 160px; opacity: 0.22;
+    animation: usn-vague-b 41s linear infinite;
   }
   #usn-accueil .usn-tr3 {
-    background: repeating-linear-gradient(8deg,
-      rgba(228,38,43,0.05) 0px, rgba(228,38,43,0.05) 1px, transparent 1px, transparent 44px);
-    animation: usn-glisse-c 47s linear infinite;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='90'%3E%3Cg fill='none' stroke='%23E4262B' stroke-width='1'%3E%3Cpath d='M0 9 Q11.25 3 22.5 9 T45 9 T67.5 9 T90 9 T112.5 9 T135 9 T157.5 9 T180 9'/%3E%3Cpath d='M0 27 Q11.25 21 22.5 27 T45 27 T67.5 27 T90 27 T112.5 27 T135 27 T157.5 27 T180 27'/%3E%3Cpath d='M0 45 Q11.25 39 22.5 45 T45 45 T67.5 45 T90 45 T112.5 45 T135 45 T157.5 45 T180 45'/%3E%3Cpath d='M0 63 Q11.25 57 22.5 63 T45 63 T67.5 63 T90 63 T112.5 63 T135 63 T157.5 63 T180 63'/%3E%3Cpath d='M0 81 Q11.25 75 22.5 81 T45 81 T67.5 81 T90 81 T112.5 81 T135 81 T157.5 81 T180 81'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 180px 90px; opacity: 0.14;
+    animation: usn-vague-c 33s linear infinite;
   }
-  @keyframes usn-glisse-a { to { transform: translate3d(17px, -52px, 0); } }
-  @keyframes usn-glisse-b { to { transform: translate3d(-58px, 29px, 0); } }
-  @keyframes usn-glisse-c { to { transform: translate3d(44px, 44px, 0); } }
+  /* Un deplacement d'exactement une tuile : la boucle se referme pile. */
+  @keyframes usn-vague-a { to { background-position: -240px  120px; } }
+  @keyframes usn-vague-b { to { background-position:  320px -160px; } }
+  @keyframes usn-vague-c { to { background-position: -180px   90px; } }
 
   /* Un voile de creme par-dessus : les couleurs restent une ambiance,
      jamais un aplat qui mangerait le logo. */
@@ -301,87 +304,121 @@
      lente rotation. Le logo ne flotte plus sur du vide, il est pose sur
      quelque chose. */
   #usn-accueil .usn-marque::before {
-    content: ''; position: absolute; inset: -13%; border-radius: 50%; z-index: -1;
-    background:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23b)' opacity='0.5'/%3E%3C/svg%3E"),
-      radial-gradient(circle at 38% 32%, rgba(247,148,29,0.22) 0%, rgba(228,38,43,0.14) 34%, rgba(107,47,181,0.12) 66%, rgba(27,47,196,0.10) 100%);
-    background-size: 190px 190px, 100% 100%;
-    opacity: 0.5; mix-blend-mode: multiply;
-    animation: usn-matiere 24s linear infinite;
+    content: ''; position: absolute; inset: -14%; border-radius: 50%; z-index: -1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='90'%3E%3Cg fill='none' stroke='%23E4262B' stroke-width='1'%3E%3Cpath d='M0 9 Q11.25 3 22.5 9 T45 9 T67.5 9 T90 9 T112.5 9 T135 9 T157.5 9 T180 9'/%3E%3Cpath d='M0 27 Q11.25 21 22.5 27 T45 27 T67.5 27 T90 27 T112.5 27 T135 27 T157.5 27 T180 27'/%3E%3Cpath d='M0 45 Q11.25 39 22.5 45 T45 45 T67.5 45 T90 45 T112.5 45 T135 45 T157.5 45 T180 45'/%3E%3Cpath d='M0 63 Q11.25 57 22.5 63 T45 63 T67.5 63 T90 63 T112.5 63 T135 63 T157.5 63 T180 63'/%3E%3Cpath d='M0 81 Q11.25 75 22.5 81 T45 81 T67.5 81 T90 81 T112.5 81 T135 81 T157.5 81 T180 81'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 130px 65px;
+    opacity: 0.3;
+    animation: usn-matiere 19s linear infinite;
   }
-  @keyframes usn-matiere {
-    0%   { transform: rotate(0deg)   scale(1); }
-    50%  { transform: rotate(180deg) scale(1.06); }
-    100% { transform: rotate(360deg) scale(1); }
+  #usn-accueil .usn-marque::after {
+    content: ''; position: absolute; inset: -14%; border-radius: 50%; z-index: -1;
+    background: radial-gradient(circle at 40% 34%,
+      rgba(247,148,29,0.16) 0%, rgba(228,38,43,0.10) 38%,
+      rgba(107,47,181,0.09) 70%, rgba(27,47,196,0.07) 100%);
   }
+  @keyframes usn-matiere { to { background-position: -130px 65px; } }
 
-  /* Le logo change de couleur : le trace sert de pochoir, et c'est le
-     degrade de l'affiche qui defile derriere. Le noir est present aux
-     deux bouts du degrade, donc la boucle se referme sans a-coup. */
+  /* Le logo change de couleur d'un coup, une couleur par seconde. Son
+     trace sert de pochoir : c'est la couleur de fond qui change dessous,
+     donc le logo entier bascule d'un bloc, sans degrade ni fondu. */
   #usn-accueil .usn-logo-teinte {
     position: absolute; inset: 0;
-    background-image: linear-gradient(90deg,
-      var(--usn-ink) 0%, var(--usn-or) 17%, var(--usn-red) 34%,
-      var(--usn-magenta) 50%, var(--usn-violet) 66%, var(--usn-blue) 83%,
-      var(--usn-ink) 100%);
-    /* La tuile fait la moitie de la largeur : le trajet vaut donc
-       exactement une tuile, et la boucle ne saute pas. */
-    background-size: 50% 100%; background-repeat: repeat-x;
+    background-color: var(--usn-ink);
     -webkit-mask-image: var(--usn-logo-forme); mask-image: var(--usn-logo-forme);
     -webkit-mask-size: contain; mask-size: contain;
     -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
     -webkit-mask-position: center; mask-position: center;
-    animation: usn-teinte 6s linear infinite;
+    animation: usn-teinte 5s steps(1, end) infinite;
   }
+  /* Cinq couleurs, une par seconde, puis on repart du noir. Les bornes se
+     touchent (20%, 40%, ...) : le changement est net, jamais progressif. */
   @keyframes usn-teinte {
-    from { background-position: 0% 50%; }
-    to   { background-position: 100% 50%; }
+    0%   { background-color: var(--usn-ink); }
+    20%  { background-color: var(--usn-rose); }
+    40%  { background-color: var(--usn-blue); }
+    60%  { background-color: var(--usn-or); }
+    80%  { background-color: var(--usn-magenta); }
+    100% { background-color: var(--usn-ink); }
   }
   @media (prefers-reduced-motion: reduce) {
-    #usn-accueil .usn-logo-teinte { animation: none; background-image: none; background-color: var(--usn-ink); }
+    #usn-accueil .usn-logo-teinte { animation: none; background-color: var(--usn-ink); }
     #usn-accueil .usn-marque::before { animation: none; }
   }
 
-  /* --- LE BALAYAGE ---
+  /* --- LES BALAYAGES ---
 
-     Une seule chose, et elle va vite : une lame verticale qui traverse de
-     droite a gauche en une seconde et decouvre la photo au passage. Puis
-     plus rien pendant six secondes, et ca recommence avec la photo
-     suivante.
+     Une lame etroite traverse l'ecran et decouvre au passage une bande de
+     photo. Elles se relaient : la premiere part de la droite, la deuxieme
+     revient de la gauche, la troisieme repasse a droite mais en haut, la
+     quatrieme revient a gauche en bas. Chacune ne devoile qu'un morceau
+     de l'image.
 
      La photo, elle, ne bouge jamais : c'est le masque qui se deplace. On
      ne voit donc pas une image glisser, on voit une image se decouvrir. */
   #usn-accueil .usn-balai {
     position: absolute; inset: 0; z-index: 3; overflow: hidden;
     -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
-    /* La lame fait 46% de la largeur : en pourcentage, pas en vmax, sinon
-       le calcul de mask-position ne la fait plus sortir de l'ecran. */
-    -webkit-mask-size: 46% 100%; mask-size: 46% 100%;
-    /* Une lame nette au milieu, adoucie sur ses deux bords. */
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 26%, #000 74%, transparent 100%);
-    mask-image: linear-gradient(90deg, transparent 0%, #000 26%, #000 74%, transparent 100%);
+    /* Une lame etroite : 26% de la largeur. En pourcentage, pas en vmax,
+       sinon le calcul de mask-position ne la fait plus sortir de l'ecran. */
+    -webkit-mask-size: 26% 100%; mask-size: 26% 100%;
+    /* Nette au milieu, adoucie sur ses deux bords. */
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 30%, #000 70%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 30%, #000 70%, transparent 100%);
     will-change: -webkit-mask-position, mask-position;
-    animation: usn-balaye 6.5s cubic-bezier(.3,0,.2,1) infinite;
+    animation-duration: 12s;
+    animation-timing-function: cubic-bezier(.3,0,.2,1);
+    animation-iteration-count: infinite;
+    /* "backwards" est indispensable : sans lui, une lame en attente de son
+       tour affiche sa position par defaut, collee au bord gauche, et un
+       bout de photo reste visible avant son premier passage. */
+    animation-fill-mode: backwards;
   }
   #usn-accueil .usn-balai img {
     position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
     opacity: 0;
-    /* La photo s'eteint en haut et en bas : elle reste dans la bande du
-       milieu et ne vient jamais manger le menu ni la carte d'Avignon. */
-    -webkit-mask-image: linear-gradient(180deg, transparent 12%, #000 26%, #000 64%, transparent 78%);
-    mask-image: linear-gradient(180deg, transparent 12%, #000 26%, #000 64%, transparent 78%);
   }
   #usn-accueil .usn-balai img.est-vue { opacity: 1; }
 
-  /* Tout le trajet tient dans les treize premiers pour cent du cycle :
-     la lame traverse en huit dixiemes de seconde, puis attend hors champ
-     que le tour suivant commence. Les deux bornes vont bien au-dela de
-     l'ecran : la lame doit en etre entierement sortie, sinon un bord de
-     photo reste accroche a gauche. */
-  @keyframes usn-balaye {
-    0%   { -webkit-mask-position: 230% 50%; mask-position: 230% 50%; }
-    13%  { -webkit-mask-position: -130% 50%; mask-position: -130% 50%; }
-    100% { -webkit-mask-position: -130% 50%; mask-position: -130% 50%; }
+  /* La hauteur de la bande decouverte. Elles evitent toutes le menu en
+     haut et la carte d'Avignon en bas. */
+  #usn-accueil .usn-b1 img, #usn-accueil .usn-b2 img {
+    -webkit-mask-image: linear-gradient(180deg, transparent 24%, #000 34%, #000 62%, transparent 72%);
+    mask-image: linear-gradient(180deg, transparent 24%, #000 34%, #000 62%, transparent 72%);
+  }
+  #usn-accueil .usn-b3 img {
+    -webkit-mask-image: linear-gradient(180deg, transparent 10%, #000 18%, #000 38%, transparent 47%);
+    mask-image: linear-gradient(180deg, transparent 10%, #000 18%, #000 38%, transparent 47%);
+  }
+  #usn-accueil .usn-b4 img {
+    -webkit-mask-image: linear-gradient(180deg, transparent 48%, #000 57%, #000 70%, transparent 78%);
+    mask-image: linear-gradient(180deg, transparent 48%, #000 57%, #000 70%, transparent 78%);
+  }
+
+  /* Le decalage de depart etale les quatre passages sur le cycle : un
+     toutes les trois secondes. */
+  #usn-accueil .usn-b1 { animation-name: usn-vers-gauche; animation-delay: 0s; }
+  #usn-accueil .usn-b2 { animation-name: usn-vers-droite; animation-delay: 3s; }
+  #usn-accueil .usn-b3 { animation-name: usn-vers-gauche; animation-delay: 6s; }
+  #usn-accueil .usn-b4 { animation-name: usn-vers-droite; animation-delay: 9s; }
+
+  /* Le trajet tient dans les huit premiers pour cent du cycle : la lame
+     traverse en une seconde, puis attend hors champ.
+
+     Les bornes sont calculees, pas choisies au hasard. Un pourcentage de
+     mask-position se compte sur la place libre, soit 74% de la largeur
+     ici ; pour que la lame (26%) sorte tout juste du cadre il faut donc
+     26/74, c'est-a-dire 35%. On prend 40% de marge des deux cotes : plus
+     loin, la lame passerait le plus clair du temps hors de l'ecran et on
+     ne la verrait qu'un eclair. */
+  @keyframes usn-vers-gauche {
+    0%  { -webkit-mask-position: 140% 50%; mask-position: 140% 50%; }
+    8%  { -webkit-mask-position: -40% 50%; mask-position: -40% 50%; }
+    100%{ -webkit-mask-position: -40% 50%; mask-position: -40% 50%; }
+  }
+  @keyframes usn-vers-droite {
+    0%  { -webkit-mask-position: -40% 50%; mask-position: -40% 50%; }
+    8%  { -webkit-mask-position: 140% 50%; mask-position: 140% 50%; }
+    100%{ -webkit-mask-position: 140% 50%; mask-position: 140% 50%; }
   }
   @media (prefers-reduced-motion: reduce) {
     #usn-accueil .usn-balai { animation: none; opacity: 0; }
