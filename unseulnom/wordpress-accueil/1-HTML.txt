@@ -1,0 +1,339 @@
+<section id="usn-accueil">
+
+  <!-- ============================================================= -->
+  <!-- BARRE DE NAVIGATION                                            -->
+  <!-- ============================================================= -->
+  <nav class="usn-nav">
+    <a href="#usn-haut" class="usn-logo-mark usn-logo-noir usn-nav-logo" aria-label="Un Seul Nom"></a>
+    <div class="usn-nav-liens">
+      <a href="#usn-mouvement">Le mouvement</a>
+      <a href="#usn-villes">Les villes</a>
+      <a href="#usn-eglises">&Eacute;glises</a>
+      <a href="#usn-lettre">Newsletter</a>
+    </div>
+    <div class="usn-nav-actions">
+      <a class="usn-nav-don" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Faire un don</a>
+      <a class="usn-nav-cta" href="https://unseulnom.org/evenement/">Je m'inscris</a>
+    </div>
+  </nav>
+
+  <!-- ============================================================= -->
+  <!-- H&#201;ROS                                                          -->
+  <!-- ============================================================= -->
+  <header class="usn-hero" id="usn-haut">
+
+    <!--
+      &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+      &#9658; VID&#201;O DE FOND &#8212; le teaser du prochain &#233;v&#233;nement.
+      Pour la changer, remplacez l'adresse dans la ligne <source>.
+      La lecture d&#233;marre muette : le bouton rend le son au visiteur.
+      &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+    -->
+    <video class="usn-hero-video" autoplay muted loop playsinline poster="">
+      <source src="https://unseulnom.org/wp-content/uploads/2026/08/teaser-web.mp4" type="video/mp4" />
+      <source src="https://unseulnom.org/wp-content/uploads/2026/08/Teaser-1.mp4" type="video/mp4" />
+    </video>
+
+    <div class="usn-hero-voile"></div>
+
+    <button type="button" class="usn-son" id="usn-son" aria-pressed="false">
+      <span class="usn-son-icone" aria-hidden="true">&#9834;</span>
+      <span class="usn-son-texte">Activer le son</span>
+    </button>
+
+    <div class="usn-hero-inner">
+      <div class="usn-wrap">
+        <h1>Un Seul<br>Nom</h1>
+
+        <div class="usn-hero-pied">
+          <p class="usn-hero-depuis">
+            Mouvement d'&eacute;vang&eacute;lisation et de gu&eacute;rison, de ville en ville.
+            <b>Depuis 2024.</b>
+          </p>
+
+          <a class="usn-prochain-lien" href="https://unseulnom.org/evenement/">
+            <span class="k">Prochain rendez-vous</span>
+            <span class="v">Avignon</span>
+            <span class="d">17.10.26 &middot; Entr&eacute;e libre &#8594;</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!--
+    &#9658; BANDEAU D&#201;FILANT &#8212; la liste est r&#233;p&#233;t&#233;e deux fois pour que la boucle
+      se referme sans saut. Si vous modifiez un mot, modifiez-le dans les
+      DEUX listes, sinon le ruban saccade.
+  -->
+  <div class="usn-defile usn-defile-bleu" aria-hidden="true">
+    <div class="usn-defile-piste">
+      <div class="usn-defile-suite">
+        <b>&Eacute;vang&eacute;lisation</b> <i>&#10022;</i> <b>Gu&eacute;rison</b> <i>&#10022;</i>
+        <b>Unit&eacute;</b> <i>&#10022;</i> <b>Entr&eacute;e libre</b> <i>&#10022;</i>
+      </div>
+      <div class="usn-defile-suite">
+        <b>&Eacute;vang&eacute;lisation</b> <i>&#10022;</i> <b>Gu&eacute;rison</b> <i>&#10022;</i>
+        <b>Unit&eacute;</b> <i>&#10022;</i> <b>Entr&eacute;e libre</b> <i>&#10022;</i>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- LA D&#201;CLARATION                                                 -->
+  <!-- ============================================================= -->
+  <div class="usn-declaration" id="usn-mouvement">
+    <div class="usn-wrap usn-titre-section">
+      <span class="usn-cle">Le mouvement</span>
+      <p>
+        Nous rassemblons des <em>&eacute;glises</em> et des <em>minist&egrave;res</em>
+        diff&eacute;rents pour annoncer <strong>J&eacute;sus</strong> dans une ville,
+        ensemble. Quand le corps de Christ agit dans l'<em>unit&eacute;</em>,
+        des vies changent.
+      </p>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- LES TROIS GRANDS MOTS                                          -->
+  <!-- ============================================================= -->
+  <div class="usn-wrap">
+    <div class="usn-geants">
+
+      <div class="usn-geant">
+        <div class="usn-geant-num">01</div>
+        <h2 class="usn-geant-mot">Unir</h2>
+        <p>
+          Travailler avec les &eacute;glises et les minist&egrave;res d'une ville,
+          ensemble et non chacun de son c&ocirc;t&eacute;. C'est l&agrave; que tout commence.
+        </p>
+      </div>
+
+      <div class="usn-geant">
+        <div class="usn-geant-num">02</div>
+        <h2 class="usn-geant-mot">&Eacute;vang&eacute;liser</h2>
+        <p>
+          Des campagnes et des soir&eacute;es dans des lieux ouverts &agrave; tous&nbsp;:
+          salles, rues, quartiers, stades. L'entr&eacute;e est toujours libre.
+        </p>
+      </div>
+
+      <div class="usn-geant">
+        <div class="usn-geant-num">03</div>
+        <h2 class="usn-geant-mot">Former</h2>
+        <p>
+          &Eacute;quiper les croyants pour t&eacute;moigner simplement, avec clart&eacute; et
+          avec force, dans leur quotidien comme dans les actions collectives.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- LES VILLES TRAVERS&#201;ES                                          -->
+  <!-- ============================================================= -->
+  <div class="usn-galerie" id="usn-villes">
+    <div class="usn-wrap">
+      <div class="usn-titre-section">
+        <span class="usn-cle">D&eacute;j&agrave; v&eacute;cu</span>
+      </div>
+
+      <!--
+        &#9658; LES VILLES &#8212; pour en ajouter une, copiez un bloc <figure> et
+          changez l'image et la l&#233;gende. Les affiches sont en noir et
+          blanc et reprennent leurs couleurs en passant au centre de
+          l'&#233;cran.
+      -->
+      <div class="usn-vues">
+        <figure class="usn-vue">
+          <div class="usn-vue-cadre">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-1-768x948.jpg" alt="Un Seul Nom au stade S&eacute;bastien Charl&eacute;ty, Paris, mai 2024" loading="lazy" onerror="this.remove()" />
+          </div>
+          <figcaption><b>Paris</b>, 2024 &middot; Stade S&eacute;bastien Charl&eacute;ty</figcaption>
+        </figure>
+
+        <figure class="usn-vue">
+          <div class="usn-vue-cadre">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-3-768x954.jpg" alt="Un Seul Nom &agrave; La Cit&eacute; Royale, Croissy-Beaubourg, juin 2025" loading="lazy" onerror="this.remove()" />
+          </div>
+          <figcaption><b>Croissy-Beaubourg</b>, 2025 &middot; La Cit&eacute; Royale</figcaption>
+        </figure>
+
+        <figure class="usn-vue">
+          <div class="usn-vue-cadre">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-4-768x945.jpg" alt="Un Seul Nom &agrave; l'Espace Lille M&eacute;tropole, Wasquehal, mars 2026" loading="lazy" onerror="this.remove()" />
+          </div>
+          <figcaption><b>Wasquehal</b>, 2026 &middot; Espace Lille M&eacute;tropole</figcaption>
+        </figure>
+
+        <figure class="usn-vue">
+          <div class="usn-vue-cadre">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-5-768x950.jpg" alt="Un Seul Nom au Palais des congr&egrave;s, Perpignan, mai 2026" loading="lazy" onerror="this.remove()" />
+          </div>
+          <figcaption><b>Perpignan</b>, 2026 &middot; Palais des congr&egrave;s</figcaption>
+        </figure>
+      </div>
+
+      <!-- &#9658; Mettez ces chiffres &#224; jour apr&#232;s chaque &#233;dition. -->
+      <div class="usn-chiffres">
+        <div class="usn-chiffre"><b>5</b><span>villes depuis 2024</span></div>
+        <div class="usn-chiffre"><b>4</b><span>dates annonc&eacute;es</span></div>
+        <div class="usn-chiffre"><b>0&nbsp;&euro;</b><span>entr&eacute;e libre, toujours</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- LA CITATION                                                    -->
+  <!-- ============================================================= -->
+  <div class="usn-citation">
+    <div class="usn-wrap usn-titre-section">
+      <span class="usn-cle" style="color:rgba(255,255,255,0.6)">Notre histoire</span>
+      <q style="margin-top:26px">Unir, rassembler, et &eacute;lever <em>un seul nom</em> au-dessus de tout.</q>
+      <cite>La vision pos&eacute;e par Chriss Campion</cite>
+      <p class="usn-fondateurs">
+        Au d&eacute;part, une bande de copains port&eacute;s par un m&ecirc;me feu. En 2024,
+        le stade S&eacute;bastien Charl&eacute;ty change tout&nbsp;: le r&ecirc;ve devient une
+        &oelig;uvre. Fondateurs&nbsp;: <b>Chriss Campion, David Salland,
+        James Franchitto, Briman Heugebaert et Alonzo Gueglio.</b>
+      </p>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- LE PROCHAIN RENDEZ-VOUS                                        -->
+  <!-- ============================================================= -->
+  <!--
+    &#9658; &#192; CHAQUE NOUVEL &#201;V&#201;NEMENT : changez la ville, la date, le lieu,
+      l'adresse des boutons, et data-target du compte &#224; rebours
+      (format 2026-10-17T16:00:00).
+  -->
+  <div class="usn-rdv" id="usn-countdown" data-target="2026-10-17T16:00:00">
+    <div class="usn-wrap">
+      <span class="usn-cle" style="color:rgba(255,255,255,0.72)">Prochain rendez-vous</span>
+      <h2 class="usn-rdv-ville" style="margin-top:18px">Avignon</h2>
+      <div class="usn-rdv-quand">Samedi 17 octobre 2026 &middot; 16h00</div>
+      <div class="usn-rdv-ou">Parc des expos, 800 chemin des F&eacute;lons, Montfavet &middot; Portes 15h00 &middot; Entr&eacute;e libre sur inscription</div>
+
+      <div class="usn-rdv-bas">
+        <div class="usn-chrono">
+          <div><b data-cd="days">0</b><small>Jours</small></div>
+          <div><b data-cd="hours">00</b><small>Heures</small></div>
+          <div><b data-cd="mins">00</b><small>Min</small></div>
+          <div><b data-cd="secs">00</b><small>Sec</small></div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px">
+          <a class="usn-btn usn-btn-clair" href="https://unseulnom.org/evenement/" data-usn-gauche>Je r&eacute;serve ma place</a>
+          <a class="usn-btn usn-btn-ligne" href="https://unseulnom.org/evenement/" data-usn-droite><span>Voir l'&eacute;v&eacute;nement</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- APPEL AUX &#201;GLISES                                              -->
+  <!-- ============================================================= -->
+  <div class="usn-eglises" id="usn-eglises">
+    <div class="usn-wrap">
+      <div class="usn-titre-section">
+        <span class="usn-cle">&Eacute;glises partenaires</span>
+        <h2>Une salle ne se remplit pas toute seule</h2>
+        <p class="usn-intro">
+          Chaque &eacute;v&eacute;nement repose sur les &eacute;glises de la ville. Ce sont elles
+          qui invitent, qui accompagnent, et qui accueillent ensuite ceux qui
+          ont donn&eacute; leur vie &agrave; J&eacute;sus. Voici ce que nous cherchons.
+        </p>
+      </div>
+
+      <div class="usn-besoins">
+        <div><b>Relayer</b>L'annonce aupr&egrave;s de vos membres, sur vos r&eacute;seaux et lors de vos cultes.</div>
+        <div><b>Inviter</b>Et accompagner des personnes non croyantes ou malades, jusqu'&agrave; la salle.</div>
+        <div><b>Mobiliser</b>Des &eacute;quipes&nbsp;: la rue, les prospectus, la pri&egrave;re pour la ville.</div>
+      </div>
+
+      <div class="usn-eglises-actions">
+        <a class="usn-btn usn-btn-encre" href="mailto:75unseulnomjesus@gmail.com?subject=Notre%20eglise%20souhaite%20participer">Nous &eacute;crire</a>
+        <a class="usn-btn usn-btn-ligne" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer"><span>Soutenir la mission</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- LETTRE D'INFORMATION                                           -->
+  <!-- ============================================================= -->
+  <div class="usn-lettre" id="usn-lettre">
+    <div class="usn-wrap usn-lettre-grille">
+      <div>
+        <span class="usn-cle">Restons en lien</span>
+        <h2>Ne ratez aucune date</h2>
+        <p class="usn-intro">
+          D&egrave;s qu'une ville est annonc&eacute;e, vous recevez un message&nbsp;: avant
+          l'ouverture des inscriptions, et avant que la salle ne se remplisse.
+        </p>
+      </div>
+      <div>
+        <!-- Le formulaire part dans l'iframe cache : le visiteur reste sur
+             la page au lieu d'etre redirige vers Brevo. -->
+        <iframe name="usn-brevo" title="Inscription" style="display:none;border:0;width:0;height:0"></iframe>
+
+        <form class="usn-form" id="usn-accueil-form" method="POST"
+              action="https://f8944495.sibforms.com/serve/MUIFAIs9H4MOwtfawQ-nUiiNQjRmcSNQ51wCfEkSkK4X91IeG5GyZDWqGDV3oD_sUQHzLsQUO6Ky6EqX9G_I6VWvy8H5St2aXpxdhmXp81Jkl34fooTe9ukSalttOBmz1T6EwxTHhs9WLKWs2tBPCT1fhe_uubwAitTQjHmRHfmqBxQBcLifIZRDcFP9W3Vvzs_hPEa9_OySJBsT"
+              target="usn-brevo" novalidate>
+          <div class="usn-form-duo">
+            <input id="usn-nom" name="NOM" type="text" placeholder="Votre nom" aria-label="Nom" required />
+            <input id="usn-email" name="EMAIL" type="email" placeholder="vous@email.com" aria-label="Adresse e-mail" required />
+          </div>
+
+          <!-- Piege anti-robot de Brevo : ce champ doit rester vide. -->
+          <input type="text" name="email_address_check" value="" tabindex="-1"
+                 aria-hidden="true" autocomplete="off"
+                 style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+          <input type="hidden" name="locale" value="fr" />
+
+          <button type="submit" class="usn-btn usn-btn-bleu">Pr&eacute;venez-moi</button>
+          <p class="usn-consent">
+            En vous inscrivant, vous acceptez de recevoir des informations de la
+            part d'Un Seul Nom. D&eacute;sinscription possible &agrave; tout moment.
+          </p>
+        </form>
+
+        <div class="usn-msg" id="usn-form-msg" role="status" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bandeau d&#233;filant de bas de page (m&#234;mes r&#232;gles que celui du haut) -->
+  <div class="usn-defile usn-defile-encre" aria-hidden="true">
+    <div class="usn-defile-piste">
+      <div class="usn-defile-suite">
+        <b>Avignon</b> <i>&#10022;</i> <b>Madagascar</b> <i>&#10022;</i>
+        <b>Marseille</b> <i>&#10022;</i> <b>Bordeaux</b> <i>&#10022;</i>
+      </div>
+      <div class="usn-defile-suite">
+        <b>Avignon</b> <i>&#10022;</i> <b>Madagascar</b> <i>&#10022;</i>
+        <b>Marseille</b> <i>&#10022;</i> <b>Bordeaux</b> <i>&#10022;</i>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- PIED DE PAGE                                                   -->
+  <!-- ============================================================= -->
+  <footer class="usn-footer">
+    <div class="usn-wrap">
+      <div class="usn-footer-grille">
+        <div class="usn-logo-mark usn-logo-blanc usn-footer-mark" role="img" aria-label="Un Seul Nom"></div>
+        <div class="usn-footer-liens">
+          <a href="https://unseulnom.org/evenement/">L'&eacute;v&eacute;nement</a>
+          <a href="#usn-mouvement">Le mouvement</a>
+          <a href="#usn-eglises">&Eacute;glises</a>
+          <a href="#usn-lettre">Newsletter</a>
+          <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Faire un don</a>
+        </div>
+      </div>
+      <div class="usn-footer-bas">&copy; 2026 Un Seul Nom. Tous droits r&eacute;serv&eacute;s.</div>
+    </div>
+  </footer>
+
+</section>

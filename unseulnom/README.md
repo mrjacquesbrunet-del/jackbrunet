@@ -76,6 +76,7 @@ Utilisez `index.html` tel quel comme modèle de page HTML.
 
 | Page | Fichier de travail | Sortie WordPress | Doc |
 |---|---|---|---|
+| Accueil | `accueil.html` | `wordpress-accueil/` | [`ACCUEIL.md`](./ACCUEIL.md) |
 | Événement (Avignon) | `index.html` | `wordpress-3-parties/` | ce fichier |
 | À venir (les dates) | `agenda.html` | `wordpress-agenda/` | [`AGENDA.md`](./AGENDA.md) |
 
@@ -84,8 +85,8 @@ Utilisez `index.html` tel quel comme modèle de page HTML.
 Après toute modification d'un fichier de travail :
 
 ```
-python3 generer-fichiers-wordpress.py            # les deux pages
-python3 generer-fichiers-wordpress.py agenda     # une seule
+python3 generer-fichiers-wordpress.py            # les trois pages
+python3 generer-fichiers-wordpress.py accueil    # une seule
 ```
 
 Le script découpe la page en trois parties, remplace les chemins d'images par

@@ -7,6 +7,7 @@ Genere les fichiers a coller dans WordPress a partir des pages sources.
 
 Deux pages sont produites :
 
+  accueil    accueil.html -> wordpress-accueil/     (la page d'accueil)
   evenement  index.html   -> wordpress-3-parties/   (la page Avignon)
   agenda     agenda.html  -> wordpress-agenda/      (les dates a venir)
 
@@ -43,6 +44,12 @@ from pathlib import Path
 RACINE = Path(__file__).resolve().parent
 
 PAGES = {
+    "accueil": {
+        "source": "accueil.html",
+        "sortie": "wordpress-accueil",
+        "seul": "accueil-a-coller-dans-wordpress.html",
+        "generique": None,
+    },
     "evenement": {
         "source": "index.html",
         "sortie": "wordpress-3-parties",

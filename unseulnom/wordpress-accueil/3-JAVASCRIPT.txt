@@ -1,0 +1,325 @@
+/* Tout le code attend que la page soit construite. Sans cela, si le script
+   est insere avant le contenu (ce que font certains plugins WordPress), il
+   ne trouve aucun element et s'arrete sans rien faire. */
+(function () {
+  function usnInit() {
+
+  /* ---- Son de la video ----
+     Aucun navigateur ne lance seul une video qui parle : elle demarre
+     donc muette, et ce bouton rend la main au visiteur. S'il n'y a pas
+     de piste audio dans le fichier, le bouton se retire de lui-meme
+     plutot que de promettre un son qui n'existe pas. */
+  (function () {
+    var video  = document.querySelector('#usn-accueil .usn-hero-video');
+    var bouton = document.getElementById('usn-son');
+    if (!video || !bouton) return;
+
+    function aDuSon() {
+      // Chaque navigateur renseigne un indicateur different ; aucun n'est
+      // disponible partout, d'ou les trois essais successifs.
+      if (typeof video.mozHasAudio === 'boolean') return video.mozHasAudio;
+      if (video.webkitAudioDecodedByteCount !== undefined) {
+        return video.webkitAudioDecodedByteCount > 0;
+      }
+      if (video.audioTracks) return video.audioTracks.length > 0;
+      return true;   // dans le doute, on laisse le bouton
+    }
+
+    function verifier() {
+      if (!aDuSon()) bouton.remove();
+    }
+    if (video.readyState >= 2) { verifier(); }
+    video.addEventListener('loadeddata', verifier);
+
+    function libelle() {
+      var texte = bouton.querySelector('.usn-son-texte');
+      var icone = bouton.querySelector('.usn-son-icone');
+      if (texte) texte.textContent = video.muted ? 'Activer le son' : 'Couper le son';
+      if (icone) icone.innerHTML = video.muted ? '&#9834;' : '&#9835;';
+      bouton.setAttribute('aria-pressed', video.muted ? 'false' : 'true');
+    }
+    libelle();
+
+    bouton.addEventListener('click', function () {
+      video.muted = !video.muted;
+      if (!video.muted) { video.volume = 0.8; video.play(); }
+      libelle();
+    });
+  })();
+
+
+  /* ---- Compte a rebours ---- */
+  (function () {
+    var box = document.getElementById('usn-countdown');
+    if (!box) return;
+    var target = new Date(box.getAttribute('data-target') || '').getTime();
+    if (isNaN(target)) return;
+    var els = {
+      days: box.querySelector('[data-cd="days"]'),
+      hours: box.querySelector('[data-cd="hours"]'),
+      mins: box.querySelector('[data-cd="mins"]'),
+      secs: box.querySelector('[data-cd="secs"]')
+    };
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function tick() {
+      var diff = Math.max(0, target - Date.now());
+      var s = Math.floor(diff / 1000);
+      var d = Math.floor(s / 86400); s -= d * 86400;
+      var h = Math.floor(s / 3600); s -= h * 3600;
+      var m = Math.floor(s / 60); s -= m * 60;
+      if (els.days) els.days.textContent = d;
+      if (els.hours) els.hours.textContent = pad(h);
+      if (els.mins) els.mins.textContent = pad(m);
+      if (els.secs) els.secs.textContent = pad(s);
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+
+
+  /* =================================================================
+     MOTEUR D'ANIMATION AU SCROLL
+     Reproduit le comportement de GSAP ScrollTrigger en mode " scrub " :
+     - les elements partent d'une demi-hauteur d'ecran plus bas (50svh),
+     - ils remontent AU RYTHME DU SCROLL (et redescendent si on remonte),
+     - avec un chevauchement entre les elements d'un meme groupe,
+     - le tout lisse (inertie) pour un rendu fluide.
+     Sans JS ou avec " prefers-reduced-motion ", tout reste visible.
+     ================================================================= */
+  (function () {
+    var root = document.getElementById('usn-accueil');
+    if (!root) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+    function vh() { return window.innerHeight || 800; }
+
+    /* ---------- 1. Decoupe la punchline en mots ---------- */
+    var punch = document.getElementById('usn-punch');
+    var words = [];
+    if (punch) {
+      var lines = punch.querySelectorAll('[data-usn-reveal]');
+      for (var l = 0; l < lines.length; l++) {
+        var parts = (lines[l].textContent || '').trim().split(/\s+/);
+        lines[l].textContent = '';
+        for (var k = 0; k < parts.length; k++) {
+          var sp = document.createElement('span');
+          sp.className = 'usn-word';
+          sp.textContent = parts[k];
+          lines[l].appendChild(sp);
+          if (k < parts.length - 1) lines[l].appendChild(document.createTextNode(' '));
+          words.push(sp);
+        }
+      }
+      for (var w = 0; w < words.length; w++) {
+        var a = Math.sin(w * 12.9898) * 43758.5453; a -= Math.floor(a);
+        var b = Math.sin(w * 78.233) * 12543.123;  b -= Math.floor(b);
+        words[w].__dx = (a - 0.5) * 2 * Math.min(window.innerWidth * 0.45, 520);
+        words[w].__dy = (b - 0.5) * 2 * 260;
+        words[w].__rot = (a - 0.5) * 55;
+      }
+    }
+
+    if (reduce) return; // mouvement desactive : tout reste en place
+
+    /* ---------- 2. Declare les groupes animes ---------- */
+    // rise : monte depuis 50svh ; slide : arrive de la gauche ; pop : grossit
+    var groups = [];
+    function group(sel, opts) {
+      var els = root.querySelectorAll(sel);
+      if (els.length) groups.push({ els: els, o: opts });
+    }
+    group('.usn-titre-section', { type: 'rise',  dist: 0.24, stagger: 0.08, span: 0.50 });
+    group('.usn-geant',         { type: 'slide', dist: 0.30, stagger: 0.14, span: 0.58 });
+    group('.usn-vue',           { type: 'rise',  dist: 0.40, stagger: 0.12, span: 0.58 });
+    group('.usn-chiffre',       { type: 'rise',  dist: 0.22, stagger: 0.10, span: 0.46 });
+    group('[data-usn-gauche]',  { type: 'slide',  dist: 0.60, stagger: 0, span: 0.50 });
+    group('[data-usn-droite]',  { type: 'slideR', dist: 0.60, stagger: 0, span: 0.50 });
+
+    var all = [];
+    for (var g = 0; g < groups.length; g++) {
+      for (var i = 0; i < groups[g].els.length; i++) {
+        var el = groups[g].els[i];
+        all.push({
+          el: el, i: i, o: groups[g].o, p: 0, top: 0,
+          rot: parseFloat(el.getAttribute('data-rot') || '0')
+        });
+      }
+    }
+
+    function scrollY() { return window.pageYOffset || document.documentElement.scrollTop || 0; }
+
+    /* Position NATURELLE de chaque element (transform neutralise), mise en
+       cache : sinon le decalage applique fausse la mesure et l'element
+       n'entre jamais dans la zone de declenchement. */
+    function measureAll() {
+      for (var i = 0; i < all.length; i++) {
+        var it = all[i], prev = it.el.style.transform;
+        it.el.style.transform = 'none';
+        it.top = it.el.getBoundingClientRect().top + scrollY();
+        it.el.style.transform = prev;
+      }
+    }
+    measureAll();
+
+    /* ---------- Portraits : couleur au passage au centre ----------
+       Chaque photo se colore a mesure qu'elle approche du centre de
+       l'ecran, puis retourne au noir et blanc en s'en eloignant. */
+    var photos = [];
+    (function () {
+      var imgs = root.querySelectorAll('.usn-vue img');
+      for (var i = 0; i < imgs.length; i++) photos.push({ el: imgs[i], p: 0 });
+    })();
+
+    function cibleCouleur(ph) {
+      var r = ph.el.getBoundingClientRect();
+      if (!r.height) return 0;
+      var h = vh();
+      var ecart = Math.abs((r.top + r.height / 2) - h / 2);
+      // Pleine couleur au centre, noir et blanc au-dela de 42% de l'ecran.
+      return clamp01(1 - ecart / (h * 0.42));
+    }
+
+    function peindre(ph) {
+      var e = easeOut(ph.p);
+      ph.el.style.filter = 'grayscale(' + (1 - e).toFixed(3) + ') contrast(' + (1 + 0.06 * (1 - e)).toFixed(3) + ')';
+      ph.el.style.transform = 'scale(' + (1 + 0.035 * e).toFixed(4) + ')';
+    }
+    for (var ip = 0; ip < photos.length; ip++) peindre(photos[ip]);
+
+    // etat initial immediat (evite tout " flash " de contenu deja en place)
+    for (var s = 0; s < all.length; s++) apply(all[s], 0);
+
+    /* ---------- 3. Calcul de l'avancement lie au scroll ---------- */
+    function target(item) {
+      var h = vh();
+      var top = item.top - scrollY();
+      // 0 quand le haut de l'element entre par le bas, 1 quand il a monte
+      var raw = (h * 0.92 - top) / (h * item.o.span);
+      var st = item.i * item.o.stagger;
+      return clamp01((clamp01(raw) - st) / Math.max(0.2, 1 - st));
+    }
+
+    function apply(item, p) {
+      var e = easeOut(p), inv = 1 - e, o = item.o, st = item.el.style;
+      var rot = item.rot ? ' rotate(' + item.rot + 'deg)' : '';
+      if (o.type === 'rise') {
+        st.transform = 'translate3d(0,' + (inv * o.dist * vh()).toFixed(1) + 'px,0)' + rot;
+      } else if (o.type === 'slide') {
+        st.transform = 'translate3d(' + (-inv * o.dist * Math.min(window.innerWidth, 900)).toFixed(1) + 'px,0,0)' + rot;
+      } else if (o.type === 'slideR') {
+        st.transform = 'translate3d(' + (inv * o.dist * Math.min(window.innerWidth, 900)).toFixed(1) + 'px,0,0)' + rot;
+      } else { // pop
+        st.transform = 'scale(' + (0.3 + 0.7 * e).toFixed(3) + ')' + rot;
+      }
+      st.opacity = e.toFixed(3);
+    }
+
+    /* ---------- 4. Punchline : les mots se rassemblent ---------- */
+    var punchP = 0;
+    // Ancre sur la premiere ligne de texte (et non sur la section, bien plus
+    // haute) : les mots se rassemblent des que le texte entre a l'ecran.
+    var punchAnchor = punch && punch.querySelector('[data-usn-reveal]');
+    function punchTarget() {
+      if (!punchAnchor) return 0;
+      var r = punchAnchor.getBoundingClientRect(), h = vh();
+      return clamp01((h * 1.0 - r.top) / (h * 0.5));
+    }
+    function punchApply(p) {
+      var n = words.length;
+      for (var i = 0; i < n; i++) {
+        var t = clamp01((p - (i / n) * 0.45) / 0.55);
+        var e = easeOut(t), inv = 1 - e, ws = words[i];
+        ws.style.transform = 'translate3d(' + (ws.__dx * inv).toFixed(1) + 'px,' + (ws.__dy * inv).toFixed(1) + 'px,0) rotate(' + (ws.__rot * inv).toFixed(1) + 'deg)';
+        ws.style.opacity = e.toFixed(3);
+        ws.style.filter = inv > 0.02 ? 'blur(' + (inv * 9).toFixed(1) + 'px)' : 'none';
+      }
+      var sub = punch && punch.querySelector('[data-usn-sub]');
+      if (sub) {
+        var sp = clamp01((p - 0.6) / 0.4);
+        sub.style.opacity = sp.toFixed(3);
+        sub.style.transform = 'translate3d(0,' + ((1 - sp) * 40).toFixed(1) + 'px,0)';
+      }
+    }
+    punchApply(0);
+
+    /* ---------- 5. Parallaxe du heros ---------- */
+    var hero = root.querySelector('.usn-hero');
+    var heroInner = root.querySelector('.usn-hero-inner');
+
+    /* ---------- 6. Boucle de rendu (lissage type ScrollSmoother) ---------- */
+    var running = false;
+    function frame() {
+      var moving = false;
+
+      for (var i = 0; i < all.length; i++) {
+        var it = all[i], t = target(it);
+        it.p += (t - it.p) * 0.12;             // lissage
+        if (Math.abs(t - it.p) > 0.001) moving = true; else it.p = t;
+        apply(it, it.p);
+      }
+
+      if (punch) {
+        var tp = punchTarget();
+        punchP += (tp - punchP) * 0.12;
+        if (Math.abs(tp - punchP) > 0.001) moving = true; else punchP = tp;
+        punchApply(punchP);
+      }
+
+      for (var k = 0; k < photos.length; k++) {
+        var ph = photos[k], tc = cibleCouleur(ph);
+        ph.p += (tc - ph.p) * 0.14;
+        if (Math.abs(tc - ph.p) > 0.004) moving = true; else ph.p = tc;
+        peindre(ph);
+      }
+
+      if (hero) {
+        var hr = hero.getBoundingClientRect();
+        var prog = clamp01(-hr.top / Math.max(1, hr.height));
+        if (heroInner) {
+          heroInner.style.transform = 'translate3d(0,' + (prog * 130).toFixed(1) + 'px,0)';
+          heroInner.style.opacity = (1 - prog * 0.85).toFixed(3);
+        }
+      }
+
+      if (moving) { requestAnimationFrame(frame); } else { running = false; }
+    }
+    function kick() { if (!running) { running = true; requestAnimationFrame(frame); } }
+
+    window.addEventListener('scroll', kick, { passive: true });
+    window.addEventListener('resize', function () { measureAll(); kick(); });
+    window.addEventListener('load', function () { measureAll(); kick(); });
+    kick();
+  })();
+
+
+  /* ---- Lettre d'information ---- */
+  (function () {
+    var form = document.getElementById('usn-accueil-form');
+    if (!form) return;
+    var msg = document.getElementById('usn-form-msg');
+
+    form.addEventListener('submit', function (e) {
+      var nom   = form.querySelector('#usn-nom');
+      var email = form.querySelector('#usn-email');
+      if (!nom.value.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value)) {
+        e.preventDefault();
+        (nom.value.trim() ? email : nom).focus();
+        return;
+      }
+      if (msg) {
+        msg.textContent = 'Merci ! Vous serez pr\u00e9venu d\u00e8s qu\'une nouvelle date est annonc\u00e9e.';
+        msg.style.display = 'block';
+      }
+      setTimeout(function () { form.reset(); }, 100);
+    });
+  })();
+
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', usnInit);
+  } else {
+    usnInit();
+  }
+})();

@@ -1,0 +1,1126 @@
+<style>
+  /* ===================================================================
+     PAGE D'ACCUEIL
+
+     Elle a un role different des deux autres pages : en quelques
+     secondes, un visiteur doit comprendre ce qu'est Un Seul Nom et
+     savoir ou est le prochain rendez-vous.
+
+     Le fond est ivoire et non blanc : c'est ce qui donne a la page son
+     aspect de papier d'affiche, et cela rechauffe le bleu-blanc-rouge.
+     Les titres sont enormes et serres, les bandeaux defilent, et les
+     mots-cles de la declaration passent en couleur.
+
+     Tout est scope sous #usn-accueil : les trois pages cohabitent sur
+     le site sans se marcher dessus.
+     =================================================================== */
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
+  #usn-accueil {
+    --usn-blue: #1B2FC4;
+    --usn-red: #E4262B;
+    --usn-white: #FFFFFF;
+    /* Ivoire : un blanc casse legerement chaud, comme un papier. */
+    --usn-ivoire: #F0EEE7;
+    --usn-ivoire-2: #E7E4DA;
+    --usn-ink: #111110;
+    --usn-gris: #5C5B54;
+    --usn-trait: #D8D4C8;
+
+    --usn-display: 'Archivo', 'Poppins', system-ui, -apple-system, "Segoe UI", sans-serif;
+    --usn-sub: 'Inter', system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+
+    box-sizing: border-box;
+    font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--usn-ink); background: var(--usn-ivoire);
+    line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: clip;
+    width: 100vw; max-width: 100vw; margin-left: calc(50% - 50vw);
+  }
+  #usn-accueil *, #usn-accueil *::before, #usn-accueil *::after { box-sizing: border-box; }
+  #usn-accueil img, #usn-accueil video { max-width: 100%; display: block; }
+  #usn-accueil p { margin: 0; }
+  #usn-accueil h1, #usn-accueil h2, #usn-accueil h3 {
+    margin: 0; font-weight: 900; line-height: 0.88; letter-spacing: -0.035em;
+    font-family: var(--usn-display); font-stretch: 125%; text-transform: uppercase;
+  }
+  #usn-accueil .usn-wrap { width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px); }
+
+  /* Intitule de section : un point, un mot, en tout petit. */
+  #usn-accueil .usn-cle {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-size: 11.5px; font-weight: 800; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--usn-gris);
+  }
+  #usn-accueil .usn-cle::before {
+    content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--usn-red);
+  }
+  #usn-accueil .usn-titre-section { will-change: transform, opacity; }
+
+  /* ---------- Boutons ---------- */
+  #usn-accueil .usn-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 16px 34px; border-radius: 999px; font-weight: 800; font-size: 13px;
+    letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
+  }
+  #usn-accueil .usn-btn-encre { background: var(--usn-ink); color: var(--usn-ivoire); }
+  #usn-accueil .usn-btn-encre:hover { background: var(--usn-blue); transform: translateY(-2px); }
+  #usn-accueil .usn-btn-bleu { background: var(--usn-blue); color: #fff; }
+  #usn-accueil .usn-btn-bleu:hover { background: var(--usn-red); transform: translateY(-2px); }
+  #usn-accueil .usn-btn-clair { background: var(--usn-ivoire); color: var(--usn-ink); }
+  #usn-accueil .usn-btn-clair:hover { transform: translateY(-2px); }
+  #usn-accueil .usn-btn-ligne { background: transparent; color: currentColor; border-color: currentColor; }
+  #usn-accueil .usn-btn-ligne:hover { background: currentColor; }
+  #usn-accueil .usn-btn-ligne:hover span { color: var(--usn-ivoire); }
+  #usn-accueil a:focus-visible, #usn-accueil button:focus-visible {
+    outline: 3px solid var(--usn-blue); outline-offset: 3px;
+  }
+
+  /* ===================================================================
+     BARRE DE NAVIGATION
+     Elle remplace le bandeau du theme, qui n'offrait aucun chemin direct
+     vers l'evenement. Collante : le bouton d'inscription reste a portee
+     pendant toute la lecture.
+     =================================================================== */
+  #usn-accueil .usn-nav {
+    position: sticky; top: 0; z-index: 30;
+    display: flex; align-items: center; gap: clamp(10px, 2vw, 28px);
+    padding: 14px clamp(16px, 4vw, 48px);
+    background: rgba(240,238,231,0.82);
+    border-bottom: 1px solid var(--usn-trait);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    backdrop-filter: blur(16px) saturate(140%);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    #usn-accueil .usn-nav { background: var(--usn-ivoire); }
+  }
+  #usn-accueil .usn-nav a { text-decoration: none; }
+  #usn-accueil .usn-nav-logo { width: 38px; margin: 0; flex: none; }
+  #usn-accueil .usn-nav-liens { display: flex; align-items: center; gap: clamp(14px, 2.4vw, 32px); margin-left: 8px; }
+  #usn-accueil .usn-nav-liens a {
+    font-size: 11.5px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--usn-ink); white-space: nowrap; position: relative; padding: 4px 0;
+  }
+  #usn-accueil .usn-nav-liens a::after {
+    content: ''; position: absolute; left: 0; right: 100%; bottom: 0; height: 2px;
+    background: var(--usn-blue); transition: right .22s ease;
+  }
+  #usn-accueil .usn-nav-liens a:hover::after { right: 0; }
+  #usn-accueil .usn-nav-actions { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+  #usn-accueil .usn-nav-don {
+    display: inline-flex; align-items: center; padding: 10px 20px; border-radius: 999px;
+    font-weight: 800; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--usn-ink); border: 1.5px solid var(--usn-ink); white-space: nowrap;
+    transition: background .2s ease, color .2s ease;
+  }
+  #usn-accueil .usn-nav-don:hover { background: var(--usn-ink); color: var(--usn-ivoire); }
+  #usn-accueil .usn-nav-cta {
+    display: inline-flex; align-items: center; padding: 11px 22px; border-radius: 999px;
+    font-weight: 800; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: #fff; background: var(--usn-red); white-space: nowrap;
+    transition: background .2s ease, transform .18s ease;
+  }
+  #usn-accueil .usn-nav-cta:hover { background: var(--usn-ink); transform: translateY(-1px); }
+  @media (max-width: 900px) { #usn-accueil .usn-nav-liens { display: none; } }
+  @media (max-width: 430px) {
+    #usn-accueil .usn-nav-don { display: none; }
+    #usn-accueil .usn-nav-logo { width: 32px; }
+  }
+
+  /* ===================================================================
+     HEROS - plein ecran, la video derriere le nom du mouvement
+     =================================================================== */
+  #usn-accueil .usn-hero {
+    position: relative; overflow: hidden;
+    min-height: clamp(560px, 92svh, 1000px);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    background: var(--usn-ink); color: var(--usn-ivoire);
+  }
+  #usn-accueil .usn-hero-video { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; }
+  #usn-accueil .usn-hero-voile {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background:
+      linear-gradient(180deg, rgba(17,17,16,0.62) 0%, rgba(17,17,16,0.30) 38%,
+                      rgba(17,17,16,0.72) 78%, rgba(17,17,16,0.94) 100%);
+  }
+  #usn-accueil .usn-hero-inner {
+    position: relative; z-index: 2; width: 100%;
+    padding-bottom: clamp(26px, 4vw, 46px); padding-top: clamp(90px, 14vw, 160px);
+  }
+  /* Le nom occupe toute la largeur : c'est la premiere chose qu'on voit. */
+  #usn-accueil .usn-hero h1 {
+    font-size: clamp(46px, 12.4vw, 210px); line-height: 0.82;
+    text-shadow: 0 10px 50px rgba(0,0,0,0.5);
+  }
+  #usn-accueil .usn-hero-pied {
+    margin-top: clamp(22px, 3vw, 38px); padding-top: clamp(18px, 2.4vw, 26px);
+    border-top: 1px solid rgba(255,255,255,0.24);
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: clamp(18px, 4vw, 48px); flex-wrap: wrap;
+  }
+  #usn-accueil .usn-hero-depuis {
+    font-family: var(--usn-sub); font-size: clamp(13.5px, 1.7vw, 17px);
+    color: rgba(255,255,255,0.82); max-width: 34ch;
+  }
+  #usn-accueil .usn-hero-depuis b { color: var(--usn-white); font-weight: 700; }
+  /* Le prochain rendez-vous, en lien direct depuis le heros. */
+  #usn-accueil .usn-prochain-lien {
+    display: block; text-decoration: none; color: inherit; text-align: right;
+    transition: transform .2s ease;
+  }
+  #usn-accueil .usn-prochain-lien:hover { transform: translateY(-3px); }
+  #usn-accueil .usn-prochain-lien .k {
+    display: block;
+    font-size: 11px; font-weight: 800; letter-spacing: 0.26em; text-transform: uppercase;
+    color: var(--usn-red);
+  }
+  #usn-accueil .usn-prochain-lien .v {
+    display: block; margin-top: 6px; font-family: var(--usn-display); font-stretch: 118%; font-weight: 900;
+    font-size: clamp(24px, 4vw, 52px); line-height: 0.9; text-transform: uppercase;
+  }
+  #usn-accueil .usn-prochain-lien .d {
+    display: block; margin-top: 6px; font-family: var(--usn-sub); font-size: 13.5px;
+    color: rgba(255,255,255,0.72);
+  }
+  #usn-accueil .usn-son {
+    position: absolute; z-index: 3; right: clamp(16px, 4vw, 48px); top: clamp(78px, 12vw, 110px);
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 10px 18px; border-radius: 999px; cursor: pointer;
+    font-family: inherit; font-size: 11.5px; font-weight: 800;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--usn-white);
+    background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.26);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    backdrop-filter: blur(14px) saturate(140%);
+    transition: background .2s ease, transform .18s ease;
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    #usn-accueil .usn-son { background: rgba(17,17,16,0.6); }
+  }
+  #usn-accueil .usn-son:hover { background: rgba(255,255,255,0.2); transform: translateY(-1px); }
+  @media (max-width: 560px) {
+    #usn-accueil .usn-son-texte { display: none; }
+    #usn-accueil .usn-son { padding: 12px 14px; }
+    #usn-accueil .usn-prochain-lien { text-align: left; }
+  }
+
+  /* ===================================================================
+     BANDEAUX DEFILANTS
+     =================================================================== */
+  #usn-accueil .usn-defile { overflow: hidden; user-select: none; padding: 14px 0; }
+  #usn-accueil .usn-defile-bleu { background: var(--usn-blue); color: #fff; }
+  #usn-accueil .usn-defile-encre { background: var(--usn-ink); color: var(--usn-ivoire); }
+  #usn-accueil .usn-defile-piste { display: flex; width: max-content; animation: usn-glisse 34s linear infinite; }
+  #usn-accueil .usn-defile-suite { display: flex; align-items: center; gap: 30px; padding-right: 30px; }
+  #usn-accueil .usn-defile b {
+    font-family: var(--usn-display); font-stretch: 125%; font-weight: 900;
+    font-size: clamp(19px, 3.2vw, 38px); text-transform: uppercase;
+    letter-spacing: -0.02em; white-space: nowrap;
+  }
+  #usn-accueil .usn-defile i { color: var(--usn-red); font-style: normal; font-size: 20px; }
+  #usn-accueil .usn-defile-encre i { color: var(--usn-red); }
+  @keyframes usn-glisse { from { transform: translate3d(0,0,0); } to { transform: translate3d(-50%,0,0); } }
+  @media (prefers-reduced-motion: reduce) { #usn-accueil .usn-defile-piste { animation: none; } }
+
+  /* ===================================================================
+     LA DECLARATION
+     Un seul paragraphe, ecrit tres grand, dont les mots-cles passent en
+     couleur : c'est le resume du mouvement.
+     =================================================================== */
+  #usn-accueil .usn-declaration { padding: clamp(64px, 11vw, 150px) 0 clamp(48px, 8vw, 110px); }
+  #usn-accueil .usn-declaration p {
+    margin-top: clamp(26px, 4vw, 48px);
+    font-family: var(--usn-display); font-stretch: 112%; font-weight: 800;
+    font-size: clamp(25px, 4.4vw, 62px); line-height: 1.06;
+    letter-spacing: -0.025em; text-transform: uppercase; max-width: 20ch;
+  }
+  #usn-accueil .usn-declaration em { font-style: normal; color: var(--usn-blue); }
+  #usn-accueil .usn-declaration strong { font-weight: 800; color: var(--usn-red); }
+
+  /* ===================================================================
+     LES TROIS GRANDS MOTS
+     Chaque ligne : un numero, un mot enorme, une phrase courte a droite.
+     Les lignes arrivent par la gauche au scroll.
+     =================================================================== */
+  #usn-accueil .usn-geants { border-top: 2px solid var(--usn-ink); }
+  /* La colonne du milieu doit pouvoir se reduire (min-width: 0), sinon le
+     mot geant impose sa largeur et ecrase la colonne de texte. */
+  #usn-accueil .usn-geant {
+    display: grid;
+    grid-template-columns: 58px minmax(0, 1fr) clamp(210px, 24vw, 360px);
+    gap: clamp(14px, 3vw, 40px); align-items: center;
+    padding: clamp(26px, 4vw, 48px) 0;
+    border-bottom: 2px solid var(--usn-ink);
+    will-change: transform, opacity;
+  }
+  #usn-accueil .usn-geant-num {
+    font-family: var(--usn-display); font-stretch: 118%; font-weight: 900;
+    font-size: 15px; color: var(--usn-red); font-variant-numeric: tabular-nums;
+    align-self: start; padding-top: 8px;
+  }
+  #usn-accueil .usn-geant-mot { font-size: clamp(34px, 7.4vw, 124px); line-height: 0.84; }
+  #usn-accueil .usn-geant p {
+    font-family: var(--usn-sub); font-size: clamp(14px, 1.7vw, 17px); color: var(--usn-gris);
+  }
+  @media (max-width: 860px) {
+    #usn-accueil .usn-geant { grid-template-columns: 40px 1fr; }
+    #usn-accueil .usn-geant p { grid-column: 2; }
+  }
+
+  /* ===================================================================
+     GALERIE - les villes deja traversees
+     Legendes minuscules "Ville, annee", images en noir et blanc qui
+     reprennent leurs couleurs en passant au centre de l'ecran.
+     =================================================================== */
+  #usn-accueil .usn-galerie { padding: clamp(60px, 10vw, 130px) 0; }
+  #usn-accueil .usn-vues {
+    margin-top: clamp(30px, 5vw, 56px);
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(14px, 2.2vw, 26px);
+    align-items: start;
+  }
+  #usn-accueil .usn-vue { margin: 0; will-change: transform, opacity; }
+  #usn-accueil .usn-vues .usn-vue:nth-child(even) { margin-top: clamp(24px, 5vw, 64px); }
+  #usn-accueil .usn-vue-cadre {
+    position: relative; aspect-ratio: 3 / 4; overflow: hidden;
+    background: var(--usn-ivoire-2);
+  }
+  #usn-accueil .usn-vue-cadre img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: grayscale(1) contrast(1.05); will-change: filter, transform;
+  }
+  #usn-accueil .usn-vue figcaption {
+    margin-top: 12px; font-family: var(--usn-sub); font-size: 12.5px;
+    letter-spacing: 0.08em; color: var(--usn-gris);
+  }
+  #usn-accueil .usn-vue figcaption b {
+    color: var(--usn-ink); font-weight: 700; letter-spacing: 0;
+  }
+  @media (max-width: 900px) { #usn-accueil .usn-vues { grid-template-columns: repeat(2, 1fr); } }
+
+  /* ---------- Les chiffres ---------- */
+  #usn-accueil .usn-chiffres {
+    margin-top: clamp(46px, 7vw, 84px); display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 20px; border-top: 2px solid var(--usn-ink); padding-top: clamp(24px, 3.5vw, 40px);
+  }
+  #usn-accueil .usn-chiffre { will-change: transform, opacity; }
+  #usn-accueil .usn-chiffre b {
+    display: block; font-family: var(--usn-display); font-stretch: 125%; font-weight: 900;
+    font-size: clamp(38px, 6.4vw, 88px); line-height: 0.9; letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+  #usn-accueil .usn-chiffre span {
+    display: block; margin-top: 10px; font-size: 11.5px; font-weight: 800;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--usn-gris);
+  }
+  @media (max-width: 620px) { #usn-accueil .usn-chiffres { grid-template-columns: 1fr; gap: 28px; } }
+
+  /* ===================================================================
+     CITATION - pleine page, sur fond sombre
+     =================================================================== */
+  #usn-accueil .usn-citation {
+    background: var(--usn-ink); color: var(--usn-ivoire);
+    padding: clamp(70px, 12vw, 160px) 0;
+  }
+  #usn-accueil .usn-citation q {
+    display: block; quotes: none;
+    font-family: var(--usn-display); font-stretch: 118%; font-weight: 900;
+    font-size: clamp(28px, 5.6vw, 86px); line-height: 0.98;
+    letter-spacing: -0.03em; text-transform: uppercase; max-width: 17ch;
+  }
+  #usn-accueil .usn-citation q em { font-style: normal; color: var(--usn-red); }
+  #usn-accueil .usn-citation cite {
+    display: block; margin-top: clamp(22px, 3vw, 34px); font-style: normal;
+    font-family: var(--usn-sub); font-size: 12.5px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: rgba(255,255,255,0.55);
+  }
+  #usn-accueil .usn-fondateurs {
+    margin-top: clamp(30px, 4vw, 48px); padding-top: clamp(20px, 3vw, 30px);
+    border-top: 1px solid rgba(255,255,255,0.18);
+    font-family: var(--usn-sub); font-size: 14.5px; color: rgba(255,255,255,0.68);
+    max-width: 70ch;
+  }
+  #usn-accueil .usn-fondateurs b { color: var(--usn-ivoire); font-weight: 700; }
+
+  /* ===================================================================
+     LE PROCHAIN RENDEZ-VOUS - bloc plein, avec compte a rebours
+     =================================================================== */
+  #usn-accueil .usn-rdv { background: var(--usn-blue); color: #fff; padding: clamp(56px, 9vw, 120px) 0; }
+  #usn-accueil .usn-rdv-ville { font-size: clamp(50px, 13vw, 200px); line-height: 0.82; }
+  #usn-accueil .usn-rdv-quand {
+    margin-top: clamp(16px, 2.4vw, 26px); font-family: var(--usn-display); font-stretch: 115%;
+    font-weight: 800; font-size: clamp(17px, 2.6vw, 30px); text-transform: uppercase;
+  }
+  #usn-accueil .usn-rdv-ou { margin-top: 10px; font-family: var(--usn-sub); font-size: clamp(14px, 1.7vw, 17px); color: rgba(255,255,255,0.82); }
+  #usn-accueil .usn-rdv-bas {
+    margin-top: clamp(28px, 4vw, 46px); padding-top: clamp(22px, 3vw, 32px);
+    border-top: 1px solid rgba(255,255,255,0.28);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: clamp(20px, 4vw, 48px); flex-wrap: wrap;
+  }
+  #usn-accueil .usn-chrono { display: flex; align-items: baseline; gap: clamp(14px, 2.4vw, 30px); }
+  #usn-accueil .usn-chrono div { text-align: center; }
+  #usn-accueil .usn-chrono b {
+    display: block; font-family: var(--usn-display); font-stretch: 118%; font-weight: 900;
+    font-size: clamp(26px, 4vw, 46px); line-height: 1; font-variant-numeric: tabular-nums;
+  }
+  #usn-accueil .usn-chrono small {
+    display: block; margin-top: 6px; font-size: 10px; font-weight: 800;
+    letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.58);
+  }
+
+  /* ===================================================================
+     APPEL AUX EGLISES
+     =================================================================== */
+  #usn-accueil .usn-eglises { padding: clamp(64px, 10vw, 140px) 0; }
+  #usn-accueil .usn-eglises h2 { margin-top: 18px; font-size: clamp(32px, 6.4vw, 92px); max-width: 15ch; }
+  #usn-accueil .usn-eglises .usn-intro {
+    margin-top: clamp(20px, 3vw, 30px); font-family: var(--usn-sub);
+    font-size: clamp(15px, 1.8vw, 18px); color: var(--usn-gris); max-width: 58ch;
+  }
+  #usn-accueil .usn-besoins {
+    margin-top: clamp(30px, 4vw, 48px); display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 0 clamp(20px, 3vw, 40px);
+  }
+  #usn-accueil .usn-besoins div {
+    padding: 18px 0; border-top: 2px solid var(--usn-ink);
+    font-family: var(--usn-sub); font-size: 15px;
+  }
+  #usn-accueil .usn-besoins b {
+    display: block; font-family: var(--usn-display); font-stretch: 115%; font-weight: 900;
+    font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--usn-blue); margin-bottom: 8px;
+  }
+  #usn-accueil .usn-eglises-actions { margin-top: clamp(30px, 4vw, 44px); display: flex; flex-wrap: wrap; gap: 12px; }
+  @media (max-width: 760px) { #usn-accueil .usn-besoins { grid-template-columns: 1fr; } }
+
+  /* ===================================================================
+     LETTRE D'INFORMATION
+     =================================================================== */
+  #usn-accueil .usn-lettre { background: var(--usn-ivoire-2); padding: clamp(52px, 8vw, 100px) 0; }
+  #usn-accueil .usn-lettre-grille {
+    display: grid; grid-template-columns: 1fr 1fr; gap: clamp(26px, 4vw, 60px); align-items: center;
+  }
+  #usn-accueil .usn-lettre h2 { margin-top: 16px; font-size: clamp(28px, 4.6vw, 56px); }
+  #usn-accueil .usn-lettre .usn-intro {
+    margin-top: 16px; font-family: var(--usn-sub); font-size: 15.5px; color: var(--usn-gris); max-width: 42ch;
+  }
+  #usn-accueil .usn-form { display: grid; gap: 12px; }
+  #usn-accueil .usn-form input {
+    width: 100%; padding: 16px 18px; border-radius: 0;
+    border: 1.5px solid var(--usn-ink); background: var(--usn-ivoire); color: var(--usn-ink);
+    font-family: inherit; font-size: 15px; transition: box-shadow .15s ease;
+  }
+  #usn-accueil .usn-form input::placeholder { color: rgba(17,17,16,0.42); }
+  #usn-accueil .usn-form input:focus { outline: none; box-shadow: inset 0 0 0 2px var(--usn-blue); }
+  #usn-accueil .usn-form-duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  #usn-accueil .usn-form button { width: 100%; }
+  #usn-accueil .usn-consent { font-size: 12.5px; color: var(--usn-gris); }
+  #usn-accueil .usn-msg {
+    display: none; margin-top: 12px; padding: 14px 16px;
+    background: var(--usn-blue); color: #fff; font-weight: 700; font-size: 14px;
+  }
+  @media (max-width: 820px) { #usn-accueil .usn-lettre-grille { grid-template-columns: 1fr; } }
+  @media (max-width: 460px) { #usn-accueil .usn-form-duo { grid-template-columns: 1fr; } }
+
+  /* ---------- Pied de page ---------- */
+  #usn-accueil .usn-footer { background: var(--usn-ink); color: rgba(255,255,255,0.62); padding: clamp(40px, 6vw, 64px) 0; }
+  #usn-accueil .usn-footer-grille {
+    display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+  }
+  #usn-accueil .usn-footer-mark { width: 62px; margin: 0; opacity: .9; }
+  #usn-accueil .usn-footer-liens { display: flex; gap: clamp(14px, 2.4vw, 30px); flex-wrap: wrap; }
+  #usn-accueil .usn-footer a {
+    color: var(--usn-ivoire); text-decoration: none;
+    font-size: 11.5px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  #usn-accueil .usn-footer a:hover { color: var(--usn-red); }
+  #usn-accueil .usn-footer-bas {
+    margin-top: clamp(26px, 4vw, 40px); padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.16); font-size: 12.5px;
+  }
+
+  /* ---------------------------------------------------------------
+     LOGO UN SEUL NOM
+     Le dessin du logo est integre directement dans cette feuille de
+     style (format vectoriel). Il n'y a donc aucun fichier a envoyer
+     dans la mediatheque : le logo s'affiche toujours, il est net a
+     toutes les tailles et il se charge instantanement.
+     --------------------------------------------------------------- */
+  #usn-accueil .usn-logo-mark {
+    display: block; margin: 0 auto; aspect-ratio: 1 / 1;
+    background-position: center; background-repeat: no-repeat; background-size: contain;
+  }
+  #usn-accueil .usn-logo-blanc { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 1200'%3E%3Cg fill='%23ffffff' transform='translate(0,1200) scale(0.1,-0.1)'%3E%3Cpath d='M5483 11990 c-11 -5 -61 -13 -110 -19 -555 -64 -1095 -195 -1518 -366 -44 -18 -91 -36 -105 -40 -61 -18 -391 -173 -540 -252 -1094 -584 -1938 -1428 -2523 -2523 -82 -154 -232 -477 -257 -555 -7 -21 -23 -62 -35 -90 -12 -27 -46 -119 -75 -203 -146 -428 -235 -830 -291 -1316 -6 -48 -15 -99 -20 -113 -12 -32 -12 -994 0 -1026 5 -14 14 -65 20 -113 64 -554 204 -1134 370 -1539 275 -667 534 -1112 940 -1615 245 -304 689 -744 922 -915 15 -11 65 -49 111 -85 593 -463 1385 -848 2128 -1035 307 -77 405 -96 695 -135 88 -11 201 -28 250 -36 129 -22 1031 -15 1180 8 55 9 152 23 215 32 250 33 570 99 760 156 483 144 749 248 1130 442 1376 703 2417 1896 2943 3373 32 90 50 148 117 375 57 192 123 511 156 760 9 63 23 160 32 215 20 128 24 1107 5 1215 -7 36 -22 135 -33 220 -41 294 -59 387 -135 690 -64 253 -216 704 -290 855 -8 17 -44 95 -81 175 -171 374 -421 787 -664 1098 -36 46 -74 96 -85 111 -11 15 -42 54 -70 87 -557 662 -1202 1174 -1945 1544 -155 78 -236 114 -515 230 -396 165 -983 307 -1539 371 -48 6 -99 15 -113 20 -31 12 -1000 11 -1030 -1z m1007 -450 c182 -16 518 -64 650 -94 584 -131 1144 -341 1570 -588 52 -30 124 -72 160 -93 1091 -637 2055 -1846 2419 -3035 13 -41 34 -106 46 -145 13 -38 35 -119 49 -180 14 -60 30 -123 35 -140 136 -422 186 -1486 95 -2030 -54 -329 -68 -398 -119 -600 -541 -2153 -2364 -3812 -4545 -4135 -30 -4 -82 -13 -115 -19 -494 -86 -1590 -32 -2000 100 -16 5 -79 21 -140 35 -60 14 -141 36 -180 49 -38 12 -104 33 -145 46 -1187 364 -2399 1330 -3035 2419 -21 36 -63 108 -93 160 -250 430 -466 1010 -591 1585 -182 837 -132 1944 124 2735 106 328 171 497 278 725 1005 2139 3197 3408 5537 3205z'/%3E%3Cpath d='M2576 8818 c-19 -27 -24 -1716 -5 -1797 81 -353 761 -380 900 -35 l24 59 3 860 c3 886 3 893 -24 919 -22 22 -320 24 -350 2 -19 -14 -19 -36 -22 -865 l-2 -852 -25 -11 c-17 -8 -40 -8 -73 -2 l-47 9 -5 853 c-5 830 -6 854 -24 868 -37 27 -331 20 -350 -8z'/%3E%3Cpath d='M3667 8822 c-29 -32 -26 -2003 3 -2032 21 -21 267 -31 297 -12 29 18 33 70 33 443 0 223 4 379 9 379 12 0 34 -60 61 -165 11 -44 27 -98 34 -120 7 -22 21 -69 31 -105 9 -36 32 -114 50 -175 18 -60 40 -138 50 -173 26 -89 33 -92 196 -92 197 0 173 -135 177 999 3 978 2 1030 -24 1056 -17 16 -267 22 -291 7 -29 -18 -33 -70 -33 -428 0 -390 -4 -417 -43 -298 -21 62 -81 274 -147 514 -48 174 -57 198 -81 210 -36 20 -304 12 -322 -8z'/%3E%3Cpath d='M6416 8824 c-332 -72 -495 -329 -597 -944 -94 -566 -171 -716 -388 -751 -86 -13 -91 -24 -91 -185 0 -184 15 -195 209 -163 333 54 513 336 621 974 11 61 24 139 30 175 56 332 175 528 335 555 116 20 125 33 125 186 0 97 -10 147 -33 161 -19 12 -136 8 -211 -8z'/%3E%3Cpath d='M6834 8826 c-19 -14 -19 -38 -22 -988 -3 -997 -2 -1026 24 -1053 23 -23 719 -23 752 1 23 16 35 288 14 322 -15 23 -77 32 -229 32 -189 0 -173 -25 -173 269 0 277 -8 261 124 261 128 0 126 -2 126 178 0 180 -1 182 -123 182 -131 0 -127 -8 -127 224 0 136 3 195 12 204 8 8 60 12 168 12 178 0 194 3 209 36 18 40 15 285 -5 312 l-15 22 -358 0 c-293 0 -361 -3 -377 -14z'/%3E%3Cpath d='M7716 8821 c-15 -17 -16 -87 -14 -912 l3 -894 36 -65 c159 -291 711 -280 860 17 l34 68 0 888 c0 868 0 889 -19 903 -35 25 -330 20 -356 -6 -20 -20 -20 -33 -20 -865 l0 -845 -27 -11 c-18 -7 -44 -8 -73 -2 l-45 8 -5 853 c-5 830 -6 854 -24 868 -33 24 -327 20 -350 -5z'/%3E%3Cpath d='M8806 8818 c-28 -40 -24 -2000 4 -2028 30 -30 687 -31 713 -2 23 25 25 297 3 328 -13 17 -31 20 -177 24 l-163 5 -7 25 c-4 14 -7 390 -8 837 -1 792 -1 813 -20 823 -43 22 -328 13 -345 -12z'/%3E%3Cpath d='M5582 6660 c-606 -92 -1090 -445 -1352 -985 -121 -249 -172 -474 -172 -760 -1 -976 779 -1755 1758 -1755 253 0 350 16 592 97 684 229 1171 918 1171 1658 2 1058 -964 1901 -1997 1745z'/%3E%3Cpath d='M2240 6627 c-13 -7 -27 -23 -31 -37 -15 -54 -10 -3298 5 -3334 21 -50 51 -56 280 -56 199 0 236 6 268 42 2 2 5 321 8 711 3 462 8 707 15 706 13 0 51 -116 131 -404 18 -66 54 -192 80 -280 25 -88 66 -230 90 -315 146 -514 100 -460 401 -460 227 0 259 6 283 49 7 13 10 561 10 1681 l0 1661 -25 24 -24 25 -226 0 -226 0 -24 -25 -25 -24 -1 -688 c-1 -803 -3 -819 -63 -598 -22 83 -101 358 -161 565 -66 226 -82 285 -100 360 -8 30 -19 69 -25 85 -6 17 -27 86 -45 155 -49 181 -28 170 -328 170 -173 0 -249 -4 -267 -13z'/%3E%3Cpath d='M7875 6615 l-25 -24 0 -1655 c0 -1029 4 -1664 10 -1680 20 -53 48 -57 320 -54 247 3 249 3 274 27 l26 24 0 352 c0 516 2 519 105 190 32 -99 74 -233 95 -297 21 -64 46 -144 56 -177 37 -133 140 -153 177 -33 8 26 31 99 51 162 19 63 58 189 86 280 80 260 84 272 95 273 6 1 12 -130 15 -368 5 -390 6 -397 51 -420 42 -22 497 -22 539 0 52 27 50 -45 50 1715 l0 1661 -25 24 -24 25 -278 0 c-308 0 -312 -1 -332 -63 -11 -37 -30 -130 -71 -352 -16 -88 -38 -205 -49 -260 -17 -86 -61 -314 -141 -735 -47 -248 -54 -244 -115 60 -14 69 -32 163 -41 210 -8 47 -22 112 -29 145 -8 33 -23 110 -35 170 -11 61 -34 175 -50 255 -17 80 -44 215 -60 300 -57 297 -19 270 -372 270 l-279 0 -24 -25z'/%3E%3C/g%3E%3C/svg%3E"); }
+  #usn-accueil .usn-logo-noir  { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 1200'%3E%3Cg fill='%230C0B0A' transform='translate(0,1200) scale(0.1,-0.1)'%3E%3Cpath d='M5483 11990 c-11 -5 -61 -13 -110 -19 -555 -64 -1095 -195 -1518 -366 -44 -18 -91 -36 -105 -40 -61 -18 -391 -173 -540 -252 -1094 -584 -1938 -1428 -2523 -2523 -82 -154 -232 -477 -257 -555 -7 -21 -23 -62 -35 -90 -12 -27 -46 -119 -75 -203 -146 -428 -235 -830 -291 -1316 -6 -48 -15 -99 -20 -113 -12 -32 -12 -994 0 -1026 5 -14 14 -65 20 -113 64 -554 204 -1134 370 -1539 275 -667 534 -1112 940 -1615 245 -304 689 -744 922 -915 15 -11 65 -49 111 -85 593 -463 1385 -848 2128 -1035 307 -77 405 -96 695 -135 88 -11 201 -28 250 -36 129 -22 1031 -15 1180 8 55 9 152 23 215 32 250 33 570 99 760 156 483 144 749 248 1130 442 1376 703 2417 1896 2943 3373 32 90 50 148 117 375 57 192 123 511 156 760 9 63 23 160 32 215 20 128 24 1107 5 1215 -7 36 -22 135 -33 220 -41 294 -59 387 -135 690 -64 253 -216 704 -290 855 -8 17 -44 95 -81 175 -171 374 -421 787 -664 1098 -36 46 -74 96 -85 111 -11 15 -42 54 -70 87 -557 662 -1202 1174 -1945 1544 -155 78 -236 114 -515 230 -396 165 -983 307 -1539 371 -48 6 -99 15 -113 20 -31 12 -1000 11 -1030 -1z m1007 -450 c182 -16 518 -64 650 -94 584 -131 1144 -341 1570 -588 52 -30 124 -72 160 -93 1091 -637 2055 -1846 2419 -3035 13 -41 34 -106 46 -145 13 -38 35 -119 49 -180 14 -60 30 -123 35 -140 136 -422 186 -1486 95 -2030 -54 -329 -68 -398 -119 -600 -541 -2153 -2364 -3812 -4545 -4135 -30 -4 -82 -13 -115 -19 -494 -86 -1590 -32 -2000 100 -16 5 -79 21 -140 35 -60 14 -141 36 -180 49 -38 12 -104 33 -145 46 -1187 364 -2399 1330 -3035 2419 -21 36 -63 108 -93 160 -250 430 -466 1010 -591 1585 -182 837 -132 1944 124 2735 106 328 171 497 278 725 1005 2139 3197 3408 5537 3205z'/%3E%3Cpath d='M2576 8818 c-19 -27 -24 -1716 -5 -1797 81 -353 761 -380 900 -35 l24 59 3 860 c3 886 3 893 -24 919 -22 22 -320 24 -350 2 -19 -14 -19 -36 -22 -865 l-2 -852 -25 -11 c-17 -8 -40 -8 -73 -2 l-47 9 -5 853 c-5 830 -6 854 -24 868 -37 27 -331 20 -350 -8z'/%3E%3Cpath d='M3667 8822 c-29 -32 -26 -2003 3 -2032 21 -21 267 -31 297 -12 29 18 33 70 33 443 0 223 4 379 9 379 12 0 34 -60 61 -165 11 -44 27 -98 34 -120 7 -22 21 -69 31 -105 9 -36 32 -114 50 -175 18 -60 40 -138 50 -173 26 -89 33 -92 196 -92 197 0 173 -135 177 999 3 978 2 1030 -24 1056 -17 16 -267 22 -291 7 -29 -18 -33 -70 -33 -428 0 -390 -4 -417 -43 -298 -21 62 -81 274 -147 514 -48 174 -57 198 -81 210 -36 20 -304 12 -322 -8z'/%3E%3Cpath d='M6416 8824 c-332 -72 -495 -329 -597 -944 -94 -566 -171 -716 -388 -751 -86 -13 -91 -24 -91 -185 0 -184 15 -195 209 -163 333 54 513 336 621 974 11 61 24 139 30 175 56 332 175 528 335 555 116 20 125 33 125 186 0 97 -10 147 -33 161 -19 12 -136 8 -211 -8z'/%3E%3Cpath d='M6834 8826 c-19 -14 -19 -38 -22 -988 -3 -997 -2 -1026 24 -1053 23 -23 719 -23 752 1 23 16 35 288 14 322 -15 23 -77 32 -229 32 -189 0 -173 -25 -173 269 0 277 -8 261 124 261 128 0 126 -2 126 178 0 180 -1 182 -123 182 -131 0 -127 -8 -127 224 0 136 3 195 12 204 8 8 60 12 168 12 178 0 194 3 209 36 18 40 15 285 -5 312 l-15 22 -358 0 c-293 0 -361 -3 -377 -14z'/%3E%3Cpath d='M7716 8821 c-15 -17 -16 -87 -14 -912 l3 -894 36 -65 c159 -291 711 -280 860 17 l34 68 0 888 c0 868 0 889 -19 903 -35 25 -330 20 -356 -6 -20 -20 -20 -33 -20 -865 l0 -845 -27 -11 c-18 -7 -44 -8 -73 -2 l-45 8 -5 853 c-5 830 -6 854 -24 868 -33 24 -327 20 -350 -5z'/%3E%3Cpath d='M8806 8818 c-28 -40 -24 -2000 4 -2028 30 -30 687 -31 713 -2 23 25 25 297 3 328 -13 17 -31 20 -177 24 l-163 5 -7 25 c-4 14 -7 390 -8 837 -1 792 -1 813 -20 823 -43 22 -328 13 -345 -12z'/%3E%3Cpath d='M5582 6660 c-606 -92 -1090 -445 -1352 -985 -121 -249 -172 -474 -172 -760 -1 -976 779 -1755 1758 -1755 253 0 350 16 592 97 684 229 1171 918 1171 1658 2 1058 -964 1901 -1997 1745z'/%3E%3Cpath d='M2240 6627 c-13 -7 -27 -23 -31 -37 -15 -54 -10 -3298 5 -3334 21 -50 51 -56 280 -56 199 0 236 6 268 42 2 2 5 321 8 711 3 462 8 707 15 706 13 0 51 -116 131 -404 18 -66 54 -192 80 -280 25 -88 66 -230 90 -315 146 -514 100 -460 401 -460 227 0 259 6 283 49 7 13 10 561 10 1681 l0 1661 -25 24 -24 25 -226 0 -226 0 -24 -25 -25 -24 -1 -688 c-1 -803 -3 -819 -63 -598 -22 83 -101 358 -161 565 -66 226 -82 285 -100 360 -8 30 -19 69 -25 85 -6 17 -27 86 -45 155 -49 181 -28 170 -328 170 -173 0 -249 -4 -267 -13z'/%3E%3Cpath d='M7875 6615 l-25 -24 0 -1655 c0 -1029 4 -1664 10 -1680 20 -53 48 -57 320 -54 247 3 249 3 274 27 l26 24 0 352 c0 516 2 519 105 190 32 -99 74 -233 95 -297 21 -64 46 -144 56 -177 37 -133 140 -153 177 -33 8 26 31 99 51 162 19 63 58 189 86 280 80 260 84 272 95 273 6 1 12 -130 15 -368 5 -390 6 -397 51 -420 42 -22 497 -22 539 0 52 27 50 -45 50 1715 l0 1661 -25 24 -24 25 -278 0 c-308 0 -312 -1 -332 -63 -11 -37 -30 -130 -71 -352 -16 -88 -38 -205 -49 -260 -17 -86 -61 -314 -141 -735 -47 -248 -54 -244 -115 60 -14 69 -32 163 -41 210 -8 47 -22 112 -29 145 -8 33 -23 110 -35 170 -11 61 -34 175 -50 255 -17 80 -44 215 -60 300 -57 297 -19 270 -372 270 l-279 0 -24 -25z'/%3E%3C/g%3E%3C/svg%3E"); }
+  
+  @media (prefers-reduced-motion: reduce) { #usn-accueil * { transition: none !important; } }
+
+</style>
+
+<section id="usn-accueil">
+
+  <!-- ============================================================= -->
+  <!-- BARRE DE NAVIGATION                                            -->
+  <!-- ============================================================= -->
+  <nav class="usn-nav">
+    <a href="#usn-haut" class="usn-logo-mark usn-logo-noir usn-nav-logo" aria-label="Un Seul Nom"></a>
+    <div class="usn-nav-liens">
+      <a href="#usn-mouvement">Le mouvement</a>
+      <a href="#usn-villes">Les villes</a>
+      <a href="#usn-eglises">&Eacute;glises</a>
+      <a href="#usn-lettre">Newsletter</a>
+    </div>
+    <div class="usn-nav-actions">
+      <a class="usn-nav-don" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Faire un don</a>
+      <a class="usn-nav-cta" href="https://unseulnom.org/evenement/">Je m'inscris</a>
+    </div>
+  </nav>
+
+  <!-- ============================================================= -->
+  <!-- H&#201;ROS                                                          -->
+  <!-- ============================================================= -->
+  <header class="usn-hero" id="usn-haut">
+
+    <!--
+      &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+      &#9658; VID&#201;O DE FOND &#8212; le teaser du prochain &#233;v&#233;nement.
+      Pour la changer, remplacez l'adresse dans la ligne <source>.
+      La lecture d&#233;marre muette : le bouton rend le son au visiteur.
+      &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+    -->
+    <video class="usn-hero-video" autoplay muted loop playsinline poster="">
+      <source src="https://unseulnom.org/wp-content/uploads/2026/08/teaser-web.mp4" type="video/mp4" />
+      <source src="https://unseulnom.org/wp-content/uploads/2026/08/Teaser-1.mp4" type="video/mp4" />
+    </video>
+
+    <div class="usn-hero-voile"></div>
+
+    <button type="button" class="usn-son" id="usn-son" aria-pressed="false">
+      <span class="usn-son-icone" aria-hidden="true">&#9834;</span>
+      <span class="usn-son-texte">Activer le son</span>
+    </button>
+
+    <div class="usn-hero-inner">
+      <div class="usn-wrap">
+        <h1>Un Seul<br>Nom</h1>
+
+        <div class="usn-hero-pied">
+          <p class="usn-hero-depuis">
+            Mouvement d'&eacute;vang&eacute;lisation et de gu&eacute;rison, de ville en ville.
+            <b>Depuis 2024.</b>
+          </p>
+
+          <a class="usn-prochain-lien" href="https://unseulnom.org/evenement/">
+            <span class="k">Prochain rendez-vous</span>
+            <span class="v">Avignon</span>
+            <span class="d">17.10.26 &middot; Entr&eacute;e libre &#8594;</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!--
+    &#9658; BANDEAU D&#201;FILANT &#8212; la liste est r&#233;p&#233;t&#233;e deux fois pour que la boucle
+      se referme sans saut. Si vous modifiez un mot, modifiez-le dans les
+      DEUX listes, sinon le ruban saccade.
+  -->
+  <div class="usn-defile usn-defile-bleu" aria-hidden="true">
+    <div class="usn-defile-piste">
+      <div class="usn-defile-suite">
+        <b>&Eacute;vang&eacute;lisation</b> <i>&#10022;</i> <b>Gu&eacute;rison</b> <i>&#10022;</i>
+        <b>Unit&eacute;</b> <i>&#10022;</i> <b>Entr&eacute;e libre</b> <i>&#10022;</i>
+      </div>
+      <div class="usn-defile-suite">
+        <b>&Eacute;vang&eacute;lisation</b> <i>&#10022;</i> <b>Gu&eacute;rison</b> <i>&#10022;</i>
+        <b>Unit&eacute;</b> <i>&#10022;</i> <b>Entr&eacute;e libre</b> <i>&#10022;</i>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- LA D&#201;CLARATION                                                 -->
+  <!-- ============================================================= -->
+  <div class="usn-declaration" id="usn-mouvement">
+    <div class="usn-wrap usn-titre-section">
+      <span class="usn-cle">Le mouvement</span>
+      <p>
+        Nous rassemblons des <em>&eacute;glises</em> et des <em>minist&egrave;res</em>
+        diff&eacute;rents pour annoncer <strong>J&eacute;sus</strong> dans une ville,
+        ensemble. Quand le corps de Christ agit dans l'<em>unit&eacute;</em>,
+        des vies changent.
+      </p>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- LES TROIS GRANDS MOTS                                          -->
+  <!-- ============================================================= -->
+  <div class="usn-wrap">
+    <div class="usn-geants">
+
+      <div class="usn-geant">
+        <div class="usn-geant-num">01</div>
+        <h2 class="usn-geant-mot">Unir</h2>
+        <p>
+          Travailler avec les &eacute;glises et les minist&egrave;res d'une ville,
+          ensemble et non chacun de son c&ocirc;t&eacute;. C'est l&agrave; que tout commence.
+        </p>
+      </div>
+
+      <div class="usn-geant">
+        <div class="usn-geant-num">02</div>
+        <h2 class="usn-geant-mot">&Eacute;vang&eacute;liser</h2>
+        <p>
+          Des campagnes et des soir&eacute;es dans des lieux ouverts &agrave; tous&nbsp;:
+          salles, rues, quartiers, stades. L'entr&eacute;e est toujours libre.
+        </p>
+      </div>
+
+      <div class="usn-geant">
+        <div class="usn-geant-num">03</div>
+        <h2 class="usn-geant-mot">Former</h2>
+        <p>
+          &Eacute;quiper les croyants pour t&eacute;moigner simplement, avec clart&eacute; et
+          avec force, dans leur quotidien comme dans les actions collectives.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- LES VILLES TRAVERS&#201;ES                                          -->
+  <!-- ============================================================= -->
+  <div class="usn-galerie" id="usn-villes">
+    <div class="usn-wrap">
+      <div class="usn-titre-section">
+        <span class="usn-cle">D&eacute;j&agrave; v&eacute;cu</span>
+      </div>
+
+      <!--
+        &#9658; LES VILLES &#8212; pour en ajouter une, copiez un bloc <figure> et
+          changez l'image et la l&#233;gende. Les affiches sont en noir et
+          blanc et reprennent leurs couleurs en passant au centre de
+          l'&#233;cran.
+      -->
+      <div class="usn-vues">
+        <figure class="usn-vue">
+          <div class="usn-vue-cadre">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-1-768x948.jpg" alt="Un Seul Nom au stade S&eacute;bastien Charl&eacute;ty, Paris, mai 2024" loading="lazy" onerror="this.remove()" />
+          </div>
+          <figcaption><b>Paris</b>, 2024 &middot; Stade S&eacute;bastien Charl&eacute;ty</figcaption>
+        </figure>
+
+        <figure class="usn-vue">
+          <div class="usn-vue-cadre">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-3-768x954.jpg" alt="Un Seul Nom &agrave; La Cit&eacute; Royale, Croissy-Beaubourg, juin 2025" loading="lazy" onerror="this.remove()" />
+          </div>
+          <figcaption><b>Croissy-Beaubourg</b>, 2025 &middot; La Cit&eacute; Royale</figcaption>
+        </figure>
+
+        <figure class="usn-vue">
+          <div class="usn-vue-cadre">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-4-768x945.jpg" alt="Un Seul Nom &agrave; l'Espace Lille M&eacute;tropole, Wasquehal, mars 2026" loading="lazy" onerror="this.remove()" />
+          </div>
+          <figcaption><b>Wasquehal</b>, 2026 &middot; Espace Lille M&eacute;tropole</figcaption>
+        </figure>
+
+        <figure class="usn-vue">
+          <div class="usn-vue-cadre">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-5-768x950.jpg" alt="Un Seul Nom au Palais des congr&egrave;s, Perpignan, mai 2026" loading="lazy" onerror="this.remove()" />
+          </div>
+          <figcaption><b>Perpignan</b>, 2026 &middot; Palais des congr&egrave;s</figcaption>
+        </figure>
+      </div>
+
+      <!-- &#9658; Mettez ces chiffres &#224; jour apr&#232;s chaque &#233;dition. -->
+      <div class="usn-chiffres">
+        <div class="usn-chiffre"><b>5</b><span>villes depuis 2024</span></div>
+        <div class="usn-chiffre"><b>4</b><span>dates annonc&eacute;es</span></div>
+        <div class="usn-chiffre"><b>0&nbsp;&euro;</b><span>entr&eacute;e libre, toujours</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- LA CITATION                                                    -->
+  <!-- ============================================================= -->
+  <div class="usn-citation">
+    <div class="usn-wrap usn-titre-section">
+      <span class="usn-cle" style="color:rgba(255,255,255,0.6)">Notre histoire</span>
+      <q style="margin-top:26px">Unir, rassembler, et &eacute;lever <em>un seul nom</em> au-dessus de tout.</q>
+      <cite>La vision pos&eacute;e par Chriss Campion</cite>
+      <p class="usn-fondateurs">
+        Au d&eacute;part, une bande de copains port&eacute;s par un m&ecirc;me feu. En 2024,
+        le stade S&eacute;bastien Charl&eacute;ty change tout&nbsp;: le r&ecirc;ve devient une
+        &oelig;uvre. Fondateurs&nbsp;: <b>Chriss Campion, David Salland,
+        James Franchitto, Briman Heugebaert et Alonzo Gueglio.</b>
+      </p>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- LE PROCHAIN RENDEZ-VOUS                                        -->
+  <!-- ============================================================= -->
+  <!--
+    &#9658; &#192; CHAQUE NOUVEL &#201;V&#201;NEMENT : changez la ville, la date, le lieu,
+      l'adresse des boutons, et data-target du compte &#224; rebours
+      (format 2026-10-17T16:00:00).
+  -->
+  <div class="usn-rdv" id="usn-countdown" data-target="2026-10-17T16:00:00">
+    <div class="usn-wrap">
+      <span class="usn-cle" style="color:rgba(255,255,255,0.72)">Prochain rendez-vous</span>
+      <h2 class="usn-rdv-ville" style="margin-top:18px">Avignon</h2>
+      <div class="usn-rdv-quand">Samedi 17 octobre 2026 &middot; 16h00</div>
+      <div class="usn-rdv-ou">Parc des expos, 800 chemin des F&eacute;lons, Montfavet &middot; Portes 15h00 &middot; Entr&eacute;e libre sur inscription</div>
+
+      <div class="usn-rdv-bas">
+        <div class="usn-chrono">
+          <div><b data-cd="days">0</b><small>Jours</small></div>
+          <div><b data-cd="hours">00</b><small>Heures</small></div>
+          <div><b data-cd="mins">00</b><small>Min</small></div>
+          <div><b data-cd="secs">00</b><small>Sec</small></div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px">
+          <a class="usn-btn usn-btn-clair" href="https://unseulnom.org/evenement/" data-usn-gauche>Je r&eacute;serve ma place</a>
+          <a class="usn-btn usn-btn-ligne" href="https://unseulnom.org/evenement/" data-usn-droite><span>Voir l'&eacute;v&eacute;nement</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- APPEL AUX &#201;GLISES                                              -->
+  <!-- ============================================================= -->
+  <div class="usn-eglises" id="usn-eglises">
+    <div class="usn-wrap">
+      <div class="usn-titre-section">
+        <span class="usn-cle">&Eacute;glises partenaires</span>
+        <h2>Une salle ne se remplit pas toute seule</h2>
+        <p class="usn-intro">
+          Chaque &eacute;v&eacute;nement repose sur les &eacute;glises de la ville. Ce sont elles
+          qui invitent, qui accompagnent, et qui accueillent ensuite ceux qui
+          ont donn&eacute; leur vie &agrave; J&eacute;sus. Voici ce que nous cherchons.
+        </p>
+      </div>
+
+      <div class="usn-besoins">
+        <div><b>Relayer</b>L'annonce aupr&egrave;s de vos membres, sur vos r&eacute;seaux et lors de vos cultes.</div>
+        <div><b>Inviter</b>Et accompagner des personnes non croyantes ou malades, jusqu'&agrave; la salle.</div>
+        <div><b>Mobiliser</b>Des &eacute;quipes&nbsp;: la rue, les prospectus, la pri&egrave;re pour la ville.</div>
+      </div>
+
+      <div class="usn-eglises-actions">
+        <a class="usn-btn usn-btn-encre" href="mailto:75unseulnomjesus@gmail.com?subject=Notre%20eglise%20souhaite%20participer">Nous &eacute;crire</a>
+        <a class="usn-btn usn-btn-ligne" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer"><span>Soutenir la mission</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- LETTRE D'INFORMATION                                           -->
+  <!-- ============================================================= -->
+  <div class="usn-lettre" id="usn-lettre">
+    <div class="usn-wrap usn-lettre-grille">
+      <div>
+        <span class="usn-cle">Restons en lien</span>
+        <h2>Ne ratez aucune date</h2>
+        <p class="usn-intro">
+          D&egrave;s qu'une ville est annonc&eacute;e, vous recevez un message&nbsp;: avant
+          l'ouverture des inscriptions, et avant que la salle ne se remplisse.
+        </p>
+      </div>
+      <div>
+        <!-- Le formulaire part dans l'iframe cache : le visiteur reste sur
+             la page au lieu d'etre redirige vers Brevo. -->
+        <iframe name="usn-brevo" title="Inscription" style="display:none;border:0;width:0;height:0"></iframe>
+
+        <form class="usn-form" id="usn-accueil-form" method="POST"
+              action="https://f8944495.sibforms.com/serve/MUIFAIs9H4MOwtfawQ-nUiiNQjRmcSNQ51wCfEkSkK4X91IeG5GyZDWqGDV3oD_sUQHzLsQUO6Ky6EqX9G_I6VWvy8H5St2aXpxdhmXp81Jkl34fooTe9ukSalttOBmz1T6EwxTHhs9WLKWs2tBPCT1fhe_uubwAitTQjHmRHfmqBxQBcLifIZRDcFP9W3Vvzs_hPEa9_OySJBsT"
+              target="usn-brevo" novalidate>
+          <div class="usn-form-duo">
+            <input id="usn-nom" name="NOM" type="text" placeholder="Votre nom" aria-label="Nom" required />
+            <input id="usn-email" name="EMAIL" type="email" placeholder="vous@email.com" aria-label="Adresse e-mail" required />
+          </div>
+
+          <!-- Piege anti-robot de Brevo : ce champ doit rester vide. -->
+          <input type="text" name="email_address_check" value="" tabindex="-1"
+                 aria-hidden="true" autocomplete="off"
+                 style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+          <input type="hidden" name="locale" value="fr" />
+
+          <button type="submit" class="usn-btn usn-btn-bleu">Pr&eacute;venez-moi</button>
+          <p class="usn-consent">
+            En vous inscrivant, vous acceptez de recevoir des informations de la
+            part d'Un Seul Nom. D&eacute;sinscription possible &agrave; tout moment.
+          </p>
+        </form>
+
+        <div class="usn-msg" id="usn-form-msg" role="status" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bandeau d&#233;filant de bas de page (m&#234;mes r&#232;gles que celui du haut) -->
+  <div class="usn-defile usn-defile-encre" aria-hidden="true">
+    <div class="usn-defile-piste">
+      <div class="usn-defile-suite">
+        <b>Avignon</b> <i>&#10022;</i> <b>Madagascar</b> <i>&#10022;</i>
+        <b>Marseille</b> <i>&#10022;</i> <b>Bordeaux</b> <i>&#10022;</i>
+      </div>
+      <div class="usn-defile-suite">
+        <b>Avignon</b> <i>&#10022;</i> <b>Madagascar</b> <i>&#10022;</i>
+        <b>Marseille</b> <i>&#10022;</i> <b>Bordeaux</b> <i>&#10022;</i>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- PIED DE PAGE                                                   -->
+  <!-- ============================================================= -->
+  <footer class="usn-footer">
+    <div class="usn-wrap">
+      <div class="usn-footer-grille">
+        <div class="usn-logo-mark usn-logo-blanc usn-footer-mark" role="img" aria-label="Un Seul Nom"></div>
+        <div class="usn-footer-liens">
+          <a href="https://unseulnom.org/evenement/">L'&eacute;v&eacute;nement</a>
+          <a href="#usn-mouvement">Le mouvement</a>
+          <a href="#usn-eglises">&Eacute;glises</a>
+          <a href="#usn-lettre">Newsletter</a>
+          <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Faire un don</a>
+        </div>
+      </div>
+      <div class="usn-footer-bas">&copy; 2026 Un Seul Nom. Tous droits r&eacute;serv&eacute;s.</div>
+    </div>
+  </footer>
+
+</section>
+
+<script>
+/* Tout le code attend que la page soit construite. Sans cela, si le script
+   est insere avant le contenu (ce que font certains plugins WordPress), il
+   ne trouve aucun element et s'arrete sans rien faire. */
+(function () {
+  function usnInit() {
+
+  /* ---- Son de la video ----
+     Aucun navigateur ne lance seul une video qui parle : elle demarre
+     donc muette, et ce bouton rend la main au visiteur. S'il n'y a pas
+     de piste audio dans le fichier, le bouton se retire de lui-meme
+     plutot que de promettre un son qui n'existe pas. */
+  (function () {
+    var video  = document.querySelector('#usn-accueil .usn-hero-video');
+    var bouton = document.getElementById('usn-son');
+    if (!video || !bouton) return;
+
+    function aDuSon() {
+      // Chaque navigateur renseigne un indicateur different ; aucun n'est
+      // disponible partout, d'ou les trois essais successifs.
+      if (typeof video.mozHasAudio === 'boolean') return video.mozHasAudio;
+      if (video.webkitAudioDecodedByteCount !== undefined) {
+        return video.webkitAudioDecodedByteCount > 0;
+      }
+      if (video.audioTracks) return video.audioTracks.length > 0;
+      return true;   // dans le doute, on laisse le bouton
+    }
+
+    function verifier() {
+      if (!aDuSon()) bouton.remove();
+    }
+    if (video.readyState >= 2) { verifier(); }
+    video.addEventListener('loadeddata', verifier);
+
+    function libelle() {
+      var texte = bouton.querySelector('.usn-son-texte');
+      var icone = bouton.querySelector('.usn-son-icone');
+      if (texte) texte.textContent = video.muted ? 'Activer le son' : 'Couper le son';
+      if (icone) icone.innerHTML = video.muted ? '&#9834;' : '&#9835;';
+      bouton.setAttribute('aria-pressed', video.muted ? 'false' : 'true');
+    }
+    libelle();
+
+    bouton.addEventListener('click', function () {
+      video.muted = !video.muted;
+      if (!video.muted) { video.volume = 0.8; video.play(); }
+      libelle();
+    });
+  })();
+
+
+  /* ---- Compte a rebours ---- */
+  (function () {
+    var box = document.getElementById('usn-countdown');
+    if (!box) return;
+    var target = new Date(box.getAttribute('data-target') || '').getTime();
+    if (isNaN(target)) return;
+    var els = {
+      days: box.querySelector('[data-cd="days"]'),
+      hours: box.querySelector('[data-cd="hours"]'),
+      mins: box.querySelector('[data-cd="mins"]'),
+      secs: box.querySelector('[data-cd="secs"]')
+    };
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function tick() {
+      var diff = Math.max(0, target - Date.now());
+      var s = Math.floor(diff / 1000);
+      var d = Math.floor(s / 86400); s -= d * 86400;
+      var h = Math.floor(s / 3600); s -= h * 3600;
+      var m = Math.floor(s / 60); s -= m * 60;
+      if (els.days) els.days.textContent = d;
+      if (els.hours) els.hours.textContent = pad(h);
+      if (els.mins) els.mins.textContent = pad(m);
+      if (els.secs) els.secs.textContent = pad(s);
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+
+
+  /* =================================================================
+     MOTEUR D'ANIMATION AU SCROLL
+     Reproduit le comportement de GSAP ScrollTrigger en mode " scrub " :
+     - les elements partent d'une demi-hauteur d'ecran plus bas (50svh),
+     - ils remontent AU RYTHME DU SCROLL (et redescendent si on remonte),
+     - avec un chevauchement entre les elements d'un meme groupe,
+     - le tout lisse (inertie) pour un rendu fluide.
+     Sans JS ou avec " prefers-reduced-motion ", tout reste visible.
+     ================================================================= */
+  (function () {
+    var root = document.getElementById('usn-accueil');
+    if (!root) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+    function vh() { return window.innerHeight || 800; }
+
+    /* ---------- 1. Decoupe la punchline en mots ---------- */
+    var punch = document.getElementById('usn-punch');
+    var words = [];
+    if (punch) {
+      var lines = punch.querySelectorAll('[data-usn-reveal]');
+      for (var l = 0; l < lines.length; l++) {
+        var parts = (lines[l].textContent || '').trim().split(/\s+/);
+        lines[l].textContent = '';
+        for (var k = 0; k < parts.length; k++) {
+          var sp = document.createElement('span');
+          sp.className = 'usn-word';
+          sp.textContent = parts[k];
+          lines[l].appendChild(sp);
+          if (k < parts.length - 1) lines[l].appendChild(document.createTextNode(' '));
+          words.push(sp);
+        }
+      }
+      for (var w = 0; w < words.length; w++) {
+        var a = Math.sin(w * 12.9898) * 43758.5453; a -= Math.floor(a);
+        var b = Math.sin(w * 78.233) * 12543.123;  b -= Math.floor(b);
+        words[w].__dx = (a - 0.5) * 2 * Math.min(window.innerWidth * 0.45, 520);
+        words[w].__dy = (b - 0.5) * 2 * 260;
+        words[w].__rot = (a - 0.5) * 55;
+      }
+    }
+
+    if (reduce) return; // mouvement desactive : tout reste en place
+
+    /* ---------- 2. Declare les groupes animes ---------- */
+    // rise : monte depuis 50svh ; slide : arrive de la gauche ; pop : grossit
+    var groups = [];
+    function group(sel, opts) {
+      var els = root.querySelectorAll(sel);
+      if (els.length) groups.push({ els: els, o: opts });
+    }
+    group('.usn-titre-section', { type: 'rise',  dist: 0.24, stagger: 0.08, span: 0.50 });
+    group('.usn-geant',         { type: 'slide', dist: 0.30, stagger: 0.14, span: 0.58 });
+    group('.usn-vue',           { type: 'rise',  dist: 0.40, stagger: 0.12, span: 0.58 });
+    group('.usn-chiffre',       { type: 'rise',  dist: 0.22, stagger: 0.10, span: 0.46 });
+    group('[data-usn-gauche]',  { type: 'slide',  dist: 0.60, stagger: 0, span: 0.50 });
+    group('[data-usn-droite]',  { type: 'slideR', dist: 0.60, stagger: 0, span: 0.50 });
+
+    var all = [];
+    for (var g = 0; g < groups.length; g++) {
+      for (var i = 0; i < groups[g].els.length; i++) {
+        var el = groups[g].els[i];
+        all.push({
+          el: el, i: i, o: groups[g].o, p: 0, top: 0,
+          rot: parseFloat(el.getAttribute('data-rot') || '0')
+        });
+      }
+    }
+
+    function scrollY() { return window.pageYOffset || document.documentElement.scrollTop || 0; }
+
+    /* Position NATURELLE de chaque element (transform neutralise), mise en
+       cache : sinon le decalage applique fausse la mesure et l'element
+       n'entre jamais dans la zone de declenchement. */
+    function measureAll() {
+      for (var i = 0; i < all.length; i++) {
+        var it = all[i], prev = it.el.style.transform;
+        it.el.style.transform = 'none';
+        it.top = it.el.getBoundingClientRect().top + scrollY();
+        it.el.style.transform = prev;
+      }
+    }
+    measureAll();
+
+    /* ---------- Portraits : couleur au passage au centre ----------
+       Chaque photo se colore a mesure qu'elle approche du centre de
+       l'ecran, puis retourne au noir et blanc en s'en eloignant. */
+    var photos = [];
+    (function () {
+      var imgs = root.querySelectorAll('.usn-vue img');
+      for (var i = 0; i < imgs.length; i++) photos.push({ el: imgs[i], p: 0 });
+    })();
+
+    function cibleCouleur(ph) {
+      var r = ph.el.getBoundingClientRect();
+      if (!r.height) return 0;
+      var h = vh();
+      var ecart = Math.abs((r.top + r.height / 2) - h / 2);
+      // Pleine couleur au centre, noir et blanc au-dela de 42% de l'ecran.
+      return clamp01(1 - ecart / (h * 0.42));
+    }
+
+    function peindre(ph) {
+      var e = easeOut(ph.p);
+      ph.el.style.filter = 'grayscale(' + (1 - e).toFixed(3) + ') contrast(' + (1 + 0.06 * (1 - e)).toFixed(3) + ')';
+      ph.el.style.transform = 'scale(' + (1 + 0.035 * e).toFixed(4) + ')';
+    }
+    for (var ip = 0; ip < photos.length; ip++) peindre(photos[ip]);
+
+    // etat initial immediat (evite tout " flash " de contenu deja en place)
+    for (var s = 0; s < all.length; s++) apply(all[s], 0);
+
+    /* ---------- 3. Calcul de l'avancement lie au scroll ---------- */
+    function target(item) {
+      var h = vh();
+      var top = item.top - scrollY();
+      // 0 quand le haut de l'element entre par le bas, 1 quand il a monte
+      var raw = (h * 0.92 - top) / (h * item.o.span);
+      var st = item.i * item.o.stagger;
+      return clamp01((clamp01(raw) - st) / Math.max(0.2, 1 - st));
+    }
+
+    function apply(item, p) {
+      var e = easeOut(p), inv = 1 - e, o = item.o, st = item.el.style;
+      var rot = item.rot ? ' rotate(' + item.rot + 'deg)' : '';
+      if (o.type === 'rise') {
+        st.transform = 'translate3d(0,' + (inv * o.dist * vh()).toFixed(1) + 'px,0)' + rot;
+      } else if (o.type === 'slide') {
+        st.transform = 'translate3d(' + (-inv * o.dist * Math.min(window.innerWidth, 900)).toFixed(1) + 'px,0,0)' + rot;
+      } else if (o.type === 'slideR') {
+        st.transform = 'translate3d(' + (inv * o.dist * Math.min(window.innerWidth, 900)).toFixed(1) + 'px,0,0)' + rot;
+      } else { // pop
+        st.transform = 'scale(' + (0.3 + 0.7 * e).toFixed(3) + ')' + rot;
+      }
+      st.opacity = e.toFixed(3);
+    }
+
+    /* ---------- 4. Punchline : les mots se rassemblent ---------- */
+    var punchP = 0;
+    // Ancre sur la premiere ligne de texte (et non sur la section, bien plus
+    // haute) : les mots se rassemblent des que le texte entre a l'ecran.
+    var punchAnchor = punch && punch.querySelector('[data-usn-reveal]');
+    function punchTarget() {
+      if (!punchAnchor) return 0;
+      var r = punchAnchor.getBoundingClientRect(), h = vh();
+      return clamp01((h * 1.0 - r.top) / (h * 0.5));
+    }
+    function punchApply(p) {
+      var n = words.length;
+      for (var i = 0; i < n; i++) {
+        var t = clamp01((p - (i / n) * 0.45) / 0.55);
+        var e = easeOut(t), inv = 1 - e, ws = words[i];
+        ws.style.transform = 'translate3d(' + (ws.__dx * inv).toFixed(1) + 'px,' + (ws.__dy * inv).toFixed(1) + 'px,0) rotate(' + (ws.__rot * inv).toFixed(1) + 'deg)';
+        ws.style.opacity = e.toFixed(3);
+        ws.style.filter = inv > 0.02 ? 'blur(' + (inv * 9).toFixed(1) + 'px)' : 'none';
+      }
+      var sub = punch && punch.querySelector('[data-usn-sub]');
+      if (sub) {
+        var sp = clamp01((p - 0.6) / 0.4);
+        sub.style.opacity = sp.toFixed(3);
+        sub.style.transform = 'translate3d(0,' + ((1 - sp) * 40).toFixed(1) + 'px,0)';
+      }
+    }
+    punchApply(0);
+
+    /* ---------- 5. Parallaxe du heros ---------- */
+    var hero = root.querySelector('.usn-hero');
+    var heroInner = root.querySelector('.usn-hero-inner');
+
+    /* ---------- 6. Boucle de rendu (lissage type ScrollSmoother) ---------- */
+    var running = false;
+    function frame() {
+      var moving = false;
+
+      for (var i = 0; i < all.length; i++) {
+        var it = all[i], t = target(it);
+        it.p += (t - it.p) * 0.12;             // lissage
+        if (Math.abs(t - it.p) > 0.001) moving = true; else it.p = t;
+        apply(it, it.p);
+      }
+
+      if (punch) {
+        var tp = punchTarget();
+        punchP += (tp - punchP) * 0.12;
+        if (Math.abs(tp - punchP) > 0.001) moving = true; else punchP = tp;
+        punchApply(punchP);
+      }
+
+      for (var k = 0; k < photos.length; k++) {
+        var ph = photos[k], tc = cibleCouleur(ph);
+        ph.p += (tc - ph.p) * 0.14;
+        if (Math.abs(tc - ph.p) > 0.004) moving = true; else ph.p = tc;
+        peindre(ph);
+      }
+
+      if (hero) {
+        var hr = hero.getBoundingClientRect();
+        var prog = clamp01(-hr.top / Math.max(1, hr.height));
+        if (heroInner) {
+          heroInner.style.transform = 'translate3d(0,' + (prog * 130).toFixed(1) + 'px,0)';
+          heroInner.style.opacity = (1 - prog * 0.85).toFixed(3);
+        }
+      }
+
+      if (moving) { requestAnimationFrame(frame); } else { running = false; }
+    }
+    function kick() { if (!running) { running = true; requestAnimationFrame(frame); } }
+
+    window.addEventListener('scroll', kick, { passive: true });
+    window.addEventListener('resize', function () { measureAll(); kick(); });
+    window.addEventListener('load', function () { measureAll(); kick(); });
+    kick();
+  })();
+
+
+  /* ---- Lettre d'information ---- */
+  (function () {
+    var form = document.getElementById('usn-accueil-form');
+    if (!form) return;
+    var msg = document.getElementById('usn-form-msg');
+
+    form.addEventListener('submit', function (e) {
+      var nom   = form.querySelector('#usn-nom');
+      var email = form.querySelector('#usn-email');
+      if (!nom.value.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value)) {
+        e.preventDefault();
+        (nom.value.trim() ? email : nom).focus();
+        return;
+      }
+      if (msg) {
+        msg.textContent = 'Merci ! Vous serez pr\u00e9venu d\u00e8s qu\'une nouvelle date est annonc\u00e9e.';
+        msg.style.display = 'block';
+      }
+      setTimeout(function () { form.reset(); }, 100);
+    });
+  })();
+
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', usnInit);
+  } else {
+    usnInit();
+  }
+})();
+</script>
