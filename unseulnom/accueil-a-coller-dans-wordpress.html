@@ -183,6 +183,19 @@
   }
   #usn-accueil .usn-menu-pied a { color: var(--usn-gris); text-decoration: underline; text-underline-offset: 3px; }
 
+  /* Au-dessus du bloc sombre, la barre s'inverse : sinon le nom noir se
+     perd sur le fond de nuit. */
+  #usn-accueil .usn-nav.est-nuit {
+    background: rgba(21,17,28,0.72); border-bottom-color: rgba(255,255,255,0.10);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    #usn-accueil .usn-nav.est-nuit { background: var(--usn-nuit); }
+  }
+  #usn-accueil .usn-nav.est-nuit .usn-nav-menu { border-color: rgba(240,238,231,0.5); }
+  #usn-accueil .usn-nav.est-nuit .usn-nav-menu i { background: var(--usn-ivoire); }
+  #usn-accueil .usn-nav.est-nuit .usn-nav-menu:hover { background: var(--usn-ivoire); }
+  #usn-accueil .usn-nav.est-nuit .usn-nav-menu:hover i { background: var(--usn-nuit); }
+
   @media (max-width: 430px) {
     #usn-accueil .usn-nav-soutien { height: 40px; padding: 0 16px; font-size: 10.5px; letter-spacing: 0.12em; }
     #usn-accueil .usn-nav-menu { width: 40px; height: 40px; }
@@ -512,6 +525,14 @@
   #usn-accueil .usn-defile { overflow: hidden; user-select: none; padding: 14px 0; }
   #usn-accueil .usn-defile-bleu { background: var(--usn-blue); color: #fff; }
   #usn-accueil .usn-defile-encre { background: var(--usn-ink); color: var(--usn-ivoire); }
+  /* Le ruban entre le heros et la vision : le degrade de l'affiche, en
+     grand, avec le texte en blanc. Il reprend mot pour mot la couronne
+     qui tourne autour du logo. */
+  #usn-accueil .usn-defile-degrade {
+    background: var(--usn-degrade); color: #fff;
+    padding: clamp(16px, 2.4vw, 26px) 0;
+  }
+  #usn-accueil .usn-defile-degrade i { color: rgba(255,255,255,0.65); }
   #usn-accueil .usn-defile-piste { display: flex; width: max-content; animation: usn-glisse 34s linear infinite; }
   #usn-accueil .usn-defile-suite { display: flex; align-items: center; gap: 30px; padding-right: 30px; }
   #usn-accueil .usn-defile b {
@@ -554,46 +575,66 @@
      texte se lit au rythme du defilement plutot que d'attendre, deja
      ecrit, qu'on arrive dessus.
      =================================================================== */
-  #usn-accueil .usn-phrase { position: relative; height: 240svh; background: var(--usn-ivoire); }
+  #usn-accueil .usn-phrase { position: relative; height: 240svh; background: var(--usn-nuit); }
   #usn-accueil .usn-phrase-fixe {
     position: sticky; top: 0; height: 100svh; overflow: hidden;
     display: flex; align-items: center;
   }
+
+  /* La matiere du fond sombre : de longues lignes de niveau qui errent
+     sans se repeter, et un grain. Les deux derivent tres lentement, assez
+     pour que le fond ne soit jamais tout a fait fige. */
   #usn-accueil .usn-phrase-fond { position: absolute; inset: 0; pointer-events: none; }
   #usn-accueil .usn-phrase-fond i { position: absolute; inset: 0; display: block; }
   #usn-accueil .usn-ph-lueur {
-    background: radial-gradient(58vmax 48vmax at 78% 16%, rgba(201,38,143,0.12), transparent 68%);
+    background:
+      radial-gradient(58vmax 48vmax at 82% 12%, rgba(201,38,143,0.20), transparent 68%),
+      radial-gradient(52vmax 46vmax at 10% 92%, rgba(247,148,29,0.14), transparent 68%);
   }
-  #usn-accueil .usn-ph-filets {
-    background-image: repeating-linear-gradient(90deg, rgba(17,17,16,0.045) 0 1px, transparent 1px 100%);
-    background-size: 12.5% 100%;
+  #usn-accueil .usn-ph-contours {
+    background-image: url("%s");
+    background-size: 1100px 1100px; opacity: 0.22;
+    animation: usn-derive-contours 60s linear infinite;
   }
+  @keyframes usn-derive-contours { to { background-position: -1100px 550px; } }
+  #usn-accueil .usn-ph-grain {
+    background-image: url("data:image/svg+xml,%%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%%3E%%3Cfilter id='p'%%3E%%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%%3E%%3C/filter%%3E%%3Crect width='200' height='200' filter='url(%%23p)' opacity='0.6'/%%3E%%3C/svg%%3E");
+    background-size: 200px 200px; opacity: 0.12; mix-blend-mode: screen;
+  }
+  @media (prefers-reduced-motion: reduce) { #usn-accueil .usn-ph-contours { animation: none; } }
+
   #usn-accueil .usn-phrase-texte {
     position: relative; z-index: 2;
-    width: 100%; max-width: 1360px; margin: 0 auto;
-    padding: 0 clamp(18px, 4vw, 52px);
+    width: 100%%; max-width: 1500px; margin: 0 auto; text-align: center;
+    padding: 0 clamp(14px, 3vw, 40px);
   }
   #usn-accueil .usn-phrase-titre {
-    display: block; margin-bottom: clamp(22px, 4vh, 44px);
+    display: block; margin-bottom: clamp(20px, 3.5vh, 40px);
     font-size: 10.5px; font-weight: 800; letter-spacing: 0.26em;
-    text-transform: uppercase; color: var(--usn-gris);
+    text-transform: uppercase; color: rgba(240,238,231,0.5);
   }
   #usn-accueil .usn-phrase p {
     margin: 0; font-family: var(--usn-display); font-weight: 900;
-    font-size: clamp(28px, 5vw, 78px); line-height: 1.08;
-    letter-spacing: -0.03em; text-transform: uppercase;
+    font-size: clamp(30px, 5.6vw, 92px); line-height: 1.02;
+    letter-spacing: -0.025em; text-transform: uppercase;
   }
   /* Chaque mot est un morceau a part : c'est ce qui permet de les
      allumer l'un apres l'autre. */
   #usn-accueil .usn-phrase p b {
     display: inline-block; font-weight: inherit;
-    color: var(--usn-ink); opacity: 0.13;
+    color: var(--usn-ivoire); opacity: 0.16;
     transition: opacity .2s linear;
   }
   #usn-accueil .usn-phrase p b.est-dit { opacity: 1; }
-  /* Les mots qui portent la phrase prennent la couleur. */
-  #usn-accueil .usn-phrase p b.usn-mot-fort { color: var(--usn-red); }
-  #usn-accueil .usn-phrase p b.usn-mot-bleu { color: var(--usn-blue); }
+
+  /* Les mots qui portent la phrase changent de main : une romane a
+     empattements, dans le jaune de l'affiche. C'est le contraste des deux
+     ecritures qui fait la phrase, pas seulement la couleur. */
+  #usn-accueil .usn-phrase p b.usn-mot-serif {
+    font-family: var(--usn-serif); font-weight: 400;
+    color: #F7C948; letter-spacing: 0;
+    font-size: 1.14em; line-height: 0.9;
+  }
 
   /* ===================================================================
      LA FRISE
@@ -1030,22 +1071,41 @@
     </div>
   </header>
 
+  <!--
+    &#9658; RUBAN &#8212; il reprend la couronne qui tourne autour du logo. La liste
+      est ecrite DEUX fois pour que la boucle se referme sans saut :
+      modifiez les deux, sinon le ruban saccade.
+  -->
+  <div class="usn-defile usn-defile-degrade" aria-hidden="true">
+    <div class="usn-defile-piste">
+      <div class="usn-defile-suite">
+        <b>Vivre l'unit&eacute;</b> <i>&#10022;</i> <b>&Eacute;vang&eacute;lisation &amp; gu&eacute;rison</b> <i>&#10022;</i>
+        <b>De ville en ville</b> <i>&#10022;</i> <b>Entr&eacute;e libre</b> <i>&#10022;</i>
+      </div>
+      <div class="usn-defile-suite">
+        <b>Vivre l'unit&eacute;</b> <i>&#10022;</i> <b>&Eacute;vang&eacute;lisation &amp; gu&eacute;rison</b> <i>&#10022;</i>
+        <b>De ville en ville</b> <i>&#10022;</i> <b>Entr&eacute;e libre</b> <i>&#10022;</i>
+      </div>
+    </div>
+  </div>
+
   <!-- ============================================================= -->
   <!-- LA PHRASE                                                      -->
   <!-- Les mots s'allument un par un au defilement.                    -->
   <!-- &#9658; POUR CHANGER LA PHRASE : un <b> par mot, sans exception. -->
-  <!--   Deux classes au choix pour mettre un mot en avant :           -->
-  <!--   usn-mot-fort (rouge) et usn-mot-bleu (bleu).                  -->
+  <!--   Pour mettre un mot en avant : class="usn-mot-serif" &#8212; il      -->
+  <!--   passe alors dans l'ecriture a empattements, en jaune.        -->
   <!-- ============================================================= -->
   <div class="usn-phrase" id="usn-vision">
     <div class="usn-phrase-fixe">
       <div class="usn-phrase-fond" aria-hidden="true">
         <i class="usn-ph-lueur"></i>
-        <i class="usn-ph-filets"></i>
+        <i class="usn-ph-contours"></i>
+        <i class="usn-ph-grain"></i>
       </div>
       <div class="usn-phrase-texte">
         <span class="usn-phrase-titre">La vision</span>
-        <p id="usn-phrase-mots"><b>Nous</b> <b>croyons</b> <b>qu'une</b> <b>ville</b> <b>ne</b> <b>se</b> <b>gagne</b> <b>pas</b> <b>seule.</b> <b>Des</b> <b class="usn-mot-bleu">&eacute;glises</b> <b>diff&eacute;rentes,</b> <b>un</b> <b>m&ecirc;me</b> <b class="usn-mot-fort">&Eacute;vangile,</b> <b>et</b> <b>des</b> <b>c&oelig;urs</b> <b>qui</b> <b>s'ouvrent.</b></p>
+        <p id="usn-phrase-mots"><b>Nous</b> <b>croyons</b> <b>qu'une</b> <b class="usn-mot-serif">ville</b> <b>ne</b> <b>se</b> <b>gagne</b> <b>pas</b> <b>seule.</b> <b>Des</b> <b class="usn-mot-serif">&eacute;glises</b> <b>diff&eacute;rentes,</b> <b>un</b> <b>m&ecirc;me</b> <b class="usn-mot-serif">&Eacute;vangile,</b> <b>et</b> <b>des</b> <b>c&oelig;urs</b> <b>qui</b> <b>s'ouvrent.</b></p>
       </div>
     </div>
   </div>
@@ -1469,14 +1529,30 @@
     });
   })();
 
-  /* ---- La barre se pose sur un fond quand on quitte le heros ---- */
+  /* ---- La barre se pose sur un fond quand on quitte le heros, et
+          s'inverse quand elle passe au-dessus du bloc sombre ---- */
   (function () {
     var nav = document.getElementById('usn-nav');
     if (!nav) return;
+    var sombreBloc = document.getElementById('usn-vision');
+    var nom = nav.querySelector('.usn-nav-nom');
+
     function verifier() {
       nav.classList.toggle('est-posee', (window.pageYOffset || 0) > 40);
+
+      var sombre = false;
+      if (sombreBloc) {
+        var r = sombreBloc.getBoundingClientRect();
+        sombre = r.top <= 72 && r.bottom > 72;
+      }
+      nav.classList.toggle('est-nuit', sombre);
+      if (nom) {
+        nom.classList.toggle('usn-mot-blanc', sombre);
+        nom.classList.toggle('usn-mot-noir', !sombre);
+      }
     }
     window.addEventListener('scroll', verifier, { passive: true });
+    window.addEventListener('resize', verifier);
     verifier();
   })();
 

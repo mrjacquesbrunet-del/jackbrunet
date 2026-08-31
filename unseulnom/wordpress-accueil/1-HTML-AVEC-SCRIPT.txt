@@ -129,22 +129,41 @@
     </div>
   </header>
 
+  <!--
+    &#9658; RUBAN &#8212; il reprend la couronne qui tourne autour du logo. La liste
+      est ecrite DEUX fois pour que la boucle se referme sans saut :
+      modifiez les deux, sinon le ruban saccade.
+  -->
+  <div class="usn-defile usn-defile-degrade" aria-hidden="true">
+    <div class="usn-defile-piste">
+      <div class="usn-defile-suite">
+        <b>Vivre l'unit&eacute;</b> <i>&#10022;</i> <b>&Eacute;vang&eacute;lisation &amp; gu&eacute;rison</b> <i>&#10022;</i>
+        <b>De ville en ville</b> <i>&#10022;</i> <b>Entr&eacute;e libre</b> <i>&#10022;</i>
+      </div>
+      <div class="usn-defile-suite">
+        <b>Vivre l'unit&eacute;</b> <i>&#10022;</i> <b>&Eacute;vang&eacute;lisation &amp; gu&eacute;rison</b> <i>&#10022;</i>
+        <b>De ville en ville</b> <i>&#10022;</i> <b>Entr&eacute;e libre</b> <i>&#10022;</i>
+      </div>
+    </div>
+  </div>
+
   <!-- ============================================================= -->
   <!-- LA PHRASE                                                      -->
   <!-- Les mots s'allument un par un au defilement.                    -->
   <!-- &#9658; POUR CHANGER LA PHRASE : un <b> par mot, sans exception. -->
-  <!--   Deux classes au choix pour mettre un mot en avant :           -->
-  <!--   usn-mot-fort (rouge) et usn-mot-bleu (bleu).                  -->
+  <!--   Pour mettre un mot en avant : class="usn-mot-serif" &#8212; il      -->
+  <!--   passe alors dans l'ecriture a empattements, en jaune.        -->
   <!-- ============================================================= -->
   <div class="usn-phrase" id="usn-vision">
     <div class="usn-phrase-fixe">
       <div class="usn-phrase-fond" aria-hidden="true">
         <i class="usn-ph-lueur"></i>
-        <i class="usn-ph-filets"></i>
+        <i class="usn-ph-contours"></i>
+        <i class="usn-ph-grain"></i>
       </div>
       <div class="usn-phrase-texte">
         <span class="usn-phrase-titre">La vision</span>
-        <p id="usn-phrase-mots"><b>Nous</b> <b>croyons</b> <b>qu'une</b> <b>ville</b> <b>ne</b> <b>se</b> <b>gagne</b> <b>pas</b> <b>seule.</b> <b>Des</b> <b class="usn-mot-bleu">&eacute;glises</b> <b>diff&eacute;rentes,</b> <b>un</b> <b>m&ecirc;me</b> <b class="usn-mot-fort">&Eacute;vangile,</b> <b>et</b> <b>des</b> <b>c&oelig;urs</b> <b>qui</b> <b>s'ouvrent.</b></p>
+        <p id="usn-phrase-mots"><b>Nous</b> <b>croyons</b> <b>qu'une</b> <b class="usn-mot-serif">ville</b> <b>ne</b> <b>se</b> <b>gagne</b> <b>pas</b> <b>seule.</b> <b>Des</b> <b class="usn-mot-serif">&eacute;glises</b> <b>diff&eacute;rentes,</b> <b>un</b> <b>m&ecirc;me</b> <b class="usn-mot-serif">&Eacute;vangile,</b> <b>et</b> <b>des</b> <b>c&oelig;urs</b> <b>qui</b> <b>s'ouvrent.</b></p>
       </div>
     </div>
   </div>
@@ -568,14 +587,30 @@
     });
   })();
 
-  /* ---- La barre se pose sur un fond quand on quitte le heros ---- */
+  /* ---- La barre se pose sur un fond quand on quitte le heros, et
+          s'inverse quand elle passe au-dessus du bloc sombre ---- */
   (function () {
     var nav = document.getElementById('usn-nav');
     if (!nav) return;
+    var sombreBloc = document.getElementById('usn-vision');
+    var nom = nav.querySelector('.usn-nav-nom');
+
     function verifier() {
       nav.classList.toggle('est-posee', (window.pageYOffset || 0) > 40);
+
+      var sombre = false;
+      if (sombreBloc) {
+        var r = sombreBloc.getBoundingClientRect();
+        sombre = r.top <= 72 && r.bottom > 72;
+      }
+      nav.classList.toggle('est-nuit', sombre);
+      if (nom) {
+        nom.classList.toggle('usn-mot-blanc', sombre);
+        nom.classList.toggle('usn-mot-noir', !sombre);
+      }
     }
     window.addEventListener('scroll', verifier, { passive: true });
+    window.addEventListener('resize', verifier);
     verifier();
   })();
 

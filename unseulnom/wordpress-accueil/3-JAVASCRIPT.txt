@@ -40,14 +40,30 @@
     });
   })();
 
-  /* ---- La barre se pose sur un fond quand on quitte le heros ---- */
+  /* ---- La barre se pose sur un fond quand on quitte le heros, et
+          s'inverse quand elle passe au-dessus du bloc sombre ---- */
   (function () {
     var nav = document.getElementById('usn-nav');
     if (!nav) return;
+    var sombreBloc = document.getElementById('usn-vision');
+    var nom = nav.querySelector('.usn-nav-nom');
+
     function verifier() {
       nav.classList.toggle('est-posee', (window.pageYOffset || 0) > 40);
+
+      var sombre = false;
+      if (sombreBloc) {
+        var r = sombreBloc.getBoundingClientRect();
+        sombre = r.top <= 72 && r.bottom > 72;
+      }
+      nav.classList.toggle('est-nuit', sombre);
+      if (nom) {
+        nom.classList.toggle('usn-mot-blanc', sombre);
+        nom.classList.toggle('usn-mot-noir', !sombre);
+      }
     }
     window.addEventListener('scroll', verifier, { passive: true });
+    window.addEventListener('resize', verifier);
     verifier();
   })();
 
