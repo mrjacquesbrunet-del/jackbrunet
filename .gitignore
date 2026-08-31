@@ -34,3 +34,7 @@ scratch-android/
 
 # aperçus générés depuis unseulnom/index.html (polices embarquées, captures)
 unseulnom/preview-*
+
+# python
+__pycache__/
+*.py[cod]
