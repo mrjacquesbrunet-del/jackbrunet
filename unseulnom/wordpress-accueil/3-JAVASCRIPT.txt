@@ -4,6 +4,135 @@
 (function () {
   function usnInit() {
 
+  /* ---- Le menu du haut ----
+     Le bouton a deux traits ouvre le panneau ; les deux traits se
+     croisent, la page se bloque derriere, et Echap referme. */
+  (function () {
+    var bouton = document.getElementById('usn-bouton-menu');
+    var panneau = document.getElementById('usn-menu');
+    if (!bouton || !panneau) return;
+
+    function basculer(ouvrir) {
+      bouton.setAttribute('aria-expanded', ouvrir ? 'true' : 'false');
+      bouton.setAttribute('aria-label', ouvrir ? 'Fermer le menu' : 'Ouvrir le menu');
+      if (ouvrir) {
+        panneau.hidden = false;
+        // Un temps de rendu avant la classe, sinon la transition est sautee.
+        requestAnimationFrame(function () { panneau.classList.add('est-ouvert'); });
+      } else {
+        panneau.classList.remove('est-ouvert');
+        setTimeout(function () {
+          if (bouton.getAttribute('aria-expanded') === 'false') panneau.hidden = true;
+        }, 340);
+      }
+      document.documentElement.style.overflow = ouvrir ? 'hidden' : '';
+    }
+
+    bouton.addEventListener('click', function () {
+      basculer(bouton.getAttribute('aria-expanded') !== 'true');
+    });
+    // Un lien clique referme le panneau : sinon l'ancre saute derriere lui.
+    panneau.addEventListener('click', function (e) {
+      if (e.target.closest('a')) basculer(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && bouton.getAttribute('aria-expanded') === 'true') basculer(false);
+    });
+  })();
+
+  /* ---- La barre se pose sur un fond quand on quitte le heros ---- */
+  (function () {
+    var nav = document.getElementById('usn-nav');
+    if (!nav) return;
+    function verifier() {
+      nav.classList.toggle('est-posee', (window.pageYOffset || 0) > 40);
+    }
+    window.addEventListener('scroll', verifier, { passive: true });
+    verifier();
+  })();
+
+  /* ---- Le curseur ouvre une fenetre dans la page ----
+     Le logo est pose sur la creme ; par-dessus, les photos de nos
+     evenements, masquees partout sauf dans un disque qui suit la souris.
+     Les photos se relaient tant que le curseur se promene. Sur un ecran
+     tactile il n'y a pas de curseur : le disque derive tout seul, en
+     lent va-et-vient, pour que l'effet existe quand meme. */
+  (function () {
+    var bloc   = document.getElementById('usn-bloc1');
+    var hublot = document.getElementById('usn-hublot');
+    var anneau = document.getElementById('usn-anneau');
+    if (!bloc || !hublot) return;
+
+    var vues = hublot.querySelectorAll('img');
+    var iVue = 0, dernierEchange = 0;
+    var tactile = !(window.matchMedia && window.matchMedia('(hover: hover)').matches);
+
+    var cible = { x: 50, y: 46 }, courant = { x: 50, y: 46 };
+    var actif = false, anime = false, depart = 0;
+
+    function rayon() {
+      // 19vmin, la meme valeur que le CSS, mais en pixels : l'anneau doit
+      // tomber exactement sur le bord du masque.
+      return Math.min(window.innerWidth, window.innerHeight) * 0.19;
+    }
+
+    function allumer(oui) {
+      if (actif === oui) return;
+      actif = oui;
+      hublot.classList.toggle('est-actif', oui);
+      if (anneau) anneau.classList.toggle('est-actif', oui);
+    }
+
+    function boucle(t) {
+      if (tactile) {
+        // Une derive douce, sans repetition trop visible.
+        if (!depart) depart = t;
+        var s = (t - depart) / 1000;
+        cible.x = 50 + Math.sin(s * 0.37) * 26;
+        cible.y = 46 + Math.cos(s * 0.23) * 20;
+      }
+      courant.x += (cible.x - courant.x) * 0.14;
+      courant.y += (cible.y - courant.y) * 0.14;
+      bloc.style.setProperty('--mx', courant.x.toFixed(2) + '%');
+      bloc.style.setProperty('--my', courant.y.toFixed(2) + '%');
+
+      if (anneau) {
+        var r = rayon();
+        anneau.style.setProperty('--usn-rayon', r.toFixed(1) + 'px');
+        anneau.style.transform = 'translate3d('
+          + (courant.x / 100 * bloc.clientWidth - r).toFixed(1) + 'px,'
+          + (courant.y / 100 * bloc.clientHeight - r).toFixed(1) + 'px,0)';
+      }
+
+      // On change de photo au bout d'un moment, pas a chaque mouvement :
+      // sinon les images clignotent des qu'on bouge la souris.
+      if (vues.length > 1 && actif && t - dernierEchange > 1800) {
+        dernierEchange = t;
+        vues[iVue].classList.remove('est-vue');
+        iVue = (iVue + 1) % vues.length;
+        vues[iVue].classList.add('est-vue');
+      }
+
+      var bouge = Math.abs(cible.x - courant.x) > 0.05 || Math.abs(cible.y - courant.y) > 0.05;
+      if (tactile || bouge || actif) { requestAnimationFrame(boucle); } else { anime = false; }
+    }
+
+    function lancer() { if (!anime) { anime = true; requestAnimationFrame(boucle); } }
+
+    if (tactile) { allumer(true); lancer(); return; }
+
+    bloc.addEventListener('mousemove', function (e) {
+      var r = bloc.getBoundingClientRect();
+      if (!r.width) return;
+      cible.x = ((e.clientX - r.left) / r.width) * 100;
+      cible.y = ((e.clientY - r.top) / r.height) * 100;
+      allumer(true);
+      lancer();
+    }, { passive: true });
+
+    bloc.addEventListener('mouseleave', function () { allumer(false); });
+  })();
+
   /* ---- Son de la video ----
      Aucun navigateur ne lance seul une video qui parle : elle demarre
      donc muette, et ce bouton rend la main au visiteur. S'il n'y a pas
@@ -45,35 +174,6 @@
       if (!video.muted) { video.volume = 0.8; video.play(); }
       libelle();
     });
-  })();
-
-
-  /* ---- Compte a rebours ---- */
-  (function () {
-    var box = document.getElementById('usn-countdown');
-    if (!box) return;
-    var target = new Date(box.getAttribute('data-target') || '').getTime();
-    if (isNaN(target)) return;
-    var els = {
-      days: box.querySelector('[data-cd="days"]'),
-      hours: box.querySelector('[data-cd="hours"]'),
-      mins: box.querySelector('[data-cd="mins"]'),
-      secs: box.querySelector('[data-cd="secs"]')
-    };
-    function pad(n) { return (n < 10 ? '0' : '') + n; }
-    function tick() {
-      var diff = Math.max(0, target - Date.now());
-      var s = Math.floor(diff / 1000);
-      var d = Math.floor(s / 86400); s -= d * 86400;
-      var h = Math.floor(s / 3600); s -= h * 3600;
-      var m = Math.floor(s / 60); s -= m * 60;
-      if (els.days) els.days.textContent = d;
-      if (els.hours) els.hours.textContent = pad(h);
-      if (els.mins) els.mins.textContent = pad(m);
-      if (els.secs) els.secs.textContent = pad(s);
-    }
-    tick();
-    setInterval(tick, 1000);
   })();
 
 
@@ -130,12 +230,11 @@
       var els = root.querySelectorAll(sel);
       if (els.length) groups.push({ els: els, o: opts });
     }
-    group('.usn-titre-section', { type: 'rise',  dist: 0.24, stagger: 0.08, span: 0.50 });
-    group('.usn-geant',         { type: 'slide', dist: 0.30, stagger: 0.14, span: 0.58 });
-    group('.usn-vue',           { type: 'rise',  dist: 0.40, stagger: 0.12, span: 0.58 });
+    group('[data-usn-monte]',   { type: 'rise',  dist: 0.28, stagger: 0.10, span: 0.52 });
+    group('.usn-vue',           { type: 'rise',  dist: 0.36, stagger: 0.07, span: 0.54 });
     group('.usn-chiffre',       { type: 'rise',  dist: 0.22, stagger: 0.10, span: 0.46 });
-    group('[data-usn-gauche]',  { type: 'slide',  dist: 0.60, stagger: 0, span: 0.50 });
-    group('[data-usn-droite]',  { type: 'slideR', dist: 0.60, stagger: 0, span: 0.50 });
+    group('[data-usn-gauche]',  { type: 'slide',  dist: 0.55, stagger: 0, span: 0.52 });
+    group('[data-usn-droite]',  { type: 'slideR', dist: 0.55, stagger: 0, span: 0.52 });
 
     var all = [];
     for (var g = 0; g < groups.length; g++) {
@@ -168,7 +267,7 @@
        l'ecran, puis retourne au noir et blanc en s'en eloignant. */
     var photos = [];
     (function () {
-      var imgs = root.querySelectorAll('.usn-vue img');
+      var imgs = root.querySelectorAll('.usn-vue img, .usn-visage img');
       for (var i = 0; i < imgs.length; i++) photos.push({ el: imgs[i], p: 0 });
     })();
 
@@ -244,14 +343,83 @@
     }
     punchApply(0);
 
-    /* ---------- 5. Parallaxe du heros ---------- */
-    var hero = root.querySelector('.usn-hero');
-    var heroInner = root.querySelector('.usn-hero-inner');
+    /* ---------- 5. La scene d'ouverture ----------
+       Le bloc fait deux hauteurs d'ecran et son contenu reste colle en
+       haut : pendant qu'on le traverse, le logo s'efface et l'image
+       derriere prend sa place. */
+    var scene  = root.querySelector('.usn-scene');
+    var couche1 = root.querySelector('.usn-couche-logo');
+    var couche2 = root.querySelector('.usn-couche-image');
+
+    function sceneAppliquer() {
+      if (!scene || !couche1 || !couche2) return;
+      var r = scene.getBoundingClientRect();
+      var course = Math.max(1, r.height - vh());
+      var p = clamp01(-r.top / course);
+
+      // Le logo s'efface sur la premiere moitie, l'image n'arrive qu'apres :
+      // sans ce decalage, les deux "Un Seul Nom" se superposent au milieu du
+      // fondu et plus rien n'est lisible.
+      var sortie = clamp01(p / 0.42);
+      couche1.style.opacity = (1 - sortie).toFixed(3);
+      couche1.style.transform = 'scale(' + (1 - 0.26 * easeOut(sortie)).toFixed(4) + ')';
+
+      var entree = clamp01((p - 0.40) / 0.42);
+      couche2.style.opacity = entree.toFixed(3);
+      couche2.style.transform = 'scale(' + (1.10 - 0.10 * easeOut(entree)).toFixed(4) + ')';
+
+      // Une couche effacee ne doit plus rien capter : sans cela, le bouton
+      // "Reserve ta place" reste cliquable alors qu'on ne le voit plus.
+      couche1.style.pointerEvents = sortie > 0.6 ? 'none' : 'auto';
+      couche2.style.pointerEvents = entree > 0.6 ? 'auto' : 'none';
+    }
+    sceneAppliquer();
+
+    /* ---------- 6. Parallaxes ----------
+       Chaque element marque monte a sa propre vitesse pendant qu'il
+       traverse l'ecran : c'est ce qui donne de la profondeur a la
+       colonne d'affiches. */
+    var paras = root.querySelectorAll('[data-usn-parallaxe]');
+    function parallaxes() {
+      for (var i = 0; i < paras.length; i++) {
+        var el = paras[i], r = el.getBoundingClientRect(), h = vh();
+        var p = clamp01((h - r.top) / (h + r.height));
+        var v = parseFloat(el.getAttribute('data-usn-parallaxe')) || 1;
+        el.style.transform = 'translate3d(0,' + ((0.5 - p) * 150 * v).toFixed(1) + 'px,0)';
+      }
+    }
+    parallaxes();
+
+    /* ---------- 7. Les deux visages qui se rapprochent ---------- */
+    var visages = root.querySelector('.usn-visages');
+    function visagesAppliquer() {
+      if (!visages) return;
+      var r = visages.getBoundingClientRect(), h = vh();
+      // 0 quand le bloc entre par le bas, 1 quand il est au centre
+      var p = clamp01((h - r.top) / (h * 0.85 + r.height * 0.4));
+      var e = easeOut(p), ecart = (1 - e) * Math.min(window.innerWidth * 0.42, 460);
+      var g = visages.querySelector('[data-usn-visage="gauche"]');
+      var d = visages.querySelector('[data-usn-visage="droite"]');
+      if (g) g.style.transform = 'translate3d(' + (-ecart).toFixed(1) + 'px,0,0)';
+      if (d) d.style.transform = 'translate3d(' + ecart.toFixed(1) + 'px,0,0)';
+    }
+    visagesAppliquer();
+
+    var hero = null, heroInner = null;
 
     /* ---------- 6. Boucle de rendu (lissage type ScrollSmoother) ---------- */
     var running = false;
+    var dernierY = -1;
     function frame() {
       var moving = false;
+
+      // Ces trois-la suivent le scroll directement : tant qu'il bouge,
+      // la boucle continue.
+      var y = scrollY();
+      if (y !== dernierY) { dernierY = y; moving = true; }
+      sceneAppliquer();
+      parallaxes();
+      visagesAppliquer();
 
       for (var i = 0; i < all.length; i++) {
         var it = all[i], t = target(it);

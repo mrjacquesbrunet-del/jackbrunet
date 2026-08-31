@@ -2,17 +2,12 @@
   /* ===================================================================
      PAGE D'ACCUEIL
 
-     Elle a un role different des deux autres pages : en quelques
-     secondes, un visiteur doit comprendre ce qu'est Un Seul Nom et
-     savoir ou est le prochain rendez-vous.
+     Direction editoriale inspiree de landonorris.com : fond ivoire,
+     titres enormes en capitales serrees, grain de texture, bandeaux
+     defilants, et surtout beaucoup de mouvement pilote par le scroll.
 
-     Le fond est ivoire et non blanc : c'est ce qui donne a la page son
-     aspect de papier d'affiche, et cela rechauffe le bleu-blanc-rouge.
-     Les titres sont enormes et serres, les bandeaux defilent, et les
-     mots-cles de la declaration passent en couleur.
-
-     Tout est scope sous #usn-accueil : les trois pages cohabitent sur
-     le site sans se marcher dessus.
+     Tout est scope sous #usn-accueil : les trois pages du site
+     cohabitent sans se marcher dessus.
      =================================================================== */
   @import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap');
 
@@ -35,6 +30,7 @@
     color: var(--usn-ink); background: var(--usn-ivoire);
     line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: clip;
     width: 100vw; max-width: 100vw; margin-left: calc(50% - 50vw);
+    position: relative;
   }
   #usn-accueil *, #usn-accueil *::before, #usn-accueil *::after { box-sizing: border-box; }
   #usn-accueil img, #usn-accueil video { max-width: 100%; display: block; }
@@ -43,7 +39,17 @@
     margin: 0; font-weight: 900; line-height: 0.88; letter-spacing: -0.035em;
     font-family: var(--usn-display); font-stretch: 125%; text-transform: uppercase;
   }
-  #usn-accueil .usn-wrap { width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px); }
+  #usn-accueil .usn-wrap { width: 100%; max-width: 1360px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 52px); }
+
+  /* Le grain : une couche de bruit posee sur toute la page. Elle est
+     generee par le navigateur, aucun fichier n'est charge. */
+  #usn-accueil .usn-grain {
+    position: fixed; inset: 0; z-index: 60; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23b)' opacity='0.42'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+    opacity: 0.30; mix-blend-mode: multiply;
+  }
+  @media (prefers-reduced-motion: reduce) { #usn-accueil .usn-grain { opacity: 0.18; } }
 
   /* Intitule de section : un point, un mot, en tout petit. */
   #usn-accueil .usn-cle {
@@ -51,158 +57,319 @@
     font-size: 11.5px; font-weight: 800; letter-spacing: 0.28em; text-transform: uppercase;
     color: var(--usn-gris);
   }
-  #usn-accueil .usn-cle::before {
-    content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--usn-red);
-  }
-  #usn-accueil .usn-titre-section { will-change: transform, opacity; }
+  #usn-accueil .usn-cle::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--usn-red); }
 
   /* ---------- Boutons ---------- */
   #usn-accueil .usn-btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-    padding: 16px 34px; border-radius: 999px; font-weight: 800; font-size: 13px;
+    padding: 17px 36px; border-radius: 999px; font-weight: 800; font-size: 13px;
     letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; cursor: pointer;
     border: 2px solid transparent;
     transition: transform .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
   }
   #usn-accueil .usn-btn-encre { background: var(--usn-ink); color: var(--usn-ivoire); }
   #usn-accueil .usn-btn-encre:hover { background: var(--usn-blue); transform: translateY(-2px); }
+  #usn-accueil .usn-btn-rouge { background: var(--usn-red); color: #fff; }
+  #usn-accueil .usn-btn-rouge:hover { background: var(--usn-ink); transform: translateY(-2px); }
   #usn-accueil .usn-btn-bleu { background: var(--usn-blue); color: #fff; }
   #usn-accueil .usn-btn-bleu:hover { background: var(--usn-red); transform: translateY(-2px); }
-  #usn-accueil .usn-btn-clair { background: var(--usn-ivoire); color: var(--usn-ink); }
-  #usn-accueil .usn-btn-clair:hover { transform: translateY(-2px); }
-  #usn-accueil .usn-btn-ligne { background: transparent; color: currentColor; border-color: currentColor; }
-  #usn-accueil .usn-btn-ligne:hover { background: currentColor; }
-  #usn-accueil .usn-btn-ligne:hover span { color: var(--usn-ivoire); }
+  #usn-accueil .usn-btn-cadre {
+    background: transparent; color: var(--usn-ink); border-color: var(--usn-ink);
+  }
+  #usn-accueil .usn-btn-cadre:hover { background: var(--usn-ink); color: var(--usn-ivoire); }
   #usn-accueil a:focus-visible, #usn-accueil button:focus-visible {
     outline: 3px solid var(--usn-blue); outline-offset: 3px;
   }
 
   /* ===================================================================
-     BARRE DE NAVIGATION
-     Elle remplace le bandeau du theme, qui n'offrait aucun chemin direct
-     vers l'evenement. Collante : le bouton d'inscription reste a portee
-     pendant toute la lecture.
+     BARRE DU HAUT
+
+     Trois choses seulement, posees aux coins : le nom ecrit en toutes
+     lettres a gauche, le bouton de soutien et le menu a droite. Elle est
+     transparente au-dessus du heros, et ne se pose sur un fond ivoire
+     qu'une fois la premiere image passee.
      =================================================================== */
   #usn-accueil .usn-nav {
-    position: sticky; top: 0; z-index: 30;
-    display: flex; align-items: center; gap: clamp(10px, 2vw, 28px);
-    padding: 14px clamp(16px, 4vw, 48px);
-    background: rgba(240,238,231,0.82);
-    border-bottom: 1px solid var(--usn-trait);
+    position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+    display: flex; align-items: center;
+    padding: clamp(14px, 2.2vw, 26px) clamp(16px, 3.4vw, 44px);
+    background: transparent; border-bottom: 1px solid transparent;
+    transition: background .3s ease, border-color .3s ease;
+  }
+  #usn-accueil .usn-nav.est-posee {
+    background: rgba(240,238,231,0.82); border-bottom-color: var(--usn-trait);
     -webkit-backdrop-filter: blur(16px) saturate(140%);
     backdrop-filter: blur(16px) saturate(140%);
   }
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    #usn-accueil .usn-nav { background: var(--usn-ivoire); }
+    #usn-accueil .usn-nav.est-posee { background: var(--usn-ivoire); }
   }
   #usn-accueil .usn-nav a { text-decoration: none; }
-  #usn-accueil .usn-nav-logo { width: 38px; margin: 0; flex: none; }
-  #usn-accueil .usn-nav-liens { display: flex; align-items: center; gap: clamp(14px, 2.4vw, 32px); margin-left: 8px; }
-  #usn-accueil .usn-nav-liens a {
-    font-size: 11.5px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--usn-ink); white-space: nowrap; position: relative; padding: 4px 0;
+
+  /* Le nom, ecrit et non le logo : deux lignes serrees, comme un
+     monogramme typographique. */
+  #usn-accueil .usn-nav-nom {
+    display: block; color: var(--usn-ink);
+    font-family: var(--usn-display); font-weight: 900;
+    font-size: clamp(15px, 1.5vw, 21px); line-height: 0.84;
+    letter-spacing: -0.02em; text-transform: uppercase;
   }
-  #usn-accueil .usn-nav-liens a::after {
-    content: ''; position: absolute; left: 0; right: 100%; bottom: 0; height: 2px;
-    background: var(--usn-blue); transition: right .22s ease;
+  #usn-accueil .usn-nav-nom b { display: block; font-weight: 900; }
+  #usn-accueil .usn-nav-nom b + b { color: var(--usn-red); }
+
+  #usn-accueil .usn-nav-actions { margin-left: auto; display: flex; align-items: center; gap: clamp(8px, 1vw, 14px); }
+  #usn-accueil .usn-nav-soutien {
+    display: inline-flex; align-items: center; height: 44px; padding: 0 clamp(18px, 2vw, 28px);
+    border-radius: 999px; background: var(--usn-red); color: #fff;
+    font-weight: 800; font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase;
+    white-space: nowrap; transition: background .2s ease, transform .18s ease;
   }
-  #usn-accueil .usn-nav-liens a:hover::after { right: 0; }
-  #usn-accueil .usn-nav-actions { margin-left: auto; display: flex; align-items: center; gap: 10px; }
-  #usn-accueil .usn-nav-don {
-    display: inline-flex; align-items: center; padding: 10px 20px; border-radius: 999px;
-    font-weight: 800; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--usn-ink); border: 1.5px solid var(--usn-ink); white-space: nowrap;
-    transition: background .2s ease, color .2s ease;
+  #usn-accueil .usn-nav-soutien:hover { background: var(--usn-ink); transform: translateY(-1px); }
+
+  /* Le bouton du menu : un carre, deux traits, rien d'autre. */
+  #usn-accueil .usn-nav-menu {
+    width: 44px; height: 44px; flex: none; padding: 0; cursor: pointer;
+    display: grid; align-content: center; justify-items: center; gap: 6px;
+    border: 1.5px solid var(--usn-ink); border-radius: 12px;
+    background: transparent; transition: background .2s ease, border-color .2s ease;
   }
-  #usn-accueil .usn-nav-don:hover { background: var(--usn-ink); color: var(--usn-ivoire); }
-  #usn-accueil .usn-nav-cta {
-    display: inline-flex; align-items: center; padding: 11px 22px; border-radius: 999px;
-    font-weight: 800; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase;
-    color: #fff; background: var(--usn-red); white-space: nowrap;
-    transition: background .2s ease, transform .18s ease;
+  #usn-accueil .usn-nav-menu i {
+    display: block; width: 18px; height: 2px; background: var(--usn-ink);
+    transition: transform .28s cubic-bezier(.2,.8,.25,1), opacity .2s ease, background .2s ease;
   }
-  #usn-accueil .usn-nav-cta:hover { background: var(--usn-ink); transform: translateY(-1px); }
-  @media (max-width: 900px) { #usn-accueil .usn-nav-liens { display: none; } }
+  #usn-accueil .usn-nav-menu:hover { background: var(--usn-ink); }
+  #usn-accueil .usn-nav-menu:hover i { background: var(--usn-ivoire); }
+  /* Ouvert, les deux traits se croisent. */
+  #usn-accueil .usn-nav-menu[aria-expanded="true"] i:first-child { transform: translateY(4px) rotate(45deg); }
+  #usn-accueil .usn-nav-menu[aria-expanded="true"] i:last-child  { transform: translateY(-4px) rotate(-45deg); }
+
+  /* --- le panneau du menu --- */
+  #usn-accueil .usn-menu {
+    position: fixed; inset: 0; z-index: 55; background: var(--usn-ivoire);
+    display: flex; flex-direction: column; justify-content: center;
+    padding: clamp(80px, 12vh, 140px) clamp(20px, 6vw, 90px) clamp(30px, 6vh, 60px);
+    opacity: 0; visibility: hidden; transform: translateY(-14px);
+    transition: opacity .32s ease, transform .32s ease, visibility .32s;
+  }
+  #usn-accueil .usn-menu.est-ouvert { opacity: 1; visibility: visible; transform: none; }
+  #usn-accueil .usn-menu a { text-decoration: none; color: var(--usn-ink); }
+  #usn-accueil .usn-menu-liens a {
+    display: block; font-family: var(--usn-display); font-weight: 900;
+    font-size: clamp(34px, 7vw, 82px); line-height: 1.06; letter-spacing: -0.03em;
+    text-transform: uppercase; border-bottom: 1px solid var(--usn-trait);
+    padding: clamp(8px, 1.4vh, 16px) 0; transition: color .2s ease, padding-left .28s ease;
+  }
+  #usn-accueil .usn-menu-liens a:hover { color: var(--usn-red); padding-left: 18px; }
+  #usn-accueil .usn-menu-pied {
+    margin-top: clamp(22px, 4vh, 44px); display: flex; flex-wrap: wrap; gap: 10px 26px;
+    font-family: var(--usn-sub); font-size: 13px; color: var(--usn-gris);
+  }
+  #usn-accueil .usn-menu-pied a { color: var(--usn-gris); text-decoration: underline; text-underline-offset: 3px; }
+
   @media (max-width: 430px) {
-    #usn-accueil .usn-nav-don { display: none; }
-    #usn-accueil .usn-nav-logo { width: 32px; }
+    #usn-accueil .usn-nav-soutien { height: 40px; padding: 0 16px; font-size: 10.5px; letter-spacing: 0.12em; }
+    #usn-accueil .usn-nav-menu { width: 40px; height: 40px; }
   }
 
   /* ===================================================================
-     HEROS - plein ecran, la video derriere le nom du mouvement
+     LA SCENE D'OUVERTURE
+
+     Le bloc fait deux hauteurs d'ecran ; son contenu reste colle en haut
+     pendant qu'on le traverse. Au debut, le logo seul, en gris, qui
+     reprend ses couleurs sous le curseur. En defilant, il s'efface et
+     l'image qui etait derriere prend toute la place.
      =================================================================== */
-  #usn-accueil .usn-hero {
-    position: relative; overflow: hidden;
-    min-height: clamp(560px, 92svh, 1000px);
-    display: flex; flex-direction: column; justify-content: flex-end;
-    background: var(--usn-ink); color: var(--usn-ivoire);
+  #usn-accueil .usn-scene { position: relative; height: 220svh; background: var(--usn-ink); }
+  #usn-accueil .usn-scene-fixe {
+    position: sticky; top: 0; height: 100svh; overflow: hidden;
+    display: grid; place-items: center;
   }
-  #usn-accueil .usn-hero-video { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; }
-  #usn-accueil .usn-hero-voile {
-    position: absolute; inset: 0; z-index: 1; pointer-events: none;
-    background:
-      linear-gradient(180deg, rgba(17,17,16,0.62) 0%, rgba(17,17,16,0.30) 38%,
-                      rgba(17,17,16,0.72) 78%, rgba(17,17,16,0.94) 100%);
+  #usn-accueil .usn-couche { position: absolute; inset: 0; display: grid; place-items: center; }
+
+  /* --- couche 1 : le logo sur fond creme, et les photos sous le curseur --- */
+  #usn-accueil .usn-couche-logo {
+    z-index: 2; background: var(--usn-ivoire);
+    display: block; will-change: opacity, transform;
   }
-  #usn-accueil .usn-hero-inner {
-    position: relative; z-index: 2; width: 100%;
-    padding-bottom: clamp(26px, 4vw, 46px); padding-top: clamp(90px, 14vw, 160px);
+
+  /* Le fond : une creme qui n'est jamais tout a fait immobile. Trois
+     couches de courbes tres pales, chacune a sa vitesse, plus une legere
+     respiration lumineuse. Rien a telecharger, tout est en degrades. */
+  #usn-accueil .usn-texture { position: absolute; inset: 0; overflow: hidden; }
+  #usn-accueil .usn-texture i {
+    position: absolute; inset: -40%; display: block; border-radius: 50%;
+    background: repeating-radial-gradient(circle at 50% 50%,
+      rgba(17,17,16,0.052) 0px, rgba(17,17,16,0.052) 1.2px,
+      transparent 1.2px, transparent 26px);
+    will-change: transform;
   }
-  /* Le nom occupe toute la largeur : c'est la premiere chose qu'on voit. */
-  #usn-accueil .usn-hero h1 {
-    font-size: clamp(46px, 12.4vw, 210px); line-height: 0.82;
-    text-shadow: 0 10px 50px rgba(0,0,0,0.5);
+  #usn-accueil .usn-texture i:nth-child(1) { animation: usn-derive-a 34s ease-in-out infinite; }
+  #usn-accueil .usn-texture i:nth-child(2) {
+    inset: -55%; opacity: 0.7;
+    background: repeating-radial-gradient(circle at 50% 50%,
+      rgba(27,47,196,0.055) 0px, rgba(27,47,196,0.055) 1.1px,
+      transparent 1.1px, transparent 34px);
+    animation: usn-derive-b 48s ease-in-out infinite;
   }
-  #usn-accueil .usn-hero-pied {
-    margin-top: clamp(22px, 3vw, 38px); padding-top: clamp(18px, 2.4vw, 26px);
-    border-top: 1px solid rgba(255,255,255,0.24);
-    display: flex; align-items: flex-end; justify-content: space-between;
-    gap: clamp(18px, 4vw, 48px); flex-wrap: wrap;
+  #usn-accueil .usn-texture i:nth-child(3) {
+    inset: -30%; opacity: 0.55;
+    background: repeating-radial-gradient(circle at 50% 50%,
+      rgba(228,38,43,0.05) 0px, rgba(228,38,43,0.05) 1px,
+      transparent 1px, transparent 19px);
+    animation: usn-derive-c 27s ease-in-out infinite;
   }
-  #usn-accueil .usn-hero-depuis {
-    font-family: var(--usn-sub); font-size: clamp(13.5px, 1.7vw, 17px);
-    color: rgba(255,255,255,0.82); max-width: 34ch;
+  @keyframes usn-derive-a {
+    0%,100% { transform: translate3d(-6%, -3%, 0) scale(1); }
+    50%     { transform: translate3d( 5%,  4%, 0) scale(1.12); }
   }
-  #usn-accueil .usn-hero-depuis b { color: var(--usn-white); font-weight: 700; }
-  /* Le prochain rendez-vous, en lien direct depuis le heros. */
-  #usn-accueil .usn-prochain-lien {
-    display: block; text-decoration: none; color: inherit; text-align: right;
-    transition: transform .2s ease;
+  @keyframes usn-derive-b {
+    0%,100% { transform: translate3d( 7%,  5%, 0) scale(1.08); }
+    50%     { transform: translate3d(-5%, -6%, 0) scale(1); }
   }
-  #usn-accueil .usn-prochain-lien:hover { transform: translateY(-3px); }
-  #usn-accueil .usn-prochain-lien .k {
+  @keyframes usn-derive-c {
+    0%,100% { transform: translate3d( 3%, -6%, 0) scale(1); }
+    50%     { transform: translate3d(-6%,  3%, 0) scale(1.15); }
+  }
+  /* Un halo tres doux qui suit la souris : c'est ce qui donne
+     l'impression que la matiere reagit au passage. */
+  #usn-accueil .usn-texture::after {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle 46vmin at var(--mx, 50%) var(--my, 46%),
+      rgba(255,255,255,0.65) 0%, rgba(255,255,255,0) 68%);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #usn-accueil .usn-texture i { animation: none; }
+  }
+
+  /* Le logo, pose au centre. */
+  #usn-accueil .usn-marque {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: min(56vw, 50svh); aspect-ratio: 1 / 1; z-index: 2;
+  }
+  #usn-accueil .usn-marque .usn-logo-mark { position: absolute; inset: 0; width: 100%; }
+
+  /* Les photos : elles occupent tout l'ecran, mais ne sont visibles que
+     dans le disque decoupe autour du curseur. C'est le meme principe que
+     le casque revele sur le visage : on ne deplace pas une vignette, on
+     ouvre une fenetre dans la page. */
+  #usn-accueil .usn-hublot {
+    position: absolute; inset: 0; z-index: 3; overflow: hidden;
+    opacity: 0; transition: opacity .32s ease;
+    -webkit-mask-image: radial-gradient(circle var(--usn-rayon, 19vmin) at var(--mx, 50%) var(--my, 46%), #000 0%, #000 90%, transparent 100%);
+    mask-image: radial-gradient(circle var(--usn-rayon, 19vmin) at var(--mx, 50%) var(--my, 46%), #000 0%, #000 90%, transparent 100%);
+  }
+  #usn-accueil .usn-hublot.est-actif { opacity: 1; }
+  #usn-accueil .usn-hublot img {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    opacity: 0; transition: opacity .55s ease; transform: scale(1.06);
+  }
+  #usn-accueil .usn-hublot img.est-vue { opacity: 1; }
+  /* Le contour du disque, pour que la fenetre se voie comme un objet. */
+  #usn-accueil .usn-anneau {
+    position: absolute; z-index: 4; top: 0; left: 0; pointer-events: none;
+    width: calc(var(--usn-rayon, 19vmin) * 2); aspect-ratio: 1 / 1; border-radius: 50%;
+    border: 1px solid rgba(17,17,16,0.22);
+    box-shadow: 0 24px 70px rgba(17,17,16,0.18);
+    opacity: 0; transition: opacity .32s ease;
+  }
+  #usn-accueil .usn-anneau.est-actif { opacity: 1; }
+  /* Sans souris (telephone, tablette), il n'y a pas de curseur a suivre :
+     le script fait deriver le disque tout seul, en lent va-et-vient. */
+
+  /* --- la carte du prochain rendez-vous, en bas a gauche --- */
+  #usn-accueil .usn-prochain {
+    position: absolute; z-index: 5;
+    left: clamp(16px, 3.4vw, 44px); bottom: clamp(20px, 4vh, 46px);
+    width: min(370px, 78vw); text-decoration: none; color: var(--usn-ink);
     display: block;
-    font-size: 11px; font-weight: 800; letter-spacing: 0.26em; text-transform: uppercase;
-    color: var(--usn-red);
   }
-  #usn-accueil .usn-prochain-lien .v {
-    display: block; margin-top: 6px; font-family: var(--usn-display); font-stretch: 118%; font-weight: 900;
-    font-size: clamp(24px, 4vw, 52px); line-height: 0.9; text-transform: uppercase;
+  #usn-accueil .usn-prochain-titre {
+    display: block; font-size: 10.5px; font-weight: 800; letter-spacing: 0.24em;
+    text-transform: uppercase; color: var(--usn-gris);
+    padding-bottom: 10px; border-bottom: 1px solid var(--usn-trait);
   }
-  #usn-accueil .usn-prochain-lien .d {
-    display: block; margin-top: 6px; font-family: var(--usn-sub); font-size: 13.5px;
-    color: rgba(255,255,255,0.72);
+  #usn-accueil .usn-prochain-corps {
+    display: flex; align-items: center; gap: clamp(10px, 1.6vw, 18px); padding: 14px 0 4px;
+  }
+  /* Le contour d'Avignon, tourne lentement sur lui-meme. */
+  #usn-accueil .usn-plan { width: clamp(52px, 6vw, 74px); flex: none; overflow: visible; }
+  #usn-accueil .usn-plan path {
+    fill: rgba(228,38,43,0.10); stroke: var(--usn-red); stroke-width: 1.6;
+    stroke-linejoin: round; vector-effect: non-scaling-stroke;
+  }
+  #usn-accueil .usn-plan g { transform-origin: 50% 50%; animation: usn-tourne 22s linear infinite; }
+  @keyframes usn-tourne { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { #usn-accueil .usn-plan g { animation: none; } }
+
+  #usn-accueil .usn-prochain-ville {
+    display: block; font-family: var(--usn-display); font-weight: 900;
+    font-size: clamp(30px, 3.6vw, 46px); line-height: 0.92;
+    letter-spacing: -0.035em; text-transform: uppercase;
+  }
+  #usn-accueil .usn-prochain-date {
+    display: block; margin-top: 4px; font-family: var(--usn-sub);
+    font-size: 12.5px; color: var(--usn-gris);
+  }
+  #usn-accueil .usn-prochain-bouton {
+    margin-top: 12px; display: inline-flex; align-items: center; gap: 10px;
+    height: 44px; padding: 0 20px; border-radius: 999px;
+    background: var(--usn-ink); color: var(--usn-ivoire);
+    font-size: 11.5px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase;
+    transition: background .2s ease, transform .18s ease;
+  }
+  #usn-accueil .usn-prochain-bouton i { font-style: normal; transition: transform .22s ease; }
+  #usn-accueil .usn-prochain:hover .usn-prochain-bouton { background: var(--usn-red); transform: translateY(-2px); }
+  #usn-accueil .usn-prochain:hover .usn-prochain-bouton i { transform: translateX(4px); }
+
+  #usn-accueil .usn-scene-invite {
+    position: absolute; z-index: 5; right: clamp(16px, 3.4vw, 44px); bottom: clamp(22px, 4vh, 46px);
+    font-size: 11px; font-weight: 800; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--usn-gris); display: flex; align-items: center; gap: 10px;
+  }
+  #usn-accueil .usn-scene-invite span { animation: usn-descend 1.9s ease-in-out infinite; }
+  @keyframes usn-descend { 0%,100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+  @media (prefers-reduced-motion: reduce) { #usn-accueil .usn-scene-invite span { animation: none; } }
+
+  /* Sur un ecran etroit, le logo remonte pour laisser la carte respirer,
+     et l'invitation a defiler disparait : elle se disputait la place. */
+  @media (max-width: 720px) {
+    #usn-accueil .usn-marque { top: 40%; width: 74vw; }
+    #usn-accueil .usn-scene-invite { display: none; }
+    #usn-accueil .usn-prochain { width: calc(100% - 32px); }
+  }
+
+  /* --- couche 2 : l'image, et le nom par-dessus --- */
+  #usn-accueil .usn-couche-image { z-index: 1; opacity: 0; will-change: opacity, transform; }
+  #usn-accueil .usn-couche-image video, #usn-accueil .usn-couche-image img {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  }
+  #usn-accueil .usn-couche-image .usn-voile {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(17,17,16,0.58) 0%, rgba(17,17,16,0.30) 45%, rgba(17,17,16,0.82) 100%);
+  }
+  #usn-accueil .usn-couche-image h1 {
+    position: relative; z-index: 2; color: var(--usn-ivoire); text-align: center;
+    font-size: clamp(44px, 11.5vw, 190px); line-height: 0.84;
+    text-shadow: 0 12px 60px rgba(0,0,0,0.55);
+    padding: 0 clamp(18px, 4vw, 52px);
+  }
+  #usn-accueil .usn-couche-image .usn-sous {
+    position: relative; z-index: 2; margin-top: 20px; text-align: center;
+    font-family: var(--usn-sub); font-size: clamp(14px, 1.9vw, 19px);
+    color: rgba(255,255,255,0.86); padding: 0 clamp(18px, 4vw, 52px);
   }
   #usn-accueil .usn-son {
-    position: absolute; z-index: 3; right: clamp(16px, 4vw, 48px); top: clamp(78px, 12vw, 110px);
+    position: absolute; z-index: 4; right: clamp(16px, 4vw, 48px); bottom: clamp(18px, 3vw, 32px);
     display: inline-flex; align-items: center; gap: 9px;
     padding: 10px 18px; border-radius: 999px; cursor: pointer;
     font-family: inherit; font-size: 11.5px; font-weight: 800;
     letter-spacing: 0.14em; text-transform: uppercase; color: var(--usn-white);
     background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.26);
-    -webkit-backdrop-filter: blur(14px) saturate(140%);
-    backdrop-filter: blur(14px) saturate(140%);
-    transition: background .2s ease, transform .18s ease;
+    -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+    transition: background .2s ease, opacity .3s ease;
   }
-  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    #usn-accueil .usn-son { background: rgba(17,17,16,0.6); }
-  }
-  #usn-accueil .usn-son:hover { background: rgba(255,255,255,0.2); transform: translateY(-1px); }
-  @media (max-width: 560px) {
-    #usn-accueil .usn-son-texte { display: none; }
-    #usn-accueil .usn-son { padding: 12px 14px; }
-    #usn-accueil .usn-prochain-lien { text-align: left; }
-  }
+  #usn-accueil .usn-son:hover { background: rgba(255,255,255,0.2); }
+  @media (max-width: 560px) { #usn-accueil .usn-son-texte { display: none; } }
 
   /* ===================================================================
      BANDEAUX DEFILANTS
@@ -218,88 +385,57 @@
     letter-spacing: -0.02em; white-space: nowrap;
   }
   #usn-accueil .usn-defile i { color: var(--usn-red); font-style: normal; font-size: 20px; }
-  #usn-accueil .usn-defile-encre i { color: var(--usn-red); }
   @keyframes usn-glisse { from { transform: translate3d(0,0,0); } to { transform: translate3d(-50%,0,0); } }
   @media (prefers-reduced-motion: reduce) { #usn-accueil .usn-defile-piste { animation: none; } }
 
   /* ===================================================================
-     LA DECLARATION
-     Un seul paragraphe, ecrit tres grand, dont les mots-cles passent en
-     couleur : c'est le resume du mouvement.
+     LA VISION, EN SIX LIGNES
+     Chaque ligne monte a son tour au scroll.
      =================================================================== */
-  #usn-accueil .usn-declaration { padding: clamp(64px, 11vw, 150px) 0 clamp(48px, 8vw, 110px); }
-  #usn-accueil .usn-declaration p {
-    margin-top: clamp(26px, 4vw, 48px);
+  #usn-accueil .usn-vision { padding: clamp(70px, 12vw, 170px) 0; }
+  #usn-accueil .usn-vision-lignes { margin-top: clamp(26px, 4vw, 46px); }
+  #usn-accueil .usn-vision-lignes p {
     font-family: var(--usn-display); font-stretch: 112%; font-weight: 800;
-    font-size: clamp(25px, 4.4vw, 62px); line-height: 1.06;
-    letter-spacing: -0.025em; text-transform: uppercase; max-width: 20ch;
-  }
-  #usn-accueil .usn-declaration em { font-style: normal; color: var(--usn-blue); }
-  #usn-accueil .usn-declaration strong { font-weight: 800; color: var(--usn-red); }
-
-  /* ===================================================================
-     LES TROIS GRANDS MOTS
-     Chaque ligne : un numero, un mot enorme, une phrase courte a droite.
-     Les lignes arrivent par la gauche au scroll.
-     =================================================================== */
-  #usn-accueil .usn-geants { border-top: 2px solid var(--usn-ink); }
-  /* La colonne du milieu doit pouvoir se reduire (min-width: 0), sinon le
-     mot geant impose sa largeur et ecrase la colonne de texte. */
-  #usn-accueil .usn-geant {
-    display: grid;
-    grid-template-columns: 58px minmax(0, 1fr) clamp(210px, 24vw, 360px);
-    gap: clamp(14px, 3vw, 40px); align-items: center;
-    padding: clamp(26px, 4vw, 48px) 0;
-    border-bottom: 2px solid var(--usn-ink);
+    font-size: clamp(21px, 3.6vw, 52px); line-height: 1.12;
+    letter-spacing: -0.025em; text-transform: uppercase; max-width: 24ch;
     will-change: transform, opacity;
   }
-  #usn-accueil .usn-geant-num {
-    font-family: var(--usn-display); font-stretch: 118%; font-weight: 900;
-    font-size: 15px; color: var(--usn-red); font-variant-numeric: tabular-nums;
-    align-self: start; padding-top: 8px;
-  }
-  #usn-accueil .usn-geant-mot { font-size: clamp(34px, 7.4vw, 124px); line-height: 0.84; }
-  #usn-accueil .usn-geant p {
-    font-family: var(--usn-sub); font-size: clamp(14px, 1.7vw, 17px); color: var(--usn-gris);
-  }
-  @media (max-width: 860px) {
-    #usn-accueil .usn-geant { grid-template-columns: 40px 1fr; }
-    #usn-accueil .usn-geant p { grid-column: 2; }
-  }
+  #usn-accueil .usn-vision-lignes p + p { margin-top: clamp(4px, 0.6vw, 8px); }
+  #usn-accueil .usn-vision-lignes em { font-style: normal; color: var(--usn-blue); }
+  #usn-accueil .usn-vision-lignes strong { font-weight: 800; color: var(--usn-red); }
 
   /* ===================================================================
-     GALERIE - les villes deja traversees
-     Legendes minuscules "Ville, annee", images en noir et blanc qui
-     reprennent leurs couleurs en passant au centre de l'ecran.
+     GALERIE - toutes les photos des evenements passes
+     Mosaique en colonnes : on peut en ajouter des dizaines sans rien
+     changer a la mise en page.
      =================================================================== */
-  #usn-accueil .usn-galerie { padding: clamp(60px, 10vw, 130px) 0; }
-  #usn-accueil .usn-vues {
-    margin-top: clamp(30px, 5vw, 56px);
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(14px, 2.2vw, 26px);
-    align-items: start;
+  #usn-accueil .usn-galerie { padding: clamp(20px, 4vw, 50px) 0 clamp(60px, 10vw, 130px); }
+  #usn-accueil .usn-mosaique {
+    margin-top: clamp(28px, 4vw, 50px);
+    column-count: 4; column-gap: clamp(12px, 1.8vw, 22px);
   }
-  #usn-accueil .usn-vue { margin: 0; will-change: transform, opacity; }
-  #usn-accueil .usn-vues .usn-vue:nth-child(even) { margin-top: clamp(24px, 5vw, 64px); }
-  #usn-accueil .usn-vue-cadre {
-    position: relative; aspect-ratio: 3 / 4; overflow: hidden;
-    background: var(--usn-ivoire-2);
+  #usn-accueil .usn-vue {
+    break-inside: avoid; margin: 0 0 clamp(12px, 1.8vw, 22px);
+    will-change: transform, opacity;
   }
+  #usn-accueil .usn-vue-cadre { position: relative; overflow: hidden; background: var(--usn-ivoire-2); }
+  /* Les photos sont en noir et blanc et reprennent leurs couleurs en
+     passant au centre de l'ecran : c'est le script qui pilote le filtre. */
   #usn-accueil .usn-vue-cadre img {
-    width: 100%; height: 100%; object-fit: cover;
-    filter: grayscale(1) contrast(1.05); will-change: filter, transform;
+    width: 100%; height: auto; filter: grayscale(1) contrast(1.05);
+    will-change: filter, transform;
   }
   #usn-accueil .usn-vue figcaption {
-    margin-top: 12px; font-family: var(--usn-sub); font-size: 12.5px;
-    letter-spacing: 0.08em; color: var(--usn-gris);
+    margin-top: 9px; font-family: var(--usn-sub); font-size: 12px;
+    letter-spacing: 0.06em; color: var(--usn-gris);
   }
-  #usn-accueil .usn-vue figcaption b {
-    color: var(--usn-ink); font-weight: 700; letter-spacing: 0;
-  }
-  @media (max-width: 900px) { #usn-accueil .usn-vues { grid-template-columns: repeat(2, 1fr); } }
+  #usn-accueil .usn-vue figcaption b { color: var(--usn-ink); font-weight: 700; }
+  @media (max-width: 1100px) { #usn-accueil .usn-mosaique { column-count: 3; } }
+  @media (max-width: 760px)  { #usn-accueil .usn-mosaique { column-count: 2; } }
 
   /* ---------- Les chiffres ---------- */
   #usn-accueil .usn-chiffres {
-    margin-top: clamp(46px, 7vw, 84px); display: grid; grid-template-columns: repeat(3, 1fr);
+    margin-top: clamp(40px, 6vw, 76px); display: grid; grid-template-columns: repeat(3, 1fr);
     gap: 20px; border-top: 2px solid var(--usn-ink); padding-top: clamp(24px, 3.5vw, 40px);
   }
   #usn-accueil .usn-chiffre { will-change: transform, opacity; }
@@ -315,64 +451,69 @@
   @media (max-width: 620px) { #usn-accueil .usn-chiffres { grid-template-columns: 1fr; gap: 28px; } }
 
   /* ===================================================================
-     CITATION - pleine page, sur fond sombre
+     LES DEUX VISAGES QUI SE RAPPROCHENT
+     Ils arrivent chacun d'un bord et se rejoignent au centre ; les deux
+     boutons sont entre eux.
      =================================================================== */
-  #usn-accueil .usn-citation {
-    background: var(--usn-ink); color: var(--usn-ivoire);
-    padding: clamp(70px, 12vw, 160px) 0;
+  #usn-accueil .usn-rencontre { background: var(--usn-ink); color: var(--usn-ivoire); padding: clamp(70px, 11vw, 150px) 0; overflow: hidden; }
+  #usn-accueil .usn-rencontre .usn-cle { color: rgba(255,255,255,0.6); }
+  #usn-accueil .usn-rencontre h2 { margin-top: 18px; font-size: clamp(30px, 5.6vw, 76px); max-width: 18ch; }
+  #usn-accueil .usn-visages {
+    margin-top: clamp(34px, 5vw, 60px);
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+    gap: clamp(16px, 3vw, 40px);
   }
-  #usn-accueil .usn-citation q {
-    display: block; quotes: none;
-    font-family: var(--usn-display); font-stretch: 118%; font-weight: 900;
-    font-size: clamp(28px, 5.6vw, 86px); line-height: 0.98;
-    letter-spacing: -0.03em; text-transform: uppercase; max-width: 17ch;
+  #usn-accueil .usn-visage { will-change: transform; }
+  #usn-accueil .usn-visage-cadre {
+    aspect-ratio: 3 / 4; overflow: hidden; border-radius: 4px;
+    background: linear-gradient(140deg, var(--usn-blue), #101861);
   }
-  #usn-accueil .usn-citation q em { font-style: normal; color: var(--usn-red); }
-  #usn-accueil .usn-citation cite {
-    display: block; margin-top: clamp(22px, 3vw, 34px); font-style: normal;
-    font-family: var(--usn-sub); font-size: 12.5px; letter-spacing: 0.2em;
-    text-transform: uppercase; color: rgba(255,255,255,0.55);
+  #usn-accueil .usn-visage-cadre img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: grayscale(1) contrast(1.06); will-change: filter, transform;
   }
-  #usn-accueil .usn-fondateurs {
-    margin-top: clamp(30px, 4vw, 48px); padding-top: clamp(20px, 3vw, 30px);
-    border-top: 1px solid rgba(255,255,255,0.18);
-    font-family: var(--usn-sub); font-size: 14.5px; color: rgba(255,255,255,0.68);
-    max-width: 70ch;
+  #usn-accueil .usn-visage figcaption {
+    margin-top: 12px; font-size: 11.5px; font-weight: 800;
+    letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.62);
   }
-  #usn-accueil .usn-fondateurs b { color: var(--usn-ivoire); font-weight: 700; }
+  #usn-accueil .usn-visage figcaption b { display: block; margin-bottom: 4px; color: var(--usn-ivoire); font-size: 15px; letter-spacing: 0; text-transform: none; }
+  #usn-accueil .usn-entre { display: flex; flex-direction: column; gap: 12px; align-items: stretch; min-width: min(72vw, 280px); }
+  @media (max-width: 820px) {
+    #usn-accueil .usn-visages { grid-template-columns: 1fr 1fr; }
+    #usn-accueil .usn-entre { grid-column: 1 / -1; order: 3; margin-top: 24px; min-width: 0; }
+  }
 
   /* ===================================================================
-     LE PROCHAIN RENDEZ-VOUS - bloc plein, avec compte a rebours
+     LES AFFICHES QUI MONTENT
+     Quatre colonnes qui montent a des vitesses differentes.
      =================================================================== */
-  #usn-accueil .usn-rdv { background: var(--usn-blue); color: #fff; padding: clamp(56px, 9vw, 120px) 0; }
-  #usn-accueil .usn-rdv-ville { font-size: clamp(50px, 13vw, 200px); line-height: 0.82; }
-  #usn-accueil .usn-rdv-quand {
-    margin-top: clamp(16px, 2.4vw, 26px); font-family: var(--usn-display); font-stretch: 115%;
-    font-weight: 800; font-size: clamp(17px, 2.6vw, 30px); text-transform: uppercase;
+  #usn-accueil .usn-affiches { padding: clamp(60px, 10vw, 140px) 0 clamp(70px, 11vw, 160px); overflow: hidden; }
+  #usn-accueil .usn-colonnes {
+    margin-top: clamp(30px, 5vw, 60px);
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(12px, 2vw, 26px);
+    align-items: start;
   }
-  #usn-accueil .usn-rdv-ou { margin-top: 10px; font-family: var(--usn-sub); font-size: clamp(14px, 1.7vw, 17px); color: rgba(255,255,255,0.82); }
-  #usn-accueil .usn-rdv-bas {
-    margin-top: clamp(28px, 4vw, 46px); padding-top: clamp(22px, 3vw, 32px);
-    border-top: 1px solid rgba(255,255,255,0.28);
-    display: flex; align-items: center; justify-content: space-between;
-    gap: clamp(20px, 4vw, 48px); flex-wrap: wrap;
+  #usn-accueil .usn-colonne { display: grid; gap: clamp(12px, 2vw, 26px); will-change: transform; }
+  #usn-accueil .usn-affiche { margin: 0; }
+  #usn-accueil .usn-affiche img {
+    width: 100%; height: auto; border-radius: 3px;
+    box-shadow: 0 24px 50px -30px rgba(17,17,16,0.5);
   }
-  #usn-accueil .usn-chrono { display: flex; align-items: baseline; gap: clamp(14px, 2.4vw, 30px); }
-  #usn-accueil .usn-chrono div { text-align: center; }
-  #usn-accueil .usn-chrono b {
-    display: block; font-family: var(--usn-display); font-stretch: 118%; font-weight: 900;
-    font-size: clamp(26px, 4vw, 46px); line-height: 1; font-variant-numeric: tabular-nums;
+  #usn-accueil .usn-affiche figcaption {
+    margin-top: 9px; font-family: var(--usn-sub); font-size: 11.5px;
+    letter-spacing: 0.06em; color: var(--usn-gris);
   }
-  #usn-accueil .usn-chrono small {
-    display: block; margin-top: 6px; font-size: 10px; font-weight: 800;
-    letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.58);
+  @media (max-width: 760px) {
+    #usn-accueil .usn-colonnes { grid-template-columns: repeat(2, 1fr); }
+    /* Sur un petit ecran, la parallaxe creuserait des trous : on la coupe. */
+    #usn-accueil .usn-colonne { transform: none !important; }
   }
 
   /* ===================================================================
      APPEL AUX EGLISES
      =================================================================== */
-  #usn-accueil .usn-eglises { padding: clamp(64px, 10vw, 140px) 0; }
-  #usn-accueil .usn-eglises h2 { margin-top: 18px; font-size: clamp(32px, 6.4vw, 92px); max-width: 15ch; }
+  #usn-accueil .usn-eglises { background: var(--usn-ivoire-2); padding: clamp(64px, 10vw, 140px) 0; }
+  #usn-accueil .usn-eglises h2 { margin-top: 18px; font-size: clamp(30px, 6vw, 84px); max-width: 15ch; }
   #usn-accueil .usn-eglises .usn-intro {
     margin-top: clamp(20px, 3vw, 30px); font-family: var(--usn-sub);
     font-size: clamp(15px, 1.8vw, 18px); color: var(--usn-gris); max-width: 58ch;
@@ -396,7 +537,7 @@
   /* ===================================================================
      LETTRE D'INFORMATION
      =================================================================== */
-  #usn-accueil .usn-lettre { background: var(--usn-ivoire-2); padding: clamp(52px, 8vw, 100px) 0; }
+  #usn-accueil .usn-lettre { padding: clamp(56px, 9vw, 110px) 0; }
   #usn-accueil .usn-lettre-grille {
     display: grid; grid-template-columns: 1fr 1fr; gap: clamp(26px, 4vw, 60px); align-items: center;
   }
@@ -424,10 +565,8 @@
 
   /* ---------- Pied de page ---------- */
   #usn-accueil .usn-footer { background: var(--usn-ink); color: rgba(255,255,255,0.62); padding: clamp(40px, 6vw, 64px) 0; }
-  #usn-accueil .usn-footer-grille {
-    display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
-  }
-  #usn-accueil .usn-footer-mark { width: 62px; margin: 0; opacity: .9; }
+  #usn-accueil .usn-footer-grille { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  #usn-accueil .usn-footer-mark { width: 58px; margin: 0; opacity: .9; }
   #usn-accueil .usn-footer-liens { display: flex; gap: clamp(14px, 2.4vw, 30px); flex-wrap: wrap; }
   #usn-accueil .usn-footer a {
     color: var(--usn-ivoire); text-decoration: none;
@@ -452,6 +591,7 @@
   }
   #usn-accueil .usn-logo-blanc { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 1200'%3E%3Cg fill='%23ffffff' transform='translate(0,1200) scale(0.1,-0.1)'%3E%3Cpath d='M5483 11990 c-11 -5 -61 -13 -110 -19 -555 -64 -1095 -195 -1518 -366 -44 -18 -91 -36 -105 -40 -61 -18 -391 -173 -540 -252 -1094 -584 -1938 -1428 -2523 -2523 -82 -154 -232 -477 -257 -555 -7 -21 -23 -62 -35 -90 -12 -27 -46 -119 -75 -203 -146 -428 -235 -830 -291 -1316 -6 -48 -15 -99 -20 -113 -12 -32 -12 -994 0 -1026 5 -14 14 -65 20 -113 64 -554 204 -1134 370 -1539 275 -667 534 -1112 940 -1615 245 -304 689 -744 922 -915 15 -11 65 -49 111 -85 593 -463 1385 -848 2128 -1035 307 -77 405 -96 695 -135 88 -11 201 -28 250 -36 129 -22 1031 -15 1180 8 55 9 152 23 215 32 250 33 570 99 760 156 483 144 749 248 1130 442 1376 703 2417 1896 2943 3373 32 90 50 148 117 375 57 192 123 511 156 760 9 63 23 160 32 215 20 128 24 1107 5 1215 -7 36 -22 135 -33 220 -41 294 -59 387 -135 690 -64 253 -216 704 -290 855 -8 17 -44 95 -81 175 -171 374 -421 787 -664 1098 -36 46 -74 96 -85 111 -11 15 -42 54 -70 87 -557 662 -1202 1174 -1945 1544 -155 78 -236 114 -515 230 -396 165 -983 307 -1539 371 -48 6 -99 15 -113 20 -31 12 -1000 11 -1030 -1z m1007 -450 c182 -16 518 -64 650 -94 584 -131 1144 -341 1570 -588 52 -30 124 -72 160 -93 1091 -637 2055 -1846 2419 -3035 13 -41 34 -106 46 -145 13 -38 35 -119 49 -180 14 -60 30 -123 35 -140 136 -422 186 -1486 95 -2030 -54 -329 -68 -398 -119 -600 -541 -2153 -2364 -3812 -4545 -4135 -30 -4 -82 -13 -115 -19 -494 -86 -1590 -32 -2000 100 -16 5 -79 21 -140 35 -60 14 -141 36 -180 49 -38 12 -104 33 -145 46 -1187 364 -2399 1330 -3035 2419 -21 36 -63 108 -93 160 -250 430 -466 1010 -591 1585 -182 837 -132 1944 124 2735 106 328 171 497 278 725 1005 2139 3197 3408 5537 3205z'/%3E%3Cpath d='M2576 8818 c-19 -27 -24 -1716 -5 -1797 81 -353 761 -380 900 -35 l24 59 3 860 c3 886 3 893 -24 919 -22 22 -320 24 -350 2 -19 -14 -19 -36 -22 -865 l-2 -852 -25 -11 c-17 -8 -40 -8 -73 -2 l-47 9 -5 853 c-5 830 -6 854 -24 868 -37 27 -331 20 -350 -8z'/%3E%3Cpath d='M3667 8822 c-29 -32 -26 -2003 3 -2032 21 -21 267 -31 297 -12 29 18 33 70 33 443 0 223 4 379 9 379 12 0 34 -60 61 -165 11 -44 27 -98 34 -120 7 -22 21 -69 31 -105 9 -36 32 -114 50 -175 18 -60 40 -138 50 -173 26 -89 33 -92 196 -92 197 0 173 -135 177 999 3 978 2 1030 -24 1056 -17 16 -267 22 -291 7 -29 -18 -33 -70 -33 -428 0 -390 -4 -417 -43 -298 -21 62 -81 274 -147 514 -48 174 -57 198 -81 210 -36 20 -304 12 -322 -8z'/%3E%3Cpath d='M6416 8824 c-332 -72 -495 -329 -597 -944 -94 -566 -171 -716 -388 -751 -86 -13 -91 -24 -91 -185 0 -184 15 -195 209 -163 333 54 513 336 621 974 11 61 24 139 30 175 56 332 175 528 335 555 116 20 125 33 125 186 0 97 -10 147 -33 161 -19 12 -136 8 -211 -8z'/%3E%3Cpath d='M6834 8826 c-19 -14 -19 -38 -22 -988 -3 -997 -2 -1026 24 -1053 23 -23 719 -23 752 1 23 16 35 288 14 322 -15 23 -77 32 -229 32 -189 0 -173 -25 -173 269 0 277 -8 261 124 261 128 0 126 -2 126 178 0 180 -1 182 -123 182 -131 0 -127 -8 -127 224 0 136 3 195 12 204 8 8 60 12 168 12 178 0 194 3 209 36 18 40 15 285 -5 312 l-15 22 -358 0 c-293 0 -361 -3 -377 -14z'/%3E%3Cpath d='M7716 8821 c-15 -17 -16 -87 -14 -912 l3 -894 36 -65 c159 -291 711 -280 860 17 l34 68 0 888 c0 868 0 889 -19 903 -35 25 -330 20 -356 -6 -20 -20 -20 -33 -20 -865 l0 -845 -27 -11 c-18 -7 -44 -8 -73 -2 l-45 8 -5 853 c-5 830 -6 854 -24 868 -33 24 -327 20 -350 -5z'/%3E%3Cpath d='M8806 8818 c-28 -40 -24 -2000 4 -2028 30 -30 687 -31 713 -2 23 25 25 297 3 328 -13 17 -31 20 -177 24 l-163 5 -7 25 c-4 14 -7 390 -8 837 -1 792 -1 813 -20 823 -43 22 -328 13 -345 -12z'/%3E%3Cpath d='M5582 6660 c-606 -92 -1090 -445 -1352 -985 -121 -249 -172 -474 -172 -760 -1 -976 779 -1755 1758 -1755 253 0 350 16 592 97 684 229 1171 918 1171 1658 2 1058 -964 1901 -1997 1745z'/%3E%3Cpath d='M2240 6627 c-13 -7 -27 -23 -31 -37 -15 -54 -10 -3298 5 -3334 21 -50 51 -56 280 -56 199 0 236 6 268 42 2 2 5 321 8 711 3 462 8 707 15 706 13 0 51 -116 131 -404 18 -66 54 -192 80 -280 25 -88 66 -230 90 -315 146 -514 100 -460 401 -460 227 0 259 6 283 49 7 13 10 561 10 1681 l0 1661 -25 24 -24 25 -226 0 -226 0 -24 -25 -25 -24 -1 -688 c-1 -803 -3 -819 -63 -598 -22 83 -101 358 -161 565 -66 226 -82 285 -100 360 -8 30 -19 69 -25 85 -6 17 -27 86 -45 155 -49 181 -28 170 -328 170 -173 0 -249 -4 -267 -13z'/%3E%3Cpath d='M7875 6615 l-25 -24 0 -1655 c0 -1029 4 -1664 10 -1680 20 -53 48 -57 320 -54 247 3 249 3 274 27 l26 24 0 352 c0 516 2 519 105 190 32 -99 74 -233 95 -297 21 -64 46 -144 56 -177 37 -133 140 -153 177 -33 8 26 31 99 51 162 19 63 58 189 86 280 80 260 84 272 95 273 6 1 12 -130 15 -368 5 -390 6 -397 51 -420 42 -22 497 -22 539 0 52 27 50 -45 50 1715 l0 1661 -25 24 -24 25 -278 0 c-308 0 -312 -1 -332 -63 -11 -37 -30 -130 -71 -352 -16 -88 -38 -205 -49 -260 -17 -86 -61 -314 -141 -735 -47 -248 -54 -244 -115 60 -14 69 -32 163 -41 210 -8 47 -22 112 -29 145 -8 33 -23 110 -35 170 -11 61 -34 175 -50 255 -17 80 -44 215 -60 300 -57 297 -19 270 -372 270 l-279 0 -24 -25z'/%3E%3C/g%3E%3C/svg%3E"); }
   #usn-accueil .usn-logo-noir  { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 1200'%3E%3Cg fill='%230C0B0A' transform='translate(0,1200) scale(0.1,-0.1)'%3E%3Cpath d='M5483 11990 c-11 -5 -61 -13 -110 -19 -555 -64 -1095 -195 -1518 -366 -44 -18 -91 -36 -105 -40 -61 -18 -391 -173 -540 -252 -1094 -584 -1938 -1428 -2523 -2523 -82 -154 -232 -477 -257 -555 -7 -21 -23 -62 -35 -90 -12 -27 -46 -119 -75 -203 -146 -428 -235 -830 -291 -1316 -6 -48 -15 -99 -20 -113 -12 -32 -12 -994 0 -1026 5 -14 14 -65 20 -113 64 -554 204 -1134 370 -1539 275 -667 534 -1112 940 -1615 245 -304 689 -744 922 -915 15 -11 65 -49 111 -85 593 -463 1385 -848 2128 -1035 307 -77 405 -96 695 -135 88 -11 201 -28 250 -36 129 -22 1031 -15 1180 8 55 9 152 23 215 32 250 33 570 99 760 156 483 144 749 248 1130 442 1376 703 2417 1896 2943 3373 32 90 50 148 117 375 57 192 123 511 156 760 9 63 23 160 32 215 20 128 24 1107 5 1215 -7 36 -22 135 -33 220 -41 294 -59 387 -135 690 -64 253 -216 704 -290 855 -8 17 -44 95 -81 175 -171 374 -421 787 -664 1098 -36 46 -74 96 -85 111 -11 15 -42 54 -70 87 -557 662 -1202 1174 -1945 1544 -155 78 -236 114 -515 230 -396 165 -983 307 -1539 371 -48 6 -99 15 -113 20 -31 12 -1000 11 -1030 -1z m1007 -450 c182 -16 518 -64 650 -94 584 -131 1144 -341 1570 -588 52 -30 124 -72 160 -93 1091 -637 2055 -1846 2419 -3035 13 -41 34 -106 46 -145 13 -38 35 -119 49 -180 14 -60 30 -123 35 -140 136 -422 186 -1486 95 -2030 -54 -329 -68 -398 -119 -600 -541 -2153 -2364 -3812 -4545 -4135 -30 -4 -82 -13 -115 -19 -494 -86 -1590 -32 -2000 100 -16 5 -79 21 -140 35 -60 14 -141 36 -180 49 -38 12 -104 33 -145 46 -1187 364 -2399 1330 -3035 2419 -21 36 -63 108 -93 160 -250 430 -466 1010 -591 1585 -182 837 -132 1944 124 2735 106 328 171 497 278 725 1005 2139 3197 3408 5537 3205z'/%3E%3Cpath d='M2576 8818 c-19 -27 -24 -1716 -5 -1797 81 -353 761 -380 900 -35 l24 59 3 860 c3 886 3 893 -24 919 -22 22 -320 24 -350 2 -19 -14 -19 -36 -22 -865 l-2 -852 -25 -11 c-17 -8 -40 -8 -73 -2 l-47 9 -5 853 c-5 830 -6 854 -24 868 -37 27 -331 20 -350 -8z'/%3E%3Cpath d='M3667 8822 c-29 -32 -26 -2003 3 -2032 21 -21 267 -31 297 -12 29 18 33 70 33 443 0 223 4 379 9 379 12 0 34 -60 61 -165 11 -44 27 -98 34 -120 7 -22 21 -69 31 -105 9 -36 32 -114 50 -175 18 -60 40 -138 50 -173 26 -89 33 -92 196 -92 197 0 173 -135 177 999 3 978 2 1030 -24 1056 -17 16 -267 22 -291 7 -29 -18 -33 -70 -33 -428 0 -390 -4 -417 -43 -298 -21 62 -81 274 -147 514 -48 174 -57 198 -81 210 -36 20 -304 12 -322 -8z'/%3E%3Cpath d='M6416 8824 c-332 -72 -495 -329 -597 -944 -94 -566 -171 -716 -388 -751 -86 -13 -91 -24 -91 -185 0 -184 15 -195 209 -163 333 54 513 336 621 974 11 61 24 139 30 175 56 332 175 528 335 555 116 20 125 33 125 186 0 97 -10 147 -33 161 -19 12 -136 8 -211 -8z'/%3E%3Cpath d='M6834 8826 c-19 -14 -19 -38 -22 -988 -3 -997 -2 -1026 24 -1053 23 -23 719 -23 752 1 23 16 35 288 14 322 -15 23 -77 32 -229 32 -189 0 -173 -25 -173 269 0 277 -8 261 124 261 128 0 126 -2 126 178 0 180 -1 182 -123 182 -131 0 -127 -8 -127 224 0 136 3 195 12 204 8 8 60 12 168 12 178 0 194 3 209 36 18 40 15 285 -5 312 l-15 22 -358 0 c-293 0 -361 -3 -377 -14z'/%3E%3Cpath d='M7716 8821 c-15 -17 -16 -87 -14 -912 l3 -894 36 -65 c159 -291 711 -280 860 17 l34 68 0 888 c0 868 0 889 -19 903 -35 25 -330 20 -356 -6 -20 -20 -20 -33 -20 -865 l0 -845 -27 -11 c-18 -7 -44 -8 -73 -2 l-45 8 -5 853 c-5 830 -6 854 -24 868 -33 24 -327 20 -350 -5z'/%3E%3Cpath d='M8806 8818 c-28 -40 -24 -2000 4 -2028 30 -30 687 -31 713 -2 23 25 25 297 3 328 -13 17 -31 20 -177 24 l-163 5 -7 25 c-4 14 -7 390 -8 837 -1 792 -1 813 -20 823 -43 22 -328 13 -345 -12z'/%3E%3Cpath d='M5582 6660 c-606 -92 -1090 -445 -1352 -985 -121 -249 -172 -474 -172 -760 -1 -976 779 -1755 1758 -1755 253 0 350 16 592 97 684 229 1171 918 1171 1658 2 1058 -964 1901 -1997 1745z'/%3E%3Cpath d='M2240 6627 c-13 -7 -27 -23 -31 -37 -15 -54 -10 -3298 5 -3334 21 -50 51 -56 280 -56 199 0 236 6 268 42 2 2 5 321 8 711 3 462 8 707 15 706 13 0 51 -116 131 -404 18 -66 54 -192 80 -280 25 -88 66 -230 90 -315 146 -514 100 -460 401 -460 227 0 259 6 283 49 7 13 10 561 10 1681 l0 1661 -25 24 -24 25 -226 0 -226 0 -24 -25 -25 -24 -1 -688 c-1 -803 -3 -819 -63 -598 -22 83 -101 358 -161 565 -66 226 -82 285 -100 360 -8 30 -19 69 -25 85 -6 17 -27 86 -45 155 -49 181 -28 170 -328 170 -173 0 -249 -4 -267 -13z'/%3E%3Cpath d='M7875 6615 l-25 -24 0 -1655 c0 -1029 4 -1664 10 -1680 20 -53 48 -57 320 -54 247 3 249 3 274 27 l26 24 0 352 c0 516 2 519 105 190 32 -99 74 -233 95 -297 21 -64 46 -144 56 -177 37 -133 140 -153 177 -33 8 26 31 99 51 162 19 63 58 189 86 280 80 260 84 272 95 273 6 1 12 -130 15 -368 5 -390 6 -397 51 -420 42 -22 497 -22 539 0 52 27 50 -45 50 1715 l0 1661 -25 24 -24 25 -278 0 c-308 0 -312 -1 -332 -63 -11 -37 -30 -130 -71 -352 -16 -88 -38 -205 -49 -260 -17 -86 -61 -314 -141 -735 -47 -248 -54 -244 -115 60 -14 69 -32 163 -41 210 -8 47 -22 112 -29 145 -8 33 -23 110 -35 170 -11 61 -34 175 -50 255 -17 80 -44 215 -60 300 -57 297 -19 270 -372 270 l-279 0 -24 -25z'/%3E%3C/g%3E%3C/svg%3E"); }
+  #usn-accueil .usn-logo-rouge { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 1200'%3E%3Cg fill='%23E4262B' transform='translate(0,1200) scale(0.1,-0.1)'%3E%3Cpath d='M5483 11990 c-11 -5 -61 -13 -110 -19 -555 -64 -1095 -195 -1518 -366 -44 -18 -91 -36 -105 -40 -61 -18 -391 -173 -540 -252 -1094 -584 -1938 -1428 -2523 -2523 -82 -154 -232 -477 -257 -555 -7 -21 -23 -62 -35 -90 -12 -27 -46 -119 -75 -203 -146 -428 -235 -830 -291 -1316 -6 -48 -15 -99 -20 -113 -12 -32 -12 -994 0 -1026 5 -14 14 -65 20 -113 64 -554 204 -1134 370 -1539 275 -667 534 -1112 940 -1615 245 -304 689 -744 922 -915 15 -11 65 -49 111 -85 593 -463 1385 -848 2128 -1035 307 -77 405 -96 695 -135 88 -11 201 -28 250 -36 129 -22 1031 -15 1180 8 55 9 152 23 215 32 250 33 570 99 760 156 483 144 749 248 1130 442 1376 703 2417 1896 2943 3373 32 90 50 148 117 375 57 192 123 511 156 760 9 63 23 160 32 215 20 128 24 1107 5 1215 -7 36 -22 135 -33 220 -41 294 -59 387 -135 690 -64 253 -216 704 -290 855 -8 17 -44 95 -81 175 -171 374 -421 787 -664 1098 -36 46 -74 96 -85 111 -11 15 -42 54 -70 87 -557 662 -1202 1174 -1945 1544 -155 78 -236 114 -515 230 -396 165 -983 307 -1539 371 -48 6 -99 15 -113 20 -31 12 -1000 11 -1030 -1z m1007 -450 c182 -16 518 -64 650 -94 584 -131 1144 -341 1570 -588 52 -30 124 -72 160 -93 1091 -637 2055 -1846 2419 -3035 13 -41 34 -106 46 -145 13 -38 35 -119 49 -180 14 -60 30 -123 35 -140 136 -422 186 -1486 95 -2030 -54 -329 -68 -398 -119 -600 -541 -2153 -2364 -3812 -4545 -4135 -30 -4 -82 -13 -115 -19 -494 -86 -1590 -32 -2000 100 -16 5 -79 21 -140 35 -60 14 -141 36 -180 49 -38 12 -104 33 -145 46 -1187 364 -2399 1330 -3035 2419 -21 36 -63 108 -93 160 -250 430 -466 1010 -591 1585 -182 837 -132 1944 124 2735 106 328 171 497 278 725 1005 2139 3197 3408 5537 3205z'/%3E%3Cpath d='M2576 8818 c-19 -27 -24 -1716 -5 -1797 81 -353 761 -380 900 -35 l24 59 3 860 c3 886 3 893 -24 919 -22 22 -320 24 -350 2 -19 -14 -19 -36 -22 -865 l-2 -852 -25 -11 c-17 -8 -40 -8 -73 -2 l-47 9 -5 853 c-5 830 -6 854 -24 868 -37 27 -331 20 -350 -8z'/%3E%3Cpath d='M3667 8822 c-29 -32 -26 -2003 3 -2032 21 -21 267 -31 297 -12 29 18 33 70 33 443 0 223 4 379 9 379 12 0 34 -60 61 -165 11 -44 27 -98 34 -120 7 -22 21 -69 31 -105 9 -36 32 -114 50 -175 18 -60 40 -138 50 -173 26 -89 33 -92 196 -92 197 0 173 -135 177 999 3 978 2 1030 -24 1056 -17 16 -267 22 -291 7 -29 -18 -33 -70 -33 -428 0 -390 -4 -417 -43 -298 -21 62 -81 274 -147 514 -48 174 -57 198 -81 210 -36 20 -304 12 -322 -8z'/%3E%3Cpath d='M6416 8824 c-332 -72 -495 -329 -597 -944 -94 -566 -171 -716 -388 -751 -86 -13 -91 -24 -91 -185 0 -184 15 -195 209 -163 333 54 513 336 621 974 11 61 24 139 30 175 56 332 175 528 335 555 116 20 125 33 125 186 0 97 -10 147 -33 161 -19 12 -136 8 -211 -8z'/%3E%3Cpath d='M6834 8826 c-19 -14 -19 -38 -22 -988 -3 -997 -2 -1026 24 -1053 23 -23 719 -23 752 1 23 16 35 288 14 322 -15 23 -77 32 -229 32 -189 0 -173 -25 -173 269 0 277 -8 261 124 261 128 0 126 -2 126 178 0 180 -1 182 -123 182 -131 0 -127 -8 -127 224 0 136 3 195 12 204 8 8 60 12 168 12 178 0 194 3 209 36 18 40 15 285 -5 312 l-15 22 -358 0 c-293 0 -361 -3 -377 -14z'/%3E%3Cpath d='M7716 8821 c-15 -17 -16 -87 -14 -912 l3 -894 36 -65 c159 -291 711 -280 860 17 l34 68 0 888 c0 868 0 889 -19 903 -35 25 -330 20 -356 -6 -20 -20 -20 -33 -20 -865 l0 -845 -27 -11 c-18 -7 -44 -8 -73 -2 l-45 8 -5 853 c-5 830 -6 854 -24 868 -33 24 -327 20 -350 -5z'/%3E%3Cpath d='M8806 8818 c-28 -40 -24 -2000 4 -2028 30 -30 687 -31 713 -2 23 25 25 297 3 328 -13 17 -31 20 -177 24 l-163 5 -7 25 c-4 14 -7 390 -8 837 -1 792 -1 813 -20 823 -43 22 -328 13 -345 -12z'/%3E%3Cpath d='M5582 6660 c-606 -92 -1090 -445 -1352 -985 -121 -249 -172 -474 -172 -760 -1 -976 779 -1755 1758 -1755 253 0 350 16 592 97 684 229 1171 918 1171 1658 2 1058 -964 1901 -1997 1745z'/%3E%3Cpath d='M2240 6627 c-13 -7 -27 -23 -31 -37 -15 -54 -10 -3298 5 -3334 21 -50 51 -56 280 -56 199 0 236 6 268 42 2 2 5 321 8 711 3 462 8 707 15 706 13 0 51 -116 131 -404 18 -66 54 -192 80 -280 25 -88 66 -230 90 -315 146 -514 100 -460 401 -460 227 0 259 6 283 49 7 13 10 561 10 1681 l0 1661 -25 24 -24 25 -226 0 -226 0 -24 -25 -25 -24 -1 -688 c-1 -803 -3 -819 -63 -598 -22 83 -101 358 -161 565 -66 226 -82 285 -100 360 -8 30 -19 69 -25 85 -6 17 -27 86 -45 155 -49 181 -28 170 -328 170 -173 0 -249 -4 -267 -13z'/%3E%3Cpath d='M7875 6615 l-25 -24 0 -1655 c0 -1029 4 -1664 10 -1680 20 -53 48 -57 320 -54 247 3 249 3 274 27 l26 24 0 352 c0 516 2 519 105 190 32 -99 74 -233 95 -297 21 -64 46 -144 56 -177 37 -133 140 -153 177 -33 8 26 31 99 51 162 19 63 58 189 86 280 80 260 84 272 95 273 6 1 12 -130 15 -368 5 -390 6 -397 51 -420 42 -22 497 -22 539 0 52 27 50 -45 50 1715 l0 1661 -25 24 -24 25 -278 0 c-308 0 -312 -1 -332 -63 -11 -37 -30 -130 -71 -352 -16 -88 -38 -205 -49 -260 -17 -86 -61 -314 -141 -735 -47 -248 -54 -244 -115 60 -14 69 -32 163 -41 210 -8 47 -22 112 -29 145 -8 33 -23 110 -35 170 -11 61 -34 175 -50 255 -17 80 -44 215 -60 300 -57 297 -19 270 -372 270 l-279 0 -24 -25z'/%3E%3C/g%3E%3C/svg%3E"); }
   
   @media (prefers-reduced-motion: reduce) { #usn-accueil * { transition: none !important; } }
 
@@ -459,71 +599,115 @@
 
 <section id="usn-accueil">
 
+  <div class="usn-grain" aria-hidden="true"></div>
+
   <!-- ============================================================= -->
   <!-- BARRE DE NAVIGATION                                            -->
   <!-- ============================================================= -->
-  <nav class="usn-nav">
-    <a href="#usn-haut" class="usn-logo-mark usn-logo-noir usn-nav-logo" aria-label="Un Seul Nom"></a>
-    <div class="usn-nav-liens">
-      <a href="#usn-mouvement">Le mouvement</a>
-      <a href="#usn-villes">Les villes</a>
-      <a href="#usn-eglises">&Eacute;glises</a>
-      <a href="#usn-lettre">Newsletter</a>
-    </div>
+  <nav class="usn-nav" id="usn-nav">
+    <a class="usn-nav-nom" href="#usn-haut"><b>Un seul</b><b>Nom</b></a>
     <div class="usn-nav-actions">
-      <a class="usn-nav-don" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Faire un don</a>
-      <a class="usn-nav-cta" href="https://unseulnom.org/evenement/">Je m'inscris</a>
+      <a class="usn-nav-soutien" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Soutien</a>
+      <button type="button" class="usn-nav-menu" id="usn-bouton-menu" aria-expanded="false" aria-controls="usn-menu" aria-label="Ouvrir le menu">
+        <i aria-hidden="true"></i><i aria-hidden="true"></i>
+      </button>
     </div>
   </nav>
 
+  <!-- Le panneau ouvert par le bouton a deux traits. -->
+  <div class="usn-menu" id="usn-menu" hidden>
+    <div class="usn-menu-liens">
+      <a href="https://unseulnom.org/evenement/">Prochain &eacute;v&eacute;nement</a>
+      <a href="#usn-vision">La vision</a>
+      <a href="#usn-galerie">Les villes</a>
+      <a href="#usn-eglises">&Eacute;glises</a>
+      <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Soutenir la mission</a>
+    </div>
+    <div class="usn-menu-pied">
+      <span>Un Seul Nom &mdash; &Eacute;vang&eacute;lisation &amp; gu&eacute;rison</span>
+      <a href="mailto:75unseulnomjesus@gmail.com">75unseulnomjesus@gmail.com</a>
+    </div>
+  </div>
+
   <!-- ============================================================= -->
-  <!-- H&#201;ROS                                                          -->
+  <!-- LA SC&#200;NE D'OUVERTURE                                           -->
+  <!-- Le logo s'efface au scroll et laisse passer l'image derri&#232;re.  -->
   <!-- ============================================================= -->
-  <header class="usn-hero" id="usn-haut">
+  <header class="usn-scene" id="usn-haut">
+    <div class="usn-scene-fixe">
 
-    <!--
-      &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
-      &#9658; VID&#201;O DE FOND &#8212; le teaser du prochain &#233;v&#233;nement.
-      Pour la changer, remplacez l'adresse dans la ligne <source>.
-      La lecture d&#233;marre muette : le bouton rend le son au visiteur.
-      &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
-    -->
-    <video class="usn-hero-video" autoplay muted loop playsinline poster="">
-      <source src="https://unseulnom.org/wp-content/uploads/2026/08/teaser-web.mp4" type="video/mp4" />
-      <source src="https://unseulnom.org/wp-content/uploads/2026/08/Teaser-1.mp4" type="video/mp4" />
-    </video>
-
-    <div class="usn-hero-voile"></div>
-
-    <button type="button" class="usn-son" id="usn-son" aria-pressed="false">
-      <span class="usn-son-icone" aria-hidden="true">&#9834;</span>
-      <span class="usn-son-texte">Activer le son</span>
-    </button>
-
-    <div class="usn-hero-inner">
-      <div class="usn-wrap">
-        <h1>Un Seul<br>Nom</h1>
-
-        <div class="usn-hero-pied">
-          <p class="usn-hero-depuis">
-            Mouvement d'&eacute;vang&eacute;lisation et de gu&eacute;rison, de ville en ville.
-            <b>Depuis 2024.</b>
-          </p>
-
-          <a class="usn-prochain-lien" href="https://unseulnom.org/evenement/">
-            <span class="k">Prochain rendez-vous</span>
-            <span class="v">Avignon</span>
-            <span class="d">17.10.26 &middot; Entr&eacute;e libre &#8594;</span>
-          </a>
+      <!-- couche du dessous : l'image, r&#233;v&#233;l&#233;e en descendant -->
+      <div class="usn-couche usn-couche-image">
+        <!--
+          &#9658; VID&#201;O DE FOND &#8212; le teaser du prochain &#233;v&#233;nement.
+          Pour la changer, remplacez l'adresse dans la ligne <source>.
+        -->
+        <video class="usn-hero-video" autoplay muted loop playsinline poster="">
+          <source src="https://unseulnom.org/wp-content/uploads/2026/08/teaser-web.mp4" type="video/mp4" />
+          <source src="https://unseulnom.org/wp-content/uploads/2026/08/Teaser-1.mp4" type="video/mp4" />
+        </video>
+        <div class="usn-voile"></div>
+        <div>
+          <h1>Un Seul Nom</h1>
+          <p class="usn-sous">&Eacute;vang&eacute;lisation &amp; gu&eacute;rison, de ville en ville. Depuis 2024.</p>
         </div>
+
+        <!-- Le bouton du son appartient a l'image : il doit disparaitre
+             avec elle, et non flotter sur la creme du premier bloc. -->
+        <button type="button" class="usn-son" id="usn-son" aria-pressed="false">
+          <span class="usn-son-icone" aria-hidden="true">&#9834;</span>
+          <span class="usn-son-texte">Activer le son</span>
+        </button>
+      </div>
+
+      <!-- couche du dessus : le fond creme, le logo, et les photos que
+           le curseur decouvre en passant dessus -->
+      <div class="usn-couche usn-couche-logo" id="usn-bloc1">
+
+        <div class="usn-texture" aria-hidden="true">
+          <i></i><i></i><i></i>
+        </div>
+
+        <div class="usn-marque">
+          <div class="usn-logo-mark usn-logo-noir" role="img" aria-label="Un Seul Nom"></div>
+        </div>
+
+        <!--
+          &#9658; LES PHOTOS R&#201;V&#201;L&#201;ES PAR LE CURSEUR.
+            Ajoutez-en autant que vous voulez : le script les fait d&#233;filer
+            l'une apr&#232;s l'autre pendant que la souris se prom&#232;ne.
+        -->
+        <div class="usn-hublot" id="usn-hublot" aria-hidden="true">
+          <img class="est-vue" src="https://unseulnom.org/wp-content/uploads/2026/07/programme1.webp" alt="" />
+          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="" />
+          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme3.webp" alt="" />
+          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme4.webp" alt="" />
+        </div>
+        <div class="usn-anneau" id="usn-anneau" aria-hidden="true"></div>
+
+        <!-- le prochain rendez-vous, cliquable -->
+        <a class="usn-prochain" href="https://unseulnom.org/evenement/">
+          <span class="usn-prochain-titre">Prochain &eacute;v&eacute;nement</span>
+          <span class="usn-prochain-corps">
+            <svg class="usn-plan" viewBox="0 0 100 100" aria-hidden="true">
+              <g><path d="M2.0 62.4L44.5 70.8L60.1 71.8L76.5 79.7L85.5 88.2L88.3 88.9L95.3 88.6L96.0 86.8L91.5 81.1L95.7 80.0L98.0 76.0L83.1 69.1L82.6 66.1L83.9 58.2L81.8 53.7L79.4 52.6L79.4 47.4L76.0 42.3L69.5 42.1L61.6 43.9L52.4 42.6L53.0 37.6L56.8 36.6L60.3 31.0L60.5 19.1L56.2 11.1L55.5 16.6L53.0 19.4L41.2 16.7L39.0 18.0L38.1 24.8L40.4 30.3L40.7 34.0L38.1 36.9L29.7 41.1L25.8 48.5L21.8 53.2L17.0 55.8L13.3 55.1L8.0 56.8L2.0 62.4Z" /></g>
+            </svg>
+            <span>
+              <span class="usn-prochain-ville">Avignon</span>
+              <span class="usn-prochain-date">Samedi 17 octobre 2026 &middot; Parc des expos</span>
+            </span>
+          </span>
+          <span class="usn-prochain-bouton">R&eacute;serve ta place <i aria-hidden="true">&#8594;</i></span>
+        </a>
+
+        <div class="usn-scene-invite">Faites d&eacute;filer <span aria-hidden="true">&#8595;</span></div>
       </div>
     </div>
   </header>
 
   <!--
     &#9658; BANDEAU D&#201;FILANT &#8212; la liste est r&#233;p&#233;t&#233;e deux fois pour que la boucle
-      se referme sans saut. Si vous modifiez un mot, modifiez-le dans les
-      DEUX listes, sinon le ruban saccade.
+      se referme sans saut. Modifiez les DEUX listes, sinon le ruban saccade.
   -->
   <div class="usn-defile usn-defile-bleu" aria-hidden="true">
     <div class="usn-defile-piste">
@@ -539,98 +723,117 @@
   </div>
 
   <!-- ============================================================= -->
-  <!-- LA D&#201;CLARATION                                                 -->
+  <!-- LA VISION, EN SIX LIGNES                                       -->
   <!-- ============================================================= -->
-  <div class="usn-declaration" id="usn-mouvement">
-    <div class="usn-wrap usn-titre-section">
-      <span class="usn-cle">Le mouvement</span>
-      <p>
-        Nous rassemblons des <em>&eacute;glises</em> et des <em>minist&egrave;res</em>
-        diff&eacute;rents pour annoncer <strong>J&eacute;sus</strong> dans une ville,
-        ensemble. Quand le corps de Christ agit dans l'<em>unit&eacute;</em>,
-        des vies changent.
-      </p>
-    </div>
-  </div>
-
-  <!-- ============================================================= -->
-  <!-- LES TROIS GRANDS MOTS                                          -->
-  <!-- ============================================================= -->
-  <div class="usn-wrap">
-    <div class="usn-geants">
-
-      <div class="usn-geant">
-        <div class="usn-geant-num">01</div>
-        <h2 class="usn-geant-mot">Unir</h2>
-        <p>
-          Travailler avec les &eacute;glises et les minist&egrave;res d'une ville,
-          ensemble et non chacun de son c&ocirc;t&eacute;. C'est l&agrave; que tout commence.
-        </p>
-      </div>
-
-      <div class="usn-geant">
-        <div class="usn-geant-num">02</div>
-        <h2 class="usn-geant-mot">&Eacute;vang&eacute;liser</h2>
-        <p>
-          Des campagnes et des soir&eacute;es dans des lieux ouverts &agrave; tous&nbsp;:
-          salles, rues, quartiers, stades. L'entr&eacute;e est toujours libre.
-        </p>
-      </div>
-
-      <div class="usn-geant">
-        <div class="usn-geant-num">03</div>
-        <h2 class="usn-geant-mot">Former</h2>
-        <p>
-          &Eacute;quiper les croyants pour t&eacute;moigner simplement, avec clart&eacute; et
-          avec force, dans leur quotidien comme dans les actions collectives.
-        </p>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ============================================================= -->
-  <!-- LES VILLES TRAVERS&#201;ES                                          -->
-  <!-- ============================================================= -->
-  <div class="usn-galerie" id="usn-villes">
+  <div class="usn-vision" id="usn-vision">
     <div class="usn-wrap">
-      <div class="usn-titre-section">
-        <span class="usn-cle">D&eacute;j&agrave; v&eacute;cu</span>
+      <span class="usn-cle" data-usn-monte>La vision</span>
+      <div class="usn-vision-lignes">
+        <p data-usn-monte>Nous rassemblons des <em>&eacute;glises</em> et des minist&egrave;res diff&eacute;rents.</p>
+        <p data-usn-monte>Nous allons de ville en ville annoncer <strong>J&eacute;sus-Christ</strong>.</p>
+        <p data-usn-monte>Dans des salles ouvertes &agrave; tous, gratuitement.</p>
+        <p data-usn-monte>Nous croyons que l'<em>unit&eacute;</em> du corps de Christ ouvre les c&oelig;urs,</p>
+        <p data-usn-monte>que la <strong>gu&eacute;rison</strong> suit l'annonce de l'&Eacute;vangile,</p>
+        <p data-usn-monte>et qu'une ville confi&eacute;e &agrave; Dieu peut changer.</p>
       </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- LA GALERIE                                                     -->
+  <!-- ============================================================= -->
+  <div class="usn-galerie" id="usn-galerie">
+    <div class="usn-wrap">
+      <span class="usn-cle" data-usn-monte>D&eacute;j&agrave; v&eacute;cu</span>
 
       <!--
-        &#9658; LES VILLES &#8212; pour en ajouter une, copiez un bloc <figure> et
-          changez l'image et la l&#233;gende. Les affiches sont en noir et
-          blanc et reprennent leurs couleurs en passant au centre de
-          l'&#233;cran.
+        &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+        &#9658; LA GALERIE &#8212; pour ajouter une photo, copiez un bloc <figure>
+          entier et changez l'image et la l&#233;gende. La mosa&#239;que se
+          r&#233;organise toute seule : vous pouvez en mettre des dizaines.
+
+          Les photos s'affichent en noir et blanc et reprennent leurs
+          couleurs en passant au centre de l'&#233;cran.
+        &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
       -->
-      <div class="usn-vues">
+      <div class="usn-mosaique">
         <figure class="usn-vue">
           <div class="usn-vue-cadre">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-1-768x948.jpg" alt="Un Seul Nom au stade S&eacute;bastien Charl&eacute;ty, Paris, mai 2024" loading="lazy" onerror="this.remove()" />
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-1-768x948.jpg" alt="Un Seul Nom, Paris 2024" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
           </div>
           <figcaption><b>Paris</b>, 2024 &middot; Stade S&eacute;bastien Charl&eacute;ty</figcaption>
         </figure>
-
         <figure class="usn-vue">
           <div class="usn-vue-cadre">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-3-768x954.jpg" alt="Un Seul Nom &agrave; La Cit&eacute; Royale, Croissy-Beaubourg, juin 2025" loading="lazy" onerror="this.remove()" />
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="Un Seul Nom, Paris 2024" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
+          </div>
+          <figcaption><b>Paris</b>, 2024 &middot; La foule</figcaption>
+        </figure>
+        <figure class="usn-vue">
+          <div class="usn-vue-cadre">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-3-768x954.jpg" alt="Un Seul Nom, Croissy-Beaubourg 2025" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
           </div>
           <figcaption><b>Croissy-Beaubourg</b>, 2025 &middot; La Cit&eacute; Royale</figcaption>
         </figure>
-
         <figure class="usn-vue">
           <div class="usn-vue-cadre">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-4-768x945.jpg" alt="Un Seul Nom &agrave; l'Espace Lille M&eacute;tropole, Wasquehal, mars 2026" loading="lazy" onerror="this.remove()" />
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme3.webp" alt="Un Seul Nom, Croissy-Beaubourg 2025" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
+          </div>
+          <figcaption><b>Croissy-Beaubourg</b>, 2025 &middot; Sur sc&egrave;ne</figcaption>
+        </figure>
+        <figure class="usn-vue">
+          <div class="usn-vue-cadre">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-4-768x945.jpg" alt="Un Seul Nom, Wasquehal 2026" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
           </div>
           <figcaption><b>Wasquehal</b>, 2026 &middot; Espace Lille M&eacute;tropole</figcaption>
         </figure>
-
         <figure class="usn-vue">
           <div class="usn-vue-cadre">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-5-768x950.jpg" alt="Un Seul Nom au Palais des congr&egrave;s, Perpignan, mai 2026" loading="lazy" onerror="this.remove()" />
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme1.webp" alt="Un Seul Nom, Wasquehal 2026" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
+          </div>
+          <figcaption><b>Wasquehal</b>, 2026 &middot; Avant l'ouverture</figcaption>
+        </figure>
+        <figure class="usn-vue">
+          <div class="usn-vue-cadre">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-5-768x950.jpg" alt="Un Seul Nom, Perpignan 2026" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
           </div>
           <figcaption><b>Perpignan</b>, 2026 &middot; Palais des congr&egrave;s</figcaption>
+        </figure>
+        <figure class="usn-vue">
+          <div class="usn-vue-cadre">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme4.webp" alt="Un Seul Nom, Perpignan 2026" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
+          </div>
+          <figcaption><b>Perpignan</b>, 2026 &middot; La pr&eacute;dication</figcaption>
+        </figure>
+        <figure class="usn-vue">
+          <div class="usn-vue-cadre">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/chriss.webp" alt="Un Seul Nom, Chriss Campion 2026" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
+          </div>
+          <figcaption><b>Chriss Campion</b>, 2026 &middot; Pr&eacute;dication</figcaption>
+        </figure>
+        <figure class="usn-vue">
+          <div class="usn-vue-cadre">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/yannis.webp" alt="Un Seul Nom, Yannis Gautier 2026" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
+          </div>
+          <figcaption><b>Yannis Gautier</b>, 2026 &middot; Pr&eacute;dication</figcaption>
+        </figure>
+        <figure class="usn-vue">
+          <div class="usn-vue-cadre">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/patchai.webp" alt="Un Seul Nom, Patcha&iuml; Reyes 2026" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
+          </div>
+          <figcaption><b>Patcha&iuml; Reyes</b>, 2026 &middot; Louange</figcaption>
+        </figure>
+        <figure class="usn-vue">
+          <div class="usn-vue-cadre">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/nikita.webp" alt="Un Seul Nom, Nikita Heugebaert 2026" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
+          </div>
+          <figcaption><b>Nikita Heugebaert</b>, 2026 &middot; Louange</figcaption>
+        </figure>
+        <figure class="usn-vue">
+          <div class="usn-vue-cadre">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/ruben.webp" alt="Un Seul Nom, Ruben Debard 2026" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
+          </div>
+          <figcaption><b>Ruben Debard</b>, 2026 &middot; Louange</figcaption>
         </figure>
       </div>
 
@@ -644,47 +847,76 @@
   </div>
 
   <!-- ============================================================= -->
-  <!-- LA CITATION                                                    -->
+  <!-- LES DEUX VISAGES QUI SE RAPPROCHENT                            -->
   <!-- ============================================================= -->
-  <div class="usn-citation">
-    <div class="usn-wrap usn-titre-section">
-      <span class="usn-cle" style="color:rgba(255,255,255,0.6)">Notre histoire</span>
-      <q style="margin-top:26px">Unir, rassembler, et &eacute;lever <em>un seul nom</em> au-dessus de tout.</q>
-      <cite>La vision pos&eacute;e par Chriss Campion</cite>
-      <p class="usn-fondateurs">
-        Au d&eacute;part, une bande de copains port&eacute;s par un m&ecirc;me feu. En 2024,
-        le stade S&eacute;bastien Charl&eacute;ty change tout&nbsp;: le r&ecirc;ve devient une
-        &oelig;uvre. Fondateurs&nbsp;: <b>Chriss Campion, David Salland,
-        James Franchitto, Briman Heugebaert et Alonzo Gueglio.</b>
-      </p>
+  <div class="usn-rencontre" id="usn-rencontre">
+    <div class="usn-wrap">
+      <span class="usn-cle">Le prochain rendez-vous</span>
+      <h2>Avignon &middot; samedi 17 octobre 2026</h2>
+
+      <!--
+        &#9658; LES DEUX VISAGES &#8212; ils arrivent chacun d'un bord et se
+          rejoignent au centre. Remplacez les deux images et les deux
+          l&#233;gendes par les portraits de votre choix.
+      -->
+      <div class="usn-visages">
+        <figure class="usn-visage" data-usn-visage="gauche">
+          <div class="usn-visage-cadre">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/yannis.webp" alt="Yannis Gautier" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
+          </div>
+          <figcaption><b>Yannis Gautier</b>Pr&eacute;dication</figcaption>
+        </figure>
+
+        <div class="usn-entre">
+          <a class="usn-btn usn-btn-rouge" href="https://unseulnom.org/evenement/">Le prochain &eacute;v&eacute;nement</a>
+          <a class="usn-btn usn-btn-bleu" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Soutiens la mission</a>
+        </div>
+
+        <figure class="usn-visage" data-usn-visage="droite">
+          <div class="usn-visage-cadre">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/patchai.webp" alt="Patcha&iuml; Reyes" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
+          </div>
+          <figcaption><b>Patcha&iuml; Reyes</b>Louange</figcaption>
+        </figure>
+      </div>
     </div>
   </div>
 
   <!-- ============================================================= -->
-  <!-- LE PROCHAIN RENDEZ-VOUS                                        -->
+  <!-- LES AFFICHES QUI MONTENT                                       -->
   <!-- ============================================================= -->
-  <!--
-    &#9658; &#192; CHAQUE NOUVEL &#201;V&#201;NEMENT : changez la ville, la date, le lieu,
-      l'adresse des boutons, et data-target du compte &#224; rebours
-      (format 2026-10-17T16:00:00).
-  -->
-  <div class="usn-rdv" id="usn-countdown" data-target="2026-10-17T16:00:00">
+  <div class="usn-affiches">
     <div class="usn-wrap">
-      <span class="usn-cle" style="color:rgba(255,255,255,0.72)">Prochain rendez-vous</span>
-      <h2 class="usn-rdv-ville" style="margin-top:18px">Avignon</h2>
-      <div class="usn-rdv-quand">Samedi 17 octobre 2026 &middot; 16h00</div>
-      <div class="usn-rdv-ou">Parc des expos, 800 chemin des F&eacute;lons, Montfavet &middot; Portes 15h00 &middot; Entr&eacute;e libre sur inscription</div>
+      <span class="usn-cle" data-usn-monte>Les affiches</span>
 
-      <div class="usn-rdv-bas">
-        <div class="usn-chrono">
-          <div><b data-cd="days">0</b><small>Jours</small></div>
-          <div><b data-cd="hours">00</b><small>Heures</small></div>
-          <div><b data-cd="mins">00</b><small>Min</small></div>
-          <div><b data-cd="secs">00</b><small>Sec</small></div>
+      <!--
+        &#9658; Chaque colonne monte &#224; sa propre vitesse : le nombre apr&#232;s
+          data-usn-parallaxe r&#232;gle cette vitesse (1 = normale).
+      -->
+      <div class="usn-colonnes">
+        <div class="usn-colonne" data-usn-parallaxe="1.5">
+          <figure class="usn-affiche">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-1-768x948.jpg" alt="Affiche de Paris 2024" loading="lazy" onerror="this.parentNode.remove()" />
+            <figcaption>Paris &middot; 2024</figcaption>
+          </figure>
         </div>
-        <div style="display:flex;flex-wrap:wrap;gap:12px">
-          <a class="usn-btn usn-btn-clair" href="https://unseulnom.org/evenement/" data-usn-gauche>Je r&eacute;serve ma place</a>
-          <a class="usn-btn usn-btn-ligne" href="https://unseulnom.org/evenement/" data-usn-droite><span>Voir l'&eacute;v&eacute;nement</span></a>
+        <div class="usn-colonne" data-usn-parallaxe="0.5">
+          <figure class="usn-affiche">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-3-768x954.jpg" alt="Affiche de Croissy-Beaubourg 2025" loading="lazy" onerror="this.parentNode.remove()" />
+            <figcaption>Croissy-Beaubourg &middot; 2025</figcaption>
+          </figure>
+        </div>
+        <div class="usn-colonne" data-usn-parallaxe="1.9">
+          <figure class="usn-affiche">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-4-768x945.jpg" alt="Affiche de Wasquehal 2026" loading="lazy" onerror="this.parentNode.remove()" />
+            <figcaption>Wasquehal &middot; 2026</figcaption>
+          </figure>
+        </div>
+        <div class="usn-colonne" data-usn-parallaxe="0.9">
+          <figure class="usn-affiche">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-5-768x950.jpg" alt="Affiche de Perpignan 2026" loading="lazy" onerror="this.parentNode.remove()" />
+            <figcaption>Perpignan &middot; 2026</figcaption>
+          </figure>
         </div>
       </div>
     </div>
@@ -695,15 +927,13 @@
   <!-- ============================================================= -->
   <div class="usn-eglises" id="usn-eglises">
     <div class="usn-wrap">
-      <div class="usn-titre-section">
-        <span class="usn-cle">&Eacute;glises partenaires</span>
-        <h2>Une salle ne se remplit pas toute seule</h2>
-        <p class="usn-intro">
-          Chaque &eacute;v&eacute;nement repose sur les &eacute;glises de la ville. Ce sont elles
-          qui invitent, qui accompagnent, et qui accueillent ensuite ceux qui
-          ont donn&eacute; leur vie &agrave; J&eacute;sus. Voici ce que nous cherchons.
-        </p>
-      </div>
+      <span class="usn-cle" data-usn-monte>&Eacute;glises partenaires</span>
+      <h2 data-usn-monte>Une salle ne se remplit pas toute seule</h2>
+      <p class="usn-intro" data-usn-monte>
+        Chaque &eacute;v&eacute;nement repose sur les &eacute;glises de la ville. Ce sont elles
+        qui invitent, qui accompagnent, et qui accueillent ensuite ceux qui
+        ont donn&eacute; leur vie &agrave; J&eacute;sus.
+      </p>
 
       <div class="usn-besoins">
         <div><b>Relayer</b>L'annonce aupr&egrave;s de vos membres, sur vos r&eacute;seaux et lors de vos cultes.</div>
@@ -713,7 +943,7 @@
 
       <div class="usn-eglises-actions">
         <a class="usn-btn usn-btn-encre" href="mailto:75unseulnomjesus@gmail.com?subject=Notre%20eglise%20souhaite%20participer">Nous &eacute;crire</a>
-        <a class="usn-btn usn-btn-ligne" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer"><span>Soutenir la mission</span></a>
+        <a class="usn-btn usn-btn-cadre" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Soutenir la mission</a>
       </div>
     </div>
   </div>
@@ -762,7 +992,6 @@
     </div>
   </div>
 
-  <!-- Bandeau d&#233;filant de bas de page (m&#234;mes r&#232;gles que celui du haut) -->
   <div class="usn-defile usn-defile-encre" aria-hidden="true">
     <div class="usn-defile-piste">
       <div class="usn-defile-suite">
@@ -785,7 +1014,7 @@
         <div class="usn-logo-mark usn-logo-blanc usn-footer-mark" role="img" aria-label="Un Seul Nom"></div>
         <div class="usn-footer-liens">
           <a href="https://unseulnom.org/evenement/">L'&eacute;v&eacute;nement</a>
-          <a href="#usn-mouvement">Le mouvement</a>
+          <a href="#usn-vision">La vision</a>
           <a href="#usn-eglises">&Eacute;glises</a>
           <a href="#usn-lettre">Newsletter</a>
           <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Faire un don</a>
@@ -803,6 +1032,135 @@
    ne trouve aucun element et s'arrete sans rien faire. */
 (function () {
   function usnInit() {
+
+  /* ---- Le menu du haut ----
+     Le bouton a deux traits ouvre le panneau ; les deux traits se
+     croisent, la page se bloque derriere, et Echap referme. */
+  (function () {
+    var bouton = document.getElementById('usn-bouton-menu');
+    var panneau = document.getElementById('usn-menu');
+    if (!bouton || !panneau) return;
+
+    function basculer(ouvrir) {
+      bouton.setAttribute('aria-expanded', ouvrir ? 'true' : 'false');
+      bouton.setAttribute('aria-label', ouvrir ? 'Fermer le menu' : 'Ouvrir le menu');
+      if (ouvrir) {
+        panneau.hidden = false;
+        // Un temps de rendu avant la classe, sinon la transition est sautee.
+        requestAnimationFrame(function () { panneau.classList.add('est-ouvert'); });
+      } else {
+        panneau.classList.remove('est-ouvert');
+        setTimeout(function () {
+          if (bouton.getAttribute('aria-expanded') === 'false') panneau.hidden = true;
+        }, 340);
+      }
+      document.documentElement.style.overflow = ouvrir ? 'hidden' : '';
+    }
+
+    bouton.addEventListener('click', function () {
+      basculer(bouton.getAttribute('aria-expanded') !== 'true');
+    });
+    // Un lien clique referme le panneau : sinon l'ancre saute derriere lui.
+    panneau.addEventListener('click', function (e) {
+      if (e.target.closest('a')) basculer(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && bouton.getAttribute('aria-expanded') === 'true') basculer(false);
+    });
+  })();
+
+  /* ---- La barre se pose sur un fond quand on quitte le heros ---- */
+  (function () {
+    var nav = document.getElementById('usn-nav');
+    if (!nav) return;
+    function verifier() {
+      nav.classList.toggle('est-posee', (window.pageYOffset || 0) > 40);
+    }
+    window.addEventListener('scroll', verifier, { passive: true });
+    verifier();
+  })();
+
+  /* ---- Le curseur ouvre une fenetre dans la page ----
+     Le logo est pose sur la creme ; par-dessus, les photos de nos
+     evenements, masquees partout sauf dans un disque qui suit la souris.
+     Les photos se relaient tant que le curseur se promene. Sur un ecran
+     tactile il n'y a pas de curseur : le disque derive tout seul, en
+     lent va-et-vient, pour que l'effet existe quand meme. */
+  (function () {
+    var bloc   = document.getElementById('usn-bloc1');
+    var hublot = document.getElementById('usn-hublot');
+    var anneau = document.getElementById('usn-anneau');
+    if (!bloc || !hublot) return;
+
+    var vues = hublot.querySelectorAll('img');
+    var iVue = 0, dernierEchange = 0;
+    var tactile = !(window.matchMedia && window.matchMedia('(hover: hover)').matches);
+
+    var cible = { x: 50, y: 46 }, courant = { x: 50, y: 46 };
+    var actif = false, anime = false, depart = 0;
+
+    function rayon() {
+      // 19vmin, la meme valeur que le CSS, mais en pixels : l'anneau doit
+      // tomber exactement sur le bord du masque.
+      return Math.min(window.innerWidth, window.innerHeight) * 0.19;
+    }
+
+    function allumer(oui) {
+      if (actif === oui) return;
+      actif = oui;
+      hublot.classList.toggle('est-actif', oui);
+      if (anneau) anneau.classList.toggle('est-actif', oui);
+    }
+
+    function boucle(t) {
+      if (tactile) {
+        // Une derive douce, sans repetition trop visible.
+        if (!depart) depart = t;
+        var s = (t - depart) / 1000;
+        cible.x = 50 + Math.sin(s * 0.37) * 26;
+        cible.y = 46 + Math.cos(s * 0.23) * 20;
+      }
+      courant.x += (cible.x - courant.x) * 0.14;
+      courant.y += (cible.y - courant.y) * 0.14;
+      bloc.style.setProperty('--mx', courant.x.toFixed(2) + '%');
+      bloc.style.setProperty('--my', courant.y.toFixed(2) + '%');
+
+      if (anneau) {
+        var r = rayon();
+        anneau.style.setProperty('--usn-rayon', r.toFixed(1) + 'px');
+        anneau.style.transform = 'translate3d('
+          + (courant.x / 100 * bloc.clientWidth - r).toFixed(1) + 'px,'
+          + (courant.y / 100 * bloc.clientHeight - r).toFixed(1) + 'px,0)';
+      }
+
+      // On change de photo au bout d'un moment, pas a chaque mouvement :
+      // sinon les images clignotent des qu'on bouge la souris.
+      if (vues.length > 1 && actif && t - dernierEchange > 1800) {
+        dernierEchange = t;
+        vues[iVue].classList.remove('est-vue');
+        iVue = (iVue + 1) % vues.length;
+        vues[iVue].classList.add('est-vue');
+      }
+
+      var bouge = Math.abs(cible.x - courant.x) > 0.05 || Math.abs(cible.y - courant.y) > 0.05;
+      if (tactile || bouge || actif) { requestAnimationFrame(boucle); } else { anime = false; }
+    }
+
+    function lancer() { if (!anime) { anime = true; requestAnimationFrame(boucle); } }
+
+    if (tactile) { allumer(true); lancer(); return; }
+
+    bloc.addEventListener('mousemove', function (e) {
+      var r = bloc.getBoundingClientRect();
+      if (!r.width) return;
+      cible.x = ((e.clientX - r.left) / r.width) * 100;
+      cible.y = ((e.clientY - r.top) / r.height) * 100;
+      allumer(true);
+      lancer();
+    }, { passive: true });
+
+    bloc.addEventListener('mouseleave', function () { allumer(false); });
+  })();
 
   /* ---- Son de la video ----
      Aucun navigateur ne lance seul une video qui parle : elle demarre
@@ -845,35 +1203,6 @@
       if (!video.muted) { video.volume = 0.8; video.play(); }
       libelle();
     });
-  })();
-
-
-  /* ---- Compte a rebours ---- */
-  (function () {
-    var box = document.getElementById('usn-countdown');
-    if (!box) return;
-    var target = new Date(box.getAttribute('data-target') || '').getTime();
-    if (isNaN(target)) return;
-    var els = {
-      days: box.querySelector('[data-cd="days"]'),
-      hours: box.querySelector('[data-cd="hours"]'),
-      mins: box.querySelector('[data-cd="mins"]'),
-      secs: box.querySelector('[data-cd="secs"]')
-    };
-    function pad(n) { return (n < 10 ? '0' : '') + n; }
-    function tick() {
-      var diff = Math.max(0, target - Date.now());
-      var s = Math.floor(diff / 1000);
-      var d = Math.floor(s / 86400); s -= d * 86400;
-      var h = Math.floor(s / 3600); s -= h * 3600;
-      var m = Math.floor(s / 60); s -= m * 60;
-      if (els.days) els.days.textContent = d;
-      if (els.hours) els.hours.textContent = pad(h);
-      if (els.mins) els.mins.textContent = pad(m);
-      if (els.secs) els.secs.textContent = pad(s);
-    }
-    tick();
-    setInterval(tick, 1000);
   })();
 
 
@@ -930,12 +1259,11 @@
       var els = root.querySelectorAll(sel);
       if (els.length) groups.push({ els: els, o: opts });
     }
-    group('.usn-titre-section', { type: 'rise',  dist: 0.24, stagger: 0.08, span: 0.50 });
-    group('.usn-geant',         { type: 'slide', dist: 0.30, stagger: 0.14, span: 0.58 });
-    group('.usn-vue',           { type: 'rise',  dist: 0.40, stagger: 0.12, span: 0.58 });
+    group('[data-usn-monte]',   { type: 'rise',  dist: 0.28, stagger: 0.10, span: 0.52 });
+    group('.usn-vue',           { type: 'rise',  dist: 0.36, stagger: 0.07, span: 0.54 });
     group('.usn-chiffre',       { type: 'rise',  dist: 0.22, stagger: 0.10, span: 0.46 });
-    group('[data-usn-gauche]',  { type: 'slide',  dist: 0.60, stagger: 0, span: 0.50 });
-    group('[data-usn-droite]',  { type: 'slideR', dist: 0.60, stagger: 0, span: 0.50 });
+    group('[data-usn-gauche]',  { type: 'slide',  dist: 0.55, stagger: 0, span: 0.52 });
+    group('[data-usn-droite]',  { type: 'slideR', dist: 0.55, stagger: 0, span: 0.52 });
 
     var all = [];
     for (var g = 0; g < groups.length; g++) {
@@ -968,7 +1296,7 @@
        l'ecran, puis retourne au noir et blanc en s'en eloignant. */
     var photos = [];
     (function () {
-      var imgs = root.querySelectorAll('.usn-vue img');
+      var imgs = root.querySelectorAll('.usn-vue img, .usn-visage img');
       for (var i = 0; i < imgs.length; i++) photos.push({ el: imgs[i], p: 0 });
     })();
 
@@ -1044,14 +1372,83 @@
     }
     punchApply(0);
 
-    /* ---------- 5. Parallaxe du heros ---------- */
-    var hero = root.querySelector('.usn-hero');
-    var heroInner = root.querySelector('.usn-hero-inner');
+    /* ---------- 5. La scene d'ouverture ----------
+       Le bloc fait deux hauteurs d'ecran et son contenu reste colle en
+       haut : pendant qu'on le traverse, le logo s'efface et l'image
+       derriere prend sa place. */
+    var scene  = root.querySelector('.usn-scene');
+    var couche1 = root.querySelector('.usn-couche-logo');
+    var couche2 = root.querySelector('.usn-couche-image');
+
+    function sceneAppliquer() {
+      if (!scene || !couche1 || !couche2) return;
+      var r = scene.getBoundingClientRect();
+      var course = Math.max(1, r.height - vh());
+      var p = clamp01(-r.top / course);
+
+      // Le logo s'efface sur la premiere moitie, l'image n'arrive qu'apres :
+      // sans ce decalage, les deux "Un Seul Nom" se superposent au milieu du
+      // fondu et plus rien n'est lisible.
+      var sortie = clamp01(p / 0.42);
+      couche1.style.opacity = (1 - sortie).toFixed(3);
+      couche1.style.transform = 'scale(' + (1 - 0.26 * easeOut(sortie)).toFixed(4) + ')';
+
+      var entree = clamp01((p - 0.40) / 0.42);
+      couche2.style.opacity = entree.toFixed(3);
+      couche2.style.transform = 'scale(' + (1.10 - 0.10 * easeOut(entree)).toFixed(4) + ')';
+
+      // Une couche effacee ne doit plus rien capter : sans cela, le bouton
+      // "Reserve ta place" reste cliquable alors qu'on ne le voit plus.
+      couche1.style.pointerEvents = sortie > 0.6 ? 'none' : 'auto';
+      couche2.style.pointerEvents = entree > 0.6 ? 'auto' : 'none';
+    }
+    sceneAppliquer();
+
+    /* ---------- 6. Parallaxes ----------
+       Chaque element marque monte a sa propre vitesse pendant qu'il
+       traverse l'ecran : c'est ce qui donne de la profondeur a la
+       colonne d'affiches. */
+    var paras = root.querySelectorAll('[data-usn-parallaxe]');
+    function parallaxes() {
+      for (var i = 0; i < paras.length; i++) {
+        var el = paras[i], r = el.getBoundingClientRect(), h = vh();
+        var p = clamp01((h - r.top) / (h + r.height));
+        var v = parseFloat(el.getAttribute('data-usn-parallaxe')) || 1;
+        el.style.transform = 'translate3d(0,' + ((0.5 - p) * 150 * v).toFixed(1) + 'px,0)';
+      }
+    }
+    parallaxes();
+
+    /* ---------- 7. Les deux visages qui se rapprochent ---------- */
+    var visages = root.querySelector('.usn-visages');
+    function visagesAppliquer() {
+      if (!visages) return;
+      var r = visages.getBoundingClientRect(), h = vh();
+      // 0 quand le bloc entre par le bas, 1 quand il est au centre
+      var p = clamp01((h - r.top) / (h * 0.85 + r.height * 0.4));
+      var e = easeOut(p), ecart = (1 - e) * Math.min(window.innerWidth * 0.42, 460);
+      var g = visages.querySelector('[data-usn-visage="gauche"]');
+      var d = visages.querySelector('[data-usn-visage="droite"]');
+      if (g) g.style.transform = 'translate3d(' + (-ecart).toFixed(1) + 'px,0,0)';
+      if (d) d.style.transform = 'translate3d(' + ecart.toFixed(1) + 'px,0,0)';
+    }
+    visagesAppliquer();
+
+    var hero = null, heroInner = null;
 
     /* ---------- 6. Boucle de rendu (lissage type ScrollSmoother) ---------- */
     var running = false;
+    var dernierY = -1;
     function frame() {
       var moving = false;
+
+      // Ces trois-la suivent le scroll directement : tant qu'il bouge,
+      // la boucle continue.
+      var y = scrollY();
+      if (y !== dernierY) { dernierY = y; moving = true; }
+      sceneAppliquer();
+      parallaxes();
+      visagesAppliquer();
 
       for (var i = 0; i < all.length; i++) {
         var it = all[i], t = target(it);
