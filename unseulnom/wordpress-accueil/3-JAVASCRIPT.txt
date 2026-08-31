@@ -40,14 +40,31 @@
     });
   })();
 
-  /* ---- La barre se pose sur un fond quand on quitte le heros ---- */
+  /* ---- La barre se pose sur un fond quand on quitte le heros, et
+          s'inverse quand elle passe au-dessus du bloc de nuit ---- */
   (function () {
     var nav = document.getElementById('usn-nav');
     if (!nav) return;
+    var nuit = document.getElementById('usn-message');
+    var nom = nav.querySelector('.usn-nav-nom');
+
     function verifier() {
       nav.classList.toggle('est-posee', (window.pageYOffset || 0) > 40);
+
+      // La barre est sombre tant qu'elle a le bloc de nuit derriere elle.
+      var sombre = false;
+      if (nuit) {
+        var r = nuit.getBoundingClientRect();
+        sombre = r.top <= 72 && r.bottom > 72;
+      }
+      nav.classList.toggle('est-nuit', sombre);
+      if (nom) {
+        nom.classList.toggle('usn-mot-blanc', sombre);
+        nom.classList.toggle('usn-mot-noir', !sombre);
+      }
     }
     window.addEventListener('scroll', verifier, { passive: true });
+    window.addEventListener('resize', verifier);
     verifier();
   })();
 
@@ -389,6 +406,52 @@
     }
     sceneAppliquer();
 
+    /* ---------- 5 bis. Le bloc du message ----------
+       En descendant : la photo se dezoome et s'assombrit, et le logo se
+       trace par-dessus, trait par trait, comme une signature. */
+    var msg      = root.querySelector('.usn-message');
+    var msgImage = root.querySelector('#usn-msg-photo img');
+    var msgSigne = document.getElementById('usn-signature');
+    var traces   = msgSigne ? msgSigne.querySelectorAll('path') : [];
+
+    // Chaque trait a sa propre longueur : on la mesure une fois, et on
+    // s'en sert comme d'un pointille que l'on decale jusqu'a le remplir.
+    for (var t = 0; t < traces.length; t++) {
+      var lg = 0;
+      try { lg = traces[t].getTotalLength(); } catch (e) { lg = 0; }
+      traces[t].__lg = lg;
+      if (lg) {
+        traces[t].style.strokeDasharray = lg;
+        traces[t].style.strokeDashoffset = lg;
+      }
+    }
+
+    function messageAppliquer() {
+      if (!msg) return;
+      var r = msg.getBoundingClientRect();
+      var course = Math.max(1, r.height - vh());
+      var p = clamp01(-r.top / course);
+
+      if (msgImage) {
+        // Elle arrive large et claire, elle finit serree et sombre.
+        var e = easeOut(clamp01(p / 0.72));
+        msgImage.style.transform = 'scale(' + (1.24 - 0.24 * e).toFixed(4) + ')';
+        msgImage.style.filter = 'brightness(' + (0.94 - 0.70 * e).toFixed(3)
+                              + ') saturate(' + (1 - 0.55 * e).toFixed(3) + ')';
+      }
+
+      // Le trace commence une fois la photo bien entamee, et chaque trait
+      // part un peu apres le precedent : c'est ce decalage qui donne
+      // l'impression d'une main qui ecrit.
+      for (var i = 0; i < traces.length; i++) {
+        var tr = traces[i];
+        if (!tr.__lg) continue;
+        var q = clamp01((p - 0.16 - i * 0.042) / 0.40);
+        tr.style.strokeDashoffset = (tr.__lg * (1 - q)).toFixed(1);
+      }
+    }
+    messageAppliquer();
+
     /* ---------- 6. Parallaxes ----------
        Chaque element marque monte a sa propre vitesse pendant qu'il
        traverse l'ecran : c'est ce qui donne de la profondeur a la
@@ -432,6 +495,7 @@
       var y = scrollY();
       if (y !== dernierY) { dernierY = y; moving = true; }
       sceneAppliquer();
+      messageAppliquer();
       parallaxes();
       visagesAppliquer();
 

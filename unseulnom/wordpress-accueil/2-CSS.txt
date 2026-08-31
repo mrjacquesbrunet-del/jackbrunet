@@ -8,7 +8,7 @@
      Tout est scope sous #usn-accueil : les trois pages du site
      cohabitent sans se marcher dessus.
      =================================================================== */
-  @import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Poppins:wght@400;500;600;700;800;900&display=swap');
 
   #usn-accueil {
     --usn-blue: #1B2FC4;
@@ -30,8 +30,13 @@
     --usn-ink: #111110;
     --usn-gris: #5C5B54;
     --usn-trait: #D8D4C8;
+    /* Le bloc du message se joue sur un fond de nuit, un noir tire
+       vers le violet plutot qu'un gris neutre. */
+    --usn-nuit: #15111C;
+    --usn-nuit-2: #221B2E;
 
     --usn-display: 'Archivo', 'Poppins', system-ui, -apple-system, "Segoe UI", sans-serif;
+    --usn-serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
     --usn-sub: 'Inter', system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
 
     box-sizing: border-box;
@@ -176,6 +181,19 @@
     font-family: var(--usn-sub); font-size: 13px; color: var(--usn-gris);
   }
   #usn-accueil .usn-menu-pied a { color: var(--usn-gris); text-decoration: underline; text-underline-offset: 3px; }
+
+  /* Au-dessus du bloc de nuit, la barre s'inverse : sinon le nom noir
+     se perd sur le fond sombre. */
+  #usn-accueil .usn-nav.est-nuit {
+    background: rgba(21,17,28,0.72); border-bottom-color: rgba(255,255,255,0.10);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    #usn-accueil .usn-nav.est-nuit { background: var(--usn-nuit); }
+  }
+  #usn-accueil .usn-nav.est-nuit .usn-nav-menu { border-color: rgba(240,238,231,0.5); }
+  #usn-accueil .usn-nav.est-nuit .usn-nav-menu i { background: var(--usn-ivoire); }
+  #usn-accueil .usn-nav.est-nuit .usn-nav-menu:hover { background: var(--usn-ivoire); }
+  #usn-accueil .usn-nav.est-nuit .usn-nav-menu:hover i { background: var(--usn-nuit); }
 
   @media (max-width: 430px) {
     #usn-accueil .usn-nav-soutien { height: 40px; padding: 0 16px; font-size: 10.5px; letter-spacing: 0.12em; }
@@ -536,6 +554,122 @@
   #usn-accueil .usn-defile i { color: var(--usn-red); font-style: normal; font-size: 20px; }
   @keyframes usn-glisse { from { transform: translate3d(0,0,0); } to { transform: translate3d(-50%,0,0); } }
   @media (prefers-reduced-motion: reduce) { #usn-accueil .usn-defile-piste { animation: none; } }
+
+  /* ===================================================================
+     LE MESSAGE
+
+     Un bloc de nuit, apres la creme du haut. Deux punchlines traversent
+     l'ecran en sens contraire ; entre elles, une photo qui s'assombrit et
+     se dezoome a mesure qu'on descend ; par-dessus, le logo qui se trace
+     comme une signature.
+
+     Le bloc fait deux hauteurs d'ecran et son contenu reste colle en
+     haut : c'est le defilement qui joue la scene.
+     =================================================================== */
+  #usn-accueil .usn-message { position: relative; height: 220svh; background: var(--usn-nuit); }
+  #usn-accueil .usn-message-fixe {
+    position: sticky; top: 0; height: 100svh; overflow: hidden;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+
+  /* --- la matiere de la nuit : meme principe qu'en haut, mais en clair
+         sur fond sombre --- */
+  #usn-accueil .usn-msg-fond { position: absolute; inset: 0; pointer-events: none; }
+  #usn-accueil .usn-msg-fond i { position: absolute; inset: 0; display: block; }
+  #usn-accueil .usn-msg-lueur {
+    background:
+      radial-gradient(60vmax 50vmax at 18% 12%, rgba(228,38,43,0.16), transparent 70%),
+      radial-gradient(58vmax 52vmax at 84% 88%, rgba(27,47,196,0.20), transparent 70%);
+  }
+  #usn-accueil .usn-msg-grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+    background-size: 200px 200px; opacity: 0.14; mix-blend-mode: screen;
+  }
+  #usn-accueil .usn-msg-filets {
+    background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.045) 0 1px, transparent 1px 100%);
+    background-size: 12.5% 100%;
+  }
+
+  /* --- l'en-tete : la marque, puis l'intitule --- */
+  #usn-accueil .usn-msg-haut {
+    /* Sous la barre du haut, sinon elle passe dessus. */
+    position: absolute; top: clamp(96px, 11vh, 112px); left: 50%; transform: translateX(-50%);
+    z-index: 4; text-align: center;
+  }
+  #usn-accueil .usn-msg-haut .usn-logo-mark { width: clamp(30px, 3.4vw, 42px); margin: 0 auto 10px; }
+  #usn-accueil .usn-msg-haut span {
+    display: block; font-size: 10.5px; font-weight: 800; letter-spacing: 0.26em;
+    text-transform: uppercase; color: rgba(240,238,231,0.62);
+  }
+
+  /* --- les deux punchlines, tirees en sens contraire --- */
+  #usn-accueil .usn-punch { position: absolute; inset: 0; z-index: 1; display: grid; align-content: center; gap: clamp(2px, 0.6vh, 10px); }
+  #usn-accueil .usn-punch-ligne { overflow: hidden; user-select: none; }
+  #usn-accueil .usn-punch-piste { display: flex; width: max-content; }
+  #usn-accueil .usn-punch-piste > span { padding-right: clamp(28px, 5vw, 80px); white-space: nowrap; }
+
+  #usn-accueil .usn-punch-1 .usn-punch-piste { animation: usn-tire-gauche 30s linear infinite; }
+  #usn-accueil .usn-punch-2 .usn-punch-piste { animation: usn-tire-droite 34s linear infinite; }
+  /* La suite est ecrite deux fois : on la deplace d'exactement une
+     moitie, donc la boucle se referme sans saut. */
+  @keyframes usn-tire-gauche { to { transform: translate3d(-50%, 0, 0); } }
+  @keyframes usn-tire-droite { from { transform: translate3d(-50%, 0, 0); } }
+  @media (prefers-reduced-motion: reduce) {
+    #usn-accueil .usn-punch-piste { animation: none !important; }
+  }
+
+  /* La premiere ligne, a empattements, en italique, dans le degrade. */
+  #usn-accueil .usn-punch-1 span {
+    font-family: var(--usn-serif); font-style: italic; font-weight: 400;
+    font-size: clamp(46px, 11vw, 168px); line-height: 1.02; letter-spacing: -0.01em;
+    background-image: var(--usn-degrade);
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+  }
+  /* La seconde, en batons, creme, en capitales. */
+  #usn-accueil .usn-punch-2 span {
+    font-family: var(--usn-display); font-weight: 900; text-transform: uppercase;
+    font-size: clamp(34px, 8vw, 122px); line-height: 1.02; letter-spacing: -0.035em;
+    color: var(--usn-ivoire);
+  }
+
+  /* --- la photo, au centre, entre les deux lignes --- */
+  #usn-accueil .usn-msg-scene {
+    position: relative; z-index: 2;
+    width: min(46vw, 560px); aspect-ratio: 5 / 4;
+  }
+  #usn-accueil .usn-msg-photo {
+    position: absolute; inset: 0; overflow: hidden;
+    background: #0B0810;
+  }
+  #usn-accueil .usn-msg-photo img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    will-change: transform, filter;
+  }
+  /* Un voile qui reste, meme au plus clair : la photo ne doit jamais
+     redevenir un aplat lumineux au milieu de la nuit. */
+  #usn-accueil .usn-msg-photo::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(21,17,28,0.30), rgba(21,17,28,0.62));
+  }
+
+  /* --- la signature : le logo trace au fil du defilement --- */
+  #usn-accueil .usn-signature {
+    position: absolute; z-index: 3; top: 50%; left: 50%;
+    width: min(60vw, 660px); aspect-ratio: 760 / 570;
+    transform: translate(-50%, -50%) rotate(-4deg);
+    overflow: visible; pointer-events: none;
+  }
+  #usn-accueil .usn-signature path {
+    fill: none; stroke: url(#usn-sig-degrade);
+    stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  @media (max-width: 720px) {
+    #usn-accueil .usn-msg-scene { width: 74vw; }
+    #usn-accueil .usn-signature { width: 88vw; }
+  }
 
   /* ===================================================================
      LA VISION, EN SIX LIGNES

@@ -247,7 +247,15 @@ def extraire_section(source, nom_source):
     if not m:
         raise SystemExit("aucune <section id=\"usn-...\"> dans %s" % nom_source)
     fin = source.index("</section>", m.start()) + len("</section>")
-    return source[m.start():fin]
+    section = source[m.start():fin]
+    # La decoupe s'arrete a la PREMIERE fermeture : une <section> imbriquee
+    # couperait donc la page en deux, sans rien signaler. On refuse plutot
+    # que de produire un fichier tronque. Utilisez <div> a l'interieur.
+    if re.search(r"<section\b", section[m.end() - m.start():]):
+        raise SystemExit(
+            "%s : une <section> imbriquee coupe la page. Remplacez-la par "
+            "un <div>." % nom_source)
+    return section
 
 
 def verifier(css):

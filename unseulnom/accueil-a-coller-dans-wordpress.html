@@ -9,7 +9,7 @@
      Tout est scope sous #usn-accueil : les trois pages du site
      cohabitent sans se marcher dessus.
      =================================================================== */
-  @import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Poppins:wght@400;500;600;700;800;900&display=swap');
 
   #usn-accueil {
     --usn-blue: #1B2FC4;
@@ -31,8 +31,13 @@
     --usn-ink: #111110;
     --usn-gris: #5C5B54;
     --usn-trait: #D8D4C8;
+    /* Le bloc du message se joue sur un fond de nuit, un noir tire
+       vers le violet plutot qu'un gris neutre. */
+    --usn-nuit: #15111C;
+    --usn-nuit-2: #221B2E;
 
     --usn-display: 'Archivo', 'Poppins', system-ui, -apple-system, "Segoe UI", sans-serif;
+    --usn-serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
     --usn-sub: 'Inter', system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
 
     box-sizing: border-box;
@@ -177,6 +182,19 @@
     font-family: var(--usn-sub); font-size: 13px; color: var(--usn-gris);
   }
   #usn-accueil .usn-menu-pied a { color: var(--usn-gris); text-decoration: underline; text-underline-offset: 3px; }
+
+  /* Au-dessus du bloc de nuit, la barre s'inverse : sinon le nom noir
+     se perd sur le fond sombre. */
+  #usn-accueil .usn-nav.est-nuit {
+    background: rgba(21,17,28,0.72); border-bottom-color: rgba(255,255,255,0.10);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    #usn-accueil .usn-nav.est-nuit { background: var(--usn-nuit); }
+  }
+  #usn-accueil .usn-nav.est-nuit .usn-nav-menu { border-color: rgba(240,238,231,0.5); }
+  #usn-accueil .usn-nav.est-nuit .usn-nav-menu i { background: var(--usn-ivoire); }
+  #usn-accueil .usn-nav.est-nuit .usn-nav-menu:hover { background: var(--usn-ivoire); }
+  #usn-accueil .usn-nav.est-nuit .usn-nav-menu:hover i { background: var(--usn-nuit); }
 
   @media (max-width: 430px) {
     #usn-accueil .usn-nav-soutien { height: 40px; padding: 0 16px; font-size: 10.5px; letter-spacing: 0.12em; }
@@ -537,6 +555,122 @@
   #usn-accueil .usn-defile i { color: var(--usn-red); font-style: normal; font-size: 20px; }
   @keyframes usn-glisse { from { transform: translate3d(0,0,0); } to { transform: translate3d(-50%,0,0); } }
   @media (prefers-reduced-motion: reduce) { #usn-accueil .usn-defile-piste { animation: none; } }
+
+  /* ===================================================================
+     LE MESSAGE
+
+     Un bloc de nuit, apres la creme du haut. Deux punchlines traversent
+     l'ecran en sens contraire ; entre elles, une photo qui s'assombrit et
+     se dezoome a mesure qu'on descend ; par-dessus, le logo qui se trace
+     comme une signature.
+
+     Le bloc fait deux hauteurs d'ecran et son contenu reste colle en
+     haut : c'est le defilement qui joue la scene.
+     =================================================================== */
+  #usn-accueil .usn-message { position: relative; height: 220svh; background: var(--usn-nuit); }
+  #usn-accueil .usn-message-fixe {
+    position: sticky; top: 0; height: 100svh; overflow: hidden;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+
+  /* --- la matiere de la nuit : meme principe qu'en haut, mais en clair
+         sur fond sombre --- */
+  #usn-accueil .usn-msg-fond { position: absolute; inset: 0; pointer-events: none; }
+  #usn-accueil .usn-msg-fond i { position: absolute; inset: 0; display: block; }
+  #usn-accueil .usn-msg-lueur {
+    background:
+      radial-gradient(60vmax 50vmax at 18% 12%, rgba(228,38,43,0.16), transparent 70%),
+      radial-gradient(58vmax 52vmax at 84% 88%, rgba(27,47,196,0.20), transparent 70%);
+  }
+  #usn-accueil .usn-msg-grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+    background-size: 200px 200px; opacity: 0.14; mix-blend-mode: screen;
+  }
+  #usn-accueil .usn-msg-filets {
+    background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.045) 0 1px, transparent 1px 100%);
+    background-size: 12.5% 100%;
+  }
+
+  /* --- l'en-tete : la marque, puis l'intitule --- */
+  #usn-accueil .usn-msg-haut {
+    /* Sous la barre du haut, sinon elle passe dessus. */
+    position: absolute; top: clamp(96px, 11vh, 112px); left: 50%; transform: translateX(-50%);
+    z-index: 4; text-align: center;
+  }
+  #usn-accueil .usn-msg-haut .usn-logo-mark { width: clamp(30px, 3.4vw, 42px); margin: 0 auto 10px; }
+  #usn-accueil .usn-msg-haut span {
+    display: block; font-size: 10.5px; font-weight: 800; letter-spacing: 0.26em;
+    text-transform: uppercase; color: rgba(240,238,231,0.62);
+  }
+
+  /* --- les deux punchlines, tirees en sens contraire --- */
+  #usn-accueil .usn-punch { position: absolute; inset: 0; z-index: 1; display: grid; align-content: center; gap: clamp(2px, 0.6vh, 10px); }
+  #usn-accueil .usn-punch-ligne { overflow: hidden; user-select: none; }
+  #usn-accueil .usn-punch-piste { display: flex; width: max-content; }
+  #usn-accueil .usn-punch-piste > span { padding-right: clamp(28px, 5vw, 80px); white-space: nowrap; }
+
+  #usn-accueil .usn-punch-1 .usn-punch-piste { animation: usn-tire-gauche 30s linear infinite; }
+  #usn-accueil .usn-punch-2 .usn-punch-piste { animation: usn-tire-droite 34s linear infinite; }
+  /* La suite est ecrite deux fois : on la deplace d'exactement une
+     moitie, donc la boucle se referme sans saut. */
+  @keyframes usn-tire-gauche { to { transform: translate3d(-50%, 0, 0); } }
+  @keyframes usn-tire-droite { from { transform: translate3d(-50%, 0, 0); } }
+  @media (prefers-reduced-motion: reduce) {
+    #usn-accueil .usn-punch-piste { animation: none !important; }
+  }
+
+  /* La premiere ligne, a empattements, en italique, dans le degrade. */
+  #usn-accueil .usn-punch-1 span {
+    font-family: var(--usn-serif); font-style: italic; font-weight: 400;
+    font-size: clamp(46px, 11vw, 168px); line-height: 1.02; letter-spacing: -0.01em;
+    background-image: var(--usn-degrade);
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+  }
+  /* La seconde, en batons, creme, en capitales. */
+  #usn-accueil .usn-punch-2 span {
+    font-family: var(--usn-display); font-weight: 900; text-transform: uppercase;
+    font-size: clamp(34px, 8vw, 122px); line-height: 1.02; letter-spacing: -0.035em;
+    color: var(--usn-ivoire);
+  }
+
+  /* --- la photo, au centre, entre les deux lignes --- */
+  #usn-accueil .usn-msg-scene {
+    position: relative; z-index: 2;
+    width: min(46vw, 560px); aspect-ratio: 5 / 4;
+  }
+  #usn-accueil .usn-msg-photo {
+    position: absolute; inset: 0; overflow: hidden;
+    background: #0B0810;
+  }
+  #usn-accueil .usn-msg-photo img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    will-change: transform, filter;
+  }
+  /* Un voile qui reste, meme au plus clair : la photo ne doit jamais
+     redevenir un aplat lumineux au milieu de la nuit. */
+  #usn-accueil .usn-msg-photo::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(21,17,28,0.30), rgba(21,17,28,0.62));
+  }
+
+  /* --- la signature : le logo trace au fil du defilement --- */
+  #usn-accueil .usn-signature {
+    position: absolute; z-index: 3; top: 50%; left: 50%;
+    width: min(60vw, 660px); aspect-ratio: 760 / 570;
+    transform: translate(-50%, -50%) rotate(-4deg);
+    overflow: visible; pointer-events: none;
+  }
+  #usn-accueil .usn-signature path {
+    fill: none; stroke: url(#usn-sig-degrade);
+    stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  @media (max-width: 720px) {
+    #usn-accueil .usn-msg-scene { width: 74vw; }
+    #usn-accueil .usn-signature { width: 88vw; }
+  }
 
   /* ===================================================================
      LA VISION, EN SIX LIGNES
@@ -910,19 +1044,73 @@
     </div>
   </header>
 
-  <!--
-    &#9658; BANDEAU D&#201;FILANT &#8212; la liste est r&#233;p&#233;t&#233;e deux fois pour que la boucle
-      se referme sans saut. Modifiez les DEUX listes, sinon le ruban saccade.
-  -->
-  <div class="usn-defile usn-defile-bleu" aria-hidden="true">
-    <div class="usn-defile-piste">
-      <div class="usn-defile-suite">
-        <b>&Eacute;vang&eacute;lisation</b> <i>&#10022;</i> <b>Gu&eacute;rison</b> <i>&#10022;</i>
-        <b>Unit&eacute;</b> <i>&#10022;</i> <b>Entr&eacute;e libre</b> <i>&#10022;</i>
+  <!-- ============================================================= -->
+  <!-- LE MESSAGE                                                     -->
+  <!-- Fond de nuit, deux punchlines en sens contraire, la photo qui   -->
+  <!-- s'assombrit, et le logo qui se trace comme une signature.       -->
+  <!-- ============================================================= -->
+  <div class="usn-message" id="usn-message">
+    <div class="usn-message-fixe">
+
+      <div class="usn-msg-fond" aria-hidden="true">
+        <i class="usn-msg-lueur"></i>
+        <i class="usn-msg-grain"></i>
+        <i class="usn-msg-filets"></i>
       </div>
-      <div class="usn-defile-suite">
-        <b>&Eacute;vang&eacute;lisation</b> <i>&#10022;</i> <b>Gu&eacute;rison</b> <i>&#10022;</i>
-        <b>Unit&eacute;</b> <i>&#10022;</i> <b>Entr&eacute;e libre</b> <i>&#10022;</i>
+
+      <div class="usn-msg-haut">
+        <div class="usn-logo-mark usn-logo-blanc" role="img" aria-label="Un Seul Nom"></div>
+        <span>Le message d'Un Seul Nom</span>
+      </div>
+
+      <!--
+        &#9658; LES DEUX PUNCHLINES. Chaque phrase est ecrite DEUX fois :
+          la piste se decale d'exactement une moitie, donc la boucle se
+          referme sans saut. Modifiez les deux copies, sinon ca saccade.
+      -->
+      <div class="usn-punch" aria-hidden="true">
+        <div class="usn-punch-ligne usn-punch-1">
+          <div class="usn-punch-piste">
+            <span>Une ville ne se gagne pas seul</span><span>Une ville ne se gagne pas seul</span><span>Une ville ne se gagne pas seul</span><span>Une ville ne se gagne pas seul</span>
+          </div>
+        </div>
+        <div class="usn-punch-ligne usn-punch-2">
+          <div class="usn-punch-piste">
+            <span>Un seul corps &middot; une seule voix &middot; un seul nom</span><span>Un seul corps &middot; une seule voix &middot; un seul nom</span><span>Un seul corps &middot; une seule voix &middot; un seul nom</span><span>Un seul corps &middot; une seule voix &middot; un seul nom</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="usn-msg-scene">
+        <!-- &#9658; LA PHOTO DU MESSAGE. Changez l'adresse pour en mettre
+             une autre : le cadre et l'animation ne bougent pas. -->
+        <div class="usn-msg-photo" id="usn-msg-photo">
+          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme3.webp" alt="Un rassemblement Un Seul Nom" loading="lazy" />
+        </div>
+
+        <!-- Le logo trace au fil du defilement, comme une signature. -->
+        <svg class="usn-signature" id="usn-signature" viewBox="220 315 760 570" aria-hidden="true">
+          <defs>
+            <linearGradient id="usn-sig-degrade" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0.15" stop-color="#F7C948" />
+              <stop offset="0.36" stop-color="#F0562A" />
+              <stop offset="0.58" stop-color="#C9268F" />
+              <stop offset="0.78" stop-color="#6B2FB5" />
+              <stop offset="1" stop-color="#5A6BF0" />
+            </linearGradient>
+          </defs>
+          <g transform="translate(0,1200) scale(0.1,-0.1)">
+          <path d='M2576 8818 c-19 -27 -24 -1716 -5 -1797 81 -353 761 -380 900 -35 l24 59 3 860 c3 886 3 893 -24 919 -22 22 -320 24 -350 2 -19 -14 -19 -36 -22 -865 l-2 -852 -25 -11 c-17 -8 -40 -8 -73 -2 l-47 9 -5 853 c-5 830 -6 854 -24 868 -37 27 -331 20 -350 -8z' />
+          <path d='M3667 8822 c-29 -32 -26 -2003 3 -2032 21 -21 267 -31 297 -12 29 18 33 70 33 443 0 223 4 379 9 379 12 0 34 -60 61 -165 11 -44 27 -98 34 -120 7 -22 21 -69 31 -105 9 -36 32 -114 50 -175 18 -60 40 -138 50 -173 26 -89 33 -92 196 -92 197 0 173 -135 177 999 3 978 2 1030 -24 1056 -17 16 -267 22 -291 7 -29 -18 -33 -70 -33 -428 0 -390 -4 -417 -43 -298 -21 62 -81 274 -147 514 -48 174 -57 198 -81 210 -36 20 -304 12 -322 -8z' />
+          <path d='M6416 8824 c-332 -72 -495 -329 -597 -944 -94 -566 -171 -716 -388 -751 -86 -13 -91 -24 -91 -185 0 -184 15 -195 209 -163 333 54 513 336 621 974 11 61 24 139 30 175 56 332 175 528 335 555 116 20 125 33 125 186 0 97 -10 147 -33 161 -19 12 -136 8 -211 -8z' />
+          <path d='M6834 8826 c-19 -14 -19 -38 -22 -988 -3 -997 -2 -1026 24 -1053 23 -23 719 -23 752 1 23 16 35 288 14 322 -15 23 -77 32 -229 32 -189 0 -173 -25 -173 269 0 277 -8 261 124 261 128 0 126 -2 126 178 0 180 -1 182 -123 182 -131 0 -127 -8 -127 224 0 136 3 195 12 204 8 8 60 12 168 12 178 0 194 3 209 36 18 40 15 285 -5 312 l-15 22 -358 0 c-293 0 -361 -3 -377 -14z' />
+          <path d='M7716 8821 c-15 -17 -16 -87 -14 -912 l3 -894 36 -65 c159 -291 711 -280 860 17 l34 68 0 888 c0 868 0 889 -19 903 -35 25 -330 20 -356 -6 -20 -20 -20 -33 -20 -865 l0 -845 -27 -11 c-18 -7 -44 -8 -73 -2 l-45 8 -5 853 c-5 830 -6 854 -24 868 -33 24 -327 20 -350 -5z' />
+          <path d='M8806 8818 c-28 -40 -24 -2000 4 -2028 30 -30 687 -31 713 -2 23 25 25 297 3 328 -13 17 -31 20 -177 24 l-163 5 -7 25 c-4 14 -7 390 -8 837 -1 792 -1 813 -20 823 -43 22 -328 13 -345 -12z' />
+          <path d='M5582 6660 c-606 -92 -1090 -445 -1352 -985 -121 -249 -172 -474 -172 -760 -1 -976 779 -1755 1758 -1755 253 0 350 16 592 97 684 229 1171 918 1171 1658 2 1058 -964 1901 -1997 1745z' />
+          <path d='M2240 6627 c-13 -7 -27 -23 -31 -37 -15 -54 -10 -3298 5 -3334 21 -50 51 -56 280 -56 199 0 236 6 268 42 2 2 5 321 8 711 3 462 8 707 15 706 13 0 51 -116 131 -404 18 -66 54 -192 80 -280 25 -88 66 -230 90 -315 146 -514 100 -460 401 -460 227 0 259 6 283 49 7 13 10 561 10 1681 l0 1661 -25 24 -24 25 -226 0 -226 0 -24 -25 -25 -24 -1 -688 c-1 -803 -3 -819 -63 -598 -22 83 -101 358 -161 565 -66 226 -82 285 -100 360 -8 30 -19 69 -25 85 -6 17 -27 86 -45 155 -49 181 -28 170 -328 170 -173 0 -249 -4 -267 -13z' />
+          <path d='M7875 6615 l-25 -24 0 -1655 c0 -1029 4 -1664 10 -1680 20 -53 48 -57 320 -54 247 3 249 3 274 27 l26 24 0 352 c0 516 2 519 105 190 32 -99 74 -233 95 -297 21 -64 46 -144 56 -177 37 -133 140 -153 177 -33 8 26 31 99 51 162 19 63 58 189 86 280 80 260 84 272 95 273 6 1 12 -130 15 -368 5 -390 6 -397 51 -420 42 -22 497 -22 539 0 52 27 50 -45 50 1715 l0 1661 -25 24 -24 25 -278 0 c-308 0 -312 -1 -332 -63 -11 -37 -30 -130 -71 -352 -16 -88 -38 -205 -49 -260 -17 -86 -61 -314 -141 -735 -47 -248 -54 -244 -115 60 -14 69 -32 163 -41 210 -8 47 -22 112 -29 145 -8 33 -23 110 -35 170 -11 61 -34 175 -50 255 -17 80 -44 215 -60 300 -57 297 -19 270 -372 270 l-279 0 -24 -25z' />
+          </g>
+        </svg>
       </div>
     </div>
   </div>
@@ -1274,14 +1462,31 @@
     });
   })();
 
-  /* ---- La barre se pose sur un fond quand on quitte le heros ---- */
+  /* ---- La barre se pose sur un fond quand on quitte le heros, et
+          s'inverse quand elle passe au-dessus du bloc de nuit ---- */
   (function () {
     var nav = document.getElementById('usn-nav');
     if (!nav) return;
+    var nuit = document.getElementById('usn-message');
+    var nom = nav.querySelector('.usn-nav-nom');
+
     function verifier() {
       nav.classList.toggle('est-posee', (window.pageYOffset || 0) > 40);
+
+      // La barre est sombre tant qu'elle a le bloc de nuit derriere elle.
+      var sombre = false;
+      if (nuit) {
+        var r = nuit.getBoundingClientRect();
+        sombre = r.top <= 72 && r.bottom > 72;
+      }
+      nav.classList.toggle('est-nuit', sombre);
+      if (nom) {
+        nom.classList.toggle('usn-mot-blanc', sombre);
+        nom.classList.toggle('usn-mot-noir', !sombre);
+      }
     }
     window.addEventListener('scroll', verifier, { passive: true });
+    window.addEventListener('resize', verifier);
     verifier();
   })();
 
@@ -1623,6 +1828,52 @@
     }
     sceneAppliquer();
 
+    /* ---------- 5 bis. Le bloc du message ----------
+       En descendant : la photo se dezoome et s'assombrit, et le logo se
+       trace par-dessus, trait par trait, comme une signature. */
+    var msg      = root.querySelector('.usn-message');
+    var msgImage = root.querySelector('#usn-msg-photo img');
+    var msgSigne = document.getElementById('usn-signature');
+    var traces   = msgSigne ? msgSigne.querySelectorAll('path') : [];
+
+    // Chaque trait a sa propre longueur : on la mesure une fois, et on
+    // s'en sert comme d'un pointille que l'on decale jusqu'a le remplir.
+    for (var t = 0; t < traces.length; t++) {
+      var lg = 0;
+      try { lg = traces[t].getTotalLength(); } catch (e) { lg = 0; }
+      traces[t].__lg = lg;
+      if (lg) {
+        traces[t].style.strokeDasharray = lg;
+        traces[t].style.strokeDashoffset = lg;
+      }
+    }
+
+    function messageAppliquer() {
+      if (!msg) return;
+      var r = msg.getBoundingClientRect();
+      var course = Math.max(1, r.height - vh());
+      var p = clamp01(-r.top / course);
+
+      if (msgImage) {
+        // Elle arrive large et claire, elle finit serree et sombre.
+        var e = easeOut(clamp01(p / 0.72));
+        msgImage.style.transform = 'scale(' + (1.24 - 0.24 * e).toFixed(4) + ')';
+        msgImage.style.filter = 'brightness(' + (0.94 - 0.70 * e).toFixed(3)
+                              + ') saturate(' + (1 - 0.55 * e).toFixed(3) + ')';
+      }
+
+      // Le trace commence une fois la photo bien entamee, et chaque trait
+      // part un peu apres le precedent : c'est ce decalage qui donne
+      // l'impression d'une main qui ecrit.
+      for (var i = 0; i < traces.length; i++) {
+        var tr = traces[i];
+        if (!tr.__lg) continue;
+        var q = clamp01((p - 0.16 - i * 0.042) / 0.40);
+        tr.style.strokeDashoffset = (tr.__lg * (1 - q)).toFixed(1);
+      }
+    }
+    messageAppliquer();
+
     /* ---------- 6. Parallaxes ----------
        Chaque element marque monte a sa propre vitesse pendant qu'il
        traverse l'ecran : c'est ce qui donne de la profondeur a la
@@ -1666,6 +1917,7 @@
       var y = scrollY();
       if (y !== dernierY) { dernierY = y; moving = true; }
       sceneAppliquer();
+      messageAppliquer();
       parallaxes();
       visagesAppliquer();
 
