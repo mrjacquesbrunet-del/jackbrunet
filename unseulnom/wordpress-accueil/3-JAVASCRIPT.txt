@@ -144,7 +144,19 @@
 
     function lancer() { if (!anime) { anime = true; requestAnimationFrame(boucle); } }
 
+    // Au doigt, un geste vertical veut dire "fais defiler la page", pas
+    // "ouvre la fenetre". On ne suit donc le doigt que s'il part de cote :
+    // sans cela, chaque defilement declenchait le repeint d'une photo
+    // plein ecran et la page devenait poussive.
+    var ancre = null;
+
     function suivre(e) {
+      if (e.pointerType === 'touch') {
+        if (!ancre) return;
+        var dx = Math.abs(e.clientX - ancre.x), dy = Math.abs(e.clientY - ancre.y);
+        if (dy > dx) return;
+        if (dx < 8) return;
+      }
       var r = bloc.getBoundingClientRect();
       if (!r.width) return;
       cible.x = ((e.clientX - r.left) / r.width) * 100;
@@ -155,13 +167,19 @@
 
     // Passif : le doigt continue de faire defiler la page normalement.
     bloc.addEventListener('pointermove', suivre, { passive: true });
-    bloc.addEventListener('pointerdown', suivre, { passive: true });
+    bloc.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'touch') { ancre = { x: e.clientX, y: e.clientY }; return; }
+      suivre(e);
+    }, { passive: true });
     bloc.addEventListener('pointerleave', function () { allumer(false); });
     // Au telephone, le doigt quitte l'ecran : on laisse la fenetre
     // ouverte un instant plutot que de l'effacer d'un coup.
-    bloc.addEventListener('pointerup', function () {
+    function relacher() {
+      ancre = null;
       setTimeout(function () { allumer(false); }, 1400);
-    });
+    }
+    bloc.addEventListener('pointerup', relacher, { passive: true });
+    bloc.addEventListener('pointercancel', relacher, { passive: true });
   })();
 
   /* ---- Son de la video ----

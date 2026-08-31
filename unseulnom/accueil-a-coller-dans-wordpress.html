@@ -298,7 +298,6 @@
     fill: var(--usn-gris); opacity: 0.62;
   }
   @media (prefers-reduced-motion: reduce) { #usn-accueil .usn-couronne { animation: none; } }
-  @media (max-width: 720px) { #usn-accueil .usn-couronne { display: none; } }
 
   /* Le filet vertical, le long du bord droit : une mention en tout petit,
      tournee, et un trait qui descend. Il occupe une bande restee vide et
@@ -501,7 +500,11 @@
   /* Sur un ecran etroit, le logo remonte pour laisser la carte respirer,
      et l'invitation a defiler disparait : elle se disputait la place. */
   @media (max-width: 720px) {
-    #usn-accueil .usn-marque { top: 40%; width: 74vw; }
+    /* Le logo se retire pour que la couronne tienne dans la largeur :
+       la couronne deborde de 17%, il faut donc lui laisser cette marge
+       de chaque cote. */
+    #usn-accueil .usn-marque { top: 41%; width: 60vw; }
+    #usn-accueil .usn-couronne text { font-size: 8.6px; letter-spacing: 0.01em; }
     #usn-accueil .usn-scene-invite { display: none; }
     #usn-accueil .usn-prochain { width: calc(100% - 32px); }
   }
@@ -555,6 +558,29 @@
   #usn-accueil .usn-defile i { color: var(--usn-red); font-style: normal; font-size: 20px; }
   @keyframes usn-glisse { from { transform: translate3d(0,0,0); } to { transform: translate3d(-50%,0,0); } }
   @media (prefers-reduced-motion: reduce) { #usn-accueil .usn-defile-piste { animation: none; } }
+
+  /* --- ALLEGEMENT DES PETITS ECRANS ---
+
+     Le premier bloc empilait, sur toute la surface de l'ecran : quatre
+     photos masquees, une cinquieme sous le doigt, deux lavis flous de
+     110 px, un grain fixe en fusion, une trame. Un telephone repeignait
+     tout cela a chaque image et le defilement s'en ressentait.
+
+     On garde l'effet, on enleve ce qui coute cher sans se voir. */
+  @media (max-width: 720px) {
+    /* Un grain fixe en mode fusion oblige le navigateur a recomposer
+       toute la page a chaque pixel defile. Le bloc a deja sa matiere. */
+    #usn-accueil .usn-grain { display: none; }
+    #usn-accueil .usn-matiere { mix-blend-mode: normal; opacity: 0.1; }
+    /* Un flou de 110 px sur une forme de 78vmax est le poste le plus
+       lourd de la page. Le degrade est deja doux par lui-meme. */
+    #usn-accueil .usn-lavis { filter: blur(38px); }
+    /* Deux balayages au lieu de quatre : le rythme reste, la charge
+       tombe de moitie. */
+    #usn-accueil .usn-b3, #usn-accueil .usn-b4 { display: none; }
+    #usn-accueil .usn-b1 { animation-duration: 7s; animation-delay: 0s; }
+    #usn-accueil .usn-b2 { animation-duration: 7s; animation-delay: 3.5s; }
+  }
 
   /* ===================================================================
      LE MESSAGE
@@ -1566,7 +1592,19 @@
 
     function lancer() { if (!anime) { anime = true; requestAnimationFrame(boucle); } }
 
+    // Au doigt, un geste vertical veut dire "fais defiler la page", pas
+    // "ouvre la fenetre". On ne suit donc le doigt que s'il part de cote :
+    // sans cela, chaque defilement declenchait le repeint d'une photo
+    // plein ecran et la page devenait poussive.
+    var ancre = null;
+
     function suivre(e) {
+      if (e.pointerType === 'touch') {
+        if (!ancre) return;
+        var dx = Math.abs(e.clientX - ancre.x), dy = Math.abs(e.clientY - ancre.y);
+        if (dy > dx) return;
+        if (dx < 8) return;
+      }
       var r = bloc.getBoundingClientRect();
       if (!r.width) return;
       cible.x = ((e.clientX - r.left) / r.width) * 100;
@@ -1577,13 +1615,19 @@
 
     // Passif : le doigt continue de faire defiler la page normalement.
     bloc.addEventListener('pointermove', suivre, { passive: true });
-    bloc.addEventListener('pointerdown', suivre, { passive: true });
+    bloc.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'touch') { ancre = { x: e.clientX, y: e.clientY }; return; }
+      suivre(e);
+    }, { passive: true });
     bloc.addEventListener('pointerleave', function () { allumer(false); });
     // Au telephone, le doigt quitte l'ecran : on laisse la fenetre
     // ouverte un instant plutot que de l'effacer d'un coup.
-    bloc.addEventListener('pointerup', function () {
+    function relacher() {
+      ancre = null;
       setTimeout(function () { allumer(false); }, 1400);
-    });
+    }
+    bloc.addEventListener('pointerup', relacher, { passive: true });
+    bloc.addEventListener('pointercancel', relacher, { passive: true });
   })();
 
   /* ---- Son de la video ----
