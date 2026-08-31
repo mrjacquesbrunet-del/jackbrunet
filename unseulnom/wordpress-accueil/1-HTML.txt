@@ -66,16 +66,12 @@
       <div class="usn-couche usn-couche-logo" id="usn-bloc1">
 
         <div class="usn-texture" aria-hidden="true">
-          <i class="usn-tache usn-t1"></i>
-          <i class="usn-tache usn-t2"></i>
-          <i class="usn-tache usn-t3"></i>
-          <i class="usn-trame usn-tr1"></i>
-          <i class="usn-trame usn-tr2"></i>
-          <i class="usn-trame usn-tr3"></i>
+          <i class="usn-lavis usn-l1"></i>
+          <i class="usn-lavis usn-l2"></i>
         </div>
 
         <div class="usn-marque">
-          <div class="usn-logo-teinte" role="img" aria-label="Un Seul Nom"></div>
+          <div class="usn-logo-badge" role="img" aria-label="Un Seul Nom"></div>
         </div>
 
         <!--
