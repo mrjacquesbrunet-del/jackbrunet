@@ -75,25 +75,27 @@
         </div>
 
         <div class="usn-marque">
-          <div class="usn-logo-mark usn-logo-noir" role="img" aria-label="Un Seul Nom"></div>
+          <div class="usn-logo-teinte" role="img" aria-label="Un Seul Nom"></div>
         </div>
 
         <!--
-          &#9658; LES PHOTOS QUI SE R&#201;V&#200;LENT TOUTES SEULES.
-            Une photo par fen&#234;tre. Pour en changer, remplacez simplement
-            l'adresse de l'image : la forme et le trajet ne bougent pas.
+          &#9658; LES PHOTOS D&#201;COUVERTES PAR LE BALAYAGE.
+            Ajoutez-en autant que vous voulez : &#224; chaque passage de la
+            lame, c'est la suivante qui appara&#238;t.
         -->
-        <div class="usn-vitre usn-vitre-1" aria-hidden="true"><img src="https://unseulnom.org/wp-content/uploads/2026/07/programme1.webp" alt="" /></div>
-        <div class="usn-vitre usn-vitre-2" aria-hidden="true"><img src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="" /></div>
-        <div class="usn-vitre usn-vitre-3" aria-hidden="true"><img src="https://unseulnom.org/wp-content/uploads/2026/07/programme3.webp" alt="" /></div>
-        <div class="usn-vitre usn-vitre-4" aria-hidden="true"><img src="https://unseulnom.org/wp-content/uploads/2026/07/programme4.webp" alt="" /></div>
-
-        <!-- la fen&#234;tre suppl&#233;mentaire, ouverte par la souris -->
-        <div class="usn-hublot" id="usn-hublot" aria-hidden="true">
-          <img class="est-vue" src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="" />
-          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme4.webp" alt="" />
-          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme1.webp" alt="" />
+        <div class="usn-balai" id="usn-balai" aria-hidden="true">
+          <img class="est-vue" src="https://unseulnom.org/wp-content/uploads/2026/07/programme1.webp" alt="" />
+          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="" />
           <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme3.webp" alt="" />
+          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme4.webp" alt="" />
+        </div>
+
+        <!-- la fen&#234;tre qui suit le doigt ou la souris -->
+        <div class="usn-hublot" id="usn-hublot" aria-hidden="true">
+          <img class="est-vue" src="https://unseulnom.org/wp-content/uploads/2026/07/programme1.webp" alt="" />
+          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="" />
+          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme3.webp" alt="" />
+          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme4.webp" alt="" />
         </div>
         <div class="usn-anneau" id="usn-anneau" aria-hidden="true"></div>
 

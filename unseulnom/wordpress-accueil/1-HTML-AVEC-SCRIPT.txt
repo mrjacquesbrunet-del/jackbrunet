@@ -75,25 +75,27 @@
         </div>
 
         <div class="usn-marque">
-          <div class="usn-logo-mark usn-logo-noir" role="img" aria-label="Un Seul Nom"></div>
+          <div class="usn-logo-teinte" role="img" aria-label="Un Seul Nom"></div>
         </div>
 
         <!--
-          &#9658; LES PHOTOS QUI SE R&#201;V&#200;LENT TOUTES SEULES.
-            Une photo par fen&#234;tre. Pour en changer, remplacez simplement
-            l'adresse de l'image : la forme et le trajet ne bougent pas.
+          &#9658; LES PHOTOS D&#201;COUVERTES PAR LE BALAYAGE.
+            Ajoutez-en autant que vous voulez : &#224; chaque passage de la
+            lame, c'est la suivante qui appara&#238;t.
         -->
-        <div class="usn-vitre usn-vitre-1" aria-hidden="true"><img src="https://unseulnom.org/wp-content/uploads/2026/07/programme1.webp" alt="" /></div>
-        <div class="usn-vitre usn-vitre-2" aria-hidden="true"><img src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="" /></div>
-        <div class="usn-vitre usn-vitre-3" aria-hidden="true"><img src="https://unseulnom.org/wp-content/uploads/2026/07/programme3.webp" alt="" /></div>
-        <div class="usn-vitre usn-vitre-4" aria-hidden="true"><img src="https://unseulnom.org/wp-content/uploads/2026/07/programme4.webp" alt="" /></div>
-
-        <!-- la fen&#234;tre suppl&#233;mentaire, ouverte par la souris -->
-        <div class="usn-hublot" id="usn-hublot" aria-hidden="true">
-          <img class="est-vue" src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="" />
-          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme4.webp" alt="" />
-          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme1.webp" alt="" />
+        <div class="usn-balai" id="usn-balai" aria-hidden="true">
+          <img class="est-vue" src="https://unseulnom.org/wp-content/uploads/2026/07/programme1.webp" alt="" />
+          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="" />
           <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme3.webp" alt="" />
+          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme4.webp" alt="" />
+        </div>
+
+        <!-- la fen&#234;tre qui suit le doigt ou la souris -->
+        <div class="usn-hublot" id="usn-hublot" aria-hidden="true">
+          <img class="est-vue" src="https://unseulnom.org/wp-content/uploads/2026/07/programme1.webp" alt="" />
+          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="" />
+          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme3.webp" alt="" />
+          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme4.webp" alt="" />
         </div>
         <div class="usn-anneau" id="usn-anneau" aria-hidden="true"></div>
 
@@ -492,18 +494,31 @@
     verifier();
   })();
 
-  /* ---- La fenetre supplementaire, ouverte par la souris ----
-     Les quatre fenetres qui traversent l'ecran sont entierement en CSS et
-     tournent sans rien demander a personne. Celle-ci vient en plus, sur
-     les ecrans qui ont un curseur : elle le suit avec un leger retard, et
-     ses photos se relaient. Sur un ecran tactile, ce script s'arrete
-     immediatement. */
+  /* ---- La photo change a chaque passage de la lame ----
+     Le balayage est entierement en CSS ; ce script se contente de faire
+     tourner les photos, une par passage. */
+  (function () {
+    var balai = document.getElementById('usn-balai');
+    if (!balai) return;
+    var vues = balai.querySelectorAll('img');
+    if (vues.length < 2) return;
+    var i = 0;
+    balai.addEventListener('animationiteration', function () {
+      vues[i].classList.remove('est-vue');
+      i = (i + 1) % vues.length;
+      vues[i].classList.add('est-vue');
+    });
+  })();
+
+  /* ---- La fenetre qui suit le doigt ou la souris ----
+     Une fois la lame passee, c'est au visiteur de decouvrir le reste de
+     la photo. On ecoute "pointermove" : le meme code sert donc a la
+     souris, au doigt et au stylet. */
   (function () {
     var bloc   = document.getElementById('usn-bloc1');
     var hublot = document.getElementById('usn-hublot');
     var anneau = document.getElementById('usn-anneau');
     if (!bloc || !hublot) return;
-    if (!window.matchMedia || !window.matchMedia('(hover: hover)').matches) return;
 
     var vues = hublot.querySelectorAll('img');
     var iVue = 0, dernierEchange = 0;
@@ -552,16 +567,24 @@
 
     function lancer() { if (!anime) { anime = true; requestAnimationFrame(boucle); } }
 
-    bloc.addEventListener('mousemove', function (e) {
+    function suivre(e) {
       var r = bloc.getBoundingClientRect();
       if (!r.width) return;
       cible.x = ((e.clientX - r.left) / r.width) * 100;
       cible.y = ((e.clientY - r.top) / r.height) * 100;
       allumer(true);
       lancer();
-    }, { passive: true });
+    }
 
-    bloc.addEventListener('mouseleave', function () { allumer(false); });
+    // Passif : le doigt continue de faire defiler la page normalement.
+    bloc.addEventListener('pointermove', suivre, { passive: true });
+    bloc.addEventListener('pointerdown', suivre, { passive: true });
+    bloc.addEventListener('pointerleave', function () { allumer(false); });
+    // Au telephone, le doigt quitte l'ecran : on laisse la fenetre
+    // ouverte un instant plutot que de l'effacer d'un coup.
+    bloc.addEventListener('pointerup', function () {
+      setTimeout(function () { allumer(false); }, 1400);
+    });
   })();
 
   /* ---- Son de la video ----
