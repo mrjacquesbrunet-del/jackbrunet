@@ -6,7 +6,7 @@
   <!-- BARRE DE NAVIGATION                                            -->
   <!-- ============================================================= -->
   <nav class="usn-nav" id="usn-nav">
-    <a class="usn-nav-nom" href="#usn-haut"><b>Un seul</b><b>Nom</b></a>
+    <a class="usn-nav-nom usn-logo-mot usn-mot-noir" href="#usn-haut" aria-label="Un Seul Nom"></a>
     <div class="usn-nav-actions">
       <a class="usn-nav-soutien" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Soutien</a>
       <button type="button" class="usn-nav-menu" id="usn-bouton-menu" aria-expanded="false" aria-controls="usn-menu" aria-label="Ouvrir le menu">
@@ -66,7 +66,12 @@
       <div class="usn-couche usn-couche-logo" id="usn-bloc1">
 
         <div class="usn-texture" aria-hidden="true">
-          <i></i><i></i><i></i>
+          <i class="usn-tache usn-t1"></i>
+          <i class="usn-tache usn-t2"></i>
+          <i class="usn-tache usn-t3"></i>
+          <i class="usn-trame usn-tr1"></i>
+          <i class="usn-trame usn-tr2"></i>
+          <i class="usn-trame usn-tr3"></i>
         </div>
 
         <div class="usn-marque">
@@ -74,15 +79,21 @@
         </div>
 
         <!--
-          &#9658; LES PHOTOS R&#201;V&#201;L&#201;ES PAR LE CURSEUR.
-            Ajoutez-en autant que vous voulez : le script les fait d&#233;filer
-            l'une apr&#232;s l'autre pendant que la souris se prom&#232;ne.
+          &#9658; LES PHOTOS QUI SE R&#201;V&#200;LENT TOUTES SEULES.
+            Une photo par fen&#234;tre. Pour en changer, remplacez simplement
+            l'adresse de l'image : la forme et le trajet ne bougent pas.
         -->
+        <div class="usn-vitre usn-vitre-1" aria-hidden="true"><img src="https://unseulnom.org/wp-content/uploads/2026/07/programme1.webp" alt="" /></div>
+        <div class="usn-vitre usn-vitre-2" aria-hidden="true"><img src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="" /></div>
+        <div class="usn-vitre usn-vitre-3" aria-hidden="true"><img src="https://unseulnom.org/wp-content/uploads/2026/07/programme3.webp" alt="" /></div>
+        <div class="usn-vitre usn-vitre-4" aria-hidden="true"><img src="https://unseulnom.org/wp-content/uploads/2026/07/programme4.webp" alt="" /></div>
+
+        <!-- la fen&#234;tre suppl&#233;mentaire, ouverte par la souris -->
         <div class="usn-hublot" id="usn-hublot" aria-hidden="true">
-          <img class="est-vue" src="https://unseulnom.org/wp-content/uploads/2026/07/programme1.webp" alt="" />
-          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="" />
-          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme3.webp" alt="" />
+          <img class="est-vue" src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="" />
           <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme4.webp" alt="" />
+          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme1.webp" alt="" />
+          <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme3.webp" alt="" />
         </div>
         <div class="usn-anneau" id="usn-anneau" aria-hidden="true"></div>
 

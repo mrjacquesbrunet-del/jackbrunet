@@ -51,29 +51,28 @@
     verifier();
   })();
 
-  /* ---- Le curseur ouvre une fenetre dans la page ----
-     Le logo est pose sur la creme ; par-dessus, les photos de nos
-     evenements, masquees partout sauf dans un disque qui suit la souris.
-     Les photos se relaient tant que le curseur se promene. Sur un ecran
-     tactile il n'y a pas de curseur : le disque derive tout seul, en
-     lent va-et-vient, pour que l'effet existe quand meme. */
+  /* ---- La fenetre supplementaire, ouverte par la souris ----
+     Les quatre fenetres qui traversent l'ecran sont entierement en CSS et
+     tournent sans rien demander a personne. Celle-ci vient en plus, sur
+     les ecrans qui ont un curseur : elle le suit avec un leger retard, et
+     ses photos se relaient. Sur un ecran tactile, ce script s'arrete
+     immediatement. */
   (function () {
     var bloc   = document.getElementById('usn-bloc1');
     var hublot = document.getElementById('usn-hublot');
     var anneau = document.getElementById('usn-anneau');
     if (!bloc || !hublot) return;
+    if (!window.matchMedia || !window.matchMedia('(hover: hover)').matches) return;
 
     var vues = hublot.querySelectorAll('img');
     var iVue = 0, dernierEchange = 0;
-    var tactile = !(window.matchMedia && window.matchMedia('(hover: hover)').matches);
-
     var cible = { x: 50, y: 46 }, courant = { x: 50, y: 46 };
-    var actif = false, anime = false, depart = 0;
+    var actif = false, anime = false;
 
     function rayon() {
-      // 19vmin, la meme valeur que le CSS, mais en pixels : l'anneau doit
+      // 17vmin, la meme valeur que le CSS, mais en pixels : l'anneau doit
       // tomber exactement sur le bord du masque.
-      return Math.min(window.innerWidth, window.innerHeight) * 0.19;
+      return Math.min(window.innerWidth, window.innerHeight) * 0.17;
     }
 
     function allumer(oui) {
@@ -84,13 +83,6 @@
     }
 
     function boucle(t) {
-      if (tactile) {
-        // Une derive douce, sans repetition trop visible.
-        if (!depart) depart = t;
-        var s = (t - depart) / 1000;
-        cible.x = 50 + Math.sin(s * 0.37) * 26;
-        cible.y = 46 + Math.cos(s * 0.23) * 20;
-      }
       courant.x += (cible.x - courant.x) * 0.14;
       courant.y += (cible.y - courant.y) * 0.14;
       bloc.style.setProperty('--mx', courant.x.toFixed(2) + '%');
@@ -114,12 +106,10 @@
       }
 
       var bouge = Math.abs(cible.x - courant.x) > 0.05 || Math.abs(cible.y - courant.y) > 0.05;
-      if (tactile || bouge || actif) { requestAnimationFrame(boucle); } else { anime = false; }
+      if (bouge || actif) { requestAnimationFrame(boucle); } else { anime = false; }
     }
 
     function lancer() { if (!anime) { anime = true; requestAnimationFrame(boucle); } }
-
-    if (tactile) { allumer(true); lancer(); return; }
 
     bloc.addEventListener('mousemove', function (e) {
       var r = bloc.getBoundingClientRect();
