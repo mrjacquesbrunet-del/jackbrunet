@@ -1,6 +1,7 @@
 "use client";
 
 import { getSupabase } from "./supabase";
+import { isSoakingPlaying, startSoaking, stopSoaking } from "./soaking";
 
 /**
  * Notes vocales (mur de prière + groupes) : enregistrement micro via
@@ -51,9 +52,22 @@ function pickMimeType(): string {
   return "";
 }
 
-/** Démarre l'enregistrement. Lève une erreur si le micro est refusé. */
+/** Démarre l'enregistrement. Lève une erreur si le micro est refusé.
+ *
+ * La musique de fond (soaking) est mise en PAUSE pendant l'enregistrement :
+ * sur iOS, capturer le micro pendant qu'un contexte audio joue rend
+ * l'enregistrement muet — et le micro capterait la musique de toute façon.
+ * Elle reprend automatiquement dès que l'enregistrement se termine. */
 export async function startRecording(): Promise<VoiceRecording> {
-  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  const musicWasOn = isSoakingPlaying();
+  if (musicWasOn) stopSoaking();
+  let stream: MediaStream;
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  } catch (e) {
+    if (musicWasOn) startSoaking();
+    throw e;
+  }
   const mime = pickMimeType();
   const rec = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined);
   const chunks: BlobPart[] = [];
@@ -68,6 +82,8 @@ export async function startRecording(): Promise<VoiceRecording> {
     } catch {
       /* ignore */
     }
+    // La musique reprend là où on l'avait interrompue.
+    if (musicWasOn) startSoaking();
   };
 
   return {
