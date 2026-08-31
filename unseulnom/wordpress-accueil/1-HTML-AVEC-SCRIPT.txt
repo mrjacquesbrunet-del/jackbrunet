@@ -37,30 +37,6 @@
   <header class="usn-scene" id="usn-haut">
     <div class="usn-scene-fixe">
 
-      <!-- couche du dessous : l'image, r&#233;v&#233;l&#233;e en descendant -->
-      <div class="usn-couche usn-couche-image">
-        <!--
-          &#9658; VID&#201;O DE FOND &#8212; le teaser du prochain &#233;v&#233;nement.
-          Pour la changer, remplacez l'adresse dans la ligne <source>.
-        -->
-        <video class="usn-hero-video" autoplay muted loop playsinline poster="">
-          <source src="https://unseulnom.org/wp-content/uploads/2026/08/teaser-web.mp4" type="video/mp4" />
-          <source src="https://unseulnom.org/wp-content/uploads/2026/08/Teaser-1.mp4" type="video/mp4" />
-        </video>
-        <div class="usn-voile"></div>
-        <div>
-          <h1>Un Seul Nom</h1>
-          <p class="usn-sous">&Eacute;vang&eacute;lisation &amp; gu&eacute;rison, de ville en ville. Depuis 2024.</p>
-        </div>
-
-        <!-- Le bouton du son appartient a l'image : il doit disparaitre
-             avec elle, et non flotter sur la creme du premier bloc. -->
-        <button type="button" class="usn-son" id="usn-son" aria-pressed="false">
-          <span class="usn-son-icone" aria-hidden="true">&#9834;</span>
-          <span class="usn-son-texte">Activer le son</span>
-        </button>
-      </div>
-
       <!-- couche du dessus : le fond creme, le logo, et les photos que
            le curseur decouvre en passant dessus -->
       <div class="usn-couche usn-couche-logo" id="usn-bloc1">
@@ -154,6 +130,26 @@
   </header>
 
   <!-- ============================================================= -->
+  <!-- LA PHRASE                                                      -->
+  <!-- Les mots s'allument un par un au defilement.                    -->
+  <!-- &#9658; POUR CHANGER LA PHRASE : un <b> par mot, sans exception. -->
+  <!--   Deux classes au choix pour mettre un mot en avant :           -->
+  <!--   usn-mot-fort (rouge) et usn-mot-bleu (bleu).                  -->
+  <!-- ============================================================= -->
+  <div class="usn-phrase" id="usn-vision">
+    <div class="usn-phrase-fixe">
+      <div class="usn-phrase-fond" aria-hidden="true">
+        <i class="usn-ph-lueur"></i>
+        <i class="usn-ph-filets"></i>
+      </div>
+      <div class="usn-phrase-texte">
+        <span class="usn-phrase-titre">La vision</span>
+        <p id="usn-phrase-mots"><b>Nous</b> <b>croyons</b> <b>qu'une</b> <b>ville</b> <b>ne</b> <b>se</b> <b>gagne</b> <b>pas</b> <b>seule.</b> <b>Des</b> <b class="usn-mot-bleu">&eacute;glises</b> <b>diff&eacute;rentes,</b> <b>un</b> <b>m&ecirc;me</b> <b class="usn-mot-fort">&Eacute;vangile,</b> <b>et</b> <b>des</b> <b>c&oelig;urs</b> <b>qui</b> <b>s'ouvrent.</b></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
   <!-- LA FRISE                                                       -->
   <!-- Les photos des editions passees arrivent de la droite pendant   -->
   <!-- qu'on descend. Pour ajouter une ville : une <figure> de plus,   -->
@@ -165,6 +161,7 @@
       <div class="usn-frise-fond" aria-hidden="true">
         <i class="usn-fr-lueur"></i>
         <i class="usn-fr-grain"></i>
+        <i class="usn-fr-filets"></i>
       </div>
 
       <div class="usn-frise-titre">Ce que nous avons v&eacute;cu</div>
@@ -238,23 +235,6 @@
       </div>
 
       <div class="usn-frise-jauge" aria-hidden="true"><b id="usn-frise-part"></b></div>
-    </div>
-  </div>
-
-  <!-- ============================================================= -->
-  <!-- LA VISION, EN SIX LIGNES                                       -->
-  <!-- ============================================================= -->
-  <div class="usn-vision" id="usn-vision">
-    <div class="usn-wrap">
-      <span class="usn-cle" data-usn-monte>La vision</span>
-      <div class="usn-vision-lignes">
-        <p data-usn-monte>Nous rassemblons des <em>&eacute;glises</em> et des minist&egrave;res diff&eacute;rents.</p>
-        <p data-usn-monte>Nous allons de ville en ville annoncer <strong>J&eacute;sus-Christ</strong>.</p>
-        <p data-usn-monte>Dans des salles ouvertes &agrave; tous, gratuitement.</p>
-        <p data-usn-monte>Nous croyons que l'<em>unit&eacute;</em> du corps de Christ ouvre les c&oelig;urs,</p>
-        <p data-usn-monte>que la <strong>gu&eacute;rison</strong> suit l'annonce de l'&Eacute;vangile,</p>
-        <p data-usn-monte>et qu'une ville confi&eacute;e &agrave; Dieu peut changer.</p>
-      </div>
     </div>
   </div>
 
@@ -588,51 +568,15 @@
     });
   })();
 
-  /* ---- La barre se pose sur un fond quand on quitte le heros, et
-          s'inverse quand elle passe au-dessus du bloc de nuit ---- */
+  /* ---- La barre se pose sur un fond quand on quitte le heros ---- */
   (function () {
     var nav = document.getElementById('usn-nav');
     if (!nav) return;
-    var nuit = document.getElementById('usn-frise');
-    var nom = nav.querySelector('.usn-nav-nom');
-
     function verifier() {
       nav.classList.toggle('est-posee', (window.pageYOffset || 0) > 40);
-
-      // La barre est sombre tant qu'elle a le bloc de nuit derriere elle.
-      var sombre = false;
-      if (nuit) {
-        var r = nuit.getBoundingClientRect();
-        sombre = r.top <= 72 && r.bottom > 72;
-      }
-      nav.classList.toggle('est-nuit', sombre);
-      if (nom) {
-        nom.classList.toggle('usn-mot-blanc', sombre);
-        nom.classList.toggle('usn-mot-noir', !sombre);
-      }
     }
     window.addEventListener('scroll', verifier, { passive: true });
-    window.addEventListener('resize', verifier);
     verifier();
-  })();
-
-  /* ---- La photo change a chaque passage de la lame ----
-     Les balayages sont entierement en CSS ; ce script se contente de
-     faire tourner les photos, une par passage. */
-  (function () {
-    var lames = document.querySelectorAll('#usn-accueil .usn-balai');
-    for (var n = 0; n < lames.length; n++) {
-      (function (lame) {
-        var vues = lame.querySelectorAll('img');
-        if (vues.length < 2) return;
-        var i = 0;
-        lame.addEventListener('animationiteration', function () {
-          vues[i].classList.remove('est-vue');
-          i = (i + 1) % vues.length;
-          vues[i].classList.add('est-vue');
-        });
-      })(lames[n]);
-    }
   })();
 
   /* ---- La fenetre qui suit le doigt ou la souris ----
@@ -729,50 +673,6 @@
     bloc.addEventListener('pointerup', relacher, { passive: true });
     bloc.addEventListener('pointercancel', relacher, { passive: true });
   })();
-
-  /* ---- Son de la video ----
-     Aucun navigateur ne lance seul une video qui parle : elle demarre
-     donc muette, et ce bouton rend la main au visiteur. S'il n'y a pas
-     de piste audio dans le fichier, le bouton se retire de lui-meme
-     plutot que de promettre un son qui n'existe pas. */
-  (function () {
-    var video  = document.querySelector('#usn-accueil .usn-hero-video');
-    var bouton = document.getElementById('usn-son');
-    if (!video || !bouton) return;
-
-    function aDuSon() {
-      // Chaque navigateur renseigne un indicateur different ; aucun n'est
-      // disponible partout, d'ou les trois essais successifs.
-      if (typeof video.mozHasAudio === 'boolean') return video.mozHasAudio;
-      if (video.webkitAudioDecodedByteCount !== undefined) {
-        return video.webkitAudioDecodedByteCount > 0;
-      }
-      if (video.audioTracks) return video.audioTracks.length > 0;
-      return true;   // dans le doute, on laisse le bouton
-    }
-
-    function verifier() {
-      if (!aDuSon()) bouton.remove();
-    }
-    if (video.readyState >= 2) { verifier(); }
-    video.addEventListener('loadeddata', verifier);
-
-    function libelle() {
-      var texte = bouton.querySelector('.usn-son-texte');
-      var icone = bouton.querySelector('.usn-son-icone');
-      if (texte) texte.textContent = video.muted ? 'Activer le son' : 'Couper le son';
-      if (icone) icone.innerHTML = video.muted ? '&#9834;' : '&#9835;';
-      bouton.setAttribute('aria-pressed', video.muted ? 'false' : 'true');
-    }
-    libelle();
-
-    bouton.addEventListener('click', function () {
-      video.muted = !video.muted;
-      if (!video.muted) { video.volume = 0.8; video.play(); }
-      libelle();
-    });
-  })();
-
 
   /* =================================================================
      MOTEUR D'ANIMATION AU SCROLL
@@ -940,37 +840,28 @@
     }
     punchApply(0);
 
-    /* ---------- 5. La scene d'ouverture ----------
-       Le bloc fait deux hauteurs d'ecran et son contenu reste colle en
-       haut : pendant qu'on le traverse, le logo s'efface et l'image
-       derriere prend sa place. */
-    var scene  = root.querySelector('.usn-scene');
-    var couche1 = root.querySelector('.usn-couche-logo');
-    var couche2 = root.querySelector('.usn-couche-image');
+    /* ---------- 5. La phrase ----------
+       Les mots s'allument l'un apres l'autre. On ne parcourt pas toute la
+       hauteur du bloc : la phrase est entierement lue aux trois quarts,
+       ce qui laisse un temps de lecture avant de repartir. */
+    var phrase = root.querySelector('.usn-phrase');
+    var motsPh = phrase ? phrase.querySelectorAll('#usn-phrase-mots b') : [];
 
-    function sceneAppliquer() {
-      if (!scene || !couche1 || !couche2) return;
-      var r = scene.getBoundingClientRect();
-      var course = Math.max(1, r.height - vh());
-      var p = clamp01(-r.top / course);
-
-      // Le logo s'efface sur la premiere moitie, l'image n'arrive qu'apres :
-      // sans ce decalage, les deux "Un Seul Nom" se superposent au milieu du
-      // fondu et plus rien n'est lisible.
-      var sortie = clamp01(p / 0.42);
-      couche1.style.opacity = (1 - sortie).toFixed(3);
-      couche1.style.transform = 'scale(' + (1 - 0.26 * easeOut(sortie)).toFixed(4) + ')';
-
-      var entree = clamp01((p - 0.40) / 0.42);
-      couche2.style.opacity = entree.toFixed(3);
-      couche2.style.transform = 'scale(' + (1.10 - 0.10 * easeOut(entree)).toFixed(4) + ')';
-
-      // Une couche effacee ne doit plus rien capter : sans cela, le bouton
-      // "Reserve ta place" reste cliquable alors qu'on ne le voit plus.
-      couche1.style.pointerEvents = sortie > 0.6 ? 'none' : 'auto';
-      couche2.style.pointerEvents = entree > 0.6 ? 'auto' : 'none';
+    function phraseAppliquer() {
+      if (!phrase || !motsPh.length) return;
+      var r = phrase.getBoundingClientRect();
+      var c = Math.max(1, r.height - vh());
+      var p = clamp01(clamp01(-r.top / c) / 0.75);
+      var jusqua = p * motsPh.length;
+      for (var i = 0; i < motsPh.length; i++) {
+        var dit = i < jusqua;
+        if (motsPh[i].__dit !== dit) {
+          motsPh[i].__dit = dit;
+          motsPh[i].classList.toggle('est-dit', dit);
+        }
+      }
     }
-    sceneAppliquer();
+    phraseAppliquer();
 
     /* ---------- 5 bis. La frise ----------
        Le defilement vertical tire la bande vers la gauche. La hauteur du
@@ -1067,7 +958,7 @@
       // la boucle continue.
       var y = scrollY();
       if (y !== dernierY) { dernierY = y; moving = true; }
-      sceneAppliquer();
+      phraseAppliquer();
       friseAppliquer();
       parallaxes();
       visagesAppliquer();

@@ -37,30 +37,6 @@
   <header class="usn-scene" id="usn-haut">
     <div class="usn-scene-fixe">
 
-      <!-- couche du dessous : l'image, r&#233;v&#233;l&#233;e en descendant -->
-      <div class="usn-couche usn-couche-image">
-        <!--
-          &#9658; VID&#201;O DE FOND &#8212; le teaser du prochain &#233;v&#233;nement.
-          Pour la changer, remplacez l'adresse dans la ligne <source>.
-        -->
-        <video class="usn-hero-video" autoplay muted loop playsinline poster="">
-          <source src="https://unseulnom.org/wp-content/uploads/2026/08/teaser-web.mp4" type="video/mp4" />
-          <source src="https://unseulnom.org/wp-content/uploads/2026/08/Teaser-1.mp4" type="video/mp4" />
-        </video>
-        <div class="usn-voile"></div>
-        <div>
-          <h1>Un Seul Nom</h1>
-          <p class="usn-sous">&Eacute;vang&eacute;lisation &amp; gu&eacute;rison, de ville en ville. Depuis 2024.</p>
-        </div>
-
-        <!-- Le bouton du son appartient a l'image : il doit disparaitre
-             avec elle, et non flotter sur la creme du premier bloc. -->
-        <button type="button" class="usn-son" id="usn-son" aria-pressed="false">
-          <span class="usn-son-icone" aria-hidden="true">&#9834;</span>
-          <span class="usn-son-texte">Activer le son</span>
-        </button>
-      </div>
-
       <!-- couche du dessus : le fond creme, le logo, et les photos que
            le curseur decouvre en passant dessus -->
       <div class="usn-couche usn-couche-logo" id="usn-bloc1">
@@ -154,6 +130,26 @@
   </header>
 
   <!-- ============================================================= -->
+  <!-- LA PHRASE                                                      -->
+  <!-- Les mots s'allument un par un au defilement.                    -->
+  <!-- &#9658; POUR CHANGER LA PHRASE : un <b> par mot, sans exception. -->
+  <!--   Deux classes au choix pour mettre un mot en avant :           -->
+  <!--   usn-mot-fort (rouge) et usn-mot-bleu (bleu).                  -->
+  <!-- ============================================================= -->
+  <div class="usn-phrase" id="usn-vision">
+    <div class="usn-phrase-fixe">
+      <div class="usn-phrase-fond" aria-hidden="true">
+        <i class="usn-ph-lueur"></i>
+        <i class="usn-ph-filets"></i>
+      </div>
+      <div class="usn-phrase-texte">
+        <span class="usn-phrase-titre">La vision</span>
+        <p id="usn-phrase-mots"><b>Nous</b> <b>croyons</b> <b>qu'une</b> <b>ville</b> <b>ne</b> <b>se</b> <b>gagne</b> <b>pas</b> <b>seule.</b> <b>Des</b> <b class="usn-mot-bleu">&eacute;glises</b> <b>diff&eacute;rentes,</b> <b>un</b> <b>m&ecirc;me</b> <b class="usn-mot-fort">&Eacute;vangile,</b> <b>et</b> <b>des</b> <b>c&oelig;urs</b> <b>qui</b> <b>s'ouvrent.</b></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
   <!-- LA FRISE                                                       -->
   <!-- Les photos des editions passees arrivent de la droite pendant   -->
   <!-- qu'on descend. Pour ajouter une ville : une <figure> de plus,   -->
@@ -165,6 +161,7 @@
       <div class="usn-frise-fond" aria-hidden="true">
         <i class="usn-fr-lueur"></i>
         <i class="usn-fr-grain"></i>
+        <i class="usn-fr-filets"></i>
       </div>
 
       <div class="usn-frise-titre">Ce que nous avons v&eacute;cu</div>
@@ -238,23 +235,6 @@
       </div>
 
       <div class="usn-frise-jauge" aria-hidden="true"><b id="usn-frise-part"></b></div>
-    </div>
-  </div>
-
-  <!-- ============================================================= -->
-  <!-- LA VISION, EN SIX LIGNES                                       -->
-  <!-- ============================================================= -->
-  <div class="usn-vision" id="usn-vision">
-    <div class="usn-wrap">
-      <span class="usn-cle" data-usn-monte>La vision</span>
-      <div class="usn-vision-lignes">
-        <p data-usn-monte>Nous rassemblons des <em>&eacute;glises</em> et des minist&egrave;res diff&eacute;rents.</p>
-        <p data-usn-monte>Nous allons de ville en ville annoncer <strong>J&eacute;sus-Christ</strong>.</p>
-        <p data-usn-monte>Dans des salles ouvertes &agrave; tous, gratuitement.</p>
-        <p data-usn-monte>Nous croyons que l'<em>unit&eacute;</em> du corps de Christ ouvre les c&oelig;urs,</p>
-        <p data-usn-monte>que la <strong>gu&eacute;rison</strong> suit l'annonce de l'&Eacute;vangile,</p>
-        <p data-usn-monte>et qu'une ville confi&eacute;e &agrave; Dieu peut changer.</p>
-      </div>
     </div>
   </div>
 

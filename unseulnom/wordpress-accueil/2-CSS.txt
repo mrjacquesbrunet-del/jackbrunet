@@ -182,19 +182,6 @@
   }
   #usn-accueil .usn-menu-pied a { color: var(--usn-gris); text-decoration: underline; text-underline-offset: 3px; }
 
-  /* Au-dessus du bloc de nuit, la barre s'inverse : sinon le nom noir
-     se perd sur le fond sombre. */
-  #usn-accueil .usn-nav.est-nuit {
-    background: rgba(21,17,28,0.72); border-bottom-color: rgba(255,255,255,0.10);
-  }
-  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    #usn-accueil .usn-nav.est-nuit { background: var(--usn-nuit); }
-  }
-  #usn-accueil .usn-nav.est-nuit .usn-nav-menu { border-color: rgba(240,238,231,0.5); }
-  #usn-accueil .usn-nav.est-nuit .usn-nav-menu i { background: var(--usn-ivoire); }
-  #usn-accueil .usn-nav.est-nuit .usn-nav-menu:hover { background: var(--usn-ivoire); }
-  #usn-accueil .usn-nav.est-nuit .usn-nav-menu:hover i { background: var(--usn-nuit); }
-
   @media (max-width: 430px) {
     #usn-accueil .usn-nav-soutien { height: 40px; padding: 0 16px; font-size: 10.5px; letter-spacing: 0.12em; }
     #usn-accueil .usn-nav-menu { width: 40px; height: 40px; }
@@ -208,9 +195,9 @@
      reprend ses couleurs sous le curseur. En defilant, il s'efface et
      l'image qui etait derriere prend toute la place.
      =================================================================== */
-  #usn-accueil .usn-scene { position: relative; height: 220svh; background: var(--usn-ink); }
+  #usn-accueil .usn-scene { position: relative; height: 100svh; background: var(--usn-ivoire); }
   #usn-accueil .usn-scene-fixe {
-    position: sticky; top: 0; height: 100svh; overflow: hidden;
+    position: relative; height: 100svh; overflow: hidden;
     display: grid; place-items: center;
   }
   #usn-accueil .usn-couche { position: absolute; inset: 0; display: grid; place-items: center; }
@@ -359,7 +346,7 @@
     mask-image: linear-gradient(90deg, transparent 0%, #000 30%, #000 70%, transparent 100%);
     will-change: -webkit-mask-position, mask-position;
     animation-duration: 12s;
-    animation-timing-function: cubic-bezier(.3,0,.2,1);
+    animation-timing-function: cubic-bezier(.35,0,.25,1);
     animation-iteration-count: infinite;
     /* "backwards" est indispensable : sans lui, une lame en attente de son
        tour affiche sa position par defaut, collee au bord gauche, et un
@@ -394,8 +381,9 @@
   #usn-accueil .usn-b3 { animation-name: usn-vers-gauche; animation-delay: 6s; }
   #usn-accueil .usn-b4 { animation-name: usn-vers-droite; animation-delay: 9s; }
 
-  /* Le trajet tient dans les huit premiers pour cent du cycle : la lame
-     traverse en une seconde, puis attend hors champ.
+  /* Le trajet tient dans les quatorze premiers pour cent du cycle : la
+     lame traverse en un peu moins de deux secondes. Assez vite pour que
+     ce soit un geste, assez lentement pour qu'on voie ce qu'elle ouvre.
 
      Les bornes sont calculees, pas choisies au hasard. Un pourcentage de
      mask-position se compte sur la place libre, soit 74% de la largeur
@@ -404,13 +392,13 @@
      loin, la lame passerait le plus clair du temps hors de l'ecran et on
      ne la verrait qu'un eclair. */
   @keyframes usn-vers-gauche {
-    0%  { -webkit-mask-position: 140% 50%; mask-position: 140% 50%; }
-    8%  { -webkit-mask-position: -40% 50%; mask-position: -40% 50%; }
+    0%   { -webkit-mask-position: 140% 50%; mask-position: 140% 50%; }
+    14%  { -webkit-mask-position: -40% 50%; mask-position: -40% 50%; }
     100%{ -webkit-mask-position: -40% 50%; mask-position: -40% 50%; }
   }
   @keyframes usn-vers-droite {
-    0%  { -webkit-mask-position: -40% 50%; mask-position: -40% 50%; }
-    8%  { -webkit-mask-position: 140% 50%; mask-position: 140% 50%; }
+    0%   { -webkit-mask-position: -40% 50%; mask-position: -40% 50%; }
+    14%  { -webkit-mask-position: 140% 50%; mask-position: 140% 50%; }
     100%{ -webkit-mask-position: 140% 50%; mask-position: 140% 50%; }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -516,38 +504,6 @@
     #usn-accueil .usn-prochain { width: calc(100% - 32px); }
   }
 
-  /* --- couche 2 : l'image, et le nom par-dessus --- */
-  #usn-accueil .usn-couche-image { z-index: 1; opacity: 0; will-change: opacity, transform; }
-  #usn-accueil .usn-couche-image video, #usn-accueil .usn-couche-image img {
-    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-  }
-  #usn-accueil .usn-couche-image .usn-voile {
-    position: absolute; inset: 0;
-    background: linear-gradient(180deg, rgba(17,17,16,0.58) 0%, rgba(17,17,16,0.30) 45%, rgba(17,17,16,0.82) 100%);
-  }
-  #usn-accueil .usn-couche-image h1 {
-    position: relative; z-index: 2; color: var(--usn-ivoire); text-align: center;
-    font-size: clamp(44px, 11.5vw, 190px); line-height: 0.84;
-    text-shadow: 0 12px 60px rgba(0,0,0,0.55);
-    padding: 0 clamp(18px, 4vw, 52px);
-  }
-  #usn-accueil .usn-couche-image .usn-sous {
-    position: relative; z-index: 2; margin-top: 20px; text-align: center;
-    font-family: var(--usn-sub); font-size: clamp(14px, 1.9vw, 19px);
-    color: rgba(255,255,255,0.86); padding: 0 clamp(18px, 4vw, 52px);
-  }
-  #usn-accueil .usn-son {
-    position: absolute; z-index: 4; right: clamp(16px, 4vw, 48px); bottom: clamp(18px, 3vw, 32px);
-    display: inline-flex; align-items: center; gap: 9px;
-    padding: 10px 18px; border-radius: 999px; cursor: pointer;
-    font-family: inherit; font-size: 11.5px; font-weight: 800;
-    letter-spacing: 0.14em; text-transform: uppercase; color: var(--usn-white);
-    background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.26);
-    -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
-    transition: background .2s ease, opacity .3s ease;
-  }
-  #usn-accueil .usn-son:hover { background: rgba(255,255,255,0.2); }
-  @media (max-width: 560px) { #usn-accueil .usn-son-texte { display: none; } }
 
   /* ===================================================================
      BANDEAUX DEFILANTS
@@ -585,9 +541,58 @@
     /* Deux balayages au lieu de quatre : le rythme reste, la charge
        tombe de moitie. */
     #usn-accueil .usn-b3, #usn-accueil .usn-b4 { display: none; }
-    #usn-accueil .usn-b1 { animation-duration: 7s; animation-delay: 0s; }
-    #usn-accueil .usn-b2 { animation-duration: 7s; animation-delay: 3.5s; }
+    #usn-accueil .usn-b1 { animation-duration: 9s; animation-delay: 0s; }
+    #usn-accueil .usn-b2 { animation-duration: 9s; animation-delay: 4.5s; }
   }
+
+  /* ===================================================================
+     LA PHRASE
+
+     Entre le heros et la frise, une seule phrase, en grand, sur la meme
+     creme. Les mots s'allument un par un a mesure qu'on descend : le
+     texte se lit au rythme du defilement plutot que d'attendre, deja
+     ecrit, qu'on arrive dessus.
+     =================================================================== */
+  #usn-accueil .usn-phrase { position: relative; height: 240svh; background: var(--usn-ivoire); }
+  #usn-accueil .usn-phrase-fixe {
+    position: sticky; top: 0; height: 100svh; overflow: hidden;
+    display: flex; align-items: center;
+  }
+  #usn-accueil .usn-phrase-fond { position: absolute; inset: 0; pointer-events: none; }
+  #usn-accueil .usn-phrase-fond i { position: absolute; inset: 0; display: block; }
+  #usn-accueil .usn-ph-lueur {
+    background: radial-gradient(58vmax 48vmax at 78% 16%, rgba(201,38,143,0.12), transparent 68%);
+  }
+  #usn-accueil .usn-ph-filets {
+    background-image: repeating-linear-gradient(90deg, rgba(17,17,16,0.045) 0 1px, transparent 1px 100%);
+    background-size: 12.5% 100%;
+  }
+  #usn-accueil .usn-phrase-texte {
+    position: relative; z-index: 2;
+    width: 100%; max-width: 1360px; margin: 0 auto;
+    padding: 0 clamp(18px, 4vw, 52px);
+  }
+  #usn-accueil .usn-phrase-titre {
+    display: block; margin-bottom: clamp(22px, 4vh, 44px);
+    font-size: 10.5px; font-weight: 800; letter-spacing: 0.26em;
+    text-transform: uppercase; color: var(--usn-gris);
+  }
+  #usn-accueil .usn-phrase p {
+    margin: 0; font-family: var(--usn-display); font-weight: 900;
+    font-size: clamp(28px, 5vw, 78px); line-height: 1.08;
+    letter-spacing: -0.03em; text-transform: uppercase;
+  }
+  /* Chaque mot est un morceau a part : c'est ce qui permet de les
+     allumer l'un apres l'autre. */
+  #usn-accueil .usn-phrase p b {
+    display: inline-block; font-weight: inherit;
+    color: var(--usn-ink); opacity: 0.13;
+    transition: opacity .2s linear;
+  }
+  #usn-accueil .usn-phrase p b.est-dit { opacity: 1; }
+  /* Les mots qui portent la phrase prennent la couleur. */
+  #usn-accueil .usn-phrase p b.usn-mot-fort { color: var(--usn-red); }
+  #usn-accueil .usn-phrase p b.usn-mot-bleu { color: var(--usn-blue); }
 
   /* ===================================================================
      LA FRISE
@@ -602,39 +607,41 @@
      reelle de la bande, pour que la traversee se fasse a la meme vitesse
      quelle que soit la taille de l'ecran.
      =================================================================== */
-  #usn-accueil .usn-frise { position: relative; height: 300svh; background: var(--usn-nuit); }
+  #usn-accueil .usn-frise { position: relative; height: 300svh; background: var(--usn-ivoire); }
   #usn-accueil .usn-frise-fixe { position: sticky; top: 0; height: 100svh; overflow: hidden; }
 
-  /* --- la matiere de la nuit --- */
+  /* --- la meme matiere que le heros : la creme ne s'interrompt jamais --- */
   #usn-accueil .usn-frise-fond { position: absolute; inset: 0; pointer-events: none; }
   #usn-accueil .usn-frise-fond i { position: absolute; inset: 0; display: block; }
   #usn-accueil .usn-fr-lueur {
     background:
-      radial-gradient(58vmax 48vmax at 12% 10%, rgba(228,38,43,0.14), transparent 70%),
-      radial-gradient(56vmax 50vmax at 88% 90%, rgba(27,47,196,0.18), transparent 70%);
+      radial-gradient(56vmax 46vmax at 8% 8%, rgba(247,148,29,0.16), transparent 68%),
+      radial-gradient(54vmax 48vmax at 92% 92%, rgba(107,47,181,0.14), transparent 68%);
   }
   #usn-accueil .usn-fr-grain {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23f)' opacity='0.6'/%3E%3C/svg%3E");
-    background-size: 200px 200px; opacity: 0.13; mix-blend-mode: screen;
+    background-size: 200px 200px; opacity: 0.16; mix-blend-mode: multiply;
+  }
+  #usn-accueil .usn-fr-filets {
+    background-image: repeating-linear-gradient(90deg, rgba(17,17,16,0.045) 0 1px, transparent 1px 100%);
+    background-size: 12.5% 100%;
   }
 
   /* --- l'intitule, fixe dans le coin --- */
   #usn-accueil .usn-frise-titre {
     position: absolute; z-index: 4; left: clamp(16px, 3.4vw, 44px); top: clamp(92px, 12vh, 124px);
     font-size: 10.5px; font-weight: 800; letter-spacing: 0.26em; text-transform: uppercase;
-    color: rgba(240,238,231,0.6);
+    color: var(--usn-gris);
   }
   /* La barre de progression, en bas : elle dit ou l'on en est. */
   #usn-accueil .usn-frise-jauge {
     position: absolute; z-index: 4; left: clamp(16px, 3.4vw, 44px); right: clamp(16px, 3.4vw, 44px);
-    bottom: clamp(20px, 4vh, 40px); height: 1px; background: rgba(240,238,231,0.16);
+    bottom: clamp(20px, 4vh, 40px); height: 1px; background: var(--usn-trait);
   }
   #usn-accueil .usn-frise-jauge b {
-    position: absolute; left: 0; top: -1px; height: 3px; width: 0;
-    background: var(--usn-degrade); background-size: 100vw 100%;
+    position: absolute; left: 0; top: -1px; height: 3px; width: 0; background: var(--usn-ink);
   }
 
-  /* --- la bande --- */
   #usn-accueil .usn-frise-piste {
     position: absolute; top: 0; left: 0; height: 100%;
     display: flex; align-items: center; width: max-content;
@@ -644,26 +651,24 @@
   #usn-accueil .usn-fr-vue { margin: 0; flex: none; transform: translateY(var(--dy, 0)); }
   #usn-accueil .usn-fr-vue figcaption {
     font-size: 10.5px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
-    color: rgba(240,238,231,0.66); margin-bottom: 14px;
+    color: var(--usn-gris); margin-bottom: 14px;
   }
   #usn-accueil .usn-fr-vue img {
     display: block; width: 100%; height: auto;
-    filter: saturate(0.78) brightness(0.88);
-    transition: filter .4s ease;
+    box-shadow: 0 24px 60px rgba(17,17,16,0.14);
   }
-  #usn-accueil .usn-fr-vue:hover img { filter: none; }
 
   /* --- le panneau de citation, au milieu de la bande --- */
   #usn-accueil .usn-fr-mot { flex: none; width: clamp(300px, 32vw, 460px); align-self: center; }
   #usn-accueil .usn-fr-mot p {
     font-family: var(--usn-serif); font-size: clamp(26px, 2.9vw, 42px);
-    line-height: 1.16; color: var(--usn-ivoire); margin: 0 0 22px;
+    line-height: 1.16; color: var(--usn-ink); margin: 0 0 22px;
   }
-  #usn-accueil .usn-fr-mot p em { font-style: italic; color: #F7C948; }
+  #usn-accueil .usn-fr-mot p em { font-style: italic; color: var(--usn-red); }
   #usn-accueil .usn-fr-signe { width: clamp(150px, 15vw, 210px); aspect-ratio: 760 / 570; overflow: visible; }
   #usn-accueil .usn-fr-signe path {
     fill: none; stroke: url(#usn-fr-degrade);
-    stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+    stroke-width: 2.1; stroke-linecap: round; stroke-linejoin: round;
     vector-effect: non-scaling-stroke;
   }
 
@@ -688,25 +693,9 @@
 
   @media (max-width: 720px) {
     #usn-accueil .usn-frise-piste { gap: 24px; padding: 0 20px; }
-    #usn-accueil .usn-fr-vue img { filter: none; }
     #usn-accueil .usn-fr-grain { display: none; }
+    #usn-accueil .usn-fr-vue img { box-shadow: 0 12px 28px rgba(17,17,16,0.12); }
   }
-
-  /* ===================================================================
-     LA VISION, EN SIX LIGNES
-     Chaque ligne monte a son tour au scroll.
-     =================================================================== */
-  #usn-accueil .usn-vision { padding: clamp(70px, 12vw, 170px) 0; }
-  #usn-accueil .usn-vision-lignes { margin-top: clamp(26px, 4vw, 46px); }
-  #usn-accueil .usn-vision-lignes p {
-    font-family: var(--usn-display); font-stretch: 112%; font-weight: 800;
-    font-size: clamp(21px, 3.6vw, 52px); line-height: 1.12;
-    letter-spacing: -0.025em; text-transform: uppercase; max-width: 24ch;
-    will-change: transform, opacity;
-  }
-  #usn-accueil .usn-vision-lignes p + p { margin-top: clamp(4px, 0.6vw, 8px); }
-  #usn-accueil .usn-vision-lignes em { font-style: normal; color: var(--usn-blue); }
-  #usn-accueil .usn-vision-lignes strong { font-weight: 800; color: var(--usn-red); }
 
   /* ===================================================================
      GALERIE - toutes les photos des evenements passes
