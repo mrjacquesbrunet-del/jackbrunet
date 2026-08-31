@@ -43,10 +43,11 @@
     --usn-ink: #111110;
     --usn-gris: #5C5B54;
     --usn-trait: #D8D4C8;
-    /* Le bloc du message se joue sur un fond de nuit, un noir tire
-       vers le violet plutot qu'un gris neutre. */
-    --usn-nuit: #15111C;
-    --usn-nuit-2: #221B2E;
+    /* Le bloc de la vision se joue sur un noir neutre. Aucune teinte :
+       il est la pour faire respirer la creme, pas pour ajouter une
+       couleur de plus. */
+    --usn-nuit: #121212;
+    --usn-nuit-2: #1D1D1D;
 
     --usn-display: 'Archivo', 'Poppins', system-ui, -apple-system, "Segoe UI", sans-serif;
     --usn-serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
@@ -198,7 +199,7 @@
   /* Au-dessus du bloc sombre, la barre s'inverse : sinon le nom noir se
      perd sur le fond de nuit. */
   #usn-accueil .usn-nav.est-nuit {
-    background: rgba(21,17,28,0.72); border-bottom-color: rgba(255,255,255,0.10);
+    background: rgba(18,18,18,0.74); border-bottom-color: rgba(255,255,255,0.10);
   }
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
     #usn-accueil .usn-nav.est-nuit { background: var(--usn-nuit); }
@@ -599,9 +600,8 @@
   #usn-accueil .usn-phrase-fond { position: absolute; inset: 0; pointer-events: none; }
   #usn-accueil .usn-phrase-fond i { position: absolute; inset: 0; display: block; }
   #usn-accueil .usn-ph-lueur {
-    background:
-      radial-gradient(58vmax 48vmax at 82% 12%, rgba(201,38,143,0.20), transparent 68%),
-      radial-gradient(52vmax 46vmax at 10% 92%, rgba(247,148,29,0.14), transparent 68%);
+    background: radial-gradient(72vmax 58vmax at 50% 42%,
+      rgba(255,255,255,0.055) 0%, rgba(255,255,255,0) 70%);
   }
   #usn-accueil .usn-ph-contours {
     background-image: url("%s");
@@ -644,7 +644,7 @@
      ecritures qui fait la phrase, pas seulement la couleur. */
   #usn-accueil .usn-phrase p b.usn-mot-serif {
     font-family: var(--usn-serif); font-weight: 400;
-    color: #F7C948; letter-spacing: 0;
+    color: var(--usn-or); letter-spacing: 0;
     font-size: 1.14em; line-height: 0.9;
   }
 
