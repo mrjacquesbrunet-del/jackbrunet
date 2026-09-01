@@ -9,6 +9,7 @@ import { Avatar } from "@/components/community/Avatar";
 import { withJesusLabel, STREAK_BADGE_MIN } from "@/lib/spiritual";
 import { ReminderToggle } from "@/components/pwa/ReminderToggle";
 import { ProfileBadgesRow } from "@/components/community/ProfileBadges";
+import { ProfileSettings } from "@/components/community/ProfileSettings";
 import {
   signOut,
   deleteAccount,
@@ -151,6 +152,8 @@ function Profile({
   const [pseudoError, setPseudoError] = useState("");
   const [editing, setEditing] = useState(false);
   const [followModal, setFollowModal] = useState<null | "followers" | "following">(null);
+  // Écran Paramètres (notifications par type, sons, rappel, compte, termes).
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
@@ -485,7 +488,7 @@ function Profile({
       {/* Recherche / Messages / Notifications — rangée sobre, sans carte.
           Les badges de récompense se glissent discrètement à gauche. */}
       <div className={`relative flex items-center justify-end gap-2 ${jour? "": "dark-ctx"}`}>
-          <ProfileBadgesRow userId={userId} streakDays={profile?.streak_days} compact />
+          <ProfileBadgesRow userId={userId} streakDays={profile?.streak_days} compact self />
           <div className="flex shrink-0 items-center gap-2">
             <button
               type="button"
@@ -505,6 +508,18 @@ function Profile({
             {/* Cloche: s'allume quand on interagit avec tes sujets de prière */}
             <NotificationsBell userId={userId} tone="dark" />
             <ProfileThemeToggle jour={jour} onToggle={toggleTheme} />
+            {/* Paramètres : notifications par type, sons, rappel, compte */}
+            <button
+              type="button"
+              onClick={() => setSettingsOpen(true)}
+              aria-label="Paramètres"
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/20 bg-white/10 text-cream transition-colors hover:bg-white/20"
+            >
+              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.7} aria-hidden>
+                <circle cx="12" cy="12" r="3" />
+                <path d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.5-2.4 1a7 7 0 0 0-2-1.2L14 3h-4l-.5 2.6a7 7 0 0 0-2 1.2l-2.4-1-2 3.5 2 1.5a7 7 0 0 0 0 2.4l-2 1.5 2 3.5 2.4-1a7 7 0 0 0 2 1.2L10 21h4l.5-2.6a7 7 0 0 0 2-1.2l2.4 1 2-3.5-2-1.5c.07-.4.1-.8.1-1.2z" strokeLinejoin="round" />
+              </svg>
+            </button>
           </div>
       </div>
 
@@ -1138,6 +1153,8 @@ function Profile({
           onChange={load}
         />
       ): null}
+
+      {settingsOpen ? <ProfileSettings userId={userId} onClose={() => setSettingsOpen(false)} /> : null}
       </div>
     </section>
   );

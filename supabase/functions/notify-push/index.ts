@@ -40,6 +40,18 @@ function messageFor(type: string, who: string, body: string): { title: string; t
   }
 }
 
+// Famille d'un type de notif (miroir de src/lib/notif-prefs.ts) — sert à
+// respecter les préférences par type (profiles.notif_prefs).
+function groupForType(type: string): string {
+  if (type === "challenge") return "games";
+  if (type === "message") return "messages";
+  if (type === "pray" || type === "pray_digest" || type === "follow_up") return "prays";
+  if (type.startsWith("group_")) return "groups";
+  if (type === "follow") return "follows";
+  if (type === "admin") return "admin";
+  return "comments";
+}
+
 Deno.serve(async (req) => {
   try {
     const payload = await req.json().catch(() => null);
@@ -52,6 +64,15 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
     );
+
+    // Préférences du DESTINATAIRE : si la famille est désactivée, pas de push
+    // (la cloche in-app, elle, reste alimentée par la table notifications).
+    const { data: dest } = await supabase
+      .from("profiles").select("notif_prefs").eq("id", rec.user_id).maybeSingle();
+    const prefs = (dest?.notif_prefs ?? {}) as Record<string, boolean>;
+    if (prefs[groupForType(String(rec.type))] === false) {
+      return new Response("push désactivé par l'utilisateur", { status: 200 });
+    }
 
     // Pseudo de l'acteur (celui qui a déclenché la notif).
     let who = "Quelqu'un";

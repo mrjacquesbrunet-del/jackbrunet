@@ -5,60 +5,77 @@ import { topIntercessors } from "./community";
 import { fetchGameLeaderboard } from "./game-scores";
 
 /**
- * Badges de profil — attribués AUTOMATIQUEMENT à partir de l'activité :
- *  - Intercesseur : nombre de « Je prie » donnés sur le mur
- *  - Encourageur : nombre de commentaires laissés sous les sujets
+ * Badges d'ACCOMPLISSEMENT — attribués automatiquement, avec paliers
+ * bronze / argent / or, à partir de l'activité :
+ *  - Intercesseur : « Je prie » donnés sur le mur (serveur)
  *  - Fidèle : série de jours d'affilée (profiles.streak_days)
- *  - Expert de la Parole : points cumulés au Quiz biblique
- *  - Intercesseur de la semaine : n°1 du classement 7 jours (tourne chaque
- *    semaine, anneau doré animé)
+ *  - Encourageur : commentaires laissés (serveur)
+ *  - Expert de la Parole : points au Quiz biblique (serveur)
+ *  - Méditant : méditations du jour complétées (compteur local, synchronisé)
+ *  - Mémorisateur : versets appris PAR CŒUR (local, synchronisé)
+ *  - Lecteur : jours de plans de lecture cochés (local, synchronisé)
+ *  + Intercesseur de la semaine : n°1 des 7 jours (anneau doré, tourne).
+ *
+ * Les compteurs locaux sont envoyés 1×/jour dans profiles.stats pour que
+ * les badges s'affichent aussi sur le profil vu par les autres.
  */
 
 export type BadgeTier = "bronze" | "argent" | "or";
-export type BadgeKind = "intercesseur" | "encourageur" | "fidele" | "expert";
+export type BadgeKind =
+  | "intercesseur"
+  | "fidele"
+  | "encourageur"
+  | "expert"
+  | "meditant"
+  | "memorisateur"
+  | "lecteur";
 
 export type BadgeState = {
   kind: BadgeKind;
   label: string;
-  /** Palier atteint (null = pas encore gagné). */
   tier: BadgeTier | null;
-  /** Compteur actuel. */
   count: number;
-  /** Prochain seuil à atteindre (null = or déjà atteint). */
   next: number | null;
-  /** Ce que mesure le badge (pour la vitrine). */
   detail: string;
 };
 
 export type ProfileBadges = {
   states: BadgeState[];
-  /** Meilleur intercesseur de la semaine en cours. */
   weeklyTop: boolean;
 };
 
 export const BADGE_LABELS: Record<BadgeKind, string> = {
   intercesseur: "Intercesseur",
-  encourageur: "Encourageur",
   fidele: "Fidèle",
+  encourageur: "Encourageur",
   expert: "Expert de la Parole",
+  meditant: "Méditant",
+  memorisateur: "Mémorisateur",
+  lecteur: "Lecteur",
 };
 
-const THRESHOLDS: Record<BadgeKind, [number, number, number]> = {
+export const BADGE_THRESHOLDS: Record<BadgeKind, [number, number, number]> = {
   intercesseur: [50, 200, 500],
-  encourageur: [25, 100, 300],
   fidele: [7, 30, 100],
+  encourageur: [25, 100, 300],
   expert: [1500, 4000, 10000],
+  meditant: [10, 50, 200],
+  memorisateur: [5, 20, 60],
+  lecteur: [15, 60, 250],
 };
 
 const DETAILS: Record<BadgeKind, string> = {
   intercesseur: "« Je prie » donnés sur le mur",
-  encourageur: "encouragements laissés",
   fidele: "jours d'affilée avec Jésus",
+  encourageur: "encouragements laissés",
   expert: "points au Quiz biblique",
+  meditant: "méditations complétées",
+  memorisateur: "versets appris par cœur",
+  lecteur: "jours de lecture cochés",
 };
 
 function tierFor(kind: BadgeKind, count: number): { tier: BadgeTier | null; next: number | null } {
-  const [b, a, o] = THRESHOLDS[kind];
+  const [b, a, o] = BADGE_THRESHOLDS[kind];
   if (count >= o) return { tier: "or", next: null };
   if (count >= a) return { tier: "argent", next: o };
   if (count >= b) return { tier: "bronze", next: a };
@@ -68,6 +85,40 @@ function tierFor(kind: BadgeKind, count: number): { tier: BadgeTier | null; next
 function state(kind: BadgeKind, count: number): BadgeState {
   const { tier, next } = tierFor(kind, count);
   return { kind, label: BADGE_LABELS[kind], tier, count, next, detail: DETAILS[kind] };
+}
+
+/* ---------- Compteurs spirituels LOCAUX (cet appareil) ---------- */
+
+export type SpiritualStats = { meditations: number; memorized: number; reading: number };
+
+export function localSpiritualStats(): SpiritualStats {
+  const out: SpiritualStats = { meditations: 0, memorized: 0, reading: 0 };
+  try {
+    const eng = JSON.parse(localStorage.getItem("jb.engagement.v1") || "null") as {
+      completedDates?: string[];
+    } | null;
+    out.meditations = eng?.completedDates?.length ?? 0;
+  } catch {
+    /* indisponible */
+  }
+  try {
+    const mem = JSON.parse(localStorage.getItem("jb.memorize.v1") || "null") as
+      | { level?: number }[]
+      | null;
+    out.memorized = (mem ?? []).filter((m) => (m.level ?? 0) >= 4).length;
+  } catch {
+    /* indisponible */
+  }
+  try {
+    const plans = JSON.parse(localStorage.getItem("jb.planprogress.v1") || "null") as Record<
+      string,
+      number[]
+    > | null;
+    out.reading = Object.values(plans ?? {}).reduce((n, days) => n + (days?.length ?? 0), 0);
+  } catch {
+    /* indisponible */
+  }
+  return out;
 }
 
 /** Meilleur métal porté (pour l'anneau d'or autour de la photo). */
@@ -80,12 +131,12 @@ export function bestTier(pb: ProfileBadges): BadgeTier | null {
   return null;
 }
 
-const TIER_SYNC_KEY = "jb.badgetier.sync.v1";
+const TIER_SYNC_KEY = "jb.badgetier.sync.v2";
 
 /**
- * Synchronise MON meilleur palier vers profiles.badge_tier (1×/jour max) :
- * c'est lui qui donne l'anneau doré autour de l'avatar partout dans l'app,
- * sans recalculer les badges à chaque affichage.
+ * Synchronise 1×/jour vers profiles : le meilleur métal (anneau doré de
+ * l'avatar) ET les compteurs spirituels locaux (stats) pour que les badges
+ * Méditant / Mémorisateur / Lecteur s'affichent chez les autres.
  */
 export async function syncMyBadgeTier(userId: string, streakDays?: number | null): Promise<void> {
   try {
@@ -97,20 +148,26 @@ export async function syncMyBadgeTier(userId: string, streakDays?: number | null
   }
   const sb = getSupabase();
   if (!sb) return;
-  const pb = await fetchProfileBadges(userId, streakDays);
+  const stats = localSpiritualStats();
+  const pb = await fetchProfileBadges(userId, streakDays, stats);
   if (!pb) return;
-  await sb.from("profiles").update({ badge_tier: bestTier(pb) }).eq("id", userId);
+  await sb.from("profiles").update({ badge_tier: bestTier(pb), stats }).eq("id", userId);
 }
 
-/** Calcule les badges d'un membre (streakDays vient du profil déjà chargé). */
+/**
+ * Calcule les badges d'un membre. `localStats` (facultatif) : compteurs
+ * frais de CET appareil (pour soi-même) ; sinon on lit profiles.stats
+ * (synchronisés) — c'est le cas quand on regarde le profil d'un autre.
+ */
 export async function fetchProfileBadges(
   userId: string,
   streakDays?: number | null,
+  localStats?: SpiritualStats,
 ): Promise<ProfileBadges | null> {
   const sb = getSupabase();
   if (!sb) return null;
 
-  const [prays, comments, quizBoard, tops] = await Promise.all([
+  const [prays, comments, quizBoard, tops, prof] = await Promise.all([
     sb
       .from("prayer_reactions")
       .select("*", { count: "exact", head: true })
@@ -122,7 +179,17 @@ export async function fetchProfileBadges(
       .eq("author_id", userId),
     fetchGameLeaderboard("quiz", 200),
     topIntercessors(7, 1),
+    localStats
+      ? Promise.resolve(null)
+      : sb.from("profiles").select("stats").eq("id", userId).maybeSingle(),
   ]);
+
+  const remote = ((prof?.data?.stats as Partial<SpiritualStats>) ?? {}) || {};
+  const stats: SpiritualStats = localStats ?? {
+    meditations: Number(remote.meditations) || 0,
+    memorized: Number(remote.memorized) || 0,
+    reading: Number(remote.reading) || 0,
+  };
 
   const praysN = prays.count ?? 0;
   const commentsN = comments.count ?? 0;
@@ -135,6 +202,9 @@ export async function fetchProfileBadges(
       state("fidele", streakN),
       state("encourageur", commentsN),
       state("expert", quizN),
+      state("meditant", stats.meditations),
+      state("memorisateur", stats.memorized),
+      state("lecteur", stats.reading),
     ],
     weeklyTop: tops.length > 0 && tops[0].profile.id === userId && tops[0].score > 0,
   };
