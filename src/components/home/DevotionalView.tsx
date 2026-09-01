@@ -29,6 +29,7 @@ import {
   BookmarkGlyph,
 } from "@/components/ui/DevoIcons";
 import { DailyShort, FloatingDailyShort } from "@/components/home/DailyShort";
+import { VerseImageStudio } from "@/components/ui/VerseImageStudio";
 import { Rewards } from "@/components/app/Rewards";
 import { Greeting } from "@/components/app/Greeting";
 import { useTodayIndex } from "@/lib/today";
@@ -133,6 +134,8 @@ export function DevotionalView({
 
   // Mini-célébration quand la série atteint un palier (3, 5, 7, 14, 21, 30…).
   const [celebrate, setCelebrate] = useState<number | null>(null);
+  // Studio d'image ouvert sur le verset du jour (personnalisation avant partage)
+  const [verseStudio, setVerseStudio] = useState(false);
 
   // Semaine en cours (lundi → dimanche) pour l'anneau de progression.
   const dayStrLocal = (d: Date) =>
@@ -376,10 +379,34 @@ export function DevotionalView({
               </div>
             </Markable>
 
-            <p className="mt-3 flex items-center gap-1.5 text-xs text-night-900/45">
-              <HighlighterGlyph className="h-3.5 w-3.5" />
-              Touche un verset ou un paragraphe pour le surligner, le copier ou l'enregistrer.
-            </p>
+            <div className="mt-3 flex items-center justify-between gap-3">
+              <p className="flex items-center gap-1.5 text-xs text-night-900/45">
+                <HighlighterGlyph className="h-3.5 w-3.5" />
+                Touche un verset ou un paragraphe pour le surligner, le copier ou l'enregistrer.
+              </p>
+              <button
+                type="button"
+                onClick={() => setVerseStudio(true)}
+                className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-night-900/10 bg-night-900/[0.04] px-3 py-1.5 text-xs font-bold text-night-900/70 transition-colors hover:bg-night-900/10"
+                aria-label="Personnaliser le verset en image (fond, police) puis le partager"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-3.5 w-3.5" aria-hidden="true">
+                  <path d="M12 3a9 9 0 1 0 0 18h1.5a2 2 0 0 0 0-4H12a2 2 0 0 1 0-4h6a3 3 0 0 0 3-3c0-4-4-7-9-7z" strokeLinejoin="round" />
+                  <circle cx="7.5" cy="11.5" r="1" fill="currentColor" />
+                  <circle cx="10" cy="7.5" r="1" fill="currentColor" />
+                  <circle cx="14.5" cy="6.5" r="1" fill="currentColor" />
+                </svg>
+                Personnaliser
+              </button>
+            </div>
+            {verseStudio ? (
+              <VerseImageStudio
+                text={dev.verseText}
+                reference={dev.verseReference}
+                badge="Le rhéma du jour"
+                onClose={() => setVerseStudio(false)}
+              />
+            ) : null}
 
             {/* Punchline du jour, carte à partager */}
             <div className="mt-6">

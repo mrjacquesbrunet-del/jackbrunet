@@ -43,7 +43,15 @@ export function DailyVerseCard({
         </div>
 
         <div className="mt-7">
-          <ShareButtons text={`« ${verse.text} », ${verse.reference}`} />
+          <ShareButtons
+            text={`« ${verse.text} », ${verse.reference}`}
+            image={{
+              text: verse.text,
+              reference: verse.reference,
+              badge: "Parole du jour",
+              filename: "rhema-verset.png",
+            }}
+          />
         </div>
       </div>
     </article>
