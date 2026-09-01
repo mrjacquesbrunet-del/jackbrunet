@@ -2,21 +2,38 @@
 
 import { asset } from "./asset";
 
-/** Fonds photo/ambiance du studio de personnalisation (public/img/versets). */
-export const VERSE_BACKGROUNDS: { id: string; label: string; src: string }[] = [
+/** Fonds photo/ambiance du studio (public/img/versets).
+ * `light: true` = fond clair → texte nuit et voile inversé. */
+export const VERSE_BACKGROUNDS: { id: string; label: string; src: string; light?: boolean }[] = [
   { id: "aurore", label: "Aurore", src: "/img/versets/aurore.jpg" },
   { id: "ocean", label: "Océan", src: "/img/versets/ocean.jpg" },
   { id: "etoiles", label: "Étoiles", src: "/img/versets/etoiles.jpg" },
   { id: "moisson", label: "Moisson", src: "/img/versets/moisson.jpg" },
+  { id: "emeraude", label: "Émeraude", src: "/img/versets/emeraude.jpg" },
+  { id: "royal", label: "Royal", src: "/img/versets/royal.jpg" },
+  { id: "braise", label: "Braise", src: "/img/versets/braise.jpg" },
+  { id: "lin", label: "Lin", src: "/img/versets/lin.jpg", light: true },
 ];
 
 /** Polices proposées (auto-hébergées par l'app → dispo hors-ligne). */
-export const VERSE_FONTS: { id: VerseFontId; label: string; cssVar: string; fallback: string }[] = [
-  { id: "elegante", label: "Élégante", cssVar: "--font-display", fallback: 'Georgia, "Times New Roman", serif' },
-  { id: "moderne", label: "Moderne", cssVar: "", fallback: "Arial, Helvetica, sans-serif" },
-  { id: "ronde", label: "Ronde", cssVar: "--font-game", fallback: "Arial Rounded MT, Arial, sans-serif" },
+export const VERSE_FONTS: {
+  id: VerseFontId;
+  label: string;
+  cssVar: string;
+  fallback: string;
+  weight: number;
+  /** Ajustement de taille (les manuscrites paraissent petites). */
+  scale?: number;
+  upper?: boolean;
+}[] = [
+  { id: "elegante", label: "Élégante", cssVar: "--font-display", fallback: 'Georgia, "Times New Roman", serif', weight: 700 },
+  { id: "fine", label: "Majesté", cssVar: "--font-fine", fallback: "Georgia, serif", weight: 600, scale: 1.12 },
+  { id: "manuscrite", label: "Manuscrite", cssVar: "--font-script", fallback: "cursive", weight: 700, scale: 1.22 },
+  { id: "impact", label: "Impact", cssVar: "--font-impact", fallback: "Arial Narrow, sans-serif", weight: 400, scale: 1.1, upper: true },
+  { id: "moderne", label: "Moderne", cssVar: "", fallback: "Arial, Helvetica, sans-serif", weight: 700 },
+  { id: "ronde", label: "Ronde", cssVar: "--font-game", fallback: "Arial Rounded MT, Arial, sans-serif", weight: 700 },
 ];
-export type VerseFontId = "elegante" | "moderne" | "ronde";
+export type VerseFontId = "elegante" | "fine" | "manuscrite" | "impact" | "moderne" | "ronde";
 
 /** Famille réellement chargée pour une variable de police (next/font renomme
  * les familles) : on lit la valeur calculée sur un élément temporaire. */
@@ -89,26 +106,39 @@ export async function buildVerseImage(opts: {
       ctx.fillStyle = "#171716";
       ctx.fillRect(0, 0, W, H);
     }
-    // Voile pour la lisibilité : léger en haut, plus soutenu au centre/bas
+    // Fond clair (ex. Lin) → texte nuit et voile blanc doux.
+    const light = !!VERSE_BACKGROUNDS.find((b) => b.src === opts.bg)?.light;
+    const ink = light ? "#171716" : "#FFFFFF";
     const veil = ctx.createLinearGradient(0, 0, 0, H);
-    veil.addColorStop(0, "rgba(10,10,10,0.18)");
-    veil.addColorStop(0.45, "rgba(10,10,10,0.34)");
-    veil.addColorStop(1, "rgba(10,10,10,0.5)");
+    if (light) {
+      veil.addColorStop(0, "rgba(255,255,250,0.22)");
+      veil.addColorStop(0.45, "rgba(255,255,250,0.34)");
+      veil.addColorStop(1, "rgba(255,255,250,0.42)");
+    } else {
+      veil.addColorStop(0, "rgba(10,10,10,0.18)");
+      veil.addColorStop(0.45, "rgba(10,10,10,0.34)");
+      veil.addColorStop(1, "rgba(10,10,10,0.5)");
+    }
     ctx.fillStyle = veil;
     ctx.fillRect(0, 0, W, H);
 
-    const family = familyFor(opts.font ?? "elegante");
+    const fontMeta = VERSE_FONTS.find((f) => f.id === (opts.font ?? "elegante")) ?? VERSE_FONTS[0];
+    const family = familyFor(fontMeta.id);
+    const weight = fontMeta.weight;
+    const size = Math.round(66 * (fontMeta.scale ?? 1));
+    const refSize = Math.round(38 * Math.min(1.08, fontMeta.scale ?? 1));
+    const body = fontMeta.upper ? text.toUpperCase() : text;
     // Force le chargement réel de la police (les faces next/font sont
     // paresseuses : sans ça, le canvas retombe sur une police par défaut).
     try {
-      await document.fonts.load(`700 66px ${family}`);
-      await document.fonts.load(`700 38px ${family}`);
+      await document.fonts.load(`${weight} ${size}px ${family}`);
+      await document.fonts.load(`${weight} ${refSize}px ${family}`);
     } catch {
       /* repli silencieux */
     }
 
     if (badge) {
-      ctx.fillStyle = "rgba(255,255,255,0.85)";
+      ctx.fillStyle = light ? "rgba(23,23,22,0.75)" : "rgba(255,255,255,0.85)";
       ctx.font = "700 30px Arial, sans-serif";
       ctx.textBaseline = "top";
       ctx.textAlign = "center";
@@ -116,16 +146,16 @@ export async function buildVerseImage(opts: {
     }
 
     // Verset centré, avec ombre douce
-    ctx.fillStyle = "#FFFFFF";
-    ctx.shadowColor = "rgba(0,0,0,0.55)";
-    ctx.shadowBlur = 24;
-    ctx.shadowOffsetY = 4;
-    ctx.font = `700 66px ${family}`;
+    ctx.fillStyle = ink;
+    ctx.shadowColor = light ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.55)";
+    ctx.shadowBlur = light ? 14 : 24;
+    ctx.shadowOffsetY = light ? 0 : 4;
+    ctx.font = `${weight} ${size}px ${family}`;
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
     const maxWidth = W - 220;
-    const lineHeight = 92;
-    const words = text.split(" ");
+    const lineHeight = Math.round(size * 1.4);
+    const words = body.split(" ");
     const lines: string[] = [];
     let line = "";
     for (const w of words) {
@@ -143,8 +173,8 @@ export async function buildVerseImage(opts: {
     lines.forEach((l, i) => ctx.fillText(l, W / 2, startY + i * lineHeight));
 
     if (reference) {
-      ctx.font = `700 38px ${family}`;
-      ctx.fillStyle = "rgba(255,255,255,0.92)";
+      ctx.font = `${weight} ${refSize}px ${family}`;
+      ctx.fillStyle = light ? "rgba(23,23,22,0.85)" : "rgba(255,255,255,0.92)";
       // Sous la DERNIÈRE ligne du bloc (startY = milieu de la 1re ligne).
       ctx.fillText(reference.toUpperCase(), W / 2, startY + blockH + lineHeight / 2 + 60);
     }
@@ -152,7 +182,7 @@ export async function buildVerseImage(opts: {
     ctx.shadowOffsetY = 0;
 
     // Signature discrète
-    ctx.fillStyle = "rgba(255,255,255,0.7)";
+    ctx.fillStyle = light ? "rgba(23,23,22,0.55)" : "rgba(255,255,255,0.7)";
     ctx.font = "700 28px Arial, sans-serif";
     ctx.textBaseline = "alphabetic";
     ctx.fillText("RHEMA · jackbrunet.com/app", W / 2, H - 90);
@@ -223,12 +253,12 @@ export async function buildVerseImage(opts: {
   const startY = H / 2 - blockH / 2 - (reference? 30: 0);
   lines.forEach((l, i) => ctx.fillText(l, 100, startY + i * lineHeight));
 
-  // Référence (sous le texte, en lime)
+  // Référence : sous la DERNIÈRE ligne (startY = milieu de la 1re ligne).
   if (reference) {
     ctx.fillStyle = "#CAF000";
     ctx.font = '700 40px Georgia, "Times New Roman", serif';
     ctx.textBaseline = "top";
-    ctx.fillText(reference, 100, startY + blockH / 2 + lineHeight / 2 + 40);
+    ctx.fillText(reference, 100, startY + blockH + lineHeight / 2 + 24);
   }
 
   // Pied: wordmark + url

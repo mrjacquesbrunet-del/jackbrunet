@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Playfair_Display, Fredoka } from "next/font/google";
+import { Archivo, Playfair_Display, Fredoka, Caveat, Cormorant_Garamond, Bebas_Neue } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { Header } from "@/components/layout/Header";
@@ -33,6 +33,27 @@ const fredoka = Fredoka({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-game",
+  display: "swap",
+});
+
+// Polices du STUDIO du verset (personnalisation des images partagées).
+const caveat = Caveat({
+  subsets: ["latin"],
+  weight: ["700"],
+  variable: "--font-script",
+  display: "swap",
+});
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["600"],
+  style: ["normal", "italic"],
+  variable: "--font-fine",
+  display: "swap",
+});
+const bebas = Bebas_Neue({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-impact",
   display: "swap",
 });
 
@@ -84,7 +105,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="fr" className={`${archivo.variable} ${playfair.variable} ${fredoka.variable}`}>
+    <html lang="fr" className={`${archivo.variable} ${playfair.variable} ${fredoka.variable} ${caveat.variable} ${cormorant.variable} ${bebas.variable}`}>
       <body className="min-h-screen font-sans">
         {/* Grain de surface (texture subtile) */}
         <div className="bg-noise pointer-events-none fixed inset-0 z-[1] opacity-[0.035] mix-blend-multiply" />
