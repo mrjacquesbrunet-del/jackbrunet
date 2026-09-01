@@ -637,6 +637,292 @@
         "Je suis allé dans la rue appelée la Droite, à Damas.",
         "J'ai imposé les mains à Saul pour qu'il retrouve la vue."
       ]
+    },
+    {
+      "id": 59,
+      "difficulty": 3,
+      "name": "Nicodème",
+      "clues": [
+        "J'étais pharisien et un chef des Juifs, docteur en Israël.",
+        "Je suis venu poser mes questions de nuit, pour ne pas être vu.",
+        "On m'a dit qu'il fallait naître de nouveau, et je n'ai pas compris.",
+        "J'ai apporté la myrrhe et l'aloès pour ensevelir Jésus."
+      ]
+    },
+    {
+      "id": 60,
+      "difficulty": 3,
+      "name": "Timothée",
+      "clues": [
+        "Ma foi m'a été transmise par ma mère et ma grand-mère.",
+        "Mon père spirituel m'a écrit deux lettres qui portent mon nom.",
+        "On m'a conseillé un peu de vin à cause de mon estomac.",
+        "On m'a écrit : « Que personne ne méprise ta jeunesse. »"
+      ]
+    },
+    {
+      "id": 61,
+      "difficulty": 3,
+      "name": "Silas",
+      "clues": [
+        "J'ai été choisi comme compagnon de voyage après une vive dispute.",
+        "Dans les épîtres, on m'appelle aussi Silvain.",
+        "On m'a battu de verges puis jeté en prison à Philippes.",
+        "À minuit, je chantais les louanges de Dieu quand la terre a tremblé."
+      ]
+    },
+    {
+      "id": 62,
+      "difficulty": 3,
+      "name": "Priscille",
+      "clues": [
+        "Avec mon mari, nous avons dû quitter Rome sur un édit de l'empereur.",
+        "Nous étions faiseurs de tentes, comme notre ami apôtre.",
+        "Une église se réunissait dans notre maison.",
+        "Avec Aquilas, j'ai expliqué la voie de Dieu plus exactement à Apollos."
+      ]
+    },
+    {
+      "id": 63,
+      "difficulty": 3,
+      "name": "Urie",
+      "clues": [
+        "J'étais un étranger, mais je servais fidèlement dans l'armée d'Israël.",
+        "Par loyauté, j'ai refusé de descendre dormir dans ma maison.",
+        "J'ai porté moi-même la lettre qui ordonnait ma mort.",
+        "Le roi David a pris ma femme, Bath-Schéba."
+      ]
+    },
+    {
+      "id": 64,
+      "difficulty": 3,
+      "name": "Jézabel",
+      "clues": [
+        "Princesse étrangère, j'ai fait entrer mes idoles dans le palais d'Israël.",
+        "Je nourrissais à ma table des centaines de prophètes de Baal.",
+        "J'ai monté un faux procès pour offrir une vigne à mon mari.",
+        "Jetée d'une fenêtre, j'ai fini dévorée par les chiens, comme Élie l'avait dit."
+      ]
+    },
+    {
+      "id": 65,
+      "difficulty": 3,
+      "name": "Ézéchias",
+      "clues": [
+        "Roi de Juda, j'ai brisé les idoles, même le serpent d'airain de Moïse.",
+        "Assiégé par l'Assyrie, j'ai étendu la lettre de menace devant l'Éternel.",
+        "Malade à la mort, j'ai pleuré, et Dieu m'a ajouté quinze années.",
+        "Pour moi, l'ombre a reculé de dix degrés sur le cadran d'Achaz."
+      ]
+    },
+    {
+      "id": 66,
+      "difficulty": 3,
+      "name": "Josias",
+      "clues": [
+        "Je suis devenu roi de Juda à huit ans.",
+        "Pendant les travaux du temple, on a retrouvé le livre de la Loi.",
+        "En l'entendant lire, j'ai déchiré mes vêtements.",
+        "J'ai célébré une Pâque comme on n'en avait plus vu depuis les juges."
+      ]
+    },
+    {
+      "id": 67,
+      "difficulty": 3,
+      "name": "Siméon",
+      "clues": [
+        "J'attendais la consolation d'Israël, et l'Esprit reposait sur moi.",
+        "Il m'avait été révélé que je ne mourrais pas avant d'avoir vu le Christ.",
+        "Poussé par l'Esprit, je suis monté au temple ce jour-là.",
+        "J'ai pris l'enfant Jésus dans mes bras : « Mes yeux ont vu ton salut. »"
+      ]
+    },
+    {
+      "id": 68,
+      "difficulty": 3,
+      "name": "Jérémie",
+      "clues": [
+        "Appelé tout jeune, j'ai répondu : « Je ne sais point parler. »",
+        "Dieu m'a interdit de me marier, en signe pour mon peuple.",
+        "On m'a descendu dans une citerne pleine de boue pour me faire taire.",
+        "On m'appelle le prophète des larmes ; j'ai pleuré la chute de Jérusalem."
+      ]
+    },
+    {
+      "id": 69,
+      "difficulty": 3,
+      "name": "Ézéchiel",
+      "clues": [
+        "J'étais prophète parmi les exilés, près du fleuve Kebar.",
+        "J'ai vu un char de gloire avec des roues remplies d'yeux.",
+        "Dieu m'a fait coucher de longs jours sur le côté, en signe pour Israël.",
+        "Dans une vallée, j'ai vu des ossements desséchés reprendre vie."
+      ]
+    },
+    {
+      "id": 70,
+      "difficulty": 3,
+      "name": "Mardochée",
+      "clues": [
+        "J'ai élevé la fille de mon oncle comme ma propre fille.",
+        "Assis à la porte du roi, j'ai déjoué un complot contre lui.",
+        "J'ai refusé de me prosterner devant le favori du roi.",
+        "On m'a promené sur le cheval royal, conduit par celui qui voulait me pendre."
+      ]
+    },
+    {
+      "id": 71,
+      "difficulty": 4,
+      "name": "Hulda",
+      "clues": [
+        "Je suis une femme, et des rois envoyaient me consulter.",
+        "J'habitais Jérusalem, dans le second quartier de la ville.",
+        "Les envoyés de Josias sont venus me voir après la découverte du livre.",
+        "J'ai annoncé le jugement, mais la paix pour le roi au cœur humble."
+      ]
+    },
+    {
+      "id": 72,
+      "difficulty": 4,
+      "name": "Phinées",
+      "clues": [
+        "Je suis petit-fils du premier grand prêtre d'Israël.",
+        "Mon zèle a arrêté un fléau qui frappait le peuple à Baal-Peor.",
+        "J'ai agi avec une lance, quand tous pleuraient à l'entrée de la tente.",
+        "Dieu m'a donné son alliance de paix et un sacerdoce perpétuel."
+      ]
+    },
+    {
+      "id": 73,
+      "difficulty": 4,
+      "name": "Séphora",
+      "clues": [
+        "Mon père était sacrificateur de Madian.",
+        "Un fugitif d'Égypte a défendu les filles du puits, et je l'ai épousé.",
+        "Nos fils s'appelaient Guerschom et Éliézer.",
+        "En chemin, j'ai circoncis mon fils et parlé d'« époux de sang »."
+      ]
+    },
+    {
+      "id": 74,
+      "difficulty": 4,
+      "name": "Obed-Édom",
+      "clues": [
+        "Je suis de Gath, et pourtant ma maison a été bénie par le Dieu d'Israël.",
+        "Ce qui avait causé la mort d'un autre est resté chez moi trois mois.",
+        "Pendant ce temps, l'Éternel a béni tout ce qui m'appartenait.",
+        "En voyant cela, David a repris courage pour faire monter l'arche."
+      ]
+    },
+    {
+      "id": 75,
+      "difficulty": 4,
+      "name": "Uzza",
+      "clues": [
+        "Je marchais à côté d'un char à bœufs chargé d'un objet sacré.",
+        "Les bœufs ont bronché, et j'ai étendu la main.",
+        "J'ai touché ce qu'aucune main ne devait toucher.",
+        "Je suis mort là, et le lieu fut appelé Pérets-Uzza."
+      ]
+    },
+    {
+      "id": 76,
+      "difficulty": 3,
+      "name": "Simon le magicien",
+      "clues": [
+        "Dans ma ville de Samarie, on me tenait pour la puissance de Dieu.",
+        "J'ai cru à la prédication de Philippe et j'ai été baptisé.",
+        "J'ai vu l'Esprit donné par l'imposition des mains des apôtres.",
+        "J'ai proposé de l'argent pour ce pouvoir, et Pierre m'a repris sévèrement."
+      ]
+    },
+    {
+      "id": 77,
+      "difficulty": 4,
+      "name": "Eutyche",
+      "clues": [
+        "J'étais un jeune homme assis sur le bord d'une fenêtre.",
+        "Le prédicateur a prolongé son discours jusqu'à minuit.",
+        "Accablé de sommeil, je suis tombé du troisième étage.",
+        "On m'a relevé mort, mais Paul m'a rendu vivant."
+      ]
+    },
+    {
+      "id": 78,
+      "difficulty": 4,
+      "name": "Démas",
+      "clues": [
+        "Mon nom apparaît dans les salutations de plusieurs épîtres.",
+        "J'ai été compagnon d'œuvre de Paul, avec Luc.",
+        "Puis j'ai aimé le siècle présent.",
+        "Paul écrit que je l'ai abandonné pour partir à Thessalonique."
+      ]
+    },
+    {
+      "id": 79,
+      "difficulty": 4,
+      "name": "Agabus",
+      "clues": [
+        "Je suis un prophète descendu de Jérusalem à Antioche.",
+        "Par l'Esprit, j'ai annoncé une grande famine sous l'empereur Claude.",
+        "Des années plus tard, j'ai pris la ceinture d'un apôtre.",
+        "Je m'en suis lié les mains et les pieds pour annoncer son arrestation."
+      ]
+    },
+    {
+      "id": 80,
+      "difficulty": 4,
+      "name": "Barzillaï",
+      "clues": [
+        "J'étais un riche vieillard de Galaad, âgé de quatre-vingts ans.",
+        "J'ai ravitaillé le roi David quand il fuyait son propre fils.",
+        "Invité à la cour, j'ai décliné : je voulais mourir près de mes pères.",
+        "J'ai envoyé Kimham à ma place auprès du roi."
+      ]
+    },
+    {
+      "id": 81,
+      "difficulty": 4,
+      "name": "Nabal",
+      "clues": [
+        "J'étais très riche en brebis et en chèvres, à Maon.",
+        "Mon nom même veut dire « insensé », et j'ai agi comme lui.",
+        "J'ai insulté les hommes de David qui avaient protégé mes bergers.",
+        "Ma femme Abigaïl a détourné l'épée ; mon cœur est devenu comme une pierre."
+      ]
+    },
+    {
+      "id": 82,
+      "difficulty": 4,
+      "name": "Matthias",
+      "clues": [
+        "J'ai suivi Jésus depuis le baptême de Jean jusqu'à l'ascension.",
+        "Il fallait un témoin de la résurrection pour compléter les douze.",
+        "On m'a présenté avec Joseph dit Barsabbas.",
+        "Après la prière, le sort est tombé sur moi."
+      ]
+    },
+    {
+      "id": 83,
+      "difficulty": 4,
+      "name": "Zorobabel",
+      "clues": [
+        "Descendant de David, j'ai conduit les exilés de retour à Jérusalem.",
+        "J'ai posé les fondements du second temple.",
+        "On m'a dit : « Ni par la puissance, ni par la force, mais par mon Esprit. »",
+        "Devant moi, la grande montagne devait devenir une plaine."
+      ]
+    },
+    {
+      "id": 84,
+      "difficulty": 4,
+      "name": "Cléopas",
+      "clues": [
+        "Ce jour-là, je quittais Jérusalem, le cœur lourd, avec un compagnon.",
+        "Un inconnu a fait route avec nous et semblait tout ignorer des événements.",
+        "Il nous a expliqué les Écritures, et notre cœur brûlait au-dedans de nous.",
+        "Nous l'avons reconnu à la fraction du pain, dans notre village d'Emmaüs."
+      ]
     }
   ]
 }
