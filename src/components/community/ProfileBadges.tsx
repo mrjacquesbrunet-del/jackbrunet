@@ -4,11 +4,76 @@ import { useEffect, useState } from "react";
 import {
   fetchProfileBadges,
   localSpiritualStats,
+  HONOR_LABELS,
   type ProfileBadges,
   type BadgeKind,
   type BadgeTier,
   type BadgeState,
+  type HonorKind,
 } from "@/lib/badges";
+
+/* ---------- Titres à répétition (« ×N ») ---------- */
+
+const HONOR_META: Record<HonorKind, { ring: string; color: string; icon: "crown" | "pray" }> = {
+  champion_semaine: { ring: "bdg-champ", color: "#FCD34D", icon: "crown" },
+  intercesseur_semaine: { ring: "bdg-interw", color: "#CAF000", icon: "pray" },
+  intercesseur_mois: { ring: "bdg-interm", color: "#c7d2fe", icon: "pray" },
+};
+
+const HONOR_ORDER: HonorKind[] = ["champion_semaine", "intercesseur_semaine", "intercesseur_mois"];
+
+function HonorIcon({ icon, color, size = 20 }: { icon: "crown" | "pray"; color: string; size?: number }) {
+  const d =
+    icon === "crown"
+      ? "M4 18h16M5 16l-1-8 5 3 3-6 3 6 5-3-1 8z"
+      : ICON_PATHS.intercesseur;
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      style={{ width: size, height: size, color }}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d={d} />
+    </svg>
+  );
+}
+
+/** Médaillon d'un TITRE, avec son anneau coloré et le compteur ×N. */
+function HonorMedallion({
+  kind,
+  count,
+  small = false,
+  onClick,
+}: {
+  kind: HonorKind;
+  count: number;
+  small?: boolean;
+  onClick?: () => void;
+}) {
+  const meta = HONOR_META[kind];
+  const won = count > 0;
+  return (
+    <span className="relative inline-flex shrink-0">
+      <button
+        type="button"
+        onClick={onClick}
+        title={`${HONOR_LABELS[kind]}${won ? ` ×${count}` : ""}`}
+        aria-label={`${HONOR_LABELS[kind]}${won ? ` remporté ${count} fois` : ""}`}
+        className={`bdg bdg-in ${small ? "bdg-sm" : ""} ${won ? meta.ring : "bdg-lock"} transition-transform active:scale-95`}
+      >
+        <span className="bdg-core">
+          <HonorIcon icon={meta.icon} color={won ? meta.color : "rgba(243,243,237,.35)"} size={small ? 16 : 20} />
+        </span>
+      </button>
+      {won ? <span className="bdg-count">×{count}</span> : null}
+    </span>
+  );
+}
 
 /**
  * Médaillons « premium » des badges, affichés SUR la photo de profil :
@@ -32,6 +97,11 @@ const BDG_CSS = `
 .bdg-hebdo{animation:bdg-halo 2.4s ease-in-out infinite}
 @keyframes bdg-in{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
 .bdg-in{animation:bdg-in .45s cubic-bezier(.2,.8,.3,1) both}
+/* Anneaux des TITRES (couleurs modernes, un thème par titre) */
+.bdg-champ{background:conic-gradient(from 210deg,#b45309,#fde68a 25%,#f97316 55%,#ef4444 80%,#b45309)}
+.bdg-interw{background:conic-gradient(from 210deg,#5b7300,#e9ffa1 25%,#CAF000 55%,#86a800 80%,#5b7300)}
+.bdg-interm{background:conic-gradient(from 210deg,#3730a3,#c7d2fe 25%,#818cf8 55%,#6366f1 80%,#3730a3)}
+.bdg-count{position:absolute;right:-6px;bottom:-4px;min-width:24px;height:24px;padding:0 5px;border-radius:9999px;display:grid;place-items:center;background:linear-gradient(180deg,#fcd34d,#f59e0b);color:#4a2600;font-weight:900;font-size:11px;box-shadow:0 2px 6px rgba(0,0,0,.4)}
 `;
 
 const ICON_PATHS: Record<BadgeKind | "hebdo", string> = {
@@ -140,7 +210,8 @@ export function ProfileBadgesRow({
 
   const earned = data?.states.filter((s) => s.tier) ?? [];
   if (!data) return null;
-  const empty = earned.length === 0 && !data.weeklyTop;
+  const hasHonors = Object.values(data.honors ?? {}).some((n) => (n ?? 0) > 0);
+  const empty = earned.length === 0 && !data.weeklyTop && !hasHonors;
   // Profil d'un autre sans badge : rien. Sur SON profil (compact), on montre
   // quand même un médaillon grisé qui ouvre la vitrine des accomplissements.
   if (empty && !(compact && self)) return null;
@@ -161,10 +232,19 @@ export function ProfileBadgesRow({
             tier="or"
             hebdo
             small={compact}
-            title="Intercesseur de la semaine"
+            title="Intercesseur de la semaine (en cours)"
             onClick={() => setOpen(true)}
           />
         ) : null}
+        {HONOR_ORDER.filter((k) => (data.honors?.[k] ?? 0) > 0).map((k) => (
+          <HonorMedallion
+            key={k}
+            kind={k}
+            count={data.honors[k] ?? 0}
+            small={compact}
+            onClick={() => setOpen(true)}
+          />
+        ))}
         {earned.map((s, i) => (
           <Medallion
             key={s.kind}
@@ -230,6 +310,32 @@ function BadgesVitrine({ data, onClose }: { data: ProfileBadges; onClose: () => 
             </div>
           </div>
         ) : null}
+
+        {/* TITRES à répétition : remportés ×N, remis en jeu chaque période */}
+        <div className="mb-6">
+          <div className="flex items-center gap-3">
+            <p className="shrink-0 text-[11px] font-black uppercase tracking-[0.22em] text-cream/45">Titres</p>
+            <span className="h-px flex-1 bg-white/10" />
+          </div>
+          <div className="mt-3 grid grid-cols-3 gap-x-2 gap-y-4">
+            {HONOR_ORDER.map((k) => {
+              const n = data.honors?.[k] ?? 0;
+              return (
+                <div key={k} className="flex flex-col items-center gap-1.5 p-2 text-center">
+                  <span className={n > 0 ? "" : "opacity-45 grayscale"}>
+                    <HonorMedallion kind={k} count={n} />
+                  </span>
+                  <span className={`text-[11px] font-bold leading-tight ${n > 0 ? "text-cream" : "text-cream/45"}`}>
+                    {HONOR_LABELS[k]}
+                  </span>
+                  <span className={`text-[10px] font-semibold ${n > 0 ? "text-dawn-300" : "text-cream/35"}`}>
+                    {n > 0 ? `Remporté ×${n}` : "À remporter"}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
 
         {SECTIONS.map(({ title, kinds }) => (
           <div key={title} className="mb-6">

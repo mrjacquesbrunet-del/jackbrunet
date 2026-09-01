@@ -39,9 +39,20 @@ export type BadgeState = {
   detail: string;
 };
 
+/** Titres à répétition (« ×N ») remportés au fil des semaines/mois. */
+export type HonorKind = "champion_semaine" | "intercesseur_semaine" | "intercesseur_mois";
+export type HonorCounts = Partial<Record<HonorKind, number>>;
+
+export const HONOR_LABELS: Record<HonorKind, string> = {
+  champion_semaine: "Champion de la semaine",
+  intercesseur_semaine: "Intercesseur de la semaine",
+  intercesseur_mois: "Intercesseur du mois",
+};
+
 export type ProfileBadges = {
   states: BadgeState[];
   weeklyTop: boolean;
+  honors: HonorCounts;
 };
 
 export const BADGE_LABELS: Record<BadgeKind, string> = {
@@ -124,6 +135,7 @@ export function localSpiritualStats(): SpiritualStats {
 /** Meilleur métal porté (pour l'anneau d'or autour de la photo). */
 export function bestTier(pb: ProfileBadges): BadgeTier | null {
   if (pb.weeklyTop) return "or";
+  if (Object.values(pb.honors ?? {}).some((n) => (n ?? 0) > 0)) return "or";
   const tiers = pb.states.map((s) => s.tier).filter(Boolean) as BadgeTier[];
   if (tiers.includes("or")) return "or";
   if (tiers.includes("argent")) return "argent";
@@ -167,7 +179,7 @@ export async function fetchProfileBadges(
   const sb = getSupabase();
   if (!sb) return null;
 
-  const [prays, comments, quizBoard, tops, prof] = await Promise.all([
+  const [prays, comments, quizBoard, tops, prof, honorRows] = await Promise.all([
     sb
       .from("prayer_reactions")
       .select("*", { count: "exact", head: true })
@@ -182,7 +194,13 @@ export async function fetchProfileBadges(
     localStats
       ? Promise.resolve(null)
       : sb.from("profiles").select("stats").eq("id", userId).maybeSingle(),
+    sb.from("honors").select("kind").eq("user_id", userId),
   ]);
+
+  const honors: HonorCounts = {};
+  for (const r of ((honorRows?.data as { kind: HonorKind }[]) ?? [])) {
+    honors[r.kind] = (honors[r.kind] ?? 0) + 1;
+  }
 
   const remote = ((prof?.data?.stats as Partial<SpiritualStats>) ?? {}) || {};
   const stats: SpiritualStats = localStats ?? {
@@ -207,5 +225,6 @@ export async function fetchProfileBadges(
       state("lecteur", stats.reading),
     ],
     weeklyTop: tops.length > 0 && tops[0].profile.id === userId && tops[0].score > 0,
+    honors,
   };
 }
