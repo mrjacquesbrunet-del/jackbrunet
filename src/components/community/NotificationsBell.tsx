@@ -48,6 +48,8 @@ function label(n: Notification) {
       return n.body? `${n.body}`: "Message de Pasteur Jack";
     case "challenge":
       return n.body ?? `${who} te défie en direct !`;
+    case "friend_score":
+      return n.body ?? `${who} a joué au Défi du jour !`;
     default:
       return n.body?? "Nouvelle notification";
   }

@@ -79,6 +79,28 @@ export async function fetchWeeklyLeague(limit = 50): Promise<ScoreRow[]> {
   }
 }
 
+/**
+ * Prévient MES ABONNÉS de mon score au Défi du jour (« Natchouu a marqué
+ * 12 548 points au Défi du jour ! ») — au plus une fois par jour, via la
+ * RPC notify_friends_score (notification + push, famille « Défis & duels »).
+ */
+export async function notifyFriendsScore(points: number): Promise<void> {
+  const sb = getSupabase();
+  if (!sb || !Number.isFinite(points) || points <= 0) return;
+  try {
+    const day = new Date().toISOString().slice(0, 10);
+    if (localStorage.getItem("jb.friendscore.sent") === day) return;
+    localStorage.setItem("jb.friendscore.sent", day);
+  } catch {
+    /* stockage indisponible : le garde-fou serveur prend le relais */
+  }
+  try {
+    await sb.rpc("notify_friends_score", { points: Math.round(points) });
+  } catch {
+    /* RPC pas encore installée */
+  }
+}
+
 /** Id de l'utilisateur connecté (pour surligner sa ligne), ou null. */
 export async function currentUserId(): Promise<string | null> {
   const sb = getSupabase();

@@ -36,6 +36,7 @@ function messageFor(type: string, who: string, body: string): { title: string; t
     case "mention":        return { title: "Mention", text: `${who} t'a mentionné(e)` };
     case "admin":          return { title: "Pasteur Jack", text: body || "Nouveau message" };
     case "challenge":      return { title: "Défi en direct !", text: body || `${who} te défie en direct !` };
+    case "friend_score":   return { title: "Tes amis jouent !", text: body || `${who} a joué au Défi du jour !` };
     default:               return { title: "Notification", text: body || "Tu as une nouvelle notification" };
   }
 }
@@ -43,7 +44,7 @@ function messageFor(type: string, who: string, body: string): { title: string; t
 // Famille d'un type de notif (miroir de src/lib/notif-prefs.ts) — sert à
 // respecter les préférences par type (profiles.notif_prefs).
 function groupForType(type: string): string {
-  if (type === "challenge") return "games";
+  if (type === "challenge" || type === "friend_score") return "games";
   if (type === "message") return "messages";
   if (type === "pray" || type === "pray_digest" || type === "follow_up") return "prays";
   if (type.startsWith("group_")) return "groups";

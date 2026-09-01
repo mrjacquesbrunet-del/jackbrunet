@@ -85,7 +85,8 @@ export type NotifType =
   | "comment_reaction"
   | "pray_digest"
   | "follow_up"
-  | "challenge";
+  | "challenge"
+  | "friend_score";
 export type Notification = {
   id: string;
   user_id: string;

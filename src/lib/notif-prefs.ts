@@ -31,7 +31,7 @@ export const NOTIF_GROUPS: { key: NotifGroup; label: string; detail: string }[] 
 
 /** Famille d'un type de notification (miroir côté edge notify-push). */
 export function groupForType(type: string): NotifGroup {
-  if (type === "challenge") return "games";
+  if (type === "challenge" || type === "friend_score") return "games";
   if (type === "message") return "messages";
   if (type === "pray" || type === "pray_digest" || type === "follow_up") return "prays";
   if (type.startsWith("group_")) return "groups";

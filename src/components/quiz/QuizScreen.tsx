@@ -45,7 +45,7 @@ import { getVfXp } from "@/lib/vraifaux";
 import { asset } from "@/lib/asset";
 import { getSupabase } from "@/lib/supabase";
 import { getProfile } from "@/lib/community";
-import { submitGameScore, submitWeeklyPoints } from "@/lib/game-scores";
+import { submitGameScore, submitWeeklyPoints, notifyFriendsScore } from "@/lib/game-scores";
 import { ScoreBoard } from "@/components/games/ScoreBoard";
 import { ARCADE_CSS, ArcadeShell } from "@/components/games/ArcadeUI";
 import { DuelLive, newDuelCode, type DuelRole } from "@/components/games/DuelLive";
@@ -422,6 +422,8 @@ export function QuizScreen() {
       if (sourceRef.current === "daily") {
         const d = markDailyDone();
         setDaily({ streak: d.streak, doneToday: true });
+        // Les abonnés reçoivent « X a marqué N points au Défi du jour ! »
+        void notifyFriendsScore(amount);
       }
     },
     [],
