@@ -13,7 +13,7 @@ import { ProfileInfoPills } from "@/components/community/ProfileInfoPills";
 import { FollowListModal } from "@/components/community/FollowListModal";
 import { presenceLabel } from "@/lib/presence";
 import { withJesusLabel, STREAK_BADGE_MIN } from "@/lib/spiritual";
-import { ProfileBadgesRow } from "@/components/community/ProfileBadges";
+import { ProfileBadgesRow, AchievementsOverlay } from "@/components/community/ProfileBadges";
 import { ProfileThemeBg, useProfileTheme } from "@/components/community/ProfileTheme";
 import { blockUser, unblockUser, listBlockedIds } from "@/lib/moderation";
 import {
@@ -47,6 +47,8 @@ export function MemberView() {
   const [busy, setBusy] = useState(false);
   const [blocked, setBlocked] = useState(false);
   const [showList, setShowList] = useState<null | "followers" | "following">(null);
+  // Vitrine des accomplissements du membre (trophées, titres, badges).
+  const [showAchievements, setShowAchievements] = useState(false);
 
   const isMe =!!userId &&!!memberId && userId === memberId;
   const { jour } = useProfileTheme();
@@ -260,6 +262,20 @@ export function MemberView() {
           {/* Badges de récompense (médaillons premium sur la photo) */}
           <ProfileBadgesRow userId={profile.id} streakDays={profile.streak_days} />
 
+          {/* Vitrine complète du membre : trophées, titres ×N, badges */}
+          <button
+            type="button"
+            onClick={() => setShowAchievements(true)}
+            className={`mt-2.5 inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[11px] font-bold backdrop-blur transition-colors ${
+              jour ? "bg-night-900/10 text-night-900/70 hover:bg-night-900/15" : "bg-white/10 text-cream/75 hover:bg-white/15"
+            }`}
+          >
+            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M4 18h16M5 16l-1-8 5 3 3-6 3 6 5-3-1 8z" />
+            </svg>
+            Ses accomplissements
+          </button>
+
           <div className="mx-auto mt-5 flex max-w-md items-center gap-2">
             {isMe? (
               <Link
@@ -412,6 +428,15 @@ export function MemberView() {
           kind={showList}
           locked={profile.follows_privacy === "prive" && !isMe && !isAdmin}
           onClose={() => setShowList(null)}
+        />
+      ) : null}
+
+      {showAchievements ? (
+        <AchievementsOverlay
+          userId={profile.id}
+          streakDays={profile.streak_days}
+          self={isMe}
+          onClose={() => setShowAchievements(false)}
         />
       ) : null}
     </section>

@@ -275,22 +275,25 @@ export function ProfileBadgesRow({
 export function AchievementsOverlay({
   userId,
   streakDays,
+  self = false,
   onClose,
 }: {
   userId: string;
   streakDays?: number | null;
+  /** Mon propre profil : compteurs locaux frais ; sinon profiles.stats. */
+  self?: boolean;
   onClose: () => void;
 }) {
   const [data, setData] = useState<ProfileBadges | null>(null);
   useEffect(() => {
     let alive = true;
-    fetchProfileBadges(userId, streakDays, localSpiritualStats()).then((d) => {
+    fetchProfileBadges(userId, streakDays, self ? localSpiritualStats() : undefined).then((d) => {
       if (alive) setData(d);
     });
     return () => {
       alive = false;
     };
-  }, [userId, streakDays]);
+  }, [userId, streakDays, self]);
 
   if (!data) {
     return (

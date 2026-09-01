@@ -314,7 +314,7 @@ export function GamesHub() {
       </div>
 
       {showAchievements && userId ? (
-        <AchievementsOverlay userId={userId} onClose={() => setShowAchievements(false)} />
+        <AchievementsOverlay userId={userId} self onClose={() => setShowAchievements(false)} />
       ) : null}
     </div>
   );
