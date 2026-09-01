@@ -19,6 +19,7 @@ import { getProfile } from "@/lib/community";
 import { submitGameScore } from "@/lib/game-scores";
 import { ScoreBoard } from "@/components/games/ScoreBoard";
 import { LeagueBoard } from "@/components/games/LeagueBoard";
+import { MissionsCard } from "@/components/games/MissionsCard";
 import { pendingChallenges } from "@/lib/challenges";
 import { asset } from "@/lib/asset";
 import { AchievementsOverlay } from "@/components/community/ProfileBadges";
@@ -248,6 +249,9 @@ export function GamesHub() {
             );
           })}
         </div>
+
+        {/* ---------- Missions de la semaine ---------- */}
+        <MissionsCard />
 
         {/* ---------- Défier un ami ---------- */}
         <Link href="/defi" className="jx-card mt-4 flex items-center gap-3 p-4" style={{ background: "linear-gradient(120deg,#1E1E1D,#0C0C0B)", animationDelay: ".4s" }}>
