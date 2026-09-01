@@ -1,0 +1,682 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "label": "La création du monde",
+      "era": "Aux origines",
+      "ref": "Genèse 1"
+    },
+    {
+      "id": 2,
+      "label": "Adam et Ève chassés du jardin d'Éden",
+      "era": "Aux origines",
+      "ref": "Genèse 3"
+    },
+    {
+      "id": 3,
+      "label": "Caïn tue son frère Abel",
+      "era": "Aux origines",
+      "ref": "Genèse 4"
+    },
+    {
+      "id": 4,
+      "label": "Hénoc est enlevé auprès de Dieu sans mourir",
+      "era": "Aux origines",
+      "ref": "Genèse 5"
+    },
+    {
+      "id": 5,
+      "label": "Le déluge et l'arche de Noé",
+      "era": "Aux origines",
+      "ref": "Genèse 7"
+    },
+    {
+      "id": 6,
+      "label": "La tour de Babel et la confusion des langues",
+      "era": "Aux origines",
+      "ref": "Genèse 11"
+    },
+    {
+      "id": 7,
+      "label": "Dieu appelle Abram à quitter son pays",
+      "era": "Vers 2000 av. J.-C.",
+      "ref": "Genèse 12"
+    },
+    {
+      "id": 8,
+      "label": "Melchisédek bénit Abram",
+      "era": "Vers 2000 av. J.-C.",
+      "ref": "Genèse 14"
+    },
+    {
+      "id": 9,
+      "label": "Destruction de Sodome et Gomorrhe",
+      "era": "Vers 1900 av. J.-C.",
+      "ref": "Genèse 19"
+    },
+    {
+      "id": 10,
+      "label": "Naissance d'Isaac",
+      "era": "Vers 1900 av. J.-C.",
+      "ref": "Genèse 21"
+    },
+    {
+      "id": 11,
+      "label": "Abraham prêt à offrir Isaac sur la montagne",
+      "era": "Vers 1880 av. J.-C.",
+      "ref": "Genèse 22"
+    },
+    {
+      "id": 12,
+      "label": "Ésaü vend son droit d'aînesse à Jacob",
+      "era": "Vers 1800 av. J.-C.",
+      "ref": "Genèse 25"
+    },
+    {
+      "id": 13,
+      "label": "Le songe de l'échelle de Jacob à Béthel",
+      "era": "Vers 1780 av. J.-C.",
+      "ref": "Genèse 28"
+    },
+    {
+      "id": 14,
+      "label": "Jacob lutte avec Dieu à Peniel et devient Israël",
+      "era": "Vers 1760 av. J.-C.",
+      "ref": "Genèse 32"
+    },
+    {
+      "id": 15,
+      "label": "Joseph vendu par ses frères",
+      "era": "Vers 1720 av. J.-C.",
+      "ref": "Genèse 37"
+    },
+    {
+      "id": 16,
+      "label": "Joseph interprète les songes de Pharaon",
+      "era": "Vers 1700 av. J.-C.",
+      "ref": "Genèse 41"
+    },
+    {
+      "id": 17,
+      "label": "Jacob et sa famille s'installent en Égypte",
+      "era": "Vers 1690 av. J.-C.",
+      "ref": "Genèse 46"
+    },
+    {
+      "id": 18,
+      "label": "Mort de Joseph en Égypte",
+      "era": "Vers 1630 av. J.-C.",
+      "ref": "Genèse 50"
+    },
+    {
+      "id": 19,
+      "label": "Naissance de Moïse, sauvé des eaux",
+      "era": "Vers 1530 av. J.-C.",
+      "ref": "Exode 2"
+    },
+    {
+      "id": 20,
+      "label": "Moïse fuit en Madian après avoir tué un Égyptien",
+      "era": "Vers 1490 av. J.-C.",
+      "ref": "Exode 2"
+    },
+    {
+      "id": 21,
+      "label": "Dieu parle à Moïse dans le buisson ardent",
+      "era": "Vers 1450 av. J.-C.",
+      "ref": "Exode 3"
+    },
+    {
+      "id": 22,
+      "label": "Les dix plaies frappent l'Égypte",
+      "era": "Vers 1450 av. J.-C.",
+      "ref": "Exode 7-12"
+    },
+    {
+      "id": 23,
+      "label": "La première Pâque et la sortie d'Égypte",
+      "era": "Vers 1450 av. J.-C.",
+      "ref": "Exode 12"
+    },
+    {
+      "id": 24,
+      "label": "La traversée de la mer Rouge",
+      "era": "Vers 1450 av. J.-C.",
+      "ref": "Exode 14"
+    },
+    {
+      "id": 25,
+      "label": "La manne tombe du ciel au désert",
+      "era": "Vers 1450 av. J.-C.",
+      "ref": "Exode 16"
+    },
+    {
+      "id": 26,
+      "label": "Les dix commandements donnés au Sinaï",
+      "era": "Vers 1450 av. J.-C.",
+      "ref": "Exode 20"
+    },
+    {
+      "id": 27,
+      "label": "Le peuple fabrique le veau d'or",
+      "era": "Vers 1450 av. J.-C.",
+      "ref": "Exode 32"
+    },
+    {
+      "id": 28,
+      "label": "Les douze espions explorent Canaan",
+      "era": "Vers 1445 av. J.-C.",
+      "ref": "Nombres 13"
+    },
+    {
+      "id": 29,
+      "label": "Le serpent d'airain élevé au désert",
+      "era": "Vers 1410 av. J.-C.",
+      "ref": "Nombres 21"
+    },
+    {
+      "id": 30,
+      "label": "L'ânesse de Balaam parle",
+      "era": "Vers 1410 av. J.-C.",
+      "ref": "Nombres 22"
+    },
+    {
+      "id": 31,
+      "label": "Mort de Moïse au mont Nebo",
+      "era": "Vers 1405 av. J.-C.",
+      "ref": "Deutéronome 34"
+    },
+    {
+      "id": 32,
+      "label": "Josué fait traverser le Jourdain à pied sec",
+      "era": "Vers 1405 av. J.-C.",
+      "ref": "Josué 3"
+    },
+    {
+      "id": 33,
+      "label": "Les murailles de Jéricho s'écroulent",
+      "era": "Vers 1405 av. J.-C.",
+      "ref": "Josué 6"
+    },
+    {
+      "id": 34,
+      "label": "Le soleil s'arrête sur Gabaon",
+      "era": "Vers 1400 av. J.-C.",
+      "ref": "Josué 10"
+    },
+    {
+      "id": 35,
+      "label": "Débora et Barak délivrent Israël",
+      "era": "Vers 1200 av. J.-C.",
+      "ref": "Juges 4"
+    },
+    {
+      "id": 36,
+      "label": "Gédéon vainc Madian avec 300 hommes",
+      "era": "Vers 1170 av. J.-C.",
+      "ref": "Juges 7"
+    },
+    {
+      "id": 37,
+      "label": "Ruth glane dans les champs de Booz",
+      "era": "Vers 1100 av. J.-C.",
+      "ref": "Ruth 2"
+    },
+    {
+      "id": 38,
+      "label": "Samson terrasse les Philistins",
+      "era": "Vers 1080 av. J.-C.",
+      "ref": "Juges 16"
+    },
+    {
+      "id": 39,
+      "label": "Dieu appelle le jeune Samuel dans la nuit",
+      "era": "Vers 1070 av. J.-C.",
+      "ref": "1 Samuel 3"
+    },
+    {
+      "id": 40,
+      "label": "L'arche de l'alliance capturée par les Philistins",
+      "era": "Vers 1060 av. J.-C.",
+      "ref": "1 Samuel 4"
+    },
+    {
+      "id": 41,
+      "label": "Saül devient le premier roi d'Israël",
+      "era": "Vers 1050 av. J.-C.",
+      "ref": "1 Samuel 10"
+    },
+    {
+      "id": 42,
+      "label": "Samuel oint David, le jeune berger",
+      "era": "Vers 1025 av. J.-C.",
+      "ref": "1 Samuel 16"
+    },
+    {
+      "id": 43,
+      "label": "David terrasse Goliath",
+      "era": "Vers 1020 av. J.-C.",
+      "ref": "1 Samuel 17"
+    },
+    {
+      "id": 44,
+      "label": "David épargne Saül dans la grotte",
+      "era": "Vers 1015 av. J.-C.",
+      "ref": "1 Samuel 24"
+    },
+    {
+      "id": 45,
+      "label": "Mort de Saül à la bataille de Guilboa",
+      "era": "Vers 1010 av. J.-C.",
+      "ref": "1 Samuel 31"
+    },
+    {
+      "id": 46,
+      "label": "David devient roi et prend Jérusalem",
+      "era": "Vers 1003 av. J.-C.",
+      "ref": "2 Samuel 5"
+    },
+    {
+      "id": 47,
+      "label": "L'arche montée à Jérusalem, David danse",
+      "era": "Vers 1000 av. J.-C.",
+      "ref": "2 Samuel 6"
+    },
+    {
+      "id": 48,
+      "label": "David et Bath-Schéba, le péché du roi",
+      "era": "Vers 990 av. J.-C.",
+      "ref": "2 Samuel 11"
+    },
+    {
+      "id": 49,
+      "label": "La révolte d'Absalom contre son père David",
+      "era": "Vers 975 av. J.-C.",
+      "ref": "2 Samuel 15"
+    },
+    {
+      "id": 50,
+      "label": "Salomon monte sur le trône",
+      "era": "Vers 970 av. J.-C.",
+      "ref": "1 Rois 1"
+    },
+    {
+      "id": 51,
+      "label": "Le jugement de Salomon entre les deux mères",
+      "era": "Vers 968 av. J.-C.",
+      "ref": "1 Rois 3"
+    },
+    {
+      "id": 52,
+      "label": "Construction du temple de Jérusalem",
+      "era": "Vers 966 av. J.-C.",
+      "ref": "1 Rois 6"
+    },
+    {
+      "id": 53,
+      "label": "La reine de Séba visite Salomon",
+      "era": "Vers 945 av. J.-C.",
+      "ref": "1 Rois 10"
+    },
+    {
+      "id": 54,
+      "label": "Le royaume se divise : Israël et Juda",
+      "era": "931 av. J.-C.",
+      "ref": "1 Rois 12"
+    },
+    {
+      "id": 55,
+      "label": "Élie affronte les prophètes de Baal au Carmel",
+      "era": "Vers 860 av. J.-C.",
+      "ref": "1 Rois 18"
+    },
+    {
+      "id": 56,
+      "label": "Élie enlevé au ciel dans un char de feu",
+      "era": "Vers 850 av. J.-C.",
+      "ref": "2 Rois 2"
+    },
+    {
+      "id": 57,
+      "label": "Élisée guérit Naaman de la lèpre",
+      "era": "Vers 840 av. J.-C.",
+      "ref": "2 Rois 5"
+    },
+    {
+      "id": 58,
+      "label": "Jonas prêche à Ninive, la ville se repent",
+      "era": "Vers 780 av. J.-C.",
+      "ref": "Jonas 3"
+    },
+    {
+      "id": 59,
+      "label": "Chute de Samarie : fin du royaume du Nord",
+      "era": "722 av. J.-C.",
+      "ref": "2 Rois 17"
+    },
+    {
+      "id": 60,
+      "label": "Ézéchias délivré de l'armée assyrienne",
+      "era": "701 av. J.-C.",
+      "ref": "2 Rois 19"
+    },
+    {
+      "id": 61,
+      "label": "Josias retrouve le livre de la Loi au temple",
+      "era": "622 av. J.-C.",
+      "ref": "2 Rois 22"
+    },
+    {
+      "id": 62,
+      "label": "Daniel et ses amis déportés à Babylone",
+      "era": "605 av. J.-C.",
+      "ref": "Daniel 1"
+    },
+    {
+      "id": 63,
+      "label": "Les trois amis dans la fournaise ardente",
+      "era": "Vers 590 av. J.-C.",
+      "ref": "Daniel 3"
+    },
+    {
+      "id": 64,
+      "label": "Jérémie jeté dans la citerne pour ses prophéties",
+      "era": "Vers 588 av. J.-C.",
+      "ref": "Jérémie 38"
+    },
+    {
+      "id": 65,
+      "label": "Chute de Jérusalem, le temple détruit",
+      "era": "586 av. J.-C.",
+      "ref": "2 Rois 25"
+    },
+    {
+      "id": 66,
+      "label": "Ézéchiel voit la vallée d'ossements desséchés",
+      "era": "Vers 585 av. J.-C.",
+      "ref": "Ézéchiel 37"
+    },
+    {
+      "id": 67,
+      "label": "Le festin de Belschatsar et l'écriture sur le mur",
+      "era": "539 av. J.-C.",
+      "ref": "Daniel 5"
+    },
+    {
+      "id": 68,
+      "label": "Daniel dans la fosse aux lions",
+      "era": "Vers 538 av. J.-C.",
+      "ref": "Daniel 6"
+    },
+    {
+      "id": 69,
+      "label": "L'édit de Cyrus : les exilés peuvent rentrer",
+      "era": "538 av. J.-C.",
+      "ref": "Esdras 1"
+    },
+    {
+      "id": 70,
+      "label": "Zorobabel pose les fondations du second temple",
+      "era": "536 av. J.-C.",
+      "ref": "Esdras 3"
+    },
+    {
+      "id": 71,
+      "label": "Esther devient reine et sauve son peuple",
+      "era": "Vers 478 av. J.-C.",
+      "ref": "Esther 7"
+    },
+    {
+      "id": 72,
+      "label": "Néhémie rebâtit les murailles en 52 jours",
+      "era": "445 av. J.-C.",
+      "ref": "Néhémie 6"
+    },
+    {
+      "id": 73,
+      "label": "L'ange Gabriel annonce à Marie la naissance de Jésus",
+      "era": "Vers 5 av. J.-C.",
+      "ref": "Luc 1"
+    },
+    {
+      "id": 74,
+      "label": "Naissance de Jésus à Bethléhem",
+      "era": "Vers 5 av. J.-C.",
+      "ref": "Luc 2"
+    },
+    {
+      "id": 75,
+      "label": "Les mages viennent adorer l'enfant",
+      "era": "Vers 4 av. J.-C.",
+      "ref": "Matthieu 2"
+    },
+    {
+      "id": 76,
+      "label": "La fuite en Égypte devant Hérode",
+      "era": "Vers 4 av. J.-C.",
+      "ref": "Matthieu 2"
+    },
+    {
+      "id": 77,
+      "label": "Jésus, à 12 ans, dans le temple parmi les docteurs",
+      "era": "Vers l'an 8",
+      "ref": "Luc 2"
+    },
+    {
+      "id": 78,
+      "label": "Jean-Baptiste baptise Jésus dans le Jourdain",
+      "era": "Vers l'an 27",
+      "ref": "Matthieu 3"
+    },
+    {
+      "id": 79,
+      "label": "Jésus tenté 40 jours dans le désert",
+      "era": "Vers l'an 27",
+      "ref": "Matthieu 4"
+    },
+    {
+      "id": 80,
+      "label": "L'eau changée en vin aux noces de Cana",
+      "era": "Vers l'an 27",
+      "ref": "Jean 2"
+    },
+    {
+      "id": 81,
+      "label": "Jésus choisit ses douze apôtres",
+      "era": "Vers l'an 28",
+      "ref": "Luc 6"
+    },
+    {
+      "id": 82,
+      "label": "Le sermon sur la montagne",
+      "era": "Vers l'an 28",
+      "ref": "Matthieu 5-7"
+    },
+    {
+      "id": 83,
+      "label": "Jésus apaise la tempête sur le lac",
+      "era": "Vers l'an 28",
+      "ref": "Marc 4"
+    },
+    {
+      "id": 84,
+      "label": "La multiplication des pains pour 5 000 hommes",
+      "era": "Vers l'an 29",
+      "ref": "Jean 6"
+    },
+    {
+      "id": 85,
+      "label": "Jésus marche sur l'eau",
+      "era": "Vers l'an 29",
+      "ref": "Matthieu 14"
+    },
+    {
+      "id": 86,
+      "label": "La transfiguration sur la montagne",
+      "era": "Vers l'an 29",
+      "ref": "Matthieu 17"
+    },
+    {
+      "id": 87,
+      "label": "Lazare ressuscité après quatre jours",
+      "era": "Vers l'an 30",
+      "ref": "Jean 11"
+    },
+    {
+      "id": 88,
+      "label": "Entrée triomphale à Jérusalem (les Rameaux)",
+      "era": "An 30",
+      "ref": "Matthieu 21"
+    },
+    {
+      "id": 89,
+      "label": "Jésus chasse les marchands du temple",
+      "era": "An 30",
+      "ref": "Matthieu 21"
+    },
+    {
+      "id": 90,
+      "label": "La dernière Cène avec les disciples",
+      "era": "An 30",
+      "ref": "Luc 22"
+    },
+    {
+      "id": 91,
+      "label": "Jésus prie à Gethsémané puis est arrêté",
+      "era": "An 30",
+      "ref": "Matthieu 26"
+    },
+    {
+      "id": 92,
+      "label": "Pierre renie Jésus trois fois",
+      "era": "An 30",
+      "ref": "Luc 22"
+    },
+    {
+      "id": 93,
+      "label": "Jésus crucifié à Golgotha",
+      "era": "An 30",
+      "ref": "Jean 19"
+    },
+    {
+      "id": 94,
+      "label": "La résurrection : le tombeau est vide",
+      "era": "An 30",
+      "ref": "Matthieu 28"
+    },
+    {
+      "id": 95,
+      "label": "Jésus rejoint les disciples d'Emmaüs",
+      "era": "An 30",
+      "ref": "Luc 24"
+    },
+    {
+      "id": 96,
+      "label": "Thomas touche les plaies du Ressuscité",
+      "era": "An 30",
+      "ref": "Jean 20"
+    },
+    {
+      "id": 97,
+      "label": "L'Ascension au mont des Oliviers",
+      "era": "An 30",
+      "ref": "Actes 1"
+    },
+    {
+      "id": 98,
+      "label": "La Pentecôte : le Saint-Esprit descend",
+      "era": "An 30",
+      "ref": "Actes 2"
+    },
+    {
+      "id": 99,
+      "label": "Pierre guérit le boiteux à la Belle porte",
+      "era": "Vers l'an 31",
+      "ref": "Actes 3"
+    },
+    {
+      "id": 100,
+      "label": "Étienne, premier martyr, lapidé",
+      "era": "Vers l'an 34",
+      "ref": "Actes 7"
+    },
+    {
+      "id": 101,
+      "label": "Philippe baptise l'eunuque éthiopien",
+      "era": "Vers l'an 34",
+      "ref": "Actes 8"
+    },
+    {
+      "id": 102,
+      "label": "Saul terrassé sur le chemin de Damas",
+      "era": "Vers l'an 35",
+      "ref": "Actes 9"
+    },
+    {
+      "id": 103,
+      "label": "Pierre chez Corneille : l'Évangile aux païens",
+      "era": "Vers l'an 40",
+      "ref": "Actes 10"
+    },
+    {
+      "id": 104,
+      "label": "Un ange délivre Pierre de la prison d'Hérode",
+      "era": "An 44",
+      "ref": "Actes 12"
+    },
+    {
+      "id": 105,
+      "label": "Premier voyage missionnaire de Paul",
+      "era": "Vers l'an 46",
+      "ref": "Actes 13"
+    },
+    {
+      "id": 106,
+      "label": "Le concile de Jérusalem",
+      "era": "An 49",
+      "ref": "Actes 15"
+    },
+    {
+      "id": 107,
+      "label": "Paul et Silas chantent dans la prison de Philippes",
+      "era": "Vers l'an 50",
+      "ref": "Actes 16"
+    },
+    {
+      "id": 108,
+      "label": "Paul prêche aux Athéniens le « Dieu inconnu »",
+      "era": "Vers l'an 51",
+      "ref": "Actes 17"
+    },
+    {
+      "id": 109,
+      "label": "L'émeute des orfèvres à Éphèse",
+      "era": "Vers l'an 55",
+      "ref": "Actes 19"
+    },
+    {
+      "id": 110,
+      "label": "Paul arrêté dans le temple de Jérusalem",
+      "era": "An 57",
+      "ref": "Actes 21"
+    },
+    {
+      "id": 111,
+      "label": "Le naufrage de Paul près de Malte",
+      "era": "An 60",
+      "ref": "Actes 27"
+    },
+    {
+      "id": 112,
+      "label": "Paul prisonnier prêche à Rome",
+      "era": "An 61",
+      "ref": "Actes 28"
+    },
+    {
+      "id": 113,
+      "label": "Jean reçoit l'Apocalypse sur l'île de Patmos",
+      "era": "Vers l'an 95",
+      "ref": "Apocalypse 1"
+    }
+  ]
+}
