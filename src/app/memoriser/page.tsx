@@ -26,6 +26,7 @@ import {
 import { resolveRef, getBook } from "@/lib/bible-client";
 import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
 import { VerseGame } from "@/components/memorize/VerseGame";
+import { MissingWordGame } from "@/components/memorize/MissingWordGame";
 import { asset } from "@/lib/asset";
 import { WeeklyChampions } from "@/components/memorize/WeeklyChampions";
 import { VERSE_PACKS } from "@/config/verse-packs";
@@ -264,6 +265,8 @@ export default function MemoriserPage() {
   const [state, setState] = useState<"idle" | "loading" | "notfound" | "duplicate">("idle");
   const [training, setTraining] = useState<string | null>(null);
   const [gaming, setGaming] = useState(false);
+  // Exercice éclair « Le mot manquant » (verset à trous, 4 propositions).
+  const [wordGaming, setWordGaming] = useState(false);
 
   // Niveau du joueur (XP gagnés au jeu) + record + série + XP du jour,
   // rechargés en sortant du jeu.
@@ -403,6 +406,26 @@ export default function MemoriserPage() {
   const memorizedRefs = new Set(items.map((it) => it.reference.toLowerCase()));
   async function addPack(refs: string[]) {
     for (const q of refs) await addByReference(q);
+  }
+
+  // « Le mot manquant » : plein écran, comme le grand jeu.
+  if (wordGaming) {
+    return (
+      <div className="dark-ctx min-h-screen mem-hub pb-24 pt-24 text-white sm:pt-28">
+        <PlansDarkBg />
+        <div className="container-x mx-auto max-w-2xl">
+          <MissingWordGame
+            items={items}
+            onClose={() => {
+              setWordGaming(false);
+              setXp(getMemorizeXp());
+              setStreak(currentStreak());
+              setDailyXp(getDailyXp());
+            }}
+          />
+        </div>
+      </div>
+    );
   }
 
   // En partie : on n'affiche que le jeu (comme les autres jeux, plein écran).
@@ -550,6 +573,21 @@ export default function MemoriserPage() {
               Ajoute d&apos;abord un verset pour lancer une partie.
             </p>
           ) : null}
+
+          {/* Exercice éclair : verset à trous, 4 propositions, chrono */}
+          <button
+            type="button"
+            onClick={() => setWordGaming(true)}
+            className="mt-3 flex w-full items-center justify-center gap-2 rounded-full border border-amber-400/50 bg-amber-400/10 py-3.5 font-game text-base font-black text-amber-300 transition-transform active:scale-[.98]"
+          >
+            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.9} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M4 7h16M4 12h5m4 0h7M4 17h16" />
+            </svg>
+            LE MOT MANQUANT · EXERCICE ÉCLAIR
+          </button>
+          <p className="mt-1.5 text-center text-[11px] font-semibold text-white/45">
+            Un verset, un trou, quatre propositions — retrouve le mot avant la fin du chrono.
+          </p>
           {/* Retour à l'accueil des jeux (changer de jeu) */}
           <Link
             href="/jeux"
