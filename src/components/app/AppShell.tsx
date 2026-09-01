@@ -12,6 +12,7 @@ import { NotifOptIn } from "@/components/app/NotifOptIn";
 import { GamesNewsModal } from "@/components/app/GamesNewsModal";
 import { RatingPrompt } from "@/components/app/RatingPrompt";
 import { CarnetBubble } from "@/components/app/CarnetBubble";
+import { BadgeCelebration } from "@/components/app/BadgeCelebration";
 import { recordOpen } from "@/lib/usage";
 
 /**
@@ -84,6 +85,7 @@ export function AppShell() {
       <GamesNewsModal />
       <NotifOptIn />
       <RatingPrompt />
+      <BadgeCelebration />
     </>
   );
 }

@@ -10,6 +10,17 @@
  * Web Share avec repli sur le téléchargement / la copie.
  */
 
+import { bumpAchv } from "./achievements";
+
+/** Compte le partage pour le badge « Ambassadeur » (jamais bloquant). */
+function countShare() {
+  try {
+    bumpAchv("shares");
+  } catch {
+    /* stockage indisponible */
+  }
+}
+
 async function isNative(): Promise<boolean> {
   try {
     const { Capacitor } = await import("@capacitor/core");
@@ -61,6 +72,7 @@ export async function shareImageBlob(
       await Filesystem.writeFile({ path: filename, data, directory: Directory.Cache });
       const { uri } = await Filesystem.getUri({ path: filename, directory: Directory.Cache });
       await Share.share({ text, files: [uri] });
+      countShare();
     } catch {
       /* partage annulé ou indisponible, on ne fait rien */
     }
@@ -75,6 +87,7 @@ export async function shareImageBlob(
     };
     if (nav.share && nav.canShare && nav.canShare({ files: [file] })) {
       await nav.share({ files: [file], text });
+      countShare();
       return;
     }
   } catch {
@@ -160,6 +173,7 @@ export async function shareText(text: string, url?: string): Promise<boolean> {
     try {
       const { Share } = await import("@capacitor/share");
       await Share.share(url? { text, url }: { text });
+      countShare();
       return true;
     } catch {
       return false;
@@ -168,6 +182,7 @@ export async function shareText(text: string, url?: string): Promise<boolean> {
   try {
     if (typeof navigator!== "undefined" && navigator.share) {
       await navigator.share(url? { text, url }: { text });
+      countShare();
       return true;
     }
   } catch {

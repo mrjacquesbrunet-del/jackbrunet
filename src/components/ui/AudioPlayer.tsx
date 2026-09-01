@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { bumpAchv } from "@/lib/achievements";
+import { checkLocalBadges } from "@/lib/badges";
 
 /** Vitesses proposées (mémorisées via la même clé que le podcast). */
 const SPEEDS = [0.75, 1, 1.25, 1.5, 2] as const;
@@ -22,6 +24,8 @@ export function AudioPlayer({ src, label = "Écouter" }: { src: string; label?: 
   const gainRef = useRef<GainNode | null>(null);
   const [rate, setRate] = useState(1);
   const [vol, setVol] = useState(1);
+  // Badge « À l'écoute » : une écoute comptée par lecture (pas par pause/reprise).
+  const counted = useRef(false);
 
   useEffect(() => {
     try {
@@ -115,6 +119,11 @@ export function AudioPlayer({ src, label = "Écouter" }: { src: string; label?: 
           ensureGain();
           if (ctxRef.current?.state === "suspended") {
             ctxRef.current.resume().catch(() => undefined);
+          }
+          if (!counted.current) {
+            counted.current = true;
+            bumpAchv("listens");
+            checkLocalBadges();
           }
         }}
       >

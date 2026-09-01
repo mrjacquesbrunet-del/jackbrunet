@@ -46,6 +46,8 @@ import { asset } from "@/lib/asset";
 import { getSupabase } from "@/lib/supabase";
 import { getProfile } from "@/lib/community";
 import { submitGameScore, submitWeeklyPoints, notifyFriendsScore } from "@/lib/game-scores";
+import { bumpAchv, markDayStreak } from "@/lib/achievements";
+import { checkLocalBadges } from "@/lib/badges";
 import { ScoreBoard } from "@/components/games/ScoreBoard";
 import { ARCADE_CSS, ArcadeShell } from "@/components/games/ArcadeUI";
 import { DuelLive, newDuelCode, type DuelRole } from "@/components/games/DuelLive";
@@ -424,7 +426,12 @@ export function QuizScreen() {
         setDaily({ streak: d.streak, doneToday: true });
         // Les abonnés reçoivent « X a marqué N points au Défi du jour ! »
         void notifyFriendsScore(amount);
+        bumpAchv("daily_challenges");
       }
+      // Badges : « Sans-faute » (le million = zéro erreur), jours de jeu, paliers.
+      if (why === "win") bumpAchv("perfect_games");
+      markDayStreak("play");
+      checkLocalBadges();
     },
     [],
   );
@@ -449,6 +456,9 @@ export function QuizScreen() {
       setReveal(true);
       const correct = idx === q.correct;
       if (correct) {
+        // Badges : « Éclair » (réponse en ≤ 3 s) et « Démineur » (question piège).
+        if (QUESTION_TIME - timeLeft <= 3) bumpAchv("fast_answers");
+        if ((q.difficulty ?? 0) >= 5) bumpAchv("hard_correct");
         play([659, 784, 988], 0.14);
         burst();
         doFlash("good");

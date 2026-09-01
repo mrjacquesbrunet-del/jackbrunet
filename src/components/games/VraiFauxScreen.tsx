@@ -8,6 +8,8 @@ import { getQuizCoins } from "@/lib/quiz";
 import { getSupabase } from "@/lib/supabase";
 import { getProfile } from "@/lib/community";
 import { submitGameScore, submitWeeklyPoints } from "@/lib/game-scores";
+import { bumpAchv, markDayStreak } from "@/lib/achievements";
+import { checkLocalBadges } from "@/lib/badges";
 import { ScoreBoard } from "@/components/games/ScoreBoard";
 import { asset } from "@/lib/asset";
 import {
@@ -147,6 +149,8 @@ export function VraiFauxScreen() {
     setXp(getMemorizeXp() + getVfXp() + Math.floor(getQuizCoins() / 500));
     submitGameScore("vraifaux", getVfXp());
     submitWeeklyPoints(finalScore); // bonnes réponses -> ligue de la semaine
+    markDayStreak("play");
+    checkLocalBadges();
   }, []);
 
   // Sauvegarde continue de la partie (au début de chaque affirmation).
@@ -172,6 +176,10 @@ export function VraiFauxScreen() {
         setScore(nScore);
         setPoints(nPoints);
         buzz(25);
+        // Badges : « Éclair » (réponse en ≤ 3 s) et « Sans-faute »
+        // (20 bonnes réponses sans perdre une seule vie).
+        if (VF_TIME - timeLeft <= 3) bumpAchv("fast_answers");
+        if (nScore === 20 && lives === VF_LIVES) bumpAchv("perfect_games");
       } else {
         setCombo(0);
         nLives = lives - 1;
@@ -191,7 +199,7 @@ export function VraiFauxScreen() {
         }
       }, 1500);
     },
-    [locked, cur, score, lives, points, combo, idx, deck.length, end],
+    [locked, cur, score, lives, points, combo, idx, deck.length, end, timeLeft],
   );
 
   // Minuteur

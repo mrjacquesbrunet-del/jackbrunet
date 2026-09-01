@@ -120,6 +120,35 @@ const ICON_PATHS: Record<BadgeKind | "hebdo", string> = {
     "M12 3a6 6 0 0 0-3.5 10.9c.7.5 1 1.3 1 2.1h5c0-.8.3-1.6 1-2.1A6 6 0 0 0 12 3zM10 19h4M10.8 21.5h2.4",
   lecteur:
     "M12 6c-2-1.5-4.5-2-7-2v14c2.5 0 5 .5 7 2 2-1.5 4.5-2 7-2V4c-2.5 0-5 .5-7 2zM12 6v14",
+  // — Prière —
+  scrolleur: "M8 3h8a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM12 15V9m0 0-2.5 2.5M12 9l2.5 2.5",
+  voix: "M12 3a3 3 0 0 1 3 3v5a3 3 0 0 1-6 0V6a3 3 0 0 1 3-3zM6 11a6 6 0 0 0 12 0M12 17v4",
+  coeur:
+    "M12 20s-7-4.5-9-9c-1.4-3 .4-6 3.4-6 1.8 0 3 1 3.6 2 .6-1 1.8-2 3.6-2 3 0 4.8 3 3.4 6-2 4.5-9 9-9 9zM7.5 11h2l1.3-2 2 3.5 1.2-1.5h2.5",
+  premier: "M5 21V4m0 1h11l-2.5 3.5L16 12H5",
+  // — Temps avec Jésus —
+  levetot: "M12 4v3M5.6 7.6 7.7 9.7M18.4 7.6l-2.1 2.1M4 15h16M7 15a5 5 0 0 1 10 0M6 19h12",
+  enracine:
+    "M12 3a5 5 0 0 1 5 5c0 2.6-2.2 4.2-5 4.2S7 10.6 7 8a5 5 0 0 1 5-5zM12 12.2V18m0 0c0 2-1.5 3-3.5 3M12 18c0 2 1.5 3 3.5 3",
+  ecoute:
+    "M4 14a8 8 0 0 1 16 0M4 14v4a2 2 0 0 0 2 2h1v-6H6a2 2 0 0 0-2 2zM20 14v4a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2z",
+  // — La Parole —
+  scribe: "M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19l-4 1zM13 8l3 3",
+  surligneur: "M9 15l-4 4H3v-2l4-4m2 2 8.5-8.5a2 2 0 0 0-3-3L8 12m1 3-3-3M14 20h7",
+  // — Jeux —
+  duelliste: "M3 3l8 8M3 3v3M3 3h3M21 3l-8 8M21 3v3M21 3h-3M6 14l4 4M18 14l-4 4M5 21l3-3M19 21l-3-3",
+  invincible: "M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6zM9 12l2 2 4-4",
+  sansfaute: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM8.5 12.5l2.5 2.5 4.5-5",
+  eclair: "M13 2 5 13h5l-1 9 8-11h-5z",
+  marathonien: "M7 3v3M17 3v3M4 8h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zM9 13l2 2 4-4",
+  defi: "M12 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zM9 12l-2 9 5-3 5 3-2-9",
+  demineur: "M12 8a6 6 0 1 0 0 12 6 6 0 0 0 0-12zM12 8V5m0 0h-2m2 0h2M16.5 9.5 18 8M7.5 9.5 6 8",
+  maitre_quiz: "M3 9l9-4 9 4-9 4zM7 11v4c0 1.5 2.5 2.5 5 2.5s5-1 5-2.5v-4",
+  maitre_vf: "M12 4v16M8 20h8M6 7h12M6 7l-2.5 5a3 3 0 0 0 5 0zM18 7l-2.5 5a3 3 0 0 0 5 0z",
+  maitre_qsj:
+    "M12 3C7 3 3 6 3 11c0 4 3 6 4 8 .5 1 1.5 2 5 2s4.5-1 5-2c1-2 4-4 4-8 0-5-4-8-9-8zM8.5 11h.01M15.5 11h.01M9 15c1 1 5 1 6 0",
+  // — Communauté —
+  ambassadeur: "M21 3 3 10.5l7 2.5M21 3l-5 18-6-8M21 3 10 13",
 };
 
 const TIER_COLOR: Record<BadgeTier, string> = {
@@ -245,7 +274,7 @@ export function ProfileBadgesRow({
             onClick={() => setOpen(true)}
           />
         ))}
-        {earned.map((s, i) => (
+        {(compact ? earned.slice(0, 6) : earned).map((s, i) => (
           <Medallion
             key={s.kind}
             kind={s.kind}
@@ -256,6 +285,16 @@ export function ProfileBadgesRow({
             onClick={() => setOpen(true)}
           />
         ))}
+        {compact && earned.length > 6 ? (
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            aria-label={`Voir les ${earned.length} badges`}
+            className="grid h-[38px] shrink-0 place-items-center rounded-full bg-white/10 px-2.5 text-[11px] font-black text-cream/80"
+          >
+            +{earned.length - 6}
+          </button>
+        ) : null}
         {empty ? (
           <span className="opacity-60">
             <Medallion kind="expert" tier={null} small title="Tes accomplissements" onClick={() => setOpen(true)} />
@@ -317,9 +356,25 @@ function BadgesVitrine({ data, onClose }: { data: ProfileBadges; onClose: () => 
   const [sel, setSel] = useState<BadgeState | null>(null);
 
   const SECTIONS: { title: string; kinds: BadgeKind[] }[] = [
-    { title: "Prière", kinds: ["intercesseur", "encourageur"] },
-    { title: "Fidélité", kinds: ["fidele", "meditant"] },
-    { title: "La Parole", kinds: ["lecteur", "memorisateur", "expert"] },
+    { title: "Prière", kinds: ["intercesseur", "scrolleur", "voix", "coeur", "premier"] },
+    { title: "Temps avec Jésus", kinds: ["fidele", "meditant", "levetot", "enracine", "ecoute"] },
+    { title: "La Parole", kinds: ["expert", "memorisateur", "lecteur", "scribe", "surligneur"] },
+    {
+      title: "Jeux",
+      kinds: [
+        "duelliste",
+        "invincible",
+        "sansfaute",
+        "eclair",
+        "marathonien",
+        "defi",
+        "demineur",
+        "maitre_quiz",
+        "maitre_vf",
+        "maitre_qsj",
+      ],
+    },
+    { title: "Communauté", kinds: ["encourageur", "ambassadeur"] },
   ];
   const byKind = Object.fromEntries(data.states.map((s) => [s.kind, s])) as Record<BadgeKind, BadgeState>;
 

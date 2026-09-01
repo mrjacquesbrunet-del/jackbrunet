@@ -20,6 +20,8 @@ import { getVfXp } from "@/lib/vraifaux";
 import { getQuizCoins } from "@/lib/quiz";
 import { getSupabase } from "@/lib/supabase";
 import { getProfile } from "@/lib/community";
+import { bumpAchv, markDayStreak } from "@/lib/achievements";
+import { checkLocalBadges } from "@/lib/badges";
 import { submitGameScore, submitWeeklyPoints } from "@/lib/game-scores";
 import { ScoreBoard } from "@/components/games/ScoreBoard";
 import { asset } from "@/lib/asset";
@@ -136,6 +138,8 @@ export function WhoAmIScreen() {
       setCorrect((c) => c + 1);
       streakRef.current += 1;
       bestStreakRef.current = Math.max(bestStreakRef.current, streakRef.current);
+      // Badge « Démineur » : personnage ardu (difficulté 4) trouvé.
+      if ((cur.item.difficulty ?? 0) >= 4) bumpAchv("hard_correct");
     } else {
       streakRef.current = 0;
       setShake(true);
@@ -149,6 +153,8 @@ export function WhoAmIScreen() {
         refreshStats();
         submitGameScore("quisuisje", getWhoXp());
         submitWeeklyPoints(finalCorrect); // bonnes réponses -> ligue
+        markDayStreak("play");
+        checkLocalBadges();
         setPhase("over");
       } else {
         setIdx((n) => n + 1);

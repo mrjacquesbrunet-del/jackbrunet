@@ -22,6 +22,8 @@ import {
   type Prayer,
 } from "@/lib/community";
 import { listBlockedIds } from "@/lib/moderation";
+import { bumpAchv, markDayStreak } from "@/lib/achievements";
+import { checkLocalBadges } from "@/lib/badges";
 
 /**
  * « Temps de prière » — mode plein écran, focus total :
@@ -115,10 +117,20 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
   const [sessionPrayed, setSessionPrayed] = useState(0); // compteur de CE temps de prière
   const [burst, setBurst] = useState<string | null>(null);
   const [ended, setEnded] = useState(false);
+
+  // Fin de session (écran « Tu as prié pour X personnes ») → badge
+  // « Scrolleur du ciel » + vérification des paliers fraîchement atteints.
+  useEffect(() => {
+    if (!ended) return;
+    bumpAchv("pray_sessions");
+    checkLocalBadges();
+  }, [ended]);
   // Micro disponible ? (même garde-fou de version native que VoiceRecorderButton)
   const [micOk, setMicOk] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const startedMusic = useRef(false);
+  // Sujets encore sans AUCUN « Je prie » (pour le badge « Premier au front »).
+  const virginIds = useRef<Set<string>>(new Set());
 
   useEffect(() => {
     (async () => {
@@ -210,6 +222,8 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
       const alreadyPrayed = new Set(
         rx.filter((r) => r.user_id === userId && r.type === "pray").map((r) => r.prayer_id),
       );
+      const anyPray = new Set(rx.filter((r) => r.type === "pray").map((r) => r.prayer_id));
+      virginIds.current = new Set(candidates.filter((p) => !anyPray.has(p.id)).map((p) => p.id));
       const fresh = candidates.filter((p) => !alreadyPrayed.has(p.id));
       const tiers = new Map<number, Prayer[]>();
       for (const p of fresh) {
@@ -241,6 +255,12 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
     setSessionPrayed((n) => n + 1);
     setBurst(p.id);
     setTimeout(() => setBurst(null), 750);
+    // Badges : série de jours en prière + « Premier au front ».
+    markDayStreak("pray");
+    if (virginIds.current.has(p.id)) {
+      virginIds.current.delete(p.id);
+      bumpAchv("first_prayers");
+    }
     void toggleReaction(p.id, userId, "pray", true);
     setTimeout(() => next(at), 650);
   }
@@ -611,6 +631,8 @@ function SlideActions({
     if (url) {
       const ok = await addComment(p.id, "Note vocale", userId, null, url);
       if (ok) {
+        bumpAchv("voice_prayers");
+        checkLocalBadges();
         URL.revokeObjectURL(pending.url);
         setPending(null);
         setMode("idle");

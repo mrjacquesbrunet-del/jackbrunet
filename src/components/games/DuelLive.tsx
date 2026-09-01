@@ -8,6 +8,8 @@ import { appShareUrl } from "@/config/app-links";
 import { shareText } from "@/lib/share";
 import { Avatar } from "@/components/community/Avatar";
 import { primeSfx, sfxTick, sfxWin, sfxLose, sfxWrong, sfxVs, sfxVictory } from "@/lib/duel-sfx";
+import { markDayStreak, recordDuelResult } from "@/lib/achievements";
+import { checkLocalBadges } from "@/lib/badges";
 
 /**
  * DUEL EN LIGNE en direct (moteur commun Quiz + Vrai ou Faux) :
@@ -152,6 +154,8 @@ export function DuelLive({
   });
   const roundRef = useRef(0);
   const scoresRef = useRef(scores);
+  // Résultat final déjà compté (badges Duelliste / Invincible), par manche jouée.
+  const endCountedRef = useRef(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const nextRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -240,6 +244,13 @@ export function DuelLive({
     setRoundWinner(winner);
     setPhase("reveal");
     const finished = s.host >= TARGET || s.guest >= TARGET;
+    // Badges : duels gagnés + série de victoires (une fois par duel terminé).
+    if (finished && !endCountedRef.current) {
+      endCountedRef.current = true;
+      recordDuelResult(s[myRole] >= TARGET);
+      markDayStreak("play");
+      checkLocalBadges();
+    }
     // Flash + son + vibration selon l'issue de la manche.
     if (winner === myRole) {
       setFlash("win");
@@ -280,6 +291,7 @@ export function DuelLive({
     if (e.t === "start") {
       setEpoch(e.epoch);
       setScores({ host: 0, guest: 0 });
+      endCountedRef.current = false;
       beginRound(0);
     } else if (e.t === "answer") {
       if (myRole === "host") hostHandleAnswer(e.p, e.round, e.val);
@@ -306,6 +318,7 @@ export function DuelLive({
     const t = setTimeout(() => {
       send({ t: "start", epoch });
       setScores({ host: 0, guest: 0 });
+      endCountedRef.current = false;
       beginRound(0);
     }, 1400);
     return () => clearTimeout(t);

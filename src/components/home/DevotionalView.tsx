@@ -30,6 +30,8 @@ import {
 } from "@/components/ui/DevoIcons";
 import { DailyShort, FloatingDailyShort } from "@/components/home/DailyShort";
 import { VerseImageStudio } from "@/components/ui/VerseImageStudio";
+import { bumpAchv } from "@/lib/achievements";
+import { checkLocalBadges } from "@/lib/badges";
 import { Rewards } from "@/components/app/Rewards";
 import { Greeting } from "@/components/app/Greeting";
 import { useTodayIndex } from "@/lib/today";
@@ -170,7 +172,17 @@ export function DevotionalView({
   }, [eng.ready, eng.streak, eng.isCompletedToday, todayStr]);
   function meditate() {
     const before = eng.streak;
+    const firstToday = !eng.isCompletedToday;
     eng.markCompletedToday();
+    // Badges : « Lève-tôt » (avant 8 h) + paliers éventuels (Méditant, Enraciné…).
+    if (firstToday) {
+      try {
+        if (new Date().getHours() < 8) bumpAchv("early_meditations");
+      } catch {
+        /* stockage indisponible */
+      }
+      setTimeout(() => checkLocalBadges(before + 1), 400);
+    }
     // Statistique « méditation complétée » (anonyme, une fois par jour).
     try {
       const day = new Date().toISOString().slice(0, 10);
