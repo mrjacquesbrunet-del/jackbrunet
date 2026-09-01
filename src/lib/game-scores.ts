@@ -67,6 +67,39 @@ export async function submitWeeklyPoints(points: number): Promise<void> {
   }
 }
 
+/* ---------- Ligue à DIVISIONS (Élite · Or · Argent · Bronze) ---------- */
+
+export type LeagueRow = ScoreRow & { division: number };
+
+export const LEAGUE_DIVISIONS: { n: number; name: string; color: string }[] = [
+  { n: 1, name: "Élite", color: "#CAF000" },
+  { n: 2, name: "Or", color: "#FCD34D" },
+  { n: 3, name: "Argent", color: "#E5E7EB" },
+  { n: 4, name: "Bronze", color: "#E0A56B" },
+];
+
+export function leagueDivisionMeta(n: number) {
+  return LEAGUE_DIVISIONS.find((d) => d.n === n) ?? LEAGUE_DIVISIONS[3];
+}
+
+/**
+ * Classement de MA division pour la semaine en cours (ou d'une division
+ * donnée). Chaque dimanche soir : les 3 premiers montent, les 3 derniers
+ * descendent (si la division compte au moins 6 joueurs).
+ */
+export async function fetchLeagueStandings(division?: number): Promise<LeagueRow[]> {
+  const sb = getSupabase();
+  if (!sb) return [];
+  try {
+    const { data } = await sb.rpc("league_standings", {
+      p_division: division ?? null,
+    });
+    return (data as LeagueRow[]) || [];
+  } catch {
+    return [];
+  }
+}
+
 /** Classement de la semaine en cours (tous jeux confondus). */
 export async function fetchWeeklyLeague(limit = 50): Promise<ScoreRow[]> {
   const sb = getSupabase();

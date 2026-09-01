@@ -18,6 +18,7 @@ import { getSupabase } from "@/lib/supabase";
 import { getProfile } from "@/lib/community";
 import { submitGameScore } from "@/lib/game-scores";
 import { ScoreBoard } from "@/components/games/ScoreBoard";
+import { LeagueBoard } from "@/components/games/LeagueBoard";
 import { pendingChallenges } from "@/lib/challenges";
 import { asset } from "@/lib/asset";
 import { AchievementsOverlay } from "@/components/community/ProfileBadges";
@@ -305,9 +306,9 @@ export function GamesHub() {
           </button>
         ) : null}
 
-        {/* ---------- Classements ---------- */}
+        {/* ---------- Ligue à divisions (Élite · Or · Argent · Bronze) ---------- */}
         <div className="mt-6 rounded-3xl bg-white/[0.08] p-1 ring-1 ring-white/10">
-          <ScoreBoard mode="weekly" accent="#FDE047" title="Ligue de la semaine" />
+          <LeagueBoard />
         </div>
         <div className="mt-4 rounded-3xl bg-white/[0.08] p-1 ring-1 ring-white/10">
           <ScoreBoard mode="total" accent="#8FE23C" title="Classement général" />
