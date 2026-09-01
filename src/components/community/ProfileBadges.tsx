@@ -268,6 +268,46 @@ export function ProfileBadgesRow({
   );
 }
 
+/**
+ * Vitrine ouvrable depuis n'importe où (accueil des jeux, etc.) : charge les
+ * accomplissements du membre connecté puis affiche la vitrine complète.
+ */
+export function AchievementsOverlay({
+  userId,
+  streakDays,
+  onClose,
+}: {
+  userId: string;
+  streakDays?: number | null;
+  onClose: () => void;
+}) {
+  const [data, setData] = useState<ProfileBadges | null>(null);
+  useEffect(() => {
+    let alive = true;
+    fetchProfileBadges(userId, streakDays, localSpiritualStats()).then((d) => {
+      if (alive) setData(d);
+    });
+    return () => {
+      alive = false;
+    };
+  }, [userId, streakDays]);
+
+  if (!data) {
+    return (
+      <div className="fixed inset-0 z-[110] grid place-items-center bg-night-950/95 text-cream backdrop-blur-sm">
+        <style>{BDG_CSS}</style>
+        <p className="text-sm text-cream/55">Chargement des accomplissements…</p>
+        <button type="button" onClick={onClose} aria-label="Fermer" className="absolute right-4 top-[calc(env(safe-area-inset-top)+1rem)] grid h-9 w-9 place-items-center rounded-full bg-white/10 text-cream/80">
+          <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2} aria-hidden>
+            <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+          </svg>
+        </button>
+      </div>
+    );
+  }
+  return <BadgesVitrine data={data} onClose={onClose} />;
+}
+
 /** Vitrine façon « Performances » : grille de médaillons (verrouillés en
  * grisé), sections par domaine, détail + progression du badge touché. */
 function BadgesVitrine({ data, onClose }: { data: ProfileBadges; onClose: () => void }) {

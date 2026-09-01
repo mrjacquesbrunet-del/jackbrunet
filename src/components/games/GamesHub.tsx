@@ -19,6 +19,7 @@ import { submitGameScore } from "@/lib/game-scores";
 import { ScoreBoard } from "@/components/games/ScoreBoard";
 import { pendingChallenges } from "@/lib/challenges";
 import { asset } from "@/lib/asset";
+import { AchievementsOverlay } from "@/components/community/ProfileBadges";
 
 const S = (d: string) => (p: { className?: string }) => (
   <svg viewBox="0 0 24 24" className={p.className} fill="none" stroke="currentColor" strokeWidth={1.9} strokeLinecap="round" strokeLinejoin="round">
@@ -76,6 +77,8 @@ const CSS = `
 export function GamesHub() {
   const [name, setName] = useState("");
   const [avatar, setAvatar] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [showAchievements, setShowAchievements] = useState(false);
   const [coins, setCoins] = useState(0);
   const [streak, setStreak] = useState(0);
   const [unlocked, setUnlocked] = useState<Set<string>>(new Set());
@@ -106,6 +109,7 @@ export function GamesHub() {
         const { data } = await sb.auth.getUser();
         const uid = data.user?.id;
         if (!uid) return;
+        setUserId(uid);
         const prof = await getProfile(uid);
         const first =
           (prof?.pseudo && prof.pseudo.trim()) ||
@@ -268,6 +272,35 @@ export function GamesHub() {
           ) : null}
         </Link>
 
+        {/* ---------- Accomplissements & titres ---------- */}
+        {userId ? (
+          <button
+            type="button"
+            onClick={() => setShowAchievements(true)}
+            className="jx-card mt-4 flex w-full items-center gap-3 p-4 text-left"
+            style={{ background: "linear-gradient(120deg,#1E1E1D,#0C0C0B)", animationDelay: ".5s" }}
+          >
+            <span className="jx-shine" />
+            <span
+              className="jx-illo grid h-16 w-16 shrink-0 place-items-center rounded-2xl text-[#CAF000] shadow-[0_10px_20px_-6px_rgba(0,0,0,.5),inset_0_2px_0_rgba(255,255,255,.25)] ring-1 ring-[#CAF000]/40"
+              style={{ background: "radial-gradient(circle at 32% 28%, rgba(202,240,0,.28), rgba(202,240,0,.08) 60%, rgba(0,0,0,.2))" }}
+            >
+              <svg viewBox="0 0 24 24" className="h-8 w-8 fill-none stroke-current" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <path d="M4 18h16M5 16l-1-8 5 3 3-6 3 6 5-3-1 8z" />
+              </svg>
+            </span>
+            <div className="relative min-w-0 flex-1">
+              <p className="font-game text-lg font-black uppercase leading-tight drop-shadow">Accomplissements</p>
+              <p className="font-game text-[11px] font-semibold text-white/85">
+                Badges à paliers, titres de champion · vois ce qu&apos;il te reste à décrocher
+              </p>
+            </div>
+            <span className="relative inline-flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2.5 font-game text-sm font-black text-[#1a2000] shadow-lg" style={{ background: "linear-gradient(180deg,#D8F53A,#AAD000)" }}>
+              VOIR <IconArrow className="h-4 w-4" />
+            </span>
+          </button>
+        ) : null}
+
         {/* ---------- Classements ---------- */}
         <div className="mt-6 rounded-3xl bg-white/[0.08] p-1 ring-1 ring-white/10">
           <ScoreBoard mode="weekly" accent="#FDE047" title="Ligue de la semaine" />
@@ -279,6 +312,10 @@ export function GamesHub() {
           {trophyCount}/{ACHIEVEMENTS.length} trophées · série {streak}
         </p>
       </div>
+
+      {showAchievements && userId ? (
+        <AchievementsOverlay userId={userId} onClose={() => setShowAchievements(false)} />
+      ) : null}
     </div>
   );
 }
