@@ -18,6 +18,7 @@ import { getQuizCoins } from "@/lib/quiz";
 import { getSupabase } from "@/lib/supabase";
 import { getProfile } from "@/lib/community";
 import { submitGameScore, submitWeeklyPoints } from "@/lib/game-scores";
+import { asset } from "@/lib/asset";
 import { ScoreBoard } from "@/components/games/ScoreBoard";
 import { bumpAchv, markDayStreak } from "@/lib/achievements";
 import { checkLocalBadges } from "@/lib/badges";
@@ -192,10 +193,9 @@ export function ChronoScreen() {
 
         {/* Héros */}
         <div className="qm-hero mt-4" style={{ background: "radial-gradient(120% 120% at 100% 0%, rgba(167,139,250,.22), transparent 55%), linear-gradient(135deg,#1E1E1D 0%,#0C0C0B 100%)" }}>
-          <span className="pointer-events-none absolute right-4 top-4 text-[#A78BFA]/12">
-            <IcoHourglass className="h-24 w-24" />
-          </span>
-          <div className="relative max-w-[62%]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={asset("/img/jeux/chronologie.png")} alt="" className="qm-illo pointer-events-none absolute -bottom-2 -right-2 h-36 w-auto object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.35)]" />
+          <div className="relative max-w-[58%]">
             <span className="qm-rapide" style={{ background: "rgba(167,139,250,.18)", color: VIOLET }}>
               <IcoBolt className="h-3.5 w-3.5" /> NOUVEAU
             </span>
