@@ -4,6 +4,7 @@ import { useState } from "react";
 import { shareText, shareImageBlob, saveImageBlob } from "@/lib/share";
 import { buildVerseImage } from "@/lib/verse-image";
 import { openWhatsApp } from "@/lib/external";
+import { VerseImageStudio } from "@/components/ui/VerseImageStudio";
 import { appShareUrl } from "@/config/app-links";
 
 /** Par défaut, tout partage renvoie vers le lien intelligent de l'application
@@ -28,6 +29,7 @@ export function ShareButtons({
   image?: { text: string; reference?: string; badge?: string; filename?: string };
 }) {
   const [busy, setBusy] = useState(false);
+  const [studio, setStudio] = useState(false);
   const message = `${text}\n\n${url}`;
 
   async function nativeShare() {
@@ -109,6 +111,15 @@ export function ShareButtons({
             <DownloadIcon className="h-4 w-4" />
             Enregistrer
           </button>
+          <button
+            type="button"
+            onClick={() => setStudio(true)}
+            className="btn-ghost px-4 py-2 text-sm"
+            aria-label="Personnaliser l'image (fond, police)"
+          >
+            <PaletteIcon className="h-4 w-4" />
+            Personnaliser
+          </button>
         </>
       ): null}
       <button
@@ -129,7 +140,28 @@ export function ShareButtons({
         <ShareIcon className="h-4 w-4" />
         Partager
       </button>
+
+      {/* Studio de personnalisation : fond photo + police + format */}
+      {studio && image ? (
+        <VerseImageStudio
+          text={image.text}
+          reference={image.reference}
+          badge={image.badge}
+          onClose={() => setStudio(false)}
+        />
+      ) : null}
     </div>
+  );
+}
+
+function PaletteIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className} aria-hidden="true">
+      <path d="M12 3a9 9 0 1 0 0 18h1.5a2 2 0 0 0 0-4H12a2 2 0 0 1 0-4h6a3 3 0 0 0 3-3c0-4-4-7-9-7z" strokeLinejoin="round" />
+      <circle cx="7.5" cy="11.5" r="1" fill="currentColor" />
+      <circle cx="10" cy="7.5" r="1" fill="currentColor" />
+      <circle cx="14.5" cy="6.5" r="1" fill="currentColor" />
+    </svg>
   );
 }
 
