@@ -253,6 +253,29 @@ export function DevotionalView({
                   </span>
                 </span>
               </p>
+
+              {/* Tout petit bouton « J'ai médité » : un clic → l'encoche, et ça compte */}
+              <button
+                type="button"
+                onClick={meditate}
+                disabled={eng.isCompletedToday}
+                className={`ml-auto inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1.5 text-[11px] font-bold transition-transform active:scale-95 ${
+                  eng.isCompletedToday
+                    ? "bg-dawn-400/15 text-spirit-700"
+                    : "bg-dawn-400 text-night-950 shadow-sm hover:-translate-y-0.5"
+                }`}
+              >
+                {eng.isCompletedToday ? (
+                  <>
+                    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={3} aria-hidden>
+                      <path d="M5 12l5 5L20 7" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    Médité
+                  </>
+                ) : (
+                  "J'ai médité"
+                )}
+              </button>
             </div>
 
             <div className="mt-3 flex items-center justify-between gap-2">
