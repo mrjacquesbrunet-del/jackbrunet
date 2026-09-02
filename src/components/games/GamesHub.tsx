@@ -40,6 +40,7 @@ const IconScale = S("M12 4v16M8 20h8M6 7h12M6 7l-2.5 5a3 3 0 0 0 5 0zM18 7l-2.5 
 const IconMask = S("M12 3C7 3 3 6 3 11c0 4 3 6 4 8 .5 1 1.5 2 5 2s4.5-1 5-2c1-2 4-4 4-8 0-5-4-8-9-8zM8.5 11h.01M15.5 11h.01M9 15c1 1 5 1 6 0");
 const IconTrophy = S("M8 4h8v3a4 4 0 0 1-8 0zM8 5H5v1a3 3 0 0 0 3 3M16 5h3v1a3 3 0 0 1-3 3M9 20h6M12 12v4");
 const IconHourglass = S("M6 3h12M6 21h12M8 3v3.5c0 2 1.6 3.2 4 5.5-2.4 2.3-4 3.5-4 5.5V21M16 3v3.5c0 2-1.6 3.2-4 5.5 2.4 2.3 4 3.5 4 5.5V21");
+const IconRoute = S("M6 21a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM18 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM6 17v-5a4 4 0 0 1 4-4h4a4 4 0 0 0 4-3");
 
 /** Illustration 3D du bouton « Défier un ami » (vide tant que Jack n'a pas fourni la sienne). */
 const DEFI_ILLO = "/img/jeux/trophee.png";
@@ -59,6 +60,7 @@ type Game = {
   arrow: string;
 };
 const GAMES: Game[] = [
+  { id: "chemin", title1: "LE", title2: "CHEMIN", desc: "De la Genèse à l'Apocalypse — apprends toute l'histoire !", href: "/chemin", illo: "/img/jeux/chemin.png", Icon: IconRoute, from: "#34D399", to: "#059669", arrow: "#047857" },
   { id: "quiz", title1: "QUIZ", title2: "BIBLIQUE", desc: "Réponds aux questions et deviens incollable sur la Bible !", href: "/quiz", illo: "/img/jeux/quiz.png", Icon: IconCap, from: "#FBBF24", to: "#F59E0B", arrow: "#F59E0B" },
   { id: "memo", title1: "MÉMORISER", title2: "LES VERSETS", desc: "Grave la Parole dans ton cœur, verset après verset !", href: "/memoriser", illo: "/img/jeux/memoriser.png", Icon: IconBulb, from: "#2DD4BF", to: "#0D9488", arrow: "#0D9488" },
   { id: "quisuisje", title1: "QUI", title2: "SUIS-JE ?", desc: "Devine le personnage biblique grâce aux indices !", href: "/qui-suis-je", illo: "/img/jeux/quisuisje.png", Icon: IconMask, from: "#60A5FA", to: "#3B82F6", arrow: "#2563EB" },

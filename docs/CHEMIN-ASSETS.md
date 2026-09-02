@@ -23,37 +23,62 @@ politique : il faut une session fraîche.
 Utiliser ces creations comme `references` (type `image`) dans
 `images_generate` pour garder la cohérence de style entre chapitres.
 
-## À produire (Seedream 5 Pro, resolution 2k)
-
-1. **Décor chapitre 1 — Éden** : réutiliser/retélécharger `cpItXZv0eP`
-   (9:16). Installer en `public/img/chemin/decor-1.jpg` (recompresser
-   ~1080×1920, qualité 82, < 350 Ko).
-2. **Décor chapitre 2 — Le déluge / l'arche** : même style (référence
-   image `cpItXZv0eP`), ambiance pluie qui se lève, arche au loin,
-   arc-en-ciel naissant → `public/img/chemin/decor-2.jpg`.
-3. **Carte Création** (2:3, cadre doré, style de `5jw7lHMKxe`) : cosmos,
-   lumière, jardin → `public/img/chemin/cartes/creation.jpg` (~600×900).
-4. **Carte Noé** : retélécharger `5jw7lHMKxe` →
-   `public/img/chemin/cartes/noe.jpg`.
-
 Important : les médaillons/coffres/UI sont dessinés par l'app par-dessus
 le décor — demander des décors SANS médaillons ni éléments d'interface
-(les maquettes en contiennent ; pour les décors finaux, préciser
-« no level nodes, no UI » dans le prompt).
+(les maquettes de style en contiennent ; pour les décors finaux, préciser
+« no level nodes, no UI » dans le prompt), et garder la **bande verticale
+centrale dégagée** pour que les médaillons restent lisibles.
 
-## Intégration
+## Fait — chapitres 1 et 2 habillés
 
-- Les chemins d'images sont déjà branchés dans les données
+Tous les visuels ci-dessous sont générés en Seedream 5 Pro, resolution
+2k, puis recompressés (Pillow, JPEG progressif) à l'installation.
+
+| Fichier | Source | Format installé |
+| --- | --- | --- |
+| `public/img/chemin/decor-1.jpg` | creation `ksJ3hMo16B` (Éden propre, réf. image `cpItXZv0eP`) | 1080×1920, 329 Ko |
+| `public/img/chemin/decor-2.jpg` | creation `Sy3WHaBUb8` (fin du déluge, réf. image `cpItXZv0eP`) | 1080×1920, 271 Ko |
+| `public/img/chemin/cartes/creation.jpg` | creation `VXhHiNUMMU` (réf. image `5jw7lHMKxe`) | 600×900, 177 Ko |
+| `public/img/chemin/cartes/noe.jpg` | creation `5jw7lHMKxe` (la maquette validée) | 600×900, 135 Ko |
+| `public/img/jeux/chemin.png` | creation `cpIu9NJ0eP`, détourée | 520×469, PNG transparent |
+
+Le décor 1 n'est **pas** la maquette `cpItXZv0eP` : celle-ci contient les
+médaillons et le coffre, qui feraient doublon avec ceux dessinés par
+l'app. Elle sert de référence de style, le décor final est une
+regénération propre.
+
+## Fait — intégration
+
+- Les chemins d'images étaient déjà branchés dans les données
   (`src/config/chemin/*.ts` : champs `decor` et `carte.image`).
-- Vérifier le rendu (contraste des médaillons sur le décor, l'overlay
-  sombre est déjà en place) via Playwright sur `out/` (port local).
-- Activer ensuite la carte du hub : ajouter dans
-  `src/components/games/GamesHub.tsx` une carte `chemin` (titre
-  « LE CHEMIN », desc « De la Genèse à l'Apocalypse — apprends toute
-  l'histoire ! », href `/chemin`), illustration hub à générer aussi
-  (style des autres cartes : objet sur rocher violet, fond violet).
-- Build `npm run build:app`, captures, `date +%s > .ota-release`,
-  commit + push (branche `claude/great-hamilton-ieokug`).
+- Carte du hub ajoutée dans `src/components/games/GamesHub.tsx`
+  (id `chemin`, en première position, dégradé vert `#34D399 → #059669`,
+  icône `IconRoute` en repli).
+- Rendu vérifié via Playwright sur `out/` servi en local : chapitre 1
+  (vierge et à mi-parcours), chapitre 2, album des cartes, hub des jeux.
+
+### Réserve connue
+
+L'en-tête global du site (`src/components/layout/Header.tsx`) écrit
+toujours en `text-night-900` : le logo « JACKBRUNET » passe mal sur le
+décor clair de l'Éden. C'est vrai sur toutes les pages sombres (jeux,
+soaking), donc hors périmètre de cette passe — à traiter globalement
+(variante claire de l'en-tête sous `dark-ctx`) si Jack le souhaite.
+
+## Méthode pour les chapitres suivants
+
+1. `images_generate` en 9:16 / 2k pour le décor, avec
+   `references: [{ type: "image", identifier: "cpItXZv0eP" }]` et la
+   consigne « no level nodes, no UI, central band uncluttered ».
+2. `images_generate` en 2:3 / 2k pour la carte, avec
+   `references: [{ type: "image", identifier: "5jw7lHMKxe" }]` et
+   « same ornate carved golden 3D frame as the reference, no text ».
+3. Générer 2 variantes (`count: 2`) et choisir celle dont la bande
+   centrale est la plus dégagée.
+4. Télécharger l'`url` de la creation depuis `pikaso.cdnpk.net`,
+   recompresser (décor 1080×1920 < 350 Ko, carte 600×900 < 180 Ko).
+5. Build `npm run build:app`, captures, `date +%s > .ota-release`,
+   commit + push.
 
 ## Suite du contenu (après validation de Jack sur les 2 chapitres)
 
