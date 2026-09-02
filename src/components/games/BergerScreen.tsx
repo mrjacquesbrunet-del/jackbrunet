@@ -43,22 +43,39 @@ function buzz(p: number | number[]) {
 /* ---------- Pièces dessinées (pas d'emojis : SVG en trait) ---------- */
 
 function SheepSvg({ onGoal = false }: { onGoal?: boolean }) {
+  const wool = onGoal ? "#fdf0c8" : "#fbfaf4";
+  const woolShade = onGoal ? "#f0d896" : "#e4e0d2";
   return (
     <svg viewBox="0 0 48 48" className="h-full w-full" aria-hidden>
-      {/* corps laineux */}
-      <g fill={onGoal ? "#fef3c7" : "#F3F3ED"} stroke="#171716" strokeWidth="1.6">
-        <circle cx="18" cy="24" r="8" />
-        <circle cx="27" cy="20" r="8" />
-        <circle cx="31" cy="27" r="7" />
-        <circle cx="22" cy="30" r="8" />
-      </g>
-      {/* tête */}
-      <ellipse cx="36" cy="21" rx="6.5" ry="5.5" fill="#30302F" stroke="#171716" strokeWidth="1.4" />
-      <circle cx="38" cy="20" r="1.2" fill="#F3F3ED" />
-      {/* oreille */}
-      <ellipse cx="31.5" cy="17.5" rx="3" ry="1.8" fill="#30302F" transform="rotate(-25 31.5 17.5)" />
+      {/* ombre portée */}
+      <ellipse cx="24" cy="41.5" rx="11.5" ry="3" fill="rgba(0,0,0,.28)" />
       {/* pattes */}
-      <path d="M16 36v4M24 37v4M30 35v4" stroke="#171716" strokeWidth="2" strokeLinecap="round" />
+      <path d="M17 34v6M22.5 35v6M27.5 35v6M32 34v6" stroke="#3b342c" strokeWidth="2.4" strokeLinecap="round" />
+      {/* toison : nuage de boucles */}
+      <g fill={wool} stroke="#3b342c" strokeWidth="1.5">
+        <circle cx="15.5" cy="25" r="6.8" />
+        <circle cx="22" cy="20.5" r="7.6" />
+        <circle cx="29.5" cy="22" r="7" />
+        <circle cx="33" cy="28" r="6.2" />
+        <circle cx="25" cy="29.5" r="7.6" />
+        <circle cx="16.5" cy="30.5" r="6" />
+      </g>
+      {/* modelé bas de toison */}
+      <path d="M12 30c2 4 6 6 12 6s10-2 12-6" fill="none" stroke={woolShade} strokeWidth="2.4" strokeLinecap="round" opacity=".8" />
+      {/* tête */}
+      <ellipse cx="36" cy="20" rx="5.6" ry="6.2" fill="#4a4038" stroke="#2e2820" strokeWidth="1.4" />
+      {/* oreilles */}
+      <ellipse cx="30.5" cy="16" rx="3.4" ry="2" fill="#4a4038" stroke="#2e2820" strokeWidth="1.1" transform="rotate(-30 30.5 16)" />
+      <ellipse cx="40.5" cy="15.5" rx="3.2" ry="1.9" fill="#4a4038" stroke="#2e2820" strokeWidth="1.1" transform="rotate(24 40.5 15.5)" />
+      {/* houppette de laine sur la tête */}
+      <circle cx="35" cy="13.5" r="3.6" fill={wool} stroke="#3b342c" strokeWidth="1.3" />
+      {/* yeux + museau */}
+      <circle cx="34.6" cy="19.5" r="1.9" fill="#fff" />
+      <circle cx="38.8" cy="19.8" r="1.9" fill="#fff" />
+      <circle cx="35" cy="19.8" r="1" fill="#171716" />
+      <circle cx="39.1" cy="20.1" r="1" fill="#171716" />
+      <ellipse cx="37" cy="24" rx="1.6" ry="1.1" fill="#8a7263" />
+      {onGoal ? <path d="M34.8 25.6c1.4 1.2 3 1.2 4.4 0" stroke="#2e2820" strokeWidth="1" fill="none" strokeLinecap="round" /> : null}
     </svg>
   );
 }
@@ -66,14 +83,31 @@ function SheepSvg({ onGoal = false }: { onGoal?: boolean }) {
 function ShepherdSvg() {
   return (
     <svg viewBox="0 0 48 48" className="h-full w-full" aria-hidden>
+      {/* ombre portée */}
+      <ellipse cx="23" cy="42" rx="10" ry="2.8" fill="rgba(0,0,0,.28)" />
       {/* bâton avec crosse */}
-      <path d="M36 8c-4 0-6 3-4 6M34 12v30" stroke="#b45309" strokeWidth="2.6" strokeLinecap="round" fill="none" />
+      <path d="M40 8c-4.5-1.5-7 2-4.5 5" stroke="#8a5a2b" strokeWidth="2.8" strokeLinecap="round" fill="none" />
+      <path d="M36.5 12.5V41" stroke="#8a5a2b" strokeWidth="2.8" strokeLinecap="round" />
+      <path d="M36.5 12.5V41" stroke="#b07a41" strokeWidth="1.1" strokeLinecap="round" />
       {/* tunique */}
-      <path d="M14 42c0-10 3-16 9-16s9 6 9 16z" fill="#CAF000" stroke="#171716" strokeWidth="1.6" />
-      <path d="M20 30v10M26 30v10" stroke="#171716" strokeWidth="1" opacity=".35" />
-      {/* tête + keffieh */}
-      <circle cx="23" cy="19" r="6.5" fill="#f2c896" stroke="#171716" strokeWidth="1.5" />
-      <path d="M16 17c0-5 3.5-8 7-8s7 3 7 8c-2-2.5-4-3.5-7-3.5S18 14.5 16 17z" fill="#F3F3ED" stroke="#171716" strokeWidth="1.4" />
+      <path d="M13.5 41.5c0-10.5 3.5-17 9.5-17s9.5 6.5 9.5 17z" fill="#CAF000" stroke="#2e2820" strokeWidth="1.6" />
+      <path d="M13.5 41.5c0-10.5 3.5-17 9.5-17 1.6 0 3 .5 4.2 1.4-4.8 2.2-7.4 8-7.4 15.6z" fill="#a8c800" opacity=".55" />
+      {/* ceinture */}
+      <path d="M17.2 32.5c3.8 1.6 7.8 1.6 11.6 0" stroke="#6b4a2c" strokeWidth="2.4" fill="none" strokeLinecap="round" />
+      {/* bras vers le bâton */}
+      <path d="M30.5 30c2.5-1 4.5-1.5 6-1.5" stroke="#CAF000" strokeWidth="4.4" strokeLinecap="round" />
+      <circle cx="37" cy="28.5" r="2.1" fill="#f2c896" stroke="#2e2820" strokeWidth="1" />
+      {/* tête */}
+      <circle cx="23" cy="17.5" r="6.6" fill="#f2c896" stroke="#2e2820" strokeWidth="1.5" />
+      {/* sourire + yeux */}
+      <circle cx="20.8" cy="17" r="1" fill="#171716" />
+      <circle cx="25.2" cy="17" r="1" fill="#171716" />
+      <path d="M21 20.4c1.3 1.1 2.7 1.1 4 0" stroke="#171716" strokeWidth="1.1" fill="none" strokeLinecap="round" />
+      {/* keffieh : voile + bandeau */}
+      <path d="M15.5 16c0-5.5 3.5-8.8 7.5-8.8s7.5 3.3 7.5 8.8c-2.2-3-4.4-4.2-7.5-4.2s-5.3 1.2-7.5 4.2z" fill="#fbfaf4" stroke="#2e2820" strokeWidth="1.4" />
+      <path d="M16.2 12.8c2-2.3 4.2-3.4 6.8-3.4s4.8 1.1 6.8 3.4" stroke="#d97706" strokeWidth="2" fill="none" strokeLinecap="round" />
+      {/* pan du voile */}
+      <path d="M29.5 12c1.5 2.5 1.8 5.5 1 8.5" stroke="#fbfaf4" strokeWidth="3.2" fill="none" strokeLinecap="round" />
     </svg>
   );
 }
@@ -81,8 +115,50 @@ function ShepherdSvg() {
 function RockSvg() {
   return (
     <svg viewBox="0 0 48 48" className="h-full w-full" aria-hidden>
-      <path d="M8 38l5-16 9-8 12 4 6 12-4 8z" fill="#30302F" stroke="#171716" strokeWidth="1.6" strokeLinejoin="round" />
-      <path d="M13 22l9-8 6 10-8 4z" fill="#4b4b49" opacity=".9" />
+      {/* ombre portée */}
+      <ellipse cx="24" cy="40" rx="13" ry="3.2" fill="rgba(0,0,0,.3)" />
+      {/* pierre chaude, facettée */}
+      <path d="M8 37l4.5-15 10-7.5 12.5 3.5 5.5 11.5-4 7.5z" fill="#8b8073" stroke="#4e463c" strokeWidth="1.6" strokeLinejoin="round" />
+      <path d="M12.5 22l10-7.5 5.5 9.5-8.5 4.5z" fill="#a89d8d" />
+      <path d="M28 24l7-6 5.5 11.5-4 7.5-5-2z" fill="#6f6558" />
+      <path d="M19.5 28.5l8.5-4.5 4.5 9.5-6 3.5z" fill="#978b7b" opacity=".7" />
+      {/* mousse au pied */}
+      <path d="M9 37c2-2.5 5-2.5 7 0M31 38c1.8-2.2 4.4-2.2 6.2 0" stroke="#5f8f3f" strokeWidth="2.6" fill="none" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/** Enclos : petit parc en bois avec litière de paille. */
+function PenSvg({ occupied = false }: { occupied?: boolean }) {
+  return (
+    <svg viewBox="0 0 48 48" className="h-full w-full" aria-hidden>
+      {/* halo doré quand une brebis est rentrée */}
+      {occupied ? <circle cx="24" cy="26" r="19" fill="rgba(251,191,36,.28)" /> : null}
+      {/* litière de paille */}
+      <ellipse cx="24" cy="30" rx="16.5" ry="10" fill={occupied ? "rgba(251,191,36,.4)" : "rgba(216,180,90,.28)"} stroke="rgba(146,100,32,.5)" strokeWidth="1.2" />
+      <path d="M14 29l5-2M22 33l6-2M30 27l5 2M18 25l4 2" stroke="rgba(146,100,32,.55)" strokeWidth="1.3" strokeLinecap="round" />
+      {/* clôture du fond (les brebis passent devant) */}
+      <g stroke="#8a5a2b" strokeWidth="2.6" strokeLinecap="round">
+        <path d="M8 14v16M24 11v10M40 14v16" />
+      </g>
+      <g stroke="#a8743d" strokeWidth="2.2" strokeLinecap="round">
+        <path d="M8 17.5c10-4 22-4 32 0M8 24.5c10-4 22-4 32 0" />
+      </g>
+    </svg>
+  );
+}
+
+/** Touffe d'herbe décorative (déterministe, sous les pièces). */
+function TuftSvg({ flower = false }: { flower?: boolean }) {
+  return (
+    <svg viewBox="0 0 48 48" className="h-full w-full" aria-hidden>
+      <path d="M20 34c-1-4 0-7 1.5-9M24 35c0-5 .8-8 2-10M28 34c1-3.5.6-6.5-.4-9" stroke="#6fae4a" strokeWidth="2" fill="none" strokeLinecap="round" opacity=".7" />
+      {flower ? (
+        <g>
+          <circle cx="31.5" cy="23" r="2.6" fill="#fbfaf4" opacity=".9" />
+          <circle cx="31.5" cy="23" r="1.1" fill="#fbbf24" />
+        </g>
+      ) : null}
     </svg>
   );
 }
@@ -381,42 +457,59 @@ function BergerPlay({
         </p>
       </div>
 
-      {/* Plateau */}
+      {/* Plateau : prairie dans un cadre de bois */}
       <div
-        className="relative mx-auto mt-4 w-full max-w-md touch-none select-none overflow-hidden rounded-3xl border border-white/10"
-        style={{ background: "linear-gradient(160deg,#2c4a2e,#1d3520)", aspectRatio: "1 / 1" }}
-        onTouchStart={onTouchStart}
-        onTouchEnd={onTouchEnd}
+        className="mx-auto mt-4 w-full max-w-md rounded-[26px] p-[7px]"
+        style={{
+          background: "linear-gradient(160deg,#8a5a2b,#5f3d1d)",
+          boxShadow: "0 6px 0 #3d2712, 0 14px 24px rgba(0,0,0,.45)",
+        }}
       >
-        {/* damier herbe */}
-        {Array.from({ length: BERGER_W * BERGER_H }, (_, i) => {
-          const x = i % BERGER_W;
-          const y = Math.floor(i / BERGER_W);
-          return (x + y) % 2 === 0 ? (
-            <div key={i} className="absolute" style={{ left: `${x * cellPct}%`, top: `${y * cellPct}%`, width: `${cellPct}%`, height: `${cellPct}%`, background: "rgba(255,255,255,.04)" }} />
-          ) : null;
-        })}
-        {/* enclos */}
-        {level.goals.map(([x, y], i) => (
-          <div key={`g${i}`} className="absolute p-[6%]" style={{ left: `${x * cellPct}%`, top: `${y * cellPct}%`, width: `${cellPct}%`, height: `${cellPct}%` }}>
-            <div className="h-full w-full rounded-xl border-2 border-dashed border-amber-400/80" style={{ background: "rgba(251,191,36,.14)" }} />
+        <div
+          className="relative w-full touch-none select-none overflow-hidden rounded-[20px]"
+          style={{
+            background:
+              "radial-gradient(130% 100% at 20% 0%, rgba(255,244,190,.14), transparent 55%), radial-gradient(120% 120% at 80% 110%, rgba(0,0,0,.3), transparent 60%), linear-gradient(160deg,#5f9a44,#3e7231 55%,#2f5d27)",
+            aspectRatio: "1 / 1",
+            boxShadow: "inset 0 2px 10px rgba(0,0,0,.35)",
+          }}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+        >
+          {/* damier d'herbe + décor déterministe (touffes, fleurs) */}
+          {Array.from({ length: BERGER_W * BERGER_H }, (_, i) => {
+            const x = i % BERGER_W;
+            const y = Math.floor(i / BERGER_W);
+            const h = (x * 31 + y * 17 + levelIdx * 7) % 11;
+            return (
+              <div key={i} className="absolute" style={{ left: `${x * cellPct}%`, top: `${y * cellPct}%`, width: `${cellPct}%`, height: `${cellPct}%` }}>
+                {(x + y) % 2 === 0 ? <div className="absolute inset-0" style={{ background: "rgba(255,255,255,.055)" }} /> : null}
+                {h === 0 ? <TuftSvg /> : h === 5 ? <TuftSvg flower /> : null}
+              </div>
+            );
+          })}
+          {/* enclos */}
+          {level.goals.map(([x, y], i) => (
+            <div key={`g${i}`} className="absolute" style={{ left: `${x * cellPct}%`, top: `${y * cellPct}%`, width: `${cellPct}%`, height: `${cellPct}%` }}>
+              <PenSvg occupied={sheep.some((s) => eq(s, [x, y]))} />
+            </div>
+          ))}
+          {/* rochers */}
+          {level.walls.map(([x, y], i) => (
+            <div key={`w${i}`} className="absolute" style={{ left: `${x * cellPct}%`, top: `${y * cellPct}%`, width: `${cellPct}%`, height: `${cellPct}%` }}>
+              <RockSvg />
+            </div>
+          ))}
+          {/* brebis */}
+          {sheep.map(([x, y], i) => (
+            <div key={`s${i}`} className="absolute transition-all duration-150 ease-out" style={{ left: `${x * cellPct}%`, top: `${y * cellPct}%`, width: `${cellPct}%`, height: `${cellPct}%` }}>
+              <SheepSvg onGoal={goals.has(`${x},${y}`)} />
+            </div>
+          ))}
+          {/* berger */}
+          <div className="absolute transition-all duration-150 ease-out" style={{ left: `${player[0] * cellPct}%`, top: `${player[1] * cellPct}%`, width: `${cellPct}%`, height: `${cellPct}%` }}>
+            <ShepherdSvg />
           </div>
-        ))}
-        {/* rochers */}
-        {level.walls.map(([x, y], i) => (
-          <div key={`w${i}`} className="absolute" style={{ left: `${x * cellPct}%`, top: `${y * cellPct}%`, width: `${cellPct}%`, height: `${cellPct}%` }}>
-            <RockSvg />
-          </div>
-        ))}
-        {/* brebis */}
-        {sheep.map(([x, y], i) => (
-          <div key={`s${i}`} className="absolute transition-all duration-150 ease-out" style={{ left: `${x * cellPct}%`, top: `${y * cellPct}%`, width: `${cellPct}%`, height: `${cellPct}%` }}>
-            <SheepSvg onGoal={goals.has(`${x},${y}`)} />
-          </div>
-        ))}
-        {/* berger */}
-        <div className="absolute transition-all duration-150 ease-out" style={{ left: `${player[0] * cellPct}%`, top: `${player[1] * cellPct}%`, width: `${cellPct}%`, height: `${cellPct}%` }}>
-          <ShepherdSvg />
         </div>
       </div>
 
