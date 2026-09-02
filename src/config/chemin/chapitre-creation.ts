@@ -23,7 +23,7 @@ export const CHAPITRE_CREATION: CheminChapitre = {
       exercices: [
         { type: "qcm", q: "Quelles sont les toutes premières paroles de la Bible ?", choix: ["Au commencement", "Que la lumière soit", "Dieu est amour", "Il était une fois"], bonne: 0 },
         { type: "trou", texte: "Dieu dit : « Que la ___ soit ! » Et elle fut.", reponse: "lumière", leurres: ["terre", "mer", "vie"] },
-        { type: "vf", q: "L'Esprit de Dieu se mouvait au-dessus des eaux.", vrai: true },
+        { type: "vf", q: "Dieu sépara la lumière d'avec les ténèbres dès le premier jour.", vrai: true, niveau: "moyen" },
       ],
     },
     {
@@ -31,9 +31,9 @@ export const CHAPITRE_CREATION: CheminChapitre = {
         "Le deuxième jour, Dieu sépara les eaux d'en bas des eaux d'en haut : il appela l'étendue « ciel ». Le troisième jour, il rassembla les mers et fit paraître la terre sèche, puis la couvrit de verdure, d'herbes et d'arbres fruitiers portant leur semence.",
       ref: "Genèse 1:6-13",
       exercices: [
-        { type: "qcm", q: "Qu'est-ce que Dieu crée le troisième jour ?", choix: ["La terre sèche et la végétation", "Les étoiles", "Les poissons", "L'homme"], bonne: 0 },
-        { type: "ordre", consigne: "Remets ces créations dans l'ordre des jours :", items: ["La lumière", "Le ciel", "La terre et les plantes"] },
-        { type: "vf", q: "Les arbres ont été créés avant la lumière.", vrai: false },
+        { type: "ordre", consigne: "Remets les trois premiers jours dans l'ordre :", items: ["La lumière", "L'étendue appelée ciel", "La terre sèche et la végétation"] },
+        { type: "qcm", q: "Que sépare l'étendue créée le deuxième jour ?", choix: ["Les eaux d'en bas et les eaux d'en haut", "Le jour et la nuit", "La mer et le désert", "Les plantes et les arbres"], bonne: 0, niveau: "moyen" },
+        { type: "vf", q: "Les arbres fruitiers portent leur semence en eux-mêmes.", vrai: true, niveau: "moyen" },
       ],
     },
     {
@@ -42,9 +42,9 @@ export const CHAPITRE_CREATION: CheminChapitre = {
       ref: "Genèse 1:14-19",
       coffre: true,
       exercices: [
+        { type: "verset", ref: "Genèse 1:1", texte: "Au commencement Dieu créa les cieux et la terre", niveau: "moyen" },
         { type: "qcm", q: "Pourquoi Dieu crée-t-il les astres ?", choix: ["Pour marquer les temps, les jours et les années", "Pour décorer le ciel", "Pour guider les bateaux", "Pour éclairer l'Éden seulement"], bonne: 0 },
         { type: "trou", texte: "Le grand luminaire préside au jour, le petit préside à la ___.", reponse: "nuit", leurres: ["mer", "terre", "pluie"] },
-        { type: "vf", q: "Le soleil et la lune sont créés le quatrième jour.", vrai: true },
       ],
     },
     {
@@ -53,8 +53,8 @@ export const CHAPITRE_CREATION: CheminChapitre = {
       ref: "Genèse 1:20-23",
       exercices: [
         { type: "qcm", q: "Que crée Dieu le cinquième jour ?", choix: ["Les poissons et les oiseaux", "Les animaux terrestres", "L'homme et la femme", "Les plantes"], bonne: 0 },
-        { type: "vf", q: "Dieu bénit les poissons et les oiseaux.", vrai: true },
         { type: "trou", texte: "« Soyez féconds, ___-vous, et remplissez les eaux des mers. »", reponse: "multipliez", leurres: ["reposez", "cachez", "nourrissez"] },
+        { type: "vf", q: "Les grands animaux marins sont créés avant les animaux de la terre ferme.", vrai: true, niveau: "moyen" },
       ],
     },
     {
@@ -62,9 +62,9 @@ export const CHAPITRE_CREATION: CheminChapitre = {
         "Le sixième jour, Dieu fit les animaux de la terre, puis il dit : « Faisons l'homme à notre image, selon notre ressemblance. » Dieu créa l'homme à son image, homme et femme il les créa, et il les bénit pour dominer sur la création.",
       ref: "Genèse 1:24-31",
       exercices: [
-        { type: "qcm", q: "À l'image de qui l'homme est-il créé ?", choix: ["De Dieu", "Des anges", "Des animaux", "De la terre"], bonne: 0 },
-        { type: "trou", texte: "« Faisons l'homme à notre ___, selon notre ressemblance. »", reponse: "image", leurres: ["force", "gloire", "pensée"] },
-        { type: "vf", q: "L'homme et les animaux terrestres sont créés le même jour.", vrai: true },
+        { type: "qui", indices: ["Je suis formé de la poussière de la terre.", "Dieu souffle dans mes narines un souffle de vie.", "Je donne leur nom à tous les animaux.", "Je suis le premier homme."], reponse: "Adam", leurres: ["Noé", "Abel", "Caïn"], niveau: "moyen" },
+        { type: "qcm", q: "À l'image de qui l'homme est-il créé ?", choix: ["De Dieu", "De la terre", "Des anges", "Des animaux"], bonne: 0 },
+        { type: "vf", q: "Homme et femme sont créés le même jour.", vrai: true, niveau: "moyen" },
       ],
     },
     {
@@ -72,9 +72,9 @@ export const CHAPITRE_CREATION: CheminChapitre = {
         "Dieu vit tout ce qu'il avait fait : et voici, cela était très bon. Le septième jour, Dieu acheva son œuvre et se reposa. Il bénit le septième jour et le sanctifia — le jour du repos.",
       ref: "Genèse 1:31-2:3",
       exercices: [
-        { type: "qcm", q: "Que fait Dieu le septième jour ?", choix: ["Il se repose et sanctifie ce jour", "Il crée les étoiles", "Il plante l'Éden", "Il crée la femme"], bonne: 0 },
-        { type: "vf", q: "Après la création, Dieu déclara que tout était « très bon ».", vrai: true },
-        { type: "ordre", consigne: "Remets ces étapes dans l'ordre :", items: ["Poissons et oiseaux", "Animaux et l'homme", "Le repos de Dieu"] },
+        { type: "trou", texte: "Dieu vit tout ce qu'il avait fait, et voici, cela était très ___.", reponse: "bon", leurres: ["grand", "beau", "vaste"] },
+        { type: "qcm", q: "Que fait Dieu du septième jour ?", choix: ["Il le bénit et le sanctifie", "Il crée les anges", "Il plante l'Éden", "Il donne la loi"], bonne: 0, niveau: "moyen" },
+        { type: "qcm", q: "Que signifie que Dieu « sanctifie » le septième jour ?", choix: ["Il le met à part pour lui", "Il le raccourcit", "Il l'oublie", "Il le donne aux animaux"], bonne: 0, niveau: "expert" },
       ],
     },
     {
@@ -83,9 +83,9 @@ export const CHAPITRE_CREATION: CheminChapitre = {
       ref: "Genèse 2:8-17",
       coffre: true,
       exercices: [
-        { type: "qcm", q: "Quels sont les deux arbres au milieu du jardin ?", choix: ["L'arbre de vie et celui de la connaissance du bien et du mal", "Le figuier et l'olivier", "Le cèdre et le palmier", "La vigne et le grenadier"], bonne: 0 },
-        { type: "trou", texte: "Dieu plaça l'homme dans le jardin pour le cultiver et le ___.", reponse: "garder", leurres: ["vendre", "quitter", "mesurer"] },
-        { type: "vf", q: "Dieu interdit de manger de tous les arbres du jardin.", vrai: false },
+        { type: "qcm", q: "Quel arbre l'homme ne doit-il pas toucher ?", choix: ["L'arbre de la connaissance du bien et du mal", "L'arbre de vie", "Le figuier", "L'olivier"], bonne: 0 },
+        { type: "qcm", q: "Combien de fleuves sortent d'Éden pour arroser le jardin ?", choix: ["Quatre", "Deux", "Sept", "Un seul"], bonne: 0, niveau: "expert" },
+        { type: "qcm", q: "Lequel de ces fleuves n'est PAS cité en Genèse 2 ?", choix: ["Le Jourdain", "Le Pischon", "Le Guihon", "L'Euphrate"], bonne: 0, niveau: "expert" },
       ],
     },
     {
@@ -93,9 +93,9 @@ export const CHAPITRE_CREATION: CheminChapitre = {
         "L'Éternel Dieu dit : « Il n'est pas bon que l'homme soit seul ; je lui ferai une aide semblable à lui. » Il fit tomber un profond sommeil sur Adam, prit une de ses côtes et en forma la femme. Adam s'écria : « Voici l'os de mes os et la chair de ma chair ! »",
       ref: "Genèse 2:18-25",
       exercices: [
-        { type: "qcm", q: "Pourquoi Dieu crée-t-il la femme ?", choix: ["« Il n'est pas bon que l'homme soit seul »", "Pour cultiver le jardin", "Pour nommer les animaux", "Parce qu'Adam l'a demandé"], bonne: 0 },
-        { type: "trou", texte: "« Voici l'os de mes os et la ___ de ma chair ! »", reponse: "chair", leurres: ["joie", "vie", "force"] },
-        { type: "vf", q: "La femme est formée à partir d'une côte d'Adam.", vrai: true },
+        { type: "verset", ref: "Genèse 2:24", texte: "L'homme quittera son père et sa mère et s'attachera à sa femme", niveau: "expert" },
+        { type: "qcm", q: "Que dit Dieu avant de créer la femme ?", choix: ["Il n'est pas bon que l'homme soit seul", "Que la lumière soit", "Soyez féconds", "Où es-tu ?"], bonne: 0 },
+        { type: "vf", q: "C'est l'homme qui donne leur nom aux animaux.", vrai: true, niveau: "moyen" },
       ],
     },
     {
@@ -103,9 +103,9 @@ export const CHAPITRE_CREATION: CheminChapitre = {
         "Le serpent, le plus rusé des animaux, dit à la femme : « Dieu a-t-il réellement dit… ? Vous ne mourrez point ! » La femme vit que l'arbre était bon à manger et agréable à la vue : elle prit du fruit, en mangea, et en donna aussi à son mari. Alors leurs yeux s'ouvrirent et ils se cachèrent loin de Dieu.",
       ref: "Genèse 3:1-8",
       exercices: [
-        { type: "qcm", q: "Quelle est la première question du serpent ?", choix: ["« Dieu a-t-il réellement dit… ? »", "« Où es-tu ? »", "« Pourquoi as-tu peur ? »", "« Veux-tu être riche ? »"], bonne: 0 },
-        { type: "vf", q: "Adam et Ève se cachèrent loin de la face de Dieu.", vrai: true },
-        { type: "ordre", consigne: "Remets la chute dans l'ordre :", items: ["Le serpent sème le doute", "La femme mange du fruit", "Ils se cachent de Dieu"] },
+        { type: "qui", indices: ["Je suis le plus rusé des animaux des champs.", "Je pose une question sur ce que Dieu a vraiment dit.", "Je promets que vos yeux s'ouvriront.", "Je serai maudit et je ramperai sur mon ventre."], reponse: "Le serpent", leurres: ["Le lion", "L'aigle", "Le bélier"], niveau: "moyen" },
+        { type: "qcm", q: "Que promet le serpent à la femme ?", choix: ["Vous serez comme des dieux, connaissant le bien et le mal", "Vous vivrez cent ans", "Vous quitterez le jardin", "Vous aurez beaucoup d'enfants"], bonne: 0, niveau: "moyen" },
+        { type: "qcm", q: "Que font l'homme et la femme juste après avoir mangé ?", choix: ["Ils cousent des feuilles de figuier", "Ils s'enfuient du jardin", "Ils prient", "Ils plantent un arbre"], bonne: 0, niveau: "expert" },
       ],
     },
     {
@@ -113,9 +113,9 @@ export const CHAPITRE_CREATION: CheminChapitre = {
         "Dieu appela : « Où es-tu ? » Le péché a un prix : la souffrance, le sol maudit, la sortie du jardin. Mais dès ce jour, Dieu annonce l'espérance : la postérité de la femme écrasera la tête du serpent — première promesse du Sauveur. Et l'Éternel fit lui-même des habits pour les couvrir.",
       ref: "Genèse 3:9-24",
       exercices: [
-        { type: "qcm", q: "Quelle promesse Dieu fait-il en Genèse 3:15 ?", choix: ["La postérité de la femme écrasera le serpent", "Un déluge viendra", "Abraham aura un fils", "Le temple sera bâti"], bonne: 0 },
-        { type: "trou", texte: "Dieu appela l'homme et lui dit : « ___ es-tu ? »", reponse: "Où", leurres: ["Qui", "Pourquoi", "Comment"] },
-        { type: "vf", q: "Malgré la faute, Dieu couvre lui-même Adam et Ève.", vrai: true },
+        { type: "ordre", consigne: "Remets la fin du récit dans l'ordre :", items: ["Dieu appelle : « Où es-tu ? »", "Dieu annonce la promesse à la postérité de la femme", "Dieu fait des habits de peau", "L'homme est chassé du jardin"] },
+        { type: "qcm", q: "Quelle promesse Dieu fait-il en Genèse 3:15 ?", choix: ["La postérité de la femme écrasera la tête du serpent", "Un déluge viendra", "Abraham aura un fils", "Le temple sera bâti"], bonne: 0, niveau: "expert" },
+        { type: "qcm", q: "Qui garde le chemin de l'arbre de vie ?", choix: ["Des chérubins et une épée flamboyante", "Un ange seul", "Un mur de pierre", "Un fleuve"], bonne: 0, niveau: "expert" },
       ],
     },
   ],

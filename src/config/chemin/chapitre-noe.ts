@@ -21,9 +21,9 @@ export const CHAPITRE_NOE: CheminChapitre = {
         "La terre était corrompue et remplie de violence. Mais Noé trouva grâce aux yeux de l'Éternel : c'était un homme juste et intègre, qui marchait avec Dieu.",
       ref: "Genèse 6:5-9",
       exercices: [
-        { type: "qcm", q: "Pourquoi Noé est-il épargné ?", choix: ["Il trouva grâce aux yeux de l'Éternel", "Il était le plus fort", "Il était riche", "Il savait naviguer"], bonne: 0 },
-        { type: "trou", texte: "Noé était un homme juste et intègre : il ___ avec Dieu.", reponse: "marchait", leurres: ["parlait", "chantait", "courait"] },
-        { type: "vf", q: "À l'époque de Noé, la terre était remplie de violence.", vrai: true },
+        { type: "qcm", q: "Comment la Bible décrit-elle Noé ?", choix: ["Un homme juste et intègre, qui marchait avec Dieu", "Un roi puissant", "Un prophète errant", "Un charpentier du désert"], bonne: 0 },
+        { type: "trou", texte: "Noé trouva ___ aux yeux de l'Éternel.", reponse: "grâce", leurres: ["peur", "gloire", "repos"] },
+        { type: "vf", q: "Dieu regarde la terre et voit que la méchanceté des hommes est grande.", vrai: true },
       ],
     },
     {
@@ -31,9 +31,9 @@ export const CHAPITRE_NOE: CheminChapitre = {
         "Dieu dit à Noé : « Fais-toi une arche de bois de gopher. » Trois cents coudées de long, cinquante de large, trente de haut ; trois étages, une porte sur le côté. Noé fit tout ce que Dieu lui avait ordonné.",
       ref: "Genèse 6:14-22",
       exercices: [
-        { type: "qcm", q: "En quel bois l'arche est-elle construite ?", choix: ["Bois de gopher", "Cèdre du Liban", "Olivier", "Acacia"], bonne: 0 },
-        { type: "vf", q: "L'arche mesurait trois cents coudées de longueur.", vrai: true },
-        { type: "trou", texte: "Noé fit tout ce que Dieu lui avait ___.", reponse: "ordonné", leurres: ["montré", "caché", "promis"] },
+        { type: "qcm", q: "Quelles sont les dimensions de l'arche ?", choix: ["300 coudées de long, 50 de large, 30 de haut", "100 sur 100 sur 100", "500 de long et 20 de large", "Elles ne sont pas données"], bonne: 0, niveau: "expert" },
+        { type: "qcm", q: "Combien d'étages compte l'arche ?", choix: ["Trois", "Un", "Deux", "Sept"], bonne: 0, niveau: "moyen" },
+        { type: "trou", texte: "Noé fit tout ce que Dieu lui avait ___.", reponse: "ordonné", leurres: ["promis", "montré", "raconté"] },
       ],
     },
     {
@@ -42,9 +42,9 @@ export const CHAPITRE_NOE: CheminChapitre = {
       ref: "Genèse 7:1-16",
       coffre: true,
       exercices: [
-        { type: "qcm", q: "Qui ferme la porte de l'arche ?", choix: ["L'Éternel lui-même", "Noé", "Sem", "Un ange"], bonne: 0 },
-        { type: "trou", texte: "Les animaux entrèrent ___ par deux vers Noé.", reponse: "deux", leurres: ["dix", "trois", "sept"] },
-        { type: "vf", q: "Huit personnes entrèrent dans l'arche.", vrai: true },
+        { type: "qui", indices: ["Je bâtis un vaisseau alors qu'il n'a jamais plu ainsi.", "J'ai trois fils : Sem, Cham et Japhet.", "Je fais entrer les animaux deux par deux.", "L'Éternel ferme lui-même la porte derrière moi."], reponse: "Noé", leurres: ["Abraham", "Moïse", "Josué"] },
+        { type: "qcm", q: "Combien de personnes entrent dans l'arche ?", choix: ["Huit", "Deux", "Douze", "Quarante"], bonne: 0, niveau: "moyen" },
+        { type: "qcm", q: "Combien de couples d'animaux purs Noé doit-il prendre ?", choix: ["Sept", "Deux", "Trois", "Dix"], bonne: 0, niveau: "expert" },
       ],
     },
     {
@@ -52,9 +52,9 @@ export const CHAPITRE_NOE: CheminChapitre = {
         "Les écluses des cieux s'ouvrirent : la pluie tomba quarante jours et quarante nuits. Les eaux grossirent et couvrirent même les hautes montagnes. Mais Dieu se souvint de Noé : les eaux dominèrent la terre cent cinquante jours, puis commencèrent à baisser.",
       ref: "Genèse 7:17-8:3",
       exercices: [
-        { type: "qcm", q: "Combien de temps la pluie tomba-t-elle ?", choix: ["40 jours et 40 nuits", "7 jours", "100 jours", "1 an exactement"], bonne: 0 },
-        { type: "vf", q: "Pendant le déluge, Dieu oublia Noé.", vrai: false },
-        { type: "ordre", consigne: "Remets le déluge dans l'ordre :", items: ["La pluie tombe 40 jours", "Les eaux couvrent les montagnes", "Les eaux baissent"] },
+        { type: "qcm", q: "Combien de jours et de nuits la pluie tombe-t-elle ?", choix: ["Quarante", "Sept", "Cent cinquante", "Trois cents"], bonne: 0 },
+        { type: "qcm", q: "Combien de temps les eaux restent-elles au plus haut sur la terre ?", choix: ["Cent cinquante jours", "Quarante jours", "Un an entier", "Sept jours"], bonne: 0, niveau: "expert" },
+        { type: "vf", q: "Les plus hautes montagnes ont été recouvertes par les eaux.", vrai: true, niveau: "moyen" },
       ],
     },
     {
@@ -62,9 +62,9 @@ export const CHAPITRE_NOE: CheminChapitre = {
         "L'arche s'arrêta sur les montagnes d'Ararat. Noé lâcha un corbeau, puis une colombe : elle revint d'abord sans rien, puis rapporta une feuille d'olivier toute fraîche — la terre renaissait. La troisième fois, elle ne revint plus.",
       ref: "Genèse 8:4-12",
       exercices: [
-        { type: "qcm", q: "Que rapporte la colombe à Noé ?", choix: ["Une feuille d'olivier", "Une branche de figuier", "Un rameau de vigne", "Un brin d'herbe"], bonne: 0 },
-        { type: "trou", texte: "L'arche s'arrêta sur les montagnes d'___.", reponse: "Ararat", leurres: ["Horeb", "Sion", "Carmel"] },
-        { type: "vf", q: "Le premier oiseau lâché par Noé est la colombe.", vrai: false },
+        { type: "ordre", consigne: "Remets ces moments dans l'ordre :", items: ["L'arche se pose sur les monts d'Ararat", "Noé lâche le corbeau", "La colombe revient avec une feuille d'olivier", "La colombe ne revient plus"] },
+        { type: "qcm", q: "Quel oiseau Noé envoie-t-il en premier ?", choix: ["Le corbeau", "La colombe", "L'aigle", "L'hirondelle"], bonne: 0, niveau: "moyen" },
+        { type: "qcm", q: "Sur quelles montagnes l'arche s'arrête-t-elle ?", choix: ["Les monts d'Ararat", "Le mont Sinaï", "Le mont Carmel", "Le mont des Oliviers"], bonne: 0, niveau: "moyen" },
       ],
     },
     {
@@ -73,9 +73,9 @@ export const CHAPITRE_NOE: CheminChapitre = {
       ref: "Genèse 8:15-22",
       coffre: true,
       exercices: [
-        { type: "qcm", q: "Que fait Noé en premier en sortant de l'arche ?", choix: ["Il bâtit un autel et offre un sacrifice", "Il plante une vigne", "Il construit une maison", "Il compte les animaux"], bonne: 0 },
-        { type: "trou", texte: "« Tant que la terre subsistera, les semailles et la ___… ne cesseront point. »", reponse: "moisson", leurres: ["pluie", "tempête", "famine"] },
-        { type: "vf", q: "Dieu promet que le rythme des saisons ne cessera pas.", vrai: true },
+        { type: "verset", ref: "Genèse 8:22", texte: "Les semailles et la moisson le froid et la chaleur ne cesseront point", niveau: "expert" },
+        { type: "qcm", q: "Que fait Noé en sortant de l'arche ?", choix: ["Il bâtit un autel à l'Éternel", "Il plante aussitôt une vigne", "Il compte les animaux", "Il repart en mer"], bonne: 0, niveau: "moyen" },
+        { type: "vf", q: "Dieu promet de ne plus maudire la terre à cause de l'homme.", vrai: true, niveau: "moyen" },
       ],
     },
     {
@@ -83,9 +83,9 @@ export const CHAPITRE_NOE: CheminChapitre = {
         "Dieu établit son alliance avec Noé et toute la création : « Je mets mon arc dans la nue : il sera le signe de l'alliance entre moi et la terre. Les eaux ne deviendront plus un déluge pour détruire toute chair. »",
       ref: "Genèse 9:8-17",
       exercices: [
-        { type: "qcm", q: "Quel est le signe de l'alliance avec Noé ?", choix: ["L'arc-en-ciel", "Une colonne de feu", "Une étoile", "Le sel"], bonne: 0 },
-        { type: "vf", q: "Dieu promet de ne plus détruire toute chair par un déluge.", vrai: true },
-        { type: "trou", texte: "« Je mets mon ___ dans la nue : il sera le signe de l'alliance. »", reponse: "arc", leurres: ["nom", "trône", "feu"] },
+        { type: "qcm", q: "Quel signe Dieu donne-t-il de son alliance ?", choix: ["L'arc-en-ciel dans la nuée", "Une étoile", "Une colombe", "Un feu sur la montagne"], bonne: 0 },
+        { type: "trou", texte: "« Les eaux ne deviendront plus un ___ pour détruire toute chair. »", reponse: "déluge", leurres: ["torrent", "orage", "abîme"] },
+        { type: "qcm", q: "Avec qui Dieu conclut-il cette alliance ?", choix: ["Avec Noé, sa descendance et tout être vivant", "Avec Noé seul", "Avec les hommes seulement", "Avec les oiseaux seulement"], bonne: 0, niveau: "expert" },
       ],
     },
     {
@@ -93,9 +93,9 @@ export const CHAPITRE_NOE: CheminChapitre = {
         "L'histoire de Noé nous apprend qu'un seul homme qui marche avec Dieu peut changer le cours du monde. Dieu voit, Dieu avertit, Dieu sauve — et ses promesses tiennent encore aujourd'hui, chaque fois qu'un arc-en-ciel traverse le ciel.",
       ref: "Genèse 6-9",
       exercices: [
-        { type: "ordre", consigne: "Remets l'histoire de Noé dans l'ordre :", items: ["La construction de l'arche", "Le déluge", "La colombe et l'olivier", "L'alliance de l'arc-en-ciel"] },
-        { type: "qcm", q: "Combien de fils Noé avait-il ?", choix: ["Trois : Sem, Cham et Japhet", "Deux : Caïn et Abel", "Quatre", "Un seul"], bonne: 0 },
-        { type: "vf", q: "Noé marchait avec Dieu.", vrai: true },
+        { type: "qui", indices: ["Je porte un nom qui annonce une consolation.", "Je suis fils de Lémec.", "J'ai six cents ans quand le déluge arrive.", "Je plante une vigne après le déluge."], reponse: "Noé", leurres: ["Sem", "Lémec", "Hénoc"], niveau: "expert" },
+        { type: "ordre", consigne: "Remets toute l'histoire dans l'ordre :", items: ["Dieu voit la méchanceté des hommes", "Noé bâtit l'arche", "Le déluge couvre la terre", "L'arche se pose sur l'Ararat", "L'arc-en-ciel scelle l'alliance"] },
+        { type: "qcm", q: "Quel âge a Noé lorsque le déluge vient sur la terre ?", choix: ["Six cents ans", "Cent vingt ans", "Neuf cents ans", "Quarante ans"], bonne: 0, niveau: "expert" },
       ],
     },
   ],

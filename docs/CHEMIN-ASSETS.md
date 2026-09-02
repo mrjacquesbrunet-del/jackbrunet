@@ -199,3 +199,52 @@ Le décor actuel est chaleureux — point d'interrogation doré, parchemin,
 loupe, colombes, îlots violets — avec, dans le prompt, une interdiction
 explicite des masques, figures encapuchonnées, statues et symboles
 occultes. **À reprendre dans tout prompt de ce jeu.**
+
+## Unification et contenu (4e passe)
+
+### Décors du Chemin dans la DA des jeux
+
+Les décors des chapitres 1 et 2 étaient en Pixar cinématique, les jeux en
+3D cartoon glossy : deux registres dans la même app. Les deux décors sont
+refaits dans la DA des jeux (mêmes références de style que les décors de
+jeu), avec une **bande centrale vide** demandée explicitement au prompt :
+tout le décor est arrangé sur les bords, le chemin est dessiné par l'app.
+
+### La route est dessinée par l'app
+
+Les dalles flottaient sur l'herbe. La route est maintenant tracée en
+**pixels réels** de la zone du sentier (mesurée par un `ResizeObserver`) :
+
+- `roadPath` donne le lit de terre ;
+- `roadSlabs` échantillonne la courbe, la parcourt à pas constant et
+  renvoie position + angle de chaque pavé doré, orienté dans le sens de
+  la marche.
+
+Les dalles et les pavés viennent des **mêmes points**, donc les
+médaillons tombent toujours pile sur le chemin, quel que soit le nombre
+d'étapes ou la taille de l'écran. Ne jamais revenir à un viewBox 0-100 en
+`preserveAspectRatio="none"` : la zone est bien plus haute que large et
+tout s'y étire. L'amplitude horizontale est passée de 27 % à 21 % pour
+que les dalles restent dans le cadre.
+
+### Épreuves variées et difficulté
+
+Deux nouveaux types d'exercice dans `CheminExercice` :
+
+- **`qui`** — Qui suis-je : les indices se dévoilent un par un, puis on
+  désigne parmi quatre noms ;
+- **`verset`** — le verset à reconstruire mot à mot. Attention : la
+  validation compare le **texte** posé et non l'index du jeton, sinon un
+  verset contenant deux fois le même mot (« sa mère », « sa femme »)
+  compterait un mot juste comme faux.
+
+Chaque exercice porte un `niveau` (`facile` par défaut, `moyen`,
+`expert`) affiché en pastille et qui ajoute un bonus d'XP (`XP_NIVEAU`).
+`defiEtape()` déduit l'intitulé de l'épreuve du premier exercice, annoncé
+au joueur sur l'écran de récit (« Puis : Qui suis-je ? »).
+
+Les 18 étapes des deux chapitres sont réécrites : chaque étape a son
+épreuve dominante (questions, chronologie, mot manquant, qui suis-je,
+verset) et un mélange de difficultés, avec des questions expertes
+(dimensions de l'arche, les quatre fleuves d'Éden, les 150 jours, la
+promesse de Genèse 3:15).

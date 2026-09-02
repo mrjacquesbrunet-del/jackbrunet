@@ -11,6 +11,9 @@ import {
   type CheminChapitre,
   type CheminCarte,
   type CheminExercice,
+  type CheminNiveau,
+  LABEL_NIVEAU,
+  defiEtape,
 } from "@/lib/chemin";
 import { CHEMIN_CHAPITRES } from "@/config/chemin";
 import { asset } from "@/lib/asset";
@@ -84,30 +87,73 @@ function Coffre({ open = false, className = "h-11 w-11" }: { open?: boolean; cla
 function nodePositions(n: number): { x: number; y: number }[] {
   return Array.from({ length: n }, (_, i) => {
     const t = n <= 1 ? 0 : i / (n - 1);
-    return { x: 50 + 27 * Math.sin(i * 1.25 + 0.6), y: 88 - t * 76 };
+    return { x: 50 + 21 * Math.sin(i * 1.25 + 0.6), y: 86 - t * 74 };
   });
 }
 
 /**
- * Les pavés entre deux dalles. Ils sont posés en HTML (et non en SVG) : le
- * sentier occupe une zone bien plus haute que large, un tracé SVG y serait
- * étiré et les pointillés deviendraient des taches ovales.
+ * Le tracé du chemin, en PIXELS réels de la zone. On ne passe plus par un
+ * viewBox 0-100 en `preserveAspectRatio="none"` : la zone est bien plus haute
+ * que large, et l'étirement transformait le trait en bande et les pointillés
+ * en taches ovales. En pixels, la route garde son épaisseur partout et les
+ * dalles — calculées sur les mêmes points — tombent exactement dessus.
  */
-function trailDots(pts: { x: number; y: number }[], perGap = 3): { x: number; y: number }[] {
-  const out: { x: number; y: number }[] = [];
-  for (let i = 1; i < pts.length; i++) {
-    const p = pts[i - 1];
-    const c = pts[i];
-    const my = (p.y + c.y) / 2;
-    for (let k = 1; k <= perGap; k++) {
-      const t = k / (perGap + 1);
+function roadPath(pts: { x: number; y: number }[], w: number, h: number): string {
+  if (pts.length === 0 || w === 0) return "";
+  const P = pts.map((p) => ({ x: (p.x / 100) * w, y: (p.y / 100) * h }));
+  let d = `M ${P[0].x} ${P[0].y}`;
+  for (let i = 1; i < P.length; i++) {
+    const a = P[i - 1];
+    const b = P[i];
+    const my = (a.y + b.y) / 2;
+    d += ` C ${a.x} ${my}, ${b.x} ${my}, ${b.x} ${b.y}`;
+  }
+  return d;
+}
+
+/**
+ * Les pavés de la route : on échantillonne la courbe, on la parcourt à pas
+ * constant et on renvoie la position + l'angle de chaque dalle. Résultat : des
+ * pavés régulièrement espacés et orientés dans le sens du chemin, quelle que
+ * soit la hauteur de la zone.
+ */
+function roadSlabs(pts: { x: number; y: number }[], w: number, h: number, pas = 32): { x: number; y: number; a: number }[] {
+  if (pts.length < 2 || w === 0) return [];
+  const P = pts.map((p) => ({ x: (p.x / 100) * w, y: (p.y / 100) * h }));
+  const poly: { x: number; y: number }[] = [];
+  for (let i = 1; i < P.length; i++) {
+    const a = P[i - 1];
+    const b = P[i];
+    const my = (a.y + b.y) / 2;
+    for (let k = 0; k <= 40; k++) {
+      const t = k / 40;
       const u = 1 - t;
-      // Bézier cubique P0=(p) C1=(p.x,my) C2=(c.x,my) P3=(c)
-      out.push({
-        x: u * u * u * p.x + 3 * u * u * t * p.x + 3 * u * t * t * c.x + t * t * t * c.x,
-        y: u * u * u * p.y + 3 * u * u * t * my + 3 * u * t * t * my + t * t * t * c.y,
+      poly.push({
+        x: u * u * u * a.x + 3 * u * u * t * a.x + 3 * u * t * t * b.x + t * t * t * b.x,
+        y: u * u * u * a.y + 3 * u * u * t * my + 3 * u * t * t * my + t * t * t * b.y,
       });
     }
+  }
+  const out: { x: number; y: number; a: number }[] = [];
+  let reste = pas / 2;
+  for (let i = 1; i < poly.length; i++) {
+    const a = poly[i - 1];
+    const b = poly[i];
+    const dx = b.x - a.x;
+    const dy = b.y - a.y;
+    const len = Math.hypot(dx, dy);
+    if (len < 0.001) continue;
+    let d = reste;
+    while (d <= len) {
+      const t = d / len;
+      out.push({
+        x: a.x + dx * t,
+        y: a.y + dy * t,
+        a: (Math.atan2(dy, dx) * 180) / Math.PI,
+      });
+      d += pas;
+    }
+    reste = d - len;
   }
   return out;
 }
@@ -132,6 +178,19 @@ export function CheminScreen() {
   const [, setTick] = useState(0);
 
   const curNodeRef = useRef<HTMLButtonElement | null>(null);
+  const trailRef = useRef<HTMLDivElement | null>(null);
+  const [trail, setTrail] = useState({ w: 0, h: 0 });
+
+  // La route est tracée en pixels : il faut donc mesurer la zone du sentier.
+  useEffect(() => {
+    const el = trailRef.current;
+    if (!el) return;
+    const lire = () => setTrail({ w: el.clientWidth, h: el.clientHeight });
+    lire();
+    const ro = new ResizeObserver(lire);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [phase, chapIdx]);
 
   // Repart du haut de l'écran à chaque changement de vue.
   useEffect(() => {
@@ -186,7 +245,7 @@ export function CheminScreen() {
       <DecorImage
         src={asset(chap.decor)}
         fixed
-        overlay="linear-gradient(180deg, rgba(0,0,0,.58) 0%, rgba(0,0,0,.10) 20%, rgba(0,0,0,.10) 74%, rgba(0,0,0,.55) 100%)"
+        overlay="linear-gradient(180deg, rgba(0,0,0,.60) 0%, rgba(0,0,0,.24) 20%, rgba(0,0,0,.24) 74%, rgba(0,0,0,.58) 100%)"
       />
 
       {/* Fondu sous la barre fixe : les dalles s'y dissolvent au défilement au
@@ -224,20 +283,28 @@ export function CheminScreen() {
       <div className="container-x relative mx-auto flex min-h-screen max-w-md flex-col pb-8 pt-[15.5rem] sm:pt-[17rem]">
 
         {/* Le sentier */}
-        <div className="relative mt-2 w-full flex-1" style={{ minHeight: Math.max(520, chap.etapes.length * 98) }}>
-          {/* Les pavés du sentier */}
-          {trailDots(pts).map((d, i) => (
-            <span
-              key={`d${i}`}
-              className="pointer-events-none absolute h-[13px] w-[13px] -translate-x-1/2 -translate-y-1/2 rounded-full"
-              style={{
-                left: `${d.x}%`,
-                top: `${d.y}%`,
-                background: "linear-gradient(180deg,#FDE68A,#D9A21B)",
-                boxShadow: "inset 0 1px 0 rgba(255,255,255,.6), 0 2px 4px rgba(0,0,0,.55)",
-              }}
-            />
-          ))}
+        <div ref={trailRef} className="relative mt-2 w-full flex-1" style={{ minHeight: Math.max(520, chap.etapes.length * 98) }}>
+          {/* La route de pierre : même tracé que les dalles, donc toujours dessous. */}
+          {trail.w > 0 ? (
+            <svg width={trail.w} height={trail.h} className="pointer-events-none absolute inset-0" aria-hidden>
+              <defs>
+                <linearGradient id="chemin-route" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#C9A24B" />
+                  <stop offset="42%" stopColor="#F2DFA6" />
+                  <stop offset="100%" stopColor="#B98F3C" />
+                </linearGradient>
+              </defs>
+              {/* Le lit de terre sombre, puis les pavés posés dessus un à un. */}
+              <path d={roadPath(pts, trail.w, trail.h)} fill="none" stroke="rgba(28,18,42,.42)" strokeWidth={44} strokeLinecap="round" strokeLinejoin="round" />
+              {roadSlabs(pts, trail.w, trail.h).map((sl, i) => (
+                <g key={`s${i}`} transform={`translate(${sl.x} ${sl.y}) rotate(${sl.a + 90})`}>
+                  <rect x={-17} y={-10} width={34} height={20} rx={6} fill="rgba(20,12,32,.5)" transform="translate(0 2.5)" />
+                  <rect x={-17} y={-10} width={34} height={20} rx={6} fill="url(#chemin-route)" />
+                  <rect x={-13} y={-7.5} width={26} height={5} rx={2.5} fill="rgba(255,255,255,.3)" />
+                </g>
+              ))}
+            </svg>
+          ) : null}
           {chap.etapes.map((et, i) => {
             const p = pts[i];
             const fait = ouvert && i < done;
@@ -421,7 +488,7 @@ function CheminLesson({ chap, stepIdx, onDone }: { chap: CheminChapitre; stepIdx
       <PlansDarkBg />
       {/* Le décor du chapitre continue derrière la leçon, très assombri pour
           que le récit et les exercices restent parfaitement lisibles. */}
-      <DecorImage src={asset(chap.decor)} fixed overlay="rgba(6,10,8,.82)" />
+      <DecorImage src={asset(chap.decor)} fixed overlay="rgba(6,10,8,.74)" />
       <div className="container-x relative mx-auto max-w-md">
         {/* Barre de progression de l'étape */}
         <div className="flex items-center gap-3">
@@ -437,9 +504,15 @@ function CheminLesson({ chap, stepIdx, onDone }: { chap: CheminChapitre; stepIdx
         {screen === 0 ? (
           /* ----- Le récit ----- */
           <div className="mt-6 rounded-3xl border border-white/10 bg-black/40 p-6 backdrop-blur" style={{ animation: "qm-optin .3s ease-out" }}>
-            <span className="inline-flex items-center gap-2 rounded-full px-3 py-1 font-game text-[11px] font-black uppercase tracking-wider" style={{ background: `${chap.accent}22`, color: chap.accent }}>
-              <IcoBook className="h-4 w-4" /> L&apos;histoire
-            </span>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-2 rounded-full px-3 py-1 font-game text-[11px] font-black uppercase tracking-wider" style={{ background: `${chap.accent}22`, color: chap.accent }}>
+                <IcoBook className="h-4 w-4" /> L&apos;histoire
+              </span>
+              {/* L'épreuve qui attend le joueur change d'une étape à l'autre. */}
+              <span className="rounded-full bg-white/10 px-3 py-1 font-game text-[11px] font-black uppercase tracking-wider text-white/70">
+                Puis : {defiEtape(etape)}
+              </span>
+            </div>
             <p className="mt-4 font-game text-[17px] font-semibold leading-relaxed text-white/95">{etape.recit}</p>
             <p className="mt-3 text-xs font-bold" style={{ color: chap.accent }}>{etape.ref}</p>
             <button type="button" onClick={() => setScreen(1)} className="mt-6 w-full rounded-full py-3.5 font-game text-base font-black text-[#08130a]" style={{ background: `linear-gradient(180deg,${chap.accent},${chap.accent}bb)`, boxShadow: "0 4px 0 rgba(0,0,0,.4)" }}>
@@ -485,13 +558,145 @@ function CheminLesson({ chap, stepIdx, onDone }: { chap: CheminChapitre; stepIdx
   );
 }
 
+/* ---------- Qui suis-je : les indices tombent un par un ---------- */
+
+function ExQui({ indices, reponse, leurres, accent, niveau, onNext }: { indices: string[]; reponse: string; leurres: string[]; accent: string; niveau?: CheminNiveau; onNext: (ok: boolean) => void }) {
+  const [vus, setVus] = useState(1);
+  const noms = useMemo(() => shuffle([reponse, ...leurres]), [reponse, leurres]);
+  const [pick, setPick] = useState<string | null>(null);
+  const reveal = pick !== null;
+  const ok = pick === reponse;
+  return (
+    <CadreExercice label="Qui suis-je ?" accent={accent} niveau={niveau}>
+      <div className="mt-3 flex flex-col gap-2">
+        {indices.slice(0, vus).map((ind, i) => (
+          <div key={i} className="flex items-start gap-2.5 rounded-2xl border border-white/10 bg-white/[0.05] px-3.5 py-2.5" style={{ animation: "qm-optin .25s ease-out" }}>
+            <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full font-game text-[10px] font-black" style={{ background: accent, color: "#08130a" }}>{i + 1}</span>
+            <p className="font-game text-[14px] font-semibold leading-snug text-white/90">{ind}</p>
+          </div>
+        ))}
+      </div>
+      {!reveal && vus < indices.length ? (
+        <button
+          type="button"
+          onClick={() => setVus((v) => v + 1)}
+          className="mt-3 w-full rounded-full border border-white/15 bg-white/[0.06] py-2.5 font-game text-[13px] font-black text-white/80"
+        >
+          INDICE SUIVANT ({vus}/{indices.length})
+        </button>
+      ) : null}
+      <div className="mt-4 grid grid-cols-2 gap-2.5">
+        {noms.map((nom) => {
+          const bon = nom === reponse;
+          const choisi = pick === nom;
+          let cls = "border-white/12 bg-white/[0.06] text-white";
+          if (reveal && bon) cls = "border-emerald-400 bg-emerald-400/20 text-emerald-100";
+          else if (reveal && choisi) cls = "border-rose-400 bg-rose-400/20 text-rose-100";
+          else if (reveal) cls = "border-white/10 bg-white/[0.03] text-white/45";
+          return (
+            <button
+              key={nom}
+              type="button"
+              disabled={reveal}
+              onClick={() => { setPick(nom); buzz(nom === reponse ? 20 : [12, 40, 12]); }}
+              className={`rounded-2xl border-2 px-3 py-3 text-center font-game text-[14px] font-bold transition-colors ${cls}`}
+            >
+              {nom}
+            </button>
+          );
+        })}
+      </div>
+      {reveal && !ok ? <p className="mt-3 text-center font-game text-[13px] font-bold text-white/70">C&apos;était <span style={{ color: accent }}>{reponse}</span>.</p> : null}
+      <BoutonSuite reveal={reveal} ok={ok} onNext={onNext} />
+    </CadreExercice>
+  );
+}
+
+/* ---------- Le verset : le reconstruire mot à mot ---------- */
+
+function ExVerset({ ref_, texte, accent, niveau, onNext }: { ref_: string; texte: string; accent: string; niveau?: CheminNiveau; onNext: (ok: boolean) => void }) {
+  const mots = useMemo(() => texte.split(/\s+/).filter(Boolean), [texte]);
+  const banque = useMemo(() => shuffle(mots.map((m, i) => ({ m, i }))), [mots]);
+  const [pose, setPose] = useState<number[]>([]);
+  const [fini, setFini] = useState(false);
+  const ok = fini && pose.every((idx, k) => mots[idx] === mots[k]);
+  const restant = banque.filter((b) => !pose.includes(b.i));
+
+  function poser(i: number) {
+    if (fini) return;
+    const next = [...pose, i];
+    setPose(next);
+    buzz(8);
+    if (next.length === mots.length) setFini(true);
+  }
+
+  return (
+    <CadreExercice label="Le verset" accent={accent} niveau={niveau}>
+      <p className="mt-3 font-game text-[13px] font-bold" style={{ color: accent }}>{ref_}</p>
+      <p className="mt-1 text-[12px] font-semibold text-white/55">Remets le verset dans l&apos;ordre, mot après mot.</p>
+
+      {/* La zone où le verset se reconstruit */}
+      <div className="mt-3 min-h-[92px] rounded-2xl border border-white/12 bg-black/35 p-3">
+        <div className="flex flex-wrap gap-1.5">
+          {pose.map((idx, k) => {
+            const juste = mots[idx] === mots[k];
+            return (
+              <button
+                key={`${idx}-${k}`}
+                type="button"
+                disabled={fini}
+                onClick={() => setPose((p) => p.slice(0, k))}
+                className="rounded-lg px-2 py-1 font-game text-[14px] font-bold"
+                style={
+                  fini
+                    ? juste
+                      ? { background: "rgba(52,211,153,.22)", color: "#a7f3d0" }
+                      : { background: "rgba(251,113,133,.22)", color: "#fecdd3" }
+                    : { background: "rgba(255,255,255,.10)", color: "#f3f3ed" }
+                }
+              >
+                {mots[idx]}
+              </button>
+            );
+          })}
+          {pose.length === 0 ? <span className="font-game text-[13px] text-white/30">Touche les mots dans l&apos;ordre…</span> : null}
+        </div>
+      </div>
+
+      {/* Les mots à replacer */}
+      <div className="mt-3 flex flex-wrap gap-2">
+        {restant.map((b) => (
+          <button
+            key={b.i}
+            type="button"
+            onClick={() => poser(b.i)}
+            className="rounded-xl border border-white/15 bg-white/[0.07] px-2.5 py-1.5 font-game text-[14px] font-bold text-white transition-transform active:scale-95"
+          >
+            {b.m}
+          </button>
+        ))}
+      </div>
+
+      {fini && !ok ? (
+        <p className="mt-3 rounded-2xl border border-white/10 bg-white/[0.04] px-3 py-2.5 font-game text-[13px] font-semibold leading-snug text-white/85">
+          Le verset : « {texte} »
+        </p>
+      ) : null}
+      <BoutonSuite reveal={fini} ok={ok} onNext={onNext} />
+    </CadreExercice>
+  );
+}
+
 /* ==================== Les exercices ==================== */
 
 function Exercice({ ex, accent, onNext }: { ex: CheminExercice; accent: string; onNext: (ok: boolean) => void }) {
-  if (ex.type === "qcm") return <ExQcm q={ex.q} choix={ex.choix} bonne={ex.bonne} accent={accent} onNext={onNext} />;
-  if (ex.type === "vf") return <ExVf q={ex.q} vrai={ex.vrai} accent={accent} onNext={onNext} />;
-  if (ex.type === "trou") return <ExTrou texte={ex.texte} reponse={ex.reponse} leurres={ex.leurres} accent={accent} onNext={onNext} />;
-  return <ExOrdre consigne={ex.consigne} items={ex.items} accent={accent} onNext={onNext} />;
+  const n = ex.niveau;
+  if (ex.type === "qcm") return <ExQcm q={ex.q} choix={ex.choix} bonne={ex.bonne} accent={accent} niveau={n} onNext={onNext} />;
+  if (ex.type === "vf") return <ExVf q={ex.q} vrai={ex.vrai} accent={accent} niveau={n} onNext={onNext} />;
+  if (ex.type === "trou") return <ExTrou texte={ex.texte} reponse={ex.reponse} leurres={ex.leurres} accent={accent} niveau={n} onNext={onNext} />;
+  if (ex.type === "qui") return <ExQui indices={ex.indices} reponse={ex.reponse} leurres={ex.leurres} accent={accent} niveau={n} onNext={onNext} />;
+  if (ex.type === "verset") return <ExVerset ref_={ex.ref} texte={ex.texte} accent={accent} niveau={n} onNext={onNext} />;
+  return <ExOrdre consigne={ex.consigne} items={ex.items} accent={accent} niveau={n} onNext={onNext} />;
 }
 
 function shuffle<T>(arr: T[]): T[] {
@@ -503,10 +708,31 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-function CadreExercice({ label, accent, children }: { label: string; accent: string; children: React.ReactNode }) {
+/** Pastille de difficulté : rien pour « facile », visible au-delà. */
+function Niveau({ n }: { n?: CheminNiveau }) {
+  if (!n || n === "facile") return null;
+  const expert = n === "expert";
+  return (
+    <span
+      className="rounded-full px-2.5 py-1 font-game text-[10px] font-black uppercase tracking-wider"
+      style={
+        expert
+          ? { background: "linear-gradient(180deg,#fb7185,#e11d48)", color: "#fff5f5", boxShadow: "inset 0 1px 0 rgba(255,255,255,.35)" }
+          : { background: "linear-gradient(180deg,#FCD34D,#F59E0B)", color: "#4a2600", boxShadow: "inset 0 1px 0 rgba(255,255,255,.45)" }
+      }
+    >
+      {LABEL_NIVEAU[n]}
+    </span>
+  );
+}
+
+function CadreExercice({ label, accent, niveau, children }: { label: string; accent: string; niveau?: CheminNiveau; children: React.ReactNode }) {
   return (
     <div className="mt-6 rounded-3xl border border-white/10 bg-black/40 p-5 backdrop-blur" style={{ animation: "qm-optin .25s ease-out" }}>
-      <span className="rounded-full px-3 py-1 font-game text-[11px] font-black uppercase tracking-wider" style={{ background: `${accent}22`, color: accent }}>{label}</span>
+      <div className="flex items-center gap-2">
+        <span className="rounded-full px-3 py-1 font-game text-[11px] font-black uppercase tracking-wider" style={{ background: `${accent}22`, color: accent }}>{label}</span>
+        <Niveau n={niveau} />
+      </div>
       {children}
     </div>
   );
@@ -526,12 +752,12 @@ function BoutonSuite({ reveal, ok, onNext }: { reveal: boolean; ok: boolean; onN
   );
 }
 
-function ExQcm({ q, choix, bonne, accent, onNext }: { q: string; choix: string[]; bonne: number; accent: string; onNext: (ok: boolean) => void }) {
+function ExQcm({ q, choix, bonne, accent, niveau, onNext }: { q: string; choix: string[]; bonne: number; accent: string; niveau?: CheminNiveau; onNext: (ok: boolean) => void }) {
   const ordre = useMemo(() => shuffle(choix.map((_, i) => i)), [choix]);
   const [pick, setPick] = useState<number | null>(null);
   const reveal = pick !== null;
   return (
-    <CadreExercice label="Question" accent={accent}>
+    <CadreExercice label="Question" accent={accent} niveau={niveau}>
       <p className="mt-3 font-game text-[16px] font-bold leading-snug text-white">{q}</p>
       <div className="mt-4 flex flex-col gap-2.5">
         {ordre.map((i) => {
@@ -553,11 +779,11 @@ function ExQcm({ q, choix, bonne, accent, onNext }: { q: string; choix: string[]
   );
 }
 
-function ExVf({ q, vrai, accent, onNext }: { q: string; vrai: boolean; accent: string; onNext: (ok: boolean) => void }) {
+function ExVf({ q, vrai, accent, niveau, onNext }: { q: string; vrai: boolean; accent: string; niveau?: CheminNiveau; onNext: (ok: boolean) => void }) {
   const [pick, setPick] = useState<boolean | null>(null);
   const reveal = pick !== null;
   return (
-    <CadreExercice label="Vrai ou faux" accent={accent}>
+    <CadreExercice label="Vrai ou faux" accent={accent} niveau={niveau}>
       <p className="mt-3 font-game text-[16px] font-bold leading-snug text-white">{q}</p>
       <div className="mt-4 grid grid-cols-2 gap-3">
         {[true, false].map((v) => {
@@ -579,13 +805,13 @@ function ExVf({ q, vrai, accent, onNext }: { q: string; vrai: boolean; accent: s
   );
 }
 
-function ExTrou({ texte, reponse, leurres, accent, onNext }: { texte: string; reponse: string; leurres: string[]; accent: string; onNext: (ok: boolean) => void }) {
+function ExTrou({ texte, reponse, leurres, accent, niveau, onNext }: { texte: string; reponse: string; leurres: string[]; accent: string; niveau?: CheminNiveau; onNext: (ok: boolean) => void }) {
   const options = useMemo(() => shuffle([reponse, ...leurres]), [reponse, leurres]);
   const [pick, setPick] = useState<string | null>(null);
   const reveal = pick !== null;
   const [avant, apres] = texte.split("___");
   return (
-    <CadreExercice label="Le mot manquant" accent={accent}>
+    <CadreExercice label="Le mot manquant" accent={accent} niveau={niveau}>
       <p className="mt-3 font-game text-[16px] font-bold leading-relaxed text-white">
         {avant}
         <span className="mx-1 inline-block min-w-[64px] rounded-lg border-b-2 px-2 text-center" style={{ borderColor: accent, color: reveal ? (pick === reponse ? "#6ee7b7" : "#fda4af") : accent }}>
@@ -613,7 +839,7 @@ function ExTrou({ texte, reponse, leurres, accent, onNext }: { texte: string; re
   );
 }
 
-function ExOrdre({ consigne, items, accent, onNext }: { consigne: string; items: string[]; accent: string; onNext: (ok: boolean) => void }) {
+function ExOrdre({ consigne, items, accent, niveau, onNext }: { consigne: string; items: string[]; accent: string; niveau?: CheminNiveau; onNext: (ok: boolean) => void }) {
   const [pool, setPool] = useState<string[]>(() => {
     let melange = shuffle(items);
     // Éviter de proposer l'ordre déjà correct.
@@ -637,7 +863,7 @@ function ExOrdre({ consigne, items, accent, onNext }: { consigne: string; items:
   }
 
   return (
-    <CadreExercice label="Dans l'ordre" accent={accent}>
+    <CadreExercice label="Dans l'ordre" accent={accent} niveau={niveau}>
       <p className="mt-3 font-game text-[15px] font-bold leading-snug text-white">{consigne}</p>
       {/* La séquence choisie */}
       <div className="mt-4 flex flex-col gap-2">

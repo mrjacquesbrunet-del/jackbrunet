@@ -10,11 +10,43 @@
  * contenu. Le contenu lui-même est en données : src/config/chemin/*.
  */
 
+/**
+ * Difficulté d'un exercice. « facile » est le défaut et ne s'affiche pas ;
+ * « moyen » et « expert » sont annoncés au joueur et rapportent plus d'XP.
+ */
+export type CheminNiveau = "facile" | "moyen" | "expert";
+
+type Base = { niveau?: CheminNiveau };
+
 export type CheminExercice =
-  | { type: "qcm"; q: string; choix: string[]; bonne: number }
-  | { type: "vf"; q: string; vrai: boolean }
-  | { type: "trou"; texte: string; reponse: string; leurres: string[] }
-  | { type: "ordre"; consigne: string; items: string[] };
+  | ({ type: "qcm"; q: string; choix: string[]; bonne: number } & Base)
+  | ({ type: "vf"; q: string; vrai: boolean } & Base)
+  | ({ type: "trou"; texte: string; reponse: string; leurres: string[] } & Base)
+  | ({ type: "ordre"; consigne: string; items: string[] } & Base)
+  /** Qui suis-je : les indices se dévoilent un par un, puis on désigne. */
+  | ({ type: "qui"; indices: string[]; reponse: string; leurres: string[] } & Base)
+  /** Le verset à reconstruire mot à mot, dans l'ordre. */
+  | ({ type: "verset"; ref: string; texte: string } & Base);
+
+/** Bonus d'XP par exercice selon sa difficulté. */
+export const XP_NIVEAU: Record<CheminNiveau, number> = { facile: 0, moyen: 3, expert: 8 };
+
+export const LABEL_NIVEAU: Record<CheminNiveau, string> = {
+  facile: "Facile",
+  moyen: "Moyen",
+  expert: "Expert",
+};
+
+/** L'intitulé du défi d'une étape, déduit de ses exercices. */
+export function defiEtape(e: CheminEtape): string {
+  const t = e.exercices[0]?.type;
+  if (t === "qui") return "Qui suis-je ?";
+  if (t === "verset") return "Le verset";
+  if (t === "ordre") return "La chronologie";
+  if (t === "trou") return "Le mot manquant";
+  if (t === "vf") return "Vrai ou faux";
+  return "Les questions";
+}
 
 export interface CheminEtape {
   /** Le récit raconté avant les exercices (2-4 phrases). */
@@ -107,8 +139,11 @@ export function completeCheminStep(
   const key = String(chap.id);
   const cur = Number(s.steps[key]) || 0;
   const dejaFaite = stepIdx < cur;
-  // XP : 30 par étape parfaite, 20 sinon ; 8 en re-jeu.
-  const xp = dejaFaite ? 8 : fautes === 0 ? 30 : 20;
+  // XP : 30 par étape parfaite, 20 sinon ; 8 en re-jeu. Les exercices de
+  // difficulté « moyen » et « expert » ajoutent leur bonus par-dessus.
+  const bonus = (chap.etapes[stepIdx]?.exercices ?? [])
+    .reduce((n, ex) => n + XP_NIVEAU[ex.niveau ?? "facile"], 0);
+  const xp = dejaFaite ? 8 : (fautes === 0 ? 30 : 20) + bonus;
   s.xp += xp;
   let coffreGemmes = 0;
   if (!dejaFaite) {
