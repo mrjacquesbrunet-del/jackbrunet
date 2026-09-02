@@ -42,6 +42,8 @@ export function project(p: V3): { x: number; y: number; s: number } {
 
 /* ---------- Réglages du tir (SlingshotController) ---------- */
 const SLING_ORIGIN: V3 = { x: 0, y: 0.95, z: 0.9 };
+/** Hauteur écran de la poche au repos (pend dans le V de la fronde image). */
+export const POUCH_REST_Y = 362;
 const MAX_PULL_PX = 165;
 const MIN_POWER = 6.4;
 const MAX_POWER = 15.6;
@@ -170,7 +172,7 @@ export class FrondeEngine {
 
   /** Position écran de la poche (suivant le doigt, bornée). */
   pouchScreen(): { x: number; y: number } {
-    const rest = { x: SCREEN_W / 2, y: 424 };
+    const rest = { x: SCREEN_W / 2, y: POUCH_REST_Y };
     if (!this.drag) return rest;
     const dx = Math.max(-70, Math.min(70, (this.drag.cx - this.drag.sx) * 0.55));
     const dy = Math.max(-8, Math.min(52, (this.drag.cy - this.drag.sy) * 0.34));
@@ -254,7 +256,7 @@ export class FrondeEngine {
   }
 
   private pouchScreenStatic() {
-    return { x: SCREEN_W / 2, y: 420 };
+    return { x: SCREEN_W / 2, y: POUCH_REST_Y };
   }
 
   togglePause() {

@@ -51,29 +51,29 @@ export const FRONDE_LEVELS: LevelConfig[] = [
   // ---------- Chapitre 1 : Le berger de Bethléhem (1-10) ----------
   // 1 : trois casques immobiles, aucun vent — la prise en main.
   L(1, 0, 1, 6, 300, [
-    T("helmet", -1.3, 0.45, 4, 150),
-    T("helmet", 0, 0.5, 5.2, 150),
-    T("helmet", 1.4, 0.45, 4.4, 150),
+    T("helmet", -1.15, 0.45, 5.0, 150),
+    T("helmet", 0, 0.5, 6.2, 150),
+    T("helmet", 1.25, 0.45, 5.4, 150),
   ]),
   // 2 : le loup rôde près du troupeau.
-  L(2, 0, 1, 5, 350, [T("wolf", 0.2, 0.5, 4, 250), T("helmet", -1.5, 0.45, 3, 150)]),
+  L(2, 0, 1, 5, 350, [T("wolf", 0.2, 0.5, 4, 250), T("helmet", -1.3, 0.45, 4.2, 150)]),
   // 3 : plusieurs cibles + premier souffle de vent.
   L(3, 0.8, 1, 6, 500, [
-    T("helmet", -1.6, 0.45, 3.2, 150),
+    T("helmet", -1.3, 0.45, 4.2, 150),
     T("shield", 0.3, 0.55, 4.6, 200),
     T("helmet", 1.6, 0.45, 3.6, 150),
     T("helmet", 0.6, 1.6, 5.6, 180),
   ]),
   // 4 : le lion.
-  L(4, 0.8, -1, 5, 500, [T("lion", -0.4, 0.55, 4.6, 300), T("shield", 1.4, 0.5, 3.4, 200)]),
+  L(4, 0.8, -1, 5, 500, [T("lion", -0.4, 0.55, 4.6, 300), T("shield", 1.2, 0.5, 4.2, 200)]),
   // 5 : premières cibles MOBILES.
   L(5, 0.6, 1, 6, 550, [
     MH(T("helmet", 0, 0.5, 4, 200), "horizontal", 0.9, 1.1),
-    T("shield", -1.7, 0.5, 3.2, 200),
+    T("shield", -1.4, 0.5, 4.2, 200),
     MH(T("helmet", 1.2, 1.4, 5.4, 220), "vertical", 0.5, 1.4),
   ]),
   // 6 : l'ours (2 coups).
-  L(6, 1, 1, 6, 600, [T("bear", 0.3, 0.6, 5, 350), T("helmet", -1.6, 0.45, 3.2, 150), T("helmet", 1.7, 0.45, 3.8, 160)]),
+  L(6, 1, 1, 6, 600, [T("bear", 0.3, 0.6, 5, 350), T("helmet", -1.3, 0.45, 4.2, 150), T("helmet", 1.4, 0.45, 4.4, 160)]),
   // 7 : plus loin, plus haut.
   L(7, 1.2, -1, 6, 650, [
     T("wolf", -1.2, 0.5, 5.8, 280),
@@ -83,17 +83,17 @@ export const FRONDE_LEVELS: LevelConfig[] = [
   // 8 : première cible BONUS (facultative, grosse prime).
   L(8, 1.2, 1, 6, 650, [
     T("lion", 0.6, 0.55, 4.4, 300),
-    T("helmet", -1.6, 0.5, 3.4, 160),
+    T("helmet", -1.3, 0.5, 4.2, 160),
     MH(T("bonus", -0.6, 2.3, 7.2, 400), "horizontal", 1.4, 1.8),
   ]),
   // 9 : trio mouvant.
   L(9, 1.5, -1, 6, 750, [
     MH(T("wolf", -0.8, 0.5, 4.2, 260), "horizontal", 1, 1.5),
     MH(T("helmet", 1.2, 1.5, 5.8, 220), "vertical", 0.6, 1.7),
-    T("shield", 0.2, 0.5, 3.2, 200),
+    T("shield", 0.2, 0.5, 4.0, 200),
   ]),
   // 10 : LE GÉANT (boss, 3 coups).
-  L(10, 1, 1, 7, 900, [T("giant", 0, 1.15, 7.5, 600, { health: 3 }), T("helmet", -1.8, 0.45, 3.4, 150)]),
+  L(10, 1, 1, 7, 900, [T("giant", 0, 1.15, 7.5, 600, { health: 3 }), T("helmet", -1.4, 0.45, 4.2, 150)]),
 
   // ---------- Chapitre 2 : Le camp d'Israël (11-20) ----------
   L(11, 1.5, 1, 6, 800, [
@@ -103,7 +103,7 @@ export const FRONDE_LEVELS: LevelConfig[] = [
   ]),
   L(12, 1.8, -1, 6, 850, [
     MH(T("lion", 0.4, 0.55, 5, 320), "horizontal", 1.3, 1.4),
-    T("shield", -1.6, 0.5, 3.4, 200),
+    T("shield", -1.3, 0.5, 4.2, 200),
     T("wolf", 1.6, 0.5, 4, 260),
   ]),
   L(13, 2, 1, 5, 800, [T("bear", -0.8, 0.6, 6.2, 380), T("bear", 1.1, 0.6, 6.2, 380)], [BIRDS(1.9, 4.8, 2.2, -1)]),
@@ -147,7 +147,7 @@ export const FRONDE_LEVELS: LevelConfig[] = [
   L(21, 2.5, 1, 6, 1150, [
     T("bear", -1, 0.65, 6.4, 400),
     MH(T("lion", 0.8, 0.6, 7, 380), "horizontal", 1.4, 1.5),
-    T("helmet", 1.8, 0.45, 3.4, 160),
+    T("helmet", 1.4, 0.45, 4.2, 160),
   ], [BIRDS(1.7, 5, 2.8, -1)]),
   L(22, 2.8, -1, 6, 1200, [
     MH(T("lion", -0.4, 0.6, 5.4, 340), "circle", 0.9, 1.8),

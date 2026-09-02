@@ -15,7 +15,10 @@ type Store = { stars: Record<string, number> };
 function read(): Store {
   try {
     const raw = localStorage.getItem(KEY);
-    if (raw) return JSON.parse(raw) as Store;
+    if (raw) {
+      const s = JSON.parse(raw) as Store;
+      if (s && typeof s === "object" && s.stars && typeof s.stars === "object") return s;
+    }
   } catch {
     /* stockage indisponible */
   }

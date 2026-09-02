@@ -1,25 +1,24 @@
 "use client";
 
-import { FrondeEngine, project, SCREEN_W as W, SCREEN_H as H, HORIZON, type LiveTarget } from "./engine";
+import { FrondeEngine, project, SCREEN_W as W, SCREEN_H as H, HORIZON, POUCH_REST_Y, type LiveTarget } from "./engine";
 import { TARGET_RADIUS } from "./types";
 
 /** Emplacements d'images (habillage Magnific) — repli dessiné sinon. */
-export const IMG_SLOTS = ["decor", "fronde", "cible", "loup", "lion", "ours", "geant", "casque", "bouclier"] as const;
+export const IMG_SLOTS = ["decor", "fronde", "cible", "loup", "lion", "ours", "geant", "philistin"] as const;
 export type ImgSlot = (typeof IMG_SLOTS)[number];
 export type GameImages = Partial<Record<ImgSlot, HTMLImageElement>>;
 
-const GUARD_IMG: Record<string, ImgSlot> = { wolf: "loup", lion: "lion", bear: "ours", giant: "geant", helmet: "casque", shield: "bouclier" };
+const GUARD_IMG: Record<string, ImgSlot> = { wolf: "loup", lion: "lion", bear: "ours", giant: "geant", helmet: "cible", shield: "philistin" };
 
 /** Calage des images : k = largeur en rayons de collider ; cy = fraction de
  * la hauteur de l'image où se trouve le CENTRE du collider (la cible). */
 const IMG_ANCHOR: Partial<Record<ImgSlot, { k: number; cy: number }>> = {
-  loup: { k: 2.4, cy: 0.68 },
-  lion: { k: 3.4, cy: 0.6 },
-  ours: { k: 2.7, cy: 0.6 },
-  geant: { k: 3.9, cy: 0.74 },
-  casque: { k: 1.7, cy: 0.5 },
-  bouclier: { k: 2.2, cy: 0.5 },
-  cible: { k: 2.2, cy: 0.5 },
+  loup: { k: 2.6, cy: 0.5 },
+  lion: { k: 2.7, cy: 0.5 },
+  ours: { k: 2.6, cy: 0.5 },
+  geant: { k: 2.9, cy: 0.48 },
+  philistin: { k: 3.0, cy: 0.5 },
+  cible: { k: 3.3, cy: 0.33 },
 };
 
 type Ctx = CanvasRenderingContext2D;
@@ -594,7 +593,7 @@ function drawBirds(ctx: Ctx, eng: FrondeEngine, o: Extract<NonNullable<FrondeEng
 
 /* ---------- La fronde (premier plan, se déforme avec la tension) ---------- */
 function drawSling(ctx: Ctx, eng: FrondeEngine, imgs: GameImages) {
-  const pouch = eng.projectile ? { x: W / 2, y: 424 } : eng.pouchScreen();
+  const pouch = eng.projectile ? { x: W / 2, y: POUCH_REST_Y } : eng.pouchScreen();
   const ratio = eng.pullRatio();
   // fourche qui plie légèrement vers la traction
   const bend = ratio * 6;
@@ -603,20 +602,19 @@ function drawSling(ctx: Ctx, eng: FrondeEngine, imgs: GameImages) {
   const tipR = { x: W / 2 + 46 - bend * 0.7 + lean, y: 398 + bend };
 
   if (imgs.fronde) {
-    // L'image contient fronde + main + pierre au repos. Pendant la visée,
-    // on dessine PAR-DESSUS les élastiques et la pierre qui suivent le doigt.
-    const iw = 235;
+    // L'image (fourche + main, SANS élastiques ni poche) est complétée par
+    // des élastiques et une poche 100 % dynamiques : ils suivent le doigt,
+    // claquent au tir, aucun doublon dessiné.
+    const iw = 252;
     const ih = (imgs.fronde.height / imgs.fronde.width) * iw;
     const ix = W / 2 - iw / 2 + lean;
     const iy = H - ih + bend * 0.5;
     ctx.drawImage(imgs.fronde, ix, iy, iw, ih);
-    if (eng.drag && ratio > 0.03) {
-      // fourches de l'image (fractions mesurées sur l'asset)
-      const imgTipL = { x: ix + iw * 0.12, y: iy + ih * 0.1 };
-      const imgTipR = { x: ix + iw * 0.88, y: iy + ih * 0.1 };
-      elastics(ctx, imgTipL, imgTipR, pouch, ratio);
-      pouchAndStone(ctx, pouch, ratio);
-    }
+    // anneaux violets d'attache (fractions mesurées sur l'asset)
+    const imgTipL = { x: ix + iw * 0.17, y: iy + ih * 0.17 };
+    const imgTipR = { x: ix + iw * 0.87, y: iy + ih * 0.17 };
+    elastics(ctx, imgTipL, imgTipR, pouch, ratio);
+    pouchAndStone(ctx, pouch, ratio, !eng.projectile);
     return;
   }
 
@@ -665,7 +663,7 @@ function drawSling(ctx: Ctx, eng: FrondeEngine, imgs: GameImages) {
   ctx.restore();
 
   elastics(ctx, tipL, tipR, pouch, ratio);
-  if (!eng.projectile) pouchAndStone(ctx, pouch, ratio);
+  pouchAndStone(ctx, pouch, ratio, !eng.projectile);
 }
 
 function elastics(ctx: Ctx, tipL: { x: number; y: number }, tipR: { x: number; y: number }, pouch: { x: number; y: number }, ratio: number) {
@@ -683,14 +681,22 @@ function elastics(ctx: Ctx, tipL: { x: number; y: number }, tipR: { x: number; y
   ctx.stroke();
 }
 
-function pouchAndStone(ctx: Ctx, pouch: { x: number; y: number }, ratio: number) {
-  ctx.fillStyle = "#5b3a1e";
+function pouchAndStone(ctx: Ctx, pouch: { x: number; y: number }, ratio: number, withStone: boolean) {
+  // poche en cuir cousue
+  ctx.fillStyle = "#6b4423";
   ctx.strokeStyle = "#3d2712";
   ctx.lineWidth = 2.5;
   ctx.beginPath();
-  ctx.ellipse(pouch.x, pouch.y + 4, 20, 13, 0, 0, Math.PI * 2);
+  ctx.ellipse(pouch.x, pouch.y + 4, 21, 14, 0, 0, Math.PI * 2);
   ctx.fill();
   ctx.stroke();
+  ctx.strokeStyle = "rgba(252,211,77,.55)";
+  ctx.lineWidth = 1.4;
+  ctx.setLineDash([3, 3]);
+  ctx.beginPath();
+  ctx.ellipse(pouch.x, pouch.y + 4, 16, 9.5, 0, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.setLineDash([]);
   // la pierre, bien visible quand on la tire en arrière
-  drawStone(ctx, pouch.x, pouch.y - 5, 12 + ratio * 3.5);
+  if (withStone) drawStone(ctx, pouch.x, pouch.y - 5, 12 + ratio * 3.5);
 }

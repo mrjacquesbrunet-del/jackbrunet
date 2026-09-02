@@ -398,8 +398,6 @@ function BadgesVitrine({ data, onClose }: { data: ProfileBadges; onClose: () => 
         "limier",
         "historien",
         "motjuste",
-        "frondeur",
-        "tireur",
         "maitre_quiz",
         "maitre_vf",
         "maitre_qsj",
