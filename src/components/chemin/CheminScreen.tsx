@@ -84,80 +84,6 @@ function Coffre({ open = false, className = "h-11 w-11" }: { open?: boolean; cla
 
 /* ---------- Positions du sentier ---------- */
 
-function nodePositions(n: number): { x: number; y: number }[] {
-  return Array.from({ length: n }, (_, i) => {
-    const t = n <= 1 ? 0 : i / (n - 1);
-    return { x: 50 + 21 * Math.sin(i * 1.25 + 0.6), y: 86 - t * 74 };
-  });
-}
-
-/**
- * Le tracé du chemin, en PIXELS réels de la zone. On ne passe plus par un
- * viewBox 0-100 en `preserveAspectRatio="none"` : la zone est bien plus haute
- * que large, et l'étirement transformait le trait en bande et les pointillés
- * en taches ovales. En pixels, la route garde son épaisseur partout et les
- * dalles — calculées sur les mêmes points — tombent exactement dessus.
- */
-function roadPath(pts: { x: number; y: number }[], w: number, h: number): string {
-  if (pts.length === 0 || w === 0) return "";
-  const P = pts.map((p) => ({ x: (p.x / 100) * w, y: (p.y / 100) * h }));
-  let d = `M ${P[0].x} ${P[0].y}`;
-  for (let i = 1; i < P.length; i++) {
-    const a = P[i - 1];
-    const b = P[i];
-    const my = (a.y + b.y) / 2;
-    d += ` C ${a.x} ${my}, ${b.x} ${my}, ${b.x} ${b.y}`;
-  }
-  return d;
-}
-
-/**
- * Les pavés de la route : on échantillonne la courbe, on la parcourt à pas
- * constant et on renvoie la position + l'angle de chaque dalle. Résultat : des
- * pavés régulièrement espacés et orientés dans le sens du chemin, quelle que
- * soit la hauteur de la zone.
- */
-function roadSlabs(pts: { x: number; y: number }[], w: number, h: number, pas = 32): { x: number; y: number; a: number }[] {
-  if (pts.length < 2 || w === 0) return [];
-  const P = pts.map((p) => ({ x: (p.x / 100) * w, y: (p.y / 100) * h }));
-  const poly: { x: number; y: number }[] = [];
-  for (let i = 1; i < P.length; i++) {
-    const a = P[i - 1];
-    const b = P[i];
-    const my = (a.y + b.y) / 2;
-    for (let k = 0; k <= 40; k++) {
-      const t = k / 40;
-      const u = 1 - t;
-      poly.push({
-        x: u * u * u * a.x + 3 * u * u * t * a.x + 3 * u * t * t * b.x + t * t * t * b.x,
-        y: u * u * u * a.y + 3 * u * u * t * my + 3 * u * t * t * my + t * t * t * b.y,
-      });
-    }
-  }
-  const out: { x: number; y: number; a: number }[] = [];
-  let reste = pas / 2;
-  for (let i = 1; i < poly.length; i++) {
-    const a = poly[i - 1];
-    const b = poly[i];
-    const dx = b.x - a.x;
-    const dy = b.y - a.y;
-    const len = Math.hypot(dx, dy);
-    if (len < 0.001) continue;
-    let d = reste;
-    while (d <= len) {
-      const t = d / len;
-      out.push({
-        x: a.x + dx * t,
-        y: a.y + dy * t,
-        a: (Math.atan2(dy, dx) * 180) / Math.PI,
-      });
-      d += pas;
-    }
-    reste = d - len;
-  }
-  return out;
-}
-
 const RARETE_LABEL: Record<CheminCarte["rarete"], string> = {
   commune: "Commune",
   rare: "Rare",
@@ -178,20 +104,6 @@ export function CheminScreen() {
   const [, setTick] = useState(0);
 
   const curNodeRef = useRef<HTMLButtonElement | null>(null);
-  const trailRef = useRef<HTMLDivElement | null>(null);
-  const [trail, setTrail] = useState({ w: 0, h: 0 });
-
-  // La route est tracée en pixels : il faut donc mesurer la zone du sentier.
-  useEffect(() => {
-    const el = trailRef.current;
-    if (!el) return;
-    const lire = () => setTrail({ w: el.clientWidth, h: el.clientHeight });
-    lire();
-    const ro = new ResizeObserver(lire);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [phase, chapIdx]);
-
   // Repart du haut de l'écran à chaque changement de vue.
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -234,20 +146,13 @@ export function CheminScreen() {
   }
 
   const done = cheminStep(chap.id);
-  const pts = nodePositions(chap.etapes.length);
+  const pts = chap.sentier;
   const cards = cheminCards();
   const ouvert = cheminChapitreOuvert(CHEMIN_CHAPITRES, chapIdx);
 
   return (
     <div className="dark-ctx relative isolate min-h-screen text-white" style={{ background: `linear-gradient(180deg, ${chap.fallback[0]}, ${chap.fallback[1]} 55%, ${chap.fallback[2]})` }}>
       <PlansDarkBg />
-      {/* Décor 2K du chapitre : fixe, le sentier défile par-dessus. */}
-      <DecorImage
-        src={asset(chap.decor)}
-        fixed
-        overlay="linear-gradient(180deg, rgba(0,0,0,.60) 0%, rgba(0,0,0,.24) 20%, rgba(0,0,0,.24) 74%, rgba(0,0,0,.58) 100%)"
-      />
-
       {/* Fondu sous la barre fixe : les dalles s'y dissolvent au défilement au
           lieu de passer en transparence derrière le titre du chapitre. */}
       <div
@@ -282,45 +187,27 @@ export function CheminScreen() {
 
       <div className="container-x relative mx-auto flex min-h-screen max-w-md flex-col pb-8 pt-[15.5rem] sm:pt-[17rem]">
 
-        {/* Le sentier */}
-        <div ref={trailRef} className="relative mt-2 w-full flex-1" style={{ minHeight: Math.max(560, chap.etapes.length * 112) }}>
-          {/* La route de pierre : même tracé que les dalles, donc toujours dessous. */}
-          {trail.w > 0 ? (
-            <svg width={trail.w} height={trail.h} className="pointer-events-none absolute inset-0" aria-hidden>
-              <defs>
-                <linearGradient id="chemin-route" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#F0DDAF" />
-                  <stop offset="100%" stopColor="#D9BC84" />
-                </linearGradient>
-              </defs>
-              {/* Le sentier de terre battue, puis ses pavés clairs posés dessus. */}
-              <path d={roadPath(pts, trail.w, trail.h)} fill="none" stroke="rgba(86,58,30,.42)" strokeWidth={62} strokeLinecap="round" strokeLinejoin="round" />
-              <path d={roadPath(pts, trail.w, trail.h)} fill="none" stroke="#C4A16A" strokeWidth={54} strokeLinecap="round" strokeLinejoin="round" />
-              {roadSlabs(pts, trail.w, trail.h, 21).map((sl, i) => {
-                // Deux rangées de pavés, décalées d'une ligne sur l'autre : le
-                // sentier a l'air appareillé plutôt qu'aligné à la règle.
-                const rad = ((sl.a + 90) * Math.PI) / 180;
-                const nx = Math.cos(rad);
-                const ny = Math.sin(rad);
-                const dec = i % 2 === 0 ? [-11, 11] : [-22, 0, 22];
-                return dec.map((d, k) => (
-                  <g key={`s${i}-${k}`} transform={`translate(${sl.x + nx * d} ${sl.y + ny * d}) rotate(${sl.a + 90})`}>
-                    <rect x={-9} y={-6.5} width={18} height={13} rx={4.5} fill="rgba(120,84,44,.35)" transform="translate(0 1.5)" />
-                    <rect x={-9} y={-6.5} width={18} height={13} rx={4.5} fill="url(#chemin-route)" />
-                  </g>
-                ));
-              })}
-            </svg>
-          ) : null}
+        {/* La carte du chapitre : le sentier est PEINT dans l'illustration, les
+            dalles sont posées sur les points relevés dessus (chap.sentier).
+            L'image est donc affichée entière, sans recadrage, sinon les
+            coordonnées ne correspondraient plus. */}
+        <div className="relative mt-2 w-full overflow-hidden rounded-3xl shadow-[0_18px_40px_-16px_rgba(0,0,0,.8)]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={asset(chap.decor)} alt="" aria-hidden className="block w-full" />
+          {/* Léger vignettage haut et bas pour raccorder la carte à la page. */}
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{ background: "linear-gradient(180deg, rgba(6,10,8,.55) 0%, rgba(6,10,8,0) 16%, rgba(6,10,8,0) 88%, rgba(6,10,8,.45) 100%)" }}
+          />
           {chap.etapes.map((et, i) => {
             const p = pts[i];
             const fait = ouvert && i < done;
             const courant = ouvert && i === done;
             const verrou = !ouvert || i > done;
             return (
-              <div key={i} className="absolute" style={{ left: `${p.x}%`, top: `${p.y}%`, transform: "translate(-50%, -40%)" }}>
+              <div key={i} className="absolute" style={{ left: `${p.x}%`, top: `${p.y}%`, width: "21%", transform: "translate(-50%, -40%)" }}>
                 {et.coffre ? (
-                  <div className="absolute -right-[46px] top-2"><Coffre open={fait} className="h-11" /></div>
+                  <div className="absolute -right-[38px] top-1"><Coffre open={fait} className="h-9" /></div>
                 ) : null}
                 <button
                   type="button"
@@ -332,7 +219,7 @@ export function CheminScreen() {
                   }}
                   ref={courant ? curNodeRef : undefined}
                   aria-label={`Étape ${i + 1}${fait ? " (terminée)" : verrou ? " (verrouillée)" : ""}`}
-                  className="relative block h-[104px] w-[94px] transition-transform active:scale-95"
+                  className="relative block w-full transition-transform active:scale-95"
                   style={courant ? { animation: "chemin-pulse 1.6s ease-in-out infinite" } : undefined}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -340,13 +227,13 @@ export function CheminScreen() {
                     src={asset(fait ? "/img/chemin/ui/dalle-or.png" : courant ? "/img/chemin/ui/dalle-active.png" : "/img/chemin/ui/dalle-verrou.png")}
                     alt=""
                     aria-hidden
-                    className="h-full w-full object-contain drop-shadow-[0_6px_9px_rgba(0,0,0,.55)]"
+                    className="block w-full drop-shadow-[0_6px_9px_rgba(0,0,0,.5)]"
                   />
                   {/* Le chiffre est gravé au centre de la face — à 40 % de la
                       hauteur de l'image, position identique sur les trois
                       dalles — et légèrement écrasé pour épouser la perspective. */}
                   <span
-                    className="pointer-events-none absolute left-1/2 grid place-items-center font-game text-[30px] font-black leading-none"
+                    className="pointer-events-none absolute left-1/2 grid place-items-center font-game text-[26px] font-black leading-none"
                     style={{
                       top: "40%",
                       transform: "translate(-50%, -50%) scaleY(.86)",
@@ -354,7 +241,7 @@ export function CheminScreen() {
                       textShadow: "0 2px 0 rgba(74,44,10,.55), 0 4px 10px rgba(0,0,0,.45)",
                     }}
                   >
-                    {fait ? <IcoCheck className="h-8 w-8" /> : verrou ? <IcoLock className="h-7 w-7" /> : i + 1}
+                    {fait ? <IcoCheck className="h-7 w-7" /> : verrou ? <IcoLock className="h-6 w-6" /> : i + 1}
                   </span>
                 </button>
               </div>

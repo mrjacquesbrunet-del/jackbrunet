@@ -291,3 +291,41 @@ Passé du pavé doré à la **pierre sable** de la référence : un lit de terre
 (62 px), la bande de sentier (54 px), puis de petits pavés clairs disposés
 en deux ou trois rangées alternées d'une ligne à l'autre, pour un
 appareillage irrégulier plutôt qu'un alignement à la règle.
+
+## Le sentier est PEINT dans la carte (6e passe) — méthode définitive
+
+Jack veut le rendu de sa référence : l'illustration entière, avec son
+sentier de pierre, et les dalles posées dessus. Le chemin n'est donc plus
+dessiné par l'app.
+
+**Chaque chapitre a une carte peinte** (`decor`) contenant son sentier de
+pierre sable qui monte du bas vers le haut, et **un tableau `sentier`** de
+points en % de l'image, un par étape, sur lesquels les dalles sont posées.
+
+### Comment relever le `sentier` d'une nouvelle carte
+
+1. Générer la carte en 9:16 / 2k avec les références de style, en exigeant
+   un sentier de pierre claire continu du bas au haut de l'image et
+   **aucune plateforme, aucun chiffre** dessus.
+2. Faire tourner le relevé (script dans l'historique de cette passe) : il
+   suit le sentier de bas en haut, ligne par ligne, en gardant le segment
+   de sable le plus proche du précédent — ce qui l'empêche de sauter sur un
+   rocher clair ou une bande de l'arc-en-ciel.
+3. Borner le haut du parcours là où le sentier s'arrête réellement. Sans
+   ça, sur le chapitre 2, le relevé remontait sur la coque en bois de
+   l'arche puis sur l'arc-en-ciel.
+4. Vérifier visuellement : le script dessine les repères sur l'image.
+5. Coller le tableau dans `sentier` du chapitre.
+
+### Contraintes d'affichage à ne pas casser
+
+- La carte est affichée **entière et sans recadrage** (`<img class="block
+  w-full">`). Un `object-cover` recadrerait l'image et les coordonnées ne
+  correspondraient plus.
+- La dalle est positionnée par un conteneur qui porte **sa largeur en %**
+  (21 % de la carte). Mettre la largeur en % sur le bouton à l'intérieur ne
+  marche pas : le conteneur absolu n'a alors pas de largeur propre, il
+  s'ajuste à son contenu, et les dalles finissent minuscules et hors du
+  sentier.
+- Le décalage `translate(-50%, -40%)` aligne le point du sentier sur le
+  centre de la FACE de la dalle (à 40 % de la hauteur de son image).

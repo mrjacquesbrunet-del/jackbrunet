@@ -71,6 +71,14 @@ export interface CheminChapitre {
   livre: string; // ex. « Genèse 1-3 »
   accent: string; // couleur du chapitre
   decor: string; // /img/chemin/decor-<id>.jpg (2K généré)
+  /**
+   * Les points du sentier PEINT dans le décor, en % de l'image (0-100).
+   * Le chemin n'est plus dessiné par l'app : il fait partie de l'illustration,
+   * et ces coordonnées — relevées sur l'image par détection du sentier — y
+   * posent les dalles exactement dessus. Un point par étape, du bas vers le
+   * haut. Voir docs/CHEMIN-ASSETS.md pour la méthode de relevé.
+   */
+  sentier: { x: number; y: number }[];
   /** Dégradé de secours tant que le décor n'est pas installé. */
   fallback: [string, string, string];
   carte: CheminCarte;
