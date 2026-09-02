@@ -165,6 +165,8 @@ const ICON_PATHS: Record<BadgeKind | "hebdo", string> = {
   historien:
     "M6 3h12M6 21h12M8 3v3.5c0 2 1.6 3.2 4 5.5-2.4 2.3-4 3.5-4 5.5V21M16 3v3.5c0 2-1.6 3.2-4 5.5 2.4 2.3 4 3.5 4 5.5V21",
   motjuste: "M4 7h16M4 12h5m4 0h7M4 17h16",
+  frondeur: "M12 12V21M12 12L7 5M12 12l5-7M7 5c1.5-1 3.5-1 5 0 1.5-1 3.5-1 5 0",
+  tireur: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zM12 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2z",
   // — Arène & défis —
   lanceur: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM13 7l-4 6h3l-1 4 4-6h-3z",
   assidu:
@@ -396,6 +398,8 @@ function BadgesVitrine({ data, onClose }: { data: ProfileBadges; onClose: () => 
         "limier",
         "historien",
         "motjuste",
+        "frondeur",
+        "tireur",
         "maitre_quiz",
         "maitre_vf",
         "maitre_qsj",

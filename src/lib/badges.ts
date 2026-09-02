@@ -9,6 +9,7 @@ import { getVfXp } from "./vraifaux";
 import { getWhoXp } from "./whoami";
 import { snapshotToolkit } from "./toolkit";
 import { snapshotNotes } from "./notebook";
+import { frondeStats } from "./fronde";
 
 /**
  * Badges d'ACCOMPLISSEMENT — attribués automatiquement, avec paliers
@@ -56,6 +57,8 @@ export type BadgeKind =
   | "limier"
   | "historien"
   | "motjuste"
+  | "frondeur"
+  | "tireur"
   // — Arène & défis —
   | "lanceur"
   | "assidu"
@@ -121,6 +124,8 @@ export const BADGE_LABELS: Record<BadgeKind, string> = {
   limier: "Fin limier",
   historien: "Historien",
   motjuste: "Le mot juste",
+  frondeur: "Frondeur",
+  tireur: "Tireur d'élite",
   lanceur: "Lanceur de défis",
   assidu: "Assidu",
   missionnaire: "Missionnaire",
@@ -160,6 +165,8 @@ export const BADGE_THRESHOLDS: Record<BadgeKind, [number, number, number]> = {
   limier: [5, 20, 60],
   historien: [50, 200, 600],
   motjuste: [30, 120, 400],
+  frondeur: [10, 20, 30],
+  tireur: [30, 60, 90],
   lanceur: [3, 15, 50],
   assidu: [20, 100, 500],
   missionnaire: [3, 12, 40],
@@ -199,6 +206,8 @@ const DETAILS: Record<BadgeKind, string> = {
   limier: "personnages devinés au premier indice",
   historien: "bonnes réponses à La Chronologie",
   motjuste: "mots retrouvés au Mot manquant",
+  frondeur: "niveaux réussis à La Fronde",
+  tireur: "étoiles gagnées à La Fronde",
   lanceur: "duels en ligne lancés",
   assidu: "parties jouées, tous jeux confondus",
   missionnaire: "missions de la semaine accomplies",
@@ -242,6 +251,8 @@ export const BADGE_HOW_TO: Record<BadgeKind, string> = {
   limier: "Au Qui suis-je, trouve le personnage dès le PREMIER indice. Bronze à 5 fois, argent à 20, or à 60.",
   historien: "À La Chronologie, remets les événements dans le bon ordre. Bronze à 50 bonnes réponses, argent à 200, or à 600.",
   motjuste: "Au Mot manquant (dans Mémoriser), retrouve le mot caché du verset. Bronze à 30 mots, argent à 120, or à 400.",
+  frondeur: "Réussis les niveaux de La Fronde de David. Bronze à 10 niveaux, argent à 20, or aux 30 (Goliath compris).",
+  tireur: "Décroche les 3 étoiles des niveaux de La Fronde en économisant tes pierres. Bronze à 30 étoiles, argent à 60, or à 90.",
   lanceur: "Crée un salon de duel en ligne et envoie le lien à quelqu'un. Bronze à 3 duels lancés, argent à 15, or à 50.",
   assidu: "Joue, tout simplement — chaque partie de n'importe quel jeu compte. Bronze à 20 parties, argent à 100, or à 500.",
   missionnaire: "Accomplis les missions de la semaine (accueil des jeux) et récupère leur récompense. Bronze à 3 missions, argent à 12, or à 40.",
@@ -301,6 +312,8 @@ export type SpiritualStats = {
   games_played: number;
   missions_claimed: number;
   league_best: number;
+  fronde_levels: number;
+  fronde_stars: number;
   // Communauté
   shares: number;
 };
@@ -338,8 +351,17 @@ export function localSpiritualStats(): SpiritualStats {
     games_played: getAchv("games_played"),
     missions_claimed: getAchv("missions_claimed"),
     league_best: getAchv("league_best"),
+    fronde_levels: 0,
+    fronde_stars: 0,
     shares: getAchv("shares"),
   };
+  try {
+    const fs = frondeStats();
+    out.fronde_levels = fs.done;
+    out.fronde_stars = fs.stars;
+  } catch {
+    /* indisponible */
+  }
   try {
     const eng = JSON.parse(localStorage.getItem("jb.engagement.v1") || "null") as {
       completedDates?: string[];
@@ -414,6 +436,8 @@ function statesFromStats(stats: SpiritualStats, streakDays: number): BadgeState[
     state("limier", stats.first_clue),
     state("historien", stats.chrono_correct),
     state("motjuste", stats.words_found),
+    state("frondeur", stats.fronde_levels),
+    state("tireur", stats.fronde_stars),
     state("lanceur", stats.duels_started),
     state("assidu", stats.games_played),
     state("missionnaire", stats.missions_claimed),
@@ -582,6 +606,8 @@ export async function fetchProfileBadges(
     games_played: num(remote.games_played),
     missions_claimed: num(remote.missions_claimed),
     league_best: num(remote.league_best),
+    fronde_levels: num(remote.fronde_levels),
+    fronde_stars: num(remote.fronde_stars),
     shares: num(remote.shares),
   };
 

@@ -14,6 +14,7 @@ import { getMemorizeXp, levelFromXp } from "@/lib/memorize";
 import { getVfXp } from "@/lib/vraifaux";
 import { getWhoXp } from "@/lib/whoami";
 import { getChronoXp } from "@/lib/chrono";
+import { getFrondeXp } from "@/lib/fronde";
 import { getSupabase } from "@/lib/supabase";
 import { getProfile } from "@/lib/community";
 import { submitGameScore } from "@/lib/game-scores";
@@ -40,6 +41,7 @@ const IconScale = S("M12 4v16M8 20h8M6 7h12M6 7l-2.5 5a3 3 0 0 0 5 0zM18 7l-2.5 
 const IconMask = S("M12 3C7 3 3 6 3 11c0 4 3 6 4 8 .5 1 1.5 2 5 2s4.5-1 5-2c1-2 4-4 4-8 0-5-4-8-9-8zM8.5 11h.01M15.5 11h.01M9 15c1 1 5 1 6 0");
 const IconTrophy = S("M8 4h8v3a4 4 0 0 1-8 0zM8 5H5v1a3 3 0 0 0 3 3M16 5h3v1a3 3 0 0 1-3 3M9 20h6M12 12v4");
 const IconHourglass = S("M6 3h12M6 21h12M8 3v3.5c0 2 1.6 3.2 4 5.5-2.4 2.3-4 3.5-4 5.5V21M16 3v3.5c0 2-1.6 3.2-4 5.5 2.4 2.3 4 3.5 4 5.5V21");
+const IconSling = S("M12 12V21M12 12L7 5M12 12l5-7M7 5c1.5-1 3.5-1 5 0 1.5-1 3.5-1 5 0");
 
 /** Illustration 3D du bouton « Défier un ami » (vide tant que Jack n'a pas fourni la sienne). */
 const DEFI_ILLO = "/img/jeux/trophee.png";
@@ -64,6 +66,7 @@ const GAMES: Game[] = [
   { id: "quisuisje", title1: "QUI", title2: "SUIS-JE ?", desc: "Devine le personnage biblique grâce aux indices !", href: "/qui-suis-je", illo: "/img/jeux/quisuisje.png", Icon: IconMask, from: "#60A5FA", to: "#3B82F6", arrow: "#2563EB" },
   { id: "vraifaux", title1: "VRAI", title2: "OU FAUX", desc: "Réponds vite et enchaîne les bonnes réponses !", href: "/vrai-faux", illo: "/img/jeux/vraifaux.png", Icon: IconScale, from: "#F472B6", to: "#EC4899", arrow: "#DB2777" },
   { id: "chrono", title1: "LA", title2: "CHRONOLOGIE", desc: "Deux événements : lequel est arrivé en premier ?", href: "/chronologie", illo: "/img/jeux/chronologie.png", Icon: IconHourglass, from: "#A78BFA", to: "#7C3AED", arrow: "#6D28D9" },
+  { id: "fronde", title1: "LA FRONDE", title2: "DE DAVID", desc: "Vise, tends, lâche — fais tomber le géant !", href: "/fronde", illo: "/img/jeux/fronde.png", Icon: IconSling, from: "#FBBF24", to: "#D97706", arrow: "#B45309" },
 ];
 
 const CSS = `
@@ -107,6 +110,7 @@ export function GamesHub() {
     submitGameScore("memoriser", memo);
     submitGameScore("quisuisje", getWhoXp());
     submitGameScore("chrono", getChronoXp());
+    submitGameScore("fronde", getFrondeXp());
 
     (async () => {
       const sb = getSupabase();
