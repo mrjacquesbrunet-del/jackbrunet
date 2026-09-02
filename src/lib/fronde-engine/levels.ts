@@ -45,9 +45,9 @@ export const FRONDE_LEVELS: LevelConfig[] = [
   // ---------- Chapitre 1 : Le berger de Bethléhem (1-10) ----------
   // 1 : trois casques immobiles, aucun vent — la prise en main.
   L(1, 0, 1, 6, 300, [
-    T("helmet", -1.2, 0.45, 3.2, 150),
-    T("helmet", 0, 0.5, 4.2, 150),
-    T("helmet", 1.3, 0.45, 3.4, 150),
+    T("helmet", -1.3, 0.45, 4, 150),
+    T("helmet", 0, 0.5, 5.2, 150),
+    T("helmet", 1.4, 0.45, 4.4, 150),
   ]),
   // 2 : le loup rôde près du troupeau.
   L(2, 0, 1, 5, 350, [T("wolf", 0.2, 0.5, 4, 250), T("helmet", -1.5, 0.45, 3, 150)]),

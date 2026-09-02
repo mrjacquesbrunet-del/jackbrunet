@@ -133,6 +133,7 @@ export function FrondeGame({ levelIdx, onExit, onNext }: { levelIdx: number; onE
   const state = hud?.state ?? "ready";
   const showResult = state === "levelComplete" || state === "gameOver";
   const boss = level.targets.some((t) => t.type === "giant");
+  const totalRequired = level.targets.filter((t) => t.type !== "bonus").length;
 
   return (
     <div className="relative mx-auto min-h-[100dvh] w-full max-w-md px-3 pb-6 pt-[calc(0.6rem+env(safe-area-inset-top))]">
@@ -155,10 +156,22 @@ export function FrondeGame({ levelIdx, onExit, onNext }: { levelIdx: number; onE
           onPointerCancel={() => engRef.current?.pointerUp()}
         />
 
-        {/* NIVEAU */}
-        <div className="pointer-events-none absolute left-3 top-3 rounded-2xl px-3.5 py-2 text-center shadow-lg" style={{ background: "linear-gradient(180deg,#7c3aed,#5b21b6)", border: "2px solid #a78bfa" }}>
-          <p className="font-game text-[9px] font-black uppercase tracking-widest text-white/85">Niveau</p>
-          <p className="-mt-0.5 font-game text-xl font-black text-amber-300">{levelIdx + 1}</p>
+        {/* NIVEAU + progression des cibles (style maquette) */}
+        <div className="pointer-events-none absolute left-3 top-3 flex flex-col items-start gap-1.5">
+          <div className="rounded-2xl px-3.5 py-2 text-center shadow-lg" style={{ background: "linear-gradient(180deg,#7c3aed,#5b21b6)", border: "2px solid #a78bfa" }}>
+            <p className="font-game text-[9px] font-black uppercase tracking-widest text-white/85">Niveau</p>
+            <p className="-mt-0.5 font-game text-xl font-black text-amber-300">{levelIdx + 1}</p>
+          </div>
+          <div className="flex items-center gap-1.5 rounded-xl bg-black/45 px-2.5 py-1 shadow">
+            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" aria-hidden>
+              <circle cx="12" cy="12" r="9" fill="#e23c33" />
+              <circle cx="12" cy="12" r="5.5" fill="#f6efdd" />
+              <circle cx="12" cy="12" r="2.5" fill="#e23c33" />
+            </svg>
+            <span className="font-game text-[11px] font-black text-white">
+              {totalRequired - (hud?.targetsLeft ?? totalRequired)}/{totalRequired}
+            </span>
+          </div>
         </div>
 
         {/* Score + combo */}
@@ -194,10 +207,14 @@ export function FrondeGame({ levelIdx, onExit, onNext }: { levelIdx: number; onE
           <span className="font-game text-base font-black text-white">×{hud?.ammo ?? level.maxAmmo}</span>
         </div>
 
-        {/* Cibles restantes */}
-        <div className="pointer-events-none absolute bottom-3 right-3 rounded-2xl bg-black/35 px-3 py-1.5 font-game text-[11px] font-black text-white shadow">
-          {hud?.targetsLeft ?? level.targets.length} cible{(hud?.targetsLeft ?? 2) > 1 ? "s" : ""}
-        </div>
+        {/* Tutoriel du premier niveau (style maquette) */}
+        {levelIdx === 0 && hud && hud.score === 0 && (state === "ready" || state === "aiming") ? (
+          <div className="pointer-events-none absolute inset-x-6 bottom-4 flex justify-center">
+            <p className="rounded-2xl px-4 py-2 text-center font-game text-[12px] font-black uppercase tracking-wide text-white shadow-lg" style={{ background: "linear-gradient(180deg,#7c3aedE6,#5b21b6E6)", border: "2px solid #a78bfa" }}>
+              {state === "aiming" ? "Plus tu tires, plus c'est puissant !" : "Tire pour viser"}
+            </p>
+          </div>
+        ) : null}
 
         {/* Pause overlay */}
         {state === "paused" ? (

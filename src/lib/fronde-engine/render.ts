@@ -10,6 +10,18 @@ export type GameImages = Partial<Record<ImgSlot, HTMLImageElement>>;
 
 const GUARD_IMG: Record<string, ImgSlot> = { wolf: "loup", lion: "lion", bear: "ours", giant: "geant", helmet: "casque", shield: "bouclier" };
 
+/** Calage des images : k = largeur en rayons de collider ; cy = fraction de
+ * la hauteur de l'image où se trouve le CENTRE du collider (la cible). */
+const IMG_ANCHOR: Partial<Record<ImgSlot, { k: number; cy: number }>> = {
+  loup: { k: 2.4, cy: 0.68 },
+  lion: { k: 3.4, cy: 0.6 },
+  ours: { k: 2.7, cy: 0.6 },
+  geant: { k: 3.9, cy: 0.74 },
+  casque: { k: 1.7, cy: 0.5 },
+  bouclier: { k: 2.2, cy: 0.5 },
+  cible: { k: 2.2, cy: 0.5 },
+};
+
 type Ctx = CanvasRenderingContext2D;
 
 /** Dessine une frame complète (le canvas est déjà mis à l'échelle). */
@@ -106,22 +118,43 @@ function drawBackground(ctx: Ctx, imgs: GameImages, decor: { clouds: { x: number
     ctx.ellipse(x - 15 * c.s, c.y + 4, 14 * c.s, 7 * c.s, 0, 0, Math.PI * 2);
     ctx.fill();
   }
-  // Montagnes
-  ctx.fillStyle = "#9b8fb0";
+  // Montagnes rocheuses (palette chaude de la maquette)
+  ctx.fillStyle = "#8d7a66";
   tri(ctx, -10, HORIZON + 40, 60, HORIZON - 45, 130, HORIZON + 40);
   tri(ctx, 230, HORIZON + 40, 300, HORIZON - 55, 372, HORIZON + 40);
-  ctx.fillStyle = "#b3a6c9";
+  ctx.fillStyle = "#a8937c";
   tri(ctx, 80, HORIZON + 40, 175, HORIZON - 70, 265, HORIZON + 40);
+  tri(ctx, -40, HORIZON + 40, 20, HORIZON - 15, 90, HORIZON + 40);
+  tri(ctx, 280, HORIZON + 40, 345, HORIZON - 20, 400, HORIZON + 40);
   ctx.fillStyle = "rgba(255,255,255,.85)";
   tri(ctx, 160, HORIZON - 55, 175, HORIZON - 70, 191, HORIZON - 54);
-  // Prairie
+  // ligne d'arbres au pied des montagnes
+  ctx.fillStyle = "#3f7a33";
+  for (let x = -6; x < W + 10; x += 22) {
+    ctx.beginPath();
+    ctx.ellipse(x, HORIZON + 34, 15, 9 + ((x * 7) % 5), 0, Math.PI, 0);
+    ctx.fill();
+  }
+  // Prairie saturée
   const grass = ctx.createLinearGradient(0, HORIZON, 0, H);
-  grass.addColorStop(0, "#8cc63f");
-  grass.addColorStop(1, "#4f9a2e");
+  grass.addColorStop(0, "#86c33d");
+  grass.addColorStop(1, "#4c8f2c");
   ctx.fillStyle = grass;
   ctx.fillRect(0, HORIZON + 20, W, H - HORIZON - 20);
+  // touffes d'herbe
+  ctx.strokeStyle = "rgba(38,88,26,.5)";
+  ctx.lineWidth = 2;
+  for (const [tx, tz] of [[-4.6, 2.6], [4.5, 3.4], [-3.2, 4.6], [4.9, 6], [-5, 8], [3.6, 9.4]] as const) {
+    const s = project({ x: tx, y: 0, z: tz });
+    for (let k = -2; k <= 2; k++) {
+      ctx.beginPath();
+      ctx.moveTo(s.x + k * 0.05 * s.s, s.y);
+      ctx.lineTo(s.x + k * 0.09 * s.s, s.y - 0.22 * s.s);
+      ctx.stroke();
+    }
+  }
   // Chemin en perspective
-  ctx.fillStyle = "#e0b76f";
+  ctx.fillStyle = "#dcb271";
   ctx.beginPath();
   ctx.moveTo(W / 2 - 26, HORIZON + 22);
   ctx.lineTo(W / 2 + 26, HORIZON + 22);
@@ -204,13 +237,15 @@ function drawTarget(ctx: Ctx, tg: LiveTarget, imgs: GameImages, t: number) {
     ctx.rotate((1 - tg.dying) * 0.5);
   }
 
-  const img = imgs[GUARD_IMG[tg.cfg.type] as ImgSlot];
+  const slot = GUARD_IMG[tg.cfg.type] as ImgSlot;
+  const img = imgs[slot];
+  const anchor = IMG_ANCHOR[slot] ?? { k: 2.4, cy: 0.55 };
   if (tg.cfg.type === "bonus") {
     drawBonusStar(ctx, r, t);
   } else if (img) {
-    const iw = r * 2.4;
+    const iw = r * anchor.k;
     const ih = (img.height / img.width) * iw;
-    ctx.drawImage(img, -iw / 2, -ih / 2 - r * 0.2, iw, ih);
+    ctx.drawImage(img, -iw / 2, -anchor.cy * ih, iw, ih);
   } else {
     switch (tg.cfg.type) {
       case "helmet": drawHelmet(ctx, r); break;
@@ -228,16 +263,17 @@ function drawTarget(ctx: Ctx, tg: LiveTarget, imgs: GameImages, t: number) {
     ctx.fill();
     ctx.globalAlpha = tg.dying > 0 ? tg.dying : 1;
   }
-  // Barre de vie (géant / multi-coups)
+  // Barre de vie (géant / multi-coups) — au-dessus du visuel, image comprise
   if (tg.maxHp > 1 && !tg.dead) {
+    const topY = img ? -anchor.cy * ((img.height / img.width) * r * anchor.k) - 10 : -r * 1.75;
     const bw = r * 1.9;
     ctx.fillStyle = "rgba(0,0,0,.5)";
     ctx.beginPath();
-    ctx.roundRect(-bw / 2, -r * 1.75, bw, Math.max(4, r * 0.16), 3);
+    ctx.roundRect(-bw / 2, topY, bw, Math.max(4, r * 0.16), 3);
     ctx.fill();
     ctx.fillStyle = "#ef4444";
     ctx.beginPath();
-    ctx.roundRect(-bw / 2, -r * 1.75, bw * (tg.hp / tg.maxHp), Math.max(4, r * 0.16), 3);
+    ctx.roundRect(-bw / 2, topY, bw * (tg.hp / tg.maxHp), Math.max(4, r * 0.16), 3);
     ctx.fill();
   }
   ctx.restore();
@@ -464,12 +500,20 @@ function drawSling(ctx: Ctx, eng: FrondeEngine, imgs: GameImages) {
   const tipR = { x: W / 2 + 46 - bend * 0.7 + lean, y: 398 + bend };
 
   if (imgs.fronde) {
-    // élastiques derrière l'image
-    elastics(ctx, tipL, tipR, pouch, ratio);
-    if (!eng.projectile) pouchAndStone(ctx, pouch, ratio);
-    const iw = 215;
+    // L'image contient fronde + main + pierre au repos. Pendant la visée,
+    // on dessine PAR-DESSUS les élastiques et la pierre qui suivent le doigt.
+    const iw = 235;
     const ih = (imgs.fronde.height / imgs.fronde.width) * iw;
-    ctx.drawImage(imgs.fronde, W / 2 - iw / 2 + lean, H - ih + bend * 0.5, iw, ih);
+    const ix = W / 2 - iw / 2 + lean;
+    const iy = H - ih + bend * 0.5;
+    ctx.drawImage(imgs.fronde, ix, iy, iw, ih);
+    if (eng.drag && ratio > 0.03) {
+      // fourches de l'image (fractions mesurées sur l'asset)
+      const imgTipL = { x: ix + iw * 0.12, y: iy + ih * 0.1 };
+      const imgTipR = { x: ix + iw * 0.88, y: iy + ih * 0.1 };
+      elastics(ctx, imgTipL, imgTipR, pouch, ratio);
+      pouchAndStone(ctx, pouch, ratio);
+    }
     return;
   }
 
@@ -539,11 +583,11 @@ function elastics(ctx: Ctx, tipL: { x: number; y: number }, tipR: { x: number; y
 function pouchAndStone(ctx: Ctx, pouch: { x: number; y: number }, ratio: number) {
   ctx.fillStyle = "#5b3a1e";
   ctx.strokeStyle = "#3d2712";
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 2.5;
   ctx.beginPath();
-  ctx.ellipse(pouch.x, pouch.y + 3, 16, 10, 0, 0, Math.PI * 2);
+  ctx.ellipse(pouch.x, pouch.y + 4, 20, 13, 0, 0, Math.PI * 2);
   ctx.fill();
   ctx.stroke();
   // la pierre, bien visible quand on la tire en arrière
-  drawStone(ctx, pouch.x, pouch.y - 4, 9 + ratio * 2.5);
+  drawStone(ctx, pouch.x, pouch.y - 5, 12 + ratio * 3.5);
 }
