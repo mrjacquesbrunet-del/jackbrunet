@@ -8,7 +8,7 @@ import { appShareUrl } from "@/config/app-links";
 import { shareText } from "@/lib/share";
 import { Avatar } from "@/components/community/Avatar";
 import { primeSfx, sfxTick, sfxWin, sfxLose, sfxWrong, sfxVs, sfxVictory } from "@/lib/duel-sfx";
-import { markDayStreak, recordDuelResult } from "@/lib/achievements";
+import { bumpAchv, markDayStreak, recordDuelResult } from "@/lib/achievements";
 import { checkLocalBadges } from "@/lib/badges";
 
 /**
@@ -248,6 +248,7 @@ export function DuelLive({
     if (finished && !endCountedRef.current) {
       endCountedRef.current = true;
       recordDuelResult(s[myRole] >= TARGET);
+      bumpAchv("games_played");
       markDayStreak("play");
       checkLocalBadges();
     }

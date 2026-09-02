@@ -5,6 +5,8 @@ import Link from "next/link";
 import { addMemorizeXp, markReviewed, recordPlaySession, GAME_BEST_KEY, type MemorizeItem } from "@/lib/memorize";
 import { submitWeeklyPoints } from "@/lib/game-leaderboard";
 import { isMusicOn, startGameMusic, stopGameMusic, toggleGameMusic } from "@/lib/game-audio";
+import { bumpAchv, markDayStreak } from "@/lib/achievements";
+import { checkLocalBadges } from "@/lib/badges";
 
 /**
  * « Le jeu du verset » — vrai mini-jeu mobile plein écran (esprit Duolingo,
@@ -471,6 +473,9 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
     addMemorizeXp(score);
     recordPlaySession(score);
     submitWeeklyPoints(score); // classement hebdo (si connecté)
+    bumpAchv("games_played");
+    markDayStreak("play");
+    checkLocalBadges();
     setBest((b) => {
       const nb = Math.max(b, score);
       try { localStorage.setItem(GAME_BEST_KEY, String(nb)); } catch { /* */ }

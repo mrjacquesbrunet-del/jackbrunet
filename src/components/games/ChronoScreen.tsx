@@ -123,6 +123,7 @@ export function ChronoScreen() {
     submitWeeklyPoints(finalCorrect); // bonnes réponses -> ligue de la semaine
     // Badges : partie parfaite, jours de jeu, paliers fraîchement atteints.
     if (finalCorrect >= CHRONO_ROUNDS) bumpAchv("perfect_games");
+    bumpAchv("games_played");
     markDayStreak("play");
     checkLocalBadges();
   }, []);
@@ -143,6 +144,7 @@ export function ChronoScreen() {
         setCorrect(nCorrect);
         setPoints(nPoints);
         if (CHRONO_TIME - timeLeft <= 3) bumpAchv("fast_answers");
+        bumpAchv("chrono_correct");
         buzz(25);
       } else {
         setCombo(0);

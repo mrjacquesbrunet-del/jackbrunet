@@ -138,6 +138,7 @@ export function MissingWordGame({ items, onClose }: { items: MemorizeItem[]; onC
       recordPlaySession(xp);
       submitWeeklyPoints(finalCorrect);
       if (finalCorrect >= ROUNDS) bumpAchv("perfect_games");
+      bumpAchv("games_played");
       markDayStreak("play");
       checkLocalBadges();
     },
@@ -161,6 +162,7 @@ export function MissingWordGame({ items, onClose }: { items: MemorizeItem[]; onC
         setCorrect(nCorrect);
         setPoints(nPoints);
         if (ROUND_TIME - timeLeft <= 3) bumpAchv("fast_answers");
+        bumpAchv("words_found");
       } else {
         setCombo(0);
       }

@@ -5,12 +5,23 @@ import {
   fetchProfileBadges,
   localSpiritualStats,
   HONOR_LABELS,
+  BADGE_HOW_TO,
   type ProfileBadges,
   type BadgeKind,
   type BadgeTier,
   type BadgeState,
   type HonorKind,
 } from "@/lib/badges";
+
+/** Comment remporter chaque TITRE (affiché quand on touche le médaillon). */
+const HONOR_HOW: Record<HonorKind, string> = {
+  champion_semaine:
+    "Termine n°1 de la ligue de la semaine, tous jeux confondus (points cumulés du lundi au dimanche). Le titre est remis en jeu chaque lundi — tu peux le remporter plusieurs fois (×N).",
+  intercesseur_semaine:
+    "Sois le membre qui a donné le plus de « Je prie » sur les 7 derniers jours. Décerné chaque dimanche soir, remis en jeu chaque semaine.",
+  intercesseur_mois:
+    "Sois le plus grand intercesseur des 30 derniers jours. Décerné le 1er de chaque mois.",
+};
 
 /* ---------- Titres à répétition (« ×N ») ---------- */
 
@@ -147,6 +158,20 @@ const ICON_PATHS: Record<BadgeKind | "hebdo", string> = {
   maitre_vf: "M12 4v16M8 20h8M6 7h12M6 7l-2.5 5a3 3 0 0 0 5 0zM18 7l-2.5 5a3 3 0 0 0 5 0z",
   maitre_qsj:
     "M12 3C7 3 3 6 3 11c0 4 3 6 4 8 .5 1 1.5 2 5 2s4.5-1 5-2c1-2 4-4 4-8 0-5-4-8-9-8zM8.5 11h.01M15.5 11h.01M9 15c1 1 5 1 6 0",
+  millionnaire: "M6 3h12l3 5-9 13L3 8zM3 8h18M9 3l-1 5M15 3l1 5",
+  enchaineur:
+    "M9 15l6-6M8.5 8.5 10 7a3.5 3.5 0 0 1 5 5l-1.5 1.5M15.5 15.5 14 17a3.5 3.5 0 0 1-5-5l1.5-1.5",
+  limier: "M10.5 3a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15zM16 16l5 5",
+  historien:
+    "M6 3h12M6 21h12M8 3v3.5c0 2 1.6 3.2 4 5.5-2.4 2.3-4 3.5-4 5.5V21M16 3v3.5c0 2-1.6 3.2-4 5.5 2.4 2.3 4 3.5 4 5.5V21",
+  motjuste: "M4 7h16M4 12h5m4 0h7M4 17h16",
+  // — Arène & défis —
+  lanceur: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM13 7l-4 6h3l-1 4 4-6h-3z",
+  assidu:
+    "M6 9h4M8 7v4M15 8h.01M17 11h.01M7 5h10a4 4 0 0 1 4 4v5a3 3 0 0 1-5.4 1.8L14 14h-4l-1.6 1.8A3 3 0 0 1 3 14V9a4 4 0 0 1 4-4z",
+  missionnaire: "M9 6h12M9 12h12M9 18h12M4 5l1 1 2-2M4 11l1 1 2-2M4 17l1 1 2-2",
+  etoile:
+    "M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6zM12 8l1.2 2.4 2.6.4-1.9 1.8.5 2.6-2.4-1.3-2.4 1.3.5-2.6-1.9-1.8 2.6-.4z",
   // — Communauté —
   ambassadeur: "M21 3 3 10.5l7 2.5M21 3l-5 18-6-8M21 3 10 13",
 };
@@ -354,6 +379,7 @@ export function AchievementsOverlay({
  * grisé), sections par domaine, détail + progression du badge touché. */
 function BadgesVitrine({ data, onClose }: { data: ProfileBadges; onClose: () => void }) {
   const [sel, setSel] = useState<BadgeState | null>(null);
+  const [selHonor, setSelHonor] = useState<HonorKind | null>(null);
 
   const SECTIONS: { title: string; kinds: BadgeKind[] }[] = [
     { title: "Prière", kinds: ["intercesseur", "scrolleur", "voix", "coeur", "premier"] },
@@ -362,17 +388,22 @@ function BadgesVitrine({ data, onClose }: { data: ProfileBadges; onClose: () => 
     {
       title: "Jeux",
       kinds: [
-        "duelliste",
-        "invincible",
         "sansfaute",
         "eclair",
-        "marathonien",
-        "defi",
         "demineur",
+        "millionnaire",
+        "enchaineur",
+        "limier",
+        "historien",
+        "motjuste",
         "maitre_quiz",
         "maitre_vf",
         "maitre_qsj",
       ],
+    },
+    {
+      title: "Arène & défis",
+      kinds: ["duelliste", "invincible", "lanceur", "defi", "marathonien", "assidu", "missionnaire", "etoile"],
     },
     { title: "Communauté", kinds: ["encourageur", "ambassadeur"] },
   ];
@@ -418,8 +449,17 @@ function BadgesVitrine({ data, onClose }: { data: ProfileBadges; onClose: () => 
           <div className="mt-3 grid grid-cols-3 gap-x-2 gap-y-4">
             {HONOR_ORDER.map((k) => {
               const n = data.honors?.[k] ?? 0;
+              const selected = selHonor === k;
               return (
-                <div key={k} className="flex flex-col items-center gap-1.5 p-2 text-center">
+                <button
+                  key={k}
+                  type="button"
+                  onClick={() => {
+                    setSel(null);
+                    setSelHonor(selected ? null : k);
+                  }}
+                  className={`flex flex-col items-center gap-1.5 rounded-2xl p-2 text-center transition-colors ${selected ? "bg-white/[0.07]" : ""}`}
+                >
                   <span className={n > 0 ? "" : "opacity-45 grayscale"}>
                     <HonorMedallion kind={k} count={n} />
                   </span>
@@ -429,7 +469,7 @@ function BadgesVitrine({ data, onClose }: { data: ProfileBadges; onClose: () => 
                   <span className={`text-[10px] font-semibold ${n > 0 ? "text-dawn-300" : "text-cream/35"}`}>
                     {n > 0 ? `Remporté ×${n}` : "À remporter"}
                   </span>
-                </div>
+                </button>
               );
             })}
           </div>
@@ -450,7 +490,10 @@ function BadgesVitrine({ data, onClose }: { data: ProfileBadges; onClose: () => 
                   <button
                     key={k}
                     type="button"
-                    onClick={() => setSel(selected ? null : s)}
+                    onClick={() => {
+                      setSelHonor(null);
+                      setSel(selected ? null : s);
+                    }}
                     className={`flex flex-col items-center gap-1.5 rounded-2xl p-2 transition-colors ${selected ? "bg-white/[0.07]" : ""}`}
                   >
                     <span className={s.tier ? "" : "opacity-45 grayscale"}>
@@ -469,17 +512,43 @@ function BadgesVitrine({ data, onClose }: { data: ProfileBadges; onClose: () => 
           </div>
         ))}
 
-        {/* Détail du badge touché : compteur + progression vers le palier suivant */}
-        {sel ? (
-          <div className="rounded-2xl border border-white/10 bg-night-900 p-4">
+        <p className="text-center text-xs text-cream/40">
+          Touche un badge pour voir comment l&apos;obtenir et ta progression.
+        </p>
+        {/* Espace pour que le volet fixe ne recouvre pas les derniers badges */}
+        {sel || selHonor ? <div className="h-40" /> : null}
+      </div>
+
+      {/* Volet fixe en bas : comment obtenir le badge/titre touché */}
+      {selHonor || sel ? (
+        <div
+          className="fixed inset-x-0 bottom-0 z-10 px-4 pb-[calc(env(safe-area-inset-bottom)+1rem)]"
+          style={{ animation: "bdg-in .25s ease-out both" }}
+        >
+        {selHonor ? (
+          <div className="mx-auto max-w-md rounded-2xl border border-white/15 bg-night-900 p-4 shadow-2xl">
+            <p className="flex items-baseline justify-between gap-2 text-sm font-bold">
+              {HONOR_LABELS[selHonor]}
+              <span className={`text-[11px] font-semibold ${(data.honors?.[selHonor] ?? 0) > 0 ? "text-dawn-300" : "text-cream/40"}`}>
+                {(data.honors?.[selHonor] ?? 0) > 0 ? `Remporté ×${data.honors?.[selHonor]}` : "À remporter"}
+              </span>
+            </p>
+            <p className="mt-1.5 text-xs leading-relaxed text-cream/65">{HONOR_HOW[selHonor]}</p>
+          </div>
+        ) : sel ? (
+          <div className="mx-auto max-w-md rounded-2xl border border-white/15 bg-night-900 p-4 shadow-2xl">
             <p className="flex items-baseline justify-between gap-2 text-sm font-bold">
               {sel.label}
               <span className={`text-[11px] font-semibold ${sel.tier ? "text-dawn-300" : "text-cream/40"}`}>
                 {sel.tier ? TIER_LABEL[sel.tier] : "À débloquer"}
               </span>
             </p>
-            <p className="mt-1 text-xs text-cream/60">
-              {sel.count.toLocaleString("fr-FR")} {sel.detail}
+            {/* Comment l'obtenir — la clé pour les badges pas encore gagnés */}
+            <p className="mt-1.5 text-xs leading-relaxed text-cream/65">
+              {sel.tier ? BADGE_HOW_TO[sel.kind] : `Comment l'obtenir : ${BADGE_HOW_TO[sel.kind]}`}
+            </p>
+            <p className="mt-2 text-xs font-semibold text-cream/55">
+              Ta progression : {sel.count.toLocaleString("fr-FR")} {sel.detail}
               {sel.next ? ` · prochain palier à ${sel.next.toLocaleString("fr-FR")}` : " · palier maximum atteint"}
             </p>
             <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10">
@@ -489,10 +558,9 @@ function BadgesVitrine({ data, onClose }: { data: ProfileBadges; onClose: () => 
               />
             </div>
           </div>
-        ) : (
-          <p className="text-center text-xs text-cream/40">Touche un badge pour voir ta progression.</p>
-        )}
-      </div>
+        ) : null}
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -51,6 +51,16 @@ export type BadgeKind =
   | "maitre_quiz"
   | "maitre_vf"
   | "maitre_qsj"
+  | "millionnaire"
+  | "enchaineur"
+  | "limier"
+  | "historien"
+  | "motjuste"
+  // — Arène & défis —
+  | "lanceur"
+  | "assidu"
+  | "missionnaire"
+  | "etoile"
   // — Communauté —
   | "encourageur"
   | "ambassadeur";
@@ -106,6 +116,15 @@ export const BADGE_LABELS: Record<BadgeKind, string> = {
   maitre_quiz: "Maître du Quiz",
   maitre_vf: "Maître du Vrai ou Faux",
   maitre_qsj: "Maître du Qui suis-je",
+  millionnaire: "Millionnaire",
+  enchaineur: "Enchaîneur",
+  limier: "Fin limier",
+  historien: "Historien",
+  motjuste: "Le mot juste",
+  lanceur: "Lanceur de défis",
+  assidu: "Assidu",
+  missionnaire: "Missionnaire",
+  etoile: "Étoile des ligues",
   encourageur: "Encourageur",
   ambassadeur: "Ambassadeur",
 };
@@ -136,6 +155,15 @@ export const BADGE_THRESHOLDS: Record<BadgeKind, [number, number, number]> = {
   maitre_quiz: [5000, 20000, 60000],
   maitre_vf: [500, 2000, 6000],
   maitre_qsj: [300, 1200, 4000],
+  millionnaire: [1, 5, 20],
+  enchaineur: [10, 20, 35],
+  limier: [5, 20, 60],
+  historien: [50, 200, 600],
+  motjuste: [30, 120, 400],
+  lanceur: [3, 15, 50],
+  assidu: [20, 100, 500],
+  missionnaire: [3, 12, 40],
+  etoile: [2, 3, 4],
   encourageur: [25, 100, 300],
   ambassadeur: [10, 50, 200],
 };
@@ -166,8 +194,60 @@ const DETAILS: Record<BadgeKind, string> = {
   maitre_quiz: "pièces gagnées au Quiz",
   maitre_vf: "points au Vrai ou Faux",
   maitre_qsj: "points au Qui suis-je",
+  millionnaire: "LE MILLION décroché au Quiz",
+  enchaineur: "record de série au Vrai ou Faux",
+  limier: "personnages devinés au premier indice",
+  historien: "bonnes réponses à La Chronologie",
+  motjuste: "mots retrouvés au Mot manquant",
+  lanceur: "duels en ligne lancés",
+  assidu: "parties jouées, tous jeux confondus",
+  missionnaire: "missions de la semaine accomplies",
+  etoile: "palier de ligue atteint",
   encourageur: "encouragements laissés",
   ambassadeur: "partages faits depuis l'app",
+};
+
+/**
+ * COMMENT L'OBTENIR — affiché dans la vitrine quand on touche un badge
+ * (surtout un badge verrouillé) : l'action concrète + le premier palier.
+ */
+export const BADGE_HOW_TO: Record<BadgeKind, string> = {
+  intercesseur: "Sur le mur de prière ou dans Scrolle & prie, appuie sur « Je prie » pour les sujets des autres. Bronze à 50 prières, argent à 200, or à 500.",
+  scrolleur: "Ouvre le mode « Scrolle & prie » (mur de prière ou Temps avec Jésus), prie pour au moins une personne puis termine ta session. Bronze à 5 sessions, argent à 25, or à 100.",
+  voix: "Dans Scrolle & prie, appuie sur le gros micro et laisse une prière vocale sur un sujet. Bronze à 5 vocales, argent à 25, or à 100.",
+  coeur: "Prie pour quelqu'un chaque jour, sans manquer un jour : c'est ta meilleure série qui compte. Bronze à 7 jours d'affilée, argent à 30, or à 90.",
+  premier: "Sois le tout premier à prier pour un sujet que personne n'a encore porté. Bronze à 10 fois, argent à 40, or à 120.",
+  fidele: "Appuie sur « J'ai médité » chaque jour dans le Temps avec Jésus pour faire grandir ta série. Bronze à 7 jours, argent à 30, or à 100.",
+  meditant: "Termine la méditation du jour et valide « J'ai médité ». Bronze à 10 méditations, argent à 50, or à 200.",
+  levetot: "Valide « J'ai médité » avant 8 h du matin. Bronze à 7 matins, argent à 30, or à 100.",
+  enracine: "Médite les 7 jours d'une même semaine, du lundi au dimanche. Bronze à 4 semaines parfaites, argent à 12, or à 52.",
+  ecoute: "Lance l'audio d'une méditation (bouton « Écouter la méditation »). Bronze à 10 écoutes, argent à 50, or à 150.",
+  expert: "Joue au Quiz biblique : tes points de classement s'accumulent. Bronze à 1 500 points, argent à 4 000, or à 10 000.",
+  memorisateur: "Dans Mémoriser, amène des versets jusqu'à l'étape « Par cœur ». Bronze à 5 versets, argent à 20, or à 60.",
+  lecteur: "Coche tes jours de lecture dans les plans de lecture biblique. Bronze à 15 jours, argent à 60, or à 250.",
+  scribe: "Écris des notes dans ton carnet (bloc « Prends une note » ou page Carnet). Bronze à 10 notes, argent à 50, or à 200.",
+  surligneur: "Touche un verset ou un passage d'une méditation pour le surligner ou l'enregistrer. Bronze à 20, argent à 100, or à 300.",
+  duelliste: "Gagne des duels en ligne (Quiz ou Vrai ou Faux, premier à 7 points). Bronze à 5 victoires, argent à 25, or à 100.",
+  invincible: "Enchaîne les victoires en duel sans perdre : c'est ta meilleure série qui compte. Bronze à 3 d'affilée, argent à 7, or à 15.",
+  sansfaute: "Fais une partie parfaite : LE MILLION au Quiz, 20 bonnes réponses sans perdre une vie au Vrai ou Faux, 10/10 à La Chronologie ou au Mot manquant. Bronze à 5 parties, argent à 25, or à 75.",
+  eclair: "Réponds juste en moins de 3 secondes, dans n'importe quel jeu. Bronze à 25 réponses éclair, argent à 100, or à 300.",
+  marathonien: "Joue au moins une partie chaque jour : c'est ta meilleure série de jours qui compte. Bronze à 7 jours d'affilée, argent à 30, or à 100.",
+  defi: "Fais le Défi du jour au Quiz (un par jour). Bronze à 10 défis, argent à 50, or à 200.",
+  demineur: "Réussis les questions les plus dures : Quiz difficulté maximale et personnages ardus du Qui suis-je. Bronze à 20, argent à 75, or à 200.",
+  maitre_quiz: "Accumule des pièces au Quiz biblique, partie après partie. Bronze à 5 000 pièces, argent à 20 000, or à 60 000.",
+  maitre_vf: "Accumule des points au Vrai ou Faux. Bronze à 500 points, argent à 2 000, or à 6 000.",
+  maitre_qsj: "Accumule des points au Qui suis-je. Bronze à 300 points, argent à 1 200, or à 4 000.",
+  millionnaire: "Va au bout de l'échelle du Quiz et décroche LE MILLION. Bronze dès la première fois, argent à 5, or à 20.",
+  enchaineur: "Au Vrai ou Faux, enchaîne les bonnes réponses sans te tromper : c'est ta meilleure série qui compte. Bronze à 10 d'affilée, argent à 20, or à 35.",
+  limier: "Au Qui suis-je, trouve le personnage dès le PREMIER indice. Bronze à 5 fois, argent à 20, or à 60.",
+  historien: "À La Chronologie, remets les événements dans le bon ordre. Bronze à 50 bonnes réponses, argent à 200, or à 600.",
+  motjuste: "Au Mot manquant (dans Mémoriser), retrouve le mot caché du verset. Bronze à 30 mots, argent à 120, or à 400.",
+  lanceur: "Crée un salon de duel en ligne et envoie le lien à quelqu'un. Bronze à 3 duels lancés, argent à 15, or à 50.",
+  assidu: "Joue, tout simplement — chaque partie de n'importe quel jeu compte. Bronze à 20 parties, argent à 100, or à 500.",
+  missionnaire: "Accomplis les missions de la semaine (accueil des jeux) et récupère leur récompense. Bronze à 3 missions, argent à 12, or à 40.",
+  etoile: "Monte dans les ligues : finis dans les 3 premiers de ta division le dimanche soir. Bronze du badge en atteignant la ligue Argent, argent en ligue Or, or en ligue Élite.",
+  encourageur: "Laisse des commentaires d'encouragement sur les sujets de prière. Bronze à 25, argent à 100, or à 300.",
+  ambassadeur: "Partage un verset, une image du studio ou une carte depuis l'app. Bronze à 10 partages, argent à 50, or à 200.",
 };
 
 function tierFor(kind: BadgeKind, count: number): { tier: BadgeTier | null; next: number | null } {
@@ -212,6 +292,15 @@ export type SpiritualStats = {
   quiz_coins: number;
   vf_xp: number;
   qsj_xp: number;
+  quiz_millions: number;
+  vf_best_combo: number;
+  first_clue: number;
+  chrono_correct: number;
+  words_found: number;
+  duels_started: number;
+  games_played: number;
+  missions_claimed: number;
+  league_best: number;
   // Communauté
   shares: number;
 };
@@ -240,6 +329,15 @@ export function localSpiritualStats(): SpiritualStats {
     quiz_coins: 0,
     vf_xp: 0,
     qsj_xp: 0,
+    quiz_millions: getAchv("quiz_millions"),
+    vf_best_combo: getAchv("vf_best_combo"),
+    first_clue: getAchv("first_clue"),
+    chrono_correct: getAchv("chrono_correct"),
+    words_found: getAchv("words_found"),
+    duels_started: getAchv("duels_started"),
+    games_played: getAchv("games_played"),
+    missions_claimed: getAchv("missions_claimed"),
+    league_best: getAchv("league_best"),
     shares: getAchv("shares"),
   };
   try {
@@ -311,6 +409,15 @@ function statesFromStats(stats: SpiritualStats, streakDays: number): BadgeState[
     state("maitre_quiz", stats.quiz_coins),
     state("maitre_vf", stats.vf_xp),
     state("maitre_qsj", stats.qsj_xp),
+    state("millionnaire", stats.quiz_millions),
+    state("enchaineur", stats.vf_best_combo),
+    state("limier", stats.first_clue),
+    state("historien", stats.chrono_correct),
+    state("motjuste", stats.words_found),
+    state("lanceur", stats.duels_started),
+    state("assidu", stats.games_played),
+    state("missionnaire", stats.missions_claimed),
+    state("etoile", stats.league_best),
   ];
 }
 
@@ -466,6 +573,15 @@ export async function fetchProfileBadges(
     quiz_coins: num(remote.quiz_coins),
     vf_xp: num(remote.vf_xp),
     qsj_xp: num(remote.qsj_xp),
+    quiz_millions: num(remote.quiz_millions),
+    vf_best_combo: num(remote.vf_best_combo),
+    first_clue: num(remote.first_clue),
+    chrono_correct: num(remote.chrono_correct),
+    words_found: num(remote.words_found),
+    duels_started: num(remote.duels_started),
+    games_played: num(remote.games_played),
+    missions_claimed: num(remote.missions_claimed),
+    league_best: num(remote.league_best),
     shares: num(remote.shares),
   };
 

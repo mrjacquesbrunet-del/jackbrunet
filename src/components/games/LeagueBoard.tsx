@@ -8,6 +8,8 @@ import {
   currentUserId,
   type LeagueRow,
 } from "@/lib/game-scores";
+import { setAchvMax } from "@/lib/achievements";
+import { checkLocalBadges } from "@/lib/badges";
 
 /**
  * Ligue de la semaine À DIVISIONS (style Duolingo, charte RHEMA) :
@@ -62,8 +64,17 @@ export function LeagueBoard() {
   const [all, setAll] = useState(false);
 
   useEffect(() => {
-    fetchLeagueStandings().then(setRows);
-    currentUserId().then(setMeId);
+    (async () => {
+      const [r, uid] = await Promise.all([fetchLeagueStandings(), currentUserId()]);
+      setRows(r);
+      setMeId(uid);
+      // Badge « Étoile des ligues » : mémorise la meilleure ligue atteinte
+      // (Bronze 1 → Élite 4) quand on figure au classement de sa division.
+      if (uid && r.some((x) => x.user_id === uid) && r.length > 0) {
+        setAchvMax("league_best", 5 - r[0].division);
+        checkLocalBadges();
+      }
+    })();
   }, []);
 
   const division = rows && rows.length > 0 ? rows[0].division : 4;

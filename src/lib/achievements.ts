@@ -26,7 +26,16 @@ export type AchvKey =
   | "listens" // méditations écoutées en audio
   | "pray_sessions" // sessions « Scrolle & prie » terminées
   | "voice_prayers" // prières vocales déposées
-  | "first_prayers"; // premier à prier pour un sujet
+  | "first_prayers" // premier à prier pour un sujet
+  | "missions_claimed" // missions de la semaine accomplies
+  | "games_played" // parties jouées (tous jeux)
+  | "quiz_millions" // LE MILLION décroché au Quiz
+  | "vf_best_combo" // record de série au Vrai ou Faux
+  | "first_clue" // personnages devinés au premier indice
+  | "chrono_correct" // bonnes réponses à La Chronologie
+  | "words_found" // mots retrouvés au Mot manquant
+  | "duels_started" // duels en ligne lancés (salons créés)
+  | "league_best"; // meilleure ligue atteinte (1 Bronze → 4 Élite)
 
 function readAll(): Record<string, number> {
   try {

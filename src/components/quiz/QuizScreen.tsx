@@ -428,8 +428,13 @@ export function QuizScreen() {
         void notifyFriendsScore(amount);
         bumpAchv("daily_challenges");
       }
-      // Badges : « Sans-faute » (le million = zéro erreur), jours de jeu, paliers.
-      if (why === "win") bumpAchv("perfect_games");
+      // Badges : « Sans-faute »/« Millionnaire » (le million), parties jouées,
+      // jours de jeu, paliers fraîchement atteints.
+      if (why === "win") {
+        bumpAchv("perfect_games");
+        bumpAchv("quiz_millions");
+      }
+      bumpAchv("games_played");
       markDayStreak("play");
       checkLocalBadges();
     },
@@ -756,6 +761,7 @@ export function QuizScreen() {
                 type="button"
                 onClick={() => {
                   setLiveMenu(false);
+                  bumpAchv("duels_started"); // badge « Lanceur de défis »
                   setLive({ code: newDuelCode(), role: "host" });
                 }}
                 className="mt-4 w-full rounded-full py-3.5 font-game text-base font-black text-[#1a2000]"

@@ -1,6 +1,7 @@
 "use client";
 
-import { getAchv } from "./achievements";
+import { getAchv, bumpAchv } from "./achievements";
+import { checkLocalBadges } from "./badges";
 import { getMemorizeXp } from "./memorize";
 import { getVfXp } from "./vraifaux";
 import { getChronoGames } from "./chrono";
@@ -134,5 +135,8 @@ export function claimMission(id: string): boolean {
   st.claimed.push(id);
   writeState(st);
   void submitWeeklyPoints(m.reward);
+  // Badge « Missionnaire » + célébration éventuelle.
+  bumpAchv("missions_claimed");
+  checkLocalBadges();
   return true;
 }

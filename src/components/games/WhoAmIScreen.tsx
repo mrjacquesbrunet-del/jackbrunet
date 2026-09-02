@@ -138,8 +138,10 @@ export function WhoAmIScreen() {
       setCorrect((c) => c + 1);
       streakRef.current += 1;
       bestStreakRef.current = Math.max(bestStreakRef.current, streakRef.current);
-      // Badge « Démineur » : personnage ardu (difficulté 4) trouvé.
+      // Badges : « Démineur » (personnage ardu) et « Fin limier »
+      // (trouvé dès le premier indice).
       if ((cur.item.difficulty ?? 0) >= 4) bumpAchv("hard_correct");
+      if (clues === 1) bumpAchv("first_clue");
     } else {
       streakRef.current = 0;
       setShake(true);
@@ -153,6 +155,7 @@ export function WhoAmIScreen() {
         refreshStats();
         submitGameScore("quisuisje", getWhoXp());
         submitWeeklyPoints(finalCorrect); // bonnes réponses -> ligue
+        bumpAchv("games_played");
         markDayStreak("play");
         checkLocalBadges();
         setPhase("over");

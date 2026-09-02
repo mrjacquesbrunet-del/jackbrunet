@@ -8,7 +8,7 @@ import { getQuizCoins } from "@/lib/quiz";
 import { getSupabase } from "@/lib/supabase";
 import { getProfile } from "@/lib/community";
 import { submitGameScore, submitWeeklyPoints } from "@/lib/game-scores";
-import { bumpAchv, markDayStreak } from "@/lib/achievements";
+import { bumpAchv, markDayStreak, setAchvMax } from "@/lib/achievements";
 import { checkLocalBadges } from "@/lib/badges";
 import { ScoreBoard } from "@/components/games/ScoreBoard";
 import { asset } from "@/lib/asset";
@@ -149,6 +149,7 @@ export function VraiFauxScreen() {
     setXp(getMemorizeXp() + getVfXp() + Math.floor(getQuizCoins() / 500));
     submitGameScore("vraifaux", getVfXp());
     submitWeeklyPoints(finalScore); // bonnes réponses -> ligue de la semaine
+    bumpAchv("games_played");
     markDayStreak("play");
     checkLocalBadges();
   }, []);
@@ -176,10 +177,11 @@ export function VraiFauxScreen() {
         setScore(nScore);
         setPoints(nPoints);
         buzz(25);
-        // Badges : « Éclair » (réponse en ≤ 3 s) et « Sans-faute »
-        // (20 bonnes réponses sans perdre une seule vie).
+        // Badges : « Éclair » (réponse en ≤ 3 s), « Sans-faute »
+        // (20 bonnes réponses sans perdre une seule vie), « Enchaîneur ».
         if (VF_TIME - timeLeft <= 3) bumpAchv("fast_answers");
         if (nScore === 20 && lives === VF_LIVES) bumpAchv("perfect_games");
+        setAchvMax("vf_best_combo", c);
       } else {
         setCombo(0);
         nLives = lives - 1;
@@ -339,6 +341,7 @@ export function VraiFauxScreen() {
                 type="button"
                 onClick={() => {
                   setLiveMenu(false);
+                  bumpAchv("duels_started"); // badge « Lanceur de défis »
                   setLive({ code: newDuelCode(), role: "host" });
                 }}
                 className="mt-4 w-full rounded-full py-3.5 font-game text-base font-black text-[#1a2000]"
