@@ -256,7 +256,7 @@ export const BADGE_HOW_TO: Record<BadgeKind, string> = {
   lanceur: "Crée un salon de duel en ligne et envoie le lien à quelqu'un. Bronze à 3 duels lancés, argent à 15, or à 50.",
   assidu: "Joue, tout simplement — chaque partie de n'importe quel jeu compte. Bronze à 20 parties, argent à 100, or à 500.",
   missionnaire: "Accomplis les missions de la semaine (accueil des jeux) et récupère leur récompense. Bronze à 3 missions, argent à 12, or à 40.",
-  etoile: "Monte dans les ligues : finis dans les 3 premiers de ta division le dimanche soir. Bronze du badge en atteignant la ligue Argent, argent en ligue Or, or en ligue Élite.",
+  etoile: "Monte dans les ligues : finis dans la moitié haute de ta division le dimanche soir. Bronze du badge en atteignant la ligue Argent, argent en ligue Or, or en ligue Élite.",
   encourageur: "Laisse des commentaires d'encouragement sur les sujets de prière. Bronze à 25, argent à 100, or à 300.",
   ambassadeur: "Partage un verset, une image du studio ou une carte depuis l'app. Bronze à 10 partages, argent à 50, or à 200.",
 };

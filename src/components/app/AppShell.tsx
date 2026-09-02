@@ -26,6 +26,29 @@ export function AppShell() {
   const isApp = useAppMode();
   const pathname = usePathname();
 
+  // Toutes les zones de texte de l'app grandissent avec le message (comme
+  // une messagerie) : la hauteur suit le contenu, plafonnée à 40 % de
+  // l'écran, puis défilement interne. Délégué au document pour couvrir
+  // chaque <textarea> présent et futur, sans toucher aux formulaires.
+  useEffect(() => {
+    const grow = (el: HTMLTextAreaElement) => {
+      el.style.height = "auto";
+      const max = Math.floor(window.innerHeight * 0.4);
+      const h = Math.min(el.scrollHeight + 2, max);
+      el.style.height = `${h}px`;
+      el.style.overflowY = el.scrollHeight + 2 > max ? "auto" : "hidden";
+    };
+    const onEvent = (e: Event) => {
+      if (e.target instanceof HTMLTextAreaElement) grow(e.target);
+    };
+    document.addEventListener("input", onEvent);
+    document.addEventListener("focusin", onEvent);
+    return () => {
+      document.removeEventListener("input", onEvent);
+      document.removeEventListener("focusin", onEvent);
+    };
+  }, []);
+
   useEffect(() => {
     const root = document.documentElement;
     if (isApp) root.classList.add("app-native");

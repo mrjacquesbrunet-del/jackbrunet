@@ -14,8 +14,8 @@ import { checkLocalBadges } from "@/lib/badges";
 /**
  * Ligue de la semaine À DIVISIONS (style Duolingo, charte RHEMA) :
  * chaque joueur est classé DANS sa division (Élite, Or, Argent, Bronze).
- * Dimanche soir : les 3 premiers montent, les 3 derniers descendent
- * (si la division compte au moins 6 joueurs), et tout repart de zéro.
+ * Dimanche soir : la moitié haute du tableau monte, la moitié basse
+ * descend (sauf depuis le Bronze), et tout repart de zéro.
  */
 
 function IconShield({ className, color }: { className?: string; color: string }) {
@@ -81,7 +81,7 @@ export function LeagueBoard() {
   const meta = leagueDivisionMeta(division);
   const countdown = useMemo(untilSunday, []);
   const shown = rows ? (all ? rows : rows.slice(0, 10)) : [];
-  const hasRelegation = (rows?.length ?? 0) >= 6 && division < 4;
+  const hasRelegation = (rows?.length ?? 0) >= 2 && division < 4;
 
   return (
     <div className="rounded-3xl p-4">
@@ -110,14 +110,15 @@ export function LeagueBoard() {
         <p className="mt-4 text-center text-xs text-white/45">Chargement de la ligue…</p>
       ) : rows.length === 0 ? (
         <p className="mt-4 rounded-2xl bg-white/[0.05] p-4 text-center text-xs font-semibold text-white/60">
-          Joue une partie cette semaine pour entrer en ligue Bronze — les 3 premiers de chaque division montent le dimanche soir !
+          Joue une partie cette semaine pour entrer en ligue Bronze — la moitié haute de chaque division monte le dimanche soir !
         </p>
       ) : (
         <ol className="mt-3 space-y-1">
           {shown.map((r, i) => {
             const me = !!meId && r.user_id === meId;
-            const promo = r.rank <= 3 && division > 1;
-            const releg = hasRelegation && i >= rows.length - 3 && (all || rows.length <= 10);
+            const moitie = Math.ceil(rows.length / 2);
+            const promo = r.rank <= moitie && r.points > 0 && division > 1;
+            const releg = hasRelegation && rows.length >= 2 && r.rank > moitie && (all || rows.length <= 10);
             return (
               <li
                 key={r.user_id}
@@ -168,7 +169,7 @@ export function LeagueBoard() {
 
       {rows && rows.length > 0 ? (
         <p className="mt-3 text-center text-[10px] font-semibold text-white/40">
-          Les 3 premiers montent{hasRelegation ? " · les 3 derniers descendent" : ""} · remise à zéro chaque lundi
+          La moitié haute monte{hasRelegation ? " · la moitié basse descend" : ""} · remise à zéro chaque lundi
         </p>
       ) : null}
     </div>

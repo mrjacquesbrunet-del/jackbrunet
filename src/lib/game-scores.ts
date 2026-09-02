@@ -84,8 +84,8 @@ export function leagueDivisionMeta(n: number) {
 
 /**
  * Classement de MA division pour la semaine en cours (ou d'une division
- * donnée). Chaque dimanche soir : les 3 premiers montent, les 3 derniers
- * descendent (si la division compte au moins 6 joueurs).
+ * donnée). Chaque dimanche soir : la moitié haute monte, la moitié basse
+ * descend (sauf depuis le Bronze).
  */
 export async function fetchLeagueStandings(division?: number): Promise<LeagueRow[]> {
   const sb = getSupabase();

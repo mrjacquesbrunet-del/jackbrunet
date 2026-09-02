@@ -6,9 +6,9 @@
 --      1 = Élite, 2 = Or, 3 = Argent, 4 = Bronze (départ).
 --  - Les points de la semaine (table arcade_weekly, déjà en place)
 --    classent les joueurs À L'INTÉRIEUR de leur division.
---  - Chaque dimanche 23 h 40 (UTC), le serveur fait monter les 3 premiers
---    de chaque division (s'ils ont marqué des points) et descendre les
---    3 derniers (si la division compte au moins 6 joueurs), puis la
+--  - Chaque dimanche 23 h 40 (UTC), le serveur fait monter la MOITIÉ
+--    HAUTE de chaque division (joueurs ayant marqué des points) et
+--    descendre la MOITIÉ BASSE (sauf depuis le Bronze), puis la
 --    semaine repart de zéro (semaine ISO suivante).
 -- =====================================================================
 
@@ -65,7 +65,7 @@ $$;
 
 grant execute on function public.league_standings(integer) to anon, authenticated;
 
--- 3) Brassage hebdomadaire : 3 premiers montent, 3 derniers descendent.
+-- 3) Brassage hebdomadaire : la moitié haute monte, la moitié basse descend.
 create or replace function public.league_weekly_shuffle()
 returns void
 language plpgsql security definer set search_path = public as $$
@@ -87,23 +87,25 @@ begin
     on w.user_id = p.id and w.week = wk
   where exists (select 1 from public.arcade_weekly aw where aw.user_id = p.id);
 
-  -- Montées : rangs 1-3, points > 0, pas déjà en Élite.
+  -- Montées : la moitié haute du tableau (arrondie au-dessus), points > 0,
+  -- pas déjà en Élite. Avec peu de joueurs, les ligues Argent et Or se
+  -- peuplent ainsi dès les premières semaines.
   update public.profiles p
   set league_division = p.league_division - 1
   from _league_snap s
   where s.id = p.id
-    and s.rk <= 3
+    and s.rk <= ceil(s.div_size / 2.0)
     and s.pts > 0
     and s.d > 1;
 
-  -- Descentes : 3 derniers, si la division compte au moins 6 joueurs,
-  -- pas déjà en Bronze.
+  -- Descentes : la moitié basse du tableau, pas déjà en Bronze
+  -- (au moins 2 joueurs dans la division pour qu'il y ait un bas).
   update public.profiles p
   set league_division = p.league_division + 1
   from _league_snap s
   where s.id = p.id
-    and s.rk > s.div_size - 3
-    and s.div_size >= 6
+    and s.rk > ceil(s.div_size / 2.0)
+    and s.div_size >= 2
     and s.d < 4;
 end;
 $$;
