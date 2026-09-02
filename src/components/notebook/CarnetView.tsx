@@ -1,12 +1,16 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Avatar } from "@/components/community/Avatar";
 import { useAuth } from "@/components/community/useAuth";
 import { useProfileAccent, ACCENTS, type AccentKey } from "@/lib/profile-accent";
 import { useToolkit, highlightBg, type Snippet } from "@/lib/toolkit";
 import { bibleHref } from "@/lib/bible-ref";
+import { useEngagement } from "@/lib/engagement";
+import { getDevotions } from "@/lib/content";
+import { fetchPublishedDevotions } from "@/lib/devotions";
+import type { Devotion } from "@/lib/types";
 import {
   useNotebook,
   addNote,
@@ -28,7 +32,7 @@ const KIND_LABEL: Record<string, string> = {
 };
 
 /** Onglets du carnet (façon feed). */
-const FILTERS = ["Tout", "Versets", "Paroles fortes", "Publications", "Notes", "Surlignages"] as const;
+const FILTERS = ["Tout", "Méditations", "Versets", "Paroles fortes", "Publications", "Notes", "Surlignages"] as const;
 type Filter = (typeof FILTERS)[number];
 
 const fmt = (ts: number) =>
@@ -38,15 +42,18 @@ type Item =
   | { t: "note"; key: string; ts: number; note: Note }
   | { t: "snippet"; key: string; ts: number; snip: Snippet }
   | { t: "highlight"; key: string; ts: number; hl: { id: string; color: string; text: string; reference?: string; kind?: string } }
-  | { t: "favverse"; key: string; ts: number; text: string; reference?: string };
+  | { t: "favverse"; key: string; ts: number; text: string; reference?: string }
+  | { t: "favdev"; key: string; ts: number; idx: number; dev: Devotion };
 
 function groupOf(it: Item): Exclude<Filter, "Tout"> {
   if (it.t === "note") return "Notes";
   if (it.t === "highlight") return "Surlignages";
   if (it.t === "favverse") return "Versets";
+  if (it.t === "favdev") return "Méditations";
   const k = it.snip.kind;
   if (k === "verset") return "Versets";
   if (k === "publication") return "Publications";
+  if (k === "méditation") return "Méditations";
   return "Paroles fortes";
 }
 
@@ -55,12 +62,25 @@ export function CarnetView() {
   const { accent, setAccent, colors } = useProfileAccent();
   const { saved, removeSnippet, highlightItems, clearHighlight } = useToolkit();
   const notes = useNotebook();
+  const eng = useEngagement();
 
   const [filter, setFilter] = useState<Filter>("Tout");
   const [adding, setAdding] = useState(false);
   const [customizing, setCustomizing] = useState(false);
 
   const favVerses = profile?.favorite_verses?? [];
+
+  // Méditations mises en favori dans le Temps avec Jésus : on retrouve leur
+  // contenu complet (exhortation, déclaration) pour les RELIRE ici.
+  const [remoteDevs, setRemoteDevs] = useState<Devotion[] | null>(null);
+  useEffect(() => {
+    fetchPublishedDevotions()
+      .then((d) => {
+        if (d && d.length) setRemoteDevs(d);
+      })
+      .catch(() => undefined);
+  }, []);
+  const devList = useMemo(() => remoteDevs ?? getDevotions(), [remoteDevs]);
 
   const items = useMemo<Item[]>(() => {
     const out: Item[] = [];
@@ -71,8 +91,12 @@ export function CarnetView() {
     favVerses.forEach((v, i) =>
       out.push({ t: "favverse", key: `fav-${i}`, ts: 0, text: v.text, reference: v.reference }),
     );
+    for (const idx of eng.favorites) {
+      const dev = devList[idx];
+      if (dev) out.push({ t: "favdev", key: `favdev-${idx}`, ts: 1, idx, dev });
+    }
     return out.sort((a, b) => b.ts - a.ts);
-  }, [notes, saved, highlightItems, favVerses]);
+  }, [notes, saved, highlightItems, favVerses, eng.favorites, devList]);
 
   const shown = filter === "Tout"? items: items.filter((it) => groupOf(it) === filter);
   const total = items.length;
@@ -207,8 +231,8 @@ export function CarnetView() {
           <div className="glass-strong p-8 text-center">
             <p className="font-display text-lg font-bold">Rien ici pour l'instant</p>
             <p className="mx-auto mt-2 max-w-md text-sm text-night-900/60">
-              Surligne un verset, enregistre une pensée du jour, une punchline ou une publication du
-              mur: tu la retrouveras ici, comme un journal à toi.
+              Surligne un verset, mets une méditation en favori, enregistre une pensée du jour, une
+              punchline ou une publication du mur: tu la retrouveras ici, comme un journal à toi.
             </p>
           </div>
         ): (
@@ -221,6 +245,7 @@ export function CarnetView() {
                   if (it.t === "note") removeNote(it.note.id);
                   else if (it.t === "snippet") removeSnippet(it.snip.id);
                   else if (it.t === "highlight") clearHighlight(it.hl.id);
+                  else if (it.t === "favdev") eng.toggleFavorite(it.idx);
                 }}
               />
             ))}
@@ -233,6 +258,55 @@ export function CarnetView() {
       </p>
       </section>
     </>
+  );
+}
+
+/* ---------- Méditation favorite : relisible en entier ---------- */
+function DevFavCard({ dev, onRemove }: { dev: Devotion; onRemove: () => void }) {
+  const [open, setOpen] = useState(false);
+  const paragraphs = dev.meditation.split("\n\n");
+  return (
+    <article className="dark-ctx bg-topo-dark relative overflow-hidden rounded-3xl border border-white/10 p-6 text-cream shadow-card">
+      <div className="blob -right-10 -top-8 h-32 w-32 bg-spirit-500/25" />
+      <span className="relative inline-block rounded-full border border-dawn-400/40 bg-dawn-400/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-dawn-300">
+        Méditation favorite
+      </span>
+      <h3 className="relative mt-2.5 font-display text-xl font-extrabold leading-snug">{dev.theme}</h3>
+      <p className="relative mt-2 text-[15px] italic leading-relaxed text-cream/80">
+        «&nbsp;{dev.verseText}&nbsp;»
+      </p>
+      <p className="relative mt-1.5 text-sm font-semibold text-dawn-200">{dev.verseReference}</p>
+
+      {open ? (
+        <div className="relative mt-4 space-y-3 border-t border-white/10 pt-4">
+          {paragraphs.map((p, i) => (
+            <p key={i} className="text-[14px] leading-relaxed text-cream/80">
+              {p}
+            </p>
+          ))}
+          <div className="rounded-2xl border border-dawn-400/25 bg-dawn-400/[0.07] p-3.5">
+            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-dawn-300">À déclarer sur ta vie</p>
+            <p className="mt-1.5 font-display text-[15px] font-bold leading-snug">{dev.declarationText}</p>
+            <p className="mt-1 text-right text-xs italic text-dawn-200">— {dev.declarationReference}</p>
+          </div>
+          {dev.author ? <p className="text-xs text-cream/50">{dev.author}</p> : null}
+        </div>
+      ) : null}
+
+      <div className="relative mt-4 flex items-center justify-between">
+        <button
+          type="button"
+          onClick={() => setOpen((o) => !o)}
+          className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3.5 py-1.5 text-xs font-bold text-cream/85 transition-colors hover:bg-white/15"
+        >
+          <svg viewBox="0 0 24 24" className={`h-3.5 w-3.5 fill-none stroke-current transition-transform ${open ? "rotate-180" : ""}`} strokeWidth={2.2}>
+            <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          {open ? "Replier" : "Relire la méditation"}
+        </button>
+        <RemoveBtn onRemove={onRemove} tone="dark" />
+      </div>
+    </article>
   );
 }
 
@@ -295,6 +369,7 @@ function NoteComposer({ onDone }: { onDone: () => void }) {
 /* ---------- Carte du feed ---------- */
 function FeedCard({ item, onRemove }: { item: Item; onRemove: () => void }) {
   if (item.t === "note") return <NoteCard note={item.note} onRemove={onRemove} />;
+  if (item.t === "favdev") return <DevFavCard dev={item.dev} onRemove={onRemove} />;
 
   const text = item.t === "snippet"? item.snip.text: item.t === "highlight"? item.hl.text: item.text;
   const reference =
