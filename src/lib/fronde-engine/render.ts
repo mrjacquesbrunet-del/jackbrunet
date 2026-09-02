@@ -38,6 +38,29 @@ export function renderFrame(ctx: Ctx, eng: FrondeEngine, imgs: GameImages, decor
   const sorted = [...eng.targets].sort((a, b) => b.pos.z - a.pos.z);
   for (const tg of sorted) drawTarget(ctx, tg, imgs, eng.t);
 
+  // Obstacles qui passent DEVANT (balancier, oiseaux)
+  for (const o of eng.level.obstacles ?? []) {
+    if (o.kind === "log") drawLog(ctx, eng, o);
+    else drawBirds(ctx, eng, o);
+  }
+
+  // Tempête : pluie et ciel assombri sur les niveaux à vent fort
+  if (eng.level.windStrength >= 3) {
+    ctx.fillStyle = "rgba(28,36,54,.16)";
+    ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = "rgba(210,225,245,.4)";
+    ctx.lineWidth = 1.2;
+    const slant = eng.level.windDirection * 5;
+    for (let i = 0; i < 34; i++) {
+      const rx = ((i * 53 + eng.t * 260) % (W + 40)) - 20;
+      const ry = (i * 97 + eng.t * 560) % H;
+      ctx.beginPath();
+      ctx.moveTo(rx, ry);
+      ctx.lineTo(rx + slant, ry + 13);
+      ctx.stroke();
+    }
+  }
+
   // Aperçu de trajectoire pendant la visée
   if (eng.drag) {
     const pts = eng.previewTrajectory();
@@ -487,6 +510,86 @@ function drawBonusStar(ctx: Ctx, r: number, t: number) {
   ctx.fill();
   ctx.stroke();
   ctx.restore();
+}
+
+/* ---------- Obstacles ---------- */
+
+function drawLog(ctx: Ctx, eng: FrondeEngine, o: Extract<NonNullable<FrondeEngine["level"]["obstacles"]>[number], { kind: "log" }>) {
+  const { cx, tilt } = eng.logStateAt(o);
+  const c = project({ x: cx, y: o.y, z: o.z });
+  const s = c.s;
+  const halfLen = 1.2 * s;
+  const rad = 0.3 * s;
+  const endL = { x: c.x - Math.cos(tilt) * halfLen, y: c.y - Math.sin(tilt) * halfLen };
+  const endR = { x: c.x + Math.cos(tilt) * halfLen, y: c.y + Math.sin(tilt) * halfLen };
+  // chaînes vers le haut (hors écran)
+  ctx.strokeStyle = "#4b5563";
+  ctx.lineWidth = Math.max(2, 0.06 * s);
+  ctx.setLineDash([Math.max(3, 0.09 * s), Math.max(2, 0.05 * s)]);
+  ctx.beginPath();
+  ctx.moveTo(endL.x + rad * 0.4, endL.y);
+  ctx.lineTo(endL.x + rad * 0.4 + Math.sin(tilt) * 40, -8);
+  ctx.moveTo(endR.x - rad * 0.4, endR.y);
+  ctx.lineTo(endR.x - rad * 0.4 + Math.sin(tilt) * 40, -8);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  // le tronc
+  ctx.save();
+  ctx.translate(c.x, c.y);
+  ctx.rotate(tilt);
+  ctx.fillStyle = "#8a5a2b";
+  ctx.strokeStyle = "#57351a";
+  ctx.lineWidth = Math.max(1.6, 0.05 * s);
+  ctx.beginPath();
+  ctx.roundRect(-halfLen, -rad, halfLen * 2, rad * 2, rad);
+  ctx.fill();
+  ctx.stroke();
+  // sangles + reflet
+  ctx.fillStyle = "#5b3a1e";
+  ctx.fillRect(-halfLen * 0.55, -rad, 0.12 * s, rad * 2);
+  ctx.fillRect(halfLen * 0.43, -rad, 0.12 * s, rad * 2);
+  ctx.fillStyle = "rgba(255,255,255,.18)";
+  ctx.beginPath();
+  ctx.roundRect(-halfLen + rad * 0.4, -rad * 0.65, halfLen * 1.5, rad * 0.4, rad * 0.2);
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawBirds(ctx: Ctx, eng: FrondeEngine, o: Extract<NonNullable<FrondeEngine["level"]["obstacles"]>[number], { kind: "birds" }>) {
+  const xs = eng.birdXsAt(o);
+  xs.forEach((bx, i) => {
+    const c = project({ x: bx, y: o.y + Math.sin(eng.t * 3 + i) * 0.12, z: o.z });
+    const s = c.s;
+    const size = 0.3 * s;
+    const flap = Math.sin(eng.t * 11 + i * 1.7);
+    ctx.save();
+    ctx.translate(c.x, c.y);
+    if (o.dir < 0) ctx.scale(-1, 1);
+    // corps
+    ctx.fillStyle = "#4a453f";
+    ctx.beginPath();
+    ctx.ellipse(0, 0, size * 0.55, size * 0.3, 0, 0, Math.PI * 2);
+    ctx.fill();
+    // tête + bec
+    ctx.beginPath();
+    ctx.arc(size * 0.55, -size * 0.12, size * 0.22, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#d97706";
+    ctx.beginPath();
+    ctx.moveTo(size * 0.75, -size * 0.14);
+    ctx.lineTo(size * 0.98, -size * 0.06);
+    ctx.lineTo(size * 0.75, 0);
+    ctx.fill();
+    // ailes qui battent
+    ctx.strokeStyle = "#4a453f";
+    ctx.lineWidth = Math.max(1.6, size * 0.16);
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(-size * 0.1, 0);
+    ctx.quadraticCurveTo(-size * 0.5, -size * (0.5 + flap * 0.55), -size * 0.95, -size * (0.3 + flap * 0.75));
+    ctx.stroke();
+    ctx.restore();
+  });
 }
 
 /* ---------- La fronde (premier plan, se déforme avec la tension) ---------- */

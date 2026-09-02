@@ -30,6 +30,8 @@ export function FrondeGame({ levelIdx, onExit, onNext }: { levelIdx: number; onE
   const [hud, setHud] = useState<HudSnapshot | null>(null);
   const [resultXp, setResultXp] = useState(0);
   const [newRecord, setNewRecord] = useState(false);
+  const [hint, setHint] = useState<string | null>(null);
+  const [hintSeq, setHintSeq] = useState(0);
   const [imgs, setImgs] = useState<GameImages>({});
   const imgsRef = useRef(imgs);
   imgsRef.current = imgs;
@@ -86,7 +88,21 @@ export function FrondeGame({ levelIdx, onExit, onNext }: { levelIdx: number; onE
 
   useEffect(() => {
     start();
+    setHintSeq((s) => s + 1);
   }, [start]);
+
+  // Conseil de début de niveau (vent fort, balancier, oiseaux) — 3 s.
+  useEffect(() => {
+    let msg: string | null = null;
+    if (level.windStrength >= 2.5) msg = `VENT FORT ! VISE PLUS À ${level.windDirection === 1 ? "GAUCHE" : "DROITE"}`;
+    else if (level.obstacles?.some((o) => o.kind === "log")) msg = "ATTENTION AU BALANCIER !";
+    else if (level.obstacles?.some((o) => o.kind === "birds")) msg = "DES OISEAUX PASSENT — CHOISIS TON MOMENT !";
+    setHint(msg);
+    if (msg) {
+      const t = setTimeout(() => setHint(null), 3400);
+      return () => clearTimeout(t);
+    }
+  }, [level, hintSeq]);
 
   /* ---------- Boucle rendu + jauges ---------- */
   useEffect(() => {
@@ -180,6 +196,21 @@ export function FrondeGame({ levelIdx, onExit, onNext }: { levelIdx: number; onE
           {hud && hud.combo >= 2 ? <p className="font-game text-[10px] font-black leading-tight text-[#CAF000]">COMBO ×{hud.combo}</p> : null}
         </div>
 
+        {/* Barre de vie du GÉANT (boss) */}
+        {hud?.bossHp ? (
+          <div className="pointer-events-none absolute left-1/2 top-[3.6rem] w-56 -translate-x-1/2 rounded-2xl px-3 py-1.5 shadow-lg" style={{ background: "rgba(12,12,11,.72)", border: "2px solid #a78bfa" }}>
+            <p className="text-center font-game text-[9px] font-black uppercase tracking-[0.2em] text-white/85">Géant Philistin</p>
+            <div className="mt-1 flex items-center gap-1.5">
+              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0" fill="#ef4444" aria-hidden><path d="M12 20s-7-4.6-9.2-9C1.3 8 3 5 6 5c1.8 0 3.2 1 3.99 2C10.8 6 12.2 5 14 5c3 0 4.7 3 3.2 6-2.2 4.4-9.2 9-9.2 9z" /></svg>
+              <div className="flex h-2.5 flex-1 gap-[3px]">
+                {Array.from({ length: hud.bossHp.max }, (_, i) => (
+                  <span key={i} className="flex-1 rounded-sm" style={{ background: i < hud.bossHp!.hp ? "linear-gradient(180deg,#f87171,#dc2626)" : "rgba(255,255,255,.15)" }} />
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : null}
+
         {/* Pause */}
         <button type="button" onClick={() => { engRef.current?.togglePause(); }} aria-label="Pause" className="absolute right-3 top-3 grid h-10 w-10 place-items-center rounded-2xl shadow-lg" style={{ background: "linear-gradient(180deg,#7c3aed,#5b21b6)", border: "2px solid #a78bfa" }}>
           <svg viewBox="0 0 24 24" className="h-5 w-5 fill-white" aria-hidden><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" /></svg>
@@ -207,8 +238,17 @@ export function FrondeGame({ levelIdx, onExit, onNext }: { levelIdx: number; onE
           <span className="font-game text-base font-black text-white">×{hud?.ammo ?? level.maxAmmo}</span>
         </div>
 
+        {/* Conseil de début de niveau (vent fort, balancier, oiseaux) */}
+        {hint && !showResult && state !== "paused" ? (
+          <div className="pointer-events-none absolute inset-x-6 bottom-4 flex justify-center">
+            <p className="rounded-2xl px-4 py-2 text-center font-game text-[12px] font-black uppercase tracking-wide text-white shadow-lg" style={{ background: "linear-gradient(180deg,#7c3aedE6,#5b21b6E6)", border: "2px solid #a78bfa", animation: "qm-optin .3s ease-out" }}>
+              {hint}
+            </p>
+          </div>
+        ) : null}
+
         {/* Tutoriel du premier niveau (style maquette) */}
-        {levelIdx === 0 && hud && hud.score === 0 && (state === "ready" || state === "aiming") ? (
+        {levelIdx === 0 && !hint && hud && hud.score === 0 && (state === "ready" || state === "aiming") ? (
           <div className="pointer-events-none absolute inset-x-6 bottom-4 flex justify-center">
             <p className="rounded-2xl px-4 py-2 text-center font-game text-[12px] font-black uppercase tracking-wide text-white shadow-lg" style={{ background: "linear-gradient(180deg,#7c3aedE6,#5b21b6E6)", border: "2px solid #a78bfa" }}>
               {state === "aiming" ? "Plus tu tires, plus c'est puissant !" : "Tire pour viser"}

@@ -1,4 +1,4 @@
-import type { LevelConfig, TargetConfig, TargetType } from "./types";
+import type { LevelConfig, TargetConfig, TargetType, ObstacleConfig } from "./types";
 
 /**
  * Les 30 niveaux de « La Fronde de David » — DONNÉES pures, éditables sans
@@ -36,10 +36,16 @@ function L(
   maxAmmo: number,
   requiredScore: number,
   targets: TargetConfig[],
+  obstacles?: ObstacleConfig[],
   gravity = 22,
 ): LevelConfig {
-  return { id, gravity, windStrength, windDirection, maxAmmo, requiredScore, targets };
+  return { id, gravity, windStrength, windDirection, maxAmmo, requiredScore, targets, obstacles };
 }
+
+const LOG = (x: number, y: number, z: number, amp: number, speed: number) =>
+  ({ kind: "log", x, y, z, amp, speed }) as const;
+const BIRDS = (y: number, z: number, speed: number, dir: 1 | -1, count = 4) =>
+  ({ kind: "birds", y, z, speed, dir, count }) as const;
 
 export const FRONDE_LEVELS: LevelConfig[] = [
   // ---------- Chapitre 1 : Le berger de Bethléhem (1-10) ----------
@@ -100,7 +106,7 @@ export const FRONDE_LEVELS: LevelConfig[] = [
     T("shield", -1.6, 0.5, 3.4, 200),
     T("wolf", 1.6, 0.5, 4, 260),
   ]),
-  L(13, 2, 1, 5, 800, [T("bear", -0.8, 0.6, 6.2, 380), T("bear", 1.1, 0.6, 6.2, 380)]),
+  L(13, 2, 1, 5, 800, [T("bear", -0.8, 0.6, 6.2, 380), T("bear", 1.1, 0.6, 6.2, 380)], [BIRDS(1.9, 4.8, 2.2, -1)]),
   L(14, 1.5, -1, 6, 900, [
     MH(T("wolf", -0.6, 0.5, 4.4, 280), "horizontal", 1.2, 1.9),
     MH(T("lion", 0.8, 0.6, 5.8, 340), "vertical", 0.5, 1.3),
@@ -115,7 +121,7 @@ export const FRONDE_LEVELS: LevelConfig[] = [
     MH(T("bear", 0.4, 0.6, 6.8, 400), "horizontal", 1.4, 1.4),
     T("wolf", -1.5, 0.5, 3.8, 260),
     T("shield", 1.6, 1.6, 5.6, 240),
-  ]),
+  ], [LOG(0, 1.5, 4.4, 1.6, 1.1)]),
   L(17, 2.5, 1, 5, 850, [
     MH(T("bear", -0.6, 0.65, 7.4, 420), "horizontal", 1.2, 1.2),
     MH(T("wolf", 0.9, 0.5, 4.4, 280), "horizontal", 1.3, 2),
@@ -130,7 +136,7 @@ export const FRONDE_LEVELS: LevelConfig[] = [
     MH(T("lion", -0.7, 0.6, 6, 360), "circle", 0.7, 1.5),
     MH(T("wolf", 1, 0.5, 4.6, 300), "horizontal", 1.4, 1.7),
     MH(T("bonus", 0.2, 2.8, 8.6, 500), "horizontal", 1.6, 2.1),
-  ]),
+  ], [BIRDS(2.1, 5.4, 2.6, 1)]),
   L(20, 1.8, -1, 7, 1400, [
     T("giant", 0.2, 1.15, 8, 700, { health: 3 }),
     MH(T("wolf", -1.4, 0.5, 4.4, 280), "horizontal", 1, 1.6),
@@ -142,52 +148,52 @@ export const FRONDE_LEVELS: LevelConfig[] = [
     T("bear", -1, 0.65, 6.4, 400),
     MH(T("lion", 0.8, 0.6, 7, 380), "horizontal", 1.4, 1.5),
     T("helmet", 1.8, 0.45, 3.4, 160),
-  ]),
+  ], [BIRDS(1.7, 5, 2.8, -1)]),
   L(22, 2.8, -1, 6, 1200, [
     MH(T("lion", -0.4, 0.6, 5.4, 340), "circle", 0.9, 1.8),
     MH(T("bear", 1, 0.65, 7.6, 440), "horizontal", 1.2, 1.3),
     T("shield", -1.8, 0.5, 3.6, 200),
   ]),
-  L(23, 2.5, 1, 7, 1400, [
+  L(23, 3.4, 1, 7, 1400, [
     T("wolf", -2, 0.5, 4.2, 280),
     MH(T("lion", -0.5, 0.6, 6, 360), "horizontal", 1.5, 1.9),
     MH(T("bear", 0.9, 0.65, 7.8, 460), "vertical", 0.6, 1.4),
     MH(T("helmet", 1.9, 2.2, 8.2, 280), "horizontal", 1, 2.3),
-  ]),
-  L(24, 2.2, -1, 6, 1350, [T("giant", -0.6, 1.15, 7.8, 700, { health: 3 }), MH(T("bear", 1.3, 0.6, 5.4, 380), "horizontal", 1.2, 1.7)]),
+  ], [BIRDS(2.3, 6, 3, 1)]),
+  L(24, 2.2, -1, 6, 1350, [T("giant", -0.6, 1.15, 7.8, 700, { health: 3 }), MH(T("bear", 1.3, 0.6, 5.4, 380), "horizontal", 1.2, 1.7)], [LOG(-0.4, 1.6, 5.6, 1.7, 1.3)]),
   L(25, 3, 1, 7, 1500, [
     T("bear", -1.4, 0.7, 8.2, 480),
     T("lion", 0, 0.6, 6.4, 380),
     T("wolf", 1.4, 0.5, 4.6, 300),
     MH(T("bonus", -0.3, 3, 9, 550), "circle", 0.9, 1.9),
   ]),
-  L(26, 3, -1, 6, 1300, [
+  L(26, 3.4, -1, 6, 1300, [
     MH(T("bear", 0.5, 0.7, 8.6, 500), "horizontal", 1.4, 1.4),
     MH(T("wolf", -1, 0.5, 4.8, 320), "horizontal", 1.6, 2.2),
     T("shield", 1.8, 1.7, 6, 260),
-  ]),
+  ], [LOG(0.3, 1.4, 4.8, 1.9, 1.6)]),
   L(27, 2.8, 1, 7, 1600, [
     MH(T("lion", -1.2, 0.6, 6.2, 380), "circle", 0.8, 1.7),
     MH(T("bear", 0.6, 0.7, 8, 480), "vertical", 0.7, 1.5),
     MH(T("wolf", 1.7, 0.5, 5, 320), "horizontal", 1.2, 2.4),
     T("helmet", -2, 0.45, 3.6, 170),
-  ]),
+  ], [BIRDS(1.8, 4.6, 2.6, -1), BIRDS(2.6, 6.8, 3.2, 1, 3)]),
   L(28, 2.5, -1, 6, 1500, [
     T("giant", 0.9, 1.15, 8.4, 750, { health: 3 }),
     MH(T("lion", -1.2, 0.6, 5.6, 360), "horizontal", 1.3, 1.9),
-  ]),
-  L(29, 3.2, 1, 7, 1700, [
+  ], [BIRDS(2, 6.2, 3, -1)]),
+  L(29, 3.6, 1, 7, 1700, [
     MH(T("bear", -0.8, 0.7, 8.8, 520), "horizontal", 1.5, 1.6),
     MH(T("lion", 0.9, 0.6, 6.6, 400), "circle", 0.9, 2),
     MH(T("wolf", -1.8, 0.5, 4.6, 320), "horizontal", 1.3, 2.5),
     MH(T("bonus", 0.3, 3.2, 9.4, 600), "horizontal", 1.8, 2.3),
-  ]),
+  ], [LOG(-0.2, 1.5, 5.2, 2, 1.8)]),
   // 30 : l'affrontement final.
-  L(30, 2.8, -1, 8, 2100, [
+  L(30, 3.4, -1, 8, 2100, [
     T("giant", 0, 1.2, 9, 900, { health: 3 }),
     MH(T("lion", -1.6, 0.6, 6, 380), "horizontal", 1.2, 1.8),
     MH(T("bear", 1.5, 0.65, 7, 460), "vertical", 0.6, 1.6),
-  ]),
+  ], [LOG(0, 1.6, 5.8, 1.8, 1.5), BIRDS(2.6, 7.4, 3.2, 1, 3)]),
 ];
 
 /** Chapitres de l'histoire (sélection de niveaux). */

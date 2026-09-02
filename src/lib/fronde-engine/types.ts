@@ -30,6 +30,27 @@ export interface TargetConfig {
   radius?: number;
 }
 
+/** Obstacles qui PASSENT DEVANT les cibles et bloquent la pierre. */
+export type ObstacleConfig =
+  | {
+      kind: "log"; // balancier de bois suspendu à des chaînes
+      x: number;
+      y: number;
+      z: number;
+      /** Amplitude du balancement (m) et vitesse (rad/s). */
+      amp: number;
+      speed: number;
+    }
+  | {
+      kind: "birds"; // vol d'oiseaux qui traverse l'écran
+      y: number;
+      z: number;
+      /** Vitesse de traversée (m/s), sens (1 = vers la droite) et nombre. */
+      speed: number;
+      dir: 1 | -1;
+      count: number;
+    };
+
 export interface LevelConfig {
   id: number;
   /** Gravité (m/s²) — 22 par défaut (arcade, chute rapide). */
@@ -42,6 +63,7 @@ export interface LevelConfig {
   /** Score minimal pour valider le niveau (1 étoile). */
   requiredScore: number;
   targets: TargetConfig[];
+  obstacles?: ObstacleConfig[];
 }
 
 export type GameState =
@@ -92,4 +114,6 @@ export interface HudSnapshot {
   combo: number;
   targetsLeft: number;
   stars: number; // étoiles au moment de la fin de niveau
+  /** Vie du géant quand le niveau est un boss (barre en haut de l'écran). */
+  bossHp: { hp: number; max: number } | null;
 }

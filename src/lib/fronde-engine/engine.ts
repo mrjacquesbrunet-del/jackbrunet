@@ -5,6 +5,7 @@ import {
   TARGET_HEALTH,
   type LevelConfig,
   type TargetConfig,
+  type ObstacleConfig,
   type GameState,
   type FrondeServices,
   type HudSnapshot,
@@ -113,6 +114,50 @@ export class FrondeEngine {
   /* ================= WindSystem ================= */
   wind(): number {
     return this.level.windStrength * this.level.windDirection * (0.6 + 0.4 * Math.sin(this.t * 0.55 + this.windPhase));
+  }
+
+  /* ================= ObstacleController ================= */
+
+  /** Position du balancier à l'instant t (centre + inclinaison). */
+  logStateAt(o: Extract<ObstacleConfig, { kind: "log" }>, t = this.t): { cx: number; tilt: number } {
+    return { cx: o.x + Math.sin(t * o.speed) * o.amp, tilt: Math.cos(t * o.speed) * 0.14 };
+  }
+
+  /** Positions x des oiseaux d'un vol à l'instant t (défilement bouclé). */
+  birdXsAt(o: Extract<ObstacleConfig, { kind: "birds" }>, t = this.t): number[] {
+    const RANGE = 15; // de -7.5 à +7.5 m
+    const gap = 1.15;
+    const out: number[] = [];
+    for (let i = 0; i < o.count; i++) {
+      const raw = (t * o.speed * o.dir + i * gap * o.dir) % RANGE;
+      const x = ((raw + RANGE * 1.5) % RANGE) - RANGE / 2;
+      out.push(x);
+    }
+    return out;
+  }
+
+  /** La pierre touche-t-elle un obstacle ? Renvoie le point d'impact. */
+  private hitObstacle(p: V3): { kind: "log" | "birds"; at: V3 } | null {
+    for (const o of this.level.obstacles ?? []) {
+      if (o.kind === "log") {
+        if (Math.abs(p.z - o.z) > 0.45) continue;
+        const { cx } = this.logStateAt(o);
+        // le tronc : 3 sphères le long de sa longueur (2,4 m)
+        for (const off of [-0.8, 0, 0.8]) {
+          const dx = p.x - (cx + off);
+          const dy = p.y - o.y;
+          if (dx * dx + dy * dy < 0.42 * 0.42) return { kind: "log", at: { x: cx + off, y: o.y, z: o.z } };
+        }
+      } else {
+        if (Math.abs(p.z - o.z) > 0.4) continue;
+        for (const bx of this.birdXsAt(o)) {
+          const dx = p.x - bx;
+          const dy = p.y - o.y;
+          if (dx * dx + dy * dy < 0.34 * 0.34) return { kind: "birds", at: { x: bx, y: o.y, z: o.z } };
+        }
+      }
+    }
+    return null;
   }
 
   /* ================= SlingshotController ================= */
@@ -278,6 +323,18 @@ export class FrondeEngine {
         pr.p.x += pr.v.x * h;
         pr.p.y += pr.v.y * h;
         pr.p.z += pr.v.z * h;
+        // Obstacles qui passent devant : la pierre est bloquée
+        const ob = this.hitObstacle(pr.p);
+        if (ob) {
+          const scr = project(ob.at);
+          this.spawnScreenParticles(scr, ob.kind === "log" ? "#8a5a2b" : "#9aa3ad", 12, 140);
+          sfxImpactGround();
+          this.shake = 3;
+          this.services.haptic(18);
+          this.projectile = null;
+          this.afterShot(false);
+          break;
+        }
         this.checkCollisions();
         if (!this.projectile) break;
         if (pr.p.y <= 0.05) {
@@ -405,6 +462,7 @@ export class FrondeEngine {
   }
 
   private pushHud() {
+    const giant = this.targets.find((t) => t.cfg.type === "giant");
     this.onHud({
       state: this.state,
       ammo: this.ammo,
@@ -412,6 +470,7 @@ export class FrondeEngine {
       combo: this.combo,
       targetsLeft: this.targets.filter((t) => !t.dead && t.cfg.type !== "bonus").length,
       stars: this.stars,
+      bossHp: giant ? { hp: Math.max(0, giant.hp), max: giant.maxHp } : null,
     });
   }
 }
