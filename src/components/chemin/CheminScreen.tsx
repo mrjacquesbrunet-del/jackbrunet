@@ -205,7 +205,7 @@ export function CheminScreen() {
             const courant = ouvert && i === done;
             const verrou = !ouvert || i > done;
             return (
-              <div key={i} className="absolute" style={{ left: `${p.x}%`, top: `${p.y}%`, width: "21%", transform: "translate(-50%, -40%)" }}>
+              <div key={i} className="absolute" style={{ left: `${p.x}%`, top: `${p.y}%`, width: "25%", transform: "translate(-50%, -42%)" }}>
                 {et.coffre ? (
                   <div className="absolute -right-[38px] top-1"><Coffre open={fait} className="h-9" /></div>
                 ) : null}
@@ -233,15 +233,18 @@ export function CheminScreen() {
                       hauteur de l'image, position identique sur les trois
                       dalles — et légèrement écrasé pour épouser la perspective. */}
                   <span
-                    className="pointer-events-none absolute left-1/2 grid place-items-center font-game text-[26px] font-black leading-none"
+                    className="pointer-events-none absolute left-1/2 grid place-items-center font-game text-[31px] font-black leading-none"
                     style={{
-                      top: "40%",
-                      transform: "translate(-50%, -50%) scaleY(.86)",
-                      color: verrou ? "rgba(240,240,235,.55)" : "#F7EFDC",
-                      textShadow: "0 2px 0 rgba(74,44,10,.55), 0 4px 10px rgba(0,0,0,.45)",
+                      top: "42%",
+                      transform: "translate(-50%, -50%) scaleY(.82)",
+                      color: verrou ? "rgba(238,238,232,.6)" : "#F6EEDC",
+                      // Chiffre gravé : liseré sombre tout autour + ombre portée,
+                      // pour rester lisible sur l'or comme sur la pierre grise.
+                      textShadow:
+                        "0 0 3px rgba(48,26,6,.9), 1px 1px 0 rgba(48,26,6,.85), -1px 1px 0 rgba(48,26,6,.85), 1px -1px 0 rgba(48,26,6,.85), -1px -1px 0 rgba(48,26,6,.85), 0 4px 9px rgba(0,0,0,.5)",
                     }}
                   >
-                    {fait ? <IcoCheck className="h-7 w-7" /> : verrou ? <IcoLock className="h-6 w-6" /> : i + 1}
+                    {fait ? <IcoCheck className="h-8 w-8" /> : verrou ? <IcoLock className="h-7 w-7" /> : i + 1}
                   </span>
                 </button>
               </div>

@@ -329,3 +329,34 @@ points en % de l'image, un par étape, sur lesquels les dalles sont posées.
   sentier.
 - Le décalage `translate(-50%, -40%)` aligne le point du sentier sur le
   centre de la FACE de la dalle (à 40 % de la hauteur de son image).
+
+## Rendu définitif d'après la référence de Jack (7e passe)
+
+Cible : jungle dense et peinte, sentier de pierre sable, grandes dalles
+plates de pierre craquelée avec le chiffre gravé en crème.
+
+**Décors** : générés sans références de style cette fois — la DA « jouet
+glossy » des jeux donnait une image trop propre et trop claire. Le prompt
+demande explicitement une illustration peinte, dense, avec des bords
+vignettés sombres et une lumière chaude en haut, pour retrouver la
+profondeur de la référence.
+
+**Dalles** : régénérées avec **la référence de Jack en image de
+référence**, ce qui donne la bonne silhouette — disque large et plat, face
+craquelée, rebord de blocs cassés. Gabarit 400×340, face de 340 px, centre
+de face à 42 % de la hauteur.
+
+Le calage de la face utilise l'ajustement de parabole décrit plus haut,
+mais **la bande d'ajustement doit rester sur l'arc supérieur de la face**
+(4 % à 34 % de la hauteur de l'objet). Plus bas, le rebord rocheux évase la
+silhouette et tire le centre calculé vers le bas.
+
+**Placement** : les dalles ne sont pas centrées sur l'axe du sentier mais
+décalées alternativement à gauche et à droite (±7 % chapitre 1, ±5 %
+chapitre 2 dont le sentier est plus étroit). Elles bordent le chemin tout
+en le recouvrant encore, comme sur la référence. Un décalage plus large
+(±13 %) envoyait les dalles dans la végétation, et dans l'eau au chapitre 2.
+
+**Chiffre** : crème `#F6EEDC`, liseré sombre sur les quatre côtés plus une
+ombre portée — il doit rester lisible aussi bien sur la dalle dorée que sur
+la pierre grise — et `scaleY(.82)` pour épouser la perspective de la face.

@@ -7,7 +7,7 @@ export const CHAPITRE_NOE: CheminChapitre = {
   livre: "Genèse 6-9",
   accent: "#38BDF8",
   decor: "/img/chemin/decor-2.jpg",
-  sentier: [{ x: 43.6, y: 93 }, { x: 38.6, y: 84.4 }, { x: 56.4, y: 75.9 }, { x: 58, y: 67.3 }, { x: 50.5, y: 58.7 }, { x: 44.4, y: 50.1 }, { x: 56.2, y: 41.6 }, { x: 48.7, y: 33 }],
+  sentier: [{ x: 55.1, y: 94 }, { x: 44.8, y: 85.9 }, { x: 57.8, y: 77.7 }, { x: 36.9, y: 69.6 }, { x: 56.4, y: 61.4 }, { x: 59.6, y: 53.3 }, { x: 45.7, y: 45.1 }, { x: 51.5, y: 37 }],
   fallback: ["#0c2f4a", "#123a5c", "#081f33"],
   carte: {
     id: "noe",

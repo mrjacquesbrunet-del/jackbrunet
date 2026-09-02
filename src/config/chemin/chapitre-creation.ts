@@ -7,7 +7,7 @@ export const CHAPITRE_CREATION: CheminChapitre = {
   livre: "Genèse 1-3",
   accent: "#4ADE80",
   decor: "/img/chemin/decor-1.jpg",
-  sentier: [{ x: 50.2, y: 93 }, { x: 43.9, y: 83.9 }, { x: 58.5, y: 74.8 }, { x: 71.9, y: 65.7 }, { x: 71.1, y: 56.6 }, { x: 42.5, y: 47.4 }, { x: 54.7, y: 38.3 }, { x: 50.2, y: 29.2 }, { x: 48.5, y: 20.1 }, { x: 59.9, y: 11 }],
+  sentier: [{ x: 46.3, y: 94 }, { x: 39.3, y: 84.7 }, { x: 55.5, y: 75.3 }, { x: 51.3, y: 66 }, { x: 59.3, y: 56.7 }, { x: 56.7, y: 47.3 }, { x: 62.6, y: 38 }, { x: 40, y: 28.7 }, { x: 55, y: 19.3 }, { x: 43.1, y: 10 }],
   fallback: ["#0b3d2e", "#14532d", "#052e16"],
   carte: {
     id: "creation",
