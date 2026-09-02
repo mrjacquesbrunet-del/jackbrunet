@@ -196,14 +196,14 @@ export function ChronoScreen() {
   /* ---------------- HUB ---------------- */
   if (phase === "hub") {
     return (
-      <ArcadeShell>
+      <ArcadeShell decor="/img/jeux/decors/chronologie.jpg">
         <HubHeader name={name} avatarUrl={avatar} level={lvl.level} xpInto={lvl.into} xpSpan={lvl.span} gems={best} onGear={() => router.push("/profil")} />
 
         {/* Héros */}
-        <div className="qm-hero mt-4" style={{ background: "radial-gradient(120% 120% at 100% 0%, rgba(167,139,250,.22), transparent 55%), linear-gradient(135deg,#1E1E1D 0%,#0C0C0B 100%)" }}>
+        <div className="qm-hero mt-4" style={{ background: "radial-gradient(120% 120% at 100% 0%, rgba(167,139,250,.22), transparent 55%), linear-gradient(135deg,rgba(30,30,29,.72) 0%,rgba(12,12,11,.84) 100%)" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={asset("/img/jeux/chronologie.png")} alt="" className="qm-illo pointer-events-none absolute -bottom-2 -right-2 h-36 w-auto object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.35)]" />
-          <div className="relative max-w-[58%]">
+          <img src={asset("/img/jeux/chronologie.png")} alt="" className="qm-illo pointer-events-none absolute -bottom-2 -right-2 h-32 w-auto max-w-[38%] object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.35)]" />
+          <div className="relative max-w-[62%]">
             <span className="qm-rapide" style={{ background: "rgba(167,139,250,.18)", color: VIOLET }}>
               <IcoBolt className="h-3.5 w-3.5" /> NOUVEAU
             </span>
@@ -279,7 +279,7 @@ export function ChronoScreen() {
   /* ---------------- FIN ---------------- */
   if (phase === "over") {
     return (
-      <ArcadeShell>
+      <ArcadeShell decor="/img/jeux/decors/chronologie.jpg">
         <ArcadeHeader name={name} avatarUrl={avatar} level={lvl.level} xpInto={lvl.into} xpSpan={lvl.span} gems={best} onBack={() => setPhase("hub")} />
         <div className="qm-card mt-6 p-8 text-center" style={{ animation: "qm-optin .3s ease-out" }}>
           <p className="font-game text-lg text-white/60">Partie terminée</p>
@@ -319,7 +319,7 @@ export function ChronoScreen() {
   };
 
   return (
-    <ArcadeShell>
+    <ArcadeShell decor="/img/jeux/decors/chronologie.jpg">
       <ArcadeHeader name={name} avatarUrl={avatar} level={lvl.level} xpInto={lvl.into} xpSpan={lvl.span} gems={points} onBack={() => setPhase("hub")} />
 
       {/* Carte état : manche · série · points */}

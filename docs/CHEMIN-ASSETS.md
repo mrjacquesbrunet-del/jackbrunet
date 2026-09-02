@@ -86,3 +86,50 @@ Chapitres suivants : Abraham, Joseph, Moïse et l'Exode, Josué, David,
 Salomon, Élie, Daniel, Jonas, Esther, Jésus (plusieurs chapitres),
 Actes, Paul, Apocalypse. À chaque chapitre : contenu (récits + exercices
 dans `src/config/chemin/`), décor 2K, carte de personnage.
+
+## Habillage premium des autres jeux (2e passe)
+
+Chaque jeu a désormais son propre décor 3D plein écran, fixe derrière
+l'interface arcade qui défile par-dessus, dans le même style Pixar sombre
+et cinématique que Le Chemin.
+
+| Fichier | Univers |
+| --- | --- |
+| `public/img/jeux/decors/quiz.jpg` | bibliothèque-cathédrale du savoir, or et nuit |
+| `public/img/jeux/decors/memoriser.jpg` | jardin nocturne, arbre lumineux, lucioles |
+| `public/img/jeux/decors/quisuisje.jpg` | galerie des mystères, projecteur bleu |
+| `public/img/jeux/decors/vraifaux.jpg` | balance colossale dans l'arène, vert / rouge |
+| `public/img/jeux/decors/chronologie.jpg` | horloge cosmique et sablier, nébuleuse violette |
+| `public/img/jeux/decors/defi.jpg` | arène de duel, deux podiums et trophée |
+
+Format : 1000×1778, JPEG progressif, ~200 Ko pièce (1,2 Mo au total). Les
+trois scènes les plus sombres ont été éclaircies (gamma 0,68) pour rester
+lisibles sous le voile.
+
+Mise en œuvre :
+
+- `GameDecor` dans `ArcadeUI.tsx` pose l'image en `fixed inset-0 z-0` avec
+  un dégradé sombre par-dessus ; `ArcadeShell` prend une prop `decor`.
+- Les panneaux `.qm-card` et les fonds de héros sont passés en translucide
+  pour que la scène respire derrière l'interface.
+- Les mêmes décors servent de fond aux cartes du hub, teintés par la
+  couleur de chaque jeu.
+
+### Pièges rencontrés (à retenir)
+
+- **`onLoad` ne se déclenche pas** quand l'image du décor est déjà chargée
+  au moment de l'hydratation (export statique) : le décor restait invisible.
+  Il faut lire `complete` via une `ref` au montage. Même correctif appliqué
+  à `DecorImage` dans `CheminScreen.tsx`.
+- **`-z-10` n'est pas fiable** selon le conteneur : sur `/defi` le décor
+  passait derrière le fond du body. On utilise `z-0`, et le contenu qui doit
+  passer au-dessus doit simplement être positionné (`relative`).
+- **`ChallengeScreen` a sa propre coque plein écran opaque** : le décor doit
+  être posé dedans, pas sur la page.
+
+### Correctif de mise en page
+
+Dans tous les héros de jeu, le titre débordait sous l'illustration. Colonne
+de texte élargie à 62 %, illustration bornée à 38 % et `h-32`, et le titre
+prend `font-size: clamp(1.4rem, 7vw, 2rem)` pour tenir sur les petits
+écrans.

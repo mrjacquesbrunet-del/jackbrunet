@@ -206,10 +206,10 @@ export function BergerScreen() {
       <ArcadeShell>
         <HubHeader name={name} avatarUrl={avatar} level={lvl.level} xpInto={lvl.into} xpSpan={lvl.span} gems={getBergerXp()} onGear={() => router.push("/profil")} />
 
-        <div className="qm-hero mt-4" style={{ background: "radial-gradient(120% 120% at 100% 0%, rgba(74,222,128,.2), transparent 55%), linear-gradient(135deg,#1E1E1D 0%,#0C0C0B 100%)" }}>
+        <div className="qm-hero mt-4" style={{ background: "radial-gradient(120% 120% at 100% 0%, rgba(74,222,128,.2), transparent 55%), linear-gradient(135deg,rgba(30,30,29,.72) 0%,rgba(12,12,11,.84) 100%)" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={asset("/img/jeux/berger.png")} alt="" onError={(e) => { e.currentTarget.style.display = "none"; }} className="qm-illo pointer-events-none absolute -bottom-2 -right-2 h-36 w-auto object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.35)]" />
-          <div className="relative max-w-[58%]">
+          <img src={asset("/img/jeux/berger.png")} alt="" onError={(e) => { e.currentTarget.style.display = "none"; }} className="qm-illo pointer-events-none absolute -bottom-2 -right-2 h-32 w-auto max-w-[38%] object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.35)]" />
+          <div className="relative max-w-[62%]">
             <span className="qm-rapide" style={{ background: "rgba(74,222,128,.16)", color: GREEN }}>PUZZLE</span>
             <h1 className="mt-2.5 font-game text-[2rem] font-black leading-[0.9] drop-shadow">
               LE <span style={{ color: GREEN }}>BERGER</span>

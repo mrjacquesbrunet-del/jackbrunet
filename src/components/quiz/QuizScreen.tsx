@@ -572,7 +572,7 @@ export function QuizScreen() {
     const winStart = Math.max(1, Math.min(reached - 2, LADDER.length - 8));
     const trail = nodes.filter((n) => n.rung >= winStart && n.rung < winStart + 8);
     return (
-      <ArcadeShell>
+      <ArcadeShell decor="/img/jeux/decors/quiz.jpg">
         {/* En-tête : profil · niveau/XP · gemmes · parties */}
         <div className="flex items-center gap-3">
           <Link href="/profil" aria-label="Profil" className="shrink-0">
@@ -604,8 +604,8 @@ export function QuizScreen() {
         </div>
 
         {/* Héros */}
-        <div className="qm-hero mt-4" style={{ background: "radial-gradient(120% 120% at 100% 0%, rgba(202,240,0,.16), transparent 55%), linear-gradient(135deg,#1E1E1D 0%,#0C0C0B 100%)" }}>
-          <div className="relative max-w-[54%]">
+        <div className="qm-hero mt-4" style={{ background: "radial-gradient(120% 120% at 100% 0%, rgba(202,240,0,.16), transparent 55%), linear-gradient(135deg,rgba(30,30,29,.72) 0%,rgba(12,12,11,.84) 100%)" }}>
+          <div className="relative max-w-[62%]">
             <span className="inline-block rounded-xl px-4 py-1 font-game text-2xl font-black text-white" style={{ background: "linear-gradient(180deg,#fb923c,#ea580c)", boxShadow: "0 4px 0 #9a3412,inset 0 1px 0 rgba(255,255,255,.4)" }}>QUIZ</span>
             <br />
             <span className="mt-2 inline-block rounded-xl px-4 py-1 font-game text-2xl font-black text-[#0C0C0B]" style={{ background: "linear-gradient(180deg,#D8F53A,#AAD000)", boxShadow: "0 4px 0 #5b7300,inset 0 1px 0 rgba(255,255,255,.5)" }}>BIBLIQUE</span>
@@ -614,7 +614,7 @@ export function QuizScreen() {
             </p>
           </div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={asset("/img/jeux/quiz.png")} alt="" className="qm-illo pointer-events-none absolute -bottom-2 -right-2 h-40 w-auto object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.35)]" />
+          <img src={asset("/img/jeux/quiz.png")} alt="" className="qm-illo pointer-events-none absolute -bottom-2 -right-2 h-32 w-auto max-w-[38%] object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.35)]" />
         </div>
 
         {/* Objectif + Record */}

@@ -7,7 +7,8 @@
  * réponses A/B/C/D, jokers, boutons Quitter / Valider.
  */
 
-import { useEffect, type ReactElement, type ReactNode } from "react";
+import { useEffect, useState, type ReactElement, type ReactNode } from "react";
+import { asset } from "@/lib/asset";
 
 /* ---------------- Icônes (trait) ---------------- */
 const S = (d: string) => (p: { className?: string }) => (
@@ -56,7 +57,7 @@ export const ARCADE_CSS = `
 .qm-gem-plus{display:grid;place-items:center;width:26px;height:26px;border-radius:9999px;background:linear-gradient(180deg,#D8F53A,#AAD000);color:#0C0C0B;box-shadow:inset 0 1px 0 rgba(255,255,255,.4)}
 .qm-xpbar{height:8px;border-radius:9999px;background:rgba(0,0,0,.4);overflow:hidden}
 .qm-xpbar > i{display:block;height:100%;border-radius:9999px;background:linear-gradient(90deg,#D8F53A,#AAD000)}
-.qm-card{background:linear-gradient(180deg,rgba(30,30,29,.92),rgba(12,12,11,.95));border:1px solid rgba(202,240,0,.16);border-radius:24px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 14px 34px rgba(0,0,0,.55)}
+.qm-card{background:linear-gradient(180deg,rgba(30,30,29,.80),rgba(12,12,11,.88));backdrop-filter:blur(2px);border:1px solid rgba(202,240,0,.16);border-radius:24px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 14px 34px rgba(0,0,0,.55)}
 .qm-pill-o{display:inline-block;padding:4px 12px;border-radius:9999px;background:linear-gradient(180deg,#FBBF24,#F59E0B);font-family:var(--font-game);font-weight:900;font-size:11px;letter-spacing:.03em;color:#4a2600;box-shadow:inset 0 1px 0 rgba(255,255,255,.45)}
 .qm-pill-p{display:inline-block;padding:5px 13px;border-radius:9999px;background:linear-gradient(180deg,#D8F53A,#AAD000);font-family:var(--font-game);font-weight:900;font-size:11px;letter-spacing:.03em;color:#0C0C0B;box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
 .qm-clock{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-game);font-weight:900;font-size:15px;color:#F3F3ED}
@@ -104,6 +105,8 @@ export const ARCADE_CSS = `
 .qm-gear{display:grid;place-items:center;width:42px;height:42px;border-radius:9999px;background:linear-gradient(180deg,#30302F,#171716);color:#CAF000;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 4px 10px rgba(0,0,0,.3)}
 .qm-gear:active{transform:scale(.94)}
 .qm-hero{position:relative;overflow:hidden;border-radius:26px;padding:20px;border:1px solid rgba(202,240,0,.18);box-shadow:0 16px 34px rgba(0,0,0,.5)}
+/* Le titre s'adapte à sa colonne : il ne passe jamais sous l'illustration. */
+.qm-hero h1{font-size:clamp(1.4rem,7vw,2rem);line-height:.92}
 .qm-rapide{display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border-radius:9999px;background:linear-gradient(180deg,#FCD34D,#F59E0B);font-family:var(--font-game);font-weight:900;font-size:11px;letter-spacing:.04em;color:#4a2600;box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
 .qm-obj{border-radius:20px;padding:14px;background:linear-gradient(180deg,#a7f3e4,#5eead4);border:1px solid rgba(13,148,136,.28);box-shadow:0 10px 22px rgba(13,148,136,.22)}
 .qm-obj-ic{display:grid;place-items:center;width:44px;height:44px;flex:0 0 auto;border-radius:14px;background:linear-gradient(180deg,#2dd4bf,#0d9488);color:#fff;box-shadow:inset 0 2px 3px rgba(255,255,255,.4)}
@@ -141,8 +144,41 @@ export const ARCADE_CSS = `
 .qm-compact .qm-quit{padding:11px 14px;font-size:13px;border-radius:14px}
 `;
 
+/**
+ * Décor d'ambiance plein écran d'un jeu : la scène 3D reste fixe pendant que
+ * l'interface défile par-dessus. Le voile sombre garantit que le texte blanc
+ * et les cartes gardent exactement le même contraste que sur fond noir.
+ */
+export function GameDecor({ src }: { src: string }) {
+  const [loaded, setLoaded] = useState(false);
+  return (
+    <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={asset(src)}
+        alt=""
+        // Le décor est dans le HTML pré-rendu : il est souvent déjà chargé quand
+        // React s'hydrate, et `onLoad` ne se déclenche alors jamais. On lit donc
+        // aussi `complete` au montage, sinon le décor reste invisible.
+        ref={(el) => {
+          if (el?.complete) setLoaded(true);
+        }}
+        onLoad={() => setLoaded(true)}
+        className={`h-full w-full object-cover transition-opacity duration-700 ${loaded ? "opacity-100" : "opacity-0"}`}
+      />
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(12,12,11,.74) 0%, rgba(12,12,11,.54) 24%, rgba(12,12,11,.60) 58%, rgba(12,12,11,.90) 100%)",
+        }}
+      />
+    </div>
+  );
+}
+
 /** Racine plein écran : fond violet + verrou du défilement de fond + CSS injecté. */
-export function ArcadeShell({ children }: { children: ReactNode }) {
+export function ArcadeShell({ children, decor }: { children: ReactNode; decor?: string }) {
   useEffect(() => {
     const b = document.body;
     const h = document.documentElement;
@@ -161,6 +197,7 @@ export function ArcadeShell({ children }: { children: ReactNode }) {
   return (
     <div className="qm fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden text-white [overscroll-behavior:contain] [-webkit-overflow-scrolling:touch]">
       <style dangerouslySetInnerHTML={{ __html: ARCADE_CSS }} />
+      {decor ? <GameDecor src={decor} /> : null}
       <div className="relative mx-auto w-full max-w-md px-4 pb-6 pt-[calc(0.75rem+env(safe-area-inset-top))]">
         {/* Étincelles d'ambiance */}
         {[

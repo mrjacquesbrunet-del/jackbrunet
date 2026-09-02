@@ -265,6 +265,11 @@ function DecorImage({ src }: { src: string }) {
     <img
       src={src}
       alt=""
+      // Le décor est souvent déjà chargé au moment de l'hydratation : `onLoad`
+      // ne se déclenche alors jamais, d'où la lecture de `complete` au montage.
+      ref={(el) => {
+        if (el?.complete) setOk(true);
+      }}
       onLoad={() => setOk(true)}
       className="pointer-events-none absolute inset-0 h-full w-full object-cover transition-opacity duration-500"
       style={{ opacity: ok ? 1 : 0 }}

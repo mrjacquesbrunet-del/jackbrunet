@@ -25,6 +25,7 @@ import {
 } from "@/lib/memorize";
 import { resolveRef, getBook } from "@/lib/bible-client";
 import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
+import { GameDecor } from "@/components/games/ArcadeUI";
 import { VerseGame } from "@/components/memorize/VerseGame";
 import { MissingWordGame } from "@/components/memorize/MissingWordGame";
 import { asset } from "@/lib/asset";
@@ -418,9 +419,10 @@ export default function MemoriserPage() {
   // « Le mot manquant » : plein écran, comme le grand jeu.
   if (wordGaming) {
     return (
-      <div className="dark-ctx min-h-screen mem-hub pb-24 pt-24 text-white sm:pt-28">
+      <div className="dark-ctx isolate min-h-screen mem-hub pb-24 pt-24 text-white sm:pt-28">
         <PlansDarkBg />
-        <div className="container-x mx-auto max-w-2xl">
+        <GameDecor src="/img/jeux/decors/memoriser.jpg" />
+        <div className="container-x relative mx-auto max-w-2xl">
           <MissingWordGame
             items={items}
             onClose={() => {
@@ -438,9 +440,10 @@ export default function MemoriserPage() {
   // En partie : on n'affiche que le jeu (comme les autres jeux, plein écran).
   if (gaming) {
     return (
-      <div className="dark-ctx min-h-screen mem-hub pb-24 pt-24 text-white sm:pt-28">
+      <div className="dark-ctx isolate min-h-screen mem-hub pb-24 pt-24 text-white sm:pt-28">
         <PlansDarkBg />
-        <div className="container-x mx-auto max-w-2xl">
+        <GameDecor src="/img/jeux/decors/memoriser.jpg" />
+        <div className="container-x relative mx-auto max-w-2xl">
           <VerseGame items={items} onClose={() => setGaming(false)} />
         </div>
       </div>
@@ -448,9 +451,10 @@ export default function MemoriserPage() {
   }
 
   return (
-    <div className="dark-ctx min-h-screen mem-hub pb-24 pt-24 text-white sm:pt-28">
+    <div className="dark-ctx isolate min-h-screen mem-hub pb-24 pt-24 text-white sm:pt-28">
       <PlansDarkBg />
-      <div className="container-x mx-auto max-w-2xl">
+        <GameDecor src="/img/jeux/decors/memoriser.jpg" />
+      <div className="container-x relative mx-auto max-w-2xl">
         <Link href="/bible" className="text-xs font-semibold text-white/50 hover:text-white/80">
           ← Retour à la Bible
         </Link>
@@ -494,13 +498,13 @@ export default function MemoriserPage() {
           {/* Héros */}
           <div
             className="relative mt-4 overflow-hidden rounded-2xl border border-white/12 p-4"
-            style={{ background: "radial-gradient(120% 120% at 100% 0%, rgba(251,146,60,.28), transparent 55%), linear-gradient(135deg,#30302F 0%,#30302F 62%,#1E1E1D 100%)" }}
+            style={{ background: "radial-gradient(120% 120% at 100% 0%, rgba(251,146,60,.28), transparent 55%), linear-gradient(135deg,rgba(48,48,47,.74) 0%,rgba(48,48,47,.74) 62%,rgba(30,30,29,.86) 100%)" }}
           >
             <svg viewBox="0 0 24 24" className="pointer-events-none absolute -right-3 -top-2 h-32 w-32 text-amber-300/10" fill="none" stroke="currentColor" strokeWidth={1.2}>
               <path d="M4 5a2 2 0 0 1 2-2h6v16H6a2 2 0 0 0-2 2zM20 5a2 2 0 0 0-2-2h-6v16h6a2 2 0 0 1 2 2z" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             <span className="inline-block rounded-lg bg-amber-400 px-3 py-0.5 font-game text-[10px] font-extrabold text-night-950">LE JEU DE LA PAROLE</span>
-            <div className="relative max-w-[56%]">
+            <div className="relative max-w-[62%]">
               <h1 className="mt-2 font-game text-[1.7rem] font-black leading-[0.95] drop-shadow">
                 MÉMORISER
                 <br />
@@ -511,7 +515,7 @@ export default function MemoriserPage() {
               </p>
             </div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={asset("/img/jeux/memoriser.png")} alt="" className="mem-float pointer-events-none absolute -bottom-2 -right-2 h-36 w-auto object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.35)]" />
+            <img src={asset("/img/jeux/memoriser.png")} alt="" className="mem-float pointer-events-none absolute -bottom-2 -right-2 h-32 w-auto max-w-[38%] object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.35)]" />
           </div>
 
           {/* Objectif + Record */}

@@ -178,7 +178,7 @@ export function WhoAmIScreen() {
   if (phase === "hub") {
     const starFill = "M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 17.8 6.8 20.5l1-5.8L3.5 9.2l5.9-.9z";
     return (
-      <ArcadeShell>
+      <ArcadeShell decor="/img/jeux/decors/quisuisje.jpg">
         <button type="button" onClick={() => router.push("/jeux")} className="flex items-center gap-1.5 font-game text-sm font-semibold text-white/70">
           <IcoArrowL className="h-4 w-4" /> Retour aux jeux
         </button>
@@ -212,9 +212,9 @@ export function WhoAmIScreen() {
         </div>
 
         {/* Héros */}
-        <div className="qm-hero mt-4" style={{ background: "radial-gradient(120% 120% at 100% 0%, rgba(202,240,0,.16), transparent 55%), linear-gradient(135deg,#1E1E1D 0%,#0C0C0B 100%)" }}>
+        <div className="qm-hero mt-4" style={{ background: "radial-gradient(120% 120% at 100% 0%, rgba(202,240,0,.16), transparent 55%), linear-gradient(135deg,rgba(30,30,29,.72) 0%,rgba(12,12,11,.84) 100%)" }}>
           <span className="inline-block rounded-full bg-gradient-to-b from-[#D8F53A] to-[#AAD000] px-3.5 py-1.5 font-game text-[11px] font-black tracking-wide text-[#0C0C0B] shadow-[inset_0_1px_0_rgba(255,255,255,.35)]">DEVINE LE PERSONNAGE</span>
-          <div className="relative max-w-[54%]">
+          <div className="relative max-w-[62%]">
             <h1 className="mt-2.5 font-game text-4xl font-black leading-[0.88] drop-shadow">
               QUI<br /><span className="text-[#CAF000]">SUIS-JE</span> ?
             </h1>
@@ -223,7 +223,7 @@ export function WhoAmIScreen() {
             </p>
           </div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={asset("/img/jeux/quisuisje.png")} alt="" className="qm-illo pointer-events-none absolute -bottom-1 -right-2 h-40 w-auto object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.3)]" />
+          <img src={asset("/img/jeux/quisuisje.png")} alt="" className="qm-illo pointer-events-none absolute -bottom-1 -right-2 h-32 w-auto max-w-[38%] object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.3)]" />
         </div>
 
         {/* Choix du niveau */}
@@ -282,7 +282,7 @@ export function WhoAmIScreen() {
   /* ---------------- OVER ---------------- */
   if (phase === "over") {
     return (
-      <ArcadeShell>
+      <ArcadeShell decor="/img/jeux/decors/quisuisje.jpg">
         <ArcadeHeader name={name} avatarUrl={avatar} level={lvl.level} xpInto={lvl.into} xpSpan={lvl.span} gems={best} onBack={() => setPhase("hub")} />
         <div className="qm-card mt-6 p-6 text-center">
           <p className="font-game text-sm text-white/60">Partie terminée · {WHO_LEVELS[level - 1]}</p>
@@ -305,7 +305,7 @@ export function WhoAmIScreen() {
   /* ---------------- PLAY ---------------- */
   const canValidate = selected !== null && !reveal;
   return (
-    <ArcadeShell>
+    <ArcadeShell decor="/img/jeux/decors/quisuisje.jpg">
       <ArcadeHeader name={name} avatarUrl={avatar} level={lvl.level} xpInto={lvl.into} xpSpan={lvl.span} gems={score} onBack={() => setPhase("hub")} />
 
       {/* Carte niveau / progression */}
