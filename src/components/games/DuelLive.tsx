@@ -130,6 +130,12 @@ export function DuelLive({
 }) {
   const roundTime = ROUND_TIME[game];
   const [phase, setPhase] = useState<Phase>("lobby");
+  // Repart du haut de l'écran à chaque changement de vue (hub <-> jeu),
+  // sinon la position de défilement est conservée sous la barre de statut.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [phase]);
+
   const [epoch, setEpoch] = useState(0);
   const [round, setRound] = useState(0);
   const [scores, setScores] = useState<{ host: number; guest: number }>({ host: 0, guest: 0 });

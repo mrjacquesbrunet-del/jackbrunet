@@ -268,6 +268,13 @@ export default function MemoriserPage() {
   // Exercice éclair « Le mot manquant » (verset à trous, 4 propositions).
   const [wordGaming, setWordGaming] = useState(false);
 
+  // En entrant/sortant d'un jeu plein écran, on repart du haut de l'écran —
+  // sinon la position de défilement du hub est conservée et le jeu s'affiche
+  // sous la barre de statut du téléphone.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [gaming, wordGaming, training]);
+
   // Niveau du joueur (XP gagnés au jeu) + record + série + XP du jour,
   // rechargés en sortant du jeu.
   const [xp, setXp] = useState(0);

@@ -143,6 +143,12 @@ type Phase = "hub" | "play" | "over";
 
 export function QuizScreen() {
   const [phase, setPhase] = useState<Phase>("hub");
+  // Repart du haut de l'écran à chaque changement de vue (hub <-> jeu),
+  // sinon la position de défilement est conservée sous la barre de statut.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [phase]);
+
   // Duel EN LIGNE (temps réel, chacun son téléphone).
   const [live, setLive] = useState<{ code: string; role: DuelRole } | null>(null);
   const [liveMenu, setLiveMenu] = useState(false);

@@ -50,6 +50,12 @@ export function VfDuel({ onClose }: { onClose: () => void }) {
   const [scores, setScores] = useState<{ a: number; b: number }>({ a: 0, b: 0 });
   const [locked, setLocked] = useState<{ a: boolean; b: boolean }>({ a: false, b: false });
   const [phase, setPhase] = useState<"play" | "reveal" | "end">("play");
+  // Repart du haut de l'écran à chaque changement de vue (hub <-> jeu),
+  // sinon la position de défilement est conservée sous la barre de statut.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [phase]);
+
   const [roundWinner, setRoundWinner] = useState<P | null>(null);
   const [timeLeft, setTimeLeft] = useState(ROUND_TIME);
   const nextTimer = useRef<ReturnType<typeof setTimeout> | null>(null);

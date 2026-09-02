@@ -56,6 +56,12 @@ type Phase = "hub" | "play" | "over";
 export function WhoAmIScreen() {
   const router = useRouter();
   const [phase, setPhase] = useState<Phase>("hub");
+  // Repart du haut de l'écran à chaque changement de vue (hub <-> jeu),
+  // sinon la position de défilement est conservée sous la barre de statut.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [phase]);
+
   const [level, setLevel] = useState(1); // 1..4
   const [deck, setDeck] = useState<WhoRound[]>([]);
   const [idx, setIdx] = useState(0);

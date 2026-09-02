@@ -48,6 +48,12 @@ type Phase = "menu" | "pick" | "play" | "over";
 
 export function ChallengeScreen() {
   const [phase, setPhase] = useState<Phase>("menu");
+  // Repart du haut de l'écran à chaque changement de vue (hub <-> jeu),
+  // sinon la position de défilement est conservée sous la barre de statut.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [phase]);
+
   const [meId, setMeId] = useState<string | null>(null);
   const [friends, setFriends] = useState<Profile[] | null>(null);
   const [rows, setRows] = useState<ChallengeRow[] | null>(null);
