@@ -37,11 +37,12 @@ export function FrondeGame({ levelIdx, onExit, onNext }: { levelIdx: number; onE
   imgsRef.current = imgs;
 
   // Habillage optionnel (images Magnific) : chargées si présentes.
+  // Le décor (photo pleine) est en JPEG pour rester léger en OTA.
   useEffect(() => {
     for (const slot of IMG_SLOTS) {
       const im = new Image();
       im.onload = () => setImgs((m) => ({ ...m, [slot]: im }));
-      im.src = asset(`/img/jeux/fronde/${slot}.png`);
+      im.src = asset(`/img/jeux/fronde/${slot}.${slot === "decor" ? "jpg" : "png"}`);
     }
   }, []);
 
