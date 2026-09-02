@@ -248,3 +248,46 @@ Les 18 étapes des deux chapitres sont réécrites : chaque étape a son
 verset) et un mélange de difficultés, avec des questions expertes
 (dimensions de l'arche, les quatre fleuves d'Éden, les 150 jours, la
 promesse de Genèse 3:15).
+
+## Dalles posées à plat (5e passe)
+
+Jack a fourni une référence : des **dalles de pierre couchées au sol**, vues
+en perspective (donc elliptiques), le chiffre gravé en crème sur la face,
+et un sentier de pierre sable qui serpente entre elles. Les médaillons
+verticaux face caméra sont remplacés par ces dalles.
+
+| Fichier | État |
+| --- | --- |
+| `dalle-or.png` | étape terminée — pierre dorée, étincelles |
+| `dalle-active.png` | étape en cours — pierre violette |
+| `dalle-verrou.png` | étape verrouillée — pierre grise |
+
+### Le calage : ajustement d'ellipse, pas « rangée la plus large »
+
+Pour une dalle couchée, le chiffre doit tomber au centre de la FACE, pas au
+milieu de l'image. Deux méthodes ont échoué avant la bonne :
+
+1. *Rangée la plus large* — un cylindre vu de biais a une bande entière à
+   largeur maximale (du haut de la face au bas de la paroi), et surtout le
+   rebord rocheux évase la dalle vers le bas : le repère tombait trop bas.
+2. *Étendue gauche-droite de la ligne* — les étincelles détachées autour de
+   la dalle dorée élargissaient la mesure et la dalle sortait surdimensionnée.
+
+La méthode retenue (`fit_face`) : on prend le plus large **segment continu**
+par ligne (les étincelles isolées sont ignorées), puis on ajuste une
+parabole sur `largeur²` en fonction de `y` sur le haut de la silhouette —
+pour une ellipse, `largeur²` est exactement une parabole en `y`, et son
+sommet donne le centre et le diamètre de la face. Les trois dalles sont
+ensuite normalisées à 300 px de face, centre placé à **40 % de la hauteur**
+d'un canevas 360×400.
+
+Côté app : le point du sentier est aligné sur ce centre de face
+(`transform: translate(-50%, -40%)`), et le chiffre est posé à `top: 40%`
+avec un `scaleY(.86)` pour épouser la perspective.
+
+### Le sentier
+
+Passé du pavé doré à la **pierre sable** de la référence : un lit de terre
+(62 px), la bande de sentier (54 px), puis de petits pavés clairs disposés
+en deux ou trois rangées alternées d'une ligne à l'autre, pour un
+appareillage irrégulier plutôt qu'un alignement à la règle.

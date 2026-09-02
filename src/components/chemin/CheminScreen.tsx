@@ -283,26 +283,33 @@ export function CheminScreen() {
       <div className="container-x relative mx-auto flex min-h-screen max-w-md flex-col pb-8 pt-[15.5rem] sm:pt-[17rem]">
 
         {/* Le sentier */}
-        <div ref={trailRef} className="relative mt-2 w-full flex-1" style={{ minHeight: Math.max(520, chap.etapes.length * 98) }}>
+        <div ref={trailRef} className="relative mt-2 w-full flex-1" style={{ minHeight: Math.max(560, chap.etapes.length * 112) }}>
           {/* La route de pierre : même tracé que les dalles, donc toujours dessous. */}
           {trail.w > 0 ? (
             <svg width={trail.w} height={trail.h} className="pointer-events-none absolute inset-0" aria-hidden>
               <defs>
-                <linearGradient id="chemin-route" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stopColor="#C9A24B" />
-                  <stop offset="42%" stopColor="#F2DFA6" />
-                  <stop offset="100%" stopColor="#B98F3C" />
+                <linearGradient id="chemin-route" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#F0DDAF" />
+                  <stop offset="100%" stopColor="#D9BC84" />
                 </linearGradient>
               </defs>
-              {/* Le lit de terre sombre, puis les pavés posés dessus un à un. */}
-              <path d={roadPath(pts, trail.w, trail.h)} fill="none" stroke="rgba(28,18,42,.42)" strokeWidth={44} strokeLinecap="round" strokeLinejoin="round" />
-              {roadSlabs(pts, trail.w, trail.h).map((sl, i) => (
-                <g key={`s${i}`} transform={`translate(${sl.x} ${sl.y}) rotate(${sl.a + 90})`}>
-                  <rect x={-17} y={-10} width={34} height={20} rx={6} fill="rgba(20,12,32,.5)" transform="translate(0 2.5)" />
-                  <rect x={-17} y={-10} width={34} height={20} rx={6} fill="url(#chemin-route)" />
-                  <rect x={-13} y={-7.5} width={26} height={5} rx={2.5} fill="rgba(255,255,255,.3)" />
-                </g>
-              ))}
+              {/* Le sentier de terre battue, puis ses pavés clairs posés dessus. */}
+              <path d={roadPath(pts, trail.w, trail.h)} fill="none" stroke="rgba(86,58,30,.42)" strokeWidth={62} strokeLinecap="round" strokeLinejoin="round" />
+              <path d={roadPath(pts, trail.w, trail.h)} fill="none" stroke="#C4A16A" strokeWidth={54} strokeLinecap="round" strokeLinejoin="round" />
+              {roadSlabs(pts, trail.w, trail.h, 21).map((sl, i) => {
+                // Deux rangées de pavés, décalées d'une ligne sur l'autre : le
+                // sentier a l'air appareillé plutôt qu'aligné à la règle.
+                const rad = ((sl.a + 90) * Math.PI) / 180;
+                const nx = Math.cos(rad);
+                const ny = Math.sin(rad);
+                const dec = i % 2 === 0 ? [-11, 11] : [-22, 0, 22];
+                return dec.map((d, k) => (
+                  <g key={`s${i}-${k}`} transform={`translate(${sl.x + nx * d} ${sl.y + ny * d}) rotate(${sl.a + 90})`}>
+                    <rect x={-9} y={-6.5} width={18} height={13} rx={4.5} fill="rgba(120,84,44,.35)" transform="translate(0 1.5)" />
+                    <rect x={-9} y={-6.5} width={18} height={13} rx={4.5} fill="url(#chemin-route)" />
+                  </g>
+                ));
+              })}
             </svg>
           ) : null}
           {chap.etapes.map((et, i) => {
@@ -311,9 +318,9 @@ export function CheminScreen() {
             const courant = ouvert && i === done;
             const verrou = !ouvert || i > done;
             return (
-              <div key={i} className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: `${p.x}%`, top: `${p.y}%` }}>
+              <div key={i} className="absolute" style={{ left: `${p.x}%`, top: `${p.y}%`, transform: "translate(-50%, -40%)" }}>
                 {et.coffre ? (
-                  <div className="absolute -right-[52px] -top-1"><Coffre open={fait} className="h-11" /></div>
+                  <div className="absolute -right-[46px] top-2"><Coffre open={fait} className="h-11" /></div>
                 ) : null}
                 <button
                   type="button"
@@ -325,7 +332,7 @@ export function CheminScreen() {
                   }}
                   ref={courant ? curNodeRef : undefined}
                   aria-label={`Étape ${i + 1}${fait ? " (terminée)" : verrou ? " (verrouillée)" : ""}`}
-                  className="relative block h-[62px] w-[62px] transition-transform active:scale-90"
+                  className="relative block h-[104px] w-[94px] transition-transform active:scale-95"
                   style={courant ? { animation: "chemin-pulse 1.6s ease-in-out infinite" } : undefined}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -333,16 +340,21 @@ export function CheminScreen() {
                     src={asset(fait ? "/img/chemin/ui/dalle-or.png" : courant ? "/img/chemin/ui/dalle-active.png" : "/img/chemin/ui/dalle-verrou.png")}
                     alt=""
                     aria-hidden
-                    className="h-full w-full object-contain drop-shadow-[0_4px_7px_rgba(0,0,0,.6)]"
+                    className="h-full w-full object-contain drop-shadow-[0_6px_9px_rgba(0,0,0,.55)]"
                   />
-                  {/* Le chiffre ou la coche se pose au centre de la face : les
-                      trois dalles partagent le même gabarit, donc rien ne bouge
-                      d'un état à l'autre. */}
+                  {/* Le chiffre est gravé au centre de la face — à 40 % de la
+                      hauteur de l'image, position identique sur les trois
+                      dalles — et légèrement écrasé pour épouser la perspective. */}
                   <span
-                    className="pointer-events-none absolute inset-0 grid place-items-center font-game text-[19px] font-black"
-                    style={{ color: fait ? "#5a3208" : courant ? "#08340f" : "rgba(243,243,237,.42)" }}
+                    className="pointer-events-none absolute left-1/2 grid place-items-center font-game text-[30px] font-black leading-none"
+                    style={{
+                      top: "40%",
+                      transform: "translate(-50%, -50%) scaleY(.86)",
+                      color: verrou ? "rgba(240,240,235,.55)" : "#F7EFDC",
+                      textShadow: "0 2px 0 rgba(74,44,10,.55), 0 4px 10px rgba(0,0,0,.45)",
+                    }}
                   >
-                    {fait ? <IcoCheck className="h-6 w-6" /> : verrou ? <IcoLock className="h-5 w-5" /> : i + 1}
+                    {fait ? <IcoCheck className="h-8 w-8" /> : verrou ? <IcoLock className="h-7 w-7" /> : i + 1}
                   </span>
                 </button>
               </div>
