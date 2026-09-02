@@ -146,3 +146,56 @@ Dans tous les héros de jeu, le titre débordait sous l'illustration. Colonne
 de texte élargie à 62 %, illustration bornée à 38 % et `h-32`, et le titre
 prend `font-size: clamp(1.4rem, 7vw, 2rem)` pour tenir sur les petits
 écrans.
+
+## Intérieur du Chemin — vrais assets 3D (3e passe)
+
+Le sentier était dessiné en CSS (cercles en dégradé) et le coffre en SVG.
+Tout est remplacé par des assets 3D détourés, générés dans la DA :
+
+| Fichier | Rôle |
+| --- | --- |
+| `public/img/chemin/ui/dalle-or.png` | étape terminée (face dorée) |
+| `public/img/chemin/ui/dalle-active.png` | étape en cours (face verte, halo) |
+| `public/img/chemin/ui/dalle-verrou.png` | étape verrouillée (pierre éteinte) |
+| `public/img/chemin/ui/coffre.png` | coffre fermé |
+| `public/img/chemin/ui/coffre-ouvert.png` | coffre ouvert, trésor et rayon |
+
+**Les trois dalles partagent le même gabarit.** Elles sont générées avec
+une face VIDE, puis normalisées à l'installation : le script mesure le
+diamètre réel du médaillon (sa rangée de pixels la plus large donne son
+axe), le met à l'échelle sur 300 px et le centre dans un canevas de
+360 px. Le chiffre, la coche et le cadenas sont ensuite posés en HTML au
+centre — donc typographie nette et zéro décalage d'un état à l'autre.
+Refaire une dalle sans repasser par cette normalisation la décalerait.
+
+### Autres corrections de la carte
+
+- **Sentier** : les pavés sont posés en HTML, plus en SVG. Le tracé SVG
+  utilisait `preserveAspectRatio="none"` sur une zone bien plus haute que
+  large : les pointillés devenaient des taches ovales et le contour noir
+  une bande grise.
+- **Espacement** : la hauteur du sentier suit le nombre d'étapes
+  (`étapes × 98 px`), les dalles se chevauchaient à 440 px fixes.
+- **Cadrage à l'ouverture** : on défile sur l'étape en cours (à ~60 % de
+  l'écran), sinon on atterrit sur les étapes verrouillées du haut.
+- **En-tête de chapitre fixe** : `position: sticky` ne s'accroche pas ici,
+  parce que `body` porte `overflow-x: hidden` — il devient le conteneur de
+  référence du sticky alors que c'est `html` qui défile. D'où une barre
+  `fixed` et un fondu sombre en dessous.
+- **Décor fixe** : le décor du chapitre ne défile plus avec le sentier
+  (il s'étirait sur toute la hauteur de page).
+
+### Écran de leçon
+
+Le récit et les exercices tournaient sur un dégradé plat. Le décor du
+chapitre y est prolongé, assombri à 82 %, pour que l'intérieur du jeu
+reste dans le même monde que la carte.
+
+### Décor de Qui suis-je refait
+
+La première version (galerie de masques, silhouettes encapuchonnées,
+statues) a été refusée : imagerie mystique, inadaptée à un jeu chrétien.
+Le décor actuel est chaleureux — point d'interrogation doré, parchemin,
+loupe, colombes, îlots violets — avec, dans le prompt, une interdiction
+explicite des masques, figures encapuchonnées, statues et symboles
+occultes. **À reprendre dans tout prompt de ce jeu.**

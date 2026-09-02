@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   cheminStep,
@@ -65,21 +65,17 @@ function IcoCards({ className = "h-5 w-5" }: { className?: string }) {
     </svg>
   );
 }
-function ChestSvg({ open = false, className = "h-9 w-9" }: { open?: boolean; className?: string }) {
+/** Coffre 3D du sentier (asset détouré), fermé ou débordant de trésor. */
+function Coffre({ open = false, className = "h-11 w-11" }: { open?: boolean; className?: string }) {
   return (
-    <svg viewBox="0 0 48 48" className={className} aria-hidden>
-      <ellipse cx="24" cy="41" rx="14" ry="2.6" fill="rgba(0,0,0,.35)" />
-      <rect x="8" y="22" width="32" height="16" rx="3" fill="#8a5a2b" stroke="#4e3014" strokeWidth="2" />
-      <path d={open ? "M8 20c0-7 7-11 16-11s16 4 16 11l-2 2H10z" : "M8 22c0-7 7-11 16-11s16 4 16 11z"} fill={open ? "#b07a41" : "#a8743d"} stroke="#4e3014" strokeWidth="2" />
-      <rect x="21" y="24" width="6" height="9" rx="1.5" fill={GOLD} stroke="#92400e" strokeWidth="1.6" />
-      {open ? (
-        <g fill={GOLD}>
-          <circle cx="17" cy="16" r="2" />
-          <circle cx="24" cy="12" r="2.4" />
-          <circle cx="31" cy="16" r="2" />
-        </g>
-      ) : null}
-    </svg>
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={asset(open ? "/img/chemin/ui/coffre-ouvert.png" : "/img/chemin/ui/coffre.png")}
+      alt=""
+      aria-hidden
+      className={`${className} w-auto object-contain drop-shadow-[0_5px_8px_rgba(0,0,0,.55)]`}
+      style={open ? { filter: "drop-shadow(0 0 12px rgba(252,211,77,.55))" } : undefined}
+    />
   );
 }
 
@@ -92,16 +88,28 @@ function nodePositions(n: number): { x: number; y: number }[] {
   });
 }
 
-function pathD(pts: { x: number; y: number }[]): string {
-  if (pts.length === 0) return "";
-  let d = `M ${pts[0].x} ${pts[0].y}`;
+/**
+ * Les pavés entre deux dalles. Ils sont posés en HTML (et non en SVG) : le
+ * sentier occupe une zone bien plus haute que large, un tracé SVG y serait
+ * étiré et les pointillés deviendraient des taches ovales.
+ */
+function trailDots(pts: { x: number; y: number }[], perGap = 3): { x: number; y: number }[] {
+  const out: { x: number; y: number }[] = [];
   for (let i = 1; i < pts.length; i++) {
     const p = pts[i - 1];
     const c = pts[i];
     const my = (p.y + c.y) / 2;
-    d += ` C ${p.x} ${my}, ${c.x} ${my}, ${c.x} ${c.y}`;
+    for (let k = 1; k <= perGap; k++) {
+      const t = k / (perGap + 1);
+      const u = 1 - t;
+      // Bézier cubique P0=(p) C1=(p.x,my) C2=(c.x,my) P3=(c)
+      out.push({
+        x: u * u * u * p.x + 3 * u * u * t * p.x + 3 * u * t * t * c.x + t * t * t * c.x,
+        y: u * u * u * p.y + 3 * u * u * t * my + 3 * u * t * t * my + t * t * t * c.y,
+      });
+    }
   }
-  return d;
+  return out;
 }
 
 const RARETE_LABEL: Record<CheminCarte["rarete"], string> = {
@@ -123,9 +131,26 @@ export function CheminScreen() {
   const [albumOpen, setAlbumOpen] = useState(false);
   const [, setTick] = useState(0);
 
+  const curNodeRef = useRef<HTMLButtonElement | null>(null);
+
   // Repart du haut de l'écran à chaque changement de vue.
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, [phase, chapIdx]);
+
+  // Le sentier est long : à l'ouverture de la carte on cadre l'étape en cours,
+  // sinon on atterrit sur les étapes verrouillées du haut.
+  useEffect(() => {
+    if (phase !== "map") return;
+    const t = setTimeout(() => {
+      const el = curNodeRef.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      // ~60 % de la hauteur d'écran : l'étape en cours est bien visible et les
+      // étapes déjà faites restent lisibles en dessous d'elle.
+      window.scrollTo({ top: window.scrollY + r.top - window.innerHeight * 0.6, behavior: "auto" });
+    }, 60);
+    return () => clearTimeout(t);
   }, [phase, chapIdx]);
 
   // À l'ouverture : se placer sur le premier chapitre non terminé.
@@ -155,26 +180,37 @@ export function CheminScreen() {
   const ouvert = cheminChapitreOuvert(CHEMIN_CHAPITRES, chapIdx);
 
   return (
-    <div className="dark-ctx relative min-h-screen overflow-hidden text-white" style={{ background: `linear-gradient(180deg, ${chap.fallback[0]}, ${chap.fallback[1]} 55%, ${chap.fallback[2]})` }}>
+    <div className="dark-ctx relative isolate min-h-screen text-white" style={{ background: `linear-gradient(180deg, ${chap.fallback[0]}, ${chap.fallback[1]} 55%, ${chap.fallback[2]})` }}>
       <PlansDarkBg />
-      {/* Décor 2K du chapitre (dès qu'il est installé) */}
-      <DecorImage src={asset(chap.decor)} />
-      <div className="pointer-events-none absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.05) 22%, rgba(0,0,0,.05) 70%, rgba(0,0,0,.5) 100%)" }} />
+      {/* Décor 2K du chapitre : fixe, le sentier défile par-dessus. */}
+      <DecorImage
+        src={asset(chap.decor)}
+        fixed
+        overlay="linear-gradient(180deg, rgba(0,0,0,.58) 0%, rgba(0,0,0,.10) 20%, rgba(0,0,0,.10) 74%, rgba(0,0,0,.55) 100%)"
+      />
 
-      <div className="container-x relative mx-auto flex min-h-screen max-w-md flex-col pb-8 pt-20 sm:pt-24">
-        {/* En-tête du chapitre */}
+      {/* Fondu sous la barre fixe : les dalles s'y dissolvent au défilement au
+          lieu de passer en transparence derrière le titre du chapitre. */}
+      <div
+        className="pointer-events-none fixed inset-x-0 top-0 z-20 h-64"
+        style={{ background: "linear-gradient(180deg, rgba(6,10,8,.92) 0%, rgba(6,10,8,.80) 52%, rgba(6,10,8,0) 100%)" }}
+      />
+
+      {/* En-tête du chapitre : fixe, le sentier fait plusieurs écrans de haut. */}
+      <div className="fixed inset-x-0 top-20 z-30 sm:top-24">
+        <div className="container-x mx-auto max-w-md">
         <div className="flex items-center justify-between">
-          <button type="button" onClick={() => router.push("/jeux")} className="flex items-center gap-1.5 rounded-full bg-black/45 px-3.5 py-2 font-game text-xs font-black text-white/85 backdrop-blur">
+          <button type="button" onClick={() => router.push("/jeux")} className="flex items-center gap-1.5 rounded-full border border-white/10 bg-black/60 px-3.5 py-2 font-game text-xs font-black text-white/90 backdrop-blur-md">
             <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.4}><path d="M15 5l-7 7 7 7" strokeLinecap="round" strokeLinejoin="round" /></svg>
             JEUX
           </button>
-          <button type="button" onClick={() => setAlbumOpen(true)} className="flex items-center gap-2 rounded-full bg-black/45 px-3.5 py-2 font-game text-xs font-black text-amber-300 backdrop-blur">
+          <button type="button" onClick={() => setAlbumOpen(true)} className="flex items-center gap-2 rounded-full border border-white/10 bg-black/60 px-3.5 py-2 font-game text-xs font-black text-amber-300 backdrop-blur-md">
             <IcoCards className="h-4 w-4" />
             {cards.length}/{CHEMIN_CHAPITRES.length} CARTES
           </button>
         </div>
 
-        <div className="mt-3 rounded-3xl bg-black/45 px-5 py-3.5 text-center backdrop-blur">
+        <div className="mt-3 rounded-3xl border border-white/10 bg-black/40 px-5 py-3.5 text-center backdrop-blur-md">
           <p className="font-game text-[11px] font-black uppercase tracking-[0.2em] text-white/60">Chapitre {chap.id} · {chap.livre}</p>
           <h1 className="font-game text-2xl font-black" style={{ color: chap.accent }}>{chap.nom}</h1>
           <div className="mx-auto mt-2 h-1.5 w-40 overflow-hidden rounded-full bg-white/15">
@@ -182,13 +218,26 @@ export function CheminScreen() {
           </div>
           <p className="mt-1 font-game text-[11px] font-bold text-white/70">{done}/{chap.etapes.length} étapes · {getCheminXp()} XP</p>
         </div>
+        </div>
+      </div>
+
+      <div className="container-x relative mx-auto flex min-h-screen max-w-md flex-col pb-8 pt-[15.5rem] sm:pt-[17rem]">
 
         {/* Le sentier */}
-        <div className="relative mt-2 w-full flex-1" style={{ minHeight: 440 }}>
-          <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 h-full w-full">
-            <path d={pathD(pts)} fill="none" stroke="rgba(0,0,0,.4)" strokeWidth="7" strokeLinecap="round" />
-            <path d={pathD(pts)} fill="none" stroke="rgba(252,211,77,.9)" strokeWidth="4.5" strokeLinecap="round" strokeDasharray="0.1 7.5" style={{ filter: "drop-shadow(0 1px 1px rgba(0,0,0,.6))" }} />
-          </svg>
+        <div className="relative mt-2 w-full flex-1" style={{ minHeight: Math.max(520, chap.etapes.length * 98) }}>
+          {/* Les pavés du sentier */}
+          {trailDots(pts).map((d, i) => (
+            <span
+              key={`d${i}`}
+              className="pointer-events-none absolute h-[13px] w-[13px] -translate-x-1/2 -translate-y-1/2 rounded-full"
+              style={{
+                left: `${d.x}%`,
+                top: `${d.y}%`,
+                background: "linear-gradient(180deg,#FDE68A,#D9A21B)",
+                boxShadow: "inset 0 1px 0 rgba(255,255,255,.6), 0 2px 4px rgba(0,0,0,.55)",
+              }}
+            />
+          ))}
           {chap.etapes.map((et, i) => {
             const p = pts[i];
             const fait = ouvert && i < done;
@@ -197,7 +246,7 @@ export function CheminScreen() {
             return (
               <div key={i} className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: `${p.x}%`, top: `${p.y}%` }}>
                 {et.coffre ? (
-                  <div className="absolute -right-11 top-0"><ChestSvg open={fait} /></div>
+                  <div className="absolute -right-[52px] -top-1"><Coffre open={fait} className="h-11" /></div>
                 ) : null}
                 <button
                   type="button"
@@ -207,16 +256,27 @@ export function CheminScreen() {
                     setPhase("lesson");
                     buzz(15);
                   }}
-                  className="relative grid h-14 w-14 place-items-center rounded-full font-game text-lg font-black transition-transform active:scale-90"
-                  style={
-                    fait
-                      ? { background: "linear-gradient(180deg,#FCD34D,#F59E0B)", color: "#4a2600", boxShadow: "0 4px 0 #92400e, 0 6px 14px rgba(0,0,0,.5)" }
-                      : courant
-                        ? { background: `linear-gradient(180deg,${chap.accent},${chap.accent}cc)`, color: "#08130a", boxShadow: `0 4px 0 rgba(0,0,0,.45), 0 0 22px ${chap.accent}88`, animation: "chemin-pulse 1.6s ease-in-out infinite" }
-                        : { background: "rgba(12,12,11,.72)", color: "rgba(243,243,237,.45)", border: "2px solid rgba(255,255,255,.18)", boxShadow: "0 4px 0 rgba(0,0,0,.4)" }
-                  }
+                  ref={courant ? curNodeRef : undefined}
+                  aria-label={`Étape ${i + 1}${fait ? " (terminée)" : verrou ? " (verrouillée)" : ""}`}
+                  className="relative block h-[62px] w-[62px] transition-transform active:scale-90"
+                  style={courant ? { animation: "chemin-pulse 1.6s ease-in-out infinite" } : undefined}
                 >
-                  {fait ? <IcoCheck /> : verrou ? <IcoLock /> : i + 1}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={asset(fait ? "/img/chemin/ui/dalle-or.png" : courant ? "/img/chemin/ui/dalle-active.png" : "/img/chemin/ui/dalle-verrou.png")}
+                    alt=""
+                    aria-hidden
+                    className="h-full w-full object-contain drop-shadow-[0_4px_7px_rgba(0,0,0,.6)]"
+                  />
+                  {/* Le chiffre ou la coche se pose au centre de la face : les
+                      trois dalles partagent le même gabarit, donc rien ne bouge
+                      d'un état à l'autre. */}
+                  <span
+                    className="pointer-events-none absolute inset-0 grid place-items-center font-game text-[19px] font-black"
+                    style={{ color: fait ? "#5a3208" : courant ? "#08340f" : "rgba(243,243,237,.42)" }}
+                  >
+                    {fait ? <IcoCheck className="h-6 w-6" /> : verrou ? <IcoLock className="h-5 w-5" /> : i + 1}
+                  </span>
                 </button>
               </div>
             );
@@ -229,7 +289,7 @@ export function CheminScreen() {
             type="button"
             disabled={chapIdx === 0}
             onClick={() => setChapIdx((i) => Math.max(0, i - 1))}
-            className="flex-1 rounded-2xl bg-black/45 py-3 font-game text-xs font-black text-white/80 backdrop-blur disabled:opacity-30"
+            className="flex-1 rounded-2xl border border-white/10 bg-black/65 py-3 font-game text-xs font-black text-white/85 backdrop-blur-md disabled:opacity-40"
           >
             CHAPITRE PRÉCÉDENT
           </button>
@@ -237,7 +297,7 @@ export function CheminScreen() {
             type="button"
             disabled={chapIdx + 1 >= CHEMIN_CHAPITRES.length || !cheminChapitreOuvert(CHEMIN_CHAPITRES, chapIdx + 1)}
             onClick={() => setChapIdx((i) => Math.min(CHEMIN_CHAPITRES.length - 1, i + 1))}
-            className="flex-1 rounded-2xl py-3 font-game text-xs font-black text-[#08130a] disabled:opacity-30"
+            className="flex-1 rounded-2xl py-3 font-game text-xs font-black text-[#08130a] shadow-[0_4px_0_rgba(0,0,0,.45)] disabled:opacity-40 disabled:shadow-none"
             style={{ background: `linear-gradient(180deg,${chap.accent},${chap.accent}bb)` }}
           >
             CHAPITRE SUIVANT
@@ -258,9 +318,9 @@ export function CheminScreen() {
 }
 
 /** Décor de chapitre : ne s'affiche qu'une fois réellement chargé. */
-function DecorImage({ src }: { src: string }) {
+function DecorImage({ src, fixed = false, overlay }: { src: string; fixed?: boolean; overlay?: string }) {
   const [ok, setOk] = useState(false);
-  return (
+  const img = (
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={src}
@@ -274,6 +334,13 @@ function DecorImage({ src }: { src: string }) {
       className="pointer-events-none absolute inset-0 h-full w-full object-cover transition-opacity duration-500"
       style={{ opacity: ok ? 1 : 0 }}
     />
+  );
+  if (!fixed) return img;
+  return (
+    <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+      {img}
+      {overlay ? <div className="absolute inset-0" style={{ background: overlay }} /> : null}
+    </div>
   );
 }
 
@@ -350,9 +417,12 @@ function CheminLesson({ chap, stepIdx, onDone }: { chap: CheminChapitre; stepIdx
   }
 
   return (
-    <div className="dark-ctx min-h-screen pb-16 pt-20 text-white sm:pt-24" style={{ background: `linear-gradient(180deg, ${chap.fallback[0]}, ${chap.fallback[2]})` }}>
+    <div className="dark-ctx relative isolate min-h-screen overflow-hidden pb-16 pt-20 text-white sm:pt-24" style={{ background: `linear-gradient(180deg, ${chap.fallback[0]}, ${chap.fallback[2]})` }}>
       <PlansDarkBg />
-      <div className="container-x mx-auto max-w-md">
+      {/* Le décor du chapitre continue derrière la leçon, très assombri pour
+          que le récit et les exercices restent parfaitement lisibles. */}
+      <DecorImage src={asset(chap.decor)} fixed overlay="rgba(6,10,8,.82)" />
+      <div className="container-x relative mx-auto max-w-md">
         {/* Barre de progression de l'étape */}
         <div className="flex items-center gap-3">
           <button type="button" onClick={onDone} className="grid h-9 w-9 place-items-center rounded-full bg-black/40 text-white/75" aria-label="Quitter">
@@ -390,7 +460,7 @@ function CheminLesson({ chap, stepIdx, onDone }: { chap: CheminChapitre; stepIdx
             {gains ? <p className="mt-3 font-game text-lg font-black text-amber-300">+{gains.xp} XP</p> : null}
             {gains && gains.coffreGemmes > 0 ? (
               <div className="mt-4 flex items-center justify-center gap-3 rounded-2xl border border-amber-400/40 bg-amber-400/10 px-4 py-3">
-                <ChestSvg open className="h-10 w-10" />
+                <Coffre open className="h-14" />
                 <p className="font-game text-sm font-black text-amber-300">COFFRE OUVERT · +{gains.coffreGemmes} gemmes</p>
               </div>
             ) : null}
