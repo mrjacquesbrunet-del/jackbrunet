@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { asset } from "@/lib/asset";
+import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
 
 const AUDIO = "https://jackbrunet.com/audio/soaking-jack-brunet.mp3";
 
@@ -13,6 +14,7 @@ export default function SoakingPage() {
   const audio = asset(AUDIO);
   return (
     <section className="dark-ctx bg-topo-dark min-h-screen pt-28 pb-16 sm:pt-32">
+      <PlansDarkBg />
       <div className="container-x">
         <div className="mx-auto max-w-3xl text-center">
           <span className="eyebrow">Ton cadeau est prêt</span>

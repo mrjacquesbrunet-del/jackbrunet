@@ -15,6 +15,7 @@ import {
 import { CHEMIN_CHAPITRES } from "@/config/chemin";
 import { asset } from "@/lib/asset";
 import { submitWeeklyPoints } from "@/lib/game-scores";
+import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
 import { bumpAchv, markDayStreak } from "@/lib/achievements";
 import { checkLocalBadges } from "@/lib/badges";
 
@@ -155,6 +156,7 @@ export function CheminScreen() {
 
   return (
     <div className="dark-ctx relative min-h-screen overflow-hidden text-white" style={{ background: `linear-gradient(180deg, ${chap.fallback[0]}, ${chap.fallback[1]} 55%, ${chap.fallback[2]})` }}>
+      <PlansDarkBg />
       {/* Décor 2K du chapitre (dès qu'il est installé) */}
       <DecorImage src={asset(chap.decor)} />
       <div className="pointer-events-none absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.05) 22%, rgba(0,0,0,.05) 70%, rgba(0,0,0,.5) 100%)" }} />
@@ -344,6 +346,7 @@ function CheminLesson({ chap, stepIdx, onDone }: { chap: CheminChapitre; stepIdx
 
   return (
     <div className="dark-ctx min-h-screen pb-16 pt-20 text-white sm:pt-24" style={{ background: `linear-gradient(180deg, ${chap.fallback[0]}, ${chap.fallback[2]})` }}>
+      <PlansDarkBg />
       <div className="container-x mx-auto max-w-md">
         {/* Barre de progression de l'étape */}
         <div className="flex items-center gap-3">
