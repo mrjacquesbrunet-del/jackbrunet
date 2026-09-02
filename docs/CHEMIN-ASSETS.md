@@ -102,9 +102,22 @@ et cinématique que Le Chemin.
 | `public/img/jeux/decors/chronologie.jpg` | horloge cosmique et sablier, nébuleuse violette |
 | `public/img/jeux/decors/defi.jpg` | arène de duel, deux podiums et trophée |
 
-Format : 1000×1778, JPEG progressif, ~200 Ko pièce (1,2 Mo au total). Les
-trois scènes les plus sombres ont été éclaircies (gamma 0,68) pour rester
-lisibles sous le voile.
+Format : 1000×1778, JPEG progressif, ~160 Ko pièce (0,95 Mo au total).
+
+**Style : celui des illustrations du hub, pas celui du Chemin.** Une
+première version en rendu Pixar cinématique / photoréaliste a été refusée
+par Jack : elle ne collait pas à la DA de l'app. Les décors définitifs sont
+en **3D cartoon glossy** — formes rondes et épaisses, rochers violets,
+touffes d'herbe vertes, étoiles dorées à quatre branches, fond violet
+sombre avec un halo de couleur — exactement le rendu des illustrations
+`public/img/jeux/*.png`.
+
+Méthode : les illustrations du hub ont été **téléversées dans Magnific**
+et passées en `references` (type `image`) à `images_generate`. C'est ce qui
+verrouille le style ; un prompt seul ne suffit pas et repart en
+photoréalisme. Références utilisées : l'illustration Mémoriser (livre +
+ampoule + cœur) et l'illustration Chronologie (chronomètre + parchemin).
+À refaire pour tout nouveau décor de jeu.
 
 Mise en œuvre :
 

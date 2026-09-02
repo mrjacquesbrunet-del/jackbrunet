@@ -170,7 +170,7 @@ export function GameDecor({ src }: { src: string }) {
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, rgba(12,12,11,.74) 0%, rgba(12,12,11,.54) 24%, rgba(12,12,11,.60) 58%, rgba(12,12,11,.90) 100%)",
+            "linear-gradient(180deg, rgba(12,12,11,.80) 0%, rgba(12,12,11,.64) 24%, rgba(12,12,11,.70) 58%, rgba(12,12,11,.92) 100%)",
         }}
       />
     </div>
