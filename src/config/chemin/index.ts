@@ -16,7 +16,10 @@ import { CHAPITRE_SAMUEL } from "./chapitre-samuel";
 import { CHAPITRE_DAVID } from "./chapitre-david";
 import { CHAPITRE_SAUL } from "./chapitre-saul";
 import { CHAPITRE_DAVID_ROI } from "./chapitre-david-roi";
+import { CHAPITRE_PSAUMES } from "./chapitre-psaumes";
 import { CHAPITRE_SALOMON } from "./chapitre-salomon";
+import { CHAPITRE_PROVERBES } from "./chapitre-proverbes";
+import { CHAPITRE_ECCLESIASTE } from "./chapitre-ecclesiaste";
 import { CHAPITRE_ELIE } from "./chapitre-elie";
 import { CHAPITRE_ELISEE } from "./chapitre-elisee";
 import { CHAPITRE_JONAS } from "./chapitre-jonas";
@@ -61,7 +64,8 @@ import { CHAPITRE_APOCALYPSE } from "./chapitre-apocalypse";
  * aussi (Moïse, la Pâque, la mer Rouge, le Sinaï), puis la conquête et les
  * juges (Josué, Gédéon, Samson, Ruth, Samuel, David et Goliath), puis les
  * rois et les premiers prophètes (Saül, David roi, Salomon, Élie, Élisée).
- * rois et les premiers prophètes (Saül, David roi, Salomon, Élie, Élisée),
+ * rois, la sagesse et les premiers prophètes (Saül, David roi, les Psaumes,
+ * Salomon, les Proverbes, l'Ecclésiaste, Élie, Élisée),
  * puis les grands livres prophétiques (Jonas, Ésaïe, Job, Jérémie, Ézéchiel).
  * L'Ancien Testament se referme sur l'exil et le retour (Daniel, les petits
  * prophètes, Esther, Néhémie) et sur l'attente du Messie.
@@ -95,7 +99,10 @@ export const CHEMIN_CHAPITRES: CheminChapitre[] = [
   CHAPITRE_DAVID,
   CHAPITRE_SAUL,
   CHAPITRE_DAVID_ROI,
+  CHAPITRE_PSAUMES,
   CHAPITRE_SALOMON,
+  CHAPITRE_PROVERBES,
+  CHAPITRE_ECCLESIASTE,
   CHAPITRE_ELIE,
   CHAPITRE_ELISEE,
   CHAPITRE_JONAS,

@@ -538,24 +538,25 @@ condition est d'avoir passé `migration-chemin.sql`.
 
 ## Le panorama complet (état actuel)
 
-Le Chemin va de la Création à la nouvelle Jérusalem : **55 chapitres, 448
-étapes, 1 344 exercices, 55 cartes de collection**.
+Le Chemin va de la Création à la nouvelle Jérusalem : **58 chapitres, 472
+étapes, 1 416 exercices, 58 cartes de collection**.
 
 - **Genèse** (1-5) : Création, Noé, Abraham, Jacob, Joseph
 - **Exode** (6-9) : Moïse, la Pâque, la mer Rouge, le Sinaï
 - **Conquête et juges** (10-15) : Josué, Gédéon, Samson, Ruth, Samuel, David et Goliath
-- **Rois et premiers prophètes** (16-20) : Saül, David roi, Salomon, Élie, Élisée
-- **Prophètes et exil** (21-30) : Jonas, Ésaïe, Job, Jérémie, Ézéchiel, Daniel,
+- **Rois et sagesse** (16-23) : Saül, David roi, les Psaumes, Salomon, les
+  Proverbes, l'Ecclésiaste, Élie, Élisée
+- **Prophètes et exil** (24-33) : Jonas, Ésaïe, Job, Jérémie, Ézéchiel, Daniel,
   les petits prophètes, Esther, Néhémie, l'attente du Messie
-- **Évangiles** (31-45) : la naissance, Jean-Baptiste, la tentation, les premiers
+- **Évangiles** (34-48) : la naissance, Jean-Baptiste, la tentation, les premiers
   disciples, le sermon sur la montagne, la tempête apaisée, les cinq pains, les
   paraboles, la transfiguration, les rencontres, Lazare, l'entrée à Jérusalem,
   la Cène, la croix, la résurrection
-- **Actes** (46-50) : la Pentecôte, l'Église naissante, la conversion de Saul,
+- **Actes** (49-53) : la Pentecôte, l'Église naissante, la conversion de Saul,
   les voyages de Paul, jusqu'à Rome
-- **Les épîtres** (51-54) : les lettres de Paul, Jacques, Hébreux, puis Pierre,
+- **Les épîtres** (54-57) : les lettres de Paul, Jacques, Hébreux, puis Pierre,
   Jean et Jude
-- **L'Apocalypse** (55)
+- **L'Apocalypse** (58)
 
 ### Le numéro affiché n'est PAS l'`id`
 

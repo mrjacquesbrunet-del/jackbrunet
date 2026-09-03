@@ -23,12 +23,12 @@ export const CHAPITRE_ATTENTE: CheminChapitre = {
   etapes: [
     {
       recit:
-        "David avait chanté : « L'Éternel est mon berger : je ne manquerai de rien. Il me fait reposer dans de verts pâturages, il me dirige près des eaux paisibles. Quand je marche dans la vallée de l'ombre de la mort, je ne crains aucun mal, car tu es avec moi. »",
-      ref: "Psaumes 23",
+        "Bien avant les rois de Perse et de Rome, Ésaïe avait donné un signe au roi Achaz : « C'est pourquoi le Seigneur lui-même vous donnera un signe : voici, la jeune fille deviendra enceinte, elle enfantera un fils, et elle lui donnera le nom d'Emmanuel » — ce qui signifie : Dieu avec nous.",
+      ref: "Ésaïe 7:14",
       exercices: [
-        { type: "verset", ref: "Psaumes 23:1", texte: "L'Éternel est mon berger je ne manquerai de rien" },
-        { type: "qcm", q: "Pourquoi le psalmiste ne craint-il aucun mal dans la vallée ?", choix: ["Parce que Dieu est avec lui", "Parce qu'il est armé", "Parce que la vallée est courte", "Parce qu'il n'est pas seul en chemin"], bonne: 0 },
-        { type: "qcm", q: "Qui a composé ce psaume ?", choix: ["David", "Salomon", "Asaph", "Moïse"], bonne: 0, niveau: "moyen" },
+        { type: "qcm", q: "Que signifie le nom Emmanuel ?", choix: ["Dieu avec nous", "Dieu sauve", "Prince de la paix", "Le Seigneur règne"], bonne: 0 },
+        { type: "vf", q: "Matthieu citera ce verset au moment de la naissance de Jésus.", vrai: true, ref: "Matthieu 1:23", niveau: "moyen" },
+        { type: "qcm", q: "À qui ce signe est-il d'abord donné ?", choix: ["Au roi Achaz", "Au roi Ézéchias", "Au peuple en exil", "Aux prêtres du temple"], bonne: 0, niveau: "expert" },
       ],
     },
     {
