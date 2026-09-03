@@ -161,7 +161,7 @@ export function CheminScreen() {
   const ouvert = cheminChapitreOuvert(CHEMIN_CHAPITRES, chapIdx);
 
   return (
-    <div className="dark-ctx relative isolate min-h-screen text-white" style={{ background: `linear-gradient(180deg, ${chap.fallback[0]}, ${chap.fallback[1]} 55%, ${chap.fallback[2]})` }}>
+    <div className="dark-ctx relative min-h-screen text-white" style={{ background: `linear-gradient(180deg, ${chap.fallback[0]}, ${chap.fallback[1]} 55%, ${chap.fallback[2]})` }}>
       <PlansDarkBg />
       {/* Fondu sous la barre fixe : les dalles s'y dissolvent au défilement au
           lieu de passer en transparence derrière le titre du chapitre. */}
@@ -325,12 +325,15 @@ function DecorImage({ src, fixed = false, overlay }: { src: string; fixed?: bool
 
 /* ==================== L'album de cartes ==================== */
 
-function AlbumCartes({ onClose }: { onClose: () => void }) {
+export function AlbumCartes({ onClose }: { onClose: () => void }) {
   const cards = cheminCards();
   return (
     <div className="fixed inset-0 z-[120] flex items-end justify-center sm:items-center">
       <button type="button" aria-label="Fermer" onClick={onClose} className="absolute inset-0 bg-night-950/85 backdrop-blur-sm" />
-      <div className="relative max-h-[82vh] w-full max-w-md overflow-y-auto rounded-t-3xl border border-white/10 bg-night-900 p-5 sm:rounded-3xl" style={{ animation: "qm-optin .3s ease-out" }}>
+      <div
+        className="relative max-h-[88svh] w-full max-w-md overflow-y-auto overscroll-contain rounded-t-3xl border border-white/10 bg-night-900 p-5 sm:max-h-[86svh] sm:rounded-3xl"
+        style={{ animation: "qm-optin .3s ease-out", paddingBottom: "calc(env(safe-area-inset-bottom) + 6rem)" }}
+      >
         <p className="text-center font-game text-lg font-black text-amber-300">MES CARTES</p>
         <p className="mt-1 text-center text-xs text-white/55">Termine le chapitre d&apos;un personnage pour gagner sa carte.</p>
         <div className="mt-4 grid grid-cols-2 gap-3">

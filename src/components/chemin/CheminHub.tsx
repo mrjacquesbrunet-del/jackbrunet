@@ -18,6 +18,7 @@ import { getChronoXp } from "@/lib/chrono";
 import { getQuizCoins } from "@/lib/quiz";
 import { submitGameScore } from "@/lib/game-scores";
 import { ScoreBoard } from "@/components/games/ScoreBoard";
+import { AlbumCartes } from "./CheminScreen";
 import {
   ArcadeShell,
   HubHeader,
@@ -30,6 +31,15 @@ import {
 } from "@/components/games/ArcadeUI";
 
 const OR = "#FCD34D";
+
+/** Icône « cartes de collection » (trait, charte : pas d'emoji). */
+function IcoCards({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={`${className} fill-none stroke-current`} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M8 5h9a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zM6 17.5 4.2 6.6a2 2 0 0 1 1.6-2.3L11 3.4" />
+    </svg>
+  );
+}
 
 /** Anneau de progression : la part de chapitres terminés, d'un coup d'œil. */
 function Anneau({ faits, total }: { faits: number; total: number }) {
@@ -146,6 +156,7 @@ export function CheminHub({ onJouer }: { onJouer: (chapIdx: number) => void }) {
   const [name, setName] = useState("");
   const [avatar, setAvatar] = useState<string | null>(null);
   const [xpGlobal, setXpGlobal] = useState(0);
+  const [albumOuvert, setAlbumOuvert] = useState(false);
 
   const p = cheminProgres(CHEMIN_CHAPITRES);
   // Le premier chapitre non terminé : c'est là que « CONTINUER » emmène.
@@ -231,6 +242,16 @@ export function CheminHub({ onJouer }: { onJouer: (chapIdx: number) => void }) {
         {p.etapesFaites === 0 ? "COMMENCER LE CHEMIN" : toutFini ? "REVOIR LE CHEMIN" : "CONTINUER"}
       </button>
 
+      {/* L'album de collection, accessible dès l'accueil. */}
+      <button
+        type="button"
+        onClick={() => setAlbumOuvert(true)}
+        className="mt-3 flex w-full items-center justify-center gap-2.5 rounded-2xl border border-amber-400/40 bg-amber-400/10 py-3.5 font-game text-sm font-black text-amber-300 transition-transform active:scale-[.99]"
+      >
+        <IcoCards className="h-5 w-5" />
+        MES CARTES · {p.cartes}/{p.chapitresTotal}
+      </button>
+
       {/* Les chapitres */}
       <div className="qm-howto mt-4">
         <div className="flex items-center justify-between">
@@ -274,6 +295,8 @@ export function CheminHub({ onJouer }: { onJouer: (chapIdx: number) => void }) {
       <div className="mt-5">
         <ScoreBoard mode="chemin" accent="#4ADE80" title="Classement · Le Chemin" />
       </div>
+
+      {albumOuvert ? <AlbumCartes onClose={() => setAlbumOuvert(false)} /> : null}
     </ArcadeShell>
   );
 }

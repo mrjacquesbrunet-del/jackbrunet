@@ -478,3 +478,20 @@ La rangée de médaillons du profil devenait illisible à mesure que les
 badges s'ajoutaient. `ProfileBadgesRow` gagne une variante `bouton` : une
 entrée « Mes trophées » avec le meilleur palier et le compte
 (« 12 badges sur 38 »), qui ouvre la vitrine complète déjà existante.
+
+### Album de cartes : accès et découpe (11e passe)
+
+Deux corrections sur l'album de collection.
+
+**Il passait sous la barre du bas.** L'album est en `z-[120]`, la barre en
+`z-[60]` — il aurait dû gagner. Mais la racine de la carte du chapitre
+portait `isolate` : elle créait un contexte d'empilement qui enfermait
+l'album, dont le z-index ne pouvait plus dépasser la barre. `isolate` n'y
+sert plus depuis que le décor de la carte est une image en flux : retiré.
+S'ajoute une marge basse de `env(safe-area-inset-bottom) + 6rem` sur le
+panneau, pour que la dernière rangée et le bouton Fermer dégagent la barre
+dans tous les cas.
+
+**Il n'était accessible que depuis la carte d'un chapitre.** `AlbumCartes`
+est maintenant exporté et l'accueil porte un bouton « MES CARTES · n/N »
+sous le bouton de reprise.
