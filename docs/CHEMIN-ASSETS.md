@@ -535,3 +535,43 @@ et non par un lien qui ferait perdre l'étape en cours.
 aucun filtre par jeu**. Tout jeu accepté par `game_submit` entre donc
 automatiquement dans le classement général. Pour Le Chemin, la seule
 condition est d'avoir passé `migration-chemin.sql`.
+
+## Le panorama complet (état actuel)
+
+Le Chemin va de la Création à la nouvelle Jérusalem : **51 chapitres, 416
+étapes, 1 248 exercices, 51 cartes de collection**.
+
+- **Genèse** (1-5) : Création, Noé, Abraham, Jacob, Joseph
+- **Exode** (6-9) : Moïse, la Pâque, la mer Rouge, le Sinaï
+- **Conquête et juges** (10-15) : Josué, Gédéon, Samson, Ruth, Samuel, David et Goliath
+- **Rois et premiers prophètes** (16-20) : Saül, David roi, Salomon, Élie, Élisée
+- **Prophètes et exil** (21-30) : Jonas, Ésaïe, Job, Jérémie, Ézéchiel, Daniel,
+  les petits prophètes, Esther, Néhémie, l'attente du Messie
+- **Évangiles** (31-45) : la naissance, Jean-Baptiste, la tentation, les premiers
+  disciples, le sermon sur la montagne, la tempête apaisée, les cinq pains, les
+  paraboles, la transfiguration, les rencontres, Lazare, l'entrée à Jérusalem,
+  la Cène, la croix, la résurrection
+- **Actes et lettres** (46-51) : la Pentecôte, l'Église naissante, la conversion
+  de Saul, les voyages de Paul, jusqu'à Rome, l'Apocalypse
+
+### Deux règles de contenu
+
+1. **Le récit est biblique, sans édulcorer.** Saül perd le royaume pour avoir
+   désobéi, David commet l'adultère et fait tuer Urie, Salomon se détourne dans
+   sa vieillesse, Pierre renie. C'est un choix explicite de Jack : la repentance
+   de David n'a de sens qu'après sa chute.
+2. **Rien de mystique ni d'occulte dans les images.** Pas de masques, de figures
+   encapuchonnées, de statues d'idoles mises en valeur ni de symboles occultes.
+   Les visions (Ézéchiel, l'Apocalypse) sont rendues par la lumière et le
+   paysage, jamais par des créatures inquiétantes.
+
+### Vérification automatique des références
+
+`scripts/verifier-refs-chemin.mjs` rejoue l'analyse exacte de `PassagePanel`
+sur **chaque** `ref:` des chapitres et vérifie que le livre, le chapitre et les
+versets existent dans le texte embarqué (`public/bible/`). À faire tourner après
+toute modification de contenu :
+
+```
+node scripts/verifier-refs-chemin.mjs
+```

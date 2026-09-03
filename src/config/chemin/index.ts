@@ -39,6 +39,17 @@ import { CHAPITRE_PAINS } from "./chapitre-pains";
 import { CHAPITRE_PARABOLES } from "./chapitre-paraboles";
 import { CHAPITRE_TRANSFIGURATION } from "./chapitre-transfiguration";
 import { CHAPITRE_RENCONTRES } from "./chapitre-rencontres";
+import { CHAPITRE_LAZARE } from "./chapitre-lazare";
+import { CHAPITRE_RAMEAUX } from "./chapitre-rameaux";
+import { CHAPITRE_CENE } from "./chapitre-cene";
+import { CHAPITRE_CROIX } from "./chapitre-croix";
+import { CHAPITRE_RESURRECTION } from "./chapitre-resurrection";
+import { CHAPITRE_PENTECOTE } from "./chapitre-pentecote";
+import { CHAPITRE_EGLISE } from "./chapitre-eglise";
+import { CHAPITRE_PAUL } from "./chapitre-paul";
+import { CHAPITRE_VOYAGES } from "./chapitre-voyages";
+import { CHAPITRE_ROME } from "./chapitre-rome";
+import { CHAPITRE_APOCALYPSE } from "./chapitre-apocalypse";
 
 /**
  * Les chapitres du Chemin, dans l'ordre du récit biblique.
@@ -52,8 +63,9 @@ import { CHAPITRE_RENCONTRES } from "./chapitre-rencontres";
  * prophètes, Esther, Néhémie) et sur l'attente du Messie.
  * Puis les Évangiles, pris en détail : la naissance, Jean-Baptiste, la
  * tentation, les premiers disciples, le sermon sur la montagne.
- * À venir : la suite du ministère de Jésus, la croix et la résurrection,
- * les Actes, Paul et l'Apocalypse.
+ * Les Évangiles vont jusqu'à la croix et à la résurrection, puis les Actes
+ * (la Pentecôte, l'Église naissante, Paul), ses lettres, et l'Apocalypse.
+ * Le Chemin va donc désormais de la Création à la nouvelle Jérusalem.
  */
 export const CHEMIN_CHAPITRES: CheminChapitre[] = [
   CHAPITRE_CREATION,
@@ -96,4 +108,15 @@ export const CHEMIN_CHAPITRES: CheminChapitre[] = [
   CHAPITRE_PARABOLES,
   CHAPITRE_TRANSFIGURATION,
   CHAPITRE_RENCONTRES,
+  CHAPITRE_LAZARE,
+  CHAPITRE_RAMEAUX,
+  CHAPITRE_CENE,
+  CHAPITRE_CROIX,
+  CHAPITRE_RESURRECTION,
+  CHAPITRE_PENTECOTE,
+  CHAPITRE_EGLISE,
+  CHAPITRE_PAUL,
+  CHAPITRE_VOYAGES,
+  CHAPITRE_ROME,
+  CHAPITRE_APOCALYPSE,
 ];
