@@ -19,6 +19,16 @@ import { CHAPITRE_DAVID_ROI } from "./chapitre-david-roi";
 import { CHAPITRE_SALOMON } from "./chapitre-salomon";
 import { CHAPITRE_ELIE } from "./chapitre-elie";
 import { CHAPITRE_ELISEE } from "./chapitre-elisee";
+import { CHAPITRE_JONAS } from "./chapitre-jonas";
+import { CHAPITRE_ESAIE } from "./chapitre-esaie";
+import { CHAPITRE_JOB } from "./chapitre-job";
+import { CHAPITRE_JEREMIE } from "./chapitre-jeremie";
+import { CHAPITRE_EZECHIEL } from "./chapitre-ezechiel";
+import { CHAPITRE_DANIEL } from "./chapitre-daniel";
+import { CHAPITRE_OSEE_AMOS } from "./chapitre-osee-amos";
+import { CHAPITRE_ESTHER } from "./chapitre-esther";
+import { CHAPITRE_NEHEMIE } from "./chapitre-nehemie";
+import { CHAPITRE_ATTENTE } from "./chapitre-attente";
 
 /**
  * Les chapitres du Chemin, dans l'ordre du récit biblique.
@@ -26,9 +36,11 @@ import { CHAPITRE_ELISEE } from "./chapitre-elisee";
  * aussi (Moïse, la Pâque, la mer Rouge, le Sinaï), puis la conquête et les
  * juges (Josué, Gédéon, Samson, Ruth, Samuel, David et Goliath), puis les
  * rois et les premiers prophètes (Saül, David roi, Salomon, Élie, Élisée).
- * À venir : Job, les prophètes (Ésaïe, Jérémie, Ézéchiel, Daniel, Osée,
- * Amos, Jonas), Esther et Néhémie, puis Jésus (plusieurs chapitres), les
- * Actes, Paul et l'Apocalypse.
+ * rois et les premiers prophètes (Saül, David roi, Salomon, Élie, Élisée),
+ * puis les grands livres prophétiques (Jonas, Ésaïe, Job, Jérémie, Ézéchiel).
+ * L'Ancien Testament se referme sur l'exil et le retour (Daniel, les petits
+ * prophètes, Esther, Néhémie) et sur l'attente du Messie.
+ * À venir : Jésus (plusieurs chapitres), les Actes, Paul et l'Apocalypse.
  */
 export const CHEMIN_CHAPITRES: CheminChapitre[] = [
   CHAPITRE_CREATION,
@@ -51,4 +63,14 @@ export const CHEMIN_CHAPITRES: CheminChapitre[] = [
   CHAPITRE_SALOMON,
   CHAPITRE_ELIE,
   CHAPITRE_ELISEE,
+  CHAPITRE_JONAS,
+  CHAPITRE_ESAIE,
+  CHAPITRE_JOB,
+  CHAPITRE_JEREMIE,
+  CHAPITRE_EZECHIEL,
+  CHAPITRE_DANIEL,
+  CHAPITRE_OSEE_AMOS,
+  CHAPITRE_ESTHER,
+  CHAPITRE_NEHEMIE,
+  CHAPITRE_ATTENTE,
 ];
