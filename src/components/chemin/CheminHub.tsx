@@ -243,7 +243,7 @@ export function CheminHub({ onJouer }: { onJouer: (chapIdx: number) => void }) {
           ))}
         </div>
         <p className="mt-3 text-center text-[11px] font-semibold leading-snug text-white/55">
-          D&apos;autres chapitres arrivent : Abraham, Joseph, Moïse, David, Jésus, l&apos;Apocalypse…
+          La Genèse et l&apos;Exode sont complets. À venir : Josué, David, Élie, Daniel, Jonas, Esther, Jésus, l&apos;Apocalypse…
         </p>
       </div>
 

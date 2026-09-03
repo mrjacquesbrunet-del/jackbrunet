@@ -395,3 +395,47 @@ classement reste vide.
 **pas** dans la liste blanche SQL — ses scores sont donc rejetés
 silencieusement depuis toujours. Non corrigé ici, c'est une décision
 produit (ça ferait entrer le jeu caché dans le classement général).
+
+## Genèse et Exode complets (9e passe)
+
+Sept chapitres ajoutés, ce qui achève la Genèse et l'Exode :
+
+| # | Chapitre | Livre | Étapes | Carte |
+| --- | --- | --- | --- | --- |
+| 3 | Abraham | Genèse 12-22 | 10 | Abraham |
+| 4 | Jacob | Genèse 25-33 | 8 | Jacob |
+| 5 | Joseph | Genèse 37-50 | 10 | Joseph |
+| 6 | Moïse | Exode 1-4 | 8 | Moïse |
+| 7 | La Pâque | Exode 5-13 | 8 | Aaron |
+| 8 | La mer Rouge | Exode 13-17 | 8 | Marie |
+| 9 | Le Sinaï | Exode 19-34 | 10 | Josué |
+
+Soit 62 étapes et 186 exercices de plus, tous types confondus (questions,
+vrai/faux, mot manquant, chronologie, qui suis-je, verset à reconstruire),
+avec des niveaux moyen et expert répartis sur l'ensemble.
+
+### Relevé des sentiers : deux détecteurs
+
+Les nouvelles cartes n'ont pas toutes le même contraste. Un seul détecteur
+ne suffit pas :
+
+- **mode « clair »** — seuil à 26 sous le maximum de luminance de la ligne.
+  Précis quand le sentier est nettement l'élément le plus lumineux
+  (Abraham, Jacob, Joseph, la mer Rouge, le Sinaï).
+- **mode « sombre »** — seuil au percentile (16 % les plus clairs). Seul
+  capable de trouver le sentier sur les cartes de nuit (Moïse, la Pâque),
+  où un seuil absolu ne renvoyait plus une seule ligne.
+
+Le mode « sombre » appliqué au Sinaï, en revanche, perdait le sentier et
+collait les dalles contre le bord gauche : **le mode se choisit par carte**,
+et il faut toujours vérifier visuellement le relevé.
+
+Borner le haut du parcours reste indispensable : sans cela le relevé monte
+sur l'horizon (Abraham), les pyramides (Joseph), le buisson ardent (Moïse),
+la lune (la Pâque) ou la lumière du sommet (le Sinaï).
+
+### Piège d'écriture
+
+Un guillemet droit imbriqué dans une chaîne TypeScript la referme et casse
+la compilation — c'est arrivé sur « Celui qui s'appelle "je suis" ». Dans
+les récits, toujours des guillemets typographiques.
