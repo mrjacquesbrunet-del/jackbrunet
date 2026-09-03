@@ -13,6 +13,7 @@ import {
   type CheminNiveau,
   LABEL_NIVEAU,
   defiEtape,
+  numeroChapitre,
 } from "@/lib/chemin";
 import { CHEMIN_CHAPITRES } from "@/config/chemin";
 import { asset } from "@/lib/asset";
@@ -186,7 +187,7 @@ export function CheminScreen() {
         </div>
 
         <div className="mt-3 rounded-3xl border border-white/10 bg-black/40 px-5 py-3.5 text-center backdrop-blur-md">
-          <p className="font-game text-[11px] font-black uppercase tracking-[0.2em] text-white/60">Chapitre {chap.id} · {chap.livre}</p>
+          <p className="font-game text-[11px] font-black uppercase tracking-[0.2em] text-white/60">Chapitre {chapIdx + 1} · {chap.livre}</p>
           <h1 className="font-game text-2xl font-black" style={{ color: chap.accent }}>{chap.nom}</h1>
           <div className="mx-auto mt-2 h-1.5 w-40 overflow-hidden rounded-full bg-white/15">
             <i className="block h-full rounded-full" style={{ width: `${(done / chap.etapes.length) * 100}%`, background: GOLD }} />
@@ -417,7 +418,7 @@ function CheminLesson({ chap, stepIdx, onDone }: { chap: CheminChapitre; stepIdx
           <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-black/40">
             <i className="block h-full rounded-full transition-all duration-300" style={{ width: `${(Math.min(screen, total + 1) / (total + 1)) * 100}%`, background: `linear-gradient(90deg, ${chap.accent}, ${GOLD})` }} />
           </div>
-          <span className="font-game text-xs font-black text-white/70">{chap.id}·{stepIdx + 1}</span>
+          <span className="font-game text-xs font-black text-white/70">{numeroChapitre(CHEMIN_CHAPITRES, chap.id)}·{stepIdx + 1}</span>
         </div>
 
         {screen === 0 ? (

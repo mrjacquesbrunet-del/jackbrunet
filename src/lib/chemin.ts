@@ -45,6 +45,18 @@ export const LABEL_NIVEAU: Record<CheminNiveau, string> = {
   expert: "Expert",
 };
 
+/**
+ * Le numéro de chapitre AFFICHÉ au joueur : c'est la position dans la route,
+ * pas l'`id`. L'`id` est la clé de sauvegarde de la progression : il ne bouge
+ * jamais, sinon un joueur retrouverait son avancement sur un autre chapitre.
+ * La position, elle, change dès qu'on insère un chapitre au milieu du récit —
+ * ce qui doit rester possible sans rien casser.
+ */
+export function numeroChapitre(chapitres: CheminChapitre[], id: number): number {
+  const i = chapitres.findIndex((c) => c.id === id);
+  return i === -1 ? id : i + 1;
+}
+
 /** L'intitulé du défi d'une étape, déduit de ses exercices. */
 export function defiEtape(e: CheminEtape): string {
   const t = e.exercices[0]?.type;

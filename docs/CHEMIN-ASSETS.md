@@ -538,8 +538,8 @@ condition est d'avoir passé `migration-chemin.sql`.
 
 ## Le panorama complet (état actuel)
 
-Le Chemin va de la Création à la nouvelle Jérusalem : **51 chapitres, 416
-étapes, 1 248 exercices, 51 cartes de collection**.
+Le Chemin va de la Création à la nouvelle Jérusalem : **55 chapitres, 448
+étapes, 1 344 exercices, 55 cartes de collection**.
 
 - **Genèse** (1-5) : Création, Noé, Abraham, Jacob, Joseph
 - **Exode** (6-9) : Moïse, la Pâque, la mer Rouge, le Sinaï
@@ -551,8 +551,25 @@ Le Chemin va de la Création à la nouvelle Jérusalem : **51 chapitres, 416
   disciples, le sermon sur la montagne, la tempête apaisée, les cinq pains, les
   paraboles, la transfiguration, les rencontres, Lazare, l'entrée à Jérusalem,
   la Cène, la croix, la résurrection
-- **Actes et lettres** (46-51) : la Pentecôte, l'Église naissante, la conversion
-  de Saul, les voyages de Paul, jusqu'à Rome, l'Apocalypse
+- **Actes** (46-50) : la Pentecôte, l'Église naissante, la conversion de Saul,
+  les voyages de Paul, jusqu'à Rome
+- **Les épîtres** (51-54) : les lettres de Paul, Jacques, Hébreux, puis Pierre,
+  Jean et Jude
+- **L'Apocalypse** (55)
+
+### Le numéro affiché n'est PAS l'`id`
+
+L'`id` d'un chapitre est la **clé de sauvegarde** de la progression
+(`steps[id]`) : il ne doit jamais changer, sinon un joueur retrouverait son
+avancement sur un autre chapitre. Le numéro montré au joueur est sa **position**
+dans `CHEMIN_CHAPITRES` (`numeroChapitre`, dans `src/lib/chemin.ts`).
+
+C'est ce qui permet d'insérer un chapitre au milieu du récit — les épîtres se
+sont glissées entre les Actes et l'Apocalypse — sans toucher à la progression de
+personne. Un nouveau chapitre prend simplement le prochain `id` libre, et sa
+place dans le tableau décide de son numéro. L'ordre du tableau est l'ordre de
+lecture ; c'est lui aussi qui décide du déverrouillage
+(`cheminChapitreOuvert` regarde le chapitre **précédent dans le tableau**).
 
 ### Deux règles de contenu
 

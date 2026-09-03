@@ -49,6 +49,10 @@ import { CHAPITRE_EGLISE } from "./chapitre-eglise";
 import { CHAPITRE_PAUL } from "./chapitre-paul";
 import { CHAPITRE_VOYAGES } from "./chapitre-voyages";
 import { CHAPITRE_ROME } from "./chapitre-rome";
+import { CHAPITRE_LETTRES_PAUL } from "./chapitre-lettres-paul";
+import { CHAPITRE_JACQUES } from "./chapitre-jacques";
+import { CHAPITRE_HEBREUX } from "./chapitre-hebreux";
+import { CHAPITRE_PIERRE_JEAN } from "./chapitre-pierre-jean";
 import { CHAPITRE_APOCALYPSE } from "./chapitre-apocalypse";
 
 /**
@@ -64,7 +68,13 @@ import { CHAPITRE_APOCALYPSE } from "./chapitre-apocalypse";
  * Puis les Évangiles, pris en détail : la naissance, Jean-Baptiste, la
  * tentation, les premiers disciples, le sermon sur la montagne.
  * Les Évangiles vont jusqu'à la croix et à la résurrection, puis les Actes
- * (la Pentecôte, l'Église naissante, Paul), ses lettres, et l'Apocalypse.
+ * (la Pentecôte, l'Église naissante, Paul), les épîtres — Paul, Jacques,
+ * Hébreux, Pierre, Jean et Jude — et l'Apocalypse.
+ *
+ * L'ORDRE DE CE TABLEAU est l'ordre de lecture, et c'est lui qui donne le
+ * numéro affiché au joueur. L'`id` de chaque chapitre est la clé de sa
+ * progression sauvegardée : il ne doit jamais changer, même si un chapitre
+ * s'insère au milieu de la route.
  * Le Chemin va donc désormais de la Création à la nouvelle Jérusalem.
  */
 export const CHEMIN_CHAPITRES: CheminChapitre[] = [
@@ -118,5 +128,9 @@ export const CHEMIN_CHAPITRES: CheminChapitre[] = [
   CHAPITRE_PAUL,
   CHAPITRE_VOYAGES,
   CHAPITRE_ROME,
+  CHAPITRE_LETTRES_PAUL,
+  CHAPITRE_JACQUES,
+  CHAPITRE_HEBREUX,
+  CHAPITRE_PIERRE_JEAN,
   CHAPITRE_APOCALYPSE,
 ];

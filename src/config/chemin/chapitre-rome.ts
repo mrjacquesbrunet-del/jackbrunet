@@ -1,13 +1,14 @@
 import type { CheminChapitre } from "@/lib/chemin";
 
 /**
- * Chapitre 50 — Paul prisonnier jusqu'à Rome, et ses lettres
- * (Actes 21-28, Romains, 1 Corinthiens, Éphésiens, Philippiens). 8 étapes.
+ * Chapitre 50 — Paul prisonnier, de Jérusalem jusqu'à Rome (Actes 21-28),
+ * et son dernier mot à Timothée. Ses lettres ont leurs propres chapitres.
+ * 8 étapes.
  */
 export const CHAPITRE_ROME: CheminChapitre = {
   id: 50,
   nom: "Jusqu'à Rome",
-  livre: "Actes 21-28, les lettres",
+  livre: "Actes 21-28",
   accent: "#D8B4FE",
   decor: "/img/chemin/decor-50.jpg",
   sentier: [{ x: 64.2, y: 94 }, { x: 60.5, y: 84.3 }, { x: 67.2, y: 74.6 }, { x: 46.5, y: 64.9 }, { x: 65, y: 55 }, { x: 46.9, y: 45.3 }, { x: 50.8, y: 35.6 }, { x: 50.5, y: 26 }],
@@ -73,33 +74,33 @@ export const CHAPITRE_ROME: CheminChapitre = {
     },
     {
       recit:
-        "Aux Romains, Paul écrivit : « Tous ont péché et sont privés de la gloire de Dieu ; et ils sont gratuitement justifiés par sa grâce, par le moyen de la rédemption qui est en Jésus-Christ. » Et encore : « Il n'y a maintenant aucune condamnation pour ceux qui sont en Jésus-Christ. »",
-      ref: "Romains 3:23-24",
+        "Plus de quarante hommes firent le serment de ne rien manger avant d'avoir tué Paul. Le fils de la sœur de Paul, ayant eu connaissance du guet-apens, alla dans la forteresse en informer le tribun. Celui-ci fit partir Paul de nuit pour Césarée, escorté de deux cents soldats.",
+      ref: "Actes 23:12-24",
       exercices: [
-        { type: "verset", ref: "Romains 3:23", texte: "Tous ont péché et sont privés de la gloire de Dieu" },
-        { type: "qcm", q: "Comment sommes-nous justifiés, selon ce verset ?", choix: ["Gratuitement, par sa grâce", "Par les œuvres de la loi", "Par les sacrifices", "Par la circoncision"], bonne: 0 },
-        { type: "vf", q: "Paul écrit qu'il n'y a plus aucune condamnation pour ceux qui sont en Christ.", vrai: true, ref: "Romains 8:1", niveau: "moyen" },
+        { type: "qcm", q: "Qui déjoue le complot contre Paul ?", choix: ["Son neveu, le fils de sa sœur", "Un centenier", "Un ange", "Le grand prêtre"], bonne: 0 },
+        { type: "qcm", q: "Qu'avaient juré les conjurés ?", choix: ["De ne rien manger avant de l'avoir tué", "De le livrer à Rome", "De brûler la forteresse", "De payer une rançon"], bonne: 0, niveau: "moyen" },
+        { type: "vf", q: "Paul avait de la famille à Jérusalem.", vrai: true, niveau: "moyen" },
       ],
     },
     {
       recit:
-        "Aux Corinthiens, il écrivit : « Quand je parlerais les langues des hommes et des anges, si je n'ai pas l'amour, je suis un airain qui résonne. L'amour est patient, il est plein de bonté ; il n'est point envieux ; il ne cherche point son intérêt, il ne s'irrite point. Il excuse tout, il croit tout, il espère tout, il supporte tout. L'amour ne périt jamais. »",
-      ref: "1 Corinthiens 13:1-8",
+        "Devant le roi Agrippa, Paul raconta encore une fois sa conversion et conclut : « Je n'ai pas été rebelle à la vision céleste. » Festus s'écria : « Tu es fou, Paul ! Ton grand savoir te fait déraisonner. » — « Je ne suis point fou, très excellent Festus ; je parle le langage de la vérité et du bon sens. » Agrippa dit : « Tu vas bientôt me persuader de devenir chrétien ! » — « Que ce soit bientôt ou que ce soit tard, plût à Dieu que tous ceux qui m'écoutent deviennent tels que je suis, à l'exception de ces liens ! »",
+      ref: "Actes 26:19-29",
       exercices: [
-        { type: "verset", ref: "1 Corinthiens 13:4", texte: "L'amour est patient il est plein de bonté" },
-        { type: "qcm", q: "Que vaut le don des langues sans l'amour ?", choix: ["Un airain qui résonne", "Un trésor caché", "Un don parfait", "Un signe suffisant"], bonne: 0 },
-        { type: "qcm", q: "Que dit Paul de la fin de l'amour ?", choix: ["« L'amour ne périt jamais »", "Qu'il passe avec le temps", "Qu'il cède à la foi", "Qu'il finit avec la mort"], bonne: 0, niveau: "moyen" },
+        { type: "qcm", q: "Que reproche Festus à Paul ?", choix: ["D'être fou à force de savoir", "De mentir", "De fuir", "De comploter"], bonne: 0 },
+        { type: "trou", texte: "« Je n'ai pas été rebelle à la ___ céleste. »", reponse: "vision", leurres: ["voix", "loi", "gloire"], niveau: "moyen" },
+        { type: "qcm", q: "Que souhaite Paul à ceux qui l'écoutent ?", choix: ["Qu'ils deviennent tels que lui — moins les chaînes", "Qu'ils le libèrent", "Qu'ils se taisent", "Qu'ils le suivent à Rome"], bonne: 0, niveau: "moyen" },
       ],
     },
     {
       recit:
-        "De sa prison, il écrivit aux Philippiens : « Réjouissez-vous toujours dans le Seigneur ; je le répète, réjouissez-vous. Ne vous inquiétez de rien ; mais en toute chose faites connaître vos besoins à Dieu par des prières, avec des actions de grâces. Et la paix de Dieu, qui surpasse toute intelligence, gardera vos cœurs et vos pensées en Jésus-Christ. Je puis tout par celui qui me fortifie. »",
-      ref: "Philippiens 4:4-13",
+        "Vers la fin de sa vie, Paul écrivit à Timothée : « Car pour moi, je sers déjà de libation, et le moment de mon départ approche. J'ai combattu le bon combat, j'ai achevé la course, j'ai gardé la foi. Désormais la couronne de justice m'est réservée. » Il ajouta : « Dans ma première défense, personne ne m'a assisté ; tous m'ont abandonné. Mais le Seigneur m'a assisté et m'a fortifié. »",
+      ref: "2 Timothée 4:6-17",
       coffre: true,
       exercices: [
-        { type: "verset", ref: "Philippiens 4:13", texte: "Je puis tout par celui qui me fortifie" },
-        { type: "qcm", q: "D'où Paul écrit-il cette lettre pleine de joie ?", choix: ["De prison", "D'Éphèse", "D'Antioche", "De Corinthe"], bonne: 0 },
-        { type: "qcm", q: "Que fait la paix de Dieu, selon ce texte ?", choix: ["Elle garde les cœurs et les pensées", "Elle supprime les épreuves", "Elle donne la richesse", "Elle explique tout"], bonne: 0, niveau: "moyen" },
+        { type: "verset", ref: "2 Timothée 4:7", texte: "J'ai combattu le bon combat j'ai achevé la course j'ai gardé la foi" },
+        { type: "qui", indices: ["Ma mère et ma grand-mère m'ont transmis la foi.", "Paul m'appelle son enfant bien-aimé.", "Il me dit de ne laisser personne mépriser ma jeunesse.", "Il m'écrit sa toute dernière lettre."], reponse: "Timothée", leurres: ["Tite", "Silas", "Onésime"] },
+        { type: "ordre", consigne: "Remets la fin des Actes dans l'ordre :", items: ["L'arrestation dans le temple", "L'appel à César devant Festus", "Le naufrage et Malte", "Deux ans à Rome, sans obstacle"] },
       ],
     },
   ],

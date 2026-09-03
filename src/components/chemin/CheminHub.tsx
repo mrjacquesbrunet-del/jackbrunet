@@ -121,7 +121,7 @@ function LigneChapitre({
       <span className="min-w-0 flex-1">
         <span className="flex items-center gap-2">
           <span className="font-game text-[10px] font-black uppercase tracking-[0.18em] text-white/45">
-            Chapitre {chap.id}
+            Chapitre {idx + 1}
           </span>
           {termine ? (
             <span className="inline-flex items-center gap-1 rounded-full bg-amber-400/20 px-2 py-0.5 font-game text-[9px] font-black uppercase tracking-wide text-amber-300">
