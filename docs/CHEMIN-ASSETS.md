@@ -439,3 +439,42 @@ la lune (la Pâque) ou la lumière du sommet (le Sinaï).
 Un guillemet droit imbriqué dans une chaîne TypeScript la referme et casse
 la compilation — c'est arrivé sur « Celui qui s'appelle "je suis" ». Dans
 les récits, toujours des guillemets typographiques.
+
+## Références, paliers de badges, vitrine des trophées (10e passe)
+
+### Le passage sous les yeux
+
+Chaque exercice porte désormais son passage : `CheminExercice` gagne un
+`ref?` facultatif (Base), et le répartiteur retombe sur le `ref` de l'étape
+quand l'exercice n'en précise pas. Le cadre l'affiche en pastille à droite,
+et l'écran de récit ouvre sur un bloc « Se référer au passage ». Ne
+renseigner `ref` sur un exercice que s'il porte sur un AUTRE passage que le
+récit qui le précède.
+
+### Trois paliers de plus
+
+`BadgeTier` passe de trois à six valeurs : bronze, argent, or, **platine,
+diamant, élixir**. `BADGE_THRESHOLDS` passe de triplets à sextuplets — les
+trois premiers seuils sont inchangés, personne ne perd un palier acquis.
+
+Les nouveaux seuils sont dérivés de l'or (×2,5, ×6, ×15), **sauf pour les
+badges de série et de rang**, calés à la main : 1400 jours d'affilée en
+prière ou 780 semaines parfaites n'ont aucun sens. Voir les surcharges dans
+`badges.ts` (coeur, fidele, enracine, etoile, invincible, enchaineur,
+frondeur, tireur, millionnaire, missionnaire).
+
+`tierFor` et `bestTier` parcourent maintenant `BADGE_TIERS` au lieu de
+tester trois cas en dur : ajouter un palier ne demandera plus qu'une entrée
+dans le tableau, un seuil de plus par badge et une couleur.
+
+**Nécessite une migration SQL** : `supabase/migration-badge-paliers.sql`.
+La contrainte de `profiles.badge_tier` n'acceptait que bronze / argent / or,
+donc la synchro du meilleur métal échouait en silence dès qu'un membre
+dépassait l'or.
+
+### Vitrine des trophées
+
+La rangée de médaillons du profil devenait illisible à mesure que les
+badges s'ajoutaient. `ProfileBadgesRow` gagne une variante `bouton` : une
+entrée « Mes trophées » avec le meilleur palier et le compte
+(« 12 badges sur 38 »), qui ouvre la vitrine complète déjà existante.

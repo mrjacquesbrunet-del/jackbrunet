@@ -16,7 +16,15 @@
  */
 export type CheminNiveau = "facile" | "moyen" | "expert";
 
-type Base = { niveau?: CheminNiveau };
+type Base = {
+  niveau?: CheminNiveau;
+  /**
+   * Le passage à consulter pour cet exercice. Facultatif : par défaut on
+   * affiche celui de l'étape. À ne renseigner que si la question porte sur
+   * un autre passage que le récit qui la précède.
+   */
+  ref?: string;
+};
 
 export type CheminExercice =
   | ({ type: "qcm"; q: string; choix: string[]; bonne: number } & Base)

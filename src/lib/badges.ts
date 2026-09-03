@@ -21,7 +21,15 @@ import { frondeStats } from "./fronde";
  *  + Titres à répétition (« ×N ») : champions & intercesseurs (table honors).
  */
 
-export type BadgeTier = "bronze" | "argent" | "or";
+/**
+ * Paliers, du plus accessible au plus rare. Les trois derniers ont été
+ * ajoutés parce que beaucoup de membres plafonnaient déjà à l'or : ils
+ * demandent un engagement nettement plus long.
+ */
+export type BadgeTier = "bronze" | "argent" | "or" | "platine" | "diamant" | "elixir";
+
+/** Ordre officiel des paliers, du plus bas au plus haut. */
+export const BADGE_TIERS: BadgeTier[] = ["bronze", "argent", "or", "platine", "diamant", "elixir"];
 export type BadgeKind =
   // — Prière —
   | "intercesseur"
@@ -134,45 +142,51 @@ export const BADGE_LABELS: Record<BadgeKind, string> = {
   ambassadeur: "Ambassadeur",
 };
 
-export const BADGE_THRESHOLDS: Record<BadgeKind, [number, number, number]> = {
-  intercesseur: [50, 200, 500],
-  scrolleur: [5, 25, 100],
-  voix: [5, 25, 100],
-  coeur: [7, 30, 90],
-  premier: [10, 40, 120],
-  fidele: [7, 30, 100],
-  meditant: [10, 50, 200],
-  levetot: [7, 30, 100],
-  enracine: [4, 12, 52],
-  ecoute: [10, 50, 150],
-  expert: [1500, 4000, 10000],
-  memorisateur: [5, 20, 60],
-  lecteur: [15, 60, 250],
-  scribe: [10, 50, 200],
-  surligneur: [20, 100, 300],
-  duelliste: [5, 25, 100],
-  invincible: [3, 7, 15],
-  sansfaute: [5, 25, 75],
-  eclair: [25, 100, 300],
-  marathonien: [7, 30, 100],
-  defi: [10, 50, 200],
-  demineur: [20, 75, 200],
-  maitre_quiz: [5000, 20000, 60000],
-  maitre_vf: [500, 2000, 6000],
-  maitre_qsj: [300, 1200, 4000],
-  millionnaire: [1, 5, 20],
-  enchaineur: [10, 20, 35],
-  limier: [5, 20, 60],
-  historien: [50, 200, 600],
-  motjuste: [30, 120, 400],
-  frondeur: [10, 20, 30],
-  tireur: [30, 60, 90],
-  lanceur: [3, 15, 50],
-  assidu: [20, 100, 500],
-  missionnaire: [3, 12, 40],
-  etoile: [2, 3, 4],
-  encourageur: [25, 100, 300],
-  ambassadeur: [10, 50, 200],
+/**
+ * Six seuils par badge : bronze, argent, or, platine, diamant, élixir.
+ * Les trois premiers sont inchangés — personne ne perd un palier déjà
+ * obtenu. Les trois nouveaux prolongent la progression : environ ×2,5,
+ * ×6 et ×15 par rapport à l'or.
+ */
+export const BADGE_THRESHOLDS: Record<BadgeKind, [number, number, number, number, number, number]> = {
+  intercesseur: [50, 200, 500, 1200, 3000, 7500],
+  scrolleur: [5, 25, 100, 250, 600, 1500],
+  voix: [5, 25, 100, 250, 600, 1500],
+  coeur: [7, 30, 90, 180, 365, 1000],
+  premier: [10, 40, 120, 300, 720, 1800],
+  fidele: [7, 30, 100, 200, 365, 1000],
+  meditant: [10, 50, 200, 500, 1200, 3000],
+  levetot: [7, 30, 100, 250, 600, 1500],
+  enracine: [4, 12, 52, 78, 130, 260],
+  ecoute: [10, 50, 150, 380, 900, 2200],
+  expert: [1500, 4000, 10000, 25000, 60000, 150000],
+  memorisateur: [5, 20, 60, 150, 360, 900],
+  lecteur: [15, 60, 250, 620, 1500, 3800],
+  scribe: [10, 50, 200, 500, 1200, 3000],
+  surligneur: [20, 100, 300, 750, 1800, 4500],
+  duelliste: [5, 25, 100, 250, 600, 1500],
+  invincible: [3, 7, 15, 30, 60, 120],
+  sansfaute: [5, 25, 75, 190, 450, 1100],
+  eclair: [25, 100, 300, 750, 1800, 4500],
+  marathonien: [7, 30, 100, 250, 600, 1500],
+  defi: [10, 50, 200, 500, 1200, 3000],
+  demineur: [20, 75, 200, 500, 1200, 3000],
+  maitre_quiz: [5000, 20000, 60000, 150000, 360000, 900000],
+  maitre_vf: [500, 2000, 6000, 15000, 36000, 90000],
+  maitre_qsj: [300, 1200, 4000, 10000, 24000, 60000],
+  millionnaire: [1, 5, 20, 50, 120, 300],
+  enchaineur: [10, 20, 35, 60, 100, 200],
+  limier: [5, 20, 60, 150, 360, 900],
+  historien: [50, 200, 600, 1500, 3600, 9000],
+  motjuste: [30, 120, 400, 1000, 2400, 6000],
+  frondeur: [10, 20, 30, 50, 100, 200],
+  tireur: [30, 60, 90, 150, 300, 600],
+  lanceur: [3, 15, 50, 120, 300, 750],
+  assidu: [20, 100, 500, 1200, 3000, 7500],
+  missionnaire: [3, 12, 40, 100, 240, 600],
+  etoile: [2, 3, 4, 6, 10, 20],
+  encourageur: [25, 100, 300, 750, 1800, 4500],
+  ambassadeur: [10, 50, 200, 500, 1200, 3000],
 };
 
 const DETAILS: Record<BadgeKind, string> = {
@@ -262,11 +276,14 @@ export const BADGE_HOW_TO: Record<BadgeKind, string> = {
 };
 
 function tierFor(kind: BadgeKind, count: number): { tier: BadgeTier | null; next: number | null } {
-  const [b, a, o] = BADGE_THRESHOLDS[kind];
-  if (count >= o) return { tier: "or", next: null };
-  if (count >= a) return { tier: "argent", next: o };
-  if (count >= b) return { tier: "bronze", next: a };
-  return { tier: null, next: b };
+  const seuils = BADGE_THRESHOLDS[kind];
+  // Du plus haut au plus bas : on s'arrête au premier seuil atteint.
+  for (let i = seuils.length - 1; i >= 0; i--) {
+    if (count >= seuils[i]) {
+      return { tier: BADGE_TIERS[i], next: seuils[i + 1] ?? null };
+    }
+  }
+  return { tier: null, next: seuils[0] };
 }
 
 function state(kind: BadgeKind, count: number): BadgeState {
@@ -458,7 +475,7 @@ const CELEBRATED_KEY = "jb.achv.celebrated.v1";
  */
 export function celebrateNewBadges(states: BadgeState[]): void {
   if (typeof window === "undefined") return;
-  const TIERS: BadgeTier[] = ["bronze", "argent", "or"];
+  const TIERS = BADGE_TIERS;
   const reached = new Set<string>();
   for (const s of states) {
     if (!s.tier) continue;
@@ -504,12 +521,12 @@ export function checkLocalBadges(streakDays = 0): void {
 
 /** Meilleur métal porté (pour l'anneau d'or autour de la photo). */
 export function bestTier(pb: ProfileBadges): BadgeTier | null {
-  if (pb.weeklyTop) return "or";
-  if (Object.values(pb.honors ?? {}).some((n) => (n ?? 0) > 0)) return "or";
   const tiers = pb.states.map((s) => s.tier).filter(Boolean) as BadgeTier[];
-  if (tiers.includes("or")) return "or";
-  if (tiers.includes("argent")) return "argent";
-  if (tiers.includes("bronze")) return "bronze";
+  if (pb.weeklyTop || Object.values(pb.honors ?? {}).some((n) => (n ?? 0) > 0)) tiers.push("or");
+  // Le meilleur métal porté, en remontant depuis l'élixir.
+  for (let i = BADGE_TIERS.length - 1; i >= 0; i--) {
+    if (tiers.includes(BADGE_TIERS[i])) return BADGE_TIERS[i];
+  }
   return null;
 }
 

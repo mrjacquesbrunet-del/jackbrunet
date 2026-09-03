@@ -11,6 +11,7 @@ import {
   type BadgeTier,
   type BadgeState,
   type HonorKind,
+  bestTier,
 } from "@/lib/badges";
 
 /** Comment remporter chaque TITRE (affiché quand on touche le médaillon). */
@@ -99,6 +100,9 @@ const BDG_CSS = `
 .bdg-bronze{background:conic-gradient(from 210deg,#8a5a2b,#e0a56b 30%,#5f3d1c 55%,#c98d4f 80%,#8a5a2b)}
 .bdg-argent{background:conic-gradient(from 210deg,#9ca3af,#f3f4f6 30%,#6b7280 55%,#e5e7eb 80%,#9ca3af)}
 .bdg-or{background:conic-gradient(from 210deg,#b45309,#fde68a 30%,#d97706 55%,#fcd34d 80%,#b45309)}
+.bdg-platine{background:conic-gradient(from 210deg,#546e7a,#e3f2f7 30%,#78909c 55%,#cfe8f0 80%,#546e7a)}
+.bdg-diamant{background:conic-gradient(from 210deg,#1d6f96,#9ee4fb 30%,#2f9ec7 55%,#d9f6ff 80%,#1d6f96)}
+.bdg-elixir{background:conic-gradient(from 210deg,#4c1683,#d07bfb 30%,#7b2ec4 55%,#f3ccff 80%,#4c1683)}
 .bdg-lock{background:linear-gradient(160deg,#4a4a48,#2c2c2b)}
 .bdg-core{width:100%;height:100%;border-radius:9999px;background:radial-gradient(130% 130% at 30% 20%,#30302F,#0C0C0B);display:grid;place-items:center}
 .bdg::after{content:"";position:absolute;inset:-40%;background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.5) 50%,transparent 58%);transform:translateX(-70%);animation:bdg-shine 4.2s ease-in-out infinite}
@@ -182,9 +186,12 @@ const TIER_COLOR: Record<BadgeTier, string> = {
   bronze: "#e0a56b",
   argent: "#e5e7eb",
   or: "#FCD34D",
+  platine: "#dbeef5",
+  diamant: "#7fd6f5",
+  elixir: "#d07bfb",
 };
 
-const TIER_LABEL: Record<BadgeTier, string> = { bronze: "Bronze", argent: "Argent", or: "Or" };
+const TIER_LABEL: Record<BadgeTier, string> = { bronze: "Bronze", argent: "Argent", or: "Or", platine: "Platine", diamant: "Diamant", elixir: "Élixir" };
 
 function BadgeIcon({ kind, color, size = 20 }: { kind: BadgeKind | "hebdo"; color: string; size?: number }) {
   return (
@@ -243,6 +250,7 @@ export function ProfileBadgesRow({
   streakDays,
   compact = false,
   self = false,
+  bouton = false,
 }: {
   userId: string;
   streakDays?: number | null;
@@ -250,6 +258,11 @@ export function ProfileBadgesRow({
   compact?: boolean;
   /** Mon propre profil : compteurs locaux frais (méditations, versets…). */
   self?: boolean;
+  /**
+   * Une seule entrée « Mes trophées » au lieu de la rangée de médaillons :
+   * avec le nombre de badges qui grandit, la rangée devenait illisible.
+   */
+  bouton?: boolean;
 }) {
   const [data, setData] = useState<ProfileBadges | null>(null);
   const [open, setOpen] = useState(false);
@@ -268,6 +281,35 @@ export function ProfileBadgesRow({
   if (!data) return null;
   const hasHonors = Object.values(data.honors ?? {}).some((n) => (n ?? 0) > 0);
   const empty = earned.length === 0 && !data.weeklyTop && !hasHonors;
+
+  if (bouton) {
+    const meilleur = bestTier(data);
+    const total = data.states.length;
+    return (
+      <>
+        <style>{BDG_CSS}</style>
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="flex w-full items-center gap-3 rounded-2xl border border-white/12 bg-white/[0.06] p-3 text-left transition-transform active:scale-[.99]"
+        >
+          <Medallion kind={earned[0]?.kind ?? "expert"} tier={meilleur} title="" />
+          <span className="min-w-0 flex-1">
+            <span className="block font-game text-[15px] font-black text-cream">Mes trophées</span>
+            <span className="block text-[12px] font-semibold text-cream/55">
+              {earned.length} badge{earned.length > 1 ? "s" : ""} sur {total}
+              {meilleur ? ` · meilleur palier ${TIER_LABEL[meilleur].toLowerCase()}` : ""}
+            </span>
+          </span>
+          <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 fill-none stroke-current text-cream/45" strokeWidth={2.2} aria-hidden>
+            <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+        {open ? <BadgesVitrine data={data} onClose={() => setOpen(false)} /> : null}
+      </>
+    );
+  }
+
   // Profil d'un autre sans badge : rien. Sur SON profil (compact), on montre
   // quand même un médaillon grisé qui ouvre la vitrine des accomplissements.
   if (empty && !(compact && self)) return null;

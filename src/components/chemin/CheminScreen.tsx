@@ -428,13 +428,23 @@ function CheminLesson({ chap, stepIdx, onDone }: { chap: CheminChapitre; stepIdx
               </span>
             </div>
             <p className="mt-4 font-game text-[17px] font-semibold leading-relaxed text-white/95">{etape.recit}</p>
-            <p className="mt-3 text-xs font-bold" style={{ color: chap.accent }}>{etape.ref}</p>
+            {/* Le passage est rappelé en clair : chacun peut ouvrir sa Bible
+                et relire l'histoire avant de répondre. */}
+            <div className="mt-4 flex items-center gap-2.5 rounded-2xl border border-white/10 bg-white/[0.06] px-3.5 py-3">
+              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full" style={{ background: `${chap.accent}26`, color: chap.accent }}>
+                <IcoBook className="h-4 w-4" />
+              </span>
+              <div className="min-w-0">
+                <p className="font-game text-[10px] font-black uppercase tracking-[0.16em] text-white/45">Se référer au passage</p>
+                <p className="font-game text-[15px] font-black" style={{ color: chap.accent }}>{etape.ref}</p>
+              </div>
+            </div>
             <button type="button" onClick={() => setScreen(1)} className="mt-6 w-full rounded-full py-3.5 font-game text-base font-black text-[#08130a]" style={{ background: `linear-gradient(180deg,${chap.accent},${chap.accent}bb)`, boxShadow: "0 4px 0 rgba(0,0,0,.4)" }}>
               C&apos;EST PARTI
             </button>
           </div>
         ) : screen <= total ? (
-          <Exercice key={screen} ex={etape.exercices[screen - 1]} accent={chap.accent} onNext={nextAfterExercise} />
+          <Exercice key={screen} ex={etape.exercices[screen - 1]} accent={chap.accent} passage={etape.ref} onNext={nextAfterExercise} />
         ) : (
           /* ----- Fin d'étape ----- */
           <div className="mt-6 rounded-3xl border border-white/10 bg-black/40 p-6 text-center backdrop-blur" style={{ animation: "qm-optin .35s ease-out" }}>
@@ -474,14 +484,14 @@ function CheminLesson({ chap, stepIdx, onDone }: { chap: CheminChapitre; stepIdx
 
 /* ---------- Qui suis-je : les indices tombent un par un ---------- */
 
-function ExQui({ indices, reponse, leurres, accent, niveau, onNext }: { indices: string[]; reponse: string; leurres: string[]; accent: string; niveau?: CheminNiveau; onNext: (ok: boolean) => void }) {
+function ExQui({ indices, reponse, leurres, accent, niveau, passage, onNext }: { indices: string[]; reponse: string; leurres: string[]; accent: string; niveau?: CheminNiveau; passage?: string; onNext: (ok: boolean) => void }) {
   const [vus, setVus] = useState(1);
   const noms = useMemo(() => shuffle([reponse, ...leurres]), [reponse, leurres]);
   const [pick, setPick] = useState<string | null>(null);
   const reveal = pick !== null;
   const ok = pick === reponse;
   return (
-    <CadreExercice label="Qui suis-je ?" accent={accent} niveau={niveau}>
+    <CadreExercice label="Qui suis-je ?" accent={accent} niveau={niveau} passage={passage}>
       <div className="mt-3 flex flex-col gap-2">
         {indices.slice(0, vus).map((ind, i) => (
           <div key={i} className="flex items-start gap-2.5 rounded-2xl border border-white/10 bg-white/[0.05] px-3.5 py-2.5" style={{ animation: "qm-optin .25s ease-out" }}>
@@ -528,7 +538,7 @@ function ExQui({ indices, reponse, leurres, accent, niveau, onNext }: { indices:
 
 /* ---------- Le verset : le reconstruire mot à mot ---------- */
 
-function ExVerset({ ref_, texte, accent, niveau, onNext }: { ref_: string; texte: string; accent: string; niveau?: CheminNiveau; onNext: (ok: boolean) => void }) {
+function ExVerset({ texte, accent, niveau, passage, onNext }: { texte: string; accent: string; niveau?: CheminNiveau; passage?: string; onNext: (ok: boolean) => void }) {
   const mots = useMemo(() => texte.split(/\s+/).filter(Boolean), [texte]);
   const banque = useMemo(() => shuffle(mots.map((m, i) => ({ m, i }))), [mots]);
   const [pose, setPose] = useState<number[]>([]);
@@ -545,9 +555,8 @@ function ExVerset({ ref_, texte, accent, niveau, onNext }: { ref_: string; texte
   }
 
   return (
-    <CadreExercice label="Le verset" accent={accent} niveau={niveau}>
-      <p className="mt-3 font-game text-[13px] font-bold" style={{ color: accent }}>{ref_}</p>
-      <p className="mt-1 text-[12px] font-semibold text-white/55">Remets le verset dans l&apos;ordre, mot après mot.</p>
+    <CadreExercice label="Le verset" accent={accent} niveau={niveau} passage={passage}>
+      <p className="mt-3 text-[12px] font-semibold text-white/55">Remets le verset dans l&apos;ordre, mot après mot.</p>
 
       {/* La zone où le verset se reconstruit */}
       <div className="mt-3 min-h-[92px] rounded-2xl border border-white/12 bg-black/35 p-3">
@@ -603,14 +612,16 @@ function ExVerset({ ref_, texte, accent, niveau, onNext }: { ref_: string; texte
 
 /* ==================== Les exercices ==================== */
 
-function Exercice({ ex, accent, onNext }: { ex: CheminExercice; accent: string; onNext: (ok: boolean) => void }) {
+function Exercice({ ex, accent, passage, onNext }: { ex: CheminExercice; accent: string; passage: string; onNext: (ok: boolean) => void }) {
   const n = ex.niveau;
-  if (ex.type === "qcm") return <ExQcm q={ex.q} choix={ex.choix} bonne={ex.bonne} accent={accent} niveau={n} onNext={onNext} />;
-  if (ex.type === "vf") return <ExVf q={ex.q} vrai={ex.vrai} accent={accent} niveau={n} onNext={onNext} />;
-  if (ex.type === "trou") return <ExTrou texte={ex.texte} reponse={ex.reponse} leurres={ex.leurres} accent={accent} niveau={n} onNext={onNext} />;
-  if (ex.type === "qui") return <ExQui indices={ex.indices} reponse={ex.reponse} leurres={ex.leurres} accent={accent} niveau={n} onNext={onNext} />;
-  if (ex.type === "verset") return <ExVerset ref_={ex.ref} texte={ex.texte} accent={accent} niveau={n} onNext={onNext} />;
-  return <ExOrdre consigne={ex.consigne} items={ex.items} accent={accent} niveau={n} onNext={onNext} />;
+  // Le passage de l'exercice s'il en porte un, sinon celui de l'étape.
+  const p = ex.ref ?? passage;
+  if (ex.type === "qcm") return <ExQcm q={ex.q} choix={ex.choix} bonne={ex.bonne} accent={accent} niveau={n} passage={p} onNext={onNext} />;
+  if (ex.type === "vf") return <ExVf q={ex.q} vrai={ex.vrai} accent={accent} niveau={n} passage={p} onNext={onNext} />;
+  if (ex.type === "trou") return <ExTrou texte={ex.texte} reponse={ex.reponse} leurres={ex.leurres} accent={accent} niveau={n} passage={p} onNext={onNext} />;
+  if (ex.type === "qui") return <ExQui indices={ex.indices} reponse={ex.reponse} leurres={ex.leurres} accent={accent} niveau={n} passage={p} onNext={onNext} />;
+  if (ex.type === "verset") return <ExVerset texte={ex.texte} accent={accent} niveau={n} passage={p} onNext={onNext} />;
+  return <ExOrdre consigne={ex.consigne} items={ex.items} accent={accent} niveau={n} passage={p} onNext={onNext} />;
 }
 
 function shuffle<T>(arr: T[]): T[] {
@@ -640,12 +651,19 @@ function Niveau({ n }: { n?: CheminNiveau }) {
   );
 }
 
-function CadreExercice({ label, accent, niveau, children }: { label: string; accent: string; niveau?: CheminNiveau; children: React.ReactNode }) {
+function CadreExercice({ label, accent, niveau, passage, children }: { label: string; accent: string; niveau?: CheminNiveau; passage?: string; children: React.ReactNode }) {
   return (
     <div className="mt-6 rounded-3xl border border-white/10 bg-black/40 p-5 backdrop-blur" style={{ animation: "qm-optin .25s ease-out" }}>
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <span className="rounded-full px-3 py-1 font-game text-[11px] font-black uppercase tracking-wider" style={{ background: `${accent}22`, color: accent }}>{label}</span>
         <Niveau n={niveau} />
+        {/* Le passage reste sous les yeux : chacun peut aller le vérifier. */}
+        {passage ? (
+          <span className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1 font-game text-[11px] font-bold text-white/70">
+            <IcoBook className="h-3.5 w-3.5" />
+            {passage}
+          </span>
+        ) : null}
       </div>
       {children}
     </div>
@@ -666,12 +684,12 @@ function BoutonSuite({ reveal, ok, onNext }: { reveal: boolean; ok: boolean; onN
   );
 }
 
-function ExQcm({ q, choix, bonne, accent, niveau, onNext }: { q: string; choix: string[]; bonne: number; accent: string; niveau?: CheminNiveau; onNext: (ok: boolean) => void }) {
+function ExQcm({ q, choix, bonne, accent, niveau, passage, onNext }: { q: string; choix: string[]; bonne: number; accent: string; niveau?: CheminNiveau; passage?: string; onNext: (ok: boolean) => void }) {
   const ordre = useMemo(() => shuffle(choix.map((_, i) => i)), [choix]);
   const [pick, setPick] = useState<number | null>(null);
   const reveal = pick !== null;
   return (
-    <CadreExercice label="Question" accent={accent} niveau={niveau}>
+    <CadreExercice label="Question" accent={accent} niveau={niveau} passage={passage}>
       <p className="mt-3 font-game text-[16px] font-bold leading-snug text-white">{q}</p>
       <div className="mt-4 flex flex-col gap-2.5">
         {ordre.map((i) => {
@@ -693,11 +711,11 @@ function ExQcm({ q, choix, bonne, accent, niveau, onNext }: { q: string; choix: 
   );
 }
 
-function ExVf({ q, vrai, accent, niveau, onNext }: { q: string; vrai: boolean; accent: string; niveau?: CheminNiveau; onNext: (ok: boolean) => void }) {
+function ExVf({ q, vrai, accent, niveau, passage, onNext }: { q: string; vrai: boolean; accent: string; niveau?: CheminNiveau; passage?: string; onNext: (ok: boolean) => void }) {
   const [pick, setPick] = useState<boolean | null>(null);
   const reveal = pick !== null;
   return (
-    <CadreExercice label="Vrai ou faux" accent={accent} niveau={niveau}>
+    <CadreExercice label="Vrai ou faux" accent={accent} niveau={niveau} passage={passage}>
       <p className="mt-3 font-game text-[16px] font-bold leading-snug text-white">{q}</p>
       <div className="mt-4 grid grid-cols-2 gap-3">
         {[true, false].map((v) => {
@@ -719,13 +737,13 @@ function ExVf({ q, vrai, accent, niveau, onNext }: { q: string; vrai: boolean; a
   );
 }
 
-function ExTrou({ texte, reponse, leurres, accent, niveau, onNext }: { texte: string; reponse: string; leurres: string[]; accent: string; niveau?: CheminNiveau; onNext: (ok: boolean) => void }) {
+function ExTrou({ texte, reponse, leurres, accent, niveau, passage, onNext }: { texte: string; reponse: string; leurres: string[]; accent: string; niveau?: CheminNiveau; passage?: string; onNext: (ok: boolean) => void }) {
   const options = useMemo(() => shuffle([reponse, ...leurres]), [reponse, leurres]);
   const [pick, setPick] = useState<string | null>(null);
   const reveal = pick !== null;
   const [avant, apres] = texte.split("___");
   return (
-    <CadreExercice label="Le mot manquant" accent={accent} niveau={niveau}>
+    <CadreExercice label="Le mot manquant" accent={accent} niveau={niveau} passage={passage}>
       <p className="mt-3 font-game text-[16px] font-bold leading-relaxed text-white">
         {avant}
         <span className="mx-1 inline-block min-w-[64px] rounded-lg border-b-2 px-2 text-center" style={{ borderColor: accent, color: reveal ? (pick === reponse ? "#6ee7b7" : "#fda4af") : accent }}>
@@ -753,7 +771,7 @@ function ExTrou({ texte, reponse, leurres, accent, niveau, onNext }: { texte: st
   );
 }
 
-function ExOrdre({ consigne, items, accent, niveau, onNext }: { consigne: string; items: string[]; accent: string; niveau?: CheminNiveau; onNext: (ok: boolean) => void }) {
+function ExOrdre({ consigne, items, accent, niveau, passage, onNext }: { consigne: string; items: string[]; accent: string; niveau?: CheminNiveau; passage?: string; onNext: (ok: boolean) => void }) {
   const [pool, setPool] = useState<string[]>(() => {
     let melange = shuffle(items);
     // Éviter de proposer l'ordre déjà correct.
@@ -777,7 +795,7 @@ function ExOrdre({ consigne, items, accent, niveau, onNext }: { consigne: string
   }
 
   return (
-    <CadreExercice label="Dans l'ordre" accent={accent} niveau={niveau}>
+    <CadreExercice label="Dans l'ordre" accent={accent} niveau={niveau} passage={passage}>
       <p className="mt-3 font-game text-[15px] font-bold leading-snug text-white">{consigne}</p>
       {/* La séquence choisie */}
       <div className="mt-4 flex flex-col gap-2">
