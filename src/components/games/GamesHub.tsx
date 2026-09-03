@@ -62,7 +62,7 @@ type Game = {
   arrow: string;
 };
 const GAMES: Game[] = [
-  { id: "chemin", title1: "LE", title2: "CHEMIN", desc: "De la Genèse à l'Apocalypse — apprends toute l'histoire !", href: "/chemin", illo: "/img/jeux/chemin.png", decor: "/img/chemin/decor-1.jpg", Icon: IconRoute, from: "#34D399", to: "#059669", arrow: "#047857" },
+  { id: "chemin", title1: "LE", title2: "CHEMIN", desc: "De la Genèse à l'Apocalypse — apprends toute l'histoire !", href: "/chemin", illo: "/img/jeux/chemin.png", decor: "/img/chemin/decor-1.jpg", Icon: IconRoute, from: "#FB923C", to: "#C2410C", arrow: "#9A3412" },
   { id: "quiz", title1: "QUIZ", title2: "BIBLIQUE", desc: "Réponds aux questions et deviens incollable sur la Bible !", href: "/quiz", illo: "/img/jeux/quiz.png", decor: "/img/jeux/decors/quiz.jpg", Icon: IconCap, from: "#FBBF24", to: "#F59E0B", arrow: "#F59E0B" },
   { id: "memo", title1: "MÉMORISER", title2: "LES VERSETS", desc: "Grave la Parole dans ton cœur, verset après verset !", href: "/memoriser", illo: "/img/jeux/memoriser.png", decor: "/img/jeux/decors/memoriser.jpg", Icon: IconBulb, from: "#2DD4BF", to: "#0D9488", arrow: "#0D9488" },
   { id: "quisuisje", title1: "QUI", title2: "SUIS-JE ?", desc: "Devine le personnage biblique grâce aux indices !", href: "/qui-suis-je", illo: "/img/jeux/quisuisje.png", decor: "/img/jeux/decors/quisuisje.jpg", Icon: IconMask, from: "#60A5FA", to: "#3B82F6", arrow: "#2563EB" },
