@@ -495,3 +495,32 @@ dans tous les cas.
 **Il n'était accessible que depuis la carte d'un chapitre.** `AlbumCartes`
 est maintenant exporté et l'accueil porte un bouton « MES CARTES · n/N »
 sous le bouton de reprise.
+
+## Le passage se lit sans quitter la partie (12e passe)
+
+Le Chemin sert à apprendre : quand on ne sait pas, il faut pouvoir aller
+relire le texte. `PassagePanel` ouvre le passage **par-dessus** la question,
+et non par un lien qui ferait perdre l'étape en cours.
+
+- Le texte vient de `/bible/<id>.json`, déjà embarqué dans le bundle OTA
+  (4,5 Mo, conservé — seuls `audio/` et `commentary/` en sont retirés).
+- Il s'ouvre depuis trois endroits : la pastille du passage sur chaque
+  question, le bloc « Se référer au passage » de l'écran de récit, et un
+  bouton « LIRE <passage> » qui apparaît **après une mauvaise réponse**.
+- On n'empêche jamais d'avancer : le bouton « Compris, on continue » reste
+  disponible. C'est un rafraîchissement, pas un blocage.
+- Le panneau **s'ouvre sur les versets cités**, pas en haut du chapitre :
+  « Genèse 1:24-31 » ne doit pas atterrir au verset 1. Les versets cités
+  sont en blanc, le reste du chapitre en gris.
+- `analyse()` gère les formes des chapitres du Chemin : « Genèse 15:1-6 »,
+  « Exode 10 », « Genèse 42-43 ». Piège : dans « Genèse 42-43 » le second
+  nombre est un CHAPITRE, dans « 15:1-6 » c'est un verset — le test porte
+  sur la présence de `:`.
+
+## Classement général : vérification
+
+`game_leaderboard_total` (dans `migration-game-scores.sql`) fait
+`select user_id, sum(points) from arcade_scores group by user_id`, **sans
+aucun filtre par jeu**. Tout jeu accepté par `game_submit` entre donc
+automatiquement dans le classement général. Pour Le Chemin, la seule
+condition est d'avoir passé `migration-chemin.sql`.

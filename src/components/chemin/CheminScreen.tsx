@@ -18,6 +18,7 @@ import { CHEMIN_CHAPITRES } from "@/config/chemin";
 import { asset } from "@/lib/asset";
 import { submitGameScore, submitWeeklyPoints } from "@/lib/game-scores";
 import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
+import { PassagePanel } from "./PassagePanel";
 import { CheminHub } from "./CheminHub";
 import { bumpAchv, markDayStreak } from "@/lib/achievements";
 import { checkLocalBadges } from "@/lib/badges";
@@ -374,6 +375,7 @@ function CheminLesson({ chap, stepIdx, onDone }: { chap: CheminChapitre; stepIdx
   const [screen, setScreen] = useState(0); // 0 = récit, 1..n = exercices, n+1 = fin
   const [fautes, setFautes] = useState(0);
   const [gains, setGains] = useState<ReturnType<typeof completeCheminStep> | null>(null);
+  const [lectureRecit, setLectureRecit] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -433,15 +435,22 @@ function CheminLesson({ chap, stepIdx, onDone }: { chap: CheminChapitre; stepIdx
             <p className="mt-4 font-game text-[17px] font-semibold leading-relaxed text-white/95">{etape.recit}</p>
             {/* Le passage est rappelé en clair : chacun peut ouvrir sa Bible
                 et relire l'histoire avant de répondre. */}
-            <div className="mt-4 flex items-center gap-2.5 rounded-2xl border border-white/10 bg-white/[0.06] px-3.5 py-3">
+            <button
+              type="button"
+              onClick={() => setLectureRecit(true)}
+              className="mt-4 flex w-full items-center gap-2.5 rounded-2xl border border-white/10 bg-white/[0.06] px-3.5 py-3 text-left transition-transform active:scale-[.99]"
+            >
               <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full" style={{ background: `${chap.accent}26`, color: chap.accent }}>
                 <IcoBook className="h-4 w-4" />
               </span>
-              <div className="min-w-0">
-                <p className="font-game text-[10px] font-black uppercase tracking-[0.16em] text-white/45">Se référer au passage</p>
-                <p className="font-game text-[15px] font-black" style={{ color: chap.accent }}>{etape.ref}</p>
-              </div>
-            </div>
+              <span className="min-w-0 flex-1">
+                <span className="block font-game text-[10px] font-black uppercase tracking-[0.16em] text-white/45">Se référer au passage</span>
+                <span className="block font-game text-[15px] font-black" style={{ color: chap.accent }}>{etape.ref}</span>
+              </span>
+              <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 fill-none stroke-current text-white/40" strokeWidth={2.2} aria-hidden>
+                <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
             <button type="button" onClick={() => setScreen(1)} className="mt-6 w-full rounded-full py-3.5 font-game text-base font-black text-[#08130a]" style={{ background: `linear-gradient(180deg,${chap.accent},${chap.accent}bb)`, boxShadow: "0 4px 0 rgba(0,0,0,.4)" }}>
               C&apos;EST PARTI
             </button>
@@ -481,6 +490,7 @@ function CheminLesson({ chap, stepIdx, onDone }: { chap: CheminChapitre; stepIdx
           </div>
         )}
       </div>
+      {lectureRecit ? <PassagePanel reference={etape.ref} accent={chap.accent} onClose={() => setLectureRecit(false)} /> : null}
     </div>
   );
 }
@@ -534,7 +544,7 @@ function ExQui({ indices, reponse, leurres, accent, niveau, passage, onNext }: {
         })}
       </div>
       {reveal && !ok ? <p className="mt-3 text-center font-game text-[13px] font-bold text-white/70">C&apos;était <span style={{ color: accent }}>{reponse}</span>.</p> : null}
-      <BoutonSuite reveal={reveal} ok={ok} onNext={onNext} />
+      <BoutonSuite reveal={reveal} ok={ok} onNext={onNext} passage={passage} accent={accent} />
     </CadreExercice>
   );
 }
@@ -608,7 +618,7 @@ function ExVerset({ texte, accent, niveau, passage, onNext }: { texte: string; a
           Le verset : « {texte} »
         </p>
       ) : null}
-      <BoutonSuite reveal={fini} ok={ok} onNext={onNext} />
+      <BoutonSuite reveal={fini} ok={ok} onNext={onNext} passage={passage} accent={accent} />
     </CadreExercice>
   );
 }
@@ -655,35 +665,61 @@ function Niveau({ n }: { n?: CheminNiveau }) {
 }
 
 function CadreExercice({ label, accent, niveau, passage, children }: { label: string; accent: string; niveau?: CheminNiveau; passage?: string; children: React.ReactNode }) {
+  const [lecture, setLecture] = useState(false);
   return (
-    <div className="mt-6 rounded-3xl border border-white/10 bg-black/40 p-5 backdrop-blur" style={{ animation: "qm-optin .25s ease-out" }}>
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="rounded-full px-3 py-1 font-game text-[11px] font-black uppercase tracking-wider" style={{ background: `${accent}22`, color: accent }}>{label}</span>
-        <Niveau n={niveau} />
-        {/* Le passage reste sous les yeux : chacun peut aller le vérifier. */}
-        {passage ? (
-          <span className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1 font-game text-[11px] font-bold text-white/70">
-            <IcoBook className="h-3.5 w-3.5" />
-            {passage}
-          </span>
-        ) : null}
+    <>
+      <div className="mt-6 rounded-3xl border border-white/10 bg-black/40 p-5 backdrop-blur" style={{ animation: "qm-optin .25s ease-out" }}>
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="rounded-full px-3 py-1 font-game text-[11px] font-black uppercase tracking-wider" style={{ background: `${accent}22`, color: accent }}>{label}</span>
+          <Niveau n={niveau} />
+          {/* Le passage s'ouvre PAR-DESSUS la question : on va vérifier dans le
+              texte sans perdre l'étape en cours. */}
+          {passage ? (
+            <button
+              type="button"
+              onClick={() => setLecture(true)}
+              className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1 font-game text-[11px] font-bold text-white/75 transition-transform active:scale-95"
+            >
+              <IcoBook className="h-3.5 w-3.5" />
+              {passage}
+            </button>
+          ) : null}
+        </div>
+        {children}
       </div>
-      {children}
-    </div>
+      {lecture && passage ? <PassagePanel reference={passage} accent={accent} onClose={() => setLecture(false)} /> : null}
+    </>
   );
 }
 
-function BoutonSuite({ reveal, ok, onNext }: { reveal: boolean; ok: boolean; onNext: (ok: boolean) => void }) {
+function BoutonSuite({ reveal, ok, onNext, passage, accent }: { reveal: boolean; ok: boolean; onNext: (ok: boolean) => void; passage?: string; accent?: string }) {
+  const [lecture, setLecture] = useState(false);
   if (!reveal) return null;
   return (
-    <button
-      type="button"
-      onClick={() => onNext(ok)}
-      className="mt-5 w-full rounded-full py-3.5 font-game text-base font-black"
-      style={ok ? { background: "linear-gradient(180deg,#4ADE80,#16A34A)", color: "#052e16", boxShadow: "0 4px 0 #14532d" } : { background: "linear-gradient(180deg,#fb7185,#e11d48)", color: "#4c0519", boxShadow: "0 4px 0 #881337" }}
-    >
-      {ok ? "CONTINUER" : "COMPRIS, ON CONTINUE"}
-    </button>
+    <>
+      {/* Trompé ? On propose le texte avant de passer à la suite. Le Chemin
+          sert à apprendre : on n'empêche pas d'avancer, on rafraîchit. */}
+      {!ok && passage ? (
+        <button
+          type="button"
+          onClick={() => setLecture(true)}
+          className="mt-4 flex w-full items-center justify-center gap-2 rounded-full border py-3 font-game text-[13px] font-black"
+          style={{ borderColor: `${accent ?? "#FCD34D"}66`, background: `${accent ?? "#FCD34D"}1a`, color: accent ?? "#FCD34D" }}
+        >
+          <IcoBook className="h-4 w-4" />
+          LIRE {passage.toUpperCase()}
+        </button>
+      ) : null}
+      <button
+        type="button"
+        onClick={() => onNext(ok)}
+        className={`w-full rounded-full py-3.5 font-game text-base font-black ${!ok && passage ? "mt-2.5" : "mt-5"}`}
+        style={ok ? { background: "linear-gradient(180deg,#4ADE80,#16A34A)", color: "#052e16", boxShadow: "0 4px 0 #14532d" } : { background: "linear-gradient(180deg,#fb7185,#e11d48)", color: "#4c0519", boxShadow: "0 4px 0 #881337" }}
+      >
+        {ok ? "CONTINUER" : "COMPRIS, ON CONTINUE"}
+      </button>
+      {lecture && passage ? <PassagePanel reference={passage} accent={accent ?? "#FCD34D"} onClose={() => setLecture(false)} /> : null}
+    </>
   );
 }
 
@@ -709,7 +745,7 @@ function ExQcm({ q, choix, bonne, accent, niveau, passage, onNext }: { q: string
           );
         })}
       </div>
-      <BoutonSuite reveal={reveal} ok={pick === bonne} onNext={onNext} />
+      <BoutonSuite reveal={reveal} ok={pick === bonne} onNext={onNext} passage={passage} accent={accent} />
     </CadreExercice>
   );
 }
@@ -735,7 +771,7 @@ function ExVf({ q, vrai, accent, niveau, passage, onNext }: { q: string; vrai: b
           );
         })}
       </div>
-      <BoutonSuite reveal={reveal} ok={pick === vrai} onNext={onNext} />
+      <BoutonSuite reveal={reveal} ok={pick === vrai} onNext={onNext} passage={passage} accent={accent} />
     </CadreExercice>
   );
 }
@@ -769,7 +805,7 @@ function ExTrou({ texte, reponse, leurres, accent, niveau, passage, onNext }: { 
           );
         })}
       </div>
-      <BoutonSuite reveal={reveal} ok={pick === reponse} onNext={onNext} />
+      <BoutonSuite reveal={reveal} ok={pick === reponse} onNext={onNext} passage={passage} accent={accent} />
     </CadreExercice>
   );
 }
@@ -832,7 +868,7 @@ function ExOrdre({ consigne, items, accent, niveau, passage, onNext }: { consign
           Le bon ordre : {items.join(" → ")}
         </p>
       ) : null}
-      <BoutonSuite reveal={reveal} ok={ok} onNext={onNext} />
+      <BoutonSuite reveal={reveal} ok={ok} onNext={onNext} passage={passage} accent={accent} />
     </CadreExercice>
   );
 }
