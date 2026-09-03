@@ -170,6 +170,34 @@ export function completeCheminStep(
   return { xp, coffreGemmes, carte, dejaFaite };
 }
 
+/** Où en est le joueur sur l'ensemble du Chemin (pour l'écran d'accueil). */
+export function cheminProgres(chapitres: CheminChapitre[]): {
+  chapitresFaits: number;
+  chapitresTotal: number;
+  etapesFaites: number;
+  etapesTotal: number;
+  xp: number;
+  cartes: number;
+} {
+  let etapesFaites = 0;
+  let etapesTotal = 0;
+  let chapitresFaits = 0;
+  for (const c of chapitres) {
+    const fait = Math.min(cheminStep(c.id), c.etapes.length);
+    etapesFaites += fait;
+    etapesTotal += c.etapes.length;
+    if (fait >= c.etapes.length) chapitresFaits += 1;
+  }
+  return {
+    chapitresFaits,
+    chapitresTotal: chapitres.length,
+    etapesFaites,
+    etapesTotal,
+    xp: getCheminXp(),
+    cartes: cheminCards().length,
+  };
+}
+
 /** Un chapitre est débloqué si le précédent est terminé. */
 export function cheminChapitreOuvert(chapitres: CheminChapitre[], idx: number): boolean {
   if (idx === 0) return true;

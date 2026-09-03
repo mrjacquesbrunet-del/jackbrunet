@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import {
   cheminStep,
   cheminCards,
@@ -17,8 +16,9 @@ import {
 } from "@/lib/chemin";
 import { CHEMIN_CHAPITRES } from "@/config/chemin";
 import { asset } from "@/lib/asset";
-import { submitWeeklyPoints } from "@/lib/game-scores";
+import { submitGameScore, submitWeeklyPoints } from "@/lib/game-scores";
 import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
+import { CheminHub } from "./CheminHub";
 import { bumpAchv, markDayStreak } from "@/lib/achievements";
 import { checkLocalBadges } from "@/lib/badges";
 
@@ -93,11 +93,10 @@ const RARETE_LABEL: Record<CheminCarte["rarete"], string> = {
 
 /* ==================== Écran principal ==================== */
 
-type Phase = "map" | "lesson";
+type Phase = "hub" | "map" | "lesson";
 
 export function CheminScreen() {
-  const router = useRouter();
-  const [phase, setPhase] = useState<Phase>("map");
+  const [phase, setPhase] = useState<Phase>("hub");
   const [chapIdx, setChapIdx] = useState(0);
   const [stepIdx, setStepIdx] = useState(0);
   const [albumOpen, setAlbumOpen] = useState(false);
@@ -132,6 +131,17 @@ export function CheminScreen() {
 
   const chap = CHEMIN_CHAPITRES[chapIdx];
 
+  if (phase === "hub") {
+    return (
+      <CheminHub
+        onJouer={(i) => {
+          setChapIdx(i);
+          setPhase("map");
+        }}
+      />
+    );
+  }
+
   if (phase === "lesson") {
     return (
       <CheminLesson
@@ -164,9 +174,9 @@ export function CheminScreen() {
       <div className="fixed inset-x-0 top-20 z-30 sm:top-24">
         <div className="container-x mx-auto max-w-md">
         <div className="flex items-center justify-between">
-          <button type="button" onClick={() => router.push("/jeux")} className="flex items-center gap-1.5 rounded-full border border-white/10 bg-black/60 px-3.5 py-2 font-game text-xs font-black text-white/90 backdrop-blur-md">
+          <button type="button" onClick={() => setPhase("hub")} className="flex items-center gap-1.5 rounded-full border border-white/10 bg-black/60 px-3.5 py-2 font-game text-xs font-black text-white/90 backdrop-blur-md">
             <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.4}><path d="M15 5l-7 7 7 7" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            JEUX
+            ACCUEIL
           </button>
           <button type="button" onClick={() => setAlbumOpen(true)} className="flex items-center gap-2 rounded-full border border-white/10 bg-black/60 px-3.5 py-2 font-game text-xs font-black text-amber-300 backdrop-blur-md">
             <IcoCards className="h-4 w-4" />
@@ -373,6 +383,8 @@ function CheminLesson({ chap, stepIdx, onDone }: { chap: CheminChapitre; stepIdx
     if (screen >= total) {
       const nbFautes = fautes + (ok ? 0 : 1);
       const res = completeCheminStep(chap, stepIdx, nbFautes);
+      // Le score du Chemin est l'XP cumulée : le serveur garde la plus haute.
+      submitGameScore("chemin", getCheminXp());
       if (!res.dejaFaite) {
         submitWeeklyPoints(nbFautes === 0 ? 3 : 2);
         bumpAchv("games_played");

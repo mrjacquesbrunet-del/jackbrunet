@@ -360,3 +360,38 @@ en le recouvrant encore, comme sur la référence. Un décalage plus large
 **Chiffre** : crème `#F6EEDC`, liseré sombre sur les quatre côtés plus une
 ombre portée — il doit rester lisible aussi bien sur la dalle dorée que sur
 la pierre grise — et `scaleY(.82)` pour épouser la perspective de la face.
+
+## Écran d'accueil et classement (8e passe)
+
+Le Chemin était le seul jeu qui démarrait directement dans la partie. Il a
+maintenant son accueil, sur le modèle des autres jeux
+(`CheminHub.tsx`) : coque `ArcadeShell`, `HubHeader`, héros, puis
+
+- **Où j'en suis** : anneau de progression des chapitres terminés, plus
+  étapes, cartes gagnées et XP ;
+- **Les chapitres** : une ligne par chapitre avec sa carte de personnage en
+  vignette (grisée tant qu'elle n'est pas gagnée), sa barre de progression
+  et son état (terminé / en cours / verrouillé). Toucher une ligne ouvre
+  directement ce chapitre ;
+- **CONTINUER** qui emmène au premier chapitre non terminé ;
+- **Classement · Le Chemin** (`ScoreBoard mode="chemin"`).
+
+Le bouton « JEUX » de la carte devient « ACCUEIL » et revient au hub ; le
+retour aux jeux se fait depuis le hub.
+
+### Score
+
+Le score du Chemin est l'**XP cumulée** (`getCheminXp()`), remontée par
+`submitGameScore("chemin", …)` à l'ouverture du hub et après chaque étape
+validée. Le serveur garde la valeur la plus haute, ce qui convient à un
+score cumulatif.
+
+**Nécessite une migration SQL** : `supabase/migration-chemin.sql` ajoute
+`chemin` à la contrainte de `arcade_scores` et à la liste blanche de
+`game_submit`. Sans elle, les scores sont rejetés en silence et le
+classement reste vide.
+
+À noter au passage : `berger` figure dans le type `GameId` côté app mais
+**pas** dans la liste blanche SQL — ses scores sont donc rejetés
+silencieusement depuis toujours. Non corrigé ici, c'est une décision
+produit (ça ferait entrer le jeu caché dans le classement général).
