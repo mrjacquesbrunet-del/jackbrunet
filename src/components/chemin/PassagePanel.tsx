@@ -35,19 +35,31 @@ function normalise(s: string): string {
 
 /**
  * Découpe une référence en livre + chapitre + versets. Gère les formes
- * utilisées dans les chapitres du Chemin : « Genèse 15:1-6 », « Exode 10 »,
- * « Genèse 42-43 », « Exode 12:37-42 ».
+ * utilisées dans les chapitres du Chemin : « Exode 10 », « Genèse 42-43 »,
+ * « Genèse 15:1-6 » et les références à cheval sur deux chapitres comme
+ * « Genèse 1:31-2:3 ».
  */
 function analyse(reference: string): { livre: string; chap: number; chapFin: number; de: number; a: number } | null {
-  const m = reference.trim().match(/^(.+?)\s+(\d+)(?:\s*[-–]\s*(\d+))?(?:\s*:\s*(\d+)(?:\s*[-–]\s*(\d+))?)?$/);
+  const m = reference
+    .trim()
+    .match(/^(.+?)\s+(\d+)(?:\s*:\s*(\d+))?(?:\s*[-–]\s*(\d+)(?:\s*:\s*(\d+))?)?$/);
   if (!m) return null;
   const chap = Number(m[2]);
-  // « Genèse 42-43 » : le second nombre est un CHAPITRE tant qu'aucun verset
-  // n'est donné ; avec « 15:1-6 » c'est un verset.
-  const chapFin = m[4] ? chap : Number(m[3] || chap);
-  const de = m[4] ? Number(m[4]) : 1;
-  const a = m[4] ? Number(m[5] || m[4]) : 0; // 0 = jusqu'à la fin du chapitre
-  return { livre: m[1], chap, chapFin, de, a };
+  const versetDebut = m[3] ? Number(m[3]) : 0;
+  const second = m[4] ? Number(m[4]) : 0;
+  const versetFin = m[5] ? Number(m[5]) : 0;
+
+  if (!versetDebut) {
+    // « Genèse 42-43 » : sans verset de départ, le second nombre est un chapitre.
+    return { livre: m[1], chap, chapFin: second || chap, de: 1, a: 0 };
+  }
+  if (versetFin) {
+    // « Genèse 1:31-2:3 » : on ouvre le premier chapitre à partir du verset cité
+    // et on renvoie à la suite. (0 = jusqu'à la fin du chapitre.)
+    return { livre: m[1], chap, chapFin: second, de: versetDebut, a: 0 };
+  }
+  // « Genèse 15:1-6 » : le second nombre est un verset du même chapitre.
+  return { livre: m[1], chap, chapFin: chap, de: versetDebut, a: second || versetDebut };
 }
 
 async function chargerPassage(reference: string): Promise<Passage | null> {

@@ -8,13 +8,21 @@ import { CHAPITRE_MOISE } from "./chapitre-moise";
 import { CHAPITRE_PAQUE } from "./chapitre-paque";
 import { CHAPITRE_MER_ROUGE } from "./chapitre-mer-rouge";
 import { CHAPITRE_SINAI } from "./chapitre-sinai";
+import { CHAPITRE_JOSUE } from "./chapitre-josue";
+import { CHAPITRE_GEDEON } from "./chapitre-gedeon";
+import { CHAPITRE_SAMSON } from "./chapitre-samson";
+import { CHAPITRE_RUTH } from "./chapitre-ruth";
+import { CHAPITRE_SAMUEL } from "./chapitre-samuel";
+import { CHAPITRE_DAVID } from "./chapitre-david";
 
 /**
  * Les chapitres du Chemin, dans l'ordre du récit biblique.
- * La Genèse est complète (Création, Noé, Abraham, Jacob, Joseph) et l'Exode
- * aussi (Moïse, la Pâque, la mer Rouge, le Sinaï).
- * À venir : Josué, les Juges, Samuel, David, Salomon, Élie, Daniel, Jonas,
- * Esther, puis Jésus (plusieurs chapitres), les Actes, Paul et l'Apocalypse.
+ * La Genèse est complète (Création, Noé, Abraham, Jacob, Joseph), l'Exode
+ * aussi (Moïse, la Pâque, la mer Rouge, le Sinaï), puis la conquête et les
+ * juges (Josué, Gédéon, Samson, Ruth, Samuel, David et Goliath).
+ * À venir : Saül et David roi, Salomon, Élie et Élisée, Job, les prophètes
+ * (Ésaïe, Jérémie, Ézéchiel, Daniel, Osée, Amos, Jonas), Esther et Néhémie,
+ * puis Jésus (plusieurs chapitres), les Actes, Paul et l'Apocalypse.
  */
 export const CHEMIN_CHAPITRES: CheminChapitre[] = [
   CHAPITRE_CREATION,
@@ -26,4 +34,10 @@ export const CHEMIN_CHAPITRES: CheminChapitre[] = [
   CHAPITRE_PAQUE,
   CHAPITRE_MER_ROUGE,
   CHAPITRE_SINAI,
+  CHAPITRE_JOSUE,
+  CHAPITRE_GEDEON,
+  CHAPITRE_SAMSON,
+  CHAPITRE_RUTH,
+  CHAPITRE_SAMUEL,
+  CHAPITRE_DAVID,
 ];

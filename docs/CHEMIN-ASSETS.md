@@ -307,14 +307,25 @@ points en % de l'image, un par étape, sur lesquels les dalles sont posées.
 1. Générer la carte en 9:16 / 2k avec les références de style, en exigeant
    un sentier de pierre claire continu du bas au haut de l'image et
    **aucune plateforme, aucun chiffre** dessus.
-2. Faire tourner le relevé (script dans l'historique de cette passe) : il
-   suit le sentier de bas en haut, ligne par ligne, en gardant le segment
-   de sable le plus proche du précédent — ce qui l'empêche de sauter sur un
-   rocher clair ou une bande de l'arc-en-ciel.
-3. Borner le haut du parcours là où le sentier s'arrête réellement. Sans
-   ça, sur le chapitre 2, le relevé remontait sur la coque en bois de
-   l'arche puis sur l'arc-en-ciel.
-4. Vérifier visuellement : le script dessine les repères sur l'image.
+2. Faire tourner `scripts/releve-sentier.py <carte.jpg> y0=94 y1=26` :
+
+   ```
+   python3 scripts/releve-sentier.py public/img/chemin/decor-15.jpg y0=94 y1=26
+   ```
+
+   Le script note chaque pixel (« du sable clair et chaud ? »), **normalisé
+   ligne par ligne** — c'est ce qui fait marcher aussi bien les cartes de
+   plein jour que celles de nuit, sans réglage manuel — puis cherche par
+   programmation dynamique le tracé **continu** du bas vers le haut qui
+   maximise cette note. Un chemin ne se téléporte pas : c'est la continuité
+   qui l'empêche de sauter sur un champ de blé, un mur éclairé ou une bande
+   d'arc-en-ciel. (La première version testait un seuil ligne par ligne et
+   se laissait piéger : elle est remplacée.)
+3. Borner le haut du parcours (`y1`) là où le sentier s'arrête réellement.
+   Sans ça, le relevé remonte sur l'horizon, les pyramides, le buisson
+   ardent ou la lumière du sommet.
+4. Vérifier visuellement : le script écrit `<carte>-check.jpg` avec les
+   repères dessinés. **Toujours regarder l'image** avant de coller.
 5. Coller le tableau dans `sentier` du chapitre.
 
 ### Contraintes d'affichage à ne pas casser
