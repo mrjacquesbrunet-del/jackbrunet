@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   cheminChapitreOuvert,
@@ -31,6 +31,15 @@ import {
 } from "@/components/games/ArcadeUI";
 
 const OR = "#FCD34D";
+
+/** Chevron pour déplier/replier la liste des chapitres. */
+function IcoChevron({ className = "h-4 w-4", haut = false }: { className?: string; haut?: boolean }) {
+  return (
+    <svg viewBox="0 0 24 24" className={`${className} fill-none stroke-current`} strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d={haut ? "M6 15l6-6 6 6" : "M6 9l6 6 6-6"} />
+    </svg>
+  );
+}
 
 /** Icône « cartes de collection » (trait, charte : pas d'emoji). */
 function IcoCards({ className = "h-5 w-5" }: { className?: string }) {
@@ -157,6 +166,10 @@ export function CheminHub({ onJouer }: { onJouer: (chapIdx: number) => void }) {
   const [avatar, setAvatar] = useState<string | null>(null);
   const [xpGlobal, setXpGlobal] = useState(0);
   const [albumOuvert, setAlbumOuvert] = useState(false);
+  // La liste des 58 chapitres enterrait le classement sous un très long
+  // défilement : on n'en montre qu'une fenêtre, dépliable à la demande.
+  const [listeDepliee, setListeDepliee] = useState(false);
+  const blocChapitres = useRef<HTMLDivElement | null>(null);
 
   const p = cheminProgres(CHEMIN_CHAPITRES);
   // Le premier chapitre non terminé : c'est là que « CONTINUER » emmène.
@@ -165,6 +178,18 @@ export function CheminHub({ onJouer }: { onJouer: (chapIdx: number) => void }) {
     return i === -1 ? CHEMIN_CHAPITRES.length - 1 : i;
   })();
   const toutFini = p.chapitresFaits >= p.chapitresTotal;
+
+  /**
+   * Repliée, la liste ne montre que APERCU chapitres — et pas les premiers :
+   * une fenêtre calée sur celui en cours, avec le précédent juste au-dessus
+   * pour garder le fil. Un joueur arrivé au chapitre 30 verrait sinon cinq
+   * chapitres déjà terminés.
+   */
+  const APERCU = 5;
+  const debutApercu = Math.max(0, Math.min(idxCourant - 1, CHEMIN_CHAPITRES.length - APERCU));
+  const chapitresVisibles = listeDepliee
+    ? CHEMIN_CHAPITRES.map((c, i) => ({ c, i }))
+    : CHEMIN_CHAPITRES.slice(debutApercu, debutApercu + APERCU).map((c, k) => ({ c, i: debutApercu + k }));
 
   useEffect(() => {
     setXpGlobal(getMemorizeXp() + getVfXp() + getChronoXp() + Math.floor(getQuizCoins() / 500));
@@ -253,18 +278,39 @@ export function CheminHub({ onJouer }: { onJouer: (chapIdx: number) => void }) {
       </button>
 
       {/* Les chapitres */}
-      <div className="qm-howto mt-4">
+      <div ref={blocChapitres} className="qm-howto mt-4">
         <div className="flex items-center justify-between">
           <p className="font-game text-sm font-black tracking-wide text-[#4ADE80]">LES CHAPITRES</p>
           <span className="font-game text-[11px] font-bold text-white/45">{p.chapitresTotal} au total</span>
         </div>
         <div className="mt-3 flex flex-col gap-2">
-          {CHEMIN_CHAPITRES.map((c, i) => (
+          {chapitresVisibles.map(({ c, i }) => (
             <LigneChapitre key={c.id} chap={c} idx={i} onOuvrir={() => onJouer(i)} />
           ))}
         </div>
+
+        {CHEMIN_CHAPITRES.length > APERCU ? (
+          <button
+            type="button"
+            onClick={() => {
+              // En repliant depuis le bas des 58, on se retrouverait au milieu
+              // de la page : on ramène la liste sous les yeux.
+              if (listeDepliee) {
+                blocChapitres.current?.scrollIntoView({ block: "start", behavior: "smooth" });
+              }
+              setListeDepliee((v) => !v);
+            }}
+            aria-expanded={listeDepliee}
+            className="mt-2.5 flex w-full items-center justify-center gap-2 rounded-2xl border border-white/12 bg-white/[0.06] py-3 font-game text-[12px] font-black uppercase tracking-[0.12em] text-white/70 transition-transform active:scale-[.99]"
+          >
+            {listeDepliee ? "VOIR MOINS" : `VOIR LES ${CHEMIN_CHAPITRES.length} CHAPITRES`}
+            <IcoChevron haut={listeDepliee} />
+          </button>
+        ) : null}
+
         <p className="mt-3 text-center text-[11px] font-semibold leading-snug text-white/55">
-          La Genèse et l&apos;Exode sont complets. À venir : Josué, David, Élie, Daniel, Jonas, Esther, Jésus, l&apos;Apocalypse…
+          De la Création à la nouvelle Jérusalem : la Genèse, l&apos;Exode, les juges,
+          les rois, les prophètes, les Évangiles, les Actes et l&apos;Apocalypse.
         </p>
       </div>
 
