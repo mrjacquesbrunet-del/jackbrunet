@@ -547,7 +547,7 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
   if (over) {
     const win = lives > 0;
     return (
-      <div className="fixed inset-0 z-[80] flex flex-col items-center justify-center overflow-hidden mem-root px-6 text-center font-game text-white">
+      <div className="fixed inset-0 z-[80] flex flex-col items-center justify-center overflow-hidden mem-root px-6 pb-[var(--bottom-nav-h,0px)] text-center font-game text-white">
         <GameStyles />
         {win ? <Confetti /> : null}
         <div className="jb-pop">
@@ -673,7 +673,7 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
 
       {/* Bandeau bas */}
       {phase === "won" ? (
-        <div className="border-t-2 border-amber-400/30 bg-amber-400/[0.12] px-5 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-4">
+        <div className="border-t-2 border-amber-400/30 bg-amber-400/[0.12] px-5 pb-[calc(var(--bottom-nav-h,env(safe-area-inset-bottom))+1rem)] pt-4">
           <div className="mx-auto flex w-full max-w-lg items-start gap-4">
             <HappyFace />
             <div className="min-w-0 flex-1">
@@ -694,7 +694,7 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
           </div>
         </div>
       ) : oops ? (
-        <div className="border-t-2 border-rose-400/40 bg-rose-400/[0.12] px-5 pb-[calc(env(safe-area-inset-bottom)+1.2rem)] pt-4">
+        <div className="border-t-2 border-rose-400/40 bg-rose-400/[0.12] px-5 pb-[calc(var(--bottom-nav-h,env(safe-area-inset-bottom))+1.2rem)] pt-4">
           <div className="mx-auto flex w-full max-w-lg items-center gap-4">
             <SadFace />
             <div>
@@ -704,7 +704,7 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
           </div>
         </div>
       ) : phase === "play" ? (
-        <div className="border-t-2 border-white/8 px-5 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-4">
+        <div className="border-t-2 border-white/8 px-5 pb-[calc(var(--bottom-nav-h,env(safe-area-inset-bottom))+1rem)] pt-4">
           <div className="mx-auto w-full max-w-lg">
             <button type="button" disabled
               className="w-full rounded-2xl border-2 border-white/10 bg-white/[0.05] px-5 py-3.5 text-center font-game text-base font-bold uppercase tracking-wide text-white/30">
@@ -713,7 +713,7 @@ export function VerseGame({ items, onClose }: { items: MemorizeItem[]; onClose: 
           </div>
         </div>
       ) : (
-        <div className="pb-[env(safe-area-inset-bottom)]" />
+        <div className="pb-[var(--bottom-nav-h,env(safe-area-inset-bottom))]" />
       )}
     </div>
   );
