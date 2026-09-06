@@ -488,7 +488,7 @@ function Profile({
       {/* Recherche / Messages / Notifications — rangée sobre, sans carte.
           Les badges de récompense se glissent discrètement à gauche. */}
       <div className={`relative flex items-center justify-end gap-2 ${jour? "": "dark-ctx"}`}>
-          <ProfileBadgesRow userId={userId} streakDays={profile?.streak_days} compact self />
+          <span className="mr-auto" />
           <div className="flex shrink-0 items-center gap-2">
             <button
               type="button"
@@ -877,6 +877,12 @@ function Profile({
         </div>
         </div>
       ): null}
+
+      {/* Mes trophées : une seule entrée vers la vitrine complète. La rangée
+          de médaillons devenait illisible à mesure que les badges s'ajoutaient. */}
+      <div className="mt-4">
+        <ProfileBadgesRow userId={userId} streakDays={profile?.streak_days} self bouton />
+      </div>
 
       {/* Accès rapides: carnet + plans */}
       <div className="mt-4 grid grid-cols-2 gap-3">

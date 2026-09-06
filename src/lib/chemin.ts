@@ -10,11 +10,63 @@
  * contenu. Le contenu lui-même est en données : src/config/chemin/*.
  */
 
+/**
+ * Difficulté d'un exercice. « facile » est le défaut et ne s'affiche pas ;
+ * « moyen » et « expert » sont annoncés au joueur et rapportent plus d'XP.
+ */
+export type CheminNiveau = "facile" | "moyen" | "expert";
+
+type Base = {
+  niveau?: CheminNiveau;
+  /**
+   * Le passage à consulter pour cet exercice. Facultatif : par défaut on
+   * affiche celui de l'étape. À ne renseigner que si la question porte sur
+   * un autre passage que le récit qui la précède.
+   */
+  ref?: string;
+};
+
 export type CheminExercice =
-  | { type: "qcm"; q: string; choix: string[]; bonne: number }
-  | { type: "vf"; q: string; vrai: boolean }
-  | { type: "trou"; texte: string; reponse: string; leurres: string[] }
-  | { type: "ordre"; consigne: string; items: string[] };
+  | ({ type: "qcm"; q: string; choix: string[]; bonne: number } & Base)
+  | ({ type: "vf"; q: string; vrai: boolean } & Base)
+  | ({ type: "trou"; texte: string; reponse: string; leurres: string[] } & Base)
+  | ({ type: "ordre"; consigne: string; items: string[] } & Base)
+  /** Qui suis-je : les indices se dévoilent un par un, puis on désigne. */
+  | ({ type: "qui"; indices: string[]; reponse: string; leurres: string[] } & Base)
+  /** Le verset à reconstruire mot à mot, dans l'ordre. */
+  | ({ type: "verset"; ref: string; texte: string } & Base);
+
+/** Bonus d'XP par exercice selon sa difficulté. */
+export const XP_NIVEAU: Record<CheminNiveau, number> = { facile: 0, moyen: 3, expert: 8 };
+
+export const LABEL_NIVEAU: Record<CheminNiveau, string> = {
+  facile: "Facile",
+  moyen: "Moyen",
+  expert: "Expert",
+};
+
+/**
+ * Le numéro de chapitre AFFICHÉ au joueur : c'est la position dans la route,
+ * pas l'`id`. L'`id` est la clé de sauvegarde de la progression : il ne bouge
+ * jamais, sinon un joueur retrouverait son avancement sur un autre chapitre.
+ * La position, elle, change dès qu'on insère un chapitre au milieu du récit —
+ * ce qui doit rester possible sans rien casser.
+ */
+export function numeroChapitre(chapitres: CheminChapitre[], id: number): number {
+  const i = chapitres.findIndex((c) => c.id === id);
+  return i === -1 ? id : i + 1;
+}
+
+/** L'intitulé du défi d'une étape, déduit de ses exercices. */
+export function defiEtape(e: CheminEtape): string {
+  const t = e.exercices[0]?.type;
+  if (t === "qui") return "Qui suis-je ?";
+  if (t === "verset") return "Le verset";
+  if (t === "ordre") return "La chronologie";
+  if (t === "trou") return "Le mot manquant";
+  if (t === "vf") return "Vrai ou faux";
+  return "Les questions";
+}
 
 export interface CheminEtape {
   /** Le récit raconté avant les exercices (2-4 phrases). */
@@ -39,6 +91,14 @@ export interface CheminChapitre {
   livre: string; // ex. « Genèse 1-3 »
   accent: string; // couleur du chapitre
   decor: string; // /img/chemin/decor-<id>.jpg (2K généré)
+  /**
+   * Les points du sentier PEINT dans le décor, en % de l'image (0-100).
+   * Le chemin n'est plus dessiné par l'app : il fait partie de l'illustration,
+   * et ces coordonnées — relevées sur l'image par détection du sentier — y
+   * posent les dalles exactement dessus. Un point par étape, du bas vers le
+   * haut. Voir docs/CHEMIN-ASSETS.md pour la méthode de relevé.
+   */
+  sentier: { x: number; y: number }[];
   /** Dégradé de secours tant que le décor n'est pas installé. */
   fallback: [string, string, string];
   carte: CheminCarte;
@@ -107,8 +167,11 @@ export function completeCheminStep(
   const key = String(chap.id);
   const cur = Number(s.steps[key]) || 0;
   const dejaFaite = stepIdx < cur;
-  // XP : 30 par étape parfaite, 20 sinon ; 8 en re-jeu.
-  const xp = dejaFaite ? 8 : fautes === 0 ? 30 : 20;
+  // XP : 30 par étape parfaite, 20 sinon ; 8 en re-jeu. Les exercices de
+  // difficulté « moyen » et « expert » ajoutent leur bonus par-dessus.
+  const bonus = (chap.etapes[stepIdx]?.exercices ?? [])
+    .reduce((n, ex) => n + XP_NIVEAU[ex.niveau ?? "facile"], 0);
+  const xp = dejaFaite ? 8 : (fautes === 0 ? 30 : 20) + bonus;
   s.xp += xp;
   let coffreGemmes = 0;
   if (!dejaFaite) {
@@ -125,6 +188,34 @@ export function completeCheminStep(
   }
   write(s);
   return { xp, coffreGemmes, carte, dejaFaite };
+}
+
+/** Où en est le joueur sur l'ensemble du Chemin (pour l'écran d'accueil). */
+export function cheminProgres(chapitres: CheminChapitre[]): {
+  chapitresFaits: number;
+  chapitresTotal: number;
+  etapesFaites: number;
+  etapesTotal: number;
+  xp: number;
+  cartes: number;
+} {
+  let etapesFaites = 0;
+  let etapesTotal = 0;
+  let chapitresFaits = 0;
+  for (const c of chapitres) {
+    const fait = Math.min(cheminStep(c.id), c.etapes.length);
+    etapesFaites += fait;
+    etapesTotal += c.etapes.length;
+    if (fait >= c.etapes.length) chapitresFaits += 1;
+  }
+  return {
+    chapitresFaits,
+    chapitresTotal: chapitres.length,
+    etapesFaites,
+    etapesTotal,
+    xp: getCheminXp(),
+    cartes: cheminCards().length,
+  };
 }
 
 /** Un chapitre est débloqué si le précédent est terminé. */

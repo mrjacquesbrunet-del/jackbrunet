@@ -40,6 +40,7 @@ const IconScale = S("M12 4v16M8 20h8M6 7h12M6 7l-2.5 5a3 3 0 0 0 5 0zM18 7l-2.5 
 const IconMask = S("M12 3C7 3 3 6 3 11c0 4 3 6 4 8 .5 1 1.5 2 5 2s4.5-1 5-2c1-2 4-4 4-8 0-5-4-8-9-8zM8.5 11h.01M15.5 11h.01M9 15c1 1 5 1 6 0");
 const IconTrophy = S("M8 4h8v3a4 4 0 0 1-8 0zM8 5H5v1a3 3 0 0 0 3 3M16 5h3v1a3 3 0 0 1-3 3M9 20h6M12 12v4");
 const IconHourglass = S("M6 3h12M6 21h12M8 3v3.5c0 2 1.6 3.2 4 5.5-2.4 2.3-4 3.5-4 5.5V21M16 3v3.5c0 2-1.6 3.2-4 5.5 2.4 2.3 4 3.5 4 5.5V21");
+const IconRoute = S("M6 21a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM18 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM6 17v-5a4 4 0 0 1 4-4h4a4 4 0 0 0 4-3");
 
 /** Illustration 3D du bouton « Défier un ami » (vide tant que Jack n'a pas fourni la sienne). */
 const DEFI_ILLO = "/img/jeux/trophee.png";
@@ -51,6 +52,8 @@ type Game = {
   desc: string;
   href: string;
   illo: string;
+  /** Décor 3D du jeu, réutilisé en fond de carte sous le dégradé de couleur. */
+  decor?: string;
   /** Illustration pleine carte (style maquette) : titre + illustration déjà intégrés. */
   card?: string;
   Icon: (p: { className?: string }) => React.ReactElement;
@@ -59,11 +62,12 @@ type Game = {
   arrow: string;
 };
 const GAMES: Game[] = [
-  { id: "quiz", title1: "QUIZ", title2: "BIBLIQUE", desc: "Réponds aux questions et deviens incollable sur la Bible !", href: "/quiz", illo: "/img/jeux/quiz.png", Icon: IconCap, from: "#FBBF24", to: "#F59E0B", arrow: "#F59E0B" },
-  { id: "memo", title1: "MÉMORISER", title2: "LES VERSETS", desc: "Grave la Parole dans ton cœur, verset après verset !", href: "/memoriser", illo: "/img/jeux/memoriser.png", Icon: IconBulb, from: "#2DD4BF", to: "#0D9488", arrow: "#0D9488" },
-  { id: "quisuisje", title1: "QUI", title2: "SUIS-JE ?", desc: "Devine le personnage biblique grâce aux indices !", href: "/qui-suis-je", illo: "/img/jeux/quisuisje.png", Icon: IconMask, from: "#60A5FA", to: "#3B82F6", arrow: "#2563EB" },
-  { id: "vraifaux", title1: "VRAI", title2: "OU FAUX", desc: "Réponds vite et enchaîne les bonnes réponses !", href: "/vrai-faux", illo: "/img/jeux/vraifaux.png", Icon: IconScale, from: "#F472B6", to: "#EC4899", arrow: "#DB2777" },
-  { id: "chrono", title1: "LA", title2: "CHRONOLOGIE", desc: "Deux événements : lequel est arrivé en premier ?", href: "/chronologie", illo: "/img/jeux/chronologie.png", Icon: IconHourglass, from: "#A78BFA", to: "#7C3AED", arrow: "#6D28D9" },
+  { id: "chemin", title1: "LE", title2: "CHEMIN", desc: "De la Genèse à l'Apocalypse — apprends toute l'histoire !", href: "/chemin", illo: "/img/jeux/chemin.png", decor: "/img/chemin/decor-1.jpg", Icon: IconRoute, from: "#FB923C", to: "#C2410C", arrow: "#9A3412" },
+  { id: "quiz", title1: "QUIZ", title2: "BIBLIQUE", desc: "Réponds aux questions et deviens incollable sur la Bible !", href: "/quiz", illo: "/img/jeux/quiz.png", decor: "/img/jeux/decors/quiz.jpg", Icon: IconCap, from: "#FBBF24", to: "#F59E0B", arrow: "#F59E0B" },
+  { id: "memo", title1: "MÉMORISER", title2: "LES VERSETS", desc: "Grave la Parole dans ton cœur, verset après verset !", href: "/memoriser", illo: "/img/jeux/memoriser.png", decor: "/img/jeux/decors/memoriser.jpg", Icon: IconBulb, from: "#2DD4BF", to: "#0D9488", arrow: "#0D9488" },
+  { id: "quisuisje", title1: "QUI", title2: "SUIS-JE ?", desc: "Devine le personnage biblique grâce aux indices !", href: "/qui-suis-je", illo: "/img/jeux/quisuisje.png", decor: "/img/jeux/decors/quisuisje.jpg", Icon: IconMask, from: "#60A5FA", to: "#3B82F6", arrow: "#2563EB" },
+  { id: "vraifaux", title1: "VRAI", title2: "OU FAUX", desc: "Réponds vite et enchaîne les bonnes réponses !", href: "/vrai-faux", illo: "/img/jeux/vraifaux.png", decor: "/img/jeux/decors/vraifaux.jpg", Icon: IconScale, from: "#F472B6", to: "#EC4899", arrow: "#DB2777" },
+  { id: "chrono", title1: "LA", title2: "CHRONOLOGIE", desc: "Deux événements : lequel est arrivé en premier ?", href: "/chronologie", illo: "/img/jeux/chronologie.png", decor: "/img/jeux/decors/chronologie.jpg", Icon: IconHourglass, from: "#A78BFA", to: "#7C3AED", arrow: "#6D28D9" },
 ];
 
 const CSS = `
@@ -219,8 +223,19 @@ export function GamesHub() {
                   </div>
                 ) : (
                   <div className="relative flex h-full min-h-[15rem] flex-col p-4">
-                    <p className="font-game text-xl font-black uppercase leading-[0.95] drop-shadow">{g.title1}<br />{g.title2}</p>
-                    <p className="mt-1.5 font-game text-[11px] font-semibold leading-tight text-white/90">{g.desc}</p>
+                    {/* Décor 3D du jeu, teinté par sa couleur : chaque carte ouvre sur son univers. */}
+                    {g.decor ? (
+                      <>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={asset(g.decor)} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" />
+                        <span
+                          className="absolute inset-0"
+                          style={{ background: `linear-gradient(158deg, ${g.from}e6 0%, ${g.to}b8 46%, rgba(12,12,11,.86) 100%)` }}
+                        />
+                      </>
+                    ) : null}
+                    <p className="relative font-game text-xl font-black uppercase leading-[0.95] drop-shadow-[0_2px_6px_rgba(0,0,0,.55)]">{g.title1}<br />{g.title2}</p>
+                    <p className="relative mt-1.5 font-game text-[11px] font-semibold leading-tight text-white/90 drop-shadow-[0_1px_4px_rgba(0,0,0,.6)]">{g.desc}</p>
                     {/* Illustration (avec repli icône) */}
                     <div className="jx-illo relative mt-2 flex flex-1 items-end justify-center">
                       {g.illo && !broken.has(g.id) ? (

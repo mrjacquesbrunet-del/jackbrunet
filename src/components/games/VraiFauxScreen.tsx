@@ -234,15 +234,15 @@ export function VraiFauxScreen() {
   /* ---------------- HUB ---------------- */
   if (phase === "hub") {
     return (
-      <ArcadeShell>
+      <ArcadeShell decor="/img/jeux/decors/vraifaux.jpg">
         <HubHeader name={name} avatarUrl={avatar} level={lvl.level} xpInto={lvl.into} xpSpan={lvl.span} gems={best} onGear={() => router.push("/profil")} />
 
         {/* Héros */}
-        <div className="qm-hero mt-4" style={{ background: "radial-gradient(120% 120% at 100% 0%, rgba(202,240,0,.16), transparent 55%), linear-gradient(135deg,#1E1E1D 0%,#0C0C0B 100%)" }}>
+        <div className="qm-hero mt-4" style={{ background: "radial-gradient(120% 120% at 100% 0%, rgba(202,240,0,.16), transparent 55%), linear-gradient(135deg,rgba(30,30,29,.72) 0%,rgba(12,12,11,.84) 100%)" }}>
           <span className="pointer-events-none absolute right-4 top-4 text-[#CAF000]/10">
             <svg viewBox="0 0 24 24" className="h-24 w-24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round"><path d="M12 4v16M8 20h8M6 7h12M6 7l-2.5 5a3 3 0 0 0 5 0zM18 7l-2.5 5a3 3 0 0 0 5 0z" /></svg>
           </span>
-          <div className="relative max-w-[58%]">
+          <div className="relative max-w-[62%]">
             <span className="qm-rapide"><IcoBolt className="h-3.5 w-3.5" /> JEU RAPIDE</span>
             <h1 className="mt-2.5 font-game text-[2rem] font-black leading-[0.9] drop-shadow">
               VRAI <span className="text-[#CAF000]">ou</span> FAUX
@@ -252,7 +252,7 @@ export function VraiFauxScreen() {
             </p>
           </div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={asset("/img/jeux/vraifaux.png")} alt="" className="qm-illo pointer-events-none absolute -bottom-2 -right-2 h-36 w-auto object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.35)]" />
+          <img src={asset("/img/jeux/vraifaux.png")} alt="" className="qm-illo pointer-events-none absolute -bottom-2 -right-2 h-32 w-auto max-w-[38%] object-contain drop-shadow-[0_10px_16px_rgba(0,0,0,.35)]" />
         </div>
 
         {/* Objectif + Record */}
@@ -408,7 +408,7 @@ export function VraiFauxScreen() {
   /* ---------------- FIN ---------------- */
   if (phase === "over") {
     return (
-      <ArcadeShell>
+      <ArcadeShell decor="/img/jeux/decors/vraifaux.jpg">
         <ArcadeHeader name={name} avatarUrl={avatar} level={lvl.level} xpInto={lvl.into} xpSpan={lvl.span} gems={best} onBack={() => setPhase("hub")} />
         <div className="qm-card mt-6 p-8 text-center" style={{ animation: "qm-optin .3s ease-out" }}>
           <p className="font-game text-lg text-white/60">Partie terminée</p>
@@ -446,7 +446,7 @@ export function VraiFauxScreen() {
   };
 
   return (
-    <ArcadeShell>
+    <ArcadeShell decor="/img/jeux/decors/vraifaux.jpg">
       <ArcadeHeader name={name} avatarUrl={avatar} level={lvl.level} xpInto={lvl.into} xpSpan={lvl.span} gems={score} onBack={() => setPhase("hub")} />
 
       {/* Carte état : vies · série · record */}

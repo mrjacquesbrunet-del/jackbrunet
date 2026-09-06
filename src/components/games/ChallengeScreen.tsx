@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { listFollowing, type Profile } from "@/lib/community";
 import { currentUserId } from "@/lib/game-scores";
+import { GameDecor } from "./ArcadeUI";
 import {
   buildChallengeDeck,
   newSeed,
@@ -401,7 +402,7 @@ function Shell({ title, onBack, children }: { title: string; onBack?: () => void
   return (
     <div className="fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden bg-night-950 text-cream [overscroll-behavior:contain]">
       <style dangerouslySetInnerHTML={{ __html: "@keyframes fadeup{0%{transform:translateY(12px);opacity:0}100%{transform:translateY(0);opacity:1}}" }} />
-      <div className="pointer-events-none fixed inset-0 bg-gradient-to-b from-night-900/60 via-night-950 to-night-950" />
+      <GameDecor src="/img/jeux/decors/defi.jpg" />
       <div className="relative mx-auto w-full max-w-md px-4 pb-16 pt-[calc(0.75rem+env(safe-area-inset-top))]">
         <div className="flex items-center gap-2">
           {onBack ? (

@@ -9,11 +9,14 @@ import type { BadgeUnlock, BadgeTier } from "@/lib/badges";
  * fetchProfileBadges) et affiche les paliers gagnés l'un après l'autre.
  */
 
-const TIER_LABEL: Record<BadgeTier, string> = { bronze: "Bronze", argent: "Argent", or: "Or" };
+const TIER_LABEL: Record<BadgeTier, string> = { bronze: "Bronze", argent: "Argent", or: "Or", platine: "Platine", diamant: "Diamant", elixir: "Élixir" };
 const TIER_RING: Record<BadgeTier, string> = {
   bronze: "conic-gradient(from 210deg,#8a5a2b,#d29a5c,#f0c896,#8a5a2b)",
   argent: "conic-gradient(from 210deg,#8e9296,#d7dbdf,#f4f6f8,#8e9296)",
   or: "conic-gradient(from 210deg,#a06a00,#f2c14e,#ffe9a8,#a06a00)",
+  platine: "conic-gradient(from 210deg,#5f7a86,#bcd6de,#f0fbff,#5f7a86)",
+  diamant: "conic-gradient(from 210deg,#2f7fa8,#7fd6f5,#e8fbff,#2f7fa8)",
+  elixir: "conic-gradient(from 210deg,#5b1f8a,#c05cf0,#ffd6ff,#5b1f8a)",
 };
 
 const CSS = `

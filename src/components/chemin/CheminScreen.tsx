@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   cheminStep,
   cheminCards,
@@ -11,11 +10,17 @@ import {
   type CheminChapitre,
   type CheminCarte,
   type CheminExercice,
+  type CheminNiveau,
+  LABEL_NIVEAU,
+  defiEtape,
+  numeroChapitre,
 } from "@/lib/chemin";
 import { CHEMIN_CHAPITRES } from "@/config/chemin";
 import { asset } from "@/lib/asset";
-import { submitWeeklyPoints } from "@/lib/game-scores";
+import { submitGameScore, submitWeeklyPoints } from "@/lib/game-scores";
 import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
+import { PassagePanel } from "./PassagePanel";
+import { CheminHub } from "./CheminHub";
 import { bumpAchv, markDayStreak } from "@/lib/achievements";
 import { checkLocalBadges } from "@/lib/badges";
 
@@ -65,44 +70,21 @@ function IcoCards({ className = "h-5 w-5" }: { className?: string }) {
     </svg>
   );
 }
-function ChestSvg({ open = false, className = "h-9 w-9" }: { open?: boolean; className?: string }) {
+/** Coffre 3D du sentier (asset détouré), fermé ou débordant de trésor. */
+function Coffre({ open = false, className = "h-11 w-11" }: { open?: boolean; className?: string }) {
   return (
-    <svg viewBox="0 0 48 48" className={className} aria-hidden>
-      <ellipse cx="24" cy="41" rx="14" ry="2.6" fill="rgba(0,0,0,.35)" />
-      <rect x="8" y="22" width="32" height="16" rx="3" fill="#8a5a2b" stroke="#4e3014" strokeWidth="2" />
-      <path d={open ? "M8 20c0-7 7-11 16-11s16 4 16 11l-2 2H10z" : "M8 22c0-7 7-11 16-11s16 4 16 11z"} fill={open ? "#b07a41" : "#a8743d"} stroke="#4e3014" strokeWidth="2" />
-      <rect x="21" y="24" width="6" height="9" rx="1.5" fill={GOLD} stroke="#92400e" strokeWidth="1.6" />
-      {open ? (
-        <g fill={GOLD}>
-          <circle cx="17" cy="16" r="2" />
-          <circle cx="24" cy="12" r="2.4" />
-          <circle cx="31" cy="16" r="2" />
-        </g>
-      ) : null}
-    </svg>
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={asset(open ? "/img/chemin/ui/coffre-ouvert.png" : "/img/chemin/ui/coffre.png")}
+      alt=""
+      aria-hidden
+      className={`${className} w-auto object-contain drop-shadow-[0_5px_8px_rgba(0,0,0,.55)]`}
+      style={open ? { filter: "drop-shadow(0 0 12px rgba(252,211,77,.55))" } : undefined}
+    />
   );
 }
 
 /* ---------- Positions du sentier ---------- */
-
-function nodePositions(n: number): { x: number; y: number }[] {
-  return Array.from({ length: n }, (_, i) => {
-    const t = n <= 1 ? 0 : i / (n - 1);
-    return { x: 50 + 27 * Math.sin(i * 1.25 + 0.6), y: 88 - t * 76 };
-  });
-}
-
-function pathD(pts: { x: number; y: number }[]): string {
-  if (pts.length === 0) return "";
-  let d = `M ${pts[0].x} ${pts[0].y}`;
-  for (let i = 1; i < pts.length; i++) {
-    const p = pts[i - 1];
-    const c = pts[i];
-    const my = (p.y + c.y) / 2;
-    d += ` C ${p.x} ${my}, ${c.x} ${my}, ${c.x} ${c.y}`;
-  }
-  return d;
-}
 
 const RARETE_LABEL: Record<CheminCarte["rarete"], string> = {
   commune: "Commune",
@@ -113,19 +95,34 @@ const RARETE_LABEL: Record<CheminCarte["rarete"], string> = {
 
 /* ==================== Écran principal ==================== */
 
-type Phase = "map" | "lesson";
+type Phase = "hub" | "map" | "lesson";
 
 export function CheminScreen() {
-  const router = useRouter();
-  const [phase, setPhase] = useState<Phase>("map");
+  const [phase, setPhase] = useState<Phase>("hub");
   const [chapIdx, setChapIdx] = useState(0);
   const [stepIdx, setStepIdx] = useState(0);
   const [albumOpen, setAlbumOpen] = useState(false);
   const [, setTick] = useState(0);
 
+  const curNodeRef = useRef<HTMLButtonElement | null>(null);
   // Repart du haut de l'écran à chaque changement de vue.
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, [phase, chapIdx]);
+
+  // Le sentier est long : à l'ouverture de la carte on cadre l'étape en cours,
+  // sinon on atterrit sur les étapes verrouillées du haut.
+  useEffect(() => {
+    if (phase !== "map") return;
+    const t = setTimeout(() => {
+      const el = curNodeRef.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      // ~60 % de la hauteur d'écran : l'étape en cours est bien visible et les
+      // étapes déjà faites restent lisibles en dessous d'elle.
+      window.scrollTo({ top: window.scrollY + r.top - window.innerHeight * 0.6, behavior: "auto" });
+    }, 60);
+    return () => clearTimeout(t);
   }, [phase, chapIdx]);
 
   // À l'ouverture : se placer sur le premier chapitre non terminé.
@@ -135,6 +132,17 @@ export function CheminScreen() {
   }, []);
 
   const chap = CHEMIN_CHAPITRES[chapIdx];
+
+  if (phase === "hub") {
+    return (
+      <CheminHub
+        onJouer={(i) => {
+          setChapIdx(i);
+          setPhase("map");
+        }}
+      />
+    );
+  }
 
   if (phase === "lesson") {
     return (
@@ -150,54 +158,68 @@ export function CheminScreen() {
   }
 
   const done = cheminStep(chap.id);
-  const pts = nodePositions(chap.etapes.length);
+  const pts = chap.sentier;
   const cards = cheminCards();
   const ouvert = cheminChapitreOuvert(CHEMIN_CHAPITRES, chapIdx);
 
   return (
-    <div className="dark-ctx relative min-h-screen overflow-hidden text-white" style={{ background: `linear-gradient(180deg, ${chap.fallback[0]}, ${chap.fallback[1]} 55%, ${chap.fallback[2]})` }}>
+    <div className="dark-ctx relative min-h-screen text-white" style={{ background: `linear-gradient(180deg, ${chap.fallback[0]}, ${chap.fallback[1]} 55%, ${chap.fallback[2]})` }}>
       <PlansDarkBg />
-      {/* Décor 2K du chapitre (dès qu'il est installé) */}
-      <DecorImage src={asset(chap.decor)} />
-      <div className="pointer-events-none absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.05) 22%, rgba(0,0,0,.05) 70%, rgba(0,0,0,.5) 100%)" }} />
+      {/* Fondu sous la barre fixe : les dalles s'y dissolvent au défilement au
+          lieu de passer en transparence derrière le titre du chapitre. */}
+      <div
+        className="pointer-events-none fixed inset-x-0 top-0 z-20 h-64"
+        style={{ background: "linear-gradient(180deg, rgba(6,10,8,.92) 0%, rgba(6,10,8,.80) 52%, rgba(6,10,8,0) 100%)" }}
+      />
 
-      <div className="container-x relative mx-auto flex min-h-screen max-w-md flex-col pb-8 pt-20 sm:pt-24">
-        {/* En-tête du chapitre */}
+      {/* En-tête du chapitre : fixe, le sentier fait plusieurs écrans de haut. */}
+      <div className="fixed inset-x-0 top-20 z-30 sm:top-24">
+        <div className="container-x mx-auto max-w-md">
         <div className="flex items-center justify-between">
-          <button type="button" onClick={() => router.push("/jeux")} className="flex items-center gap-1.5 rounded-full bg-black/45 px-3.5 py-2 font-game text-xs font-black text-white/85 backdrop-blur">
+          <button type="button" onClick={() => setPhase("hub")} className="flex items-center gap-1.5 rounded-full border border-white/10 bg-black/60 px-3.5 py-2 font-game text-xs font-black text-white/90 backdrop-blur-md">
             <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.4}><path d="M15 5l-7 7 7 7" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            JEUX
+            ACCUEIL
           </button>
-          <button type="button" onClick={() => setAlbumOpen(true)} className="flex items-center gap-2 rounded-full bg-black/45 px-3.5 py-2 font-game text-xs font-black text-amber-300 backdrop-blur">
+          <button type="button" onClick={() => setAlbumOpen(true)} className="flex items-center gap-2 rounded-full border border-white/10 bg-black/60 px-3.5 py-2 font-game text-xs font-black text-amber-300 backdrop-blur-md">
             <IcoCards className="h-4 w-4" />
             {cards.length}/{CHEMIN_CHAPITRES.length} CARTES
           </button>
         </div>
 
-        <div className="mt-3 rounded-3xl bg-black/45 px-5 py-3.5 text-center backdrop-blur">
-          <p className="font-game text-[11px] font-black uppercase tracking-[0.2em] text-white/60">Chapitre {chap.id} · {chap.livre}</p>
+        <div className="mt-3 rounded-3xl border border-white/10 bg-black/40 px-5 py-3.5 text-center backdrop-blur-md">
+          <p className="font-game text-[11px] font-black uppercase tracking-[0.2em] text-white/60">Chapitre {chapIdx + 1} · {chap.livre}</p>
           <h1 className="font-game text-2xl font-black" style={{ color: chap.accent }}>{chap.nom}</h1>
           <div className="mx-auto mt-2 h-1.5 w-40 overflow-hidden rounded-full bg-white/15">
             <i className="block h-full rounded-full" style={{ width: `${(done / chap.etapes.length) * 100}%`, background: GOLD }} />
           </div>
           <p className="mt-1 font-game text-[11px] font-bold text-white/70">{done}/{chap.etapes.length} étapes · {getCheminXp()} XP</p>
         </div>
+        </div>
+      </div>
 
-        {/* Le sentier */}
-        <div className="relative mt-2 w-full flex-1" style={{ minHeight: 440 }}>
-          <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 h-full w-full">
-            <path d={pathD(pts)} fill="none" stroke="rgba(0,0,0,.4)" strokeWidth="7" strokeLinecap="round" />
-            <path d={pathD(pts)} fill="none" stroke="rgba(252,211,77,.9)" strokeWidth="4.5" strokeLinecap="round" strokeDasharray="0.1 7.5" style={{ filter: "drop-shadow(0 1px 1px rgba(0,0,0,.6))" }} />
-          </svg>
+      <div className="container-x relative mx-auto flex min-h-screen max-w-md flex-col pb-8 pt-[15.5rem] sm:pt-[17rem]">
+
+        {/* La carte du chapitre : le sentier est PEINT dans l'illustration, les
+            dalles sont posées sur les points relevés dessus (chap.sentier).
+            L'image est donc affichée entière, sans recadrage, sinon les
+            coordonnées ne correspondraient plus. */}
+        <div className="relative mt-2 w-full overflow-hidden rounded-3xl shadow-[0_18px_40px_-16px_rgba(0,0,0,.8)]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={asset(chap.decor)} alt="" aria-hidden className="block w-full" />
+          {/* Léger vignettage haut et bas pour raccorder la carte à la page. */}
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{ background: "linear-gradient(180deg, rgba(6,10,8,.55) 0%, rgba(6,10,8,0) 16%, rgba(6,10,8,0) 88%, rgba(6,10,8,.45) 100%)" }}
+          />
           {chap.etapes.map((et, i) => {
             const p = pts[i];
             const fait = ouvert && i < done;
             const courant = ouvert && i === done;
             const verrou = !ouvert || i > done;
             return (
-              <div key={i} className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: `${p.x}%`, top: `${p.y}%` }}>
+              <div key={i} className="absolute" style={{ left: `${p.x}%`, top: `${p.y}%`, width: "25%", transform: "translate(-50%, -42%)" }}>
                 {et.coffre ? (
-                  <div className="absolute -right-11 top-0"><ChestSvg open={fait} /></div>
+                  <div className="absolute -right-[38px] top-1"><Coffre open={fait} className="h-9" /></div>
                 ) : null}
                 <button
                   type="button"
@@ -207,16 +229,35 @@ export function CheminScreen() {
                     setPhase("lesson");
                     buzz(15);
                   }}
-                  className="relative grid h-14 w-14 place-items-center rounded-full font-game text-lg font-black transition-transform active:scale-90"
-                  style={
-                    fait
-                      ? { background: "linear-gradient(180deg,#FCD34D,#F59E0B)", color: "#4a2600", boxShadow: "0 4px 0 #92400e, 0 6px 14px rgba(0,0,0,.5)" }
-                      : courant
-                        ? { background: `linear-gradient(180deg,${chap.accent},${chap.accent}cc)`, color: "#08130a", boxShadow: `0 4px 0 rgba(0,0,0,.45), 0 0 22px ${chap.accent}88`, animation: "chemin-pulse 1.6s ease-in-out infinite" }
-                        : { background: "rgba(12,12,11,.72)", color: "rgba(243,243,237,.45)", border: "2px solid rgba(255,255,255,.18)", boxShadow: "0 4px 0 rgba(0,0,0,.4)" }
-                  }
+                  ref={courant ? curNodeRef : undefined}
+                  aria-label={`Étape ${i + 1}${fait ? " (terminée)" : verrou ? " (verrouillée)" : ""}`}
+                  className="relative block w-full transition-transform active:scale-95"
+                  style={courant ? { animation: "chemin-pulse 1.6s ease-in-out infinite" } : undefined}
                 >
-                  {fait ? <IcoCheck /> : verrou ? <IcoLock /> : i + 1}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={asset(fait ? "/img/chemin/ui/dalle-or.png" : courant ? "/img/chemin/ui/dalle-active.png" : "/img/chemin/ui/dalle-verrou.png")}
+                    alt=""
+                    aria-hidden
+                    className="block w-full drop-shadow-[0_6px_9px_rgba(0,0,0,.5)]"
+                  />
+                  {/* Le chiffre est gravé au centre de la face — à 40 % de la
+                      hauteur de l'image, position identique sur les trois
+                      dalles — et légèrement écrasé pour épouser la perspective. */}
+                  <span
+                    className="pointer-events-none absolute left-1/2 grid place-items-center font-game text-[31px] font-black leading-none"
+                    style={{
+                      top: "42%",
+                      transform: "translate(-50%, -50%) scaleY(.82)",
+                      color: verrou ? "rgba(238,238,232,.6)" : "#F6EEDC",
+                      // Chiffre gravé : liseré sombre tout autour + ombre portée,
+                      // pour rester lisible sur l'or comme sur la pierre grise.
+                      textShadow:
+                        "0 0 3px rgba(48,26,6,.9), 1px 1px 0 rgba(48,26,6,.85), -1px 1px 0 rgba(48,26,6,.85), 1px -1px 0 rgba(48,26,6,.85), -1px -1px 0 rgba(48,26,6,.85), 0 4px 9px rgba(0,0,0,.5)",
+                    }}
+                  >
+                    {fait ? <IcoCheck className="h-8 w-8" /> : verrou ? <IcoLock className="h-7 w-7" /> : i + 1}
+                  </span>
                 </button>
               </div>
             );
@@ -229,7 +270,7 @@ export function CheminScreen() {
             type="button"
             disabled={chapIdx === 0}
             onClick={() => setChapIdx((i) => Math.max(0, i - 1))}
-            className="flex-1 rounded-2xl bg-black/45 py-3 font-game text-xs font-black text-white/80 backdrop-blur disabled:opacity-30"
+            className="flex-1 rounded-2xl border border-white/10 bg-black/65 py-3 font-game text-xs font-black text-white/85 backdrop-blur-md disabled:opacity-40"
           >
             CHAPITRE PRÉCÉDENT
           </button>
@@ -237,7 +278,7 @@ export function CheminScreen() {
             type="button"
             disabled={chapIdx + 1 >= CHEMIN_CHAPITRES.length || !cheminChapitreOuvert(CHEMIN_CHAPITRES, chapIdx + 1)}
             onClick={() => setChapIdx((i) => Math.min(CHEMIN_CHAPITRES.length - 1, i + 1))}
-            className="flex-1 rounded-2xl py-3 font-game text-xs font-black text-[#08130a] disabled:opacity-30"
+            className="flex-1 rounded-2xl py-3 font-game text-xs font-black text-[#08130a] shadow-[0_4px_0_rgba(0,0,0,.45)] disabled:opacity-40 disabled:shadow-none"
             style={{ background: `linear-gradient(180deg,${chap.accent},${chap.accent}bb)` }}
           >
             CHAPITRE SUIVANT
@@ -258,28 +299,43 @@ export function CheminScreen() {
 }
 
 /** Décor de chapitre : ne s'affiche qu'une fois réellement chargé. */
-function DecorImage({ src }: { src: string }) {
+function DecorImage({ src, fixed = false, overlay }: { src: string; fixed?: boolean; overlay?: string }) {
   const [ok, setOk] = useState(false);
-  return (
+  const img = (
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={src}
       alt=""
+      // Le décor est souvent déjà chargé au moment de l'hydratation : `onLoad`
+      // ne se déclenche alors jamais, d'où la lecture de `complete` au montage.
+      ref={(el) => {
+        if (el?.complete) setOk(true);
+      }}
       onLoad={() => setOk(true)}
       className="pointer-events-none absolute inset-0 h-full w-full object-cover transition-opacity duration-500"
       style={{ opacity: ok ? 1 : 0 }}
     />
   );
+  if (!fixed) return img;
+  return (
+    <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+      {img}
+      {overlay ? <div className="absolute inset-0" style={{ background: overlay }} /> : null}
+    </div>
+  );
 }
 
 /* ==================== L'album de cartes ==================== */
 
-function AlbumCartes({ onClose }: { onClose: () => void }) {
+export function AlbumCartes({ onClose }: { onClose: () => void }) {
   const cards = cheminCards();
   return (
     <div className="fixed inset-0 z-[120] flex items-end justify-center sm:items-center">
       <button type="button" aria-label="Fermer" onClick={onClose} className="absolute inset-0 bg-night-950/85 backdrop-blur-sm" />
-      <div className="relative max-h-[82vh] w-full max-w-md overflow-y-auto rounded-t-3xl border border-white/10 bg-night-900 p-5 sm:rounded-3xl" style={{ animation: "qm-optin .3s ease-out" }}>
+      <div
+        className="relative max-h-[88svh] w-full max-w-md overflow-y-auto overscroll-contain rounded-t-3xl border border-white/10 bg-night-900 p-5 sm:max-h-[86svh] sm:rounded-3xl"
+        style={{ animation: "qm-optin .3s ease-out", paddingBottom: "calc(env(safe-area-inset-bottom) + 6rem)" }}
+      >
         <p className="text-center font-game text-lg font-black text-amber-300">MES CARTES</p>
         <p className="mt-1 text-center text-xs text-white/55">Termine le chapitre d&apos;un personnage pour gagner sa carte.</p>
         <div className="mt-4 grid grid-cols-2 gap-3">
@@ -320,6 +376,7 @@ function CheminLesson({ chap, stepIdx, onDone }: { chap: CheminChapitre; stepIdx
   const [screen, setScreen] = useState(0); // 0 = récit, 1..n = exercices, n+1 = fin
   const [fautes, setFautes] = useState(0);
   const [gains, setGains] = useState<ReturnType<typeof completeCheminStep> | null>(null);
+  const [lectureRecit, setLectureRecit] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -332,6 +389,8 @@ function CheminLesson({ chap, stepIdx, onDone }: { chap: CheminChapitre; stepIdx
     if (screen >= total) {
       const nbFautes = fautes + (ok ? 0 : 1);
       const res = completeCheminStep(chap, stepIdx, nbFautes);
+      // Le score du Chemin est l'XP cumulée : le serveur garde la plus haute.
+      submitGameScore("chemin", getCheminXp());
       if (!res.dejaFaite) {
         submitWeeklyPoints(nbFautes === 0 ? 3 : 2);
         bumpAchv("games_played");
@@ -345,9 +404,12 @@ function CheminLesson({ chap, stepIdx, onDone }: { chap: CheminChapitre; stepIdx
   }
 
   return (
-    <div className="dark-ctx min-h-screen pb-16 pt-20 text-white sm:pt-24" style={{ background: `linear-gradient(180deg, ${chap.fallback[0]}, ${chap.fallback[2]})` }}>
+    <div className="dark-ctx relative isolate min-h-screen overflow-hidden pb-16 pt-20 text-white sm:pt-24" style={{ background: `linear-gradient(180deg, ${chap.fallback[0]}, ${chap.fallback[2]})` }}>
       <PlansDarkBg />
-      <div className="container-x mx-auto max-w-md">
+      {/* Le décor du chapitre continue derrière la leçon, très assombri pour
+          que le récit et les exercices restent parfaitement lisibles. */}
+      <DecorImage src={asset(chap.decor)} fixed overlay="rgba(6,10,8,.74)" />
+      <div className="container-x relative mx-auto max-w-md">
         {/* Barre de progression de l'étape */}
         <div className="flex items-center gap-3">
           <button type="button" onClick={onDone} className="grid h-9 w-9 place-items-center rounded-full bg-black/40 text-white/75" aria-label="Quitter">
@@ -356,23 +418,46 @@ function CheminLesson({ chap, stepIdx, onDone }: { chap: CheminChapitre; stepIdx
           <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-black/40">
             <i className="block h-full rounded-full transition-all duration-300" style={{ width: `${(Math.min(screen, total + 1) / (total + 1)) * 100}%`, background: `linear-gradient(90deg, ${chap.accent}, ${GOLD})` }} />
           </div>
-          <span className="font-game text-xs font-black text-white/70">{chap.id}·{stepIdx + 1}</span>
+          <span className="font-game text-xs font-black text-white/70">{numeroChapitre(CHEMIN_CHAPITRES, chap.id)}·{stepIdx + 1}</span>
         </div>
 
         {screen === 0 ? (
           /* ----- Le récit ----- */
           <div className="mt-6 rounded-3xl border border-white/10 bg-black/40 p-6 backdrop-blur" style={{ animation: "qm-optin .3s ease-out" }}>
-            <span className="inline-flex items-center gap-2 rounded-full px-3 py-1 font-game text-[11px] font-black uppercase tracking-wider" style={{ background: `${chap.accent}22`, color: chap.accent }}>
-              <IcoBook className="h-4 w-4" /> L&apos;histoire
-            </span>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-2 rounded-full px-3 py-1 font-game text-[11px] font-black uppercase tracking-wider" style={{ background: `${chap.accent}22`, color: chap.accent }}>
+                <IcoBook className="h-4 w-4" /> L&apos;histoire
+              </span>
+              {/* L'épreuve qui attend le joueur change d'une étape à l'autre. */}
+              <span className="rounded-full bg-white/10 px-3 py-1 font-game text-[11px] font-black uppercase tracking-wider text-white/70">
+                Puis : {defiEtape(etape)}
+              </span>
+            </div>
             <p className="mt-4 font-game text-[17px] font-semibold leading-relaxed text-white/95">{etape.recit}</p>
-            <p className="mt-3 text-xs font-bold" style={{ color: chap.accent }}>{etape.ref}</p>
+            {/* Le passage est rappelé en clair : chacun peut ouvrir sa Bible
+                et relire l'histoire avant de répondre. */}
+            <button
+              type="button"
+              onClick={() => setLectureRecit(true)}
+              className="mt-4 flex w-full items-center gap-2.5 rounded-2xl border border-white/10 bg-white/[0.06] px-3.5 py-3 text-left transition-transform active:scale-[.99]"
+            >
+              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full" style={{ background: `${chap.accent}26`, color: chap.accent }}>
+                <IcoBook className="h-4 w-4" />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block font-game text-[10px] font-black uppercase tracking-[0.16em] text-white/45">Se référer au passage</span>
+                <span className="block font-game text-[15px] font-black" style={{ color: chap.accent }}>{etape.ref}</span>
+              </span>
+              <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 fill-none stroke-current text-white/40" strokeWidth={2.2} aria-hidden>
+                <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
             <button type="button" onClick={() => setScreen(1)} className="mt-6 w-full rounded-full py-3.5 font-game text-base font-black text-[#08130a]" style={{ background: `linear-gradient(180deg,${chap.accent},${chap.accent}bb)`, boxShadow: "0 4px 0 rgba(0,0,0,.4)" }}>
               C&apos;EST PARTI
             </button>
           </div>
         ) : screen <= total ? (
-          <Exercice key={screen} ex={etape.exercices[screen - 1]} accent={chap.accent} onNext={nextAfterExercise} />
+          <Exercice key={screen} ex={etape.exercices[screen - 1]} accent={chap.accent} passage={etape.ref} onNext={nextAfterExercise} />
         ) : (
           /* ----- Fin d'étape ----- */
           <div className="mt-6 rounded-3xl border border-white/10 bg-black/40 p-6 text-center backdrop-blur" style={{ animation: "qm-optin .35s ease-out" }}>
@@ -385,7 +470,7 @@ function CheminLesson({ chap, stepIdx, onDone }: { chap: CheminChapitre; stepIdx
             {gains ? <p className="mt-3 font-game text-lg font-black text-amber-300">+{gains.xp} XP</p> : null}
             {gains && gains.coffreGemmes > 0 ? (
               <div className="mt-4 flex items-center justify-center gap-3 rounded-2xl border border-amber-400/40 bg-amber-400/10 px-4 py-3">
-                <ChestSvg open className="h-10 w-10" />
+                <Coffre open className="h-14" />
                 <p className="font-game text-sm font-black text-amber-300">COFFRE OUVERT · +{gains.coffreGemmes} gemmes</p>
               </div>
             ) : null}
@@ -406,17 +491,151 @@ function CheminLesson({ chap, stepIdx, onDone }: { chap: CheminChapitre; stepIdx
           </div>
         )}
       </div>
+      {lectureRecit ? <PassagePanel reference={etape.ref} accent={chap.accent} onClose={() => setLectureRecit(false)} /> : null}
     </div>
+  );
+}
+
+/* ---------- Qui suis-je : les indices tombent un par un ---------- */
+
+function ExQui({ indices, reponse, leurres, accent, niveau, passage, onNext }: { indices: string[]; reponse: string; leurres: string[]; accent: string; niveau?: CheminNiveau; passage?: string; onNext: (ok: boolean) => void }) {
+  const [vus, setVus] = useState(1);
+  const noms = useMemo(() => shuffle([reponse, ...leurres]), [reponse, leurres]);
+  const [pick, setPick] = useState<string | null>(null);
+  const reveal = pick !== null;
+  const ok = pick === reponse;
+  return (
+    <CadreExercice label="Qui suis-je ?" accent={accent} niveau={niveau} passage={passage}>
+      <div className="mt-3 flex flex-col gap-2">
+        {indices.slice(0, vus).map((ind, i) => (
+          <div key={i} className="flex items-start gap-2.5 rounded-2xl border border-white/10 bg-white/[0.05] px-3.5 py-2.5" style={{ animation: "qm-optin .25s ease-out" }}>
+            <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full font-game text-[10px] font-black" style={{ background: accent, color: "#08130a" }}>{i + 1}</span>
+            <p className="font-game text-[14px] font-semibold leading-snug text-white/90">{ind}</p>
+          </div>
+        ))}
+      </div>
+      {!reveal && vus < indices.length ? (
+        <button
+          type="button"
+          onClick={() => setVus((v) => v + 1)}
+          className="mt-3 w-full rounded-full border border-white/15 bg-white/[0.06] py-2.5 font-game text-[13px] font-black text-white/80"
+        >
+          INDICE SUIVANT ({vus}/{indices.length})
+        </button>
+      ) : null}
+      <div className="mt-4 grid grid-cols-2 gap-2.5">
+        {noms.map((nom) => {
+          const bon = nom === reponse;
+          const choisi = pick === nom;
+          let cls = "border-white/12 bg-white/[0.06] text-white";
+          if (reveal && bon) cls = "border-emerald-400 bg-emerald-400/20 text-emerald-100";
+          else if (reveal && choisi) cls = "border-rose-400 bg-rose-400/20 text-rose-100";
+          else if (reveal) cls = "border-white/10 bg-white/[0.03] text-white/45";
+          return (
+            <button
+              key={nom}
+              type="button"
+              disabled={reveal}
+              onClick={() => { setPick(nom); buzz(nom === reponse ? 20 : [12, 40, 12]); }}
+              className={`rounded-2xl border-2 px-3 py-3 text-center font-game text-[14px] font-bold transition-colors ${cls}`}
+            >
+              {nom}
+            </button>
+          );
+        })}
+      </div>
+      {reveal && !ok ? <p className="mt-3 text-center font-game text-[13px] font-bold text-white/70">C&apos;était <span style={{ color: accent }}>{reponse}</span>.</p> : null}
+      <BoutonSuite reveal={reveal} ok={ok} onNext={onNext} passage={passage} accent={accent} />
+    </CadreExercice>
+  );
+}
+
+/* ---------- Le verset : le reconstruire mot à mot ---------- */
+
+function ExVerset({ texte, accent, niveau, passage, onNext }: { texte: string; accent: string; niveau?: CheminNiveau; passage?: string; onNext: (ok: boolean) => void }) {
+  const mots = useMemo(() => texte.split(/\s+/).filter(Boolean), [texte]);
+  const banque = useMemo(() => shuffle(mots.map((m, i) => ({ m, i }))), [mots]);
+  const [pose, setPose] = useState<number[]>([]);
+  const [fini, setFini] = useState(false);
+  const ok = fini && pose.every((idx, k) => mots[idx] === mots[k]);
+  const restant = banque.filter((b) => !pose.includes(b.i));
+
+  function poser(i: number) {
+    if (fini) return;
+    const next = [...pose, i];
+    setPose(next);
+    buzz(8);
+    if (next.length === mots.length) setFini(true);
+  }
+
+  return (
+    <CadreExercice label="Le verset" accent={accent} niveau={niveau} passage={passage}>
+      <p className="mt-3 text-[12px] font-semibold text-white/55">Remets le verset dans l&apos;ordre, mot après mot.</p>
+
+      {/* La zone où le verset se reconstruit */}
+      <div className="mt-3 min-h-[92px] rounded-2xl border border-white/12 bg-black/35 p-3">
+        <div className="flex flex-wrap gap-1.5">
+          {pose.map((idx, k) => {
+            const juste = mots[idx] === mots[k];
+            return (
+              <button
+                key={`${idx}-${k}`}
+                type="button"
+                disabled={fini}
+                onClick={() => setPose((p) => p.slice(0, k))}
+                className="rounded-lg px-2 py-1 font-game text-[14px] font-bold"
+                style={
+                  fini
+                    ? juste
+                      ? { background: "rgba(52,211,153,.22)", color: "#a7f3d0" }
+                      : { background: "rgba(251,113,133,.22)", color: "#fecdd3" }
+                    : { background: "rgba(255,255,255,.10)", color: "#f3f3ed" }
+                }
+              >
+                {mots[idx]}
+              </button>
+            );
+          })}
+          {pose.length === 0 ? <span className="font-game text-[13px] text-white/30">Touche les mots dans l&apos;ordre…</span> : null}
+        </div>
+      </div>
+
+      {/* Les mots à replacer */}
+      <div className="mt-3 flex flex-wrap gap-2">
+        {restant.map((b) => (
+          <button
+            key={b.i}
+            type="button"
+            onClick={() => poser(b.i)}
+            className="rounded-xl border border-white/15 bg-white/[0.07] px-2.5 py-1.5 font-game text-[14px] font-bold text-white transition-transform active:scale-95"
+          >
+            {b.m}
+          </button>
+        ))}
+      </div>
+
+      {fini && !ok ? (
+        <p className="mt-3 rounded-2xl border border-white/10 bg-white/[0.04] px-3 py-2.5 font-game text-[13px] font-semibold leading-snug text-white/85">
+          Le verset : « {texte} »
+        </p>
+      ) : null}
+      <BoutonSuite reveal={fini} ok={ok} onNext={onNext} passage={passage} accent={accent} />
+    </CadreExercice>
   );
 }
 
 /* ==================== Les exercices ==================== */
 
-function Exercice({ ex, accent, onNext }: { ex: CheminExercice; accent: string; onNext: (ok: boolean) => void }) {
-  if (ex.type === "qcm") return <ExQcm q={ex.q} choix={ex.choix} bonne={ex.bonne} accent={accent} onNext={onNext} />;
-  if (ex.type === "vf") return <ExVf q={ex.q} vrai={ex.vrai} accent={accent} onNext={onNext} />;
-  if (ex.type === "trou") return <ExTrou texte={ex.texte} reponse={ex.reponse} leurres={ex.leurres} accent={accent} onNext={onNext} />;
-  return <ExOrdre consigne={ex.consigne} items={ex.items} accent={accent} onNext={onNext} />;
+function Exercice({ ex, accent, passage, onNext }: { ex: CheminExercice; accent: string; passage: string; onNext: (ok: boolean) => void }) {
+  const n = ex.niveau;
+  // Le passage de l'exercice s'il en porte un, sinon celui de l'étape.
+  const p = ex.ref ?? passage;
+  if (ex.type === "qcm") return <ExQcm q={ex.q} choix={ex.choix} bonne={ex.bonne} accent={accent} niveau={n} passage={p} onNext={onNext} />;
+  if (ex.type === "vf") return <ExVf q={ex.q} vrai={ex.vrai} accent={accent} niveau={n} passage={p} onNext={onNext} />;
+  if (ex.type === "trou") return <ExTrou texte={ex.texte} reponse={ex.reponse} leurres={ex.leurres} accent={accent} niveau={n} passage={p} onNext={onNext} />;
+  if (ex.type === "qui") return <ExQui indices={ex.indices} reponse={ex.reponse} leurres={ex.leurres} accent={accent} niveau={n} passage={p} onNext={onNext} />;
+  if (ex.type === "verset") return <ExVerset texte={ex.texte} accent={accent} niveau={n} passage={p} onNext={onNext} />;
+  return <ExOrdre consigne={ex.consigne} items={ex.items} accent={accent} niveau={n} passage={p} onNext={onNext} />;
 }
 
 function shuffle<T>(arr: T[]): T[] {
@@ -428,35 +647,89 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-function CadreExercice({ label, accent, children }: { label: string; accent: string; children: React.ReactNode }) {
+/** Pastille de difficulté : rien pour « facile », visible au-delà. */
+function Niveau({ n }: { n?: CheminNiveau }) {
+  if (!n || n === "facile") return null;
+  const expert = n === "expert";
   return (
-    <div className="mt-6 rounded-3xl border border-white/10 bg-black/40 p-5 backdrop-blur" style={{ animation: "qm-optin .25s ease-out" }}>
-      <span className="rounded-full px-3 py-1 font-game text-[11px] font-black uppercase tracking-wider" style={{ background: `${accent}22`, color: accent }}>{label}</span>
-      {children}
-    </div>
+    <span
+      className="rounded-full px-2.5 py-1 font-game text-[10px] font-black uppercase tracking-wider"
+      style={
+        expert
+          ? { background: "linear-gradient(180deg,#fb7185,#e11d48)", color: "#fff5f5", boxShadow: "inset 0 1px 0 rgba(255,255,255,.35)" }
+          : { background: "linear-gradient(180deg,#FCD34D,#F59E0B)", color: "#4a2600", boxShadow: "inset 0 1px 0 rgba(255,255,255,.45)" }
+      }
+    >
+      {LABEL_NIVEAU[n]}
+    </span>
   );
 }
 
-function BoutonSuite({ reveal, ok, onNext }: { reveal: boolean; ok: boolean; onNext: (ok: boolean) => void }) {
+function CadreExercice({ label, accent, niveau, passage, children }: { label: string; accent: string; niveau?: CheminNiveau; passage?: string; children: React.ReactNode }) {
+  const [lecture, setLecture] = useState(false);
+  return (
+    <>
+      <div className="mt-6 rounded-3xl border border-white/10 bg-black/40 p-5 backdrop-blur" style={{ animation: "qm-optin .25s ease-out" }}>
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="rounded-full px-3 py-1 font-game text-[11px] font-black uppercase tracking-wider" style={{ background: `${accent}22`, color: accent }}>{label}</span>
+          <Niveau n={niveau} />
+          {/* Le passage s'ouvre PAR-DESSUS la question : on va vérifier dans le
+              texte sans perdre l'étape en cours. */}
+          {passage ? (
+            <button
+              type="button"
+              onClick={() => setLecture(true)}
+              className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1 font-game text-[11px] font-bold text-white/75 transition-transform active:scale-95"
+            >
+              <IcoBook className="h-3.5 w-3.5" />
+              {passage}
+            </button>
+          ) : null}
+        </div>
+        {children}
+      </div>
+      {lecture && passage ? <PassagePanel reference={passage} accent={accent} onClose={() => setLecture(false)} /> : null}
+    </>
+  );
+}
+
+function BoutonSuite({ reveal, ok, onNext, passage, accent }: { reveal: boolean; ok: boolean; onNext: (ok: boolean) => void; passage?: string; accent?: string }) {
+  const [lecture, setLecture] = useState(false);
   if (!reveal) return null;
   return (
-    <button
-      type="button"
-      onClick={() => onNext(ok)}
-      className="mt-5 w-full rounded-full py-3.5 font-game text-base font-black"
-      style={ok ? { background: "linear-gradient(180deg,#4ADE80,#16A34A)", color: "#052e16", boxShadow: "0 4px 0 #14532d" } : { background: "linear-gradient(180deg,#fb7185,#e11d48)", color: "#4c0519", boxShadow: "0 4px 0 #881337" }}
-    >
-      {ok ? "CONTINUER" : "COMPRIS, ON CONTINUE"}
-    </button>
+    <>
+      {/* Trompé ? On propose le texte avant de passer à la suite. Le Chemin
+          sert à apprendre : on n'empêche pas d'avancer, on rafraîchit. */}
+      {!ok && passage ? (
+        <button
+          type="button"
+          onClick={() => setLecture(true)}
+          className="mt-4 flex w-full items-center justify-center gap-2 rounded-full border py-3 font-game text-[13px] font-black"
+          style={{ borderColor: `${accent ?? "#FCD34D"}66`, background: `${accent ?? "#FCD34D"}1a`, color: accent ?? "#FCD34D" }}
+        >
+          <IcoBook className="h-4 w-4" />
+          LIRE {passage.toUpperCase()}
+        </button>
+      ) : null}
+      <button
+        type="button"
+        onClick={() => onNext(ok)}
+        className={`w-full rounded-full py-3.5 font-game text-base font-black ${!ok && passage ? "mt-2.5" : "mt-5"}`}
+        style={ok ? { background: "linear-gradient(180deg,#4ADE80,#16A34A)", color: "#052e16", boxShadow: "0 4px 0 #14532d" } : { background: "linear-gradient(180deg,#fb7185,#e11d48)", color: "#4c0519", boxShadow: "0 4px 0 #881337" }}
+      >
+        {ok ? "CONTINUER" : "COMPRIS, ON CONTINUE"}
+      </button>
+      {lecture && passage ? <PassagePanel reference={passage} accent={accent ?? "#FCD34D"} onClose={() => setLecture(false)} /> : null}
+    </>
   );
 }
 
-function ExQcm({ q, choix, bonne, accent, onNext }: { q: string; choix: string[]; bonne: number; accent: string; onNext: (ok: boolean) => void }) {
+function ExQcm({ q, choix, bonne, accent, niveau, passage, onNext }: { q: string; choix: string[]; bonne: number; accent: string; niveau?: CheminNiveau; passage?: string; onNext: (ok: boolean) => void }) {
   const ordre = useMemo(() => shuffle(choix.map((_, i) => i)), [choix]);
   const [pick, setPick] = useState<number | null>(null);
   const reveal = pick !== null;
   return (
-    <CadreExercice label="Question" accent={accent}>
+    <CadreExercice label="Question" accent={accent} niveau={niveau} passage={passage}>
       <p className="mt-3 font-game text-[16px] font-bold leading-snug text-white">{q}</p>
       <div className="mt-4 flex flex-col gap-2.5">
         {ordre.map((i) => {
@@ -473,16 +746,16 @@ function ExQcm({ q, choix, bonne, accent, onNext }: { q: string; choix: string[]
           );
         })}
       </div>
-      <BoutonSuite reveal={reveal} ok={pick === bonne} onNext={onNext} />
+      <BoutonSuite reveal={reveal} ok={pick === bonne} onNext={onNext} passage={passage} accent={accent} />
     </CadreExercice>
   );
 }
 
-function ExVf({ q, vrai, accent, onNext }: { q: string; vrai: boolean; accent: string; onNext: (ok: boolean) => void }) {
+function ExVf({ q, vrai, accent, niveau, passage, onNext }: { q: string; vrai: boolean; accent: string; niveau?: CheminNiveau; passage?: string; onNext: (ok: boolean) => void }) {
   const [pick, setPick] = useState<boolean | null>(null);
   const reveal = pick !== null;
   return (
-    <CadreExercice label="Vrai ou faux" accent={accent}>
+    <CadreExercice label="Vrai ou faux" accent={accent} niveau={niveau} passage={passage}>
       <p className="mt-3 font-game text-[16px] font-bold leading-snug text-white">{q}</p>
       <div className="mt-4 grid grid-cols-2 gap-3">
         {[true, false].map((v) => {
@@ -499,18 +772,18 @@ function ExVf({ q, vrai, accent, onNext }: { q: string; vrai: boolean; accent: s
           );
         })}
       </div>
-      <BoutonSuite reveal={reveal} ok={pick === vrai} onNext={onNext} />
+      <BoutonSuite reveal={reveal} ok={pick === vrai} onNext={onNext} passage={passage} accent={accent} />
     </CadreExercice>
   );
 }
 
-function ExTrou({ texte, reponse, leurres, accent, onNext }: { texte: string; reponse: string; leurres: string[]; accent: string; onNext: (ok: boolean) => void }) {
+function ExTrou({ texte, reponse, leurres, accent, niveau, passage, onNext }: { texte: string; reponse: string; leurres: string[]; accent: string; niveau?: CheminNiveau; passage?: string; onNext: (ok: boolean) => void }) {
   const options = useMemo(() => shuffle([reponse, ...leurres]), [reponse, leurres]);
   const [pick, setPick] = useState<string | null>(null);
   const reveal = pick !== null;
   const [avant, apres] = texte.split("___");
   return (
-    <CadreExercice label="Le mot manquant" accent={accent}>
+    <CadreExercice label="Le mot manquant" accent={accent} niveau={niveau} passage={passage}>
       <p className="mt-3 font-game text-[16px] font-bold leading-relaxed text-white">
         {avant}
         <span className="mx-1 inline-block min-w-[64px] rounded-lg border-b-2 px-2 text-center" style={{ borderColor: accent, color: reveal ? (pick === reponse ? "#6ee7b7" : "#fda4af") : accent }}>
@@ -533,12 +806,12 @@ function ExTrou({ texte, reponse, leurres, accent, onNext }: { texte: string; re
           );
         })}
       </div>
-      <BoutonSuite reveal={reveal} ok={pick === reponse} onNext={onNext} />
+      <BoutonSuite reveal={reveal} ok={pick === reponse} onNext={onNext} passage={passage} accent={accent} />
     </CadreExercice>
   );
 }
 
-function ExOrdre({ consigne, items, accent, onNext }: { consigne: string; items: string[]; accent: string; onNext: (ok: boolean) => void }) {
+function ExOrdre({ consigne, items, accent, niveau, passage, onNext }: { consigne: string; items: string[]; accent: string; niveau?: CheminNiveau; passage?: string; onNext: (ok: boolean) => void }) {
   const [pool, setPool] = useState<string[]>(() => {
     let melange = shuffle(items);
     // Éviter de proposer l'ordre déjà correct.
@@ -562,7 +835,7 @@ function ExOrdre({ consigne, items, accent, onNext }: { consigne: string; items:
   }
 
   return (
-    <CadreExercice label="Dans l'ordre" accent={accent}>
+    <CadreExercice label="Dans l'ordre" accent={accent} niveau={niveau} passage={passage}>
       <p className="mt-3 font-game text-[15px] font-bold leading-snug text-white">{consigne}</p>
       {/* La séquence choisie */}
       <div className="mt-4 flex flex-col gap-2">
@@ -596,7 +869,7 @@ function ExOrdre({ consigne, items, accent, onNext }: { consigne: string; items:
           Le bon ordre : {items.join(" → ")}
         </p>
       ) : null}
-      <BoutonSuite reveal={reveal} ok={ok} onNext={onNext} />
+      <BoutonSuite reveal={reveal} ok={ok} onNext={onNext} passage={passage} accent={accent} />
     </CadreExercice>
   );
 }
