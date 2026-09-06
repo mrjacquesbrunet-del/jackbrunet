@@ -13,6 +13,7 @@ import { buildDeck, type VFItem } from "@/lib/vraifaux";
 
 const TARGET = 7; // premier à 7 points
 const ROUND_TIME = 10; // secondes par affirmation
+const READ_TIME = 3; // secondes de lecture avant l'apparition des boutons
 const REVEAL_MS = 2600;
 
 type P = "a" | "b";
@@ -49,7 +50,8 @@ export function VfDuel({ onClose }: { onClose: () => void }) {
   const [idx, setIdx] = useState(0);
   const [scores, setScores] = useState<{ a: number; b: number }>({ a: 0, b: 0 });
   const [locked, setLocked] = useState<{ a: boolean; b: boolean }>({ a: false, b: false });
-  const [phase, setPhase] = useState<"play" | "reveal" | "end">("play");
+  const [phase, setPhase] = useState<"read" | "play" | "reveal" | "end">("read");
+  const [readLeft, setReadLeft] = useState(READ_TIME);
   // Repart du haut de l'écran à chaque changement de vue (hub <-> jeu),
   // sinon la position de défilement est conservée sous la barre de statut.
   useEffect(() => {
@@ -72,6 +74,20 @@ export function VfDuel({ onClose }: { onClose: () => void }) {
       if (nextTimer.current) clearTimeout(nextTimer.current);
     };
   }, []);
+
+  // Phase de lecture : la question s'affiche seule, les boutons arrivent
+  // ensemble pour les deux joueurs (équitable pour les lecteurs lents).
+  useEffect(() => {
+    if (phase !== "read") return;
+    if (readLeft <= 0) {
+      setTimeLeft(ROUND_TIME);
+      setPhase("play");
+      buzz(15);
+      return;
+    }
+    const t = setTimeout(() => setReadLeft((s) => s - 1), 1000);
+    return () => clearTimeout(t);
+  }, [readLeft, phase]);
 
   // Compte à rebours de la manche (+ vibration de stress sous 3 s).
   useEffect(() => {
@@ -96,9 +112,9 @@ export function VfDuel({ onClose }: { onClose: () => void }) {
         else {
           setIdx((i) => i + 1);
           setLocked({ a: false, b: false });
-          setTimeLeft(ROUND_TIME);
           setRoundWinner(null);
-          setPhase("play");
+          setReadLeft(READ_TIME);
+          setPhase("read");
         }
         return s;
       });
@@ -128,8 +144,8 @@ export function VfDuel({ onClose }: { onClose: () => void }) {
     setScores({ a: 0, b: 0 });
     setLocked({ a: false, b: false });
     setRoundWinner(null);
-    setTimeLeft(ROUND_TIME);
-    setPhase("play");
+    setReadLeft(READ_TIME);
+    setPhase("read");
   }
 
   return (
@@ -176,7 +192,20 @@ export function VfDuel({ onClose }: { onClose: () => void }) {
               <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
             </svg>
           </button>
-          {phase === "play" ? (
+          {phase === "read" ? (
+            <div
+              key={`r${readLeft}`}
+              className="grid h-14 w-14 place-items-center rounded-full"
+              style={{
+                background: `conic-gradient(#FCD34D ${(readLeft / READ_TIME) * 100}%, rgba(255,255,255,.08) 0)`,
+                boxShadow: "0 0 14px rgba(252,211,77,.3)",
+              }}
+            >
+              <div className="grid h-11 w-11 place-items-center rounded-full bg-night-950">
+                <span className="vfd-tick font-game text-2xl font-black tabular-nums text-[#FCD34D]">{readLeft}</span>
+              </div>
+            </div>
+          ) : phase === "play" ? (
             <div
               key={`t${timeLeft}`}
               className={`grid h-14 w-14 place-items-center rounded-full ${timeLeft <= 3 ? "vfd-danger" : ""}`}
@@ -233,7 +262,7 @@ function Half({
 }: {
   player: P;
   cur: VFItem;
-  phase: "play" | "reveal" | "end";
+  phase: "read" | "play" | "reveal" | "end";
   locked: boolean;
   roundWinner: P | null;
   champion: P | null;
@@ -310,8 +339,13 @@ function Half({
         <p className="pb-1 text-center font-game text-xs font-black text-rose-300">Raté ! Manche bloquée…</p>
       ) : null}
 
-      {/* VRAI / FAUX */}
-      <div className="flex shrink-0 gap-2.5">
+      {/* VRAI / FAUX — masqués pendant la lecture, ils arrivent ensemble */}
+      {phase === "read" ? (
+        <div className="grid shrink-0 place-items-center rounded-2xl border-2 border-dashed border-white/15 py-4">
+          <p className="font-game text-sm font-black tracking-wide text-[#FCD34D]">LIS BIEN… PRÉPARE-TOI !</p>
+        </div>
+      ) : (
+      <div className="vfd-pop flex shrink-0 gap-2.5">
         <button
           type="button"
           disabled={phase !== "play" || locked}
@@ -343,6 +377,7 @@ function Half({
           FAUX
         </button>
       </div>
+      )}
     </div>
   );
 }

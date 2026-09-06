@@ -27,7 +27,7 @@ const REVEAL_MS = 2600;
 
 export type DuelGame = "quiz" | "vraifaux";
 export type DuelRole = "host" | "guest";
-type Phase = "lobby" | "play" | "reveal" | "end";
+type Phase = "lobby" | "read" | "play" | "reveal" | "end";
 
 /** Question de duel unifiée (Quiz = 4 options, V/F = 2). */
 type DuelQ = { q: string; options: string[]; correct: number; reference?: string };
@@ -35,6 +35,7 @@ type DuelQ = { q: string; options: string[]; correct: number; reference?: string
 const GAME_LABEL: Record<DuelGame, string> = { quiz: "Quiz biblique", vraifaux: "Vrai ou Faux" };
 const GAME_PATH: Record<DuelGame, string> = { quiz: "/quiz", vraifaux: "/vrai-faux" };
 const ROUND_TIME: Record<DuelGame, number> = { quiz: 14, vraifaux: 10 };
+const READ_TIME = 3; // lecture de la question avant l'apparition des réponses
 
 type Evt =
   | { t: "start"; epoch: number }
@@ -142,6 +143,7 @@ export function DuelLive({
   const [locked, setLocked] = useState<{ host: boolean; guest: boolean }>({ host: false, guest: false });
   const [roundWinner, setRoundWinner] = useState<DuelRole | null>(null);
   const [myPick, setMyPick] = useState<number | null>(null);
+  const [readLeft, setReadLeft] = useState(READ_TIME);
   const [opp, setOpp] = useState<{ id: string; pseudo: string | null; avatar: string | null } | null>(null);
   const [timeLeft, setTimeLeft] = useState(roundTime);
   const [online, setOnline] = useState<OnlineMember[]>([]);
@@ -221,7 +223,8 @@ export function DuelLive({
     setRoundWinner(null);
     setMyPick(null);
     setTimeLeft(roundTime);
-    setPhase("play");
+    setReadLeft(READ_TIME);
+    setPhase("read");
     if (r === 0) {
       // Splash « VS » d'entrée en matière.
       setSplash(true);
@@ -230,7 +233,7 @@ export function DuelLive({
       buzz(40);
     }
     if (myRole === "host") {
-      timeoutRef.current = setTimeout(() => resolveRound(null), roundTime * 1000 + 350);
+      timeoutRef.current = setTimeout(() => resolveRound(null), (READ_TIME + roundTime) * 1000 + 350);
     }
   }
 
@@ -331,6 +334,19 @@ export function DuelLive({
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [myRole, phase, opp, epoch]);
+
+  /* Lecture : la question s'affiche seule, les réponses arrivent ensemble
+     pour les deux joueurs (équitable pour les lecteurs lents). */
+  useEffect(() => {
+    if (phase !== "read") return;
+    if (readLeft <= 0) {
+      setPhase("play");
+      buzz(15);
+      return;
+    }
+    const t = setTimeout(() => setReadLeft((s) => s - 1), 1000);
+    return () => clearTimeout(t);
+  }, [phase, readLeft]);
 
   /* Compte à rebours (+ bip et vibration de stress). */
   useEffect(() => {
@@ -611,7 +627,20 @@ export function DuelLive({
           {/* GROS chrono central : anneau qui se vide + impact chaque seconde */}
           <div className="flex flex-col items-center">
             <p className="font-game text-[10px] font-bold uppercase tracking-[0.2em] text-cream/45">Premier à {TARGET}</p>
-            {phase === "play" ? (
+            {phase === "read" ? (
+              <div
+                key={`r${readLeft}`}
+                className="mt-1.5 grid h-[4.6rem] w-[4.6rem] place-items-center rounded-full"
+                style={{
+                  background: `conic-gradient(#FCD34D ${(readLeft / READ_TIME) * 100}%, rgba(255,255,255,.08) 0)`,
+                  boxShadow: "0 0 18px rgba(252,211,77,.3)",
+                }}
+              >
+                <div className="grid h-[3.8rem] w-[3.8rem] place-items-center rounded-full bg-night-950">
+                  <span className="vfl-tick font-game text-4xl font-black tabular-nums text-[#FCD34D]">{readLeft}</span>
+                </div>
+              </div>
+            ) : phase === "play" ? (
               <div
                 key={`t${timeLeft}`}
                 className={`mt-1.5 grid h-[4.6rem] w-[4.6rem] place-items-center rounded-full ${timeLeft <= 3 ? "vfl-danger" : ""}`}
@@ -652,8 +681,13 @@ export function DuelLive({
             <p className="pb-2 text-center font-game text-xs font-black text-emerald-300">{opp?.pseudo ?? "L'adversaire"} a raté — à toi !</p>
           ) : null}
 
-          {/* Réponses : 2 gros boutons (V/F) ou grille A-D (Quiz) */}
-          {game === "vraifaux" ? (
+          {/* Réponses : 2 gros boutons (V/F) ou grille A-D (Quiz) —
+              masquées pendant la lecture, elles arrivent ensemble. */}
+          {phase === "read" ? (
+            <div className="grid shrink-0 place-items-center rounded-2xl border-2 border-dashed border-white/15 py-6">
+              <p className="font-game text-sm font-black tracking-wide text-[#FCD34D]">LIS BIEN… LES RÉPONSES ARRIVENT !</p>
+            </div>
+          ) : game === "vraifaux" ? (
             <div className="flex shrink-0 gap-2.5">
               {[0, 1].map((i) => (
                 <button
