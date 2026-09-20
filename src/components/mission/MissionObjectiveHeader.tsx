@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getMissionStats } from "@/lib/mission";
+import { MISSION_PALIER_2 } from "@/components/mission/MissionProgress";
 
 /**
  * Titre de la section « Objectif » : tant que la collecte est en cours il
@@ -55,7 +56,8 @@ export function MissionObjectiveHeader({
           Les {obj.toLocaleString("fr-FR")}&nbsp;€ n&apos;étaient que le{" "}
           <strong className="font-bold text-[#FAF6F0]">premier palier</strong>. Sur place,{" "}
           <strong className="font-bold text-[#FAF6F0]">les besoins sont immenses</strong> — cap
-          maintenant sur les <strong className="font-bold text-[#EBA94D]">20 000 €</strong>&nbsp;:
+          maintenant sur les{" "}
+          <strong className="font-bold text-[#EBA94D]">{MISSION_PALIER_2.toLocaleString("fr-FR")} €</strong>&nbsp;:
           grâce à vos dons, nous pourrons participer activement à donner accès à{" "}
           <strong className="font-bold text-[#FAF6F0]">l&apos;eau</strong> et à{" "}
           <strong className="font-bold text-[#FAF6F0]">l&apos;électricité</strong>, et à refaire

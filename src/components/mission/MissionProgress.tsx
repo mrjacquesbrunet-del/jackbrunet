@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 import { getMissionStats } from "@/lib/mission";
 
+/** 2e palier de la collecte : eau, électricité, fondations d'un orphelinat. */
+export const MISSION_PALIER_2 = 22000;
+
 /**
  * Barre de progression de la collecte, lue EN DIRECT depuis Supabase (se met à
  * jour sans reconstruire le site). Les valeurs initiales (issues du contenu)
@@ -44,11 +47,11 @@ export function MissionProgress({
   }, []);
 
   // Pourcentage RÉEL vers la cible en cours. Une fois le premier palier
-  // (l'objectif initial) franchi, la barre repart vers le 2e palier :
-  // 20 000 € — accès à l'eau, à l'électricité et fondations d'un orphelinat.
-  const PALIER_2 = 20000;
+  // (l'objectif initial) franchi, il reste affiché plein à 100 % et une
+  // seconde barre progresse vers le 2e palier : 22 000 € — accès à l'eau,
+  // à l'électricité et fondations d'un orphelinat.
   const depasse = obj > 0 && raised >= obj;
-  const cible = depasse ? Math.max(PALIER_2, obj) : obj;
+  const cible = depasse ? Math.max(MISSION_PALIER_2, obj) : obj;
   const percent = cible > 0? Math.round((raised / cible) * 100): 0;
   const barWidth = Math.min(100, percent);
 
@@ -101,18 +104,42 @@ export function MissionProgress({
         </div>
       </div>
 
-      <div className="mt-4 h-3 overflow-hidden rounded-full bg-white/10">
-        <div
-          className="h-full rounded-full transition-all duration-700"
-          style={{
-            width: `${barWidth}%`,
-            background: depasse
-              ? "linear-gradient(90deg,#EBA94D,#FCD34D,#EBA94D)"
-              : "linear-gradient(90deg,#E0892B,#EBA94D)",
-            boxShadow: depasse ? "0 0 14px rgba(252,211,77,.55)" : undefined,
-          }}
-        />
-      </div>
+      {depasse ? (
+        <div className="mt-4 space-y-3">
+          {/* 1er palier : acquis, barre pleine */}
+          <div>
+            <div className="flex items-center justify-between text-xs font-semibold text-[#FAF6F0]/60">
+              <span>1er palier · {obj.toLocaleString("fr-FR")} €</span>
+              <span className="inline-flex items-center gap-1 font-bold text-[#FCD34D]">
+                <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth={2.6} aria-hidden>
+                  <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                100 %
+              </span>
+            </div>
+            <div className="mt-1.5 h-3 overflow-hidden rounded-full bg-white/10">
+              <div className="h-full w-full rounded-full" style={{ background: "linear-gradient(90deg,#EBA94D,#FCD34D,#EBA94D)", boxShadow: "0 0 14px rgba(252,211,77,.55)" }} />
+            </div>
+          </div>
+          {/* 2e palier : en cours */}
+          <div>
+            <div className="flex items-center justify-between text-xs font-semibold text-[#FAF6F0]/60">
+              <span>2e palier · {cible.toLocaleString("fr-FR")} €</span>
+              <span className="font-bold text-[#EBA94D]">{percent} %</span>
+            </div>
+            <div className="mt-1.5 h-3 overflow-hidden rounded-full bg-white/10">
+              <div className="h-full rounded-full transition-all duration-700" style={{ width: `${barWidth}%`, background: "linear-gradient(90deg,#E0892B,#EBA94D)" }} />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="mt-4 h-3 overflow-hidden rounded-full bg-white/10">
+          <div
+            className="h-full rounded-full transition-all duration-700"
+            style={{ width: `${barWidth}%`, background: "linear-gradient(90deg,#E0892B,#EBA94D)" }}
+          />
+        </div>
+      )}
 
       <p className="mt-3 text-sm leading-relaxed text-[#FAF6F0]/75">
         {depasse ? (
