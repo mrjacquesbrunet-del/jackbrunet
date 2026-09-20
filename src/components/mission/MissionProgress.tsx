@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getMissionStats } from "@/lib/mission";
 
 /** 2e palier de la collecte : eau, électricité, fondations d'un orphelinat. */
-export const MISSION_PALIER_2 = 22000;
+export const MISSION_PALIER_2 = 20000;
 
 /**
  * Barre de progression de la collecte, lue EN DIRECT depuis Supabase (se met à
