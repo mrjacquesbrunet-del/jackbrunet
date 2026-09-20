@@ -47,14 +47,15 @@ export function MissionObjectiveHeader({
   if (realise) {
     return (
       <>
-        <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#EBA94D]">Objectif</span>
+        <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#EBA94D]">La collecte continue</span>
         <h2 className="mt-3 font-display text-3xl font-extrabold sm:text-4xl">
-          Objectif <span className="text-[#E0892B]">réalisé&nbsp;!</span>
+          Chaque euro <span className="text-[#E0892B]">compte&nbsp;!</span>
         </h2>
         <p className="mt-4 text-base leading-relaxed text-[#FAF6F0]/70 sm:text-lg">
-          Grâce à vous, les {obj.toLocaleString("fr-FR")}&nbsp;€ sont réunis. Mais sur le
-          terrain, chaque euro compte&nbsp;: la collecte continue, et chaque don
-          supplémentaire agit directement là-bas.
+          Les {obj.toLocaleString("fr-FR")}&nbsp;€ n&apos;étaient que le premier palier. Sur
+          place, les besoins sont immenses — et chaque euro récolté en plus nous permettra de
+          bénir davantage&nbsp;: plus d&apos;orphelinats visités, plus de familles soutenues,
+          plus de vies touchées.
         </p>
       </>
     );

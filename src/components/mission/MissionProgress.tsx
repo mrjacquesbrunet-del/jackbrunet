@@ -64,7 +64,7 @@ export function MissionProgress({
           <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth={2.4} aria-hidden>
             <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-          Objectif dépassé
+          Premier palier franchi
         </span>
       ) : null}
 
@@ -74,9 +74,9 @@ export function MissionProgress({
             Merci du fond du cœur !
           </p>
           <p className="mt-2 text-sm leading-relaxed text-[#FAF6F0]/75">
-            Grâce à votre générosité, l&apos;objectif de {obj.toLocaleString("fr-FR")} € est
-            dépassé. Mais ce n&apos;était qu&apos;un cap : sur place, les besoins sont
-            immenses. Chaque euro supplémentaire fait une vraie différence.
+            Grâce à votre générosité, le premier palier de {obj.toLocaleString("fr-FR")}&nbsp;€
+            est franchi. Votre soutien dépasse nos espérances — et chaque don continue de
+            porter du fruit, concrètement.
           </p>
         </div>
       ) : null}
@@ -90,7 +90,9 @@ export function MissionProgress({
         </div>
         <div className="text-right">
           <p className="font-display text-2xl font-extrabold leading-none text-[#EBA94D]">{percent}%</p>
-          <p className="mt-1 text-sm text-[#FAF6F0]/60">de l'objectif de {obj.toLocaleString("fr-FR")} €</p>
+          <p className="mt-1 text-sm text-[#FAF6F0]/60">
+            {depasse ? `du 1er palier de ${obj.toLocaleString("fr-FR")} €` : `de l'objectif de ${obj.toLocaleString("fr-FR")} €`}
+          </p>
         </div>
       </div>
 
