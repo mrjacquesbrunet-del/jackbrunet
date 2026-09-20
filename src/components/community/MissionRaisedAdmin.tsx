@@ -34,7 +34,7 @@ export function MissionRaisedAdmin() {
     setTimeout(() => setMsg(""), 3000);
   }
 
-  const percent = obj > 0? Math.min(100, Math.round(((Number(val) || 0) / obj) * 100)): 0;
+  const percent = obj > 0? Math.round(((Number(val) || 0) / obj) * 100): 0;
 
   return (
     <div className="mt-6 rounded-3xl border border-night-900/10 bg-white p-5 sm:p-6">

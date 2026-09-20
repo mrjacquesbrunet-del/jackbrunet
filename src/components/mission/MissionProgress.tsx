@@ -43,7 +43,12 @@ export function MissionProgress({
     };
   }, []);
 
-  const percent = obj > 0? Math.min(100, Math.round((raised / obj) * 100)): 0;
+  // Pourcentage RÉEL, sans plafond : au-delà de l'objectif on affiche 110 %,
+  // 120 %… pour que la collecte continue. Seule la largeur de la barre est
+  // bornée à 100 (elle reste pleine, en doré).
+  const percent = obj > 0? Math.round((raised / obj) * 100): 0;
+  const depasse = percent > 100;
+  const barWidth = Math.min(100, percent);
 
   return (
     <div className="mt-8">
@@ -57,11 +62,23 @@ export function MissionProgress({
       </div>
       <div className="mt-3 h-3 overflow-hidden rounded-full bg-white/10">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-[#E0892B] to-[#EBA94D] transition-all duration-700"
-          style={{ width: `${percent}%` }}
+          className="h-full rounded-full transition-all duration-700"
+          style={{
+            width: `${barWidth}%`,
+            background: depasse
+              ? "linear-gradient(90deg,#EBA94D,#FCD34D,#EBA94D)"
+              : "linear-gradient(90deg,#E0892B,#EBA94D)",
+            boxShadow: depasse ? "0 0 14px rgba(252,211,77,.55)" : undefined,
+          }}
         />
       </div>
-      <p className="mt-2 text-sm text-[#FAF6F0]/55">{percent}% de l'objectif atteint</p>
+      {depasse ? (
+        <p className="mt-2 text-sm font-semibold text-[#FCD34D]">
+          Objectif dépassé — {percent}% ! Merci, et on continue : chaque don va plus loin.
+        </p>
+      ) : (
+        <p className="mt-2 text-sm text-[#FAF6F0]/55">{percent}% de l'objectif atteint</p>
+      )}
     </div>
   );
 }
