@@ -68,6 +68,19 @@ export function MissionProgress({
         </span>
       ) : null}
 
+      {depasse ? (
+        <div className="mt-4">
+          <p className="font-display text-xl font-extrabold text-[#FAF6F0]">
+            Merci du fond du cœur !
+          </p>
+          <p className="mt-2 text-sm leading-relaxed text-[#FAF6F0]/75">
+            Grâce à votre générosité, l&apos;objectif de {obj.toLocaleString("fr-FR")} € est
+            dépassé. Mais ce n&apos;était qu&apos;un cap : sur place, les besoins sont
+            immenses. Chaque euro supplémentaire fait une vraie différence.
+          </p>
+        </div>
+      ) : null}
+
       <div className="mt-3 flex flex-wrap items-end justify-between gap-x-6 gap-y-1">
         <div>
           <p className="font-display text-4xl font-extrabold leading-none" style={{ color: depasse ? "#FCD34D" : "#FAF6F0" }}>
@@ -96,7 +109,7 @@ export function MissionProgress({
 
       <p className="mt-3 text-sm leading-relaxed text-[#FAF6F0]/75">
         {depasse
-          ? "La collecte continue : chaque don est intégralement reversé au bénéfice des associations sur place, à Madagascar."
+          ? "La collecte continue. Chaque don supplémentaire sera reversé au bénéfice des associations sur place, à Madagascar."
           : "Chaque don est intégralement reversé au bénéfice des associations sur place, à Madagascar."}
       </p>
     </div>
