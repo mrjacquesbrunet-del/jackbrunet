@@ -54,10 +54,12 @@ export function MissionObjectiveHeader({
         <p className="mt-4 text-base leading-relaxed text-[#FAF6F0]/70 sm:text-lg">
           Les {obj.toLocaleString("fr-FR")}&nbsp;€ n&apos;étaient que le{" "}
           <strong className="font-bold text-[#FAF6F0]">premier palier</strong>. Sur place,{" "}
-          <strong className="font-bold text-[#FAF6F0]">les besoins sont immenses</strong> — et
-          chaque euro récolté en plus nous permettra de{" "}
-          <strong className="font-bold text-[#EBA94D]">bénir davantage</strong>&nbsp;: plus
-          d&apos;orphelinats visités, plus de familles soutenues, plus de vies touchées.
+          <strong className="font-bold text-[#FAF6F0]">les besoins sont immenses</strong> — cap
+          maintenant sur les <strong className="font-bold text-[#EBA94D]">20 000 €</strong>&nbsp;:
+          grâce à vos dons, nous pourrons participer activement à donner accès à{" "}
+          <strong className="font-bold text-[#FAF6F0]">l&apos;eau</strong> et à{" "}
+          <strong className="font-bold text-[#FAF6F0]">l&apos;électricité</strong>, et à refaire
+          les <strong className="font-bold text-[#FAF6F0]">fondations d&apos;un orphelinat</strong>.
         </p>
       </>
     );

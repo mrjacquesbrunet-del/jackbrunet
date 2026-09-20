@@ -43,11 +43,13 @@ export function MissionProgress({
     };
   }, []);
 
-  // Pourcentage RÉEL, sans plafond : au-delà de l'objectif on affiche 110 %,
-  // 120 %… pour que la collecte continue. Seule la largeur de la barre est
-  // bornée à 100 (elle reste pleine, en doré).
-  const percent = obj > 0? Math.round((raised / obj) * 100): 0;
-  const depasse = percent > 100;
+  // Pourcentage RÉEL vers la cible en cours. Une fois le premier palier
+  // (l'objectif initial) franchi, la barre repart vers le 2e palier :
+  // 20 000 € — accès à l'eau, à l'électricité et fondations d'un orphelinat.
+  const PALIER_2 = 20000;
+  const depasse = obj > 0 && raised >= obj;
+  const cible = depasse ? Math.max(PALIER_2, obj) : obj;
+  const percent = cible > 0? Math.round((raised / cible) * 100): 0;
   const barWidth = Math.min(100, percent);
 
   return (
@@ -75,9 +77,11 @@ export function MissionProgress({
           </p>
           <p className="mt-2 text-sm leading-relaxed text-[#FAF6F0]/75">
             Grâce à votre générosité, le premier palier de {obj.toLocaleString("fr-FR")}&nbsp;€
-            est franchi. Votre soutien dépasse nos espérances — et{" "}
-            <strong className="font-bold text-[#FAF6F0]">chaque don continue de porter du fruit</strong>,
-            concrètement.
+            est franchi. Cap maintenant sur les{" "}
+            <strong className="font-bold text-[#FCD34D]">{cible.toLocaleString("fr-FR")} €</strong>{" "}
+            pour <strong className="font-bold text-[#FAF6F0]">donner accès à l&apos;eau et à
+            l&apos;électricité</strong> et{" "}
+            <strong className="font-bold text-[#FAF6F0]">refaire les fondations d&apos;un orphelinat</strong>.
           </p>
         </div>
       ) : null}
@@ -92,7 +96,7 @@ export function MissionProgress({
         <div className="text-right">
           <p className="font-display text-2xl font-extrabold leading-none text-[#EBA94D]">{percent}%</p>
           <p className="mt-1 text-sm text-[#FAF6F0]/60">
-            {depasse ? `du 1er palier de ${obj.toLocaleString("fr-FR")} €` : `de l'objectif de ${obj.toLocaleString("fr-FR")} €`}
+            {depasse ? `du 2e palier de ${cible.toLocaleString("fr-FR")} €` : `de l'objectif de ${obj.toLocaleString("fr-FR")} €`}
           </p>
         </div>
       </div>
