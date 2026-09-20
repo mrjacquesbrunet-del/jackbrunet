@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { MissionProgress } from "@/components/mission/MissionProgress";
+import { MissionObjectiveHeader } from "@/components/mission/MissionObjectiveHeader";
 import { MissionDonate } from "@/components/mission/MissionDonate";
 import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
 import { asset } from "@/lib/asset";
@@ -195,14 +196,7 @@ export default function MissionMadagascarPage() {
       <section id="soutenir" className="scroll-mt-24 bg-night-900 py-20 text-[#FAF6F0]">
         <div className="container-x">
           <div className="mx-auto max-w-2xl text-center">
-            <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#EBA94D]">Objectif</span>
-            <h2 className="mt-3 font-display text-3xl font-extrabold sm:text-4xl">
-              Notre objectif&nbsp;: <span className="text-[#E0892B]">{objectiveEur.toLocaleString("fr-FR")} €</span>
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-[#FAF6F0]/70 sm:text-lg">
-              Cette mission a un coût: déplacements, logistique sur place, et soutien direct aux
-              œuvres que nous visiterons. Chaque don, petit ou grand, nous rapproche du but.
-            </p>
+            <MissionObjectiveHeader initialRaised={raisedEur} objective={objectiveEur} />
 
             <MissionProgress initialRaised={raisedEur} objective={objectiveEur} />
 
