@@ -51,16 +51,37 @@ export function MissionProgress({
   const barWidth = Math.min(100, percent);
 
   return (
-    <div className="mt-8">
-      <div className="flex items-center justify-between text-sm">
-        <span className="text-[#FAF6F0]/80">
-          {raised.toLocaleString("fr-FR")} € collectés
+    <div
+      className="mt-8 rounded-3xl border p-5 sm:p-6"
+      style={
+        depasse
+          ? { borderColor: "rgba(252,211,77,.35)", background: "linear-gradient(160deg, rgba(252,211,77,.10), rgba(224,137,43,.06) 60%, transparent)" }
+          : { borderColor: "rgba(255,255,255,.10)", background: "rgba(255,255,255,.03)" }
+      }
+    >
+      {depasse ? (
+        <span className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-night-950" style={{ background: "linear-gradient(90deg,#FCD34D,#EBA94D)" }}>
+          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth={2.4} aria-hidden>
+            <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          Objectif dépassé
         </span>
-        <span className="font-semibold text-[#EBA94D]">
-          Objectif {obj.toLocaleString("fr-FR")} €
-        </span>
+      ) : null}
+
+      <div className="mt-3 flex flex-wrap items-end justify-between gap-x-6 gap-y-1">
+        <div>
+          <p className="font-display text-4xl font-extrabold leading-none" style={{ color: depasse ? "#FCD34D" : "#FAF6F0" }}>
+            {raised.toLocaleString("fr-FR")} €
+          </p>
+          <p className="mt-1 text-sm text-[#FAF6F0]/60">collectés à ce jour</p>
+        </div>
+        <div className="text-right">
+          <p className="font-display text-2xl font-extrabold leading-none text-[#EBA94D]">{percent}%</p>
+          <p className="mt-1 text-sm text-[#FAF6F0]/60">de l'objectif de {obj.toLocaleString("fr-FR")} €</p>
+        </div>
       </div>
-      <div className="mt-3 h-3 overflow-hidden rounded-full bg-white/10">
+
+      <div className="mt-4 h-3 overflow-hidden rounded-full bg-white/10">
         <div
           className="h-full rounded-full transition-all duration-700"
           style={{
@@ -72,13 +93,12 @@ export function MissionProgress({
           }}
         />
       </div>
-      {depasse ? (
-        <p className="mt-2 text-sm font-semibold text-[#FCD34D]">
-          Objectif dépassé — {percent}% ! Merci, et on continue : chaque don va plus loin.
-        </p>
-      ) : (
-        <p className="mt-2 text-sm text-[#FAF6F0]/55">{percent}% de l'objectif atteint</p>
-      )}
+
+      <p className="mt-3 text-sm leading-relaxed text-[#FAF6F0]/75">
+        {depasse
+          ? "La collecte continue : chaque don est intégralement reversé au bénéfice des associations sur place, à Madagascar."
+          : "Chaque don est intégralement reversé au bénéfice des associations sur place, à Madagascar."}
+      </p>
     </div>
   );
 }
