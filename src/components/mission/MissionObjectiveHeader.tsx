@@ -52,10 +52,12 @@ export function MissionObjectiveHeader({
           Chaque euro <span className="text-[#E0892B]">compte&nbsp;!</span>
         </h2>
         <p className="mt-4 text-base leading-relaxed text-[#FAF6F0]/70 sm:text-lg">
-          Les {obj.toLocaleString("fr-FR")}&nbsp;€ n&apos;étaient que le premier palier. Sur
-          place, les besoins sont immenses — et chaque euro récolté en plus nous permettra de
-          bénir davantage&nbsp;: plus d&apos;orphelinats visités, plus de familles soutenues,
-          plus de vies touchées.
+          Les {obj.toLocaleString("fr-FR")}&nbsp;€ n&apos;étaient que le{" "}
+          <strong className="font-bold text-[#FAF6F0]">premier palier</strong>. Sur place,{" "}
+          <strong className="font-bold text-[#FAF6F0]">les besoins sont immenses</strong> — et
+          chaque euro récolté en plus nous permettra de{" "}
+          <strong className="font-bold text-[#EBA94D]">bénir davantage</strong>&nbsp;: plus
+          d&apos;orphelinats visités, plus de familles soutenues, plus de vies touchées.
         </p>
       </>
     );

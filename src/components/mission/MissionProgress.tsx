@@ -75,8 +75,9 @@ export function MissionProgress({
           </p>
           <p className="mt-2 text-sm leading-relaxed text-[#FAF6F0]/75">
             Grâce à votre générosité, le premier palier de {obj.toLocaleString("fr-FR")}&nbsp;€
-            est franchi. Votre soutien dépasse nos espérances — et chaque don continue de
-            porter du fruit, concrètement.
+            est franchi. Votre soutien dépasse nos espérances — et{" "}
+            <strong className="font-bold text-[#FAF6F0]">chaque don continue de porter du fruit</strong>,
+            concrètement.
           </p>
         </div>
       ) : null}
@@ -110,9 +111,15 @@ export function MissionProgress({
       </div>
 
       <p className="mt-3 text-sm leading-relaxed text-[#FAF6F0]/75">
-        {depasse
-          ? "La collecte continue. Chaque don supplémentaire sera reversé au bénéfice des associations sur place, à Madagascar."
-          : "Chaque don est intégralement reversé au bénéfice des associations sur place, à Madagascar."}
+        {depasse ? (
+          <>
+            <strong className="font-bold text-[#FCD34D]">La collecte continue.</strong>{" "}
+            <strong className="font-bold text-[#FAF6F0]">Chaque don supplémentaire</strong> sera
+            reversé au bénéfice des associations sur place, à Madagascar.
+          </>
+        ) : (
+          "Chaque don est intégralement reversé au bénéfice des associations sur place, à Madagascar."
+        )}
       </p>
     </div>
   );
