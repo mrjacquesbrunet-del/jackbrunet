@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { BibleHero } from "@/components/bible/BibleHero";
 import { BibleReader } from "@/components/bible/BibleReader";
 
 export const metadata: Metadata = {
@@ -9,10 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function BiblePage() {
-  return (
-    <>
-      <BibleHero />
-      <BibleReader />
-    </>
-  );
+  return <BibleReader />;
 }

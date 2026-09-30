@@ -6,11 +6,13 @@ import { asset, mediaUrl } from "@/lib/asset";
 import { Markable } from "@/components/ui/Markable";
 import { HighlighterGlyph } from "@/components/ui/DevoIcons";
 import { CommentaryPanel, type Commentary } from "@/components/bible/CommentaryPanel";
+import { BibleHero } from "@/components/bible/BibleHero";
 import { BibleAudio } from "@/components/bible/BibleAudio";
 import { BibleDownload } from "@/components/bible/BibleDownload";
 import { usePodcastPlayer, getPodcastAudio } from "@/lib/podcast-player";
 import { ReadingSettings } from "@/components/bible/ReadingSettings";
 import { useReading, FONT_STACK, THEME_STYLE } from "@/lib/reading-settings";
+import { useAppMode } from "@/lib/app-mode";
 
 type BookIndex = { id: number; name: string; chapters: number };
 type Book = { id: number; name: string; chapters: string[][] };
@@ -30,8 +32,32 @@ export function BibleReader() {
   // Verset lu à voix haute (surlignage pendant l'écoute)
   const [spokenVerse, setSpokenVerse] = useState<number | null>(null);
 
-  // Mode pleine lecture (immersion)
-  const [immersive, setImmersive] = useState(false);
+  // Mode pleine lecture (immersion) : c'est l'entrée PAR DÉFAUT — on ouvre
+  // la Bible directement en plein écran, comme un vrai lecteur. Le choix
+  // (vue classique/immersive) est mémorisé.
+  const [immersive, setImmersiveState] = useState(true);
+  useEffect(() => {
+    try {
+      const v = localStorage.getItem("jb.bible.immersive");
+      if (v !== null) setImmersiveState(v === "1");
+    } catch {
+      /* stockage indisponible */
+    }
+  }, []);
+  function setImmersive(v: boolean) {
+    setImmersiveState(v);
+    try {
+      localStorage.setItem("jb.bible.immersive", v ? "1" : "0");
+    } catch {
+      /* ignore */
+    }
+  }
+
+  // Sélecteur livre/chapitre en feuille (tap sur la pastille « Jean 3 »).
+  const [selOpen, setSelOpen] = useState(false);
+  const [selBook, setSelBook] = useState<number | null>(null);
+  // Menu ⋮ du mode pleine lecture (carnet, recherche, téléchargement…).
+  const [menuOpen, setMenuOpen] = useState(false);
 
   // « Reprendre où j'étais »: restaure le dernier livre/chapitre lu ET la
   // position de défilement, pour revenir EXACTEMENT au passage (ex. après un
@@ -175,6 +201,7 @@ export function BibleReader() {
   // Surlignage du verset pendant la narration MP3 (estimé au prorata de la
   // longueur des versets, faute de repères temps dans le fichier audio).
   const reading = useReading();
+  const isApp = useAppMode();
   const pod = usePodcastPlayer();
   const narrId = book? `bible:${book.name} ${chapter}`: "";
   const narrating = pod.current?.id === narrId && narrId!== "";
@@ -227,28 +254,84 @@ export function BibleReader() {
   }, [pod.current?.id]);
 
   return (
-    <section className="container-x pb-10 pt-[calc(2.5rem+env(safe-area-inset-top))]">
+    <>
+    {/* En vue classique, la présentation de la Bible reste en tête de page */}
+    {!immersive ? <BibleHero /> : null}
+    <section className={`container-x pb-10 ${immersive ? "pt-[calc(0.75rem+env(safe-area-inset-top))]" : "pt-[calc(2.5rem+env(safe-area-inset-top))]"}`}>
       {/* Barre fine du mode pleine lecture */}
       {immersive? (
         <div
-          className="sticky top-0 z-40 mb-2 flex items-center justify-between gap-2 rounded-b-2xl px-1 py-2 backdrop-blur"
+          className="sticky z-40 mb-2 flex items-center justify-between gap-2 rounded-b-2xl px-1 py-2 backdrop-blur"
           style={{
+            // Dans l'app, l'en-tête du site est masqué : la barre colle en haut.
+            // Sur le site web, elle se cale sous l'en-tête fixe.
+            top: isApp ? 0 : "4.25rem",
             backgroundColor:
               reading.theme === "clair"? "rgba(243,243,237,0.95)": THEME_STYLE[reading.theme].bg,
             color: reading.theme === "clair"? undefined: THEME_STYLE[reading.theme].text,
           }}
         >
+          {/* Pastille livre + chapitre + version : ouvre le sélecteur */}
           <button
             type="button"
-            onClick={() => setImmersive(false)}
-            className="rounded-full border border-night-900/15 bg-white px-3 py-1.5 text-sm font-semibold text-night-900/70"
+            onClick={() => {
+              setSelBook(bookId);
+              setSelOpen(true);
+            }}
+            aria-label="Choisir le livre et le chapitre"
+            className="flex min-w-0 items-center gap-2 rounded-full px-3.5 py-2 text-sm font-bold"
+            style={{ backgroundColor: reading.theme === "clair" ? "rgba(23,23,22,.07)" : "rgba(255,255,255,.10)" }}
           >
-            ✕ Quitter
+            <span className="truncate font-display">
+              {book?.name} {chapterCount? chapter: ""}
+            </span>
+            <span className="shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-black tracking-wide opacity-70" style={{ backgroundColor: reading.theme === "clair" ? "rgba(23,23,22,.08)" : "rgba(255,255,255,.12)" }}>
+              LSG
+            </span>
+            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0 fill-none stroke-current opacity-60" strokeWidth={2.4}>
+              <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </button>
-          <span className="font-display text-sm font-bold">
-            {book?.name} {chapterCount? chapter: ""}
-          </span>
-          <ReadingSettings />
+
+          <div className="relative flex shrink-0 items-center gap-1.5">
+            <ReadingSettings />
+            {/* Menu : carnet, recherche, téléchargement, vue classique */}
+            <button
+              type="button"
+              onClick={() => setMenuOpen((v) => !v)}
+              aria-label="Plus d'options"
+              aria-expanded={menuOpen}
+              className="grid h-10 w-10 place-items-center rounded-full"
+              style={{ backgroundColor: reading.theme === "clair" ? "rgba(23,23,22,.07)" : "rgba(255,255,255,.10)" }}
+            >
+              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current">
+                <circle cx="12" cy="5.5" r="1.7" /><circle cx="12" cy="12" r="1.7" /><circle cx="12" cy="18.5" r="1.7" />
+              </svg>
+            </button>
+            {menuOpen ? (
+              <div className="absolute right-0 top-12 z-50 w-56 overflow-hidden rounded-2xl border border-white/10 bg-night-900 py-1.5 text-cream shadow-card">
+                <Link href="/carnet" className="block px-4 py-2.5 text-sm font-semibold hover:bg-white/5" onClick={() => setMenuOpen(false)}>
+                  Mon carnet
+                </Link>
+                <Link href="/recherche" className="block px-4 py-2.5 text-sm font-semibold hover:bg-white/5" onClick={() => setMenuOpen(false)}>
+                  Rechercher dans la Bible
+                </Link>
+                <div className="px-4 py-2.5">
+                  <BibleDownload bookId={bookId} bookName={book?.name?? ""} chapterCount={chapterCount} />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setImmersive(false);
+                  }}
+                  className="block w-full px-4 py-2.5 text-left text-sm font-semibold text-cream/70 hover:bg-white/5"
+                >
+                  Vue classique (plans, outils…)
+                </button>
+              </div>
+            ) : null}
+          </div>
         </div>
       ): null}
 
@@ -440,7 +523,7 @@ export function BibleReader() {
                       {vn}
                     </sup>
                     {v}
-                    {!immersive? (
+                    {(
                       <button
                         type="button"
                         onClick={(e) => {
@@ -468,11 +551,11 @@ export function BibleReader() {
                           />
                         </svg>
                       </button>
-                    ): null}
+                    )}
                   </p>
                 </Markable>
 
-                {!immersive && open? (
+                {open? (
                   <CommentaryPanel
                     state={commState}
                     data={c}
@@ -547,6 +630,104 @@ export function BibleReader() {
           </button>
         </div>
       ): null}
+      {/* Sélecteur livre/chapitre : feuille qui monte du bas de l'écran */}
+      {selOpen ? (
+        <div className="fixed inset-0 z-[120] flex items-end justify-center sm:items-center">
+          <button
+            type="button"
+            aria-label="Fermer"
+            onClick={() => setSelOpen(false)}
+            className="absolute inset-0 bg-night-950/70 backdrop-blur-sm"
+          />
+          <div className="dark-ctx relative flex max-h-[82vh] w-full max-w-md flex-col overflow-hidden rounded-t-3xl border border-white/10 bg-night-900 text-cream sm:rounded-3xl">
+            <div className="flex items-center justify-between border-b border-white/10 px-5 py-3.5">
+              <p className="font-display text-base font-extrabold">
+                {selBook !== null && selBook !== -1
+                  ? index.find((b) => b.id === selBook)?.name
+                  : "Choisis un livre"}
+              </p>
+              <div className="flex items-center gap-2">
+                {selBook !== null && selBook !== -1 ? (
+                  <button
+                    type="button"
+                    onClick={() => setSelBook(-1)}
+                    className="rounded-full border border-white/15 px-3 py-1.5 text-xs font-bold text-cream/75"
+                  >
+                    Tous les livres
+                  </button>
+                ) : null}
+                <button
+                  type="button"
+                  onClick={() => setSelOpen(false)}
+                  aria-label="Fermer"
+                  className="grid h-8 w-8 place-items-center rounded-full border border-white/15 text-cream/70"
+                >
+                  <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2}>
+                    <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4">
+              {selBook === null || selBook === -1 ? (
+                <>
+                  {[{ t: "Ancien Testament", from: 1, to: 39 }, { t: "Nouveau Testament", from: 40, to: 66 }].map((g) => (
+                    <div key={g.t} className="mb-4">
+                      <p className="mb-2 px-1 text-[11px] font-black uppercase tracking-[0.18em] text-dawn-400">{g.t}</p>
+                      <div className="grid grid-cols-2 gap-1.5">
+                        {index.filter((b) => b.id >= g.from && b.id <= g.to).map((b) => (
+                          <button
+                            key={b.id}
+                            type="button"
+                            onClick={() => setSelBook(b.id)}
+                            className={`truncate rounded-xl px-3 py-2.5 text-left text-sm font-semibold ${
+                              b.id === bookId ? "bg-dawn-400 text-night-950" : "bg-white/[0.06] text-cream/85 hover:bg-white/10"
+                            }`}
+                          >
+                            {b.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </>
+              ) : (
+                <div className="grid grid-cols-5 gap-1.5">
+                  {Array.from(
+                    { length: index.find((b) => b.id === selBook)?.chapters ?? 0 },
+                    (_, i) => i + 1,
+                  ).map((n) => (
+                    <button
+                      key={n}
+                      type="button"
+                      onClick={() => {
+                        const target = selBook;
+                        setSelOpen(false);
+                        if (target !== bookId) {
+                          setBookId(target);
+                          setChapter(n);
+                          scrollToChapterTop();
+                        } else {
+                          goToChapter(n);
+                        }
+                      }}
+                      className={`grid aspect-square place-items-center rounded-xl font-display text-base font-bold ${
+                        selBook === bookId && n === chapter
+                          ? "bg-dawn-400 text-night-950"
+                          : "bg-white/[0.06] text-cream/85 hover:bg-white/10"
+                      }`}
+                    >
+                      {n}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      ) : null}
     </section>
+    </>
   );
 }
