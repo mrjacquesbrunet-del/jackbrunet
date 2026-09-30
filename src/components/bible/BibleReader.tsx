@@ -703,6 +703,127 @@ export function BibleReader() {
         </>
       ): null}
 
+      {/* Feuille d'étude du verset touché */}
+      {sheetVerse !== null && verses[sheetVerse - 1] ? (
+        <VersetOutils
+          bookId={bookId}
+          chapter={chapter}
+          verse={sheetVerse}
+          verseText={verses[sheetVerse - 1]}
+          reference={`${book?.name} ${chapter}:${sheetVerse}`}
+          commentary={comm[sheetVerse]}
+          commentaryState={commState}
+          bookNames={bookNames}
+          onNavigate={(l, c) => {
+            if (l !== bookId) {
+              setBookId(l);
+              setChapter(c);
+              scrollToChapterTop();
+            } else {
+              goToChapter(c);
+            }
+          }}
+          onClose={() => setSheetVerse(null)}
+        />
+      ) : null}
+
+      {/* Sélecteur livre/chapitre : feuille qui monte du bas de l'écran */}
+      {selOpen ? (
+        <div className="fixed inset-0 z-[120] flex items-end justify-center sm:items-center">
+          <button
+            type="button"
+            aria-label="Fermer"
+            onClick={() => setSelOpen(false)}
+            className="absolute inset-0 bg-night-950/70 backdrop-blur-sm"
+          />
+          <div className="dark-ctx relative flex max-h-[82vh] w-full max-w-md flex-col overflow-hidden rounded-t-3xl border border-white/10 bg-night-900 text-cream sm:rounded-3xl">
+            <div className="flex items-center justify-between border-b border-white/10 px-5 py-3.5">
+              <p className="font-display text-base font-extrabold">
+                {selBook !== null && selBook !== -1
+                  ? index.find((b) => b.id === selBook)?.name
+                  : "Choisis un livre"}
+              </p>
+              <div className="flex items-center gap-2">
+                {selBook !== null && selBook !== -1 ? (
+                  <button
+                    type="button"
+                    onClick={() => setSelBook(-1)}
+                    className="rounded-full border border-white/15 px-3 py-1.5 text-xs font-bold text-cream/75"
+                  >
+                    Tous les livres
+                  </button>
+                ) : null}
+                <button
+                  type="button"
+                  onClick={() => setSelOpen(false)}
+                  aria-label="Fermer"
+                  className="grid h-8 w-8 place-items-center rounded-full border border-white/15 text-cream/70"
+                >
+                  <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2}>
+                    <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4">
+              {selBook === null || selBook === -1 ? (
+                <>
+                  {[{ t: "Ancien Testament", from: 1, to: 39 }, { t: "Nouveau Testament", from: 40, to: 66 }].map((g) => (
+                    <div key={g.t} className="mb-4">
+                      <p className="mb-2 px-1 text-[11px] font-black uppercase tracking-[0.18em] text-dawn-400">{g.t}</p>
+                      <div className="grid grid-cols-2 gap-1.5">
+                        {index.filter((b) => b.id >= g.from && b.id <= g.to).map((b) => (
+                          <button
+                            key={b.id}
+                            type="button"
+                            onClick={() => setSelBook(b.id)}
+                            className={`truncate rounded-xl px-3 py-2.5 text-left text-sm font-semibold ${
+                              b.id === bookId ? "bg-dawn-400 text-night-950" : "bg-white/[0.06] text-cream/85 hover:bg-white/10"
+                            }`}
+                          >
+                            {b.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </>
+              ) : (
+                <div className="grid grid-cols-5 gap-1.5">
+                  {Array.from(
+                    { length: index.find((b) => b.id === selBook)?.chapters ?? 0 },
+                    (_, i) => i + 1,
+                  ).map((n) => (
+                    <button
+                      key={n}
+                      type="button"
+                      onClick={() => {
+                        const target = selBook;
+                        setSelOpen(false);
+                        if (target !== bookId) {
+                          setBookId(target);
+                          setChapter(n);
+                          scrollToChapterTop();
+                        } else {
+                          goToChapter(n);
+                        }
+                      }}
+                      className={`grid aspect-square place-items-center rounded-xl font-display text-base font-bold ${
+                        selBook === bookId && n === chapter
+                          ? "bg-dawn-400 text-night-950"
+                          : "bg-white/[0.06] text-cream/85 hover:bg-white/10"
+                      }`}
+                    >
+                      {n}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      ) : null}
     </section>
     </>
   );

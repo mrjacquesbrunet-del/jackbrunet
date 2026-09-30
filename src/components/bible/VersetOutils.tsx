@@ -1,18 +1,34 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import type { Commentary } from "@/components/bible/CommentaryPanel";
 import { getFiches, Medaillon, type FichesData } from "@/components/bible/FichesChapitre";
 import { Markable } from "@/components/ui/Markable";
+import { useToolkit, HIGHLIGHT_COLORS } from "@/lib/toolkit";
+import { shareText } from "@/lib/share";
+import { appShareUrl } from "@/config/app-links";
+import { bibleHref } from "@/lib/bible-ref";
+import { addMemorizeVerse, isMemorizing } from "@/lib/memorize";
+import { isNativeApp } from "@/lib/notifications";
+import { addNote, updateNote, removeNote, useNotebook } from "@/lib/notebook";
+import {
+  CopyGlyph,
+  BookmarkGlyph,
+  BookmarkFilledGlyph,
+  PenGlyph,
+} from "@/components/ui/DevoIcons";
 
 /**
- * La feuille d'ÉTUDE DU VERSET : une grille d'outils (mots grec/hébreu,
- * contexte, culture, interprétation, commentaire, personnages & lieux)
- * alimentée par les commentaires pré-générés et les fiches — tout est
- * embarqué, rien n'est généré en direct.
+ * La feuille d'ÉTUDE DU VERSET : rangée de surlignage en tête, puis trois
+ * onglets — Annoter (note, enregistrer, mémoriser), Étudier (mots grec/hébreu,
+ * contexte, culture, interprétation, commentaire, personnages & lieux) et
+ * Partager (copier, partager, mur de prière). Tout est embarqué, rien n'est
+ * généré en direct.
  */
 
 type Outil = "mots" | "contexte" | "culture" | "interpretation" | "commentaire" | "fiches";
+type Onglet = "annoter" | "etudier" | "partager";
 
 const OUTILS: { id: Outil; label: (at: boolean) => string; lettre: (at: boolean) => string; couleur: string }[] = [
   { id: "mots", label: (at) => (at ? "Hébreu" : "Grec"), lettre: (at) => (at ? "א" : "α"), couleur: "#2DD4BF" },
@@ -47,6 +63,8 @@ export function VersetOutils({
   onClose: () => void;
 }) {
   const at = bookId <= 39;
+  const router = useRouter();
+  const [onglet, setOnglet] = useState<Onglet>("etudier");
   const [outil, setOutil] = useState<Outil>("mots");
   const [ficheId, setFicheId] = useState<string | null>(null);
   const [fiches, setFiches] = useState<FichesData | null>(null);
@@ -54,6 +72,57 @@ export function VersetOutils({
   useEffect(() => {
     getFiches().then(setFiches);
   }, []);
+
+  const idBase = `bible:${bookId}:${chapter}:${verse}`;
+
+  // ————— Surlignage (mêmes couleurs et même mémoire que sur le verset) —————
+  const tk = useToolkit();
+  const highlighted = tk.isHighlighted(idBase);
+  const hlColor = tk.highlightColor(idBase);
+  const saved = tk.isSaved(idBase);
+
+  // ————— Note reliée au passage (carnet) —————
+  const notes = useNotebook();
+  const existingNote = notes.find((n) => n.ref === idBase);
+  const [noting, setNoting] = useState(false);
+  const [noteText, setNoteText] = useState("");
+  const [noteSaved, setNoteSaved] = useState(false);
+  function openNote() {
+    setNoteText(existingNote?.body ?? "");
+    setNoting(true);
+  }
+  function saveNote() {
+    if (!noteText.trim()) return;
+    if (existingNote) {
+      updateNote(existingNote.id, { body: noteText.trim() });
+    } else {
+      const dateStr = new Date().toLocaleDateString("fr-FR", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+      addNote({ category: "Note", title: `${reference} · ${dateStr}`, body: noteText.trim(), ref: idBase });
+      tk.markNoted(idBase);
+    }
+    setNoting(false);
+    setNoteSaved(true);
+    setTimeout(() => setNoteSaved(false), 2500);
+  }
+
+  // ————— Partage —————
+  const [copied, setCopied] = useState(false);
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(`${verseText}\n${reference}`);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      /* presse-papiers indisponible */
+    }
+  }
+  const [memorizing, setMemorizing] = useState(false);
+  const [nativeApp, setNativeApp] = useState(false);
+  useEffect(() => setNativeApp(isNativeApp()), []);
 
   // Personnages & lieux mentionnés DANS CE VERSET (parmi ceux du chapitre).
   const versetFiches = useMemo(() => {
@@ -86,8 +155,6 @@ export function VersetOutils({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [commentaryState, versetFiches.length]);
 
-  const idBase = `bible:${bookId}:${chapter}:${verse}`;
-
   function Bloc({ label, text, suffix }: { label: string; text?: string; suffix: string }) {
     if (!text) return null;
     return (
@@ -97,6 +164,22 @@ export function VersetOutils({
           <p className="mt-1 text-[15px] leading-relaxed text-cream/85">{text}</p>
         </Markable>
       </div>
+    );
+  }
+
+  /** Bouton carré icône + libellé (onglets Annoter / Partager). */
+  function Carre({ label, active, onClick, children }: { label: string; active?: boolean; onClick: () => void; children: ReactNode }) {
+    return (
+      <button type="button" onClick={onClick} className="flex flex-col items-center gap-1.5">
+        <span
+          className={`grid h-14 w-14 place-items-center rounded-2xl border transition-colors ${
+            active ? "border-dawn-400 bg-dawn-400/15 text-dawn-300" : "border-white/10 bg-white/[0.06] text-cream/85"
+          }`}
+        >
+          {children}
+        </span>
+        <span className={`text-[11px] font-bold leading-none ${active ? "text-dawn-300" : "text-cream/70"}`}>{label}</span>
+      </button>
     );
   }
 
@@ -120,38 +203,187 @@ export function VersetOutils({
           </div>
         </div>
 
-        {/* La grille d'outils */}
-        <div className="grid grid-cols-6 gap-1 border-b border-white/10 px-3 py-3">
-          {OUTILS.map((o) => {
-            const actif = outil === o.id;
-            const ok = dispo(o.id);
+        {/* Rangée de surlignage : un tap colore le verset, re-tap retire */}
+        <div className="flex items-center justify-between gap-2 border-b border-white/10 px-5 py-3">
+          {HIGHLIGHT_COLORS.map((c) => {
+            const actif = highlighted && hlColor === c.key;
             return (
               <button
-                key={o.id}
+                key={c.key}
                 type="button"
-                disabled={!ok}
-                onClick={() => setOutil(o.id)}
-                className={`flex flex-col items-center gap-1 rounded-xl px-1 py-2 transition-colors ${actif ? "bg-white/[0.08]" : ""} disabled:opacity-25`}
-              >
-                <span
-                  className="grid h-10 w-10 place-items-center rounded-full border-2 font-display text-base font-extrabold transition-all"
-                  style={
-                    actif
-                      ? { borderColor: o.couleur, backgroundColor: o.couleur, color: "#0C0C0B", boxShadow: `0 0 14px ${o.couleur}66` }
-                      : { borderColor: `${o.couleur}55`, color: o.couleur, backgroundColor: "rgba(255,255,255,.04)" }
-                  }
-                >
-                  {o.lettre(at)}
-                </span>
-                <span className={`text-[9px] font-bold leading-none ${actif ? "text-cream" : "text-cream/55"}`}>{o.label(at)}</span>
-              </button>
+                aria-label={actif ? "Retirer le surlignage" : `Surligner en ${c.label.toLowerCase()}`}
+                onClick={() =>
+                  actif
+                    ? tk.clearHighlight(idBase)
+                    : tk.highlightWith(idBase, c.key, { text: verseText, reference, kind: "verset" })
+                }
+                className={`h-8 w-8 rounded-lg ${c.swatch} transition-transform active:scale-90 ${
+                  actif ? "ring-2 ring-white ring-offset-2 ring-offset-night-900" : ""
+                }`}
+              />
             );
           })}
+          <button
+            type="button"
+            aria-label="Retirer le surlignage"
+            disabled={!highlighted}
+            onClick={() => tk.clearHighlight(idBase)}
+            className="grid h-8 w-8 place-items-center rounded-full border border-white/20 text-cream/60 disabled:opacity-25"
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2}>
+              <circle cx="12" cy="12" r="9" />
+              <path d="M5.5 5.5l13 13" strokeLinecap="round" />
+            </svg>
+          </button>
         </div>
 
-        {/* Le contenu de l'outil */}
+        {/* L'onglet Étudier garde la grille d'outils ronds */}
+        {onglet === "etudier" ? (
+          <div className="grid grid-cols-6 gap-1 border-b border-white/10 px-3 py-3">
+            {OUTILS.map((o) => {
+              const actif = outil === o.id;
+              const ok = dispo(o.id);
+              return (
+                <button
+                  key={o.id}
+                  type="button"
+                  disabled={!ok}
+                  onClick={() => setOutil(o.id)}
+                  className={`flex flex-col items-center gap-1 rounded-xl px-1 py-2 transition-colors ${actif ? "bg-white/[0.08]" : ""} disabled:opacity-25`}
+                >
+                  <span
+                    className="grid h-10 w-10 place-items-center rounded-full border-2 font-display text-base font-extrabold transition-all"
+                    style={
+                      actif
+                        ? { borderColor: o.couleur, backgroundColor: o.couleur, color: "#0C0C0B", boxShadow: `0 0 14px ${o.couleur}66` }
+                        : { borderColor: `${o.couleur}55`, color: o.couleur, backgroundColor: "rgba(255,255,255,.04)" }
+                    }
+                  >
+                    {o.lettre(at)}
+                  </span>
+                  <span className={`text-[9px] font-bold leading-none ${actif ? "text-cream" : "text-cream/55"}`}>{o.label(at)}</span>
+                </button>
+              );
+            })}
+          </div>
+        ) : null}
+
+        {/* Le contenu de l'onglet */}
         <div className="min-h-[9rem] flex-1 space-y-4 overflow-y-auto px-5 py-4">
-          {outil === "fiches" ? (
+          {onglet === "annoter" ? (
+            <>
+              <div className="flex flex-wrap gap-3">
+                <Carre label={existingNote ? "Ma note" : "Note"} active={Boolean(existingNote)} onClick={openNote}>
+                  <PenGlyph className="h-6 w-6" />
+                </Carre>
+                <Carre
+                  label={saved ? "Enregistré" : "Enregistrer"}
+                  active={saved}
+                  onClick={() => tk.toggleSnippet({ id: idBase, text: verseText, reference, kind: "verset" })}
+                >
+                  {saved ? <BookmarkFilledGlyph className="h-6 w-6" /> : <BookmarkGlyph className="h-6 w-6" />}
+                </Carre>
+                {nativeApp ? (
+                  <Carre
+                    label={memorizing || isMemorizing(reference) ? "À mémoriser" : "Mémoriser"}
+                    active={memorizing || isMemorizing(reference)}
+                    onClick={() => {
+                      addMemorizeVerse(reference, verseText);
+                      setMemorizing(true);
+                    }}
+                  >
+                    <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current" strokeWidth={1.9}>
+                      <path
+                        d="M12 3a6 6 0 0 0-3.5 10.9c.7.5 1 1.3 1 2.1h5c0-.8.3-1.6 1-2.1A6 6 0 0 0 12 3zM10 19h4M10.8 21.5h2.4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </Carre>
+                ) : null}
+              </div>
+              {noting ? (
+                <div className="rounded-2xl border border-white/15 bg-white/[0.05] p-3">
+                  <textarea
+                    value={noteText}
+                    onChange={(e) => setNoteText(e.target.value)}
+                    placeholder="Ta note sur ce passage…"
+                    rows={3}
+                    className="w-full resize-y rounded-xl border border-white/15 bg-night-950/60 px-3 py-2 text-sm text-cream placeholder:text-cream/35 focus:outline-none"
+                    autoFocus
+                  />
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={saveNote}
+                      disabled={!noteText.trim()}
+                      className="rounded-full bg-dawn-400 px-4 py-1.5 font-display text-xs font-bold text-night-950 disabled:opacity-40"
+                    >
+                      Enregistrer
+                    </button>
+                    {existingNote ? (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          removeNote(existingNote.id);
+                          tk.unmarkNoted(idBase);
+                          setNoting(false);
+                          setNoteText("");
+                        }}
+                        className="rounded-full border border-red-400/40 px-4 py-1.5 text-xs font-bold text-red-300"
+                      >
+                        Supprimer
+                      </button>
+                    ) : null}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setNoting(false);
+                        setNoteText("");
+                      }}
+                      className="rounded-full border border-white/15 px-4 py-1.5 text-xs font-bold text-cream/70"
+                    >
+                      Annuler
+                    </button>
+                  </div>
+                </div>
+              ) : null}
+              {noteSaved ? (
+                <p className="text-xs font-semibold text-dawn-300">Note enregistrée dans ton carnet.</p>
+              ) : null}
+            </>
+          ) : onglet === "partager" ? (
+            <div className="flex flex-wrap gap-3">
+              <Carre label={copied ? "Copié !" : "Copier"} active={copied} onClick={copy}>
+                <CopyGlyph className="h-6 w-6" />
+              </Carre>
+              <Carre
+                label="Partager"
+                onClick={() => shareText(`${verseText}\n${reference}`, appShareUrl(bibleHref(reference) || undefined))}
+              >
+                <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current" strokeWidth={1.9}>
+                  <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M12 3v13M8 7l4-4 4 4" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </Carre>
+              <Carre
+                label="Sur le mur"
+                onClick={() => {
+                  // Pré-remplit le composeur du mur de prière avec ce verset.
+                  try {
+                    localStorage.setItem("jb.wall.draft", `« ${verseText} »\n${reference}`);
+                  } catch {
+                    /* stockage indisponible */
+                  }
+                  onClose();
+                  router.push("/communaute");
+                }}
+              >
+                <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current" strokeWidth={1.9}>
+                  <path d="M4 6h16M4 12h16M4 18h9" strokeLinecap="round" />
+                </svg>
+              </Carre>
+            </div>
+          ) : outil === "fiches" ? (
             fiches && versetFiches.length ? (
               versetFiches.map((id) => {
                 const f = fiches.fiches[id];
@@ -219,6 +451,31 @@ export function VersetOutils({
           ) : (
             <Bloc label="Commentaire" text={commentary.commentaire} suffix="commentaire" />
           )}
+        </div>
+
+        {/* La barre des trois onglets : Annoter · Étudier · Partager */}
+        <div className="border-t border-white/10 px-3 py-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))]">
+          <div className="flex rounded-full bg-white/[0.06] p-1">
+            {(
+              [
+                ["annoter", "Annoter"],
+                ["etudier", "Étudier"],
+                ["partager", "Partager"],
+              ] as [Onglet, string][]
+            ).map(([t, label]) => (
+              <button
+                key={t}
+                type="button"
+                onClick={() => setOnglet(t)}
+                aria-pressed={onglet === t}
+                className={`flex-1 rounded-full py-2 font-display text-sm font-bold transition-colors ${
+                  onglet === t ? "bg-night-950 text-dawn-300 shadow-card" : "text-cream/60"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>
