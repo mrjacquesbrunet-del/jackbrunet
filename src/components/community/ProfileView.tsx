@@ -260,6 +260,26 @@ function Profile({
     }
   }
 
+  // Raccourcis « caméra » de l'en-tête : changer la photo ou la couverture
+  // en deux taps, sans passer par le formulaire d'édition.
+  const quickBannerRef = useRef<HTMLInputElement>(null);
+  const quickAvatarRef = useRef<HTMLInputElement>(null);
+  const [quickBusy, setQuickBusy] = useState<null | "banner" | "avatar">(null);
+  async function quickUpload(kind: "banner" | "avatar", e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file || !file.type.startsWith("image/")) return;
+    setQuickBusy(kind);
+    const url = await uploadAvatar(userId, file);
+    if (url) {
+      await updateProfile(userId, kind === "banner" ? { banner_url: url } : { avatar_url: url });
+      if (kind === "banner") setBannerVal(url);
+      else setAvatarVal(url);
+      refreshProfile();
+    }
+    setQuickBusy(null);
+  }
+
   async function onPickFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     e.target.value = "";
@@ -351,18 +371,39 @@ function Profile({
             className="absolute inset-0 h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-night-950/25 via-transparent to-night-950/30" />
+          {/* Changer la couverture en deux taps */}
+          <input ref={quickBannerRef} type="file" accept="image/*" className="hidden" onChange={(e) => quickUpload("banner", e)} />
+          <button
+            type="button"
+            onClick={() => quickBannerRef.current?.click()}
+            disabled={quickBusy === "banner"}
+            aria-label="Changer la couverture"
+            className="absolute bottom-3 right-3 grid h-9 w-9 place-items-center rounded-full bg-night-950/70 text-cream backdrop-blur disabled:animate-pulse"
+          >
+            <CameraGlyphe />
+          </button>
         </div>
 
-        {/* La carte remonte sur la bannière, découpe bien visible même sur
-            photo sombre (fond légèrement plus clair + liseré en mode nuit) */}
-        <div className={`relative -mt-5 rounded-t-3xl px-5 pb-3 text-center ${jour? "bg-cream": "rounded-b-3xl bg-night-900 shadow-[0_-1px_0_rgba(255,255,255,0.14)]"}`}>
-          <div className="relative mx-auto -mt-14 h-32 w-32">
+        {/* La carte remonte à peine : la couverture reste bien visible */}
+        <div className={`relative -mt-3 rounded-t-3xl px-5 pb-3 text-center ${jour? "bg-cream": "rounded-b-3xl bg-night-900 shadow-[0_-1px_0_rgba(255,255,255,0.14)]"}`}>
+          <div className="relative mx-auto -mt-10 h-24 w-24">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={profile?.avatar_url || asset("/img/profil-defaut.webp")}
               alt=""
-              className={`h-32 w-32 rounded-full object-cover ring-4 ${jour? "ring-cream": "ring-night-900"}`}
+              className={`h-24 w-24 rounded-full object-cover ring-4 ${jour? "ring-cream": "ring-night-900"}`}
             />
+            {/* Changer la photo de profil en deux taps */}
+            <input ref={quickAvatarRef} type="file" accept="image/*" className="hidden" onChange={(e) => quickUpload("avatar", e)} />
+            <button
+              type="button"
+              onClick={() => quickAvatarRef.current?.click()}
+              disabled={quickBusy === "avatar"}
+              aria-label="Changer la photo de profil"
+              className={`absolute -bottom-0.5 -right-0.5 grid h-8 w-8 place-items-center rounded-full disabled:animate-pulse ${jour? "bg-white text-night-900 shadow-card": "bg-night-950 text-cream ring-1 ring-white/25"}`}
+            >
+              <CameraGlyphe small />
+            </button>
           </div>
 
           <h2
@@ -1228,4 +1269,14 @@ function BadgeGlyph({ id }: { id: string }) {
   if (id === "d7") return <FlameGlyph className="h-4 w-4" />;
   if (id === "d30") return <StarGlyph className="h-4 w-4" />;
   return <GiftGlyph className="h-4 w-4" />;
+}
+
+/** Petite icône appareil photo en trait (raccourcis photo/couverture). */
+function CameraGlyphe({ small = false }: { small?: boolean }) {
+  return (
+    <svg viewBox="0 0 24 24" className={`${small ? "h-4 w-4" : "h-5 w-5"} fill-none stroke-current`} strokeWidth={1.9} aria-hidden>
+      <path d="M4 8.5a2 2 0 0 1 2-2h1.6l1.2-1.8a1 1 0 0 1 .9-.5h4.6a1 1 0 0 1 .9.5l1.2 1.8H18a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" strokeLinejoin="round" />
+      <circle cx="12" cy="12.6" r="3.2" />
+    </svg>
+  );
 }
