@@ -898,24 +898,25 @@ export async function suggestedProfiles(
     if (ids.has(r.author_id)) score[r.author_id] = (score[r.author_id]?? 0) + 2;
   }
 
-  // Ordre stable dans chaque groupe : les plus actifs d'abord.
+  // Les plus actifs d'abord (le score sert à choisir le VIVIER)…
   const stable = (a: Profile, b: Profile) =>
     (score[b.id]?? 0) - (score[a.id]?? 0) || a.pseudo.localeCompare(b.pseudo);
-  const withPhoto = candidates.filter((p) => p.avatar_url).sort(stable);
-  const noPhoto = candidates.filter((p) =>!p.avatar_url).sort(stable);
+  const withPhoto = candidates.filter((p) => p.avatar_url).sort(stable).slice(0, 60);
+  const noPhoto = candidates.filter((p) =>!p.avatar_url).sort(stable).slice(0, 60);
 
-  // Rotation QUOTIDIENNE : chaque jour, une « fenêtre » différente parmi les
-  // profils avec photo (priorité), pour ne pas toujours montrer les mêmes.
-  // Une fois tous les profils avec photo épuisés, le cycle recommence au début.
-  const turn = seed ?? Math.floor(Date.now() / 86_400_000);
-  const rotate = (arr: Profile[]): Profile[] => {
-    if (arr.length <= limit) return arr;
-    const start = (turn * limit) % arr.length;
-    return [...arr.slice(start), ...arr.slice(0, start)];
+  // …puis MÉLANGE à chaque affichage : la rangée change réellement à chaque
+  // visite (ordre ET sélection), même quand la communauté est encore petite.
+  // Priorité aux profils avec photo, complétés par les autres.
+  const shuffle = (arr: Profile[]): Profile[] => {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
   };
-  // S'il manque des profils avec photo pour remplir, on complète (aussi en
-  // rotation) avec les autres membres actifs.
-  return [...rotate(withPhoto), ...rotate(noPhoto)].slice(0, limit);
+  void seed; // (ancienne rotation par fenêtre, conservée pour compatibilité)
+  return [...shuffle(withPhoto), ...shuffle(noPhoto)].slice(0, limit);
 }
 
 /** Fil des prières des membres que je suis (+ les miennes).
