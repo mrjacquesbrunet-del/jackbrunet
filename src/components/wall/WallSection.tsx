@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Avatar } from "@/components/community/Avatar";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { ReportButton } from "@/components/community/ReportButton";
@@ -18,6 +18,7 @@ import {
   addWallComment,
   sanitizeWallLink,
   linkPlatform,
+  uploadWallImage,
   type WallPost,
   type WallComment,
   type WallVisibility,
@@ -62,7 +63,7 @@ export function WallSection({
   isModerator?: boolean;
   dark?: boolean;
 }) {
-  const [tab, setTab] = useState<"moi" | "amis" | "public">("public");
+  const [tab, setTab] = useState<"moi" | "amis" | "public">("moi");
   const [posts, setPosts] = useState<WallPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [hasMore, setHasMore] = useState(false);
@@ -132,9 +133,9 @@ export function WallSection({
       <div className={`flex rounded-full p-1 ${dark ? "bg-white/[0.07]" : "bg-night-900/[0.06]"}`}>
         {(
           [
-            ["public", "Communauté"],
+            ["moi", "Mon profil"],
             ["amis", "Amis"],
-            ["moi", "Mon mur"],
+            ["public", "Public"],
           ] as ["public" | "amis" | "moi", string][]
         ).map(([t, label]) => (
           <button
@@ -230,6 +231,20 @@ function WallComposer({
   const [link, setLink] = useState("");
   const [linkError, setLinkError] = useState(false);
   const [busy, setBusy] = useState(false);
+  // Photo jointe : choisie ici, compressée puis envoyée au moment de publier.
+  const [photo, setPhoto] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [photoError, setPhotoError] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  function pickPhoto(f: File | null) {
+    setPhoto(f);
+    setPhotoError(false);
+    setPhotoPreview((old) => {
+      if (old) URL.revokeObjectURL(old);
+      return f ? URL.createObjectURL(f) : null;
+    });
+  }
 
   const card = dark ? "border-white/10 bg-white/[0.05]" : "border-night-900/10 bg-white";
   const field = dark
@@ -242,13 +257,24 @@ function WallComposer({
       setLinkError(true);
       return;
     }
-    if (!body.trim() && !cleanLink) return;
+    if (!body.trim() && !cleanLink && !photo) return;
     setBusy(true);
+    let imageUrl: string | undefined;
+    if (photo) {
+      const up = await uploadWallImage(me, photo);
+      if (!up) {
+        setPhotoError(true);
+        setBusy(false);
+        return;
+      }
+      imageUrl = up;
+    }
     const post = await createWallPost({
       authorId: me,
       body,
       visibility,
       linkUrl: cleanLink ?? undefined,
+      imageUrl,
     });
     setBusy(false);
     if (post) {
@@ -256,6 +282,7 @@ function WallComposer({
       setLink("");
       setLinkOpen(false);
       setLinkError(false);
+      pickPhoto(null);
       onPosted(post);
     }
   }
@@ -273,6 +300,29 @@ function WallComposer({
           className={field}
         />
       </div>
+      {photoPreview ? (
+        <div className="mt-2 pl-[52px]">
+          <div className="relative inline-block">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={photoPreview} alt="" className="h-24 w-24 rounded-2xl object-cover" />
+            <button
+              type="button"
+              onClick={() => pickPhoto(null)}
+              aria-label="Retirer la photo"
+              className="absolute -right-2 -top-2 grid h-7 w-7 place-items-center rounded-full bg-night-950 text-cream shadow-card"
+            >
+              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth={2.4}>
+                <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+              </svg>
+            </button>
+          </div>
+          {photoError ? (
+            <p className="mt-1 text-xs font-semibold text-red-400">
+              Photo impossible à envoyer — réessaie (connexion ou format).
+            </p>
+          ) : null}
+        </div>
+      ) : null}
       {linkOpen ? (
         <div className="mt-2 pl-[52px]">
           <input
@@ -317,6 +367,26 @@ function WallComposer({
             </>
           )}
         </button>
+        {/* Photo (compressée sur le téléphone avant l'envoi) */}
+        <input
+          ref={fileRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => pickPhoto(e.target.files?.[0] ?? null)}
+        />
+        <button
+          type="button"
+          onClick={() => fileRef.current?.click()}
+          aria-label="Joindre une photo"
+          className={`grid h-8 w-8 place-items-center rounded-full border ${photo ? "border-dawn-400 text-dawn-300" : dark ? "border-white/15 text-cream/75" : "border-night-900/15 text-night-900/70"}`}
+        >
+          <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.9}>
+            <rect x="3" y="5" width="18" height="14" rx="2.5" />
+            <circle cx="9" cy="10" r="1.6" />
+            <path d="M5 17l4.5-4.5 3 3L16 12l3 3.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
         {/* Lien (réseaux connus) */}
         <button
           type="button"
@@ -332,10 +402,10 @@ function WallComposer({
         <button
           type="button"
           onClick={publish}
-          disabled={busy || (!body.trim() && !link.trim())}
+          disabled={busy || (!body.trim() && !link.trim() && !photo)}
           className="ml-auto rounded-full bg-dawn-400 px-5 py-2 font-display text-sm font-extrabold text-night-950 shadow-card disabled:opacity-40"
         >
-          Publier
+          {busy ? "Envoi…" : "Publier"}
         </button>
       </div>
     </div>
@@ -398,6 +468,15 @@ function WallPostCard({
             {p.verse_ref ? <p className="mt-2 text-xs font-black uppercase tracking-[0.15em] text-dawn-300">{p.verse_ref}</p> : null}
           </div>
         ) : null}
+        {p.image_url ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={p.image_url}
+            alt=""
+            loading="lazy"
+            className="mt-2 max-h-[26rem] w-full rounded-2xl object-cover"
+          />
+        ) : null}
         {p.link_url ? (
           <a
             href={p.link_url}
@@ -440,7 +519,7 @@ function WallPostCard({
             type="button"
             onClick={() => {
               if (confirm("Supprimer cette publication ?")) {
-                void deleteWallPost(post.id);
+                void deleteWallPost(post.id, post.image_url);
                 onDeleted();
               }
             }}

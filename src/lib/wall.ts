@@ -21,6 +21,8 @@ export type WallPost = {
   verse_ref?: string | null;
   verse_text?: string | null;
   link_url?: string | null;
+  /** Photo jointe (URL publique du bucket wallmedia, compressée à l'envoi). */
+  image_url?: string | null;
   /** Relais d'une autre publication (id) — le post original est joint. */
   reshare_of?: string | null;
   created_at: string;
@@ -79,7 +81,53 @@ export function linkPlatform(url: string): "facebook" | "instagram" | "tiktok" |
 }
 
 const POST_COLS =
-  "id,author_id,body,visibility,verse_ref,verse_text,link_url,reshare_of,created_at";
+  "id,author_id,body,visibility,verse_ref,verse_text,link_url,image_url,reshare_of,created_at";
+
+/**
+ * Compresse une photo côté téléphone AVANT l'envoi : 1080 px maxi, JPEG
+ * qualité 0.82 → ~150-300 Ko par photo. C'est ce qui rend le mur photo
+ * viable en stockage comme en bande passante.
+ */
+export async function compressWallImage(file: File): Promise<Blob | null> {
+  try {
+    const url = URL.createObjectURL(file);
+    const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+      const el = new Image();
+      el.onload = () => resolve(el);
+      el.onerror = reject;
+      el.src = url;
+    });
+    const max = 1080;
+    const scale = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+    const w = Math.round(img.naturalWidth * scale);
+    const h = Math.round(img.naturalHeight * scale);
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    canvas.getContext("2d")?.drawImage(img, 0, 0, w, h);
+    URL.revokeObjectURL(url);
+    return await new Promise<Blob | null>((resolve) =>
+      canvas.toBlob((b) => resolve(b), "image/jpeg", 0.82),
+    );
+  } catch {
+    return null;
+  }
+}
+
+/** Envoie la photo (déjà compressée) et renvoie son URL publique. */
+export async function uploadWallImage(userId: string, file: File): Promise<string | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  const blob = await compressWallImage(file);
+  if (!blob) return null;
+  const path = `${userId}/${Date.now()}-${Math.random().toString(36).slice(2, 7)}.jpg`;
+  const { error } = await sb.storage
+    .from("wallmedia")
+    .upload(path, blob, { contentType: "image/jpeg" });
+  if (error) return null;
+  const { data } = sb.storage.from("wallmedia").getPublicUrl(path);
+  return data.publicUrl ?? null;
+}
 
 /** Joint les profils auteurs (et les posts originaux des relais). */
 async function hydrate(posts: WallPost[]): Promise<WallPost[]> {
@@ -164,6 +212,7 @@ export async function createWallPost(input: {
   verseRef?: string;
   verseText?: string;
   linkUrl?: string;
+  imageUrl?: string;
   reshareOf?: string;
 }): Promise<WallPost | null> {
   const sb = getSupabase();
@@ -177,6 +226,7 @@ export async function createWallPost(input: {
       verse_ref: input.verseRef ?? null,
       verse_text: input.verseText ?? null,
       link_url: input.linkUrl ?? null,
+      image_url: input.imageUrl ?? null,
       reshare_of: input.reshareOf ?? null,
     })
     .select(POST_COLS)
@@ -185,8 +235,15 @@ export async function createWallPost(input: {
   return data as WallPost;
 }
 
-export async function deleteWallPost(id: string) {
-  await getSupabase()?.from("wall_posts").delete().eq("id", id);
+export async function deleteWallPost(id: string, imageUrl?: string | null) {
+  const sb = getSupabase();
+  if (!sb) return;
+  await sb.from("wall_posts").delete().eq("id", id);
+  // La photo jointe part avec la publication (pas de fichiers orphelins).
+  if (imageUrl) {
+    const m = imageUrl.match(/\/wallmedia\/(.+)$/);
+    if (m) await sb.storage.from("wallmedia").remove([decodeURIComponent(m[1])]);
+  }
 }
 
 /** Nombre de publications d'un membre (compteur de l'en-tête). */

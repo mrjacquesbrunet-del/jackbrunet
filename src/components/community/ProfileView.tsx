@@ -462,7 +462,11 @@ function Profile({
           <div className="mx-auto mt-4 flex max-w-md items-center gap-2">
             <button
               type="button"
-              onClick={() => setEditing((e) =>!e)}
+              onClick={() => {
+                // Le formulaire d'édition vit dans « Mon espace ».
+                setEditing((e) => !e);
+                setView(editing ? "mur" : "espace");
+              }}
               className={`flex-1 rounded-full py-3 text-sm font-bold transition-transform hover:-translate-y-0.5 ${jour? "bg-night-900 text-cream": "bg-cream text-night-950"}`}
             >
               {editing? "Fermer": "Modifier le profil"}
@@ -505,6 +509,25 @@ function Profile({
             {/* Cloche: s'allume quand on interagit avec tes sujets de prière */}
             <NotificationsBell userId={userId} tone="dark" />
             <ProfileThemeToggle jour={jour} onToggle={toggleTheme} />
+            {/* Mon espace : carnet, plans, liste de prière, badges, compte… */}
+            <button
+              type="button"
+              onClick={() => setView((v) => (v === "espace" ? "mur" : "espace"))}
+              aria-label="Mon espace (carnet, plans, prière…)"
+              aria-pressed={view === "espace"}
+              className={`grid h-10 w-10 shrink-0 place-items-center rounded-full border transition-colors ${
+                view === "espace"
+                  ? "border-dawn-400 bg-dawn-400 text-night-950"
+                  : "border-white/20 bg-white/10 text-cream hover:bg-white/20"
+              }`}
+            >
+              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
+                <rect x="4" y="4" width="7" height="7" rx="2" />
+                <rect x="13" y="4" width="7" height="7" rx="2" />
+                <rect x="4" y="13" width="7" height="7" rx="2" />
+                <rect x="13" y="13" width="7" height="7" rx="2" />
+              </svg>
+            </button>
             {/* Paramètres : notifications par type, sons, rappel, compte */}
             <button
               type="button"
@@ -520,30 +543,8 @@ function Profile({
           </div>
       </div>
 
-      {/* Bascule : le MUR (défaut) ou MON ESPACE (outils personnels) */}
-      <div className={`mt-3 flex rounded-full p-1 ${jour ? "bg-night-900/[0.06]" : "bg-white/[0.07]"}`}>
-        {(
-          [
-            ["mur", "Le mur"],
-            ["espace", "Mon espace"],
-          ] as ["mur" | "espace", string][]
-        ).map(([v, label]) => (
-          <button
-            key={v}
-            type="button"
-            onClick={() => setView(v)}
-            aria-pressed={view === v}
-            className={`flex-1 rounded-full py-2 font-display text-sm font-bold transition-colors ${
-              view === v ? "bg-dawn-400 text-night-950" : jour ? "text-night-900/60" : "text-cream/65"
-            }`}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
-
       {view === "mur" ? (
-        <div className="mt-1">
+        <div className="mt-3">
           <WallSection
             me={userId}
             myProfile={profile ? { id: userId, ...profile } : null}
@@ -553,6 +554,17 @@ function Profile({
         </div>
       ) : (
         <>
+      {/* Retour au mur depuis Mon espace */}
+      <button
+        type="button"
+        onClick={() => setView("mur")}
+        className={`mt-3 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-bold ${jour ? "border-night-900/15 text-night-900/75" : "border-white/15 text-cream/75"}`}
+      >
+        <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2}>
+          <path d="M15 5l-7 7 7 7" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        Retour au profil
+      </button>
       {editing? (
         <div className={`glass-strong mt-4 p-6 sm:p-8 ${jour? "": "dark-ctx text-cream"}`}>
         <div className="grid gap-4 sm:grid-cols-2">
