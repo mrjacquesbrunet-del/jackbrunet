@@ -865,7 +865,13 @@ export async function removeFollower(followerId: string, userId: string) {
 
 /** Suggestions de membres à suivre (intercesseurs), façon Instagram:
  * on exclut soi-même et les personnes déjà suivies. */
-export async function suggestedProfiles(userId: string, limit = 12): Promise<Profile[]> {
+export async function suggestedProfiles(
+  userId: string,
+  limit = 12,
+  /** Graine de rotation : change à chaque visite pour ne JAMAIS remontrer la
+   * même fournée (défaut : le jour, rotation quotidienne). */
+  seed?: number,
+): Promise<Profile[]> {
   const sb = getSupabase();
   if (!sb) return [];
   const exclude = new Set(await listFollowingIds(userId));
@@ -901,10 +907,10 @@ export async function suggestedProfiles(userId: string, limit = 12): Promise<Pro
   // Rotation QUOTIDIENNE : chaque jour, une « fenêtre » différente parmi les
   // profils avec photo (priorité), pour ne pas toujours montrer les mêmes.
   // Une fois tous les profils avec photo épuisés, le cycle recommence au début.
-  const day = Math.floor(Date.now() / 86_400_000);
+  const turn = seed ?? Math.floor(Date.now() / 86_400_000);
   const rotate = (arr: Profile[]): Profile[] => {
     if (arr.length <= limit) return arr;
-    const start = (day * limit) % arr.length;
+    const start = (turn * limit) % arr.length;
     return [...arr.slice(start), ...arr.slice(0, start)];
   };
   // S'il manque des profils avec photo pour remplir, on complète (aussi en

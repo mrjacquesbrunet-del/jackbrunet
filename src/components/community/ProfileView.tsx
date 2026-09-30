@@ -545,6 +545,13 @@ function Profile({
 
       {view === "mur" ? (
         <div className="mt-3">
+          {/* Suggestions pour toi : juste avant le mur, en rotation permanente */}
+          <div className="mb-4">
+            <p className={`mb-2 text-[11px] font-black uppercase tracking-[0.18em] ${jour ? "text-night-900/45" : "text-cream/45"}`}>
+              Suggestions pour toi
+            </p>
+            <MemberSuggestions compact dark={!jour} />
+          </div>
           <WallSection
             me={userId}
             myProfile={profile ? { id: userId, ...profile } : null}

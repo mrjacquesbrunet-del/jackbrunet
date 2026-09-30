@@ -11,7 +11,10 @@ import { suggestedProfiles, follow, unfollow, type Profile } from "@/lib/communi
  * suivre. Chaque carte ouvre le profil du membre ; le bouton s'abonne
  * directement, sans quitter la page.
  */
-export function MemberSuggestions({ compact = false }: { compact?: boolean } = {}) {
+export function MemberSuggestions({
+  compact = false,
+  dark = false,
+}: { compact?: boolean; dark?: boolean } = {}) {
   const { userId } = useAuth();
   const [members, setMembers] = useState<Profile[]>([]);
   const [loading, setLoading] = useState(true);
@@ -22,7 +25,17 @@ export function MemberSuggestions({ compact = false }: { compact?: boolean } = {
     if (!userId) return;
     let active = true;
     setLoading(true);
-    suggestedProfiles(userId).then((list) => {
+    // Rotation PERMANENTE : chaque visite incrémente un tour mémorisé sur
+    // l'appareil → la fournée change à chaque passage, jamais deux fois la
+    // même tant qu'il y a du monde.
+    let turn = 0;
+    try {
+      turn = (Number(localStorage.getItem("jb.suggest.turn")) || 0) + 1;
+      localStorage.setItem("jb.suggest.turn", String(turn));
+    } catch {
+      turn = Math.floor(Math.random() * 1000);
+    }
+    suggestedProfiles(userId, 18, turn).then((list) => {
       if (active) {
         setMembers(list);
         setLoading(false);
@@ -49,11 +62,11 @@ export function MemberSuggestions({ compact = false }: { compact?: boolean } = {
   }
 
   if (loading) {
-    return <p className="text-sm text-night-900/45">Chargement des suggestions…</p>;
+    return <p className={`text-sm ${dark ? "text-cream/45" : "text-night-900/45"}`}>Chargement des suggestions…</p>;
   }
   if (members.length === 0) {
     return (
-      <p className="text-sm text-night-900/45">
+      <p className={`text-sm ${dark ? "text-cream/45" : "text-night-900/45"}`}>
         Pas encore de suggestion, reviens bientôt, la communauté grandit chaque jour
       </p>
     );
@@ -67,11 +80,11 @@ export function MemberSuggestions({ compact = false }: { compact?: boolean } = {
           <div
             key={m.id}
             className={`flex shrink-0 flex-col items-center rounded-3xl border border-night-900/10 bg-white text-center shadow-sm ${
-              compact? "w-28 p-2.5": "w-40 p-4"
+              compact? "w-[5.5rem] p-2": "w-40 p-4"
             }`}
           >
             <Link href={`/membre?u=${m.id}`} className="flex w-full flex-col items-center">
-              <Avatar pseudo={m.pseudo} url={m.avatar_url} size={compact? 44: 64} />
+              <Avatar pseudo={m.pseudo} url={m.avatar_url} size={compact? 40: 64} />
               <span
                 className={`mt-2 line-clamp-1 w-full font-display font-bold text-night-900/85 ${
                   compact? "text-xs": ""
@@ -79,9 +92,9 @@ export function MemberSuggestions({ compact = false }: { compact?: boolean } = {
               >
                 {m.pseudo}
               </span>
-              <span className={`text-night-900/45 ${compact? "text-[10px]": "mt-0.5 text-[11px]"}`}>
-                Intercesseur
-              </span>
+              {!compact ? (
+                <span className="mt-0.5 text-[11px] text-night-900/45">Intercesseur</span>
+              ) : null}
             </Link>
             <button
               type="button"
@@ -95,7 +108,7 @@ export function MemberSuggestions({ compact = false }: { compact?: boolean } = {
 : "bg-spirit-700 text-cream hover:bg-spirit-600"
               }`}
             >
-              {on? "Abonné(e) ✓": "Suivre"}
+              {on ? (compact ? "Suivi" : "Abonné(e) ✓") : "Suivre"}
             </button>
           </div>
         );
