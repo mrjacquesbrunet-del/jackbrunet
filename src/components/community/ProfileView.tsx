@@ -378,7 +378,7 @@ function Profile({
             onClick={() => quickBannerRef.current?.click()}
             disabled={quickBusy === "banner"}
             aria-label="Changer la couverture"
-            className="absolute bottom-3 right-3 grid h-9 w-9 place-items-center rounded-full bg-night-950/70 text-cream backdrop-blur disabled:animate-pulse"
+            className="absolute right-3 top-[calc(env(safe-area-inset-top)+0.75rem)] z-10 grid h-9 w-9 place-items-center rounded-full bg-night-950/70 text-cream ring-1 ring-white/25 backdrop-blur disabled:animate-pulse"
           >
             <CameraGlyphe />
           </button>
