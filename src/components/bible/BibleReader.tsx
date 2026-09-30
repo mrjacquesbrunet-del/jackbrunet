@@ -536,6 +536,9 @@ export function BibleReader() {
                   text={v}
                   reference={`${book?.name} ${chapter}:${vn}`}
                   kind="verset"
+                  // Pleine lecture : le tap sur le verset ouvre directement la
+                  // feuille d'étude (plus de barre de boutons inline).
+                  onOpenOverride={immersive ? () => openStudy(vn) : undefined}
                 >
                   <p
                     className={`transition-colors ${

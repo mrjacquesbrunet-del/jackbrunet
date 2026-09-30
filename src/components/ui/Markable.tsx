@@ -32,6 +32,7 @@ export function Markable({
   kind = "texte",
   className,
   children,
+  onOpenOverride,
 }: {
   id: string;
   text: string;
@@ -39,6 +40,10 @@ export function Markable({
   kind?: string;
   className?: string;
   children: ReactNode;
+  /** Si fourni, le tap N'OUVRE PAS la barre d'actions inline : il appelle ce
+   * gestionnaire (ex. la feuille d'étude du verset en pleine lecture). Le
+   * surlignage mémorisé reste affiché. */
+  onOpenOverride?: () => void;
 }) {
   const tk = useToolkit();
   const router = useRouter();
@@ -108,11 +113,12 @@ export function Markable({
       <div
         role="button"
         tabIndex={0}
-        onClick={() => setOpen((o) =>!o)}
+        onClick={() => (onOpenOverride ? onOpenOverride() : setOpen((o) => !o))}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
-            setOpen((o) =>!o);
+            if (onOpenOverride) onOpenOverride();
+            else setOpen((o) => !o);
           }
         }}
         className={`relative cursor-pointer rounded-xl px-2 -mx-2 transition-colors ${
@@ -127,7 +133,8 @@ export function Markable({
             title="Une note existe sur ce passage · toucher pour la voir"
             onClick={(e) => {
               e.stopPropagation();
-              openNote();
+              if (onOpenOverride) onOpenOverride();
+              else openNote();
             }}
             className="absolute -right-1 top-0 inline-flex h-6 w-6 items-center justify-center rounded-full bg-spirit-600 text-cream shadow-sm transition-transform hover:scale-110"
           >
