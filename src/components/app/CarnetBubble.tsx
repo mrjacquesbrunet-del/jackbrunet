@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-/** Routes « lecture » où le carnet est à portée de main (pas sur les plans). */
-const READING_ROUTES = ["/bible", "/recherche"];
+/** Routes « lecture » où le carnet est à portée de main. Plus AUCUNE : dans
+ * la Bible, le carnet s'atteint par la feuille du verset (onglet Annoter) et
+ * le menu ⋮ — le bouton flottant encombrait la lecture. */
+const READING_ROUTES: string[] = [];
 /** Routes du carnet / favoris: on propose alors le retour à la Bible. */
 const CARNET_ROUTES = ["/carnet", "/favoris"];
 

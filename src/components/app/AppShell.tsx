@@ -55,6 +55,24 @@ export function AppShell() {
     else root.classList.remove("app-native");
   }, [isApp]);
 
+  // Mesure EN PERMANENCE la hauteur réelle du menu du bas (--bottom-nav-h),
+  // pour que les éléments flottants (flèches et bouton audio de la Bible,
+  // lecteur…) se calent au-dessus, barre audio affichée ou non.
+  useEffect(() => {
+    const apply = () => {
+      const nav = document.querySelector(".bottom-nav") as HTMLElement | null;
+      const h = nav ? Math.max(0, window.innerHeight - nav.getBoundingClientRect().top) : 0;
+      document.documentElement.style.setProperty("--bottom-nav-h", `${Math.max(0, h - 1)}px`);
+    };
+    apply();
+    const t = setTimeout(apply, 300); // après le premier rendu du menu
+    window.addEventListener("resize", apply);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener("resize", apply);
+    };
+  }, [isApp, pathname]);
+
   // NOTE: la redirection de l'accueil « / » est gérée UNIQUEMENT par
   // AppHomeGuard (qui sait aussi ouvrir le contenu d'une notification tapée).
   // Ne pas rediriger ici : deux redirections concurrentes peuvent écraser le

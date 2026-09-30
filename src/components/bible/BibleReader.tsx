@@ -688,7 +688,8 @@ export function BibleReader() {
             disabled={chapter <= 1}
             onClick={() => goToChapter(Math.max(1, chapter - 1))}
             aria-label="Chapitre précédent"
-            className="fixed bottom-24 left-4 z-[56] grid h-12 w-12 place-items-center rounded-full border border-night-900/10 bg-white/95 text-night-900/75 shadow-card backdrop-blur disabled:opacity-0"
+            className="fixed left-4 z-[56] grid h-12 w-12 place-items-center rounded-full border border-night-900/10 bg-white/95 text-night-900/75 shadow-card backdrop-blur disabled:opacity-0"
+            style={{ bottom: "calc(var(--bottom-nav-h, 0px) + var(--audio-bar-h, 0px) + 1.75rem)" }}
           >
             <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2}>
               <path d="M15 5l-7 7 7 7" strokeLinecap="round" strokeLinejoin="round" />
@@ -706,7 +707,8 @@ export function BibleReader() {
               }
             }}
             aria-label="Chapitre suivant"
-            className="fixed bottom-24 right-4 z-[56] grid h-12 w-12 place-items-center rounded-full border border-night-900/10 bg-white/95 text-night-900/75 shadow-card backdrop-blur disabled:opacity-0"
+            className="fixed right-4 z-[56] grid h-12 w-12 place-items-center rounded-full border border-night-900/10 bg-white/95 text-night-900/75 shadow-card backdrop-blur disabled:opacity-0"
+            style={{ bottom: "calc(var(--bottom-nav-h, 0px) + var(--audio-bar-h, 0px) + 1.75rem)" }}
           >
             <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2}>
               <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />

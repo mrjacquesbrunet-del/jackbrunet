@@ -342,7 +342,8 @@ export function BibleAudioPlayer({
         onClick={() => setOpen((v) => !v)}
         aria-label="Lecteur audio"
         aria-expanded={open}
-        className="fixed bottom-[5.75rem] left-1/2 z-[56] grid h-14 w-14 -translate-x-1/2 place-items-center rounded-full bg-dawn-400 text-night-950 shadow-glow"
+        className="fixed left-1/2 z-[56] grid h-14 w-14 -translate-x-1/2 place-items-center rounded-full bg-dawn-400 text-night-950 shadow-glow"
+        style={{ bottom: "calc(var(--bottom-nav-h, 0px) + var(--audio-bar-h, 0px) + 1.5rem)" }}
       >
         {isPlaying ? (
           <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current">
@@ -363,7 +364,7 @@ export function BibleAudioPlayer({
           <button type="button" aria-label="Fermer le lecteur" onClick={() => setOpen(false)} className="absolute inset-0" />
           <div
             className="dark-ctx absolute inset-x-2 mx-auto max-w-md rounded-3xl border border-white/10 bg-night-950/90 p-4 pb-5 text-cream shadow-card backdrop-blur-xl"
-            style={{ bottom: "calc(var(--bottom-nav-h, env(safe-area-inset-bottom)) + 0.75rem)" }}
+            style={{ bottom: "calc(var(--bottom-nav-h, env(safe-area-inset-bottom)) + var(--audio-bar-h, 0px) + 0.75rem)" }}
           >
             {/* Fermer + sources */}
             <div className="flex items-center justify-between gap-2">

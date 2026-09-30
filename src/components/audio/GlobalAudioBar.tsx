@@ -38,11 +38,13 @@ export function GlobalAudioBar() {
       if (!bar) return;
       const nav = document.querySelector(".bottom-nav") as HTMLElement | null;
       const navH = nav? Math.max(0, window.innerHeight - nav.getBoundingClientRect().top): 0;
-      // 1px de chevauchement sur le menu : aucun liseré clair possible.
       document.documentElement.style.setProperty("--bottom-nav-h", `${Math.max(0, navH - 1)}px`);
+      // La carte flotte à 10px au-dessus du menu : --audio-bar-h représente
+      // TOUT l'espace qu'elle occupe (hauteur + marge), pour caler les
+      // éléments flottants au-dessus d'elle.
       const barH = bar.getBoundingClientRect().height;
-      main.style.paddingBottom = `${navH + barH + 12}px`;
-      document.documentElement.style.setProperty("--audio-bar-h", `${barH}px`);
+      main.style.paddingBottom = `${navH + barH + 24}px`;
+      document.documentElement.style.setProperty("--audio-bar-h", `${barH + 10}px`);
     };
     if (visible) {
       apply();
@@ -77,17 +79,20 @@ export function GlobalAudioBar() {
   // Podcast en priorité.
   if (pod.current) {
     return (
-      <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-dawn-400/25 bg-night-900 px-4 py-3.5 backdrop-blur">
-        <div className="container-x px-0">
+      <div
+        className="global-audio-bar dark-ctx fixed inset-x-3 z-[55] mx-auto max-w-xl rounded-2xl border border-white/10 bg-night-900/95 px-3.5 py-3 shadow-card backdrop-blur-md"
+        style={{ bottom: "calc(var(--bottom-nav-h, 0px) + 0.625rem)" }}
+      >
+        <div>
           {/* Ligne 1, gros bouton, titre + progression, fermer */}
           <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={pod.toggle}
               aria-label={pod.playing? "Pause": "Lire"}
-              className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950 shadow-sm transition-transform active:scale-95"
+              className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950 shadow-sm transition-transform active:scale-95"
             >
-              {pod.playing? <PauseGlyph className="h-7 w-7" />: <PlayGlyph className="h-7 w-7" />}
+              {pod.playing? <PauseGlyph className="h-6 w-6" />: <PlayGlyph className="h-6 w-6" />}
             </button>
             <div className="min-w-0 flex-1">
               <p className="truncate text-[15px] font-semibold text-cream">
@@ -113,7 +118,9 @@ export function GlobalAudioBar() {
               aria-label="Fermer le lecteur"
               className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-cream/50 transition-colors hover:bg-white/10 hover:text-cream"
             >
-              ✕
+              <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2}>
+                <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+              </svg>
             </button>
           </div>
 
@@ -169,8 +176,11 @@ export function GlobalAudioBar() {
   // Sinon: musique soaking en cours.
   if (soak.playing) {
     return (
-      <div className="global-audio-bar fixed inset-x-0 z-[55] border-t border-dawn-400/25 bg-night-900 px-4 py-4 backdrop-blur">
-        <div className="container-x flex items-center gap-3 px-0">
+      <div
+        className="global-audio-bar dark-ctx fixed inset-x-3 z-[55] mx-auto max-w-xl rounded-2xl border border-white/10 bg-night-900/95 px-3.5 py-3 shadow-card backdrop-blur-md"
+        style={{ bottom: "calc(var(--bottom-nav-h, 0px) + 0.625rem)" }}
+      >
+        <div className="flex items-center gap-3">
           <button
             type="button"
             onClick={soak.toggle}
@@ -192,7 +202,9 @@ export function GlobalAudioBar() {
             aria-label="Fermer le lecteur"
             className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-cream/50 transition-colors hover:bg-white/10 hover:text-cream"
           >
-            ✕
+            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2}>
+              <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+            </svg>
           </button>
         </div>
       </div>
