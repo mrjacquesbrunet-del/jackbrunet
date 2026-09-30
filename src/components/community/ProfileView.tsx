@@ -341,8 +341,8 @@ function Profile({
       {/* ---- En-tête façon page Facebook : bannière, avatar rond sur carte,
            nom + certification, compteurs en ligne, badges ---- */}
       <div className={jour? "bg-cream text-night-900": "dark-ctx bg-night-950 text-cream"}>
-        {/* Bannière */}
-        <div className="relative h-44 w-full overflow-hidden sm:h-56">
+        {/* Bannière : format horizontal façon couverture Facebook */}
+        <div className="relative h-36 w-full overflow-hidden sm:h-48">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={profile?.banner_url || profile?.avatar_url || asset("/img/profil-defaut.webp")}
@@ -350,36 +350,18 @@ function Profile({
             aria-hidden
             className="absolute inset-0 h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-night-950/35 via-transparent to-night-950/20" />
-          {/* Grade : fine barre de progression + pastille, posées sur la bannière */}
-          {(() => {
-            const g = gradeFor(activity);
-            const pct = g.next? Math.min(100, Math.round((g.points / g.next.min) * 100)): 100;
-            return (
-              <div
-                className="absolute inset-x-4 top-[calc(env(safe-area-inset-top)+0.5rem)] h-1 overflow-hidden rounded-full bg-white/25"
-                title={g.next? `Plus que ${g.toNext} pts → ${g.next.name}`: "Grade maximal"}
-              >
-                <div className="h-full rounded-full bg-gradient-to-r from-dawn-400 to-dawn-300" style={{ width: `${pct}%` }} />
-              </div>
-            );
-          })()}
-          <span
-            className="absolute left-4 top-[calc(env(safe-area-inset-top)+1.2rem)] rounded-full px-3 py-1 text-[11px] font-bold text-night-950"
-            style={{ background: gradeRing(gradeFor(activity).grade.name) }}
-          >
-            {gradeFor(activity).grade.name} · {gradeFor(activity).points} pts
-          </span>
+          <div className="absolute inset-0 bg-gradient-to-b from-night-950/25 via-transparent to-night-950/30" />
         </div>
 
-        {/* La carte remonte sur la bannière, l'avatar déborde dessus */}
-        <div className={`relative -mt-5 rounded-t-3xl px-5 pb-3 text-center ${jour? "bg-cream": "bg-night-950"}`}>
+        {/* La carte remonte sur la bannière, découpe bien visible même sur
+            photo sombre (fond légèrement plus clair + liseré en mode nuit) */}
+        <div className={`relative -mt-5 rounded-t-3xl px-5 pb-3 text-center ${jour? "bg-cream": "rounded-b-3xl bg-night-900 shadow-[0_-1px_0_rgba(255,255,255,0.14)]"}`}>
           <div className="relative mx-auto -mt-14 h-32 w-32">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={profile?.avatar_url || asset("/img/profil-defaut.webp")}
               alt=""
-              className={`h-32 w-32 rounded-full object-cover ring-4 ${jour? "ring-cream": "ring-night-950"}`}
+              className={`h-32 w-32 rounded-full object-cover ring-4 ${jour? "ring-cream": "ring-night-900"}`}
             />
           </div>
 
@@ -435,6 +417,25 @@ function Profile({
           <div className="mt-2 flex justify-center">
             <ProfileBadgesRow userId={userId} streakDays={profile?.streak_days} self compact />
           </div>
+
+          {/* Grade : rappel discret sous les badges (plus sur la bannière) */}
+          {(() => {
+            const g = gradeFor(activity);
+            const pct = g.next? Math.min(100, Math.round((g.points / g.next.min) * 100)): 100;
+            return (
+              <div
+                className="mx-auto mt-2 w-48"
+                title={g.next? `Plus que ${g.toNext} pts → ${g.next.name}`: "Grade maximal"}
+              >
+                <p className={`text-[10px] font-bold uppercase tracking-[0.15em] ${jour? "text-night-900/45": "text-cream/45"}`}>
+                  {g.grade.name} · {g.points} pts
+                </p>
+                <div className={`mt-1 h-1 overflow-hidden rounded-full ${jour? "bg-night-900/10": "bg-white/10"}`}>
+                  <div className="h-full rounded-full bg-gradient-to-r from-dawn-400 to-dawn-300" style={{ width: `${pct}%` }} />
+                </div>
+              </div>
+            );
+          })()}
 
           {profile?.bio &&
           profile.bio.trim().toLowerCase()!== (profile?.pseudo?? "").trim().toLowerCase()? (
