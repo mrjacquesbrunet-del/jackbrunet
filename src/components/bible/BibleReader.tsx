@@ -215,9 +215,18 @@ export function BibleReader() {
     if (!immersive) return;
     const bg = reading.theme === "clair" ? "#F3F3ED" : THEME_STYLE[reading.theme].bg;
     const els = [document.documentElement, document.body];
-    for (const el of els) el.style.setProperty("background-color", bg, "important");
+    for (const el of els) {
+      el.style.setProperty("background-color", bg, "important");
+      // Le body porte aussi des dégradés décoratifs (background-image) : on
+      // les coupe pour un fond UNIFORME de haut en bas, dans la teinte du
+      // thème de lecture.
+      el.style.setProperty("background-image", "none", "important");
+    }
     return () => {
-      for (const el of els) el.style.removeProperty("background-color");
+      for (const el of els) {
+        el.style.removeProperty("background-color");
+        el.style.removeProperty("background-image");
+      }
     };
   }, [immersive, reading.theme]);
 
@@ -298,12 +307,12 @@ export function BibleReader() {
             }}
             aria-label="Choisir le livre et le chapitre"
             className="flex min-w-0 items-center gap-2 rounded-full px-3.5 py-2 text-sm font-bold shadow-card backdrop-blur"
-            style={{ backgroundColor: reading.theme === "clair" ? "rgba(255,255,255,.92)" : "rgba(12,12,11,.62)" }}
+            style={{ backgroundColor: reading.theme === "sombre" ? "rgba(12,12,11,.62)" : "rgba(255,255,255,.92)" }}
           >
             <span className="truncate font-display">
               {book?.name} {chapterCount? chapter: ""}
             </span>
-            <span className="shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-black tracking-wide opacity-70" style={{ backgroundColor: reading.theme === "clair" ? "rgba(23,23,22,.08)" : "rgba(255,255,255,.12)" }}>
+            <span className="shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-black tracking-wide opacity-70" style={{ backgroundColor: reading.theme === "sombre" ? "rgba(255,255,255,.12)" : "rgba(23,23,22,.08)" }}>
               LSG
             </span>
             <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0 fill-none stroke-current opacity-60" strokeWidth={2.4}>
@@ -320,7 +329,7 @@ export function BibleReader() {
               aria-label="Plus d'options"
               aria-expanded={menuOpen}
               className="grid h-10 w-10 place-items-center rounded-full shadow-card backdrop-blur"
-              style={{ backgroundColor: reading.theme === "clair" ? "rgba(255,255,255,.92)" : "rgba(12,12,11,.62)" }}
+              style={{ backgroundColor: reading.theme === "sombre" ? "rgba(12,12,11,.62)" : "rgba(255,255,255,.92)" }}
             >
               <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current">
                 <circle cx="12" cy="5.5" r="1.7" /><circle cx="12" cy="12" r="1.7" /><circle cx="12" cy="18.5" r="1.7" />
@@ -494,14 +503,17 @@ export function BibleReader() {
         <div
           ref={topRef}
           className={`mt-6 max-w-2xl scroll-mt-4 space-y-2 ${
-            reading.theme === "clair"? "text-night-900/85": "rounded-2xl p-4"
+            reading.theme === "clair"? "text-night-900/85": immersive? "": "rounded-2xl p-4"
           }`}
           style={{
             fontFamily: FONT_STACK[reading.font],
             fontSize: `${1.125 * reading.scale}rem`,
             lineHeight: 1.65,
+            // En pleine lecture, le fond de la PAGE porte déjà la couleur du
+            // thème : le texte se pose directement dessus (fond uniforme,
+            // pas de carte).
             backgroundColor:
-              reading.theme === "clair"? undefined: THEME_STYLE[reading.theme].bg,
+              reading.theme === "clair" || immersive? undefined: THEME_STYLE[reading.theme].bg,
             color: reading.theme === "clair"? undefined: THEME_STYLE[reading.theme].text,
           }}
         >
