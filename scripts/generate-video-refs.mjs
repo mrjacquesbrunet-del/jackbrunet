@@ -62,7 +62,7 @@ function extractRefs(text) {
       `(?:(1|2|3|premiere?|seconde|deuxieme|troisieme)\\s+)?` +
         `(?:epitre\\s+)?(?:de\\s+|d'|aux?\\s+|a\\s+)?(${motif})` +
         `\\s+(?:chapitre\\s+)?(\\d{1,3})` +
-        `(?:\\s*(?:,|:|\\.|au verset\\s+|versets?\\s+)\\s*(\\d{1,3}))?`,
+        `(?:\\s*(?:,|:|\\.|au verset\\s+|versets?\\s+|v\\.?\\s*)\\s*(\\d{1,3}))?`,
       "g",
     );
     for (const m of text.matchAll(re)) {
@@ -164,24 +164,64 @@ async function main() {
   }
 
   const cache = loadJson(CACHE, {});
+  // Migration : purge les anciennes entrées « vides » (analyses qui avaient
+  // échoué à cause du blocage des sous-titres côté serveurs d'intégration).
+  for (const [id, e] of Object.entries(cache)) {
+    if (!e.tr && !e.d) delete cache[id];
+  }
   let processed = 0;
 
-  for (const v of videos) {
-    if (cache[v.id]) continue; // déjà analysée (même sans résultat)
+  const mergeRefs = (entry, refs) => {
+    entry.refs ??= [];
+    for (const r of refs) {
+      const cur = entry.refs.find((x) => x.k === r.key);
+      if (cur) cur.v = [...new Set([...(cur.v ?? []), ...r.versets])].sort((a, b) => a - b);
+      else entry.refs.push({ k: r.key, v: r.versets });
+    }
+  };
+
+  // ——— Passe 1 : TITRES + DESCRIPTIONS via l'API officielle (clé existante,
+  // jamais bloquée). Filet immédiat quand la référence est écrite.
+  const KEY = process.env.YOUTUBE_API_KEY;
+  if (KEY) {
+    const todo = videos.filter((v) => !cache[v.id]?.d);
+    for (let i = 0; i < todo.length; i += 50) {
+      const batch = todo.slice(i, i + 50);
+      try {
+        const r = await fetch(
+          `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${batch.map((v) => v.id).join(",")}&key=${KEY}`,
+        ).then((x) => (x.ok ? x.json() : Promise.reject(new Error(`videos.list ${x.status}`))));
+        for (const item of r.items ?? []) {
+          const refs = mainRefs(normalize(`${item.snippet?.title ?? ""}\n${item.snippet?.description ?? ""}`));
+          const e = (cache[item.id] ??= { t: item.snippet?.title ?? "" });
+          e.d = 1;
+          mergeRefs(e, refs);
+          if (refs.length) console.log(`[video-refs] desc ${item.id} → ${refs.map((x) => x.key).join(", ")}`);
+          processed++;
+        }
+      } catch (e) {
+        console.log(`[video-refs] descriptions : ${e.message}`);
+        break;
+      }
+    }
+  }
+
+  // ——— Passe 2 : TRANSCRIPTIONS (le plus riche). YouTube ne sert pas les
+  // sous-titres aux serveurs anonymes : on tente par petites tranches et on
+  // ne met JAMAIS un échec en cache — le jour où une voie d'accès passe
+  // (OAuth de la chaîne, autre réseau), tout se remplit tout seul.
+  const pending = videos.filter((v) => !cache[v.id]?.tr).slice(0, 60);
+  for (const v of pending) {
     try {
       const text = normalize(await fetchTranscript(v.id));
       const refs = mainRefs(text);
-      cache[v.id] = { t: v.title, refs: refs.map((r) => ({ k: r.key, v: r.versets })) };
-      console.log(`[video-refs] ${v.id} « ${v.title.slice(0, 50)} » → ${refs.map((r) => r.key).join(", ") || "aucun passage sûr"}`);
+      const e = (cache[v.id] ??= { t: v.title });
+      e.tr = 1;
+      mergeRefs(e, refs);
+      console.log(`[video-refs] transcription ${v.id} « ${v.title.slice(0, 45)} » → ${refs.map((r) => r.key).join(", ") || "aucun passage sûr"}`);
       processed++;
       await new Promise((r) => setTimeout(r, 800)); // douceur avec YouTube
     } catch (e) {
-      // Absence réelle de sous-titres : inutile de retenter chaque jour.
-      // (Toute autre erreur — réseau, page illisible — sera retentée.)
-      if (/aucune piste/.test(e.message)) {
-        cache[v.id] = { t: v.title, refs: [] };
-        processed++;
-      }
       console.log(`[video-refs] ${v.id} : ${e.message}`);
       await new Promise((r) => setTimeout(r, 400));
     }
