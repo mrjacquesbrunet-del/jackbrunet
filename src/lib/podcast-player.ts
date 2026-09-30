@@ -21,6 +21,8 @@ type State = {
   sleepEpisodeEnd: boolean;
   /** Vitesse de lecture (0.8 → 1.5). */
   rate: number;
+  /** Répète le morceau en cours en boucle (au lieu d'enchaîner le suivant). */
+  repeat: boolean;
 };
 
 function loadRate(): number {
@@ -39,6 +41,7 @@ let state: State = {
   sleepEndsAt: null,
   sleepEpisodeEnd: false,
   rate: typeof window!== "undefined"? loadRate(): 1,
+  repeat: false,
 };
 let audio: HTMLAudioElement | null = null;
 let sleepTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -90,6 +93,11 @@ function ensureAudio(): HTMLAudioElement | null {
     if (state.sleepEpisodeEnd) {
       cancelSleep();
       stopPlayback();
+      return;
+    }
+    // Mode répétition: on rejoue le même morceau en boucle.
+    if (state.repeat && state.index >= 0) {
+      playQueue(state.queue, state.index);
       return;
     }
     nextTrack(); // lecture continue: enchaîne le chapitre/épisode suivant
@@ -188,6 +196,12 @@ export function playQueue(queue: AudioTrack[], index: number) {
   });
 }
 
+/** Active/désactive la répétition en boucle du morceau en cours. */
+export function setRepeat(on: boolean) {
+  state.repeat = on;
+  emit();
+}
+
 /** Change la vitesse de lecture (0.8 → 1.5), mémorisée. */
 export function setRate(rate: number) {
   state.rate = rate;
@@ -237,6 +251,7 @@ export function stopPlayback() {
   state.playing = false;
   state.sleepEndsAt = null;
   state.sleepEpisodeEnd = false;
+  state.repeat = false;
   emit();
 }
 
@@ -271,6 +286,8 @@ export function usePodcastPlayer() {
     sleepEndsAt: snap.sleepEndsAt,
     sleepEpisodeEnd: snap.sleepEpisodeEnd,
     rate: snap.rate,
+    repeat: snap.repeat,
+    setRepeat,
     setRate,
     playQueue,
     toggle: togglePlay,

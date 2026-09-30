@@ -10,6 +10,7 @@ import { VersetOutils } from "@/components/bible/VersetOutils";
 import { BibleHero } from "@/components/bible/BibleHero";
 import { FichesChapitre } from "@/components/bible/FichesChapitre";
 import { BibleAudio } from "@/components/bible/BibleAudio";
+import { BibleAudioPlayer } from "@/components/bible/BibleAudioPlayer";
 import { BibleDownload } from "@/components/bible/BibleDownload";
 import { usePodcastPlayer, getPodcastAudio } from "@/lib/podcast-player";
 import { ReadingSettings } from "@/components/bible/ReadingSettings";
@@ -61,8 +62,6 @@ export function BibleReader() {
   const [selBook, setSelBook] = useState<number | null>(null);
   // Menu ⋮ du mode pleine lecture (carnet, recherche, téléchargement…).
   const [menuOpen, setMenuOpen] = useState(false);
-  // Lecteur audio replié derrière le petit bouton casque de la barre.
-  const [audioOpen, setAudioOpen] = useState(false);
 
   // « Reprendre où j'étais »: restaure le dernier livre/chapitre lu ET la
   // position de défilement, pour revenir EXACTEMENT au passage (ex. après un
@@ -312,20 +311,6 @@ export function BibleReader() {
             </svg>
           </button>
 
-          {/* Petit bouton casque : déplie le lecteur audio (narration + soaking) */}
-          <button
-            type="button"
-            onClick={() => setAudioOpen((v) => !v)}
-            aria-label="Écouter la Bible"
-            aria-expanded={audioOpen}
-            className="ml-1.5 grid h-10 w-10 shrink-0 place-items-center rounded-full shadow-card backdrop-blur"
-            style={audioOpen ? { backgroundColor: "#CAF000", color: "#0C0C0B" } : { backgroundColor: reading.theme === "clair" ? "rgba(255,255,255,.92)" : "rgba(12,12,11,.62)" }}
-          >
-            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.9}>
-              <path d="M4 13a8 8 0 0 1 16 0M4 13v4a2 2 0 0 0 2 2h1v-6H6a2 2 0 0 0-2 2zM20 13v4a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2z" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-
           <div className="relative ml-auto flex shrink-0 items-center gap-1.5">
             <ReadingSettings />
             {/* Menu : carnet, recherche, téléchargement, vue classique */}
@@ -366,20 +351,6 @@ export function BibleReader() {
             ) : null}
           </div>
 
-          {/* Lecteur audio déplié, accroché sous la barre */}
-          {audioOpen && !loading && verses.length ? (
-            <div className="absolute inset-x-0 top-full px-1 pt-1.5">
-              <BibleAudio
-                bookId={bookId}
-                verses={verses}
-                bookName={book?.name?? ""}
-                chapter={chapter}
-                chapterCount={chapterCount}
-                books={index}
-                onVerse={setSpokenVerse}
-              />
-            </div>
-          ) : null}
         </div>
       ): null}
 
@@ -675,9 +646,30 @@ export function BibleReader() {
         </div>
       ): null}
 
-      {/* Pleine lecture : flèches de chapitre aux coins (comme un liseur) */}
+      {/* Pleine lecture : flèches de chapitre aux coins (comme un liseur) et
+          bouton audio rond au centre, qui ouvre le lecteur en feuille */}
       {immersive &&!loading && verses.length? (
         <>
+          <BibleAudioPlayer
+            bookId={bookId}
+            verses={verses}
+            bookName={book?.name?? ""}
+            chapter={chapter}
+            chapterCount={chapterCount}
+            books={index}
+            onVerse={setSpokenVerse}
+            onPrevChapter={() => goToChapter(Math.max(1, chapter - 1))}
+            onNextChapter={() => {
+              if (chapter < chapterCount) goToChapter(chapter + 1);
+              else if (bookId < 66) {
+                setBookId(bookId + 1);
+                setChapter(1);
+                scrollToChapterTop();
+              }
+            }}
+            canPrev={chapter > 1}
+            canNext={chapter < chapterCount || bookId < 66}
+          />
           <button
             type="button"
             disabled={chapter <= 1}
