@@ -134,8 +134,12 @@ export function VersetOutils({
                 className={`flex flex-col items-center gap-1 rounded-xl px-1 py-2 transition-colors ${actif ? "bg-white/[0.08]" : ""} disabled:opacity-25`}
               >
                 <span
-                  className="grid h-9 w-9 place-items-center rounded-lg border font-display text-base font-extrabold"
-                  style={{ borderColor: `${o.couleur}66`, color: o.couleur, backgroundColor: actif ? `${o.couleur}1f` : "transparent" }}
+                  className="grid h-10 w-10 place-items-center rounded-full border-2 font-display text-base font-extrabold transition-all"
+                  style={
+                    actif
+                      ? { borderColor: o.couleur, backgroundColor: o.couleur, color: "#0C0C0B", boxShadow: `0 0 14px ${o.couleur}66` }
+                      : { borderColor: `${o.couleur}55`, color: o.couleur, backgroundColor: "rgba(255,255,255,.04)" }
+                  }
                 >
                   {o.lettre(at)}
                 </span>
