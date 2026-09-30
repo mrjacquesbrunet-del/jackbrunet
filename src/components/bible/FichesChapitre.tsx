@@ -79,13 +79,13 @@ export function FichesChapitre({
 }) {
   const [data, setData] = useState<FichesData | null>(null);
   const [openId, setOpenId] = useState<string | null>(null);
-  const [idx, setIdx] = useState(0);
+  // La feuille listant TOUTES les figures du chapitre.
+  const [listOpen, setListOpen] = useState(false);
 
   useEffect(() => {
     getFiches().then(setData);
   }, []);
-  // Nouvelle pile à chaque chapitre.
-  useEffect(() => setIdx(0), [bookId, chapter]);
+  useEffect(() => setListOpen(false), [bookId, chapter]);
 
   // Personnages d'abord, puis lieux, alphabétique — l'ordre du défilement.
   const ordered = useMemo(() => {
@@ -99,13 +99,12 @@ export function FichesChapitre({
   }, [data, bookId, chapter]);
 
   if (!data || ordered.length === 0) return null;
-  const i = ((idx % ordered.length) + ordered.length) % ordered.length;
-  const currentId = ordered[i];
-  const current = data.fiches[currentId];
   const open = openId ? data.fiches[openId] : null;
   // L'anneau entre les cartes de la pile reprend le fond de la page pour
   // dessiner un vrai espace entre les médaillons.
   const ring = dark ? "#171716" : "#F3F3ED";
+  const nPers = ordered.filter((id) => data.fiches[id].type === "personnage").length;
+  const nLieux = ordered.length - nPers;
 
   return (
     <div className="mx-auto mt-10 max-w-2xl">
@@ -115,59 +114,89 @@ export function FichesChapitre({
         <span className="h-px flex-1 bg-current opacity-30" />
       </p>
 
-      {/* La pile de médaillons (tap = figure suivante) + la figure en cours */}
-      <div className="mt-6 flex items-center gap-5">
+      {/* La pile de médaillons : un tap ouvre la liste de TOUTES les figures */}
+      <div className="mt-6 flex justify-center">
         <button
           type="button"
-          onClick={() => setIdx((v) => v + 1)}
-          aria-label="Figure suivante"
-          className="relative h-24 w-[7.75rem] shrink-0 active:scale-95"
-          style={{ transition: "transform .15s" }}
+          onClick={() => setListOpen(true)}
+          aria-label="Voir les personnages et lieux du chapitre"
+          className="group flex flex-col items-center gap-2.5"
         >
-          {[2, 1, 0].map((n) => {
-            if (n >= ordered.length) return null;
-            const id = ordered[(i + n) % ordered.length];
-            return (
+          <span className="relative h-24 transition-transform group-active:scale-95" style={{ width: `${6 + Math.min(3, ordered.length - 1) * 0.875}rem` }}>
+            {ordered.slice(0, 4).map((id, n) => (
               <span
                 key={id}
-                className="absolute top-0 block h-24 w-24 transition-all duration-300"
+                className="absolute top-0 block h-24 w-24"
                 style={{
-                  left: `${(2 - n) * 14}px`,
-                  zIndex: 30 - n * 10,
-                  transform: `scale(${1 - n * 0.05})`,
+                  left: `${(Math.min(4, ordered.length) - 1 - n) * 14}px`,
+                  zIndex: 40 - n * 10,
+                  transform: `scale(${1 - n * 0.045})`,
                   boxShadow: `0 0 0 3px ${ring}`,
                   borderRadius: "9999px",
                 }}
               >
                 <Medaillon id={id} fiche={data.fiches[id]} size="h-24 w-24" />
               </span>
-            );
-          })}
+            ))}
+          </span>
+          <span className={`font-display text-sm font-extrabold ${dark ? "text-cream" : "text-night-900"}`}>
+            {nPers > 0 ? `${nPers} personnage${nPers > 1 ? "s" : ""}` : ""}
+            {nPers > 0 && nLieux > 0 ? " · " : ""}
+            {nLieux > 0 ? `${nLieux} lieu${nLieux > 1 ? "x" : ""}` : ""}
+          </span>
+          <span className={`-mt-1.5 text-xs ${dark ? "text-cream/45" : "text-night-900/45"}`}>
+            Touche pour tout découvrir
+          </span>
         </button>
-
-        <div className="min-w-0 flex-1">
-          <p className={`text-[10px] font-black uppercase tracking-[0.2em] ${dark ? "text-dawn-300" : "text-dawn-600"}`}>
-            {current.type === "personnage" ? "Personnage" : "Lieu"} · {i + 1} / {ordered.length}
-          </p>
-          <h3 className={`mt-0.5 font-display text-xl font-extrabold leading-tight ${dark ? "text-cream" : "text-night-900"}`}>
-            {current.nom}
-          </h3>
-          <p className={`mt-1 line-clamp-2 text-sm leading-relaxed ${dark ? "text-cream/70" : "text-night-900/70"}`}>
-            {current.bio}
-          </p>
-          <button
-            type="button"
-            onClick={() => setOpenId(currentId)}
-            className="mt-2.5 rounded-full bg-dawn-400 px-4 py-1.5 font-display text-xs font-bold text-night-950 shadow-card"
-          >
-            Lire sa fiche
-          </button>
-        </div>
       </div>
-      {ordered.length > 1 ? (
-        <p className={`mt-3 text-xs ${dark ? "text-cream/40" : "text-night-900/40"}`}>
-          Touche la pile pour faire défiler les {ordered.length} figures du chapitre.
-        </p>
+
+      {/* La feuille : toutes les figures du chapitre, en grille */}
+      {listOpen ? (
+        <div className="fixed inset-0 z-[120] flex items-end justify-center sm:items-center">
+          <button type="button" aria-label="Fermer" onClick={() => setListOpen(false)} className="absolute inset-0 bg-night-950/70 backdrop-blur-sm" />
+          <div className="dark-ctx relative flex max-h-[84vh] w-full max-w-md flex-col overflow-hidden rounded-t-3xl border border-white/10 bg-night-900 text-cream sm:rounded-3xl">
+            <div className="flex items-center justify-between border-b border-white/10 px-5 py-3.5">
+              <p className="font-display text-base font-extrabold">Dans ce chapitre</p>
+              <button
+                type="button"
+                onClick={() => setListOpen(false)}
+                aria-label="Fermer"
+                className="grid h-8 w-8 place-items-center rounded-full border border-white/15 text-cream/70"
+              >
+                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2}>
+                  <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+                </svg>
+              </button>
+            </div>
+            <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-6 pt-4">
+              {[
+                { titre: "Personnages", t: "personnage" as const },
+                { titre: "Lieux", t: "lieu" as const },
+              ].map((g) => {
+                const ids = ordered.filter((id) => data.fiches[id].type === g.t);
+                if (!ids.length) return null;
+                return (
+                  <div key={g.t} className="mb-5">
+                    <p className="mb-3 px-1 text-[11px] font-black uppercase tracking-[0.18em] text-dawn-400">{g.titre}</p>
+                    <div className="grid grid-cols-3 gap-x-3 gap-y-5">
+                      {ids.map((id) => {
+                        const f = data.fiches[id];
+                        return (
+                          <button key={id} type="button" onClick={() => setOpenId(id)} className="group flex flex-col items-center gap-1.5 text-center">
+                            <span className="transition-transform group-active:scale-90">
+                              <Medaillon id={id} fiche={f} />
+                            </span>
+                            <span className="line-clamp-2 text-[13px] font-bold leading-tight text-cream/90">{f.nom}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
       ) : null}
 
       {/* Fiche : feuille qui monte du bas */}
@@ -200,6 +229,7 @@ export function FichesChapitre({
                     type="button"
                     onClick={() => {
                       setOpenId(null);
+                      setListOpen(false);
                       onNavigate(l, c);
                     }}
                     className="rounded-full bg-dawn-400 px-3.5 py-2 font-display text-sm font-bold text-night-950"
@@ -229,6 +259,7 @@ export function FichesChapitre({
                             disabled={here}
                             onClick={() => {
                               setOpenId(null);
+                              setListOpen(false);
                               onNavigate(l, c);
                             }}
                             className={`rounded-full px-2.5 py-1.5 text-xs font-bold ${
