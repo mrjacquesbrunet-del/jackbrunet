@@ -414,28 +414,27 @@ function Profile({
               ) : null}
             </div>
           ) : null}
-          <div className="mt-2 flex justify-center">
+          {/* Badge + grade : une seule ligne compacte et homogène */}
+          <div className="mt-2.5 flex items-center justify-center gap-3">
             <ProfileBadgesRow userId={userId} streakDays={profile?.streak_days} self single />
-          </div>
-
-          {/* Grade : rappel discret sous les badges (plus sur la bannière) */}
-          {(() => {
-            const g = gradeFor(activity);
-            const pct = g.next? Math.min(100, Math.round((g.points / g.next.min) * 100)): 100;
-            return (
-              <div
-                className="mx-auto mt-2 w-48"
-                title={g.next? `Plus que ${g.toNext} pts → ${g.next.name}`: "Grade maximal"}
-              >
-                <p className={`text-[10px] font-bold uppercase tracking-[0.15em] ${jour? "text-night-900/45": "text-cream/45"}`}>
-                  {g.grade.name} · {g.points} pts
-                </p>
-                <div className={`mt-1 h-1 overflow-hidden rounded-full ${jour? "bg-night-900/10": "bg-white/10"}`}>
-                  <div className="h-full rounded-full bg-gradient-to-r from-dawn-400 to-dawn-300" style={{ width: `${pct}%` }} />
+            {(() => {
+              const g = gradeFor(activity);
+              const pct = g.next? Math.min(100, Math.round((g.points / g.next.min) * 100)): 100;
+              return (
+                <div
+                  className="text-left"
+                  title={g.next? `Plus que ${g.toNext} pts → ${g.next.name}`: "Grade maximal"}
+                >
+                  <p className={`whitespace-nowrap text-[10px] font-bold uppercase tracking-[0.15em] ${jour? "text-night-900/50": "text-cream/50"}`}>
+                    {g.grade.name} · {g.points} pts
+                  </p>
+                  <div className={`mt-1.5 h-1 w-36 overflow-hidden rounded-full ${jour? "bg-night-900/10": "bg-white/10"}`}>
+                    <div className="h-full rounded-full bg-gradient-to-r from-dawn-400 to-dawn-300" style={{ width: `${pct}%` }} />
+                  </div>
                 </div>
-              </div>
-            );
-          })()}
+              );
+            })()}
+          </div>
 
           {profile?.bio &&
           profile.bio.trim().toLowerCase()!== (profile?.pseudo?? "").trim().toLowerCase()? (
