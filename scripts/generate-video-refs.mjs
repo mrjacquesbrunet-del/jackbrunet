@@ -103,28 +103,43 @@ function mainRefs(text) {
   }));
 }
 
-// ————— Transcription YouTube (API player publique, client Android) —————
+// ————— Transcription YouTube : pistes lues dans la page watch elle-même —————
+const UA =
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";
+
 async function fetchTranscript(videoId) {
-  const resp = await fetch(
-    "https://www.youtube.com/youtubei/v1/player?key=AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8",
-    {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        context: { client: { clientName: "ANDROID", clientVersion: "20.10.38", hl: "fr" } },
-        videoId,
-      }),
+  const page = await fetch(`https://www.youtube.com/watch?v=${videoId}&hl=fr`, {
+    headers: {
+      "user-agent": UA,
+      "accept-language": "fr-FR,fr;q=0.9",
+      // Évite l'interstitiel de consentement européen.
+      cookie: "CONSENT=YES+cb; SOCS=CAI",
     },
-  );
-  if (!resp.ok) throw new Error(`player ${resp.status}`);
-  const data = await resp.json();
-  const tracks = data?.captions?.playerCaptionsTracklistRenderer?.captionTracks ?? [];
+  });
+  if (!page.ok) throw new Error(`watch ${page.status}`);
+  const html = await page.text();
+  const m = html.match(/"captionTracks":(\[.*?\])(?:,"|\])/);
+  if (!m) {
+    // La page a répondu mais sans aucune piste : absence réelle (ou vidéo
+    // indisponible) — signalée comme telle pour être mise en cache.
+    if (html.includes("ytInitialPlayerResponse")) throw new Error("aucune piste de sous-titres");
+    throw new Error("page watch illisible");
+  }
+  let tracks;
+  try {
+    tracks = JSON.parse(m[1]);
+  } catch {
+    throw new Error("captionTracks illisible");
+  }
   const track =
     tracks.find((t) => t.languageCode?.startsWith("fr") && t.kind !== "asr") ??
     tracks.find((t) => t.languageCode?.startsWith("fr")) ??
     tracks[0];
   if (!track?.baseUrl) throw new Error("aucune piste de sous-titres");
-  const tr = await fetch(`${track.baseUrl}&fmt=json3`).then((r) => (r.ok ? r.json() : Promise.reject(new Error("timedtext"))));
+  const url = `${track.baseUrl.replace(/\\u0026/g, "&")}&fmt=json3`;
+  const tr = await fetch(url, { headers: { "user-agent": UA } }).then((r) =>
+    r.ok ? r.json() : Promise.reject(new Error(`timedtext ${r.status}`)),
+  );
   return (tr.events ?? [])
     .map((e) => (e.segs ?? []).map((s) => s.utf8 ?? "").join(""))
     .join(" ");
@@ -161,12 +176,14 @@ async function main() {
       processed++;
       await new Promise((r) => setTimeout(r, 800)); // douceur avec YouTube
     } catch (e) {
-      // Pas de sous-titres du tout : inutile de retenter chaque jour.
+      // Absence réelle de sous-titres : inutile de retenter chaque jour.
+      // (Toute autre erreur — réseau, page illisible — sera retentée.)
       if (/aucune piste/.test(e.message)) {
         cache[v.id] = { t: v.title, refs: [] };
         processed++;
       }
       console.log(`[video-refs] ${v.id} : ${e.message}`);
+      await new Promise((r) => setTimeout(r, 400));
     }
   }
 
