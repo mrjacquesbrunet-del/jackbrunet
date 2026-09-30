@@ -11,21 +11,21 @@ import { asset } from "@/lib/asset";
  * scripts/build-fiches-index.mjs — aucun appel réseau externe).
  */
 
-type Fiche = {
+export type Fiche = {
   nom: string;
   type: "personnage" | "lieu";
   bio: string;
   periode?: string;
   passages: [string, number, number][];
 };
-type FichesData = {
+export type FichesData = {
   fiches: Record<string, Fiche>;
   chapitres: Record<string, string[]>;
   apparitions: Record<string, string[]>;
 };
 
 let dataPromise: Promise<FichesData | null> | null = null;
-function getFiches(): Promise<FichesData | null> {
+export function getFiches(): Promise<FichesData | null> {
   if (!dataPromise) {
     dataPromise = fetch(asset("/bible/fiches.json"))
       .then((r) => (r.ok ? r.json() : null))
@@ -36,7 +36,7 @@ function getFiches(): Promise<FichesData | null> {
 
 /** Médaillon : portrait si présent (img/bible/fiches/<id>.jpg), sinon un
  * monogramme élégant sur dégradé — remplacé au fur et à mesure des portraits. */
-function Medaillon({ id, fiche, size = "h-16 w-16" }: { id: string; fiche: Fiche; size?: string }) {
+export function Medaillon({ id, fiche, size = "h-16 w-16" }: { id: string; fiche: Fiche; size?: string }) {
   const [imgOk, setImgOk] = useState(true);
   const grad =
     fiche.type === "personnage"

@@ -5,7 +5,8 @@ import Link from "next/link";
 import { asset, mediaUrl } from "@/lib/asset";
 import { Markable } from "@/components/ui/Markable";
 import { HighlighterGlyph } from "@/components/ui/DevoIcons";
-import { CommentaryPanel, type Commentary } from "@/components/bible/CommentaryPanel";
+import type { Commentary } from "@/components/bible/CommentaryPanel";
+import { VersetOutils } from "@/components/bible/VersetOutils";
 import { BibleHero } from "@/components/bible/BibleHero";
 import { FichesChapitre } from "@/components/bible/FichesChapitre";
 import { BibleAudio } from "@/components/bible/BibleAudio";
@@ -28,7 +29,8 @@ export function BibleReader() {
   // Commentaires d'étude (chargés à la demande, une fois par chapitre)
   const [comm, setComm] = useState<Record<number, Commentary>>({});
   const [commState, setCommState] = useState<"idle" | "loading" | "loaded" | "none">("idle");
-  const [openVerses, setOpenVerses] = useState<Set<number>>(new Set());
+  // Feuille d'étude du verset (grille d'outils : grec/hébreu, contexte…)
+  const [sheetVerse, setSheetVerse] = useState<number | null>(null);
 
   // Verset lu à voix haute (surlignage pendant l'écoute)
   const [spokenVerse, setSpokenVerse] = useState<number | null>(null);
@@ -123,7 +125,7 @@ export function BibleReader() {
   useEffect(() => {
     setComm({});
     setCommState("idle");
-    setOpenVerses(new Set());
+    setSheetVerse(null);
   }, [bookId, chapter]);
 
   function loadCommentary() {
@@ -138,14 +140,9 @@ export function BibleReader() {
 .catch(() => setCommState("none"));
   }
 
-  function toggleVerse(vn: number) {
+  function openStudy(vn: number) {
     loadCommentary();
-    setOpenVerses((prev) => {
-      const next = new Set(prev);
-      if (next.has(vn)) next.delete(vn);
-      else next.add(vn);
-      return next;
-    });
+    setSheetVerse(vn);
   }
 
   // Liste des livres
@@ -501,8 +498,7 @@ export function BibleReader() {
           ): null}
           {verses.map((v, i) => {
             const vn = i + 1;
-            const open = openVerses.has(vn);
-            const c = comm[vn];
+            const open = sheetVerse === vn;
             const speaking = spokenVerse === i;
             return (
               // La clé inclut livre + chapitre: en changeant de chapitre, les
@@ -515,11 +511,9 @@ export function BibleReader() {
                   kind="verset"
                 >
                   <p
-                    className={
-                      speaking
-? "-mx-2 rounded-lg bg-dawn-400/25 px-2 py-0.5 transition-colors"
-: "transition-colors"
-                    }
+                    className={`transition-colors ${
+                      speaking ? "-mx-2 rounded-lg bg-dawn-400/25 px-2 py-0.5" : ""
+                    } ${open ? "underline decoration-dashed decoration-1 underline-offset-[6px] opacity-100" : ""}`}
                   >
                     <sup
                       className="mr-1 align-super text-xs font-bold text-spirit-600"
@@ -535,11 +529,11 @@ export function BibleReader() {
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
-                          toggleVerse(vn);
+                          openStudy(vn);
                         }}
                         aria-expanded={open}
-                        aria-label="Commentaire & sens des mots"
-                        title="Commentaire & sens des mots"
+                        aria-label="Étudier ce verset"
+                        title="Étudier ce verset"
                         className={`ml-1.5 inline-grid h-6 w-6 translate-y-[4px] shrink-0 place-items-center rounded-full align-baseline transition-colors ${
                           open
 ? "bg-dawn-400 text-night-950"
@@ -562,14 +556,6 @@ export function BibleReader() {
                   </p>
                 </Markable>
 
-                {open? (
-                  <CommentaryPanel
-                    state={commState}
-                    data={c}
-                    idBase={`bible:${bookId}:${chapter}:${vn}:comm`}
-                    reference={`${book?.name} ${chapter}:${vn}`}
-                  />
-                ): null}
               </div>
             );
           })}
@@ -682,6 +668,30 @@ export function BibleReader() {
           </button>
         </div>
       ): null}
+      {/* Feuille d'étude du verset touché */}
+      {sheetVerse !== null && verses[sheetVerse - 1] ? (
+        <VersetOutils
+          bookId={bookId}
+          chapter={chapter}
+          verse={sheetVerse}
+          verseText={verses[sheetVerse - 1]}
+          reference={`${book?.name} ${chapter}:${sheetVerse}`}
+          commentary={comm[sheetVerse]}
+          commentaryState={commState}
+          bookNames={bookNames}
+          onNavigate={(l, c) => {
+            if (l !== bookId) {
+              setBookId(l);
+              setChapter(c);
+              scrollToChapterTop();
+            } else {
+              goToChapter(c);
+            }
+          }}
+          onClose={() => setSheetVerse(null)}
+        />
+      ) : null}
+
       {/* Sélecteur livre/chapitre : feuille qui monte du bas de l'écran */}
       {selOpen ? (
         <div className="fixed inset-0 z-[120] flex items-end justify-center sm:items-center">
