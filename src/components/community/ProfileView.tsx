@@ -362,7 +362,7 @@ function Profile({
            nom + certification, compteurs en ligne, badges ---- */}
       <div className={jour? "bg-cream text-night-900": "dark-ctx bg-night-950 text-cream"}>
         {/* Bannière : format horizontal façon couverture Facebook */}
-        <div className="relative h-36 w-full overflow-hidden sm:h-48">
+        <div className="relative h-44 w-full overflow-hidden sm:h-56">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={profile?.banner_url || profile?.avatar_url || asset("/img/profil-defaut.webp")}
