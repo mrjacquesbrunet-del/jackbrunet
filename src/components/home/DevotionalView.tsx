@@ -17,7 +17,7 @@ import { MoodCheckin } from "@/components/home/MoodCheckin";
 import { DailyPrayerSpotlight } from "@/components/home/DailyPrayerSpotlight";
 import { HomeQuickSlider } from "@/components/home/HomeQuickSlider";
 import { useToolkit } from "@/lib/toolkit";
-import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
+import { WhatsAppCard } from "@/components/ui/WhatsAppChannel";
 import { ReminderToggle } from "@/components/pwa/ReminderToggle";
 import { SoakingBar } from "@/components/home/SoakingBar";
 import {
@@ -717,6 +717,15 @@ export function DevotionalView({
         </section>
       ): null}
 
+      {/* Chaîne WhatsApp : bien en vue, entre le parcours et la bibliothèque */}
+      <section className="container-x">
+        <Reveal from="up">
+          <div className="mx-auto max-w-2xl">
+            <WhatsAppCard />
+          </div>
+        </Reveal>
+      </section>
+
       {/* 6c. Ma bibliothèque: extraits enregistrés */}
       {tk.saved.length > 0? (
         <section className="container-x">
@@ -825,7 +834,6 @@ export function DevotionalView({
         </Reveal>
       </section>
 
-      <WhatsAppChannel />
     </div>
   );
 }

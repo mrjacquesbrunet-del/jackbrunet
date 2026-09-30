@@ -34,6 +34,7 @@ import { ModerationQueue } from "@/components/community/ModerationQueue";
 import { NotificationsBell } from "@/components/community/NotificationsBell";
 import { MessagesButton } from "@/components/community/MessagesButton";
 import { DeleteAccountButton } from "@/components/community/DeleteAccountButton";
+import { WhatsAppCard } from "@/components/ui/WhatsAppChannel";
 import { BootDiagnostic } from "@/components/app/BootDiagnostic";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { ModeratorBadge } from "@/components/community/ModeratorBadge";
@@ -1114,6 +1115,11 @@ function Profile({
           </div>
         </div>
       ): null}
+
+      {/* La chaîne WhatsApp : le rendez-vous quotidien hors de l'app */}
+      <div className="mt-8">
+        <WhatsAppCard />
+      </div>
 
       {isAdminEmail(email)? (
         <div className="mt-8">

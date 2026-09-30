@@ -1,37 +1,63 @@
 const WHATSAPP_CHANNEL =
   "https://whatsapp.com/channel/0029VbBxxbY1SWt72z0avP1F";
 
-/** Carte sombre invitant à rejoindre la chaîne WhatsApp. */
+/**
+ * Carte « Rejoins ma chaîne WhatsApp » — la carte seule (WhatsAppCard) se
+ * glisse dans n'importe quelle page (accueil, profil…) ; WhatsAppChannel
+ * garde le wrapper pleine page des emplacements historiques.
+ */
+export function WhatsAppCard() {
+  return (
+    <a
+      href={WHATSAPP_CHANNEL}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="keep-dark dark-ctx group relative block overflow-hidden rounded-3xl border border-[#25D366]/25 bg-night-900 p-5 text-cream shadow-card transition-all hover:-translate-y-0.5 hover:shadow-lg sm:p-6"
+    >
+      {/* Halos verts */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute -right-12 -top-14 h-44 w-44 rounded-full bg-[#25D366]/25 blur-3xl"
+      />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute -bottom-16 -left-10 h-36 w-36 rounded-full bg-[#25D366]/10 blur-3xl"
+      />
+
+      <div className="relative flex items-start gap-4">
+        <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-[#25D366] text-white shadow-[0_0_24px_rgba(37,211,102,0.45)]">
+          <WhatsAppIcon className="h-7 w-7" />
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#25D366]">
+            Chaîne WhatsApp
+          </p>
+          <p className="mt-0.5 font-display text-lg font-extrabold leading-tight">
+            Reste connecté, chaque jour
+          </p>
+          <p className="mt-1 text-sm leading-relaxed text-cream/70">
+            Paroles, encouragements et actus de Jack, directement sur WhatsApp.
+          </p>
+        </div>
+      </div>
+
+      <span className="relative mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] py-3 font-display text-sm font-extrabold text-white transition-colors group-hover:bg-[#2ee275]">
+        Rejoindre la chaîne
+        <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2} aria-hidden>
+          <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </span>
+    </a>
+  );
+}
+
+/** Emplacement pleine page (bas des pages du site). */
 export function WhatsAppChannel() {
   return (
     <div className="container-x py-8">
-      <a
-        href={WHATSAPP_CHANNEL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group relative mx-auto flex max-w-2xl items-center gap-4 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-spirit-700 to-night-900 p-5 text-cream shadow-card transition-all hover:-translate-y-0.5 hover:shadow-lg"
-      >
-        {/* Halo vert discret */}
-        <span
-          aria-hidden
-          className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-[#25D366]/25 blur-2xl"
-        />
-        {/* Pastille icône WhatsApp */}
-        <span className="relative grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-[#25D366] text-white shadow-sm">
-          <WhatsAppIcon className="h-6 w-6" />
-        </span>
-        <span className="relative min-w-0 flex-1">
-          <span className="block font-display text-base font-extrabold leading-tight">
-            Rejoins ma chaîne WhatsApp
-          </span>
-          <span className="mt-0.5 block text-sm text-cream/70">
-            Reçois mes paroles & actus, ne rien manquer.
-          </span>
-        </span>
-        <span className="relative shrink-0 text-cream/50 transition-transform group-hover:translate-x-0.5 group-hover:text-[#25D366]">
-          →
-        </span>
-      </a>
+      <div className="mx-auto max-w-2xl">
+        <WhatsAppCard />
+      </div>
     </div>
   );
 }
