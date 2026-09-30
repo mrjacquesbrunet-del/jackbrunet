@@ -8,6 +8,8 @@ export type ReportTarget =
   | "group_message"
   | "prayer"
   | "prayer_comment"
+  | "wall_post"
+  | "wall_comment"
   | "message"
   | "profile";
 

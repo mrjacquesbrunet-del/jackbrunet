@@ -35,6 +35,7 @@ import { NotificationsBell } from "@/components/community/NotificationsBell";
 import { MessagesButton } from "@/components/community/MessagesButton";
 import { DeleteAccountButton } from "@/components/community/DeleteAccountButton";
 import { WhatsAppCard } from "@/components/ui/WhatsAppChannel";
+import { WallSection } from "@/components/wall/WallSection";
 import { BootDiagnostic } from "@/components/app/BootDiagnostic";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { ModeratorBadge } from "@/components/community/ModeratorBadge";
@@ -153,6 +154,9 @@ function Profile({
   const [pseudoError, setPseudoError] = useState("");
   const [editing, setEditing] = useState(false);
   const [followModal, setFollowModal] = useState<null | "followers" | "following">(null);
+  // Le profil est d'abord un MUR (réseau social) ; les outils personnels
+  // (carnet, plans, liste de prière…) vivent dans « Mon espace ».
+  const [view, setView] = useState<"mur" | "espace">("mur");
   // Écran Paramètres (notifications par type, sons, rappel, compte, termes).
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -524,6 +528,39 @@ function Profile({
           </div>
       </div>
 
+      {/* Bascule : le MUR (défaut) ou MON ESPACE (outils personnels) */}
+      <div className={`mt-3 flex rounded-full p-1 ${jour ? "bg-night-900/[0.06]" : "bg-white/[0.07]"}`}>
+        {(
+          [
+            ["mur", "Le mur"],
+            ["espace", "Mon espace"],
+          ] as ["mur" | "espace", string][]
+        ).map(([v, label]) => (
+          <button
+            key={v}
+            type="button"
+            onClick={() => setView(v)}
+            aria-pressed={view === v}
+            className={`flex-1 rounded-full py-2 font-display text-sm font-bold transition-colors ${
+              view === v ? "bg-dawn-400 text-night-950" : jour ? "text-night-900/60" : "text-cream/65"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {view === "mur" ? (
+        <div className="mt-1">
+          <WallSection
+            me={userId}
+            myProfile={profile ? { id: userId, ...profile } : null}
+            isModerator={Boolean(profile?.is_moderator) || isAdminEmail(email)}
+            dark={!jour}
+          />
+        </div>
+      ) : (
+        <>
       {editing? (
         <div className={`glass-strong mt-4 p-6 sm:p-8 ${jour? "": "dark-ctx text-cream"}`}>
         <div className="grid gap-4 sm:grid-cols-2">
@@ -1156,6 +1193,9 @@ function Profile({
         <DeleteAccountButton />
         <BootDiagnostic />
       </div>
+
+      </>
+      )}
 
       {followModal? (
         <FollowList
