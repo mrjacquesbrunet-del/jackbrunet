@@ -61,6 +61,8 @@ export function BibleReader() {
   const [selBook, setSelBook] = useState<number | null>(null);
   // Menu ⋮ du mode pleine lecture (carnet, recherche, téléchargement…).
   const [menuOpen, setMenuOpen] = useState(false);
+  // Lecteur audio replié derrière le petit bouton casque de la barre.
+  const [audioOpen, setAudioOpen] = useState(false);
 
   // « Reprendre où j'étais »: restaure le dernier livre/chapitre lu ET la
   // position de défilement, pour revenir EXACTEMENT au passage (ex. après un
@@ -206,6 +208,20 @@ export function BibleReader() {
   // longueur des versets, faute de repères temps dans le fichier audio).
   const reading = useReading();
   const isApp = useAppMode();
+
+  // Pleine lecture : html et body prennent la couleur du thème de lecture —
+  // la zone de la barre de statut et le rebond du défilement restent dans la
+  // même teinte (plus de bandeau noir en haut).
+  useEffect(() => {
+    if (!immersive) return;
+    const bg = reading.theme === "clair" ? "#F3F3ED" : THEME_STYLE[reading.theme].bg;
+    const els = [document.documentElement, document.body];
+    for (const el of els) el.style.setProperty("background-color", bg, "important");
+    return () => {
+      for (const el of els) el.style.removeProperty("background-color");
+    };
+  }, [immersive, reading.theme]);
+
   const pod = usePodcastPlayer();
   const narrId = book? `bible:${book.name} ${chapter}`: "";
   const narrating = pod.current?.id === narrId && narrId!== "";
@@ -265,13 +281,12 @@ export function BibleReader() {
       {/* Barre fine du mode pleine lecture */}
       {immersive? (
         <div
-          className="sticky z-40 mb-2 flex items-center justify-between gap-2 rounded-b-2xl px-1 py-2 backdrop-blur"
+          className="sticky z-40 mb-2 flex items-center justify-between gap-2 px-1 py-2"
           style={{
-            // Dans l'app, l'en-tête du site est masqué : la barre colle en haut.
-            // Sur le site web, elle se cale sous l'en-tête fixe.
-            top: isApp ? 0 : "4.25rem",
-            backgroundColor:
-              reading.theme === "clair"? "rgba(243,243,237,0.95)": THEME_STYLE[reading.theme].bg,
+            // Dans l'app : sous la barre de statut du téléphone ; sur le site :
+            // sous l'en-tête fixe. Pas de fond : les pastilles flottent sur le
+            // texte, qui défile dessous.
+            top: isApp ? "env(safe-area-inset-top)" : "4.25rem",
             color: reading.theme === "clair"? undefined: THEME_STYLE[reading.theme].text,
           }}
         >
@@ -283,8 +298,8 @@ export function BibleReader() {
               setSelOpen(true);
             }}
             aria-label="Choisir le livre et le chapitre"
-            className="flex min-w-0 items-center gap-2 rounded-full px-3.5 py-2 text-sm font-bold"
-            style={{ backgroundColor: reading.theme === "clair" ? "rgba(23,23,22,.07)" : "rgba(255,255,255,.10)" }}
+            className="flex min-w-0 items-center gap-2 rounded-full px-3.5 py-2 text-sm font-bold shadow-card backdrop-blur"
+            style={{ backgroundColor: reading.theme === "clair" ? "rgba(255,255,255,.92)" : "rgba(12,12,11,.62)" }}
           >
             <span className="truncate font-display">
               {book?.name} {chapterCount? chapter: ""}
@@ -297,7 +312,21 @@ export function BibleReader() {
             </svg>
           </button>
 
-          <div className="relative flex shrink-0 items-center gap-1.5">
+          {/* Petit bouton casque : déplie le lecteur audio (narration + soaking) */}
+          <button
+            type="button"
+            onClick={() => setAudioOpen((v) => !v)}
+            aria-label="Écouter la Bible"
+            aria-expanded={audioOpen}
+            className="ml-1.5 grid h-10 w-10 shrink-0 place-items-center rounded-full shadow-card backdrop-blur"
+            style={audioOpen ? { backgroundColor: "#CAF000", color: "#0C0C0B" } : { backgroundColor: reading.theme === "clair" ? "rgba(255,255,255,.92)" : "rgba(12,12,11,.62)" }}
+          >
+            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.9}>
+              <path d="M4 13a8 8 0 0 1 16 0M4 13v4a2 2 0 0 0 2 2h1v-6H6a2 2 0 0 0-2 2zM20 13v4a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2z" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+
+          <div className="relative ml-auto flex shrink-0 items-center gap-1.5">
             <ReadingSettings />
             {/* Menu : carnet, recherche, téléchargement, vue classique */}
             <button
@@ -305,8 +334,8 @@ export function BibleReader() {
               onClick={() => setMenuOpen((v) => !v)}
               aria-label="Plus d'options"
               aria-expanded={menuOpen}
-              className="grid h-10 w-10 place-items-center rounded-full"
-              style={{ backgroundColor: reading.theme === "clair" ? "rgba(23,23,22,.07)" : "rgba(255,255,255,.10)" }}
+              className="grid h-10 w-10 place-items-center rounded-full shadow-card backdrop-blur"
+              style={{ backgroundColor: reading.theme === "clair" ? "rgba(255,255,255,.92)" : "rgba(12,12,11,.62)" }}
             >
               <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current">
                 <circle cx="12" cy="5.5" r="1.7" /><circle cx="12" cy="12" r="1.7" /><circle cx="12" cy="18.5" r="1.7" />
@@ -336,6 +365,21 @@ export function BibleReader() {
               </div>
             ) : null}
           </div>
+
+          {/* Lecteur audio déplié, accroché sous la barre */}
+          {audioOpen && !loading && verses.length ? (
+            <div className="absolute inset-x-0 top-full px-1 pt-1.5">
+              <BibleAudio
+                bookId={bookId}
+                verses={verses}
+                bookName={book?.name?? ""}
+                chapter={chapter}
+                chapterCount={chapterCount}
+                books={index}
+                onVerse={setSpokenVerse}
+              />
+            </div>
+          ) : null}
         </div>
       ): null}
 
@@ -631,164 +675,41 @@ export function BibleReader() {
         </div>
       ): null}
 
-      {/* Pleine lecture: lecteur audio flottant centré + navigation chapitre */}
+      {/* Pleine lecture : flèches de chapitre aux coins (comme un liseur) */}
       {immersive &&!loading && verses.length? (
-        <div className="fixed bottom-24 left-1/2 z-[56] flex -translate-x-1/2 items-center gap-2">
+        <>
           <button
             type="button"
             disabled={chapter <= 1}
             onClick={() => goToChapter(Math.max(1, chapter - 1))}
             aria-label="Chapitre précédent"
-            className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-night-900/15 bg-white/95 text-spirit-700 shadow-card backdrop-blur disabled:opacity-40"
+            className="fixed bottom-24 left-4 z-[56] grid h-12 w-12 place-items-center rounded-full border border-night-900/10 bg-white/95 text-night-900/75 shadow-card backdrop-blur disabled:opacity-0"
           >
             <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2}>
               <path d="M15 5l-7 7 7 7" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
-          <BibleAudio
-            bookId={bookId}
-            verses={verses}
-            bookName={book?.name?? ""}
-            chapter={chapter}
-            chapterCount={chapterCount}
-            books={index}
-            onVerse={setSpokenVerse}
-            variant="floating"
-          />
           <button
             type="button"
-            disabled={chapter >= chapterCount}
-            onClick={() => goToChapter(Math.min(chapterCount, chapter + 1))}
+            disabled={chapter >= chapterCount && bookId >= 66}
+            onClick={() => {
+              if (chapter < chapterCount) goToChapter(chapter + 1);
+              else if (bookId < 66) {
+                setBookId(bookId + 1);
+                setChapter(1);
+                scrollToChapterTop();
+              }
+            }}
             aria-label="Chapitre suivant"
-            className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-night-900/15 bg-white/95 text-spirit-700 shadow-card backdrop-blur disabled:opacity-40"
+            className="fixed bottom-24 right-4 z-[56] grid h-12 w-12 place-items-center rounded-full border border-night-900/10 bg-white/95 text-night-900/75 shadow-card backdrop-blur disabled:opacity-0"
           >
             <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2}>
               <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
-        </div>
+        </>
       ): null}
-      {/* Feuille d'étude du verset touché */}
-      {sheetVerse !== null && verses[sheetVerse - 1] ? (
-        <VersetOutils
-          bookId={bookId}
-          chapter={chapter}
-          verse={sheetVerse}
-          verseText={verses[sheetVerse - 1]}
-          reference={`${book?.name} ${chapter}:${sheetVerse}`}
-          commentary={comm[sheetVerse]}
-          commentaryState={commState}
-          bookNames={bookNames}
-          onNavigate={(l, c) => {
-            if (l !== bookId) {
-              setBookId(l);
-              setChapter(c);
-              scrollToChapterTop();
-            } else {
-              goToChapter(c);
-            }
-          }}
-          onClose={() => setSheetVerse(null)}
-        />
-      ) : null}
 
-      {/* Sélecteur livre/chapitre : feuille qui monte du bas de l'écran */}
-      {selOpen ? (
-        <div className="fixed inset-0 z-[120] flex items-end justify-center sm:items-center">
-          <button
-            type="button"
-            aria-label="Fermer"
-            onClick={() => setSelOpen(false)}
-            className="absolute inset-0 bg-night-950/70 backdrop-blur-sm"
-          />
-          <div className="dark-ctx relative flex max-h-[82vh] w-full max-w-md flex-col overflow-hidden rounded-t-3xl border border-white/10 bg-night-900 text-cream sm:rounded-3xl">
-            <div className="flex items-center justify-between border-b border-white/10 px-5 py-3.5">
-              <p className="font-display text-base font-extrabold">
-                {selBook !== null && selBook !== -1
-                  ? index.find((b) => b.id === selBook)?.name
-                  : "Choisis un livre"}
-              </p>
-              <div className="flex items-center gap-2">
-                {selBook !== null && selBook !== -1 ? (
-                  <button
-                    type="button"
-                    onClick={() => setSelBook(-1)}
-                    className="rounded-full border border-white/15 px-3 py-1.5 text-xs font-bold text-cream/75"
-                  >
-                    Tous les livres
-                  </button>
-                ) : null}
-                <button
-                  type="button"
-                  onClick={() => setSelOpen(false)}
-                  aria-label="Fermer"
-                  className="grid h-8 w-8 place-items-center rounded-full border border-white/15 text-cream/70"
-                >
-                  <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2}>
-                    <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4">
-              {selBook === null || selBook === -1 ? (
-                <>
-                  {[{ t: "Ancien Testament", from: 1, to: 39 }, { t: "Nouveau Testament", from: 40, to: 66 }].map((g) => (
-                    <div key={g.t} className="mb-4">
-                      <p className="mb-2 px-1 text-[11px] font-black uppercase tracking-[0.18em] text-dawn-400">{g.t}</p>
-                      <div className="grid grid-cols-2 gap-1.5">
-                        {index.filter((b) => b.id >= g.from && b.id <= g.to).map((b) => (
-                          <button
-                            key={b.id}
-                            type="button"
-                            onClick={() => setSelBook(b.id)}
-                            className={`truncate rounded-xl px-3 py-2.5 text-left text-sm font-semibold ${
-                              b.id === bookId ? "bg-dawn-400 text-night-950" : "bg-white/[0.06] text-cream/85 hover:bg-white/10"
-                            }`}
-                          >
-                            {b.name}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </>
-              ) : (
-                <div className="grid grid-cols-5 gap-1.5">
-                  {Array.from(
-                    { length: index.find((b) => b.id === selBook)?.chapters ?? 0 },
-                    (_, i) => i + 1,
-                  ).map((n) => (
-                    <button
-                      key={n}
-                      type="button"
-                      onClick={() => {
-                        const target = selBook;
-                        setSelOpen(false);
-                        if (target !== bookId) {
-                          setBookId(target);
-                          setChapter(n);
-                          scrollToChapterTop();
-                        } else {
-                          goToChapter(n);
-                        }
-                      }}
-                      className={`grid aspect-square place-items-center rounded-xl font-display text-base font-bold ${
-                        selBook === bookId && n === chapter
-                          ? "bg-dawn-400 text-night-950"
-                          : "bg-white/[0.06] text-cream/85 hover:bg-white/10"
-                      }`}
-                    >
-                      {n}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      ) : null}
     </section>
     </>
   );
