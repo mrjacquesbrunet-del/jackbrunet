@@ -11,6 +11,13 @@ import { BibleHero } from "@/components/bible/BibleHero";
 import { FichesChapitre } from "@/components/bible/FichesChapitre";
 import { BibleAudio } from "@/components/bible/BibleAudio";
 import { BibleAudioPlayer } from "@/components/bible/BibleAudioPlayer";
+import {
+  useChapterVideos,
+  VerseVideoButton,
+  ChapterVideoCard,
+  VideoSheet,
+  type BibleVideo,
+} from "@/components/bible/BibleVideos";
 import { BibleDownload } from "@/components/bible/BibleDownload";
 import { usePodcastPlayer, getPodcastAudio } from "@/lib/podcast-player";
 import { ReadingSettings } from "@/components/bible/ReadingSettings";
@@ -35,6 +42,9 @@ export function BibleReader() {
 
   // Verset lu à voix haute (surlignage pendant l'écoute)
   const [spokenVerse, setSpokenVerse] = useState<number | null>(null);
+
+  // Vidéos de Jack reliées au chapitre (index transcriptions YouTube)
+  const [videoOpen, setVideoOpen] = useState<BibleVideo | null>(null);
 
   // Mode pleine lecture (immersion) : c'est l'entrée PAR DÉFAUT — on ouvre
   // la Bible directement en plein écran, comme un vrai lecteur. Le choix
@@ -189,6 +199,7 @@ export function BibleReader() {
 
   const chapterCount = book?.chapters?.length?? 0;
   const verses = book?.chapters?.[chapter - 1]?? [];
+  const chapterVideos = useChapterVideos(bookId, chapter);
 
   // Ancre du haut du chapitre: on y ramène la lecture quand on change de
   // chapitre (Précédent / Suivant / sélecteur), pour repartir du verset 1.
@@ -583,6 +594,11 @@ export function BibleReader() {
                         </svg>
                       </button>
                     )}
+                    {(() => {
+                      // Jack en parle : bouton vidéo sur le verset précis cité.
+                      const vid = chapterVideos.find((x) => x.v?.includes(vn));
+                      return vid ? <VerseVideoButton onClick={() => setVideoOpen(vid)} /> : null;
+                    })()}
                   </p>
                 </Markable>
 
@@ -591,6 +607,20 @@ export function BibleReader() {
           })}
         </div>
       )}
+
+      {/* Fin de chapitre : les vidéos de Jack sur ce passage */}
+      {!loading && verses.length && chapterVideos.length ? (
+        <div className="mx-auto mt-8 max-w-2xl space-y-3">
+          {chapterVideos.slice(0, 3).map((v) => (
+            <ChapterVideoCard
+              key={v.id}
+              video={v}
+              dark={immersive && reading.theme === "sombre"}
+              onPlay={() => setVideoOpen(v)}
+            />
+          ))}
+        </div>
+      ) : null}
 
       {/* Fin de chapitre : personnages & lieux du passage (fiches d'étude) */}
       {!loading && verses.length ? (
@@ -719,6 +749,9 @@ export function BibleReader() {
           </button>
         </>
       ): null}
+
+      {/* Lecture d'une vidéo « Jack en parle » */}
+      {videoOpen ? <VideoSheet video={videoOpen} onClose={() => setVideoOpen(null)} /> : null}
 
       {/* Feuille d'étude du verset touché */}
       {sheetVerse !== null && verses[sheetVerse - 1] ? (

@@ -38,15 +38,18 @@ jobs:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: node scripts/fetch-youtube.mjs
 
+      - name: Relier les vidéos aux passages bibliques (transcriptions)
+        run: node scripts/generate-video-refs.mjs || true
+
       - name: Committer la liste si elle a changé
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet -- content/shorts.generated.json content/videos.generated.json; then
+          if git diff --quiet -- content/shorts.generated.json content/videos.generated.json content/video-refs.json public/bible/videos.json; then
             echo "Aucun changement de vidéos."
             exit 0
           fi
-          git add content/shorts.generated.json content/videos.generated.json
+          git add content/shorts.generated.json content/videos.generated.json content/video-refs.json public/bible/videos.json
           git commit -m "chore(videos): synchronisation YouTube [skip ci]"
           git pull --rebase origin claude/great-hamilton-ieokug || true
           for i in 1 2 3 4; do
