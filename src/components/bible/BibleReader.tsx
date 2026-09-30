@@ -582,6 +582,7 @@ export function BibleReader() {
         <FichesChapitre
           bookId={bookId}
           chapter={chapter}
+          dark={immersive && reading.theme === "sombre"}
           bookNames={bookNames}
           onNavigate={(l, c) => {
             if (l !== bookId) {

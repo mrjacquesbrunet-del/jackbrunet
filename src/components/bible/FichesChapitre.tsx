@@ -5,10 +5,11 @@ import { asset } from "@/lib/asset";
 
 /**
  * « Dans ce chapitre » — les personnages et les lieux dont parle le chapitre,
- * en pastilles rondes. Un tap ouvre la fiche : portrait, bio, passages clés
- * et tous les chapitres où la figure apparaît (navigation croisée).
- * Les données viennent de public/bible/fiches.json (pré-généré par
- * scripts/build-fiches-index.mjs — aucun appel réseau externe).
+ * présentés en PILE de médaillons : un tap sur la pile fait défiler les
+ * figures (au lieu d'une longue grille), et « Lire sa fiche » ouvre la fiche
+ * complète : portrait, bio, passages clés et tous les chapitres où la figure
+ * apparaît (navigation croisée). Les données viennent de
+ * public/bible/fiches.json (pré-généré par scripts/build-fiches-index.mjs).
  */
 
 export type Fiche = {
@@ -66,59 +67,108 @@ export function FichesChapitre({
   chapter,
   bookNames,
   onNavigate,
+  dark = false,
 }: {
   bookId: number;
   chapter: number;
   /** id → nom du livre (pour afficher « Apparaît aussi dans »). */
   bookNames: Record<number, string>;
   onNavigate: (bookId: number, chapter: number) => void;
+  /** Vrai quand la page est sur un thème de lecture sombre. */
+  dark?: boolean;
 }) {
   const [data, setData] = useState<FichesData | null>(null);
   const [openId, setOpenId] = useState<string | null>(null);
+  const [idx, setIdx] = useState(0);
 
   useEffect(() => {
     getFiches().then(setData);
   }, []);
+  // Nouvelle pile à chaque chapitre.
+  useEffect(() => setIdx(0), [bookId, chapter]);
 
-  const ids = data?.chapitres[`${bookId}-${chapter}`] ?? [];
-  const groups = useMemo(() => {
+  // Personnages d'abord, puis lieux, alphabétique — l'ordre du défilement.
+  const ordered = useMemo(() => {
     if (!data) return [];
+    const ids = data.chapitres[`${bookId}-${chapter}`] ?? [];
     const of = (t: Fiche["type"]) =>
       ids
         .filter((id) => data.fiches[id]?.type === t)
         .sort((a, b) => data.fiches[a].nom.localeCompare(data.fiches[b].nom, "fr"));
-    return [
-      { titre: "Personnages", ids: of("personnage") },
-      { titre: "Lieux", ids: of("lieu") },
-    ].filter((g) => g.ids.length > 0);
-  }, [data, ids]);
+    return [...of("personnage"), ...of("lieu")];
+  }, [data, bookId, chapter]);
 
-  if (!data || ids.length === 0) return null;
+  if (!data || ordered.length === 0) return null;
+  const i = ((idx % ordered.length) + ordered.length) % ordered.length;
+  const currentId = ordered[i];
+  const current = data.fiches[currentId];
   const open = openId ? data.fiches[openId] : null;
+  // L'anneau entre les cartes de la pile reprend le fond de la page pour
+  // dessiner un vrai espace entre les médaillons.
+  const ring = dark ? "#171716" : "#F3F3ED";
 
   return (
     <div className="mx-auto mt-10 max-w-2xl">
-      <p className="flex items-center gap-3 text-[11px] font-black uppercase tracking-[0.22em] text-night-900/40">
+      <p className={`flex items-center gap-3 text-[11px] font-black uppercase tracking-[0.22em] ${dark ? "text-cream/40" : "text-night-900/40"}`}>
         <span className="h-px flex-1 bg-current opacity-30" />
         Dans ce chapitre
         <span className="h-px flex-1 bg-current opacity-30" />
       </p>
-      {groups.map((g) => (
-        <div key={g.titre} className="mt-5 grid grid-cols-3 gap-x-3 gap-y-5 sm:grid-cols-4">
-          {g.ids.map((id) => {
-            const f = data.fiches[id];
+
+      {/* La pile de médaillons (tap = figure suivante) + la figure en cours */}
+      <div className="mt-6 flex items-center gap-5">
+        <button
+          type="button"
+          onClick={() => setIdx((v) => v + 1)}
+          aria-label="Figure suivante"
+          className="relative h-24 w-[7.75rem] shrink-0 active:scale-95"
+          style={{ transition: "transform .15s" }}
+        >
+          {[2, 1, 0].map((n) => {
+            if (n >= ordered.length) return null;
+            const id = ordered[(i + n) % ordered.length];
             return (
-              <button key={id} type="button" onClick={() => setOpenId(id)} className="group flex flex-col items-center gap-1.5 text-center">
-                <span className="transition-transform group-active:scale-90">
-                  <Medaillon id={id} fiche={f} />
-                </span>
-                <span className="line-clamp-2 text-[13px] font-bold leading-tight text-night-900/85">{f.nom}</span>
-                <span className="-mt-1 text-[10px] font-semibold uppercase tracking-wide text-night-900/40">{g.titre}</span>
-              </button>
+              <span
+                key={id}
+                className="absolute top-0 block h-24 w-24 transition-all duration-300"
+                style={{
+                  left: `${(2 - n) * 14}px`,
+                  zIndex: 30 - n * 10,
+                  transform: `scale(${1 - n * 0.05})`,
+                  boxShadow: `0 0 0 3px ${ring}`,
+                  borderRadius: "9999px",
+                }}
+              >
+                <Medaillon id={id} fiche={data.fiches[id]} size="h-24 w-24" />
+              </span>
             );
           })}
+        </button>
+
+        <div className="min-w-0 flex-1">
+          <p className={`text-[10px] font-black uppercase tracking-[0.2em] ${dark ? "text-dawn-300" : "text-dawn-600"}`}>
+            {current.type === "personnage" ? "Personnage" : "Lieu"} · {i + 1} / {ordered.length}
+          </p>
+          <h3 className={`mt-0.5 font-display text-xl font-extrabold leading-tight ${dark ? "text-cream" : "text-night-900"}`}>
+            {current.nom}
+          </h3>
+          <p className={`mt-1 line-clamp-2 text-sm leading-relaxed ${dark ? "text-cream/70" : "text-night-900/70"}`}>
+            {current.bio}
+          </p>
+          <button
+            type="button"
+            onClick={() => setOpenId(currentId)}
+            className="mt-2.5 rounded-full bg-dawn-400 px-4 py-1.5 font-display text-xs font-bold text-night-950 shadow-card"
+          >
+            Lire sa fiche
+          </button>
         </div>
-      ))}
+      </div>
+      {ordered.length > 1 ? (
+        <p className={`mt-3 text-xs ${dark ? "text-cream/40" : "text-night-900/40"}`}>
+          Touche la pile pour faire défiler les {ordered.length} figures du chapitre.
+        </p>
+      ) : null}
 
       {/* Fiche : feuille qui monte du bas */}
       {open && openId ? (
