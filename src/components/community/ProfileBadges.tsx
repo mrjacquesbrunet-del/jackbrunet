@@ -251,11 +251,14 @@ export function ProfileBadgesRow({
   compact = false,
   self = false,
   bouton = false,
+  single = false,
 }: {
   userId: string;
   streakDays?: number | null;
   /** Version discrète : petits médaillons alignés à gauche (rangée d'icônes). */
   compact?: boolean;
+  /** UN SEUL médaillon : le plus beau badge (ou l'hebdo), tap → la vitrine. */
+  single?: boolean;
   /** Mon propre profil : compteurs locaux frais (méditations, versets…). */
   self?: boolean;
   /**
@@ -305,6 +308,27 @@ export function ProfileBadgesRow({
             <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
+        {open ? <BadgesVitrine data={data} onClose={() => setOpen(false)} /> : null}
+      </>
+    );
+  }
+
+  // UN SEUL médaillon : l'intercesseur de la semaine s'il est en cours, sinon
+  // le badge du meilleur palier — tap → la vitrine complète des trophées.
+  if (single) {
+    if (empty && !self) return null;
+    const meilleur = bestTier(data);
+    const star = earned.find((s) => s.tier === meilleur) ?? earned[0];
+    return (
+      <>
+        <style>{BDG_CSS}</style>
+        {data.weeklyTop ? (
+          <Medallion kind="hebdo" tier="or" hebdo title="Intercesseur de la semaine" onClick={() => setOpen(true)} />
+        ) : star ? (
+          <Medallion kind={star.kind} tier={star.tier} title={`${star.label} · voir mes trophées`} onClick={() => setOpen(true)} />
+        ) : (
+          <Medallion kind="expert" tier={null} small title="Tes accomplissements" onClick={() => setOpen(true)} />
+        )}
         {open ? <BadgesVitrine data={data} onClose={() => setOpen(false)} /> : null}
       </>
     );

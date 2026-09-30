@@ -415,7 +415,7 @@ function Profile({
             </div>
           ) : null}
           <div className="mt-2 flex justify-center">
-            <ProfileBadgesRow userId={userId} streakDays={profile?.streak_days} self compact />
+            <ProfileBadgesRow userId={userId} streakDays={profile?.streak_days} self single />
           </div>
 
           {/* Grade : rappel discret sous les badges (plus sur la bannière) */}
