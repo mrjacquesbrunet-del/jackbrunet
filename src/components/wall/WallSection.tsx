@@ -236,6 +236,7 @@ function WallComposer({
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [photoError, setPhotoError] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const taRef = useRef<HTMLTextAreaElement>(null);
 
   function pickPhoto(f: File | null) {
     setPhoto(f);
@@ -283,6 +284,12 @@ function WallComposer({
       setLinkOpen(false);
       setLinkError(false);
       pickPhoto(null);
+      // La zone de texte reprend sa petite taille (l'auto-agrandissement
+      // avait figé la hauteur du message publié).
+      if (taRef.current) {
+        taRef.current.style.height = "";
+        taRef.current.style.overflowY = "";
+      }
       onPosted(post);
     }
   }
@@ -292,10 +299,11 @@ function WallComposer({
       <div className="flex items-start gap-3">
         <Avatar url={myProfile?.avatar_url ?? null} pseudo={myProfile?.pseudo ?? ""} size={40} />
         <textarea
+          ref={taRef}
           value={body}
           onChange={(e) => setBody(e.target.value)}
           placeholder="Exprime-toi : un mot, un témoignage, une parole…"
-          rows={2}
+          rows={1}
           maxLength={2000}
           className={field}
         />
