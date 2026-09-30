@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { asset, mediaUrl } from "@/lib/asset";
 import { Markable } from "@/components/ui/Markable";
 import { HighlighterGlyph } from "@/components/ui/DevoIcons";
 import { CommentaryPanel, type Commentary } from "@/components/bible/CommentaryPanel";
 import { BibleHero } from "@/components/bible/BibleHero";
+import { FichesChapitre } from "@/components/bible/FichesChapitre";
 import { BibleAudio } from "@/components/bible/BibleAudio";
 import { BibleDownload } from "@/components/bible/BibleDownload";
 import { usePodcastPlayer, getPodcastAudio } from "@/lib/podcast-player";
@@ -181,6 +182,12 @@ export function BibleReader() {
       active = false;
     };
   }, [bookId]);
+
+  const bookNames = useMemo(() => {
+    const m: Record<number, string> = {};
+    for (const b of index) m[b.id] = b.name;
+    return m;
+  }, [index]);
 
   const chapterCount = book?.chapters?.length?? 0;
   const verses = book?.chapters?.[chapter - 1]?? [];
@@ -568,6 +575,51 @@ export function BibleReader() {
           })}
         </div>
       )}
+
+      {/* Fin de chapitre : personnages & lieux du passage (fiches d'étude) */}
+      {!loading && verses.length ? (
+        <FichesChapitre
+          bookId={bookId}
+          chapter={chapter}
+          bookNames={bookNames}
+          onNavigate={(l, c) => {
+            if (l !== bookId) {
+              setBookId(l);
+              setChapter(c);
+              scrollToChapterTop();
+            } else {
+              goToChapter(c);
+            }
+          }}
+        />
+      ) : null}
+
+      {/* Pleine lecture : gros bouton de fin de chapitre */}
+      {immersive && !loading && verses.length ? (
+        <div className="mx-auto mt-8 max-w-2xl pb-24">
+          {chapter < chapterCount ? (
+            <button
+              type="button"
+              onClick={() => goToChapter(chapter + 1)}
+              className="w-full rounded-full bg-dawn-400 py-3.5 text-center font-display text-base font-extrabold text-night-950 shadow-glow"
+            >
+              Chapitre suivant : {book?.name} {chapter + 1}
+            </button>
+          ) : bookId < 66 ? (
+            <button
+              type="button"
+              onClick={() => {
+                setBookId(bookId + 1);
+                setChapter(1);
+                scrollToChapterTop();
+              }}
+              className="w-full rounded-full bg-dawn-400 py-3.5 text-center font-display text-base font-extrabold text-night-950 shadow-glow"
+            >
+              Livre suivant : {index.find((b) => b.id === bookId + 1)?.name ?? ""}
+            </button>
+          ) : null}
+        </div>
+      ) : null}
 
       {!immersive? (
         <div className="mt-10 flex max-w-2xl items-center justify-between gap-3">
