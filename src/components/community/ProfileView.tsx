@@ -36,6 +36,7 @@ import { MessagesButton } from "@/components/community/MessagesButton";
 import { DeleteAccountButton } from "@/components/community/DeleteAccountButton";
 import { WhatsAppCard } from "@/components/ui/WhatsAppChannel";
 import { WallSection } from "@/components/wall/WallSection";
+import { countUserPosts } from "@/lib/wall";
 import { BootDiagnostic } from "@/components/app/BootDiagnostic";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { ModeratorBadge } from "@/components/community/ModeratorBadge";
@@ -148,6 +149,10 @@ function Profile({
   const [bannerBusy, setBannerBusy] = useState(false);
   const bannerRef = useRef<HTMLInputElement>(null);
   const [counts, setCounts] = useState({ followers: 0, following: 0 });
+  const [postCount, setPostCount] = useState(0);
+  useEffect(() => {
+    countUserPosts(userId).then(setPostCount);
+  }, [userId]);
   const [activity, setActivity] = useState<Activity>({ prayers: 0, comments: 0, prays: 0 });
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -333,61 +338,53 @@ function Profile({
   return (
     <section className={jour? "bg-cream pb-8 text-night-900": "bg-night-950 pb-8 text-cream"}>
       <ProfileThemeBg jour={jour} />
-      {/* ---- Bloc total : la photo fond dans le flou sombre, le texte vient dessus ---- */}
-      <div className={`relative h-[calc(100svh-7.5rem-env(safe-area-inset-bottom))] min-h-[580px] w-full overflow-hidden ${jour? "bg-cream": "dark-ctx bg-night-950"}`}>
-        {/* Fond : la même photo floutée remplit l'écran… */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={profile?.banner_url || profile?.avatar_url || asset("/img/profil-defaut.webp")}
-          alt=""
-          aria-hidden
-          className="absolute inset-0 h-full w-full scale-110 object-cover opacity-70 blur-2xl"
-        />
-        {/* …et la photo s'affiche ENTIÈRE par-dessus (pas de recadrage). */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={profile?.banner_url || profile?.avatar_url || asset("/img/profil-defaut.webp")}
-          alt=""
-          aria-hidden
-          className="absolute inset-0 h-full w-full object-contain"
-        />
-        {/* Flou progressif : la photo reste nette en haut et fond en bas */}
-        <div
-          className="absolute inset-0 backdrop-blur-2xl"
-          style={{
-            WebkitMaskImage: "linear-gradient(to bottom, transparent 48%, black 72%)",
-            maskImage: "linear-gradient(to bottom, transparent 48%, black 72%)",
-          }}
-        />
-        <div className={`absolute inset-0 bg-gradient-to-b via-transparent ${jour? "from-night-950/10 to-cream": "from-night-950/25 to-night-950"}`} />
-
-        {/* Progression du grade : fine barre design en haut de la photo */}
-        {(() => {
-          const g = gradeFor(activity);
-          const pct = g.next? Math.min(100, Math.round((g.points / g.next.min) * 100)): 100;
-          return (
-            <div
-              className={`absolute inset-x-4 top-[calc(env(safe-area-inset-top)+0.5rem)] h-1 overflow-hidden rounded-full ${jour? "bg-night-900/15": "bg-white/15"}`}
-              title={g.next? `Plus que ${g.toNext} pts → ${g.next.name}`: "Grade maximal"}
-            >
+      {/* ---- En-tête façon page Facebook : bannière, avatar rond sur carte,
+           nom + certification, compteurs en ligne, badges ---- */}
+      <div className={jour? "bg-cream text-night-900": "dark-ctx bg-night-950 text-cream"}>
+        {/* Bannière */}
+        <div className="relative h-44 w-full overflow-hidden sm:h-56">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={profile?.banner_url || profile?.avatar_url || asset("/img/profil-defaut.webp")}
+            alt=""
+            aria-hidden
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-night-950/35 via-transparent to-night-950/20" />
+          {/* Grade : fine barre de progression + pastille, posées sur la bannière */}
+          {(() => {
+            const g = gradeFor(activity);
+            const pct = g.next? Math.min(100, Math.round((g.points / g.next.min) * 100)): 100;
+            return (
               <div
-                className="h-full rounded-full bg-gradient-to-r from-dawn-400 to-dawn-300"
-                style={{ width: `${pct}%` }}
-              />
-            </div>
-          );
-        })()}
-        <span
-          className="absolute left-4 top-[calc(env(safe-area-inset-top)+1.4rem)] rounded-full px-3 py-1 text-[11px] font-bold text-night-950"
-          style={{ background: gradeRing(gradeFor(activity).grade.name) }}
-        >
-          {gradeFor(activity).grade.name} · {gradeFor(activity).points} pts
-        </span>
+                className="absolute inset-x-4 top-[calc(env(safe-area-inset-top)+0.5rem)] h-1 overflow-hidden rounded-full bg-white/25"
+                title={g.next? `Plus que ${g.toNext} pts → ${g.next.name}`: "Grade maximal"}
+              >
+                <div className="h-full rounded-full bg-gradient-to-r from-dawn-400 to-dawn-300" style={{ width: `${pct}%` }} />
+              </div>
+            );
+          })()}
+          <span
+            className="absolute left-4 top-[calc(env(safe-area-inset-top)+1.2rem)] rounded-full px-3 py-1 text-[11px] font-bold text-night-950"
+            style={{ background: gradeRing(gradeFor(activity).grade.name) }}
+          >
+            {gradeFor(activity).grade.name} · {gradeFor(activity).points} pts
+          </span>
+        </div>
 
-        {/* Contenu posé directement sur la photo (réf. Olivia Beits) */}
-        <div className="absolute inset-x-0 bottom-0 px-5 pb-5 text-center">
+        {/* La carte remonte sur la bannière, l'avatar déborde dessus */}
+        <div className={`relative -mt-5 rounded-t-3xl px-5 pb-3 text-center ${jour? "bg-cream": "bg-night-950"}`}>
+          <div className="relative mx-auto -mt-14 h-32 w-32">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={profile?.avatar_url || asset("/img/profil-defaut.webp")}
+              alt=""
+              className={`h-32 w-32 rounded-full object-cover ring-4 ${jour? "ring-cream": "ring-night-950"}`}
+            />
+          </div>
+
           <h2
-            className={`text-balance font-display text-3xl font-extrabold leading-tight sm:text-4xl ${jour? "text-night-900": "text-cream"}`}
+            className="mt-3 text-balance font-display text-3xl font-extrabold leading-tight"
             style={profile?.name_color? { color: profile.name_color }: undefined}
           >
             {profile?.pseudo?? "Ami(e)"}
@@ -399,13 +396,26 @@ function Profile({
             <p className={`mt-1 text-sm italic ${jour? "text-dawn-600": "text-dawn-300"}`}>{profile.life_phrase}</p>
           ): null}
 
-          {/* Pastilles : ancienneté avec Jésus + série de jours */}
+          {/* Compteurs en ligne, comme une page : abonnés · abonnements · publications */}
+          <p className={`mt-2 flex flex-wrap items-center justify-center gap-x-1.5 text-sm ${jour? "text-night-900/70": "text-cream/70"}`}>
+            <button type="button" onClick={() => setFollowModal("followers")}>
+              <span className={`font-display font-extrabold ${jour? "text-night-900": "text-cream"}`}>{counts.followers}</span> abonnés
+            </button>
+            <span aria-hidden>·</span>
+            <button type="button" onClick={() => setFollowModal("following")}>
+              <span className={`font-display font-extrabold ${jour? "text-night-900": "text-cream"}`}>{counts.following}</span> abonnements
+            </button>
+            <span aria-hidden>·</span>
+            <span>
+              <span className={`font-display font-extrabold ${jour? "text-night-900": "text-cream"}`}>{postCount}</span> publications
+            </span>
+          </p>
+
+          {/* Badges : ancienneté avec Jésus, série, médaillons de trophées */}
           {withJesusLabel(profile?.converted_at) || (profile?.streak_days ?? 0) >= STREAK_BADGE_MIN ? (
-            <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
+            <div className="mt-2.5 flex flex-wrap items-center justify-center gap-2">
               {withJesusLabel(profile?.converted_at) ? (
-                <span
-                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold backdrop-blur ${jour? "bg-dawn-500/15 text-dawn-600": "bg-dawn-400/15 text-dawn-300"}`}
-                >
+                <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold ${jour? "bg-dawn-500/15 text-dawn-600": "bg-dawn-400/15 text-dawn-300"}`}>
                   <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
                     <path d="M12 3v18M7 8h10" />
                   </svg>
@@ -413,9 +423,7 @@ function Profile({
                 </span>
               ) : null}
               {(profile?.streak_days ?? 0) >= STREAK_BADGE_MIN ? (
-                <span
-                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold backdrop-blur ${jour? "bg-orange-500/15 text-orange-600": "bg-orange-400/15 text-orange-300"}`}
-                >
+                <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold ${jour? "bg-orange-500/15 text-orange-600": "bg-orange-400/15 text-orange-300"}`}>
                   <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor" aria-hidden>
                     <path d="M12 3c1 3-1 4-2 6-1 2 0 4 2 4s3-2 2-4c2 1 3 3 3 5a5 5 0 0 1-10 0c0-4 4-6 5-11z" />
                   </svg>
@@ -424,49 +432,13 @@ function Profile({
               ) : null}
             </div>
           ) : null}
-
-
-          <div className="mx-auto mt-5 flex max-w-md items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setEditing((e) =>!e)}
-              className={`flex-1 rounded-full py-3 text-sm font-bold transition-transform hover:-translate-y-0.5 ${jour? "bg-night-900 text-cream": "bg-cream text-night-950"}`}
-            >
-              {editing? "Fermer": "Modifier le profil"}
-            </button>
-            <button
-              type="button"
-              onClick={shareProfile}
-              aria-label="Partager mon profil"
-              className={`grid h-12 w-12 shrink-0 place-items-center rounded-full border backdrop-blur ${jour? "border-night-900/15 bg-night-900/10 text-night-900": "border-white/15 bg-white/10 text-cream"}`}
-            >
-              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
-                <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v14" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-          </div>
-
-          <div className="mx-auto mt-5 grid max-w-md grid-cols-3 gap-2">
-            <button type="button" onClick={() => setFollowModal("followers")}>
-              <p className="font-display text-2xl font-extrabold text-cream">{counts.followers}</p>
-              <p className="text-[11px] text-cream/55">Abonnés</p>
-            </button>
-            <button type="button" onClick={() => setFollowModal("following")}>
-              <p className="font-display text-2xl font-extrabold text-cream">{counts.following}</p>
-              <p className="text-[11px] text-cream/55">Abonnements</p>
-            </button>
-            <div>
-              <p className="flex items-center justify-center gap-1 font-display text-2xl font-extrabold text-dawn-300">
-                <FlameGlyph className="h-5 w-5" />
-                {eng.ready? eng.streak: 0}
-              </p>
-              <p className="text-[11px] text-cream/55">Série</p>
-            </div>
+          <div className="mt-2 flex justify-center">
+            <ProfileBadgesRow userId={userId} streakDays={profile?.streak_days} self compact />
           </div>
 
           {profile?.bio &&
           profile.bio.trim().toLowerCase()!== (profile?.pseudo?? "").trim().toLowerCase()? (
-            <p className={`mx-auto mt-4 max-w-md rounded-2xl px-4 py-3 text-sm leading-relaxed backdrop-blur ${jour? "bg-night-900/[0.06] text-night-900/85": "bg-white/[0.07] text-cream/85"}`}>
+            <p className={`mx-auto mt-3 max-w-md text-sm leading-relaxed ${jour? "text-night-900/80": "text-cream/80"}`}>
               {profile.bio}
             </p>
           ): null}
@@ -479,13 +451,33 @@ function Profile({
             light={jour}
           />
           {(profile?.favorite_verses?? []).slice(0, 1).map((v, i) => (
-            <p key={i} className={`mx-auto mt-3 max-w-md text-sm italic ${jour? "text-night-900/75": "text-cream/75"}`}>
+            <p key={i} className={`mx-auto mt-2 max-w-md text-sm italic ${jour? "text-night-900/70": "text-cream/70"}`}>
               «&nbsp;{v.text}&nbsp;»{" "}
               {v.reference? (
                 <span className={`font-semibold not-italic ${jour? "text-dawn-600": "text-dawn-200"}`}>{v.reference}</span>
               ): null}
             </p>
           ))}
+
+          <div className="mx-auto mt-4 flex max-w-md items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setEditing((e) =>!e)}
+              className={`flex-1 rounded-full py-3 text-sm font-bold transition-transform hover:-translate-y-0.5 ${jour? "bg-night-900 text-cream": "bg-cream text-night-950"}`}
+            >
+              {editing? "Fermer": "Modifier le profil"}
+            </button>
+            <button
+              type="button"
+              onClick={shareProfile}
+              aria-label="Partager mon profil"
+              className={`grid h-12 w-12 shrink-0 place-items-center rounded-full border ${jour? "border-night-900/15 bg-night-900/5 text-night-900": "border-white/15 bg-white/10 text-cream"}`}
+            >
+              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
+                <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v14" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
