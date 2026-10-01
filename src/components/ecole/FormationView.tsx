@@ -1087,7 +1087,7 @@ export function FormationView({ formationId }: { formationId: string }) {
       <header className="container-x mx-auto max-w-2xl pt-[calc(env(safe-area-inset-top)+1rem)]">
         <Link
           href="/ecole"
-          aria-label="École biblique"
+          aria-label="Formation biblique"
           className="inline-grid h-10 w-10 place-items-center rounded-full border border-night-900/15 bg-white text-night-900"
         >
           <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2}>

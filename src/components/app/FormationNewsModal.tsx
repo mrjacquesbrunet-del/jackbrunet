@@ -121,7 +121,7 @@ export function FormationNewsModal() {
             <IconSpark className="h-3.5 w-3.5" /> Nouveau
           </span>
           <h2 className="mt-3 font-display text-[1.75rem] font-extrabold leading-tight">
-            L&apos;École biblique <span className="text-[#CAF000]">arrive&nbsp;!</span>
+            La Formation biblique <span className="text-[#CAF000]">arrive&nbsp;!</span>
           </h2>
           <p className="mx-auto mt-2 max-w-xs text-sm leading-snug text-cream/70">
             Une vraie formation pour grandir dans la foi : « Les fondamentaux de la foi chrétienne », leçon par leçon.

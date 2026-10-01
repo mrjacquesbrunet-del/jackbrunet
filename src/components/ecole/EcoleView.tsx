@@ -68,7 +68,7 @@ export function EcoleView() {
       {/* ——— En-tête sombre ——— */}
       <header className="container-x pt-[calc(env(safe-area-inset-top)+1.5rem)] text-cream">
         <div className="mx-auto max-w-2xl">
-          <p className="text-[11px] font-black uppercase tracking-[0.26em] text-dawn-300">École biblique</p>
+          <p className="text-[11px] font-black uppercase tracking-[0.26em] text-dawn-300">Formation biblique</p>
           <h1 className="mt-2 font-display text-3xl font-extrabold leading-tight">
             Bonjour{prenom ? ` ${prenom}` : ""} !
           </h1>

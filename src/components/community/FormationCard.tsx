@@ -27,7 +27,7 @@ export function FormationCard() {
           <span className="inline-block rounded-full bg-dawn-400 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-night-950">
             Nouveau
           </span>
-          <span className="mt-0.5 block text-sm font-bold leading-tight">Formations — École biblique</span>
+          <span className="mt-0.5 block text-sm font-bold leading-tight">Formation biblique</span>
           <span className="block text-[11px] leading-tight text-cream/60">
             Apprends les fondamentaux de la foi, leçon par leçon.
           </span>

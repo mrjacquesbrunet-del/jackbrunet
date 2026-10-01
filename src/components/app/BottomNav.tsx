@@ -49,7 +49,7 @@ const TABS = [
   // Page 2 : podcast, Q&R et jeu mis en avant.
   { href: "/ecouter", label: "Écouter", icon: I.headphones, match: ["/ecouter", "/videos"] },
   { href: "/jeux", label: "Jeux", icon: I.quiz, match: ["/jeux", "/quiz", "/memoriser"] },
-  { href: "/ecole", label: "École", icon: I.school, match: ["/ecole", "/assistant"] },
+  { href: "/ecole", label: "Formation", icon: I.school, match: ["/ecole", "/assistant"] },
   // Page 3 : soutien puis « À propos » (tout au bout).
   { href: "/don", label: "Soutien", icon: I.heart, match: ["/don"] },
   { href: "/a-propos", label: "À propos", icon: I.info, match: ["/a-propos"] },
