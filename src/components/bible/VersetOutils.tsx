@@ -3,8 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import type { Commentary } from "@/components/bible/CommentaryPanel";
-import { getFiches, Medaillon, type FichesData } from "@/components/bible/FichesChapitre";
-import { LieuCarte } from "@/components/bible/LieuCarte";
+import { FicheSheet, getFiches, Medaillon, type FichesData } from "@/components/bible/FichesChapitre";
 import { Markable } from "@/components/ui/Markable";
 import { useToolkit, HIGHLIGHT_COLORS } from "@/lib/toolkit";
 import { shareText } from "@/lib/share";
@@ -408,34 +407,17 @@ export function VersetOutils({
               versetFiches.map((id) => {
                 const f = fiches.fiches[id];
                 return (
-                  <button key={id} type="button" onClick={() => setFicheId(ficheId === id ? null : id)} className="flex w-full items-start gap-3 text-left">
+                  <button key={id} type="button" onClick={() => setFicheId(id)} className="flex w-full items-start gap-3 text-left">
                     <Medaillon id={id} fiche={f} size="h-12 w-12" />
                     <span className="min-w-0 flex-1">
-                      <span className="block font-display text-base font-extrabold">{f.nom}</span>
-                      <span className={`mt-0.5 block text-sm leading-relaxed text-cream/75 ${ficheId === id ? "" : "line-clamp-2"}`}>{f.bio}</span>
-                      {ficheId === id && f.type === "lieu" && f.geo ? (
-                        <span className="mt-2 block">
-                          <LieuCarte points={[{ g: f.geo, label: f.nom.replace(/\s*\(.*\)$/, "") }]} />
-                        </span>
-                      ) : null}
-                      {ficheId === id ? (
-                        <span className="mt-2 flex flex-wrap gap-1.5">
-                          {f.passages.map(([label, l, c]) => (
-                            <span
-                              key={`${l}-${c}`}
-                              role="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                onClose();
-                                onNavigate(l, c);
-                              }}
-                              className="rounded-full bg-dawn-400 px-3 py-1.5 font-display text-xs font-bold text-night-950"
-                            >
-                              {label}
-                            </span>
-                          ))}
-                        </span>
-                      ) : null}
+                      <span className="flex items-center gap-2 font-display text-base font-extrabold">
+                        {f.nom}
+                        <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 fill-none stroke-cream/35" strokeWidth={2.2}>
+                          <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </span>
+                      <span className="mt-0.5 block text-sm leading-relaxed text-cream/75 line-clamp-2">{f.bio}</span>
+                      <span className="mt-1 block text-xs font-bold text-dawn-300">Voir la fiche complète</span>
                     </span>
                   </button>
                 );
@@ -477,6 +459,24 @@ export function VersetOutils({
             <Bloc label="Commentaire" text={commentary.commentaire} suffix="commentaire" />
           )}
         </div>
+
+        {/* Fiche complète par-dessus la feuille du verset */}
+        {ficheId && fiches ? (
+          <FicheSheet
+            id={ficheId}
+            data={fiches}
+            bookId={bookId}
+            chapter={chapter}
+            bookNames={bookNames}
+            zIndex="z-[140]"
+            onClose={() => setFicheId(null)}
+            onNavigate={(l, c) => {
+              setFicheId(null);
+              onClose();
+              onNavigate(l, c);
+            }}
+          />
+        ) : null}
 
         {/* La barre des trois onglets : Annoter · Étudier · Partager */}
         <div className="border-t border-white/10 px-3 py-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))]">
