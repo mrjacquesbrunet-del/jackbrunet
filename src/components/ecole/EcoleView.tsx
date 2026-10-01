@@ -294,20 +294,35 @@ export function EcoleView() {
   );
 }
 
-/** Fond de la bannière : la photo (jeune pousse) si présente, sinon un
- * dégradé élégant — l'image sera déposée dans /img/ecole/banner.jpg. */
+/** Vrai une fois l'image réellement chargée. Sondée après montage : sur une
+ * page exportée en statique, le 404 de l'image part avant que React
+ * n'attache onError, donc le repli onError ne suffit pas. */
+function useImageExiste(src?: string): boolean {
+  const [ok, setOk] = useState(false);
+  useEffect(() => {
+    if (!src) return;
+    let actif = true;
+    const img = new Image();
+    img.onload = () => {
+      if (actif) setOk(true);
+    };
+    img.src = asset(src);
+    return () => {
+      actif = false;
+    };
+  }, [src]);
+  return ok;
+}
+
+/** Fond de la bannière : la photo si présente, sinon un dégradé élégant —
+ * l'image pourra être déposée dans /img/ecole/banner.jpg. */
 function BanniereFond() {
-  const [ok, setOk] = useState(true);
+  const ok = useImageExiste("/img/ecole/banner.jpg");
   return (
     <span aria-hidden className="absolute inset-0">
       {ok ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={asset("/img/ecole/banner.jpg")}
-          alt=""
-          onError={() => setOk(false)}
-          className="h-full w-full object-cover"
-        />
+        <img src={asset("/img/ecole/banner.jpg")} alt="" className="h-full w-full object-cover" />
       ) : (
         <span className="block h-full w-full bg-gradient-to-br from-[#2E3A14] via-night-900 to-night-950" />
       )}
@@ -318,17 +333,11 @@ function BanniereFond() {
 
 /** Vignette « reprendre » : l'image de la leçon, sinon la couverture. */
 function MiniVignette({ src, cover }: { src?: string; cover?: string }) {
-  const [ok, setOk] = useState(true);
-  const chemin = ok && src ? src : cover;
+  const okSrc = useImageExiste(src);
+  const chemin = okSrc && src ? src : cover;
   if (!chemin) return null;
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={asset(chemin)}
-      alt=""
-      aria-hidden
-      onError={() => setOk(false)}
-      className="h-16 w-24 shrink-0 rounded-2xl object-cover object-top"
-    />
+    <img src={asset(chemin)} alt="" aria-hidden className="h-16 w-24 shrink-0 rounded-2xl object-cover object-top" />
   );
 }

@@ -32,30 +32,44 @@ function dureeMin(l: Lecon): number {
   return Math.max(4, Math.round(mots / 180) + 2);
 }
 
+/** Vrai une fois l'image réellement chargée. Sondée après montage : sur une
+ * page exportée en statique, le 404 de l'image part avant que React
+ * n'attache onError, donc le repli onError ne suffit pas. */
+function useImageExiste(src?: string): boolean {
+  const [ok, setOk] = useState(false);
+  useEffect(() => {
+    if (!src) return;
+    let actif = true;
+    const img = new Image();
+    img.onload = () => {
+      if (actif) setOk(true);
+    };
+    img.src = asset(src);
+    return () => {
+      actif = false;
+    };
+  }, [src]);
+  return ok;
+}
+
 /** Vignette de leçon : l'image si elle existe, sinon rien (le numéro reste). */
 function Vignette({ src }: { src: string }) {
-  const [ok, setOk] = useState(true);
+  const ok = useImageExiste(src);
   if (!ok) return null;
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={asset(src)}
-      alt=""
-      aria-hidden
-      onError={() => setOk(false)}
-      className="h-12 w-16 shrink-0 rounded-xl object-cover"
-    />
+    <img src={asset(src)} alt="" aria-hidden className="h-12 w-16 shrink-0 rounded-xl object-cover" />
   );
 }
 
 /** Héros d'une leçon ouverte (si l'image existe). */
 function LeconHero({ src }: { src: string }) {
-  const [ok, setOk] = useState(true);
+  const ok = useImageExiste(src);
   if (!ok) return null;
   return (
     <div className="mb-5 overflow-hidden rounded-3xl">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={asset(src)} alt="" aria-hidden onError={() => setOk(false)} className="aspect-[16/9] w-full object-cover" />
+      <img src={asset(src)} alt="" aria-hidden className="aspect-[16/9] w-full object-cover" />
     </div>
   );
 }
