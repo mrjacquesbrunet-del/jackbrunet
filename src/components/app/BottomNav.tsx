@@ -36,6 +36,7 @@ const I = {
   bulb: "M12 3a6 6 0 0 0-3.5 10.9c.7.5 1 1.3 1 2.1h5c0-.8.3-1.6 1-2.1A6 6 0 0 0 12 3zM10 19h4M10.8 21.5h2.4",
   quiz: "M9.2 9a3 3 0 1 1 4 2.8c-.8.5-1.2 1-1.2 1.9M12 17.5h.01M4 5h16v12a2 2 0 0 1-2 2H9l-4 3z",
   qa: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18M9.3 9.5a2.7 2.7 0 1 1 3.6 2.6c-.7.4-1.1.9-1.1 1.7M12 16.5h.01",
+  school: "M2 9.5l10-5 10 5-10 5-10-5M5.8 12.4v3.8c0 1.4 2.8 2.8 6.2 2.8s6.2-1.4 6.2-2.8v-3.8M22 9.5v5",
 };
 
 const TABS = [
@@ -48,7 +49,7 @@ const TABS = [
   // Page 2 : podcast, Q&R et jeu mis en avant.
   { href: "/ecouter", label: "Écouter", icon: I.headphones, match: ["/ecouter", "/videos"] },
   { href: "/jeux", label: "Jeux", icon: I.quiz, match: ["/jeux", "/quiz", "/memoriser"] },
-  { href: "/groupes", label: "Groupes", icon: I.group, match: ["/groupes", "/groupe"] },
+  { href: "/ecole", label: "École", icon: I.school, match: ["/ecole", "/assistant"] },
   // Page 3 : soutien puis « À propos » (tout au bout).
   { href: "/don", label: "Soutien", icon: I.heart, match: ["/don"] },
   { href: "/a-propos", label: "À propos", icon: I.info, match: ["/a-propos"] },

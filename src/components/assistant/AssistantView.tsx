@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/components/community/useAuth";
 import { TexteAvecRefs } from "@/components/bible/FichesChapitre";
@@ -38,7 +38,10 @@ function LivreGlyphe({ className = "h-5 w-5" }: { className?: string }) {
 export function AssistantView() {
   const { userId } = useAuth();
   const router = useRouter();
-  const [tab, setTab] = useState<"question" | "etudes">("question");
+  const params = useSearchParams();
+  const [tab, setTab] = useState<"question" | "etudes">(
+    params.get("tab") === "etudes" ? "etudes" : "question",
+  );
   const [etudeOuverte, setEtudeOuverte] = useState<Etude | null>(null);
   const etudes = getEtudes();
   const [messages, setMessages] = useState<AssistantMsg[]>([]);
