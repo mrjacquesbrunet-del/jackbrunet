@@ -10,13 +10,16 @@ import { LieuCarte } from "@/components/bible/LieuCarte";
 export function TexteAvecRefs({
   texte,
   onNavigate,
+  light = false,
 }: {
   texte: string;
   onNavigate: (bookId: number, chapter: number) => void;
+  /** Variante pour les pages à fond clair (École biblique). */
+  light?: boolean;
 }) {
   const parts = texte.split(/\(((?:[1-3]\s?)?[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ\s-]*?\s\d+(?:[.:]\d+(?:-\d+)?)?)\)/g);
   return (
-    <p className="text-[15px] leading-relaxed text-cream/85">
+    <p className={light ? "text-[15px] leading-relaxed text-night-900/85" : "text-[15px] leading-relaxed text-cream/85"}>
       {parts.map((part, i) => {
         if (i % 2 === 0) return <span key={i}>{part}</span>;
         const href = bibleHref(part);
@@ -29,7 +32,11 @@ export function TexteAvecRefs({
             key={i}
             type="button"
             onClick={() => onNavigate(l, c)}
-            className="font-semibold text-dawn-300 underline decoration-dawn-300/40 underline-offset-2"
+            className={
+              light
+                ? "font-semibold text-[#5F7A00] underline decoration-[#5F7A00]/40 underline-offset-2"
+                : "font-semibold text-dawn-300 underline decoration-dawn-300/40 underline-offset-2"
+            }
           >
             ({part})
           </button>
