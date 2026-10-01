@@ -17,6 +17,14 @@ export type QuizQuestion = {
   explication: string;
 };
 
+/** Étape de lecture d'une leçon : un segment audio et les tranches de texte
+ * qu'il raconte (section s, paragraphes d..f, indices 0-based). */
+export type EtapeLecon = {
+  titre: string;
+  fichier: string;
+  tranches: { s: number; d: number; f: number }[];
+};
+
 export type Lecon = {
   id: string;
   titre: string;
@@ -27,6 +35,8 @@ export type Lecon = {
   /** Noms exacts des fichiers audio de la narration (racine du bucket
    * audiovf), dans l'ordre des segments. */
   audio?: string[];
+  /** Lecture guidée partie par partie (une étape = un segment audio). */
+  etapes?: EtapeLecon[];
   engagement: string;
   application: string[];
   quiz: QuizQuestion[];

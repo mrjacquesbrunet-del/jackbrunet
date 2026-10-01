@@ -10,6 +10,7 @@ import { addNote } from "@/lib/notebook";
 import { submitToBrevo } from "@/lib/brevo";
 import { newsletterEndpointForSource } from "@/config/brevo";
 import { askAssistant } from "@/lib/assistant";
+import { getBook, resolveRef } from "@/lib/bible-client";
 import {
   audioLeconUrl,
   audioRacineUrl,
@@ -290,6 +291,409 @@ function LeconAudio({ formationId, lecon }: { formationId: string; lecon: Lecon 
         }}
         className="mt-2.5 w-full"
       />
+    </div>
+  );
+}
+
+/* ——— Pop-up verset : une référence tapée dans la leçon ouvre le passage ——— */
+function VersetSheet({
+  reference,
+  onClose,
+  onNavigate,
+}: {
+  reference: string;
+  onClose: () => void;
+  onNavigate: (l: number, c: number) => void;
+}) {
+  const [data, setData] = useState<{
+    bookId: number;
+    nom: string;
+    chap: number;
+    v1: number;
+    v2: number;
+    versets: string[];
+  } | null>(null);
+  const [introuvable, setIntrouvable] = useState(false);
+
+  useEffect(() => {
+    let actif = true;
+    setData(null);
+    setIntrouvable(false);
+    (async () => {
+      // Première référence si plusieurs (« Genèse 4 ; 14.20 »).
+      const premiere = reference.split(/[;·,]/)[0].trim();
+      const m = premiere.match(/^(.+?)\s+(\d+)(?:\s*[.:]\s*(\d+)(?:\s*[-–]\s*(\d+))?)?$/);
+      if (!m) {
+        if (actif) setIntrouvable(true);
+        return;
+      }
+      const chap = Number(m[2]);
+      const v1 = m[3] ? Number(m[3]) : 0;
+      const v2 = m[4] ? Number(m[4]) : v1;
+      const ref = await resolveRef(`${m[1]} ${chap}:${v1 || 1}`);
+      if (!ref) {
+        if (actif) setIntrouvable(true);
+        return;
+      }
+      try {
+        const book = await getBook(ref.bookId);
+        const chapitre = book.chapters[chap - 1] ?? [];
+        const versets = v1 ? chapitre.slice(v1 - 1, v2) : chapitre;
+        if (!versets.length) {
+          if (actif) setIntrouvable(true);
+          return;
+        }
+        if (actif)
+          setData({
+            bookId: ref.bookId,
+            nom: ref.bookName,
+            chap,
+            v1: v1 || 1,
+            v2: v1 ? v2 : chapitre.length,
+            versets,
+          });
+      } catch {
+        if (actif) setIntrouvable(true);
+      }
+    })();
+    return () => {
+      actif = false;
+    };
+  }, [reference]);
+
+  const titre = data
+    ? `${data.nom} ${data.chap}${data.v1 !== 1 || data.v2 !== data.versets.length || data.versets.length < 10 ? `.${data.v1}${data.v2 > data.v1 ? `-${data.v2}` : ""}` : ""}`
+    : reference;
+
+  return (
+    <div className="fixed inset-0 z-[70] flex flex-col justify-end" role="dialog" aria-modal="true">
+      <button type="button" aria-label="Fermer" onClick={onClose} className="absolute inset-0 bg-night-950/55 backdrop-blur-[2px]" />
+      <div className="relative max-h-[72vh] rounded-t-[28px] bg-[#F3F3ED] pb-[calc(env(safe-area-inset-bottom)+1rem)] text-night-900 shadow-[0_-18px_50px_rgba(0,0,0,0.35)]">
+        <div className="mx-auto mt-2.5 h-1.5 w-12 rounded-full bg-night-900/15" />
+        <div className="container-x mx-auto flex max-w-2xl items-center gap-3 pt-3">
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950">
+            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.9}>
+              <path d="M12 6c-1.5-1.3-3.5-2-6-2v14c2.5 0 4.5.7 6 2 1.5-1.3 3.5-2 6-2V4c-2.5 0-4.5.7-6 2zm0 0v14" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#5F7A00]">La Bible dit</p>
+            <p className="truncate font-display text-base font-extrabold leading-tight">{titre}</p>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Fermer"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-night-900/15 bg-white"
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2}>
+              <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+            </svg>
+          </button>
+        </div>
+        <div className="container-x mx-auto mt-3 max-w-2xl overflow-y-auto" style={{ maxHeight: "calc(72vh - 11rem)" }}>
+          {data ? (
+            <div className="space-y-2.5 rounded-3xl border-l-4 border-dawn-400 bg-white px-4 py-3.5">
+              {data.versets.map((v, i) => (
+                <p key={i} className="text-[15px] leading-relaxed text-night-900/90">
+                  <sup className="mr-1 font-display text-[10px] font-extrabold text-[#5F7A00]">{data.v1 + i}</sup>
+                  {v}
+                </p>
+              ))}
+            </div>
+          ) : introuvable ? (
+            <p className="rounded-3xl bg-white px-4 py-3.5 text-sm text-night-900/60">
+              Impossible d&apos;afficher ce passage ici — ouvre-le dans la Bible.
+            </p>
+          ) : (
+            <p className="rounded-3xl bg-white px-4 py-3.5 text-sm text-night-900/50">Je cherche le passage…</p>
+          )}
+        </div>
+        <div className="container-x mx-auto mt-3 max-w-2xl">
+          <button
+            type="button"
+            onClick={() => {
+              if (data) {
+                onClose();
+                onNavigate(data.bookId, data.chap);
+              }
+            }}
+            disabled={!data}
+            className="w-full rounded-full bg-night-900 py-3 font-display text-sm font-bold text-cream disabled:opacity-40"
+          >
+            Ouvrir dans la Bible
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ——— Gros lecteur audio d'une partie : lecture, −10 s / +10 s, vitesse ——— */
+const VITESSES = [1, 1.25, 1.5, 2];
+
+function LecteurEtape({
+  src,
+  vitesse,
+  onVitesse,
+}: {
+  src: string;
+  vitesse: number;
+  onVitesse: (v: number) => void;
+}) {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [joue, setJoue] = useState(false);
+  const [pos, setPos] = useState(0);
+  const [duree, setDuree] = useState(0);
+  const [indispo, setIndispo] = useState(false);
+
+  useEffect(() => {
+    const a = audioRef.current;
+    if (a) a.playbackRate = VITESSES[vitesse];
+  }, [vitesse, src]);
+
+  const fmt = (s: number) => {
+    if (!Number.isFinite(s)) return "0:00";
+    const m = Math.floor(s / 60);
+    return `${m}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+  };
+
+  function bascule() {
+    const a = audioRef.current;
+    if (!a) return;
+    if (a.paused) a.play().catch(() => {});
+    else a.pause();
+  }
+
+  function saute(delta: number) {
+    const a = audioRef.current;
+    if (!a) return;
+    a.currentTime = Math.max(0, Math.min((a.duration || 0) - 0.2, a.currentTime + delta));
+  }
+
+  if (indispo) return null;
+  return (
+    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-[60] px-4 pb-[calc(env(safe-area-inset-bottom)+0.9rem)]">
+      <div className="pointer-events-auto mx-auto max-w-2xl rounded-[26px] bg-night-950 px-5 pb-4 pt-3 text-cream shadow-[0_18px_44px_-14px_rgba(0,0,0,0.65)]">
+        {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+        <audio
+          ref={audioRef}
+          src={src}
+          preload="metadata"
+          onPlay={() => setJoue(true)}
+          onPause={() => setJoue(false)}
+          onEnded={() => setJoue(false)}
+          onError={() => setIndispo(true)}
+          onLoadedMetadata={(e) => {
+            setIndispo(false);
+            setDuree(e.currentTarget.duration || 0);
+            e.currentTarget.playbackRate = VITESSES[vitesse];
+          }}
+          onTimeUpdate={(e) => setPos(e.currentTarget.currentTime)}
+        />
+        <input
+          type="range"
+          min={0}
+          max={Math.max(1, Math.floor(duree))}
+          step={1}
+          value={Math.floor(pos)}
+          onChange={(e) => {
+            const a = audioRef.current;
+            if (a) a.currentTime = Number(e.target.value);
+          }}
+          aria-label="Position dans l'audio"
+          className="h-1.5 w-full cursor-pointer accent-dawn-400"
+        />
+        <div className="-mt-0.5 flex justify-between text-[10px] font-bold text-cream/45">
+          <span>{fmt(pos)}</span>
+          <span>{fmt(duree)}</span>
+        </div>
+        <div className="mt-1 flex items-center justify-between">
+          <button
+            type="button"
+            onClick={() => onVitesse((vitesse + 1) % VITESSES.length)}
+            className="min-w-[3.4rem] rounded-full border border-white/20 px-3 py-1.5 font-display text-xs font-extrabold text-cream/85"
+          >
+            {VITESSES[vitesse] === 1 ? "1×" : `${VITESSES[vitesse]}×`.replace(".", ",")}
+          </button>
+          <div className="flex items-center gap-4">
+            <button type="button" onClick={() => saute(-10)} aria-label="Reculer de 10 secondes" className="relative grid h-11 w-11 place-items-center text-cream/85">
+              <svg viewBox="0 0 24 24" className="h-9 w-9 fill-none stroke-current" strokeWidth={1.7}>
+                <path d="M12 4.5A7.5 7.5 0 1 1 4.5 12" strokeLinecap="round" />
+                <path d="M4.5 12V7.5m0 4.5H9" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <span className="absolute text-[9px] font-black">10</span>
+            </button>
+            <button
+              type="button"
+              onClick={bascule}
+              aria-label={joue ? "Pause" : "Écouter"}
+              className="grid h-16 w-16 place-items-center rounded-full bg-dawn-400 text-night-950 shadow-[0_10px_26px_-8px_rgba(202,240,0,0.55)]"
+            >
+              {joue ? (
+                <svg viewBox="0 0 24 24" className="h-7 w-7 fill-current stroke-none">
+                  <path d="M7 5h3.6v14H7zM13.4 5H17v14h-3.6z" />
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" className="ml-1 h-7 w-7 fill-current stroke-none">
+                  <path d="M8 5.2v13.6L19 12z" />
+                </svg>
+              )}
+            </button>
+            <button type="button" onClick={() => saute(10)} aria-label="Avancer de 10 secondes" className="relative grid h-11 w-11 place-items-center text-cream/85">
+              <svg viewBox="0 0 24 24" className="h-9 w-9 fill-none stroke-current" strokeWidth={1.7}>
+                <path d="M12 4.5A7.5 7.5 0 1 0 19.5 12" strokeLinecap="round" />
+                <path d="M19.5 12V7.5m0 4.5H15" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <span className="absolute text-[9px] font-black">10</span>
+            </button>
+          </div>
+          <span className="min-w-[3.4rem] text-right text-[10px] font-black uppercase tracking-[0.14em] text-cream/45">Audio</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ——— Lecture guidée plein écran : une partie à la fois, audio + texte ——— */
+function LectureEtapes({
+  lecon,
+  numero,
+  idx,
+  setIdx,
+  nbLues,
+  marquerLue,
+  onFermer,
+  onReflexion,
+  onNavigate,
+}: {
+  lecon: Lecon;
+  numero: number;
+  idx: number;
+  setIdx: (i: number) => void;
+  nbLues: number;
+  marquerLue: (i: number) => void;
+  onFermer: () => void;
+  onReflexion: () => void;
+  onNavigate: (l: number, c: number) => void;
+}) {
+  const etapes = lecon.etapes ?? [];
+  const etape = etapes[idx];
+  const total = etapes.length;
+  const derniere = idx === total - 1;
+  const [refOuverte, setRefOuverte] = useState<string | null>(null);
+  const [vitesse, setVitesse] = useState(0);
+  const defilRef = useRef<HTMLDivElement | null>(null);
+  const audioSrc = audioRacineUrl(etape.fichier);
+
+  useEffect(() => {
+    defilRef.current?.scrollTo(0, 0);
+  }, [idx]);
+
+  return (
+    <div className="fixed inset-0 z-50 flex flex-col bg-[#F3F3ED] text-night-900">
+      {/* En-tête */}
+      <div className="border-b border-night-900/10 bg-[#F3F3ED]/95">
+        <div className="container-x mx-auto max-w-2xl py-3 pt-[calc(env(safe-area-inset-top)+0.75rem)]">
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={onFermer}
+              aria-label="Quitter la lecture"
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-night-900/15 bg-white"
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2}>
+                <path d="M15 6l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            <div className="min-w-0 flex-1">
+              <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#5F7A00]">
+                Leçon {numero} · Partie {idx + 1}/{total}
+              </p>
+              <p className="truncate font-display text-base font-extrabold leading-tight">{etape.titre}</p>
+            </div>
+            <span className="shrink-0 text-xs font-bold text-night-900/45">
+              {Math.min(nbLues, total)}/{total}
+            </span>
+          </div>
+          {/* Progression : une graduation par partie */}
+          <div className="mt-2.5 flex gap-1">
+            {etapes.map((_, i) => (
+              <span
+                key={i}
+                className={`h-1.5 flex-1 rounded-full ${
+                  i < nbLues ? "bg-dawn-400" : i === idx ? "bg-dawn-400/45" : "bg-night-900/10"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Texte de la partie */}
+      <div ref={defilRef} className="flex-1 overflow-y-auto">
+        <div className="container-x mx-auto max-w-2xl pb-64 pt-5">
+          {etape.tranches.map((t, ti) => {
+            const section = lecon.sections[t.s];
+            if (!section) return null;
+            const pars = section.p.split("\n\n").slice(t.d, t.f + 1);
+            return (
+              <div key={ti} className={ti > 0 ? "mt-6" : ""}>
+                {t.d === 0 ? (
+                  <h2 className="mb-3 font-display text-[19px] font-extrabold leading-snug">{section.t}</h2>
+                ) : ti === 0 ? (
+                  <p className="mb-3 text-[11px] font-black uppercase tracking-[0.18em] text-night-900/40">
+                    {section.t} — suite
+                  </p>
+                ) : null}
+                <div className="space-y-3.5">
+                  {pars.map((par, j) =>
+                    par.trim().startsWith("«") ? (
+                      <div key={j} className="rounded-2xl border-l-4 border-dawn-400 bg-dawn-50 px-4 py-3">
+                        <TexteAvecRefs texte={par} onNavigate={onNavigate} onRef={setRefOuverte} light />
+                      </div>
+                    ) : (
+                      <TexteAvecRefs key={j} texte={par} onNavigate={onNavigate} onRef={setRefOuverte} light />
+                    ),
+                  )}
+                </div>
+              </div>
+            );
+          })}
+
+          {/* Valider la partie, passer à la suivante */}
+          <button
+            type="button"
+            onClick={() => {
+              marquerLue(idx);
+              if (derniere) onReflexion();
+              else setIdx(idx + 1);
+            }}
+            className="mt-8 w-full rounded-full bg-dawn-400 py-3.5 font-display text-base font-bold text-night-950 shadow-[0_12px_30px_-12px_rgba(140,170,0,0.6)]"
+          >
+            {derniere ? "J'ai terminé — temps de réflexion" : `Partie suivante (${idx + 2}/${total})`}
+          </button>
+          <p className="mt-2 text-center text-xs text-night-900/45">
+            {idx < nbLues
+              ? `Partie déjà validée · ${Math.min(nbLues, total)}/${total}`
+              : `Valide cette partie : ${idx + 1}/${total} de la leçon`}
+          </p>
+          {idx > 0 ? (
+            <button
+              type="button"
+              onClick={() => setIdx(idx - 1)}
+              className="mt-3 w-full rounded-full border border-night-900/15 bg-white py-3 font-display text-sm font-bold text-night-900/70"
+            >
+              Partie précédente
+            </button>
+          ) : null}
+        </div>
+      </div>
+
+      {audioSrc ? <LecteurEtape key={etape.fichier} src={audioSrc} vitesse={vitesse} onVitesse={setVitesse} /> : null}
+      {refOuverte ? (
+        <VersetSheet reference={refOuverte} onClose={() => setRefOuverte(null)} onNavigate={onNavigate} />
+      ) : null}
     </div>
   );
 }
@@ -677,6 +1081,43 @@ function LeconView({
   // Parcours guidé : 1. lire la leçon → 2. temps de réflexion → 3. quiz.
   const [etape, setEtape] = useState<"lecon" | "reflexion">("lecon");
 
+  // Lecture guidée partie par partie (plein écran), si la leçon a des étapes.
+  const etapes = lecon.etapes ?? [];
+  const cleLecture = `jb.etapes.${formation.id}.${lecon.id}`;
+  const [nbLues, setNbLues] = useState(0);
+  const [idxEtape, setIdxEtape] = useState(0);
+  const [lecture, setLecture] = useState(false);
+
+  useEffect(() => {
+    let n = 0;
+    try {
+      n = Math.min(Number(localStorage.getItem(cleLecture)) || 0, etapes.length);
+    } catch {
+      /* stockage indisponible */
+    }
+    setNbLues(n);
+    // La leçon s'ouvre directement en plein écran, sur la partie en cours.
+    if (etapes.length && !dejaValidee) {
+      setIdxEtape(Math.min(n, etapes.length - 1));
+      setLecture(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lecon.id]);
+
+  function marquerLue(i: number) {
+    setNbLues((cur) => {
+      const n = Math.max(cur, i + 1);
+      try {
+        localStorage.setItem(cleLecture, String(n));
+      } catch {
+        /* ignore */
+      }
+      return n;
+    });
+  }
+
+  const lectureFinie = !etapes.length || nbLues >= etapes.length || valide;
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [quizOn, onglet, etape]);
@@ -694,6 +1135,25 @@ function LeconView({
           onValidated();
         }}
         onNext={onNext}
+      />
+    );
+  }
+
+  if (lecture && etapes.length) {
+    return (
+      <LectureEtapes
+        lecon={lecon}
+        numero={numero}
+        idx={idxEtape}
+        setIdx={setIdxEtape}
+        nbLues={nbLues}
+        marquerLue={marquerLue}
+        onFermer={() => setLecture(false)}
+        onReflexion={() => {
+          setLecture(false);
+          setEtape("reflexion");
+        }}
+        onNavigate={onNavigate}
       />
     );
   }
@@ -784,6 +1244,130 @@ function LeconView({
                 onQuiz={() => setQuizOn(true)}
                 onRetour={() => setEtape("lecon")}
               />
+            ) : etapes.length ? (
+              <>
+                {lecon.image ? <LeconHero src={lecon.image} /> : null}
+
+                {/* Lecture guidée : où en es-tu ? */}
+                <div className="mb-5 rounded-3xl border border-night-900/10 bg-white p-5">
+                  <div className="flex items-center justify-between">
+                    <h2 className="font-display text-base font-extrabold">Lecture de la leçon</h2>
+                    <span className="text-xs font-bold text-night-900/50">
+                      {Math.min(nbLues, etapes.length)}/{etapes.length} parties
+                    </span>
+                  </div>
+                  <div className="mt-2.5 h-2 overflow-hidden rounded-full bg-night-900/10">
+                    <div
+                      className="h-full rounded-full bg-dawn-400 transition-all"
+                      style={{ width: `${(Math.min(nbLues, etapes.length) / etapes.length) * 100}%` }}
+                    />
+                  </div>
+                  <p className="mt-2 text-xs text-night-900/50">
+                    Chaque partie se lit (et s&apos;écoute) en plein écran — valide-les une à une.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIdxEtape(Math.min(nbLues, etapes.length - 1));
+                      setLecture(true);
+                    }}
+                    className="mt-3.5 flex w-full items-center justify-center gap-2 rounded-full bg-dawn-400 py-3 font-display text-[15px] font-bold text-night-950"
+                  >
+                    <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current stroke-none">
+                      <path d="M8 5.5v13l11-6.5z" />
+                    </svg>
+                    {nbLues === 0 ? "Commencer la lecture" : nbLues >= etapes.length ? "Relire la leçon" : "Reprendre la lecture"}
+                  </button>
+                </div>
+
+                {/* Les parties */}
+                <div className="mb-5 rounded-3xl border border-night-900/10 bg-white p-4">
+                  <div className="flex items-center justify-between px-1">
+                    <h2 className="font-display text-base font-extrabold">Les parties de la leçon</h2>
+                    <span className="text-xs font-bold text-night-900/50">{etapes.length}</span>
+                  </div>
+                  <div className="mt-2.5 space-y-1.5">
+                    {etapes.map((e, i) => {
+                      const lue = i < nbLues;
+                      const courante = i === nbLues && !lue;
+                      const bloquee = i > nbLues && !valide;
+                      return (
+                        <button
+                          key={i}
+                          type="button"
+                          disabled={bloquee}
+                          onClick={() => {
+                            setIdxEtape(i);
+                            setLecture(true);
+                          }}
+                          className={`flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left ${
+                            courante ? "bg-dawn-50 ring-1 ring-dawn-400" : "bg-night-900/[0.04]"
+                          } ${bloquee ? "opacity-50" : ""}`}
+                        >
+                          <span
+                            className={`grid h-7 w-7 shrink-0 place-items-center rounded-full font-display text-xs font-extrabold ${
+                              lue ? "bg-dawn-400 text-night-950" : "bg-white text-night-900"
+                            }`}
+                          >
+                            {lue ? (
+                              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth={3}>
+                                <path d="M5 12l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            ) : (
+                              i + 1
+                            )}
+                          </span>
+                          <span className="min-w-0 flex-1 truncate text-sm font-bold text-night-900/85">{e.titre}</span>
+                          {bloquee ? (
+                            <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 fill-none stroke-night-900/35" strokeWidth={1.9}>
+                              <path d="M6 10V8a6 6 0 0 1 12 0v2M5 10h14v10H5z" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          ) : (
+                            <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 fill-none stroke-night-900/30" strokeWidth={2}>
+                              <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Fin de la lecture → temps de réflexion */}
+                <button
+                  type="button"
+                  disabled={!lectureFinie}
+                  onClick={() => setEtape("reflexion")}
+                  className="mt-1 w-full rounded-full bg-dawn-400 py-3.5 font-display text-base font-bold text-night-950 shadow-[0_12px_30px_-12px_rgba(140,170,0,0.6)] disabled:opacity-40 disabled:shadow-none"
+                >
+                  J&apos;ai lu la leçon — temps de réflexion
+                </button>
+                <p className="mt-2 text-center text-xs text-night-900/45">
+                  {lectureFinie
+                    ? `Puis un quiz de ${lecon.quiz.length} questions · ${SEUIL} bonnes réponses pour débloquer la suite`
+                    : `Valide les ${etapes.length} parties pour débloquer la réflexion et le quiz`}
+                </p>
+                <div className="mt-4 flex gap-2.5">
+                  {onPrev ? (
+                    <button
+                      type="button"
+                      onClick={onPrev}
+                      className="flex-1 rounded-full border border-night-900/15 bg-white py-3 font-display text-sm font-bold text-night-900/70"
+                    >
+                      Leçon précédente
+                    </button>
+                  ) : null}
+                  {valide ? (
+                    <button
+                      type="button"
+                      onClick={onNext}
+                      className="flex-1 rounded-full bg-night-900 py-3 font-display text-sm font-bold text-cream"
+                    >
+                      Leçon suivante
+                    </button>
+                  ) : null}
+                </div>
+              </>
             ) : (
               <>
             <LeconAudio formationId={formation.id} lecon={lecon} />

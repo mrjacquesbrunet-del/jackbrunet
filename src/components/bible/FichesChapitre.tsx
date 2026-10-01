@@ -11,11 +11,15 @@ export function TexteAvecRefs({
   texte,
   onNavigate,
   light = false,
+  onRef,
 }: {
   texte: string;
   onNavigate: (bookId: number, chapter: number) => void;
   /** Variante pour les pages à fond clair (École biblique). */
   light?: boolean;
+  /** Si fourni, un tap sur une référence appelle ce rappel (pop-up verset)
+   * au lieu de naviguer vers le lecteur biblique. */
+  onRef?: (reference: string) => void;
 }) {
   const parts = texte.split(/\(((?:[1-3]\s?)?[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ\s-]*?\s\d+(?:[.:]\d+(?:-\d+)?)?)\)/g);
   return (
@@ -31,7 +35,7 @@ export function TexteAvecRefs({
           <button
             key={i}
             type="button"
-            onClick={() => onNavigate(l, c)}
+            onClick={() => (onRef ? onRef(part) : onNavigate(l, c))}
             className={
               light
                 ? "font-semibold text-[#5F7A00] underline decoration-[#5F7A00]/40 underline-offset-2"
