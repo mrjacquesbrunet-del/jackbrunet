@@ -37,6 +37,7 @@ import { DeleteAccountButton } from "@/components/community/DeleteAccountButton"
 import { WhatsAppCard } from "@/components/ui/WhatsAppChannel";
 import { WallSection } from "@/components/wall/WallSection";
 import { countUserPosts } from "@/lib/wall";
+import { StoriesBar } from "@/components/stories/StoriesBar";
 import { BootDiagnostic } from "@/components/app/BootDiagnostic";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { ModeratorBadge } from "@/components/community/ModeratorBadge";
@@ -586,6 +587,8 @@ function Profile({
 
       {view === "mur" ? (
         <div className="mt-3">
+          {/* Stories 24 h : ma story + celles des amis */}
+          <StoriesBar me={userId} myProfile={profile ? { id: userId, ...profile } : null} dark={!jour} />
           {/* Suggestions pour toi : juste avant le mur, en rotation permanente */}
           <div className="mb-4">
             <p className={`mb-2 text-[11px] font-black uppercase tracking-[0.18em] ${jour ? "text-night-900/45" : "text-cream/45"}`}>
