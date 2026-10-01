@@ -1,0 +1,673 @@
+{
+  "formations": [
+    {
+      "id": "fondamentaux-vol1",
+      "titre": "Les fondamentaux de la foi chrétienne",
+      "volume": "Volume 1",
+      "auteur": "Josy W. Brunet",
+      "accroche": "Les bases essentielles de la foi, enseignées simplement et ancrées dans les Écritures — pour bâtir une foi ferme, vivante et alignée sur Jésus-Christ.",
+      "intro": "Né au cœur du ministère « Connecte Ta Foi » du pasteur Jack Brunet et de Josy, ce parcours rassemble les enseignements donnés aux nouveaux convertis — et à tous ceux qui veulent revenir aux fondations. Chaque leçon s'appuie sur la Parole, se termine par un engagement personnel et des pas concrets, puis un quiz valide ce que tu as retenu.",
+      "objectifs": [
+        "Connaître qui est Dieu : ses attributs, la Trinité",
+        "Comprendre le plan du salut et la conversion",
+        "Saisir le sens du baptême et de la Sainte Cène",
+        "Vivre la générosité, l'Église et la nouvelle vie en Christ"
+      ],
+      "ebook": "fondamentaux-vol1.pdf",
+      "lecons": [
+        {
+          "id": "qui-est-dieu",
+          "titre": "Qui est Dieu ?",
+          "resume": "Le seul vrai Dieu, ses attributs, le mystère de la Trinité — et le baptême du Saint-Esprit.",
+          "sections": [
+            {
+              "t": "Un seul Dieu, Créateur de tout",
+              "p": "Nous croyons en un seul Dieu véritable, le Créateur de toutes choses : les cieux, la terre, l'humanité et l'univers. Dieu est Esprit, unique en essence mais constitué de trois personnes distinctes. Ses attributs se répartissent en deux familles : les attributs communicables, qu'il nous a transmis — l'amour, la volonté, l'intelligence — et les attributs incommunicables, qui n'appartiennent qu'à lui, comme sa toute-puissance ou son omniprésence."
+            },
+            {
+              "t": "Ses attributs",
+              "p": "Dieu est éternel : il n'a jamais été créé et n'est pas limité par le temps (Ésaïe 40.28). Souverain : il gouverne sur tout et tous (Daniel 4.35). Tout-puissant : rien ne lui est impossible (Jérémie 32.27 ; Luc 1.37). Omniscient : rien n'est caché à ses yeux (Hébreux 4.13). Omniprésent : il remplit tout l'univers (Psaumes 139.7-8). Immuable : il ne change pas (Hébreux 13.8 ; Jacques 1.17). Saint : pur et exempt de tout mal (Ésaïe 57.15). Amour : son essence même est l'amour, il est miséricordieux, bon et patient (1 Jean 4.8 ; Exode 34.6). Juste et parfait : il ne commet jamais d'erreur et reste fidèle en tout (Sophonie 3.5)."
+            },
+            {
+              "t": "La Trinité",
+              "p": "Dieu se manifeste en trois personnes — le Père, le Fils et le Saint-Esprit — mais il est indivisible : les trois partagent la même essence et la même puissance divine. Dès la création, Dieu dit « Faisons l'homme à notre image » (Genèse 1.26). Au baptême de Jésus, les trois paraissent ensemble : le Fils sort de l'eau, l'Esprit descend comme une colombe, et la voix du Père déclare « Celui-ci est mon Fils bien-aimé » (Matthieu 3.16-17). La Trinité est un mystère qui dépasse notre compréhension humaine, mais ne contient aucune contradiction : Dieu existe éternellement en trois personnes distinctes, parfaitement unies."
+            },
+            {
+              "t": "Le Père, le Fils, le Saint-Esprit",
+              "p": "Dieu le Père siège dans les cieux, souverain sur toute la création, et agit comme un Père aimant pour ses enfants (1 Corinthiens 8.6). Dieu le Fils, Jésus-Christ, est pleinement Dieu et pleinement homme, venu sur terre pour nous sauver (Philippiens 2.6-7) : présent dès le commencement (Jean 1.1-3), Créateur de l'univers (Colossiens 1.16), annoncé par les prophètes (Ésaïe 53 ; Michée 5.1), mort pour nos péchés et ressuscité pour notre justification (1 Corinthiens 15.1-5), seul Sauveur et médiateur (Actes 4.12 ; 1 Timothée 2.5). Dieu le Saint-Esprit est une personne divine, non une simple force : il parle (Hébreux 3.7), conduit (Galates 5.18), accorde des dons (1 Corinthiens 12.11) et peut être attristé (Éphésiens 4.30). Il convainc du péché (Jean 16.8-11), habite le croyant — notre corps devient le temple de Dieu (1 Corinthiens 6.19) — et produit en nous le caractère de Christ."
+            },
+            {
+              "t": "Le baptême du Saint-Esprit",
+              "p": "Le baptême du Saint-Esprit est une expérience spirituelle puissante où une personne est remplie du Saint-Esprit, recevant sa présence, sa puissance et son action pour accomplir la volonté de Dieu. Jésus l'a promis : « Jean a baptisé d'eau, mais vous, dans peu de jours, vous serez baptisés du Saint-Esprit » (Actes 1.4-5). La Pentecôte fut l'accomplissement de cette promesse : tous furent remplis du Saint-Esprit et se mirent à parler en d'autres langues (Actes 2.1-4). Cette expérience se caractérise par une puissance spirituelle (Actes 1.8), des signes comme le parler en langues, et une transformation intérieure : les disciples craintifs deviennent des témoins courageux."
+            },
+            {
+              "t": "Pourquoi et comment le recevoir",
+              "p": "Pourquoi ? Pour recevoir la puissance de Dieu et témoigner avec assurance (Actes 1.8), pour vivre continuellement rempli de l'Esprit (Éphésiens 5.18), et pour recevoir des dons spirituels qui édifient l'Église — prophétie, langues, sagesse, foi, miracles (1 Corinthiens 12). Comment ? Croire en Jésus-Christ comme Seigneur et Sauveur — « la promesse est pour vous, pour vos enfants, et pour tous ceux qui sont au loin » (Actes 2.38-39) ; demander avec foi — « le Père céleste donnera le Saint-Esprit à ceux qui le lui demandent » (Luc 11.13) ; persévérer dans la prière comme les disciples (Actes 1.14) ; et soumettre sa vie à Dieu. Comme un téléphone branché à sa source d'énergie : le baptême du Saint-Esprit remplit, transforme et rend capable de ce qui est impossible par nos propres forces."
+            }
+          ],
+          "engagement": "Je m'engage à reconnaître Dieu comme le seul vrai Dieu, Créateur et Seigneur de ma vie ; à l'adorer avec révérence, à rechercher sa volonté et à lui obéir. Je m'engage à approfondir ma connaissance de Dieu en méditant sa Parole, en priant régulièrement, et en m'appuyant sur le Saint-Esprit pour me guider dans une relation plus intime avec lui. Je m'engage à refléter son amour, sa sainteté et sa grâce dans ma vie quotidienne, et à faire de ma vie une offrande vivante à sa gloire.",
+          "application": [
+            "Commence chaque journée par la prière et priorise la lecture de la Bible",
+            "Participe à des études bibliques pour grandir avec d'autres",
+            "Reflète l'amour, la patience et la bonté de Dieu dans tes relations",
+            "Remercie-le pour ses bénédictions et adore-le par la prière et la louange",
+            "Fais confiance au Saint-Esprit : prie pour sa conduite et obéis à ses convictions"
+          ],
+          "quiz": [
+            {
+              "q": "Combien y a-t-il de Dieu, et en combien de personnes se révèle-t-il ?",
+              "choix": [
+                "Trois dieux distincts",
+                "Un seul Dieu en trois personnes",
+                "Un seul Dieu en une seule personne",
+                "Deux dieux : le Père et le Fils"
+              ],
+              "bonne": 1,
+              "explication": "Dieu est unique en essence, manifesté en trois personnes parfaitement unies : le Père, le Fils et le Saint-Esprit (Genèse 1.26 ; Matthieu 3.16-17)."
+            },
+            {
+              "q": "Que signifie l'attribut « immuable » ?",
+              "choix": [
+                "Dieu est partout à la fois",
+                "Dieu sait toutes choses",
+                "Dieu ne change pas",
+                "Dieu peut tout faire"
+              ],
+              "bonne": 2,
+              "explication": "Dieu est constant et invariable : « Jésus-Christ est le même hier, aujourd'hui, et éternellement » (Hébreux 13.8)."
+            },
+            {
+              "q": "Le Saint-Esprit est…",
+              "choix": [
+                "Une force impersonnelle",
+                "Une simple influence",
+                "Un ange supérieur",
+                "Une personne divine"
+              ],
+              "bonne": 3,
+              "explication": "Il parle, conduit, accorde des dons et peut être attristé (Éphésiens 4.30) — tout d'une personne, rien d'une énergie."
+            },
+            {
+              "q": "Qu'est-ce que le baptême du Saint-Esprit ?",
+              "choix": [
+                "Un autre nom du baptême d'eau",
+                "Être rempli de la présence et de la puissance de l'Esprit",
+                "Une cérémonie réservée aux pasteurs",
+                "Un rite de l'Ancien Testament"
+              ],
+              "bonne": 1,
+              "explication": "C'est une expérience distincte du baptême d'eau, promise par Jésus (Actes 1.4-5) et accomplie à la Pentecôte (Actes 2.1-4)."
+            },
+            {
+              "q": "Comment recevoir le baptême du Saint-Esprit ?",
+              "choix": [
+                "En le méritant par ses œuvres",
+                "En le demandant avec foi et persévérance",
+                "En attendant sans rien faire",
+                "En étudiant la théologie"
+              ],
+              "bonne": 1,
+              "explication": "« Le Père céleste donnera le Saint-Esprit à ceux qui le lui demandent » (Luc 11.13) — demander avec foi, persévérer dans la prière, se soumettre à Dieu."
+            }
+          ]
+        },
+        {
+          "id": "le-plan-du-salut",
+          "titre": "Le plan du salut",
+          "resume": "Tous pécheurs, tous aimés : la croix, la repentance et la foi — le chemin du salut.",
+          "sections": [
+            {
+              "t": "Tous sont pécheurs",
+              "p": "À l'origine, Dieu créa l'homme bon, à son image, destiné à une communion parfaite avec son Créateur (Genèse 1.31). Mais la désobéissance entraîna une rupture dramatique : la chute. À cause du péché, l'homme fut séparé de Dieu : mort physique, mort spirituelle — coupé de la communion avec Dieu —, corruption intérieure, et un monde marqué par le désordre. « Car tous ont péché et sont privés de la gloire de Dieu » (Romains 3.23). L'homme ne peut pas atteindre Dieu par ses propres efforts (Romains 3.10-20)."
+            },
+            {
+              "t": "Le moyen du salut : la croix",
+              "p": "Le salut ne repose pas sur les efforts de l'homme, mais sur l'amour et l'œuvre de Dieu. « Car Dieu a tant aimé le monde qu'il a donné son Fils unique, afin que quiconque croit en lui ne périsse point, mais qu'il ait la vie éternelle » (Jean 3.16). Jésus, parfaitement sans péché, était le seul capable de satisfaire la justice divine : « Celui qui n'a point connu le péché, il l'a fait devenir péché pour nous, afin que nous devenions en lui justice de Dieu » (2 Corinthiens 5.21). Sa mort et sa résurrection sont au cœur de l'Évangile ; « il n'y a sous le ciel aucun autre nom donné parmi les hommes par lequel nous devions être sauvés » (Actes 4.12)."
+            },
+            {
+              "t": "La part de l'homme : la conversion",
+              "p": "Le salut est un don gratuit, mais l'homme doit le recevoir par la repentance et la foi. La repentance consiste à reconnaître sincèrement ses péchés, à en être attristé et à s'en détourner — un changement de direction visible (Actes 26.20 ; Ézéchiel 18.32). La foi, c'est faire confiance à Dieu et au sacrifice de Jésus pour le pardon de nos péchés : « C'est par la grâce que vous êtes sauvés, par le moyen de la foi. Et cela ne vient pas de vous, c'est le don de Dieu » (Éphésiens 2.8-9 ; Romains 10.9)."
+            },
+            {
+              "t": "Les effets de la conversion",
+              "p": "Quand quelqu'un se tourne vers Dieu, des transformations profondes se produisent. Nouvelle création : « Si quelqu'un est en Christ, il est une nouvelle créature » (2 Corinthiens 5.17). Habitation du Saint-Esprit (Romains 8.11). Adoption : « Voyez quel amour le Père nous a témoigné, pour que nous soyons appelés enfants de Dieu ! » (1 Jean 3.1). Et la sanctification : un processus de transformation qui dure toute la vie."
+            },
+            {
+              "t": "La foi, clé du salut",
+              "p": "« Or la foi est une ferme assurance des choses qu'on espère, une démonstration de celles qu'on ne voit pas » (Hébreux 11.1). Elle ouvre la porte à l'intervention divine : « Si vous aviez de la foi comme un grain de moutarde… rien ne vous serait impossible » (Matthieu 17.20). Ses bénédictions : la vie éternelle (Jean 3.16), le Saint-Esprit (Galates 3.2), la justification (Galates 2.16), la proximité avec Dieu (Hébreux 10.22) et la victoire sur le péché — « la victoire qui triomphe du monde, c'est notre foi » (1 Jean 5.4). Et Dieu utilise même les épreuves pour purifier et fortifier cette foi, « plus précieuse que l'or périssable » (1 Pierre 1.6-7)."
+            }
+          ],
+          "engagement": "Je m'engage à reconnaître ma condition de pécheur et à vivre dans une attitude constante de repentance. Je m'engage à placer ma foi entièrement en Jésus-Christ, mon Sauveur et Seigneur, et à lui faire confiance pour le pardon de mes péchés. Je m'engage à vivre comme une nouvelle création, à cultiver une communion intime avec Dieu par la prière et la Parole, et à témoigner de sa grâce autour de moi.",
+          "application": [
+            "Confesse tes péchés régulièrement et avec sincérité (1 Jean 1.9)",
+            "Nourris ta foi : lis la Bible chaque jour et médite ses promesses (Romains 10.17)",
+            "Laisse le Saint-Esprit produire son fruit dans ta vie (Galates 5.22-23)",
+            "Prie et médite un passage biblique quotidiennement",
+            "Témoigne simplement de ce que Dieu a fait dans ta vie",
+            "Persévère dans les épreuves, appuyé sur la grâce de Dieu"
+          ],
+          "quiz": [
+            {
+              "q": "Pourquoi l'homme ne peut-il pas se sauver lui-même ?",
+              "choix": [
+                "Parce qu'il ne fait pas assez d'efforts",
+                "Parce que tous ont péché et sont séparés de Dieu",
+                "Parce qu'il manque de connaissance",
+                "Parce que Dieu ne le veut pas"
+              ],
+              "bonne": 1,
+              "explication": "« Tous ont péché et sont privés de la gloire de Dieu » (Romains 3.23) — aucun effort humain ne peut combler cette séparation."
+            },
+            {
+              "q": "Quel est le moyen du salut ?",
+              "choix": [
+                "Les bonnes œuvres",
+                "La pratique religieuse",
+                "La mort et la résurrection de Jésus",
+                "La connaissance de la Bible"
+              ],
+              "bonne": 2,
+              "explication": "Dieu a offert son propre Fils en sacrifice pour le péché (Jean 3.16 ; 2 Corinthiens 5.21). Sans la croix et la résurrection, pas d'Évangile."
+            },
+            {
+              "q": "Quels sont les deux éléments essentiels de la conversion ?",
+              "choix": [
+                "Le baptême et la confirmation",
+                "La repentance et la foi",
+                "La prière et le jeûne",
+                "L'église et la dîme"
+              ],
+              "bonne": 1,
+              "explication": "Se détourner sincèrement du péché (repentance) et placer une confiance totale en Jésus (foi) — Actes 20.21."
+            },
+            {
+              "q": "Que devient celui qui se convertit à Christ ?",
+              "choix": [
+                "Une personne parfaite instantanément",
+                "Un membre d'une religion",
+                "Une nouvelle créature, enfant de Dieu",
+                "Un serviteur sans assurance"
+              ],
+              "bonne": 2,
+              "explication": "« Si quelqu'un est en Christ, il est une nouvelle créature » (2 Corinthiens 5.17) — adopté comme enfant de Dieu (1 Jean 3.1)."
+            },
+            {
+              "q": "D'après Éphésiens 2.8-9, le salut vient…",
+              "choix": [
+                "De la grâce de Dieu, par la foi",
+                "De nos efforts et de la grâce à parts égales",
+                "De nos œuvres",
+                "De notre héritage familial"
+              ],
+              "bonne": 0,
+              "explication": "« C'est par la grâce que vous êtes sauvés, par le moyen de la foi… Ce n'est point par les œuvres, afin que personne ne se glorifie. »"
+            }
+          ]
+        },
+        {
+          "id": "le-bapteme",
+          "titre": "Le baptême",
+          "resume": "Enseveli et ressuscité avec Christ : le témoignage public de ta nouvelle vie.",
+          "sections": [
+            {
+              "t": "C'est quoi, le baptême ?",
+              "p": "Le baptême est la représentation visible de la nouvelle naissance : un engagement pris avec Dieu, un témoignage public de sa foi. Conformément à l'exemple biblique, le nouveau converti est immergé dans l'eau, symbole d'une transformation intérieure. « Nous avons été ensevelis avec lui par le baptême en sa mort, afin que, comme Christ est ressuscité des morts…, nous aussi nous marchions en nouveauté de vie » (Romains 6.3-11 ; Colossiens 2.12). Descendre dans l'eau, c'est faire mourir la vieille nature ; en ressortir, c'est vivre une vie nouvelle en Christ."
+            },
+            {
+              "t": "Un commandement de Jésus",
+              "p": "Nous baptisons en obéissance à un commandement clair de Jésus, donné après sa résurrection : « Allez, faites de toutes les nations des disciples, les baptisant au nom du Père, du Fils et du Saint-Esprit » (Matthieu 28.18-20). La Bible regorge d'exemples : Jésus lui-même baptisé (Matthieu 3.13-17), la Pentecôte (Actes 2.37-41), Philippe en Samarie (Actes 8.12-17), l'eunuque éthiopien (Actes 8.35-38), Saul (Actes 9.1-9), Corneille (Actes 10.44-48), le geôlier et sa famille (Actes 16.33)."
+            },
+            {
+              "t": "Le baptême sauve-t-il ?",
+              "p": "Non. Nous sommes sauvés par la grâce de Dieu, par la foi en Jésus-Christ, et non par un acte extérieur (Éphésiens 2.8). Le malfaiteur sur la croix n'a pas été baptisé et a pourtant été sauvé (Luc 23.32-43). Les conditions essentielles au baptême sont la foi et la repentance : celui qui a cru (Marc 16.15-16), celui qui s'est repenti (Actes 2.37-41), celui qui est devenu disciple (Matthieu 28.19-20). Le baptême est donc réservé aux personnes capables d'une décision consciente — il n'y a pas d'exemple biblique de baptême de nourrissons."
+            },
+            {
+              "t": "Par immersion, et en public",
+              "p": "Le mot « baptiser » vient du grec baptizo : immerger, plonger, submerger. Par fidélité à l'exemple biblique, le baptême se fait par immersion. Et c'est un acte public (Marc 16.15-16) : une proclamation de sincérité et d'engagement envers Dieu — la crainte des hommes ne doit jamais surpasser notre désir de plaire à Dieu (Jean 12.42-43). Se faire baptiser ne demande pas une connaissance exhaustive de la Bible, mais un engagement à suivre Jésus comme Seigneur (Matthieu 7.21)."
+            },
+            {
+              "t": "Le caractère du disciple baptisé",
+              "p": "Le baptême marque un tournant : le disciple choisit de renoncer à sa vieille vie pour marcher avec Christ, en s'appuyant sur la grâce de Dieu pour progresser dans la sanctification. Après le baptême vient la vie d'Église : « Tous s'appliquaient fidèlement à écouter l'enseignement des apôtres, à vivre dans la communion fraternelle, à prendre part aux repas communs et à participer aux prières » (Actes 2.42). Le baptême est un acte d'obéissance, d'amour et de foi — le passage de la mort spirituelle à une vie nouvelle, et une déclaration d'appartenance au corps de Christ."
+            }
+          ],
+          "engagement": "Je m'engage à obéir à l'appel de Jésus-Christ en me faisant baptiser, reconnaissant cet acte comme une proclamation publique de ma foi et un symbole de ma nouvelle vie en lui. Je m'engage à vivre en nouveauté de vie, à suivre les enseignements de Jésus, à marcher en communion avec l'Église et à proclamer l'Évangile par ma vie et mes actions.",
+          "application": [
+            "Étudie les passages bibliques sur le baptême et parles-en avec un pasteur",
+            "Si tu as cru et n'es pas baptisé : planifie-le avec ton église, invite tes proches",
+            "Maintiens une relation profonde avec Dieu : prière, Bible, conduite par l'Esprit",
+            "Rejoins un ministère ou un groupe pour servir et grandir",
+            "Vis selon les enseignements de Jésus et partage ta foi autour de toi"
+          ],
+          "quiz": [
+            {
+              "q": "Que symbolise l'immersion dans l'eau ?",
+              "choix": [
+                "La purification rituelle hebdomadaire",
+                "La mort de la vieille vie et la résurrection avec Christ",
+                "L'entrée dans un bâtiment d'église",
+                "Un simple geste de tradition"
+              ],
+              "bonne": 1,
+              "explication": "« Ensevelis avec lui par le baptême en sa mort… afin que nous marchions en nouveauté de vie » (Romains 6.4)."
+            },
+            {
+              "q": "Le baptême sauve-t-il ?",
+              "choix": [
+                "Oui, c'est la condition du salut",
+                "Oui, s'il est fait par immersion",
+                "Non : on est sauvé par la grâce, au moyen de la foi",
+                "Non, rien ne sauve"
+              ],
+              "bonne": 2,
+              "explication": "Le malfaiteur sur la croix fut sauvé sans baptême (Luc 23.43). Le baptême témoigne du salut reçu, il ne le produit pas (Éphésiens 2.8)."
+            },
+            {
+              "q": "Qui peut se faire baptiser ?",
+              "choix": [
+                "Les nourrissons présentés par leurs parents",
+                "Toute personne, croyante ou non",
+                "Celui qui a cru et s'est repenti",
+                "Seulement les responsables d'église"
+              ],
+              "bonne": 2,
+              "explication": "Les conditions bibliques : croire (Marc 16.16), se repentir (Actes 2.38), devenir disciple (Matthieu 28.19) — une décision consciente."
+            },
+            {
+              "q": "Que signifie le mot grec « baptizo » ?",
+              "choix": [
+                "Asperger",
+                "Bénir",
+                "Laver les mains",
+                "Immerger, plonger"
+              ],
+              "bonne": 3,
+              "explication": "D'où la pratique biblique du baptême par immersion complète."
+            },
+            {
+              "q": "Pourquoi le baptême est-il un acte PUBLIC ?",
+              "choix": [
+                "Pour impressionner l'assemblée",
+                "Parce qu'il proclame ouvertement sa foi et son engagement",
+                "Parce que la loi l'exige",
+                "Pour obtenir un certificat"
+              ],
+              "bonne": 1,
+              "explication": "C'est un témoignage public de sincérité (Marc 16.15-16) — la crainte des hommes ne doit pas surpasser le désir de plaire à Dieu (Jean 12.42-43)."
+            }
+          ]
+        },
+        {
+          "id": "la-sainte-cene",
+          "titre": "La Sainte Cène",
+          "resume": "Le pain et la coupe : se souvenir du sacrifice, proclamer sa mort, vivre la communion.",
+          "sections": [
+            {
+              "t": "L'origine : la Pâque accomplie",
+              "p": "La première Cène a eu lieu lors du repas de la Pâque juive, juste avant l'arrestation de Jésus. La Pâque commémorait la délivrance d'Égypte, quand le sang d'un agneau sur les portes avait sauvé les Israélites du jugement (Exode 12). Ce n'est pas un hasard si Jésus a choisi ce moment hautement symbolique : « Prenez, mangez, ceci est mon corps… Buvez-en tous, car ceci est mon sang, le sang de l'alliance, qui est répandu pour plusieurs, pour la rémission des péchés » (Matthieu 26.26-30). Il est l'Agneau de Dieu qui ôte le péché du monde (Jean 1.29), et il inaugure la nouvelle alliance promise par Jérémie : « Je mettrai ma loi au dedans d'eux, je l'écrirai dans leur cœur » (Jérémie 31.31-34)."
+            },
+            {
+              "t": "L'institution pour l'Église",
+              "p": "Paul a transmis la Cène à toutes les églises : « Toutes les fois que vous mangez ce pain et que vous buvez cette coupe, vous annoncez la mort du Seigneur, jusqu'à ce qu'il vienne » (1 Corinthiens 11.23-26). Avec le baptême, c'est l'un des deux seuls « sacrements » institués par le Seigneur dans le Nouveau Testament. Les premiers chrétiens « persévéraient… dans la fraction du pain » (Actes 2.42) : ce grand rendez-vous de l'église réunie. Les textes de référence : Matthieu 26.26-30, Marc 14.22-25, Luc 22.14-20 et 1 Corinthiens 11.23-26."
+            },
+            {
+              "t": "Le sens de la Cène",
+              "p": "Comme le baptême, la Cène nous tourne vers la croix : le pain évoque le corps crucifié de Jésus, le vin rappelle son sang répandu. En les prenant, nous nous rappelons le prix payé pour notre rachat, et nous proclamons aussi sa résurrection — car c'est en attendant son retour et le festin de l'Agneau que nous y participons (Luc 22.18 ; Apocalypse 19.9). La Cène n'est pas qu'un symbole : elle fait appel à notre foi. C'est par la foi que nous saisissons tout ce que le Seigneur nous a acquis à la croix : notre pardon, notre guérison, notre libération — « c'est par ses meurtrissures que nous sommes guéris » (Ésaïe 53.5). Le pain et le vin restent ce qu'ils sont, mais ils témoignent d'une réalité vivante : Jésus mort et ressuscité, réellement présent et vivant parmi nous."
+            },
+            {
+              "t": "Communion — et examen de soi",
+              "p": "Le mot « communion » indique que la Cène ne se prend pas à la légère : elle témoigne de notre communion avec Dieu ET avec nos frères. « Celui qui mangera le pain ou boira la coupe du Seigneur indignement sera coupable envers le corps et le sang du Seigneur. Que chacun donc s'éprouve soi-même » (1 Corinthiens 11.27-30). D'où l'appel de Jésus : si ton frère a quelque chose contre toi, va d'abord te réconcilier (Matthieu 5.23-24). Mais ce serait aussi une erreur de se priver continuellement de la Cène sans chercher à se mettre en règle : Dieu veut que nous nous rappelions le prix de notre salut."
+            },
+            {
+              "t": "Dans la liberté et l'amour",
+              "p": "La Bible ne fixe ni la fréquence ni la forme exacte de la célébration : chaque église l'adapte dans son contexte, selon le sens profond de la Cène. Ce serait une erreur de juger les chrétiens qui pratiquent différemment — la vie avec Dieu est avant tout affaire d'amour, d'obéissance et de foi. La Cène est un moyen, pas un but en soi : une invitation à se souvenir, à proclamer, et à vivre en communion avec Jésus-Christ et avec nos frères et sœurs, dans l'attente de son retour glorieux."
+            }
+          ],
+          "engagement": "Je m'engage à participer à la Sainte Cène avec foi, respect et gratitude, en me souvenant du sacrifice de Jésus-Christ pour le pardon de mes péchés. Je m'engage à examiner mon cœur, à me réconcilier avec mes frères et sœurs si nécessaire, et à prendre ce repas en communion avec Dieu et l'Église, dans l'attente de son retour glorieux.",
+          "application": [
+            "Approche-toi de la Cène avec foi et reconnaissance pour le sacrifice de Jésus",
+            "Prends le temps de confesser tes péchés avant d'y participer",
+            "Cherche la réconciliation avant de prendre part (Matthieu 5.23-24)",
+            "Médite les textes bibliques pour saisir le sens du pain et du vin",
+            "Participe régulièrement : ne néglige pas ce rendez-vous avec Dieu et l'Église"
+          ],
+          "quiz": [
+            {
+              "q": "Pendant quelle fête Jésus a-t-il institué la Cène ?",
+              "choix": [
+                "La fête des Tabernacles",
+                "La Pentecôte",
+                "La Pâque juive",
+                "Le sabbat"
+              ],
+              "bonne": 2,
+              "explication": "Le repas pascal commémorait la délivrance d'Égypte par le sang de l'agneau (Exode 12) — Jésus, l'Agneau de Dieu, y inaugure la nouvelle alliance."
+            },
+            {
+              "q": "Que représentent le pain et la coupe ?",
+              "choix": [
+                "La nourriture partagée entre frères",
+                "Le corps crucifié et le sang répandu de Jésus",
+                "La sagesse et la connaissance",
+                "L'Ancienne et la Nouvelle Alliance"
+              ],
+              "bonne": 1,
+              "explication": "« Ceci est mon corps… ceci est mon sang, le sang de l'alliance, répandu pour la rémission des péchés » (Matthieu 26.26-28)."
+            },
+            {
+              "q": "Que proclamons-nous en prenant la Cène ?",
+              "choix": [
+                "La mort du Seigneur, jusqu'à ce qu'il vienne",
+                "Notre appartenance à une dénomination",
+                "La fin des temps",
+                "Notre propre justice"
+              ],
+              "bonne": 0,
+              "explication": "1 Corinthiens 11.26 : « vous annoncez la mort du Seigneur, jusqu'à ce qu'il vienne » — mémoire ET espérance."
+            },
+            {
+              "q": "Que faire avant de participer à la Cène ?",
+              "choix": [
+                "Jeûner trois jours",
+                "S'éprouver soi-même et se réconcilier si nécessaire",
+                "Se confesser à un prêtre",
+                "Rien de particulier"
+              ],
+              "bonne": 1,
+              "explication": "« Que chacun s'éprouve soi-même » (1 Corinthiens 11.28) — et la réconciliation d'abord (Matthieu 5.23-24)."
+            },
+            {
+              "q": "Combien de « sacrements » le Seigneur a-t-il institués dans le Nouveau Testament ?",
+              "choix": [
+                "Sept",
+                "Trois",
+                "Deux : le baptême et la Cène",
+                "Aucun"
+              ],
+              "bonne": 2,
+              "explication": "Avec le baptême, la Sainte Cène est l'un des deux seuls sacrements institués par Jésus pour ses disciples."
+            }
+          ]
+        },
+        {
+          "id": "dimes-et-offrandes",
+          "titre": "Dîmes et offrandes",
+          "resume": "Donner avec joie : un acte d'adoration, de foi et de reconnaissance envers Dieu.",
+          "sections": [
+            {
+              "t": "Définition et origine",
+              "p": "Le mot « dîme » signifie littéralement « dixième partie ». Sa première mention : Abraham l'offre à Dieu en reconnaissance de sa victoire — « Et Abraham lui donna la dîme de tout » (Genèse 14.20). Plus tard, après le songe de l'échelle, Jacob fait le vœu : « Je te donnerai la dîme de tout ce que tu me donneras » (Genèse 28.20-22). Puis, dans la Loi donnée à Israël, la dîme devient un commandement : « Tu lèveras la dîme de tout ce que produira ta semence… afin que tu apprennes à craindre toujours l'Éternel, ton Dieu » (Deutéronome 14.22-23)."
+            },
+            {
+              "t": "Les raisons de la dîme",
+              "p": "Reconnaître la souveraineté de Dieu : tout vient de lui — la santé, le travail, la famille. Lui faire confiance : donner, même dans les circonstances difficiles, exprime une dépendance totale — « Apportez à la maison du trésor toutes les dîmes… mettez-moi de la sorte à l'épreuve, dit l'Éternel des armées, et vous verrez si je n'ouvre pas pour vous les écluses des cieux » (Malachie 3.10-12). Soutenir le service de Dieu : la dîme entretenait les Lévites consacrés au culte ; quand elle se relâchait, les serviteurs abandonnaient leur ministère et l'idolâtrie s'installait (2 Chroniques 29.9). S'y ajoutaient les offrandes volontaires pour des projets comme le tabernacle (Exode 35.21-29), et la générosité envers les pauvres (Exode 23.10-11)."
+            },
+            {
+              "t": "Jésus et la dîme",
+              "p": "Jésus n'a pas aboli la dîme, mais il a invité ses disciples à aller au-delà, en donnant avec un cœur sincère. Face au tronc du temple, il honore la pauvre veuve : « Cette pauvre veuve a donné plus que tous, car elle a donné tout ce qu'elle avait pour vivre » (Marc 12.41-44). La mesure du don véritable n'est pas la quantité, mais le cœur. Et le modèle suprême reste Dieu lui-même : « Vous connaissez la grâce de notre Seigneur Jésus-Christ : pour vous il s'est fait pauvre, de riche qu'il était, afin que par sa pauvreté vous soyez enrichis » (2 Corinthiens 8.9). Sous la grâce, il serait incohérent de donner moins que sous la Loi."
+            },
+            {
+              "t": "L'état d'esprit du donateur",
+              "p": "« Que chacun donne comme il l'a résolu en son cœur, sans tristesse ni contrainte ; car Dieu aime celui qui donne avec joie » (2 Corinthiens 9.7). Et avec discrétion : « Que ta main gauche ne sache pas ce que fait ta droite » (Matthieu 6.3-4). Donner est un acte de foi — celui qui donne reconnaît que Dieu pourvoira à ses besoins —, un soutien à l'œuvre de l'Église et des missions, et une source de joie et de louange (2 Corinthiens 9.13)."
+            },
+            {
+              "t": "L'exemple de l'Église primitive",
+              "p": "L'Église des premiers chrétiens était marquée par une générosité extraordinaire : « Tous ceux qui croyaient étaient ensemble et avaient tout en commun. Ils vendaient leurs propriétés et leurs biens, et ils en partageaient le produit entre tous, selon les besoins de chacun » (Actes 2.44-47). En adoptant cet esprit, nous témoignons de la bonté de Dieu : donner avec joie et dans l'amour est une manière concrète de le glorifier et de participer à l'avancement de son Royaume."
+            }
+          ],
+          "engagement": "Je m'engage à honorer Dieu avec mes dîmes et mes offrandes, en reconnaissant que tout ce que je possède vient de lui. Je m'engage à donner fidèlement et avec un cœur joyeux, non par obligation mais par amour, à soutenir l'œuvre de Dieu à travers l'Église et les besoins des plus démunis, et à vivre dans la générosité et la confiance en sa provision.",
+          "application": [
+            "Médite sur tout ce que Dieu te donne : c'est la source de la reconnaissance",
+            "Fixe un moment régulier pour mettre à part ta dîme et décider de tes offrandes",
+            "Donne avec joie, jamais par contrainte ou culpabilité (2 Corinthiens 9.7)",
+            "Prévois ta générosité dans ton budget, avec constance",
+            "Appuie-toi sur la foi, pas sur la peur : Dieu pourvoit (Malachie 3.10)",
+            "Sois généreux au-delà de l'argent : ton temps, tes talents, ton amour"
+          ],
+          "quiz": [
+            {
+              "q": "Que signifie le mot « dîme » ?",
+              "choix": [
+                "Un don volontaire",
+                "La dixième partie",
+                "Une taxe du temple",
+                "Le premier salaire"
+              ],
+              "bonne": 1,
+              "explication": "Littéralement « dixième partie » — pratiquée par Abraham (Genèse 14.20) bien avant la Loi."
+            },
+            {
+              "q": "Qui a donné la dîme en premier dans la Bible ?",
+              "choix": [
+                "Moïse",
+                "Jacob",
+                "Abraham",
+                "David"
+              ],
+              "bonne": 2,
+              "explication": "Abraham donna la dîme de tout après sa victoire (Genèse 14.20) ; Jacob fit ensuite le même vœu (Genèse 28.22)."
+            },
+            {
+              "q": "Dans Malachie 3.10, que promet Dieu à ceux qui apportent la dîme ?",
+              "choix": [
+                "Une longue vie",
+                "D'ouvrir les écluses des cieux et répandre la bénédiction",
+                "La richesse immédiate",
+                "La santé parfaite"
+              ],
+              "bonne": 1,
+              "explication": "« Mettez-moi de la sorte à l'épreuve… et vous verrez si je n'ouvre pas pour vous les écluses des cieux. »"
+            },
+            {
+              "q": "Qu'a enseigné Jésus avec la pauvre veuve ?",
+              "choix": [
+                "Qu'il faut donner tout son argent",
+                "Que les riches donnent toujours mieux",
+                "Que la valeur du don se mesure au cœur, pas au montant",
+                "Que le tronc du temple était inutile"
+              ],
+              "bonne": 2,
+              "explication": "« Elle a donné plus que tous » (Marc 12.43-44) : deux petites pièces, mais tout son cœur."
+            },
+            {
+              "q": "Comment Dieu veut-il que nous donnions ?",
+              "choix": [
+                "Avec joie, sans tristesse ni contrainte",
+                "Par obligation religieuse",
+                "En le faisant savoir à tous",
+                "Seulement quand tout va bien"
+              ],
+              "bonne": 0,
+              "explication": "« Dieu aime celui qui donne avec joie » (2 Corinthiens 9.7), dans la discrétion (Matthieu 6.3-4)."
+            }
+          ]
+        },
+        {
+          "id": "l-eglise",
+          "titre": "L'Église",
+          "resume": "Pas un bâtiment : le corps du Christ — universelle, locale, et ta place dedans.",
+          "sections": [
+            {
+              "t": "Église universelle, églises locales",
+              "p": "Dans le Nouveau Testament, le mot « église » ne désigne jamais un bâtiment. L'Église universelle regroupe tous les croyants de tous les temps et de tous lieux qui ont mis leur foi en Jésus-Christ — invisible aujourd'hui, connue de Dieu seul : « Le Seigneur connaît ceux qui lui appartiennent » (2 Timothée 2.19). Elle est l'Épouse de l'Agneau, qui sera présentée à Christ pure et glorieuse (Éphésiens 5.27). Les églises locales en sont les expressions visibles et imparfaites : les rassemblements des disciples dans un lieu précis pour le service de Dieu (1 Corinthiens 1.2)."
+            },
+            {
+              "t": "Jésus, la tête",
+              "p": "« Tu es Pierre, et sur cette pierre je bâtirai mon Église, et les portes du séjour des morts ne prévaudront point contre elle » (Matthieu 16.18). C'est Jésus qui bâtit son Église depuis la Pentecôte — « le Seigneur ajoutait chaque jour à l'Église ceux qui étaient sauvés » (Actes 2.47) — et il en est la tête (Colossiens 1.18). C'est la foi en Christ qui nous unit à cette Église, pas l'appartenance à une dénomination."
+            },
+            {
+              "t": "La raison d'être des églises locales",
+              "p": "Les premiers chrétiens se rassemblaient pour proclamer et enseigner la Parole, prier et célébrer la Sainte Cène, et partager l'amour fraternel (Matthieu 18.15-20). C'est grâce à la vie de ces communautés que l'Évangile s'est propagé si vite au premier siècle (1 Thessaloniciens 1.3-10). L'église locale est le lieu où l'on apprend à vivre l'amour fraternel — le témoignage le plus puissant : « À ceci tous connaîtront que vous êtes mes disciples, si vous avez de l'amour les uns pour les autres » (Jean 13.34-35)."
+            },
+            {
+              "t": "Une communauté imparfaite — et aimée",
+              "p": "Le Nouveau Testament ne cache pas les imperfections des églises : désordres et divisions (1 Corinthiens 11.20-22), paresse (2 Thessaloniciens 3.6-12), faux enseignements et querelles (Actes 20.29-30). L'Église est comparable à un hôpital spirituel, rempli de personnes imparfaites qui ont besoin de la grâce de Christ. Pourtant Jésus aime ses églises et ne recommande jamais de les abandonner : « N'abandonnons pas notre assemblée… mais exhortons-nous réciproquement » (Hébreux 10.25). Pour les conduire, Dieu établit des responsables : pasteurs appelés à nourrir le troupeau (Actes 20.28), anciens qui veillent avec humilité (1 Pierre 5.1-4), diacres chargés de l'entraide (1 Timothée 3.8-10)."
+            },
+            {
+              "t": "Les dons spirituels : ta place dans le corps",
+              "p": "Chaque chrétien reçoit des dons du Saint-Esprit pour édifier l'Église : l'église est un corps où chaque membre a un rôle vital (1 Corinthiens 12). Dans 1 Corinthiens 12.7-11 : la sagesse, la connaissance, la foi, les dons de guérison, les miracles, la prophétie, le discernement des esprits, les langues et leur interprétation. Dans Romains 12.6-8 : le service, l'enseignement, l'exhortation, le don de donner, la direction, la miséricorde. Et Dieu donne des ministères « pour le perfectionnement des saints » : apôtres, prophètes, évangélistes, pasteurs et docteurs (Éphésiens 4.11-16). La question n'est pas « ai-je un don ? » mais « lequel, et comment le mettre au service du corps ? »."
+            }
+          ],
+          "engagement": "Je m'engage à aimer, soutenir et participer activement à la vie de l'Église, en reconnaissant que je fais partie du corps de Christ. Je m'engage à utiliser les dons que le Saint-Esprit m'a confiés pour l'édification de l'Église, à persévérer dans la communion fraternelle, à vivre dans l'unité, et à respecter l'autorité spirituelle établie par Dieu.",
+          "application": [
+            "Assiste régulièrement aux cultes et aux réunions de prière",
+            "Implique-toi dans un ministère selon tes dons (louange, enseignement, entraide…)",
+            "Crée des relations authentiques : la vie d'Église continue au quotidien",
+            "Identifie tes dons spirituels — demande à Dieu de te les révéler, consulte tes responsables",
+            "Si un différend surgit, réconcilie-toi vite : bâtis des ponts, pas des murs",
+            "Prie pour tes pasteurs et encourage-les dans leur service"
+          ],
+          "quiz": [
+            {
+              "q": "Dans le Nouveau Testament, le mot « église » désigne…",
+              "choix": [
+                "Un bâtiment avec un clocher",
+                "La communauté des croyants",
+                "Une organisation administrative",
+                "Un lieu de pèlerinage"
+              ],
+              "bonne": 1,
+              "explication": "Jamais un bâtiment : l'Église universelle rassemble tous ceux qui croient en Christ, les églises locales en sont les expressions visibles."
+            },
+            {
+              "q": "Qui est la tête de l'Église ?",
+              "choix": [
+                "Le pasteur principal",
+                "L'apôtre Pierre",
+                "Jésus-Christ",
+                "L'assemblée des anciens"
+              ],
+              "bonne": 2,
+              "explication": "« Il est la tête du corps de l'Église » (Colossiens 1.18) — c'est lui qui la bâtit (Matthieu 16.18)."
+            },
+            {
+              "q": "Que faire face aux imperfections de l'église locale ?",
+              "choix": [
+                "L'abandonner pour en chercher une parfaite",
+                "Rester et s'exhorter réciproquement",
+                "Créer sa propre église",
+                "Pratiquer sa foi seul"
+              ],
+              "bonne": 1,
+              "explication": "« N'abandonnons pas notre assemblée… mais exhortons-nous réciproquement » (Hébreux 10.25). L'Église est un hôpital de graciés, pas un musée de parfaits."
+            },
+            {
+              "q": "À quoi servent les dons spirituels ?",
+              "choix": [
+                "À prouver sa spiritualité",
+                "À se distinguer des autres",
+                "À l'édification de l'Église et au service",
+                "À gagner de l'argent"
+              ],
+              "bonne": 2,
+              "explication": "Chaque membre a un rôle vital dans le corps (1 Corinthiens 12) : les dons sont donnés « pour l'utilité commune »."
+            },
+            {
+              "q": "À quoi reconnaîtra-t-on les disciples de Jésus ?",
+              "choix": [
+                "À leurs connaissances bibliques",
+                "À l'amour qu'ils ont les uns pour les autres",
+                "À leurs miracles",
+                "À leur assiduité aux cultes"
+              ],
+              "bonne": 1,
+              "explication": "« À ceci tous connaîtront que vous êtes mes disciples, si vous avez de l'amour les uns pour les autres » (Jean 13.34-35)."
+            }
+          ]
+        },
+        {
+          "id": "la-nouvelle-vie",
+          "titre": "La nouvelle vie du chrétien",
+          "resume": "Les quatre piliers d'Actes 2.42 — et une vie entière qui témoigne de Christ.",
+          "sections": [
+            {
+              "t": "Le modèle de l'Église primitive",
+              "p": "« Ils persévéraient dans l'enseignement des apôtres, dans la communion fraternelle, dans la fraction du pain et dans les prières » (Actes 2.42). Ces quatre domaines fondamentaux reflètent un engagement profond envers Dieu et sa communauté — c'est le programme de la nouvelle vie du chrétien."
+            },
+            {
+              "t": "1. L'enseignement : la Parole",
+              "p": "Les nouveaux croyants étaient immédiatement plongés dans l'enseignement des apôtres. Un chrétien sans enseignement biblique solide est comme une maison sans fondations : il vacille face aux modes spirituelles et aux fausses doctrines. Jésus a commandé : « Enseignez-leur à observer tout ce que je vous ai prescrit » (Matthieu 28.20). Cet enseignement se trouve dans la Bible, Parole de Dieu inspirée : « Toute Écriture est inspirée de Dieu, et utile pour enseigner, pour convaincre, pour corriger, pour instruire dans la justice » (2 Timothée 3.16-17). D'où le besoin d'un contact régulier avec elle : « Désirez, comme des enfants nouveau-nés, le lait spirituel et pur, afin que par lui vous croissiez » (1 Pierre 2.2)."
+            },
+            {
+              "t": "2. La communion fraternelle",
+              "p": "Bien plus que des relations amicales : une union spirituelle par le Saint-Esprit — les croyants sont membres d'une même famille (Éphésiens 4.25) — fondée sur la communion avec Dieu lui-même (1 Jean 1.3). Elle se manifeste par l'attention aux besoins des autres, la générosité, l'hospitalité et la participation à la vie de l'église : « Ils prenaient leur nourriture avec joie et simplicité de cœur… Et le Seigneur ajoutait chaque jour à l'Église ceux qui étaient sauvés » (Actes 2.46-47). Elle console dans les épreuves et témoigne puissamment auprès de ceux qui ne connaissent pas Jésus."
+            },
+            {
+              "t": "3 & 4. La fraction du pain et la prière",
+              "p": "La fraction du pain — la Sainte Cène — maintient la croix au centre de la vie de l'église (voir la leçon 4). Et la prière : « Priez sans cesse » (1 Thessaloniciens 5.17). Pas une récitation, mais une conversation sincère avec Dieu, le dialogue d'un enfant avec son Père : « Quand tu pries, entre dans ta chambre, ferme ta porte, et prie ton Père qui est là dans le lieu secret » (Matthieu 6.6). Quelqu'un a dit : la prière, c'est la respiration de l'âme. Animée par le Saint-Esprit (Romains 8.26), elle inclut l'adoration, la louange, la confession, la reconnaissance, l'intercession et même le combat spirituel."
+            },
+            {
+              "t": "Disciple en tout : témoignage, biens, temps",
+              "p": "La vie des premiers chrétiens était radicalement différente : on reconnaissait « qu'ils avaient été avec Jésus » (Actes 4.13). Le disciple témoigne par sa vie ET par ses paroles : « Allez, faites de toutes les nations des disciples » (Matthieu 28.19-20) — chaque chrétien est un missionnaire dans son quotidien. Il gère ses biens comme un intendant : « Vous ne vous appartenez point à vous-mêmes, car vous avez été rachetés à un grand prix » (1 Corinthiens 6.19-20). Et son temps appartient aussi à Dieu : « Enseigne-nous à bien compter nos jours » (Psaumes 90.12), « rachetez le temps, car les jours sont mauvais » (Éphésiens 5.15-16). « J'ai été crucifié avec Christ ; et si je vis, ce n'est plus moi qui vis, c'est Christ qui vit en moi » (Galates 2.20)."
+            }
+          ],
+          "engagement": "Je m'engage à vivre une vie transformée par la grâce de Dieu : à persévérer dans la lecture et l'étude de sa Parole, à cultiver une vie de prière sincère et régulière, à entretenir la communion fraternelle, à être un témoin fidèle de Jésus-Christ par ma vie et mes paroles, et à consacrer mes ressources, mon temps et mes talents à son service.",
+          "application": [
+            "Routine quotidienne avec Dieu : un temps de prière et de Bible chaque jour",
+            "Participe à l'église et rejoins un groupe pour des échanges plus personnels",
+            "Note un principe biblique chaque semaine et applique-le concrètement",
+            "Sois attentif aux besoins autour de toi : généreux de ton temps et de tes ressources",
+            "Parle naturellement de Dieu et invite des amis à l'église",
+            "Fais régulièrement le bilan pour rester sur la bonne voie (Philippiens 4.9)"
+          ],
+          "quiz": [
+            {
+              "q": "Quels sont les quatre piliers d'Actes 2.42 ?",
+              "choix": [
+                "Jeûne, retraite, silence, étude",
+                "Enseignement, communion fraternelle, fraction du pain, prières",
+                "Louange, offrande, baptême, mission",
+                "Lecture, méditation, mémorisation, partage"
+              ],
+              "bonne": 1,
+              "explication": "« Ils persévéraient dans l'enseignement des apôtres, dans la communion fraternelle, dans la fraction du pain et dans les prières. »"
+            },
+            {
+              "q": "À quoi ressemble un chrétien sans enseignement biblique solide ?",
+              "choix": [
+                "À un athlète au repos",
+                "À une maison sans fondations",
+                "À un arbre en hiver",
+                "À un livre fermé"
+              ],
+              "bonne": 1,
+              "explication": "Il vacille face aux modes spirituelles et aux fausses doctrines ; la Parole est le squelette de la foi (2 Timothée 3.16-17)."
+            },
+            {
+              "q": "Qu'est-ce que la prière chrétienne ?",
+              "choix": [
+                "Une récitation de formules",
+                "Une conversation sincère avec son Père céleste",
+                "Un exercice réservé aux pasteurs",
+                "Une pratique du dimanche"
+              ],
+              "bonne": 1,
+              "explication": "« Prie ton Père qui est là dans le lieu secret » (Matthieu 6.6) — la respiration de l'âme, animée par l'Esprit (Romains 8.26)."
+            },
+            {
+              "q": "Comment le chrétien doit-il considérer ses biens et son temps ?",
+              "choix": [
+                "Comme sa propriété exclusive",
+                "Comme sans importance",
+                "Comme confiés par Dieu, à gérer pour sa gloire",
+                "Comme un fardeau"
+              ],
+              "bonne": 2,
+              "explication": "« Vous avez été rachetés à un grand prix » (1 Corinthiens 6.19-20) ; « rachetez le temps » (Éphésiens 5.16) — nous sommes des intendants."
+            },
+            {
+              "q": "Comment le disciple témoigne-t-il de Jésus ?",
+              "choix": [
+                "Uniquement par ses paroles",
+                "Uniquement par son comportement",
+                "Par sa vie ET ses paroles",
+                "En gardant sa foi privée"
+              ],
+              "bonne": 2,
+              "explication": "Un témoignage visible — on reconnaissait « qu'ils avaient été avec Jésus » (Actes 4.13) — et verbal (Matthieu 28.19-20)."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

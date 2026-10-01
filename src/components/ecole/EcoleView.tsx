@@ -56,7 +56,7 @@ export function EcoleView() {
 
       <main className="container-x relative mx-auto mt-8 max-w-2xl">
         {/* ——— Formation vedette (affiche) ——— */}
-        <section className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-br from-[#2E3A14] via-night-900 to-night-950 p-6 shadow-card">
+        <Link href="/ecole/fondamentaux" className="relative block overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-br from-[#2E3A14] via-night-900 to-night-950 p-6 shadow-card transition-transform active:scale-[0.99]">
           {/* Toque en filigrane */}
           <svg
             viewBox="0 0 24 24"
@@ -68,22 +68,22 @@ export function EcoleView() {
           </svg>
           <p className="inline-flex items-center gap-2 rounded-full bg-dawn-400/15 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-dawn-300">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-dawn-400" />
-            Formation · bientôt
+            Formation · 7 leçons
           </p>
           <h2 className="mt-3 max-w-[16rem] font-display text-[1.7rem] font-extrabold leading-tight">
             Les fondamentaux de la foi chrétienne
           </h2>
           <p className="mt-2 max-w-sm text-sm leading-relaxed text-cream/65">
-            Un parcours en leçons avec quiz de validation, un badge à la clé — et l&apos;e-book
-            offert quand tu termines.
+            Par Josy W. Brunet. Quiz de validation à chaque leçon — et l&apos;e-book offert
+            quand tu termines.
           </p>
-          <div className="mt-4 flex items-center gap-2 text-xs font-bold text-cream/45">
-            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2}>
-              <path d="M6 10V8a6 6 0 0 1 12 0v2M5 10h14v10H5z" strokeLinecap="round" strokeLinejoin="round" />
+          <span className="mt-4 inline-flex items-center gap-2 rounded-full bg-dawn-400 px-5 py-2.5 font-display text-sm font-bold text-night-950">
+            Commencer
+            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.4}>
+              <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-            Ouverture prochainement
-          </div>
-        </section>
+          </span>
+        </Link>
 
         {/* ——— L'assistant : la carte qui claque ——— */}
         <Link
