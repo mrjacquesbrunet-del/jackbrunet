@@ -39,7 +39,6 @@ const OUTILS: { id: Outil; label: (at: boolean) => string; lettre: (at: boolean)
   { id: "interpretation", label: () => "Interprétation", lettre: () => "I", couleur: "#60A5FA" },
   { id: "commentaire", label: () => "Commentaire", lettre: () => "M", couleur: "#A78BFA" },
   { id: "fiches", label: () => "Qui & où", lettre: () => "P", couleur: "#CAF000" },
-  { id: "question", label: () => "Question", lettre: () => "?", couleur: "#FB923C" },
 ];
 
 export function VersetOutils({
@@ -293,7 +292,7 @@ export function VersetOutils({
 
         {/* L'onglet Étudier garde la grille d'outils ronds */}
         {onglet === "etudier" ? (
-          <div className="grid grid-cols-7 gap-1 border-b border-white/10 px-3 py-3">
+          <div className="grid grid-cols-6 gap-1 border-b border-white/10 px-3 py-3">
             {OUTILS.map((o) => {
               const actif = outil === o.id;
               const ok = dispo(o.id);
@@ -319,6 +318,41 @@ export function VersetOutils({
                 </button>
               );
             })}
+          </div>
+        ) : null}
+
+        {/* Pose ta question : bouton dédié sous la rangée d'outils */}
+        {onglet === "etudier" ? (
+          <div className="border-b border-white/10 px-4 py-2.5">
+            <button
+              type="button"
+              onClick={() => setOutil("question")}
+              className={`flex w-full items-center gap-3 rounded-2xl border px-3.5 py-2.5 text-left transition-colors ${
+                outil === "question"
+                  ? "border-[#FB923C] bg-[#FB923C]/15"
+                  : "border-white/10 bg-white/[0.05]"
+              }`}
+            >
+              <span
+                className="grid h-8 w-8 shrink-0 place-items-center rounded-full border-2 font-display text-sm font-extrabold"
+                style={
+                  outil === "question"
+                    ? { borderColor: "#FB923C", backgroundColor: "#FB923C", color: "#0C0C0B" }
+                    : { borderColor: "#FB923C88", color: "#FB923C" }
+                }
+              >
+                ?
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className={`block text-sm font-bold ${outil === "question" ? "text-cream" : "text-cream/85"}`}>
+                  Tu as une question sur ce verset ?
+                </span>
+                <span className="block text-xs text-cream/50">Pose-la directement — l'assistant répond.</span>
+              </span>
+              <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 fill-none stroke-cream/40" strokeWidth={2}>
+                <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
           </div>
         ) : null}
 

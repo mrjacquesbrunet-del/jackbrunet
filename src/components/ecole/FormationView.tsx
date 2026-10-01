@@ -474,10 +474,12 @@ function LeconView({
   const [onglet, setOnglet] = useState<OngletLecon>("contenu");
   const [quizOn, setQuizOn] = useState(false);
   const [valide, setValide] = useState(dejaValidee);
+  // Parcours guidé : 1. lire la leçon → 2. temps de réflexion → 3. quiz.
+  const [etape, setEtape] = useState<"lecon" | "reflexion">("lecon");
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [quizOn, onglet]);
+  }, [quizOn, onglet, etape]);
 
   if (quizOn) {
     return (
@@ -547,6 +549,43 @@ function LeconView({
       <main className="container-x mx-auto max-w-2xl pt-5">
         {onglet === "contenu" ? (
           <>
+            {/* Parcours de la leçon : Leçon → Réflexion → Quiz */}
+            <div className="mb-5 flex items-center gap-1.5">
+              {(
+                [
+                  ["Leçon", etape === "lecon", true],
+                  ["Réflexion", etape === "reflexion", etape === "reflexion" || valide],
+                  ["Quiz", false, valide],
+                ] as [string, boolean, boolean][]
+              ).map(([label, courante, atteinte], i) => (
+                <div key={label} className="flex flex-1 items-center gap-1.5">
+                  <div
+                    className={`flex flex-1 items-center justify-center gap-1.5 rounded-full py-1.5 text-[11px] font-black uppercase tracking-wide ${
+                      courante
+                        ? "bg-dawn-400 text-night-950"
+                        : atteinte
+                          ? "bg-dawn-50 text-[#5F7A00]"
+                          : "bg-night-900/[0.05] text-night-900/40"
+                    }`}
+                  >
+                    <span>{i + 1}</span>
+                    {label}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {etape === "reflexion" ? (
+              <ReflexionLecon
+                formation={formation}
+                lecon={lecon}
+                numero={numero}
+                valide={valide}
+                onQuiz={() => setQuizOn(true)}
+                onRetour={() => setEtape("lecon")}
+              />
+            ) : (
+              <>
             {lecon.image ? <LeconHero src={lecon.image} /> : null}
 
             {/* Chapitres de la leçon */}
@@ -598,45 +637,18 @@ function LeconView({
                   </div>
                 </section>
               ))}
-
-              {/* Mon engagement */}
-              <section className="rounded-3xl border border-dawn-400/60 bg-dawn-50 p-5">
-                <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#5F7A00]">Mon engagement</p>
-                <div className="mt-2 space-y-3">
-                  {lecon.engagement.split("\n\n").map((par, i) => (
-                    <p key={i} className="text-[15px] leading-relaxed text-night-900/85">{par}</p>
-                  ))}
-                </div>
-              </section>
-
-              {/* Comment l'appliquer */}
-              <section className="rounded-3xl border border-night-900/10 bg-white p-5">
-                <p className="text-[11px] font-black uppercase tracking-[0.18em] text-night-900/50">
-                  Comment l&apos;appliquer ?
-                </p>
-                <ul className="mt-2.5 space-y-2">
-                  {lecon.application.map((a) => (
-                    <li key={a} className="flex items-start gap-2.5 text-sm leading-snug text-night-900/80">
-                      <svg viewBox="0 0 24 24" className="mt-0.5 h-4 w-4 shrink-0 fill-none stroke-[#5F7A00]" strokeWidth={2.4}>
-                        <path d="M5 12l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                      {a}
-                    </li>
-                  ))}
-                </ul>
-              </section>
             </div>
 
-            {/* Quiz + navigation */}
+            {/* Fin de la lecture → temps de réflexion */}
             <button
               type="button"
-              onClick={() => setQuizOn(true)}
+              onClick={() => setEtape("reflexion")}
               className="mt-6 w-full rounded-full bg-dawn-400 py-3.5 font-display text-base font-bold text-night-950 shadow-[0_12px_30px_-12px_rgba(140,170,0,0.6)]"
             >
-              {valide ? "Refaire le quiz" : "Valider la leçon — quiz"}
+              J&apos;ai lu la leçon — temps de réflexion
             </button>
             <p className="mt-2 text-center text-xs text-night-900/45">
-              {lecon.quiz.length} questions · {SEUIL} bonnes réponses pour valider
+              Puis un quiz de {lecon.quiz.length} questions · {SEUIL} bonnes réponses pour débloquer la suite
             </p>
             <div className="mt-4 flex gap-2.5">
               {onPrev ? (
@@ -658,6 +670,8 @@ function LeconView({
                 </button>
               ) : null}
             </div>
+              </>
+            )}
           </>
         ) : onglet === "notes" ? (
           <NotesLecon formation={formation} lecon={lecon} numero={numero} />
@@ -666,6 +680,115 @@ function LeconView({
         )}
       </main>
     </div>
+  );
+}
+
+/* ——— Étape 2 du parcours : le temps de réflexion avant le quiz ——— */
+function ReflexionLecon({
+  formation,
+  lecon,
+  numero,
+  valide,
+  onQuiz,
+  onRetour,
+}: {
+  formation: Formation;
+  lecon: Lecon;
+  numero: number;
+  valide: boolean;
+  onQuiz: () => void;
+  onRetour: () => void;
+}) {
+  const [texte, setTexte] = useState("");
+  const [ok, setOk] = useState(false);
+  return (
+    <>
+      <div className="space-y-6">
+        <section className="rounded-3xl border border-night-900/10 bg-white p-5">
+          <p className="text-[11px] font-black uppercase tracking-[0.18em] text-night-900/50">Temps de réflexion</p>
+          <p className="mt-2 text-[15px] leading-relaxed text-night-900/85">
+            Avant le quiz, prends un moment de calme. Relis l&apos;engagement de cette
+            leçon, regarde comment l&apos;appliquer concrètement, et confie à Dieu ce que
+            tu viens de lire.
+          </p>
+        </section>
+
+        {/* Mon engagement */}
+        <section className="rounded-3xl border border-dawn-400/60 bg-dawn-50 p-5">
+          <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#5F7A00]">Mon engagement</p>
+          <div className="mt-2 space-y-3">
+            {lecon.engagement.split("\n\n").map((par, i) => (
+              <p key={i} className="text-[15px] leading-relaxed text-night-900/85">{par}</p>
+            ))}
+          </div>
+        </section>
+
+        {/* Comment l'appliquer */}
+        <section className="rounded-3xl border border-night-900/10 bg-white p-5">
+          <p className="text-[11px] font-black uppercase tracking-[0.18em] text-night-900/50">
+            Comment l&apos;appliquer ?
+          </p>
+          <ul className="mt-2.5 space-y-2">
+            {lecon.application.map((a) => (
+              <li key={a} className="flex items-start gap-2.5 text-sm leading-snug text-night-900/80">
+                <svg viewBox="0 0 24 24" className="mt-0.5 h-4 w-4 shrink-0 fill-none stroke-[#5F7A00]" strokeWidth={2.4}>
+                  <path d="M5 12l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                {a}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* Ma réflexion personnelle */}
+        <section className="rounded-3xl border border-night-900/10 bg-white p-5">
+          <p className="text-[11px] font-black uppercase tracking-[0.18em] text-night-900/50">Ma réflexion</p>
+          <textarea
+            value={texte}
+            onChange={(e) => setTexte(e.target.value)}
+            rows={4}
+            placeholder="Ce que Dieu me montre dans cette leçon…"
+            className="mt-2.5 w-full resize-y rounded-2xl border border-night-900/15 bg-[#FAFAF6] px-3.5 py-3 text-[15px] text-night-900 placeholder:text-night-900/35 focus:outline-none"
+          />
+          <button
+            type="button"
+            disabled={!texte.trim()}
+            onClick={() => {
+              addNote({
+                category: "Note",
+                title: `${formation.titre} — Réflexion leçon ${numero} : ${lecon.titre}`,
+                body: texte.trim(),
+              });
+              setTexte("");
+              setOk(true);
+              setTimeout(() => setOk(false), 2500);
+            }}
+            className="mt-3 rounded-full border border-night-900/15 px-5 py-2.5 font-display text-sm font-bold text-night-900/75 disabled:opacity-40"
+          >
+            Garder dans mon carnet
+          </button>
+          {ok ? <p className="mt-2 text-sm font-semibold text-[#5F7A00]">Réflexion enregistrée.</p> : null}
+        </section>
+      </div>
+
+      <button
+        type="button"
+        onClick={onQuiz}
+        className="mt-6 w-full rounded-full bg-dawn-400 py-3.5 font-display text-base font-bold text-night-950 shadow-[0_12px_30px_-12px_rgba(140,170,0,0.6)]"
+      >
+        {valide ? "Refaire le quiz" : "Passer au quiz"}
+      </button>
+      <p className="mt-2 text-center text-xs text-night-900/45">
+        {lecon.quiz.length} questions · {SEUIL} bonnes réponses pour valider la leçon
+      </p>
+      <button
+        type="button"
+        onClick={onRetour}
+        className="mt-4 w-full rounded-full border border-night-900/15 bg-white py-3 font-display text-sm font-bold text-night-900/70"
+      >
+        Revenir à la leçon
+      </button>
+    </>
   );
 }
 
