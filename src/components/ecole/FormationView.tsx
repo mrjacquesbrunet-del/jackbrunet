@@ -181,23 +181,41 @@ export function FormationView({ formationId }: { formationId: string }) {
           </svg>
         </Link>
 
-        {formation.cover ? (
-          <div className="relative mt-4 aspect-[16/10] overflow-hidden rounded-3xl">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+        <div className="relative mt-4 overflow-hidden rounded-3xl">
+          {formation.cover ? (
+            // eslint-disable-next-line @next/next/no-img-element
             <img src={asset(formation.cover)} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover object-top" />
-          </div>
-        ) : null}
-
-        <h1 className="mt-5 font-display text-[1.7rem] font-extrabold leading-tight">{formation.titre}</h1>
-        <p className="mt-2 text-[15px] leading-relaxed text-night-900/70">{formation.accroche}</p>
-
-        {/* Méta */}
-        <div className="mt-4 flex flex-wrap gap-2">
-          {[`${total} leçons`, `≈ ${Math.floor(dureeTotale / 60)}h${String(dureeTotale % 60).padStart(2, "0")}`, "Débutant"].map((m) => (
-            <span key={m} className="rounded-full border border-night-900/12 bg-white px-3.5 py-1.5 text-xs font-bold text-night-900/75">
-              {m}
+          ) : null}
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-night-950/95 via-night-950/55 to-night-950/25" />
+          {userId && done.length > 0 ? (
+            <div className="absolute right-4 top-4 grid h-20 w-20 place-items-center">
+              <svg viewBox="0 0 80 80" className="absolute inset-0 h-full w-full -rotate-90">
+                <circle cx="40" cy="40" r="34" fill="rgba(12,12,11,0.5)" stroke="rgba(255,255,255,0.2)" strokeWidth="6" />
+                <circle
+                  cx="40" cy="40" r="34" fill="none" stroke="#CAF000" strokeWidth="6" strokeLinecap="round"
+                  strokeDasharray={`${(percent / 100) * 213.6} 213.6`}
+                />
+              </svg>
+              <p className="relative text-center font-display text-sm font-extrabold leading-none text-white">
+                {percent}%
+                <span className="block text-[9px] font-bold text-white/60">terminé</span>
+              </p>
+            </div>
+          ) : null}
+          <div className="relative p-5 pt-24">
+            <span className="inline-block rounded-full bg-dawn-400 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-night-950">
+              Formation
             </span>
-          ))}
+            <h1 className="mt-2.5 font-display text-[1.7rem] font-extrabold leading-tight text-white">{formation.titre}</h1>
+            <p className="mt-1.5 max-w-md text-sm leading-relaxed text-white/80">{formation.accroche}</p>
+            <div className="mt-3.5 flex flex-wrap gap-2">
+              {[`${total} leçons`, `≈ ${Math.floor(dureeTotale / 60)}h${String(dureeTotale % 60).padStart(2, "0")}`, "Débutant"].map((m) => (
+                <span key={m} className="rounded-full bg-white/15 px-3 py-1.5 text-xs font-bold text-white backdrop-blur">
+                  {m}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* CTA */}
@@ -208,7 +226,7 @@ export function FormationView({ formationId }: { formationId: string }) {
               onClick={() => setOpenLesson(current)}
               className="mt-5 w-full rounded-full bg-dawn-400 py-3.5 font-display text-base font-bold text-night-950 shadow-[0_12px_30px_-12px_rgba(140,170,0,0.6)]"
             >
-              {done.length === 0 ? "Commencer la formation" : `Continuer — leçon ${current}`}
+              {done.length === 0 ? "Commencer la formation" : "Reprendre la formation"}
             </button>
           ) : (
             <button
@@ -231,20 +249,73 @@ export function FormationView({ formationId }: { formationId: string }) {
           </div>
         )}
 
-        {/* À propos */}
-        <div className="mt-6 rounded-3xl border border-night-900/10 bg-white p-5">
-          <h2 className="font-display text-base font-extrabold">À propos de cette formation</h2>
-          <p className="mt-2 text-sm leading-relaxed text-night-900/70">{formation.intro}</p>
-          <div className="mt-3 space-y-1.5">
+        {/* Ce que tu vas apprendre */}
+        <div className="mt-5 rounded-3xl bg-dawn-400/20 p-5">
+          <div className="flex items-center gap-2.5">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950">
+              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.9}>
+                <path d="M12 3a6 6 0 0 0-3.5 10.9c.7.5 1 1.3 1 2.1h5c0-.8.3-1.6 1-2.1A6 6 0 0 0 12 3zM10 19h4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
+            <h2 className="font-display text-base font-extrabold">Ce que tu vas apprendre</h2>
+          </div>
+          <div className="mt-3 space-y-2">
             {formation.objectifs.map((o) => (
-              <p key={o} className="flex items-start gap-2 text-sm text-night-900/75">
-                <svg viewBox="0 0 24 24" className="mt-0.5 h-4 w-4 shrink-0 fill-none stroke-[#5F7A00]" strokeWidth={2.4}>
-                  <path d="M5 12l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+              <p key={o} className="flex items-start gap-2.5 text-sm font-semibold text-night-900/85">
+                <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950">
+                  <svg viewBox="0 0 24 24" className="h-3 w-3 fill-none stroke-current" strokeWidth={3.2}>
+                    <path d="M5 12l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
                 {o}
               </p>
             ))}
           </div>
+        </div>
+
+        {/* Les prochaines étapes */}
+        <div className="mt-5 rounded-3xl border border-night-900/10 bg-white p-5">
+          <h2 className="font-display text-base font-extrabold">Les prochaines étapes</h2>
+          <div className="mt-4 flex items-start">
+            {[
+              ["Commencer", done.length > 0],
+              ["Suivre les leçons", complete],
+              ["Réussir les quiz", complete],
+              ["Recevoir l'e-book", complete],
+            ].map(([label, fait], i, arr) => (
+              <div key={label as string} className="flex flex-1 flex-col items-center text-center">
+                <div className="flex w-full items-center">
+                  <span className={`h-0.5 flex-1 ${i === 0 ? "bg-transparent" : fait || (arr[i - 1] && arr[i - 1][1]) ? "bg-dawn-400" : "bg-night-900/10"}`} />
+                  <span
+                    className={`grid h-9 w-9 shrink-0 place-items-center rounded-full font-display text-sm font-extrabold ${
+                      fait ? "bg-dawn-400 text-night-950" : "bg-night-900/[0.07] text-night-900/60"
+                    }`}
+                  >
+                    {i + 1}
+                  </span>
+                  <span className={`h-0.5 flex-1 ${i === arr.length - 1 ? "bg-transparent" : fait ? "bg-dawn-400" : "bg-night-900/10"}`} />
+                </div>
+                <span className={`mt-1.5 text-[11px] font-bold leading-tight ${fait ? "text-[#5F7A00]" : "text-night-900/55"}`}>
+                  {label as string}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Un mot pour toi */}
+        <div className="mt-3 rounded-3xl border-l-4 border-dawn-400 bg-white p-4">
+          <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#5F7A00]">Un mot pour toi</p>
+          <p className="mt-1.5 text-[15px] italic leading-relaxed text-night-900/85">
+            « Ta parole est une lampe à mes pieds, une lumière sur mon sentier. »
+          </p>
+          <p className="mt-1 text-xs font-bold text-night-900/50">Psaumes 119.105</p>
+        </div>
+
+        {/* À propos */}
+        <div className="mt-3 rounded-3xl border border-night-900/10 bg-white p-5">
+          <h2 className="font-display text-base font-extrabold">À propos de cette formation</h2>
+          <p className="mt-2 text-sm leading-relaxed text-night-900/70">{formation.intro}</p>
           {/* L'autrice */}
           <div className="mt-4 flex items-center gap-3 border-t border-night-900/10 pt-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -436,7 +507,7 @@ function LeconView({
             {valide ? <CheckCircle className="h-7 w-7 shrink-0" /> : null}
           </div>
           {/* Onglets */}
-          <div className="mt-2.5 flex gap-5 text-sm font-bold">
+          <div className="mt-2.5 flex rounded-full bg-night-900/[0.06] p-1 text-sm font-bold">
             {(
               [
                 ["contenu", "Contenu"],
@@ -448,8 +519,8 @@ function LeconView({
                 key={t}
                 type="button"
                 onClick={() => setOnglet(t)}
-                className={`border-b-2 pb-1.5 transition-colors ${
-                  onglet === t ? "border-dawn-400 text-night-900" : "border-transparent text-night-900/45"
+                className={`flex-1 rounded-full py-2 transition-colors ${
+                  onglet === t ? "bg-dawn-400 text-night-950" : "text-night-900/50"
                 }`}
               >
                 {label}
@@ -463,9 +534,40 @@ function LeconView({
         {onglet === "contenu" ? (
           <>
             {lecon.image ? <LeconHero src={lecon.image} /> : null}
+
+            {/* Chapitres de la leçon */}
+            <div className="mb-5 rounded-3xl border border-night-900/10 bg-white p-4">
+              <div className="flex items-center justify-between px-1">
+                <h2 className="font-display text-base font-extrabold">Chapitres de la leçon</h2>
+                <span className="text-xs font-bold text-night-900/50">{lecon.sections.length} parties</span>
+              </div>
+              <div className="mt-2.5 space-y-1.5">
+                {lecon.sections.map((sec, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => document.getElementById(`lecon-sec-${i}`)?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                    className="flex w-full items-center gap-3 rounded-2xl bg-night-900/[0.04] px-3 py-2.5 text-left"
+                  >
+                    <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-white text-night-900">
+                      <svg viewBox="0 0 24 24" className="h-3 w-3 fill-current stroke-none">
+                        <path d="M8 5.5v13l11-6.5z" />
+                      </svg>
+                    </span>
+                    <span className="min-w-0 flex-1 truncate text-sm font-bold text-night-900/85">
+                      {i + 1}. {sec.t}
+                    </span>
+                    <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 fill-none stroke-night-900/30" strokeWidth={2}>
+                      <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div className="space-y-6">
               {lecon.sections.map((s, i) => (
-                <section key={i} className="rounded-3xl border border-night-900/10 bg-white p-5">
+                <section key={i} id={`lecon-sec-${i}`} className="scroll-mt-28 rounded-3xl border border-night-900/10 bg-white p-5">
                   <h2 className="font-display text-[17px] font-extrabold leading-snug">
                     {i + 1}. {s.t}
                   </h2>
