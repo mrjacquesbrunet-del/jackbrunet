@@ -220,16 +220,20 @@ function LeconAudio({ formationId, leconId }: { formationId: string; leconId: st
         a.src = u;
       });
     (async () => {
-      const found: string[] = [];
-      // D'abord les segments -1, -2, … puis, à défaut, le fichier unique.
-      for (let i = 1; i <= 12; i++) {
-        const u = audioLeconUrl(formationId, leconId, i);
-        if (u && (await existe(u))) found.push(u);
-        else break;
-      }
-      if (!found.length) {
-        const u = audioLeconUrl(formationId, leconId);
-        if (u && (await existe(u))) found.push(u);
+      let found: string[] = [];
+      // Deux emplacements possibles : formations/<id>/ puis la racine du bucket.
+      for (const racine of [false, true]) {
+        // D'abord les segments -1, -2, … puis, à défaut, le fichier unique.
+        for (let i = 1; i <= 12; i++) {
+          const u = audioLeconUrl(formationId, leconId, i, racine);
+          if (u && (await existe(u))) found.push(u);
+          else break;
+        }
+        if (!found.length) {
+          const u = audioLeconUrl(formationId, leconId, undefined, racine);
+          if (u && (await existe(u))) found.push(u);
+        }
+        if (found.length) break;
       }
       if (actif) setParts(found);
     })();
