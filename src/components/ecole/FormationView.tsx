@@ -12,6 +12,7 @@ import { newsletterEndpointForSource } from "@/config/brevo";
 import { askAssistant } from "@/lib/assistant";
 import {
   audioLeconUrl,
+  audioRacineUrl,
   ebookUrl,
   getFormation,
   listFormationProgress,
@@ -202,7 +203,9 @@ function Vignette({ src }: { src: string }) {
 /** Carte « Écouter la leçon » : la narration audio si elle existe dans le
  * bucket (formations/<formation>/<leçon>.mp3) — sinon rien. Sondée après
  * montage, comme les images. */
-function LeconAudio({ formationId, leconId }: { formationId: string; leconId: string }) {
+function LeconAudio({ formationId, lecon }: { formationId: string; lecon: Lecon }) {
+  const leconId = lecon.id;
+  const manifeste = lecon.audio;
   const [parts, setParts] = useState<string[]>([]);
   const [idx, setIdx] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -221,6 +224,17 @@ function LeconAudio({ formationId, leconId }: { formationId: string; leconId: st
       });
     (async () => {
       let found: string[] = [];
+      // 1) Le manifeste de la leçon (noms exacts des fichiers déposés) :
+      // on garde, dans l'ordre, ceux qui existent réellement.
+      if (manifeste?.length) {
+        for (const nom of manifeste) {
+          const u = audioRacineUrl(nom);
+          if (u && (await existe(u))) found.push(u);
+        }
+        if (actif) setParts(found);
+        return;
+      }
+      // 2) Sinon, sondage par convention de nommage.
       // Deux emplacements possibles : formations/<id>/ puis la racine du bucket.
       for (const racine of [false, true]) {
         // D'abord les segments -1, -2, … puis, à défaut, le fichier unique.
@@ -240,6 +254,7 @@ function LeconAudio({ formationId, leconId }: { formationId: string; leconId: st
     return () => {
       actif = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formationId, leconId]);
 
   if (!parts.length) return null;
@@ -771,7 +786,7 @@ function LeconView({
               />
             ) : (
               <>
-            <LeconAudio formationId={formation.id} leconId={lecon.id} />
+            <LeconAudio formationId={formation.id} lecon={lecon} />
             {lecon.image ? <LeconHero src={lecon.image} /> : null}
 
             {/* Chapitres de la leçon */}

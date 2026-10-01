@@ -24,6 +24,9 @@ export type Lecon = {
   /** Visuel d'illustration (chemin public), affiché si le fichier existe. */
   image?: string;
   sections: { t: string; p: string }[];
+  /** Noms exacts des fichiers audio de la narration (racine du bucket
+   * audiovf), dans l'ordre des segments. */
+  audio?: string[];
   engagement: string;
   application: string[];
   quiz: QuizQuestion[];
@@ -94,6 +97,13 @@ export function ebookUrl(file: string): string | null {
   const sb = getSupabase();
   if (!sb) return null;
   return sb.storage.from("audiovf").getPublicUrl(file).data.publicUrl;
+}
+
+/** URL publique d'un fichier audio nommé, à la racine du bucket audiovf. */
+export function audioRacineUrl(nom: string): string | null {
+  const sb = getSupabase();
+  if (!sb) return null;
+  return sb.storage.from("audiovf").getPublicUrl(nom).data.publicUrl;
 }
 
 /** URL publique de la narration audio d'une leçon (bucket audiovf).
