@@ -477,8 +477,11 @@ function LecteurEtape({
 
   if (indispo) return null;
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-[60] px-4 pb-[calc(env(safe-area-inset-bottom)+0.9rem)]">
-      <div className="pointer-events-auto mx-auto max-w-2xl rounded-[26px] bg-night-950 px-5 pb-4 pt-3 text-cream shadow-[0_18px_44px_-14px_rgba(0,0,0,0.65)]">
+    <div
+      className="pointer-events-none fixed inset-x-0 z-[55] px-4"
+      style={{ bottom: "calc(env(safe-area-inset-bottom) + 4.9rem)" }}
+    >
+      <div className="pointer-events-auto mx-auto max-w-2xl rounded-[22px] bg-night-950 px-4 pb-2.5 pt-2 text-cream shadow-[0_18px_44px_-14px_rgba(0,0,0,0.65)]">
         {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
         <audio
           ref={audioRef}
@@ -499,64 +502,64 @@ function LecteurEtape({
             if (!a.paused && a.duration && onProgress) onProgress(a.currentTime / a.duration);
           }}
         />
-        <input
-          type="range"
-          min={0}
-          max={Math.max(1, Math.floor(duree))}
-          step={1}
-          value={Math.floor(pos)}
-          onChange={(e) => {
-            const a = audioRef.current;
-            if (a) a.currentTime = Number(e.target.value);
-          }}
-          aria-label="Position dans l'audio"
-          className="h-1.5 w-full cursor-pointer accent-dawn-400"
-        />
-        <div className="-mt-0.5 flex justify-between text-[10px] font-bold text-cream/45">
-          <span>{fmt(pos)}</span>
-          <span>{fmt(duree)}</span>
+        <div className="flex items-center gap-2.5">
+          <span className="w-8 shrink-0 text-[10px] font-bold text-cream/45">{fmt(pos)}</span>
+          <input
+            type="range"
+            min={0}
+            max={Math.max(1, Math.floor(duree))}
+            step={1}
+            value={Math.floor(pos)}
+            onChange={(e) => {
+              const a = audioRef.current;
+              if (a) a.currentTime = Number(e.target.value);
+            }}
+            aria-label="Position dans l'audio"
+            className="h-1 min-w-0 flex-1 cursor-pointer accent-dawn-400"
+          />
+          <span className="w-8 shrink-0 text-right text-[10px] font-bold text-cream/45">{fmt(duree)}</span>
         </div>
-        <div className="mt-1 flex items-center justify-between">
+        <div className="mt-0.5 flex items-center justify-between">
           <button
             type="button"
             onClick={() => onVitesse((vitesse + 1) % VITESSES.length)}
-            className="min-w-[3.4rem] rounded-full border border-white/20 px-3 py-1.5 font-display text-xs font-extrabold text-cream/85"
+            className="min-w-[3.1rem] rounded-full border border-white/20 px-2.5 py-1 font-display text-[11px] font-extrabold text-cream/85"
           >
             {VITESSES[vitesse] === 1 ? "1×" : `${VITESSES[vitesse]}×`.replace(".", ",")}
           </button>
-          <div className="flex items-center gap-4">
-            <button type="button" onClick={() => saute(-10)} aria-label="Reculer de 10 secondes" className="relative grid h-11 w-11 place-items-center text-cream/85">
-              <svg viewBox="0 0 24 24" className="h-9 w-9 fill-none stroke-current" strokeWidth={1.7}>
+          <div className="flex items-center gap-5">
+            <button type="button" onClick={() => saute(-10)} aria-label="Reculer de 10 secondes" className="relative grid h-9 w-9 place-items-center text-cream/85">
+              <svg viewBox="0 0 24 24" className="h-8 w-8 fill-none stroke-current" strokeWidth={1.7}>
                 <path d="M12 4.5A7.5 7.5 0 1 1 4.5 12" strokeLinecap="round" />
                 <path d="M4.5 12V7.5m0 4.5H9" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              <span className="absolute text-[9px] font-black">10</span>
+              <span className="absolute text-[8px] font-black">10</span>
             </button>
             <button
               type="button"
               onClick={bascule}
               aria-label={joue ? "Pause" : "Écouter"}
-              className="grid h-16 w-16 place-items-center rounded-full bg-dawn-400 text-night-950 shadow-[0_10px_26px_-8px_rgba(202,240,0,0.55)]"
+              className="grid h-11 w-11 place-items-center rounded-full bg-dawn-400 text-night-950 shadow-[0_8px_20px_-6px_rgba(202,240,0,0.55)]"
             >
               {joue ? (
-                <svg viewBox="0 0 24 24" className="h-7 w-7 fill-current stroke-none">
+                <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current stroke-none">
                   <path d="M7 5h3.6v14H7zM13.4 5H17v14h-3.6z" />
                 </svg>
               ) : (
-                <svg viewBox="0 0 24 24" className="ml-1 h-7 w-7 fill-current stroke-none">
+                <svg viewBox="0 0 24 24" className="ml-0.5 h-5 w-5 fill-current stroke-none">
                   <path d="M8 5.2v13.6L19 12z" />
                 </svg>
               )}
             </button>
-            <button type="button" onClick={() => saute(10)} aria-label="Avancer de 10 secondes" className="relative grid h-11 w-11 place-items-center text-cream/85">
-              <svg viewBox="0 0 24 24" className="h-9 w-9 fill-none stroke-current" strokeWidth={1.7}>
+            <button type="button" onClick={() => saute(10)} aria-label="Avancer de 10 secondes" className="relative grid h-9 w-9 place-items-center text-cream/85">
+              <svg viewBox="0 0 24 24" className="h-8 w-8 fill-none stroke-current" strokeWidth={1.7}>
                 <path d="M12 4.5A7.5 7.5 0 1 0 19.5 12" strokeLinecap="round" />
                 <path d="M19.5 12V7.5m0 4.5H15" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              <span className="absolute text-[9px] font-black">10</span>
+              <span className="absolute text-[8px] font-black">10</span>
             </button>
           </div>
-          <span className="min-w-[3.4rem] text-right text-[10px] font-black uppercase tracking-[0.14em] text-cream/45">Audio</span>
+          <span className="min-w-[3.1rem] text-right text-[9px] font-black uppercase tracking-[0.14em] text-cream/40">Audio</span>
         </div>
       </div>
     </div>
@@ -690,7 +693,7 @@ function LectureEtapes({
 
       {/* Texte de la partie */}
       <div ref={defilRef} className="flex-1 overflow-y-auto">
-        <div className="container-x mx-auto max-w-2xl pb-64 pt-5">
+        <div className="container-x mx-auto max-w-2xl pb-56 pt-5">
           {etape.tranches.map((t, ti) => {
             const section = lecon.sections[t.s];
             if (!section) return null;
