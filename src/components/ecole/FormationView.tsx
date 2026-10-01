@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/community/useAuth";
@@ -67,34 +67,74 @@ function Vignette({ src }: { src: string }) {
  * bucket (formations/<formation>/<leçon>.mp3) — sinon rien. Sondée après
  * montage, comme les images. */
 function LeconAudio({ formationId, leconId }: { formationId: string; leconId: string }) {
-  const [url, setUrl] = useState<string | null>(null);
+  const [parts, setParts] = useState<string[]>([]);
+  const [idx, setIdx] = useState(0);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
   useEffect(() => {
-    const u = audioLeconUrl(formationId, leconId);
-    if (!u) return;
     let actif = true;
-    const probe = new Audio();
-    probe.preload = "metadata";
-    probe.onloadedmetadata = () => {
-      if (actif) setUrl(u);
-    };
-    probe.src = u;
+    setParts([]);
+    setIdx(0);
+    const existe = (u: string) =>
+      new Promise<boolean>((res) => {
+        const a = new Audio();
+        a.preload = "metadata";
+        a.onloadedmetadata = () => res(true);
+        a.onerror = () => res(false);
+        a.src = u;
+      });
+    (async () => {
+      const found: string[] = [];
+      // D'abord les segments -1, -2, … puis, à défaut, le fichier unique.
+      for (let i = 1; i <= 12; i++) {
+        const u = audioLeconUrl(formationId, leconId, i);
+        if (u && (await existe(u))) found.push(u);
+        else break;
+      }
+      if (!found.length) {
+        const u = audioLeconUrl(formationId, leconId);
+        if (u && (await existe(u))) found.push(u);
+      }
+      if (actif) setParts(found);
+    })();
     return () => {
       actif = false;
-      probe.src = "";
     };
   }, [formationId, leconId]);
-  if (!url) return null;
+
+  if (!parts.length) return null;
   return (
     <div className="mb-5 rounded-3xl border border-night-900/10 bg-white p-4">
-      <p className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.18em] text-night-900/50">
-        <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-[#5F7A00]" strokeWidth={2}>
-          <path d="M4 10v4h3l5 4V6L7 10H4z" strokeLinejoin="round" />
-          <path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" strokeLinecap="round" />
-        </svg>
-        Écouter la leçon
-      </p>
+      <div className="flex items-center justify-between">
+        <p className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.18em] text-night-900/50">
+          <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-[#5F7A00]" strokeWidth={2}>
+            <path d="M4 10v4h3l5 4V6L7 10H4z" strokeLinejoin="round" />
+            <path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" strokeLinecap="round" />
+          </svg>
+          Écouter la leçon
+        </p>
+        {parts.length > 1 ? (
+          <span className="text-xs font-bold text-night-900/45">
+            Partie {idx + 1}/{parts.length}
+          </span>
+        ) : null}
+      </div>
       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-      <audio controls preload="none" src={url} className="mt-2.5 w-full" />
+      <audio
+        ref={audioRef}
+        controls
+        preload="none"
+        src={parts[idx]}
+        onEnded={() => {
+          if (idx + 1 < parts.length) {
+            setIdx(idx + 1);
+            setTimeout(() => audioRef.current?.play().catch(() => {}), 150);
+          } else {
+            setIdx(0);
+          }
+        }}
+        className="mt-2.5 w-full"
+      />
     </div>
   );
 }

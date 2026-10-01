@@ -97,10 +97,12 @@ export function ebookUrl(file: string): string | null {
 }
 
 /** URL publique de la narration audio d'une leçon (bucket audiovf).
- * Fichier attendu : formations/<formationId>/<leconId>.mp3 — la carte
- * « Écouter la leçon » ne s'affiche que si le fichier existe. */
-export function audioLeconUrl(formationId: string, leconId: string): string | null {
+ * Fichier attendu : formations/<formationId>/<leconId>.mp3, ou en plusieurs
+ * segments <leconId>-1.mp3, -2.mp3… que le lecteur enchaîne. La carte
+ * « Écouter la leçon » ne s'affiche que si un fichier existe. */
+export function audioLeconUrl(formationId: string, leconId: string, segment?: number): string | null {
   const sb = getSupabase();
   if (!sb) return null;
-  return sb.storage.from("audiovf").getPublicUrl(`formations/${formationId}/${leconId}.mp3`).data.publicUrl;
+  const nom = segment ? `${leconId}-${segment}.mp3` : `${leconId}.mp3`;
+  return sb.storage.from("audiovf").getPublicUrl(`formations/${formationId}/${nom}`).data.publicUrl;
 }
