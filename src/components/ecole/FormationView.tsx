@@ -25,7 +25,7 @@ import {
  * réponse » → écran de réussite → Félicitations sombres avec l'e-book.
  */
 
-const SEUIL = 4;
+const SEUIL = 8;
 
 /** Durée de lecture estimée d'une leçon (~180 mots/min). */
 function dureeMin(l: Lecon): number {
@@ -1100,6 +1100,7 @@ function QuizView({
       <main className="container-x mx-auto max-w-2xl pt-6">
         {fini ? (
           <div className="pt-4 text-center">
+            <p className="mb-3 text-[11px] font-black uppercase tracking-[0.18em] text-night-900/50">Ta note</p>
             <span
               className={`mx-auto grid h-24 w-24 place-items-center rounded-full font-display text-2xl font-extrabold ${
                 reussi ? "bg-dawn-400 text-night-950" : "bg-night-900/10 text-night-900"

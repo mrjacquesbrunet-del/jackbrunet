@@ -129,6 +129,61 @@
               ],
               "bonne": 1,
               "explication": "« Le Père céleste donnera le Saint-Esprit à ceux qui le lui demandent » (Luc 11.13) — demander avec foi, persévérer dans la prière, se soumettre à Dieu."
+            },
+            {
+              "q": "Quelle est la différence entre les attributs « communicables » et « incommunicables » de Dieu ?",
+              "choix": [
+                "Les premiers sont dans l'Ancien Testament, les seconds dans le Nouveau",
+                "Les premiers nous sont transmis (amour, intelligence), les seconds restent propres à Dieu (omniprésence)",
+                "Les premiers concernent le Père, les seconds le Saint-Esprit",
+                "Il n'y a aucune différence entre les deux"
+              ],
+              "bonne": 1,
+              "explication": "Les attributs communicables sont des caractéristiques que Dieu nous a transmises, comme l'amour et l'intelligence ; les incommunicables, comme la toute-puissance ou l'omniprésence, n'appartiennent qu'à lui."
+            },
+            {
+              "q": "Que signifie l'attribut « omniprésent » ?",
+              "choix": [
+                "Dieu sait toutes choses",
+                "Dieu peut toutes choses",
+                "Dieu est partout en même temps",
+                "Dieu ne change jamais"
+              ],
+              "bonne": 2,
+              "explication": "Omniprésent signifie que Dieu est partout en même temps et remplit tout l'univers (Psaumes 139.7-8) : il n'existe aucun lieu où tu es seul."
+            },
+            {
+              "q": "Au baptême de Jésus (Matthieu 3.16-17), comment les trois personnes de la Trinité sont-elles présentes ensemble ?",
+              "choix": [
+                "Elles apparaissent l'une après l'autre, jamais en même temps",
+                "Le Fils dans l'eau, l'Esprit qui descend comme une colombe, la voix du Père qui parle",
+                "Seuls le Père et le Fils sont mentionnés",
+                "La scène est une vision symbolique sans réalité"
+              ],
+              "bonne": 1,
+              "explication": "Cette scène montre les trois personnes divines présentes au même moment — ce que les images comme l'eau (glace, liquide, vapeur) ne peuvent pas rendre."
+            },
+            {
+              "q": "Dans la parabole du fils prodigue (Luc 15.20), que fait le père en voyant revenir son fils ?",
+              "choix": [
+                "Il attend que le fils se soit excusé pour le recevoir",
+                "Il le reçoit comme un serviteur, à l'essai",
+                "Il court à sa rencontre, ému de compassion, et l'embrasse",
+                "Il lui réclame l'héritage gaspillé"
+              ],
+              "bonne": 2,
+              "explication": "« Comme il était encore loin, son père le vit et fut ému de compassion, il courut se jeter à son cou. » Voilà le cœur du Père pour chacun de ses enfants."
+            },
+            {
+              "q": "Qu'est-ce qui a transformé Pierre entre son reniement et sa prédication courageuse devant des milliers de personnes ?",
+              "choix": [
+                "Une longue formation théologique",
+                "La puissance du Saint-Esprit reçue à la Pentecôte",
+                "Le temps qui a passé",
+                "L'encouragement des autres disciples"
+              ],
+              "bonne": 1,
+              "explication": "Entre les deux scènes, une seule chose a changé : la Pentecôte. Ce n'est pas une formation qui a transformé Pierre, c'est la puissance du Saint-Esprit."
             }
           ],
           "image": "/img/ecole/lecons/qui-est-dieu.jpg"
@@ -236,6 +291,61 @@
               ],
               "bonne": 0,
               "explication": "« C'est par la grâce que vous êtes sauvés, par le moyen de la foi… Ce n'est point par les œuvres, afin que personne ne se glorifie. »"
+            },
+            {
+              "q": "Que signifie le mot grec hamartia, traduit par « péché » ?",
+              "choix": [
+                "Faire le mal volontairement",
+                "Manquer la cible",
+                "Transgresser la loi de Moïse",
+                "Être en colère contre Dieu"
+              ],
+              "bonne": 1,
+              "explication": "Hamartia vient du vocabulaire des archers : manquer la cible — la vie telle que Dieu l'avait voulue, que nous manquons tous (Romains 3.23)."
+            },
+            {
+              "q": "Quelles furent les conséquences de la chute pour l'homme ?",
+              "choix": [
+                "Seulement la mort physique",
+                "Mort physique et spirituelle, corruption intérieure, détérioration de la création",
+                "La perte de la mémoire d'Éden",
+                "Aucune : Dieu a tout de suite pardonné"
+              ],
+              "bonne": 1,
+              "explication": "La désobéissance a tout atteint : l'homme devint mortel, coupé de la communion avec Dieu, corrompu intérieurement, dans un monde marqué par le désordre."
+            },
+            {
+              "q": "Que signifie le mot « repentance » (metanoia) ?",
+              "choix": [
+                "Éprouver du regret et de la tristesse",
+                "Un changement de pensée qui conduit à faire demi-tour",
+                "Se punir pour ses fautes",
+                "Promettre de faire des efforts"
+              ],
+              "bonne": 1,
+              "explication": "Le regret ne suffit pas : tant qu'on roule dans la mauvaise direction, on s'éloigne. Se repentir, c'est faire demi-tour — comme Zachée, dont la vie a changé en actes."
+            },
+            {
+              "q": "Dans l'image de la chaise, qu'est-ce qui correspond à la foi ?",
+              "choix": [
+                "Examiner la chaise et la trouver solide",
+                "Affirmer avec conviction qu'elle peut nous porter",
+                "S'asseoir : faire reposer tout son poids sur elle",
+                "En parler aux autres"
+              ],
+              "bonne": 2,
+              "explication": "Croire qu'une chaise est solide n'est qu'une opinion. La foi, c'est s'asseoir — faire reposer le poids de sa vie sur Jésus."
+            },
+            {
+              "q": "D'après Hébreux 11.1, qu'est-ce que la foi ?",
+              "choix": [
+                "Un sentiment religieux intense",
+                "Une ferme assurance des choses qu'on espère, une démonstration de celles qu'on ne voit pas",
+                "L'absence totale de doutes",
+                "Une récompense réservée aux plus fidèles"
+              ],
+              "bonne": 1,
+              "explication": "La foi n'est pas une émotion mais une confiance posée sur Dieu et ses promesses — et sa force vient de son objet, pas de son intensité."
             }
           ],
           "image": "/img/ecole/lecons/le-plan-du-salut.jpg"
@@ -347,6 +457,61 @@
               ],
               "bonne": 1,
               "explication": "C'est un témoignage public de sincérité (Marc 16.15-16) — la crainte des hommes ne doit pas surpasser le désir de plaire à Dieu (Jean 12.42-43)."
+            },
+            {
+              "q": "À quoi le baptême est-il comparé dans cette leçon ?",
+              "choix": [
+                "À un diplôme de fin d'études",
+                "À l'alliance de mariage : elle ne crée pas l'amour, elle le proclame publiquement",
+                "À un rite de purification hérité de la Loi",
+                "À une assurance pour l'éternité"
+              ],
+              "bonne": 1,
+              "explication": "Comme l'anneau passé au doigt devant témoins, le baptême ne fabrique pas le salut : il proclame publiquement un cœur qui appartient déjà à Christ — et il engage."
+            },
+            {
+              "q": "Quel exemple biblique montre qu'on peut être sauvé sans avoir été baptisé ?",
+              "choix": [
+                "Le malfaiteur crucifié à côté de Jésus (Luc 23)",
+                "Zachée le collecteur d'impôts",
+                "L'eunuque éthiopien",
+                "Corneille le centenier"
+              ],
+              "bonne": 0,
+              "explication": "Le brigand sur la croix n'a pas eu le temps d'être baptisé, et Jésus lui promet le paradis : c'est la grâce qui sauve, par la foi."
+            },
+            {
+              "q": "Dans Matthieu 28.18-20, que commande Jésus à ses disciples ?",
+              "choix": [
+                "De bâtir des temples dans toutes les villes",
+                "De faire de toutes les nations des disciples et de les baptiser au nom du Père, du Fils et du Saint-Esprit",
+                "D'attendre son retour à Jérusalem",
+                "De baptiser uniquement le peuple d'Israël"
+              ],
+              "bonne": 1,
+              "explication": "C'est l'ordre missionnaire du Ressuscité : faire des disciples, les baptiser, leur enseigner à observer tout ce qu'il a prescrit."
+            },
+            {
+              "q": "Pourquoi le baptême des nourrissons n'est-il pas l'exemple biblique suivi ici ?",
+              "choix": [
+                "Parce que l'eau serait dangereuse pour un bébé",
+                "Parce que la Bible l'interdit explicitement",
+                "Parce que le baptême demande une décision consciente : croire et se repentir soi-même",
+                "Parce que c'est une question d'âge légal"
+              ],
+              "bonne": 2,
+              "explication": "Croire, se repentir, devenir disciple : des verbes qu'on ne conjugue qu'à la première personne. Il n'y a pas d'exemple biblique de baptême de nourrissons."
+            },
+            {
+              "q": "Chez les teinturiers grecs, que devenait l'étoffe « baptisée » (baptizo) dans la cuve ?",
+              "choix": [
+                "Elle était simplement lavée",
+                "Elle ressortait changée de couleur, définitivement",
+                "Elle était mise à sécher",
+                "Elle était découpée en morceaux"
+              ],
+              "bonne": 1,
+              "explication": "L'étoffe plongée ressortait transformée pour toujours — l'image même de l'identification à Christ : on descend, on est enseveli, on remonte à une vie nouvelle."
             }
           ],
           "image": "/img/ecole/lecons/le-bapteme.jpg"
@@ -446,6 +611,61 @@
               ],
               "bonne": 2,
               "explication": "Avec le baptême, la Sainte Cène est l'un des deux seuls sacrements institués par Jésus pour ses disciples."
+            },
+            {
+              "q": "De quel événement la Pâque juive faisait-elle mémoire ?",
+              "choix": [
+                "La création du monde",
+                "La délivrance d'Égypte, quand le sang de l'agneau protégeait les maisons (Exode 12)",
+                "L'entrée en terre promise",
+                "La construction du temple de Salomon"
+              ],
+              "bonne": 1,
+              "explication": "Chaque année, Israël se souvenait de la nuit où le sang de l'agneau sur les portes l'avait sauvé. Jésus est « notre Pâque » (1 Corinthiens 5.7) : le véritable Agneau."
+            },
+            {
+              "q": "Quelle est la différence entre un contrat et une alliance ?",
+              "choix": [
+                "Aucune, ce sont des synonymes",
+                "Le contrat protège des intérêts ; l'alliance engage des personnes",
+                "L'alliance est écrite, le contrat est oral",
+                "Le contrat est religieux, l'alliance est civile"
+              ],
+              "bonne": 1,
+              "explication": "Un abonnement est un contrat ; le mariage est une alliance : « je suis à toi, tu es à moi ». À la Cène, nous levons la coupe de la nouvelle alliance, écrite dans le cœur."
+            },
+            {
+              "q": "Que veut dire prendre la Cène « indignement » ?",
+              "choix": [
+                "La prendre quand on est une personne indigne",
+                "La prendre d'une manière indigne — sans amour, sans examen, sans réconciliation",
+                "La prendre trop souvent",
+                "La prendre sans être membre de l'église"
+              ],
+              "bonne": 1,
+              "explication": "« Indignement » est un adverbe : il décrit une manière de faire, pas des personnes. La table du Seigneur est pour les pécheurs pardonnés — l'examen de soi est un miroir, pas une barrière."
+            },
+            {
+              "q": "Que dit la Bible sur la fréquence et la manière précises de célébrer la Cène ?",
+              "choix": [
+                "Elle impose une célébration chaque semaine",
+                "Elle la réserve au soir de la Pâque",
+                "Elle ne fixe pas ces détails : chaque église adapte selon le sens profond de la Cène",
+                "Elle demande de la célébrer une fois par an"
+              ],
+              "bonne": 2,
+              "explication": "La Bible ne précise ni fréquence ni date ni façon : ce serait une erreur de juger les chrétiens qui pratiquent différemment — la Cène est un moyen, pas un but en soi."
+            },
+            {
+              "q": "D'après Jérémie 31.31-34, où la nouvelle alliance est-elle écrite ?",
+              "choix": [
+                "Sur des tables de pierre",
+                "Dans le cœur",
+                "Dans le temple",
+                "Sur un rouleau conservé à Jérusalem"
+              ],
+              "bonne": 1,
+              "explication": "« Je mettrai ma loi au dedans d'eux, je l'écrirai dans leur cœur » : Dieu ne se contente pas de dire quoi faire, il met en nous, par son Esprit, le désir et la force de le faire."
             }
           ],
           "image": "/img/ecole/lecons/la-sainte-cene.jpg"
@@ -554,6 +774,61 @@
               ],
               "bonne": 0,
               "explication": "« Dieu aime celui qui donne avec joie » (2 Corinthiens 9.7), dans la discrétion (Matthieu 6.3-4)."
+            },
+            {
+              "q": "Que sont les « prémices » ?",
+              "choix": [
+                "Les restes de la récolte, donnés à la fin",
+                "Les premiers fruits, donnés à Dieu en premier",
+                "Une taxe du temple",
+                "Les offrandes des jours de fête"
+              ],
+              "bonne": 1,
+              "explication": "Donner en premier ou donner les restes, ce sont deux théologies opposées : les prémices disent « Dieu est ma priorité et ma sécurité »."
+            },
+            {
+              "q": "Quelle est la différence entre la dîme et l'offrande ?",
+              "choix": [
+                "Il n'y en a pas",
+                "La dîme est le dixième donné fidèlement ; l'offrande va au-delà, selon le cœur",
+                "La dîme est volontaire, l'offrande obligatoire",
+                "La dîme est pour les pauvres, l'offrande pour l'église"
+              ],
+              "bonne": 1,
+              "explication": "La dîme est la base fidèle (le dixième) ; l'offrande volontaire s'y ajoute, selon ce que chacun a résolu en son cœur (2 Corinthiens 9.7)."
+            },
+            {
+              "q": "Concrètement, pour un revenu de 1 500 euros, la dîme représente…",
+              "choix": [
+                "15 euros",
+                "75 euros",
+                "150 euros",
+                "300 euros"
+              ],
+              "bonne": 2,
+              "explication": "La dîme est le dixième : 150 euros pour 1 500. Le principe est proportionnel : le même pas de confiance est demandé à chacun, quel que soit son revenu."
+            },
+            {
+              "q": "Pourquoi peut-on dire que donner son argent, c'est donner de sa vie ?",
+              "choix": [
+                "Parce que l'argent est sacré en lui-même",
+                "Parce que l'argent représente du temps de vie et du travail cristallisés",
+                "Parce qu'on ne peut pas vivre sans argent",
+                "Parce que Dieu a besoin de nos ressources"
+              ],
+              "bonne": 1,
+              "explication": "Ces heures de travail converties en chiffres sur un compte, c'est de la vie donnée. « Là où est ton trésor, là aussi sera ton cœur » (Matthieu 6.21)."
+            },
+            {
+              "q": "Dans l'Ancien Testament, à quoi servait notamment la dîme ?",
+              "choix": [
+                "À payer les armées d'Israël",
+                "À entretenir les Lévites, consacrés au service de Dieu, et à soutenir le culte",
+                "À construire des routes",
+                "À financer les rois"
+              ],
+              "bonne": 1,
+              "explication": "La dîme entretenait les Lévites et le culte ; quand elle se relâchait, les serviteurs de Dieu abandonnaient leur ministère et l'idolâtrie s'installait (2 Chroniques 29.9)."
             }
           ],
           "image": "/img/ecole/lecons/dimes-et-offrandes.jpg"
@@ -674,6 +949,61 @@
               ],
               "bonne": 1,
               "explication": "« À ceci tous connaîtront que vous êtes mes disciples, si vous avez de l'amour les uns pour les autres » (Jean 13.34-35)."
+            },
+            {
+              "q": "Quelle est la différence entre l'Église universelle et l'église locale ?",
+              "choix": [
+                "L'universelle est catholique, la locale est protestante",
+                "L'universelle rassemble tous les croyants de tous les temps ; la locale en est l'expression visible en un lieu",
+                "L'universelle est au ciel, la locale sur la terre",
+                "Aucune : ce sont deux mots pour la même chose"
+              ],
+              "bonne": 1,
+              "explication": "L'Église universelle regroupe tous ceux qui ont mis leur foi en Christ, de tous les temps et de tous lieux ; les églises locales en sont les expressions visibles — et imparfaites."
+            },
+            {
+              "q": "Dans l'image de la braise, que se passe-t-il quand on la retire du feu ?",
+              "choix": [
+                "Elle brûle plus fort",
+                "Elle s'éteint en quelques minutes — comme un chrétien isolé",
+                "Elle met le feu autour d'elle",
+                "Rien, elle reste incandescente"
+              ],
+              "bonne": 1,
+              "explication": "Seule sur la pierre, la braise noircit et s'éteint ; remise au milieu des autres, elle rougeoie. Aucun chrétien n'est fait pour brûler seul."
+            },
+            {
+              "q": "Lesquels de ces dons figurent dans la liste de 1 Corinthiens 12.7-11 ?",
+              "choix": [
+                "La sagesse, les dons de guérison, la prophétie",
+                "Le mariage, le jeûne, la louange",
+                "La patience, la joie, la paix",
+                "L'aumône, le pèlerinage, la méditation"
+              ],
+              "bonne": 0,
+              "explication": "1 Corinthiens 12.7-11 liste notamment la sagesse, la connaissance, la foi, les dons de guérison, les miracles, la prophétie, le discernement, les langues et leur interprétation."
+            },
+            {
+              "q": "Comment découvrir ses dons spirituels ?",
+              "choix": [
+                "En attendant une révélation avant de servir",
+                "En passant un test de personnalité",
+                "En servant, en écoutant les confirmations, en observant le fruit et en consultant ses anciens",
+                "En choisissant le ministère le plus visible"
+              ],
+              "bonne": 2,
+              "explication": "On ne découvre pas ses dons assis, mais en marchant : sers, écoute les confirmations des autres, observe la joie et le fruit, et demande conseil à tes anciens."
+            },
+            {
+              "q": "Quels sont les trois types de responsables mentionnés pour l'église locale ?",
+              "choix": [
+                "Apôtres, scribes, pharisiens",
+                "Pasteurs, anciens, diacres",
+                "Évêques, cardinaux, prêtres",
+                "Prophètes, rois, juges"
+              ],
+              "bonne": 1,
+              "explication": "Les pasteurs guident et nourrissent le troupeau, les anciens veillent avec humilité (1 Pierre 5.1-4), les diacres servent les tâches pratiques et l'entraide (1 Timothée 3.8-10)."
             }
           ],
           "image": "/img/ecole/lecons/l-eglise.jpg"
@@ -781,6 +1111,61 @@
               ],
               "bonne": 2,
               "explication": "Un témoignage visible — on reconnaissait « qu'ils avaient été avec Jésus » (Actes 4.13) — et verbal (Matthieu 28.19-20)."
+            },
+            {
+              "q": "Quelle méthode simple de lecture biblique la leçon propose-t-elle ?",
+              "choix": [
+                "Lire la Bible entière en un an, dans l'ordre",
+                "Un passage court et trois questions : que dit-il de Dieu ? de moi ? qu'est-ce que je mets en pratique aujourd'hui ?",
+                "Mémoriser un chapitre par semaine",
+                "Lire uniquement les Psaumes"
+              ],
+              "bonne": 1,
+              "explication": "La régularité compte plus que la quantité : quinze minutes par jour, un passage court, trois questions, une note dans son carnet, une courte prière."
+            },
+            {
+              "q": "Quels sont les quatre mouvements de prière proposés dans la leçon ?",
+              "choix": [
+                "Adoration, repentance, reconnaissance, requêtes",
+                "Chant, silence, lecture, méditation",
+                "Jeûne, veille, intercession, combat",
+                "Confession, pèlerinage, offrande, bénédiction"
+              ],
+              "bonne": 0,
+              "explication": "Adorer Dieu pour qui il est, confesser ce qui doit l'être, le remercier pour ses bienfaits concrets, puis présenter les requêtes — quelques minutes suffisent pour commencer."
+            },
+            {
+              "q": "Comment l'aveugle guéri de Jean 9 a-t-il témoigné face aux experts ?",
+              "choix": [
+                "Par un exposé de théologie",
+                "En citant les prophètes",
+                "En racontant son histoire : « J'étais aveugle, et maintenant je vois »",
+                "En gardant le silence"
+              ],
+              "bonne": 2,
+              "explication": "Personne ne peut réfuter ton histoire : avant, la rencontre, depuis. Deux minutes suffisent — c'est le témoignage à la portée de tous."
+            },
+            {
+              "q": "Que révèle l'« audit d'une semaine » proposé dans la leçon ?",
+              "choix": [
+                "Le montant de nos dépenses",
+                "À quoi nous donnons réellement notre temps — écrans contre Parole",
+                "La qualité de notre sommeil",
+                "Le nombre de nos relations"
+              ],
+              "bonne": 1,
+              "explication": "Nous ne manquons pas de temps : nous l'avons déjà donné à autre chose. Racheter le temps, c'est le reprendre délibérément pour ce qui compte (Éphésiens 5.15-16)."
+            },
+            {
+              "q": "D'après la leçon, le chrétien est, par rapport à ses biens…",
+              "choix": [
+                "Un propriétaire libre d'en faire ce qu'il veut",
+                "Un gérant : tout appartient à Dieu, il gère et rendra compte",
+                "Un locataire qui paie un loyer à Dieu",
+                "Un gardien qui ne doit toucher à rien"
+              ],
+              "bonne": 1,
+              "explication": "Comme un intendant à qui le maître confie sa maison : il en profite sans dire « c'est à moi ». Vivre ainsi libère de l'avarice comme de l'angoisse — tout est à Dieu, je gère, il pourvoit."
             }
           ],
           "image": "/img/ecole/lecons/la-nouvelle-vie.jpg"
