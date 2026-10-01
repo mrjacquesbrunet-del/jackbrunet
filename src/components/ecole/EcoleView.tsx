@@ -6,7 +6,6 @@ import { asset } from "@/lib/asset";
 import { useAuth } from "@/components/community/useAuth";
 import { getProfile } from "@/lib/community";
 import { LieuCarte } from "@/components/bible/LieuCarte";
-import { getEtudes } from "@/lib/etudes";
 import { getFormations, listFormationProgress, type Formation } from "@/lib/formations";
 
 /**
@@ -34,7 +33,6 @@ function RondAction({ href, label, children }: { href: string; label: string; ch
 }
 
 export function EcoleView() {
-  const etudes = getEtudes();
   const formations = getFormations();
   const { userId } = useAuth();
   const [prenom, setPrenom] = useState<string | null>(null);
@@ -214,34 +212,46 @@ export function EcoleView() {
             </div>
           </section>
 
-          {/* Études bibliques (carrousel clair) */}
+          {/* Pose ta question sur la Bible */}
           <section className="mt-7">
-            <div className="flex items-end justify-between">
-              <h2 className="font-display text-lg font-extrabold">Études bibliques</h2>
-              <Link href="/assistant?tab=etudes" className="text-xs font-bold text-[#5F7A00]">
-                Tout voir
-              </Link>
-            </div>
-            <div className="-mx-5 mt-3 flex snap-x gap-3 overflow-x-auto px-5 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {etudes.slice(0, 8).map((e, i) => (
-                <Link
-                  key={e.id}
-                  href={`/assistant?tab=etudes&etude=${e.id}`}
-                  className="flex w-36 shrink-0 snap-start flex-col justify-between rounded-3xl border border-night-900/10 bg-white p-4"
-                  style={{ minHeight: "9.5rem" }}
-                >
-                  <span className="font-display text-3xl font-extrabold text-dawn-500/40">
-                    {String(i + 1).padStart(2, "0")}
+            <Link
+              href="/assistant"
+              className="relative block overflow-hidden rounded-3xl bg-night-950 p-5 text-cream shadow-[0_16px_38px_-16px_rgba(12,12,11,0.55)] transition-transform active:scale-[0.99]"
+            >
+              <span
+                aria-hidden
+                className="absolute -right-2 -top-9 select-none font-display text-[10rem] font-extrabold leading-none text-dawn-400/10"
+              >
+                ?
+              </span>
+              <span className="relative flex items-center gap-4">
+                <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-dawn-400 text-night-950">
+                  <svg viewBox="0 0 24 24" className="h-7 w-7 fill-none stroke-current" strokeWidth={1.9}>
+                    <path d="M21 12a8 8 0 1 0-3.1 6.3L21 19l-.9-3.2A8 8 0 0 0 21 12z" strokeLinejoin="round" />
+                    <path d="M9.6 10a2.4 2.4 0 1 1 3.3 2.2c-.6.3-.9.7-.9 1.3M12 16.2h.01" strokeLinecap="round" />
+                  </svg>
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-[11px] font-black uppercase tracking-[0.2em] text-dawn-300">
+                    Assistant biblique
                   </span>
-                  <span>
-                    <span className="block font-display text-[14px] font-extrabold leading-tight">{e.titre}</span>
-                    <span className="mt-1 block text-[11px] font-bold uppercase tracking-wide text-[#5F7A00]">
-                      {e.sections.length} parties
-                    </span>
+                  <span className="mt-1 block font-display text-lg font-extrabold leading-tight">
+                    Pose ta question sur la Bible
                   </span>
-                </Link>
-              ))}
-            </div>
+                  <span className="mt-1 block text-[13px] leading-snug text-cream/65">
+                    Un passage difficile, un doute, un sujet ? L&apos;assistant répond, versets à l&apos;appui.
+                  </span>
+                </span>
+              </span>
+              <span className="relative mt-4 flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.08] py-2 pl-4 pr-2">
+                <span className="min-w-0 flex-1 truncate text-sm text-cream/45">Écris ta question ici…</span>
+                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950">
+                  <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2}>
+                    <path d="M4 12l16-7-4.5 7L20 19zM4 12h11" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+              </span>
+            </Link>
           </section>
 
           {/* Explorer */}
