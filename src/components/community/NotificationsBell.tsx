@@ -50,6 +50,11 @@ function label(n: Notification) {
       return n.body ?? `${who} te défie en direct !`;
     case "friend_score":
       return n.body ?? `${who} a joué au Défi du jour !`;
+    case "duo_invite":
+    case "duo_accept":
+    case "duo_read":
+    case "duo_note":
+      return `${who} ${n.body ?? "— plan à deux"}`;
     default:
       return n.body?? "Nouvelle notification";
   }

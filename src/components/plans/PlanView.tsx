@@ -15,7 +15,17 @@ import { appShareUrl } from "@/config/app-links";
 import { DEFAULT_AUTHOR, type AuthorInfo } from "@/config/author";
 import { useAuth } from "@/components/community/useAuth";
 import { getSupabase } from "@/lib/supabase";
-import { isPlanSaved, togglePlanSave } from "@/lib/community";
+import { getProfile, isPlanSaved, togglePlanSave } from "@/lib/community";
+import { PlanDuoCard, DuoNotes } from "@/components/plans/PlanDuo";
+import {
+  getDuoForPlan,
+  listDuoChecks,
+  listDuoNotes,
+  setDuoCheck,
+  syncDuoChecks,
+  type DuoNote,
+  type PlanDuo,
+} from "@/lib/plan-duo";
 import type { ThemePlan } from "@/lib/types";
 
 /** Photo de l'auteur (bucket public « audiovf »), repli monogramme. */
@@ -128,6 +138,45 @@ export function PlanView({
 
   const [reread, setReread] = useState<number | null>(null);
   const [saved, setSaved] = useState(false);
+  // ——— Plan à deux ———
+  const [duo, setDuo] = useState<PlanDuo | null>(null);
+  const [partnerDays, setPartnerDays] = useState<number[]>([]);
+  const [duoNotes, setDuoNotes] = useState<DuoNote[]>([]);
+  const [myAvatar, setMyAvatar] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!userId) {
+      setDuo(null);
+      return;
+    }
+    getProfile(userId).then((p) => setMyAvatar(p?.avatar_url ?? null));
+    getDuoForPlan(plan.slug, userId).then(setDuo);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [plan.slug, userId]);
+
+  useEffect(() => {
+    if (!duo || duo.status !== "active" || !userId) {
+      setPartnerDays([]);
+      setDuoNotes([]);
+      return;
+    }
+    const partnerId = duo.inviter_id === userId ? duo.invitee_id : duo.inviter_id;
+    // Ma progression locale est poussée dans le duo (le binôme la voit),
+    // puis on lit la sienne et les notes partagées.
+    syncDuoChecks(duo.id, userId, progress.done).then(async () => {
+      const checks = await listDuoChecks(duo.id);
+      setPartnerDays(checks[partnerId] ?? []);
+    });
+    listDuoNotes(duo.id).then(setDuoNotes);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [duo?.id, duo?.status, userId]);
+
+  function toggleDayDuo(day: number, wasDone: boolean) {
+    progress.toggleDay(day);
+    if (duo?.status === "active" && userId) {
+      void setDuoCheck(duo.id, userId, day, !wasDone);
+    }
+  }
   const [celebrate, setCelebrate] = useState(false);
   const [authorOpen, setAuthorOpen] = useState(false);
 
@@ -271,6 +320,21 @@ export function PlanView({
         </div>
       </div>
 
+      {/* ---------- Plan à deux ---------- */}
+      <div className="container-x">
+        <PlanDuoCard
+          slug={plan.slug}
+          title={plan.title}
+          total={total}
+          userId={userId}
+          myAvatar={myAvatar}
+          myDone={doneCount}
+          duo={duo}
+          partnerDone={partnerDays.length}
+          onDuoChange={setDuo}
+        />
+      </div>
+
       {/* ---------- Jours (déverrouillage progressif) ---------- */}
       <ol className="container-x mx-auto mt-6 max-w-2xl space-y-4">
         {plan.days.map((d) => {
@@ -354,6 +418,14 @@ export function PlanView({
                     }`}
                   >
                     {done ? "Terminé" : current ? "À méditer aujourd'hui" : "À méditer"}
+                    {duo?.status === "active" && partnerDays.includes(d.day) ? (
+                      <span className="ml-2 inline-flex items-center gap-1 normal-case tracking-normal text-spirit-300">
+                        <svg viewBox="0 0 24 24" className="h-3 w-3 fill-none stroke-current" strokeWidth={3}>
+                          <path d="M5 12l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                        Lu par {duo.partner?.pseudo ?? "ton binôme"}
+                      </span>
+                    ) : null}
                   </span>
                   <h3 className="font-display text-xl font-bold leading-tight text-cream">{d.title}</h3>
                 </div>
@@ -395,10 +467,21 @@ export function PlanView({
                     </div>
                   ) : null}
 
+                  {duo?.status === "active" && userId ? (
+                    <DuoNotes
+                      duo={duo}
+                      day={d.day}
+                      userId={userId}
+                      notes={duoNotes}
+                      onAdd={(n) => setDuoNotes((cur) => [...cur, n])}
+                      onDelete={(id) => setDuoNotes((cur) => cur.filter((x) => x.id !== id))}
+                    />
+                  ) : null}
+
                   <div className="mt-5 flex flex-wrap items-center gap-3">
                     <button
                       type="button"
-                      onClick={() => progress.toggleDay(d.day)}
+                      onClick={() => toggleDayDuo(d.day, done)}
                       className={
                         done
                           ? "inline-flex items-center gap-2 rounded-full border border-cream/20 px-5 py-2.5 text-sm font-bold text-cream/70"

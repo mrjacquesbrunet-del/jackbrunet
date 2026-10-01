@@ -86,7 +86,11 @@ export type NotifType =
   | "pray_digest"
   | "follow_up"
   | "challenge"
-  | "friend_score";
+  | "friend_score"
+  | "duo_invite"
+  | "duo_accept"
+  | "duo_read"
+  | "duo_note";
 export type Notification = {
   id: string;
   user_id: string;
