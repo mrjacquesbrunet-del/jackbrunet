@@ -20,7 +20,8 @@ export type BrevoFormKey =
   | "priere"
   | "temoignages"
   | "mission"
-  | "membres";
+  | "membres"
+  | "fondamentaux";
 
 export const BREVO_ENDPOINTS: Record<BrevoFormKey, string | null> = {
   newsletter:
@@ -32,6 +33,10 @@ export const BREVO_ENDPOINTS: Record<BrevoFormKey, string | null> = {
     "https://27d09ed7.sibforms.com/serve/MUIFAEbQ2t9CXrPDPgHPr8Dm9BiUaJeopBjD_QWw6POUiyg2YmCYDiV6aQvmh4nTYXrlXPFVIsw__DL4M9JlOE0-opjSirBddjIHLHfAkH9A6RpFfCc9dCWcz4n6azQSlgCkwLxFbcafuaeiJb_3NMkrAJmCiqO6MBMaK_2wvxR7hdjr9Z399SQxk9-FLXYE41kQUptP4k8R22XN8g==",
   soaking:
     "https://27d09ed7.sibforms.com/serve/MUIFAJHlIaW54ub12NkHXi34yydOSuqODJ7J75a5UXQCDDnXpHX76qFbxsA1iu2XfcX3WNc0KTGPQ5HO5OKOCxJK-ZvdD00Vphc4wPx1NCRdZy8KGdiX7D2bqW_U3D758B_KUPVk1JXkZhLFZnZvUtFFiOFv0vZKQB4Oj958HkGs24oB7SNTYqKihjt8ZHbvYSEr9c0oA1dmJXYcpQ==",
+  // E-book de la formation « Les fondamentaux de la foi chrétienne »
+  // (École biblique). Créer le formulaire dans Brevo puis coller son adresse
+  // ici — en attendant, repli automatique sur la newsletter.
+  fondamentaux: null,
   // Membres de l'app (inscription/connexion), capture auto email + nom.
   membres:
     "https://27d09ed7.sibforms.com/serve/MUIFADw4C9OhZlGa3jild9dk1RE4L3RJHR4Ram7w5ba0bbR_YqBLKCynUJ_s3bcpSCfIg0aqui2wGnexGs_Os4M-QxlgoYbn4Jbr3G0FlywmQ5eurujFvbo1iNAYl1B52ou_RrUNcyuHVvFaOpfEufWXoHnhhI2fdL2reSFbSIBg-3CCVb1hDrzvqPMSuhqxxUnf8xCd8zAq343D-A==",
@@ -72,6 +77,9 @@ export function brevoKeyForSource(source: string): BrevoFormKey {
       return "dons";
     case "mission-madagascar":
       return "mission";
+    // E-book de la formation École biblique.
+    case "ebook-fondamentaux":
+      return "fondamentaux";
     // Inscription/connexion à l'application (compte membre).
     case "app-membre":
       return "membres";

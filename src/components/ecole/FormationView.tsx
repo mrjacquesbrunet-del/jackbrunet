@@ -7,6 +7,8 @@ import { useAuth } from "@/components/community/useAuth";
 import { TexteAvecRefs } from "@/components/bible/FichesChapitre";
 import { asset } from "@/lib/asset";
 import { addNote } from "@/lib/notebook";
+import { submitToBrevo } from "@/lib/brevo";
+import { newsletterEndpointForSource } from "@/config/brevo";
 import { askAssistant } from "@/lib/assistant";
 import {
   audioLeconUrl,
@@ -31,6 +33,140 @@ const SEUIL = 8;
 function dureeMin(l: Lecon): number {
   const mots = l.sections.reduce((n, s) => n + s.p.split(/\s+/).length, 0);
   return Math.max(4, Math.round(mots / 180) + 2);
+}
+
+/* ——— E-book offert : téléchargement après capture de l'e-mail (Brevo) ——— */
+function EbookGate({ formation, dark }: { formation: Formation; dark?: boolean }) {
+  const { email: emailCompte } = useAuth();
+  const [open, setOpen] = useState(false);
+  const [mail, setMail] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  if (!formation.ebook) return null;
+  const url = ebookUrl(formation.ebook);
+  const cle = `jb.ebook.${formation.id}`;
+
+  const telecharger = () => {
+    if (url) window.open(url, "_blank", "noopener");
+  };
+
+  function clic() {
+    let deja = false;
+    try {
+      deja = Boolean(localStorage.getItem(cle));
+    } catch {
+      /* stockage indisponible */
+    }
+    if (deja) {
+      telecharger();
+      return;
+    }
+    setMail(emailCompte ?? "");
+    setErr(null);
+    setOpen(true);
+  }
+
+  async function envoyer() {
+    const e = mail.trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) {
+      setErr("Entre une adresse e-mail valide.");
+      return;
+    }
+    setErr(null);
+    setBusy(true);
+    try {
+      const endpoint = newsletterEndpointForSource("ebook-fondamentaux");
+      if (endpoint) await submitToBrevo(endpoint, { EMAIL: e });
+      try {
+        localStorage.setItem(cle, e);
+      } catch {
+        /* ignore */
+      }
+      setOpen(false);
+      telecharger();
+    } catch {
+      setErr("Petit souci de connexion. Réessaie dans un instant.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  const champ = open ? (
+    <div className={`mt-3 rounded-3xl border p-4 ${dark ? "border-white/15 bg-white/[0.06]" : "border-night-900/10 bg-white"}`}>
+      <p className={`text-sm ${dark ? "text-cream/75" : "text-night-900/70"}`}>
+        Entre ton e-mail pour recevoir l&apos;e-book — il sert aussi à t&apos;envoyer nos encouragements
+        (désinscription en un clic).
+      </p>
+      <div className="mt-3 flex items-center gap-2">
+        <input
+          type="email"
+          value={mail}
+          onChange={(e) => setMail(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") envoyer();
+          }}
+          placeholder="ton@email.fr"
+          disabled={busy}
+          className={`min-w-0 flex-1 rounded-full border px-4 py-2.5 text-sm focus:outline-none disabled:opacity-60 ${
+            dark
+              ? "border-white/20 bg-white/[0.08] text-cream placeholder:text-cream/35"
+              : "border-night-900/15 bg-[#FAFAF6] text-night-900 placeholder:text-night-900/35"
+          }`}
+        />
+        <button
+          type="button"
+          onClick={envoyer}
+          disabled={busy || !mail.trim()}
+          className="shrink-0 rounded-full bg-dawn-400 px-4 py-2.5 font-display text-sm font-bold text-night-950 disabled:opacity-40"
+        >
+          {busy ? "Envoi…" : "Recevoir"}
+        </button>
+      </div>
+      {err ? <p className="mt-2 text-xs font-semibold text-red-500">{err}</p> : null}
+    </div>
+  ) : null;
+
+  if (dark) {
+    return (
+      <div className="mt-8 w-full max-w-xs">
+        <button
+          type="button"
+          onClick={clic}
+          className="flex w-full items-center justify-center gap-2 rounded-full bg-dawn-400 py-3.5 font-display text-base font-bold text-night-950"
+        >
+          <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2}>
+            <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 19h14" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          Télécharger mon e-book offert
+        </button>
+        {champ}
+      </div>
+    );
+  }
+  return (
+    <div className="mt-3">
+      <button
+        type="button"
+        onClick={clic}
+        className="flex w-full items-center gap-3.5 rounded-3xl border border-night-900/10 bg-white p-4 text-left"
+      >
+        <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-dawn-400 text-night-950">
+          <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current" strokeWidth={1.9}>
+            <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 19h14" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block font-display text-[15px] font-extrabold">E-book offert</span>
+          <span className="block text-xs text-night-900/55">Reçois le livre complet en PDF — gratuit, contre ton e-mail.</span>
+        </span>
+        <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 fill-none stroke-night-900/35" strokeWidth={2}>
+          <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+      {champ}
+    </div>
+  );
 }
 
 /** Vrai une fois l'image réellement chargée. Sondée après montage : sur une
@@ -214,19 +350,7 @@ export function FormationView({ formationId }: { formationId: string }) {
             <span className="block text-[11px] font-bold text-cream/55">leçons</span>
           </p>
         </div>
-        {formation.ebook ? (
-          <a
-            href={ebookUrl(formation.ebook) ?? "#"}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-8 flex w-full max-w-xs items-center justify-center gap-2 rounded-full bg-dawn-400 py-3.5 font-display text-base font-bold text-night-950"
-          >
-            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2}>
-              <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 19h14" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            Télécharger mon e-book offert
-          </a>
-        ) : null}
+        <EbookGate formation={formation} dark />
         <button
           type="button"
           onClick={() => setBravo(false)}
@@ -423,27 +547,7 @@ export function FormationView({ formationId }: { formationId: string }) {
         </div>
 
         {/* E-book en accès direct */}
-        {formation.ebook ? (
-          <a
-            href={ebookUrl(formation.ebook) ?? "#"}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-3 flex items-center gap-3.5 rounded-3xl border border-night-900/10 bg-white p-4"
-          >
-            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-dawn-400 text-night-950">
-              <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current" strokeWidth={1.9}>
-                <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 19h14" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </span>
-            <span className="min-w-0 flex-1">
-              <span className="block font-display text-[15px] font-extrabold">E-book offert</span>
-              <span className="block text-xs text-night-900/55">Télécharge le livre complet en PDF — gratuit.</span>
-            </span>
-            <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 fill-none stroke-night-900/35" strokeWidth={2}>
-              <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </a>
-        ) : null}
+        <EbookGate formation={formation} />
       </header>
 
       {/* Mon parcours */}
@@ -1100,13 +1204,41 @@ function QuizView({
       <main className="container-x mx-auto max-w-2xl pt-6">
         {fini ? (
           <div className="pt-4 text-center">
-            <p className="mb-3 text-[11px] font-black uppercase tracking-[0.18em] text-night-900/50">Ta note</p>
-            <span
-              className={`mx-auto grid h-24 w-24 place-items-center rounded-full font-display text-2xl font-extrabold ${
-                reussi ? "bg-dawn-400 text-night-950" : "bg-night-900/10 text-night-900"
-              }`}
-            >
-              {score}/{lecon.quiz.length}
+            <style>{`
+              @keyframes notePop { 0% { transform: scale(0); opacity: 0 } 70% { transform: scale(1.12) } 100% { transform: scale(1); opacity: 1 } }
+              @keyframes noteMonte { 0% { opacity: 0 } 100% { opacity: 1 } }
+              @keyframes noteRay {
+                0% { transform: translate(-50%, -50%) rotate(var(--a)) translateY(-48px) scaleY(.4); opacity: 0 }
+                30% { opacity: 1 }
+                100% { transform: translate(-50%, -50%) rotate(var(--a)) translateY(-86px) scaleY(1); opacity: 0 }
+              }
+            `}</style>
+            <p className="mb-3 text-[11px] font-black uppercase tracking-[0.18em] text-night-900/50" style={{ animation: "noteMonte .5s ease-out .3s both" }}>
+              Ta note
+            </p>
+            <span className="relative mx-auto block h-24 w-24">
+              {reussi
+                ? Array.from({ length: 10 }).map((_, i) => (
+                    <span
+                      key={i}
+                      aria-hidden
+                      className="absolute left-1/2 top-1/2 h-3 w-1.5 rounded-full"
+                      style={{
+                        backgroundColor: ["#CAF000", "#FB923C", "#38BDF8", "#F472B6", "#A78BFA"][i % 5],
+                        ["--a" as string]: `${i * 36}deg`,
+                        animation: `noteRay .9s ease-out ${0.35 + (i % 4) * 0.06}s both`,
+                      }}
+                    />
+                  ))
+                : null}
+              <span
+                className={`grid h-24 w-24 place-items-center rounded-full font-display text-2xl font-extrabold ${
+                  reussi ? "bg-dawn-400 text-night-950" : "bg-night-900/10 text-night-900"
+                }`}
+                style={{ animation: "notePop .6s cubic-bezier(.2, 1.4, .4, 1) both" }}
+              >
+                {score}/{lecon.quiz.length}
+              </span>
             </span>
             <h2 className="mt-5 font-display text-2xl font-extrabold">
               {reussi ? "Leçon validée !" : "Presque…"}
