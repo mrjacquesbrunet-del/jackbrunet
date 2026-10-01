@@ -67,7 +67,7 @@ export function WallSection({
   /** Page d'un MEMBRE : seulement son mur (pas d'onglets ni de composeur). */
   onlyUser?: string;
 }) {
-  const [tab, setTab] = useState<"moi" | "amis" | "public">("moi");
+  const [tab, setTab] = useState<"moi" | "amis" | "public">("public");
   const [posts, setPosts] = useState<WallPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [hasMore, setHasMore] = useState(false);

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { asset } from "@/lib/asset";
 import { bibleHref } from "@/lib/bible-ref";
+import { LieuCarte } from "@/components/bible/LieuCarte";
 
 /** Rend un paragraphe d'histoire : les références entre parenthèses
  * (« (Genèse 12:1) ») deviennent des liens qui ouvrent le chapitre. */
@@ -47,6 +48,14 @@ export function TexteAvecRefs({
  * public/bible/fiches.json (pré-généré par scripts/build-fiches-index.mjs).
  */
 
+export type FicheMatch = { v: string; l?: [number, number]; c?: [number, number] };
+export type ParcoursEtape = {
+  t: string;
+  d?: string;
+  r?: string;
+  e?: string;
+  g?: [number, number];
+};
 export type Fiche = {
   nom: string;
   type: "personnage" | "lieu";
@@ -58,6 +67,14 @@ export type Fiche = {
   /** Récit long (paragraphes \n\n) avec références bibliques entre
    * parenthèses, rendues cliquables. */
   histoire?: string;
+  /** Variantes de nom (bornées livre/chapitre) — détection par verset. */
+  m?: FicheMatch[];
+  /** [lon, lat] pour la carte stylisée (lieux). */
+  geo?: [number, number];
+  /** Parcours chronologique (grandes figures), étapes ordonnées. */
+  parcours?: ParcoursEtape[];
+  /** Chronologie des écrits (auteurs bibliques). */
+  ecrits?: { t: string; e?: string; d?: string }[];
 };
 export type FichesData = {
   fiches: Record<string, Fiche>;
@@ -261,6 +278,11 @@ export function FichesChapitre({
 
               <p className="mt-4 text-[15px] leading-relaxed text-cream/85">{open.bio}</p>
 
+              {/* Lieu : la carte stylisée qui le situe */}
+              {open.type === "lieu" && open.geo ? (
+                <LieuCarte className="mt-4" points={[{ g: open.geo, label: open.nom.replace(/\s*\(.*\)$/, "") }]} />
+              ) : null}
+
               {/* Famille & liens : un tap ouvre la fiche liée */}
               {open.relations?.length ? (
                 <>
@@ -284,6 +306,83 @@ export function FichesChapitre({
                         </button>
                       );
                     })}
+                  </div>
+                </>
+              ) : null}
+
+              {/* Son parcours : carte du trajet + frise chronologique */}
+              {open.parcours?.length ? (
+                <>
+                  <p className="mt-5 text-[11px] font-black uppercase tracking-[0.2em] text-cream/45">Son parcours</p>
+                  {open.parcours.filter((s) => s.g).length > 1 ? (
+                    <LieuCarte
+                      className="mt-2"
+                      route
+                      points={open.parcours
+                        .filter((s) => s.g)
+                        .map((s) => ({ g: s.g as [number, number], label: s.t.split("—")[0].split("(")[0].trim() }))}
+                    />
+                  ) : null}
+                  <ol className="relative mt-3 space-y-0 border-l border-white/15 pl-5">
+                    {open.parcours.map((s, i) => {
+                      return (
+                        <li key={i} className="relative pb-4 last:pb-0">
+                          <span className="absolute -left-[1.45rem] top-0.5 grid h-4 w-4 place-items-center rounded-full border-2 border-dawn-400 bg-night-900 text-[8px] font-black text-dawn-300">
+                            {i + 1}
+                          </span>
+                          <p className="text-sm font-bold leading-snug text-cream">
+                            {s.t}
+                            {s.e ? <span className="ml-2 text-[11px] font-semibold text-cream/45">{s.e}</span> : null}
+                          </p>
+                          {s.d ? <p className="mt-0.5 text-[13px] leading-snug text-cream/70">{s.d}</p> : null}
+                          {s.r ? (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const h = bibleHref(s.r);
+                                if (!h) return;
+                                const q = new URLSearchParams(h.split("?")[1]);
+                                setOpenId(null);
+                                setListOpen(false);
+                                onNavigate(Number(q.get("livre")), Number(q.get("chap")));
+                              }}
+                              className="mt-0.5 text-xs font-bold text-dawn-300 underline decoration-dawn-300/40 underline-offset-2"
+                            >
+                              {s.r}
+                            </button>
+                          ) : null}
+                        </li>
+                      );
+                    })}
+                  </ol>
+                </>
+              ) : null}
+
+              {/* Ses écrits : la chronologie des livres */}
+              {open.ecrits?.length ? (
+                <>
+                  <p className="mt-5 text-[11px] font-black uppercase tracking-[0.2em] text-cream/45">Ses écrits</p>
+                  <div className="mt-2 space-y-2.5">
+                    {open.ecrits.map((w, i) => (
+                      <div key={i} className="rounded-2xl border border-white/10 bg-white/[0.05] px-3.5 py-2.5">
+                        <p className="text-sm font-bold text-cream">
+                          {w.t}
+                          {w.e ? <span className="ml-2 text-[11px] font-semibold text-dawn-300">{w.e}</span> : null}
+                        </p>
+                        {w.d ? (
+                          <div className="mt-0.5 [&_p]:text-[13px] [&_p]:leading-snug [&_p]:text-cream/70">
+                            <TexteAvecRefs
+                              texte={w.d}
+                              onNavigate={(l, c) => {
+                                setOpenId(null);
+                                setListOpen(false);
+                                onNavigate(l, c);
+                              }}
+                            />
+                          </div>
+                        ) : null}
+                      </div>
+                    ))}
                   </div>
                 </>
               ) : null}

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import type { Commentary } from "@/components/bible/CommentaryPanel";
 import { getFiches, Medaillon, type FichesData } from "@/components/bible/FichesChapitre";
+import { LieuCarte } from "@/components/bible/LieuCarte";
 import { Markable } from "@/components/ui/Markable";
 import { useToolkit, HIGHLIGHT_COLORS } from "@/lib/toolkit";
 import { shareText } from "@/lib/share";
@@ -36,7 +37,7 @@ const OUTILS: { id: Outil; label: (at: boolean) => string; lettre: (at: boolean)
   { id: "culture", label: () => "Culture", lettre: () => "L", couleur: "#F472B6" },
   { id: "interpretation", label: () => "Interprétation", lettre: () => "I", couleur: "#60A5FA" },
   { id: "commentaire", label: () => "Commentaire", lettre: () => "M", couleur: "#A78BFA" },
-  { id: "fiches", label: () => "Personnages", lettre: () => "P", couleur: "#CAF000" },
+  { id: "fiches", label: () => "Qui & où", lettre: () => "P", couleur: "#CAF000" },
 ];
 
 export function VersetOutils({
@@ -124,14 +125,33 @@ export function VersetOutils({
   const [nativeApp, setNativeApp] = useState(false);
   useEffect(() => setNativeApp(isNativeApp()), []);
 
-  // Personnages & lieux mentionnés DANS CE VERSET (parmi ceux du chapitre).
+  // Personnages & lieux mentionnés DANS CE VERSET (parmi ceux du chapitre),
+  // repérés par les vraies variantes de nom de l'index (mot entier, bornes
+  // livre/chapitre respectées) — exactement la logique du générateur.
   const versetFiches = useMemo(() => {
     if (!fiches) return [];
     const ids = fiches.chapitres[`${bookId}-${chapter}`] ?? [];
+    const WORD = "[A-Za-zÀ-ÖØ-öø-ÿ-]";
     return ids.filter((id) => {
-      const nom = fiches.fiches[id]?.nom ?? "";
-      const base = nom.replace(/\s*\(.*\)$/, "").replace(/^(Le |La |Les |L')/, "");
-      return base.split(" ").some((w) => w.length >= 3 && verseText.includes(w));
+      const f = fiches.fiches[id];
+      if (!f) return false;
+      const variants =
+        f.m
+          ?.filter(
+            (m) =>
+              (!m.l || (bookId >= m.l[0] && bookId <= m.l[1])) &&
+              (!m.c || (chapter >= m.c[0] && chapter <= m.c[1])),
+          )
+          .map((m) => m.v) ?? [];
+      const pool = variants.length ? variants : [f.nom];
+      return pool.some((v) => {
+        const esc = v.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        try {
+          return new RegExp(`(?<!${WORD})${esc}(?!${WORD})`).test(verseText);
+        } catch {
+          return verseText.includes(v);
+        }
+      });
     });
   }, [fiches, bookId, chapter, verseText]);
 
@@ -393,6 +413,11 @@ export function VersetOutils({
                     <span className="min-w-0 flex-1">
                       <span className="block font-display text-base font-extrabold">{f.nom}</span>
                       <span className={`mt-0.5 block text-sm leading-relaxed text-cream/75 ${ficheId === id ? "" : "line-clamp-2"}`}>{f.bio}</span>
+                      {ficheId === id && f.type === "lieu" && f.geo ? (
+                        <span className="mt-2 block">
+                          <LieuCarte points={[{ g: f.geo, label: f.nom.replace(/\s*\(.*\)$/, "") }]} />
+                        </span>
+                      ) : null}
                       {ficheId === id ? (
                         <span className="mt-2 flex flex-wrap gap-1.5">
                           {f.passages.map(([label, l, c]) => (
@@ -416,7 +441,7 @@ export function VersetOutils({
                 );
               })
             ) : (
-              <p className="text-sm text-cream/55">Aucun personnage identifié dans ce verset.</p>
+              <p className="text-sm text-cream/55">Aucun personnage ou lieu identifié dans ce verset.</p>
             )
           ) : chargement ? (
             <p className="text-sm text-cream/55">Chargement de l'étude…</p>

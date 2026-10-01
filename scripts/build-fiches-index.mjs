@@ -82,6 +82,14 @@ for (const e of entries) {
     // fiches, et récit long truffé de références bibliques cliquables.
     ...(e.relations?.length ? { relations: e.relations } : {}),
     ...(e.histoire ? { histoire: e.histoire } : {}),
+    // Variantes de nom (avec bornes livre/chapitre) : permettent au client de
+    // retrouver les figures mentionnées DANS UN VERSET précis.
+    m: e.match,
+    // Bible d'étude : coordonnées (lieux, carte stylisée), parcours
+    // chronologique et chronologie des écrits (grandes figures).
+    ...(e.geo ? { geo: e.geo } : {}),
+    ...(e.parcours?.length ? { parcours: e.parcours } : {}),
+    ...(e.ecrits?.length ? { ecrits: e.ecrits } : {}),
   };
 }
 
