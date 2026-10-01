@@ -436,10 +436,14 @@ function LecteurEtape({
   src,
   vitesse,
   onVitesse,
+  onProgress,
 }: {
   src: string;
   vitesse: number;
   onVitesse: (v: number) => void;
+  /** Progression de la lecture (0..1), seulement pendant que l'audio joue —
+   * sert au défilement automatique du texte. */
+  onProgress?: (frac: number) => void;
 }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [joue, setJoue] = useState(false);
@@ -489,7 +493,11 @@ function LecteurEtape({
             setDuree(e.currentTarget.duration || 0);
             e.currentTarget.playbackRate = VITESSES[vitesse];
           }}
-          onTimeUpdate={(e) => setPos(e.currentTarget.currentTime)}
+          onTimeUpdate={(e) => {
+            const a = e.currentTarget;
+            setPos(a.currentTime);
+            if (!a.paused && a.duration && onProgress) onProgress(a.currentTime / a.duration);
+          }}
         />
         <input
           type="range"
@@ -557,8 +565,10 @@ function LecteurEtape({
 
 /* ——— Lecture guidée plein écran : une partie à la fois, audio + texte ——— */
 function LectureEtapes({
+  formation,
   lecon,
   numero,
+  userId,
   idx,
   setIdx,
   nbLues,
@@ -567,8 +577,10 @@ function LectureEtapes({
   onReflexion,
   onNavigate,
 }: {
+  formation: Formation;
   lecon: Lecon;
   numero: number;
+  userId: string | null;
   idx: number;
   setIdx: (i: number) => void;
   nbLues: number;
@@ -582,13 +594,41 @@ function LectureEtapes({
   const total = etapes.length;
   const derniere = idx === total - 1;
   const [refOuverte, setRefOuverte] = useState<string | null>(null);
+  const [outil, setOutil] = useState<"note" | "question" | null>(null);
   const [vitesse, setVitesse] = useState(0);
   const defilRef = useRef<HTMLDivElement | null>(null);
+  // Défilement auto pendant l'audio — suspendu quelques secondes dès que
+  // le lecteur touche ou fait défiler lui-même le texte.
+  const pauseDefilRef = useRef(0);
+  const dernierTickRef = useRef(0);
   const audioSrc = audioRacineUrl(etape.fichier);
 
   useEffect(() => {
     defilRef.current?.scrollTo(0, 0);
   }, [idx]);
+
+  useEffect(() => {
+    const el = defilRef.current;
+    if (!el) return;
+    const marque = () => {
+      pauseDefilRef.current = Date.now() + 6000;
+    };
+    el.addEventListener("touchstart", marque, { passive: true });
+    el.addEventListener("wheel", marque, { passive: true });
+    return () => {
+      el.removeEventListener("touchstart", marque);
+      el.removeEventListener("wheel", marque);
+    };
+  }, []);
+
+  function suivreAudio(frac: number) {
+    const el = defilRef.current;
+    const now = Date.now();
+    if (!el || now < pauseDefilRef.current || now - dernierTickRef.current < 900) return;
+    dernierTickRef.current = now;
+    const cible = (el.scrollHeight - el.clientHeight) * Math.min(1, Math.max(0, frac));
+    el.scrollTo({ top: cible, behavior: "smooth" });
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col bg-[#F3F3ED] text-night-900">
@@ -612,9 +652,27 @@ function LectureEtapes({
               </p>
               <p className="truncate font-display text-base font-extrabold leading-tight">{etape.titre}</p>
             </div>
-            <span className="shrink-0 text-xs font-bold text-night-900/45">
-              {Math.min(nbLues, total)}/{total}
-            </span>
+            <button
+              type="button"
+              onClick={() => setOutil("note")}
+              aria-label="Prendre une note"
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-night-900/15 bg-white text-night-900"
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.9}>
+                <path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19l-4 1z" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={() => setOutil("question")}
+              aria-label="Poser une question"
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950"
+            >
+              <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-none stroke-current" strokeWidth={1.9}>
+                <path d="M21 12a8 8 0 1 0-3.1 6.3L21 19l-.9-3.2A8 8 0 0 0 21 12z" strokeLinejoin="round" />
+                <path d="M9.6 10a2.4 2.4 0 1 1 3.3 2.2c-.6.3-.9.7-.9 1.3M12 16.2h.01" strokeLinecap="round" />
+              </svg>
+            </button>
           </div>
           {/* Progression : une graduation par partie */}
           <div className="mt-2.5 flex gap-1">
@@ -690,10 +748,224 @@ function LectureEtapes({
         </div>
       </div>
 
-      {audioSrc ? <LecteurEtape key={etape.fichier} src={audioSrc} vitesse={vitesse} onVitesse={setVitesse} /> : null}
+      {audioSrc ? (
+        <LecteurEtape key={etape.fichier} src={audioSrc} vitesse={vitesse} onVitesse={setVitesse} onProgress={suivreAudio} />
+      ) : null}
       {refOuverte ? (
         <VersetSheet reference={refOuverte} onClose={() => setRefOuverte(null)} onNavigate={onNavigate} />
       ) : null}
+      {outil === "note" ? (
+        <FeuilleNote formation={formation} lecon={lecon} numero={numero} onClose={() => setOutil(null)} />
+      ) : null}
+      {outil === "question" ? (
+        <FeuilleQuestion
+          formation={formation}
+          lecon={lecon}
+          userId={userId}
+          onClose={() => setOutil(null)}
+          onNavigate={onNavigate}
+        />
+      ) : null}
+    </div>
+  );
+}
+
+/* ——— Feuille « Ma note » : annoter la leçon sans quitter la lecture ——— */
+function FeuilleNote({
+  formation,
+  lecon,
+  numero,
+  onClose,
+}: {
+  formation: Formation;
+  lecon: Lecon;
+  numero: number;
+  onClose: () => void;
+}) {
+  const [texte, setTexte] = useState("");
+  const [ok, setOk] = useState(false);
+  return (
+    <div className="fixed inset-0 z-[70] flex flex-col justify-end" role="dialog" aria-modal="true">
+      <button type="button" aria-label="Fermer" onClick={onClose} className="absolute inset-0 bg-night-950/55 backdrop-blur-[2px]" />
+      <div className="relative rounded-t-[28px] bg-[#F3F3ED] pb-[calc(env(safe-area-inset-bottom)+1rem)] text-night-900 shadow-[0_-18px_50px_rgba(0,0,0,0.35)]">
+        <div className="mx-auto mt-2.5 h-1.5 w-12 rounded-full bg-night-900/15" />
+        <div className="container-x mx-auto flex max-w-2xl items-center gap-3 pt-3">
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-night-900 text-cream">
+            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.9}>
+              <path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19l-4 1z" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#5F7A00]">Ma note</p>
+            <p className="truncate font-display text-base font-extrabold leading-tight">Ce que je retiens</p>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Fermer"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-night-900/15 bg-white"
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2}>
+              <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+            </svg>
+          </button>
+        </div>
+        <div className="container-x mx-auto mt-3 max-w-2xl">
+          <textarea
+            value={texte}
+            onChange={(e) => setTexte(e.target.value)}
+            rows={4}
+            autoFocus
+            placeholder="Ce que Dieu me montre dans cette partie…"
+            className="w-full resize-y rounded-2xl border border-night-900/15 bg-white px-3.5 py-3 text-[15px] text-night-900 placeholder:text-night-900/35 focus:outline-none"
+          />
+          <button
+            type="button"
+            disabled={!texte.trim() || ok}
+            onClick={() => {
+              addNote({
+                category: "Note",
+                title: `${formation.titre} — Leçon ${numero} : ${lecon.titre}`,
+                body: texte.trim(),
+              });
+              setOk(true);
+              setTimeout(onClose, 1100);
+            }}
+            className="mt-3 w-full rounded-full bg-dawn-400 py-3 font-display text-sm font-bold text-night-950 disabled:opacity-40"
+          >
+            {ok ? "Note enregistrée dans mon carnet" : "Garder dans mon carnet"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ——— Feuille « Question » : l'assistant répond sans quitter la lecture ——— */
+function FeuilleQuestion({
+  formation,
+  lecon,
+  userId,
+  onClose,
+  onNavigate,
+}: {
+  formation: Formation;
+  lecon: Lecon;
+  userId: string | null;
+  onClose: () => void;
+  onNavigate: (l: number, c: number) => void;
+}) {
+  const [q, setQ] = useState("");
+  const [rep, setRep] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  async function envoyer() {
+    const question = q.trim();
+    if (!question || busy) return;
+    setErr(null);
+    setBusy(true);
+    const contexte = lecon.sections.map((s) => `${s.t} : ${s.p}`).join("\n").slice(0, 1500);
+    const res = await askAssistant([
+      {
+        role: "user",
+        content: `Dans la formation « ${formation.titre} », leçon « ${lecon.titre} » (extrait : ${contexte}) — ma question : ${question}`,
+      },
+    ]);
+    setBusy(false);
+    if (res.ok) setRep(res.answer);
+    else
+      setErr(
+        res.error === "quota"
+          ? "Tu as posé tes 10 questions des dernières 24 h. Reviens un peu plus tard."
+          : res.error === "auth"
+            ? "Connecte-toi pour poser ta question."
+            : "Petit souci de connexion. Réessaie dans un instant.",
+      );
+  }
+
+  return (
+    <div className="fixed inset-0 z-[70] flex flex-col justify-end" role="dialog" aria-modal="true">
+      <button type="button" aria-label="Fermer" onClick={onClose} className="absolute inset-0 bg-night-950/55 backdrop-blur-[2px]" />
+      <div className="relative max-h-[80vh] overflow-y-auto rounded-t-[28px] bg-[#F3F3ED] pb-[calc(env(safe-area-inset-bottom)+1rem)] text-night-900 shadow-[0_-18px_50px_rgba(0,0,0,0.35)]">
+        <div className="mx-auto mt-2.5 h-1.5 w-12 rounded-full bg-night-900/15" />
+        <div className="container-x mx-auto flex max-w-2xl items-center gap-3 pt-3">
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950">
+            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.9}>
+              <path d="M21 12a8 8 0 1 0-3.1 6.3L21 19l-.9-3.2A8 8 0 0 0 21 12z" strokeLinejoin="round" />
+              <path d="M9.6 10a2.4 2.4 0 1 1 3.3 2.2c-.6.3-.9.7-.9 1.3M12 16.2h.01" strokeLinecap="round" />
+            </svg>
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#5F7A00]">Une question ?</p>
+            <p className="truncate font-display text-base font-extrabold leading-tight">L&apos;assistant te répond</p>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Fermer"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-night-900/15 bg-white"
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2}>
+              <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+            </svg>
+          </button>
+        </div>
+        <div className="container-x mx-auto mt-3 max-w-2xl">
+          {!userId ? (
+            <p className="rounded-3xl bg-white px-4 py-3.5 text-sm text-night-900/60">
+              Connecte-toi pour poser ta question sur cette leçon.
+            </p>
+          ) : rep ? (
+            <>
+              <div className="space-y-2.5 rounded-3xl bg-white px-4 py-3.5">
+                {rep.split("\n\n").map((par, i) => (
+                  <TexteAvecRefs key={i} texte={par} onNavigate={onNavigate} light />
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setRep(null);
+                  setQ("");
+                }}
+                className="mt-3 rounded-full border border-night-900/15 px-4 py-2 text-xs font-bold text-night-900/70"
+              >
+                Poser une autre question
+              </button>
+            </>
+          ) : (
+            <>
+              <div className="flex items-center gap-2">
+                <input
+                  value={q}
+                  onChange={(e) => setQ(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") envoyer();
+                  }}
+                  autoFocus
+                  placeholder="Écris ta question ici…"
+                  disabled={busy}
+                  className="min-w-0 flex-1 rounded-full border border-night-900/15 bg-white px-4 py-3 text-sm text-night-900 placeholder:text-night-900/35 focus:outline-none disabled:opacity-60"
+                />
+                <button
+                  type="button"
+                  onClick={envoyer}
+                  disabled={!q.trim() || busy}
+                  aria-label="Envoyer"
+                  className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950 disabled:opacity-40"
+                >
+                  <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2}>
+                    <path d="M4 12l16-7-4.5 7L20 19zM4 12h11" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              </div>
+              {busy ? <p className="mt-2.5 text-xs font-semibold text-night-900/50">L&apos;assistant médite ta question…</p> : null}
+              {err ? <p className="mt-2.5 text-xs font-semibold text-red-600">{err}</p> : null}
+            </>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
@@ -1142,8 +1414,10 @@ function LeconView({
   if (lecture && etapes.length) {
     return (
       <LectureEtapes
+        formation={formation}
         lecon={lecon}
         numero={numero}
+        userId={userId}
         idx={idxEtape}
         setIdx={setIdxEtape}
         nbLues={nbLues}
