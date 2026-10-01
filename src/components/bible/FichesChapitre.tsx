@@ -2,6 +2,41 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { asset } from "@/lib/asset";
+import { bibleHref } from "@/lib/bible-ref";
+
+/** Rend un paragraphe d'histoire : les références entre parenthèses
+ * (« (Genèse 12:1) ») deviennent des liens qui ouvrent le chapitre. */
+export function TexteAvecRefs({
+  texte,
+  onNavigate,
+}: {
+  texte: string;
+  onNavigate: (bookId: number, chapter: number) => void;
+}) {
+  const parts = texte.split(/\(((?:[1-3]\s?)?[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ\s-]*?\s\d+(?:[.:]\d+(?:-\d+)?)?)\)/g);
+  return (
+    <p className="text-[15px] leading-relaxed text-cream/85">
+      {parts.map((part, i) => {
+        if (i % 2 === 0) return <span key={i}>{part}</span>;
+        const href = bibleHref(part);
+        if (!href) return <span key={i}>({part})</span>;
+        const params = new URLSearchParams(href.split("?")[1]);
+        const l = Number(params.get("livre"));
+        const c = Number(params.get("chap"));
+        return (
+          <button
+            key={i}
+            type="button"
+            onClick={() => onNavigate(l, c)}
+            className="font-semibold text-dawn-300 underline decoration-dawn-300/40 underline-offset-2"
+          >
+            ({part})
+          </button>
+        );
+      })}
+    </p>
+  );
+}
 
 /**
  * « Dans ce chapitre » — les personnages et les lieux dont parle le chapitre,
@@ -18,6 +53,11 @@ export type Fiche = {
   bio: string;
   periode?: string;
   passages: [string, number, number][];
+  /** Liens familiaux/spirituels vers d'autres fiches : [étiquette, id]. */
+  relations?: [string, string][];
+  /** Récit long (paragraphes \n\n) avec références bibliques entre
+   * parenthèses, rendues cliquables. */
+  histoire?: string;
 };
 export type FichesData = {
   fiches: Record<string, Fiche>;
@@ -220,6 +260,55 @@ export function FichesChapitre({
               </div>
 
               <p className="mt-4 text-[15px] leading-relaxed text-cream/85">{open.bio}</p>
+
+              {/* Famille & liens : un tap ouvre la fiche liée */}
+              {open.relations?.length ? (
+                <>
+                  <p className="mt-5 text-[11px] font-black uppercase tracking-[0.2em] text-cream/45">Famille &amp; liens</p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {open.relations.map(([label, rid]) => {
+                      const rf = data.fiches[rid];
+                      if (!rf) return null;
+                      return (
+                        <button
+                          key={`${rid}-${label}`}
+                          type="button"
+                          onClick={() => setOpenId(rid)}
+                          className="flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] py-1 pl-1 pr-3 transition-colors hover:bg-white/10"
+                        >
+                          <Medaillon id={rid} fiche={rf} size="h-8 w-8" />
+                          <span className="text-left leading-tight">
+                            <span className="block text-[9px] font-black uppercase tracking-wide text-dawn-300">{label}</span>
+                            <span className="block text-xs font-bold text-cream">{rf.nom}</span>
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </>
+              ) : null}
+
+              {/* Son histoire : le récit long, références cliquables */}
+              {open.histoire ? (
+                <>
+                  <p className="mt-5 text-[11px] font-black uppercase tracking-[0.2em] text-cream/45">
+                    {open.type === "personnage" ? "Son histoire" : "Dans l'histoire biblique"}
+                  </p>
+                  <div className="mt-2 space-y-3">
+                    {open.histoire.split("\n\n").map((par, i) => (
+                      <TexteAvecRefs
+                        key={i}
+                        texte={par}
+                        onNavigate={(l, c) => {
+                          setOpenId(null);
+                          setListOpen(false);
+                          onNavigate(l, c);
+                        }}
+                      />
+                    ))}
+                  </div>
+                </>
+              ) : null}
 
               <p className="mt-5 text-[11px] font-black uppercase tracking-[0.2em] text-cream/45">Passages clés</p>
               <div className="mt-2 flex flex-wrap gap-2">

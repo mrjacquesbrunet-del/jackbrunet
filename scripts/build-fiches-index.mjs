@@ -78,6 +78,10 @@ for (const e of entries) {
     bio: e.bio,
     ...(e.periode ? { periode: e.periode } : {}),
     passages: e.passages,
+    // Enrichissements façon encyclopédie : liens familiaux/spirituels entre
+    // fiches, et récit long truffé de références bibliques cliquables.
+    ...(e.relations?.length ? { relations: e.relations } : {}),
+    ...(e.histoire ? { histoire: e.histoire } : {}),
   };
 }
 
