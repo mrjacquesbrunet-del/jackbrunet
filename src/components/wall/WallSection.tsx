@@ -187,6 +187,7 @@ export function WallSection({
               key={p.id}
               post={p}
               me={me}
+              myProfile={myProfile}
               dark={dark}
               canDelete={p.author_id === me || isModerator}
               reaction={reactions[p.id] ?? { mine: null, counts: {} }}
@@ -433,6 +434,7 @@ function WallComposer({
 function WallPostCard({
   post,
   me,
+  myProfile,
   dark,
   canDelete,
   reaction,
@@ -443,6 +445,7 @@ function WallPostCard({
 }: {
   post: WallPost;
   me: string;
+  myProfile?: Profile | null;
   dark: boolean;
   canDelete: boolean;
   reaction: { mine: string | null; counts: Record<string, number> };
@@ -627,7 +630,7 @@ function WallPostCard({
         </button>
       </div>
 
-      {commentsOpen ? <WallComments postId={post.id} me={me} dark={dark} /> : null}
+      {commentsOpen ? <WallComments postId={post.id} me={me} myProfile={myProfile} dark={dark} /> : null}
     </article>
   );
 }
@@ -666,7 +669,7 @@ function PlatformIcon({ platform }: { platform: string }) {
 }
 
 // ————————————————————————— Commentaires —————————————————————————
-function WallComments({ postId, me, dark }: { postId: string; me: string; dark: boolean }) {
+function WallComments({ postId, me, myProfile, dark }: { postId: string; me: string; myProfile?: Profile | null; dark: boolean }) {
   const [comments, setComments] = useState<WallComment[] | null>(null);
   const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
@@ -687,7 +690,9 @@ function WallComments({ postId, me, dark }: { postId: string; me: string; dark: 
     const c = await addWallComment(postId, me, draft);
     setBusy(false);
     if (c) {
-      setComments((cur) => [...(cur ?? []), c]);
+      // Le commentaire revient brut de la base : on y attache tout de suite
+      // mon profil pour que le nom et l'avatar s'affichent sans recharger.
+      setComments((cur) => [...(cur ?? []), { ...c, author: myProfile ?? undefined }]);
       setDraft("");
     }
   }
