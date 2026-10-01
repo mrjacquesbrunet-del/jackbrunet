@@ -9,6 +9,7 @@ import { asset } from "@/lib/asset";
 import { addNote } from "@/lib/notebook";
 import { askAssistant } from "@/lib/assistant";
 import {
+  audioLeconUrl,
   ebookUrl,
   getFormation,
   listFormationProgress,
@@ -59,6 +60,42 @@ function Vignette({ src }: { src: string }) {
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img src={asset(src)} alt="" aria-hidden className="h-12 w-16 shrink-0 rounded-xl object-cover" />
+  );
+}
+
+/** Carte « Écouter la leçon » : la narration audio si elle existe dans le
+ * bucket (formations/<formation>/<leçon>.mp3) — sinon rien. Sondée après
+ * montage, comme les images. */
+function LeconAudio({ formationId, leconId }: { formationId: string; leconId: string }) {
+  const [url, setUrl] = useState<string | null>(null);
+  useEffect(() => {
+    const u = audioLeconUrl(formationId, leconId);
+    if (!u) return;
+    let actif = true;
+    const probe = new Audio();
+    probe.preload = "metadata";
+    probe.onloadedmetadata = () => {
+      if (actif) setUrl(u);
+    };
+    probe.src = u;
+    return () => {
+      actif = false;
+      probe.src = "";
+    };
+  }, [formationId, leconId]);
+  if (!url) return null;
+  return (
+    <div className="mb-5 rounded-3xl border border-night-900/10 bg-white p-4">
+      <p className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.18em] text-night-900/50">
+        <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-[#5F7A00]" strokeWidth={2}>
+          <path d="M4 10v4h3l5 4V6L7 10H4z" strokeLinejoin="round" />
+          <path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" strokeLinecap="round" />
+        </svg>
+        Écouter la leçon
+      </p>
+      {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+      <audio controls preload="none" src={url} className="mt-2.5 w-full" />
+    </div>
   );
 }
 
@@ -586,6 +623,7 @@ function LeconView({
               />
             ) : (
               <>
+            <LeconAudio formationId={formation.id} leconId={lecon.id} />
             {lecon.image ? <LeconHero src={lecon.image} /> : null}
 
             {/* Chapitres de la leçon */}
