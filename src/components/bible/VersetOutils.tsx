@@ -3,8 +3,10 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import type { Commentary } from "@/components/bible/CommentaryPanel";
-import { FicheSheet, getFiches, Medaillon, type FichesData } from "@/components/bible/FichesChapitre";
+import { FicheSheet, getFiches, Medaillon, TexteAvecRefs as TexteAvecRefsVerset, type FichesData } from "@/components/bible/FichesChapitre";
 import { Markable } from "@/components/ui/Markable";
+import { useAuth } from "@/components/community/useAuth";
+import { askAssistant } from "@/lib/assistant";
 import { useToolkit, HIGHLIGHT_COLORS } from "@/lib/toolkit";
 import { shareText } from "@/lib/share";
 import { appShareUrl } from "@/config/app-links";
@@ -27,7 +29,7 @@ import {
  * généré en direct.
  */
 
-type Outil = "mots" | "contexte" | "culture" | "interpretation" | "commentaire" | "fiches";
+type Outil = "mots" | "contexte" | "culture" | "interpretation" | "commentaire" | "fiches" | "question";
 type Onglet = "annoter" | "etudier" | "partager";
 
 const OUTILS: { id: Outil; label: (at: boolean) => string; lettre: (at: boolean) => string; couleur: string }[] = [
@@ -37,6 +39,7 @@ const OUTILS: { id: Outil; label: (at: boolean) => string; lettre: (at: boolean)
   { id: "interpretation", label: () => "Interprétation", lettre: () => "I", couleur: "#60A5FA" },
   { id: "commentaire", label: () => "Commentaire", lettre: () => "M", couleur: "#A78BFA" },
   { id: "fiches", label: () => "Qui & où", lettre: () => "P", couleur: "#CAF000" },
+  { id: "question", label: () => "Question", lettre: () => "?", couleur: "#FB923C" },
 ];
 
 export function VersetOutils({
@@ -122,6 +125,37 @@ export function VersetOutils({
   }
   const [memorizing, setMemorizing] = useState(false);
   const [nativeApp, setNativeApp] = useState(false);
+
+  // ————— « Pose ta question » : l'assistant, avec le verset en contexte —————
+  const { userId } = useAuth();
+  const [question, setQuestion] = useState("");
+  const [reponse, setReponse] = useState<string | null>(null);
+  const [qBusy, setQBusy] = useState(false);
+  const [qErr, setQErr] = useState<string | null>(null);
+  async function poserQuestion() {
+    const q = question.trim();
+    if (!q || qBusy) return;
+    setQErr(null);
+    setQBusy(true);
+    const res = await askAssistant([
+      {
+        role: "user",
+        content: `À propos de ${reference} — « ${verseText} » : ${q}`,
+      },
+    ]);
+    setQBusy(false);
+    if (res.ok) {
+      setReponse(res.answer);
+    } else {
+      setQErr(
+        res.error === "quota"
+          ? "Tu as posé tes 10 questions des dernières 24 h. Reviens un peu plus tard."
+          : res.error === "auth"
+            ? "Connecte-toi pour poser ta question."
+            : "Petit souci de connexion. Réessaie dans un instant.",
+      );
+    }
+  }
   useEffect(() => setNativeApp(isNativeApp()), []);
 
   // Personnages & lieux mentionnés DANS CE VERSET (parmi ceux du chapitre),
@@ -155,6 +189,7 @@ export function VersetOutils({
   }, [fiches, bookId, chapter, verseText]);
 
   const dispo = (o: Outil): boolean => {
+    if (o === "question") return true;
     if (o === "fiches") return versetFiches.length > 0;
     if (commentaryState !== "loaded" || !commentary) return true; // en attente
     if (o === "mots") return (commentary.mots?.length ?? 0) > 0;
@@ -258,7 +293,7 @@ export function VersetOutils({
 
         {/* L'onglet Étudier garde la grille d'outils ronds */}
         {onglet === "etudier" ? (
-          <div className="grid grid-cols-6 gap-1 border-b border-white/10 px-3 py-3">
+          <div className="grid grid-cols-7 gap-1 border-b border-white/10 px-3 py-3">
             {OUTILS.map((o) => {
               const actif = outil === o.id;
               const ok = dispo(o.id);
@@ -425,6 +460,63 @@ export function VersetOutils({
             ) : (
               <p className="text-sm text-cream/55">Aucun personnage ou lieu identifié dans ce verset.</p>
             )
+          ) : outil === "question" ? (
+            <div>
+              {!userId ? (
+                <p className="text-sm text-cream/60">Connecte-toi pour poser ta question sur ce verset.</p>
+              ) : reponse ? (
+                <>
+                  <p className="text-[11px] font-black uppercase tracking-[0.18em] text-dawn-400">Réponse</p>
+                  <div className="mt-2 space-y-2.5">
+                    {reponse.split("\n\n").map((par, i) => (
+                      <TexteAvecRefsVerset key={i} texte={par} onNavigate={(l, c) => { onClose(); onNavigate(l, c); }} />
+                    ))}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setReponse(null);
+                      setQuestion("");
+                    }}
+                    className="mt-3 rounded-full border border-white/15 px-4 py-2 text-xs font-bold text-cream/70"
+                  >
+                    Poser une autre question
+                  </button>
+                </>
+              ) : (
+                <>
+                  <p className="text-sm text-cream/60">
+                    Pose ta question sur <span className="font-bold text-cream/85">{reference}</span> — la réponse
+                    s'appuie sur la Bible, versets cliquables.
+                  </p>
+                  <div className="mt-3 flex items-center gap-2">
+                    <input
+                      value={question}
+                      onChange={(e) => setQuestion(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") poserQuestion();
+                      }}
+                      placeholder="Que signifie ce verset… ?"
+                      disabled={qBusy}
+                      className="flex-1 rounded-full border border-white/15 bg-night-950/50 px-4 py-2.5 text-sm text-cream placeholder:text-cream/40 focus:outline-none disabled:opacity-60"
+                    />
+                    <button
+                      type="button"
+                      onClick={poserQuestion}
+                      disabled={!question.trim() || qBusy}
+                      aria-label="Envoyer"
+                      className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950 disabled:opacity-40"
+                    >
+                      <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2}>
+                        <path d="M4 12l16-7-4.5 7L20 19zM4 12h11" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </button>
+                  </div>
+                  {qBusy ? <p className="mt-2.5 text-xs font-semibold text-cream/50">L'assistant médite ta question…</p> : null}
+                  {qErr ? <p className="mt-2.5 text-xs font-semibold text-red-300">{qErr}</p> : null}
+                </>
+              )}
+            </div>
           ) : chargement ? (
             <p className="text-sm text-cream/55">Chargement de l'étude…</p>
           ) : commentaryState === "none" || !commentary ? (
