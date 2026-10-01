@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { Avatar } from "@/components/community/Avatar";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { ReportButton } from "@/components/community/ReportButton";
@@ -56,12 +57,15 @@ export function WallSection({
   myProfile,
   isModerator = false,
   dark = true,
+  onlyUser,
 }: {
   /** Mon id (connecté). */
   me: string;
   myProfile?: Profile | null;
   isModerator?: boolean;
   dark?: boolean;
+  /** Page d'un MEMBRE : seulement son mur (pas d'onglets ni de composeur). */
+  onlyUser?: string;
 }) {
   const [tab, setTab] = useState<"moi" | "amis" | "public">("moi");
   const [posts, setPosts] = useState<WallPost[]>([]);
@@ -77,11 +81,12 @@ export function WallSection({
 
   const fetchPage = useCallback(
     async (before?: string) => {
+      if (onlyUser) return listUserWall(onlyUser, before);
       if (tab === "moi") return listUserWall(me, before);
       if (tab === "amis") return listFriendsWall(following, before);
       return listPublicWall(before);
     },
-    [tab, me, following],
+    [tab, me, following, onlyUser],
   );
 
   const refreshMeta = useCallback(
@@ -130,7 +135,7 @@ export function WallSection({
   return (
     <div>
       {/* Les trois onglets du mur */}
-      <div className={`flex rounded-full p-1 ${dark ? "bg-white/[0.07]" : "bg-night-900/[0.06]"}`}>
+      <div className={`${onlyUser ? "hidden" : "flex"} rounded-full p-1 ${dark ? "bg-white/[0.07]" : "bg-night-900/[0.06]"}`}>
         {(
           [
             ["moi", "Mon profil"],
@@ -151,6 +156,7 @@ export function WallSection({
       </div>
 
       {/* Composeur */}
+      {onlyUser ? null : (
       <WallComposer
         me={me}
         myProfile={myProfile}
@@ -159,13 +165,16 @@ export function WallSection({
           if (tab !== "amis") setPosts((cur) => [{ ...p, author: myProfile ?? undefined }, ...cur]);
         }}
       />
+      )}
 
       {/* Le fil */}
       {loading ? (
         <p className={`mt-6 text-center text-sm ${sub}`}>Chargement du mur…</p>
       ) : posts.length === 0 ? (
         <p className={`mt-6 text-center text-sm ${sub}`}>
-          {tab === "moi"
+          {onlyUser
+            ? "Aucune publication pour l'instant."
+            : tab === "moi"
             ? "Ton mur est vide : écris ta première publication."
             : tab === "amis"
               ? "Aucune publication de tes amis pour l'instant — abonne-toi à des membres."
@@ -508,14 +517,20 @@ function WallPostCard({
 
   return (
     <article className={`rounded-3xl border p-4 shadow-card ${card}`}>
-      {/* Auteur */}
+      {/* Auteur : un tap ouvre son profil */}
       <div className="flex items-center gap-2.5">
-        <Avatar url={post.author?.avatar_url ?? null} pseudo={post.author?.pseudo ?? ""} size={38} />
+        <Link href={post.author_id === me ? "/profil" : `/membre?u=${post.author_id}`} className="shrink-0">
+          <Avatar url={post.author?.avatar_url ?? null} pseudo={post.author?.pseudo ?? ""} size={38} />
+        </Link>
         <div className="min-w-0 flex-1">
-          <p className={`truncate text-sm font-bold ${text}`} style={post.author?.name_color ? { color: post.author.name_color } : undefined}>
+          <Link
+            href={post.author_id === me ? "/profil" : `/membre?u=${post.author_id}`}
+            className={`block truncate text-sm font-bold ${text}`}
+            style={post.author?.name_color ? { color: post.author.name_color } : undefined}
+          >
             {post.author?.pseudo ?? "Membre"}
             {post.author?.verified ? <VerifiedBadge className="ml-1 inline-block h-4 w-4 align-text-bottom" /> : null}
-          </p>
+          </Link>
           <p className={`flex items-center gap-1.5 text-[11px] ${sub}`}>
             {timeAgo(post.created_at)}
             {post.visibility === "friends" ? <span>· Amis</span> : null}
@@ -549,8 +564,10 @@ function WallPostCard({
         {post.original ? (
           <div className={`mt-2 rounded-2xl border p-3 ${dark ? "border-white/12 bg-night-950/40" : "border-night-900/10 bg-night-900/[0.03]"}`}>
             <div className="mb-1.5 flex items-center gap-2">
-              <Avatar url={post.original.author?.avatar_url ?? null} pseudo={post.original.author?.pseudo ?? ""} size={24} />
-              <span className={`text-xs font-bold ${text}`}>{post.original.author?.pseudo ?? "Membre"}</span>
+              <Link href={post.original.author_id === me ? "/profil" : `/membre?u=${post.original.author_id}`} className="flex items-center gap-2">
+                <Avatar url={post.original.author?.avatar_url ?? null} pseudo={post.original.author?.pseudo ?? ""} size={24} />
+                <span className={`text-xs font-bold ${text}`}>{post.original.author?.pseudo ?? "Membre"}</span>
+              </Link>
               <span className={`text-[11px] ${sub}`}>{timeAgo(post.original.created_at)}</span>
             </div>
             <Body p={post.original} />
@@ -683,9 +700,13 @@ function WallComments({ postId, me, dark }: { postId: string; me: string; dark: 
         <div className="space-y-2.5">
           {comments.map((c) => (
             <div key={c.id} className="flex items-start gap-2">
-              <Avatar url={c.author?.avatar_url ?? null} pseudo={c.author?.pseudo ?? ""} size={28} />
+              <Link href={c.author_id === me ? "/profil" : `/membre?u=${c.author_id}`} className="shrink-0">
+                <Avatar url={c.author?.avatar_url ?? null} pseudo={c.author?.pseudo ?? ""} size={28} />
+              </Link>
               <div className={`min-w-0 flex-1 rounded-2xl px-3 py-2 ${dark ? "bg-white/[0.06]" : "bg-night-900/[0.05]"}`}>
-                <p className={`text-xs font-bold ${text}`}>{c.author?.pseudo ?? "Membre"}</p>
+                <Link href={c.author_id === me ? "/profil" : `/membre?u=${c.author_id}`} className={`block text-xs font-bold ${text}`}>
+                  {c.author?.pseudo ?? "Membre"}
+                </Link>
                 <p className={`whitespace-pre-wrap text-sm leading-relaxed ${text}`}>{c.body}</p>
               </div>
             </div>

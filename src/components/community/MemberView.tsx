@@ -30,6 +30,7 @@ import {
   type Prayer,
 } from "@/lib/community";
 import { gradeFor, type Activity } from "@/lib/grades";
+import { WallSection } from "@/components/wall/WallSection";
 
 export function MemberView() {
   const params = useSearchParams();
@@ -420,6 +421,18 @@ export function MemberView() {
         )}
       </div>
       </div>
+
+      {/* Le mur du membre : ses publications (photos, versets, liens…) */}
+      {memberId ? (
+        <div className="container-x mt-8">
+          <p className={`mb-1 flex items-center gap-3 text-[11px] font-black uppercase tracking-[0.22em] ${jour ? "text-night-900/40" : "text-cream/40"}`}>
+            <span className="h-px flex-1 bg-current opacity-30" />
+            Ses publications
+            <span className="h-px flex-1 bg-current opacity-30" />
+          </p>
+          <WallSection me={userId ?? ""} onlyUser={memberId} dark={!jour} />
+        </div>
+      ) : null}
 
       {/* Liste des abonnés / abonnements (privée si le membre l'a choisi) */}
       {showList && memberId ? (
