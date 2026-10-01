@@ -56,16 +56,14 @@ export function EcoleView() {
 
       <main className="container-x relative mx-auto mt-8 max-w-2xl">
         {/* ——— Formation vedette (affiche) ——— */}
-        <Link href="/ecole/fondamentaux" className="relative block overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-br from-[#2E3A14] via-night-900 to-night-950 p-6 shadow-card transition-transform active:scale-[0.99]">
-          {/* Toque en filigrane */}
-          <svg
-            viewBox="0 0 24 24"
-            aria-hidden
-            className="absolute -right-8 -top-8 h-48 w-48 fill-none stroke-dawn-400/[0.12]"
-            strokeWidth={0.8}
-          >
-            <path d="M2 9.5l10-5 10 5-10 5-10-5M5.8 12.4v3.8c0 1.4 2.8 2.8 6.2 2.8s6.2-1.4 6.2-2.8v-3.8M22 9.5v5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+        <Link href="/ecole/fondamentaux" className="relative block overflow-hidden rounded-[2rem] border border-white/10 shadow-card transition-transform active:scale-[0.99]">
+          {/* L'affiche : la couverture du livre */}
+          <span aria-hidden className="absolute inset-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/img/ecole/fondamentaux-vol1.jpg" alt="" className="h-full w-full object-cover object-top" />
+            <span className="absolute inset-0 bg-gradient-to-t from-night-950 via-night-950/55 to-night-950/15" />
+          </span>
+          <span className="relative block p-6 pt-36">
           <p className="inline-flex items-center gap-2 rounded-full bg-dawn-400/15 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-dawn-300">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-dawn-400" />
             Formation · 7 leçons
@@ -82,6 +80,7 @@ export function EcoleView() {
             <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.4}>
               <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
+          </span>
           </span>
         </Link>
 

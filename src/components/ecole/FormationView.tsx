@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/community/useAuth";
 import { TexteAvecRefs } from "@/components/bible/FichesChapitre";
 import { Celebration } from "@/components/ui/Celebration";
+import { asset } from "@/lib/asset";
 import {
   ebookUrl,
   getFormation,
@@ -30,6 +31,7 @@ export function FormationView({ formationId }: { formationId: string }) {
   const [done, setDone] = useState<number[]>([]);
   const [openLesson, setOpenLesson] = useState<number | null>(null); // 1-based
   const [celebrate, setCelebrate] = useState(false);
+  const [autriceOpen, setAutriceOpen] = useState(false);
 
   useEffect(() => {
     if (userId && formation) {
@@ -93,34 +95,50 @@ export function FormationView({ formationId }: { formationId: string }) {
         onClose={() => setCelebrate(false)}
       />
 
-      {/* Héros */}
-      <header className="relative overflow-hidden">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(40rem 20rem at 90% -10%, rgba(202,240,0,0.14), transparent 60%), linear-gradient(170deg, #2E3A14 0%, #171716 45%)",
-          }}
-        />
-        <div className="container-x relative mx-auto max-w-2xl pb-7 pt-[calc(env(safe-area-inset-top)+1.25rem)]">
-          <Link
-            href="/ecole"
-            aria-label="École biblique"
-            className="inline-grid h-10 w-10 place-items-center rounded-full bg-night-950/50 text-cream backdrop-blur"
-          >
-            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2}>
-              <path d="M15 6l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </Link>
-          <p className="mt-5 text-[10px] font-black uppercase tracking-[0.22em] text-dawn-300">
-            Formation{formation.volume ? ` · ${formation.volume}` : ""}
-          </p>
-          <h1 className="mt-1.5 font-display text-3xl font-extrabold leading-tight sm:text-4xl">
-            {formation.titre}
-          </h1>
-          <p className="mt-1.5 text-sm font-bold text-cream/60">Par {formation.auteur}</p>
-          <p className="mt-3 max-w-lg text-[15px] leading-relaxed text-cream/75">{formation.accroche}</p>
+      {/* Héros : l'affiche du livre, façon fiche Netflix */}
+      <header className="relative">
+        <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[16/9]">
+          {formation.cover ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={asset(formation.cover)} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover object-top" />
+          ) : (
+            <div className="absolute inset-0 bg-gradient-to-br from-night-800 to-night-950" />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-night-950 via-night-950/40 to-night-950/10" />
+          <div className="absolute inset-x-0 top-0 p-4 pt-[calc(env(safe-area-inset-top)+1rem)]">
+            <Link
+              href="/ecole"
+              aria-label="École biblique"
+              className="inline-grid h-10 w-10 place-items-center rounded-full bg-night-950/50 text-cream backdrop-blur"
+            >
+              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2}>
+                <path d="M15 6l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
+          </div>
+          <div className="absolute inset-x-0 bottom-0 p-5">
+            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-dawn-300">
+              Formation{formation.volume ? ` · ${formation.volume}` : ""} · {total} leçons
+            </span>
+            <h1 className="mt-1.5 font-display text-3xl font-extrabold leading-tight text-cream sm:text-4xl">
+              {formation.titre}
+            </h1>
+            <button type="button" onClick={() => setAutriceOpen(true)} className="mt-3 flex items-center gap-2.5 text-left" aria-label="Voir la fiche de l'autrice">
+              <span className="grid h-11 w-11 place-items-center rounded-full bg-spirit-500 font-display text-sm font-extrabold text-cream ring-2 ring-dawn-400/70">
+                J
+              </span>
+              <span className="leading-tight">
+                <span className="block text-[10px] font-bold uppercase tracking-[0.16em] text-cream/55">Par</span>
+                <span className="block font-display text-sm font-bold text-cream">{formation.auteur}</span>
+                {formation.auteurRole ? (
+                  <span className="block text-[11px] font-semibold text-cream/55">{formation.auteurRole}</span>
+                ) : null}
+              </span>
+            </button>
+          </div>
+        </div>
+        <div className="container-x relative mx-auto max-w-2xl pb-7 pt-5">
+          <p className="max-w-lg text-[15px] leading-relaxed text-cream/75">{formation.accroche}</p>
 
           {/* Objectifs */}
           <div className="mt-5 space-y-1.5">
@@ -179,8 +197,8 @@ export function FormationView({ formationId }: { formationId: string }) {
         </div>
       </header>
 
-      {/* E-book offert (à la fin) */}
-      {complete && formation.ebook ? (
+      {/* E-book offert : téléchargeable directement */}
+      {formation.ebook ? (
         <div className="container-x mx-auto mt-6 max-w-2xl">
           <a
             href={ebookUrl(formation.ebook) ?? "#"}
@@ -195,11 +213,11 @@ export function FormationView({ formationId }: { formationId: string }) {
             </span>
             <span className="min-w-0 flex-1">
               <span className="block text-[10px] font-black uppercase tracking-[0.18em] text-dawn-300">
-                Ta récompense
+                {complete ? "Félicitations — ta récompense" : "E-book offert"}
               </span>
-              <span className="block font-display text-lg font-extrabold">L&apos;e-book t&apos;est offert</span>
+              <span className="block font-display text-lg font-extrabold">Télécharge le livre complet</span>
               <span className="block text-sm text-cream/65">
-                « {formation.titre} » ({formation.volume}) en PDF, à garder et relire.
+                « {formation.titre} » ({formation.volume}) en PDF — gratuit, à garder et relire.
               </span>
             </span>
           </a>
@@ -264,6 +282,36 @@ export function FormationView({ formationId }: { formationId: string }) {
             </button>
           );
         })}
+
+        {/* Feuille : l'autrice */}
+        {autriceOpen ? (
+          <div className="fixed inset-0 z-[130] flex items-end justify-center sm:items-center">
+            <button type="button" aria-label="Fermer" onClick={() => setAutriceOpen(false)} className="absolute inset-0 bg-night-950/70 backdrop-blur-sm" />
+            <div className="relative flex max-h-[84vh] w-full max-w-md flex-col overflow-hidden rounded-t-3xl border border-white/10 bg-night-900 sm:rounded-3xl">
+              <div className="flex items-center gap-4 border-b border-white/10 px-5 py-4">
+                <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-spirit-500 font-display text-lg font-extrabold text-cream ring-2 ring-dawn-400/70">
+                  J
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-dawn-400">L&apos;autrice</p>
+                  <h2 className="font-display text-xl font-extrabold leading-tight">{formation.auteur}</h2>
+                  {formation.auteurRole ? <p className="text-xs font-semibold text-cream/55">{formation.auteurRole}</p> : null}
+                </div>
+                <button type="button" onClick={() => setAutriceOpen(false)} aria-label="Fermer" className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/15 text-cream/70">
+                  <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2}><path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" /></svg>
+                </button>
+              </div>
+              <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5">
+                <p className="text-[11px] font-black uppercase tracking-[0.18em] text-cream/45">Un petit mot d&apos;accueil</p>
+                <div className="mt-2 space-y-3">
+                  {(formation.motAccueil ?? "").split("\n\n").map((par, i) => (
+                    <p key={i} className="whitespace-pre-line text-[15px] leading-relaxed text-cream/85">{par}</p>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : null}
 
         {/* Intro du livre */}
         <div className="mt-5 rounded-3xl border border-white/10 bg-white/[0.03] p-5">
@@ -383,8 +431,10 @@ function LeconView({
               {lecon.sections.map((s, i) => (
                 <section key={i}>
                   <h2 className="font-display text-lg font-extrabold text-dawn-300">{s.t}</h2>
-                  <div className="mt-2">
-                    <TexteAvecRefs texte={s.p} onNavigate={onNavigate} />
+                  <div className="mt-2 space-y-3">
+                    {s.p.split("\n\n").map((par, j) => (
+                      <TexteAvecRefs key={j} texte={par} onNavigate={onNavigate} />
+                    ))}
                   </div>
                 </section>
               ))}
@@ -393,7 +443,11 @@ function LeconView({
             {/* Mon engagement */}
             <div className="mt-8 rounded-3xl border border-dawn-400/30 bg-dawn-400/[0.07] p-5">
               <p className="text-[11px] font-black uppercase tracking-[0.18em] text-dawn-300">Mon engagement</p>
-              <p className="mt-2 text-[15px] leading-relaxed text-cream/85">{lecon.engagement}</p>
+              <div className="mt-2 space-y-3">
+                {lecon.engagement.split("\n\n").map((par, i) => (
+                  <p key={i} className="text-[15px] leading-relaxed text-cream/85">{par}</p>
+                ))}
+              </div>
             </div>
 
             {/* Comment l'appliquer */}

@@ -32,6 +32,11 @@ export type Formation = {
   titre: string;
   volume?: string;
   auteur: string;
+  auteurRole?: string;
+  /** Affiche (couverture du livre), chemin public. */
+  cover?: string;
+  /** Petit mot d'accueil de l'autrice (feuille « L'autrice »). */
+  motAccueil?: string;
   accroche: string;
   intro: string;
   objectifs: string[];
