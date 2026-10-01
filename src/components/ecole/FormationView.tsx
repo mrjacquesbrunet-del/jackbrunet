@@ -32,6 +32,34 @@ function dureeMin(l: Lecon): number {
   return Math.max(4, Math.round(mots / 180) + 2);
 }
 
+/** Vignette de leçon : l'image si elle existe, sinon rien (le numéro reste). */
+function Vignette({ src }: { src: string }) {
+  const [ok, setOk] = useState(true);
+  if (!ok) return null;
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={asset(src)}
+      alt=""
+      aria-hidden
+      onError={() => setOk(false)}
+      className="h-12 w-16 shrink-0 rounded-xl object-cover"
+    />
+  );
+}
+
+/** Héros d'une leçon ouverte (si l'image existe). */
+function LeconHero({ src }: { src: string }) {
+  const [ok, setOk] = useState(true);
+  if (!ok) return null;
+  return (
+    <div className="mb-5 overflow-hidden rounded-3xl">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={asset(src)} alt="" aria-hidden onError={() => setOk(false)} className="aspect-[16/9] w-full object-cover" />
+    </div>
+  );
+}
+
 const CheckCircle = ({ className = "h-6 w-6" }: { className?: string }) => (
   <span className={`grid place-items-center rounded-full bg-dawn-400 text-night-950 ${className}`}>
     <svg viewBox="0 0 24 24" className="h-[55%] w-[55%] fill-none stroke-current" strokeWidth={3}>
@@ -219,9 +247,12 @@ export function FormationView({ formationId }: { formationId: string }) {
           </div>
           {/* L'autrice */}
           <div className="mt-4 flex items-center gap-3 border-t border-night-900/10 pt-4">
-            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-spirit-500 font-display text-sm font-extrabold text-cream">
-              J
-            </span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={asset("/img/auteure-josy.webp")}
+              alt={formation.auteur}
+              className="h-11 w-11 shrink-0 rounded-full object-cover ring-2 ring-dawn-400/70"
+            />
             <div className="min-w-0">
               <p className="font-display text-sm font-bold">{formation.auteur}</p>
               {formation.auteurRole ? <p className="text-xs text-night-900/55">{formation.auteurRole}</p> : null}
@@ -295,6 +326,7 @@ export function FormationView({ formationId }: { formationId: string }) {
                 >
                   {n}
                 </span>
+                {lecon.image ? <Vignette src={lecon.image} /> : null}
                 <span className="min-w-0 flex-1">
                   <span className="block font-display text-[15px] font-extrabold leading-tight">{lecon.titre}</span>
                   <span className="mt-0.5 flex items-center gap-1.5 text-xs text-night-900/50">
@@ -430,6 +462,7 @@ function LeconView({
       <main className="container-x mx-auto max-w-2xl pt-5">
         {onglet === "contenu" ? (
           <>
+            {lecon.image ? <LeconHero src={lecon.image} /> : null}
             <div className="space-y-6">
               {lecon.sections.map((s, i) => (
                 <section key={i} className="rounded-3xl border border-night-900/10 bg-white p-5">

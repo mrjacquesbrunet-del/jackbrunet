@@ -130,7 +130,8 @@
               "bonne": 1,
               "explication": "« Le Père céleste donnera le Saint-Esprit à ceux qui le lui demandent » (Luc 11.13) — demander avec foi, persévérer dans la prière, se soumettre à Dieu."
             }
-          ]
+          ],
+          "image": "/img/ecole/lecons/qui-est-dieu.jpg"
         },
         {
           "id": "le-plan-du-salut",
@@ -236,7 +237,8 @@
               "bonne": 0,
               "explication": "« C'est par la grâce que vous êtes sauvés, par le moyen de la foi… Ce n'est point par les œuvres, afin que personne ne se glorifie. »"
             }
-          ]
+          ],
+          "image": "/img/ecole/lecons/le-plan-du-salut.jpg"
         },
         {
           "id": "le-bapteme",
@@ -345,7 +347,8 @@
               "bonne": 1,
               "explication": "C'est un témoignage public de sincérité (Marc 16.15-16) — la crainte des hommes ne doit pas surpasser le désir de plaire à Dieu (Jean 12.42-43)."
             }
-          ]
+          ],
+          "image": "/img/ecole/lecons/le-bapteme.jpg"
         },
         {
           "id": "la-sainte-cene",
@@ -443,7 +446,8 @@
               "bonne": 2,
               "explication": "Avec le baptême, la Sainte Cène est l'un des deux seuls sacrements institués par Jésus pour ses disciples."
             }
-          ]
+          ],
+          "image": "/img/ecole/lecons/la-sainte-cene.jpg"
         },
         {
           "id": "dimes-et-offrandes",
@@ -549,7 +553,8 @@
               "bonne": 0,
               "explication": "« Dieu aime celui qui donne avec joie » (2 Corinthiens 9.7), dans la discrétion (Matthieu 6.3-4)."
             }
-          ]
+          ],
+          "image": "/img/ecole/lecons/dimes-et-offrandes.jpg"
         },
         {
           "id": "l-eglise",
@@ -667,7 +672,8 @@
               "bonne": 1,
               "explication": "« À ceci tous connaîtront que vous êtes mes disciples, si vous avez de l'amour les uns pour les autres » (Jean 13.34-35)."
             }
-          ]
+          ],
+          "image": "/img/ecole/lecons/l-eglise.jpg"
         },
         {
           "id": "la-nouvelle-vie",
@@ -773,7 +779,8 @@
               "bonne": 2,
               "explication": "Un témoignage visible — on reconnaissait « qu'ils avaient été avec Jésus » (Actes 4.13) — et verbal (Matthieu 28.19-20)."
             }
-          ]
+          ],
+          "image": "/img/ecole/lecons/la-nouvelle-vie.jpg"
         }
       ],
       "auteurRole": "Autrice & co-fondatrice de « Connecte Ta Foi »",

@@ -21,6 +21,8 @@ export type Lecon = {
   id: string;
   titre: string;
   resume: string;
+  /** Visuel d'illustration (chemin public), affiché si le fichier existe. */
+  image?: string;
   sections: { t: string; p: string }[];
   engagement: string;
   application: string[];
