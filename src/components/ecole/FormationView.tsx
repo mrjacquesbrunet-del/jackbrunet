@@ -1065,6 +1065,7 @@ export function FormationView({ formationId }: { formationId: string }) {
     const lecon = formation.lecons[openLesson - 1];
     return (
       <LeconView
+        key={openLesson}
         formation={formation}
         lecon={lecon}
         numero={openLesson}
@@ -2016,6 +2017,8 @@ function QuizView({
   const [verdict, setVerdict] = useState<null | boolean>(null);
   const [score, setScore] = useState(0);
   const [fini, setFini] = useState(false);
+  // null = pas d'enregistrement tenté (pas connecté) ; false = échec en base.
+  const [enregistree, setEnregistree] = useState<boolean | null>(null);
   const question = lecon.quiz[qIndex];
   const reussi = score >= SEUIL;
 
@@ -2030,6 +2033,13 @@ function QuizView({
     setVerdict(bon);
   }
 
+  async function enregistrer() {
+    if (!userId) return;
+    const ok = await validateLesson(userId, formation.id, numero, score);
+    setEnregistree(ok);
+    if (ok) onValidated();
+  }
+
   async function suivante() {
     if (qIndex + 1 < lecon.quiz.length) {
       setQIndex(qIndex + 1);
@@ -2037,10 +2047,7 @@ function QuizView({
       setVerdict(null);
     } else {
       setFini(true);
-      if (score >= SEUIL && userId) {
-        const ok = await validateLesson(userId, formation.id, numero, score);
-        if (ok) onValidated();
-      }
+      if (score >= SEUIL && userId) await enregistrer();
     }
   }
 
@@ -2130,6 +2137,20 @@ function QuizView({
                   : "Bravo, c'était la dernière leçon de la formation !"
                 : `Il faut ${SEUIL} bonnes réponses sur ${lecon.quiz.length}. Relis la leçon tranquillement et retente — tu vas y arriver.`}
             </p>
+            {reussi && userId && enregistree === false ? (
+              <div className="mx-auto mt-5 max-w-sm rounded-2xl border border-orange-300 bg-orange-50 p-3.5">
+                <p className="text-sm font-semibold text-orange-700">
+                  Ta réussite n&apos;a pas pu être enregistrée (connexion ?). Réessaie pour débloquer la suite.
+                </p>
+                <button
+                  type="button"
+                  onClick={enregistrer}
+                  className="mt-2.5 rounded-full bg-orange-500 px-5 py-2 font-display text-sm font-bold text-white"
+                >
+                  Réessayer l&apos;enregistrement
+                </button>
+              </div>
+            ) : null}
             <div className="mt-6 flex flex-col items-center gap-2.5">
               {reussi ? (
                 <button type="button" onClick={onNext} className="rounded-full bg-dawn-400 px-7 py-3 font-display text-base font-bold text-night-950">
@@ -2148,6 +2169,7 @@ function QuizView({
                       setVerdict(null);
                       setScore(0);
                       setFini(false);
+                      setEnregistree(null);
                     }}
                     className="rounded-full border border-night-900/20 px-7 py-3 font-display text-sm font-bold text-night-900/70"
                   >
