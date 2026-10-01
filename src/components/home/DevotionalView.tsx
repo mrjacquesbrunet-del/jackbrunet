@@ -726,6 +726,33 @@ export function DevotionalView({
         </Reveal>
       </section>
 
+      {/* Assistant biblique : pose ta question, réponse ancrée dans la Parole */}
+      <section className="container-x">
+        <Reveal from="up">
+          <Link
+            href="/assistant"
+            className="mx-auto flex max-w-2xl items-center gap-4 rounded-3xl border border-dawn-400/30 bg-gradient-to-br from-night-900 to-night-950 p-5 shadow-card transition-transform active:scale-[0.99]"
+          >
+            <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-dawn-400/15 p-3 text-dawn-300">
+              <svg viewBox="0 0 24 24" className="h-7 w-7 fill-none stroke-current" strokeWidth={1.9}>
+                <path d="M12 6c-1.8-1.4-4.2-2-7-2v14c2.8 0 5.2.6 7 2 1.8-1.4 4.2-2 7-2V4c-2.8 0-5.2.6-7 2z" strokeLinejoin="round" />
+                <path d="M12 6v14" />
+              </svg>
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-[10px] font-black uppercase tracking-[0.2em] text-dawn-300">Nouveau</span>
+              <span className="block font-display text-lg font-extrabold leading-tight text-cream">Assistant biblique</span>
+              <span className="mt-0.5 block text-sm text-cream/60">
+                Pose ta question : une réponse claire, ancrée dans la Parole, versets à l'appui.
+              </span>
+            </span>
+            <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 fill-none stroke-cream/40" strokeWidth={2}>
+              <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </Link>
+        </Reveal>
+      </section>
+
       {/* 6c. Ma bibliothèque: extraits enregistrés */}
       {tk.saved.length > 0? (
         <section className="container-x">
