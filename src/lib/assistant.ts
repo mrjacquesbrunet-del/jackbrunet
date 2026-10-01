@@ -5,7 +5,7 @@ import { getSupabase } from "./supabase";
 /**
  * ASSISTANT BIBLIQUE : le client n'appelle JAMAIS l'API Anthropic
  * directement — tout passe par l'Edge Function `bible-assistant`
- * (clé API dans les secrets Supabase, quota de 10 questions / 24 h
+ * (clé API dans les secrets Supabase, quota de 5 questions / 24 h
  * vérifié côté serveur, journal pour relecture pastorale).
  */
 
@@ -15,7 +15,7 @@ export type AssistantResult =
   | { ok: true; answer: string; remaining: number }
   | { ok: false; error: "auth" | "quota" | "server" };
 
-export const ASSISTANT_DAILY_LIMIT = 10;
+export const ASSISTANT_DAILY_LIMIT = 5;
 
 export async function askAssistant(messages: AssistantMsg[]): Promise<AssistantResult> {
   const sb = getSupabase();

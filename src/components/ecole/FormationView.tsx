@@ -16,7 +16,10 @@ import {
   audioRacineUrl,
   ebookUrl,
   getFormation,
+  getFormationRatingSummary,
+  getMyFormationRating,
   listFormationProgress,
+  rateFormation,
   validateLesson,
   type Formation,
   type Lecon,
@@ -880,7 +883,7 @@ function FeuilleQuestion({
     else
       setErr(
         res.error === "quota"
-          ? "Tu as posé tes 10 questions des dernières 24 h. Reviens un peu plus tard."
+          ? "Tu as posé tes 5 questions des dernières 24 h. Reviens un peu plus tard."
           : res.error === "auth"
             ? "Connecte-toi pour poser ta question."
             : "Petit souci de connexion. Réessaie dans un instant.",
@@ -985,6 +988,116 @@ function LeconHero({ src }: { src: string }) {
   );
 }
 
+/* ——— Notation de la formation (1 à 5 étoiles) ——— */
+const Etoile = ({ pleine, className = "h-7 w-7" }: { pleine: boolean; className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    className={`${className} ${pleine ? "fill-dawn-400 stroke-dawn-400" : "fill-none stroke-current"}`}
+    strokeWidth={1.7}
+    strokeLinejoin="round"
+  >
+    <path d="M12 3.6l2.47 5.01 5.53.8-4 3.9.94 5.5L12 16.2l-4.94 2.6.94-5.5-4-3.9 5.53-.8z" />
+  </svg>
+);
+
+/** Chip « moyenne des avis » sur la fiche (si au moins un avis). */
+function NoteMoyenneBadge({ formationId }: { formationId: string }) {
+  const [res, setRes] = useState<{ moyenne: number; avis: number } | null>(null);
+  useEffect(() => {
+    let actif = true;
+    getFormationRatingSummary(formationId).then((r) => {
+      if (actif) setRes(r);
+    });
+    return () => {
+      actif = false;
+    };
+  }, [formationId]);
+  if (!res || !res.avis) return null;
+  return (
+    <span className="flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 text-xs font-bold text-white backdrop-blur">
+      <Etoile pleine className="h-3.5 w-3.5" />
+      {String(res.moyenne).replace(".", ",")} · {res.avis} avis
+    </span>
+  );
+}
+
+/** Bloc de notation sur l'écran Félicitations (fond sombre). */
+function NoterFormation({ formation, userId }: { formation: Formation; userId: string | null }) {
+  const [note, setNote] = useState(0);
+  const [avis, setAvis] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [envoye, setEnvoye] = useState(false);
+
+  useEffect(() => {
+    if (!userId) return;
+    getMyFormationRating(userId, formation.id).then((r) => {
+      if (r) {
+        setNote(r.note);
+        setAvis(r.avis ?? "");
+        setEnvoye(true);
+      }
+    });
+  }, [userId, formation.id]);
+
+  if (!userId) return null;
+
+  async function envoyer(n: number) {
+    setBusy(true);
+    const ok = await rateFormation(userId!, formation.id, n, avis);
+    setBusy(false);
+    setEnvoye(ok);
+  }
+
+  return (
+    <div className="mt-6 w-full max-w-xs rounded-3xl border border-white/15 bg-white/[0.06] p-4">
+      <p className="text-[11px] font-black uppercase tracking-[0.18em] text-cream/55">
+        {envoye ? "Merci pour ta note !" : "Note cette formation"}
+      </p>
+      <div className="mt-2.5 flex justify-center gap-1.5 text-cream/40">
+        {[1, 2, 3, 4, 5].map((n) => (
+          <button
+            key={n}
+            type="button"
+            disabled={busy}
+            aria-label={`${n} étoile${n > 1 ? "s" : ""}`}
+            onClick={() => {
+              setNote(n);
+              setEnvoye(false);
+              void envoyer(n);
+            }}
+          >
+            <Etoile pleine={n <= note} />
+          </button>
+        ))}
+      </div>
+      {note > 0 ? (
+        <>
+          <textarea
+            value={avis}
+            onChange={(e) => {
+              setAvis(e.target.value);
+              setEnvoye(false);
+            }}
+            rows={2}
+            placeholder="Un mot sur ce que la formation t'a apporté ? (facultatif)"
+            className="mt-3 w-full resize-y rounded-2xl border border-white/15 bg-white/[0.07] px-3.5 py-2.5 text-sm text-cream placeholder:text-cream/35 focus:outline-none"
+          />
+          {!envoye ? (
+            <button
+              type="button"
+              disabled={busy}
+              onClick={() => envoyer(note)}
+              className="mt-2.5 w-full rounded-full border border-white/20 py-2.5 font-display text-sm font-bold text-cream/85 disabled:opacity-50"
+            >
+              {busy ? "Envoi…" : "Envoyer mon avis"}
+            </button>
+          ) : null}
+        </>
+      ) : null}
+    </div>
+  );
+}
+
 const CheckCircle = ({ className = "h-6 w-6" }: { className?: string }) => (
   <span className={`grid place-items-center rounded-full bg-dawn-400 text-night-950 ${className}`}>
     <svg viewBox="0 0 24 24" className="h-[55%] w-[55%] fill-none stroke-current" strokeWidth={3}>
@@ -1049,6 +1162,7 @@ export function FormationView({ formationId }: { formationId: string }) {
           </p>
         </div>
         <EbookGate formation={formation} dark />
+        <NoterFormation formation={formation} userId={userId} />
         <button
           type="button"
           onClick={() => setBravo(false)}
@@ -1128,6 +1242,7 @@ export function FormationView({ formationId }: { formationId: string }) {
                   {m}
                 </span>
               ))}
+              <NoteMoyenneBadge formationId={formation.id} />
             </div>
           </div>
         </div>
@@ -1927,7 +2042,7 @@ function QuestionsLecon({
     else
       setErr(
         res.error === "quota"
-          ? "Tu as posé tes 10 questions des dernières 24 h. Reviens un peu plus tard."
+          ? "Tu as posé tes 5 questions des dernières 24 h. Reviens un peu plus tard."
           : res.error === "auth"
             ? "Connecte-toi pour poser ta question."
             : "Petit souci de connexion. Réessaie dans un instant.",

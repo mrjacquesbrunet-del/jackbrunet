@@ -117,9 +117,9 @@ export function EcoleView() {
                 <path d="M9.6 10a2.4 2.4 0 1 1 3.3 2.2c-.6.3-.9.7-.9 1.3M12 16.2h.01" strokeLinecap="round" />
               </svg>
             </RondAction>
-            <RondAction href="/assistant?tab=etudes" label="Études">
+            <RondAction href="/carnet" label="Mon carnet">
               <svg viewBox="0 0 24 24" className="h-7 w-7 fill-none stroke-current" strokeWidth={1.9}>
-                <path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4zM5 16.5A2.5 2.5 0 0 1 7.5 14H19" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M6 3h12a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM8 3v18M12 8h4M12 12h4" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </RondAction>
           </div>

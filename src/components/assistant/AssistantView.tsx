@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/components/community/useAuth";
 import { TexteAvecRefs } from "@/components/bible/FichesChapitre";
@@ -11,7 +11,6 @@ import {
   ASSISTANT_DAILY_LIMIT,
   type AssistantMsg,
 } from "@/lib/assistant";
-import { getEtudes, type Etude } from "@/lib/etudes";
 
 /**
  * ASSISTANT BIBLIQUE — un échange simple, ancré dans la Bible (LSG).
@@ -38,15 +37,6 @@ function LivreGlyphe({ className = "h-5 w-5" }: { className?: string }) {
 export function AssistantView() {
   const { userId } = useAuth();
   const router = useRouter();
-  const params = useSearchParams();
-  const etudes = getEtudes();
-  const [tab, setTab] = useState<"question" | "etudes">(
-    params.get("tab") === "etudes" ? "etudes" : "question",
-  );
-  // Lien profond depuis l'École : ?etude=<id> ouvre la fiche directement.
-  const [etudeOuverte, setEtudeOuverte] = useState<Etude | null>(
-    () => etudes.find((e) => e.id === params.get("etude")) ?? null,
-  );
   const [messages, setMessages] = useState<AssistantMsg[]>([]);
   const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
@@ -67,6 +57,12 @@ export function AssistantView() {
   async function send(text?: string) {
     const q = (text ?? draft).trim();
     if (!q || busy || !userId) return;
+    if (remaining !== null && remaining <= 0) {
+      setErreur(
+        `Tu as posé tes ${ASSISTANT_DAILY_LIMIT} questions des dernières 24 h. Reviens un peu plus tard — et bonne méditation d'ici là.`,
+      );
+      return;
+    }
     setErreur(null);
     setDraft("");
     const next: AssistantMsg[] = [...messages, { role: "user", content: q }];
@@ -76,13 +72,13 @@ export function AssistantView() {
     setBusy(false);
     if (res.ok) {
       setMessages([...next, { role: "assistant", content: res.answer }]);
-      setRemaining(res.remaining);
+      setRemaining((r) => Math.max(0, (r ?? ASSISTANT_DAILY_LIMIT) - 1));
     } else {
       setMessages(messages);
       setDraft(q);
       setErreur(
         res.error === "quota"
-          ? "Tu as posé tes 10 questions des dernières 24 h. Reviens un peu plus tard — et bonne méditation d'ici là."
+          ? `Tu as posé tes ${ASSISTANT_DAILY_LIMIT} questions des dernières 24 h. Reviens un peu plus tard — et bonne méditation d'ici là.`
           : res.error === "auth"
             ? "Connecte-toi pour utiliser l'assistant."
             : "Petit souci de connexion. Réessaie dans un instant.",
@@ -112,67 +108,21 @@ export function AssistantView() {
               Réponses ancrées dans la Bible (LSG). Ne remplace ni la prière, ni ton pasteur.
             </p>
           </div>
-          {remaining !== null && tab === "question" ? (
+          {remaining !== null ? (
             <span className="shrink-0 rounded-full border border-white/15 px-3 py-1.5 text-xs font-bold text-cream/70">
               {remaining}/{ASSISTANT_DAILY_LIMIT}
             </span>
           ) : null}
         </div>
-        <div className="mx-auto mt-3 flex max-w-2xl rounded-full bg-white/[0.06] p-1">
-          {(
-            [
-              ["question", "Pose ta question"],
-              ["etudes", "Études bibliques"],
-            ] as ["question" | "etudes", string][]
-          ).map(([t, label]) => (
-            <button
-              key={t}
-              type="button"
-              onClick={() => setTab(t)}
-              aria-pressed={tab === t}
-              className={`flex-1 rounded-full py-2 font-display text-sm font-bold transition-colors ${
-                tab === t ? "bg-night-950 text-dawn-300 shadow-card" : "text-cream/60"
-              }`}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
       </header>
 
       {/* Fil de conversation / bibliothèque d'études */}
       <main className="container-x mx-auto w-full max-w-2xl flex-1 pb-36 pt-5">
-        {tab === "etudes" ? (
-          <div className="space-y-3">
-            <p className="text-sm text-cream/60">
-              Les grands thèmes de la foi, expliqués simplement — chaque référence s&apos;ouvre
-              dans ta Bible d&apos;un tap.
-            </p>
-            {etudes.map((e) => (
-              <button
-                key={e.id}
-                type="button"
-                onClick={() => setEtudeOuverte(e)}
-                className="flex w-full items-center gap-4 rounded-3xl border border-white/10 bg-white/[0.04] p-4 text-left transition-colors hover:bg-white/[0.07]"
-              >
-                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-spirit-500/20 font-display text-lg font-extrabold text-cream/90">
-                  {e.titre.replace(/^(Le |La |Les |L')/, "").charAt(0)}
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block font-display text-base font-extrabold text-cream">{e.titre}</span>
-                  <span className="mt-0.5 line-clamp-2 block text-[13px] leading-snug text-cream/60">{e.accroche}</span>
-                </span>
-                <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 fill-none stroke-cream/35" strokeWidth={2}>
-                  <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-            ))}
-          </div>
-        ) : !userId ? (
+        {!userId ? (
           <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 text-center">
             <p className="font-display text-lg font-bold">Connecte-toi pour poser ta question</p>
             <p className="mt-1 text-sm text-cream/60">
-              L&apos;assistant est réservé aux membres (10 questions par jour).
+              L&apos;assistant est réservé aux membres (5 questions par jour).
             </p>
             <Link
               href="/profil"
@@ -252,43 +202,8 @@ export function AssistantView() {
         ) : null}
       </main>
 
-      {/* Feuille : l'étude ouverte */}
-      {etudeOuverte ? (
-        <div className="fixed inset-0 z-[130] flex items-end justify-center sm:items-center">
-          <button type="button" aria-label="Fermer" onClick={() => setEtudeOuverte(null)} className="absolute inset-0 bg-night-950/70 backdrop-blur-sm" />
-          <div className="relative flex max-h-[88vh] w-full max-w-md flex-col overflow-hidden rounded-t-3xl border border-white/10 bg-night-900 sm:rounded-3xl">
-            <div className="flex items-start justify-between gap-3 border-b border-white/10 px-5 py-4">
-              <div className="min-w-0">
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-dawn-400">Étude biblique</p>
-                <h2 className="mt-0.5 font-display text-xl font-extrabold leading-tight">{etudeOuverte.titre}</h2>
-              </div>
-              <button type="button" onClick={() => setEtudeOuverte(null)} aria-label="Fermer" className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/15 text-cream/70">
-                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2}><path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" /></svg>
-              </button>
-            </div>
-            <div className="min-h-0 flex-1 space-y-5 overflow-y-auto px-5 py-5">
-              <p className="text-[15px] font-semibold leading-relaxed text-cream/80">{etudeOuverte.accroche}</p>
-              {etudeOuverte.sections.map((sec, i) => (
-                <div key={i}>
-                  <p className="text-[11px] font-black uppercase tracking-[0.18em] text-dawn-400">{sec.t}</p>
-                  <div className="mt-1.5">
-                    <TexteAvecRefs
-                      texte={sec.p}
-                      onNavigate={(l, c) => {
-                        setEtudeOuverte(null);
-                        navigate(l, c);
-                      }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      ) : null}
-
       {/* Zone de saisie */}
-      {userId && tab === "question" ? (
+      {userId ? (
         <div
           className="fixed inset-x-0 bottom-0 border-t border-white/10 bg-night-950/95 backdrop-blur-md"
           style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}

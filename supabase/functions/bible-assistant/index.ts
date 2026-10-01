@@ -4,7 +4,7 @@
 //  Appelée par l'app (supabase.functions.invoke) avec l'historique
 //  de conversation. Elle :
 //   1. vérifie que l'appelant est un membre connecté (JWT) ;
-//   2. applique la limite quotidienne (10 questions / 24 h) côté
+//   2. applique la limite quotidienne (5 questions / 24 h) côté
 //      serveur, via la table assistant_logs ;
 //   3. interroge l'API Anthropic (clé = secret ANTHROPIC_API_KEY,
 //      jamais dans l'app) avec un cadrage pastoral strict ;
@@ -19,7 +19,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import Anthropic from "npm:@anthropic-ai/sdk";
 
-const LIMIT_PER_DAY = 10;
+const LIMIT_PER_DAY = 5;
 const MODEL = Deno.env.get("ASSISTANT_MODEL") || "claude-haiku-4-5";
 
 const CORS = {

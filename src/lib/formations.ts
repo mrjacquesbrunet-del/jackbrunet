@@ -102,6 +102,74 @@ export async function validateLesson(
   return !error;
 }
 
+/** Note (1-5) déjà donnée par ce membre à cette formation, ou null. */
+export async function getMyFormationRating(
+  userId: string,
+  formationId: string,
+): Promise<{ note: number; avis: string | null } | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  const { data } = await sb
+    .from("formation_ratings")
+    .select("note,avis")
+    .eq("user_id", userId)
+    .eq("formation_id", formationId)
+    .maybeSingle();
+  return (data as { note: number; avis: string | null } | null) ?? null;
+}
+
+/** Note la formation (1-5 étoiles, avis facultatif) — modifiable. */
+export async function rateFormation(
+  userId: string,
+  formationId: string,
+  note: number,
+  avis?: string,
+): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  const { error } = await sb
+    .from("formation_ratings")
+    .upsert(
+      { user_id: userId, formation_id: formationId, note, avis: avis?.trim() || null },
+      { onConflict: "user_id,formation_id" },
+    );
+  return !error;
+}
+
+/** Moyenne et nombre d'avis d'une formation (public). */
+export async function getFormationRatingSummary(
+  formationId: string,
+): Promise<{ moyenne: number; avis: number } | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  const { data, error } = await sb.rpc("formation_rating_summary", { p_formation: formationId });
+  if (error || !data) return null;
+  return data as { moyenne: number; avis: number };
+}
+
+export type FormationAdminStats = {
+  inscrits: number;
+  termines: number;
+  par_lecon: Record<string, number>;
+  note_moyenne: number;
+  nb_avis: number;
+};
+
+/** Statistiques de la formation (réservées à l'admin, null sinon). */
+export async function getFormationAdminStats(
+  formationId: string,
+  totalLecons: number,
+): Promise<FormationAdminStats | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  const { data, error } = await sb.rpc("formation_admin_stats", {
+    p_formation: formationId,
+    p_total: totalLecons,
+  });
+  if (error || !data) return null;
+  return data as FormationAdminStats;
+}
+
 /** URL publique de l'e-book (bucket audiovf). */
 export function ebookUrl(file: string): string | null {
   const sb = getSupabase();

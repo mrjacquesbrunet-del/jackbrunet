@@ -9,6 +9,7 @@ import { ChartGlyph, HeadphonesGlyph } from "@/components/ui/DevoIcons";
 import { BibleAudioAdmin } from "@/components/community/BibleAudioAdmin";
 import { MissionRaisedAdmin } from "@/components/community/MissionRaisedAdmin";
 import { DevotionsAdmin } from "@/components/community/DevotionsAdmin";
+import { FormationAdmin } from "@/components/community/FormationAdmin";
 import { MediasAdmin } from "@/components/community/MediasAdmin";
 
 /** Espace admin unique et masqué (/admin): stats, annonces, podcasts, etc.
@@ -55,6 +56,9 @@ export function AdminSpace() {
             <AnalyticsDashboard />
           </div>
         </div>
+
+        {/* Formation biblique : inscrits, complétion, notes */}
+        <FormationAdmin />
 
         {/* Gestion des dévotionnels */}
         <DevotionsAdmin />
