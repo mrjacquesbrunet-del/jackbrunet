@@ -39,11 +39,14 @@ export function AssistantView() {
   const { userId } = useAuth();
   const router = useRouter();
   const params = useSearchParams();
+  const etudes = getEtudes();
   const [tab, setTab] = useState<"question" | "etudes">(
     params.get("tab") === "etudes" ? "etudes" : "question",
   );
-  const [etudeOuverte, setEtudeOuverte] = useState<Etude | null>(null);
-  const etudes = getEtudes();
+  // Lien profond depuis l'École : ?etude=<id> ouvre la fiche directement.
+  const [etudeOuverte, setEtudeOuverte] = useState<Etude | null>(
+    () => etudes.find((e) => e.id === params.get("etude")) ?? null,
+  );
   const [messages, setMessages] = useState<AssistantMsg[]>([]);
   const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
