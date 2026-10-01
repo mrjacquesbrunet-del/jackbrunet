@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { asset } from "@/lib/asset";
+import { formationNewsPending } from "@/components/app/FormationNewsModal";
 
 /** v2 : refonte de l'espace Jeux (icônes 3D, podium, ligue, défis) — le pop-up
  * réapparaît une fois, même pour ceux qui avaient fermé la v1. */
@@ -46,6 +47,8 @@ export function GamesNewsModal() {
       /* stockage indisponible */
     }
     if (seen) return;
+    // L'annonce Formations passe d'abord — celui-ci attendra la prochaine fois.
+    if (formationNewsPending()) return;
     // Petit délai pour ne pas surgir brutalement à l'ouverture.
     const t = setTimeout(() => setOpen(true), 1100);
     return () => clearTimeout(t);

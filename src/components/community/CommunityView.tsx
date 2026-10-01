@@ -17,7 +17,7 @@ import { MemberSuggestions } from "@/components/community/MemberSuggestions";
 import { MentionField } from "@/components/community/MentionField";
 import { VoiceRecorderButton } from "@/components/community/VoiceNote";
 import { CommunityLanding } from "@/components/community/CommunityLanding";
-import { PrayerCirclesCard } from "@/components/community/PrayerCirclesCard";
+import { FormationCard } from "@/components/community/FormationCard";
 import { TopIntercessors } from "@/components/community/TopIntercessors";
 import { openExternal } from "@/lib/external";
 import { siteConfig } from "@/config/site";
@@ -254,7 +254,6 @@ function Feed({
 
       <section className="container-x pt-6 pb-12">
       <div className="max-w-2xl">
-      {/* (L'accès aux groupes se fait via les deux tuiles plus bas.) */}
 
       {/* Module de profil (charte olive) + partage d'un sujet en extension */}
       <div className="dark-ctx bg-topo-dark rounded-4xl border border-white/10 text-cream shadow-card">
@@ -380,8 +379,8 @@ function Feed({
       {/* Intercesseurs de la semaine — mettre en avant ceux qui prient */}
       <TopIntercessors />
 
-      {/* Cercles de prière (rangée discrète) */}
-      <PrayerCirclesCard />
+      {/* Nouvelle fonctionnalité : la formation de l'École biblique */}
+      <FormationCard />
 
       {/* Focus de prière de la semaine (replié par défaut) */}
       <div className="mt-3">
