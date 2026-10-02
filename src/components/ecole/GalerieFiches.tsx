@@ -74,6 +74,16 @@ export function GalerieFiches() {
       .then((r) => (r.ok ? r.json() : []))
       .then((b: Livre[]) => setLivres(b.map(({ id, name }) => ({ id, name }))))
       .catch(() => setLivres([]));
+    // Lien profond (?livre=N) depuis une introduction : les personnages du livre.
+    const n = Number(new URLSearchParams(window.location.search).get("livre"));
+    if (n >= 1 && n <= 66) {
+      setMode("personnage");
+      setLivre(n);
+      cible.current = 0;
+      // Ensuite la mémoire de session prend le relais (retour depuis la Bible).
+      window.history.replaceState(null, "", window.location.pathname);
+      return;
+    }
     try {
       const m = JSON.parse(sessionStorage.getItem(MEMO) ?? "null");
       if (m) {

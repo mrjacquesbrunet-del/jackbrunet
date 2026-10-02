@@ -255,7 +255,7 @@ export function EcoleView() {
             </Link>
           </section>
 
-          {/* Explorer : la galerie et la frise, dans le style sombre de leurs pages */}
+          {/* Explorer : galerie, frise, livres et arbres, dans le style sombre de leurs pages */}
           <section className="mt-5">
             <h2 className="font-display text-lg font-extrabold">Explorer</h2>
             <p className="mt-0.5 text-[13px] text-night-900/55">Pour entrer en profondeur dans la Parole.</p>
@@ -336,6 +336,60 @@ export function EcoleView() {
                     <span>Ancien Testament</span>
                     <span>Nouveau Testament</span>
                   </span>
+                </span>
+              </Link>
+
+              {/* Les 66 livres : une étagère aux couleurs des familles de livres */}
+              <Link
+                href="/ecole/livres"
+                className="relative flex items-center gap-4 overflow-hidden rounded-3xl bg-night-950 p-5 text-cream shadow-[0_16px_38px_-18px_rgba(12,12,11,0.6)] transition-transform active:scale-[0.99]"
+              >
+                <span aria-hidden className="pointer-events-none absolute -bottom-16 -left-10 h-44 w-44 rounded-full bg-[#3FB59A]/12 blur-2xl" />
+                <span className="relative min-w-0 flex-1">
+                  <span className="block text-[10px] font-black uppercase tracking-[0.22em] text-dawn-300">Bibliothèque</span>
+                  <span className="mt-1 block font-display text-xl font-extrabold leading-tight">Les 66 livres</span>
+                  <span className="mt-1 block text-[12px] leading-snug text-cream/60">
+                    Chaque livre présenté : auteur, époque, contexte, plan, thèmes et versets clés.
+                  </span>
+                </span>
+                <span aria-hidden className="relative flex h-24 shrink-0 items-end gap-[3px] border-b-2 border-white/20 px-1 pb-px">
+                  {[
+                    ["#C99A3B", 84], ["#C99A3B", 76], ["#7FA33A", 70], ["#7FA33A", 88], ["#8A6BFF", 64], ["#D9692E", 92],
+                    ["#4F9FD0", 58], ["#4F9FD0", 66], ["#CAF000", 86], ["#E8B44A", 74], ["#3FB59A", 62], ["#C77DBA", 70], ["#D9542E", 80],
+                  ].map(([c, h], i) => (
+                    <span key={i} className="block w-[7px] rounded-t-[3px]" style={{ height: `${h}%`, background: c as string, opacity: 0.9 }} />
+                  ))}
+                </span>
+              </Link>
+
+              {/* Arbres généalogiques : un petit arbre de portraits */}
+              <Link
+                href="/ecole/arbres"
+                className="relative flex items-center gap-4 overflow-hidden rounded-3xl bg-night-950 p-5 text-cream shadow-[0_16px_38px_-18px_rgba(12,12,11,0.6)] transition-transform active:scale-[0.99]"
+              >
+                <span aria-hidden className="pointer-events-none absolute -right-12 -top-14 h-44 w-44 rounded-full bg-[#C99A3B]/14 blur-2xl" />
+                <span className="relative min-w-0 flex-1">
+                  <span className="block text-[10px] font-black uppercase tracking-[0.22em] text-dawn-300">Généalogies</span>
+                  <span className="mt-1 block font-display text-xl font-extrabold leading-tight">Arbres généalogiques</span>
+                  <span className="mt-1 block text-[12px] leading-snug text-cream/60">
+                    D&apos;Adam à Jésus : patriarches, tribus, rois, et les généalogies de Matthieu et Luc.
+                  </span>
+                </span>
+                <span aria-hidden className="relative h-[7.5rem] w-28 shrink-0">
+                  <svg viewBox="0 0 112 120" className="absolute inset-0 h-full w-full fill-none stroke-white/30" strokeWidth={1.5}>
+                    <path d="M56 30v14M56 74v8M28 82h56M28 82v8M84 82v8" />
+                  </svg>
+                  {[
+                    ["abraham", "left-[38px] top-0 h-9 w-9"],
+                    ["isaac", "left-[38px] top-[44px] h-9 w-9"],
+                    ["esau", "left-[10px] top-[88px] h-9 w-9"],
+                    ["jacob", "left-[66px] top-[88px] h-9 w-9"],
+                  ].map(([id, pos]) => (
+                    <span key={id} className={`absolute overflow-hidden rounded-full border border-white/20 bg-night-900 ${pos}`}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={asset(`/img/bible/fiches/${id}.jpg`)} alt="" className="h-full w-full object-cover" />
+                    </span>
+                  ))}
                 </span>
               </Link>
             </div>

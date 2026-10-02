@@ -1,0 +1,4521 @@
+{
+ "$commentaire": "Introductions aux 66 livres (source d'autorité, rédigée et vérifiée à la main sur le texte LSG de l'app). scripts/build-introductions.mjs ajoute le texte des versets clés et produit public/bible/introductions.json. plan : [titre, chapitreDébut, chapitreFin, versets?]. themes : [titre, phrase]. pers : ids des fiches. frise : id d'événement de content/chronologie-biblique.json.",
+ "groupes": [
+  {
+   "id": "pentateuque",
+   "nom": "Le Pentateuque",
+   "desc": "Les cinq livres de Moïse : la création, les patriarches, l'Exode et la Loi.",
+   "de": 1,
+   "a": 5
+  },
+  {
+   "id": "historiques",
+   "nom": "Les livres historiques",
+   "desc": "De l'entrée en Canaan au retour d'exil : l'histoire d'Israël.",
+   "de": 6,
+   "a": 17
+  },
+  {
+   "id": "poetiques",
+   "nom": "Poésie et sagesse",
+   "desc": "La prière, la louange et la sagesse pour la vie.",
+   "de": 18,
+   "a": 22
+  },
+  {
+   "id": "grands-prophetes",
+   "nom": "Les grands prophètes",
+   "desc": "Des messages longs, souvent liés à l'exil.",
+   "de": 23,
+   "a": 27
+  },
+  {
+   "id": "petits-prophetes",
+   "nom": "Les petits prophètes",
+   "desc": "Douze livres courts, de l'Assyrie au retour d'exil.",
+   "de": 28,
+   "a": 39
+  },
+  {
+   "id": "evangiles",
+   "nom": "Les Évangiles",
+   "desc": "Quatre regards sur la vie, la mort et la résurrection de Jésus.",
+   "de": 40,
+   "a": 43
+  },
+  {
+   "id": "actes",
+   "nom": "Histoire de l'Église",
+   "desc": "La naissance de l'Église et la course de l'Évangile.",
+   "de": 44,
+   "a": 44
+  },
+  {
+   "id": "paul",
+   "nom": "Les lettres de Paul",
+   "desc": "Treize lettres à des Églises et à des collaborateurs.",
+   "de": 45,
+   "a": 57
+  },
+  {
+   "id": "generales",
+   "nom": "Les autres lettres",
+   "desc": "Hébreux, Jacques, Pierre, Jean et Jude.",
+   "de": 58,
+   "a": 65
+  },
+  {
+   "id": "apocalypse",
+   "nom": "La prophétie",
+   "desc": "La révélation de Jésus-Christ et l'espérance finale.",
+   "de": 66,
+   "a": 66
+  }
+ ],
+ "livres": {
+  "1": {
+   "accroche": "Le livre des commencements",
+   "resume": "Genèse raconte l'origine de tout : le monde, l'humanité, le péché, et le plan de Dieu pour sauver. Après onze chapitres sur les origines, le récit se resserre sur une famille — Abraham, Isaac, Jacob et Joseph — par laquelle Dieu promet de bénir toutes les nations.",
+   "auteur": "Le livre ne nomme pas son auteur. La tradition juive et chrétienne l'attribue à Moïse, comme les quatre livres qui suivent ; Jésus appelle cet ensemble « la loi de Moïse » (Luc 24:44).",
+   "date": "Mis par écrit au temps de Moïse, vers 1446-1406 av. J.-C. Le récit couvre une immense période : de la création jusqu'à la mort de Joseph en Égypte, vers 1805 av. J.-C.",
+   "destinataires": "Le peuple d'Israël sorti d'Égypte, qui avait besoin de savoir d'où il venait, qui était son Dieu et pourquoi il marchait vers Canaan.",
+   "contexte": "Le mot « Genèse » vient du grec et signifie « origine ». Le livre pose les fondations de toute la Bible : Dieu créateur, l'homme fait à son image (Genèse 1:27), la chute et ses conséquences (Genèse 3:6), le déluge, Babel.\n\nÀ partir du chapitre 12, Dieu appelle Abram et lui fait une promesse en trois parties : une terre, une descendance nombreuse, et une bénédiction pour toutes les familles de la terre (Genèse 12:3). Toute la suite de la Bible raconte l'accomplissement de cette promesse. Le livre se termine en Égypte, où la famille de Jacob s'est réfugiée pendant une famine : le décor de l'Exode est planté.",
+   "plan": [
+    [
+     "La création et la chute",
+     1,
+     5
+    ],
+    [
+     "Noé, le déluge et Babel",
+     6,
+     11
+    ],
+    [
+     "Abraham, l'homme de la promesse",
+     12,
+     25
+    ],
+    [
+     "Isaac et Jacob",
+     25,
+     36
+    ],
+    [
+     "Joseph, de l'esclavage au palais",
+     37,
+     50
+    ]
+   ],
+   "themes": [
+    [
+     "Dieu créateur",
+     "Tout ce qui existe vient de la parole de Dieu, et ce qu'il a fait était « très bon » (Genèse 1:31)."
+    ],
+    [
+     "Le péché et la grâce",
+     "La désobéissance brise la relation avec Dieu, mais Dieu ne cesse de chercher l'homme : « Où es-tu ? » (Genèse 3:9)."
+    ],
+    [
+     "L'alliance",
+     "Avec Noé puis avec Abraham, Dieu s'engage par des promesses qu'il tiendra quoi qu'il arrive."
+    ],
+    [
+     "La providence",
+     "Même le mal que font les hommes, Dieu peut le changer en bien (Genèse 50:20)."
+    ]
+   ],
+   "versets": [
+    "Genèse 1:1",
+    "Genèse 1:27",
+    "Genèse 12:2-3",
+    "Genèse 15:6",
+    "Genèse 50:20"
+   ],
+   "pers": [
+    "adam",
+    "eve",
+    "noe",
+    "abraham",
+    "sara",
+    "isaac",
+    "rebecca",
+    "jacob",
+    "rachel",
+    "joseph-at"
+   ],
+   "christ": "Dès la chute, Dieu annonce qu'un descendant de la femme écrasera la tête du serpent (Genèse 3:15) : c'est la première promesse du Sauveur. Le bélier offert à la place d'Isaac (Genèse 22:13) annonce l'Agneau donné à notre place, et Paul montre que la « postérité » promise à Abraham, c'est le Christ (Galates 3:16).",
+   "frise": "creation"
+  },
+  "2": {
+   "accroche": "Le Dieu qui délivre",
+   "resume": "Israël est esclave en Égypte. Dieu appelle Moïse, frappe l'Égypte de dix plaies, fait sortir son peuple par la mer Rouge, conclut avec lui l'alliance du Sinaï et vient habiter au milieu de lui dans le tabernacle.",
+   "auteur": "Moïse, selon la tradition juive et chrétienne. Le livre mentionne lui-même que Moïse mit par écrit les paroles de l'Éternel (Exode 24:4).",
+   "date": "Mis par écrit au temps de Moïse. Le récit couvre environ quatre-vingts ans, de sa naissance (vers 1526 av. J.-C.) à l'érection du tabernacle, un an après la sortie d'Égypte (vers 1445 av. J.-C.).",
+   "destinataires": "Le peuple d'Israël au désert, pour qu'il se souvienne de sa délivrance et vive selon l'alliance.",
+   "contexte": "Environ quatre siècles après Joseph, les descendants de Jacob sont devenus un peuple nombreux. Un nouveau roi « qui n'avait point connu Joseph » (Exode 1:8) les réduit en esclavage. Dieu entend leurs gémissements, se souvient de son alliance avec Abraham (Exode 2:24) et appelle Moïse depuis un buisson ardent.\n\nLe livre avance en trois mouvements : la délivrance (les plaies, la Pâque, la mer Rouge), l'alliance au Sinaï (les dix commandements), et la présence de Dieu au milieu de son peuple dans le tabernacle. Il se termine sur la gloire de l'Éternel qui remplit la tente (Exode 40:34).",
+   "plan": [
+    [
+     "L'esclavage et l'appel de Moïse",
+     1,
+     6
+    ],
+    [
+     "Les plaies et la Pâque",
+     7,
+     13
+    ],
+    [
+     "La mer Rouge et le désert",
+     14,
+     18
+    ],
+    [
+     "L'alliance au Sinaï",
+     19,
+     24
+    ],
+    [
+     "Les plans du tabernacle",
+     25,
+     31
+    ],
+    [
+     "Le veau d'or et le pardon",
+     32,
+     34
+    ],
+    [
+     "La construction du tabernacle",
+     35,
+     40
+    ]
+   ],
+   "themes": [
+    [
+     "La délivrance",
+     "Dieu voit la souffrance de son peuple et intervient avec puissance pour le libérer (Exode 3:7)."
+    ],
+    [
+     "Le nom de Dieu",
+     "« Je suis celui qui suis » : Dieu se révèle comme celui qui existe par lui-même et reste fidèle (Exode 3:14)."
+    ],
+    [
+     "La loi",
+     "Les dix commandements ne sont pas un chemin pour être sauvé : ils sont donnés à un peuple déjà délivré (Exode 20:2)."
+    ],
+    [
+     "La présence de Dieu",
+     "Le tabernacle permet à un Dieu saint d'habiter au milieu de son peuple (Exode 25:8)."
+    ]
+   ],
+   "versets": [
+    "Exode 3:14",
+    "Exode 12:13",
+    "Exode 14:14",
+    "Exode 15:2",
+    "Exode 20:2-3"
+   ],
+   "pers": [
+    "moise",
+    "aaron",
+    "miriam",
+    "pharaon",
+    "jokebed",
+    "jethro",
+    "sephora",
+    "josue",
+    "hur",
+    "betsaleel"
+   ],
+   "christ": "Jésus est l'Agneau de la Pâque : « Christ, notre Pâque, a été immolé » (1 Corinthiens 5:7). Il reprend le nom divin « Je suis » (Jean 8:58), et Jean écrit que la Parole a « habité » parmi nous (Jean 1:14) : le mot grec évoque une tente dressée, comme le tabernacle au milieu d'Israël.",
+   "frise": "paque"
+  },
+  "3": {
+   "accroche": "Approcher le Dieu saint",
+   "resume": "Comment un peuple pécheur peut-il vivre avec un Dieu saint au milieu de lui ? Lévitique répond : par les sacrifices, par le ministère des sacrificateurs, et par une vie sainte dans tous les domaines.",
+   "auteur": "Moïse, selon la tradition. Plus de trente fois, le livre précise que « l'Éternel parla à Moïse ».",
+   "date": "Donné au pied du mont Sinaï, dans le mois qui suit l'érection du tabernacle, vers 1445 av. J.-C.",
+   "destinataires": "Le peuple d'Israël, et en particulier les sacrificateurs de la tribu de Lévi — d'où le nom du livre.",
+   "contexte": "Le tabernacle vient d'être dressé à la fin de l'Exode. Lévitique explique comment s'en approcher : cinq sortes de sacrifices, la consécration d'Aaron et de ses fils, les règles du pur et de l'impur, et une sainteté qui touche la nourriture, la famille, le travail, la justice.\n\nLe cœur du livre est le grand jour des expiations (Lévitique 16:30), où le souverain sacrificateur entrait une fois par an dans le lieu très saint. Lévitique n'est pas qu'une liste de rites : on y lit aussi « tu aimeras ton prochain comme toi-même » (Lévitique 19:18), que Jésus cite comme le second grand commandement (Matthieu 22:39).",
+   "plan": [
+    [
+     "Les sacrifices",
+     1,
+     7
+    ],
+    [
+     "La consécration des sacrificateurs",
+     8,
+     10
+    ],
+    [
+     "Le pur et l'impur",
+     11,
+     15
+    ],
+    [
+     "Le grand jour des expiations",
+     16,
+     16
+    ],
+    [
+     "La sainteté au quotidien",
+     17,
+     22
+    ],
+    [
+     "Les fêtes de l'Éternel",
+     23,
+     25
+    ],
+    [
+     "Bénédictions, avertissements et vœux",
+     26,
+     27
+    ]
+   ],
+   "themes": [
+    [
+     "La sainteté",
+     "« Soyez saints, car je suis saint » : la vie entière appartient à Dieu (Lévitique 19:2)."
+    ],
+    [
+     "Le sacrifice",
+     "La vie est dans le sang, et c'est le sang qui fait l'expiation (Lévitique 17:11)."
+    ],
+    [
+     "La grâce",
+     "Dieu lui-même ouvre un chemin pour que le pécheur puisse s'approcher de lui."
+    ],
+    [
+     "Les fêtes",
+     "Le calendrier d'Israël rythme l'année par le souvenir des œuvres de Dieu (Lévitique 23:2)."
+    ]
+   ],
+   "versets": [
+    "Lévitique 16:30",
+    "Lévitique 17:11",
+    "Lévitique 19:2",
+    "Lévitique 19:18"
+   ],
+   "pers": [
+    "moise",
+    "aaron",
+    "nadab-abihu",
+    "eleazar",
+    "ithamar"
+   ],
+   "christ": "L'épître aux Hébreux relit Lévitique à la lumière de Jésus : il est à la fois le souverain sacrificateur et la victime, entré « une fois pour toutes » dans le lieu très saint avec son propre sang (Hébreux 9:12). Tous les sacrifices répétés de Lévitique pointaient vers ce sacrifice unique.",
+   "frise": "tabernacle"
+  },
+  "4": {
+   "accroche": "Quarante ans au désert",
+   "resume": "Le peuple quitte le Sinaï pour le pays promis, mais à Kadès il refuse d'y entrer. Toute une génération meurt au désert pendant quarante ans, et Dieu prépare la suivante à hériter de la promesse.",
+   "auteur": "Moïse, selon la tradition ; le livre précise qu'il mit par écrit les étapes du voyage (Nombres 33:2).",
+   "date": "Le récit couvre près de trente-neuf ans, du départ du Sinaï (vers 1445 av. J.-C.) jusqu'aux plaines de Moab, face à Jéricho (vers 1406 av. J.-C.).",
+   "destinataires": "La nouvelle génération d'Israël, sur le point d'entrer en Canaan, pour qu'elle ne répète pas l'incrédulité de ses pères.",
+   "contexte": "Le nom du livre vient des deux recensements du peuple (chapitres 1 et 26). Entre les deux, une génération entière a disparu. À Kadès, les douze espions reviennent du pays promis : dix découragent le peuple, seuls Josué et Caleb appellent à faire confiance à Dieu (Nombres 14:8-9). Le peuple refuse d'entrer, et Dieu le condamne à errer quarante ans.\n\nC'est un livre de murmures et de révoltes — Koré, et même Moïse à Meriba (Nombres 20:12) — mais surtout de la fidélité de Dieu, qui nourrit son peuple, le protège et change la malédiction que Balaam devait prononcer en bénédiction (Nombres 23:20).",
+   "plan": [
+    [
+     "Le recensement et l'organisation du camp",
+     1,
+     10
+    ],
+    [
+     "Du Sinaï à Kadès : les murmures",
+     11,
+     14
+    ],
+    [
+     "Les années d'errance",
+     15,
+     20
+    ],
+    [
+     "En route vers Moab",
+     21,
+     25
+    ],
+    [
+     "La nouvelle génération",
+     26,
+     36
+    ]
+   ],
+   "themes": [
+    [
+     "L'incrédulité",
+     "Refuser de croire Dieu, c'est passer à côté de ce qu'il a préparé (Nombres 14:11)."
+    ],
+    [
+     "La fidélité de Dieu",
+     "Dieu n'est pas un homme pour mentir : ce qu'il a dit, il l'accomplit (Nombres 23:19)."
+    ],
+    [
+     "La bénédiction",
+     "Dieu met son nom sur son peuple pour le bénir et le garder (Nombres 6:27)."
+    ]
+   ],
+   "versets": [
+    "Nombres 6:24-26",
+    "Nombres 14:9",
+    "Nombres 21:8",
+    "Nombres 23:19"
+   ],
+   "pers": [
+    "moise",
+    "aaron",
+    "miriam",
+    "josue",
+    "caleb",
+    "kore",
+    "balaam",
+    "balak",
+    "phinees",
+    "filles-tselophchad"
+   ],
+   "christ": "Jésus s'applique à lui-même le serpent d'airain : « Comme Moïse éleva le serpent dans le désert, il faut de même que le Fils de l'homme soit élevé » (Jean 3:14). Paul voit aussi en Christ le rocher spirituel qui accompagnait Israël et l'abreuvait (1 Corinthiens 10:4).",
+   "frise": "espions"
+  },
+  "5": {
+   "accroche": "Souviens-toi et choisis la vie",
+   "resume": "Avant de mourir, Moïse redit la loi à la génération qui va entrer dans le pays. Il rappelle l'histoire, réexplique les commandements et appelle le peuple à aimer l'Éternel de tout son cœur.",
+   "auteur": "Les discours sont de Moïse, qui mit cette loi par écrit (Deutéronome 31:9). Le récit de sa mort, au dernier chapitre, a été ajouté après lui ; la tradition juive l'attribue à Josué.",
+   "date": "Prononcé dans les plaines de Moab, dans les derniers mois de la vie de Moïse, la quarantième année après la sortie d'Égypte (Deutéronome 1:3), vers 1406 av. J.-C.",
+   "destinataires": "La génération née au désert, prête à traverser le Jourdain.",
+   "contexte": "« Deutéronome » signifie « seconde loi » : non pas une loi différente, mais la loi redite à une nouvelle génération. Moïse, qui n'entrera pas dans le pays, prononce trois grands discours, puis bénit les tribus et monte sur le mont Nebo pour contempler la terre promise.\n\nLe ton est celui d'un père qui fait ses adieux. On y trouve la grande confession de foi d'Israël : « Écoute, Israël ! l'Éternel, notre Dieu, est le seul Éternel » (Deutéronome 6:4). C'est aussi le livre que Jésus cite trois fois pour répondre au diable dans le désert (Matthieu 4:4).",
+   "plan": [
+    [
+     "Premier discours : souviens-toi du chemin",
+     1,
+     4
+    ],
+    [
+     "Deuxième discours : la loi expliquée",
+     5,
+     26
+    ],
+    [
+     "Bénédictions et malédictions",
+     27,
+     30
+    ],
+    [
+     "Les adieux et la mort de Moïse",
+     31,
+     34
+    ]
+   ],
+   "themes": [
+    [
+     "Aimer Dieu",
+     "L'obéissance part du cœur : aimer l'Éternel de tout son cœur, de toute son âme et de toute sa force (Deutéronome 6:5)."
+    ],
+    [
+     "Se souvenir",
+     "Oublier ce que Dieu a fait, c'est le premier pas vers l'infidélité (Deutéronome 8:11)."
+    ],
+    [
+     "Choisir",
+     "La vie et la mort sont placées devant le peuple : il doit choisir la vie (Deutéronome 30:19)."
+    ],
+    [
+     "Transmettre",
+     "La foi se transmet à la maison, en parlant de la Parole aux enfants (Deutéronome 6:7)."
+    ]
+   ],
+   "versets": [
+    "Deutéronome 6:4-5",
+    "Deutéronome 7:9",
+    "Deutéronome 8:3",
+    "Deutéronome 31:6"
+   ],
+   "pers": [
+    "moise",
+    "josue",
+    "aaron",
+    "caleb",
+    "sihon-og"
+   ],
+   "christ": "Moïse annonce : « L'Éternel, ton Dieu, te suscitera du milieu de toi, d'entre tes frères, un prophète comme moi » (Deutéronome 18:15). Pierre affirme que ce prophète, c'est Jésus (Actes 3:22). Et Jésus, tenté au désert, vit ce qu'Israël n'avait pas su vivre : se nourrir de toute parole qui sort de la bouche de Dieu.",
+   "frise": "nebo"
+  },
+  "6": {
+   "accroche": "Entrer dans la promesse",
+   "resume": "Sous la conduite de Josué, Israël traverse le Jourdain, prend Jéricho et conquiert le pays de Canaan. Le pays est ensuite partagé entre les douze tribus, et Josué appelle le peuple à rester fidèle.",
+   "auteur": "Le livre ne nomme pas son auteur. La tradition juive l'attribue à Josué lui-même, qui « écrivit ces choses dans le livre de la loi de Dieu » (Josué 24:26) ; le récit de sa mort a été ajouté ensuite.",
+   "date": "Les événements se déroulent vers 1406-1380 av. J.-C., de l'entrée en Canaan à la mort de Josué.",
+   "destinataires": "Le peuple d'Israël installé dans le pays, pour qu'il sache que sa terre est un don de Dieu.",
+   "contexte": "Moïse est mort ; Josué, son serviteur, prend la relève. Dieu lui promet : « je serai avec toi » (Josué 1:5). Le peuple traverse le Jourdain à pied sec, voit tomber les murailles de Jéricho, puis conquiert le pays en trois campagnes : au centre, au sud et au nord.\n\nLa deuxième moitié du livre décrit le partage du pays entre les tribus, avec les villes de refuge et les villes des Lévites. Le livre se conclut par un appel solennel à choisir qui servir : « moi et ma maison, nous servirons l'Éternel » (Josué 24:15).",
+   "plan": [
+    [
+     "La préparation et la traversée du Jourdain",
+     1,
+     5
+    ],
+    [
+     "Jéricho et la conquête",
+     6,
+     12
+    ],
+    [
+     "Le partage du pays",
+     13,
+     21
+    ],
+    [
+     "Les adieux de Josué",
+     22,
+     24
+    ]
+   ],
+   "themes": [
+    [
+     "La fidélité de Dieu",
+     "Aucune des bonnes paroles de l'Éternel n'est restée sans effet : tout s'est accompli (Josué 21:45)."
+    ],
+    [
+     "Le courage",
+     "Le courage de Josué vient de la Parole méditée jour et nuit (Josué 1:8)."
+    ],
+    [
+     "La sainteté",
+     "Le péché caché d'Acan fait trébucher tout le peuple à Aï (Josué 7:1)."
+    ],
+    [
+     "L'engagement",
+     "Chaque génération doit choisir à son tour de servir l'Éternel (Josué 24:15)."
+    ]
+   ],
+   "versets": [
+    "Josué 1:8",
+    "Josué 1:9",
+    "Josué 21:45",
+    "Josué 24:15"
+   ],
+   "pers": [
+    "josue",
+    "rahab",
+    "caleb",
+    "acan",
+    "eleazar",
+    "adoni-tsedek",
+    "jabin",
+    "acsa"
+   ],
+   "christ": "Josué et Jésus portent le même nom en hébreu, qui signifie : l'Éternel sauve. Là où Josué donna au peuple un repos provisoire, Jésus offre le vrai repos (Hébreux 4:8-9). Et Rahab, l'étrangère sauvée par sa foi, entre dans la généalogie du Christ (Matthieu 1:5).",
+   "frise": "jericho"
+  },
+  "7": {
+   "accroche": "Chacun faisait ce qui lui semblait bon",
+   "resume": "Après Josué, Israël tourne le dos à Dieu, tombe sous l'oppression, crie au secours, et Dieu suscite des libérateurs — les juges. Le cycle se répète, de plus en plus sombre, jusqu'à un peuple sans repère.",
+   "auteur": "Le livre ne nomme pas son auteur ; la tradition juive l'attribue à Samuel. La remarque « en ce temps-là, il n'y avait point de roi en Israël » laisse penser qu'il a été écrit aux débuts de la royauté.",
+   "date": "Le récit couvre environ trois siècles, de la mort de Josué jusqu'à l'époque de Samuel (vers 1380-1050 av. J.-C.).",
+   "destinataires": "Israël au début de la royauté, pour lui montrer les ravages de l'infidélité et son besoin d'un roi selon Dieu.",
+   "contexte": "Après Josué, il s'élève une génération « qui ne connaissait point l'Éternel » (Juges 2:10). Le livre décrit un cycle qui se répète : Israël abandonne Dieu, Dieu le livre à ses ennemis, le peuple crie, Dieu suscite un libérateur — un « juge » — et le pays connaît le repos… avant de retomber.\n\nDouze juges se succèdent, d'Othniel à Samson, en passant par Débora, Gédéon et Jephthé. Le livre va de mal en pis et se termine sur des récits terribles qui montrent un peuple sans repère. La phrase-clé revient comme un refrain : « chacun faisait ce qui lui semblait bon » (Juges 21:25).",
+   "plan": [
+    [
+     "Une conquête inachevée",
+     1,
+     2
+    ],
+    [
+     "Othniel, Éhud et Débora",
+     3,
+     5
+    ],
+    [
+     "Gédéon et Abimélec",
+     6,
+     9
+    ],
+    [
+     "De Thola à Jephthé",
+     10,
+     12
+    ],
+    [
+     "Samson",
+     13,
+     16
+    ],
+    [
+     "Un peuple sans roi",
+     17,
+     21
+    ]
+   ],
+   "themes": [
+    [
+     "Le cycle du péché",
+     "Oublier Dieu mène à l'esclavage ; chaque génération doit le connaître pour elle-même (Juges 2:10)."
+    ],
+    [
+     "La miséricorde",
+     "À chaque cri du peuple, Dieu répond en suscitant un libérateur (Juges 2:18)."
+    ],
+    [
+     "Dieu choisit les faibles",
+     "Gédéon, le plus petit de sa famille, sauve Israël avec trois cents hommes (Juges 7:7)."
+    ],
+    [
+     "L'attente d'un roi",
+     "Le désordre final fait espérer un roi juste qui conduise le peuple."
+    ]
+   ],
+   "versets": [
+    "Juges 2:16",
+    "Juges 6:12",
+    "Juges 7:7",
+    "Juges 21:25"
+   ],
+   "pers": [
+    "othniel",
+    "ehud",
+    "debora",
+    "barak",
+    "jael",
+    "gedeon",
+    "abimelec-gedeon",
+    "jephthe",
+    "samson",
+    "delila"
+   ],
+   "christ": "Chaque juge est un sauveur imparfait et provisoire, et plusieurs tombent eux-mêmes. Le livre fait attendre un libérateur qui ne retombera jamais : Jésus, le juste qui sauve une fois pour toutes. Hébreux cite pourtant Gédéon, Barak, Samson et Jephthé parmi les témoins de la foi (Hébreux 11:32).",
+   "frise": "juges"
+  },
+  "8": {
+   "accroche": "La fidélité au temps des Juges",
+   "resume": "Une veuve moabite, Ruth, s'attache à sa belle-mère Naomi et à son Dieu. À Bethléhem, elle trouve un rédempteur, Booz, et devient l'arrière-grand-mère du roi David.",
+   "auteur": "Le livre ne nomme pas son auteur ; la tradition juive l'attribue à Samuel. Il se termine par la généalogie de David, ce qui situe sa rédaction au plus tôt sous le règne de David.",
+   "date": "L'histoire se passe « du temps des juges » (Ruth 1:1), vers 1100 av. J.-C.",
+   "destinataires": "Israël, à qui le livre montre que la fidélité de Dieu passe aussi par les petits et les étrangers.",
+   "contexte": "Pendant une famine, Élimélec quitte Bethléhem pour le pays de Moab avec sa femme Naomi et leurs deux fils. Les trois hommes y meurent. Ruth, la belle-fille moabite, refuse d'abandonner Naomi : « ton peuple sera mon peuple, et ton Dieu sera mon Dieu » (Ruth 1:16).\n\nÀ Bethléhem, Ruth glane dans le champ de Booz (Boaz dans la Segond), un parent d'Élimélec. Booz accepte de jouer le rôle de « rédempteur » : il rachète le champ de la famille et épouse Ruth. Leur fils Obed sera le grand-père de David (Ruth 4:17). Au milieu de la noirceur des Juges, ce petit livre est une lumière.",
+   "plan": [
+    [
+     "Le départ et le retour à Bethléhem",
+     1,
+     1
+    ],
+    [
+     "Ruth dans le champ de Booz",
+     2,
+     2
+    ],
+    [
+     "La nuit sur l'aire",
+     3,
+     3
+    ],
+    [
+     "Le rachat et la naissance d'Obed",
+     4,
+     4
+    ]
+   ],
+   "themes": [
+    [
+     "La fidélité",
+     "Ruth s'engage envers Naomi et envers son Dieu, sans rien attendre en retour (Ruth 1:16)."
+    ],
+    [
+     "La providence",
+     "Ce qui ressemble à un hasard — le champ où Ruth va glaner — est conduit par Dieu (Ruth 2:3)."
+    ],
+    [
+     "Le rachat",
+     "Le parent rédempteur rachète ce qui était perdu et relève le nom de la famille (Ruth 4:10)."
+    ],
+    [
+     "L'accueil des nations",
+     "Une étrangère trouve refuge sous les ailes du Dieu d'Israël (Ruth 2:12)."
+    ]
+   ],
+   "versets": [
+    "Ruth 1:16",
+    "Ruth 2:12",
+    "Ruth 4:14"
+   ],
+   "pers": [
+    "ruth",
+    "naomi",
+    "booz",
+    "orpa",
+    "elimelec",
+    "machlon-kiljon",
+    "obed"
+   ],
+   "christ": "Booz, le parent qui rachète, est une belle image du Christ, notre rédempteur. Et Ruth, l'étrangère, entre dans la lignée du Messie (Matthieu 1:5) : déjà, la grâce de Dieu dépasse les frontières d'Israël.",
+   "frise": "ruth"
+  },
+  "9": {
+   "accroche": "Des juges à la royauté",
+   "resume": "Samuel, l'enfant donné en réponse à la prière d'Anne, devient le dernier des juges. Le peuple réclame un roi : Saül est choisi puis rejeté, et Dieu oint en secret un jeune berger, David.",
+   "auteur": "Le livre ne nomme pas son auteur. Samuel n'a pu en écrire que le début, puisqu'il meurt au chapitre 25. Les écrits de Samuel, de Nathan et de Gad sont cités comme sources de cette histoire (1 Chroniques 29:29). 1 et 2 Samuel ne formaient à l'origine qu'un seul livre.",
+   "date": "Le récit couvre environ un siècle, de la naissance de Samuel à la mort de Saül (vers 1100-1010 av. J.-C.).",
+   "destinataires": "Israël sous la royauté, pour comprendre comment Dieu a établi la maison de David.",
+   "contexte": "Israël vit la fin du temps des Juges. Anne, une femme stérile, prie et reçoit un fils, Samuel, qui devient prophète, sacrificateur et juge. Mais le peuple réclame un roi « comme il y en a chez toutes les nations » (1 Samuel 8:5). Dieu lui donne Saül, grand et impressionnant, mais qui désobéit.\n\nDieu choisit alors le plus jeune des fils d'Isaï, car « l'homme regarde à ce qui frappe les yeux, mais l'Éternel regarde au cœur » (1 Samuel 16:7). La suite raconte la victoire de David sur Goliath, son amitié avec Jonathan, et les années où il fuit Saül sans jamais lever la main contre lui. Le livre se termine par la mort de Saül et de ses fils sur le mont Guilboa.",
+   "plan": [
+    [
+     "Anne et la naissance de Samuel",
+     1,
+     3
+    ],
+    [
+     "L'arche et le ministère de Samuel",
+     4,
+     7
+    ],
+    [
+     "Saül, le roi demandé",
+     8,
+     15
+    ],
+    [
+     "David et Goliath",
+     16,
+     17
+    ],
+    [
+     "David fuit Saül",
+     18,
+     30
+    ],
+    [
+     "La mort de Saül",
+     31,
+     31
+    ]
+   ],
+   "themes": [
+    [
+     "Dieu regarde au cœur",
+     "Dieu ne choisit pas selon l'apparence, mais selon le cœur (1 Samuel 16:7)."
+    ],
+    [
+     "L'obéissance",
+     "Obéir vaut mieux que les sacrifices (1 Samuel 15:22)."
+    ],
+    [
+     "Dieu élève les humbles",
+     "Le cantique d'Anne chante le Dieu qui renverse les orgueilleux et relève le pauvre (1 Samuel 2:8)."
+    ],
+    [
+     "Le respect de l'oint",
+     "David refuse de toucher à Saül, même quand celui-ci est à sa merci (1 Samuel 24:7)."
+    ]
+   ],
+   "versets": [
+    "1 Samuel 3:10",
+    "1 Samuel 15:22",
+    "1 Samuel 16:7",
+    "1 Samuel 17:45"
+   ],
+   "pers": [
+    "anne-samuel",
+    "elkana",
+    "eli-pretre",
+    "samuel",
+    "saul-roi",
+    "david",
+    "goliath",
+    "jonathan",
+    "mical",
+    "abigail"
+   ],
+   "christ": "David, le berger de Bethléhem oint par Dieu puis rejeté avant de régner, préfigure Jésus, « Fils de David », né lui aussi à Bethléhem. Le cantique d'Anne parle déjà de l'Éternel qui donnera la puissance « à son roi » et relèvera la force « de son oint » (1 Samuel 2:10) — en hébreu, son Messie.",
+   "frise": "samuel"
+  },
+  "10": {
+   "accroche": "Le règne de David",
+   "resume": "David devient roi, fait de Jérusalem sa capitale et reçoit de Dieu la promesse d'un trône éternel. Puis il tombe avec Bath-Schéba, et le livre raconte sans fard sa repentance et les drames qui frappent sa famille.",
+   "auteur": "Le livre ne nomme pas son auteur. Il s'appuie sur les écrits des prophètes Nathan et Gad, contemporains de David (1 Chroniques 29:29).",
+   "date": "Le récit couvre les quarante ans du règne de David, vers 1010-970 av. J.-C.",
+   "destinataires": "Israël, pour lui montrer à la fois la grandeur de la promesse faite à David et la réalité du péché, même chez un roi selon le cœur de Dieu.",
+   "contexte": "Après la mort de Saül, David règne d'abord sept ans et demi à Hébron sur Juda, puis trente-trois ans à Jérusalem sur tout Israël (2 Samuel 5:5). Il y fait monter l'arche, et Dieu lui fait une promesse immense : sa maison et son royaume seront affermis pour toujours (2 Samuel 7:16).\n\nMais le livre ne cache rien : l'adultère avec Bath-Schéba, le meurtre d'Urie, puis la violence qui s'installe dans sa famille — Amnon, Absalom, la révolte contre son père. Confronté par le prophète Nathan, David ne se justifie pas : « J'ai péché contre l'Éternel ! » (2 Samuel 12:13). Le Psaume 51 garde la trace de cette repentance.",
+   "plan": [
+    [
+     "David roi à Hébron",
+     1,
+     4
+    ],
+    [
+     "Jérusalem, l'arche et l'alliance",
+     5,
+     7
+    ],
+    [
+     "Les victoires et la bonté de David",
+     8,
+     10
+    ],
+    [
+     "La chute de David",
+     11,
+     12
+    ],
+    [
+     "Les drames de sa famille",
+     13,
+     20
+    ],
+    [
+     "Les derniers chants et le recensement",
+     21,
+     24
+    ]
+   ],
+   "themes": [
+    [
+     "L'alliance avec David",
+     "Dieu promet qu'un descendant de David régnera pour toujours (2 Samuel 7:16)."
+    ],
+    [
+     "Le péché et la repentance",
+     "Même le plus grand roi tombe ; ce qui compte, c'est de revenir à Dieu (2 Samuel 12:13)."
+    ],
+    [
+     "Les conséquences du péché",
+     "Le pardon est réel, mais le mal semé laisse des blessures (2 Samuel 12:10)."
+    ],
+    [
+     "La bonté",
+     "David accueille à sa table Mephiboscheth, le fils infirme de Jonathan (2 Samuel 9:7)."
+    ]
+   ],
+   "versets": [
+    "2 Samuel 7:16",
+    "2 Samuel 12:13",
+    "2 Samuel 22:2-3"
+   ],
+   "pers": [
+    "david",
+    "abner",
+    "joab",
+    "mical",
+    "bath-scheba",
+    "urie",
+    "nathan",
+    "amnon",
+    "absalom",
+    "mephiboscheth",
+    "achitophel"
+   ],
+   "christ": "La promesse faite à David (2 Samuel 7:12-16) est le fondement de l'espérance du Messie : un descendant de David régnera pour toujours. L'ange Gabriel la reprend à propos de Jésus : « le Seigneur Dieu lui donnera le trône de David, son père » (Luc 1:32).",
+   "frise": "david-roi"
+  },
+  "11": {
+   "accroche": "De la gloire à la division",
+   "resume": "Salomon, le roi sage, bâtit le temple de Jérusalem. Mais son cœur se détourne, et après lui le royaume se déchire en deux. Au nord, sous Achab et Jézabel, Dieu suscite le prophète Élie.",
+   "auteur": "Le livre ne nomme pas son auteur ; la tradition juive l'attribue à Jérémie. Il cite ses sources, comme « le livre des actes de Salomon » (1 Rois 11:41) et les chroniques des rois d'Israël et de Juda. 1 et 2 Rois ne formaient à l'origine qu'un seul livre, achevé pendant l'exil.",
+   "date": "Le récit couvre environ cent vingt ans, de l'avènement de Salomon (vers 970 av. J.-C.) jusqu'au règne d'Achazia, fils d'Achab (vers 850 av. J.-C.).",
+   "destinataires": "Les Juifs en exil à Babylone, qui cherchaient à comprendre comment ils en étaient arrivés là.",
+   "contexte": "Salomon succède à David, demande à Dieu un cœur intelligent et bâtit le temple de Jérusalem : c'est l'âge d'or d'Israël. Mais ses nombreuses femmes détournent son cœur vers d'autres dieux (1 Rois 11:4).\n\nÀ sa mort, vers 931 av. J.-C., le royaume se coupe en deux : au nord, Israël et ses dix tribus, avec Jéroboam ; au sud, Juda et Jérusalem, avec Roboam. Chaque roi est jugé sur un seul critère : a-t-il fait ce qui est droit aux yeux de l'Éternel ? Au milieu de la décadence du nord, Dieu suscite Élie, le prophète du feu sur le mont Carmel (1 Rois 18:39).",
+   "plan": [
+    [
+     "Salomon devient roi",
+     1,
+     2
+    ],
+    [
+     "La sagesse et le temple",
+     3,
+     8
+    ],
+    [
+     "La gloire et la chute de Salomon",
+     9,
+     11
+    ],
+    [
+     "Le royaume divisé",
+     12,
+     16
+    ],
+    [
+     "Élie face à Achab",
+     17,
+     22
+    ]
+   ],
+   "themes": [
+    [
+     "La sagesse",
+     "Salomon demande un cœur qui sache écouter et discerner le bien du mal (1 Rois 3:9)."
+    ],
+    [
+     "Le temple et la prière",
+     "Dieu ne peut être contenu par aucune maison, et pourtant il y écoute la prière de son peuple (1 Rois 8:27)."
+    ],
+    [
+     "Choisir son Dieu",
+     "On ne peut pas boiter des deux côtés : il faut choisir entre l'Éternel et Baal (1 Rois 18:21)."
+    ],
+    [
+     "La voix de Dieu",
+     "Dieu parle à Élie, non dans le feu ou la tempête, mais dans un murmure doux et léger (1 Rois 19:12)."
+    ]
+   ],
+   "versets": [
+    "1 Rois 3:9",
+    "1 Rois 8:27",
+    "1 Rois 18:21",
+    "1 Rois 19:12"
+   ],
+   "pers": [
+    "salomon",
+    "bath-scheba",
+    "adonija",
+    "hiram",
+    "reine-seba",
+    "jeroboam",
+    "roboam",
+    "achab",
+    "jezabel",
+    "elie"
+   ],
+   "christ": "Jésus se présente comme « plus que Salomon » (Matthieu 12:42) et désigne son propre corps comme le vrai temple (Jean 2:21). Élie, lui, sera attendu comme celui qui prépare la venue du Seigneur, et c'est Jean-Baptiste qui viendra « avec l'esprit et la puissance d'Élie » (Luc 1:17).",
+   "frise": "salomon"
+  },
+  "12": {
+   "accroche": "Jusqu'à l'exil",
+   "resume": "Élisée succède à Élie. Malgré les avertissements des prophètes, Israël puis Juda s'enfoncent dans l'idolâtrie : Samarie tombe sous les coups de l'Assyrie, puis Jérusalem sous ceux de Babylone.",
+   "auteur": "Le même auteur anonyme que 1 Rois (la tradition juive l'attribue à Jérémie). Le livre a été achevé pendant l'exil à Babylone.",
+   "date": "Le récit couvre près de trois siècles, d'Élie et Élisée (vers 850 av. J.-C.) jusqu'à la libération du roi Jojakin à Babylone (vers 561 av. J.-C.).",
+   "destinataires": "Les Juifs déportés à Babylone, pour leur montrer que l'exil n'était pas un accident mais le fruit d'une longue infidélité — et que Dieu n'avait pas oublié la maison de David.",
+   "contexte": "Élie est enlevé au ciel dans un tourbillon, et Élisée reprend son manteau. Le livre suit en parallèle les deux royaumes. Israël, le royaume du nord, s'enfonce dans l'idolâtrie : en 722 av. J.-C., le roi d'Assyrie prend Samarie et déporte les dix tribus (2 Rois 17:6).\n\nJuda tient plus longtemps, grâce à des rois fidèles comme Ézéchias et Josias, sous qui on retrouve le livre de la loi dans le temple. Mais le peuple ne revient pas vraiment. En 586 av. J.-C., Nebucadnetsar détruit Jérusalem et le temple. Le livre se termine pourtant sur une lueur : le roi Jojakin, captif, est tiré de prison à Babylone (2 Rois 25:27).",
+   "plan": [
+    [
+     "Élisée succède à Élie",
+     1,
+     8
+    ],
+    [
+     "Jéhu et les rois du nord et du sud",
+     9,
+     16
+    ],
+    [
+     "La chute de Samarie",
+     17,
+     17
+    ],
+    [
+     "Ézéchias",
+     18,
+     20
+    ],
+    [
+     "De Manassé à Josias",
+     21,
+     23
+    ],
+    [
+     "La chute de Jérusalem",
+     24,
+     25
+    ]
+   ],
+   "themes": [
+    [
+     "La patience de Dieu",
+     "Dieu avertit sans relâche par ses prophètes avant de juger (2 Rois 17:13)."
+    ],
+    [
+     "Les yeux de la foi",
+     "Ceux qui sont avec nous sont plus nombreux que ceux qui sont avec eux (2 Rois 6:16)."
+    ],
+    [
+     "La Parole retrouvée",
+     "La lecture du livre de la loi bouleverse Josias et provoque un réveil (2 Rois 22:11)."
+    ],
+    [
+     "L'espérance",
+     "Même en exil, la lignée de David survit (2 Rois 25:27)."
+    ]
+   ],
+   "versets": [
+    "2 Rois 6:16",
+    "2 Rois 17:13",
+    "2 Rois 23:25"
+   ],
+   "pers": [
+    "elie",
+    "elisee",
+    "sunamite",
+    "naaman",
+    "guehazi",
+    "jehu",
+    "athalie",
+    "ezechias",
+    "josias",
+    "nebucadnetsar"
+   ],
+   "christ": "Les miracles d'Élisée — la veuve secourue, l'enfant ressuscité, Naaman guéri — annoncent ceux de Jésus, qui cite d'ailleurs Naaman à Nazareth (Luc 4:27). Et la survie de la lignée de David, avec Jojakin, garde ouverte la promesse du Roi à venir : Jojakin (Jéchonias) figure dans la généalogie de Jésus (Matthieu 1:12).",
+   "frise": "samarie"
+  },
+  "13": {
+   "accroche": "L'histoire relue après l'exil",
+   "resume": "Après de longues généalogies qui vont d'Adam au retour d'exil, le livre se concentre sur David : son règne, son amour pour l'arche et la préparation du temple que bâtira Salomon.",
+   "auteur": "Le livre ne nomme pas son auteur ; la tradition juive l'attribue à Esdras, le scribe. Les Chroniques partagent son style, et 2 Chroniques se termine par l'édit de Cyrus qui ouvre le livre d'Esdras.",
+   "date": "Rédigé après le retour d'exil, probablement au Ve siècle av. J.-C. Le récit va des généalogies des origines jusqu'à la mort de David (vers 970 av. J.-C.).",
+   "destinataires": "Les Juifs revenus de Babylone, peu nombreux et sans roi, qui se demandaient si Dieu les avait abandonnés.",
+   "contexte": "Les Chroniques reprennent l'histoire déjà racontée par Samuel et les Rois, mais pour un autre public et avec un autre regard. L'auteur rappelle aux rapatriés d'où ils viennent : les neuf premiers chapitres sont des généalogies, d'Adam jusqu'aux habitants de Jérusalem au retour d'exil. Le message est clair : vous êtes toujours le peuple de Dieu.\n\nLe livre se concentre ensuite sur David, surtout sur ce qu'il a fait pour l'adoration : il fait monter l'arche à Jérusalem dans la joie, organise les Lévites, les chantres et les portiers, et rassemble les matériaux qu'utilisera Salomon pour bâtir le temple.",
+   "plan": [
+    [
+     "Les généalogies, d'Adam au retour",
+     1,
+     9
+    ],
+    [
+     "La mort de Saül et l'avènement de David",
+     10,
+     12
+    ],
+    [
+     "David et l'arche",
+     13,
+     17
+    ],
+    [
+     "Les victoires de David",
+     18,
+     21
+    ],
+    [
+     "La préparation du temple",
+     22,
+     29
+    ]
+   ],
+   "themes": [
+    [
+     "L'identité du peuple",
+     "Les généalogies rappellent que Dieu connaît chaque famille par son nom."
+    ],
+    [
+     "L'adoration",
+     "La louange est organisée, joyeuse, et au centre de la vie du peuple (1 Chroniques 16:34)."
+    ],
+    [
+     "La promesse à David",
+     "Le trône promis à la descendance de David sera affermi pour toujours (1 Chroniques 17:14)."
+    ],
+    [
+     "La prière",
+     "Au milieu d'une généalogie, la prière de Jaebets montre que Dieu exauce (1 Chroniques 4:10)."
+    ]
+   ],
+   "versets": [
+    "1 Chroniques 4:10",
+    "1 Chroniques 16:34",
+    "1 Chroniques 29:11"
+   ],
+   "pers": [
+    "david",
+    "saul-roi",
+    "nathan",
+    "gad-prophete",
+    "joab",
+    "ornan",
+    "asaph",
+    "heman-jeduthun",
+    "salomon"
+   ],
+   "christ": "Les généalogies des Chroniques sont la charpente de celles de Matthieu et de Luc : elles montrent que Jésus est bien le descendant d'Abraham, de Juda et de David annoncé. La promesse d'un trône « pour toujours affermi » (1 Chroniques 17:14) attend son Roi.",
+   "frise": "david-roi"
+  },
+  "14": {
+   "accroche": "Les rois de Juda et le temple",
+   "resume": "De Salomon à l'exil, le livre suit les rois de Juda, la lignée de David. Il met en lumière les réveils spirituels et se termine sur l'édit de Cyrus qui permet le retour.",
+   "auteur": "Le même auteur anonyme que 1 Chroniques ; la tradition juive l'attribue à Esdras.",
+   "date": "Rédigé après le retour d'exil, probablement au Ve siècle av. J.-C. Le récit couvre de l'avènement de Salomon (vers 970 av. J.-C.) jusqu'à l'édit de Cyrus (538 av. J.-C.).",
+   "destinataires": "Les Juifs revenus de Babylone, invités à rebâtir leur vie autour du temple et de la fidélité à Dieu.",
+   "contexte": "Le livre s'ouvre sur Salomon et la dédicace du temple, où le feu descend du ciel et la gloire de l'Éternel remplit la maison (2 Chroniques 7:1). Après la division du royaume, il ne suit que Juda, le royaume de la lignée de David, et laisse presque de côté les rois du nord.\n\nL'auteur insiste sur les réveils : Asa, Josaphat, Ézéchias, Josias ramènent le peuple à Dieu, et chaque fois Dieu répond. Même Manassé, le pire des rois, s'humilie en captivité et Dieu l'exauce (2 Chroniques 33:12-13). Le livre se termine sur l'édit de Cyrus : l'histoire n'est pas finie.",
+   "plan": [
+    [
+     "Salomon et le temple",
+     1,
+     9
+    ],
+    [
+     "La division et Roboam",
+     10,
+     12
+    ],
+    [
+     "D'Abija à Josaphat",
+     13,
+     20
+    ],
+    [
+     "D'Athalie à Achaz",
+     21,
+     28
+    ],
+    [
+     "Ézéchias, Manassé et Josias",
+     29,
+     35
+    ],
+    [
+     "La chute et l'édit de Cyrus",
+     36,
+     36
+    ]
+   ],
+   "themes": [
+    [
+     "La prière qui relève",
+     "Si mon peuple s'humilie, prie et cherche ma face, j'exaucerai (2 Chroniques 7:14)."
+    ],
+    [
+     "Chercher Dieu",
+     "Les yeux de l'Éternel parcourent la terre pour soutenir ceux dont le cœur est tout entier à lui (2 Chroniques 16:9)."
+    ],
+    [
+     "Le combat appartient à Dieu",
+     "Face à une immense armée, Josaphat entend : ce n'est pas vous qui combattrez (2 Chroniques 20:15)."
+    ],
+    [
+     "Le réveil",
+     "Chaque retour sincère à Dieu ouvre une saison de bénédiction."
+    ]
+   ],
+   "versets": [
+    "2 Chroniques 7:14",
+    "2 Chroniques 16:9",
+    "2 Chroniques 20:15"
+   ],
+   "pers": [
+    "salomon",
+    "reine-seba",
+    "roboam",
+    "asa",
+    "josaphat",
+    "athalie",
+    "joas",
+    "ozias",
+    "ezechias",
+    "manasse-roi",
+    "josias",
+    "cyrus"
+   ],
+   "christ": "Dans la Bible hébraïque, les Chroniques sont le dernier livre. Jésus résume ainsi l'histoire des prophètes rejetés, du premier au dernier livre : « depuis le sang d'Abel jusqu'au sang de Zacharie » (Luc 11:51), ce Zacharie lapidé dans le parvis du temple (2 Chroniques 24:21). Le livre s'achève sur un temple à rebâtir et un roi absent : Jésus vient remplir ce vide.",
+   "frise": "josias"
+  },
+  "15": {
+   "accroche": "Le retour et la Parole",
+   "resume": "Cyrus autorise les Juifs à rentrer à Jérusalem. Un premier groupe rebâtit le temple malgré l'opposition ; des années plus tard, le scribe Esdras arrive à son tour pour enseigner la loi.",
+   "auteur": "Esdras, sacrificateur et scribe, selon la tradition juive. À partir de la fin du chapitre 7, il raconte à la première personne. Esdras et Néhémie ne formaient qu'un seul livre dans la Bible hébraïque.",
+   "date": "Le récit couvre environ quatre-vingts ans : le premier retour en 538 av. J.-C., l'achèvement du temple en 516 av. J.-C., puis l'arrivée d'Esdras en 458 av. J.-C.",
+   "destinataires": "La communauté juive revenue d'exil, à Jérusalem et en Juda.",
+   "contexte": "Comme Jérémie l'avait annoncé, Dieu réveille l'esprit de Cyrus, roi de Perse, qui autorise les Juifs à rentrer et à rebâtir le temple (Esdras 1:1). Un premier groupe revient avec Zorobabel et le sacrificateur Josué. Les fondations sont posées dans la joie et les larmes (Esdras 3:12), mais l'opposition des voisins arrête les travaux pendant des années. Les prophètes Aggée et Zacharie relancent le peuple, et le temple est achevé (Esdras 6:15).\n\nPrès de soixante ans plus tard, Esdras arrive avec un second groupe. Il avait « appliqué son cœur à étudier et à mettre en pratique la loi de l'Éternel » (Esdras 7:10). Il découvre que beaucoup se sont unis aux peuples idolâtres, et il conduit le peuple à la repentance.",
+   "plan": [
+    [
+     "L'édit de Cyrus et le premier retour",
+     1,
+     2
+    ],
+    [
+     "La reconstruction du temple",
+     3,
+     6
+    ],
+    [
+     "Le retour d'Esdras",
+     7,
+     8
+    ],
+    [
+     "La repentance du peuple",
+     9,
+     10
+    ]
+   ],
+   "themes": [
+    [
+     "Dieu tient parole",
+     "Dieu accomplit la parole de Jérémie en touchant le cœur d'un roi païen (Esdras 1:1)."
+    ],
+    [
+     "Rebâtir",
+     "Le temple est relevé malgré la pauvreté et l'opposition (Esdras 6:14)."
+    ],
+    [
+     "La Parole au centre",
+     "Étudier, pratiquer, enseigner : l'ordre d'Esdras reste un modèle (Esdras 7:10)."
+    ],
+    [
+     "La repentance",
+     "Esdras s'identifie au péché du peuple et le confesse devant Dieu (Esdras 9:6)."
+    ]
+   ],
+   "versets": [
+    "Esdras 3:11",
+    "Esdras 7:10",
+    "Esdras 8:22"
+   ],
+   "pers": [
+    "cyrus",
+    "scheschbatsar",
+    "zorobabel",
+    "josue-sacrificateur",
+    "aggee",
+    "zacharie-prophete",
+    "thathnai",
+    "darius",
+    "artaxerxes",
+    "esdras"
+   ],
+   "christ": "Le retour d'exil est une délivrance réelle mais incomplète : le peuple est rentré, mais il reste sous domination étrangère et sans roi. Les prophètes du retour font attendre un temple plus glorieux et un retour plus profond — celui que Jésus apporte en ramenant l'homme à Dieu.",
+   "frise": "cyrus"
+  },
+  "16": {
+   "accroche": "Rebâtir les murailles",
+   "resume": "Néhémie, échanson du roi de Perse, obtient de revenir à Jérusalem pour relever ses murailles. Malgré les menaces, le travail est achevé en cinquante-deux jours, puis la lecture de la loi provoque un profond renouveau.",
+   "auteur": "Néhémie, qui raconte une grande partie du livre à la première personne (Néhémie 1:1).",
+   "date": "De la vingtième année du roi Artaxerxès, en 445 av. J.-C. (Néhémie 2:1), jusqu'au second séjour de Néhémie, vers 432 av. J.-C. (Néhémie 13:6).",
+   "destinataires": "La communauté juive revenue d'exil, appelée à vivre en peuple de l'alliance.",
+   "contexte": "Néhémie est échanson du roi de Perse, à Suse. Quand il apprend que les murailles de Jérusalem sont toujours en ruine, il pleure, jeûne et prie pendant des jours (Néhémie 1:4). Le roi l'envoie comme gouverneur. Malgré les moqueries et les menaces de Sanballat, Tobija et Guéschem, les murailles sont relevées en cinquante-deux jours (Néhémie 6:15).\n\nEsdras lit ensuite publiquement la loi devant tout le peuple, qui pleure en l'entendant. Néhémie lui répond : « la joie de l'Éternel sera votre force » (Néhémie 8:10). Le peuple renouvelle l'alliance par écrit. Le livre se termine sur les réformes énergiques de Néhémie lors de son second séjour.",
+   "plan": [
+    [
+     "La prière de Néhémie",
+     1,
+     2
+    ],
+    [
+     "La reconstruction des murailles",
+     3,
+     7
+    ],
+    [
+     "La lecture de la loi et le renouveau",
+     8,
+     10
+    ],
+    [
+     "Le repeuplement de Jérusalem",
+     11,
+     12
+    ],
+    [
+     "Les réformes de Néhémie",
+     13,
+     13
+    ]
+   ],
+   "themes": [
+    [
+     "Prière et action",
+     "Néhémie prie avant de parler au roi, puis il agit avec méthode (Néhémie 2:4-5)."
+    ],
+    [
+     "Tenir bon",
+     "Face aux menaces, on travaille d'une main et on tient l'arme de l'autre (Néhémie 4:17)."
+    ],
+    [
+     "La Parole qui renouvelle",
+     "La lecture de la loi, expliquée au peuple, fait naître la repentance et la joie (Néhémie 8:8)."
+    ],
+    [
+     "La joie",
+     "La joie de l'Éternel est la force de son peuple (Néhémie 8:10)."
+    ]
+   ],
+   "versets": [
+    "Néhémie 2:20",
+    "Néhémie 8:8",
+    "Néhémie 8:10"
+   ],
+   "pers": [
+    "nehemie",
+    "hanani-nehemie",
+    "artaxerxes",
+    "sanballat",
+    "tobija",
+    "gueschem",
+    "noadia",
+    "esdras",
+    "eliaschib"
+   ],
+   "christ": "Néhémie quitte le palais du roi pour venir relever son peuple en ruine : un écho de celui qui « s'est dépouillé lui-même » pour venir jusqu'à nous (Philippiens 2:7). Mais ses réformes s'essoufflent dès qu'il s'absente : il faudra un cœur nouveau, que seul le Christ donne.",
+   "frise": "nehemie"
+  },
+  "17": {
+   "accroche": "Dieu caché, jamais absent",
+   "resume": "Une jeune Juive devient reine de Perse. Quand un décret menace d'exterminer son peuple, Esther risque sa vie devant le roi, et le complot se retourne contre son auteur.",
+   "auteur": "Le livre ne nomme pas son auteur. Il vient d'un Juif de Perse, très au fait de la vie de la cour ; la tradition a proposé Mardochée, qui mit par écrit ces événements (Esther 9:20).",
+   "date": "Les événements se déroulent sous le roi Assuérus (Xerxès Ier), vers 483-473 av. J.-C., entre le premier retour sous Zorobabel et la venue d'Esdras.",
+   "destinataires": "Les Juifs restés en exil dans l'empire perse, et tous ceux qui célèbrent la fête des Purim.",
+   "contexte": "L'histoire se passe à Suse, capitale de l'empire perse. Esther, une jeune orpheline juive élevée par son cousin Mardochée, devient reine sans révéler ses origines. Haman, le premier ministre, obtient un décret pour exterminer tous les Juifs de l'empire.\n\nEsther risque sa vie en se présentant devant le roi sans être appelée. Mardochée lui avait dit : « qui sait si ce n'est pas pour un temps comme celui-ci que tu es parvenue à la royauté ? » (Esther 4:14). Le complot se retourne contre Haman, et les Juifs sont sauvés : c'est l'origine de la fête des Purim. Fait remarquable : le nom de Dieu n'apparaît pas une seule fois dans le livre — et pourtant sa main est partout.",
+   "plan": [
+    [
+     "Esther devient reine",
+     1,
+     2
+    ],
+    [
+     "Le complot d'Haman",
+     3,
+     4
+    ],
+    [
+     "Le courage d'Esther",
+     5,
+     7
+    ],
+    [
+     "La délivrance et la fête des Purim",
+     8,
+     10
+    ]
+   ],
+   "themes": [
+    [
+     "La providence",
+     "Une nuit d'insomnie du roi change le cours de l'histoire (Esther 6:1)."
+    ],
+    [
+     "Le courage",
+     "« Si je dois périr, je périrai » : Esther ose pour sauver son peuple (Esther 4:16)."
+    ],
+    [
+     "Le renversement",
+     "L'orgueilleux tombe dans le piège qu'il avait préparé (Esther 7:10)."
+    ],
+    [
+     "La place de chacun",
+     "Dieu place ses enfants là où ils peuvent servir son dessein (Esther 4:14)."
+    ]
+   ],
+   "versets": [
+    "Esther 4:14",
+    "Esther 4:16"
+   ],
+   "pers": [
+    "assuerus",
+    "vasthi",
+    "esther",
+    "mardochee",
+    "hegai",
+    "bigthan-theresch",
+    "haman",
+    "zeresch",
+    "hathac"
+   ],
+   "christ": "Esther intercède au péril de sa vie pour un peuple condamné. Jésus va plus loin : il ne risque pas seulement sa vie, il la donne, et il est « toujours vivant pour intercéder » en faveur de ceux qui s'approchent de Dieu par lui (Hébreux 7:25).",
+   "frise": "esther"
+  },
+  "18": {
+   "accroche": "Quand le juste souffre",
+   "resume": "Job, un homme intègre, perd tout : ses biens, ses enfants, sa santé. Ses amis l'accusent, il crie vers Dieu, et Dieu finit par lui répondre — non par une explication, mais en se révélant lui-même.",
+   "auteur": "Inconnu. La tradition juive a proposé Moïse ; le livre lui-même ne dit rien de son auteur.",
+   "date": "L'histoire se situe à une époque très ancienne, comparable à celle des patriarches : Job offre lui-même des sacrifices pour sa famille, sa richesse se compte en troupeaux, et il vit encore cent quarante ans après son épreuve (Job 42:16). La date de rédaction reste inconnue.",
+   "destinataires": "Tous ceux qui se demandent pourquoi le juste souffre — et qui ont besoin d'apprendre qu'on peut crier vers Dieu sans le lâcher.",
+   "contexte": "Job habite le pays d'Uts ; il est « intègre et droit », il craint Dieu et se détourne du mal (Job 1:1). Dans une scène céleste, Satan prétend que Job n'aime Dieu que pour ses bénédictions. Dieu permet l'épreuve. Job perd tout, mais il ignore tout de ce qui s'est joué dans le ciel.\n\nTrois amis viennent le consoler, puis l'accusent : s'il souffre, c'est qu'il a péché. Job proteste de son innocence et réclame une audience auprès de Dieu. Un quatrième, Élihu, prend ensuite la parole. Enfin, l'Éternel répond à Job du milieu de la tempête (Job 38:1) : il ne donne pas d'explication, il se révèle dans sa grandeur. Job se tait, s'humilie, et Dieu le rétablit — tandis que les amis sont repris pour n'avoir pas parlé de lui avec droiture (Job 42:7).",
+   "plan": [
+    [
+     "L'épreuve de Job",
+     1,
+     2
+    ],
+    [
+     "Le dialogue avec ses trois amis",
+     3,
+     31
+    ],
+    [
+     "Les discours d'Élihu",
+     32,
+     37
+    ],
+    [
+     "Dieu répond du milieu de la tempête",
+     38,
+     41
+    ],
+    [
+     "Le rétablissement de Job",
+     42,
+     42
+    ]
+   ],
+   "themes": [
+    [
+     "La souffrance du juste",
+     "La souffrance n'est pas toujours la punition d'une faute : Job est juste, et pourtant il souffre (Job 1:1)."
+    ],
+    [
+     "La souveraineté de Dieu",
+     "Dieu ne doit pas de comptes à l'homme, mais il se fait connaître à lui (Job 42:5)."
+    ],
+    [
+     "Les explications toutes faites",
+     "Les amis de Job avaient une théologie bien rangée, et ils avaient tort (Job 42:7)."
+    ],
+    [
+     "L'espérance",
+     "Au plus noir de sa nuit, Job affirme que son rédempteur est vivant (Job 19:25)."
+    ]
+   ],
+   "versets": [
+    "Job 1:21",
+    "Job 19:25",
+    "Job 42:5"
+   ],
+   "pers": [
+    "job",
+    "femme-job",
+    "amis-job",
+    "elihu",
+    "satan"
+   ],
+   "christ": "Job réclame un arbitre qui puisse poser la main sur Dieu et sur lui (Job 9:33), et il affirme : « je sais que mon rédempteur est vivant » (Job 19:25). Jésus est ce médiateur entre Dieu et les hommes : le seul vraiment juste, qui a souffert sans l'avoir mérité, et qui est vivant pour toujours.",
+   "frise": null
+  },
+  "19": {
+   "accroche": "Le livre de prière du peuple de Dieu",
+   "resume": "Cent cinquante prières et chants, écrits pour être chantés au temple et priés au quotidien. Toute la palette de l'âme y passe : louange, confiance, détresse, colère, repentance, action de grâce.",
+   "auteur": "Plusieurs auteurs. Les titres attribuent 73 psaumes à David ; d'autres sont d'Asaph, des fils de Koré, de Salomon, d'Héman, d'Éthan, et le Psaume 90 de Moïse. Beaucoup sont anonymes.",
+   "date": "Composés sur près d'un millénaire, de Moïse (Psaumes 90:1) jusqu'après l'exil à Babylone (Psaumes 137:1), puis rassemblés en un seul recueil.",
+   "destinataires": "Le peuple de Dieu rassemblé pour le culte, et chaque croyant dans sa prière personnelle.",
+   "contexte": "Les Psaumes sont la prière d'Israël, et Jésus les a priés. On y trouve des hymnes de louange, des appels au secours, des confessions de péché, des chants de pèlerinage, des psaumes royaux. Rien n'y est caché à Dieu : on peut lui dire sa joie comme sa colère ou son sentiment d'abandon.\n\nLe recueil est divisé en cinq livres, chacun terminé par une bénédiction, peut-être à l'image des cinq livres de Moïse. Il s'ouvre sur l'homme heureux qui médite la loi de l'Éternel jour et nuit (Psaumes 1:2) et s'achève dans une explosion de louange : « Que tout ce qui respire loue l'Éternel ! » (Psaumes 150:6).",
+   "plan": [
+    [
+     "Livre I : surtout des psaumes de David",
+     1,
+     41
+    ],
+    [
+     "Livre II : les fils de Koré et David",
+     42,
+     72
+    ],
+    [
+     "Livre III : Asaph et la crise du peuple",
+     73,
+     89
+    ],
+    [
+     "Livre IV : l'Éternel règne",
+     90,
+     106
+    ],
+    [
+     "Livre V : louange et pèlerinages",
+     107,
+     150
+    ]
+   ],
+   "themes": [
+    [
+     "La louange",
+     "Dieu est loué pour ce qu'il est et pour ce qu'il a fait (Psaumes 103:2)."
+    ],
+    [
+     "La lamentation",
+     "On peut crier à Dieu sa détresse, et beaucoup de ces cris se terminent dans la confiance (Psaumes 13:6)."
+    ],
+    [
+     "La Parole",
+     "La Parole de Dieu éclaire le chemin pas à pas (Psaumes 119:105)."
+    ],
+    [
+     "Le roi oint",
+     "Plusieurs psaumes annoncent le roi choisi par Dieu, le Messie (Psaumes 2:7)."
+    ]
+   ],
+   "versets": [
+    "Psaumes 23:4",
+    "Psaumes 46:2",
+    "Psaumes 119:105",
+    "Psaumes 150:6"
+   ],
+   "pers": [
+    "david",
+    "asaph",
+    "heman-jeduthun",
+    "salomon",
+    "moise"
+   ],
+   "christ": "Jésus a dit que les Psaumes parlaient de lui (Luc 24:44). Sur la croix, il prie le Psaume 22 : « Mon Dieu, mon Dieu, pourquoi m'as-tu abandonné ? » (Matthieu 27:46). Le Psaume 110 annonce le Roi assis à la droite de Dieu, et Pierre voit dans le Psaume 16 l'annonce de la résurrection (Actes 2:27).",
+   "frise": "david-roi"
+  },
+  "20": {
+   "accroche": "La sagesse pour la vie de tous les jours",
+   "resume": "Un recueil de conseils et de maximes pour vivre avec sagesse : parler, travailler, gérer son argent, choisir ses amis, vivre en famille. Le fondement de tout : la crainte de l'Éternel.",
+   "auteur": "Principalement Salomon (Proverbes 1:1), qui prononça trois mille sentences (1 Rois 4:32). Le livre contient aussi « les paroles des sages » (Proverbes 22:17), des proverbes de Salomon recueillis plus tard par les gens du roi Ézéchias (Proverbes 25:1), et les paroles d'Agur et du roi Lemuel.",
+   "date": "L'essentiel remonte au Xe siècle av. J.-C., sous Salomon ; le recueil a été complété au temps d'Ézéchias, vers 700 av. J.-C.",
+   "destinataires": "Les jeunes d'abord — le livre s'adresse souvent à « mon fils » — et quiconque veut apprendre à vivre selon Dieu.",
+   "contexte": "Le livre commence par de longs discours d'un père à son fils (chapitres 1 à 9). La Sagesse y est personnifiée comme une femme qui appelle dans les rues, à l'opposé de la femme étrangère qui séduit et mène à la mort.\n\nViennent ensuite des centaines de maximes courtes, souvent construites en parallèle ou en contraste : le sage et l'insensé, le paresseux et le diligent, le juste et le méchant. Le fondement est posé dès le début : « La crainte de l'Éternel est le commencement de la science » (Proverbes 1:7). Le livre se termine par le portrait de la femme vertueuse (Proverbes 31:10).",
+   "plan": [
+    [
+     "Les conseils d'un père à son fils",
+     1,
+     9
+    ],
+    [
+     "Les proverbes de Salomon",
+     10,
+     22
+    ],
+    [
+     "Les paroles des sages",
+     22,
+     24
+    ],
+    [
+     "Les proverbes recueillis sous Ézéchias",
+     25,
+     29
+    ],
+    [
+     "Agur, Lemuel et la femme vertueuse",
+     30,
+     31
+    ]
+   ],
+   "themes": [
+    [
+     "La crainte de l'Éternel",
+     "La vraie sagesse commence par le respect de Dieu (Proverbes 1:7)."
+    ],
+    [
+     "La confiance",
+     "Se confier en l'Éternel plutôt qu'en sa propre intelligence (Proverbes 3:5)."
+    ],
+    [
+     "La parole",
+     "La langue a le pouvoir de blesser ou de guérir (Proverbes 12:18)."
+    ],
+    [
+     "Le cœur",
+     "Tout part du cœur : c'est lui qu'il faut garder (Proverbes 4:23)."
+    ]
+   ],
+   "versets": [
+    "Proverbes 1:7",
+    "Proverbes 3:5-6",
+    "Proverbes 4:23",
+    "Proverbes 22:6"
+   ],
+   "pers": [
+    "salomon",
+    "ezechias",
+    "agur-lemuel"
+   ],
+   "christ": "La Sagesse qui appelle les hommes et qui était auprès de Dieu lors de la création (Proverbes 8:30) trouve son visage en Jésus, en qui « sont cachés tous les trésors de la sagesse et de la science » (Colossiens 2:3). Paul le dit : Christ a été fait pour nous sagesse (1 Corinthiens 1:30).",
+   "frise": "salomon"
+  },
+  "21": {
+   "accroche": "Vanité des vanités",
+   "resume": "Un sage enquête sur le sens de la vie « sous le soleil ». Savoir, plaisir, travail, richesse : tout passe comme une buée. Sa conclusion : recevoir chaque jour comme un don de Dieu et le craindre.",
+   "auteur": "« L'Ecclésiaste, fils de David, roi de Jérusalem » (Ecclésiaste 1:1), que la tradition identifie à Salomon. Le nom de Salomon n'apparaît pourtant pas, et certains y voient un sage plus tardif qui parle dans la peau du grand roi.",
+   "date": "Au Xe siècle av. J.-C. si le livre est de Salomon ; sinon plus tard, la question reste débattue.",
+   "destinataires": "Tous ceux qui cherchent un sens à la vie et que les réponses faciles ne satisfont plus.",
+   "contexte": "« Ecclésiaste » traduit le mot hébreu Qohéleth : « celui qui parle à l'assemblée ». Il a tout essayé — le savoir, le plaisir, les grands travaux, la richesse — et sa conclusion revient comme un refrain : « Vanité des vanités, tout est vanité » (Ecclésiaste 1:2). Le mot hébreu évoque une buée, une vapeur qui se dissipe.\n\nCe n'est pas un livre désespéré, c'est un livre lucide. Il invite à manger son pain avec joie, à profiter de la vie que Dieu donne, à se souvenir de son créateur dès sa jeunesse. Et il conclut : « Crains Dieu et observe ses commandements. C'est là ce que doit faire tout homme » (Ecclésiaste 12:15). Attention : la Segond numérote différemment la fin du livre, ce verset bien connu est ailleurs appelé 12:13.",
+   "plan": [
+    [
+     "Tout est vanité",
+     1,
+     2
+    ],
+    [
+     "Un temps pour tout",
+     3,
+     5
+    ],
+    [
+     "La sagesse et ses limites",
+     6,
+     8
+    ],
+    [
+     "Profiter de la vie que Dieu donne",
+     9,
+     11
+    ],
+    [
+     "Souviens-toi de ton créateur",
+     12,
+     12
+    ]
+   ],
+   "themes": [
+    [
+     "La vanité",
+     "Rien sous le soleil ne peut combler le cœur humain (Ecclésiaste 1:2)."
+    ],
+    [
+     "Un temps pour tout",
+     "Dieu a fixé un moment pour chaque chose (Ecclésiaste 3:1)."
+    ],
+    [
+     "La joie, don de Dieu",
+     "Manger, boire et se réjouir de son travail, c'est un don de Dieu (Ecclésiaste 3:13)."
+    ],
+    [
+     "La crainte de Dieu",
+     "Le dernier mot du livre : craindre Dieu et lui obéir (Ecclésiaste 12:15)."
+    ]
+   ],
+   "versets": [
+    "Ecclésiaste 3:1",
+    "Ecclésiaste 3:11",
+    "Ecclésiaste 12:3",
+    "Ecclésiaste 12:15"
+   ],
+   "pers": [
+    "salomon"
+   ],
+   "christ": "Ecclésiaste montre que rien « sous le soleil » ne rassasie, alors que Dieu a mis dans le cœur humain « la pensée de l'éternité » (Ecclésiaste 3:11). Jésus vient d'au-delà du soleil apporter ce qui ne passe pas : « je suis venu afin que les brebis aient la vie, et qu'elles soient dans l'abondance » (Jean 10:10).",
+   "frise": "salomon"
+  },
+  "22": {
+   "accroche": "Le plus beau des chants",
+   "resume": "Un poème d'amour entre un bien-aimé et une jeune femme : le désir, l'attente, la séparation, les retrouvailles. Le livre célèbre l'amour humain comme un don de Dieu.",
+   "auteur": "Le titre l'attribue à Salomon (Cantique des cantiques 1:1). L'expression hébraïque peut aussi signifier « dédié à Salomon ».",
+   "date": "Au Xe siècle av. J.-C. si le poème est de Salomon.",
+   "destinataires": "Israël ; dans la tradition juive, le Cantique est lu chaque année lors de la Pâque.",
+   "contexte": "Le titre signifie « le plus beau des chants ». Deux voix principales se répondent, celle du bien-aimé et celle de la bien-aimée, la Sulamithe, avec en arrière-plan un chœur, les filles de Jérusalem. Le langage est poétique et sensuel, rempli d'images de jardins, de vignes, de parfums et d'animaux.\n\nLe livre célèbre l'amour humain et le désir dans l'engagement comme une bonne création de Dieu : « l'amour est fort comme la mort » (Cantique des cantiques 8:6). Juifs et chrétiens y ont aussi lu, au fil des siècles, une image de l'amour entre Dieu et son peuple, entre le Christ et l'Église.",
+   "plan": [
+    [
+     "Les premiers élans de l'amour",
+     1,
+     2
+    ],
+    [
+     "Le cortège et les noces",
+     3,
+     4
+    ],
+    [
+     "L'absence et la recherche",
+     5,
+     6
+    ],
+    [
+     "La beauté de la bien-aimée et la force de l'amour",
+     7,
+     8
+    ]
+   ],
+   "themes": [
+    [
+     "L'amour, don de Dieu",
+     "L'amour humain fait partie de ce que Dieu a créé « très bon »."
+    ],
+    [
+     "L'appartenance",
+     "Mon bien-aimé est à moi, et je suis à lui (Cantique des cantiques 2:16)."
+    ],
+    [
+     "Le bon moment",
+     "Ne pas réveiller l'amour avant qu'il le veuille : le désir sait attendre (Cantique des cantiques 2:7)."
+    ],
+    [
+     "Un amour plus fort que tout",
+     "Les grandes eaux ne peuvent éteindre l'amour (Cantique des cantiques 8:7)."
+    ]
+   ],
+   "versets": [
+    "Cantique des cantiques 2:16",
+    "Cantique des cantiques 8:6",
+    "Cantique des cantiques 8:7"
+   ],
+   "pers": [
+    "salomon"
+   ],
+   "christ": "Le Nouveau Testament décrit l'Église comme l'épouse du Christ, qui l'a aimée et s'est livré lui-même pour elle (Éphésiens 5:25). Le Cantique en donne la tonalité : un amour qui cherche, qui désire, et que « les grandes eaux ne peuvent éteindre » (Cantique des cantiques 8:7).",
+   "frise": "salomon"
+  },
+  "23": {
+   "accroche": "Le Saint d'Israël sauve",
+   "resume": "Ésaïe annonce le jugement sur Juda et les nations, mais aussi la consolation : le retour d'exil, le Serviteur qui souffre pour les autres, et de nouveaux cieux et une nouvelle terre.",
+   "auteur": "Ésaïe, fils d'Amots (Ésaïe 1:1), prophète à Jérusalem. Beaucoup de spécialistes attribuent les chapitres 40 à 66 à des disciples plus tardifs ; le Nouveau Testament cite pourtant les deux parties sous le nom d'Ésaïe (Jean 12:41).",
+   "date": "Son ministère commence l'année de la mort du roi Ozias (Ésaïe 6:1), vers 740 av. J.-C., et se poursuit sous Jotham, Achaz et Ézéchias, jusqu'après 701 av. J.-C.",
+   "destinataires": "Juda et Jérusalem ; la seconde partie s'adresse aussi aux exilés à venir.",
+   "contexte": "Ésaïe exerce son ministère à Jérusalem pendant plus de quarante ans, au moment où l'Assyrie écrase le royaume du nord et menace Juda. Il a reçu sa vocation par une vision du Seigneur sur son trône, entouré de séraphins qui crient : « Saint, saint, saint est l'Éternel des armées ! » (Ésaïe 6:3). Il appelle les rois à faire confiance à Dieu plutôt qu'aux alliances politiques.\n\nLa première partie (chapitres 1 à 39) annonce le jugement, mais aussi un enfant-roi, Emmanuel. La seconde s'ouvre sur « Consolez, consolez mon peuple » (Ésaïe 40:1) : elle parle du retour d'exil, du Serviteur souffrant et d'une création renouvelée. C'est le prophète le plus cité dans le Nouveau Testament.",
+   "plan": [
+    [
+     "Jugement et espérance pour Juda",
+     1,
+     12
+    ],
+    [
+     "Oracles contre les nations",
+     13,
+     23
+    ],
+    [
+     "Le jugement de la terre et le salut",
+     24,
+     27
+    ],
+    [
+     "Malheurs et promesses",
+     28,
+     35
+    ],
+    [
+     "Ézéchias face à l'Assyrie",
+     36,
+     39
+    ],
+    [
+     "Consolation et retour",
+     40,
+     48
+    ],
+    [
+     "Le Serviteur de l'Éternel",
+     49,
+     57
+    ],
+    [
+     "Le salut et la gloire à venir",
+     58,
+     66
+    ]
+   ],
+   "themes": [
+    [
+     "La sainteté de Dieu",
+     "Dieu est « le Saint d'Israël », un titre qui revient tout au long du livre (Ésaïe 1:4)."
+    ],
+    [
+     "La confiance",
+     "Ceux qui se confient en l'Éternel renouvellent leur force (Ésaïe 40:31)."
+    ],
+    [
+     "Le Serviteur souffrant",
+     "Un serviteur innocent porte le péché des autres (Ésaïe 53:5)."
+    ],
+    [
+     "La nouvelle création",
+     "Dieu va créer de nouveaux cieux et une nouvelle terre (Ésaïe 65:17)."
+    ]
+   ],
+   "versets": [
+    "Ésaïe 6:8",
+    "Ésaïe 9:5",
+    "Ésaïe 40:31",
+    "Ésaïe 53:5",
+    "Ésaïe 55:8"
+   ],
+   "pers": [
+    "esaie",
+    "ozias",
+    "achaz",
+    "ezechias",
+    "enfants-esaie",
+    "sancherib",
+    "rabschake",
+    "schebna",
+    "eliakim-hilkija",
+    "cyrus"
+   ],
+   "christ": "On a appelé Ésaïe « le cinquième évangile ». Il annonce l'enfant appelé Emmanuel (Ésaïe 7:14) — Matthieu y voit la naissance virginale de Jésus (Matthieu 1:23) —, l'enfant nommé « Dieu puissant » et « Prince de la paix » (Ésaïe 9:5), et le Serviteur « blessé pour nos péchés » (Ésaïe 53:5). À Nazareth, Jésus lit Ésaïe 61 et déclare : « Aujourd'hui cette parole de l'Écriture, que vous venez d'entendre, est accomplie » (Luc 4:21).",
+   "frise": "prophetes-8"
+  },
+  "24": {
+   "accroche": "Le prophète aux larmes",
+   "resume": "Pendant quarante ans, Jérémie annonce la chute de Jérusalem à un peuple qui refuse d'écouter. Persécuté, il pleure et se plaint à Dieu — et c'est par lui que Dieu promet une nouvelle alliance.",
+   "auteur": "Jérémie, fils de Hilkija, sacrificateur d'Anathoth (Jérémie 1:1). Son secrétaire Baruc mit ses paroles par écrit sous sa dictée (Jérémie 36:4).",
+   "date": "De la treizième année du roi Josias, en 627 av. J.-C. (Jérémie 1:2), jusqu'après la destruction de Jérusalem en 586 av. J.-C.",
+   "destinataires": "Juda et Jérusalem, puis les exilés à Babylone, à qui Jérémie écrit une lettre (Jérémie 29:1), et les nations voisines.",
+   "contexte": "Jérémie est appelé tout jeune, sous le roi Josias. Pendant quarante ans, il annonce un message que personne ne veut entendre : Babylone va venir, Jérusalem tombera, il faut se soumettre. Il est frappé, mis aux ceps, jeté dans une citerne boueuse, accusé de trahison. Il voudrait se taire, mais la parole de Dieu est en lui comme un feu dévorant (Jérémie 20:9).\n\nAu cœur du livre brille pourtant une promesse : une nouvelle alliance, où Dieu écrira sa loi dans les cœurs (Jérémie 31:33). Aux exilés, il écrit que Dieu a pour eux des « projets de paix et non de malheur » (Jérémie 29:11). Après la chute de Jérusalem, Jérémie est emmené de force en Égypte par les rescapés.",
+   "plan": [
+    [
+     "L'appel de Jérémie",
+     1,
+     1
+    ],
+    [
+     "Avertissements à Juda",
+     2,
+     25
+    ],
+    [
+     "Conflits avec les faux prophètes",
+     26,
+     29
+    ],
+    [
+     "Le livre de la consolation",
+     30,
+     33
+    ],
+    [
+     "Les derniers jours de Jérusalem",
+     34,
+     45
+    ],
+    [
+     "Oracles contre les nations",
+     46,
+     51
+    ],
+    [
+     "La chute de Jérusalem",
+     52,
+     52
+    ]
+   ],
+   "themes": [
+    [
+     "La vocation",
+     "Dieu connaissait Jérémie avant même sa naissance (Jérémie 1:5)."
+    ],
+    [
+     "Le cœur humain",
+     "Le cœur est tortueux par-dessus tout : il a besoin d'être renouvelé (Jérémie 17:9)."
+    ],
+    [
+     "La fidélité dans l'épreuve",
+     "Jérémie reste fidèle alors que tout le monde se retourne contre lui (Jérémie 20:9)."
+    ],
+    [
+     "La nouvelle alliance",
+     "Dieu promet d'écrire sa loi dans les cœurs (Jérémie 31:33)."
+    ]
+   ],
+   "versets": [
+    "Jérémie 1:5",
+    "Jérémie 29:11",
+    "Jérémie 31:33",
+    "Jérémie 33:3"
+   ],
+   "pers": [
+    "jeremie",
+    "baruc",
+    "josias",
+    "jojakim",
+    "sedecias",
+    "hanania-prophete",
+    "paschhur",
+    "ebed-melec",
+    "guedalia",
+    "nebucadnetsar"
+   ],
+   "christ": "La nouvelle alliance annoncée par Jérémie est celle que Jésus inaugure lors du dernier repas : « Cette coupe est la nouvelle alliance en mon sang » (Luc 22:20). Hébreux cite longuement Jérémie 31 pour le montrer (Hébreux 8:8). Et comme Jérémie, Jésus a pleuré sur Jérusalem (Luc 19:41).",
+   "frise": "jeremie"
+  },
+  "25": {
+   "accroche": "Pleurer devant Dieu",
+   "resume": "Cinq poèmes pleurent Jérusalem détruite par Babylone. Au cœur des ruines jaillit une confession de foi : les compassions de l'Éternel se renouvellent chaque matin.",
+   "auteur": "Le livre ne nomme pas son auteur. La tradition l'attribue à Jérémie, témoin de la chute de Jérusalem, qui avait déjà composé des complaintes (2 Chroniques 35:25).",
+   "date": "Peu après la destruction de Jérusalem et du temple, en 586 av. J.-C.",
+   "destinataires": "Les survivants de Juda, pour qu'ils puissent mettre des mots sur leur douleur devant Dieu.",
+   "contexte": "Le temple a brûlé, la ville est en ruine, les enfants meurent de faim, le peuple est déporté. Lamentations met des mots sur l'indicible. Les quatre premiers poèmes sont des acrostiches : chaque strophe commence par une lettre de l'alphabet hébreu, comme pour dire la douleur de A à Z, de façon complète et ordonnée.\n\nLe livre reconnaît que ce malheur est le fruit du péché du peuple. Mais au centre exact du livre, au milieu des ruines, surgit l'espérance : « Les bontés de l'Éternel ne sont pas épuisées, ses compassions ne sont pas à leur terme ; elles se renouvellent chaque matin » (Lamentations 3:22-23).",
+   "plan": [
+    [
+     "La ville en deuil",
+     1,
+     1
+    ],
+    [
+     "La colère de l'Éternel",
+     2,
+     2
+    ],
+    [
+     "L'espérance au cœur de la détresse",
+     3,
+     3
+    ],
+    [
+     "Les horreurs du siège",
+     4,
+     4
+    ],
+    [
+     "Prière pour la restauration",
+     5,
+     5
+    ]
+   ],
+   "themes": [
+    [
+     "Le droit de pleurer",
+     "La Bible donne des mots à la douleur et à la plainte devant Dieu."
+    ],
+    [
+     "Le péché et ses conséquences",
+     "La chute de Jérusalem n'est pas un accident : elle était annoncée."
+    ],
+    [
+     "La fidélité de Dieu",
+     "Même au fond du gouffre, la fidélité de Dieu reste grande (Lamentations 3:23)."
+    ],
+    [
+     "Le retour",
+     "Fais-nous revenir vers toi, et nous reviendrons (Lamentations 5:21)."
+    ]
+   ],
+   "versets": [
+    "Lamentations 3:22-23",
+    "Lamentations 3:26",
+    "Lamentations 5:21"
+   ],
+   "pers": [
+    "jeremie",
+    "nebucadnetsar",
+    "sedecias"
+   ],
+   "christ": "Jésus a pleuré sur Jérusalem en annonçant sa destruction future (Luc 19:41). Sur la croix, il a porté jusqu'au bout la colère que décrit Lamentations, pour que les compassions de Dieu se renouvellent pour nous chaque matin.",
+   "frise": "jerusalem-detruite"
+  },
+  "26": {
+   "accroche": "La gloire de Dieu s'en va et revient",
+   "resume": "Prophète parmi les déportés à Babylone, Ézéchiel voit la gloire de Dieu quitter le temple souillé. Après la chute de Jérusalem, il annonce un cœur nouveau, des ossements qui revivent et un temple nouveau.",
+   "auteur": "Ézéchiel, sacrificateur, fils de Buzi (Ézéchiel 1:3), déporté à Babylone avec le roi Jojakin. Il écrit à la première personne.",
+   "date": "De la cinquième année de la captivité de Jojakin, en 593 av. J.-C. (Ézéchiel 1:2), jusqu'à la vingt-septième, en 571 av. J.-C. (Ézéchiel 29:17).",
+   "destinataires": "Les exilés installés près du fleuve Kebar, en Babylonie, puis tout Israël.",
+   "contexte": "Ézéchiel fait partie des premiers déportés. Un jour, au bord du Kebar, les cieux s'ouvrent et il contemple la gloire de l'Éternel (Ézéchiel 1:1). Il annonce aux exilés, qui espèrent encore un retour rapide, que Jérusalem va tomber. Ses messages sont souvent mimés : il se couche sur le côté, se rase la tête, ne prend pas le deuil de sa femme.\n\nDans une vision, il voit la gloire de Dieu quitter le temple souillé par l'idolâtrie (Ézéchiel 10:18). Après la chute de Jérusalem, son message se retourne : Dieu donnera un cœur nouveau, ranimera les ossements desséchés et reviendra habiter dans un temple nouveau. Le livre se termine par le nom de la ville : « l'Éternel est ici » (Ézéchiel 48:35).",
+   "plan": [
+    [
+     "La vocation d'Ézéchiel",
+     1,
+     3
+    ],
+    [
+     "Le jugement de Jérusalem",
+     4,
+     24
+    ],
+    [
+     "Oracles contre les nations",
+     25,
+     32
+    ],
+    [
+     "Le berger, le cœur nouveau et les ossements",
+     33,
+     39
+    ],
+    [
+     "Le temple nouveau",
+     40,
+     48
+    ]
+   ],
+   "themes": [
+    [
+     "La gloire de Dieu",
+     "Dieu ne se laisse enfermer nulle part : sa gloire apparaît même en exil (Ézéchiel 1:1)."
+    ],
+    [
+     "La responsabilité personnelle",
+     "Dieu ne prend pas plaisir à la mort du méchant, il veut qu'il change de conduite et vive (Ézéchiel 18:23)."
+    ],
+    [
+     "Le cœur nouveau",
+     "Dieu ôtera le cœur de pierre et donnera un cœur de chair (Ézéchiel 36:26)."
+    ],
+    [
+     "La résurrection d'un peuple",
+     "Les ossements desséchés reprennent vie par l'Esprit (Ézéchiel 37:5)."
+    ]
+   ],
+   "versets": [
+    "Ézéchiel 18:23",
+    "Ézéchiel 34:16",
+    "Ézéchiel 36:26",
+    "Ézéchiel 37:5"
+   ],
+   "pers": [
+    "ezechiel",
+    "jojakin",
+    "nebucadnetsar",
+    "sedecias"
+   ],
+   "christ": "Ézéchiel annonce que Dieu cherchera lui-même ses brebis et leur donnera un seul pasteur, « mon serviteur David » (Ézéchiel 34:23). Jésus reprend l'image : « Je suis le bon berger » (Jean 10:11). Et l'Esprit promis, qui fait vivre selon Dieu (Ézéchiel 36:27), est répandu à la Pentecôte.",
+   "frise": "ezechiel"
+  },
+  "27": {
+   "accroche": "Fidèle dans un empire étranger",
+   "resume": "Déporté à Babylone, Daniel sert à la cour des rois sans renier son Dieu. La seconde moitié du livre rapporte ses visions sur la succession des empires et le règne éternel de Dieu.",
+   "auteur": "Daniel, selon la tradition juive et chrétienne ; les chapitres 7 à 12 sont écrits à la première personne, et Jésus parle du « prophète Daniel » (Matthieu 24:15). Beaucoup de spécialistes modernes datent toutefois sa rédaction du IIe siècle av. J.-C.",
+   "date": "Le récit va de la première déportation, en 605 av. J.-C. (Daniel 1:1), jusqu'à la troisième année de Cyrus, vers 536 av. J.-C. (Daniel 10:1).",
+   "destinataires": "Les Juifs en exil et, au-delà, tous les croyants qui vivent leur foi dans une société qui ne la partage pas.",
+   "contexte": "Jeune noble de Juda, Daniel est emmené à Babylone avec ses amis Hanania, Mischaël et Azaria, rebaptisés Schadrac, Méschac et Abed-Nego. Formés à la cour de Nebucadnetsar, ils servent l'empire sans renier leur Dieu : ils refusent les mets du roi, la fournaise ne les brûle pas, et Daniel continue de prier trois fois par jour au risque de la fosse aux lions (Daniel 6:10).\n\nLa seconde moitié du livre rapporte des visions sur les empires qui se succèdent et sur le règne final de Dieu. Daniel voit venir sur les nuées « quelqu'un de semblable à un fils de l'homme », à qui est donné un règne qui ne sera jamais détruit (Daniel 7:13-14). Une partie du livre, du chapitre 2 au chapitre 7, est écrite en araméen, la langue internationale de l'époque.",
+   "plan": [
+    [
+     "Daniel et ses amis à la cour",
+     1,
+     1
+    ],
+    [
+     "Le rêve de la statue",
+     2,
+     2
+    ],
+    [
+     "La fournaise ardente",
+     3,
+     3
+    ],
+    [
+     "L'orgueil de Nebucadnetsar",
+     4,
+     4
+    ],
+    [
+     "Le festin de Belschatsar",
+     5,
+     5
+    ],
+    [
+     "La fosse aux lions",
+     6,
+     6
+    ],
+    [
+     "Les visions des empires",
+     7,
+     8
+    ],
+    [
+     "La prière de Daniel et les soixante-dix semaines",
+     9,
+     9
+    ],
+    [
+     "La grande vision finale",
+     10,
+     12
+    ]
+   ],
+   "themes": [
+    [
+     "La fidélité",
+     "Servir sans se compromettre, même quand cela coûte (Daniel 3:17-18)."
+    ],
+    [
+     "Dieu maître de l'histoire",
+     "C'est Dieu qui renverse et qui établit les rois (Daniel 2:21)."
+    ],
+    [
+     "La prière",
+     "La prière régulière de Daniel est le secret de sa fermeté (Daniel 6:10)."
+    ],
+    [
+     "Le royaume éternel",
+     "Tous les empires passent ; le règne de Dieu demeure (Daniel 7:14)."
+    ]
+   ],
+   "versets": [
+    "Daniel 2:21",
+    "Daniel 3:17-18",
+    "Daniel 7:13-14",
+    "Daniel 12:3"
+   ],
+   "pers": [
+    "daniel",
+    "schadrac",
+    "aschpenaz",
+    "nebucadnetsar",
+    "arjoc",
+    "belschatsar",
+    "darius",
+    "cyrus",
+    "gabriel",
+    "michel-archange"
+   ],
+   "christ": "Le titre que Jésus préférait pour parler de lui-même, « le Fils de l'homme », vient de Daniel 7. Devant le sanhédrin, il cite ce passage : « vous verrez désormais le Fils de l'homme assis à la droite de la puissance de Dieu, et venant sur les nuées du ciel » (Matthieu 26:64). C'est cette parole qui le fait condamner.",
+   "frise": "daniel"
+  },
+  "28": {
+   "accroche": "L'amour qui ne lâche pas",
+   "resume": "Dieu demande à Osée d'épouser une femme qui lui sera infidèle. Sa vie de famille devient une prophétie vivante : Israël trompe son Dieu, mais Dieu l'aime encore et l'appelle à revenir.",
+   "auteur": "Osée, fils de Beéri (Osée 1:1), prophète du royaume du nord.",
+   "date": "Vers 755-715 av. J.-C., sous Jéroboam II en Israël et les rois Ozias à Ézéchias en Juda (Osée 1:1).",
+   "destinataires": "Israël, le royaume du nord, dans ses dernières décennies avant la chute de Samarie.",
+   "contexte": "Dieu demande à Osée d'épouser Gomer, qui lui sera infidèle. Comme Gomer avec Osée, Israël trompe l'Éternel en courant après Baal. Les noms des enfants sont des messages : Lo-Ruchama, « pas de compassion », et Lo-Ammi, « pas mon peuple » (Osée 1:9).\n\nPourtant Osée rachète Gomer et la reprend (Osée 3:2). Le livre alterne accusations et appels d'amour bouleversants : « Que ferai-je de toi, Éphraïm ? … Mon cœur s'agite au dedans de moi » (Osée 11:8). Quelques années plus tard, en 722 av. J.-C., Samarie tombe sous les coups de l'Assyrie.",
+   "plan": [
+    [
+     "Le mariage d'Osée et de Gomer",
+     1,
+     3
+    ],
+    [
+     "Le procès d'Israël",
+     4,
+     10
+    ],
+    [
+     "L'amour blessé de Dieu",
+     11,
+     13
+    ],
+    [
+     "Appel au retour",
+     14,
+     14
+    ]
+   ],
+   "themes": [
+    [
+     "L'amour fidèle de Dieu",
+     "Dieu aime son peuple comme un mari trahi qui refuse de renoncer (Osée 11:8)."
+    ],
+    [
+     "L'idolâtrie, une infidélité",
+     "Courir après d'autres dieux, c'est tromper celui qui nous aime."
+    ],
+    [
+     "La connaissance de Dieu",
+     "Mon peuple est détruit parce qu'il lui manque la connaissance (Osée 4:6)."
+    ],
+    [
+     "Le retour",
+     "Revenez à l'Éternel, et il pardonnera (Osée 14:2)."
+    ]
+   ],
+   "versets": [
+    "Osée 4:6",
+    "Osée 6:6",
+    "Osée 11:8",
+    "Osée 14:2"
+   ],
+   "pers": [
+    "osee-prophete",
+    "gomer",
+    "jeroboam-ii"
+   ],
+   "christ": "Jésus cite deux fois Osée : « Je prends plaisir à la miséricorde, et non aux sacrifices » (Matthieu 9:13). Matthieu voit dans « j'appelai mon fils hors d'Égypte » (Osée 11:1) une annonce de l'enfance de Jésus (Matthieu 2:15). Et Paul applique à l'Église la promesse de Dieu qui appelle « mon peuple » ceux qui ne l'étaient pas (Romains 9:25).",
+   "frise": "prophetes-8"
+  },
+  "29": {
+   "accroche": "Je répandrai mon Esprit",
+   "resume": "Après une invasion de sauterelles qui a tout dévasté, Joël appelle le peuple à revenir à Dieu de tout son cœur, et annonce le jour où Dieu répandra son Esprit sur toute chair.",
+   "auteur": "Joël, fils de Pethuel (Joël 1:1). On ne sait rien d'autre de lui.",
+   "date": "Incertaine : le livre ne mentionne aucun roi. Les propositions vont du IXe au Ve siècle av. J.-C.",
+   "destinataires": "Juda et Jérusalem.",
+   "contexte": "Une invasion de sauterelles d'une ampleur inouïe a ravagé le pays : plus de récoltes, plus d'offrandes au temple. Joël y lit un avertissement et l'annonce du « jour de l'Éternel ». Il appelle tout le peuple, des anciens aux nourrissons, au jeûne et au retour : « Déchirez vos cœurs et non vos vêtements » (Joël 2:13).\n\nPuis vient la promesse : Dieu remplacera les années que la sauterelle a dévorées (Joël 2:25), et surtout il répandra son esprit sur toute chair — fils et filles, vieillards et jeunes gens, serviteurs et servantes (Joël 2:28-29).",
+   "plan": [
+    [
+     "L'invasion des sauterelles",
+     1,
+     1
+    ],
+    [
+     "Le jour de l'Éternel et le retour à Dieu",
+     2,
+     2
+    ],
+    [
+     "Le jugement des nations et la bénédiction",
+     3,
+     3
+    ]
+   ],
+   "themes": [
+    [
+     "La repentance du cœur",
+     "Dieu ne veut pas des gestes extérieurs mais des cœurs déchirés (Joël 2:13)."
+    ],
+    [
+     "Le jour de l'Éternel",
+     "Un jour de jugement et de salut, où Dieu intervient dans l'histoire."
+    ],
+    [
+     "La restauration",
+     "Dieu peut rendre les années perdues (Joël 2:25)."
+    ],
+    [
+     "L'Esprit pour tous",
+     "L'Esprit n'est plus réservé à quelques prophètes (Joël 2:28)."
+    ]
+   ],
+   "versets": [
+    "Joël 2:13",
+    "Joël 2:25",
+    "Joël 2:28",
+    "Joël 2:32"
+   ],
+   "pers": [
+    "joel"
+   ],
+   "christ": "Le jour de la Pentecôte, Pierre explique ce qui arrive en citant Joël : « c'est ici ce qui a été dit par le prophète Joël » (Actes 2:16). L'Esprit promis est répandu par Jésus ressuscité, et « quiconque invoquera le nom du Seigneur sera sauvé » (Romains 10:13).",
+   "frise": null
+  },
+  "30": {
+   "accroche": "Que la justice coule comme un torrent",
+   "resume": "Un berger de Juda est envoyé au royaume du nord, alors riche et religieux. Il dénonce une prospérité bâtie sur l'écrasement des pauvres et un culte sans justice.",
+   "auteur": "Amos, l'un des bergers de Tekoa (Amos 1:1), qui n'était « ni prophète, ni fils de prophète » (Amos 7:14).",
+   "date": "Vers 760 av. J.-C., sous Ozias en Juda et Jéroboam II en Israël, « deux ans avant le tremblement de terre » (Amos 1:1).",
+   "destinataires": "Israël, le royaume du nord, et en particulier ses riches et ses responsables religieux.",
+   "contexte": "Amos vient du sud, mais Dieu l'envoie prêcher au nord, notamment à Béthel, le grand sanctuaire du royaume. Sous Jéroboam II, Israël connaît une prospérité sans précédent : maisons d'ivoire, fêtes religieuses somptueuses. Mais on vend le pauvre « pour une paire de souliers » (Amos 2:6) et la justice s'achète.\n\nAmos dénonce une religion sans justice : Dieu méprise les fêtes de ceux qui écrasent les faibles. « Que la droiture soit comme un courant d'eau, et la justice comme un torrent qui jamais ne tarit » (Amos 5:24). Le sacrificateur de Béthel le chasse. Le livre se termine pourtant sur la promesse : Dieu relèvera la maison de David (Amos 9:11).",
+   "plan": [
+    [
+     "Jugements contre les nations et contre Israël",
+     1,
+     2
+    ],
+    [
+     "Messages à Israël",
+     3,
+     6
+    ],
+    [
+     "Cinq visions et la promesse finale",
+     7,
+     9
+    ]
+   ],
+   "themes": [
+    [
+     "La justice sociale",
+     "Dieu voit comment on traite le pauvre (Amos 2:6)."
+    ],
+    [
+     "Une religion sans cœur",
+     "Des fêtes splendides ne remplacent pas la droiture (Amos 5:24)."
+    ],
+    [
+     "La famine de la Parole",
+     "Le pire jugement : ne plus entendre la parole de l'Éternel (Amos 8:11)."
+    ],
+    [
+     "La restauration",
+     "Après le jugement, Dieu relèvera la maison de David (Amos 9:11)."
+    ]
+   ],
+   "versets": [
+    "Amos 4:12",
+    "Amos 5:24",
+    "Amos 8:11"
+   ],
+   "pers": [
+    "amos",
+    "jeroboam-ii",
+    "ozias"
+   ],
+   "christ": "Au concile de Jérusalem, Jacques cite Amos : Dieu relèvera la tente de David, « afin que le reste des hommes cherche le Seigneur, ainsi que toutes les nations » (Actes 15:17). En Jésus, Fils de David, la promesse s'accomplit et la porte s'ouvre aux non-Juifs.",
+   "frise": "prophetes-8"
+  },
+  "31": {
+   "accroche": "L'orgueil abattu",
+   "resume": "Le plus court livre de l'Ancien Testament annonce la chute d'Édom, qui s'était réjoui du malheur de Jérusalem, et la victoire finale du règne de Dieu.",
+   "auteur": "Abdias, dont le nom signifie « serviteur de l'Éternel ». On ne sait rien d'autre de lui.",
+   "date": "Probablement peu après la prise de Jérusalem par Babylone en 586 av. J.-C., quand Édom profita du malheur de Juda.",
+   "destinataires": "Édom, et Juda, qui avait besoin de savoir que Dieu voyait l'injustice subie.",
+   "contexte": "Le livre ne compte que vingt et un versets. Il vise Édom, le peuple descendant d'Ésaü, le frère de Jacob. Quand Jérusalem a été pillée, Édom a regardé, s'est réjoui, a même livré les fuyards (Abdias 1:14) : une trahison entre frères.\n\nAbdias annonce que l'orgueil d'Édom, perché dans ses rochers comme l'aigle dans son nid, sera abattu (Abdias 1:3-4). « Il te sera fait comme tu as fait » (Abdias 1:15). Et le livre se termine sur une certitude : « à l'Éternel appartiendra le règne » (Abdias 1:21).",
+   "plan": [
+    [
+     "L'orgueil d'Édom abattu",
+     1,
+     1,
+     "1-9"
+    ],
+    [
+     "La trahison envers Jacob",
+     1,
+     1,
+     "10-14"
+    ],
+    [
+     "Le jour de l'Éternel et le règne de Dieu",
+     1,
+     1,
+     "15-21"
+    ]
+   ],
+   "themes": [
+    [
+     "L'orgueil",
+     "L'orgueil fait croire qu'on est hors d'atteinte (Abdias 1:3)."
+    ],
+    [
+     "La fraternité trahie",
+     "Se réjouir du malheur de son frère est grave aux yeux de Dieu (Abdias 1:12)."
+    ],
+    [
+     "La justice de Dieu",
+     "Chacun récolte ce qu'il a semé (Abdias 1:15)."
+    ],
+    [
+     "Le règne de Dieu",
+     "Le dernier mot appartient à l'Éternel (Abdias 1:21)."
+    ]
+   ],
+   "versets": [
+    "Abdias 1:15",
+    "Abdias 1:21"
+   ],
+   "pers": [
+    "abdias",
+    "esau"
+   ],
+   "christ": "Abdias annonce des libérateurs sur la montagne de Sion et un règne qui appartiendra à l'Éternel (Abdias 1:21). Jésus commence son ministère en proclamant ce règne : « Le temps est accompli, et le royaume de Dieu est proche » (Marc 1:15).",
+   "frise": "jerusalem-detruite"
+  },
+  "32": {
+   "accroche": "La miséricorde sans frontières",
+   "resume": "Jonas fuit l'ordre de Dieu d'aller prêcher à Ninive, la capitale ennemie. Englouti par un grand poisson, il finit par obéir — et quand Ninive se repent, c'est Jonas qui se met en colère.",
+   "auteur": "Le livre ne nomme pas son auteur ; il parle de Jonas à la troisième personne. Jonas, fils d'Amitthaï, est un prophète connu du temps de Jéroboam II (2 Rois 14:25).",
+   "date": "L'histoire se passe vers 780-760 av. J.-C., quand l'Assyrie est la grande puissance menaçante.",
+   "destinataires": "Israël, qui devait apprendre que la miséricorde de Dieu s'étend aussi à ses ennemis.",
+   "contexte": "Dieu envoie Jonas à Ninive, capitale de l'Assyrie, l'ennemi le plus cruel d'Israël. Jonas s'enfuit dans la direction opposée, vers Tarsis. Une tempête, des marins païens qui prient, un grand poisson : Jonas, englouti, prie du fond de l'abîme (Jonas 2:3) et il est rendu à la terre ferme.\n\nÀ Ninive, sa prédication tient en une phrase, et toute la ville se repent, du roi jusqu'aux bêtes. Dieu pardonne (Jonas 3:10). Jonas, lui, est furieux : il savait que Dieu est « compatissant et miséricordieux » (Jonas 4:2). Le livre se termine sur une question de Dieu restée ouverte : n'aurais-je pas pitié de cette grande ville ? (Jonas 4:11)",
+   "plan": [
+    [
+     "La fuite de Jonas",
+     1,
+     1
+    ],
+    [
+     "La prière dans le poisson",
+     2,
+     2
+    ],
+    [
+     "Ninive se repent",
+     3,
+     3
+    ],
+    [
+     "La colère de Jonas et la pitié de Dieu",
+     4,
+     4
+    ]
+   ],
+   "themes": [
+    [
+     "La miséricorde universelle",
+     "Dieu aime aussi ceux que nous considérons comme nos ennemis (Jonas 4:11)."
+    ],
+    [
+     "Fuir Dieu",
+     "On ne peut pas échapper à Dieu, mais on peut revenir à lui (Jonas 2:3)."
+    ],
+    [
+     "La repentance",
+     "Dieu voit le changement de conduite et pardonne (Jonas 3:10)."
+    ],
+    [
+     "Le cœur du serviteur",
+     "On peut obéir à Dieu sans partager son cœur : le livre interroge Jonas, et nous avec."
+    ]
+   ],
+   "versets": [
+    "Jonas 2:3",
+    "Jonas 3:10",
+    "Jonas 4:11"
+   ],
+   "pers": [
+    "jonas"
+   ],
+   "christ": "Jésus parle du « signe de Jonas » : comme Jonas fut trois jours et trois nuits dans le ventre du poisson, ainsi le Fils de l'homme sera trois jours et trois nuits dans le sein de la terre (Matthieu 12:40). Et il ajoute : « il y a ici plus que Jonas » (Matthieu 12:41).",
+   "frise": "jonas"
+  },
+  "33": {
+   "accroche": "Pratiquer la justice, aimer la miséricorde",
+   "resume": "Prophète de la campagne de Juda, Michée dénonce l'injustice des puissants à Samarie et à Jérusalem, et annonce un chef qui sortira de la petite ville de Bethléhem.",
+   "auteur": "Michée de Moréscheth (Michée 1:1), un village de Juda ; il est contemporain d'Ésaïe.",
+   "date": "Sous les rois Jotham, Achaz et Ézéchias (Michée 1:1), vers 735-700 av. J.-C.",
+   "destinataires": "Samarie et Jérusalem, les capitales des deux royaumes.",
+   "contexte": "Michée vient de la campagne. Comme Amos, il dénonce les puissants qui convoitent les champs des autres, les juges qui se laissent acheter, les prophètes qui prêchent pour de l'argent. Il annonce la chute de Samarie, et même celle de Jérusalem. Un siècle plus tard, des anciens rappelleront que cette prophétie avait conduit le roi Ézéchias à la repentance (Jérémie 26:18-19).\n\nMais Michée annonce aussi un chef qui sortira de Bethléhem, « petite entre les milliers de Juda » (Michée 5:1). Et il résume toute la volonté de Dieu en une phrase célèbre : pratiquer la justice, aimer la miséricorde et marcher humblement avec son Dieu (Michée 6:8).",
+   "plan": [
+    [
+     "Jugement sur Samarie et Jérusalem",
+     1,
+     3
+    ],
+    [
+     "Le règne à venir et le chef de Bethléhem",
+     4,
+     5
+    ],
+    [
+     "Le procès de Dieu et l'espérance",
+     6,
+     7
+    ]
+   ],
+   "themes": [
+    [
+     "La justice",
+     "Dieu demande justice, miséricorde et humilité (Michée 6:8)."
+    ],
+    [
+     "Les faux bergers",
+     "Malheur aux responsables qui exploitent ceux qu'ils devraient protéger."
+    ],
+    [
+     "Le Messie de Bethléhem",
+     "Le libérateur viendra d'un petit village (Michée 5:1)."
+    ],
+    [
+     "Le Dieu qui pardonne",
+     "Quel Dieu est semblable à toi, qui pardonnes l'iniquité ? (Michée 7:18)"
+    ]
+   ],
+   "versets": [
+    "Michée 5:1",
+    "Michée 6:8",
+    "Michée 7:18"
+   ],
+   "pers": [
+    "michee-prophete",
+    "jotham-roi",
+    "achaz",
+    "ezechias"
+   ],
+   "christ": "Quand les mages demandent où doit naître le roi des Juifs, les spécialistes de la loi citent Michée : « À Bethléhem en Judée » (Matthieu 2:5). Celui qui y naît a une origine qui « remonte aux temps anciens, aux jours de l'éternité » (Michée 5:1).",
+   "frise": "prophetes-8"
+  },
+  "34": {
+   "accroche": "La chute de Ninive",
+   "resume": "Un siècle après la repentance de Ninive au temps de Jonas, l'Assyrie est redevenue cruelle. Nahum annonce la chute de sa capitale : Dieu ne laisse pas le mal impuni.",
+   "auteur": "Nahum d'Elkosch (Nahum 1:1), dont on ne sait rien d'autre.",
+   "date": "Entre la prise de la ville égyptienne de Thèbes, appelée No-Amon (Nahum 3:8), en 663 av. J.-C., et la chute de Ninive en 612 av. J.-C.",
+   "destinataires": "Juda, longtemps opprimé par l'Assyrie ; et Ninive elle-même.",
+   "contexte": "L'Assyrie a écrasé le royaume du nord en 722 av. J.-C. et humilié Juda. Nahum annonce la chute de Ninive, réputée imprenable. Pour Juda, c'est une bonne nouvelle : « Voici sur les montagnes les pieds du messager qui annonce la paix ! » (Nahum 2:1).\n\nNinive tombera effectivement en 612 av. J.-C. sous les coups des Babyloniens et des Mèdes. Le livre rappelle deux vérités qui vont ensemble : l'Éternel est lent à la colère, mais il ne laisse pas le coupable impuni (Nahum 1:3) ; et il est bon, un refuge au jour de la détresse (Nahum 1:7).",
+   "plan": [
+    [
+     "Le Dieu jaloux et bon",
+     1,
+     1
+    ],
+    [
+     "Le siège de Ninive",
+     2,
+     2
+    ],
+    [
+     "Malheur à la ville sanguinaire",
+     3,
+     3
+    ]
+   ],
+   "themes": [
+    [
+     "La justice de Dieu",
+     "Dieu est patient, mais il ne laisse pas le mal impuni (Nahum 1:3)."
+    ],
+    [
+     "Dieu refuge",
+     "L'Éternel est bon, un refuge au jour de la détresse (Nahum 1:7)."
+    ],
+    [
+     "La fin des oppresseurs",
+     "Aucun empire, si puissant soit-il, n'échappe à Dieu."
+    ]
+   ],
+   "versets": [
+    "Nahum 1:3",
+    "Nahum 1:7",
+    "Nahum 2:1"
+   ],
+   "pers": [
+    "nahum"
+   ],
+   "christ": "Paul reprend l'image des pieds du messager pour ceux qui annoncent l'Évangile : « Qu'ils sont beaux les pieds de ceux qui annoncent la paix » (Romains 10:15). La chute de Ninive annonce la victoire définitive de Dieu sur toute puissance qui écrase les hommes.",
+   "frise": null
+  },
+  "35": {
+   "accroche": "Le juste vivra par sa foi",
+   "resume": "Habacuc ose questionner Dieu : pourquoi laisser la violence triompher ? Et pourquoi se servir des Babyloniens, plus méchants encore ? La réponse de Dieu le conduit de la plainte à la louange.",
+   "auteur": "Habacuc, le prophète (Habacuc 1:1). On ne sait rien d'autre de lui.",
+   "date": "Peu avant l'invasion babylonienne, quand Dieu annonce : « je vais susciter les Chaldéens » (Habacuc 1:6), vers 609-598 av. J.-C.",
+   "destinataires": "Juda, et tous ceux qui se débattent avec le silence apparent de Dieu.",
+   "contexte": "Habacuc ne commence pas par parler au peuple : il parle à Dieu. Pourquoi laisses-tu la violence et l'injustice triompher en Juda ? Dieu répond qu'il suscite les Chaldéens, les Babyloniens, pour punir. Habacuc est encore plus troublé : comment Dieu peut-il se servir d'un peuple plus méchant encore ?\n\nDieu répond que l'orgueilleux tombera, « mais le juste vivra par sa foi » (Habacuc 2:4). Le livre se termine par un cantique de confiance absolue : même si le figuier ne fleurit pas et que les étables sont vides, « je veux me réjouir en l'Éternel » (Habacuc 3:18).",
+   "plan": [
+    [
+     "Premier dialogue : pourquoi la violence ?",
+     1,
+     1
+    ],
+    [
+     "La réponse : le juste vivra par sa foi",
+     2,
+     2
+    ],
+    [
+     "La prière d'Habacuc",
+     3,
+     3
+    ]
+   ],
+   "themes": [
+    [
+     "Questionner Dieu",
+     "On peut porter ses questions à Dieu, et attendre sa réponse (Habacuc 2:1)."
+    ],
+    [
+     "La foi",
+     "Le juste vit en faisant confiance à Dieu (Habacuc 2:4)."
+    ],
+    [
+     "La gloire de Dieu",
+     "La terre sera remplie de la connaissance de sa gloire (Habacuc 2:14)."
+    ],
+    [
+     "La joie dans l'épreuve",
+     "Se réjouir en Dieu quand tout manque (Habacuc 3:18)."
+    ]
+   ],
+   "versets": [
+    "Habacuc 2:4",
+    "Habacuc 2:14",
+    "Habacuc 3:17-18"
+   ],
+   "pers": [
+    "habakuk"
+   ],
+   "christ": "« Le juste vivra par la foi » est cité trois fois dans le Nouveau Testament, d'abord par Paul (Romains 1:17). C'est ce verset qui a bouleversé Luther et lancé la Réforme : on est déclaré juste devant Dieu par la foi en Jésus-Christ, et non par ses œuvres.",
+   "frise": "jeremie"
+  },
+  "36": {
+   "accroche": "Le Dieu qui se réjouit de son peuple",
+   "resume": "Sous le jeune roi Josias, Sophonie annonce le « jour de l'Éternel », jour de colère pour Juda et les nations. Mais il finit sur la joie de Dieu au milieu d'un peuple purifié.",
+   "auteur": "Sophonie, fils de Cuschi (Sophonie 1:1). Sa généalogie remonte à un Ézéchias, peut-être le roi : Sophonie aurait alors été de sang royal.",
+   "date": "Sous Josias (640-609 av. J.-C.), probablement avant sa grande réforme de 622 av. J.-C.",
+   "destinataires": "Juda et Jérusalem, après le long règne idolâtre de Manassé.",
+   "contexte": "Sophonie prêche sous le jeune roi Josias, après des décennies d'idolâtrie sous Manassé. Il annonce le « jour de l'Éternel », un jour de colère qui frappera Juda et toutes les nations. Ce message a peut-être contribué à préparer la réforme de Josias.\n\nIl appelle les humbles à chercher l'Éternel (Sophonie 2:3). Puis le livre se termine sur l'une des plus belles promesses de la Bible : l'Éternel au milieu de son peuple « comme un héros qui sauve », qui fera de lui sa plus grande joie (Sophonie 3:17).",
+   "plan": [
+    [
+     "Le jour de l'Éternel sur Juda",
+     1,
+     1
+    ],
+    [
+     "Appel à la repentance et jugement des nations",
+     2,
+     2
+    ],
+    [
+     "Jérusalem purifiée et la joie de Dieu",
+     3,
+     3
+    ]
+   ],
+   "themes": [
+    [
+     "Le jour de l'Éternel",
+     "Dieu viendra juger le mal, en Juda comme ailleurs."
+    ],
+    [
+     "L'humilité",
+     "Cherchez l'Éternel, vous tous, humbles du pays (Sophonie 2:3)."
+    ],
+    [
+     "Le reste",
+     "Dieu garde un peuple humble et petit qui se confie en lui (Sophonie 3:12)."
+    ],
+    [
+     "La joie de Dieu",
+     "Dieu se réjouit de son peuple avec allégresse (Sophonie 3:17)."
+    ]
+   ],
+   "versets": [
+    "Sophonie 2:3",
+    "Sophonie 3:17"
+   ],
+   "pers": [
+    "sophonie",
+    "josias"
+   ],
+   "christ": "Sophonie annonce que Dieu sera « au milieu de toi, comme un héros qui sauve » (Sophonie 3:17). En Jésus, Emmanuel, « Dieu avec nous », le Sauveur est venu habiter au milieu de son peuple.",
+   "frise": "josias"
+  },
+  "37": {
+   "accroche": "Rebâtissez la maison",
+   "resume": "Le temple est toujours en ruine, dix-huit ans après le retour d'exil. Aggée secoue le peuple : chacun soigne sa maison et néglige celle de Dieu. En vingt-trois jours, le chantier repart.",
+   "auteur": "Aggée, le prophète (Aggée 1:1). On ne sait rien d'autre de lui ; il est cité avec Zacharie dans le livre d'Esdras.",
+   "date": "En 520 av. J.-C., la deuxième année du roi Darius (Aggée 1:1). Ses quatre messages tiennent en moins de quatre mois.",
+   "destinataires": "Le gouverneur Zorobabel, le souverain sacrificateur Josué et le peuple revenu d'exil.",
+   "contexte": "Les fondations du temple ont été posées peu après le retour, mais le chantier est arrêté depuis des années. Chacun s'occupe de sa propre maison lambrissée pendant que la maison de Dieu reste en ruine (Aggée 1:4). Résultat : on sème beaucoup et on récolte peu.\n\nAggée, avec Zacharie, secoue le peuple et ses chefs : vingt-trois jours après son premier message, les travaux reprennent (Aggée 1:15). Aux anciens qui trouvent ce temple bien pauvre comparé à celui de Salomon, Dieu promet : « La gloire de cette dernière maison sera plus grande que celle de la première » (Aggée 2:9).",
+   "plan": [
+    [
+     "Reconstruisez la maison de Dieu",
+     1,
+     1
+    ],
+    [
+     "La gloire future et la bénédiction",
+     2,
+     2
+    ]
+   ],
+   "themes": [
+    [
+     "Les priorités",
+     "Est-ce le temps d'habiter vos maisons lambrissées, quand celle de Dieu est en ruine ? (Aggée 1:4)"
+    ],
+    [
+     "Le courage",
+     "Fortifiez-vous et travaillez, car je suis avec vous (Aggée 2:4)."
+    ],
+    [
+     "La présence de Dieu",
+     "Ce qui compte n'est pas la splendeur du bâtiment mais la présence de Dieu."
+    ],
+    [
+     "La gloire à venir",
+     "Dieu promet une gloire plus grande que celle du passé (Aggée 2:9)."
+    ]
+   ],
+   "versets": [
+    "Aggée 2:4",
+    "Aggée 2:9"
+   ],
+   "pers": [
+    "aggee",
+    "zorobabel",
+    "josue-sacrificateur",
+    "darius",
+    "zacharie-prophete"
+   ],
+   "christ": "Dieu promet de garder Zorobabel, descendant de David, « comme un sceau » (Aggée 2:23) : la lignée royale continue, et Zorobabel figure dans la généalogie de Jésus (Matthieu 1:12). C'est Jésus qui entrera dans ce second temple, lui donnant une gloire que celui de Salomon n'avait jamais eue.",
+   "frise": "temple-rebati"
+  },
+  "38": {
+   "accroche": "Par mon Esprit",
+   "resume": "Contemporain d'Aggée, Zacharie encourage les rapatriés à achever le temple par huit visions nocturnes, puis regarde plus loin : un roi humble monté sur un âne, un berger rejeté, un transpercé que l'on pleurera.",
+   "auteur": "Zacharie, fils de Bérékia, fils d'Iddo (Zacharie 1:1), sacrificateur et prophète.",
+   "date": "Son ministère commence en 520 av. J.-C., la deuxième année de Darius (Zacharie 1:1). Les chapitres 9 à 14 datent probablement de plus tard.",
+   "destinataires": "Les Juifs revenus d'exil, à Jérusalem.",
+   "contexte": "Zacharie commence par un appel : « Revenez à moi… et je reviendrai à vous » (Zacharie 1:3). Puis, en une seule nuit, il reçoit huit visions : des cavaliers, des cornes, un chandelier d'or, un rouleau volant… Le message central est adressé à Zorobabel : « Ce n'est ni par la puissance ni par la force, mais c'est par mon esprit, dit l'Éternel des armées » (Zacharie 4:6).\n\nLa seconde partie du livre regarde plus loin : un roi juste et humble qui vient monté sur un âne, un berger rejeté et estimé trente sicles d'argent, un transpercé que l'on pleurera, et le jour où l'Éternel sera roi de toute la terre (Zacharie 14:9).",
+   "plan": [
+    [
+     "Huit visions dans la nuit",
+     1,
+     6
+    ],
+    [
+     "Le jeûne et la vraie piété",
+     7,
+     8
+    ],
+    [
+     "Le roi qui vient et le berger rejeté",
+     9,
+     11
+    ],
+    [
+     "Le jour de l'Éternel",
+     12,
+     14
+    ]
+   ],
+   "themes": [
+    [
+     "L'Esprit",
+     "L'œuvre de Dieu s'accomplit par son Esprit, pas par la force humaine (Zacharie 4:6)."
+    ],
+    [
+     "Le retour",
+     "Revenez à moi, et je reviendrai à vous (Zacharie 1:3)."
+    ],
+    [
+     "Le Messie",
+     "Un roi humble, un berger rejeté, un transpercé : le portrait du Messie se dessine."
+    ],
+    [
+     "Le règne universel",
+     "L'Éternel sera roi de toute la terre (Zacharie 14:9)."
+    ]
+   ],
+   "versets": [
+    "Zacharie 1:3",
+    "Zacharie 4:6",
+    "Zacharie 9:9"
+   ],
+   "pers": [
+    "zacharie-prophete",
+    "zorobabel",
+    "josue-sacrificateur",
+    "aggee",
+    "satan"
+   ],
+   "christ": "Le roi monté sur un âne (Zacharie 9:9) entre à Jérusalem le jour des Rameaux (Matthieu 21:5). Les trente sicles d'argent (Zacharie 11:12) annoncent le prix de la trahison de Judas. Et « ils tourneront les regards vers moi, celui qu'ils ont percé » (Zacharie 12:10) est rappelé au pied de la croix (Jean 19:37).",
+   "frise": "temple-rebati"
+  },
+  "39": {
+   "accroche": "Le dernier mot avant le silence",
+   "resume": "Le temple est rebâti, mais la ferveur est retombée. Dans un dialogue vif avec son peuple, Dieu dénonce un culte négligé et annonce le messager qui préparera la venue du Seigneur.",
+   "auteur": "Malachie, dont le nom signifie « mon messager ». On ne sait rien d'autre de lui.",
+   "date": "Vers 430 av. J.-C., à l'époque de Néhémie : les mêmes problèmes y apparaissent (dîmes négligées, mariages avec des femmes idolâtres, sacrificateurs relâchés).",
+   "destinataires": "Les Juifs revenus d'exil, et en particulier les sacrificateurs.",
+   "contexte": "Les sacrificateurs offrent des bêtes boiteuses ou malades, les dîmes ne sont plus apportées, on répudie facilement sa femme. Le peuple doute même de l'amour de Dieu : « En quoi nous as-tu aimés ? » (Malachie 1:2).\n\nLe livre est construit comme un dialogue : Dieu affirme, le peuple conteste, Dieu répond. Malachie annonce que le Seigneur entrera soudain dans son temple, précédé d'un messager (Malachie 3:1), et promet l'envoi d'Élie le prophète avant le grand jour de l'Éternel (Malachie 4:5). Après lui, la voix des prophètes se tait pendant environ quatre siècles.",
+   "plan": [
+    [
+     "L'amour de Dieu mis en doute",
+     1,
+     1
+    ],
+    [
+     "Reproches aux sacrificateurs et au peuple",
+     2,
+     2
+    ],
+    [
+     "Le messager et les dîmes",
+     3,
+     3
+    ],
+    [
+     "Le soleil de la justice et Élie",
+     4,
+     4
+    ]
+   ],
+   "themes": [
+    [
+     "L'amour de Dieu",
+     "Dieu commence par rappeler son amour (Malachie 1:2)."
+    ],
+    [
+     "Un culte sincère",
+     "Dieu mérite le meilleur, pas les restes."
+    ],
+    [
+     "La fidélité",
+     "Dieu hait la répudiation et appelle à la fidélité conjugale (Malachie 2:16)."
+    ],
+    [
+     "La confiance",
+     "Apportez toutes les dîmes, et mettez Dieu à l'épreuve (Malachie 3:10)."
+    ]
+   ],
+   "versets": [
+    "Malachie 3:1",
+    "Malachie 3:6",
+    "Malachie 3:10",
+    "Malachie 4:5-6"
+   ],
+   "pers": [
+    "malachie",
+    "elie",
+    "nehemie"
+   ],
+   "christ": "Jésus déclare que Jean-Baptiste est le messager annoncé par Malachie (Matthieu 11:10), et qu'il est « l'Élie qui devait venir » (Matthieu 11:14). La dernière page de l'Ancien Testament ouvre donc directement sur la première du Nouveau.",
+   "frise": "malachie"
+  },
+  "40": {
+   "accroche": "Jésus, le Roi promis",
+   "resume": "Matthieu montre que Jésus est le Messie annoncé par les prophètes, le fils de David qui inaugure le royaume des cieux. Son enseignement est regroupé en cinq grands discours, dont le Sermon sur la montagne.",
+   "auteur": "Le livre ne porte pas de signature. Dès le IIe siècle, la tradition l'attribue à l'apôtre Matthieu, le collecteur d'impôts appelé par Jésus (Matthieu 9:9), aussi nommé Lévi.",
+   "date": "Probablement entre 60 et 80 ap. J.-C. ; la date exacte est débattue.",
+   "destinataires": "Surtout des chrétiens d'origine juive, familiers des Écritures et des coutumes d'Israël.",
+   "contexte": "Matthieu ouvre le Nouveau Testament par une généalogie : Jésus est « fils de David, fils d'Abraham » (Matthieu 1:1), l'héritier de toutes les promesses. Tout le livre veut montrer qu'il accomplit les Écritures ; la formule « afin que s'accomplît ce que le Seigneur avait annoncé par le prophète » revient comme un refrain (Matthieu 1:22).\n\nL'enseignement de Jésus y est regroupé en cinq grands discours, à commencer par le Sermon sur la montagne. Le thème central est « le royaume des cieux », une expression propre à Matthieu. Le livre se termine sur l'envoi des disciples vers toutes les nations, avec une promesse : « je suis avec vous tous les jours, jusqu'à la fin du monde » (Matthieu 28:20).",
+   "plan": [
+    [
+     "Naissance et enfance du Roi",
+     1,
+     2
+    ],
+    [
+     "Le début du ministère",
+     3,
+     4
+    ],
+    [
+     "Le Sermon sur la montagne",
+     5,
+     7
+    ],
+    [
+     "Miracles et envoi des Douze",
+     8,
+     10
+    ],
+    [
+     "L'opposition et les paraboles du royaume",
+     11,
+     13
+    ],
+    [
+     "En chemin vers la croix",
+     14,
+     20
+    ],
+    [
+     "La dernière semaine à Jérusalem",
+     21,
+     25
+    ],
+    [
+     "Passion et résurrection",
+     26,
+     28
+    ]
+   ],
+   "themes": [
+    [
+     "L'accomplissement",
+     "Jésus accomplit la Loi et les prophètes, il ne les abolit pas (Matthieu 5:17)."
+    ],
+    [
+     "Le royaume des cieux",
+     "Dieu commence à régner là où Jésus est accueilli (Matthieu 6:33)."
+    ],
+    [
+     "Le vrai disciple",
+     "Une justice qui vient du cœur et dépasse celle des pharisiens (Matthieu 5:20)."
+    ],
+    [
+     "La mission",
+     "Faire de toutes les nations des disciples (Matthieu 28:19)."
+    ]
+   ],
+   "versets": [
+    "Matthieu 5:3",
+    "Matthieu 6:33",
+    "Matthieu 11:28",
+    "Matthieu 16:16",
+    "Matthieu 28:19-20"
+   ],
+   "pers": [
+    "jesus",
+    "joseph-nt",
+    "marie",
+    "mages",
+    "jean-baptiste",
+    "pierre",
+    "matthieu-apotre",
+    "judas",
+    "caiphe",
+    "pilate",
+    "marie-magdala"
+   ],
+   "christ": "Matthieu présente Jésus comme le Roi-Messie, descendant de David, et comme Emmanuel, « Dieu avec nous » (Matthieu 1:23). Le livre s'ouvre sur cette promesse et se referme sur la même : « je suis avec vous tous les jours » (Matthieu 28:20).",
+   "frise": "sermon"
+  },
+  "41": {
+   "accroche": "Le Fils de Dieu venu pour servir",
+   "resume": "Le plus court et le plus rapide des Évangiles. Jésus agit, guérit, enseigne avec autorité, puis marche résolument vers la croix, où un centenier romain reconnaît en lui le Fils de Dieu.",
+   "auteur": "Jean surnommé Marc (Actes 12:12), compagnon de Paul et de Barnabas, puis de Pierre, qui l'appelle « mon fils » (1 Pierre 5:13). Selon un témoignage du IIe siècle, Marc a mis par écrit la prédication de Pierre.",
+   "date": "Généralement situé entre 55 et 70 ap. J.-C. Beaucoup y voient le premier Évangile écrit.",
+   "destinataires": "Probablement des chrétiens de Rome d'origine païenne : Marc explique les coutumes juives (Marc 7:3-4) et traduit les mots araméens.",
+   "contexte": "Pas de récit de naissance : dès le premier verset, le ton est donné, « Commencement de l'Évangile de Jésus-Christ, Fils de Dieu » (Marc 1:1). Le récit est vif, le mot « aussitôt » revient sans cesse. Jésus guérit, chasse les démons, enseigne avec autorité, et pourtant il demande souvent le silence sur son identité.\n\nAu milieu du livre, Pierre confesse : « Tu es le Christ » (Marc 8:29). Dès lors, tout se tourne vers Jérusalem et la croix, et c'est un centenier romain, un païen, qui reconnaît au pied de la croix : « Assurément, cet homme était Fils de Dieu » (Marc 15:39).",
+   "plan": [
+    [
+     "Jean-Baptiste, le baptême et les premiers disciples",
+     1,
+     1
+    ],
+    [
+     "Le ministère en Galilée",
+     2,
+     6
+    ],
+    [
+     "Au-delà de la Galilée",
+     7,
+     8
+    ],
+    [
+     "En route vers Jérusalem",
+     9,
+     10
+    ],
+    [
+     "Les derniers jours à Jérusalem",
+     11,
+     13
+    ],
+    [
+     "La Passion",
+     14,
+     15
+    ],
+    [
+     "La résurrection",
+     16,
+     16
+    ]
+   ],
+   "themes": [
+    [
+     "Jésus serviteur",
+     "Il est venu pour servir et donner sa vie (Marc 10:45)."
+    ],
+    [
+     "L'autorité de Jésus",
+     "Sur la maladie, les démons, la tempête et même le péché (Marc 2:10)."
+    ],
+    [
+     "Qui est Jésus ?",
+     "La question traverse le livre, jusqu'à la confession du centenier (Marc 15:39)."
+    ],
+    [
+     "Suivre Jésus",
+     "Renoncer à soi-même, se charger de sa croix et le suivre (Marc 8:34)."
+    ]
+   ],
+   "versets": [
+    "Marc 1:15",
+    "Marc 8:34",
+    "Marc 10:45",
+    "Marc 16:6"
+   ],
+   "pers": [
+    "jesus",
+    "jean-baptiste",
+    "pierre",
+    "andre",
+    "jacques-zebedee",
+    "jean-apotre",
+    "legion",
+    "bartimee",
+    "simon-cyrene",
+    "centenier-croix",
+    "marie-magdala",
+    "marc"
+   ],
+   "christ": "Marc résume la mission de Jésus en une phrase : « le Fils de l'homme est venu, non pour être servi, mais pour servir et donner sa vie comme la rançon de plusieurs » (Marc 10:45).",
+   "frise": "capernaum"
+  },
+  "42": {
+   "accroche": "Le Sauveur de tous",
+   "resume": "Luc a enquêté pour écrire un récit ordonné de la vie de Jésus. Il a un regard particulier pour les pauvres, les femmes, les étrangers et les pécheurs : Jésus est venu chercher ce qui était perdu.",
+   "auteur": "Luc, le médecin bien-aimé (Colossiens 4:14), compagnon de voyage de Paul. Il est aussi l'auteur des Actes, adressés au même Théophile (Actes 1:1).",
+   "date": "Probablement entre 60 et 80 ap. J.-C., avant le livre des Actes.",
+   "destinataires": "Un certain Théophile (Luc 1:3), et à travers lui des lecteurs de culture grecque.",
+   "contexte": "Luc n'a pas été témoin de la vie de Jésus. Il a mené l'enquête, « après avoir fait des recherches exactes sur toutes ces choses depuis leur origine » (Luc 1:3), pour en écrire un récit suivi. C'est l'Évangile le plus long, et le plus soigné sur le plan littéraire.\n\nLuc a un regard particulier pour ceux qu'on laisse de côté : les pauvres, les femmes, les Samaritains, les collecteurs d'impôts, les pécheurs. Lui seul rapporte les paraboles du bon Samaritain et du fils prodigue, et la rencontre avec Zachée. Le cœur de la mission de Jésus y est dit ainsi : « le Fils de l'homme est venu chercher et sauver ce qui était perdu » (Luc 19:10).",
+   "plan": [
+    [
+     "Annonces et naissances",
+     1,
+     2
+    ],
+    [
+     "Le baptême, la tentation et Nazareth",
+     3,
+     4
+    ],
+    [
+     "Le ministère en Galilée",
+     5,
+     9
+    ],
+    [
+     "La montée vers Jérusalem",
+     10,
+     19
+    ],
+    [
+     "Les derniers jours à Jérusalem",
+     20,
+     23
+    ],
+    [
+     "La résurrection et l'ascension",
+     24,
+     24
+    ]
+   ],
+   "themes": [
+    [
+     "Le salut pour tous",
+     "Une bonne nouvelle qui sera pour tout le peuple le sujet d'une grande joie (Luc 2:10)."
+    ],
+    [
+     "Les perdus retrouvés",
+     "La joie du ciel pour un seul pécheur qui se repent (Luc 15:7)."
+    ],
+    [
+     "La prière",
+     "Luc montre souvent Jésus en prière, avant chaque grande étape (Luc 6:12)."
+    ],
+    [
+     "Le Saint-Esprit",
+     "Jésus agit par la puissance de l'Esprit (Luc 4:18)."
+    ]
+   ],
+   "versets": [
+    "Luc 2:11",
+    "Luc 15:7",
+    "Luc 19:10",
+    "Luc 23:43"
+   ],
+   "pers": [
+    "jesus",
+    "theophile",
+    "zacharie-pere",
+    "elisabeth",
+    "marie",
+    "joseph-nt",
+    "simeon-temple",
+    "anne-prophetesse",
+    "jean-baptiste",
+    "zachee",
+    "marthe",
+    "cleopas"
+   ],
+   "christ": "Luc montre en Jésus le Sauveur annoncé dès la nuit de Noël : « il vous est né un Sauveur, qui est le Christ, le Seigneur » (Luc 2:11). Jusque sur la croix, il sauve encore, en promettant le paradis à un brigand repenti (Luc 23:43).",
+   "frise": "nativite"
+  },
+  "43": {
+   "accroche": "Pour que vous croyiez",
+   "resume": "L'Évangile de Jean commence avant la création : Jésus est la Parole éternelle faite chair. À travers sept signes et sept déclarations « Je suis », il conduit à croire en lui pour avoir la vie.",
+   "auteur": "« Le disciple que Jésus aimait » (Jean 21:20), celui qui a mis ces choses par écrit (Jean 21:24) ; la tradition l'identifie à l'apôtre Jean, fils de Zébédée.",
+   "date": "Généralement vers 90 ap. J.-C. ; selon la tradition, à Éphèse.",
+   "destinataires": "Des croyants à affermir et des chercheurs à conduire à la foi.",
+   "contexte": "Jean ne commence ni à Bethléhem ni au Jourdain, mais avant la création : « Au commencement était la Parole, et la Parole était avec Dieu, et la Parole était Dieu » (Jean 1:1). Son Évangile est très différent des trois autres : peu de paraboles, mais de longs dialogues, et des « signes » choisis, de l'eau changée en vin à la résurrection de Lazare.\n\nJésus s'y présente par sept déclarations « Je suis » : le pain de vie, la lumière du monde, la porte, le bon berger, la résurrection et la vie, le chemin, la vérité et la vie, le vrai cep. Jean dit lui-même pourquoi il a écrit : « afin que vous croyiez que Jésus est le Christ, le Fils de Dieu, et qu'en croyant vous ayez la vie en son nom » (Jean 20:31).",
+   "plan": [
+    [
+     "Prologue : la Parole faite chair",
+     1,
+     1
+    ],
+    [
+     "Le livre des signes",
+     2,
+     12
+    ],
+    [
+     "Les adieux aux disciples",
+     13,
+     17
+    ],
+    [
+     "Passion et résurrection",
+     18,
+     20
+    ],
+    [
+     "Épilogue au bord du lac",
+     21,
+     21
+    ]
+   ],
+   "themes": [
+    [
+     "Croire et vivre",
+     "Croire en Jésus, c'est recevoir la vie éternelle (Jean 3:16)."
+    ],
+    [
+     "Jésus, Fils de Dieu",
+     "Celui qui a vu Jésus a vu le Père (Jean 14:9)."
+    ],
+    [
+     "L'amour",
+     "Un commandement nouveau : aimez-vous comme je vous ai aimés (Jean 13:34)."
+    ],
+    [
+     "Le Consolateur",
+     "Jésus promet l'Esprit, qui conduira dans toute la vérité (Jean 16:13)."
+    ]
+   ],
+   "versets": [
+    "Jean 1:14",
+    "Jean 3:16",
+    "Jean 11:25",
+    "Jean 14:6",
+    "Jean 20:31"
+   ],
+   "pers": [
+    "jesus",
+    "jean-baptiste",
+    "andre",
+    "pierre",
+    "nathanael",
+    "nicodeme",
+    "samaritaine",
+    "aveugle-ne",
+    "lazare",
+    "marthe",
+    "marie-bethanie",
+    "thomas",
+    "marie-magdala",
+    "jean-apotre"
+   ],
+   "christ": "Tout l'Évangile de Jean est centré sur l'identité de Jésus : la Parole faite chair, le Fils unique qui fait connaître le Père (Jean 1:18). Il culmine dans la confession de Thomas devant le Ressuscité : « Mon Seigneur et mon Dieu ! » (Jean 20:28).",
+   "frise": "lazare"
+  },
+  "44": {
+   "accroche": "Jusqu'aux extrémités de la terre",
+   "resume": "Après l'ascension, le Saint-Esprit descend sur les disciples. L'Évangile part de Jérusalem, gagne la Samarie, puis le monde païen, porté par Pierre puis par Paul, jusqu'à Rome.",
+   "auteur": "Luc, qui en fait la suite de son Évangile (Actes 1:1). Dans plusieurs passages, le récit passe au « nous » : Luc voyageait alors avec Paul (Actes 16:10).",
+   "date": "Le récit va de l'ascension (vers 30 ap. J.-C.) aux deux années de Paul à Rome (vers 60-62 ap. J.-C.). Rédaction probablement entre 62 et 80 ap. J.-C.",
+   "destinataires": "Théophile, comme l'Évangile de Luc, et à travers lui toute l'Église.",
+   "contexte": "Avant de monter au ciel, Jésus donne le programme du livre : « vous serez mes témoins à Jérusalem, dans toute la Judée, dans la Samarie, et jusqu'aux extrémités de la terre » (Actes 1:8). À la Pentecôte, le Saint-Esprit descend, Pierre prêche, et environ trois mille personnes sont baptisées.\n\nLa première partie suit Pierre et l'Église de Jérusalem, puis la dispersion après le martyre d'Étienne. Un persécuteur, Saul de Tarse, est retourné sur le chemin de Damas. La seconde partie suit les voyages missionnaires de Paul en Asie Mineure et en Grèce, jusqu'à son arrivée à Rome comme prisonnier, où il annonce le royaume de Dieu « en toute liberté et sans obstacle » (Actes 28:31).",
+   "plan": [
+    [
+     "L'ascension et la Pentecôte",
+     1,
+     2
+    ],
+    [
+     "L'Église de Jérusalem",
+     3,
+     7
+    ],
+    [
+     "Samarie, Damas et Corneille",
+     8,
+     12
+    ],
+    [
+     "Premier voyage et concile de Jérusalem",
+     13,
+     15
+    ],
+    [
+     "Deuxième et troisième voyages",
+     16,
+     20
+    ],
+    [
+     "Paul arrêté et jugé",
+     21,
+     26
+    ],
+    [
+     "Le voyage vers Rome",
+     27,
+     28
+    ]
+   ],
+   "themes": [
+    [
+     "Le Saint-Esprit",
+     "La puissance de l'Esprit fait des disciples des témoins (Actes 1:8)."
+    ],
+    [
+     "La vie d'Église",
+     "Enseignement, communion fraternelle, fraction du pain et prières (Actes 2:42)."
+    ],
+    [
+     "Un seul nom",
+     "Il n'y a de salut en aucun autre qu'en Jésus (Actes 4:12)."
+    ],
+    [
+     "L'Évangile sans frontières",
+     "Juifs, Samaritains, païens : tous sont appelés (Actes 10:34-35)."
+    ]
+   ],
+   "versets": [
+    "Actes 1:8",
+    "Actes 2:42",
+    "Actes 4:12",
+    "Actes 16:31"
+   ],
+   "pers": [
+    "pierre",
+    "jean-apotre",
+    "matthias",
+    "etienne",
+    "philippe-evangeliste",
+    "paul",
+    "barnabas",
+    "corneille",
+    "silas",
+    "lydie",
+    "timothee",
+    "agrippa"
+   ],
+   "christ": "Luc dit que son premier livre racontait « tout ce que Jésus a commencé de faire et d'enseigner » (Actes 1:1) : les Actes racontent ce que le Christ ressuscité continue de faire par son Esprit et par son Église.",
+   "frise": "pentecote"
+  },
+  "45": {
+   "accroche": "L'Évangile, puissance de Dieu",
+   "resume": "Dans sa lettre la plus construite, Paul expose l'Évangile : tous ont péché, tous peuvent être déclarés justes gratuitement par la foi en Jésus-Christ, et vivre une vie nouvelle par l'Esprit.",
+   "auteur": "L'apôtre Paul (Romains 1:1), qui la dicte à Tertius (Romains 16:22).",
+   "date": "Vers 57 ap. J.-C., probablement depuis Corinthe, à la fin du troisième voyage, avant de porter à Jérusalem la collecte pour les pauvres (Romains 15:25).",
+   "destinataires": "L'Église de Rome, faite de croyants d'origine juive et païenne, que Paul n'avait encore jamais visitée.",
+   "contexte": "Paul n'a pas fondé l'Église de Rome, mais il espère s'y arrêter en route vers l'Espagne (Romains 15:24). Il lui écrit donc l'exposé le plus complet de l'Évangile qu'il prêche : tous, Juifs comme païens, ont péché et sont privés de la gloire de Dieu ; tous peuvent être gratuitement justifiés par sa grâce (Romains 3:23-24).\n\nIl explique ensuite la vie nouvelle par l'Esprit, la place d'Israël dans le plan de Dieu, puis les conséquences très concrètes de l'Évangile dans la vie de l'Église. Cette lettre a marqué l'histoire : Augustin, Luther et Wesley ont été bouleversés en la lisant.",
+   "plan": [
+    [
+     "Tous ont péché",
+     1,
+     3
+    ],
+    [
+     "La justification par la foi",
+     3,
+     5
+    ],
+    [
+     "La vie nouvelle en Christ et par l'Esprit",
+     6,
+     8
+    ],
+    [
+     "Israël dans le plan de Dieu",
+     9,
+     11
+    ],
+    [
+     "L'Évangile vécu au quotidien",
+     12,
+     15
+    ],
+    [
+     "Recommandations et salutations",
+     16,
+     16
+    ]
+   ],
+   "themes": [
+    [
+     "La justice de Dieu",
+     "Dieu déclare juste celui qui croit en Jésus (Romains 3:24)."
+    ],
+    [
+     "La grâce",
+     "Le salut est un don gratuit, non un salaire (Romains 6:23)."
+    ],
+    [
+     "L'Esprit",
+     "Il n'y a aucune condamnation pour ceux qui sont en Jésus-Christ (Romains 8:1)."
+    ],
+    [
+     "Une vie transformée",
+     "Ne vous conformez pas au siècle présent, mais soyez transformés (Romains 12:2)."
+    ]
+   ],
+   "versets": [
+    "Romains 1:16",
+    "Romains 3:23-24",
+    "Romains 5:8",
+    "Romains 8:28",
+    "Romains 12:2"
+   ],
+   "pers": [
+    "paul",
+    "tertius",
+    "phebe",
+    "priscille",
+    "aquilas",
+    "andronicus-junias",
+    "rufus",
+    "eraste",
+    "salues-romains"
+   ],
+   "christ": "Romains place la croix au centre : « Dieu prouve son amour envers nous, en ce que, lorsque nous étions encore des pécheurs, Christ est mort pour nous » (Romains 5:8). Par la foi et le baptême, le croyant est uni à sa mort et à sa résurrection (Romains 6:4).",
+   "frise": "voyage-3"
+  },
+  "46": {
+   "accroche": "Une Église pleine de dons, et de problèmes",
+   "resume": "Paul répond aux divisions, aux désordres et aux questions d'une jeune Église vivante mais troublée : mariage, liberté, culte, dons spirituels, résurrection — avec l'amour au centre.",
+   "auteur": "L'apôtre Paul, avec Sosthène (1 Corinthiens 1:1).",
+   "date": "Vers 55 ap. J.-C., depuis Éphèse (1 Corinthiens 16:8).",
+   "destinataires": "L'Église de Corinthe, fondée par Paul lors de son deuxième voyage missionnaire (Actes 18:1).",
+   "contexte": "Corinthe est un grand port cosmopolite, riche, connu pour sa débauche. L'Église que Paul y a fondée est vivante et pleine de dons spirituels, mais aussi divisée et orgueilleuse. Des nouvelles apportées par les gens de Chloé (1 Corinthiens 1:11) et une lettre de questions poussent Paul à écrire.\n\nIl répond point par point : les divisions, un cas d'immoralité, les procès entre chrétiens, le mariage, les viandes sacrifiées aux idoles, la cène, les dons spirituels, la résurrection. Au cœur de la lettre, l'hymne à l'amour — « la charité » dans la Segond : sans elle, les plus grands dons ne sont rien (1 Corinthiens 13:2).",
+   "plan": [
+    [
+     "Les divisions et la sagesse de la croix",
+     1,
+     4
+    ],
+    [
+     "Immoralité et procès",
+     5,
+     6
+    ],
+    [
+     "Le mariage et le célibat",
+     7,
+     7
+    ],
+    [
+     "La liberté et les viandes sacrifiées",
+     8,
+     10
+    ],
+    [
+     "Le culte et la cène",
+     11,
+     11
+    ],
+    [
+     "Les dons spirituels et l'amour",
+     12,
+     14
+    ],
+    [
+     "La résurrection",
+     15,
+     15
+    ],
+    [
+     "La collecte et les salutations",
+     16,
+     16
+    ]
+   ],
+   "themes": [
+    [
+     "La croix",
+     "La prédication de la croix est une folie pour le monde, mais une puissance de Dieu (1 Corinthiens 1:18)."
+    ],
+    [
+     "L'unité du corps",
+     "Beaucoup de membres, un seul corps (1 Corinthiens 12:12)."
+    ],
+    [
+     "L'amour",
+     "La foi, l'espérance et la charité demeurent ; la plus grande, c'est la charité (1 Corinthiens 13:13)."
+    ],
+    [
+     "La résurrection",
+     "Si Christ n'est pas ressuscité, notre foi est vaine (1 Corinthiens 15:17)."
+    ]
+   ],
+   "versets": [
+    "1 Corinthiens 1:18",
+    "1 Corinthiens 10:13",
+    "1 Corinthiens 13:13",
+    "1 Corinthiens 15:3-4"
+   ],
+   "pers": [
+    "paul",
+    "sosthene",
+    "apollos",
+    "chloe",
+    "crispus",
+    "stephanas",
+    "fortunatus-achaicus",
+    "aquilas",
+    "priscille",
+    "timothee"
+   ],
+   "christ": "Paul ne veut savoir parmi les Corinthiens « autre chose que Jésus-Christ, et Jésus-Christ crucifié » (1 Corinthiens 2:2). Le chapitre 15 transmet le plus ancien résumé de l'Évangile : Christ est mort pour nos péchés, il a été enseveli, il est ressuscité le troisième jour (1 Corinthiens 15:3-4).",
+   "frise": "voyage-3"
+  },
+  "47": {
+   "accroche": "Ma grâce te suffit",
+   "resume": "La lettre la plus personnelle de Paul. Contesté à Corinthe, il ouvre son cœur : ses souffrances, ses faiblesses, sa joie de la réconciliation, et la découverte que la puissance de Dieu s'accomplit dans la faiblesse.",
+   "auteur": "L'apôtre Paul, avec Timothée (2 Corinthiens 1:1).",
+   "date": "Vers 56 ap. J.-C., depuis la Macédoine, après l'arrivée de Tite (2 Corinthiens 7:6).",
+   "destinataires": "L'Église de Corinthe et tous les chrétiens d'Achaïe.",
+   "contexte": "Entre les deux lettres, les relations se sont tendues. Paul a fait une visite douloureuse à Corinthe, puis écrit une lettre « avec beaucoup de larmes » (2 Corinthiens 2:4). Des prédicateurs brillants, que Paul appelle avec ironie « ces apôtres par excellence » (2 Corinthiens 11:5), contestent son autorité. Quand Tite le rejoint en Macédoine avec de bonnes nouvelles, Paul est soulagé et écrit.\n\nIl parle de ses souffrances, de ses faiblesses, d'une « écharde dans la chair ». Et il rapporte la réponse du Seigneur : « Ma grâce te suffit, car ma puissance s'accomplit dans la faiblesse » (2 Corinthiens 12:9). Au milieu de la lettre, il encourage aussi la générosité pour les chrétiens pauvres de Jérusalem.",
+   "plan": [
+    [
+     "Consolation et réconciliation",
+     1,
+     7
+    ],
+    [
+     "La collecte pour Jérusalem",
+     8,
+     9
+    ],
+    [
+     "Paul défend son ministère",
+     10,
+     13
+    ]
+   ],
+   "themes": [
+    [
+     "La consolation",
+     "Consolés par Dieu pour pouvoir consoler les autres (2 Corinthiens 1:4)."
+    ],
+    [
+     "La réconciliation",
+     "Soyez réconciliés avec Dieu (2 Corinthiens 5:20)."
+    ],
+    [
+     "La générosité",
+     "Dieu aime celui qui donne avec joie (2 Corinthiens 9:7)."
+    ],
+    [
+     "La force dans la faiblesse",
+     "La puissance de Dieu se déploie dans nos limites (2 Corinthiens 12:9)."
+    ]
+   ],
+   "versets": [
+    "2 Corinthiens 4:7",
+    "2 Corinthiens 5:17",
+    "2 Corinthiens 9:7",
+    "2 Corinthiens 12:9"
+   ],
+   "pers": [
+    "paul",
+    "timothee",
+    "tite"
+   ],
+   "christ": "Paul résume l'œuvre du Christ : « Celui qui n'a point connu le péché, il l'a fait devenir péché pour nous, afin que nous devenions en lui justice de Dieu » (2 Corinthiens 5:21). Et il s'est fait pauvre pour nous enrichir (2 Corinthiens 8:9).",
+   "frise": "voyage-3"
+  },
+  "48": {
+   "accroche": "La liberté de la grâce",
+   "resume": "Des prédicateurs veulent imposer la loi de Moïse aux chrétiens non juifs. Paul réagit avec vigueur : on est justifié par la foi en Christ seul, et appelé à vivre libre, conduit par l'Esprit.",
+   "auteur": "L'apôtre Paul (Galates 1:1).",
+   "date": "Débattue : vers 48-49 ap. J.-C., juste avant le concile de Jérusalem, ou vers 53-57 ap. J.-C.",
+   "destinataires": "Les Églises de Galatie, probablement celles fondées lors du premier voyage (Antioche de Pisidie, Icone, Lystre, Derbe).",
+   "contexte": "Après le départ de Paul, des prédicateurs venus de Judée ont enseigné aux Galates qu'il fallait se faire circoncire et observer la loi de Moïse pour être pleinement sauvé. Paul réagit avec une vigueur rare : il n'y a pas d'autre Évangile (Galates 1:7). Il saute même les remerciements qui ouvrent d'habitude ses lettres.\n\nIl rappelle son propre parcours, sa confrontation avec Pierre à Antioche, et l'exemple d'Abraham, déclaré juste par la foi bien avant la loi. Christ nous a affranchis pour la liberté (Galates 5:1) — non pour vivre selon la chair, mais pour marcher selon l'Esprit, dont le fruit est l'amour, la joie, la paix (Galates 5:22).",
+   "plan": [
+    [
+     "Un seul Évangile",
+     1,
+     2
+    ],
+    [
+     "La foi et la loi",
+     3,
+     4
+    ],
+    [
+     "La liberté et la vie par l'Esprit",
+     5,
+     6
+    ]
+   ],
+   "themes": [
+    [
+     "La justification par la foi",
+     "L'homme est justifié par la foi en Jésus-Christ, non par les œuvres de la loi (Galates 2:16)."
+    ],
+    [
+     "Fils de Dieu",
+     "Dieu a envoyé dans nos cœurs l'Esprit qui crie : Abba ! Père ! (Galates 4:6)"
+    ],
+    [
+     "La liberté",
+     "C'est pour la liberté que Christ nous a affranchis (Galates 5:1)."
+    ],
+    [
+     "Le fruit de l'Esprit",
+     "Une vie nouvelle produite par l'Esprit (Galates 5:22-23)."
+    ]
+   ],
+   "versets": [
+    "Galates 2:20",
+    "Galates 5:1",
+    "Galates 5:22-23"
+   ],
+   "pers": [
+    "paul",
+    "pierre",
+    "barnabas",
+    "jacques-frere",
+    "tite"
+   ],
+   "christ": "« J'ai été crucifié avec Christ ; et si je vis, ce n'est plus moi qui vis, c'est Christ qui vit en moi » (Galates 2:20). Pour Paul, prétendre obtenir la justice par la loi, c'est dire que Christ est mort en vain (Galates 2:21).",
+   "frise": "concile"
+  },
+  "49": {
+   "accroche": "Sauvés par grâce, unis en Christ",
+   "resume": "Une contemplation du plan éternel de Dieu : choisis, adoptés, sauvés par grâce, Juifs et païens réunis en un seul corps. Puis l'appel à vivre d'une manière digne de cet appel, jusque dans le combat spirituel.",
+   "auteur": "L'apôtre Paul (Éphésiens 1:1), alors prisonnier (Éphésiens 4:1). Certains spécialistes y voient l'œuvre d'un disciple de Paul.",
+   "date": "Vers 60-62 ap. J.-C., pendant la captivité de Paul, probablement à Rome. La lettre est portée par Tychique (Éphésiens 6:21).",
+   "destinataires": "Les chrétiens d'Éphèse, où Paul avait passé trois ans (Actes 20:31). Plusieurs manuscrits anciens n'ont pas la mention « à Éphèse » : c'était peut-être une lettre destinée à circuler entre plusieurs Églises.",
+   "contexte": "Éphésiens ne répond pas à une crise : c'est une louange. La première moitié déploie le plan de Dieu : nous avons été choisis, adoptés, rachetés en Christ ; sauvés par la grâce, par le moyen de la foi, et non par les œuvres (Éphésiens 2:8-9) ; Juifs et païens sont réunis en un seul corps, le mur de séparation est abattu.\n\nLa seconde moitié en tire les conséquences : marcher d'une manière digne de cet appel, dans l'unité, la pureté et l'amour, dans le couple, la famille et le travail. La lettre se termine par l'armure de Dieu, pour tenir ferme contre les ruses du diable (Éphésiens 6:11).",
+   "plan": [
+    [
+     "Les bénédictions en Christ",
+     1,
+     1
+    ],
+    [
+     "Sauvés par grâce, réunis en un seul corps",
+     2,
+     3
+    ],
+    [
+     "L'unité et la vie nouvelle",
+     4,
+     5
+    ],
+    [
+     "Famille, travail et combat spirituel",
+     5,
+     6
+    ]
+   ],
+   "themes": [
+    [
+     "La grâce",
+     "Le salut est un don de Dieu, reçu par la foi (Éphésiens 2:8)."
+    ],
+    [
+     "L'Église, corps du Christ",
+     "Juifs et païens forment un seul peuple (Éphésiens 2:14)."
+    ],
+    [
+     "L'unité",
+     "Conserver l'unité de l'esprit par le lien de la paix (Éphésiens 4:3)."
+    ],
+    [
+     "Le combat spirituel",
+     "Se fortifier dans le Seigneur et revêtir les armes de Dieu (Éphésiens 6:10-11)."
+    ]
+   ],
+   "versets": [
+    "Éphésiens 2:8-9",
+    "Éphésiens 4:32",
+    "Éphésiens 6:10"
+   ],
+   "pers": [
+    "paul",
+    "tychique"
+   ],
+   "christ": "Le plan de Dieu est de « réunir toutes choses en Christ » (Éphésiens 1:10). Christ est notre paix : il a renversé le mur de séparation et fait des deux peuples un seul (Éphésiens 2:14).",
+   "frise": "rome"
+  },
+  "50": {
+   "accroche": "La joie malgré les chaînes",
+   "resume": "Prisonnier, Paul écrit à une Église qu'il aime pour la remercier de son soutien. Sa lettre respire la joie, et appelle à l'humilité en suivant le Christ qui s'est abaissé jusqu'à la croix.",
+   "auteur": "L'apôtre Paul, avec Timothée (Philippiens 1:1), alors dans les liens (Philippiens 1:13).",
+   "date": "Vers 61-62 ap. J.-C., probablement depuis Rome.",
+   "destinataires": "L'Église de Philippes, la première fondée en Europe (Actes 16:12), qui soutenait fidèlement Paul.",
+   "contexte": "Paul est en prison et ignore s'il en sortira vivant. Les Philippiens lui ont envoyé un don par Épaphrodite, qui est tombé gravement malade et a failli mourir (Philippiens 2:27). Paul les remercie, les rassure et les encourage.\n\nLe mot « joie » traverse toute la lettre, malgré les chaînes : « Réjouissez-vous toujours dans le Seigneur ; je le répète, réjouissez-vous » (Philippiens 4:4). Paul appelle l'Église à l'unité et à l'humilité, à l'image du Christ qui s'est dépouillé lui-même. Il exhorte aussi deux femmes de l'Église, Évodie et Syntyche, à se réconcilier.",
+   "plan": [
+    [
+     "Les liens de Paul font avancer l'Évangile",
+     1,
+     1
+    ],
+    [
+     "L'humilité du Christ",
+     2,
+     2
+    ],
+    [
+     "Connaître le Christ",
+     3,
+     3
+    ],
+    [
+     "La joie et la paix de Dieu",
+     4,
+     4
+    ]
+   ],
+   "themes": [
+    [
+     "La joie",
+     "Une joie qui ne dépend pas des circonstances (Philippiens 4:4)."
+    ],
+    [
+     "L'humilité",
+     "Avoir les mêmes sentiments que le Christ (Philippiens 2:5)."
+    ],
+    [
+     "Le contentement",
+     "J'ai appris à être content de l'état où je me trouve (Philippiens 4:11)."
+    ],
+    [
+     "La paix de Dieu",
+     "La paix de Dieu garde les cœurs de ceux qui prient (Philippiens 4:6-7)."
+    ]
+   ],
+   "versets": [
+    "Philippiens 1:21",
+    "Philippiens 4:4",
+    "Philippiens 4:6-7",
+    "Philippiens 4:13"
+   ],
+   "pers": [
+    "paul",
+    "timothee",
+    "epaphrodite",
+    "evodie-syntyche",
+    "clement",
+    "lydie",
+    "geolier-philippes"
+   ],
+   "christ": "L'hymne de Philippiens 2 raconte le chemin du Christ : de condition divine, il s'est dépouillé lui-même, fait serviteur, obéissant jusqu'à la mort de la croix ; c'est pourquoi Dieu l'a souverainement élevé, « afin qu'au nom de Jésus tout genou fléchisse » (Philippiens 2:10).",
+   "frise": "rome"
+  },
+  "51": {
+   "accroche": "Christ est tout",
+   "resume": "Face à un mélange de pratiques religieuses et de « philosophie », Paul montre la grandeur du Christ : en lui habite toute la plénitude de Dieu. Qui l'a, n'a besoin de rien d'autre.",
+   "auteur": "L'apôtre Paul, avec Timothée (Colossiens 1:1), alors prisonnier (Colossiens 4:18).",
+   "date": "Vers 60-62 ap. J.-C., en même temps que la lettre à Philémon ; elle est portée par Tychique et Onésime (Colossiens 4:7-9).",
+   "destinataires": "L'Église de Colosses, en Phrygie, fondée par Épaphras (Colossiens 1:7). Paul ne l'avait jamais visitée.",
+   "contexte": "Des enseignants y mêlent la foi chrétienne à des pratiques juives, à des règles ascétiques, au culte des anges et à une prétendue « philosophie » (Colossiens 2:8). Paul répond en montrant la suprématie du Christ : tout a été créé par lui et pour lui, et « en lui habite corporellement toute la plénitude de la divinité » (Colossiens 2:9).\n\nSi Christ est tout, on n'a besoin de rien d'autre pour être complet. Paul en tire les conséquences pour la vie quotidienne : chercher les choses d'en haut, se dépouiller du vieil homme, revêtir l'amour, et tout faire au nom du Seigneur Jésus (Colossiens 3:17).",
+   "plan": [
+    [
+     "La suprématie du Christ",
+     1,
+     1
+    ],
+    [
+     "La plénitude en Christ face aux fausses doctrines",
+     2,
+     2
+    ],
+    [
+     "La vie nouvelle au quotidien",
+     3,
+     4
+    ]
+   ],
+   "themes": [
+    [
+     "La suprématie du Christ",
+     "Il est l'image du Dieu invisible, et tout subsiste en lui (Colossiens 1:15)."
+    ],
+    [
+     "La plénitude",
+     "En Christ, nous avons tout pleinement (Colossiens 2:10)."
+    ],
+    [
+     "Les choses d'en haut",
+     "Affectionnez-vous aux choses d'en haut (Colossiens 3:2)."
+    ],
+    [
+     "Tout pour le Seigneur",
+     "Faire tout de bon cœur, comme pour le Seigneur (Colossiens 3:23)."
+    ]
+   ],
+   "versets": [
+    "Colossiens 2:9",
+    "Colossiens 3:2",
+    "Colossiens 3:17",
+    "Colossiens 3:23"
+   ],
+   "pers": [
+    "paul",
+    "timothee",
+    "epaphras",
+    "tychique",
+    "onesime",
+    "aristarque",
+    "marc",
+    "luc",
+    "demas",
+    "nymphas",
+    "archippe"
+   ],
+   "christ": "Colossiens contient l'un des plus beaux hymnes au Christ : il est l'image du Dieu invisible, le premier-né de toute la création ; tout a été créé par lui et pour lui, et tout subsiste en lui (Colossiens 1:15-17).",
+   "frise": "rome"
+  },
+  "52": {
+   "accroche": "L'espérance du retour",
+   "resume": "Chassé de Thessalonique au bout de quelques semaines, Paul encourage cette jeune Église persécutée. Il répond à son inquiétude au sujet des croyants morts : ils ressusciteront au retour du Seigneur.",
+   "auteur": "L'apôtre Paul, avec Silvain (Silas) et Timothée (1 Thessaloniciens 1:1).",
+   "date": "Vers 50-51 ap. J.-C., depuis Corinthe. C'est l'une des toutes premières lettres de Paul, peut-être le plus ancien écrit du Nouveau Testament.",
+   "destinataires": "L'Église de Thessalonique, en Macédoine, fondée lors du deuxième voyage (Actes 17:1).",
+   "contexte": "Paul a dû quitter Thessalonique précipitamment sous la pression de ses adversaires. Inquiet pour cette Église toute neuve et persécutée, il envoie Timothée, qui revient avec de bonnes nouvelles de leur foi et de leur charité (1 Thessaloniciens 3:6). Paul écrit pour les encourager.\n\nUne question les tourmente : qu'arrivera-t-il aux croyants morts avant le retour du Seigneur ? Paul répond : les morts en Christ ressusciteront premièrement, puis nous serons tous ensemble avec le Seigneur (1 Thessaloniciens 4:16-17). Il les exhorte à une vie sainte, au travail, et à ne pas s'affliger comme ceux qui n'ont pas d'espérance.",
+   "plan": [
+    [
+     "Une Église modèle",
+     1,
+     1
+    ],
+    [
+     "Le ministère de Paul et les nouvelles de Timothée",
+     2,
+     3
+    ],
+    [
+     "Une vie sainte et le retour du Seigneur",
+     4,
+     5
+    ]
+   ],
+   "themes": [
+    [
+     "L'espérance",
+     "La mort n'a pas le dernier mot pour ceux qui sont en Christ (1 Thessaloniciens 4:14)."
+    ],
+    [
+     "La sainteté",
+     "Ce que Dieu veut, c'est votre sanctification (1 Thessaloniciens 4:3)."
+    ],
+    [
+     "Le retour du Seigneur",
+     "Il viendra comme un voleur dans la nuit : restons éveillés (1 Thessaloniciens 5:2)."
+    ],
+    [
+     "La joie et la prière",
+     "Soyez toujours joyeux, priez sans cesse (1 Thessaloniciens 5:16-17)."
+    ]
+   ],
+   "versets": [
+    "1 Thessaloniciens 4:16-17",
+    "1 Thessaloniciens 5:16-18"
+   ],
+   "pers": [
+    "paul",
+    "silas",
+    "timothee",
+    "jason"
+   ],
+   "christ": "Jésus nous délivre de la colère à venir (1 Thessaloniciens 1:10), et il reviendra : « le Seigneur lui-même, à un signal donné, à la voix d'un archange, et au son de la trompette de Dieu, descendra du ciel » (1 Thessaloniciens 4:16).",
+   "frise": "voyage-2"
+  },
+  "53": {
+   "accroche": "Tenir bon en attendant",
+   "resume": "Quelques mois plus tard, une rumeur affirme que le jour du Seigneur est déjà là. Paul rassure les persécutés, corrige la confusion, et reprend ceux qui ont cessé de travailler.",
+   "auteur": "L'apôtre Paul, avec Silvain et Timothée (2 Thessaloniciens 1:1).",
+   "date": "Peu après la première lettre, vers 51 ap. J.-C.",
+   "destinataires": "L'Église de Thessalonique.",
+   "contexte": "La persécution continue, et une confusion est apparue : certains prétendent, peut-être par une lettre attribuée à Paul, que le jour du Seigneur est déjà là (2 Thessaloniciens 2:2). Résultat : l'inquiétude, et chez certains la paresse — pourquoi travailler si la fin est imminente ?\n\nPaul rassure : d'autres événements doivent arriver d'abord, notamment l'apparition de « l'homme du péché » (2 Thessaloniciens 2:3). Il encourage les persécutés en leur rappelant la justice de Dieu, et il est ferme avec ceux qui vivent dans le désordre : « Si quelqu'un ne veut pas travailler, qu'il ne mange pas non plus » (2 Thessaloniciens 3:10).",
+   "plan": [
+    [
+     "Encouragement dans la persécution",
+     1,
+     1
+    ],
+    [
+     "Le jour du Seigneur n'est pas encore là",
+     2,
+     2
+    ],
+    [
+     "Travailler et persévérer",
+     3,
+     3
+    ]
+   ],
+   "themes": [
+    [
+     "La persévérance",
+     "Ne vous lassez pas de faire le bien (2 Thessaloniciens 3:13)."
+    ],
+    [
+     "Le retour du Christ",
+     "Le Seigneur Jésus apparaîtra du ciel (2 Thessaloniciens 1:7)."
+    ],
+    [
+     "Le travail",
+     "Attendre le Seigneur n'est pas une excuse pour la paresse (2 Thessaloniciens 3:10)."
+    ],
+    [
+     "La fidélité de Dieu",
+     "Le Seigneur est fidèle, il vous affermira (2 Thessaloniciens 3:3)."
+    ]
+   ],
+   "versets": [
+    "2 Thessaloniciens 3:3",
+    "2 Thessaloniciens 3:13"
+   ],
+   "pers": [
+    "paul",
+    "silas",
+    "timothee"
+   ],
+   "christ": "Le Seigneur Jésus apparaîtra du ciel avec les anges de sa puissance (2 Thessaloniciens 1:7), et il anéantira l'impie par l'éclat de son avènement (2 Thessaloniciens 2:8). En attendant : « Le Seigneur est fidèle, il vous affermira et vous préservera du malin » (2 Thessaloniciens 3:3).",
+   "frise": "voyage-2"
+  },
+  "54": {
+   "accroche": "Prendre soin de l'Église",
+   "resume": "Paul écrit à son fils spirituel Timothée, laissé à Éphèse pour contrer de faux enseignements. Il lui donne un guide pour la vie de l'Église : la prière, les responsables, les veuves, l'argent, et le bon combat de la foi.",
+   "auteur": "L'apôtre Paul (1 Timothée 1:1). Avec 2 Timothée et Tite, on l'appelle « épître pastorale ». Beaucoup de spécialistes modernes y voient l'œuvre d'un disciple de Paul ; l'Église l'a reçue comme une lettre de l'apôtre.",
+   "date": "Vers 62-64 ap. J.-C., après la première captivité romaine de Paul.",
+   "destinataires": "Timothée, à qui Paul avait demandé de rester à Éphèse (1 Timothée 1:3).",
+   "contexte": "Timothée est le fils spirituel de Paul, un responsable encore jeune et plutôt réservé. Paul l'a laissé à Éphèse pour mettre de l'ordre dans l'Église, où certains s'attachent à des fables et à des généalogies sans fin (1 Timothée 1:4).\n\nLa lettre est un guide pour la vie de l'Église : la prière pour les autorités, les qualités attendues des anciens et des diacres, l'aide aux veuves, le danger de l'amour de l'argent. Paul encourage aussi Timothée personnellement : « Que personne ne méprise ta jeunesse ; mais sois un modèle pour les fidèles » (1 Timothée 4:12).",
+   "plan": [
+    [
+     "Contre les fausses doctrines",
+     1,
+     1
+    ],
+    [
+     "La prière et le culte",
+     2,
+     2
+    ],
+    [
+     "Les responsables de l'Église",
+     3,
+     3
+    ],
+    [
+     "Le bon serviteur de Jésus-Christ",
+     4,
+     4
+    ],
+    [
+     "Les veuves et les anciens",
+     5,
+     5
+    ],
+    [
+     "L'argent et le bon combat de la foi",
+     6,
+     6
+    ]
+   ],
+   "themes": [
+    [
+     "La saine doctrine",
+     "Garder l'enseignement fidèle face aux fables (1 Timothée 1:3-4)."
+    ],
+    [
+     "Les responsables",
+     "Le caractère compte plus que le talent (1 Timothée 3:2)."
+    ],
+    [
+     "Le contentement",
+     "La piété avec le contentement est une grande source de gain (1 Timothée 6:6)."
+    ],
+    [
+     "Le bon combat",
+     "Combats le bon combat de la foi (1 Timothée 6:12)."
+    ]
+   ],
+   "versets": [
+    "1 Timothée 1:15",
+    "1 Timothée 2:5-6",
+    "1 Timothée 4:12",
+    "1 Timothée 6:12"
+   ],
+   "pers": [
+    "paul",
+    "timothee",
+    "lois-eunice",
+    "hymenee",
+    "alexandre-forgeron"
+   ],
+   "christ": "« Jésus-Christ est venu dans le monde pour sauver les pécheurs, dont je suis le premier » (1 Timothée 1:15). Il est le seul médiateur entre Dieu et les hommes, qui s'est donné lui-même en rançon pour tous (1 Timothée 2:5-6).",
+   "frise": "fin-paul"
+  },
+  "55": {
+   "accroche": "J'ai gardé la foi",
+   "resume": "La dernière lettre de Paul, écrite de prison à Rome peu avant sa mort. Il transmet le flambeau à Timothée : n'aie pas honte de l'Évangile, transmets-le, reste attaché à l'Écriture, prêche la Parole.",
+   "auteur": "L'apôtre Paul (2 Timothée 1:1), dans sa dernière captivité.",
+   "date": "Vers 64-67 ap. J.-C., depuis Rome, peu avant le martyre de Paul.",
+   "destinataires": "Timothée, son « enfant bien-aimé » (2 Timothée 1:2).",
+   "contexte": "Paul est de nouveau prisonnier à Rome, dans des conditions dures. Presque tous l'ont abandonné : « Luc seul est avec moi » (2 Timothée 4:11). Il sait que sa fin est proche : « J'ai combattu le bon combat, j'ai achevé la course, j'ai gardé la foi » (2 Timothée 4:7).\n\nIl transmet le flambeau à Timothée : ne pas avoir honte de l'Évangile, souffrir avec lui, confier l'enseignement à des hommes fidèles, rester attaché à l'Écriture inspirée de Dieu. Il lui demande aussi de venir vite, avec le manteau laissé à Troas et ses livres (2 Timothée 4:13) : un détail très humain dans la dernière lettre de l'apôtre.",
+   "plan": [
+    [
+     "N'aie pas honte de l'Évangile",
+     1,
+     1
+    ],
+    [
+     "Fortifie-toi dans la grâce",
+     2,
+     2
+    ],
+    [
+     "Les temps difficiles et l'Écriture",
+     3,
+     3
+    ],
+    [
+     "Prêche la Parole : les adieux de Paul",
+     4,
+     4
+    ]
+   ],
+   "themes": [
+    [
+     "Le courage",
+     "Dieu ne nous a pas donné un esprit de timidité (2 Timothée 1:7)."
+    ],
+    [
+     "La transmission",
+     "Confier l'enseignement à des hommes fidèles, capables d'enseigner à d'autres (2 Timothée 2:2)."
+    ],
+    [
+     "L'Écriture",
+     "Toute Écriture est inspirée de Dieu (2 Timothée 3:16)."
+    ],
+    [
+     "Finir la course",
+     "Garder la foi jusqu'au bout (2 Timothée 4:7)."
+    ]
+   ],
+   "versets": [
+    "2 Timothée 1:7",
+    "2 Timothée 2:2",
+    "2 Timothée 3:16-17",
+    "2 Timothée 4:7"
+   ],
+   "pers": [
+    "paul",
+    "timothee",
+    "lois-eunice",
+    "onesiphore",
+    "phygelle-hermogene",
+    "demas",
+    "crescens",
+    "luc",
+    "marc",
+    "carpus",
+    "alexandre-forgeron",
+    "eubulus-pudens-linus-claudia"
+   ],
+   "christ": "Paul rappelle l'essentiel : « Souviens-toi de Jésus-Christ, issu de la postérité de David, ressuscité des morts » (2 Timothée 2:8). Notre Sauveur Jésus-Christ a détruit la mort et mis en évidence la vie et l'immortalité par l'Évangile (2 Timothée 1:10).",
+   "frise": "fin-paul"
+  },
+  "56": {
+   "accroche": "Une foi qui se voit",
+   "resume": "Paul écrit à Tite, laissé en Crète pour organiser les Églises. La saine doctrine doit produire une vie belle : la grâce de Dieu nous enseigne à vivre avec sagesse, justice et piété.",
+   "auteur": "L'apôtre Paul (Tite 1:1). Comme pour les lettres à Timothée, son attribution est discutée par une partie des spécialistes modernes.",
+   "date": "Vers 62-64 ap. J.-C., à la même époque que 1 Timothée.",
+   "destinataires": "Tite, collaborateur d'origine grecque de Paul, laissé en Crète (Tite 1:5).",
+   "contexte": "Tite a accompagné Paul à plusieurs reprises et a été chargé de missions délicates, notamment à Corinthe. Paul l'a laissé en Crète pour mettre en ordre les Églises et établir des anciens dans chaque ville (Tite 1:5). La tâche n'est pas simple : de faux enseignants y sèment le trouble.\n\nLa lettre insiste sur un lien : la saine doctrine produit une vie belle. Les responsables doivent être irréprochables, et chaque catégorie de croyants — âgés, jeunes, esclaves — est appelée à honorer l'Évangile par sa conduite. Car la grâce de Dieu, source de salut, nous enseigne à vivre selon la sagesse, la justice et la piété (Tite 2:11-12).",
+   "plan": [
+    [
+     "Établir des anciens",
+     1,
+     1
+    ],
+    [
+     "Une conduite digne de la saine doctrine",
+     2,
+     2
+    ],
+    [
+     "Sauvés pour faire le bien",
+     3,
+     3
+    ]
+   ],
+   "themes": [
+    [
+     "La saine doctrine",
+     "Ce qu'on croit se voit dans la manière de vivre (Tite 2:1)."
+    ],
+    [
+     "La grâce qui éduque",
+     "La grâce nous apprend à vivre autrement (Tite 2:12)."
+    ],
+    [
+     "La régénération",
+     "Sauvés par la miséricorde de Dieu et le renouvellement du Saint-Esprit (Tite 3:5)."
+    ],
+    [
+     "Les bonnes œuvres",
+     "Les croyants sont appelés à s'appliquer aux bonnes œuvres (Tite 3:8)."
+    ]
+   ],
+   "versets": [
+    "Tite 2:11-12",
+    "Tite 3:5"
+   ],
+   "pers": [
+    "tite",
+    "paul",
+    "artemas",
+    "tychique",
+    "zenas",
+    "apollos"
+   ],
+   "christ": "Les croyants attendent « la bienheureuse espérance, et la manifestation de la gloire du grand Dieu et de notre Sauveur Jésus-Christ » (Tite 2:13), qui nous a sauvés non à cause de nos œuvres, mais selon sa miséricorde (Tite 3:5).",
+   "frise": "fin-paul"
+  },
+  "57": {
+   "accroche": "Un esclave devenu frère",
+   "resume": "Un billet plein de tact : Paul renvoie à son maître Philémon l'esclave fugitif Onésime, devenu chrétien, et lui demande de l'accueillir comme un frère bien-aimé.",
+   "auteur": "L'apôtre Paul, prisonnier, avec Timothée (Philémon 1:1).",
+   "date": "Vers 60-62 ap. J.-C., en même temps que la lettre aux Colossiens.",
+   "destinataires": "Philémon, chrétien de Colosses chez qui se réunissait l'Église, ainsi qu'Apphia et Archippe (Philémon 1:2).",
+   "contexte": "Onésime, esclave de Philémon, s'est enfui, peut-être après avoir causé un tort à son maître. Il a rencontré Paul en prison et il est devenu chrétien. Paul le renvoie à Philémon avec cette lettre, une courte supplique pleine d'affection.\n\nIl demande à Philémon d'accueillir Onésime « non plus comme un esclave, mais comme supérieur à un esclave, comme un frère bien-aimé » (Philémon 1:16), et propose de payer lui-même ce qu'il pourrait devoir. Le nom Onésime signifie « utile », et Paul joue sur ce mot : autrefois inutile, il est maintenant utile (Philémon 1:11).",
+   "plan": [
+    [
+     "Salutation et reconnaissance",
+     1,
+     1,
+     "1-7"
+    ],
+    [
+     "La requête pour Onésime",
+     1,
+     1,
+     "8-21"
+    ],
+    [
+     "Dernières paroles",
+     1,
+     1,
+     "22-25"
+    ]
+   ],
+   "themes": [
+    [
+     "La réconciliation",
+     "L'Évangile répare les relations brisées."
+    ],
+    [
+     "La fraternité en Christ",
+     "En Christ, le maître et l'esclave deviennent frères (Philémon 1:16)."
+    ],
+    [
+     "L'intercession",
+     "Paul se met entre les deux pour les réconcilier (Philémon 1:18)."
+    ]
+   ],
+   "versets": [
+    "Philémon 1:6",
+    "Philémon 1:16"
+   ],
+   "pers": [
+    "paul",
+    "timothee",
+    "philemon",
+    "apphia",
+    "archippe",
+    "onesime",
+    "epaphras",
+    "marc",
+    "aristarque",
+    "demas",
+    "luc"
+   ],
+   "christ": "Paul écrit : « s'il t'a fait quelque tort, ou s'il te doit quelque chose, mets-le sur mon compte » (Philémon 1:18). C'est l'image même de ce que le Christ a fait pour nous : il a pris notre dette sur lui pour nous réconcilier avec le Père.",
+   "frise": "rome"
+  },
+  "58": {
+   "accroche": "Jésus, plus grand que tout",
+   "resume": "À des chrétiens d'origine juive tentés de revenir en arrière, l'auteur montre que Jésus est supérieur aux anges, à Moïse et au sacerdoce d'Aaron. Son sacrifice unique ouvre une nouvelle alliance : tenez ferme dans la foi.",
+   "auteur": "Inconnu. On a proposé Paul, Barnabas, Apollos… Au IIIe siècle déjà, Origène estimait que Dieu seul sait qui a écrit cette lettre.",
+   "date": "Probablement avant 70 ap. J.-C. : les sacrifices du temple y sont décrits comme toujours offerts (Hébreux 10:11).",
+   "destinataires": "Des chrétiens d'origine juive, éprouvés par la persécution et tentés de revenir au culte ancien.",
+   "contexte": "Les destinataires ont déjà souffert pour leur foi (Hébreux 10:32), mais ils se découragent. Certains sont tentés de revenir en arrière, vers le culte du temple et les sacrifices qu'ils connaissaient. L'auteur leur montre que ce serait échanger la réalité contre son ombre.\n\nJésus est supérieur aux anges, à Moïse, à Josué, au sacerdoce d'Aaron ; il est le souverain sacrificateur selon l'ordre de Melchisédek, qui a offert un sacrifice unique et parfait. La lettre dresse la galerie des héros de la foi, d'Abel aux prophètes, et appelle à courir avec persévérance, « ayant les regards sur Jésus » (Hébreux 12:2).",
+   "plan": [
+    [
+     "Jésus, plus grand que les anges",
+     1,
+     2
+    ],
+    [
+     "Plus grand que Moïse : le repos de Dieu",
+     3,
+     4
+    ],
+    [
+     "Le souverain sacrificateur",
+     5,
+     7
+    ],
+    [
+     "La nouvelle alliance et le sacrifice parfait",
+     8,
+     10
+    ],
+    [
+     "Les héros de la foi",
+     11,
+     11
+    ],
+    [
+     "Courir avec persévérance",
+     12,
+     13
+    ]
+   ],
+   "themes": [
+    [
+     "La supériorité du Christ",
+     "Dieu nous a parlé par le Fils (Hébreux 1:2)."
+    ],
+    [
+     "Le grand prêtre",
+     "Un souverain sacrificateur qui compatit à nos faiblesses (Hébreux 4:15)."
+    ],
+    [
+     "La foi",
+     "Une ferme assurance des choses qu'on espère (Hébreux 11:1)."
+    ],
+    [
+     "La persévérance",
+     "Courir avec persévérance, les regards sur Jésus (Hébreux 12:1-2)."
+    ]
+   ],
+   "versets": [
+    "Hébreux 4:12",
+    "Hébreux 4:15-16",
+    "Hébreux 11:1",
+    "Hébreux 13:8"
+   ],
+   "pers": [
+    "jesus",
+    "melchisedek",
+    "moise",
+    "aaron",
+    "abel",
+    "henoc",
+    "noe",
+    "abraham",
+    "rahab",
+    "timothee"
+   ],
+   "christ": "Toute la lettre est centrée sur le Christ : après avoir parlé par les prophètes, Dieu « nous a parlé par le Fils » (Hébreux 1:2). Il est le souverain sacrificateur parfait, et « Jésus-Christ est le même hier, aujourd'hui, et éternellement » (Hébreux 13:8).",
+   "frise": "jerusalem-70"
+  },
+  "59": {
+   "accroche": "Une foi qui agit",
+   "resume": "Une lettre de sagesse pratique, dans la ligne des Proverbes et du Sermon sur la montagne : l'épreuve, la langue, les riches et les pauvres, la prière. Une foi sans les œuvres est morte.",
+   "auteur": "« Jacques, serviteur de Dieu et du Seigneur Jésus-Christ » (Jacques 1:1) ; la tradition l'identifie à Jacques, frère du Seigneur et responsable de l'Église de Jérusalem.",
+   "date": "Peut-être vers 45-50 ap. J.-C., ce qui en ferait l'un des premiers écrits du Nouveau Testament ; en tout cas avant la mort de Jacques, en 62 ap. J.-C.",
+   "destinataires": "« Aux douze tribus qui sont dans la dispersion » (Jacques 1:1) : des chrétiens d'origine juive dispersés hors de Judée.",
+   "contexte": "Jacques, frère de Jésus, n'avait pas cru en lui pendant son ministère (Jean 7:5) ; le Christ ressuscité lui est apparu (1 Corinthiens 15:7), et il est devenu l'un des piliers de l'Église de Jérusalem. Sa lettre ressemble à un recueil de sagesse.\n\nIl parle de l'épreuve, de la langue, de la richesse et de la pauvreté, de la prière. Son message central : une foi qui ne produit pas d'œuvres est une foi morte (Jacques 2:17). Il ne contredit pas Paul : Paul combat l'idée qu'on pourrait gagner son salut par ses œuvres ; Jacques combat une foi qui ne change rien à la vie.",
+   "plan": [
+    [
+     "L'épreuve et la sagesse",
+     1,
+     1
+    ],
+    [
+     "La foi et les œuvres",
+     2,
+     2
+    ],
+    [
+     "La langue et la vraie sagesse",
+     3,
+     4
+    ],
+    [
+     "Les riches, la patience et la prière",
+     5,
+     5
+    ]
+   ],
+   "themes": [
+    [
+     "L'épreuve",
+     "L'épreuve de la foi produit la patience (Jacques 1:2-3)."
+    ],
+    [
+     "Mettre en pratique",
+     "Ne pas se contenter d'écouter la Parole (Jacques 1:22)."
+    ],
+    [
+     "La langue",
+     "Une petite flamme qui peut embraser une grande forêt (Jacques 3:5)."
+    ],
+    [
+     "La prière",
+     "La prière fervente du juste a une grande efficacité (Jacques 5:16)."
+    ]
+   ],
+   "versets": [
+    "Jacques 1:5",
+    "Jacques 1:22",
+    "Jacques 2:17",
+    "Jacques 5:16"
+   ],
+   "pers": [
+    "jacques-frere",
+    "abraham",
+    "rahab",
+    "job",
+    "elie"
+   ],
+   "christ": "Jacques cite peu le nom de Jésus, mais sa lettre est imprégnée de son enseignement, en écho au Sermon sur la montagne. Il l'appelle « notre glorieux Seigneur Jésus-Christ » (Jacques 2:1) et attend son avènement (Jacques 5:8).",
+   "frise": "concile"
+  },
+  "60": {
+   "accroche": "Étrangers et voyageurs",
+   "resume": "À des chrétiens méprisés et maltraités pour leur foi, Pierre rappelle leur espérance vivante et leur identité de peuple de Dieu, et les appelle à souffrir pour le bien en suivant les traces du Christ.",
+   "auteur": "L'apôtre Pierre (1 Pierre 1:1), avec l'aide de Silvain (1 Pierre 5:12).",
+   "date": "Vers 62-64 ap. J.-C., depuis « Babylone » (1 Pierre 5:13), sans doute un nom codé pour Rome, peu avant la persécution de Néron.",
+   "destinataires": "Des chrétiens dispersés dans le Pont, la Galatie, la Cappadoce, l'Asie et la Bithynie (1 Pierre 1:1), en Asie Mineure.",
+   "contexte": "Les destinataires vivent comme des « étrangers et voyageurs » (1 Pierre 2:11) dans une société qui les regarde avec méfiance, les calomnie et parfois les maltraite. Pierre, qui a lui-même connu la honte de son reniement et la grâce de la restauration, leur écrit pour les affermir.\n\nIl leur rappelle leur identité : régénérés pour une espérance vivante, ils sont « une race élue, un sacerdoce royal, une nation sainte » (1 Pierre 2:9). Il les appelle à une conduite exemplaire, à souffrir pour le bien plutôt que pour le mal, et à se décharger sur Dieu de tous leurs soucis.",
+   "plan": [
+    [
+     "Une espérance vivante",
+     1,
+     1
+    ],
+    [
+     "Un peuple saint au milieu des nations",
+     2,
+     3
+    ],
+    [
+     "Souffrir pour le bien",
+     4,
+     4
+    ],
+    [
+     "Bergers, humilité et fermeté",
+     5,
+     5
+    ]
+   ],
+   "themes": [
+    [
+     "L'espérance",
+     "Régénérés pour une espérance vivante par la résurrection de Jésus (1 Pierre 1:3)."
+    ],
+    [
+     "L'identité",
+     "Un sacerdoce royal, une nation sainte (1 Pierre 2:9)."
+    ],
+    [
+     "La souffrance",
+     "Souffrir pour avoir fait le bien, comme le Christ (1 Pierre 3:17)."
+    ],
+    [
+     "L'humilité",
+     "Déchargez-vous sur lui de tous vos soucis (1 Pierre 5:7)."
+    ]
+   ],
+   "versets": [
+    "1 Pierre 1:3",
+    "1 Pierre 2:9",
+    "1 Pierre 3:15",
+    "1 Pierre 5:7"
+   ],
+   "pers": [
+    "pierre",
+    "silas",
+    "marc"
+   ],
+   "christ": "Pierre a vu souffrir son Maître. Il écrit : le Christ « a porté lui-même nos péchés en son corps sur le bois… lui par les meurtrissures duquel vous avez été guéris » (1 Pierre 2:24), reprenant les mots du Serviteur d'Ésaïe 53.",
+   "frise": "fin-paul"
+  },
+  "61": {
+   "accroche": "Croître jusqu'au bout",
+   "resume": "Sentant sa mort proche, Pierre appelle les croyants à grandir dans la foi, à s'attacher à l'Écriture inspirée, à se garder des faux docteurs et à attendre le jour du Seigneur, qui vient sûrement.",
+   "auteur": "Elle se présente comme une lettre de Simon Pierre (2 Pierre 1:1), témoin de la transfiguration (2 Pierre 1:16). Son attribution a été discutée dès l'Antiquité.",
+   "date": "Peu avant la mort de Pierre (2 Pierre 1:14), vers 64-67 ap. J.-C.",
+   "destinataires": "Les mêmes lecteurs que la première lettre (2 Pierre 3:1).",
+   "contexte": "Pierre sait que sa mort est proche. Il écrit pour rappeler l'essentiel : ajouter à sa foi la vertu, la connaissance, la patience, l'amour ; rester attaché à la parole prophétique, car ce sont des hommes poussés par le Saint-Esprit qui ont parlé de la part de Dieu (2 Pierre 1:21). Car de faux docteurs se sont introduits, qui méprisent toute autorité.\n\nCertains se moquent même du retour du Seigneur : rien ne change depuis la création ! Pierre répond que pour le Seigneur, un jour est comme mille ans ; s'il tarde, c'est qu'il est patient et veut que tous arrivent à la repentance (2 Pierre 3:9).",
+   "plan": [
+    [
+     "Grandir dans la foi",
+     1,
+     1
+    ],
+    [
+     "Les faux docteurs",
+     2,
+     2
+    ],
+    [
+     "Le jour du Seigneur",
+     3,
+     3
+    ]
+   ],
+   "themes": [
+    [
+     "La croissance",
+     "Croissez dans la grâce et dans la connaissance de Jésus-Christ (2 Pierre 3:18)."
+    ],
+    [
+     "L'Écriture inspirée",
+     "Des hommes poussés par l'Esprit ont parlé de la part de Dieu (2 Pierre 1:21)."
+    ],
+    [
+     "La patience de Dieu",
+     "Il veut que tous arrivent à la repentance (2 Pierre 3:9)."
+    ],
+    [
+     "L'espérance",
+     "De nouveaux cieux et une nouvelle terre, où la justice habitera (2 Pierre 3:13)."
+    ]
+   ],
+   "versets": [
+    "2 Pierre 1:21",
+    "2 Pierre 3:9",
+    "2 Pierre 3:18"
+   ],
+   "pers": [
+    "pierre",
+    "paul",
+    "noe",
+    "lot",
+    "balaam"
+   ],
+   "christ": "Pierre rappelle qu'il n'a pas suivi des fables : il a vu la majesté du Christ sur la sainte montagne, quand la voix du Père a dit : « Celui-ci est mon Fils bien-aimé, en qui j'ai mis toute mon affection » (2 Pierre 1:17).",
+   "frise": "fin-paul"
+  },
+  "62": {
+   "accroche": "Dieu est amour",
+   "resume": "Après le départ d'un groupe qui niait que Jésus soit le Christ venu en chair, Jean donne aux croyants des repères pour savoir qu'ils ont la vie éternelle : croire, obéir, aimer.",
+   "auteur": "La lettre n'est pas signée, mais son vocabulaire est très proche de l'Évangile de Jean ; la tradition l'attribue à l'apôtre Jean. L'auteur se présente comme témoin direct de Jésus (1 Jean 1:1).",
+   "date": "Vers 85-95 ap. J.-C., probablement à Éphèse.",
+   "destinataires": "Des Églises d'Asie Mineure, que l'auteur appelle affectueusement « mes petits enfants ».",
+   "contexte": "Un groupe a quitté la communauté : « ils sont sortis du milieu de nous, mais ils n'étaient pas des nôtres » (1 Jean 2:19). Ces gens prétendent connaître Dieu, mais nient que Jésus soit le Christ venu en chair, et ne se soucient ni du péché ni de l'amour fraternel. Ceux qui restent sont troublés : sommes-nous vraiment dans la vérité ?\n\nJean leur donne des repères pour en avoir l'assurance : croire que Jésus est le Christ venu en chair, garder ses commandements, aimer ses frères. « Dieu est amour » (1 Jean 4:8). Il écrit pour qu'ils sachent qu'ils ont la vie éternelle (1 Jean 5:13).",
+   "plan": [
+    [
+     "Marcher dans la lumière",
+     1,
+     2
+    ],
+    [
+     "Enfants de Dieu : aimons-nous",
+     3,
+     4
+    ],
+    [
+     "La victoire de la foi et l'assurance",
+     5,
+     5
+    ]
+   ],
+   "themes": [
+    [
+     "La lumière",
+     "Dieu est lumière : marcher avec lui, c'est sortir des ténèbres (1 Jean 1:5)."
+    ],
+    [
+     "Le pardon",
+     "Si nous confessons nos péchés, il est fidèle et juste pour nous pardonner (1 Jean 1:9)."
+    ],
+    [
+     "L'amour",
+     "Nous l'aimons parce qu'il nous a aimés le premier (1 Jean 4:19)."
+    ],
+    [
+     "L'assurance",
+     "Savoir que l'on a la vie éternelle (1 Jean 5:13)."
+    ]
+   ],
+   "versets": [
+    "1 Jean 1:9",
+    "1 Jean 3:1",
+    "1 Jean 4:19",
+    "1 Jean 5:13"
+   ],
+   "pers": [
+    "jean-apotre",
+    "cain"
+   ],
+   "christ": "Jean a entendu, vu, contemplé et touché la Parole de vie (1 Jean 1:1). Jésus-Christ le juste est notre avocat auprès du Père et la victime expiatoire pour nos péchés (1 Jean 2:1-2) ; en lui, Dieu a manifesté son amour (1 Jean 4:9).",
+   "frise": "patmos"
+  },
+  "63": {
+   "accroche": "La vérité et l'amour",
+   "resume": "Un court billet de « l'ancien » : marchez dans l'amour, qui consiste à obéir aux commandements de Dieu, et ne recevez pas ceux qui nient que Jésus-Christ soit venu en chair.",
+   "auteur": "« L'ancien » (2 Jean 1:1), que la tradition identifie à l'apôtre Jean.",
+   "date": "Vers 85-95 ap. J.-C., à la même époque que la première lettre.",
+   "destinataires": "La lettre est adressée « à Kyria l'élue et à ses enfants » (2 Jean 1:1) : soit une chrétienne et sa famille, soit une Église locale désignée de manière imagée.",
+   "contexte": "Des prédicateurs itinérants circulent d'Église en Église, et certains enseignent que Jésus-Christ n'est pas venu en chair (2 Jean 1:7). Jean écrit pour mettre en garde : marchez dans l'amour, qui consiste à vivre selon les commandements de Dieu, et ne recevez pas chez vous ceux qui apportent une autre doctrine (2 Jean 1:10).\n\nLe billet montre que la vérité et l'amour vont ensemble : l'amour sans la vérité devient complaisance, la vérité sans l'amour devient dureté.",
+   "plan": [
+    [
+     "La vérité et l'amour",
+     1,
+     1,
+     "1-6"
+    ],
+    [
+     "Prenez garde aux séducteurs",
+     1,
+     1,
+     "7-11"
+    ],
+    [
+     "Salutations",
+     1,
+     1,
+     "12-13"
+    ]
+   ],
+   "themes": [
+    [
+     "La vérité",
+     "Aimer dans la vérité (2 Jean 1:1)."
+    ],
+    [
+     "L'amour obéissant",
+     "L'amour consiste à marcher selon ses commandements (2 Jean 1:6)."
+    ],
+    [
+     "Le discernement",
+     "Tout enseignement doit confesser que Jésus-Christ est venu en chair (2 Jean 1:7)."
+    ]
+   ],
+   "versets": [
+    "2 Jean 1:6"
+   ],
+   "pers": [
+    "jean-apotre"
+   ],
+   "christ": "Le critère est clair : confesser que « Jésus-Christ est venu en chair » (2 Jean 1:7). Celui qui demeure dans la doctrine du Christ a le Père et le Fils (2 Jean 1:9).",
+   "frise": "patmos"
+  },
+  "64": {
+   "accroche": "Accueillir les ouvriers de la vérité",
+   "resume": "Jean félicite Gaïus pour son hospitalité envers des missionnaires de passage, dénonce l'orgueil de Diotrèphe et recommande Démétrius.",
+   "auteur": "« L'ancien » (3 Jean 1:1), que la tradition identifie à l'apôtre Jean.",
+   "date": "Vers 85-95 ap. J.-C.",
+   "destinataires": "Gaïus, « le bien-aimé » (3 Jean 1:1), membre d'une Église d'Asie Mineure.",
+   "contexte": "Jean félicite Gaïus d'avoir accueilli des frères missionnaires de passage, même inconnus (3 Jean 1:5). Il dénonce en revanche Diotrèphe, « qui aime à être le premier », refuse l'autorité de Jean et chasse de l'Église ceux qui reçoivent ces frères (3 Jean 1:9-10). Il recommande enfin Démétrius, qui a un bon témoignage.\n\nCe court billet donne un aperçu de la vie des premières Églises : l'hospitalité envers les missionnaires était vitale, et l'orgueil d'un seul responsable pouvait tout bloquer.",
+   "plan": [
+    [
+     "Gaïus et l'hospitalité",
+     1,
+     1,
+     "1-8"
+    ],
+    [
+     "Diotrèphe et Démétrius",
+     1,
+     1,
+     "9-12"
+    ],
+    [
+     "Salutations",
+     1,
+     1,
+     "13-15"
+    ]
+   ],
+   "themes": [
+    [
+     "L'hospitalité",
+     "Accueillir ceux qui servent, c'est travailler avec eux (3 Jean 1:8)."
+    ],
+    [
+     "L'humilité",
+     "L'orgueil d'aimer être le premier abîme l'Église (3 Jean 1:9)."
+    ],
+    [
+     "Imiter le bien",
+     "Celui qui fait le bien est de Dieu (3 Jean 1:11)."
+    ]
+   ],
+   "versets": [
+    "3 Jean 1:11"
+   ],
+   "pers": [
+    "jean-apotre",
+    "gaius-diotrephe"
+   ],
+   "christ": "Les missionnaires que Gaïus accueille sont partis « pour le nom de Jésus-Christ » (3 Jean 1:7). Les soutenir, c'est devenir « ouvriers avec eux pour la vérité » (3 Jean 1:8).",
+   "frise": "patmos"
+  },
+  "65": {
+   "accroche": "Combattre pour la foi",
+   "resume": "Des impies se sont glissés dans l'Église et changent la grâce en prétexte au désordre. Jude appelle à combattre pour la foi transmise une fois pour toutes, et finit sur une louange magnifique.",
+   "auteur": "« Jude, serviteur de Jésus-Christ, et frère de Jacques » (Jude 1:1), traditionnellement l'un des frères de Jésus (Matthieu 13:55).",
+   "date": "Probablement entre 65 et 80 ap. J.-C. La lettre a de nombreux points communs avec 2 Pierre.",
+   "destinataires": "Des chrétiens appelés par Dieu, aimés en Dieu le Père et gardés pour Jésus-Christ (Jude 1:1).",
+   "contexte": "Jude voulait écrire au sujet du salut commun, mais il doit changer de sujet : des impies se sont glissés dans l'Église, « qui changent la grâce de notre Dieu en dissolution » (Jude 1:4). Il appelle les croyants « à combattre pour la foi qui a été transmise aux saints une fois pour toutes » (Jude 1:3).\n\nIl rappelle des exemples de jugement — Israël au désert, les anges déchus, Sodome, Caïn, Balaam, Koré — et cite même une prophétie attribuée à Hénoc (Jude 1:14). La lettre se termine par l'une des plus belles louanges de la Bible : à celui qui peut nous préserver de toute chute (Jude 1:24).",
+   "plan": [
+    [
+     "Combattre pour la foi",
+     1,
+     1,
+     "1-4"
+    ],
+    [
+     "Les exemples du passé",
+     1,
+     1,
+     "5-16"
+    ],
+    [
+     "Maintenez-vous dans l'amour de Dieu",
+     1,
+     1,
+     "17-25"
+    ]
+   ],
+   "themes": [
+    [
+     "La foi transmise",
+     "Une foi reçue une fois pour toutes, à garder et à défendre (Jude 1:3)."
+    ],
+    [
+     "La vigilance",
+     "La grâce n'est pas une permission de pécher (Jude 1:4)."
+    ],
+    [
+     "Se maintenir",
+     "Maintenez-vous dans l'amour de Dieu (Jude 1:21)."
+    ],
+    [
+     "La louange",
+     "Dieu peut nous garder de toute chute (Jude 1:24)."
+    ]
+   ],
+   "versets": [
+    "Jude 1:20-21",
+    "Jude 1:24-25"
+   ],
+   "pers": [
+    "jude-frere",
+    "jacques-frere",
+    "michel-archange",
+    "henoc",
+    "cain",
+    "balaam",
+    "kore"
+   ],
+   "christ": "La lettre s'ouvre et se ferme sur la fidélité de Dieu : les croyants sont « gardés pour Jésus-Christ » (Jude 1:1), et Dieu, notre Sauveur, peut les faire paraître devant sa gloire « irrépréhensibles et dans l'allégresse » (Jude 1:24).",
+   "frise": null
+  },
+  "66": {
+   "accroche": "L'Agneau a vaincu",
+   "resume": "Exilé à Patmos, Jean reçoit une révélation du Christ glorifié : des lettres à sept Églises, puis des visions du combat entre Dieu et les puissances du mal, jusqu'à la victoire de l'Agneau et la nouvelle Jérusalem.",
+   "auteur": "Jean (Apocalypse 1:9), que la tradition identifie à l'apôtre Jean.",
+   "date": "Vers 95 ap. J.-C., sous l'empereur Domitien, selon le témoignage d'Irénée au IIe siècle.",
+   "destinataires": "Sept Églises de la province d'Asie, en Asie Mineure (Apocalypse 1:4), et à travers elles toute l'Église.",
+   "contexte": "Jean est exilé sur l'île de Patmos, « à cause de la parole de Dieu et du témoignage de Jésus » (Apocalypse 1:9). Au jour du Seigneur, il reçoit une révélation — c'est le sens du mot grec « apocalypse ». Le Christ glorifié lui dicte d'abord sept lettres à sept Églises, avec éloges et reproches.\n\nPuis Jean est transporté devant le trône de Dieu. Des séries de visions — sceaux, trompettes, coupes — décrivent le combat entre Dieu et les puissances du mal, dans un langage symbolique nourri de l'Ancien Testament. Les interprétations diffèrent sur le détail, mais le message est limpide : l'Agneau a vaincu. Le livre se termine sur de nouveaux cieux et une nouvelle terre, où Dieu essuiera toute larme (Apocalypse 21:4).",
+   "plan": [
+    [
+     "La vision du Christ glorifié",
+     1,
+     1
+    ],
+    [
+     "Les lettres aux sept Églises",
+     2,
+     3
+    ],
+    [
+     "Le trône de Dieu et l'Agneau",
+     4,
+     5
+    ],
+    [
+     "Les sceaux",
+     6,
+     7
+    ],
+    [
+     "Les trompettes",
+     8,
+     11
+    ],
+    [
+     "Le dragon et les bêtes",
+     12,
+     14
+    ],
+    [
+     "Les coupes et la chute de Babylone",
+     15,
+     18
+    ],
+    [
+     "Le retour du Christ et le jugement",
+     19,
+     20
+    ],
+    [
+     "La nouvelle Jérusalem",
+     21,
+     22
+    ]
+   ],
+   "themes": [
+    [
+     "La souveraineté de Dieu",
+     "Le trône de Dieu domine toute l'histoire (Apocalypse 4:2)."
+    ],
+    [
+     "La victoire de l'Agneau",
+     "Le Lion de Juda est un Agneau immolé, et il a vaincu (Apocalypse 5:5-6)."
+    ],
+    [
+     "La persévérance",
+     "Sois fidèle jusqu'à la mort (Apocalypse 2:10)."
+    ],
+    [
+     "L'espérance",
+     "Toutes choses nouvelles (Apocalypse 21:5)."
+    ]
+   ],
+   "versets": [
+    "Apocalypse 1:8",
+    "Apocalypse 3:20",
+    "Apocalypse 21:4",
+    "Apocalypse 22:20"
+   ],
+   "pers": [
+    "jean-apotre",
+    "jesus",
+    "antipas",
+    "michel-archange",
+    "satan",
+    "balaam"
+   ],
+   "christ": "L'Apocalypse est la « Révélation de Jésus-Christ » (Apocalypse 1:1). Il y apparaît comme l'alpha et l'oméga, le lion de la tribu de Juda qui se révèle être un Agneau immolé (Apocalypse 5:5-6), le Roi des rois qui revient. La Bible se termine par sa promesse : « Oui, je viens bientôt » (Apocalypse 22:20).",
+   "frise": "patmos"
+  }
+ }
+}

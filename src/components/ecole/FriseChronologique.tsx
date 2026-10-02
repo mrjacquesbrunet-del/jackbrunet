@@ -54,6 +54,13 @@ export function FriseChronologique() {
       .then((r) => (r.ok ? r.json() : []))
       .then((b: { id: number; name: string }[]) => setBookNames(Object.fromEntries(b.map((x) => [x.id, x.name]))))
       .catch(() => {});
+    // Lien profond (?ev=…) depuis une introduction de livre : on ouvre l'événement.
+    const ev = DATA.evenements.find((e) => e.id === new URLSearchParams(window.location.search).get("ev"));
+    if (ev) {
+      setT(ev.t);
+      setOuvert(ev);
+      return;
+    }
     try {
       if (sessionStorage.getItem(MEMO) === "NT") setT("NT");
     } catch {

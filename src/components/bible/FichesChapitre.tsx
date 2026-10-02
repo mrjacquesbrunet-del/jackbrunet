@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { asset } from "@/lib/asset";
+import { useArbreDeFiche } from "@/lib/genealogie";
 import { bibleHref } from "@/lib/bible-ref";
 import { LieuCarte } from "@/components/bible/LieuCarte";
 
@@ -309,6 +311,7 @@ export function FicheSheet({
   onClose,
   onNavigate,
   zIndex = "z-[120]",
+  onArbre,
 }: {
   id: string;
   data: FichesData;
@@ -319,6 +322,8 @@ export function FicheSheet({
   /** Le parent ferme ce qu'il faut puis navigue. */
   onNavigate: (bookId: number, chapter: number) => void;
   zIndex?: string;
+  /** Sur la page des arbres : « Voir dans l'arbre » recentre au lieu de naviguer. */
+  onArbre?: (personne: string) => void;
 }) {
   // La navigation entre fiches liées se fait ici, sans fermer la feuille.
   const [id, setId] = useState(initialId);
@@ -364,6 +369,7 @@ export function FicheSheet({
             onNavigate={onNavigate}
             onOpen={setId}
             here={{ bookId, chapter }}
+            onArbre={onArbre}
           />
         </div>
       </div>
@@ -376,6 +382,17 @@ export function FicheSheet({
  * parcours, écrits, histoire, passages clés et chapitres où la figure apparaît.
  * Partagé par la feuille (FicheSheet) et la galerie de la Formation.
  */
+const BOUTON_ARBRE =
+  "mt-4 flex w-full items-center justify-center gap-2 rounded-full border border-dawn-400/40 bg-dawn-400/10 py-2.5 text-[13px] font-bold text-dawn-300";
+
+function ArbreGlyphe() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.9}>
+      <path d="M9.5 3h5v4h-5zM12 7v3M6 10h12M6 10v3M18 10v3M3.5 13h5v4h-5zM15.5 13h5v4h-5z" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export function FicheCorps({
   id,
   data,
@@ -383,6 +400,7 @@ export function FicheCorps({
   onNavigate,
   onOpen,
   here,
+  onArbre,
 }: {
   id: string;
   data: FichesData;
@@ -392,8 +410,11 @@ export function FicheCorps({
   onOpen: (id: string) => void;
   /** Chapitre en cours de lecture, désactivé dans la liste des apparitions. */
   here?: { bookId: number; chapter: number };
+  /** Sur la page des arbres : recentre l'arbre au lieu d'y naviguer. */
+  onArbre?: (personne: string) => void;
 }) {
   const open = data.fiches[id];
+  const dansArbre = useArbreDeFiche(open?.type === "personnage" ? id : null);
   if (!open) return null;
   const bookId = here?.bookId ?? -1;
   const chapter = here?.chapter ?? -1;
@@ -432,6 +453,21 @@ export function FicheCorps({
           })}
         </div>
       </>
+    ) : null}
+
+    {/* L'arbre généalogique, centré sur ce personnage */}
+    {dansArbre ? (
+      onArbre ? (
+        <button type="button" onClick={() => onArbre(dansArbre)} className={BOUTON_ARBRE}>
+          <ArbreGlyphe />
+          Voir dans l'arbre généalogique
+        </button>
+      ) : (
+        <Link href={`/ecole/arbres?id=${dansArbre}`} className={BOUTON_ARBRE}>
+          <ArbreGlyphe />
+          Voir dans l'arbre généalogique
+        </Link>
+      )
     ) : null}
 
     {/* Son parcours : carte du trajet + frise chronologique */}

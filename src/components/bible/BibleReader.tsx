@@ -9,6 +9,7 @@ import type { Commentary } from "@/components/bible/CommentaryPanel";
 import { VersetOutils } from "@/components/bible/VersetOutils";
 import { BibleHero } from "@/components/bible/BibleHero";
 import { FichesChapitre } from "@/components/bible/FichesChapitre";
+import { IntroLivreCarte, IntroLivreSheet } from "@/components/bible/IntroLivre";
 import { BibleAudio } from "@/components/bible/BibleAudio";
 import { BibleAudioPlayer } from "@/components/bible/BibleAudioPlayer";
 import {
@@ -70,6 +71,8 @@ export function BibleReader() {
   // Sélecteur livre/chapitre en feuille (tap sur la pastille « Jean 3 »).
   const [selOpen, setSelOpen] = useState(false);
   const [selBook, setSelBook] = useState<number | null>(null);
+  // Introduction au livre ouverte (id du livre), depuis le chapitre 1 ou le sélecteur.
+  const [introLivre, setIntroLivre] = useState<number | null>(null);
   // Menu ⋮ du mode pleine lecture (carnet, recherche, téléchargement…).
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -534,6 +537,10 @@ export function BibleReader() {
               Touche un verset pour le surligner, le copier ou l'enregistrer.
             </p>
           ): null}
+          {/* Chapitre 1 : l'introduction au livre (auteur, époque, contexte…) */}
+          {chapter === 1 && book ? (
+            <IntroLivreCarte n={bookId} nom={book.name} onOpen={() => setIntroLivre(bookId)} />
+          ) : null}
           {verses.map((v, i) => {
             const vn = i + 1;
             const open = sheetVerse === vn;
@@ -840,6 +847,29 @@ export function BibleReader() {
                   ))}
                 </>
               ) : (
+                <>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const target = selBook;
+                    setSelOpen(false);
+                    setIntroLivre(target);
+                  }}
+                  className="mb-3 flex w-full items-center gap-3 rounded-2xl border border-dawn-400/30 bg-white/[0.05] px-3.5 py-3 text-left"
+                >
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-dawn-400/15 text-dawn-300">
+                    <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-none stroke-current" strokeWidth={1.9}>
+                      <path d="M12 6c-1.8-1.4-4.2-2-7-2v14c2.8 0 5.2.6 7 2 1.8-1.4 4.2-2 7-2V4c-2.8 0-5.2.6-7 2zM12 6v14" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-sm font-bold text-cream">Introduction au livre</span>
+                    <span className="block text-[11px] font-semibold text-cream/50">Auteur, époque, contexte, plan, thèmes</span>
+                  </span>
+                  <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 fill-none stroke-current text-cream/40" strokeWidth={2.2}>
+                    <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
                 <div className="grid grid-cols-5 gap-1.5">
                   {Array.from(
                     { length: index.find((b) => b.id === selBook)?.chapters ?? 0 },
@@ -869,10 +899,31 @@ export function BibleReader() {
                     </button>
                   ))}
                 </div>
+                </>
               )}
             </div>
           </div>
         </div>
+      ) : null}
+
+      {/* Introduction au livre (auteur, date, contexte, plan, thèmes…) */}
+      {introLivre !== null ? (
+        <IntroLivreSheet
+          n={introLivre}
+          nom={bookNames[introLivre] ?? ""}
+          bookNames={bookNames}
+          onClose={() => setIntroLivre(null)}
+          onNavigate={(l, c) => {
+            setIntroLivre(null);
+            if (l !== bookId) {
+              setBookId(l);
+              setChapter(c);
+              scrollToChapterTop();
+            } else {
+              goToChapter(c);
+            }
+          }}
+        />
       ) : null}
     </section>
     </>

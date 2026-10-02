@@ -1,0 +1,2356 @@
+{
+ "$commentaire": "Généalogies bibliques (source d'autorité, vérifiée sur le texte LSG de l'app). scripts/build-genealogie.mjs fusionne ces données avec les liens familiaux des fiches (Père, Mère, Fils, Fille, Épouse, Époux, Femme, Mari) et produit public/bible/genealogie.json. personnes : id -> [nom, sexe h/f, fiche liée]. liens : [parent, enfant, réf, note?]. scinder : fiche groupée -> personnes distinctes. ordre : ordre de naissance des enfants.",
+ "personnes": {
+  "henoc-cain": [
+   "Hénoc (fils de Caïn)",
+   "h",
+   null
+  ],
+  "irad": [
+   "Irad",
+   "h",
+   null
+  ],
+  "mehujael": [
+   "Mehujaël",
+   "h",
+   null
+  ],
+  "metuschael": [
+   "Metuschaël",
+   "h",
+   null
+  ],
+  "ada-lemec": [
+   "Ada",
+   "f",
+   null
+  ],
+  "tsilla": [
+   "Tsilla",
+   "f",
+   null
+  ],
+  "jabal": [
+   "Jabal",
+   "h",
+   "jubal-tubal-cain"
+  ],
+  "jubal": [
+   "Jubal",
+   "h",
+   "jubal-tubal-cain"
+  ],
+  "tubal-cain": [
+   "Tubal-Caïn",
+   "h",
+   "jubal-tubal-cain"
+  ],
+  "naama-lemec": [
+   "Naama",
+   "f",
+   null
+  ],
+  "enosch": [
+   "Énosch",
+   "h",
+   null
+  ],
+  "kenan": [
+   "Kénan",
+   "h",
+   null
+  ],
+  "mahalaleel": [
+   "Mahalaleel",
+   "h",
+   null
+  ],
+  "jered": [
+   "Jéred",
+   "h",
+   null
+  ],
+  "cusch": [
+   "Cusch",
+   "h",
+   null
+  ],
+  "mitsraim": [
+   "Mitsraïm",
+   "h",
+   null
+  ],
+  "puth": [
+   "Puth",
+   "h",
+   null
+  ],
+  "canaan-fils": [
+   "Canaan",
+   "h",
+   null
+  ],
+  "elam-sem": [
+   "Élam",
+   "h",
+   null
+  ],
+  "assur-sem": [
+   "Assur",
+   "h",
+   null
+  ],
+  "arpacschad": [
+   "Arpacschad",
+   "h",
+   null
+  ],
+  "lud": [
+   "Lud",
+   "h",
+   null
+  ],
+  "aram-sem": [
+   "Aram",
+   "h",
+   null
+  ],
+  "schelach": [
+   "Schélach",
+   "h",
+   null
+  ],
+  "heber": [
+   "Héber",
+   "h",
+   null
+  ],
+  "peleg": [
+   "Péleg",
+   "h",
+   null
+  ],
+  "jokthan": [
+   "Jokthan",
+   "h",
+   null
+  ],
+  "rehu": [
+   "Rehu",
+   "h",
+   null
+  ],
+  "serug": [
+   "Serug",
+   "h",
+   null
+  ],
+  "nachor-ancien": [
+   "Nachor (grand-père d'Abraham)",
+   "h",
+   null
+  ],
+  "jisca": [
+   "Jisca",
+   "f",
+   null
+  ],
+  "moab-fils": [
+   "Moab",
+   "h",
+   null
+  ],
+  "ben-ammi": [
+   "Ben-Ammi",
+   "h",
+   null
+  ],
+  "fille-schua": [
+   "La fille de Schua",
+   "f",
+   null
+  ],
+  "er": [
+   "Er",
+   "h",
+   "er-onan"
+  ],
+  "onan": [
+   "Onan",
+   "h",
+   "er-onan"
+  ],
+  "schela": [
+   "Schéla",
+   "h",
+   null
+  ],
+  "guerschon": [
+   "Guerschon",
+   "h",
+   "kehath-guerschon-merari"
+  ],
+  "kehath": [
+   "Kehath",
+   "h",
+   "kehath-guerschon-merari"
+  ],
+  "merari": [
+   "Merari",
+   "h",
+   "kehath-guerschon-merari"
+  ],
+  "jitsehar": [
+   "Jitsehar",
+   "h",
+   null
+  ],
+  "hebron-fils": [
+   "Hébron (fils de Kehath)",
+   "h",
+   null
+  ],
+  "uziel": [
+   "Uziel",
+   "h",
+   null
+  ],
+  "elischeba": [
+   "Élischéba",
+   "f",
+   null
+  ],
+  "nadab": [
+   "Nadab",
+   "h",
+   "nadab-abihu"
+  ],
+  "abihu": [
+   "Abihu",
+   "h",
+   "nadab-abihu"
+  ],
+  "guerschom-moise": [
+   "Guerschom",
+   "h",
+   "guerschom"
+  ],
+  "eliezer-moise": [
+   "Éliézer (fils de Moïse)",
+   "h",
+   "guerschom"
+  ],
+  "hetsron": [
+   "Hetsron",
+   "h",
+   null
+  ],
+  "ram": [
+   "Ram",
+   "h",
+   null
+  ],
+  "amminadab": [
+   "Amminadab",
+   "h",
+   null
+  ],
+  "salmon": [
+   "Salmon",
+   "h",
+   null
+  ],
+  "zabdi": [
+   "Zabdi",
+   "h",
+   null
+  ],
+  "carmi": [
+   "Carmi",
+   "h",
+   null
+  ],
+  "abinadab-isai": [
+   "Abinadab (frère de David)",
+   "h",
+   null
+  ],
+  "schimea": [
+   "Schimea",
+   "h",
+   null
+  ],
+  "nethaneel": [
+   "Nethaneel",
+   "h",
+   null
+  ],
+  "raddai": [
+   "Raddaï",
+   "h",
+   null
+  ],
+  "otsem": [
+   "Otsem",
+   "h",
+   null
+  ],
+  "abigail-soeur": [
+   "Abigaïl (sœur de David)",
+   "f",
+   null
+  ],
+  "kileab": [
+   "Kileab",
+   "h",
+   null
+  ],
+  "maaca-david": [
+   "Maaca",
+   "f",
+   null
+  ],
+  "haggith": [
+   "Haggith",
+   "f",
+   null
+  ],
+  "nathan-fils-david": [
+   "Nathan (fils de David)",
+   "h",
+   null
+  ],
+  "naama-ammonite": [
+   "Naama l'Ammonite",
+   "f",
+   null
+  ],
+  "schealthiel": [
+   "Schealthiel (Salathiel)",
+   "h",
+   null
+  ],
+  "hophni": [
+   "Hophni",
+   "h",
+   "hophni-phinees"
+  ],
+  "phinees-eli": [
+   "Phinées (fils d'Éli)",
+   "h",
+   "hophni-phinees"
+  ],
+  "joel-samuel": [
+   "Joël (fils de Samuel)",
+   "h",
+   null
+  ],
+  "abija-samuel": [
+   "Abija (fils de Samuel)",
+   "h",
+   null
+  ],
+  "machlon": [
+   "Machlon",
+   "h",
+   "machlon-kiljon"
+  ],
+  "kiljon": [
+   "Kiljon",
+   "h",
+   "machlon-kiljon"
+  ],
+  "achinoam-saul": [
+   "Achinoam (femme de Saül)",
+   "f",
+   null
+  ],
+  "schear-jaschub": [
+   "Schear-Jaschub",
+   "h",
+   "enfants-esaie"
+  ],
+  "maher-schalal": [
+   "Maher-Schalal-Chasch-Baz",
+   "h",
+   "enfants-esaie"
+  ],
+  "joses": [
+   "Joseph (Joses), frère de Jésus",
+   "h",
+   null
+  ],
+  "simon-frere": [
+   "Simon, frère de Jésus",
+   "h",
+   null
+  ],
+  "soeurs-jesus": [
+   "Ses sœurs",
+   "f",
+   null
+  ],
+  "lois": [
+   "Loïs",
+   "f",
+   "lois-eunice"
+  ],
+  "eunice": [
+   "Eunice",
+   "f",
+   "lois-eunice"
+  ],
+  "herode-grand": [
+   "Hérode le Grand",
+   "h",
+   "herode"
+  ],
+  "herode-antipas": [
+   "Hérode Antipas",
+   "h",
+   "herode"
+  ],
+  "philippe-tetrarque": [
+   "Philippe le tétrarque",
+   "h",
+   "herode"
+  ],
+  "herode-philippe": [
+   "Philippe (premier mari d'Hérodias)",
+   "h",
+   "herode"
+  ],
+  "aristobule": [
+   "Aristobule",
+   "h",
+   null
+  ],
+  "herode-agrippa": [
+   "Hérode Agrippa Ier",
+   "h",
+   "herode"
+  ],
+  "salome-herodias": [
+   "La fille d'Hérodias (Salomé)",
+   "f",
+   null
+  ]
+ },
+ "noms": {
+  "miriam": "Miriam",
+  "booz": "Booz",
+  "nachor": "Nachor (frère d'Abraham)",
+  "lemec-cain": "Lémec (fils de Metuschaël)",
+  "lemec-noe": "Lémec (père de Noé)",
+  "joseph-at": "Joseph",
+  "joseph-nt": "Joseph",
+  "marie": "Marie",
+  "juda-fils": "Juda",
+  "levi-fils": "Lévi",
+  "simeon-fils": "Siméon",
+  "dan-fils": "Dan",
+  "gad-fils": "Gad",
+  "manasse-fils": "Manassé",
+  "ephraim-fils": "Éphraïm",
+  "agrippa": "Agrippa II",
+  "jacques-frere": "Jacques, frère de Jésus",
+  "jude-frere": "Jude, frère de Jésus",
+  "kore": "Koré"
+ },
+ "scinder": {
+  "nadab-abihu": [
+   "nadab",
+   "abihu"
+  ],
+  "kehath-guerschon-merari": [
+   "guerschon",
+   "kehath",
+   "merari"
+  ],
+  "guerschom": [
+   "guerschom-moise",
+   "eliezer-moise"
+  ],
+  "hophni-phinees": [
+   "hophni",
+   "phinees-eli"
+  ],
+  "machlon-kiljon": [
+   "machlon",
+   "kiljon"
+  ],
+  "er-onan": [
+   "er",
+   "onan"
+  ],
+  "jubal-tubal-cain": [
+   "jabal",
+   "jubal",
+   "tubal-cain"
+  ],
+  "enfants-esaie": [
+   "schear-jaschub",
+   "maher-schalal"
+  ],
+  "lois-eunice": [
+   "lois",
+   "eunice"
+  ]
+ },
+ "liens": [
+  [
+   "adam",
+   "cain",
+   "Genèse 4:25"
+  ],
+  [
+   "adam",
+   "abel",
+   "Genèse 4:25"
+  ],
+  [
+   "adam",
+   "seth",
+   "Genèse 4:25"
+  ],
+  [
+   "eve",
+   "cain",
+   "Genèse 4:25"
+  ],
+  [
+   "eve",
+   "abel",
+   "Genèse 4:25"
+  ],
+  [
+   "eve",
+   "seth",
+   "Genèse 4:25"
+  ],
+  [
+   "cain",
+   "henoc-cain",
+   "Genèse 4:17"
+  ],
+  [
+   "henoc-cain",
+   "irad",
+   "Genèse 4:18"
+  ],
+  [
+   "irad",
+   "mehujael",
+   "Genèse 4:18"
+  ],
+  [
+   "mehujael",
+   "metuschael",
+   "Genèse 4:18"
+  ],
+  [
+   "metuschael",
+   "lemec-cain",
+   "Genèse 4:18"
+  ],
+  [
+   "lemec-cain",
+   "jabal",
+   "Genèse 4:20-22"
+  ],
+  [
+   "lemec-cain",
+   "jubal",
+   "Genèse 4:20-22"
+  ],
+  [
+   "lemec-cain",
+   "tubal-cain",
+   "Genèse 4:20-22"
+  ],
+  [
+   "lemec-cain",
+   "naama-lemec",
+   "Genèse 4:20-22"
+  ],
+  [
+   "ada-lemec",
+   "jabal",
+   "Genèse 4:20-21"
+  ],
+  [
+   "ada-lemec",
+   "jubal",
+   "Genèse 4:20-21"
+  ],
+  [
+   "tsilla",
+   "tubal-cain",
+   "Genèse 4:22"
+  ],
+  [
+   "tsilla",
+   "naama-lemec",
+   "Genèse 4:22"
+  ],
+  [
+   "seth",
+   "enosch",
+   "Genèse 5:6"
+  ],
+  [
+   "enosch",
+   "kenan",
+   "Genèse 5:9"
+  ],
+  [
+   "kenan",
+   "mahalaleel",
+   "Genèse 5:12"
+  ],
+  [
+   "mahalaleel",
+   "jered",
+   "Genèse 5:15"
+  ],
+  [
+   "jered",
+   "henoc",
+   "Genèse 5:18"
+  ],
+  [
+   "henoc",
+   "metuschelah",
+   "Genèse 5:21"
+  ],
+  [
+   "metuschelah",
+   "lemec-noe",
+   "Genèse 5:25"
+  ],
+  [
+   "lemec-noe",
+   "noe",
+   "Genèse 5:28-29"
+  ],
+  [
+   "noe",
+   "sem",
+   "Genèse 5:32"
+  ],
+  [
+   "noe",
+   "cham",
+   "Genèse 5:32"
+  ],
+  [
+   "noe",
+   "japhet",
+   "Genèse 5:32"
+  ],
+  [
+   "cham",
+   "cusch",
+   "Genèse 10:6"
+  ],
+  [
+   "cham",
+   "mitsraim",
+   "Genèse 10:6"
+  ],
+  [
+   "cham",
+   "puth",
+   "Genèse 10:6"
+  ],
+  [
+   "cham",
+   "canaan-fils",
+   "Genèse 10:6"
+  ],
+  [
+   "cusch",
+   "nimrod",
+   "Genèse 10:8"
+  ],
+  [
+   "sem",
+   "elam-sem",
+   "Genèse 10:22"
+  ],
+  [
+   "sem",
+   "assur-sem",
+   "Genèse 10:22"
+  ],
+  [
+   "sem",
+   "arpacschad",
+   "Genèse 10:22"
+  ],
+  [
+   "sem",
+   "lud",
+   "Genèse 10:22"
+  ],
+  [
+   "sem",
+   "aram-sem",
+   "Genèse 10:22"
+  ],
+  [
+   "arpacschad",
+   "schelach",
+   "Genèse 11:12"
+  ],
+  [
+   "schelach",
+   "heber",
+   "Genèse 11:14"
+  ],
+  [
+   "heber",
+   "peleg",
+   "Genèse 10:25"
+  ],
+  [
+   "heber",
+   "jokthan",
+   "Genèse 10:25"
+  ],
+  [
+   "peleg",
+   "rehu",
+   "Genèse 11:18"
+  ],
+  [
+   "rehu",
+   "serug",
+   "Genèse 11:20"
+  ],
+  [
+   "serug",
+   "nachor-ancien",
+   "Genèse 11:22"
+  ],
+  [
+   "nachor-ancien",
+   "terach",
+   "Genèse 11:24"
+  ],
+  [
+   "terach",
+   "abraham",
+   "Genèse 11:26"
+  ],
+  [
+   "terach",
+   "nachor",
+   "Genèse 11:26"
+  ],
+  [
+   "terach",
+   "haran",
+   "Genèse 11:26"
+  ],
+  [
+   "haran",
+   "lot",
+   "Genèse 11:27-29"
+  ],
+  [
+   "haran",
+   "milca",
+   "Genèse 11:27-29"
+  ],
+  [
+   "haran",
+   "jisca",
+   "Genèse 11:27-29"
+  ],
+  [
+   "lot",
+   "moab-fils",
+   "Genèse 19:37-38"
+  ],
+  [
+   "lot",
+   "ben-ammi",
+   "Genèse 19:37-38"
+  ],
+  [
+   "milca",
+   "bethuel",
+   "Genèse 22:20-22"
+  ],
+  [
+   "bethuel",
+   "rebecca",
+   "Genèse 24:29"
+  ],
+  [
+   "bethuel",
+   "laban",
+   "Genèse 24:29"
+  ],
+  [
+   "lea",
+   "ruben",
+   "Genèse 29:32-35"
+  ],
+  [
+   "lea",
+   "simeon-fils",
+   "Genèse 29:32-35"
+  ],
+  [
+   "lea",
+   "levi-fils",
+   "Genèse 29:32-35"
+  ],
+  [
+   "lea",
+   "juda-fils",
+   "Genèse 29:32-35"
+  ],
+  [
+   "lea",
+   "issacar",
+   "Genèse 29:32-35"
+  ],
+  [
+   "lea",
+   "zabulon",
+   "Genèse 29:32-35"
+  ],
+  [
+   "lea",
+   "dina",
+   "Genèse 29:32-35"
+  ],
+  [
+   "bilha",
+   "dan-fils",
+   "Genèse 30:5-8"
+  ],
+  [
+   "bilha",
+   "nephthali",
+   "Genèse 30:5-8"
+  ],
+  [
+   "zilpa",
+   "gad-fils",
+   "Genèse 30:10-13"
+  ],
+  [
+   "zilpa",
+   "aser",
+   "Genèse 30:10-13"
+  ],
+  [
+   "rachel",
+   "joseph-at",
+   "Genèse 30:24"
+  ],
+  [
+   "rachel",
+   "benjamin",
+   "Genèse 30:24"
+  ],
+  [
+   "fille-schua",
+   "er",
+   "Genèse 38:3-5"
+  ],
+  [
+   "fille-schua",
+   "onan",
+   "Genèse 38:3-5"
+  ],
+  [
+   "fille-schua",
+   "schela",
+   "Genèse 38:3-5"
+  ],
+  [
+   "juda-fils",
+   "schela",
+   "Genèse 38:5"
+  ],
+  [
+   "levi-fils",
+   "jokebed",
+   "Nombres 26:59"
+  ],
+  [
+   "kehath",
+   "amram",
+   "Exode 6:18"
+  ],
+  [
+   "kehath",
+   "jitsehar",
+   "Exode 6:18"
+  ],
+  [
+   "kehath",
+   "hebron-fils",
+   "Exode 6:18"
+  ],
+  [
+   "kehath",
+   "uziel",
+   "Exode 6:18"
+  ],
+  [
+   "jitsehar",
+   "kore",
+   "Exode 6:21"
+  ],
+  [
+   "elischeba",
+   "nadab",
+   "Exode 6:23"
+  ],
+  [
+   "elischeba",
+   "abihu",
+   "Exode 6:23"
+  ],
+  [
+   "elischeba",
+   "eleazar",
+   "Exode 6:23"
+  ],
+  [
+   "elischeba",
+   "ithamar",
+   "Exode 6:23"
+  ],
+  [
+   "moise",
+   "guerschom-moise",
+   "Exode 18:3-4"
+  ],
+  [
+   "moise",
+   "eliezer-moise",
+   "Exode 18:3-4"
+  ],
+  [
+   "sephora",
+   "guerschom-moise",
+   "Exode 18:3-4"
+  ],
+  [
+   "sephora",
+   "eliezer-moise",
+   "Exode 18:3-4"
+  ],
+  [
+   "perets",
+   "hetsron",
+   "Ruth 4:18"
+  ],
+  [
+   "hetsron",
+   "ram",
+   "Ruth 4:19"
+  ],
+  [
+   "ram",
+   "amminadab",
+   "Ruth 4:19"
+  ],
+  [
+   "amminadab",
+   "nachschon",
+   "Exode 6:23"
+  ],
+  [
+   "amminadab",
+   "elischeba",
+   "Exode 6:23"
+  ],
+  [
+   "nachschon",
+   "salmon",
+   "Ruth 4:20"
+  ],
+  [
+   "salmon",
+   "booz",
+   "Ruth 4:21"
+  ],
+  [
+   "zerach",
+   "zabdi",
+   "Josué 7:1"
+  ],
+  [
+   "zabdi",
+   "carmi",
+   "Josué 7:1"
+  ],
+  [
+   "carmi",
+   "acan",
+   "Josué 7:1"
+  ],
+  [
+   "isai",
+   "eliab",
+   "1 Chroniques 2:13-16"
+  ],
+  [
+   "isai",
+   "abinadab-isai",
+   "1 Chroniques 2:13-16"
+  ],
+  [
+   "isai",
+   "schimea",
+   "1 Chroniques 2:13-16"
+  ],
+  [
+   "isai",
+   "nethaneel",
+   "1 Chroniques 2:13-16"
+  ],
+  [
+   "isai",
+   "raddai",
+   "1 Chroniques 2:13-16"
+  ],
+  [
+   "isai",
+   "otsem",
+   "1 Chroniques 2:13-16"
+  ],
+  [
+   "isai",
+   "david",
+   "1 Chroniques 2:13-16"
+  ],
+  [
+   "isai",
+   "tseruja",
+   "1 Chroniques 2:13-16"
+  ],
+  [
+   "isai",
+   "abigail-soeur",
+   "1 Chroniques 2:13-16"
+  ],
+  [
+   "abigail-soeur",
+   "amasa",
+   "1 Chroniques 2:17"
+  ],
+  [
+   "david",
+   "kileab",
+   "2 Samuel 3:3"
+  ],
+  [
+   "abigail",
+   "kileab",
+   "2 Samuel 3:3"
+  ],
+  [
+   "david",
+   "absalom",
+   "2 Samuel 13:1"
+  ],
+  [
+   "david",
+   "tamar-david",
+   "2 Samuel 13:1"
+  ],
+  [
+   "maaca-david",
+   "absalom",
+   "2 Samuel 3:3"
+  ],
+  [
+   "maaca-david",
+   "tamar-david",
+   "2 Samuel 3:3"
+  ],
+  [
+   "haggith",
+   "adonija",
+   "2 Samuel 3:4"
+  ],
+  [
+   "david",
+   "nathan-fils-david",
+   "1 Chroniques 3:5"
+  ],
+  [
+   "bath-scheba",
+   "nathan-fils-david",
+   "1 Chroniques 3:5"
+  ],
+  [
+   "naama-ammonite",
+   "roboam",
+   "1 Rois 14:21"
+  ],
+  [
+   "joram-juda",
+   "jehoscheba",
+   "2 Rois 11:2"
+  ],
+  [
+   "achazia-juda",
+   "joas",
+   "2 Rois 11:2"
+  ],
+  [
+   "josias",
+   "sedecias",
+   "1 Chroniques 3:15"
+  ],
+  [
+   "jojakin",
+   "schealthiel",
+   "Matthieu 1:12"
+  ],
+  [
+   "schealthiel",
+   "zorobabel",
+   "Esdras 3:2",
+   "1 Chroniques 3:19 nomme Pedaja comme père de Zorobabel ; Esdras, Aggée et Matthieu le disent fils de Schealthiel."
+  ],
+  [
+   "eli-pretre",
+   "hophni",
+   "1 Samuel 1:3"
+  ],
+  [
+   "eli-pretre",
+   "phinees-eli",
+   "1 Samuel 1:3"
+  ],
+  [
+   "phinees-eli",
+   "ikabod",
+   "1 Samuel 4:21"
+  ],
+  [
+   "samuel",
+   "joel-samuel",
+   "1 Samuel 8:2"
+  ],
+  [
+   "samuel",
+   "abija-samuel",
+   "1 Samuel 8:2"
+  ],
+  [
+   "esaie",
+   "schear-jaschub",
+   "Ésaïe 7:3"
+  ],
+  [
+   "esaie",
+   "maher-schalal",
+   "Ésaïe 8:3"
+  ],
+  [
+   "joseph-nt",
+   "jesus",
+   "Luc 3:23",
+   "Père adoptif : Jésus est conçu du Saint-Esprit (Matthieu 1:20) ; il était fils de Joseph « comme on le croyait » (Luc 3:23)."
+  ],
+  [
+   "joseph-nt",
+   "jacques-frere",
+   "Matthieu 13:55-56"
+  ],
+  [
+   "joseph-nt",
+   "joses",
+   "Matthieu 13:55-56"
+  ],
+  [
+   "joseph-nt",
+   "simon-frere",
+   "Matthieu 13:55-56"
+  ],
+  [
+   "joseph-nt",
+   "jude-frere",
+   "Matthieu 13:55-56"
+  ],
+  [
+   "joseph-nt",
+   "soeurs-jesus",
+   "Matthieu 13:55-56"
+  ],
+  [
+   "marie",
+   "jude-frere",
+   "Matthieu 13:55-56"
+  ],
+  [
+   "marie",
+   "joses",
+   "Matthieu 13:55-56"
+  ],
+  [
+   "marie",
+   "simon-frere",
+   "Matthieu 13:55-56"
+  ],
+  [
+   "marie",
+   "soeurs-jesus",
+   "Matthieu 13:55-56"
+  ],
+  [
+   "lois",
+   "eunice",
+   "2 Timothée 1:5"
+  ],
+  [
+   "eunice",
+   "timothee",
+   "2 Timothée 1:5"
+  ],
+  [
+   "herode-grand",
+   "archelaus",
+   "Matthieu 2:22"
+  ],
+  [
+   "herode-grand",
+   "herode-antipas",
+   "Luc 3:1",
+   "Fils d'Hérode le Grand : la Bible les présente comme frères (Luc 3:1 ; Marc 6:17), l'historien Flavius Josèphe précise leur filiation."
+  ],
+  [
+   "herode-grand",
+   "philippe-tetrarque",
+   "Luc 3:1",
+   "Fils d'Hérode le Grand : la Bible les présente comme frères (Luc 3:1 ; Marc 6:17), l'historien Flavius Josèphe précise leur filiation."
+  ],
+  [
+   "herode-grand",
+   "herode-philippe",
+   "Luc 3:1",
+   "Fils d'Hérode le Grand : la Bible les présente comme frères (Luc 3:1 ; Marc 6:17), l'historien Flavius Josèphe précise leur filiation."
+  ],
+  [
+   "herode-grand",
+   "aristobule",
+   "Matthieu 2:1",
+   "Lien donné par l'historien Flavius Josèphe (Antiquités juives)."
+  ],
+  [
+   "aristobule",
+   "herode-agrippa",
+   "Actes 12:1",
+   "Lien donné par l'historien Flavius Josèphe (Antiquités juives)."
+  ],
+  [
+   "aristobule",
+   "herodias",
+   "Actes 12:1",
+   "Lien donné par l'historien Flavius Josèphe (Antiquités juives)."
+  ],
+  [
+   "herode-agrippa",
+   "agrippa",
+   "Actes 25:13",
+   "Lien donné par l'historien Flavius Josèphe ; la Bible présente Agrippa et Bérénice ensemble (Actes 25:13)."
+  ],
+  [
+   "herode-agrippa",
+   "berenice",
+   "Actes 25:13",
+   "Lien donné par l'historien Flavius Josèphe ; la Bible présente Agrippa et Bérénice ensemble (Actes 25:13)."
+  ],
+  [
+   "herode-agrippa",
+   "drusille",
+   "Actes 25:13",
+   "Lien donné par l'historien Flavius Josèphe ; la Bible présente Agrippa et Bérénice ensemble (Actes 25:13)."
+  ],
+  [
+   "herodias",
+   "salome-herodias",
+   "Marc 6:22"
+  ],
+  [
+   "herode-philippe",
+   "salome-herodias",
+   "Marc 6:22",
+   "Son nom, Salomé, est donné par Flavius Josèphe."
+  ]
+ ],
+ "couples": [
+  [
+   "lemec-cain",
+   "ada-lemec",
+   "Genèse 4:19"
+  ],
+  [
+   "lemec-cain",
+   "tsilla",
+   "Genèse 4:19"
+  ],
+  [
+   "jacob",
+   "bilha",
+   "Genèse 30:4"
+  ],
+  [
+   "jacob",
+   "zilpa",
+   "Genèse 30:9"
+  ],
+  [
+   "abraham",
+   "agar",
+   "Genèse 16:3"
+  ],
+  [
+   "juda-fils",
+   "fille-schua",
+   "Genèse 38:2"
+  ],
+  [
+   "er",
+   "tamar-juda",
+   "Genèse 38:6"
+  ],
+  [
+   "aaron",
+   "elischeba",
+   "Exode 6:23"
+  ],
+  [
+   "salmon",
+   "rahab",
+   "Matthieu 1:5"
+  ],
+  [
+   "david",
+   "maaca-david",
+   "2 Samuel 3:3"
+  ],
+  [
+   "david",
+   "haggith",
+   "2 Samuel 3:4"
+  ],
+  [
+   "salomon",
+   "naama-ammonite",
+   "1 Rois 14:21"
+  ],
+  [
+   "saul-roi",
+   "achinoam-saul",
+   "1 Samuel 14:50"
+  ],
+  [
+   "herode-philippe",
+   "herodias",
+   "Marc 6:17"
+  ],
+  [
+   "herode-antipas",
+   "herodias",
+   "Marc 6:17"
+  ]
+ ],
+ "adoptifs": [
+  [
+   "joseph-nt",
+   "jesus"
+  ]
+ ],
+ "retirerCouples": [
+  [
+   "herode",
+   "herodias"
+  ]
+ ],
+ "retirerLiens": [
+  [
+   "hophni-phinees",
+   "ikabod"
+  ],
+  [
+   "jezabel",
+   "athalie"
+  ]
+ ],
+ "ordre": {
+  "jacob": [
+   "ruben",
+   "simeon-fils",
+   "levi-fils",
+   "juda-fils",
+   "dan-fils",
+   "nephthali",
+   "gad-fils",
+   "aser",
+   "issacar",
+   "zabulon",
+   "dina",
+   "joseph-at",
+   "benjamin"
+  ],
+  "juda-fils": [
+   "er",
+   "onan",
+   "schela",
+   "perets",
+   "zerach"
+  ],
+  "david": [
+   "amnon",
+   "kileab",
+   "absalom",
+   "tamar-david",
+   "adonija",
+   "nathan-fils-david",
+   "salomon"
+  ],
+  "joseph-at": [
+   "manasse-fils",
+   "ephraim-fils"
+  ],
+  "isaac": [
+   "esau",
+   "jacob"
+  ],
+  "abraham": [
+   "ismael",
+   "isaac"
+  ],
+  "amram": [
+   "miriam",
+   "aaron",
+   "moise"
+  ],
+  "jokebed": [
+   "miriam",
+   "aaron",
+   "moise"
+  ],
+  "levi-fils": [
+   "guerschon",
+   "kehath",
+   "merari",
+   "jokebed"
+  ],
+  "josias": [
+   "joachaz-juda",
+   "jojakim",
+   "sedecias"
+  ],
+  "joseph-nt": [
+   "jesus",
+   "jacques-frere",
+   "joses",
+   "simon-frere",
+   "jude-frere",
+   "soeurs-jesus"
+  ],
+  "isai": [
+   "eliab",
+   "abinadab-isai",
+   "schimea",
+   "nethaneel",
+   "raddai",
+   "otsem",
+   "david",
+   "tseruja",
+   "abigail-soeur"
+  ],
+  "tseruja": [
+   "abischai",
+   "joab",
+   "asael"
+  ],
+  "noe": [
+   "sem",
+   "cham",
+   "japhet"
+  ],
+  "adam": [
+   "cain",
+   "abel",
+   "seth"
+  ],
+  "terach": [
+   "abraham",
+   "nachor",
+   "haran"
+  ],
+  "bethuel": [
+   "rebecca",
+   "laban"
+  ],
+  "laban": [
+   "lea",
+   "rachel"
+  ],
+  "saul-roi": [
+   "jonathan",
+   "isch-boscheth",
+   "merab",
+   "mical"
+  ],
+  "aaron": [
+   "nadab",
+   "abihu",
+   "eleazar",
+   "ithamar"
+  ],
+  "herode-grand": [
+   "archelaus",
+   "herode-antipas",
+   "philippe-tetrarque",
+   "herode-philippe",
+   "aristobule"
+  ],
+  "herode-agrippa": [
+   "agrippa",
+   "berenice",
+   "drusille"
+  ],
+  "achab": [
+   "achazia-israel",
+   "joram-israel",
+   "athalie"
+  ],
+  "joram-juda": [
+   "achazia-juda",
+   "jehoscheba"
+  ]
+ },
+ "arbres": [
+  {
+   "id": "adam-noe",
+   "titre": "D'Adam à Noé",
+   "ref": "Genèse 4:1",
+   "desc": "Les dix générations d'Adam à Noé, et la lignée de Caïn.",
+   "racine": "adam",
+   "noeuds": [
+    "adam",
+    "cain",
+    "abel",
+    "seth",
+    "henoc-cain",
+    "irad",
+    "mehujael",
+    "metuschael",
+    "lemec-cain",
+    "jabal",
+    "jubal",
+    "tubal-cain",
+    "naama-lemec",
+    "enosch",
+    "kenan",
+    "mahalaleel",
+    "jered",
+    "henoc",
+    "metuschelah",
+    "lemec-noe",
+    "noe",
+    "sem",
+    "cham",
+    "japhet"
+   ]
+  },
+  {
+   "id": "noe-abraham",
+   "titre": "De Noé à Abraham",
+   "ref": "Genèse 10:1",
+   "desc": "La table des peuples (lignées principales) et la descendance de Sem jusqu'à Térach.",
+   "racine": "noe",
+   "noeuds": [
+    "noe",
+    "sem",
+    "cham",
+    "japhet",
+    "cusch",
+    "mitsraim",
+    "puth",
+    "canaan-fils",
+    "nimrod",
+    "elam-sem",
+    "assur-sem",
+    "arpacschad",
+    "lud",
+    "aram-sem",
+    "schelach",
+    "heber",
+    "peleg",
+    "jokthan",
+    "rehu",
+    "serug",
+    "nachor-ancien",
+    "terach",
+    "abraham",
+    "nachor",
+    "haran"
+   ]
+  },
+  {
+   "id": "abraham",
+   "titre": "La famille d'Abraham",
+   "ref": "Genèse 11:26",
+   "desc": "Térach et ses fils : Abraham, Nachor et Haran — d'où viennent Isaac, Rebecca, Léa, Rachel, Lot et ses fils.",
+   "racine": "terach",
+   "noeuds": [
+    "terach",
+    "abraham",
+    "nachor",
+    "haran",
+    "ismael",
+    "isaac",
+    "esau",
+    "jacob",
+    "lot",
+    "milca",
+    "jisca",
+    "moab-fils",
+    "ben-ammi",
+    "bethuel",
+    "rebecca",
+    "laban",
+    "lea",
+    "rachel"
+   ]
+  },
+  {
+   "id": "jacob",
+   "titre": "Jacob et les douze tribus",
+   "ref": "Genèse 29:31",
+   "desc": "Les douze fils de Jacob et leur mère, dans l'ordre de naissance, avec Dina et les fils de Joseph.",
+   "racine": "jacob",
+   "noeuds": [
+    "jacob",
+    "ruben",
+    "simeon-fils",
+    "levi-fils",
+    "juda-fils",
+    "dan-fils",
+    "nephthali",
+    "gad-fils",
+    "aser",
+    "issacar",
+    "zabulon",
+    "dina",
+    "joseph-at",
+    "benjamin",
+    "manasse-fils",
+    "ephraim-fils",
+    "er",
+    "onan",
+    "schela",
+    "perets",
+    "zerach",
+    "guerschon",
+    "kehath",
+    "merari"
+   ]
+  },
+  {
+   "id": "levi",
+   "titre": "Lévi, Moïse et Aaron",
+   "ref": "Exode 6:16",
+   "desc": "La tribu sacerdotale : de Lévi à Moïse, Aaron, Miriam et leurs fils.",
+   "racine": "levi-fils",
+   "noeuds": [
+    "levi-fils",
+    "guerschon",
+    "kehath",
+    "merari",
+    "jokebed",
+    "amram",
+    "jitsehar",
+    "hebron-fils",
+    "uziel",
+    "kore",
+    "miriam",
+    "aaron",
+    "moise",
+    "nadab",
+    "abihu",
+    "eleazar",
+    "ithamar",
+    "phinees",
+    "guerschom-moise",
+    "eliezer-moise"
+   ]
+  },
+  {
+   "id": "juda-david",
+   "titre": "De Juda à David",
+   "ref": "Ruth 4:18",
+   "desc": "La lignée royale : Juda, Pérets, Booz et Ruth, Isaï et ses enfants.",
+   "racine": "juda-fils",
+   "noeuds": [
+    "juda-fils",
+    "er",
+    "onan",
+    "schela",
+    "perets",
+    "zerach",
+    "zabdi",
+    "carmi",
+    "acan",
+    "hetsron",
+    "ram",
+    "amminadab",
+    "nachschon",
+    "elischeba",
+    "salmon",
+    "booz",
+    "obed",
+    "isai",
+    "eliab",
+    "abinadab-isai",
+    "schimea",
+    "nethaneel",
+    "raddai",
+    "otsem",
+    "david",
+    "tseruja",
+    "abigail-soeur",
+    "abischai",
+    "joab",
+    "asael",
+    "amasa"
+   ]
+  },
+  {
+   "id": "david",
+   "titre": "La maison de David",
+   "ref": "2 Samuel 3:2",
+   "desc": "Les femmes et les fils de David : Amnon, Absalom, Adonija, Salomon, Nathan…",
+   "racine": "david",
+   "noeuds": [
+    "david",
+    "amnon",
+    "kileab",
+    "absalom",
+    "tamar-david",
+    "adonija",
+    "nathan-fils-david",
+    "salomon",
+    "roboam"
+   ]
+  },
+  {
+   "id": "rois-juda",
+   "titre": "Les rois de Juda",
+   "ref": "1 Rois 11:43",
+   "desc": "De Salomon à Sédécias, puis Zorobabel : la dynastie de David, de père en fils.",
+   "racine": "salomon",
+   "noeuds": [
+    "salomon",
+    "roboam",
+    "abijam",
+    "asa",
+    "josaphat",
+    "joram-juda",
+    "achazia-juda",
+    "jehoscheba",
+    "joas",
+    "amatsia",
+    "ozias",
+    "jotham-roi",
+    "achaz",
+    "ezechias",
+    "manasse-roi",
+    "amon-roi",
+    "josias",
+    "joachaz-juda",
+    "jojakim",
+    "sedecias",
+    "jojakin",
+    "schealthiel",
+    "zorobabel"
+   ]
+  },
+  {
+   "id": "omri",
+   "titre": "La maison d'Omri",
+   "ref": "1 Rois 16:23",
+   "desc": "Omri, Achab et Jézabel, et leur fille Athalie qui régna sur Juda.",
+   "racine": "omri",
+   "noeuds": [
+    "omri",
+    "achab",
+    "achazia-israel",
+    "joram-israel",
+    "athalie",
+    "achazia-juda"
+   ]
+  },
+  {
+   "id": "jehu",
+   "titre": "La dynastie de Jéhu",
+   "ref": "2 Rois 10:30",
+   "desc": "Quatre générations sur le trône d'Israël, comme Dieu l'avait promis à Jéhu.",
+   "racine": "jehu",
+   "noeuds": [
+    "jehu",
+    "joachaz-israel",
+    "joas-israel",
+    "jeroboam-ii",
+    "zacharie-roi"
+   ]
+  },
+  {
+   "id": "saul",
+   "titre": "La famille de Saül",
+   "ref": "1 Samuel 14:49",
+   "desc": "Le premier roi d'Israël, ses enfants et son petit-fils Mephiboscheth.",
+   "racine": "kis",
+   "noeuds": [
+    "kis",
+    "saul-roi",
+    "jonathan",
+    "isch-boscheth",
+    "merab",
+    "mical",
+    "mephiboscheth"
+   ]
+  },
+  {
+   "id": "jesus",
+   "titre": "La famille de Jésus",
+   "ref": "Matthieu 13:55",
+   "desc": "Joseph et Marie, Jésus et ses frères et sœurs nommés dans les Évangiles.",
+   "note": "Les protestants lisent ces frères et sœurs comme des enfants de Marie et Joseph nés après Jésus ; d'autres traditions y voient des cousins ou des demi-frères.",
+   "racine": "joseph-nt",
+   "noeuds": [
+    "joseph-nt",
+    "jesus",
+    "jacques-frere",
+    "joses",
+    "simon-frere",
+    "jude-frere",
+    "soeurs-jesus"
+   ]
+  },
+  {
+   "id": "herode",
+   "titre": "La dynastie des Hérode",
+   "ref": "Matthieu 2:1",
+   "desc": "Hérode le Grand et ses descendants, du massacre de Bethléhem au procès de Paul.",
+   "note": "La Bible nomme ces rois sans toujours préciser leur parenté ; les liens qui manquent viennent de l'historien juif Flavius Josèphe (Ier siècle).",
+   "racine": "herode-grand",
+   "noeuds": [
+    "herode-grand",
+    "archelaus",
+    "herode-antipas",
+    "philippe-tetrarque",
+    "herode-philippe",
+    "aristobule",
+    "herode-agrippa",
+    "herodias",
+    "salome-herodias",
+    "agrippa",
+    "berenice",
+    "drusille"
+   ]
+  },
+  {
+   "id": "matthieu",
+   "type": "lignee",
+   "titre": "Jésus selon Matthieu",
+   "ref": "Matthieu 1:1",
+   "desc": "D'Abraham à Jésus, par Salomon et les rois de Juda : Matthieu montre en Jésus l'héritier des promesses faites à Abraham et à David.",
+   "note": "Matthieu groupe la liste en trois fois quatorze générations (Matthieu 1:17) et saute quelques rois : « engendrer » peut signifier « être l'ancêtre de ». Il nomme aussi quatre femmes avant Marie — Thamar, Rahab, Ruth et « la femme d'Urie » —, dont plusieurs étrangères.",
+   "sections": [
+    {
+     "titre": "D'Abraham à David",
+     "noms": [
+      {
+       "n": "Abraham",
+       "id": "abraham"
+      },
+      {
+       "n": "Isaac",
+       "id": "isaac"
+      },
+      {
+       "n": "Jacob",
+       "id": "jacob"
+      },
+      {
+       "n": "Juda",
+       "id": "juda-fils"
+      },
+      {
+       "n": "Pharès",
+       "id": "perets",
+       "avec": "de Thamar",
+       "avecId": "tamar-juda"
+      },
+      {
+       "n": "Esrom",
+       "id": "hetsron"
+      },
+      {
+       "n": "Aram",
+       "id": "ram"
+      },
+      {
+       "n": "Aminadab",
+       "id": "amminadab"
+      },
+      {
+       "n": "Naasson",
+       "id": "nachschon"
+      },
+      {
+       "n": "Salmon",
+       "id": "salmon"
+      },
+      {
+       "n": "Boaz",
+       "id": "booz",
+       "avec": "de Rahab",
+       "avecId": "rahab"
+      },
+      {
+       "n": "Obed",
+       "id": "obed",
+       "avec": "de Ruth",
+       "avecId": "ruth"
+      },
+      {
+       "n": "Isaï",
+       "id": "isai"
+      },
+      {
+       "n": "David",
+       "id": "david"
+      }
+     ]
+    },
+    {
+     "titre": "De David à la déportation",
+     "noms": [
+      {
+       "n": "Salomon",
+       "id": "salomon",
+       "avec": "de la femme d'Urie",
+       "avecId": "bath-scheba"
+      },
+      {
+       "n": "Roboam",
+       "id": "roboam"
+      },
+      {
+       "n": "Abia",
+       "id": "abijam"
+      },
+      {
+       "n": "Asa",
+       "id": "asa"
+      },
+      {
+       "n": "Josaphat",
+       "id": "josaphat"
+      },
+      {
+       "n": "Joram",
+       "id": "joram-juda"
+      },
+      {
+       "n": "Ozias",
+       "id": "ozias"
+      },
+      {
+       "n": "Joatham",
+       "id": "jotham-roi"
+      },
+      {
+       "n": "Achaz",
+       "id": "achaz"
+      },
+      {
+       "n": "Ézéchias",
+       "id": "ezechias"
+      },
+      {
+       "n": "Manassé",
+       "id": "manasse-roi"
+      },
+      {
+       "n": "Amon",
+       "id": "amon-roi"
+      },
+      {
+       "n": "Josias",
+       "id": "josias"
+      },
+      {
+       "n": "Jéchonias",
+       "id": "jojakin"
+      }
+     ]
+    },
+    {
+     "titre": "De la déportation au Christ",
+     "noms": [
+      {
+       "n": "Salathiel",
+       "id": "schealthiel"
+      },
+      {
+       "n": "Zorobabel",
+       "id": "zorobabel"
+      },
+      {
+       "n": "Abiud"
+      },
+      {
+       "n": "Éliakim"
+      },
+      {
+       "n": "Azor"
+      },
+      {
+       "n": "Sadok"
+      },
+      {
+       "n": "Achim"
+      },
+      {
+       "n": "Éliud"
+      },
+      {
+       "n": "Éléazar"
+      },
+      {
+       "n": "Matthan"
+      },
+      {
+       "n": "Jacob"
+      },
+      {
+       "n": "Joseph",
+       "id": "joseph-nt",
+       "avec": "l'époux de Marie",
+       "avecId": "marie"
+      },
+      {
+       "n": "Jésus",
+       "id": "jesus"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "luc",
+   "type": "lignee",
+   "titre": "Jésus selon Luc",
+   "ref": "Luc 3:23",
+   "desc": "De Jésus jusqu'à Adam, « fils de Dieu » : Luc remonte toute l'histoire humaine pour montrer en Jésus le Sauveur de tous.",
+   "note": "Après David, Luc passe par Nathan et non par Salomon. On l'explique souvent ainsi : Luc suivrait la lignée de Marie, ou Joseph aurait eu un père légal et un père naturel. Quelques noms n'ont pas d'équivalent sûr dans l'Ancien Testament (Kaïnam, par exemple, vient de la version grecque de la Genèse).",
+   "sections": [
+    {
+     "titre": "De Jésus à David",
+     "noms": [
+      {
+       "n": "Jésus",
+       "id": "jesus"
+      },
+      {
+       "n": "Joseph",
+       "id": "joseph-nt"
+      },
+      {
+       "n": "Héli"
+      },
+      {
+       "n": "Matthat"
+      },
+      {
+       "n": "Lévi"
+      },
+      {
+       "n": "Melchi"
+      },
+      {
+       "n": "Jannaï"
+      },
+      {
+       "n": "Joseph"
+      },
+      {
+       "n": "Mattathias"
+      },
+      {
+       "n": "Amos"
+      },
+      {
+       "n": "Nahum"
+      },
+      {
+       "n": "Esli"
+      },
+      {
+       "n": "Naggaï"
+      },
+      {
+       "n": "Maath"
+      },
+      {
+       "n": "Mattathias"
+      },
+      {
+       "n": "Sémeï"
+      },
+      {
+       "n": "Josech"
+      },
+      {
+       "n": "Joda"
+      },
+      {
+       "n": "Joanan"
+      },
+      {
+       "n": "Rhésa"
+      },
+      {
+       "n": "Zorobabel"
+      },
+      {
+       "n": "Salathiel"
+      },
+      {
+       "n": "Néri"
+      },
+      {
+       "n": "Melchi"
+      },
+      {
+       "n": "Addi"
+      },
+      {
+       "n": "Kosam"
+      },
+      {
+       "n": "Elmadam"
+      },
+      {
+       "n": "Er"
+      },
+      {
+       "n": "Jésus"
+      },
+      {
+       "n": "Éliézer"
+      },
+      {
+       "n": "Jorim"
+      },
+      {
+       "n": "Matthat"
+      },
+      {
+       "n": "Lévi"
+      },
+      {
+       "n": "Siméon"
+      },
+      {
+       "n": "Juda"
+      },
+      {
+       "n": "Joseph"
+      },
+      {
+       "n": "Jonam"
+      },
+      {
+       "n": "Éliakim"
+      },
+      {
+       "n": "Méléa"
+      },
+      {
+       "n": "Menna"
+      },
+      {
+       "n": "Mattatha"
+      },
+      {
+       "n": "Nathan",
+       "id": "nathan-fils-david"
+      },
+      {
+       "n": "David",
+       "id": "david"
+      }
+     ]
+    },
+    {
+     "titre": "De David à Abraham",
+     "noms": [
+      {
+       "n": "Isaï",
+       "id": "isai"
+      },
+      {
+       "n": "Jobed",
+       "id": "obed"
+      },
+      {
+       "n": "Booz",
+       "id": "booz"
+      },
+      {
+       "n": "Salmon",
+       "id": "salmon"
+      },
+      {
+       "n": "Naasson",
+       "id": "nachschon"
+      },
+      {
+       "n": "Aminadab",
+       "id": "amminadab"
+      },
+      {
+       "n": "Admin"
+      },
+      {
+       "n": "Arni"
+      },
+      {
+       "n": "Esrom",
+       "id": "hetsron"
+      },
+      {
+       "n": "Pharès",
+       "id": "perets"
+      },
+      {
+       "n": "Juda",
+       "id": "juda-fils"
+      },
+      {
+       "n": "Jacob",
+       "id": "jacob"
+      },
+      {
+       "n": "Isaac",
+       "id": "isaac"
+      },
+      {
+       "n": "Abraham",
+       "id": "abraham"
+      }
+     ]
+    },
+    {
+     "titre": "D'Abraham à Adam",
+     "noms": [
+      {
+       "n": "Thara",
+       "id": "terach"
+      },
+      {
+       "n": "Nachor",
+       "id": "nachor-ancien"
+      },
+      {
+       "n": "Seruch",
+       "id": "serug"
+      },
+      {
+       "n": "Ragau",
+       "id": "rehu"
+      },
+      {
+       "n": "Phalek",
+       "id": "peleg"
+      },
+      {
+       "n": "Éber",
+       "id": "heber"
+      },
+      {
+       "n": "Sala",
+       "id": "schelach"
+      },
+      {
+       "n": "Kaïnam"
+      },
+      {
+       "n": "Arphaxad",
+       "id": "arpacschad"
+      },
+      {
+       "n": "Sem",
+       "id": "sem"
+      },
+      {
+       "n": "Noé",
+       "id": "noe"
+      },
+      {
+       "n": "Lamech",
+       "id": "lemec-noe"
+      },
+      {
+       "n": "Mathusala",
+       "id": "metuschelah"
+      },
+      {
+       "n": "Énoch",
+       "id": "henoc"
+      },
+      {
+       "n": "Jared",
+       "id": "jered"
+      },
+      {
+       "n": "Maléléel",
+       "id": "mahalaleel"
+      },
+      {
+       "n": "Kaïnan",
+       "id": "kenan"
+      },
+      {
+       "n": "Énos",
+       "id": "enosch"
+      },
+      {
+       "n": "Seth",
+       "id": "seth"
+      },
+      {
+       "n": "Adam",
+       "id": "adam"
+      },
+      {
+       "n": "Dieu"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
