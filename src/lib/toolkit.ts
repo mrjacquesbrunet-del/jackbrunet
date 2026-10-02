@@ -31,6 +31,37 @@ export function highlightBg(color: string | undefined): string {
   return HIGHLIGHT_COLORS.find((c) => c.key === color)?.bg?? HIGHLIGHT_COLORS[0].bg;
 }
 
+/* ——— Légende personnelle de la palette de surlignage ———
+ * Chaque couleur porte un sens choisi par le lecteur (« vert = Saint-
+ * Esprit », « rose = paroles de Jésus »…), mémorisé sur l'appareil. */
+const PALETTE_KEY = "jb.bible.palette";
+export const PALETTE_DEFAUTS: Record<string, string> = {
+  lime: "Saint-Esprit",
+  amber: "Promesses",
+  rose: "Paroles de Jésus",
+  sky: "Foi",
+  violet: "Prière",
+};
+
+export function paletteLabels(): Record<string, string> {
+  try {
+    const perso = JSON.parse(localStorage.getItem(PALETTE_KEY) ?? "{}") as Record<string, string>;
+    return { ...PALETTE_DEFAUTS, ...perso };
+  } catch {
+    return { ...PALETTE_DEFAUTS };
+  }
+}
+
+export function setPaletteLabel(key: string, label: string) {
+  try {
+    const perso = JSON.parse(localStorage.getItem(PALETTE_KEY) ?? "{}") as Record<string, string>;
+    perso[key] = label.trim();
+    localStorage.setItem(PALETTE_KEY, JSON.stringify(perso));
+  } catch {
+    /* stockage indisponible */
+  }
+}
+
 /** Texte mémorisé pour un surlignage, afin de le retrouver dans le carnet. */
 export type HlMeta = { text: string; reference?: string; kind?: string; ts?: number };
 

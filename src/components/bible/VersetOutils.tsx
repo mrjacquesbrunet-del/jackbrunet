@@ -8,7 +8,7 @@ import { nettoyerMarquesIA } from "@/lib/texte";
 import { Markable } from "@/components/ui/Markable";
 import { useAuth } from "@/components/community/useAuth";
 import { askAssistant } from "@/lib/assistant";
-import { useToolkit, HIGHLIGHT_COLORS } from "@/lib/toolkit";
+import { useToolkit, HIGHLIGHT_COLORS, paletteLabels, setPaletteLabel } from "@/lib/toolkit";
 import { shareText } from "@/lib/share";
 import { appShareUrl } from "@/config/app-links";
 import { bibleHref } from "@/lib/bible-ref";
@@ -77,6 +77,13 @@ export function VersetOutils({
   }, []);
 
   const idBase = `bible:${bookId}:${chapter}:${verse}`;
+
+  // Légende personnelle de la palette (modifiable, mémorisée sur l'appareil).
+  const [legendes, setLegendes] = useState<Record<string, string>>({});
+  const [editPalette, setEditPalette] = useState(false);
+  useEffect(() => {
+    setLegendes(paletteLabels());
+  }, []);
 
   // ————— Surlignage (mêmes couleurs et même mémoire que sur le verset) —————
   const tk = useToolkit();
@@ -258,40 +265,6 @@ export function VersetOutils({
           </div>
         </div>
 
-        {/* Rangée de surlignage : un tap colore le verset, re-tap retire */}
-        <div className="flex items-center justify-between gap-2 border-b border-white/10 px-5 py-3">
-          {HIGHLIGHT_COLORS.map((c) => {
-            const actif = highlighted && hlColor === c.key;
-            return (
-              <button
-                key={c.key}
-                type="button"
-                aria-label={actif ? "Retirer le surlignage" : `Surligner en ${c.label.toLowerCase()}`}
-                onClick={() =>
-                  actif
-                    ? tk.clearHighlight(idBase)
-                    : tk.highlightWith(idBase, c.key, { text: verseText, reference, kind: "verset" })
-                }
-                className={`h-8 w-8 rounded-lg ${c.swatch} transition-transform active:scale-90 ${
-                  actif ? "ring-2 ring-white ring-offset-2 ring-offset-night-900" : ""
-                }`}
-              />
-            );
-          })}
-          <button
-            type="button"
-            aria-label="Retirer le surlignage"
-            disabled={!highlighted}
-            onClick={() => tk.clearHighlight(idBase)}
-            className="grid h-8 w-8 place-items-center rounded-full border border-white/20 text-cream/60 disabled:opacity-25"
-          >
-            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2}>
-              <circle cx="12" cy="12" r="9" />
-              <path d="M5.5 5.5l13 13" strokeLinecap="round" />
-            </svg>
-          </button>
-        </div>
-
         {/* L'onglet Étudier garde la grille d'outils ronds */}
         {onglet === "etudier" ? (
           <div className="grid grid-cols-6 gap-1 border-b border-white/10 px-3 py-3">
@@ -362,6 +335,87 @@ export function VersetOutils({
         <div className="min-h-[9rem] flex-1 space-y-4 overflow-y-auto px-5 py-4">
           {onglet === "annoter" ? (
             <>
+              {/* Surligner : la palette, avec le sens que TU donnes à chaque couleur */}
+              <div>
+                <div className="flex items-center justify-between">
+                  <p className="text-[11px] font-black uppercase tracking-[0.18em] text-cream/50">Surligner</p>
+                  <button
+                    type="button"
+                    onClick={() => setEditPalette((v) => !v)}
+                    className={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-[11px] font-bold ${
+                      editPalette ? "border-dawn-400 text-dawn-300" : "border-white/15 text-cream/60"
+                    }`}
+                  >
+                    <svg viewBox="0 0 24 24" className="h-3 w-3 fill-none stroke-current" strokeWidth={2}>
+                      <path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19l-4 1z" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    {editPalette ? "Terminer" : "Personnaliser"}
+                  </button>
+                </div>
+                <div className="mt-2.5 flex items-start justify-between gap-1.5">
+                  {HIGHLIGHT_COLORS.map((c) => {
+                    const actif = highlighted && hlColor === c.key;
+                    return (
+                      <button
+                        key={c.key}
+                        type="button"
+                        aria-label={actif ? "Retirer le surlignage" : `Surligner — ${legendes[c.key] ?? c.label}`}
+                        onClick={() =>
+                          actif
+                            ? tk.clearHighlight(idBase)
+                            : tk.highlightWith(idBase, c.key, { text: verseText, reference, kind: "verset" })
+                        }
+                        className="flex min-w-0 flex-1 flex-col items-center gap-1.5"
+                      >
+                        <span
+                          className={`h-8 w-8 rounded-lg ${c.swatch} transition-transform active:scale-90 ${
+                            actif ? "ring-2 ring-white ring-offset-2 ring-offset-night-900" : ""
+                          }`}
+                        />
+                        <span className={`w-full truncate text-center text-[9px] font-bold leading-tight ${actif ? "text-cream" : "text-cream/55"}`}>
+                          {legendes[c.key] ?? c.label}
+                        </span>
+                      </button>
+                    );
+                  })}
+                  <button
+                    type="button"
+                    aria-label="Retirer le surlignage"
+                    disabled={!highlighted}
+                    onClick={() => tk.clearHighlight(idBase)}
+                    className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full border border-white/20 text-cream/60 disabled:opacity-25"
+                  >
+                    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth={2}>
+                      <circle cx="12" cy="12" r="9" />
+                      <path d="M5.5 5.5l13 13" strokeLinecap="round" />
+                    </svg>
+                  </button>
+                </div>
+                {editPalette ? (
+                  <div className="mt-3 space-y-2 rounded-2xl border border-white/10 bg-white/[0.04] p-3">
+                    <p className="text-xs text-cream/55">
+                      Donne ton propre sens à chaque couleur — il apparaîtra sous la palette.
+                    </p>
+                    {HIGHLIGHT_COLORS.map((c) => (
+                      <div key={c.key} className="flex items-center gap-2.5">
+                        <span className={`h-6 w-6 shrink-0 rounded-md ${c.swatch}`} />
+                        <input
+                          value={legendes[c.key] ?? ""}
+                          onChange={(e) => {
+                            const v = e.target.value;
+                            setLegendes((cur) => ({ ...cur, [c.key]: v }));
+                            setPaletteLabel(c.key, v);
+                          }}
+                          placeholder={c.label}
+                          maxLength={24}
+                          className="min-w-0 flex-1 rounded-full border border-white/15 bg-night-950/50 px-3.5 py-2 text-sm text-cream placeholder:text-cream/35 focus:outline-none"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+
               <div className="flex flex-wrap gap-3">
                 <Carre label={existingNote ? "Ma note" : "Note"} active={Boolean(existingNote)} onClick={openNote}>
                   <PenGlyph className="h-6 w-6" />
