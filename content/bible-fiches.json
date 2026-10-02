@@ -239,12 +239,35 @@
    "match": [
     {
      "v": "Adam"
+    },
+    {
+     "v": "l’homme",
+     "l": [
+      1,
+      1
+     ],
+     "c": [
+      2,
+      2
+     ]
     }
    ],
    "relations": [
     [
      "Épouse",
      "eve"
+    ],
+    [
+     "Fils",
+     "cain"
+    ],
+    [
+     "Fils",
+     "abel"
+    ],
+    [
+     "Fils",
+     "seth"
     ]
    ],
    "histoire": "Formé de la poussière du sol, Adam reçoit le souffle de vie de Dieu lui-même (Genèse 2:7). Placé dans le jardin d'Éden pour le cultiver et le garder, il nomme les animaux et reçoit la femme tirée de son côté : « os de mes os, chair de ma chair » (Genèse 2:23).\n\nPar sa désobéissance — le fruit de l'arbre défendu —, le péché entre dans le monde, et la mort par le péché (Genèse 3:6). Mais dès la chute, Dieu annonce la victoire de la postérité de la femme sur le serpent (Genèse 3:15).\n\nPaul fait d'Adam la figure inverse du Christ : « Comme tous meurent en Adam, de même aussi tous revivront en Christ » (1 Corinthiens 15:22). Le premier homme annonce, en creux, le dernier Adam."
@@ -272,12 +295,35 @@
     },
     {
      "v": "Eve"
+    },
+    {
+     "v": "femme",
+     "l": [
+      1,
+      1
+     ],
+     "c": [
+      2,
+      2
+     ]
     }
    ],
    "relations": [
     [
      "Époux",
      "adam"
+    ],
+    [
+     "Fils",
+     "cain"
+    ],
+    [
+     "Fils",
+     "abel"
+    ],
+    [
+     "Fils",
+     "seth"
     ]
    ],
    "histoire": "Bâtie par Dieu du côté d'Adam, Ève est « la mère de tous les vivants » (Genèse 3:20). Séduite par le serpent — « Dieu a-t-il réellement dit ? » (Genèse 3:1) —, elle prend du fruit, en donne à son mari, et leurs yeux s'ouvrent sur leur nudité.\n\nMais la promesse traverse le jugement : sa postérité écrasera la tête du serpent (Genèse 3:15). À la naissance de Caïn, elle s'écrie : « J'ai formé un homme avec l'aide de l'Éternel » (Genèse 4:1) ; après la mort d'Abel, Dieu lui accorde Seth, la lignée de la promesse (Genèse 4:25)."
@@ -309,7 +355,29 @@
      "v": "Noé"
     }
    ],
-   "histoire": "Dans une génération corrompue, « Noé trouva grâce aux yeux de l'Éternel » (Genèse 6:8) : il marchait avec Dieu. Sur l'ordre divin, il bâtit une arche pendant des décennies, prédicateur de la justice que personne n'écoute (2 Pierre 2:5).\n\nLe déluge vient ; l'arche porte sa famille et toutes les espèces à travers le jugement (Genèse 7:23). Au retour de la colombe, la terre renaît ; Noé bâtit un autel, et Dieu pose dans la nuée son arc-en-ciel, signe d'alliance avec toute chair (Genèse 9:13).\n\nJésus comparera son retour aux jours de Noé : la vie suivait son cours, et le déluge surprit tout le monde (Matthieu 24:38). L'arche reste l'image du salut offert — une seule porte, ouverte à temps."
+   "histoire": "Dans une génération corrompue, « Noé trouva grâce aux yeux de l'Éternel » (Genèse 6:8) : il marchait avec Dieu. Sur l'ordre divin, il bâtit une arche pendant des décennies, prédicateur de la justice que personne n'écoute (2 Pierre 2:5).\n\nLe déluge vient ; l'arche porte sa famille et toutes les espèces à travers le jugement (Genèse 7:23). Au retour de la colombe, la terre renaît ; Noé bâtit un autel, et Dieu pose dans la nuée son arc-en-ciel, signe d'alliance avec toute chair (Genèse 9:13).\n\nJésus comparera son retour aux jours de Noé : la vie suivait son cours, et le déluge surprit tout le monde (Matthieu 24:38). L'arche reste l'image du salut offert — une seule porte, ouverte à temps.",
+   "relations": [
+    [
+     "Fils",
+     "sem"
+    ],
+    [
+     "Fils",
+     "cham"
+    ],
+    [
+     "Fils",
+     "japhet"
+    ],
+    [
+     "Grand-père",
+     "metuschelah"
+    ],
+    [
+     "Père",
+     "lemec-noe"
+    ]
+   ]
   },
   {
    "id": "abraham",
@@ -353,6 +421,30 @@
     [
      "Petit-fils",
      "jacob"
+    ],
+    [
+     "Neveu",
+     "lot"
+    ],
+    [
+     "Fils",
+     "ismael"
+    ],
+    [
+     "Père",
+     "terach"
+    ],
+    [
+     "Frère",
+     "nachor"
+    ],
+    [
+     "Frère",
+     "haran"
+    ],
+    [
+     "Épouse",
+     "ketura"
     ]
    ],
    "histoire": "Dieu appelle Abram à quitter Ur pour un pays qu'il lui montrera, avec une promesse folle : faire de lui une grande nation (Genèse 12:1). Abram part, sans savoir où il va — c'est l'acte de foi fondateur de toute la Bible (Hébreux 11:8).\n\nDieu conclut avec lui une alliance : sa descendance sera comme les étoiles du ciel. « Abram eut confiance en l'Éternel, qui le lui imputa à justice » (Genèse 15:6). Devenu Abraham, « père d'une multitude », il reçoit à cent ans le fils de la promesse, Isaac (Genèse 21:2).\n\nSur la montagne de Morija, Dieu éprouve sa foi en lui demandant d'offrir Isaac ; au dernier moment, l'Éternel pourvoit lui-même un bélier (Genèse 22:12) — image du sacrifice du Christ. Paul fera d'Abraham le père de tous les croyants, justifiés par la foi comme lui (Romains 4:16).",
@@ -512,6 +604,18 @@
     [
      "Fils",
      "jacob"
+    ],
+    [
+     "Demi-frère",
+     "ismael"
+    ],
+    [
+     "Épouse",
+     "rebecca"
+    ],
+    [
+     "Fils",
+     "esau"
     ]
    ],
    "histoire": "Fils du miracle, né quand Abraham avait cent ans (Genèse 21:2), Isaac porte la promesse de génération en génération. Jeune homme, il gravit la montagne de Morija avec son père, le bois du sacrifice sur les épaules — préfiguration saisissante du Christ portant sa croix (Genèse 22:6).\n\nHomme de paix, il creuse de nouveau les puits de son père et cède devant les querelles jusqu'à ce que Dieu lui fasse de la place (Genèse 26:22). Il épouse Rebecca, qu'il aime (Genèse 24:67), et devient père de jumeaux : Ésaü et Jacob. C'est par Jacob que passera la bénédiction (Genèse 28:4) — Dieu se nommera désormais « le Dieu d'Abraham, d'Isaac et de Jacob »."
@@ -576,6 +680,82 @@
     [
      "Fils",
      "joseph-at"
+    ],
+    [
+     "Mère",
+     "rebecca"
+    ],
+    [
+     "Frère",
+     "esau"
+    ],
+    [
+     "Épouse",
+     "rachel"
+    ],
+    [
+     "Épouse",
+     "lea"
+    ],
+    [
+     "Beau-père",
+     "laban"
+    ],
+    [
+     "Fils",
+     "juda-fils"
+    ],
+    [
+     "Fils",
+     "simeon-fils"
+    ],
+    [
+     "Fils",
+     "levi-fils"
+    ],
+    [
+     "Fils",
+     "dan-fils"
+    ],
+    [
+     "Fils",
+     "nephthali"
+    ],
+    [
+     "Fils",
+     "gad-fils"
+    ],
+    [
+     "Fils",
+     "aser"
+    ],
+    [
+     "Fils",
+     "issacar"
+    ],
+    [
+     "Fils",
+     "zabulon"
+    ],
+    [
+     "Petit-fils",
+     "ephraim-fils"
+    ],
+    [
+     "Petit-fils",
+     "manasse-fils"
+    ],
+    [
+     "Fille",
+     "dina"
+    ],
+    [
+     "Fils",
+     "ruben"
+    ],
+    [
+     "Fils",
+     "benjamin"
     ]
    ],
    "histoire": "Jacob naît en tenant le talon de son frère jumeau Ésaü — tout un programme. Il achète le droit d'aînesse contre un plat de lentilles (Genèse 25:33), puis dérobe la bénédiction paternelle par ruse (Genèse 27:19), et doit fuir chez son oncle Laban.\n\nEn chemin, Dieu se révèle à lui à Béthel : une échelle dressée entre ciel et terre (Genèse 28:12). Vingt ans plus tard, au gué du Jabbok, un inconnu lutte avec lui jusqu'à l'aurore ; Jacob s'accroche : « Je ne te laisserai point aller, que tu ne m'aies béni » (Genèse 32:26). Il en sort boitant et renommé : Israël, « car tu as lutté avec Dieu » (Genèse 32:28).\n\nPère de douze fils — les douze tribus —, il traverse le deuil de Joseph, qu'il croit mort, avant de le retrouver vivant et puissant en Égypte (Genèse 46:30). Il meurt en bénissant ses fils, et en annonçant le sceptre de Juda (Genèse 49:10).",
@@ -681,6 +861,38 @@
     [
      "Père",
      "jacob"
+    ],
+    [
+     "Mère",
+     "rachel"
+    ],
+    [
+     "Frère",
+     "juda-fils"
+    ],
+    [
+     "Fils",
+     "ephraim-fils"
+    ],
+    [
+     "Fils",
+     "manasse-fils"
+    ],
+    [
+     "Épouse",
+     "asnath"
+    ],
+    [
+     "Frère",
+     "ruben"
+    ],
+    [
+     "Frère",
+     "benjamin"
+    ],
+    [
+     "Petit-fils",
+     "makir"
     ]
    ],
    "histoire": "Fils préféré de Jacob, Joseph reçoit la tunique de prix… et la jalousie de ses frères. Ses songes de grandeur précipitent sa chute : vendu comme esclave, descendu en Égypte (Genèse 37:28). Là, tout ce qu'il touche prospère, car l'Éternel est avec lui (Genèse 39:2) — jusqu'à la fausse accusation de la femme de Potiphar et la prison.\n\nDe la prison au palais : Joseph interprète les songes de Pharaon — sept vaches grasses, sept vaches maigres — et devient gouverneur de l'Égypte pour préparer la famine (Genèse 41:40). Quand ses frères descendent chercher du blé, ils se prosternent sans le reconnaître : les songes s'accomplissent.\n\nSa parole de pardon est l'un des sommets de la Bible : « Vous aviez médité de me faire du mal : Dieu l'a changé en bien, pour sauver la vie à un peuple nombreux » (Genèse 50:20). Joseph, trahi puis élevé pour sauver les siens, annonce le Christ.",
@@ -770,6 +982,26 @@
     [
      "Successeur",
      "josue"
+    ],
+    [
+     "Sœur",
+     "miriam"
+    ],
+    [
+     "Épouse",
+     "sephora"
+    ],
+    [
+     "Père",
+     "amram"
+    ],
+    [
+     "Mère",
+     "jokebed"
+    ],
+    [
+     "Fils",
+     "guerschom"
     ]
    ],
    "histoire": "Sauvé des eaux dans une corbeille (Exode 2:3), élevé à la cour de Pharaon, Moïse fuit au désert après avoir tué un Égyptien. C'est là, au buisson ardent, que Dieu l'appelle et révèle son nom : « Je suis celui qui suis » (Exode 3:14).\n\nDevant Pharaon, il porte les dix plaies, conduit la Pâque et fait sortir Israël d'Égypte ; la mer Rouge s'ouvre devant son bâton levé (Exode 14:21). Au Sinaï, il reçoit la Loi et les dix commandements (Exode 20:1) et parle avec Dieu « face à face, comme un homme parle à son ami » (Exode 33:11).\n\nQuarante ans durant, il porte un peuple murmureur à travers le désert. Il meurt sur le mont Nebo, en vue du pays promis (Deutéronome 34:5). Sur la montagne de la transfiguration, il apparaît aux côtés de Jésus (Matthieu 17:3) — la Loi rendant témoignage à la grâce.",
@@ -890,6 +1122,30 @@
     [
      "Frère",
      "moise"
+    ],
+    [
+     "Sœur",
+     "miriam"
+    ],
+    [
+     "Fils",
+     "eleazar"
+    ],
+    [
+     "Père",
+     "amram"
+    ],
+    [
+     "Mère",
+     "jokebed"
+    ],
+    [
+     "Fils",
+     "nadab-abihu"
+    ],
+    [
+     "Fils",
+     "ithamar"
     ]
    ],
    "histoire": "Frère aîné de Moïse et son porte-parole devant Pharaon — « il sera ta bouche » (Exode 4:16) —, Aaron devient le premier souverain sacrificateur d'Israël, consacré avec ses fils pour servir dans le tabernacle (Exode 28:1).\n\nSon ministère connaît l'ombre et la lumière : c'est lui qui façonne le veau d'or sous la pression du peuple (Exode 32:4), mais c'est aussi lui qui se tient entre les morts et les vivants, l'encensoir à la main, pour arrêter la plaie (Nombres 16:48). Son bâton fleurit en une nuit, signe de l'élection divine (Nombres 17:8). La bénédiction qu'il reçoit l'ordre de prononcer couvre encore le peuple de Dieu : « Que l'Éternel te bénisse, et qu'il te garde ! » (Nombres 6:24).",
@@ -930,6 +1186,10 @@
     [
      "Compagnon",
      "caleb"
+    ],
+    [
+     "Espions cachés par",
+     "rahab"
     ]
    ],
    "histoire": "Serviteur de Moïse depuis sa jeunesse, Josué est l'un des deux seuls espions à croire que Dieu peut donner le pays (Nombres 14:8). À la mort de Moïse, l'Éternel l'investit : « Fortifie-toi et prends courage… l'Éternel ton Dieu est avec toi partout où tu iras » (Josué 1:9).\n\nIl fait traverser le Jourdain à sec (Josué 3:17), prend Jéricho dont les murailles tombent au son des trompettes (Josué 6:20), et partage le pays entre les tribus. Son nom — le même que « Jésus » en hébreu — signifie « l'Éternel sauve ».\n\nSon testament spirituel reste l'un des appels les plus cités de la Bible : « Choisissez aujourd'hui qui vous voulez servir… Moi et ma maison, nous servirons l'Éternel » (Josué 24:15).",
@@ -1008,6 +1268,14 @@
     [
      "Compagnon",
      "josue"
+    ],
+    [
+     "Neveu",
+     "othniel"
+    ],
+    [
+     "Fille",
+     "acsa"
     ]
    ],
    "histoire": "Des douze espions envoyés en Canaan, seuls Caleb et Josué reviennent pleins de foi : « Montons, emparons-nous du pays, nous y serons vainqueurs ! » (Nombres 13:30). À cause de cette confiance, « parce qu'il a eu un autre esprit et qu'il a pleinement suivi l'Éternel » (Nombres 14:24), il entrera dans le pays quand toute sa génération tombera au désert.\n\nQuarante-cinq ans plus tard, à quatre-vingt-cinq ans, il réclame sa montagne — Hébron, tenue par les géants : « Je suis encore aussi fort qu'au jour où Moïse m'envoya » (Josué 14:11). Caleb est le patron de tous ceux qui vieillissent sans que leur foi prenne une ride.",
@@ -1039,7 +1307,21 @@
      ]
     }
    ],
-   "histoire": "Prophétesse, Débora juge Israël sous son palmier, entre Rama et Béthel (Juges 4:5). Quand elle transmet à Barak l'ordre de l'Éternel d'affronter l'armée de Sisera et ses neuf cents chars de fer, il refuse d'y aller sans elle : « Si tu viens avec moi, j'irai » (Juges 4:8).\n\nElle monte, et Dieu met l'armée ennemie en déroute au torrent de Kison ; l'honneur de la victoire revient à des femmes — Débora, et Jaël qui abat Sisera (Juges 4:21). Son cantique est l'un des plus anciens chants de la Bible : « Ainsi périssent tous tes ennemis, ô Éternel ! » (Juges 5:31)."
+   "histoire": "Prophétesse, Débora juge Israël sous son palmier, entre Rama et Béthel (Juges 4:5). Quand elle transmet à Barak l'ordre de l'Éternel d'affronter l'armée de Sisera et ses neuf cents chars de fer, il refuse d'y aller sans elle : « Si tu viens avec moi, j'irai » (Juges 4:8).\n\nElle monte, et Dieu met l'armée ennemie en déroute au torrent de Kison ; l'honneur de la victoire revient à des femmes — Débora, et Jaël qui abat Sisera (Juges 4:21). Son cantique est l'un des plus anciens chants de la Bible : « Ainsi périssent tous tes ennemis, ô Éternel ! » (Juges 5:31).",
+   "relations": [
+    [
+     "Avec",
+     "barak"
+    ],
+    [
+     "Contre",
+     "sisera"
+    ],
+    [
+     "Bénit",
+     "jael"
+    ]
+   ]
   },
   {
    "id": "gedeon",
@@ -1089,7 +1371,13 @@
     }
    ],
    "histoire": "Quand l'ange le trouve, Gédéon bat du blé en cachette dans un pressoir, par peur de Madian — et s'entend saluer : « L'Éternel est avec toi, vaillant héros ! » (Juges 6:12). Dieu voit en lui ce qu'il n'est pas encore.\n\nAprès la toison mouillée puis sèche qui confirme l'appel (Juges 6:38), Dieu réduit son armée de trente-deux mille à trois cents hommes, « de peur qu'Israël ne se glorifie » (Juges 7:2). Avec des trompettes, des cruches vides et des flambeaux, les trois cents mettent en fuite l'immense camp ennemi (Juges 7:20). La faiblesse assumée est l'arme préférée de Dieu.",
-   "tribu": "manasse-fils"
+   "tribu": "manasse-fils",
+   "relations": [
+    [
+     "Fils",
+     "abimelec-gedeon"
+    ]
+   ]
   },
   {
    "id": "samson",
@@ -1114,7 +1402,13 @@
     }
    ],
    "histoire": "Consacré naziréen dès le sein de sa mère, annoncé par un ange (Juges 13:5), Samson reçoit une force surnaturelle : il déchire un lion à mains nues (Juges 14:6), abat mille Philistins avec une mâchoire d'âne (Juges 15:15), emporte les portes de Gaza sur ses épaules (Juges 16:3).\n\nMais l'homme fort est faible devant Delila : harcelé, il livre le secret de sa chevelure ; l'Éternel se retire de lui, et il ne le sait pas (Juges 16:20). Aveuglé, enchaîné, moqué dans le temple de Dagon, il prie une dernière fois — « Souviens-toi de moi, je te prie » — et sa mort frappe les Philistins plus que sa vie (Juges 16:30). L'épître aux Hébreux le compte pourtant parmi les héros de la foi (Hébreux 11:32) : la grâce écrit droit avec nos lignes courbes.",
-   "tribu": "dan-fils"
+   "tribu": "dan-fils",
+   "relations": [
+    [
+     "Père",
+     "manoach"
+    ]
+   ]
   },
   {
    "id": "ruth",
@@ -1146,6 +1440,10 @@
     [
      "Descendant",
      "david"
+    ],
+    [
+     "Fils",
+     "obed"
     ]
    ],
    "histoire": "Veuve moabite, étrangère, Ruth choisit de s'attacher à Naomi sa belle-mère avec des mots devenus immortels : « Ton peuple sera mon peuple, et ton Dieu sera mon Dieu » (Ruth 1:16).\n\nÀ Bethléhem, elle glane dans le champ de Booz, un parent de Naomi, qui la remarque et la protège (Ruth 2:12). Naomi guide sa démarche auprès de lui et Booz, en « racheteur », l'épouse (Ruth 4:10) : l'étrangère entre pleinement dans le peuple de Dieu.\n\nLeur fils Obed sera le grand-père de David (Ruth 4:17) — et Ruth, l'une des quatre femmes citées dans la généalogie de Jésus (Matthieu 1:5). La grâce ne connaît pas de frontières.",
@@ -1243,6 +1541,18 @@
     [
      "Descendant",
      "david"
+    ],
+    [
+     "Petit-fils",
+     "isai"
+    ],
+    [
+     "Fils",
+     "obed"
+    ],
+    [
+     "Mère",
+     "rahab"
     ]
    ],
    "histoire": "Homme puissant et bon de Bethléhem, Booz salue ses moissonneurs par « Que l'Éternel soit avec vous ! » (Ruth 2:4) — le ton est donné. Il remarque Ruth la glaneuse, ordonne qu'on laisse tomber des épis pour elle et bénit son courage (Ruth 2:16).\n\nComme proche parent, il accepte d'exercer le droit de rachat : il acquiert le champ de Naomi et prend Ruth pour femme, afin de relever le nom du défunt (Ruth 4:10). Figure du « rédempteur », Booz annonce le Christ qui rachète son Épouse. De son union avec Ruth naît la lignée royale : Obed, Isaï, David (Ruth 4:22).",
@@ -1282,6 +1592,14 @@
     [
      "A oint",
      "david"
+    ],
+    [
+     "Mère",
+     "anne-samuel"
+    ],
+    [
+     "Père",
+     "elkana"
     ]
    ],
    "histoire": "Fils de la prière d'Anne, consacré à Dieu dès l'enfance, Samuel grandit au sanctuaire de Silo. Une nuit, l'Éternel l'appelle par son nom ; Éli lui souffle la réponse : « Parle, car ton serviteur écoute » (1 Samuel 3:10). Aucune de ses paroles ne tombera à terre (1 Samuel 3:19).\n\nDernier des juges et premier des grands prophètes, il conduit Israël, et quand le peuple réclame un roi « comme toutes les nations », il oint Saül à contrecœur (1 Samuel 10:1). Après le rejet de Saül, Dieu l'envoie à Bethléhem chez Isaï : « L'Éternel ne considère pas ce que l'homme considère… l'Éternel regarde au cœur » (1 Samuel 16:7). Il oint David, le plus jeune, au milieu de ses frères (1 Samuel 16:13).",
@@ -1321,6 +1639,30 @@
     [
      "Successeur",
      "david"
+    ],
+    [
+     "Fils",
+     "jonathan"
+    ],
+    [
+     "Fille",
+     "mical"
+    ],
+    [
+     "Cousin",
+     "abner"
+    ],
+    [
+     "Fille",
+     "merab"
+    ],
+    [
+     "Fils",
+     "isch-boscheth"
+    ],
+    [
+     "Père",
+     "kis"
     ]
    ],
    "histoire": "Premier roi d'Israël, beau, dépassant tout le peuple de la tête (1 Samuel 9:2), Saül commence dans l'humilité — on le trouve caché parmi les bagages le jour de son intronisation (1 Samuel 10:22).\n\nMais le pouvoir révèle son cœur : il offre un sacrifice sans en avoir le droit (1 Samuel 13:9), épargne ce que Dieu avait condamné, et s'entend dire la sentence : « L'obéissance vaut mieux que les sacrifices » (1 Samuel 15:22). L'Esprit se retire ; la jalousie envers David le consume jusqu'à la folie meurtrière (1 Samuel 18:9).\n\nDélaissé de Dieu, il finit par consulter une nécromancienne à En-Dor (1 Samuel 28:7) et meurt sur le mont Guilboa avec ses fils (1 Samuel 31:4). Sa vie est l'avertissement solennel d'un appel magnifique ruiné par la désobéissance.",
@@ -1373,6 +1715,66 @@
     [
      "Aïeule",
      "ruth"
+    ],
+    [
+     "Épouse",
+     "abigail"
+    ],
+    [
+     "Fils",
+     "absalom"
+    ],
+    [
+     "Épouse",
+     "bath-scheba"
+    ],
+    [
+     "Épouse",
+     "mical"
+    ],
+    [
+     "Fils",
+     "amnon"
+    ],
+    [
+     "Père",
+     "isai"
+    ],
+    [
+     "Frère",
+     "eliab"
+    ],
+    [
+     "Neveu",
+     "abischai"
+    ],
+    [
+     "Femme",
+     "achinoam"
+    ],
+    [
+     "Fille",
+     "tamar-david"
+    ],
+    [
+     "Fils",
+     "adonija"
+    ],
+    [
+     "Neveu",
+     "amasa"
+    ],
+    [
+     "Grand-père",
+     "obed"
+    ],
+    [
+     "Neveu",
+     "jonadab-neveu"
+    ],
+    [
+     "Sœur",
+     "tseruja"
     ]
    ],
    "histoire": "Berger de Bethléhem, oublié de tous le jour où Samuel visite la maison d'Isaï, David est pourtant celui que Dieu a vu : « L'Éternel regarde au cœur » (1 Samuel 16:7). Oint au milieu de ses frères, il abat Goliath avec une fronde et une foi immense : « Tu marches contre moi avec l'épée… moi, je marche contre toi au nom de l'Éternel des armées » (1 Samuel 17:45).\n\nPoursuivi des années par la jalousie de Saül, il refuse deux fois de tuer « l'oint de l'Éternel » (1 Samuel 24:7). Devenu roi, il prend Jérusalem, y fait monter l'arche en dansant de toute sa force (2 Samuel 6:14), et reçoit la promesse d'un trône éternel — l'alliance davidique (2 Samuel 7:16).\n\nSa chute avec Bath-Schéba et le meurtre d'Urie (2 Samuel 11:15) sont rapportés sans fard ; sa repentance aussi : « Ô Dieu ! crée en moi un cœur pur » (Psaumes 51:12). Poète des Psaumes, « homme selon le cœur de Dieu » (Actes 13:22), il est l'ancêtre et la figure du Messie, « fils de David » (Matthieu 1:1).",
@@ -1491,6 +1893,14 @@
     [
      "Père",
      "david"
+    ],
+    [
+     "Mère",
+     "bath-scheba"
+    ],
+    [
+     "Fils",
+     "roboam"
     ]
    ],
    "histoire": "Fils de David et de Bath-Schéba, Salomon reçoit de Dieu, en songe à Gabaon, la proposition la plus vertigineuse de la Bible : « Demande ce que tu veux que je te donne » (1 Rois 3:5). Il demande un cœur intelligent pour juger le peuple — et reçoit en plus richesse et gloire (1 Rois 3:12).\n\nSon jugement entre les deux mères révèle sa sagesse à tout Israël (1 Rois 3:27). Il bâtit le temple de Jérusalem, où la gloire de l'Éternel descend comme une nuée (1 Rois 8:11), compose proverbes et cantiques (1 Rois 4:32), accueille la reine de Séba éblouie (1 Rois 10:7).\n\nMais ses sept cents femmes étrangères détournent son cœur vers d'autres dieux (1 Rois 11:4) : le royaume se déchirera après lui. L'Ecclésiaste porte sa conclusion désabusée et lumineuse à la fois : « Crains Dieu et observe ses commandements. C'est là ce que doit faire tout homme » (Ecclésiaste 12:13).",
@@ -1714,6 +2124,14 @@
     [
      "Prophète",
      "esaie"
+    ],
+    [
+     "Fils",
+     "manasse-roi"
+    ],
+    [
+     "Père",
+     "achaz"
     ]
    ],
    "histoire": "Roi de Juda, Ézéchias fait ce qui est droit « comme avait fait David » : il brise les idoles, rouvre le temple, célèbre une Pâque mémorable (2 Chroniques 30:26). Quand Sanchérib et l'Assyrie menacent Jérusalem, il étale la lettre de blasphème devant l'Éternel et prie (2 Rois 19:14) ; l'ange de l'Éternel frappe le camp assyrien dans la nuit (2 Rois 19:35).\n\nMalade à la mort, il pleure et prie encore : Dieu ajoute quinze ans à sa vie et fait reculer l'ombre au cadran d'Achaz (2 Rois 20:6). Avec le prophète Ésaïe à ses côtés, il incarne la confiance : « Il mit sa confiance en l'Éternel… il ne s'en détourna point » (2 Rois 18:5).",
@@ -1747,6 +2165,22 @@
     [
      "Tué par",
      "neco"
+    ],
+    [
+     "Grand-père",
+     "manasse-roi"
+    ],
+    [
+     "Fils",
+     "jojakim"
+    ],
+    [
+     "Père",
+     "amon-roi"
+    ],
+    [
+     "Fils",
+     "joachaz-juda"
     ]
    ]
   },
@@ -1857,6 +2291,10 @@
     [
      "Messager",
      "hathac"
+    ],
+    [
+     "Époux",
+     "assuerus"
     ]
    ],
    "histoire": "Orpheline juive élevée par son cousin Mardochée, Hadassa devient Esther, reine de Perse, sans révéler son peuple (Esther 2:17). Quand Haman obtient un décret d'extermination contre les Juifs, Mardochée lui envoie le mot qui traverse les siècles : « Qui sait si ce n'est pas pour un temps comme celui-ci que tu es parvenue à la royauté ? » (Esther 4:14).\n\nAprès trois jours de jeûne, elle risque sa vie en paraissant devant le roi sans être appelée : « Si je dois périr, je périrai » (Esther 4:16). Par deux banquets et un courage tranquille, elle retourne le décret ; Haman est pendu au bois préparé pour Mardochée (Esther 7:10). La fête de Pourim célèbre encore cette délivrance — dans un livre où le nom de Dieu n'apparaît jamais, mais où sa main est partout.",
@@ -1924,7 +2362,13 @@
      ]
     }
    ],
-   "histoire": "« Intègre et droit, craignant Dieu et se détournant du mal » (Job 1:1) : ainsi Dieu lui-même présente Job. En un jour, il perd ses biens et ses dix enfants ; sa réponse stupéfie le ciel : « L'Éternel a donné, et l'Éternel a ôté ; que le nom de l'Éternel soit béni ! » (Job 1:21).\n\nCouvert d'ulcères, incompris de sa femme et accablé par les discours de ses trois amis, Job crie, proteste, questionne — sans jamais lâcher Dieu. Au cœur de la nuit jaillit sa confession : « Je sais que mon Rédempteur est vivant » (Job 19:25).\n\nDieu répond du milieu de la tempête, non par des explications mais par sa grandeur (Job 38:4). Job pose la main sur sa bouche : « Mon œil t'a vu » (Job 42:5). L'Éternel le rétablit au double et Jacques le cite en exemple : « Vous avez entendu parler de la patience de Job » (Jacques 5:11)."
+   "histoire": "« Intègre et droit, craignant Dieu et se détournant du mal » (Job 1:1) : ainsi Dieu lui-même présente Job. En un jour, il perd ses biens et ses dix enfants ; sa réponse stupéfie le ciel : « L'Éternel a donné, et l'Éternel a ôté ; que le nom de l'Éternel soit béni ! » (Job 1:21).\n\nCouvert d'ulcères, incompris de sa femme et accablé par les discours de ses trois amis, Job crie, proteste, questionne — sans jamais lâcher Dieu. Au cœur de la nuit jaillit sa confession : « Je sais que mon Rédempteur est vivant » (Job 19:25).\n\nDieu répond du milieu de la tempête, non par des explications mais par sa grandeur (Job 38:4). Job pose la main sur sa bouche : « Mon œil t'a vu » (Job 42:5). L'Éternel le rétablit au double et Jacques le cite en exemple : « Vous avez entendu parler de la patience de Job » (Jacques 5:11).",
+   "relations": [
+    [
+     "Femme",
+     "femme-job"
+    ]
+   ]
   },
   {
    "id": "esaie",
@@ -1952,6 +2396,10 @@
     [
      "Roi conseillé",
      "ezechias"
+    ],
+    [
+     "Fils",
+     "enfants-esaie"
     ]
    ],
    "histoire": "L'année de la mort du roi Ozias, Ésaïe voit le Seigneur sur un trône très élevé ; les séraphins crient « Saint, saint, saint est l'Éternel des armées ! » (Ésaïe 6:3). Un charbon ardent purifie ses lèvres, et il répond à l'appel : « Me voici, envoie-moi » (Ésaïe 6:8).\n\nProphète des rois, il annonce à Achaz le signe de la vierge enceinte d'Emmanuel (Ésaïe 7:14), console Ézéchias face à l'Assyrie, et porte les plus grandes prophéties messianiques : l'enfant aux quatre noms (Ésaïe 9:6), le serviteur souffrant « blessé pour nos péchés… et c'est par ses meurtrissures que nous sommes guéris » (Ésaïe 53:5).\n\nSon livre, le plus cité par le Nouveau Testament, s'achève sur les cieux nouveaux et la terre nouvelle (Ésaïe 65:17). On l'appelle « l'évangéliste de l'Ancien Testament »."
@@ -2019,7 +2467,21 @@
     }
    ],
    "histoire": "Prêtre déporté à Babylone, Ézéchiel voit les cieux s'ouvrir au bord du fleuve Kebar : quatre êtres vivants, des roues étincelantes, et la gloire de l'Éternel sur un trône de saphir (Ézéchiel 1:28). Dieu l'établit sentinelle de la maison d'Israël (Ézéchiel 3:17).\n\nProphète des gestes autant que des mots, il mime le siège de Jérusalem, perd sa femme sans pouvoir la pleurer — signe pour le peuple. Il annonce la responsabilité de chacun (Ézéchiel 18:20) et la promesse la plus intime de l'Ancien Testament : « Je vous donnerai un cœur nouveau… j'ôterai de votre corps le cœur de pierre » (Ézéchiel 36:26).\n\nSa vision des ossements desséchés qui reprennent vie au souffle de l'Esprit (Ézéchiel 37:10) reste l'image de toute résurrection — d'un peuple, d'une église, d'une vie.",
-   "tribu": "levi-fils"
+   "tribu": "levi-fils",
+   "relations": [
+    [
+     "Exilé avec",
+     "jojakin"
+    ],
+    [
+     "Contemporain de",
+     "jeremie"
+    ],
+    [
+     "Contemporain de",
+     "daniel"
+    ]
+   ]
   },
   {
    "id": "daniel",
@@ -2085,6 +2547,28 @@
       32.54
      ]
     }
+   ],
+   "relations": [
+    [
+     "Compagnons",
+     "schadrac"
+    ],
+    [
+     "A servi",
+     "nebucadnetsar"
+    ],
+    [
+     "A interprété pour",
+     "belschatsar"
+    ],
+    [
+     "A servi",
+     "darius"
+    ],
+    [
+     "Visité par",
+     "gabriel"
+    ]
    ]
   },
   {
@@ -2206,6 +2690,12 @@
       36.4
      ]
     }
+   ],
+   "relations": [
+    [
+     "Contemporain de",
+     "jeroboam-ii"
+    ]
    ]
   },
   {
@@ -2730,6 +3220,14 @@
     [
      "Cousin",
      "jesus"
+    ],
+    [
+     "Mère",
+     "elisabeth"
+    ],
+    [
+     "Père",
+     "zacharie-pere"
     ]
    ],
    "histoire": "Annoncé par l'ange Gabriel à son père Zacharie (Luc 1:13), rempli de l'Esprit dès le sein maternel, Jean grandit au désert. Vêtu de poil de chameau, nourri de sauterelles et de miel (Matthieu 3:4), il est « la voix de celui qui crie dans le désert : préparez le chemin du Seigneur » (Matthieu 3:3).\n\nIl baptise dans le Jourdain un peuple en repentance, et désigne Jésus d'une phrase qui résume l'Évangile : « Voici l'Agneau de Dieu, qui ôte le péché du monde » (Jean 1:29). Il baptise Jésus lui-même, à sa demande (Matthieu 3:15), puis s'efface : « Il faut qu'il croisse, et que je diminue » (Jean 3:30).\n\nEmprisonné pour avoir repris Hérode, il meurt décapité (Matthieu 14:10). Jésus dira de lui : parmi ceux qui sont nés de femmes, il n'en a point paru de plus grand (Matthieu 11:11).",
@@ -2809,6 +3307,10 @@
     [
      "Compagnon",
      "paul"
+    ],
+    [
+     "Frère",
+     "andre"
     ]
    ],
    "histoire": "Pêcheur de Galilée, Simon est amené à Jésus par son frère André ; Jésus le renomme Céphas — Pierre (Jean 1:42). Après une pêche miraculeuse, il laisse tout : « Ne crains point ; désormais tu seras pêcheur d'hommes » (Luc 5:10).\n\nPremier à confesser « Tu es le Christ, le Fils du Dieu vivant » (Matthieu 16:16), il marche sur l'eau — et s'enfonce dès qu'il regarde le vent (Matthieu 14:30). La nuit de l'arrestation, il renie trois fois son Maître et pleure amèrement (Luc 22:62). Mais le Ressuscité le restaure trois fois au bord du lac : « M'aimes-tu ?… Pais mes brebis » (Jean 21:17).\n\nÀ la Pentecôte, c'est lui qui prêche ; trois mille âmes sont ajoutées (Actes 2:41). Il guérit, ouvre l'Évangile aux païens chez Corneille (Actes 10:34), est délivré de prison par un ange (Actes 12:7). Ses deux lettres portent la marque de l'homme brisé et relevé : « Déchargez-vous sur lui de tous vos soucis, car lui-même prend soin de vous » (1 Pierre 5:7).",
@@ -2958,6 +3460,10 @@
     [
      "Ami",
      "jesus"
+    ],
+    [
+     "Sœur",
+     "marie-bethanie"
     ]
    ],
    "histoire": "Dans sa maison de Béthanie, Marthe reçoit Jésus et s'affaire à un grand service pendant que sa sœur Marie s'assied aux pieds du Maître. Sa plainte nous ressemble : « Seigneur, cela ne te fait-il rien que ma sœur me laisse seule pour servir ? » La réponse est douce et tranchante : « Marthe, Marthe, tu t'inquiètes et tu t'agites pour beaucoup de choses. Une seule chose est nécessaire » (Luc 10:41).\n\nÀ la mort de Lazare, c'est pourtant elle, l'active, qui court au-devant de Jésus et prononce l'une des plus grandes confessions des Évangiles : « Tu es le Christ, le Fils de Dieu, qui devait venir dans le monde » (Jean 11:27) — juste après avoir reçu la révélation : « Je suis la résurrection et la vie » (Jean 11:25)."
@@ -2996,6 +3502,10 @@
     [
      "Sœur",
      "marthe"
+    ],
+    [
+     "Sœur",
+     "marie-bethanie"
     ]
    ],
    "histoire": "Lazare de Béthanie, frère de Marthe et Marie, est l'ami que Jésus aimait (Jean 11:3). Quand il tombe malade, ses sœurs envoient chercher le Maître — qui arrive quatre jours après la mise au tombeau.\n\nDevant le tombeau, Jésus pleure (Jean 11:35), puis révèle à Marthe le cœur de l'Évangile : « Je suis la résurrection et la vie » (Jean 11:25). Et il crie : « Lazare, sors ! » (Jean 11:43). Le mort sort, les bandelettes aux mains et aux pieds.\n\nCe signe éclatant précipite la décision des chefs de faire mourir Jésus (Jean 11:53) — et même Lazare, que la foule venait voir (Jean 12:10). L'homme rendu à la vie devient un témoignage vivant que nul ne peut faire taire."
@@ -3112,7 +3622,13 @@
      "v": "Hérode"
     }
    ],
-   "histoire": "Le nom d'Hérode traverse tout le Nouveau Testament comme une ombre. Hérode le Grand, bâtisseur du temple et tyran paranoïaque, interroge les mages puis fait massacrer les enfants de Bethléhem (Matthieu 2:16) — Rachel pleure ses enfants.\n\nSon fils Hérode Antipas fait décapiter Jean-Baptiste pour un serment de banquet (Marc 6:27) ; Jésus l'appelle « ce renard » (Luc 13:32). Au procès, il espère un miracle comme un spectacle, et se moque du Christ silencieux (Luc 23:11).\n\nPlus tard, Hérode Agrippa fait mourir Jacques et emprisonne Pierre (Actes 12:2) ; frappé par un ange pour avoir accepté la gloire d'un dieu, il meurt rongé par les vers (Actes 12:23). Face aux Hérodes qui passent, la Parole « se répandait de plus en plus » (Actes 12:24)."
+   "histoire": "Le nom d'Hérode traverse tout le Nouveau Testament comme une ombre. Hérode le Grand, bâtisseur du temple et tyran paranoïaque, interroge les mages puis fait massacrer les enfants de Bethléhem (Matthieu 2:16) — Rachel pleure ses enfants.\n\nSon fils Hérode Antipas fait décapiter Jean-Baptiste pour un serment de banquet (Marc 6:27) ; Jésus l'appelle « ce renard » (Luc 13:32). Au procès, il espère un miracle comme un spectacle, et se moque du Christ silencieux (Luc 23:11).\n\nPlus tard, Hérode Agrippa fait mourir Jacques et emprisonne Pierre (Actes 12:2) ; frappé par un ange pour avoir accepté la gloire d'un dieu, il meurt rongé par les vers (Actes 12:23). Face aux Hérodes qui passent, la Parole « se répandait de plus en plus » (Actes 12:24).",
+   "relations": [
+    [
+     "Épouse",
+     "herodias"
+    ]
+   ]
   },
   {
    "id": "etienne",
@@ -3397,6 +3913,10 @@
     [
      "Compagnon",
      "paul"
+    ],
+    [
+     "Cousin",
+     "marc"
     ]
    ],
    "histoire": "Joseph de Chypre, surnommé par les apôtres Barnabas — « fils de la consolation » (Actes 4:36) —, vend son champ et en dépose le prix aux pieds des apôtres. Tout son ministère ressemblera à ce geste.\n\nC'est lui qui ose présenter aux apôtres le converti de Damas que tout le monde craint encore : sans Barnabas, pas de ministère de Paul (Actes 9:27). Envoyé à Antioche, il se réjouit de la grâce et va chercher Saul à Tarse pour l'associer à l'œuvre (Actes 11:25) ; « homme de bien, plein d'Esprit-Saint et de foi » (Actes 11:24).\n\nCompagnon de Paul dans le premier voyage missionnaire (Actes 13:2), il défend ensuite son neveu Marc, jusqu'à se séparer de Paul pour lui donner une seconde chance (Actes 15:39) — Marc que Paul réclamera un jour comme « utile pour le ministère » (2 Timothée 4:11). L'encourageur avait vu juste.",
@@ -3508,6 +4028,10 @@
     [
      "Mère",
      "marie"
+    ],
+    [
+     "Frère",
+     "jude-frere"
     ]
    ],
    "histoire": "Frère de Jésus selon la chair, Jacques ne croit pas en lui pendant son ministère (Jean 7:5). Tout change à Pâques : le Ressuscité lui apparaît personnellement (1 Corinthiens 15:7). On le retrouve dans la chambre haute avec Marie et les disciples (Actes 1:14).\n\nDevenu colonne de l'Église de Jérusalem (Galates 2:9), c'est lui qui tranche au concile : on n'imposera pas la Loi aux païens convertis (Actes 15:19). Paul monte le voir à chaque passage à Jérusalem (Actes 21:18).\n\nSa lettre est la plus concrète du Nouveau Testament : la foi sans les œuvres est morte (Jacques 2:17), la langue est un feu (Jacques 3:6), la prière fervente du juste a une grande efficace (Jacques 5:16). L'incrédule devenu serviteur signe simplement : « Jacques, serviteur de Dieu et du Seigneur Jésus-Christ » (Jacques 1:1)."
@@ -3571,6 +4095,10 @@
     [
      "Frère",
      "abel"
+    ],
+    [
+     "Frère",
+     "seth"
     ]
    ],
    "histoire": "Laboureur, Caïn apporte une offrande des fruits du sol ; Dieu regarde celle d'Abel et non la sienne. Au lieu de s'examiner, il s'irrite — et Dieu l'avertit : « Le péché se couche à la porte… mais toi, domine sur lui » (Genèse 4:7).\n\nDans les champs, il se jette sur son frère et le tue. « Qu'as-tu fait ? La voix du sang de ton frère crie de la terre jusqu'à moi » (Genèse 4:10). Marqué d'un signe protecteur, il s'en va loin de la face de l'Éternel. Jean en tire l'avertissement : ne pas être « comme Caïn, qui était du malin » (1 Jean 3:12)."
@@ -3620,6 +4148,10 @@
     [
      "Frère",
      "cain"
+    ],
+    [
+     "Frère",
+     "seth"
     ]
    ],
    "histoire": "Berger de brebis, Abel offre des premiers-nés de son troupeau, et l'Éternel porte un regard favorable sur lui et sur son offrande (Genèse 4:4). Cette faveur lui vaut la haine de son frère, qui le tue aux champs.\n\nHébreux éclaire la différence : « C'est par la foi qu'Abel offrit à Dieu un sacrifice plus excellent que celui de Caïn… et, par elle, il parle encore, quoique mort » (Hébreux 11:4). Jésus le nomme le premier des justes persécutés (Matthieu 23:35) — et le sang de Christ « parle mieux que celui d'Abel » (Hébreux 12:24)."
@@ -3649,7 +4181,13 @@
     ]
    ],
    "bio": "L'homme qui « marcha avec Dieu, puis il ne fut plus, parce que Dieu le prit ». Trois cents ans de communion, et pas de tombe.",
-   "histoire": "Dans la litanie des générations — « et il mourut… et il mourut » —, Hénoc fait exception : « Hénoc marcha avec Dieu ; puis il ne fut plus, parce que Dieu le prit » (Genèse 5:24).\n\nHébreux précise : avant son enlèvement, il avait reçu le témoignage qu'il était agréable à Dieu — « or, sans la foi, il est impossible de lui être agréable » (Hébreux 11:5). Jude cite sa prophétie du jugement (Jude 1:14). Deux hommes seulement ont quitté la terre sans mourir : Hénoc et Élie — deux marcheurs avec Dieu."
+   "histoire": "Dans la litanie des générations — « et il mourut… et il mourut » —, Hénoc fait exception : « Hénoc marcha avec Dieu ; puis il ne fut plus, parce que Dieu le prit » (Genèse 5:24).\n\nHébreux précise : avant son enlèvement, il avait reçu le témoignage qu'il était agréable à Dieu — « or, sans la foi, il est impossible de lui être agréable » (Hébreux 11:5). Jude cite sa prophétie du jugement (Jude 1:14). Deux hommes seulement ont quitté la terre sans mourir : Hénoc et Élie — deux marcheurs avec Dieu.",
+   "relations": [
+    [
+     "Fils",
+     "metuschelah"
+    ]
+   ]
   },
   {
    "id": "lot",
@@ -3688,6 +4226,18 @@
     [
      "Oncle",
      "abraham"
+    ],
+    [
+     "Grand-père",
+     "terach"
+    ],
+    [
+     "Père",
+     "haran"
+    ],
+    [
+     "Femme",
+     "femme-lot"
     ]
    ],
    "histoire": "Monté d'Ur avec Abraham, Lot doit se séparer de lui quand leurs troupeaux deviennent trop grands. Il lève les yeux, voit la plaine bien arrosée du Jourdain et choisit — jusqu'à dresser ses tentes vers Sodome (Genèse 13:12).\n\nQuand le jugement tombe, deux anges le tirent littéralement par la main, « car l'Éternel voulait l'épargner » (Genèse 19:16). Sa femme regarde en arrière et devient statue de sel (Genèse 19:26) ; Jésus en fera un avertissement : « Souvenez-vous de la femme de Lot » (Luc 17:32). Pierre le dit pourtant « juste », l'âme tourmentée par ce qu'il voyait (2 Pierre 2:8) : on peut être sauvé de justesse."
@@ -3812,6 +4362,14 @@
     [
      "Fils",
      "esau"
+    ],
+    [
+     "Père",
+     "bethuel"
+    ],
+    [
+     "Grand-mère",
+     "milca"
     ]
    ],
    "histoire": "Au puits de la ville de Nachor, Rebecca répond exactement au signe demandé par le serviteur en prière : elle abreuve l'homme… et ses dix chameaux (Genèse 24:19). À la question « Iras-tu avec cet homme ? », elle répond simplement : « J'irai » (Genèse 24:58).\n\nStérile vingt ans, elle conçoit sur la prière d'Isaac des jumeaux qui se heurtent déjà en elle ; l'Éternel lui révèle : « Le plus grand sera assujetti au plus petit » (Genèse 25:23). C'est cet oracle qu'elle croit servir en orchestrant la ruse de Jacob pour la bénédiction (Genèse 27:13) — elle ne reverra jamais son fils préféré."
@@ -3888,6 +4446,14 @@
     [
      "Fils",
      "joseph-at"
+    ],
+    [
+     "Père",
+     "laban"
+    ],
+    [
+     "Fils",
+     "benjamin"
     ]
    ],
    "histoire": "Jacob la rencontre au puits et roule seul la pierre pour abreuver son troupeau. Il sert sept ans pour elle, « et elles furent à ses yeux comme quelques jours, parce qu'il l'aimait » (Genèse 29:20) — avant d'être trompé au matin des noces et de servir sept ans encore.\n\nLongtemps stérile face à Léa la féconde, elle crie, lutte, espère — jusqu'à Joseph : « Dieu a enlevé mon opprobre » (Genèse 30:23). Elle meurt en donnant la vie à Benjamin, sur le chemin de Bethléhem, où Jacob dresse un monument (Genèse 35:19). Jérémie puis Matthieu entendront « Rachel qui pleure ses enfants » (Matthieu 2:18)."
@@ -3921,6 +4487,34 @@
     [
      "Fils",
      "juda-fils"
+    ],
+    [
+     "Père",
+     "laban"
+    ],
+    [
+     "Fils",
+     "simeon-fils"
+    ],
+    [
+     "Fils",
+     "levi-fils"
+    ],
+    [
+     "Fils",
+     "issacar"
+    ],
+    [
+     "Fils",
+     "zabulon"
+    ],
+    [
+     "Fille",
+     "dina"
+    ],
+    [
+     "Fils",
+     "ruben"
     ]
    ],
    "histoire": "Substituée à sa sœur le soir des noces par la ruse de Laban, Léa porte toute sa vie la blessure de n'être pas choisie. Les noms de ses fils sont son journal intime : « L'Éternel a vu mon humiliation… cette fois mon mari s'attachera à moi… »\n\nAu quatrième, quelque chose change : « Cette fois, je louerai l'Éternel. C'est pourquoi elle lui donna le nom de Juda » (Genèse 29:35) — louange. De la mal-aimée descendent Juda, donc David, donc le Christ (Matthieu 1:2). Dieu écrit ses plus grandes lignes avec les cœurs blessés."
@@ -3963,6 +4557,10 @@
     [
      "Gendre",
      "jacob"
+    ],
+    [
+     "Père",
+     "bethuel"
     ]
    ],
    "histoire": "Accueillant d'abord — « Tu es ma chair et mes os » (Genèse 29:14) —, Laban se révèle maître en manipulation : il substitue Léa à Rachel au soir des noces, réclame sept nouvelles années, change dix fois le salaire de Jacob (Genèse 31:7).\n\nMais Dieu veille sur le fugitif : « J'ai vu tout ce que te fait Laban » (Genèse 31:12). La poursuite finale s'achève non en bataille mais en alliance, au tas de pierres de Galed : « Que l'Éternel veille sur toi et sur moi » — la Mitspa (Genèse 31:49). Jacob avait trouvé plus rusé que lui, et Dieu s'en était servi pour le former."
@@ -4027,6 +4625,30 @@
     [
      "Frère",
      "joseph-at"
+    ],
+    [
+     "Belle-fille",
+     "tamar-juda"
+    ],
+    [
+     "Fils",
+     "er-onan"
+    ],
+    [
+     "Frère",
+     "ruben"
+    ],
+    [
+     "Frère",
+     "benjamin"
+    ],
+    [
+     "Fils",
+     "perets"
+    ],
+    [
+     "Fils",
+     "zerach"
     ]
    ],
    "histoire": "C'est Juda qui souffle la vente de Joseph — « que gagnerons-nous à tuer notre frère ? » (Genèse 37:26) — et Juda encore qui traverse l'épisode trouble de Tamar, d'où il ressort en confessant : « Elle est plus juste que moi » (Genèse 38:26).\n\nL'homme a changé quand la famine ramène les frères en Égypte : devant le gouverneur inconnu, il s'offre en esclave à la place de Benjamin, pour ne pas briser le cœur de son père (Genèse 44:33). Ce plaidoyer fait éclater Joseph en sanglots.\n\nJacob mourant lui lègue l'oracle royal : « Le sceptre ne s'éloignera point de Juda… jusqu'à ce que vienne le Schilo » (Genèse 49:10). L'Apocalypse répond : « Le lion de la tribu de Juda a vaincu » (Apocalypse 5:5)."
@@ -4065,6 +4687,14 @@
     [
      "Frère",
      "aaron"
+    ],
+    [
+     "Père",
+     "amram"
+    ],
+    [
+     "Mère",
+     "jokebed"
     ]
    ],
    "histoire": "C'est elle, la grande sœur postée au bord du Nil, qui ose proposer à la fille de Pharaon une nourrice — la propre mère de l'enfant (Exode 2:7). Après la mer Rouge, « Marie, la prophétesse » prend le tambourin et entraîne toutes les femmes : « Chantez à l'Éternel, car il a fait éclater sa gloire » (Exode 15:21).\n\nÀ Hatséroth, elle conteste avec Aaron l'autorité de Moïse ; frappée de lèpre, elle est guérie par la prière de celui-là même qu'elle critiquait — « Ô Dieu, je te prie, guéris-la ! » (Nombres 12:13). Michée la compte parmi les trois envoyés de l'Exode (Michée 6:4).",
@@ -4087,7 +4717,17 @@
     ]
    ],
    "bio": "Sacrificateur de Madian, beau-père de Moïse — et premier consultant en organisation de l'histoire : « Ce que tu fais n'est pas bien, tu t'épuiseras. »",
-   "histoire": "Moïse fugitif trouve chez lui un toit, une épouse — Séphora — et quarante ans de formation au désert comme berger (Exode 3:1).\n\nAprès l'Exode, Jéthro rejoint le camp, se réjouit, offre des sacrifices… et observe Moïse jugeant seul le peuple du matin au soir. Son conseil a traversé les siècles : « Tu t'épuiseras toi-même… choisis des hommes capables et craignant Dieu, et décharge-toi sur eux » (Exode 18:21). Moïse écouta — la première délégation de l'histoire sainte venait d'un beau-père païen devenu croyant : « Je reconnais que l'Éternel est plus grand que tous les dieux » (Exode 18:11)."
+   "histoire": "Moïse fugitif trouve chez lui un toit, une épouse — Séphora — et quarante ans de formation au désert comme berger (Exode 3:1).\n\nAprès l'Exode, Jéthro rejoint le camp, se réjouit, offre des sacrifices… et observe Moïse jugeant seul le peuple du matin au soir. Son conseil a traversé les siècles : « Tu t'épuiseras toi-même… choisis des hommes capables et craignant Dieu, et décharge-toi sur eux » (Exode 18:21). Moïse écouta — la première délégation de l'histoire sainte venait d'un beau-père païen devenu croyant : « Je reconnais que l'Éternel est plus grand que tous les dieux » (Exode 18:11).",
+   "relations": [
+    [
+     "Fille",
+     "sephora"
+    ],
+    [
+     "Petit-fils",
+     "guerschom"
+    ]
+   ]
   },
   {
    "id": "balaam",
@@ -4111,7 +4751,17 @@
     ]
    ],
    "bio": "Devin de Mésopotamie engagé pour maudire Israël — dont la bouche ne put prononcer que des bénédictions. Son ânesse vit l'ange avant lui.",
-   "histoire": "Payé par Balak, roi de Moab, pour maudire Israël, Balaam part l'âme partagée — et son ânesse s'arrête trois fois devant l'ange qu'il ne voit pas, jusqu'à parler (Nombres 22:28).\n\nQuatre fois, la malédiction commandée se change en bénédiction dans sa bouche : « Comment maudirais-je celui que Dieu n'a point maudit ? » (Nombres 23:8), jusqu'à l'oracle messianique : « Un astre sort de Jacob, un sceptre s'élève d'Israël » (Nombres 24:17).\n\nMais l'homme aimait « le salaire de l'iniquité » (2 Pierre 2:15) : son conseil fit tomber Israël par la séduction (Nombres 31:16). On peut prophétiser juste et finir mal — « la voie de Balaam » reste un avertissement (Jude 1:11)."
+   "histoire": "Payé par Balak, roi de Moab, pour maudire Israël, Balaam part l'âme partagée — et son ânesse s'arrête trois fois devant l'ange qu'il ne voit pas, jusqu'à parler (Nombres 22:28).\n\nQuatre fois, la malédiction commandée se change en bénédiction dans sa bouche : « Comment maudirais-je celui que Dieu n'a point maudit ? » (Nombres 23:8), jusqu'à l'oracle messianique : « Un astre sort de Jacob, un sceptre s'élève d'Israël » (Nombres 24:17).\n\nMais l'homme aimait « le salaire de l'iniquité » (2 Pierre 2:15) : son conseil fit tomber Israël par la séduction (Nombres 31:16). On peut prophétiser juste et finir mal — « la voie de Balaam » reste un avertissement (Jude 1:11).",
+   "relations": [
+    [
+     "Appelé par",
+     "balak"
+    ],
+    [
+     "A béni",
+     "moise"
+    ]
+   ]
   },
   {
    "id": "rahab",
@@ -4153,7 +4803,17 @@
     ]
    ],
    "bio": "Prostituée de Jéricho qui cacha les espions et crut au Dieu d'Israël avant Israël. Le cordon cramoisi à sa fenêtre la sauva — et elle entra dans la lignée du Messie.",
-   "histoire": "Sur la muraille de Jéricho, Rahab cache les deux espions et prononce une confession de foi étonnante : « L'Éternel, votre Dieu, est Dieu en haut dans les cieux et en bas sur la terre » (Josué 2:11). Elle négocie la vie des siens contre un signe : le cordon de fil cramoisi attaché à sa fenêtre (Josué 2:18).\n\nQuand les murailles tombent, sa maison tient (Josué 6:25). Elle épouse Salmon et devient la mère de Booz — la généalogie de Jésus la cite en toutes lettres (Matthieu 1:5). Hébreux la classe parmi les héros de la foi (Hébreux 11:31), Jacques en fait la preuve que la foi agit (Jacques 2:25)."
+   "histoire": "Sur la muraille de Jéricho, Rahab cache les deux espions et prononce une confession de foi étonnante : « L'Éternel, votre Dieu, est Dieu en haut dans les cieux et en bas sur la terre » (Josué 2:11). Elle négocie la vie des siens contre un signe : le cordon de fil cramoisi attaché à sa fenêtre (Josué 2:18).\n\nQuand les murailles tombent, sa maison tient (Josué 6:25). Elle épouse Salmon et devient la mère de Booz — la généalogie de Jésus la cite en toutes lettres (Matthieu 1:5). Hébreux la classe parmi les héros de la foi (Hébreux 11:31), Jacques en fait la preuve que la foi agit (Jacques 2:25).",
+   "relations": [
+    [
+     "Fils",
+     "booz"
+    ],
+    [
+     "A caché les espions de",
+     "josue"
+    ]
+   ]
   },
   {
    "id": "jephthe",
@@ -4172,7 +4832,13 @@
     ]
    ],
    "bio": "Fils rejeté devenu libérateur de Galaad, vainqueur d'Ammon — et auteur du vœu le plus tragique de la Bible.",
-   "histoire": "Fils d'une prostituée, chassé par ses demi-frères, Jephthé devient chef de bande au pays de Tob — puis l'homme qu'on supplie de revenir quand Ammon attaque (Juges 11:6). L'Esprit de l'Éternel vient sur lui.\n\nAvant la bataille, il fait un vœu imprudent : offrir ce qui sortira le premier de sa maison à son retour (Juges 11:31). La victoire est totale ; mais c'est sa fille unique qui sort en dansant au-devant de lui. Son histoire crie la gravité des paroles prononcées devant Dieu (Ecclésiaste 5:2) — et Hébreux le compte pourtant, par grâce, parmi les hommes de foi (Hébreux 11:32)."
+   "histoire": "Fils d'une prostituée, chassé par ses demi-frères, Jephthé devient chef de bande au pays de Tob — puis l'homme qu'on supplie de revenir quand Ammon attaque (Juges 11:6). L'Esprit de l'Éternel vient sur lui.\n\nAvant la bataille, il fait un vœu imprudent : offrir ce qui sortira le premier de sa maison à son retour (Juges 11:31). La victoire est totale ; mais c'est sa fille unique qui sort en dansant au-devant de lui. Son histoire crie la gravité des paroles prononcées devant Dieu (Ecclésiaste 5:2) — et Hébreux le compte pourtant, par grâce, parmi les hommes de foi (Hébreux 11:32).",
+   "relations": [
+    [
+     "Fille",
+     "fille-jephthe"
+    ]
+   ]
   },
   {
    "id": "eli-pretre",
@@ -4199,6 +4865,14 @@
     [
      "Disciple",
      "samuel"
+    ],
+    [
+     "Fils",
+     "hophni-phinees"
+    ],
+    [
+     "Petit-fils",
+     "ikabod"
     ]
    ],
    "histoire": "À Silo, Éli prend d'abord pour une ivrogne la femme qui prie en silence — Anne — avant de bénir sa requête (1 Samuel 1:17). Il élèvera l'enfant de cette prière, Samuel.\n\nSa tragédie : ses propres fils méprisent l'Éternel, et il « ne les a pas réprimés » (1 Samuel 3:13). Mais sa grandeur : quand le petit Samuel entend la voix dans la nuit, c'est Éli qui discerne et lui enseigne la réponse — « Parle, Éternel, car ton serviteur écoute » (1 Samuel 3:9). Il meurt en apprenant la prise de l'arche, foudroyé par la nouvelle plus que par sa chute (1 Samuel 4:18).",
@@ -4238,6 +4912,10 @@
     [
      "Fils",
      "samuel"
+    ],
+    [
+     "Époux",
+     "elkana"
     ]
    ],
    "histoire": "Provoquée par sa rivale, incomprise de son mari, Anne répand son âme devant l'Éternel — les lèvres bougent, la voix ne s'entend pas, au point qu'Éli la croit ivre (1 Samuel 1:13). Elle fait un vœu : si Dieu lui donne un fils, il sera à lui tous les jours de sa vie.\n\nL'Éternel se souvient d'elle. Elle nomme l'enfant Samuel — « je l'ai demandé à l'Éternel » — et, sevré, le ramène à Silo : « Aussi je veux le prêter à l'Éternel » (1 Samuel 1:28). Son cantique renverse le monde : « L'Éternel relève le faible de la poussière » (1 Samuel 2:8) — Marie le chantera à son tour (Luc 1:52)."
@@ -4276,6 +4954,10 @@
     [
      "Ami",
      "david"
+    ],
+    [
+     "Fils",
+     "mephiboscheth"
     ]
    ],
    "histoire": "Homme de foi avant tout : avec son seul écuyer, il escalade le rocher des Philistins — « rien n'empêche l'Éternel de sauver au moyen d'un petit nombre » (1 Samuel 14:6).\n\nAprès Goliath, « l'âme de Jonathan fut attachée à l'âme de David » (1 Samuel 18:1) : il lui donne son manteau, son épée, son arc — les insignes du prince. Contre la fureur de son propre père, il protège David, l'avertit par le signe des flèches, renouvelle l'alliance : « L'Éternel sera entre moi et toi à jamais » (1 Samuel 20:42). Il saura « fortifier sa main en Dieu » au désert (1 Samuel 23:16).\n\nIl tombe au Guilboa aux côtés de Saül ; la complainte de David pleure « l'amour plus merveilleux que l'amour des femmes » (2 Samuel 1:26).",
@@ -4306,6 +4988,10 @@
     [
      "Époux",
      "david"
+    ],
+    [
+     "Époux",
+     "nabal"
     ]
    ],
    "histoire": "Quand Nabal insulte les envoyés de David, quatre cents épées montent déjà vers Carmel. Abigaïl descend à leur rencontre avec des vivres, se jette aux pieds de David et prononce l'un des plaidoyers les plus habiles de l'Écriture : qu'il ne se charge pas « du sang versé sans cause » — l'âme de David restera « liée au faisceau des vivants auprès de l'Éternel » (1 Samuel 25:29).\n\nDavid bénit Dieu pour elle : « Béni soit ton bon sens, et bénie sois-tu » (1 Samuel 25:33). Nabal mort d'une attaque dix jours plus tard, David l'envoie chercher et l'épouse. La douceur avait désarmé six cents hommes."
@@ -4336,6 +5022,14 @@
     [
      "Père",
      "david"
+    ],
+    [
+     "Frère",
+     "amnon"
+    ],
+    [
+     "Sœur",
+     "tamar-david"
     ]
    ],
    "histoire": "Vengeur de sa sœur Tamar, exilé, puis rappelé sans être reçu, Absalom nourrit quatre ans une ambition patiente : posté à la porte, il « volait le cœur des gens d'Israël » (2 Samuel 15:6).\n\nSa conjuration chasse David de Jérusalem, pieds nus et tête couverte sur le mont des Oliviers (2 Samuel 15:30). Mais dans la forêt d'Éphraïm, sa chevelure se prend aux branches d'un térébinthe ; suspendu « entre le ciel et la terre », il est percé par Joab (2 Samuel 18:14).\n\nLa victoire a le goût du deuil : « Absalom, mon fils, mon fils ! Que ne suis-je mort à ta place ! » (2 Samuel 18:33) — le cri de David préfigure un autre Père donnant son Fils.",
@@ -4371,6 +5065,10 @@
     [
      "Fils",
      "salomon"
+    ],
+    [
+     "Époux",
+     "urie"
     ]
    ],
    "histoire": "Un soir, du haut de sa terrasse, David la voit ; il envoie, il prend — elle est l'épouse d'Urie le Héthien, en campagne pour le roi (2 Samuel 11:4). L'adultère s'enfonce en meurtre : Urie tombe en première ligne, sur ordre.\n\n« Ce que David avait fait déplut à l'Éternel » (2 Samuel 11:27). L'enfant meurt malgré le jeûne du roi brisé. Mais la grâce écrit la suite : Bath-Schéba enfante Salomon, « et l'Éternel l'aima » (2 Samuel 12:24). C'est elle qui, des années plus tard, fera valoir les droits de son fils au trône (1 Rois 1:17) — et Matthieu l'inscrit dans la généalogie de Jésus (Matthieu 1:6)."
@@ -4434,6 +5132,18 @@
     [
      "Roi servi",
      "david"
+    ],
+    [
+     "Frère",
+     "abischai"
+    ],
+    [
+     "Frère",
+     "asael"
+    ],
+    [
+     "Mère",
+     "tseruja"
     ]
    ],
    "histoire": "Neveu de David, Joab prend Jérusalem (1 Chroniques 11:6) et gagne toutes les guerres du règne. Mais son épée n'obéit qu'à sa propre loi : il assassine Abner par vengeance (2 Samuel 3:27), exécute Absalom suspendu malgré l'ordre du roi (2 Samuel 18:14), poignarde Amasa son rival (2 Samuel 20:10).\n\nC'est lui pourtant qui porte la lettre condamnant Urie (2 Samuel 11:14) — l'homme des basses œuvres sait tout. Rallié au mauvais prétendant à la fin, il meurt accroché aux cornes de l'autel (1 Rois 2:34). Serviteur immense, cœur insoumis : l'efficacité sans l'obéissance finit mal."
@@ -4472,6 +5182,26 @@
     [
      "Adversaire",
      "elie"
+    ],
+    [
+     "Fille",
+     "athalie"
+    ],
+    [
+     "Père",
+     "omri"
+    ],
+    [
+     "Fils",
+     "achazia-israel"
+    ],
+    [
+     "Fils",
+     "joram-israel"
+    ],
+    [
+     "Victime",
+     "nabot"
     ]
    ],
    "histoire": "Sous l'influence de Jézabel, Achab installe Baal en Israël (1 Rois 16:32). Face à lui se dresse Élie : la sécheresse, puis le Carmel. « Est-ce toi qui jettes le trouble en Israël ? — Non, c'est toi » (1 Rois 18:17).\n\nL'affaire de la vigne de Naboth révèle le fond : il boude pour une vigne, laisse Jézabel tuer, descend en prendre possession — et trouve Élie dans la vigne : « Tu as tué, et de plus tu usurpes ! » (1 Rois 21:19). Contre toute attente, il s'humilie, et Dieu diffère le malheur (1 Rois 21:29).\n\nIl meurt au combat, déguisé en vain : une flèche « au hasard » trouve le défaut de sa cuirasse (1 Rois 22:34)."
@@ -4510,6 +5240,22 @@
     [
      "Adversaire",
      "elie"
+    ],
+    [
+     "Fille",
+     "athalie"
+    ],
+    [
+     "Fils",
+     "achazia-israel"
+    ],
+    [
+     "Fils",
+     "joram-israel"
+    ],
+    [
+     "Victime",
+     "nabot"
     ]
    ],
    "histoire": "Fille du roi de Sidon, Jézabel importe Baal avec elle : quatre cent cinquante prophètes mangent à sa table (1 Rois 18:19) pendant qu'elle extermine ceux de l'Éternel (1 Rois 18:4). Après le Carmel, sa menace fait fuir Élie au désert (1 Rois 19:2).\n\nPour une vigne refusée, elle monte un faux procès et fait lapider Naboth : « Lève-toi, prends possession » (1 Rois 21:15). La sentence prophétique s'accomplit à la lettre sous Jéhu : fardée à sa fenêtre, elle est précipitée (2 Rois 9:33). L'Apocalypse fera de son nom le symbole de toute séduction qui égare les serviteurs de Dieu (Apocalypse 2:20)."
@@ -4618,6 +5364,10 @@
     [
      "Conseiller",
      "daniel"
+    ],
+    [
+     "Fils",
+     "evil-merodac"
     ]
    ],
    "histoire": "Instrument du jugement, Nebucadnetsar brûle le temple et déporte Juda (2 Rois 25:9). Mais à Babylone, Dieu poursuit le roi lui-même : le songe de la statue (Daniel 2:28), la fournaise d'où sortent trois hommes sans odeur de feu — « Béni soit le Dieu de Schadrac… » (Daniel 3:28).\n\nL'orgueil résiste : « N'est-ce pas ici Babylone la grande, que j'ai bâtie ? » (Daniel 4:30). La sentence tombe en pleine phrase : chassé, il broute l'herbe comme les bœufs, sept temps durant.\n\nSa raison revenue, le plus grand roi du monde signe l'une des plus belles doxologies de la Bible : « Je loue, j'exalte et je glorifie le roi des cieux… il peut abaisser ceux qui marchent avec orgueil » (Daniel 4:37)."
@@ -4708,7 +5458,21 @@
     ]
    ],
    "bio": "Empereur perse qui renversa Babylone et renvoya les exilés rebâtir le temple — nommé par Ésaïe cent cinquante ans avant sa naissance.",
-   "histoire": "Ésaïe l'avait nommé d'avance : « Je dis de Cyrus : Il est mon berger, et il accomplira toute ma volonté » (Ésaïe 44:28) — l'Éternel l'appelle même « son oint » (Ésaïe 45:1).\n\nLa première année de son règne sur Babylone, « l'Éternel réveilla l'esprit de Cyrus » : son édit renvoie les Juifs à Jérusalem, avec les ustensiles du temple et un ordre de reconstruction (Esdras 1:2). L'histoire des empires est un gant dans la main de Dieu : « Le cœur du roi est un courant d'eau dans la main de l'Éternel » (Proverbes 21:1)."
+   "histoire": "Ésaïe l'avait nommé d'avance : « Je dis de Cyrus : Il est mon berger, et il accomplira toute ma volonté » (Ésaïe 44:28) — l'Éternel l'appelle même « son oint » (Ésaïe 45:1).\n\nLa première année de son règne sur Babylone, « l'Éternel réveilla l'esprit de Cyrus » : son édit renvoie les Juifs à Jérusalem, avec les ustensiles du temple et un ordre de reconstruction (Esdras 1:2). L'histoire des empires est un gant dans la main de Dieu : « Le cœur du roi est un courant d'eau dans la main de l'Éternel » (Proverbes 21:1).",
+   "relations": [
+    [
+     "A libéré",
+     "zorobabel"
+    ],
+    [
+     "Annoncé par",
+     "esaie"
+    ],
+    [
+     "Contemporain de",
+     "daniel"
+    ]
+   ]
   },
   {
    "id": "zorobabel",
@@ -4733,7 +5497,29 @@
    ],
    "bio": "Prince de Juda, chef du premier retour d'exil et rebâtisseur du temple : « Ni par la puissance, ni par la force, mais par mon Esprit. »",
    "histoire": "Descendant de David, Zorobabel conduit la première caravane du retour et relève l'autel au milieu des ruines, « car la crainte était sur eux » (Esdras 3:3). Les fondations posées, les anciens pleurent, les jeunes crient de joie.\n\nFace aux oppositions qui arrêtent le chantier quinze ans, les prophètes Aggée et Zacharie le relancent : « Fortifie-toi, Zorobabel !… car je suis avec vous » (Aggée 2:4). Et la parole qui porte son nom traverse les siècles : « Ni par la puissance, ni par la force, mais par mon Esprit, dit l'Éternel des armées » (Zacharie 4:6). Il figure dans la généalogie de Jésus (Matthieu 1:12).",
-   "tribu": "juda-fils"
+   "tribu": "juda-fils",
+   "relations": [
+    [
+     "Avec",
+     "josue-sacrificateur"
+    ],
+    [
+     "Encouragé par",
+     "aggee"
+    ],
+    [
+     "Encouragé par",
+     "zacharie-prophete"
+    ],
+    [
+     "Grand-père",
+     "jojakin"
+    ],
+    [
+     "Libéré par",
+     "cyrus"
+    ]
+   ]
   },
   {
    "id": "haman",
@@ -4799,7 +5585,13 @@
     ]
    ],
    "bio": "Le prophète au mariage brisé : Dieu lui fit épouser Gomer l'infidèle pour faire voir à Israël le cœur blessé — et l'amour inguérissable — de son Dieu.",
-   "histoire": "« Va, prends une femme prostituée » (Osée 1:2) : la vie d'Osée devient la parabole vivante de l'alliance trahie. Gomer le quitte ; Dieu lui ordonne de la racheter et de l'aimer encore, « comme l'Éternel aime les enfants d'Israël » (Osée 3:1).\n\nSon livre alterne plaintes déchirantes et déclarations brûlantes : « Que ferai-je de toi, Éphraïm ?… Mon cœur s'agite au-dedans de moi » (Osée 11:8). Il appelle : « Venez, retournons à l'Éternel… il nous guérira » (Osée 6:1), et promet : « Je les aimerai de bon cœur » (Osée 14:4). Paul et Pierre citeront son oracle : « J'appellerai mon peuple celui qui n'était pas mon peuple » (Romains 9:25)."
+   "histoire": "« Va, prends une femme prostituée » (Osée 1:2) : la vie d'Osée devient la parabole vivante de l'alliance trahie. Gomer le quitte ; Dieu lui ordonne de la racheter et de l'aimer encore, « comme l'Éternel aime les enfants d'Israël » (Osée 3:1).\n\nSon livre alterne plaintes déchirantes et déclarations brûlantes : « Que ferai-je de toi, Éphraïm ?… Mon cœur s'agite au-dedans de moi » (Osée 11:8). Il appelle : « Venez, retournons à l'Éternel… il nous guérira » (Osée 6:1), et promet : « Je les aimerai de bon cœur » (Osée 14:4). Paul et Pierre citeront son oracle : « J'appellerai mon peuple celui qui n'était pas mon peuple » (Romains 9:25).",
+   "relations": [
+    [
+     "Femme",
+     "gomer"
+    ]
+   ]
   },
   {
    "id": "jean-apotre",
@@ -5089,6 +5881,14 @@
     [
      "Compagnon",
      "pierre"
+    ],
+    [
+     "Mère",
+     "salome-disciple"
+    ],
+    [
+     "Père",
+     "zebedee"
     ]
    ],
    "histoire": "Jean répare ses filets avec son frère Jacques quand Jésus les appelle ; ils laissent la barque et leur père (Matthieu 4.21-22). Avec Pierre et Jacques, il forme le cercle le plus intime : la transfiguration (Matthieu 17.1), la chambre de la fille de Jaïrus (Marc 5.37), Gethsémané (Marc 14.33). Jésus les surnomme « fils du tonnerre » (Marc 3.17) — ils voulaient faire descendre le feu du ciel sur un village samaritain (Luc 9.54).\n\nÀ la dernière Cène, il est penché sur la poitrine de Jésus (Jean 13.23). Au pied de la croix, Jésus lui confie sa mère (Jean 19.26-27). Au matin de Pâques, il court plus vite que Pierre, voit les linges, et croit (Jean 20.4-8). Sur le lac, c'est encore lui qui reconnaît le Ressuscité : « C'est le Seigneur ! » (Jean 21.7).\n\nAvec Pierre, il guérit le boiteux de la Belle Porte et répond au sanhédrin : « Nous ne pouvons pas ne pas parler » (Actes 4.19-20). Devenu ancien, il écrit : « Dieu est amour » (1 Jean 4.8). Exilé sur l'île de Patmos « à cause de la parole de Dieu », il y reçoit la révélation de Jésus-Christ glorifié (Apocalypse 1.9-18) et achève la Bible sur un cri d'attente : « Viens, Seigneur Jésus ! » (Apocalypse 22.20).",
@@ -5246,6 +6046,14 @@
     [
      "Maître",
      "jesus"
+    ],
+    [
+     "Mère",
+     "salome-disciple"
+    ],
+    [
+     "Père",
+     "zebedee"
     ]
    ],
    "histoire": "Appelé avec son frère Jean pendant qu'ils arrangent les filets dans la barque de Zébédée (Matthieu 4.21-22), Jacques appartient au premier cercle : il voit la transfiguration (Marc 9.2), la résurrection de la fille de Jaïrus (Marc 5.37) et l'agonie de Gethsémané (Marc 14.33). Jésus surnomme les deux frères Boanergès, « fils du tonnerre » (Marc 3.17).\n\nLeur mère demande pour eux les deux premières places dans le royaume ; Jésus répond : « Pouvez-vous boire la coupe que je dois boire ? » (Matthieu 20.20-23). Jacques la boira le premier : vers l'an 44, le roi Hérode « fit mourir par l'épée Jacques, frère de Jean » (Actes 12.1-2) — premier apôtre martyr, fidèle à la parole de son Maître."
@@ -5624,7 +6432,20 @@
     ]
    ],
    "bio": "Vieillard « juste et pieux » qui attendait la consolation d'Israël. L'Esprit lui avait promis qu'il ne mourrait pas avant d'avoir vu le Christ — il le prit dans ses bras.",
-   "relations": [],
+   "relations": [
+    [
+     "A béni",
+     "jesus"
+    ],
+    [
+     "A parlé à",
+     "marie"
+    ],
+    [
+     "A vu",
+     "joseph-nt"
+    ]
+   ],
    "histoire": "Le Saint-Esprit était sur lui, et il avait reçu cette promesse : il ne verrait pas la mort avant d'avoir vu le Christ du Seigneur (Luc 2.25-26). Poussé par l'Esprit, il vient dans le temple le jour où Marie et Joseph présentent l'enfant Jésus.\n\nIl le reçoit dans ses bras et bénit Dieu : « Maintenant, Seigneur, tu laisses ton serviteur s'en aller en paix… Car mes yeux ont vu ton salut… Lumière pour éclairer les nations » (Luc 2.28-32). Puis il annonce à Marie la division que provoquera cet enfant, « signe qui provoquera la contradiction », et le glaive qui transpercera son âme (Luc 2.34-35). Une vie entière d'attente, couronnée par un seul regard."
   },
   {
@@ -5652,7 +6473,16 @@
     ]
    ],
    "bio": "Prophétesse de quatre-vingt-quatre ans, veuve qui ne quittait pas le temple, servant Dieu nuit et jour dans le jeûne et la prière. Elle reconnut l'enfant Jésus et parla de lui à tous.",
-   "relations": [],
+   "relations": [
+    [
+     "A annoncé",
+     "jesus"
+    ],
+    [
+     "Tribu",
+     "aser"
+    ]
+   ],
    "histoire": "Fille de Phanuel, de la tribu d'Aser, elle n'avait vécu que sept ans avec son mari avant de rester veuve. « elle ne quittait pas le temple, et elle servait Dieu nuit et jour dans le jeûne et dans la prière » (Luc 2.36-37).\n\nSurvenant à l'heure même où Siméon bénit l'enfant, elle loue Dieu, et « elle parlait de Jésus à tous ceux qui attendaient la délivrance de Jérusalem » (Luc 2.38). Une longue fidélité cachée, récompensée au bon moment : les yeux qui veillent finissent par voir.",
    "tribu": "aser"
   },
@@ -5719,6 +6549,10 @@
     [
      "Allié",
      "pilate"
+    ],
+    [
+     "Beau-père",
+     "anne-sacrificateur"
     ]
    ],
    "histoire": "Après la résurrection de Lazare, le sanhédrin s'affole. Caïphe tranche : « Il est dans votre intérêt qu'un seul homme meure pour le peuple, et que la nation entière ne périsse pas ». Jean note qu'il prophétisait malgré lui : Jésus devait mourir pour la nation, et pour rassembler les enfants de Dieu dispersés (Jean 11.47-52).\n\nC'est dans sa cour que Jésus comparaît de nuit. Face au silence de l'accusé, il l'adjure « par le Dieu vivant, de nous dire si tu es le Christ, le Fils de Dieu ». Jésus répond — « Tu l'as dit » — et Caïphe déchire ses vêtements : « Il a blasphémé ! » (Matthieu 26.57-66). Il livra Jésus à Pilate (Jean 18.28) et persécuta encore les apôtres (Actes 4.6) ; l'histoire a retenu de lui une seule phrase vraie, dite à l'envers."
@@ -5745,7 +6579,16 @@
     ]
    ],
    "bio": "Brigand et meurtrier, détenu fameux relâché à la place de Jésus. Le premier homme à pouvoir dire, à la lettre : il est mort à ma place.",
-   "relations": [],
+   "relations": [
+    [
+     "Relâché par",
+     "pilate"
+    ],
+    [
+     "Préféré à",
+     "jesus"
+    ]
+   ],
    "histoire": "À chaque fête, le gouverneur relâchait un prisonnier au choix de la foule. Pilate propose : « Lequel voulez-vous que je vous relâche : Barabbas, ou Jésus, qu'on appelle Christ ? » (Matthieu 27.15-17). Barabbas « avait été mis en prison pour une sédition qui avait eu lieu dans la ville, et pour un meurtre » (Luc 23.19).\n\nExcitée par les chefs, la foule crie : « Relâche-nous Barabbas ! » — et pour Jésus : « Crucifie-le ! » (Luc 23.18-21). Pilate cède : il relâche le coupable et livre l'innocent (Matthieu 27.26). La croix dressée ce jour-là était la sienne ; un autre l'a prise. En Barabbas, l'Évangile donne son résumé le plus brut : le juste meurt, le coupable sort libre (1 Pierre 3.18)."
   },
   {
@@ -6435,6 +7278,10 @@
     [
      "Frère",
      "abel"
+    ],
+    [
+     "Frère",
+     "cain"
     ]
    ],
    "histoire": "Après le meurtre d'Abel, Ève enfante un fils et le nomme Seth : « Dieu m'a donné un autre fils à la place d'Abel » (Genèse 4.25). À la naissance de son propre fils Énosch, une phrase immense : « C'est alors que l'on commença à invoquer le nom de l'Éternel » (Genèse 4.26).\n\nLa généalogie de Genèse 5 fait passer par lui la lignée d'Adam à Noé (Genèse 5.3-8) — et Luc fait remonter par Seth la généalogie de Jésus jusqu'à « Adam, fils de Dieu » (Luc 3.38). Après la pire fracture familiale, Dieu rouvre une lignée de prière."
@@ -6456,7 +7303,16 @@
     ]
    ],
    "bio": "« Vaillant chasseur devant l'Éternel », premier bâtisseur d'empire : Babel, Ninive… Les deux villes qui défieront Dieu portent sa signature.",
-   "relations": [],
+   "relations": [
+    [
+     "Arrière-grand-père",
+     "noe"
+    ],
+    [
+     "Grand-père",
+     "cham"
+    ]
+   ],
    "histoire": "Descendant de Cham par Cusch, Nimrod « commença à être puissant sur la terre » ; son royaume débute par Babel, en Schinear, puis il bâtit Ninive (Genèse 10.8-12). Juste après, le même pays de Schinear voit s'élever la tour de Babel — « faisons-nous un nom » (Genèse 11.1-9).\n\nLa Bible retient son nom comme un proverbe de puissance conquérante (Michée 5.5 appelle l'Assyrie « le pays de Nimrod »). Babel et Ninive, ses deux villes, deviendront les deux grandes figures de l'orgueil que Dieu abaisse."
   },
   {
@@ -6570,6 +7426,18 @@
     [
      "Beau-père",
      "juda-fils"
+    ],
+    [
+     "Mari",
+     "er-onan"
+    ],
+    [
+     "Fils",
+     "perets"
+    ],
+    [
+     "Fils",
+     "zerach"
     ]
    ],
    "histoire": "Mariée à Er, fils aîné de Juda, puis à Onan, Tamar reste veuve sans enfant — et Juda tarde à lui donner son troisième fils comme la coutume l'exigeait (Genèse 38.6-11). Voilée au bord du chemin, elle obtient de Juda lui-même l'enfant du lévirat, en gardant son sceau et son bâton pour preuves. Accusée et menacée du feu, elle les présente ; Juda confesse : « Elle est moins coupable que moi » (Genèse 38.24-26).\n\nDe ses jumeaux, Pérets ouvre la lignée royale : les anciens de Bethléhem béniront Booz : « Puisse la postérité que l'Éternel te donnera par cette jeune femme rendre ta maison semblable à la maison de Pérets, qui fut enfanté à Juda par Tamar ! » (Ruth 4.12), et Matthieu l'inscrit, première femme citée, dans la généalogie de Jésus (Matthieu 1.3)."
@@ -6633,6 +7501,10 @@
     [
      "Époux",
      "moise"
+    ],
+    [
+     "Fils",
+     "guerschom"
     ]
    ],
    "histoire": "Moïse, fugitif, défend les sept filles du sacrificateur de Madian venues abreuver le troupeau ; Jéthro lui donne Séphora, qui enfante Guerschom — « j'habite un pays étranger » (Exode 2.16-22).\n\nSur le chemin du retour vers l'Égypte, c'est elle qui circoncit son fils dans l'épisode mystérieux de la halte (Exode 4.24-26). Restée chez son père pendant les plaies, elle rejoint Moïse au désert avec ses deux fils, quand Jéthro vient le retrouver près de la montagne de Dieu (Exode 18.1-6)."
@@ -6767,6 +7639,14 @@
     [
      "A servi",
      "josue"
+    ],
+    [
+     "Frère",
+     "nadab-abihu"
+    ],
+    [
+     "Frère",
+     "ithamar"
     ]
    ],
    "histoire": "Sur la montagne de Hor, Moïse dépouille Aaron de ses vêtements sacerdotaux et en revêt Éléazar : le père meurt là, le fils descend grand prêtre (Nombres 20.25-28). C'est devant lui que Josué est établi chef du peuple (Nombres 27.18-23).\n\nAvec Josué, il préside au partage du pays par le sort à Silo (Josué 14.1 ; 19.51). Sa mort clôt le livre de Josué, une génération fidèle refermée (Josué 24.33). Son fils Phinées poursuivra la lignée.",
@@ -6939,6 +7819,10 @@
     [
      "Oncle",
      "caleb"
+    ],
+    [
+     "Épouse",
+     "acsa"
     ]
    ],
    "histoire": "Caleb promet sa fille Acsa à qui prendra Kirjath-Sépher ; Othniel la prend, et gagne avec elle les sources d'eau qu'elle sut demander (Josué 15.16-19 ; Juges 1.12-15).\n\nQuand Israël, infidèle, tombe huit ans sous Cuschan-Rischeathaïm, « l'Esprit de l'Éternel fut sur lui ; il devint juge en Israël » et délivra le peuple : le pays fut en repos quarante ans (Juges 3.7-11). Premier de la lignée des juges — le cycle de la grâce commençait."
@@ -6964,7 +7848,12 @@
     ]
    ],
    "bio": "Juge gaucher de Benjamin, porteur du tribut à Églon, roi de Moab — et d'une épée cachée sur la cuisse droite. « J'ai une parole de Dieu pour toi. »",
-   "relations": [],
+   "relations": [
+    [
+     "A tué",
+     "eglon"
+    ]
+   ],
    "histoire": "Dix-huit ans sous Églon de Moab, et Israël crie à l'Éternel, qui suscite Éhud, « qui ne se servait pas de la main droite » (Juges 3.12-15). L'épée à deux tranchants cachée là où on ne fouille pas, il obtient un tête-à-tête : « J'ai une parole de Dieu pour toi » — et frappe (Juges 3.16-22).\n\nPortes verrouillées, fuite par Séira, trompette dans la montagne d'Éphraïm : « Suivez-moi, car l'Éternel a livré entre vos mains les Moabites, vos ennemis ». Le pays fut en repos quatre-vingts ans (Juges 3.23-30).",
    "tribu": "benjamin"
   },
@@ -6998,6 +7887,10 @@
     [
      "Alliée de",
      "debora"
+    ],
+    [
+     "Mari",
+     "heber-kenien"
     ]
    ],
    "histoire": "Débora avait prophétisé à Barak : « L'Éternel livrera Sisera entre les mains d'une femme » (Juges 4.9). Sisera, fuyant à pied la déroute du Kison, se réfugie dans la tente de Jaël : lait, couverture, sommeil — et le pieu de la tente (Juges 4.17-21).\n\nLe cantique la célèbre : « Bénie soit entre les femmes Jaël… Il demanda de l'eau, elle a donné du lait » (Juges 5.24-27). Le pays eut du repos quarante ans (Juges 5.31). Dieu confond la puissance par les mains qu'on n'attend pas."
@@ -7090,6 +7983,14 @@
     [
      "Belle-fille",
      "orpa"
+    ],
+    [
+     "Mari",
+     "elimelec"
+    ],
+    [
+     "Fils",
+     "machlon-kiljon"
     ]
    ],
    "histoire": "La famine la pousse à Moab avec Élimélec et leurs deux fils ; dix ans plus tard, elle a tout perdu — mari et fils. « appelez-moi Mara, car le Tout-Puissant m'a remplie d'amertume. J'étais dans l'abondance à mon départ, et l'Éternel me ramène les mains vides » (Ruth 1.1-21). Ruth, pourtant, s'attache à elle.\n\nC'est Naomi qui reconnaît la main de Dieu chez Booz — « Cet homme est notre parent… il est de ceux qui ont sur nous droit de rachat » (Ruth 2.20) — et qui guide Ruth vers l'aire (Ruth 3.1-4). Au dernier chapitre, les femmes de Bethléhem la félicitent, l'enfant sur ses genoux : « Cet enfant restaurera ton âme » (Ruth 4.14-17). La femme « vide » tient dans ses bras l'aïeul de David.",
@@ -7278,6 +8179,10 @@
     [
      "Époux",
      "david"
+    ],
+    [
+     "Sœur",
+     "merab"
     ]
    ],
    "histoire": "« Mical, fille de Saül, aima David » — Saül en fait un piège, cent Philistins pour dot (1 Samuel 18.20-27). Quand son père envoie tuer David, c'est elle qui le descend par la fenêtre et ruse avec le théraphim dans le lit (1 Samuel 19.11-17). Donnée ensuite à un autre, elle est reprise par David des années plus tard (2 Samuel 3.13-16).\n\nLe jour où l'arche monte à Jérusalem, elle regarde par la fenêtre David qui saute et danse devant l'Éternel, et « elle le méprisa dans son cœur ». À son sarcasme, David répond : « c'est devant l'Éternel que j'ai dansé… Je veux paraître encore plus vil que cela, et m'abaisser à mes propres yeux » (2 Samuel 6.16-22). Elle n'eut point d'enfant jusqu'à sa mort (2 Samuel 6.23).",
@@ -7481,6 +8386,10 @@
     [
      "Victime",
      "tamar-david"
+    ],
+    [
+     "Mère",
+     "achinoam"
     ]
    ],
    "histoire": "Malade de convoitise pour Tamar, Amnon suit le conseil rusé de Jonadab, la fait venir et la viole malgré ses supplications ; puis « Amnon eut pour elle une forte aversion, plus forte que n'avait été son amour » — il la chasse (2 Samuel 13.1-17).\n\nDavid s'irrite mais ne juge pas ; Absalom se tait deux ans, puis fait frapper Amnon au festin de la tonte (2 Samuel 13.21-29). La parole de Nathan s'accomplissait : « l'épée ne s'éloignera jamais de ta maison » (2 Samuel 12.10). Le péché du père, non jugé chez le fils, devient la fracture de toute une famille.",
@@ -7598,6 +8507,10 @@
     [
      "Collègue",
      "tsadok"
+    ],
+    [
+     "Père",
+     "achimelec"
     ]
    ],
    "histoire": "Échappé de Nob, Abiathar rejoint David : « Reste avec moi, ne crains rien… près de moi tu seras bien gardé » (1 Samuel 22.20-23). L'éphod qu'il apporte servira à consulter l'Éternel dans les années de cavale (1 Samuel 23.6-12 ; 30.7-8). Avec Tsadok, il portera l'arche pendant la fuite devant Absalom (2 Samuel 15.24-29).\n\nMais au soir du règne, il suit Adonija (1 Rois 1.7). Salomon l'épargne « parce que tu as porté l'arche du Seigneur l'Éternel devant David, mon père, et parce que tu as eu part à toutes les souffrances de mon père », et le renvoie à Anathoth — accomplissant la parole dite jadis contre la maison d'Éli (1 Rois 2.26-27). Jésus évoquera le temps « du souverain sacrificateur Abiathar » à propos des pains de proposition (Marc 2.25-26).",
@@ -7637,6 +8550,10 @@
     [
      "A oint",
      "salomon"
+    ],
+    [
+     "Fils",
+     "achimaats"
     ]
    ],
    "histoire": "Quand David fuit devant Absalom, Tsadok sort avec l'arche ; le roi la renvoie — « si je trouve grâce aux yeux de l'Éternel, il me ramènera » — et Tsadok devient, dans la ville, les yeux du roi en exil (2 Samuel 15.24-29).\n\nResté à l'écart du complot d'Adonija (1 Rois 1.8), il reçoit l'ordre qui tranche l'histoire : « faites monter Salomon, mon fils, sur ma mule, et faites-le descendre à Guihon. Là, le sacrificateur Tsadok et Nathan le prophète l'oindront pour roi sur Israël » (1 Rois 1.33-34). Salomon l'établit à la place d'Abiathar (1 Rois 2.35) ; Ézéchiel réservera le service de l'autel aux « fils de Tsadok, qui ont fait le service de mon sanctuaire quand les enfants d'Israël s'égaraient loin de moi » (Ézéchiel 44.15). La fidélité se transmet.",
@@ -7750,6 +8667,10 @@
     [
      "Rival",
      "roboam"
+    ],
+    [
+     "Fils",
+     "nadab-roi"
     ]
    ],
    "histoire": "Le prophète Achija déchire son manteau en douze morceaux : « Prends pour toi dix morceaux ! Car ainsi parle l'Éternel… Voici, je vais arracher le royaume de la main de Salomon » — avec une promesse conditionnée à l'obéissance (1 Rois 11.29-38). Au schisme, Jéroboam règne sur Israël (1 Rois 12.16-20).\n\nMais la peur le perd : « Le royaume pourrait bien maintenant retourner à la maison de David ». Deux veaux d'or, Béthel et Dan : « Israël ! voici ton Dieu, qui t'a fait sortir du pays d'Égypte » (1 Rois 12.26-30). Dès lors, chaque roi du Nord sera mesuré à ce refrain : « il ne se détourna point des péchés de Jéroboam » (2 Rois 10.29 — et jusqu'à Jéroboam II, son homonyme, 2 Rois 14.23-24). Bâtir sa sécurité sur une idole, c'est léguer sa chute à tous ses héritiers.",
@@ -7780,6 +8701,10 @@
     [
      "Rival",
      "jeroboam"
+    ],
+    [
+     "Fils",
+     "abijam"
     ]
    ],
    "histoire": "À Sichem, le peuple demande un joug allégé. Les anciens conseillent : « Si aujourd'hui tu rends service à ce peuple… ils seront pour toujours tes serviteurs ». Les jeunes soufflent la morgue : « mon père vous a châtiés avec des fouets, et moi je vous châtierai avec des scorpions » (1 Rois 12.1-14). Israël répond : « À tes tentes, Israël ! » — dix tribus s'en vont, « car cela fut dirigé par l'Éternel » (1 Rois 12.15-16).\n\nSur Juda réduit, Roboam veut reconquérir ; le prophète Schemaeja l'arrête : « c'est de par moi que cette chose est arrivée » (1 Rois 12.21-24). Son règne glisse vers les hauts lieux, et Schischak d'Égypte emporte les trésors du temple — les boucliers d'or remplacés par de l'airain (1 Rois 14.25-28) : l'image d'un héritage bradé.",
@@ -7837,6 +8762,10 @@
     [
      "Fils",
      "josaphat"
+    ],
+    [
+     "Père",
+     "abijam"
     ]
    ],
    "histoire": "Asa « fit ce qui est droit aux yeux de l'Éternel, comme David » : prostitués sacrés bannis, idoles brûlées, et Maaca sa grand-mère destituée pour son idole d'Astarté (1 Rois 15.11-14). Face à un million d'Éthiopiens, sa prière reste un modèle : « Éternel, toi seul peux venir en aide au faible comme au fort » (2 Chroniques 14.10).\n\nMais vieilli, menacé par Baescha, il achète l'alliance syrienne avec l'argent du temple. Le voyant Hanani le reprend — « l'Éternel étend ses regards sur toute la terre, pour soutenir ceux dont le cœur est tout entier à lui » — et Asa l'emprisonne ; malade des pieds, « même pendant sa maladie, il ne chercha pas l'Éternel, mais il consulta les médecins » (2 Chroniques 16.7-12). Bien commencer ne suffit pas : il faut durer appuyé sur Dieu.",
@@ -7905,6 +8834,10 @@
     [
      "Allié (imprudent)",
      "achab"
+    ],
+    [
+     "Fils",
+     "joram-juda"
     ]
    ],
    "histoire": "Josaphat « marcha dans les premières voies de David » : hauts lieux abattus, et une idée neuve — des chefs et des Lévites envoyés « enseigner dans les villes de Juda », « ayant avec eux le livre de la loi de l'Éternel » (2 Chroniques 17.3-9). Face à la coalition de Moab et d'Ammon, il proclame un jeûne et prie : « Nous ne savons que faire, mais nos yeux sont sur toi ». Réponse : « Ce ne sera pas vous qui combattrez ». Les chantres partent devant l'armée — et l'ennemi s'entre-détruit ; la vallée reçoit le nom de Beraca, « bénédiction » (2 Chroniques 20.1-26).\n\nSon point faible : les alliances avec la maison d'Achab — à Ramoth en Galaad il faillit mourir à la place du roi déguisé (1 Rois 22.29-33), et le voyant Jéhu le reprit : « Doit-on secourir le méchant ? » (2 Chroniques 19.1-3).",
@@ -8007,6 +8940,10 @@
     [
      "Allié",
      "jonadab-recab"
+    ],
+    [
+     "Fils",
+     "joachaz-israel"
     ]
    ],
    "histoire": "Élisée envoie un jeune prophète verser l'huile : « Tu frapperas la maison d'Achab, ton maître, et je vengerai sur Jézabel le sang de mes serviteurs les prophètes » (2 Rois 9.1-10). Jéhu fonce sur Jizreel — on le reconnaît de loin à sa conduite furieuse (2 Rois 9.20) — abat Joram sur le champ de Naboth, et Jézabel est précipitée de sa fenêtre (2 Rois 9.24-37).\n\nIl rassemble ensuite tous les serviteurs de Baal, prétextant : « je veux offrir un grand sacrifice à Baal » — et les fait tous frapper : « Jéhu extermina Baal du milieu d'Israël » (2 Rois 10.18-28). Dieu le loue et borne sa dynastie à quatre générations ; mais « Jéhu ne prit point garde à marcher de tout son cœur dans la loi », gardant les veaux d'or (2 Rois 10.29-31). On peut détruire les idoles des autres sans quitter les siennes."
@@ -8055,6 +8992,14 @@
     [
      "Échappé",
      "joas"
+    ],
+    [
+     "Époux",
+     "joram-juda"
+    ],
+    [
+     "Fils",
+     "achazia-juda"
     ]
    ],
    "histoire": "À la mort de son fils Achazia, Athalie « se leva et fit périr toute la race royale » (2 Rois 11.1). Toute ? Joschéba, sœur du roi, dérobe le nourrisson Joas et le cache six ans dans la maison de l'Éternel (2 Rois 11.2-3). La promesse faite à David — « Ta maison et ton règne seront pour toujours assurés » (2 Samuel 7.16) — tient alors sur un berceau caché.\n\nLa septième année, le sacrificateur Jehojada arme les gardes, couronne l'enfant — « Vive le roi ! » Athalie accourt, déchire ses vêtements : « Conspiration ! » — et meurt hors du temple (2 Rois 11.4-16). Le peuple conclut l'alliance et renverse l'autel de Baal (2 Rois 11.17-18). Satan en voulait à la lignée du Messie ; Dieu veillait sur un seul enfant."
@@ -8099,6 +9044,10 @@
     [
      "Échappé d'",
      "athalie"
+    ],
+    [
+     "Fils",
+     "amatsia"
     ]
    ],
    "histoire": "Couronné à sept ans, Joas « fit ce qui est droit aux yeux de l'Éternel tout le temps qu'il suivit les directions du sacrificateur Jehojada » (2 Rois 12.1-2). Son œuvre : le coffre percé à la porte du temple et la grande réparation de la maison de l'Éternel (2 Rois 12.4-15).\n\nMais Jehojada mort, les chefs de Juda ramènent les idoles. Zacharie, fils de Jehojada, prophétise — et Joas le fait lapider « dans le parvis de la maison de l'Éternel » : « Le roi Joas ne se souvint pas de la bienveillance qu'avait eue pour lui Jehojada » (2 Chroniques 24.17-22). Jésus évoquera ce sang « entre le temple et l'autel » (Matthieu 23.35). Une foi portée par un autre, jamais devenue sienne, ne survit pas à son mentor.",
@@ -8200,7 +9149,16 @@
     ]
    ],
    "bio": "Roi de Juda cinquante-deux ans, béni « aussi longtemps qu'il chercha l'Éternel » — frappé de lèpre le jour où il voulut offrir lui-même le parfum. « L'année de sa mort, je vis le Seigneur. »",
-   "relations": [],
+   "relations": [
+    [
+     "Fils",
+     "jotham-roi"
+    ],
+    [
+     "Père",
+     "amatsia"
+    ]
+   ],
    "histoire": "Roi à seize ans, Ozias cherche Dieu aux jours du prophète Zacharie et « Dieu le fit prospérer » : victoires, tours, citernes, machines de guerre — « sa renommée s'étendit au loin, car il fut merveilleusement soutenu » (2 Chroniques 26.3-15).\n\n« Mais lorsqu'il fut puissant, son cœur s'éleva » : il entre dans le temple pour brûler le parfum, charge réservée aux fils d'Aaron. Face aux sacrificateurs qui s'opposent, il s'irrite — et la lèpre éclate sur son front ; il demeura lépreux jusqu'à sa mort, exclu de la maison de l'Éternel (2 Chroniques 26.16-21). C'est « l'année de la mort du roi Ozias » qu'Ésaïe vit le Roi véritable, assis sur un trône très élevé (Ésaïe 6.1-5) : quand le trône humain tombe, le trône de gloire se laisse voir.",
    "tribu": "juda-fils"
   },
@@ -8402,6 +9360,10 @@
     [
      "Petit-fils",
      "josias"
+    ],
+    [
+     "Fils",
+     "amon-roi"
     ]
    ],
    "histoire": "Fils d'Ézéchias, roi à douze ans et pendant cinquante-cinq ans, Manassé rebâtit tout ce que son père avait détruit : autels à toute l'armée des cieux dans les parvis, idole dans le temple, fils passés par le feu, magie et nécromancie — « Manassé fut cause qu'ils s'égarèrent et firent le mal plus que les nations que l'Éternel avait détruites » (2 Rois 21.1-9), et remplit Jérusalem de sang innocent (2 Rois 21.16).\n\nLa suite, seule la Chronique la raconte : capturé par l'Assyrie « avec des crochets », lié de chaînes à Babylone, « il implora l'Éternel, son Dieu, et il s'humilia profondément devant le Dieu de ses pères. Il lui adressa ses prières ; et l'Éternel, se laissant fléchir, exauça ses supplications » — ramené à Jérusalem, il ôta les idoles et releva l'autel (2 Chroniques 33.10-16). S'il y eut une grâce pour Manassé, il n'existe personne de trop loin.",
@@ -8689,6 +9651,10 @@
     [
      "Manipulé par",
      "haman"
+    ],
+    [
+     "Épouse",
+     "vasthi"
     ]
    ],
    "histoire": "Cent vingt-sept provinces, cent quatre-vingts jours de faste, et une colère de banquet qui destitue la reine Vasthi (Esther 1.1-21). Esther trouve grâce à ses yeux et reçoit la couronne (Esther 2.17) ; Haman obtient de lui, contre un anneau tendu trop vite, le décret d'extermination des Juifs (Esther 3.8-11).\n\nLa nuit décisive, « le sommeil fuit le roi » : on lui lit les chroniques, il découvre que Mardochée l'a sauvé sans récompense — et Haman, venu demander une potence, doit promener son ennemi en habits royaux (Esther 6.1-11). Au second banquet d'Esther, le roi tranche : Haman pendu, les Juifs délivrés (Esther 7.1-10). Dieu n'est jamais nommé dans le livre — il y gouverne jusqu'aux insomnies."
@@ -8802,7 +9768,12 @@
     ]
    ],
    "bio": "Le prophète de l'invasion de sauterelles — et de la promesse citée à la Pentecôte : « Je répandrai mon Esprit sur toute chair ».",
-   "relations": [],
+   "relations": [
+    [
+     "Cité par",
+     "pierre"
+    ]
+   ],
    "histoire": "Une dévastation de sauterelles, vague après vague, lui sert de parabole du « jour de l'Éternel » qui vient (Joël 1.4 ; 2.1-11). Son appel reste l'un des plus beaux de la Bible : « Déchirez vos cœurs et non vos vêtements, et revenez à l'Éternel votre Dieu, car il est compatissant et miséricordieux » (Joël 2.12-13) — avec cette promesse : « Je vous remplacerai les années qu'ont dévorées la sauterelle, le jélek, le hasil et le gazam » (Joël 2.25).\n\nPuis l'horizon s'ouvre : « Après cela, je répandrai mon Esprit sur toute chair ; vos fils et vos filles prophétiseront » (Joël 2.28-32). À la Pentecôte, Pierre se lève : « C'est ici ce qui a été dit par le prophète Joël » (Actes 2.16-21). Entre les sauterelles et l'Esprit répandu, un seul chemin : le retour du cœur."
   },
   {
@@ -8831,7 +9802,16 @@
     ]
    ],
    "bio": "Berger de Tekoa et pinceur de sycomores, envoyé du Sud prophétiser au Nord prospère : « Que la droiture coule comme un torrent qui jamais ne tarit ! »",
-   "relations": [],
+   "relations": [
+    [
+     "Contemporain de",
+     "jeroboam-ii"
+    ],
+    [
+     "Contemporain de",
+     "ozias"
+    ]
+   ],
    "histoire": "« Je ne suis ni prophète, ni fils de prophète ; mais je suis berger, et je cultive des sycomores. L'Éternel m'a pris derrière le troupeau, et l'Éternel m'a dit : Va, prophétise à mon peuple d'Israël » (Amos 7.14-15). Sous Jéroboam II, l'économie triomphe — lits d'ivoire, festins — et la justice agonise : « ils ont vendu le juste pour de l'argent, et le pauvre pour une paire de souliers » (Amos 2.6).\n\nSon cri traverse les siècles : « Je hais, je méprise vos fêtes… mais que la droiture soit comme un courant d'eau, et la justice comme un torrent qui jamais ne tarit » (Amos 5.21-24). Chassé par le sacrificateur de Béthel (Amos 7.10-13), il tient bon — et finit sur la promesse : « je relèverai de sa chute la maison de David » (Amos 9.11), citée au concile de Jérusalem (Actes 15.16-17)."
   },
   {
@@ -8855,7 +9835,16 @@
     ]
    ],
    "bio": "Le plus court livre de l'Ancien Testament : une vision contre Édom, le frère qui regarda tomber Jérusalem — « parce que tu te tenais à l'écart, au jour de la détresse de ton frère ».",
-   "relations": [],
+   "relations": [
+    [
+     "Prophétise contre les fils de",
+     "esau"
+    ],
+    [
+     "Prophétise contre",
+     "edom"
+    ]
+   ],
    "histoire": "Édom, descendance d'Ésaü, nichée dans les rochers — « Toi… qui dis en toi-même : Qui me précipitera jusqu'à terre ?… Quand tu le placerais parmi les étoiles, Je t'en précipiterai, dit l'Éternel » (Abdias 1.3-4). Le grief est fraternel : au jour du malheur de Jacob, Édom a regardé, pillé, livré les rescapés (Abdias 1.10-14).\n\n« Il te sera fait comme tu as fait, Tes œuvres retomberont sur ta tête » (Abdias 1.15). Mais le livre s'achève en aube : « le salut sera sur la montagne de Sion… Et à l'Éternel appartiendra le règne » (Abdias 1.17-21). L'indifférence au frère qui tombe est, aux yeux de Dieu, une violence."
   },
   {
@@ -8895,7 +9884,16 @@
     ]
    ],
    "bio": "Prophète de Moréscheth, contemporain d'Ésaïe. Deux sommets : Bethléhem annoncée pour le Messie, et le résumé de toute la vie devant Dieu — justice, miséricorde, humilité.",
-   "relations": [],
+   "relations": [
+    [
+     "Contemporain de",
+     "ezechias"
+    ],
+    [
+     "Contemporain de",
+     "esaie"
+    ]
+   ],
    "histoire": "Michée plaide la cause des petits contre ceux qui « convoitent des champs, et ils s'en emparent » (Michée 2.1-2) et contre les juges qui « dévorent la chair de mon peuple » (Michée 3.1-3). Sa parole fit plier un roi : un siècle plus tard, on citera encore sa prophétie qui amena Ézéchias à la repentance (Jérémie 26.18-19).\n\nDeux de ses oracles portent toute l'espérance : « Et toi, Bethléhem Éphrata, petite entre les milliers de Juda, de toi sortira pour moi celui qui dominera sur Israël, et dont l'origine remonte aux temps anciens » (Michée 5.1 — la carte des mages, Matthieu 2.4-6) ; et la réponse définitive à la question de ce « que l'Éternel demande de toi » : « C'est que tu pratiques la justice, Que tu aimes la miséricorde, Et que tu marches humblement avec ton Dieu » (Michée 6.8). Dernier mot : « Quel Dieu est semblable à toi, qui pardonnes ? » (Michée 7.18-19)."
   },
   {
@@ -8919,7 +9917,12 @@
     ]
    ],
    "bio": "Le prophète de la chute de Ninive — un siècle après le sursis obtenu par Jonas. « L'Éternel est bon, un refuge au jour de la détresse » : la même bonté qui pardonne finit par juger l'oppression.",
-   "relations": [],
+   "relations": [
+    [
+     "Contre",
+     "sancherib"
+    ]
+   ],
    "histoire": "Ninive, épargnée du temps de Jonas, est redevenue « la ville sanguinaire, Pleine de mensonge, pleine de violence » (Nahum 3.1). Nahum annonce sa fin sans appel : l'inondation, le pillage, la honte des empires (Nahum 2.6-10) — accomplie en 612 av. J.-C., si totale qu'on chercha longtemps l'emplacement de la ville.\n\nAu cœur de l'oracle, le double visage de Dieu : « L'Éternel est lent à la colère, il est grand par sa force ; il ne laisse pas impuni » et, trois versets plus loin, « l'Éternel est bon, il est un refuge au jour de la détresse ; il connaît ceux qui se confient en lui » (Nahum 1.3-7). La patience de Dieu n'est pas de l'impuissance ; son jugement des oppresseurs est une bonne nouvelle pour les opprimés (Nahum 1.15)."
   },
   {
@@ -8948,7 +9951,12 @@
     ]
    ],
    "bio": "Le prophète qui questionne Dieu — « Jusques à quand ? » — et monte sur sa tour attendre la réponse. Elle tient en une ligne qui changea l'histoire : « Le juste vivra par sa foi ».",
-   "relations": [],
+   "relations": [
+    [
+     "Contemporain de",
+     "jeremie"
+    ]
+   ],
    "histoire": "Habakuk ose les questions que tous portent : pourquoi le mal triomphe-t-il ? et pourquoi Dieu se servirait-il de plus méchant encore — les Chaldéens — pour juger son peuple (Habacuc 1.2-13) ? Puis il fait ce que peu font : « J'étais à mon poste… Je veillais, pour voir ce que l'Éternel me dirait » (Habacuc 2.1).\n\nLa réponse : « c'est une prophétie dont le temps est déjà fixé… Si elle tarde, attends-la… Mais le juste vivra par sa foi » (Habacuc 2.3-4) — la phrase que reprendront Romains 1.17, Galates 3.11 et Hébreux 10.38. Le livre s'achève par l'une des plus hautes confessions de la Bible : « Car le figuier ne fleurira pas… Toutefois, je veux me réjouir en l'Éternel » (Habacuc 3.17-19). La foi n'a pas toutes les réponses ; elle a Quelqu'un."
   },
   {
@@ -8972,7 +9980,12 @@
     ]
    ],
    "bio": "Arrière-petit-fils d'Ézéchias, prophète du « jour de l'Éternel » sous Josias — et d'une des plus tendres paroles de la Bible : « Il se réjouira à ton sujet avec chants de triomphe ».",
-   "relations": [],
+   "relations": [
+    [
+     "Contemporain de",
+     "josias"
+    ]
+   ],
    "histoire": "Sophonie prêche sous le jeune Josias, avant ou pendant la réforme : le « jour de l'Éternel » est proche, « jour de détresse et d'angoisse » (Sophonie 1.15) pour l'idolâtrie tranquille de Jérusalem, pour les hommes « qui disent dans leur cœur : L'Éternel ne fait ni bien ni mal » (Sophonie 1.7-12). L'issue : « Cherchez l'Éternel, vous tous, humbles du pays… Recherchez la justice, recherchez l'humilité ! Peut-être serez-vous épargnés au jour de la colère de l'Éternel » (Sophonie 2.3).\n\nAprès l'orage, le chant : « L'Éternel, ton Dieu, est au milieu de toi comme un héros qui sauve ; il fera de toi sa plus grande joie ; il gardera le silence dans son amour ; il aura pour toi des transports d'allégresse » (Sophonie 3.17). Le Dieu du jugement est le même qui chante sur son peuple."
   },
   {
@@ -9078,7 +10091,12 @@
     ]
    ],
    "bio": "Le dernier prophète de l'Ancien Testament. Un dialogue serré — « En quoi t'avons-nous méprisé ? » — des dîmes aux mariages, et la promesse du soleil de justice avant quatre siècles de silence.",
-   "relations": [],
+   "relations": [
+    [
+     "Après",
+     "nehemie"
+    ]
+   ],
    "histoire": "Le temple est rebâti, la ferveur éteinte : offrandes au rabais, sacrificateurs las — « Lequel de vous fermera les portes, Pour que vous n'allumiez pas en vain le feu sur mon autel ? » (Malachie 1.6-10) —, mariages brisés : « Je hais la répudiation, dit l'Éternel » (Malachie 2.16), dîmes retenues : « Apportez à la maison du trésor toutes les dîmes… Mettez-moi de la sorte à l'épreuve… Et vous verrez si je n'ouvre pas pour vous les écluses des cieux » (Malachie 3.10).\n\nLe livre — et l'Ancien Testament — se ferme sur deux promesses : « Pour vous qui craignez mon nom se lèvera le soleil de la justice, et la guérison sera sous ses ailes » (Malachie 4.2), et l'envoi d'Élie avant le grand jour (Malachie 4.5-6) — accompli en Jean-Baptiste (Matthieu 11.13-14). Puis quatre cents ans de silence, jusqu'à un cri dans le désert."
   },
   {
@@ -10319,7 +11337,21 @@
     ]
    ],
    "bio": "Propriétaire d'une vigne à Jizreel, voisin du palais d'Achab. Il refusa de vendre l'héritage de ses pères — et fut assassiné sur fausse accusation.",
-   "histoire": "« Que l'Éternel me garde de te donner l'héritage de mes pères ! » (1 Rois 21.3) : Naboth ne défend pas un bien, mais une fidélité — la loi interdisait d'aliéner l'héritage familial (Lévitique 25.23). Achab boude ; Jézabel organise : faux procès, faux témoins, lapidation. Mais au moment où le roi descend prendre possession de la vigne, Élie l'y attend : « N'es-tu pas un assassin et un voleur ? » (1 Rois 21.19). Le sang de Naboth crie, et Dieu l'entend — comme il entend chaque innocent broyé par les puissants (Psaumes 9.13)."
+   "histoire": "« Que l'Éternel me garde de te donner l'héritage de mes pères ! » (1 Rois 21.3) : Naboth ne défend pas un bien, mais une fidélité — la loi interdisait d'aliéner l'héritage familial (Lévitique 25.23). Achab boude ; Jézabel organise : faux procès, faux témoins, lapidation. Mais au moment où le roi descend prendre possession de la vigne, Élie l'y attend : « N'es-tu pas un assassin et un voleur ? » (1 Rois 21.19). Le sang de Naboth crie, et Dieu l'entend — comme il entend chaque innocent broyé par les puissants (Psaumes 9.13).",
+   "relations": [
+    [
+     "Victime de",
+     "jezabel"
+    ],
+    [
+     "Victime de",
+     "achab"
+    ],
+    [
+     "Vengé par",
+     "elie"
+    ]
+   ]
   },
   {
    "id": "asaph",
@@ -10445,6 +11477,10 @@
     [
      "Fils",
      "samuel"
+    ],
+    [
+     "Épouse",
+     "peninna"
     ]
    ],
    "histoire": "Dans une maison déchirée par la rivalité de deux épouses, Elkana maintient le cap de la fidélité : « Chaque année, cet homme montait de sa ville à Silo, pour se prosterner devant l'Éternel des armées » (1 Samuel 1.3). À Anne humiliée par sa stérilité, il donne « une portion double, car il aimait Anne » (1 Samuel 1.5), et cette parole maladroite et tendre : « Est-ce que je ne vaux pas pour toi mieux que dix fils ? » (1 Samuel 1.8). Quand Anne voue son futur fils à Dieu, il ne s'y oppose pas : « Fais ce qui te semblera bon » (1 Samuel 1.23). Le plus grand prophète-juge d'Israël a grandi sur ce socle discret."
@@ -10624,6 +11660,10 @@
     [
      "Père",
      "ozias"
+    ],
+    [
+     "Fils",
+     "achaz"
     ]
    ],
    "histoire": "Il grandit à l'ombre d'une leçon terrible : son père Ozias, roi immense mais devenu orgueilleux, frappé de lèpre pour avoir forcé l'entrée du temple (2 Chroniques 26.16-21). Jotham retient tout : « il fit ce qui est droit aux yeux de l'Éternel… seulement, il n'entra point dans le temple de l'Éternel » (2 Chroniques 27.2) — la fidélité sans la présomption. Il bâtit la porte supérieure du temple, des villes, des tours, gagne ses guerres. Et le texte livre son secret en une phrase à retenir : « Jotham devint puissant, parce qu'il affermit ses voies devant l'Éternel, son Dieu » (2 Chroniques 27.6).",
@@ -10785,6 +11825,14 @@
     [
      "Frère",
      "simeon-fils"
+    ],
+    [
+     "Sœur",
+     "dina"
+    ],
+    [
+     "Fils",
+     "kehath-guerschon-merari"
     ]
    ],
    "histoire": "« Cette fois, mon mari s'attachera à moi » : Lévi signifie attaché (Genèse 29.34). Sa violence à Sichem lui vaut la même malédiction que Siméon — être dispersé (Genèse 49.7). Mais Dieu retourne la sentence : au veau d'or, les fils de Lévi se rangent du côté de l'Éternel (Exode 32.26-29), et la dispersion devient une vocation. La tribu n'aura pas de territoire, car « l'Éternel est son héritage » (Deutéronome 10.9) : elle habitera quarante-huit villes au milieu de tout Israël pour y servir (Nombres 35.7)."
@@ -11254,6 +12302,10 @@
     [
      "Grand-père",
      "jacob"
+    ],
+    [
+     "Fils",
+     "makir"
     ]
    ],
    "histoire": "« Dieu m'a fait oublier toutes mes peines » : Joseph exprime par ce nom la guérison de sa blessure familiale (Genèse 41.51). Jacob l'adopte comme son propre fils (Genèse 48.5), mais bénit le cadet avant lui. La demi-tribu de Manassé reçut le nord de Galaad et le Basan à l'est (Nombres 32.33), l'autre moitié un territoire à l'ouest (Josué 17). Gédéon, « le plus petit dans la maison de mon père », venait de Manassé (Juges 6.15)."
@@ -11531,6 +12583,10 @@
     [
      "Petit-fils",
      "noe"
+    ],
+    [
+     "Fils",
+     "lemec-noe"
     ]
    ],
    "histoire": "« Tous les jours de Metuschélah furent de neuf cent soixante-neuf ans ; puis il mourut » (Genèse 5.27). Fils d'Hénoc, l'homme qui « marcha avec Dieu » et fut enlevé (Genèse 5.24), il est le père de Lémec et le grand-père de Noé. En additionnant les âges de Genèse 5, sa mort tombe l'année même du déluge : la patience de Dieu dura jusqu'au bout d'une très longue vie."
@@ -11564,6 +12620,10 @@
     [
      "Ancêtre",
      "cain"
+    ],
+    [
+     "Fils",
+     "jubal-tubal-cain"
     ]
    ],
    "histoire": "Lémec prend deux femmes, Ada et Tsilla ; ses fils inventent l'élevage nomade, la musique et la forge (Genèse 4.19-22). Puis il chante : « J'ai tué un homme pour ma blessure… Caïn sera vengé sept fois, et Lémec soixante-dix-sept fois » (Genèse 4.23-24). C'est le progrès de la civilisation sans Dieu, et de la violence avec lui. Jésus retournera exactement ce chiffre : pardonner « jusqu'à septante fois sept fois » (Matthieu 18.22)."
@@ -11656,6 +12716,10 @@
     [
      "Petit-fils",
      "lot"
+    ],
+    [
+     "Fils",
+     "haran"
     ]
    ],
    "histoire": "« Térach prit Abram, son fils, et Lot… Ils sortirent ensemble d'Ur en Chaldée, pour aller au pays de Canaan. Ils vinrent jusqu'à Charan, et ils y habitèrent » (Genèse 11.31). Il mourut à Charan à 205 ans, à mi-chemin d'une promesse qu'il n'avait pas reçue. Josué rappellera que Térach et les siens « servaient d'autres dieux » (Josué 24.2) : la foi d'Abraham est née dans une famille idolâtre, par pure grâce."
@@ -11702,6 +12766,14 @@
     [
      "Fils",
      "bethuel"
+    ],
+    [
+     "Frère",
+     "haran"
+    ],
+    [
+     "Femme",
+     "milca"
     ]
    ],
    "histoire": "Marié à Milca, il eut huit fils, dont Bethuel, père de Rebecca (Genèse 22.20-23). Le serviteur d'Abraham part chercher une épouse pour Isaac « à la ville de Nachor » (Genèse 24.10). Plus tard, Laban jurera par « le Dieu d'Abraham et de Nachor » (Genèse 31.53). Sa famille montre combien le choix d'Abraham fut singulier : partir quand les siens restaient."
@@ -11744,6 +12816,10 @@
     [
      "Fils",
      "laban"
+    ],
+    [
+     "Mère",
+     "milca"
     ]
    ],
    "histoire": "Quand le serviteur d'Abraham raconte comment Dieu l'a conduit jusqu'au puits et à Rebecca, Laban et Bethuel répondent : « C'est de l'Éternel que la chose vient ; nous ne pouvons te parler ni en mal ni en bien » (Genèse 24.50). Jacob, fuyant Ésaü, sera envoyé « à Paddan-Aram, à la maison de Bethuel, père de ta mère » (Genèse 28.2)."
@@ -11824,7 +12900,16 @@
     ]
    ],
    "bio": "Prince hévien de Sichem, à qui Jacob acheta un champ ; père du Sichem qui outragea Dina.",
-   "relations": [],
+   "relations": [
+    [
+     "Fils Sichem épris de",
+     "dina"
+    ],
+    [
+     "A traité avec",
+     "jacob"
+    ]
+   ],
    "histoire": "Jacob achète à ses fils un champ pour cent pièces d'argent et y dresse un autel (Genèse 33.19-20). Après l'outrage fait à Dina par son fils, Hamor négocie une alliance — qui finit dans le massacre de sa ville (Genèse 34). Ce même champ recevra plus tard les ossements de Joseph, rapportés d'Égypte (Josué 24.32)."
   },
   {
@@ -11879,6 +12964,10 @@
     [
      "Mère",
      "tamar-juda"
+    ],
+    [
+     "Jumeau",
+     "zerach"
     ]
    ],
    "histoire": "Jumeau de Zérach, il naît le premier alors que son frère avait déjà sorti la main : « Quelle brèche tu as faite ! » s'écrie la sage-femme — d'où son nom, Pérets, la brèche (Genèse 38.29). Né d'une histoire trouble, il devient pourtant la souche royale : la généalogie de Ruth va « de Pérets… à David » (Ruth 4.18-22), et Matthieu l'inscrit dans celle de Jésus (Matthieu 1.3). Dieu écrit droit avec des lignes brisées.",
@@ -12448,7 +13537,12 @@
     ]
    ],
    "bio": "Les deux sages-femmes hébreues qui désobéirent à Pharaon pour sauver les nouveau-nés — premières résistantes de l'Exode.",
-   "relations": [],
+   "relations": [
+    [
+     "Ont désobéi à",
+     "pharaon"
+    ]
+   ],
    "histoire": "Pharaon leur ordonne de faire mourir les garçons à la naissance. « Mais les sages-femmes craignirent Dieu, et ne firent point ce que leur avait dit le roi d'Égypte » (Exode 1.17). Convoquées, elles s'en tirent avec esprit. « Dieu fit du bien aux sages-femmes… Parce que les sages-femmes avaient eu la crainte de Dieu, Dieu fit prospérer leurs maisons » (Exode 1.20-21). Le Pharaon de cette époque n'est pas nommé ; elles, si."
   },
   {
@@ -12508,7 +13602,12 @@
     ]
    ],
    "bio": "Juge d'Israël qui tua six cents Philistins avec un aiguillon à bœufs.",
-   "relations": [],
+   "relations": [
+    [
+     "Après",
+     "ehud"
+    ]
+   ],
    "histoire": "Un seul verset lui est consacré : « Après lui, il y eut Schamgar, fils d'Anath. Il battit six cents hommes des Philistins avec un aiguillon à bœufs. Et lui aussi fut un libérateur d'Israël » (Juges 3.31). Un outil de paysan suffit entre les mains de Dieu. Le cantique de Débora rappelle la détresse de son temps : « Au temps de Schamgar… les routes étaient abandonnées » (Juges 5.6)."
   },
   {
@@ -12622,7 +13721,12 @@
     ]
    ],
    "bio": "Juge d'Israël pendant vingt-trois ans, de la tribu d'Issacar.",
-   "relations": [],
+   "relations": [
+    [
+     "Juge après",
+     "abimelec-gedeon"
+    ]
+   ],
    "histoire": "« Après Abimélec, Thola, fils de Pua, fils de Dodo, homme d'Issacar, se leva pour délivrer Israël ; il habitait à Schamir, dans la montagne d'Éphraïm. Il fut juge en Israël pendant vingt-trois ans » (Juges 10.1-2). Après le chaos sanglant d'Abimélec, Dieu donne vingt-trois années de paix sans exploit raconté : la fidélité ordinaire est aussi une délivrance."
   },
   {
@@ -12646,7 +13750,12 @@
     ]
    ],
    "bio": "Juge de Galaad pendant vingt-deux ans, père de trente fils montés sur trente ânons.",
-   "relations": [],
+   "relations": [
+    [
+     "Juge après",
+     "thola"
+    ]
+   ],
    "histoire": "« Après lui, se leva Jaïr, le Galaadite, qui fut juge en Israël pendant vingt-deux ans. Il avait trente fils, qui montaient sur trente ânons, et qui possédaient trente villes, appelées encore aujourd'hui bourgs de Jaïr » (Juges 10.3-4). Une prospérité tranquille — juste avant que le peuple ne retombe dans l'idolâtrie (Juges 10.6)."
   },
   {
@@ -12666,7 +13775,12 @@
     ]
    ],
    "bio": "Juge d'Israël originaire de Bethléhem, pendant sept ans.",
-   "relations": [],
+   "relations": [
+    [
+     "Juge après",
+     "jephthe"
+    ]
+   ],
    "histoire": "« Après lui, Ibtsan de Bethléhem fut juge en Israël. Il eut trente fils, il maria trente filles au dehors, et il fit venir pour ses fils trente filles du dehors. Il fut juge en Israël pendant sept ans » (Juges 12.8-9). Ses alliances montrent un homme qui tissait des liens entre les clans d'Israël."
   },
   {
@@ -12691,7 +13805,12 @@
     ]
    ],
    "bio": "Juge d'Israël pendant dix ans, de la tribu de Zabulon.",
-   "relations": [],
+   "relations": [
+    [
+     "Juge après",
+     "ibtsan"
+    ]
+   ],
    "histoire": "« Après lui, Élon, de Zabulon, fut juge en Israël ; il fut juge en Israël pendant dix ans. Puis Élon, de Zabulon, mourut, et fut enterré à Ajalon, dans le pays de Zabulon » (Juges 12.11-12). Dix ans de service, deux versets : beaucoup de serviteurs fidèles n'ont pas d'autre mémoire que celle de Dieu."
   },
   {
@@ -12715,7 +13834,12 @@
     ]
    ],
    "bio": "Juge d'Israël pendant huit ans, de Pirathon en Éphraïm, avec quarante fils et trente petits-fils.",
-   "relations": [],
+   "relations": [
+    [
+     "Juge après",
+     "elon-juge"
+    ]
+   ],
    "histoire": "« Après lui, Abdon, fils d'Hillel, le Pirathonite, fut juge en Israël. Il eut quarante fils et trente petits-fils, qui montaient sur soixante-dix ânons. Il fut juge en Israël pendant huit ans » (Juges 12.13-14). Il est le dernier des « petits juges » avant les quarante ans d'oppression philistine qui précèdent Samson."
   },
   {
@@ -12770,7 +13894,12 @@
     ]
    ],
    "bio": "Homme d'Éphraïm qui fabriqua une idole et engagea un Lévite comme prêtre privé — portrait d'une religion à la carte.",
-   "relations": [],
+   "relations": [
+    [
+     "Sanctuaire pris par la tribu de",
+     "dan-fils"
+    ]
+   ],
    "histoire": "Mica vole onze cents sicles à sa mère, les rend, et elle consacre l'argent « à l'Éternel »… pour en faire une idole (Juges 17.2-4). Il s'installe un sanctuaire, puis engage un jeune Lévite : « Maintenant, je sais que l'Éternel me fera du bien, puisque j'ai ce Lévite pour prêtre » (Juges 17.13). Les Danites lui volent tout, idole et prêtre (Juges 18.18-24). Le refrain du livre dit tout : « chacun faisait ce qui lui semblait bon » (Juges 17.6)."
   },
   {
@@ -12813,6 +13942,14 @@
     [
      "Grand-père",
      "booz"
+    ],
+    [
+     "Père",
+     "obed"
+    ],
+    [
+     "Fille",
+     "tseruja"
     ]
    ],
    "histoire": "Samuel vient chez lui oindre un roi ; Isaï présente ses fils un à un, le plus impressionnant d'abord. Dieu les écarte tous : « l'homme regarde à ce qui frappe les yeux, mais l'Éternel regarde au cœur » (1 Samuel 16.7). Il faut aller chercher le plus jeune, qui garde les brebis. Des siècles plus tard, quand la royauté n'est plus qu'une souche coupée, Ésaïe promet : « Un rameau sortira du tronc d'Isaï » (Ésaïe 11.1) — Paul y verra Jésus, espérance des nations (Romains 15.12)."
@@ -12926,6 +14063,10 @@
     [
      "Frère",
      "asael"
+    ],
+    [
+     "Mère",
+     "tseruja"
     ]
    ],
    "histoire": "Il entre de nuit avec David dans le camp de Saül endormi : « Dieu livre aujourd'hui ton ennemi entre tes mains ; laisse-moi, je te prie, le frapper » — et David refuse de porter la main sur l'oint de l'Éternel (1 Samuel 26.8-11). Quand Schimeï maudit David, Abischaï veut aller lui couper la tête (2 Samuel 16.9). Mais c'est lui aussi qui sauve David vieillissant d'un géant philistin (2 Samuel 21.17). La fidélité qui frappe trop vite a besoin d'un maître qui sait épargner."
@@ -12969,6 +14110,10 @@
     [
      "Tué par",
      "abner"
+    ],
+    [
+     "Mère",
+     "tseruja"
     ]
    ],
    "histoire": "Il s'acharne sur Abner, sans dévier ni à droite ni à gauche. Abner le supplie deux fois de renoncer : « pourquoi te frapperais-je et t'abattrais-je en terre ? » — puis le frappe du talon de sa lance (2 Samuel 2.18-23). Joab vengera son frère en assassinant Abner à la porte d'Hébron (2 Samuel 3.27) — un cycle de sang que David déplorera jusqu'à sa mort (1 Rois 2.5)."
@@ -13208,6 +14353,10 @@
     [
      "Père",
      "eli-pretre"
+    ],
+    [
+     "Fils",
+     "ikabod"
     ]
    ],
    "histoire": "Ils se servaient de force dans les sacrifices avant que la graisse soit offerte, et « méprisaient les offrandes de l'Éternel » (1 Samuel 2.12-17). Éli les reprend mollement ; un homme de Dieu lui annonce : « tu honores tes fils plus que moi » (1 Samuel 2.29). À la bataille d'Aphek, ils portent l'arche comme un porte-bonheur ; elle est prise, et tous deux meurent (1 Samuel 4.11). Dieu ne se laisse pas manipuler comme une amulette."
@@ -14076,6 +15225,10 @@
     [
      "Vainqueur",
      "nebucadnetsar"
+    ],
+    [
+     "Frère",
+     "joachaz-juda"
     ]
    ],
    "histoire": "Jérémie le dénonce : « Malheur à celui qui bâtit sa maison par l'injustice… qui fait travailler son prochain sans le payer » (Jérémie 22.13). Quand on lui lit le rouleau de Jérémie, assis devant le brasier en hiver, il découpe les colonnes au canif et les jette au feu (Jérémie 36.22-23). Dieu fait réécrire le rouleau, en plus long. Sous son règne, Nebucadnetsar emmène les premiers déportés, dont Daniel (Daniel 1.1-6)."
@@ -14917,6 +16070,14 @@
     [
      "Adversaire",
      "athalie"
+    ],
+    [
+     "Femme",
+     "jehoscheba"
+    ],
+    [
+     "Fils",
+     "zacharie-jehojada"
     ]
    ],
    "histoire": "Pendant qu'Athalie règne après avoir massacré la famille royale, l'enfant Joas grandit caché dans le temple (2 Rois 11.2-3). La septième année, Jehojada organise tout : les gardes, les armes du roi David, le couronnement — « Vive le roi ! » — et Athalie est mise à mort (2 Rois 11.4-16). Il fait conclure une alliance entre l'Éternel, le roi et le peuple (2 Rois 11.17). Mort à cent trente ans, il fut enterré avec les rois, « parce qu'il avait fait du bien en Israël » (2 Chroniques 24.15-16)."
@@ -18848,11 +20009,7 @@
      "jehojada"
     ],
     [
-     "A sauvé",
-     "joas"
-    ],
-    [
-     "Tante de",
+     "Tante (l'a sauvé)",
      "joas"
     ],
     [

@@ -94,7 +94,33 @@ for (const e of entries) {
   };
 }
 
-const out = { fiches, chapitres, apparitions };
+// Ordre d'entrée en scène, livre par livre, AU VERSET PRÈS (galerie de la
+// Formation) : on ne teste que les fiches déjà repérées dans le chapitre.
+const ordre = {};
+for (let livre = 1; livre <= 66; livre++) {
+  const book = JSON.parse(readFileSync(`public/bible/${livre}.json`, "utf8"));
+  const vus = [];
+  book.chapters.forEach((verses, ci) => {
+    const chap = ci + 1;
+    const presents = chapitres[`${livre}-${chap}`];
+    if (!presents) return;
+    const ms = matchers.filter(
+      (m) =>
+        presents.includes(m.id) &&
+        !vus.includes(m.id) &&
+        (!m.livres || (livre >= m.livres[0] && livre <= m.livres[1])) &&
+        (!m.chapitres || (chap >= m.chapitres[0] && chap <= m.chapitres[1])),
+    );
+    for (const v of verses) {
+      for (const m of ms) if (!vus.includes(m.id) && m.re.test(v)) vus.push(m.id);
+    }
+    // Filet : une fiche du chapitre jamais trouvée verset par verset.
+    for (const id of presents) if (!vus.includes(id)) vus.push(id);
+  });
+  if (vus.length) ordre[livre] = vus;
+}
+
+const out = { fiches, chapitres, apparitions, ordre };
 writeFileSync("public/bible/fiches.json", JSON.stringify(out));
 
 const kb = Math.round(JSON.stringify(out).length / 1024);

@@ -93,6 +93,8 @@ export type FichesData = {
   fiches: Record<string, Fiche>;
   chapitres: Record<string, string[]>;
   apparitions: Record<string, string[]>;
+  /** Livre → fiches dans l'ordre d'entrée en scène (au verset près). */
+  ordre?: Record<string, string[]>;
 };
 
 let dataPromise: Promise<FichesData | null> | null = null;
@@ -351,172 +353,213 @@ export function FicheSheet({
             </button>
           </div>
 
-          <p className="mt-4 text-[15px] leading-relaxed text-cream/85">{open.bio}</p>
-
-          {/* Lieu : la carte stylisée qui le situe */}
-          {open.type === "lieu" && open.geo ? (
-            <LieuCarte className="mt-4" points={[{ g: open.geo, label: open.nom.replace(/\s*\(.*\)$/, "") }]} />
-          ) : null}
-
-          {/* Famille & liens : un tap ouvre la fiche liée */}
-          {open.relations?.length ? (
-            <>
-              <p className="mt-5 text-[11px] font-black uppercase tracking-[0.2em] text-cream/45">Famille &amp; liens</p>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {open.relations.map(([label, rid]) => {
-                  const rf = data.fiches[rid];
-                  if (!rf) return null;
-                  return (
-                    <button
-                      key={`${rid}-${label}`}
-                      type="button"
-                      onClick={() => setId(rid)}
-                      className="flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] py-1 pl-1 pr-3 transition-colors hover:bg-white/10"
-                    >
-                      <Medaillon id={rid} fiche={rf} size="h-8 w-8" />
-                      <span className="text-left leading-tight">
-                        <span className="block text-[9px] font-black uppercase tracking-wide text-dawn-300">{label}</span>
-                        <span className="block text-xs font-bold text-cream">{rf.nom}</span>
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </>
-          ) : null}
-
-          {/* Son parcours : carte du trajet + frise chronologique */}
-          {open.parcours?.length ? (
-            <>
-              <p className="mt-5 text-[11px] font-black uppercase tracking-[0.2em] text-cream/45">Son parcours</p>
-              {open.parcours.filter((s) => s.g).length > 1 ? (
-                <LieuCarte
-                  className="mt-2"
-                  route
-                  points={open.parcours
-                    .filter((s) => s.g)
-                    .map((s) => ({ g: s.g as [number, number], label: s.t.split("—")[0].split("(")[0].trim() }))}
-                />
-              ) : null}
-              <ol className="relative mt-3 space-y-0 border-l border-white/15 pl-5">
-                {open.parcours.map((s, i) => (
-                  <li key={i} className="relative pb-4 last:pb-0">
-                    <span className="absolute -left-[1.45rem] top-0.5 grid h-4 w-4 place-items-center rounded-full border-2 border-dawn-400 bg-night-900 text-[8px] font-black text-dawn-300">
-                      {i + 1}
-                    </span>
-                    <p className="text-sm font-bold leading-snug text-cream">
-                      {s.t}
-                      {s.e ? <span className="ml-2 text-[11px] font-semibold text-cream/45">{s.e}</span> : null}
-                    </p>
-                    {s.d ? <p className="mt-0.5 text-[13px] leading-snug text-cream/70">{s.d}</p> : null}
-                    {s.r ? (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const h = bibleHref(s.r);
-                          if (!h) return;
-                          const q = new URLSearchParams(h.split("?")[1]);
-                          onNavigate(Number(q.get("livre")), Number(q.get("chap")));
-                        }}
-                        className="mt-0.5 text-xs font-bold text-dawn-300 underline decoration-dawn-300/40 underline-offset-2"
-                      >
-                        {s.r}
-                      </button>
-                    ) : null}
-                  </li>
-                ))}
-              </ol>
-            </>
-          ) : null}
-
-          {/* Ses écrits : la chronologie des livres */}
-          {open.ecrits?.length ? (
-            <>
-              <p className="mt-5 text-[11px] font-black uppercase tracking-[0.2em] text-cream/45">Ses écrits</p>
-              <div className="mt-2 space-y-2.5">
-                {open.ecrits.map((w, i) => (
-                  <div key={i} className="rounded-2xl border border-white/10 bg-white/[0.05] px-3.5 py-2.5">
-                    <p className="text-sm font-bold text-cream">
-                      {w.t}
-                      {w.e ? <span className="ml-2 text-[11px] font-semibold text-dawn-300">{w.e}</span> : null}
-                    </p>
-                    {w.d ? (
-                      <div className="mt-0.5 [&_p]:text-[13px] [&_p]:leading-snug [&_p]:text-cream/70">
-                        <TexteAvecRefs texte={w.d} onNavigate={onNavigate} />
-                      </div>
-                    ) : null}
-                  </div>
-                ))}
-              </div>
-            </>
-          ) : null}
-
-          {/* Son histoire : le récit long, références cliquables */}
-          {open.histoire ? (
-            <>
-              <p className="mt-5 text-[11px] font-black uppercase tracking-[0.2em] text-cream/45">
-                {open.type === "personnage" ? "Son histoire" : "Dans l'histoire biblique"}
-              </p>
-              <div className="mt-2 space-y-3">
-                {open.histoire.split("\n\n").map((par, i) => (
-                  <TexteAvecRefs key={i} texte={par} onNavigate={onNavigate} />
-                ))}
-              </div>
-            </>
-          ) : null}
-
-          <p className="mt-5 text-[11px] font-black uppercase tracking-[0.2em] text-cream/45">Passages clés</p>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {open.passages.map(([label, l, c]) => (
-              <button
-                key={`${l}-${c}`}
-                type="button"
-                onClick={() => onNavigate(l, c)}
-                className="rounded-full bg-dawn-400 px-3.5 py-2 font-display text-sm font-bold text-night-950"
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-
-          {(() => {
-            const apps = data.apparitions[id] ?? [];
-            if (apps.length <= 1) return null;
-            const shown = apps.slice(0, 18);
-            return (
-              <>
-                <p className="mt-5 text-[11px] font-black uppercase tracking-[0.2em] text-cream/45">
-                  Apparaît dans {apps.length} chapitre{apps.length > 1 ? "s" : ""}
-                </p>
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {shown.map((key) => {
-                    const [l, c] = key.split("-").map(Number);
-                    const here = l === bookId && c === chapter;
-                    return (
-                      <button
-                        key={key}
-                        type="button"
-                        disabled={here}
-                        onClick={() => onNavigate(l, c)}
-                        className={`rounded-full px-2.5 py-1.5 text-xs font-bold ${
-                          here ? "bg-dawn-400/25 text-dawn-300" : "bg-white/[0.07] text-cream/80 hover:bg-white/15"
-                        }`}
-                      >
-                        {bookNames[l] ?? l} {c}
-                      </button>
-                    );
-                  })}
-                  {apps.length > shown.length ? (
-                    <span className="rounded-full px-2 py-1.5 text-xs font-semibold text-cream/45">
-                      +{apps.length - shown.length} autres
-                    </span>
-                  ) : null}
-                </div>
-              </>
-            );
-          })()}
+          <FicheCorps
+            id={id}
+            data={data}
+            bookNames={bookNames}
+            onNavigate={onNavigate}
+            onOpen={setId}
+            here={{ bookId, chapter }}
+          />
         </div>
       </div>
     </div>
+  );
+}
+
+/**
+ * Le CORPS d'une fiche (tout sauf l'en-tête) : bio, carte, famille & liens,
+ * parcours, écrits, histoire, passages clés et chapitres où la figure apparaît.
+ * Partagé par la feuille (FicheSheet) et la galerie de la Formation.
+ */
+export function FicheCorps({
+  id,
+  data,
+  bookNames,
+  onNavigate,
+  onOpen,
+  here,
+}: {
+  id: string;
+  data: FichesData;
+  bookNames: Record<number, string>;
+  onNavigate: (bookId: number, chapter: number) => void;
+  /** Ouvre une fiche liée (relation, tribu). */
+  onOpen: (id: string) => void;
+  /** Chapitre en cours de lecture, désactivé dans la liste des apparitions. */
+  here?: { bookId: number; chapter: number };
+}) {
+  const open = data.fiches[id];
+  if (!open) return null;
+  const bookId = here?.bookId ?? -1;
+  const chapter = here?.chapter ?? -1;
+  const setId = onOpen;
+  return (
+    <>
+    <p className="mt-4 text-[15px] leading-relaxed text-cream/85">{open.bio}</p>
+
+    {/* Lieu : la carte stylisée qui le situe */}
+    {open.type === "lieu" && open.geo ? (
+      <LieuCarte className="mt-4" points={[{ g: open.geo, label: open.nom.replace(/\s*\(.*\)$/, "") }]} />
+    ) : null}
+
+    {/* Famille & liens : un tap ouvre la fiche liée */}
+    {open.relations?.length ? (
+      <>
+        <p className="mt-5 text-[11px] font-black uppercase tracking-[0.2em] text-cream/45">Famille &amp; liens</p>
+        <div className="mt-2 flex flex-wrap gap-2">
+          {open.relations.map(([label, rid]) => {
+            const rf = data.fiches[rid];
+            if (!rf) return null;
+            return (
+              <button
+                key={`${rid}-${label}`}
+                type="button"
+                onClick={() => setId(rid)}
+                className="flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] py-1 pl-1 pr-3 transition-colors hover:bg-white/10"
+              >
+                <Medaillon id={rid} fiche={rf} size="h-8 w-8" />
+                <span className="text-left leading-tight">
+                  <span className="block text-[9px] font-black uppercase tracking-wide text-dawn-300">{label}</span>
+                  <span className="block text-xs font-bold text-cream">{rf.nom}</span>
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </>
+    ) : null}
+
+    {/* Son parcours : carte du trajet + frise chronologique */}
+    {open.parcours?.length ? (
+      <>
+        <p className="mt-5 text-[11px] font-black uppercase tracking-[0.2em] text-cream/45">Son parcours</p>
+        {open.parcours.filter((s) => s.g).length > 1 ? (
+          <LieuCarte
+            className="mt-2"
+            route
+            points={open.parcours
+              .filter((s) => s.g)
+              .map((s) => ({ g: s.g as [number, number], label: s.t.split("—")[0].split("(")[0].trim() }))}
+          />
+        ) : null}
+        <ol className="relative mt-3 space-y-0 border-l border-white/15 pl-5">
+          {open.parcours.map((s, i) => (
+            <li key={i} className="relative pb-4 last:pb-0">
+              <span className="absolute -left-[1.45rem] top-0.5 grid h-4 w-4 place-items-center rounded-full border-2 border-dawn-400 bg-night-900 text-[8px] font-black text-dawn-300">
+                {i + 1}
+              </span>
+              <p className="text-sm font-bold leading-snug text-cream">
+                {s.t}
+                {s.e ? <span className="ml-2 text-[11px] font-semibold text-cream/45">{s.e}</span> : null}
+              </p>
+              {s.d ? <p className="mt-0.5 text-[13px] leading-snug text-cream/70">{s.d}</p> : null}
+              {s.r ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const h = bibleHref(s.r);
+                    if (!h) return;
+                    const q = new URLSearchParams(h.split("?")[1]);
+                    onNavigate(Number(q.get("livre")), Number(q.get("chap")));
+                  }}
+                  className="mt-0.5 text-xs font-bold text-dawn-300 underline decoration-dawn-300/40 underline-offset-2"
+                >
+                  {s.r}
+                </button>
+              ) : null}
+            </li>
+          ))}
+        </ol>
+      </>
+    ) : null}
+
+    {/* Ses écrits : la chronologie des livres */}
+    {open.ecrits?.length ? (
+      <>
+        <p className="mt-5 text-[11px] font-black uppercase tracking-[0.2em] text-cream/45">Ses écrits</p>
+        <div className="mt-2 space-y-2.5">
+          {open.ecrits.map((w, i) => (
+            <div key={i} className="rounded-2xl border border-white/10 bg-white/[0.05] px-3.5 py-2.5">
+              <p className="text-sm font-bold text-cream">
+                {w.t}
+                {w.e ? <span className="ml-2 text-[11px] font-semibold text-dawn-300">{w.e}</span> : null}
+              </p>
+              {w.d ? (
+                <div className="mt-0.5 [&_p]:text-[13px] [&_p]:leading-snug [&_p]:text-cream/70">
+                  <TexteAvecRefs texte={w.d} onNavigate={onNavigate} />
+                </div>
+              ) : null}
+            </div>
+          ))}
+        </div>
+      </>
+    ) : null}
+
+    {/* Son histoire : le récit long, références cliquables */}
+    {open.histoire ? (
+      <>
+        <p className="mt-5 text-[11px] font-black uppercase tracking-[0.2em] text-cream/45">
+          {open.type === "personnage" ? "Son histoire" : "Dans l'histoire biblique"}
+        </p>
+        <div className="mt-2 space-y-3">
+          {open.histoire.split("\n\n").map((par, i) => (
+            <TexteAvecRefs key={i} texte={par} onNavigate={onNavigate} />
+          ))}
+        </div>
+      </>
+    ) : null}
+
+    <p className="mt-5 text-[11px] font-black uppercase tracking-[0.2em] text-cream/45">Passages clés</p>
+    <div className="mt-2 flex flex-wrap gap-2">
+      {open.passages.map(([label, l, c]) => (
+        <button
+          key={`${l}-${c}`}
+          type="button"
+          onClick={() => onNavigate(l, c)}
+          className="rounded-full bg-dawn-400 px-3.5 py-2 font-display text-sm font-bold text-night-950"
+        >
+          {label}
+        </button>
+      ))}
+    </div>
+
+    {(() => {
+      const apps = data.apparitions[id] ?? [];
+      if (apps.length <= 1) return null;
+      const shown = apps.slice(0, 18);
+      return (
+        <>
+          <p className="mt-5 text-[11px] font-black uppercase tracking-[0.2em] text-cream/45">
+            Apparaît dans {apps.length} chapitre{apps.length > 1 ? "s" : ""}
+          </p>
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {shown.map((key) => {
+              const [l, c] = key.split("-").map(Number);
+              const here = l === bookId && c === chapter;
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  disabled={here}
+                  onClick={() => onNavigate(l, c)}
+                  className={`rounded-full px-2.5 py-1.5 text-xs font-bold ${
+                    here ? "bg-dawn-400/25 text-dawn-300" : "bg-white/[0.07] text-cream/80 hover:bg-white/15"
+                  }`}
+                >
+                  {bookNames[l] ?? l} {c}
+                </button>
+              );
+            })}
+            {apps.length > shown.length ? (
+              <span className="rounded-full px-2 py-1.5 text-xs font-semibold text-cream/45">
+                +{apps.length - shown.length} autres
+              </span>
+            ) : null}
+          </div>
+        </>
+      );
+    })()}
+    </>
   );
 }

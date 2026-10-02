@@ -259,7 +259,7 @@ export function EcoleView() {
             <h2 className="font-display text-lg font-extrabold">Explorer</h2>
             <div className="mt-3 grid grid-cols-2 gap-3">
               <Link
-                href="/bible"
+                href="/ecole/personnages"
                 className="relative flex flex-col justify-end overflow-hidden rounded-3xl border border-night-900/10 transition-transform active:scale-[0.98]"
                 style={{ minHeight: "10.5rem" }}
               >
@@ -269,7 +269,7 @@ export function EcoleView() {
                 <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-night-950 via-night-950/25 to-transparent" />
                 <span className="relative p-4 text-cream">
                   <span className="block font-display text-base font-extrabold leading-tight">Personnages, lieux &amp; cartes</span>
-                  <span className="mt-0.5 block text-[11px] font-bold text-cream/60">275 fiches dans ta Bible</span>
+                  <span className="mt-0.5 block text-[11px] font-bold text-cream/60">De la Genèse à l&apos;Apocalypse</span>
                 </span>
               </Link>
               <Link
