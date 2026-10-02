@@ -1,0 +1,1249 @@
+{
+ "$commentaire": "Récits parallèles (même événement ou même texte rapporté plusieurs fois). Chaque groupe : titre, mot-clé de contrôle (présent dans chaque passage, alternatives séparées par |), passages au format « Livre c:v-v » ou « Livre c:v-c:v ». Construit par scripts/build-liens.py.",
+ "groupes": [
+  {
+   "titre": "La généalogie de Jésus",
+   "cle": "engendra|fils de",
+   "passages": [
+    "Matthieu 1:1-17",
+    "Luc 3:23-38"
+   ]
+  },
+  {
+   "titre": "La naissance de Jésus",
+   "cle": "Marie",
+   "passages": [
+    "Matthieu 1:18-25",
+    "Luc 2:1-7"
+   ]
+  },
+  {
+   "titre": "La prédication de Jean-Baptiste",
+   "cle": "Jean|désert",
+   "passages": [
+    "Matthieu 3:1-12",
+    "Marc 1:1-8",
+    "Luc 3:1-18",
+    "Jean 1:19-28"
+   ]
+  },
+  {
+   "titre": "Le baptême de Jésus",
+   "cle": "Esprit",
+   "passages": [
+    "Matthieu 3:13-17",
+    "Marc 1:9-11",
+    "Luc 3:21-22",
+    "Jean 1:29-34"
+   ]
+  },
+  {
+   "titre": "La tentation au désert",
+   "cle": "désert|diable",
+   "passages": [
+    "Matthieu 4:1-11",
+    "Marc 1:12-13",
+    "Luc 4:1-13"
+   ]
+  },
+  {
+   "titre": "Le début du ministère en Galilée",
+   "cle": "Galilée",
+   "passages": [
+    "Matthieu 4:12-17",
+    "Marc 1:14-15",
+    "Luc 4:14-15"
+   ]
+  },
+  {
+   "titre": "L'appel des premiers disciples",
+   "cle": "Simon",
+   "passages": [
+    "Matthieu 4:18-22",
+    "Marc 1:16-20",
+    "Luc 5:1-11"
+   ]
+  },
+  {
+   "titre": "L'homme possédé à Capernaüm",
+   "cle": "esprit impur|démon",
+   "passages": [
+    "Marc 1:21-28",
+    "Luc 4:31-37"
+   ]
+  },
+  {
+   "titre": "La belle-mère de Pierre",
+   "cle": "belle-mère",
+   "passages": [
+    "Matthieu 8:14-17",
+    "Marc 1:29-34",
+    "Luc 4:38-41"
+   ]
+  },
+  {
+   "titre": "La tournée en Galilée",
+   "cle": "prêch|synagogues",
+   "passages": [
+    "Matthieu 4:23-25",
+    "Marc 1:35-39",
+    "Luc 4:42-44"
+   ]
+  },
+  {
+   "titre": "La guérison d'un lépreux",
+   "cle": "lépreux|lèpre",
+   "passages": [
+    "Matthieu 8:1-4",
+    "Marc 1:40-45",
+    "Luc 5:12-16"
+   ]
+  },
+  {
+   "titre": "Le paralytique pardonné",
+   "cle": "paralytique",
+   "passages": [
+    "Matthieu 9:1-8",
+    "Marc 2:1-12",
+    "Luc 5:17-26"
+   ]
+  },
+  {
+   "titre": "L'appel de Matthieu (Lévi)",
+   "cle": "péage|péagers",
+   "passages": [
+    "Matthieu 9:9-13",
+    "Marc 2:13-17",
+    "Luc 5:27-32"
+   ]
+  },
+  {
+   "titre": "La question du jeûne",
+   "cle": "jeûn",
+   "passages": [
+    "Matthieu 9:14-17",
+    "Marc 2:18-22",
+    "Luc 5:33-39"
+   ]
+  },
+  {
+   "titre": "Les épis arrachés le jour du sabbat",
+   "cle": "sabbat",
+   "passages": [
+    "Matthieu 12:1-8",
+    "Marc 2:23-28",
+    "Luc 6:1-5"
+   ]
+  },
+  {
+   "titre": "L'homme à la main sèche",
+   "cle": "main",
+   "passages": [
+    "Matthieu 12:9-14",
+    "Marc 3:1-6",
+    "Luc 6:6-11"
+   ]
+  },
+  {
+   "titre": "Les foules guéries au bord du lac",
+   "cle": "foule|guéri",
+   "passages": [
+    "Matthieu 12:15-21",
+    "Marc 3:7-12",
+    "Luc 6:17-19"
+   ]
+  },
+  {
+   "titre": "Le choix des douze apôtres",
+   "cle": "Simon",
+   "passages": [
+    "Matthieu 10:1-4",
+    "Marc 3:13-19",
+    "Luc 6:12-16"
+   ]
+  },
+  {
+   "titre": "Les béatitudes",
+   "cle": "Heureux",
+   "passages": [
+    "Matthieu 5:1-12",
+    "Luc 6:20-23"
+   ]
+  },
+  {
+   "titre": "Aimer ses ennemis",
+   "cle": "ennemis",
+   "passages": [
+    "Matthieu 5:38-48",
+    "Luc 6:27-36"
+   ]
+  },
+  {
+   "titre": "Le Notre Père",
+   "cle": "Père",
+   "passages": [
+    "Matthieu 6:9-13",
+    "Luc 11:2-4"
+   ]
+  },
+  {
+   "titre": "Les trésors dans le ciel",
+   "cle": "trésor",
+   "passages": [
+    "Matthieu 6:19-21",
+    "Luc 12:33-34"
+   ]
+  },
+  {
+   "titre": "Ne vous inquiétez pas",
+   "cle": "inquiét",
+   "passages": [
+    "Matthieu 6:25-34",
+    "Luc 12:22-31"
+   ]
+  },
+  {
+   "titre": "Ne jugez pas",
+   "cle": "juge",
+   "passages": [
+    "Matthieu 7:1-5",
+    "Luc 6:37-42"
+   ]
+  },
+  {
+   "titre": "Demandez, cherchez, frappez",
+   "cle": "demande",
+   "passages": [
+    "Matthieu 7:7-11",
+    "Luc 11:9-13"
+   ]
+  },
+  {
+   "titre": "L'arbre et ses fruits",
+   "cle": "fruit",
+   "passages": [
+    "Matthieu 7:15-20",
+    "Luc 6:43-45"
+   ]
+  },
+  {
+   "titre": "Les deux maisons",
+   "cle": "maison",
+   "passages": [
+    "Matthieu 7:24-27",
+    "Luc 6:47-49"
+   ]
+  },
+  {
+   "titre": "Le centenier de Capernaüm",
+   "cle": "centenier",
+   "passages": [
+    "Matthieu 8:5-13",
+    "Luc 7:1-10"
+   ]
+  },
+  {
+   "titre": "Le prix pour suivre Jésus",
+   "cle": "renards",
+   "passages": [
+    "Matthieu 8:18-22",
+    "Luc 9:57-62"
+   ]
+  },
+  {
+   "titre": "La tempête apaisée",
+   "cle": "vent",
+   "passages": [
+    "Matthieu 8:23-27",
+    "Marc 4:35-41",
+    "Luc 8:22-25"
+   ]
+  },
+  {
+   "titre": "Le démoniaque délivré",
+   "cle": "pourceaux",
+   "passages": [
+    "Matthieu 8:28-34",
+    "Marc 5:1-20",
+    "Luc 8:26-39"
+   ]
+  },
+  {
+   "titre": "La fille de Jaïrus et la femme malade",
+   "cle": "fille",
+   "passages": [
+    "Matthieu 9:18-26",
+    "Marc 5:21-43",
+    "Luc 8:40-56"
+   ]
+  },
+  {
+   "titre": "L'envoi des Douze",
+   "cle": "douze|bâton",
+   "passages": [
+    "Matthieu 10:5-15",
+    "Marc 6:7-13",
+    "Luc 9:1-6"
+   ]
+  },
+  {
+   "titre": "La question de Jean-Baptiste",
+   "cle": "Jean",
+   "passages": [
+    "Matthieu 11:2-19",
+    "Luc 7:18-35"
+   ]
+  },
+  {
+   "titre": "Malheur aux villes incrédules",
+   "cle": "Chorazin",
+   "passages": [
+    "Matthieu 11:20-24",
+    "Luc 10:13-15"
+   ]
+  },
+  {
+   "titre": "Jésus loue le Père",
+   "cle": "Père",
+   "passages": [
+    "Matthieu 11:25-27",
+    "Luc 10:21-22"
+   ]
+  },
+  {
+   "titre": "Jésus et Béelzébul",
+   "cle": "Béelzébul",
+   "passages": [
+    "Matthieu 12:22-30",
+    "Marc 3:20-27",
+    "Luc 11:14-23"
+   ]
+  },
+  {
+   "titre": "Le péché contre le Saint-Esprit",
+   "cle": "Esprit",
+   "passages": [
+    "Matthieu 12:31-37",
+    "Marc 3:28-30",
+    "Luc 12:10"
+   ]
+  },
+  {
+   "titre": "Le signe de Jonas",
+   "cle": "Jonas",
+   "passages": [
+    "Matthieu 12:38-42",
+    "Luc 11:29-32"
+   ]
+  },
+  {
+   "titre": "La vraie famille de Jésus",
+   "cle": "mère",
+   "passages": [
+    "Matthieu 12:46-50",
+    "Marc 3:31-35",
+    "Luc 8:19-21"
+   ]
+  },
+  {
+   "titre": "La parabole du semeur",
+   "cle": "sem",
+   "passages": [
+    "Matthieu 13:1-9",
+    "Marc 4:1-9",
+    "Luc 8:4-8"
+   ]
+  },
+  {
+   "titre": "Pourquoi Jésus parle en paraboles",
+   "cle": "parabole",
+   "passages": [
+    "Matthieu 13:10-17",
+    "Marc 4:10-12",
+    "Luc 8:9-10"
+   ]
+  },
+  {
+   "titre": "L'explication du semeur",
+   "cle": "parole",
+   "passages": [
+    "Matthieu 13:18-23",
+    "Marc 4:13-20",
+    "Luc 8:11-15"
+   ]
+  },
+  {
+   "titre": "Le grain de sénevé",
+   "cle": "sénevé",
+   "passages": [
+    "Matthieu 13:31-32",
+    "Marc 4:30-32",
+    "Luc 13:18-19"
+   ]
+  },
+  {
+   "titre": "Le levain",
+   "cle": "levain",
+   "passages": [
+    "Matthieu 13:33",
+    "Luc 13:20-21"
+   ]
+  },
+  {
+   "titre": "Jésus rejeté à Nazareth",
+   "cle": "prophète",
+   "passages": [
+    "Matthieu 13:53-58",
+    "Marc 6:1-6",
+    "Luc 4:16-30"
+   ]
+  },
+  {
+   "titre": "La mort de Jean-Baptiste",
+   "cle": "Hérode",
+   "passages": [
+    "Matthieu 14:1-12",
+    "Marc 6:14-29",
+    "Luc 9:7-9"
+   ]
+  },
+  {
+   "titre": "La multiplication des pains pour 5 000 hommes",
+   "cle": "pains",
+   "passages": [
+    "Matthieu 14:13-21",
+    "Marc 6:30-44",
+    "Luc 9:10-17",
+    "Jean 6:1-15"
+   ]
+  },
+  {
+   "titre": "Jésus marche sur les eaux",
+   "cle": "mer",
+   "passages": [
+    "Matthieu 14:22-33",
+    "Marc 6:45-52",
+    "Jean 6:16-21"
+   ]
+  },
+  {
+   "titre": "Les malades de Génésareth",
+   "cle": "Génésareth",
+   "passages": [
+    "Matthieu 14:34-36",
+    "Marc 6:53-56"
+   ]
+  },
+  {
+   "titre": "Le pur et l'impur",
+   "cle": "souill",
+   "passages": [
+    "Matthieu 15:1-20",
+    "Marc 7:1-23"
+   ]
+  },
+  {
+   "titre": "La foi de la Cananéenne",
+   "cle": "fille",
+   "passages": [
+    "Matthieu 15:21-28",
+    "Marc 7:24-30"
+   ]
+  },
+  {
+   "titre": "La multiplication des pains pour 4 000 hommes",
+   "cle": "pains",
+   "passages": [
+    "Matthieu 15:32-39",
+    "Marc 8:1-10"
+   ]
+  },
+  {
+   "titre": "La demande d'un signe",
+   "cle": "signe",
+   "passages": [
+    "Matthieu 16:1-4",
+    "Marc 8:11-13"
+   ]
+  },
+  {
+   "titre": "Le levain des pharisiens",
+   "cle": "levain",
+   "passages": [
+    "Matthieu 16:5-12",
+    "Marc 8:14-21"
+   ]
+  },
+  {
+   "titre": "La confession de Pierre",
+   "cle": "Christ",
+   "passages": [
+    "Matthieu 16:13-20",
+    "Marc 8:27-30",
+    "Luc 9:18-21"
+   ]
+  },
+  {
+   "titre": "Jésus annonce sa mort et sa résurrection",
+   "cle": "Fils de l’homme",
+   "passages": [
+    "Matthieu 16:21-28",
+    "Marc 8:31-9:1",
+    "Luc 9:22-27"
+   ]
+  },
+  {
+   "titre": "La transfiguration",
+   "cle": "Élie",
+   "passages": [
+    "Matthieu 17:1-13",
+    "Marc 9:2-13",
+    "Luc 9:28-36"
+   ]
+  },
+  {
+   "titre": "L'enfant délivré au pied de la montagne",
+   "cle": "enfant",
+   "passages": [
+    "Matthieu 17:14-21",
+    "Marc 9:14-29",
+    "Luc 9:37-43"
+   ]
+  },
+  {
+   "titre": "Deuxième annonce de la Passion",
+   "cle": "livré",
+   "passages": [
+    "Matthieu 17:22-23",
+    "Marc 9:30-32",
+    "Luc 9:43-45"
+   ]
+  },
+  {
+   "titre": "Qui est le plus grand ?",
+   "cle": "enfant",
+   "passages": [
+    "Matthieu 18:1-5",
+    "Marc 9:33-37",
+    "Luc 9:46-48"
+   ]
+  },
+  {
+   "titre": "Les occasions de chute",
+   "cle": "chute",
+   "passages": [
+    "Matthieu 18:6-9",
+    "Marc 9:42-48"
+   ]
+  },
+  {
+   "titre": "La brebis perdue",
+   "cle": "brebis",
+   "passages": [
+    "Matthieu 18:12-14",
+    "Luc 15:3-7"
+   ]
+  },
+  {
+   "titre": "Le mariage et le divorce",
+   "cle": "femme",
+   "passages": [
+    "Matthieu 19:1-12",
+    "Marc 10:1-12"
+   ]
+  },
+  {
+   "titre": "Jésus bénit les enfants",
+   "cle": "enfants",
+   "passages": [
+    "Matthieu 19:13-15",
+    "Marc 10:13-16",
+    "Luc 18:15-17"
+   ]
+  },
+  {
+   "titre": "Le jeune homme riche",
+   "cle": "riche",
+   "passages": [
+    "Matthieu 19:16-30",
+    "Marc 10:17-31",
+    "Luc 18:18-30"
+   ]
+  },
+  {
+   "titre": "Troisième annonce de la Passion",
+   "cle": "Jérusalem",
+   "passages": [
+    "Matthieu 20:17-19",
+    "Marc 10:32-34",
+    "Luc 18:31-34"
+   ]
+  },
+  {
+   "titre": "La demande des fils de Zébédée",
+   "cle": "droite",
+   "passages": [
+    "Matthieu 20:20-28",
+    "Marc 10:35-45"
+   ]
+  },
+  {
+   "titre": "Les aveugles de Jéricho",
+   "cle": "aveugle",
+   "passages": [
+    "Matthieu 20:29-34",
+    "Marc 10:46-52",
+    "Luc 18:35-43"
+   ]
+  },
+  {
+   "titre": "L'entrée de Jésus à Jérusalem",
+   "cle": "Hosanna|Béni",
+   "passages": [
+    "Matthieu 21:1-11",
+    "Marc 11:1-11",
+    "Luc 19:28-40",
+    "Jean 12:12-19"
+   ]
+  },
+  {
+   "titre": "Les marchands chassés du temple",
+   "cle": "temple",
+   "passages": [
+    "Matthieu 21:12-17",
+    "Marc 11:15-19",
+    "Luc 19:45-48",
+    "Jean 2:13-22"
+   ]
+  },
+  {
+   "titre": "Le figuier desséché",
+   "cle": "figuier",
+   "passages": [
+    "Matthieu 21:18-22",
+    "Marc 11:12-14",
+    "Marc 11:20-25"
+   ]
+  },
+  {
+   "titre": "Par quelle autorité ?",
+   "cle": "autorité",
+   "passages": [
+    "Matthieu 21:23-27",
+    "Marc 11:27-33",
+    "Luc 20:1-8"
+   ]
+  },
+  {
+   "titre": "La parabole des vignerons",
+   "cle": "vigne",
+   "passages": [
+    "Matthieu 21:33-46",
+    "Marc 12:1-12",
+    "Luc 20:9-19"
+   ]
+  },
+  {
+   "titre": "La parabole du festin",
+   "cle": "festin|souper|noces",
+   "passages": [
+    "Matthieu 22:1-14",
+    "Luc 14:15-24"
+   ]
+  },
+  {
+   "titre": "L'impôt à César",
+   "cle": "César",
+   "passages": [
+    "Matthieu 22:15-22",
+    "Marc 12:13-17",
+    "Luc 20:20-26"
+   ]
+  },
+  {
+   "titre": "La question sur la résurrection",
+   "cle": "résurrection",
+   "passages": [
+    "Matthieu 22:23-33",
+    "Marc 12:18-27",
+    "Luc 20:27-40"
+   ]
+  },
+  {
+   "titre": "Le plus grand commandement",
+   "cle": "aimeras",
+   "passages": [
+    "Matthieu 22:34-40",
+    "Marc 12:28-34",
+    "Luc 10:25-28"
+   ]
+  },
+  {
+   "titre": "Le Christ, fils de David",
+   "cle": "David",
+   "passages": [
+    "Matthieu 22:41-46",
+    "Marc 12:35-37",
+    "Luc 20:41-44"
+   ]
+  },
+  {
+   "titre": "Contre l'hypocrisie des scribes",
+   "cle": "scribes",
+   "passages": [
+    "Matthieu 23:1-36",
+    "Marc 12:38-40",
+    "Luc 20:45-47"
+   ]
+  },
+  {
+   "titre": "Jésus pleure sur Jérusalem",
+   "cle": "Jérusalem",
+   "passages": [
+    "Matthieu 23:37-39",
+    "Luc 13:34-35"
+   ]
+  },
+  {
+   "titre": "L'offrande de la pauvre veuve",
+   "cle": "veuve",
+   "passages": [
+    "Marc 12:41-44",
+    "Luc 21:1-4"
+   ]
+  },
+  {
+   "titre": "Le discours sur la fin des temps",
+   "cle": "Fils de l’homme",
+   "passages": [
+    "Matthieu 24:1-36",
+    "Marc 13:1-32",
+    "Luc 21:5-33"
+   ]
+  },
+  {
+   "titre": "Le complot contre Jésus",
+   "cle": "Pâque",
+   "passages": [
+    "Matthieu 26:1-5",
+    "Marc 14:1-2",
+    "Luc 22:1-2"
+   ]
+  },
+  {
+   "titre": "Le parfum versé à Béthanie",
+   "cle": "parfum",
+   "passages": [
+    "Matthieu 26:6-13",
+    "Marc 14:3-9",
+    "Jean 12:1-8"
+   ]
+  },
+  {
+   "titre": "Judas accepte de livrer Jésus",
+   "cle": "Judas",
+   "passages": [
+    "Matthieu 26:14-16",
+    "Marc 14:10-11",
+    "Luc 22:3-6"
+   ]
+  },
+  {
+   "titre": "La préparation de la Pâque",
+   "cle": "Pâque",
+   "passages": [
+    "Matthieu 26:17-19",
+    "Marc 14:12-16",
+    "Luc 22:7-13"
+   ]
+  },
+  {
+   "titre": "Jésus annonce la trahison",
+   "cle": "livr",
+   "passages": [
+    "Matthieu 26:20-25",
+    "Marc 14:17-21",
+    "Luc 22:21-23",
+    "Jean 13:21-30"
+   ]
+  },
+  {
+   "titre": "Le dernier repas (la cène)",
+   "cle": "coupe",
+   "passages": [
+    "Matthieu 26:26-29",
+    "Marc 14:22-25",
+    "Luc 22:14-20",
+    "1 Corinthiens 11:23-26"
+   ]
+  },
+  {
+   "titre": "Le reniement de Pierre annoncé",
+   "cle": "coq",
+   "passages": [
+    "Matthieu 26:31-35",
+    "Marc 14:27-31",
+    "Luc 22:31-34",
+    "Jean 13:36-38"
+   ]
+  },
+  {
+   "titre": "Gethsémané",
+   "cle": "pri",
+   "passages": [
+    "Matthieu 26:36-46",
+    "Marc 14:32-42",
+    "Luc 22:39-46"
+   ]
+  },
+  {
+   "titre": "L'arrestation de Jésus",
+   "cle": "Judas",
+   "passages": [
+    "Matthieu 26:47-56",
+    "Marc 14:43-52",
+    "Luc 22:47-53",
+    "Jean 18:1-12"
+   ]
+  },
+  {
+   "titre": "Jésus devant le sanhédrin",
+   "cle": "sacrificateur",
+   "passages": [
+    "Matthieu 26:57-68",
+    "Marc 14:53-65",
+    "Luc 22:63-71",
+    "Jean 18:19-24"
+   ]
+  },
+  {
+   "titre": "Le reniement de Pierre",
+   "cle": "Pierre",
+   "passages": [
+    "Matthieu 26:69-75",
+    "Marc 14:66-72",
+    "Luc 22:54-62",
+    "Jean 18:15-27"
+   ]
+  },
+  {
+   "titre": "Jésus devant Pilate",
+   "cle": "Pilate",
+   "passages": [
+    "Matthieu 27:11-14",
+    "Marc 15:1-5",
+    "Luc 23:1-5",
+    "Jean 18:28-38"
+   ]
+  },
+  {
+   "titre": "Barabbas et la condamnation",
+   "cle": "Barabbas",
+   "passages": [
+    "Matthieu 27:15-26",
+    "Marc 15:6-15",
+    "Luc 23:13-25",
+    "Jean 18:39-19:16"
+   ]
+  },
+  {
+   "titre": "Les soldats se moquent de Jésus",
+   "cle": "couronne",
+   "passages": [
+    "Matthieu 27:27-31",
+    "Marc 15:16-20",
+    "Jean 19:2-3"
+   ]
+  },
+  {
+   "titre": "La crucifixion",
+   "cle": "crucifi",
+   "passages": [
+    "Matthieu 27:32-44",
+    "Marc 15:21-32",
+    "Luc 23:26-43",
+    "Jean 19:17-27"
+   ]
+  },
+  {
+   "titre": "La mort de Jésus",
+   "cle": "esprit|expira|rendit",
+   "passages": [
+    "Matthieu 27:45-56",
+    "Marc 15:33-41",
+    "Luc 23:44-49",
+    "Jean 19:28-30"
+   ]
+  },
+  {
+   "titre": "Jésus mis au tombeau",
+   "cle": "Joseph",
+   "passages": [
+    "Matthieu 27:57-61",
+    "Marc 15:42-47",
+    "Luc 23:50-56",
+    "Jean 19:38-42"
+   ]
+  },
+  {
+   "titre": "Le tombeau vide",
+   "cle": "sépulcre|tombeau",
+   "passages": [
+    "Matthieu 28:1-10",
+    "Marc 16:1-8",
+    "Luc 24:1-12",
+    "Jean 20:1-10"
+   ]
+  },
+  {
+   "titre": "L'ascension",
+   "cle": "ciel",
+   "passages": [
+    "Marc 16:19-20",
+    "Luc 24:50-53",
+    "Actes 1:9-11"
+   ]
+  },
+  {
+   "titre": "La conversion de Paul",
+   "cle": "Saul",
+   "passages": [
+    "Actes 9:1-19",
+    "Actes 22:3-16",
+    "Actes 26:9-18"
+   ]
+  },
+  {
+   "titre": "Pierre et Corneille",
+   "cle": "Corneille|incirconcis|païens",
+   "passages": [
+    "Actes 10:1-48",
+    "Actes 11:1-18"
+   ]
+  },
+  {
+   "titre": "Les dix commandements",
+   "cle": "Tu ne",
+   "passages": [
+    "Exode 20:1-17",
+    "Deutéronome 5:6-21"
+   ]
+  },
+  {
+   "titre": "La mort de Saül",
+   "cle": "Saül",
+   "passages": [
+    "1 Samuel 31:1-13",
+    "1 Chroniques 10:1-14"
+   ]
+  },
+  {
+   "titre": "David roi, Jérusalem conquise",
+   "cle": "David",
+   "passages": [
+    "2 Samuel 5:1-10",
+    "1 Chroniques 11:1-9"
+   ]
+  },
+  {
+   "titre": "Les vaillants hommes de David",
+   "cle": "vaillants|David",
+   "passages": [
+    "2 Samuel 23:8-39",
+    "1 Chroniques 11:10-47"
+   ]
+  },
+  {
+   "titre": "La famille de David et ses victoires sur les Philistins",
+   "cle": "Philistins",
+   "passages": [
+    "2 Samuel 5:11-25",
+    "1 Chroniques 14:1-17"
+   ]
+  },
+  {
+   "titre": "L'arche montée à Jérusalem",
+   "cle": "arche",
+   "passages": [
+    "2 Samuel 6:1-23",
+    "1 Chroniques 13:1-14",
+    "1 Chroniques 15:1-29"
+   ]
+  },
+  {
+   "titre": "La promesse faite à David",
+   "cle": "maison",
+   "passages": [
+    "2 Samuel 7:1-29",
+    "1 Chroniques 17:1-27"
+   ]
+  },
+  {
+   "titre": "Les victoires de David",
+   "cle": "David",
+   "passages": [
+    "2 Samuel 8:1-18",
+    "1 Chroniques 18:1-17"
+   ]
+  },
+  {
+   "titre": "La guerre contre les Ammonites",
+   "cle": "Ammon",
+   "passages": [
+    "2 Samuel 10:1-19",
+    "1 Chroniques 19:1-19"
+   ]
+  },
+  {
+   "titre": "La prise de Rabba",
+   "cle": "Rabba",
+   "passages": [
+    "2 Samuel 12:26-31",
+    "1 Chroniques 20:1-3"
+   ]
+  },
+  {
+   "titre": "Les géants philistins vaincus",
+   "cle": "Gath|géant",
+   "passages": [
+    "2 Samuel 21:18-22",
+    "1 Chroniques 20:4-8"
+   ]
+  },
+  {
+   "titre": "Le cantique de délivrance de David",
+   "cle": "rocher",
+   "passages": [
+    "2 Samuel 22:1-51",
+    "Psaumes 18:1-51"
+   ]
+  },
+  {
+   "titre": "Le recensement de David",
+   "cle": "dénombrement|dénombr|compter",
+   "passages": [
+    "2 Samuel 24:1-25",
+    "1 Chroniques 21:1-30"
+   ]
+  },
+  {
+   "titre": "Salomon demande la sagesse",
+   "cle": "sagesse|intelligen",
+   "passages": [
+    "1 Rois 3:4-15",
+    "2 Chroniques 1:1-13"
+   ]
+  },
+  {
+   "titre": "Les préparatifs du temple",
+   "cle": "Hiram|Huram",
+   "passages": [
+    "1 Rois 5:1-18",
+    "2 Chroniques 2:1-18"
+   ]
+  },
+  {
+   "titre": "La construction du temple",
+   "cle": "maison",
+   "passages": [
+    "1 Rois 6:1-38",
+    "2 Chroniques 3:1-17"
+   ]
+  },
+  {
+   "titre": "La dédicace du temple",
+   "cle": "maison",
+   "passages": [
+    "1 Rois 8:1-66",
+    "2 Chroniques 5:2-7:10"
+   ]
+  },
+  {
+   "titre": "Dieu répond à Salomon",
+   "cle": "maison",
+   "passages": [
+    "1 Rois 9:1-9",
+    "2 Chroniques 7:11-22"
+   ]
+  },
+  {
+   "titre": "La visite de la reine de Séba",
+   "cle": "reine",
+   "passages": [
+    "1 Rois 10:1-13",
+    "2 Chroniques 9:1-12"
+   ]
+  },
+  {
+   "titre": "La division du royaume",
+   "cle": "Roboam",
+   "passages": [
+    "1 Rois 12:1-24",
+    "2 Chroniques 10:1-11:4"
+   ]
+  },
+  {
+   "titre": "Roboam et l'invasion de Schischak",
+   "cle": "Schischak",
+   "passages": [
+    "1 Rois 14:21-31",
+    "2 Chroniques 12:1-16"
+   ]
+  },
+  {
+   "titre": "Le règne d'Asa",
+   "cle": "Asa",
+   "passages": [
+    "1 Rois 15:9-24",
+    "2 Chroniques 14:1-16:14"
+   ]
+  },
+  {
+   "titre": "Le prophète Michée et la mort d'Achab",
+   "cle": "Michée",
+   "passages": [
+    "1 Rois 22:1-40",
+    "2 Chroniques 18:1-34"
+   ]
+  },
+  {
+   "titre": "Athalie et le jeune roi Joas",
+   "cle": "Athalie",
+   "passages": [
+    "2 Rois 11:1-21",
+    "2 Chroniques 22:10-23:21"
+   ]
+  },
+  {
+   "titre": "Le règne de Joas",
+   "cle": "Joas",
+   "passages": [
+    "2 Rois 12:1-21",
+    "2 Chroniques 24:1-27"
+   ]
+  },
+  {
+   "titre": "Le règne d'Amatsia",
+   "cle": "Amatsia",
+   "passages": [
+    "2 Rois 14:1-22",
+    "2 Chroniques 25:1-28"
+   ]
+  },
+  {
+   "titre": "Le règne d'Achaz",
+   "cle": "Achaz",
+   "passages": [
+    "2 Rois 16:1-20",
+    "2 Chroniques 28:1-27"
+   ]
+  },
+  {
+   "titre": "Ézéchias et Sanchérib",
+   "cle": "Sanchérib",
+   "passages": [
+    "2 Rois 18:13-19:37",
+    "Ésaïe 36:1-37:38",
+    "2 Chroniques 32:1-23"
+   ]
+  },
+  {
+   "titre": "La maladie d'Ézéchias",
+   "cle": "Ézéchias",
+   "passages": [
+    "2 Rois 20:1-11",
+    "Ésaïe 38:1-22"
+   ]
+  },
+  {
+   "titre": "Les envoyés de Babylone",
+   "cle": "Babylone",
+   "passages": [
+    "2 Rois 20:12-21",
+    "Ésaïe 39:1-8"
+   ]
+  },
+  {
+   "titre": "Le règne de Manassé",
+   "cle": "Manassé",
+   "passages": [
+    "2 Rois 21:1-18",
+    "2 Chroniques 33:1-20"
+   ]
+  },
+  {
+   "titre": "Josias et le livre de la loi",
+   "cle": "loi",
+   "passages": [
+    "2 Rois 22:1-23:3",
+    "2 Chroniques 34:1-33"
+   ]
+  },
+  {
+   "titre": "La chute de Jérusalem",
+   "cle": "Nebucadnetsar",
+   "passages": [
+    "2 Rois 24:18-25:30",
+    "Jérémie 52:1-34",
+    "2 Chroniques 36:11-21"
+   ]
+  },
+  {
+   "titre": "L'édit de Cyrus",
+   "cle": "Cyrus",
+   "passages": [
+    "2 Chroniques 36:22-23",
+    "Esdras 1:1-4"
+   ]
+  },
+  {
+   "titre": "La liste des exilés revenus",
+   "cle": "fils de",
+   "passages": [
+    "Esdras 2:1-70",
+    "Néhémie 7:6-73"
+   ]
+  },
+  {
+   "titre": "Le psaume de l'insensé",
+   "cle": "insensé",
+   "passages": [
+    "Psaumes 14:1-7",
+    "Psaumes 53:1-7"
+   ]
+  },
+  {
+   "titre": "Hâte-toi de me secourir",
+   "cle": "secour",
+   "passages": [
+    "Psaumes 40:14-18",
+    "Psaumes 70:1-6"
+   ]
+  },
+  {
+   "titre": "Les nations monteront à la montagne de l'Éternel",
+   "cle": "montagne",
+   "passages": [
+    "Ésaïe 2:2-4",
+    "Michée 4:1-3"
+   ]
+  },
+  {
+   "titre": "Le cantique d'action de grâces de David",
+   "cle": "Louez|Chantez",
+   "passages": [
+    "1 Chroniques 16:8-36",
+    "Psaumes 105:1-15",
+    "Psaumes 96:1-13"
+   ]
+  },
+  {
+   "titre": "Les faux docteurs",
+   "cle": "jugement|condamnation",
+   "passages": [
+    "2 Pierre 2:1-22",
+    "Jude 1:4-16"
+   ]
+  }
+ ]
+}

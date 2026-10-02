@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import type { Commentary } from "@/components/bible/CommentaryPanel";
 import { FicheSheet, getFiches, Medaillon, TexteAvecRefs as TexteAvecRefsVerset, type FichesData } from "@/components/bible/FichesChapitre";
+import { VersetsLies, useNombreLiens } from "@/components/bible/VersetsLies";
 import { nettoyerMarquesIA } from "@/lib/texte";
 import { numeroStrong } from "@/lib/strong";
 import { Markable } from "@/components/ui/Markable";
@@ -31,7 +32,7 @@ import {
  * généré en direct.
  */
 
-type Outil = "mots" | "contexte" | "culture" | "interpretation" | "commentaire" | "fiches" | "question";
+type Outil = "mots" | "contexte" | "culture" | "interpretation" | "commentaire" | "fiches" | "question" | "liens";
 type Onglet = "annoter" | "etudier" | "partager";
 
 const OUTILS: { id: Outil; label: (at: boolean) => string; lettre: (at: boolean) => string; couleur: string }[] = [
@@ -126,6 +127,7 @@ export function VersetOutils({
   const router = useRouter();
   const [onglet, setOnglet] = useState<Onglet>("etudier");
   const [outil, setOutil] = useState<Outil>("mots");
+  const nbLiens = useNombreLiens(bookId, chapter, verse);
   const [ficheId, setFicheId] = useState<string | null>(null);
   const [fiches, setFiches] = useState<FichesData | null>(null);
 
@@ -263,7 +265,7 @@ export function VersetOutils({
   }, [fiches, bookId, chapter, verseText]);
 
   const dispo = (o: Outil): boolean => {
-    if (o === "question") return true;
+    if (o === "question" || o === "liens") return true;
     if (o === "fiches") return versetFiches.length > 0;
     if (commentaryState !== "loaded" || !commentary) return true; // en attente
     if (o === "mots") return (commentary.mots?.length ?? 0) > 0;
@@ -363,9 +365,42 @@ export function VersetOutils({
           </div>
         ) : null}
 
-        {/* Pose ta question : bouton dédié sous la rangée d'outils */}
+        {/* Versets liés & récits parallèles, puis « Pose ta question » */}
         {onglet === "etudier" ? (
-          <div className="border-b border-white/10 px-4 py-2.5">
+          <div className="space-y-2 border-b border-white/10 px-4 py-2.5">
+            <button
+              type="button"
+              onClick={() => setOutil("liens")}
+              className={`flex w-full items-center gap-3 rounded-2xl border px-3.5 py-2.5 text-left transition-colors ${
+                outil === "liens" ? "border-[#34D399] bg-[#34D399]/15" : "border-white/10 bg-white/[0.05]"
+              }`}
+            >
+              <span
+                className="grid h-9 w-9 shrink-0 place-items-center rounded-full border-2"
+                style={
+                  outil === "liens"
+                    ? { borderColor: "#34D399", backgroundColor: "#34D399", color: "#0C0C0B" }
+                    : { borderColor: "#34D39955", color: "#34D399" }
+                }
+              >
+                <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-none stroke-current" strokeWidth={2.2}>
+                  <path d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className={`block text-sm font-bold ${outil === "liens" ? "text-cream" : "text-cream/85"}`}>Versets liés</span>
+                <span className="block text-[11px] font-semibold text-cream/50">
+                  {nbLiens
+                    ? [
+                        nbLiens.paralleles ? `${nbLiens.paralleles} récit${nbLiens.paralleles > 1 ? "s" : ""} parallèle${nbLiens.paralleles > 1 ? "s" : ""}` : "",
+                        nbLiens.croisees ? `${nbLiens.croisees} verset${nbLiens.croisees > 1 ? "s" : ""} à relire` : "",
+                      ]
+                        .filter(Boolean)
+                        .join(" · ") || "Aucun renvoi pour ce verset"
+                    : "Le même récit ailleurs, les versets qui l'éclairent"}
+                </span>
+              </span>
+            </button>
             <button
               type="button"
               onClick={() => setOutil("question")}
@@ -617,6 +652,17 @@ export function VersetOutils({
             ) : (
               <p className="text-sm text-cream/55">Aucun personnage ou lieu identifié dans ce verset.</p>
             )
+          ) : outil === "liens" ? (
+            <VersetsLies
+              livre={bookId}
+              chapitre={chapter}
+              verset={verse}
+              bookNames={bookNames}
+              onNavigate={(l, c) => {
+                onClose();
+                onNavigate(l, c);
+              }}
+            />
           ) : outil === "question" ? (
             <div>
               {!userId ? (
