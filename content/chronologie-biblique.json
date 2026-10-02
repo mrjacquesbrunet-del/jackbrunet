@@ -1,0 +1,2115 @@
+{
+ "periodes": {
+  "AT": [
+   {
+    "id": "origines",
+    "nom": "Les origines",
+    "couleur": "#8A6BFF"
+   },
+   {
+    "id": "patriarches",
+    "nom": "Les patriarches",
+    "couleur": "#C99A3B"
+   },
+   {
+    "id": "exode",
+    "nom": "Égypte et Exode",
+    "couleur": "#D9692E"
+   },
+   {
+    "id": "conquete",
+    "nom": "Conquête et Juges",
+    "couleur": "#7FA33A"
+   },
+   {
+    "id": "royaume",
+    "nom": "Le royaume uni",
+    "couleur": "#CAF000"
+   },
+   {
+    "id": "divise",
+    "nom": "Le royaume divisé",
+    "couleur": "#4F9FD0"
+   },
+   {
+    "id": "exil",
+    "nom": "L'exil",
+    "couleur": "#9A7F6B"
+   },
+   {
+    "id": "retour",
+    "nom": "Le retour",
+    "couleur": "#3FB59A"
+   }
+  ],
+  "NT": [
+   {
+    "id": "naissance",
+    "nom": "Naissance et jeunesse de Jésus",
+    "couleur": "#E8B44A"
+   },
+   {
+    "id": "ministere",
+    "nom": "Le ministère de Jésus",
+    "couleur": "#CAF000"
+   },
+   {
+    "id": "passion",
+    "nom": "Passion et résurrection",
+    "couleur": "#D9542E"
+   },
+   {
+    "id": "eglise",
+    "nom": "L'Église naissante",
+    "couleur": "#4F9FD0"
+   },
+   {
+    "id": "paul",
+    "nom": "Les voyages de Paul",
+    "couleur": "#8A6BFF"
+   },
+   {
+    "id": "fin",
+    "nom": "Fin du Ier siècle",
+    "couleur": "#9A7F6B"
+   }
+  ]
+ },
+ "evenements": [
+  {
+   "t": "AT",
+   "id": "creation",
+   "titre": "La création",
+   "date": "Au commencement",
+   "y": null,
+   "p": "origines",
+   "refs": [
+    "Genèse 1.1-31",
+    "Genèse 2.1-25"
+   ],
+   "pers": [
+    "adam",
+    "eve"
+   ],
+   "lieux": [
+    "eden"
+   ],
+   "txt": "Dieu crée les cieux et la terre par sa parole, puis l'homme et la femme à son image, et les place dans le jardin d'Éden. Tout ce qu'il a fait est très bon, et le septième jour il se repose."
+  },
+  {
+   "t": "AT",
+   "id": "chute",
+   "titre": "La chute",
+   "date": "Aux origines",
+   "y": null,
+   "p": "origines",
+   "refs": [
+    "Genèse 3.1-24"
+   ],
+   "pers": [
+    "adam",
+    "eve",
+    "satan"
+   ],
+   "lieux": [
+    "eden"
+   ],
+   "txt": "Le serpent pousse Ève à douter de la parole de Dieu ; Adam et Ève désobéissent et sont chassés du jardin. Dieu annonce déjà la victoire future de la postérité de la femme sur le serpent (Genèse 3.15)."
+  },
+  {
+   "t": "AT",
+   "id": "cain-abel",
+   "titre": "Caïn et Abel",
+   "date": "Aux origines",
+   "y": null,
+   "p": "origines",
+   "refs": [
+    "Genèse 4.1-26"
+   ],
+   "pers": [
+    "cain",
+    "abel",
+    "seth",
+    "adam",
+    "eve"
+   ],
+   "lieux": [],
+   "txt": "Caïn tue son frère Abel par jalousie. Dieu donne à Adam et Ève un autre fils, Seth ; avec lui, on commence à invoquer le nom de l'Éternel."
+  },
+  {
+   "t": "AT",
+   "id": "deluge",
+   "titre": "Le déluge",
+   "date": "Aux origines",
+   "y": null,
+   "p": "origines",
+   "refs": [
+    "Genèse 6.5-22",
+    "Genèse 7.1-24",
+    "Genèse 9.1-17"
+   ],
+   "pers": [
+    "noe",
+    "sem",
+    "cham",
+    "japhet",
+    "metuschelah"
+   ],
+   "lieux": [
+    "ararat"
+   ],
+   "txt": "La terre est remplie de violence. Noé, homme juste, construit l'arche sur l'ordre de Dieu ; sa famille et les animaux sont sauvés des eaux. Dieu fait alliance avec la terre et place l'arc-en-ciel comme signe."
+  },
+  {
+   "t": "AT",
+   "id": "babel",
+   "titre": "La tour de Babel",
+   "date": "Aux origines",
+   "y": null,
+   "p": "origines",
+   "refs": [
+    "Genèse 11.1-9"
+   ],
+   "pers": [
+    "nimrod"
+   ],
+   "lieux": [
+    "babylone"
+   ],
+   "txt": "Les hommes veulent bâtir une tour qui touche au ciel pour se faire un nom. Dieu confond leur langage et les disperse sur toute la terre."
+  },
+  {
+   "t": "AT",
+   "id": "appel-abraham",
+   "titre": "L'appel d'Abraham",
+   "date": "Vers 2090 av. J.-C.",
+   "y": -2090,
+   "p": "patriarches",
+   "refs": [
+    "Genèse 12.1-9",
+    "Genèse 15.1-21"
+   ],
+   "pers": [
+    "abraham",
+    "sara",
+    "lot",
+    "terach"
+   ],
+   "lieux": [
+    "ur",
+    "charan",
+    "canaan",
+    "sichem",
+    "bethel"
+   ],
+   "txt": "Dieu appelle Abram à quitter son pays pour une terre qu'il lui montrera, et promet qu'en lui toutes les familles de la terre seront bénies. Abram croit, et cela lui est imputé à justice (Genèse 15.6)."
+  },
+  {
+   "t": "AT",
+   "id": "sodome",
+   "titre": "La destruction de Sodome",
+   "date": "Vers 2067 av. J.-C.",
+   "y": -2067,
+   "p": "patriarches",
+   "refs": [
+    "Genèse 18.16-33",
+    "Genèse 19.1-29"
+   ],
+   "pers": [
+    "abraham",
+    "lot",
+    "femme-lot"
+   ],
+   "lieux": [
+    "sodome",
+    "mamre"
+   ],
+   "txt": "Abraham intercède pour Sodome. Les anges font sortir Lot et sa famille avant que le feu ne tombe sur la ville ; la femme de Lot regarde en arrière."
+  },
+  {
+   "t": "AT",
+   "id": "isaac",
+   "titre": "Naissance d'Isaac et sacrifice au Morija",
+   "date": "Vers 2066 av. J.-C.",
+   "y": -2066,
+   "p": "patriarches",
+   "refs": [
+    "Genèse 21.1-7",
+    "Genèse 22.1-19"
+   ],
+   "pers": [
+    "isaac",
+    "abraham",
+    "sara",
+    "agar",
+    "ismael"
+   ],
+   "lieux": [
+    "morija",
+    "beer-scheba"
+   ],
+   "txt": "Isaac, l'enfant de la promesse, naît d'Abraham et de Sara dans leur vieillesse. Plus tard, Dieu éprouve Abraham sur le mont Morija et pourvoit lui-même un bélier à la place d'Isaac."
+  },
+  {
+   "t": "AT",
+   "id": "jacob",
+   "titre": "Jacob, de Béthel à Peniel",
+   "date": "Vers 1930-1910 av. J.-C.",
+   "y": -1930,
+   "p": "patriarches",
+   "refs": [
+    "Genèse 27.1-46",
+    "Genèse 28.10-22",
+    "Genèse 32.22-32"
+   ],
+   "pers": [
+    "jacob",
+    "esau",
+    "rebecca",
+    "isaac",
+    "laban",
+    "rachel",
+    "lea"
+   ],
+   "lieux": [
+    "bethel",
+    "charan",
+    "peniel"
+   ],
+   "txt": "Jacob obtient par ruse la bénédiction d'Ésaü et doit fuir. Dieu le rencontre à Béthel, puis, vingt ans plus tard, lutte avec lui au gué du Jabbok : Jacob devient Israël."
+  },
+  {
+   "t": "AT",
+   "id": "joseph-vendu",
+   "titre": "Joseph vendu par ses frères",
+   "date": "Vers 1898 av. J.-C.",
+   "y": -1898,
+   "p": "patriarches",
+   "refs": [
+    "Genèse 37.1-36",
+    "Genèse 39.1-23"
+   ],
+   "pers": [
+    "joseph-at",
+    "jacob",
+    "ruben",
+    "juda-fils",
+    "potiphar"
+   ],
+   "lieux": [
+    "dothan",
+    "egypte"
+   ],
+   "txt": "Jaloux de Joseph, le fils préféré de Jacob, ses frères le vendent à des marchands. Esclave puis prisonnier en Égypte, il reste fidèle, et l'Éternel est avec lui."
+  },
+  {
+   "t": "AT",
+   "id": "joseph-gouverneur",
+   "titre": "Joseph gouverneur d'Égypte",
+   "date": "Vers 1885 av. J.-C.",
+   "y": -1885,
+   "p": "patriarches",
+   "refs": [
+    "Genèse 41.1-57",
+    "Genèse 45.1-15"
+   ],
+   "pers": [
+    "joseph-at",
+    "pharaon",
+    "asnath",
+    "echanson-panetier"
+   ],
+   "lieux": [
+    "egypte"
+   ],
+   "txt": "Joseph explique les songes de Pharaon et devient le second du royaume. Pendant la famine, il retrouve ses frères et leur pardonne : Dieu a changé le mal en bien (Genèse 50.20)."
+  },
+  {
+   "t": "AT",
+   "id": "egypte",
+   "titre": "Jacob et sa famille en Égypte",
+   "date": "Vers 1876 av. J.-C.",
+   "y": -1876,
+   "p": "patriarches",
+   "refs": [
+    "Genèse 46.1-7",
+    "Genèse 47.1-12",
+    "Genèse 50.22-26"
+   ],
+   "pers": [
+    "jacob",
+    "joseph-at",
+    "benjamin"
+   ],
+   "lieux": [
+    "gosen",
+    "egypte"
+   ],
+   "txt": "Soixante-dix personnes de la maison de Jacob descendent en Égypte et s'établissent à Gosen. Jacob bénit ses douze fils, ancêtres des tribus d'Israël."
+  },
+  {
+   "t": "AT",
+   "id": "esclavage",
+   "titre": "L'esclavage et la naissance de Moïse",
+   "date": "Vers 1526 av. J.-C.",
+   "y": -1526,
+   "p": "exode",
+   "refs": [
+    "Exode 1.8-22",
+    "Exode 2.1-10"
+   ],
+   "pers": [
+    "moise",
+    "pharaon",
+    "jokebed",
+    "amram",
+    "miriam",
+    "schiphra-pua"
+   ],
+   "lieux": [
+    "egypte",
+    "ramses"
+   ],
+   "txt": "Un nouveau pharaon asservit Israël et ordonne de jeter les garçons hébreux dans le fleuve. Moïse est sauvé des eaux et élevé à la cour par la fille de Pharaon."
+  },
+  {
+   "t": "AT",
+   "id": "buisson",
+   "titre": "Le buisson ardent",
+   "date": "Vers 1446 av. J.-C.",
+   "y": -1447,
+   "p": "exode",
+   "refs": [
+    "Exode 3.1-22",
+    "Exode 4.1-17"
+   ],
+   "pers": [
+    "moise",
+    "jethro",
+    "aaron"
+   ],
+   "lieux": [
+    "sinai",
+    "madian"
+   ],
+   "txt": "Au mont Horeb, Dieu parle à Moïse du milieu d'un buisson qui brûle sans se consumer. Il révèle son nom et l'envoie délivrer son peuple."
+  },
+  {
+   "t": "AT",
+   "id": "paque",
+   "titre": "Les dix plaies et la Pâque",
+   "date": "Vers 1446 av. J.-C.",
+   "y": -1446,
+   "p": "exode",
+   "refs": [
+    "Exode 7.14-25",
+    "Exode 11.1-10",
+    "Exode 12.1-42"
+   ],
+   "pers": [
+    "moise",
+    "aaron",
+    "pharaon"
+   ],
+   "lieux": [
+    "egypte",
+    "ramses"
+   ],
+   "txt": "Pharaon refuse de laisser partir Israël ; Dieu frappe l'Égypte de dix plaies. La nuit de la Pâque, le sang de l'agneau protège les maisons des Israélites, qui quittent l'Égypte."
+  },
+  {
+   "t": "AT",
+   "id": "mer-rouge",
+   "titre": "Le passage de la mer Rouge",
+   "date": "Vers 1446 av. J.-C.",
+   "y": -1446,
+   "p": "exode",
+   "refs": [
+    "Exode 14.1-31",
+    "Exode 15.1-21"
+   ],
+   "pers": [
+    "moise",
+    "miriam",
+    "pharaon"
+   ],
+   "lieux": [
+    "mer-rouge"
+   ],
+   "txt": "Poursuivi par l'armée égyptienne, Israël traverse la mer à pied sec ; les eaux se referment sur les chars de Pharaon. Moïse et Miriam chantent la délivrance."
+  },
+  {
+   "t": "AT",
+   "id": "sinai",
+   "titre": "La loi au Sinaï",
+   "date": "Vers 1446 av. J.-C.",
+   "y": -1445,
+   "p": "exode",
+   "refs": [
+    "Exode 19.1-25",
+    "Exode 20.1-21",
+    "Exode 32.1-35"
+   ],
+   "pers": [
+    "moise",
+    "aaron",
+    "josue"
+   ],
+   "lieux": [
+    "sinai"
+   ],
+   "txt": "Au Sinaï, Dieu fait alliance avec Israël et donne les dix commandements. Pendant que Moïse est sur la montagne, le peuple fabrique le veau d'or ; Moïse intercède pour lui."
+  },
+  {
+   "t": "AT",
+   "id": "tabernacle",
+   "titre": "Le tabernacle",
+   "date": "Vers 1445 av. J.-C.",
+   "y": -1445,
+   "p": "exode",
+   "refs": [
+    "Exode 31.1-11",
+    "Exode 40.1-38"
+   ],
+   "pers": [
+    "betsaleel",
+    "oholiab",
+    "moise",
+    "aaron"
+   ],
+   "lieux": [
+    "sinai"
+   ],
+   "txt": "Betsaleel et Oholiab, remplis de l'Esprit de Dieu, réalisent le tabernacle. La nuée de la gloire de l'Éternel remplit la tente : Dieu habite au milieu de son peuple."
+  },
+  {
+   "t": "AT",
+   "id": "espions",
+   "titre": "Les espions et les quarante ans au désert",
+   "date": "Vers 1444 av. J.-C.",
+   "y": -1444,
+   "p": "exode",
+   "refs": [
+    "Nombres 13.1-33",
+    "Nombres 14.1-38",
+    "Nombres 21.4-9"
+   ],
+   "pers": [
+    "josue",
+    "caleb",
+    "moise",
+    "kore"
+   ],
+   "lieux": [
+    "kades",
+    "paran"
+   ],
+   "txt": "Dix espions sur douze découragent le peuple d'entrer en Canaan ; seuls Josué et Caleb font confiance à Dieu. Israël erre quarante ans dans le désert."
+  },
+  {
+   "t": "AT",
+   "id": "nebo",
+   "titre": "La mort de Moïse",
+   "date": "Vers 1406 av. J.-C.",
+   "y": -1406,
+   "p": "exode",
+   "refs": [
+    "Deutéronome 31.1-8",
+    "Deutéronome 34.1-12"
+   ],
+   "pers": [
+    "moise",
+    "josue"
+   ],
+   "lieux": [
+    "mont-nebo",
+    "moab"
+   ],
+   "txt": "Après avoir rappelé la loi au peuple, Moïse contemple la Terre promise du haut du mont Nebo et meurt. Josué lui succède."
+  },
+  {
+   "t": "AT",
+   "id": "jericho",
+   "titre": "Le Jourdain et Jéricho",
+   "date": "Vers 1406 av. J.-C.",
+   "y": -1406,
+   "p": "conquete",
+   "refs": [
+    "Josué 3.1-17",
+    "Josué 6.1-27"
+   ],
+   "pers": [
+    "josue",
+    "rahab"
+   ],
+   "lieux": [
+    "jourdain",
+    "jericho",
+    "guilgal"
+   ],
+   "txt": "Les eaux du Jourdain s'arrêtent devant l'arche, et Israël entre dans le pays. Les murailles de Jéricho tombent ; Rahab, qui avait caché les espions, est sauvée."
+  },
+  {
+   "t": "AT",
+   "id": "partage",
+   "titre": "Le partage du pays",
+   "date": "Vers 1400 av. J.-C.",
+   "y": -1400,
+   "p": "conquete",
+   "refs": [
+    "Josué 14.6-15",
+    "Josué 24.1-28"
+   ],
+   "pers": [
+    "josue",
+    "caleb"
+   ],
+   "lieux": [
+    "silo",
+    "sichem",
+    "hebron"
+   ],
+   "txt": "Le pays est partagé entre les tribus. À Sichem, Josué renouvelle l'alliance : moi et ma maison, nous servirons l'Éternel (Josué 24.15)."
+  },
+  {
+   "t": "AT",
+   "id": "juges",
+   "titre": "Le temps des Juges",
+   "date": "Vers 1380-1050 av. J.-C.",
+   "y": -1250,
+   "p": "conquete",
+   "refs": [
+    "Juges 2.6-23",
+    "Juges 4.1-24",
+    "Juges 6.1-40",
+    "Juges 16.1-31"
+   ],
+   "pers": [
+    "debora",
+    "barak",
+    "gedeon",
+    "jephthe",
+    "samson",
+    "ehud",
+    "othniel"
+   ],
+   "lieux": [
+    "silo",
+    "hatsor",
+    "sorek"
+   ],
+   "txt": "Israël oublie Dieu, tombe sous l'oppression, crie à lui, et Dieu suscite des juges libérateurs : Débora, Gédéon, Jephthé, Samson… Chacun faisait ce qui lui semblait bon."
+  },
+  {
+   "t": "AT",
+   "id": "ruth",
+   "titre": "Ruth et Booz",
+   "date": "Vers 1100 av. J.-C.",
+   "y": -1100,
+   "p": "conquete",
+   "refs": [
+    "Ruth 1.1-22",
+    "Ruth 4.1-22"
+   ],
+   "pers": [
+    "ruth",
+    "naomi",
+    "booz",
+    "obed"
+   ],
+   "lieux": [
+    "bethlehem",
+    "moab"
+   ],
+   "txt": "Ruth la Moabite reste fidèle à sa belle-mère Naomi. Booz la rachète et l'épouse ; de leur fils Obed descendra le roi David."
+  },
+  {
+   "t": "AT",
+   "id": "samuel",
+   "titre": "Samuel, le dernier juge",
+   "date": "Vers 1100-1050 av. J.-C.",
+   "y": -1090,
+   "p": "conquete",
+   "refs": [
+    "1 Samuel 1.1-28",
+    "1 Samuel 3.1-21",
+    "1 Samuel 7.1-17"
+   ],
+   "pers": [
+    "samuel",
+    "anne-samuel",
+    "elkana",
+    "eli-pretre"
+   ],
+   "lieux": [
+    "silo",
+    "rama",
+    "mitspa"
+   ],
+   "txt": "Anne obtient un fils dans la prière et le consacre à Dieu. Samuel entend l'appel de l'Éternel à Silo, puis juge Israël et le ramène à Dieu."
+  },
+  {
+   "t": "AT",
+   "id": "saul",
+   "titre": "Saül, premier roi",
+   "date": "Vers 1050 av. J.-C.",
+   "y": -1050,
+   "p": "royaume",
+   "refs": [
+    "1 Samuel 8.1-22",
+    "1 Samuel 10.17-27",
+    "1 Samuel 15.1-35"
+   ],
+   "pers": [
+    "saul-roi",
+    "samuel",
+    "jonathan",
+    "kis"
+   ],
+   "lieux": [
+    "mitspa",
+    "guibea"
+   ],
+   "txt": "Israël réclame un roi comme les autres nations. Saül est oint par Samuel, mais sa désobéissance le fait rejeter par Dieu."
+  },
+  {
+   "t": "AT",
+   "id": "david-goliath",
+   "titre": "David et Goliath",
+   "date": "Vers 1025 av. J.-C.",
+   "y": -1025,
+   "p": "royaume",
+   "refs": [
+    "1 Samuel 16.1-13",
+    "1 Samuel 17.1-58"
+   ],
+   "pers": [
+    "david",
+    "goliath",
+    "saul-roi",
+    "isai",
+    "samuel"
+   ],
+   "lieux": [
+    "bethlehem",
+    "soco"
+   ],
+   "txt": "Samuel oint le jeune berger David. Face au géant philistin Goliath, David s'avance au nom de l'Éternel et le renverse d'une pierre."
+  },
+  {
+   "t": "AT",
+   "id": "david-roi",
+   "titre": "David roi à Jérusalem",
+   "date": "Vers 1010-1003 av. J.-C.",
+   "y": -1003,
+   "p": "royaume",
+   "refs": [
+    "2 Samuel 5.1-12",
+    "2 Samuel 6.1-23",
+    "2 Samuel 7.1-29"
+   ],
+   "pers": [
+    "david",
+    "nathan",
+    "mical"
+   ],
+   "lieux": [
+    "hebron",
+    "jerusalem",
+    "sion"
+   ],
+   "txt": "David règne à Hébron puis prend Jérusalem et y fait monter l'arche. Dieu lui promet par Nathan une dynastie et un trône éternel, promesse accomplie en Jésus."
+  },
+  {
+   "t": "AT",
+   "id": "salomon",
+   "titre": "Salomon et le temple",
+   "date": "Vers 970-959 av. J.-C.",
+   "y": -966,
+   "p": "royaume",
+   "refs": [
+    "1 Rois 3.1-15",
+    "1 Rois 6.1-38",
+    "1 Rois 8.1-66"
+   ],
+   "pers": [
+    "salomon",
+    "bath-scheba",
+    "hiram",
+    "reine-seba"
+   ],
+   "lieux": [
+    "jerusalem",
+    "morija",
+    "gabaon"
+   ],
+   "txt": "Salomon demande à Dieu la sagesse. Il bâtit le temple sur le mont Morija ; la gloire de l'Éternel le remplit lors de la dédicace."
+  },
+  {
+   "t": "AT",
+   "id": "schisme",
+   "titre": "La division du royaume",
+   "date": "Vers 931 av. J.-C.",
+   "y": -931,
+   "p": "divise",
+   "refs": [
+    "1 Rois 11.26-43",
+    "1 Rois 12.1-33"
+   ],
+   "pers": [
+    "roboam",
+    "jeroboam",
+    "achija"
+   ],
+   "lieux": [
+    "sichem",
+    "bethel",
+    "jerusalem"
+   ],
+   "txt": "Après Salomon, dix tribus se séparent sous Jéroboam (royaume d'Israël, au nord) ; Juda et Benjamin restent à Roboam. Jéroboam installe des veaux d'or à Béthel et à Dan."
+  },
+  {
+   "t": "AT",
+   "id": "elie",
+   "titre": "Élie au mont Carmel",
+   "date": "Vers 860 av. J.-C.",
+   "y": -860,
+   "p": "divise",
+   "refs": [
+    "1 Rois 17.1-24",
+    "1 Rois 18.1-46",
+    "1 Rois 19.1-18"
+   ],
+   "pers": [
+    "elie",
+    "achab",
+    "jezabel",
+    "abdias-intendant",
+    "veuve-sarepta"
+   ],
+   "lieux": [
+    "carmel",
+    "sarepta",
+    "sinai"
+   ],
+   "txt": "Sous Achab et Jézabel, le culte de Baal envahit Israël. Élie défie les prophètes de Baal au Carmel, et le feu de l'Éternel tombe sur l'autel."
+  },
+  {
+   "t": "AT",
+   "id": "elisee",
+   "titre": "Le ministère d'Élisée",
+   "date": "Vers 850-800 av. J.-C.",
+   "y": -850,
+   "p": "divise",
+   "refs": [
+    "2 Rois 2.1-15",
+    "2 Rois 4.8-37",
+    "2 Rois 5.1-27"
+   ],
+   "pers": [
+    "elisee",
+    "elie",
+    "naaman",
+    "sunamite",
+    "guehazi"
+   ],
+   "lieux": [
+    "jourdain",
+    "sunem",
+    "samarie"
+   ],
+   "txt": "Élisée reçoit une double portion de l'esprit d'Élie. Il multiplie l'huile, ressuscite le fils de la Sunamite et guérit Naaman le Syrien."
+  },
+  {
+   "t": "AT",
+   "id": "jonas",
+   "titre": "Jonas à Ninive",
+   "date": "Vers 760 av. J.-C.",
+   "y": -760,
+   "p": "divise",
+   "refs": [
+    "Jonas 1.1-16",
+    "Jonas 2.1-11",
+    "Jonas 3.1-10"
+   ],
+   "pers": [
+    "jonas",
+    "jeroboam-ii"
+   ],
+   "lieux": [
+    "ninive",
+    "tarsis"
+   ],
+   "txt": "Jonas fuit l'appel de Dieu, est englouti par un grand poisson, puis prêche à Ninive, qui se repent. Dieu montre sa compassion envers les nations."
+  },
+  {
+   "t": "AT",
+   "id": "prophetes-8",
+   "titre": "Amos, Osée et Ésaïe",
+   "date": "Vers 760-700 av. J.-C.",
+   "y": -740,
+   "p": "divise",
+   "refs": [
+    "Amos 1.1-2",
+    "Osée 1.1-9",
+    "Ésaïe 6.1-13",
+    "Ésaïe 7.14"
+   ],
+   "pers": [
+    "amos",
+    "osee-prophete",
+    "esaie",
+    "ozias",
+    "gomer"
+   ],
+   "lieux": [
+    "samarie",
+    "jerusalem",
+    "tekoa"
+   ],
+   "txt": "Amos dénonce l'injustice, Osée l'infidélité d'Israël. L'année de la mort du roi Ozias, Ésaïe voit la gloire de Dieu et reçoit sa mission ; il annoncera l'Emmanuel."
+  },
+  {
+   "t": "AT",
+   "id": "samarie",
+   "titre": "La chute de Samarie",
+   "date": "722 av. J.-C.",
+   "y": -722,
+   "p": "divise",
+   "refs": [
+    "2 Rois 17.1-23"
+   ],
+   "pers": [
+    "osee-roi",
+    "salmanasar"
+   ],
+   "lieux": [
+    "samarie",
+    "assyrie"
+   ],
+   "txt": "Après trois ans de siège, Samarie tombe aux mains des Assyriens. Le royaume d'Israël disparaît ; ses habitants sont déportés, faute d'avoir écouté les prophètes."
+  },
+  {
+   "t": "AT",
+   "id": "ezechias",
+   "titre": "Ézéchias et Sanchérib",
+   "date": "701 av. J.-C.",
+   "y": -701,
+   "p": "divise",
+   "refs": [
+    "2 Rois 18.1-37",
+    "2 Rois 19.1-37",
+    "2 Rois 20.1-11"
+   ],
+   "pers": [
+    "ezechias",
+    "esaie",
+    "sancherib",
+    "rabschake",
+    "eliakim-hilkija"
+   ],
+   "lieux": [
+    "jerusalem",
+    "lakis",
+    "assyrie"
+   ],
+   "txt": "Sanchérib assiège Jérusalem. Ézéchias étale la lettre de menace devant l'Éternel et prie ; l'ange de l'Éternel frappe le camp assyrien. Ézéchias est ensuite guéri."
+  },
+  {
+   "t": "AT",
+   "id": "josias",
+   "titre": "La réforme de Josias",
+   "date": "622 av. J.-C.",
+   "y": -622,
+   "p": "divise",
+   "refs": [
+    "2 Rois 22.1-20",
+    "2 Rois 23.1-30"
+   ],
+   "pers": [
+    "josias",
+    "hilkija",
+    "hulda",
+    "schaphan"
+   ],
+   "lieux": [
+    "jerusalem",
+    "bethel",
+    "meguiddo"
+   ],
+   "txt": "Pendant la restauration du temple, on retrouve le livre de la loi. Le jeune roi Josias s'humilie, renouvelle l'alliance et purifie le pays des idoles."
+  },
+  {
+   "t": "AT",
+   "id": "jeremie",
+   "titre": "Le ministère de Jérémie",
+   "date": "Vers 627-586 av. J.-C.",
+   "y": -605,
+   "p": "divise",
+   "refs": [
+    "Jérémie 1.1-19",
+    "Jérémie 36.1-32"
+   ],
+   "pers": [
+    "jeremie",
+    "baruc",
+    "jojakim",
+    "sedecias"
+   ],
+   "lieux": [
+    "jerusalem",
+    "anathoth"
+   ],
+   "txt": "Jérémie appelle Juda à la repentance pendant quarante ans, sans être écouté. Le roi Jojakim brûle le rouleau de ses prophéties ; Baruc le récrit."
+  },
+  {
+   "t": "AT",
+   "id": "daniel",
+   "titre": "Daniel déporté à Babylone",
+   "date": "605 av. J.-C.",
+   "y": -605,
+   "p": "exil",
+   "refs": [
+    "Daniel 1.1-21",
+    "Daniel 2.1-49"
+   ],
+   "pers": [
+    "daniel",
+    "schadrac",
+    "nebucadnetsar",
+    "aschpenaz"
+   ],
+   "lieux": [
+    "babylone"
+   ],
+   "txt": "Nebucadnetsar emmène de jeunes Judéens à Babylone, parmi eux Daniel et ses trois amis. Ils restent fidèles à Dieu, et Daniel explique le songe du roi."
+  },
+  {
+   "t": "AT",
+   "id": "jerusalem-detruite",
+   "titre": "La destruction de Jérusalem",
+   "date": "586 av. J.-C.",
+   "y": -586,
+   "p": "exil",
+   "refs": [
+    "2 Rois 25.1-21",
+    "Lamentations 1.1-6",
+    "Jérémie 39.1-10"
+   ],
+   "pers": [
+    "sedecias",
+    "nebucadnetsar",
+    "nebuzaradan",
+    "jeremie",
+    "guedalia"
+   ],
+   "lieux": [
+    "jerusalem",
+    "babylone",
+    "ribla"
+   ],
+   "txt": "Les Babyloniens prennent Jérusalem, brûlent le temple et déportent le peuple. Jérémie pleure la ville, mais annonce le retour après soixante-dix ans."
+  },
+  {
+   "t": "AT",
+   "id": "ezechiel",
+   "titre": "Ézéchiel parmi les exilés",
+   "date": "Vers 593-570 av. J.-C.",
+   "y": -593,
+   "p": "exil",
+   "refs": [
+    "Ézéchiel 1.1-28",
+    "Ézéchiel 37.1-14"
+   ],
+   "pers": [
+    "ezechiel",
+    "jojakin"
+   ],
+   "lieux": [
+    "kebar",
+    "babylone"
+   ],
+   "txt": "Près du fleuve du Kebar, Ézéchiel voit la gloire de Dieu. Dans la vallée des ossements desséchés, il annonce que Dieu redonnera vie à son peuple."
+  },
+  {
+   "t": "AT",
+   "id": "fosse",
+   "titre": "Daniel dans la fosse aux lions",
+   "date": "Vers 539 av. J.-C.",
+   "y": -539,
+   "p": "exil",
+   "refs": [
+    "Daniel 5.1-31",
+    "Daniel 6.1-28"
+   ],
+   "pers": [
+    "daniel",
+    "belschatsar",
+    "darius"
+   ],
+   "lieux": [
+    "babylone",
+    "perse"
+   ],
+   "txt": "Babylone tombe aux mains des Mèdes et des Perses. Daniel continue de prier malgré l'interdiction ; Dieu ferme la gueule des lions."
+  },
+  {
+   "t": "AT",
+   "id": "cyrus",
+   "titre": "L'édit de Cyrus et le retour",
+   "date": "538 av. J.-C.",
+   "y": -538,
+   "p": "retour",
+   "refs": [
+    "Esdras 1.1-11",
+    "Esdras 3.1-13"
+   ],
+   "pers": [
+    "cyrus",
+    "zorobabel",
+    "josue-sacrificateur",
+    "scheschbatsar"
+   ],
+   "lieux": [
+    "perse",
+    "jerusalem"
+   ],
+   "txt": "Comme l'avaient annoncé Ésaïe et Jérémie, Cyrus permet aux Juifs de rentrer et de rebâtir le temple. On pose les fondations dans la joie et les larmes."
+  },
+  {
+   "t": "AT",
+   "id": "temple-rebati",
+   "titre": "Le second temple",
+   "date": "520-516 av. J.-C.",
+   "y": -516,
+   "p": "retour",
+   "refs": [
+    "Esdras 5.1-17",
+    "Esdras 6.13-22",
+    "Aggée 1.1-15"
+   ],
+   "pers": [
+    "zorobabel",
+    "josue-sacrificateur",
+    "aggee",
+    "zacharie-prophete",
+    "darius"
+   ],
+   "lieux": [
+    "jerusalem"
+   ],
+   "txt": "Encouragés par les prophètes Aggée et Zacharie, Zorobabel et Josué reprennent les travaux. Le temple est achevé et dédié sous Darius."
+  },
+  {
+   "t": "AT",
+   "id": "esther",
+   "titre": "Esther, reine en Perse",
+   "date": "Vers 479-473 av. J.-C.",
+   "y": -474,
+   "p": "retour",
+   "refs": [
+    "Esther 2.1-23",
+    "Esther 4.1-17",
+    "Esther 7.1-10"
+   ],
+   "pers": [
+    "esther",
+    "mardochee",
+    "haman",
+    "assuerus"
+   ],
+   "lieux": [
+    "suse"
+   ],
+   "txt": "Esther, devenue reine, risque sa vie pour sauver son peuple du complot d'Haman. Le peuple juif est délivré ; on célèbre la fête des Purim."
+  },
+  {
+   "t": "AT",
+   "id": "esdras",
+   "titre": "Esdras enseigne la loi",
+   "date": "458 av. J.-C.",
+   "y": -458,
+   "p": "retour",
+   "refs": [
+    "Esdras 7.1-28",
+    "Néhémie 8.1-18"
+   ],
+   "pers": [
+    "esdras",
+    "artaxerxes"
+   ],
+   "lieux": [
+    "babylone",
+    "jerusalem"
+   ],
+   "txt": "Esdras, scribe versé dans la loi, revient à Jérusalem. Il lit et explique la loi devant tout le peuple, qui pleure puis se réjouit."
+  },
+  {
+   "t": "AT",
+   "id": "nehemie",
+   "titre": "Néhémie rebâtit les murailles",
+   "date": "445 av. J.-C.",
+   "y": -445,
+   "p": "retour",
+   "refs": [
+    "Néhémie 1.1-11",
+    "Néhémie 2.1-20",
+    "Néhémie 6.15-16"
+   ],
+   "pers": [
+    "nehemie",
+    "artaxerxes",
+    "sanballat",
+    "tobija",
+    "hanani-nehemie"
+   ],
+   "lieux": [
+    "suse",
+    "jerusalem"
+   ],
+   "txt": "Néhémie, échanson du roi, apprend la ruine de Jérusalem, prie et obtient de partir. Malgré l'opposition, la muraille est achevée en cinquante-deux jours."
+  },
+  {
+   "t": "AT",
+   "id": "malachie",
+   "titre": "Malachie, dernier prophète",
+   "date": "Vers 430 av. J.-C.",
+   "y": -430,
+   "p": "retour",
+   "refs": [
+    "Malachie 3.1-12",
+    "Malachie 4.1-6"
+   ],
+   "pers": [
+    "malachie"
+   ],
+   "lieux": [
+    "jerusalem"
+   ],
+   "txt": "Malachie reprend un peuple devenu tiède et annonce un messager qui préparera le chemin du Seigneur. Puis viennent environ quatre cents ans de silence prophétique."
+  },
+  {
+   "t": "NT",
+   "id": "annonces",
+   "titre": "Les annonces à Zacharie et à Marie",
+   "date": "Vers 7-6 av. J.-C.",
+   "y": -6.5,
+   "p": "naissance",
+   "refs": [
+    "Luc 1.5-25",
+    "Luc 1.26-56"
+   ],
+   "pers": [
+    "zacharie-pere",
+    "elisabeth",
+    "marie",
+    "gabriel",
+    "joseph-nt"
+   ],
+   "lieux": [
+    "jerusalem",
+    "nazareth"
+   ],
+   "txt": "L'ange Gabriel annonce à Zacharie la naissance de Jean-Baptiste, puis à Marie qu'elle concevra du Saint-Esprit le Fils du Très-Haut. Marie répond : je suis la servante du Seigneur."
+  },
+  {
+   "t": "NT",
+   "id": "nativite",
+   "titre": "La naissance de Jésus",
+   "date": "Vers 6-5 av. J.-C.",
+   "y": -5,
+   "p": "naissance",
+   "refs": [
+    "Luc 2.1-20",
+    "Matthieu 1.18-25"
+   ],
+   "pers": [
+    "jesus",
+    "marie",
+    "joseph-nt",
+    "bergers",
+    "auguste",
+    "quirinius"
+   ],
+   "lieux": [
+    "bethlehem"
+   ],
+   "txt": "À cause du recensement d'Auguste, Joseph et Marie montent à Bethléhem, où naît Jésus. Les anges l'annoncent aux bergers : un Sauveur vous est né."
+  },
+  {
+   "t": "NT",
+   "id": "presentation",
+   "titre": "Siméon et Anne au temple",
+   "date": "Vers 5 av. J.-C.",
+   "y": -4.8,
+   "p": "naissance",
+   "refs": [
+    "Luc 2.21-38"
+   ],
+   "pers": [
+    "jesus",
+    "simeon-temple",
+    "anne-prophetesse",
+    "marie",
+    "joseph-nt"
+   ],
+   "lieux": [
+    "jerusalem"
+   ],
+   "txt": "Quarante jours après la naissance, Jésus est présenté au temple. Le vieillard Siméon et la prophétesse Anne reconnaissent en lui le salut promis."
+  },
+  {
+   "t": "NT",
+   "id": "mages",
+   "titre": "Les mages et la fuite en Égypte",
+   "date": "Vers 5-4 av. J.-C.",
+   "y": -4.5,
+   "p": "naissance",
+   "refs": [
+    "Matthieu 2.1-23"
+   ],
+   "pers": [
+    "mages",
+    "herode",
+    "jesus",
+    "joseph-nt",
+    "archelaus"
+   ],
+   "lieux": [
+    "bethlehem",
+    "egypte",
+    "nazareth"
+   ],
+   "txt": "Des mages venus d'Orient adorent l'enfant. Averti en songe, Joseph fuit en Égypte avec Marie et Jésus pour échapper à Hérode, puis s'établit à Nazareth."
+  },
+  {
+   "t": "NT",
+   "id": "temple-12-ans",
+   "titre": "Jésus au temple à douze ans",
+   "date": "Vers 8 ap. J.-C.",
+   "y": 8,
+   "p": "naissance",
+   "refs": [
+    "Luc 2.41-52"
+   ],
+   "pers": [
+    "jesus",
+    "marie",
+    "joseph-nt"
+   ],
+   "lieux": [
+    "jerusalem",
+    "nazareth"
+   ],
+   "txt": "Lors d'une Pâque, Jésus reste au temple parmi les docteurs. Il dit à ses parents qu'il doit être occupé des affaires de son Père, puis grandit en sagesse et en grâce."
+  },
+  {
+   "t": "NT",
+   "id": "bapteme",
+   "titre": "Jean-Baptiste et le baptême de Jésus",
+   "date": "Vers 27 ap. J.-C.",
+   "y": 27,
+   "p": "ministere",
+   "refs": [
+    "Luc 3.1-22",
+    "Matthieu 3.1-17"
+   ],
+   "pers": [
+    "jean-baptiste",
+    "jesus",
+    "tibere",
+    "pilate"
+   ],
+   "lieux": [
+    "jourdain",
+    "judee"
+   ],
+   "txt": "La quinzième année de Tibère, Jean prêche la repentance au désert. Jésus est baptisé au Jourdain ; l'Esprit descend sur lui et le Père le déclare son Fils bien-aimé."
+  },
+  {
+   "t": "NT",
+   "id": "tentation",
+   "titre": "La tentation au désert",
+   "date": "Vers 27 ap. J.-C.",
+   "y": 27.1,
+   "p": "ministere",
+   "refs": [
+    "Matthieu 4.1-11",
+    "Luc 4.1-13"
+   ],
+   "pers": [
+    "jesus",
+    "satan"
+   ],
+   "lieux": [
+    "judee"
+   ],
+   "txt": "Après quarante jours de jeûne, Jésus est tenté par le diable. Il lui répond chaque fois par l'Écriture : il est écrit."
+  },
+  {
+   "t": "NT",
+   "id": "cana",
+   "titre": "Les premiers disciples et Cana",
+   "date": "Vers 27 ap. J.-C.",
+   "y": 27.3,
+   "p": "ministere",
+   "refs": [
+    "Jean 1.35-51",
+    "Jean 2.1-11"
+   ],
+   "pers": [
+    "jesus",
+    "andre",
+    "pierre",
+    "philippe-apotre",
+    "nathanael",
+    "marie"
+   ],
+   "lieux": [
+    "cana",
+    "bethsaida",
+    "galilee"
+   ],
+   "txt": "André, Pierre, Philippe et Nathanaël suivent Jésus. À des noces à Cana, il change l'eau en vin : c'est le premier de ses signes."
+  },
+  {
+   "t": "NT",
+   "id": "nicodeme",
+   "titre": "Nicodème et la Samaritaine",
+   "date": "Vers 27-28 ap. J.-C.",
+   "y": 27.6,
+   "p": "ministere",
+   "refs": [
+    "Jean 3.1-21",
+    "Jean 4.1-42"
+   ],
+   "pers": [
+    "jesus",
+    "nicodeme",
+    "samaritaine"
+   ],
+   "lieux": [
+    "jerusalem",
+    "sychar",
+    "samarie"
+   ],
+   "txt": "Jésus explique à Nicodème qu'il faut naître de nouveau. Au puits de Jacob, il offre à une Samaritaine l'eau vive, et beaucoup de Samaritains croient."
+  },
+  {
+   "t": "NT",
+   "id": "capernaum",
+   "titre": "Le ministère en Galilée",
+   "date": "Vers 28 ap. J.-C.",
+   "y": 28,
+   "p": "ministere",
+   "refs": [
+    "Marc 1.14-39",
+    "Luc 4.14-30",
+    "Luc 5.1-11"
+   ],
+   "pers": [
+    "jesus",
+    "pierre",
+    "andre",
+    "jacques-zebedee",
+    "jean-apotre"
+   ],
+   "lieux": [
+    "capernaum",
+    "nazareth",
+    "mer-galilee"
+   ],
+   "txt": "Jésus annonce que le royaume de Dieu est proche. Rejeté à Nazareth, il s'établit à Capernaüm, appelle des pêcheurs à devenir pêcheurs d'hommes et guérit beaucoup de malades."
+  },
+  {
+   "t": "NT",
+   "id": "sermon",
+   "titre": "Le sermon sur la montagne",
+   "date": "Vers 28 ap. J.-C.",
+   "y": 28.3,
+   "p": "ministere",
+   "refs": [
+    "Matthieu 5.1-16",
+    "Matthieu 6.5-15",
+    "Matthieu 7.24-29"
+   ],
+   "pers": [
+    "jesus"
+   ],
+   "lieux": [
+    "galilee"
+   ],
+   "txt": "Sur une montagne, Jésus enseigne les béatitudes, la prière du Notre Père et la vie du royaume. La foule est frappée de son autorité."
+  },
+  {
+   "t": "NT",
+   "id": "douze",
+   "titre": "Le choix des douze apôtres",
+   "date": "Vers 28 ap. J.-C.",
+   "y": 28.4,
+   "p": "ministere",
+   "refs": [
+    "Marc 3.13-19",
+    "Luc 6.12-16"
+   ],
+   "pers": [
+    "pierre",
+    "andre",
+    "jacques-zebedee",
+    "jean-apotre",
+    "philippe-apotre",
+    "nathanael",
+    "matthieu-apotre",
+    "thomas",
+    "jacques-alphee",
+    "thaddee",
+    "simon-zelote",
+    "judas"
+   ],
+   "lieux": [
+    "galilee"
+   ],
+   "txt": "Après une nuit de prière, Jésus choisit douze apôtres pour être avec lui et les envoyer prêcher."
+  },
+  {
+   "t": "NT",
+   "id": "tempete",
+   "titre": "Miracles autour du lac",
+   "date": "Vers 28-29 ap. J.-C.",
+   "y": 28.7,
+   "p": "ministere",
+   "refs": [
+    "Marc 4.35-41",
+    "Marc 5.1-43"
+   ],
+   "pers": [
+    "jesus",
+    "legion",
+    "jairus",
+    "hemorroisse"
+   ],
+   "lieux": [
+    "mer-galilee",
+    "gadareniens",
+    "capernaum"
+   ],
+   "txt": "Jésus apaise la tempête, délivre le démoniaque de Gadara, guérit une femme malade depuis douze ans et ressuscite la fille de Jaïrus."
+  },
+  {
+   "t": "NT",
+   "id": "pains",
+   "titre": "La multiplication des pains",
+   "date": "Vers 29 ap. J.-C.",
+   "y": 29,
+   "p": "ministere",
+   "refs": [
+    "Jean 6.1-15",
+    "Jean 6.35-51",
+    "Matthieu 14.22-33"
+   ],
+   "pers": [
+    "jesus",
+    "philippe-apotre",
+    "andre",
+    "pierre"
+   ],
+   "lieux": [
+    "mer-galilee",
+    "bethsaida",
+    "tiberiade"
+   ],
+   "txt": "Avec cinq pains et deux poissons, Jésus nourrit cinq mille hommes. Il marche sur les eaux et se présente comme le pain de vie."
+  },
+  {
+   "t": "NT",
+   "id": "transfiguration",
+   "titre": "La confession de Pierre et la Transfiguration",
+   "date": "Vers 29 ap. J.-C.",
+   "y": 29.5,
+   "p": "ministere",
+   "refs": [
+    "Matthieu 16.13-28",
+    "Matthieu 17.1-13"
+   ],
+   "pers": [
+    "pierre",
+    "jesus",
+    "moise",
+    "elie",
+    "jacques-zebedee",
+    "jean-apotre"
+   ],
+   "lieux": [
+    "cesaree-philippe",
+    "hermon"
+   ],
+   "txt": "Pierre confesse : tu es le Christ, le Fils du Dieu vivant. Sur une haute montagne, Jésus est transfiguré devant trois disciples, avec Moïse et Élie."
+  },
+  {
+   "t": "NT",
+   "id": "lazare",
+   "titre": "La résurrection de Lazare",
+   "date": "Hiver 29-30 ap. J.-C.",
+   "y": 29.9,
+   "p": "ministere",
+   "refs": [
+    "Jean 11.1-53"
+   ],
+   "pers": [
+    "lazare",
+    "marthe",
+    "marie-bethanie",
+    "jesus",
+    "caiphe"
+   ],
+   "lieux": [
+    "bethanie"
+   ],
+   "txt": "Jésus déclare à Marthe : je suis la résurrection et la vie. Il ressuscite Lazare, mort depuis quatre jours ; les chefs décident alors de le faire mourir."
+  },
+  {
+   "t": "NT",
+   "id": "rameaux",
+   "titre": "L'entrée à Jérusalem",
+   "date": "Printemps 30 ap. J.-C. (ou 33)",
+   "y": 30.1,
+   "p": "passion",
+   "refs": [
+    "Matthieu 21.1-17",
+    "Jean 12.12-19"
+   ],
+   "pers": [
+    "jesus"
+   ],
+   "lieux": [
+    "bethphage",
+    "mont-oliviers",
+    "jerusalem"
+   ],
+   "txt": "Jésus entre à Jérusalem monté sur un ânon, accomplissant Zacharie 9.9. La foule l'acclame : Hosanna au Fils de David ! Il chasse les marchands du temple."
+  },
+  {
+   "t": "NT",
+   "id": "cene",
+   "titre": "Le dernier repas et Gethsémané",
+   "date": "Printemps 30 ap. J.-C. (ou 33)",
+   "y": 30.2,
+   "p": "passion",
+   "refs": [
+    "Luc 22.7-46",
+    "Jean 13.1-17",
+    "Matthieu 26.36-56"
+   ],
+   "pers": [
+    "jesus",
+    "pierre",
+    "jean-apotre",
+    "judas",
+    "malchus"
+   ],
+   "lieux": [
+    "jerusalem",
+    "gethsemane",
+    "cedron"
+   ],
+   "txt": "Jésus lave les pieds de ses disciples et institue la sainte cène. À Gethsémané, il prie dans l'angoisse ; Judas le livre et les disciples s'enfuient."
+  },
+  {
+   "t": "NT",
+   "id": "croix",
+   "titre": "La crucifixion",
+   "date": "Printemps 30 ap. J.-C. (ou 33)",
+   "y": 30.25,
+   "p": "passion",
+   "refs": [
+    "Matthieu 27.11-56",
+    "Luc 23.1-49",
+    "Jean 19.1-37"
+   ],
+   "pers": [
+    "jesus",
+    "pilate",
+    "caiphe",
+    "barabbas",
+    "simon-cyrene",
+    "brigands-croix",
+    "centenier-croix",
+    "marie",
+    "marie-magdala",
+    "jean-apotre"
+   ],
+   "lieux": [
+    "gabbatha",
+    "golgotha"
+   ],
+   "txt": "Condamné par Pilate, Jésus est crucifié au Golgotha. Il pardonne, promet le paradis au malfaiteur repentant et meurt en disant : tout est accompli."
+  },
+  {
+   "t": "NT",
+   "id": "resurrection",
+   "titre": "La résurrection",
+   "date": "Le troisième jour",
+   "y": 30.3,
+   "p": "passion",
+   "refs": [
+    "Matthieu 28.1-20",
+    "Luc 24.1-49",
+    "Jean 20.1-31"
+   ],
+   "pers": [
+    "jesus",
+    "marie-magdala",
+    "pierre",
+    "jean-apotre",
+    "thomas",
+    "cleopas"
+   ],
+   "lieux": [
+    "jerusalem",
+    "emmaus",
+    "galilee"
+   ],
+   "txt": "Le tombeau est vide : Jésus est ressuscité. Il apparaît à Marie de Magdala, aux disciples d'Emmaüs, aux apôtres, et à Thomas qui s'écrie : mon Seigneur et mon Dieu !"
+  },
+  {
+   "t": "NT",
+   "id": "ascension",
+   "titre": "L'ascension",
+   "date": "Quarante jours après",
+   "y": 30.4,
+   "p": "eglise",
+   "refs": [
+    "Actes 1.1-14",
+    "Luc 24.50-53"
+   ],
+   "pers": [
+    "jesus",
+    "pierre",
+    "jean-apotre",
+    "matthias",
+    "marie"
+   ],
+   "lieux": [
+    "mont-oliviers",
+    "jerusalem"
+   ],
+   "txt": "Jésus promet la puissance du Saint-Esprit et monte au ciel depuis le mont des Oliviers. Les disciples prient ensemble ; Matthias remplace Judas."
+  },
+  {
+   "t": "NT",
+   "id": "pentecote",
+   "titre": "La Pentecôte",
+   "date": "30 ap. J.-C. (ou 33)",
+   "y": 30.5,
+   "p": "eglise",
+   "refs": [
+    "Actes 2.1-47"
+   ],
+   "pers": [
+    "pierre",
+    "jean-apotre"
+   ],
+   "lieux": [
+    "jerusalem"
+   ],
+   "txt": "Le Saint-Esprit descend sur les disciples, qui parlent en d'autres langues. Pierre prêche Christ ressuscité ; environ trois mille personnes sont baptisées."
+  },
+  {
+   "t": "NT",
+   "id": "etienne",
+   "titre": "Le martyre d'Étienne",
+   "date": "Vers 32-34 ap. J.-C.",
+   "y": 33,
+   "p": "eglise",
+   "refs": [
+    "Actes 6.1-15",
+    "Actes 7.54-60",
+    "Actes 8.1-4"
+   ],
+   "pers": [
+    "etienne",
+    "sept-diacres",
+    "paul",
+    "gamaliel"
+   ],
+   "lieux": [
+    "jerusalem"
+   ],
+   "txt": "Étienne, l'un des sept, rempli de grâce et de puissance, est lapidé en priant pour ses bourreaux. La persécution disperse les croyants, qui annoncent la Parole partout."
+  },
+  {
+   "t": "NT",
+   "id": "samarie-nt",
+   "titre": "Philippe en Samarie",
+   "date": "Vers 34 ap. J.-C.",
+   "y": 34,
+   "p": "eglise",
+   "refs": [
+    "Actes 8.5-40"
+   ],
+   "pers": [
+    "philippe-evangeliste",
+    "simon-magicien",
+    "eunuque-ethiopien",
+    "pierre",
+    "jean-apotre"
+   ],
+   "lieux": [
+    "samarie",
+    "gaza",
+    "asdod"
+   ],
+   "txt": "Philippe annonce Christ en Samarie avec des miracles. Sur la route de Gaza, il explique Ésaïe 53 à un eunuque éthiopien et le baptise."
+  },
+  {
+   "t": "NT",
+   "id": "damas",
+   "titre": "La conversion de Paul",
+   "date": "Vers 34-35 ap. J.-C.",
+   "y": 34.5,
+   "p": "eglise",
+   "refs": [
+    "Actes 9.1-31",
+    "Galates 1.11-24"
+   ],
+   "pers": [
+    "paul",
+    "ananias-damas",
+    "barnabas",
+    "jesus"
+   ],
+   "lieux": [
+    "damas",
+    "arabie",
+    "tarse"
+   ],
+   "txt": "Sur la route de Damas, Saul le persécuteur est arrêté par Jésus ressuscité. Ananias lui impose les mains ; Saul proclame aussitôt que Jésus est le Fils de Dieu."
+  },
+  {
+   "t": "NT",
+   "id": "corneille",
+   "titre": "Corneille et l'ouverture aux païens",
+   "date": "Vers 38-40 ap. J.-C.",
+   "y": 39,
+   "p": "eglise",
+   "refs": [
+    "Actes 10.1-48",
+    "Actes 11.1-18"
+   ],
+   "pers": [
+    "pierre",
+    "corneille",
+    "simon-corroyeur"
+   ],
+   "lieux": [
+    "joppe",
+    "cesaree"
+   ],
+   "txt": "Une vision apprend à Pierre que Dieu ne fait pas acception de personnes. Le Saint-Esprit descend sur Corneille et sa maison, des païens."
+  },
+  {
+   "t": "NT",
+   "id": "antioche",
+   "titre": "L'Église d'Antioche",
+   "date": "Vers 43-44 ap. J.-C.",
+   "y": 43,
+   "p": "eglise",
+   "refs": [
+    "Actes 11.19-30",
+    "Actes 12.1-24"
+   ],
+   "pers": [
+    "barnabas",
+    "paul",
+    "agabus",
+    "herode",
+    "pierre",
+    "jacques-zebedee",
+    "claude-empereur"
+   ],
+   "lieux": [
+    "antioche",
+    "jerusalem"
+   ],
+   "txt": "À Antioche, des païens se convertissent ; c'est là que les disciples sont appelés chrétiens. À Jérusalem, Hérode fait tuer Jacques, mais Pierre est délivré de prison par un ange."
+  },
+  {
+   "t": "NT",
+   "id": "voyage-1",
+   "titre": "Premier voyage missionnaire",
+   "date": "Vers 46-48 ap. J.-C.",
+   "y": 47,
+   "p": "paul",
+   "refs": [
+    "Actes 13.1-52",
+    "Actes 14.1-28"
+   ],
+   "pers": [
+    "paul",
+    "barnabas",
+    "marc",
+    "sergius-paulus",
+    "elymas",
+    "prophetes-antioche"
+   ],
+   "lieux": [
+    "antioche",
+    "chypre",
+    "paphos",
+    "antioche-pisidie",
+    "icone",
+    "lystre",
+    "derbe"
+   ],
+   "txt": "Envoyés par l'Esprit, Paul et Barnabas évangélisent Chypre et l'Asie Mineure. Des Églises naissent ; Paul est lapidé à Lystre et survit."
+  },
+  {
+   "t": "NT",
+   "id": "concile",
+   "titre": "Le concile de Jérusalem",
+   "date": "Vers 49 ap. J.-C.",
+   "y": 49,
+   "p": "paul",
+   "refs": [
+    "Actes 15.1-35"
+   ],
+   "pers": [
+    "pierre",
+    "jacques-frere",
+    "paul",
+    "barnabas",
+    "silas",
+    "judas-barsabas"
+   ],
+   "lieux": [
+    "jerusalem",
+    "antioche"
+   ],
+   "txt": "Les apôtres et les anciens reconnaissent que les païens sont sauvés par la grâce, sans devoir être circoncis. Une lettre est envoyée aux Églises."
+  },
+  {
+   "t": "NT",
+   "id": "voyage-2",
+   "titre": "Deuxième voyage : l'Évangile en Europe",
+   "date": "Vers 49-52 ap. J.-C.",
+   "y": 50.5,
+   "p": "paul",
+   "refs": [
+    "Actes 16.6-40",
+    "Actes 17.16-34",
+    "Actes 18.1-22"
+   ],
+   "pers": [
+    "paul",
+    "silas",
+    "timothee",
+    "luc",
+    "lydie",
+    "geolier-philippes",
+    "aquilas",
+    "priscille",
+    "gallion"
+   ],
+   "lieux": [
+    "troas",
+    "philippes",
+    "thessalonique",
+    "athenes",
+    "corinthe"
+   ],
+   "txt": "Appelé en vision par un Macédonien, Paul passe en Europe. Lydie croit à Philippes, le geôlier est sauvé ; Paul prêche à Athènes et reste dix-huit mois à Corinthe."
+  },
+  {
+   "t": "NT",
+   "id": "voyage-3",
+   "titre": "Troisième voyage : Éphèse",
+   "date": "Vers 53-57 ap. J.-C.",
+   "y": 55,
+   "p": "paul",
+   "refs": [
+    "Actes 19.1-40",
+    "Actes 20.17-38"
+   ],
+   "pers": [
+    "paul",
+    "apollos",
+    "demetrius-orfevre",
+    "timothee",
+    "eraste"
+   ],
+   "lieux": [
+    "ephese",
+    "asie",
+    "milet",
+    "corinthe"
+   ],
+   "txt": "Paul enseigne deux ans à Éphèse : toute l'Asie entend la Parole. L'émeute des orfèvres éclate ; à Milet, il fait ses adieux aux anciens d'Éphèse."
+  },
+  {
+   "t": "NT",
+   "id": "arrestation",
+   "titre": "Paul arrêté à Jérusalem",
+   "date": "Vers 57 ap. J.-C.",
+   "y": 57,
+   "p": "paul",
+   "refs": [
+    "Actes 21.17-40",
+    "Actes 22.1-29",
+    "Actes 23.11-35"
+   ],
+   "pers": [
+    "paul",
+    "jacques-frere",
+    "claude-lysias",
+    "ananias-grand-pretre"
+   ],
+   "lieux": [
+    "jerusalem",
+    "cesaree"
+   ],
+   "txt": "Accusé dans le temple, Paul est sauvé de la foule par le tribun. Le Seigneur lui annonce qu'il témoignera aussi à Rome ; il est envoyé de nuit à Césarée."
+  },
+  {
+   "t": "NT",
+   "id": "cesaree",
+   "titre": "Paul captif à Césarée",
+   "date": "Vers 57-59 ap. J.-C.",
+   "y": 58,
+   "p": "paul",
+   "refs": [
+    "Actes 24.1-27",
+    "Actes 26.1-32"
+   ],
+   "pers": [
+    "paul",
+    "felix",
+    "drusille",
+    "festus",
+    "agrippa",
+    "berenice"
+   ],
+   "lieux": [
+    "cesaree"
+   ],
+   "txt": "Deux ans de captivité. Paul témoigne devant Félix, Festus et le roi Agrippa, puis en appelle à César."
+  },
+  {
+   "t": "NT",
+   "id": "naufrage",
+   "titre": "Le voyage vers Rome et le naufrage",
+   "date": "Vers 59-60 ap. J.-C.",
+   "y": 59.5,
+   "p": "paul",
+   "refs": [
+    "Actes 27.1-44",
+    "Actes 28.1-16"
+   ],
+   "pers": [
+    "paul",
+    "julius",
+    "luc",
+    "aristarque",
+    "publius"
+   ],
+   "lieux": [
+    "crete",
+    "malte",
+    "rome"
+   ],
+   "txt": "Pris dans une tempête, le navire fait naufrage près de Malte ; tous sont sauvés comme Dieu l'avait promis. Paul arrive enfin à Rome."
+  },
+  {
+   "t": "NT",
+   "id": "rome",
+   "titre": "Paul à Rome",
+   "date": "Vers 60-62 ap. J.-C.",
+   "y": 61,
+   "p": "paul",
+   "refs": [
+    "Actes 28.16-31",
+    "Philippiens 1.12-21"
+   ],
+   "pers": [
+    "paul",
+    "onesime",
+    "epaphrodite",
+    "tychique",
+    "cesar-neron"
+   ],
+   "lieux": [
+    "rome"
+   ],
+   "txt": "Prisonnier dans une maison louée, Paul reçoit tous ceux qui viennent et annonce le royaume de Dieu avec une pleine assurance. Il écrit les épîtres de la captivité."
+  },
+  {
+   "t": "NT",
+   "id": "fin-paul",
+   "titre": "Dernière lettre et martyre de Paul",
+   "date": "Vers 64-67 ap. J.-C.",
+   "y": 66,
+   "p": "fin",
+   "refs": [
+    "2 Timothée 4.1-22"
+   ],
+   "pers": [
+    "paul",
+    "timothee",
+    "luc",
+    "marc",
+    "demas"
+   ],
+   "lieux": [
+    "rome"
+   ],
+   "txt": "Dans sa dernière lettre, Paul déclare avoir combattu le bon combat et gardé la foi. Selon la tradition, Pierre et Paul meurent martyrs à Rome sous Néron."
+  },
+  {
+   "t": "NT",
+   "id": "jerusalem-70",
+   "titre": "La destruction du temple",
+   "date": "70 ap. J.-C.",
+   "y": 70,
+   "p": "fin",
+   "refs": [
+    "Luc 21.5-24",
+    "Matthieu 24.1-2"
+   ],
+   "pers": [
+    "jesus"
+   ],
+   "lieux": [
+    "jerusalem"
+   ],
+   "txt": "Comme Jésus l'avait annoncé, les armées romaines détruisent Jérusalem et le temple. Il n'en reste pas pierre sur pierre."
+  },
+  {
+   "t": "NT",
+   "id": "patmos",
+   "titre": "Jean à Patmos : l'Apocalypse",
+   "date": "Vers 95 ap. J.-C.",
+   "y": 95,
+   "p": "fin",
+   "refs": [
+    "Apocalypse 1.9-20",
+    "Apocalypse 21.1-7",
+    "Apocalypse 22.12-21"
+   ],
+   "pers": [
+    "jean-apotre",
+    "jesus",
+    "antipas"
+   ],
+   "lieux": [
+    "patmos",
+    "ephese",
+    "smyrne",
+    "pergame",
+    "thyatire",
+    "sardes",
+    "philadelphie",
+    "laodicee"
+   ],
+   "txt": "Exilé à Patmos, Jean voit Christ glorifié, écrit aux sept Églises et contemple la victoire finale de l'Agneau et la nouvelle Jérusalem. Viens, Seigneur Jésus !"
+  }
+ ]
+}

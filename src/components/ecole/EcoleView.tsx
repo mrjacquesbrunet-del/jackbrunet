@@ -9,7 +9,9 @@ import { LieuCarte } from "@/components/bible/LieuCarte";
 import { getFormations, listFormationProgress, type Formation } from "@/lib/formations";
 
 /**
- * ÉCOLE BIBLIQUE — accueil e-learning (maquette validée) :
+ * ÉTUDE BIBLIQUE — accueil (onglet « Étude ») : formations, assistant,
+ * exploration (galerie des personnages & lieux, frise chronologique).
+ * Accueil e-learning (maquette validée) :
  * en-tête sombre (Bonjour {prénom} + bannière FORMATIONS E-LEARNING),
  * corps clair arrondi : actions rapides rondes, « Reprendre où tu t'es
  * arrêté », liste des formations, études et exploration.
@@ -68,7 +70,7 @@ export function EcoleView() {
       {/* ——— En-tête sombre ——— */}
       <header className="container-x pt-[calc(env(safe-area-inset-top)+1.5rem)] text-cream">
         <div className="mx-auto max-w-2xl">
-          <p className="text-[11px] font-black uppercase tracking-[0.26em] text-dawn-300">Formation biblique</p>
+          <p className="text-[11px] font-black uppercase tracking-[0.26em] text-dawn-300">Étude biblique</p>
           <h1 className="mt-2 font-display text-3xl font-extrabold leading-tight">
             Bonjour{prenom ? ` ${prenom}` : ""} !
           </h1>
@@ -273,7 +275,7 @@ export function EcoleView() {
                 </span>
               </Link>
               <Link
-                href="/chronologie"
+                href="/ecole/chronologie"
                 className="relative flex flex-col justify-end overflow-hidden rounded-3xl border border-night-900/10 bg-white transition-transform active:scale-[0.98]"
                 style={{ minHeight: "10.5rem" }}
               >
@@ -293,7 +295,7 @@ export function EcoleView() {
                 </svg>
                 <span className="relative p-4">
                   <span className="block font-display text-base font-extrabold leading-tight">Chronologie biblique</span>
-                  <span className="mt-0.5 block text-[11px] font-bold text-night-900/55">De la création à l&apos;Apocalypse</span>
+                  <span className="mt-0.5 block text-[11px] font-bold text-night-900/55">La frise de l&apos;Ancien et du Nouveau Testament</span>
                 </span>
               </Link>
             </div>
