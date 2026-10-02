@@ -1010,7 +1010,11 @@
    ],
    "match": [
     {
-     "v": "Débora"
+     "v": "Débora",
+     "l": [
+      7,
+      7
+     ]
     }
    ],
    "histoire": "Prophétesse, Débora juge Israël sous son palmier, entre Rama et Béthel (Juges 4:5). Quand elle transmet à Barak l'ordre de l'Éternel d'affronter l'armée de Sisera et ses neuf cents chars de fer, il refuse d'y aller sans elle : « Si tu viens avec moi, j'irai » (Juges 4:8).\n\nElle monte, et Dieu met l'armée ennemie en déroute au torrent de Kison ; l'honneur de la victoire revient à des femmes — Débora, et Jaël qui abat Sisera (Juges 4:21). Son cantique est l'un des plus anciens chants de la Bible : « Ainsi périssent tous tes ennemis, ô Éternel ! » (Juges 5:31)."
@@ -1139,7 +1143,7 @@
   },
   {
    "id": "booz",
-   "nom": "Booz",
+   "nom": "Booz (Boaz)",
    "periode": "Les Juges",
    "bio": "Homme puissant et généreux de Bethléhem. En rachetant Ruth selon la loi du rachat, il devint une image du Rédempteur — celui qui couvre, protège et restaure.",
    "passages": [
@@ -1157,6 +1161,31 @@
    "match": [
     {
      "v": "Booz"
+    },
+    {
+     "v": "Boaz",
+     "l": [
+      8,
+      8
+     ]
+    },
+    {
+     "v": "Boaz",
+     "l": [
+      13,
+      13
+     ],
+     "c": [
+      2,
+      2
+     ]
+    },
+    {
+     "v": "Boaz",
+     "l": [
+      40,
+      40
+     ]
     }
    ],
    "relations": [
@@ -2032,7 +2061,51 @@
    ],
    "match": [
     {
-     "v": "Jonas"
+     "v": "Jonas",
+     "l": [
+      12,
+      12
+     ]
+    },
+    {
+     "v": "Jonas",
+     "l": [
+      32,
+      32
+     ]
+    },
+    {
+     "v": "Jonas",
+     "l": [
+      40,
+      40
+     ],
+     "c": [
+      12,
+      12
+     ]
+    },
+    {
+     "v": "Jonas",
+     "l": [
+      40,
+      40
+     ],
+     "c": [
+      16,
+      16
+     ]
+    },
+    {
+     "v": "Jonas",
+     "l": [
+      42,
+      42
+     ],
+     "c": [
+      11,
+      11
+     ]
     }
    ],
    "histoire": "Envoyé à Ninive, capitale de l'ennemi assyrien, Jonas embarque à Tarsis — plein ouest, à l'opposé (Jonas 1:3). La tempête, le tirage au sort, et le prophète jeté à la mer : « un grand poisson » l'engloutit, préparé par l'Éternel (Jonas 2:1). Des entrailles du poisson monte sa prière : « Le salut vient de l'Éternel » (Jonas 2:10).\n\nRecraché, réenvoyé, il prêche une seule phrase — et toute Ninive se repent, du roi au bétail (Jonas 3:5). Jonas en est fâché à mourir : il savait Dieu « compatissant et miséricordieux, lent à la colère » (Jonas 4:2). La leçon du ricin qui pousse et sèche conclut le livre : Dieu aime aussi nos ennemis.\n\nJésus fera de lui son propre signe : « Comme Jonas fut trois jours dans le ventre du poisson, ainsi le Fils de l'homme… » (Matthieu 12:40).",
@@ -2129,6 +2202,53 @@
       1,
       2
      ]
+    },
+    {
+     "v": "mère de Jésus"
+    },
+    {
+     "v": "Marie",
+     "l": [
+      40,
+      40
+     ],
+     "c": [
+      13,
+      13
+     ]
+    },
+    {
+     "v": "Marie",
+     "l": [
+      41,
+      41
+     ],
+     "c": [
+      6,
+      6
+     ]
+    },
+    {
+     "v": "Marie",
+     "l": [
+      44,
+      44
+     ],
+     "c": [
+      1,
+      1
+     ]
+    },
+    {
+     "v": "sa mère",
+     "l": [
+      43,
+      43
+     ],
+     "c": [
+      19,
+      19
+     ]
     }
    ],
    "relations": [
@@ -2224,6 +2344,336 @@
     },
     {
      "v": "Jean Baptiste"
+    },
+    {
+     "v": "Jean",
+     "l": [
+      40,
+      40
+     ],
+     "c": [
+      3,
+      3
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      40,
+      40
+     ],
+     "c": [
+      4,
+      4
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      40,
+      40
+     ],
+     "c": [
+      9,
+      9
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      40,
+      40
+     ],
+     "c": [
+      11,
+      11
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      40,
+      40
+     ],
+     "c": [
+      14,
+      14
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      40,
+      40
+     ],
+     "c": [
+      21,
+      21
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      41,
+      41
+     ],
+     "c": [
+      1,
+      1
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      41,
+      41
+     ],
+     "c": [
+      2,
+      2
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      41,
+      41
+     ],
+     "c": [
+      6,
+      6
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      41,
+      41
+     ],
+     "c": [
+      8,
+      8
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      41,
+      41
+     ],
+     "c": [
+      11,
+      11
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      42,
+      42
+     ],
+     "c": [
+      1,
+      1
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      42,
+      42
+     ],
+     "c": [
+      3,
+      3
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      42,
+      42
+     ],
+     "c": [
+      5,
+      5
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      42,
+      42
+     ],
+     "c": [
+      7,
+      7
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      42,
+      42
+     ],
+     "c": [
+      9,
+      9
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      42,
+      42
+     ],
+     "c": [
+      11,
+      11
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      42,
+      42
+     ],
+     "c": [
+      16,
+      16
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      42,
+      42
+     ],
+     "c": [
+      20,
+      20
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      43,
+      43
+     ],
+     "c": [
+      1,
+      1
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      43,
+      43
+     ],
+     "c": [
+      3,
+      3
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      43,
+      43
+     ],
+     "c": [
+      4,
+      4
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      43,
+      43
+     ],
+     "c": [
+      5,
+      5
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      43,
+      43
+     ],
+     "c": [
+      10,
+      10
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      44,
+      44
+     ],
+     "c": [
+      1,
+      1
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      44,
+      44
+     ],
+     "c": [
+      10,
+      10
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      44,
+      44
+     ],
+     "c": [
+      11,
+      11
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      44,
+      44
+     ],
+     "c": [
+      13,
+      13
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      44,
+      44
+     ],
+     "c": [
+      18,
+      18
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      44,
+      44
+     ],
+     "c": [
+      19,
+      19
+     ]
     }
    ],
    "relations": [
@@ -4240,7 +4690,110 @@
      "v": "Jean",
      "l": [
       40,
+      40
+     ],
+     "c": [
+      4,
+      4
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      40,
+      40
+     ],
+     "c": [
+      10,
+      10
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      40,
+      40
+     ],
+     "c": [
+      17,
+      17
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      41,
       41
+     ],
+     "c": [
+      1,
+      1
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      41,
+      41
+     ],
+     "c": [
+      3,
+      3
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      41,
+      41
+     ],
+     "c": [
+      5,
+      5
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      41,
+      41
+     ],
+     "c": [
+      9,
+      9
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      41,
+      41
+     ],
+     "c": [
+      10,
+      10
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      41,
+      41
+     ],
+     "c": [
+      13,
+      13
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      41,
+      41
+     ],
+     "c": [
+      14,
+      14
      ]
     },
     {
@@ -4250,15 +4803,52 @@
       42
      ],
      "c": [
-      3,
-      24
+      5,
+      5
      ]
     },
     {
      "v": "Jean",
      "l": [
-      43,
-      43
+      42,
+      42
+     ],
+     "c": [
+      6,
+      6
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      42,
+      42
+     ],
+     "c": [
+      8,
+      8
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      42,
+      42
+     ],
+     "c": [
+      9,
+      9
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      42,
+      42
+     ],
+     "c": [
+      22,
+      22
      ]
     },
     {
@@ -4269,7 +4859,51 @@
      ],
      "c": [
       1,
+      1
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      44,
+      44
+     ],
+     "c": [
+      3,
+      3
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      44,
+      44
+     ],
+     "c": [
+      4,
+      4
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      44,
+      44
+     ],
+     "c": [
+      8,
       8
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      44,
+      44
+     ],
+     "c": [
+      12,
+      12
      ]
     },
     {
@@ -4277,6 +4911,31 @@
      "l": [
       45,
       66
+     ]
+    },
+    {
+     "v": "disciple que Jésus aimait"
+    },
+    {
+     "v": "aimait",
+     "l": [
+      43,
+      43
+     ],
+     "c": [
+      13,
+      13
+     ]
+    },
+    {
+     "v": "aimait",
+     "l": [
+      43,
+      43
+     ],
+     "c": [
+      19,
+      19
      ]
     }
    ],
@@ -4433,6 +5092,17 @@
       40,
       43
      ]
+    },
+    {
+     "v": "Jacques",
+     "l": [
+      44,
+      44
+     ],
+     "c": [
+      12,
+      12
+     ]
     }
    ],
    "passages": [
@@ -4469,7 +5139,51 @@
      "v": "Philippe",
      "l": [
       40,
+      40
+     ],
+     "c": [
+      10,
+      10
+     ]
+    },
+    {
+     "v": "Philippe",
+     "l": [
+      41,
+      41
+     ],
+     "c": [
+      3,
+      3
+     ]
+    },
+    {
+     "v": "Philippe",
+     "l": [
+      42,
+      42
+     ],
+     "c": [
+      6,
+      6
+     ]
+    },
+    {
+     "v": "Philippe",
+     "l": [
+      43,
       43
+     ]
+    },
+    {
+     "v": "Philippe",
+     "l": [
+      44,
+      44
+     ],
+     "c": [
+      1,
+      1
      ]
     }
    ],
@@ -4509,6 +5223,9 @@
       43,
       43
      ]
+    },
+    {
+     "v": "Barthélemy"
     }
    ],
    "passages": [
@@ -4573,6 +5290,28 @@
    "match": [
     {
      "v": "Matthieu"
+    },
+    {
+     "v": "Lévi",
+     "l": [
+      41,
+      41
+     ],
+     "c": [
+      2,
+      2
+     ]
+    },
+    {
+     "v": "Lévi",
+     "l": [
+      42,
+      42
+     ],
+     "c": [
+      5,
+      5
+     ]
     }
    ],
    "passages": [
@@ -5270,6 +6009,10 @@
      "l": [
       44,
       44
+     ],
+     "c": [
+      6,
+      21
      ]
     }
    ],
@@ -5347,6 +6090,17 @@
      "l": [
       44,
       66
+     ]
+    },
+    {
+     "v": "Jean",
+     "l": [
+      44,
+      44
+     ],
+     "c": [
+      13,
+      13
      ]
     }
    ],
@@ -5491,6 +6245,9 @@
    "match": [
     {
      "v": "Phébé"
+    },
+    {
+     "v": "Phœbé"
     }
    ],
    "passages": [
@@ -7775,13 +8532,6 @@
     },
     {
      "v": "Tsophar"
-    },
-    {
-     "v": "Élihu",
-     "l": [
-      18,
-      18
-     ]
     }
    ],
    "passages": [
@@ -7801,6 +8551,10 @@
     [
      "Ami",
      "job"
+    ],
+    [
+     "Le plus jeune",
+     "elihu"
     ]
    ],
    "histoire": "Leur meilleur moment fut le premier : « Et ils se tinrent assis à terre auprès de lui sept jours et sept nuits, sans lui dire une parole, car ils voyaient combien sa douleur était grande » (Job 2.11-13). Puis ils parlèrent — et tout se gâta : pour eux, qui souffre a forcément péché. « Vous êtes tous des consolateurs fâcheux », répond Job (Job 16.2).\n\nÉlihu, le jeune homme en colère, redresse une part du débat : la souffrance peut instruire, et « Dieu est grand par sa puissance » (Job 36.22). Puis l'Éternel répond du sein de la tempête (Job 38.1) — et son verdict surprend : « Ma colère est enflammée contre toi et contre tes deux amis, parce que vous n'avez pas parlé de moi avec droiture comme l'a fait mon serviteur Job ». Job devra prier pour eux (Job 42.7-9). Défendre Dieu avec de fausses certitudes offense Dieu lui-même."
@@ -8988,6 +9742,9 @@
     },
     {
      "v": "Cananite"
+    },
+    {
+     "v": "zélote"
     }
    ],
    "passages": [
@@ -9760,6 +10517,17 @@
       1,
       1
      ]
+    },
+    {
+     "v": "Lévi",
+     "l": [
+      2,
+      2
+     ],
+     "c": [
+      32,
+      32
+     ]
     }
    ],
    "passages": [
@@ -9853,6 +10621,28 @@
       1,
       1
      ]
+    },
+    {
+     "v": "Nephthali",
+     "l": [
+      40,
+      40
+     ],
+     "c": [
+      4,
+      4
+     ]
+    },
+    {
+     "v": "Nephthali",
+     "l": [
+      23,
+      23
+     ],
+     "c": [
+      8,
+      8
+     ]
     }
    ],
    "passages": [
@@ -9942,6 +10732,17 @@
       1,
       1
      ]
+    },
+    {
+     "v": "Aser",
+     "l": [
+      42,
+      42
+     ],
+     "c": [
+      2,
+      2
+     ]
     }
    ],
    "passages": [
@@ -10030,6 +10831,28 @@
      "l": [
       1,
       1
+     ]
+    },
+    {
+     "v": "Zabulon",
+     "l": [
+      40,
+      40
+     ],
+     "c": [
+      4,
+      4
+     ]
+    },
+    {
+     "v": "Zabulon",
+     "l": [
+      23,
+      23
+     ],
+     "c": [
+      8,
+      8
      ]
     }
    ],
@@ -16465,6 +17288,2401 @@
     ]
    ],
    "histoire": "« Comme Jésus était à Béthanie, dans la maison de Simon le lépreux, une femme s'approcha de lui, tenant un vase d'albâtre, qui renfermait un parfum de grand prix » (Matthieu 26.6-7). Jean, qui situe aussi à Béthanie un repas où Marie, sœur de Lazare, oint Jésus, semble rapporter la même scène (Jean 12.1-3).\n\nSimon porte encore le nom de sa maladie, mais il reçoit Jésus à table ; or un lépreux devait vivre à l'écart (Lévitique 13.46). Il avait donc sans doute été guéri. Jésus y déclare : « partout où cette bonne nouvelle sera prêchée, dans le monde entier, on racontera aussi en mémoire de cette femme ce qu'elle a fait » (Matthieu 26.13)."
+  },
+  {
+   "id": "haran",
+   "nom": "Haran",
+   "periode": "Patriarches",
+   "match": [
+    {
+     "v": "Haran",
+     "l": [
+      1,
+      1
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Genèse 11",
+     1,
+     11
+    ]
+   ],
+   "bio": "Frère d'Abram et de Nachor, père de Lot et de Milca ; il mourut à Ur avant le départ de la famille.",
+   "relations": [
+    [
+     "Père",
+     "terach"
+    ],
+    [
+     "Frère",
+     "abraham"
+    ],
+    [
+     "Frère",
+     "nachor"
+    ],
+    [
+     "Fils",
+     "lot"
+    ],
+    [
+     "Fille",
+     "milca"
+    ]
+   ],
+   "histoire": "« Térach engendra Abram, Nachor et Haran. -Haran engendra Lot » (Genèse 11.27). Il meurt jeune : « Haran mourut en présence de Térach, son père, au pays de sa naissance, à Ur en Chaldée » (Genèse 11.28).\n\nSa descendance reste au cœur de l'histoire : son fils Lot accompagne Abram, et sa fille Milca épouse Nachor (Genèse 11.29, 31). Ne pas confondre avec la ville de Charan, où la famille s'établit ensuite."
+  },
+  {
+   "id": "milca",
+   "nom": "Milca",
+   "periode": "Patriarches",
+   "match": [
+    {
+     "v": "Milca",
+     "l": [
+      1,
+      1
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Genèse 11",
+     1,
+     11
+    ],
+    [
+     "Genèse 22",
+     1,
+     22
+    ],
+    [
+     "Genèse 24",
+     1,
+     24
+    ]
+   ],
+   "bio": "Fille d'Haran et femme de Nachor, frère d'Abraham ; grand-mère de Rebecca.",
+   "relations": [
+    [
+     "Père",
+     "haran"
+    ],
+    [
+     "Mari",
+     "nachor"
+    ],
+    [
+     "Fils",
+     "bethuel"
+    ],
+    [
+     "Petite-fille",
+     "rebecca"
+    ]
+   ],
+   "histoire": "« le nom de la femme de Nachor était Milca, fille d'Haran » (Genèse 11.29). Pendant qu'Abraham attend la promesse, on lui annonce : « Voici, Milca a aussi enfanté des fils à Nachor, ton frère » — huit fils, dont Bethuel, qui « a engendré Rebecca » (Genèse 22.20-23).\n\nQuand le serviteur d'Abraham prie au puits, Rebecca paraît, « née de Bethuel, fils de Milca, femme de Nachor, frère d'Abraham » (Genèse 24.15). La réponse à la prière vient de la famille même d'Abraham."
+  },
+  {
+   "id": "debora-nourrice",
+   "nom": "Débora (nourrice de Rebecca)",
+   "periode": "Patriarches",
+   "match": [
+    {
+     "v": "Débora",
+     "l": [
+      1,
+      1
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Genèse 35",
+     1,
+     35
+    ]
+   ],
+   "bio": "Nourrice de Rebecca, partie avec elle de Mésopotamie ; sa mort fut pleurée sous « le chêne des pleurs » près de Béthel.",
+   "relations": [
+    [
+     "A servi",
+     "rebecca"
+    ],
+    [
+     "Dans la maison de",
+     "jacob"
+    ]
+   ],
+   "histoire": "Quand Rebecca quitte sa famille pour épouser Isaac, on la laisse partir « et sa nourrice » (Genèse 24.59). Celle-ci la suit toute sa vie, puis demeure dans la maison de Jacob.\n\nDes décennies plus tard : « Débora, nourrice de Rebecca, mourut ; et elle fut enterrée au-dessous de Béthel, sous le chêne auquel on a donné le nom de chêne des pleurs » (Genèse 35.8). La Bible prend le temps de nommer et d'honorer une servante fidèle."
+  },
+  {
+   "id": "er-onan",
+   "nom": "Er et Onan",
+   "periode": "Patriarches",
+   "match": [
+    {
+     "v": "Er",
+     "l": [
+      1,
+      1
+     ],
+     "c": [
+      38,
+      38
+     ]
+    },
+    {
+     "v": "Onan",
+     "l": [
+      1,
+      1
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Genèse 38",
+     1,
+     38
+    ]
+   ],
+   "bio": "Fils aînés de Juda, maris successifs de Tamar ; tous deux moururent pour leur méchanceté.",
+   "relations": [
+    [
+     "Père",
+     "juda-fils"
+    ],
+    [
+     "Femme",
+     "tamar-juda"
+    ]
+   ],
+   "histoire": "« Juda prit pour Er, son premier-né, une femme nommée Tamar. Er, premier-né de Juda, était méchant aux yeux de l'Éternel ; et l'Éternel le fit mourir » (Genèse 38.6-7).\n\nSelon la coutume du lévirat, Onan doit susciter une postérité à son frère ; mais, « sachant que cette postérité ne serait pas à lui », il s'y refuse, et « Ce qu'il faisait déplut à l'Éternel, qui le fit aussi mourir » (Genèse 38.8-10). La lignée de Juda — celle du Messie — se poursuivra pourtant par Tamar et Pérets.",
+   "tribu": "juda-fils"
+  },
+  {
+   "id": "guerschom",
+   "nom": "Guerschom et Éliézer",
+   "periode": "Exode",
+   "match": [
+    {
+     "v": "Guerschom",
+     "l": [
+      2,
+      2
+     ]
+    },
+    {
+     "v": "Éliézer",
+     "l": [
+      2,
+      2
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Exode 2",
+     2,
+     2
+    ],
+    [
+     "Exode 18",
+     2,
+     18
+    ]
+   ],
+   "bio": "Les deux fils de Moïse et de Séphora, dont les noms résument l'exil et la délivrance de leur père.",
+   "relations": [
+    [
+     "Père",
+     "moise"
+    ],
+    [
+     "Mère",
+     "sephora"
+    ],
+    [
+     "Grand-père",
+     "jethro"
+    ]
+   ],
+   "histoire": "En Madian, Séphora enfante un fils, que Moïse « appela du nom de Guerschom, car, dit-il, j'habite un pays étranger » (Exode 2.22).\n\nJéthro ramène à Moïse sa femme et ses deux fils ; le second « se nommait Éliézer, car il avait dit : Le Dieu de mon père m'a secouru, et il m'a délivré de l'épée de Pharaon » (Exode 18.3-4). Deux noms, deux étapes d'une vie : l'exil, puis le secours de Dieu.",
+   "tribu": "levi-fils"
+  },
+  {
+   "id": "adoni-tsedek",
+   "nom": "Adoni-Tsédek",
+   "periode": "Conquête",
+   "match": [
+    {
+     "v": "Adoni-Tsédek"
+    }
+   ],
+   "passages": [
+    [
+     "Josué 10",
+     6,
+     10
+    ]
+   ],
+   "bio": "Roi amoréen de Jérusalem qui coalisa cinq rois contre Gabaon ; vaincu par Josué le jour où le soleil s'arrêta.",
+   "relations": [
+    [
+     "Ennemi de",
+     "josue"
+    ]
+   ],
+   "histoire": "Apprenant que Gabaon a fait la paix avec Israël, « Adoni-Tsédek, roi de Jérusalem » a « une forte crainte » et appelle les rois d'Hébron, de Jarmuth, de Lakis et d'Églon : « Montez vers moi, et aidez-moi, afin que nous frappions Gabaon » (Josué 10.1-4).\n\nJosué vole au secours de Gabaon ; c'est la bataille où il dit : « Soleil, arrête-toi sur Gabaon ! » (Josué 10.12). Les cinq rois, cachés dans une caverne à Makkéda, sont mis à mort (Josué 10.16-26). Son nom signifie « mon seigneur est justice » — un écho lointain de Melchisédek, roi de Salem."
+  },
+  {
+   "id": "jabin",
+   "nom": "Jabin",
+   "periode": "Juges",
+   "match": [
+    {
+     "v": "Jabin"
+    }
+   ],
+   "passages": [
+    [
+     "Josué 11",
+     6,
+     11
+    ],
+    [
+     "Juges 4",
+     7,
+     4
+    ]
+   ],
+   "bio": "Nom des rois cananéens de Hatsor : l'un fut vaincu par Josué, un autre opprima Israël vingt ans avant la victoire de Débora et Barak.",
+   "relations": [
+    [
+     "Chef d'armée",
+     "sisera"
+    ],
+    [
+     "Vaincu par",
+     "barak"
+    ],
+    [
+     "Vaincu par",
+     "debora"
+    ]
+   ],
+   "histoire": "Le premier Jabin rassemble les rois du nord contre Josué, « un peuple innombrable comme le sable qui est sur le bord de la mer » ; Hatsor est prise et brûlée (Josué 11.1-11).\n\nPlus tard, « l'Éternel les vendit entre les mains de Jabin, roi de Canaan, qui régnait à Hatsor » ; son général est Sisera (Juges 4.2-3). Après la victoire du Thabor, « En ce jour, Dieu humilia Jabin, roi de Canaan, devant les enfants d'Israël » (Juges 4.23)."
+  },
+  {
+   "id": "adoni-bezek",
+   "nom": "Adoni-Bézek",
+   "periode": "Juges",
+   "match": [
+    {
+     "v": "Adoni-Bézek"
+    }
+   ],
+   "passages": [
+    [
+     "Juges 1",
+     7,
+     1
+    ]
+   ],
+   "bio": "Roi cananéen vaincu par Juda, qui reconnut subir lui-même la cruauté qu'il avait infligée à soixante-dix rois.",
+   "relations": [
+    [
+     "Vaincu par",
+     "juda-fils"
+    ]
+   ],
+   "histoire": "Juda et Siméon trouvent « Adoni-Bézek à Bézek » ; il fuit, on le rattrape, « et ils lui coupèrent les pouces des mains et des pieds » (Juges 1.5-6).\n\nLui-même conclut : « Soixante-dix rois, ayant les pouces des mains et des pieds coupés, ramassaient sous ma table ; Dieu me rend ce que j'ai fait » (Juges 1.7). Une illustration ancienne du principe : « Ce qu'un homme aura semé, il le moissonnera aussi » (Galates 6.7)."
+  },
+  {
+   "id": "eglon",
+   "nom": "Églon",
+   "periode": "Juges",
+   "match": [
+    {
+     "v": "Églon",
+     "l": [
+      7,
+      7
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Juges 3",
+     7,
+     3
+    ]
+   ],
+   "bio": "Roi de Moab qui opprima Israël dix-huit ans ; il fut tué par Éhud, le juge gaucher.",
+   "relations": [
+    [
+     "Tué par",
+     "ehud"
+    ]
+   ],
+   "histoire": "« l'Éternel fortifia Églon, roi de Moab, contre Israël, parce qu'ils avaient fait ce qui déplaît à l'Éternel. » Allié d'Ammon et d'Amalek, il prend « la ville des palmiers », et Israël lui est asservi dix-huit ans (Juges 3.12-14).\n\nÉhud vient lui apporter le tribut, puis revient : « J'ai une parole de Dieu pour toi. » Il le frappe de son épée cachée au côté droit ; « or Églon était un homme très gras », et la lame disparaît (Juges 3.17-22). Ses serviteurs attendent longtemps derrière la porte verrouillée (Juges 3.24-25)."
+  },
+  {
+   "id": "oreb-zeeb",
+   "nom": "Oreb et Zeeb",
+   "periode": "Juges",
+   "match": [
+    {
+     "v": "Oreb",
+     "l": [
+      7,
+      7
+     ]
+    },
+    {
+     "v": "Zeeb",
+     "l": [
+      7,
+      7
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Juges 7",
+     7,
+     7
+    ]
+   ],
+   "bio": "Deux chefs de Madian capturés et tués par les hommes d'Éphraïm lors de la déroute provoquée par Gédéon.",
+   "relations": [
+    [
+     "Vaincus par",
+     "gedeon"
+    ]
+   ],
+   "histoire": "Après la nuit des trompettes et des cruches, Gédéon appelle Éphraïm à couper la route aux fuyards. « Ils saisirent deux chefs de Madian, Oreb et Zeeb ; ils tuèrent Oreb au rocher d'Oreb, et ils tuèrent Zeeb au pressoir de Zeeb » (Juges 7.25).\n\nLeurs noms — « corbeau » et « loup » — resteront le symbole des ennemis de Dieu abattus (Psaumes 83.12 ; Ésaïe 10.26)."
+  },
+  {
+   "id": "zebach-tsalmunna",
+   "nom": "Zébach et Tsalmunna",
+   "periode": "Juges",
+   "match": [
+    {
+     "v": "Zébach",
+     "l": [
+      7,
+      7
+     ]
+    },
+    {
+     "v": "Tsalmunna",
+     "l": [
+      7,
+      7
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Juges 8",
+     7,
+     8
+    ]
+   ],
+   "bio": "Rois de Madian poursuivis par Gédéon au-delà du Jourdain ; ils avaient tué ses frères au Thabor.",
+   "relations": [
+    [
+     "Vaincus par",
+     "gedeon"
+    ]
+   ],
+   "histoire": "Gédéon les poursuit avec trois cents hommes épuisés, puis les interroge : « Comment étaient les hommes que vous avez tués au Thabor ? Ils répondirent : Ils étaient comme toi, chacun avait l'air d'un fils de roi. » Ce sont ses propres frères (Juges 8.18-19).\n\nSon fils Jéther, encore enfant, n'ose pas les frapper ; les rois lancent : « Lève-toi toi-même, et tue-nous ! car tel est l'homme, telle est sa force » (Juges 8.20-21)."
+  },
+  {
+   "id": "jotham-gedeon",
+   "nom": "Jotham (fils de Gédéon)",
+   "periode": "Juges",
+   "match": [
+    {
+     "v": "Jotham",
+     "l": [
+      7,
+      7
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Juges 9",
+     7,
+     9
+    ]
+   ],
+   "bio": "Plus jeune fils de Gédéon, seul rescapé du massacre de ses frères ; il raconta la fable des arbres depuis le mont Garizim.",
+   "relations": [
+    [
+     "Père",
+     "gedeon"
+    ],
+    [
+     "Demi-frère",
+     "abimelec-gedeon"
+    ]
+   ],
+   "histoire": "Abimélec tue ses soixante-dix frères « sur une même pierre. Il n'échappa que Jotham, le plus jeune fils de Jerubbaal, car il s'était caché » (Juges 9.5). Du sommet du Garizim, Jotham crie aux habitants de Sichem la première parabole de la Bible : l'olivier, le figuier et la vigne refusent de régner ; seul le buisson d'épines accepte (Juges 9.8-15).\n\nLe buisson ne donne ni ombre ni fruit, seulement du feu. Jotham conclut : « qu'un feu sorte d'Abimélec et dévore les habitants de Sichem » (Juges 9.20). Trois ans plus tard, sa parole s'accomplit (Juges 9.56-57)."
+  },
+  {
+   "id": "elimelec",
+   "nom": "Élimélec",
+   "periode": "Juges",
+   "match": [
+    {
+     "v": "Élimélec"
+    }
+   ],
+   "passages": [
+    [
+     "Ruth 1",
+     8,
+     1
+    ],
+    [
+     "Ruth 4",
+     8,
+     4
+    ]
+   ],
+   "bio": "Homme de Bethléhem, mari de Naomi, qui partit avec sa famille en Moab pendant une famine et y mourut.",
+   "relations": [
+    [
+     "Femme",
+     "naomi"
+    ],
+    [
+     "Fils",
+     "machlon-kiljon"
+    ],
+    [
+     "Parent",
+     "booz"
+    ]
+   ],
+   "histoire": "« Du temps des juges, il y eut une famine dans le pays. » Un homme quitte Bethléhem, dont le nom signifie maison du pain, pour Moab : « Le nom de cet homme était Élimélec, celui de sa femme Naomi, et ses deux fils s'appelaient Machlon et Kiljon » (Ruth 1.1-2). Il y meurt (Ruth 1.3).\n\nSon nom signifie : mon Dieu est roi. Son héritage sera racheté par Booz, son parent, qui épouse Ruth « pour relever le nom du défunt dans son héritage » (Ruth 4.9-10).",
+   "tribu": "juda-fils"
+  },
+  {
+   "id": "machlon-kiljon",
+   "nom": "Machlon et Kiljon",
+   "periode": "Juges",
+   "match": [
+    {
+     "v": "Machlon"
+    },
+    {
+     "v": "Kiljon"
+    }
+   ],
+   "passages": [
+    [
+     "Ruth 1",
+     8,
+     1
+    ],
+    [
+     "Ruth 4",
+     8,
+     4
+    ]
+   ],
+   "bio": "Fils d'Élimélec et de Naomi, qui épousèrent des Moabites, Ruth et Orpa, et moururent en Moab.",
+   "relations": [
+    [
+     "Père",
+     "elimelec"
+    ],
+    [
+     "Mère",
+     "naomi"
+    ],
+    [
+     "Femme de Machlon",
+     "ruth"
+    ],
+    [
+     "Femme de Kiljon",
+     "orpa"
+    ]
+   ],
+   "histoire": "En Moab, ils « prirent des femmes Moabites, dont l'une se nommait Orpa, et l'autre Ruth » ; dix ans plus tard, « Machlon et Kiljon moururent aussi tous les deux, et Naomi resta privée de ses deux fils et de son mari » (Ruth 1.4-5).\n\nBooz précisera que Ruth était « la Moabite, femme de Machlon » (Ruth 4.10). Leur mort semblait clore l'histoire ; Dieu en fit le commencement de la lignée de David.",
+   "tribu": "juda-fils"
+  },
+  {
+   "id": "obed",
+   "nom": "Obed",
+   "periode": "Juges",
+   "match": [
+    {
+     "v": "Obed",
+     "l": [
+      8,
+      8
+     ]
+    },
+    {
+     "v": "Obed",
+     "l": [
+      13,
+      13
+     ],
+     "c": [
+      2,
+      2
+     ]
+    },
+    {
+     "v": "Obed",
+     "l": [
+      40,
+      40
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Ruth 4",
+     8,
+     4
+    ],
+    [
+     "Matthieu 1",
+     40,
+     1
+    ]
+   ],
+   "bio": "Fils de Booz et de Ruth, grand-père du roi David ; il figure dans la généalogie de Jésus.",
+   "relations": [
+    [
+     "Père",
+     "booz"
+    ],
+    [
+     "Mère",
+     "ruth"
+    ],
+    [
+     "Fils",
+     "isai"
+    ],
+    [
+     "Petit-fils",
+     "david"
+    ]
+   ],
+   "histoire": "Naomi prend l'enfant sur son sein ; les femmes lui disent : « Cet enfant restaurera ton âme, et sera le soutien de ta vieillesse ». « Les voisines lui donnèrent un nom, en disant : Un fils est né à Naomi ! Et elles l'appelèrent Obed. Ce fut le père d'Isaï père de David » (Ruth 4.15-17).\n\nMatthieu le cite : « Boaz engendra Obed de Ruth » (Matthieu 1.5). Par lui, une Moabite entre dans la lignée du Messie.",
+   "tribu": "juda-fils"
+  },
+  {
+   "id": "ikabod",
+   "nom": "I-Kabod",
+   "periode": "Juges",
+   "match": [
+    {
+     "v": "I-Kabod"
+    }
+   ],
+   "passages": [
+    [
+     "1 Samuel 4",
+     9,
+     4
+    ]
+   ],
+   "bio": "Petit-fils du prêtre Éli, né le jour où l'arche fut prise ; son nom signifie « la gloire est bannie ».",
+   "relations": [
+    [
+     "Père",
+     "hophni-phinees"
+    ],
+    [
+     "Grand-père",
+     "eli-pretre"
+    ]
+   ],
+   "histoire": "Le jour de la défaite d'Aphek, la femme de Phinées apprend coup sur coup la prise de l'arche, la mort de son beau-père et celle de son mari ; elle accouche et meurt. « Elle appela l'enfant I-Kabod, en disant : La gloire est bannie d'Israël ! » (1 Samuel 4.19-21).\n\n« La gloire est bannie d'Israël, car l'arche de Dieu est prise ! » (1 Samuel 4.22). Un nom comme un cri : sans la présence de Dieu, il ne reste rien. Sa famille servira encore au temps de Saül (1 Samuel 14.3).",
+   "tribu": "levi-fils"
+  },
+  {
+   "id": "kis",
+   "nom": "Kis",
+   "periode": "Royaume de David",
+   "match": [
+    {
+     "v": "Kis",
+     "l": [
+      9,
+      10
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "1 Samuel 9",
+     9,
+     9
+    ],
+    [
+     "1 Samuel 10",
+     9,
+     10
+    ]
+   ],
+   "bio": "Benjamite « fort et vaillant », père du roi Saül ; c'est en cherchant ses ânesses que Saül rencontra Samuel.",
+   "relations": [
+    [
+     "Fils",
+     "saul-roi"
+    ]
+   ],
+   "histoire": "« Il y avait un homme de Benjamin, nommé Kis […] C'était un homme fort et vaillant. Il avait un fils du nom de Saül, jeune et beau » (1 Samuel 9.1-2).\n\n« Les ânesses de Kis, père de Saül, s'égarèrent » ; Saül part à leur recherche et tombe sur Samuel, qui l'attendait : « Ne t'inquiète pas des ânesses […] elles sont retrouvées » (1 Samuel 9.3, 20). Une course banale devient un rendez-vous divin. Saül sera enseveli dans le sépulcre de Kis (2 Samuel 21.14).",
+   "tribu": "benjamin"
+  },
+  {
+   "id": "nachasch",
+   "nom": "Nachasch l'Ammonite",
+   "periode": "Royaume de David",
+   "match": [
+    {
+     "v": "Nachasch",
+     "l": [
+      9,
+      10
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "1 Samuel 11",
+     9,
+     11
+    ],
+    [
+     "2 Samuel 10",
+     10,
+     10
+    ]
+   ],
+   "bio": "Roi des Ammonites qui menaça de crever l'œil droit des habitants de Jabès ; sa défaite affermit la royauté de Saül.",
+   "relations": [
+    [
+     "Vaincu par",
+     "saul-roi"
+    ],
+    [
+     "Fils",
+     "hanun"
+    ]
+   ],
+   "histoire": "« Nachasch, l'Ammonite, vint assiéger Jabès en Galaad. » Aux habitants qui demandent un traité, il répond : « je vous crève à tous l'œil droit, et que j'imprime ainsi un opprobre sur tout Israël » (1 Samuel 11.1-2).\n\nL'Esprit de Dieu saisit Saül, qui rassemble le peuple et délivre Jabès (1 Samuel 11.6-11). Plus tard, Nachasch se montre bienveillant envers David, qui veut le rendre à son fils Hanun (2 Samuel 10.2)."
+  },
+  {
+   "id": "achimelec",
+   "nom": "Achimélec",
+   "periode": "Royaume de David",
+   "match": [
+    {
+     "v": "Achimélec",
+     "l": [
+      9,
+      9
+     ]
+    },
+    {
+     "v": "Achimélec",
+     "l": [
+      19,
+      19
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "1 Samuel 21",
+     9,
+     21
+    ],
+    [
+     "1 Samuel 22",
+     9,
+     22
+    ]
+   ],
+   "bio": "Sacrificateur de Nob qui donna à David les pains consacrés et l'épée de Goliath ; Saül le fit tuer avec tous les prêtres.",
+   "relations": [
+    [
+     "Fils",
+     "abiathar"
+    ],
+    [
+     "A aidé",
+     "david"
+    ],
+    [
+     "Tué sur l'ordre de",
+     "saul-roi"
+    ],
+    [
+     "Dénoncé par",
+     "doeg"
+    ]
+   ],
+   "histoire": "David arrive seul à Nob ; Achimélec « accourut effrayé au-devant de lui ». N'ayant que le pain consacré, il le lui donne, ainsi que l'épée de Goliath (1 Samuel 21.1-9). Jésus évoquera cet épisode pour rappeler que la miséricorde prime (Marc 2.25-26).\n\nDénoncé par Doëg, Achimélec se défend avec droiture : qui est aussi fidèle que David ? Saül fait pourtant massacrer quatre-vingt-cinq sacrificateurs ; seul son fils Abiathar s'échappe (1 Samuel 22.14-20). Le Psaume 52 porte le souvenir de cette trahison.",
+   "tribu": "levi-fils"
+  },
+  {
+   "id": "akisch",
+   "nom": "Akisch",
+   "periode": "Royaume de David",
+   "match": [
+    {
+     "v": "Akisch"
+    }
+   ],
+   "passages": [
+    [
+     "1 Samuel 21",
+     9,
+     21
+    ],
+    [
+     "1 Samuel 27",
+     9,
+     27
+    ],
+    [
+     "1 Samuel 29",
+     9,
+     29
+    ]
+   ],
+   "bio": "Roi philistin de Gath, devant qui David fit l'insensé, puis chez qui il vécut en exil seize mois.",
+   "relations": [
+    [
+     "Hôte de",
+     "david"
+    ]
+   ],
+   "histoire": "La première fois, David a peur d'Akisch : il fait le fou, « il laissait couler sa salive sur sa barbe ». Akisch s'agace : « Est-ce que je manque de fous ? » (1 Samuel 21.12-15).\n\nPlus tard, David s'installe chez lui avec six cents hommes ; Akisch lui donne Tsiklag et lui fait confiance (1 Samuel 27.2-12). Quand les princes philistins refusent David dans la bataille contre Saül, Akisch lui dit : « tu es agréable à mes yeux comme un ange de Dieu » (1 Samuel 29.9). Dieu épargne ainsi à David de combattre son peuple."
+  },
+  {
+   "id": "femme-endor",
+   "nom": "La femme d'En-Dor",
+   "periode": "Royaume de David",
+   "match": [
+    {
+     "v": "En-Dor",
+     "l": [
+      9,
+      9
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "1 Samuel 28",
+     9,
+     28
+    ]
+   ],
+   "bio": "Femme qui évoquait les morts, consultée en secret par Saül la veille de sa mort, malgré l'interdit de la loi.",
+   "relations": [
+    [
+     "Consultée par",
+     "saul-roi"
+    ],
+    [
+     "Apparition de",
+     "samuel"
+    ]
+   ],
+   "histoire": "Dieu ne répond plus à Saül. Lui qui avait chassé les nécromanciens dit à ses serviteurs : « Cherchez-moi une femme qui évoque les morts. » « Voici, à En-Dor il y a une femme qui évoque les morts » (1 Samuel 28.3-7). Saül s'y rend déguisé, de nuit.\n\nQuand Samuel apparaît, la femme pousse « un grand cri » — signe que ce n'était pas son pouvoir habituel (1 Samuel 28.12). Samuel annonce la défaite et la mort de Saül pour le lendemain (1 Samuel 28.19). L'Écriture condamne nettement ces pratiques (Deutéronome 18.10-12 ; 1 Chroniques 10.13)."
+  },
+  {
+   "id": "jonadab-neveu",
+   "nom": "Jonadab (neveu de David)",
+   "periode": "Royaume de David",
+   "match": [
+    {
+     "v": "Jonadab",
+     "l": [
+      10,
+      10
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "2 Samuel 13",
+     10,
+     13
+    ]
+   ],
+   "bio": "Neveu de David, « homme très habile », qui inspira à Amnon la ruse pour abuser de Tamar.",
+   "relations": [
+    [
+     "Ami",
+     "amnon"
+    ],
+    [
+     "Oncle",
+     "david"
+    ]
+   ],
+   "histoire": "« Amnon avait un ami, nommé Jonadab, fils de Schimea, frère de David, et Jonadab était un homme très habile. » Il lui souffle le plan : « Mets-toi au lit, et fais le malade » (2 Samuel 13.3-5). Le crime contre Tamar en découle.\n\nDeux ans plus tard, quand on annonce que tous les fils du roi ont été tués, c'est encore lui qui sait : « Amnon seul est mort ; et c'est l'effet d'une résolution d'Absalom » (2 Samuel 13.32). L'habileté sans la crainte de Dieu devient complicité."
+  },
+  {
+   "id": "hanun",
+   "nom": "Hanun",
+   "periode": "Royaume de David",
+   "match": [
+    {
+     "v": "Hanun",
+     "l": [
+      10,
+      10
+     ]
+    },
+    {
+     "v": "Hanun",
+     "l": [
+      13,
+      13
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "2 Samuel 10",
+     10,
+     10
+    ]
+   ],
+   "bio": "Roi des Ammonites, fils de Nachasch, qui humilia les envoyés de paix de David et provoqua la guerre.",
+   "relations": [
+    [
+     "Père",
+     "nachasch"
+    ],
+    [
+     "Adversaire",
+     "david"
+    ]
+   ],
+   "histoire": "« David dit : Je montrerai de la bienveillance à Hanun, fils de Nachasch, comme son père en a montré à mon égard » (2 Samuel 10.2). Mais ses chefs le persuadent que ce sont des espions.\n\n« Alors Hanun saisit les serviteurs de David, leur fit raser la moitié de la barbe, et fit couper leurs habits par le milieu » (2 Samuel 10.4). L'affront déclenche la guerre contre Ammon — celle pendant laquelle David restera à Jérusalem et tombera avec Bath-Schéba (2 Samuel 11.1)."
+  },
+  {
+   "id": "scheba-bicri",
+   "nom": "Schéba, fils de Bicri",
+   "periode": "Royaume de David",
+   "match": [
+    {
+     "v": "Bicri"
+    }
+   ],
+   "passages": [
+    [
+     "2 Samuel 20",
+     10,
+     20
+    ]
+   ],
+   "bio": "Benjamite qui souleva Israël contre David après la révolte d'Absalom ; sa tête fut livrée à Joab par une femme sage.",
+   "relations": [
+    [
+     "Révolté contre",
+     "david"
+    ],
+    [
+     "Poursuivi par",
+     "joab"
+    ]
+   ],
+   "histoire": "« Il se trouvait là un méchant homme, nommé Schéba, fils de Bicri, Benjamite. Il sonna de la trompette, et dit : Point de part pour nous avec David […] Chacun à sa tente, Israël ! » (2 Samuel 20.1).\n\nJoab l'assiège dans Abel-Beth-Maaca ; une femme sage négocie depuis la muraille et sauve sa ville : « ils coupèrent la tête à Schéba, fils de Bicri, et la jetèrent à Joab » (2 Samuel 20.16-22). La sagesse d'une seule personne épargne toute une ville.",
+   "tribu": "benjamin"
+  },
+  {
+   "id": "ornan",
+   "nom": "Ornan (Aravna) le Jébusien",
+   "periode": "Royaume de David",
+   "match": [
+    {
+     "v": "Ornan"
+    },
+    {
+     "v": "Aravna"
+    }
+   ],
+   "passages": [
+    [
+     "2 Samuel 24",
+     10,
+     24
+    ],
+    [
+     "1 Chroniques 21",
+     13,
+     21
+    ],
+    [
+     "2 Chroniques 3",
+     14,
+     3
+    ]
+   ],
+   "bio": "Jébusien dont David acheta l'aire pour y bâtir un autel ; c'est là que Salomon construisit le temple.",
+   "relations": [
+    [
+     "A vendu à",
+     "david"
+    ]
+   ],
+   "histoire": "Après le dénombrement, la peste frappe Israël. Le prophète Gad dit à David : « élève un autel à l'Éternel dans l'aire d'Aravna, le Jébusien. » Aravna offre tout gratuitement ; David refuse : « je n'offrirai point à l'Éternel, mon Dieu, des holocaustes qui ne me coûtent rien » (2 Samuel 24.18-24).\n\nDieu répond « par le feu, qui descendit du ciel sur l'autel » (1 Chroniques 21.26). Ce lieu deviendra celui du temple : « sur la montagne de Morija […] sur l'aire d'Ornan, le Jébusien » (2 Chroniques 3.1)."
+  },
+  {
+   "id": "abischag",
+   "nom": "Abischag la Sunamite",
+   "periode": "Royaume de David",
+   "match": [
+    {
+     "v": "Abischag"
+    }
+   ],
+   "passages": [
+    [
+     "1 Rois 1",
+     11,
+     1
+    ],
+    [
+     "1 Rois 2",
+     11,
+     2
+    ]
+   ],
+   "bio": "Jeune femme choisie pour soigner le roi David dans sa vieillesse ; Adonija la demanda en mariage, ce qui lui coûta la vie.",
+   "relations": [
+    [
+     "A servi",
+     "david"
+    ],
+    [
+     "Demandée par",
+     "adonija"
+    ]
+   ],
+   "histoire": "« Le roi David était vieux […] il ne pouvait se réchauffer. » On cherche « une fille jeune et belle, et on trouva Abischag, la Sunamite » ; « Elle soigna le roi, et le servit ; mais le roi ne la connut point » (1 Rois 1.1-4).\n\nAprès la mort de David, Adonija demande à Bath-Schéba d'obtenir Abischag pour femme. Salomon comprend la manœuvre : « Demande donc la royauté pour lui » (1 Rois 2.17-22). Épouser une femme du roi défunt, c'était revendiquer le trône."
+  },
+  {
+   "id": "schischak",
+   "nom": "Schischak",
+   "periode": "Royaume",
+   "match": [
+    {
+     "v": "Schischak"
+    }
+   ],
+   "passages": [
+    [
+     "1 Rois 14",
+     11,
+     14
+    ],
+    [
+     "2 Chroniques 12",
+     14,
+     12
+    ]
+   ],
+   "bio": "Pharaon d'Égypte (Sheshonq Ier) qui accueillit Jéroboam en fuite, puis pilla Jérusalem sous Roboam.",
+   "relations": [
+    [
+     "A accueilli",
+     "jeroboam"
+    ],
+    [
+     "A pillé sous",
+     "roboam"
+    ]
+   ],
+   "histoire": "Jéroboam, menacé par Salomon, « s'enfuit en Égypte auprès de Schischak, roi d'Égypte » (1 Rois 11.40). « La cinquième année du règne de Roboam, Schischak, roi d'Égypte, monta contre Jérusalem » ; il prend tous les trésors, et les boucliers d'or de Salomon (1 Rois 14.25-26).\n\nLe prophète Schemaeja explique : « Vous m'avez abandonné ; je vous abandonne aussi » ; le roi et les chefs s'humilient, et Dieu épargne la ville (2 Chroniques 12.5-7). Roboam remplace l'or par l'airain (1 Rois 14.27). Une inscription de Karnak énumère les villes prises lors de cette campagne."
+  },
+  {
+   "id": "schemaeja-prophete",
+   "nom": "Schemaeja (prophète)",
+   "periode": "Royaume",
+   "match": [
+    {
+     "v": "Schemaeja",
+     "l": [
+      11,
+      11
+     ],
+     "c": [
+      12,
+      12
+     ]
+    },
+    {
+     "v": "Schemaeja",
+     "l": [
+      14,
+      14
+     ],
+     "c": [
+      11,
+      12
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "1 Rois 12",
+     11,
+     12
+    ],
+    [
+     "2 Chroniques 12",
+     14,
+     12
+    ]
+   ],
+   "bio": "Homme de Dieu sous Roboam : il empêcha la guerre fratricide contre Israël et appela Juda à s'humilier devant Schischak.",
+   "relations": [
+    [
+     "Prophète auprès de",
+     "roboam"
+    ]
+   ],
+   "histoire": "Roboam rassemble cent quatre-vingt mille hommes pour reconquérir Israël. Dieu parle par Schemaeja : ne faites pas la guerre à vos frères, « car c'est de par moi que cette chose est arrivée » ; et ils obéissent (1 Rois 12.21-24).\n\nQuand Schischak envahit Juda, il déclare : « Vous m'avez abandonné ; je vous abandonne aussi. » Les chefs s'humilient : « L'Éternel est juste ! » — et Dieu promet : « je ne les détruirai pas » (2 Chroniques 12.5-7). Une parole prophétique écoutée évite la catastrophe."
+  },
+  {
+   "id": "hanani-voyant",
+   "nom": "Hanani et Jéhu (voyants)",
+   "periode": "Royaume",
+   "match": [
+    {
+     "v": "Hanani",
+     "l": [
+      14,
+      14
+     ],
+     "c": [
+      16,
+      20
+     ]
+    },
+    {
+     "v": "Jéhu",
+     "l": [
+      11,
+      11
+     ],
+     "c": [
+      16,
+      16
+     ]
+    },
+    {
+     "v": "Jéhu",
+     "l": [
+      14,
+      14
+     ],
+     "c": [
+      19,
+      20
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "2 Chroniques 16",
+     14,
+     16
+    ],
+    [
+     "1 Rois 16",
+     11,
+     16
+    ],
+    [
+     "2 Chroniques 19",
+     14,
+     19
+    ]
+   ],
+   "bio": "Père et fils prophètes : Hanani reprit le roi Asa et fut emprisonné ; Jéhu, fils de Hanani, prophétisa contre Baescha et reprit Josaphat.",
+   "relations": [
+    [
+     "A repris",
+     "asa"
+    ],
+    [
+     "A repris",
+     "baescha"
+    ],
+    [
+     "A repris",
+     "josaphat"
+    ]
+   ],
+   "histoire": "« Hanani, le voyant, alla auprès d'Asa, roi de Juda » : « tu t'es appuyé sur le roi de Syrie et […] tu ne t'es pas appuyé sur l'Éternel. » Puis cette parole précieuse : « l'Éternel étend ses regards sur toute la terre, pour soutenir ceux dont le cœur est tout entier à lui » (2 Chroniques 16.7-9). Asa le jette en prison (2 Chroniques 16.10).\n\nSon fils prend le relais : « La parole de l'Éternel fut ainsi adressée à Jéhu, fils de Hanani, contre Baescha » (1 Rois 16.1). Il reprendra aussi Josaphat pour son alliance avec Achab (2 Chroniques 19.2). À ne pas confondre avec le roi Jéhu."
+  },
+  {
+   "id": "jehoscheba",
+   "nom": "Joschéba",
+   "periode": "Royaume",
+   "match": [
+    {
+     "v": "Joschéba"
+    },
+    {
+     "v": "Joschabeath"
+    }
+   ],
+   "passages": [
+    [
+     "2 Rois 11",
+     12,
+     11
+    ],
+    [
+     "2 Chroniques 22",
+     14,
+     22
+    ]
+   ],
+   "bio": "Princesse de Juda, femme du grand prêtre Jehojada : elle sauva le petit Joas du massacre ordonné par Athalie, préservant la lignée de David.",
+   "relations": [
+    [
+     "Mari",
+     "jehojada"
+    ],
+    [
+     "A sauvé",
+     "joas"
+    ],
+    [
+     "Tante de",
+     "joas"
+    ],
+    [
+     "Ennemie de",
+     "athalie"
+    ]
+   ],
+   "histoire": "Athalie fait périr toute la race royale. « Mais Joschéba, fille du roi Joram, sœur d'Achazia, prit Joas, fils d'Achazia, et l'enleva du milieu des fils du roi » ; elle le cache avec sa nourrice (2 Rois 11.1-2). Il reste « six ans caché avec Joschéba dans la maison de l'Éternel » (2 Rois 11.3).\n\nLes Chroniques précisent qu'elle était « femme du sacrificateur Jehojada » (2 Chroniques 22.11). Par le courage d'une femme, la promesse faite à David — un descendant sur son trône — ne s'éteint pas."
+  },
+  {
+   "id": "zacharie-jehojada",
+   "nom": "Zacharie (fils de Jehojada)",
+   "periode": "Royaume",
+   "match": [
+    {
+     "v": "Zacharie",
+     "l": [
+      14,
+      14
+     ],
+     "c": [
+      24,
+      24
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "2 Chroniques 24",
+     14,
+     24
+    ]
+   ],
+   "bio": "Sacrificateur rempli de l'Esprit qui reprit le roi Joas et le peuple ; il fut lapidé dans le parvis du temple.",
+   "relations": [
+    [
+     "Père",
+     "jehojada"
+    ],
+    [
+     "Tué par",
+     "joas"
+    ]
+   ],
+   "histoire": "Après la mort de Jehojada, le peuple retourne aux idoles. « Zacharie, fils du sacrificateur Jehojada, fut revêtu de l'esprit de Dieu » : « Pourquoi transgressez-vous les commandements de l'Éternel ? » (2 Chroniques 24.20). On le lapide « par ordre du roi, dans le parvis de la maison de l'Éternel » (2 Chroniques 24.21).\n\n« Le roi Joas ne se souvint pas de la bienveillance qu'avait eue pour lui Jehojada » ; Zacharie meurt en disant : « Que l'Éternel voie, et qu'il fasse justice ! » (2 Chroniques 24.22). Beaucoup y voient le dernier martyr cité par Jésus, l'Ancien Testament hébreu se terminant par les Chroniques (Luc 11.51).",
+   "tribu": "levi-fils"
+  },
+  {
+   "id": "jachaziel",
+   "nom": "Jachaziel",
+   "periode": "Royaume",
+   "match": [
+    {
+     "v": "Jachaziel",
+     "l": [
+      14,
+      14
+     ],
+     "c": [
+      20,
+      20
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "2 Chroniques 20",
+     14,
+     20
+    ]
+   ],
+   "bio": "Lévite, fils d'Asaph, sur qui vint l'Esprit au milieu de l'assemblée : il annonça à Josaphat que la bataille appartenait à Dieu.",
+   "relations": [
+    [
+     "A encouragé",
+     "josaphat"
+    ]
+   ],
+   "histoire": "Juda est menacé par une coalition immense ; Josaphat prie : « nous ne savons que faire, mais nos yeux sont sur toi » (2 Chroniques 20.12). « Alors l'esprit de l'Éternel saisit au milieu de l'assemblée Jachaziel » (2 Chroniques 20.14).\n\n« Ne craignez point et ne vous effrayez point devant cette multitude nombreuse, car ce ne sera pas vous qui combattrez, ce sera Dieu » ; « présentez-vous, tenez-vous là, et vous verrez la délivrance » (2 Chroniques 20.15-17). Le lendemain, les chantres marchent devant l'armée, et l'ennemi se détruit lui-même (2 Chroniques 20.21-23).",
+   "tribu": "levi-fils"
+  },
+  {
+   "id": "oded",
+   "nom": "Oded",
+   "periode": "Royaume",
+   "match": [
+    {
+     "v": "Oded",
+     "l": [
+      14,
+      14
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "2 Chroniques 28",
+     14,
+     28
+    ]
+   ],
+   "bio": "Prophète de Samarie qui convainquit l'armée d'Israël de libérer les captifs de Juda.",
+   "relations": [
+    [
+     "Contemporain de",
+     "achaz"
+    ],
+    [
+     "Contemporain de",
+     "pekach"
+    ]
+   ],
+   "histoire": "Israël a vaincu Juda et ramène deux cent mille captifs. « Il y avait là un prophète de l'Éternel, nommé Oded » : « vous les avez tués avec une fureur qui est montée jusqu'aux cieux […] renvoyez ces captifs que vous avez faits parmi vos frères » (2 Chroniques 28.9-11).\n\nDes chefs d'Éphraïm l'écoutent : on habille les prisonniers, on les nourrit, on porte les plus faibles sur des ânes jusqu'à Jéricho (2 Chroniques 28.12-15) — une scène qui annonce la parabole du bon Samaritain."
+  },
+  {
+   "id": "tiglath-pileser",
+   "nom": "Tiglath-Piléser",
+   "periode": "Rois",
+   "match": [
+    {
+     "v": "Tiglath-Piléser"
+    }
+   ],
+   "passages": [
+    [
+     "2 Rois 15",
+     12,
+     15
+    ],
+    [
+     "2 Rois 16",
+     12,
+     16
+    ]
+   ],
+   "bio": "Roi d'Assyrie qui annexa la Galilée et Damas ; le roi Achaz de Juda acheta sa protection avec les trésors du temple.",
+   "relations": [
+    [
+     "Appelé par",
+     "achaz"
+    ],
+    [
+     "A vaincu",
+     "pekach"
+    ]
+   ],
+   "histoire": "« Du temps de Pékach, roi d'Israël, Tiglath-Piléser, roi d'Assyrie, vint et prit […] Galaad et la Galilée, tout le pays de Nephthali, et il emmena captifs les habitants en Assyrie » (2 Rois 15.29) — les territoires de Zabulon et de Nephthali sur lesquels Ésaïe annonce une grande lumière (Ésaïe 8.23 ; 9.1).\n\nAchaz, menacé, lui écrit : « Je suis ton serviteur et ton fils ; monte, et délivre-moi » et lui envoie l'or du temple (2 Rois 16.7-8). Il revient de Damas avec le modèle d'un autel païen (2 Rois 16.10). Ésaïe l'avait pourtant appelé à se confier en Dieu seul (Ésaïe 7.9)."
+  },
+  {
+   "id": "salmanasar",
+   "nom": "Salmanasar",
+   "periode": "Rois",
+   "match": [
+    {
+     "v": "Salmanasar"
+    }
+   ],
+   "passages": [
+    [
+     "2 Rois 17",
+     12,
+     17
+    ],
+    [
+     "2 Rois 18",
+     12,
+     18
+    ]
+   ],
+   "bio": "Roi d'Assyrie qui assiégea Samarie trois ans ; la chute de la ville en 722 av. J.-C. mit fin au royaume d'Israël.",
+   "relations": [
+    [
+     "A vaincu",
+     "osee-roi"
+    ]
+   ],
+   "histoire": "« Salmanasar, roi d'Assyrie, monta contre lui ; et Osée lui fut assujetti. » Découvrant qu'Osée s'est tourné vers l'Égypte, il le jette en prison et assiège Samarie « pendant trois ans » (2 Rois 17.3-5).\n\n« La neuvième année d'Osée, le roi d'Assyrie prit Samarie, et emmena Israël captif en Assyrie » (2 Rois 17.6). Le texte explique pourquoi : Israël avait rejeté les avertissements de tous les prophètes (2 Rois 17.13-14)."
+  },
+  {
+   "id": "merodac-baladan",
+   "nom": "Merodac-Baladan",
+   "periode": "Rois",
+   "match": [
+    {
+     "v": "Merodac-Baladan"
+    },
+    {
+     "v": "Berodac-Baladan"
+    }
+   ],
+   "passages": [
+    [
+     "2 Rois 20",
+     12,
+     20
+    ],
+    [
+     "Ésaïe 39",
+     23,
+     39
+    ]
+   ],
+   "bio": "Roi de Babylone qui envoya une ambassade à Ézéchias ; le roi lui montra tous ses trésors.",
+   "relations": [
+    [
+     "Ambassade vers",
+     "ezechias"
+    ]
+   ],
+   "histoire": "Apprenant la guérison d'Ézéchias, « Merodac-Baladan, fils de Baladan, roi de Babylone, envoya une lettre et un présent ». Flatté, Ézéchias montre tout : « il n'y eut rien qu'Ézéchias ne leur fît voir » (Ésaïe 39.1-2).\n\nÉsaïe annonce alors : « les temps viendront où l'on emportera à Babylone tout ce qui est dans ta maison » (Ésaïe 39.6). Un siècle plus tard, Babylone accomplira la prophétie."
+  },
+  {
+   "id": "schebna",
+   "nom": "Schebna",
+   "periode": "Rois",
+   "match": [
+    {
+     "v": "Schebna"
+    }
+   ],
+   "passages": [
+    [
+     "Ésaïe 22",
+     23,
+     22
+    ],
+    [
+     "2 Rois 18",
+     12,
+     18
+    ]
+   ],
+   "bio": "Intendant du palais d'Ézéchias, orgueilleux, à qui Ésaïe annonça sa destitution au profit d'Éliakim.",
+   "relations": [
+    [
+     "A servi",
+     "ezechias"
+    ],
+    [
+     "Remplacé par",
+     "eliakim-hilkija"
+    ]
+   ],
+   "histoire": "« Va vers ce courtisan, Vers Schebna, gouverneur du palais : […] Que tu creuses ici un sépulcre ? Il se creuse un sépulcre sur la hauteur » (Ésaïe 22.15-16). Pendant que Jérusalem est menacée, il soigne sa propre gloire.\n\n« Je te chasserai de ton poste » (Ésaïe 22.19). Lors du siège de Sanchérib, on le retrouve comme secrétaire, sous Éliakim (2 Rois 18.18)."
+  },
+  {
+   "id": "eliakim-hilkija",
+   "nom": "Éliakim, fils de Hilkija",
+   "periode": "Rois",
+   "match": [
+    {
+     "v": "Éliakim",
+     "l": [
+      12,
+      12
+     ],
+     "c": [
+      18,
+      19
+     ]
+    },
+    {
+     "v": "Éliakim",
+     "l": [
+      23,
+      23
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Ésaïe 22",
+     23,
+     22
+    ],
+    [
+     "2 Rois 18",
+     12,
+     18
+    ],
+    [
+     "2 Rois 19",
+     12,
+     19
+    ]
+   ],
+   "bio": "Chef de la maison du roi Ézéchias, appelé par Dieu « mon serviteur » ; il reçut « la clé de la maison de David ».",
+   "relations": [
+    [
+     "A servi",
+     "ezechias"
+    ],
+    [
+     "A remplacé",
+     "schebna"
+    ],
+    [
+     "Face à",
+     "rabschake"
+    ]
+   ],
+   "histoire": "« En ce jour-là, J'appellerai mon serviteur Éliakim, fils de Hilkija » ; « Il sera un père pour les habitants de Jérusalem » ; « Je mettrai sur son épaule la clé de la maison de David : Quand il ouvrira, nul ne fermera » (Ésaïe 22.20-22). Jésus reprendra cette image pour lui-même (Apocalypse 3.7).\n\nPendant le siège assyrien, c'est lui qui parlemente avec le Rabschaké, puis porte à Ésaïe le message d'Ézéchias (2 Rois 18.18, 26 ; 19.2)."
+  },
+  {
+   "id": "enfants-esaie",
+   "nom": "Schear-Jaschub et Maher-Schalal-Chasch-Baz",
+   "periode": "Rois",
+   "match": [
+    {
+     "v": "Schear-Jaschub"
+    },
+    {
+     "v": "Maher-Schalal-Chasch-Baz"
+    }
+   ],
+   "passages": [
+    [
+     "Ésaïe 7",
+     23,
+     7
+    ],
+    [
+     "Ésaïe 8",
+     23,
+     8
+    ]
+   ],
+   "bio": "Les deux fils d'Ésaïe, dont les noms étaient des prophéties vivantes : « un reste reviendra » et « on se hâte de piller ».",
+   "relations": [
+    [
+     "Père",
+     "esaie"
+    ]
+   ],
+   "histoire": "Ésaïe va trouver le roi Achaz avec « Schear-Jaschub, ton fils » (Ésaïe 7.3) — « un reste reviendra » : même le jugement laisse place à l'espérance. Puis naît un second fils : « Donne-lui pour nom Maher-Schalal-Chasch-Baz. Car, avant que l'enfant sache dire : Mon père ! ma mère ! on emportera devant le roi d'Assyrie les richesses de Damas » (Ésaïe 8.3-4).\n\nÉsaïe résume : « Voici, moi et les enfants que l'Éternel m'a donnés, Nous sommes des signes et des présages en Israël » (Ésaïe 8.18). La famille du prophète était elle-même un message."
+  },
+  {
+   "id": "gomer",
+   "nom": "Gomer",
+   "periode": "Rois",
+   "match": [
+    {
+     "v": "Gomer",
+     "l": [
+      28,
+      28
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Osée 1",
+     28,
+     1
+    ],
+    [
+     "Osée 3",
+     28,
+     3
+    ]
+   ],
+   "bio": "Femme du prophète Osée, infidèle, qu'Osée reprit par amour : image vivante de l'amour de Dieu pour Israël infidèle.",
+   "relations": [
+    [
+     "Mari",
+     "osee-prophete"
+    ]
+   ],
+   "histoire": "« Va, prends une femme prostituée et des enfants de prostitution ; car le pays se prostitue. […] Il alla, et il prit Gomer, fille de Diblaïm » (Osée 1.2-3). Leurs enfants portent des noms de jugement et de rejet (Osée 1.4-9).\n\nPuis Dieu dit : « Va encore, et aime une femme aimée d'un amant, et adultère ; aime-la comme l'Éternel aime les enfants d'Israël ». Osée la rachète « pour quinze sicles d'argent » (Osée 3.1-2). L'Évangile avant l'heure : l'amour qui rachète l'infidèle."
+  },
+  {
+   "id": "bigthan-theresch",
+   "nom": "Bigthan et Théresch",
+   "periode": "Exil",
+   "match": [
+    {
+     "v": "Bigthan"
+    },
+    {
+     "v": "Théresch"
+    }
+   ],
+   "passages": [
+    [
+     "Esther 2",
+     17,
+     2
+    ],
+    [
+     "Esther 6",
+     17,
+     6
+    ]
+   ],
+   "bio": "Deux eunuques qui complotèrent contre le roi Assuérus ; Mardochée déjoua le complot, ce qui fut écrit dans les Chroniques.",
+   "relations": [
+    [
+     "Complot contre",
+     "assuerus"
+    ],
+    [
+     "Dénoncés par",
+     "mardochee"
+    ]
+   ],
+   "histoire": "« Bigthan et Théresch, deux eunuques du roi, gardes du seuil, cédèrent à un mouvement d'irritation et voulurent porter la main sur le roi Assuérus. » Mardochée l'apprend et prévient Esther ; les conjurés sont pendus, « Et cela fut écrit dans le livre des Chroniques » (Esther 2.21-23).\n\nDes années plus tard, une nuit d'insomnie : on lit au roi ce passage, et il demande : « Quelle marque de distinction et d'honneur Mardochée a-t-il reçue pour cela ? » (Esther 6.1-3). Le bien oublié des hommes ne l'est pas de Dieu."
+  },
+  {
+   "id": "elihu",
+   "nom": "Élihu",
+   "periode": "Patriarches",
+   "match": [
+    {
+     "v": "Élihu",
+     "l": [
+      18,
+      18
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Job 32",
+     18,
+     32
+    ],
+    [
+     "Job 33",
+     18,
+     33
+    ],
+    [
+     "Job 36",
+     18,
+     36
+    ]
+   ],
+   "bio": "Jeune homme qui prit la parole après les trois amis de Job, insistant sur la grandeur de Dieu et le sens de l'épreuve.",
+   "relations": [
+    [
+     "Parle à",
+     "job"
+    ],
+    [
+     "Après",
+     "amis-job"
+    ]
+   ],
+   "histoire": "« Alors s'enflamma de colère Élihu, fils de Barakeel de Buz » — contre Job qui se disait juste, et contre les trois amis qui le condamnaient sans répondre (Job 32.2-3). Il avait attendu par respect : « Je suis jeune, et vous êtes des vieillards » (Job 32.6).\n\nMais « dans l'homme, c'est l'esprit, Le souffle du Tout-Puissant, qui donne l'intelligence » (Job 32.8). Il montre que Dieu parle aussi par la souffrance pour instruire (Job 33.14-30), préparant la réponse de l'Éternel du milieu de la tempête (Job 38.1)."
+  },
+  {
+   "id": "agur-lemuel",
+   "nom": "Agur et Lemuel",
+   "periode": "Royaume",
+   "match": [
+    {
+     "v": "Agur"
+    },
+    {
+     "v": "Lemuel"
+    }
+   ],
+   "passages": [
+    [
+     "Proverbes 30",
+     20,
+     30
+    ],
+    [
+     "Proverbes 31",
+     20,
+     31
+    ]
+   ],
+   "bio": "Auteurs des deux derniers chapitres des Proverbes : la prière d'Agur et l'enseignement de la mère du roi Lemuel sur la femme vertueuse.",
+   "relations": [
+    [
+     "Recueil de",
+     "salomon"
+    ]
+   ],
+   "histoire": "« Paroles d'Agur, fils de Jaké. » On lui doit une prière d'une rare sagesse : « Ne me donne ni pauvreté, ni richesse, Accorde-moi le pain qui m'est nécessaire. De peur que, dans l'abondance, je ne te renie » (Proverbes 30.1, 8-9).\n\n« Paroles du roi Lemuel. Sentences par lesquelles sa mère l'instruisit » (Proverbes 31.1). C'est d'elle que vient le portrait célèbre : « Qui peut trouver une femme vertueuse ? Elle a bien plus de valeur que les perles » (Proverbes 31.10)."
+  },
+  {
+   "id": "gabriel",
+   "nom": "L'ange Gabriel",
+   "periode": "Prophètes",
+   "match": [
+    {
+     "v": "Gabriel"
+    }
+   ],
+   "passages": [
+    [
+     "Daniel 9",
+     27,
+     9
+    ],
+    [
+     "Luc 1",
+     42,
+     1
+    ]
+   ],
+   "bio": "Ange qui « se tient devant Dieu » : il expliqua ses visions à Daniel, puis annonça la naissance de Jean-Baptiste à Zacharie et celle de Jésus à Marie.",
+   "relations": [
+    [
+     "Envoyé à",
+     "daniel"
+    ],
+    [
+     "Envoyé à",
+     "zacharie-pere"
+    ],
+    [
+     "Envoyé à",
+     "marie"
+    ]
+   ],
+   "histoire": "Daniel entend une voix : « Gabriel, explique-lui la vision » (Daniel 8.16). Plus tard, pendant que Daniel prie, « l'homme, Gabriel […] s'approcha de moi d'un vol rapide » : « je suis venu maintenant pour ouvrir ton intelligence » ; il lui révèle les soixante-dix semaines jusqu'au Messie (Daniel 9.21-27).\n\nSix siècles après, au temple : « Je suis Gabriel, je me tiens devant Dieu ; j'ai été envoyé pour te parler » (Luc 1.19). Puis « l'ange Gabriel fut envoyé par Dieu dans une ville de Galilée, appelée Nazareth » : « Je te salue, toi à qui une grâce a été faite ; le Seigneur est avec toi » (Luc 1.26-28). Le messager des grandes annonces du salut."
+  },
+  {
+   "id": "michel-archange",
+   "nom": "L'archange Michel",
+   "periode": "Prophètes",
+   "match": [
+    {
+     "v": "Micaël",
+     "l": [
+      27,
+      27
+     ]
+    },
+    {
+     "v": "Michel",
+     "l": [
+      65,
+      66
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Daniel 10",
+     27,
+     10
+    ],
+    [
+     "Daniel 12",
+     27,
+     12
+    ],
+    [
+     "Jude 1",
+     65,
+     1
+    ],
+    [
+     "Apocalypse 12",
+     66,
+     12
+    ]
+   ],
+   "bio": "Archange, « l'un des principaux chefs » et défenseur du peuple de Dieu ; il combat le dragon dans l'Apocalypse.",
+   "relations": [
+    [
+     "Défenseur du peuple de",
+     "daniel"
+    ],
+    [
+     "A contesté avec le diable au sujet de",
+     "moise"
+    ]
+   ],
+   "histoire": "Dans Daniel, la Segond l'appelle Micaël : « Micaël, l'un des principaux chefs, est venu à mon secours » (Daniel 10.13) ; « En ce temps-là se lèvera Micaël, le grand chef, le défenseur des enfants de ton peuple » (Daniel 12.1). La prière de Daniel déclenche un combat invisible.\n\nJude rapporte que « l'archange Michel, lorsqu'il contestait avec le diable et lui disputait le corps de Moïse, n'osa pas porter contre lui un jugement injurieux, mais il dit : Que le Seigneur te réprime ! » (Jude 1.9). Dans l'Apocalypse : « Michel et ses anges combattirent contre le dragon […] et leur place ne fut plus trouvée dans le ciel » (Apocalypse 12.7-8)."
+  },
+  {
+   "id": "mages",
+   "nom": "Les mages d'Orient",
+   "periode": "Ier siècle",
+   "match": [
+    {
+     "v": "mages",
+     "l": [
+      40,
+      40
+     ],
+     "c": [
+      2,
+      2
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Matthieu 2",
+     40,
+     2
+    ]
+   ],
+   "bio": "Savants venus d'Orient en suivant une étoile pour adorer le roi des Juifs nouveau-né ; ils lui offrirent l'or, l'encens et la myrrhe.",
+   "relations": [
+    [
+     "Ont adoré",
+     "jesus"
+    ],
+    [
+     "Ont trompé",
+     "herode"
+    ],
+    [
+     "Ont vu",
+     "marie"
+    ]
+   ],
+   "histoire": "« Jésus étant né à Bethléhem en Judée, au temps du roi Hérode, voici des mages d'Orient arrivèrent à Jérusalem, et dirent : Où est le roi des Juifs qui vient de naître ? car nous avons vu son étoile en Orient » (Matthieu 2.1-2). Les premiers adorateurs étrangers du Messie.\n\nL'étoile les conduit ; « Ils entrèrent dans la maison, virent le petit enfant avec Marie, sa mère, se prosternèrent et l'adorèrent » et offrirent « de l'or, de l'encens et de la myrrhe » (Matthieu 2.11). Le texte ne dit ni qu'ils étaient trois, ni qu'ils étaient rois. Avertis en songe, ils repartent « par un autre chemin » (Matthieu 2.12)."
+  },
+  {
+   "id": "bergers",
+   "nom": "Les bergers de Bethléhem",
+   "periode": "Ier siècle",
+   "match": [
+    {
+     "v": "bergers",
+     "l": [
+      42,
+      42
+     ],
+     "c": [
+      2,
+      2
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Luc 2",
+     42,
+     2
+    ]
+   ],
+   "bio": "Bergers qui gardaient leurs troupeaux de nuit : les premiers à recevoir l'annonce de la naissance du Sauveur, et les premiers à la raconter.",
+   "relations": [
+    [
+     "Ont vu",
+     "jesus"
+    ],
+    [
+     "Ont trouvé",
+     "marie"
+    ],
+    [
+     "Ont trouvé",
+     "joseph-nt"
+    ]
+   ],
+   "histoire": "« Il y avait, dans cette même contrée, des bergers qui passaient dans les champs les veilles de la nuit » ; un ange leur apparaît : « je vous annonce une bonne nouvelle, qui sera pour tout le peuple le sujet d'une grande joie : c'est qu'aujourd'hui, dans la ville de David, il vous est né un Sauveur, qui est le Christ, le Seigneur » (Luc 2.8-11).\n\nAprès le chant de l'armée céleste, « Gloire à Dieu dans les lieux très hauts », ils vont « en hâte », trouvent l'enfant et racontent tout (Luc 2.14-17). Dieu choisit des gens humbles et méprisés comme premiers témoins ; ils repartent « glorifiant et louant Dieu » (Luc 2.20)."
+  },
+  {
+   "id": "centenier-capernaum",
+   "nom": "Le centenier de Capernaüm",
+   "periode": "Ier siècle",
+   "match": [
+    {
+     "v": "centenier",
+     "l": [
+      40,
+      40
+     ],
+     "c": [
+      8,
+      8
+     ]
+    },
+    {
+     "v": "centenier",
+     "l": [
+      42,
+      42
+     ],
+     "c": [
+      7,
+      7
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Matthieu 8",
+     40,
+     8
+    ],
+    [
+     "Luc 7",
+     42,
+     7
+    ]
+   ],
+   "bio": "Officier romain qui demanda la guérison de son serviteur ; Jésus admira sa foi : « même en Israël je n'ai pas trouvé une aussi grande foi ».",
+   "relations": [
+    [
+     "A cru en",
+     "jesus"
+    ]
+   ],
+   "histoire": "Un centenier aime le peuple juif et lui a bâti sa synagogue (Luc 7.5). Son serviteur est mourant. Il fait dire à Jésus : « Seigneur, je ne suis pas digne que tu entres sous mon toit ; mais dis seulement un mot, et mon serviteur sera guéri » (Matthieu 8.8). Homme d'autorité, il comprend l'autorité de la parole de Jésus (Matthieu 8.9).\n\n« Jésus fut dans l'étonnement » : « même en Israël je n'ai pas trouvé une aussi grande foi » ; et il annonce que beaucoup viendront « de l'orient et de l'occident » au festin du royaume (Matthieu 8.10-11). « Va, qu'il te soit fait selon ta foi » (Matthieu 8.13)."
+  },
+  {
+   "id": "centenier-croix",
+   "nom": "Le centenier de la croix",
+   "periode": "Ier siècle",
+   "match": [
+    {
+     "v": "centenier",
+     "l": [
+      40,
+      40
+     ],
+     "c": [
+      27,
+      27
+     ]
+    },
+    {
+     "v": "centenier",
+     "l": [
+      41,
+      41
+     ],
+     "c": [
+      15,
+      15
+     ]
+    },
+    {
+     "v": "centenier",
+     "l": [
+      42,
+      42
+     ],
+     "c": [
+      23,
+      23
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Matthieu 27",
+     40,
+     27
+    ],
+    [
+     "Marc 15",
+     41,
+     15
+    ],
+    [
+     "Luc 23",
+     42,
+     23
+    ]
+   ],
+   "bio": "Officier romain qui commandait la crucifixion et confessa, en voyant Jésus mourir : « Assurément, cet homme était Fils de Dieu ».",
+   "relations": [
+    [
+     "Témoin de la mort de",
+     "jesus"
+    ]
+   ],
+   "histoire": "« Le centenier, qui était en face de Jésus, voyant qu'il avait expiré de la sorte, dit : Assurément, cet homme était Fils de Dieu » (Marc 15.39). Matthieu précise qu'il était saisi d'une grande frayeur après le tremblement de terre (Matthieu 27.54).\n\nLuc ajoute : « Le centenier, voyant ce qui était arrivé, glorifia Dieu, et dit : Certainement, cet homme était juste » (Luc 23.47). La première confession de foi au pied de la croix vient d'un païen, de l'officier même de l'exécution."
+  },
+  {
+   "id": "femme-cananeenne",
+   "nom": "La femme cananéenne",
+   "periode": "Ier siècle",
+   "match": [
+    {
+     "v": "cananéenne",
+     "l": [
+      40,
+      40
+     ]
+    },
+    {
+     "v": "syro-phénicienne"
+    }
+   ],
+   "passages": [
+    [
+     "Matthieu 15",
+     40,
+     15
+    ],
+    [
+     "Marc 7",
+     41,
+     7
+    ]
+   ],
+   "bio": "Mère païenne de la région de Tyr et Sidon dont la foi persévérante obtint la guérison de sa fille.",
+   "relations": [
+    [
+     "A supplié",
+     "jesus"
+    ]
+   ],
+   "histoire": "« une femme cananéenne, qui venait de ces contrées, lui cria : Aie pitié de moi, Seigneur, Fils de David ! Ma fille est cruellement tourmentée par le démon. » Jésus se tait ; les disciples veulent la renvoyer (Matthieu 15.22-23). Marc précise qu'elle était « grecque, syro-phénicienne d'origine » (Marc 7.26).\n\nÀ l'image du pain des enfants, elle répond : « Oui, Seigneur, […] mais les petits chiens mangent les miettes qui tombent de la table de leurs maîtres. » « Femme, ta foi est grande ; qu'il te soit fait comme tu veux » (Matthieu 15.27-28). L'humilité tenace touche le cœur du Seigneur."
+  },
+  {
+   "id": "legion",
+   "nom": "Le démoniaque de Gadara (Légion)",
+   "periode": "Ier siècle",
+   "match": [
+    {
+     "v": "Légion"
+    }
+   ],
+   "passages": [
+    [
+     "Marc 5",
+     41,
+     5
+    ],
+    [
+     "Luc 8",
+     42,
+     8
+    ]
+   ],
+   "bio": "Homme possédé d'une multitude de démons, vivant dans les sépulcres, délivré par Jésus et devenu témoin dans la Décapole.",
+   "relations": [
+    [
+     "Délivré par",
+     "jesus"
+    ]
+   ],
+   "histoire": "Il vivait dans les sépulcres ; personne ne pouvait le lier. Voyant Jésus, il accourt, se prosterne, et l'esprit crie : « Qu'y a-t-il entre moi et toi, Jésus, Fils du Dieu Très-Haut ? » — « Quel est ton nom ? Légion est mon nom, lui répondit-il, car nous sommes plusieurs » (Marc 5.6-9).\n\nLibéré, on le retrouve « assis, vêtu, et dans son bon sens » (Marc 5.15). Il veut suivre Jésus, qui lui dit : « Va dans ta maison, vers les tiens, et raconte-leur tout ce que le Seigneur t'a fait » (Marc 5.19). Il devient missionnaire de la Décapole."
+  },
+  {
+   "id": "aveugle-ne",
+   "nom": "L'aveugle-né",
+   "periode": "Ier siècle",
+   "match": [
+    {
+     "v": "aveugle",
+     "l": [
+      43,
+      43
+     ],
+     "c": [
+      9,
+      9
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Jean 9",
+     43,
+     9
+    ]
+   ],
+   "bio": "Mendiant aveugle de naissance guéri par Jésus à Siloé ; interrogé et chassé par les pharisiens, il confessa sa foi au Fils de Dieu.",
+   "relations": [
+    [
+     "Guéri par",
+     "jesus"
+    ]
+   ],
+   "histoire": "« Rabbi, qui a péché, cet homme ou ses parents ? » Jésus répond : « c'est afin que les œuvres de Dieu soient manifestées en lui. » Il fait de la boue, l'applique sur ses yeux : « Va, et lave-toi au réservoir de Siloé » ; il revient « voyant clair » (Jean 9.2-7).\n\nAux pharisiens qui l'interrogent, il répond simplement : « je sais une chose, c'est que j'étais aveugle et que maintenant je vois » (Jean 9.25). Chassé, il est retrouvé par Jésus : « Crois-tu au Fils de Dieu ? […] Je crois, Seigneur. Et il se prosterna devant lui » (Jean 9.35-38)."
+  },
+  {
+   "id": "theudas",
+   "nom": "Theudas et Judas le Galiléen",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Theudas"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 5",
+     44,
+     5
+    ]
+   ],
+   "bio": "Deux agitateurs dont les mouvements avaient échoué, cités par Gamaliel pour conseiller au sanhédrin de laisser les apôtres.",
+   "relations": [
+    [
+     "Cités par",
+     "gamaliel"
+    ]
+   ],
+   "histoire": "Gamaliel rappelle : « il n'y a pas longtemps que parut Theudas, qui se donnait pour quelque chose […] il fut tué, et tous ceux qui l'avaient suivi furent mis en déroute », puis « Judas le Galiléen, à l'époque du recensement […] il périt aussi » (Actes 5.36-37).\n\nSa conclusion reste célèbre : « Si cette entreprise ou cette œuvre vient des hommes, elle se détruira ; mais si elle vient de Dieu, vous ne pourrez la détruire. Ne courez pas le risque d'avoir combattu contre Dieu » (Actes 5.38-39)."
+  },
+  {
+   "id": "blaste",
+   "nom": "Blaste",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Blaste"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 12",
+     44,
+     12
+    ]
+   ],
+   "bio": "Chambellan du roi Hérode Agrippa Ier, gagné par les Tyriens et les Sidoniens pour obtenir la paix, juste avant la mort du roi.",
+   "relations": [
+    [
+     "A servi",
+     "herode"
+    ]
+   ],
+   "histoire": "Les Tyriens et les Sidoniens, qui dépendaient du blé du roi, viennent solliciter la paix « après avoir gagné Blaste, son chambellan » (Actes 12.20).\n\nLors de l'audience, le peuple acclame Hérode : « Voix d'un dieu, et non d'un homme ! » « Au même instant, un ange du Seigneur le frappa, parce qu'il n'avait pas donné gloire à Dieu » (Actes 12.22-23). L'historien Josèphe raconte aussi cette mort subite."
+  },
+  {
+   "id": "geolier-philippes",
+   "nom": "Le geôlier de Philippes",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "geôlier"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 16",
+     44,
+     16
+    ]
+   ],
+   "bio": "Gardien de la prison de Philippes, converti avec toute sa famille la nuit où un tremblement de terre ouvrit les portes.",
+   "relations": [
+    [
+     "A gardé",
+     "paul"
+    ],
+    [
+     "A gardé",
+     "silas"
+    ]
+   ],
+   "histoire": "Paul et Silas, battus, sont jetés dans la prison intérieure, les pieds aux ceps. « Vers le milieu de la nuit, Paul et Silas priaient et chantaient les louanges de Dieu. » Un tremblement de terre ouvre toutes les portes ; le geôlier veut se tuer, mais Paul crie : « Ne te fais point de mal, nous sommes tous ici » (Actes 16.24-28).\n\nTremblant, il demande : « Seigneurs, que faut-il que je fasse pour être sauvé ? » — « Crois au Seigneur Jésus, et tu seras sauvé, toi et ta famille. » Il lave leurs plaies, est baptisé avec les siens, et « se réjouit avec toute sa famille de ce qu'il avait cru en Dieu » (Actes 16.30-34)."
+  },
+  {
+   "id": "fils-sceva",
+   "nom": "Les fils de Scéva",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Scéva"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 19",
+     44,
+     19
+    ]
+   ],
+   "bio": "Sept exorcistes juifs d'Éphèse qui invoquèrent le nom de Jésus sans le connaître et furent mis en déroute par l'esprit mauvais.",
+   "relations": [
+    [
+     "Ont imité",
+     "paul"
+    ]
+   ],
+   "histoire": "Des exorcistes ambulants essaient la formule : « Je vous conjure par Jésus que Paul prêche ! » — « sept fils de Scéva, Juif, l'un des principaux sacrificateurs » (Actes 19.13-14). L'esprit répond : « Je connais Jésus, et je sais qui est Paul ; mais vous, qui êtes-vous ? » et les met en fuite, « nus et blessés » (Actes 19.15-16).\n\nLe nom de Jésus n'est pas une formule magique : il agit par la relation et la foi. La nouvelle fait que « le nom du Seigneur Jésus était glorifié », et beaucoup brûlent leurs livres de magie (Actes 19.17-19)."
+  },
+  {
+   "id": "fortunatus-achaicus",
+   "nom": "Fortunatus et Achaïcus",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Fortunatus"
+    },
+    {
+     "v": "Achaïcus"
+    }
+   ],
+   "passages": [
+    [
+     "1 Corinthiens 16",
+     46,
+     16
+    ]
+   ],
+   "bio": "Chrétiens de Corinthe venus avec Stéphanas rejoindre Paul à Éphèse, qui le réconfortèrent.",
+   "relations": [
+    [
+     "Avec",
+     "stephanas"
+    ],
+    [
+     "Ont réconforté",
+     "paul"
+    ]
+   ],
+   "histoire": "« Je me réjouis de la présence de Stéphanas, de Fortunatus et d'Achaïcus ; ils ont suppléé à votre absence, car ils ont tranquillisé mon esprit et le vôtre » (1 Corinthiens 16.17-18).\n\nSans doute porteurs de la lettre des Corinthiens à Paul (1 Corinthiens 7.1), et peut-être de sa réponse. Des messagers fidèles, dont la venue fait du bien à l'âme."
+  },
+  {
+   "id": "artemas",
+   "nom": "Artémas",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Artémas"
+    }
+   ],
+   "passages": [
+    [
+     "Tite 3",
+     56,
+     3
+    ]
+   ],
+   "bio": "Collaborateur de confiance que Paul pensait envoyer en Crète pour remplacer Tite.",
+   "relations": [
+    [
+     "Collaborateur de",
+     "paul"
+    ],
+    [
+     "Envoyé vers",
+     "tite"
+    ]
+   ],
+   "histoire": "« Lorsque je t'enverrai Artémas ou Tychique, hâte-toi de venir me rejoindre à Nicopolis ; car c'est là que j'ai résolu de passer l'hiver » (Tite 3.12).\n\nUn seul verset, mais une grande confiance : Paul le juge capable de reprendre l'œuvre de Tite auprès des Églises de Crète."
+  },
+  {
+   "id": "eubulus-pudens-linus-claudia",
+   "nom": "Eubulus, Pudens, Linus et Claudia",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Eubulus"
+    },
+    {
+     "v": "Pudens"
+    },
+    {
+     "v": "Linus"
+    },
+    {
+     "v": "Claudia"
+    }
+   ],
+   "passages": [
+    [
+     "2 Timothée 4",
+     55,
+     4
+    ]
+   ],
+   "bio": "Chrétiens de Rome qui saluent Timothée dans la dernière lettre de Paul ; la tradition fait de Linus le premier responsable de l'Église de Rome après les apôtres.",
+   "relations": [
+    [
+     "Avec",
+     "paul"
+    ],
+    [
+     "Saluent",
+     "timothee"
+    ]
+   ],
+   "histoire": "« Tâche de venir avant l'hiver. Eubulus, Pudens, Linus, Claudia, et tous les frères te saluent » (2 Timothée 4.21).\n\nMême abandonné de beaucoup, Paul n'est pas seul : une petite communauté l'entoure à Rome. Irénée, au IIe siècle, nomme Linus comme le premier à qui fut confiée la direction de l'Église de Rome."
+  },
+  {
+   "id": "jannes-jambres",
+   "nom": "Jannès et Jambrès",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Jannès"
+    },
+    {
+     "v": "Jambrès"
+    }
+   ],
+   "passages": [
+    [
+     "2 Timothée 3",
+     55,
+     3
+    ]
+   ],
+   "bio": "Noms donnés par la tradition juive aux magiciens de Pharaon qui s'opposèrent à Moïse ; Paul les cite comme modèles des faux docteurs.",
+   "relations": [
+    [
+     "Opposés à",
+     "moise"
+    ]
+   ],
+   "histoire": "L'Exode ne les nomme pas : il parle des « magiciens d'Égypte » qui imitent les premiers signes de Moïse (Exode 7.11, 22). Paul reprend leurs noms connus par la tradition : « De même que Jannès et Jambrès s'opposèrent à Moïse, de même ces hommes s'opposent à la vérité » (2 Timothée 3.8).\n\nMais « ils ne feront pas de plus grands progrès ; car leur folie sera manifeste pour tous, comme le fut celle de ces deux hommes » (2 Timothée 3.9). Les magiciens durent finir par avouer : « C'est le doigt de Dieu ! » (Exode 8.15)."
+  },
+  {
+   "id": "antipas",
+   "nom": "Antipas",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Antipas"
+    }
+   ],
+   "passages": [
+    [
+     "Apocalypse 2",
+     66,
+     2
+    ]
+   ],
+   "bio": "Chrétien de Pergame mis à mort pour sa foi, que Jésus appelle « mon témoin fidèle ».",
+   "relations": [
+    [
+     "Honoré par",
+     "jesus"
+    ]
+   ],
+   "histoire": "Au milieu de la lettre à Pergame, Christ honore un nom : « Tu retiens mon nom, et tu n'as pas renié ma foi, même aux jours d'Antipas, mon témoin fidèle, qui a été mis à mort chez vous, là où Satan a sa demeure » (Apocalypse 2.13).\n\nJésus-Christ est lui-même appelé « le témoin fidèle » (Apocalypse 1.5 ; 3.14). Le Seigneur partage son propre titre avec un martyr dont l'histoire ne nous a rien gardé d'autre."
+  },
+  {
+   "id": "salues-romains",
+   "nom": "Les saints salués à Rome",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Épaïnète"
+    },
+    {
+     "v": "Amplias"
+    },
+    {
+     "v": "Urbain"
+    },
+    {
+     "v": "Stachys"
+    },
+    {
+     "v": "Apellès"
+    },
+    {
+     "v": "Aristobule"
+    },
+    {
+     "v": "Hérodion"
+    },
+    {
+     "v": "Narcisse"
+    },
+    {
+     "v": "Tryphène"
+    },
+    {
+     "v": "Tryphose"
+    },
+    {
+     "v": "Perside"
+    },
+    {
+     "v": "Asyncrite"
+    },
+    {
+     "v": "Philologue"
+    },
+    {
+     "v": "Nérée"
+    },
+    {
+     "v": "Olympe"
+    }
+   ],
+   "passages": [
+    [
+     "Romains 16",
+     45,
+     16
+    ]
+   ],
+   "bio": "La longue liste des croyants que Paul salue à Rome : Épaïnète, Amplias, Urbain, Tryphène et Tryphose, Perside, Hérodion et bien d'autres — hommes et femmes, esclaves et affranchis.",
+   "relations": [
+    [
+     "Salués par",
+     "paul"
+    ],
+    [
+     "Avec",
+     "priscille"
+    ],
+    [
+     "Avec",
+     "aquilas"
+    ],
+    [
+     "Avec",
+     "rufus"
+    ]
+   ],
+   "histoire": "Paul salue « Épaïnète, mon bien-aimé, qui a été pour Christ les prémices de l'Asie », « Amplias, mon bien-aimé dans le Seigneur », « Urbain, notre compagnon d'œuvre en Christ, et Stachys », « Apellès, qui est éprouvé en Christ », ceux des maisons d'Aristobule et de Narcisse, « Hérodion, mon parent » (Romains 16.5-11).\n\nPuis : « Saluez Tryphène et Tryphose, qui travaillent pour le Seigneur. Saluez Perside, la bien-aimée, qui a beaucoup travaillé pour le Seigneur » ; et encore Asyncrite, Philologue et Julie, Nérée et sa sœur, Olympe (Romains 16.12-15). Après la grande doctrine de l'épître, une liste de noms : l'Évangile, ce sont des personnes aimées."
   }
  ],
  "lieux": [
@@ -18117,6 +21335,13 @@
    "match": [
     {
      "v": "montagne des oliviers"
+    },
+    {
+     "v": "des oliviers",
+     "l": [
+      44,
+      44
+     ]
     }
    ],
    "geo": [
