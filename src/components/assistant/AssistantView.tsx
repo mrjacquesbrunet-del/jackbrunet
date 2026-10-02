@@ -117,7 +117,7 @@ export function AssistantView() {
       </header>
 
       {/* Fil de conversation / bibliothèque d'études */}
-      <main className="container-x mx-auto w-full max-w-2xl flex-1 pb-36 pt-5">
+      <main className="container-x mx-auto w-full max-w-2xl flex-1 pb-[calc(9rem+var(--bottom-nav-h,0px))] pt-5">
         {!userId ? (
           <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 text-center">
             <p className="font-display text-lg font-bold">Connecte-toi pour poser ta question</p>
@@ -141,7 +141,43 @@ export function AssistantView() {
               Un passage difficile, un thème, une situation à éclairer par la Parole — chaque réponse
               s&apos;appuie sur des versets que tu peux ouvrir d&apos;un tap.
             </p>
-            <div className="mx-auto mt-5 flex max-w-sm flex-col gap-2">
+            {/* Question personnalisée : la porte d'entrée principale */}
+            <div className="mx-auto mt-6 max-w-sm rounded-3xl border border-dawn-400/30 bg-white/[0.05] p-3 text-left">
+              <label htmlFor="question-libre" className="block px-1 text-[11px] font-black uppercase tracking-[0.18em] text-dawn-300">
+                Écris ta propre question
+              </label>
+              <textarea
+                id="question-libre"
+                value={draft}
+                onChange={(e) => setDraft(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    send();
+                  }
+                }}
+                rows={3}
+                maxLength={1500}
+                placeholder="Par exemple : que veut dire Jésus quand il dit « je suis le cep » ?"
+                className="mt-2 w-full resize-none rounded-2xl border border-white/10 bg-night-950/60 px-3.5 py-3 text-[15px] leading-relaxed text-cream placeholder:text-cream/35 focus:border-dawn-400/50 focus:outline-none"
+              />
+              <button
+                type="button"
+                onClick={() => send()}
+                disabled={!draft.trim() || busy}
+                className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-dawn-400 py-3 font-display text-sm font-bold text-night-950 disabled:opacity-40"
+              >
+                Poser ma question
+                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2}>
+                  <path d="M20 12L4 5l4.5 7L4 19zM20 12H9" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            </div>
+
+            <p className="mx-auto mt-6 max-w-sm px-1 text-left text-[11px] font-black uppercase tracking-[0.18em] text-cream/45">
+              Ou choisis un exemple
+            </p>
+            <div className="mx-auto mt-2 flex max-w-sm flex-col gap-2">
               {SUGGESTIONS.map((s) => (
                 <button
                   key={s}
@@ -202,11 +238,15 @@ export function AssistantView() {
         ) : null}
       </main>
 
-      {/* Zone de saisie */}
-      {userId ? (
+      {/* Zone de saisie (une fois la conversation commencée) : posée JUSTE
+          au-dessus de la barre d'onglets de l'app, jamais cachée dessous. */}
+      {userId && messages.length > 0 ? (
         <div
-          className="fixed inset-x-0 bottom-0 border-t border-white/10 bg-night-950/95 backdrop-blur-md"
-          style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
+          className="fixed inset-x-0 z-[55] border-t border-white/10 bg-night-950/95 backdrop-blur-md"
+          style={{
+            bottom: "var(--bottom-nav-h, 0px)",
+            paddingBottom: "max(0.75rem, calc(env(safe-area-inset-bottom) - var(--bottom-nav-h, 0px)))",
+          }}
         >
           <div className="container-x mx-auto flex max-w-2xl items-center gap-2 pt-3">
             <input
@@ -215,7 +255,7 @@ export function AssistantView() {
               onKeyDown={(e) => {
                 if (e.key === "Enter") send();
               }}
-              placeholder="Ta question sur la Bible…"
+              placeholder="Une autre question sur la Bible…"
               disabled={busy}
               className="flex-1 rounded-full border border-white/15 bg-white/[0.06] px-4 py-3 text-[15px] text-cream placeholder:text-cream/40 focus:outline-none disabled:opacity-60"
             />
