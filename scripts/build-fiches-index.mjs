@@ -80,6 +80,7 @@ for (const e of entries) {
     passages: e.passages,
     // Enrichissements façon encyclopédie : liens familiaux/spirituels entre
     // fiches, et récit long truffé de références bibliques cliquables.
+    ...(e.tribu ? { tribu: e.tribu } : {}),
     ...(e.relations?.length ? { relations: e.relations } : {}),
     ...(e.histoire ? { histoire: e.histoire } : {}),
     // Variantes de nom (avec bornes livre/chapitre) : permettent au client de

@@ -73,6 +73,8 @@ export type Fiche = {
   bio: string;
   periode?: string;
   passages: [string, number, number][];
+  /** Tribu d'Israël : id de la fiche du patriarche (ex. « juda-fils »). */
+  tribu?: string;
   /** Liens familiaux/spirituels vers d'autres fiches : [étiquette, id]. */
   relations?: [string, string][];
   /** Récit long (paragraphes \n\n) avec références bibliques entre
@@ -331,6 +333,18 @@ export function FicheSheet({
                 {open.periode ? ` · ${open.periode}` : ""}
               </p>
               <h3 className="mt-0.5 font-display text-2xl font-extrabold leading-tight">{open.nom}</h3>
+              {open.tribu && data.fiches[open.tribu] ? (
+                <button
+                  type="button"
+                  onClick={() => setId(open.tribu!)}
+                  className="mt-1.5 inline-flex items-center gap-1.5 rounded-full border border-dawn-400/40 bg-dawn-400/10 px-2.5 py-1 text-[11px] font-bold text-dawn-300"
+                >
+                  <svg viewBox="0 0 24 24" className="h-3 w-3 fill-none stroke-current" strokeWidth={2}>
+                    <path d="M5 21V4h9l1 2h4v9h-6l-1-2H7" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  Tribu de {data.fiches[open.tribu].nom.replace(/\s*\(.*\)$/, "")}
+                </button>
+              ) : null}
             </div>
             <button type="button" onClick={onClose} aria-label="Fermer" className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/15 text-cream/70">
               <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2}><path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" /></svg>
