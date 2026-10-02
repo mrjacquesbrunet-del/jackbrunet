@@ -68,7 +68,7 @@ export function BibliothequeLivres() {
 
   const bookNames = Object.fromEntries(livres.map((b) => [b.id, b.name]));
   const groupes = (data?.groupes ?? []).filter((g) => (t === "AT" ? g.a <= 39 : g.de >= 40));
-  const lire = (l: number, c: number) => router.push(`/bible?livre=${l}&chap=${c}`);
+  const lire = (l: number, c: number, v?: number) => router.push(`/bible?livre=${l}&chap=${c}${v ? `&v=${v}` : ""}`);
 
   return (
     <div className="dark-ctx fixed inset-0 z-[70] flex flex-col bg-night-950 text-cream">

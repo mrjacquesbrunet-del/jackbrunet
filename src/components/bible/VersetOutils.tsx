@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState, type ReactNode } from "react";
 import type { Commentary } from "@/components/bible/CommentaryPanel";
 import { FicheSheet, getFiches, Medaillon, TexteAvecRefs as TexteAvecRefsVerset, type FichesData } from "@/components/bible/FichesChapitre";
 import { VersetsLies, useNombreLiens } from "@/components/bible/VersetsLies";
+import type { Naviguer } from "@/lib/bible-nav";
 import { nettoyerMarquesIA } from "@/lib/texte";
 import { numeroStrong } from "@/lib/strong";
 import { Markable } from "@/components/ui/Markable";
@@ -120,7 +121,7 @@ export function VersetOutils({
   commentary?: Commentary;
   commentaryState: "idle" | "loading" | "loaded" | "none";
   bookNames: Record<number, string>;
-  onNavigate: (bookId: number, chapter: number) => void;
+  onNavigate: Naviguer;
   onClose: () => void;
 }) {
   const at = bookId <= 39;
@@ -658,9 +659,9 @@ export function VersetOutils({
               chapitre={chapter}
               verset={verse}
               bookNames={bookNames}
-              onNavigate={(l, c) => {
-                onClose();
-                onNavigate(l, c);
+              onNavigate={(l, c, v, v2) => {
+                if (v === undefined) onClose();
+                onNavigate(l, c, v, v2);
               }}
             />
           ) : outil === "question" ? (
@@ -672,7 +673,7 @@ export function VersetOutils({
                   <p className="text-[11px] font-black uppercase tracking-[0.18em] text-dawn-400">Réponse</p>
                   <div className="mt-2 space-y-2.5">
                     {reponse.split("\n\n").map((par, i) => (
-                      <TexteAvecRefsVerset key={i} texte={par} onNavigate={(l, c) => { onClose(); onNavigate(l, c); }} />
+                      <TexteAvecRefsVerset key={i} texte={par} onNavigate={(l, c, v, v2) => { if (v === undefined) onClose(); onNavigate(l, c, v, v2); }} />
                     ))}
                   </div>
                   <button
@@ -791,10 +792,12 @@ export function VersetOutils({
             bookNames={bookNames}
             zIndex="z-[140]"
             onClose={() => setFicheId(null)}
-            onNavigate={(l, c) => {
-              setFicheId(null);
-              onClose();
-              onNavigate(l, c);
+            onNavigate={(l, c, v, v2) => {
+              if (v === undefined) {
+                setFicheId(null);
+                onClose();
+              }
+              onNavigate(l, c, v, v2);
             }}
           />
         ) : null}

@@ -252,7 +252,7 @@ export function FriseChronologique() {
               </div>
 
               <div className="mt-3">
-                <TexteAvecRefs texte={ouvert.txt} onNavigate={(l, c) => router.push(`/bible?livre=${l}&chap=${c}`)} />
+                <TexteAvecRefs texte={ouvert.txt} onNavigate={(l, c, v) => router.push(`/bible?livre=${l}&chap=${c}${v ? `&v=${v}` : ""}`)} />
               </div>
 
               <p className="mt-5 text-[11px] font-black uppercase tracking-[0.2em] text-cream/45">À lire dans la Bible</p>
@@ -326,7 +326,7 @@ export function FriseChronologique() {
           bookNames={bookNames}
           zIndex="z-[130]"
           onClose={() => setFiche(null)}
-          onNavigate={(l, c) => router.push(`/bible?livre=${l}&chap=${c}`)}
+          onNavigate={(l, c, v) => router.push(`/bible?livre=${l}&chap=${c}${v ? `&v=${v}` : ""}`)}
         />
       ) : null}
     </div>

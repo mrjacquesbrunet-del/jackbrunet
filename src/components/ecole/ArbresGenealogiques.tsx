@@ -275,7 +275,7 @@ export function ArbresGenealogiques() {
           bookNames={bookNames}
           zIndex="z-[130]"
           onClose={() => setFiche(null)}
-          onNavigate={(l, c) => router.push(`/bible?livre=${l}&chap=${c}`)}
+          onNavigate={(l, c, v) => router.push(`/bible?livre=${l}&chap=${c}${v ? `&v=${v}` : ""}`)}
           onArbre={centrer}
         />
       ) : null}

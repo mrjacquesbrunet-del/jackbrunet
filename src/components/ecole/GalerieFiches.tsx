@@ -178,7 +178,7 @@ export function GalerieFiches() {
     setLivre(l);
   };
 
-  const lire = (l: number, c: number) => router.push(`/bible?livre=${l}&chap=${c}`);
+  const lire = (l: number, c: number, v?: number) => router.push(`/bible?livre=${l}&chap=${c}${v ? `&v=${v}` : ""}`);
 
   const nomLivre = bookNames[livre] ?? "";
   const total = ids.length;

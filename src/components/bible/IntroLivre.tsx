@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { asset } from "@/lib/asset";
 import { FicheSheet, Medaillon, TexteAvecRefs, getFiches, type FichesData } from "@/components/bible/FichesChapitre";
+import { versetsDe, type Naviguer } from "@/lib/bible-nav";
 
 /**
  * INTRODUCTIONS AUX LIVRES — une seule source (public/bible/introductions.json,
@@ -101,7 +102,7 @@ export function IntroLivreCorps({
   intro: IntroLivre;
   groupe?: GroupeLivres;
   fiches: FichesData | null;
-  onNavigate: (livre: number, chapitre: number) => void;
+  onNavigate: Naviguer;
   onFiche: (id: string) => void;
   /** Liens vers la frise et la galerie (masqués quand on y est déjà). */
   liens?: boolean;
@@ -195,7 +196,7 @@ export function IntroLivreCorps({
               <button
                 key={v.ref}
                 type="button"
-                onClick={() => onNavigate(v.l, v.c)}
+                onClick={() => onNavigate(v.l, v.c, ...versetsDe(v.ref))}
                 className="block w-full rounded-2xl border-l-[3px] bg-white/[0.04] px-4 py-3 text-left active:bg-white/10"
                 style={{ borderColor: couleur }}
               >
@@ -288,7 +289,7 @@ export function IntroLivreSheet({
   nom: string;
   bookNames: Record<number, string>;
   onClose: () => void;
-  onNavigate: (livre: number, chapitre: number) => void;
+  onNavigate: Naviguer;
 }) {
   const [data, setData] = useState<IntrosData | null>(null);
   const [fiches, setFiches] = useState<FichesData | null>(null);
@@ -336,9 +337,9 @@ export function IntroLivreSheet({
           bookNames={bookNames}
           zIndex="z-[130]"
           onClose={() => setFiche(null)}
-          onNavigate={(l, c) => {
-            setFiche(null);
-            onNavigate(l, c);
+          onNavigate={(l, c, v, v2) => {
+            if (v === undefined) setFiche(null);
+            onNavigate(l, c, v, v2);
           }}
         />
       ) : null}

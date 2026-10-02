@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { asset } from "@/lib/asset";
+import type { Naviguer } from "@/lib/bible-nav";
 
 /**
  * VERSETS LIÉS — dans la feuille d'étude d'un verset :
@@ -100,7 +101,7 @@ export function VersetsLies({
   chapitre: number;
   verset: number;
   bookNames: Record<number, string>;
-  onNavigate: (livre: number, chapitre: number) => void;
+  onNavigate: Naviguer;
 }) {
   const [groupes, setGroupes] = useState<Groupe[] | null>(null);
   const [liens, setLiens] = useState<Lien[] | null>(null);
@@ -160,7 +161,7 @@ export function VersetsLies({
                         key={p.join("-")}
                         type="button"
                         disabled={ici}
-                        onClick={() => onNavigate(p[0], p[1])}
+                        onClick={() => onNavigate(p[0], p[1], p[2], p[1] === p[3] ? p[4] : undefined)}
                         className={`rounded-full px-3 py-1.5 text-[12px] font-bold ${
                           ici ? "border border-white/15 text-cream/45" : "bg-dawn-400 text-night-950"
                         }`}
@@ -188,7 +189,7 @@ export function VersetsLies({
                   <li key={k}>
                     <button
                       type="button"
-                      onClick={() => onNavigate(l[0], l[1])}
+                      onClick={() => onNavigate(l[0], l[1], l[2], l[3])}
                       className="block w-full rounded-2xl border-l-[3px] border-dawn-400/60 bg-white/[0.04] px-3.5 py-2.5 text-left active:bg-white/10"
                     >
                       <span className="block text-[12px] font-black text-dawn-300">{refLien(l)}</span>

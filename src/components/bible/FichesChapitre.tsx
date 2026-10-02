@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { asset } from "@/lib/asset";
 import { useArbreDeFiche } from "@/lib/genealogie";
+import { versetsDe, type Naviguer } from "@/lib/bible-nav";
 import { bibleHref } from "@/lib/bible-ref";
 import { LieuCarte } from "@/components/bible/LieuCarte";
 
@@ -16,7 +17,7 @@ export function TexteAvecRefs({
   onRef,
 }: {
   texte: string;
-  onNavigate: (bookId: number, chapter: number) => void;
+  onNavigate: Naviguer;
   /** Variante pour les pages à fond clair (École biblique). */
   light?: boolean;
   /** Si fourni, un tap sur une référence appelle ce rappel (pop-up verset)
@@ -37,7 +38,7 @@ export function TexteAvecRefs({
           <button
             key={i}
             type="button"
-            onClick={() => (onRef ? onRef(part) : onNavigate(l, c))}
+            onClick={() => (onRef ? onRef(part) : onNavigate(l, c, ...versetsDe(part)))}
             className={
               light
                 ? "font-semibold text-[#5F7A00] underline decoration-[#5F7A00]/40 underline-offset-2"
@@ -151,7 +152,7 @@ export function FichesChapitre({
   chapter: number;
   /** id → nom du livre (pour afficher « Apparaît aussi dans »). */
   bookNames: Record<number, string>;
-  onNavigate: (bookId: number, chapter: number) => void;
+  onNavigate: Naviguer;
   /** Vrai quand la page est sur un thème de lecture sombre. */
   dark?: boolean;
 }) {
@@ -285,10 +286,13 @@ export function FichesChapitre({
           chapter={chapter}
           bookNames={bookNames}
           onClose={() => setOpenId(null)}
-          onNavigate={(l, c) => {
-            setOpenId(null);
-            setListOpen(false);
-            onNavigate(l, c);
+          onNavigate={(l, c, v, v2) => {
+            // Un verset s'ouvre en aperçu par-dessus : la fiche reste ouverte.
+            if (v === undefined) {
+              setOpenId(null);
+              setListOpen(false);
+            }
+            onNavigate(l, c, v, v2);
           }}
         />
       ) : null}
@@ -320,7 +324,7 @@ export function FicheSheet({
   bookNames: Record<number, string>;
   onClose: () => void;
   /** Le parent ferme ce qu'il faut puis navigue. */
-  onNavigate: (bookId: number, chapter: number) => void;
+  onNavigate: Naviguer;
   zIndex?: string;
   /** Sur la page des arbres : « Voir dans l'arbre » recentre au lieu de naviguer. */
   onArbre?: (personne: string) => void;
@@ -405,7 +409,7 @@ export function FicheCorps({
   id: string;
   data: FichesData;
   bookNames: Record<number, string>;
-  onNavigate: (bookId: number, chapter: number) => void;
+  onNavigate: Naviguer;
   /** Ouvre une fiche liée (relation, tribu). */
   onOpen: (id: string) => void;
   /** Chapitre en cours de lecture, désactivé dans la liste des apparitions. */
@@ -501,7 +505,7 @@ export function FicheCorps({
                     const h = bibleHref(s.r);
                     if (!h) return;
                     const q = new URLSearchParams(h.split("?")[1]);
-                    onNavigate(Number(q.get("livre")), Number(q.get("chap")));
+                    onNavigate(Number(q.get("livre")), Number(q.get("chap")), ...versetsDe(s.r ?? ""));
                   }}
                   className="mt-0.5 text-xs font-bold text-dawn-300 underline decoration-dawn-300/40 underline-offset-2"
                 >

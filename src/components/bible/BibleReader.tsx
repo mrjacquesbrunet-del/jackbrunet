@@ -10,6 +10,8 @@ import { VersetOutils } from "@/components/bible/VersetOutils";
 import { BibleHero } from "@/components/bible/BibleHero";
 import { FichesChapitre } from "@/components/bible/FichesChapitre";
 import { IntroLivreSheet } from "@/components/bible/IntroLivre";
+import { PassageApercu } from "@/components/bible/PassageApercu";
+import type { Naviguer } from "@/lib/bible-nav";
 import { BibleAudio } from "@/components/bible/BibleAudio";
 import { BibleAudioPlayer } from "@/components/bible/BibleAudioPlayer";
 import {
@@ -71,6 +73,13 @@ export function BibleReader() {
   // Sélecteur livre/chapitre en feuille (tap sur la pastille « Jean 3 »).
   const [selOpen, setSelOpen] = useState(false);
   const [selBook, setSelBook] = useState<number | null>(null);
+  // Liens vers un autre passage : aperçu (on lit sans partir), ou navigation
+  // avec une pile « Revenir » pour retrouver exactement sa lecture.
+  const [apercu, setApercu] = useState<{ l: number; c: number; v: number; v2?: number } | null>(null);
+  const [pile, setPile] = useState<{ bookId: number; chapter: number; scrollY: number }[]>([]);
+  const [eclat, setEclat] = useState<{ b: number; c: number; v1: number; v2: number } | null>(null);
+  const cibleRef = useRef<{ verset?: number; versetFin?: number; y?: number } | null>(null);
+  const [navTick, setNavTick] = useState(0);
   // Introduction au livre ouverte (id du livre), depuis le chapitre 1 ou le sélecteur.
   const [introLivre, setIntroLivre] = useState<number | null>(null);
   // Menu ⋮ du mode pleine lecture (carnet, recherche, téléchargement…).
@@ -167,13 +176,19 @@ export function BibleReader() {
 .catch(() => {});
   }, []);
 
-  // Lien profond éventuel: /bible?livre=43&chap=3
+  // Lien profond éventuel: /bible?livre=43&chap=3(&v=16)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const l = Number(params.get("livre"));
     const c = Number(params.get("chap"));
+    const v = Number(params.get("v"));
     if (l >= 1 && l <= 66) setBookId(l);
     if (c >= 1) setChapter(c);
+    if (l >= 1 || c >= 1) restoreScrollRef.current = null;
+    if (v >= 1) {
+      cibleRef.current = { verset: v };
+      setNavTick((t) => t + 1);
+    }
   }, []);
 
   // Charge le livre sélectionné
@@ -216,6 +231,49 @@ export function BibleReader() {
     setChapter(n);
     scrollToChapterTop();
   }
+
+  /** Va à un passage ; la position de départ est gardée pour « Revenir ». */
+  function allerA(l: number, c: number, cible: { verset?: number; versetFin?: number; y?: number }, memoriser: boolean) {
+    if (memoriser) setPile((p) => [...p.slice(-9), { bookId, chapter, scrollY: window.scrollY }]);
+    setSheetVerse(null);
+    setIntroLivre(null);
+    setApercu(null);
+    cibleRef.current = cible;
+    setBookId(l);
+    setChapter(c);
+    setNavTick((t) => t + 1);
+  }
+  /** Un lien : avec un verset → aperçu ; sans verset → le chapitre. */
+  const lien: Naviguer = (l, c, v, v2) => {
+    if (v) setApercu({ l, c, v, v2 });
+    else allerA(l, c, {}, true);
+  };
+  function revenir() {
+    const dernier = pile[pile.length - 1];
+    if (!dernier) return;
+    setPile((p) => p.slice(0, -1));
+    allerA(dernier.bookId, dernier.chapter, { y: dernier.scrollY }, false);
+  }
+
+  // Arrivée sur un passage : on défile jusqu'au verset (surligné quelques
+  // secondes) ou à la position mémorisée.
+  useEffect(() => {
+    const t = cibleRef.current;
+    if (!t || loading || !book || book.id !== bookId || !book.chapters?.[chapter - 1]?.length) return;
+    cibleRef.current = null;
+    requestAnimationFrame(() => {
+      if (t.verset) {
+        document.getElementById(`v-${t.verset}`)?.scrollIntoView({ block: "center" });
+        setEclat({ b: bookId, c: chapter, v1: t.verset, v2: t.versetFin ?? t.verset });
+        window.setTimeout(() => setEclat(null), 3500);
+      } else if (typeof t.y === "number") {
+        window.scrollTo(0, t.y);
+      } else {
+        topRef.current?.scrollIntoView({ block: "start" });
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading, book, chapter, navTick]);
 
   // Surlignage du verset pendant la narration MP3 (estimé au prorata de la
   // longueur des versets, faute de repères temps dans le fichier audio).
@@ -554,11 +612,12 @@ export function BibleReader() {
           {verses.map((v, i) => {
             const vn = i + 1;
             const open = sheetVerse === vn;
-            const speaking = spokenVerse === i;
+            const speaking =
+              spokenVerse === i || (eclat !== null && eclat.b === bookId && eclat.c === chapter && vn >= eclat.v1 && vn <= eclat.v2);
             return (
               // La clé inclut livre + chapitre: en changeant de chapitre, les
               // versets se remontent, ce qui referme tout menu resté ouvert.
-              <div key={`${bookId}-${chapter}-${i}`}>
+              <div key={`${bookId}-${chapter}-${i}`} id={`v-${vn}`} className="scroll-mt-24">
                 <Markable
                   id={`bible:${bookId}:${chapter}:${vn}`}
                   text={v}
@@ -642,19 +701,12 @@ export function BibleReader() {
       {/* Fin de chapitre : personnages & lieux du passage (fiches d'étude) */}
       {!loading && verses.length ? (
         <FichesChapitre
+          key={`${bookId}-${chapter}`}
           bookId={bookId}
           chapter={chapter}
           dark={immersive && reading.theme === "sombre"}
           bookNames={bookNames}
-          onNavigate={(l, c) => {
-            if (l !== bookId) {
-              setBookId(l);
-              setChapter(c);
-              scrollToChapterTop();
-            } else {
-              goToChapter(c);
-            }
-          }}
+          onNavigate={lien}
         />
       ) : null}
 
@@ -781,15 +833,7 @@ export function BibleReader() {
           commentary={comm[sheetVerse]}
           commentaryState={commState}
           bookNames={bookNames}
-          onNavigate={(l, c) => {
-            if (l !== bookId) {
-              setBookId(l);
-              setChapter(c);
-              scrollToChapterTop();
-            } else {
-              goToChapter(c);
-            }
-          }}
+          onNavigate={lien}
           onClose={() => setSheetVerse(null)}
         />
       ) : null}
@@ -916,6 +960,39 @@ export function BibleReader() {
         </div>
       ) : null}
 
+      {/* Aperçu d'un passage cité : on le lit sans quitter sa lecture */}
+      {apercu ? (
+        <PassageApercu
+          livre={apercu.l}
+          chapitre={apercu.c}
+          verset={apercu.v}
+          versetFin={apercu.v2}
+          nomLivre={bookNames[apercu.l] ?? ""}
+          onClose={() => setApercu(null)}
+          onOuvrir={() => allerA(apercu.l, apercu.c, { verset: apercu.v, versetFin: apercu.v2 }, true)}
+        />
+      ) : null}
+
+      {/* « Revenir » : retour au passage d'où l'on vient, au même endroit */}
+      {pile.length ? (
+        <div
+          className="fixed left-4 z-[57] flex items-center overflow-hidden rounded-full bg-night-950/90 text-cream shadow-card backdrop-blur"
+          style={{ bottom: "calc(var(--bottom-nav-h, 0px) + var(--audio-bar-h, 0px) + 5.5rem)" }}
+        >
+          <button type="button" onClick={revenir} className="flex items-center gap-1.5 py-2.5 pl-3 pr-2 text-[13px] font-bold">
+            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current text-dawn-300" strokeWidth={2.4}>
+              <path d="M15 5l-7 7 7 7" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            Revenir à {bookNames[pile[pile.length - 1].bookId] ?? ""} {pile[pile.length - 1].chapter}
+          </button>
+          <button type="button" onClick={() => setPile([])} aria-label="Fermer" className="grid h-9 w-8 place-items-center border-l border-white/10 text-cream/55">
+            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth={2.4}>
+              <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+            </svg>
+          </button>
+        </div>
+      ) : null}
+
       {/* Introduction au livre (auteur, date, contexte, plan, thèmes…) */}
       {introLivre !== null ? (
         <IntroLivreSheet
@@ -923,16 +1000,7 @@ export function BibleReader() {
           nom={bookNames[introLivre] ?? ""}
           bookNames={bookNames}
           onClose={() => setIntroLivre(null)}
-          onNavigate={(l, c) => {
-            setIntroLivre(null);
-            if (l !== bookId) {
-              setBookId(l);
-              setChapter(c);
-              scrollToChapterTop();
-            } else {
-              goToChapter(c);
-            }
-          }}
+          onNavigate={lien}
         />
       ) : null}
     </section>
