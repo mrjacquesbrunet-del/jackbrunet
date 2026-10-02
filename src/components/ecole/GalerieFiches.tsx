@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { asset } from "@/lib/asset";
 import { FicheCorps, getFiches, type Fiche, type FichesData } from "@/components/bible/FichesChapitre";
+import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
 
 /**
  * GALERIE DES PERSONNAGES & LIEUX — page cachée de l'Étude biblique.
@@ -174,6 +175,8 @@ export function GalerieFiches() {
 
   return (
     <div className="dark-ctx fixed inset-0 z-[70] flex flex-col bg-night-950 text-cream">
+      {/* Fond noir continu sous la barre de statut et la zone du geste d'accueil */}
+      <PlansDarkBg />
       {/* En-tête */}
       <header className="shrink-0 px-4 pt-[calc(env(safe-area-inset-top)+0.75rem)]">
         <div className="mx-auto flex max-w-lg items-center gap-3">
@@ -272,7 +275,7 @@ export function GalerieFiches() {
         ) : (
           <>
             {ids.map((id, i) => (
-              <div key={id} className="h-full w-full shrink-0 snap-center px-4 pb-[calc(env(safe-area-inset-bottom)+1rem)]">
+              <div key={id} className="h-full w-full shrink-0 snap-center px-4">
                 {Math.abs(i - idx) <= 2 ? (
                   <Carte
                     id={id}
@@ -286,7 +289,7 @@ export function GalerieFiches() {
               </div>
             ))}
             {/* Fin du livre : on enchaîne sur le suivant */}
-            <div className="grid h-full w-full shrink-0 snap-center place-items-center px-4 pb-[calc(env(safe-area-inset-bottom)+1rem)]">
+            <div className="grid h-full w-full shrink-0 snap-center place-items-center px-4 pb-[env(safe-area-inset-bottom)]">
               <div className="mx-auto max-w-lg text-center">
                 <p className="text-[11px] font-black uppercase tracking-[0.22em] text-cream/45">Fin de {nomLivre}</p>
                 <p className="mt-2 font-display text-2xl font-extrabold">
@@ -341,7 +344,7 @@ function Carte({
     chaps.length > 1 ? `${bookNames[livre] ?? ""} ${chaps[0]} à ${chaps[chaps.length - 1]}` : `${bookNames[livre] ?? ""} ${chaps[0] ?? ""}`;
 
   return (
-    <article className="mx-auto h-full max-w-lg overflow-y-auto overscroll-y-contain rounded-[28px] border border-white/10 bg-night-900 shadow-[0_24px_60px_-28px_rgba(0,0,0,0.8)]">
+    <article className="mx-auto h-full max-w-lg overflow-y-auto overscroll-y-contain rounded-t-[28px] border border-b-0 border-white/10 bg-night-900">
       <div className="relative aspect-square max-h-[48vh] w-full overflow-hidden" style={{ background: degrade(f) }}>
         {imgOk ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -384,7 +387,7 @@ function Carte({
           </div>
         </div>
       </div>
-      <div className="px-5 pb-8 pt-1">
+      <div className="px-5 pb-[calc(env(safe-area-inset-bottom)+2rem)] pt-1">
         <FicheCorps id={id} data={data} bookNames={bookNames} onNavigate={onNavigate} onOpen={onOpen} />
       </div>
     </article>

@@ -7,6 +7,7 @@ import { asset } from "@/lib/asset";
 import { bibleHref } from "@/lib/bible-ref";
 import { LieuCarte } from "@/components/bible/LieuCarte";
 import { FicheSheet, Medaillon, TexteAvecRefs, getFiches, type FichesData } from "@/components/bible/FichesChapitre";
+import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
 import frise from "../../../content/chronologie-biblique.json";
 
 /**
@@ -106,6 +107,8 @@ export function FriseChronologique() {
 
   return (
     <div className="dark-ctx fixed inset-0 z-[70] flex flex-col bg-night-950 text-cream">
+      {/* Fond noir continu sous la barre de statut et la zone du geste d'accueil */}
+      <PlansDarkBg />
       <header className="shrink-0 px-4 pt-[calc(env(safe-area-inset-top)+0.75rem)]">
         <div className="mx-auto flex max-w-lg items-center gap-3">
           <Link href="/ecole" aria-label="Retour à l'Étude biblique" className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/15 text-cream/80">
@@ -228,7 +231,7 @@ export function FriseChronologique() {
           <button type="button" aria-label="Fermer" onClick={() => setOuvert(null)} className="absolute inset-0 bg-night-950/70 backdrop-blur-sm" />
           <div className="relative flex max-h-[88vh] w-full max-w-md flex-col overflow-hidden rounded-t-3xl border border-white/10 bg-night-900 sm:rounded-3xl">
             <div className="h-1.5 shrink-0" style={{ background: couleur(ouvert.p) }} />
-            <div className="overflow-y-auto px-5 pb-8 pt-4">
+            <div className="overflow-y-auto px-5 pb-[calc(env(safe-area-inset-bottom)+2rem)] pt-4">
               <div className="flex items-start gap-3">
                 <div className="min-w-0 flex-1">
                   <p className="text-[11px] font-black uppercase tracking-[0.18em]" style={{ color: couleur(ouvert.p) }}>
