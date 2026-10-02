@@ -1666,7 +1666,13 @@
     }
    ],
    "histoire": "Couronné à huit ans, Josias cherche Dieu dès sa jeunesse (2 Chroniques 34:3). Pendant les réparations du temple, on retrouve le livre de la Loi oublié ; à sa lecture, le jeune roi déchire ses vêtements (2 Rois 22:11).\n\nSa réforme est la plus radicale de l'histoire de Juda : idoles pulvérisées, hauts lieux abattus, et une Pâque « comme il n'en avait point été célébré de semblable depuis les jours des juges » (2 Rois 23:22). L'Écriture lui rend un hommage unique : « Avant Josias, il n'y eut point de roi qui revînt à l'Éternel de tout son cœur » (2 Rois 23:25). Une seule découverte — la Parole retrouvée — avait suffi à changer une nation.",
-   "tribu": "juda-fils"
+   "tribu": "juda-fils",
+   "relations": [
+    [
+     "Tué par",
+     "neco"
+    ]
+   ]
   },
   {
    "id": "esdras",
@@ -1694,6 +1700,10 @@
     [
      "Contemporain",
      "nehemie"
+    ],
+    [
+     "Roi",
+     "artaxerxes"
     ]
    ],
    "histoire": "Scribe versé dans la loi de Moïse, Esdras monte de Babylone à Jérusalem avec la faveur du roi, « car la bonne main de son Dieu était sur lui » (Esdras 7:9). Son secret tient en un verset : « Esdras avait appliqué son cœur à étudier et à mettre en pratique la loi de l'Éternel, et à enseigner » (Esdras 7:10) — étudier, pratiquer, enseigner, dans cet ordre.\n\nDevant la place publique, il lit le livre de la Loi du matin à midi ; le peuple pleure puis fait une grande fête, « car la joie de l'Éternel sera votre force » (Néhémie 8:10). Avec Néhémie, il reconstruit le peuple pendant que l'autre relève les murailles.",
@@ -1725,6 +1735,14 @@
     [
      "Contemporain",
      "esdras"
+    ],
+    [
+     "Frère",
+     "hanani-nehemie"
+    ],
+    [
+     "Roi",
+     "artaxerxes"
     ]
    ],
    "histoire": "Échanson du roi de Perse, Néhémie apprend que les murailles de Jérusalem sont en ruine : il pleure, jeûne et prie (Néhémie 1:4). Puis il ose demander au roi la permission d'aller rebâtir — après une prière éclair entre la question et la réponse (Néhémie 2:4).\n\nSur place, il inspecte de nuit, mobilise chaque famille sur un tronçon de mur, et tient tête aux moqueries de Sanballat : « Le Dieu des cieux nous donnera le succès » (Néhémie 2:20). L'arme dans une main, la truelle dans l'autre (Néhémie 4:17), le peuple achève la muraille en cinquante-deux jours (Néhémie 6:15). Néhémie reste le modèle du leader qui prie comme si tout dépendait de Dieu et travaille comme si tout dépendait de lui."
@@ -1755,6 +1773,14 @@
     [
      "Tuteur",
      "mardochee"
+    ],
+    [
+     "Gardien",
+     "hegai"
+    ],
+    [
+     "Messager",
+     "hathac"
     ]
    ],
    "histoire": "Orpheline juive élevée par son cousin Mardochée, Hadassa devient Esther, reine de Perse, sans révéler son peuple (Esther 2:17). Quand Haman obtient un décret d'extermination contre les Juifs, Mardochée lui envoie le mot qui traverse les siècles : « Qui sait si ce n'est pas pour un temps comme celui-ci que tu es parvenue à la royauté ? » (Esther 4:14).\n\nAprès trois jours de jeûne, elle risque sa vie en paraissant devant le roi sans être appelée : « Si je dois périr, je périrai » (Esther 4:16). Par deux banquets et un courage tranquille, elle retourne le décret ; Haman est pendu au bois préparé pour Mardochée (Esther 7:10). La fête de Pourim célèbre encore cette délivrance — dans un livre où le nom de Dieu n'apparaît jamais, mais où sa main est partout.",
@@ -1882,7 +1908,17 @@
     }
    ],
    "histoire": "Appelé tout jeune — « Avant que je t'eusse formé dans le ventre de ta mère, je te connaissais » (Jérémie 1:5) —, Jérémie proteste qu'il ne sait pas parler ; Dieu touche sa bouche et l'établit sur les nations.\n\nQuarante ans durant, il annonce à Jérusalem un message que personne ne veut entendre : l'exil vient. Battu, mis au pilori (Jérémie 20:2), jeté dans une citerne de boue (Jérémie 38:6), il voudrait se taire — mais la parole est « dans son cœur comme un feu dévorant » (Jérémie 20:9). On l'appelle le prophète des larmes (Jérémie 9:1).\n\nAu milieu des ruines, il achète un champ, signe d'espérance (Jérémie 32:9), écrit aux exilés les « projets de paix et non de malheur » (Jérémie 29:11) et annonce la nouvelle alliance où la loi sera écrite dans les cœurs (Jérémie 31:33).",
-   "tribu": "levi-fils"
+   "tribu": "levi-fils",
+   "relations": [
+    [
+     "Cousin",
+     "hanameel"
+    ],
+    [
+     "Protecteur",
+     "achikam"
+    ]
+   ]
   },
   {
    "id": "ezechiel",
@@ -2662,6 +2698,14 @@
     [
      "Collaborateur",
      "apollos"
+    ],
+    [
+     "Compagnon",
+     "sosthene"
+    ],
+    [
+     "Collaborateur",
+     "eraste"
     ]
    ],
    "histoire": "Pharisien formé aux pieds de Gamaliel, Saul de Tarse persécute l'Église avec zèle ; il garde les vêtements de ceux qui lapident Étienne (Actes 7:58). Sur la route de Damas, une lumière le terrasse : « Saul, Saul, pourquoi me persécutes-tu ? » (Actes 9:4). L'ennemi devient apôtre.\n\nAvec Barnabas puis Silas, il sillonne l'empire en trois grands voyages : Chypre, la Galatie, la Macédoine, Athènes, Corinthe, Éphèse. Battu de verges, lapidé, naufragé (2 Corinthiens 11:25), il chante à minuit dans la prison de Philippes (Actes 16:25) et proclame le Dieu inconnu devant l'Aréopage (Actes 17:23).\n\nSes lettres — treize — forment le cœur doctrinal du Nouveau Testament : justification par la foi (Romains 5:1), hymne à l'amour (1 Corinthiens 13:4), Christ en qui habite toute la plénitude (Colossiens 2:9). Prisonnier à Rome, il écrit encore : « Réjouissez-vous toujours dans le Seigneur » (Philippiens 4:4), avant son dernier mot : « J'ai combattu le bon combat, j'ai achevé la course, j'ai gardé la foi » (2 Timothée 4:7).",
@@ -2919,6 +2963,10 @@
     [
      "Père spirituel",
      "paul"
+    ],
+    [
+     "Grand-mère et mère",
+     "lois-eunice"
     ]
    ],
    "histoire": "Jeune disciple de Lystre, fils d'une Juive croyante et d'un père grec, Timothée a reçu la foi de sa grand-mère Loïs et de sa mère Eunice (2 Timothée 1:5). Paul le prend avec lui dès le deuxième voyage (Actes 16:3) ; il devient son « enfant légitime en la foi » (1 Timothée 1:2).\n\nEnvoyé en mission délicate à Thessalonique, à Corinthe, puis établi à Éphèse, il reçoit de Paul deux lettres pleines de tendresse et de fermeté : « Que personne ne méprise ta jeunesse » (1 Timothée 4:12), « ranime la flamme du don de Dieu » (2 Timothée 1:6), « garde le bon dépôt » (2 Timothée 1:14).\n\nTimide peut-être, fidèle sûrement : « Je n'ai personne ici qui partage comme lui mes sentiments » écrit Paul aux Philippiens (Philippiens 2:20). C'est à lui que l'apôtre adressera sa toute dernière lettre, du fond de sa prison romaine."
@@ -4147,6 +4195,10 @@
     [
      "Adversaire",
      "esther"
+    ],
+    [
+     "Femme",
+     "zeresch"
     ]
    ],
    "histoire": "Élevé au-dessus de tous les princes, Haman ne supporte pas un seul genou qui ne plie pas : celui de Mardochée. Sa vengeance vise un peuple entier — le sort (le « pour ») fixe le jour du massacre (Esther 3:7).\n\nL'ironie divine s'empare du récit : la nuit où le roi ne dort pas, Haman doit promener en triomphe l'homme qu'il venait faire pendre (Esther 6:11). Au banquet d'Esther, la reine le démasque : « L'oppresseur, l'ennemi, c'est Haman, ce méchant ! » (Esther 7:6). Il est pendu au bois de cinquante coudées préparé pour Mardochée (Esther 7:10) : « Celui qui creuse une fosse y tombe » (Proverbes 26:27)."
@@ -4774,6 +4826,10 @@
     [
      "Compagnon",
      "pierre"
+    ],
+    [
+     "Autre candidat",
+     "joseph-barsabbas"
     ]
    ],
    "histoire": "Entre l'ascension et la Pentecôte, Pierre se lève au milieu des cent vingt : il faut que, parmi ceux « qui nous ont accompagnés tout le temps que le Seigneur Jésus a vécu avec nous, depuis le baptême de Jean jusqu'au jour où il a été enlevé du milieu de nous », un devienne avec eux témoin de la résurrection (Actes 1.21-22).\n\nOn en présente deux : Joseph dit Barsabbas, et Matthias. L'assemblée prie — « Seigneur, toi qui connais les cœurs de tous, désigne lequel de ces deux tu as choisi » — puis tire au sort, et le sort tombe sur Matthias, « associé aux onze apôtres » (Actes 1.23-26). Il avait suivi sans titre pendant trois ans ; Dieu connaissait son nom."
@@ -5137,6 +5193,10 @@
     [
      "A jugé",
      "paul"
+    ],
+    [
+     "Femme",
+     "drusille"
     ]
    ],
    "histoire": "Paul, transféré à Césarée, comparaît devant le gouverneur Félix, accusé par le grand prêtre et l'orateur Tertulle (Actes 24.1-9). Sa défense est limpide : il sert le Dieu de ses pères selon « la voie », et il croit à la résurrection des justes et des injustes (Actes 24.10-16).\n\nFélix, « qui connaissait assez exactement la voie », ajourne. Il revient avec sa femme Drusille écouter Paul « sur la foi en Christ » ; mais quand Paul parle de justice, de tempérance et du jugement à venir, « Félix, effrayé, dit : Pour le moment, retire-toi » (Actes 24.24-25). Espérant un pot-de-vin, il garde Paul prisonnier deux ans et le laisse en prison pour plaire aux Juifs (Actes 24.26-27). L'occasion favorable qu'il attendait n'est jamais venue."
@@ -5192,6 +5252,10 @@
     [
      "A écouté",
      "paul"
+    ],
+    [
+     "Sœur",
+     "berenice"
     ]
    ],
    "histoire": "Venu saluer Festus avec sa sœur Bérénice, Agrippa veut entendre Paul lui-même (Actes 25.22). En grande pompe, le prisonnier enchaîné raconte au roi sa jeunesse de pharisien, sa fureur contre les saints, et la lumière du chemin de Damas : « Je n'ai point résisté à la vision céleste » (Actes 26.1-19).\n\nPaul le presse : « Crois-tu aux prophètes, roi Agrippa ? Je sais que tu y crois ! » Agrippa esquive : « Tu vas bientôt me persuader de devenir chrétien ! » Paul répond, chaînes aux poignets : « Que ce soit bientôt ou que ce soit tard, plaise à Dieu que non seulement toi, mais encore tous ceux qui m'écoutent aujourd'hui, vous deveniez tels que je suis, à l'exception de ces liens ! » (Actes 26.27-29). Presque persuadé : l'Écriture ne connaît pas de salut à moitié."
@@ -5374,6 +5438,14 @@
     [
      "Esclave devenu frère",
      "onesime"
+    ],
+    [
+     "Maison",
+     "apphia"
+    ],
+    [
+     "Compagnon",
+     "archippe"
     ]
    ],
    "histoire": "« À Philémon, notre bien-aimé et notre compagnon d'œuvre… et à l'Église qui est dans ta maison » (Philémon 1.1-2) : l'homme est connu pour sa foi et son amour, « car par toi, frère, le cœur des saints a été tranquillisé » (Philémon 1.7).\n\nPaul, prisonnier, lui renvoie Onésime, son esclave enfui, devenu son enfant dans la foi. Il pourrait ordonner ; il préfère prier : « non plus comme un esclave, mais comme supérieur à un esclave, comme un frère bien-aimé… reçois-le comme moi-même ». Et d'ajouter, en signant de sa main : « s'il t'a fait quelque tort, ou s'il te doit quelque chose, mets-le sur mon compte » (Philémon 1.10-19). À Philémon de transformer son droit en grâce — l'Évangile appliqué à une maison, un maître, un esclave."
@@ -7007,6 +7079,10 @@
     [
      "Oint par l'école d'",
      "elisee"
+    ],
+    [
+     "Allié",
+     "jonadab-recab"
     ]
    ],
    "histoire": "Élisée envoie un jeune prophète verser l'huile : « Tu frapperas la maison d'Achab, ton maître, et je vengerai sur Jézabel le sang de mes serviteurs les prophètes » (2 Rois 9.1-10). Jéhu fonce sur Jizreel — on le reconnaît de loin à sa conduite furieuse (2 Rois 9.20) — abat Joram sur le champ de Naboth, et Jézabel est précipitée de sa fenêtre (2 Rois 9.24-37).\n\nIl rassemble ensuite tous les serviteurs de Baal, prétextant : « je veux offrir un grand sacrifice à Baal » — et les fait tous frapper : « Jéhu extermina Baal du milieu d'Israël » (2 Rois 10.18-28). Dieu le loue et borne sa dynastie à quatre générations ; mais « Jéhu ne prit point garde à marcher de tout son cœur dans la loi », gardant les veaux d'or (2 Rois 10.29-31). On peut détruire les idoles des autres sans quitter les siennes."
@@ -7464,6 +7540,14 @@
     [
      "Protecteur de",
      "jeremie"
+    ],
+    [
+     "Père",
+     "achikam"
+    ],
+    [
+     "Assassin",
+     "ismael-nethania"
     ]
    ],
    "histoire": "Nebucadnetsar confie à Guedalia, fils d'Achikam — la famille qui avait déjà sauvé Jérémie (Jérémie 26.24) —, le petit reste laissé au pays. Son programme tient en une phrase apaisante : « Ne craignez pas de servir les Chaldéens ; demeurez dans le pays, servez le roi de Babylone, et vous vous en trouverez bien » (2 Rois 25.22-24 ; Jérémie 40.9-10). Les vignes et les champs redonnent du fruit.\n\nAverti du complot d'Ismaël, il refuse d'y croire : « Ne fais pas cela ; car ce que tu dis sur Ismaël est faux » (Jérémie 40.13-16). Au repas de Mitspa, Ismaël le frappe (Jérémie 41.1-3) ; le reste, paniqué, fuira en Égypte en y traînant Jérémie, contre la parole de Dieu (Jérémie 43.1-7). La candeur devant le mal averti coûte parfois tout un peuple."
@@ -7498,6 +7582,10 @@
     [
      "Scribe de",
      "jeremie"
+    ],
+    [
+     "Frère",
+     "seraja"
     ]
    ],
    "histoire": "Jérémie dicte, Baruc écrit « dans un livre, sous la dictée de Jérémie » toutes les paroles depuis Josias, puis va les lire dans le temple d'où le prophète est exclu (Jérémie 36.4-10). Le roi Jojakim écoute trois ou quatre colonnes, les coupe au canif et les jette au feu — et Dieu fait tout réécrire, « Beaucoup d'autres paroles semblables y furent encore ajoutées » (Jérémie 36.21-32). On ne brûle pas la parole de Dieu.\n\nAu creux de la tâche, Baruc gémit : « Malheur à moi ! » Dieu lui répond personnellement : « Et toi, rechercherais-tu de grandes choses ? Ne les recherche pas !… et je te donnerai ta vie pour butin, dans tous les lieux où tu iras » (Jérémie 45.1-5). Il achètera aussi le champ d'Anathoth, acte notarié de l'espérance (Jérémie 32.12-16)."
@@ -8267,6 +8355,10 @@
     [
      "A porté la croix de",
      "jesus"
+    ],
+    [
+     "Fils",
+     "rufus"
     ]
    ],
    "histoire": "Jésus épuisé par la flagellation, les soldats « forcèrent à porter la croix de Jésus un passant qui revenait des champs, Simon de Cyrène, père d'Alexandre et de Rufus » (Marc 15.21). Luc précise l'image : « ils le chargèrent de la croix, pour qu'il la porte derrière Jésus » (Luc 23.26) — la définition même du disciple (Luc 9.23).\n\nQue Marc nomme ses fils suggère que l'Église de Rome les connaissait ; Paul salue « Rufus, l'élu du Seigneur, et sa mère, qui est aussi la mienne » (Romains 16.13). Une corvée imposée un matin de Pâque, devenue l'honneur d'une lignée : personne ne porte la croix par hasard."
@@ -9475,6 +9567,14 @@
     [
      "Adversaire",
      "nehemie"
+    ],
+    [
+     "Allié",
+     "tobija"
+    ],
+    [
+     "Allié",
+     "gueschem"
     ]
    ],
    "histoire": "Son arsenal est un manuel complet de l'opposition : la moquerie — « À quoi travaillent ces Juifs impuissants ? » (Néhémie 4.2), relayée par son allié Tobija : « Si un renard s'élance, il renversera leur muraille de pierres ! » (Néhémie 4.3) — puis la menace armée, puis l'invitation piégée — « ayons ensemble une entrevue dans les villages de la vallée d'Ono » —, quatre fois répétée (Néhémie 6.2-4), la lettre ouverte de calomnie, et jusqu'à un prophète soudoyé pour pousser Néhémie à se cacher dans le temple. Réponse de Néhémie, inlassable : « J'ai un grand ouvrage à exécuter, et je ne puis descendre » (Néhémie 6.3), et la prière. La muraille fut achevée en cinquante-deux jours — « toutes les nations… reconnurent que l'œuvre s'était accomplie par la volonté de notre Dieu » (Néhémie 6.15-16)."
@@ -9500,6 +9600,14 @@
     [
      "Roi servi",
      "josias"
+    ],
+    [
+     "Fils",
+     "achikam"
+    ],
+    [
+     "Fils",
+     "guemaria"
     ]
    ],
    "histoire": "Envoyé régler des comptes de travaux, Schaphan revient du temple avec bien plus : « Le sacrificateur Hilkija m'a donné un livre. Et Schaphan le lut devant le roi » (2 Rois 22.10). Cette lecture à voix haute déchire le cœur de Josias et déclenche la réforme la plus profonde de l'histoire de Juda. Schaphan fonde aussi une lignée rare : son fils Achikam sauvera Jérémie de la mort (Jérémie 26.24), son fils Guemaria suppliera le roi de ne pas brûler le rouleau (Jérémie 36.25), son petit-fils Guedalia gouvernera les survivants. Une famille entière du côté de la Parole, sur trois générations."
@@ -12874,6 +12982,10 @@
     [
      "Vainqueur",
      "nebucadnetsar"
+    ],
+    [
+     "Libérateur",
+     "evil-merodac"
     ]
    ],
    "histoire": "À dix-huit ans, il se rend à Nebucadnetsar et part en exil avec sa mère, ses officiers et dix mille captifs, parmi lesquels le jeune Ézéchiel (2 Rois 24.12-16 ; Ézéchiel 1.2). Trente-sept ans plus tard, le nouveau roi de Babylone le tire de prison, « lui parla avec bonté » et le fit manger à sa table tous les jours de sa vie (2 Rois 25.27-30). C'est sur cette note que s'achève le livre des Rois : la lampe de David n'est pas éteinte. Il est l'ancêtre de Zorobabel et figure dans la généalogie de Jésus (Matthieu 1.12)."
@@ -13941,6 +14053,2418 @@
     ]
    ],
    "histoire": "Josué avait juré : « Maudit soit devant l'Éternel l'homme qui se lèvera pour rebâtir cette ville de Jéricho ! Il en jettera les fondements au prix de son premier-né, et il en posera les portes au prix de son plus jeune fils » (Josué 6.26). Plus de cinq siècles plus tard, sous Achab, « Hiel de Béthel bâtit Jéricho ; il en jeta les fondements au prix d'Abiram, son premier-né, et il en posa les portes au prix de Segub, son plus jeune fils, selon la parole que l'Éternel avait dite par Josué » (1 Rois 16.34). La Parole ne vieillit pas."
+  },
+  {
+   "id": "aschpenaz",
+   "nom": "Aschpenaz",
+   "periode": "Exil",
+   "match": [
+    {
+     "v": "Aschpenaz"
+    }
+   ],
+   "passages": [
+    [
+     "Daniel 1",
+     27,
+     1
+    ]
+   ],
+   "bio": "Chef des eunuques de Nebucadnetsar : il reçut Daniel et ses compagnons à Babylone et leur donna des noms chaldéens.",
+   "relations": [
+    [
+     "A servi",
+     "nebucadnetsar"
+    ],
+    [
+     "A formé",
+     "daniel"
+    ],
+    [
+     "A formé",
+     "schadrac"
+    ]
+   ],
+   "histoire": "Le roi donne l'ordre à « Aschpenaz, chef de ses eunuques, d'amener quelques-uns des enfants d'Israël de race royale ou de famille noble » pour les former trois ans aux lettres et à la langue des Chaldéens (Daniel 1.3-5). C'est lui qui rebaptise les jeunes captifs : Daniel devient Beltschatsar, Hanania Schadrac, Mischaël Méschac, Azaria Abed-Nego (Daniel 1.7).\n\nQuand Daniel refuse de se souiller par les mets du roi, le chef des eunuques craint pour sa tête ; pourtant « Dieu fit trouver à Daniel faveur et grâce devant le chef des eunuques » (Daniel 1.9). Dieu prépare des cœurs bienveillants même au palais de l'oppresseur."
+  },
+  {
+   "id": "arjoc",
+   "nom": "Arjoc",
+   "periode": "Exil",
+   "match": [
+    {
+     "v": "Arjoc",
+     "l": [
+      27,
+      27
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Daniel 2",
+     27,
+     2
+    ]
+   ],
+   "bio": "Chef des gardes de Nebucadnetsar, chargé d'exécuter les sages de Babylone ; c'est lui qui introduisit Daniel auprès du roi.",
+   "relations": [
+    [
+     "A servi",
+     "nebucadnetsar"
+    ],
+    [
+     "A présenté",
+     "daniel"
+    ]
+   ],
+   "histoire": "Le roi exige qu'on lui raconte son songe et son explication ; faute de quoi, tous les sages mourront. Daniel s'adresse « d'une manière prudente et sensée à Arjoc, chef des gardes du roi, qui était sorti pour mettre à mort les sages de Babylone » (Daniel 2.14). Après la prière et la révélation de nuit, Daniel lui dit : « Ne fais pas périr les sages de Babylone ! Conduis-moi devant le roi » (Daniel 2.24).\n\nArjoc se présente au roi en disant : « J'ai trouvé parmi les captifs de Juda un homme qui donnera l'explication au roi » (Daniel 2.25). La sagesse de Daniel sauve même ceux qui n'adorent pas son Dieu."
+  },
+  {
+   "id": "nebuzaradan",
+   "nom": "Nebuzaradan",
+   "periode": "Exil",
+   "match": [
+    {
+     "v": "Nebuzaradan"
+    }
+   ],
+   "passages": [
+    [
+     "2 Rois 25",
+     12,
+     25
+    ],
+    [
+     "Jérémie 39",
+     24,
+     39
+    ],
+    [
+     "Jérémie 40",
+     24,
+     40
+    ],
+    [
+     "Jérémie 52",
+     24,
+     52
+    ]
+   ],
+   "bio": "Chef des gardes de Nebucadnetsar : il incendia le temple et Jérusalem en 586 av. J.-C., déporta le peuple et libéra Jérémie.",
+   "relations": [
+    [
+     "A servi",
+     "nebucadnetsar"
+    ],
+    [
+     "A libéré",
+     "jeremie"
+    ],
+    [
+     "A établi",
+     "guedalia"
+    ]
+   ],
+   "histoire": "« Nebuzaradan, chef des gardes, serviteur du roi de Babylone, entra dans Jérusalem. Il brûla la maison de l'Éternel, la maison du roi, et toutes les maisons de Jérusalem » (2 Rois 25.8-9). C'est la fin du premier temple. Il emmène les captifs et laisse « quelques-uns des plus pauvres du pays » comme vignerons et laboureurs (2 Rois 25.11-12).\n\nSur ordre du roi, il veille sur Jérémie : « Prends-le, et veille sur lui ; ne lui fais aucun mal » (Jérémie 39.12). Il le délie de ses chaînes à Rama et reconnaît même : « L'Éternel, ton Dieu, a annoncé ces malheurs contre ce lieu » (Jérémie 40.1-4). Un païen confesse l'accomplissement de la parole de Dieu."
+  },
+  {
+   "id": "evil-merodac",
+   "nom": "Évil-Merodac",
+   "periode": "Exil",
+   "match": [
+    {
+     "v": "Évil-Merodac"
+    }
+   ],
+   "passages": [
+    [
+     "2 Rois 25",
+     12,
+     25
+    ],
+    [
+     "Jérémie 52",
+     24,
+     52
+    ]
+   ],
+   "bio": "Roi de Babylone, fils et successeur de Nebucadnetsar : il tira de prison Jojakin, roi de Juda, après trente-sept ans de captivité.",
+   "relations": [
+    [
+     "Père",
+     "nebucadnetsar"
+    ],
+    [
+     "A relevé",
+     "jojakin"
+    ]
+   ],
+   "histoire": "La dernière page des livres des Rois est une lueur d'espérance. « La trente-septième année de la captivité de Jojakin, roi de Juda […] Évil-Merodac, roi de Babylone, dans la première année de son règne, releva la tête de Jojakin, roi de Juda, et le tira de prison » (2 Rois 25.27).\n\n« Il lui parla avec bonté », lui fit changer ses vêtements de prison, « et Jojakin mangea toujours à sa table tout le temps de sa vie » (2 Rois 25.28-29). La lignée de David n'est pas éteinte : de Jojakin descendront Zorobabel puis, selon la généalogie de Matthieu, le Messie (Matthieu 1.12)."
+  },
+  {
+   "id": "neco",
+   "nom": "Néco",
+   "periode": "Rois",
+   "match": [
+    {
+     "v": "Néco"
+    },
+    {
+     "v": "Neco",
+     "l": [
+      24,
+      24
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "2 Rois 23",
+     12,
+     23
+    ],
+    [
+     "2 Chroniques 35",
+     14,
+     35
+    ],
+    [
+     "2 Chroniques 36",
+     14,
+     36
+    ]
+   ],
+   "bio": "Pharaon d'Égypte : il tua le roi Josias à Meguiddo, détrôna Joachaz et établit Jojakim à sa place.",
+   "relations": [
+    [
+     "A tué",
+     "josias"
+    ],
+    [
+     "A détrôné",
+     "joachaz-juda"
+    ],
+    [
+     "A établi",
+     "jojakim"
+    ]
+   ],
+   "histoire": "« Pharaon Néco, roi d'Égypte, monta contre le roi d'Assyrie, vers le fleuve de l'Euphrate. » Le roi Josias marche à sa rencontre, et Néco le tue à Meguiddo (2 Rois 23.29). Les Chroniques rapportent l'avertissement étonnant de Néco : « Ne t'oppose pas à Dieu, qui est avec moi » — des paroles « qui venaient de la bouche de Dieu », mais que Josias n'écouta pas (2 Chroniques 35.21-22).\n\nNéco enchaîne ensuite Joachaz à Ribla, impose à Juda un tribut de cent talents d'argent, et « établit roi Éliakim, fils de Josias […] et il changea son nom en celui de Jojakim » (2 Rois 23.33-34). Juda n'est plus maître de son destin."
+  },
+  {
+   "id": "achikam",
+   "nom": "Achikam",
+   "periode": "Rois",
+   "match": [
+    {
+     "v": "Achikam",
+     "l": [
+      12,
+      14
+     ]
+    },
+    {
+     "v": "Achikam",
+     "l": [
+      24,
+      24
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "2 Rois 22",
+     12,
+     22
+    ],
+    [
+     "Jérémie 26",
+     24,
+     26
+    ],
+    [
+     "Jérémie 40",
+     24,
+     40
+    ]
+   ],
+   "bio": "Fils de Schaphan, haut fonctionnaire du roi Josias ; il protégea Jérémie de la mort. Père de Guedalia.",
+   "relations": [
+    [
+     "Père",
+     "schaphan"
+    ],
+    [
+     "Fils",
+     "guedalia"
+    ],
+    [
+     "Frère",
+     "guemaria"
+    ],
+    [
+     "A protégé",
+     "jeremie"
+    ],
+    [
+     "A servi",
+     "josias"
+    ]
+   ],
+   "histoire": "Quand on retrouve le livre de la loi dans le temple, Josias envoie le sacrificateur Hilkija, Achikam, fils de Schaphan, et d'autres consulter la prophétesse Hulda (2 Rois 22.12-14). Achikam est de ces hommes qui cherchent la volonté de Dieu.\n\nDes années plus tard, quand la foule veut la mort de Jérémie, « la main d'Achikam, fils de Schaphan, fut avec Jérémie, et empêcha qu'il ne fût livré au peuple pour être mis à mort » (Jérémie 26.24). Son fils Guedalia, gouverneur après la chute de Jérusalem, accueillera à son tour le prophète (Jérémie 40.5-6). Une famille fidèle sur plusieurs générations."
+  },
+  {
+   "id": "guemaria",
+   "nom": "Guemaria",
+   "periode": "Rois",
+   "match": [
+    {
+     "v": "Guemaria",
+     "l": [
+      24,
+      24
+     ],
+     "c": [
+      36,
+      36
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Jérémie 36",
+     24,
+     36
+    ]
+   ],
+   "bio": "Fils de Schaphan, secrétaire au temps de Jojakim : c'est dans sa chambre que Baruc lut le rouleau de Jérémie ; il supplia le roi de ne pas le brûler.",
+   "relations": [
+    [
+     "Père",
+     "schaphan"
+    ],
+    [
+     "Frère",
+     "achikam"
+    ],
+    [
+     "A soutenu",
+     "baruc"
+    ],
+    [
+     "A supplié",
+     "jojakim"
+    ]
+   ],
+   "histoire": "Baruc lit les paroles de Jérémie au peuple « dans la chambre de Guemaria, fils de Schaphan, le secrétaire, dans le parvis supérieur » (Jérémie 36.10). C'est Michée, le fils de Guemaria, qui alerte les chefs (Jérémie 36.11-12).\n\nQuand le roi Jojakim découpe le rouleau et le jette au feu, « Elnathan, Delaja et Guemaria, avaient fait des instances auprès du roi pour qu'il ne brûlât pas le livre ; mais il ne les écouta pas » (Jérémie 36.25). Le rouleau fut récrit ; la parole de Dieu ne brûle pas."
+  },
+  {
+   "id": "jehudi",
+   "nom": "Jehudi",
+   "periode": "Rois",
+   "match": [
+    {
+     "v": "Jehudi"
+    }
+   ],
+   "passages": [
+    [
+     "Jérémie 36",
+     24,
+     36
+    ]
+   ],
+   "bio": "Officier du roi Jojakim : il alla chercher le rouleau de Jérémie et le lut au roi, qui le découpa et le jeta au feu.",
+   "relations": [
+    [
+     "A servi",
+     "jojakim"
+    ],
+    [
+     "Envoyé vers",
+     "baruc"
+    ]
+   ],
+   "histoire": "Les chefs envoient vers Baruc « Jehudi, fils de Nethania, fils de Schélémia, fils de Cuschi » pour qu'il apporte le livre (Jérémie 36.14). Puis le roi l'envoie le chercher, et « il le lut aux oreilles du roi » (Jérémie 36.21).\n\nScène glaçante : le roi est assis devant un brasier ; « Lorsque Jehudi eut lu trois ou quatre feuilles, le roi coupa le livre avec le canif du secrétaire, et le jeta dans le feu du brasier » (Jérémie 36.22-23). Mais Dieu fait récrire toutes les paroles, et d'autres encore (Jérémie 36.28, 32)."
+  },
+  {
+   "id": "paschhur",
+   "nom": "Paschhur",
+   "periode": "Rois",
+   "match": [
+    {
+     "v": "Paschhur",
+     "l": [
+      24,
+      24
+     ],
+     "c": [
+      20,
+      20
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Jérémie 20",
+     24,
+     20
+    ]
+   ],
+   "bio": "Sacrificateur, fils d'Immer et inspecteur en chef du temple : il frappa Jérémie et le mit aux ceps ; le prophète changea son nom en « Magor-Missabib ».",
+   "relations": [
+    [
+     "Adversaire",
+     "jeremie"
+    ]
+   ],
+   "histoire": "« Paschhur, fils d'Immer, sacrificateur et inspecteur en chef dans la maison de l'Éternel » entend Jérémie prophétiser ; il le frappe et le met « dans la prison qui était à la porte supérieure de Benjamin » (Jérémie 20.1-2). Le lendemain, Jérémie lui annonce : « Ce n'est pas le nom de Paschhur que l'Éternel te donne, c'est celui de Magor-Missabib » (Jérémie 20.3), c'est-à-dire terreur de tous côtés.\n\nCelui qui avait prophétisé le mensonge ira lui-même en captivité : « tu iras à Babylone, et là tu mourras » (Jérémie 20.6). Juste après, Jérémie confie sa détresse — et son feu intérieur : « Il y a dans mon cœur comme un feu dévorant » (Jérémie 20.9)."
+  },
+  {
+   "id": "hanameel",
+   "nom": "Hanameel",
+   "periode": "Rois",
+   "match": [
+    {
+     "v": "Hanameel"
+    }
+   ],
+   "passages": [
+    [
+     "Jérémie 32",
+     24,
+     32
+    ]
+   ],
+   "bio": "Cousin de Jérémie, fils de son oncle Schallum : il vendit au prophète son champ d'Anathoth pendant le siège de Jérusalem, signe que le pays revivrait.",
+   "relations": [
+    [
+     "Cousin",
+     "jeremie"
+    ],
+    [
+     "Témoin",
+     "baruc"
+    ]
+   ],
+   "histoire": "Jérusalem est assiégée, Jérémie est en prison, et Dieu lui annonce : « Hanameel, fils de ton oncle Schallum, va venir auprès de toi pour te dire : Achète mon champ qui est à Anathoth » (Jérémie 32.7). Acheter un champ à la veille de la déportation : folie humaine.\n\nJérémie obéit, pèse « dix-sept sicles d'argent », fait signer le contrat devant témoins et le confie à Baruc (Jérémie 32.9-12). Le sens est donné aussitôt : « On achètera encore des maisons, des champs et des vignes, dans ce pays » (Jérémie 32.15). La foi investit dans les promesses de Dieu."
+  },
+  {
+   "id": "seraja",
+   "nom": "Seraja (frère de Baruc)",
+   "periode": "Exil",
+   "match": [
+    {
+     "v": "Seraja",
+     "l": [
+      24,
+      24
+     ],
+     "c": [
+      51,
+      51
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Jérémie 51",
+     24,
+     51
+    ]
+   ],
+   "bio": "Fils de Nérija, fils de Machséja — donc frère de Baruc —, premier chambellan du roi Sédécias ; Jérémie lui confia l'oracle contre Babylone.",
+   "relations": [
+    [
+     "Frère",
+     "baruc"
+    ],
+    [
+     "A servi",
+     "sedecias"
+    ],
+    [
+     "Envoyé de",
+     "jeremie"
+    ]
+   ],
+   "histoire": "La quatrième année de Sédécias, Jérémie charge « Seraja, fils de Nérija, fils de Machséja » (Jérémie 51.59), de la même lignée que Baruc, de porter à Babylone un livre contenant tous les malheurs annoncés contre elle ; « Or, Seraja était premier chambellan » (Jérémie 51.59-60).\n\nUne fois la lecture achevée, il doit y attacher une pierre et le jeter dans l'Euphrate en disant : « Ainsi Babylone sera submergée, elle ne se relèvera pas » (Jérémie 51.63-64). L'empire qui semblait éternel est déjà jugé."
+  },
+  {
+   "id": "ismael-nethania",
+   "nom": "Ismaël, fils de Nethania",
+   "periode": "Exil",
+   "match": [
+    {
+     "v": "Ismaël",
+     "l": [
+      12,
+      12
+     ],
+     "c": [
+      25,
+      25
+     ]
+    },
+    {
+     "v": "Ismaël",
+     "l": [
+      24,
+      24
+     ],
+     "c": [
+      40,
+      41
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "2 Rois 25",
+     12,
+     25
+    ],
+    [
+     "Jérémie 40",
+     24,
+     40
+    ],
+    [
+     "Jérémie 41",
+     24,
+     41
+    ]
+   ],
+   "bio": "Officier de la race royale de Juda : il assassina le gouverneur Guedalia à Mitspa, puis s'enfuit chez les Ammonites.",
+   "relations": [
+    [
+     "A tué",
+     "guedalia"
+    ],
+    [
+     "Poursuivi par",
+     "jochanan-kareach"
+    ]
+   ],
+   "histoire": "Après la chute de Jérusalem, Jochanan avertit Guedalia : « Baalis, roi des Ammonites, a chargé Ismaël, fils de Nethania, de t'ôter la vie » ; mais Guedalia ne le croit pas (Jérémie 40.14-16). Au septième mois, Ismaël, « de la race royale », vient manger avec lui à Mitspa, puis le frappe avec l'épée (Jérémie 41.1-2).\n\nIl massacre encore les Juifs et les Chaldéens présents, emmène captifs les habitants de Mitspa et « les filles du roi » ; rattrapé près des grandes eaux de Gabaon, il s'échappe « avec huit hommes » chez les Ammonites (Jérémie 41.10-15). La jalousie d'un prince ruine le petit reste qui pouvait se relever."
+  },
+  {
+   "id": "jochanan-kareach",
+   "nom": "Jochanan, fils de Karéach",
+   "periode": "Exil",
+   "match": [
+    {
+     "v": "Karéach"
+    }
+   ],
+   "passages": [
+    [
+     "Jérémie 40",
+     24,
+     40
+    ],
+    [
+     "Jérémie 42",
+     24,
+     42
+    ],
+    [
+     "Jérémie 43",
+     24,
+     43
+    ]
+   ],
+   "bio": "Chef des troupes de Juda après la chute de Jérusalem : il délivra les captifs d'Ismaël, puis entraîna le reste du peuple en Égypte contre la parole de Jérémie.",
+   "relations": [
+    [
+     "Poursuivant",
+     "ismael-nethania"
+    ],
+    [
+     "A consulté",
+     "jeremie"
+    ],
+    [
+     "A emmené",
+     "baruc"
+    ]
+   ],
+   "histoire": "Il avertit Guedalia du complot d'Ismaël — en vain (Jérémie 40.13-16). Après le meurtre, il poursuit Ismaël et ramène les captifs (Jérémie 41.11-14). Puis, avec le peuple, il demande à Jérémie de prier : « Que ce soit du bien ou du mal, nous obéirons à la voix de l'Éternel » (Jérémie 42.6).\n\nMais la réponse — rester au pays — ne lui convient pas : « Tu dis un mensonge » (Jérémie 43.2). Il emmène tout le reste de Juda en Égypte, avec Jérémie et Baruc, jusqu'à Tachpanès (Jérémie 43.5-7). Demander la volonté de Dieu ne suffit pas : il faut être prêt à l'accepter."
+  },
+  {
+   "id": "jonadab-recab",
+   "nom": "Jonadab, fils de Récab",
+   "periode": "Rois",
+   "match": [
+    {
+     "v": "Jonadab",
+     "l": [
+      12,
+      12
+     ]
+    },
+    {
+     "v": "Jonadab",
+     "l": [
+      24,
+      24
+     ]
+    },
+    {
+     "v": "Récabites"
+    }
+   ],
+   "passages": [
+    [
+     "2 Rois 10",
+     12,
+     10
+    ],
+    [
+     "Jérémie 35",
+     24,
+     35
+    ]
+   ],
+   "bio": "Allié de Jéhu contre le culte de Baal et père fondateur des Récabites, qui gardèrent pendant des siècles sa règle de vie : pas de vin, pas de maisons.",
+   "relations": [
+    [
+     "Allié",
+     "jehu"
+    ],
+    [
+     "Interpelé par",
+     "jeremie"
+    ]
+   ],
+   "histoire": "Jéhu le rencontre sur sa route : « Ton cœur est-il sincère, comme mon cœur l'est envers le tien ? Et Jonadab répondit : Il l'est » ; Jéhu le fait monter dans son char : « Viens avec moi, et tu verras mon zèle pour l'Éternel » (2 Rois 10.15-16).\n\nDeux siècles et demi plus tard, Jérémie met du vin devant ses descendants, les Récabites ; ils répondent : « Nous ne buvons pas de vin ; car Jonadab, fils de Récab, notre père, nous a donné cet ordre » (Jérémie 35.5-6). Dieu cite leur fidélité en exemple à Juda qui n'écoute pas, et promet : « Jonadab, fils de Récab, ne manquera jamais de descendants qui se tiennent en ma présence » (Jérémie 35.19)."
+  },
+  {
+   "id": "hegai",
+   "nom": "Hégaï",
+   "periode": "Exil",
+   "match": [
+    {
+     "v": "Hégaï"
+    },
+    {
+     "v": "Hégué"
+    }
+   ],
+   "passages": [
+    [
+     "Esther 2",
+     17,
+     2
+    ]
+   ],
+   "bio": "Eunuque du roi Assuérus, gardien des femmes à Suse : Esther trouva grâce à ses yeux.",
+   "relations": [
+    [
+     "A servi",
+     "assuerus"
+    ],
+    [
+     "A favorisé",
+     "esther"
+    ]
+   ],
+   "histoire": "Les jeunes filles sont rassemblées à Suse « sous la surveillance d'Hégaï, gardien des femmes ». Esther est conduite là, et « la jeune fille lui plut, et trouva grâce devant lui » ; il lui donne sept jeunes filles et le meilleur appartement (Esther 2.8-9).\n\nQuand vient son tour, Esther « ne demanda que ce qui fut désigné par Hégaï » (Esther 2.15). Son humilité et sa confiance dans le conseil de celui qui connaissait le roi font partie du chemin par lequel Dieu prépare la délivrance de son peuple."
+  },
+  {
+   "id": "hathac",
+   "nom": "Hathac",
+   "periode": "Exil",
+   "match": [
+    {
+     "v": "Hathac"
+    }
+   ],
+   "passages": [
+    [
+     "Esther 4",
+     17,
+     4
+    ]
+   ],
+   "bio": "Eunuque placé auprès de la reine Esther : messager entre elle et Mardochée au moment de l'édit de massacre.",
+   "relations": [
+    [
+     "A servi",
+     "esther"
+    ],
+    [
+     "Messager vers",
+     "mardochee"
+    ]
+   ],
+   "histoire": "Quand Mardochée prend le sac et la cendre, « Esther appela Hathac, l'un des eunuques que le roi avait placés auprès d'elle » pour savoir ce qui se passe (Esther 4.5). Hathac rapporte la copie de l'édit et la demande de Mardochée : qu'Esther aille implorer le roi (Esther 4.7-9).\n\nC'est par lui que passe la parole décisive : « Et qui sait si ce n'est pas pour un temps comme celui-ci que tu es parvenue à la royauté ? » (Esther 4.14). Un simple messager fidèle au service d'un tournant de l'histoire."
+  },
+  {
+   "id": "zeresch",
+   "nom": "Zéresch",
+   "periode": "Exil",
+   "match": [
+    {
+     "v": "Zéresch"
+    }
+   ],
+   "passages": [
+    [
+     "Esther 5",
+     17,
+     5
+    ],
+    [
+     "Esther 6",
+     17,
+     6
+    ]
+   ],
+   "bio": "Femme d'Haman : elle lui conseilla de dresser un bois pour y pendre Mardochée, puis prédit sa chute.",
+   "relations": [
+    [
+     "Mari",
+     "haman"
+    ],
+    [
+     "Ennemie de",
+     "mardochee"
+    ]
+   ],
+   "histoire": "Haman ne supporte pas de voir Mardochée à la porte du roi. « Zéresch, sa femme, et tous ses amis lui dirent : Qu'on prépare un bois haut de cinquante coudées, et demain matin demande au roi qu'on y pende Mardochée » (Esther 5.14).\n\nMais le lendemain, Haman doit honorer Mardochée devant toute la ville. Zéresch change alors de ton : « Si Mardochée, devant lequel tu as commencé de tomber, est de la race des Juifs, tu ne pourras rien contre lui, mais tu tomberas devant lui » (Esther 6.13). Même les ennemis pressentent que Dieu garde son peuple."
+  },
+  {
+   "id": "scheschbatsar",
+   "nom": "Scheschbatsar",
+   "periode": "Retour d'exil",
+   "match": [
+    {
+     "v": "Scheschbatsar"
+    }
+   ],
+   "passages": [
+    [
+     "Esdras 1",
+     15,
+     1
+    ],
+    [
+     "Esdras 5",
+     15,
+     5
+    ]
+   ],
+   "bio": "« Prince de Juda » à qui Cyrus remit les ustensiles du temple ; premier gouverneur du retour, il posa les fondements de la maison de Dieu.",
+   "relations": [
+    [
+     "Nommé par",
+     "cyrus"
+    ]
+   ],
+   "histoire": "Cyrus fait sortir les ustensiles du temple et les remet « à Scheschbatsar, prince de Juda » : 5 400 objets d'or et d'argent, que Scheschbatsar emporte « de Babylone à Jérusalem, au retour de la captivité » (Esdras 1.8-11).\n\nLa lettre envoyée plus tard à Darius rappelle que Cyrus l'avait établi gouverneur, et que « ce Scheschbatsar est donc venu, et il a posé les fondements de la maison de Dieu à Jérusalem » (Esdras 5.14-16). Les objets profanés à Babylone retrouvent leur place : Dieu restaure ce qui avait été pris."
+  },
+  {
+   "id": "thathnai",
+   "nom": "Thathnaï",
+   "periode": "Retour d'exil",
+   "match": [
+    {
+     "v": "Thathnaï"
+    }
+   ],
+   "passages": [
+    [
+     "Esdras 5",
+     15,
+     5
+    ],
+    [
+     "Esdras 6",
+     15,
+     6
+    ]
+   ],
+   "bio": "Gouverneur perse de la province « de ce côté du fleuve » : il contesta la reconstruction du temple, puis dut la soutenir sur ordre de Darius.",
+   "relations": [
+    [
+     "A servi",
+     "darius"
+    ],
+    [
+     "A enquêté sur",
+     "zorobabel"
+    ]
+   ],
+   "histoire": "Alors que Zorobabel et Josué rebâtissent le temple, « Thathnaï, gouverneur de ce côté du fleuve, Schethar-Boznaï, et leurs collègues » demandent : « Qui vous a donné l'autorisation de bâtir cette maison et de relever ces murs ? » (Esdras 5.3). Mais « l'œil de Dieu veillait sur les anciens des Juifs », et l'on ne les arrête pas pendant l'enquête (Esdras 5.5).\n\nDarius retrouve le décret de Cyrus et ordonne même de financer les travaux. « Thathnaï […] se conformèrent ponctuellement à cet ordre » (Esdras 6.13). L'opposition devient la source du financement."
+  },
+  {
+   "id": "artaxerxes",
+   "nom": "Artaxerxès",
+   "periode": "Retour d'exil",
+   "match": [
+    {
+     "v": "Artaxerxès"
+    }
+   ],
+   "passages": [
+    [
+     "Esdras 7",
+     15,
+     7
+    ],
+    [
+     "Néhémie 2",
+     16,
+     2
+    ],
+    [
+     "Néhémie 13",
+     16,
+     13
+    ]
+   ],
+   "bio": "Roi de Perse : il envoya Esdras enseigner la loi à Jérusalem, puis permit à son échanson Néhémie d'en relever les murailles.",
+   "relations": [
+    [
+     "A envoyé",
+     "esdras"
+    ],
+    [
+     "Échanson",
+     "nehemie"
+    ]
+   ],
+   "histoire": "Il écrit « Artaxerxès, roi des rois, à Esdras, sacrificateur et scribe » une lettre qui l'autorise à rentrer et à orner le temple (Esdras 7.11-12) ; et Esdras bénit Dieu « qui a disposé le cœur du roi » (Esdras 7.27).\n\nLa vingtième année de son règne, il remarque la tristesse de son échanson : « Pourquoi as-tu mauvais visage ? » Néhémie prie le Dieu des cieux puis demande à partir rebâtir Jérusalem. « Le roi me donna ces lettres, car la bonne main de mon Dieu était sur moi » (Néhémie 2.1-8). Les cœurs des rois sont dans la main de Dieu (Proverbes 21.1)."
+  },
+  {
+   "id": "tobija",
+   "nom": "Tobija",
+   "periode": "Retour d'exil",
+   "match": [
+    {
+     "v": "Tobija",
+     "l": [
+      16,
+      16
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Néhémie 2",
+     16,
+     2
+    ],
+    [
+     "Néhémie 4",
+     16,
+     4
+    ],
+    [
+     "Néhémie 6",
+     16,
+     6
+    ],
+    [
+     "Néhémie 13",
+     16,
+     13
+    ]
+   ],
+   "bio": "« Le serviteur ammonite », allié de Sanballat contre la reconstruction des murailles ; apparenté au sacrificateur Éliaschib, il s'installa dans le temple jusqu'à ce que Néhémie l'en chasse.",
+   "relations": [
+    [
+     "Allié",
+     "sanballat"
+    ],
+    [
+     "Allié",
+     "gueschem"
+    ],
+    [
+     "Adversaire",
+     "nehemie"
+    ],
+    [
+     "Parent",
+     "eliaschib"
+    ]
+   ],
+   "histoire": "Dès l'arrivée de Néhémie, Sanballat et « Tobija, le serviteur ammonite » ont « un grand déplaisir de ce qu'il venait un homme pour chercher le bien des enfants d'Israël » (Néhémie 2.10). Il raille : « Qu'ils bâtissent seulement ! Si un renard s'élance, il renversera leur muraille de pierres ! » (Néhémie 4.3). Il paie un faux prophète pour effrayer Néhémie (Néhémie 6.12) et entretient un réseau de grands de Juda liés à lui par mariage (Néhémie 6.17-19).\n\nPendant une absence de Néhémie, le sacrificateur Éliaschib lui aménage une grande chambre dans les parvis du temple. Néhémie, à son retour, jette dehors tous ses objets et fait purifier les chambres (Néhémie 13.4-9). La maison de Dieu n'est pas un salon pour ses ennemis."
+  },
+  {
+   "id": "gueschem",
+   "nom": "Guéschem l'Arabe",
+   "periode": "Retour d'exil",
+   "match": [
+    {
+     "v": "Guéschem"
+    }
+   ],
+   "passages": [
+    [
+     "Néhémie 2",
+     16,
+     2
+    ],
+    [
+     "Néhémie 6",
+     16,
+     6
+    ]
+   ],
+   "bio": "Chef arabe, troisième ennemi de Néhémie avec Sanballat et Tobija ; il tenta d'attirer Néhémie dans un piège dans la vallée d'Ono.",
+   "relations": [
+    [
+     "Allié",
+     "sanballat"
+    ],
+    [
+     "Allié",
+     "tobija"
+    ],
+    [
+     "Adversaire",
+     "nehemie"
+    ]
+   ],
+   "histoire": "« Sanballat, le Horonite, Tobija, le serviteur ammonite, et Guéschem, l'Arabe » se moquent : « Vous révoltez-vous contre le roi ? » Néhémie répond : « Le Dieu des cieux nous donnera le succès. Nous, ses serviteurs, nous nous lèverons et nous bâtirons » (Néhémie 2.19-20).\n\nQuand la muraille est presque achevée, Sanballat et Guéschem l'invitent à une entrevue « dans les villages de la vallée d'Ono. Ils avaient médité de me faire du mal » (Néhémie 6.2). Néhémie refuse : il fait un grand ouvrage et ne peut pas descendre (Néhémie 6.3)."
+  },
+  {
+   "id": "eliaschib",
+   "nom": "Éliaschib",
+   "periode": "Retour d'exil",
+   "match": [
+    {
+     "v": "Éliaschib",
+     "l": [
+      16,
+      16
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Néhémie 3",
+     16,
+     3
+    ],
+    [
+     "Néhémie 12",
+     16,
+     12
+    ],
+    [
+     "Néhémie 13",
+     16,
+     13
+    ]
+   ],
+   "bio": "Souverain sacrificateur au temps de Néhémie : il rebâtit la porte des brebis, mais logea Tobija l'Ammonite dans les chambres du temple.",
+   "relations": [
+    [
+     "A bâti avec",
+     "nehemie"
+    ],
+    [
+     "Parent",
+     "tobija"
+    ]
+   ],
+   "histoire": "Il ouvre le chantier : « Éliaschib, le souverain sacrificateur, se leva avec ses frères, les sacrificateurs, et ils bâtirent la porte des brebis » (Néhémie 3.1). Il est petit-fils de Josué, le grand prêtre du retour (Néhémie 12.10).\n\nMais, « parent de Tobija », il dispose pour lui une grande chambre où l'on mettait les offrandes (Néhémie 13.4-5) ; et l'un de ses petits-fils devient « gendre de Sanballat, le Horonite » (Néhémie 13.28). Avoir bien commencé ne garantit pas de bien finir : la vigilance spirituelle se garde jusqu'au bout."
+  },
+  {
+   "id": "noadia",
+   "nom": "Noadia",
+   "periode": "Retour d'exil",
+   "match": [
+    {
+     "v": "Noadia",
+     "l": [
+      16,
+      16
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Néhémie 6",
+     16,
+     6
+    ]
+   ],
+   "bio": "Prophétesse qui, avec d'autres faux prophètes, chercha à effrayer Néhémie pour arrêter la reconstruction.",
+   "relations": [
+    [
+     "Adversaire",
+     "nehemie"
+    ]
+   ],
+   "histoire": "Néhémie a déjoué la ruse de Schemaeja, payé par Sanballat et Tobija pour le pousser à se cacher dans le temple (Néhémie 6.10-13). Il remet alors ses adversaires entre les mains de Dieu : « Souviens-toi, ô mon Dieu, de Tobija et de Sanballat, et de leurs œuvres ! Souviens-toi aussi de Noadia, la prophétesse, et des autres prophètes qui cherchaient à m'effrayer ! » (Néhémie 6.14).\n\nUn titre spirituel ne garantit pas une parole de Dieu : toute prophétie s'éprouve (1 Jean 4.1). Malgré l'intimidation, la muraille est achevée en cinquante-deux jours (Néhémie 6.15)."
+  },
+  {
+   "id": "hanani-nehemie",
+   "nom": "Hanani (frère de Néhémie)",
+   "periode": "Retour d'exil",
+   "match": [
+    {
+     "v": "Hanani",
+     "l": [
+      16,
+      16
+     ],
+     "c": [
+      1,
+      7
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Néhémie 1",
+     16,
+     1
+    ],
+    [
+     "Néhémie 7",
+     16,
+     7
+    ]
+   ],
+   "bio": "Frère de Néhémie : il apporta à Suse les nouvelles de Jérusalem en ruines, puis reçut avec Hanania la garde de la ville rebâtie.",
+   "relations": [
+    [
+     "Frère",
+     "nehemie"
+    ]
+   ],
+   "histoire": "Tout commence par sa visite : « Hanani, l'un de mes frères, et quelques hommes arrivèrent de Juda. » Ils décrivent les rescapés « au comble du malheur et de l'opprobre ; les murailles de Jérusalem sont en ruines » (Néhémie 1.2-3). Néhémie s'assoit, pleure, jeûne et prie (Néhémie 1.4).\n\nUne fois la muraille achevée, Néhémie confie la ville « à Hanani, mon frère, et à Hanania, chef de la citadelle de Jérusalem » (Néhémie 7.2). Celui qui a porté le fardeau de la nouvelle porte aussi la responsabilité de la garde."
+  },
+  {
+   "id": "auguste",
+   "nom": "César Auguste",
+   "periode": "Ier siècle",
+   "match": [
+    {
+     "v": "Auguste",
+     "l": [
+      42,
+      42
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Luc 2",
+     42,
+     2
+    ]
+   ],
+   "bio": "Premier empereur romain : son édit de recensement conduisit Joseph et Marie à Bethléhem, où Jésus devait naître.",
+   "relations": [
+    [
+     "Contemporain de",
+     "jesus"
+    ],
+    [
+     "Recensement de",
+     "joseph-nt"
+    ]
+   ],
+   "histoire": "« En ce temps-là parut un édit de César Auguste, ordonnant un recensement de toute la terre » (Luc 2.1). L'homme le plus puissant du monde signe un décret administratif ; Joseph, « de la maison et de la famille de David », doit monter de Nazareth à Bethléhem avec Marie, enceinte (Luc 2.4-5).\n\nSans le savoir, l'empereur fait accomplir la prophétie : le Messie naîtra à Bethléhem (Michée 5.1). Dieu conduit l'histoire du monde au service de son plan de salut."
+  },
+  {
+   "id": "quirinius",
+   "nom": "Quirinius",
+   "periode": "Ier siècle",
+   "match": [
+    {
+     "v": "Quirinius"
+    }
+   ],
+   "passages": [
+    [
+     "Luc 2",
+     42,
+     2
+    ]
+   ],
+   "bio": "Gouverneur romain de Syrie au moment du premier recensement mentionné par Luc, à la naissance de Jésus.",
+   "relations": [
+    [
+     "Sous",
+     "auguste"
+    ]
+   ],
+   "histoire": "Luc, en historien soigneux, date la naissance de Jésus : « Ce premier recensement eut lieu pendant que Quirinius était gouverneur de Syrie » (Luc 2.2). Il avait annoncé avoir fait « des recherches exactes sur toutes ces choses depuis leur origine » (Luc 1.3).\n\nL'Évangile ne raconte pas un mythe hors du temps : il s'ancre dans des noms, des fonctions et des lieux réels. La foi chrétienne repose sur des faits."
+  },
+  {
+   "id": "archelaus",
+   "nom": "Archélaüs",
+   "periode": "Ier siècle",
+   "match": [
+    {
+     "v": "Archélaüs"
+    }
+   ],
+   "passages": [
+    [
+     "Matthieu 2",
+     40,
+     2
+    ]
+   ],
+   "bio": "Fils d'Hérode le Grand, qui régna sur la Judée après lui ; par crainte de lui, Joseph s'établit en Galilée, à Nazareth.",
+   "relations": [
+    [
+     "Dynastie",
+     "herode"
+    ],
+    [
+     "Craint par",
+     "joseph-nt"
+    ]
+   ],
+   "histoire": "Au retour d'Égypte, Joseph apprend « qu'Archélaüs régnait sur la Judée à la place d'Hérode, son père » ; il craint de s'y rendre et, « divinement averti en songe, il se retira dans le territoire de la Galilée » (Matthieu 2.22).\n\nC'est ainsi que Jésus grandit à Nazareth, « afin que s'accomplît ce qui avait été annoncé par les prophètes : Il sera appelé Nazaréen » (Matthieu 2.23). Même la peur d'un tyran sert la conduite de Dieu."
+  },
+  {
+   "id": "tibere",
+   "nom": "Tibère César",
+   "periode": "Ier siècle",
+   "match": [
+    {
+     "v": "Tibère"
+    }
+   ],
+   "passages": [
+    [
+     "Luc 3",
+     42,
+     3
+    ]
+   ],
+   "bio": "Empereur romain successeur d'Auguste : la quinzième année de son règne, la parole de Dieu fut adressée à Jean-Baptiste.",
+   "relations": [
+    [
+     "Successeur de",
+     "auguste"
+    ],
+    [
+     "Sous lui",
+     "pilate"
+    ],
+    [
+     "Sous lui",
+     "jean-baptiste"
+    ]
+   ],
+   "histoire": "Luc ouvre le ministère de Jean-Baptiste par une datation solennelle : « La quinzième année du règne de Tibère César » (Luc 3.1), quand Ponce Pilate gouverne la Judée et Hérode la Galilée. Puis, après les empereurs, tétrarques et grands prêtres, vient l'essentiel : « la parole de Dieu fut adressée à Jean, fils de Zacharie, dans le désert » (Luc 3.2).\n\nLes puissants occupent le décor ; la parole de Dieu, elle, choisit un homme au désert."
+  },
+  {
+   "id": "lysanias",
+   "nom": "Lysanias",
+   "periode": "Ier siècle",
+   "match": [
+    {
+     "v": "Lysanias"
+    }
+   ],
+   "passages": [
+    [
+     "Luc 3",
+     42,
+     3
+    ]
+   ],
+   "bio": "Tétrarque de l'Abilène, au nord-ouest de Damas, cité par Luc pour dater le début du ministère de Jean-Baptiste.",
+   "relations": [
+    [
+     "Contemporain de",
+     "tibere"
+    ],
+    [
+     "Contemporain de",
+     "jean-baptiste"
+    ]
+   ],
+   "histoire": "Dans la liste des souverains qui ouvre Luc 3, on lit : « Lysanias tétrarque de l'Abilène » (Luc 3.1). Un nom obscur que les inscriptions antiques ont confirmé : la précision de Luc se vérifie jusque dans les détails.\n\nC'est sur cet arrière-plan politique que « la parole de Dieu fut adressée à Jean, fils de Zacharie, dans le désert » (Luc 3.2)."
+  },
+  {
+   "id": "claude-empereur",
+   "nom": "Claude (empereur)",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Claude",
+     "l": [
+      44,
+      44
+     ],
+     "c": [
+      11,
+      18
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Actes 11",
+     44,
+     11
+    ],
+    [
+     "Actes 18",
+     44,
+     18
+    ]
+   ],
+   "bio": "Empereur romain : sous son règne survint la famine annoncée par Agabus, et il expulsa les Juifs de Rome, ce qui amena Aquilas et Priscille à Corinthe.",
+   "relations": [
+    [
+     "Famine annoncée par",
+     "agabus"
+    ],
+    [
+     "A expulsé",
+     "aquilas"
+    ],
+    [
+     "A expulsé",
+     "priscille"
+    ]
+   ],
+   "histoire": "À Antioche, le prophète Agabus « annonça par l'Esprit qu'il y aurait une grande famine sur toute la terre. Elle arriva, en effet, sous Claude » (Actes 11.28). Les disciples envoient alors des secours aux frères de Judée, par Barnabas et Saul (Actes 11.29-30).\n\nPlus tard, Paul rencontre à Corinthe Aquilas et sa femme Priscille, arrivés d'Italie « parce que Claude avait ordonné à tous les Juifs de sortir de Rome » (Actes 18.2). Un décret d'expulsion devient le point de départ d'une des plus belles collaborations missionnaires."
+  },
+  {
+   "id": "berenice",
+   "nom": "Bérénice",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Bérénice"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 25",
+     44,
+     25
+    ],
+    [
+     "Actes 26",
+     44,
+     26
+    ]
+   ],
+   "bio": "Sœur du roi Agrippa II : elle assista avec lui à la défense de Paul à Césarée.",
+   "relations": [
+    [
+     "Frère",
+     "agrippa"
+    ],
+    [
+     "A entendu",
+     "paul"
+    ],
+    [
+     "Contemporaine de",
+     "festus"
+    ]
+   ],
+   "histoire": "« Le roi Agrippa et Bérénice arrivèrent à Césarée, pour saluer Festus » (Actes 25.13). Le lendemain, ils viennent « en grande pompe » dans la salle d'audience, et Paul est amené (Actes 25.23).\n\nPaul raconte sa conversion ; Agrippa lui dit : « Tu vas bientôt me persuader de devenir chrétien ! » Puis le roi, le gouverneur, Bérénice et leur suite se lèvent et concluent : « Cet homme n'a rien fait qui mérite la mort ou la prison » (Actes 26.28-31). Entendre l'Évangile de près ne suffit pas : il faut y répondre."
+  },
+  {
+   "id": "drusille",
+   "nom": "Drusille",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Drusille"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 24",
+     44,
+     24
+    ]
+   ],
+   "bio": "Femme juive du gouverneur Félix : avec lui, elle entendit Paul parler de la foi en Christ.",
+   "relations": [
+    [
+     "Mari",
+     "felix"
+    ],
+    [
+     "A entendu",
+     "paul"
+    ]
+   ],
+   "histoire": "« Félix vint avec Drusille, sa femme, qui était Juive, et il fit appeler Paul. Il l'entendit sur la foi en Christ » (Actes 24.24).\n\nMais quand Paul parle « sur la justice, sur la tempérance, et sur le jugement à venir », Félix, effrayé, coupe court : « Pour le moment retire-toi ; quand j'en trouverai l'occasion, je te rappellerai » (Actes 24.25). Le moment favorable remis à plus tard ne revient pas toujours (2 Corinthiens 6.2)."
+  },
+  {
+   "id": "gallion",
+   "nom": "Gallion",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Gallion"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 18",
+     44,
+     18
+    ]
+   ],
+   "bio": "Proconsul romain d'Achaïe à Corinthe : il refusa de juger Paul, jugeant l'affaire purement religieuse.",
+   "relations": [
+    [
+     "A refusé de juger",
+     "paul"
+    ],
+    [
+     "Témoin de l'agression contre",
+     "sosthene"
+    ]
+   ],
+   "histoire": "« Du temps que Gallion était proconsul de l'Achaïe, les Juifs se soulevèrent unanimement contre Paul » et le mènent au tribunal (Actes 18.12). Avant même que Paul parle, Gallion tranche : « s'il s'agit de discussions sur une parole, sur des noms, et sur votre loi, cela vous regarde : je ne veux pas être juge de ces choses » (Actes 18.15).\n\nCette décision protège la mission de Paul à Corinthe, où le Seigneur lui avait dit : « personne ne mettra la main sur toi pour te faire du mal » (Actes 18.10). Une inscription de Delphes permet de dater ce proconsulat vers 51-52."
+  },
+  {
+   "id": "claude-lysias",
+   "nom": "Claude Lysias",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Lysias"
+    },
+    {
+     "v": "tribun",
+     "l": [
+      44,
+      44
+     ],
+     "c": [
+      21,
+      22
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Actes 21",
+     44,
+     21
+    ],
+    [
+     "Actes 22",
+     44,
+     22
+    ],
+    [
+     "Actes 23",
+     44,
+     23
+    ]
+   ],
+   "bio": "Tribun de la cohorte romaine à Jérusalem : il arracha Paul à la foule, découvrit qu'il était citoyen romain et l'envoya sous escorte à Césarée.",
+   "relations": [
+    [
+     "A protégé",
+     "paul"
+    ],
+    [
+     "A écrit à",
+     "felix"
+    ]
+   ],
+   "histoire": "Quand la foule veut tuer Paul au temple, le tribun accourt avec ses soldats et le fait lier de deux chaînes (Actes 21.31-33). Sur le point de le faire fouetter, il apprend qu'il est romain : « C'est avec beaucoup d'argent que j'ai acquis ce droit de citoyen. Et moi, dit Paul, je l'ai par ma naissance » (Actes 22.28).\n\nInformé d'un complot, il expédie Paul de nuit à Césarée avec une escorte de deux cents soldats, soixante-dix cavaliers et deux cents archers (Actes 23.23-24), et écrit : « Claude Lysias au très excellent gouverneur Félix, salut ! » (Actes 23.26). Dieu tient sa promesse : Paul témoignera aussi à Rome (Actes 23.11)."
+  },
+  {
+   "id": "tertulle",
+   "nom": "Tertulle",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Tertulle"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 24",
+     44,
+     24
+    ]
+   ],
+   "bio": "Orateur engagé par le grand prêtre Ananias pour accuser Paul devant le gouverneur Félix.",
+   "relations": [
+    [
+     "Engagé par",
+     "ananias-grand-pretre"
+    ],
+    [
+     "Accusateur de",
+     "paul"
+    ],
+    [
+     "A plaidé devant",
+     "felix"
+    ]
+   ],
+   "histoire": "« Cinq jours après, arriva le souverain sacrificateur Ananias, avec des anciens et un orateur nommé Tertulle » (Actes 24.1). Il commence par flatter le gouverneur (Actes 24.3), puis accuse : « Nous avons trouvé cet homme, qui est une peste, qui excite des divisions parmi tous les Juifs du monde, qui est chef de la secte des Nazaréens » (Actes 24.5).\n\nPaul répond calmement, sans flatterie, en confessant sa foi : « je sers le Dieu de mes pères selon la voie qu'ils appellent une secte, croyant tout ce qui est écrit dans la loi et dans les prophètes » (Actes 24.14). La vérité n'a pas besoin d'éloquence achetée."
+  },
+  {
+   "id": "ananias-grand-pretre",
+   "nom": "Ananias (souverain sacrificateur)",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Ananias",
+     "l": [
+      44,
+      44
+     ],
+     "c": [
+      23,
+      24
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Actes 23",
+     44,
+     23
+    ],
+    [
+     "Actes 24",
+     44,
+     24
+    ]
+   ],
+   "bio": "Souverain sacrificateur qui fit frapper Paul sur la bouche devant le sanhédrin, puis descendit à Césarée pour l'accuser.",
+   "relations": [
+    [
+     "Adversaire",
+     "paul"
+    ],
+    [
+     "A engagé",
+     "tertulle"
+    ]
+   ],
+   "histoire": "Paul commence sa défense devant le sanhédrin ; « Le souverain sacrificateur Ananias ordonna à ceux qui étaient près de lui de le frapper sur la bouche. » Paul réplique : « Dieu te frappera, muraille blanchie ! » puis, apprenant à qui il parle, cite la loi : « Tu ne parleras pas mal du chef de ton peuple » (Actes 23.2-5).\n\nCinq jours plus tard, Ananias descend à Césarée avec l'orateur Tertulle pour accuser Paul devant Félix (Actes 24.1). À ne pas confondre avec Ananias de Damas, qui imposa les mains à Paul, ni avec le mari de Saphira."
+  },
+  {
+   "id": "julius",
+   "nom": "Julius",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Julius"
+    },
+    {
+     "v": "centenier",
+     "l": [
+      44,
+      44
+     ],
+     "c": [
+      27,
+      27
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Actes 27",
+     44,
+     27
+    ]
+   ],
+   "bio": "Centenier de la cohorte Auguste chargé de conduire Paul prisonnier à Rome ; il le traita avec bienveillance et lui sauva la vie lors du naufrage.",
+   "relations": [
+    [
+     "A escorté",
+     "paul"
+    ],
+    [
+     "Avec",
+     "aristarque"
+    ],
+    [
+     "Avec",
+     "luc"
+    ]
+   ],
+   "histoire": "On remet Paul « à un centenier de la cohorte Auguste, nommé Julius » ; dès Sidon, « Julius, qui traitait Paul avec bienveillance, lui permit d'aller chez ses amis et de recevoir leurs soins » (Actes 27.1-3). Il écoute pourtant le pilote plutôt que l'avertissement de Paul (Actes 27.11), et la tempête éclate.\n\nAu naufrage, les soldats veulent tuer les prisonniers, « Mais le centenier, qui voulait sauver Paul, les empêcha d'exécuter ce dessein » ; « tous parvinrent à terre sains et saufs » (Actes 27.42-44). Dieu avait promis à Paul la vie de tous ceux qui naviguaient avec lui (Actes 27.24)."
+  },
+  {
+   "id": "demetrius-orfevre",
+   "nom": "Démétrius l'orfèvre",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Démétrius",
+     "l": [
+      44,
+      44
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Actes 19",
+     44,
+     19
+    ]
+   ],
+   "bio": "Orfèvre d'Éphèse qui fabriquait des temples de Diane en argent ; il provoqua une émeute contre Paul, dont la prédication ruinait son commerce.",
+   "relations": [
+    [
+     "Adversaire",
+     "paul"
+    ],
+    [
+     "A fait saisir",
+     "aristarque"
+    ]
+   ],
+   "histoire": "« Un nommé Démétrius, orfèvre, fabriquait en argent des temples de Diane. » Il rassemble les artisans : « ce Paul a persuadé et détourné une foule de gens, en disant que les dieux faits de main d'homme ne sont pas des dieux » (Actes 19.24-26). L'Évangile touche jusqu'aux portefeuilles.\n\nLa ville entière s'enflamme et crie pendant près de deux heures : « Grande est la Diane des Éphésiens ! » (Actes 19.34). Le secrétaire de la ville finit par calmer la foule : « Si donc Démétrius et ses ouvriers ont à se plaindre de quelqu'un, il y a des jours d'audience » (Actes 19.38)."
+  },
+  {
+   "id": "joseph-barsabbas",
+   "nom": "Joseph Barsabbas",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Barsabbas"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 1",
+     44,
+     1
+    ]
+   ],
+   "bio": "Disciple qui avait suivi Jésus depuis le baptême de Jean ; présenté avec Matthias pour remplacer Judas, il ne fut pas choisi par le sort.",
+   "relations": [
+    [
+     "Candidat avec",
+     "matthias"
+    ],
+    [
+     "Témoin de",
+     "jesus"
+    ]
+   ],
+   "histoire": "Pour remplacer Judas, il faut un homme qui ait accompagné les apôtres « tout le temps que le Seigneur Jésus a vécu avec nous », témoin de la résurrection. « Ils en présentèrent deux : Joseph appelé Barsabbas, surnommé Justus, et Matthias » (Actes 1.21-23).\n\nOn prie, on tire au sort, « et le sort tomba sur Matthias » (Actes 1.26). Barsabbas n'est plus nommé — mais il reste celui qui a suivi Jésus du début à la fin. Être fidèle ne dépend pas d'un titre."
+  },
+  {
+   "id": "judas-barsabas",
+   "nom": "Jude Barsabas",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Barsabas"
+    },
+    {
+     "v": "Jude",
+     "l": [
+      44,
+      44
+     ],
+     "c": [
+      15,
+      15
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Actes 15",
+     44,
+     15
+    ]
+   ],
+   "bio": "Prophète de l'Église de Jérusalem, envoyé à Antioche avec Silas pour porter la lettre du concile.",
+   "relations": [
+    [
+     "Envoyé avec",
+     "silas"
+    ],
+    [
+     "Avec",
+     "paul"
+    ],
+    [
+     "Avec",
+     "barnabas"
+    ]
+   ],
+   "histoire": "Après le concile de Jérusalem, l'Église choisit d'envoyer à Antioche, avec Paul et Barnabas, « Jude appelé Barsabas et Silas, hommes considérés entre les frères » (Actes 15.22). Ils remettent la lettre qui libère les croyants d'origine païenne du joug de la loi.\n\n« Jude et Silas, qui étaient eux-mêmes prophètes, les exhortèrent et les fortifièrent par plusieurs discours » (Actes 15.32). Le don de prophétie au service de l'encouragement de l'Église (1 Corinthiens 14.3)."
+  },
+  {
+   "id": "sept-diacres",
+   "nom": "Les Sept (Prochore, Nicanor, Timon, Parménas, Nicolas)",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Prochore"
+    },
+    {
+     "v": "Nicanor"
+    },
+    {
+     "v": "Parménas"
+    },
+    {
+     "v": "Nicolas",
+     "l": [
+      44,
+      44
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Actes 6",
+     44,
+     6
+    ]
+   ],
+   "bio": "Les sept hommes « pleins d'Esprit-Saint et de sagesse » choisis pour le service des tables à Jérusalem, dont Étienne et Philippe.",
+   "relations": [
+    [
+     "Avec",
+     "etienne"
+    ],
+    [
+     "Avec",
+     "philippe-evangeliste"
+    ]
+   ],
+   "histoire": "Les veuves des Hellénistes sont négligées dans la distribution quotidienne. Les apôtres demandent de choisir « sept hommes, de qui l'on rende un bon témoignage, qui soient pleins d'Esprit-Saint et de sagesse » (Actes 6.3). On élit « Étienne, homme plein de foi et d'Esprit-Saint, Philippe, Prochore, Nicanor, Timon, Parménas, et Nicolas, prosélyte d'Antioche » (Actes 6.5).\n\nAprès la prière et l'imposition des mains, « La parole de Dieu se répandait de plus en plus » (Actes 6.7). Le service pratique est un ministère spirituel : il libère la Parole."
+  },
+  {
+   "id": "simon-corroyeur",
+   "nom": "Simon le corroyeur",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "corroyeur",
+     "l": [
+      44,
+      44
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Actes 9",
+     44,
+     9
+    ],
+    [
+     "Actes 10",
+     44,
+     10
+    ]
+   ],
+   "bio": "Tanneur de Joppé chez qui Pierre logea ; c'est sur son toit que Pierre eut la vision qui ouvrit l'Évangile aux païens.",
+   "relations": [
+    [
+     "A hébergé",
+     "pierre"
+    ],
+    [
+     "Messagers de",
+     "corneille"
+    ]
+   ],
+   "histoire": "Après la résurrection de Dorcas, « Pierre demeura quelque temps à Joppé, chez un corroyeur nommé Simon » (Actes 9.43). Un métier impur aux yeux des plus stricts — le travail des peaux de bêtes mortes — et c'est là que Pierre séjourne.\n\nL'ange dit à Corneille d'envoyer chercher Pierre, logé « chez un certain Simon, corroyeur, dont la maison est près de la mer » (Actes 10.6). Sur le toit de cette maison, Pierre voit la nappe descendre du ciel : « Ce que Dieu a déclaré pur, ne le regarde pas comme souillé » (Actes 10.15)."
+  },
+  {
+   "id": "prophetes-antioche",
+   "nom": "Siméon Niger, Lucius et Manahen",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Manahen"
+    },
+    {
+     "v": "Niger"
+    },
+    {
+     "v": "Lucius",
+     "l": [
+      44,
+      44
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Actes 13",
+     44,
+     13
+    ]
+   ],
+   "bio": "Prophètes et docteurs de l'Église d'Antioche, qui, sur l'ordre du Saint-Esprit, imposèrent les mains à Barnabas et Saul pour la mission.",
+   "relations": [
+    [
+     "Avec",
+     "barnabas"
+    ],
+    [
+     "Avec",
+     "paul"
+    ],
+    [
+     "Manahen élevé avec",
+     "herode"
+    ]
+   ],
+   "histoire": "« Il y avait dans l'Église d'Antioche des prophètes et des docteurs : Barnabas, Siméon appelé Niger, Lucius de Cyrène, Manahen, qui avait été élevé avec Hérode le tétrarque, et Saul » (Actes 13.1). Une équipe à l'image de l'Évangile : un homme surnommé Niger (« le Noir »), un homme de Cyrène, un familier de la cour d'Hérode, un Lévite de Chypre et un pharisien de Tarse.\n\n« Pendant qu'ils servaient le Seigneur dans leur ministère et qu'ils jeûnaient, le Saint-Esprit dit : Mettez-moi à part Barnabas et Saul. » Ils jeûnent, prient, leur imposent les mains (Actes 13.2-3) : le premier voyage missionnaire naît d'un temps de louange et de jeûne."
+  },
+  {
+   "id": "sosthene",
+   "nom": "Sosthène",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Sosthène"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 18",
+     44,
+     18
+    ],
+    [
+     "1 Corinthiens 1",
+     46,
+     1
+    ]
+   ],
+   "bio": "Chef de la synagogue de Corinthe, battu devant le tribunal de Gallion ; sans doute le même que « le frère Sosthène », co-auteur de 1 Corinthiens avec Paul.",
+   "relations": [
+    [
+     "Compagnon",
+     "paul"
+    ],
+    [
+     "Même synagogue que",
+     "crispus"
+    ]
+   ],
+   "histoire": "Après l'échec de la plainte contre Paul, la foule se saisit « de Sosthène, le chef de la synagogue », et le bat devant le tribunal, « sans que Gallion s'en mît en peine » (Actes 18.17). Avant lui, un autre chef de la synagogue, Crispus, avait cru au Seigneur avec toute sa famille (Actes 18.8).\n\nQuelques années plus tard, Paul ouvre sa lettre aux Corinthiens ainsi : « Paul, appelé à être apôtre de Jésus-Christ par la volonté de Dieu, et le frère Sosthène » (1 Corinthiens 1.1). S'il s'agit du même homme, comme beaucoup le pensent, l'opposant battu est devenu un frère."
+  },
+  {
+   "id": "hymenee",
+   "nom": "Hyménée",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Hyménée"
+    }
+   ],
+   "passages": [
+    [
+     "1 Timothée 1",
+     54,
+     1
+    ],
+    [
+     "2 Timothée 2",
+     55,
+     2
+    ]
+   ],
+   "bio": "Homme de l'Église d'Éphèse qui fit naufrage quant à la foi et enseigna que la résurrection était déjà arrivée.",
+   "relations": [
+    [
+     "Repris par",
+     "paul"
+    ],
+    [
+     "Mis en garde",
+     "timothee"
+    ]
+   ],
+   "histoire": "Paul écrit à Timothée que certains ont perdu la bonne conscience « et ils ont fait naufrage par rapport à la foi. De ce nombre sont Hyménée et Alexandre, que j'ai livrés à Satan, afin qu'ils apprennent à ne pas blasphémer » (1 Timothée 1.19-20) — une discipline qui vise le relèvement.\n\nDans la seconde lettre, il précise l'erreur : « Hyménée et Philète, qui se sont détournés de la vérité, disant que la résurrection est déjà arrivée, et qui renversent la foi de quelques uns » (2 Timothée 2.17-18). Mais « le solide fondement de Dieu reste debout » (2 Timothée 2.19)."
+  },
+  {
+   "id": "alexandre-forgeron",
+   "nom": "Alexandre le forgeron",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Alexandre",
+     "l": [
+      54,
+      55
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "1 Timothée 1",
+     54,
+     1
+    ],
+    [
+     "2 Timothée 4",
+     55,
+     4
+    ]
+   ],
+   "bio": "Adversaire de Paul qui lui fit « beaucoup de mal » ; peut-être le même Alexandre que Paul dut livrer à Satan avec Hyménée.",
+   "relations": [
+    [
+     "Adversaire",
+     "paul"
+    ],
+    [
+     "Avec",
+     "hymenee"
+    ]
+   ],
+   "histoire": "« Alexandre, le forgeron, m'a fait beaucoup de mal. Le Seigneur lui rendra selon ses œuvres. Garde-toi aussi de lui, car il s'est fortement opposé à nos paroles » (2 Timothée 4.14-15). Paul ne se venge pas : il remet la cause à Dieu et avertit Timothée.\n\nUn Alexandre est déjà nommé avec Hyménée parmi ceux qui ont « fait naufrage par rapport à la foi » (1 Timothée 1.19-20) ; il pourrait s'agir du même homme, sans certitude."
+  },
+  {
+   "id": "lois-eunice",
+   "nom": "Loïs et Eunice",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Loïs"
+    },
+    {
+     "v": "Eunice"
+    }
+   ],
+   "passages": [
+    [
+     "2 Timothée 1",
+     55,
+     1
+    ],
+    [
+     "Actes 16",
+     44,
+     16
+    ]
+   ],
+   "bio": "Grand-mère et mère de Timothée : femmes juives croyantes qui lui transmirent dès l'enfance la foi et les Écritures.",
+   "relations": [
+    [
+     "Petit-fils / Fils",
+     "timothee"
+    ],
+    [
+     "Loué par",
+     "paul"
+    ]
+   ],
+   "histoire": "Paul rappelle à Timothée « la foi sincère qui est en toi, qui habita d'abord dans ton aïeule Loïs et dans ta mère Eunice » (2 Timothée 1.5). À Lystre, sa mère est décrite comme « une femme juive fidèle », mariée à un Grec (Actes 16.1).\n\nLeur héritage, c'est la Parole : « dès ton enfance, tu connais les saintes lettres, qui peuvent te rendre sage à salut par la foi en Jésus-Christ » (2 Timothée 3.15). Trois générations de foi, et un grand serviteur de l'Église."
+  },
+  {
+   "id": "eraste",
+   "nom": "Éraste",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Éraste"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 19",
+     44,
+     19
+    ],
+    [
+     "Romains 16",
+     45,
+     16
+    ],
+    [
+     "2 Timothée 4",
+     55,
+     4
+    ]
+   ],
+   "bio": "Collaborateur de Paul envoyé en Macédoine avec Timothée ; un Éraste, trésorier de la ville de Corinthe, salue les Romains.",
+   "relations": [
+    [
+     "Compagnon",
+     "paul"
+    ],
+    [
+     "Envoyé avec",
+     "timothee"
+    ]
+   ],
+   "histoire": "Depuis Éphèse, Paul « envoya en Macédoine deux de ses aides, Timothée et Éraste » (Actes 19.22). Dans la lettre aux Romains, écrite de Corinthe, il transmet les salutations d'« Éraste, le trésorier de la ville » (Romains 16.23) — un notable gagné à l'Évangile. Une inscription de Corinthe mentionne un édile de ce nom.\n\nDans sa dernière lettre, Paul note simplement : « Éraste est resté à Corinthe » (2 Timothée 4.20)."
+  },
+  {
+   "id": "tertius",
+   "nom": "Tertius",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Tertius"
+    }
+   ],
+   "passages": [
+    [
+     "Romains 16",
+     45,
+     16
+    ]
+   ],
+   "bio": "Secrétaire qui écrivit sous la dictée de Paul la lettre aux Romains, et y glissa sa propre salutation.",
+   "relations": [
+    [
+     "Secrétaire de",
+     "paul"
+    ]
+   ],
+   "histoire": "Au milieu des salutations finales, une voix inattendue : « Je vous salue dans le Seigneur, moi Tertius, qui ai écrit cette lettre » (Romains 16.22).\n\nLa plus grande exposition de l'Évangile a été mise par écrit par un scribe dont on ne sait rien d'autre. Dieu honore les mains discrètes qui servent sa Parole."
+  },
+  {
+   "id": "rufus",
+   "nom": "Rufus",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Rufus"
+    }
+   ],
+   "passages": [
+    [
+     "Marc 15",
+     41,
+     15
+    ],
+    [
+     "Romains 16",
+     45,
+     16
+    ]
+   ],
+   "bio": "Fils de Simon de Cyrène ; peut-être le même que Rufus, « l'élu du Seigneur », salué par Paul à Rome avec sa mère.",
+   "relations": [
+    [
+     "Père",
+     "simon-cyrene"
+    ],
+    [
+     "Salué par",
+     "paul"
+    ]
+   ],
+   "histoire": "Marc présente Simon de Cyrène, qui porta la croix, comme le « père d'Alexandre et de Rufus » (Marc 15.21) — des noms qui devaient être connus de ses lecteurs, sans doute à Rome.\n\nPaul écrit justement aux Romains : « Saluez Rufus, l'élu du Seigneur, et sa mère, qui est aussi la mienne » (Romains 16.13). Si c'est le même, la croix portée par un passant a porté du fruit dans toute une famille."
+  },
+  {
+   "id": "andronicus-junias",
+   "nom": "Andronicus et Junias",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Andronicus"
+    },
+    {
+     "v": "Junias"
+    }
+   ],
+   "passages": [
+    [
+     "Romains 16",
+     45,
+     16
+    ]
+   ],
+   "bio": "Parents de Paul et compagnons de captivité, très considérés parmi les apôtres, et en Christ avant lui.",
+   "relations": [
+    [
+     "Parents de",
+     "paul"
+    ]
+   ],
+   "histoire": "« Saluez Andronicus et Junias, mes parents et mes compagnons de captivité, qui jouissent d'une grande considération parmi les apôtres, et qui même ont été en Christ avant moi » (Romains 16.7).\n\nDes croyants de la première heure, qui avaient connu la foi avant la conversion de Paul et partagé ses chaînes. Une simple ligne qui ouvre une fenêtre sur les pionniers anonymes de l'Évangile."
+  },
+  {
+   "id": "stephanas",
+   "nom": "Stéphanas",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Stéphanas"
+    }
+   ],
+   "passages": [
+    [
+     "1 Corinthiens 1",
+     46,
+     1
+    ],
+    [
+     "1 Corinthiens 16",
+     46,
+     16
+    ]
+   ],
+   "bio": "Chef de la première famille convertie d'Achaïe, baptisée par Paul ; dévoué au service des saints, il rejoignit Paul à Éphèse.",
+   "relations": [
+    [
+     "Baptisé par",
+     "paul"
+    ]
+   ],
+   "histoire": "Paul n'a baptisé que peu de Corinthiens : « J'ai encore baptisé la famille de Stéphanas » (1 Corinthiens 1.16). C'est une famille pionnière : elle « est les prémices de l'Achaïe, et qu'elle s'est dévouée au service des saints » (1 Corinthiens 16.15).\n\nAvec Fortunatus et Achaïcus, Stéphanas vient trouver Paul : « ils ont tranquillisé mon esprit et le vôtre. Sachez donc apprécier de tels hommes » (1 Corinthiens 16.17-18). Il y a des serviteurs dont la présence seule fortifie."
+  },
+  {
+   "id": "chloe",
+   "nom": "Chloé",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Chloé"
+    }
+   ],
+   "passages": [
+    [
+     "1 Corinthiens 1",
+     46,
+     1
+    ]
+   ],
+   "bio": "Femme de Corinthe dont les gens informèrent Paul des divisions qui déchiraient l'Église.",
+   "relations": [
+    [
+     "A informé",
+     "paul"
+    ]
+   ],
+   "histoire": "« Car, mes frères, j'ai appris à votre sujet, par les gens de Chloé, qu'il y a des disputes au milieu de vous » (1 Corinthiens 1.11). Les uns se réclament de Paul, d'autres d'Apollos, de Céphas ou de Christ.\n\nLa première lettre aux Corinthiens est en partie la réponse à ce signalement : « Christ est-il divisé ? » (1 Corinthiens 1.13). Une maison fidèle qui a eu le courage de dire ce qui n'allait pas."
+  },
+  {
+   "id": "archippe",
+   "nom": "Archippe",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Archippe"
+    }
+   ],
+   "passages": [
+    [
+     "Colossiens 4",
+     51,
+     4
+    ],
+    [
+     "Philémon 1",
+     57,
+     1
+    ]
+   ],
+   "bio": "Responsable de l'Église de Colosses, « compagnon de combat » de Paul, exhorté à bien remplir son ministère.",
+   "relations": [
+    [
+     "Compagnon",
+     "paul"
+    ],
+    [
+     "Église chez",
+     "philemon"
+    ]
+   ],
+   "histoire": "Paul salue « Archippe, notre compagnon de combat, et à l'Église qui est dans ta maison » (Philémon 1.2) — sans doute un proche de Philémon.\n\nÀ la fin de la lettre aux Colossiens, une consigne personnelle : « Et dites à Archippe : Prends garde au ministère que tu as reçu dans le Seigneur, afin de le bien remplir » (Colossiens 4.17). Un appel reçu doit être mené jusqu'au bout."
+  },
+  {
+   "id": "apphia",
+   "nom": "Apphia",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Apphia"
+    }
+   ],
+   "passages": [
+    [
+     "Philémon 1",
+     57,
+     1
+    ]
+   ],
+   "bio": "Chrétienne de Colosses saluée par Paul dans la lettre à Philémon, probablement de sa maison.",
+   "relations": [
+    [
+     "Maison de",
+     "philemon"
+    ],
+    [
+     "Saluée par",
+     "paul"
+    ]
+   ],
+   "histoire": "La lettre à Philémon s'adresse « à la sœur Apphia, à Archippe, notre compagnon de combat, et à l'Église qui est dans ta maison » (Philémon 1.2).\n\nBeaucoup pensent qu'elle était la femme de Philémon. La demande de Paul — accueillir l'esclave Onésime comme un frère — concernait toute la maisonnée, et elle y est associée par son nom."
+  },
+  {
+   "id": "nymphas",
+   "nom": "Nymphas",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Nymphas"
+    }
+   ],
+   "passages": [
+    [
+     "Colossiens 4",
+     51,
+     4
+    ]
+   ],
+   "bio": "Croyant de la région de Laodicée chez qui se réunissait une Église.",
+   "relations": [
+    [
+     "Salué par",
+     "paul"
+    ]
+   ],
+   "histoire": "« Saluez les frères qui sont à Laodicée, et Nymphas, et l'Église qui est dans sa maison » (Colossiens 4.15).\n\nLes premières Églises se réunissaient dans des maisons ouvertes. Paul demande aussi que la lettre circule : qu'elle soit lue chez les Laodicéens (Colossiens 4.16)."
+  },
+  {
+   "id": "clement",
+   "nom": "Clément",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Clément"
+    }
+   ],
+   "passages": [
+    [
+     "Philippiens 4",
+     50,
+     4
+    ]
+   ],
+   "bio": "Compagnon d'œuvre de Paul à Philippes, dont le nom est « dans le livre de vie ».",
+   "relations": [
+    [
+     "Compagnon",
+     "paul"
+    ],
+    [
+     "Avec",
+     "evodie-syntyche"
+    ]
+   ],
+   "histoire": "Paul demande d'aider Évodie et Syntyche, « elles qui ont combattu pour l'Évangile avec moi, et avec Clément et mes autres compagnons d'œuvre, dont les noms sont dans le livre de vie » (Philippiens 4.3).\n\nLa seule mention de Clément suffit : son nom est inscrit là où cela compte. « Réjouissez-vous de ce que vos noms sont écrits dans les cieux » (Luc 10.20)."
+  },
+  {
+   "id": "phygelle-hermogene",
+   "nom": "Phygelle et Hermogène",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Phygelle"
+    },
+    {
+     "v": "Hermogène"
+    }
+   ],
+   "passages": [
+    [
+     "2 Timothée 1",
+     55,
+     1
+    ]
+   ],
+   "bio": "Croyants d'Asie qui abandonnèrent Paul pendant sa dernière captivité.",
+   "relations": [
+    [
+     "Ont abandonné",
+     "paul"
+    ],
+    [
+     "Contraste avec",
+     "onesiphore"
+    ]
+   ],
+   "histoire": "« Tu sais que tous ceux qui sont en Asie m'ont abandonné, entre autres Phygelle et Hermogène » (2 Timothée 1.15).\n\nPaul oppose aussitôt à leur défection la fidélité d'Onésiphore, qui « n'a pas eu honte de mes chaînes » et l'a cherché à Rome jusqu'à le trouver (2 Timothée 1.16-17). Dans l'épreuve se révèle la vraie fidélité."
+  },
+  {
+   "id": "zenas",
+   "nom": "Zénas",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Zénas"
+    }
+   ],
+   "passages": [
+    [
+     "Tite 3",
+     56,
+     3
+    ]
+   ],
+   "bio": "« Docteur de la loi » chrétien, en voyage avec Apollos, que Tite devait pourvoir de tout.",
+   "relations": [
+    [
+     "Avec",
+     "apollos"
+    ],
+    [
+     "Recommandé à",
+     "tite"
+    ]
+   ],
+   "histoire": "« Aie soin de pourvoir au voyage de Zénas, le docteur de la loi, et d'Apollos, en sorte que rien ne leur manque » (Tite 3.13).\n\nUn juriste, peut-être de formation juive ou romaine, au service de l'Évangile. Paul montre que l'accueil et le soutien matériel des ouvriers itinérants font partie de l'œuvre (3 Jean 1.5-8)."
+  },
+  {
+   "id": "carpus",
+   "nom": "Carpus",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Carpus"
+    }
+   ],
+   "passages": [
+    [
+     "2 Timothée 4",
+     55,
+     4
+    ]
+   ],
+   "bio": "Chrétien de Troas chez qui Paul avait laissé son manteau, ses livres et ses parchemins.",
+   "relations": [
+    [
+     "Hôte de",
+     "paul"
+    ]
+   ],
+   "histoire": "Dans sa dernière lettre, Paul prisonnier demande à Timothée : « Quand tu viendras, apporte le manteau que j'ai laissé à Troas chez Carpus, et les livres, surtout les parchemins » (2 Timothée 4.13).\n\nUn détail tendre et humain : l'apôtre a froid, et jusqu'au bout il veut étudier. Carpus est l'ami de confiance à qui on laisse ce qu'on a de précieux."
+  },
+  {
+   "id": "crescens",
+   "nom": "Crescens",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Crescens"
+    }
+   ],
+   "passages": [
+    [
+     "2 Timothée 4",
+     55,
+     4
+    ]
+   ],
+   "bio": "Collaborateur de Paul parti en Galatie pendant sa dernière captivité.",
+   "relations": [
+    [
+     "Compagnon",
+     "paul"
+    ]
+   ],
+   "histoire": "« Démas m'a abandonné, par amour pour le siècle présent, et il est parti pour Thessalonique ; Crescens est allé en Galatie, Tite en Dalmatie. Luc seul est avec moi » (2 Timothée 4.10-11).\n\nCrescens n'est pas un déserteur comme Démas : il part en mission. Deux départs, deux cœurs bien différents."
+  },
+  {
+   "id": "mnason",
+   "nom": "Mnason",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Mnason"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 21",
+     44,
+     21
+    ]
+   ],
+   "bio": "« Ancien disciple » originaire de Chypre, chez qui Paul et ses compagnons logèrent en montant à Jérusalem.",
+   "relations": [
+    [
+     "Hôte de",
+     "paul"
+    ],
+    [
+     "Avec",
+     "luc"
+    ]
+   ],
+   "histoire": "En montant à Jérusalem, des disciples de Césarée conduisent Paul et Luc « chez un nommé Mnason, de l'île de Chypre, ancien disciple, chez qui nous devions loger » (Actes 21.16).\n\nUn croyant de la première heure, qui ouvre sa maison à un homme menacé de mort. L'hospitalité est une forme de courage."
+  },
+  {
+   "id": "tyrannus",
+   "nom": "Tyrannus",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Tyrannus"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 19",
+     44,
+     19
+    ]
+   ],
+   "bio": "Propriétaire ou maître d'une école d'Éphèse où Paul enseigna chaque jour pendant deux ans.",
+   "relations": [
+    [
+     "Lieu d'enseignement de",
+     "paul"
+    ]
+   ],
+   "histoire": "Chassé de la synagogue, Paul « sépara les disciples, et enseigna chaque jour dans l'école d'un nommé Tyrannus » (Actes 19.9).\n\nRésultat : « Cela dura deux ans, de sorte que tous ceux qui habitaient l'Asie, Juifs et Grecs, entendirent la parole du Seigneur » (Actes 19.10). Une salle de cours ordinaire devient le cœur de l'évangélisation de toute une province."
+  },
+  {
+   "id": "sopater",
+   "nom": "Sopater",
+   "periode": "Église primitive",
+   "match": [
+    {
+     "v": "Sopater"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 20",
+     44,
+     20
+    ]
+   ],
+   "bio": "Chrétien de Bérée, fils de Pyrrhus, qui accompagna Paul dans son voyage vers Jérusalem avec la collecte.",
+   "relations": [
+    [
+     "Compagnon",
+     "paul"
+    ],
+    [
+     "Avec",
+     "aristarque"
+    ],
+    [
+     "Avec",
+     "timothee"
+    ]
+   ],
+   "histoire": "« Il avait pour l'accompagner jusqu'en Asie : Sopater de Bérée, fils de Pyrrhus, Aristarque et Second de Thessalonique, Gaïus de Derbe, Timothée, ainsi que Tychique et Trophime, originaires d'Asie » (Actes 20.4).\n\nBérée était la ville dont les Juifs « examinaient chaque jour les Écritures » (Actes 17.11) : Sopater est peut-être un fruit de cette recherche sincère."
+  },
+  {
+   "id": "marie-clopas",
+   "nom": "Marie, femme de Clopas",
+   "periode": "Ier siècle",
+   "match": [
+    {
+     "v": "Clopas"
+    }
+   ],
+   "passages": [
+    [
+     "Jean 19",
+     43,
+     19
+    ]
+   ],
+   "bio": "Une des femmes qui se tenaient près de la croix de Jésus.",
+   "relations": [
+    [
+     "Près de",
+     "jesus"
+    ],
+    [
+     "Avec",
+     "marie"
+    ],
+    [
+     "Avec",
+     "marie-magdala"
+    ]
+   ],
+   "histoire": "« Près de la croix de Jésus se tenaient sa mère et la sœur de sa mère, Marie, femme de Clopas, et Marie de Magdala » (Jean 19.25). Là où les disciples ont fui, ces femmes restent.\n\nCertains l'identifient à « Marie, mère de Jacques le mineur et de Joses » qui regardait de loin et vint au tombeau (Marc 15.40 ; 16.1), sans certitude. Sa présence silencieuse au Calvaire dit l'essentiel : l'amour reste."
+  },
+  {
+   "id": "simon-pharisien",
+   "nom": "Simon le pharisien",
+   "periode": "Ier siècle",
+   "match": [
+    {
+     "v": "Simon",
+     "l": [
+      42,
+      42
+     ],
+     "c": [
+      7,
+      7
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Luc 7",
+     42,
+     7
+    ]
+   ],
+   "bio": "Pharisien qui invita Jésus à sa table et vit une femme pécheresse lui oindre les pieds ; Jésus lui enseigna la parabole des deux débiteurs.",
+   "relations": [
+    [
+     "A reçu",
+     "jesus"
+    ]
+   ],
+   "histoire": "« Un pharisien pria Jésus de manger avec lui. » Une femme pécheresse vient, pleure aux pieds de Jésus et les oint de parfum. Simon pense : « Si cet homme était prophète, il connaîtrait qui et de quelle espèce est la femme qui le touche » (Luc 7.36-39). Jésus lui répond : « Simon, j'ai quelque chose à te dire » — et raconte l'histoire des deux débiteurs (Luc 7.40-43).\n\n« Vois-tu cette femme ? » Elle a fait tout ce que Simon a négligé. « C'est pourquoi, je te le dis, ses nombreux péchés ont été pardonnés : car elle a beaucoup aimé. Mais celui à qui on pardonne peu aime peu » (Luc 7.44-47)."
+  },
+  {
+   "id": "simon-lepreux",
+   "nom": "Simon le lépreux",
+   "periode": "Ier siècle",
+   "match": [
+    {
+     "v": "Simon le lépreux"
+    }
+   ],
+   "passages": [
+    [
+     "Matthieu 26",
+     40,
+     26
+    ],
+    [
+     "Marc 14",
+     41,
+     14
+    ]
+   ],
+   "bio": "Habitant de Béthanie, probablement guéri par Jésus, dans la maison duquel une femme oignit Jésus de parfum avant sa Passion.",
+   "relations": [
+    [
+     "A reçu",
+     "jesus"
+    ]
+   ],
+   "histoire": "« Comme Jésus était à Béthanie, dans la maison de Simon le lépreux, une femme s'approcha de lui, tenant un vase d'albâtre, qui renfermait un parfum de grand prix » (Matthieu 26.6-7). Jean, qui situe aussi à Béthanie un repas où Marie, sœur de Lazare, oint Jésus, semble rapporter la même scène (Jean 12.1-3).\n\nSimon porte encore le nom de sa maladie, mais il reçoit Jésus à table ; or un lépreux devait vivre à l'écart (Lévitique 13.46). Il avait donc sans doute été guéri. Jésus y déclare : « partout où cette bonne nouvelle sera prêchée, dans le monde entier, on racontera aussi en mémoire de cette femme ce qu'elle a fait » (Matthieu 26.13)."
   }
  ],
  "lieux": [
@@ -14514,7 +17038,11 @@
    ],
    "match": [
     {
-     "v": "Antioche"
+     "v": "Antioche",
+     "l": [
+      44,
+      48
+     ]
     }
    ],
    "histoire": "Troisième ville de l'empire, Antioche de Syrie devient le laboratoire de l'Évangile pour les nations : des anonymes y annoncent Jésus aux Grecs, et « la main du Seigneur était avec eux » (Actes 11:21). Barnabas s'en réjouit et va chercher Saul ; c'est là que « les disciples furent appelés chrétiens pour la première fois » (Actes 11:26).\n\nPremière Église missionnaire de l'histoire : pendant un jeûne, l'Esprit dit « Mettez-moi à part Barnabas et Saul » (Actes 13:2) — tous les voyages de Paul partent d'ici et y reviennent (Actes 14:27). Jérusalem a vu naître l'Église ; Antioche l'a vue s'élancer.",
@@ -14956,7 +17484,33 @@
    "nom": "Carmel",
    "match": [
     {
-     "v": "Carmel"
+     "v": "Carmel",
+     "l": [
+      6,
+      6
+     ],
+     "c": [
+      12,
+      12
+     ]
+    },
+    {
+     "v": "Carmel",
+     "l": [
+      6,
+      6
+     ],
+     "c": [
+      19,
+      19
+     ]
+    },
+    {
+     "v": "Carmel",
+     "l": [
+      11,
+      66
+     ]
     }
    ],
    "passages": [
@@ -15598,6 +18152,9 @@
     },
     {
      "v": "Génésareth"
+    },
+    {
+     "v": "mer de Tibériade"
     }
    ],
    "geo": [
@@ -15907,6 +18464,3285 @@
    ],
    "bio": "La montagne des bénédictions, face au mont Ébal, au-dessus de Sichem. Devenue le lieu saint des Samaritains — « nos pères ont adoré sur cette montagne ».",
    "histoire": "Moïse l'avait ordonné : six tribus sur le Garizim « pour bénir le peuple », six sur l'Ébal pour les malédictions (Deutéronome 27.12-13) — et Josué lut toute la loi entre les deux montagnes (Josué 8.33-35). Les Samaritains y bâtirent leur temple rival ; c'est la montagne que la Samaritaine montre à Jésus : « Nos pères ont adoré sur cette montagne » (Jean 4.20). Sa réponse déplace la question pour toujours : « les vrais adorateurs adoreront le Père en esprit et en vérité » (Jean 4.23)."
+  },
+  {
+   "id": "ai",
+   "nom": "Aï",
+   "match": [
+    {
+     "v": "Aï",
+     "l": [
+      1,
+      23
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Josué 7",
+     6,
+     7
+    ],
+    [
+     "Josué 8",
+     6,
+     8
+    ]
+   ],
+   "bio": "Ville cananéenne près de Béthel : la défaite d'Israël y révéla le péché d'Acan, avant que Josué ne la prenne.",
+   "histoire": "Abram dresse déjà sa tente entre Béthel et Aï (Genèse 12.8). Après Jéricho, Israël juge Aï facile à prendre ; mais « ils prirent la fuite devant les gens d'Aï », et trente-six hommes tombent : « Le peuple fut consterné et perdit courage » (Josué 7.4-5). La cause est cachée : Acan a dérobé de l'interdit (Josué 7.20-21).\n\nUne fois le péché ôté, Dieu donne la victoire par une embuscade : « Josué brûla Aï, et en fit à jamais un monceau de ruines » (Josué 8.28). Le péché caché affaiblit tout le peuple ; la repentance rouvre le chemin.",
+   "geo": [
+    35.26,
+    31.92
+   ]
+  },
+  {
+   "id": "hatsor",
+   "nom": "Hatsor",
+   "match": [
+    {
+     "v": "Hatsor",
+     "l": [
+      6,
+      6
+     ],
+     "c": [
+      11,
+      12
+     ]
+    },
+    {
+     "v": "Hatsor",
+     "l": [
+      6,
+      6
+     ],
+     "c": [
+      19,
+      19
+     ]
+    },
+    {
+     "v": "Hatsor",
+     "l": [
+      7,
+      12
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Josué 11",
+     6,
+     11
+    ],
+    [
+     "Juges 4",
+     7,
+     4
+    ],
+    [
+     "1 Rois 9",
+     11,
+     9
+    ]
+   ],
+   "bio": "Grande cité cananéenne de Haute-Galilée, capitale du roi Jabin ; prise par Josué, puis fortifiée par Salomon.",
+   "histoire": "« Hatsor était autrefois la principale ville de tous ces royaumes » : Josué la prend et y met le feu (Josué 11.10-11). Plus tard, un autre Jabin y règne et opprime Israël par son général Sisera, jusqu'à la victoire de Débora et Barak (Juges 4.2).\n\nSalomon la rebâtit comme place forte, avec Meguiddo et Guézer (1 Rois 9.15). Les fouilles y ont mis au jour une immense ville basse et des portes de l'époque royale.",
+   "geo": [
+    35.57,
+    33.02
+   ]
+  },
+  {
+   "id": "lakis",
+   "nom": "Lakis",
+   "match": [
+    {
+     "v": "Lakis"
+    }
+   ],
+   "passages": [
+    [
+     "2 Rois 18",
+     12,
+     18
+    ],
+    [
+     "Jérémie 34",
+     24,
+     34
+    ]
+   ],
+   "bio": "Puissante ville fortifiée de Juda, dans la Chéphéla : assiégée par Sanchérib, puis par Nebucadnetsar.",
+   "histoire": "En 701 av. J.-C., Sanchérib assiège Lakis ; c'est là qu'Ézéchias lui envoie dire : « J'ai commis une faute ! Éloigne-toi de moi » (2 Rois 18.14). Le roi d'Assyrie fit sculpter le siège de Lakis sur les murs de son palais de Ninive.\n\nUn siècle plus tard, sous Nebucadnetsar, Lakis et Azéka sont les dernières villes fortes de Juda à tenir encore (Jérémie 34.7). Des lettres sur tessons retrouvées sur place font écho à ces jours d'angoisse.",
+   "geo": [
+    34.85,
+    31.57
+   ]
+  },
+  {
+   "id": "meguiddo",
+   "nom": "Meguiddo",
+   "match": [
+    {
+     "v": "Meguiddo"
+    }
+   ],
+   "passages": [
+    [
+     "Juges 5",
+     7,
+     5
+    ],
+    [
+     "1 Rois 9",
+     11,
+     9
+    ],
+    [
+     "2 Rois 23",
+     12,
+     23
+    ]
+   ],
+   "bio": "Ville stratégique gardant le passage vers la plaine de Jizreel : lieu de batailles décisives, où mourut le roi Josias.",
+   "histoire": "Débora chante la défaite des rois de Canaan « À Thaanac, aux eaux de Meguiddo » (Juges 5.19). Salomon en fait l'une de ses villes fortes (1 Rois 9.15). Le roi Achazia y meurt en fuyant Jéhu (2 Rois 9.27), et c'est là que Pharaon Néco tue le roi Josias (2 Rois 23.29).\n\nSon nom, uni au mot hébreu « montagne » (har), donne Harmaguédon, le lieu du grand rassemblement de l'Apocalypse (Apocalypse 16.16).",
+   "geo": [
+    35.18,
+    32.59
+   ]
+  },
+  {
+   "id": "jizreel",
+   "nom": "Jizreel",
+   "match": [
+    {
+     "v": "Jizreel",
+     "l": [
+      6,
+      6
+     ],
+     "c": [
+      17,
+      19
+     ]
+    },
+    {
+     "v": "Jizreel",
+     "l": [
+      9,
+      9
+     ],
+     "c": [
+      29,
+      29
+     ]
+    },
+    {
+     "v": "Jizreel",
+     "l": [
+      10,
+      10
+     ],
+     "c": [
+      4,
+      4
+     ]
+    },
+    {
+     "v": "Jizreel",
+     "l": [
+      11,
+      14
+     ]
+    },
+    {
+     "v": "Jizreel",
+     "l": [
+      28,
+      28
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "1 Rois 21",
+     11,
+     21
+    ],
+    [
+     "2 Rois 9",
+     12,
+     9
+    ],
+    [
+     "Osée 1",
+     28,
+     1
+    ]
+   ],
+   "bio": "Ville royale d'Achab et grande vallée fertile du nord d'Israël : vigne de Naboth, mort de Jézabel, et nom prophétique du fils d'Osée.",
+   "histoire": "« Naboth, de Jizreel, avait une vigne à Jizreel, à côté du palais d'Achab, roi de Samarie » (1 Rois 21.1). Jézabel le fait lapider pour la donner au roi. Élie annonce le jugement, et Jéhu l'exécute à Jizreel même : Joram y meurt et Jézabel y est jetée par la fenêtre (2 Rois 9.24, 33).\n\nUn siècle plus tard, Dieu demande à Osée d'appeler son fils Jizreel : « je châtierai la maison de Jéhu pour le sang versé à Jizreel » (Osée 1.4). Le zèle de Jéhu était devenu violence ; Dieu juge aussi ses instruments.",
+   "geo": [
+    35.33,
+    32.56
+   ]
+  },
+  {
+   "id": "beth-schemesch",
+   "nom": "Beth-Schémesch",
+   "match": [
+    {
+     "v": "Beth-Schémesch",
+     "l": [
+      6,
+      6
+     ],
+     "c": [
+      15,
+      15
+     ]
+    },
+    {
+     "v": "Beth-Schémesch",
+     "l": [
+      6,
+      6
+     ],
+     "c": [
+      21,
+      21
+     ]
+    },
+    {
+     "v": "Beth-Schémesch",
+     "l": [
+      9,
+      14
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "1 Samuel 6",
+     9,
+     6
+    ]
+   ],
+   "bio": "Ville lévitique de Juda, à la frontière des Philistins : c'est là que revint l'arche de l'alliance, tirée par deux vaches.",
+   "histoire": "Les Philistins, frappés par l'arche, la renvoient sur un char tiré par deux vaches qui allaitent : « Les vaches prirent directement le chemin de Beth-Schémesch ; elles suivirent toujours la même route en mugissant » (1 Samuel 6.12). Les moissonneurs « aperçurent l'arche, et se réjouirent en la voyant » (1 Samuel 6.13).\n\nMais des habitants regardent dans l'arche et sont frappés : « Qui peut subsister en présence de l'Éternel, de ce Dieu saint ? » (1 Samuel 6.19-20). La joie de la présence de Dieu ne dispense pas du respect de sa sainteté.",
+   "geo": [
+    34.98,
+    31.75
+   ]
+  },
+  {
+   "id": "mitspa",
+   "nom": "Mitspa",
+   "match": [
+    {
+     "v": "Mitspa",
+     "l": [
+      7,
+      7
+     ],
+     "c": [
+      20,
+      21
+     ]
+    },
+    {
+     "v": "Mitspa",
+     "l": [
+      9,
+      9
+     ]
+    },
+    {
+     "v": "Mitspa",
+     "l": [
+      11,
+      12
+     ]
+    },
+    {
+     "v": "Mitspa",
+     "l": [
+      14,
+      14
+     ]
+    },
+    {
+     "v": "Mitspa",
+     "l": [
+      16,
+      16
+     ]
+    },
+    {
+     "v": "Mitspa",
+     "l": [
+      24,
+      24
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "1 Samuel 7",
+     9,
+     7
+    ],
+    [
+     "1 Samuel 10",
+     9,
+     10
+    ],
+    [
+     "Jérémie 40",
+     24,
+     40
+    ]
+   ],
+   "bio": "Ville de Benjamin (« poste de guet ») : lieu de rassemblement d'Israël sous Samuel, où Saül fut désigné roi ; siège de Guedalia après la chute de Jérusalem.",
+   "histoire": "Samuel convoque le peuple : « Assemblez tout Israël à Mitspa, et je prierai l'Éternel pour vous. » On répand de l'eau devant l'Éternel, on jeûne, on confesse : « Nous avons péché contre l'Éternel ! » (1 Samuel 7.5-6). Après la victoire, Samuel dresse une pierre : « Jusqu'ici l'Éternel nous a secourus » (1 Samuel 7.12). C'est aussi à Mitspa que Saül est désigné par le sort (1 Samuel 10.17-24).\n\nAprès la ruine de Jérusalem, Mitspa devient la résidence du gouverneur Guedalia, où Jérémie vient demeurer (Jérémie 40.6), jusqu'à l'assassinat de Guedalia par Ismaël (Jérémie 41.1-3). Ne pas confondre avec la Mitspa de Galaad (Genèse 31.49).",
+   "geo": [
+    35.22,
+    31.89
+   ]
+  },
+  {
+   "id": "rama",
+   "nom": "Rama",
+   "match": [
+    {
+     "v": "Rama",
+     "l": [
+      6,
+      6
+     ],
+     "c": [
+      18,
+      18
+     ]
+    },
+    {
+     "v": "Rama",
+     "l": [
+      7,
+      11
+     ]
+    },
+    {
+     "v": "Rama",
+     "l": [
+      13,
+      13
+     ]
+    },
+    {
+     "v": "Rama",
+     "l": [
+      14,
+      14
+     ],
+     "c": [
+      16,
+      16
+     ]
+    },
+    {
+     "v": "Rama",
+     "l": [
+      15,
+      66
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "1 Samuel 7",
+     9,
+     7
+    ],
+    [
+     "Jérémie 31",
+     24,
+     31
+    ],
+    [
+     "Matthieu 2",
+     40,
+     2
+    ]
+   ],
+   "bio": "« Hauteur » : ville de Benjamin au nord de Jérusalem, liée à Samuel et aux pleurs de Rachel ; la Rama natale de Samuel est parfois située ailleurs, en Éphraïm.",
+   "histoire": "Samuel, après sa tournée de juge, « revenait à Rama, où était sa maison ; et là il jugeait Israël, et il y bâtit un autel à l'Éternel » (1 Samuel 7.17). C'est là que les anciens viennent lui demander un roi (1 Samuel 8.4-5). Plusieurs villes portaient ce nom ; la Rama de Samuel (Ramathaïm-Tsophim, 1 Samuel 1.1) n'est pas identifiée avec certitude.\n\nJérémie entend « des cris à Rama » : « Rachel pleure ses enfants ; Elle refuse d'être consolée » (Jérémie 31.15) — les déportés y furent rassemblés (Jérémie 40.1). Matthieu voit cette parole s'accomplir dans le massacre des enfants de Bethléhem (Matthieu 2.18) ; mais Jérémie annonçait aussitôt le retour (Jérémie 31.16-17).",
+   "geo": [
+    35.23,
+    31.85
+   ]
+  },
+  {
+   "id": "gath",
+   "nom": "Gath",
+   "match": [
+    {
+     "v": "Gath"
+    }
+   ],
+   "passages": [
+    [
+     "1 Samuel 17",
+     9,
+     17
+    ],
+    [
+     "1 Samuel 21",
+     9,
+     21
+    ],
+    [
+     "1 Samuel 27",
+     9,
+     27
+    ]
+   ],
+   "bio": "L'une des cinq villes philistines, patrie de Goliath ; David y fit l'insensé devant le roi Akisch, puis y trouva refuge.",
+   "histoire": "Le géant qui défie Israël « se nommait Goliath, il était de Gath » (1 Samuel 17.4). Plus tard, David en fuite se réfugie auprès d'Akisch, roi de Gath, et doit simuler la folie pour sauver sa vie (1 Samuel 21.10-15) ; il y revient ensuite avec six cents hommes (1 Samuel 27.2-3).\n\nÀ la mort de Saül, David chante : « Ne l'annoncez point dans Gath, N'en publiez point la nouvelle dans les rues d'Askalon » (2 Samuel 1.20). Le site de Tell es-Safi a livré une inscription portant des noms proches de « Goliath ».",
+   "geo": [
+    34.85,
+    31.7
+   ]
+  },
+  {
+   "id": "ekron",
+   "nom": "Ékron",
+   "match": [
+    {
+     "v": "Ékron"
+    }
+   ],
+   "passages": [
+    [
+     "1 Samuel 5",
+     9,
+     5
+    ],
+    [
+     "2 Rois 1",
+     12,
+     1
+    ]
+   ],
+   "bio": "Ville philistine la plus au nord, où l'arche fut envoyée ; le dieu de la ville, Baal-Zebub, fut consulté par le roi Achazia.",
+   "histoire": "L'arche, passée d'Asdod à Gath, arrive à Ékron, dont les habitants s'écrient qu'on veut les faire mourir ; ils demandent qu'on la renvoie (1 Samuel 5.10-11).\n\nPlus tard, le roi Achazia, blessé, envoie consulter « Baal-Zebub, dieu d'Ékron ». Élie intercepte les messagers : « Est-ce parce qu'il n'y a point de Dieu en Israël que vous allez consulter Baal-Zebub, dieu d'Ékron ? » (2 Rois 1.2-3). Le nom de ce dieu, « Béelzébul », désignera Satan dans l'Évangile (Matthieu 12.24).",
+   "geo": [
+    34.85,
+    31.78
+   ]
+  },
+  {
+   "id": "asdod",
+   "nom": "Asdod",
+   "match": [
+    {
+     "v": "Asdod"
+    },
+    {
+     "v": "Azot",
+     "l": [
+      44,
+      44
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "1 Samuel 5",
+     9,
+     5
+    ],
+    [
+     "Actes 8",
+     44,
+     8
+    ]
+   ],
+   "bio": "Ville philistine où l'arche fut placée dans le temple de Dagon ; appelée Azot au temps des Actes.",
+   "histoire": "Les Philistins portent l'arche à Asdod, dans la maison de Dagon. Le lendemain, Dagon est « étendu la face contre terre, devant l'arche de l'Éternel » ; le surlendemain, sa tête et ses mains sont brisées sur le seuil (1 Samuel 5.1-4). Les idoles ne tiennent pas debout devant le vrai Dieu.\n\nDes siècles plus tard, après le baptême de l'eunuque éthiopien, « Philippe se trouva dans Azot, d'où il alla jusqu'à Césarée, en évangélisant toutes les villes par lesquelles il passait » (Actes 8.40).",
+   "geo": [
+    34.66,
+    31.75
+   ]
+  },
+  {
+   "id": "askalon",
+   "nom": "Askalon",
+   "match": [
+    {
+     "v": "Askalon"
+    }
+   ],
+   "passages": [
+    [
+     "Juges 14",
+     7,
+     14
+    ],
+    [
+     "2 Samuel 1",
+     10,
+     1
+    ]
+   ],
+   "bio": "Port philistin sur la Méditerranée, l'une des cinq villes de la Pentapole ; visée par plusieurs oracles des prophètes.",
+   "histoire": "Samson y descend et tue trente hommes pour payer l'énigme perdue (Juges 14.19). David pleure Saül en souhaitant que la nouvelle ne soit pas publiée « dans les rues d'Askalon » (2 Samuel 1.20).\n\nLes prophètes annoncent sa ruine (Amos 1.8 ; Sophonie 2.4 ; Zacharie 9.5). Hérode le Grand, selon la tradition, y serait né.",
+   "geo": [
+    34.55,
+    31.66
+   ]
+  },
+  {
+   "id": "tsiklag",
+   "nom": "Tsiklag",
+   "match": [
+    {
+     "v": "Tsiklag"
+    }
+   ],
+   "passages": [
+    [
+     "1 Samuel 27",
+     9,
+     27
+    ],
+    [
+     "1 Samuel 30",
+     9,
+     30
+    ]
+   ],
+   "bio": "Bourgade du Néguev donnée à David par le roi philistin Akisch ; pillée par les Amalécites, puis reprise. Site encore discuté.",
+   "histoire": "« Et ce même jour Akisch lui donna Tsiklag » (1 Samuel 27.6). David y vit un an et quatre mois avec ses hommes.\n\nUn jour, ils trouvent la ville brûlée, femmes et enfants emmenés. Ses hommes parlent de le lapider ; « Mais David reprit courage en s'appuyant sur l'Éternel, son Dieu » (1 Samuel 30.6). Il poursuit les pillards et reprend tout (1 Samuel 30.18-19). Au plus bas, il se fortifie en Dieu — quelques jours avant de devenir roi.",
+   "geo": [
+    34.75,
+    31.4
+   ]
+  },
+  {
+   "id": "en-guedi",
+   "nom": "En-Guédi",
+   "match": [
+    {
+     "v": "En-Guédi"
+    }
+   ],
+   "passages": [
+    [
+     "1 Samuel 24",
+     9,
+     24
+    ],
+    [
+     "Cantique des cantiques 1",
+     22,
+     1
+    ]
+   ],
+   "bio": "Oasis et source sur la rive ouest de la mer Morte, avec ses grottes : David y épargna Saül.",
+   "histoire": "« De là David monta vers les lieux forts d'En-Guédi, où il demeura » (1 Samuel 24.1). Saül le poursuit et entre seul dans une caverne où David et ses hommes sont cachés. David « coupa doucement le pan du manteau de Saül », puis son cœur lui bat : « Que l'Éternel me garde de commettre contre mon seigneur, l'oint de l'Éternel, une action telle que de porter ma main sur lui ! » (1 Samuel 24.4-7).\n\nLa beauté du lieu inspire le Cantique, qui parle des vignes d'En-Guédi (Cantique des cantiques 1.14), et Ézéchiel voit les eaux du temple assainir la mer Morte jusqu'à En-Guédi (Ézéchiel 47.10).",
+   "geo": [
+    35.39,
+    31.46
+   ]
+  },
+  {
+   "id": "adullam",
+   "nom": "Adullam",
+   "match": [
+    {
+     "v": "Adullam"
+    }
+   ],
+   "passages": [
+    [
+     "1 Samuel 22",
+     9,
+     22
+    ],
+    [
+     "2 Samuel 23",
+     10,
+     23
+    ]
+   ],
+   "bio": "Ville de la Chéphéla de Juda : sa caverne servit de refuge à David et aux hommes en détresse qui le rejoignirent.",
+   "histoire": "Échappé de Gath, « David partit de là, et se sauva dans la caverne d'Adullam » ; sa famille le rejoint, puis « Tous ceux qui se trouvaient dans la détresse, qui avaient des créanciers, ou qui étaient mécontents » : environ quatre cents hommes (1 Samuel 22.1-2).\n\nDe cette troupe de cabossés sortiront les « vaillants hommes » de David (2 Samuel 23.13). Dieu bâtit souvent son œuvre avec des gens que personne n'aurait choisis.",
+   "geo": [
+    34.96,
+    31.65
+   ]
+  },
+  {
+   "id": "mahanaim",
+   "nom": "Mahanaïm",
+   "match": [
+    {
+     "v": "Mahanaïm"
+    }
+   ],
+   "passages": [
+    [
+     "Genèse 32",
+     1,
+     32
+    ],
+    [
+     "2 Samuel 17",
+     10,
+     17
+    ]
+   ],
+   "bio": "« Les deux camps » : lieu de Galaad où des anges rencontrèrent Jacob ; refuge de David pendant la révolte d'Absalom.",
+   "histoire": "Jacob, revenant vers Canaan, voit des anges : « C'est le camp de Dieu ! Et il donna à ce lieu le nom de Mahanaïm » (Genèse 32.1-2). Il ne marche pas seul vers la rencontre qu'il redoute avec Ésaü.\n\nIsch-Boscheth y règne quelque temps après Saül (2 Samuel 2.8). Plus tard, David fuyant Absalom y est accueilli par Schobi, Makir et Barzillaï, qui apportent lits, vivres et miel, car « Ce peuple a dû souffrir de la faim, de la fatigue et de la soif, dans le désert » (2 Samuel 17.27-29).",
+   "geo": [
+    35.67,
+    32.18
+   ]
+  },
+  {
+   "id": "ramoth-galaad",
+   "nom": "Ramoth en Galaad",
+   "match": [
+    {
+     "v": "Ramoth",
+     "l": [
+      5,
+      8
+     ]
+    },
+    {
+     "v": "Ramoth",
+     "l": [
+      11,
+      14
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "1 Rois 22",
+     11,
+     22
+    ],
+    [
+     "2 Rois 9",
+     12,
+     9
+    ]
+   ],
+   "bio": "Ville de refuge de Galaad, disputée entre Israël et la Syrie : Achab y fut tué, et Jéhu y fut oint roi.",
+   "histoire": "Ville de refuge dans la tribu de Gad (Josué 20.8). Malgré l'avertissement du prophète Michée, Achab et Josaphat montent contre Ramoth en Galaad. Achab se déguise ; mais « un homme tira de son arc au hasard, et frappa le roi d'Israël au défaut de la cuirasse » ; il meurt le soir (1 Rois 22.29-35).\n\nC'est encore à Ramoth qu'un disciple d'Élisée vient oindre Jéhu, en plein conseil des chefs de l'armée (2 Rois 9.1-6). La parole de Dieu atteint sa cible, même « au hasard ».",
+   "geo": [
+    35.98,
+    32.48
+   ]
+  },
+  {
+   "id": "galaad",
+   "nom": "Galaad",
+   "match": [
+    {
+     "v": "Galaad"
+    }
+   ],
+   "passages": [
+    [
+     "Genèse 31",
+     1,
+     31
+    ],
+    [
+     "Nombres 32",
+     4,
+     32
+    ],
+    [
+     "Jérémie 8",
+     24,
+     8
+    ]
+   ],
+   "bio": "Région montagneuse et boisée à l'est du Jourdain, connue pour son baume ; territoire de Gad, Ruben et d'une partie de Manassé.",
+   "histoire": "Jacob et Laban y scellent leur alliance (Genèse 31.21-25). Ruben, Gad et la demi-tribu de Manassé demandent ce pays de pâturages pour leurs troupeaux (Nombres 32.1, 33). Jephthé et le prophète Élie, « le Thischbite », sont des fils de Galaad (Juges 11.1 ; 1 Rois 17.1).\n\nSes caravanes d'aromates passaient vers l'Égypte (Genèse 37.25). Jérémie en tire une plainte devenue célèbre : « N'y a-t-il point de baume en Galaad ? N'y a-t-il point de médecin ? » (Jérémie 8.22).",
+   "geo": [
+    35.8,
+    32.25
+   ]
+  },
+  {
+   "id": "basan",
+   "nom": "Basan",
+   "match": [
+    {
+     "v": "Basan"
+    }
+   ],
+   "passages": [
+    [
+     "Nombres 21",
+     4,
+     21
+    ],
+    [
+     "Deutéronome 3",
+     5,
+     3
+    ],
+    [
+     "Psaumes 22",
+     19,
+     22
+    ]
+   ],
+   "bio": "Plateau fertile au nord-est du Jourdain, célèbre pour ses chênes et son bétail ; royaume d'Og, conquis par Moïse.",
+   "histoire": "Og, roi de Basan, sort à la rencontre d'Israël ; Dieu le livre entre les mains de Moïse (Nombres 21.33-35). Son lit de fer était resté légendaire (Deutéronome 3.11).\n\nSes troupeaux engraissés deviennent des images : le psalmiste, figure du Messie souffrant, dit : « Des taureaux de Basan m'environnent » (Psaumes 22.13), et Amos interpelle les femmes riches de Samarie : « génisses de Basan […] Vous qui opprimez les misérables » (Amos 4.1).",
+   "geo": [
+    36.2,
+    32.8
+   ]
+  },
+  {
+   "id": "hermon",
+   "nom": "Hermon",
+   "match": [
+    {
+     "v": "Hermon"
+    }
+   ],
+   "passages": [
+    [
+     "Deutéronome 3",
+     5,
+     3
+    ],
+    [
+     "Psaumes 133",
+     19,
+     133
+    ]
+   ],
+   "bio": "Plus haut sommet de la région (plus de 2 800 m), à la frontière nord d'Israël ; ses neiges abreuvent les sources du Jourdain.",
+   "histoire": "Il marque la limite nord des conquêtes de Moïse et de Josué (Deutéronome 3.8 ; Josué 11.17).\n\nSa rosée abondante devient l'image de la bénédiction de l'unité : « Voici, oh ! qu'il est agréable, qu'il est doux Pour des frères de demeurer ensemble ! […] C'est comme la rosée de l'Hermon, Qui descend sur les montagnes de Sion » (Psaumes 133.1-3). Beaucoup pensent que la Transfiguration eut lieu sur ses pentes, près de Césarée de Philippe.",
+   "geo": [
+    35.86,
+    33.42
+   ]
+  },
+  {
+   "id": "ebal",
+   "nom": "Mont Ébal",
+   "match": [
+    {
+     "v": "Ébal",
+     "l": [
+      5,
+      6
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Deutéronome 27",
+     5,
+     27
+    ],
+    [
+     "Josué 8",
+     6,
+     8
+    ]
+   ],
+   "bio": "Montagne face au Garizim, au-dessus de Sichem : Josué y bâtit un autel et y lut toute la loi, bénédictions et malédictions.",
+   "histoire": "Moïse ordonne : « vous dresserez sur le mont Ébal ces pierres » où sera écrite la loi (Deutéronome 27.4). Les malédictions y seront prononcées, et les bénédictions depuis le Garizim (Deutéronome 11.29).\n\nJosué obéit : il bâtit un autel de pierres brutes et écrit sur les pierres une copie de la loi ; puis « Il n'y eut rien de tout ce que Moïse avait prescrit, que Josué ne lût en présence de toute l'assemblée d'Israël, des femmes et des enfants, et des étrangers » (Josué 8.30-35). Entrer dans la promesse commence par écouter la Parole.",
+   "geo": [
+    35.27,
+    32.23
+   ]
+  },
+  {
+   "id": "guilboa",
+   "nom": "Guilboa",
+   "match": [
+    {
+     "v": "Guilboa"
+    }
+   ],
+   "passages": [
+    [
+     "1 Samuel 31",
+     9,
+     31
+    ],
+    [
+     "2 Samuel 1",
+     10,
+     1
+    ]
+   ],
+   "bio": "Chaîne de collines dominant la plaine de Jizreel : Saül et ses trois fils, dont Jonathan, y périrent face aux Philistins.",
+   "histoire": "La veille, Saül a consulté la nécromancienne d'En-Dor (1 Samuel 28.4-7). Le lendemain, les hommes d'Israël « tombèrent morts sur la montagne de Guilboa » ; Jonathan meurt, Saül blessé se jette sur son épée : « Ainsi périrent en même temps, dans cette journée, Saül et ses trois fils » (1 Samuel 31.1-6).\n\nDavid chante sa complainte : « Montagnes de Guilboa ! Qu'il n'y ait sur vous ni rosée ni pluie […] Car là ont été jetés les boucliers des héros » (2 Samuel 1.21).",
+   "geo": [
+    35.41,
+    32.47
+   ]
+  },
+  {
+   "id": "kison",
+   "nom": "Torrent de Kison",
+   "match": [
+    {
+     "v": "Kison"
+    }
+   ],
+   "passages": [
+    [
+     "Juges 5",
+     7,
+     5
+    ],
+    [
+     "1 Rois 18",
+     11,
+     18
+    ]
+   ],
+   "bio": "Cours d'eau de la plaine de Jizreel vers la baie d'Haïfa : il emporta l'armée de Sisera ; Élie y fit périr les prophètes de Baal.",
+   "histoire": "Dieu met en déroute les chars de Sisera, enlisés dans la plaine détrempée : « Le torrent de Kison les a entraînés, Le torrent des anciens temps, le torrent de Kison » (Juges 5.21).\n\nAprès le feu tombé du ciel sur le Carmel, Élie fait descendre les prophètes de Baal au torrent de Kison, où ils sont mis à mort (1 Rois 18.40). Le Kison coule au pied du Carmel, témoin des deux victoires.",
+   "geo": [
+    35.1,
+    32.7
+   ]
+  },
+  {
+   "id": "cedron",
+   "nom": "Torrent du Cédron",
+   "match": [
+    {
+     "v": "Cédron"
+    }
+   ],
+   "passages": [
+    [
+     "2 Samuel 15",
+     10,
+     15
+    ],
+    [
+     "Jean 18",
+     43,
+     18
+    ]
+   ],
+   "bio": "Vallée à l'est de Jérusalem, entre la ville et le mont des Oliviers ; David la traversa en fuyant Absalom, et Jésus la nuit de son arrestation.",
+   "histoire": "David, trahi par son fils, quitte Jérusalem en pleurs : « Le roi passa le torrent de Cédron » (2 Samuel 15.23). Les rois réformateurs Asa, Ézéchias et Josias y brûlent les idoles (1 Rois 15.13 ; 2 Rois 23.6).\n\nMille ans plus tard, le Fils de David fait le même chemin : « Jésus alla avec ses disciples de l'autre côté du torrent du Cédron, où se trouvait un jardin » (Jean 18.1). Comme David, il est trahi par un proche ; mais lui va librement vers la croix.",
+   "geo": [
+    35.24,
+    31.78
+   ]
+  },
+  {
+   "id": "kades",
+   "nom": "Kadès-Barnéa",
+   "match": [
+    {
+     "v": "Kadès",
+     "l": [
+      1,
+      5
+     ]
+    },
+    {
+     "v": "Kadès",
+     "l": [
+      7,
+      7
+     ],
+     "c": [
+      11,
+      11
+     ]
+    },
+    {
+     "v": "Kadès",
+     "l": [
+      19,
+      19
+     ]
+    },
+    {
+     "v": "Kadès",
+     "l": [
+      26,
+      26
+     ]
+    },
+    {
+     "v": "Kadès-Barnéa"
+    }
+   ],
+   "passages": [
+    [
+     "Nombres 13",
+     4,
+     13
+    ],
+    [
+     "Nombres 20",
+     4,
+     20
+    ]
+   ],
+   "bio": "Oasis du désert au sud de Canaan, camp principal d'Israël pendant les années du désert : refus d'entrer dans le pays, mort de Miriam, eaux de Meriba.",
+   "histoire": "C'est à Kadès que les douze espions reviennent montrer les fruits du pays (Nombres 13.26). Mais le peuple croit le rapport des dix et refuse d'entrer : il errera quarante ans (Nombres 14.33-34).\n\nDes années plus tard, « le peuple s'arrêta à Kadès. C'est là que mourut Marie » (Nombres 20.1). Faute d'eau, le peuple conteste ; Moïse « frappa deux fois le rocher avec sa verge » au lieu de lui parler, et Dieu lui dit : « vous ne ferez point entrer cette assemblée dans le pays » (Nombres 20.11-12).",
+   "geo": [
+    34.42,
+    30.65
+   ]
+  },
+  {
+   "id": "mara",
+   "nom": "Mara",
+   "match": [
+    {
+     "v": "Mara",
+     "l": [
+      2,
+      4
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Exode 15",
+     2,
+     15
+    ]
+   ],
+   "bio": "« Amertume » : première halte d'Israël après la mer Rouge, où les eaux amères furent rendues douces.",
+   "histoire": "Trois jours sans eau, puis la déception : « ils ne purent pas boire l'eau de Mara parce qu'elle était amère » ; le peuple murmure : « Que boirons-nous ? » (Exode 15.23-24).\n\n« Moïse cria à l'Éternel ; et l'Éternel lui indiqua un bois, qu'il jeta dans l'eau. Et l'eau devint douce. » Là, Dieu se révèle : « je suis l'Éternel, qui te guérit » (Exode 15.25-26). Juste après vient Élim et ses douze sources (Exode 15.27).",
+   "geo": [
+    32.95,
+    29.6
+   ]
+  },
+  {
+   "id": "elim",
+   "nom": "Élim",
+   "match": [
+    {
+     "v": "Élim"
+    }
+   ],
+   "passages": [
+    [
+     "Exode 15",
+     2,
+     15
+    ]
+   ],
+   "bio": "Oasis du désert du Sinaï aux douze sources et soixante-dix palmiers, où Israël campa après Mara.",
+   "histoire": "Après l'amertume de Mara, Dieu conduit son peuple au repos : « Ils arrivèrent à Élim, où il y avait douze sources d'eau et soixante-dix palmiers. Ils campèrent là, près de l'eau » (Exode 15.27).\n\nDouze sources pour douze tribus. Le chemin de Dieu alterne épreuves et rafraîchissements ; il sait ce dont son peuple a besoin. Ensuite, Israël entre dans le désert de Sin, où tombera la manne (Exode 16.1).",
+   "geo": [
+    33.0,
+    29.3
+   ]
+  },
+  {
+   "id": "rephidim",
+   "nom": "Rephidim",
+   "match": [
+    {
+     "v": "Rephidim"
+    }
+   ],
+   "passages": [
+    [
+     "Exode 17",
+     2,
+     17
+    ]
+   ],
+   "bio": "Étape avant le Sinaï : Dieu y fit jaillir l'eau du rocher, et Israël y vainquit Amalek pendant que Moïse priait, les mains levées.",
+   "histoire": "Le peuple, sans eau, conteste : « L'Éternel est-il au milieu de nous, ou n'y est-il pas ? » Dieu dit à Moïse : « tu frapperas le rocher, et il en sortira de l'eau » ; le lieu est nommé Massa et Meriba (Exode 17.6-7).\n\nPuis Amalek attaque. Josué combat dans la plaine, tandis que Moïse tient les mains levées sur la colline, soutenu par Aaron et Hur ; Moïse bâtit ensuite un autel « et lui donna pour nom : l'Éternel ma bannière » (Exode 17.11-15).",
+   "geo": [
+    33.6,
+    28.7
+   ]
+  },
+  {
+   "id": "gosen",
+   "nom": "Gosen",
+   "match": [
+    {
+     "v": "Gosen",
+     "l": [
+      1,
+      2
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Genèse 45",
+     1,
+     45
+    ],
+    [
+     "Genèse 47",
+     1,
+     47
+    ],
+    [
+     "Exode 9",
+     2,
+     9
+    ]
+   ],
+   "bio": "Région fertile de l'est du delta du Nil où Jacob et ses fils s'installèrent ; épargnée par plusieurs plaies d'Égypte.",
+   "histoire": "Joseph fait dire à son père : « Tu habiteras dans le pays de Gosen, et tu seras près de moi » (Genèse 45.10). Pharaon les établit « dans la meilleure partie du pays », et ils « furent féconds et multiplièrent beaucoup » (Genèse 47.6, 27).\n\nPendant les plaies, Dieu fait la distinction : « je distinguerai le pays de Gosen où habite mon peuple » (Exode 8.18), et « Ce fut seulement dans le pays de Gosen, où étaient les enfants d'Israël, qu'il n'y eut point de grêle » (Exode 9.26).",
+   "geo": [
+    31.8,
+    30.8
+   ]
+  },
+  {
+   "id": "charan",
+   "nom": "Charan",
+   "match": [
+    {
+     "v": "Charan"
+    }
+   ],
+   "passages": [
+    [
+     "Genèse 11",
+     1,
+     11
+    ],
+    [
+     "Genèse 12",
+     1,
+     12
+    ],
+    [
+     "Genèse 29",
+     1,
+     29
+    ]
+   ],
+   "bio": "Ville de Haute-Mésopotamie où s'arrêta la famille de Térach ; Abram en partit pour Canaan, et Jacob y servit Laban vingt ans.",
+   "histoire": "Térach quitte Ur avec Abram et Lot : « Ils vinrent jusqu'à Charan, et ils y habitèrent » (Genèse 11.31). Après la mort de son père, « Abram partit, comme l'Éternel le lui avait dit […] Abram était âgé de soixante-quinze ans, lorsqu'il sortit de Charan » (Genèse 12.4).\n\nLa famille reste en lien avec Charan : Rebecca en vient (Genèse 24.10), et Jacob y fuit Ésaü, y épouse Léa et Rachel et y voit naître presque tous ses fils (Genèse 28.10 ; 29.4).",
+   "geo": [
+    39.03,
+    36.86
+   ]
+  },
+  {
+   "id": "assyrie",
+   "nom": "Assyrie",
+   "match": [
+    {
+     "v": "Assyrie"
+    }
+   ],
+   "passages": [
+    [
+     "2 Rois 17",
+     12,
+     17
+    ],
+    [
+     "2 Rois 19",
+     12,
+     19
+    ],
+    [
+     "Ésaïe 10",
+     23,
+     10
+    ]
+   ],
+   "bio": "Empire du nord de la Mésopotamie, capitale Ninive : il détruisit le royaume d'Israël (722 av. J.-C.) et assiégea Jérusalem sous Ézéchias.",
+   "histoire": "Le roi d'Assyrie prend Samarie et déporte Israël, « parce que les enfants d'Israël péchèrent contre l'Éternel » (2 Rois 17.6-7). Sanchérib envahit ensuite Juda ; mais après la prière d'Ézéchias, l'ange de l'Éternel frappe le camp assyrien (2 Rois 19.35).\n\nÉsaïe s'écrie : « Malheur à l'Assyrien, verge de ma colère ! » — un instrument qui se croit maître et sera jugé à son tour (Ésaïe 10.5-12). Ninive tombera en 612 av. J.-C., comme l'avait annoncé Nahum.",
+   "geo": [
+    43.3,
+    36.4
+   ]
+  },
+  {
+   "id": "suse",
+   "nom": "Suse",
+   "match": [
+    {
+     "v": "Suse"
+    }
+   ],
+   "passages": [
+    [
+     "Néhémie 1",
+     16,
+     1
+    ],
+    [
+     "Esther 4",
+     17,
+     4
+    ],
+    [
+     "Daniel 8",
+     27,
+     8
+    ]
+   ],
+   "bio": "Capitale perse, résidence royale : cadre du livre d'Esther et lieu où Néhémie, échanson du roi, apprit la ruine de Jérusalem.",
+   "histoire": "Néhémie écrit : « comme j'étais à Suse, dans la capitale », il reçoit les nouvelles de Jérusalem (Néhémie 1.1-3). Daniel s'y voit en vision « à Suse, la capitale » (Daniel 8.2).\n\nC'est à Suse qu'Esther, devant l'édit de mort, demande à Mardochée : « Va, rassemble tous les Juifs qui se trouvent à Suse, et jeûnez pour moi […] et si je dois périr, je périrai » (Esther 4.16). Le palais du roi le plus puissant devient le théâtre de la fidélité de Dieu.",
+   "geo": [
+    48.26,
+    32.19
+   ]
+  },
+  {
+   "id": "tarsis",
+   "nom": "Tarsis",
+   "match": [
+    {
+     "v": "Tarsis",
+     "l": [
+      11,
+      12
+     ]
+    },
+    {
+     "v": "Tarsis",
+     "l": [
+      14,
+      66
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "1 Rois 10",
+     11,
+     10
+    ],
+    [
+     "Jonas 1",
+     32,
+     1
+    ]
+   ],
+   "bio": "Port lointain de l'Occident, peut-être Tartessos en Espagne : symbole du bout du monde connu, et destination de la fuite de Jonas.",
+   "histoire": "Les « navires de Tarsis » de Salomon rapportaient or, argent, ivoire, singes et paons (1 Rois 10.22). Ézéchiel cite ses marchands d'argent, de fer, d'étain et de plomb (Ézéchiel 27.12). Sa localisation exacte reste discutée.\n\nC'est là que Jonas veut fuir : « Et Jonas se leva pour s'enfuir à Tarsis, loin de la face de l'Éternel » (Jonas 1.3). Mais on ne fuit pas Dieu : la tempête le rattrape en mer (Psaumes 139.9-10)."
+  },
+  {
+   "id": "edom",
+   "nom": "Édom",
+   "match": [
+    {
+     "v": "Édom"
+    }
+   ],
+   "passages": [
+    [
+     "Genèse 36",
+     1,
+     36
+    ],
+    [
+     "Nombres 20",
+     4,
+     20
+    ],
+    [
+     "Abdias 1",
+     31,
+     1
+    ]
+   ],
+   "bio": "Pays montagneux au sud-est de la mer Morte, peuplé par les descendants d'Ésaü (appelé Édom) ; frère et souvent ennemi d'Israël.",
+   "histoire": "« Ésaü, c'est Édom » (Genèse 36.8). Quand Israël demande à passer par son territoire, Édom refuse et sort en armes (Nombres 20.14-21). David le soumet ; Édom se révolte plus tard (2 Rois 8.20).\n\nLors de la chute de Jérusalem, Édom se réjouit et pille. Abdias lui adresse tout son livre : « L'orgueil de ton cœur t'a égaré, Toi qui habites le creux des rochers » ; « À cause de ta violence contre ton frère Jacob, Tu seras couvert de honte » (Abdias 1.3-10). Les Hérode étaient Iduméens, descendants d'Édom.",
+   "geo": [
+    35.6,
+    30.6
+   ]
+  },
+  {
+   "id": "anathoth",
+   "nom": "Anathoth",
+   "match": [
+    {
+     "v": "Anathoth"
+    }
+   ],
+   "passages": [
+    [
+     "Jérémie 1",
+     24,
+     1
+    ],
+    [
+     "Jérémie 32",
+     24,
+     32
+    ]
+   ],
+   "bio": "Ville sacerdotale de Benjamin, au nord-est de Jérusalem : patrie de Jérémie, qui y acheta un champ pendant le siège.",
+   "histoire": "Ville des sacrificateurs : Salomon y exile le grand prêtre Abiathar (1 Rois 2.26). Jérémie est « fils de Hilkija, l'un des sacrificateurs d'Anathoth, dans le pays de Benjamin » (Jérémie 1.1). Ses propres compatriotes complotent contre lui (Jérémie 11.21).\n\nAlors que Jérusalem va tomber, Dieu lui ordonne d'acheter le champ de son cousin Hanameel à Anathoth : « On achètera encore des maisons, des champs et des vignes, dans ce pays » (Jérémie 32.7-15). Parmi les exilés qui revinrent, on compte « les gens d'Anathoth, cent vingt-huit » (Esdras 2.23).",
+   "geo": [
+    35.26,
+    31.81
+   ]
+  },
+  {
+   "id": "kirjath-jearim",
+   "nom": "Kirjath-Jearim",
+   "match": [
+    {
+     "v": "Kirjath-Jearim"
+    }
+   ],
+   "passages": [
+    [
+     "1 Samuel 7",
+     9,
+     7
+    ],
+    [
+     "1 Chroniques 13",
+     13,
+     13
+    ]
+   ],
+   "bio": "Ville gabaonite, à l'ouest de Jérusalem, où l'arche resta vingt ans dans la maison d'Abinadab.",
+   "histoire": "Après Beth-Schémesch, « Les gens de Kirjath-Jearim vinrent, et firent monter l'arche de l'Éternel ; ils la conduisirent dans la maison d'Abinadab, sur la colline » (1 Samuel 7.1). « Vingt années s'étaient écoulées. Alors toute la maison d'Israël poussa des gémissements vers l'Éternel » (1 Samuel 7.2).\n\nDavid vient l'y chercher pour la conduire à Jérusalem — d'abord sur un char neuf, et Uzza meurt (1 Chroniques 13.5-10). C'est aussi la ville du prophète Urie, mis à mort par Jojakim (Jérémie 26.20).",
+   "geo": [
+    35.1,
+    31.81
+   ]
+  },
+  {
+   "id": "nob",
+   "nom": "Nob",
+   "match": [
+    {
+     "v": "Nob",
+     "l": [
+      9,
+      9
+     ]
+    },
+    {
+     "v": "Nob",
+     "l": [
+      16,
+      16
+     ]
+    },
+    {
+     "v": "Nob",
+     "l": [
+      23,
+      23
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "1 Samuel 21",
+     9,
+     21
+    ],
+    [
+     "1 Samuel 22",
+     9,
+     22
+    ]
+   ],
+   "bio": "« Ville sacerdotale » près de Jérusalem, où David reçut les pains consacrés ; Saül en fit massacrer les sacrificateurs.",
+   "histoire": "David en fuite arrive « à Nob, vers le sacrificateur Achimélec ». Faute d'autre pain, Achimélec lui donne « du pain consacré » et l'épée de Goliath (1 Samuel 21.1-9). Jésus citera cet épisode : la miséricorde passe avant le rite (Matthieu 12.3-4).\n\nDoëg l'Édomite a tout vu. Sur l'ordre de Saül, il tue quatre-vingt-cinq sacrificateurs, puis « Saül frappa encore du tranchant de l'épée Nob, ville sacerdotale » (1 Samuel 22.18-19). Seul Abiathar s'échappe et rejoint David.",
+   "geo": [
+    35.24,
+    31.79
+   ]
+  },
+  {
+   "id": "ziph",
+   "nom": "Désert de Ziph",
+   "match": [
+    {
+     "v": "Ziph",
+     "l": [
+      9,
+      9
+     ]
+    },
+    {
+     "v": "Ziph",
+     "l": [
+      6,
+      6
+     ]
+    },
+    {
+     "v": "Ziph",
+     "l": [
+      14,
+      14
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "1 Samuel 23",
+     9,
+     23
+    ],
+    [
+     "1 Samuel 26",
+     9,
+     26
+    ]
+   ],
+   "bio": "Région désertique au sud-est d'Hébron, où David se cacha ; les Ziphiens le trahirent deux fois auprès de Saül.",
+   "histoire": "« Les Ziphiens montèrent auprès de Saül à Guibea, et dirent : David n'est-il pas caché parmi nous ? » (1 Samuel 23.19). C'est dans ce désert que Jonathan vient fortifier David « en Dieu » (1 Samuel 23.16).\n\nLors d'une seconde trahison, David pénètre de nuit dans le camp de Saül et emporte sa lance et sa cruche, sans toucher à l'oint de l'Éternel (1 Samuel 26.1-12). Le Psaume 54 porte en titre ce moment où les Ziphiens le livrèrent.",
+   "geo": [
+    35.12,
+    31.48
+   ]
+  },
+  {
+   "id": "maon",
+   "nom": "Maon",
+   "match": [
+    {
+     "v": "Maon",
+     "l": [
+      9,
+      9
+     ]
+    },
+    {
+     "v": "Maon",
+     "l": [
+      6,
+      6
+     ],
+     "c": [
+      15,
+      15
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "1 Samuel 23",
+     9,
+     23
+    ],
+    [
+     "1 Samuel 25",
+     9,
+     25
+    ]
+   ],
+   "bio": "Ville et désert de Juda, au sud d'Hébron : David y échappa de justesse à Saül ; patrie de Nabal.",
+   "histoire": "Dans le désert de Maon, Saül encercle presque David, « lorsqu'un messager vint dire à Saül : Hâte-toi de venir, car les Philistins ont fait invasion dans le pays ». Le lieu est appelé Séla-Hammachlekoth (1 Samuel 23.26-28), c'est-à-dire rocher de la séparation.\n\n« Il y avait à Maon un homme fort riche, possédant des biens à Carmel » : Nabal, mari d'Abigaïl (1 Samuel 25.2-3). Sa dureté envers David aurait coûté cher, sans la sagesse de sa femme.",
+   "geo": [
+    35.13,
+    31.41
+   ]
+  },
+  {
+   "id": "carmel-juda",
+   "nom": "Carmel (de Juda)",
+   "match": [
+    {
+     "v": "Carmel",
+     "l": [
+      9,
+      10
+     ]
+    },
+    {
+     "v": "Carmel",
+     "l": [
+      6,
+      6
+     ],
+     "c": [
+      15,
+      15
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "1 Samuel 15",
+     9,
+     15
+    ],
+    [
+     "1 Samuel 25",
+     9,
+     25
+    ]
+   ],
+   "bio": "Bourg de Juda près de Maon, à ne pas confondre avec le mont Carmel : Saül y dressa un monument, Nabal y tondait ses brebis.",
+   "histoire": "Après sa victoire sur Amalek, Saül « s'est érigé un monument » à Carmel, avant d'être rejeté par Dieu pour sa désobéissance (1 Samuel 15.12, 23).\n\nC'est aussi à Carmel que Nabal tond ses trois mille brebis et refuse tout à David (1 Samuel 25.2-11). Abigaïl, sa femme, sauve la situation ; veuve, elle devient l'épouse de David — d'où son nom d'« Abigaïl, de Carmel » (1 Samuel 27.3).",
+   "geo": [
+    35.14,
+    31.43
+   ]
+  },
+  {
+   "id": "guibea",
+   "nom": "Guibea",
+   "match": [
+    {
+     "v": "Guibea",
+     "l": [
+      7,
+      7
+     ],
+     "c": [
+      19,
+      20
+     ]
+    },
+    {
+     "v": "Guibea",
+     "l": [
+      9,
+      10
+     ]
+    },
+    {
+     "v": "Guibea",
+     "l": [
+      23,
+      23
+     ]
+    },
+    {
+     "v": "Guibea",
+     "l": [
+      28,
+      28
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Juges 19",
+     7,
+     19
+    ],
+    [
+     "1 Samuel 10",
+     9,
+     10
+    ],
+    [
+     "1 Samuel 11",
+     9,
+     11
+    ]
+   ],
+   "bio": "Ville de Benjamin au nord de Jérusalem, tristement célèbre pour le crime de Juges 19 ; plus tard « Guibea de Saül », sa capitale.",
+   "histoire": "Un Lévite et sa concubine y passent la nuit : « Il n'y eut personne qui les reçût dans sa maison » (Juges 19.15). Le crime abominable qui suit déclenche une guerre où Benjamin manque d'être anéanti (Juges 20.13). Osée y voit encore le symbole d'une corruption profonde (Osée 9.9).\n\nC'est pourtant de Guibea que vient le premier roi : « Saül aussi s'en alla dans sa maison à Guibea. Il fut accompagné par les honnêtes gens, dont Dieu avait touché le cœur » (1 Samuel 10.26). De là, il part délivrer Jabès en Galaad (1 Samuel 11.4-11).",
+   "geo": [
+    35.23,
+    31.82
+   ]
+  },
+  {
+   "id": "keila",
+   "nom": "Keïla",
+   "match": [
+    {
+     "v": "Keïla"
+    }
+   ],
+   "passages": [
+    [
+     "1 Samuel 23",
+     9,
+     23
+    ]
+   ],
+   "bio": "Ville de la Chéphéla de Juda, délivrée des Philistins par David, qui consulta l'Éternel à chaque étape.",
+   "histoire": "« Voici, les Philistins ont attaqué Keïla. » David consulte l'Éternel, puis le consulte encore quand ses hommes ont peur : « Lève-toi, descends à Keïla, car je livre les Philistins entre tes mains » ; « Ainsi David délivra les habitants de Keïla » (1 Samuel 23.1-5).\n\nMais quand Saül approche, David demande : « Les habitants de Keïla me livreront-ils ? […] Et l'Éternel répondit : Ils te livreront. » Il s'en va aussitôt (1 Samuel 23.12-13). Servir sans attendre de reconnaissance, et rester guidé par Dieu.",
+   "geo": [
+    35.0,
+    31.61
+   ]
+  },
+  {
+   "id": "soco",
+   "nom": "Soco",
+   "match": [
+    {
+     "v": "Soco"
+    }
+   ],
+   "passages": [
+    [
+     "1 Samuel 17",
+     9,
+     17
+    ]
+   ],
+   "bio": "Ville de Juda dominant la vallée des térébinthes, où les Philistins campèrent quand Goliath défia Israël.",
+   "histoire": "« Les Philistins […] se rassemblèrent à Soco, qui appartient à Juda ; ils campèrent entre Soco et Azéka. » Saül et Israël campent en face, « dans la vallée des térébinthes » (1 Samuel 17.1-2).\n\nC'est dans cette vallée que le jeune berger David vient au-devant du géant avec sa fronde « au nom de l'Éternel des armées » (1 Samuel 17.45). Le lieu existe toujours : la vallée d'Ela, au sud-ouest de Jérusalem.",
+   "geo": [
+    34.97,
+    31.68
+   ]
+  },
+  {
+   "id": "morija",
+   "nom": "Morija",
+   "match": [
+    {
+     "v": "Morija"
+    }
+   ],
+   "passages": [
+    [
+     "Genèse 22",
+     1,
+     22
+    ],
+    [
+     "2 Chroniques 3",
+     14,
+     3
+    ]
+   ],
+   "bio": "Pays et montagne où Abraham dut offrir Isaac ; la même montagne où Salomon bâtit le temple de Jérusalem.",
+   "histoire": "« Prends ton fils, ton unique, celui que tu aimes, Isaac ; va-t'en au pays de Morija, et là offre-le en holocauste » (Genèse 22.2). Dieu arrête la main d'Abraham et pourvoit un bélier ; Abraham appelle le lieu Jehova-Jiré : « À la montagne de l'Éternel il sera pourvu » (Genèse 22.14).\n\nDes siècles plus tard, « Salomon commença à bâtir la maison de l'Éternel à Jérusalem, sur la montagne de Morija » (2 Chroniques 3.1). Là où Dieu avait épargné le fils d'Abraham, il ferait offrir les sacrifices — jusqu'à ce qu'il n'épargne pas son propre Fils (Romains 8.32).",
+   "geo": [
+    35.235,
+    31.778
+   ]
+  },
+  {
+   "id": "sorek",
+   "nom": "Vallée de Sorek",
+   "match": [
+    {
+     "v": "Sorek"
+    }
+   ],
+   "passages": [
+    [
+     "Juges 16",
+     7,
+     16
+    ]
+   ],
+   "bio": "Vallée entre les collines de Juda et la plaine philistine, où vivait Delila.",
+   "histoire": "« Après cela, il aima une femme dans la vallée de Sorek. Elle se nommait Delila » (Juges 16.4). Les princes philistins lui promettent chacun mille cent sicles d'argent pour découvrir le secret de la force de Samson.\n\nTrois fois Samson joue avec le danger, la quatrième il livre son secret ; ses cheveux rasés, « l'Éternel s'était retiré de lui » (Juges 16.20). La vallée de Sorek rappelle que les compromis répétés finissent par coûter la vision.",
+   "geo": [
+    34.95,
+    31.77
+   ]
+  },
+  {
+   "id": "peniel",
+   "nom": "Peniel (Penuel)",
+   "match": [
+    {
+     "v": "Peniel"
+    },
+    {
+     "v": "Penuel",
+     "l": [
+      7,
+      7
+     ]
+    },
+    {
+     "v": "Penuel",
+     "l": [
+      11,
+      11
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Genèse 32",
+     1,
+     32
+    ],
+    [
+     "Juges 8",
+     7,
+     8
+    ]
+   ],
+   "bio": "« Face de Dieu » : gué du Jabbok où Jacob lutta avec Dieu toute la nuit et reçut le nom d'Israël.",
+   "histoire": "Après la lutte nocturne, « Jacob appela ce lieu du nom de Peniel : car, dit-il, j'ai vu Dieu face à face, et mon âme a été sauvée. Le soleil se levait, lorsqu'il passa Peniel. Jacob boitait de la hanche » (Genèse 32.30-31). Béni, mais marqué pour toujours.\n\nPlus tard, Gédéon y renverse la tour des habitants qui avaient refusé du pain à ses hommes épuisés (Juges 8.8-9, 17), et Jéroboam la fortifie (1 Rois 12.25).",
+   "geo": [
+    35.65,
+    32.19
+   ]
+  },
+  {
+   "id": "jabbok",
+   "nom": "Jabbok",
+   "match": [
+    {
+     "v": "Jabbok"
+    }
+   ],
+   "passages": [
+    [
+     "Genèse 32",
+     1,
+     32
+    ],
+    [
+     "Deutéronome 3",
+     5,
+     3
+    ]
+   ],
+   "bio": "Affluent oriental du Jourdain, en Galaad : Jacob y passa le gué la nuit de sa lutte avec Dieu.",
+   "histoire": "Jacob craint la rencontre avec Ésaü. « Il se leva la même nuit, prit ses deux femmes, ses deux servantes, et ses onze enfants, et passa le gué de Jabbok. » Resté seul, il lutte jusqu'à l'aurore et ne lâche pas : « Je ne te laisserai point aller, que tu ne m'aies béni » (Genèse 32.22-26).\n\nLe Jabbok servait aussi de frontière, notamment avec les Ammonites (Deutéronome 3.16).",
+   "geo": [
+    35.6,
+    32.15
+   ]
+  },
+  {
+   "id": "mamre",
+   "nom": "Mamré",
+   "match": [
+    {
+     "v": "Mamré"
+    }
+   ],
+   "passages": [
+    [
+     "Genèse 13",
+     1,
+     13
+    ],
+    [
+     "Genèse 18",
+     1,
+     18
+    ],
+    [
+     "Genèse 23",
+     1,
+     23
+    ]
+   ],
+   "bio": "Bois de chênes près d'Hébron où Abraham habita et reçut la visite de l'Éternel ; la caverne de Macpéla lui fait face.",
+   "histoire": "« Abram leva ses tentes, et vint habiter parmi les chênes de Mamré, qui sont près d'Hébron. Et il bâtit là un autel à l'Éternel » (Genèse 13.18). C'est là que « L'Éternel lui apparut parmi les chênes de Mamré », sous les traits de trois visiteurs, pour annoncer la naissance d'Isaac (Genèse 18.1-10).\n\nAbraham y achète son unique propriété en Canaan : la caverne de Macpéla, « vis-à-vis de Mamré », où il enterre Sara (Genèse 23.19), et où il sera lui-même enseveli, puis Isaac, Rebecca, Léa et Jacob (Genèse 49.30-31).",
+   "geo": [
+    35.1,
+    31.55
+   ]
+  },
+  {
+   "id": "guerar",
+   "nom": "Guérar",
+   "match": [
+    {
+     "v": "Guérar",
+     "l": [
+      1,
+      1
+     ]
+    },
+    {
+     "v": "Guérar",
+     "l": [
+      14,
+      14
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Genèse 20",
+     1,
+     20
+    ],
+    [
+     "Genèse 26",
+     1,
+     26
+    ]
+   ],
+   "bio": "Ville du sud-ouest de Canaan, royaume d'Abimélec : Abraham puis Isaac y firent passer leur femme pour leur sœur.",
+   "histoire": "Abraham séjourne à Guérar et dit de Sara : « C'est ma sœur. » Dieu avertit Abimélec en songe (Genèse 20.1-7).\n\nPendant une famine, « Isaac alla vers Abimélec, roi des Philistins, à Guérar ». Dieu lui dit : « Séjourne dans ce pays-ci : je serai avec toi » ; Isaac répète la faute de son père, mais Dieu le bénit malgré tout : « il recueillit cette année le centuple » (Genèse 26.1-12). Ses puits disputés finissent à Rehoboth : « l'Éternel nous a maintenant mis au large » (Genèse 26.22).",
+   "geo": [
+    34.61,
+    31.38
+   ]
+  },
+  {
+   "id": "tachpanes",
+   "nom": "Tachpanès",
+   "match": [
+    {
+     "v": "Tachpanès"
+    }
+   ],
+   "passages": [
+    [
+     "Jérémie 43",
+     24,
+     43
+    ],
+    [
+     "Jérémie 44",
+     24,
+     44
+    ]
+   ],
+   "bio": "Ville frontière d'Égypte, dans le delta oriental, où les rescapés de Juda emmenèrent Jérémie de force.",
+   "histoire": "Malgré la parole de Dieu, Jochanan conduit le reste de Juda en Égypte : « ils arrivèrent à Tachpanès » (Jérémie 43.7). Là, Dieu ordonne à Jérémie : « Prends dans ta main de grandes pierres, et cache-les […] à l'entrée de la maison de Pharaon à Tachpanès » — Nebucadnetsar y placera son trône (Jérémie 43.9-10).\n\nC'est la dernière étape connue du ministère de Jérémie, qui continue d'avertir les Juifs d'Égypte (Jérémie 44.1).",
+   "geo": [
+    32.17,
+    30.86
+   ]
+  },
+  {
+   "id": "ribla",
+   "nom": "Ribla",
+   "match": [
+    {
+     "v": "Ribla",
+     "l": [
+      12,
+      12
+     ]
+    },
+    {
+     "v": "Ribla",
+     "l": [
+      24,
+      24
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "2 Rois 23",
+     12,
+     23
+    ],
+    [
+     "2 Rois 25",
+     12,
+     25
+    ],
+    [
+     "Jérémie 39",
+     24,
+     39
+    ]
+   ],
+   "bio": "Ville de Syrie, au pays de Hamath, quartier général de Néco puis de Nebucadnetsar ; Sédécias y vit égorger ses fils.",
+   "histoire": "Pharaon Néco y enchaîne le roi Joachaz (2 Rois 23.33). Vingt ans plus tard, Sédécias, capturé en fuyant Jérusalem, est conduit « vers le roi de Babylone à Ribla ». « Les fils de Sédécias furent égorgés en sa présence ; puis on creva les yeux à Sédécias » (2 Rois 25.6-7).\n\nLa dernière image que vit le dernier roi de Juda fut le fruit de son refus d'écouter Jérémie (Jérémie 38.17-18).",
+   "geo": [
+    36.55,
+    34.45
+   ]
+  },
+  {
+   "id": "carkemisch",
+   "nom": "Carkemisch",
+   "match": [
+    {
+     "v": "Carkemisch"
+    }
+   ],
+   "passages": [
+    [
+     "2 Chroniques 35",
+     14,
+     35
+    ],
+    [
+     "Jérémie 46",
+     24,
+     46
+    ]
+   ],
+   "bio": "Ville sur l'Euphrate où Nebucadnetsar écrasa l'armée égyptienne de Néco en 605 av. J.-C., bataille qui fit de Babylone la maîtresse de la région.",
+   "histoire": "C'est en marchant vers Carkemisch que Néco tue Josias à Meguiddo (2 Chroniques 35.20-24).\n\nJérémie date son oracle : « Sur l'armée de Pharaon Neco, roi d'Égypte, qui était près du fleuve de l'Euphrate, à Carkemisch, et qui fut battue par Nebucadnetsar, roi de Babylone, la quatrième année de Jojakim » (Jérémie 46.2). L'équilibre du monde bascule, comme les prophètes l'avaient annoncé.",
+   "geo": [
+    38.01,
+    36.83
+   ]
+  },
+  {
+   "id": "ono",
+   "nom": "Vallée d'Ono",
+   "match": [
+    {
+     "v": "Ono",
+     "l": [
+      13,
+      16
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Néhémie 6",
+     16,
+     6
+    ]
+   ],
+   "bio": "Plaine près de Lydde, où Sanballat et Guéschem voulurent attirer Néhémie pour lui faire du mal.",
+   "histoire": "Alors que la muraille est presque achevée, Sanballat et Guéschem envoient dire à Néhémie : « Viens, et ayons ensemble une entrevue dans les villages de la vallée d'Ono. » Néhémie comprend : « Ils avaient médité de me faire du mal » (Néhémie 6.2).\n\nSa réponse est restée un modèle de concentration sur l'appel de Dieu : « J'ai un grand ouvrage à exécuter, et je ne puis descendre ; le travail serait interrompu » (Néhémie 6.3). Ils insistent quatre fois ; il répond quatre fois de même (Néhémie 6.4).",
+   "geo": [
+    34.86,
+    32.03
+   ]
+  },
+  {
+   "id": "bethphage",
+   "nom": "Bethphagé",
+   "match": [
+    {
+     "v": "Bethphagé"
+    }
+   ],
+   "passages": [
+    [
+     "Matthieu 21",
+     40,
+     21
+    ],
+    [
+     "Luc 19",
+     42,
+     19
+    ]
+   ],
+   "bio": "Village sur le mont des Oliviers, près de Béthanie : Jésus en fit amener l'ânon de son entrée royale à Jérusalem.",
+   "histoire": "« Lorsqu'ils approchèrent de Jérusalem, et qu'ils furent arrivés à Bethphagé, vers la montagne des oliviers, Jésus envoya deux disciples » chercher une ânesse et son ânon (Matthieu 21.1-2).\n\nC'est l'accomplissement de Zacharie : « Voici, ton roi vient à toi, Plein de douceur, et monté sur un âne » (Matthieu 21.5 ; Zacharie 9.9). De Bethphagé part le cortège des Rameaux, le début de la semaine de la Passion.",
+   "geo": [
+    35.25,
+    31.78
+   ]
+  },
+  {
+   "id": "chorazin",
+   "nom": "Chorazin",
+   "match": [
+    {
+     "v": "Chorazin"
+    }
+   ],
+   "passages": [
+    [
+     "Matthieu 11",
+     40,
+     11
+    ],
+    [
+     "Luc 10",
+     42,
+     10
+    ]
+   ],
+   "bio": "Village de Galilée au nord de Capernaüm, témoin de nombreux miracles de Jésus, mais qui ne se repentit pas.",
+   "histoire": "Aucun miracle n'y est raconté, et pourtant Jésus dit qu'il y en eut beaucoup : « Malheur à toi, Chorazin ! malheur à toi, Bethsaïda ! car, si les miracles qui ont été faits au milieu de vous avaient été faits dans Tyr et dans Sidon, il y a longtemps qu'elles se seraient repenties » (Matthieu 11.21).\n\nPlus on a reçu de lumière, plus on est responsable (Luc 12.48). Les ruines de sa synagogue de basalte noir se visitent encore.",
+   "geo": [
+    35.56,
+    32.91
+   ]
+  },
+  {
+   "id": "decapole",
+   "nom": "Décapole",
+   "match": [
+    {
+     "v": "Décapole"
+    }
+   ],
+   "passages": [
+    [
+     "Marc 5",
+     41,
+     5
+    ],
+    [
+     "Marc 7",
+     41,
+     7
+    ]
+   ],
+   "bio": "« Dix villes » de culture grecque, surtout à l'est du Jourdain : un démoniaque délivré y devint le premier évangéliste.",
+   "histoire": "Des foules de la Décapole suivent Jésus dès le début (Matthieu 4.25). Après sa délivrance, l'homme de Gadara veut suivre Jésus ; celui-ci lui dit : « Va dans ta maison, vers les tiens, et raconte-leur tout ce que le Seigneur t'a fait » ; « Il s'en alla, et se mit à publier dans la Décapole tout ce que Jésus avait fait pour lui » (Marc 5.19-20).\n\nPlus tard, Jésus revient « en traversant le pays de la Décapole » et y guérit un sourd-muet (Marc 7.31-35) : le terrain avait été préparé par un seul témoignage.",
+   "geo": [
+    35.9,
+    32.5
+   ]
+  },
+  {
+   "id": "gadareniens",
+   "nom": "Pays des Gadaréniens",
+   "match": [
+    {
+     "v": "Gadaréniens"
+    },
+    {
+     "v": "Géraséniens"
+    }
+   ],
+   "passages": [
+    [
+     "Matthieu 8",
+     40,
+     8
+    ],
+    [
+     "Marc 5",
+     41,
+     5
+    ],
+    [
+     "Luc 8",
+     42,
+     8
+    ]
+   ],
+   "bio": "Rive orientale de la mer de Galilée, en territoire païen, où Jésus délivra un homme possédé d'une légion de démons.",
+   "histoire": "« Lorsqu'il fut à l'autre bord, dans le pays des Gadaréniens, deux démoniaques, sortant des sépulcres, vinrent au-devant de lui » (Matthieu 8.28). Marc et Luc se concentrent sur l'un d'eux, appelé Légion (Marc 5.9) ; Luc parle du « pays des Géraséniens, qui est vis-à-vis de la Galilée » (Luc 8.26).\n\nLes démons entrent dans un troupeau de pourceaux qui se précipite dans la mer. Les habitants, effrayés, prient Jésus de partir ; l'homme guéri, lui, est envoyé comme témoin (Marc 5.17-20).",
+   "geo": [
+    35.65,
+    32.83
+   ]
+  },
+  {
+   "id": "tiberiade",
+   "nom": "Tibériade",
+   "match": [
+    {
+     "v": "Tibériade"
+    }
+   ],
+   "passages": [
+    [
+     "Jean 6",
+     43,
+     6
+    ],
+    [
+     "Jean 21",
+     43,
+     21
+    ]
+   ],
+   "bio": "Ville fondée par Hérode Antipas sur la rive ouest du lac, en l'honneur de l'empereur Tibère ; le lac en prit aussi le nom.",
+   "histoire": "Jean appelle le lac « la mer de Galilée, de Tibériade » (Jean 6.1). Après la multiplication des pains, « d'autres barques étaient arrivées de Tibériade près du lieu où ils avaient mangé le pain » (Jean 6.23).\n\nC'est « sur les bords de la mer de Tibériade » que Jésus ressuscité se montre aux disciples, après une nuit de pêche infructueuse, et rétablit Pierre (Jean 21.1, 15-17).",
+   "geo": [
+    35.53,
+    32.79
+   ]
+  },
+  {
+   "id": "arimathee",
+   "nom": "Arimathée",
+   "match": [
+    {
+     "v": "Arimathée"
+    }
+   ],
+   "passages": [
+    [
+     "Matthieu 27",
+     40,
+     27
+    ],
+    [
+     "Luc 23",
+     42,
+     23
+    ]
+   ],
+   "bio": "Ville de Judée, patrie de Joseph, membre du conseil qui ensevelit Jésus dans son propre sépulcre neuf.",
+   "histoire": "Joseph était « d'Arimathée, ville des Juifs, et il attendait le royaume de Dieu » ; conseiller, « homme bon et juste », il « n'avait point participé à la décision » du sanhédrin (Luc 23.50-51).\n\nLe soir de la crucifixion, cet « homme riche d'Arimathée » demande le corps de Jésus et le dépose « dans un sépulcre neuf, qu'il s'était fait tailler dans le roc » (Matthieu 27.57-60), accomplissant Ésaïe : « Son tombeau avec le riche » (Ésaïe 53.9). Sa localisation exacte reste incertaine.",
+   "geo": [
+    34.96,
+    32.03
+   ]
+  },
+  {
+   "id": "enon",
+   "nom": "Énon",
+   "match": [
+    {
+     "v": "Énon"
+    }
+   ],
+   "passages": [
+    [
+     "Jean 3",
+     43,
+     3
+    ]
+   ],
+   "bio": "Lieu « près de Salim », riche en eau, où Jean-Baptiste baptisait pendant que Jésus commençait son ministère.",
+   "histoire": "« Jean aussi baptisait à Énon, près de Salim, parce qu'il y avait là beaucoup d'eau ; et on y venait pour être baptisé » (Jean 3.23).\n\nQuand ses disciples s'inquiètent de voir les foules aller vers Jésus, Jean répond par l'une des plus belles paroles d'humilité : « Il faut qu'il croisse, et que je diminue » (Jean 3.30).",
+   "geo": [
+    35.52,
+    32.4
+   ]
+  },
+  {
+   "id": "bethesda",
+   "nom": "Béthesda",
+   "match": [
+    {
+     "v": "Béthesda"
+    }
+   ],
+   "passages": [
+    [
+     "Jean 5",
+     43,
+     5
+    ]
+   ],
+   "bio": "Piscine aux cinq portiques près de la porte des brebis à Jérusalem, où Jésus guérit un homme malade depuis trente-huit ans.",
+   "histoire": "« Or, à Jérusalem, près de la porte des brebis, il y a une piscine qui s'appelle en hébreu Béthesda, et qui a cinq portiques » (Jean 5.2). Des malades y attendent le mouvement de l'eau.\n\nJésus demande à un homme couché là depuis trente-huit ans : « Veux-tu être guéri ? » L'homme répond : « je n'ai personne pour me jeter dans la piscine. » « Lève-toi, lui dit Jésus, prends ton lit, et marche » (Jean 5.6-8). Les fouilles ont retrouvé deux bassins et leurs colonnades, près de l'église Sainte-Anne.",
+   "geo": [
+    35.236,
+    31.781
+   ]
+  },
+  {
+   "id": "gabbatha",
+   "nom": "Gabbatha",
+   "match": [
+    {
+     "v": "Gabbatha"
+    }
+   ],
+   "passages": [
+    [
+     "Jean 19",
+     43,
+     19
+    ]
+   ],
+   "bio": "« Le Pavé » : lieu du tribunal de Pilate à Jérusalem, où Jésus fut présenté au peuple et livré pour être crucifié.",
+   "histoire": "« Pilate, ayant entendu ces paroles, amena Jésus dehors ; et il s'assit sur le tribunal, au lieu appelé le Pavé, et en hébreu Gabbatha » (Jean 19.13). Il dit aux Juifs : « Voici votre roi. » Ils crient : « Crucifie-le ! » (Jean 19.14-15).\n\nLe juge siège sur le tribunal, mais c'est lui qui est jugé : le vrai Roi se tient debout devant lui, couronné d'épines.",
+   "geo": [
+    35.231,
+    31.779
+   ]
+  },
+  {
+   "id": "hakeldama",
+   "nom": "Hakeldama",
+   "match": [
+    {
+     "v": "Hakeldama"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 1",
+     44,
+     1
+    ],
+    [
+     "Matthieu 27",
+     40,
+     27
+    ]
+   ],
+   "bio": "« Champ du sang » : terrain au sud de Jérusalem acheté avec les trente pièces d'argent de Judas.",
+   "histoire": "Le champ fut acquis « avec le salaire du crime », et l'histoire de la mort de Judas devint si connue « que ce champ a été appelé dans leur langue Hakeldama, c'est-à-dire, champ du sang » (Actes 1.18-19).\n\nMatthieu précise que les principaux sacrificateurs, ne voulant pas remettre ce « prix du sang » dans le trésor, achetèrent « le champ du potier, pour la sépulture des étrangers » (Matthieu 27.6-8), accomplissant une parole prophétique (Matthieu 27.9-10).",
+   "geo": [
+    35.231,
+    31.767
+   ]
+  },
+  {
+   "id": "lydde",
+   "nom": "Lydde",
+   "match": [
+    {
+     "v": "Lydde"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 9",
+     44,
+     9
+    ]
+   ],
+   "bio": "Ville de la plaine côtière, près de Joppé, où Pierre guérit Énée, paralysé depuis huit ans.",
+   "histoire": "« Comme Pierre visitait tous les saints, il descendit aussi vers ceux qui demeuraient à Lydde. » Il y trouve Énée, couché depuis huit ans : « Énée, Jésus-Christ te guérit ; lève-toi, et arrange ton lit. Et aussitôt il se leva » (Actes 9.32-34).\n\nRésultat : « Tous les habitants de Lydde et du Saron le virent, et ils se convertirent au Seigneur » (Actes 9.35). De là, Pierre est appelé à Joppé auprès de Dorcas (Actes 9.38).",
+   "geo": [
+    34.9,
+    31.95
+   ]
+  },
+  {
+   "id": "saron",
+   "nom": "Saron",
+   "match": [
+    {
+     "v": "Saron"
+    }
+   ],
+   "passages": [
+    [
+     "Cantique des cantiques 2",
+     22,
+     2
+    ],
+    [
+     "Ésaïe 35",
+     23,
+     35
+    ],
+    [
+     "Actes 9",
+     44,
+     9
+    ]
+   ],
+   "bio": "Plaine côtière fertile entre Joppé et le Carmel, célèbre pour ses fleurs et ses pâturages.",
+   "histoire": "La bien-aimée du Cantique dit : « Je suis un narcisse de Saron, Un lis des vallées » (Cantique des cantiques 2.1). Ésaïe annonce le désert refleuri : « La gloire du Liban lui sera donnée, La magnificence du Carmel et de Saron » (Ésaïe 35.2).\n\nAprès la guérison d'Énée, « Tous les habitants de Lydde et du Saron le virent, et ils se convertirent au Seigneur » (Actes 9.35) : la plaine fleurie devient champ de moisson.",
+   "geo": [
+    34.9,
+    32.3
+   ]
+  },
+  {
+   "id": "ptolemais",
+   "nom": "Ptolémaïs",
+   "match": [
+    {
+     "v": "Ptolémaïs"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 21",
+     44,
+     21
+    ]
+   ],
+   "bio": "Port de la côte phénicienne (l'actuelle Saint-Jean-d'Acre), où Paul salua les frères en montant à Jérusalem.",
+   "histoire": "« Achevant notre navigation, nous allâmes de Tyr à Ptolémaïs, où nous saluâmes les frères, et passâmes un jour avec eux » (Actes 21.7).\n\nUne Église y existait déjà, sans doute née de la dispersion après la mort d'Étienne (Actes 11.19). Partout où Paul passe, il trouve des frères : la famille de Dieu est déjà là.",
+   "geo": [
+    35.07,
+    32.92
+   ]
+  },
+  {
+   "id": "antipatris",
+   "nom": "Antipatris",
+   "match": [
+    {
+     "v": "Antipatris"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 23",
+     44,
+     23
+    ]
+   ],
+   "bio": "Ville bâtie par Hérode le Grand entre Jérusalem et Césarée, où l'escorte de Paul fit étape de nuit.",
+   "histoire": "Menacé par un complot de plus de quarante hommes, Paul est exfiltré de nuit : « Les soldats, selon l'ordre qu'ils avaient reçu, prirent Paul, et le conduisirent pendant la nuit jusqu'à Antipatris » (Actes 23.31).\n\nLe lendemain, les cavaliers poursuivent seuls jusqu'à Césarée (Actes 23.32-33). Dieu protège son serviteur par les soldats mêmes de l'empire, comme il le lui avait promis (Actes 23.11).",
+   "geo": [
+    34.93,
+    32.1
+   ]
+  },
+  {
+   "id": "antioche-pisidie",
+   "nom": "Antioche de Pisidie",
+   "match": [
+    {
+     "v": "Antioche de Pisidie"
+    },
+    {
+     "v": "Antioche",
+     "l": [
+      44,
+      44
+     ],
+     "c": [
+      14,
+      14
+     ]
+    },
+    {
+     "v": "Antioche",
+     "l": [
+      55,
+      55
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Actes 13",
+     44,
+     13
+    ],
+    [
+     "Actes 14",
+     44,
+     14
+    ]
+   ],
+   "bio": "Colonie romaine d'Asie Mineure, à ne pas confondre avec Antioche de Syrie : Paul y prononça son premier grand discours et se tourna vers les païens.",
+   "histoire": "« De Perge ils poursuivirent leur route, et arrivèrent à Antioche de Pisidie » ; à la synagogue, Paul retrace l'histoire d'Israël jusqu'à Jésus ressuscité (Actes 13.14-41). Le sabbat suivant, presque toute la ville vient l'entendre.\n\nDevant l'opposition, Paul et Barnabas déclarent : « nous nous tournons vers les païens », car le Seigneur a dit : « Je t'ai établi pour être la lumière des nations » (Actes 13.46-47). Chassés, ils secouent la poussière de leurs pieds (Actes 13.50-51) ; Paul se souviendra des persécutions endurées là (2 Timothée 3.11).",
+   "geo": [
+    31.19,
+    38.31
+   ]
+  },
+  {
+   "id": "icone",
+   "nom": "Icone",
+   "match": [
+    {
+     "v": "Icone"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 14",
+     44,
+     14
+    ],
+    [
+     "Actes 16",
+     44,
+     16
+    ]
+   ],
+   "bio": "Ville de Lycaonie (l'actuelle Konya) où Paul et Barnabas firent de nombreux disciples avant d'être menacés de lapidation.",
+   "histoire": "« À Icone, Paul et Barnabas entrèrent ensemble dans la synagogue des Juifs, et ils parlèrent de telle manière qu'une grande multitude de Juifs et de Grecs crurent. » Le Seigneur rend témoignage « à la parole de sa grâce » par des prodiges (Actes 14.1-3).\n\nLa ville se divise ; menacés d'être lapidés, ils fuient à Lystre et Derbe (Actes 14.4-6). Plus tard, les frères d'Icone rendront un bon témoignage du jeune Timothée (Actes 16.2).",
+   "geo": [
+    32.49,
+    37.87
+   ]
+  },
+  {
+   "id": "derbe",
+   "nom": "Derbe",
+   "match": [
+    {
+     "v": "Derbe"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 14",
+     44,
+     14
+    ],
+    [
+     "Actes 16",
+     44,
+     16
+    ]
+   ],
+   "bio": "Ville de Lycaonie, étape la plus orientale du premier voyage de Paul, où il se rendit au lendemain de sa lapidation.",
+   "histoire": "À Lystre, Paul est lapidé et laissé pour mort ; « Mais, les disciples l'ayant entouré, il se leva, et entra dans la ville. Le lendemain, il partit pour Derbe avec Barnabas » (Actes 14.19-20). Ils y font « un certain nombre de disciples » (Actes 14.21).\n\nPaul y repasse lors de son deuxième voyage (Actes 16.1). Gaïus de Derbe fera partie des compagnons qui l'accompagnent vers Jérusalem (Actes 20.4).",
+   "geo": [
+    33.36,
+    37.35
+   ]
+  },
+  {
+   "id": "perge",
+   "nom": "Perge",
+   "match": [
+    {
+     "v": "Perge"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 13",
+     44,
+     13
+    ],
+    [
+     "Actes 14",
+     44,
+     14
+    ]
+   ],
+   "bio": "Ville de Pamphylie, sur la côte sud de l'Asie Mineure, où Jean-Marc quitta Paul et Barnabas.",
+   "histoire": "« Paul et ses compagnons, s'étant embarqués à Paphos, se rendirent à Perge en Pamphylie. Jean se sépara d'eux, et retourna à Jérusalem » (Actes 13.13). Ce départ provoquera plus tard la séparation de Paul et Barnabas (Actes 15.37-39).\n\nAu retour, ils y annoncent la parole avant de descendre à Attalie (Actes 14.25). Des années plus tard, Paul dira de Marc : « il m'est utile pour le ministère » (2 Timothée 4.11).",
+   "geo": [
+    30.85,
+    36.96
+   ]
+  },
+  {
+   "id": "attalie",
+   "nom": "Attalie",
+   "match": [
+    {
+     "v": "Attalie"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 14",
+     44,
+     14
+    ]
+   ],
+   "bio": "Port de Pamphylie (l'actuelle Antalya) d'où Paul et Barnabas rembarquèrent pour Antioche à la fin du premier voyage.",
+   "histoire": "Après avoir annoncé la parole à Perge, ils « descendirent à Attalie. De là ils s'embarquèrent pour Antioche, d'où ils avaient été recommandés à la grâce de Dieu pour l'œuvre qu'ils venaient d'accomplir » (Actes 14.25-26).\n\nDe retour, ils racontent « tout ce que Dieu avait fait avec eux, et comment il avait ouvert aux nations la porte de la foi » (Actes 14.27).",
+   "geo": [
+    30.7,
+    36.89
+   ]
+  },
+  {
+   "id": "seleucie",
+   "nom": "Séleucie",
+   "match": [
+    {
+     "v": "Séleucie"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 13",
+     44,
+     13
+    ]
+   ],
+   "bio": "Port d'Antioche de Syrie d'où partit le premier voyage missionnaire.",
+   "histoire": "Après le jeûne et l'imposition des mains, « Barnabas et Saul, envoyés par le Saint-Esprit, descendirent à Séleucie, et de là ils s'embarquèrent pour l'île de Chypre » (Actes 13.4).\n\nC'est là que commence, concrètement, la mission vers les nations, la grande aventure qui portera l'Évangile jusqu'à Rome.",
+   "geo": [
+    35.93,
+    36.12
+   ]
+  },
+  {
+   "id": "salamine",
+   "nom": "Salamine",
+   "match": [
+    {
+     "v": "Salamine"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 13",
+     44,
+     13
+    ]
+   ],
+   "bio": "Principal port de l'est de Chypre, première escale du premier voyage missionnaire.",
+   "histoire": "« Arrivés à Salamine, ils annoncèrent la parole de Dieu dans les synagogues des Juifs. Ils avaient Jean pour aide » (Actes 13.5).\n\nChypre était la patrie de Barnabas (Actes 4.36) : la mission commence chez lui, puis traverse toute l'île jusqu'à Paphos.",
+   "geo": [
+    33.9,
+    35.18
+   ]
+  },
+  {
+   "id": "paphos",
+   "nom": "Paphos",
+   "match": [
+    {
+     "v": "Paphos"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 13",
+     44,
+     13
+    ]
+   ],
+   "bio": "Capitale romaine de Chypre, à l'ouest de l'île, où le proconsul Sergius Paulus crut à l'Évangile.",
+   "histoire": "« Ayant ensuite traversé toute l'île jusqu'à Paphos, ils trouvèrent un certain magicien, faux prophète juif, nommé Bar-Jésus », qui détourne de la foi le proconsul Sergius Paulus. Saul, « appelé aussi Paul, rempli du Saint-Esprit », le frappe de cécité (Actes 13.6-11).\n\n« Alors le proconsul, voyant ce qui était arrivé, crut, étant frappé de la doctrine du Seigneur » (Actes 13.12). C'est à partir de ce moment que le récit appelle l'apôtre « Paul ».",
+   "geo": [
+    32.41,
+    34.76
+   ]
+  },
+  {
+   "id": "neapolis",
+   "nom": "Néapolis",
+   "match": [
+    {
+     "v": "Néapolis"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 16",
+     44,
+     16
+    ]
+   ],
+   "bio": "Port de Macédoine (l'actuelle Kavala) : premier pas de l'Évangile sur le sol européen.",
+   "histoire": "Après la vision du Macédonien, Paul et ses compagnons partent de Troas : « nous fîmes voile directement vers la Samothrace, et le lendemain nous débarquâmes à Néapolis » (Actes 16.11).\n\nDe là, ils gagnent Philippes, où Lydie sera la première convertie d'Europe (Actes 16.12-15).",
+   "geo": [
+    24.4,
+    40.94
+   ]
+  },
+  {
+   "id": "amphipolis-apollonie",
+   "nom": "Amphipolis et Apollonie",
+   "match": [
+    {
+     "v": "Amphipolis"
+    },
+    {
+     "v": "Apollonie"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 17",
+     44,
+     17
+    ]
+   ],
+   "bio": "Villes de Macédoine sur la voie Égnatienne, traversées par Paul et Silas entre Philippes et Thessalonique.",
+   "histoire": "Libérés de la prison de Philippes, « Paul et Silas passèrent par Amphipolis et Apollonie, et ils arrivèrent à Thessalonique, où les Juifs avaient une synagogue » (Actes 17.1).\n\nIls suivaient la voie Égnatienne, grande route romaine qui traversait la Macédoine : les routes de l'empire servaient l'expansion de l'Évangile.",
+   "geo": [
+    23.84,
+    40.82
+   ]
+  },
+  {
+   "id": "cenchrees",
+   "nom": "Cenchrées",
+   "match": [
+    {
+     "v": "Cenchrées"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 18",
+     44,
+     18
+    ],
+    [
+     "Romains 16",
+     45,
+     16
+    ]
+   ],
+   "bio": "Port oriental de Corinthe, où Paul se fit raser la tête pour un vœu ; Phœbé y servait l'Église.",
+   "histoire": "Avant de quitter la Grèce, Paul s'embarque « avec Priscille et Aquilas, après s'être fait raser la tête à Cenchrées, car il avait fait un vœu » (Actes 18.18).\n\nIl y avait là une Église : Paul recommande aux Romains « Phœbé, notre sœur, qui est diaconesse de l'Église de Cenchrées […] car elle a donné aide à plusieurs et à moi-même » (Romains 16.1-2). Elle porta sans doute la lettre aux Romains.",
+   "geo": [
+    22.99,
+    37.88
+   ]
+  },
+  {
+   "id": "milet",
+   "nom": "Milet",
+   "match": [
+    {
+     "v": "Milet"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 20",
+     44,
+     20
+    ],
+    [
+     "2 Timothée 4",
+     55,
+     4
+    ]
+   ],
+   "bio": "Port d'Asie au sud d'Éphèse, où Paul fit ses adieux bouleversants aux anciens d'Éphèse.",
+   "histoire": "Pressé d'arriver à Jérusalem, Paul ne s'arrête pas à Éphèse ; « de Milet Paul envoya chercher à Éphèse les anciens de l'Église » (Actes 20.17). Il leur laisse un testament pastoral : servir avec humilité, prendre garde au troupeau, se souvenir qu'« Il y a plus de bonheur à donner qu'à recevoir » (Actes 20.35).\n\n« Après avoir ainsi parlé, il se mit à genoux, et il pria avec eux tous. Et tous fondirent en larmes » (Actes 20.36-37). Plus tard, Paul y laissera Trophime malade (2 Timothée 4.20).",
+   "geo": [
+    27.28,
+    37.53
+   ]
+  },
+  {
+   "id": "assos",
+   "nom": "Assos",
+   "match": [
+    {
+     "v": "Assos"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 20",
+     44,
+     20
+    ]
+   ],
+   "bio": "Port de Mysie où Paul, venu à pied depuis Troas, rejoignit ses compagnons partis par bateau.",
+   "histoire": "« Pour nous, nous précédâmes Paul sur le navire, et nous fîmes voile pour Assos, où nous étions convenus de le reprendre, parce qu'il devait faire la route à pied » (Actes 20.13). Paul vient de passer la nuit à enseigner à Troas, où Eutychus est tombé et a été ramené à la vie.\n\nIls continuent ensuite vers Mytilène, Chios, Samos et Milet (Actes 20.14-15).",
+   "geo": [
+    26.34,
+    39.49
+   ]
+  },
+  {
+   "id": "cos-rhodes-patara",
+   "nom": "Cos, Rhodes et Patara",
+   "match": [
+    {
+     "v": "Cos",
+     "l": [
+      44,
+      44
+     ]
+    },
+    {
+     "v": "Rhodes"
+    },
+    {
+     "v": "Patara"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 21",
+     44,
+     21
+    ]
+   ],
+   "bio": "Îles et port de la mer Égée et de Lycie, escales de Paul après Milet en route vers Jérusalem.",
+   "histoire": "« Nous nous embarquâmes, après nous être séparés d'eux, et nous allâmes directement à Cos, le lendemain à Rhodes, et de là à Patara. » Ils y trouvent un navire pour la Phénicie (Actes 21.1-2).\n\nLuc, présent dans le voyage (le « nous »), note chaque étape avec la précision d'un témoin.",
+   "geo": [
+    28.22,
+    36.44
+   ]
+  },
+  {
+   "id": "myra",
+   "nom": "Myra",
+   "match": [
+    {
+     "v": "Myra"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 27",
+     44,
+     27
+    ]
+   ],
+   "bio": "Port de Lycie où Paul prisonnier changea de navire pour un bateau d'Alexandrie en route vers l'Italie.",
+   "histoire": "« Après avoir traversé la mer qui baigne la Cilicie et la Pamphylie, nous arrivâmes à Myra en Lycie. Et là, le centenier, ayant trouvé un navire d'Alexandrie qui allait en Italie, nous y fit monter » (Actes 27.5-6).\n\nC'était sans doute un cargo de blé : Myra était une escale de la grande route du blé entre l'Égypte et Rome.",
+   "geo": [
+    29.98,
+    36.26
+   ]
+  },
+  {
+   "id": "beaux-ports",
+   "nom": "Beaux Ports",
+   "match": [
+    {
+     "v": "Beaux Ports"
+    },
+    {
+     "v": "Lasée"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 27",
+     44,
+     27
+    ]
+   ],
+   "bio": "Mouillage au sud de la Crète, près de Lasée, où Paul conseilla en vain de passer l'hiver.",
+   "histoire": "Le navire côtoie la Crète avec peine et arrive « à un lieu nommé Beaux Ports, près duquel était la ville de Lasée » (Actes 27.8). La saison est avancée ; Paul avertit : « je vois que la navigation ne se fera pas sans péril » (Actes 27.10).\n\n« Le centenier écouta le pilote et le patron du navire plutôt que les paroles de Paul » (Actes 27.11). On repart, et la tempête éclate.",
+   "geo": [
+    24.81,
+    34.93
+   ]
+  },
+  {
+   "id": "clauda",
+   "nom": "Clauda",
+   "match": [
+    {
+     "v": "Clauda"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 27",
+     44,
+     27
+    ]
+   ],
+   "bio": "Petite île au sud de la Crète, à l'abri de laquelle l'équipage prépara le navire à la tempête.",
+   "histoire": "Emportés par l'Euraquilon, « Nous passâmes au-dessous d'une petite île nommée Clauda, et nous eûmes de la peine à nous rendre maîtres de la chaloupe » ; on ceinture le navire et on abaisse les voiles « dans la crainte de tomber sur la Syrte » (Actes 27.16-17).\n\nC'est au cœur de cette tempête que l'ange apparaît à Paul : « Paul, ne crains point » (Actes 27.24).",
+   "geo": [
+    24.08,
+    34.84
+   ]
+  },
+  {
+   "id": "crete",
+   "nom": "Crète",
+   "match": [
+    {
+     "v": "Crète"
+    },
+    {
+     "v": "Crétois"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 27",
+     44,
+     27
+    ],
+    [
+     "Tite 1",
+     56,
+     1
+    ]
+   ],
+   "bio": "Grande île de la Méditerranée, longée par le navire de Paul ; Tite y fut laissé pour organiser les Églises.",
+   "histoire": "Des Crétois sont présents à la Pentecôte (Actes 2.11). Le navire de Paul longe l'île avant la tempête : « il fallait m'écouter et ne pas partir de Crète », dira Paul (Actes 27.21).\n\nIl écrit à Tite : « Je t'ai laissé en Crète, afin que tu mettes en ordre ce qui reste à régler, et que […] tu établisses des anciens dans chaque ville » (Tite 1.5), citant au passage un poète crétois peu flatteur pour les siens (Tite 1.12).",
+   "geo": [
+    24.9,
+    35.2
+   ]
+  },
+  {
+   "id": "syracuse",
+   "nom": "Syracuse",
+   "match": [
+    {
+     "v": "Syracuse"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 28",
+     44,
+     28
+    ]
+   ],
+   "bio": "Grand port de Sicile où Paul fit escale trois jours en route vers Rome.",
+   "histoire": "Après trois mois à Malte, Paul embarque sur un navire d'Alexandrie ; « Ayant abordé à Syracuse, nous y restâmes trois jours » (Actes 28.11-12).\n\nUne étape de plus vers Rome, où Dieu avait dit que Paul devait rendre témoignage (Actes 23.11).",
+   "geo": [
+    15.29,
+    37.07
+   ]
+  },
+  {
+   "id": "reggio",
+   "nom": "Reggio",
+   "match": [
+    {
+     "v": "Reggio"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 28",
+     44,
+     28
+    ]
+   ],
+   "bio": "Port à la pointe de l'Italie, face à la Sicile, dernière escale de Paul avant Pouzzoles.",
+   "histoire": "« De là, en suivant la côte, nous atteignîmes Reggio ; et, le vent du midi s'étant levé le lendemain, nous fîmes en deux jours le trajet jusqu'à Pouzzoles » (Actes 28.13).\n\nAprès la tempête, un vent favorable : Dieu mène son serviteur jusqu'au bout.",
+   "geo": [
+    15.65,
+    38.11
+   ]
+  },
+  {
+   "id": "pouzzoles",
+   "nom": "Pouzzoles",
+   "match": [
+    {
+     "v": "Pouzzoles"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 28",
+     44,
+     28
+    ]
+   ],
+   "bio": "Grand port de Campanie, près de Naples, où Paul débarqua en Italie et trouva des frères.",
+   "histoire": "« nous fîmes en deux jours le trajet jusqu'à Pouzzoles, où nous trouvâmes des frères qui nous prièrent de passer sept jours avec eux. Et c'est ainsi que nous allâmes à Rome » (Actes 28.13-14).\n\nAvant même l'arrivée de l'apôtre, l'Évangile avait déjà atteint l'Italie.",
+   "geo": [
+    14.12,
+    40.82
+   ]
+  },
+  {
+   "id": "forum-appius",
+   "nom": "Forum d'Appius et Trois Tavernes",
+   "match": [
+    {
+     "v": "Forum",
+     "l": [
+      44,
+      44
+     ]
+    },
+    {
+     "v": "Trois Tavernes"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 28",
+     44,
+     28
+    ]
+   ],
+   "bio": "Étapes de la voie Appienne au sud de Rome, où des frères romains vinrent à la rencontre de Paul.",
+   "histoire": "« De Rome vinrent à notre rencontre, jusqu'au Forum d'Appius et aux Trois Tavernes, les frères qui avaient entendu parler de nous. Paul, en les voyant, rendit grâces à Dieu, et prit courage » (Actes 28.15).\n\nTrois ans plus tôt, Paul avait écrit à ces mêmes croyants son désir de les voir (Romains 1.11). L'apôtre prisonnier est consolé par l'accueil de frères qu'il ne connaissait pas encore.",
+   "geo": [
+    13.1,
+    41.43
+   ]
+  },
+  {
+   "id": "illyrie",
+   "nom": "Illyrie",
+   "match": [
+    {
+     "v": "Illyrie"
+    }
+   ],
+   "passages": [
+    [
+     "Romains 15",
+     45,
+     15
+    ]
+   ],
+   "bio": "Province sur la côte est de l'Adriatique, limite occidentale de l'évangélisation de Paul quand il écrivit aux Romains.",
+   "histoire": "Paul résume son ministère : « depuis Jérusalem et les pays voisins jusqu'en Illyrie, j'ai abondamment répandu l'Évangile de Christ » (Romains 15.19).\n\nSon ambition : annoncer Christ là où il n'avait pas été nommé (Romains 15.20), et aller jusqu'en Espagne en passant par Rome (Romains 15.24).",
+   "geo": [
+    19.5,
+    42.0
+   ]
+  },
+  {
+   "id": "dalmatie",
+   "nom": "Dalmatie",
+   "match": [
+    {
+     "v": "Dalmatie"
+    }
+   ],
+   "passages": [
+    [
+     "2 Timothée 4",
+     55,
+     4
+    ]
+   ],
+   "bio": "Région de l'Illyrie, sur l'Adriatique, où Tite était parti pendant la dernière captivité de Paul.",
+   "histoire": "Dans sa dernière lettre, Paul énumère les absents : « Crescens est allé en Galatie, Tite en Dalmatie. Luc seul est avec moi » (2 Timothée 4.10-11).\n\nMême en prison, Paul continue d'envoyer ses collaborateurs aux quatre coins de l'empire.",
+   "geo": [
+    16.4,
+    43.5
+   ]
+  },
+  {
+   "id": "nicopolis",
+   "nom": "Nicopolis",
+   "match": [
+    {
+     "v": "Nicopolis"
+    }
+   ],
+   "passages": [
+    [
+     "Tite 3",
+     56,
+     3
+    ]
+   ],
+   "bio": "Ville d'Épire, sur la côte ouest de la Grèce, où Paul voulait passer l'hiver et où il demanda à Tite de le rejoindre.",
+   "histoire": "« Lorsque je t'enverrai Artémas ou Tychique, hâte-toi de venir me rejoindre à Nicopolis ; car c'est là que j'ai résolu de passer l'hiver » (Tite 3.12).\n\nCette mention suggère que Paul fut libéré après sa première captivité romaine et poursuivit son ministère avant d'être de nouveau arrêté.",
+   "geo": [
+    20.73,
+    39.01
+   ]
+  },
+  {
+   "id": "achaie",
+   "nom": "Achaïe",
+   "match": [
+    {
+     "v": "Achaïe"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 18",
+     44,
+     18
+    ],
+    [
+     "2 Corinthiens 9",
+     47,
+     9
+    ],
+    [
+     "1 Thessaloniciens 1",
+     52,
+     1
+    ]
+   ],
+   "bio": "Province romaine du sud de la Grèce, capitale Corinthe : Paul, Apollos et la famille de Stéphanas y servirent.",
+   "histoire": "Gallion en était proconsul quand Paul fut accusé à Corinthe (Actes 18.12). Apollos y passe ensuite et devient « très utile à ceux qui avaient cru » (Actes 18.27). La famille de Stéphanas en est « les prémices » (1 Corinthiens 16.15).\n\nLes Églises d'Achaïe participent généreusement à la collecte pour Jérusalem : « l'Achaïe est prête depuis l'année dernière » (2 Corinthiens 9.2), et la foi des Thessaloniciens y est connue de tous (1 Thessaloniciens 1.7-8).",
+   "geo": [
+    22.5,
+    37.9
+   ]
+  },
+  {
+   "id": "galatie",
+   "nom": "Galatie",
+   "match": [
+    {
+     "v": "Galatie"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 16",
+     44,
+     16
+    ],
+    [
+     "Galates 1",
+     48,
+     1
+    ],
+    [
+     "1 Pierre 1",
+     60,
+     1
+    ]
+   ],
+   "bio": "Région et province romaine du centre de l'Asie Mineure, destinataire de la lettre aux Galates.",
+   "histoire": "Paul la traverse lors de ses voyages (Actes 16.6 ; 18.23) et adresse sa lettre « aux Églises de la Galatie » (Galates 1.2). Il s'y bat pour la liberté de l'Évangile : « Ô Galates, dépourvus de sens ! qui vous a fascinés ? » (Galates 3.1).\n\nPierre écrit aussi aux croyants « dispersés dans le Pont, la Galatie, la Cappadoce, l'Asie et la Bithynie » (1 Pierre 1.1).",
+   "geo": [
+    32.9,
+    39.5
+   ]
+  },
+  {
+   "id": "cappadoce",
+   "nom": "Cappadoce",
+   "match": [
+    {
+     "v": "Cappadoce"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 2",
+     44,
+     2
+    ],
+    [
+     "1 Pierre 1",
+     60,
+     1
+    ]
+   ],
+   "bio": "Région du centre-est de l'Asie Mineure : des Juifs de Cappadoce entendirent l'Évangile le jour de la Pentecôte.",
+   "histoire": "Parmi les foules de la Pentecôte se trouvent ceux « qui habitent la Mésopotamie, la Judée, la Cappadoce, le Pont, l'Asie » ; tous entendent les apôtres parler « dans nos langues des merveilles de Dieu » (Actes 2.9-11).\n\nUne génération plus tard, il y a des Églises en Cappadoce : Pierre leur écrit (1 Pierre 1.1). Les pèlerins de la Pentecôte ont rapporté la bonne nouvelle chez eux.",
+   "geo": [
+    35.0,
+    38.7
+   ]
+  },
+  {
+   "id": "pont",
+   "nom": "Pont",
+   "match": [
+    {
+     "v": "Pont",
+     "l": [
+      44,
+      44
+     ]
+    },
+    {
+     "v": "Pont",
+     "l": [
+      60,
+      60
+     ]
+    }
+   ],
+   "passages": [
+    [
+     "Actes 2",
+     44,
+     2
+    ],
+    [
+     "Actes 18",
+     44,
+     18
+    ],
+    [
+     "1 Pierre 1",
+     60,
+     1
+    ]
+   ],
+   "bio": "Région du nord de l'Asie Mineure, sur la mer Noire, patrie d'Aquilas.",
+   "histoire": "Des Juifs du Pont sont présents à la Pentecôte (Actes 2.9). Aquilas, le compagnon de Paul, est « originaire du Pont » (Actes 18.2).\n\nPierre adresse sa première lettre aux croyants « dispersés dans le Pont, la Galatie, la Cappadoce, l'Asie et la Bithynie » (1 Pierre 1.1).",
+   "geo": [
+    36.5,
+    40.8
+   ]
+  },
+  {
+   "id": "bithynie",
+   "nom": "Bithynie",
+   "match": [
+    {
+     "v": "Bithynie"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 16",
+     44,
+     16
+    ],
+    [
+     "1 Pierre 1",
+     60,
+     1
+    ]
+   ],
+   "bio": "Région du nord-ouest de l'Asie Mineure où l'Esprit empêcha Paul d'entrer, pour le conduire vers la Macédoine.",
+   "histoire": "« Arrivés près de la Mysie, ils se disposaient à entrer en Bithynie ; mais l'Esprit de Jésus ne le leur permit pas » (Actes 16.7). La porte fermée prépare la porte ouverte : la vision du Macédonien à Troas (Actes 16.9).\n\nL'Évangile y parviendra pourtant : Pierre écrit aux croyants de Bithynie (1 Pierre 1.1).",
+   "geo": [
+    30.2,
+    40.5
+   ]
+  },
+  {
+   "id": "mysie",
+   "nom": "Mysie",
+   "match": [
+    {
+     "v": "Mysie"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 16",
+     44,
+     16
+    ]
+   ],
+   "bio": "Région du nord-ouest de l'Asie Mineure, traversée par Paul jusqu'à Troas après que l'Esprit l'eut arrêté deux fois.",
+   "histoire": "Empêchés par l'Esprit en Asie puis en Bithynie, Paul et ses compagnons « franchirent alors la Mysie, et descendirent à Troas » (Actes 16.6-8).\n\nC'est là que Paul voit en vision un Macédonien : « Passe en Macédoine, secours-nous ! » (Actes 16.9). Être conduit par l'Esprit, c'est accepter aussi ses « non ».",
+   "geo": [
+    27.5,
+    39.6
+   ]
+  },
+  {
+   "id": "phrygie",
+   "nom": "Phrygie",
+   "match": [
+    {
+     "v": "Phrygie"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 2",
+     44,
+     2
+    ],
+    [
+     "Actes 16",
+     44,
+     16
+    ],
+    [
+     "Actes 18",
+     44,
+     18
+    ]
+   ],
+   "bio": "Région du centre-ouest de l'Asie Mineure, traversée à plusieurs reprises par Paul pour fortifier les disciples.",
+   "histoire": "Des Phrygiens sont présents à la Pentecôte (Actes 2.10). Paul traverse « la Phrygie et le pays de Galatie » lors de son deuxième voyage (Actes 16.6).\n\nAu troisième voyage, il parcourt de nouveau la Galatie et la Phrygie, « fortifiant tous les disciples » (Actes 18.23). Colosses, Laodicée et Hiérapolis se trouvaient dans cette région.",
+   "geo": [
+    30.5,
+    38.8
+   ]
+  },
+  {
+   "id": "lycaonie",
+   "nom": "Lycaonie",
+   "match": [
+    {
+     "v": "Lycaonie"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 14",
+     44,
+     14
+    ]
+   ],
+   "bio": "Région du centre de l'Asie Mineure, avec Lystre et Derbe, où la foule prit Paul et Barnabas pour des dieux.",
+   "histoire": "Fuyant Icone, Paul et Barnabas « se réfugièrent dans les villes de la Lycaonie, à Lystre et à Derbe » (Actes 14.6). Après la guérison d'un boiteux, la foule crie « en langue lycaonienne : Les dieux sous une forme humaine sont descendus vers nous » ; Barnabas est appelé Jupiter, Paul Mercure (Actes 14.11-12).\n\nLes apôtres déchirent leurs vêtements : « Nous aussi, nous sommes des hommes de la même nature que vous » (Actes 14.15).",
+   "geo": [
+    33.0,
+    37.7
+   ]
+  },
+  {
+   "id": "pisidie",
+   "nom": "Pisidie",
+   "match": [
+    {
+     "v": "Pisidie"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 13",
+     44,
+     13
+    ],
+    [
+     "Actes 14",
+     44,
+     14
+    ]
+   ],
+   "bio": "Région montagneuse du sud de l'Asie Mineure, entre la Pamphylie et la Lycaonie, traversée lors du premier voyage.",
+   "histoire": "Paul et Barnabas montent de Perge vers « Antioche de Pisidie » (Actes 13.14), puis, au retour, « Traversant ensuite la Pisidie, ils vinrent en Pamphylie » (Actes 14.24).\n\nUne route difficile, peut-être celle où Paul fut « en péril sur les fleuves, en péril de la part des brigands » (2 Corinthiens 11.26).",
+   "geo": [
+    31.2,
+    37.9
+   ]
+  },
+  {
+   "id": "smyrne",
+   "nom": "Smyrne",
+   "match": [
+    {
+     "v": "Smyrne"
+    }
+   ],
+   "passages": [
+    [
+     "Apocalypse 2",
+     66,
+     2
+    ]
+   ],
+   "bio": "Grand port d'Asie (l'actuelle Izmir), Église pauvre et persécutée, sans aucun reproche de la part du Seigneur.",
+   "histoire": "Jésus se présente comme « le premier et le dernier, celui qui était mort, et qui est revenu à la vie » : « Je connais ta tribulation et ta pauvreté (bien que tu sois riche) » (Apocalypse 2.8-9).\n\n« Ne crains pas ce que tu vas souffrir […] Sois fidèle jusqu'à la mort, et je te donnerai la couronne de vie » (Apocalypse 2.10). Au IIe siècle, son évêque Polycarpe y mourra martyr.",
+   "geo": [
+    27.14,
+    38.42
+   ]
+  },
+  {
+   "id": "pergame",
+   "nom": "Pergame",
+   "match": [
+    {
+     "v": "Pergame"
+    }
+   ],
+   "passages": [
+    [
+     "Apocalypse 2",
+     66,
+     2
+    ]
+   ],
+   "bio": "Capitale religieuse de la province d'Asie, « là où est le trône de Satan » ; Église fidèle mais tolérant de fausses doctrines.",
+   "histoire": "« Je sais où tu demeures, je sais que là est le trône de Satan. Tu retiens mon nom, et tu n'as pas renié ma foi, même aux jours d'Antipas, mon témoin fidèle » (Apocalypse 2.13). La ville abritait un grand autel de Zeus et un temple du culte impérial.\n\nMais certains suivent « la doctrine de Balaam » (Apocalypse 2.14). Au vainqueur, Christ promet « de la manne cachée » et un caillou blanc portant « un nom nouveau » (Apocalypse 2.17).",
+   "geo": [
+    27.18,
+    39.13
+   ]
+  },
+  {
+   "id": "thyatire",
+   "nom": "Thyatire",
+   "match": [
+    {
+     "v": "Thyatire"
+    }
+   ],
+   "passages": [
+    [
+     "Actes 16",
+     44,
+     16
+    ],
+    [
+     "Apocalypse 2",
+     66,
+     2
+    ]
+   ],
+   "bio": "Ville de corporations commerçantes, patrie de Lydie ; Église pleine d'amour et de service, mais tolérant « la femme Jézabel ».",
+   "histoire": "Lydie, « marchande de pourpre, de la ville de Thyatire », est la première convertie d'Europe à Philippes (Actes 16.14).\n\nÀ l'Église de Thyatire, Christ dit : « Je connais tes œuvres, ton amour, ta foi, ton fidèle service, ta constance » ; « Mais ce que j'ai contre toi, c'est que tu laisses la femme Jézabel, qui se dit prophétesse, enseigner et séduire mes serviteurs » (Apocalypse 2.19-20). Aux fidèles : « ce que vous avez, retenez-le jusqu'à ce que je vienne » (Apocalypse 2.25).",
+   "geo": [
+    27.84,
+    38.92
+   ]
+  },
+  {
+   "id": "sardes",
+   "nom": "Sardes",
+   "match": [
+    {
+     "v": "Sardes"
+    }
+   ],
+   "passages": [
+    [
+     "Apocalypse 3",
+     66,
+     3
+    ]
+   ],
+   "bio": "Ancienne capitale de Lydie, riche et réputée imprenable : Église qui avait la réputation d'être vivante, mais était morte.",
+   "histoire": "« Je sais que tu passes pour être vivant, et tu es mort. Sois vigilant, et affermis le reste qui est près de mourir » (Apocalypse 3.1-2). La citadelle de Sardes, jugée imprenable, avait été prise deux fois par surprise, faute de vigilance.\n\nPourtant, « tu as à Sardes quelques hommes qui n'ont pas souillé leurs vêtements ; ils marcheront avec moi en vêtements blancs » (Apocalypse 3.4).",
+   "geo": [
+    28.04,
+    38.49
+   ]
+  },
+  {
+   "id": "philadelphie",
+   "nom": "Philadelphie",
+   "match": [
+    {
+     "v": "Philadelphie"
+    }
+   ],
+   "passages": [
+    [
+     "Apocalypse 3",
+     66,
+     3
+    ]
+   ],
+   "bio": "Ville d'Asie à la porte de la Phrygie : Église faible mais fidèle, devant laquelle Christ a mis « une porte ouverte ».",
+   "histoire": "Jésus se présente comme « celui qui a la clef de David, celui qui ouvre, et personne ne fermera » : « parce que tu as peu de puissance, et que tu as gardé ma parole, et que tu n'as pas renié mon nom, j'ai mis devant toi une porte ouverte, que personne ne peut fermer » (Apocalypse 3.7-8).\n\nDans une ville souvent ébranlée par les séismes, la promesse résonne : « Celui qui vaincra, je ferai de lui une colonne dans le temple de mon Dieu, et il n'en sortira plus » (Apocalypse 3.12).",
+   "geo": [
+    28.52,
+    38.35
+   ]
+  },
+  {
+   "id": "laodicee",
+   "nom": "Laodicée",
+   "match": [
+    {
+     "v": "Laodicée"
+    },
+    {
+     "v": "Laodicéens"
+    }
+   ],
+   "passages": [
+    [
+     "Colossiens 4",
+     51,
+     4
+    ],
+    [
+     "Apocalypse 3",
+     66,
+     3
+    ]
+   ],
+   "bio": "Riche cité bancaire de la vallée du Lycus, célèbre pour ses étoffes et son collyre : l'Église « tiède ».",
+   "histoire": "Paul demande que sa lettre aux Colossiens soit lue aussi « dans l'Église des Laodicéens » (Colossiens 4.16). Épaphras priait pour eux (Colossiens 4.13).\n\nChrist lui dit : « Je sais que tu n'es ni froid ni bouillant […] parce que tu es tiède […] je te vomirai de ma bouche » ; « tu dis : Je suis riche […] et je n'ai besoin de rien » (Apocalypse 3.15-17). Il lui conseille d'acheter de lui de l'or, des vêtements blancs et un collyre — tout ce dont la ville se vantait. Puis l'invitation : « Voici, je me tiens à la porte, et je frappe » (Apocalypse 3.18-20).",
+   "geo": [
+    29.11,
+    37.84
+   ]
+  },
+  {
+   "id": "hierapolis",
+   "nom": "Hiérapolis",
+   "match": [
+    {
+     "v": "Hiérapolis"
+    }
+   ],
+   "passages": [
+    [
+     "Colossiens 4",
+     51,
+     4
+    ]
+   ],
+   "bio": "Ville thermale de la vallée du Lycus, voisine de Laodicée et de Colosses, où vivaient des chrétiens chers à Épaphras.",
+   "histoire": "Paul témoigne qu'Épaphras « a une grande sollicitude pour vous, pour ceux de Laodicée, et pour ceux d'Hiérapolis » (Colossiens 4.13).\n\nSes sources chaudes, qui arrivaient tièdes à Laodicée voisine, éclairent peut-être l'image de l'Église « tiède » de l'Apocalypse (Apocalypse 3.16).",
+   "geo": [
+    29.13,
+    37.93
+   ]
   }
  ]
 }
