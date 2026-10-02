@@ -49,9 +49,12 @@ Téléverser des images existantes comme **références de style** (type
 Commencer par un lot test de 6 images (3 personnages, 3 lieux) à faire
 valider par Jack, puis produire par lots de 20 à 30, AT puis NT.
 
-**À faire valider par Jack avant génération** : `satan`, `baal`, `dagon`,
-`moloc-kemosch`, `diane` (proposition : représentation symbolique sans visage
-pour Satan, statues d'idoles sur leur autel pour les dieux païens).
+**Satan et les idoles : validés par Jack, avec des images adaptées.** Satan
+est représenté de façon symbolique et sans visage (le serpent enroulé autour
+de l'arbre) ; `baal`, `dagon`, `moloc-kemosch` et `diane` sont des statues
+d'idoles sur leur autel, sans personnage vivant ni victime. Deux variantes de
+chacune ont déjà été générées dans Magnific (liens dans le champ `visuel` du
+JSON) : choisir la meilleure, la recadrer au format et la déposer.
 
 ## Livraison
 
