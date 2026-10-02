@@ -46,10 +46,10 @@ const TABS = [
   { href: "/bible", label: "Bible", icon: I.bible, match: ["/bible", "/recherche", "/carnet", "/favoris"] },
   { href: "/profil", label: "Profil", icon: I.user, match: ["/profil"] },
   // Onglets 6+ : masqués par défaut, révélés en faisant glisser la barre.
-  // Page 2 : podcast, Q&R et jeu mis en avant.
-  { href: "/ecouter", label: "Écouter", icon: I.headphones, match: ["/ecouter", "/videos"] },
-  { href: "/jeux", label: "Jeux", icon: I.quiz, match: ["/jeux", "/quiz", "/memoriser"] },
+  // Page 2 : étude biblique, jeux, puis podcast.
   { href: "/ecole", label: "Étude", icon: I.school, match: ["/ecole", "/assistant"] },
+  { href: "/jeux", label: "Jeux", icon: I.quiz, match: ["/jeux", "/quiz", "/memoriser"] },
+  { href: "/ecouter", label: "Écouter", icon: I.headphones, match: ["/ecouter", "/videos"] },
   // Page 3 : soutien puis « À propos » (tout au bout).
   { href: "/don", label: "Soutien", icon: I.heart, match: ["/don"] },
   { href: "/a-propos", label: "À propos", icon: I.info, match: ["/a-propos"] },
