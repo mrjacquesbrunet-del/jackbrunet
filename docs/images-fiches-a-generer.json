@@ -1,175 +1,5 @@
 [
  {
-  "id": "henoc-cain",
-  "fichier": "public/img/bible/fiches/henoc-cain.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Hénoc (fils de Caïn)",
-  "periode": "Commencements",
-  "bio": "Fils aîné de Caïn. Son père bâtit une ville et lui donna son nom : la première ville de la Bible porte le nom d'un enfant.",
-  "visuel": "Homme des tout premiers temps de l'humanité, lignée de Caïn : peau mate, cheveux longs, vêtements de peaux et de laine grossière ; air fier, bâtisseur de la première ville."
- },
- {
-  "id": "irad",
-  "fichier": "public/img/bible/fiches/irad.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Irad",
-  "periode": "Commencements",
-  "bio": "Fils d'Hénoc et petit-fils de Caïn, maillon de la lignée de Caïn.",
-  "visuel": "Homme des tout premiers temps de l'humanité, lignée de Caïn : peau mate, cheveux longs, vêtements de peaux et de laine grossière ; air fier, bâtisseur de la première ville."
- },
- {
-  "id": "mehujael",
-  "fichier": "public/img/bible/fiches/mehujael.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Mehujaël",
-  "periode": "Commencements",
-  "bio": "Fils d'Irad, dans la lignée de Caïn.",
-  "visuel": "Homme des tout premiers temps de l'humanité, lignée de Caïn : peau mate, cheveux longs, vêtements de peaux et de laine grossière ; air fier, bâtisseur de la première ville."
- },
- {
-  "id": "metuschael",
-  "fichier": "public/img/bible/fiches/metuschael.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Metuschaël",
-  "periode": "Commencements",
-  "bio": "Fils de Mehujaël et père de Lémec, dans la lignée de Caïn. À ne pas confondre avec Metuschélah, de la lignée de Seth.",
-  "visuel": "Homme des tout premiers temps de l'humanité, lignée de Caïn : peau mate, cheveux longs, vêtements de peaux et de laine grossière ; air fier, bâtisseur de la première ville."
- },
- {
-  "id": "ada-lemec",
-  "fichier": "public/img/bible/fiches/ada-lemec.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Ada (femme de Lémec)",
-  "periode": "Commencements",
-  "bio": "L'une des deux femmes de Lémec, mère de Jabal et de Jubal, les pères des éleveurs et des musiciens.",
-  "visuel": "Femme des tout premiers temps de l'humanité : longs cheveux tressés, robe de laine teinte, bijoux de cuivre simples ; visage grave."
- },
- {
-  "id": "tsilla",
-  "fichier": "public/img/bible/fiches/tsilla.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Tsilla",
-  "periode": "Commencements",
-  "bio": "Seconde femme de Lémec, mère de Tubal-Caïn le forgeron et de Naama.",
-  "visuel": "Femme des tout premiers temps de l'humanité : longs cheveux tressés, robe de laine teinte, bijoux de cuivre simples ; visage grave."
- },
- {
-  "id": "naama-lemec",
-  "fichier": "public/img/bible/fiches/naama-lemec.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Naama (fille de Lémec)",
-  "periode": "Commencements",
-  "bio": "Fille de Lémec et de Tsilla, sœur de Tubal-Caïn : l'une des toutes premières femmes nommées dans la Bible.",
-  "visuel": "Jeune femme des tout premiers temps de l'humanité, sœur d'un forgeron : longs cheveux, robe de laine, petit bijou de bronze ; douceur."
- },
- {
-  "id": "enosch",
-  "fichier": "public/img/bible/fiches/enosch.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Énosch",
-  "periode": "Commencements",
-  "bio": "Fils de Seth et petit-fils d'Adam. De son temps, les hommes commencèrent à invoquer le nom de l'Éternel.",
-  "visuel": "Patriarche d'avant le déluge, très âgé et vénérable : longue barbe blanche, tunique de laine écrue, mains ouvertes en prière ; lumière douce."
- },
- {
-  "id": "kenan",
-  "fichier": "public/img/bible/fiches/kenan.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Kénan",
-  "periode": "Commencements",
-  "bio": "Fils d'Énosch, quatrième génération après Adam ; il vécut neuf cent dix ans.",
-  "visuel": "Patriarche d'avant le déluge, très âgé et vénérable : longue barbe blanche, tunique de laine écrue, mains ouvertes en prière ; lumière douce."
- },
- {
-  "id": "mahalaleel",
-  "fichier": "public/img/bible/fiches/mahalaleel.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Mahalaleel",
-  "periode": "Commencements",
-  "bio": "Fils de Kénan et père de Jéred, dans la lignée de Seth ; son nom signifie « louange de Dieu ».",
-  "visuel": "Patriarche d'avant le déluge, très âgé et vénérable : longue barbe blanche, tunique de laine écrue, mains ouvertes en prière ; lumière douce."
- },
- {
-  "id": "jered",
-  "fichier": "public/img/bible/fiches/jered.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Jéred",
-  "periode": "Commencements",
-  "bio": "Fils de Mahalaleel et père d'Hénoc, l'homme qui « marcha avec Dieu ». Il vécut neuf cent soixante-deux ans.",
-  "visuel": "Patriarche d'avant le déluge, très âgé et vénérable : longue barbe blanche, tunique de laine écrue, mains ouvertes en prière ; lumière douce."
- },
- {
-  "id": "cusch",
-  "fichier": "public/img/bible/fiches/cusch.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Cusch",
-  "periode": "Commencements",
-  "bio": "Fils aîné de Cham, ancêtre des peuples du sud (l'Éthiopie ancienne) et père de Nimrod.",
-  "visuel": "Ancêtre koushite (Éthiopie ancienne) des tout premiers peuples après le déluge : peau très foncée, cheveux courts frisés, collier de perles, tunique de lin."
- },
- {
-  "id": "mitsraim",
-  "fichier": "public/img/bible/fiches/mitsraim.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Mitsraïm",
-  "periode": "Commencements",
-  "bio": "Fils de Cham, ancêtre des Égyptiens : en hébreu, Mitsraïm est le nom même de l'Égypte.",
-  "visuel": "Ancêtre des Égyptiens, aux origines : peau mate, khôl, coiffe égyptienne archaïque simple, pagne et collier de lin."
- },
- {
-  "id": "puth",
-  "fichier": "public/img/bible/fiches/puth.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Puth",
-  "periode": "Commencements",
-  "bio": "Fils de Cham, ancêtre d'un peuple d'Afrique du Nord (la Libye ancienne, selon beaucoup).",
-  "visuel": "Ancêtre d'un peuple d'Afrique du Nord (Libye ancienne) : peau brune, plume dans les cheveux tressés, manteau de cuir."
- },
- {
-  "id": "canaan-fils",
-  "fichier": "public/img/bible/fiches/canaan-fils.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Canaan (fils de Cham)",
-  "periode": "Commencements",
-  "bio": "Fils de Cham et petit-fils de Noé, maudit par son grand-père ; ancêtre des peuples du pays qui portera son nom.",
-  "visuel": "Jeune homme du Proche-Orient ancien, petit-fils de Noé, ancêtre des Cananéens : barbe naissante, tunique colorée ; regard sombre et troublé (sans caricature)."
- },
- {
-  "id": "elam-sem",
-  "fichier": "public/img/bible/fiches/elam-sem.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Élam (fils de Sem)",
-  "periode": "Commencements",
-  "bio": "Fils aîné de Sem, ancêtre des Élamites, peuple de l'est de la Mésopotamie (l'Iran actuel).",
-  "visuel": "Ancêtre des Élamites (Iran ancien) : barbe noire taillée, bonnet rond, robe à motifs ; montagnes à l'est."
- },
- {
-  "id": "assur-sem",
-  "fichier": "public/img/bible/fiches/assur-sem.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Assur (fils de Sem)",
-  "periode": "Commencements",
-  "bio": "Fils de Sem, ancêtre des Assyriens, le peuple qui fera trembler Israël.",
-  "visuel": "Ancêtre des Assyriens : longue barbe noire bouclée en rangs, bandeau, manteau frangé ; plus simple qu'un roi."
- },
- {
   "id": "arpacschad",
   "fichier": "public/img/bible/fiches/arpacschad.jpg",
   "type": "personnage",
@@ -178,26 +8,6 @@
   "periode": "Commencements",
   "bio": "Fils de Sem né deux ans après le déluge, ancêtre d'Héber et d'Abraham.",
   "visuel": "Patriarche sémite des générations après le déluge, éleveur nomade de Mésopotamie : barbe grise ou blanche, turban et manteau de laine, bâton ; chaque visage distinct (âge et traits variés)."
- },
- {
-  "id": "lud",
-  "fichier": "public/img/bible/fiches/lud.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Lud",
-  "periode": "Commencements",
-  "bio": "Fils de Sem, ancêtre d'un peuple d'Asie Mineure, peut-être les Lydiens.",
-  "visuel": "Ancêtre d'un peuple d'Asie Mineure (Lydie) : cheveux bouclés, manteau de laine épaisse, arc à l'épaule."
- },
- {
-  "id": "aram-sem",
-  "fichier": "public/img/bible/fiches/aram-sem.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Aram (fils de Sem)",
-  "periode": "Commencements",
-  "bio": "Fils de Sem, ancêtre des Araméens (les Syriens de la Bible).",
-  "visuel": "Ancêtre des Araméens (Syrie ancienne) : barbe, keffieh de laine, manteau de berger des steppes."
  },
  {
   "id": "schelach",
@@ -228,16 +38,6 @@
   "periode": "Commencements",
   "bio": "Fils d'Héber ; son nom signifie « partage », « parce que de son temps la terre fut partagée ».",
   "visuel": "Patriarche sémite des générations après le déluge, éleveur nomade de Mésopotamie : barbe grise ou blanche, turban et manteau de laine, bâton ; chaque visage distinct (âge et traits variés)."
- },
- {
-  "id": "jokthan",
-  "fichier": "public/img/bible/fiches/jokthan.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Jokthan",
-  "periode": "Commencements",
-  "bio": "Fils d'Héber et frère de Péleg, ancêtre de nombreuses tribus d'Arabie.",
-  "visuel": "Ancêtre des tribus du sud de l'Arabie : peau tannée, keffieh, bijoux d'or, désert en arrière-plan."
  },
  {
   "id": "rehu",
@@ -507,16 +307,6 @@
   "visuel": "Jeune prince de la cour de David à Hébron, fils d'Abigaïl : tunique fine, cheveux courts, air doux."
  },
  {
-  "id": "maaca-david",
-  "fichier": "public/img/bible/fiches/maaca-david.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Maaca (femme de David)",
-  "periode": "Royaume de David",
-  "bio": "Princesse araméenne, fille de Talmaï, roi de Gueschur ; femme de David et mère d'Absalom et de Tamar.",
-  "visuel": "Princesse araméenne de Gueschur, fille de roi : bijoux d'or, diadème fin, voile brodé ; mère d'Absalom (belle et fière)."
- },
- {
   "id": "haggith",
   "fichier": "public/img/bible/fiches/haggith.jpg",
   "type": "personnage",
@@ -569,16 +359,6 @@
   "visuel": "Reine d'Israël, femme de Saül : simple diadème, voile, visage digne et discret."
  },
  {
-  "id": "joses",
-  "fichier": "public/img/bible/fiches/joses.jpg",
-  "type": "personnage",
-  "testament": "NT",
-  "nom": "Joses (frère de Jésus)",
-  "periode": "Ier siècle",
-  "bio": "L'un des quatre frères de Jésus nommés par les Évangiles ; Matthieu l'appelle Joseph.",
-  "visuel": "Jeune homme galiléen du Ier siècle, frère de Jésus, artisan : tunique de lin, barbe courte, mains de charpentier ; Joses et Simon différents."
- },
- {
   "id": "simon-frere",
   "fichier": "public/img/bible/fiches/simon-frere.jpg",
   "type": "personnage",
@@ -617,16 +397,6 @@
   "periode": "Ier siècle",
   "bio": "Fils d'Hérode le Grand, que son père fit exécuter ; père d'Hérode Agrippa Ier et d'Hérodias. La Bible ne le nomme pas : il est connu par l'historien Flavius Josèphe.",
   "visuel": "Jeune prince de la dynastie d'Hérode : tenue gréco-romaine riche, diadème fin, cheveux courts ; air noble et triste."
- },
- {
-  "id": "herode-antipas",
-  "fichier": "public/img/bible/fiches/herode-antipas.jpg",
-  "type": "personnage",
-  "testament": "NT",
-  "nom": "Hérode Antipas",
-  "periode": "Ier siècle",
-  "bio": "Fils d'Hérode le Grand, tétrarque de Galilée au temps de Jésus. Il fit décapiter Jean-Baptiste et se moqua de Jésus lors de son procès.",
-  "visuel": "Hérode Antipas, tétrarque de Galilée : couronne fine, manteau pourpre, bagues ; air rusé (« ce renard »). Doit se distinguer clairement de herode.jpg (son père)."
  },
  {
   "id": "herode-agrippa",
