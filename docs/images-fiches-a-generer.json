@@ -1,177 +1,5 @@
 [
  {
-  "id": "nabot",
-  "fichier": "public/img/bible/fiches/nabot.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Naboth",
-  "periode": "Rois",
-  "bio": "Propriétaire d'une vigne à Jizreel, voisin du palais d'Achab. Il refusa de vendre l'héritage de ses pères — et fut assassiné sur fausse accusation.",
-  "visuel": "Portrait en buste, physionomie israélite/judéenne de l'Antiquité (sauf indication), âge et tenue selon la bio."
- },
- {
-  "id": "asaph",
-  "fichier": "public/img/bible/fiches/asaph.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Asaph",
-  "periode": "Royaume de David",
-  "tribu": "levi-fils",
-  "bio": "Chef des chantres de David, prophète à la cymbale, auteur de douze psaumes — dont le Psaume 73, la crise de foi la plus honnête du psautier.",
-  "visuel": "Portrait en buste, physionomie israélite/judéenne de l'Antiquité (sauf indication), âge et tenue selon la bio."
- },
- {
-  "id": "obed-edom",
-  "fichier": "public/img/bible/fiches/obed-edom.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Obed-Édom",
-  "periode": "Royaume de David",
-  "bio": "L'homme qui hébergea l'arche de Dieu trois mois après le drame d'Uzza — « et l'Éternel bénit Obed-Édom et toute sa maison ».",
-  "visuel": "Portrait en buste, physionomie israélite/judéenne de l'Antiquité (sauf indication), âge et tenue selon la bio."
- },
- {
-  "id": "barzillai",
-  "fichier": "public/img/bible/fiches/barzillai.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Barzillaï",
-  "periode": "Royaume de David",
-  "bio": "Riche vieillard de Galaad qui ravitailla David en fuite devant Absalom — et refusa toute récompense : « Pourquoi le roi m'accorderait-il ce bienfait ? »",
-  "visuel": "Portrait en buste, physionomie israélite/judéenne de l'Antiquité (sauf indication), âge et tenue selon la bio."
- },
- {
-  "id": "elkana",
-  "fichier": "public/img/bible/fiches/elkana.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Elkana",
-  "periode": "Juges",
-  "bio": "Époux d'Anne et père de Samuel. Chaque année il montait à Silo adorer — et il aimait Anne, la stérile, « d'une portion double ».",
-  "visuel": "Portrait en buste, physionomie israélite/judéenne de l'Antiquité (sauf indication), âge et tenue selon la bio."
- },
- {
-  "id": "achija",
-  "fichier": "public/img/bible/fiches/achija.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Achija de Silo",
-  "periode": "Rois",
-  "bio": "Prophète de Silo qui déchira son manteau neuf en douze morceaux pour annoncer à Jéroboam la division du royaume — puis, aveugle et âgé, démasqua la reine déguisée.",
-  "visuel": "Portrait en buste, physionomie israélite/judéenne de l'Antiquité (sauf indication), âge et tenue selon la bio."
- },
- {
-  "id": "hanania-prophete",
-  "fichier": "public/img/bible/fiches/hanania-prophete.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Hanania (faux prophète)",
-  "periode": "Exil",
-  "bio": "Prophète de Gabaon qui contredit Jérémie en pleine crise : « Dans deux ans, le joug de Babylone sera brisé ». Il mourut l'année même, comme Jérémie l'avait annoncé.",
-  "visuel": "Portrait en buste, physionomie israélite/judéenne de l'Antiquité (sauf indication), âge et tenue selon la bio."
- },
- {
-  "id": "sanballat",
-  "fichier": "public/img/bible/fiches/sanballat.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Sanballat",
-  "periode": "Retour d'exil",
-  "bio": "Gouverneur de Samarie, adversaire acharné de Néhémie : moqueries, menaces armées, pièges et lettres ouvertes — rien n'arrêta la muraille.",
-  "visuel": "Gouverneur de la région de Samarie / notable ammonite de l'époque perse : tenue de dignitaire, air hostile et rusé."
- },
- {
-  "id": "schaphan",
-  "fichier": "public/img/bible/fiches/schaphan.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Schaphan",
-  "periode": "Rois",
-  "bio": "Secrétaire du roi Josias : c'est lui qui lut au roi le livre de la loi retrouvé dans le temple — déclenchant la plus grande réforme de Juda. Ses fils protégeront Jérémie.",
-  "visuel": "Portrait en buste, physionomie israélite/judéenne de l'Antiquité (sauf indication), âge et tenue selon la bio."
- },
- {
-  "id": "jotham-roi",
-  "fichier": "public/img/bible/fiches/jotham-roi.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Jotham",
-  "periode": "Rois",
-  "tribu": "juda-fils",
-  "bio": "Roi de Juda, fils d'Ozias. Seize ans de règne fidèle et bâtisseur — « il devint puissant, parce qu'il affermit ses voies devant l'Éternel, son Dieu ».",
-  "visuel": "Portrait en buste, physionomie israélite/judéenne de l'Antiquité (sauf indication), âge et tenue selon la bio."
- },
- {
-  "id": "ruben",
-  "fichier": "public/img/bible/fiches/ruben.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Ruben",
-  "periode": "Patriarches",
-  "bio": "Fils aîné de Jacob et de Léa, ancêtre de la tribu de Ruben. Il voulut sauver Joseph de ses frères, mais perdit son droit d'aînesse par une faute grave.",
-  "visuel": "Portrait en buste, physionomie israélite/judéenne de l'Antiquité (sauf indication), âge et tenue selon la bio."
- },
- {
-  "id": "simeon-fils",
-  "fichier": "public/img/bible/fiches/simeon-fils.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Siméon (fils de Jacob)",
-  "periode": "Patriarches",
-  "bio": "Deuxième fils de Jacob et de Léa. Avec Lévi, il vengea sa sœur Dina par un massacre ; retenu en otage en Égypte par Joseph. Sa tribu se fondit dans celle de Juda.",
-  "visuel": "Portrait en buste, physionomie israélite/judéenne de l'Antiquité (sauf indication), âge et tenue selon la bio."
- },
- {
-  "id": "levi-fils",
-  "fichier": "public/img/bible/fiches/levi-fils.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Lévi (fils de Jacob)",
-  "periode": "Patriarches",
-  "bio": "Troisième fils de Jacob et de Léa, ancêtre des Lévites et des sacrificateurs : Moïse, Aaron et toute la famille sacerdotale descendent de lui.",
-  "visuel": "Portrait en buste, physionomie israélite/judéenne de l'Antiquité (sauf indication), âge et tenue selon la bio."
- },
- {
-  "id": "dan-fils",
-  "fichier": "public/img/bible/fiches/dan-fils.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Dan (fils de Jacob)",
-  "periode": "Patriarches",
-  "bio": "Premier fils de Bilha, servante de Rachel. De sa tribu viendront Oholiab, l'artisan du tabernacle, et Samson.",
-  "visuel": "Portrait en buste, physionomie israélite/judéenne de l'Antiquité (sauf indication), âge et tenue selon la bio."
- },
- {
-  "id": "nephthali",
-  "fichier": "public/img/bible/fiches/nephthali.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Nephthali",
-  "periode": "Patriarches",
-  "bio": "Second fils de Bilha. Son territoire, en Galilée autour du lac, deviendra le cœur du ministère de Jésus.",
-  "visuel": "Portrait en buste, physionomie israélite/judéenne de l'Antiquité (sauf indication), âge et tenue selon la bio."
- },
- {
-  "id": "gad-fils",
-  "fichier": "public/img/bible/fiches/gad-fils.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Gad (fils de Jacob)",
-  "periode": "Patriarches",
-  "bio": "Premier fils de Zilpa, servante de Léa. Sa tribu, guerrière, s'installa à l'est du Jourdain.",
-  "visuel": "Portrait en buste, physionomie israélite/judéenne de l'Antiquité (sauf indication), âge et tenue selon la bio."
- },
- {
-  "id": "aser",
-  "fichier": "public/img/bible/fiches/aser.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Aser",
-  "periode": "Patriarches",
-  "bio": "Second fils de Zilpa. Tribu des terres fertiles du nord-ouest — et tribu d'Anne la prophétesse, qui reconnut l'enfant Jésus au temple.",
-  "visuel": "Portrait en buste, physionomie israélite/judéenne de l'Antiquité (sauf indication), âge et tenue selon la bio."
- },
- {
   "id": "issacar",
   "fichier": "public/img/bible/fiches/issacar.jpg",
   "type": "personnage",
@@ -383,16 +211,6 @@
   "visuel": "Portrait en buste, physionomie israélite/judéenne de l'Antiquité (sauf indication), âge et tenue selon la bio."
  },
  {
-  "id": "asnath",
-  "fichier": "public/img/bible/fiches/asnath.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Asnath",
-  "periode": "Patriarches",
-  "bio": "Épouse égyptienne de Joseph, fille d'un prêtre d'On, mère de Manassé et d'Éphraïm.",
-  "visuel": "Égyptien de l'Antiquité : peau mate, khôl, coiffe ou perruque égyptienne, lin blanc, bijoux d'or (pharaon : coiffe némès rayée bleu et or)."
- },
- {
   "id": "oholiab",
   "fichier": "public/img/bible/fiches/oholiab.jpg",
   "type": "personnage",
@@ -446,17 +264,6 @@
   "tribu": "levi-fils",
   "bio": "Mère de Moïse, d'Aaron et de Marie. Elle cacha Moïse trois mois puis le confia au Nil dans une corbeille — et fut payée pour l'allaiter.",
   "visuel": "Portrait en buste, physionomie israélite/judéenne de l'Antiquité (sauf indication), âge et tenue selon la bio."
- },
- {
-  "id": "dathan-abiram",
-  "fichier": "public/img/bible/fiches/dathan-abiram.jpg",
-  "type": "personnage",
-  "testament": "AT",
-  "nom": "Dathan & Abiram",
-  "periode": "Désert",
-  "tribu": "ruben",
-  "bio": "Deux frères de la tribu de Ruben, meneurs de la révolte de Koré contre Moïse ; la terre s'ouvrit et les engloutit.",
-  "visuel": "Portrait en buste, physionomie israélite/judéenne de l'Antiquité (sauf indication), âge et tenue selon la bio. Fiche de plusieurs personnes : les représenter ensemble (2 à 5 bustes) dans le même cadre."
  },
  {
   "id": "filles-tselophchad",
@@ -2154,15 +1961,6 @@
   "visuel": "Validé par Jack (image adaptée) : la statue de l'idole, objet sans vie, sur son autel ; aucun personnage vivant, aucune victime. Moloc : idole de bronze à tête de taureau, bras tendus, brasier ; aucun enfant. Variantes déjà générées : https://www.magnific.com/app/creation/Lwzn0DHswO et https://www.magnific.com/app/creation/jUGzcDOLD0"
  },
  {
-  "id": "mont-thabor",
-  "fichier": "public/img/bible/fiches/mont-thabor.jpg",
-  "type": "lieu",
-  "testament": "AT",
-  "nom": "Mont Thabor",
-  "bio": "Montagne isolée qui domine la plaine de Jizreel. Victoire de Débora et Barak — et, selon une ancienne tradition, lieu de la Transfiguration.",
-  "visuel": "Paysage emblématique, même vignette ronde à bord sombre que jerusalem.jpg, lumière dorée."
- },
- {
   "id": "beer-scheba",
   "fichier": "public/img/bible/fiches/beer-scheba.jpg",
   "type": "lieu",
@@ -2250,15 +2048,6 @@
   "testament": "AT",
   "nom": "Lakis",
   "bio": "Puissante ville fortifiée de Juda, dans la Chéphéla : assiégée par Sanchérib, puis par Nebucadnetsar.",
-  "visuel": "Paysage emblématique, même vignette ronde à bord sombre que jerusalem.jpg, lumière dorée."
- },
- {
-  "id": "meguiddo",
-  "fichier": "public/img/bible/fiches/meguiddo.jpg",
-  "type": "lieu",
-  "testament": "AT",
-  "nom": "Meguiddo",
-  "bio": "Ville stratégique gardant le passage vers la plaine de Jizreel : lieu de batailles décisives, où mourut le roi Josias.",
   "visuel": "Paysage emblématique, même vignette ronde à bord sombre que jerusalem.jpg, lumière dorée."
  },
  {
@@ -3919,15 +3708,6 @@
   "testament": "NT",
   "nom": "Césarée de Philippe",
   "bio": "Ville païenne au pied de l'Hermon, aux sources du Jourdain. C'est là que Pierre confesse : « Tu es le Christ, le Fils du Dieu vivant ».",
-  "visuel": "Paysage emblématique, même vignette ronde à bord sombre que jerusalem.jpg, lumière dorée."
- },
- {
-  "id": "mont-oliviers",
-  "fichier": "public/img/bible/fiches/mont-oliviers.jpg",
-  "type": "lieu",
-  "testament": "NT",
-  "nom": "Mont des Oliviers",
-  "bio": "La colline qui fait face à Jérusalem, de l'autre côté du Cédron. Jésus y priait, y pleura sur la ville, y fut arrêté — et c'est de là qu'il est monté au ciel.",
   "visuel": "Paysage emblématique, même vignette ronde à bord sombre que jerusalem.jpg, lumière dorée."
  },
  {
