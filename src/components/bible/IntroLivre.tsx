@@ -8,7 +8,7 @@ import { FicheSheet, Medaillon, TexteAvecRefs, getFiches, type FichesData } from
 /**
  * INTRODUCTIONS AUX LIVRES — une seule source (public/bible/introductions.json,
  * construite depuis content/introductions-livres.json), deux portes d'entrée :
- *   - le lecteur Bible : carte en haut du chapitre 1 + bouton du sélecteur ;
+ *   - le lecteur Bible : petit bouton « Intro » à côté de la référence + sélecteur ;
  *   - Étude › Explorer › Les 66 livres (/ecole/livres).
  */
 
@@ -343,39 +343,5 @@ export function IntroLivreSheet({
         />
       ) : null}
     </div>
-  );
-}
-
-/** Carte d'invitation en haut du chapitre 1, dans le lecteur. */
-export function IntroLivreCarte({ n, nom, onOpen }: { n: number; nom: string; onOpen: () => void }) {
-  const [data, setData] = useState<IntrosData | null>(null);
-  useEffect(() => {
-    getIntroductions().then(setData);
-  }, []);
-  const intro = data?.livres[String(n)];
-  if (!intro || !data) return null;
-  const couleur = COULEUR_GROUPE[groupeDe(data, n)?.id ?? ""] ?? "#CAF000";
-  return (
-    <button
-      type="button"
-      onClick={onOpen}
-      className="dark-ctx mb-5 block w-full overflow-hidden rounded-3xl border border-white/10 bg-night-900 text-left font-sans text-cream shadow-card"
-    >
-      <span className="block h-1" style={{ background: couleur }} />
-      <span className="block px-4 pb-4 pt-3.5">
-        <span className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em]" style={{ color: couleur }}>
-          <Glyphe d={G.livre} className="h-3.5 w-3.5" />
-          Introduction au livre
-        </span>
-        <span className="mt-1 block font-display text-[19px] font-extrabold leading-tight">
-          {nom} <span className="text-cream/50">·</span> <span style={{ color: couleur }}>{intro.accroche}</span>
-        </span>
-        <span className="mt-1.5 line-clamp-2 block text-[13px] leading-snug text-cream/65">{intro.resume}</span>
-        <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-white/[0.08] px-3.5 py-1.5 text-[12px] font-bold text-cream/90">
-          Auteur, époque, contexte, plan
-          <Glyphe d={G.fleche} className="h-3.5 w-3.5" />
-        </span>
-      </span>
-    </button>
   );
 }

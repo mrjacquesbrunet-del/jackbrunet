@@ -9,7 +9,7 @@ import type { Commentary } from "@/components/bible/CommentaryPanel";
 import { VersetOutils } from "@/components/bible/VersetOutils";
 import { BibleHero } from "@/components/bible/BibleHero";
 import { FichesChapitre } from "@/components/bible/FichesChapitre";
-import { IntroLivreCarte, IntroLivreSheet } from "@/components/bible/IntroLivre";
+import { IntroLivreSheet } from "@/components/bible/IntroLivre";
 import { BibleAudio } from "@/components/bible/BibleAudio";
 import { BibleAudioPlayer } from "@/components/bible/BibleAudioPlayer";
 import {
@@ -334,6 +334,20 @@ export function BibleReader() {
             </svg>
           </button>
 
+          {/* Introduction au livre : discrète, on la déplie si on veut */}
+          <button
+            type="button"
+            onClick={() => setIntroLivre(bookId)}
+            aria-label={`Introduction au livre ${book?.name ?? ""}`}
+            className="grid h-10 w-10 shrink-0 place-items-center rounded-full shadow-card backdrop-blur"
+            style={{ backgroundColor: reading.theme === "sombre" ? "rgba(12,12,11,.62)" : "rgba(255,255,255,.92)" }}
+          >
+            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.9}>
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 11v5M12 7.5h.01" strokeLinecap="round" strokeWidth={2.4} />
+            </svg>
+          </button>
+
           <div className="relative ml-auto flex shrink-0 items-center gap-1.5">
             <ReadingSettings />
             {/* Menu : carnet, recherche, téléchargement, vue classique */}
@@ -537,10 +551,6 @@ export function BibleReader() {
               Touche un verset pour le surligner, le copier ou l'enregistrer.
             </p>
           ): null}
-          {/* Chapitre 1 : l'introduction au livre (auteur, époque, contexte…) */}
-          {chapter === 1 && book ? (
-            <IntroLivreCarte n={bookId} nom={book.name} onOpen={() => setIntroLivre(bookId)} />
-          ) : null}
           {verses.map((v, i) => {
             const vn = i + 1;
             const open = sheetVerse === vn;
