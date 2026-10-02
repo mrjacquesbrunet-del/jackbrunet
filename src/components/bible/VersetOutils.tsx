@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import type { Commentary } from "@/components/bible/CommentaryPanel";
 import { FicheSheet, getFiches, Medaillon, TexteAvecRefs as TexteAvecRefsVerset, type FichesData } from "@/components/bible/FichesChapitre";
+import { nettoyerMarquesIA } from "@/lib/texte";
 import { Markable } from "@/components/ui/Markable";
 import { useAuth } from "@/components/community/useAuth";
 import { askAssistant } from "@/lib/assistant";
@@ -210,11 +211,12 @@ export function VersetOutils({
 
   function Bloc({ label, text, suffix }: { label: string; text?: string; suffix: string }) {
     if (!text) return null;
+    const propre = nettoyerMarquesIA(text);
     return (
       <div>
         <p className="text-[11px] font-black uppercase tracking-[0.18em] text-dawn-400">{label}</p>
-        <Markable id={`${idBase}:comm:${suffix}`} text={text} reference={reference} kind="commentaire">
-          <p className="mt-1 text-[15px] leading-relaxed text-cream/85">{text}</p>
+        <Markable id={`${idBase}:comm:${suffix}`} text={propre} reference={reference} kind="commentaire">
+          <p className="mt-1 text-[15px] leading-relaxed text-cream/85">{propre}</p>
         </Markable>
       </div>
     );
@@ -542,7 +544,7 @@ export function VersetOutils({
                       className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950 disabled:opacity-40"
                     >
                       <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2}>
-                        <path d="M4 12l16-7-4.5 7L20 19zM4 12h11" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M20 12L4 5l4.5 7L4 19zM20 12H9" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </button>
                   </div>
@@ -567,7 +569,7 @@ export function VersetOutils({
                       {m.mot}
                       {m.translit ? <span className="ml-2 text-sm font-semibold italic text-cream/55">{m.translit}</span> : null}
                     </p>
-                    {m.sens ? <p className="mt-0.5 text-[15px] leading-relaxed text-cream/85">{m.sens}</p> : null}
+                    {m.sens ? <p className="mt-0.5 text-[15px] leading-relaxed text-cream/85">{nettoyerMarquesIA(m.sens)}</p> : null}
                   </li>
                 ))}
               </ul>

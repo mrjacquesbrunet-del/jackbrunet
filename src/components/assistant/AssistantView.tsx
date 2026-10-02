@@ -227,7 +227,7 @@ export function AssistantView() {
               className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950 disabled:opacity-40"
             >
               <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2}>
-                <path d="M4 12l16-7-4.5 7L20 19zM4 12h11" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M20 12L4 5l4.5 7L4 19zM20 12H9" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
           </div>

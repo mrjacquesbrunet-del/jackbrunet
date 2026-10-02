@@ -247,7 +247,7 @@ export function EcoleView() {
                 <span className="min-w-0 flex-1 truncate text-sm text-cream/45">Écris ta question ici…</span>
                 <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950">
                   <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2}>
-                    <path d="M4 12l16-7-4.5 7L20 19zM4 12h11" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M20 12L4 5l4.5 7L4 19zM20 12H9" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </span>
               </span>

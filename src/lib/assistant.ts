@@ -1,6 +1,7 @@
 "use client";
 
 import { getSupabase } from "./supabase";
+import { nettoyerMarquesIA } from "./texte";
 
 /**
  * ASSISTANT BIBLIQUE : le client n'appelle JAMAIS l'API Anthropic
@@ -31,7 +32,7 @@ export async function askAssistant(messages: AssistantMsg[]): Promise<AssistantR
     return { ok: false, error: "server" };
   }
   if (!data?.answer) return { ok: false, error: "server" };
-  return { ok: true, answer: data.answer as string, remaining: (data.remaining as number) ?? 0 };
+  return { ok: true, answer: nettoyerMarquesIA(data.answer as string), remaining: (data.remaining as number) ?? 0 };
 }
 
 /** Questions posées sur les dernières 24 h (pour afficher le compteur). */
