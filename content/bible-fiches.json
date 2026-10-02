@@ -907,7 +907,54 @@
      "caleb"
     ]
    ],
-   "histoire": "Serviteur de Moïse depuis sa jeunesse, Josué est l'un des deux seuls espions à croire que Dieu peut donner le pays (Nombres 14:8). À la mort de Moïse, l'Éternel l'investit : « Fortifie-toi et prends courage… l'Éternel ton Dieu est avec toi partout où tu iras » (Josué 1:9).\n\nIl fait traverser le Jourdain à sec (Josué 3:17), prend Jéricho dont les murailles tombent au son des trompettes (Josué 6:20), et partage le pays entre les tribus. Son nom — le même que « Jésus » en hébreu — signifie « l'Éternel sauve ».\n\nSon testament spirituel reste l'un des appels les plus cités de la Bible : « Choisissez aujourd'hui qui vous voulez servir… Moi et ma maison, nous servirons l'Éternel » (Josué 24:15)."
+   "histoire": "Serviteur de Moïse depuis sa jeunesse, Josué est l'un des deux seuls espions à croire que Dieu peut donner le pays (Nombres 14:8). À la mort de Moïse, l'Éternel l'investit : « Fortifie-toi et prends courage… l'Éternel ton Dieu est avec toi partout où tu iras » (Josué 1:9).\n\nIl fait traverser le Jourdain à sec (Josué 3:17), prend Jéricho dont les murailles tombent au son des trompettes (Josué 6:20), et partage le pays entre les tribus. Son nom — le même que « Jésus » en hébreu — signifie « l'Éternel sauve ».\n\nSon testament spirituel reste l'un des appels les plus cités de la Bible : « Choisissez aujourd'hui qui vous voulez servir… Moi et ma maison, nous servirons l'Éternel » (Josué 24:15).",
+   "parcours": [
+    {
+     "t": "Le Jourdain",
+     "d": "Traversée à sec, douze pierres en mémorial",
+     "r": "Josué 3",
+     "g": [
+      35.55,
+      31.84
+     ]
+    },
+    {
+     "t": "Jéricho",
+     "d": "Sept tours, les trompettes, les murailles tombent",
+     "r": "Josué 6",
+     "g": [
+      35.44,
+      31.87
+     ]
+    },
+    {
+     "t": "Aï",
+     "d": "La défaite (le péché d'Acan), puis la victoire",
+     "r": "Josué 7",
+     "g": [
+      35.26,
+      31.92
+     ]
+    },
+    {
+     "t": "Gabaon",
+     "d": "« Soleil, arrête-toi ! » — la longue journée de bataille",
+     "r": "Josué 10",
+     "g": [
+      35.18,
+      31.85
+     ]
+    },
+    {
+     "t": "Sichem",
+     "d": "« Moi et ma maison, nous servirons l'Éternel »",
+     "r": "Josué 24",
+     "g": [
+      35.28,
+      32.21
+     ]
+    }
+   ]
   },
   {
    "id": "caleb",
@@ -1043,7 +1090,45 @@
      "david"
     ]
    ],
-   "histoire": "Veuve moabite, étrangère, Ruth choisit de s'attacher à Naomi sa belle-mère avec des mots devenus immortels : « Ton peuple sera mon peuple, et ton Dieu sera mon Dieu » (Ruth 1:16).\n\nÀ Bethléhem, elle glane dans le champ de Booz, un parent de Naomi, qui la remarque et la protège (Ruth 2:12). Naomi guide sa démarche auprès de lui et Booz, en « racheteur », l'épouse (Ruth 4:10) : l'étrangère entre pleinement dans le peuple de Dieu.\n\nLeur fils Obed sera le grand-père de David (Ruth 4:17) — et Ruth, l'une des quatre femmes citées dans la généalogie de Jésus (Matthieu 1:5). La grâce ne connaît pas de frontières."
+   "histoire": "Veuve moabite, étrangère, Ruth choisit de s'attacher à Naomi sa belle-mère avec des mots devenus immortels : « Ton peuple sera mon peuple, et ton Dieu sera mon Dieu » (Ruth 1:16).\n\nÀ Bethléhem, elle glane dans le champ de Booz, un parent de Naomi, qui la remarque et la protège (Ruth 2:12). Naomi guide sa démarche auprès de lui et Booz, en « racheteur », l'épouse (Ruth 4:10) : l'étrangère entre pleinement dans le peuple de Dieu.\n\nLeur fils Obed sera le grand-père de David (Ruth 4:17) — et Ruth, l'une des quatre femmes citées dans la généalogie de Jésus (Matthieu 1:5). La grâce ne connaît pas de frontières.",
+   "parcours": [
+    {
+     "t": "Pays de Moab",
+     "d": "Veuve, elle choisit Naomi : « Ton peuple sera mon peuple »",
+     "r": "Ruth 1",
+     "g": [
+      35.75,
+      31.5
+     ]
+    },
+    {
+     "t": "Bethléhem",
+     "d": "Elle glane dans le champ de Booz",
+     "r": "Ruth 2",
+     "g": [
+      35.2,
+      31.7
+     ]
+    },
+    {
+     "t": "L'aire de battage",
+     "d": "La nuit de la demande de rachat",
+     "r": "Ruth 3",
+     "g": [
+      35.2,
+      31.72
+     ]
+    },
+    {
+     "t": "Bethléhem",
+     "d": "Épouse de Booz, mère d'Obed, aïeule de David",
+     "r": "Ruth 4",
+     "g": [
+      35.2,
+      31.7
+     ]
+    }
+   ]
   },
   {
    "id": "booz",
@@ -1466,7 +1551,54 @@
      "elie"
     ]
    ],
-   "histoire": "Laboureur appelé en plein champ, Élisée brûle sa charrue et suit Élie (1 Rois 19:21). Au moment de l'enlèvement de son maître, il ose demander « une double portion de ton esprit » (2 Rois 2:9) — et ramasse le manteau tombé du ciel.\n\nSon ministère déborde de miracles de compassion : les eaux de Jéricho assainies (2 Rois 2:21), l'huile de la veuve multipliée (2 Rois 4:6), le fils de la Sunamite ressuscité (2 Rois 4:35), Naaman le Syrien guéri de la lèpre dans le Jourdain (2 Rois 5:14), le fer de hache qui surnage (2 Rois 6:6).\n\nQuand l'armée syrienne encercle Dothan, il rassure son serviteur : « Ceux qui sont avec nous sont en plus grand nombre que ceux qui sont avec eux » — et Dieu ouvre les yeux du jeune homme sur la montagne pleine de chars de feu (2 Rois 6:17)."
+   "histoire": "Laboureur appelé en plein champ, Élisée brûle sa charrue et suit Élie (1 Rois 19:21). Au moment de l'enlèvement de son maître, il ose demander « une double portion de ton esprit » (2 Rois 2:9) — et ramasse le manteau tombé du ciel.\n\nSon ministère déborde de miracles de compassion : les eaux de Jéricho assainies (2 Rois 2:21), l'huile de la veuve multipliée (2 Rois 4:6), le fils de la Sunamite ressuscité (2 Rois 4:35), Naaman le Syrien guéri de la lèpre dans le Jourdain (2 Rois 5:14), le fer de hache qui surnage (2 Rois 6:6).\n\nQuand l'armée syrienne encercle Dothan, il rassure son serviteur : « Ceux qui sont avec nous sont en plus grand nombre que ceux qui sont avec eux » — et Dieu ouvre les yeux du jeune homme sur la montagne pleine de chars de feu (2 Rois 6:17).",
+   "parcours": [
+    {
+     "t": "Le Jourdain",
+     "d": "Le manteau d'Élie : il reçoit une double portion de l'Esprit",
+     "r": "2 Rois 2",
+     "g": [
+      35.55,
+      31.84
+     ]
+    },
+    {
+     "t": "Jéricho",
+     "d": "Les eaux mauvaises assainies par le sel",
+     "r": "2 Rois 2",
+     "g": [
+      35.44,
+      31.87
+     ]
+    },
+    {
+     "t": "Sunem",
+     "d": "La chambre haute, puis le fils de la Sunamite rendu à la vie",
+     "r": "2 Rois 4",
+     "g": [
+      35.34,
+      32.6
+     ]
+    },
+    {
+     "t": "Samarie",
+     "d": "Au service des rois ; le siège et l'abondance annoncée",
+     "r": "2 Rois 6",
+     "g": [
+      35.3,
+      32.28
+     ]
+    },
+    {
+     "t": "Damas",
+     "d": "Il annonce à Hazaël son règne et pleure sur Israël",
+     "r": "2 Rois 8",
+     "g": [
+      36.3,
+      33.5
+     ]
+    }
+   ]
   },
   {
    "id": "ezechias",
@@ -1780,7 +1912,46 @@
      "v": "Daniel"
     }
    ],
-   "histoire": "Déporté adolescent à Babylone, Daniel « résolut de ne pas se souiller » à la table du roi (Daniel 1:8) — la première victoire se joue dans l'assiette. Dieu lui donne sagesse et intelligence des visions ; il révèle à Nebucadnetsar son songe de la statue aux pieds d'argile (Daniel 2:44).\n\nSous quatre rois et deux empires, il sert sans fléchir. Ses trois compagnons traversent la fournaise avec un quatrième homme « semblable à un fils des dieux » (Daniel 3:25) ; lui-même, octogénaire, est jeté aux lions pour avoir continué à prier trois fois par jour, fenêtres ouvertes vers Jérusalem (Daniel 6:10) — et Dieu ferme la gueule des lions (Daniel 6:22).\n\nSes visions portent jusqu'au « fils de l'homme venant sur les nuées » (Daniel 7:13), dont Jésus reprendra le titre. Trois fois, le ciel l'appelle « bien-aimé » (Daniel 10:11)."
+   "histoire": "Déporté adolescent à Babylone, Daniel « résolut de ne pas se souiller » à la table du roi (Daniel 1:8) — la première victoire se joue dans l'assiette. Dieu lui donne sagesse et intelligence des visions ; il révèle à Nebucadnetsar son songe de la statue aux pieds d'argile (Daniel 2:44).\n\nSous quatre rois et deux empires, il sert sans fléchir. Ses trois compagnons traversent la fournaise avec un quatrième homme « semblable à un fils des dieux » (Daniel 3:25) ; lui-même, octogénaire, est jeté aux lions pour avoir continué à prier trois fois par jour, fenêtres ouvertes vers Jérusalem (Daniel 6:10) — et Dieu ferme la gueule des lions (Daniel 6:22).\n\nSes visions portent jusqu'au « fils de l'homme venant sur les nuées » (Daniel 7:13), dont Jésus reprendra le titre. Trois fois, le ciel l'appelle « bien-aimé » (Daniel 10:11).",
+   "parcours": [
+    {
+     "t": "Jérusalem",
+     "d": "Jeune noble déporté à la chute de la ville",
+     "r": "Daniel 1",
+     "g": [
+      35.23,
+      31.78
+     ]
+    },
+    {
+     "t": "Babylone",
+     "d": "Le songe de Nebucadnetsar ; la fournaise de ses trois amis",
+     "r": "Daniel 2",
+     "e": "≈ 70 ans",
+     "g": [
+      44.42,
+      32.54
+     ]
+    },
+    {
+     "t": "Suse (en vision)",
+     "d": "Le bélier et le bouc, au bord de l'Oulaï",
+     "r": "Daniel 8",
+     "g": [
+      48.26,
+      32.19
+     ]
+    },
+    {
+     "t": "Babylone",
+     "d": "La fosse aux lions sous Darius : Dieu ferme la gueule des lions",
+     "r": "Daniel 6",
+     "g": [
+      44.42,
+      32.54
+     ]
+    }
+   ]
   },
   {
    "id": "jonas",
@@ -1809,7 +1980,55 @@
      "v": "Jonas"
     }
    ],
-   "histoire": "Envoyé à Ninive, capitale de l'ennemi assyrien, Jonas embarque à Tarsis — plein ouest, à l'opposé (Jonas 1:3). La tempête, le tirage au sort, et le prophète jeté à la mer : « un grand poisson » l'engloutit, préparé par l'Éternel (Jonas 2:1). Des entrailles du poisson monte sa prière : « Le salut vient de l'Éternel » (Jonas 2:10).\n\nRecraché, réenvoyé, il prêche une seule phrase — et toute Ninive se repent, du roi au bétail (Jonas 3:5). Jonas en est fâché à mourir : il savait Dieu « compatissant et miséricordieux, lent à la colère » (Jonas 4:2). La leçon du ricin qui pousse et sèche conclut le livre : Dieu aime aussi nos ennemis.\n\nJésus fera de lui son propre signe : « Comme Jonas fut trois jours dans le ventre du poisson, ainsi le Fils de l'homme… » (Matthieu 12:40)."
+   "histoire": "Envoyé à Ninive, capitale de l'ennemi assyrien, Jonas embarque à Tarsis — plein ouest, à l'opposé (Jonas 1:3). La tempête, le tirage au sort, et le prophète jeté à la mer : « un grand poisson » l'engloutit, préparé par l'Éternel (Jonas 2:1). Des entrailles du poisson monte sa prière : « Le salut vient de l'Éternel » (Jonas 2:10).\n\nRecraché, réenvoyé, il prêche une seule phrase — et toute Ninive se repent, du roi au bétail (Jonas 3:5). Jonas en est fâché à mourir : il savait Dieu « compatissant et miséricordieux, lent à la colère » (Jonas 4:2). La leçon du ricin qui pousse et sèche conclut le livre : Dieu aime aussi nos ennemis.\n\nJésus fera de lui son propre signe : « Comme Jonas fut trois jours dans le ventre du poisson, ainsi le Fils de l'homme… » (Matthieu 12:40).",
+   "parcours": [
+    {
+     "t": "Japho (Joppé)",
+     "d": "Appelé à Ninive, il fuit et s'embarque pour Tarsis",
+     "r": "Jonas 1",
+     "g": [
+      34.75,
+      32.05
+     ]
+    },
+    {
+     "t": "En mer",
+     "d": "La tempête ; jeté par-dessus bord à sa demande",
+     "r": "Jonas 1",
+     "g": [
+      33.3,
+      33.1
+     ]
+    },
+    {
+     "t": "Dans le grand poisson",
+     "d": "« Du sein du séjour des morts j'ai crié »",
+     "r": "Jonas 2",
+     "e": "3 jours",
+     "g": [
+      34.2,
+      32.9
+     ]
+    },
+    {
+     "t": "Ninive",
+     "d": "« Encore quarante jours » — et la ville se repent",
+     "r": "Jonas 3",
+     "g": [
+      43.15,
+      36.36
+     ]
+    },
+    {
+     "t": "À l'orient de la ville",
+     "d": "Le ricin et la leçon de la compassion de Dieu",
+     "r": "Jonas 4",
+     "g": [
+      43.35,
+      36.4
+     ]
+    }
+   ]
   },
   {
    "id": "marie",
@@ -1957,7 +2176,36 @@
      "jesus"
     ]
    ],
-   "histoire": "Annoncé par l'ange Gabriel à son père Zacharie (Luc 1:13), rempli de l'Esprit dès le sein maternel, Jean grandit au désert. Vêtu de poil de chameau, nourri de sauterelles et de miel (Matthieu 3:4), il est « la voix de celui qui crie dans le désert : préparez le chemin du Seigneur » (Matthieu 3:3).\n\nIl baptise dans le Jourdain un peuple en repentance, et désigne Jésus d'une phrase qui résume l'Évangile : « Voici l'Agneau de Dieu, qui ôte le péché du monde » (Jean 1:29). Il baptise Jésus lui-même, à sa demande (Matthieu 3:15), puis s'efface : « Il faut qu'il croisse, et que je diminue » (Jean 3:30).\n\nEmprisonné pour avoir repris Hérode, il meurt décapité (Matthieu 14:10). Jésus dira de lui : parmi ceux qui sont nés de femmes, il n'en a point paru de plus grand (Matthieu 11:11)."
+   "histoire": "Annoncé par l'ange Gabriel à son père Zacharie (Luc 1:13), rempli de l'Esprit dès le sein maternel, Jean grandit au désert. Vêtu de poil de chameau, nourri de sauterelles et de miel (Matthieu 3:4), il est « la voix de celui qui crie dans le désert : préparez le chemin du Seigneur » (Matthieu 3:3).\n\nIl baptise dans le Jourdain un peuple en repentance, et désigne Jésus d'une phrase qui résume l'Évangile : « Voici l'Agneau de Dieu, qui ôte le péché du monde » (Jean 1:29). Il baptise Jésus lui-même, à sa demande (Matthieu 3:15), puis s'efface : « Il faut qu'il croisse, et que je diminue » (Jean 3:30).\n\nEmprisonné pour avoir repris Hérode, il meurt décapité (Matthieu 14:10). Jésus dira de lui : parmi ceux qui sont nés de femmes, il n'en a point paru de plus grand (Matthieu 11:11).",
+   "parcours": [
+    {
+     "t": "Désert de Judée",
+     "d": "« Voix de celui qui crie : Préparez le chemin du Seigneur »",
+     "r": "Matthieu 3",
+     "g": [
+      35.4,
+      31.65
+     ]
+    },
+    {
+     "t": "Le Jourdain",
+     "d": "Il baptise les foules — puis Jésus : « Voici l'Agneau de Dieu »",
+     "r": "Jean 1",
+     "g": [
+      35.55,
+      31.84
+     ]
+    },
+    {
+     "t": "La prison",
+     "d": "Enfermé par Hérode ; « Es-tu celui qui doit venir ? »",
+     "r": "Matthieu 11",
+     "g": [
+      35.62,
+      31.57
+     ]
+    }
+   ]
   },
   {
    "id": "pierre",
@@ -3694,7 +3942,45 @@
      "elisee"
     ]
    ],
-   "histoire": "Tout réussit à Naaman, chef de l'armée de Syrie — « mais il était lépreux » (2 Rois 5:1). L'espérance vient d'en bas : une petite captive israélite parle du prophète de Samarie.\n\nDevant la maison d'Élisée, pas d'accueil solennel : un messager, et une consigne humiliante — se plonger sept fois dans le Jourdain. Naaman s'emporte : il attendait un geste grandiose, les fleuves de Damas valent mieux ! Ses serviteurs le raisonnent ; il descend, se plonge, « et sa chair redevint comme la chair d'un jeune enfant » (2 Rois 5:14).\n\nLe païen guéri confesse le Dieu d'Israël et refuse qu'on paie la grâce (2 Rois 5:15). Jésus le citera à Nazareth (Luc 4:27) : la grâce déborde les frontières."
+   "histoire": "Tout réussit à Naaman, chef de l'armée de Syrie — « mais il était lépreux » (2 Rois 5:1). L'espérance vient d'en bas : une petite captive israélite parle du prophète de Samarie.\n\nDevant la maison d'Élisée, pas d'accueil solennel : un messager, et une consigne humiliante — se plonger sept fois dans le Jourdain. Naaman s'emporte : il attendait un geste grandiose, les fleuves de Damas valent mieux ! Ses serviteurs le raisonnent ; il descend, se plonge, « et sa chair redevint comme la chair d'un jeune enfant » (2 Rois 5:14).\n\nLe païen guéri confesse le Dieu d'Israël et refuse qu'on paie la grâce (2 Rois 5:15). Jésus le citera à Nazareth (Luc 4:27) : la grâce déborde les frontières.",
+   "parcours": [
+    {
+     "t": "Damas (Syrie)",
+     "d": "Chef d'armée lépreux ; une servante israélite parle d'un prophète",
+     "r": "2 Rois 5",
+     "g": [
+      36.3,
+      33.5
+     ]
+    },
+    {
+     "t": "Samarie",
+     "d": "Chez le roi d'Israël, puis devant la maison d'Élisée",
+     "r": "2 Rois 5",
+     "g": [
+      35.3,
+      32.28
+     ]
+    },
+    {
+     "t": "Le Jourdain",
+     "d": "Sept plongeons : « sa chair redevint comme celle d'un enfant »",
+     "r": "2 Rois 5",
+     "g": [
+      35.55,
+      31.84
+     ]
+    },
+    {
+     "t": "Retour vers Damas",
+     "d": "« Il n'y a point d'autre Dieu sur toute la terre »",
+     "r": "2 Rois 5",
+     "g": [
+      36.3,
+      33.5
+     ]
+    }
+   ]
   },
   {
    "id": "nebucadnetsar",
@@ -5795,7 +6081,46 @@
      "orpa"
     ]
    ],
-   "histoire": "La famine la pousse à Moab avec Élimélec et leurs deux fils ; dix ans plus tard, elle a tout perdu — mari et fils. « Appelez-moi Mara, car le Tout-Puissant m'a remplie d'amertume ; j'étais partie dans l'abondance, et l'Éternel me ramène à vide » (Ruth 1.1-21). Ruth, pourtant, s'attache à elle.\n\nC'est Naomi qui reconnaît la main de Dieu chez Booz — « cet homme est notre parent, il a droit de rachat » (Ruth 2.20) — et qui guide Ruth vers l'aire (Ruth 3.1-4). Au dernier chapitre, les femmes de Bethléhem la félicitent, l'enfant sur ses genoux : « Il remettra ton âme en vie » (Ruth 4.14-17). La femme « vide » tient dans ses bras l'aïeul de David."
+   "histoire": "La famine la pousse à Moab avec Élimélec et leurs deux fils ; dix ans plus tard, elle a tout perdu — mari et fils. « Appelez-moi Mara, car le Tout-Puissant m'a remplie d'amertume ; j'étais partie dans l'abondance, et l'Éternel me ramène à vide » (Ruth 1.1-21). Ruth, pourtant, s'attache à elle.\n\nC'est Naomi qui reconnaît la main de Dieu chez Booz — « cet homme est notre parent, il a droit de rachat » (Ruth 2.20) — et qui guide Ruth vers l'aire (Ruth 3.1-4). Au dernier chapitre, les femmes de Bethléhem la félicitent, l'enfant sur ses genoux : « Il remettra ton âme en vie » (Ruth 4.14-17). La femme « vide » tient dans ses bras l'aïeul de David.",
+   "parcours": [
+    {
+     "t": "Bethléhem",
+     "d": "La famine chasse la famille du pays",
+     "r": "Ruth 1",
+     "g": [
+      35.2,
+      31.7
+     ]
+    },
+    {
+     "t": "Pays de Moab",
+     "d": "Dix ans d'exil, puis la mort du mari et des deux fils",
+     "r": "Ruth 1",
+     "e": "≈ 10 ans",
+     "g": [
+      35.75,
+      31.5
+     ]
+    },
+    {
+     "t": "Retour à Bethléhem",
+     "d": "« Ne m'appelez plus Naomi, appelez-moi Mara »",
+     "r": "Ruth 1",
+     "g": [
+      35.2,
+      31.7
+     ]
+    },
+    {
+     "t": "Bethléhem",
+     "d": "Obed sur ses genoux : l'amertume devient joie",
+     "r": "Ruth 4",
+     "g": [
+      35.2,
+      31.7
+     ]
+    }
+   ]
   },
   {
    "id": "orpa",
