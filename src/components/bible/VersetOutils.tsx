@@ -42,6 +42,62 @@ const OUTILS: { id: Outil; label: (at: boolean) => string; lettre: (at: boolean)
   { id: "fiches", label: () => "Qui & où", lettre: () => "P", couleur: "#CAF000" },
 ];
 
+/* ——— Relier un mot grec/hébreu au mot du verset français ——— */
+type MotEtude = { mot: string; translit?: string; sens?: string; fr?: string; strong?: string };
+
+/** Le terme français qu'évoque ce mot d'origine (champ fr, sinon extrait du sens). */
+function termeFrancais(m: MotEtude): string | null {
+  if (m.fr) return m.fr;
+  const sens = m.sens ?? "";
+  const quote = sens.match(/'([^']{2,28})'/) || sens.match(/«\s*([^»]{2,28})\s*»/);
+  if (quote) return quote[1].trim();
+  const verbe = sens.match(
+    /(?:signifie|se traduit par|désigne)\s+(?:le |la |les |l'|un |une |du |des )?([A-Za-zÀ-ÖØ-öø-ÿ-]{3,22})/i,
+  );
+  return verbe ? verbe[1].replace(/[.,;:]$/, "") : null;
+}
+
+/** Cherche le terme dans le verset (sans accents ni casse, radical en repli).
+ * Renvoie [début, fin] dans le texte original, ou null. */
+function chercherDansVerset(verset: string, terme: string): [number, number] | null {
+  const cle = (txt: string) =>
+    Array.from(txt)
+      .map((ch) => ch.normalize("NFD")[0].toLowerCase())
+      .join("");
+  const vk = cle(verset);
+  const etendre = (debut: number, lg: number): [number, number] => {
+    let fin = debut + lg;
+    while (fin < verset.length && /[a-zà-öø-ÿ]/i.test(verset[fin])) fin++;
+    return [debut, fin];
+  };
+  const tk = cle(terme);
+  if (tk.length <= 4) {
+    const m = new RegExp(`(?:^|[^a-z])(${tk})(?:$|[^a-z])`).exec(vk);
+    if (m) return etendre(m.index + m[0].indexOf(m[1]), tk.length);
+    return null;
+  }
+  let t = tk;
+  while (t.length >= 5) {
+    const i = vk.indexOf(t);
+    if (i >= 0) return etendre(i, t.length);
+    t = t.slice(0, -1);
+  }
+  return null;
+}
+
+/** Le verset de l'en-tête, avec le mot étudié surligné quand il y en a un. */
+function VersetSurligne({ texte, plage }: { texte: string; plage: [number, number] | null }) {
+  if (!plage) return <p className="mt-1 line-clamp-3 text-sm leading-relaxed text-cream/70">{texte}</p>;
+  const [d, f] = plage;
+  return (
+    <p className="mt-1 text-sm leading-relaxed text-cream/70">
+      {texte.slice(0, d)}
+      <mark className="rounded bg-dawn-400/90 px-1 py-0.5 font-bold text-night-950">{texte.slice(d, f)}</mark>
+      {texte.slice(f)}
+    </p>
+  );
+}
+
 export function VersetOutils({
   bookId,
   chapter,
@@ -77,6 +133,16 @@ export function VersetOutils({
   }, []);
 
   const idBase = `bible:${bookId}:${chapter}:${verse}`;
+
+  // Mot grec/hébreu sélectionné : on montre de quel mot du verset il s'agit.
+  const [motActif, setMotActif] = useState<number | null>(null);
+  useEffect(() => {
+    setMotActif(null);
+  }, [idBase]);
+  const motsEtude = (commentary?.mots ?? []) as MotEtude[];
+  const motSel = motActif !== null ? motsEtude[motActif] : null;
+  const termeSel = motSel ? termeFrancais(motSel) : null;
+  const plageSel = motSel && termeSel ? chercherDansVerset(verseText, termeSel) : null;
 
   // Légende personnelle de la palette (modifiable, mémorisée sur l'appareil).
   const [legendes, setLegendes] = useState<Record<string, string>>({});
@@ -257,7 +323,7 @@ export function VersetOutils({
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
               <p className="font-display text-base font-extrabold text-dawn-400">{reference}</p>
-              <p className="mt-1 line-clamp-3 text-sm leading-relaxed text-cream/70">{verseText}</p>
+              <VersetSurligne texte={verseText} plage={plageSel} />
             </div>
             <button type="button" onClick={onClose} aria-label="Fermer" className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/15 text-cream/70">
               <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2}><path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" /></svg>
@@ -616,16 +682,41 @@ export function VersetOutils({
               <p className="text-[11px] font-black uppercase tracking-[0.18em] text-dawn-400">
                 Mots d'origine ({at ? "hébreu" : "grec"})
               </p>
-              <ul className="mt-2 space-y-3">
-                {(commentary.mots ?? []).map((m, i) => (
-                  <li key={i}>
-                    <p className="font-display text-lg font-extrabold">
-                      {m.mot}
-                      {m.translit ? <span className="ml-2 text-sm font-semibold italic text-cream/55">{m.translit}</span> : null}
-                    </p>
-                    {m.sens ? <p className="mt-0.5 text-[15px] leading-relaxed text-cream/85">{nettoyerMarquesIA(m.sens)}</p> : null}
-                  </li>
-                ))}
+              <p className="mt-1 text-xs text-cream/50">
+                Tape un mot : le mot du verset qu'il traduit s'affiche et se surligne en haut.
+              </p>
+              <ul className="mt-2 space-y-2">
+                {motsEtude.map((m, i) => {
+                  const actif = motActif === i;
+                  const terme = termeFrancais(m);
+                  return (
+                    <li key={i}>
+                      <button
+                        type="button"
+                        onClick={() => setMotActif(actif ? null : i)}
+                        className={`w-full rounded-2xl border px-3.5 py-3 text-left transition-colors ${
+                          actif ? "border-dawn-400/70 bg-dawn-400/10" : "border-white/10 bg-white/[0.04]"
+                        }`}
+                      >
+                        <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                          <span className="font-display text-lg font-extrabold">{m.mot}</span>
+                          {m.translit ? <span className="text-sm font-semibold italic text-cream/55">{m.translit}</span> : null}
+                          {terme ? (
+                            <span className="rounded-full bg-dawn-400 px-2 py-0.5 text-[11px] font-black text-night-950">
+                              = {terme}
+                            </span>
+                          ) : null}
+                          {m.strong ? (
+                            <span className="rounded-full border border-white/20 px-2 py-0.5 text-[11px] font-bold text-cream/70">
+                              Strong {m.strong}
+                            </span>
+                          ) : null}
+                        </span>
+                        {m.sens ? <span className="mt-1 block text-[15px] leading-relaxed text-cream/85">{nettoyerMarquesIA(m.sens)}</span> : null}
+                      </button>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ) : outil === "contexte" ? (

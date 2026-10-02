@@ -51,14 +51,14 @@ function userPrompt(book, chapter, verse, text) {
     `Texte (Louis Segond 1910) : « ${text} »\n\n` +
     `Rédige un commentaire d'étude en JSON avec EXACTEMENT ces clés :\n` +
     `{\n` +
-    `  "mots": [ { "mot": "<mot ${orig} d'origine, en caractères ${orig}>", "translit": "<translittération>", "sens": "<explication DÉVELOPPÉE du mot, façon dictionnaire Strong : sens premier, nuances, racine ou champ sémantique, et portée théologique/spirituelle dans ce verset, en 3 à 4 phrases>" } ],\n` +
+    `  "mots": [ { "mot": "<mot ${orig} d'origine, en caractères ${orig}>", "translit": "<translittération>", "fr": "<le mot EXACT tel qu'il apparaît dans le verset Louis Segond ci-dessus (recopié à l'identique, un mot ou une courte locution)>", "strong": "<numéro Strong du mot (ex. G26, H157) — uniquement si tu en es certain, sinon omets la clé>", "sens": "<explication DÉVELOPPÉE du mot, façon dictionnaire Strong : sens premier, nuances, racine ou champ sémantique, et portée théologique/spirituelle dans ce verset, en 3 à 4 phrases>" } ],\n` +
     `  "epoque": "<contexte historique et de l'époque (1-2 phrases)>",\n` +
     `  "passage": "<contexte du passage et du chapitre (1-2 phrases)>",\n` +
     `  "culture": "<éclairage culturel utile (1-2 phrases)>",\n` +
     `  "interpretation": "<interprétation et sens spirituel (2-3 phrases)>",\n` +
     `  "commentaire": "<commentaire biblique édifiant et applicable (2-4 phrases)>"\n` +
     `}\n` +
-    `Donne 2 à 4 mots-clés importants du verset dans "mots", chacun avec une explication riche et fidèle (comme un mot Strong développé). Reste fidèle au texte.`
+    `Donne 2 à 4 mots-clés importants du verset dans "mots", chacun avec une explication riche et fidèle (comme un mot Strong développé). Reste fidèle au texte. La clé \"fr\" doit recopier un mot réellement présent dans le verset cité ; n'invente jamais un numéro Strong.`
   );
 }
 

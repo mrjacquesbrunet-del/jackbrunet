@@ -2,7 +2,15 @@
 
 import { Markable } from "@/components/ui/Markable";
 
-export type Word = { mot: string; translit?: string; sens?: string };
+export type Word = {
+  mot: string;
+  translit?: string;
+  sens?: string;
+  /** Le mot tel qu'il apparaît dans le verset français (générations récentes). */
+  fr?: string;
+  /** Numéro Strong (ex. G26, H157) quand il est connu. */
+  strong?: string;
+};
 export type Commentary = {
   mots?: Word[];
   epoque?: string;
