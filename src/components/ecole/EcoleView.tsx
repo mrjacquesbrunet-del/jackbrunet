@@ -5,7 +5,6 @@ import Link from "next/link";
 import { asset } from "@/lib/asset";
 import { useAuth } from "@/components/community/useAuth";
 import { getProfile } from "@/lib/community";
-import { LieuCarte } from "@/components/bible/LieuCarte";
 import { getFormations, listFormationProgress, type Formation } from "@/lib/formations";
 
 /**
@@ -256,46 +255,87 @@ export function EcoleView() {
             </Link>
           </section>
 
-          {/* Explorer */}
+          {/* Explorer : la galerie et la frise, dans le style sombre de leurs pages */}
           <section className="mt-5">
             <h2 className="font-display text-lg font-extrabold">Explorer</h2>
-            <div className="mt-3 grid grid-cols-2 gap-3">
+            <p className="mt-0.5 text-[13px] text-night-900/55">Pour entrer en profondeur dans la Parole.</p>
+            <div className="mt-3 space-y-3">
+              {/* Personnages & lieux : un petit éventail de cartes « profil » */}
               <Link
                 href="/ecole/personnages"
-                className="relative flex flex-col justify-end overflow-hidden rounded-3xl border border-night-900/10 transition-transform active:scale-[0.98]"
-                style={{ minHeight: "10.5rem" }}
+                className="relative flex items-center gap-4 overflow-hidden rounded-3xl bg-night-950 p-5 text-cream shadow-[0_16px_38px_-18px_rgba(12,12,11,0.6)] transition-transform active:scale-[0.99]"
               >
-                <span aria-hidden className="pointer-events-none absolute inset-0">
-                  <LieuCarte points={[{ g: [35.23, 31.78], label: "Jérusalem" }]} className="h-full w-full rounded-none border-0" />
+                <span aria-hidden className="pointer-events-none absolute -left-10 -top-16 h-44 w-44 rounded-full bg-dawn-400/10 blur-2xl" />
+                <span className="relative min-w-0 flex-1">
+                  <span className="block text-[10px] font-black uppercase tracking-[0.22em] text-dawn-300">Galerie</span>
+                  <span className="mt-1 block font-display text-xl font-extrabold leading-tight">Personnages &amp; lieux</span>
+                  <span className="mt-1 block text-[12px] leading-snug text-cream/60">
+                    Plus de 700 fiches, de la Genèse à l&apos;Apocalypse : famille, histoire, passages.
+                  </span>
+                  <span className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-1.5 text-[11px] font-bold text-cream/80">
+                    Glisse pour découvrir
+                    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth={2.4}>
+                      <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
                 </span>
-                <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-night-950 via-night-950/25 to-transparent" />
-                <span className="relative p-4 text-cream">
-                  <span className="block font-display text-base font-extrabold leading-tight">Personnages, lieux &amp; cartes</span>
-                  <span className="mt-0.5 block text-[11px] font-bold text-cream/60">De la Genèse à l&apos;Apocalypse</span>
+                <span aria-hidden className="relative -mr-1 h-32 w-32 shrink-0">
+                  {[
+                    ["abraham", "-rotate-[15deg] -translate-x-8 translate-y-2"],
+                    ["marie", "rotate-[15deg] translate-x-8 translate-y-2"],
+                    ["moise", "rotate-0 -translate-y-1"],
+                  ].map(([id, pose]) => (
+                    <span
+                      key={id}
+                      className={`absolute left-1/2 top-1 -ml-[2.6rem] h-[7.5rem] w-[5.2rem] overflow-hidden rounded-2xl border border-white/15 bg-night-900 shadow-[0_10px_24px_-8px_rgba(0,0,0,0.8)] ${pose}`}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={asset(`/img/bible/fiches/${id}.jpg`)} alt="" className="h-full w-full object-cover object-[50%_30%]" />
+                      <span className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-night-950 to-transparent" />
+                    </span>
+                  ))}
                 </span>
               </Link>
+
+              {/* Frise chronologique : la bande des périodes et ses jalons */}
               <Link
                 href="/ecole/chronologie"
-                className="relative flex flex-col justify-end overflow-hidden rounded-3xl border border-night-900/10 bg-white transition-transform active:scale-[0.98]"
-                style={{ minHeight: "10.5rem" }}
+                className="relative block overflow-hidden rounded-3xl bg-night-950 p-5 text-cream shadow-[0_16px_38px_-18px_rgba(12,12,11,0.6)] transition-transform active:scale-[0.99]"
               >
-                <svg aria-hidden viewBox="0 0 160 100" className="absolute inset-x-0 top-4 h-20 w-full">
-                  <path d="M10 60 H150" stroke="rgba(23,23,22,0.15)" strokeWidth="2" strokeLinecap="round" />
-                  {[
-                    [25, "#A4C400"],
-                    [60, "#6E5BFF"],
-                    [95, "#A4C400"],
-                    [130, "#171716"],
-                  ].map(([x, c], i) => (
-                    <g key={i}>
-                      <line x1={x as number} y1={i % 2 ? 60 : 36} x2={x as number} y2={60} stroke="rgba(23,23,22,0.2)" strokeWidth="1.5" />
-                      <circle cx={x as number} cy={i % 2 ? 60 : 36} r="5" fill={c as string} opacity="0.85" />
-                    </g>
-                  ))}
-                </svg>
-                <span className="relative p-4">
-                  <span className="block font-display text-base font-extrabold leading-tight">Chronologie biblique</span>
-                  <span className="mt-0.5 block text-[11px] font-bold text-night-900/55">La frise de l&apos;Ancien et du Nouveau Testament</span>
+                <span aria-hidden className="pointer-events-none absolute -right-10 -top-16 h-44 w-44 rounded-full bg-[#8A6BFF]/15 blur-2xl" />
+                <span className="relative block">
+                  <span className="block text-[10px] font-black uppercase tracking-[0.22em] text-dawn-300">Frise</span>
+                  <span className="mt-1 block font-display text-xl font-extrabold leading-tight">Chronologie biblique</span>
+                  <span className="mt-1 block text-[12px] leading-snug text-cream/60">
+                    De la création à l&apos;Apocalypse : dates, passages, personnages et lieux.
+                  </span>
+                </span>
+                <span aria-hidden className="relative mt-4 block">
+                  <span className="flex items-end justify-between px-1">
+                    {[
+                      ["Abraham", "#C99A3B"],
+                      ["Moïse", "#D9692E"],
+                      ["David", "#CAF000"],
+                      ["Exil", "#9A7F6B"],
+                      ["Jésus", "#E8B44A"],
+                      ["Paul", "#8A6BFF"],
+                    ].map(([label, c]) => (
+                      <span key={label} className="flex flex-col items-center">
+                        <span className="text-[10px] font-bold text-cream/70">{label}</span>
+                        <span className="mt-1 h-3 w-px bg-white/25" />
+                        <span className="h-3 w-3 rounded-full border-2 border-night-950" style={{ background: c, boxShadow: `0 0 0 2px ${c}55` }} />
+                      </span>
+                    ))}
+                  </span>
+                  <span className="mt-1.5 flex h-1.5 overflow-hidden rounded-full">
+                    {["#8A6BFF", "#C99A3B", "#D9692E", "#7FA33A", "#CAF000", "#4F9FD0", "#9A7F6B", "#3FB59A", "#E8B44A", "#D9542E", "#8A6BFF"].map((c, i) => (
+                      <span key={i} className="h-full flex-1" style={{ background: c }} />
+                    ))}
+                  </span>
+                  <span className="mt-1.5 flex justify-between text-[10px] font-bold text-cream/40">
+                    <span>Ancien Testament</span>
+                    <span>Nouveau Testament</span>
+                  </span>
                 </span>
               </Link>
             </div>
