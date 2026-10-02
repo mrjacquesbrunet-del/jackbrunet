@@ -1,9 +1,12 @@
-# Images des fiches bibliques — lot 2 (462 images)
+# Images des fiches bibliques — lot 3 (64 images)
 
 Les fiches « Personnages & Lieux » de la Bible (`content/bible-fiches.json`)
 affichent un médaillon rond : `public/img/bible/fiches/<id>.jpg` s'il existe,
-sinon un monogramme. Les 275 premières images ont été livrées le 1er octobre
-2026 (commit `d6e84eb`). La campagne d'octobre a ajouté 462 fiches sans image.
+sinon un monogramme. Les lots 1 et 2 (737 images) sont livrés. Le lot 3 vient
+des arbres généalogiques (Étude › Explorer › Arbres) : 64 personnes qui
+apparaissaient sans portrait (maillons d'Adam à Abraham, ancêtres de David,
+frères de David, famille de Lévi, les Hérode séparés…). Chacune a maintenant
+sa fiche ; il manque l'image.
 
 ## La liste
 
@@ -17,7 +20,7 @@ sinon un monogramme. Les 275 premières images ont été livrées le 1er octobre
 | `nom`, `periode`, `tribu`, `bio` | contexte biblique |
 | `visuel` | indication de rendu (origine, groupe, symbole, précautions) |
 
-Total : 210 personnages AT, 85 personnages NT, 100 lieux AT, 67 lieux NT.
+Total : 55 personnages AT, 9 personnages NT (aucun lieu).
 Régénérer la liste après livraison partielle :
 `python3 scripts/build-images-manifest.py` (elle ne garde que les fiches
 encore sans image).

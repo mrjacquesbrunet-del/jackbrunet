@@ -1,36 +1,6 @@
 {
  "$commentaire": "Généalogies bibliques (source d'autorité, vérifiée sur le texte LSG de l'app). scripts/build-genealogie.mjs fusionne ces données avec les liens familiaux des fiches (Père, Mère, Fils, Fille, Épouse, Époux, Femme, Mari) et produit public/bible/genealogie.json. personnes : id -> [nom, sexe h/f, fiche liée]. liens : [parent, enfant, réf, note?]. scinder : fiche groupée -> personnes distinctes. ordre : ordre de naissance des enfants.",
  "personnes": {
-  "henoc-cain": [
-   "Hénoc (fils de Caïn)",
-   "h",
-   null
-  ],
-  "irad": [
-   "Irad",
-   "h",
-   null
-  ],
-  "mehujael": [
-   "Mehujaël",
-   "h",
-   null
-  ],
-  "metuschael": [
-   "Metuschaël",
-   "h",
-   null
-  ],
-  "ada-lemec": [
-   "Ada",
-   "f",
-   null
-  ],
-  "tsilla": [
-   "Tsilla",
-   "f",
-   null
-  ],
   "jabal": [
    "Jabal",
    "h",
@@ -46,131 +16,6 @@
    "h",
    "jubal-tubal-cain"
   ],
-  "naama-lemec": [
-   "Naama",
-   "f",
-   null
-  ],
-  "enosch": [
-   "Énosch",
-   "h",
-   null
-  ],
-  "kenan": [
-   "Kénan",
-   "h",
-   null
-  ],
-  "mahalaleel": [
-   "Mahalaleel",
-   "h",
-   null
-  ],
-  "jered": [
-   "Jéred",
-   "h",
-   null
-  ],
-  "cusch": [
-   "Cusch",
-   "h",
-   null
-  ],
-  "mitsraim": [
-   "Mitsraïm",
-   "h",
-   null
-  ],
-  "puth": [
-   "Puth",
-   "h",
-   null
-  ],
-  "canaan-fils": [
-   "Canaan",
-   "h",
-   null
-  ],
-  "elam-sem": [
-   "Élam",
-   "h",
-   null
-  ],
-  "assur-sem": [
-   "Assur",
-   "h",
-   null
-  ],
-  "arpacschad": [
-   "Arpacschad",
-   "h",
-   null
-  ],
-  "lud": [
-   "Lud",
-   "h",
-   null
-  ],
-  "aram-sem": [
-   "Aram",
-   "h",
-   null
-  ],
-  "schelach": [
-   "Schélach",
-   "h",
-   null
-  ],
-  "heber": [
-   "Héber",
-   "h",
-   null
-  ],
-  "peleg": [
-   "Péleg",
-   "h",
-   null
-  ],
-  "jokthan": [
-   "Jokthan",
-   "h",
-   null
-  ],
-  "rehu": [
-   "Rehu",
-   "h",
-   null
-  ],
-  "serug": [
-   "Serug",
-   "h",
-   null
-  ],
-  "nachor-ancien": [
-   "Nachor (grand-père d'Abraham)",
-   "h",
-   null
-  ],
-  "jisca": [
-   "Jisca",
-   "f",
-   null
-  ],
-  "moab-fils": [
-   "Moab",
-   "h",
-   null
-  ],
-  "ben-ammi": [
-   "Ben-Ammi",
-   "h",
-   null
-  ],
-  "fille-schua": [
-   "La fille de Schua",
-   "f",
-   null
-  ],
   "er": [
    "Er",
    "h",
@@ -180,11 +25,6 @@
    "Onan",
    "h",
    "er-onan"
-  ],
-  "schela": [
-   "Schéla",
-   "h",
-   null
   ],
   "guerschon": [
    "Guerschon",
@@ -200,26 +40,6 @@
    "Merari",
    "h",
    "kehath-guerschon-merari"
-  ],
-  "jitsehar": [
-   "Jitsehar",
-   "h",
-   null
-  ],
-  "hebron-fils": [
-   "Hébron (fils de Kehath)",
-   "h",
-   null
-  ],
-  "uziel": [
-   "Uziel",
-   "h",
-   null
-  ],
-  "elischeba": [
-   "Élischéba",
-   "f",
-   null
   ],
   "nadab": [
    "Nadab",
@@ -240,96 +60,6 @@
    "Éliézer (fils de Moïse)",
    "h",
    "guerschom"
-  ],
-  "hetsron": [
-   "Hetsron",
-   "h",
-   null
-  ],
-  "ram": [
-   "Ram",
-   "h",
-   null
-  ],
-  "amminadab": [
-   "Amminadab",
-   "h",
-   null
-  ],
-  "salmon": [
-   "Salmon",
-   "h",
-   null
-  ],
-  "zabdi": [
-   "Zabdi",
-   "h",
-   null
-  ],
-  "carmi": [
-   "Carmi",
-   "h",
-   null
-  ],
-  "abinadab-isai": [
-   "Abinadab (frère de David)",
-   "h",
-   null
-  ],
-  "schimea": [
-   "Schimea",
-   "h",
-   null
-  ],
-  "nethaneel": [
-   "Nethaneel",
-   "h",
-   null
-  ],
-  "raddai": [
-   "Raddaï",
-   "h",
-   null
-  ],
-  "otsem": [
-   "Otsem",
-   "h",
-   null
-  ],
-  "abigail-soeur": [
-   "Abigaïl (sœur de David)",
-   "f",
-   null
-  ],
-  "kileab": [
-   "Kileab",
-   "h",
-   null
-  ],
-  "maaca-david": [
-   "Maaca",
-   "f",
-   null
-  ],
-  "haggith": [
-   "Haggith",
-   "f",
-   null
-  ],
-  "nathan-fils-david": [
-   "Nathan (fils de David)",
-   "h",
-   null
-  ],
-  "naama-ammonite": [
-   "Naama l'Ammonite",
-   "f",
-   null
-  ],
-  "schealthiel": [
-   "Schealthiel (Salathiel)",
-   "h",
-   null
   ],
   "hophni": [
    "Hophni",
@@ -361,11 +91,6 @@
    "h",
    "machlon-kiljon"
   ],
-  "achinoam-saul": [
-   "Achinoam (femme de Saül)",
-   "f",
-   null
-  ],
   "schear-jaschub": [
    "Schear-Jaschub",
    "h",
@@ -376,21 +101,6 @@
    "h",
    "enfants-esaie"
   ],
-  "joses": [
-   "Joseph (Joses), frère de Jésus",
-   "h",
-   null
-  ],
-  "simon-frere": [
-   "Simon, frère de Jésus",
-   "h",
-   null
-  ],
-  "soeurs-jesus": [
-   "Ses sœurs",
-   "f",
-   null
-  ],
   "lois": [
    "Loïs",
    "f",
@@ -400,41 +110,6 @@
    "Eunice",
    "f",
    "lois-eunice"
-  ],
-  "herode-grand": [
-   "Hérode le Grand",
-   "h",
-   "herode"
-  ],
-  "herode-antipas": [
-   "Hérode Antipas",
-   "h",
-   "herode"
-  ],
-  "philippe-tetrarque": [
-   "Philippe le tétrarque",
-   "h",
-   "herode"
-  ],
-  "herode-philippe": [
-   "Philippe (premier mari d'Hérodias)",
-   "h",
-   "herode"
-  ],
-  "aristobule": [
-   "Aristobule",
-   "h",
-   null
-  ],
-  "herode-agrippa": [
-   "Hérode Agrippa Ier",
-   "h",
-   "herode"
-  ],
-  "salome-herodias": [
-   "La fille d'Hérodias (Salomé)",
-   "f",
-   null
   ]
  },
  "noms": {
@@ -1222,30 +897,30 @@
    "2 Timothée 1:5"
   ],
   [
-   "herode-grand",
+   "herode",
    "archelaus",
    "Matthieu 2:22"
   ],
   [
-   "herode-grand",
+   "herode",
    "herode-antipas",
    "Luc 3:1",
    "Fils d'Hérode le Grand : la Bible les présente comme frères (Luc 3:1 ; Marc 6:17), l'historien Flavius Josèphe précise leur filiation."
   ],
   [
-   "herode-grand",
+   "herode",
    "philippe-tetrarque",
    "Luc 3:1",
    "Fils d'Hérode le Grand : la Bible les présente comme frères (Luc 3:1 ; Marc 6:17), l'historien Flavius Josèphe précise leur filiation."
   ],
   [
-   "herode-grand",
+   "herode",
    "herode-philippe",
    "Luc 3:1",
    "Fils d'Hérode le Grand : la Bible les présente comme frères (Luc 3:1 ; Marc 6:17), l'historien Flavius Josèphe précise leur filiation."
   ],
   [
-   "herode-grand",
+   "herode",
    "aristobule",
    "Matthieu 2:1",
    "Lien donné par l'historien Flavius Josèphe (Antiquités juives)."
@@ -1375,12 +1050,7 @@
    "jesus"
   ]
  ],
- "retirerCouples": [
-  [
-   "herode",
-   "herodias"
-  ]
- ],
+ "retirerCouples": [],
  "retirerLiens": [
   [
    "hophni-phinees",
@@ -1389,6 +1059,14 @@
   [
    "jezabel",
    "athalie"
+  ],
+  [
+   "ada-lemec",
+   "jubal-tubal-cain"
+  ],
+  [
+   "tsilla",
+   "jubal-tubal-cain"
   ]
  ],
  "ordre": {
@@ -1515,7 +1193,7 @@
    "eleazar",
    "ithamar"
   ],
-  "herode-grand": [
+  "herode": [
    "archelaus",
    "herode-antipas",
    "philippe-tetrarque",
@@ -1852,9 +1530,9 @@
    "ref": "Matthieu 2:1",
    "desc": "Hérode le Grand et ses descendants, du massacre de Bethléhem au procès de Paul.",
    "note": "La Bible nomme ces rois sans toujours préciser leur parenté ; les liens qui manquent viennent de l'historien juif Flavius Josèphe (Ier siècle).",
-   "racine": "herode-grand",
+   "racine": "herode",
    "noeuds": [
-    "herode-grand",
+    "herode",
     "archelaus",
     "herode-antipas",
     "philippe-tetrarque",

@@ -85,7 +85,10 @@ const scinde = [];
 for (const l of liens) {
   if (retirerL.has(`${l.p}>${l.e}`)) continue;
   if (groupees.has(l.p)) {
-    erreurs.push(`fiche groupée en position de parent (${l.p} > ${l.e}) : à traiter dans retirerLiens`);
+    // « Père : Guerschon, Kehath et Merari » : accepté si un lien rédigé précise
+    // lequel des membres est le parent (Kehath > Jitsehar).
+    const precise = src.liens.some(([p, e]) => e === l.e && src.scinder[l.p].includes(p));
+    if (!precise) erreurs.push(`fiche groupée en position de parent (${l.p} > ${l.e}) : à préciser dans liens`);
     continue;
   }
   if (groupees.has(l.e)) for (const m of src.scinder[l.e]) scinde.push({ p: l.p, e: m });

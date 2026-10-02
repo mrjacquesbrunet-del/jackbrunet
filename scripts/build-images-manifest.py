@@ -75,6 +75,49 @@ V["guerschom"]="Deux jeunes fils de Moïse, tenue madianite."
 V["abischag"]="Jeune femme de Sunem, très belle, simple et digne."
 V["pharaon"]="Pharaon égyptien générique (représente plusieurs rois) : coiffe némès, uræus, khôl."
 V.update(G("tyrannus tertius eraste chloe stephanas archippe apphia nymphas clement zenas carpus crescens sopater aristarque jason trophime onesiphore titius-justus artemas antipas phygelle-hermogene fortunatus-achaicus evodie-syntyche sosthene hymenee alexandre-forgeron mnason rufus andronicus-junias","Croyant(e) du monde gréco-romain du Ier siècle (Asie Mineure, Grèce ou Rome selon la bio) : tunique et manteau gréco-romains, cheveux courts pour les hommes, physionomie méditerranéenne."))
+# Lot 9 (octobre 2026) : les personnes des arbres généalogiques
+V.update(G("henoc-cain irad mehujael metuschael","Homme des tout premiers temps de l'humanité, lignée de Caïn : peau mate, cheveux longs, vêtements de peaux et de laine grossière ; air fier, bâtisseur de la première ville."))
+V.update(G("ada-lemec tsilla","Femme des tout premiers temps de l'humanité : longs cheveux tressés, robe de laine teinte, bijoux de cuivre simples ; visage grave."))
+V["naama-lemec"]="Jeune femme des tout premiers temps de l'humanité, sœur d'un forgeron : longs cheveux, robe de laine, petit bijou de bronze ; douceur."
+V.update(G("enosch kenan mahalaleel jered","Patriarche d'avant le déluge, très âgé et vénérable : longue barbe blanche, tunique de laine écrue, mains ouvertes en prière ; lumière douce."))
+V["cusch"]="Ancêtre koushite (Éthiopie ancienne) des tout premiers peuples après le déluge : peau très foncée, cheveux courts frisés, collier de perles, tunique de lin."
+V["mitsraim"]="Ancêtre des Égyptiens, aux origines : peau mate, khôl, coiffe égyptienne archaïque simple, pagne et collier de lin."
+V["puth"]="Ancêtre d'un peuple d'Afrique du Nord (Libye ancienne) : peau brune, plume dans les cheveux tressés, manteau de cuir."
+V["canaan-fils"]="Jeune homme du Proche-Orient ancien, petit-fils de Noé, ancêtre des Cananéens : barbe naissante, tunique colorée ; regard sombre et troublé (sans caricature)."
+V["elam-sem"]="Ancêtre des Élamites (Iran ancien) : barbe noire taillée, bonnet rond, robe à motifs ; montagnes à l'est."
+V["assur-sem"]="Ancêtre des Assyriens : longue barbe noire bouclée en rangs, bandeau, manteau frangé ; plus simple qu'un roi."
+V["lud"]="Ancêtre d'un peuple d'Asie Mineure (Lydie) : cheveux bouclés, manteau de laine épaisse, arc à l'épaule."
+V["aram-sem"]="Ancêtre des Araméens (Syrie ancienne) : barbe, keffieh de laine, manteau de berger des steppes."
+V.update(G("arpacschad schelach heber peleg rehu serug nachor-ancien","Patriarche sémite des générations après le déluge, éleveur nomade de Mésopotamie : barbe grise ou blanche, turban et manteau de laine, bâton ; chaque visage distinct (âge et traits variés)."))
+V["jokthan"]="Ancêtre des tribus du sud de l'Arabie : peau tannée, keffieh, bijoux d'or, désert en arrière-plan."
+V["jisca"]="Jeune femme d'Ur en Chaldée (Mésopotamie ancienne) : cheveux noirs relevés, bandeau, robe à franges, bijoux de lapis-lazuli."
+V.update(G("moab-fils ben-ammi","Jeune homme né dans les montagnes à l'est de la mer Morte, ancêtre d'un peuple (Moab / Ammon) : tenue de berger, peau hâlée ; Moab et Ben-Ammi doivent être différents."))
+V["fille-schua"]="Femme cananéenne de l'époque des patriarches : voile coloré, bijoux, traits levantins."
+V["schela"]="Jeune homme de Juda, à l'époque des patriarches : tunique simple de berger, barbe naissante ; air hésitant."
+V.update(G("hetsron ram","Hébreu de la tribu de Juda pendant le séjour en Égypte : tunique de lin, barbe, influences égyptiennes discrètes ; âge mûr."))
+V["amminadab"]="Chef de famille de la tribu de Juda, à l'époque de l'Exode : barbe grise, manteau rayé, air digne."
+V["elischeba"]="Femme israélite de l'Exode, épouse du premier grand prêtre Aaron : voile, visage noble et serein, bijou discret."
+V["salmon"]="Homme de la tribu de Juda au temps de la conquête de Canaan : barbe, manteau, ceinturon ; époux de Rahab, regard bienveillant."
+V.update(G("zabdi carmi","Homme de la tribu de Juda au temps de Josué : barbe, tunique de guerrier simple ; Zabdi âgé, Carmi d'âge mûr, l'air inquiet."))
+V.update(G("jitsehar hebron-fils uziel","Lévite de la génération de l'Égypte (oncle de Moïse) : barbe, tunique de lin, ceinture tissée ; chaque visage distinct."))
+V.update(G("abinadab-isai schimea nethaneel raddai otsem","Frère aîné de David, fils d'Isaï de Bethléhem : jeune homme ou adulte de Juda, berger ou soldat de Saül ; ressemblance familiale avec David mais âges et traits différents."))
+V["abigail-soeur"]="Femme de Bethléhem de Juda, sœur de David, mère d'un chef d'armée : voile, âge mûr, visage fort."
+V["kileab"]="Jeune prince de la cour de David à Hébron, fils d'Abigaïl : tunique fine, cheveux courts, air doux."
+V["maaca-david"]="Princesse araméenne de Gueschur, fille de roi : bijoux d'or, diadème fin, voile brodé ; mère d'Absalom (belle et fière)."
+V["haggith"]="Femme de la cour de David, mère d'Adonija : robe raffinée, voile, bijoux ; air ambitieux."
+V["nathan-fils-david"]="Prince de Jérusalem, fils de David et de Bath-Schéba, frère de Salomon : jeune homme élégant, tunique royale sobre (à ne pas confondre avec le prophète Nathan)."
+V["naama-ammonite"]="Reine-mère ammonite, femme de Salomon : couronne, bijoux d'or, robe brodée ; traits du Levant oriental."
+V["schealthiel"]="Prince de la lignée de David né en exil à Babylone : barbe, turban, tenue judéenne mêlée d'éléments babyloniens ; air mélancolique."
+V["achinoam-saul"]="Reine d'Israël, femme de Saül : simple diadème, voile, visage digne et discret."
+V.update(G("joses simon-frere","Jeune homme galiléen du Ier siècle, frère de Jésus, artisan : tunique de lin, barbe courte, mains de charpentier ; Joses et Simon différents."))
+V["soeurs-jesus"]="Deux ou trois jeunes femmes galiléennes du Ier siècle, sœurs de Jésus : voiles simples, tenues modestes ; visages doux."
+V["salome-herodias"]="Jeune fille de la cour hérodienne : robe raffinée, bijoux, voile léger ; pudique, aucune scène de danse suggestive, AUCUN plat ni tête coupée."
+V["aristobule"]="Jeune prince de la dynastie d'Hérode : tenue gréco-romaine riche, diadème fin, cheveux courts ; air noble et triste."
+V["herode-antipas"]="Hérode Antipas, tétrarque de Galilée : couronne fine, manteau pourpre, bagues ; air rusé (« ce renard »). Doit se distinguer clairement de herode.jpg (son père)."
+V["herode-agrippa"]="Hérode Agrippa Ier, roi de Judée : habits royaux brillants (vêtement tissé d'argent), couronne ; air orgueilleux."
+V["philippe-tetrarque"]="Philippe le tétrarque, fils d'Hérode : tenue gréco-romaine sobre, diadème fin ; visage plus doux que ses frères."
+V["herode-philippe"]="Prince hérodien sans charge officielle, premier mari d'Hérodias : tenue riche mais sobre, air effacé."
+MULTI.add("soeurs-jesus")
 LIEU="Paysage emblématique, même vignette ronde à bord sombre que jerusalem.jpg, lumière dorée."
 def testament(x):
     ls=[p[1] for p in x["passages"]]
