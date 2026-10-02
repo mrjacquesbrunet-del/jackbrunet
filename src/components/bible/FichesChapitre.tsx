@@ -122,6 +122,10 @@ export function Medaillon({ id, fiche, size = "h-16 w-16" }: { id: string; fiche
         <img
           src={asset(`/img/bible/fiches/${id}.jpg`)}
           alt=""
+          loading="lazy"
+          decoding="async"
+          width={1024}
+          height={1024}
           onError={() => setImgOk(false)}
           className="absolute inset-0 h-full w-full object-cover"
         />
