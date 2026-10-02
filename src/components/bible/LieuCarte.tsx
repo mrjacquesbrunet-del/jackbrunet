@@ -107,6 +107,27 @@ export function LieuCarte({
 
   const stroke = Math.max(0.025, view.w / 240);
   const r = Math.max(0.12, view.w / 34);
+  const fs = Math.max(r * 1.25, view.w / 26);
+
+  // Plusieurs lieux (hors parcours) : l'étiquette passe sous le point si
+  // elle chevauche une autre, et disparaît si la place manque encore.
+  const placement = useMemo(() => {
+    const boites: { x0: number; x1: number; y0: number; y1: number }[] = [];
+    return points.map((p) => {
+      if (route || !p.label) return "dessus" as const;
+      const x = px(p.g[0]), y = py(p.g[1]);
+      const w = p.label.length * fs * 0.56;
+      for (const pos of ["dessus", "dessous"] as const) {
+        const yc = pos === "dessus" ? y - r * 2.1 : y + r * 2.1 + fs;
+        const b = { x0: x - w / 2, x1: x + w / 2, y0: yc - fs, y1: yc + fs * 0.2 };
+        if (!boites.some((o) => b.x0 < o.x1 && o.x0 < b.x1 && b.y0 < o.y1 && o.y0 < b.y1)) {
+          boites.push(b);
+          return pos;
+        }
+      }
+      return "aucune" as const;
+    });
+  }, [points, route, fs, r]);
 
   return (
     <svg
@@ -155,12 +176,12 @@ export function LieuCarte({
                 {i + 1}
               </text>
             ) : null}
-            {p.label && (!route || i === 0 || last) ? (
+            {p.label && (!route || i === 0 || last) && placement[i] !== "aucune" ? (
               <text
                 x={x}
-                y={y - r * (route ? 1.7 : 2.1)}
+                y={placement[i] === "dessous" ? y + r * 2.1 + fs : y - r * (route ? 1.7 : 2.1)}
                 textAnchor="middle"
-                fontSize={Math.max(r * 1.25, view.w / 26)}
+                fontSize={fs}
                 fontWeight={800}
                 fill="#F4F2E7"
                 stroke="#1B1A17"

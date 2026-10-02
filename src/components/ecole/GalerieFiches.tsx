@@ -7,7 +7,7 @@ import { asset } from "@/lib/asset";
 import { FicheCorps, getFiches, type Fiche, type FichesData } from "@/components/bible/FichesChapitre";
 
 /**
- * GALERIE DES PERSONNAGES & LIEUX — page cachée de la Formation biblique.
+ * GALERIE DES PERSONNAGES & LIEUX — page cachée de l'Étude biblique.
  *
  * On choisit un livre (de la Genèse à l'Apocalypse), puis on fait défiler les
  * fiches en cartes plein écran, à gauche et à droite : portrait, nom, tribu,
@@ -177,13 +177,13 @@ export function GalerieFiches() {
       {/* En-tête */}
       <header className="shrink-0 px-4 pt-[calc(env(safe-area-inset-top)+0.75rem)]">
         <div className="mx-auto flex max-w-lg items-center gap-3">
-          <Link href="/ecole" aria-label="Retour à la Formation" className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/15 text-cream/80">
+          <Link href="/ecole" aria-label="Retour à l'Étude biblique" className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/15 text-cream/80">
             <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2.2}>
               <path d="M15 5l-7 7 7 7" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </Link>
           <div className="min-w-0 flex-1">
-            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-dawn-300">Formation biblique</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-dawn-300">Étude biblique</p>
             <h1 className="font-display text-xl font-extrabold leading-tight">Personnages &amp; lieux</h1>
           </div>
         </div>
