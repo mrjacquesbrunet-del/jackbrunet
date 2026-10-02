@@ -11,7 +11,10 @@ import { BibleHero } from "@/components/bible/BibleHero";
 import { FichesChapitre } from "@/components/bible/FichesChapitre";
 import { IntroLivreSheet } from "@/components/bible/IntroLivre";
 import { PassageApercu } from "@/components/bible/PassageApercu";
+import { SelectionVersets } from "@/components/bible/SelectionVersets";
+import { VerseImageStudio } from "@/components/ui/VerseImageStudio";
 import type { Naviguer } from "@/lib/bible-nav";
+import { EVT_MEME_PAGE } from "@/lib/notif-route";
 import { BibleAudio } from "@/components/bible/BibleAudio";
 import { BibleAudioPlayer } from "@/components/bible/BibleAudioPlayer";
 import {
@@ -42,6 +45,42 @@ export function BibleReader() {
   const [commState, setCommState] = useState<"idle" | "loading" | "loaded" | "none">("idle");
   // Feuille d'étude du verset (grille d'outils : grec/hébreu, contexte…)
   const [sheetVerse, setSheetVerse] = useState<number | null>(null);
+
+  // Plusieurs versets sélectionnés (appui long) et studio image du partage
+  const [selection, setSelection] = useState<number[]>([]);
+  const [studio, setStudio] = useState<{ texte: string; reference: string; lien: string } | null>(null);
+  const appuiRef = useRef<{ x: number; y: number; t: number } | null>(null);
+  const appuiLongRef = useRef(false);
+  const basculer = (vn: number) =>
+    setSelection((s) => (s.includes(vn) ? s.filter((x) => x !== vn) : [...s, vn]));
+  function debutAppui(e: React.PointerEvent, vn: number) {
+    appuiLongRef.current = false;
+    if (e.pointerType === "mouse") return;
+    finAppui();
+    appuiRef.current = {
+      x: e.clientX,
+      y: e.clientY,
+      t: window.setTimeout(() => {
+        appuiLongRef.current = true;
+        appuiRef.current = null;
+        setSheetVerse(null);
+        setSelection((s) => (s.includes(vn) ? s : [...s, vn]));
+        try {
+          navigator.vibrate?.(12);
+        } catch {
+          /* pas de vibreur */
+        }
+      }, 450),
+    };
+  }
+  function bougeAppui(e: React.PointerEvent) {
+    const a = appuiRef.current;
+    if (a && Math.hypot(e.clientX - a.x, e.clientY - a.y) > 10) finAppui();
+  }
+  function finAppui() {
+    if (appuiRef.current) window.clearTimeout(appuiRef.current.t);
+    appuiRef.current = null;
+  }
 
   // Verset lu à voix haute (surlignage pendant l'écoute)
   const [spokenVerse, setSpokenVerse] = useState<number | null>(null);
@@ -149,6 +188,7 @@ export function BibleReader() {
     setComm({});
     setCommState("idle");
     setSheetVerse(null);
+    setSelection([]);
   }, [bookId, chapter]);
 
   function loadCommentary() {
@@ -177,18 +217,35 @@ export function BibleReader() {
   }, []);
 
   // Lien profond éventuel: /bible?livre=43&chap=3(&v=16)
+  // (`v` peut être une plage : `&v=16-18`.)
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const l = Number(params.get("livre"));
-    const c = Number(params.get("chap"));
-    const v = Number(params.get("v"));
-    if (l >= 1 && l <= 66) setBookId(l);
-    if (c >= 1) setChapter(c);
-    if (l >= 1 || c >= 1) restoreScrollRef.current = null;
-    if (v >= 1) {
-      cibleRef.current = { verset: v };
-      setNavTick((t) => t + 1);
-    }
+    const appliquer = (search: string, depuisLien: boolean) => {
+      const params = new URLSearchParams(search);
+      const l = Number(params.get("livre"));
+      const c = Number(params.get("chap"));
+      const [v, v2] = (params.get("v") ?? "").split("-").map(Number);
+      if (depuisLien && l >= 1 && l <= 66 && c >= 1) {
+        // Lien reçu alors que la Bible est déjà ouverte : on y va, et
+        // « Revenir » ramène à la lecture en cours.
+        allerARef.current(l, c, v >= 1 ? { verset: v, versetFin: v2 > v ? v2 : undefined } : {}, true);
+        return;
+      }
+      if (l >= 1 && l <= 66) setBookId(l);
+      if (c >= 1) setChapter(c);
+      if (l >= 1 || c >= 1) restoreScrollRef.current = null;
+      if (v >= 1) {
+        cibleRef.current = { verset: v, versetFin: v2 > v ? v2 : undefined };
+        setNavTick((t) => t + 1);
+      }
+    };
+    appliquer(window.location.search, false);
+    const surLien = (e: Event) => {
+      const route = String((e as CustomEvent<string>).detail ?? "");
+      if (route.replace(/^\/+/, "").startsWith("bible")) appliquer(route.split("?")[1] ?? "", true);
+    };
+    window.addEventListener(EVT_MEME_PAGE, surLien);
+    return () => window.removeEventListener(EVT_MEME_PAGE, surLien);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Charge le livre sélectionné
@@ -243,6 +300,9 @@ export function BibleReader() {
     setChapter(c);
     setNavTick((t) => t + 1);
   }
+  // Version toujours à jour, pour les écouteurs posés une seule fois.
+  const allerARef = useRef(allerA);
+  allerARef.current = allerA;
   /** Un lien : avec un verset → aperçu ; sans verset → le chapitre. */
   const lien: Naviguer = (l, c, v, v2) => {
     if (v) setApercu({ l, c, v, v2 });
@@ -612,24 +672,47 @@ export function BibleReader() {
           {verses.map((v, i) => {
             const vn = i + 1;
             const open = sheetVerse === vn;
+            const choisi = selection.includes(vn);
             const speaking =
               spokenVerse === i || (eclat !== null && eclat.b === bookId && eclat.c === chapter && vn >= eclat.v1 && vn <= eclat.v2);
             return (
               // La clé inclut livre + chapitre: en changeant de chapitre, les
               // versets se remontent, ce qui referme tout menu resté ouvert.
-              <div key={`${bookId}-${chapter}-${i}`} id={`v-${vn}`} className="scroll-mt-24">
+              // Appui long : sélection de plusieurs versets (le clic qui suit
+              // l'appui est absorbé pour ne pas ouvrir la feuille d'étude).
+              <div
+                key={`${bookId}-${chapter}-${i}`}
+                id={`v-${vn}`}
+                className="scroll-mt-24 [-webkit-touch-callout:none] [@media(pointer:coarse)]:select-none"
+                onPointerDown={(e) => debutAppui(e, vn)}
+                onPointerMove={bougeAppui}
+                onPointerUp={finAppui}
+                onPointerCancel={finAppui}
+                onClickCapture={(e) => {
+                  if (!appuiLongRef.current) return;
+                  appuiLongRef.current = false;
+                  e.stopPropagation();
+                  e.preventDefault();
+                }}
+                onContextMenu={(e) => e.preventDefault()}
+              >
                 <Markable
                   id={`bible:${bookId}:${chapter}:${vn}`}
                   text={v}
                   reference={`${book?.name} ${chapter}:${vn}`}
                   kind="verset"
                   // Pleine lecture : le tap sur le verset ouvre directement la
-                  // feuille d'étude (plus de barre de boutons inline).
-                  onOpenOverride={immersive ? () => openStudy(vn) : undefined}
+                  // feuille d'étude (plus de barre de boutons inline). En
+                  // sélection, le tap ajoute / retire le verset.
+                  onOpenOverride={selection.length ? () => basculer(vn) : immersive ? () => openStudy(vn) : undefined}
                 >
                   <p
                     className={`transition-colors ${
-                      speaking ? "-mx-2 rounded-lg bg-dawn-400/25 px-2 py-0.5" : ""
+                      choisi
+                        ? "-mx-2 rounded-lg bg-dawn-400/20 px-2 py-0.5 underline decoration-dawn-400 decoration-2 underline-offset-[6px]"
+                        : speaking
+                          ? "-mx-2 rounded-lg bg-dawn-400/25 px-2 py-0.5"
+                          : ""
                     } ${open ? "underline decoration-dashed decoration-1 underline-offset-[6px] opacity-100" : ""}`}
                   >
                     <sup
@@ -641,7 +724,7 @@ export function BibleReader() {
                       {vn}
                     </sup>
                     {v}
-                    {(
+                    {selection.length ? null : (
                       <button
                         type="button"
                         onClick={(e) => {
@@ -672,7 +755,7 @@ export function BibleReader() {
                     )}
                     {(() => {
                       // Jack en parle : bouton vidéo sur le verset précis cité.
-                      const vid = chapterVideos.find((x) => x.v?.includes(vn));
+                      const vid = selection.length ? undefined : chapterVideos.find((x) => x.v?.includes(vn));
                       return vid ? <VerseVideoButton onClick={() => setVideoOpen(vid)} /> : null;
                     })()}
                   </p>
@@ -834,8 +917,31 @@ export function BibleReader() {
           commentaryState={commState}
           bookNames={bookNames}
           onNavigate={lien}
+          onImage={(texte, reference, lien) => setStudio({ texte, reference, lien })}
+          onSelectionner={() => {
+            setSelection([sheetVerse]);
+            setSheetVerse(null);
+          }}
           onClose={() => setSheetVerse(null)}
         />
+      ) : null}
+
+      {/* Plusieurs versets sélectionnés : barre d'actions en bas */}
+      {selection.length && book ? (
+        <SelectionVersets
+          livre={bookId}
+          chapitre={chapter}
+          nomLivre={book.name}
+          versets={selection}
+          textes={verses}
+          onImage={(texte, reference, lien) => setStudio({ texte, reference, lien })}
+          onClose={() => setSelection([])}
+        />
+      ) : null}
+
+      {/* Studio image du partage (un verset ou une sélection) */}
+      {studio ? (
+        <VerseImageStudio text={studio.texte} reference={studio.reference} lien={studio.lien} onClose={() => setStudio(null)} />
       ) : null}
 
       {/* Sélecteur livre/chapitre : feuille qui monte du bas de l'écran */}
@@ -974,7 +1080,7 @@ export function BibleReader() {
       ) : null}
 
       {/* « Revenir » : retour au passage d'où l'on vient, au même endroit */}
-      {pile.length ? (
+      {pile.length && !selection.length ? (
         <div
           className="fixed left-4 z-[57] flex items-center overflow-hidden rounded-full bg-night-950/90 text-cream shadow-card backdrop-blur"
           style={{ bottom: "calc(var(--bottom-nav-h, 0px) + var(--audio-bar-h, 0px) + 5.5rem)" }}

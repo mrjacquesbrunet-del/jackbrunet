@@ -33,6 +33,9 @@ export function normalizeNotifRoute(route?: string): string {
   return query ? `${p}?${query}` : p;
 }
 
+/** Événement émis quand un lien vise la page déjà ouverte (detail = route). */
+export const EVT_MEME_PAGE = "jb:lien-meme-page";
+
 /** Chemin sans query ni slash final, pour comparer deux routes. */
 function barePath(s: string): string {
   return s.split("?")[0].replace(/\/+$/, "");
@@ -71,7 +74,10 @@ export function openNotifRoute(route?: string): void {
     if (barePath(window.location.pathname) === barePath(target)) {
       trace("notif:deja-sur-place", target);
       clearStash();
-      return; // déjà au bon endroit
+      // Déjà sur la page : on lui passe la nouvelle cible (ex. un autre verset
+      // de la Bible, `?livre=…&v=…`), qu'elle applique sans se recharger.
+      if (target.includes("?")) window.dispatchEvent(new CustomEvent(EVT_MEME_PAGE, { detail: target }));
+      return;
     }
     stash(target);
     if (_softNavigate) {

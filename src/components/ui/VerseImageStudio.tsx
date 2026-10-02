@@ -20,11 +20,15 @@ export function VerseImageStudio({
   text,
   reference,
   badge,
+  lien,
   onClose,
 }: {
   text: string;
   reference?: string;
   badge?: string;
+  /** Lien joint au partage (ex. le verset exact dans la Bible). Par défaut :
+   * la page de l'app, avec le texte du verset en légende. */
+  lien?: string;
   onClose: () => void;
 }) {
   const [bg, setBg] = useState<string | null>(VERSE_BACKGROUNDS[0]?.src ?? null);
@@ -70,7 +74,8 @@ export function VerseImageStudio({
     setBusy(true);
     try {
       const blob = await makeBlob();
-      if (blob) await shareImageBlob(blob, "rhema-verset.jpg", `${text}\n\n${appShareUrl()}`);
+      const legende = lien ? `${reference ?? ""}\n${lien}`.trim() : `${text}\n\n${appShareUrl()}`;
+      if (blob) await shareImageBlob(blob, "rhema-verset.jpg", legende);
     } finally {
       setBusy(false);
     }

@@ -38,17 +38,22 @@ function normalize(s: string): string {
 
 /**
  * Renvoie `/bible?livre=ID&chap=N` pour une référence, ou null si non reconnue.
+ * Avec un verset (« Jean 3:16 », « Jean 3.16-18 »), ajoute `&v=16` ou
+ * `&v=16-18` : le lecteur s'ouvre sur ce verset, mis en évidence.
  */
 export function bibleHref(reference?: string): string | null {
   if (!reference) return null;
   // Prend la première référence si plusieurs (« Jean 8 · Jean 9 »).
   const first = reference.split(/[·,;]/)[0]?? reference;
   // Capture le nom (lettres + éventuel préfixe numérique) puis le chapitre.
-  const m = normalize(first).match(/^([1-3]?\s?[a-z][a-z\s]*?)\s+(\d+)/);
+  const m = normalize(first).match(/^([1-3]?\s?[a-z][a-z\s]*?)\s+(\d+)(?:\s*[.:]\s*(\d+)(?:\s*[-–]\s*(\d+)(?!\s*[.:]\s*\d))?)?/);
   if (!m) return null;
   const name = m[1].trim();
   const chap = Number(m[2]);
   const id = BOOK_ID.get(name);
   if (!id ||!chap) return null;
-  return `/bible?livre=${id}&chap=${chap}`;
+  const v = Number(m[3]);
+  const v2 = Number(m[4]);
+  const verset = v >= 1 ? `&v=${v}${v2 > v ? `-${v2}` : ""}` : "";
+  return `/bible?livre=${id}&chap=${chap}${verset}`;
 }

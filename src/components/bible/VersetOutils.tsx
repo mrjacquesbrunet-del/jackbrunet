@@ -111,6 +111,8 @@ export function VersetOutils({
   commentaryState,
   bookNames,
   onNavigate,
+  onImage,
+  onSelectionner,
   onClose,
 }: {
   bookId: number;
@@ -122,6 +124,10 @@ export function VersetOutils({
   commentaryState: "idle" | "loading" | "loaded" | "none";
   bookNames: Record<number, string>;
   onNavigate: Naviguer;
+  /** Ouvre le studio image (texte, référence, lien vers le verset). */
+  onImage?: (texte: string, reference: string, lien: string) => void;
+  /** Passe en sélection de plusieurs versets, à partir de celui-ci. */
+  onSelectionner?: () => void;
   onClose: () => void;
 }) {
   const at = bookId <= 39;
@@ -600,35 +606,58 @@ export function VersetOutils({
               ) : null}
             </>
           ) : onglet === "partager" ? (
-            <div className="flex flex-wrap gap-3">
-              <Carre label={copied ? "Copié !" : "Copier"} active={copied} onClick={copy}>
-                <CopyGlyph className="h-6 w-6" />
-              </Carre>
-              <Carre
-                label="Partager"
-                onClick={() => shareText(`${verseText}\n${reference}`, appShareUrl(bibleHref(reference) || undefined))}
-              >
-                <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current" strokeWidth={1.9}>
-                  <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M12 3v13M8 7l4-4 4 4" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </Carre>
-              <Carre
-                label="Sur le mur"
-                onClick={() => {
-                  // Pré-remplit le composeur du mur de prière avec ce verset.
-                  try {
-                    localStorage.setItem("jb.wall.draft", `« ${verseText} »\n${reference}`);
-                  } catch {
-                    /* stockage indisponible */
-                  }
-                  onClose();
-                  router.push("/communaute");
-                }}
-              >
-                <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current" strokeWidth={1.9}>
-                  <path d="M4 6h16M4 12h16M4 18h9" strokeLinecap="round" />
-                </svg>
-              </Carre>
+            <div>
+              <div className="flex flex-wrap gap-3">
+                <Carre label={copied ? "Copié !" : "Copier"} active={copied} onClick={copy}>
+                  <CopyGlyph className="h-6 w-6" />
+                </Carre>
+                <Carre
+                  label="Partager"
+                  onClick={() => shareText(`${verseText}\n${reference}`, appShareUrl(bibleHref(reference) || undefined))}
+                >
+                  <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current" strokeWidth={1.9}>
+                    <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M12 3v13M8 7l4-4 4 4" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </Carre>
+                {onImage ? (
+                  <Carre label="Image" onClick={() => onImage(verseText, reference, appShareUrl(bibleHref(reference) || undefined))}>
+                    <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current" strokeWidth={1.9}>
+                      <rect x="3.5" y="4.5" width="17" height="15" rx="2.5" />
+                      <circle cx="9" cy="10" r="1.6" />
+                      <path d="M4 17l4.5-4.5 3.5 3.5 2.5-2.5L20 19" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </Carre>
+                ) : null}
+                {onSelectionner ? (
+                  <Carre label="Plusieurs" onClick={onSelectionner}>
+                    <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current" strokeWidth={1.9}>
+                      <path d="M4 7l1.8 1.8L9 5.5M4 13.5l1.8 1.8L9 12M12.5 7H20M12.5 13.5H20M12.5 19H20M4.5 19h4" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </Carre>
+                ) : null}
+                <Carre
+                  label="Sur le mur"
+                  onClick={() => {
+                    // Pré-remplit le composeur du mur de prière avec ce verset.
+                    try {
+                      localStorage.setItem("jb.wall.draft", `« ${verseText} »\n${reference}`);
+                    } catch {
+                      /* stockage indisponible */
+                    }
+                    onClose();
+                    router.push("/communaute");
+                  }}
+                >
+                  <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current" strokeWidth={1.9}>
+                    <path d="M4 6h16M4 12h16M4 18h9" strokeLinecap="round" />
+                  </svg>
+                </Carre>
+              </div>
+              {onSelectionner ? (
+                <p className="mt-4 text-[12px] leading-relaxed text-cream/50">
+                  Astuce : appuie longuement sur un verset pour en sélectionner plusieurs, puis partage-les ensemble.
+                </p>
+              ) : null}
             </div>
           ) : outil === "fiches" ? (
             fiches && versetFiches.length ? (

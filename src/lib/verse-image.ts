@@ -61,6 +61,49 @@ function loadImage(src: string): Promise<HTMLImageElement | null> {
   });
 }
 
+/** Coupe le texte en lignes d'au plus `maxWidth` (police déjà posée sur ctx). */
+function couper(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] {
+  const lines: string[] = [];
+  let line = "";
+  for (const w of text.split(" ")) {
+    const test = line ? `${line} ${w}` : w;
+    if (ctx.measureText(test).width > maxWidth && line) {
+      lines.push(line);
+      line = w;
+    } else {
+      line = test;
+    }
+  }
+  if (line) lines.push(line);
+  return lines;
+}
+
+/**
+ * Taille de police qui fait tenir le texte (plusieurs versets) dans la
+ * hauteur disponible : on part de la taille normale et on réduit pas à pas.
+ * Si même la plus petite taille ne suffit pas, le texte est coupé « … ».
+ */
+function ajuster(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  o: { maxWidth: number; maxHeight: number; size: number; min: number; ratio: number; font: (size: number) => string },
+): { lines: string[]; size: number; lineHeight: number } {
+  let size = o.size;
+  for (;;) {
+    ctx.font = o.font(size);
+    const lineHeight = Math.round(size * o.ratio);
+    const lines = couper(ctx, text, o.maxWidth);
+    if (lines.length * lineHeight <= o.maxHeight) return { lines, size, lineHeight };
+    if (size <= o.min) {
+      const garde = Math.max(1, Math.floor(o.maxHeight / lineHeight));
+      const coupees = lines.slice(0, garde);
+      coupees[garde - 1] = coupees[garde - 1].replace(/[\s,;:.]*\S*$/, "") + " …";
+      return { lines: coupees, size, lineHeight };
+    }
+    size = Math.max(o.min, size - 4);
+  }
+}
+
 /**
  * Génère une belle image partageable (1080×1350, format story/portrait) pour
  * un verset ou une déclaration. Par défaut : charte de l'app (nuit + lime).
@@ -150,24 +193,17 @@ export async function buildVerseImage(opts: {
     ctx.shadowColor = light ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.55)";
     ctx.shadowBlur = light ? 14 : 24;
     ctx.shadowOffsetY = light ? 0 : 4;
-    ctx.font = `${weight} ${size}px ${family}`;
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
-    const maxWidth = W - 220;
-    const lineHeight = Math.round(size * 1.4);
-    const words = body.split(" ");
-    const lines: string[] = [];
-    let line = "";
-    for (const w of words) {
-      const test = line ? `${line} ${w}` : w;
-      if (ctx.measureText(test).width > maxWidth && line) {
-        lines.push(line);
-        line = w;
-      } else {
-        line = test;
-      }
-    }
-    if (line) lines.push(line);
+    // Place du texte : sous le badge, au-dessus de la référence + signature.
+    const { lines, lineHeight } = ajuster(ctx, body, {
+      maxWidth: W - 220,
+      maxHeight: H - (badge ? 230 : 160) - (reference ? 300 : 220),
+      size,
+      min: Math.round(34 * (fontMeta.scale ?? 1)),
+      ratio: 1.4,
+      font: (t) => `${weight} ${t}px ${family}`,
+    });
     const blockH = (lines.length - 1) * lineHeight;
     const startY = H / 2 - blockH / 2 - (reference ? 30 : 0);
     lines.forEach((l, i) => ctx.fillText(l, W / 2, startY + i * lineHeight));
@@ -231,24 +267,17 @@ export async function buildVerseImage(opts: {
 
   // Verset (centré verticalement, retour à la ligne auto)
   ctx.fillStyle = "#F3F3ED";
-  ctx.font = '700 72px Georgia, "Times New Roman", serif';
   ctx.textBaseline = "middle";
   ctx.textAlign = "left";
-  const maxWidth = W - 200;
-  const lineHeight = 96;
-  const words = text.split(" ");
-  const lines: string[] = [];
-  let line = "";
-  for (const w of words) {
-    const test = line? `${line} ${w}`: w;
-    if (ctx.measureText(test).width > maxWidth && line) {
-      lines.push(line);
-      line = w;
-    } else {
-      line = test;
-    }
-  }
-  if (line) lines.push(line);
+  // Entre le guillemet (en haut) et la référence + le pied (en bas).
+  const { lines, lineHeight } = ajuster(ctx, text, {
+    maxWidth: W - 200,
+    maxHeight: H - (badge ? 380 : 340) - (reference ? 250 : 230),
+    size: 72,
+    min: 38,
+    ratio: 96 / 72,
+    font: (t) => `700 ${t}px Georgia, "Times New Roman", serif`,
+  });
   const blockH = (lines.length - 1) * lineHeight;
   const startY = H / 2 - blockH / 2 - (reference? 30: 0);
   lines.forEach((l, i) => ctx.fillText(l, 100, startY + i * lineHeight));
