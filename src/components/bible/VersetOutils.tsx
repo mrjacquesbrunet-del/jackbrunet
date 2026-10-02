@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState, type ReactNode } from "react";
 import type { Commentary } from "@/components/bible/CommentaryPanel";
 import { FicheSheet, getFiches, Medaillon, TexteAvecRefs as TexteAvecRefsVerset, type FichesData } from "@/components/bible/FichesChapitre";
 import { nettoyerMarquesIA } from "@/lib/texte";
+import { numeroStrong } from "@/lib/strong";
 import { Markable } from "@/components/ui/Markable";
 import { useAuth } from "@/components/community/useAuth";
 import { askAssistant } from "@/lib/assistant";
@@ -689,6 +690,7 @@ export function VersetOutils({
                 {motsEtude.map((m, i) => {
                   const actif = motActif === i;
                   const terme = termeFrancais(m);
+                  const strong = m.strong ?? numeroStrong(m.translit, m.mot);
                   return (
                     <li key={i}>
                       <button
@@ -706,9 +708,9 @@ export function VersetOutils({
                               = {terme}
                             </span>
                           ) : null}
-                          {m.strong ? (
+                          {strong ? (
                             <span className="rounded-full border border-white/20 px-2 py-0.5 text-[11px] font-bold text-cream/70">
-                              Strong {m.strong}
+                              Strong {strong}
                             </span>
                           ) : null}
                         </span>
