@@ -1,0 +1,73 @@
+name: Lexique grec/hébreu (définitions françaises, OpenAI)
+
+# Traduit en français les définitions du lexique (STEPBible, CC BY 4.0),
+# tranche par tranche (reprenable), puis reconstruit public/lexique.
+# Déclenchement : modifier .lexique-request (push) ou à la main.
+
+on:
+  push:
+    branches: [claude/great-hamilton-ieokug]
+    paths: [".lexique-request"]
+  workflow_dispatch:
+    inputs:
+      tranches:
+        description: 'Tranches (ex. "G54,H74", vide = tout)'
+        required: false
+        default: ""
+      model:
+        description: "Modèle OpenAI"
+        required: false
+        default: "gpt-4o-mini"
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: lexique-traduction
+  cancel-in-progress: false
+
+jobs:
+  lexique:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Traduire les définitions
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ inputs.model || 'gpt-4o-mini' }}
+          TRANCHES: ${{ inputs.tranches }}
+          CONCURRENCY: "6"
+        run: node scripts/translate-lexique.mjs
+
+      - name: Reconstruire et publier le lexique
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin "${GITHUB_REF_NAME}" || true
+          node scripts/build-lexique.mjs
+          git add public/lexique content/lexique/fr
+          if git diff --staged --quiet; then
+            echo "Rien de neuf."
+          else
+            git commit -m "Lexique : définitions françaises (mise à jour)"
+            for i in 1 2 3 4 5; do
+              git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && break
+              sleep $((i * 5))
+            done
+          fi
+
+      # Un push du bot ne relance pas les autres workflows : on redéploie le
+      # site explicitement pour que l'app trouve les nouvelles définitions.
+      - name: Redéployer le site
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref "${GITHUB_REF_NAME}"

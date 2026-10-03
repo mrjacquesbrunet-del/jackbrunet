@@ -49,7 +49,7 @@ jobs:
       - name: Alléger l'app (médias servis par le site)
         run: |
           echo "Avant:"; du -sh out || true
-          rm -rf out/audio out/commentary
+          rm -rf out/audio out/commentary out/lexique
           echo "Après:"; du -sh out || true
 
       - name: Synchroniser Capacitor (Android)

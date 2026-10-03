@@ -47,7 +47,7 @@ jobs:
       - name: Alléger le bundle OTA (médias servis par le site)
         run: |
           echo "Avant:"; du -sh out || true
-          rm -rf out/audio out/commentary
+          rm -rf out/audio out/commentary out/lexique
           find out/img -type f \( -iname '*.mp3' -o -iname '*.m4a' -o -iname '*.wav' \) -delete || true
           echo "Après:"; du -sh out || true
 
