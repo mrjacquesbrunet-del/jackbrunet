@@ -206,6 +206,8 @@ for (const [passe, maxCommuns, maxNoms] of [[1, 10, 20], [2, 4, 8], [3, 2, 4]]) 
     const fichier = path.join(OUT, `${tranche}.json`);
     const fait = fs.existsSync(fichier) ? JSON.parse(fs.readFileSync(fichier, "utf8")) : {};
     if (REFAIRE && passe === 1) for (const k of Object.keys(fait)) delete fait[k];
+    // Les mots de l'exemple modèle : le modèle les saute, on reprend l'exemple.
+    for (const [k, v] of Object.entries(JSON.parse(EXEMPLE_R))) if (source[k] && !valide(fait[k])) fait[k] = v;
     const todo = Object.entries(source).filter(([code]) => !valide(fait[code]));
     if (!todo.length) continue;
     console.log(`passe ${passe} — ${tranche} : ${todo.length} entrées à traduire`);

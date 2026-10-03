@@ -10,6 +10,7 @@ import { nettoyerMarquesIA } from "@/lib/texte";
 import { numeroStrong } from "@/lib/strong";
 import { codeDansVerset } from "@/lib/lexique";
 import { MotLexique } from "@/components/ecole/MotLexique";
+import { MotsDuVerset } from "@/components/bible/MotsDuVerset";
 import { Markable } from "@/components/ui/Markable";
 import { useAuth } from "@/components/community/useAuth";
 import { askAssistant } from "@/lib/assistant";
@@ -278,7 +279,7 @@ export function VersetOutils({
     if (o === "question" || o === "liens") return true;
     if (o === "fiches") return versetFiches.length > 0;
     if (commentaryState !== "loaded" || !commentary) return true; // en attente
-    if (o === "mots") return (commentary.mots?.length ?? 0) > 0;
+    if (o === "mots") return true; // les mots du verset (lexique) sont toujours là
     if (o === "contexte") return Boolean(commentary.epoque || commentary.passage);
     if (o === "culture") return Boolean(commentary.culture);
     if (o === "interpretation") return Boolean(commentary.interpretation);
@@ -755,9 +756,12 @@ export function VersetOutils({
             </div>
           ) : chargement ? (
             <p className="text-sm text-cream/55">Chargement de l'étude…</p>
+          ) : outil === "mots" && (commentaryState === "none" || !commentary || !motsEtude.length) ? (
+            <MotsDuVerset livre={bookId} chapitre={chapter} verset={verse} texte={verseText} onOuvrir={setMotLexique} />
           ) : commentaryState === "none" || !commentary ? (
             <p className="text-sm text-cream/55">Étude bientôt disponible pour ce verset.</p>
           ) : outil === "mots" ? (
+            <div className="space-y-6">
             <div>
               <p className="text-[11px] font-black uppercase tracking-[0.18em] text-dawn-400">
                 Mots d'origine ({at ? "hébreu" : "grec"})
@@ -814,6 +818,8 @@ export function VersetOutils({
                   );
                 })}
               </ul>
+            </div>
+            <MotsDuVerset livre={bookId} chapitre={chapter} verset={verse} texte={verseText} onOuvrir={setMotLexique} />
             </div>
           ) : outil === "contexte" ? (
             <>

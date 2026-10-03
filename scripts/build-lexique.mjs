@@ -55,6 +55,33 @@ for (const t of tranches) {
   fs.writeFileSync(path.join(OUT, "mots", `${t}.json`), JSON.stringify(mots));
 }
 
+// Par verset : les mots pleins (noms, verbes, adjectifs, adverbes, noms
+// propres) avec le mot français qui les traduit → /lexique/versets/<livre>.json
+// { "c:v": [[code, début, fin], …] } dans l'ordre du texte français.
+const nature = new Map(index.map((e) => [e[0], null]));
+for (const t of tranches) {
+  const source = JSON.parse(fs.readFileSync(path.join(SRC, `${t}.json`), "utf8"));
+  for (const [code, e] of Object.entries(source)) nature.set(code, e.morph);
+}
+const plein = (m) => m && (m.startsWith("N:") || /^[GHA]:(N|V|A|ADV|Adv)/.test(m));
+const parLivre = {};
+for (const f of fs.readdirSync(path.join(OUT, "conc"))) {
+  const conc = JSON.parse(fs.readFileSync(path.join(OUT, "conc", f), "utf8"));
+  for (const [code, emplois] of Object.entries(conc)) {
+    if (!plein(nature.get(code))) continue;
+    for (const e of emplois) {
+      const [b, c, v] = e;
+      const k = `${c}:${v}`;
+      ((parLivre[b] ??= {})[k] ??= []).push(e.length > 5 ? [code, e[4], e[5]] : [code]);
+    }
+  }
+}
+fs.mkdirSync(path.join(OUT, "versets"), { recursive: true });
+for (const [b, versets] of Object.entries(parLivre)) {
+  for (const l of Object.values(versets)) l.sort((x, y) => (x[1] ?? 1e9) - (y[1] ?? 1e9));
+  fs.writeFileSync(path.join(OUT, "versets", `${b}.json`), JSON.stringify(versets));
+}
+
 const cle = (s) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/^[^a-z0-9]+/, "");
 index.sort((a, b) => cle(a[3]).localeCompare(cle(b[3]), "fr") || a[0].localeCompare(b[0]));
 fs.writeFileSync(path.join(OUT, "index.json"), JSON.stringify(index));

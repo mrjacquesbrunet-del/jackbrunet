@@ -54,6 +54,14 @@ OUTILS = set("""le la les l’ un une des du de d’ à au aux et ou ni mais car
 eux se s’ en y ne n’ pas point que qu’ qui quoi dont où son sa ses mon ma mes ton ta tes notre nos votre vos je j’ me m’ moi te t’ toi nous vous
 on dans par pour sur sous avec sans vers chez être avoir""".split())
 
+import simplemma
+PRONOMS = re.compile(r"-(vous|nous|moi|toi|le|la|les|lui|leur|en|y|je|tu|il|elle|ils|elles|on|t-il|t-elle|ce)$")
+def canon(lem):
+    """« aimez-vous » → « aimer » ; « dit-il » → « dire »."""
+    if PRONOMS.search(lem):
+        return simplemma.lemmatize(PRONOMS.sub("", lem), lang="fr")
+    return lem
+
 occ = defaultdict(list)          # code → [(b,c,v,[[s,e]…])]
 trad = defaultdict(Counter)      # code → lemmes français
 formes = defaultdict(lambda: defaultdict(Counter))  # code → lemme → formes
@@ -76,7 +84,7 @@ for x, links in zip(V, L):
             js = [j for j in js if x["fr"][j]["t"][:1].isupper()]
         spans = [[x["fr"][j]["s"], x["fr"][j]["e"]] for j in js]
         cle = (x["b"], x["c"], x["v"])
-        lem = " ".join(x["fr"][j]["l"] for j in js)
+        lem = " ".join(canon(x["fr"][j]["l"]) for j in js)
         if code in vus:
             vus[code][3].extend(spans)
         else:
@@ -85,6 +93,26 @@ for x, links in zip(V, L):
         if js:
             trad[code][lem] += 1
             formes[code][lem][" ".join(x["fr"][j]["t"].lower() for j in js)] += 1
+
+# Participes rangés avec leur verbe (« aimé » → « aimer ») quand le verbe
+# figure aussi parmi les traductions de ce mot.
+PART = re.compile(r"^(.+?)(é|ée|és|ées|i|ie|is|ies|u|ue|us|ues)$")
+for code, cpt in trad.items():
+    fusion = {}
+    for lem in list(cpt):
+        m = PART.match(lem)
+        if not m or " " in lem:
+            continue
+        for fin in ("er", "ir", "re", "oir"):
+            v = m.group(1) + fin
+            if v != lem and v in cpt:
+                fusion[lem] = v
+                break
+    for a, b in fusion.items():
+        cpt[b] += cpt.pop(a)
+    for o in occ[code]:
+        if o[4] in fusion:
+            o[4] = fusion[o[4]]
 
 for code, lst in occ.items():
     for o in lst:
