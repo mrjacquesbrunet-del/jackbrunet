@@ -320,6 +320,7 @@ function Approfondi({ mot, onLire }: { mot: Mot; onLire: Naviguer }) {
       ) : null}
       {lignes.length ? (
         <div className="space-y-1.5">
+          <p className="text-[11px] font-black uppercase tracking-[0.18em] text-dawn-400">Le sens expliqué</p>
           {lignes.map((l, i) => {
             const retrait = Math.min(3, (l.match(/^\s*\(?\d+[a-z0-9]*\)/)?.[0].replace(/[^a-z0-9]/g, "").length ?? 1) - 1);
             return (
