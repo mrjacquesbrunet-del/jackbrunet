@@ -127,7 +127,7 @@ async function appel(messages) {
 /** Un texte resté en anglais (le modèle recopie parfois la source). */
 function anglais(t) {
   t = String(t);
-  if (/\bLXX\b|\bcf\.|\bpass\.|\bsee\b/.test(t)) return true;
+  if (/\bLXX\b|\bsee\b/.test(t)) return true;
   const m = ` ${t.toLowerCase()} `.match(/ (?=(the|of|to|with|and|in|is|as|be|by|which|from|for|or|an|that) )/g);
   return (m?.length ?? 0) > 1 + t.length / 200;
 }
@@ -140,14 +140,14 @@ const valide = (x) =>
   x.sens.every((s) => typeof s === "string" && !anglais(s)) &&
   !anglais(x.detail ?? "");
 
-/** Lots d'au plus 10 entrées / ~5000 caractères de définitions. */
-function lots(entrees) {
+/** Lots d'au plus `max` entrées / ~5000 caractères de définitions. */
+function lots(entrees, max) {
   const out = [];
   let lot = [];
   let taille = 0;
   for (const it of entrees) {
     const t = Math.min(3500, it[1].def.length) + 200;
-    if (lot.length && (lot.length >= 10 || taille + t > 5000)) {
+    if (lot.length && (lot.length >= max || taille + t > 5000)) {
       out.push(lot);
       lot = [];
       taille = 0;
@@ -198,44 +198,52 @@ const tranches = fs
 
 let total = 0;
 let manquants = 0;
-for (const tranche of tranches) {
-  const source = JSON.parse(fs.readFileSync(path.join(SRC, `${tranche}.json`), "utf8"));
-  const fichier = path.join(OUT, `${tranche}.json`);
-  const fait = fs.existsSync(fichier) ? JSON.parse(fs.readFileSync(fichier, "utf8")) : {};
-  if (REFAIRE) for (const k of Object.keys(fait)) delete fait[k];
-  const todo = Object.entries(source).filter(([code]) => !valide(fait[code]));
-  if (!todo.length) continue;
-  console.log(`${tranche} : ${todo.length} entrées à traduire`);
-  const paquets = lots(todo);
-  for (let i = 0; i < paquets.length; i += CONCURRENCY) {
-    const res = await Promise.all(
-      paquets.slice(i, i + CONCURRENCY).map((lot) =>
-        appel([
-          { role: "system", content: SYSTEM },
-          { role: "user", content: EXEMPLE_Q },
-          { role: "assistant", content: EXEMPLE_R },
-          { role: "user", content: consigne(lot) },
-        ]).then((r) => [lot, r]),
-      ),
-    );
-    for (const [lot, r] of res) {
-      for (const [code] of lot) {
-        const x = r?.[code];
-        if (valide(x)) {
-          fait[code] = {
-            fr: x.fr.trim(),
-            sens: x.sens.map((s) => s.trim()).filter(Boolean).slice(0, 6),
-            detail: typeof x.detail === "string" ? x.detail.trim() : "",
-          };
-          total++;
-        } else {
-          manquants++;
+// Passe 1 : lots normaux ; passes 2 et 3 : rattrapage en petits lots.
+for (const [passe, maxCommuns, maxNoms] of [[1, 10, 20], [2, 4, 8], [3, 2, 4]]) {
+  manquants = 0;
+  for (const tranche of tranches) {
+    const source = JSON.parse(fs.readFileSync(path.join(SRC, `${tranche}.json`), "utf8"));
+    const fichier = path.join(OUT, `${tranche}.json`);
+    const fait = fs.existsSync(fichier) ? JSON.parse(fs.readFileSync(fichier, "utf8")) : {};
+    if (REFAIRE && passe === 1) for (const k of Object.keys(fait)) delete fait[k];
+    const todo = Object.entries(source).filter(([code]) => !valide(fait[code]));
+    if (!todo.length) continue;
+    console.log(`passe ${passe} — ${tranche} : ${todo.length} entrées à traduire`);
+    const paquets = [
+      ...lots(todo.filter(([, e]) => !e.nom), maxCommuns),
+      ...lots(todo.filter(([, e]) => e.nom), maxNoms),
+    ];
+    for (let i = 0; i < paquets.length; i += CONCURRENCY) {
+      const res = await Promise.all(
+        paquets.slice(i, i + CONCURRENCY).map((lot) =>
+          appel([
+            { role: "system", content: SYSTEM },
+            { role: "user", content: EXEMPLE_Q },
+            { role: "assistant", content: EXEMPLE_R },
+            { role: "user", content: consigne(lot) },
+          ]).then((r) => [lot, r]),
+        ),
+      );
+      for (const [lot, r] of res) {
+        for (const [code] of lot) {
+          const x = r?.[code];
+          if (valide(x)) {
+            fait[code] = {
+              fr: x.fr.trim(),
+              sens: x.sens.map((v) => v.trim()).filter(Boolean).slice(0, 6),
+              detail: typeof x.detail === "string" ? x.detail.trim() : "",
+            };
+            total++;
+          } else {
+            manquants++;
+          }
         }
       }
+      const trie = Object.fromEntries(Object.keys(source).filter((c) => fait[c]).map((c) => [c, fait[c]]));
+      fs.writeFileSync(fichier, JSON.stringify(trie));
     }
-    const trie = Object.fromEntries(Object.keys(source).filter((c) => fait[c]).map((c) => [c, fait[c]]));
-    fs.writeFileSync(fichier, JSON.stringify(trie));
+    sauver(tranche);
   }
-  sauver(tranche);
+  if (!manquants) break;
 }
 console.log(`Traduit : ${total} — manquants (repris au prochain passage) : ${manquants}`);

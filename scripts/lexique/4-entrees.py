@@ -71,15 +71,18 @@ for x, links in zip(V, L):
         if plein:
             # Garde-fous : un mot ordinaire n'est ni un nom propre français ni un mot outil.
             js = [j for j in js if not x["fr"][j]["l"][:1].isupper() and x["fr"][j]["l"].lower() not in OUTILS]
+        elif LEX[code]["morph"].startswith("N:"):
+            # Un nom propre se traduit par un nom propre (« Syrte », pas « abaissa »).
+            js = [j for j in js if x["fr"][j]["t"][:1].isupper()]
         spans = [[x["fr"][j]["s"], x["fr"][j]["e"]] for j in js]
         cle = (x["b"], x["c"], x["v"])
+        lem = " ".join(x["fr"][j]["l"] for j in js)
         if code in vus:
             vus[code][3].extend(spans)
         else:
-            vus[code] = [x["b"], x["c"], x["v"], spans]
+            vus[code] = [x["b"], x["c"], x["v"], spans, lem]
             occ[code].append(vus[code])
         if js:
-            lem = " ".join(x["fr"][j]["l"] for j in js)
             trad[code][lem] += 1
             formes[code][lem][" ".join(x["fr"][j]["t"].lower() for j in js)] += 1
 

@@ -51,7 +51,10 @@ for t, d in src.items():
 
 conc = defaultdict(dict)
 for code, lst in C.items():
-    conc[tranche(code)][code] = [[b, c, v] + [n for sp in spans for n in sp] for b, c, v, spans in lst]
+    # [livre, chapitre, verset, n° de la traduction (dans « trad », -1 sinon), début, fin, …]
+    tops = [t[0] for t in E[code]["trad"][:6]]
+    conc[tranche(code)][code] = [[b, c, v, tops.index(lem) if lem in tops else -1] + [n for sp in spans for n in sp]
+                                 for b, c, v, spans, lem in lst]
 os.makedirs(f"{ROOT}/public/lexique/conc", exist_ok=True)
 for t, d in conc.items():
     json.dump(d, open(f"{ROOT}/public/lexique/conc/{t}.json", "w"), ensure_ascii=False, separators=(",", ":"))

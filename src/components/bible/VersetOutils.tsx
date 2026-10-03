@@ -8,6 +8,8 @@ import { VersetsLies, useNombreLiens } from "@/components/bible/VersetsLies";
 import type { Naviguer } from "@/lib/bible-nav";
 import { nettoyerMarquesIA } from "@/lib/texte";
 import { numeroStrong } from "@/lib/strong";
+import { codeDansVerset } from "@/lib/lexique";
+import { MotLexique } from "@/components/ecole/MotLexique";
 import { Markable } from "@/components/ui/Markable";
 import { useAuth } from "@/components/community/useAuth";
 import { askAssistant } from "@/lib/assistant";
@@ -136,6 +138,7 @@ export function VersetOutils({
   const [outil, setOutil] = useState<Outil>("mots");
   const nbLiens = useNombreLiens(bookId, chapter, verse);
   const [ficheId, setFicheId] = useState<string | null>(null);
+  const [motLexique, setMotLexique] = useState<string | null>(null);
   const [fiches, setFiches] = useState<FichesData | null>(null);
 
   useEffect(() => {
@@ -792,6 +795,21 @@ export function VersetOutils({
                         </span>
                         {m.sens ? <span className="mt-1 block text-[15px] leading-relaxed text-cream/85">{nettoyerMarquesIA(m.sens)}</span> : null}
                       </button>
+                      {strong ? (
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            const c = await codeDansVerset(strong, bookId, chapter, verse).catch(() => null);
+                            if (c) setMotLexique(c);
+                          }}
+                          className="mt-1.5 inline-flex items-center gap-1.5 rounded-full px-1 text-[13px] font-bold text-dawn-300"
+                        >
+                          Étudier ce mot dans le lexique
+                          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth={2.4}>
+                            <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </button>
+                      ) : null}
                     </li>
                   );
                 })}
@@ -810,6 +828,18 @@ export function VersetOutils({
             <Bloc label="Commentaire" text={commentary.commentaire} suffix="commentaire" />
           )}
         </div>
+
+        {/* Étude du mot grec/hébreu (lexique) par-dessus la feuille du verset */}
+        {motLexique ? (
+          <MotLexique
+            code={motLexique}
+            onClose={() => setMotLexique(null)}
+            onNavigate={(l, c, v, v2) => {
+              if (v === undefined) onClose();
+              onNavigate(l, c, v, v2);
+            }}
+          />
+        ) : null}
 
         {/* Fiche complète par-dessus la feuille du verset */}
         {ficheId && fiches ? (

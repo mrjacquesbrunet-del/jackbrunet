@@ -6,6 +6,7 @@ import { asset } from "@/lib/asset";
 import { useAuth } from "@/components/community/useAuth";
 import { getProfile } from "@/lib/community";
 import { getFormations, listFormationProgress, type Formation } from "@/lib/formations";
+import { CartesLexique } from "@/components/ecole/CartesLexique";
 
 /**
  * ÉTUDE BIBLIQUE — accueil (onglet « Étude ») : formations, assistant,
@@ -254,6 +255,9 @@ export function EcoleView() {
               </span>
             </Link>
           </section>
+
+          {/* Grec & hébreu : un mot du lexique, et l'accès au lexique */}
+          <CartesLexique />
 
           {/* Explorer : galerie, frise, livres et arbres, dans le style sombre de leurs pages */}
           <section className="mt-5">

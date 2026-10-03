@@ -34,7 +34,8 @@ for (const t of tranches) {
     if (f) traduits++;
     // Repli tant que la définition n'est pas traduite : la traduction la
     // plus fréquente dans la Segond.
-    const vedette = f?.fr || e.trad[0]?.[0] || e.gloss;
+    let vedette = f?.fr || e.trad[0]?.[0] || e.gloss;
+    if (e.nom && !f) vedette = vedette.charAt(0).toUpperCase() + vedette.slice(1);
     const langue = e.morph.startsWith("A:") ? "a" : code[0] === "G" ? "g" : "h";
     index.push([code, e.lemme, e.translit, vedette, e.nb, langue + (e.nom ? "n" : "")]);
     mots[code] = {
@@ -54,7 +55,14 @@ for (const t of tranches) {
   fs.writeFileSync(path.join(OUT, "mots", `${t}.json`), JSON.stringify(mots));
 }
 
-const cle = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/^[^a-z0-9]+/, "");
+const cle = (s) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/^[^a-z0-9]+/, "");
 index.sort((a, b) => cle(a[3]).localeCompare(cle(b[3]), "fr") || a[0].localeCompare(b[0]));
 fs.writeFileSync(path.join(OUT, "index.json"), JSON.stringify(index));
+
+// Sélection pour les cartes de l'Étude : mots courants (ni noms propres ni
+// mots outils), assez employés pour être parlants.
+const vedettes = index
+  .filter((e) => !e[5].endsWith("n") && e[4] >= 8 && e[4] <= 600 && /[a-zà-ÿ]{3}/i.test(e[3]))
+  .map((e) => [e[0], e[1], e[3]]);
+fs.writeFileSync(path.join(OUT, "vedettes.json"), JSON.stringify(vedettes));
 console.log(`lexique : ${total} mots, ${traduits} définitions françaises (${Math.round((100 * traduits) / total)} %)`);
