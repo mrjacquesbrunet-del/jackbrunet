@@ -11,7 +11,7 @@
  * Reprenable : les lots envoyés sont notés dans content/lexique/claude-lots.json
  * (commité aussitôt) ; un nouveau passage récupère d'abord les lots en cours.
  *
- * Variables : ANTHROPIC_API_KEY (obligatoire), MODELE (défaut claude-opus-5-5),
+ * Variables : ANTHROPIC_API_KEY (obligatoire), MODELE (défaut claude-haiku-4-5),
  *   TRANCHES (ex. "G54,H74", vide = tout), LIMITE (nombre max de mots, essai),
  *   REFAIRE=1 (refaire les mots des tranches choisies), GIT_COMMIT=0.
  */
@@ -20,7 +20,7 @@ import path from "node:path";
 import { execSync } from "node:child_process";
 import Anthropic from "@anthropic-ai/sdk";
 
-const MODELE = process.env.MODELE || "claude-opus-5-5";
+const MODELE = process.env.MODELE || "claude-haiku-4-5";
 const TRANCHES = (process.env.TRANCHES || "").split(",").map((s) => s.trim()).filter(Boolean);
 const LIMITE = Number(process.env.LIMITE || 0);
 const REFAIRE = process.env.REFAIRE === "1";

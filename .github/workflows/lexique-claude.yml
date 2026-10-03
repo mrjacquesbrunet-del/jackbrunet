@@ -11,7 +11,7 @@ on:
       modele:
         description: "Modèle Claude (claude-opus-5-5, claude-sonnet-5-5, claude-haiku-4-5)"
         required: false
-        default: "claude-opus-5-5"
+        default: "claude-haiku-4-5"
       tranches:
         description: 'Tranches (ex. "G54,H74", vide = tout)'
         required: false
@@ -58,7 +58,7 @@ jobs:
       - name: Rédiger les fiches (lots Claude)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          MODELE: ${{ inputs.modele || 'claude-opus-5-5' }}
+          MODELE: ${{ inputs.modele || 'claude-haiku-4-5' }}
           TRANCHES: ${{ inputs.tranches }}
           LIMITE: ${{ inputs.limite || '0' }}
           REFAIRE: ${{ inputs.refaire || '0' }}
