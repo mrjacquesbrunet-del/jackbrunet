@@ -33,7 +33,11 @@ const DUREE_MAX = Number(process.env.DUREE_MAX_MIN || 320) * 60000; // reste sou
 const debut = Date.now();
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY || "absente" });
+if (!process.env.ANTHROPIC_API_KEY && process.env.ESSAI_A_SEC !== "1") {
+  console.error("Secret ANTHROPIC_API_KEY absent : l'ajouter dans GitHub (Settings → Secrets and variables → Actions).");
+  process.exit(1);
+}
+const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY || "essai-a-sec" });
 
 /* ————— Données d'appui : texte de la Segond et concordance ————— */
 const index = JSON.parse(fs.readFileSync("public/bible/index.json", "utf8"));
