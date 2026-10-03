@@ -65,7 +65,7 @@ function consigne(lot) {
     `(garde la numérotation 1), 1a), (a)… ; garde les mots grecs/hébreux et les références bibliques tels quels ; ` +
     `rends les abréviations savantes en clair : LXX → Septante, cf. → voir, pass. → au passif, fig. → au figuré, subst → substantif, ` +
     `Qal/Piel/Hiphil… restent tels quels ; supprime les renvois bibliographiques (Deiss., MM, VGT, Cremer…) et les signes †). ` +
-    `Chaîne vide s'il n'y a rien d'utile à ajouter aux sens. ` +
+    `Chaîne vide s'il n'y a rien d'utile à ajouter aux sens. Au plus 1200 caractères : condense une définition source très longue (garde les sens et les principales références). ` +
     `IMPORTANT : tout doit être EN FRANÇAIS — ne recopie jamais l'anglais, traduis intégralement (y compris les notes de grammaire : « with accusative » → « avec l'accusatif »).\n\n` +
     `Entrées :\n${JSON.stringify(entrees)}\n\n` +
     `Réponds par un objet JSON : { "<numéro>": { "fr": "…", "sens": ["…"], "detail": "…" }, … } avec TOUTES les clés demandées.`
@@ -96,9 +96,10 @@ const EXEMPLE_R = JSON.stringify({
 });
 
 async function appel(messages) {
-  for (let essai = 0; essai < 8; essai++) {
+  // Peu d'essais : une réponse interrompue est facturée quand même.
+  for (let essai = 0; essai < 4; essai++) {
     const ctrl = new AbortController();
-    const minuteur = setTimeout(() => ctrl.abort(), 120000);
+    const minuteur = setTimeout(() => ctrl.abort(), 300000);
     try {
       const r = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
@@ -199,7 +200,7 @@ const tranches = fs
 let total = 0;
 let manquants = 0;
 // Passe 1 : lots normaux ; passes 2 et 3 : rattrapage en petits lots.
-for (const [passe, maxCommuns, maxNoms] of [[1, 10, 20], [2, 4, 8], [3, 2, 4]]) {
+for (const [passe, maxCommuns, maxNoms] of [[1, 6, 20], [2, 3, 8], [3, 1, 4]]) {
   manquants = 0;
   for (const tranche of tranches) {
     const source = JSON.parse(fs.readFileSync(path.join(SRC, `${tranche}.json`), "utf8"));
