@@ -95,9 +95,20 @@ const EXEMPLE_R = JSON.stringify({
   G0961: { fr: "de Bérée", sens: ["originaire de Bérée, ville de Macédoine"], detail: "" },
 });
 
+/** « 1.5s », « 6m0s », « 250ms » → millisecondes. */
+function duree(t) {
+  if (!t) return 0;
+  let ms = 0;
+  for (const [, n, u] of String(t).matchAll(/([\d.]+)(ms|s|m|h)/g)) ms += Number(n) * { ms: 1, s: 1000, m: 60000, h: 3600000 }[u];
+  return ms;
+}
+let limiteAnnoncee = false;
+
 async function appel(messages) {
-  // Peu d'essais : une réponse interrompue est facturée quand même.
-  for (let essai = 0; essai < 4; essai++) {
+  // Peu d'essais : une réponse interrompue est facturée quand même. Les refus
+  // pour limite de débit (429) ne sont pas facturés : on attend et on réessaie.
+  let essai = 0;
+  for (let attente = 0; essai < 4 && attente < 40; ) {
     const ctrl = new AbortController();
     const minuteur = setTimeout(() => ctrl.abort(), 300000);
     try {
@@ -107,17 +118,28 @@ async function appel(messages) {
         body: JSON.stringify({ model: MODEL, messages, temperature: 0.2, response_format: { type: "json_object" } }),
         signal: ctrl.signal,
       });
-      if (r.status === 429 || r.status >= 500) {
-        const ra = Number(r.headers.get("retry-after"));
-        await sleep((ra > 0 ? ra * 1000 : Math.min(30000, 1500 * 1.7 ** essai)) + Math.random() * 600);
+      if (r.status === 429) {
+        attente++;
+        if (!limiteAnnoncee) {
+          limiteAnnoncee = true;
+          console.log(`  limite du compte : ${r.headers.get("x-ratelimit-limit-tokens")} tokens/min, ${r.headers.get("x-ratelimit-limit-requests")} requêtes/min`);
+        }
+        const ms = Number(r.headers.get("retry-after-ms")) || Number(r.headers.get("retry-after")) * 1000 || duree(r.headers.get("x-ratelimit-reset-tokens")) || 5000;
+        await sleep(Math.min(60000, ms + 500 + Math.random() * 1500));
+        continue;
+      }
+      if (r.status >= 500) {
+        essai++;
+        await sleep(3000 * essai);
         continue;
       }
       const j = await r.json();
       if (!r.ok) throw new Error(JSON.stringify(j).slice(0, 300));
       return JSON.parse(j.choices[0].message.content);
     } catch (e) {
-      console.log(`  essai ${essai + 1} : ${String(e).slice(0, 160)}`);
-      await sleep(Math.min(20000, 1500 * (essai + 1)));
+      essai++;
+      console.log(`  essai ${essai} : ${String(e).slice(0, 160)}`);
+      await sleep(Math.min(20000, 1500 * essai));
     } finally {
       clearTimeout(minuteur);
     }
