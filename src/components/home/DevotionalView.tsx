@@ -32,7 +32,6 @@ import { DailyShort, FloatingDailyShort } from "@/components/home/DailyShort";
 import { VerseImageStudio } from "@/components/ui/VerseImageStudio";
 import { bumpAchv } from "@/lib/achievements";
 import { checkLocalBadges } from "@/lib/badges";
-import { Rewards } from "@/components/app/Rewards";
 import { Greeting } from "@/components/app/Greeting";
 import { useTodayIndex } from "@/lib/today";
 import { bibleHref } from "@/lib/bible-ref";
@@ -41,7 +40,6 @@ import { track } from "@/lib/analytics";
 import { fetchPublishedDevotions } from "@/lib/devotions";
 import { asset, mediaUrl } from "@/lib/asset";
 import { trace } from "@/lib/boot-trace";
-import { MakeVersePublicButton } from "@/components/community/MakeVersePublicButton";
 import { useAuth } from "@/components/community/useAuth";
 import { NotificationsBell } from "@/components/community/NotificationsBell";
 import { MessagesButton } from "@/components/community/MessagesButton";
@@ -752,54 +750,6 @@ export function DevotionalView({
           </Link>
         </Reveal>
       </section>
-
-      {/* 6c. Ma bibliothèque: extraits enregistrés */}
-      {tk.saved.length > 0? (
-        <section className="container-x">
-          <Reveal from="up">
-            <SectionHeader
-              eyebrow="Ma bibliothèque"
-              title="Mes versets & paroles enregistrés"
-            />
-            <ul className="mt-6 grid max-w-2xl gap-3">
-              {tk.saved.map((s) => (
-                <li
-                  key={s.id}
-                  className="rounded-2xl border border-night-900/10 bg-white p-4"
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <span className="text-[11px] font-semibold uppercase tracking-wider text-spirit-600">
-                      {s.kind}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => tk.removeSnippet(s.id)}
-                      aria-label="Retirer"
-                      className="shrink-0 text-night-900/30 transition-colors hover:text-night-900/70"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                  <p className="mt-1 text-sm leading-relaxed text-night-900/80">{s.text}</p>
-                  <div className="mt-2 flex items-center justify-between gap-3">
-                    {s.reference? (
-                      <p className="text-xs font-semibold text-night-900/50">{s.reference}</p>
-                    ): (
-                      <span />
-                    )}
-                    <MakeVersePublicButton text={s.text} reference={s.reference} />
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-        </section>
-      ): null}
-
-      {/* 6d. Récompenses de fidélité, en bas pour entrer vite dans la méditation */}
-      <div id="recompenses" className="scroll-mt-20">
-        <Rewards />
-      </div>
 
       {/* 6e. Accès rapides glissants: Soutien + À propos (carrousel) */}
       <section className="container-x">
