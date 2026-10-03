@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/community/useAuth";
 import { TexteAvecRefs } from "@/components/bible/FichesChapitre";
 import { asset } from "@/lib/asset";
+import { shareText } from "@/lib/share";
+import { appShareUrl } from "@/config/app-links";
 import { addNote } from "@/lib/notebook";
 import { submitToBrevo } from "@/lib/brevo";
 import { newsletterEndpointForSource } from "@/config/brevo";
@@ -163,7 +165,7 @@ function EbookGate({ formation, dark }: { formation: Formation; dark?: boolean }
         </span>
         <span className="min-w-0 flex-1">
           <span className="block font-display text-[15px] font-extrabold">E-book offert</span>
-          <span className="block text-xs text-night-900/55">Reçois le livre complet en PDF — gratuit, contre ton e-mail.</span>
+          <span className="block text-xs text-night-900/55">Reçois le livre complet en PDF, gratuitement.</span>
         </span>
         <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 fill-none stroke-night-900/35" strokeWidth={2}>
           <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
@@ -1113,6 +1115,7 @@ export function FormationView({ formationId }: { formationId: string }) {
   const [done, setDone] = useState<number[]>([]);
   const [openLesson, setOpenLesson] = useState<number | null>(null);
   const [bravo, setBravo] = useState(false);
+  const [lienCopie, setLienCopie] = useState(false);
 
   useEffect(() => {
     if (userId && formation) {
@@ -1194,20 +1197,45 @@ export function FormationView({ formationId }: { formationId: string }) {
     );
   }
 
+  /** Lien intelligent : ouvre l'app directement sur cette formation (sinon le store). */
+  async function partager() {
+    if (!formation) return;
+    const chemin = `/ecole/${formation.id === "fondamentaux-vol1" ? "fondamentaux" : formation.id}`;
+    const ok = await shareText(
+      `Je te recommande la formation « ${formation.titre} » sur l'application RHEMA : ${total} leçons pour grandir dans la foi.`,
+      appShareUrl(chemin),
+    );
+    if (!ok) {
+      setLienCopie(true);
+      window.setTimeout(() => setLienCopie(false), 2200);
+    }
+  }
+
   /* ——— Fiche formation + Mon parcours ——— */
   return (
     <div className="min-h-screen pb-32 text-night-900">
       {/* Fiche : l'affiche en carte */}
       <header className="container-x mx-auto max-w-2xl pt-[calc(env(safe-area-inset-top)+1rem)]">
-        <Link
-          href="/ecole"
-          aria-label="Formation biblique"
-          className="inline-grid h-10 w-10 place-items-center rounded-full border border-night-900/15 bg-white text-night-900"
-        >
-          <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2}>
-            <path d="M15 6l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </Link>
+        <div className="flex items-center justify-between">
+          <Link
+            href="/ecole"
+            aria-label="Formation biblique"
+            className="inline-grid h-10 w-10 place-items-center rounded-full border border-night-900/15 bg-white text-night-900"
+          >
+            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2}>
+              <path d="M15 6l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </Link>
+          <button
+            type="button"
+            onClick={partager}
+            aria-label="Partager la formation"
+            className="inline-flex h-10 items-center gap-2 rounded-full border border-night-900/15 bg-white px-4 text-sm font-bold text-night-900"
+          >
+            <IconePartage />
+            Partager
+          </button>
+        </div>
 
         <div className="relative mt-4 overflow-hidden rounded-3xl">
           {formation.cover ? (
@@ -1277,6 +1305,16 @@ export function FormationView({ formationId }: { formationId: string }) {
             </Link>
           </div>
         )}
+
+        {/* Inviter quelqu'un : lien qui ouvre l'app directement sur la formation */}
+        <button
+          type="button"
+          onClick={partager}
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-full border-2 border-night-900/80 py-3 font-display text-[15px] font-bold text-night-900"
+        >
+          <IconePartage />
+          {lienCopie ? "Lien copié, tu peux le coller où tu veux" : "Partager la formation"}
+        </button>
 
         {/* Ce que tu vas apprendre */}
         <div className="mt-5 rounded-3xl bg-dawn-400/20 p-5">
@@ -2369,5 +2407,14 @@ function QuizView({
         )}
       </main>
     </div>
+  );
+}
+
+/** Icône de partage (trait, charte). */
+function IconePartage() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-none stroke-current" strokeWidth={2.1}>
+      <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M12 3v13M8 7l4-4 4 4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
