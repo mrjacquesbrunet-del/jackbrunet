@@ -12,7 +12,7 @@
  *
  * Variables : OPENAI_API_KEY (obligatoire), OPENAI_MODEL (défaut gpt-4o-mini),
  *   TRANCHES (ex. "G54,H74", vide = tout), CONCURRENCY (défaut 6),
- *   GIT_COMMIT=0 pour ne pas committer.
+ *   REFAIRE=1 pour retraduire les tranches choisies, GIT_COMMIT=0 pour ne pas committer.
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -24,6 +24,7 @@ const TRANCHES = (process.env.TRANCHES || "").split(",").map((s) => s.trim()).fi
 const CONCURRENCY = Number(process.env.CONCURRENCY || 6);
 const BRANCH = process.env.GITHUB_REF_NAME || "claude/great-hamilton-ieokug";
 const DO_GIT = process.env.GIT_COMMIT !== "0";
+const REFAIRE = process.env.REFAIRE === "1";
 const SRC = "content/lexique/source";
 const OUT = "content/lexique/fr";
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -64,11 +65,35 @@ function consigne(lot) {
     `(garde la numérotation 1), 1a), (a)… ; garde les mots grecs/hébreux et les références bibliques tels quels ; ` +
     `rends les abréviations savantes en clair : LXX → Septante, cf. → voir, pass. → au passif, fig. → au figuré, subst → substantif, ` +
     `Qal/Piel/Hiphil… restent tels quels ; supprime les renvois bibliographiques (Deiss., MM, VGT, Cremer…) et les signes †). ` +
-    `Chaîne vide s'il n'y a rien d'utile à ajouter aux sens.\n\n` +
+    `Chaîne vide s'il n'y a rien d'utile à ajouter aux sens. ` +
+    `IMPORTANT : tout doit être EN FRANÇAIS — ne recopie jamais l'anglais, traduis intégralement (y compris les notes de grammaire : « with accusative » → « avec l'accusatif »).\n\n` +
     `Entrées :\n${JSON.stringify(entrees)}\n\n` +
     `Réponds par un objet JSON : { "<numéro>": { "fr": "…", "sens": ["…"], "detail": "…" }, … } avec TOUTES les clés demandées.`
   );
 }
+
+/** Exemple rédigé à la main : le ton, la précision et la forme attendus. */
+const EXEMPLE_Q = consigne([
+  ["G5465", { lemme: "χαλάω", translit: "chalaō", morph: "G:V", nom: false, gloss: "to lower", trad: [["descendre", 2], ["jeter", 2], ["mettre", 1]],
+    def: "χαλάω, -ῶ \n[in LXX: (Jérémie 38:6) (שָׁלַח pi.), etc. ;] \n__(a) to slacken, loosen; \n__(b) to let loose, let go; \n__(with) to lower, let down: with accusative of thing(s), Marc 2:4, Luc 5:4-5, Actes 9:25 27:17, 30; with accusative of person(s) (cf. Je, l.with), pass., 2 Corinthiens 11:33.†" }],
+  ["H7462B", { lemme: "רָעָה", translit: "ra.ah", morph: "H:V", nom: false, gloss: "to pasture", trad: [["paître", 62], ["berger", 44], ["pasteur", 33]],
+    def: "1) to pasture, tend, graze, feed\n1a) (Qal)\n1a1) to tend, pasture\n1a1a) to shepherd\n1a1b) of ruler, teacher (fig)\n1a1c) of people as flock (fig)\n1a1d) shepherd, herdsman (subst)\n1a2) to feed, graze\n1a2a) of cows, sheep etc (literal)\n1a2b) of idolater, Israel as flock (fig)\n1b) (Hiphil) shepherd, shepherdess\nAlso means: ro.i (רֹעִי \"to shepherd\" H7473)" }],
+  ["G0961", { lemme: "Βεροιαῖος", translit: "Beroiaios", morph: "N:A-M-LG", nom: true, gloss: "Berean", trad: [["Bérée", 1]],
+    def: "Βεροιαῖος, -α, -ον, \nof Berœa: Actes 20:4.†" }],
+]);
+const EXEMPLE_R = JSON.stringify({
+  G5465: {
+    fr: "descendre",
+    sens: ["relâcher, desserrer", "laisser aller, lâcher", "faire descendre, abaisser (d'un lieu élevé vers un lieu plus bas)"],
+    detail: "(a) relâcher, desserrer ;\n(b) laisser aller, lâcher ;\n(c) faire descendre, abaisser : avec un complément de chose, Marc 2:4, Luc 5:4-5, Actes 9:25 ; 27:17, 30 ; avec un complément de personne, au passif, 2 Corinthiens 11:33.\nDans la Septante : Jérémie 38:6.",
+  },
+  H7462B: {
+    fr: "paître",
+    sens: ["faire paître, garder un troupeau", "être berger ; au figuré : conduire, gouverner un peuple", "paître, brouter"],
+    detail: "1) faire paître, garder, nourrir\n1a) (Qal)\n1a1) garder, faire paître\n1a1a) être berger\n1a1b) d'un chef, d'un maître (au figuré)\n1a1c) du peuple comme d'un troupeau (au figuré)\n1a1d) berger, pâtre (substantif)\n1a2) paître, brouter\n1a2a) des vaches, des brebis… (au sens propre)\n1a2b) de l'idolâtre, d'Israël comme troupeau (au figuré)\n1b) (Hiphil) berger, bergère\nAutre forme : ro.i (רֹעִי « être berger », H7473)",
+  },
+  G0961: { fr: "de Bérée", sens: ["originaire de Bérée, ville de Macédoine"], detail: "" },
+});
 
 async function appel(messages) {
   for (let essai = 0; essai < 8; essai++) {
@@ -99,17 +124,30 @@ async function appel(messages) {
   return null;
 }
 
+/** Un texte resté en anglais (le modèle recopie parfois la source). */
+function anglais(t) {
+  t = String(t);
+  if (/\bLXX\b|\bcf\.|\bpass\.|\bsee\b/.test(t)) return true;
+  const m = ` ${t.toLowerCase()} `.match(/ (?=(the|of|to|with|and|in|is|as|be|by|which|from|for|or|an|that) )/g);
+  return (m?.length ?? 0) > 1 + t.length / 200;
+}
 const valide = (x) =>
-  x && typeof x.fr === "string" && x.fr.trim() && Array.isArray(x.sens) && x.sens.every((s) => typeof s === "string");
+  x &&
+  typeof x.fr === "string" &&
+  x.fr.trim() &&
+  Array.isArray(x.sens) &&
+  x.sens.length > 0 &&
+  x.sens.every((s) => typeof s === "string" && !anglais(s)) &&
+  !anglais(x.detail ?? "");
 
-/** Lots d'au plus 18 entrées / ~7000 caractères de définitions. */
+/** Lots d'au plus 10 entrées / ~5000 caractères de définitions. */
 function lots(entrees) {
   const out = [];
   let lot = [];
   let taille = 0;
   for (const it of entrees) {
     const t = Math.min(3500, it[1].def.length) + 200;
-    if (lot.length && (lot.length >= 18 || taille + t > 7000)) {
+    if (lot.length && (lot.length >= 10 || taille + t > 5000)) {
       out.push(lot);
       lot = [];
       taille = 0;
@@ -164,6 +202,7 @@ for (const tranche of tranches) {
   const source = JSON.parse(fs.readFileSync(path.join(SRC, `${tranche}.json`), "utf8"));
   const fichier = path.join(OUT, `${tranche}.json`);
   const fait = fs.existsSync(fichier) ? JSON.parse(fs.readFileSync(fichier, "utf8")) : {};
+  if (REFAIRE) for (const k of Object.keys(fait)) delete fait[k];
   const todo = Object.entries(source).filter(([code]) => !valide(fait[code]));
   if (!todo.length) continue;
   console.log(`${tranche} : ${todo.length} entrées à traduire`);
@@ -173,6 +212,8 @@ for (const tranche of tranches) {
       paquets.slice(i, i + CONCURRENCY).map((lot) =>
         appel([
           { role: "system", content: SYSTEM },
+          { role: "user", content: EXEMPLE_Q },
+          { role: "assistant", content: EXEMPLE_R },
           { role: "user", content: consigne(lot) },
         ]).then((r) => [lot, r]),
       ),
