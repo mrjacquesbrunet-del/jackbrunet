@@ -141,8 +141,16 @@ for code in sorted(occ):
 par_base = defaultdict(list)
 for code in entrees:
     par_base[base(code)].append(code)
+def variantes(b, code):
+    """Variantes d'un numéro de base ; un mot ordinaire n'est pas rattaché aux
+    noms propres homonymes (H7462A Beth-Éked pour רָעָה)."""
+    vs = [c for c in par_base.get(b, []) if c != code]
+    if not entrees[code]["morph"].startswith("N:"):
+        communs = [c for c in vs if not entrees[c]["morph"].startswith("N:")]
+        vs = communs or vs
+    return vs
 for code, e in entrees.items():
-    e["derive_de"] = [c for b in e.pop("deriv_os") for c in par_base.get(b, []) if c != code][:6]
+    e["derive_de"] = [c for b in e.pop("deriv_os") for c in variantes(b, code)][:6]
 for code, e in entrees.items():
     e.setdefault("derives", [])
 for code, e in entrees.items():
