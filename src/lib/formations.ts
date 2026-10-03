@@ -57,6 +57,8 @@ export type Formation = {
   objectifs: string[];
   /** Nom du fichier e-book dans le bucket public « audiovf ». */
   ebook?: string;
+  /** Lien pour acheter le livre papier (ex. Amazon). */
+  livrePapier?: string;
   lecons: Lecon[];
 };
 

@@ -7,6 +7,7 @@ import { useAuth } from "@/components/community/useAuth";
 import { TexteAvecRefs } from "@/components/bible/FichesChapitre";
 import { asset } from "@/lib/asset";
 import { shareText } from "@/lib/share";
+import { openExternal } from "@/lib/external";
 import { appShareUrl } from "@/config/app-links";
 import { addNote } from "@/lib/notebook";
 import { submitToBrevo } from "@/lib/brevo";
@@ -148,6 +149,7 @@ function EbookGate({ formation, dark }: { formation: Formation; dark?: boolean }
           Télécharger mon e-book offert
         </button>
         {champ}
+        <LivrePapier formation={formation} dark />
       </div>
     );
   }
@@ -172,7 +174,48 @@ function EbookGate({ formation, dark }: { formation: Formation; dark?: boolean }
         </svg>
       </button>
       {champ}
+      <LivrePapier formation={formation} />
     </div>
+  );
+}
+
+/** Le livre papier de l'auteur (lien Amazon), juste sous l'e-book offert. */
+function LivrePapier({ formation, dark }: { formation: Formation; dark?: boolean }) {
+  if (!formation.livrePapier) return null;
+  const lien = formation.livrePapier;
+  const icone = (
+    <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current" strokeWidth={1.9}>
+      <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5zM4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5M8 7h8M8 10.5h6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+  if (dark) {
+    return (
+      <button
+        type="button"
+        onClick={() => openExternal(lien)}
+        className="mt-3 flex w-full items-center justify-center gap-2 rounded-full border border-white/25 py-3 font-display text-sm font-bold text-cream"
+      >
+        Le livre papier sur Amazon
+      </button>
+    );
+  }
+  return (
+    <button
+      type="button"
+      onClick={() => openExternal(lien)}
+      className="mt-3 flex w-full items-center gap-3.5 rounded-3xl border border-night-900/10 bg-white p-4 text-left"
+    >
+      <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-night-900 text-dawn-300">{icone}</span>
+      <span className="min-w-0 flex-1">
+        <span className="block font-display text-[15px] font-extrabold">Le livre en version papier</span>
+        <span className="block text-xs text-night-900/55">
+          Tu préfères tourner les pages ? Procure-toi le livre de {formation.auteur} sur Amazon.
+        </span>
+      </span>
+      <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 fill-none stroke-night-900/35" strokeWidth={2}>
+        <path d="M7 17L17 7M9 7h8v8" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </button>
   );
 }
 
