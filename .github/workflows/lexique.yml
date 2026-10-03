@@ -44,6 +44,11 @@ jobs:
         with:
           node-version: 20
 
+      - name: Identité git (sauvegardes du robot)
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Traduire les définitions
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}

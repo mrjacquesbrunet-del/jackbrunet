@@ -228,8 +228,15 @@ for (const [passe, maxCommuns, maxNoms] of [[1, 6, 20], [2, 3, 8], [3, 1, 4]]) {
         ),
       );
       for (const [lot, r] of res) {
+        // Le modèle abrège parfois les codes (« G100 » pour « G0100 ») : on
+        // retrouve chaque réponse par son code normalisé.
+        const norm = (c) => String(c).toUpperCase().replace(/^([GH])0+(?=\d)/, "$1");
+        const parCode = new Map(Object.entries(r ?? {}).map(([k, v]) => [norm(k), v]));
+        const raisons = [];
         for (const [code] of lot) {
-          const x = r?.[code];
+          const x = r?.[code] ?? parCode.get(norm(code));
+          if (!x) raisons.push(`${code}:absent`);
+          else if (!valide(x)) raisons.push(`${code}:${anglais(x.detail ?? "") ? "anglais" : "forme"}`);
           if (valide(x)) {
             fait[code] = {
               fr: x.fr.trim(),
@@ -241,6 +248,7 @@ for (const [passe, maxCommuns, maxNoms] of [[1, 6, 20], [2, 3, 8], [3, 1, 4]]) {
             manquants++;
           }
         }
+        if (raisons.length) console.log(`  rejets : ${r ? raisons.join(" ") : "pas de réponse"}`);
       }
       const trie = Object.fromEntries(Object.keys(source).filter((c) => fait[c]).map((c) => [c, fait[c]]));
       fs.writeFileSync(fichier, JSON.stringify(trie));
