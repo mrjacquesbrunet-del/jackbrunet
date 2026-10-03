@@ -1,0 +1,85 @@
+name: Lexique grec/hébreu — fiches approfondies (Claude)
+
+# Rédige les fiches approfondies du lexique avec l'API Anthropic (Message
+# Batches, moitié prix), récupère les lots, reconstruit public/lexique et
+# redéploie le site. Reprenable : relancer récupère les lots en cours.
+# Prérequis : secret ANTHROPIC_API_KEY dans le dépôt.
+
+on:
+  workflow_dispatch:
+    inputs:
+      modele:
+        description: "Modèle Claude (claude-opus-5-5, claude-sonnet-5-5, claude-haiku-4-5)"
+        required: false
+        default: "claude-opus-5-5"
+      tranches:
+        description: 'Tranches (ex. "G54,H74", vide = tout)'
+        required: false
+        default: ""
+      limite:
+        description: "Nombre maximum de mots (essai ; 0 = tout)"
+        required: false
+        default: "0"
+      refaire:
+        description: "Refaire les fiches des tranches choisies (1 = oui)"
+        required: false
+        default: "0"
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: lexique-claude
+  cancel-in-progress: false
+
+jobs:
+  fiches:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Dépendances
+        run: npm ci
+
+      - name: Identité git (sauvegardes du robot)
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Rédiger les fiches (lots Claude)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          MODELE: ${{ inputs.modele || 'claude-opus-5-5' }}
+          TRANCHES: ${{ inputs.tranches }}
+          LIMITE: ${{ inputs.limite || '0' }}
+          REFAIRE: ${{ inputs.refaire || '0' }}
+        run: node scripts/approfondir-lexique.mjs
+
+      - name: Reconstruire et publier le lexique
+        run: |
+          git pull --rebase origin "${GITHUB_REF_NAME}" || true
+          node scripts/build-lexique.mjs
+          git add public/lexique
+          if git diff --staged --quiet; then
+            echo "Rien de neuf."
+          else
+            git commit -m "Lexique : fiches approfondies (mise à jour)"
+            for i in 1 2 3 4 5; do
+              git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && break
+              sleep $((i * 5))
+            done
+          fi
+
+      - name: Redéployer le site
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref "${GITHUB_REF_NAME}"

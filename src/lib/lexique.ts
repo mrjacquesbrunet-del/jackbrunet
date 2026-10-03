@@ -23,6 +23,11 @@ export type Mot = {
   fr: string;
   sens: string[];
   detail?: string;
+  /** Fiche approfondie : formation du mot, emploi dans la Bible, portée, versets clés. */
+  origine?: string;
+  emploi?: string;
+  portee?: string;
+  versets?: string[];
   /** Traductions dans la Segond : [lemme, nombre] */
   trad: [string, number][];
   de?: string[];

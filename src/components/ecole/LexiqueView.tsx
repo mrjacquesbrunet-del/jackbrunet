@@ -31,6 +31,7 @@ export function LexiqueView() {
   const [ouvert, setOuvert] = useState<string | null>(null);
   const [nb, setNb] = useState(LOT);
   const listeRef = useRef<HTMLDivElement>(null);
+  const champRef = useRef<HTMLInputElement>(null);
   const finRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -48,6 +49,8 @@ export function LexiqueView() {
       /* stockage indisponible */
     }
     if (l === "g" || l === "h") setFonds(l);
+    // Arrivée par « Rechercher » : le champ est prêt à taper.
+    if (p.get("recherche") === "1") window.setTimeout(() => champRef.current?.focus(), 250);
     if (m) {
       setOuvert(m);
       if (m.startsWith("G")) setFonds("g");
@@ -148,9 +151,10 @@ export function LexiqueView() {
             <path d="M20 20l-3.5-3.5" strokeLinecap="round" />
           </svg>
           <input
+            ref={champRef}
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Recherche par code ou par mot"
+            placeholder={fonds === "g" ? "Chercher un mot grec : français, grec ou code" : "Chercher un mot hébreu : français, hébreu ou code"}
             className="min-w-0 flex-1 bg-transparent text-[15px] text-cream placeholder:text-cream/40 focus:outline-none"
             enterKeyHint="search"
             autoCorrect="off"

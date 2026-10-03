@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getBook, getIndex } from "@/lib/bible-client";
-import type { Naviguer } from "@/lib/bible-nav";
+import { versetsDe, type Naviguer } from "@/lib/bible-nav";
+import { bibleHref } from "@/lib/bible-ref";
 import {
   CREDIT_LEXIQUE,
   getEmplois,
@@ -27,9 +28,10 @@ import {
  * Les mots liés s'ouvrent dans la même feuille (bouton retour).
  */
 
+/** Couleurs de la charte : grec en lime, hébreu en nuit (accents lime). */
 const COULEUR = {
-  g: { fond: "from-[#2F5FA8] to-[#4B7BD0]", texte: "text-[#9CC0FF]" },
-  h: { fond: "from-[#A8473F] to-[#D46A55]", texte: "text-[#FFB4A6]" },
+  g: { fond: "bg-gradient-to-br from-[#D7F53A] to-dawn-400", encre: "text-night-950", doux: "text-night-950/65", bouton: "bg-night-950/10 text-night-950" },
+  h: { fond: "bg-gradient-to-br from-[#262624] to-night-950 border-b border-white/10", encre: "text-cream", doux: "text-cream/60", bouton: "bg-dawn-400 text-night-950" },
 };
 const coul = (code: string) => (code.startsWith("G") ? COULEUR.g : COULEUR.h);
 const PAGE = 30;
@@ -153,15 +155,15 @@ export function MotLexique({
           ) : (
             <>
               {/* Le mot */}
-              <div className={`relative overflow-hidden bg-gradient-to-br ${c.fond} px-5 pb-5 pt-4`}>
-                <p className="text-[12px] font-black tracking-[0.14em] text-white/70">{code}</p>
+              <div className={`relative overflow-hidden ${c.fond} px-5 pb-5 pt-4`}>
+                <p className={`text-[12px] font-black tracking-[0.14em] ${c.doux}`}>{code}</p>
                 <div className="mt-1 flex items-end gap-3">
                   <div className="min-w-0 flex-1">
-                    <p className="break-words font-serif text-[44px] leading-[1.1] text-white" dir={hebreu ? "rtl" : undefined} lang={hebreu ? "he" : "grc"} style={hebreu ? { textAlign: "left" } : undefined}>
+                    <p className={`break-words font-serif text-[44px] leading-[1.1] ${hebreu ? "text-dawn-300" : c.encre}`} dir={hebreu ? "rtl" : undefined} lang={hebreu ? "he" : "grc"} style={hebreu ? { textAlign: "left" } : undefined}>
                       {mot.mot}
                     </p>
-                    <p className="mt-1 font-display text-[24px] font-extrabold leading-tight text-white">{mot.fr}</p>
-                    <p className="mt-1 text-[14px] text-white/75">
+                    <p className={`mt-1 font-display text-[24px] font-extrabold leading-tight ${c.encre}`}>{mot.fr}</p>
+                    <p className={`mt-1 text-[14px] ${c.doux}`}>
                       {mot.translit}
                       {mot.pron ? ` · ${mot.pron}` : ""}
                     </p>
@@ -171,7 +173,7 @@ export function MotLexique({
                       type="button"
                       onClick={() => prononcer(mot.mot, langue)}
                       aria-label="Écouter la prononciation"
-                      className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-white/20 text-white backdrop-blur active:scale-95"
+                      className={`grid h-14 w-14 shrink-0 place-items-center rounded-full ${c.bouton} active:scale-95`}
                     >
                       <svg viewBox="0 0 24 24" className="ml-0.5 h-6 w-6 fill-current">
                         <path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" />
@@ -220,7 +222,7 @@ export function MotLexique({
                   <p className="mt-2 text-[15px] leading-relaxed text-cream/70">
                     La définition française de ce mot est en préparation.
                   </p>
-                ) : vue === "essentiel" || !mot.detail ? (
+                ) : vue === "essentiel" ? (
                   <ol className="mt-2 space-y-2">
                     {mot.sens.map((s, i) => (
                       <li key={i} className="flex gap-2.5 text-[16px] leading-relaxed text-cream/90">
@@ -230,20 +232,8 @@ export function MotLexique({
                     ))}
                   </ol>
                 ) : (
-                  <div className="mt-2 space-y-1.5">
-                    {mot.detail.split("\n").map((l, i) => {
-                      const retrait = Math.min(3, (l.match(/^\s*\(?\d+[a-z0-9]*\)/)?.[0].replace(/[^a-z0-9]/g, "").length ?? 1) - 1);
-                      return (
-                        <p key={i} className="text-[15px] leading-relaxed text-cream/85" style={{ paddingLeft: `${retrait * 0.9}rem` }}>
-                          {l}
-                        </p>
-                      );
-                    })}
-                  </div>
+                  <Approfondi mot={mot} onLire={lire} />
                 )}
-                {vue === "approfondi" && mot.sens.length && !mot.detail ? (
-                  <p className="mt-3 text-[13px] text-cream/45">Pas de développement supplémentaire pour ce mot.</p>
-                ) : null}
                 {mot.trad.length ? (
                   <p className="mt-4 text-[14px] leading-relaxed text-cream/60">
                     <span className="font-bold text-cream/75">Dans la Segond : </span>
@@ -304,6 +294,72 @@ export function MotLexique({
           )}
         </div>
       </div>
+    </div>
+  );
+}
+
+/** La fiche approfondie : définition, origine, emploi, portée, versets clés. */
+function Approfondi({ mot, onLire }: { mot: Mot; onLire: Naviguer }) {
+  const blocs: [string, string | undefined][] = [
+    ["Origine du mot", mot.origine],
+    ["Dans la Bible", mot.emploi],
+    ["Portée spirituelle", mot.portee],
+  ];
+  const lignes = (mot.detail ?? "").split("\n").filter((l) => l.trim());
+  const rien = !lignes.length && blocs.every(([, t]) => !t) && !mot.versets?.length;
+  return (
+    <div className="mt-2 space-y-5">
+      {rien ? (
+        <ol className="space-y-2">
+          {mot.sens.map((s, i) => (
+            <li key={i} className="text-[16px] leading-relaxed text-cream/90">
+              {s}
+            </li>
+          ))}
+        </ol>
+      ) : null}
+      {lignes.length ? (
+        <div className="space-y-1.5">
+          {lignes.map((l, i) => {
+            const retrait = Math.min(3, (l.match(/^\s*\(?\d+[a-z0-9]*\)/)?.[0].replace(/[^a-z0-9]/g, "").length ?? 1) - 1);
+            return (
+              <p key={i} className="text-[15px] leading-relaxed text-cream/85" style={{ paddingLeft: `${retrait * 0.9}rem` }}>
+                {l}
+              </p>
+            );
+          })}
+        </div>
+      ) : null}
+      {blocs.map(([titre, texte]) =>
+        texte ? (
+          <div key={titre}>
+            <p className="text-[11px] font-black uppercase tracking-[0.18em] text-dawn-400">{titre}</p>
+            <p className="mt-1.5 text-[15px] leading-relaxed text-cream/85">{texte}</p>
+          </div>
+        ) : null,
+      )}
+      {mot.versets?.length ? (
+        <div>
+          <p className="text-[11px] font-black uppercase tracking-[0.18em] text-dawn-400">Versets clés</p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {mot.versets.map((r) => {
+              const h = bibleHref(r);
+              const q = h ? new URLSearchParams(h.split("?")[1]) : null;
+              return (
+                <button
+                  key={r}
+                  type="button"
+                  disabled={!q}
+                  onClick={() => q && onLire(Number(q.get("livre")), Number(q.get("chap")), ...versetsDe(r))}
+                  className="rounded-full bg-dawn-400 px-3.5 py-1.5 text-[13px] font-bold text-night-950 disabled:bg-white/10 disabled:text-cream/70"
+                >
+                  {r}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

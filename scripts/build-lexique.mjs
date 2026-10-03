@@ -16,6 +16,7 @@ import path from "node:path";
 
 const SRC = "content/lexique/source";
 const FR = "content/lexique/fr";
+const CLAUDE = "content/lexique/claude"; // fiches approfondies (prioritaires)
 const OUT = "public/lexique";
 
 const tranches = fs.readdirSync(SRC).map((f) => f.replace(".json", "")).sort();
@@ -26,7 +27,8 @@ fs.mkdirSync(path.join(OUT, "mots"), { recursive: true });
 
 for (const t of tranches) {
   const source = JSON.parse(fs.readFileSync(path.join(SRC, `${t}.json`), "utf8"));
-  const fr = fs.existsSync(path.join(FR, `${t}.json`)) ? JSON.parse(fs.readFileSync(path.join(FR, `${t}.json`), "utf8")) : {};
+  const lire = (dir) => (fs.existsSync(path.join(dir, `${t}.json`)) ? JSON.parse(fs.readFileSync(path.join(dir, `${t}.json`), "utf8")) : {});
+  const fr = { ...lire(FR), ...lire(CLAUDE) };
   const mots = {};
   for (const [code, e] of Object.entries(source)) {
     total++;
@@ -46,6 +48,10 @@ for (const t of tranches) {
       fr: vedette,
       sens: f?.sens ?? [],
       detail: f?.detail || undefined,
+      origine: f?.origine || undefined,
+      emploi: f?.emploi || undefined,
+      portee: f?.portee || undefined,
+      versets: f?.versets?.length ? f.versets : undefined,
       trad: e.trad,
       de: e.de.length ? e.de : undefined,
       derives: e.derives.length ? e.derives : undefined,
