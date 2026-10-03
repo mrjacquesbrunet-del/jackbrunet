@@ -57,6 +57,16 @@ const emplois = (code) => {
   return conc.get(t)[code] ?? [];
 };
 
+/** Toutes les références d'emploi (au plus 80), au format « Jean 3:16 ». */
+const references = (code) => emplois(code).slice(0, 80).map(([b, c, v]) => `${NOM[b]} ${c}:${v}`);
+const ID_LIVRE = Object.fromEntries(index.map((b) => [b.name, b.id]));
+/** « Jean 3:16-18 » → « 43:3:16 » (clé de concordance), ou null. */
+function cleRef(r) {
+  const m = String(r).trim().match(/^(.+?)\s+(\d+):(\d+)/);
+  const b = m && ID_LIVRE[m[1]];
+  return b ? `${b}:${m[2]}:${m[3]}` : null;
+}
+
 /** Quelques emplois répartis dans la Bible, le mot traduit entre « ». */
 function exemples(code, n = 6) {
   const e = emplois(code).filter((x) => x.length > 5);
@@ -74,7 +84,7 @@ function exemples(code, n = 6) {
 const CONSIGNE = `Tu es un bibliste francophone, spécialiste du grec du Nouveau Testament et de l'hébreu/araméen de l'Ancien. Tu rédiges les fiches d'un lexique biblique (type Strong) pour une application chrétienne évangélique : exact, clair pour un lecteur non spécialiste, fidèle au texte biblique, sans spéculation ni parti pris de chapelle. Tout est en français.
 
 Pour le mot reçu, remplis :
-- "fr" : la vedette française, 1 à 4 mots, au format dictionnaire (verbe à l'infinitif, nom au singulier), cohérente avec les traductions de la Segond 1910 fournies. Nom propre : son orthographe dans la Segond 1910.
+- "fr" : UNE seule vedette française (pas de liste, pas de point-virgule), 1 à 4 mots, au format dictionnaire (verbe à l'infinitif, nom au singulier), cohérente avec les traductions de la Segond 1910 fournies. Nom propre : son orthographe dans la Segond 1910.
 - "sens" : 1 à 6 sens courts, du plus littéral au plus figuré (sans numéro). Nom propre : qui ou quoi (« ville de Macédoine », « fils de Juda »).
 - "detail" : la définition source traduite fidèlement et structurée en lignes (garde la numérotation 1), 1a), (a)… ; garde les mots grecs/hébreux et les références ; rends en clair les abréviations savantes (LXX → Septante, cf. → voir, fig. → au figuré…) ; supprime les renvois bibliographiques. 1500 caractères au plus. Chaîne vide si elle n'apporte rien de plus que les sens.
 - "origine" : la formation du mot (racine, préfixes, famille de mots, mot hébreu correspondant dans la Septante pour un mot grec quand c'est utile). 2 à 4 phrases. Nom propre : la signification du nom si elle est connue.
@@ -82,7 +92,10 @@ Pour le mot reçu, remplis :
 - "portee" : ce que ce mot apporte à la compréhension de la foi et de la vie chrétienne (portée théologique et spirituelle), sobrement, sans forcer le texte. 2 à 4 phrases. Chaîne vide pour un mot purement grammatical ou un nom propre sans portée particulière.
 - "versets" : 2 à 4 références clés au format « Jean 3:16 » (noms de livres et numérotation de la Segond), de préférence parmi les emplois fournis.
 
-Ne recopie jamais l'anglais : traduis. Cite les références bibliques avec les noms français des livres.`;
+Règles d'exactitude :
+- Les emplois fournis désignent tous CE mot précis. Un nom propre porté par plusieurs personnes (Joseph, Marie, Jacques…) a une fiche par personne : ne décris que la personne ou le lieu désigné par ces emplois, jamais les homonymes.
+- Ne cite que des références qui figurent dans « references_emplois » ou dans la définition source ; n'invente aucune référence ni aucun fait.
+- Ne recopie jamais l'anglais : traduis. Cite les références bibliques avec les noms français des livres.`;
 
 const SCHEMA = {
   type: "object",
@@ -118,6 +131,7 @@ function demande(code, e) {
           traductions_segond: e.trad.map(([m, n]) => `${m} (${n})`).join(", "),
           nombre_emplois: e.nb,
           emplois_segond: exemples(code),
+          references_emplois: references(code),
         }),
       },
     ],
@@ -158,6 +172,8 @@ function sauver(message) {
   }
 }
 
+const connus = (code) => new Set(emplois(code).map(([b, c, v]) => `${b}:${c}:${v}`));
+
 /** Récupère les résultats d'un lot terminé et les range par tranche. */
 async function recuperer(id) {
   const parTranche = {};
@@ -184,13 +200,14 @@ async function recuperer(id) {
       continue;
     }
     (parTranche[code.slice(0, 3)] ??= {})[code] = {
-      fr: x.fr.trim(),
+      fr: x.fr.split(/[;,]/)[0].trim(),
       sens: x.sens.map((s) => s.trim()).filter(Boolean).slice(0, 6),
       detail: x.detail.trim(),
       origine: x.origine.trim(),
       emploi: x.emploi.trim(),
       portee: x.portee.trim(),
-      versets: x.versets.map((s) => s.trim()).filter(Boolean).slice(0, 4),
+      // Versets clés : seulement des emplois réels de ce mot (pas d'invention).
+      versets: x.versets.map((s) => s.trim()).filter((r) => connus(code).has(cleRef(r))).slice(0, 4),
     };
     ok++;
   }
