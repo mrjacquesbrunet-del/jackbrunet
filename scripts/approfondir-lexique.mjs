@@ -95,7 +95,7 @@ Pour le mot reçu, remplis :
 Règles d'exactitude :
 - Les emplois fournis désignent tous CE mot précis. Un nom propre porté par plusieurs personnes (Joseph, Marie, Jacques…) a une fiche par personne : ne décris que la personne ou le lieu désigné par ces emplois, jamais les homonymes.
 - Ne cite que des références qui figurent dans « references_emplois » ou dans la définition source ; n'invente aucune référence ni aucun fait.
-- Ne recopie jamais l'anglais : traduis. Cite les références bibliques avec les noms français des livres.`;
+- Aucun mot anglais, jamais (ni « fruitfulness », ni « hapax ») : tout en français courant. Cite les références bibliques avec les noms français des livres.`;
 
 const SCHEMA = {
   type: "object",
