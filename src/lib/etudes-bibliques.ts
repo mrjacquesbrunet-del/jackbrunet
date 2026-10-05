@@ -1,4 +1,5 @@
 import data from "../../content/etudes.json";
+import { getSupabase } from "./supabase";
 
 /**
  * ÉTUDES BIBLIQUES (onglet Étude) : études rédigées par les auteurs du
@@ -45,6 +46,10 @@ export type EtudeBiblique = {
   versetCle?: string;
   image?: string;
   resume: string;
+  /** Narration audio en plusieurs parties, déposées dans le bucket Supabase
+   * « audiovf » (ex. etudes/david-1-1.mp3). Le lecteur n'apparaît que si la
+   * première partie existe. */
+  audio?: { fichier: string; titre: string }[];
   blocs: Bloc[];
 };
 
@@ -87,4 +92,11 @@ export function dureeEtude(e: EtudeBiblique): number {
 export function libelleSerie(e: EtudeBiblique): string | null {
   if (!e.serie) return null;
   return e.numero ? `${e.serie} · Étude ${e.numero}` : e.serie;
+}
+
+/** URL publique d'une partie audio (bucket « audiovf »). */
+export function audioEtudeUrl(fichier: string): string | null {
+  const sb = getSupabase();
+  if (!sb) return null;
+  return sb.storage.from("audiovf").getPublicUrl(fichier).data.publicUrl;
 }

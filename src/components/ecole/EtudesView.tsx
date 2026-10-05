@@ -10,6 +10,7 @@ import { appShareUrl } from "@/config/app-links";
 import { EVT_MEME_PAGE } from "@/lib/notif-route";
 import { IconePartage, VersetSheet } from "@/components/ecole/FormationView";
 import {
+  audioEtudeUrl,
   auteursActifs,
   dureeEtude,
   getAuteur,
@@ -467,6 +468,229 @@ function BlocEtude({ b, onRef }: { b: Bloc; onRef: (r: string) => void }) {
   }
 }
 
+/* ——— Écouter l'étude : narration en plusieurs parties ———
+ * La carte n'apparaît que si la 1re partie existe dans le bucket. Lecture :
+ * mini-lecteur fixe en bas (−10 s / +10 s, vitesse), parties enchaînées. */
+const VITESSES = [1, 1.25, 1.5, 2];
+
+function fmt(s: number) {
+  if (!Number.isFinite(s)) return "0:00";
+  return `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+}
+
+function AudioEtude({ etude }: { etude: EtudeBiblique }) {
+  const parties = useMemo(
+    () => (etude.audio ?? []).map((p) => ({ ...p, url: audioEtudeUrl(p.fichier) })).filter((p): p is { fichier: string; titre: string; url: string } => !!p.url),
+    [etude.audio],
+  );
+  const [dispo, setDispo] = useState(false);
+  const [idx, setIdx] = useState<number | null>(null);
+  const [joue, setJoue] = useState(false);
+  const [pos, setPos] = useState(0);
+  const [duree, setDuree] = useState(0);
+  const [vitesse, setVitesse] = useState(0);
+  const [liste, setListe] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    if (!parties.length) return;
+    const a = new Audio();
+    a.preload = "metadata";
+    a.onloadedmetadata = () => setDispo(true);
+    a.src = parties[0].url;
+    return () => {
+      a.src = "";
+    };
+  }, [parties]);
+
+  useEffect(() => {
+    const a = audioRef.current;
+    if (!a || idx === null) return;
+    a.playbackRate = VITESSES[vitesse];
+    a.play().catch(() => {});
+  }, [idx]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (audioRef.current) audioRef.current.playbackRate = VITESSES[vitesse];
+  }, [vitesse]);
+
+  if (!dispo) return null;
+
+  const jouer = (i: number) => {
+    if (idx === i && audioRef.current) {
+      if (audioRef.current.paused) audioRef.current.play().catch(() => {});
+      else audioRef.current.pause();
+      return;
+    }
+    setPos(0);
+    setDuree(0);
+    setIdx(i);
+  };
+  const saute = (d: number) => {
+    const a = audioRef.current;
+    if (a) a.currentTime = Math.max(0, Math.min((a.duration || 0) - 0.2, a.currentTime + d));
+  };
+
+  return (
+    <>
+      <div className="container-x mx-auto mt-4 max-w-2xl">
+        <div className="rounded-3xl bg-night-950 p-4 text-cream">
+          <div className="flex items-center gap-3.5">
+            <button
+              type="button"
+              onClick={() => jouer(idx ?? 0)}
+              aria-label={joue ? "Pause" : "Écouter l'étude"}
+              className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950"
+            >
+              {joue ? (
+                <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current">
+                  <path d="M7 5h3.6v14H7zM13.4 5H17v14h-3.6z" />
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" className="ml-0.5 h-5 w-5 fill-current">
+                  <path d="M8 5.2v13.6L19 12z" />
+                </svg>
+              )}
+            </button>
+            <span className="min-w-0 flex-1">
+              <span className="block text-[10px] font-black uppercase tracking-[0.2em] text-dawn-300">Écouter l&apos;étude</span>
+              <span className="mt-0.5 block truncate font-display text-[15px] font-extrabold">
+                {idx === null ? `${parties.length} parties à écouter` : parties[idx].titre}
+              </span>
+            </span>
+            <button
+              type="button"
+              onClick={() => setListe(!liste)}
+              aria-expanded={liste}
+              className="shrink-0 rounded-full border border-white/20 px-3 py-1.5 text-[12px] font-bold text-cream/80"
+            >
+              Parties
+            </button>
+          </div>
+          {liste ? (
+            <ol className="mt-3 divide-y divide-white/[0.07] border-t border-white/10">
+              {parties.map((p, i) => (
+                <li key={p.fichier}>
+                  <button type="button" onClick={() => jouer(i)} className="flex w-full items-center gap-3 py-2.5 text-left">
+                    <span
+                      className={`grid h-7 w-7 shrink-0 place-items-center rounded-full font-display text-[12px] font-extrabold ${
+                        idx === i ? "bg-dawn-400 text-night-950" : "bg-white/10 text-cream/70"
+                      }`}
+                    >
+                      {i + 1}
+                    </span>
+                    <span className={`text-[14px] leading-snug ${idx === i ? "font-bold text-cream" : "text-cream/75"}`}>{p.titre}</span>
+                  </button>
+                </li>
+              ))}
+            </ol>
+          ) : null}
+        </div>
+      </div>
+
+      {idx !== null ? (
+        <div className="pointer-events-none fixed inset-x-0 z-[55] px-4" style={{ bottom: "calc(env(safe-area-inset-bottom) + 4.9rem)" }}>
+          <div className="pointer-events-auto mx-auto max-w-2xl rounded-[22px] bg-night-950 px-4 pb-2.5 pt-2.5 text-cream shadow-[0_18px_44px_-14px_rgba(0,0,0,0.65)]">
+            {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+            <audio
+              ref={audioRef}
+              src={parties[idx].url}
+              preload="metadata"
+              onPlay={() => setJoue(true)}
+              onPause={() => setJoue(false)}
+              onLoadedMetadata={(e) => {
+                setDuree(e.currentTarget.duration || 0);
+                e.currentTarget.playbackRate = VITESSES[vitesse];
+              }}
+              onTimeUpdate={(e) => setPos(e.currentTarget.currentTime)}
+              onEnded={() => {
+                setJoue(false);
+                if (idx + 1 < parties.length) jouer(idx + 1);
+              }}
+            />
+            <p className="truncate text-[12px] font-bold text-cream/80">
+              <span className="text-dawn-300">
+                {idx + 1}/{parties.length}
+              </span>{" "}
+              · {parties[idx].titre}
+            </p>
+            <div className="mt-1 flex items-center gap-2.5">
+              <span className="w-8 shrink-0 text-[10px] font-bold text-cream/45">{fmt(pos)}</span>
+              <input
+                type="range"
+                min={0}
+                max={Math.max(1, Math.floor(duree))}
+                step={1}
+                value={Math.floor(pos)}
+                onChange={(e) => {
+                  if (audioRef.current) audioRef.current.currentTime = Number(e.target.value);
+                }}
+                aria-label="Position dans l'audio"
+                className="h-1 min-w-0 flex-1 cursor-pointer accent-dawn-400"
+              />
+              <span className="w-8 shrink-0 text-right text-[10px] font-bold text-cream/45">{fmt(duree)}</span>
+            </div>
+            <div className="mt-0.5 flex items-center justify-between">
+              <button
+                type="button"
+                onClick={() => setVitesse((vitesse + 1) % VITESSES.length)}
+                className="min-w-[3.1rem] rounded-full border border-white/20 px-2.5 py-1 font-display text-[11px] font-extrabold text-cream/85"
+              >
+                {`${VITESSES[vitesse]}×`.replace(".", ",")}
+              </button>
+              <div className="flex items-center gap-5">
+                <button type="button" onClick={() => saute(-10)} aria-label="Reculer de 10 secondes" className="relative grid h-9 w-9 place-items-center text-cream/85">
+                  <svg viewBox="0 0 24 24" className="h-8 w-8 fill-none stroke-current" strokeWidth={1.7}>
+                    <path d="M12 4.5A7.5 7.5 0 1 1 4.5 12" strokeLinecap="round" />
+                    <path d="M4.5 12V7.5m0 4.5H9" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  <span className="absolute text-[8px] font-black">10</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => jouer(idx)}
+                  aria-label={joue ? "Pause" : "Lecture"}
+                  className="grid h-11 w-11 place-items-center rounded-full bg-dawn-400 text-night-950"
+                >
+                  {joue ? (
+                    <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current">
+                      <path d="M7 5h3.6v14H7zM13.4 5H17v14h-3.6z" />
+                    </svg>
+                  ) : (
+                    <svg viewBox="0 0 24 24" className="ml-0.5 h-5 w-5 fill-current">
+                      <path d="M8 5.2v13.6L19 12z" />
+                    </svg>
+                  )}
+                </button>
+                <button type="button" onClick={() => saute(10)} aria-label="Avancer de 10 secondes" className="relative grid h-9 w-9 place-items-center text-cream/85">
+                  <svg viewBox="0 0 24 24" className="h-8 w-8 fill-none stroke-current" strokeWidth={1.7}>
+                    <path d="M12 4.5A7.5 7.5 0 1 0 19.5 12" strokeLinecap="round" />
+                    <path d="M19.5 12V7.5m0 4.5H15" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  <span className="absolute text-[8px] font-black">10</span>
+                </button>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  audioRef.current?.pause();
+                  setIdx(null);
+                }}
+                aria-label="Fermer le lecteur"
+                className="grid min-w-[3.1rem] place-items-end text-cream/50"
+              >
+                <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2.2}>
+                  <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </>
+  );
+}
+
 /* ——— Lecteur d'une étude ——— */
 function LecteurEtude({ etude, onBack }: { etude: EtudeBiblique; onBack: () => void }) {
   const router = useRouter();
@@ -569,6 +793,8 @@ function LecteurEtude({ etude, onBack }: { etude: EtudeBiblique; onBack: () => v
           </Link>
         ))}
       </div>
+
+      <AudioEtude etude={etude} />
 
       {/* Corps de l'étude */}
       <article className="container-x mx-auto mt-2 max-w-2xl space-y-4">
