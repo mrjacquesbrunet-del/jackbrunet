@@ -344,7 +344,7 @@ function LeconAudio({ formationId, lecon }: { formationId: string; lecon: Lecon 
 }
 
 /* ——— Pop-up verset : une référence tapée dans la leçon ouvre le passage ——— */
-function VersetSheet({
+export function VersetSheet({
   reference,
   onClose,
   onNavigate,
@@ -2454,7 +2454,7 @@ function QuizView({
 }
 
 /** Icône de partage (trait, charte). */
-function IconePartage() {
+export function IconePartage() {
   return (
     <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-none stroke-current" strokeWidth={2.1}>
       <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M12 3v13M8 7l4-4 4 4" strokeLinecap="round" strokeLinejoin="round" />

@@ -7,6 +7,8 @@ import { useAuth } from "@/components/community/useAuth";
 import { getProfile } from "@/lib/community";
 import { getFormations, listFormationProgress, type Formation } from "@/lib/formations";
 import { CartesLexique } from "@/components/ecole/CartesLexique";
+import { CarteEtude } from "@/components/ecole/EtudesView";
+import { getEtudesBibliques, themesActifs } from "@/lib/etudes-bibliques";
 
 /**
  * ÉTUDE BIBLIQUE — accueil (onglet « Étude ») : formations, assistant,
@@ -211,6 +213,34 @@ export function EcoleView() {
                   </span>
                 </span>
               </div>
+            </div>
+          </section>
+
+          {/* Études bibliques : classées par thème et par auteur */}
+          <section className="mt-7">
+            <div className="flex items-end justify-between gap-3">
+              <h2 className="font-display text-lg font-extrabold">Études bibliques</h2>
+              <Link href="/ecole/etudes" className="text-[13px] font-bold text-[#5F7A00]">
+                Tout voir
+              </Link>
+            </div>
+            <div className="mt-3 space-y-3">
+              {getEtudesBibliques()
+                .slice(0, 3)
+                .map((e) => (
+                  <CarteEtude key={e.id} etude={e} />
+                ))}
+            </div>
+            <div className="-mx-4 mt-3 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none]">
+              {themesActifs().map((t) => (
+                <Link
+                  key={t.id}
+                  href={`/ecole/etudes?theme=${t.id}`}
+                  className="shrink-0 rounded-full border border-night-900/12 bg-white px-3.5 py-2 text-[13px] font-bold text-night-900/75"
+                >
+                  {t.nom}
+                </Link>
+              ))}
             </div>
           </section>
 
