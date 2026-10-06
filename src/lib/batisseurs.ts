@@ -106,3 +106,14 @@ export async function envoyerInvitationZoom(z: { date: string | null; lien: stri
     return { notifies: r.notifies, emails: null, erreurEmail: e instanceof Error ? e.message : String(e) };
   }
 }
+
+/** Nombre de Bâtisseurs dont l'abonnement est en cours. */
+export async function compterBatisseursActifs(): Promise<number | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  const { count, error } = await sb
+    .from("profiles")
+    .select("id", { count: "exact", head: true })
+    .gt("batisseur_jusqu_au", new Date().toISOString());
+  return error ? null : count ?? 0;
+}

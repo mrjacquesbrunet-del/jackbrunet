@@ -20,7 +20,7 @@ create policy "zoom_invitations_lecture" on public.zoom_invitations
   using (
     public.is_admin()
     or exists (select 1 from public.profiles p
-                where p.id = auth.uid() and p.batisseur_depuis is not null)
+                where p.id = auth.uid() and p.batisseur_jusqu_au > now())
   );
 
 -- Envoi : enregistre l'invitation et notifie tous les Bâtisseurs.
@@ -49,7 +49,7 @@ begin
   insert into public.notifications (user_id, actor_id, type, body, link, read)
   select p.id, auth.uid(), 'admin', p_texte, '/zoom/', false
     from public.profiles p
-   where p.batisseur_depuis is not null;
+   where p.batisseur_jusqu_au > now();
   get diagnostics n = row_count;
 
   return json_build_object('invitation_id', inv_id, 'notifies', n);

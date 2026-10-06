@@ -4,7 +4,17 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/components/community/useAuth";
-import { chargerOffresSoutien, soutenir, soutienDispo, type OffreSoutien } from "@/lib/soutien";
+import {
+  chargerOffresSoutien,
+  estBatisseurActif,
+  soutenir,
+  soutienDispo,
+  synchroniserBatisseur,
+  type OffreSoutien,
+} from "@/lib/soutien";
+
+/** Une seule vérification de l'abonnement par lancement de l'app. */
+let synchroFaite = false;
 import { IconeBatisseur } from "@/components/community/BatisseurBadge";
 
 /** Pages d'entrée des onglets où le bandeau apparaît (en bas du contenu). */
@@ -31,7 +41,17 @@ export function BandeauBatisseurs() {
 
   const chemin = (pathname || "/").replace(/\/+$/, "") || "/";
   const surOnglet = ONGLETS.includes(chemin);
-  const batisseur = !!(profile as { batisseur_depuis?: string | null } | null)?.batisseur_depuis;
+  const batisseur = estBatisseurActif(profile as { batisseur_jusqu_au?: string | null } | null);
+
+  // À l'ouverture : si l'abonnement est toujours actif chez Apple / Google,
+  // prolonge le statut Bâtisseur (badge, invitations au Zoom).
+  useEffect(() => {
+    if (!userId || synchroFaite || !soutienDispo()) return;
+    synchroFaite = true;
+    synchroniserBatisseur(userId).then((ok) => {
+      if (ok) refreshProfile();
+    });
+  }, [userId, refreshProfile]);
 
   useEffect(() => {
     let pause = false;
@@ -65,7 +85,9 @@ export function BandeauBatisseurs() {
     try {
       if ((await soutenir(o, userId)) === "ok") {
         setMerci(true);
-        setTimeout(() => refreshProfile(), 1500);
+        setTimeout(() => {
+          synchroniserBatisseur(userId).finally(() => refreshProfile());
+        }, 1500);
       }
     } catch {
       setErreur("Le paiement n'a pas abouti. Réessaie.");
@@ -100,7 +122,7 @@ export function BandeauBatisseurs() {
               <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-[#CAF000] text-[#0A0B07]">
                 <IconeBatisseur className="h-4 w-4" />
               </span>
-              <p className="font-display text-base font-extrabold leading-tight">Deviens Bâtisseur de RHEMA</p>
+              <p className="font-display text-base font-extrabold leading-tight">Deviens Bâtisseur : partenaire mensuel</p>
             </div>
             <p className="mt-2 text-[13px] leading-snug text-[#CFCFCB]">
               Créer et faire vivre une app comme RHEMA coûte environ 20&nbsp;000&nbsp;€. Elle reste gratuite pour
@@ -118,13 +140,14 @@ export function BandeauBatisseurs() {
                   className="rounded-xl bg-[#CAF000] px-1 py-2.5 text-center font-display text-[13px] font-extrabold text-[#0A0B07] active:scale-[0.97] disabled:opacity-60"
                 >
                   {enCours === o.id ? "…" : o.prix}
+                  <span className="block text-[10px] font-bold opacity-70">/mois</span>
                 </button>
               ))}
             </div>
             {erreur ? <p className="mt-2 text-center text-xs font-semibold text-amber-300">{erreur}</p> : null}
-            {!userId ? (
-              <p className="mt-2 text-center text-[11px] text-[#A5A5A1]">Connecte-toi pour recevoir ton badge.</p>
-            ) : null}
+            <p className="mt-2 text-center text-[11px] text-[#A5A5A1]">
+              Sans engagement, résiliable à tout moment.{!userId ? " Connecte-toi pour recevoir ton badge." : ""}
+            </p>
           </>
         )}
       </div>

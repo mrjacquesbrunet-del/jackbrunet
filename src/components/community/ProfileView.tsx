@@ -41,6 +41,7 @@ import { StoriesBar } from "@/components/stories/StoriesBar";
 import { BootDiagnostic } from "@/components/app/BootDiagnostic";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { BatisseurBadge } from "@/components/community/BatisseurBadge";
+import { estBatisseurActif } from "@/lib/soutien";
 import { ModeratorBadge } from "@/components/community/ModeratorBadge";
 import { FollowList } from "@/components/community/FollowList";
 import { ProfileBanners } from "@/components/community/ProfileBanners";
@@ -131,6 +132,7 @@ function Profile({
     converted_at?: string | null;
     streak_days?: number | null;
     batisseur_depuis?: string | null;
+    batisseur_jusqu_au?: string | null;
   } | null;
   refreshProfile: () => void;
 }) {
@@ -418,7 +420,7 @@ function Profile({
               <VerifiedBadge className="ml-2 inline-block h-7 w-7 align-middle" />
             ): null}
           </h2>
-          {profile?.batisseur_depuis ? <BatisseurBadge className="mt-2" /> : null}
+          {estBatisseurActif(profile) ? <BatisseurBadge className="mt-2" /> : null}
           {profile?.life_phrase? (
             <p className={`mt-1 text-sm italic ${jour? "text-dawn-600": "text-dawn-300"}`}>{profile.life_phrase}</p>
           ): null}

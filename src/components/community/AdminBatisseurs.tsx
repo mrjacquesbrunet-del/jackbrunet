@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { dateZoom, envoyerInvitationZoom, listSoutiens, type SoutienAdmin } from "@/lib/batisseurs";
+import { compterBatisseursActifs, dateZoom, envoyerInvitationZoom, listSoutiens, type SoutienAdmin } from "@/lib/batisseurs";
 import { IconeBatisseur } from "@/components/community/BatisseurBadge";
 
 /**
@@ -20,12 +20,11 @@ export function AdminBatisseurs() {
     listSoutiens().then(setSoutiens);
   }, []);
 
-  const batisseurs = new Set((soutiens ?? []).map((s) => s.user_id).filter(Boolean)).size;
-  const totaux = (soutiens ?? []).reduce<Record<string, number>>((acc, s) => {
-    const dev = s.devise ?? "EUR";
-    acc[dev] = (acc[dev] ?? 0) + Number(s.montant ?? 0);
-    return acc;
-  }, {});
+  const souscrits = new Set((soutiens ?? []).map((s) => s.user_id).filter(Boolean)).size;
+  const [actifs, setActifs] = useState<number | null>(null);
+  useEffect(() => {
+    compterBatisseursActifs().then(setActifs);
+  }, []);
 
   async function inviter() {
     if (!/^https?:\/\//i.test(lien.trim())) {
@@ -101,14 +100,9 @@ export function AdminBatisseurs() {
             <div className="grid grid-cols-3 gap-2 text-center">
               {(
                 [
-                  [String(batisseurs), "Bâtisseurs"],
-                  [String(soutiens.length), "soutiens"],
-                  [
-                    Object.entries(totaux)
-                      .map(([d, v]) => v.toLocaleString("fr-FR", { style: "currency", currency: d }))
-                      .join(" + ") || "0 €",
-                    "brut reçu",
-                  ],
+                  [actifs === null ? "—" : String(actifs), "Bâtisseurs actifs"],
+                  [String(souscrits), "abonnés via l'app"],
+                  [String(soutiens.length), "souscriptions"],
                 ] as [string, string][]
               ).map(([v, l]) => (
                 <div key={l} className="rounded-xl bg-night-900/[0.04] p-3">
@@ -118,7 +112,8 @@ export function AdminBatisseurs() {
               ))}
             </div>
             <p className="mt-2 text-[11px] text-night-900/45">
-              Montants avant la commission d&apos;Apple ou de Google (15 %).
+              Les montants réellement encaissés (renouvellements compris) sont dans App Store Connect et la
+              Play Console, rubriques Paiements.
             </p>
             <ul className="mt-3 divide-y divide-night-900/5">
               {soutiens.slice(0, 30).map((s) => (

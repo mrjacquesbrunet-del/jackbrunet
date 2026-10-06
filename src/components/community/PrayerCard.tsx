@@ -11,6 +11,7 @@ import { MentionText } from "@/components/community/MentionText";
 import { HandsGlyph, BookmarkGlyph, BookmarkFilledGlyph } from "@/components/ui/DevoIcons";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { BatisseurBadge } from "@/components/community/BatisseurBadge";
+import { estBatisseurActif } from "@/lib/soutien";
 import { ReportButton } from "@/components/community/ReportButton";
 import { useToolkit } from "@/lib/toolkit";
 import {
@@ -405,7 +406,7 @@ export function PrayerCard({
               >
                 {prayer.author?.pseudo?? "Ami(e)"}
                 {prayer.author?.verified? <VerifiedBadge className="h-4 w-4" />: null}
-                {prayer.author?.batisseur_depuis ? <BatisseurBadge compact /> : null}
+                {estBatisseurActif(prayer.author) ? <BatisseurBadge compact /> : null}
               </Link>
               {grade? (
                 <span className="text-[11px] font-semibold uppercase tracking-wide text-spirit-600/55">
@@ -676,7 +677,7 @@ export function PrayerCard({
                               <Link href={`/membre?u=${c.author_id}`} className="flex items-center gap-1 text-xs font-semibold text-night-900/70 hover:underline">
                                 {c.author?.pseudo?? "Ami(e)"}
                                 {c.author?.verified? <VerifiedBadge className="h-3.5 w-3.5" />: null}
-                                {c.author?.batisseur_depuis ? <BatisseurBadge compact /> : null}
+                                {estBatisseurActif(c.author) ? <BatisseurBadge compact /> : null}
                               </Link>
                               {c.audio_url? (
                                 <div className="mt-1">

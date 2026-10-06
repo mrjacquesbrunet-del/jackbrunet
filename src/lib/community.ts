@@ -30,6 +30,8 @@ export type Profile = {
   last_seen_at?: string | null;
   /** Bâtisseur : date du premier soutien (badge exclusif). */
   batisseur_depuis?: string | null;
+  /** Bâtisseur : fin de la période payée (abonnement mensuel). */
+  batisseur_jusqu_au?: string | null;
   /** Série de jours consécutifs (badge flamme public à partir de 7). */
   streak_days?: number | null;
   /** Date de la rencontre avec Jésus → « X ans avec Jésus ». */
@@ -375,7 +377,7 @@ async function profilesByIds(ids: string[]): Promise<Record<string, Profile>> {
   // sans la colonne pour ne jamais casser le mur avant la migration.
   const avec = await sb
 .from("profiles")
-.select("id,pseudo,avatar_url,verified,streak_days,badge_tier,batisseur_depuis")
+.select("id,pseudo,avatar_url,verified,streak_days,badge_tier,batisseur_depuis,batisseur_jusqu_au")
 .in("id", uniques);
   let data: unknown[] | null = avec.data;
   if (avec.error) {

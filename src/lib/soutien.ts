@@ -4,20 +4,28 @@ import { Capacitor } from "@capacitor/core";
 import { getSupabase } from "./supabase";
 
 /**
- * « Soutien en un clic » : achats intégrés Apple / Google (consommables).
+ * « Bâtisseurs » : partenaires mensuels par ABONNEMENT Apple / Google
+ * (renouvellement automatique, résiliable à tout moment par la personne).
  * Apple et Google imposent leurs achats intégrés pour tout paiement fait
  * DANS l'app ; le don via le site reste disponible à côté.
  *
- * Les identifiants doivent être créés à l'identique dans App Store Connect
- * (type « Consommable ») et dans la Play Console (« Produit intégré »).
- * Tant qu'ils n'existent pas côté store, le bloc reste simplement masqué.
+ * Identifiants à créer à l'identique :
+ *  - App Store Connect : abonnements auto-renouvelables (groupe « Bâtisseurs »),
+ *    durée 1 mois ;
+ *  - Play Console : un abonnement par identifiant, avec un forfait de base
+ *    « mensuel » (renouvellement mensuel).
+ * Tant qu'ils n'existent pas côté store, les blocs restent simplement masqués.
  */
 export const OFFRES_SOUTIEN = [
-  { id: "soutien_499", libelle: "Un coup de pouce" },
-  { id: "soutien_999", libelle: "Un beau soutien" },
-  { id: "soutien_1999", libelle: "Un grand soutien" },
-  { id: "soutien_4999", libelle: "Un pilier de RHEMA" },
+  { id: "batisseur_299", libelle: "Bâtisseur" },
+  { id: "batisseur_999", libelle: "Bâtisseur fidèle" },
+  { id: "batisseur_1999", libelle: "Grand bâtisseur" },
+  { id: "batisseur_4999", libelle: "Pilier de RHEMA" },
 ] as const;
+
+/** Identifiant du forfait de base des abonnements dans la Play Console. */
+const FORFAIT_ANDROID = "mensuel";
+const IDS = new Set<string>(OFFRES_SOUTIEN.map((o) => o.id));
 
 export type OffreSoutien = { id: string; libelle: string; prix: string; montant: number; devise: string };
 
@@ -43,7 +51,7 @@ export async function chargerOffresSoutien(): Promise<OffreSoutien[]> {
     if (!isBillingSupported) return [];
     const { products } = await NativePurchases.getProducts({
       productIdentifiers: OFFRES_SOUTIEN.map((o) => o.id),
-      productType: PURCHASE_TYPE.INAPP,
+      productType: PURCHASE_TYPE.SUBS,
     });
     return OFFRES_SOUTIEN.flatMap((o) => {
       const p = products.find((x) => x.identifier === o.id);
@@ -57,7 +65,7 @@ export async function chargerOffresSoutien(): Promise<OffreSoutien[]> {
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 /**
- * Lance l'achat (feuille de paiement Apple / Google). Renvoie « ok »,
+ * Lance l'abonnement (feuille de paiement Apple / Google). Renvoie « ok »,
  * « annule » si la personne a fermé la feuille, ou lève une erreur.
  */
 export async function soutenir(offre: OffreSoutien, userId?: string | null): Promise<"ok" | "annule"> {
@@ -66,8 +74,8 @@ export async function soutenir(offre: OffreSoutien, userId?: string | null): Pro
   try {
     const t = await NativePurchases.purchaseProduct({
       productIdentifier: offre.id,
-      productType: PURCHASE_TYPE.INAPP,
-      isConsumable: true, // Android : peut être racheté autant de fois que voulu
+      productType: PURCHASE_TYPE.SUBS,
+      planIdentifier: FORFAIT_ANDROID, // Android uniquement (ignoré sur iOS)
       ...(userId && UUID_RE.test(userId) ? { appAccountToken: userId } : {}),
     });
     transactionId = t.transactionId ?? "";
@@ -76,8 +84,8 @@ export async function soutenir(offre: OffreSoutien, userId?: string | null): Pro
     if (/cancel|annul|user.?cancel|1001|code.?1\b/i.test(msg)) return "annule";
     throw e;
   }
-  // Trace (facultative) pour l'admin : qui soutient, combien. Sans effet si la
-  // table n'existe pas encore.
+  // Trace pour l'admin ; un trigger Supabase fait de la personne une
+  // Bâtisseuse / un Bâtisseur pour le mois. Sans effet si la table n'existe pas.
   try {
     await getSupabase()
       ?.from("soutiens")
@@ -93,4 +101,78 @@ export async function soutenir(offre: OffreSoutien, userId?: string | null): Pro
     /* best-effort */
   }
   return "ok";
+}
+
+/**
+ * Abonnement Bâtisseur actif sur ce téléphone ? Renvoie sa date de fin
+ * connue (iOS), une échéance d'un mois (Android, qui ne la fournit pas),
+ * ou null s'il n'y en a pas.
+ */
+export async function abonnementActif(): Promise<{ produit: string; jusquAu: string } | null> {
+  if (!soutienDispo()) return null;
+  try {
+    const { NativePurchases, PURCHASE_TYPE } = await plugin();
+    const { purchases } = await NativePurchases.getPurchases({
+      productType: PURCHASE_TYPE.SUBS,
+      onlyCurrentEntitlements: true,
+    });
+    const ios = Capacitor.getPlatform() === "ios";
+    for (const p of purchases) {
+      if (!IDS.has(p.productIdentifier)) continue;
+      if (ios) {
+        const fin = p.expirationDate ? new Date(p.expirationDate) : null;
+        if ((p.isActive || (fin && fin.getTime() > Date.now())) && !p.revocationDate) {
+          return { produit: p.productIdentifier, jusquAu: (fin ?? new Date(Date.now() + 31 * 864e5)).toISOString() };
+        }
+      } else if (String(p.purchaseState ?? "1") === "1") {
+        return { produit: p.productIdentifier, jusquAu: new Date(Date.now() + 31 * 864e5).toISOString() };
+      }
+    }
+  } catch {
+    /* store indisponible */
+  }
+  return null;
+}
+
+/**
+ * Si l'abonnement est actif, prolonge le statut Bâtisseur côté Supabase
+ * (badge, invitations au Zoom). À l'ouverture de l'app et après un achat.
+ */
+export async function synchroniserBatisseur(userId?: string | null): Promise<boolean> {
+  if (!userId) return false;
+  const actif = await abonnementActif();
+  if (!actif) return false;
+  try {
+    const { error } = await getSupabase()!.rpc("synchroniser_batisseur", { p_jusqu_au: actif.jusquAu });
+    return !error;
+  } catch {
+    return false;
+  }
+}
+
+/** Restaure les achats (obligatoire chez Apple), puis resynchronise. */
+export async function restaurerAbonnement(userId?: string | null): Promise<boolean> {
+  try {
+    const { NativePurchases } = await plugin();
+    await NativePurchases.restorePurchases();
+  } catch {
+    /* ignore */
+  }
+  return synchroniserBatisseur(userId);
+}
+
+/** Ouvre la page Apple / Google pour gérer ou résilier l'abonnement. */
+export async function gererAbonnement(): Promise<void> {
+  try {
+    const { NativePurchases } = await plugin();
+    await NativePurchases.manageSubscriptions();
+  } catch {
+    /* ignore */
+  }
+}
+
+/** Le profil est-il Bâtisseur en ce moment (abonnement en cours) ? */
+export function estBatisseurActif(p?: { batisseur_jusqu_au?: string | null } | null): boolean {
+  const fin = p?.batisseur_jusqu_au;
+  return !!fin && new Date(fin).getTime() > Date.now();
 }

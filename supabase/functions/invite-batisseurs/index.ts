@@ -66,7 +66,7 @@ Deno.serve(async (req) => {
     const { data: profs } = await supabase
       .from("profiles")
       .select("id,pseudo")
-      .not("batisseur_depuis", "is", null);
+      .gt("batisseur_jusqu_au", new Date().toISOString());
     const dest: { email: string; name: string }[] = [];
     for (const p of profs ?? []) {
       const { data: u } = await supabase.auth.admin.getUserById(p.id as string);
