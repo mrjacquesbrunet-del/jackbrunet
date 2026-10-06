@@ -103,7 +103,8 @@ export function BandeauBatisseurs() {
               <p className="font-display text-base font-extrabold leading-tight">Deviens Bâtisseur de RHEMA</p>
             </div>
             <p className="mt-2 text-[13px] leading-snug text-[#CFCFCB]">
-              Créer et faire vivre une app comme RHEMA coûte environ 20&nbsp;000&nbsp;€. Ton soutien t&apos;offre le{" "}
+              Créer et faire vivre une app comme RHEMA coûte environ 20&nbsp;000&nbsp;€. Elle reste gratuite pour
+              tous grâce à la générosité de chacun. Ton soutien t&apos;offre le{" "}
               <b className="text-[#CAF000]">badge Bâtisseur</b> et le <b className="text-[#CAF000]">Zoom mensuel</b> avec
               Pasteur Jack.
             </p>

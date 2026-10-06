@@ -84,6 +84,13 @@ export function SoutienEnUnClic() {
             comme RHEMA coûte environ <b className="text-[#F3F3ED]">20&nbsp;000&nbsp;€</b> : développement,
             serveurs, voix audio, maintenance. Si elle te fait du bien, aide-la à vivre et à grandir.
           </p>
+          <blockquote className="mt-3 rounded-2xl border-l-4 border-[#CAF000] bg-white/[0.04] py-2.5 pl-3.5 pr-3">
+            <p className="text-[14px] italic leading-relaxed text-[#F3F3ED]">
+              « Pour moi, c&apos;est important de proposer ces ressources gratuites et accessibles à tout le
+              monde. Mais cela dépend aussi de la générosité de chacun d&apos;entre nous. »
+            </p>
+            <cite className="mt-1 block text-xs font-bold not-italic text-[#CAF000]">Pasteur Jack Brunet</cite>
+          </blockquote>
           <ul className="mt-3 space-y-1.5 text-sm text-[#F3F3ED]">
             <li className="flex items-center gap-2">
               <BatisseurBadge compact /> Le badge exclusif Bâtisseur sur ton profil
