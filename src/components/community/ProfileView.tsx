@@ -41,7 +41,6 @@ import { StoriesBar } from "@/components/stories/StoriesBar";
 import { BootDiagnostic } from "@/components/app/BootDiagnostic";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { BatisseurBadge } from "@/components/community/BatisseurBadge";
-import { ZoomBatisseursCard } from "@/components/mission/ZoomBatisseurs";
 import { ModeratorBadge } from "@/components/community/ModeratorBadge";
 import { FollowList } from "@/components/community/FollowList";
 import { ProfileBanners } from "@/components/community/ProfileBanners";
@@ -420,12 +419,6 @@ function Profile({
             ): null}
           </h2>
           {profile?.batisseur_depuis ? <BatisseurBadge className="mt-2" /> : null}
-          {/* Espace Bâtisseurs : le Zoom mensuel (Bâtisseurs et admin) */}
-          {profile?.batisseur_depuis || isAdminEmail(email) ? (
-            <div className="mx-auto max-w-md text-left">
-              <ZoomBatisseursCard />
-            </div>
-          ) : null}
           {profile?.life_phrase? (
             <p className={`mt-1 text-sm italic ${jour? "text-dawn-600": "text-dawn-300"}`}>{profile.life_phrase}</p>
           ): null}

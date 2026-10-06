@@ -13,10 +13,10 @@ import { getSupabase } from "./supabase";
  * Tant qu'ils n'existent pas côté store, le bloc reste simplement masqué.
  */
 export const OFFRES_SOUTIEN = [
-  { id: "soutien_099", libelle: "Un merci" },
-  { id: "soutien_299", libelle: "Un coup de pouce" },
-  { id: "soutien_499", libelle: "Un beau soutien" },
-  { id: "soutien_999", libelle: "Un grand soutien" },
+  { id: "soutien_499", libelle: "Un coup de pouce" },
+  { id: "soutien_999", libelle: "Un beau soutien" },
+  { id: "soutien_1999", libelle: "Un grand soutien" },
+  { id: "soutien_4999", libelle: "Un pilier de RHEMA" },
 ] as const;
 
 export type OffreSoutien = { id: string; libelle: string; prix: string; montant: number; devise: string };

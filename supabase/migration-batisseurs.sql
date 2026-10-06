@@ -1,5 +1,5 @@
 -- Les Bâtisseurs : toute personne connectée qui soutient l'app (achat
--- intégré) devient « Bâtisseur » : badge exclusif + accès au Zoom mensuel.
+-- intégré) devient « Bâtisseur » : badge exclusif (et invitation au Zoom mensuel).
 -- À exécuter APRÈS migration-soutiens.sql.
 
 -- 1) Statut sur le profil (date du premier soutien)
@@ -65,30 +65,3 @@ begin
   perform set_config('jb.batisseur', '', true);
 end;
 $$;
-
--- 4) Le Zoom mensuel (une seule ligne), visible par les Bâtisseurs et l'admin
-create table if not exists public.batisseurs_zoom (
-  id int primary key default 1 check (id = 1),
-  prochaine_date timestamptz,
-  lien text,
-  message text,
-  updated_at timestamptz not null default now()
-);
-insert into public.batisseurs_zoom (id) values (1) on conflict (id) do nothing;
-
-alter table public.batisseurs_zoom enable row level security;
-
-drop policy if exists "zoom_lecture" on public.batisseurs_zoom;
-create policy "zoom_lecture" on public.batisseurs_zoom
-  for select to authenticated
-  using (
-    public.is_admin()
-    or exists (select 1 from public.profiles p
-                where p.id = auth.uid() and p.batisseur_depuis is not null)
-  );
-
-drop policy if exists "zoom_admin" on public.batisseurs_zoom;
-create policy "zoom_admin" on public.batisseurs_zoom
-  for all to authenticated
-  using (public.is_admin())
-  with check (public.is_admin());

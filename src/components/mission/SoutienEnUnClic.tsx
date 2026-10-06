@@ -62,8 +62,8 @@ export function SoutienEnUnClic() {
             <div className="mx-auto mt-4 max-w-xs rounded-2xl border border-[#CAF000]/30 p-3">
               <BatisseurBadge />
               <p className="mt-2 text-sm text-[#CFCFCB]">
-                Te voilà Bâtisseur ! Ton badge apparaît sur ton profil, et l&apos;invitation au Zoom mensuel
-                avec Pasteur Jack t&apos;attend dans ton Profil.
+                Te voilà Bâtisseur ! Ton badge apparaît sur ton profil, et tu seras invité au Zoom mensuel
+                avec Pasteur Jack.
               </p>
             </div>
           ) : null}
@@ -80,8 +80,9 @@ export function SoutienEnUnClic() {
           <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#CAF000]">Soutien en un clic</p>
           <h2 className="mt-1 font-display text-2xl font-extrabold leading-tight">Deviens Bâtisseur de RHEMA</h2>
           <p className="mt-2 text-[15px] leading-relaxed text-[#CFCFCB]">
-            L&apos;application est gratuite et le restera, mais elle a un coût : serveurs, voix audio,
-            développement. Si elle te fait du bien, aide-la à vivre et à grandir, en un geste.
+            L&apos;application est gratuite et le restera. Pourtant, créer et faire vivre une application
+            comme RHEMA coûte environ <b className="text-[#F3F3ED]">20&nbsp;000&nbsp;€</b> : développement,
+            serveurs, voix audio, maintenance. Si elle te fait du bien, aide-la à vivre et à grandir.
           </p>
           <ul className="mt-3 space-y-1.5 text-sm text-[#F3F3ED]">
             <li className="flex items-center gap-2">

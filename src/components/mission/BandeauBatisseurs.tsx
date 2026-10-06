@@ -2,10 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/components/community/useAuth";
-import { soutienDispo } from "@/lib/soutien";
+import { chargerOffresSoutien, soutenir, soutienDispo, type OffreSoutien } from "@/lib/soutien";
 import { IconeBatisseur } from "@/components/community/BatisseurBadge";
 
 /** Pages d'entrée des onglets où le bandeau apparaît (en bas du contenu). */
@@ -14,16 +13,21 @@ const CLE_PLUS_TARD = "jb.batisseurs.plustard";
 const PAUSE_MS = 3 * 24 * 3600_000;
 
 /**
- * Bandeau « Deviens Bâtisseur » en bas de chaque onglet : rappelle que
- * l'app a un coût, et présente les avantages du soutien (badge exclusif,
- * Zoom mensuel avec Pasteur Jack). Uniquement dans l'app qui sait payer en
- * un clic, jamais pour un Bâtisseur, et « Plus tard » le masque 3 jours.
+ * Bandeau compact « Deviens Bâtisseur » en bas de chaque onglet : rappelle
+ * le coût réel de l'app et propose les montants directement. Toucher un
+ * montant ouvre tout de suite la feuille de paiement Apple / Google.
+ * Uniquement dans l'app qui sait payer, jamais pour un Bâtisseur ;
+ * la croix le masque 3 jours.
  */
 export function BandeauBatisseurs() {
   const pathname = usePathname();
-  const { profile } = useAuth();
+  const { userId, profile, refreshProfile } = useAuth();
   const [cible, setCible] = useState<HTMLElement | null>(null);
   const [masque, setMasque] = useState(true);
+  const [offres, setOffres] = useState<OffreSoutien[]>([]);
+  const [enCours, setEnCours] = useState<string | null>(null);
+  const [merci, setMerci] = useState(false);
+  const [erreur, setErreur] = useState("");
 
   const chemin = (pathname || "/").replace(/\/+$/, "") || "/";
   const surOnglet = ONGLETS.includes(chemin);
@@ -40,7 +44,11 @@ export function BandeauBatisseurs() {
     setCible(document.querySelector("main"));
   }, [chemin]);
 
-  if (masque || !surOnglet || batisseur || !cible) return null;
+  useEffect(() => {
+    if (soutienDispo()) chargerOffresSoutien().then(setOffres);
+  }, []);
+
+  if (masque || !surOnglet || !cible || !offres.length || (batisseur && !merci)) return null;
 
   function plusTard() {
     try {
@@ -51,33 +59,73 @@ export function BandeauBatisseurs() {
     setMasque(true);
   }
 
+  async function choisir(o: OffreSoutien) {
+    setErreur("");
+    setEnCours(o.id);
+    try {
+      if ((await soutenir(o, userId)) === "ok") {
+        setMerci(true);
+        setTimeout(() => refreshProfile(), 1500);
+      }
+    } catch {
+      setErreur("Le paiement n'a pas abouti. Réessaie.");
+    } finally {
+      setEnCours(null);
+    }
+  }
+
   return createPortal(
-    <aside className="mx-auto mt-8 max-w-lg px-4 pb-2">
-      <div className="rounded-3xl border border-[#CAF000]/35 bg-[#0A0B07] p-5 text-[#F3F3ED] shadow-lg">
-        <div className="flex items-start gap-3.5">
-          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-[#CAF000] text-[#0A0B07]">
-            <IconeBatisseur className="h-6 w-6" />
-          </span>
-          <div className="min-w-0">
-            <p className="font-display text-lg font-extrabold leading-tight">Deviens Bâtisseur de RHEMA</p>
-            <p className="mt-1.5 text-sm leading-relaxed text-[#CFCFCB]">
-              RHEMA est gratuite, mais elle a un coût : serveurs, voix audio, développement. En la soutenant,
-              tu reçois le <b className="text-[#CAF000]">badge Bâtisseur</b> et tu rejoins chaque mois le{" "}
-              <b className="text-[#CAF000]">Zoom avec Pasteur Jack</b>.
+    <aside className="mx-auto mt-6 max-w-lg px-4 pb-2">
+      <div className="relative rounded-2xl border border-[#CAF000]/35 bg-[#0A0B07] p-4 text-[#F3F3ED]">
+        {merci ? (
+          <p className="flex items-center gap-2.5 text-sm font-semibold">
+            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-[#CAF000] text-[#0A0B07]">
+              <IconeBatisseur className="h-4 w-4" />
+            </span>
+            Merci du fond du cœur ! {userId ? "Te voilà Bâtisseur." : "Que Dieu te bénisse."}
+          </p>
+        ) : (
+          <>
+            <button
+              type="button"
+              onClick={plusTard}
+              aria-label="Masquer"
+              className="absolute right-2.5 top-2.5 grid h-7 w-7 place-items-center rounded-full text-[#A5A5A1] hover:text-[#F3F3ED]"
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2}>
+                <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+              </svg>
+            </button>
+            <div className="flex items-center gap-2.5 pr-7">
+              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-[#CAF000] text-[#0A0B07]">
+                <IconeBatisseur className="h-4 w-4" />
+              </span>
+              <p className="font-display text-base font-extrabold leading-tight">Deviens Bâtisseur de RHEMA</p>
+            </div>
+            <p className="mt-2 text-[13px] leading-snug text-[#CFCFCB]">
+              Créer et faire vivre une app comme RHEMA coûte environ 20&nbsp;000&nbsp;€. Ton soutien t&apos;offre le{" "}
+              <b className="text-[#CAF000]">badge Bâtisseur</b> et le <b className="text-[#CAF000]">Zoom mensuel</b> avec
+              Pasteur Jack.
             </p>
-          </div>
-        </div>
-        <div className="mt-4 flex items-center gap-3">
-          <Link
-            href="/don"
-            className="flex-1 rounded-2xl bg-[#CAF000] py-3 text-center font-display text-[15px] font-extrabold text-[#0A0B07]"
-          >
-            Je deviens Bâtisseur
-          </Link>
-          <button type="button" onClick={plusTard} className="px-2 text-sm font-semibold text-[#A5A5A1]">
-            Plus tard
-          </button>
-        </div>
+            <div className="mt-3 grid grid-cols-4 gap-1.5">
+              {offres.map((o) => (
+                <button
+                  key={o.id}
+                  type="button"
+                  onClick={() => choisir(o)}
+                  disabled={!!enCours}
+                  className="rounded-xl bg-[#CAF000] px-1 py-2.5 text-center font-display text-[13px] font-extrabold text-[#0A0B07] active:scale-[0.97] disabled:opacity-60"
+                >
+                  {enCours === o.id ? "…" : o.prix}
+                </button>
+              ))}
+            </div>
+            {erreur ? <p className="mt-2 text-center text-xs font-semibold text-amber-300">{erreur}</p> : null}
+            {!userId ? (
+              <p className="mt-2 text-center text-[11px] text-[#A5A5A1]">Connecte-toi pour recevoir ton badge.</p>
+            ) : null}
+          </>
+        )}
       </div>
     </aside>,
     cible,
