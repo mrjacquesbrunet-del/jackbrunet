@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToolkit } from "@/lib/toolkit";
 import { shareImageBlob, saveImageBlob } from "@/lib/share";
 import { appShareUrl } from "@/config/app-links";
@@ -105,7 +105,11 @@ export function ViralCard({
   const saved = id ? tk.isSaved(id) : false;
   const sc = schemeForIndex(index);
   const { words, accent } = parsePunchline(punchline);
-  const cardUrl = mediaCardUrl(card);
+  // Carte pas encore déposée dans « medias » (nouvelle exhortation) : on
+  // retombe sur le gabarit dessiné plutôt qu'une image cassée.
+  const [carteKo, setCarteKo] = useState(false);
+  useEffect(() => setCarteKo(false), [card]);
+  const cardUrl = carteKo ? null : mediaCardUrl(card);
 
   /** Récupère l'image de carte fournie (pour partage/enregistrement). */
   async function fetchCardBlob(): Promise<Blob | null> {
@@ -347,7 +351,7 @@ export function ViralCard({
       {cardUrl ? (
         <div className="relative mt-4 w-full max-w-sm overflow-hidden rounded-2xl shadow-card">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={cardUrl} alt={punchline.replace(/\*/g, "")} className="aspect-[4/5] w-full object-cover" />
+          <img src={cardUrl} alt={punchline.replace(/\*/g, "")} onError={() => setCarteKo(true)} className="aspect-[4/5] w-full object-cover" />
         </div>
       ) : (
       <div
