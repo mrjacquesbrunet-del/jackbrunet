@@ -8,6 +8,12 @@
   assign separes = livre_x.price | plus: carnet_x.price
   assign pack_eco = separes | minus: pack_x.price
 
+  assign seuil_cts = seuil_port | times: 100
+  assign port_offert = false
+  if seuil_port > 0 and v.requires_shipping and v.price >= seuil_cts
+    assign port_offert = true
+  endif
+
   assign kind = 'livre'
   if product.handle contains 'pack'
     assign kind = 'pack'
@@ -58,7 +64,7 @@
         {%- when 'pack' -%}
           <li>Le livre (740 pages) + le carnet guidé (92 pages)</li>
           <li>Lire, méditer, puis écrire : la Parole qui s'ancre</li>
-          <li>{% if pack_eco > 0 %}La meilleure valeur : {{ pack_eco | money }} de moins qu'à l'unité{% else %}La meilleure valeur pour l'année RHEMA{% endif %}</li>
+          <li>{% if pack_eco > 0 %}La meilleure valeur : {{ pack_eco | money }} de moins qu'à l'unité{% elsif port_offert %}Livraison offerte : tout arrive chez toi sans frais de port{% else %}La meilleure valeur pour l'année RHEMA{% endif %}</li>
         {%- when 'carnet' -%}
           <li>Une page guidée par jour : verset, rhéma, prières</li>
           <li>92 pages — un an de trésors à relire</li>
@@ -76,6 +82,8 @@
 
     <p class="p-price">
       {{ v.price | money }}
+      {%- if kind == 'pack' -%}<span class="p-save">Meilleure valeur</span>{%- endif -%}
+      {%- if port_offert -%}<span class="p-save">Livraison offerte</span>{%- endif -%}
       {%- if kind == 'pack' and pack_eco > 0 -%}
         <span class="p-save">−{{ pack_eco | money }} vs à l'unité</span>
       {%- endif -%}
@@ -97,7 +105,7 @@
         <span>Reçu immédiatement par email, dès le paiement</span>
       {%- else -%}
         <span>Expédition estimée : à partir du 7 septembre (sortie officielle)</span>
-        {%- if seuil_port > 0 -%}<span>Livraison offerte dès {{ seuil_port }}&nbsp;€ d'achat</span>{%- endif -%}
+        {%- if port_offert -%}<span>Livraison offerte pour ce produit</span>{%- elsif seuil_port > 0 -%}<span>Livraison offerte dès {{ seuil_port }}&nbsp;€ d'achat</span>{%- endif -%}
       {%- endif -%}
       <span>Retour possible 14 jours après réception</span>
       <span>Paiement sécurisé — CB, Apple&nbsp;Pay, Google&nbsp;Pay, PayPal</span>
@@ -123,7 +131,7 @@
             <h2 class="p-h2">{% if kind == 'livre' %}Ajoute le carnet et vis l'expérience complète{% else %}Ajoute le livre et vis l'expérience complète{% endif %}</h2>
             <p class="p-lead">Lis la révélation, puis écris ce que Dieu te dit. Le <b>pack</b> réunit le livre (740&nbsp;pages) et le carnet guidé (92&nbsp;pages){% if pack_save > 0 %}, et te fait économiser <b>{{ pack_save | money }}</b>{% endif %}.</p>
             <p class="crosssell-price">
-              <b>{{ packv.price | money }}</b>{% if pack_save > 0 %} <span class="muted">au lieu de {{ separes | money }} à l'unité</span>{% endif %}
+              <b>{{ packv.price | money }}</b>{% if pack_save > 0 %} <span class="muted">au lieu de {{ separes | money }} à l'unité</span>{% endif %}{% assign pack_seuil = seuil_port | times: 100 %}{% if seuil_port > 0 and packv.price >= pack_seuil %} <span class="muted">· livraison offerte</span>{% endif %}
             </p>
             <a class="btn" href="{{ pack.url }}">Voir le pack</a>
           </div>
@@ -199,7 +207,13 @@
         {%- when 'pack' -%}
           <li><b>Le livre + le carnet</b> — tu lis la révélation, puis tu écris ce que Dieu te dit : l'expérience complète.</li>
           <li><b>Un rituel complet</b> — méditer, incarner, prier, noter : les 4 temps de chaque matin.</li>
-          <li><b>{% if pack_eco > 0 %}{{ pack_eco | money }} d'économie{% else %}La meilleure valeur{% endif %}</b> — pour vivre l'année RHEMA en entier.</li>
+          {%- if pack_eco > 0 -%}
+          <li><b>{{ pack_eco | money }} d'économie</b> — la meilleure valeur pour vivre l'année RHEMA en entier.</li>
+          {%- elsif port_offert -%}
+          <li><b>Livraison offerte</b> — le livre et le carnet arrivent ensemble chez toi, sans frais de port.</li>
+          {%- else -%}
+          <li><b>La meilleure valeur</b> — pour vivre l'année RHEMA en entier.</li>
+          {%- endif -%}
         {%- else -%}
           <li><b>365 jours structurés</b> — tu sais exactement quoi lire chaque matin : fini la page ouverte au hasard.</li>
           <li><b>~10 minutes par jour</b> — un format tenable, même dans une vie remplie.</li>
@@ -258,6 +272,10 @@
               <span class="offer-price">
                 {{ pv.price | money }}
               </span>
+              {%- assign o_seuil = seuil_port | times: 100 -%}
+              {%- if seuil_port > 0 and pv.requires_shipping and pv.price >= o_seuil -%}
+                <span class="offer-port">Livraison offerte</span>
+              {%- endif -%}
               <span class="offer-cta">{% if is_current %}Tu es ici ✓{% else %}Choisir{% endif %}</span>
             </a>
           {%- endif -%}

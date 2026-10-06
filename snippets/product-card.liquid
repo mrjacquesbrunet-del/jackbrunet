@@ -8,10 +8,19 @@
   <a class="c-title" href="{{ product.url }}">{{ product.title }}</a>
   {%- liquid
     assign v = product.selected_or_first_available_variant
+    assign seuil_port = settings.livraison_offerte_des | default: 40
+    assign seuil_cts = seuil_port | times: 100
+    assign port_offert = false
+    if seuil_port > 0 and v.requires_shipping and v.price >= seuil_cts
+      assign port_offert = true
+    endif
   -%}
   <p class="c-price">{{ v.price | money }}</p>
-  {%- if product.handle contains 'pack' -%}
-    <span class="badge">Meilleure valeur</span>
+  {%- if product.handle contains 'pack' or port_offert -%}
+    <div class="badges">
+      {%- if product.handle contains 'pack' -%}<span class="badge">Meilleure valeur</span>{%- endif -%}
+      {%- if port_offert -%}<span class="badge badge--port">Livraison offerte</span>{%- endif -%}
+    </div>
   {%- endif -%}
   <a class="btn" href="{{ product.url }}">Précommander</a>
 </div>
