@@ -48,7 +48,7 @@ jobs:
         run: |
           echo "Avant:"; du -sh out || true
           rm -rf out/audio out/commentary out/lexique
-          find out/img -type f \( -iname '*.mp3' -o -iname '*.m4a' -o -iname '*.wav' \) -delete || true
+          find out/img -type f \( -iname '*.mp3' -o -iname '*.m4a' -o -iname '*.wav' -o -iname '*.p8' \) -delete || true
           echo "Après:"; du -sh out || true
 
       - name: Enregistrer l'app dans Capgo (ignoré si déjà créée)
