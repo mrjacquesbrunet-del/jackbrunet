@@ -1,15 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { listSoutiens, type SoutienAdmin } from "@/lib/batisseurs";
+import { dateZoom, envoyerInvitationZoom, listSoutiens, type SoutienAdmin } from "@/lib/batisseurs";
 import { IconeBatisseur } from "@/components/community/BatisseurBadge";
 
 /**
- * Espace admin → Bâtisseurs : les soutiens reçus dans l'app (qui, combien),
- * pour savoir qui inviter au Zoom mensuel.
+ * Espace admin → Bâtisseurs : envoi de l'invitation au Zoom mensuel
+ * (notification + push + e-mail) et liste des soutiens reçus dans l'app.
  */
 export function AdminBatisseurs() {
   const [soutiens, setSoutiens] = useState<SoutienAdmin[] | null | undefined>(undefined);
+  const [date, setDate] = useState("");
+  const [lien, setLien] = useState("");
+  const [mot, setMot] = useState("");
+  const [envoi, setEnvoi] = useState(false);
+  const [retour, setRetour] = useState("");
 
   useEffect(() => {
     listSoutiens().then(setSoutiens);
@@ -22,6 +27,30 @@ export function AdminBatisseurs() {
     return acc;
   }, {});
 
+  async function inviter() {
+    if (!/^https?:\/\//i.test(lien.trim())) {
+      setRetour("Colle le lien Zoom complet (il commence par https://).");
+      return;
+    }
+    const quand = date ? dateZoom(new Date(date).toISOString()) : "";
+    if (!confirm(`Envoyer l'invitation${quand ? ` du ${quand}` : ""} à tous les Bâtisseurs (app + e-mail) ?`)) return;
+    setEnvoi(true);
+    setRetour("");
+    try {
+      const r = await envoyerInvitationZoom({ date: date ? new Date(date).toISOString() : null, lien, message: mot });
+      setRetour(
+        `Notification envoyée à ${r.notifies} Bâtisseur${r.notifies > 1 ? "s" : ""}. ` +
+          (r.emails !== null
+            ? `E-mail envoyé à ${r.emails}.`
+            : `E-mail non envoyé (${r.erreurEmail ?? "fonction invite-batisseurs absente"}).`),
+      );
+    } catch {
+      setRetour("Échec de l'envoi : as-tu exécuté le SQL des invitations ?");
+    } finally {
+      setEnvoi(false);
+    }
+  }
+
   return (
     <div className="mt-6 rounded-3xl border border-night-900/10 bg-white p-5 sm:p-6">
       <h2 className="flex items-center gap-2 font-display text-xl font-bold">
@@ -29,8 +58,37 @@ export function AdminBatisseurs() {
         Bâtisseurs
       </h2>
       <p className="mt-1 text-sm text-night-900/60">
-        Les membres qui soutiennent l&apos;app reçoivent le badge. Voici qui inviter au Zoom mensuel.
+        Les membres qui soutiennent l&apos;app reçoivent le badge et l&apos;invitation au Zoom mensuel.
       </p>
+
+      {/* Inviter au Zoom */}
+      <div className="mt-4 rounded-2xl border border-night-900/10 bg-[#FAFAF6] p-4">
+        <p className="font-display text-[15px] font-extrabold">Inviter au Zoom du mois</p>
+        <p className="mt-0.5 text-xs text-night-900/55">
+          Chaque Bâtisseur reçoit une notification dans l&apos;app et un e-mail avec le lien.
+        </p>
+        <label className="mt-3 block text-xs font-bold text-night-900/55">Date et heure</label>
+        <input type="datetime-local" value={date} onChange={(e) => setDate(e.target.value)} className="field mt-1 w-full" />
+        <label className="mt-3 block text-xs font-bold text-night-900/55">Lien Zoom</label>
+        <input
+          type="url"
+          value={lien}
+          onChange={(e) => setLien(e.target.value)}
+          placeholder="https://zoom.us/j/…"
+          className="field mt-1 w-full"
+        />
+        <label className="mt-3 block text-xs font-bold text-night-900/55">Petit mot (facultatif)</label>
+        <input
+          value={mot}
+          onChange={(e) => setMot(e.target.value)}
+          placeholder="Ex. Thème : la prière qui change tout"
+          className="field mt-1 w-full"
+        />
+        <button type="button" onClick={inviter} disabled={envoi || !lien.trim()} className="btn-primary mt-3 text-sm disabled:opacity-50">
+          {envoi ? "Envoi…" : "Envoyer l'invitation"}
+        </button>
+        {retour ? <p className="mt-2 text-sm font-semibold text-spirit-700">{retour}</p> : null}
+      </div>
 
       {/* Soutiens reçus */}
       <div className="mt-4">

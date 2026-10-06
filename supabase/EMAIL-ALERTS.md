@@ -111,3 +111,18 @@ Fonctionnement : chaque interaction crée une ligne dans `public.notifications`
 - `notify-dm` n'envoie qu'à `contact@jackbrunet.com` (adresse figée dans le code).
 - L'`App ID` OneSignal est public (déjà dans l'app) ; seule la **REST API Key**
   est secrète.
+
+---
+
+## 3) Invitations au Zoom des Bâtisseurs → Edge Function `invite-batisseurs`
+
+Envoie par e-mail l'invitation au Zoom mensuel à tous les Bâtisseurs, quand
+l'admin touche « Envoyer l'invitation » (Espace admin → Bâtisseurs).
+
+1. Supabase → **Edge Functions** → **Deploy a new function**, nom : `invite-batisseurs`.
+2. Colle le contenu de `supabase/functions/invite-batisseurs/index.ts`.
+3. Laisse l'option **« Verify JWT » ACTIVÉE** (la fonction vérifie aussi que
+   l'appel vient du compte admin).
+4. **Deploy**. Le secret `BREVO_API_KEY` est déjà en place (section 1).
+
+Pas de webhook à créer : c'est l'app qui appelle la fonction.
