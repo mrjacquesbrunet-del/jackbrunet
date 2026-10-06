@@ -8,6 +8,7 @@ import { isNativeApp } from "@/lib/notifications";
 import { asset } from "@/lib/asset";
 import { STRIPE_LINKS } from "@/config/stripe";
 import { siteConfig } from "@/config/site";
+import { SoutienEnUnClic } from "@/components/mission/SoutienEnUnClic";
 
 /** Charte de l'app: nuit/olive + accent lime + crème. */
 const C = {
@@ -137,6 +138,9 @@ export function DonateScreen() {
             </blockquote>
           </div>
         </section>
+
+        {/* Soutien en un clic (achats intégrés, app installée uniquement) */}
+        <SoutienEnUnClic />
 
         {/* Curseur de soutien */}
         <section className="mt-5 rounded-3xl border bg-white/[0.03] p-5" style={{ borderColor: C.cardBorder }}>
