@@ -28,6 +28,8 @@ export type Profile = {
   name_color?: string | null;
   /** Dernière activité (présence « En ligne » / « Actif il y a X »). */
   last_seen_at?: string | null;
+  /** Bâtisseur : date du premier soutien (badge exclusif). */
+  batisseur_depuis?: string | null;
   /** Série de jours consécutifs (badge flamme public à partir de 7). */
   streak_days?: number | null;
   /** Date de la rencontre avec Jésus → « X ans avec Jésus ». */
@@ -368,10 +370,21 @@ export async function addFavoriteVerse(userId: string, v: FavoriteVerse): Promis
 async function profilesByIds(ids: string[]): Promise<Record<string, Profile>> {
   const sb = getSupabase();
   if (!sb || ids.length === 0) return {};
-  const { data } = await sb
+  const uniques = Array.from(new Set(ids));
+  // « batisseur_depuis » n'existe qu'après migration-batisseurs.sql : repli
+  // sans la colonne pour ne jamais casser le mur avant la migration.
+  const avec = await sb
+.from("profiles")
+.select("id,pseudo,avatar_url,verified,streak_days,badge_tier,batisseur_depuis")
+.in("id", uniques);
+  let data: unknown[] | null = avec.data;
+  if (avec.error) {
+    const sans = await sb
 .from("profiles")
 .select("id,pseudo,avatar_url,verified,streak_days,badge_tier")
-.in("id", Array.from(new Set(ids)));
+.in("id", uniques);
+    data = sans.data;
+  }
   const map: Record<string, Profile> = {};
   for (const p of (data as Profile[])?? []) map[p.id] = p;
   return map;

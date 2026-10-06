@@ -7,6 +7,7 @@ import { isSupabaseConfigured } from "@/lib/supabase";
 import { useAuth } from "@/components/community/useAuth";
 import { asset } from "@/lib/asset";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
+import { BatisseurBadge } from "@/components/community/BatisseurBadge";
 import { ModeratorBadge } from "@/components/community/ModeratorBadge";
 import { ReportButton } from "@/components/community/ReportButton";
 import { ProfileInfoPills } from "@/components/community/ProfileInfoPills";
@@ -221,6 +222,7 @@ export function MemberView() {
               <VerifiedBadge className="ml-2 inline-block h-7 w-7 align-middle" />
             ): null}
           </h2>
+          {profile.batisseur_depuis ? <BatisseurBadge className="mt-2" /> : null}
           {/* Présence : En ligne / Actif il y a X */}
           {!isMe && presenceLabel(profile.last_seen_at) ? (
             <p className={`mt-1 flex items-center justify-center gap-1.5 text-xs font-semibold ${jour? "text-night-900/55": "text-cream/60"}`}>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Capacitor } from "@capacitor/core";
 import { useAuth } from "@/components/community/useAuth";
+import { BatisseurBadge } from "@/components/community/BatisseurBadge";
 import { chargerOffresSoutien, soutenir, soutienDispo, type OffreSoutien } from "@/lib/soutien";
 
 /**
@@ -11,7 +12,7 @@ import { chargerOffresSoutien, soutenir, soutienDispo, type OffreSoutien } from 
  * Masqué sur le web, et tant que les produits n'existent pas dans les stores.
  */
 export function SoutienEnUnClic() {
-  const { userId } = useAuth();
+  const { userId, refreshProfile } = useAuth();
   const [offres, setOffres] = useState<OffreSoutien[]>([]);
   const [enCours, setEnCours] = useState<string | null>(null);
   const [merci, setMerci] = useState<OffreSoutien | null>(null);
@@ -31,7 +32,11 @@ export function SoutienEnUnClic() {
     setEnCours(o.id);
     try {
       const r = await soutenir(o, userId);
-      if (r === "ok") setMerci(o);
+      if (r === "ok") {
+        setMerci(o);
+        // Laisse le temps au trigger Supabase de poser le badge, puis recharge.
+        setTimeout(() => refreshProfile(), 1500);
+      }
     } catch {
       setErreur("Le paiement n'a pas abouti. Réessaie dans un instant.");
     } finally {
@@ -40,7 +45,7 @@ export function SoutienEnUnClic() {
   }
 
   return (
-    <section className="mt-5 rounded-3xl border border-[#CAF000]/30 bg-[#CAF000]/[0.06] p-5">
+    <section id="soutien" className="mt-5 scroll-mt-20 rounded-3xl border border-[#CAF000]/30 bg-[#CAF000]/[0.06] p-5">
       {merci ? (
         <div className="py-2 text-center">
           <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[#CAF000] text-[#0A0B07]">
@@ -53,6 +58,15 @@ export function SoutienEnUnClic() {
             Ton soutien de {merci.prix} aide RHEMA à rester gratuite et à toucher encore plus de vies.
             Que Dieu te bénisse.
           </p>
+          {userId ? (
+            <div className="mx-auto mt-4 max-w-xs rounded-2xl border border-[#CAF000]/30 p-3">
+              <BatisseurBadge />
+              <p className="mt-2 text-sm text-[#CFCFCB]">
+                Te voilà Bâtisseur ! Ton badge apparaît sur ton profil, et l&apos;invitation au Zoom mensuel
+                avec Pasteur Jack t&apos;attend dans ton Profil.
+              </p>
+            </div>
+          ) : null}
           <button
             type="button"
             onClick={() => setMerci(null)}
@@ -64,11 +78,19 @@ export function SoutienEnUnClic() {
       ) : (
         <>
           <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#CAF000]">Soutien en un clic</p>
-          <h2 className="mt-1 font-display text-2xl font-extrabold leading-tight">Soutiens RHEMA</h2>
+          <h2 className="mt-1 font-display text-2xl font-extrabold leading-tight">Deviens Bâtisseur de RHEMA</h2>
           <p className="mt-2 text-[15px] leading-relaxed text-[#CFCFCB]">
-            L&apos;application est gratuite et le restera. Si elle te fait du bien, tu peux aider à la faire
-            vivre et grandir, en un geste.
+            L&apos;application est gratuite et le restera, mais elle a un coût : serveurs, voix audio,
+            développement. Si elle te fait du bien, aide-la à vivre et à grandir, en un geste.
           </p>
+          <ul className="mt-3 space-y-1.5 text-sm text-[#F3F3ED]">
+            <li className="flex items-center gap-2">
+              <BatisseurBadge compact /> Le badge exclusif Bâtisseur sur ton profil
+            </li>
+            <li className="flex items-center gap-2">
+              <BatisseurBadge compact /> Le Zoom mensuel en direct avec Pasteur Jack
+            </li>
+          </ul>
 
           <div className="mt-4 grid grid-cols-2 gap-2.5">
             {offres.map((o) => (
@@ -88,10 +110,15 @@ export function SoutienEnUnClic() {
           </div>
 
           {erreur ? <p className="mt-3 text-center text-sm font-semibold text-amber-300">{erreur}</p> : null}
+          {!userId ? (
+            <p className="mt-3 text-center text-xs font-semibold text-[#CAF000]">
+              Connecte-toi d&apos;abord (onglet Profil) pour recevoir ton badge et l&apos;invitation au Zoom.
+            </p>
+          ) : null}
 
           <p className="mt-3 text-center text-xs leading-relaxed text-[#A5A5A1]">
-            Paiement unique et sécurisé par {store}. Aucun abonnement. Ce soutien ne débloque aucun contenu :
-            tout reste gratuit pour tous.
+            Paiement unique et sécurisé par {store}. Aucun abonnement. Tout le contenu de l&apos;app reste
+            gratuit pour tous.
           </p>
         </>
       )}

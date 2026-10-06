@@ -18,6 +18,8 @@ import { MissionRaisedAdmin } from "@/components/community/MissionRaisedAdmin";
 import { DevotionsAdmin } from "@/components/community/DevotionsAdmin";
 import { FormationAdmin } from "@/components/community/FormationAdmin";
 import { MediasAdmin } from "@/components/community/MediasAdmin";
+import { AdminBatisseurs } from "@/components/community/AdminBatisseurs";
+import { IconeBatisseur } from "@/components/community/BatisseurBadge";
 import {
   Rubrique,
   RubriquesProvider,
@@ -51,6 +53,7 @@ const RUBRIQUES: RubriqueDef[] = [
   { id: "medias", titre: "Médias", icone: <IconeMedias /> },
   { id: "annonces", titre: "Annonces", icone: <MegaphoneGlyph /> },
   { id: "podcasts", titre: "Podcasts", icone: <HeadphonesGlyph /> },
+  { id: "batisseurs", titre: "Bâtisseurs", icone: <IconeBatisseur /> },
   { id: "mission", titre: "Mission", icone: <GiftGlyph /> },
   { id: "bible-audio", titre: "Bible audio", icone: <MusicGlyph /> },
 ];
@@ -141,6 +144,11 @@ export function AdminSpace() {
                 Gérer les podcasts
               </Link>
             </div>
+          </Rubrique>
+
+          {/* Bâtisseurs : Zoom mensuel + soutiens reçus */}
+          <Rubrique def={R.batisseurs}>
+            <AdminBatisseurs />
           </Rubrique>
 
           {/* Collecte Mission Madagascar */}

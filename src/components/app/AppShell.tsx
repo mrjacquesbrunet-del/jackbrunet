@@ -14,6 +14,7 @@ import { FormationNewsModal } from "@/components/app/FormationNewsModal";
 import { RatingPrompt } from "@/components/app/RatingPrompt";
 import { CarnetBubble } from "@/components/app/CarnetBubble";
 import { BadgeCelebration } from "@/components/app/BadgeCelebration";
+import { BandeauBatisseurs } from "@/components/mission/BandeauBatisseurs";
 import { recordOpen } from "@/lib/usage";
 
 /**
@@ -121,6 +122,7 @@ export function AppShell() {
   return (
     <>
       <BottomNav />
+      <BandeauBatisseurs />
       <CarnetBubble />
       <AppOnboarding />
       <AnnouncementBanner />
