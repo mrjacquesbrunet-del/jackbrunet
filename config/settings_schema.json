@@ -16,5 +16,17 @@
         "label": "Favicon"
       }
     ]
+  },
+  {
+    "name": "Boutique",
+    "settings": [
+      {
+        "type": "number",
+        "id": "livraison_offerte_des",
+        "label": "Livraison offerte dès (€)",
+        "info": "Doit correspondre au tarif gratuit réglé dans Paramètres → Expédition. 0 = ne rien afficher.",
+        "default": 40
+      }
+    ]
   }
 ]

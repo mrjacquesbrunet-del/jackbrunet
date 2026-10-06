@@ -28,6 +28,18 @@
         {%- endfor -%}
       </div>
 
+      {%- assign seuil_port = settings.livraison_offerte_des | default: 40 -%}
+      {%- if seuil_port > 0 and cart.requires_shipping -%}
+        {%- assign seuil_cts = seuil_port | times: 100 -%}
+        {%- if cart.total_price >= seuil_cts -%}
+          <p class="cart-ship cart-ship--ok">La livraison t'est offerte.</p>
+        {%- else -%}
+          {%- assign reste = seuil_cts | minus: cart.total_price -%}
+          {%- assign pct = cart.total_price | times: 100 | divided_by: seuil_cts -%}
+          <p class="cart-ship">Plus que <b>{{ reste | money }}</b> pour la livraison offerte.</p>
+          <div class="cart-ship-bar"><span style="width: {{ pct }}%"></span></div>
+        {%- endif -%}
+      {%- endif -%}
       <p class="cart-total">Total : <b>{{ cart.total_price | money }}</b></p>
       <div class="cart-actions">
         <button type="submit" name="checkout" class="btn btn--big">Passer au paiement</button>

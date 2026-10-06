@@ -1,9 +1,12 @@
 {%- liquid
   assign v = product.selected_or_first_available_variant
-  assign save = 0
-  if v.compare_at_price > v.price
-    assign save = v.compare_at_price | minus: v.price
-  endif
+  assign seuil_port = settings.livraison_offerte_des | default: 40
+
+  assign livre_x = all_products['rhema-365-revelations-bibliques-livre']
+  assign carnet_x = all_products['carnet-de-meditation-rhema']
+  assign pack_x = all_products['pack-rhema-livre-carnet']
+  assign separes = livre_x.price | plus: carnet_x.price
+  assign pack_eco = separes | minus: pack_x.price
 
   assign kind = 'livre'
   if product.handle contains 'pack'
@@ -55,7 +58,7 @@
         {%- when 'pack' -%}
           <li>Le livre (740 pages) + le carnet guidé (92 pages)</li>
           <li>Lire, méditer, puis écrire : la Parole qui s'ancre</li>
-          <li>La meilleure valeur : 5,90&nbsp;€ d'économie</li>
+          <li>{% if pack_eco > 0 %}La meilleure valeur : {{ pack_eco | money }} de moins qu'à l'unité{% else %}La meilleure valeur pour l'année RHEMA{% endif %}</li>
         {%- when 'carnet' -%}
           <li>Une page guidée par jour : verset, rhéma, prières</li>
           <li>92 pages — un an de trésors à relire</li>
@@ -72,14 +75,11 @@
     </ul>
 
     <p class="p-price">
-      {%- if save > 0 -%}
-        <s>{{ v.compare_at_price | money }}</s><span class="sale">{{ v.price | money }}</span>
-        <span class="p-save">−{{ save | money }}</span>
-      {%- else -%}
-        {{ v.price | money }}
+      {{ v.price | money }}
+      {%- if kind == 'pack' and pack_eco > 0 -%}
+        <span class="p-save">−{{ pack_eco | money }} vs à l'unité</span>
       {%- endif -%}
     </p>
-    {%- if save > 0 -%}<p class="p-offer-note">Offre de lancement, garantie jusqu'à la sortie.</p>{%- endif -%}
 
     {%- form 'product', product, class: 'p-form', id: 'buy-form' -%}
       <input type="hidden" name="id" value="{{ v.id }}">
@@ -97,6 +97,7 @@
         <span>Reçu immédiatement par email, dès le paiement</span>
       {%- else -%}
         <span>Expédition estimée : à partir du 7 septembre (sortie officielle)</span>
+        {%- if seuil_port > 0 -%}<span>Livraison offerte dès {{ seuil_port }}&nbsp;€ d'achat</span>{%- endif -%}
       {%- endif -%}
       <span>Retour possible 14 jours après réception</span>
       <span>Paiement sécurisé — CB, Apple&nbsp;Pay, Google&nbsp;Pay, PayPal</span>
@@ -110,7 +111,7 @@
   {%- assign pack = all_products['pack-rhema-livre-carnet'] -%}
   {%- if pack.url != blank -%}
     {%- assign packv = pack.selected_or_first_available_variant -%}
-    {%- assign pack_save = packv.compare_at_price | minus: packv.price -%}
+    {%- assign pack_save = pack_eco -%}
     <section class="p-section p-section--alt">
       <div class="wrap narrow">
         <div class="crosssell">
@@ -122,7 +123,7 @@
             <h2 class="p-h2">{% if kind == 'livre' %}Ajoute le carnet et vis l'expérience complète{% else %}Ajoute le livre et vis l'expérience complète{% endif %}</h2>
             <p class="p-lead">Lis la révélation, puis écris ce que Dieu te dit. Le <b>pack</b> réunit le livre (740&nbsp;pages) et le carnet guidé (92&nbsp;pages){% if pack_save > 0 %}, et te fait économiser <b>{{ pack_save | money }}</b>{% endif %}.</p>
             <p class="crosssell-price">
-              {%- if packv.compare_at_price > packv.price -%}<s>{{ packv.compare_at_price | money }}</s> {% endif %}<b>{{ packv.price | money }}</b>
+              <b>{{ packv.price | money }}</b>{% if pack_save > 0 %} <span class="muted">au lieu de {{ separes | money }} à l'unité</span>{% endif %}
             </p>
             <a class="btn" href="{{ pack.url }}">Voir le pack</a>
           </div>
@@ -198,7 +199,7 @@
         {%- when 'pack' -%}
           <li><b>Le livre + le carnet</b> — tu lis la révélation, puis tu écris ce que Dieu te dit : l'expérience complète.</li>
           <li><b>Un rituel complet</b> — méditer, incarner, prier, noter : les 4 temps de chaque matin.</li>
-          <li><b>5,90&nbsp;€ d'économie</b> — la meilleure valeur pour vivre l'année RHEMA en entier.</li>
+          <li><b>{% if pack_eco > 0 %}{{ pack_eco | money }} d'économie{% else %}La meilleure valeur{% endif %}</b> — pour vivre l'année RHEMA en entier.</li>
         {%- else -%}
           <li><b>365 jours structurés</b> — tu sais exactement quoi lire chaque matin : fini la page ouverte au hasard.</li>
           <li><b>~10 minutes par jour</b> — un format tenable, même dans une vie remplie.</li>
@@ -255,11 +256,7 @@
               {%- if is_pack -%}<span class="offer-badge">Meilleure valeur</span>{%- endif -%}
               <span class="offer-title">{{ p.title | remove: 'RHEMA — ' | remove: ' (livre)' }}</span>
               <span class="offer-price">
-                {%- if pv.compare_at_price > pv.price -%}
-                  <s>{{ pv.compare_at_price | money }}</s> {{ pv.price | money }}
-                {%- else -%}
-                  {{ pv.price | money }}
-                {%- endif -%}
+                {{ pv.price | money }}
               </span>
               <span class="offer-cta">{% if is_current %}Tu es ici ✓{% else %}Choisir{% endif %}</span>
             </a>
@@ -279,7 +276,7 @@
         <div><b>Livraison</b><span>Par email, immédiatement après le paiement — lien de téléchargement.</span></div>
         <div><b>Formats</b><span>Lisible sur téléphone, tablette, ordinateur et liseuse.</span></div>
       {%- else -%}
-        <div><b>Livraison</b><span>Expédition à partir du 7 septembre, numéro de suivi envoyé par email.</span></div>
+        <div><b>Livraison</b><span>Expédition à partir du 7 septembre, numéro de suivi envoyé par email.{% if seuil_port > 0 %} Offerte dès {{ seuil_port }}&nbsp;€ d'achat.{% endif %}</span></div>
         <div><b>Contenu du colis</b><span>{% if kind == 'pack' %}Le livre RHEMA (740 pages) + le carnet de méditation (92 pages), emballés avec soin.{% elsif kind == 'carnet' %}Le carnet de méditation RHEMA (92 pages), emballé avec soin.{% else %}Le livre RHEMA (740 pages), emballé avec soin.{% endif %}</span></div>
       {%- endif -%}
       <div><b>Retours</b><span>14 jours après réception pour changer d'avis (droit de rétractation).</span></div>
@@ -322,7 +319,7 @@
   <div class="wrap narrow center">
     <h2>Prêt(e) à vivre une année<br>qui transforme ?</h2>
     <p class="p-final-price">
-      {%- if save > 0 -%}<s>{{ v.compare_at_price | money }}</s> {% endif %}<b>{{ v.price | money }}</b> · {% if kind == 'ebook' %}Reçu immédiatement par email{% else %}Sortie le 7 septembre · Retour 14 jours{% endif %}
+      <b>{{ v.price | money }}</b> · {% if kind == 'ebook' %}Reçu immédiatement par email{% else %}Sortie le 7 septembre · Retour 14 jours{% endif %}
     </p>
     <button type="submit" form="buy-form" class="btn btn--big p-final-btn" {% unless v.available %}disabled{% endunless %}>{{ cta }}</button>
   </div>
@@ -332,7 +329,7 @@
 <div class="sticky-buy" id="sticky-buy">
   <div>
     <p class="sb-title">{{ product.title | truncate: 34 }}</p>
-    <p class="sb-price">{%- if save > 0 -%}<s>{{ v.compare_at_price | money }}</s> {% endif %}<b>{{ v.price | money }}</b></p>
+    <p class="sb-price"><b>{{ v.price | money }}</b></p>
   </div>
   <button type="submit" form="buy-form" class="btn" {% unless v.available %}disabled{% endunless %}>{{ cta | truncate: 26 }}</button>
 </div>

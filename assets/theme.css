@@ -452,6 +452,11 @@ h1, h2, h3 { font-weight: 900; letter-spacing: -0.01em; line-height: 1.05; margi
 .cart .btn--ghost { color: var(--ink); border-color: var(--border-l); }
 .cart .btn--ghost:hover { color: var(--night-2); }
 .cart-empty { text-align: center; margin-top: 40px; color: var(--ink-50); }
+.cart-ship { text-align: center; font-size: 14px; color: var(--ink-50); margin-top: 18px; }
+.cart-ship b { color: var(--ink); }
+.cart-ship--ok { color: var(--accent-ink); font-weight: 700; }
+.cart-ship-bar { height: 6px; max-width: 320px; margin: 8px auto 0; border-radius: 999px; background: rgba(10, 11, 7, .08); overflow: hidden; }
+.cart-ship-bar span { display: block; height: 100%; border-radius: 999px; background: var(--lime); }
 .cart-note { text-align: center; font-size: 12px; color: var(--ink-50); margin-top: 14px; }
 
 /* ---------- Collection + pages diverses — claires ---------- */
