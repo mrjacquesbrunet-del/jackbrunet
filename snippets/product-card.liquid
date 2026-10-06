@@ -11,6 +11,13 @@
     assign seuil_port = settings.livraison_offerte_des | default: 40
     assign seuil_cts = seuil_port | times: 100
     assign port_offert = false
+    assign pack_label = 'Le duo complet'
+    if product.handle contains 'pack'
+      assign separes = all_products['rhema-365-revelations-bibliques-livre'].price | plus: all_products['carnet-de-meditation-rhema'].price
+      if separes > v.price
+        assign pack_label = 'Meilleure valeur'
+      endif
+    endif
     if seuil_port > 0 and v.requires_shipping and v.price >= seuil_cts
       assign port_offert = true
     endif
@@ -18,7 +25,7 @@
   <p class="c-price">{{ v.price | money }}</p>
   {%- if product.handle contains 'pack' or port_offert -%}
     <div class="badges">
-      {%- if product.handle contains 'pack' -%}<span class="badge">Meilleure valeur</span>{%- endif -%}
+      {%- if product.handle contains 'pack' -%}<span class="badge">{{ pack_label }}</span>{%- endif -%}
       {%- if port_offert -%}<span class="badge badge--port">Livraison offerte</span>{%- endif -%}
     </div>
   {%- endif -%}

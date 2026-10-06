@@ -7,6 +7,10 @@
   assign pack_x = all_products['pack-rhema-livre-carnet']
   assign separes = livre_x.price | plus: carnet_x.price
   assign pack_eco = separes | minus: pack_x.price
+  assign pack_label = 'Le duo complet'
+  if pack_eco > 0
+    assign pack_label = 'Meilleure valeur'
+  endif
 
   assign seuil_cts = seuil_port | times: 100
   assign port_offert = false
@@ -64,7 +68,7 @@
         {%- when 'pack' -%}
           <li>Le livre (740 pages) + le carnet guidé (92 pages)</li>
           <li>Lire, méditer, puis écrire : la Parole qui s'ancre</li>
-          <li>{% if pack_eco > 0 %}La meilleure valeur : {{ pack_eco | money }} de moins qu'à l'unité{% elsif port_offert %}Livraison offerte : tout arrive chez toi sans frais de port{% else %}La meilleure valeur pour l'année RHEMA{% endif %}</li>
+          <li>{% if pack_eco > 0 %}La meilleure valeur : {{ pack_eco | money }} de moins qu'à l'unité{% elsif port_offert %}Livraison offerte : tout arrive chez toi sans frais de port{% else %}Le livre et le carnet réunis pour vivre l'année RHEMA{% endif %}</li>
         {%- when 'carnet' -%}
           <li>Une page guidée par jour : verset, rhéma, prières</li>
           <li>92 pages — un an de trésors à relire</li>
@@ -82,7 +86,7 @@
 
     <p class="p-price">
       {{ v.price | money }}
-      {%- if kind == 'pack' -%}<span class="p-save">Meilleure valeur</span>{%- endif -%}
+      {%- if kind == 'pack' -%}<span class="p-save">{{ pack_label }}</span>{%- endif -%}
       {%- if port_offert -%}<span class="p-save">Livraison offerte</span>{%- endif -%}
       {%- if kind == 'pack' and pack_eco > 0 -%}
         <span class="p-save">−{{ pack_eco | money }} vs à l'unité</span>
@@ -127,7 +131,7 @@
             <img src="{{ pack.featured_image | image_url: width: 360 }}" alt="Pack RHEMA — livre + carnet" loading="lazy">
           {%- endif -%}
           <div class="crosssell-body">
-            <p class="eyebrow">Le meilleur choix</p>
+            <p class="eyebrow">{% if pack_eco > 0 %}Le meilleur choix{% else %}Le duo complet{% endif %}</p>
             <h2 class="p-h2">{% if kind == 'livre' %}Ajoute le carnet et vis l'expérience complète{% else %}Ajoute le livre et vis l'expérience complète{% endif %}</h2>
             <p class="p-lead">Lis la révélation, puis écris ce que Dieu te dit. Le <b>pack</b> réunit le livre (740&nbsp;pages) et le carnet guidé (92&nbsp;pages){% if pack_save > 0 %}, et te fait économiser <b>{{ pack_save | money }}</b>{% endif %}.</p>
             <p class="crosssell-price">
@@ -212,7 +216,7 @@
           {%- elsif port_offert -%}
           <li><b>Livraison offerte</b> — le livre et le carnet arrivent ensemble chez toi, sans frais de port.</li>
           {%- else -%}
-          <li><b>La meilleure valeur</b> — pour vivre l'année RHEMA en entier.</li>
+          <li><b>Le duo complet</b> — pour vivre l'année RHEMA en entier.</li>
           {%- endif -%}
         {%- else -%}
           <li><b>365 jours structurés</b> — tu sais exactement quoi lire chaque matin : fini la page ouverte au hasard.</li>
@@ -267,7 +271,7 @@
               endif
             -%}
             <a class="offer{% if is_current %} offer--current{% endif %}{% if is_pack %} offer--best{% endif %}" href="{{ p.url }}">
-              {%- if is_pack -%}<span class="offer-badge">Meilleure valeur</span>{%- endif -%}
+              {%- if is_pack -%}<span class="offer-badge">{{ pack_label }}</span>{%- endif -%}
               <span class="offer-title">{{ p.title | remove: 'RHEMA — ' | remove: ' (livre)' }}</span>
               <span class="offer-price">
                 {{ pv.price | money }}
