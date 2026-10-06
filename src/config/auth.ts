@@ -15,5 +15,5 @@
  *   Supabase → Providers → Apple → Client IDs.
  */
 export const GOOGLE_WEB_CLIENT_ID = "807325292268-njh3ktujuo30lkd8pb45c16ga1f1tn07.apps.googleusercontent.com";
-export const GOOGLE_IOS_CLIENT_ID = "";
+export const GOOGLE_IOS_CLIENT_ID = "807325292268-pbi3oh8r9qosb95l8n9flepg7rerpq6g.apps.googleusercontent.com";
 export const APP_BUNDLE_ID = "com.jackbrunet.app";
