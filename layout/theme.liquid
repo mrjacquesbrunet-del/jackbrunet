@@ -21,7 +21,7 @@
 
   {%- comment -%} Barre d'annonce lime, cliquable vers les offres {%- endcomment -%}
   {%- assign seuil_port = settings.livraison_offerte_des | default: 40 -%}
-  <a class="annonce" href="{{ routes.all_products_collection_url }}">PRÉCOMMANDE — SORTIE LE 7 SEPTEMBRE{% if seuil_port > 0 %} · LIVRAISON OFFERTE DÈS {{ seuil_port }}&nbsp;€{% endif %}</a>
+  <a class="annonce" href="{{ routes.all_products_collection_url }}">PRÉCOMMANDE{% if seuil_port > 0 %} · LIVRAISON OFFERTE DÈS {{ seuil_port }}&nbsp;€{% endif %}</a>
 
   {%- liquid
     assign livre_p = all_products['rhema-365-revelations-bibliques-livre']
