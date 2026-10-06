@@ -9,6 +9,8 @@ import { shareText } from "@/lib/share";
 import { appShareUrl } from "@/config/app-links";
 import { EVT_MEME_PAGE } from "@/lib/notif-route";
 import { IconePartage, VersetSheet } from "@/components/ecole/FormationView";
+import { useAuth } from "@/components/community/useAuth";
+import { isAdminEmail } from "@/lib/community";
 import {
   audioEtudeUrl,
   auteursActifs,
@@ -479,11 +481,10 @@ function fmt(s: number) {
 }
 
 function AudioEtude({ etude }: { etude: EtudeBiblique }) {
-  const parties = useMemo(
-    () => (etude.audio ?? []).map((p) => ({ ...p, url: audioEtudeUrl(p.fichier) })).filter((p): p is { fichier: string; titre: string; url: string } => !!p.url),
-    [etude.audio],
-  );
-  const [dispo, setDispo] = useState(false);
+  const { email } = useAuth();
+  const admin = isAdminEmail(email);
+  // null = recherche en cours ; [] = aucun fichier trouvé.
+  const [parties, setParties] = useState<{ fichier: string; titre: string; url: string }[] | null>(null);
   const [idx, setIdx] = useState<number | null>(null);
   const [joue, setJoue] = useState(false);
   const [pos, setPos] = useState(0);
@@ -492,16 +493,49 @@ function AudioEtude({ etude }: { etude: EtudeBiblique }) {
   const [liste, setListe] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // Cherche la narration : d'abord à l'emplacement prévu (etudes/david-1-1.mp3),
+  // sinon à la racine du bucket (david-1-1.mp3). On garde l'emplacement où la
+  // première partie existe, puis seulement les parties réellement présentes.
   useEffect(() => {
-    if (!parties.length) return;
-    const a = new Audio();
-    a.preload = "metadata";
-    a.onloadedmetadata = () => setDispo(true);
-    a.src = parties[0].url;
+    const liste = etude.audio ?? [];
+    if (!liste.length) {
+      setParties([]);
+      return;
+    }
+    let actif = true;
+    const existe = (u: string) =>
+      new Promise<boolean>((res) => {
+        const a = new Audio();
+        const fin = (v: boolean) => {
+          clearTimeout(minuterie);
+          a.onloadedmetadata = null;
+          a.onerror = null;
+          a.src = "";
+          res(v);
+        };
+        const minuterie = setTimeout(() => fin(false), 15000);
+        a.preload = "metadata";
+        a.onloadedmetadata = () => fin(true);
+        a.onerror = () => fin(false);
+        a.src = u;
+      });
+    const emplacements: ((f: string) => string)[] = [(f) => f, (f) => f.split("/").pop() ?? f];
+    (async () => {
+      for (const chemin of emplacements) {
+        const premiere = audioEtudeUrl(chemin(liste[0].fichier));
+        if (!premiere || !(await existe(premiere))) continue;
+        // Les autres parties sont vérifiées en parallèle.
+        const candidates = liste.map((p) => ({ ...p, fichier: chemin(p.fichier), url: audioEtudeUrl(chemin(p.fichier)) ?? "" }));
+        const ok = await Promise.all(candidates.map((p, i) => (i === 0 ? true : p.url ? existe(p.url) : false)));
+        if (actif) setParties(candidates.filter((_, i) => ok[i]));
+        return;
+      }
+      if (actif) setParties([]);
+    })();
     return () => {
-      a.src = "";
+      actif = false;
     };
-  }, [parties]);
+  }, [etude.audio]);
 
   useEffect(() => {
     const a = audioRef.current;
@@ -514,7 +548,24 @@ function AudioEtude({ etude }: { etude: EtudeBiblique }) {
     if (audioRef.current) audioRef.current.playbackRate = VITESSES[vitesse];
   }, [vitesse]);
 
-  if (!dispo) return null;
+  if (parties === null) return null;
+  if (!parties.length) {
+    // Visible seulement par l'admin : dit exactement quoi déposer et où.
+    if (!admin || !etude.audio?.length) return null;
+    return (
+      <div className="container-x mx-auto mt-4 max-w-2xl">
+        <div className="rounded-2xl border border-amber-400/50 bg-amber-50 p-4 text-sm text-night-900/80">
+          <p className="font-bold">Audio de l&apos;étude introuvable (message visible par toi seul)</p>
+          <p className="mt-1">
+            Dépose les fichiers dans Supabase, bucket <b>audiovf</b>, dossier <b>etudes</b>, avec ces noms exacts :
+          </p>
+          <p className="mt-1 font-mono text-xs">
+            {etude.audio.map((p) => p.fichier.split("/").pop()).join(" · ")}
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   const jouer = (i: number) => {
     if (idx === i && audioRef.current) {
