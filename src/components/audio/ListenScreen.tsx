@@ -40,6 +40,7 @@ export function ListenScreen() {
   const [tracks, setTracks] = useState<AudioTrack[] | null>(null);
   const [upload, setUpload] = useState<{ done: number; total: number } | null>(null);
   const [tab, setTab] = useState<"all" | "fav" | "offline">("all");
+  const [recherche, setRecherche] = useState("");
   const [favs, setFavs] = useState<Set<string>>(new Set());
 
   // Épisodes téléchargés pour l'écoute hors-ligne (stockés DANS l'app).
@@ -144,13 +145,19 @@ export function ListenScreen() {
     if (ok) setOffline((prev) => new Set(prev).add(t.path));
   }
 
-  const shown = tracks
+  const parOnglet = tracks
 ? tab === "fav"
 ? tracks.filter((t) => favs.has(t.id))
 : tab === "offline"
 ? tracks.filter((t) => offline.has(t.path))
 : tracks
 : null;
+  // Recherche dans les titres et descriptions (sans tenir compte des accents).
+  const sansAccent = (x: string) => x.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  const q = sansAccent(recherche.trim());
+  const shown = parOnglet && q
+? parOnglet.filter((t) => sansAccent(`${t.title} ${t.description ?? ""}`).includes(q))
+: parOnglet;
 
   // Lien profond: /ecouter?e=<id> lance l'épisode.
   useEffect(() => {
@@ -325,10 +332,26 @@ export function ListenScreen() {
         ))}
       </div>
 
+      {/* Recherche (utile dès qu'il y a beaucoup d'épisodes) */}
+      {tracks && tracks.length > 8? (
+        <div className="mx-auto mt-3 max-w-2xl">
+          <input
+            type="search"
+            value={recherche}
+            onChange={(e) => setRecherche(e.target.value)}
+            placeholder="Rechercher un épisode"
+            className="field w-full py-2.5 text-sm"
+            aria-label="Rechercher un épisode"
+          />
+        </div>
+      ): null}
+
       {/* Liste */}
       <div className="mx-auto mt-5 max-w-2xl">
         {shown === null? (
           <p className="text-night-900/50">Chargement…</p>
+        ): shown.length === 0 && q? (
+          <p className="text-center text-sm text-night-900/50">Aucun épisode ne correspond à « {recherche.trim()} ».</p>
         ): shown.length === 0? (
           <div className="glass-strong p-6 text-center">
             <p className="font-display text-lg font-bold">

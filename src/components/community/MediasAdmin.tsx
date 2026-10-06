@@ -8,6 +8,8 @@ import { listMedia, uploadMedia, deleteMedia, type MediaItem, type UploadResult 
  * (sélection multiple ou glisser-déposer), puis galerie avec copie du lien
  * et suppression. Sert notamment aux cartes punchline.
  */
+const PAR_PAGE = 24;
+
 export function MediasAdmin() {
   const [items, setItems] = useState<MediaItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -16,6 +18,8 @@ export function MediasAdmin() {
   const [report, setReport] = useState<UploadResult[] | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
+  const [recherche, setRecherche] = useState("");
+  const [nbVisibles, setNbVisibles] = useState(PAR_PAGE);
   const inputRef = useRef<HTMLInputElement>(null);
 
   async function refresh() {
@@ -56,6 +60,10 @@ export function MediasAdmin() {
     if (!confirm(`Supprimer « ${name} » ?`)) return;
     if (await deleteMedia(name)) setItems((l) => l.filter((x) => x.name !== name));
   }
+
+  const q = recherche.trim().toLowerCase();
+  const filtres = q ? items.filter((m) => m.name.toLowerCase().includes(q)) : items;
+  const visibles = filtres.slice(0, nbVisibles);
 
   const okCount = report?.filter((r) => r.ok).length ?? 0;
   const failCount = report?.filter((r) => !r.ok).length ?? 0;
@@ -134,17 +142,36 @@ export function MediasAdmin() {
         </p>
       ) : null}
 
-      {/* Galerie */}
+      {/* Galerie : recherche + affichage par paquets de 24 */}
       <div className="mt-5">
-        <p className="text-[11px] font-bold uppercase tracking-wide text-night-900/45">
-          {loading ? "Chargement…" : `${items.length} média${items.length > 1 ? "s" : ""}`}
-        </p>
-        {!loading && items.length > 0 ? (
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <p className="text-[11px] font-bold uppercase tracking-wide text-night-900/45">
+            {loading
+              ? "Chargement…"
+              : q
+                ? `${filtres.length} résultat${filtres.length > 1 ? "s" : ""} sur ${items.length}`
+                : `${items.length} média${items.length > 1 ? "s" : ""}`}
+          </p>
+          {items.length > PAR_PAGE ? (
+            <input
+              type="search"
+              value={recherche}
+              onChange={(e) => {
+                setRecherche(e.target.value);
+                setNbVisibles(PAR_PAGE);
+              }}
+              placeholder="Rechercher un nom de fichier"
+              className="field w-full py-2 text-sm sm:w-64"
+              aria-label="Rechercher un média"
+            />
+          ) : null}
+        </div>
+        {!loading && visibles.length > 0 ? (
           <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
-            {items.map((m) => (
+            {visibles.map((m) => (
               <div key={m.name} className="overflow-hidden rounded-2xl border border-night-900/10 bg-night-900/[0.02]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={m.url} alt={m.name} className="aspect-square w-full object-cover" />
+                <img src={m.url} alt={m.name} loading="lazy" className="aspect-square w-full object-cover" />
                 <div className="p-2">
                   <p className="truncate text-[11px] font-semibold text-night-900/70" title={m.name}>
                     {m.name}
@@ -171,6 +198,25 @@ export function MediasAdmin() {
                 </div>
               </div>
             ))}
+          </div>
+        ) : null}
+        {!loading && q && filtres.length === 0 ? (
+          <p className="mt-3 text-sm text-night-900/50">Aucun média ne correspond.</p>
+        ) : null}
+        {filtres.length > nbVisibles ? (
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+            <button type="button" onClick={() => setNbVisibles((n) => n + PAR_PAGE)} className="btn-ghost text-sm">
+              Voir {Math.min(PAR_PAGE, filtres.length - nbVisibles)} de plus
+            </button>
+            <button type="button" onClick={() => setNbVisibles(filtres.length)} className="text-xs font-semibold text-night-900/50 hover:underline">
+              Tout afficher ({filtres.length})
+            </button>
+          </div>
+        ) : nbVisibles > PAR_PAGE ? (
+          <div className="mt-4 text-center">
+            <button type="button" onClick={() => setNbVisibles(PAR_PAGE)} className="text-xs font-semibold text-night-900/50 hover:underline">
+              Réduire la liste
+            </button>
           </div>
         ) : null}
       </div>

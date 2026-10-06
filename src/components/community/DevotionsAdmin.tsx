@@ -184,11 +184,20 @@ function DevotionForm({
  * Espace admin: gestion totale des dévotionnels (écrire, modifier, ajouter,
  * supprimer). Les modifications sont en direct (OTA), sans reconstruire.
  */
+const DEVOS_PAR_PAGE = 20;
+
+/** Sans accents ni majuscules, pour une recherche tolérante. */
+function normaliser(t: string): string {
+  return t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+}
+
 export function DevotionsAdmin() {
   const [list, setList] = useState<DbDevotion[] | null>(null);
   const [editing, setEditing] = useState<number | null>(null); // position en édition
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
+  const [recherche, setRecherche] = useState("");
+  const [nbVisibles, setNbVisibles] = useState(DEVOS_PAR_PAGE);
 
   async function reload() {
     const rows = await adminListDevotions();
@@ -261,6 +270,17 @@ export function DevotionsAdmin() {
           published: true,
         });
 
+  // Recherche : numéro du jour (« 112 »), thème, référence ou punchline.
+  const q = normaliser(recherche.trim());
+  const filtres = !list
+    ? []
+    : !q
+      ? list
+      : /^\d+$/.test(q)
+        ? list.filter((d) => String(d.position + 1) === q)
+        : list.filter((d) => normaliser(`${d.theme ?? ""} ${d.verseReference ?? ""} ${d.punchline ?? ""}`).includes(q));
+  const visibles = filtres.slice(0, nbVisibles);
+
   return (
     <div className="mt-6 rounded-3xl border border-night-900/10 bg-white p-5 sm:p-6">
       <h2 className="flex items-center gap-2 font-display text-xl font-bold">
@@ -308,8 +328,25 @@ export function DevotionsAdmin() {
             </span>
           </div>
 
-          <ul className="mt-4 space-y-2">
-            {list.map((d) => (
+          <input
+            type="search"
+            value={recherche}
+            onChange={(e) => {
+              setRecherche(e.target.value);
+              setNbVisibles(DEVOS_PAR_PAGE);
+            }}
+            placeholder="Rechercher : n° du jour, thème, verset, punchline"
+            className="field mt-4 w-full py-2 text-sm"
+            aria-label="Rechercher un dévotionnel"
+          />
+          {q ? (
+            <p className="mt-2 text-xs text-night-900/50">
+              {filtres.length} résultat{filtres.length > 1 ? "s" : ""}
+            </p>
+          ) : null}
+
+          <ul className="mt-3 space-y-2">
+            {visibles.map((d) => (
               <li key={d.position}>
                 <div className="flex items-center gap-3 rounded-2xl border border-night-900/10 bg-cream/40 p-3">
                   <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-night-900/[0.06] font-display text-sm font-bold text-night-900/60">
@@ -356,6 +393,34 @@ export function DevotionsAdmin() {
               </li>
             ))}
           </ul>
+          {filtres.length > nbVisibles ? (
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+              <button
+                type="button"
+                onClick={() => setNbVisibles((n) => n + DEVOS_PAR_PAGE)}
+                className="btn-ghost text-sm"
+              >
+                Voir {Math.min(DEVOS_PAR_PAGE, filtres.length - nbVisibles)} de plus
+              </button>
+              <button
+                type="button"
+                onClick={() => setNbVisibles(filtres.length)}
+                className="text-xs font-semibold text-night-900/50 hover:underline"
+              >
+                Tout afficher ({filtres.length})
+              </button>
+            </div>
+          ) : nbVisibles > DEVOS_PAR_PAGE ? (
+            <div className="mt-4 text-center">
+              <button
+                type="button"
+                onClick={() => setNbVisibles(DEVOS_PAR_PAGE)}
+                className="text-xs font-semibold text-night-900/50 hover:underline"
+              >
+                Réduire la liste
+              </button>
+            </div>
+          ) : null}
         </>
       )}
 
