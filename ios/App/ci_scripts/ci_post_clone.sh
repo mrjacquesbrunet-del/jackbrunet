@@ -33,7 +33,9 @@ npm run build:app
 # Les gros médias (audio des dévotionnels + commentaires, ~230 Mo) sont servis
 # EN LIGNE par jackbrunet.com (mediaUrl) : on les retire de l'app pour qu'elle
 # reste légère à télécharger.
-rm -rf out/audio out/commentary
+rm -rf out/audio out/commentary out/lexique
+# Copies d'audios inutilisées et clés .p8 : rien à faire dans l'app.
+find out/img -type f \( -iname '*.mp3' -o -iname '*.m4a' -o -iname '*.wav' -o -iname '*.p8' \) -delete || true
 
 npx cap sync ios
 

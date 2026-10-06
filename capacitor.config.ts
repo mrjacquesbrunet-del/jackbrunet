@@ -33,6 +33,12 @@ const config: CapacitorConfig = {
     CapacitorUpdater: {
       autoUpdate: true,
     },
+    // Connexion native : seulement Google et Apple (le SDK Facebook n'est pas
+    // embarqué → app plus légère, rien à déclarer côté confidentialité).
+    SocialLogin: {
+      providers: { google: true, apple: true, facebook: false, twitter: false },
+      logLevel: 1,
+    },
   },
 };
 
