@@ -14,6 +14,6 @@
  *   capacité « Sign in with Apple » dans Xcode et du bundle id déclaré dans
  *   Supabase → Providers → Apple → Client IDs.
  */
-export const GOOGLE_WEB_CLIENT_ID = "";
+export const GOOGLE_WEB_CLIENT_ID = "807325292268-njh3ktujuo30lkd8pb45c16ga1f1tn07.apps.googleusercontent.com";
 export const GOOGLE_IOS_CLIENT_ID = "";
 export const APP_BUNDLE_ID = "com.jackbrunet.app";
