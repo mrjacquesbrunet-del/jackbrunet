@@ -301,6 +301,7 @@ export async function deleteAccount(): Promise<{ ok: boolean; error?: string }> 
 }
 
 export async function signOut() {
+  await import("./social-auth").then((m) => m.deconnexionSociale()).catch(() => undefined);
   await getSupabase()?.auth.signOut();
 }
 

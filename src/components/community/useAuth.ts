@@ -7,6 +7,7 @@ import { submitToBrevo } from "@/lib/brevo";
 import { newsletterEndpointForSource } from "@/config/brevo";
 import { linkOneSignalUser, unlinkOneSignalUser } from "@/lib/onesignal";
 import { pingPresence } from "@/lib/presence";
+import { completerProfilSocial } from "@/lib/social-auth";
 
 // Partagé entre toutes les instances du hook: on n'associe l'appareil au
 // compte OneSignal qu'une seule fois par utilisateur.
@@ -62,6 +63,8 @@ export function useAuth() {
           setUserId(u?.id?? null);
           setEmail(u?.email?? null);
           refreshProfile(u?.id?? null).finally(() => setReady(true));
+          // Google / Apple : photo et prénom repris pour le profil (une fois).
+          if (u) completerProfilSocial(u).then(() => refreshProfile(u.id)).catch(() => {});
         })
 .catch(() => setReady(true));
       const { data: sub } = sb.auth.onAuthStateChange((_e, session) => {
@@ -69,6 +72,7 @@ export function useAuth() {
         setUserId(u?.id?? null);
         setEmail(u?.email?? null);
         refreshProfile(u?.id?? null);
+        if (u) completerProfilSocial(u).then(() => refreshProfile(u.id)).catch(() => {});
       });
       return () => sub.subscription.unsubscribe();
     } catch {

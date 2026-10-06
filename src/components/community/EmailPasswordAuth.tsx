@@ -8,6 +8,7 @@ import {
 } from "@/lib/community";
 import { submitToBrevo } from "@/lib/brevo";
 import { newsletterEndpointForSource } from "@/config/brevo";
+import { SocialAuthButtons } from "@/components/community/SocialAuthButtons";
 
 /**
  * Connexion / inscription par e-mail + mot de passe, 100 % dans l'application
@@ -31,6 +32,8 @@ export function EmailPasswordAuth({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [resetSent, setResetSent] = useState(false);
+  const [voir, setVoir] = useState(false);
+  const [aConfirmer, setAConfirmer] = useState(false);
 
   async function handleForgot() {
     setError("");
@@ -68,7 +71,7 @@ export function EmailPasswordAuth({
     setError("");
     try {
       if (mode === "signup") {
-        await signUpEmailPassword(email, password, firstName.trim());
+        const res = await signUpEmailPassword(email, password, firstName.trim());
         // Récupération du contact dans Brevo (liste « membres »): e-mail + prénom.
         // no-cors, best-effort: n'empêche jamais l'inscription.
         try {
@@ -78,6 +81,11 @@ export function EmailPasswordAuth({
           }
         } catch {
           /* la collecte Brevo n'est pas bloquante */
+        }
+        // Confirmation d'e-mail activée côté Supabase : pas encore de session.
+        if (!res.session) {
+          setAConfirmer(true);
+          return;
         }
       } else {
         await signInEmailPassword(email, password);
@@ -89,6 +97,14 @@ export function EmailPasswordAuth({
         setError("E-mail ou mot de passe incorrect.");
       } else if (/already registered|already exists/i.test(msg)) {
         setError("Un compte existe déjà avec cet e-mail. Connecte-toi.");
+      } else if (/not confirmed/i.test(msg)) {
+        setError("Confirme d'abord ton adresse : ouvre le lien reçu par e-mail (pense aux indésirables).");
+      } else if (/rate limit|too many|security purposes/i.test(msg)) {
+        setError("Trop de tentatives d'affilée. Patiente quelques minutes, puis réessaie.");
+      } else if (/password should|weak password/i.test(msg)) {
+        setError("Ce mot de passe est trop simple. Choisis-en un plus long, avec des chiffres.");
+      } else if (/network|fetch/i.test(msg)) {
+        setError("Pas de connexion internet. Vérifie ton réseau et réessaie.");
       } else {
         setError("Une erreur est survenue. Réessaie.");
       }
@@ -97,8 +113,31 @@ export function EmailPasswordAuth({
     }
   }
 
+  if (aConfirmer) {
+    return (
+      <div className={`rounded-2xl border p-5 text-center text-sm ${dark ? "border-dawn-400/30 bg-dawn-400/10 text-cream" : "border-spirit-600/30 bg-spirit-500/10 text-night-900"}`}>
+        <p className="font-bold">Plus qu'une étape</p>
+        <p className="mt-1.5">
+          Un e-mail de confirmation vient d'être envoyé à <strong>{email}</strong>. Ouvre-le et touche le lien,
+          puis reviens ici pour te connecter. Pense à regarder dans les indésirables.
+        </p>
+        <button
+          type="button"
+          onClick={() => {
+            setAConfirmer(false);
+            setMode("signin");
+          }}
+          className="btn-primary mt-4 w-full justify-center"
+        >
+          Me connecter
+        </button>
+      </div>
+    );
+  }
+
   return (
     <form onSubmit={submit} className="space-y-3">
+      <SocialAuthButtons tone={tone} onSuccess={onSuccess} />
       {mode === "signup"? (
         <input
           type="text"
@@ -117,14 +156,28 @@ export function EmailPasswordAuth({
         placeholder="Ton adresse e-mail"
         className="field w-full"
       />
-      <input
-        type="password"
-        autoComplete={mode === "signup"? "new-password": "current-password"}
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Ton mot de passe"
-        className="field w-full"
-      />
+      <div className="relative">
+        <input
+          type={voir ? "text" : "password"}
+          autoComplete={mode === "signup"? "new-password": "current-password"}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder={mode === "signup" ? "Choisis un mot de passe (6 caractères min.)" : "Ton mot de passe"}
+          className="field w-full pr-12"
+        />
+        <button
+          type="button"
+          onClick={() => setVoir(!voir)}
+          aria-label={voir ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+          className="absolute inset-y-0 right-0 grid w-12 place-items-center text-night-900/45"
+        >
+          <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.9}>
+            <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" strokeLinejoin="round" />
+            <circle cx="12" cy="12" r="3" />
+            {voir ? null : <path d="M4 4l16 16" strokeLinecap="round" />}
+          </svg>
+        </button>
+      </div>
       <button type="submit" disabled={busy} className="btn-primary w-full justify-center">
         {busy? "…": mode === "signup"? "Créer mon compte": "Se connecter"}
       </button>
