@@ -1,0 +1,65 @@
+name: Importer des audios (liens temporaires)
+
+# Télécharge des MP3 depuis des liens temporaires (ex. Magnific) et les range
+# dans public/audio/<dossier>/ sous les noms voulus. Le site (jackbrunet.com)
+# les sert ensuite à l'app, comme l'audio des méditations.
+# Entrée « fichiers » : une ligne par fichier, au format  nom.mp3|https://lien
+on:
+  workflow_dispatch:
+    inputs:
+      dossier:
+        description: "Sous-dossier de public/audio (ex. etudes)"
+        required: true
+        default: etudes
+      fichiers:
+        description: "Lignes « nom.mp3|url »"
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: import-audio
+  cancel-in-progress: false
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: claude/great-hamilton-ieokug
+
+      - name: Télécharger
+        env:
+          DOSSIER: ${{ inputs.dossier }}
+          FICHIERS: ${{ inputs.fichiers }}
+        run: |
+          case "$DOSSIER" in *..*|/*|"") echo "Dossier invalide"; exit 1;; esac
+          mkdir -p "public/audio/$DOSSIER"
+          echo "$FICHIERS" | tr ' ' '\n' | while IFS='|' read -r nom url; do
+            [ -z "$nom" ] && continue
+            case "$nom" in *.mp3) ;; *) echo "Nom invalide: $nom"; exit 1;; esac
+            case "$nom" in */*|*..*) echo "Nom invalide: $nom"; exit 1;; esac
+            curl -fsSL --retry 3 -o "public/audio/$DOSSIER/$nom" "$url"
+            taille=$(stat -c %s "public/audio/$DOSSIER/$nom")
+            type=$(file -b --mime-type "public/audio/$DOSSIER/$nom")
+            echo "$nom : $taille octets ($type)"
+            [ "$taille" -gt 10000 ] || { echo "Fichier trop petit: $nom"; exit 1; }
+          done
+
+      - name: Committer
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/audio
+          if git diff --cached --quiet; then
+            echo "Rien de nouveau."
+            exit 0
+          fi
+          git commit -m "chore(audio): import ${{ inputs.dossier }} [skip ci]"
+          for i in 1 2 3 4; do
+            git pull --rebase origin claude/great-hamilton-ieokug && git push origin "HEAD:claude/great-hamilton-ieokug" && break
+            sleep $((2**i))
+          done

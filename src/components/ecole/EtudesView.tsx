@@ -3,7 +3,7 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { asset } from "@/lib/asset";
+import { asset, mediaUrl } from "@/lib/asset";
 import { bibleHref } from "@/lib/bible-ref";
 import { shareText } from "@/lib/share";
 import { appShareUrl } from "@/config/app-links";
@@ -519,13 +519,18 @@ function AudioEtude({ etude }: { etude: EtudeBiblique }) {
         a.onerror = () => fin(false);
         a.src = u;
       });
-    const emplacements: ((f: string) => string)[] = [(f) => f, (f) => f.split("/").pop() ?? f];
+    // 1) le site (jackbrunet.com/audio/etudes/…), 2) Supabase etudes/…, 3) racine Supabase.
+    const emplacements: ((f: string) => string | null)[] = [
+      (f) => mediaUrl(`/audio/${f}`),
+      (f) => audioEtudeUrl(f),
+      (f) => audioEtudeUrl(f.split("/").pop() ?? f),
+    ];
     (async () => {
-      for (const chemin of emplacements) {
-        const premiere = audioEtudeUrl(chemin(liste[0].fichier));
+      for (const urlDe of emplacements) {
+        const premiere = urlDe(liste[0].fichier);
         if (!premiere || !(await existe(premiere))) continue;
         // Les autres parties sont vérifiées en parallèle.
-        const candidates = liste.map((p) => ({ ...p, fichier: chemin(p.fichier), url: audioEtudeUrl(chemin(p.fichier)) ?? "" }));
+        const candidates = liste.map((p) => ({ ...p, url: urlDe(p.fichier) ?? "" }));
         const ok = await Promise.all(candidates.map((p, i) => (i === 0 ? true : p.url ? existe(p.url) : false)));
         if (actif) setParties(candidates.filter((_, i) => ok[i]));
         return;
