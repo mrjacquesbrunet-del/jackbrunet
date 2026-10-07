@@ -106,7 +106,7 @@ const variables = (s) => (s.match(/\{\d+\}/g) || []).sort().join(",");
 function sauver(message) {
   if (!DO_GIT) return;
   try {
-    execSync(`git add public/i18n ${ETAT}`);
+    execSync(`git add public/i18n i18n`);
     if (!execSync("git diff --staged --name-only", { encoding: "utf8" }).trim()) return;
     execSync(`git commit -m "${message} [skip ci]"`, { stdio: "inherit" });
   } catch (e) {
@@ -115,7 +115,7 @@ function sauver(message) {
   }
   for (let a = 0; a < 10; a++) {
     try {
-      execSync(`git pull --rebase origin ${BRANCH}`, { stdio: "inherit" });
+      execSync(`git pull --rebase --autostash origin ${BRANCH}`, { stdio: "inherit" });
       execSync(`git push origin HEAD:${BRANCH}`, { stdio: "inherit" });
       return;
     } catch {

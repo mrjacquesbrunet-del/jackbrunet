@@ -11,6 +11,7 @@ import { MentionText } from "@/components/community/MentionText";
 import { HandsGlyph, BookmarkGlyph, BookmarkFilledGlyph } from "@/components/ui/DevoIcons";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { BatisseurBadge } from "@/components/community/BatisseurBadge";
+import { TexteMembre } from "@/components/community/VoirTraduction";
 import { estBatisseurActif } from "@/lib/soutien";
 import { ReportButton } from "@/components/community/ReportButton";
 import { useToolkit } from "@/lib/toolkit";
@@ -444,9 +445,11 @@ export function PrayerCard({
           )
         ) : null}
 
-        <MentionText
-          text={prayer.body}
-          className="mt-3 block whitespace-pre-wrap text-[15px] leading-relaxed text-night-900/85"
+        <TexteMembre
+          texte={prayer.body}
+          rendu={(t) => (
+            <MentionText text={t} className="mt-3 block whitespace-pre-wrap text-[15px] leading-relaxed text-night-900/85" />
+          )}
         />
 
         {/* Suivi du sujet (auteur, à partir de J+3, tant que non exaucé) */}
@@ -691,7 +694,7 @@ export function PrayerCard({
                                 </div>
                               ): null}
                               {c.body &&!c.audio_url? (
-                                <MentionText text={c.body} className="text-sm text-night-900/85" />
+                                <TexteMembre texte={c.body} rendu={(t) => <MentionText text={t} className="text-sm text-night-900/85" />} />
                               ): null}
                             </div>
                             <CommentReactionsRow
@@ -765,7 +768,7 @@ export function PrayerCard({
                                       </div>
                                     ): null}
                                     {r.body &&!r.audio_url? (
-                                      <MentionText text={r.body} className="text-sm text-night-900/85" />
+                                      <TexteMembre texte={r.body} rendu={(t) => <MentionText text={t} className="text-sm text-night-900/85" />} />
                                     ): null}
                                   </div>
                                   <CommentReactionsRow

@@ -24,6 +24,7 @@ import {
   type WallComment,
   type WallVisibility,
 } from "@/lib/wall";
+import { TexteMembre } from "@/components/community/VoirTraduction";
 
 /**
  * LE MUR : le cœur social du profil, façon page Facebook.
@@ -481,7 +482,17 @@ function WallPostCard({
   function Body({ p }: { p: WallPost }) {
     return (
       <>
-        {p.body ? <p className={`whitespace-pre-wrap text-[15px] leading-relaxed ${text}`}>{p.body}</p> : null}
+        {p.body ? (
+          <TexteMembre
+            texte={p.body}
+            tone={dark ? "dark" : "light"}
+            rendu={(t) => (
+              <p translate="no" className={`whitespace-pre-wrap text-[15px] leading-relaxed ${text}`}>
+                {t}
+              </p>
+            )}
+          />
+        ) : null}
         {p.verse_text ? (
           <div className="dark-ctx mt-2 overflow-hidden rounded-2xl border border-dawn-400/30 bg-gradient-to-br from-night-900 to-night-950 p-4 text-cream">
             <p className="font-display text-[17px] font-bold leading-snug">« {p.verse_text} »</p>
@@ -712,7 +723,15 @@ function WallComments({ postId, me, myProfile, dark }: { postId: string; me: str
                 <Link href={c.author_id === me ? "/profil" : `/membre?u=${c.author_id}`} className={`block text-xs font-bold ${text}`}>
                   {c.author?.pseudo ?? "Membre"}
                 </Link>
-                <p className={`whitespace-pre-wrap text-sm leading-relaxed ${text}`}>{c.body}</p>
+                <TexteMembre
+                  texte={c.body}
+                  tone={dark ? "dark" : "light"}
+                  rendu={(t) => (
+                    <p translate="no" className={`whitespace-pre-wrap text-sm leading-relaxed ${text}`}>
+                      {t}
+                    </p>
+                  )}
+                />
               </div>
             </div>
           ))}
