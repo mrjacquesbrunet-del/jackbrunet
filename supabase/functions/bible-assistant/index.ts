@@ -29,6 +29,11 @@ const CORS = {
 };
 
 // ——— Le cadrage théologique et pastoral de l'assistant ———
+const LANGUES_REPONSE: Record<string, string> = {
+  en: "LANGUE : le membre utilise l'app en anglais. Réponds entièrement en anglais (américain), en citant la World English Bible, références au format anglais « (John 3:16) ».",
+  pt: "LANGUE : le membre utilise l'app en portugais du Brésil. Réponds entièrement en portugais du Brésil (você), en citant la Bíblia Livre, références au format brésilien « (João 3:16) ».",
+};
+
 const SYSTEM = `Tu es l'assistant biblique de RHEMA, l'application chrétienne du pasteur Jack Brunet.
 
 TA MISSION
@@ -83,6 +88,7 @@ Deno.serve(async (req) => {
 
     // 2) La question et l'historique (12 derniers tours max, bornés)
     const body = await req.json().catch(() => null);
+    const langue = typeof body?.langue === "string" ? body.langue : "fr";
     const history: Msg[] = Array.isArray(body?.messages)
       ? (body.messages as Msg[])
           .filter((m) => (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
@@ -114,7 +120,11 @@ Deno.serve(async (req) => {
     const response = await anthropic.messages.create({
       model: MODEL,
       max_tokens: 1024,
-      system: [{ type: "text", text: SYSTEM, cache_control: { type: "ephemeral" } }],
+      system: [
+        { type: "text", text: SYSTEM, cache_control: { type: "ephemeral" } },
+        // Langue de l'app du membre (anglais, portugais) : réponse dans cette langue.
+        ...(LANGUES_REPONSE[langue] ? [{ type: "text" as const, text: LANGUES_REPONSE[langue] }] : []),
+      ],
       messages: history,
     });
     const answer = response.content

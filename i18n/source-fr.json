@@ -9,7 +9,7 @@
   "components/games/FrondeGame.tsx:328"
  ],
  "— la réponse s'appuie sur la Bible, versets cliquables.": [
-  "components/bible/VersetOutils.tsx:727"
+  "components/bible/VersetOutils.tsx:744"
  ],
  "— Lancement du {0} à {1} —": [
   "lib/boot-trace.ts:69"
@@ -1686,7 +1686,7 @@
   "components/plans/YearPlanView.tsx:345"
  ],
  "← Précédent": [
-  "components/bible/BibleReader.tsx:833"
+  "components/bible/BibleReader.tsx:839"
  ],
  "← Retour": [
   "components/community/InAppShare.tsx:209",
@@ -2622,7 +2622,7 @@
   "components/plans/PlanView.tsx:426"
  ],
  "À mémoriser": [
-  "components/bible/VersetOutils.tsx:546"
+  "components/bible/VersetOutils.tsx:563"
  ],
  "À mémoriser ✓": [
   "components/ui/Markable.tsx:247"
@@ -3611,7 +3611,7 @@
   "config/chemin/chapitre-eglise.ts:68"
  ],
  "Ancien Testament": [
-  "components/bible/BibleReader.tsx:991",
+  "components/bible/BibleReader.tsx:997",
   "components/ecole/EcoleView.tsx:370",
   "components/ecole/FriseChronologique.tsx:136"
  ],
@@ -3681,12 +3681,12 @@
   "lib/notif-prefs.ts:29"
  ],
  "Annoter": [
-  "components/bible/VersetOutils.tsx:876"
+  "components/bible/VersetOutils.tsx:893"
  ],
  "Annuler": [
   "app/questions/page.tsx:597",
   "app/questions/page.tsx:833",
-  "components/bible/VersetOutils.tsx:604"
+  "components/bible/VersetOutils.tsx:621"
  ],
  "Annuler la sélection": [
   "components/bible/SelectionVersets.tsx:125"
@@ -3766,7 +3766,7 @@
   "app/lien/page.tsx:74"
  ],
  "Apparaît dans": [
-  "components/bible/FichesChapitre.tsx:578"
+  "components/bible/FichesChapitre.tsx:579"
  ],
  "Appartenant à Dieu et le servant": [
   "config/chemin/chapitre-rome.ts:51"
@@ -3932,14 +3932,14 @@
  ],
  "Assistant biblique": [
   "app/assistant/page.tsx:6",
-  "components/assistant/AssistantView.tsx:106",
+  "components/assistant/AssistantView.tsx:108",
   "components/ecole/EcoleView.tsx:268"
  ],
  "Assuérus": [
   "config/chemin/chapitre-nehemie.ts:25"
  ],
  "Astuce : appuie longuement sur un verset pour en sélectionner plusieurs, puis partage-les ensemble.": [
-  "components/bible/VersetOutils.tsx:663"
+  "components/bible/VersetOutils.tsx:680"
  ],
  "Astuce : depuis la Bible, tape sur un verset puis « Mémoriser ».": [
   "app/memoriser/page.tsx:652"
@@ -4204,13 +4204,13 @@
   "components/community/PrayerTime.tsx:434"
  ],
  "Aucun personnage ou lieu identifié dans ce verset.": [
-  "components/bible/VersetOutils.tsx:688"
+  "components/bible/VersetOutils.tsx:705"
  ],
  "Aucun prisonnier ne s'est enfui malgré les portes ouvertes.": [
   "config/chemin/chapitre-voyages.ts:78"
  ],
  "Aucun renvoi pour ce verset": [
-  "components/bible/VersetOutils.tsx:411"
+  "components/bible/VersetOutils.tsx:427"
  ],
  "Aucun résultat. Essaie un autre mot.": [
   "components/bible/BibleSearch.tsx:110"
@@ -4329,7 +4329,7 @@
   "components/plans/AuthorChip.tsx:63"
  ],
  "Auteur, époque, contexte, plan, thèmes": [
-  "components/bible/BibleReader.tsx:1029"
+  "components/bible/BibleReader.tsx:1035"
  ],
  "Auteurs": [
   "components/ecole/EtudesView.tsx:206"
@@ -4345,7 +4345,7 @@
   "lib/moderation.ts:32"
  ],
  "autres": [
-  "components/bible/FichesChapitre.tsx:600"
+  "components/bible/FichesChapitre.tsx:601"
  ],
  "Autres réponses qui pourraient t'aider": [
   "app/questions/page.tsx:438"
@@ -4684,9 +4684,6 @@
   "config/chemin/chapitre-joseph.ts:36",
   "config/chemin/chapitre-joseph.ts:97"
  ],
- "Berean Standard Bible": [
-  "lib/bible-version.ts:39"
- ],
  "Berger": [
   "config/chemin/chapitre-rencontres.ts:27",
   "config/chemin/chapitre-rencontres.ts:88"
@@ -4729,13 +4726,13 @@
   "components/community/BibleAudioAdmin.tsx:102"
  ],
  "Bible Louis Segond, narration": [
-  "lib/bible-audio.ts:152"
+  "lib/bible-audio.ts:160"
  ],
  "Bíblia Livre": [
-  "lib/bible-version.ts:48"
+  "lib/bible-version.ts:58"
  ],
  "Bíblia Livre (BLIVRE) © 2018 Diego Santos, Mario Sérgio e Marco Teles, licença Creative Commons Atribuição 4.0 Brasil (CC BY 4.0). Fonte : bibliaportugues.com / eBible.org.": [
-  "lib/bible-version.ts:54"
+  "lib/bible-version.ts:64"
  ],
  "Bibliothèque": [
   "components/ecole/EcoleView.tsx:383",
@@ -4974,7 +4971,7 @@
   "components/chemin/CheminScreen.tsx:456"
  ],
  "C'est quoi, la grâce ?": [
-  "components/assistant/AssistantView.tsx:24"
+  "components/assistant/AssistantView.tsx:25"
  ],
  "C'est un homme muet": [
   "config/chemin/chapitre-jacques.ts:82"
@@ -5475,7 +5472,7 @@
   "config/chemin/chapitre-jacques.ts:71"
  ],
  "chapitre": [
-  "components/bible/FichesChapitre.tsx:578",
+  "components/bible/FichesChapitre.tsx:579",
   "components/bible/IntroLivre.tsx:117",
   "components/ecole/BibliothequeLivres.tsx:139"
  ],
@@ -5491,24 +5488,24 @@
   "components/bible/IntroLivre.tsx:170"
  ],
  "Chapitre {0} / {1}": [
-  "components/bible/BibleReader.tsx:836"
+  "components/bible/BibleReader.tsx:842"
  ],
  "Chapitre précédent": [
   "components/bible/BibleAudioPlayer.tsx:454",
-  "components/bible/BibleReader.tsx:877"
+  "components/bible/BibleReader.tsx:883"
  ],
  "CHAPITRE PRÉCÉDENT": [
   "components/chemin/CheminScreen.tsx:275"
  ],
  "Chapitre suivant": [
   "components/bible/BibleAudioPlayer.tsx:504",
-  "components/bible/BibleReader.tsx:896"
+  "components/bible/BibleReader.tsx:902"
  ],
  "CHAPITRE SUIVANT": [
   "components/chemin/CheminScreen.tsx:284"
  ],
  "Chapitre suivant :": [
-  "components/bible/BibleReader.tsx:807"
+  "components/bible/BibleReader.tsx:813"
  ],
  "chapitres": [
   "components/community/BibleAudioAdmin.tsx:202"
@@ -5601,7 +5598,7 @@
   "app/memoriser/page.tsx:529"
  ],
  "Chargement de l'étude…": [
-  "components/bible/VersetOutils.tsx:759"
+  "components/bible/VersetOutils.tsx:776"
  ],
  "Chargement de la ligue…": [
   "components/games/LeagueBoard.tsx:111"
@@ -5778,7 +5775,7 @@
   "components/plans/PlanDuo.tsx:221"
  ],
  "Choisis un livre": [
-  "components/bible/BibleReader.tsx:963"
+  "components/bible/BibleReader.tsx:969"
  ],
  "Choisis un mot de passe (6 caractères min.)": [
   "components/community/EmailPasswordAuth.tsx:165"
@@ -6503,7 +6500,7 @@
   "config/chemin/chapitre-paque.ts:26"
  ],
  "Comment prier quand je ne sais pas quoi dire ?": [
-  "components/assistant/AssistantView.tsx:23"
+  "components/assistant/AssistantView.tsx:24"
  ],
  "Comment ramène-t-il la brebis retrouvée ?": [
   "config/chemin/chapitre-paraboles.ts:77"
@@ -6575,7 +6572,7 @@
   "config/chemin/chapitre-saul.ts:87"
  ],
  "Comment savoir si Dieu me parle ?": [
-  "components/assistant/AssistantView.tsx:25"
+  "components/assistant/AssistantView.tsx:26"
  ],
  "Comment seront appelés ceux qui procurent la paix ?": [
   "config/chemin/chapitre-sermon.ts:36"
@@ -6595,7 +6592,7 @@
  "Commentaire": [
   "components/bible/CommentaryPanel.tsx:104",
   "components/bible/VersetOutils.tsx:48",
-  "components/bible/VersetOutils.tsx:835"
+  "components/bible/VersetOutils.tsx:852"
  ],
  "Commentaire & sens des mots": [
   "components/bible/PassageInline.tsx:103"
@@ -6765,10 +6762,10 @@
   "components/plans/PlanRating.tsx:121"
  ],
  "Connecte-toi pour poser ta question": [
-  "components/assistant/AssistantView.tsx:123"
+  "components/assistant/AssistantView.tsx:125"
  ],
  "Connecte-toi pour poser ta question sur ce verset.": [
-  "components/bible/VersetOutils.tsx:704"
+  "components/bible/VersetOutils.tsx:721"
  ],
  "Connecte-toi pour poser ta question sur cette leçon.": [
   "components/ecole/FormationView.tsx:979",
@@ -6789,7 +6786,7 @@
   "components/ecole/FormationView.tsx:1354"
  ],
  "Connecte-toi pour utiliser l'assistant.": [
-  "components/assistant/AssistantView.tsx:83"
+  "components/assistant/AssistantView.tsx:85"
  ],
  "Connecté(e)": [
   "components/community/CommunityView.tsx:301"
@@ -6840,11 +6837,11 @@
  ],
  "Contexte de l'époque": [
   "components/bible/CommentaryPanel.tsx:100",
-  "components/bible/VersetOutils.tsx:827"
+  "components/bible/VersetOutils.tsx:844"
  ],
  "Contexte du passage": [
   "components/bible/CommentaryPanel.tsx:101",
-  "components/bible/VersetOutils.tsx:828"
+  "components/bible/VersetOutils.tsx:845"
  ],
  "Continuer": [
   "components/app/AppOnboarding.tsx:175",
@@ -6889,7 +6886,7 @@
  ],
  "Copié !": [
   "components/bible/SelectionVersets.tsx:158",
-  "components/bible/VersetOutils.tsx:616",
+  "components/bible/VersetOutils.tsx:633",
   "components/community/MediasAdmin.tsx:185"
  ],
  "Copié ✓": [
@@ -6901,7 +6898,7 @@
  "Copier": [
   "components/app/BootDiagnostic.tsx:56",
   "components/bible/SelectionVersets.tsx:158",
-  "components/bible/VersetOutils.tsx:616"
+  "components/bible/VersetOutils.tsx:633"
  ],
  "Copier le lien": [
   "components/community/GroupView.tsx:780",
@@ -7195,8 +7192,8 @@
   "components/home/NewsletterCTA.tsx:19"
  ],
  "Dans ce chapitre": [
-  "components/bible/FichesChapitre.tsx:191",
-  "components/bible/FichesChapitre.tsx:237"
+  "components/bible/FichesChapitre.tsx:192",
+  "components/bible/FichesChapitre.tsx:238"
  ],
  "Dans l'": [
   "app/confidentialite/page.tsx:61"
@@ -7208,7 +7205,7 @@
   "config/chemin/chapitre-voyages.ts:22"
  ],
  "Dans l'histoire biblique": [
-  "components/bible/FichesChapitre.tsx:547"
+  "components/bible/FichesChapitre.tsx:548"
  ],
  "Dans l'ordre": [
   "components/chemin/CheminScreen.tsx:838"
@@ -8890,7 +8887,7 @@
   "config/chemin/chapitre-ecclesiaste.ts:88"
  ],
  "Donne ton propre sens à chaque couleur — il apparaîtra sous la palette.": [
-  "components/bible/VersetOutils.tsx:511"
+  "components/bible/VersetOutils.tsx:528"
  ],
  "Donne un nom à ton groupe.": [
   "components/community/GroupsDirectory.tsx:154"
@@ -9191,7 +9188,7 @@
  ],
  "Éclairage culturel": [
   "components/bible/CommentaryPanel.tsx:102",
-  "components/bible/VersetOutils.tsx:831"
+  "components/bible/VersetOutils.tsx:848"
  ],
  "éclairera": [
   "config/chemin/chapitre-proverbes.ts:36"
@@ -9261,7 +9258,7 @@
   "components/community/MessagesView.tsx:395"
  ],
  "Écris ta propre question": [
-  "components/assistant/AssistantView.tsx:147"
+  "components/assistant/AssistantView.tsx:149"
  ],
  "Écris ta question ici…": [
   "components/ecole/EcoleView.tsx:279",
@@ -9942,7 +9939,7 @@
   "components/notebook/CarnetView.tsx:144"
  ],
  "Enregistré": [
-  "components/bible/VersetOutils.tsx:538",
+  "components/bible/VersetOutils.tsx:555",
   "components/home/DevotionalView.tsx:543",
   "components/home/ViralCard.tsx:437"
  ],
@@ -9961,8 +9958,8 @@
   "components/community/ProfileView.tsx:942"
  ],
  "Enregistrer": [
-  "components/bible/VersetOutils.tsx:538",
-  "components/bible/VersetOutils.tsx:580",
+  "components/bible/VersetOutils.tsx:555",
+  "components/bible/VersetOutils.tsx:597",
   "components/community/DevotionsAdmin.tsx:173"
  ],
  "Enregistrer dans mon carnet": [
@@ -10067,8 +10064,8 @@
   "components/community/InAppShare.tsx:64"
  ],
  "Envoyer": [
-  "components/assistant/AssistantView.tsx:266",
-  "components/bible/VersetOutils.tsx:745",
+  "components/assistant/AssistantView.tsx:268",
+  "components/bible/VersetOutils.tsx:762",
   "components/community/GroupView.tsx:526"
  ],
  "Envoyer à tous": [
@@ -10451,7 +10448,7 @@
   "components/ecole/BibliothequeLivres.tsx:83"
  ],
  "Étude bientôt disponible pour ce verset.": [
-  "components/bible/VersetOutils.tsx:763"
+  "components/bible/VersetOutils.tsx:780"
  ],
  "Étude de mot": [
   "components/ecole/MotLexique.tsx:137"
@@ -10465,14 +10462,14 @@
   "components/ecole/EtudesView.tsx:188"
  ],
  "Étudier": [
-  "components/bible/VersetOutils.tsx:877"
+  "components/bible/VersetOutils.tsx:894"
  ],
  "Étudier ce mot dans le lexique": [
-  "components/bible/VersetOutils.tsx:812"
+  "components/bible/VersetOutils.tsx:829"
  ],
  "Étudier ce verset": [
-  "components/bible/BibleReader.tsx:737",
-  "components/bible/BibleReader.tsx:738"
+  "components/bible/BibleReader.tsx:743",
+  "components/bible/BibleReader.tsx:744"
  ],
  "Étudier la loi": [
   "config/chemin/chapitre-paul.ts:25"
@@ -10829,7 +10826,7 @@
   "components/ecole/ArbresGenealogiques.tsx:327"
  ],
  "Famille & liens": [
-  "components/bible/FichesChapitre.tsx:438"
+  "components/bible/FichesChapitre.tsx:439"
  ],
  "Familles": [
   "lib/quiz.ts:153"
@@ -11577,7 +11574,7 @@
   "app/mentions-legales/page.tsx:47"
  ],
  "hébreu": [
-  "components/bible/VersetOutils.tsx:768"
+  "components/bible/VersetOutils.tsx:785"
  ],
  "Hébreu": [
   "components/bible/VersetOutils.tsx:44",
@@ -13564,7 +13561,7 @@
  ],
  "Image": [
   "components/bible/SelectionVersets.tsx:160",
-  "components/bible/VersetOutils.tsx:628",
+  "components/bible/VersetOutils.tsx:645",
   "components/ui/ShareButtons.tsx:92"
  ],
  "Image trop lourde (5 Mo max).": [
@@ -13711,13 +13708,13 @@
  "Interprétation": [
   "components/bible/CommentaryPanel.tsx:103",
   "components/bible/VersetOutils.tsx:47",
-  "components/bible/VersetOutils.tsx:833"
+  "components/bible/VersetOutils.tsx:850"
  ],
  "Introduction": [
   "components/bible/IntroLivre.tsx:117"
  ],
  "Introduction au livre": [
-  "components/bible/BibleReader.tsx:1028",
+  "components/bible/BibleReader.tsx:1034",
   "components/bible/IntroLivre.tsx:308"
  ],
  "Introduction au livre {0}": [
@@ -15455,6 +15452,12 @@
  "Kerith": [
   "config/chemin/chapitre-elie.ts:27"
  ],
+ "King James Version": [
+  "lib/bible-version.ts:49"
+ ],
+ "King James Version (KJV, 1769), public domain.": [
+  "lib/bible-version.ts:54"
+ ],
  "Kis, le père de Saül": [
   "config/chemin/chapitre-saul.ts:37"
  ],
@@ -15616,10 +15619,10 @@
   "config/chemin/chapitre-voyages.ts:99"
  ],
  "L'assistant est réservé aux membres (5 questions par jour).": [
-  "components/assistant/AssistantView.tsx:125"
+  "components/assistant/AssistantView.tsx:127"
  ],
  "L'assistant médite ta question…": [
-  "components/bible/VersetOutils.tsx:753",
+  "components/bible/VersetOutils.tsx:770",
   "components/ecole/FormationView.tsx:1025",
   "components/ecole/FormationView.tsx:2195"
  ],
@@ -17330,7 +17333,7 @@
   "components/bible/VersetsLies.tsx:152"
  ],
  "Le même récit ailleurs, les versets qui l'éclairent": [
-  "components/bible/VersetOutils.tsx:412"
+  "components/bible/VersetOutils.tsx:429"
  ],
  "Le message des sœurs à Jésus": [
   "config/chemin/chapitre-lazare.ts:99"
@@ -18816,11 +18819,11 @@
   "components/community/AdminBatisseurs.tsx:71"
  ],
  "Lieu": [
-  "components/bible/FichesChapitre.tsx:347",
+  "components/bible/FichesChapitre.tsx:348",
   "components/ecole/GalerieFiches.tsx:375"
  ],
  "Lieux": [
-  "components/bible/FichesChapitre.tsx:252",
+  "components/bible/FichesChapitre.tsx:253",
   "components/ecole/FriseChronologique.tsx:288",
   "components/ecole/GalerieFiches.tsx:209"
  ],
@@ -18915,7 +18918,7 @@
   "components/ecole/BibliothequeLivres.tsx:175"
  ],
  "Livre suivant :": [
-  "components/bible/BibleReader.tsx:819"
+  "components/bible/BibleReader.tsx:825"
  ],
  "Livres": [
   "app/page.tsx:31"
@@ -18938,17 +18941,11 @@
  "Lot laisse choisir Abram": [
   "config/chemin/chapitre-abraham.ts:46"
  ],
- "Louis Segond": [
-  "components/bible/BibleReader.tsx:627"
- ],
  "Louis Segond 1910": [
-  "lib/bible-version.ts:30"
+  "lib/bible-version.ts:31"
  ],
  "Louis Segond 1910, domaine public.": [
-  "lib/bible-version.ts:35"
- ],
- "LSG": [
-  "components/bible/BibleReader.tsx:450"
+  "lib/bible-version.ts:36"
  ],
  "Lu par": [
   "components/plans/PlanView.tsx:432"
@@ -19132,7 +19129,7 @@
   "config/chemin/chapitre-samuel.ts:45"
  ],
  "Ma note": [
-  "components/bible/VersetOutils.tsx:534",
+  "components/bible/VersetOutils.tsx:551",
   "components/ecole/FormationView.tsx:861",
   "components/ui/Markable.tsx:228"
  ],
@@ -19771,7 +19768,7 @@
  ],
  "Mémoriser": [
   "components/app/GamesNewsModal.tsx:25",
-  "components/bible/VersetOutils.tsx:546",
+  "components/bible/VersetOutils.tsx:563",
   "components/ui/Markable.tsx:247"
  ],
  "MÉMORISER": [
@@ -20340,7 +20337,7 @@
   "components/bible/CommentaryPanel.tsx:85"
  ],
  "Mots d'origine (": [
-  "components/bible/VersetOutils.tsx:768"
+  "components/bible/VersetOutils.tsx:785"
  ],
  "Mots liés": [
   "components/ecole/MotLexique.tsx:191",
@@ -20637,7 +20634,7 @@
  ],
  "Note": [
   "components/bible/VersetOutils.tsx:195",
-  "components/bible/VersetOutils.tsx:534",
+  "components/bible/VersetOutils.tsx:551",
   "components/ecole/FormationView.tsx:889"
  ],
  "Note ce plan": [
@@ -20653,7 +20650,7 @@
   "components/ecole/FormationView.tsx:898"
  ],
  "Note enregistrée dans ton carnet.": [
-  "components/bible/VersetOutils.tsx:610"
+  "components/bible/VersetOutils.tsx:627"
  ],
  "Note enregistrée.": [
   "components/ecole/FormationView.tsx:2098"
@@ -20769,7 +20766,7 @@
   "components/community/GroupView.tsx:596"
  ],
  "Nouveau Testament": [
-  "components/bible/BibleReader.tsx:991",
+  "components/bible/BibleReader.tsx:997",
   "components/ecole/EcoleView.tsx:371",
   "components/ecole/FriseChronologique.tsx:137"
  ],
@@ -21004,7 +21001,7 @@
   "components/community/SocialAuthButtons.tsx:85"
  ],
  "Ou choisis un exemple": [
-  "components/assistant/AssistantView.tsx:178"
+  "components/assistant/AssistantView.tsx:180"
  ],
  "Où Dieu envoie-t-il Jérémie pour lui parler en images ?": [
   "config/chemin/chapitre-jeremie.ts:45"
@@ -21270,7 +21267,7 @@
   "app/suppression-compte/page.tsx:48"
  ],
  "Par exemple : que veut dire Jésus quand il dit « je suis le cep » ?": [
-  "components/assistant/AssistantView.tsx:161"
+  "components/assistant/AssistantView.tsx:163"
  ],
  "Par exemple Jean 3:16, Philippiens 4:13 ou Psaume 23:1.": [
   "app/memoriser/page.tsx:868"
@@ -21648,7 +21645,7 @@
  "Partager": [
   "components/audio/ListenScreen.tsx:424",
   "components/bible/SelectionVersets.tsx:169",
-  "components/bible/VersetOutils.tsx:620"
+  "components/bible/VersetOutils.tsx:637"
  ],
  "Partager aussi sur le mur de prière (sinon, visible de toi seul)": [
   "components/community/MyPrayerList.tsx:76"
@@ -21809,7 +21806,7 @@
   "components/bible/PassageApercu.tsx:71"
  ],
  "Passages clés": [
-  "components/bible/FichesChapitre.tsx:557"
+  "components/bible/FichesChapitre.tsx:558"
  ],
  "Passer au quiz": [
   "components/ecole/FormationView.tsx:2049"
@@ -21976,12 +21973,12 @@
   "content/plans.json"
  ],
  "Personnage": [
-  "components/bible/FichesChapitre.tsx:347",
+  "components/bible/FichesChapitre.tsx:348",
   "components/ecole/GalerieFiches.tsx:375",
   "components/games/WhoAmIScreen.tsx:320"
  ],
  "Personnages": [
-  "components/bible/FichesChapitre.tsx:251",
+  "components/bible/FichesChapitre.tsx:252",
   "components/bible/IntroLivre.tsx:215",
   "components/ecole/FriseChronologique.tsx:270"
  ],
@@ -21999,7 +21996,7 @@
   "components/community/ProfileSignIn.tsx:64"
  ],
  "Personnaliser": [
-  "components/bible/VersetOutils.tsx:466",
+  "components/bible/VersetOutils.tsx:483",
   "components/home/DevotionalView.tsx:452",
   "components/notebook/CarnetView.tsx:163"
  ],
@@ -22061,7 +22058,7 @@
   "components/community/AdminBatisseurs.tsx:79"
  ],
  "Petit souci de connexion. Réessaie dans un instant.": [
-  "components/assistant/AssistantView.tsx:84",
+  "components/assistant/AssistantView.tsx:86",
   "components/bible/VersetOutils.tsx:243",
   "components/ecole/FormationView.tsx:98"
  ],
@@ -22339,7 +22336,7 @@
   "components/games/FrondeGame.tsx:255"
  ],
  "Plusieurs": [
-  "components/bible/VersetOutils.tsx:637"
+  "components/bible/VersetOutils.tsx:654"
  ],
  "Podcast": [
   "components/community/AnalyticsDashboard.tsx:25",
@@ -22445,30 +22442,30 @@
   "components/home/DevotionalView.tsx:787"
  ],
  "Pose ta question sur": [
-  "components/bible/VersetOutils.tsx:727"
+  "components/bible/VersetOutils.tsx:744"
  ],
  "Pose ta question sur la Bible": [
-  "components/assistant/AssistantView.tsx:139",
+  "components/assistant/AssistantView.tsx:141",
   "components/ecole/EcoleView.tsx:271"
  ],
  "Pose tes questions sur la Bible : des réponses claires, ancrées dans la version Louis Segond, avec les versets à ouvrir d'un tap.": [
   "app/assistant/page.tsx:8"
  ],
  "Pose-la directement — l'assistant répond.": [
-  "components/bible/VersetOutils.tsx:439"
+  "components/bible/VersetOutils.tsx:456"
  ],
  "Poser cette question": [
   "app/questions/page.tsx:459"
  ],
  "Poser ma question": [
-  "components/assistant/AssistantView.tsx:170"
+  "components/assistant/AssistantView.tsx:172"
  ],
  "Poser ta question": [
   "app/questions/page.tsx:549"
  ],
  "Poser une autre question": [
   "app/questions/page.tsx:540",
-  "components/bible/VersetOutils.tsx:721",
+  "components/bible/VersetOutils.tsx:738",
   "components/ecole/FormationView.tsx:996"
  ],
  "Poser une question": [
@@ -24217,7 +24214,7 @@
   "config/chemin/chapitre-jacob.ts:25"
  ],
  "Que dit la Bible sur la peur ?": [
-  "components/assistant/AssistantView.tsx:22"
+  "components/assistant/AssistantView.tsx:23"
  ],
  "Que dit le fils aîné à la fin de la parabole ?": [
   "config/chemin/chapitre-paraboles.ts:99"
@@ -24839,7 +24836,7 @@
   "config/chemin/chapitre-ecclesiaste.ts:88"
  ],
  "Que signifie ce verset… ?": [
-  "components/bible/VersetOutils.tsx:737"
+  "components/bible/VersetOutils.tsx:754"
  ],
  "Que signifie le mot « manne » ?": [
   "config/chemin/chapitre-mer-rouge.ts:87"
@@ -26435,7 +26432,7 @@
   "components/games/VraiFauxScreen.tsx:416"
  ],
  "Réponse": [
-  "components/bible/VersetOutils.tsx:707",
+  "components/bible/VersetOutils.tsx:724",
   "components/ecole/FormationView.tsx:2150"
  ],
  "Réponse :": [
@@ -26445,7 +26442,7 @@
   "app/questions/page.tsx:814"
  ],
  "Réponses ancrées dans la Bible (LSG). Ne remplace ni la prière, ni ton pasteur.": [
-  "components/assistant/AssistantView.tsx:108"
+  "components/assistant/AssistantView.tsx:110"
  ],
  "REPRENDRE": [
   "components/games/FrondeGame.tsx:266",
@@ -26553,8 +26550,8 @@
   "components/community/MemberView.tsx:398"
  ],
  "Retirer le surlignage": [
-  "components/bible/VersetOutils.tsx:476",
-  "components/bible/VersetOutils.tsx:497",
+  "components/bible/VersetOutils.tsx:493",
+  "components/bible/VersetOutils.tsx:514",
   "components/ui/Markable.tsx:170"
  ],
  "Retirer le téléchargement": [
@@ -26564,7 +26561,7 @@
   "components/community/AdminAnnounce.tsx:131"
  ],
  "Retour": [
-  "components/assistant/AssistantView.tsx:98",
+  "components/assistant/AssistantView.tsx:100",
   "components/community/MessagesView.tsx:365",
   "components/ecole/ArbresGenealogiques.tsx:220"
  ],
@@ -26667,7 +26664,7 @@
   "app/memoriser/page.tsx:79"
  ],
  "Revenir à": [
-  "components/bible/BibleReader.tsx:1094"
+  "components/bible/BibleReader.tsx:1100"
  ],
  "Revenir à la leçon": [
   "components/ecole/FormationView.tsx:2059"
@@ -27268,7 +27265,7 @@
   "lib/badges.ts:106"
  ],
  "Se connecter": [
-  "components/assistant/AssistantView.tsx:131",
+  "components/assistant/AssistantView.tsx:133",
   "components/community/EmailPasswordAuth.tsx:182",
   "components/community/GroupView.tsx:242"
  ],
@@ -27475,7 +27472,7 @@
   "config/chemin/chapitre-tentation.ts:29"
  ],
  "Ses écrits": [
-  "components/bible/FichesChapitre.tsx:524"
+  "components/bible/FichesChapitre.tsx:525"
  ],
  "Ses femmes étrangères et leurs dieux": [
   "config/chemin/chapitre-salomon.ts:97"
@@ -27758,7 +27755,7 @@
   "config/chemin/chapitre-saul.ts:25"
  ],
  "Son histoire": [
-  "components/bible/FichesChapitre.tsx:547"
+  "components/bible/FichesChapitre.tsx:548"
  ],
  "Son langage, son accent de Galilée": [
   "config/chemin/chapitre-croix.ts:26"
@@ -27785,7 +27782,7 @@
   "config/chemin/chapitre-esther.ts:37"
  ],
  "Son parcours": [
-  "components/bible/FichesChapitre.tsx:480"
+  "components/bible/FichesChapitre.tsx:481"
  ],
  "Son peuple et sa naissance": [
   "config/chemin/chapitre-esther.ts:37"
@@ -27922,7 +27919,7 @@
   "app/confidentialite/page.tsx:147"
  ],
  "Strong": [
-  "components/bible/VersetOutils.tsx:797"
+  "components/bible/VersetOutils.tsx:814"
  ],
  "Studieux": [
   "lib/memorize.ts:243"
@@ -27947,7 +27944,7 @@
   "components/home/VideoLibrary.tsx:278"
  ],
  "Suivant →": [
-  "components/bible/BibleReader.tsx:844"
+  "components/bible/BibleReader.tsx:850"
  ],
  "Suivi": [
   "components/community/MemberSuggestions.tsx:111"
@@ -27991,7 +27988,7 @@
  ],
  "Supprimer": [
   "components/audio/ListenScreen.tsx:488",
-  "components/bible/VersetOutils.tsx:593",
+  "components/bible/VersetOutils.tsx:610",
   "components/community/DevotionsAdmin.tsx:376"
  ],
  "Supprimer « {0} » ?": [
@@ -28116,7 +28113,7 @@
  ],
  "Sur le mur": [
   "components/bible/SelectionVersets.tsx:177",
-  "components/bible/VersetOutils.tsx:644",
+  "components/bible/VersetOutils.tsx:661",
   "components/ui/Markable.tsx:211"
  ],
  "Sur le mur de prière ou dans Scrolle & prie, appuie sur « Je prie » pour les sujets des autres. Bronze à 50 prières, argent à 200, or à 500.": [
@@ -28252,11 +28249,11 @@
  ],
  "Surligner": [
   "components/bible/SelectionVersets.tsx:175",
-  "components/bible/VersetOutils.tsx:455",
+  "components/bible/VersetOutils.tsx:472",
   "components/ui/Markable.tsx:151"
  ],
  "Surligner — {0}": [
-  "components/bible/VersetOutils.tsx:476"
+  "components/bible/VersetOutils.tsx:493"
  ],
  "Surligner en {0}": [
   "components/bible/SelectionVersets.tsx:140"
@@ -28305,7 +28302,7 @@
   "components/app/RatingPrompt.tsx:129"
  ],
  "Ta note sur ce passage…": [
-  "components/bible/VersetOutils.tsx:568",
+  "components/bible/VersetOutils.tsx:585",
   "components/ui/Markable.tsx:262"
  ],
  "Ta note…": [
@@ -28394,7 +28391,7 @@
   "components/community/InAppShare.tsx:180"
  ],
  "Tape un mot : le mot du verset qu'il traduit s'affiche et se surligne en haut.": [
-  "components/bible/VersetOutils.tsx:771"
+  "components/bible/VersetOutils.tsx:788"
  ],
  "Tarsis": [
   "config/chemin/chapitre-jonas.ts:27"
@@ -28532,7 +28529,7 @@
   "components/community/ProfileBadges.tsx:21"
  ],
  "Terminer": [
-  "components/bible/VersetOutils.tsx:466",
+  "components/bible/VersetOutils.tsx:483",
   "components/community/PrayerTime.tsx:535",
   "components/ecole/FormationView.tsx:2364"
  ],
@@ -28595,9 +28592,6 @@
  "Textes": [
   "components/profile/MyFavorites.tsx:13",
   "components/profile/MyFavorites.tsx:127"
- ],
- "The Holy Bible, Berean Standard Bible, BSB, dedicated to the public domain.": [
-  "lib/bible-version.ts:44"
  ],
  "Thèbes et Memphis": [
   "config/chemin/chapitre-moise.ts:26"
@@ -28898,7 +28892,7 @@
   "components/home/ShortsPlayer.tsx:205"
  ],
  "Touche pour tout découvrir": [
-  "components/bible/FichesChapitre.tsx:226"
+  "components/bible/FichesChapitre.tsx:227"
  ],
  "Touche toutes les cibles, vise le meilleur score.": [
   "components/games/FrondeScreen.tsx:100"
@@ -28916,7 +28910,7 @@
   "lib/badges.ts:252"
  ],
  "Touche un verset pour le surligner, le copier ou l'enregistrer.": [
-  "components/bible/BibleReader.tsx:671"
+  "components/bible/BibleReader.tsx:677"
  ],
  "Touche un verset, une méditation ou une parole forte puis « Enregistrer »: tu la retrouveras ici, regroupée au même endroit.": [
   "components/profile/MyFavorites.tsx:38"
@@ -28938,7 +28932,7 @@
   "content/support-tiers.json"
  ],
  "Tous les livres": [
-  "components/bible/BibleReader.tsx:972"
+  "components/bible/BibleReader.tsx:978"
  ],
  "Tous les parcours": [
   "components/plans/PlanView.tsx:262",
@@ -29117,7 +29111,7 @@
   "app/favoris/page.tsx:17"
  ],
  "Tribu de": [
-  "components/bible/FichesChapitre.tsx:360",
+  "components/bible/FichesChapitre.tsx:361",
   "components/ecole/GalerieFiches.tsx:389"
  ],
  "Triomphant": [
@@ -29255,8 +29249,8 @@
   "components/community/PrayerTime.tsx:528"
  ],
  "Tu as posé tes {0} questions des dernières 24 h. Reviens un peu plus tard — et bonne méditation d'ici là.": [
-  "components/assistant/AssistantView.tsx:62",
-  "components/assistant/AssistantView.tsx:81"
+  "components/assistant/AssistantView.tsx:64",
+  "components/assistant/AssistantView.tsx:83"
  ],
  "Tu as posé tes 10 questions des dernières 24 h. Reviens un peu plus tard.": [
   "components/bible/VersetOutils.tsx:240"
@@ -29281,7 +29275,7 @@
   "app/questions/page.tsx:518"
  ],
  "Tu as une question sur ce verset ?": [
-  "components/bible/VersetOutils.tsx:437"
+  "components/bible/VersetOutils.tsx:454"
  ],
  "Tu choisis": [
   "components/community/CommunityLanding.tsx:32"
@@ -29896,7 +29890,7 @@
   "components/ecole/EcoleView.tsx:274"
  ],
  "Un passage difficile, un thème, une situation à éclairer par la Parole — chaque réponse s'appuie sur des versets que tu peux ouvrir d'un tap.": [
-  "components/assistant/AssistantView.tsx:141"
+  "components/assistant/AssistantView.tsx:143"
  ],
  "Un peu d'argent": [
   "config/chemin/chapitre-elisee.ts:55"
@@ -30237,7 +30231,7 @@
   "components/home/MoodCheckin.tsx:214"
  ],
  "Une autre question sur la Bible…": [
-  "components/assistant/AssistantView.tsx:258"
+  "components/assistant/AssistantView.tsx:260"
  ],
  "Une barque": [
   "config/chemin/chapitre-rameaux.ts:25"
@@ -31162,8 +31156,8 @@
   "components/ecole/ArbresGenealogiques.tsx:548"
  ],
  "Voir dans l'arbre généalogique": [
-  "components/bible/FichesChapitre.tsx:467",
-  "components/bible/FichesChapitre.tsx:472"
+  "components/bible/FichesChapitre.tsx:468",
+  "components/bible/FichesChapitre.tsx:473"
  ],
  "Voir et toucher la marque des clous": [
   "config/chemin/chapitre-resurrection.ts:87"
@@ -31181,7 +31175,7 @@
   "components/ecole/ArbresGenealogiques.tsx:880"
  ],
  "Voir la fiche complète": [
-  "components/bible/VersetOutils.tsx:682"
+  "components/bible/VersetOutils.tsx:699"
  ],
  "Voir la fiche de {0}": [
   "components/home/DevotionAuthor.tsx:70"
@@ -31217,7 +31211,7 @@
   "components/boutique/RhemaShowcase.tsx:458"
  ],
  "Voir les personnages et lieux du chapitre": [
-  "components/bible/FichesChapitre.tsx:200"
+  "components/bible/FichesChapitre.tsx:201"
  ],
  "Voir les vidéos sur YouTube": [
   "components/home/FeaturedPredications.tsx:62"
@@ -31424,6 +31418,12 @@
  ],
  "WhatsApp": [
   "components/ui/ShareButtons.tsx:132"
+ ],
+ "World English Bible": [
+  "lib/bible-version.ts:40"
+ ],
+ "World English Bible (WEB), public domain.": [
+  "lib/bible-version.ts:45"
  ],
  "www.cnil.fr": [
   "app/confidentialite/page.tsx:224"

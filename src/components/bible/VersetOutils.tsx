@@ -403,12 +403,29 @@ export function VersetOutils({
                 <span className={`block text-sm font-bold ${outil === "liens" ? "text-cream" : "text-cream/85"}`}>Versets liés</span>
                 <span className="block text-[11px] font-semibold text-cream/50">
                   {nbLiens
-                    ? [
-                        nbLiens.paralleles ? `${nbLiens.paralleles} récit${nbLiens.paralleles > 1 ? "s" : ""} parallèle${nbLiens.paralleles > 1 ? "s" : ""}` : "",
-                        nbLiens.croisees ? `${nbLiens.croisees} verset${nbLiens.croisees > 1 ? "s" : ""} à relire` : "",
-                      ]
-                        .filter(Boolean)
-                        .join(" · ") || "Aucun renvoi pour ce verset"
+                    ? (() => {
+                        // Une phrase par morceau (traduisible telle quelle), séparées par « · ».
+                        const morceaux = [
+                          nbLiens.paralleles
+                            ? nbLiens.paralleles > 1
+                              ? `${nbLiens.paralleles} récits parallèles`
+                              : `${nbLiens.paralleles} récit parallèle`
+                            : "",
+                          nbLiens.croisees
+                            ? nbLiens.croisees > 1
+                              ? `${nbLiens.croisees} versets à relire`
+                              : `${nbLiens.croisees} verset à relire`
+                            : "",
+                        ].filter(Boolean);
+                        return morceaux.length
+                          ? morceaux.map((m, i) => (
+                              <span key={i}>
+                                {i ? " · " : ""}
+                                {m}
+                              </span>
+                            ))
+                          : "Aucun renvoi pour ce verset";
+                      })()
                     : "Le même récit ailleurs, les versets qui l'éclairent"}
                 </span>
               </span>

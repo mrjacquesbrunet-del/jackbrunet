@@ -11,6 +11,7 @@ import {
   ASSISTANT_DAILY_LIMIT,
   type AssistantMsg,
 } from "@/lib/assistant";
+import { t } from "@/lib/i18n";
 
 /**
  * ASSISTANT BIBLIQUE — un échange simple, ancré dans la Bible (LSG).
@@ -55,7 +56,8 @@ export function AssistantView() {
   }, [messages, busy]);
 
   async function send(text?: string) {
-    const q = (text ?? draft).trim();
+    // Question proposée : envoyée dans la langue de l'app.
+    const q = (text !== undefined ? t(text) : draft).trim();
     if (!q || busy || !userId) return;
     if (remaining !== null && remaining <= 0) {
       setErreur(

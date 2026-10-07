@@ -2,6 +2,7 @@
 
 import { getSupabase } from "./supabase";
 import { nettoyerMarquesIA } from "./texte";
+import { getLangue } from "./i18n";
 
 /**
  * ASSISTANT BIBLIQUE : le client n'appelle JAMAIS l'API Anthropic
@@ -22,7 +23,8 @@ export async function askAssistant(messages: AssistantMsg[]): Promise<AssistantR
   const sb = getSupabase();
   if (!sb) return { ok: false, error: "server" };
   const { data, error } = await sb.functions.invoke("bible-assistant", {
-    body: { messages },
+    // Langue de l'app : l'assistant répond en français, anglais ou portugais.
+    body: { messages, langue: getLangue() },
   });
   if (error) {
     // supabase-js met la réponse non-2xx dans error.context (Response).
