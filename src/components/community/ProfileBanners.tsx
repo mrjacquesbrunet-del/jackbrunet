@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
+import { lienFranceSeulement, offresFrance, useLangue } from "@/lib/i18n";
 
 /** Annonces défilantes du profil (cliquables). Facile à enrichir: ajoute une
  * entrée ici (titre, texte, lien, dégradé). */
@@ -34,15 +35,18 @@ const BANNERS = [
 ];
 
 export function ProfileBanners() {
+  // Hors français : pas de bannière du livre (vendu en France seulement).
+  const langue = useLangue();
+  const banners = offresFrance(langue) ? BANNERS : BANNERS.filter((x) => !lienFranceSeulement(x.href));
   const [i, setI] = useState(0);
 
   useEffect(() => {
-    if (BANNERS.length < 2) return;
-    const t = setInterval(() => setI((p) => (p + 1) % BANNERS.length), 3500);
+    if (banners.length < 2) return;
+    const t = setInterval(() => setI((p) => (p + 1) % banners.length), 3500);
     return () => clearInterval(t);
   }, []);
 
-  const b = BANNERS[i];
+  const b = banners[i % banners.length];
 
   return (
     <div>

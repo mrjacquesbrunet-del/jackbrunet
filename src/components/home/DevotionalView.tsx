@@ -45,7 +45,7 @@ import { NotificationsBell } from "@/components/community/NotificationsBell";
 import { MessagesButton } from "@/components/community/MessagesButton";
 import { isNativeApp } from "@/lib/notifications";
 import type { Devotion, ReadingPlanDay, Short } from "@/lib/types";
-import { contenuAudioVideoDispo, useLangue } from "@/lib/i18n";
+import { contenuAudioVideoDispo, offresFrance, useLangue } from "@/lib/i18n";
 import { useContenu } from "@/lib/contenu-i18n";
 import { useAudiosTraduits } from "@/lib/audio-i18n";
 
@@ -808,7 +808,9 @@ export function DevotionalView({
         </Reveal>
       </section>
 
-      {/* Promotion du livre RHEMA, avant « Reviens demain » */}
+      {/* Promotion du livre RHEMA, avant « Reviens demain » (en France seulement :
+          le livre n'est pas vendu ailleurs) */}
+      {offresFrance(langue) ? (
       <section className="container-x">
         <Reveal from="up">
           <div className="bg-topo-light relative overflow-hidden rounded-4xl border border-spirit-700/10 p-7 sm:p-9">
@@ -840,6 +842,7 @@ export function DevotionalView({
           </div>
         </Reveal>
       </section>
+      ) : null}
 
       {/* 7. Reviens demain + inscription */}
       <section className="container-x">

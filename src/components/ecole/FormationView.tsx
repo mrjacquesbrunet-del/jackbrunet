@@ -27,7 +27,7 @@ import {
   type Formation,
   type Lecon,
 } from "@/lib/formations";
-import { useLangue } from "@/lib/i18n";
+import { offresFrance, useLangue } from "@/lib/i18n";
 import { useAudiosTraduits } from "@/lib/audio-i18n";
 
 /**
@@ -46,7 +46,12 @@ function dureeMin(l: Lecon): number {
 }
 
 /* ——— E-book offert : téléchargement après capture de l'e-mail (Brevo) ——— */
-function EbookGate({ formation, dark }: { formation: Formation; dark?: boolean }) {
+/** E-book (PDF français envoyé par e-mail) et livre papier : en français seulement. */
+function EbookGate(props: { formation: Formation; dark?: boolean }) {
+  return offresFrance(useLangue()) ? <EbookGateFr {...props} /> : null;
+}
+
+function EbookGateFr({ formation, dark }: { formation: Formation; dark?: boolean }) {
   const { email: emailCompte } = useAuth();
   const [open, setOpen] = useState(false);
   const [mail, setMail] = useState("");

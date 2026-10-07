@@ -28,7 +28,7 @@ import {
 } from "@/lib/plan-duo";
 import type { ThemePlan } from "@/lib/types";
 import { useContenu } from "@/lib/contenu-i18n";
-import { useLangue } from "@/lib/i18n";
+import { lienFranceSeulement, offresFrance, useLangue } from "@/lib/i18n";
 import { useAudiosTraduits } from "@/lib/audio-i18n";
 
 /** Photo de l'auteur (bucket public « audiovf »), repli monogramme. */
@@ -136,14 +136,16 @@ export function PlanView({
         role: plan.authorRole ?? DEFAULT_AUTHOR.role,
         bio: plan.authorBio ?? DEFAULT_AUTHOR.bio,
         instagram: plan.authorInstagram ?? DEFAULT_AUTHOR.instagram,
-        resources: plan.authorResources?.length ? plan.authorResources : DEFAULT_AUTHOR.resources,
+        resources: (plan.authorResources?.length ? plan.authorResources : DEFAULT_AUTHOR.resources).filter(
+          (r) => offresFrance(langue) || !lienFranceSeulement(r.url),
+        ),
       }
     : {
         name: author,
         role: plan.authorRole,
         bio: plan.authorBio,
         instagram: plan.authorInstagram,
-        resources: plan.authorResources ?? [],
+        resources: (plan.authorResources ?? []).filter((r) => offresFrance(langue) || !lienFranceSeulement(r.url)),
       };
   const authorPhotoSrc = plan.authorPhoto
     ? asset(plan.authorPhoto)

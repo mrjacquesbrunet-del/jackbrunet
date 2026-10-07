@@ -5,8 +5,11 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { mainNav, secondaryNav, siteConfig, supportCta } from "@/config/site";
 import { useAppMode } from "@/lib/app-mode";
+import { lienFranceSeulement, offresFrance, useLangue } from "@/lib/i18n";
 
 export function Header() {
+  // Hors français : pas de liens vers la boutique et le livre (France seulement).
+  const langue = useLangue();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   // Dans l'app native, la marque devient RHEMA ; le site garde « Jack Brunet ».
@@ -58,7 +61,7 @@ export function Header() {
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">
-          {mainNav.map((item) => (
+          {mainNav.filter((item) => offresFrance(langue) || !lienFranceSeulement(item.href)).map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -147,7 +150,7 @@ export function Header() {
             className="overflow-hidden border-t border-night-900/10 bg-cream/95 backdrop-blur-xl lg:hidden"
           >
             <nav className="container-x flex flex-col gap-1 py-5">
-              {mainNav.map((item) => (
+              {mainNav.filter((item) => offresFrance(langue) || !lienFranceSeulement(item.href)).map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}

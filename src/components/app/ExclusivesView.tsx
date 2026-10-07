@@ -3,6 +3,7 @@
 import { useSyncExternalStore } from "react";
 import Link from "next/link";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
+import { offresFrance, useLangue } from "@/lib/i18n";
 
 const KEY = "jb.exclus.unlocked";
 
@@ -55,6 +56,8 @@ const ITEMS: Item[] = [
 ];
 
 export function ExclusivesView() {
+  // Hors français : pas d'extrait du livre RHEMA (vendu en France seulement).
+  const langue = useLangue();
   const unlocked = useSyncExternalStore(subscribe, getSnapshot, () => false);
 
   return (
@@ -97,7 +100,7 @@ export function ExclusivesView() {
 
         {/* Contenus */}
         <div className="mt-8 grid gap-4 sm:grid-cols-3">
-          {ITEMS.map((it) => (
+          {ITEMS.filter((it) => offresFrance(langue) || it.href !== "/ebook/rhema").map((it) => (
             <div
               key={it.title}
               className="relative overflow-hidden rounded-3xl border border-white/10 bg-night-800/60 p-5"

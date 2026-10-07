@@ -158,6 +158,17 @@ export function localeApp(): string {
   return l === "en" ? "en-US" : l === "pt" ? "pt-BR" : "fr-FR";
 }
 
+/** Livres, boutique et e-books : vendus et envoyés en France seulement, donc
+ * proposés uniquement dans l'app en français. */
+export function offresFrance(l: Langue): boolean {
+  return l === "fr";
+}
+
+/** Lien vers une offre réservée à la France (boutique, livre papier, Amazon.fr…) ? */
+export function lienFranceSeulement(href: string): boolean {
+  return /\/boutique|boutique\.jackbrunet|amazon\.|amzn\./i.test(href);
+}
+
 /** Podcasts et vidéos n'existent qu'en français. */
 export function contenuAudioVideoDispo(l: Langue): boolean {
   return l === "fr";
