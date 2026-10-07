@@ -9,11 +9,12 @@ import { getLangue, type Langue } from "./i18n";
  *   - World English Bible (anglais, domaine public)       → public/bible/web/
  *   - King James Version (anglais, domaine public)        → public/bible/kjv/
  *   - Bíblia Livre (portugais du Brésil, CC BY 4.0)       → public/bible/blivre/
+ *   - Bíblia Livre Para Todos (portugais, CC BY-SA 4.0)   → public/bible/blt/
  * Par défaut, la version de la langue de l'app ; chacun peut en choisir une
  * autre (réglages de lecture), mémorisée sur l'appareil.
  */
 
-export type VersionBible = "lsg" | "web" | "kjv" | "blivre";
+export type VersionBible = "lsg" | "web" | "kjv" | "blivre" | "blt";
 
 export const VERSIONS_BIBLE: {
   id: VersionBible;
@@ -63,6 +64,16 @@ export const VERSIONS_BIBLE: {
     credit:
       "Bíblia Livre (BLIVRE) © 2018 Diego Santos, Mario Sérgio e Marco Teles, licença Creative Commons Atribuição 4.0 Brasil (CC BY 4.0). Fonte : bibliaportugues.com / eBible.org.",
   },
+  {
+    id: "blt",
+    nom: "Bíblia Livre Para Todos",
+    abrev: "BLT",
+    langue: "pt",
+    dossier: "blt",
+    voix: "pt-BR",
+    credit:
+      "Bíblia Livre Para Todos (BLT) © 2022 Free Bible Ministry, licença Creative Commons Atribuição-CompartilhaIgual 4.0 (CC BY-SA 4.0). Fonte : eBible.org.",
+  },
 ];
 
 const CLE = "jb.bible.version";
@@ -76,7 +87,7 @@ export function getVersionBible(): VersionBible {
   if (typeof window === "undefined") return "lsg";
   try {
     const v = localStorage.getItem(CLE);
-    if (v === "lsg" || v === "web" || v === "kjv" || v === "blivre") return v;
+    if (v === "lsg" || v === "web" || v === "kjv" || v === "blivre" || v === "blt") return v;
   } catch {
     /* stockage indisponible */
   }

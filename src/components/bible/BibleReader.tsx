@@ -627,8 +627,8 @@ export function BibleReader() {
           {infoVersion(version).nom}
         </span>
       </h2>
-      {/* Mention obligatoire de la source (licence CC BY de la Bíblia Livre). */}
-      {version === "blivre" ? (
+      {/* Mention obligatoire de la source (licences CC BY / CC BY-SA des Bíblias Livres). */}
+      {version === "blivre" || version === "blt" ? (
         <p translate="no" className="mt-1 text-[11px] leading-snug text-night-900/45">
           {infoVersion(version).credit}
         </p>
