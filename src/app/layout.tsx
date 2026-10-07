@@ -11,6 +11,7 @@ import { CloudSync } from "@/components/community/CloudSync";
 import { AppShell } from "@/components/app/AppShell";
 import { GlobalAudioBar } from "@/components/audio/GlobalAudioBar";
 import { Analytics } from "@/components/app/Analytics";
+import { Traducteur } from "@/components/i18n/Traducteur";
 
 // Grotesque très gras pour le corps et les titres percutants
 const archivo = Archivo({
@@ -106,6 +107,16 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="fr" className={`${archivo.variable} ${playfair.variable} ${fredoka.variable} ${caveat.variable} ${cormorant.variable} ${bebas.variable}`}>
+      <head>
+        {/* Autre langue que le français : masque l'écran le temps de traduire
+            (le composant Traducteur le réaffiche, 2,5 s au plus). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{var l=localStorage.getItem('jb.langue');if(!l){var n=((navigator.languages&&navigator.languages[0])||navigator.language||'fr').toLowerCase();l=n.indexOf('pt')===0?'pt':n.indexOf('en')===0?'en':'fr'}if(l!=='fr'){var d=document.documentElement;d.classList.add('i18n-attente');d.lang=l==='pt'?'pt-BR':l;setTimeout(function(){d.classList.remove('i18n-attente')},2500)}}catch(e){}",
+          }}
+        />
+      </head>
       <body className="min-h-screen font-sans">
         {/* Grain de surface (texture subtile) */}
         <div className="bg-noise pointer-events-none fixed inset-0 z-[1] opacity-[0.035] mix-blend-multiply" />
@@ -119,6 +130,7 @@ export default function RootLayout({
         <AppShell />
         <GlobalAudioBar />
         <Analytics />
+        <Traducteur />
       </body>
     </html>
   );

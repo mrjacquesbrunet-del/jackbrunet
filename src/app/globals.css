@@ -429,3 +429,8 @@ html.profile-jour body {
   50% { box-shadow: inset 0 2px 0 rgba(255,255,255,.45), 0 6px 0 #b45309, 0 0 24px rgba(252,211,77,.4); }
 }
 .mem-glow { animation: mem-glow 2.2s ease-in-out infinite; }
+
+/* Multilingue : écran masqué le temps de traduire (voir Traducteur). */
+html.i18n-attente body {
+  opacity: 0;
+}
