@@ -1,0 +1,70 @@
+name: Multilingue — commentaires et lexique (OpenAI Batch)
+
+# Traduit d'avance les commentaires mot à mot et le lexique hébreu/grec en
+# anglais et en portugais (gpt-4o-mini, API Batch : moitié prix). Reprenable :
+# se relance tout seul tant qu'il reste des lots en cours ou à envoyer.
+# Prérequis : secret OPENAI_API_KEY dans le dépôt.
+
+on:
+  workflow_dispatch:
+    inputs:
+      langues:
+        description: 'Langues (ex. "en,pt")'
+        required: false
+        default: "en,pt"
+      types:
+        description: 'Contenus (« commentaire,lexique »)'
+        required: false
+        default: "commentaire,lexique"
+      limite_requetes:
+        description: "Nombre maximum de requêtes (essai ; 0 = tout)"
+        required: false
+        default: "0"
+      limite_tokens:
+        description: "Jetons envoyés en même temps (limite OpenAI de ton niveau)"
+        required: false
+        default: "1800000"
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: i18n-etudes
+  cancel-in-progress: false
+
+jobs:
+  traduire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Identité git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Traduire (lots OpenAI)
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          LANGUES: ${{ inputs.langues || 'en,pt' }}
+          TYPES: ${{ inputs.types || 'commentaire,lexique' }}
+          LIMITE_REQUETES: ${{ inputs.limite_requetes || '0' }}
+          LIMITE_TOKENS: ${{ inputs.limite_tokens || '1800000' }}
+        run: node scripts/i18n/traduire-etudes-openai.mjs
+
+      - name: Relancer s'il reste du travail
+        if: ${{ hashFiles('.suite-etudes') != '' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run i18n-etudes.yml --ref "${GITHUB_REF_NAME}" \
+            -f langues="${{ inputs.langues || 'en,pt' }}" -f types="${{ inputs.types || 'commentaire,lexique' }}" \
+            -f limite_requetes="${{ inputs.limite_requetes || '0' }}" -f limite_tokens="${{ inputs.limite_tokens || '1800000' }}"
