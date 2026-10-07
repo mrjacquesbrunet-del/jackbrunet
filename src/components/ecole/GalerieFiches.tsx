@@ -1,5 +1,7 @@
 "use client";
 
+import { getLangue } from "@/lib/i18n";
+
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -351,7 +353,7 @@ function Carte({
     .filter(([l]) => l === livre)
     .map(([, c]) => c);
   const resume =
-    chaps.length > 1 ? `${bookNames[livre] ?? ""} ${chaps[0]} à ${chaps[chaps.length - 1]}` : `${bookNames[livre] ?? ""} ${chaps[0] ?? ""}`;
+    chaps.length > 1 ? `${bookNames[livre] ?? ""} ${chaps[0]}${getLangue() === "fr" ? " à " : "–"}${chaps[chaps.length - 1]}` : `${bookNames[livre] ?? ""} ${chaps[0] ?? ""}`;
 
   return (
     <article className="mx-auto h-full max-w-lg overflow-y-auto overscroll-y-contain rounded-t-[28px] border border-b-0 border-white/10 bg-night-900">
