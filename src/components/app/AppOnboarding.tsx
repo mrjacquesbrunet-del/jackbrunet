@@ -87,6 +87,7 @@ const TEXTES: Record<
     dejaCompte: string;
     retourTitre: string;
     retourTexte: string;
+    newsletterTitre: string;
     newsletter: string;
     newsletterNote: string;
   }
@@ -113,8 +114,9 @@ const TEXTES: Record<
     dejaCompte: "J'ai déjà un compte · Me connecter",
     retourTitre: "Heureux de te revoir.",
     retourTexte: "Connecte-toi pour retrouver ta progression, ton carnet et tes favoris.",
-    newsletter: "Je veux recevoir chaque matin la pensée du jour et les nouvelles de RHEMA par email.",
-    newsletterNote: "Gratuit. Désinscription en un clic, quand tu veux.",
+    newsletterTitre: "Reçois des cadeaux exclusifs",
+    newsletter: "E-books offerts, contenus inédits et la pensée du jour, par email.",
+    newsletterNote: "Gratuit · Désinscription en un clic",
   },
   en: {
     slogan: "Your time with Jesus",
@@ -145,8 +147,9 @@ const TEXTES: Record<
     dejaCompte: "I already have an account · Sign in",
     retourTitre: "Good to see you again.",
     retourTexte: "Sign in to find your progress, your journal and your favorites.",
-    newsletter: "I want to receive the thought of the day and RHEMA news by email every morning.",
-    newsletterNote: "Free. Unsubscribe in one click, anytime.",
+    newsletterTitre: "Get exclusive gifts",
+    newsletter: "Free e-books, exclusive content and the thought of the day, by email.",
+    newsletterNote: "Free · Unsubscribe in one click",
   },
   pt: {
     slogan: "Seu tempo com Jesus",
@@ -177,8 +180,9 @@ const TEXTES: Record<
     dejaCompte: "Já tenho uma conta · Entrar",
     retourTitre: "Que bom ver você de novo.",
     retourTexte: "Entre para reencontrar seu progresso, seu caderno e seus favoritos.",
-    newsletter: "Quero receber todas as manhãs o pensamento do dia e as novidades do RHEMA por e-mail.",
-    newsletterNote: "Grátis. Cancele com um clique, quando quiser.",
+    newsletterTitre: "Receba presentes exclusivos",
+    newsletter: "E-books gratuitos, conteúdos exclusivos e o pensamento do dia, por e-mail.",
+    newsletterNote: "Grátis · Cancele com um clique",
   },
 };
 
@@ -705,7 +709,9 @@ export function AppOnboarding() {
                         role="checkbox"
                         aria-checked={optin}
                         onClick={() => setOptin(!optin)}
-                        className="mt-6 flex w-full items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-left"
+                        className={`mt-6 flex w-full items-start gap-3 rounded-2xl border p-4 text-left transition-colors ${
+                          optin ? "border-dawn-400/60 bg-dawn-400/10" : "border-dawn-400/30 bg-white/[0.05]"
+                        }`}
                         translate="no"
                       >
                         <span
@@ -719,9 +725,16 @@ export function AppOnboarding() {
                             </svg>
                           ) : null}
                         </span>
-                        <span className="font-sans">
-                          <span className="block text-[14px] leading-snug text-cream/90">{T.newsletter}</span>
-                          <span className="mt-1 block text-[12px] text-cream/45">{T.newsletterNote}</span>
+                        <span className="min-w-0 flex-1 font-sans">
+                          <span className="flex items-center gap-2 text-[15px] font-bold text-white">
+                            <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 text-dawn-400" fill="none" stroke="currentColor" strokeWidth={1.8} aria-hidden>
+                              <rect x="3.5" y="8.5" width="17" height="4" rx="1" />
+                              <path d="M5 12.5v7.5h14v-7.5M12 8.5V20M12 8.5c-1.5-3.5-5.5-4-5.5-1.5S10 8.5 12 8.5zM12 8.5c1.5-3.5 5.5-4 5.5-1.5S14 8.5 12 8.5z" strokeLinejoin="round" />
+                            </svg>
+                            {T.newsletterTitre}
+                          </span>
+                          <span className="mt-1 block text-[13px] leading-snug text-cream/80">{T.newsletter}</span>
+                          <span className="mt-1 block text-[11px] text-cream/45">{T.newsletterNote}</span>
                         </span>
                       </button>
                     ) : null}
