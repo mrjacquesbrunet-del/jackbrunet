@@ -4,7 +4,7 @@ name: Importer les Bibles anglaise et portugaise
 # les commite dans public/bible/<dossier>/ :
 #   - Berean Standard Bible (BSB), anglais, domaine public (2023)
 #   - Bíblia Livre (BLIVRE), portugais du Brésil, CC BY 4.0 (attribution)
-# Vérifie aussi l'adresse des fichiers audio de la BSB (domaine public, CC0).
+# Dresse aussi la liste des fichiers audio de la BSB (Bob Souer, domaine public CC0).
 
 on:
   workflow_dispatch:
@@ -27,21 +27,8 @@ jobs:
       - name: Bíblia Livre (portugais)
         run: node scripts/fetch-bible-version.mjs porbr2018 blivre pt
 
-      - name: Audio BSB — adresses à tester
-        continue-on-error: true
-        run: |
-          for u in \
-            "https://openbible.com/audio/souer/BSB_01_Gen_001.mp3" \
-            "https://openbible.com/audio/souer/BSB_01_Gen_001_H.mp3" \
-            "https://openbible.com/audio/gilbert/BSB_01_Gen_001_G.mp3" \
-            "https://openbible.com/audio/hays/BSB_01_Gen_001_H.mp3" \
-            "https://bereanbible.com/audio/BSB_01_Gen_001.mp3" \
-            "https://openbible.com/audio/souer/" ; do
-            echo "$(curl -s -o /dev/null -w '%{http_code} %{size_download} %{content_type}' -A 'Mozilla/5.0' -L "$u") $u"
-          done
-          curl -s -A 'Mozilla/5.0' -L https://openbible.com/audio/souer/ | grep -o 'href="[^"]*"' | head -20 || true
-          curl -s -A 'Mozilla/5.0' -L https://openbible.com/audio.htm | grep -io 'href="[^"]*\(mp3\|zip\)"' | head -20 || true
-          curl -s -A 'Mozilla/5.0' -L https://openbible.com/audio/ | grep -io 'href="[^"]*"' | head -30 || true
+      - name: Audio BSB (liste des chapitres)
+        run: node scripts/bsb-audio-manifeste.mjs
 
       - name: Commiter
         run: |
