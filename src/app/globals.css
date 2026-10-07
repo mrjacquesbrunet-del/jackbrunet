@@ -434,6 +434,14 @@ html.profile-jour body {
 html.i18n-attente body {
   opacity: 0;
 }
+/* Premier lancement de l'app : écran sombre jusqu'à l'introduction (voir AppOnboarding). */
+html.accueil-attente::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: #0e0e0c;
+}
 /* Contenus qui n'existent qu'en français (vidéos, podcasts) : masqués en anglais et portugais. */
 html[lang="en"] .fr-seulement,
 html[lang="pt-BR"] .fr-seulement {
