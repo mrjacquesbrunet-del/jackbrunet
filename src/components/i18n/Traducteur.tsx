@@ -69,12 +69,13 @@ export function Traducteur() {
       if (racine.nodeType !== Node.ELEMENT_NODE) return;
       const el = racine as Element;
       // Champ de saisie : on traduit l'indication (placeholder), jamais le texte tapé.
-      if (el.tagName === "TEXTAREA" && !exclu(el.parentElement)) attributs(el);
+      // Dessin (svg) : seulement sa description (aria-label), pas son contenu.
+      if ((el.tagName === "TEXTAREA" || el.tagName === "svg") && !exclu(el.parentElement)) attributs(el);
       if (exclu(el)) return;
       attributs(el);
       const tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT, {
         acceptNode: (n) => {
-          if (n.nodeType === Node.ELEMENT_NODE && (n as Element).tagName === "TEXTAREA") {
+          if (n.nodeType === Node.ELEMENT_NODE && ((n as Element).tagName === "TEXTAREA" || (n as Element).tagName === "svg")) {
             attributs(n as Element);
             return NodeFilter.FILTER_REJECT;
           }
