@@ -44,7 +44,7 @@ jobs:
         continue-on-error: true
         run: |
           node scripts/audio-manifeste.mjs https://openbible.com/audio/kjv/ kjv
-          node scripts/audio-manifeste.mjs https://ebible.org/eng-web/mp3/ web || true
+          node scripts/audio-manifeste.mjs https://ebible.org/eng-web/audio/ web
 
       - name: Commiter
         run: |
@@ -52,7 +52,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A public/bible
           if git diff --staged --quiet; then echo "Rien à commiter."; else
-            git commit -m "chore(bible): Bibles anglaise (BSB) et portugaise (Bíblia Livre) [skip ci]"
+            git commit -m "chore(bible): Bibles WEB, KJV et Bíblia Livre [skip ci]"
             git pull --rebase origin ${GITHUB_REF_NAME}
             git push origin HEAD:${GITHUB_REF_NAME}
           fi

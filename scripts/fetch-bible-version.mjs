@@ -61,7 +61,7 @@ for (const f of txt) {
     }
     const ch = Number(m[2]);
     const v = Number(m[3]);
-    const texte = m[4].replace(/\s+/g, " ").trim();
+    const texte = m[4].replace(/¶/g, "").replace(/\s+/g, " ").trim();
     if (!livres.has(n)) livres.set(n, []);
     const chapitres = livres.get(n);
     while (chapitres.length < ch) chapitres.push([]);
