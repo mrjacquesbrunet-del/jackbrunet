@@ -106,8 +106,11 @@ function chaines(x, chemin = [], acc = [], f = "") {
   else if (typeof x === "string") {
     const cle = [...chemin].reverse().find((c) => typeof c === "string");
     // Exception : noms des thèmes des études (« Identité & valeur »…).
-    // « nom » est un texte pour les thèmes des études et dans les fiches bibliques (Moïse → Moses).
-    const nomTexte = cle === "nom" && (chemin[0] === "themes" || f.startsWith("bible/"));
+    // « nom » est un texte pour les thèmes des études et dans les fiches bibliques (Moïse → Moses) ;
+    // « auteur » et « themes » sont des textes dans les fichiers de la Bible (introductions des livres).
+    const nomTexte =
+      (cle === "nom" && (chemin[0] === "themes" || f.startsWith("bible/"))) ||
+      ((cle === "auteur" || cle === "themes") && f.startsWith("bible/"));
     const technique = (TECHNIQUES.has(cle) && !nomTexte) || (TECHNIQUES_FICHIER[f] ?? []).includes(cle);
     if (!technique && lisible(x) && !estIdentifiant(f, x)) acc.push([chemin, x]);
   }
