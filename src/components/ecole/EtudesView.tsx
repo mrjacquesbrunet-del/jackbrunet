@@ -3,7 +3,7 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { asset, mediaUrl } from "@/lib/asset";
+import { asset, intlUrl, mediaUrl } from "@/lib/asset";
 import { bibleHref } from "@/lib/bible-ref";
 import { shareText } from "@/lib/share";
 import { appShareUrl } from "@/config/app-links";
@@ -536,7 +536,7 @@ function AudioEtudeFr({ etude }: { etude: EtudeBiblique }) {
       });
     // 1) le site (jackbrunet.com/audio/etudes/…), 2) Supabase etudes/…, 3) racine Supabase.
     const emplacements: ((f: string) => string | null)[] = [
-      (f) => mediaUrl(`/audio/${f}`),
+      (f) => (/^(en|pt)\//.test(f) ? intlUrl(`/audio/${f}`) : mediaUrl(`/audio/${f}`)),
       (f) => audioEtudeUrl(f),
       (f) => audioEtudeUrl(f.split("/").pop() ?? f),
     ];

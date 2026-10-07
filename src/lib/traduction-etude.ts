@@ -1,41 +1,44 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getSupabase } from "./supabase";
+import { intlUrl } from "./asset";
 import { getLangue, type Langue } from "./i18n";
 
 /**
  * Commentaires mot à mot et lexique hébreu/grec en anglais et en portugais :
- * traduits À LA DEMANDE par la fonction Supabase « traduire-etude »
- * (gpt-4o-mini), la première fois qu'on les ouvre, puis gardés en mémoire
- * pour tout le monde. En cas d'échec, le français reste affiché.
+ * traduits D'AVANCE (scripts/i18n/traduire-etudes-openai.mjs, i18n/etude/)
+ * et servis par le site international, avec la même structure que le
+ * français :
+ *   /etude/<langue>/commentary/<livre>/<chapitre>.json
+ *   /etude/<langue>/lexique/<tranche>.json
+ * Si un fichier manque, le français reste affiché.
  */
 
-type TypeEtude = "commentaire" | "lexique";
-const memo = new Map<string, Promise<unknown | null>>();
+const fichiers = new Map<string, Promise<Record<string, unknown> | null>>();
 
-export function traduireEtude<T>(type: TypeEtude, ref: string, l: Langue = getLangue()): Promise<T | null> {
-  if (l === "fr") return Promise.resolve(null);
-  const k = `${type}:${ref}:${l}`;
-  let p = memo.get(k);
+function fichier(chemin: string): Promise<Record<string, unknown> | null> {
+  let p = fichiers.get(chemin);
   if (!p) {
-    const sb = getSupabase();
-    p = !sb
-      ? Promise.resolve(null)
-      : Promise.race([
-          sb.functions
-            .invoke("traduire-etude", { body: { type, ref, langue: l } })
-            .then(({ data, error }) => (error ? null : (data?.traduction ?? null)))
-            .catch(() => null),
-          // Jamais plus de 20 s d'attente : le français reste alors affiché.
-          new Promise<null>((ok) => setTimeout(() => ok(null), 20000)),
-        ]);
-    p.then((v) => {
-      if (v === null) memo.delete(k);
-    });
-    memo.set(k, p);
+    p = fetch(intlUrl(chemin))
+      .then((r) => (r.ok ? r.json() : null))
+      .catch(() => null);
+    fichiers.set(chemin, p);
   }
-  return p as Promise<T | null>;
+  return p;
+}
+
+/** Commentaire traduit d'un verset (null en français ou s'il manque). */
+export async function commentaireTraduit<T>(livre: number, chapitre: number, verset: number, l: Langue = getLangue()): Promise<T | null> {
+  if (l === "fr") return null;
+  const t = await fichier(`/etude/${l}/commentary/${livre}/${chapitre}.json`);
+  return ((t?.[String(verset)] as T | undefined) ?? null);
+}
+
+/** Fiche du lexique traduite (null en français ou si elle manque). */
+export async function motTraduit<T>(code: string, l: Langue = getLangue()): Promise<T | null> {
+  if (l === "fr") return null;
+  const t = await fichier(`/etude/${l}/lexique/${code.slice(0, 3)}.json`);
+  return ((t?.[code] as T | undefined) ?? null);
 }
 
 /**
@@ -48,12 +51,12 @@ export function useCommentaireTraduit<T>(livre: number, chapitre: number, verset
   useEffect(() => {
     if (verset === null || !fr || getLangue() === "fr") return;
     let vivant = true;
-    traduireEtude<T>("commentaire", cle).then((v) => {
+    commentaireTraduit<T>(livre, chapitre, verset).then((v) => {
       if (vivant && v) setTr({ cle, v });
     });
     return () => {
       vivant = false;
     };
-  }, [cle, verset, fr]);
+  }, [cle, livre, chapitre, verset, fr]);
   return tr?.cle === cle ? tr.v : fr;
 }

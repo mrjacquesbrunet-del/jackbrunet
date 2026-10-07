@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { mediaUrl } from "./asset";
+import { intlUrl } from "./asset";
 import { getLangue, type Langue } from "./i18n";
 
 /**
  * AUDIOS TRADUITS (anglais, portugais) des méditations, plans, formation et
  * études : public/audio/<langue>/<nom>.mp3, importés par le workflow
- * « Importer des audios » qui tient à jour public/audio/<langue>/index.json.
+ * « Importer des audios » qui tient à jour public/audio/<langue>/index.json,
+ * et servis par le site international (voir intlUrl).
  *
  * Noms des fichiers (identiques en en/ et pt/) :
  *   devotion-<i>.mp3                 méditation n° i (même numéro qu'en français)
@@ -23,7 +24,7 @@ function liste(l: Langue): Promise<Set<string>> {
   if (!listes.has(l)) {
     listes.set(
       l,
-      fetch(mediaUrl(`/audio/${l}/index.json`))
+      fetch(intlUrl(`/audio/${l}/index.json`))
         .then((r) => (r.ok ? r.json() : []))
         .catch(() => [])
         .then((noms: string[]) => new Set(noms)),
@@ -35,7 +36,7 @@ function liste(l: Langue): Promise<Set<string>> {
 /** Adresse de l'audio traduit (ou null s'il n'existe pas encore). */
 export async function audioTraduit(nom: string, l: Langue = getLangue()): Promise<string | null> {
   if (l === "fr") return null;
-  return (await liste(l)).has(nom) ? mediaUrl(`/audio/${l}/${nom}`) : null;
+  return (await liste(l)).has(nom) ? intlUrl(`/audio/${l}/${nom}`) : null;
 }
 
 /** Pour un composant : adresses des audios traduits demandés (null si absents ou en français). */

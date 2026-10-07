@@ -24,3 +24,14 @@ export function mediaUrl(path?: string): string {
   const clean = path.startsWith("/") ? path : `/${path}`;
   return `${MEDIA_BASE}${clean}`;
 }
+
+/**
+ * URL d'un fichier du site INTERNATIONAL (dépôt rhema-international) :
+ * audios anglais/portugais (/audio/en, /audio/pt) et commentaires + lexique
+ * traduits (/etude/<langue>/…). Publiés à part pour que jackbrunet.com reste
+ * sous la limite de 1 Go de GitHub Pages.
+ */
+const INTL_BASE = "https://mrjacquesbrunet-del.github.io/rhema-international";
+export function intlUrl(path: string): string {
+  return `${INTL_BASE}${path.startsWith("/") ? path : `/${path}`}`;
+}

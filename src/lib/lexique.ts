@@ -2,7 +2,7 @@
 
 import { mediaUrl } from "@/lib/asset";
 import { getLangue } from "./i18n";
-import { traduireEtude } from "./traduction-etude";
+import { motTraduit } from "./traduction-etude";
 
 /**
  * LEXIQUE GREC / HÉBREU — données servies par le site (public/lexique,
@@ -83,9 +83,9 @@ export async function getMotsDuVerset(livre: number, chapitre: number, verset: n
 export async function getMot(code: string): Promise<Mot | null> {
   const t = await charger(`/lexique/mots/${tranche(code)}.json`, cacheMots);
   const fr = t[code] ?? null;
-  // Anglais, portugais : fiche traduite à la demande (sinon le français).
+  // Anglais, portugais : fiche traduite d'avance (sinon le français).
   if (!fr || getLangue() === "fr") return fr;
-  return (await traduireEtude<Mot>("lexique", code)) ?? fr;
+  return (await motTraduit<Mot>(code)) ?? fr;
 }
 
 export async function getEmplois(code: string): Promise<Emploi[]> {
