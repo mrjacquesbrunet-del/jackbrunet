@@ -1,23 +1,4 @@
 {
- "lots": [
-  "msgbatch_01QcTSQez2qjnc3WZ2kctAnM"
- ],
- "requetes": {
-  "en-muxxtr2p-0": [
-   "&ldquo;",
-   "&rdquo;",
-   "World English Bible",
-   "World English Bible (WEB), public domain.",
-   "King James Version",
-   "King James Version (KJV, 1769), public domain."
-  ],
-  "pt-muxxtr2x-0": [
-   "&ldquo;",
-   "&rdquo;",
-   "World English Bible",
-   "World English Bible (WEB), public domain.",
-   "King James Version",
-   "King James Version (KJV, 1769), public domain."
-  ]
- }
+ "lots": [],
+ "requetes": {}
 }
