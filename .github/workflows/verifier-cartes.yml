@@ -18,7 +18,7 @@ jobs:
       - name: Vérifier
         env:
           LANGUE: ${{ inputs.langue }}
-          BASE: https://gymddrjmlhjhjlnuedma.supabase.co/storage/v1/object/public/medias/
+          SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
         run: |
           node -e '
             const items = require("./content/devotions.json").items;
@@ -29,7 +29,7 @@ jobs:
               for (const [i, d] of items.entries()) {
                 if (!d.card) continue;
                 const nom = d.card.replace(/(\.[a-z0-9]+)$/i, `-${l}$1`);
-                const r = await fetch(process.env.BASE + encodeURIComponent(nom), { method: "HEAD" });
+                const r = await fetch(`${process.env.SUPABASE_URL}/storage/v1/object/public/medias/` + encodeURIComponent(nom), { method: "HEAD" });
                 if (r.ok) ok++; else manquants.push(`${i + 1}. ${nom} (${r.status})`);
               }
               console.log(`${ok} affiches trouvées sur ${items.filter((d) => d.card).length}`);
