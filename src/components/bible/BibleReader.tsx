@@ -30,7 +30,7 @@ import { ReadingSettings } from "@/components/bible/ReadingSettings";
 import { useReading, FONT_STACK, THEME_STYLE } from "@/lib/reading-settings";
 import { useAppMode } from "@/lib/app-mode";
 import { getIndex, getBook } from "@/lib/bible-client";
-import { useVersionBible } from "@/lib/bible-version";
+import { infoVersion, useVersionBible } from "@/lib/bible-version";
 
 type BookIndex = { id: number; name: string; chapters: number };
 type Book = { id: number; name: string; chapters: string[][] };
@@ -446,8 +446,8 @@ export function BibleReader() {
             <span className="truncate font-display">
               {book?.name} {chapterCount? chapter: ""}
             </span>
-            <span className="shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-black tracking-wide opacity-70" style={{ backgroundColor: reading.theme === "sombre" ? "rgba(255,255,255,.12)" : "rgba(23,23,22,.08)" }}>
-              LSG
+            <span translate="no" className="shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-black tracking-wide opacity-70" style={{ backgroundColor: reading.theme === "sombre" ? "rgba(255,255,255,.12)" : "rgba(23,23,22,.08)" }}>
+              {infoVersion(version).abrev}
             </span>
             <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0 fill-none stroke-current opacity-60" strokeWidth={2.4}>
               <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
@@ -623,10 +623,16 @@ export function BibleReader() {
         <span>
           {book?.name} {chapterCount? chapter: ""}
         </span>
-        <span className="text-xs font-semibold uppercase tracking-[0.15em] text-spirit-500">
-          Louis Segond
+        <span translate="no" className="text-xs font-semibold uppercase tracking-[0.15em] text-spirit-500">
+          {infoVersion(version).nom}
         </span>
       </h2>
+      {/* Mention obligatoire de la source (licence CC BY de la Bíblia Livre). */}
+      {version === "blivre" ? (
+        <p translate="no" className="mt-1 text-[11px] leading-snug text-night-900/45">
+          {infoVersion(version).credit}
+        </p>
+      ) : null}
 
       {/* Service audio: écouter le chapitre (voix de l'appareil, LSG libre) */}
       {!loading && verses.length? (
