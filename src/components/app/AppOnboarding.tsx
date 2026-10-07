@@ -27,7 +27,8 @@ function aDejaEuUnCompte(): boolean {
  * jamais pour un membre déjà connecté), dans l'ambiance RHEMA :
  *  1. Intro : le fauteuil sort du flou, le logo et « RHEMA » apparaissent,
  *     « Ton temps avec Jésus » s'écrit mot à mot, puis Matthieu 11:28 ;
- *  2. Les fonctionnalités, une par écran, avec la vraie capture de l'app ;
+ *  2. Les fonctionnalités, une par écran, avec la vraie capture de l'app
+ *     (la Bible et les jeux défilent dans le téléphone) ;
  *  3. Les avis des stores ;
  *  4. Le compte (Apple, Google, e-mail).
  * Pas de « Passer » : on avance avec « Continuer ».
@@ -101,7 +102,7 @@ const TEXTES: Record<
       { image: "bible", surtitre: "La Bible", titre: "Touche un verset, tout s'ouvre.", texte: "Les mots hébreux et grecs, le commentaire, la culture, les personnages et les lieux… et la Bible audio." },
       { image: "mur", surtitre: "Le mur de prière", titre: "Tu n'es jamais seul.", texte: "Partage tes sujets de prière : des frères et sœurs prient pour toi, et tu pries pour eux." },
       { image: "etudes", surtitre: "Études bibliques", titre: "Grandis dans la connaissance de Sa Parole.", texte: "Formations, études bibliques, plans de lecture et jeux pour avancer pas à pas." },
-      { image: "profil", surtitre: "Ton profil", titre: "Ton chemin avec Dieu, jour après jour.", texte: "Ta série de jours, tes badges, ton carnet spirituel et tes favoris, toujours avec toi." },
+      { image: "jeux", surtitre: "Jeux bibliques", titre: "Apprends la Bible en t'amusant.", texte: "Quiz, Qui suis-je ?, Vrai ou faux, versets à mémoriser… seul ou en duel avec tes amis." },
     ],
     avisTitre: "Ils vivent leur foi avec RHEMA.",
     avisSous: "Ce qu'ils en disent sur l'App Store et Google Play",
@@ -126,7 +127,7 @@ const TEXTES: Record<
       { image: "bible", surtitre: "The Bible", titre: "Tap a verse, and it all opens up.", texte: "Hebrew and Greek words, commentary, culture, people and places… and the audio Bible." },
       { image: "mur", surtitre: "The prayer wall", titre: "You are never alone.", texte: "Share your prayer requests: brothers and sisters pray for you, and you pray for them." },
       { image: "etudes", surtitre: "Bible studies", titre: "Grow in the knowledge of His Word.", texte: "Courses, Bible studies, reading plans and games to move forward step by step." },
-      { image: "profil", surtitre: "Your profile", titre: "Your walk with God, day after day.", texte: "Your streak, your badges, your spiritual journal and your favorites, always with you." },
+      { image: "jeux", surtitre: "Bible games", titre: "Learn the Bible while having fun.", texte: "Quiz, Who am I?, True or False, verses to memorize… solo or in a duel with your friends." },
     ],
     avisTitre: "They live their faith with RHEMA.",
     avisSous: "What they say on the App Store and Google Play",
@@ -158,7 +159,7 @@ const TEXTES: Record<
       { image: "bible", surtitre: "A Bíblia", titre: "Toque em um versículo, e tudo se abre.", texte: "As palavras hebraicas e gregas, o comentário, a cultura, os personagens e os lugares… e a Bíblia em áudio." },
       { image: "mur", surtitre: "O mural de oração", titre: "Você nunca está sozinho.", texte: "Compartilhe seus pedidos de oração: irmãos e irmãs oram por você, e você ora por eles." },
       { image: "etudes", surtitre: "Estudos bíblicos", titre: "Cresça no conhecimento da Sua Palavra.", texte: "Cursos, estudos bíblicos, planos de leitura e jogos para avançar passo a passo." },
-      { image: "profil", surtitre: "Seu perfil", titre: "Sua caminhada com Deus, dia após dia.", texte: "Sua sequência de dias, suas medalhas, seu caderno espiritual e seus favoritos, sempre com você." },
+      { image: "jeux", surtitre: "Jogos bíblicos", titre: "Aprenda a Bíblia se divertindo.", texte: "Quiz, Quem sou eu?, Verdadeiro ou falso, versículos para memorizar… sozinho ou em duelo com seus amigos." },
     ],
     avisTitre: "Eles vivem a fé com o RHEMA.",
     avisSous: "O que dizem na App Store e no Google Play",
@@ -186,6 +187,8 @@ const FOND = "/img/accueil/fauteuil.webp";
  * hébreux → commentaire → culture → personnages. Captures par langue ; les
  * langues absentes gardent la capture fixe. */
 const SEQUENCE_BIBLE: Partial<Record<Langue, number>> = { fr: 5, en: 5 };
+/** Les jeux qui défilent : accueil des jeux, Quiz, Qui suis-je ?, Vrai ou faux, Mémoriser. */
+const SEQUENCE_JEUX = 5;
 /** Où le doigt touche, sur chaque image, pour passer à la suivante (fractions de l'écran). */
 const TOUCHERS = [
   { x: 0.42, y: 0.1 },
@@ -229,7 +232,7 @@ function Etoiles({ className = "h-4 w-4" }: { className?: string }) {
 
 /** Captures qui s'enchaînent dans le téléphone, avec un rond lime à chaque
  * toucher (« on montre » que tout s'ouvre en un geste). */
-function SequenceTelephone({ srcs }: { srcs: string[] }) {
+function SequenceTelephone({ srcs, touchers = true }: { srcs: string[]; touchers?: boolean }) {
   const [i, setI] = useState(0);
   const [touche, setTouche] = useState(false);
   useEffect(() => {
@@ -247,7 +250,7 @@ function SequenceTelephone({ srcs }: { srcs: string[] }) {
       clearTimeout(t2);
     };
   }, [i, srcs.length]);
-  const pos = TOUCHERS[i];
+  const pos = touchers ? TOUCHERS[i] : undefined;
   return (
     <>
       {srcs.map((src, k) => (
@@ -437,8 +440,11 @@ export function AppOnboarding() {
   // Précharge le décor, le logo et les captures de la langue.
   useEffect(() => {
     if (!show) return;
-    const seq = Array.from({ length: SEQUENCE_BIBLE[langue] ?? 0 }, (_, k) => `/img/accueil/${langue}-bible-${k + 1}.webp`);
-    for (const src of [FOND, LOGO, ...T.fonctions.map((f) => `/img/accueil/${langue}-${f.image}.webp`), ...seq]) {
+    const seq = [
+      ...Array.from({ length: SEQUENCE_BIBLE[langue] ?? 0 }, (_, k) => `/img/accueil/${langue}-bible-${k + 1}.webp`),
+      ...Array.from({ length: SEQUENCE_JEUX }, (_, k) => `/img/accueil/${langue}-jeux-${k + 1}.webp`),
+    ];
+    for (const src of [FOND, LOGO, ...T.fonctions.filter((f) => f.image !== "jeux").map((f) => `/img/accueil/${langue}-${f.image}.webp`), ...seq]) {
       const i = new Image();
       i.src = asset(src);
     }
@@ -587,7 +593,12 @@ export function AppOnboarding() {
                       transition={{ opacity: { duration: 0.6 }, scale: { duration: 0.7, ease: EASE }, y: { duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.7 } }}
                       className="relative aspect-[390/844] h-full max-h-[58vh] overflow-hidden rounded-[2.4rem] border-[7px] border-[#1B1B18] bg-black shadow-[0_30px_80px_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.08)]"
                     >
-                      {fonction.image === "bible" && SEQUENCE_BIBLE[langue] ? (
+                      {fonction.image === "jeux" ? (
+                        <SequenceTelephone
+                          touchers={false}
+                          srcs={Array.from({ length: SEQUENCE_JEUX }, (_, k) => asset(`/img/accueil/${langue}-jeux-${k + 1}.webp`))}
+                        />
+                      ) : fonction.image === "bible" && SEQUENCE_BIBLE[langue] ? (
                         <SequenceTelephone
                           srcs={Array.from({ length: SEQUENCE_BIBLE[langue]! }, (_, k) => asset(`/img/accueil/${langue}-bible-${k + 1}.webp`))}
                         />
