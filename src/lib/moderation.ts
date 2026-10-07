@@ -11,7 +11,8 @@ export type ReportTarget =
   | "wall_post"
   | "wall_comment"
   | "message"
-  | "profile";
+  | "profile"
+  | "priere_direct";
 
 export type Report = {
   id: string;

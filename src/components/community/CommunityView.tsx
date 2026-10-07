@@ -19,6 +19,7 @@ import { VoiceRecorderButton } from "@/components/community/VoiceNote";
 import { CommunityLanding } from "@/components/community/CommunityLanding";
 import { FormationCard } from "@/components/community/FormationCard";
 import { TopIntercessors } from "@/components/community/TopIntercessors";
+import { PrieresDirectSection } from "@/components/community/PrieresDirect";
 import { openExternal } from "@/lib/external";
 import { siteConfig } from "@/config/site";
 import {
@@ -375,6 +376,9 @@ function Feed({
           </div>
         </div>
       </div>
+
+      {/* Prières en direct : on prie ensemble, en même temps */}
+      {isSupabaseConfigured ? <PrieresDirectSection /> : null}
 
       {/* Intercesseurs de la semaine — mettre en avant ceux qui prient */}
       <TopIntercessors />
