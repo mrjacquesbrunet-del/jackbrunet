@@ -1,0 +1,39 @@
+name: Vérifier les affiches de punchlines traduites
+
+# Vérifie (sans rien modifier) que chaque affiche <carte>-<langue>.png attendue
+# par l'app existe dans le stockage Supabase « medias ».
+on:
+  workflow_dispatch:
+    inputs:
+      langue:
+        description: "en ou pt"
+        required: true
+        default: en
+
+jobs:
+  verifier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Vérifier
+        env:
+          LANGUE: ${{ inputs.langue }}
+          BASE: https://gymddrjmlhjhjlnuedma.supabase.co/storage/v1/object/public/medias/
+        run: |
+          node -e '
+            const items = require("./content/devotions.json").items;
+            const l = process.env.LANGUE;
+            (async () => {
+              const manquants = [];
+              let ok = 0;
+              for (const [i, d] of items.entries()) {
+                if (!d.card) continue;
+                const nom = d.card.replace(/(\.[a-z0-9]+)$/i, `-${l}$1`);
+                const r = await fetch(process.env.BASE + encodeURIComponent(nom), { method: "HEAD" });
+                if (r.ok) ok++; else manquants.push(`${i + 1}. ${nom} (${r.status})`);
+              }
+              console.log(`${ok} affiches trouvées sur ${items.filter((d) => d.card).length}`);
+              console.log("Manquantes :", manquants.length);
+              for (const m of manquants) console.log("  " + m);
+            })();
+          '
