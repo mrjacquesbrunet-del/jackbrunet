@@ -190,7 +190,7 @@ const FOND = "/img/accueil/fauteuil.webp";
 /** La Bible en action (Genèse 12:1) : chapitre → toucher le verset → mots
  * hébreux → commentaire → culture → personnages. Captures par langue ; les
  * langues absentes gardent la capture fixe. */
-const SEQUENCE_BIBLE: Partial<Record<Langue, number>> = { fr: 5, en: 5 };
+const SEQUENCE_BIBLE: Partial<Record<Langue, number>> = { fr: 5, en: 5, pt: 5 };
 /** Les jeux qui défilent : accueil des jeux, Quiz, Qui suis-je ?, Vrai ou faux, Mémoriser. */
 const SEQUENCE_JEUX = 5;
 /** Où le doigt touche, sur chaque image, pour passer à la suivante (fractions de l'écran). */
