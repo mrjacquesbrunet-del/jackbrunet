@@ -28,6 +28,7 @@ import {
   type Lecon,
 } from "@/lib/formations";
 import { useLangue } from "@/lib/i18n";
+import { useAudiosTraduits } from "@/lib/audio-i18n";
 
 /**
  * FORMATION e-learning (maquette validée) : fond crème, cartes blanches,
@@ -250,15 +251,23 @@ function Vignette({ src }: { src: string }) {
   );
 }
 
-/** La narration n'existe qu'en français : rien dans les autres langues. */
-function LeconAudio(props: Parameters<typeof LeconAudioFr>[0]) {
-  return useLangue() === "fr" ? <LeconAudioFr {...props} /> : null;
+/** Narration de la leçon : en français, ou dans la langue de l'app quand son
+ * enregistrement existe (formation-<leçon>-<partie>.mp3), sinon rien. */
+function LeconAudio(props: { formationId: string; lecon: Lecon }) {
+  const fr = useLangue() === "fr";
+  const nb = Math.max(props.lecon.audio?.length ?? 0, props.lecon.etapes?.length ?? 0, 1);
+  const traduits = useAudiosTraduits(
+    fr ? [] : Array.from({ length: nb }, (_, i) => `formation-${props.lecon.id}-${i + 1}.mp3`),
+  );
+  if (fr) return <LeconAudioFr {...props} />;
+  const urls = (traduits ?? []).filter((u): u is string => !!u);
+  return urls.length ? <LeconAudioFr {...props} urls={urls} /> : null;
 }
 
 /** Carte « Écouter la leçon » : la narration audio si elle existe dans le
  * bucket (formations/<formation>/<leçon>.mp3) — sinon rien. Sondée après
  * montage, comme les images. */
-function LeconAudioFr({ formationId, lecon }: { formationId: string; lecon: Lecon }) {
+function LeconAudioFr({ formationId, lecon, urls }: { formationId: string; lecon: Lecon; urls?: string[] }) {
   const leconId = lecon.id;
   const manifeste = lecon.audio;
   const [parts, setParts] = useState<string[]>([]);
@@ -278,6 +287,11 @@ function LeconAudioFr({ formationId, lecon }: { formationId: string; lecon: Leco
         a.src = u;
       });
     (async () => {
+      // Enregistrements traduits déjà trouvés (anglais, portugais).
+      if (urls?.length) {
+        if (actif) setParts(urls);
+        return;
+      }
       let found: string[] = [];
       // 1) Le manifeste de la leçon (noms exacts des fichiers déposés) :
       // on garde, dans l'ordre, ceux qui existent réellement.
@@ -310,7 +324,7 @@ function LeconAudioFr({ formationId, lecon }: { formationId: string; lecon: Leco
       actif = false;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formationId, leconId]);
+  }, [formationId, leconId, urls?.join("|")]);
 
   if (!parts.length) return null;
   return (
@@ -486,9 +500,9 @@ export function VersetSheet({
 /* ——— Gros lecteur audio d'une partie : lecture, −10 s / +10 s, vitesse ——— */
 const VITESSES = [1, 1.25, 1.5, 2];
 
-/** La narration n'existe qu'en français : rien dans les autres langues. */
+/** Lecteur d'une partie (la source, française ou traduite, est choisie par l'appelant). */
 function LecteurEtape(props: Parameters<typeof LecteurEtapeFr>[0]) {
-  return useLangue() === "fr" ? <LecteurEtapeFr {...props} /> : null;
+  return <LecteurEtapeFr {...props} />;
 }
 
 function LecteurEtapeFr({
@@ -663,7 +677,13 @@ function LectureEtapes({
   // le lecteur touche ou fait défiler lui-même le texte.
   const pauseDefilRef = useRef(0);
   const dernierTickRef = useRef(0);
-  const audioSrc = audioRacineUrl(etape.fichier);
+  // Narration de la partie : française, ou traduite si elle est enregistrée
+  // (formation-<leçon>-<partie>.mp3) ; sinon pas de lecteur.
+  const langue = useLangue();
+  const traduits = useAudiosTraduits(
+    langue === "fr" ? [] : etapes.map((_, i) => `formation-${lecon.id}-${i + 1}.mp3`),
+  );
+  const audioSrc = langue === "fr" ? audioRacineUrl(etape.fichier) : traduits?.[idx] ?? null;
 
   useEffect(() => {
     defilRef.current?.scrollTo(0, 0);

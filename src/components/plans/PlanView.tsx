@@ -28,6 +28,8 @@ import {
 } from "@/lib/plan-duo";
 import type { ThemePlan } from "@/lib/types";
 import { useContenu } from "@/lib/contenu-i18n";
+import { useLangue } from "@/lib/i18n";
+import { useAudiosTraduits } from "@/lib/audio-i18n";
 
 /** Photo de l'auteur (bucket public « audiovf »), repli monogramme. */
 const AVATARS = (() => {
@@ -106,7 +108,17 @@ export function PlanView({
   // est chargée ; la narration audio n'existe qu'en français.
   const plansTr = useContenu<{ items: ThemePlan[] }>("plans");
   const plan = plansTr?.items?.find((p) => p.slug === planFr.slug) ?? planFr;
-  if (plansTr) audioMap = {};
+  // Narration des jours : française, ou traduite quand elle est enregistrée
+  // (audio/<langue>/plan-<slug>-<jour>.mp3).
+  const langue = useLangue();
+  const audiosTr = useAudiosTraduits(
+    langue === "fr" ? [] : planFr.days.map((d) => `plan-${planFr.slug}-${d.day}.mp3`),
+  );
+  if (langue !== "fr") {
+    audioMap = Object.fromEntries(
+      planFr.days.flatMap((d, k) => (audiosTr?.[k] ? [[String(d.day), audiosTr[k] as string]] : [])),
+    );
+  }
   const progress = usePlanProgress(plan.slug);
   const { userId } = useAuth();
   const total = plan.days.length;

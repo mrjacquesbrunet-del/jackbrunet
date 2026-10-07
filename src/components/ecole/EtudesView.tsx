@@ -481,9 +481,18 @@ function fmt(s: number) {
   return `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
 }
 
-/** La narration n'existe qu'en français : rien dans les autres langues. */
-function AudioEtude(props: Parameters<typeof AudioEtudeFr>[0]) {
-  return useLangue() === "fr" ? <AudioEtudeFr {...props} /> : null;
+/** Narration de l'étude : française, ou dans la langue de l'app quand elle est
+ * enregistrée (audio/<langue>/etude-<étude>-<partie>.mp3), sinon rien. */
+function AudioEtude({ etude }: Parameters<typeof AudioEtudeFr>[0]) {
+  const langue = useLangue();
+  const traduite = useMemo(
+    () =>
+      langue === "fr"
+        ? etude
+        : { ...etude, audio: (etude.audio ?? []).map((p, i) => ({ ...p, fichier: `${langue}/etude-${etude.id}-${i + 1}.mp3` })) },
+    [etude, langue],
+  );
+  return <AudioEtudeFr key={langue} etude={traduite} />;
 }
 
 function AudioEtudeFr({ etude }: { etude: EtudeBiblique }) {

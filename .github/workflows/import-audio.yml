@@ -49,6 +49,15 @@ jobs:
             [ "$taille" -gt 10000 ] || { echo "Fichier trop petit: $nom"; exit 1; }
           done
 
+      - name: Liste des audios du dossier (index.json)
+        env:
+          DOSSIER: ${{ inputs.dossier }}
+        run: |
+          # L'app lit cette liste pour savoir quels audios traduits existent
+          # (dossiers en/ et pt/ : méditations, plans, formation, études).
+          ls "public/audio/$DOSSIER" | grep -i '\.mp3$' | sort | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>process.stdout.write(JSON.stringify(s.split("\n").filter(Boolean))))' > "public/audio/$DOSSIER/index.json"
+          echo "$(node -e 'console.log(require("./public/audio/'"$DOSSIER"'/index.json").length)') fichiers dans $DOSSIER"
+
       - name: Committer
         run: |
           git config user.name "github-actions[bot]"

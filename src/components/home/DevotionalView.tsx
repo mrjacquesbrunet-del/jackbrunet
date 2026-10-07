@@ -47,6 +47,7 @@ import { isNativeApp } from "@/lib/notifications";
 import type { Devotion, ReadingPlanDay, Short } from "@/lib/types";
 import { contenuAudioVideoDispo, useLangue } from "@/lib/i18n";
 import { useContenu } from "@/lib/contenu-i18n";
+import { useAudiosTraduits } from "@/lib/audio-i18n";
 
 type Props = {
   devotions: Devotion[];
@@ -162,8 +163,14 @@ export function DevotionalView({
 
   const i = useTodayIndex(list.length, initialIndex);
   const dev = list[i]?? list[0];
-  // Narration de la méditation : en français uniquement.
-  const audioSrc = avVideo && audioMap[String(i)] ? mediaUrl(audioMap[String(i)]) : null;
+  // Narration de la méditation : française, ou traduite quand elle est
+  // enregistrée (audio/<langue>/devotion-<i>.mp3).
+  const audioTr = useAudiosTraduits(avVideo ? [] : [`devotion-${i}.mp3`]);
+  const audioSrc = avVideo
+    ? audioMap[String(i)]
+      ? mediaUrl(audioMap[String(i)])
+      : null
+    : audioTr?.[0] ?? null;
 
   const p = useTodayIndex(plan.length, initialPlanIndex);
   const planDay = plan[p]?? plan[0];
