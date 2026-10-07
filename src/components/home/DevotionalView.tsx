@@ -152,6 +152,7 @@ export function DevotionalView({
         meditation: t.meditation,
         declarationText: t.declarationText,
         declarationReference: t.declarationReference,
+        questions: t.questions?.length ? t.questions : d.questions,
         // Affiche de la punchline dans la langue : même nom suivi de -en / -pt
         // (sinon ViralCard dessine la carte avec la punchline traduite).
         card: d.card && t.punchline !== d.punchline ? carteLangue(d.card, langue) : d.card,

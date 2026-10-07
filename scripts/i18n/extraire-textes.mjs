@@ -56,9 +56,10 @@ function norm(s) {
 }
 
 const resultat = new Map();
-function ajoute(texte, ou) {
+function ajoute(texte, ou, jsx = false) {
   const t = norm(texte);
-  if (!lisible(t)) return;
+  // Texte JSX : toujours affiché, même un mot seul (« sur », « ou », « LE »).
+  if (!(jsx ? LETTRE.test(t) && /[A-Za-zÀ-ÿ]{2}/.test(t) : lisible(t))) return;
   if (!resultat.has(t)) resultat.set(t, []);
   const l = resultat.get(t);
   if (l.length < 3) l.push(ou);
@@ -101,7 +102,7 @@ function parcourt(fichier) {
   const ou = (n) => `${fichier.replace(/^src\//, "")}:${sf.getLineAndCharacterOfPosition(n.getStart()).line + 1}`;
   const visite = (node) => {
     if (ts.isJsxText(node)) {
-      if (node.text.trim()) ajoute(node.text, ou(node));
+      if (node.text.trim()) ajoute(node.text, ou(node), true);
     } else if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) {
       if (!technique(node)) ajoute(node.text, ou(node));
     } else if (ts.isTemplateExpression(node)) {
@@ -134,14 +135,24 @@ const VALEURS_CONTENU = {
   quiz: ["category"],
   "questions-faq": ["category"],
   chrono: ["era"],
+  settings: ["tagline", "description"],
+  // Petits contenus de pages (à propos, dons, accueil…) : tous leurs textes.
+  about: "*",
+  "support-tiers": "*",
+  home: "*",
+  impact: "*",
+  mission: "*",
+  testimonies: "*",
+  thoughts: "*",
 };
 for (const [f, cles] of Object.entries(VALEURS_CONTENU)) {
   const j = JSON.parse(fs.readFileSync(`content/${f}.json`, "utf8"));
   const go = (x) => {
+    if (cles === "*" && typeof x === "string") return void (lisible(x) && ajoute(x, `content/${f}.json`));
     if (Array.isArray(x)) x.forEach(go);
     else if (x && typeof x === "object")
       for (const [k, v] of Object.entries(x)) {
-        if (typeof v === "string" && cles.includes(k) && lisible(v)) ajoute(v, `content/${f}.json`);
+        if (typeof v === "string" && (cles === "*" || cles.includes(k)) && lisible(v)) ajoute(v, `content/${f}.json`);
         else go(v);
       }
   };

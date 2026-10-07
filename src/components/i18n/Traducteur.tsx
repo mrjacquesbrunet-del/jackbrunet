@@ -68,14 +68,21 @@ export function Traducteur() {
       if (racine.nodeType === Node.TEXT_NODE) return texteNoeud(racine as Text);
       if (racine.nodeType !== Node.ELEMENT_NODE) return;
       const el = racine as Element;
+      // Champ de saisie : on traduit l'indication (placeholder), jamais le texte tapé.
+      if (el.tagName === "TEXTAREA" && !exclu(el.parentElement)) attributs(el);
       if (exclu(el)) return;
       attributs(el);
       const tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT, {
-        acceptNode: (n) =>
-          n.nodeType === Node.ELEMENT_NODE &&
+        acceptNode: (n) => {
+          if (n.nodeType === Node.ELEMENT_NODE && (n as Element).tagName === "TEXTAREA") {
+            attributs(n as Element);
+            return NodeFilter.FILTER_REJECT;
+          }
+          return n.nodeType === Node.ELEMENT_NODE &&
           (IGNORES.has((n as Element).tagName) || (n as Element).getAttribute("translate") === "no" || (n as Element).classList.contains("notranslate"))
             ? NodeFilter.FILTER_REJECT
-            : NodeFilter.FILTER_ACCEPT,
+            : NodeFilter.FILTER_ACCEPT;
+        },
       });
       for (let n = tw.nextNode(); n; n = tw.nextNode()) {
         if (n.nodeType === Node.TEXT_NODE) texteNoeud(n as Text);
