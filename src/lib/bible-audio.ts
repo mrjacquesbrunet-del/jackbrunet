@@ -2,6 +2,7 @@
 
 import { getSupabase } from "./supabase";
 import { getVersionBible } from "./bible-version";
+import { asset } from "./asset";
 import type { AudioTrack } from "./audio-library";
 import { compressToMonoMp3 } from "./audio-compress";
 
@@ -21,10 +22,28 @@ export function bibleNarrationKey(bookId: number, chapter: number): string {
   return `bible/${bookId}/${chapter}.mp3`;
 }
 
+/* Berean Standard Bible : narration de Bob Souer (domaine public, CC0),
+ * servie par openbible.com ; liste des fichiers dans public/bible/bsb/audio.json. */
+type ManifesteAudio = { base: string; livres: Record<string, Record<string, string>> };
+let manifesteBsb: ManifesteAudio | null = null;
+let manifesteBsbP: Promise<ManifesteAudio | null> | null = null;
+function chargerManifesteBsb(): Promise<ManifesteAudio | null> {
+  manifesteBsbP ??= fetch(asset("/bible/bsb/audio.json"))
+    .then((r) => (r.ok ? r.json() : null))
+    .catch(() => null)
+    .then((m) => (manifesteBsb = m));
+  return manifesteBsbP;
+}
+
 export function bibleNarrationUrl(bookId: number, chapter: number): string | null {
-  // Narration enregistrée : seulement pour la Louis Segond pour l'instant ;
-  // les autres versions sont lues par la voix de l'appareil, dans leur langue.
-  if (getVersionBible() !== "lsg") return null;
+  // Narration enregistrée : Louis Segond (Supabase) et BSB (openbible.com) ;
+  // la Bíblia Livre est lue par la voix de l'appareil, en portugais.
+  const version = getVersionBible();
+  if (version === "bsb") {
+    const f = manifesteBsb?.livres[String(bookId)]?.[String(chapter)];
+    return f && manifesteBsb ? manifesteBsb.base + f : null;
+  }
+  if (version !== "lsg") return null;
   const sb = getSupabase();
   if (!sb) return null;
   const { data } = sb.storage.from(AUDIO_BUCKET).getPublicUrl(bibleNarrationKey(bookId, chapter));
@@ -36,6 +55,10 @@ const existsCache = new Map<string, boolean>();
 
 /** Vérifie (une fois) si la narration d'un chapitre est disponible. */
 export async function hasBibleNarration(bookId: number, chapter: number): Promise<boolean> {
+  if (getVersionBible() === "bsb") {
+    await chargerManifesteBsb();
+    return !!bibleNarrationUrl(bookId, chapter);
+  }
   const url = bibleNarrationUrl(bookId, chapter);
   if (!url) return false;
   if (existsCache.has(url)) return existsCache.get(url)!;

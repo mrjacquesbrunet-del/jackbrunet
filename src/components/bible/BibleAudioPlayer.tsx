@@ -76,7 +76,7 @@ export function BibleAudioPlayer({
     return () => {
       active = false;
     };
-  }, [bookId, chapter]);
+  }, [bookId, chapter, verses]); // verses : change aussi avec la version lue
   const [mode, setMode] = useState<"narration" | "voix">("voix");
   useEffect(() => {
     setMode(hasNarr ? "narration" : "voix");

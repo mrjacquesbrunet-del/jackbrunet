@@ -61,7 +61,7 @@ export function BibleAudio({
     return () => {
       active = false;
     };
-  }, [bookId, chapter]);
+  }, [bookId, chapter, verses]); // verses : change aussi avec la version lue
   const [supported, setSupported] = useState(true);
   const [state, setState] = useState<"idle" | "playing" | "paused">("idle");
   const idxRef = useRef(0);
