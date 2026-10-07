@@ -99,7 +99,7 @@ const TEXTES: Record<
     continuer: "Continuer",
     fonctions: [
       { image: "meditation", surtitre: "Chaque jour", titre: "Une pensée pour ton cœur, chaque matin.", texte: "Une méditation, un verset et une prière, à lire ou à écouter, pour commencer ta journée avec Jésus." },
-      { image: "bible", surtitre: "La Bible", titre: "Touche un verset, tout s'ouvre.", texte: "Les mots hébreux et grecs, le commentaire, la culture, les personnages et les lieux… et la Bible audio." },
+      { image: "bible", surtitre: "La Bible", titre: "La Parole, expliquée verset par verset.", texte: "Commentaires, mots hébreux et grecs, personnages, lieux, chronologie… et la Bible audio." },
       { image: "mur", surtitre: "Le mur de prière", titre: "Tu n'es jamais seul.", texte: "Partage tes sujets de prière : des frères et sœurs prient pour toi, et tu pries pour eux." },
       { image: "etudes", surtitre: "Études bibliques", titre: "Grandis dans la connaissance de Sa Parole.", texte: "Formations, études bibliques, plans de lecture et jeux pour avancer pas à pas." },
       { image: "jeux", surtitre: "Jeux bibliques", titre: "Apprends la Bible en t'amusant.", texte: "Quiz, Qui suis-je ?, Vrai ou faux, versets à mémoriser… seul ou en duel avec tes amis." },
@@ -124,7 +124,7 @@ const TEXTES: Record<
     continuer: "Continue",
     fonctions: [
       { image: "meditation", surtitre: "Every day", titre: "A word for your heart, every morning.", texte: "A devotional, a verse and a prayer, to read or listen to, to start your day with Jesus." },
-      { image: "bible", surtitre: "The Bible", titre: "Tap a verse, and it all opens up.", texte: "Hebrew and Greek words, commentary, culture, people and places… and the audio Bible." },
+      { image: "bible", surtitre: "The Bible", titre: "The Word, explained verse by verse.", texte: "Commentary, Hebrew and Greek words, people, places, timeline… and the audio Bible." },
       { image: "mur", surtitre: "The prayer wall", titre: "You are never alone.", texte: "Share your prayer requests: brothers and sisters pray for you, and you pray for them." },
       { image: "etudes", surtitre: "Bible studies", titre: "Grow in the knowledge of His Word.", texte: "Courses, Bible studies, reading plans and games to move forward step by step." },
       { image: "jeux", surtitre: "Bible games", titre: "Learn the Bible while having fun.", texte: "Quiz, Who am I?, True or False, verses to memorize… solo or in a duel with your friends." },
@@ -156,7 +156,7 @@ const TEXTES: Record<
     continuer: "Continuar",
     fonctions: [
       { image: "meditation", surtitre: "Todos os dias", titre: "Uma palavra para o seu coração, cada manhã.", texte: "Uma meditação, um versículo e uma oração, para ler ou ouvir, para começar o dia com Jesus." },
-      { image: "bible", surtitre: "A Bíblia", titre: "Toque em um versículo, e tudo se abre.", texte: "As palavras hebraicas e gregas, o comentário, a cultura, os personagens e os lugares… e a Bíblia em áudio." },
+      { image: "bible", surtitre: "A Bíblia", titre: "A Palavra, explicada versículo por versículo.", texte: "Comentários, palavras hebraicas e gregas, personagens, lugares, linha do tempo… e a Bíblia em áudio." },
       { image: "mur", surtitre: "O mural de oração", titre: "Você nunca está sozinho.", texte: "Compartilhe seus pedidos de oração: irmãos e irmãs oram por você, e você ora por eles." },
       { image: "etudes", surtitre: "Estudos bíblicos", titre: "Cresça no conhecimento da Sua Palavra.", texte: "Cursos, estudos bíblicos, planos de leitura e jogos para avançar passo a passo." },
       { image: "jeux", surtitre: "Jogos bíblicos", titre: "Aprenda a Bíblia se divertindo.", texte: "Quiz, Quem sou eu?, Verdadeiro ou falso, versículos para memorizar… sozinho ou em duelo com seus amigos." },
