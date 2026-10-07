@@ -47,9 +47,11 @@ const relever = (html, prefixe, livreDossier) => {
     if (!livre && a) {
       livre = Number(a[1]);
       ch = Number(a[2]);
-    } else if (/chapter/i.test(nom)) {
-      // « 1017 John-Chapter Twenty One.mp3 » : chapitre écrit en toutes lettres.
-      ch = enChiffres(nom.replace(/\.mp3$/i, "").split(/chapter/i).pop());
+    } else if (/chapter|-\s*[A-Za-z]+(\s+[A-Za-z]+)*\.mp3$/i.test(nom)) {
+      // « 1017 John-Chapter Twenty One.mp3 », « 0628 Psalms-One Hundred Fifty.mp3 » :
+      // chapitre écrit en toutes lettres (après « Chapter » ou le dernier tiret).
+      const fin = nom.replace(/\.mp3$/i, "");
+      ch = enChiffres(/chapter/i.test(fin) ? fin.split(/chapter/i).pop() : fin.split("-").pop());
     } else {
       const nums = nom.match(/\d+/g);
       ch = nums ? Number(nums[nums.length - 1]) : 0;
