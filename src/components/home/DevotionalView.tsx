@@ -202,7 +202,12 @@ export function DevotionalView({
       return dayStrLocal(d);
     });
   })();
-  const weekLabels = ["L", "M", "M", "J", "V", "S", "D"];
+  const weekLabels =
+    langue === "en"
+      ? ["M", "T", "W", "T", "F", "S", "S"]
+      : langue === "pt"
+        ? ["S", "T", "Q", "Q", "S", "S", "D"]
+        : ["L", "M", "M", "J", "V", "S", "D"];
   const weekDoneCount = weekDays.filter((d) => eng.completedDates.includes(d)).length;
 
   // Tags OneSignal pour cibler les relances push (série en danger, inactifs…).

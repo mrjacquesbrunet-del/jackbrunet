@@ -41,7 +41,7 @@ const TECHNIQUES = new Set([
  * catégories et époques servent aussi de filtres : traduites à l'affichage
  * par le dictionnaire de l'interface, pas ici. */
 const TECHNIQUES_FICHIER = {
-  "chronologie-biblique": ["t", "p"],
+  "chronologie-biblique": ["t", "p", "pers", "lieux"],
   quiz: ["category"],
   "questions-faq": ["category"],
   chrono: ["era"],
@@ -110,7 +110,8 @@ function chaines(x, chemin = [], acc = [], f = "") {
     // « auteur » et « themes » sont des textes dans les fichiers de la Bible (introductions des livres).
     const nomTexte =
       (cle === "nom" && (chemin[0] === "themes" || f.startsWith("bible/"))) ||
-      ((cle === "auteur" || cle === "themes") && f.startsWith("bible/"));
+      ((cle === "auteur" || cle === "themes") && f.startsWith("bible/")) ||
+      (cle === "nom" && f === "chronologie-biblique");
     const technique = (TECHNIQUES.has(cle) && !nomTexte) || (TECHNIQUES_FICHIER[f] ?? []).includes(cle);
     if (!technique && lisible(x) && !estIdentifiant(f, x)) acc.push([chemin, x]);
   }
