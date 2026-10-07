@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { asset } from "@/lib/asset";
+import { fichierBibleTraduit } from "./contenu-i18n";
 
 /**
  * Graphe généalogique de la Bible (public/bible/genealogie.json, construit par
@@ -45,7 +45,7 @@ export type Genealogie = {
 let promesse: Promise<Genealogie | null> | null = null;
 export function getGenealogie(): Promise<Genealogie | null> {
   if (!promesse) {
-    promesse = fetch(asset("/bible/genealogie.json"))
+    promesse = fichierBibleTraduit("genealogie")
       .then((r) => (r.ok ? r.json() : null))
       .catch(() => {
         promesse = null;

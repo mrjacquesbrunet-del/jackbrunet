@@ -47,6 +47,7 @@ const TECHNIQUES_FICHIER = {
   chrono: ["era"],
   verses: ["version"],
   plans: ["authorInstagram", "authorPhoto"],
+  "bible/genealogie": ["s", "f"],
 };
 
 if (!process.env.ANTHROPIC_API_KEY && process.env.ESSAI_A_SEC !== "1") {
@@ -59,7 +60,7 @@ const NOMS = { en: "l'anglais (américain neutre)", pt: "le portugais du Brésil
 const CONSIGNE = (l) =>
   `Tu traduis les contenus de RHEMA, application chrétienne évangélique de méditation biblique, de prière et d'étude, ` +
   `du Pasteur Jack Brunet et de Josy W. Brunet, du français vers ${NOMS[l]}. ` +
-  `Ce sont des méditations quotidiennes (thème, verset, punchline, méditation, déclaration), une formation biblique (leçons, quiz), des études bibliques, un plan de lecture de la Bible en un an, des plans de méditation thématiques, et les jeux bibliques (quiz, vrai ou faux, qui suis-je, chronologie : garde exactement le même nom pour un même personnage ou événement partout).\n\n` +
+  `Ce sont des méditations quotidiennes (thème, verset, punchline, méditation, déclaration), une formation biblique (leçons, quiz), des études bibliques, un plan de lecture de la Bible en un an, des plans de méditation thématiques, les jeux bibliques (quiz, vrai ou faux, qui suis-je, chronologie), les introductions des 66 livres et les fiches des personnages et lieux bibliques avec leurs liens de parenté. Garde exactement le même nom pour un même personnage, lieu ou événement partout (tradition de la Bible de la langue cible).\n\n` +
   `Règles :\n` +
   `- Garde la voix pastorale, chaleureuse et directe de l'original. Le lecteur est tutoyé : ` +
   (l === "pt" ? `utilise « você », naturel au Brésil.\n` : `utilise « you », naturel et chaleureux.\n`) +
@@ -92,6 +93,10 @@ const SCHEMA = {
 
 const lire = (f, def) => (fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, "utf8")) : def);
 const sortie = (l, f) => `public/i18n/contenu/${l}/${f}.json`;
+/** Fichier français : content/<f>.json, ou public/bible/<x>.json pour « bible/<x> ». */
+const source = (f) => (f.startsWith("bible/") ? `public/${f}.json` : `content/${f}.json`);
+/** Identifiant (« joseph-at », « sem ») : jamais traduit dans les fichiers de la Bible. */
+const estIdentifiant = (f, s) => f.startsWith("bible/") && /^[a-z0-9]+(-[a-z0-9]+)*$/.test(s);
 const lisible = (s) => /[A-Za-zÀ-ÿ]/.test(s) && !/^(\/|https?:|[\w-]+\.(png|jpe?g|webp|mp3|pdf)$)/.test(s.trim());
 
 /** Liste [chemin, texte] des chaînes à traduire, dans l'ordre du fichier. */
@@ -101,9 +106,10 @@ function chaines(x, chemin = [], acc = [], f = "") {
   else if (typeof x === "string") {
     const cle = [...chemin].reverse().find((c) => typeof c === "string");
     // Exception : noms des thèmes des études (« Identité & valeur »…).
-    const technique =
-      (TECHNIQUES.has(cle) && !(chemin[0] === "themes" && cle === "nom")) || (TECHNIQUES_FICHIER[f] ?? []).includes(cle);
-    if (!technique && lisible(x)) acc.push([chemin, x]);
+    // « nom » est un texte pour les thèmes des études et dans les fiches bibliques (Moïse → Moses).
+    const nomTexte = cle === "nom" && (chemin[0] === "themes" || f.startsWith("bible/"));
+    const technique = (TECHNIQUES.has(cle) && !nomTexte) || (TECHNIQUES_FICHIER[f] ?? []).includes(cle);
+    if (!technique && lisible(x) && !estIdentifiant(f, x)) acc.push([chemin, x]);
   }
   return acc;
 }
@@ -166,7 +172,7 @@ function sauver(message) {
 
 /** Fichier traduit (copie du français, complétée au fil des lots). */
 function traduit(l, f) {
-  const fr = lire(`content/${f}.json`, null);
+  const fr = lire(source(f), null);
   const deja = REFAIRE ? null : lire(sortie(l, f), null);
   return { fr, cible: deja ?? JSON.parse(JSON.stringify(fr)), faits: new Set(deja?.__traduits ?? []) };
 }
@@ -241,7 +247,7 @@ const etat = lire(ETAT, { lots: [], requetes: {} });
 const requetes = [];
 let n = 0;
 for (const f of FICHIERS) {
-  const fr = lire(`content/${f}.json`, null);
+  const fr = lire(source(f), null);
   if (!fr) continue;
   const toutes = chaines(fr, [], [], f);
   for (const l of LANGUES) {
@@ -264,7 +270,7 @@ for (const f of FICHIERS) {
       const m = e[1].split(/\s+/).length;
       // Longs textes : une méditation / leçon / étude par requête. Petits
       // éléments (plans, questions des jeux…) : regroupés librement.
-      const coupe = ["devotions", "formations", "etudes", "plans"].includes(f) && unite(lot[0]?.[0] ?? []) !== unite(e[0]);
+      const coupe = ["devotions", "formations", "etudes", "plans", "bible/fiches", "bible/introductions"].includes(f) && unite(lot[0]?.[0] ?? []) !== unite(e[0]);
       if (lot.length && (mots + m > MOTS_PAR_REQUETE || coupe)) envoyer();
       lot.push(e);
       mots += m;

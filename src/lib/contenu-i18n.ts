@@ -173,3 +173,21 @@ export function useContenusPrets(fichiers: FichierContenu[]): { pret: boolean; c
   }, [liste]);
   return etat;
 }
+
+/**
+ * Adresse d'un fichier d'étude de la Bible (fiches, introductions, généalogie)
+ * dans la langue de l'app : sa traduction, sinon le français.
+ */
+export async function fichierBibleTraduit(nom: "fiches" | "introductions" | "genealogie"): Promise<Response> {
+  const base = process.env.NEXT_PUBLIC_BASE_PATH || "";
+  const l = getLangue();
+  if (l !== "fr") {
+    try {
+      const r = await fetch(`${base}/i18n/contenu/${l}/bible/${nom}.json`, { cache: "force-cache" });
+      if (r.ok) return r;
+    } catch {
+      /* repli sur le français */
+    }
+  }
+  return fetch(`${base}/bible/${nom}.json`);
+}

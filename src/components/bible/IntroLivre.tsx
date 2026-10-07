@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { asset } from "@/lib/asset";
 import { FicheSheet, Medaillon, TexteAvecRefs, getFiches, type FichesData } from "@/components/bible/FichesChapitre";
 import { versetsDe, type Naviguer } from "@/lib/bible-nav";
+import { fichierBibleTraduit } from "@/lib/contenu-i18n";
 
 /**
  * INTRODUCTIONS AUX LIVRES — une seule source (public/bible/introductions.json,
@@ -34,7 +34,7 @@ export type IntrosData = { groupes: GroupeLivres[]; livres: Record<string, Intro
 let introsPromise: Promise<IntrosData | null> | null = null;
 export function getIntroductions(): Promise<IntrosData | null> {
   if (!introsPromise) {
-    introsPromise = fetch(asset("/bible/introductions.json"))
+    introsPromise = fichierBibleTraduit("introductions")
       .then((r) => (r.ok ? r.json() : null))
       .catch(() => {
         introsPromise = null;

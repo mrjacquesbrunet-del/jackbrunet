@@ -7,6 +7,7 @@ import { useArbreDeFiche } from "@/lib/genealogie";
 import { versetsDe, type Naviguer } from "@/lib/bible-nav";
 import { bibleHref } from "@/lib/bible-ref";
 import { LieuCarte } from "@/components/bible/LieuCarte";
+import { fichierBibleTraduit } from "@/lib/contenu-i18n";
 
 /** Rend un paragraphe d'histoire : les références entre parenthèses
  * (« (Genèse 12:1) ») deviennent des liens qui ouvrent le chapitre. */
@@ -103,7 +104,7 @@ export type FichesData = {
 let dataPromise: Promise<FichesData | null> | null = null;
 export function getFiches(): Promise<FichesData | null> {
   if (!dataPromise) {
-    dataPromise = fetch(asset("/bible/fiches.json"))
+    dataPromise = fichierBibleTraduit("fiches")
       .then((r) => (r.ok ? r.json() : null))
       .catch(() => null);
   }
