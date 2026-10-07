@@ -75,17 +75,19 @@ console.log(`${lignes} versets, ${livres.size} livres`);
 console.log("codes inconnus :", [...inconnus].map(([c, n]) => `${c}×${n}`).join(" "));
 console.log("lignes non reconnues (exemples) :", exemples);
 console.log("livres manquants :", CODES.filter((_, i) => !livres.has(i)).join(" "));
-if (livres.size !== 66) throw new Error(`66 livres attendus, ${livres.size} trouvés`);
+// PARTIEL=1 : version encore incomplète (ex. BLT : Nouveau Testament seul).
+if (livres.size !== 66 && process.env.PARTIEL !== "1") throw new Error(`66 livres attendus, ${livres.size} trouvés`);
 
 const sortie = `public/bible/${dossier}`;
 fs.mkdirSync(sortie, { recursive: true });
 const index = [];
 for (let n = 0; n < 66; n++) {
   const chapters = livres.get(n);
+  if (!chapters) continue;
   fs.writeFileSync(`${sortie}/${n + 1}.json`, JSON.stringify({ id: n + 1, name: NOMS[n], chapters }));
   index.push({ id: n + 1, name: NOMS[n], chapters: chapters.length });
 }
 fs.writeFileSync(`${sortie}/index.json`, JSON.stringify(index, null, 2) + "\n");
 const jn = livres.get(42);
 console.log("Jean 3:16 →", jn[2][15]);
-console.log("Psaume 23:1 →", livres.get(18)[22][0]);
+console.log("Psaume 23:1 →", livres.get(18)?.[22]?.[0] ?? "(absent)");

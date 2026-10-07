@@ -33,7 +33,8 @@ jobs:
         run: node scripts/fetch-bible-version.mjs porbr2018 blivre pt
 
       - name: Bíblia Livre Para Todos (portugais)
-        run: node scripts/fetch-bible-version.mjs porblt blt pt
+        # Nouveau Testament seul pour l'instant (Ancien Testament en cours de traduction).
+        run: PARTIEL=1 node scripts/fetch-bible-version.mjs porblt blt pt
 
       - name: Audio — répertoires à explorer
         continue-on-error: true

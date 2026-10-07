@@ -26,6 +26,8 @@ export const VERSIONS_BIBLE: {
   voix: string;
   /** Mention de la source (obligatoire pour la Bíblia Livre). */
   credit: string;
+  /** Version complète de la même langue pour les livres absents (BLT : AT). */
+  repli?: VersionBible;
 }[] = [
   {
     id: "lsg",
@@ -71,6 +73,8 @@ export const VERSIONS_BIBLE: {
     langue: "pt",
     dossier: "blt",
     voix: "pt-BR",
+    // Nouveau Testament seul pour l'instant : l'Ancien Testament vient de la Bíblia Livre.
+    repli: "blivre",
     credit:
       "Bíblia Livre Para Todos (BLT) © 2022 Free Bible Ministry, licença Creative Commons Atribuição-CompartilhaIgual 4.0 (CC BY-SA 4.0). Fonte : eBible.org.",
   },

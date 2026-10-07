@@ -1,7 +1,7 @@
 "use client";
 
 import { asset } from "./asset";
-import { baseBible, getVersionBible, type VersionBible } from "./bible-version";
+import { baseBible, getVersionBible, infoVersion, type VersionBible } from "./bible-version";
 
 type BookIndex = { id: number; name: string; chapters: number };
 type Book = { id: number; name: string; chapters: string[][] };
@@ -16,6 +16,13 @@ export function getIndex(v: VersionBible = getVersionBible()): Promise<BookIndex
       v,
       fetch(asset(`${baseBible(v)}/index.json`))
         .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+        .then(async (idx: BookIndex[]) => {
+          // Version incomplète : livres manquants pris dans sa version de repli.
+          const repli = infoVersion(v).repli;
+          if (!repli || idx.length >= 66) return idx;
+          const complet = await getIndex(repli);
+          return complet.map((b) => idx.find((x) => x.id === b.id) ?? b);
+        })
         // Version pas encore installée : on garde la Louis Segond.
         .catch(() => (v === "lsg" ? ([] as BookIndex[]) : getIndex("lsg"))),
     );
@@ -31,7 +38,7 @@ export function getBook(id: number, v: VersionBible = getVersionBible()): Promis
       k,
       fetch(asset(`${baseBible(v)}/${id}.json`))
         .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
-        .catch((e) => (v === "lsg" ? Promise.reject(e) : getBook(id, "lsg"))),
+        .catch((e) => (v === "lsg" ? Promise.reject(e) : getBook(id, infoVersion(v).repli ?? "lsg"))),
     );
   }
   return bookCache.get(k)!;
