@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { asset } from "@/lib/asset";
 import type { Naviguer } from "@/lib/bible-nav";
 import { getBook } from "@/lib/bible-client";
+import { fichierBibleTraduit } from "@/lib/contenu-i18n";
 
 /**
  * VERSETS LIÉS — dans la feuille d'étude d'un verset :
@@ -23,7 +24,7 @@ type Groupe = { titre: string; p: Passage[] };
 let parallelesP: Promise<Groupe[]> | null = null;
 function getParalleles(): Promise<Groupe[]> {
   if (!parallelesP) {
-    parallelesP = fetch(asset("/bible/paralleles.json"))
+    parallelesP = fichierBibleTraduit("paralleles")
       .then((r) => (r.ok ? r.json() : { groupes: [] }))
       .then((d) => d.groupes as Groupe[])
       .catch(() => {

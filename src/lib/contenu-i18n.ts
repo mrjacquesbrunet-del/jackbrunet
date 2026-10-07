@@ -178,7 +178,7 @@ export function useContenusPrets(fichiers: FichierContenu[]): { pret: boolean; c
  * Adresse d'un fichier d'étude de la Bible (fiches, introductions, généalogie)
  * dans la langue de l'app : sa traduction, sinon le français.
  */
-export async function fichierBibleTraduit(nom: "fiches" | "introductions" | "genealogie"): Promise<Response> {
+export async function fichierBibleTraduit(nom: "fiches" | "introductions" | "genealogie" | "paralleles"): Promise<Response> {
   const base = process.env.NEXT_PUBLIC_BASE_PATH || "";
   const l = getLangue();
   if (l !== "fr") {

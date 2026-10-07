@@ -17,6 +17,8 @@ import {
   type EntreeIndex,
   type Mot,
 } from "@/lib/lexique";
+import { useLangue } from "@/lib/i18n";
+import { getVersionBible } from "@/lib/bible-version";
 
 /**
  * ÉTUDE DE MOT — la fiche d'un mot grec ou hébreu du lexique :
@@ -48,6 +50,7 @@ export function MotLexique({
   onNavigate?: Naviguer;
   zIndex?: string;
 }) {
+  const langueApp = useLangue();
   const router = useRouter();
   const [pile, setPile] = useState<string[]>([codeInitial]);
   const code = pile[pile.length - 1];
@@ -234,7 +237,8 @@ export function MotLexique({
                 ) : (
                   <Approfondi mot={mot} onLire={lire} />
                 )}
-                {mot.trad.length ? (
+                {/* Mots de la Segond (français) : sans objet dans les autres langues. */}
+                {mot.trad.length && langueApp === "fr" ? (
                   <p className="mt-4 text-[14px] leading-relaxed text-cream/60">
                     <span className="font-bold text-cream/75">Dans la Segond : </span>
                     {mot.trad.map(([m, n]) => `${m} (${n})`).join(", ")}
@@ -366,6 +370,11 @@ function Approfondi({ mot, onLire }: { mot: Mot; onLire: Naviguer }) {
 }
 
 function Concordance({ code, mot, onLire }: { code: string; mot: Mot; onLire: Naviguer }) {
+  // Hors français : versets dans la Bible de la langue de l'app (sans souligner
+  // les mots, l'alignement étant fait sur la Segond).
+  const langueApp = useLangue();
+  const fr = langueApp === "fr";
+  const versionLue = fr ? "lsg" : getVersionBible();
   const [emplois, setEmplois] = useState<Emploi[] | null>(null);
   const [filtre, setFiltre] = useState(-2);
   const [nb, setNb] = useState(4);
@@ -386,10 +395,10 @@ function Concordance({ code, mot, onLire }: { code: string; mot: Mot; onLire: Na
   }, [code]);
 
   useEffect(() => {
-    getIndex("lsg")
+    getIndex(versionLue)
       .then((i) => setNoms(Object.fromEntries(i.map((b) => [b.id, b.name]))))
       .catch(() => {});
-  }, []);
+  }, [versionLue]);
 
   const liste = useMemo(() => (emplois ?? []).filter((e) => filtre === -2 || e[3] === filtre), [emplois, filtre]);
   const visibles = liste.slice(0, nb);
@@ -399,7 +408,7 @@ function Concordance({ code, mot, onLire }: { code: string; mot: Mot; onLire: Na
     let actif = true;
     const livres = [...new Set(visibles.map((e) => e[0]))];
     for (const b of livres) {
-      getBook(b, "lsg")
+      getBook(b, versionLue)
         .then((book) => {
           if (!actif) return;
           setTextes((t) => {
@@ -413,7 +422,7 @@ function Concordance({ code, mot, onLire }: { code: string; mot: Mot; onLire: Na
     return () => {
       actif = false;
     };
-  }, [visibles.length, filtre, emplois]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [visibles.length, filtre, emplois, versionLue]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const compte = (i: number) => (emplois ?? []).filter((e) => e[3] === i).length;
 
@@ -426,9 +435,11 @@ function Concordance({ code, mot, onLire }: { code: string; mot: Mot; onLire: Na
         <>
           <p className="mt-2 flex items-baseline gap-2">
             <span className="font-display text-[34px] font-extrabold leading-none">{emplois.length}</span>
-            <span className="text-[15px] text-cream/65">emploi{emplois.length > 1 ? "s" : ""} dans la Segond</span>
+            <span className="text-[15px] text-cream/65">
+              {fr ? (emplois.length > 1 ? "emplois dans la Segond" : "emploi dans la Segond") : emplois.length > 1 ? "emplois dans la Bible" : "emploi dans la Bible"}
+            </span>
           </p>
-          {mot.trad.length > 1 ? (
+          {mot.trad.length > 1 && fr ? (
             <div className="-mx-5 mt-3 flex gap-2 overflow-x-auto px-5 pb-1" style={{ scrollbarWidth: "none" }}>
               {[[-2, `Tous · ${emplois.length}`] as const, ...mot.trad.slice(0, 6).map(([m], i) => [i, `${m} · ${compte(i)}`] as const)]
                 .filter(([i]) => i === -2 || compte(i as number) > 0)
@@ -459,7 +470,7 @@ function Concordance({ code, mot, onLire }: { code: string; mot: Mot; onLire: Na
                       {noms[e[0]] ?? ""} {e[1]}:{e[2]}
                     </span>
                     <span className="mt-1 block font-serif text-[16px] leading-relaxed text-cream/80">
-                      <Souligne texte={textes[k]} plages={e.slice(4)} />
+                      <Souligne texte={textes[k]} plages={fr ? e.slice(4) : []} />
                     </span>
                   </button>
                 </li>
