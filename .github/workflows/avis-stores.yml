@@ -1,0 +1,25 @@
+name: Récupérer les avis des stores
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  avis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-save google-play-scraper@10
+      - run: node scripts/avis/recuperer-avis.mjs
+      - name: Enregistrer
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/avis-stores.json
+          git commit -m "chore: avis des stores [skip ci]" || exit 0
+          for i in 1 2 3; do git pull --rebase -q origin "$GITHUB_REF_NAME" && git push -q origin HEAD:"$GITHUB_REF_NAME" && break; sleep 5; done
