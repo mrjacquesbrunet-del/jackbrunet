@@ -204,14 +204,14 @@ const LOGO = "/img/logo-rhema.webp";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 /** Texte qui s'écrit mot à mot (fondu + net), comme dans les grandes apps. */
-function MotAMot({ texte, delai = 0, pas = 0.12 }: { texte: string; delai?: number; pas?: number }) {
+function MotAMot({ texte, delai = 0, pas = 0.12, instant = false }: { texte: string; delai?: number; pas?: number; instant?: boolean }) {
   return (
     <span translate="no">
       {texte.split(" ").map((m, i) => (
         <motion.span
           key={`${texte}-${i}`}
           className="inline-block whitespace-pre"
-          initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
+          initial={instant ? false : { opacity: 0, y: 10, filter: "blur(8px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ delay: delai + i * pas, duration: 0.7, ease: EASE }}
         >
@@ -285,12 +285,12 @@ function SequenceTelephone({ srcs, touchers = true }: { srcs: string[]; touchers
 }
 
 /** Bouton principal : pilule lime, comme le reste de l'app. */
-function BoutonLime({ children, onClick, delai = 0 }: { children: React.ReactNode; onClick: () => void; delai?: number }) {
+function BoutonLime({ children, onClick, delai = 0, instant = false }: { children: React.ReactNode; onClick: () => void; delai?: number; instant?: boolean }) {
   return (
     <motion.button
       type="button"
       onClick={onClick}
-      initial={{ opacity: 0, y: 12 }}
+      initial={instant ? false : { opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: delai, duration: 0.6, ease: EASE }}
       className="flex h-14 w-full items-center justify-center gap-2 rounded-full bg-dawn-400 font-sans text-[16px] font-bold text-[#0E0E0C] shadow-[0_0_34px_rgba(202,240,0,0.28)] active:scale-[0.98]"
@@ -433,6 +433,8 @@ export function AppOnboarding() {
     if (optin) void captureEmail(emailCompte);
   }, [userId, emailCompte, optin]);
   const [avisIdx, setAvisIdx] = useState(0);
+  // Un toucher pendant l'intro affiche tout de suite le texte et « Commencer ».
+  const [vite, setVite] = useState(false);
   const n = T.fonctions.length;
 
   useEffect(() => {
@@ -477,10 +479,10 @@ export function AppOnboarding() {
             initial={{ scale: 1.08, filter: "blur(22px) brightness(0.3)" }}
             animate={
               etape === "intro"
-                ? { scale: 1, filter: "blur(0px) brightness(1)" }
+                ? { scale: vite ? 1.0001 : 1, filter: "blur(0px) brightness(1)" }
                 : { scale: 1.06, filter: "blur(18px) brightness(0.32)" }
             }
-            transition={{ duration: etape === "intro" ? 2.8 : 1.2, ease: EASE }}
+            transition={{ duration: etape === "intro" ? (vite ? 0.4 : 2.8) : 1.2, ease: EASE }}
           />
           {/* Halo de la lampe à l'intro */}
           {etape === "intro" ? (
@@ -503,8 +505,10 @@ export function AppOnboarding() {
                   key="intro"
                   exit={{ opacity: 0, y: -16, filter: "blur(6px)" }}
                   transition={{ duration: 0.5 }}
-                  className="flex h-full flex-col"
+                  className="h-full"
+                  onClick={() => setVite(true)}
                 >
+                  <div key={vite ? "vite" : "anime"} className="flex h-full flex-col">
                   {/* Logo, RHEMA, Ton temps avec Jésus : en haut, au-dessus de la lampe */}
                   <div className="mt-[7vh] flex flex-col items-center text-center">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -512,13 +516,13 @@ export function AppOnboarding() {
                       src={asset(LOGO)}
                       alt=""
                       className="h-16 w-16 object-contain"
-                      initial={{ opacity: 0, scale: 0.85 }}
+                      initial={vite ? false : { opacity: 0, scale: 0.85 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: 1.6, duration: 0.9, ease: EASE }}
                     />
                     <motion.h1
                       className="mt-5 font-sans text-[46px] font-extrabold leading-none text-white"
-                      initial={{ opacity: 0, letterSpacing: "0.45em" }}
+                      initial={vite ? false : { opacity: 0, letterSpacing: "0.45em" }}
                       animate={{ opacity: 1, letterSpacing: "0.14em" }}
                       transition={{ delay: 2.0, duration: 1.4, ease: EASE }}
                     >
@@ -526,19 +530,19 @@ export function AppOnboarding() {
                     </motion.h1>
                     <motion.div
                       className="mt-4 h-[3px] rounded-full bg-dawn-400"
-                      initial={{ width: 0 }}
+                      initial={vite ? false : { width: 0 }}
                       animate={{ width: 48 }}
                       transition={{ delay: 2.8, duration: 0.7, ease: EASE }}
                     />
                     <p className="mt-4 font-sans text-[19px] font-medium tracking-wide text-cream/90">
-                      <MotAMot texte={T.slogan} delai={3.1} pas={0.16} />
+                      <MotAMot texte={T.slogan} delai={3.1} pas={0.16} instant={vite} />
                     </p>
                   </div>
 
                   <div className="mt-auto">
                     <motion.div
                       className="mx-auto flex max-w-[260px] items-center gap-3"
-                      initial={{ opacity: 0 }}
+                      initial={vite ? false : { opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 4.0, duration: 0.8 }}
                     >
@@ -547,11 +551,11 @@ export function AppOnboarding() {
                       <span className="h-px flex-1 bg-dawn-400/50" />
                     </motion.div>
                     <p className="mx-auto mt-4 max-w-sm text-center font-display text-[19px] italic leading-snug text-cream">
-                      <MotAMot texte={T.verset} delai={4.3} pas={0.07} />
+                      <MotAMot texte={T.verset} delai={4.3} pas={0.07} instant={vite} />
                     </p>
                     <motion.p
                       className="mt-3 text-center font-sans text-[11px] font-bold uppercase tracking-[0.3em] text-dawn-300"
-                      initial={{ opacity: 0 }}
+                      initial={vite ? false : { opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 4.3 + T.verset.split(" ").length * 0.07 + 0.3, duration: 0.8 }}
                       translate="no"
@@ -559,7 +563,7 @@ export function AppOnboarding() {
                       {T.ref}
                     </motion.p>
                     <div className="mt-7">
-                      <BoutonLime onClick={suivant} delai={4.6 + T.verset.split(" ").length * 0.07}>
+                      <BoutonLime onClick={suivant} delai={4.6 + T.verset.split(" ").length * 0.07} instant={vite}>
                         {T.commencer}
                       </BoutonLime>
                       <motion.button
@@ -568,7 +572,7 @@ export function AppOnboarding() {
                           setDejaInscrit(true);
                           setEtape("compte");
                         }}
-                        initial={{ opacity: 0 }}
+                        initial={vite ? false : { opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 5.2 + T.verset.split(" ").length * 0.07, duration: 0.6 }}
                         className="mt-4 w-full text-center font-sans text-[13px] font-semibold text-cream/60"
@@ -577,6 +581,7 @@ export function AppOnboarding() {
                         {T.dejaCompte}
                       </motion.button>
                     </div>
+                  </div>
                   </div>
                 </motion.div>
               ) : fonction ? (
