@@ -7,10 +7,16 @@
 import fs from "node:fs";
 
 const [BASE, dossier] = process.argv.slice(2);
+const pause = (ms) => new Promise((ok) => setTimeout(ok, ms));
+/** Lecture polie : une page à la fois, nouvel essai si le site limite (403/429). */
 const lire = async (u) => {
-  const r = await fetch(u, { headers: { "User-Agent": "Mozilla/5.0" } });
-  if (!r.ok) throw new Error(`${r.status} sur ${u}`);
-  return r.text();
+  for (let essai = 0; essai < 6; essai++) {
+    const r = await fetch(u, { headers: { "User-Agent": "Mozilla/5.0" } });
+    if (r.ok) return r.text();
+    if (![403, 429, 503].includes(r.status)) throw new Error(`${r.status} sur ${u}`);
+    await pause(5000 * (essai + 1));
+  }
+  throw new Error(`refus répétés sur ${u}`);
 };
 const UNITES = { zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10,
   eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19 };
@@ -67,7 +73,10 @@ const racine = await lire(BASE);
 const dossiers = [...racine.matchAll(/href="((\d{2})_[^"/]+\/)"/g)];
 if (dossiers.length) {
   // Un dossier par livre (« 01_Genesis/ ») : on les parcourt tous.
-  for (const d of dossiers) relever(await lire(BASE + d[1]), d[1], Number(d[2]));
+  for (const d of dossiers) {
+    relever(await lire(BASE + d[1]), d[1], Number(d[2]));
+    await pause(1500);
+  }
 } else relever(racine, "", 0);
 console.log("exemples :", JSON.stringify(livres["1"]?.["1"]), JSON.stringify(livres["65"]), JSON.stringify(livres["19"]?.["23"]));
 console.log(`${n} fichiers, ${Object.keys(livres).length} livres`, JSON.stringify(livres["43"]?.["3"]));
