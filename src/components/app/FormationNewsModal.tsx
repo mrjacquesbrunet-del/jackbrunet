@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { asset } from "@/lib/asset";
+import { getLangue } from "@/lib/i18n";
 
 /** Annonce de la Formation biblique : le visuel fourni par Jack, affiché
  * une fois par appareil, pendant la semaine de lancement seulement.
@@ -14,6 +15,8 @@ const FIN_CAMPAGNE = new Date("2026-10-12T00:00:00");
 /** Vrai si l'annonce doit encore s'afficher (pour céder la priorité). */
 export function formationNewsPending(): boolean {
   if (new Date() >= FIN_CAMPAGNE) return false;
+  // Le texte est dessiné dans le visuel (en français) : francophones seulement.
+  if (getLangue() !== "fr") return false;
   try {
     return !localStorage.getItem(SEEN_KEY);
   } catch {
