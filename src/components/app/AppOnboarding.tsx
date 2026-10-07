@@ -709,32 +709,23 @@ export function AppOnboarding() {
                         role="checkbox"
                         aria-checked={optin}
                         onClick={() => setOptin(!optin)}
-                        className={`mt-6 flex w-full items-start gap-3 rounded-2xl border p-4 text-left transition-colors ${
-                          optin ? "border-dawn-400/60 bg-dawn-400/10" : "border-dawn-400/30 bg-white/[0.05]"
-                        }`}
+                        className="mt-5 flex w-full items-start gap-2.5 px-1 text-left"
                         translate="no"
                       >
                         <span
-                          className={`mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-md border-2 transition-colors ${
-                            optin ? "border-dawn-400 bg-dawn-400 text-[#0E0E0C]" : "border-white/35"
+                          className={`mt-[1px] grid h-[18px] w-[18px] shrink-0 place-items-center rounded-[5px] border transition-colors ${
+                            optin ? "border-dawn-400 bg-dawn-400 text-[#0E0E0C]" : "border-white/30"
                           }`}
                         >
                           {optin ? (
-                            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={3} aria-hidden>
+                            <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth={3.5} aria-hidden>
                               <path d="M5 12.5l4.5 4.5L19 7.5" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                           ) : null}
                         </span>
-                        <span className="min-w-0 flex-1 font-sans">
-                          <span className="flex items-center gap-2 text-[15px] font-bold text-white">
-                            <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 text-dawn-400" fill="none" stroke="currentColor" strokeWidth={1.8} aria-hidden>
-                              <rect x="3.5" y="8.5" width="17" height="4" rx="1" />
-                              <path d="M5 12.5v7.5h14v-7.5M12 8.5V20M12 8.5c-1.5-3.5-5.5-4-5.5-1.5S10 8.5 12 8.5zM12 8.5c1.5-3.5 5.5-4 5.5-1.5S14 8.5 12 8.5z" strokeLinejoin="round" />
-                            </svg>
-                            {T.newsletterTitre}
-                          </span>
-                          <span className="mt-1 block text-[13px] leading-snug text-cream/80">{T.newsletter}</span>
-                          <span className="mt-1 block text-[11px] text-cream/45">{T.newsletterNote}</span>
+                        <span className="min-w-0 flex-1 font-sans text-[12px] leading-snug text-cream/55">
+                          <span className="font-semibold text-cream/75">{T.newsletterTitre}</span> : {T.newsletter.charAt(0).toLowerCase() + T.newsletter.slice(1)}{" "}
+                          <span className="text-cream/35">{T.newsletterNote}</span>
                         </span>
                       </button>
                     ) : null}
