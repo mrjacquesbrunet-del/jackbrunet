@@ -37,6 +37,18 @@ const TECHNIQUES = new Set([
   "themes", "auteur", "nom", "slug", "url", "lien", "src", "couleur", "color", "icon", "mp3",
 ]);
 
+/** Clés techniques propres à un fichier (ailleurs, ce sont des textes). Les
+ * catégories et époques servent aussi de filtres : traduites à l'affichage
+ * par le dictionnaire de l'interface, pas ici. */
+const TECHNIQUES_FICHIER = {
+  "chronologie-biblique": ["t", "p"],
+  quiz: ["category"],
+  "questions-faq": ["category"],
+  chrono: ["era"],
+  verses: ["version"],
+  plans: ["authorInstagram", "authorPhoto"],
+};
+
 if (!process.env.ANTHROPIC_API_KEY && process.env.ESSAI_A_SEC !== "1") {
   console.error("Secret ANTHROPIC_API_KEY absent.");
   process.exit(1);
@@ -47,7 +59,7 @@ const NOMS = { en: "l'anglais (américain neutre)", pt: "le portugais du Brésil
 const CONSIGNE = (l) =>
   `Tu traduis les contenus de RHEMA, application chrétienne évangélique de méditation biblique, de prière et d'étude, ` +
   `du Pasteur Jack Brunet et de Josy W. Brunet, du français vers ${NOMS[l]}. ` +
-  `Ce sont des méditations quotidiennes (thème, verset, punchline, méditation, déclaration), une formation biblique (leçons, quiz), des études bibliques et un plan de lecture de la Bible en un an (thème du jour et passages à lire).\n\n` +
+  `Ce sont des méditations quotidiennes (thème, verset, punchline, méditation, déclaration), une formation biblique (leçons, quiz), des études bibliques, un plan de lecture de la Bible en un an, des plans de méditation thématiques, et les jeux bibliques (quiz, vrai ou faux, qui suis-je, chronologie : garde exactement le même nom pour un même personnage ou événement partout).\n\n` +
   `Règles :\n` +
   `- Garde la voix pastorale, chaleureuse et directe de l'original. Le lecteur est tutoyé : ` +
   (l === "pt" ? `utilise « você », naturel au Brésil.\n` : `utilise « you », naturel et chaleureux.\n`) +
@@ -83,13 +95,14 @@ const sortie = (l, f) => `public/i18n/contenu/${l}/${f}.json`;
 const lisible = (s) => /[A-Za-zÀ-ÿ]/.test(s) && !/^(\/|https?:|[\w-]+\.(png|jpe?g|webp|mp3|pdf)$)/.test(s.trim());
 
 /** Liste [chemin, texte] des chaînes à traduire, dans l'ordre du fichier. */
-function chaines(x, chemin = [], acc = []) {
-  if (Array.isArray(x)) x.forEach((v, i) => chaines(v, [...chemin, i], acc));
-  else if (x && typeof x === "object") for (const [k, v] of Object.entries(x)) chaines(v, [...chemin, k], acc);
+function chaines(x, chemin = [], acc = [], f = "") {
+  if (Array.isArray(x)) x.forEach((v, i) => chaines(v, [...chemin, i], acc, f));
+  else if (x && typeof x === "object") for (const [k, v] of Object.entries(x)) chaines(v, [...chemin, k], acc, f);
   else if (typeof x === "string") {
     const cle = [...chemin].reverse().find((c) => typeof c === "string");
     // Exception : noms des thèmes des études (« Identité & valeur »…).
-    const technique = TECHNIQUES.has(cle) && !(chemin[0] === "themes" && cle === "nom");
+    const technique =
+      (TECHNIQUES.has(cle) && !(chemin[0] === "themes" && cle === "nom")) || (TECHNIQUES_FICHIER[f] ?? []).includes(cle);
     if (!technique && lisible(x)) acc.push([chemin, x]);
   }
   return acc;
@@ -230,7 +243,7 @@ let n = 0;
 for (const f of FICHIERS) {
   const fr = lire(`content/${f}.json`, null);
   if (!fr) continue;
-  const toutes = chaines(fr);
+  const toutes = chaines(fr, [], [], f);
   for (const l of LANGUES) {
     const { faits } = traduit(l, f);
     let reste = toutes.filter(([c]) => !faits.has(cleChemin(c)));
@@ -249,8 +262,9 @@ for (const f of FICHIERS) {
     };
     for (const e of reste) {
       const m = e[1].split(/\s+/).length;
-      // Plan de lecture : petits thèmes indépendants, regroupés librement.
-      const coupe = f !== "reading-plan" && unite(lot[0]?.[0] ?? []) !== unite(e[0]);
+      // Longs textes : une méditation / leçon / étude par requête. Petits
+      // éléments (plans, questions des jeux…) : regroupés librement.
+      const coupe = ["devotions", "formations", "etudes", "plans"].includes(f) && unite(lot[0]?.[0] ?? []) !== unite(e[0]);
       if (lot.length && (mots + m > MOTS_PAR_REQUETE || coupe)) envoyer();
       lot.push(e);
       mots += m;
