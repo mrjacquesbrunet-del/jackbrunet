@@ -186,7 +186,7 @@
  ],
  "· record {0}": [
   "components/games/FrondeGame.tsx:295",
-  "components/home/DevotionalView.tsx:292"
+  "components/home/DevotionalView.tsx:296"
  ],
  "· remise à zéro chaque lundi": [
   "components/games/LeagueBoard.tsx:176"
@@ -2387,7 +2387,7 @@
   "components/community/ProfileBadges.tsx:611"
  ],
  "À déclarer sur ta vie": [
-  "components/home/DevotionalView.tsx:569",
+  "components/home/DevotionalView.tsx:573",
   "components/notebook/CarnetView.tsx:288"
  ],
  "À découvrir": [
@@ -2545,7 +2545,7 @@
   "components/plans/YearPlanView.tsx:309"
  ],
  "À lire aujourd'hui": [
-  "components/home/DevotionalView.tsx:676",
+  "components/home/DevotionalView.tsx:680",
   "components/home/ReadingPlanView.tsx:51",
   "components/plans/YearPlanView.tsx:299"
  ],
@@ -4136,7 +4136,7 @@
   "components/community/MessagesView.tsx:205"
  ],
  "Aucune culpabilité : un jour après l'autre, tu vas les retrouver.": [
-  "components/home/DevotionalView.tsx:386"
+  "components/home/DevotionalView.tsx:390"
  ],
  "aucune date": [
   "components/home/EventsView.tsx:222"
@@ -7840,7 +7840,7 @@
   "components/home/AboutFounder.tsx:107"
  ],
  "Découvrir RHEMA": [
-  "components/home/DevotionalView.tsx:824",
+  "components/home/DevotionalView.tsx:828",
   "lib/rewards.ts:40"
  ],
  "Décroche les 3 étoiles des niveaux de La Fronde en économisant tes pierres. Bronze à 30 étoiles, argent à 60, or à 90.": [
@@ -8959,7 +8959,7 @@
   "components/ecole/FormationView.tsx:324"
  ],
  "Écouter la méditation": [
-  "components/home/DevotionalView.tsx:468"
+  "components/home/DevotionalView.tsx:472"
  ],
  "Écouter la note vocale": [
   "components/community/VoiceNote.tsx:370"
@@ -9671,7 +9671,7 @@
  ],
  "Enregistré": [
   "components/bible/VersetOutils.tsx:537",
-  "components/home/DevotionalView.tsx:538",
+  "components/home/DevotionalView.tsx:542",
   "components/home/ViralCard.tsx:437"
  ],
  "Enregistré dans ton carnet": [
@@ -13493,7 +13493,7 @@
   "components/home/ViralCard.tsx:173"
  ],
  "j de suite": [
-  "components/home/DevotionalView.tsx:292"
+  "components/home/DevotionalView.tsx:296"
  ],
  "J'abandonne une mission en cours de route.": [
   "config/chemin/chapitre-pierre-jean.ts:58"
@@ -13521,10 +13521,10 @@
   "components/ecole/FormationView.tsx:1918"
  ],
  "J'ai médité": [
-  "components/home/DevotionalView.tsx:327"
+  "components/home/DevotionalView.tsx:331"
  ],
  "J'ai médité aujourd'hui": [
-  "components/home/DevotionalView.tsx:635"
+  "components/home/DevotionalView.tsx:639"
  ],
  "J'ai mené le combat contre Amalek.": [
   "config/chemin/chapitre-sinai.ts:77"
@@ -14958,7 +14958,7 @@
  ],
  "Jour": [
   "components/community/DevotionsAdmin.tsx:52",
-  "components/home/DevotionalView.tsx:670",
+  "components/home/DevotionalView.tsx:674",
   "components/home/ReadingPlanView.tsx:45"
  ],
  "jour de suite": [
@@ -14968,7 +14968,7 @@
   "components/plans/YearPlanView.tsx:353"
  ],
  "jours avec Dieu d'affilée !": [
-  "components/home/DevotionalView.tsx:371"
+  "components/home/DevotionalView.tsx:375"
  ],
  "jours d'affilée": [
   "components/community/ProfileActivity.tsx:142"
@@ -14983,7 +14983,7 @@
   "app/memoriser/page.tsx:666"
  ],
  "jours de suite.": [
-  "components/home/DevotionalView.tsx:383"
+  "components/home/DevotionalView.tsx:387"
  ],
  "Juda": [
   "config/chemin/chapitre-gedeon.ts:47",
@@ -16298,7 +16298,7 @@
   "config/chemin/chapitre-pierre-jean.ts:28"
  ],
  "La révélation": [
-  "components/home/DevotionalView.tsx:412"
+  "components/home/DevotionalView.tsx:416"
  ],
  "La richesse": [
   "config/chemin/chapitre-jacques.ts:31",
@@ -16400,7 +16400,7 @@
   "config/chemin/chapitre-salomon.ts:25"
  ],
  "La vidéo du jour": [
-  "components/home/DevotionalView.tsx:651"
+  "components/home/DevotionalView.tsx:655"
  ],
  "La vie : tout ce qui y vivra vivra": [
   "config/chemin/chapitre-ezechiel.ts:99"
@@ -16856,7 +16856,7 @@
   "config/chemin/chapitre-bapteme.ts:77"
  ],
  "Le livre": [
-  "components/home/DevotionalView.tsx:814",
+  "components/home/DevotionalView.tsx:818",
   "components/home/Shop.tsx:23"
  ],
  "Le livre arrive bientôt.": [
@@ -17053,7 +17053,7 @@
   "components/chemin/PassagePanel.tsx:138"
  ],
  "Le passage du jour": [
-  "components/home/DevotionalView.tsx:663"
+  "components/home/DevotionalView.tsx:667"
  ],
  "Le passé et l'avenir": [
   "config/chemin/chapitre-psaumes.ts:41"
@@ -17272,8 +17272,8 @@
   "config/chemin/chapitre-joseph.ts:15"
  ],
  "Le rhéma du jour": [
-  "components/home/DevotionalView.tsx:412",
-  "components/home/DevotionalView.tsx:454"
+  "components/home/DevotionalView.tsx:416",
+  "components/home/DevotionalView.tsx:458"
  ],
  "Le rhéma du jour et son verset, à gauche.": [
   "components/boutique/RhemaShowcase.tsx:366"
@@ -19244,7 +19244,7 @@
   "components/notebook/CarnetView.tsx:27"
  ],
  "Méditation du jour": [
-  "components/home/DevotionalView.tsx:261"
+  "components/home/DevotionalView.tsx:265"
  ],
  "Méditation favorite": [
   "components/notebook/CarnetView.tsx:272"
@@ -19267,7 +19267,7 @@
   "lib/badges.ts:200"
  ],
  "Médité": [
-  "components/home/DevotionalView.tsx:324"
+  "components/home/DevotionalView.tsx:328"
  ],
  "Médite en profondeur, déclare la Parole, prends 10 minutes avec Dieu.": [
   "components/home/DailyHub.tsx:73"
@@ -19276,7 +19276,7 @@
   "lib/badges.ts:246"
  ],
  "méditée": [
-  "components/home/DevotionalView.tsx:303"
+  "components/home/DevotionalView.tsx:307"
  ],
  "Méditée. Priée.": [
   "components/boutique/RhemaShowcase.tsx:413"
@@ -19323,7 +19323,7 @@
  ],
  "Mémoriser des versets": [
   "components/bible/BibleHero.tsx:69",
-  "components/home/DevotionalView.tsx:710"
+  "components/home/DevotionalView.tsx:714"
  ],
  "MÉMORISER LES VERSETS": [
   "components/games/GamesHub.tsx:67"
@@ -19432,7 +19432,7 @@
   "config/chemin/chapitre-proverbes.ts:97"
  ],
  "Mes méditations favorites": [
-  "components/home/DevotionalView.tsx:723"
+  "components/home/DevotionalView.tsx:727"
  ],
  "Mes notifications": [
   "components/community/ProfileNotifications.tsx:95"
@@ -19514,7 +19514,7 @@
   "components/community/DevotionsAdmin.tsx:324"
  ],
  "Mettre en favori": [
-  "components/home/DevotionalView.tsx:538"
+  "components/home/DevotionalView.tsx:542"
  ],
  "Mettre en pause": [
   "components/home/SoakingBar.tsx:28"
@@ -19786,13 +19786,13 @@
  "Mon parcours": [
   "app/a-propos/page.tsx:235",
   "components/ecole/FormationView.tsx:1462",
-  "components/home/DevotionalView.tsx:723"
+  "components/home/DevotionalView.tsx:727"
  ],
  "Mon père m'a donné une tunique de plusieurs couleurs.": [
   "config/chemin/chapitre-joseph.ts:107"
  ],
  "Mon plan de lecture": [
-  "components/home/DevotionalView.tsx:700"
+  "components/home/DevotionalView.tsx:704"
  ],
  "Mon profil": [
   "app/memoriser/page.tsx:467",
@@ -21445,7 +21445,7 @@
  ],
  "Personnaliser": [
   "components/bible/VersetOutils.tsx:465",
-  "components/home/DevotionalView.tsx:447",
+  "components/home/DevotionalView.tsx:451",
   "components/notebook/CarnetView.tsx:162"
  ],
  "Personnaliser l'image (fond, police)": [
@@ -21455,7 +21455,7 @@
   "components/ui/VerseImageStudio.tsx:98"
  ],
  "Personnaliser le verset en image (fond, police) puis le partager": [
-  "components/home/DevotionalView.tsx:439"
+  "components/home/DevotionalView.tsx:443"
  ],
  "Personnaliser mon don": [
   "components/home/Support.tsx:115"
@@ -21675,7 +21675,7 @@
   "lib/groups.ts:82"
  ],
  "Plan de lecture": [
-  "components/home/DevotionalView.tsx:663",
+  "components/home/DevotionalView.tsx:667",
   "components/home/ReadingPlanView.tsx:31",
   "components/plans/FeaturedPlans.tsx:119"
  ],
@@ -21868,7 +21868,7 @@
   "app/questions/page.tsx:343"
  ],
  "Pose ta question : une réponse claire, ancrée dans la Parole, versets à l'appui.": [
-  "components/home/DevotionalView.tsx:782"
+  "components/home/DevotionalView.tsx:786"
  ],
  "Pose ta question sur": [
   "components/bible/VersetOutils.tsx:726"
@@ -24831,7 +24831,7 @@
   "lib/badges.ts:214"
  ],
  "Questions pour aujourd'hui": [
-  "components/home/DevotionalView.tsx:608"
+  "components/home/DevotionalView.tsx:612"
  ],
  "Questions pour le groupe": [
   "components/ecole/EtudesView.tsx:407"
@@ -25165,7 +25165,7 @@
   "components/home/SoakingBar.tsx:105"
  ],
  "Recevoir chaque matin": [
-  "components/home/DevotionalView.tsx:843"
+  "components/home/DevotionalView.tsx:847"
  ],
  "Recevoir l'e-book": [
   "components/ecole/FormationView.tsx:1405"
@@ -25303,7 +25303,7 @@
   "components/home/Hero.tsx:165"
  ],
  "Reçois-le directement dans ta boîte mail, chaque matin.": [
-  "components/home/DevotionalView.tsx:840"
+  "components/home/DevotionalView.tsx:844"
  ],
  "récolte": [
   "config/chemin/chapitre-abraham.ts:58"
@@ -25405,7 +25405,7 @@
  ],
  "Réflexion": [
   "components/ecole/FormationView.tsx:1702",
-  "components/home/DevotionalView.tsx:608"
+  "components/home/DevotionalView.tsx:612"
  ],
  "Réflexion enregistrée.": [
   "components/ecole/FormationView.tsx:2040"
@@ -25883,7 +25883,7 @@
  ],
  "Retirer des favoris": [
   "components/audio/ListenScreen.tsx:413",
-  "components/home/DevotionalView.tsx:742"
+  "components/home/DevotionalView.tsx:746"
  ],
  "Retirer du carnet": [
   "components/community/PrayerCard.tsx:608"
@@ -26020,7 +26020,7 @@
   "components/app/Rewards.tsx:92"
  ],
  "Reviens demain: un nouveau dévotionnel chaque jour": [
-  "components/home/DevotionalView.tsx:837"
+  "components/home/DevotionalView.tsx:841"
  ],
  "Reviens quand tu veux, le mur a toujours besoin d'intercesseurs.": [
   "components/community/PrayerTime.tsx:402"
@@ -26872,7 +26872,7 @@
   "config/chemin/chapitre-jonas.ts:78"
  ],
  "Shorts": [
-  "components/home/DevotionalView.tsx:651",
+  "components/home/DevotionalView.tsx:655",
   "components/home/Reels.tsx:51",
   "components/home/ShortsPlayer.tsx:111"
  ],
@@ -27576,7 +27576,7 @@
   "lib/notifications.ts:64"
  ],
  "Ta fidélité porte du fruit. Continue comme ça.": [
-  "components/home/DevotionalView.tsx:374"
+  "components/home/DevotionalView.tsx:378"
  ],
  "Ta génération scrolle. Ici, chaque scroll porte quelqu'un dans la prière — un sujet à la fois, en musique.": [
   "components/community/PrayerTime.tsx:303"
@@ -27671,7 +27671,7 @@
   "components/community/ProfileActivity.tsx:140"
  ],
  "Ta série repart — tu étais monté(e) à": [
-  "components/home/DevotionalView.tsx:383"
+  "components/home/DevotionalView.tsx:387"
  ],
  "Ta story": [
   "components/stories/StoriesBar.tsx:81"
@@ -28173,7 +28173,7 @@
   "components/audio/ListenScreen.tsx:368"
  ],
  "Touche la carte pour ouvrir directement le passage dans la Bible.": [
-  "components/home/DevotionalView.tsx:690"
+  "components/home/DevotionalView.tsx:694"
  ],
  "Touche le cœur sur un épisode pour le retrouver ici.": [
   "components/audio/ListenScreen.tsx:366"
@@ -28199,7 +28199,7 @@
   "components/bible/MotsDuVerset.tsx:46"
  ],
  "Touche un verset ou un paragraphe pour le surligner, le copier ou l'enregistrer.": [
-  "components/home/DevotionalView.tsx:433"
+  "components/home/DevotionalView.tsx:437"
  ],
  "Touche un verset ou un passage d'une méditation pour le surligner ou l'enregistrer. Bronze à 20, argent à 100, or à 300.": [
   "lib/badges.ts:252"
@@ -28517,7 +28517,7 @@
   "config/chemin/chapitre-rameaux.ts:86"
  ],
  "Tu aimes ces méditations? RHEMA, c'est 365 révélations bibliques à méditer chaque jour de l'année, l'aboutissement de tout ce que je partage. Bientôt disponible.": [
-  "components/home/DevotionalView.tsx:819"
+  "components/home/DevotionalView.tsx:823"
  ],
  "Tu aimes l'application ?": [
   "components/app/RatingPrompt.tsx:126"
@@ -29947,7 +29947,7 @@
   "config/chemin/chapitre-paraboles.ts:67"
  ],
  "Va plus loin avec": [
-  "components/home/DevotionalView.tsx:816"
+  "components/home/DevotionalView.tsx:820"
  ],
  "Valide « J'ai médité » avant 8 h du matin. Bronze à 7 matins, argent à 30, or à 100.": [
   "lib/badges.ts:245"
