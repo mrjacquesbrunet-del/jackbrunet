@@ -1,0 +1,55 @@
+name: Importer les Bibles anglaise et portugaise
+
+# Lancement MANUEL. Télécharge des Bibles libres de droits sur eBible.org et
+# les commite dans public/bible/<dossier>/ :
+#   - Berean Standard Bible (BSB), anglais, domaine public (2023)
+#   - Bíblia Livre (BLIVRE), portugais du Brésil, CC BY 4.0 (attribution)
+# Vérifie aussi l'adresse des fichiers audio de la BSB (domaine public, CC0).
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  bibles:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Berean Standard Bible (anglais)
+        run: node scripts/fetch-bible-version.mjs engbsb bsb en
+
+      - name: Bíblia Livre (portugais)
+        run: node scripts/fetch-bible-version.mjs porbr2018 blivre pt
+
+      - name: Audio BSB — adresses à tester
+        continue-on-error: true
+        run: |
+          for u in \
+            "https://openbible.com/audio/souer/BSB_01_Gen_001.mp3" \
+            "https://openbible.com/audio/souer/BSB_01_Gen_001_H.mp3" \
+            "https://openbible.com/audio/gilbert/BSB_01_Gen_001_G.mp3" \
+            "https://openbible.com/audio/hays/BSB_01_Gen_001_H.mp3" \
+            "https://bereanbible.com/audio/BSB_01_Gen_001.mp3" \
+            "https://openbible.com/audio/souer/" ; do
+            echo "$(curl -s -o /dev/null -w '%{http_code} %{size_download} %{content_type}' -A 'Mozilla/5.0' -L "$u") $u"
+          done
+          curl -s -A 'Mozilla/5.0' -L https://openbible.com/audio/souer/ | grep -o 'href="[^"]*"' | head -20 || true
+          curl -s -A 'Mozilla/5.0' -L https://openbible.com/audio.htm | grep -io 'href="[^"]*\(mp3\|zip\)"' | head -20 || true
+          curl -s -A 'Mozilla/5.0' -L https://openbible.com/audio/ | grep -io 'href="[^"]*"' | head -30 || true
+
+      - name: Commiter
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/bible
+          if git diff --staged --quiet; then echo "Rien à commiter."; else
+            git commit -m "chore(bible): Bibles anglaise (BSB) et portugaise (Bíblia Livre) [skip ci]"
+            git pull --rebase origin ${GITHUB_REF_NAME}
+            git push origin HEAD:${GITHUB_REF_NAME}
+          fi
