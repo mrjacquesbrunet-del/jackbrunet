@@ -9,6 +9,7 @@ import { EmailPasswordAuth } from "@/components/community/EmailPasswordAuth";
 import { GoogleG } from "@/components/community/SocialAuthButtons";
 import { asset } from "@/lib/asset";
 import { useLangue, type Langue } from "@/lib/i18n";
+import { captureEmail, NEWSLETTER_OPTIN } from "@/lib/email-capture";
 
 const KEY = "jb.onboarded";
 
@@ -73,6 +74,11 @@ const TEXTES: Record<
     traduit: string;
     compteTitre: string;
     compteTexte: string;
+    dejaCompte: string;
+    retourTitre: string;
+    retourTexte: string;
+    newsletter: string;
+    newsletterNote: string;
   }
 > = {
   fr: {
@@ -94,6 +100,11 @@ const TEXTES: Record<
     traduit: "",
     compteTitre: "Crée ton espace.",
     compteTexte: "C'est gratuit : ta progression, ton carnet et tes favoris sont gardés, sur tous tes appareils.",
+    dejaCompte: "J'ai déjà un compte · Me connecter",
+    retourTitre: "Heureux de te revoir.",
+    retourTexte: "Connecte-toi pour retrouver ta progression, ton carnet et tes favoris.",
+    newsletter: "Je veux recevoir chaque matin la pensée du jour et les nouvelles de RHEMA par email.",
+    newsletterNote: "Gratuit. Désinscription en un clic, quand tu veux.",
   },
   en: {
     slogan: "Your time with Jesus",
@@ -121,6 +132,11 @@ const TEXTES: Record<
     traduit: "Translated from French",
     compteTitre: "Create your space.",
     compteTexte: "It's free: your progress, your journal and your favorites are saved, on all your devices.",
+    dejaCompte: "I already have an account · Sign in",
+    retourTitre: "Good to see you again.",
+    retourTexte: "Sign in to find your progress, your journal and your favorites.",
+    newsletter: "I want to receive the thought of the day and RHEMA news by email every morning.",
+    newsletterNote: "Free. Unsubscribe in one click, anytime.",
   },
   pt: {
     slogan: "Seu tempo com Jesus",
@@ -148,6 +164,11 @@ const TEXTES: Record<
     traduit: "Traduzido do francês",
     compteTitre: "Crie o seu espaço.",
     compteTexte: "É grátis: seu progresso, seu caderno e seus favoritos ficam salvos, em todos os seus aparelhos.",
+    dejaCompte: "Já tenho uma conta · Entrar",
+    retourTitre: "Que bom ver você de novo.",
+    retourTexte: "Entre para reencontrar seu progresso, seu caderno e seus favoritos.",
+    newsletter: "Quero receber todas as manhãs o pensamento do dia e as novidades do RHEMA por e-mail.",
+    newsletterNote: "Grátis. Cancele com um clique, quando quiser.",
   },
 };
 
@@ -297,7 +318,10 @@ export function AppOnboarding() {
     }
   }
 
-  const show = !userId && !dismissed;
+  // Connexion OBLIGATOIRE : tant qu'on n'est pas connecté, l'accueil reste.
+  // Premier lancement : tout de suite (intro) ; sinon dès que la session est
+  // vérifiée, directement sur l'écran du compte.
+  const show = !userId && (!dismissed || ready);
 
   // Fin de l'écran sombre posé au démarrage (layout) dès que l'intro est là ou inutile.
   useEffect(() => {
@@ -311,7 +335,21 @@ export function AppOnboarding() {
   }, [show, ready]);
 
   // Étapes : intro → fonctionnalités (0…n-1) → avis → compte.
-  const [etape, setEtape] = useState<"intro" | number | "avis" | "compte">("intro");
+  const [etape, setEtape] = useState<"intro" | number | "avis" | "compte">(() => (dismissed ? "compte" : "intro"));
+  // « J'ai déjà un compte » : formulaire en mode connexion plutôt qu'inscription.
+  const [dejaInscrit, setDejaInscrit] = useState(dismissed);
+  // Accord pour la newsletter (case NON cochée par défaut, obligatoire en Europe).
+  const [optin, setOptin] = useState(false);
+  const { email: emailCompte } = useAuth();
+  useEffect(() => {
+    if (!userId || !emailCompte) return;
+    try {
+      if (optin) localStorage.setItem(NEWSLETTER_OPTIN, "1");
+    } catch {
+      /* ignore */
+    }
+    if (optin) void captureEmail(emailCompte);
+  }, [userId, emailCompte, optin]);
   const [avisIdx, setAvisIdx] = useState(0);
   const n = T.fonctions.length;
 
@@ -438,6 +476,20 @@ export function AppOnboarding() {
                       <BoutonLime onClick={suivant} delai={4.6 + T.verset.split(" ").length * 0.07}>
                         {T.commencer}
                       </BoutonLime>
+                      <motion.button
+                        type="button"
+                        onClick={() => {
+                          setDejaInscrit(true);
+                          setEtape("compte");
+                        }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 5.2 + T.verset.split(" ").length * 0.07, duration: 0.6 }}
+                        className="mt-4 w-full text-center font-sans text-[13px] font-semibold text-cream/60"
+                        translate="no"
+                      >
+                        {T.dejaCompte}
+                      </motion.button>
                     </div>
                   </div>
                 </motion.div>
@@ -547,30 +599,47 @@ export function AppOnboarding() {
                       RHEMA
                     </p>
                     <h2 className="mt-6 font-display text-[30px] font-bold leading-[1.15] text-white">
-                      <MotAMot texte={T.compteTitre} delai={0.2} pas={0.09} />
+                      <MotAMot texte={dejaInscrit ? T.retourTitre : T.compteTitre} delai={0.2} pas={0.09} />
                     </h2>
                     <p className="mt-3 max-w-sm font-sans text-[15px] leading-relaxed text-cream/75" translate="no">
-                      {T.compteTexte}
+                      {dejaInscrit ? T.retourTexte : T.compteTexte}
                     </p>
                   </div>
                   <div className="mt-auto pb-2">
+                    {!dejaInscrit ? (
+                      <button
+                        type="button"
+                        role="checkbox"
+                        aria-checked={optin}
+                        onClick={() => setOptin(!optin)}
+                        className="mt-6 flex w-full items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-left"
+                        translate="no"
+                      >
+                        <span
+                          className={`mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-md border-2 transition-colors ${
+                            optin ? "border-dawn-400 bg-dawn-400 text-[#0E0E0C]" : "border-white/35"
+                          }`}
+                        >
+                          {optin ? (
+                            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={3} aria-hidden>
+                              <path d="M5 12.5l4.5 4.5L19 7.5" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          ) : null}
+                        </span>
+                        <span className="font-sans">
+                          <span className="block text-[14px] leading-snug text-cream/90">{T.newsletter}</span>
+                          <span className="mt-1 block text-[12px] text-cream/45">{T.newsletterNote}</span>
+                        </span>
+                      </button>
+                    ) : null}
                           {native? (
                             <div className="mt-6">
-                              <EmailPasswordAuth onSuccess={close} initialMode="signup" tone="dark" />
-                              <button
-                                onClick={close}
-                                className="mt-6 w-full text-center text-sm text-cream/55 underline-offset-4 hover:underline"
-                              >
-                                Continuer sans compte
-                              </button>
+                              <EmailPasswordAuth onSuccess={close} initialMode={dejaInscrit ? "signin" : "signup"} tone="dark" />
                             </div>
                           ): sent? (
                             <div className="mt-6 rounded-2xl border border-dawn-400/30 bg-dawn-400/10 p-4 text-center text-sm text-cream">
-                              ✓ Un lien de connexion vient d'être envoyé à <strong>{email}</strong>.
+                              Un lien de connexion vient d&apos;être envoyé à <strong>{email}</strong>.
                               Ouvre ta boîte mail et clique dessus.
-                              <button onClick={close} className="btn-ghost mt-4 w-full justify-center">
-                                Continuer
-                              </button>
                             </div>
                           ): (
                             <div className="mt-6">
@@ -606,13 +675,7 @@ export function AppOnboarding() {
 
                               {err? <p className="field-error mt-2">{err}</p>: null}
 
-                              <button
-                                onClick={close}
-                                className="mt-6 w-full text-center text-sm text-cream/55 underline-offset-4 hover:underline"
-                              >
-                                Continuer sans compte
-                              </button>
-                              <p className="mt-2 text-center text-[11px] text-cream/40">
+                              <p className="mt-4 text-center text-[11px] text-cream/40">
                                 Pas de mot de passe: tu reçois un lien sécurisé par email.
                               </p>
                             </div>
