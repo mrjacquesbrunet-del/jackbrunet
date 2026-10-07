@@ -1735,7 +1735,7 @@
   "components/community/MakeVersePublicButton.tsx:36"
  ],
  "✓ Terminé — annuler": [
-  "components/plans/PlanView.tsx:491",
+  "components/plans/PlanView.tsx:497",
   "components/plans/YearPlanView.tsx:332"
  ],
  "✓ terminé · orange = en cours (manque des chapitres) · gris = rien": [
@@ -1771,7 +1771,7 @@
   "components/mission/MissionObjectiveHeader.tsx:57"
  ],
  "€. Rejoins-nous dans la prière ou le soutien.": [
-  "components/home/MissionBanner.tsx:28"
+  "components/home/MissionBanner.tsx:27"
  ],
  "0 0 0 3px rgba(255,255,255,.5)": [
   "components/chemin/CheminScreen.tsx:767"
@@ -2562,7 +2562,7 @@
   "components/home/VideosExperience.tsx:41"
  ],
  "À lire & méditer": [
-  "components/plans/PlanView.tsx:462",
+  "components/plans/PlanView.tsx:468",
   "components/plans/YearPlanView.tsx:309"
  ],
  "À lire aujourd'hui": [
@@ -2580,10 +2580,10 @@
   "app/mission-madagascar/page.tsx:53"
  ],
  "À méditer": [
-  "components/plans/PlanView.tsx:420"
+  "components/plans/PlanView.tsx:426"
  ],
  "À méditer aujourd'hui": [
-  "components/plans/PlanView.tsx:420"
+  "components/plans/PlanView.tsx:426"
  ],
  "À mémoriser": [
   "components/bible/VersetOutils.tsx:546"
@@ -4785,10 +4785,10 @@
   "app/memoriser/page.tsx:152"
  ],
  "Bravo, tu as terminé « {0} »! Que cette Parole continue de porter du fruit dans ta vie.": [
-  "components/plans/PlanView.tsx:237"
+  "components/plans/PlanView.tsx:243"
  ],
  "Bravo! Continue sur un autre thème pour t'enraciner encore plus.": [
-  "components/plans/PlanView.tsx:513"
+  "components/plans/PlanView.tsx:519"
  ],
  "Brevo (Sendinblue SAS, France), gestion des emails et des contacts": [
   "app/confidentialite/page.tsx:145"
@@ -6927,7 +6927,7 @@
   "config/chemin/chapitre-apocalypse.ts:47"
  ],
  "d'évangélisation. Conférence, évangélisation de rue et soutien aux œuvres. Objectif:": [
-  "components/home/MissionBanner.tsx:26"
+  "components/home/MissionBanner.tsx:25"
  ],
  "d'événements": [
   "components/games/ChronoScreen.tsx:244"
@@ -7864,7 +7864,7 @@
   "app/app/page.tsx:169"
  ],
  "Découvre le parcours « {0} » sur RHEMA": [
-  "components/plans/PlanView.tsx:212"
+  "components/plans/PlanView.tsx:218"
  ],
  "Découvre le parcours « La Bible en 1 an » sur RHEMA": [
   "components/plans/YearPlanView.tsx:145"
@@ -7889,7 +7889,7 @@
   "components/community/ProfileView.tsx:92"
  ],
  "Découvrir la mission": [
-  "components/home/MissionBanner.tsx:33"
+  "components/home/MissionBanner.tsx:32"
  ],
  "Découvrir le livre": [
   "components/home/RhemaBanner.tsx:35"
@@ -8313,7 +8313,7 @@
   "components/games/ChronoScreen.tsx:214"
  ],
  "Deux événements de la Bible : lequel est arrivé en premier ? Remets l'histoire dans l'ordre et bats ton record.": [
-  "app/chronologie/page.tsx:8"
+  "app/chronologie/page.tsx:9"
  ],
  "Deux femmes vinrent au roi, se disputant un enfant vivant. Salomon dit : « Apportez-moi une épée, et partagez en deux l'enfant. » L'une s'écria : « Donnez-lui l'enfant vivant, et ne le tuez point ! » L'autre dit : « Qu'il ne soit ni à moi ni à toi ; coupez ! » Le roi reconnut la vraie mère à sa compassion.": [
   "config/chemin/chapitre-salomon.ts:42"
@@ -9022,7 +9022,7 @@
   "components/bible/BibleAudio.tsx:307"
  ],
  "Écouter ce jour": [
-  "components/plans/PlanView.tsx:449"
+  "components/plans/PlanView.tsx:455"
  ],
  "Écouter l'étude": [
   "components/ecole/EtudesView.tsx:604",
@@ -9788,7 +9788,7 @@
   "components/home/EbookReader.tsx:43"
  ],
  "Enregistrer le plan": [
-  "components/plans/PlanView.tsx:269",
+  "components/plans/PlanView.tsx:275",
   "components/plans/YearPlanView.tsx:206"
  ],
  "Enseignement": [
@@ -10839,7 +10839,7 @@
   "components/ecole/FriseChronologique.tsx:130"
  ],
  "Frise chronologique de la Bible": [
-  "app/ecole/chronologie/page.tsx:5"
+  "app/ecole/chronologie/page.tsx:6"
  ],
  "Frondeur": [
   "lib/badges.ts:135"
@@ -13628,7 +13628,7 @@
   "components/ecole/FormationView.tsx:794"
  ],
  "J'ai terminé ce jour": [
-  "components/plans/PlanView.tsx:491"
+  "components/plans/PlanView.tsx:497"
  ],
  "J'ai trois fils : Sem, Cham et Japhet.": [
   "config/chemin/chapitre-noe.ts:46"
@@ -15600,7 +15600,7 @@
   "config/chemin/chapitre-rome.ts:30"
  ],
  "L'histoire de la Bible, de la création à l'Apocalypse : événements, dates, passages, personnages et lieux.": [
-  "app/ecole/chronologie/page.tsx:6"
+  "app/ecole/chronologie/page.tsx:7"
  ],
  "L'histoire de Noé nous apprend qu'un seul homme qui marche avec Dieu peut changer le cours du monde. Dieu voit, Dieu avertit, Dieu sauve — et ses promesses tiennent encore aujourd'hui, chaque fois qu'un arc-en-ciel traverse le ciel.": [
   "config/chemin/chapitre-noe.ts:94"
@@ -15748,7 +15748,7 @@
   "lib/chemin.ts:65"
  ],
  "La Chronologie": [
-  "app/chronologie/page.tsx:6"
+  "app/chronologie/page.tsx:7"
  ],
  "LA CHRONOLOGIE": [
   "components/games/GamesHub.tsx:70"
@@ -18504,7 +18504,7 @@
   "components/community/GroupView.tsx:766"
  ],
  "Lien du plan copié.": [
-  "components/plans/PlanView.tsx:217",
+  "components/plans/PlanView.tsx:223",
   "components/plans/YearPlanView.tsx:152"
  ],
  "LIEN ENVOYÉ · RENVOYER": [
@@ -18646,7 +18646,7 @@
   "components/bible/BibleReader.tsx:625"
  ],
  "Lu par": [
-  "components/plans/PlanView.tsx:426"
+  "components/plans/PlanView.tsx:432"
  ],
  "Luc": [
   "config/chemin/chapitre-pierre-jean.ts:58"
@@ -18844,7 +18844,7 @@
   "config/chemin/chapitre-nehemie.ts:46"
  ],
  "Madagascar": [
-  "components/home/MissionBanner.tsx:23",
+  "components/home/MissionBanner.tsx:22",
   "config/site.ts:40"
  ],
  "Madagascar est une terre magnifique, riche d'histoire, de culture et de visages. Mais c'est aussi une terre où les besoins sont immenses: pauvreté, précarité, enfants vulnérables, familles en difficulté, détenus oubliés, œuvres locales qui manquent parfois de moyens pour continuer leur mission.": [
@@ -19408,7 +19408,7 @@
   "components/home/DevotionalView.tsx:328"
  ],
  "Médite en profondeur, déclare la Parole, prends 10 minutes avec Dieu.": [
-  "components/home/DailyHub.tsx:74"
+  "components/home/DailyHub.tsx:73"
  ],
  "Médite les 7 jours d'une même semaine, du lundi au dimanche. Bronze à 4 semaines parfaites, argent à 12, or à 52.": [
   "lib/badges.ts:246"
@@ -20786,13 +20786,13 @@
  ],
  "Ouvrir la Bible": [
   "app/questions/page.tsx:682",
-  "components/plans/PlanView.tsx:498"
+  "components/plans/PlanView.tsx:504"
  ],
  "Ouvrir la communauté": [
   "components/community/ResetPasswordForm.tsx:84"
  ],
  "Ouvrir le dévotionnel du jour": [
-  "components/home/DailyHub.tsx:71"
+  "components/home/DailyHub.tsx:70"
  ],
  "Ouvrir le menu": [
   "components/layout/Header.tsx:114"
@@ -20851,7 +20851,7 @@
   "components/quiz/QuizScreen.tsx:487"
  ],
  "Par": [
-  "components/plans/PlanView.tsx:64",
+  "components/plans/PlanView.tsx:65",
   "components/plans/YearPlanView.tsx:55",
   "components/ui/AuthorByline.tsx:52"
  ],
@@ -21170,10 +21170,10 @@
   "app/plans/page.tsx:86"
  ],
  "Parcours terminé": [
-  "components/plans/PlanView.tsx:511"
+  "components/plans/PlanView.tsx:517"
  ],
  "Parcours terminé!": [
-  "components/plans/PlanView.tsx:236"
+  "components/plans/PlanView.tsx:242"
  ],
  "Pardonne-nous nos offenses": [
   "config/chemin/chapitre-sermon.ts:77"
@@ -21291,7 +21291,7 @@
   "components/games/DuelLive.tsx:571"
  ],
  "Partager le plan": [
-  "components/plans/PlanView.tsx:264",
+  "components/plans/PlanView.tsx:270",
   "components/plans/YearPlanView.tsx:201"
  ],
  "Partager mon profil": [
@@ -21836,7 +21836,7 @@
   "app/plans/[slug]/page.tsx:18"
  ],
  "Plan thématique": [
-  "components/plans/PlanView.tsx:280"
+  "components/plans/PlanView.tsx:286"
  ],
  "Plans": [
   "components/app/BottomNav.tsx:46",
@@ -22101,7 +22101,7 @@
   "config/chemin/chapitre-rencontres.ts:86"
  ],
  "pour débloquer.": [
-  "components/plans/PlanView.tsx:363"
+  "components/plans/PlanView.tsx:369"
  ],
  "Pour décorer le ciel": [
   "config/chemin/chapitre-creation.ts:47"
@@ -22724,7 +22724,7 @@
  ],
  "Prochaine mission": [
   "components/community/ProfileBanners.tsx:12",
-  "components/home/MissionBanner.tsx:19"
+  "components/home/MissionBanner.tsx:18"
  ],
  "Produits (livre RHEMA)": [
   "app/cgv/page.tsx:49"
@@ -27353,7 +27353,7 @@
   "app/don/page.tsx:7"
  ],
  "Soutiens notre mission à": [
-  "components/home/MissionBanner.tsx:22"
+  "components/home/MissionBanner.tsx:21"
  ],
  "Souviens-toi de moi, je te prie": [
   "config/chemin/chapitre-samson.ts:98"
@@ -27972,7 +27972,7 @@
  ],
  "Terminé": [
   "components/chemin/CheminHub.tsx:137",
-  "components/plans/PlanView.tsx:420",
+  "components/plans/PlanView.tsx:426",
   "components/plans/YearPlanView.tsx:299"
  ],
  "Terminé ✓": [
@@ -27991,7 +27991,7 @@
   "components/chemin/CheminScreen.tsx:340"
  ],
  "Termine le jour": [
-  "components/plans/PlanView.tsx:363"
+  "components/plans/PlanView.tsx:369"
  ],
  "Termine n°1 de la ligue de la semaine, tous jeux confondus (points cumulés du lundi au dimanche). Le titre est remis en jeu chaque lundi — tu peux le remporter plusieurs fois (×N).": [
   "components/community/ProfileBadges.tsx:21"
@@ -28154,7 +28154,7 @@
  ],
  "ton binôme": [
   "components/plans/PlanDuo.tsx:89",
-  "components/plans/PlanView.tsx:426"
+  "components/plans/PlanView.tsx:432"
  ],
  "Ton cadeau est prêt": [
   "app/ebook/7-jours/page.tsx:17",
@@ -28303,7 +28303,7 @@
   "components/quiz/QuizScreen.tsx:636"
  ],
  "Ton rendez-vous": [
-  "components/home/DailyHub.tsx:41"
+  "components/home/DailyHub.tsx:40"
  ],
  "Ton signalement a été transmis aux modérateurs.": [
   "components/community/ReportButton.tsx:49"
@@ -28394,7 +28394,7 @@
   "components/bible/BibleReader.tsx:970"
  ],
  "Tous les parcours": [
-  "components/plans/PlanView.tsx:256",
+  "components/plans/PlanView.tsx:262",
   "components/plans/YearPlanView.tsx:193"
  ],
  "Tous les royaumes du monde": [
@@ -28961,7 +28961,7 @@
   "components/ecole/CartesLexique.tsx:84"
  ],
  "Un avant-goût de ton dévotionnel du jour. Ouvre-le pour le vivre en entier: méditation, verset à déclarer, questions et vidéo.": [
-  "components/home/DailyHub.tsx:44"
+  "components/home/DailyHub.tsx:43"
  ],
  "Un avant-goût exclusif du livre, des révélations bibliques à méditer.": [
   "components/app/ExclusivesView.tsx:52"
@@ -30609,7 +30609,7 @@
   "components/home/DevotionAuthor.tsx:70"
  ],
  "Voir la fiche de l'auteur": [
-  "components/plans/PlanView.tsx:287",
+  "components/plans/PlanView.tsx:293",
   "components/plans/YearPlanView.tsx:226"
  ],
  "Voir la traduction": [
@@ -30630,7 +30630,7 @@
   "components/chemin/CheminHub.tsx:306"
  ],
  "Voir les autres parcours": [
-  "components/plans/PlanView.tsx:519"
+  "components/plans/PlanView.tsx:525"
  ],
  "Voir les groupes": [
   "components/community/GroupView.tsx:113"
