@@ -1,0 +1,137 @@
+[
+  {
+    "id": 40,
+    "name": "Mateus",
+    "chapters": 28
+  },
+  {
+    "id": 41,
+    "name": "Marcos",
+    "chapters": 16
+  },
+  {
+    "id": 42,
+    "name": "Lucas",
+    "chapters": 24
+  },
+  {
+    "id": 43,
+    "name": "João",
+    "chapters": 21
+  },
+  {
+    "id": 44,
+    "name": "Atos",
+    "chapters": 28
+  },
+  {
+    "id": 45,
+    "name": "Romanos",
+    "chapters": 16
+  },
+  {
+    "id": 46,
+    "name": "1 Coríntios",
+    "chapters": 16
+  },
+  {
+    "id": 47,
+    "name": "2 Coríntios",
+    "chapters": 13
+  },
+  {
+    "id": 48,
+    "name": "Gálatas",
+    "chapters": 6
+  },
+  {
+    "id": 49,
+    "name": "Efésios",
+    "chapters": 6
+  },
+  {
+    "id": 50,
+    "name": "Filipenses",
+    "chapters": 4
+  },
+  {
+    "id": 51,
+    "name": "Colossenses",
+    "chapters": 4
+  },
+  {
+    "id": 52,
+    "name": "1 Tessalonicenses",
+    "chapters": 5
+  },
+  {
+    "id": 53,
+    "name": "2 Tessalonicenses",
+    "chapters": 3
+  },
+  {
+    "id": 54,
+    "name": "1 Timóteo",
+    "chapters": 6
+  },
+  {
+    "id": 55,
+    "name": "2 Timóteo",
+    "chapters": 4
+  },
+  {
+    "id": 56,
+    "name": "Tito",
+    "chapters": 3
+  },
+  {
+    "id": 57,
+    "name": "Filemom",
+    "chapters": 1
+  },
+  {
+    "id": 58,
+    "name": "Hebreus",
+    "chapters": 13
+  },
+  {
+    "id": 59,
+    "name": "Tiago",
+    "chapters": 5
+  },
+  {
+    "id": 60,
+    "name": "1 Pedro",
+    "chapters": 5
+  },
+  {
+    "id": 61,
+    "name": "2 Pedro",
+    "chapters": 3
+  },
+  {
+    "id": 62,
+    "name": "1 João",
+    "chapters": 5
+  },
+  {
+    "id": 63,
+    "name": "2 João",
+    "chapters": 1
+  },
+  {
+    "id": 64,
+    "name": "3 João",
+    "chapters": 1
+  },
+  {
+    "id": 65,
+    "name": "Judas",
+    "chapters": 1
+  },
+  {
+    "id": 66,
+    "name": "Apocalipse",
+    "chapters": 22
+  }
+]
