@@ -29,6 +29,7 @@ import { usePodcastPlayer, getPodcastAudio } from "@/lib/podcast-player";
 import { ReadingSettings } from "@/components/bible/ReadingSettings";
 import { useReading, FONT_STACK, THEME_STYLE } from "@/lib/reading-settings";
 import { useAppMode } from "@/lib/app-mode";
+import { getIndex } from "@/lib/bible-client";
 
 type BookIndex = { id: number; name: string; chapters: number };
 type Book = { id: number; name: string; chapters: string[][] };
@@ -210,8 +211,7 @@ export function BibleReader() {
 
   // Liste des livres
   useEffect(() => {
-    fetch(asset("/bible/index.json"))
-.then((r) => r.json())
+    getIndex()
 .then(setIndex)
 .catch(() => {});
   }, []);

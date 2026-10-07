@@ -3,11 +3,11 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { asset } from "@/lib/asset";
 import { bibleHref } from "@/lib/bible-ref";
 import { FicheSheet, Medaillon, getFiches, type FichesData } from "@/components/bible/FichesChapitre";
 import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
 import { getGenealogie, type ArbreDef, type Genealogie, type LigneeDef, type Personne } from "@/lib/genealogie";
+import { getIndex } from "@/lib/bible-client";
 
 /**
  * ARBRES GÉNÉALOGIQUES — page cachée de l'Étude biblique (section Explorer).
@@ -156,8 +156,7 @@ export function ArbresGenealogiques() {
   useEffect(() => {
     getGenealogie().then(setG);
     getFiches().then(setFiches);
-    fetch(asset("/bible/index.json"))
-      .then((r) => (r.ok ? r.json() : []))
+    getIndex()
       .then((b: { id: number; name: string }[]) => setBookNames(Object.fromEntries(b.map((x) => [x.id, x.name]))))
       .catch(() => {});
     const u = new URLSearchParams(window.location.search);

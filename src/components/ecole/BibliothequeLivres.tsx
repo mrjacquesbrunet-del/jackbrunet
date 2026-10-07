@@ -3,10 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { asset } from "@/lib/asset";
 import { FicheSheet, getFiches, type FichesData } from "@/components/bible/FichesChapitre";
 import { COULEUR_GROUPE, IntroLivreCorps, getIntroductions, groupeDe, type IntrosData } from "@/components/bible/IntroLivre";
 import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
+import { getIndex } from "@/lib/bible-client";
 
 /**
  * LES 66 LIVRES — page cachée de l'Étude biblique (section Explorer).
@@ -34,8 +34,7 @@ export function BibliothequeLivres() {
   useEffect(() => {
     getIntroductions().then(setData);
     getFiches().then(setFiches);
-    fetch(asset("/bible/index.json"))
-      .then((r) => (r.ok ? r.json() : []))
+    getIndex()
       .then(setLivres)
       .catch(() => {});
     const n = Number(new URLSearchParams(window.location.search).get("livre"));

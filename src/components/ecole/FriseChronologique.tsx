@@ -3,13 +3,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { asset } from "@/lib/asset";
 import { bibleHref } from "@/lib/bible-ref";
 import { LieuCarte } from "@/components/bible/LieuCarte";
 import { FicheSheet, Medaillon, TexteAvecRefs, getFiches, type FichesData } from "@/components/bible/FichesChapitre";
 import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
 import frise from "../../../content/chronologie-biblique.json";
 import { enregistrerContenu } from "@/lib/contenu-i18n";
+import { getIndex } from "@/lib/bible-client";
 
 /**
  * FRISE CHRONOLOGIQUE — page cachée de l'Étude biblique (section Explorer).
@@ -52,8 +52,7 @@ export function FriseChronologique() {
 
   useEffect(() => {
     getFiches().then(setFiches);
-    fetch(asset("/bible/index.json"))
-      .then((r) => (r.ok ? r.json() : []))
+    getIndex()
       .then((b: { id: number; name: string }[]) => setBookNames(Object.fromEntries(b.map((x) => [x.id, x.name]))))
       .catch(() => {});
     // Lien profond (?ev=…) depuis une introduction de livre : on ouvre l'événement.

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { asset } from "@/lib/asset";
 import { FicheCorps, getFiches, type Fiche, type FichesData } from "@/components/bible/FichesChapitre";
 import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
+import { getIndex } from "@/lib/bible-client";
 
 /**
  * GALERIE DES PERSONNAGES & LIEUX — page cachée de l'Étude biblique.
@@ -70,8 +71,7 @@ export function GalerieFiches() {
 
   useEffect(() => {
     getFiches().then(setData);
-    fetch(asset("/bible/index.json"))
-      .then((r) => (r.ok ? r.json() : []))
+    getIndex()
       .then((b: Livre[]) => setLivres(b.map(({ id, name }) => ({ id, name }))))
       .catch(() => setLivres([]));
     // Lien profond (?livre=N) depuis une introduction : les personnages du livre.

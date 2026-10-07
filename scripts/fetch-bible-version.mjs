@@ -43,12 +43,20 @@ console.log("fichiers :", txt.map((f) => path.basename(f)).join(", "));
 // livre → chapitre → verset
 const livres = new Map();
 let lignes = 0;
+const inconnus = new Map();
+const exemples = [];
 for (const f of txt) {
   for (const ligne of fs.readFileSync(f, "utf8").split(/\r?\n/)) {
-    const m = ligne.match(/^([1-3A-Z]{3}) (\d+):(\d+)\s+(.*)$/);
-    if (!m) continue;
+    const m = ligne.match(/^([1-4A-Z]{3}) (\d+):(\d+)\s+(.*)$/);
+    if (!m) {
+      if (ligne.trim() && exemples.length < 8) exemples.push(ligne.slice(0, 100));
+      continue;
+    }
     const n = CODES.indexOf(m[1]);
-    if (n < 0) continue; // livres deutérocanoniques éventuels
+    if (n < 0) {
+      inconnus.set(m[1], (inconnus.get(m[1]) ?? 0) + 1);
+      continue; // livres deutérocanoniques éventuels
+    }
     const ch = Number(m[2]);
     const v = Number(m[3]);
     const texte = m[4].replace(/\s+/g, " ").trim();
@@ -62,6 +70,9 @@ for (const f of txt) {
   }
 }
 console.log(`${lignes} versets, ${livres.size} livres`);
+console.log("codes inconnus :", [...inconnus].map(([c, n]) => `${c}×${n}`).join(" "));
+console.log("lignes non reconnues (exemples) :", exemples);
+console.log("livres manquants :", CODES.filter((_, i) => !livres.has(i)).join(" "));
 if (livres.size !== 66) throw new Error(`66 livres attendus, ${livres.size} trouvés`);
 
 const sortie = `public/bible/${dossier}`;

@@ -1,30 +1,37 @@
 "use client";
 
 import { asset } from "./asset";
+import { baseBible, getVersionBible, type VersionBible } from "./bible-version";
 
 type BookIndex = { id: number; name: string; chapters: number };
 type Book = { id: number; name: string; chapters: string[][] };
 
-let indexPromise: Promise<BookIndex[]> | null = null;
-const bookCache = new Map<number, Promise<Book>>();
+const indexCache = new Map<VersionBible, Promise<BookIndex[]>>();
+const bookCache = new Map<string, Promise<Book>>();
 
-export function getIndex(): Promise<BookIndex[]> {
-  if (!indexPromise) {
-    indexPromise = fetch(asset("/bible/index.json"))
-.then((r) => r.json())
-.catch(() => [] as BookIndex[]);
-  }
-  return indexPromise;
-}
-
-export function getBook(id: number): Promise<Book> {
-  if (!bookCache.has(id)) {
-    bookCache.set(
-      id,
-      fetch(asset(`/bible/${id}.json`)).then((r) => r.json()),
+/** Livres de la version (par défaut celle choisie : langue de l'app). */
+export function getIndex(v: VersionBible = getVersionBible()): Promise<BookIndex[]> {
+  if (!indexCache.has(v)) {
+    indexCache.set(
+      v,
+      fetch(asset(`${baseBible(v)}/index.json`))
+        .then((r) => r.json())
+        .catch(() => [] as BookIndex[]),
     );
   }
-  return bookCache.get(id)!;
+  return indexCache.get(v)!;
+}
+
+/** Un livre de la version (« lsg » pour ce qui est aligné sur la Segond). */
+export function getBook(id: number, v: VersionBible = getVersionBible()): Promise<Book> {
+  const k = `${v}/${id}`;
+  if (!bookCache.has(k)) {
+    bookCache.set(
+      k,
+      fetch(asset(`${baseBible(v)}/${id}.json`)).then((r) => r.json()),
+    );
+  }
+  return bookCache.get(k)!;
 }
 
 function norm(s: string): string {
@@ -62,12 +69,21 @@ export async function resolveRef(reference: string): Promise<Ref | null> {
   const vStart = Number(m[3]);
   const vEnd = m[4]? Number(m[4]): vStart;
 
-  const idx = await getIndex();
-  const found =
-    idx.find((b) => norm(b.name) === name) ||
-    idx.find((b) => norm(b.name).startsWith(name)) ||
-    idx.find((b) => name.startsWith(norm(b.name)));
+  // Référence en français, anglais ou portugais (« Jean », « John », « João ») ;
+  // le nom rendu est celui de la version lue.
+  const courante = getVersionBible();
+  const ordre = [courante, ...(["lsg", "bsb", "blivre"] as VersionBible[]).filter((x) => x !== courante)];
+  let found: BookIndex | undefined;
+  for (const v of ordre) {
+    const idx = await getIndex(v);
+    found =
+      idx.find((b) => norm(b.name) === name) ||
+      idx.find((b) => norm(b.name).startsWith(name)) ||
+      idx.find((b) => name.startsWith(norm(b.name)));
+    if (found) break;
+  }
   if (!found) return null;
+  const nom = (await getIndex(courante)).find((b) => b.id === found!.id)?.name ?? found.name;
 
-  return { bookId: found.id, bookName: found.name, chapter, vStart, vEnd };
+  return { bookId: found.id, bookName: nom, chapter, vStart, vEnd };
 }

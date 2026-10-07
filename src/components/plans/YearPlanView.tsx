@@ -20,6 +20,7 @@ import {
   type PlanIndexBook,
   type PlanDay,
 } from "@/lib/year-plan";
+import { getIndex } from "@/lib/bible-client";
 
 const COVER = "/img/plans/bible-1-an.webp";
 
@@ -94,8 +95,7 @@ export function YearPlanView() {
   const [authorOpen, setAuthorOpen] = useState(false);
 
   useEffect(() => {
-    fetch(asset("/bible/index.json"))
-      .then((r) => r.json())
+    getIndex()
       .then(setIndex)
       .catch(() => setIndex([]));
   }, []);

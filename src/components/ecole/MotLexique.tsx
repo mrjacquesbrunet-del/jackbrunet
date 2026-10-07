@@ -386,7 +386,7 @@ function Concordance({ code, mot, onLire }: { code: string; mot: Mot; onLire: Na
   }, [code]);
 
   useEffect(() => {
-    getIndex()
+    getIndex("lsg")
       .then((i) => setNoms(Object.fromEntries(i.map((b) => [b.id, b.name]))))
       .catch(() => {});
   }, []);
@@ -399,7 +399,7 @@ function Concordance({ code, mot, onLire }: { code: string; mot: Mot; onLire: Na
     let actif = true;
     const livres = [...new Set(visibles.map((e) => e[0]))];
     for (const b of livres) {
-      getBook(b)
+      getBook(b, "lsg")
         .then((book) => {
           if (!actif) return;
           setTextes((t) => {
