@@ -8,7 +8,7 @@
  *           traduits ; noms de fichiers, images, identifiants inchangés.
  * Reprenable : lots notés dans i18n/lots-contenu.json (commité aussitôt).
  *
- * Variables : ANTHROPIC_API_KEY, MODELE (défaut claude-opus-5-5),
+ * Variables : ANTHROPIC_API_KEY, MODELE (défaut claude-haiku-4-5, le moins cher),
  *   LANGUES ("en,pt"), FICHIERS ("devotions,formations,etudes,reading-plan"),
  *   LIMITE (nombre max de textes par fichier et langue, essai), REFAIRE=1,
  *   GIT_COMMIT=0, ESSAI_A_SEC=1.
@@ -18,7 +18,7 @@ import path from "node:path";
 import { execSync } from "node:child_process";
 import Anthropic from "@anthropic-ai/sdk";
 
-const MODELE = process.env.MODELE || "claude-opus-5-5";
+const MODELE = process.env.MODELE || "claude-haiku-4-5";
 const LANGUES = (process.env.LANGUES || "en,pt").split(",").map((s) => s.trim()).filter(Boolean);
 const FICHIERS = (process.env.FICHIERS || "devotions,formations,etudes,reading-plan").split(",").map((s) => s.trim()).filter(Boolean);
 const LIMITE = Number(process.env.LIMITE || 0);
@@ -119,7 +119,8 @@ function demande(id, langue, contexte, lot) {
           }),
         },
       ],
-      output_config: { format: { type: "json_schema", schema: SCHEMA }, effort: "low" },
+      // Haiku : pas de réglage d'effort (réflexion désactivée par défaut).
+      output_config: { format: { type: "json_schema", schema: SCHEMA }, ...(MODELE.includes("haiku") ? {} : { effort: "low" }) },
     },
   };
 }

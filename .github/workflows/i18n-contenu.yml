@@ -20,7 +20,7 @@ on:
       modele:
         description: "Modèle Claude"
         required: false
-        default: "claude-opus-5-5"
+        default: "claude-haiku-4-5"
       limite:
         description: "Nombre maximum de textes par fichier et langue (essai ; 0 = tout)"
         required: false
@@ -62,7 +62,7 @@ jobs:
       - name: Traduire (lots Claude)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          MODELE: ${{ inputs.modele || 'claude-opus-5-5' }}
+          MODELE: ${{ inputs.modele || 'claude-haiku-4-5' }}
           LANGUES: ${{ inputs.langues || 'en,pt' }}
           FICHIERS: ${{ inputs.fichiers || 'devotions,formations,etudes,reading-plan' }}
           LIMITE: ${{ inputs.limite || '0' }}

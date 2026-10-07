@@ -8,7 +8,7 @@
  * aussitôt) ; un nouveau passage récupère d'abord les lots en cours, puis
  * n'envoie que les textes pas encore traduits.
  *
- * Variables : ANTHROPIC_API_KEY (obligatoire), MODELE (défaut claude-opus-5-5),
+ * Variables : ANTHROPIC_API_KEY (obligatoire), MODELE (défaut claude-haiku-4-5, le moins cher),
  *   LANGUES (défaut "en,pt"), LIMITE (nombre max de textes par langue, essai),
  *   REFAIRE=1 (tout retraduire), GIT_COMMIT=0, ESSAI_A_SEC=1 (affiche sans envoyer).
  */
@@ -16,7 +16,7 @@ import fs from "node:fs";
 import { execSync } from "node:child_process";
 import Anthropic from "@anthropic-ai/sdk";
 
-const MODELE = process.env.MODELE || "claude-opus-5-5";
+const MODELE = process.env.MODELE || "claude-haiku-4-5";
 const LANGUES = (process.env.LANGUES || "en,pt").split(",").map((s) => s.trim()).filter(Boolean);
 const LIMITE = Number(process.env.LIMITE || 0);
 const REFAIRE = process.env.REFAIRE === "1";
@@ -94,7 +94,8 @@ function demande(id, langue, textes) {
       max_tokens: 16000,
       system: [{ type: "text", text: CONSIGNE(langue), cache_control: { type: "ephemeral" } }],
       messages: [{ role: "user", content: JSON.stringify(textes.map((fr, i) => ({ i, fr, ecran: ECRAN[fr] }))) }],
-      output_config: { format: { type: "json_schema", schema: SCHEMA }, effort: "low" },
+      // Haiku : pas de réglage d'effort (réflexion désactivée par défaut).
+      output_config: { format: { type: "json_schema", schema: SCHEMA }, ...(MODELE.includes("haiku") ? {} : { effort: "low" }) },
     },
   };
 }

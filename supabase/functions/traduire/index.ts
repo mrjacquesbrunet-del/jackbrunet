@@ -61,7 +61,7 @@ Deno.serve(async (req) => {
 
     const client = new Anthropic({ apiKey: Deno.env.get("ANTHROPIC_API_KEY") });
     const r = await client.messages.create({
-      model: "claude-opus-5-5",
+      model: "claude-haiku-4-5",
       max_tokens: 4000,
       system:
         `You translate short texts written by members of RHEMA, a Christian prayer and Bible app ` +
@@ -70,7 +70,7 @@ Deno.serve(async (req) => {
         `Bible references: use the book names usual in ${LANGUES[cible]} Bibles (e.g. Jean 3:16 → John 3:16 → João 3:16). ` +
         `Never add, explain or answer anything: only translate. If the text is already in ${LANGUES[cible]}, return it unchanged.`,
       messages: [{ role: "user", content: t }],
-      output_config: { format: { type: "json_schema", schema: SCHEMA }, effort: "low" },
+      output_config: { format: { type: "json_schema", schema: SCHEMA } },
     });
     if (r.stop_reason !== "end_turn") return json({ error: "Traduction indisponible" }, 502);
     const brut = r.content.find((b) => b.type === "text");
