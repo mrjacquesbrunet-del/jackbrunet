@@ -611,7 +611,7 @@ function Dessin({
                         <Avatar p={p} fiches={fiches} />
                       </span>
                       <span className={`mt-1.5 line-clamp-2 px-0.5 text-[12px] font-bold leading-tight ${actif ? "text-dawn-300" : "text-cream/90"}`}>{court(p.n)}</span>
-                      {mere ? <span className="mt-0.5 text-[10px] font-semibold text-cream/45">de {mere}</span> : null}
+                      {mere ? <span className="mt-0.5 text-[10px] font-semibold text-cream/45">{`de ${mere}`}</span> : null}
                       {conj.length ? (
                         <span className="mt-0.5 flex max-w-full items-center gap-0.5 truncate text-[10px] font-semibold text-dawn-300/70">
                           <Anneaux />
@@ -699,7 +699,7 @@ function Branche({
           <span className={`block truncate text-[15px] font-bold leading-tight ${actif ? "text-dawn-300" : "text-cream"}`}>{court(p.n)}</span>
           {mere || conj.length ? (
             <span className="mt-0.5 flex items-center gap-1 truncate text-[11px] font-semibold text-cream/45">
-              {mere ? <span>de {mere}</span> : null}
+              {mere ? <span>{`de ${mere}`}</span> : null}
               {mere && conj.length ? <span>·</span> : null}
               {conj.length ? (
                 <span className="flex min-w-0 items-center gap-1 text-dawn-300/70">

@@ -79,7 +79,7 @@ function Anneau({ faits, total }: { faits: number; total: number }) {
       </svg>
       <div className="absolute inset-0 grid place-items-center">
         <p className="font-game text-[30px] font-black leading-none text-white">{faits}</p>
-        <p className="font-game text-[11px] font-bold text-white/55">sur {total}</p>
+        <p className="font-game text-[11px] font-bold text-white/55">{`sur ${total}`}</p>
       </div>
     </div>
   );

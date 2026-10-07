@@ -110,7 +110,10 @@ function parcourt(fichier) {
         let s = node.head.text;
         node.templateSpans.forEach((sp, i) => (s += `{${i}}` + sp.literal.text));
         // Utile seulement s'il reste du texte autour des variables
-        if (lisible(s.replace(/\{\d+\}/g, " "))) ajoute(s, ou(node));
+        // (un mot seul suffit dans du JSX : « sur {0} », « de {0} »)
+        const reste = s.replace(/\{\d+\}/g, " ");
+        const dansJsx = node.parent && ts.isJsxExpression(node.parent);
+        if (lisible(reste) || (dansJsx && /[A-Za-zÀ-ÿ]{2}/.test(reste))) ajoute(s, ou(node), dansJsx);
       }
     }
     ts.forEachChild(node, visite);

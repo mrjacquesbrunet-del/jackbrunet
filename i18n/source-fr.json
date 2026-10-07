@@ -139,11 +139,11 @@
   "components/community/ProfileView.tsx:1164"
  ],
  "· fond musical": [
-  "components/bible/BibleAudio.tsx:297",
-  "components/bible/BibleAudio.tsx:339"
+  "components/bible/BibleAudio.tsx:298",
+  "components/bible/BibleAudio.tsx:340"
  ],
  "· ici": [
-  "components/bible/VersetsLies.tsx:170"
+  "components/bible/VersetsLies.tsx:171"
  ],
  "· les 3 derniers descendent": [
   "components/games/LeagueBoard.tsx:176"
@@ -158,7 +158,7 @@
   "components/games/BergerScreen.tsx:550"
  ],
  "· minuteur {0} min": [
-  "components/bible/BibleAudio.tsx:338"
+  "components/bible/BibleAudio.tsx:339"
  ],
  "· mur de prière": [
   "components/home/DailyPrayerSpotlight.tsx:71"
@@ -1538,7 +1538,7 @@
   "components/community/BibleAudioAdmin.tsx:106"
  ],
  "(les {0} premiers affichés)": [
-  "components/bible/BibleSearch.tsx:109"
+  "components/bible/BibleSearch.tsx:111"
  ],
  "(lire": [
   "components/ecole/EtudesView.tsx:820"
@@ -1612,7 +1612,7 @@
   "components/community/ProfileActivity.tsx:185"
  ],
  "{0} enfant{1} connu{2}": [
-  "components/ecole/ArbresGenealogiques.tsx:328"
+  "components/ecole/ArbresGenealogiques.tsx:327"
  ],
  "{0} épisode{1}": [
   "components/audio/ListenScreen.tsx:257"
@@ -1642,7 +1642,7 @@
   "components/community/MediasAdmin.tsx:152"
  ],
  "{0} résultat{1}{2}.": [
-  "components/bible/BibleSearch.tsx:109"
+  "components/bible/BibleSearch.tsx:111"
  ],
  "{0}, {1}/{2} chapitres": [
   "components/community/BibleAudioAdmin.tsx:140"
@@ -1652,6 +1652,12 @@
  ],
  "{0}, terminé ({1} ch.)": [
   "components/community/BibleAudioAdmin.tsx:138"
+ ],
+ "{0}/mission-madagascar#soutenir": [
+  "app/mission-madagascar/page.tsx:206"
+ ],
+ "{0}#view=FitH": [
+  "components/home/EbookReader.tsx:70"
  ],
  "/mois": [
   "components/mission/BandeauBatisseurs.tsx:143"
@@ -1680,7 +1686,7 @@
   "components/plans/YearPlanView.tsx:345"
  ],
  "← Précédent": [
-  "components/bible/BibleReader.tsx:831"
+  "components/bible/BibleReader.tsx:833"
  ],
  "← Retour": [
   "components/community/InAppShare.tsx:209",
@@ -1804,7 +1810,7 @@
   "components/community/Avatar.tsx:63"
  ],
  "1 an": [
-  "components/bible/BibleReader.tsx:613"
+  "components/bible/BibleReader.tsx:615"
  ],
  "1 chroniques": [
   "lib/bible-ref.ts:13"
@@ -2601,7 +2607,7 @@
   "components/plans/YearPlanView.tsx:299"
  ],
  "À lire dans la Bible": [
-  "components/ecole/FriseChronologique.tsx:260"
+  "components/ecole/FriseChronologique.tsx:259"
  ],
  "À Lystre, ils guérirent un homme impotent de naissance. La foule s'écria : « Les dieux, sous une forme humaine, sont descendus vers nous ! » Ils appelaient Barnabas Jupiter et Paul Mercure, et voulurent leur offrir un sacrifice. Les apôtres déchirèrent leurs vêtements et se précipitèrent vers la foule : « Pourquoi agissez-vous de la sorte ? Nous aussi, nous sommes des hommes de la même nature que vous. »": [
   "config/chemin/chapitre-voyages.ts:32"
@@ -3403,7 +3409,7 @@
   "config/chemin/chapitre-attente.ts:70"
  ],
  "Agrandir": [
-  "components/bible/ReadingSettings.tsx:101"
+  "components/bible/ReadingSettings.tsx:131"
  ],
  "Agur": [
   "config/chemin/chapitre-ecclesiaste.ts:98"
@@ -3605,12 +3611,12 @@
   "config/chemin/chapitre-eglise.ts:68"
  ],
  "Ancien Testament": [
-  "components/bible/BibleReader.tsx:989",
+  "components/bible/BibleReader.tsx:991",
   "components/ecole/EcoleView.tsx:370",
-  "components/ecole/FriseChronologique.tsx:137"
+  "components/ecole/FriseChronologique.tsx:136"
  ],
  "Ancien Testament · 39": [
-  "components/ecole/BibliothequeLivres.tsx:92"
+  "components/ecole/BibliothequeLivres.tsx:91"
  ],
  "Anciens champions": [
   "components/memorize/WeeklyChampions.tsx:145"
@@ -3854,13 +3860,13 @@
   "lib/lexique.ts:81"
  ],
  "Arbre": [
-  "components/ecole/ArbresGenealogiques.tsx:562"
+  "components/ecole/ArbresGenealogiques.tsx:561"
  ],
  "Arbre généalogique": [
-  "components/ecole/ArbresGenealogiques.tsx:224"
+  "components/ecole/ArbresGenealogiques.tsx:223"
  ],
  "Arbres généalogiques": [
-  "components/ecole/ArbresGenealogiques.tsx:211",
+  "components/ecole/ArbresGenealogiques.tsx:210",
   "components/ecole/EcoleView.tsx:407"
  ],
  "Arbres généalogiques de la Bible": [
@@ -3893,7 +3899,7 @@
   "config/chemin/chapitre-elie.ts:27"
  ],
  "Arrêter": [
-  "components/bible/BibleAudio.tsx:429"
+  "components/bible/BibleAudio.tsx:430"
  ],
  "Arrêter les disciples et les ramener liés": [
   "config/chemin/chapitre-paul.ts:25"
@@ -4207,7 +4213,7 @@
   "components/bible/VersetOutils.tsx:411"
  ],
  "Aucun résultat. Essaie un autre mot.": [
-  "components/bible/BibleSearch.tsx:108"
+  "components/bible/BibleSearch.tsx:110"
  ],
  "Aucun short ne correspond à ta recherche.": [
   "components/home/VideoLibrary.tsx:190"
@@ -4313,7 +4319,7 @@
   "lib/verse-image.ts:8"
  ],
  "aussi appelé {0}": [
-  "components/ecole/ArbresGenealogiques.tsx:792"
+  "components/ecole/ArbresGenealogiques.tsx:791"
  ],
  "Autant l'orient est éloigné de l'occident autant il éloigne de nous nos transgressions": [
   "config/chemin/chapitre-psaumes.ts:91"
@@ -4323,16 +4329,16 @@
   "components/plans/AuthorChip.tsx:63"
  ],
  "Auteur, époque, contexte, plan, thèmes": [
-  "components/bible/BibleReader.tsx:1027"
+  "components/bible/BibleReader.tsx:1029"
  ],
  "Auteurs": [
   "components/ecole/EtudesView.tsx:206"
  ],
  "Auteurs et dates selon la tradition juive et chrétienne ; les débats sont signalés quand ils existent.": [
-  "components/ecole/BibliothequeLivres.tsx:151"
+  "components/ecole/BibliothequeLivres.tsx:150"
  ],
  "autre": [
-  "components/bible/VersetsLies.tsx:206",
+  "components/bible/VersetsLies.tsx:207",
   "components/community/MyPrayerList.tsx:161"
  ],
  "Autre": [
@@ -4479,7 +4485,7 @@
   "components/ecole/FormationView.tsx:613"
  ],
  "Avancer de 15 secondes": [
-  "components/bible/BibleAudioPlayer.tsx:491"
+  "components/bible/BibleAudioPlayer.tsx:492"
  ],
  "avancer la lumière": [
   "app/dons/page.tsx:38"
@@ -4585,7 +4591,7 @@
   "components/community/ProfileView.tsx:1021"
  ],
  "Baisse le fond si la voix est un peu couverte.": [
-  "components/bible/BibleAudio.tsx:269"
+  "components/bible/BibleAudio.tsx:270"
  ],
  "Bannière du profil": [
   "components/community/ProfileView.tsx:672"
@@ -4678,6 +4684,9 @@
   "config/chemin/chapitre-joseph.ts:36",
   "config/chemin/chapitre-joseph.ts:97"
  ],
+ "Berean Standard Bible": [
+  "lib/bible-version.ts:39"
+ ],
  "Berger": [
   "config/chemin/chapitre-rencontres.ts:27",
   "config/chemin/chapitre-rencontres.ts:88"
@@ -4720,7 +4729,13 @@
   "components/community/BibleAudioAdmin.tsx:102"
  ],
  "Bible Louis Segond, narration": [
-  "lib/bible-audio.ts:125"
+  "lib/bible-audio.ts:152"
+ ],
+ "Bíblia Livre": [
+  "lib/bible-version.ts:48"
+ ],
+ "Bíblia Livre (BLIVRE) © 2018 Diego Santos, Mario Sérgio e Marco Teles, licença Creative Commons Atribuição 4.0 Brasil (CC BY 4.0). Fonte : bibliaportugues.com / eBible.org.": [
+  "lib/bible-version.ts:54"
  ],
  "Bibliothèque": [
   "components/ecole/EcoleView.tsx:383",
@@ -5019,8 +5034,8 @@
   "config/chemin/chapitre-moise.ts:56"
  ],
  "cantique des cantiques": [
-  "lib/bible-client.ts:42",
-  "lib/bible-client.ts:43",
+  "lib/bible-client.ts:52",
+  "lib/bible-client.ts:53",
   "lib/bible-ref.ts:15"
  ],
  "Capernaüm": [
@@ -5324,7 +5339,7 @@
   "components/boutique/RhemaShowcase.tsx:604"
  ],
  "Centrer sur": [
-  "components/ecole/ArbresGenealogiques.tsx:886"
+  "components/ecole/ArbresGenealogiques.tsx:885"
  ],
  "Centurion": [
   "config/chemin/chapitre-miracles.ts:77"
@@ -5462,11 +5477,11 @@
  "chapitre": [
   "components/bible/FichesChapitre.tsx:578",
   "components/bible/IntroLivre.tsx:117",
-  "components/ecole/BibliothequeLivres.tsx:140"
+  "components/ecole/BibliothequeLivres.tsx:139"
  ],
  "Chapitre": [
-  "components/bible/BibleReader.tsx:533",
-  "components/bible/BibleReader.tsx:540",
+  "components/bible/BibleReader.tsx:535",
+  "components/bible/BibleReader.tsx:542",
   "components/chemin/CheminHub.tsx:133"
  ],
  "CHAPITRE": [
@@ -5476,24 +5491,24 @@
   "components/bible/IntroLivre.tsx:170"
  ],
  "Chapitre {0} / {1}": [
-  "components/bible/BibleReader.tsx:834"
+  "components/bible/BibleReader.tsx:836"
  ],
  "Chapitre précédent": [
-  "components/bible/BibleAudioPlayer.tsx:453",
-  "components/bible/BibleReader.tsx:875"
+  "components/bible/BibleAudioPlayer.tsx:454",
+  "components/bible/BibleReader.tsx:877"
  ],
  "CHAPITRE PRÉCÉDENT": [
   "components/chemin/CheminScreen.tsx:275"
  ],
  "Chapitre suivant": [
-  "components/bible/BibleAudioPlayer.tsx:503",
-  "components/bible/BibleReader.tsx:894"
+  "components/bible/BibleAudioPlayer.tsx:504",
+  "components/bible/BibleReader.tsx:896"
  ],
  "CHAPITRE SUIVANT": [
   "components/chemin/CheminScreen.tsx:284"
  ],
  "Chapitre suivant :": [
-  "components/bible/BibleReader.tsx:805"
+  "components/bible/BibleReader.tsx:807"
  ],
  "chapitres": [
   "components/community/BibleAudioAdmin.tsx:202"
@@ -5544,7 +5559,7 @@
   "components/boutique/RhemaShowcase.tsx:508"
  ],
  "Chaque lien vient du texte biblique (référence indiquée) ; les rares liens tirés de l'histoire sont signalés.": [
-  "components/ecole/ArbresGenealogiques.tsx:381"
+  "components/ecole/ArbresGenealogiques.tsx:380"
  ],
  "Chaque livre présenté : auteur, époque, contexte, plan, thèmes et versets clés.": [
   "components/ecole/EcoleView.tsx:386"
@@ -5668,10 +5683,10 @@
   "app/recherche/page.tsx:7"
  ],
  "Cherche un mot, un verset… (ex. « berger », « ne crains point »)": [
-  "components/bible/BibleSearch.tsx:95"
+  "components/bible/BibleSearch.tsx:97"
  ],
  "Chercher": [
-  "components/bible/BibleSearch.tsx:99"
+  "components/bible/BibleSearch.tsx:101"
  ],
  "Chercher la brebis perdue et ramener l'égarée": [
   "config/chemin/chapitre-ezechiel.ts:56"
@@ -5683,7 +5698,7 @@
   "components/ecole/LexiqueView.tsx:157"
  ],
  "Chercher une personne : Ruth, Lévi, Hérode…": [
-  "components/ecole/ArbresGenealogiques.tsx:316"
+  "components/ecole/ArbresGenealogiques.tsx:315"
  ],
  "Cherchez premièrement le royaume et la justice de Dieu": [
   "config/chemin/chapitre-sermon.ts:86"
@@ -5728,7 +5743,7 @@
   "components/community/BibleAudioAdmin.tsx:226"
  ],
  "Choisir le livre et le chapitre": [
-  "components/bible/BibleReader.tsx:440"
+  "components/bible/BibleReader.tsx:442"
  ],
  "Choisir les MP3 du livre": [
   "components/community/BibleAudioAdmin.tsx:181"
@@ -5763,7 +5778,7 @@
   "components/plans/PlanDuo.tsx:221"
  ],
  "Choisis un livre": [
-  "components/bible/BibleReader.tsx:961"
+  "components/bible/BibleReader.tsx:963"
  ],
  "Choisis un mot de passe (6 caractères min.)": [
   "components/community/EmailPasswordAuth.tsx:165"
@@ -6705,9 +6720,9 @@
   "lib/reading-settings.ts:49"
  ],
  "Confort de lecture": [
-  "components/bible/ReadingSettings.tsx:50",
-  "components/bible/ReadingSettings.tsx:62",
-  "components/bible/ReadingSettings.tsx:156"
+  "components/bible/ReadingSettings.tsx:52",
+  "components/bible/ReadingSettings.tsx:64",
+  "components/bible/ReadingSettings.tsx:186"
  ],
  "Connaissances": [
   "components/games/ChallengeScreen.tsx:232",
@@ -7388,7 +7403,7 @@
   "components/community/AdminBatisseurs.tsx:69"
  ],
  "Dates approximatives, selon la chronologie biblique traditionnelle ; avant Abraham, la Bible ne donne pas de date.": [
-  "components/ecole/FriseChronologique.tsx:232"
+  "components/ecole/FriseChronologique.tsx:231"
  ],
  "David": [
   "components/ecole/EcoleView.tsx:352",
@@ -7422,9 +7437,9 @@
  "David s'enfuit et se réfugia dans la caverne d'Adullam. Tous ceux qui étaient dans la détresse, endettés ou mécontents, se rassemblèrent auprès de lui : il devint leur chef, environ quatre cents hommes. Il erra d'un désert à l'autre, poursuivi par Saül.": [
   "config/chemin/chapitre-david-roi.ts:42"
  ],
- "de": [
-  "components/ecole/ArbresGenealogiques.tsx:615",
-  "components/ecole/ArbresGenealogiques.tsx:703"
+ "de {0}": [
+  "components/ecole/ArbresGenealogiques.tsx:614",
+  "components/ecole/ArbresGenealogiques.tsx:702"
  ],
  "De bâtir un autel": [
   "config/chemin/chapitre-samuel.ts:35"
@@ -8017,7 +8032,7 @@
   "components/plans/YearPlanView.tsx:145"
  ],
  "Découvre nos plans": [
-  "components/bible/BibleReader.tsx:597"
+  "components/bible/BibleReader.tsx:599"
  ],
  "Découvre nos plans →": [
   "app/carnet/page.tsx:27"
@@ -8412,8 +8427,8 @@
  ],
  "Désactiver": [
   "components/audio/SleepTimer.tsx:116",
-  "components/bible/BibleAudio.tsx:390",
-  "components/bible/BibleAudioPlayer.tsx:632"
+  "components/bible/BibleAudio.tsx:391",
+  "components/bible/BibleAudioPlayer.tsx:633"
  ],
  "Descends tout en bas jusqu'à la section": [
   "app/suppression-compte/page.tsx:36"
@@ -8542,7 +8557,7 @@
   "components/community/DevotionsAdmin.tsx:288"
  ],
  "Dézoomer": [
-  "components/ecole/ArbresGenealogiques.tsx:634"
+  "components/ecole/ArbresGenealogiques.tsx:633"
  ],
  "Diagnostic de démarrage": [
   "components/app/BootDiagnostic.tsx:44"
@@ -9190,7 +9205,7 @@
  "Écouter": [
   "components/app/BottomNav.tsx:53",
   "components/audio/ListenScreen.tsx:251",
-  "components/bible/BibleAudio.tsx:307"
+  "components/bible/BibleAudio.tsx:308"
  ],
  "Écouter ce jour": [
   "components/plans/PlanView.tsx:455"
@@ -9200,8 +9215,8 @@
   "components/ecole/EtudesView.tsx:618"
  ],
  "Écouter la Bible": [
-  "components/bible/BibleAudio.tsx:293",
-  "components/bible/BibleAudio.tsx:332"
+  "components/bible/BibleAudio.tsx:294",
+  "components/bible/BibleAudio.tsx:333"
  ],
  "Écouter la leçon": [
   "components/ecole/FormationView.tsx:324"
@@ -9763,7 +9778,7 @@
   "config/chemin/chapitre-david-roi.ts:98"
  ],
  "En lecture, verset {0}": [
-  "components/bible/BibleAudio.tsx:337"
+  "components/bible/BibleAudio.tsx:338"
  ],
  "En ligne": [
   "components/home/EventsView.tsx:11",
@@ -9905,8 +9920,8 @@
   "config/chemin/chapitre-miracles.ts:55"
  ],
  "Enfant": [
-  "components/ecole/ArbresGenealogiques.tsx:328",
-  "components/ecole/ArbresGenealogiques.tsx:836"
+  "components/ecole/ArbresGenealogiques.tsx:327",
+  "components/ecole/ArbresGenealogiques.tsx:835"
  ],
  "Enfant de Dieu": [
   "content/plans.json"
@@ -10147,10 +10162,10 @@
   "lib/quiz.ts:156"
  ],
  "Épouse de": [
-  "components/ecole/ArbresGenealogiques.tsx:839"
+  "components/ecole/ArbresGenealogiques.tsx:838"
  ],
  "Époux de": [
-  "components/ecole/ArbresGenealogiques.tsx:839"
+  "components/ecole/ArbresGenealogiques.tsx:838"
  ],
  "Éprouver Salomon par des énigmes": [
   "config/chemin/chapitre-salomon.ts:86"
@@ -10432,8 +10447,8 @@
  ],
  "Étude biblique": [
   "app/ecole/page.tsx:6",
-  "components/ecole/ArbresGenealogiques.tsx:224",
-  "components/ecole/BibliothequeLivres.tsx:84"
+  "components/ecole/ArbresGenealogiques.tsx:223",
+  "components/ecole/BibliothequeLivres.tsx:83"
  ],
  "Étude bientôt disponible pour ce verset.": [
   "components/bible/VersetOutils.tsx:763"
@@ -10456,8 +10471,8 @@
   "components/bible/VersetOutils.tsx:812"
  ],
  "Étudier ce verset": [
-  "components/bible/BibleReader.tsx:735",
-  "components/bible/BibleReader.tsx:736"
+  "components/bible/BibleReader.tsx:737",
+  "components/bible/BibleReader.tsx:738"
  ],
  "Étudier la loi": [
   "config/chemin/chapitre-paul.ts:25"
@@ -10475,7 +10490,7 @@
   "config/chemin/chapitre-daniel.ts:78"
  ],
  "événement": [
-  "components/ecole/FriseChronologique.tsx:169"
+  "components/ecole/FriseChronologique.tsx:168"
  ],
  "Ex. 75": [
   "components/mission/DonateScreen.tsx:264"
@@ -10811,7 +10826,7 @@
  ],
  "Famille": [
   "components/community/ProfileActivity.tsx:33",
-  "components/ecole/ArbresGenealogiques.tsx:328"
+  "components/ecole/ArbresGenealogiques.tsx:327"
  ],
  "Famille & liens": [
   "components/bible/FichesChapitre.tsx:438"
@@ -10868,7 +10883,7 @@
  "Fermer le lecteur": [
   "components/audio/GlobalAudioBar.tsx:118",
   "components/audio/GlobalAudioBar.tsx:202",
-  "components/bible/BibleAudioPlayer.tsx:364"
+  "components/bible/BibleAudioPlayer.tsx:365"
  ],
  "Fermer le menu": [
   "components/layout/Header.tsx:114"
@@ -10906,12 +10921,12 @@
   "components/quiz/QuizScreen.tsx:488"
  ],
  "Fille": [
-  "components/ecole/ArbresGenealogiques.tsx:328",
-  "components/ecole/ArbresGenealogiques.tsx:836"
+  "components/ecole/ArbresGenealogiques.tsx:327",
+  "components/ecole/ArbresGenealogiques.tsx:835"
  ],
  "Fils": [
-  "components/ecole/ArbresGenealogiques.tsx:328",
-  "components/ecole/ArbresGenealogiques.tsx:836"
+  "components/ecole/ArbresGenealogiques.tsx:327",
+  "components/ecole/ArbresGenealogiques.tsx:835"
  ],
  "Fils de David": [
   "config/chemin/chapitre-rameaux.ts:47"
@@ -10944,10 +10959,10 @@
   "components/audio/SleepTimer.tsx:103"
  ],
  "fin du chapitre": [
-  "components/bible/BibleAudioPlayer.tsx:323"
+  "components/bible/BibleAudioPlayer.tsx:324"
  ],
  "Fin du chapitre": [
-  "components/bible/BibleAudioPlayer.tsx:623"
+  "components/bible/BibleAudioPlayer.tsx:624"
  ],
  "Fin limier": [
   "lib/badges.ts:132"
@@ -10970,17 +10985,17 @@
   "content/impact.json"
  ],
  "Fond": [
-  "components/bible/BibleAudio.tsx:265",
-  "components/bible/BibleAudioPlayer.tsx:591",
+  "components/bible/BibleAudio.tsx:266",
+  "components/bible/BibleAudioPlayer.tsx:592",
   "components/ui/VerseImageStudio.tsx:128"
  ],
  "Fond {0}": [
   "components/ui/VerseImageStudio.tsx:148"
  ],
  "Fond musical doux": [
-  "components/bible/BibleAudio.tsx:212",
   "components/bible/BibleAudio.tsx:213",
-  "components/bible/BibleAudio.tsx:229"
+  "components/bible/BibleAudio.tsx:214",
+  "components/bible/BibleAudio.tsx:230"
  ],
  "Fond musical doux (sous la voix)": [
   "components/community/BibleAudioAdmin.tsx:213"
@@ -11036,7 +11051,7 @@
   "components/ecole/EcoleView.tsx:341"
  ],
  "Frise chronologique": [
-  "components/ecole/FriseChronologique.tsx:130"
+  "components/ecole/FriseChronologique.tsx:129"
  ],
  "Frise chronologique de la Bible": [
   "app/ecole/chronologie/page.tsx:6"
@@ -11422,7 +11437,7 @@
  ],
  "Grand parcours": [
   "app/plans/page.tsx:92",
-  "components/bible/BibleReader.tsx:611",
+  "components/bible/BibleReader.tsx:613",
   "components/plans/YearPlanView.tsx:217"
  ],
  "Grande annonce · à paraître": [
@@ -13702,11 +13717,11 @@
   "components/bible/IntroLivre.tsx:117"
  ],
  "Introduction au livre": [
-  "components/bible/BibleReader.tsx:1026",
+  "components/bible/BibleReader.tsx:1028",
   "components/bible/IntroLivre.tsx:308"
  ],
  "Introduction au livre {0}": [
-  "components/bible/BibleReader.tsx:459"
+  "components/bible/BibleReader.tsx:461"
  ],
  "Invincible": [
   "lib/badges.ts:121"
@@ -15640,7 +15655,7 @@
   "config/chemin/chapitre-ecclesiaste.ts:27"
  ],
  "L'écoute s'arrête toute seule après…": [
-  "components/bible/BibleAudioPlayer.tsx:601"
+  "components/bible/BibleAudioPlayer.tsx:602"
  ],
  "L'édit de Cyrus": [
   "config/chemin/chapitre-nehemie.ts:99"
@@ -15969,7 +15984,7 @@
   "components/ecole/FormationView.tsx:434"
  ],
  "La Bible en": [
-  "components/bible/BibleReader.tsx:613"
+  "components/bible/BibleReader.tsx:615"
  ],
  "La Bible en 1 an": [
   "app/bible-1-an/page.tsx:5",
@@ -17312,7 +17327,7 @@
   "config/chemin/chapitre-transfiguration.ts:47"
  ],
  "Le même récit ailleurs": [
-  "components/bible/VersetsLies.tsx:151"
+  "components/bible/VersetsLies.tsx:152"
  ],
  "Le même récit ailleurs, les versets qui l'éclairent": [
   "components/bible/VersetOutils.tsx:412"
@@ -18084,7 +18099,7 @@
   "lib/badges.ts:117"
  ],
  "Lecteur audio": [
-  "components/bible/BibleAudioPlayer.tsx:343"
+  "components/bible/BibleAudioPlayer.tsx:344"
  ],
  "Lecteur vidéo": [
   "app/embed/page.tsx:5"
@@ -18100,7 +18115,7 @@
   "components/audio/ListenScreen.tsx:272"
  ],
  "Lecture audio du chapitre (voix de l'appareil)": [
-  "components/bible/BibleAudio.tsx:336"
+  "components/bible/BibleAudio.tsx:337"
  ],
  "Lecture de la leçon": [
   "components/ecole/FormationView.tsx:1739"
@@ -18137,8 +18152,8 @@
   "app/questions/page.tsx:647"
  ],
  "Les 66 livres": [
-  "components/ecole/BibliothequeLivres.tsx:85",
-  "components/ecole/BibliothequeLivres.tsx:172",
+  "components/ecole/BibliothequeLivres.tsx:84",
+  "components/ecole/BibliothequeLivres.tsx:171",
   "components/ecole/EcoleView.tsx:384"
  ],
  "Les 66 livres de la Bible": [
@@ -18393,13 +18408,13 @@
   "config/chemin/chapitre-esther.ts:76"
  ],
  "Les généalogies de Jésus": [
-  "components/ecole/ArbresGenealogiques.tsx:365"
+  "components/ecole/ArbresGenealogiques.tsx:364"
  ],
  "Les gens de Ninive crurent à Dieu. Ils publièrent un jeûne et se couvrirent de sacs, depuis les plus grands jusqu'aux plus petits. La nouvelle parvint au roi : il se leva de son trône, ôta son manteau, se couvrit d'un sac et s'assit sur la cendre. « Qui sait si Dieu ne reviendra pas et ne se repentira pas ? »": [
   "config/chemin/chapitre-jonas.ts:73"
  ],
  "Les grandes familles": [
-  "components/ecole/ArbresGenealogiques.tsx:338"
+  "components/ecole/ArbresGenealogiques.tsx:337"
  ],
  "Les grands animaux marins sont créés avant les animaux de la terre ferme.": [
   "config/chemin/chapitre-creation.ts:58"
@@ -18806,7 +18821,7 @@
  ],
  "Lieux": [
   "components/bible/FichesChapitre.tsx:252",
-  "components/ecole/FriseChronologique.tsx:289",
+  "components/ecole/FriseChronologique.tsx:288",
   "components/ecole/GalerieFiches.tsx:209"
  ],
  "LIGUE": [
@@ -18871,7 +18886,7 @@
   "components/boutique/RhemaShowcase.tsx:787"
  ],
  "Liste": [
-  "components/ecole/ArbresGenealogiques.tsx:563"
+  "components/ecole/ArbresGenealogiques.tsx:562"
  ],
  "Liste indisponible : exécute d'abord le SQL des soutiens.": [
   "components/community/AdminBatisseurs.tsx:97"
@@ -18880,27 +18895,27 @@
   "app/cgv/page.tsx:61"
  ],
  "Livre": [
-  "components/bible/BibleReader.tsx:517",
+  "components/bible/BibleReader.tsx:519",
   "components/community/BibleAudioAdmin.tsx:165"
  ],
  "Livre {0}": [
-  "components/ecole/BibliothequeLivres.tsx:135"
+  "components/ecole/BibliothequeLivres.tsx:134"
  ],
  "Livre + carnet": [
   "components/boutique/RhemaShowcase.tsx:797"
  ],
  "Livre précédent": [
-  "components/ecole/BibliothequeLivres.tsx:175"
+  "components/ecole/BibliothequeLivres.tsx:174"
  ],
  "Livre RHEMA": [
   "config/site.ts:41",
   "config/site.ts:83"
  ],
  "Livre suivant": [
-  "components/ecole/BibliothequeLivres.tsx:176"
+  "components/ecole/BibliothequeLivres.tsx:175"
  ],
  "Livre suivant :": [
-  "components/bible/BibleReader.tsx:817"
+  "components/bible/BibleReader.tsx:819"
  ],
  "Livres": [
   "app/page.tsx:31"
@@ -18924,10 +18939,16 @@
   "config/chemin/chapitre-abraham.ts:46"
  ],
  "Louis Segond": [
-  "components/bible/BibleReader.tsx:625"
+  "components/bible/BibleReader.tsx:627"
+ ],
+ "Louis Segond 1910": [
+  "lib/bible-version.ts:30"
+ ],
+ "Louis Segond 1910, domaine public.": [
+  "lib/bible-version.ts:35"
  ],
  "LSG": [
-  "components/bible/BibleReader.tsx:448"
+  "components/bible/BibleReader.tsx:450"
  ],
  "Lu par": [
   "components/plans/PlanView.tsx:432"
@@ -19822,7 +19843,7 @@
   "components/mission/SoutienEnUnClic.tsx:102"
  ],
  "Mère de": [
-  "components/ecole/ArbresGenealogiques.tsx:840"
+  "components/ecole/ArbresGenealogiques.tsx:839"
  ],
  "Mes": [
   "components/app/ExclusivesView.tsx:67",
@@ -20021,7 +20042,7 @@
   "lib/quiz.ts:330"
  ],
  "min": [
-  "components/bible/BibleAudioPlayer.tsx:611",
+  "components/bible/BibleAudioPlayer.tsx:612",
   "components/ecole/EtudesView.tsx:132",
   "components/ecole/EtudesView.tsx:842"
  ],
@@ -20039,16 +20060,16 @@
  ],
  "minutes": [
   "components/audio/SleepTimer.tsx:90",
-  "components/bible/BibleAudio.tsx:379"
+  "components/bible/BibleAudio.tsx:380"
  ],
  "Minuteur": [
-  "components/bible/BibleAudio.tsx:369",
-  "components/bible/BibleAudioPlayer.tsx:557"
+  "components/bible/BibleAudio.tsx:370",
+  "components/bible/BibleAudioPlayer.tsx:558"
  ],
  "Minuteur de veille": [
   "components/audio/SleepTimer.tsx:62",
   "components/audio/SleepTimer.tsx:77",
-  "components/bible/BibleAudio.tsx:354"
+  "components/bible/BibleAudio.tsx:355"
  ],
  "Mise à jour de l'application…": [
   "app/global-error.tsx:80"
@@ -20105,7 +20126,7 @@
   "components/community/ProfileTheme.tsx:63"
  ],
  "Mode pleine lecture": [
-  "components/bible/BibleReader.tsx:579"
+  "components/bible/BibleReader.tsx:581"
  ],
  "Modérateur": [
   "components/community/ModeratorBadge.tsx:12"
@@ -20210,7 +20231,7 @@
  "Mon carnet": [
   "app/carnet/page.tsx:7",
   "components/app/CarnetBubble.tsx:31",
-  "components/bible/BibleReader.tsx:487"
+  "components/bible/BibleReader.tsx:489"
  ],
  "Mon désir est que chacun puisse découvrir Jésus personnellement, non pas seulement comme une idée, une religion ou une tradition, mais comme un Sauveur vivant, un Père proche, un Seigneur fidèle et une source de vie.": [
   "app/a-propos/page.tsx:180"
@@ -20394,11 +20415,11 @@
   "config/chemin/chapitre-ruth.ts:36"
  ],
  "Narration": [
-  "components/bible/BibleAudio.tsx:300",
-  "components/bible/BibleAudioPlayer.tsx:391"
+  "components/bible/BibleAudio.tsx:301",
+  "components/bible/BibleAudioPlayer.tsx:392"
  ],
  "Narration, écran verrouillé, minuteur dans la barre du bas": [
-  "components/bible/BibleAudio.tsx:296"
+  "components/bible/BibleAudio.tsx:297"
  ],
  "Nathan": [
   "config/chemin/chapitre-david-roi.ts:25",
@@ -20748,12 +20769,12 @@
   "components/community/GroupView.tsx:596"
  ],
  "Nouveau Testament": [
-  "components/bible/BibleReader.tsx:989",
+  "components/bible/BibleReader.tsx:991",
   "components/ecole/EcoleView.tsx:371",
-  "components/ecole/FriseChronologique.tsx:138"
+  "components/ecole/FriseChronologique.tsx:137"
  ],
  "Nouveau Testament · 27": [
-  "components/ecole/BibliothequeLivres.tsx:93"
+  "components/ecole/BibliothequeLivres.tsx:92"
  ],
  "Nouveautés": [
   "app/page.tsx:29"
@@ -21217,7 +21238,7 @@
  ],
  "Par": [
   "components/plans/PlanView.tsx:65",
-  "components/plans/YearPlanView.tsx:55",
+  "components/plans/YearPlanView.tsx:56",
   "components/ui/AuthorByline.tsx:52"
  ],
  "Par ce qu'il a observé chez eux": [
@@ -21547,7 +21568,7 @@
   "config/chemin/chapitre-sermon.ts:77"
  ],
  "Parent de": [
-  "components/ecole/ArbresGenealogiques.tsx:840"
+  "components/ecole/ArbresGenealogiques.tsx:839"
  ],
  "PARFAIT !": [
   "components/games/BergerScreen.tsx:547"
@@ -21746,7 +21767,7 @@
   "components/community/CommunityLanding.tsx:318"
  ],
  "Pas de renvoi pour ce verset.": [
-  "components/bible/VersetsLies.tsx:211"
+  "components/bible/VersetsLies.tsx:212"
  ],
  "Pas encore d'écoute.": [
   "components/community/AnalyticsDashboard.tsx:242"
@@ -21940,7 +21961,7 @@
   "config/chemin/chapitre-abraham.ts:76"
  ],
  "Père de": [
-  "components/ecole/ArbresGenealogiques.tsx:840"
+  "components/ecole/ArbresGenealogiques.tsx:839"
  ],
  "Père pardonne-leur car ils ne savent ce qu'ils font": [
   "config/chemin/chapitre-croix.ts:76"
@@ -21962,7 +21983,7 @@
  "Personnages": [
   "components/bible/FichesChapitre.tsx:251",
   "components/bible/IntroLivre.tsx:215",
-  "components/ecole/FriseChronologique.tsx:271"
+  "components/ecole/FriseChronologique.tsx:270"
  ],
  "Personnages & lieux": [
   "components/ecole/EcoleView.tsx:305",
@@ -22007,7 +22028,7 @@
   "components/games/ScoreBoard.tsx:183"
  ],
  "Personne de ce nom dans les arbres (seules les familles connues par la Bible y figurent).": [
-  "components/ecole/ArbresGenealogiques.tsx:335"
+  "components/ecole/ArbresGenealogiques.tsx:334"
  ],
  "Personne n'a encore rejoint": [
   "components/games/DuelLive.tsx:521"
@@ -22208,7 +22229,7 @@
   "lib/soutien.ts:23"
  ],
  "Pince pour zoomer · touche une personne": [
-  "components/ecole/ArbresGenealogiques.tsx:576"
+  "components/ecole/ArbresGenealogiques.tsx:575"
  ],
  "Pithom et Ramsès": [
   "config/chemin/chapitre-moise.ts:26"
@@ -22257,7 +22278,7 @@
   "config/chemin/chapitre-eglise.ts:68"
  ],
  "Pleine lecture": [
-  "components/bible/BibleReader.tsx:580"
+  "components/bible/BibleReader.tsx:582"
  ],
  "Plus": [
   "components/layout/Header.tsx:77"
@@ -22267,7 +22288,7 @@
   "components/home/VideosExperience.tsx:55"
  ],
  "Plus d'options": [
-  "components/bible/BibleReader.tsx:475"
+  "components/bible/BibleReader.tsx:477"
  ],
  "Plus de 700 fiches, de la Genèse à l'Apocalypse : famille, histoire, passages.": [
   "components/ecole/EcoleView.tsx:307"
@@ -22369,7 +22390,7 @@
   "components/memorize/VerseGame.tsx:558"
  ],
  "Police": [
-  "components/bible/ReadingSettings.tsx:109"
+  "components/bible/ReadingSettings.tsx:139"
  ],
  "Politique de": [
   "app/confidentialite/page.tsx:18"
@@ -22461,7 +22482,7 @@
   "components/ecole/FormationView.tsx:576"
  ],
  "Position de lecture": [
-  "components/bible/BibleAudioPlayer.tsx:420"
+  "components/bible/BibleAudioPlayer.tsx:421"
  ],
  "position, theme, verse_text, verse_reference, punchline, meditation, card, declaration_text, declaration_reference, questions, published": [
   "lib/devotions.ts:36"
@@ -25815,7 +25836,7 @@
   "app/recherche/page.tsx:6"
  ],
  "Recherche dans toute la Bible…": [
-  "components/bible/BibleSearch.tsx:104"
+  "components/bible/BibleSearch.tsx:106"
  ],
  "Recherche…": [
   "components/community/InAppShare.tsx:183",
@@ -25828,8 +25849,8 @@
   "components/community/DevotionsAdmin.tsx:338"
  ],
  "Rechercher dans la Bible": [
-  "components/bible/BibleReader.tsx:490",
-  "components/bible/BibleReader.tsx:563"
+  "components/bible/BibleReader.tsx:492",
+  "components/bible/BibleReader.tsx:565"
  ],
  "Rechercher des profils": [
   "components/community/ProfileView.tsx:544"
@@ -25966,7 +25987,7 @@
   "components/ecole/FormationView.tsx:590"
  ],
  "Reculer de 15 secondes": [
-  "components/bible/BibleAudioPlayer.tsx:463"
+  "components/bible/BibleAudioPlayer.tsx:464"
  ],
  "Redescendre aussitôt": [
   "config/chemin/chapitre-transfiguration.ts:77"
@@ -25977,7 +25998,7 @@
   "components/community/ProfileSignIn.tsx:84"
  ],
  "Réduire": [
-  "components/bible/ReadingSettings.tsx:82",
+  "components/bible/ReadingSettings.tsx:112",
   "components/community/GroupView.tsx:614",
   "components/games/LeagueBoard.tsx:170"
  ],
@@ -26016,7 +26037,7 @@
   "app/memoriser/page.tsx:645"
  ],
  "Références croisées : OpenBible.info (licence CC BY).": [
-  "components/bible/VersetsLies.tsx:213"
+  "components/bible/VersetsLies.tsx:214"
  ],
  "Refermer": [
   "components/home/MoodCheckin.tsx:165"
@@ -26368,7 +26389,7 @@
   "components/community/MakeVersePublicButton.tsx:53"
  ],
  "Répéter": [
-  "components/bible/BibleAudioPlayer.tsx:545"
+  "components/bible/BibleAudioPlayer.tsx:546"
  ],
  "Replier": [
   "components/community/AdminRubrique.tsx:149",
@@ -26378,7 +26399,7 @@
   "components/community/AdminRubrique.tsx:148"
  ],
  "Replier le lecteur": [
-  "components/bible/BibleAudioPlayer.tsx:374"
+  "components/bible/BibleAudioPlayer.tsx:375"
  ],
  "Répondre": [
   "app/questions/page.tsx:840",
@@ -26545,16 +26566,16 @@
  "Retour": [
   "components/assistant/AssistantView.tsx:98",
   "components/community/MessagesView.tsx:365",
-  "components/ecole/ArbresGenealogiques.tsx:221"
+  "components/ecole/ArbresGenealogiques.tsx:220"
  ],
  "Retour à l'accueil": [
   "app/questions/page.tsx:323",
   "components/community/AdminSpace.tsx:79"
  ],
  "Retour à l'Étude biblique": [
-  "components/ecole/ArbresGenealogiques.tsx:221",
-  "components/ecole/BibliothequeLivres.tsx:78",
-  "components/ecole/FriseChronologique.tsx:123"
+  "components/ecole/ArbresGenealogiques.tsx:220",
+  "components/ecole/BibliothequeLivres.tsx:77",
+  "components/ecole/FriseChronologique.tsx:122"
  ],
  "Retour à l'onglet Étude": [
   "components/ecole/EtudesView.tsx:182"
@@ -26580,7 +26601,7 @@
   "components/community/ProfileView.tsx:623"
  ],
  "Retour aux 66 livres": [
-  "components/ecole/BibliothequeLivres.tsx:165"
+  "components/ecole/BibliothequeLivres.tsx:164"
  ],
  "Retour aux défis": [
   "components/games/ChallengeScreen.tsx:358"
@@ -26646,7 +26667,7 @@
   "app/memoriser/page.tsx:79"
  ],
  "Revenir à": [
-  "components/bible/BibleReader.tsx:1092"
+  "components/bible/BibleReader.tsx:1094"
  ],
  "Revenir à la leçon": [
   "components/ecole/FormationView.tsx:2059"
@@ -26973,7 +26994,7 @@
   "config/chemin/chapitre-rencontres.ts:58"
  ],
  "Sa famille": [
-  "components/ecole/ArbresGenealogiques.tsx:224",
+  "components/ecole/ArbresGenealogiques.tsx:223",
   "config/chemin/chapitre-voyages.ts:68"
  ],
  "Sa femme": [
@@ -27646,7 +27667,7 @@
   "app/soaking/page.tsx:22"
  ],
  "Soaking": [
-  "components/bible/BibleAudioPlayer.tsx:534"
+  "components/bible/BibleAudioPlayer.tsx:535"
  ],
  "Soaking et fonds musicaux pour prier, méditer ou t'endormir — même écran verrouillé.": [
   "app/app/page.tsx:48"
@@ -27658,7 +27679,7 @@
   "app/soaking/page.tsx:8"
  ],
  "Soaking sous la voix": [
-  "components/bible/BibleAudioPlayer.tsx:565"
+  "components/bible/BibleAudioPlayer.tsx:566"
  ],
  "Soaking, Jack Brunet": [
   "app/soaking/page.tsx:43"
@@ -27926,7 +27947,7 @@
   "components/home/VideoLibrary.tsx:278"
  ],
  "Suivant →": [
-  "components/bible/BibleReader.tsx:842"
+  "components/bible/BibleReader.tsx:844"
  ],
  "Suivi": [
   "components/community/MemberSuggestions.tsx:111"
@@ -28026,9 +28047,12 @@
   "components/community/DeleteAccountButton.tsx:60"
  ],
  "sur": [
-  "components/chemin/CheminHub.tsx:82",
   "components/community/MissionRaisedAdmin.tsx:64",
-  "components/community/ProfileBadges.tsx:304"
+  "components/community/ProfileBadges.tsx:304",
+  "components/ecole/FormationView.tsx:2428"
+ ],
+ "sur {0}": [
+  "components/chemin/CheminHub.tsx:82"
  ],
  "sur Amazon.": [
   "components/ecole/FormationView.tsx:213"
@@ -28363,8 +28387,8 @@
   "app/surprise/page.tsx:5"
  ],
  "Taille du texte": [
-  "components/bible/ReadingSettings.tsx:74",
-  "components/bible/ReadingSettings.tsx:94"
+  "components/bible/ReadingSettings.tsx:104",
+  "components/bible/ReadingSettings.tsx:124"
  ],
  "Tape au moins 2 lettres pour chercher.": [
   "components/community/InAppShare.tsx:180"
@@ -28572,14 +28596,17 @@
   "components/profile/MyFavorites.tsx:13",
   "components/profile/MyFavorites.tsx:127"
  ],
+ "The Holy Bible, Berean Standard Bible, BSB, dedicated to the public domain.": [
+  "lib/bible-version.ts:44"
+ ],
  "Thèbes et Memphis": [
   "config/chemin/chapitre-moise.ts:26"
  ],
  "Thématiques, selon ce que tu traverses.": [
-  "components/bible/BibleReader.tsx:600"
+  "components/bible/BibleReader.tsx:602"
  ],
  "Thème": [
-  "components/bible/ReadingSettings.tsx:130",
+  "components/bible/ReadingSettings.tsx:160",
   "components/community/DevotionsAdmin.tsx:65"
  ],
  "Thème (facultatif)": [
@@ -28889,13 +28916,13 @@
   "lib/badges.ts:252"
  ],
  "Touche un verset pour le surligner, le copier ou l'enregistrer.": [
-  "components/bible/BibleReader.tsx:669"
+  "components/bible/BibleReader.tsx:671"
  ],
  "Touche un verset, une méditation ou une parole forte puis « Enregistrer »: tu la retrouveras ici, regroupée au même endroit.": [
   "components/profile/MyFavorites.tsx:38"
  ],
  "Touche une personne": [
-  "components/ecole/ArbresGenealogiques.tsx:576"
+  "components/ecole/ArbresGenealogiques.tsx:575"
  ],
  "Tous": [
   "components/ecole/EtudesView.tsx:198",
@@ -28911,7 +28938,7 @@
   "content/support-tiers.json"
  ],
  "Tous les livres": [
-  "components/bible/BibleReader.tsx:970"
+  "components/bible/BibleReader.tsx:972"
  ],
  "Tous les parcours": [
   "components/plans/PlanView.tsx:262",
@@ -30438,10 +30465,10 @@
   "config/chemin/chapitre-paul.ts:87"
  ],
  "Une nappe instrumentale discrète sous la lecture.": [
-  "components/bible/BibleAudio.tsx:246"
+  "components/bible/BibleAudio.tsx:247"
  ],
  "Une nappe instrumentale douce joue en boucle sous la lecture.": [
-  "components/bible/BibleAudioPlayer.tsx:576"
+  "components/bible/BibleAudioPlayer.tsx:577"
  ],
  "Une note existe sur ce passage · toucher pour la voir": [
   "components/ui/Markable.tsx:134"
@@ -30933,7 +30960,7 @@
   "components/bible/SelectionVersets.tsx:119"
  ],
  "Verset": [
-  "components/bible/BibleAudioPlayer.tsx:440",
+  "components/bible/BibleAudioPlayer.tsx:441",
   "components/community/GroupView.tsx:1015",
   "components/memorize/VerseGame.tsx:641"
  ],
@@ -30956,10 +30983,10 @@
   "app/layout.tsx:73"
  ],
  "Verset précédent": [
-  "components/bible/BibleAudioPlayer.tsx:463"
+  "components/bible/BibleAudioPlayer.tsx:464"
  ],
  "Verset suivant": [
-  "components/bible/BibleAudioPlayer.tsx:491"
+  "components/bible/BibleAudioPlayer.tsx:492"
  ],
  "Verset terminé, on continue.": [
   "components/memorize/VerseGame.tsx:687"
@@ -30986,7 +31013,7 @@
   "components/bible/VersetOutils.tsx:403"
  ],
  "Versets qui éclairent celui-ci": [
-  "components/bible/VersetsLies.tsx:182"
+  "components/bible/VersetsLies.tsx:183"
  ],
  "Versets sélectionnés": [
   "components/bible/SelectionVersets.tsx:112"
@@ -30996,6 +31023,9 @@
  ],
  "Version": [
   "components/community/ProfileSettings.tsx:190"
+ ],
+ "Version de la Bible": [
+  "components/bible/ReadingSettings.tsx:77"
  ],
  "Vert": [
   "lib/toolkit.ts:24"
@@ -31103,12 +31133,12 @@
   "components/community/AnalyticsDashboard.tsx:100"
  ],
  "Vitesse": [
-  "components/bible/BibleAudioPlayer.tsx:521",
+  "components/bible/BibleAudioPlayer.tsx:522",
   "components/ui/AudioPlayer.tsx:154"
  ],
  "Vitesse de lecture": [
   "components/audio/GlobalAudioBar.tsx:154",
-  "components/bible/BibleAudioPlayer.tsx:517",
+  "components/bible/BibleAudioPlayer.tsx:518",
   "components/community/VoiceNote.tsx:384"
  ],
  "Vivre le dévotionnel du jour": [
@@ -31118,7 +31148,7 @@
   "config/chemin/chapitre-bapteme.ts:76"
  ],
  "Voir": [
-  "components/bible/VersetsLies.tsx:206",
+  "components/bible/VersetsLies.tsx:207",
   "components/community/DevotionsAdmin.tsx:403",
   "components/community/GroupView.tsx:614"
  ],
@@ -31129,7 +31159,7 @@
   "components/ui/Markable.tsx:133"
  ],
  "Voir aussi": [
-  "components/ecole/ArbresGenealogiques.tsx:549"
+  "components/ecole/ArbresGenealogiques.tsx:548"
  ],
  "Voir dans l'arbre généalogique": [
   "components/bible/FichesChapitre.tsx:467",
@@ -31148,7 +31178,7 @@
   "components/home/VideosScreen.tsx:58"
  ],
  "Voir la fiche": [
-  "components/ecole/ArbresGenealogiques.tsx:881"
+  "components/ecole/ArbresGenealogiques.tsx:880"
  ],
  "Voir la fiche complète": [
   "components/bible/VersetOutils.tsx:682"
@@ -31238,13 +31268,13 @@
   "components/notebook/CarnetIntro.tsx:8"
  ],
  "Voix": [
-  "components/bible/BibleAudio.tsx:253",
-  "components/bible/BibleAudioPlayer.tsx:403",
-  "components/bible/BibleAudioPlayer.tsx:579"
+  "components/bible/BibleAudio.tsx:254",
+  "components/bible/BibleAudioPlayer.tsx:404",
+  "components/bible/BibleAudioPlayer.tsx:580"
  ],
  "Voix de l'appareil": [
-  "components/bible/BibleAudio.tsx:342",
-  "components/bible/BibleAudioPlayer.tsx:442"
+  "components/bible/BibleAudio.tsx:343",
+  "components/bible/BibleAudioPlayer.tsx:443"
  ],
  "Voix qui monte": [
   "lib/badges.ts:107"
@@ -31265,13 +31295,13 @@
   "components/ui/AudioPlayer.tsx:145"
  ],
  "Volume du fond": [
-  "components/bible/BibleAudio.tsx:250"
+  "components/bible/BibleAudio.tsx:251"
  ],
  "Volume du fond musical": [
-  "components/bible/BibleAudio.tsx:263"
+  "components/bible/BibleAudio.tsx:264"
  ],
  "Volume du soaking": [
-  "components/bible/BibleAudioPlayer.tsx:589"
+  "components/bible/BibleAudioPlayer.tsx:590"
  ],
  "vos contenus communautaires: sujets de prière, commentaires, réponses, messages privés, réactions et abonnements": [
   "app/confidentialite/page.tsx:71"
@@ -31390,7 +31420,7 @@
   "components/community/MessagesView.tsx:432"
  ],
  "Vue classique (plans, outils…)": [
-  "components/bible/BibleReader.tsx:503"
+  "components/bible/BibleReader.tsx:505"
  ],
  "WhatsApp": [
   "components/ui/ShareButtons.tsx:132"
@@ -31456,7 +31486,7 @@
   "components/mission/BandeauBatisseurs.tsx:130"
  ],
  "Zoomer": [
-  "components/ecole/ArbresGenealogiques.tsx:629"
+  "components/ecole/ArbresGenealogiques.tsx:628"
  ],
  "Zorobabel": [
   "config/chemin/chapitre-nehemie.ts:45"
