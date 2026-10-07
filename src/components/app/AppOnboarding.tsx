@@ -12,6 +12,15 @@ import { useLangue, type Langue } from "@/lib/i18n";
 import { captureEmail, NEWSLETTER_OPTIN } from "@/lib/email-capture";
 
 const KEY = "jb.onboarded";
+/** Un membre s'est déjà connecté sur cet appareil (posé à chaque connexion). */
+const KEY_MEMBRE = "jb.membre";
+function aDejaEuUnCompte(): boolean {
+  try {
+    return localStorage.getItem(KEY_MEMBRE) === "1" || !!localStorage.getItem("jb.brevo.member");
+  } catch {
+    return false;
+  }
+}
 
 /**
  * ACCUEIL DU PREMIER LANCEMENT DE L'APPLICATION (une seule fois par appareil,
@@ -89,7 +98,7 @@ const TEXTES: Record<
     continuer: "Continuer",
     fonctions: [
       { image: "meditation", surtitre: "Chaque jour", titre: "Une pensée pour ton cœur, chaque matin.", texte: "Une méditation, un verset et une prière, à lire ou à écouter, pour commencer ta journée avec Jésus." },
-      { image: "bible", surtitre: "La Bible", titre: "La Parole, expliquée verset par verset.", texte: "Commentaires, mots hébreux et grecs, personnages, lieux, chronologie… et la Bible audio." },
+      { image: "bible", surtitre: "La Bible", titre: "Touche un verset, tout s'ouvre.", texte: "Les mots hébreux et grecs, le commentaire, la culture, les personnages et les lieux… et la Bible audio." },
       { image: "mur", surtitre: "Le mur de prière", titre: "Tu n'es jamais seul.", texte: "Partage tes sujets de prière : des frères et sœurs prient pour toi, et tu pries pour eux." },
       { image: "etudes", surtitre: "Études bibliques", titre: "Grandis dans la connaissance de Sa Parole.", texte: "Formations, études bibliques, plans de lecture et jeux pour avancer pas à pas." },
       { image: "profil", surtitre: "Ton profil", titre: "Ton chemin avec Dieu, jour après jour.", texte: "Ta série de jours, tes badges, ton carnet spirituel et tes favoris, toujours avec toi." },
@@ -114,7 +123,7 @@ const TEXTES: Record<
     continuer: "Continue",
     fonctions: [
       { image: "meditation", surtitre: "Every day", titre: "A word for your heart, every morning.", texte: "A devotional, a verse and a prayer, to read or listen to, to start your day with Jesus." },
-      { image: "bible", surtitre: "The Bible", titre: "The Word, explained verse by verse.", texte: "Commentary, Hebrew and Greek words, people, places, timeline… and the audio Bible." },
+      { image: "bible", surtitre: "The Bible", titre: "Tap a verse, and it all opens up.", texte: "Hebrew and Greek words, commentary, culture, people and places… and the audio Bible." },
       { image: "mur", surtitre: "The prayer wall", titre: "You are never alone.", texte: "Share your prayer requests: brothers and sisters pray for you, and you pray for them." },
       { image: "etudes", surtitre: "Bible studies", titre: "Grow in the knowledge of His Word.", texte: "Courses, Bible studies, reading plans and games to move forward step by step." },
       { image: "profil", surtitre: "Your profile", titre: "Your walk with God, day after day.", texte: "Your streak, your badges, your spiritual journal and your favorites, always with you." },
@@ -146,7 +155,7 @@ const TEXTES: Record<
     continuer: "Continuar",
     fonctions: [
       { image: "meditation", surtitre: "Todos os dias", titre: "Uma palavra para o seu coração, cada manhã.", texte: "Uma meditação, um versículo e uma oração, para ler ou ouvir, para começar o dia com Jesus." },
-      { image: "bible", surtitre: "A Bíblia", titre: "A Palavra, explicada versículo por versículo.", texte: "Comentários, palavras hebraicas e gregas, personagens, lugares, linha do tempo… e a Bíblia em áudio." },
+      { image: "bible", surtitre: "A Bíblia", titre: "Toque em um versículo, e tudo se abre.", texte: "As palavras hebraicas e gregas, o comentário, a cultura, os personagens e os lugares… e a Bíblia em áudio." },
       { image: "mur", surtitre: "O mural de oração", titre: "Você nunca está sozinho.", texte: "Compartilhe seus pedidos de oração: irmãos e irmãs oram por você, e você ora por eles." },
       { image: "etudes", surtitre: "Estudos bíblicos", titre: "Cresça no conhecimento da Sua Palavra.", texte: "Cursos, estudos bíblicos, planos de leitura e jogos para avançar passo a passo." },
       { image: "profil", surtitre: "Seu perfil", titre: "Sua caminhada com Deus, dia após dia.", texte: "Sua sequência de dias, suas medalhas, seu caderno espiritual e seus favoritos, sempre com você." },
@@ -173,6 +182,17 @@ const TEXTES: Record<
 };
 
 const FOND = "/img/accueil/fauteuil.webp";
+/** La Bible en action (Genèse 12:1) : chapitre → toucher le verset → mots
+ * hébreux → commentaire → culture → personnages. Captures par langue ; les
+ * langues absentes gardent la capture fixe. */
+const SEQUENCE_BIBLE: Partial<Record<Langue, number>> = { fr: 5, en: 5 };
+/** Où le doigt touche, sur chaque image, pour passer à la suivante (fractions de l'écran). */
+const TOUCHERS = [
+  { x: 0.42, y: 0.1 },
+  { x: 0.736, y: 0.362 },
+  { x: 0.421, y: 0.44 },
+  { x: 0.893, y: 0.483 },
+];
 const LOGO = "/img/logo-rhema.webp";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -204,6 +224,56 @@ function Etoiles({ className = "h-4 w-4" }: { className?: string }) {
         </svg>
       ))}
     </span>
+  );
+}
+
+/** Captures qui s'enchaînent dans le téléphone, avec un rond lime à chaque
+ * toucher (« on montre » que tout s'ouvre en un geste). */
+function SequenceTelephone({ srcs }: { srcs: string[] }) {
+  const [i, setI] = useState(0);
+  const [touche, setTouche] = useState(false);
+  useEffect(() => {
+    const dernier = i === srcs.length - 1;
+    const t1 = dernier ? null : setTimeout(() => setTouche(true), 1250);
+    const t2 = setTimeout(
+      () => {
+        setTouche(false);
+        setI((x) => (x + 1) % srcs.length);
+      },
+      dernier ? 2800 : 1900,
+    );
+    return () => {
+      if (t1) clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [i, srcs.length]);
+  const pos = TOUCHERS[i];
+  return (
+    <>
+      {srcs.map((src, k) => (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          key={src}
+          src={src}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover object-top transition-opacity duration-500"
+          style={{ opacity: k === i ? 1 : 0 }}
+        />
+      ))}
+      <AnimatePresence>
+        {touche && pos ? (
+          <motion.span
+            key={`t${i}`}
+            className="pointer-events-none absolute h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full border-[3px] border-dawn-400 bg-dawn-400/35 shadow-[0_0_18px_rgba(202,240,0,0.7)]"
+            style={{ left: `${pos.x * 100}%`, top: `${pos.y * 100}%` }}
+            initial={{ scale: 1.6, opacity: 0 }}
+            animate={{ scale: [1.6, 0.85, 1], opacity: 1 }}
+            exit={{ scale: 1.5, opacity: 0 }}
+            transition={{ duration: 0.45 }}
+          />
+        ) : null}
+      </AnimatePresence>
+    </>
   );
 }
 
@@ -260,6 +330,7 @@ export function AppOnboarding() {
     if (userId) {
       try {
         localStorage.setItem(KEY, "1");
+        localStorage.setItem(KEY_MEMBRE, "1");
       } catch {
         /* ignore */
       }
@@ -335,9 +406,13 @@ export function AppOnboarding() {
   }, [show, ready]);
 
   // Étapes : intro → fonctionnalités (0…n-1) → avis → compte.
-  const [etape, setEtape] = useState<"intro" | number | "avis" | "compte">(() => (dismissed ? "compte" : "intro"));
+  // Ancien membre déconnecté → directement « Heureux de te revoir » ; tous les
+  // autres (premier lancement, ou utilisateur qui n'a jamais eu de compte)
+  // voient toute l'introduction avant de laisser leur email.
+  const [membre] = useState(aDejaEuUnCompte);
+  const [etape, setEtape] = useState<"intro" | number | "avis" | "compte">(() => (dismissed && membre ? "compte" : "intro"));
   // « J'ai déjà un compte » : formulaire en mode connexion plutôt qu'inscription.
-  const [dejaInscrit, setDejaInscrit] = useState(dismissed);
+  const [dejaInscrit, setDejaInscrit] = useState(dismissed && membre);
   // Accord pour la newsletter (case NON cochée par défaut, obligatoire en Europe).
   const [optin, setOptin] = useState(false);
   const { email: emailCompte } = useAuth();
@@ -362,7 +437,8 @@ export function AppOnboarding() {
   // Précharge le décor, le logo et les captures de la langue.
   useEffect(() => {
     if (!show) return;
-    for (const src of [FOND, LOGO, ...T.fonctions.map((f) => `/img/accueil/${langue}-${f.image}.webp`)]) {
+    const seq = Array.from({ length: SEQUENCE_BIBLE[langue] ?? 0 }, (_, k) => `/img/accueil/${langue}-bible-${k + 1}.webp`);
+    for (const src of [FOND, LOGO, ...T.fonctions.map((f) => `/img/accueil/${langue}-${f.image}.webp`), ...seq]) {
       const i = new Image();
       i.src = asset(src);
     }
@@ -511,8 +587,14 @@ export function AppOnboarding() {
                       transition={{ opacity: { duration: 0.6 }, scale: { duration: 0.7, ease: EASE }, y: { duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.7 } }}
                       className="relative aspect-[390/844] h-full max-h-[58vh] overflow-hidden rounded-[2.4rem] border-[7px] border-[#1B1B18] bg-black shadow-[0_30px_80px_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.08)]"
                     >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={asset(`/img/accueil/${langue}-${fonction.image}.webp`)} alt="" className="h-full w-full object-cover object-top" />
+                      {fonction.image === "bible" && SEQUENCE_BIBLE[langue] ? (
+                        <SequenceTelephone
+                          srcs={Array.from({ length: SEQUENCE_BIBLE[langue]! }, (_, k) => asset(`/img/accueil/${langue}-bible-${k + 1}.webp`))}
+                        />
+                      ) : (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={asset(`/img/accueil/${langue}-${fonction.image}.webp`)} alt="" className="h-full w-full object-cover object-top" />
+                      )}
                     </motion.div>
                   </div>
                   <div className="pt-6 text-center">
