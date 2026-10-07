@@ -260,7 +260,7 @@ for (const f of FICHIERS) {
     let mots = 0;
     const envoyer = () => {
       if (!lot.length) return;
-      const id = `${l}-${f}-${Date.now().toString(36)}-${n++}`;
+      const id = `${l}-${f.replace(/[^a-zA-Z0-9_-]/g, "_")}-${Date.now().toString(36)}-${n++}`.slice(0, 64);
       etat.requetes[id] = { l, f, chemins: lot.map(([c]) => c), textes: lot.length };
       requetes.push(demande(id, l, `${f} — ${lot[0][1].slice(0, 80)}`, lot));
       lot = [];
