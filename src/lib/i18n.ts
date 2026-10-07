@@ -32,15 +32,49 @@ export function getLangue(): Langue {
   return langueDuTelephone();
 }
 
+/**
+ * Pays francophones (Madagascar, Afrique francophone, Maghreb, Haïti,
+ * outre-mer…) : l'app y reste en français, même si le téléphone est réglé en
+ * anglais. Codes pays (ISO) et fuseaux horaires des appareils.
+ */
+const PAYS_FRANCOPHONES = new Set([
+  "FR", "BE", "CH", "LU", "MC", "MG", "KM", "RE", "YT", "SC", "SN", "CI", "ML", "BF", "NE", "GN", "TG", "BJ",
+  "CM", "GA", "CG", "CD", "CF", "TD", "BI", "RW", "DJ", "MR", "MA", "DZ", "TN", "HT", "GP", "MQ", "GF", "PF", "NC",
+]);
+const FUSEAUX_FRANCOPHONES = new Set([
+  "Indian/Antananarivo", "Indian/Comoro", "Indian/Reunion", "Indian/Mayotte", "Indian/Mahe",
+  "Africa/Dakar", "Africa/Abidjan", "Africa/Bamako", "Africa/Ouagadougou", "Africa/Niamey", "Africa/Conakry",
+  "Africa/Lome", "Africa/Porto-Novo", "Africa/Douala", "Africa/Libreville", "Africa/Brazzaville", "Africa/Kinshasa",
+  "Africa/Lubumbashi", "Africa/Bangui", "Africa/Ndjamena", "Africa/Bujumbura", "Africa/Kigali", "Africa/Djibouti",
+  "Africa/Nouakchott", "Africa/Casablanca", "Africa/Algiers", "Africa/Tunis", "America/Port-au-Prince",
+  "America/Guadeloupe", "America/Martinique", "America/Cayenne", "Pacific/Noumea", "Pacific/Tahiti",
+]);
+
+/** Le téléphone est-il dans un pays francophone (code pays, sinon fuseau horaire) ? */
+function paysFrancophone(nav: string): boolean {
+  const pays = nav.split(/[-_]/)[1]?.toUpperCase();
+  if (pays && PAYS_FRANCOPHONES.has(pays)) return true;
+  // Sans pays précis (« en », « en-US » par défaut), le fuseau horaire tranche.
+  if (pays && pays !== "US") return false;
+  try {
+    return FUSEAUX_FRANCOPHONES.has(Intl.DateTimeFormat().resolvedOptions().timeZone);
+  } catch {
+    return false;
+  }
+}
+
 export function langueDuTelephone(): Langue {
   try {
-    const nav = (navigator.languages?.[0] || navigator.language || "fr").toLowerCase();
-    if (nav.startsWith("pt")) return "pt";
-    if (nav.startsWith("fr")) return "fr";
-    if (nav.startsWith("en")) return "en";
+    const nav = navigator.languages?.[0] || navigator.language || "fr";
+    const l = nav.toLowerCase();
+    if (l.startsWith("pt")) return "pt";
+    if (l.startsWith("fr")) return "fr";
+    // Téléphone en anglais, mais à Madagascar ou en Afrique francophone : français.
+    if (l.startsWith("en")) return paysFrancophone(nav) ? "fr" : "en";
   } catch {
     /* rendu serveur */
   }
+  // Autres langues (malgache, wolof, lingala, arabe…) : français par défaut.
   return "fr";
 }
 
