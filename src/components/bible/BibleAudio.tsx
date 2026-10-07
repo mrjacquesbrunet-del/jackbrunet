@@ -11,6 +11,7 @@ import {
   AMBIENT_VOL_MIN,
   AMBIENT_VOL_MAX,
 } from "@/lib/ambient";
+import { getVersionBible, infoVersion } from "@/lib/bible-version";
 
 /**
  * Bible audio (service « Écouter la Bible »). Deux modes:
@@ -145,7 +146,7 @@ export function BibleAudio({
         idxRef.current = i;
         onVerse(i);
         const u = new SpeechSynthesisUtterance(verses[i]);
-        u.lang = "fr-FR";
+        u.lang = infoVersion(getVersionBible()).voix; // langue de la version lue
         if (voiceRef.current) u.voice = voiceRef.current;
         u.rate = 0.96;
         u.pitch = 1;

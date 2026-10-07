@@ -14,6 +14,7 @@ import {
   type ReadingFont,
   type ReadingTheme,
 } from "@/lib/reading-settings";
+import { VERSIONS_BIBLE, infoVersion, setVersionBible, useVersionBible } from "@/lib/bible-version";
 
 /**
  * Bouton « Aa » + panneau de personnalisation de la lecture: taille du texte,
@@ -25,6 +26,7 @@ import {
  */
 export function ReadingSettings() {
   const r = useReading();
+  const version = useVersionBible();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -70,7 +72,35 @@ export function ReadingSettings() {
           </button>
         </div>
 
+        {/* Version de la Bible : celle de la langue de l'app par défaut. */}
         <p className="text-[11px] font-bold uppercase tracking-wide text-night-900/45">
+          Version de la Bible
+        </p>
+        <div className="mt-2 grid gap-2" translate="no">
+          {VERSIONS_BIBLE.map((v) => (
+            <button
+              key={v.id}
+              type="button"
+              onClick={() => setVersionBible(v.id)}
+              aria-pressed={version === v.id}
+              className={`flex items-center justify-between rounded-xl border px-3 py-2 text-left text-sm transition-colors ${
+                version === v.id
+                  ? "border-spirit-600 bg-spirit-500/10 font-bold text-spirit-700"
+                  : "border-night-900/15 text-night-900/70 hover:bg-night-900/[0.03]"
+              }`}
+            >
+              <span>{v.nom}</span>
+              <span className="text-[11px] font-bold text-night-900/45">
+                {v.abrev} · {v.langue.toUpperCase()}
+              </span>
+            </button>
+          ))}
+        </div>
+        <p className="mt-1.5 text-[10px] leading-snug text-night-900/45" translate="no">
+          {infoVersion(version).credit}
+        </p>
+
+        <p className="mt-4 text-[11px] font-bold uppercase tracking-wide text-night-900/45">
           Taille du texte
         </p>
         <div className="mt-2 flex items-center gap-3">

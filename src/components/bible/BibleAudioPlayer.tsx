@@ -16,6 +16,7 @@ import {
   AMBIENT_VOL_MIN,
   AMBIENT_VOL_MAX,
 } from "@/lib/ambient";
+import { getVersionBible, infoVersion } from "@/lib/bible-version";
 
 /**
  * Lecteur audio de la pleine lecture : un simple bouton rond en bas au centre
@@ -166,7 +167,7 @@ export function BibleAudioPlayer({
         setTtsIdx(i);
         onVerse(i);
         const u = new SpeechSynthesisUtterance(verses[i]);
-        u.lang = "fr-FR";
+        u.lang = infoVersion(getVersionBible()).voix; // langue de la version lue
         if (voiceRef.current) u.voice = voiceRef.current;
         u.rate = 0.96 * pod.rate;
         u.pitch = 1;

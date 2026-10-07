@@ -1,6 +1,7 @@
 "use client";
 
 import { getSupabase } from "./supabase";
+import { getVersionBible } from "./bible-version";
 import type { AudioTrack } from "./audio-library";
 import { compressToMonoMp3 } from "./audio-compress";
 
@@ -21,6 +22,9 @@ export function bibleNarrationKey(bookId: number, chapter: number): string {
 }
 
 export function bibleNarrationUrl(bookId: number, chapter: number): string | null {
+  // Narration enregistrée : seulement pour la Louis Segond pour l'instant ;
+  // les autres versions sont lues par la voix de l'appareil, dans leur langue.
+  if (getVersionBible() !== "lsg") return null;
   const sb = getSupabase();
   if (!sb) return null;
   const { data } = sb.storage.from(AUDIO_BUCKET).getPublicUrl(bibleNarrationKey(bookId, chapter));
