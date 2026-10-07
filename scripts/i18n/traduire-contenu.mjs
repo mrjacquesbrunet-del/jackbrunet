@@ -9,7 +9,7 @@
  * Reprenable : lots notés dans i18n/lots-contenu.json (commité aussitôt).
  *
  * Variables : ANTHROPIC_API_KEY, MODELE (défaut claude-opus-5-5),
- *   LANGUES ("en,pt"), FICHIERS ("devotions,formations,etudes"),
+ *   LANGUES ("en,pt"), FICHIERS ("devotions,formations,etudes,reading-plan"),
  *   LIMITE (nombre max de textes par fichier et langue, essai), REFAIRE=1,
  *   GIT_COMMIT=0, ESSAI_A_SEC=1.
  */
@@ -20,7 +20,7 @@ import Anthropic from "@anthropic-ai/sdk";
 
 const MODELE = process.env.MODELE || "claude-opus-5-5";
 const LANGUES = (process.env.LANGUES || "en,pt").split(",").map((s) => s.trim()).filter(Boolean);
-const FICHIERS = (process.env.FICHIERS || "devotions,formations,etudes").split(",").map((s) => s.trim()).filter(Boolean);
+const FICHIERS = (process.env.FICHIERS || "devotions,formations,etudes,reading-plan").split(",").map((s) => s.trim()).filter(Boolean);
 const LIMITE = Number(process.env.LIMITE || 0);
 const REFAIRE = process.env.REFAIRE === "1";
 const DO_GIT = process.env.GIT_COMMIT !== "0";
@@ -47,7 +47,7 @@ const NOMS = { en: "l'anglais (américain neutre)", pt: "le portugais du Brésil
 const CONSIGNE = (l) =>
   `Tu traduis les contenus de RHEMA, application chrétienne évangélique de méditation biblique, de prière et d'étude, ` +
   `du Pasteur Jack Brunet et de Josy W. Brunet, du français vers ${NOMS[l]}. ` +
-  `Ce sont des méditations quotidiennes (thème, verset, punchline, méditation, déclaration), une formation biblique (leçons, quiz) et des études bibliques.\n\n` +
+  `Ce sont des méditations quotidiennes (thème, verset, punchline, méditation, déclaration), une formation biblique (leçons, quiz), des études bibliques et un plan de lecture de la Bible en un an (thème du jour et passages à lire).\n\n` +
   `Règles :\n` +
   `- Garde la voix pastorale, chaleureuse et directe de l'original. Le lecteur est tutoyé : ` +
   (l === "pt" ? `utilise « você », naturel au Brésil.\n` : `utilise « you », naturel et chaleureux.\n`) +
@@ -248,7 +248,9 @@ for (const f of FICHIERS) {
     };
     for (const e of reste) {
       const m = e[1].split(/\s+/).length;
-      if (lot.length && (mots + m > MOTS_PAR_REQUETE || unite(lot[0][0]) !== unite(e[0]))) envoyer();
+      // Plan de lecture : petits thèmes indépendants, regroupés librement.
+      const coupe = f !== "reading-plan" && unite(lot[0]?.[0] ?? []) !== unite(e[0]);
+      if (lot.length && (mots + m > MOTS_PAR_REQUETE || coupe)) envoyer();
       lot.push(e);
       mots += m;
     }

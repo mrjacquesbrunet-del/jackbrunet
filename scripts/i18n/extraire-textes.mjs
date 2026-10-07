@@ -32,6 +32,7 @@ function lisible(s) {
   const t = s.trim();
   if (t.length < 2 || !LETTRE.test(t)) return false;
   if (/^(https?:|mailto:|tel:|\/|#|\.\/|\.\.\/|data:)/.test(t)) return false;
+  if (/^@(keyframes|media|font-face)\b/.test(t) || /\.(mp3|mp4|png|jpe?g|webp|pdf)$/i.test(t)) return false; // CSS, fichiers
   if (/^[\w.-]+@[\w.-]+$/.test(t)) return false; // e-mail
   if (/^[a-z0-9_.:\/-]+$/.test(t) && !ACCENT.test(t)) return false; // clé, chemin, classe simple
   if (/^[a-z][a-zA-Z0-9]*$/.test(t)) return false; // identifiant camelCase
@@ -78,7 +79,9 @@ function technique(node) {
     if (!p) break;
     if (ts.isJsxAttribute(p)) {
       const nom = p.name.getText();
-      return ATTRS_TECH.has(nom) || (!ATTRS.has(nom) && !/^(title|label|text|placeholder|message|description|caption)/i.test(nom) && nom !== "children");
+      // Propriétés des composants (eyebrow, badge, sousTitre…) : texte affiché,
+      // sauf les propriétés techniques connues.
+      return ATTRS_TECH.has(nom) || /^(kind|variant|tone|icon|color|couleur|size|mode|tab|onglet|id|slug|route|path|cle|storageKey|fichier|file|image|img|audio|accent|theme|align|side|position|format|lang|langue|ratio|aspect|from|to|direction|anchor|status|etat|categorie|category|source)$/i.test(nom) || /^(on[A-Z]|data-|aria-(?!label))/.test(nom);
     }
     if (ts.isImportDeclaration(p) || ts.isExportDeclaration(p)) return true;
     if (ts.isCallExpression(p) && APPELS_TECH.test(nomAppel(p))) return true;

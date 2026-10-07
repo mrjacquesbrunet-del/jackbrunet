@@ -99,7 +99,7 @@ export function Traducteur() {
     let actif = true;
     // Contenus traduits : la méditation du jour avant d'afficher l'écran,
     // la formation et les études en arrière-plan.
-    const meditations = chargerContenu(langue, "devotions");
+    const meditations = Promise.all([chargerContenu(langue, "devotions"), chargerContenu(langue, "reading-plan")]);
     prechargerContenus(langue);
     Promise.all([chargerDictionnaire(langue), meditations]).then(([ok]) => {
       if (!actif) return;

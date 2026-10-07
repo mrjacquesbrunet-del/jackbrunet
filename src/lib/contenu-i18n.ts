@@ -12,8 +12,8 @@ import { getLangue, type Langue } from "./i18n";
  * chargée à la demande. Tant qu'elle n'est pas là, le français s'affiche.
  */
 
-export type FichierContenu = "devotions" | "formations" | "etudes";
-export const FICHIERS_CONTENU: FichierContenu[] = ["devotions", "formations", "etudes"];
+export type FichierContenu = "devotions" | "formations" | "etudes" | "reading-plan";
+export const FICHIERS_CONTENU: FichierContenu[] = ["devotions", "formations", "etudes", "reading-plan"];
 
 const charges = new Map<string, unknown>();
 const enCours = new Map<string, Promise<unknown>>();

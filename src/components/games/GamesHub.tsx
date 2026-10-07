@@ -47,8 +47,8 @@ const DEFI_ILLO = "/img/jeux/trophee.png";
 
 type Game = {
   id: string;
-  title1: string;
-  title2: string;
+  /** Titre sur deux lignes (« \n ») : un seul texte, traduisible d'un bloc. */
+  titre: string;
   desc: string;
   href: string;
   illo: string;
@@ -62,12 +62,12 @@ type Game = {
   arrow: string;
 };
 const GAMES: Game[] = [
-  { id: "chemin", title1: "LE", title2: "CHEMIN", desc: "De la Genèse à l'Apocalypse — apprends toute l'histoire !", href: "/chemin", illo: "/img/jeux/chemin.png", decor: "/img/chemin/decor-1.jpg", Icon: IconRoute, from: "#FB923C", to: "#C2410C", arrow: "#9A3412" },
-  { id: "quiz", title1: "QUIZ", title2: "BIBLIQUE", desc: "Réponds aux questions et deviens incollable sur la Bible !", href: "/quiz", illo: "/img/jeux/quiz.png", decor: "/img/jeux/decors/quiz.jpg", Icon: IconCap, from: "#FBBF24", to: "#F59E0B", arrow: "#F59E0B" },
-  { id: "memo", title1: "MÉMORISER", title2: "LES VERSETS", desc: "Grave la Parole dans ton cœur, verset après verset !", href: "/memoriser", illo: "/img/jeux/memoriser.png", decor: "/img/jeux/decors/memoriser.jpg", Icon: IconBulb, from: "#2DD4BF", to: "#0D9488", arrow: "#0D9488" },
-  { id: "quisuisje", title1: "QUI", title2: "SUIS-JE ?", desc: "Devine le personnage biblique grâce aux indices !", href: "/qui-suis-je", illo: "/img/jeux/quisuisje.png", decor: "/img/jeux/decors/quisuisje.jpg", Icon: IconMask, from: "#60A5FA", to: "#3B82F6", arrow: "#2563EB" },
-  { id: "vraifaux", title1: "VRAI", title2: "OU FAUX", desc: "Réponds vite et enchaîne les bonnes réponses !", href: "/vrai-faux", illo: "/img/jeux/vraifaux.png", decor: "/img/jeux/decors/vraifaux.jpg", Icon: IconScale, from: "#F472B6", to: "#EC4899", arrow: "#DB2777" },
-  { id: "chrono", title1: "LA", title2: "CHRONOLOGIE", desc: "Deux événements : lequel est arrivé en premier ?", href: "/chronologie", illo: "/img/jeux/chronologie.png", decor: "/img/jeux/decors/chronologie.jpg", Icon: IconHourglass, from: "#A78BFA", to: "#7C3AED", arrow: "#6D28D9" },
+  { id: "chemin", titre: "LE\nCHEMIN", desc: "De la Genèse à l'Apocalypse — apprends toute l'histoire !", href: "/chemin", illo: "/img/jeux/chemin.png", decor: "/img/chemin/decor-1.jpg", Icon: IconRoute, from: "#FB923C", to: "#C2410C", arrow: "#9A3412" },
+  { id: "quiz", titre: "QUIZ\nBIBLIQUE", desc: "Réponds aux questions et deviens incollable sur la Bible !", href: "/quiz", illo: "/img/jeux/quiz.png", decor: "/img/jeux/decors/quiz.jpg", Icon: IconCap, from: "#FBBF24", to: "#F59E0B", arrow: "#F59E0B" },
+  { id: "memo", titre: "MÉMORISER\nLES VERSETS", desc: "Grave la Parole dans ton cœur, verset après verset !", href: "/memoriser", illo: "/img/jeux/memoriser.png", decor: "/img/jeux/decors/memoriser.jpg", Icon: IconBulb, from: "#2DD4BF", to: "#0D9488", arrow: "#0D9488" },
+  { id: "quisuisje", titre: "QUI\nSUIS-JE ?", desc: "Devine le personnage biblique grâce aux indices !", href: "/qui-suis-je", illo: "/img/jeux/quisuisje.png", decor: "/img/jeux/decors/quisuisje.jpg", Icon: IconMask, from: "#60A5FA", to: "#3B82F6", arrow: "#2563EB" },
+  { id: "vraifaux", titre: "VRAI\nOU FAUX", desc: "Réponds vite et enchaîne les bonnes réponses !", href: "/vrai-faux", illo: "/img/jeux/vraifaux.png", decor: "/img/jeux/decors/vraifaux.jpg", Icon: IconScale, from: "#F472B6", to: "#EC4899", arrow: "#DB2777" },
+  { id: "chrono", titre: "LA\nCHRONOLOGIE", desc: "Deux événements : lequel est arrivé en premier ?", href: "/chronologie", illo: "/img/jeux/chronologie.png", decor: "/img/jeux/decors/chronologie.jpg", Icon: IconHourglass, from: "#A78BFA", to: "#7C3AED", arrow: "#6D28D9" },
 ];
 
 const CSS = `
@@ -216,7 +216,7 @@ export function GamesHub() {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={asset(g.card!)}
-                      alt={`${g.title1} ${g.title2}`}
+                      alt={g.titre.replace("\n", " ")}
                       onError={() => setBroken((s) => new Set(s).add(g.id))}
                       className="block h-full w-full object-cover"
                     />
@@ -234,7 +234,7 @@ export function GamesHub() {
                         />
                       </>
                     ) : null}
-                    <p className="relative font-game text-xl font-black uppercase leading-[0.95] drop-shadow-[0_2px_6px_rgba(0,0,0,.55)]">{g.title1}<br />{g.title2}</p>
+                    <p className="relative font-game text-xl font-black whitespace-pre-line uppercase leading-[0.95] drop-shadow-[0_2px_6px_rgba(0,0,0,.55)]">{g.titre}</p>
                     <p className="relative mt-1.5 font-game text-[11px] font-semibold leading-tight text-white/90 drop-shadow-[0_1px_4px_rgba(0,0,0,.6)]">{g.desc}</p>
                     {/* Illustration (avec repli icône) */}
                     <div className="jx-illo relative mt-2 flex flex-1 items-end justify-center">

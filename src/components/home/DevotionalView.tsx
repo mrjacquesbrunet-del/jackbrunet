@@ -166,6 +166,10 @@ export function DevotionalView({
 
   const p = useTodayIndex(plan.length, initialPlanIndex);
   const planDay = plan[p]?? plan[0];
+  // Plan de lecture traduit : thème et passages affichés dans la langue,
+  // le lien vers la Bible garde la référence française.
+  const planTr = useContenu<{ items: ReadingPlanDay[] }>("reading-plan");
+  const planAff = (planTr?.items?.[p]?.day === planDay?.day ? planTr?.items?.[p] : null) ?? planDay;
 
   const eng = useEngagement();
   const tk = useToolkit();
@@ -675,9 +679,9 @@ export function DevotionalView({
                 <p className="text-xs font-semibold uppercase tracking-wider text-spirit-600">
                   À lire aujourd'hui
                 </p>
-                <h3 className="mt-1 font-display text-xl font-bold">{planDay.theme}</h3>
+                <h3 className="mt-1 font-display text-xl font-bold">{planAff.theme}</h3>
                 <p className="text-sm text-night-900/60">
-                  {planDay.passages.join(" · ")} &middot; {planDay.minutes} min
+                  {planAff.passages.join(" · ")} &middot; {planDay.minutes} min
                 </p>
               </div>
               <span className="shrink-0 text-night-900/30 transition-colors group-hover:text-dawn-500" aria-hidden>
