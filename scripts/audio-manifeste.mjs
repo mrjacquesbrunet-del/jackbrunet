@@ -12,10 +12,33 @@ const lire = async (u) => {
   if (!r.ok) throw new Error(`${r.status} sur ${u}`);
   return r.text();
 };
+const UNITES = { zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10,
+  eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19 };
+const DIZAINES = { twenty: 20, thirty: 30, forty: 40, fifty: 50, sixty: 60, seventy: 70, eighty: 80, ninety: 90 };
+/** « Twenty One » → 21, « One Hundred Fifty » → 150, « 12 » → 12. */
+function enChiffres(s) {
+  const t = s.trim();
+  if (/^\d+$/.test(t)) return Number(t);
+  let total = 0;
+  for (const m of t.toLowerCase().split(/[^a-z]+/).filter(Boolean)) {
+    if (m in UNITES) total += UNITES[m];
+    else if (m in DIZAINES) total += DIZAINES[m];
+    else if (m === "hundred") total = (total || 1) * 100;
+  }
+  return total;
+}
+
 const livres = {};
 let n = 0;
 const relever = (html, prefixe, livreDossier) => {
-  for (const m of html.matchAll(/href="([^"?/]+\.mp3)"/gi)) {
+  const fichiers = [...html.matchAll(/href="([^"?/]+\.mp3)"/gi)];
+  // Dossier d'un livre à un seul chapitre (Abdias, Philémon, Jude…).
+  if (livreDossier && fichiers.length === 1) {
+    (livres[livreDossier] ??= {})[1] = prefixe + fichiers[0][1];
+    n++;
+    return;
+  }
+  for (const m of fichiers) {
     const nom = decodeURIComponent(m[1]);
     // « KJV_43_Jhn_003.mp3 » ; ou, dans un dossier de livre, le dernier nombre = chapitre.
     let livre = livreDossier;
@@ -24,6 +47,9 @@ const relever = (html, prefixe, livreDossier) => {
     if (!livre && a) {
       livre = Number(a[1]);
       ch = Number(a[2]);
+    } else if (/chapter/i.test(nom)) {
+      // « 1017 John-Chapter Twenty One.mp3 » : chapitre écrit en toutes lettres.
+      ch = enChiffres(nom.replace(/\.mp3$/i, "").split(/chapter/i).pop());
     } else {
       const nums = nom.match(/\d+/g);
       ch = nums ? Number(nums[nums.length - 1]) : 0;
