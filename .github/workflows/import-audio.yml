@@ -12,8 +12,8 @@ on:
         required: true
         default: etudes
       fichiers:
-        description: "Lignes « nom.mp3|url »"
-        required: true
+        description: "Lignes « nom.mp3|url » (vide : seulement recompresser le dossier)"
+        required: false
 
 permissions:
   contents: write
@@ -48,6 +48,22 @@ jobs:
             echo "$nom : $taille octets ($type)"
             [ "$taille" -gt 10000 ] || { echo "Fichier trop petit: $nom"; exit 1; }
           done
+
+      - name: Compresser (voix, mono 48 kbit/s)
+        env:
+          DOSSIER: ${{ inputs.dossier }}
+        run: |
+          # Le site (GitHub Pages) est limité à ~1 Go : les voix sont compressées
+          # comme la Bible audio (mono, 48 kbit/s), sans perte audible.
+          command -v ffmpeg >/dev/null || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg)
+          for f in public/audio/"$DOSSIER"/*.mp3; do
+            br=$(ffprobe -v error -select_streams a:0 -show_entries stream=bit_rate,channels -of csv=p=0 "$f" | head -1)
+            debit=${br%%,*}; canaux=${br##*,}
+            if [ "${debit:-0}" -gt 56000 ] || [ "${canaux:-1}" -gt 1 ]; then
+              ffmpeg -nostdin -y -loglevel error -i "$f" -ac 1 -ar 44100 -b:a 48k "$f.tmp.mp3" && mv "$f.tmp.mp3" "$f"
+            fi
+          done
+          du -sh "public/audio/$DOSSIER"
 
       - name: Liste des audios du dossier (index.json)
         env:
