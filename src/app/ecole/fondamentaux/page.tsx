@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { FormationView } from "@/components/ecole/FormationView";
+import { AvecContenus } from "@/components/i18n/AvecContenus";
 
 export const metadata: Metadata = {
   title: "Les fondamentaux de la foi chrétienne",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function FondamentauxPage() {
-  return <FormationView formationId="fondamentaux-vol1" />;
+  return (
+    <AvecContenus fichiers={["formations"]}>
+      <FormationView formationId="fondamentaux-vol1" />
+    </AvecContenus>
+  );
 }

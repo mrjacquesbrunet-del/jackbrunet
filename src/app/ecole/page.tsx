@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { EcoleView } from "@/components/ecole/EcoleView";
+import { AvecContenus } from "@/components/i18n/AvecContenus";
 
 export const metadata: Metadata = {
   title: "Étude biblique",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function EcolePage() {
-  return <EcoleView />;
+  return (
+    <AvecContenus fichiers={["formations", "etudes"]}>
+      <EcoleView />
+    </AvecContenus>
+  );
 }

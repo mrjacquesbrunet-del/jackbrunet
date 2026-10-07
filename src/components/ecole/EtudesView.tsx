@@ -24,6 +24,7 @@ import {
   type Bloc,
   type EtudeBiblique,
 } from "@/lib/etudes-bibliques";
+import { useLangue } from "@/lib/i18n";
 
 /**
  * ÉTUDES BIBLIQUES — /ecole/etudes : la bibliothèque des études, classées
@@ -480,7 +481,12 @@ function fmt(s: number) {
   return `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
 }
 
-function AudioEtude({ etude }: { etude: EtudeBiblique }) {
+/** La narration n'existe qu'en français : rien dans les autres langues. */
+function AudioEtude(props: Parameters<typeof AudioEtudeFr>[0]) {
+  return useLangue() === "fr" ? <AudioEtudeFr {...props} /> : null;
+}
+
+function AudioEtudeFr({ etude }: { etude: EtudeBiblique }) {
   const { email } = useAuth();
   const admin = isAdminEmail(email);
   // null = recherche en cours ; [] = aucun fichier trouvé.

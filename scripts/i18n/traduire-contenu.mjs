@@ -4,12 +4,12 @@
  * (API Anthropic, Message Batches : moitié prix, asynchrone).
  *
  * Entrée  : content/<fichier>.json (français)
- * Sortie  : content/i18n/<langue>/<fichier>.json — même structure, textes
+ * Sortie  : public/i18n/contenu/<langue>/<fichier>.json — même structure, textes
  *           traduits ; noms de fichiers, images, identifiants inchangés.
  * Reprenable : lots notés dans i18n/lots-contenu.json (commité aussitôt).
  *
  * Variables : ANTHROPIC_API_KEY, MODELE (défaut claude-opus-5-5),
- *   LANGUES ("en,pt"), FICHIERS ("devotions,formations,etudes,etudes-bibliques"),
+ *   LANGUES ("en,pt"), FICHIERS ("devotions,formations,etudes"),
  *   LIMITE (nombre max de textes par fichier et langue, essai), REFAIRE=1,
  *   GIT_COMMIT=0, ESSAI_A_SEC=1.
  */
@@ -20,7 +20,7 @@ import Anthropic from "@anthropic-ai/sdk";
 
 const MODELE = process.env.MODELE || "claude-opus-5-5";
 const LANGUES = (process.env.LANGUES || "en,pt").split(",").map((s) => s.trim()).filter(Boolean);
-const FICHIERS = (process.env.FICHIERS || "devotions,formations,etudes,etudes-bibliques").split(",").map((s) => s.trim()).filter(Boolean);
+const FICHIERS = (process.env.FICHIERS || "devotions,formations,etudes").split(",").map((s) => s.trim()).filter(Boolean);
 const LIMITE = Number(process.env.LIMITE || 0);
 const REFAIRE = process.env.REFAIRE === "1";
 const DO_GIT = process.env.GIT_COMMIT !== "0";
@@ -79,7 +79,7 @@ const SCHEMA = {
 };
 
 const lire = (f, def) => (fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, "utf8")) : def);
-const sortie = (l, f) => `content/i18n/${l}/${f}.json`;
+const sortie = (l, f) => `public/i18n/contenu/${l}/${f}.json`;
 const lisible = (s) => /[A-Za-zÀ-ÿ]/.test(s) && !/^(\/|https?:|[\w-]+\.(png|jpe?g|webp|mp3|pdf)$)/.test(s.trim());
 
 /** Liste [chemin, texte] des chaînes à traduire, dans l'ordre du fichier. */
@@ -88,7 +88,9 @@ function chaines(x, chemin = [], acc = []) {
   else if (x && typeof x === "object") for (const [k, v] of Object.entries(x)) chaines(v, [...chemin, k], acc);
   else if (typeof x === "string") {
     const cle = [...chemin].reverse().find((c) => typeof c === "string");
-    if (!TECHNIQUES.has(cle) && lisible(x)) acc.push([chemin, x]);
+    // Exception : noms des thèmes des études (« Identité & valeur »…).
+    const technique = TECHNIQUES.has(cle) && !(chemin[0] === "themes" && cle === "nom");
+    if (!technique && lisible(x)) acc.push([chemin, x]);
   }
   return acc;
 }
@@ -125,7 +127,7 @@ function demande(id, langue, contexte, lot) {
 function sauver(message) {
   if (!DO_GIT) return;
   try {
-    execSync("git add content/i18n i18n");
+    execSync("git add public/i18n/contenu i18n");
     if (!execSync("git diff --staged --name-only", { encoding: "utf8" }).trim()) return;
     execSync(`git commit -m "${message} [skip ci]"`, { stdio: "inherit" });
   } catch (e) {

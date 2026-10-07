@@ -2,6 +2,7 @@
 
 import formationsData from "../../content/formations.json";
 import { getSupabase } from "./supabase";
+import { contenuCharge } from "./contenu-i18n";
 
 /**
  * ÉCOLE BIBLIQUE — les formations : contenu embarqué
@@ -63,7 +64,9 @@ export type Formation = {
 };
 
 export function getFormations(): Formation[] {
-  return (formationsData as { formations: Formation[] }).formations;
+  // Dans la langue de l'app quand la traduction est chargée (voir AvecContenus).
+  const d = contenuCharge<{ formations: Formation[] }>("formations") ?? (formationsData as { formations: Formation[] });
+  return d.formations;
 }
 
 export function getFormation(id: string): Formation | null {

@@ -46,6 +46,7 @@ import { MessagesButton } from "@/components/community/MessagesButton";
 import { isNativeApp } from "@/lib/notifications";
 import type { Devotion, ReadingPlanDay, Short } from "@/lib/types";
 import { contenuAudioVideoDispo, useLangue } from "@/lib/i18n";
+import { useContenu } from "@/lib/contenu-i18n";
 
 type Props = {
   devotions: Devotion[];
@@ -69,6 +70,11 @@ function normPunch(s: string): string {
     .trim();
 }
 
+/** « carte-01.png » → « carte-01-en.png » (affiche traduite). */
+function carteLangue(card: string, l: string): string {
+  return /\.[a-z0-9]+$/i.test(card) ? card.replace(/(\.[a-z0-9]+)$/i, `-${l}$1`) : `${card}-${l}`;
+}
+
 export function DevotionalView({
   devotions,
   initialIndex,
@@ -87,7 +93,8 @@ export function DevotionalView({
   // Connecté ? → cloche de notifications + messagerie dans l'en-tête.
   const { userId } = useAuth();
   // Vidéos (Shorts) : en français uniquement.
-  const avVideo = contenuAudioVideoDispo(useLangue());
+  const langue = useLangue();
+  const avVideo = contenuAudioVideoDispo(langue);
   // La mémorisation de versets est réservée à l'application.
   const [nativeApp, setNativeApp] = useState(false);
   useEffect(() => setNativeApp(isNativeApp()), []);
@@ -118,16 +125,44 @@ export function DevotionalView({
   // On complète la carte manquante par celle du contenu intégré, pour que les
   // images de cartes déposées dans « medias » s'affichent même si la base n'a
   // pas encore la colonne `card` renseignée.
+  // Méditations traduites (anglais, portugais) : retrouvées par leur punchline
+  // française, dans le même ordre que le contenu intégré au build.
+  const devTr = useContenu<{ items: Devotion[] }>("devotions");
+  const tradParPunch = useMemo(() => {
+    if (!devTr?.items) return null;
+    const m = new Map<string, Devotion>();
+    devotions.forEach((d, k) => {
+      const t = devTr.items[k];
+      if (t && d.punchline) m.set(normPunch(d.punchline), t);
+    });
+    return m;
+  }, [devTr, devotions]);
   const list = useMemo(() => {
     const base = remote ?? devotions;
-    return base.map((d) =>
-      d.card ? d : { ...d, card: bundledCardByPunch.get(normPunch(d.punchline || "")) ?? d.card },
-    );
-  }, [remote, devotions, bundledCardByPunch]);
+    return base.map((d0) => {
+      const d = d0.card ? d0 : { ...d0, card: bundledCardByPunch.get(normPunch(d0.punchline || "")) ?? d0.card };
+      const t = tradParPunch?.get(normPunch(d.punchline || ""));
+      if (!t) return d;
+      return {
+        ...d,
+        theme: t.theme,
+        verseText: t.verseText,
+        verseReference: t.verseReference,
+        punchline: t.punchline,
+        meditation: t.meditation,
+        declarationText: t.declarationText,
+        declarationReference: t.declarationReference,
+        // Affiche de la punchline dans la langue : même nom suivi de -en / -pt
+        // (sinon ViralCard dessine la carte avec la punchline traduite).
+        card: d.card && t.punchline !== d.punchline ? carteLangue(d.card, langue) : d.card,
+      };
+    });
+  }, [remote, devotions, bundledCardByPunch, tradParPunch, langue]);
 
   const i = useTodayIndex(list.length, initialIndex);
   const dev = list[i]?? list[0];
-  const audioSrc = audioMap[String(i)]? mediaUrl(audioMap[String(i)]): null;
+  // Narration de la méditation : en français uniquement.
+  const audioSrc = avVideo && audioMap[String(i)] ? mediaUrl(audioMap[String(i)]) : null;
 
   const p = useTodayIndex(plan.length, initialPlanIndex);
   const planDay = plan[p]?? plan[0];

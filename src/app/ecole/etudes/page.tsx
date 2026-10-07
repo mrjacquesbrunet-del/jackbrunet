@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { EtudesView } from "@/components/ecole/EtudesView";
+import { AvecContenus } from "@/components/i18n/AvecContenus";
 
 export const metadata: Metadata = {
   title: "Études bibliques",
@@ -11,7 +12,9 @@ export default function EtudesPage() {
   return (
     // Suspense requis : la page lit ?e=, ?theme= et ?auteur=.
     <Suspense fallback={null}>
-      <EtudesView />
+      <AvecContenus fichiers={["etudes"]}>
+        <EtudesView />
+      </AvecContenus>
     </Suspense>
   );
 }

@@ -27,6 +27,7 @@ import {
   type Formation,
   type Lecon,
 } from "@/lib/formations";
+import { useLangue } from "@/lib/i18n";
 
 /**
  * FORMATION e-learning (maquette validée) : fond crème, cartes blanches,
@@ -249,10 +250,15 @@ function Vignette({ src }: { src: string }) {
   );
 }
 
+/** La narration n'existe qu'en français : rien dans les autres langues. */
+function LeconAudio(props: Parameters<typeof LeconAudioFr>[0]) {
+  return useLangue() === "fr" ? <LeconAudioFr {...props} /> : null;
+}
+
 /** Carte « Écouter la leçon » : la narration audio si elle existe dans le
  * bucket (formations/<formation>/<leçon>.mp3) — sinon rien. Sondée après
  * montage, comme les images. */
-function LeconAudio({ formationId, lecon }: { formationId: string; lecon: Lecon }) {
+function LeconAudioFr({ formationId, lecon }: { formationId: string; lecon: Lecon }) {
   const leconId = lecon.id;
   const manifeste = lecon.audio;
   const [parts, setParts] = useState<string[]>([]);
@@ -480,7 +486,12 @@ export function VersetSheet({
 /* ——— Gros lecteur audio d'une partie : lecture, −10 s / +10 s, vitesse ——— */
 const VITESSES = [1, 1.25, 1.5, 2];
 
-function LecteurEtape({
+/** La narration n'existe qu'en français : rien dans les autres langues. */
+function LecteurEtape(props: Parameters<typeof LecteurEtapeFr>[0]) {
+  return useLangue() === "fr" ? <LecteurEtapeFr {...props} /> : null;
+}
+
+function LecteurEtapeFr({
   src,
   vitesse,
   onVitesse,

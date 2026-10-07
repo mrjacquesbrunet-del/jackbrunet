@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { chargerDictionnaire, getLangue, traduireTexte } from "@/lib/i18n";
+import { chargerContenu, prechargerContenus } from "@/lib/contenu-i18n";
 
 /**
  * Traduit l'interface à l'affichage (anglais, portugais) : chaque texte
@@ -96,7 +97,11 @@ export function Traducteur() {
     window.prompt = (m?: string, d?: string) => prmt(m ? traduireTexte(m) ?? m : m, d);
 
     let actif = true;
-    chargerDictionnaire(langue).then((ok) => {
+    // Contenus traduits : la méditation du jour avant d'afficher l'écran,
+    // la formation et les études en arrière-plan.
+    const meditations = chargerContenu(langue, "devotions");
+    prechargerContenus(langue);
+    Promise.all([chargerDictionnaire(langue), meditations]).then(([ok]) => {
       if (!actif) return;
       if (ok) {
         parcourir(document.body);

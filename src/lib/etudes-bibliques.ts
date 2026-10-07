@@ -1,5 +1,6 @@
 import data from "../../content/etudes.json";
 import { getSupabase } from "./supabase";
+import { contenuCharge } from "./contenu-i18n";
 
 /**
  * ÉTUDES BIBLIQUES (onglet Étude) : études rédigées par les auteurs du
@@ -53,27 +54,30 @@ export type EtudeBiblique = {
   blocs: Bloc[];
 };
 
-const D = data as unknown as { auteurs: Auteur[]; themes: Theme[]; etudes: EtudeBiblique[] };
+type Donnees = { auteurs: Auteur[]; themes: Theme[]; etudes: EtudeBiblique[] };
+const FR = data as unknown as Donnees;
+/** Dans la langue de l'app quand la traduction est chargée (voir AvecContenus). */
+const donnees = (): Donnees => contenuCharge<Donnees>("etudes") ?? FR;
 
 export function getEtudesBibliques(): EtudeBiblique[] {
-  return D.etudes;
+  return donnees().etudes;
 }
 export function getEtudeBiblique(id: string): EtudeBiblique | undefined {
-  return D.etudes.find((e) => e.id === id);
+  return donnees().etudes.find((e) => e.id === id);
 }
 export function getAuteur(id: string): Auteur | undefined {
-  return D.auteurs.find((a) => a.id === id);
+  return donnees().auteurs.find((a) => a.id === id);
 }
 /** Les auteurs qui ont au moins une étude publiée. */
 export function auteursActifs(): Auteur[] {
-  return D.auteurs.filter((a) => D.etudes.some((e) => e.auteur === a.id));
+  return donnees().auteurs.filter((a) => donnees().etudes.some((e) => e.auteur === a.id));
 }
 /** Les thèmes qui ont au moins une étude (les thèmes vides restent cachés). */
 export function themesActifs(): Theme[] {
-  return D.themes.filter((t) => D.etudes.some((e) => e.themes.includes(t.id)));
+  return donnees().themes.filter((t) => donnees().etudes.some((e) => e.themes.includes(t.id)));
 }
 export function nomTheme(id: string): string {
-  return D.themes.find((t) => t.id === id)?.nom ?? id;
+  return donnees().themes.find((t) => t.id === id)?.nom ?? id;
 }
 
 /** Durée de lecture estimée (~180 mots/min), en minutes. */
