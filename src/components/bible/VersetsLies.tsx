@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { asset } from "@/lib/asset";
 import type { Naviguer } from "@/lib/bible-nav";
+import { getBook } from "@/lib/bible-client";
 
 /**
  * VERSETS LIÉS — dans la feuille d'étude d'un verset :
@@ -54,8 +55,8 @@ function getLivre(livre: number) {
   if (!livresP.has(livre)) {
     livresP.set(
       livre,
-      fetch(asset(`/bible/${livre}.json`))
-        .then((r) => r.json())
+      // Texte des versets liés : dans la version lue.
+      getBook(livre)
         .then((b) => b.chapters as string[][])
         .catch(() => {
           livresP.delete(livre);

@@ -15,8 +15,9 @@ export function getIndex(v: VersionBible = getVersionBible()): Promise<BookIndex
     indexCache.set(
       v,
       fetch(asset(`${baseBible(v)}/index.json`))
-        .then((r) => r.json())
-        .catch(() => [] as BookIndex[]),
+        .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+        // Version pas encore installée : on garde la Louis Segond.
+        .catch(() => (v === "lsg" ? ([] as BookIndex[]) : getIndex("lsg"))),
     );
   }
   return indexCache.get(v)!;
@@ -28,7 +29,9 @@ export function getBook(id: number, v: VersionBible = getVersionBible()): Promis
   if (!bookCache.has(k)) {
     bookCache.set(
       k,
-      fetch(asset(`${baseBible(v)}/${id}.json`)).then((r) => r.json()),
+      fetch(asset(`${baseBible(v)}/${id}.json`))
+        .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+        .catch((e) => (v === "lsg" ? Promise.reject(e) : getBook(id, "lsg"))),
     );
   }
   return bookCache.get(k)!;

@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { asset } from "@/lib/asset";
+import { getBook, getIndex } from "@/lib/bible-client";
+import { getVersionBible } from "@/lib/bible-version";
 
 type BookIndex = { id: number; name: string; chapters: number };
 type Book = { id: number; name: string; chapters: string[][] };
@@ -11,21 +12,22 @@ type Hit = { livre: number; nom: string; chap: number; verset: number; texte: st
 const norm = (s: string) =>
   s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 
-// Corpus chargé une seule fois puis gardé en mémoire (rapide ensuite).
-let CORPUS: { id: number; name: string; chapters: string[][] }[] | null = null;
+// Corpus de la version lue, chargé une seule fois puis gardé en mémoire.
+const CORPUS = new Map<string, { id: number; name: string; chapters: string[][] }[]>();
 
-async function loadCorpus(): Promise<NonNullable<typeof CORPUS>> {
-  if (CORPUS) return CORPUS;
-  const index: BookIndex[] = await fetch(asset("/bible/index.json")).then((r) => r.json());
+async function loadCorpus(): Promise<{ id: number; name: string; chapters: string[][] }[]> {
+  const v = getVersionBible();
+  const deja = CORPUS.get(v);
+  if (deja) return deja;
+  const index: BookIndex[] = await getIndex(v);
   const books = await Promise.all(
     index.map((b) =>
-      fetch(asset(`/bible/${b.id}.json`))
-.then((r) => r.json() as Promise<Book>)
-.then((bk) => ({ id: b.id, name: b.name, chapters: bk.chapters }))
-.catch(() => ({ id: b.id, name: b.name, chapters: [] as string[][] })),
+      getBook(b.id, v)
+        .then((bk) => ({ id: b.id, name: b.name, chapters: bk.chapters }))
+        .catch(() => ({ id: b.id, name: b.name, chapters: [] as string[][] })),
     ),
   );
-  CORPUS = books;
+  CORPUS.set(v, books);
   return books;
 }
 

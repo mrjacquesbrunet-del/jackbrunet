@@ -29,7 +29,8 @@ import { usePodcastPlayer, getPodcastAudio } from "@/lib/podcast-player";
 import { ReadingSettings } from "@/components/bible/ReadingSettings";
 import { useReading, FONT_STACK, THEME_STYLE } from "@/lib/reading-settings";
 import { useAppMode } from "@/lib/app-mode";
-import { getIndex } from "@/lib/bible-client";
+import { getIndex, getBook } from "@/lib/bible-client";
+import { useVersionBible } from "@/lib/bible-version";
 
 type BookIndex = { id: number; name: string; chapters: number };
 type Book = { id: number; name: string; chapters: string[][] };
@@ -37,6 +38,8 @@ type Book = { id: number; name: string; chapters: string[][] };
 export function BibleReader() {
   const [index, setIndex] = useState<BookIndex[]>([]);
   const [bookId, setBookId] = useState(43); // Jean par défaut
+  // Version lue : celle de la langue de l'app, ou celle choisie dans les réglages.
+  const version = useVersionBible();
   const [book, setBook] = useState<Book | null>(null);
   const [chapter, setChapter] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -211,10 +214,10 @@ export function BibleReader() {
 
   // Liste des livres
   useEffect(() => {
-    getIndex()
+    getIndex(version)
 .then(setIndex)
 .catch(() => {});
-  }, []);
+  }, [version]);
 
   // Lien profond éventuel: /bible?livre=43&chap=3(&v=16)
   // (`v` peut être une plage : `&v=16-18`.)
@@ -252,8 +255,7 @@ export function BibleReader() {
   useEffect(() => {
     let active = true;
     setLoading(true);
-    fetch(asset(`/bible/${bookId}.json`))
-.then((r) => r.json())
+    getBook(bookId, version)
 .then((b: Book) => {
         if (!active) return;
         setBook(b);
@@ -264,7 +266,7 @@ export function BibleReader() {
     return () => {
       active = false;
     };
-  }, [bookId]);
+  }, [bookId, version]);
 
   const bookNames = useMemo(() => {
     const m: Record<number, string> = {};

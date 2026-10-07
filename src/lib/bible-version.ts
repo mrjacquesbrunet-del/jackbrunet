@@ -92,9 +92,9 @@ export function baseBible(v: VersionBible = getVersionBible()): string {
   return d ? `/bible/${d}` : "/bible";
 }
 
-/** Version courante, mise à jour quand on en change (« lsg » au premier rendu). */
+/** Version courante, mise à jour quand on en change. */
 export function useVersionBible(): VersionBible {
-  const [v, setV] = useState<VersionBible>("lsg");
+  const [v, setV] = useState<VersionBible>(getVersionBible);
   useEffect(() => {
     setV(getVersionBible());
     const sur = (e: Event) => setV((e as CustomEvent<VersionBible>).detail);
