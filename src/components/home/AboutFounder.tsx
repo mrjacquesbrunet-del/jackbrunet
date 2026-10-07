@@ -103,7 +103,7 @@ export function AboutFounder() {
             <Link href="#soutenir" className="btn-primary">
               Soutenir la mission
             </Link>
-            <Link href="/videos" className="btn-ghost">
+            <Link href="/videos" className="btn-ghost fr-seulement">
               Découvrir mes vidéos
             </Link>
           </div>

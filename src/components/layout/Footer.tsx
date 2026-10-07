@@ -2,6 +2,9 @@ import Link from "next/link";
 import { footerNav, siteConfig } from "@/config/site";
 import { FooterBrand } from "@/components/layout/FooterBrand";
 
+/** Liens vers ce qui n'existe qu'en français (boutique, livre, vidéos) : masqués en EN/PT. */
+const FRANCE_SEULEMENT = /\/boutique|boutique\.jackbrunet|^\/(videos|ecouter)\b/i;
+
 export function Footer() {
   return (
     <footer className="site-footer dark-ctx bg-topo-dark relative mt-24 overflow-hidden border-t border-white/10">
@@ -32,7 +35,7 @@ export function Footer() {
               </h4>
               <ul className="mt-4 space-y-2.5">
                 {col.links.map((link) => (
-                  <li key={link.label}>
+                  <li key={link.label} className={FRANCE_SEULEMENT.test(link.href) ? "fr-seulement" : undefined}>
                     <Link
                       href={link.href}
                       className="text-sm text-cream/60 transition-colors hover:text-dawn-300"

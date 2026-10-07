@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ListenScreen } from "@/components/audio/ListenScreen";
+import { FrancaisSeulement } from "@/components/i18n/FrancaisSeulement";
 
 export const metadata: Metadata = {
   title: "Écouter, Podcasts de Pasteur Jack",
@@ -8,5 +9,12 @@ export const metadata: Metadata = {
 };
 
 export default function EcouterPage() {
-  return <ListenScreen />;
+  return (
+    <>
+      <FrancaisSeulement />
+      <div className="fr-seulement">
+        <ListenScreen />
+      </div>
+    </>
+  );
 }

@@ -84,7 +84,7 @@ export function Header() {
             </button>
             <div className="invisible absolute right-0 top-full pt-2 opacity-0 transition-all duration-150 group-hover:visible group-hover:opacity-100">
               <div className="min-w-[12rem] rounded-2xl border border-night-900/10 bg-cream/95 p-2 shadow-card backdrop-blur-xl">
-                {secondaryNav.map((item) => (
+                {secondaryNav.filter((item) => offresFrance(langue) || !lienFranceSeulement(item.href)).map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
@@ -162,7 +162,7 @@ export function Header() {
               ))}
 
               <div className="my-2 border-t border-night-900/10" />
-              {secondaryNav.map((item) => (
+              {secondaryNav.filter((item) => offresFrance(langue) || !lienFranceSeulement(item.href)).map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}

@@ -200,7 +200,7 @@ export function offresFrance(l: Langue): boolean {
 
 /** Lien vers une offre réservée à la France (boutique, livre papier, Amazon.fr…) ? */
 export function lienFranceSeulement(href: string): boolean {
-  return /\/boutique|boutique\.jackbrunet|amazon\.|amzn\./i.test(href);
+  return /\/boutique|boutique\.jackbrunet|amazon\.|amzn\.|^\/(videos|ecouter)\b/i.test(href);
 }
 
 /** Podcasts et vidéos n'existent qu'en français. */

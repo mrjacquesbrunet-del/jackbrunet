@@ -39,8 +39,10 @@ export default function HomePage() {
       <NextLiveBanner events={events} />
       <DailyHub />
       <ReadingPlan />
-      <FeaturedPredications />
-      <Reels />
+      <div className="fr-seulement">
+        <FeaturedPredications />
+        <Reels />
+      </div>
       <Shop />
       <PrayerSpace />
       <AboutFounder />

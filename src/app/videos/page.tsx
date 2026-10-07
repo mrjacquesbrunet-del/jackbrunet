@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { VideosScreen } from "@/components/home/VideosScreen";
+import { FrancaisSeulement } from "@/components/i18n/FrancaisSeulement";
 import { getLongVideos, getShorts } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -9,5 +10,12 @@ export const metadata: Metadata = {
 };
 
 export default function VideosPage() {
-  return <VideosScreen videos={getLongVideos()} shorts={getShorts()} />;
+  return (
+    <>
+      <FrancaisSeulement />
+      <div className="fr-seulement">
+        <VideosScreen videos={getLongVideos()} shorts={getShorts()} />
+      </div>
+    </>
+  );
 }
