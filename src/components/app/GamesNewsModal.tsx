@@ -43,7 +43,8 @@ export function GamesNewsModal() {
   useEffect(() => {
     let seen = false;
     try {
-      seen = !!localStorage.getItem(SEEN_KEY);
+      // Pas par-dessus l'accueil d'un nouvel utilisateur.
+      seen = !!localStorage.getItem(SEEN_KEY) || localStorage.getItem("jb.onboarded") !== "1";
     } catch {
       /* stockage indisponible */
     }

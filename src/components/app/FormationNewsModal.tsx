@@ -18,6 +18,8 @@ export function formationNewsPending(): boolean {
   // Le texte est dessiné dans le visuel (en français) : francophones seulement.
   if (getLangue() !== "fr") return false;
   try {
+    // Pas par-dessus l'accueil d'un nouvel utilisateur : seulement une fois l'accueil passé.
+    if (localStorage.getItem("jb.onboarded") !== "1") return false;
     return !localStorage.getItem(SEEN_KEY);
   } catch {
     return false;
