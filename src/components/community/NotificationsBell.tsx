@@ -10,6 +10,7 @@ import {
   notifHref,
   type Notification,
 } from "@/lib/community";
+import { localeApp } from "@/lib/i18n";
 
 function label(n: Notification) {
   const who = n.actor?.pseudo?? "Quelqu'un";
@@ -61,7 +62,7 @@ function label(n: Notification) {
 }
 
 function when(iso: string) {
-  return new Date(iso).toLocaleString("fr-FR", {
+  return new Date(iso).toLocaleString(localeApp(), {
     day: "numeric",
     month: "short",
     hour: "2-digit",

@@ -3,6 +3,7 @@
 import { Suspense } from "react";
 import { QuizScreen } from "@/components/quiz/QuizScreen";
 import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
+import { AvecContenus } from "@/components/i18n/AvecContenus";
 
 export default function QuizPage() {
   return (
@@ -11,7 +12,9 @@ export default function QuizPage() {
       <div className="relative">
         {/* Suspense requis : l'écran lit ?duel=CODE (lien de défi en direct). */}
         <Suspense fallback={null}>
-          <QuizScreen />
+          <AvecContenus fichiers={["quiz"]}>
+            <QuizScreen />
+          </AvecContenus>
         </Suspense>
       </div>
     </main>

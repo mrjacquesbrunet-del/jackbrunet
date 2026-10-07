@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import Link from "next/link";
 import type { AgendaEvent } from "@/lib/types";
+import { localeApp } from "@/lib/i18n";
 
 function isExternal(href?: string) {
   return!!href && /^https?:\/\//i.test(href);
@@ -27,7 +28,7 @@ export function NextLiveBanner({ events }: { events: AgendaEvent[] }) {
   if (!next) return null;
   const { e } = next;
   const d = new Date(`${e.date}T${e.time || "00:00"}`);
-  const when = d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
+  const when = d.toLocaleDateString(localeApp(), { weekday: "long", day: "numeric", month: "long" });
   const isLive = e.type === "live";
   const label = isLive? "Prochain live": "Prochain événement";
   const cta = e.link

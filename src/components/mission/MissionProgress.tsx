@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getMissionStats } from "@/lib/mission";
+import { localeApp } from "@/lib/i18n";
 
 /** 2e palier de la collecte : eau, électricité, fondations d'un orphelinat. */
 export const MISSION_PALIER_2 = 20000;
@@ -79,9 +80,9 @@ export function MissionProgress({
             Merci du fond du cœur !
           </p>
           <p className="mt-2 text-sm leading-relaxed text-[#FAF6F0]/75">
-            Grâce à votre générosité, le premier palier de {obj.toLocaleString("fr-FR")}&nbsp;€
+            Grâce à votre générosité, le premier palier de {obj.toLocaleString(localeApp())}&nbsp;€
             est franchi. Cap maintenant sur les{" "}
-            <strong className="font-bold text-[#FCD34D]">{cible.toLocaleString("fr-FR")} €</strong>{" "}
+            <strong className="font-bold text-[#FCD34D]">{cible.toLocaleString(localeApp())} €</strong>{" "}
             pour <strong className="font-bold text-[#FAF6F0]">donner accès à l&apos;eau et à
             l&apos;électricité</strong> et{" "}
             <strong className="font-bold text-[#FAF6F0]">refaire les fondations d&apos;un orphelinat</strong>.
@@ -92,14 +93,14 @@ export function MissionProgress({
       <div className="mt-3 flex flex-wrap items-end justify-between gap-x-6 gap-y-1">
         <div>
           <p className="font-display text-4xl font-extrabold leading-none" style={{ color: depasse ? "#FCD34D" : "#FAF6F0" }}>
-            {raised.toLocaleString("fr-FR")} €
+            {raised.toLocaleString(localeApp())} €
           </p>
           <p className="mt-1 text-sm text-[#FAF6F0]/60">collectés à ce jour</p>
         </div>
         <div className="text-right">
           <p className="font-display text-2xl font-extrabold leading-none text-[#EBA94D]">{percent}%</p>
           <p className="mt-1 text-sm text-[#FAF6F0]/60">
-            {depasse ? `du 2e palier de ${cible.toLocaleString("fr-FR")} €` : `de l'objectif de ${obj.toLocaleString("fr-FR")} €`}
+            {depasse ? `du 2e palier de ${cible.toLocaleString(localeApp())} €` : `de l'objectif de ${obj.toLocaleString(localeApp())} €`}
           </p>
         </div>
       </div>
@@ -109,7 +110,7 @@ export function MissionProgress({
           {/* 1er palier : acquis, barre pleine */}
           <div>
             <div className="flex items-center justify-between text-xs font-semibold text-[#FAF6F0]/60">
-              <span>1er palier · {obj.toLocaleString("fr-FR")} €</span>
+              <span>1er palier · {obj.toLocaleString(localeApp())} €</span>
               <span className="inline-flex items-center gap-1 font-bold text-[#FCD34D]">
                 <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth={2.6} aria-hidden>
                   <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
@@ -124,7 +125,7 @@ export function MissionProgress({
           {/* 2e palier : en cours */}
           <div>
             <div className="flex items-center justify-between text-xs font-semibold text-[#FAF6F0]/60">
-              <span>2e palier · {cible.toLocaleString("fr-FR")} €</span>
+              <span>2e palier · {cible.toLocaleString(localeApp())} €</span>
               <span className="font-bold text-[#EBA94D]">{percent} %</span>
             </div>
             <div className="mt-1.5 h-3 overflow-hidden rounded-full bg-white/10">

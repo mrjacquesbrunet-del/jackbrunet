@@ -126,6 +126,27 @@ function fichiers(dir) {
 }
 
 for (const f of fichiers(RACINE)) parcourt(f);
+
+// Valeurs de contenus affichées telles quelles (titres des plans, catégories
+// et époques qui servent aussi de filtres) : traduites par le dictionnaire.
+const VALEURS_CONTENU = {
+  plans: ["title", "subtitle"],
+  quiz: ["category"],
+  "questions-faq": ["category"],
+  chrono: ["era"],
+};
+for (const [f, cles] of Object.entries(VALEURS_CONTENU)) {
+  const j = JSON.parse(fs.readFileSync(`content/${f}.json`, "utf8"));
+  const go = (x) => {
+    if (Array.isArray(x)) x.forEach(go);
+    else if (x && typeof x === "object")
+      for (const [k, v] of Object.entries(x)) {
+        if (typeof v === "string" && cles.includes(k) && lisible(v)) ajoute(v, `content/${f}.json`);
+        else go(v);
+      }
+  };
+  go(j);
+}
 const obj = Object.fromEntries([...resultat.entries()].sort((a, b) => a[0].localeCompare(b[0], "fr")));
 fs.mkdirSync(path.dirname(SORTIE), { recursive: true });
 fs.writeFileSync(SORTIE, JSON.stringify(obj, null, 1) + "\n");

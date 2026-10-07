@@ -1,6 +1,7 @@
 "use client";
 
 import { getSupabase } from "./supabase";
+import { localeApp } from "./i18n";
 
 /**
  * Les Bâtisseurs : les membres qui soutiennent l'app (achat intégré).
@@ -58,8 +59,8 @@ export function dateZoom(iso?: string | null): string {
   if (!iso) return "";
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return "";
-  const jour = d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
-  const heure = d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }).replace(":", " h ");
+  const jour = d.toLocaleDateString(localeApp(), { weekday: "long", day: "numeric", month: "long" });
+  const heure = d.toLocaleTimeString(localeApp(), { hour: "2-digit", minute: "2-digit" }).replace(":", " h ");
   return `${jour} à ${heure}`;
 }
 

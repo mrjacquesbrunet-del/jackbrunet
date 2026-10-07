@@ -32,6 +32,7 @@ import {
   COMMENT_REACTIONS,
   type CommentReaction,
 } from "@/lib/community";
+import { localeApp } from "@/lib/i18n";
 
 const VIS_LABEL: Record<string, string> = { public: "Public", friends: "Abonnés", private: "Privé" };
 
@@ -116,7 +117,7 @@ function PinIcon({ className }: { className?: string }) {
 }
 
 function when(iso: string) {
-  return new Date(iso).toLocaleString("fr-FR", {
+  return new Date(iso).toLocaleString(localeApp(), {
     day: "numeric",
     month: "short",
     hour: "2-digit",

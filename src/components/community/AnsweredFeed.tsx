@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { listAnsweredPrayers, type Prayer } from "@/lib/community";
 import { Avatar } from "@/components/community/Avatar";
+import { localeApp } from "@/lib/i18n";
 
 function when(iso: string) {
   const d = new Date(iso);
-  return d.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+  return d.toLocaleDateString(localeApp(), { day: "numeric", month: "long", year: "numeric" });
 }
 
 export function AnsweredFeed() {

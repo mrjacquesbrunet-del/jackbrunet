@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import type { AgendaEvent } from "@/lib/types";
+import { localeApp } from "@/lib/i18n";
 
 const TYPE_LABEL: Record<string, string> = {
   live: "En ligne",
@@ -55,7 +56,7 @@ export function EventsView({ events }: { events: AgendaEvent[] }) {
   // Groupe par mois (ex. "Juillet 2026")
   const groups: { label: string; items: { e: AgendaEvent; d: Date }[] }[] = [];
   for (const item of agenda) {
-    const label = item.d.toLocaleDateString("fr-FR", { month: "long", year: "numeric" });
+    const label = item.d.toLocaleDateString(localeApp(), { month: "long", year: "numeric" });
     let g = groups.find((x) => x.label === label);
     if (!g) {
       g = { label, items: [] };
@@ -148,7 +149,7 @@ export function EventsView({ events }: { events: AgendaEvent[] }) {
                             <div className="text-center leading-none">
                               <span className="block text-2xl font-extrabold">{d.getDate()}</span>
                               <span className="block text-[10px] font-bold uppercase">
-                                {d.toLocaleDateString("fr-FR", { month: "short" })}
+                                {d.toLocaleDateString(localeApp(), { month: "short" })}
                               </span>
                             </div>
                           </div>

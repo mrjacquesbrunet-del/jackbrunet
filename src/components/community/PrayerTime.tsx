@@ -24,6 +24,7 @@ import {
 import { listBlockedIds } from "@/lib/moderation";
 import { bumpAchv, markDayStreak } from "@/lib/achievements";
 import { checkLocalBadges } from "@/lib/badges";
+import { localeApp } from "@/lib/i18n";
 
 /**
  * « Temps de prière » — mode plein écran, focus total :
@@ -47,7 +48,7 @@ function whenLabel(iso: string): string {
   if (d <= 0) return "aujourd'hui";
   if (d === 1) return "hier";
   if (d <= 14) return `il y a ${d} j`;
-  return new Date(iso).toLocaleDateString("fr-FR", { day: "numeric", month: "short" });
+  return new Date(iso).toLocaleDateString(localeApp(), { day: "numeric", month: "short" });
 }
 
 /** Taille de texte adaptée à la longueur du sujet (tout doit tenir à l'écran). */

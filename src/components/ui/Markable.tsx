@@ -16,6 +16,7 @@ import {
   BookmarkFilledGlyph,
   PenGlyph,
 } from "@/components/ui/DevoIcons";
+import { localeApp } from "@/lib/i18n";
 
 const chip =
   "inline-flex items-center gap-1.5 rounded-full border border-night-900/15 bg-white px-3 py-1.5 text-xs font-semibold text-night-900/80 transition-colors hover:border-night-900/30";
@@ -79,7 +80,7 @@ export function Markable({
     if (existingNote) {
       updateNote(existingNote.id, { body: noteText.trim() });
     } else {
-      const dateStr = new Date().toLocaleDateString("fr-FR", {
+      const dateStr = new Date().toLocaleDateString(localeApp(), {
         day: "numeric",
         month: "long",
         year: "numeric",

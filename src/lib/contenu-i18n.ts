@@ -12,8 +12,75 @@ import { getLangue, type Langue } from "./i18n";
  * chargée à la demande. Tant qu'elle n'est pas là, le français s'affiche.
  */
 
-export type FichierContenu = "devotions" | "formations" | "etudes" | "reading-plan";
-export const FICHIERS_CONTENU: FichierContenu[] = ["devotions", "formations", "etudes", "reading-plan"];
+export type FichierContenu =
+  | "devotions"
+  | "formations"
+  | "etudes"
+  | "reading-plan"
+  | "plans"
+  | "quiz"
+  | "vraifaux"
+  | "whoami"
+  | "chronologie-biblique"
+  | "chrono"
+  | "verses"
+  | "moods"
+  | "prayer-focus"
+  | "questions-faq";
+export const FICHIERS_CONTENU: FichierContenu[] = [
+  "devotions",
+  "formations",
+  "etudes",
+  "reading-plan",
+  "plans",
+  "quiz",
+  "vraifaux",
+  "whoami",
+  "chronologie-biblique",
+  "chrono",
+  "verses",
+  "moods",
+  "prayer-focus",
+  "questions-faq",
+];
+
+/**
+ * Données françaises importées par un module (quiz, jeux…) : à l'arrivée de
+ * la traduction, leurs textes sont remplacés SUR PLACE (mêmes objets), ce
+ * qui traduit aussi les constantes du module qui pointent dessus. `apres`
+ * recalcule ce qui en a été copié.
+ */
+const enregistres = new Map<FichierContenu, { data: unknown; apres?: () => void }>();
+export function enregistrerContenu(f: FichierContenu, data: unknown, apres?: () => void): void {
+  enregistres.set(f, { data, apres });
+  if (typeof window === "undefined") return;
+  const l = getLangue();
+  const deja = l === "fr" ? undefined : charges.get(cle(l, f));
+  if (deja) appliquer(f, deja);
+}
+const appliques = new Set<FichierContenu>();
+function remplacer(fr: unknown, tr: unknown): void {
+  if (Array.isArray(fr) && Array.isArray(tr)) {
+    fr.forEach((v, i) => {
+      if (typeof v === "string" && typeof tr[i] === "string") fr[i] = tr[i];
+      else remplacer(v, tr[i]);
+    });
+  } else if (fr && typeof fr === "object" && tr && typeof tr === "object") {
+    const o = fr as Record<string, unknown>;
+    const t = tr as Record<string, unknown>;
+    for (const k of Object.keys(o)) {
+      if (typeof o[k] === "string" && typeof t[k] === "string") o[k] = t[k];
+      else remplacer(o[k], t[k]);
+    }
+  }
+}
+function appliquer(f: FichierContenu, tr: unknown): void {
+  const e = enregistres.get(f);
+  if (!e || appliques.has(f) || !tr) return;
+  appliques.add(f);
+  remplacer(e.data, tr);
+  e.apres?.();
+}
 
 const charges = new Map<string, unknown>();
 const enCours = new Map<string, Promise<unknown>>();
@@ -33,6 +100,7 @@ export function chargerContenu(l: Langue, f: FichierContenu): Promise<unknown> {
       .catch(() => null)
       .then((j) => {
         charges.set(k, j);
+        if (j) appliquer(f, j);
         return j;
       });
     enCours.set(k, p);

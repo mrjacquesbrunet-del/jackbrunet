@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { localeApp } from "@/lib/i18n";
 
 /** Affiche la date du jour (recalculée dans le navigateur, donc juste à minuit). */
 export function TodayLabel({ initial }: { initial: string }) {
   const [label, setLabel] = useState(initial);
   useEffect(() => {
     setLabel(
-      new Date().toLocaleDateString("fr-FR", {
+      new Date().toLocaleDateString(localeApp(), {
         weekday: "long",
         day: "numeric",
         month: "long",

@@ -9,6 +9,7 @@ import { LieuCarte } from "@/components/bible/LieuCarte";
 import { FicheSheet, Medaillon, TexteAvecRefs, getFiches, type FichesData } from "@/components/bible/FichesChapitre";
 import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
 import frise from "../../../content/chronologie-biblique.json";
+import { enregistrerContenu } from "@/lib/contenu-i18n";
 
 /**
  * FRISE CHRONOLOGIQUE — page cachée de l'Étude biblique (section Explorer).
@@ -35,6 +36,7 @@ type Evenement = {
   txt: string;
 };
 const DATA = frise as { periodes: Record<Testament, Periode[]>; evenements: Evenement[] };
+enregistrerContenu("chronologie-biblique", frise);
 const MEMO = "jb.frise.v1";
 
 export function FriseChronologique() {

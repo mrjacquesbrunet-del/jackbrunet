@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { getMissionStats } from "@/lib/mission";
 import { MISSION_PALIER_2 } from "@/components/mission/MissionProgress";
+import { localeApp } from "@/lib/i18n";
 
 /**
  * Titre de la section « Objectif » : tant que la collecte est en cours il
@@ -53,11 +54,11 @@ export function MissionObjectiveHeader({
           Chaque euro <span className="text-[#E0892B]">compte&nbsp;!</span>
         </h2>
         <p className="mt-4 text-base leading-relaxed text-[#FAF6F0]/70 sm:text-lg">
-          Les {obj.toLocaleString("fr-FR")}&nbsp;€ n&apos;étaient que le{" "}
+          Les {obj.toLocaleString(localeApp())}&nbsp;€ n&apos;étaient que le{" "}
           <strong className="font-bold text-[#FAF6F0]">premier palier</strong>. Sur place,{" "}
           <strong className="font-bold text-[#FAF6F0]">les besoins sont immenses</strong> — cap
           maintenant sur les{" "}
-          <strong className="font-bold text-[#EBA94D]">{MISSION_PALIER_2.toLocaleString("fr-FR")} €</strong>&nbsp;:
+          <strong className="font-bold text-[#EBA94D]">{MISSION_PALIER_2.toLocaleString(localeApp())} €</strong>&nbsp;:
           grâce à vos dons, nous pourrons participer activement à donner accès à{" "}
           <strong className="font-bold text-[#FAF6F0]">l&apos;eau</strong> et à{" "}
           <strong className="font-bold text-[#FAF6F0]">l&apos;électricité</strong>, et à refaire
@@ -71,7 +72,7 @@ export function MissionObjectiveHeader({
     <>
       <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#EBA94D]">Objectif</span>
       <h2 className="mt-3 font-display text-3xl font-extrabold sm:text-4xl">
-        Notre objectif&nbsp;: <span className="text-[#E0892B]">{obj.toLocaleString("fr-FR")} €</span>
+        Notre objectif&nbsp;: <span className="text-[#E0892B]">{obj.toLocaleString(localeApp())} €</span>
       </h2>
       <p className="mt-4 text-base leading-relaxed text-[#FAF6F0]/70 sm:text-lg">
         Cette mission a un coût: déplacements, logistique sur place, et soutien direct aux

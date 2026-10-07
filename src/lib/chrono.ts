@@ -1,6 +1,7 @@
 "use client";
 
 import data from "../../content/chrono.json";
+import { enregistrerContenu } from "./contenu-i18n";
 
 /**
  * « La Chronologie » : deux événements bibliques, lequel est arrivé en
@@ -20,6 +21,13 @@ export type ChronoEvent = {
 
 const RAW = (data as { items: { id: number; label: string; era: string; ref: string }[] }).items;
 export const CHRONO_EVENTS: ChronoEvent[] = RAW.map((e, i) => ({ ...e, order: i }));
+// Dans la langue de l'app : textes traduits recopiés dans les événements.
+enregistrerContenu("chrono", data, () =>
+  CHRONO_EVENTS.forEach((e, i) => {
+    e.label = RAW[i].label;
+    e.ref = RAW[i].ref;
+  }),
+);
 
 export const CHRONO_ROUNDS = 10;
 export const CHRONO_TIME = 12; // secondes par paire

@@ -21,6 +21,7 @@ import {
   type Conversation,
   type Message,
 } from "@/lib/messages";
+import { localeApp } from "@/lib/i18n";
 
 /** Date discrète d'une conversation : heure si aujourd'hui, « hier », puis
  * « il y a X j », puis la date courte. */
@@ -29,13 +30,13 @@ function convoWhen(iso: string): string {
   if (!Number.isFinite(d.getTime())) return "";
   const now = new Date();
   if (d.toDateString() === now.toDateString())
-    return d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+    return d.toLocaleTimeString(localeApp(), { hour: "2-digit", minute: "2-digit" });
   const yesterday = new Date(now);
   yesterday.setDate(now.getDate() - 1);
   if (d.toDateString() === yesterday.toDateString()) return "hier";
   const days = Math.floor((now.getTime() - d.getTime()) / 86_400_000);
   if (days <= 7) return `il y a ${days} j`;
-  return d.toLocaleDateString("fr-FR", { day: "numeric", month: "short" });
+  return d.toLocaleDateString(localeApp(), { day: "numeric", month: "short" });
 }
 
 /** Étiquette de jour dans le fil : « Aujourd'hui », « Hier », « 12 août ». */
@@ -46,7 +47,7 @@ function dayLabel(iso: string): string {
   const yesterday = new Date(now);
   yesterday.setDate(now.getDate() - 1);
   if (d.toDateString() === yesterday.toDateString()) return "Hier";
-  return d.toLocaleDateString("fr-FR", {
+  return d.toLocaleDateString(localeApp(), {
     day: "numeric",
     month: "long",
     ...(d.getFullYear() !== now.getFullYear() ? { year: "numeric" as const } : {}),

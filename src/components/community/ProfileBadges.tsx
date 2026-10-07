@@ -13,6 +13,7 @@ import {
   type HonorKind,
   bestTier,
 } from "@/lib/badges";
+import { localeApp } from "@/lib/i18n";
 
 /** Comment remporter chaque TITRE (affiché quand on touche le médaillon). */
 const HONOR_HOW: Record<HonorKind, string> = {
@@ -616,8 +617,8 @@ function BadgesVitrine({ data, onClose }: { data: ProfileBadges; onClose: () => 
               {sel.tier ? BADGE_HOW_TO[sel.kind] : `Comment l'obtenir : ${BADGE_HOW_TO[sel.kind]}`}
             </p>
             <p className="mt-2 text-xs font-semibold text-cream/55">
-              Ta progression : {sel.count.toLocaleString("fr-FR")} {sel.detail}
-              {sel.next ? ` · prochain palier à ${sel.next.toLocaleString("fr-FR")}` : " · palier maximum atteint"}
+              Ta progression : {sel.count.toLocaleString(localeApp())} {sel.detail}
+              {sel.next ? ` · prochain palier à ${sel.next.toLocaleString(localeApp())}` : " · palier maximum atteint"}
             </p>
             <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10">
               <div

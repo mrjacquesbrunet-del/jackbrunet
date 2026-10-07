@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react";
 import { PrayerMark } from "@/components/ui/PrayerMark";
 import focusData from "../../../content/prayer-focus.json";
+import { enregistrerContenu, useContenu } from "@/lib/contenu-i18n";
 
 type Focus = { theme: string; text: string; verse: string; reference: string };
 
 const ITEMS = focusData.items as Focus[];
+enregistrerContenu("prayer-focus", focusData);
 
 /** Numéro de semaine ISO (pour faire tourner le focus chaque semaine). */
 function isoWeek(d: Date): number {
@@ -31,6 +33,8 @@ function isoWeek(d: Date): number {
  * le verset visible.
  */
 export function PrayerFocus() {
+  // Réaffiche quand la traduction (anglais, portugais) arrive.
+  useContenu("prayer-focus");
   const [index, setIndex] = useState(0);
 
   useEffect(() => {

@@ -1,6 +1,7 @@
 "use client";
 
 import data from "../../content/vraifaux.json";
+import { enregistrerContenu } from "./contenu-i18n";
 
 export type VFItem = {
   id: number;
@@ -11,6 +12,7 @@ export type VFItem = {
 };
 
 export const VF_ITEMS: VFItem[] = (data as { items: VFItem[] }).items;
+enregistrerContenu("vraifaux", data);
 export const VF_LIVES = 3;
 export const VF_TIME = 9; // secondes par affirmation
 

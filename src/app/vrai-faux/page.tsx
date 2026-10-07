@@ -3,6 +3,7 @@
 import { Suspense } from "react";
 import { VraiFauxScreen } from "@/components/games/VraiFauxScreen";
 import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
+import { AvecContenus } from "@/components/i18n/AvecContenus";
 
 export default function VraiFauxPage() {
   return (
@@ -11,7 +12,9 @@ export default function VraiFauxPage() {
       <div className="relative">
         {/* Suspense requis : l'écran lit ?duel=CODE (lien de défi en direct). */}
         <Suspense fallback={null}>
-          <VraiFauxScreen />
+          <AvecContenus fichiers={["vraifaux"]}>
+            <VraiFauxScreen />
+          </AvecContenus>
         </Suspense>
       </div>
     </main>

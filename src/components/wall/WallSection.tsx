@@ -25,6 +25,7 @@ import {
   type WallVisibility,
 } from "@/lib/wall";
 import { TexteMembre } from "@/components/community/VoirTraduction";
+import { localeApp } from "@/lib/i18n";
 
 /**
  * LE MUR : le cœur social du profil, façon page Facebook.
@@ -42,7 +43,7 @@ function timeAgo(iso: string): string {
   if (s < 3600) return `il y a ${Math.floor(s / 60)} min`;
   if (s < 86400) return `il y a ${Math.floor(s / 3600)} h`;
   if (s < 7 * 86400) return `il y a ${Math.floor(s / 86400)} j`;
-  return new Date(iso).toLocaleDateString("fr-FR", { day: "numeric", month: "short" });
+  return new Date(iso).toLocaleDateString(localeApp(), { day: "numeric", month: "short" });
 }
 
 const PLATFORM_LABEL: Record<string, string> = {

@@ -1,6 +1,8 @@
 "use client";
 
 import quizData from "../../content/quiz.json";
+import { enregistrerContenu } from "./contenu-i18n";
+import { localeApp } from "./i18n";
 
 export type QuizQuestion = {
   id: number;
@@ -14,6 +16,8 @@ export type QuizQuestion = {
 };
 
 export const QUIZ: QuizQuestion[] = (quizData as { items: QuizQuestion[] }).items;
+// Questions dans la langue de l'app (traduites sur place à leur arrivée).
+enregistrerContenu("quiz", quizData);
 
 /** Échelle des gains — 30 paliers, du plus facile au million. */
 export const LADDER = [
@@ -217,7 +221,7 @@ export function markDailyDone(): { streak: number } {
 
 /** Formatte un montant : 1 000 000 → « 1 000 000 ». */
 export function formatCoins(n: number): string {
-  return Math.round(n).toLocaleString("fr-FR").replace(/ /g, " ");
+  return Math.round(n).toLocaleString(localeApp()).replace(/ /g, " ");
 }
 
 /* ---------------- État local (appareil) ---------------- */

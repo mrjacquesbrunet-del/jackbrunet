@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { FriseChronologique } from "@/components/ecole/FriseChronologique";
+import { AvecContenus } from "@/components/i18n/AvecContenus";
 
 export const metadata: Metadata = {
   title: "Frise chronologique de la Bible",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function FrisePage() {
-  return <FriseChronologique />;
+  return (
+    <AvecContenus fichiers={["chronologie-biblique"]}>
+      <FriseChronologique />
+    </AvecContenus>
+  );
 }

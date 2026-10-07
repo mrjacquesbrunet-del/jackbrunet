@@ -57,6 +57,7 @@ import { YEAR_PLAN_SLUG, YEAR_PLAN_DAYS } from "@/lib/year-plan";
 import { gradeFor, type Activity } from "@/lib/grades";
 import { ACCENTS, type AccentKey, useProfileAccent } from "@/lib/profile-accent";
 import { siteConfig } from "@/config/site";
+import { localeApp } from "@/lib/i18n";
 
 /** Couleur du cadre d'avatar selon le grade (bronze → argent → or). */
 function gradeRing(gradeName: string): string {
@@ -1154,7 +1155,7 @@ function Profile({
                 </p>
                 <div className="mt-2 flex items-center justify-between gap-3">
                   <p className="text-xs text-cream/45">
-                    {new Date(p.created_at).toLocaleDateString("fr-FR")} ·{" "}
+                    {new Date(p.created_at).toLocaleDateString(localeApp())} ·{" "}
                     {p.visibility === "public"
 ? "Public"
 : p.visibility === "friends"

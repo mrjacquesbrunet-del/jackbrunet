@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ChronoScreen } from "@/components/games/ChronoScreen";
 import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
+import { AvecContenus } from "@/components/i18n/AvecContenus";
 
 export const metadata: Metadata = {
   title: "La Chronologie",
@@ -13,7 +14,9 @@ export default function ChronologiePage() {
     <main className="relative min-h-[100dvh]">
       <PlansDarkBg />
       <div className="relative">
-        <ChronoScreen />
+        <AvecContenus fichiers={["chrono"]}>
+          <ChronoScreen />
+        </AvecContenus>
       </div>
     </main>
   );

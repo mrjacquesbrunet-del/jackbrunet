@@ -1,6 +1,7 @@
 "use client";
 
 import data from "../../content/whoami.json";
+import { enregistrerContenu } from "./contenu-i18n";
 
 export type WhoItem = {
   id: number;
@@ -10,6 +11,7 @@ export type WhoItem = {
 };
 
 export const WHO_ITEMS: WhoItem[] = (data as { items: WhoItem[] }).items;
+enregistrerContenu("whoami", data);
 export const WHO_LEVELS = ["Facile", "Moyen", "Difficile", "Hard"];
 export const WHO_ROUND = 6; // personnages par partie
 export const WHO_MAX_CLUES = 4;

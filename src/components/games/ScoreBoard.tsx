@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { fetchGameLeaderboard, fetchTotalLeaderboard, fetchWeeklyLeague, currentUserId, type GameId, type ScoreRow } from "@/lib/game-scores";
+import { localeApp } from "@/lib/i18n";
 
 /** Thèmes du podium : or (1er), argent (2e), bronze (3e). */
 const PODIUM = [
@@ -32,7 +33,7 @@ function fmtShort(n: number) {
 }
 function fmtFull(n: number) {
   try {
-    return n.toLocaleString("fr-FR").replace(/ | /g, " ");
+    return n.toLocaleString(localeApp()).replace(/ | /g, " ");
   } catch {
     return String(n);
   }

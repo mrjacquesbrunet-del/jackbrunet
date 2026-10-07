@@ -27,6 +27,7 @@ import {
   BookmarkFilledGlyph,
   PenGlyph,
 } from "@/components/ui/DevoIcons";
+import { localeApp } from "@/lib/i18n";
 
 /**
  * La feuille d'ÉTUDE DU VERSET : rangée de surlignage en tête, puis trois
@@ -186,7 +187,7 @@ export function VersetOutils({
     if (existingNote) {
       updateNote(existingNote.id, { body: noteText.trim() });
     } else {
-      const dateStr = new Date().toLocaleDateString("fr-FR", {
+      const dateStr = new Date().toLocaleDateString(localeApp(), {
         day: "numeric",
         month: "long",
         year: "numeric",

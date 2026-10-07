@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import moodsData from "../../../content/moods.json";
+import { enregistrerContenu, useContenu } from "@/lib/contenu-i18n";
 
 type MoodEntry = { verse: string; ref: string };
 type Mood = { id: string; label: string; entries: MoodEntry[] };
@@ -42,7 +43,8 @@ function MoodIcon({ id, className }: { id: string; className?: string }) {
 }
 
 const MOODS = (moodsData as { question: string; moods: Mood[] }).moods;
-const QUESTION = (moodsData as { question: string }).question;
+enregistrerContenu("moods", moodsData);
+const lireQuestion = () => (moodsData as { question: string }).question;
 
 const KEY = "jb.mood.v1";
 
@@ -81,6 +83,8 @@ function save(s: Saved) {
  * d'en changer ou de recevoir une autre parole.
  */
 export function MoodCheckin() {
+  // Réaffiche quand la traduction (anglais, portugais) arrive.
+  useContenu("moods");
   const [picked, setPicked] = useState<Saved | null>(null);
   const [ready, setReady] = useState(false);
   // Replié par défaut : une simple ligne discrète, les humeurs ne s'ouvrent
@@ -134,7 +138,7 @@ export function MoodCheckin() {
         <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-dawn-400/15 text-dawn-300">
           <MoodIcon id="reconnaissant" className="h-4 w-4" />
         </span>
-        <span className="min-w-0 flex-1 text-sm font-bold">{QUESTION}</span>
+        <span className="min-w-0 flex-1 text-sm font-bold">{lireQuestion()}</span>
         <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 fill-none stroke-cream/50" strokeWidth={2} aria-hidden>
           <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
@@ -150,7 +154,7 @@ export function MoodCheckin() {
         <div className="relative">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <p className="font-display text-lg font-extrabold">{QUESTION}</p>
+              <p className="font-display text-lg font-extrabold">{lireQuestion()}</p>
               <p className="mt-0.5 text-xs text-cream/55">
                 Dieu a une parole pour chaque saison du cœur.
               </p>

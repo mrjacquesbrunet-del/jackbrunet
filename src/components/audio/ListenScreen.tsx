@@ -23,13 +23,14 @@ import {
   offlineFilePaths,
 } from "@/lib/bible-offline";
 import { PlayGlyph, PauseGlyph, HeadphonesGlyph } from "@/components/ui/DevoIcons";
+import { localeApp } from "@/lib/i18n";
 
 const FAV_KEY = "jb.podcast.favs.v1";
 const DUR_KEY = "jb.podcast.dur.v1";
 
 function when(iso?: string): string {
   if (!iso) return "";
-  return new Date(iso).toLocaleDateString("fr-FR", { day: "numeric", month: "long" });
+  return new Date(iso).toLocaleDateString(localeApp(), { day: "numeric", month: "long" });
 }
 
 export function ListenScreen() {

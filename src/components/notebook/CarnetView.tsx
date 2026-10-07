@@ -21,6 +21,7 @@ import {
   type Note,
   type NoteCategory,
 } from "@/lib/notebook";
+import { localeApp } from "@/lib/i18n";
 
 const KIND_LABEL: Record<string, string> = {
   verset: "Verset",
@@ -36,7 +37,7 @@ const FILTERS = ["Tout", "Méditations", "Versets", "Paroles fortes", "Publicati
 type Filter = (typeof FILTERS)[number];
 
 const fmt = (ts: number) =>
-  new Date(ts).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+  new Date(ts).toLocaleDateString(localeApp(), { day: "numeric", month: "long", year: "numeric" });
 
 type Item =
   | { t: "note"; key: string; ts: number; note: Note }

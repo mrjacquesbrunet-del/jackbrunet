@@ -27,6 +27,7 @@ import {
   type PlanDuo,
 } from "@/lib/plan-duo";
 import type { ThemePlan } from "@/lib/types";
+import { useContenu } from "@/lib/contenu-i18n";
 
 /** Photo de l'auteur (bucket public « audiovf »), repli monogramme. */
 const AVATARS = (() => {
@@ -95,12 +96,17 @@ function IconBtn({
 }
 
 export function PlanView({
-  plan,
+  plan: planFr,
   audioMap = {},
 }: {
   plan: ThemePlan;
   audioMap?: Record<string, string>;
 }) {
+  // Plan dans la langue de l'app (anglais, portugais) dès que sa traduction
+  // est chargée ; la narration audio n'existe qu'en français.
+  const plansTr = useContenu<{ items: ThemePlan[] }>("plans");
+  const plan = plansTr?.items?.find((p) => p.slug === planFr.slug) ?? planFr;
+  if (plansTr) audioMap = {};
   const progress = usePlanProgress(plan.slug);
   const { userId } = useAuth();
   const total = plan.days.length;

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import faq from "../../../content/questions-faq.json";
+import { enregistrerContenu } from "@/lib/contenu-i18n";
 import { getSupabase } from "../../lib/supabase";
 import { DEFAULT_AUTHOR } from "../../config/author";
 import {
@@ -16,6 +17,7 @@ import {
 
 type Item = { id: number; category: string; q: string; a: string; verse: string; evidence?: string };
 const ITEMS = (faq as { items: Item[] }).items;
+enregistrerContenu("questions-faq", faq);
 const CATEGORIES = Array.from(new Set(ITEMS.map((i) => i.category)));
 
 /** Première question d'une catégorie (pour la vedette / le top). */

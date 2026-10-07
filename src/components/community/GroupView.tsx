@@ -47,6 +47,7 @@ import {
 } from "@/lib/groups";
 import { VoiceRecorderButton, VoiceNotePlayer } from "@/components/community/VoiceNote";
 import { voiceExpired } from "@/lib/voice";
+import { localeApp } from "@/lib/i18n";
 
 const BG = "rgb(var(--n-950))";
 const fieldDark =
@@ -57,7 +58,7 @@ function timeAgo(iso: string): string {
   if (s < 60) return "à l'instant";
   if (s < 3600) return `${Math.floor(s / 60)} min`;
   if (s < 86400) return `${Math.floor(s / 3600)} h`;
-  return new Date(iso).toLocaleDateString("fr-FR", { day: "numeric", month: "short" });
+  return new Date(iso).toLocaleDateString(localeApp(), { day: "numeric", month: "short" });
 }
 
 function Avatar({ name, url }: { name?: string | null; url?: string | null }) {

@@ -151,6 +151,13 @@ export function useLangue(): Langue {
   return l;
 }
 
+/** Format des dates et des nombres de la langue de l'app (fr-FR, en-US, pt-BR). */
+export function localeApp(): string {
+  if (typeof window === "undefined") return "fr-FR";
+  const l = getLangue();
+  return l === "en" ? "en-US" : l === "pt" ? "pt-BR" : "fr-FR";
+}
+
 /** Podcasts et vidéos n'existent qu'en français. */
 export function contenuAudioVideoDispo(l: Langue): boolean {
   return l === "fr";

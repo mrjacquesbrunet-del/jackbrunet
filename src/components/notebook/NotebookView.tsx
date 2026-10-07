@@ -12,6 +12,7 @@ import {
 } from "@/lib/notebook";
 import { BookGlyph, NoteGlyph } from "@/components/ui/DevoIcons";
 import { PrayerMark } from "@/components/ui/PrayerMark";
+import { localeApp } from "@/lib/i18n";
 
 const CAT_ICON: Record<NoteCategory, (p: { className?: string }) => React.ReactElement> = {
   Prière: PrayerMark,
@@ -25,7 +26,7 @@ const CAT_LABEL: Record<NoteCategory, string> = {
 };
 
 const fmt = (ts: number) =>
-  new Date(ts).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+  new Date(ts).toLocaleDateString(localeApp(), { day: "numeric", month: "long", year: "numeric" });
 
 export function NotebookView() {
   const notes = useNotebook();

@@ -33,6 +33,7 @@ import {
 } from "@/lib/community";
 import { gradeFor, type Activity } from "@/lib/grades";
 import { WallSection } from "@/components/wall/WallSection";
+import { localeApp } from "@/lib/i18n";
 
 export function MemberView() {
   const params = useSearchParams();
@@ -415,7 +416,7 @@ export function MemberView() {
                   {p.body}
                 </p>
                 <p className="mt-2 text-xs text-cream/45">
-                  {new Date(p.created_at).toLocaleDateString("fr-FR")}
+                  {new Date(p.created_at).toLocaleDateString(localeApp())}
                   {p.answered? " · Exaucé": ""}
                 </p>
               </li>
