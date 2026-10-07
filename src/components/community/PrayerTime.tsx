@@ -5,6 +5,7 @@ import { Avatar } from "@/components/community/Avatar";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { PrayerMark } from "@/components/ui/PrayerMark";
 import { VoiceNotePlayer } from "@/components/community/VoiceNote";
+import { useVoirTraduction } from "@/components/community/VoirTraduction";
 import {
   voiceExpired,
   canRecordVoice,
@@ -485,9 +486,7 @@ export function PrayerTime({ userId, onClose }: { userId: string; onClose: () =>
                 </div>
 
                 {/* Le sujet, au centre, en grand (taille adaptée à sa longueur) */}
-                <p className={`mt-6 text-balance text-center font-display font-bold ${bodySizeClass(p.body)}`}>
-                  {p.body}
-                </p>
+                <SujetTraduisible texte={p.body} />
                 {p.audio_url && !voiceExpired(p.created_at) ? (
                   <div className="mx-auto mt-5 max-w-xs">
                     <VoiceNotePlayer src={p.audio_url} />
@@ -821,5 +820,19 @@ function CloseX({ onClick }: { onClick: () => void }) {
         <path d="M6 6l12 12M18 6L6 18" />
       </svg>
     </button>
+  );
+}
+
+/** Le sujet en grand, avec « Voir la traduction » s'il est écrit dans une
+ * autre langue que celle de l'app (comme sur le mur). */
+function SujetTraduisible({ texte }: { texte: string }) {
+  const tr = useVoirTraduction(texte, "dark");
+  return (
+    <>
+      <p className={`mt-6 text-balance text-center font-display font-bold ${bodySizeClass(texte)}`} translate="no">
+        {tr.texte}
+      </p>
+      {tr.bouton ? <div className="mt-2 flex justify-center">{tr.bouton}</div> : null}
+    </>
   );
 }
