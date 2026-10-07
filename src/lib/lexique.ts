@@ -1,6 +1,8 @@
 "use client";
 
 import { mediaUrl } from "@/lib/asset";
+import { getLangue } from "./i18n";
+import { traduireEtude } from "./traduction-etude";
 
 /**
  * LEXIQUE GREC / HÉBREU — données servies par le site (public/lexique,
@@ -57,7 +59,19 @@ const cacheIndex = new Map<string, Promise<EntreeIndex[]>>();
 const cacheMots = new Map<string, Promise<Record<string, Mot>>>();
 const cacheConc = new Map<string, Promise<Record<string, Emploi[]>>>();
 
-export const getIndexLexique = () => charger("/lexique/index.json", cacheIndex);
+/** La liste des mots ; hors français, avec le sens court (vedette) traduit. */
+export async function getIndexLexique(): Promise<EntreeIndex[]> {
+  const index = await charger("/lexique/index.json", cacheIndex);
+  const l = getLangue();
+  if (l === "fr") return index;
+  vedettesP ??= fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/i18n/contenu/${l}/lexique-vedettes.json`)
+    .then((r) => (r.ok ? r.json() : null))
+    .catch(() => null)
+    .then((j: { vedettes?: Record<string, string> } | null) => j?.vedettes ?? null);
+  const v = await vedettesP;
+  return v ? index.map((e) => (v[e[0]] ? ([e[0], e[1], e[2], v[e[0]], e[4], e[5]] as EntreeIndex) : e)) : index;
+}
+let vedettesP: Promise<Record<string, string> | null> | null = null;
 
 const cacheVersets = new Map<string, Promise<Record<string, [string, number?, number?][]>>>();
 /** Les mots pleins d'un verset : [code, début, fin] dans le texte de la Segond. */
@@ -68,7 +82,10 @@ export async function getMotsDuVerset(livre: number, chapitre: number, verset: n
 
 export async function getMot(code: string): Promise<Mot | null> {
   const t = await charger(`/lexique/mots/${tranche(code)}.json`, cacheMots);
-  return t[code] ?? null;
+  const fr = t[code] ?? null;
+  // Anglais, portugais : fiche traduite à la demande (sinon le français).
+  if (!fr || getLangue() === "fr") return fr;
+  return (await traduireEtude<Mot>("lexique", code)) ?? fr;
 }
 
 export async function getEmplois(code: string): Promise<Emploi[]> {

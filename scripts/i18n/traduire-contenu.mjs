@@ -60,7 +60,7 @@ const NOMS = { en: "l'anglais (américain neutre)", pt: "le portugais du Brésil
 const CONSIGNE = (l) =>
   `Tu traduis les contenus de RHEMA, application chrétienne évangélique de méditation biblique, de prière et d'étude, ` +
   `du Pasteur Jack Brunet et de Josy W. Brunet, du français vers ${NOMS[l]}. ` +
-  `Ce sont des méditations quotidiennes (thème, verset, punchline, méditation, déclaration), une formation biblique (leçons, quiz), des études bibliques, un plan de lecture de la Bible en un an, des plans de méditation thématiques, les jeux bibliques (quiz, vrai ou faux, qui suis-je, chronologie), les introductions des 66 livres et les fiches des personnages et lieux bibliques avec leurs liens de parenté. Garde exactement le même nom pour un même personnage, lieu ou événement partout (tradition de la Bible de la langue cible).\n\n` +
+  `Ce sont des méditations quotidiennes (thème, verset, punchline, méditation, déclaration), une formation biblique (leçons, quiz), des études bibliques, un plan de lecture de la Bible en un an, des plans de méditation thématiques, les jeux bibliques (quiz, vrai ou faux, qui suis-je, chronologie), les introductions des 66 livres et les fiches des personnages et lieux bibliques avec leurs liens de parenté. Garde exactement le même nom pour un même personnage, lieu ou événement partout (tradition de la Bible de la langue cible). Le fichier « lexique-vedettes » contient le sens court (vedette) de chaque mot grec ou hébreu de la Bible : traduis-le par un sens court équivalent, sans rien ajouter.\n\n` +
   `Règles :\n` +
   `- Garde la voix pastorale, chaleureuse et directe de l'original. Le lecteur est tutoyé : ` +
   (l === "pt" ? `utilise « você », naturel au Brésil.\n` : `utilise « you », naturel et chaleureux.\n`) +
@@ -271,7 +271,8 @@ for (const f of FICHIERS) {
       // Longs textes : une méditation / leçon / étude par requête. Petits
       // éléments (plans, questions des jeux…) : regroupés librement.
       const coupe = ["devotions", "formations", "etudes", "plans", "bible/fiches", "bible/introductions"].includes(f) && unite(lot[0]?.[0] ?? []) !== unite(e[0]);
-      if (lot.length && (mots + m > MOTS_PAR_REQUETE || coupe)) envoyer();
+      // Au plus 300 textes par requête (réponse assez courte pour ne pas être coupée).
+      if (lot.length && (mots + m > MOTS_PAR_REQUETE || coupe || lot.length >= 300)) envoyer();
       lot.push(e);
       mots += m;
     }

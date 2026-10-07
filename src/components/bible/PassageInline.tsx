@@ -5,6 +5,7 @@ import { asset, mediaUrl } from "@/lib/asset";
 import { Markable } from "@/components/ui/Markable";
 import { CommentaryPanel, type Commentary } from "@/components/bible/CommentaryPanel";
 import { resolveRef, getBook } from "@/lib/bible-client";
+import { useCommentaireTraduit } from "@/lib/traduction-etude";
 
 /**
  * Affiche le texte d'un passage (ex. « Philippiens 4:6-7 ») directement, avec
@@ -102,11 +103,29 @@ export function PassageInline({ reference }: { reference: string }) {
               >
                 {open? "Masquer le commentaire": "Commentaire & sens des mots"}
               </button>
-              {open? <CommentaryPanel state={commState} data={comm[n]} />: null}
+              {open && meta ? <CommentaireVerset livre={meta.bookId} chapitre={meta.chapter} verset={n} state={commState} fr={comm[n]} /> : null}
             </div>
           );
         })}
       </div>
     </div>
   );
+}
+
+/** Commentaire d'un verset, traduit à la demande hors français. */
+function CommentaireVerset({
+  livre,
+  chapitre,
+  verset,
+  state,
+  fr,
+}: {
+  livre: number;
+  chapitre: number;
+  verset: number;
+  state: Parameters<typeof CommentaryPanel>[0]["state"];
+  fr: Commentary | undefined;
+}) {
+  const data = useCommentaireTraduit(livre, chapitre, verset, fr);
+  return <CommentaryPanel state={state} data={data} />;
 }

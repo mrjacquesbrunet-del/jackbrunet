@@ -31,6 +31,7 @@ import { useReading, FONT_STACK, THEME_STYLE } from "@/lib/reading-settings";
 import { useAppMode } from "@/lib/app-mode";
 import { getIndex, getBook } from "@/lib/bible-client";
 import { infoVersion, useVersionBible } from "@/lib/bible-version";
+import { useCommentaireTraduit } from "@/lib/traduction-etude";
 
 type BookIndex = { id: number; name: string; chapters: number };
 type Book = { id: number; name: string; chapters: string[][] };
@@ -49,6 +50,8 @@ export function BibleReader() {
   const [commState, setCommState] = useState<"idle" | "loading" | "loaded" | "none">("idle");
   // Feuille d'étude du verset (grille d'outils : grec/hébreu, contexte…)
   const [sheetVerse, setSheetVerse] = useState<number | null>(null);
+  // Commentaire du verset ouvert, traduit à la demande en anglais ou portugais.
+  const commentaireAffiche = useCommentaireTraduit(bookId, chapter, sheetVerse, sheetVerse !== null ? comm[sheetVerse] : undefined);
 
   // Plusieurs versets sélectionnés (appui long) et studio image du partage
   const [selection, setSelection] = useState<number[]>([]);
@@ -921,7 +924,7 @@ export function BibleReader() {
           verse={sheetVerse}
           verseText={verses[sheetVerse - 1]}
           reference={`${book?.name} ${chapter}:${sheetVerse}`}
-          commentary={comm[sheetVerse]}
+          commentary={commentaireAffiche}
           commentaryState={commState}
           bookNames={bookNames}
           onNavigate={lien}
