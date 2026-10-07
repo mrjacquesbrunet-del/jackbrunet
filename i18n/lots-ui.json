@@ -1,4 +1,37 @@
 {
- "lots": [],
- "requetes": {}
+ "lots": [
+  "msgbatch_01QmVC9b4piG71XkcpWb6F3U"
+ ],
+ "requetes": {
+  "en-muxx1yrv-0": [
+   "&ldquo;",
+   "&rdquo;",
+   "{0}/mission-madagascar#soutenir",
+   "Version de la Bible",
+   "sur {0}",
+   "de {0}",
+   "{0}#view=FitH",
+   "Louis Segond 1910",
+   "Louis Segond 1910, domaine public.",
+   "Berean Standard Bible",
+   "The Holy Bible, Berean Standard Bible, BSB, dedicated to the public domain.",
+   "Bíblia Livre",
+   "Bíblia Livre (BLIVRE) © 2018 Diego Santos, Mario Sérgio e Marco Teles, licença Creative Commons Atribuição 4.0 Brasil (CC BY 4.0). Fonte : bibliaportugues.com / eBible.org."
+  ],
+  "pt-muxx1ys5-0": [
+   "&ldquo;",
+   "&rdquo;",
+   "{0}/mission-madagascar#soutenir",
+   "Version de la Bible",
+   "sur {0}",
+   "de {0}",
+   "{0}#view=FitH",
+   "Louis Segond 1910",
+   "Louis Segond 1910, domaine public.",
+   "Berean Standard Bible",
+   "The Holy Bible, Berean Standard Bible, BSB, dedicated to the public domain.",
+   "Bíblia Livre",
+   "Bíblia Livre (BLIVRE) © 2018 Diego Santos, Mario Sérgio e Marco Teles, licença Creative Commons Atribuição 4.0 Brasil (CC BY 4.0). Fonte : bibliaportugues.com / eBible.org."
+  ]
+ }
 }
