@@ -2,9 +2,10 @@ name: Importer les Bibles anglaise et portugaise
 
 # Lancement MANUEL. Télécharge des Bibles libres de droits sur eBible.org et
 # les commite dans public/bible/<dossier>/ :
-#   - Berean Standard Bible (BSB), anglais, domaine public (2023)
+#   - World English Bible (WEB), anglais, domaine public (référence)
+#   - King James Version (KJV), anglais, domaine public
 #   - Bíblia Livre (BLIVRE), portugais du Brésil, CC BY 4.0 (attribution)
-# Dresse aussi la liste des fichiers audio de la BSB (Bob Souer, domaine public CC0).
+# Dresse aussi la liste des fichiers audio libres (chapitre par chapitre).
 
 on:
   workflow_dispatch:
@@ -21,20 +22,35 @@ jobs:
         with:
           node-version: 20
 
-      - name: Berean Standard Bible (anglais)
-        run: node scripts/fetch-bible-version.mjs engbsb bsb en
+      - name: World English Bible (anglais, version de référence)
+        run: node scripts/fetch-bible-version.mjs engwebp web en
+
+      - name: King James Version (anglais)
+        run: node scripts/fetch-bible-version.mjs eng-kjv2006 kjv en
 
       - name: Bíblia Livre (portugais)
         run: node scripts/fetch-bible-version.mjs porbr2018 blivre pt
 
-      - name: Audio BSB (liste des chapitres)
-        run: node scripts/bsb-audio-manifeste.mjs
+      - name: Audio — répertoires à explorer
+        continue-on-error: true
+        run: |
+          for u in https://openbible.com/audio/kjv/ https://ebible.org/eng-web/mp3/ https://ebible.org/webaudio/ https://ebible.org/eng-web/audio/ https://ebible.org/eng-kjv/mp3/ ; do
+            echo "== $u $(curl -s -o /dev/null -w '%{http_code}' -A 'Mozilla/5.0' -L "$u")"
+            curl -s -A 'Mozilla/5.0' -L "$u" | grep -io 'href="[^"]*"' | sed -n '1,12p;$p' || true
+          done
+          curl -s -A 'Mozilla/5.0' -L https://ebible.org/webaudio/mp3.htm | grep -io 'href="[^"]*"' | head -40 || true
+
+      - name: Audio KJV et WEB (listes des chapitres)
+        continue-on-error: true
+        run: |
+          node scripts/audio-manifeste.mjs https://openbible.com/audio/kjv/ kjv
+          node scripts/audio-manifeste.mjs https://ebible.org/eng-web/mp3/ web || true
 
       - name: Commiter
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add public/bible
+          git add -A public/bible
           if git diff --staged --quiet; then echo "Rien à commiter."; else
             git commit -m "chore(bible): Bibles anglaise (BSB) et portugaise (Bíblia Livre) [skip ci]"
             git pull --rebase origin ${GITHUB_REF_NAME}

@@ -75,7 +75,7 @@ export async function resolveRef(reference: string): Promise<Ref | null> {
   // Référence en français, anglais ou portugais (« Jean », « John », « João ») ;
   // le nom rendu est celui de la version lue.
   const courante = getVersionBible();
-  const ordre = [courante, ...(["lsg", "bsb", "blivre"] as VersionBible[]).filter((x) => x !== courante)];
+  const ordre = [courante, ...(["lsg", "web", "blivre"] as VersionBible[]).filter((x) => x !== courante)];
   let found: BookIndex | undefined;
   for (const v of ordre) {
     const idx = await getIndex(v);

@@ -6,13 +6,14 @@ import { getLangue, type Langue } from "./i18n";
 /**
  * VERSIONS DE LA BIBLE — une par langue, toutes libres de droits :
  *   - Louis Segond 1910 (français, domaine public)       → public/bible/
- *   - Berean Standard Bible (anglais, domaine public)     → public/bible/bsb/
+ *   - World English Bible (anglais, domaine public)       → public/bible/web/
+ *   - King James Version (anglais, domaine public)        → public/bible/kjv/
  *   - Bíblia Livre (portugais du Brésil, CC BY 4.0)       → public/bible/blivre/
  * Par défaut, la version de la langue de l'app ; chacun peut en choisir une
  * autre (réglages de lecture), mémorisée sur l'appareil.
  */
 
-export type VersionBible = "lsg" | "bsb" | "blivre";
+export type VersionBible = "lsg" | "web" | "kjv" | "blivre";
 
 export const VERSIONS_BIBLE: {
   id: VersionBible;
@@ -35,13 +36,22 @@ export const VERSIONS_BIBLE: {
     credit: "Louis Segond 1910, domaine public.",
   },
   {
-    id: "bsb",
-    nom: "Berean Standard Bible",
-    abrev: "BSB",
+    id: "web",
+    nom: "World English Bible",
+    abrev: "WEB",
     langue: "en",
-    dossier: "bsb",
+    dossier: "web",
     voix: "en-US",
-    credit: "The Holy Bible, Berean Standard Bible, BSB, dedicated to the public domain.",
+    credit: "World English Bible (WEB), public domain.",
+  },
+  {
+    id: "kjv",
+    nom: "King James Version",
+    abrev: "KJV",
+    langue: "en",
+    dossier: "kjv",
+    voix: "en-US",
+    credit: "King James Version (KJV, 1769), public domain.",
   },
   {
     id: "blivre",
@@ -59,14 +69,14 @@ const CLE = "jb.bible.version";
 const EVT = "jb:bible-version";
 
 export function versionParDefaut(l: Langue = getLangue()): VersionBible {
-  return l === "en" ? "bsb" : l === "pt" ? "blivre" : "lsg";
+  return l === "en" ? "web" : l === "pt" ? "blivre" : "lsg";
 }
 
 export function getVersionBible(): VersionBible {
   if (typeof window === "undefined") return "lsg";
   try {
     const v = localStorage.getItem(CLE);
-    if (v === "lsg" || v === "bsb" || v === "blivre") return v;
+    if (v === "lsg" || v === "web" || v === "kjv" || v === "blivre") return v;
   } catch {
     /* stockage indisponible */
   }
@@ -86,7 +96,7 @@ export function infoVersion(v: VersionBible) {
   return VERSIONS_BIBLE.find((x) => x.id === v) ?? VERSIONS_BIBLE[0];
 }
 
-/** Dossier des fichiers de la version : « /bible » ou « /bible/bsb ». */
+/** Dossier des fichiers de la version : « /bible » ou « /bible/web ». */
 export function baseBible(v: VersionBible = getVersionBible()): string {
   const d = infoVersion(v).dossier;
   return d ? `/bible/${d}` : "/bible";

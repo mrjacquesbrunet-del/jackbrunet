@@ -1,7 +1,7 @@
 "use client";
 
 import { getSupabase } from "./supabase";
-import { getVersionBible } from "./bible-version";
+import { baseBible, getVersionBible, type VersionBible } from "./bible-version";
 import { asset } from "./asset";
 import type { AudioTrack } from "./audio-library";
 import { compressToMonoMp3 } from "./audio-compress";
@@ -22,28 +22,35 @@ export function bibleNarrationKey(bookId: number, chapter: number): string {
   return `bible/${bookId}/${chapter}.mp3`;
 }
 
-/* Berean Standard Bible : narration de Bob Souer (domaine public, CC0),
- * servie par openbible.com ; liste des fichiers dans public/bible/bsb/audio.json. */
+/* Bibles anglaises (WEB, KJV) : narrations du domaine public, servies par
+ * leur site d'origine ; liste des fichiers dans public/bible/<dossier>/audio.json. */
 type ManifesteAudio = { base: string; livres: Record<string, Record<string, string>> };
-let manifesteBsb: ManifesteAudio | null = null;
-let manifesteBsbP: Promise<ManifesteAudio | null> | null = null;
-function chargerManifesteBsb(): Promise<ManifesteAudio | null> {
-  manifesteBsbP ??= fetch(asset("/bible/bsb/audio.json"))
-    .then((r) => (r.ok ? r.json() : null))
-    .catch(() => null)
-    .then((m) => (manifesteBsb = m));
-  return manifesteBsbP;
+const manifestes = new Map<VersionBible, ManifesteAudio | null>();
+const manifestesP = new Map<VersionBible, Promise<ManifesteAudio | null>>();
+function chargerManifeste(v: VersionBible): Promise<ManifesteAudio | null> {
+  if (!manifestesP.has(v))
+    manifestesP.set(
+      v,
+      fetch(asset(`${baseBible(v)}/audio.json`))
+        .then((r) => (r.ok ? r.json() : null))
+        .catch(() => null)
+        .then((m) => {
+          manifestes.set(v, m);
+          return m;
+        }),
+    );
+  return manifestesP.get(v)!;
 }
 
 export function bibleNarrationUrl(bookId: number, chapter: number): string | null {
-  // Narration enregistrée : Louis Segond (Supabase) et BSB (openbible.com) ;
-  // la Bíblia Livre est lue par la voix de l'appareil, en portugais.
+  // Narration enregistrée : Louis Segond (Supabase), WEB et KJV (sites
+  // d'origine) ; sans narration, la voix de l'appareil lit dans la langue.
   const version = getVersionBible();
-  if (version === "bsb") {
-    const f = manifesteBsb?.livres[String(bookId)]?.[String(chapter)];
-    return f && manifesteBsb ? manifesteBsb.base + f : null;
+  if (version !== "lsg") {
+    const m = manifestes.get(version);
+    const f = m?.livres[String(bookId)]?.[String(chapter)];
+    return f && m ? m.base + f : null;
   }
-  if (version !== "lsg") return null;
   const sb = getSupabase();
   if (!sb) return null;
   const { data } = sb.storage.from(AUDIO_BUCKET).getPublicUrl(bibleNarrationKey(bookId, chapter));
@@ -55,8 +62,9 @@ const existsCache = new Map<string, boolean>();
 
 /** Vérifie (une fois) si la narration d'un chapitre est disponible. */
 export async function hasBibleNarration(bookId: number, chapter: number): Promise<boolean> {
-  if (getVersionBible() === "bsb") {
-    await chargerManifesteBsb();
+  const version = getVersionBible();
+  if (version !== "lsg") {
+    await chargerManifeste(version);
     return !!bibleNarrationUrl(bookId, chapter);
   }
   const url = bibleNarrationUrl(bookId, chapter);
