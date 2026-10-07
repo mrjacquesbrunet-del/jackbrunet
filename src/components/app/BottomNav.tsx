@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { asset } from "@/lib/asset";
+import { contenuAudioVideoDispo, useLangue } from "@/lib/i18n";
 
 function Icon({ d, className }: { d: string; className?: string }) {
   return (
@@ -57,6 +58,8 @@ const TABS = [
 
 export function BottomNav() {
   const pathname = usePathname();
+  // Podcasts et vidéos (onglet Écouter) : en français uniquement.
+  const avVideo = contenuAudioVideoDispo(useLangue());
   const rowRef = useRef<HTMLDivElement>(null);
   const [atEnd, setAtEnd] = useState(false);
 
@@ -78,7 +81,7 @@ export function BottomNav() {
           onScroll={onScroll}
           className="no-scrollbar flex snap-x snap-mandatory items-stretch overflow-x-auto"
         >
-          {TABS.map((t) => {
+          {TABS.filter((t) => avVideo || t.href !== "/ecouter").map((t) => {
             const active = isActive(t.match);
             return (
               <Link

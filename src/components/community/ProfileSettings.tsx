@@ -9,6 +9,7 @@ import { signOut } from "@/lib/community";
 import { openExternal } from "@/lib/external";
 import { siteConfig } from "@/config/site";
 import { isNativeApp } from "@/lib/notifications";
+import { ChoixLangue } from "@/components/i18n/ChoixLangue";
 
 /**
  * PARAMÈTRES — écran plein écran du profil, organisé en sections nettes
@@ -88,6 +89,12 @@ export function ProfileSettings({ userId, onClose }: { userId: string; onClose: 
       </div>
 
       <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-[calc(env(safe-area-inset-bottom)+2rem)]">
+        {/* ---------- Langue de l'app ---------- */}
+        <SectionTitle>Langue</SectionTitle>
+        <div className="mt-3">
+          <ChoixLangue />
+        </div>
+
         {/* ---------- Notifications push, par type ---------- */}
         <SectionTitle>Notifications push</SectionTitle>
         <p className="mt-1.5 text-xs text-cream/50">

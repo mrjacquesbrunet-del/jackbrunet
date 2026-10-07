@@ -45,6 +45,7 @@ import { NotificationsBell } from "@/components/community/NotificationsBell";
 import { MessagesButton } from "@/components/community/MessagesButton";
 import { isNativeApp } from "@/lib/notifications";
 import type { Devotion, ReadingPlanDay, Short } from "@/lib/types";
+import { contenuAudioVideoDispo, useLangue } from "@/lib/i18n";
 
 type Props = {
   devotions: Devotion[];
@@ -85,6 +86,8 @@ export function DevotionalView({
   const [remote, setRemote] = useState<Devotion[] | null>(null);
   // Connecté ? → cloche de notifications + messagerie dans l'en-tête.
   const { userId } = useAuth();
+  // Vidéos (Shorts) : en français uniquement.
+  const avVideo = contenuAudioVideoDispo(useLangue());
   // La mémorisation de versets est réservée à l'application.
   const [nativeApp, setNativeApp] = useState(false);
   useEffect(() => setNativeApp(isNativeApp()), []);
@@ -604,10 +607,10 @@ export function DevotionalView({
 
       {/* Bulle flottante ronde : la vidéo tourne en muet, un toucher fait
           défiler jusqu'à la section « La vidéo du jour » */}
-      {latestShort ? <FloatingDailyShort latest={latestShort} /> : null}
+      {latestShort && avVideo ? <FloatingDailyShort latest={latestShort} /> : null}
 
       {/* 5. Vidéo du jour (avant la lecture) */}
-      {latestShort? (
+      {latestShort && avVideo? (
         <section id="video-jour" className="container-x scroll-mt-24">
           <Reveal from="up">
             <SectionHeader eyebrow="Shorts" title="La vidéo du jour" />

@@ -5,6 +5,7 @@ import { signInEmail, signInGoogle } from "@/lib/community";
 import { isNativeApp } from "@/lib/notifications";
 import { EmailPasswordAuth } from "@/components/community/EmailPasswordAuth";
 import { GoogleG } from "@/components/community/SocialAuthButtons";
+import { ChoixLangue } from "@/components/i18n/ChoixLangue";
 
 /**
  * Carte de connexion compacte affichée sur le profil quand l'utilisateur
@@ -104,6 +105,14 @@ export function ProfileSignIn() {
           </form>
         </>
       )}
+
+      {/* Langue de l'app (aussi avant d'avoir un compte) */}
+      <div className="mt-6 border-t border-night-900/10 pt-5">
+        <p className="mb-2 text-center text-[11px] font-bold uppercase tracking-widest text-night-900/45" translate="no">
+          Langue · Language · Idioma
+        </p>
+        <ChoixLangue tone="light" />
+      </div>
     </div>
   );
 }

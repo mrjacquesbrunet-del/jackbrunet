@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 /**
  * MULTILINGUE — langue de l'app (français, anglais, portugais du Brésil).
  *
@@ -137,4 +139,19 @@ export function traduireTexte(texte: string): string | null {
 /** Pour le code : t("Texte français") → texte dans la langue de l'app. */
 export function t(fr: string): string {
   return traduireTexte(fr) ?? fr;
+}
+
+/* ---- Pour les composants ---- */
+
+
+/** Langue de l'app côté composant ("fr" au premier rendu, puis la vraie). */
+export function useLangue(): Langue {
+  const [l, setL] = useState<Langue>("fr");
+  useEffect(() => setL(getLangue()), []);
+  return l;
+}
+
+/** Podcasts et vidéos n'existent qu'en français. */
+export function contenuAudioVideoDispo(l: Langue): boolean {
+  return l === "fr";
 }

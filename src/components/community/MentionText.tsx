@@ -7,7 +7,7 @@ import Link from "next/link";
 export function MentionText({ text, className }: { text: string; className?: string }) {
   const parts = text.split(/(@[\p{L}\p{N}_.-]{2,30})/gu);
   return (
-    <span className={className}>
+    <span className={className} translate="no">
       {parts.map((part, i) => {
         if (part.startsWith("@") && part.length > 1) {
           const pseudo = part.slice(1);
