@@ -290,10 +290,11 @@ export function GamesHub() {
           </div>
           <span className="relative inline-flex shrink-0 items-center gap-1.5 rounded-full bg-gradient-to-b from-amber-300 to-amber-500 px-4 py-2.5 font-game text-sm font-black text-[#4a2c00] shadow-lg">
             DÉFIER <IconArrow className="h-4 w-4" />
+            {/* Pastille sur le coin du bouton (la carte coupe ce qui dépasse de ses bords). */}
+            {pending > 0 ? (
+              <span className="absolute -right-2 -top-2 grid h-6 min-w-[1.5rem] place-items-center rounded-full bg-rose-500 px-1.5 font-game text-xs font-extrabold text-white ring-2 ring-[#161615]">{pending}</span>
+            ) : null}
           </span>
-          {pending > 0 ? (
-            <span className="absolute -right-1 -top-1 grid h-6 min-w-[1.5rem] place-items-center rounded-full bg-rose-500 px-1.5 font-game text-xs font-extrabold text-white ring-2 ring-[#30302F]">{pending}</span>
-          ) : null}
         </Link>
 
         {/* ---------- Accomplissements & titres ---------- */}
