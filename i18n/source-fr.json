@@ -2093,7 +2093,7 @@
   "components/bible/RechercheBible.tsx:211"
  ],
  "10 € par mois": [
-  "components/mission/PopupMission.tsx:175"
+  "components/mission/PopupMission.tsx:212"
  ],
  "10 bonnes réponses d'affilée": [
   "lib/quiz.ts:325"
@@ -3921,7 +3921,7 @@
   "components/mission/DonnerRapide.tsx:212"
  ],
  "Apple Pay, Google Pay ou carte bancaire · Paiement sécurisé": [
-  "components/mission/PopupMission.tsx:195"
+  "components/mission/PopupMission.tsx:232"
  ],
  "application": [
   "app/confidentialite/page.tsx:61"
@@ -5766,9 +5766,6 @@
   "app/dons/page.tsx:173",
   "components/mission/DonnerRapide.tsx:133"
  ],
- "Chaque mois, des milliers de personnes ouvrent la Parole de Dieu dans RHEMA, sans payer un centime. Je veux que ça reste ainsi.": [
-  "components/mission/PopupMission.tsx:140"
- ],
  "Chaque mois, des millions de personnes sont touchées par des messages, des prières, des lives, des exhortations et des contenus bibliques centrés sur Jésus-Christ.": [
   "app/a-propos/page.tsx:157"
  ],
@@ -5783,6 +5780,9 @@
  ],
  "Chaque requête est lue et confiée à Dieu": [
   "components/home/PrayerSpace.tsx:89"
+ ],
+ "Chaque semaine, des milliers de personnes ouvrent la Parole de Dieu dans RHEMA, sans payer un centime. Je veux que ça reste ainsi.": [
+  "components/mission/PopupMission.tsx:177"
  ],
  "Chaque sujet du mur de prière est passé devant toi. Merci pour eux.": [
   "components/community/PrayerTime.tsx:528"
@@ -8369,10 +8369,10 @@
   "lib/notif-prefs.ts:23"
  ],
  "Déjà {0} dons ce mois-ci": [
-  "components/mission/PopupMission.tsx:162"
+  "components/mission/PopupMission.tsx:199"
  ],
  "Déjà {0} dons reçus": [
-  "components/mission/PopupMission.tsx:163"
+  "components/mission/PopupMission.tsx:200"
  ],
  "Déjà là": [
   "components/community/GroupView.tsx:933"
@@ -20346,7 +20346,7 @@
   "components/mission/SoutienEnUnClic.tsx:102"
  ],
  "Merci. Jack": [
-  "components/mission/PopupMission.tsx:193"
+  "components/mission/PopupMission.tsx:230"
  ],
  "Mère de": [
   "components/ecole/ArbresGenealogiques.tsx:839"
@@ -28236,7 +28236,7 @@
   "config/chemin/chapitre-jacques.ts:39"
  ],
  "Si RHEMA te fait du bien, aide-nous à la garder gratuite pour le prochain qui en a besoin.": [
-  "components/mission/PopupMission.tsx:148"
+  "components/mission/PopupMission.tsx:185"
  ],
  "Si rien ne se passe, utilise les boutons ci-dessous.": [
   "app/lien/page.tsx:59"
@@ -30567,8 +30567,8 @@
   "components/home/DailyPrayerSpotlight.tsx:71"
  ],
  "Un message de Jack": [
-  "components/mission/PopupMission.tsx:88",
-  "components/mission/PopupMission.tsx:135"
+  "components/mission/PopupMission.tsx:125",
+  "components/mission/PopupMission.tsx:172"
  ],
  "Un message pour le Pasteur Jack ?": [
   "components/community/GroupsDirectory.tsx:84"
@@ -30994,7 +30994,7 @@
   "components/mission/DonateScreen.tsx:31"
  ],
  "Une application comme RHEMA représente plus de 30 000 € de développement, et elle a des frais chaque mois. Nous ne mettons pas de publicité et nous ne vendons pas tes données : RHEMA vit grâce à ceux qui donnent.": [
-  "components/mission/PopupMission.tsx:144"
+  "components/mission/PopupMission.tsx:181"
  ],
  "Une application pensée pour ta vie de foi": [
   "app/app/page.tsx:137"
@@ -31145,7 +31145,7 @@
   "config/chemin/chapitre-hebreux.ts:55"
  ],
  "Une fois, le montant de mon choix": [
-  "components/mission/PopupMission.tsx:182"
+  "components/mission/PopupMission.tsx:219"
  ],
  "Une fronde": [
   "config/chemin/chapitre-samson.ts:66"
@@ -31293,7 +31293,7 @@
   "components/quiz/QuizScreen.tsx:1404"
  ],
  "Une partie des dons soutient aussi nos missions auprès des enfants les plus pauvres.": [
-  "components/mission/PopupMission.tsx:186"
+  "components/mission/PopupMission.tsx:223"
  ],
  "Une pensée pour ton cœur, chaque matin.": [
   "components/app/AppOnboarding.tsx:102"

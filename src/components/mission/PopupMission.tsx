@@ -9,13 +9,49 @@ import { BarreObjectif, PHOTO_MISSION, useObjectifDon } from "@/components/missi
 import { lienDonSite } from "@/lib/don-site";
 import { openExternal } from "@/lib/external";
 import { getLangue } from "@/lib/i18n";
+import { getSupabase } from "@/lib/supabase";
 
+/** Repli si la photo du profil de Pasteur Jack n'est pas encore chargée. */
 const PHOTO_JACK = "/img/jack-avatar.webp";
+const CLE_PHOTO_JACK = "jb.photo.jack";
+
+/** Photo du profil RHEMA de Pasteur Jack (celle qu'il a mise dans l'app). */
+function usePhotoJack(): string {
+  const [url, setUrl] = useState<string>(() => {
+    try {
+      return localStorage.getItem(CLE_PHOTO_JACK) || asset(PHOTO_JACK);
+    } catch {
+      return asset(PHOTO_JACK);
+    }
+  });
+  useEffect(() => {
+    const sb = getSupabase();
+    if (!sb) return;
+    void sb
+      .from("profiles")
+      .select("avatar_url,pseudo")
+      .eq("verified", true)
+      .or("pseudo.ilike.%jack%,pseudo.ilike.%brunet%")
+      .not("avatar_url", "is", null)
+      .limit(1)
+      .then(({ data }) => {
+        const u = (data as { avatar_url: string | null }[] | null)?.[0]?.avatar_url;
+        if (!u) return;
+        setUrl(u);
+        try {
+          localStorage.setItem(CLE_PHOTO_JACK, u);
+        } catch {
+          /* stockage indisponible */
+        }
+      });
+  }, []);
+  return url;
+}
 
 const CLE_PROCHAIN = "jb.popup.mission.prochain";
 const JOUR = 24 * 3600_000;
 /** Délai avant de reproposer : après « Plus tard », puis après un don. */
-const PAUSE_PLUS_TARD = 10 * JOUR;
+const PAUSE_PLUS_TARD = 6 * JOUR;
 const PAUSE_APRES_DON = 30 * JOUR;
 /** Onglets où il peut apparaître (jamais pendant la lecture ou un jeu). */
 const PAGES = ["/devotionnel", "/communaute", "/plans"];
@@ -39,7 +75,7 @@ function reporter(ms: number) {
 
 /**
  * Pop-up « Un message de Jack » (seul pop-up d'appel au don de l'app) :
- * à partir de la 4e ouverture, au plus une fois tous les 10 jours, 30 jours
+ * à partir de la 4e ouverture, au plus une fois tous les 6 jours, 30 jours
  * de calme après un don, jamais par-dessus une autre fenêtre.
  */
 export function PopupMission() {
@@ -70,6 +106,7 @@ export function PopupMission() {
 
 function Fenetre({ onFermer }: { onFermer: () => void }) {
   const objectif = useObjectifDon();
+  const photoJack = usePhotoJack();
   const pct = objectif ? Math.min(100, Math.round((objectif.collecte / objectif.objectif) * 100)) : 0;
 
   // Paiement Stripe : « 10 € par mois » s'ouvre directement, « Une fois »
@@ -128,7 +165,7 @@ function Fenetre({ onFermer }: { onFermer: () => void }) {
           <div className="flex items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={asset(PHOTO_JACK)}
+              src={photoJack}
               alt=""
               className="h-14 w-14 shrink-0 rounded-full object-cover ring-[3px] ring-night-900 shadow-[0_0_0_5px_rgba(202,240,0,.35)]"
             />
@@ -137,7 +174,7 @@ function Fenetre({ onFermer }: { onFermer: () => void }) {
 
           <div className="mt-3 space-y-2.5 text-[14.5px] leading-relaxed text-cream/85">
             <p>
-              Chaque mois, des milliers de personnes ouvrent la Parole de Dieu dans RHEMA, sans payer un centime. Je
+              Chaque semaine, des milliers de personnes ouvrent la Parole de Dieu dans RHEMA, sans payer un centime. Je
               veux que ça reste ainsi.
             </p>
             <p>
