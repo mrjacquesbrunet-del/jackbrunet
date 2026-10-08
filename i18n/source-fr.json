@@ -22652,11 +22652,11 @@
  "Personne, il y va seul": [
   "config/chemin/chapitre-tentation.ts:29"
  ],
- "personnes dans la famille": [
-  "app/a-propos/page.tsx:137"
- ],
  "personnes touchées chaque mois": [
   "content/impact.json"
+ ],
+ "personnes touchées par les vidéos": [
+  "app/a-propos/page.tsx:137"
  ],
  "Petit mot (facultatif)": [
   "components/community/AdminBatisseurs.tsx:79"

@@ -134,13 +134,13 @@ export default function AProposPage() {
       <section className="mx-auto max-w-3xl px-5">
         <div className="grid grid-cols-3 gap-2.5">
           {[
-            { v: 1000000, s: "+", l: "personnes dans la famille" },
+            { v: 100, s: " M+", l: "personnes touchées par les vidéos" },
             { v: 2020, s: "", l: "premières vidéos", annee: true },
             { v: 2021, s: "", l: "consacré pasteur", annee: true },
           ].map((c, i) => (
             <Reveal key={c.l} delay={i * 0.08}>
               <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-2 py-4 text-center">
-                <p className="font-display text-[22px] font-extrabold leading-none text-dawn-400">
+                <p className="whitespace-nowrap font-display text-[22px] font-extrabold leading-none text-dawn-400">
                   <Compteur valeur={c.v} suffixe={c.s} annee={"annee" in c} />
                 </p>
                 <p className="mt-1.5 text-[11.5px] font-semibold leading-tight text-cream/60">{c.l}</p>
