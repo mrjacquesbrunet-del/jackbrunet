@@ -240,7 +240,7 @@ function Feed({
   return (
     <>
       {/* Bandeau du mur */}
-      <div className="dark-ctx relative overflow-hidden bg-night-950 pt-28 pb-10 sm:pt-32">
+      <div className="sous-barre-app dark-ctx relative overflow-hidden bg-night-950 pt-28 pb-10 sm:pt-32">
         <div className="absolute inset-0 bg-grid opacity-[0.1]" />
         <div className="blob -right-10 top-6 h-56 w-56 bg-dawn-400/25" />
         <div className="container-x relative">

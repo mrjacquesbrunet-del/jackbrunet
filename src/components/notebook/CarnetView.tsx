@@ -113,7 +113,7 @@ export function CarnetView() {
           background: `linear-gradient(180deg, ${colors.from}2b 0%, ${colors.to}17 20%, #F3F3ED 52%)`,
         }}
       />
-      <section className="container-x pb-28 pt-24 sm:pt-28">
+      <section className="sous-barre-app container-x pb-28 pt-24 sm:pt-28">
       {/* En-tête façon profil, avec personnalisation */}
       <div className="dark-ctx bg-topo-dark relative mx-auto max-w-2xl overflow-hidden rounded-4xl border border-white/10 p-6 shadow-card sm:p-8">
         <div

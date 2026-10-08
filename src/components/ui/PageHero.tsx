@@ -10,7 +10,7 @@ type PageHeroProps = {
 /** En-tête immersif réutilisé par les pages intérieures. */
 export function PageHero({ eyebrow, title, description, children }: PageHeroProps) {
   return (
-    <section className="relative overflow-hidden pt-32 sm:pt-40">
+    <section className="sous-barre-app relative overflow-hidden pt-32 sm:pt-40">
       <div className="absolute inset-0 bg-grid opacity-60" />
       <div className="hero-glow blob left-1/3 top-10 h-80 w-80 rotate-[-12deg] rounded-[42%] bg-dawn-400/50 animate-pulse-glow" />
       <div className="blob right-1/4 top-1/2 h-72 w-72 bg-spirit-400/25 animate-pulse-glow" />

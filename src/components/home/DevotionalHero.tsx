@@ -31,7 +31,7 @@ export function DevotionalHero() {
   }
 
   return (
-    <section className="relative w-full overflow-hidden aspect-[1448/1086] lg:aspect-auto lg:h-[64vh] lg:max-h-[620px]">
+    <section className="hero-accueil relative w-full overflow-hidden aspect-[1448/1086] lg:aspect-auto lg:h-[64vh] lg:max-h-[620px]">
       {/* Photo d'ambiance : cadre entier, proportions d'origine */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img

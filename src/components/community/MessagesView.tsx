@@ -189,7 +189,7 @@ function Inbox() {
   }
 
   return (
-    <section className="container-x pb-16 pt-24 sm:pt-28">
+    <section className="sous-barre-app container-x pb-16 pt-24 sm:pt-28">
       <div className="mx-auto max-w-2xl">
         <h1 className="font-display text-3xl font-extrabold">Messages</h1>
         <p className="mt-1 text-sm text-night-900/55">Tes conversations privées avec la communauté.</p>
@@ -358,7 +358,7 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
   const lastSeenId = [...messages].reverse().find((m) => m.sender_id === meId && m.read)?.id ?? null;
 
   return (
-    <section className="container-x pb-28 pt-24 sm:pt-28">
+    <section className="sous-barre-app container-x pb-28 pt-24 sm:pt-28">
       <div className="mx-auto max-w-2xl">
         {/* En-tête conversation */}
         <div className="flex items-center gap-3">

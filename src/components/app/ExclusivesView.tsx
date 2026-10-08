@@ -61,7 +61,7 @@ export function ExclusivesView() {
   const unlocked = useSyncExternalStore(subscribe, getSnapshot, () => false);
 
   return (
-    <section className="dark-ctx relative overflow-hidden bg-night-950 pt-28 sm:pt-32">
+    <section className="sous-barre-app dark-ctx relative overflow-hidden bg-night-950 pt-28 sm:pt-32">
       <div className="absolute inset-0 bg-grid opacity-[0.1]" />
       <div className="blob -right-10 top-10 h-64 w-64 bg-dawn-400/25" />
       <div className="container-x relative pb-16">
