@@ -117,9 +117,8 @@ export function SoutienEnUnClic() {
           <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#CAF000]">Partenaire mensuel</p>
           <h2 className="mt-1 font-display text-2xl font-extrabold leading-tight">Deviens Bâtisseur de RHEMA</h2>
           <p className="mt-2 text-[15px] leading-relaxed text-[#CFCFCB]">
-            L&apos;application est gratuite et le restera. Pourtant, créer et faire vivre une application
-            comme RHEMA coûte environ <b className="text-[#F3F3ED]">20&nbsp;000&nbsp;€</b> : développement,
-            serveurs, voix audio, maintenance. Si elle te fait du bien, aide-la à vivre et à grandir.
+            Chaque mois, ton soutien fait vivre la mission : RHEMA reste gratuite pour tous, la Parole
+            avance dans les nations, et les missions sur le terrain continuent.
           </p>
           <blockquote className="mt-3 rounded-2xl border-l-4 border-[#CAF000] bg-white/[0.04] py-2.5 pl-3.5 pr-3">
             <p className="text-[14px] italic leading-relaxed text-[#F3F3ED]">

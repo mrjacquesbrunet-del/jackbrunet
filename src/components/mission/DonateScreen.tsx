@@ -25,6 +25,25 @@ const C = {
 };
 
 const PRESETS = [20, 50, 100, 200, 500];
+
+/** Les besoins de la mission, expliqués simplement. */
+const BESOINS = [
+  {
+    t: "Développer RHEMA",
+    d: "Une application comme RHEMA coûte environ 30 000 € à développer : Bible, plans, études, audio, communauté, traductions.",
+    icon: "M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16",
+  },
+  {
+    t: "La faire vivre chaque mois",
+    d: "Serveurs, voix audio, traductions et maintenance : des coûts d'infrastructure permanents, pour que tout reste gratuit pour tous.",
+    icon: "M4 6h16v5H4zM4 13h16v5H4zM8 8.5h.01M8 15.5h.01",
+  },
+  {
+    t: "Missions humanitaires et d'évangélisation",
+    d: "Nous aidons des missions et menons nous-mêmes des missions sur le terrain, auprès des pays les plus pauvres.",
+    icon: "M12 21s-6-5.2-6-10a6 6 0 0 1 12 0c0 4.8-6 10-6 10zM12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4",
+  },
+];
 const MIN = 20;
 const MAX = 500;
 /** Base d'impact: 5 € finance 1 personne soutenue. */
@@ -87,9 +106,9 @@ export function DonateScreen() {
           </Link>
           <div className="min-w-0">
             <p className="truncate text-[11px] font-bold uppercase tracking-[0.22em]" style={{ color: C.lime }}>
-              Soutenir le ministère
+              La mission
             </p>
-            <p className="truncate text-sm font-semibold text-[#F3F3ED]">Faire un don</p>
+            <p className="truncate text-sm font-semibold text-[#F3F3ED]">Soutiens la mission</p>
           </div>
         </div>
       </header>
@@ -117,14 +136,14 @@ export function DonateScreen() {
           </div>
           <div className="p-6">
             <p className="text-[11px] font-bold uppercase tracking-[0.28em]" style={{ color: C.textMuted }}>
-              Mission terrain
+              La mission
             </p>
             <h1 className="mt-2 font-display text-4xl font-extrabold leading-[1.05]">
-              Ton don pour le royaume de Dieu
+              Soutiens la mission
             </h1>
             <p className="mt-3 text-[15px] leading-relaxed" style={{ color: C.textSec }}>
-              Tu soutiens des missions d&apos;évangélisation, des aides humanitaires et un
-              ministère pastoral: annoncer, aimer, servir.
+              Donner accès gratuitement à la Parole de Dieu dans toutes les nations, et aider les pays
+              les plus pauvres à travers des missions humanitaires et d&apos;évangélisation.
             </p>
 
             {/* Verset (bloc citation) */}
@@ -140,6 +159,37 @@ export function DonateScreen() {
                 Philippiens 4.17
               </cite>
             </blockquote>
+          </div>
+        </section>
+
+        {/* Les besoins : pourquoi ton soutien compte */}
+        <section className="mt-5">
+          <p className="px-1 text-[11px] font-bold uppercase tracking-[0.2em]" style={{ color: C.lime }}>
+            Les besoins
+          </p>
+          <h2 className="mt-1 px-1 font-display text-2xl font-extrabold leading-tight">
+            Ton soutien propage la Parole
+          </h2>
+          <div className="mt-3 space-y-2.5">
+            {BESOINS.map((b, i) => (
+              <div key={b.t} className="flex gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                <span
+                  className="grid h-11 w-11 shrink-0 place-items-center rounded-xl"
+                  style={{ background: C.limeTint, color: C.lime }}
+                >
+                  <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.7}>
+                    <path d={b.icon} strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+                <div className="min-w-0">
+                  <p className="font-bold text-[#F3F3ED]">
+                    <span style={{ color: C.textMuted }}>{`0${i + 1} · `}</span>
+                    {b.t}
+                  </p>
+                  <p className="mt-0.5 text-sm leading-relaxed" style={{ color: C.textMuted }}>{b.d}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
@@ -284,48 +334,6 @@ export function DonateScreen() {
         </section>
         </>
         ) : null}
-
-        {/* Piliers d'impact (icônes, mise en page verticale) */}
-        <section className="mt-5 space-y-2.5">
-          {[
-            {
-              t: "Mission d'évangélisation",
-              d: "Annoncer l'Évangile là où Jésus n'est pas encore connu.",
-              icon: "M4 6h11a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4M8 3v3M4 6l8 5 8-5",
-            },
-            {
-              t: "Aide humanitaire",
-              d: "Servir concrètement: nourriture, soutien, présence auprès des plus fragiles.",
-              icon: "M12 20s-7-4.5-9.5-9A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9z",
-            },
-            {
-              t: "Ministère pastoral",
-              d: "Enseigner, affermir et accompagner l'Église au quotidien.",
-              icon: "M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM12 6v7M9 9h6",
-            },
-          ].map((p, i) => (
-            <div
-              key={p.t}
-              className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4"
-            >
-              <span
-                className="grid h-11 w-11 shrink-0 place-items-center rounded-xl font-display text-sm font-extrabold"
-                style={{ background: C.limeTint, color: C.lime }}
-              >
-                <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.7}>
-                  <path d={p.icon} strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
-              <div className="min-w-0">
-                <p className="font-bold text-[#F3F3ED]">
-                  <span style={{ color: C.textMuted }}>{`0${i + 1} · `}</span>
-                  {p.t}
-                </p>
-                <p className="mt-0.5 text-sm leading-snug" style={{ color: C.textMuted }}>{p.d}</p>
-              </div>
-            </div>
-          ))}
-        </section>
 
         {!donIntegre ? (
         <>
