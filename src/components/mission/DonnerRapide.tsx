@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { asset } from "@/lib/asset";
 import { getLangue } from "@/lib/i18n";
-import { payerDon, paiementDirectDispo } from "@/lib/don-site";
+import { derniereErreurDon, payerDon, paiementDirectDispo } from "@/lib/don-site";
 import { progressionDon, type ObjectifDon } from "@/lib/soutien";
 
 const MONTANTS = [10, 20, 50, 100, 200];
@@ -208,6 +208,13 @@ export function DonnerRapide() {
         </p>
         {direct === false && (modeLibre || !mensuel || ![20, 50, 100].includes(valeur)) ? (
           <p className="mt-1 text-center text-[11.5px] text-cream/40">Tu confirmeras le montant sur la page de paiement.</p>
+        ) : null}
+
+        {/* Diagnostic (jackbrunet.com/donner/?debug=1) */}
+        {params.has("debug") ? (
+          <p className="mt-3 break-all rounded-xl bg-white/5 p-2 text-[11px] text-cream/60">
+            {`Paiement direct : ${direct === null ? "vérification…" : direct ? "OK" : "indisponible"} ${derniereErreurDon}`}
+          </p>
         ) : null}
 
         <p className="mt-auto pt-8 text-center font-display text-[13px] italic text-cream/40">

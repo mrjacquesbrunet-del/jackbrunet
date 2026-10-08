@@ -26,31 +26,57 @@ export function lienDonSite(montant?: number, mensuel?: boolean, langue?: string
   return `${siteConfig.url}/donner/${s ? `?${s}` : ""}`;
 }
 
+/** Dernière erreur rencontrée (affichée avec ?debug=1 sur la page). */
+export let derniereErreurDon = "";
+
+/**
+ * Appel de la fonction : d'abord en requête « simple » (aucun en-tête
+ * particulier, donc pas de pré-vérification CORS — idéal si « Verify JWT »
+ * est décoché), puis avec la clé publique si Supabase l'exige (401).
+ */
+async function appeler(methode: "GET" | "POST", corps?: string): Promise<Response> {
+  const init: RequestInit = { method: methode, ...(corps ? { body: corps, headers: { "Content-Type": "text/plain" } } : {}) };
+  let r = await fetch(FONCTION, init);
+  if (r.status === 401 || r.status === 403) {
+    r = await fetch(FONCTION, { ...init, headers: { ...(init.headers as Record<string, string>), ...entetes } });
+  }
+  return r;
+}
+
 let dispo: Promise<boolean> | null = null;
 /** La fonction de paiement est-elle déployée (et configurée) ? */
 export function paiementDirectDispo(): Promise<boolean> {
   if (!dispo) {
-    dispo = fetch(FONCTION, { headers: entetes })
-      .then((r) => (r.ok ? r.json() : { ok: false }))
-      .then((d: { ok?: boolean }) => Boolean(d.ok))
-      .catch(() => false);
+    dispo = appeler("GET")
+      .then(async (r) => {
+        const d = (await r.json().catch(() => ({}))) as { ok?: boolean; msg?: string; message?: string };
+        if (!r.ok || !d.ok) derniereErreurDon = `vérification ${r.status} ${JSON.stringify(d).slice(0, 160)}`;
+        return Boolean(r.ok && d.ok);
+      })
+      .catch((e) => {
+        derniereErreurDon = `vérification impossible : ${e instanceof Error ? e.message : String(e)}`;
+        return false;
+      });
   }
   return dispo;
 }
 
 /** Ouvre la page de paiement Stripe pour ce don (ou le lien de repli). */
 export async function payerDon(montant: number, mensuel: boolean, langue: string): Promise<void> {
-  if (await paiementDirectDispo()) {
-    const r = await fetch(FONCTION, {
-      method: "POST",
-      headers: { ...entetes, "Content-Type": "application/json" },
-      body: JSON.stringify({ montant, mensuel, langue }),
-    });
-    const d = (await r.json().catch(() => ({}))) as { url?: string };
+  // On tente toujours la fonction (même si la vérification a échoué).
+  try {
+    const r = await appeler("POST", JSON.stringify({ montant, mensuel, langue }));
+    const d = (await r.json().catch(() => ({}))) as { url?: string; erreur?: string };
     if (d.url) {
       window.location.href = d.url;
       return;
     }
+    derniereErreurDon = `paiement ${r.status} ${d.erreur ?? JSON.stringify(d).slice(0, 160)}`;
+  } catch (e) {
+    derniereErreurDon = `paiement impossible : ${e instanceof Error ? e.message : String(e)}`;
+  }
+  if (new URLSearchParams(window.location.search).has("debug")) {
+    window.alert(`Paiement direct indisponible\n${derniereErreurDon}`);
   }
   window.location.href = lienRepli(montant, mensuel) ?? `${siteConfig.url}/dons`;
 }
