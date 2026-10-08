@@ -6,6 +6,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAuth, initials } from "@/components/community/useAuth";
 import { asset } from "@/lib/asset";
+import { progressionDon, type ObjectifDon } from "@/lib/soutien";
+
+const euros = (n: number) => `${Math.round(n).toLocaleString("fr-FR")} €`;
 
 /**
  * MENU PROFIL (en haut à gauche, sur les pages principales de l'app).
@@ -133,6 +136,13 @@ const RHEMA: Ligne[] = [
 export function ProfilMenu() {
   const [ouvert, setOuvert] = useState(false);
   const { userId, profile } = useAuth();
+  const [objectif, setObjectif] = useState<ObjectifDon | null>(null);
+  const pctObjectif = objectif ? Math.min(100, Math.round((objectif.collecte / objectif.objectif) * 100)) : 0;
+
+  // L'objectif est rechargé à chaque ouverture (il avance à chaque don).
+  useEffect(() => {
+    if (ouvert) progressionDon().then(setObjectif);
+  }, [ouvert]);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -285,19 +295,35 @@ export function ProfilMenu() {
                   <img src={asset(PHOTO_MISSION)} alt="" className="h-full w-full object-cover" style={{ objectPosition: "center 30%" }} />
                   <div className="absolute inset-0 bg-gradient-to-t from-night-900 via-night-900/30 to-transparent" />
                   <span className="absolute left-3 top-3 rounded-full bg-night-950/70 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-dawn-400 backdrop-blur">
-                    Missions
+                    Mission
                   </span>
                 </div>
                 <div className="px-4 pb-4 pt-1">
-                  <p className="font-display text-[19px] font-extrabold leading-snug">
-                    Ton soutien porte l&apos;Évangile plus loin
-                  </p>
+                  <p className="font-display text-[20px] font-extrabold leading-snug">Soutiens la mission</p>
                   <p className="mt-1.5 text-[13.5px] leading-relaxed text-cream/70">
-                    En soutenant cette application, tu soutiens des missions auprès des enfants
-                    et un ministère d&apos;évangélisation.
+                    Donner accès gratuitement à la Parole de Dieu dans toutes les nations, et aider les
+                    pays les plus pauvres à travers des missions humanitaires et d&apos;évangélisation.
                   </p>
+                  {/* Objectif : la même barre que sur la page Soutien */}
+                  {objectif ? (
+                    <div className="mt-3">
+                      <div className="flex items-baseline justify-between gap-2">
+                        <p className="text-[10.5px] font-black uppercase tracking-[0.16em] text-cream/45">{objectif.titre}</p>
+                        <p className="text-[12px] font-extrabold text-dawn-400">{`${pctObjectif} %`}</p>
+                      </div>
+                      <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-white/10">
+                        <div
+                          className="h-full rounded-full bg-gradient-to-r from-[#8FB300] to-dawn-400"
+                          style={{ width: `${Math.max(pctObjectif, objectif.collecte > 0 ? 3 : 0)}%` }}
+                        />
+                      </div>
+                      <p className="mt-1.5 text-[12px] font-semibold text-cream/60">
+                        {`${euros(objectif.collecte)} sur ${euros(objectif.objectif)}`}
+                      </p>
+                    </div>
+                  ) : null}
                   <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-dawn-400 px-4 py-2 text-[13px] font-extrabold text-night-950 transition-transform group-active:scale-95">
-                    Découvrir comment aider
+                    Je soutiens la mission
                     <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth={2.4} aria-hidden>
                       <path d={I.chevron} strokeLinecap="round" strokeLinejoin="round" />
                     </svg>

@@ -13,11 +13,18 @@ export function ObjectifDonAdmin() {
   const [titre, setTitre] = useState("Objectif du mois");
   const [montant, setMontant] = useState("3000");
   const [mensuel, setMensuel] = useState(true);
+  const [horsApp, setHorsApp] = useState("0");
   const [collecte, setCollecte] = useState<{ eur: number; dons: number } | null>(null);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
 
   useEffect(() => {
+    getSupabase()
+      ?.from("objectif_don")
+      .select("ajout_manuel_eur")
+      .eq("id", 1)
+      .maybeSingle()
+      .then(({ data }) => data && setHorsApp(String(Number(data.ajout_manuel_eur) || 0)));
     progressionDon().then((o) => {
       if (!o) return;
       setTitre(o.titre);
@@ -29,6 +36,7 @@ export function ObjectifDonAdmin() {
 
   async function save() {
     const n = Math.max(1, Math.round(Number(montant.replace(",", ".")) || 0));
+    const h = Math.max(0, Math.round(Number(horsApp.replace(",", ".")) || 0));
     setBusy(true);
     setMsg("");
     const sb = getSupabase();
@@ -38,6 +46,8 @@ export function ObjectifDonAdmin() {
         titre: titre.trim() || (mensuel ? "Objectif du mois" : "Objectif"),
         montant_eur: n,
         periode: mensuel ? "mensuel" : "total",
+        ajout_manuel_eur: h,
+        ajout_le: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       })
       .eq("id", 1)) ?? { error: true };
@@ -54,7 +64,8 @@ export function ObjectifDonAdmin() {
         Objectif du don libre (app)
       </h2>
       <p className="mt-1 text-sm text-night-900/60">
-        La barre se remplit automatiquement à chaque don Apple / Google.
+        La barre additionne les dons libres Apple / Google, les Bâtisseurs actifs et ce que tu
+        as reçu hors de l&apos;app (site, virements…).
         {collecte ? ` En ce moment : ${collecte.eur.toLocaleString("fr-FR")} € (${collecte.dons} dons).` : ""}
       </p>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -72,6 +83,23 @@ export function ObjectifDonAdmin() {
           <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-night-900/40">€</span>
         </div>
       </div>
+      <label className="mt-3 block">
+        <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
+          Reçu hors de l&apos;app {mensuel ? "ce mois-ci" : "depuis le début"} (site, virements…)
+        </span>
+        <div className="relative mt-1 w-48">
+          <input
+            type="number"
+            inputMode="decimal"
+            min={0}
+            value={horsApp}
+            onChange={(e) => setHorsApp(e.target.value)}
+            className="field w-full pr-9"
+            aria-label="Reçu hors de l'app en euros"
+          />
+          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-night-900/40">€</span>
+        </div>
+      </label>
       <div className="mt-3 flex flex-wrap items-center gap-3">
         <label className="inline-flex items-center gap-2 text-sm font-semibold">
           <input type="checkbox" checked={mensuel} onChange={(e) => setMensuel(e.target.checked)} />
