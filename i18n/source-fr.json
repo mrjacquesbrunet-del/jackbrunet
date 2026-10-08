@@ -1548,7 +1548,7 @@
   "components/home/AboutFounder.tsx:34"
  ],
  "(sans route)": [
-  "components/pwa/NativeBootstrap.tsx:67"
+  "components/pwa/NativeBootstrap.tsx:68"
  ],
  "(sans thème)": [
   "components/community/DevotionsAdmin.tsx:357"
@@ -17014,9 +17014,6 @@
  "La parole de Dieu est vivante et efficace": [
   "config/chemin/chapitre-hebreux.ts:35"
  ],
- "La Parole de Dieu offerte à toutes les nations, et des missions auprès des plus pauvres.": [
-  "components/app/ProfilMenu.tsx:527"
- ],
  "La parole de l'Éternel était rare en ce temps-là. Samuel était couché dans le temple, où était l'arche, et la lampe de Dieu n'était pas encore éteinte. L'Éternel appela : « Samuel ! » Il courut vers Éli : « Me voici. » — « Je n'ai point appelé, retourne te coucher. » Cela arriva trois fois.": [
   "config/chemin/chapitre-samuel.ts:62"
  ],
@@ -29500,6 +29497,7 @@
   "components/mission/DonnerRapide.tsx:259"
  ],
  "Ton don fait vivre l'app et des missions auprès des plus pauvres.": [
+  "components/app/ProfilMenu.tsx:527",
   "components/mission/DonnerRapide.tsx:87"
  ],
  "Ton don fait vivre RHEMA et les projets de Jack.": [

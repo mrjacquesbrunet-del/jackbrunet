@@ -524,7 +524,7 @@ export function ProfilMenu() {
                 </div>
                 <div className="px-4 pb-3.5 pt-1">
                   <p className="text-[12.5px] leading-snug text-cream/65">
-                    La Parole de Dieu offerte à toutes les nations, et des missions auprès des plus pauvres.
+                    Ton don fait vivre l&apos;app et des missions auprès des plus pauvres.
                   </p>
                   {/* Objectif : la même barre que sur la page Soutien */}
                   {objectif ? (
