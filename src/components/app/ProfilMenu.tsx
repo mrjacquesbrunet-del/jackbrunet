@@ -290,17 +290,33 @@ export function ProfilMenu() {
                 onClick={() => setOuvert(false)}
                 className="group block overflow-hidden rounded-3xl border border-dawn-400/30 bg-night-900"
               >
-                <div className="relative h-36">
+                <div className="relative h-48 overflow-hidden">
+                  {/* Photo « fondue » dans la charte : un peu désaturée et assombrie,
+                      teinte olive, dégradé vers la carte et titre posé dessus. */}
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={asset(PHOTO_MISSION)} alt="" className="h-full w-full object-cover" style={{ objectPosition: "center 32%" }} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-night-900 via-night-900/30 to-transparent" />
+                  <img
+                    src={asset(PHOTO_MISSION)}
+                    alt=""
+                    className="h-full w-full object-cover"
+                    style={{ objectPosition: "center 30%", filter: "saturate(0.78) contrast(1.08) brightness(0.82)" }}
+                  />
+                  <div
+                    aria-hidden
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        "radial-gradient(120% 90% at 85% 0%, rgba(202,240,0,0.16), transparent 55%), linear-gradient(to top, rgb(var(--n-900)) 2%, rgb(var(--n-900) / 0.72) 34%, rgb(var(--n-900) / 0.08) 70%, rgb(var(--n-900) / 0.25))",
+                    }}
+                  />
                   <span className="absolute left-3 top-3 rounded-full bg-night-950/70 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-dawn-400 backdrop-blur">
                     Mission
                   </span>
+                  <p className="absolute inset-x-4 bottom-2.5 font-display text-[24px] font-extrabold leading-tight text-cream [text-shadow:0_2px_12px_rgba(0,0,0,.55)]">
+                    Soutiens la <span className="text-dawn-400">mission</span>
+                  </p>
                 </div>
-                <div className="px-4 pb-4 pt-1">
-                  <p className="font-display text-[20px] font-extrabold leading-snug">Soutiens la mission</p>
-                  <p className="mt-1.5 text-[13.5px] leading-relaxed text-cream/70">
+                <div className="px-4 pb-4 pt-1.5">
+                  <p className="text-[13.5px] leading-relaxed text-cream/70">
                     Donner accès gratuitement à la Parole de Dieu dans toutes les nations, et aider les
                     pays les plus pauvres à travers des missions humanitaires et d&apos;évangélisation.
                   </p>
