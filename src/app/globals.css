@@ -66,6 +66,9 @@
   html,
   body {
     overflow-x: hidden;
+    /* « clip » coupe le débordement horizontal SANS faire du body une zone de
+       défilement : les barres « collantes » (sticky) restent bien en haut. */
+    overflow-x: clip;
     overscroll-behavior-x: none;
     -webkit-text-size-adjust: 100%;
   }

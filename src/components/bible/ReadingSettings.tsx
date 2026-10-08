@@ -24,7 +24,7 @@ import { VERSIONS_BIBLE, infoVersion, setVersionBible, useVersionBible } from "@
  * (feuille en bas sur mobile). Ainsi il ne dépend d'aucun parent (transform,
  * overflow…) et ne peut jamais s'afficher tronqué sur le côté.
  */
-export function ReadingSettings({ compact = false }: { compact?: boolean } = {}) {
+export function ReadingSettings({ compact = false, nu = false }: { compact?: boolean; nu?: boolean } = {}) {
   const r = useReading();
   const version = useVersionBible();
   const [open, setOpen] = useState(false);
@@ -184,7 +184,11 @@ export function ReadingSettings({ compact = false }: { compact?: boolean } = {})
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Confort de lecture"
-        className={`grid ${compact ? "h-9 w-9" : "h-11 w-11"} shrink-0 place-items-center rounded-full border border-night-900/15 bg-white text-spirit-700 transition-colors hover:bg-night-900/5`}
+        className={
+          nu
+            ? "grid h-9 w-9 shrink-0 place-items-center rounded-full transition-colors active:bg-black/5"
+            : `grid ${compact ? "h-9 w-9" : "h-11 w-11"} shrink-0 place-items-center rounded-full border border-night-900/15 bg-white text-spirit-700 transition-colors hover:bg-night-900/5`
+        }
       >
         <span className="font-display font-bold leading-none">
           <span className="text-base">A</span>

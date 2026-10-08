@@ -30,6 +30,9 @@ import { BibleDownload } from "@/components/bible/BibleDownload";
 import { usePodcastPlayer, getPodcastAudio } from "@/lib/podcast-player";
 import { ReadingSettings } from "@/components/bible/ReadingSettings";
 import { useReading, FONT_STACK, THEME_STYLE } from "@/lib/reading-settings";
+
+/** Couleur de fond de chaque thème de lecture (pour le fondu de la barre). */
+const FOND_LECTURE: Record<string, string> = { clair: "243,243,237", olive: "231,228,210", sombre: "23,23,22" };
 import { useAppMode } from "@/lib/app-mode";
 import { getIndex, getBook } from "@/lib/bible-client";
 import { infoVersion, useVersionBible } from "@/lib/bible-version";
@@ -422,23 +425,39 @@ export function BibleReader() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pod.current?.id]);
 
+  // Pastilles de la barre de lecture : blanc nacré (ou nuit en thème sombre),
+  // fin liseré et ombre douce, pour qu'elles paraissent serties dans la barre.
+  const pastille: React.CSSProperties =
+    reading.theme === "sombre"
+      ? { backgroundColor: "rgba(36,36,34,.9)", border: "1px solid rgba(255,255,255,.08)", boxShadow: "0 6px 18px rgba(0,0,0,.35)" }
+      : { backgroundColor: "rgba(255,255,255,.94)", border: "1px solid rgba(23,23,22,.06)", boxShadow: "0 6px 18px rgba(23,23,22,.08)" };
+
   return (
     <>
     {/* En vue classique, la présentation de la Bible reste en tête de page */}
     {!immersive ? <BibleHero /> : null}
-    <section className={`container-x pb-10 ${immersive ? "pt-[calc(0.75rem+env(safe-area-inset-top))]" : "pt-[calc(2.5rem+env(safe-area-inset-top))]"}`}>
+    <section className={`container-x pb-10 ${immersive ? "pt-0" : "pt-[calc(2.5rem+env(safe-area-inset-top))]"}`}>
       {/* Barre fine du mode pleine lecture */}
       {immersive? (
         <div
-          className="sticky z-40 mb-2 flex items-center justify-between gap-1.5 px-0.5 py-2"
+          className="sticky z-40 mb-2 flex items-center justify-between gap-1.5 px-0.5 pb-2.5 pt-[calc(env(safe-area-inset-top)+0.5rem)]"
           style={{
-            // Dans l'app : sous la barre de statut du téléphone ; sur le site :
-            // sous l'en-tête fixe. Pas de fond : les pastilles flottent sur le
-            // texte, qui défile dessous.
-            top: isApp ? "env(safe-area-inset-top)" : "4.25rem",
+            // Dans l'app : collée en haut (barre de statut comprise) ; sur le
+            // site : sous l'en-tête fixe. Le texte défile dessous et s'efface
+            // dans un fondu de la couleur de la page (comme la barre du haut).
+            top: isApp ? 0 : "4.25rem",
             color: reading.theme === "clair"? undefined: THEME_STYLE[reading.theme].text,
           }}
         >
+          <div
+            aria-hidden
+            className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[calc(100%+1.75rem)] w-screen -translate-x-1/2 backdrop-blur-md"
+            style={{
+              background: `linear-gradient(to bottom, rgba(${FOND_LECTURE[reading.theme]},1) 0%, rgba(${FOND_LECTURE[reading.theme]},.92) 58%, rgba(${FOND_LECTURE[reading.theme]},0) 100%)`,
+              WebkitMaskImage: "linear-gradient(to bottom, #000 68%, transparent)",
+              maskImage: "linear-gradient(to bottom, #000 68%, transparent)",
+            }}
+          />
           {/* Ma photo : ouvre le menu profil (carnet, plans, soutien…) */}
           {isApp ? <ProfilBouton taille={36} /> : null}
           {/* Pastille livre + chapitre + version : ouvre le sélecteur */}
@@ -449,8 +468,8 @@ export function BibleReader() {
               setSelOpen(true);
             }}
             aria-label="Choisir le livre et le chapitre"
-            className="flex min-w-0 items-center gap-1.5 rounded-full px-3 py-2 text-sm font-bold shadow-card backdrop-blur"
-            style={{ backgroundColor: reading.theme === "sombre" ? "rgba(12,12,11,.62)" : "rgba(255,255,255,.92)" }}
+            className="flex min-w-0 items-center gap-1.5 rounded-full px-3 py-2 text-sm font-bold"
+            style={pastille}
           >
             <span className="truncate font-display">
               {book?.name} {chapterCount? chapter: ""}
@@ -468,8 +487,8 @@ export function BibleReader() {
             type="button"
             onClick={() => setIntroLivre(bookId)}
             aria-label={`Introduction au livre ${book?.name ?? ""}`}
-            className="grid h-9 w-9 shrink-0 place-items-center rounded-full shadow-card backdrop-blur"
-            style={{ backgroundColor: reading.theme === "sombre" ? "rgba(12,12,11,.62)" : "rgba(255,255,255,.92)" }}
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full"
+            style={pastille}
           >
             <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.9}>
               <circle cx="12" cy="12" r="9" />
@@ -477,29 +496,30 @@ export function BibleReader() {
             </svg>
           </button>
 
-          <div className="relative ml-auto flex shrink-0 items-center gap-1">
+          {/* Loupe · Aa · ⋮ réunis dans une seule capsule */}
+          <div className="relative ml-auto flex shrink-0 items-center rounded-full p-0.5" style={pastille}>
             {/* Loupe : chercher un mot dans toute la Bible */}
             <button
               type="button"
               onClick={() => setRecherche(true)}
               aria-label="Rechercher dans la Bible"
-              className="grid h-9 w-9 place-items-center rounded-full shadow-card backdrop-blur"
-              style={{ backgroundColor: reading.theme === "sombre" ? "rgba(12,12,11,.62)" : "rgba(255,255,255,.92)" }}
+              className="grid h-9 w-9 place-items-center rounded-full active:bg-black/5"
             >
               <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2}>
                 <circle cx="11" cy="11" r="7" />
                 <path d="M20 20l-3.5-3.5" strokeLinecap="round" />
               </svg>
             </button>
-            <ReadingSettings compact />
+            <span aria-hidden className="h-5 w-px bg-current opacity-15" />
+            <ReadingSettings nu />
+            <span aria-hidden className="h-5 w-px bg-current opacity-15" />
             {/* Menu : carnet, recherche, téléchargement, vue classique */}
             <button
               type="button"
               onClick={() => setMenuOpen((v) => !v)}
               aria-label="Plus d'options"
               aria-expanded={menuOpen}
-              className="grid h-9 w-9 place-items-center rounded-full shadow-card backdrop-blur"
-              style={{ backgroundColor: reading.theme === "sombre" ? "rgba(12,12,11,.62)" : "rgba(255,255,255,.92)" }}
+              className="grid h-9 w-9 place-items-center rounded-full active:bg-black/5"
             >
               <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current">
                 <circle cx="12" cy="5.5" r="1.7" /><circle cx="12" cy="12" r="1.7" /><circle cx="12" cy="18.5" r="1.7" />
