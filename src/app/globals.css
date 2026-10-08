@@ -550,3 +550,13 @@ html.page-nuit body {
 @media (prefers-reduced-motion: reduce) {
   .eq > i, .pochette-joue { animation: none; }
 }
+
+/* Barre d'envoi des messages : garde son espace sous le champ (la classe
+   global-audio-bar le remet à 0 dans l'app) ; sur le site, au-dessus de la
+   barre système. */
+.global-audio-bar.envoi-bas {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+html.app-native .global-audio-bar.envoi-bas {
+  padding-bottom: 0.75rem;
+}

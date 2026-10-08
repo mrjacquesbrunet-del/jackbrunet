@@ -37,7 +37,7 @@ export function GlobalAudioBar() {
       const bar = document.querySelector(".global-audio-bar") as HTMLElement | null;
       if (!bar) return;
       const nav = document.querySelector(".bottom-nav") as HTMLElement | null;
-      const navH = nav? Math.max(0, window.innerHeight - nav.getBoundingClientRect().top): 0;
+      const navH = nav ? nav.getBoundingClientRect().height : 0; // hauteur réelle (cf. AppShell)
       document.documentElement.style.setProperty("--bottom-nav-h", `${Math.max(0, navH - 1)}px`);
       // La carte flotte à 10px au-dessus du menu : --audio-bar-h représente
       // TOUT l'espace qu'elle occupe (hauteur + marge), pour caler les

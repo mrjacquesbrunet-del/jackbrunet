@@ -440,7 +440,11 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
       </div>
 
       {/* Barre d'envoi */}
-      <div className="global-audio-bar fixed inset-x-0 z-[50] border-t border-night-900/10 bg-white/95 p-3 backdrop-blur">
+      {/* La classe global-audio-bar la cale sur le menu du bas, mais remet son
+          rembourrage bas à 0 : on le redonne ici, sinon le champ touche le menu. */}
+      <div
+        className="global-audio-bar envoi-bas fixed inset-x-0 z-[50] border-t border-night-900/10 bg-white/95 p-3 backdrop-blur"
+      >
         <div className="container-x flex max-w-2xl items-center gap-2 px-0">
           <input
             value={text}

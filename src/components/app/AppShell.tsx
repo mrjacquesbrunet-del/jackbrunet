@@ -62,18 +62,30 @@ export function AppShell() {
   // Mesure EN PERMANENCE la hauteur réelle du menu du bas (--bottom-nav-h),
   // pour que les éléments flottants (flèches et bouton audio de la Bible,
   // lecteur…) se calent au-dessus, barre audio affichée ou non.
+  // On prend la HAUTEUR du menu (et non « hauteur de fenêtre − haut du menu ») :
+  // sur iOS (contentInset), window.innerHeight ne correspond pas au repère des
+  // éléments fixes, ce qui faisait passer la barre d'envoi des messages sous
+  // le menu. Un ResizeObserver suit aussi tout changement de taille du menu.
   useEffect(() => {
     const apply = () => {
       const nav = document.querySelector(".bottom-nav") as HTMLElement | null;
-      const h = nav ? Math.max(0, window.innerHeight - nav.getBoundingClientRect().top) : 0;
+      const h = nav ? nav.getBoundingClientRect().height : 0;
       document.documentElement.style.setProperty("--bottom-nav-h", `${Math.max(0, h - 1)}px`);
     };
     apply();
     const t = setTimeout(apply, 300); // après le premier rendu du menu
+    const t2 = setTimeout(apply, 1500);
     window.addEventListener("resize", apply);
+    window.visualViewport?.addEventListener("resize", apply);
+    const nav = document.querySelector(".bottom-nav");
+    const ro = nav && typeof ResizeObserver !== "undefined" ? new ResizeObserver(apply) : null;
+    if (nav) ro?.observe(nav);
     return () => {
       clearTimeout(t);
+      clearTimeout(t2);
       window.removeEventListener("resize", apply);
+      window.visualViewport?.removeEventListener("resize", apply);
+      ro?.disconnect();
     };
   }, [isApp, pathname]);
 
