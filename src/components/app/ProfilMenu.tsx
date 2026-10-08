@@ -29,7 +29,7 @@ export const CLE_VUE_PROFIL = "jb.profil.vue";
 export const EVT_VUE_PROFIL = "jb:profil-vue";
 
 /** Photo de la carte « missions » (enfants soutenus par le ministère). */
-const PHOTO_MISSION = "/mission/pasteur-scene.png";
+const PHOTO_MISSION = "/mission/enfants.webp";
 
 /** Pages où la pastille flotte en haut à gauche (les autres ont déjà un retour, un avatar…). */
 const PAGES_FLOTTANT = [
@@ -292,7 +292,7 @@ export function ProfilMenu() {
               >
                 <div className="relative h-36">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={asset(PHOTO_MISSION)} alt="" className="h-full w-full object-cover" style={{ objectPosition: "center 30%" }} />
+                  <img src={asset(PHOTO_MISSION)} alt="" className="h-full w-full object-cover" style={{ objectPosition: "center 32%" }} />
                   <div className="absolute inset-0 bg-gradient-to-t from-night-900 via-night-900/30 to-transparent" />
                   <span className="absolute left-3 top-3 rounded-full bg-night-950/70 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-dawn-400 backdrop-blur">
                     Mission

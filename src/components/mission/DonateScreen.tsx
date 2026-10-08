@@ -124,10 +124,10 @@ export function DonateScreen() {
           <div className="relative">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={asset("/mission/pasteur-scene.png")}
-              alt="Pasteur Jack Brunet sur scène"
+              src={asset("/mission/enfants.webp")}
+              alt=""
               className="h-64 w-full object-cover"
-              style={{ objectPosition: "center 30%" }}
+              style={{ objectPosition: "center 35%" }}
             />
             <div
               className="pointer-events-none absolute inset-x-0 bottom-0 h-24"
