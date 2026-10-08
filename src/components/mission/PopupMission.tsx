@@ -137,12 +137,12 @@ function Fenetre({ onFermer }: { onFermer: () => void }) {
 
           <div className="mt-3 space-y-2.5 text-[14.5px] leading-relaxed text-cream/85">
             <p>
-              Chaque jour, des milliers de personnes ouvrent la Parole de Dieu dans RHEMA, sans payer un centime. Je
+              Chaque mois, des milliers de personnes ouvrent la Parole de Dieu dans RHEMA, sans payer un centime. Je
               veux que ça reste ainsi.
             </p>
             <p>
-              Mais faire vivre l&apos;app coûte plus de 30 000 €. Nous ne mettons pas de publicité, et nous ne vendons
-              pas tes données : RHEMA vit uniquement grâce à ceux qui donnent.
+              Une application comme RHEMA représente plus de 30 000 € de développement, et elle a des frais chaque mois.
+              Nous ne mettons pas de publicité et nous ne vendons pas tes données : RHEMA vit grâce à ceux qui donnent.
             </p>
             <p className="font-semibold text-cream">
               Si RHEMA te fait du bien, aide-nous à la garder gratuite pour le prochain qui en a besoin.

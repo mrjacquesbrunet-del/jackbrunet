@@ -5744,9 +5744,6 @@
  "Chaque jour,": [
   "components/boutique/RhemaShowcase.tsx:612"
  ],
- "Chaque jour, des milliers de personnes ouvrent la Parole de Dieu dans RHEMA, sans payer un centime. Je veux que ça reste ainsi.": [
-  "components/mission/PopupMission.tsx:140"
- ],
  "Chaque jour.": [
   "components/boutique/RhemaShowcase.tsx:508"
  ],
@@ -5768,6 +5765,9 @@
  "Chaque mois": [
   "app/dons/page.tsx:173",
   "components/mission/DonnerRapide.tsx:133"
+ ],
+ "Chaque mois, des milliers de personnes ouvrent la Parole de Dieu dans RHEMA, sans payer un centime. Je veux que ça reste ainsi.": [
+  "components/mission/PopupMission.tsx:140"
  ],
  "Chaque mois, des millions de personnes sont touchées par des messages, des prières, des lives, des exhortations et des contenus bibliques centrés sur Jésus-Christ.": [
   "app/a-propos/page.tsx:157"
@@ -19647,9 +19647,6 @@
  "Mais derrière les chiffres, il y a surtout une vision. Celle de présenter une foi vivante, enracinée et accessible. Une foi qui n'est pas une religion poussiéreuse, distante ou compliquée. Une foi qui parle au cœur, qui transforme la vie, qui relève, qui restaure et qui ramène les personnes à Jésus.": [
   "app/a-propos/page.tsx:163"
  ],
- "Mais faire vivre l'app coûte plus de 30 000 €. Nous ne mettons pas de publicité, et nous ne vendons pas tes données : RHEMA vit uniquement grâce à ceux qui donnent.": [
-  "components/mission/PopupMission.tsx:144"
- ],
  "Mais il était blessé pour nos péchés, brisé pour nos iniquités ; le châtiment qui nous donne la paix est tombé sur lui, et c'est par ses meurtrissures que nous sommes guéris. Nous étions tous errants comme des brebis, chacun suivait sa propre voie ; et l'Éternel a fait retomber sur lui l'iniquité de nous tous.": [
   "config/chemin/chapitre-esaie.ts:93"
  ],
@@ -30995,6 +30992,9 @@
  ],
  "Une application comme RHEMA coûte environ 30 000 € à développer : Bible, plans, études, audio, communauté, traductions.": [
   "components/mission/DonateScreen.tsx:31"
+ ],
+ "Une application comme RHEMA représente plus de 30 000 € de développement, et elle a des frais chaque mois. Nous ne mettons pas de publicité et nous ne vendons pas tes données : RHEMA vit grâce à ceux qui donnent.": [
+  "components/mission/PopupMission.tsx:144"
  ],
  "Une application pensée pour ta vie de foi": [
   "app/app/page.tsx:137"
