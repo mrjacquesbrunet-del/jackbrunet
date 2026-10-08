@@ -110,6 +110,7 @@ const I = {
   formation: "M2 9.5l10-5 10 5-10 5-10-5M5.8 12.4v3.8c0 1.4 2.8 2.8 6.2 2.8s6.2-1.4 6.2-2.8v-3.8M22 9.5v5",
   personne: "M16 19v-1a4 4 0 0 0-8 0v1M12 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6",
   info: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 8h.01M11 12h1v4h1",
+  coeur: "M12 20s-7-4.5-9.5-9A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9z",
   reglages:
     "M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.5-2.4 1a7 7 0 0 0-2-1.2L14 3h-4l-.5 2.6a7 7 0 0 0-2 1.2l-2.4-1-2 3.5 2 1.5a7 7 0 0 0 0 2.4l-2 1.5 2 3.5 2.4-1a7 7 0 0 0 2 1.2L10 21h4l.5-2.6a7 7 0 0 0 2-1.2l2.4 1 2-3.5-2-1.5c.07-.4.1-.8.1-1.2z",
   fermer: "M6 6l12 12M18 6L6 18",
@@ -128,6 +129,7 @@ const MON_ESPACE: Ligne[] = [
 
 const RHEMA: Ligne[] = [
   { label: "À propos", icone: I.info, href: "/a-propos" },
+  { label: "Soutenir RHEMA", icone: I.coeur, href: "/don" },
   { label: "Paramètres", icone: I.reglages, vue: "reglages" },
 ];
 
