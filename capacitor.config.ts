@@ -13,7 +13,9 @@ const config: CapacitorConfig = {
   webDir: "out",
   backgroundColor: "#17181A",
   ios: {
-    backgroundColor: "#17181A",
+    // Noir de l'app (et non gris) : fond visible au lancement, effectif au
+    // prochain build natif. La bande de l'heure est peinte par l'app (OTA).
+    backgroundColor: "#0C0C0B",
     contentInset: "always",
   },
   android: {

@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { Capacitor } from "@capacitor/core";
 import { openNotifRoute, setNotifNavigator } from "@/lib/notif-route";
 import { isNativeApp, readReminder, enableDailyReminder } from "@/lib/notifications";
 import { initOneSignal } from "@/lib/onesignal";
@@ -122,13 +123,16 @@ export function NativeBootstrap() {
       // sans bande). Le style (texte clair/foncé) est ajusté par page dans AppShell.
       try {
         const { StatusBar, Style } = await import("@capacitor/status-bar");
+        // iPhone : l'app passe SOUS la barre de statut, devenue une bande
+        // native peinte de la couleur du haut de chaque page (FondDebordement).
+        // Avant, l'heure laissait voir le fond gris de l'app (#17181A).
+        const ios = Capacitor.getPlatform() === "ios";
         try {
-          await StatusBar.setOverlaysWebView({ overlay: true });
+          await StatusBar.setOverlaysWebView({ overlay: !ios });
         } catch {
-          /* iOS: recouvrement géré nativement */
+          /* ancienne version native : on garde le comportement d'avant */
         }
-        // Écran d'accueil (dévotionnel) = fond sombre → texte clair par défaut.
-        await StatusBar.setStyle({ style: Style.Light });
+        if (!ios) await StatusBar.setStyle({ style: Style.Light });
       } catch {
         /* plugin absent */
       }

@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { Capacitor } from "@capacitor/core";
 import { useAppMode } from "@/lib/app-mode";
 import { getSupabase } from "@/lib/supabase";
 import { pingPresence } from "@/lib/presence";
@@ -96,8 +97,9 @@ export function AppShell() {
 
   // Couleur de l'heure/notifications adaptée au haut de chaque page (edge-to-edge):
   // texte clair sur les pages à en-tête sombre, foncé sur les pages claires.
+  // (iPhone : géré par FondDebordement, d'après la couleur réelle du haut.)
   useEffect(() => {
-    if (!isApp) return;
+    if (!isApp || Capacitor.getPlatform() === "ios") return;
     const darkTop = ["/devotionnel", "/communaute", "/membre", "/mission-madagascar"].some(
       (p) => pathname === p || pathname.startsWith(p + "/"),
     );
