@@ -512,13 +512,13 @@ export function ProfilMenu() {
                     className="absolute inset-0"
                     style={{
                       background:
-                        "radial-gradient(120% 90% at 85% 0%, rgba(202,240,0,0.16), transparent 55%), linear-gradient(to top, rgb(var(--n-900)) 2%, rgb(var(--n-900) / 0.72) 34%, rgb(var(--n-900) / 0.08) 70%, rgb(var(--n-900) / 0.25))",
+                        "radial-gradient(120% 90% at 85% 0%, rgba(202,240,0,0.12), transparent 55%), linear-gradient(to top, rgb(var(--n-900)) 0%, rgb(var(--n-900) / 0.6) 18%, transparent 42%)",
                     }}
                   />
                   <span className="absolute left-3 top-3 rounded-full bg-night-950/70 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-dawn-400 backdrop-blur">
                     Mission
                   </span>
-                  <p className="absolute inset-x-4 bottom-2 font-display text-[20px] font-extrabold leading-tight text-cream [text-shadow:0_2px_12px_rgba(0,0,0,.55)]">
+                  <p className="absolute inset-x-4 bottom-1.5 font-display text-[16px] font-extrabold leading-tight text-cream [text-shadow:0_1px_8px_rgba(0,0,0,.7)]">
                     Soutiens la <span className="text-dawn-400">mission</span>
                   </p>
                 </div>

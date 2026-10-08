@@ -72,18 +72,18 @@ export function DonnerRapide() {
           <img
             src={asset("/mission/enfants.webp")}
             alt=""
-            className="h-40 w-full object-cover"
-            style={{ objectPosition: "center 32%", filter: "saturate(0.8) contrast(1.06) brightness(0.85)" }}
+            className="h-44 w-full object-cover"
+            style={{ objectPosition: "center 52%", filter: "saturate(0.8) contrast(1.06) brightness(0.85)" }}
           />
           <div
             className="absolute inset-0"
-            style={{ background: "linear-gradient(to top, rgb(var(--n-950)) 4%, rgb(var(--n-950) / .75) 30%, transparent 62%)" }}
+            style={{ background: "linear-gradient(to top, rgb(var(--n-950)) 0%, rgb(var(--n-950) / .7) 22%, transparent 48%)" }}
           />
-          <div className="absolute inset-x-4 bottom-3">
-            <h1 className="font-display text-[26px] font-extrabold leading-tight">
+          <div className="absolute inset-x-4 bottom-2.5">
+            <h1 className="font-display text-[21px] font-extrabold leading-tight [text-shadow:0_1px_10px_rgba(0,0,0,.7)]">
               Soutiens la <span className="text-dawn-400">mission</span>
             </h1>
-            <p className="mt-0.5 text-[13px] font-medium leading-snug text-cream [text-shadow:0_1px_8px_rgba(0,0,0,.6)]">
+            <p className="mt-0.5 text-[12px] font-medium leading-snug text-cream [text-shadow:0_1px_8px_rgba(0,0,0,.8)]">
               Ton don fait vivre l&apos;app et des missions auprès des plus pauvres.
             </p>
           </div>
