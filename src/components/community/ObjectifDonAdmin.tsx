@@ -11,7 +11,7 @@ import { progressionDon } from "@/lib/soutien";
  */
 export function ObjectifDonAdmin() {
   const [titre, setTitre] = useState("Objectif du mois");
-  const [montant, setMontant] = useState("3000");
+  const [montant, setMontant] = useState("10000");
   const [mensuel, setMensuel] = useState(true);
   const [horsApp, setHorsApp] = useState("0");
   const [collecte, setCollecte] = useState<{ eur: number; dons: number } | null>(null);

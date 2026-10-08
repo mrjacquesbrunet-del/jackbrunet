@@ -12,12 +12,14 @@
 create table if not exists public.objectif_don (
   id int primary key default 1 check (id = 1),
   titre text not null default 'Objectif du mois',
-  montant_eur numeric(12, 2) not null default 3000,
+  montant_eur numeric(12, 2) not null default 10000,
   periode text not null default 'mensuel' check (periode in ('mensuel', 'total')),
   depuis timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
 insert into public.objectif_don (id) values (1) on conflict (id) do nothing;
+-- Objectif de départ : 10 000 € par mois (modifiable ensuite dans l'espace admin).
+update public.objectif_don set montant_eur = 10000, periode = 'mensuel' where id = 1 and montant_eur = 3000;
 -- Dons reçus HORS de l'app (site / Stripe, virements…), saisis par l'admin.
 -- En objectif mensuel, la saisie ne compte que pour le mois où elle est faite.
 alter table public.objectif_don add column if not exists ajout_manuel_eur numeric(12, 2) not null default 0;
