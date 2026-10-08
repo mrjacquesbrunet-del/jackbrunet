@@ -6,15 +6,12 @@ import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAuth, initials } from "@/components/community/useAuth";
 import { asset } from "@/lib/asset";
-import { chargerDonsLibres, progressionDon, soutienDispo, type ObjectifDon } from "@/lib/soutien";
-import { lienDonSite } from "@/lib/don-site";
-import { openExternal } from "@/lib/external";
+import { CarteMission } from "@/components/mission/CarteMission";
 import { useEngagement } from "@/lib/engagement";
 import { useLangue } from "@/lib/i18n";
 import { FlameGlyph } from "@/components/ui/DevoIcons";
 import { EVT_BARRE } from "@/components/app/FondDebordement";
 
-const euros = (n: number) => `${Math.round(n).toLocaleString("fr-FR")} €`;
 
 /**
  * MENU PROFIL (en haut à gauche, sur les pages principales de l'app).
@@ -64,8 +61,6 @@ export function vueProfilDemandee(): "espace" | "reglages" | null {
   return null;
 }
 
-/** Photo de la carte « missions » (enfants soutenus par le ministère). */
-const PHOTO_MISSION = "/mission/enfants.webp";
 
 /**
  * Pages qui ont la barre du haut (bouton profil + titre). Les autres ont
@@ -341,13 +336,6 @@ const RHEMA: Ligne[] = [
 export function ProfilMenu() {
   const [ouvert, setOuvert] = useState(false);
   const { userId, profile } = useAuth();
-  const [objectif, setObjectif] = useState<ObjectifDon | null>(null);
-  const pctObjectif = objectif ? Math.min(100, Math.round((objectif.collecte / objectif.objectif) * 100)) : 0;
-
-  // L'objectif est rechargé à chaque ouverture (il avance à chaque don).
-  useEffect(() => {
-    if (ouvert) progressionDon().then(setObjectif);
-  }, [ouvert]);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -372,15 +360,6 @@ export function ProfilMenu() {
       document.body.style.overflow = prev;
     };
   }, [ouvert]);
-
-  // « Je soutiens la mission » : paiement Apple / Google dans l'app s'il est
-  // en place, sinon directement la page de don du site (Apple Pay, carte…).
-  const langue = useLangue();
-  const allerAuDon = async () => {
-    setOuvert(false);
-    if (soutienDispo() && (await chargerDonsLibres()).length) router.push("/don");
-    else void openExternal(lienDonSite(undefined, undefined, langue));
-  };
 
   const allerProfil = (vue?: "espace" | "reglages") => {
     setOuvert(false);
@@ -490,68 +469,9 @@ export function ProfilMenu() {
               <div className="mt-1 divide-y divide-white/[0.06]">{MON_ESPACE.map(ligne)}</div>
             </div>
 
-            {/* Carte missions → soutien */}
+            {/* Carte missions → soutien (la même que sur le mur de prière) */}
             <div className="relative mt-3 px-4">
-              <button
-                type="button"
-                onClick={allerAuDon}
-                className="group block w-full overflow-hidden rounded-3xl border border-dawn-400/30 bg-night-900 text-left"
-              >
-                <div className="relative h-28 overflow-hidden">
-                  {/* Photo « fondue » dans la charte : un peu désaturée et assombrie,
-                      teinte olive, dégradé vers la carte et titre posé dessus. */}
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={asset(PHOTO_MISSION)}
-                    alt=""
-                    className="h-full w-full object-cover"
-                    style={{ objectPosition: "center 34%", filter: "saturate(0.78) contrast(1.08) brightness(0.82)" }}
-                  />
-                  <div
-                    aria-hidden
-                    className="absolute inset-0"
-                    style={{
-                      background:
-                        "radial-gradient(120% 90% at 85% 0%, rgba(202,240,0,0.12), transparent 55%), linear-gradient(to top, rgb(var(--n-900)) 0%, rgb(var(--n-900) / 0.6) 18%, transparent 42%)",
-                    }}
-                  />
-                  <span className="absolute left-3 top-3 rounded-full bg-night-950/70 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-dawn-400 backdrop-blur">
-                    Mission
-                  </span>
-                  <p className="absolute inset-x-4 bottom-1.5 font-display text-[16px] font-extrabold leading-tight text-cream [text-shadow:0_1px_8px_rgba(0,0,0,.7)]">
-                    Soutiens la <span className="text-dawn-400">mission</span>
-                  </p>
-                </div>
-                <div className="px-4 pb-3.5 pt-1">
-                  <p className="text-[12.5px] leading-snug text-cream/65">
-                    Ton don fait vivre l&apos;app et des missions auprès des plus pauvres.
-                  </p>
-                  {/* Objectif : la même barre que sur la page Soutien */}
-                  {objectif ? (
-                    <div className="mt-2.5">
-                      <div className="flex items-baseline justify-between gap-2">
-                        <p className="text-[10.5px] font-black uppercase tracking-[0.16em] text-cream/45">{objectif.titre}</p>
-                        <p className="text-[12px] font-extrabold text-dawn-400">{`${pctObjectif} %`}</p>
-                      </div>
-                      <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-white/10">
-                        <div
-                          className="h-full rounded-full bg-gradient-to-r from-[#8FB300] to-dawn-400"
-                          style={{ width: `${Math.max(pctObjectif, objectif.collecte > 0 ? 3 : 0)}%` }}
-                        />
-                      </div>
-                      <p className="mt-1.5 text-[12px] font-semibold text-cream/60">
-                        {`${euros(objectif.collecte)} sur ${euros(objectif.objectif)}`}
-                      </p>
-                    </div>
-                  ) : null}
-                  <span className="mt-2.5 inline-flex items-center gap-1.5 rounded-full bg-dawn-400 px-3.5 py-1.5 text-[12.5px] font-extrabold text-night-950 transition-transform group-active:scale-95">
-                    Je soutiens la mission
-                    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth={2.4} aria-hidden>
-                      <path d={I.chevron} strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
-                </div>
-              </button>
+              <CarteMission onAvantDon={() => setOuvert(false)} />
             </div>
 
             {/* RHEMA */}

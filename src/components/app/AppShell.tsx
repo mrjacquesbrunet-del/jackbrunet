@@ -10,8 +10,7 @@ import { BottomNav } from "@/components/app/BottomNav";
 import { AppOnboarding } from "@/components/app/AppOnboarding";
 import { AnnouncementBanner } from "@/components/app/AnnouncementBanner";
 import { NotifOptIn } from "@/components/app/NotifOptIn";
-import { GamesNewsModal } from "@/components/app/GamesNewsModal";
-import { FormationNewsModal } from "@/components/app/FormationNewsModal";
+import { PopupMission } from "@/components/mission/PopupMission";
 import { RatingPrompt } from "@/components/app/RatingPrompt";
 import { CarnetBubble } from "@/components/app/CarnetBubble";
 import { BadgeCelebration } from "@/components/app/BadgeCelebration";
@@ -145,8 +144,7 @@ export function AppShell() {
       <CarnetBubble />
       <AppOnboarding />
       <AnnouncementBanner />
-      <FormationNewsModal />
-      <GamesNewsModal />
+      <PopupMission />
       <NotifOptIn />
       <RatingPrompt />
       <BadgeCelebration />

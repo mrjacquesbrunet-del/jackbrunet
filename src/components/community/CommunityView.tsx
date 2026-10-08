@@ -19,7 +19,7 @@ import { MemberSuggestions } from "@/components/community/MemberSuggestions";
 import { MentionField } from "@/components/community/MentionField";
 import { VoiceRecorderButton } from "@/components/community/VoiceNote";
 import { CommunityLanding } from "@/components/community/CommunityLanding";
-import { FormationCard } from "@/components/community/FormationCard";
+import { CarteMission } from "@/components/mission/CarteMission";
 import { TopIntercessors } from "@/components/community/TopIntercessors";
 import { openExternal } from "@/lib/external";
 import { siteConfig } from "@/config/site";
@@ -381,8 +381,8 @@ function Feed({
       {/* Intercesseurs de la semaine — mettre en avant ceux qui prient */}
       <TopIntercessors />
 
-      {/* Nouvelle fonctionnalité : la formation de l'École biblique */}
-      <FormationCard />
+      {/* Soutiens la mission (même carte que dans le menu profil) */}
+      <CarteMission className="mt-4" />
 
       {/* Focus de prière de la semaine (replié par défaut) */}
       <div className="mt-3">

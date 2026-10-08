@@ -1667,7 +1667,7 @@
   "components/bible/BibleSearch.tsx:89"
  ],
  "{0} sur {1}": [
-  "components/app/ProfilMenu.tsx:543",
+  "components/mission/CarteMission.tsx:53",
   "components/mission/DonnerRapide.tsx:104"
  ],
  "{0}, {1}/{2} chapitres": [
@@ -2289,9 +2289,6 @@
  "365 révélations bibliques à méditer, une par jour, pendant un an. Le condensé de six années de partage et de plus de mille vidéos autour de la Parole.": [
   "components/boutique/RhemaShowcase.tsx:511"
  ],
- "4 jeux, nouveau look": [
-  "components/app/GamesNewsModal.tsx:127"
- ],
  "40 ans": [
   "config/chemin/chapitre-abraham.ts:27"
  ],
@@ -2735,8 +2732,8 @@
  ],
  "À propos": [
   "app/a-propos/page.tsx:13",
-  "components/app/ProfilMenu.tsx:87",
-  "components/app/ProfilMenu.tsx:337"
+  "components/app/ProfilMenu.tsx:82",
+  "components/app/ProfilMenu.tsx:332"
  ],
  "À propos de {0} — « {1} » : {2}": [
   "components/bible/VersetOutils.tsx:231"
@@ -3152,9 +3149,6 @@
  "Absalom": [
   "config/chemin/chapitre-david.ts:45",
   "config/chemin/chapitre-salomon.ts:26"
- ],
- "Accéder à la formation": [
-  "components/app/FormationNewsModal.tsx:82"
  ],
  "Accepter": [
   "components/community/GroupView.tsx:264",
@@ -3923,6 +3917,9 @@
  "Apple Pay": [
   "components/mission/DonnerRapide.tsx:202"
  ],
+ "Apple Pay, Google Pay ou carte bancaire · Paiement sécurisé": [
+  "components/mission/PopupMission.tsx:145"
+ ],
  "application": [
   "app/confidentialite/page.tsx:61"
  ],
@@ -3939,14 +3936,8 @@
  "Apporter un message du roi": [
   "config/chemin/chapitre-david.ts:76"
  ],
- "Apprends la Bible en t'amusant, seul ou contre tes amis.": [
-  "components/app/GamesNewsModal.tsx:108"
- ],
  "Apprends la Bible en t'amusant.": [
   "components/app/AppOnboarding.tsx:106"
- ],
- "Apprends les fondamentaux de la foi, leçon par leçon.": [
-  "components/community/FormationCard.tsx:32"
  ],
  "Appris": [
   "app/memoriser/page.tsx:550"
@@ -4943,7 +4934,7 @@
   "components/community/AnsweredFeed.tsx:30"
  ],
  "Bienvenue": [
-  "components/app/ProfilMenu.tsx:465"
+  "components/app/ProfilMenu.tsx:444"
  ],
  "Bienvenue 🙏 Partagez vos plans, vos percées et vos sujets de prière. Commentez, réagissez et priez les uns pour les autres, en famille.": [
   "components/community/GroupView.tsx:164"
@@ -4994,7 +4985,7 @@
   "config/chemin/chapitre-eglise.ts:68"
  ],
  "Bonjour": [
-  "components/app/ProfilMenu.tsx:244",
+  "components/app/ProfilMenu.tsx:239",
   "components/ecole/EcoleView.tsx:77",
   "components/games/ArcadeUI.tsx:303"
  ],
@@ -5008,7 +4999,7 @@
   "components/boutique/RhemaShowcase.tsx:202"
  ],
  "Bonjour, {0}": [
-  "components/app/ProfilMenu.tsx:269"
+  "components/app/ProfilMenu.tsx:264"
  ],
  "bonne": [
   "components/games/VraiFauxScreen.tsx:416"
@@ -5036,10 +5027,10 @@
   "components/ecole/FormationView.tsx:2077"
  ],
  "Bonsoir": [
-  "components/app/ProfilMenu.tsx:244"
+  "components/app/ProfilMenu.tsx:239"
  ],
  "Bonsoir, {0}": [
-  "components/app/ProfilMenu.tsx:269"
+  "components/app/ProfilMenu.tsx:264"
  ],
  "Bonus": [
   "components/app/ExclusivesView.tsx:51"
@@ -5232,7 +5223,7 @@
   "config/chemin/chapitre-naissance.ts:35"
  ],
  "Carnet": [
-  "components/app/ProfilMenu.tsx:79",
+  "components/app/ProfilMenu.tsx:74",
   "components/community/AnalyticsDashboard.tsx:28"
  ],
  "Carnet, versets surlignés et plans te suivent sur tous tes appareils.": [
@@ -6091,9 +6082,6 @@
  ],
  "Classement général": [
   "components/games/GamesHub.tsx:335"
- ],
- "Classements animés + Ligue de la semaine (remise à zéro le lundi).": [
-  "components/app/GamesNewsModal.tsx:128"
  ],
  "Classique": [
   "lib/reading-settings.ts:47"
@@ -8323,9 +8311,6 @@
  "Découvrir le livre": [
   "components/home/RhemaBanner.tsx:35"
  ],
- "Découvrir les jeux": [
-  "components/app/GamesNewsModal.tsx:140"
- ],
  "Découvrir mes vidéos": [
   "components/home/AboutFounder.tsx:107"
  ],
@@ -8359,9 +8344,6 @@
  ],
  "Défi relevé": [
   "components/games/WhoAmIScreen.tsx:50"
- ],
- "Défie tes amis": [
-  "components/app/GamesNewsModal.tsx:129"
  ],
  "Défier": [
   "components/games/ChallengeScreen.tsx:254"
@@ -9500,7 +9482,7 @@
  ],
  "Écouter": [
   "components/app/BottomNav.tsx:53",
-  "components/app/ProfilMenu.tsx:85",
+  "components/app/ProfilMenu.tsx:80",
   "components/audio/ListenScreen.tsx:365"
  ],
  "Écouter ce jour": [
@@ -10784,7 +10766,7 @@
  ],
  "Étude": [
   "components/app/BottomNav.tsx:51",
-  "components/app/ProfilMenu.tsx:78"
+  "components/app/ProfilMenu.tsx:73"
  ],
  "Étude biblique": [
   "app/ecole/page.tsx:6",
@@ -10885,7 +10867,7 @@
   "app/exaucees/page.tsx:17"
  ],
  "Exaucées": [
-  "components/app/ProfilMenu.tsx:83",
+  "components/app/ProfilMenu.tsx:78",
   "components/community/CommunityView.tsx:481"
  ],
  "Excelente aplicativo, fluido e claro. Que bênção na minha vida!": [
@@ -10902,7 +10884,7 @@
  ],
  "Exclusivités": [
   "app/exclusivites/page.tsx:5",
-  "components/app/ProfilMenu.tsx:81",
+  "components/app/ProfilMenu.tsx:76",
   "components/community/AnalyticsDashboard.tsx:27"
  ],
  "Exercice terminé": [
@@ -11172,9 +11154,6 @@
  "Fait": [
   "components/quiz/QuizScreen.tsx:724"
  ],
- "fait peau neuve !": [
-  "components/app/GamesNewsModal.tsx:105"
- ],
  "Faites ce qu'il vous dira": [
   "config/chemin/chapitre-disciples.ts:56"
  ],
@@ -11209,7 +11188,7 @@
   "components/games/VraiFauxScreen.tsx:497"
  ],
  "Favoris": [
-  "components/app/ProfilMenu.tsx:80",
+  "components/app/ProfilMenu.tsx:75",
   "components/audio/ListenScreen.tsx:429"
  ],
  "fé": [
@@ -11382,7 +11361,6 @@
  ],
  "Formation biblique": [
   "components/community/FormationAdmin.tsx:35",
-  "components/community/FormationCard.tsx:30",
   "components/ecole/FormationView.tsx:1301"
  ],
  "Formation terminée — voir ma récompense": [
@@ -11905,7 +11883,7 @@
  ],
  "Groupes": [
   "app/groupes/page.tsx:6",
-  "components/app/ProfilMenu.tsx:84",
+  "components/app/ProfilMenu.tsx:79",
   "components/community/GroupsDirectory.tsx:184"
  ],
  "Grow in the knowledge of His Word.": [
@@ -14152,9 +14130,6 @@
  "Intercesseurs de la semaine": [
   "components/community/TopIntercessors.tsx:71"
  ],
- "Interfaces refaites, illustrations 3D, animations.": [
-  "components/app/GamesNewsModal.tsx:127"
- ],
  "Interprétation": [
   "components/bible/CommentaryPanel.tsx:103",
   "components/bible/VersetOutils.tsx:47",
@@ -14891,8 +14866,9 @@
   "config/chemin/chapitre-lazare.ts:97"
  ],
  "Je soutiens la mission": [
-  "components/app/ProfilMenu.tsx:548",
-  "components/mission/DonateScreen.tsx:196"
+  "components/mission/CarteMission.tsx:110",
+  "components/mission/DonateScreen.tsx:196",
+  "components/mission/PopupMission.tsx:140"
  ],
  "Je suis avec vous tous les jours jusqu'à la fin du monde": [
   "config/chemin/chapitre-resurrection.ts:98"
@@ -15481,7 +15457,6 @@
  ],
  "Jeux": [
   "components/app/BottomNav.tsx:52",
-  "components/app/GamesNewsModal.tsx:105",
   "components/community/ProfileBadges.tsx:458"
  ],
  "Jeux bibliques": [
@@ -16189,9 +16164,6 @@
  "L'esclave reçu comme un frère": [
   "config/chemin/chapitre-lettres-paul.ts:20"
  ],
- "L'espace": [
-  "components/app/GamesNewsModal.tsx:105"
- ],
  "L'espace Questions & Réponses arrive prochainement. Reviens vite !": [
   "app/questions/page.tsx:320"
  ],
@@ -16716,9 +16688,6 @@
  ],
  "La force, la persévérance et la foi dans les saisons difficiles.": [
   "config/verse-packs.ts:44"
- ],
- "La formation biblique arrive sur RHEMA": [
-  "components/app/FormationNewsModal.tsx:88"
  ],
  "La formation en 7 leçons de Josy W. Brunet : qui est Dieu, le salut, le baptême, la Sainte Cène, la générosité, l'Église et la nouvelle vie — avec quiz de validation et e-book offert.": [
   "app/ecole/fondamentaux/page.tsx:8"
@@ -19609,10 +19578,10 @@
   "config/chemin/chapitre-miracles.ts:87"
  ],
  "Ma formation": [
-  "components/app/ProfilMenu.tsx:332"
+  "components/app/ProfilMenu.tsx:327"
  ],
  "Ma liste de prière": [
-  "components/app/ProfilMenu.tsx:330",
+  "components/app/ProfilMenu.tsx:325",
   "components/community/MyPrayerList.tsx:119",
   "components/community/ProfileView.tsx:1150"
  ],
@@ -20273,9 +20242,6 @@
  "Membres (": [
   "components/community/GroupView.tsx:839"
  ],
- "Mêmes questions pour vous deux, le meilleur gagne.": [
-  "components/app/GamesNewsModal.tsx:129"
- ],
  "Mémorisateur": [
   "lib/badges.ts:116"
  ],
@@ -20286,7 +20252,6 @@
   "components/memorize/VerseGame.tsx:191"
  ],
  "Mémoriser": [
-  "components/app/GamesNewsModal.tsx:26",
   "components/bible/VersetOutils.tsx:563",
   "components/ui/Markable.tsx:247"
  ],
@@ -20315,7 +20280,7 @@
   "app/mentions-legales/page.tsx:8"
  ],
  "Menu": [
-  "components/app/ProfilMenu.tsx:421"
+  "components/app/ProfilMenu.tsx:400"
  ],
  "méprisa": [
   "config/chemin/chapitre-jacob.ts:36"
@@ -20415,7 +20380,7 @@
   "components/community/GroupsDirectory.tsx:304"
  ],
  "Mes jeux": [
-  "components/app/ProfilMenu.tsx:333"
+  "components/app/ProfilMenu.tsx:328"
  ],
  "Mes mains travaillent la laine et le lin.": [
   "config/chemin/chapitre-proverbes.ts:97"
@@ -20427,7 +20392,7 @@
   "components/community/ProfileNotifications.tsx:96"
  ],
  "Mes plans": [
-  "components/app/ProfilMenu.tsx:329",
+  "components/app/ProfilMenu.tsx:324",
   "components/community/ProfileView.tsx:1025"
  ],
  "Mes plans en cours": [
@@ -20485,8 +20450,8 @@
  ],
  "Messages": [
   "app/messages/page.tsx:6",
-  "components/app/ProfilMenu.tsx:82",
-  "components/app/ProfilMenu.tsx:331"
+  "components/app/ProfilMenu.tsx:77",
+  "components/app/ProfilMenu.tsx:326"
  ],
  "Messages privés": [
   "lib/notif-prefs.ts:24"
@@ -20606,12 +20571,14 @@
   "config/chemin/chapitre-nehemie.ts:36"
  ],
  "mission": [
-  "components/app/ProfilMenu.tsx:522",
-  "components/mission/DonnerRapide.tsx:84"
+  "components/mission/CarteMission.tsx:97",
+  "components/mission/DonnerRapide.tsx:84",
+  "components/mission/PopupMission.tsx:114"
  ],
  "Mission": [
-  "components/app/ProfilMenu.tsx:519",
-  "components/community/AdminSpace.tsx:58"
+  "components/community/AdminSpace.tsx:58",
+  "components/mission/CarteMission.tsx:94",
+  "components/mission/PopupMission.tsx:111"
  ],
  "Mission & Evangélisation": [
   "content/impact.json"
@@ -20761,7 +20728,7 @@
  "Mon carnet": [
   "app/carnet/page.tsx:7",
   "components/app/CarnetBubble.tsx:31",
-  "components/app/ProfilMenu.tsx:328"
+  "components/app/ProfilMenu.tsx:323"
  ],
  "Mon désir est que chacun puisse découvrir Jésus personnellement, non pas seulement comme une idée, une religion ou une tradition, mais comme un Sauveur vivant, un Père proche, un Seigneur fidèle et une source de vie.": [
   "app/a-propos/page.tsx:201"
@@ -20773,7 +20740,7 @@
   "components/ecole/FormationView.tsx:2013"
  ],
  "Mon espace": [
-  "components/app/ProfilMenu.tsx:489"
+  "components/app/ProfilMenu.tsx:468"
  ],
  "Mon espace (carnet, plans, prière…)": [
   "components/community/ProfileView.tsx:581"
@@ -21286,8 +21253,8 @@
  ],
  "Nouveau": [
   "app/reinitialiser-mot-de-passe/page.tsx:17",
-  "components/app/GamesNewsModal.tsx:102",
-  "components/audio/ListenScreen.tsx:575"
+  "components/audio/ListenScreen.tsx:575",
+  "components/community/ProfileBanners.tsx:29"
  ],
  "NOUVEAU": [
   "components/games/ChronoScreen.tsx:208"
@@ -21741,7 +21708,7 @@
   "components/home/DailyHub.tsx:70"
  ],
  "Ouvrir le menu": [
-  "components/app/ProfilMenu.tsx:136",
+  "components/app/ProfilMenu.tsx:131",
   "components/layout/Header.tsx:117"
  ],
  "Ouvrir ma surprise": [
@@ -22032,7 +21999,7 @@
   "lib/quiz.ts:154"
  ],
  "Paramètres": [
-  "components/app/ProfilMenu.tsx:338",
+  "components/app/ProfilMenu.tsx:333",
   "components/community/ProfileSettings.tsx:78",
   "components/community/ProfileView.tsx:600"
  ],
@@ -22856,7 +22823,7 @@
  ],
  "Plans": [
   "components/app/BottomNav.tsx:46",
-  "components/app/ProfilMenu.tsx:77",
+  "components/app/ProfilMenu.tsx:72",
   "components/community/AnalyticsDashboard.tsx:20"
  ],
  "Plans de lecture": [
@@ -22928,9 +22895,9 @@
   "content/plans.json"
  ],
  "Plus tard": [
-  "components/app/GamesNewsModal.tsx:147",
   "components/app/NotifOptIn.tsx:137",
-  "components/app/RatingPrompt.tsx:141"
+  "components/app/RatingPrompt.tsx:141",
+  "components/app/Rewards.tsx:210"
  ],
  "Plus tu pries et encourages, plus tu montes en grade: Intercesseur, Guerrier, Sentinelle.": [
   "components/community/CommunityLanding.tsx:30"
@@ -22955,9 +22922,6 @@
  "Podcasts": [
   "components/community/AdminSpace.tsx:56",
   "components/community/AdminSpace.tsx:139"
- ],
- "Podium or, argent, bronze": [
-  "components/app/GamesNewsModal.tsx:128"
  ],
  "point": [
   "components/games/VfDuel.tsx:285"
@@ -23709,7 +23673,7 @@
  ],
  "Prière": [
   "components/app/BottomNav.tsx:45",
-  "components/app/ProfilMenu.tsx:76",
+  "components/app/ProfilMenu.tsx:71",
   "components/community/ProfileBadges.tsx:454"
  ],
  "Prière & confiance": [
@@ -26266,7 +26230,6 @@
   "config/chemin/chapitre-josue.ts:25"
  ],
  "Qui suis-je": [
-  "components/app/GamesNewsModal.tsx:27",
   "content/about.json"
  ],
  "Qui suis-je ?": [
@@ -26329,7 +26292,6 @@
   "config/chemin/chapitre-rencontres.ts:98"
  ],
  "Quiz": [
-  "components/app/GamesNewsModal.tsx:25",
   "components/ecole/FormationView.tsx:1728"
  ],
  "QUIZ": [
@@ -27409,10 +27371,11 @@
   "lib/verse-image.ts:224"
  ],
  "RHEMA · Ton temps avec Jésus": [
-  "components/app/ProfilMenu.tsx:566"
+  "components/app/ProfilMenu.tsx:486"
  ],
  "RHEMA est gratuite, mais sa création et sa maintenance ont un vrai coût. Ton don permet d'annoncer la Parole gratuitement au plus grand nombre, et le reste part dans les missions.": [
-  "components/mission/DonnerRapide.tsx:114"
+  "components/mission/DonnerRapide.tsx:114",
+  "components/mission/PopupMission.tsx:120"
  ],
  "RHEMA est né d'un chemin personnel avec Dieu, et de plusieurs années de partages, de méditations et de vidéos quotidiennes autour de la Parole. Ce dévotionnel a été conçu pour t'accompagner jour après jour, afin que la Parole ne soit pas seulement écoutée, mais méditée, priée et vécue.": [
   "components/boutique/RhemaShowcase.tsx:701"
@@ -27950,7 +27913,7 @@
   "lib/badges.ts:106"
  ],
  "Se connecter": [
-  "components/app/ProfilMenu.tsx:468",
+  "components/app/ProfilMenu.tsx:447",
   "components/assistant/AssistantView.tsx:133",
   "components/community/EmailPasswordAuth.tsx:182"
  ],
@@ -28120,7 +28083,7 @@
   "components/community/Avatar.tsx:72"
  ],
  "Série de {0} jours avec Jésus": [
-  "components/app/ProfilMenu.tsx:282"
+  "components/app/ProfilMenu.tsx:277"
  ],
  "Série de 10": [
   "lib/quiz.ts:325"
@@ -28569,8 +28532,9 @@
   "app/don/page.tsx:7"
  ],
  "Soutiens la": [
-  "components/app/ProfilMenu.tsx:522",
-  "components/mission/DonnerRapide.tsx:84"
+  "components/mission/CarteMission.tsx:97",
+  "components/mission/DonnerRapide.tsx:84",
+  "components/mission/PopupMission.tsx:114"
  ],
  "Soutiens la mission": [
   "app/donner/page.tsx:6",
@@ -29497,7 +29461,7 @@
   "components/mission/DonnerRapide.tsx:259"
  ],
  "Ton don fait vivre l'app et des missions auprès des plus pauvres.": [
-  "components/app/ProfilMenu.tsx:527",
+  "components/mission/CarteMission.tsx:102",
   "components/mission/DonnerRapide.tsx:87"
  ],
  "Ton don fait vivre RHEMA et les projets de Jack.": [
@@ -31865,7 +31829,7 @@
  ],
  "Vidéos": [
   "app/videos/page.tsx:7",
-  "components/app/ProfilMenu.tsx:86",
+  "components/app/ProfilMenu.tsx:81",
   "components/audio/ListenScreen.tsx:369"
  ],
  "Vidéos & Shorts": [
@@ -32054,7 +32018,7 @@
   "components/home/QuickNote.tsx:55"
  ],
  "Voir mon profil": [
-  "components/app/ProfilMenu.tsx:468"
+  "components/app/ProfilMenu.tsx:447"
  ],
  "Voir mon profil public": [
   "components/community/ProfileView.tsx:969"
@@ -32231,9 +32195,9 @@
   "lib/chemin.ts:67"
  ],
  "Vrai ou Faux": [
-  "components/app/GamesNewsModal.tsx:28",
   "components/games/ChallengeScreen.tsx:225",
-  "components/games/ChallengeScreen.tsx:398"
+  "components/games/ChallengeScreen.tsx:398",
+  "components/games/DuelLive.tsx:35"
  ],
  "VRAI OU FAUX": [
   "components/games/GamesHub.tsx:70"
