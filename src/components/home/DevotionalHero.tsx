@@ -46,7 +46,7 @@ export function DevotionalHero() {
       {/* Bloc de titre, poussé à droite DANS le conteneur borné au viewport
           (évite tout débordement). Tailles en vw sur mobile, fixes dès lg. */}
       {/* Zone droite (espace vide de la photo) : le bloc y est centré. */}
-      <div className="absolute inset-y-0 right-0 flex w-[47%] items-center justify-center px-3 sm:px-5">
+      <div className="hero-sous-barre absolute inset-y-0 right-0 flex w-[47%] items-center justify-center px-3 sm:px-5">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}

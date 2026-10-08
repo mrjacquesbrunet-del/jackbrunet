@@ -267,6 +267,13 @@ html.app-native .site-header,
 html.app-native .site-footer {
   display: none !important;
 }
+/* Pas d'effet élastique vertical dans l'app : plus de bande de couleur qui
+   apparaît en haut ou en bas quand on tire la page (le fond derrière suit de
+   toute façon la couleur de la page, voir FondDebordement). */
+html.app-native,
+html.app-native body {
+  overscroll-behavior-y: none;
+}
 /* Espace pour la barre d'onglets fixe en bas */
 html.app-native main {
   padding-bottom: calc(4.75rem + env(safe-area-inset-bottom));
@@ -478,4 +485,9 @@ html[lang="pt-BR"] .fr-seulement {
   .profil-neon {
     animation: none;
   }
+}
+
+/* Accueil : le titre RHEMA du héros passe sous la barre du haut de l'app. */
+html.app-native .hero-sous-barre {
+  padding-top: calc(env(safe-area-inset-top) + 3.25rem);
 }

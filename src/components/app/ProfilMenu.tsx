@@ -10,6 +10,7 @@ import { progressionDon, type ObjectifDon } from "@/lib/soutien";
 import { useEngagement } from "@/lib/engagement";
 import { useLangue } from "@/lib/i18n";
 import { FlameGlyph } from "@/components/ui/DevoIcons";
+import { EVT_BARRE } from "@/components/app/FondDebordement";
 
 const euros = (n: number) => `${Math.round(n).toLocaleString("fr-FR")} €`;
 
@@ -182,6 +183,19 @@ export function BarreHaut() {
     };
   }, [pathname, titre]);
   const barreRef = useRef<HTMLDivElement>(null);
+  // Le fond derrière la page (rebond du défilement) suit la teinte de la barre.
+  useEffect(() => {
+    const html = document.documentElement;
+    if (titre === undefined) {
+      delete html.dataset.barre;
+      return;
+    }
+    html.dataset.barre = clair ? "clair" : "sombre";
+    window.dispatchEvent(new Event(EVT_BARRE));
+    return () => {
+      delete html.dataset.barre;
+    };
+  }, [clair, titre]);
   if (titre === undefined) return null;
 
   const accueil = pathname === "/devotionnel";
@@ -203,8 +217,8 @@ export function BarreHaut() {
         className="absolute inset-x-0 top-0 h-[calc(env(safe-area-inset-top)+5.25rem)] backdrop-blur-md"
         style={{
           background: clair
-            ? "linear-gradient(to bottom, rgba(243,243,237,.97) 0%, rgba(243,243,237,.88) 55%, rgba(243,243,237,0) 100%)"
-            : "linear-gradient(to bottom, rgb(var(--n-950) / .96) 0%, rgb(var(--n-950) / .8) 55%, rgb(var(--n-950) / 0) 100%)",
+            ? "linear-gradient(to bottom, rgba(243,243,237,1) 0%, rgba(243,243,237,.88) 55%, rgba(243,243,237,0) 100%)"
+            : "linear-gradient(to bottom, rgb(var(--n-950)) 0%, rgb(var(--n-950) / .8) 55%, rgb(var(--n-950) / 0) 100%)",
           WebkitMaskImage: "linear-gradient(to bottom, #000 62%, transparent)",
           maskImage: "linear-gradient(to bottom, #000 62%, transparent)",
         }}

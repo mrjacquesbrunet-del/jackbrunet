@@ -17,6 +17,7 @@ import { BadgeCelebration } from "@/components/app/BadgeCelebration";
 import { BandeauBatisseurs } from "@/components/mission/BandeauBatisseurs";
 import { recordOpen } from "@/lib/usage";
 import { ProfilMenu, BarreHaut } from "@/components/app/ProfilMenu";
+import { FondDebordement } from "@/components/app/FondDebordement";
 
 /**
  * Pilote l'expérience « application »:
@@ -124,6 +125,7 @@ export function AppShell() {
     <>
       <BottomNav />
       <BarreHaut />
+      <FondDebordement />
       <ProfilMenu />
       <BandeauBatisseurs />
       <CarnetBubble />
