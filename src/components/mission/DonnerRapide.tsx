@@ -77,14 +77,15 @@ export function DonnerRapide() {
           />
           <div
             className="absolute inset-0"
-            style={{ background: "linear-gradient(to top, rgb(var(--n-950)) 4%, rgb(var(--n-950) / .55) 45%, transparent 80%)" }}
+            style={{ background: "linear-gradient(to top, rgb(var(--n-950)) 6%, rgb(var(--n-950) / .8) 42%, rgb(var(--n-950) / .2) 75%, transparent 90%)" }}
           />
           <div className="absolute inset-x-4 bottom-3">
             <h1 className="font-display text-[26px] font-extrabold leading-tight">
               Soutiens la <span className="text-dawn-400">mission</span>
             </h1>
-            <p className="mt-1 text-[13px] leading-snug text-cream/75">
-              La Parole de Dieu offerte à toutes les nations, et des missions auprès des plus pauvres.
+            <p className="mt-1 text-[13.5px] font-medium leading-snug text-cream [text-shadow:0_1px_8px_rgba(0,0,0,.6)]">
+              Ton don soutient la création et l&apos;infrastructure de l&apos;application, et des missions auprès
+              des plus pauvres.
             </p>
           </div>
         </div>
