@@ -166,7 +166,7 @@ export function MemberView() {
         <div className="relative h-44 w-full overflow-hidden sm:h-56">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={profile.banner_url || profile.avatar_url || asset("/img/profil-defaut.webp")}
+            src={profile.banner_url || asset("/img/banniere-rhema.webp")}
             alt=""
             aria-hidden
             className="absolute inset-0 h-full w-full object-cover"
