@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { demanderVueProfil } from "@/components/app/ProfilMenu";
 import {
   getQuizCoins,
   getQuizGames,
@@ -188,7 +189,7 @@ export function GamesHub() {
             <p className="mt-0.5 text-right font-game text-[10px] text-white/70">{into} / {span} <span className="text-amber-300">XP</span></p>
           </div>
           <div className="flex shrink-0 flex-col items-end gap-2">
-            <Link href="/profil" aria-label="Réglages" className="grid h-9 w-9 place-items-center rounded-2xl bg-white/15 ring-1 ring-white/20">
+            <Link href="/profil" onClick={() => demanderVueProfil("reglages")} aria-label="Réglages" className="grid h-9 w-9 place-items-center rounded-2xl bg-white/15 ring-1 ring-white/20">
               <IconGear className="h-5 w-5" />
             </Link>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-black/25 px-3 py-1.5 font-game text-sm font-extrabold ring-1 ring-white/15">

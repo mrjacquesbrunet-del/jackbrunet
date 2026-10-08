@@ -320,9 +320,14 @@ export function ListenScreen() {
             transition={{ delay: 0.55, duration: 0.6 }}
             className="mt-2 text-[13px] font-semibold text-cream/55"
           >
-            {tracks
-              ? `${nbEpisodes} épisode${nbEpisodes > 1 ? "s" : ""}${minutesTotales > 0 ? ` · ${minutesTotales} min d'écoute` : ""}`
-              : "Chargement…"}
+            {tracks ? (
+              <>
+                <span>{nbEpisodes > 1 ? `${nbEpisodes} épisodes` : `${nbEpisodes} épisode`}</span>
+                {minutesTotales > 0 ? <span>{` · ${minutesTotales} min d'écoute`}</span> : null}
+              </>
+            ) : (
+              "Chargement…"
+            )}
           </motion.p>
           <motion.p
             initial={{ opacity: 0 }}

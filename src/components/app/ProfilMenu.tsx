@@ -33,6 +33,37 @@ const EVT = "jb:menu-profil";
 export const CLE_VUE_PROFIL = "jb.profil.vue";
 export const EVT_VUE_PROFIL = "jb:profil-vue";
 
+/**
+ * Demande l'ouverture d'une vue du profil (« reglages » ou « espace »).
+ * La demande est horodatée et reste valable quelques secondes : même si la
+ * page Profil se charge en deux temps (connexion, langue), elle s'ouvre bien.
+ * Renvoie true si on est déjà sur /profil (rien d'autre à faire).
+ */
+export function demanderVueProfil(vue?: "espace" | "reglages"): boolean {
+  try {
+    if (vue) sessionStorage.setItem(CLE_VUE_PROFIL, `${vue}|${Date.now()}`);
+    else sessionStorage.removeItem(CLE_VUE_PROFIL);
+  } catch {
+    /* stockage indisponible */
+  }
+  if (window.location.pathname.startsWith("/profil")) {
+    window.dispatchEvent(new Event(EVT_VUE_PROFIL));
+    return true;
+  }
+  return false;
+}
+
+/** Lit la vue demandée (si la demande a moins de 8 s). */
+export function vueProfilDemandee(): "espace" | "reglages" | null {
+  try {
+    const [vue, t] = (sessionStorage.getItem(CLE_VUE_PROFIL) ?? "").split("|");
+    if ((vue === "espace" || vue === "reglages") && Date.now() - Number(t) < 8000) return vue;
+  } catch {
+    /* stockage indisponible */
+  }
+  return null;
+}
+
 /** Photo de la carte « missions » (enfants soutenus par le ministère). */
 const PHOTO_MISSION = "/mission/enfants.webp";
 
@@ -352,15 +383,8 @@ export function ProfilMenu() {
   };
 
   const allerProfil = (vue?: "espace" | "reglages") => {
-    try {
-      if (vue) sessionStorage.setItem(CLE_VUE_PROFIL, vue);
-      else sessionStorage.removeItem(CLE_VUE_PROFIL);
-    } catch {
-      /* stockage indisponible */
-    }
     setOuvert(false);
-    if (pathname?.startsWith("/profil")) window.dispatchEvent(new Event(EVT_VUE_PROFIL));
-    else router.push("/profil/");
+    if (!demanderVueProfil(vue)) router.push("/profil/");
   };
 
   const ligne = (l: Ligne) => {

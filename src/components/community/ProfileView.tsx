@@ -1,6 +1,6 @@
 "use client";
 
-import { CLE_VUE_PROFIL, EVT_VUE_PROFIL } from "@/components/app/ProfilMenu";
+import { CLE_VUE_PROFIL, EVT_VUE_PROFIL, vueProfilDemandee } from "@/components/app/ProfilMenu";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { isSupabaseConfigured } from "@/lib/supabase";
@@ -174,14 +174,10 @@ function Profile({
   // Arrivée depuis le menu profil (photo en haut à gauche) : « Ma liste de
   // prière » ouvre Mon espace, « Paramètres » ouvre les réglages.
   useEffect(() => {
+    // La demande n'est pas effacée tout de suite : si la page se recharge en
+    // deux temps (connexion, langue), le second affichage l'applique aussi.
     const appliquer = () => {
-      let vue: string | null = null;
-      try {
-        vue = sessionStorage.getItem(CLE_VUE_PROFIL);
-        sessionStorage.removeItem(CLE_VUE_PROFIL);
-      } catch {
-        /* stockage indisponible */
-      }
+      const vue = vueProfilDemandee();
       if (vue === "espace") setView("espace");
       else if (vue === "reglages") setSettingsOpen(true);
       else setView("mur");
@@ -1288,7 +1284,19 @@ function Profile({
         />
       ): null}
 
-      {settingsOpen ? <ProfileSettings userId={userId} onClose={() => setSettingsOpen(false)} /> : null}
+      {settingsOpen ? (
+        <ProfileSettings
+          userId={userId}
+          onClose={() => {
+            try {
+              sessionStorage.removeItem(CLE_VUE_PROFIL);
+            } catch {
+              /* stockage indisponible */
+            }
+            setSettingsOpen(false);
+          }}
+        />
+      ) : null}
       </div>
     </section>
   );

@@ -21,6 +21,7 @@ import { ScoreBoard } from "@/components/games/ScoreBoard";
 import { bumpAchv, markDayStreak } from "@/lib/achievements";
 import { checkLocalBadges } from "@/lib/badges";
 import { asset } from "@/lib/asset";
+import { demanderVueProfil } from "@/components/app/ProfilMenu";
 import {
   ArcadeShell,
   HubHeader,
@@ -204,7 +205,7 @@ export function BergerScreen() {
   if (phase === "hub") {
     return (
       <ArcadeShell>
-        <HubHeader name={name} avatarUrl={avatar} level={lvl.level} xpInto={lvl.into} xpSpan={lvl.span} gems={getBergerXp()} onGear={() => router.push("/profil")} />
+        <HubHeader name={name} avatarUrl={avatar} level={lvl.level} xpInto={lvl.into} xpSpan={lvl.span} gems={getBergerXp()} onGear={() => !demanderVueProfil("reglages") && router.push("/profil")} />
 
         <div className="qm-hero mt-4" style={{ background: "radial-gradient(120% 120% at 100% 0%, rgba(74,222,128,.2), transparent 55%), linear-gradient(135deg,rgba(30,30,29,.72) 0%,rgba(12,12,11,.84) 100%)" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
