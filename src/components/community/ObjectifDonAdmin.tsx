@@ -64,8 +64,9 @@ export function ObjectifDonAdmin() {
         Objectif du don libre (app)
       </h2>
       <p className="mt-1 text-sm text-night-900/60">
-        La barre additionne les dons libres Apple / Google, les Bâtisseurs actifs et ce que tu
-        as reçu hors de l&apos;app (site, virements…).
+        La barre additionne les dons libres Apple / Google, les Bâtisseurs actifs, les dons
+        faits sur le site par Stripe (automatique, hors Mission Madagascar) et ce que tu saisis
+        ci-dessous (virements, espèces…).
         {collecte ? ` En ce moment : ${collecte.eur.toLocaleString("fr-FR")} € (${collecte.dons} dons).` : ""}
       </p>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -85,7 +86,7 @@ export function ObjectifDonAdmin() {
       </div>
       <label className="mt-3 block">
         <span className="text-xs font-semibold uppercase tracking-wide text-night-900/50">
-          Reçu hors de l&apos;app {mensuel ? "ce mois-ci" : "depuis le début"} (site, virements…)
+          Autres dons {mensuel ? "ce mois-ci" : "depuis le début"} (virements, espèces… pas Stripe)
         </span>
         <div className="relative mt-1 w-48">
           <input
