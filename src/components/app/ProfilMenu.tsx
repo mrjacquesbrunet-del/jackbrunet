@@ -281,7 +281,7 @@ const I = {
   formation: "M2 9.5l10-5 10 5-10 5-10-5M5.8 12.4v3.8c0 1.4 2.8 2.8 6.2 2.8s6.2-1.4 6.2-2.8v-3.8M22 9.5v5",
   personne: "M16 19v-1a4 4 0 0 0-8 0v1M12 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6",
   info: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 8h.01M11 12h1v4h1",
-  coeur: "M12 20s-7-4.5-9.5-9A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9z",
+  jeux: "M7 9.5h10a4 4 0 0 1 4 4v1.2a2.8 2.8 0 0 1-5 1.7L14.8 15H9.2L8 16.4a2.8 2.8 0 0 1-5-1.7v-1.2a4 4 0 0 1 4-4zM7.5 12v2.5M6.25 13.25h2.5M15.5 12.6h.01M17.5 14h.01",
   reglages:
     "M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.5-2.4 1a7 7 0 0 0-2-1.2L14 3h-4l-.5 2.6a7 7 0 0 0-2 1.2l-2.4-1-2 3.5 2 1.5a7 7 0 0 0 0 2.4l-2 1.5 2 3.5 2.4-1a7 7 0 0 0 2 1.2L10 21h4l.5-2.6a7 7 0 0 0 2-1.2l2.4 1 2-3.5-2-1.5c.07-.4.1-.8.1-1.2z",
   fermer: "M6 6l12 12M18 6L6 18",
@@ -296,11 +296,11 @@ const MON_ESPACE: Ligne[] = [
   { label: "Ma liste de prière", icone: I.priere, vue: "espace" },
   { label: "Messages", icone: I.messages, href: "/messages" },
   { label: "Ma formation", icone: I.formation, href: "/ecole" },
+  { label: "Mes jeux", icone: I.jeux, href: "/jeux" },
 ];
 
 const RHEMA: Ligne[] = [
   { label: "À propos", icone: I.info, href: "/a-propos" },
-  { label: "Soutenir RHEMA", icone: I.coeur, href: "/don" },
   { label: "Paramètres", icone: I.reglages, vue: "reglages" },
 ];
 
@@ -365,7 +365,7 @@ export function ProfilMenu() {
         </span>
       </>
     );
-    const cls = "flex w-full items-center gap-3.5 px-1 py-3 text-left active:opacity-70";
+    const cls = "flex w-full items-center gap-3.5 px-1 py-2.5 text-left active:opacity-70";
     return l.href ? (
       <Link key={l.label} href={l.href} onClick={() => setOuvert(false)} className={cls}>
         {contenu}
@@ -449,19 +449,19 @@ export function ProfilMenu() {
             </div>
 
             {/* Mon espace */}
-            <div className="relative mt-6 px-5">
+            <div className="relative mt-4 px-5">
               <p className="text-[11px] font-black uppercase tracking-[0.22em] text-cream/40">Mon espace</p>
               <div className="mt-1 divide-y divide-white/[0.06]">{MON_ESPACE.map(ligne)}</div>
             </div>
 
             {/* Carte missions → soutien */}
-            <div className="relative mt-5 px-4">
+            <div className="relative mt-3 px-4">
               <Link
                 href="/don"
                 onClick={() => setOuvert(false)}
                 className="group block overflow-hidden rounded-3xl border border-dawn-400/30 bg-night-900"
               >
-                <div className="relative h-48 overflow-hidden">
+                <div className="relative h-28 overflow-hidden">
                   {/* Photo « fondue » dans la charte : un peu désaturée et assombrie,
                       teinte olive, dégradé vers la carte et titre posé dessus. */}
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -469,7 +469,7 @@ export function ProfilMenu() {
                     src={asset(PHOTO_MISSION)}
                     alt=""
                     className="h-full w-full object-cover"
-                    style={{ objectPosition: "center 30%", filter: "saturate(0.78) contrast(1.08) brightness(0.82)" }}
+                    style={{ objectPosition: "center 34%", filter: "saturate(0.78) contrast(1.08) brightness(0.82)" }}
                   />
                   <div
                     aria-hidden
@@ -482,18 +482,17 @@ export function ProfilMenu() {
                   <span className="absolute left-3 top-3 rounded-full bg-night-950/70 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-dawn-400 backdrop-blur">
                     Mission
                   </span>
-                  <p className="absolute inset-x-4 bottom-2.5 font-display text-[24px] font-extrabold leading-tight text-cream [text-shadow:0_2px_12px_rgba(0,0,0,.55)]">
+                  <p className="absolute inset-x-4 bottom-2 font-display text-[20px] font-extrabold leading-tight text-cream [text-shadow:0_2px_12px_rgba(0,0,0,.55)]">
                     Soutiens la <span className="text-dawn-400">mission</span>
                   </p>
                 </div>
-                <div className="px-4 pb-4 pt-1.5">
-                  <p className="text-[13.5px] leading-relaxed text-cream/70">
-                    Donner accès gratuitement à la Parole de Dieu dans toutes les nations, et aider les
-                    pays les plus pauvres à travers des missions humanitaires et d&apos;évangélisation.
+                <div className="px-4 pb-3.5 pt-1">
+                  <p className="text-[12.5px] leading-snug text-cream/65">
+                    La Parole de Dieu offerte à toutes les nations, et des missions auprès des plus pauvres.
                   </p>
                   {/* Objectif : la même barre que sur la page Soutien */}
                   {objectif ? (
-                    <div className="mt-3">
+                    <div className="mt-2.5">
                       <div className="flex items-baseline justify-between gap-2">
                         <p className="text-[10.5px] font-black uppercase tracking-[0.16em] text-cream/45">{objectif.titre}</p>
                         <p className="text-[12px] font-extrabold text-dawn-400">{`${pctObjectif} %`}</p>
@@ -509,7 +508,7 @@ export function ProfilMenu() {
                       </p>
                     </div>
                   ) : null}
-                  <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-dawn-400 px-4 py-2 text-[13px] font-extrabold text-night-950 transition-transform group-active:scale-95">
+                  <span className="mt-2.5 inline-flex items-center gap-1.5 rounded-full bg-dawn-400 px-3.5 py-1.5 text-[12.5px] font-extrabold text-night-950 transition-transform group-active:scale-95">
                     Je soutiens la mission
                     <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth={2.4} aria-hidden>
                       <path d={I.chevron} strokeLinecap="round" strokeLinejoin="round" />
@@ -520,12 +519,12 @@ export function ProfilMenu() {
             </div>
 
             {/* RHEMA */}
-            <div className="relative mt-5 px-5">
+            <div className="relative mt-3 px-5">
               <p className="text-[11px] font-black uppercase tracking-[0.22em] text-cream/40">RHEMA</p>
               <div className="mt-1 divide-y divide-white/[0.06]">{RHEMA.map(ligne)}</div>
             </div>
 
-            <div className="relative mt-auto flex items-center gap-2.5 px-5 pt-6 text-cream/40">
+            <div className="relative mt-auto flex items-center gap-2.5 px-5 pt-4 text-cream/40">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={asset("/img/logo-rhema.webp")} alt="" className="h-6 w-6 rounded-md object-contain opacity-70" />
               <span className="text-[12px] font-semibold">RHEMA · Ton temps avec Jésus</span>
