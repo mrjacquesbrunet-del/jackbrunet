@@ -1,12 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAuth, initials } from "@/components/community/useAuth";
 import { asset } from "@/lib/asset";
 import { progressionDon, type ObjectifDon } from "@/lib/soutien";
+import { useEngagement } from "@/lib/engagement";
+import { useLangue } from "@/lib/i18n";
+import { FlameGlyph } from "@/components/ui/DevoIcons";
 
 const euros = (n: number) => `${Math.round(n).toLocaleString("fr-FR")} €`;
 
@@ -19,8 +22,7 @@ const euros = (n: number) => `${Math.round(n).toLocaleString("fr-FR")} €`;
  * - `ProfilBouton` : la pastille seule (aussi posée dans l'en-tête de la Bible) ;
  * - `ProfilMenu` : le panneau, monté une fois dans AppShell, ouvert par
  *   l'évènement `jb:menu-profil` ;
- * - `ProfilBoutonFlottant` : la pastille en haut à gauche des pages qui n'ont
- *   pas déjà quelque chose à cet endroit.
+ * - `BarreHaut` : la barre fixe des pages principales (pastille + titre).
  */
 
 const EVT = "jb:menu-profil";
@@ -31,21 +33,55 @@ export const EVT_VUE_PROFIL = "jb:profil-vue";
 /** Photo de la carte « missions » (enfants soutenus par le ministère). */
 const PHOTO_MISSION = "/mission/enfants.webp";
 
-/** Pages où la pastille flotte en haut à gauche (les autres ont déjà un retour, un avatar…). */
-const PAGES_FLOTTANT = [
-  "/devotionnel",
-  "/communaute",
-  "/plans",
-  "/ecole",
-  "/carnet",
-  "/favoris",
-  "/exclusivites",
-  "/messages",
-  "/exaucees",
-  "/groupes",
-  "/ecouter",
-  "/videos",
-];
+/**
+ * Pages qui ont la barre du haut (bouton profil + titre). Les autres ont
+ * déjà leur propre en-tête (retour, Bible, profil, jeux…).
+ */
+const PAGES_BARRE: Record<string, string> = {
+  "/devotionnel": "",
+  "/communaute": "Prière",
+  "/plans": "Plans",
+  "/ecole": "Étude",
+  "/carnet": "Carnet",
+  "/favoris": "Favoris",
+  "/exclusivites": "Exclusivités",
+  "/messages": "Messages",
+  "/exaucees": "Exaucées",
+  "/groupes": "Groupes",
+  "/ecouter": "Écouter",
+  "/videos": "Vidéos",
+};
+/**
+ * Teinte de ce qui est sous un point : on remonte jusqu'au premier fond
+ * opaque. Une image de fond (héros photo) compte comme sombre.
+ * Renvoie true si clair, false si sombre, null si indéterminé.
+ */
+function teinteSous(el: HTMLElement | null, x: number, y: number): boolean | null {
+  const large = window.innerWidth * 0.7;
+  for (let n: HTMLElement | null = el; n && n !== document.documentElement; n = n.parentElement) {
+    const r = n.getBoundingClientRect();
+    // Une grande image (héros photo) sous le point : sombre.
+    for (const img of Array.from(n.querySelectorAll<HTMLElement>(":scope > img, :scope > picture > img, :scope > video"))) {
+      const ri = img.getBoundingClientRect();
+      if (ri.width >= large * 0.7 && x >= ri.left && x <= ri.right && y >= ri.top && y <= ri.bottom) return false;
+    }
+    if (n.tagName === "IMG" && r.width >= large * 0.7) return false;
+    // On ne tient compte que des fonds larges (sections, pages), pas des
+    // boutons ni des petites cartes.
+    if (r.width < large) continue;
+    const cs = getComputedStyle(n);
+    if (cs.backgroundImage.includes("url(")) return false;
+    const m = cs.backgroundColor.match(/rgba?\(([^)]+)\)/);
+    if (!m) continue;
+    const [rr, g, b, a = 1] = m[1].split(/[ ,/]+/).filter(Boolean).map(Number);
+    if (a < 0.5) continue;
+    return 0.2126 * rr + 0.7152 * g + 0.0722 * b > 150;
+  }
+  return null;
+}
+
+/** Pages à fond clair : la barre prend alors un fondu crème. */
+const PAGES_CLAIRES = new Set(["/carnet", "/favoris", "/messages"]);
 
 export function ouvrirMenuProfil() {
   window.dispatchEvent(new Event(EVT));
@@ -99,14 +135,117 @@ export function ProfilBouton({ taille = 36, className = "" }: { taille?: number;
   );
 }
 
-export function ProfilBoutonFlottant() {
-  const pathname = usePathname() ?? "";
-  const ici = PAGES_FLOTTANT.some((p) => pathname === p || pathname === `${p}/`);
-  if (!ici) return null;
+/**
+ * La barre du haut, toujours visible : le contenu défile dessous et s'efface
+ * dans un fondu (nuit, ou crème sur les pages claires). À gauche le bouton
+ * profil et le titre ; sur l'accueil, la date, « Bonjour, Prénom » et la
+ * flamme de la série avec Jésus.
+ */
+export function BarreHaut() {
+  const pathname = (usePathname() ?? "").replace(/\/$/, "") || "/";
+  const titre = PAGES_BARRE[pathname];
+  const { profile } = useAuth();
+  const eng = useEngagement();
+  const langue = useLangue();
+  const [heure, setHeure] = useState<number | null>(null);
+  useEffect(() => setHeure(new Date().getHours()), [pathname]);
+  // Le fondu prend la teinte de ce qui défile dessous (pages claires ou
+  // sombres, héros photo…) : on regarde la couleur juste sous la barre.
+  const [clair, setClair] = useState(PAGES_CLAIRES.has(pathname));
+  useEffect(() => {
+    if (titre === undefined) return;
+    setClair(PAGES_CLAIRES.has(pathname));
+    let attente = 0;
+    const mesurer = () => {
+      attente = 0;
+      const y = Math.round((barreRef.current?.getBoundingClientRect().bottom ?? 60) + 14);
+      // Trois points (gauche, centre, droite) : la majorité l'emporte.
+      const votes = [0.15, 0.5, 0.85]
+        .map((f) => {
+          const x = Math.round(window.innerWidth * f);
+          return teinteSous(document.elementFromPoint(x, y) as HTMLElement | null, x, y);
+        })
+        .filter((v): v is boolean => v !== null);
+      if (votes.length) setClair(votes.filter(Boolean).length * 2 > votes.length);
+    };
+    const planifier = () => {
+      if (!attente) attente = requestAnimationFrame(mesurer);
+    };
+    const t1 = setTimeout(mesurer, 400);
+    const t2 = setTimeout(mesurer, 1500);
+    window.addEventListener("scroll", planifier, { passive: true });
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      if (attente) cancelAnimationFrame(attente);
+      window.removeEventListener("scroll", planifier);
+    };
+  }, [pathname, titre]);
+  const barreRef = useRef<HTMLDivElement>(null);
+  if (titre === undefined) return null;
+
+  const accueil = pathname === "/devotionnel";
+  const prenom = (profile?.pseudo ?? "").trim().split(/\s+/)[0] ?? "";
+  const date = new Date()
+    .toLocaleDateString(langue === "en" ? "en-US" : langue === "pt" ? "pt-BR" : "fr-FR", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+    })
+    .toUpperCase();
+  const salut = heure !== null && heure >= 18 ? "Bonsoir" : "Bonjour";
+
   return (
-    <div className="pointer-events-none absolute left-4 top-[calc(env(safe-area-inset-top)+0.6rem)] z-30">
-      <div className="pointer-events-auto">
+    <div className="pointer-events-none fixed inset-x-0 top-0 z-40">
+      {/* Fondu : opaque en haut, transparent en bas, avec un léger flou */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-[calc(env(safe-area-inset-top)+5.25rem)] backdrop-blur-md"
+        style={{
+          background: clair
+            ? "linear-gradient(to bottom, rgba(243,243,237,.97) 0%, rgba(243,243,237,.88) 55%, rgba(243,243,237,0) 100%)"
+            : "linear-gradient(to bottom, rgb(var(--n-950) / .96) 0%, rgb(var(--n-950) / .8) 55%, rgb(var(--n-950) / 0) 100%)",
+          WebkitMaskImage: "linear-gradient(to bottom, #000 62%, transparent)",
+          maskImage: "linear-gradient(to bottom, #000 62%, transparent)",
+        }}
+      />
+      <div
+        ref={barreRef}
+        className="pointer-events-auto relative mx-auto flex h-[calc(env(safe-area-inset-top)+3.75rem)] max-w-lg items-center gap-3 px-4 pt-[env(safe-area-inset-top)]"
+      >
         <ProfilBouton />
+        {accueil ? (
+          <div className="min-w-0 flex-1 leading-tight">
+            <p className={`truncate text-[10.5px] font-black tracking-[0.2em] ${clair ? "text-spirit-700" : "text-dawn-400"}`}>{date}</p>
+            <p className={`truncate font-display text-[18px] font-extrabold ${clair ? "text-night-900" : "text-cream"}`}>
+              {prenom ? (salut === "Bonsoir" ? `Bonsoir, ${prenom}` : `Bonjour, ${prenom}`) : salut}
+            </p>
+          </div>
+        ) : (
+          <p className={`min-w-0 flex-1 truncate font-display text-[21px] font-extrabold ${clair ? "text-night-900" : "text-cream"}`}>
+            {titre}
+          </p>
+        )}
+        {accueil && eng.ready ? (
+          // Flamme de la série : lime une fois la méditation du jour faite.
+          <button
+            type="button"
+            onClick={() => document.getElementById("serie")?.scrollIntoView({ behavior: "smooth", block: "center" })}
+            aria-label={`Série de ${eng.streak} jours avec Jésus`}
+            className={`flex h-9 shrink-0 items-center gap-1.5 rounded-full border px-3 text-[14px] font-extrabold backdrop-blur ${
+              eng.isCompletedToday
+                ? "border-dawn-400/60 bg-night-950/80 text-dawn-400 shadow-[0_0_14px_rgba(202,240,0,.3)]"
+                : clair
+                  ? "border-night-900/15 bg-white/70 text-night-900/75"
+                  : "border-white/15 bg-night-950/50 text-cream/80"
+            }`}
+          >
+            <span className={`h-4 w-4 ${eng.isCompletedToday ? "text-dawn-400" : clair ? "text-night-900/40" : "text-cream/50"}`}>
+              <FlameGlyph />
+            </span>
+            {eng.streak}
+          </button>
+        ) : null}
       </div>
     </div>
   );

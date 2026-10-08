@@ -295,7 +295,7 @@ export function DevotionalView({
 
       {/* 1b. Engagement: série + progression */}
       {eng.ready? (
-        <section className="container-x">
+        <section id="serie" className="container-x scroll-mt-24">
           {/* Une seule carte compacte : série + méditations + semaine */}
           <div className="glass p-3.5 sm:p-4">
             <div className="flex flex-wrap items-center gap-x-5 gap-y-2">

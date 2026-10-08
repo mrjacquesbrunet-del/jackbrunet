@@ -65,6 +65,9 @@ function weekStr(d = new Date()): string {
   return dayStr(x);
 }
 
+/** Émis à chaque changement (méditation cochée…). */
+export const EVT_ENGAGEMENT = "jb:engagement";
+
 function read(): State {
   try {
     const raw = localStorage.getItem(KEY);
@@ -83,6 +86,8 @@ function read(): State {
 function write(s: State) {
   try {
     localStorage.setItem(KEY, JSON.stringify(s));
+    // Prévient les autres affichages de la série (barre du haut…).
+    setTimeout(() => window.dispatchEvent(new Event(EVT_ENGAGEMENT)), 0);
   } catch {
     /* stockage indisponible (mode privé) */
   }
@@ -135,6 +140,13 @@ export function useEngagement() {
       setState(s);
     }
     setReady(true);
+  }, []);
+
+  // Une autre partie de l'app a changé la série : on relit.
+  useEffect(() => {
+    const relire = () => setState(read());
+    window.addEventListener(EVT_ENGAGEMENT, relire);
+    return () => window.removeEventListener(EVT_ENGAGEMENT, relire);
   }, []);
 
   const update = useCallback((fn: (s: State) => State) => {

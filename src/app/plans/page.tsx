@@ -60,7 +60,7 @@ export default function PlansPage() {
     <div className="min-h-screen bg-night-950 pb-20 text-cream">
       <PlansDarkBg />
       {/* En-tête compact — fond noir-gris, accent lime (pas d'olive) */}
-      <div className="container-x pt-[calc(env(safe-area-inset-top)+3.4rem)]">
+      <div className="container-x pt-[calc(env(safe-area-inset-top)+4.25rem)]">
         <span className="text-xs font-semibold uppercase tracking-[0.22em] text-dawn-400">
           Plans de lecture
         </span>
