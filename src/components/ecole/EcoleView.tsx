@@ -70,7 +70,7 @@ export function EcoleView() {
   return (
     <div className="min-h-screen bg-night-950 pb-28">
       {/* ——— En-tête sombre ——— */}
-      <header className="container-x pt-[calc(env(safe-area-inset-top)+1.5rem)] text-cream">
+      <header className="container-x pt-[calc(env(safe-area-inset-top)+3.4rem)] text-cream">
         <div className="mx-auto max-w-2xl">
           <p className="text-[11px] font-black uppercase tracking-[0.26em] text-dawn-300">Étude biblique</p>
           <h1 className="mt-2 font-display text-3xl font-extrabold leading-tight">

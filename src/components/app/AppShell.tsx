@@ -16,6 +16,7 @@ import { CarnetBubble } from "@/components/app/CarnetBubble";
 import { BadgeCelebration } from "@/components/app/BadgeCelebration";
 import { BandeauBatisseurs } from "@/components/mission/BandeauBatisseurs";
 import { recordOpen } from "@/lib/usage";
+import { ProfilMenu, ProfilBoutonFlottant } from "@/components/app/ProfilMenu";
 
 /**
  * Pilote l'expérience « application »:
@@ -122,6 +123,8 @@ export function AppShell() {
   return (
     <>
       <BottomNav />
+      <ProfilBoutonFlottant />
+      <ProfilMenu />
       <BandeauBatisseurs />
       <CarnetBubble />
       <AppOnboarding />

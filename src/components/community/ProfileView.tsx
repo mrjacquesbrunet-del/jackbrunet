@@ -1,5 +1,6 @@
 "use client";
 
+import { CLE_VUE_PROFIL, EVT_VUE_PROFIL } from "@/components/app/ProfilMenu";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { isSupabaseConfigured } from "@/lib/supabase";
@@ -170,6 +171,26 @@ function Profile({
   const [view, setView] = useState<"mur" | "espace">("mur");
   // Écran Paramètres (notifications par type, sons, rappel, compte, termes).
   const [settingsOpen, setSettingsOpen] = useState(false);
+  // Arrivée depuis le menu profil (photo en haut à gauche) : « Ma liste de
+  // prière » ouvre Mon espace, « Paramètres » ouvre les réglages.
+  useEffect(() => {
+    const appliquer = () => {
+      let vue: string | null = null;
+      try {
+        vue = sessionStorage.getItem(CLE_VUE_PROFIL);
+        sessionStorage.removeItem(CLE_VUE_PROFIL);
+      } catch {
+        /* stockage indisponible */
+      }
+      if (vue === "espace") setView("espace");
+      else if (vue === "reglages") setSettingsOpen(true);
+      else setView("mur");
+      if (vue) window.scrollTo({ top: 0 });
+    };
+    appliquer();
+    window.addEventListener(EVT_VUE_PROFIL, appliquer);
+    return () => window.removeEventListener(EVT_VUE_PROFIL, appliquer);
+  }, []);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);

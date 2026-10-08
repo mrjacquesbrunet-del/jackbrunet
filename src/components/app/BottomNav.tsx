@@ -51,9 +51,7 @@ const TABS = [
   { href: "/ecole", label: "Étude", icon: I.school, match: ["/ecole", "/assistant"] },
   { href: "/jeux", label: "Jeux", icon: I.quiz, match: ["/jeux", "/quiz", "/memoriser"] },
   { href: "/ecouter", label: "Écouter", icon: I.headphones, match: ["/ecouter", "/videos"] },
-  // Page 3 : soutien puis « À propos » (tout au bout).
-  { href: "/don", label: "Soutien", icon: I.heart, match: ["/don"] },
-  { href: "/a-propos", label: "À propos", icon: I.info, match: ["/a-propos"] },
+  // Soutien et « À propos » : dans le menu profil (photo en haut à gauche).
 ];
 
 export function BottomNav() {
@@ -75,7 +73,7 @@ export function BottomNav() {
     <nav className="bottom-nav fixed inset-x-0 bottom-0 z-[60] border-t border-white/10 bg-night-950/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl">
       <div className="relative mx-auto max-w-lg">
         {/* Rangée glissante: 5 icônes visibles, on glisse vers la gauche pour
-            révéler « Soutien » et « À propos » (onglets 6 & 7). */}
+            révéler les onglets suivants (Étude, Jeux, Écouter). */}
         <div
           ref={rowRef}
           onScroll={onScroll}

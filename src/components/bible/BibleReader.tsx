@@ -1,5 +1,6 @@
 "use client";
 
+import { ProfilBouton } from "@/components/app/ProfilMenu";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { asset, mediaUrl } from "@/lib/asset";
@@ -435,6 +436,8 @@ export function BibleReader() {
             color: reading.theme === "clair"? undefined: THEME_STYLE[reading.theme].text,
           }}
         >
+          {/* Ma photo : ouvre le menu profil (carnet, plans, soutien…) */}
+          {isApp ? <ProfilBouton taille={40} /> : null}
           {/* Pastille livre + chapitre + version : ouvre le sélecteur */}
           <button
             type="button"
