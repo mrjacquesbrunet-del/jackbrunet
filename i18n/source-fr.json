@@ -104,7 +104,7 @@
   "components/community/MediasAdmin.tsx:141"
  ],
  "· {0} min d'écoute": [
-  "components/audio/ListenScreen.tsx:324"
+  "components/audio/ListenScreen.tsx:326"
  ],
  "· 740 pages": [
   "components/boutique/RhemaShowcase.tsx:522"
@@ -1062,7 +1062,7 @@
   "config/chemin/chapitre-sermon.ts:56"
  ],
  "« Que chacun donne comme il l'a résolu en son cœur. » 2 Corinthiens 9:7": [
-  "components/mission/DonnerRapide.tsx:221"
+  "components/mission/DonnerRapide.tsx:232"
  ],
  "« Que cherchez-vous ? »": [
   "config/chemin/chapitre-disciples.ts:25"
@@ -1553,14 +1553,14 @@
  "(sans thème)": [
   "components/community/DevotionsAdmin.tsx:357"
  ],
- "(site, virements…)": [
-  "components/community/ObjectifDonAdmin.tsx:88"
- ],
  "(terminée)": [
   "components/chemin/CheminScreen.tsx:233"
  ],
  "(verrouillée)": [
   "components/chemin/CheminScreen.tsx:233"
+ ],
+ "(virements, espèces… pas Stripe)": [
+  "components/community/ObjectifDonAdmin.tsx:89"
  ],
  "[A-Za-zÀ-ÖØ-öø-ÿ-]": [
   "components/bible/VersetOutils.tsx:255"
@@ -1617,8 +1617,11 @@
  "{0} enfant{1} connu{2}": [
   "components/ecole/ArbresGenealogiques.tsx:327"
  ],
- "{0} épisode{1}{2}": [
-  "components/audio/ListenScreen.tsx:324"
+ "{0} épisode": [
+  "components/audio/ListenScreen.tsx:325"
+ ],
+ "{0} épisodes": [
+  "components/audio/ListenScreen.tsx:325"
  ],
  "{0} étoile{1}": [
   "components/ecole/FormationView.tsx:1143"
@@ -3579,10 +3582,10 @@
   "components/notebook/NotebookView.tsx:109"
  ],
  "Ajouter aux favoris": [
-  "components/audio/ListenScreen.tsx:588"
+  "components/audio/ListenScreen.tsx:593"
  ],
  "Ajouter des audios (admin)": [
-  "components/audio/ListenScreen.tsx:402"
+  "components/audio/ListenScreen.tsx:407"
  ],
  "Ajouter un sujet à ma liste de prière…": [
   "components/community/MyPrayerList.tsx:58"
@@ -3918,7 +3921,7 @@
   "components/community/SocialAuthButtons.tsx:50"
  ],
  "Apple Pay": [
-  "components/mission/DonnerRapide.tsx:191"
+  "components/mission/DonnerRapide.tsx:202"
  ],
  "application": [
   "app/confidentialite/page.tsx:61"
@@ -4309,16 +4312,16 @@
   "components/games/ChallengeScreen.tsx:173"
  ],
  "Aucun épisode hors-ligne": [
-  "components/audio/ListenScreen.tsx:514"
+  "components/audio/ListenScreen.tsx:519"
  ],
  "Aucun épisode ne correspond à «": [
-  "components/audio/ListenScreen.tsx:494"
+  "components/audio/ListenScreen.tsx:499"
  ],
  "Aucun événement programmé pour le moment. Reviens bientôt, ou laisse ton email plus bas pour être prévenu(e) dès qu'une date est annoncée.": [
   "components/home/EventsView.tsx:132"
  ],
  "Aucun favori pour l'instant": [
-  "components/audio/ListenScreen.tsx:512"
+  "components/audio/ListenScreen.tsx:517"
  ],
  "Aucun groupe pour l'instant.": [
   "components/community/GroupsDirectory.tsx:294"
@@ -4488,14 +4491,17 @@
   "components/community/MyPrayerList.tsx:161"
  ],
  "Autre": [
-  "components/mission/DonnerRapide.tsx:160",
+  "components/mission/DonnerRapide.tsx:171",
   "lib/moderation.ts:33"
  ],
  "Autre montant": [
-  "components/mission/DonnerRapide.tsx:161"
+  "components/mission/DonnerRapide.tsx:172"
  ],
  "autres": [
   "components/bible/FichesChapitre.tsx:601"
+ ],
+ "Autres dons": [
+  "components/community/ObjectifDonAdmin.tsx:89"
  ],
  "Autres réponses qui pourraient t'aider": [
   "app/questions/page.tsx:438"
@@ -5233,7 +5239,7 @@
   "components/community/CommunityLanding.tsx:31"
  ],
  "Carte bancaire": [
-  "components/mission/DonnerRapide.tsx:191"
+  "components/mission/DonnerRapide.tsx:202"
  ],
  "Carte de prière mensuelle": [
   "content/support-tiers.json"
@@ -5309,7 +5315,7 @@
   "components/community/AnalyticsDashboard.tsx:213"
  ],
  "ce mois-ci": [
-  "components/community/ObjectifDonAdmin.tsx:88"
+  "components/community/ObjectifDonAdmin.tsx:89"
  ],
  "Ce mot de passe est trop simple. Choisis-en un plus long, avec des chiffres.": [
   "components/community/EmailPasswordAuth.tsx:105"
@@ -5764,7 +5770,7 @@
  ],
  "Chaque mois": [
   "app/dons/page.tsx:173",
-  "components/mission/DonnerRapide.tsx:112"
+  "components/mission/DonnerRapide.tsx:123"
  ],
  "Chaque mois, des millions de personnes sont touchées par des messages, des prières, des lives, des exhortations et des contenus bibliques centrés sur Jésus-Christ.": [
   "app/a-propos/page.tsx:157"
@@ -5794,7 +5800,7 @@
   "app/memoriser/page.tsx:529"
  ],
  "Chargement": [
-  "components/audio/ListenScreen.tsx:488"
+  "components/audio/ListenScreen.tsx:493"
  ],
  "Chargement de l'étude…": [
   "components/bible/VersetOutils.tsx:776"
@@ -5930,7 +5936,7 @@
   "config/chemin/chapitre-ezechiel.ts:56"
  ],
  "Choisir des fichiers": [
-  "components/audio/ListenScreen.tsx:414"
+  "components/audio/ListenScreen.tsx:419"
  ],
  "Choisir des images (plusieurs à la fois)": [
   "components/community/MediasAdmin.tsx:115"
@@ -5980,7 +5986,7 @@
   "components/bible/BibleReader.tsx:1019"
  ],
  "Choisis un montant": [
-  "components/mission/DonnerRapide.tsx:183"
+  "components/mission/DonnerRapide.tsx:194"
  ],
  "Choisis un montant, une fois ou chaque mois, puis paie avec Apple Pay, Google Pay ou ta carte bancaire.": [
   "components/mission/DonateScreen.tsx:184"
@@ -8006,7 +8012,7 @@
   "config/chemin/chapitre-esaie.ts:87"
  ],
  "De nouveaux enseignements sont en préparation.": [
-  "components/audio/ListenScreen.tsx:522"
+  "components/audio/ListenScreen.tsx:527"
  ],
  "De nuit": [
   "config/chemin/chapitre-rencontres.ts:25"
@@ -8466,7 +8472,7 @@
   "config/chemin/chapitre-croix.ts:93"
  ],
  "depuis le début": [
-  "components/community/ObjectifDonAdmin.tsx:88"
+  "components/community/ObjectifDonAdmin.tsx:89"
  ],
  "Depuis quelque temps, Dieu a placé Madagascar sur mon cœur. Après plusieurs confirmations, nous croyons qu'il est temps d'y aller, non pas simplement pour organiser un événement, mais pour répondre à un appel: annoncer Jésus, encourager les cœurs, visiter les oubliés et soutenir concrètement ceux qui œuvrent déjà sur place.": [
   "app/mission-madagascar/page.tsx:98"
@@ -9077,7 +9083,7 @@
   "components/home/AppDownloadBanner.tsx:20"
  ],
  "Disponible hors-ligne · toucher pour retirer": [
-  "components/audio/ListenScreen.tsx:615"
+  "components/audio/ListenScreen.tsx:620"
  ],
  "Disponible hors-ligne · toucher pour supprimer": [
   "components/bible/BibleDownload.tsx:64"
@@ -9174,10 +9180,10 @@
  ],
  "Donner {0}": [
   "components/mission/DonLibre.tsx:143",
-  "components/mission/DonnerRapide.tsx:186"
+  "components/mission/DonnerRapide.tsx:197"
  ],
  "Donner {0} par mois": [
-  "components/mission/DonnerRapide.tsx:185"
+  "components/mission/DonnerRapide.tsx:196"
  ],
  "donner accès à l'eau et à l'électricité": [
   "components/mission/MissionProgress.tsx:86"
@@ -9495,7 +9501,7 @@
  "Écouter": [
   "components/app/BottomNav.tsx:53",
   "components/app/ProfilMenu.tsx:85",
-  "components/audio/ListenScreen.tsx:360"
+  "components/audio/ListenScreen.tsx:365"
  ],
  "Écouter ce jour": [
   "components/plans/PlanView.tsx:469"
@@ -9616,7 +9622,7 @@
  ],
  "Effacer": [
   "app/questions/page.tsx:367",
-  "components/audio/ListenScreen.tsx:474",
+  "components/audio/ListenScreen.tsx:479",
   "components/bible/RechercheBible.tsx:148"
  ],
  "égal": [
@@ -10030,7 +10036,7 @@
   "components/community/BibleAudioAdmin.tsx:216"
  ],
  "En ce moment : {0} € ({1} dons).": [
-  "components/community/ObjectifDonAdmin.tsx:69"
+  "components/community/ObjectifDonAdmin.tsx:70"
  ],
  "En cessant le travail": [
   "config/chemin/chapitre-nehemie.ts:76"
@@ -10385,7 +10391,7 @@
   "components/community/AdminAnnounce.tsx:187"
  ],
  "Envoi… {0}/{1}": [
-  "components/audio/ListenScreen.tsx:414"
+  "components/audio/ListenScreen.tsx:419"
  ],
  "Envoie les MP3 d'un livre": [
   "components/community/BibleAudioAdmin.tsx:105"
@@ -10480,7 +10486,7 @@
   "components/chemin/CheminScreen.tsx:92"
  ],
  "Épisodes": [
-  "components/audio/ListenScreen.tsx:423"
+  "components/audio/ListenScreen.tsx:428"
  ],
  "Épisodes les plus écoutés (30 j)": [
   "components/community/AnalyticsDashboard.tsx:239"
@@ -11204,7 +11210,7 @@
  ],
  "Favoris": [
   "components/app/ProfilMenu.tsx:80",
-  "components/audio/ListenScreen.tsx:424"
+  "components/audio/ListenScreen.tsx:429"
  ],
  "fé": [
   "components/bible/RechercheBible.tsx:12"
@@ -11789,7 +11795,7 @@
   "components/community/SocialAuthButtons.tsx:50"
  ],
  "Google Pay": [
-  "components/mission/DonnerRapide.tsx:191"
+  "components/mission/DonnerRapide.tsx:202"
  ],
  "Google Play": [
   "components/app/AppOnboarding.tsx:47",
@@ -12113,8 +12119,8 @@
   "lib/media.ts:52"
  ],
  "Hors ligne": [
-  "components/audio/ListenScreen.tsx:425",
-  "components/audio/ListenScreen.tsx:644"
+  "components/audio/ListenScreen.tsx:430",
+  "components/audio/ListenScreen.tsx:649"
  ],
  "https://github.com": [
   "app/mentions-legales/page.tsx:57"
@@ -16426,7 +16432,7 @@
  "La barque se remplissait vraiment d'eau.": [
   "config/chemin/chapitre-miracles.ts:27"
  ],
- "La barre additionne les dons libres Apple / Google, les Bâtisseurs actifs et ce que tu as reçu hors de l'app (site, virements…).": [
+ "La barre additionne les dons libres Apple / Google, les Bâtisseurs actifs, les dons faits sur le site par Stripe (automatique, hors Mission Madagascar) et ce que tu saisis ci-dessous (virements, espèces…).": [
   "components/community/ObjectifDonAdmin.tsx:67"
  ],
  "La base est vide : l'app affiche tes 60 dévotionnels intégrés. Importe-les ici pour pouvoir les modifier, en ajouter ou en supprimer.": [
@@ -17894,7 +17900,7 @@
   "config/chemin/chapitre-esther.ts:88"
  ],
  "Le nom du fichier devient le titre. Tu peux ensuite modifier titre & description avec le crayon.": [
-  "components/audio/ListenScreen.tsx:405"
+  "components/audio/ListenScreen.tsx:410"
  ],
  "Le nombre des disciples": [
   "config/chemin/chapitre-pentecote.ts:76"
@@ -18599,7 +18605,7 @@
  ],
  "Lecture aléatoire": [
   "components/audio/GlobalAudioBar.tsx:140",
-  "components/audio/ListenScreen.tsx:346"
+  "components/audio/ListenScreen.tsx:351"
  ],
  "Lecture audio du chapitre (voix de l'appareil)": [
   "components/bible/BibleAudio.tsx:337"
@@ -18702,7 +18708,7 @@
   "config/chemin/chapitre-creation.ts:37"
  ],
  "Les audios arrivent bientôt": [
-  "components/audio/ListenScreen.tsx:515"
+  "components/audio/ListenScreen.tsx:520"
  ],
  "Les autres donnaient de leur superflu, elle a tout donné": [
   "config/chemin/chapitre-rameaux.ts:98"
@@ -19336,7 +19342,7 @@
  ],
  "Lire": [
   "components/audio/GlobalAudioBar.tsx:92",
-  "components/audio/ListenScreen.tsx:550",
+  "components/audio/ListenScreen.tsx:555",
   "components/bible/IntroLivre.tsx:251"
  ],
  "LIRE": [
@@ -20344,7 +20350,7 @@
  ],
  "Merci du fond du cœur": [
   "components/mission/DonLibre.tsx:102",
-  "components/mission/DonnerRapide.tsx:242",
+  "components/mission/DonnerRapide.tsx:253",
   "components/mission/SoutienEnUnClic.tsx:84"
  ],
  "Merci du fond du cœur !": [
@@ -20397,7 +20403,7 @@
   "components/home/Reels.tsx:18"
  ],
  "Mes enseignements en audio. Écoute-les partout, télécharge-les pour le hors-ligne, garde tes préférés et partage-les.": [
-  "components/audio/ListenScreen.tsx:333"
+  "components/audio/ListenScreen.tsx:338"
  ],
  "Mes favoris": [
   "app/favoris/page.tsx:6",
@@ -20673,7 +20679,7 @@
   "components/community/CommunityView.tsx:299"
  ],
  "Modifier": [
-  "components/audio/ListenScreen.tsx:648",
+  "components/audio/ListenScreen.tsx:653",
   "components/community/DevotionsAdmin.tsx:371",
   "components/community/ProfileActivity.tsx:213"
  ],
@@ -21285,7 +21291,7 @@
  "Nouveau": [
   "app/reinitialiser-mot-de-passe/page.tsx:17",
   "components/app/GamesNewsModal.tsx:102",
-  "components/audio/ListenScreen.tsx:570"
+  "components/audio/ListenScreen.tsx:575"
  ],
  "NOUVEAU": [
   "components/games/ChronoScreen.tsx:208"
@@ -21373,7 +21379,7 @@
   "components/community/ObjectifDonAdmin.tsx:13"
  ],
  "Objectif en euros": [
-  "components/community/ObjectifDonAdmin.tsx:81"
+  "components/community/ObjectifDonAdmin.tsx:82"
  ],
  "Objectif mis à jour. C'est déjà en ligne.": [
   "components/community/ObjectifDonAdmin.tsx:56"
@@ -21682,7 +21688,7 @@
   "app/lien/page.tsx:55"
  ],
  "Ouverture du paiement…": [
-  "components/mission/DonnerRapide.tsx:181"
+  "components/mission/DonnerRapide.tsx:192"
  ],
  "Ouverture du passage…": [
   "components/chemin/PassagePanel.tsx:148"
@@ -21761,7 +21767,7 @@
   "components/community/AnalyticsDashboard.tsx:220"
  ],
  "Paiement direct : {0} {1}": [
-  "components/mission/DonnerRapide.tsx:216"
+  "components/mission/DonnerRapide.tsx:227"
  ],
  "Paiement direct indisponible {0}": [
   "lib/don-site.ts:79"
@@ -21770,10 +21776,10 @@
   "lib/don-site.ts:76"
  ],
  "Paiement sécurisé par Stripe. Reçu par e-mail.": [
-  "components/mission/DonnerRapide.tsx:206"
+  "components/mission/DonnerRapide.tsx:217"
  ],
  "Paiement sécurisé par Stripe. Reçu par e-mail. Tu arrêtes quand tu veux.": [
-  "components/mission/DonnerRapide.tsx:205"
+  "components/mission/DonnerRapide.tsx:216"
  ],
  "Paiement sécurisé sur notre site, par Stripe.": [
   "components/mission/DonateScreen.tsx:199"
@@ -22242,7 +22248,7 @@
   "components/community/CommunityView.tsx:252"
  ],
  "Partager": [
-  "components/audio/ListenScreen.tsx:604",
+  "components/audio/ListenScreen.tsx:609",
   "components/bible/SelectionVersets.tsx:169",
   "components/bible/VersetOutils.tsx:637"
  ],
@@ -22488,7 +22494,7 @@
  "Pause": [
   "components/audio/GlobalAudioBar.tsx:92",
   "components/audio/GlobalAudioBar.tsx:187",
-  "components/audio/ListenScreen.tsx:360"
+  "components/audio/ListenScreen.tsx:365"
  ],
  "PAUSE": [
   "components/games/FrondeGame.tsx:264"
@@ -26520,8 +26526,8 @@
   "components/community/DevotionsAdmin.tsx:340"
  ],
  "Rechercher un épisode": [
-  "components/audio/ListenScreen.tsx:466",
-  "components/audio/ListenScreen.tsx:467"
+  "components/audio/ListenScreen.tsx:471",
+  "components/audio/ListenScreen.tsx:472"
  ],
  "Rechercher un groupe (nom, thème…)": [
   "components/community/GroupsDirectory.tsx:206"
@@ -26637,11 +26643,8 @@
  "record de victoires d'affilée en duel": [
   "lib/badges.ts:209"
  ],
- "Reçu hors de l'app": [
-  "components/community/ObjectifDonAdmin.tsx:88"
- ],
  "Reçu hors de l'app en euros": [
-  "components/community/ObjectifDonAdmin.tsx:98"
+  "components/community/ObjectifDonAdmin.tsx:99"
  ],
  "Reçu, du fond du cœur": [
   "components/home/PrayerSpace.tsx:107"
@@ -27059,7 +27062,7 @@
   "components/community/MakeVersePublicButton.tsx:53"
  ],
  "Repart à zéro chaque mois": [
-  "components/community/ObjectifDonAdmin.tsx:106"
+  "components/community/ObjectifDonAdmin.tsx:107"
  ],
  "Répéter": [
   "components/bible/BibleAudioPlayer.tsx:546"
@@ -27121,7 +27124,7 @@
   "components/assistant/AssistantView.tsx:110"
  ],
  "Reprendre": [
-  "components/audio/ListenScreen.tsx:360"
+  "components/audio/ListenScreen.tsx:365"
  ],
  "REPRENDRE": [
   "components/games/FrondeGame.tsx:266",
@@ -27219,7 +27222,7 @@
   "app/memoriser/page.tsx:890"
  ],
  "Retirer des favoris": [
-  "components/audio/ListenScreen.tsx:588",
+  "components/audio/ListenScreen.tsx:593",
   "components/home/DevotionalView.tsx:759"
  ],
  "Retirer du carnet": [
@@ -27237,7 +27240,7 @@
   "components/ui/Markable.tsx:170"
  ],
  "Retirer le téléchargement": [
-  "components/audio/ListenScreen.tsx:613"
+  "components/audio/ListenScreen.tsx:618"
  ],
  "Retirer les annonces": [
   "components/community/AdminAnnounce.tsx:131"
@@ -27414,6 +27417,9 @@
  ],
  "RHEMA · Ton temps avec Jésus": [
   "components/app/ProfilMenu.tsx:566"
+ ],
+ "RHEMA est gratuite, mais sa création et sa maintenance ont un vrai coût. Ton don permet d'annoncer la Parole gratuitement au plus grand nombre, et le reste part dans les missions.": [
+  "components/mission/DonnerRapide.tsx:114"
  ],
  "RHEMA est né d'un chemin personnel avec Dieu, et de plusieurs années de partages, de méditations et de vidéos quotidiennes autour de la Parole. Ce dévotionnel a été conçu pour t'accompagner jour après jour, afin que la Parole ne soit pas seulement écoutée, mais méditée, priée et vécue.": [
   "components/boutique/RhemaShowcase.tsx:701"
@@ -28696,7 +28702,7 @@
   "components/community/DeleteAccountButton.tsx:60"
  ],
  "Supprimer": [
-  "components/audio/ListenScreen.tsx:656",
+  "components/audio/ListenScreen.tsx:661",
   "components/bible/VersetOutils.tsx:610",
   "components/community/DevotionsAdmin.tsx:376"
  ],
@@ -29130,14 +29136,14 @@
   "app/app/page.tsx:7"
  ],
  "Téléchargement…": [
-  "components/audio/ListenScreen.tsx:613",
+  "components/audio/ListenScreen.tsx:618",
   "components/bible/BibleDownload.tsx:60"
  ],
  "Télécharger {0} hors-ligne": [
   "components/bible/BibleDownload.tsx:61"
  ],
  "Télécharger dans l'app (écoute hors-ligne)": [
-  "components/audio/ListenScreen.tsx:615"
+  "components/audio/ListenScreen.tsx:620"
  ],
  "Télécharger hors-ligne": [
   "components/bible/BibleDownload.tsx:64"
@@ -29161,7 +29167,7 @@
   "components/ecole/FormationView.tsx:156"
  ],
  "Télécharger pour écouter hors-ligne": [
-  "components/audio/ListenScreen.tsx:613"
+  "components/audio/ListenScreen.tsx:618"
  ],
  "Télécharger sur": [
   "components/app/StoreBadges.tsx:35"
@@ -29384,13 +29390,13 @@
   "components/notebook/NotebookView.tsx:191"
  ],
  "Titre affiché": [
-  "components/community/ObjectifDonAdmin.tsx:72"
+  "components/community/ObjectifDonAdmin.tsx:73"
  ],
  "Titre de l'épisode:": [
   "components/audio/ListenScreen.tsx:225"
  ],
  "Titre de l'objectif": [
-  "components/community/ObjectifDonAdmin.tsx:72"
+  "components/community/ObjectifDonAdmin.tsx:73"
  ],
  "Titres": [
   "components/community/ProfileBadges.tsx:515"
@@ -29489,13 +29495,13 @@
   "components/mission/DonLibre.tsx:104"
  ],
  "Ton don de {0} fait avancer la mission : la Parole de Dieu dans les nations et des missions auprès des plus pauvres. Que Dieu te bénisse.": [
-  "components/mission/DonnerRapide.tsx:247"
+  "components/mission/DonnerRapide.tsx:258"
  ],
  "Ton don fait": [
   "app/dons/page.tsx:38"
  ],
  "Ton don fait avancer la mission : la Parole de Dieu dans les nations et des missions auprès des plus pauvres. Que Dieu te bénisse.": [
-  "components/mission/DonnerRapide.tsx:248"
+  "components/mission/DonnerRapide.tsx:259"
  ],
  "Ton don fait vivre RHEMA et les projets de Jack.": [
   "components/community/ProfileView.tsx:1141"
@@ -29579,7 +29585,7 @@
   "components/quiz/QuizScreen.tsx:636"
  ],
  "Ton reçu arrive par e-mail.": [
-  "components/mission/DonnerRapide.tsx:250"
+  "components/mission/DonnerRapide.tsx:261"
  ],
  "Ton rendez-vous": [
   "components/home/DailyHub.tsx:40"
@@ -29594,7 +29600,7 @@
   "components/mission/SoutienEnUnClic.tsx:86"
  ],
  "Ton soutien de {0} par mois fait avancer la mission : la Parole de Dieu dans les nations et des missions auprès des plus pauvres. Que Dieu te bénisse.": [
-  "components/mission/DonnerRapide.tsx:246"
+  "components/mission/DonnerRapide.tsx:257"
  ],
  "Ton soutien mensuel fait vivre RHEMA. Tu recevras chaque mois l'invitation au Zoom avec Pasteur Jack.": [
   "components/mission/SoutienEnUnClic.tsx:104"
@@ -29629,13 +29635,13 @@
   "components/chemin/CheminScreen.tsx:853"
  ],
  "Touche l'icône de téléchargement sur un épisode : il sera écoutable sans connexion, dans l'app.": [
-  "components/audio/ListenScreen.tsx:521"
+  "components/audio/ListenScreen.tsx:526"
  ],
  "Touche la carte pour ouvrir directement le passage dans la Bible.": [
   "components/home/DevotionalView.tsx:707"
  ],
  "Touche le cœur sur un épisode pour le retrouver ici.": [
-  "components/audio/ListenScreen.tsx:519"
+  "components/audio/ListenScreen.tsx:524"
  ],
  "Touche les mots dans l'ordre…": [
   "components/chemin/CheminScreen.tsx:599"
@@ -30050,7 +30056,7 @@
   "lib/grades.ts:25"
  ],
  "Tu confirmeras le montant sur la page de paiement.": [
-  "components/mission/DonnerRapide.tsx:210"
+  "components/mission/DonnerRapide.tsx:221"
  ],
  "Tu construis l'avenir": [
   "content/support-tiers.json"
@@ -30112,7 +30118,7 @@
   "components/community/ProfileView.tsx:91"
  ],
  "Tu peux fermer cette page pour revenir à l'application.": [
-  "components/mission/DonnerRapide.tsx:251"
+  "components/mission/DonnerRapide.tsx:262"
  ],
  "Tu peux le lire dans la Bible.": [
   "components/chemin/PassagePanel.tsx:153"
@@ -31148,7 +31154,7 @@
  ],
  "Une fois": [
   "app/dons/page.tsx:170",
-  "components/mission/DonnerRapide.tsx:111",
+  "components/mission/DonnerRapide.tsx:122",
   "config/chemin/chapitre-croix.ts:25"
  ],
  "Une fois par an": [
@@ -31552,7 +31558,7 @@
   "lib/don-site.ts:57"
  ],
  "vérification…": [
-  "components/mission/DonnerRapide.tsx:216"
+  "components/mission/DonnerRapide.tsx:227"
  ],
  "Vérification…": [
   "components/mission/SoutienEnUnClic.tsx:50"
@@ -31863,7 +31869,7 @@
  "Vidéos": [
   "app/videos/page.tsx:7",
   "components/app/ProfilMenu.tsx:86",
-  "components/audio/ListenScreen.tsx:364"
+  "components/audio/ListenScreen.tsx:369"
  ],
  "Vidéos & Shorts": [
   "config/site.ts:66"

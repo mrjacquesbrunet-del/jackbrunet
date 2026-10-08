@@ -105,6 +105,17 @@ export function DonnerRapide() {
           </div>
         ) : null}
 
+        {/* Pourquoi donner : une phrase, simple et claire */}
+        <div className="mt-4 flex gap-3 rounded-2xl border border-dawn-400/20 bg-dawn-400/[0.06] p-3.5">
+          <svg viewBox="0 0 24 24" className="mt-0.5 h-5 w-5 shrink-0 fill-none stroke-current text-dawn-400" strokeWidth={1.8} aria-hidden>
+            <path d="M12 20s-7-4.5-9.5-9A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9z" strokeLinejoin="round" />
+          </svg>
+          <p className="text-[13px] leading-relaxed text-cream/80">
+            RHEMA est gratuite, mais sa création et sa maintenance ont un vrai coût. Ton don permet d&apos;annoncer
+            la Parole gratuitement au plus grand nombre, et le reste part dans les missions.
+          </p>
+        </div>
+
         {/* Une fois / chaque mois */}
         <div className="mt-5 grid grid-cols-2 gap-1 rounded-2xl bg-white/[0.06] p-1">
           {[
