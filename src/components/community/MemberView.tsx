@@ -160,63 +160,44 @@ export function MemberView() {
   return (
     <section className={jour? "bg-cream pb-10 text-night-900": "bg-night-950 pb-10 text-cream"}>
       <ProfileThemeBg jour={jour} />
-      {/* ---- Bloc total : la photo fond dans le flou sombre, le texte vient dessus ---- */}
-      <div className={`relative h-[calc(100svh-7.5rem-env(safe-area-inset-bottom))] min-h-[580px] w-full overflow-hidden ${jour? "bg-cream": "dark-ctx bg-night-950"}`}>
-        {/* Fond : la même photo floutée remplit l'écran… */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={profile.banner_url || profile.avatar_url || asset("/img/profil-defaut.webp")}
-          alt=""
-          aria-hidden
-          className="absolute inset-0 h-full w-full scale-110 object-cover opacity-70 blur-2xl"
-        />
-        {/* …et la photo s'affiche ENTIÈRE par-dessus (pas de recadrage). */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={profile.banner_url || profile.avatar_url || asset("/img/profil-defaut.webp")}
-          alt=""
-          aria-hidden
-          className="absolute inset-0 h-full w-full object-contain"
-        />
-        <div
-          className="absolute inset-0 backdrop-blur-2xl"
-          style={{
-            WebkitMaskImage: "linear-gradient(to bottom, transparent 48%, black 72%)",
-            maskImage: "linear-gradient(to bottom, transparent 48%, black 72%)",
-          }}
-        />
-        <div className={`absolute inset-0 bg-gradient-to-b via-transparent ${jour? "from-night-950/10 to-cream": "from-night-950/25 to-night-950"}`} />
-
-        {g? (
-          <div
-            className={`absolute inset-x-4 top-[calc(env(safe-area-inset-top)+0.5rem)] h-1 overflow-hidden rounded-full ${jour? "bg-night-900/15": "bg-white/15"}`}
-            title={g.next? `Plus que ${g.toNext} pts → ${g.next.name}`: "Grade maximal"}
+      {/* ---- En-tête identique à « Mon profil » : bannière, avatar rond sur
+           carte, nom + certification, compteurs en ligne, badges, bio ---- */}
+      <div className={jour? "bg-cream text-night-900": "dark-ctx bg-night-950 text-cream"}>
+        <div className="relative h-44 w-full overflow-hidden sm:h-56">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={profile.banner_url || profile.avatar_url || asset("/img/profil-defaut.webp")}
+            alt=""
+            aria-hidden
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-night-950/25 via-transparent to-night-950/30" />
+          <Link
+            href="/communaute"
+            aria-label="Retour à la communauté"
+            className="absolute left-3 top-[calc(env(safe-area-inset-top)+0.75rem)] z-10 grid h-9 w-9 place-items-center rounded-full bg-night-950/70 text-cream ring-1 ring-white/25 backdrop-blur"
           >
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-dawn-400 to-dawn-300"
-              style={{ width: `${pct}%` }}
-            />
-          </div>
-        ): null}
-        <Link
-          href="/communaute"
-          aria-label="Retour à la communauté"
-          className={`absolute left-4 top-[calc(env(safe-area-inset-top)+1.4rem)] grid h-10 w-10 place-items-center rounded-full backdrop-blur ${jour? "bg-white/80 text-night-900": "bg-night-950/60 text-cream"}`}
-        >
-          <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2}>
-            <path d="M15 6l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </Link>
-        {g? (
-          <span className={`absolute right-4 top-[calc(env(safe-area-inset-top)+1.4rem)] rounded-full px-3 py-1 text-[11px] font-bold backdrop-blur ${jour? "bg-white/80 text-dawn-600": "bg-night-950/70 text-dawn-300"}`}>
-            {g.grade.name}
-          </span>
-        ): null}
+            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2}>
+              <path d="M15 6l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </Link>
+        </div>
 
-        {/* Contenu posé directement sur la photo (réf. Olivia Beits) */}
-        <div className="absolute inset-x-0 bottom-0 px-5 pb-5 text-center">
+        <div className={`relative -mt-3 rounded-t-3xl px-5 pb-4 text-center ${jour? "bg-cream": "rounded-b-3xl bg-night-900 shadow-[0_-1px_0_rgba(255,255,255,0.14)]"}`}>
+          <div className="relative mx-auto -mt-10 h-24 w-24">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={profile.avatar_url || asset("/img/profil-defaut.webp")}
+              alt=""
+              className={`h-24 w-24 rounded-full object-cover ring-4 ${jour? "ring-cream": "ring-night-900"}`}
+            />
+            {!isMe && presenceLabel(profile.last_seen_at)?.online ? (
+              <span className={`absolute bottom-1 right-1 h-4 w-4 rounded-full bg-emerald-400 ring-4 ${jour? "ring-cream": "ring-night-900"}`} />
+            ) : null}
+          </div>
+
           <h2
-            className={`text-balance font-display text-3xl font-extrabold leading-tight sm:text-4xl ${jour? "text-night-900": "text-cream"}`}
+            className="mt-3 text-balance font-display text-3xl font-extrabold leading-tight"
             style={profile.name_color? { color: profile.name_color }: undefined}
           >
             {profile.pseudo}
@@ -225,7 +206,6 @@ export function MemberView() {
             ): null}
           </h2>
           {estBatisseurActif(profile) ? <BatisseurBadge className="mt-2" /> : null}
-          {/* Présence : En ligne / Actif il y a X */}
           {!isMe && presenceLabel(profile.last_seen_at) ? (
             <p className={`mt-1 flex items-center justify-center gap-1.5 text-xs font-semibold ${jour? "text-night-900/55": "text-cream/60"}`}>
               <span
@@ -238,13 +218,26 @@ export function MemberView() {
             <p className={`mt-1 text-sm italic ${jour? "text-dawn-600": "text-dawn-300"}`}>{profile.life_phrase}</p>
           ): null}
 
-          {/* Pastilles : ancienneté avec Jésus + série de jours */}
+          {/* Compteurs en ligne, comme sur « Mon profil » */}
+          <p className={`mt-2 flex flex-wrap items-center justify-center gap-x-1.5 text-sm ${jour? "text-night-900/70": "text-cream/70"}`}>
+            <button type="button" onClick={() => setShowList("followers")}>
+              <span className={`font-display font-extrabold ${jour? "text-night-900": "text-cream"}`}>{counts.followers}</span> abonnés
+            </button>
+            <span aria-hidden>·</span>
+            <button type="button" onClick={() => setShowList("following")}>
+              <span className={`font-display font-extrabold ${jour? "text-night-900": "text-cream"}`}>{counts.following}</span> abonnements
+            </button>
+            <span aria-hidden>·</span>
+            <span>
+              <span className={`font-display font-extrabold ${jour? "text-night-900": "text-cream"}`}>{prayers.length}</span> sujets
+            </span>
+          </p>
+
+          {/* Badges : ancienneté avec Jésus, série */}
           {withJesusLabel(profile.converted_at) || (profile.streak_days ?? 0) >= STREAK_BADGE_MIN ? (
-            <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
+            <div className="mt-2.5 flex flex-wrap items-center justify-center gap-2">
               {withJesusLabel(profile.converted_at) ? (
-                <span
-                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold backdrop-blur ${jour? "bg-dawn-500/15 text-dawn-600": "bg-dawn-400/15 text-dawn-300"}`}
-                >
+                <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold ${jour? "bg-dawn-500/15 text-dawn-600": "bg-dawn-400/15 text-dawn-300"}`}>
                   <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
                     <path d="M12 3v18M7 8h10" />
                   </svg>
@@ -252,9 +245,7 @@ export function MemberView() {
                 </span>
               ) : null}
               {(profile.streak_days ?? 0) >= STREAK_BADGE_MIN ? (
-                <span
-                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold backdrop-blur ${jour? "bg-orange-500/15 text-orange-600": "bg-orange-400/15 text-orange-300"}`}
-                >
+                <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold ${jour? "bg-orange-500/15 text-orange-600": "bg-orange-400/15 text-orange-300"}`}>
                   <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor" aria-hidden>
                     <path d="M12 3c1 3-1 4-2 6-1 2 0 4 2 4s3-2 2-4c2 1 3 3 3 5a5 5 0 0 1-10 0c0-4 4-6 5-11z" />
                   </svg>
@@ -264,14 +255,49 @@ export function MemberView() {
             </div>
           ) : null}
 
-          {/* Badges de récompense (médaillons premium sur la photo) */}
-          <ProfileBadgesRow userId={profile.id} streakDays={profile.streak_days} />
+          {/* Badge + grade : une ligne compacte, comme sur « Mon profil » */}
+          <div className="mt-2.5 flex items-center justify-center gap-3">
+            <ProfileBadgesRow userId={profile.id} streakDays={profile.streak_days} single />
+            {g ? (
+              <div className="text-left" title={g.next? `Plus que ${g.toNext} pts → ${g.next.name}`: "Grade maximal"}>
+                <p className={`whitespace-nowrap text-[10px] font-bold uppercase tracking-[0.15em] ${jour? "text-night-900/50": "text-cream/50"}`}>
+                  {g.grade.name} · {g.points} pts
+                </p>
+                <div className={`mt-1.5 h-1 w-36 overflow-hidden rounded-full ${jour? "bg-night-900/10": "bg-white/10"}`}>
+                  <div className="h-full rounded-full bg-gradient-to-r from-dawn-400 to-dawn-300" style={{ width: `${pct}%` }} />
+                </div>
+              </div>
+            ) : null}
+          </div>
 
-          {/* Vitrine complète du membre : trophées, titres ×N, badges */}
+          {profile.bio &&
+          profile.bio.trim().toLowerCase()!== profile.pseudo.trim().toLowerCase()? (
+            <p className={`mx-auto mt-3 max-w-md text-sm leading-relaxed ${jour? "text-night-900/80": "text-cream/80"}`}>
+              {profile.bio}
+            </p>
+          ): null}
+          <ProfileInfoPills
+            church={profile.church}
+            city={profile.city}
+            country={profile.country}
+            show={isMe || profile.location_privacy!== "prive"}
+            centered
+            light={jour}
+          />
+          {verses.slice(0, 1).map((v, i) => (
+            <p key={i} className={`mx-auto mt-2 max-w-md text-sm italic ${jour? "text-night-900/70": "text-cream/70"}`}>
+              «&nbsp;{v.text}&nbsp;»{" "}
+              {v.reference? (
+                <span className={`font-semibold not-italic ${jour? "text-dawn-600": "text-dawn-200"}`}>{v.reference}</span>
+              ): null}
+            </p>
+          ))}
+
+          {/* Vitrine complète du membre : trophées, titres, badges */}
           <button
             type="button"
             onClick={() => setShowAchievements(true)}
-            className={`mt-2.5 inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[11px] font-bold backdrop-blur transition-colors ${
+            className={`mt-3 inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[11px] font-bold transition-colors ${
               jour ? "bg-night-900/10 text-night-900/70 hover:bg-night-900/15" : "bg-white/10 text-cream/75 hover:bg-white/15"
             }`}
           >
@@ -281,7 +307,7 @@ export function MemberView() {
             Ses accomplissements
           </button>
 
-          <div className="mx-auto mt-5 flex max-w-md items-center gap-2">
+          <div className="mx-auto mt-4 flex max-w-md items-center gap-2">
             {isMe? (
               <Link
                 href="/profil"
@@ -318,7 +344,7 @@ export function MemberView() {
               <Link
                 href={`/messages?u=${memberId}`}
                 aria-label="Envoyer un message"
-                className={`grid h-12 w-12 shrink-0 place-items-center rounded-full border backdrop-blur ${jour? "border-night-900/15 bg-night-900/10 text-night-900": "border-white/15 bg-white/10 text-cream"}`}
+                className={`grid h-12 w-12 shrink-0 place-items-center rounded-full border ${jour? "border-night-900/15 bg-night-900/10 text-night-900": "border-white/15 bg-white/10 text-cream"}`}
               >
                 <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
                   <rect x="3" y="5" width="18" height="14" rx="2" />
@@ -327,44 +353,6 @@ export function MemberView() {
               </Link>
             ): null}
           </div>
-
-          <div className="mx-auto mt-5 grid max-w-md grid-cols-3 gap-2">
-            <button type="button" onClick={() => setShowList("followers")} className="rounded-2xl py-1 active:bg-white/10">
-              <p className={`font-display text-2xl font-extrabold ${jour? "text-night-900": "text-cream"}`}>{counts.followers}</p>
-              <p className={`text-[11px] ${jour? "text-night-900/50": "text-cream/55"}`}>Abonnés</p>
-            </button>
-            <button type="button" onClick={() => setShowList("following")} className="rounded-2xl py-1 active:bg-white/10">
-              <p className={`font-display text-2xl font-extrabold ${jour? "text-night-900": "text-cream"}`}>{counts.following}</p>
-              <p className={`text-[11px] ${jour? "text-night-900/50": "text-cream/55"}`}>Abonnements</p>
-            </button>
-            <div>
-              <p className={`font-display text-2xl font-extrabold ${jour? "text-dawn-600": "text-dawn-300"}`}>{prayers.length}</p>
-              <p className={`text-[11px] ${jour? "text-night-900/50": "text-cream/55"}`}>Sujets</p>
-            </div>
-          </div>
-
-          {profile.bio &&
-          profile.bio.trim().toLowerCase()!== profile.pseudo.trim().toLowerCase()? (
-            <p className={`mx-auto mt-4 max-w-md rounded-2xl px-4 py-3 text-sm leading-relaxed backdrop-blur ${jour? "bg-night-900/[0.06] text-night-900/85": "bg-white/[0.07] text-cream/85"}`}>
-              {profile.bio}
-            </p>
-          ): null}
-          <ProfileInfoPills
-            church={profile.church}
-            city={profile.city}
-            country={profile.country}
-            show={isMe || profile.location_privacy!== "prive"}
-            centered
-            light={jour}
-          />
-          {verses.slice(0, 1).map((v, i) => (
-            <p key={i} className={`mx-auto mt-3 max-w-md text-sm italic ${jour? "text-night-900/75": "text-cream/75"}`}>
-              «&nbsp;{v.text}&nbsp;»{" "}
-              {v.reference? (
-                <span className={`font-semibold not-italic ${jour? "text-dawn-600": "text-dawn-200"}`}>{v.reference}</span>
-              ): null}
-            </p>
-          ))}
         </div>
       </div>
 
