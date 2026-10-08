@@ -49,8 +49,8 @@ export function ouvrirMenuProfil() {
 }
 
 export function ProfilBouton({ taille = 32, className = "" }: { taille?: number; className?: string }) {
-  const { userId, profile } = useAuth();
-  if (!userId) return null;
+  const { ready, userId, profile } = useAuth();
+  if (!ready) return null;
   const nom = profile?.pseudo ?? "";
   return (
     <button
@@ -61,7 +61,12 @@ export function ProfilBouton({ taille = 32, className = "" }: { taille?: number;
       style={{ width: taille, height: taille, WebkitTapHighlightColor: "transparent" }}
       className={`grid shrink-0 place-items-center overflow-hidden rounded-full bg-night-900 text-[13px] font-bold text-dawn-400 shadow-[0_2px_10px_rgba(0,0,0,.35)] ring-1 ring-white/25 transition-transform active:scale-95 ${className}`}
     >
-      {profile?.avatar_url ? (
+      {!userId ? (
+        // Pas connecté : silhouette en trait.
+        <svg viewBox="0 0 24 24" className="h-[60%] w-[60%] fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+          <path d={I.personne} strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      ) : profile?.avatar_url ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={profile.avatar_url} alt="" className="h-full w-full object-cover" />
       ) : (
@@ -100,7 +105,9 @@ const I = {
   favoris: "M6 4h12v17l-6-4-6 4z",
   priere: "M12 3.4c-.6 1.1-1.3 2-2.4 3.1L6.3 9.8c-.6.6-.9 1.5-.7 2.3l.8 4A1.8 1.8 0 0 0 8.2 19.5H12ZM12 3.4c.6 1.1 1.3 2 2.4 3.1L17.7 9.8c.6.6.9 1.5.7 2.3l-.8 4A1.8 1.8 0 0 1 15.8 19.5H12Z",
   messages: "M4 5h16v11H9l-5 4zM8 9.5h8M8 12.5h5",
-  cadeau: "M20 12v8H4v-8M2 7h20v5H2zM12 7v13M12 7S10 3 7.5 3 5 7 8 7M12 7s2-4 4.5-4S19 7 16 7",
+  formation: "M2 9.5l10-5 10 5-10 5-10-5M5.8 12.4v3.8c0 1.4 2.8 2.8 6.2 2.8s6.2-1.4 6.2-2.8v-3.8M22 9.5v5",
+  etude: "M4 5.5C6.5 4 9.5 4 12 6c2.5-2 5.5-2 8-.5V19c-2.5-1.5-5.5-1.5-8 .5-2.5-2-5.5-2-8-.5zM12 6v13.5",
+  personne: "M16 19v-1a4 4 0 0 0-8 0v1M12 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6",
   info: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 8h.01M11 12h1v4h1",
   coeur: "M12 20s-7-4.5-9.5-9A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9z",
   reglages:
@@ -117,7 +124,8 @@ const MON_ESPACE: Ligne[] = [
   { label: "Mes favoris", icone: I.favoris, href: "/favoris" },
   { label: "Ma liste de prière", icone: I.priere, vue: "espace" },
   { label: "Messages", icone: I.messages, href: "/messages" },
-  { label: "Exclusivités", icone: I.cadeau, href: "/exclusivites" },
+  { label: "Mes formations", icone: I.formation, href: "/ecole/fondamentaux" },
+  { label: "Mes études", icone: I.etude, href: "/ecole/etudes" },
 ];
 
 const RHEMA: Ligne[] = [
@@ -196,7 +204,7 @@ export function ProfilMenu() {
 
   return (
     <AnimatePresence>
-      {ouvert && userId ? (
+      {ouvert ? (
         <div className="fixed inset-0 z-[80]" role="dialog" aria-modal="true" aria-label="Menu">
           <motion.button
             type="button"
@@ -228,7 +236,11 @@ export function ProfilMenu() {
             <div className="relative flex items-start gap-3 px-5">
               <button type="button" onClick={() => allerProfil()} className="flex min-w-0 flex-1 items-center gap-3 text-left">
                 <span className="grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-full bg-night-900 text-xl font-bold text-dawn-400 ring-2 ring-dawn-400/70">
-                  {profile?.avatar_url ? (
+                  {!userId ? (
+                    <svg viewBox="0 0 24 24" className="h-7 w-7 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+                      <path d={I.personne} strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  ) : profile?.avatar_url ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={profile.avatar_url} alt="" className="h-full w-full object-cover" />
                   ) : (
@@ -236,11 +248,11 @@ export function ProfilMenu() {
                   )}
                 </span>
                 <span className="min-w-0">
-                  <span translate="no" className="block truncate font-display text-xl font-extrabold leading-tight">
-                    {nom || "RHEMA"}
+                  <span translate={userId ? "no" : undefined} className="block truncate font-display text-xl font-extrabold leading-tight">
+                    {userId ? nom || "RHEMA" : "Bienvenue"}
                   </span>
                   <span className="mt-0.5 inline-flex items-center gap-1 text-[13px] font-semibold text-dawn-400">
-                    Voir mon profil
+                    {userId ? "Voir mon profil" : "Se connecter"}
                     <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth={2.2} aria-hidden>
                       <path d={I.chevron} strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
