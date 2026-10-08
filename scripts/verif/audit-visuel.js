@@ -1,6 +1,6 @@
 // Outil de vérification visuelle (app, mode aperçu).
 // Usage : npm run build:app ; servir out/ sur le port 8901 ; puis
-//   node scripts/verif/audit-visuel.js <dossier> fr "$(cat scripts/verif/pages.txt)"
+//   NODE_PATH=<node_modules avec playwright-core> node scripts/verif/audit-visuel.js <dossier> fr "$(cat scripts/verif/pages.txt)"
 //   python3 scripts/verif/analyse-audit.py <dossier> fr
 // (playwright-core + Chromium requis ; <dossier>/audit est créé.)
 //
