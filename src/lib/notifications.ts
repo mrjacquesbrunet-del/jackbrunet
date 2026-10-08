@@ -7,6 +7,7 @@
  */
 
 import { Capacitor } from "@capacitor/core";
+import { chargerDictionnaire, getLangue, t } from "@/lib/i18n";
 
 const REMINDER_ID = 1001;
 export const REMINDER_KEY = "jb.reminder.v1";
@@ -72,9 +73,9 @@ function reminderMessage(streak: number): { title: string; body: string } {
   );
   const base = MORNING_MESSAGES[dayOfYear % MORNING_MESSAGES.length];
   if (streak >= 3) {
-    return { title: `${streak} jours avec Dieu d'affilée !`, body: base.body };
+    return { title: t(`${streak} jours avec Dieu d'affilée !`), body: t(base.body) };
   }
-  return base;
+  return { title: t(base.title), body: t(base.body) };
 }
 
 const CHANNEL_ID = "daily-reminder";
@@ -86,10 +87,11 @@ async function scheduleEveningNudge(skipToday: boolean): Promise<void> {
   if (!isNativeApp()) return;
   const { LocalNotifications } = await import("@capacitor/local-notifications");
   await LocalNotifications.cancel({ notifications: [{ id: EVENING_ID }] }).catch(() => undefined);
+  await chargerDictionnaire(getLangue()); // rappels dans la langue de l'app
   const notif = {
     id: EVENING_ID,
-    title: "Encore un instant avec Dieu ?",
-    body: "Ta méditation du jour t'attend toujours. 2 minutes avant de dormir.",
+    title: t("Encore un instant avec Dieu ?"),
+    body: t("Ta méditation du jour t'attend toujours. 2 minutes avant de dormir."),
     channelId: CHANNEL_ID,
     extra: { route: "/devotionnel/" },
   };
@@ -139,8 +141,8 @@ export async function enableDailyReminder(hour: number, minute: number): Promise
   try {
     await LocalNotifications.createChannel({
       id: CHANNEL_ID,
-      name: "Rappel quotidien",
-      description: "Ta pensée du jour, chaque matin.",
+      name: t("Rappel quotidien"),
+      description: t("Ta pensée du jour, chaque matin."),
       importance: 5,
       visibility: 1,
     });
@@ -148,6 +150,7 @@ export async function enableDailyReminder(hour: number, minute: number): Promise
     /* iOS: pas de canaux — on ignore */
   }
 
+  await chargerDictionnaire(getLangue()); // rappels dans la langue de l'app
   const { title, body } = reminderMessage(readStreak());
 
   await LocalNotifications.cancel({ notifications: [{ id: REMINDER_ID }] });
