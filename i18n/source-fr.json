@@ -22655,9 +22655,6 @@
  "personnes touchées chaque mois": [
   "content/impact.json"
  ],
- "personnes touchées par les vidéos": [
-  "app/a-propos/page.tsx:137"
- ],
  "Petit mot (facultatif)": [
   "components/community/AdminBatisseurs.tsx:79"
  ],
@@ -32257,6 +32254,9 @@
  ],
  "Vue classique (plans, outils…)": [
   "components/bible/BibleReader.tsx:554"
+ ],
+ "vues sur les vidéos": [
+  "app/a-propos/page.tsx:137"
  ],
  "What they say on the App Store and Google Play": [
   "components/app/AppOnboarding.tsx:135"

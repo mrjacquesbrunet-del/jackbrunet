@@ -134,7 +134,7 @@ export default function AProposPage() {
       <section className="mx-auto max-w-3xl px-5">
         <div className="grid grid-cols-3 gap-2.5">
           {[
-            { v: 100, s: " M+", l: "personnes touchées par les vidéos" },
+            { v: 100, s: " M+", l: "vues sur les vidéos" },
             { v: 2020, s: "", l: "premières vidéos", annee: true },
             { v: 2021, s: "", l: "consacré pasteur", annee: true },
           ].map((c, i) => (
