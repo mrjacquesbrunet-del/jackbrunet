@@ -10,6 +10,7 @@ import { lienDonSite } from "@/lib/don-site";
 import { openExternal } from "@/lib/external";
 import { getLangue } from "@/lib/i18n";
 import { getSupabase } from "@/lib/supabase";
+import { EVT_MEME_PAGE } from "@/lib/notif-route";
 
 /** Repli si la photo du profil de Pasteur Jack n'est pas encore chargée. */
 const PHOTO_JACK = "/img/jack-avatar.webp";
@@ -81,6 +82,27 @@ function reporter(ms: number) {
 export function PopupMission() {
   const pathname = (usePathname() ?? "").replace(/\/+$/, "") || "/";
   const [ouvert, setOuvert] = useState(false);
+
+  // Lien « ?soutien=1 » (notification ou message de Jack) : le pop-up s'ouvre
+  // tout de suite, quelle que soit la page et sans attendre.
+  useEffect(() => {
+    const ouvrirSiDemande = (url: string) => {
+      if (!/[?&]soutien=1(?![0-9])/.test(url)) return;
+      dejaVuCetteSession = true;
+      setTimeout(() => setOuvert(true), 600);
+      try {
+        const u = new URL(window.location.href);
+        u.searchParams.delete("soutien");
+        window.history.replaceState(window.history.state, "", u.pathname + u.search + u.hash);
+      } catch {
+        /* sans importance */
+      }
+    };
+    ouvrirSiDemande(window.location.search);
+    const surMemePage = (e: Event) => ouvrirSiDemande(String((e as CustomEvent).detail ?? ""));
+    window.addEventListener(EVT_MEME_PAGE, surMemePage);
+    return () => window.removeEventListener(EVT_MEME_PAGE, surMemePage);
+  }, [pathname]);
 
   useEffect(() => {
     if (dejaVuCetteSession || !PAGES.includes(pathname)) return;

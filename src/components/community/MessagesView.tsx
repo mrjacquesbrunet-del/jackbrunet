@@ -22,6 +22,7 @@ import {
   type Message,
 } from "@/lib/messages";
 import { localeApp } from "@/lib/i18n";
+import { openExternal } from "@/lib/external";
 
 /** Date discrète d'une conversation : heure si aujourd'hui, « hier », puis
  * « il y a X j », puis la date courte. */
@@ -426,7 +427,7 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
                         </div>
                       )
                     ) : null}
-                    {m.body}
+                    <TexteAvecLiens texte={m.body} mine={mine} />
                   </div>
                   {mine && m.id === lastSeenId ? (
                     <p className="mt-0.5 pr-1 text-[10px] font-semibold text-night-900/40">Vu</p>
@@ -471,5 +472,30 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
         </div>
       </div>
     </section>
+  );
+}
+
+/** Les liens (https://… ou jackbrunet.com/…) d'un message deviennent cliquables. */
+const LIEN = /(https?:\/\/[^\s]+|(?:www\.)?jackbrunet\.com\/[^\s]*)/gi;
+function TexteAvecLiens({ texte, mine }: { texte: string; mine: boolean }) {
+  if (!texte) return null;
+  const morceaux = texte.split(LIEN);
+  return (
+    <>
+      {morceaux.map((t, i) =>
+        i % 2 === 1 ? (
+          <button
+            key={i}
+            type="button"
+            onClick={() => void openExternal(/^https?:/i.test(t) ? t : `https://${t.replace(/^www\./i, "")}`)}
+            className={`break-all text-left font-semibold underline underline-offset-2 ${mine ? "text-night-950" : "text-spirit-700"}`}
+          >
+            {t}
+          </button>
+        ) : (
+          <span key={i}>{t}</span>
+        ),
+      )}
+    </>
   );
 }
