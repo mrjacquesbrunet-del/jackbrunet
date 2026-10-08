@@ -96,13 +96,18 @@ function memeForme(a, b) {
   if (a && typeof a === "object") return !!b && typeof b === "object" && !Array.isArray(b) && Object.keys(a).every((k) => k in b && memeForme(a[k], b[k]));
   return typeof a === typeof b;
 }
-/** Une fiche revenue avec encore du français (ex. la liste des sens recopiée telle
- * quelle) est refusée : elle sera renvoyée au lot suivant. */
-const MOTS_FR = /\b(les|des|du|une|est|et|dans|avec|sur|cette|aux|être|qui|nous|vous|le|la|il|elle)\b/g;
-const MOTS_FR_PT = /\b(les|des|du|une|est|et|dans|pour|avec|sur|cette|aux|être|qui|nous|vous|le|la|il|elle)\b/g;
-function resteFrancais(valeur, l) {
-  const txt = JSON.stringify(valeur);
-  return (txt.match(l === "pt" ? MOTS_FR_PT : MOTS_FR) ?? []).length > 3;
+/** Une fiche revenue avec une partie recopiée telle quelle du français (ex. la
+ * liste des sens) est refusée : elle sera renvoyée au lot suivant. */
+const CHAMPS_TEXTE = ["sens", "detail", "origine", "emploi", "portee"];
+function copieDuFrancais(partie, valeur) {
+  for (const k of CHAMPS_TEXTE) {
+    const a = partie?.[k];
+    const b = valeur?.[k];
+    if (a === undefined || b === undefined) continue;
+    if (typeof a === "string" && a.length > 25 && a === b) return true;
+    if (Array.isArray(a) && Array.isArray(b) && a.some((x, i) => typeof x === "string" && x.length > 25 && x === b[i])) return true;
+  }
+  return false;
 }
 function restaurer(fr, tr) {
   if (Array.isArray(fr)) return fr.map((x, i) => restaurer(x, tr?.[i]));
@@ -219,7 +224,7 @@ async function recuperer(lot) {
         const orig = fr[cle];
         if (!orig) continue;
         const partie = aTraduire(type, orig);
-        if (!memeForme(partie, valeur) || (type === "lexique" && resteFrancais(valeur, l))) {
+        if (!memeForme(partie, valeur) || (type === "lexique" && copieDuFrancais(partie, valeur))) {
           ko++;
           continue;
         }
