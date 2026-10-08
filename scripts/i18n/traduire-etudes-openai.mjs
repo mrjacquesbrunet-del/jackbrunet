@@ -32,7 +32,7 @@ const SEC = process.env.ESSAI_A_SEC === "1";
 const BRANCH = process.env.GITHUB_REF_NAME || "claude/great-hamilton-ieokug";
 const RACINE = "i18n/etude";
 const ETAT = `${RACINE}/etat.json`;
-const CAR_PAR_REQUETE = 9000; // ~2 500 jetons : réponse largement sous la limite du modèle
+const CAR_PAR_REQUETE = Number(process.env.CAR_PAR_REQUETE || 9000); // ~2 500 jetons : réponse largement sous la limite du modèle
 const debut = Date.now();
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -95,6 +95,14 @@ function memeForme(a, b) {
   if (Array.isArray(a)) return Array.isArray(b) && a.length === b.length && a.every((x, i) => memeForme(x, b[i]));
   if (a && typeof a === "object") return !!b && typeof b === "object" && !Array.isArray(b) && Object.keys(a).every((k) => k in b && memeForme(a[k], b[k]));
   return typeof a === typeof b;
+}
+/** Une fiche revenue avec encore du français (ex. la liste des sens recopiée telle
+ * quelle) est refusée : elle sera renvoyée au lot suivant. */
+const MOTS_FR = /\b(les|des|du|une|est|et|dans|avec|sur|cette|aux|être|qui|nous|vous|le|la|il|elle)\b/g;
+const MOTS_FR_PT = /\b(les|des|du|une|est|et|dans|pour|avec|sur|cette|aux|être|qui|nous|vous|le|la|il|elle)\b/g;
+function resteFrancais(valeur, l) {
+  const txt = JSON.stringify(valeur);
+  return (txt.match(l === "pt" ? MOTS_FR_PT : MOTS_FR) ?? []).length > 3;
 }
 function restaurer(fr, tr) {
   if (Array.isArray(fr)) return fr.map((x, i) => restaurer(x, tr?.[i]));
@@ -211,7 +219,7 @@ async function recuperer(lot) {
         const orig = fr[cle];
         if (!orig) continue;
         const partie = aTraduire(type, orig);
-        if (!memeForme(partie, valeur)) {
+        if (!memeForme(partie, valeur) || (type === "lexique" && resteFrancais(valeur, l))) {
           ko++;
           continue;
         }
