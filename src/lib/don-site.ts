@@ -17,11 +17,13 @@ const ANON = (process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "").trim();
 const entetes = { apikey: ANON, Authorization: `Bearer ${ANON}` };
 
 /** Lien vers la page de don du site, avec le montant présélectionné. */
-export function lienDonSite(montant?: number, mensuel?: boolean, langue?: string): string {
+export function lienDonSite(montant?: number, mensuel?: boolean, langue?: string, direct = false): string {
   const q = new URLSearchParams();
   if (montant) q.set("montant", String(Math.round(montant)));
   if (mensuel !== undefined) q.set("mensuel", mensuel ? "1" : "0");
   if (langue) q.set("langue", langue);
+  // direct : la page ouvre tout de suite le paiement Stripe (montant déjà choisi).
+  if (direct && montant) q.set("go", "1");
   const s = q.toString();
   return `${siteConfig.url}/donner/${s ? `?${s}` : ""}`;
 }

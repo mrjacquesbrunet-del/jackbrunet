@@ -5,7 +5,12 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { asset } from "@/lib/asset";
 import { getOpens } from "@/lib/usage";
-import { BarreObjectif, PHOTO_MISSION, useAllerAuDon, useObjectifDon } from "@/components/mission/CarteMission";
+import { BarreObjectif, PHOTO_MISSION, useObjectifDon } from "@/components/mission/CarteMission";
+import { lienDonSite } from "@/lib/don-site";
+import { openExternal } from "@/lib/external";
+import { getLangue } from "@/lib/i18n";
+
+const PHOTO_JACK = "/img/jack-avatar.webp";
 
 const CLE_PROCHAIN = "jb.popup.mission.prochain";
 const JOUR = 24 * 3600_000;
@@ -33,7 +38,7 @@ function reporter(ms: number) {
 }
 
 /**
- * Pop-up « Grande campagne de dons » (seul pop-up d'appel au don de l'app) :
+ * Pop-up « Un message de Jack » (seul pop-up d'appel au don de l'app) :
  * à partir de la 4e ouverture, au plus une fois tous les 10 jours, 30 jours
  * de calme après un don, jamais par-dessus une autre fenêtre.
  */
@@ -65,14 +70,22 @@ export function PopupMission() {
 
 function Fenetre({ onFermer }: { onFermer: () => void }) {
   const objectif = useObjectifDon();
-  const allerAuDon = useAllerAuDon();
+  const pct = objectif ? Math.min(100, Math.round((objectif.collecte / objectif.objectif) * 100)) : 0;
+
+  // Paiement Stripe : « 10 € par mois » s'ouvre directement, « Une fois »
+  // ouvre la page de don pour choisir le montant.
+  const donner = (mensuel: boolean) => {
+    reporter(PAUSE_APRES_DON);
+    onFermer();
+    void openExternal(lienDonSite(mensuel ? 10 : undefined, mensuel, getLangue(), mensuel));
+  };
 
   return (
     <motion.div
       className="keep-dark fixed inset-0 z-[140] flex items-end justify-center sm:items-center"
       role="dialog"
       aria-modal="true"
-      aria-label="Grande campagne de dons"
+      aria-label="Un message de Jack"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -83,20 +96,20 @@ function Fenetre({ onFermer }: { onFermer: () => void }) {
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 40, opacity: 0 }}
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-        className="relative z-10 w-full max-w-md overflow-hidden rounded-t-[2rem] border border-dawn-400/25 bg-night-900 pb-[calc(env(safe-area-inset-bottom)+1.25rem)] text-cream shadow-2xl sm:rounded-[2rem] sm:pb-5"
+        className="relative z-10 max-h-[92svh] w-full max-w-md overflow-y-auto rounded-t-[2rem] border border-dawn-400/25 bg-night-900 pb-[calc(env(safe-area-inset-bottom)+1rem)] text-cream shadow-2xl sm:rounded-[2rem] sm:pb-5"
       >
-        <div className="relative h-48 overflow-hidden">
+        <div className="relative h-36 overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={asset(PHOTO_MISSION)}
             alt=""
             className="h-full w-full object-cover"
-            style={{ objectPosition: "center 40%", filter: "saturate(0.8) contrast(1.06) brightness(0.88)" }}
+            style={{ objectPosition: "center 38%", filter: "saturate(0.8) contrast(1.06) brightness(0.88)" }}
           />
           <div
             aria-hidden
             className="absolute inset-0"
-            style={{ background: "linear-gradient(to top, rgb(var(--n-900)) 0%, rgb(var(--n-900) / .6) 22%, transparent 50%)" }}
+            style={{ background: "linear-gradient(to top, rgb(var(--n-900)) 0%, rgb(var(--n-900) / .5) 30%, transparent 60%)" }}
           />
           <button
             type="button"
@@ -108,46 +121,78 @@ function Fenetre({ onFermer }: { onFermer: () => void }) {
               <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
             </svg>
           </button>
-          <span className="absolute left-4 top-3.5 rounded-full bg-night-950/70 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-dawn-400 backdrop-blur">
-            RHEMA
-          </span>
-          <p className="absolute inset-x-5 bottom-2 font-display text-[22px] font-extrabold leading-tight [text-shadow:0_1px_10px_rgba(0,0,0,.7)]">
-            Grande campagne de <span className="text-dawn-400">dons</span>
-          </p>
         </div>
 
-        <div className="px-5 pt-2">
-          <p className="text-[14px] leading-relaxed text-cream/80">
-            Une application comme RHEMA, sa création et sa maintenance, c&apos;est plus de{" "}
-            <span className="font-bold text-dawn-400">30 000 €</span>.
-          </p>
-          <p className="mt-2 text-[14px] leading-relaxed text-cream/80">
-            Nous recherchons des donateurs pour la garder gratuite et bénir le plus grand nombre. Une partie des fonds
-            servira aussi pour la mission auprès des plus pauvres.
-          </p>
-          {objectif ? (
+        <div className="relative -mt-7 px-5">
+          {/* Un message personnel de Jack */}
+          <div className="flex items-center gap-3">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={asset(PHOTO_JACK)}
+              alt=""
+              className="h-14 w-14 shrink-0 rounded-full object-cover ring-[3px] ring-night-900 shadow-[0_0_0_5px_rgba(202,240,0,.35)]"
+            />
+            <p className="pt-5 text-[11px] font-black uppercase tracking-[0.2em] text-dawn-400">Un message de Jack</p>
+          </div>
+
+          <div className="mt-3 space-y-2.5 text-[14.5px] leading-relaxed text-cream/85">
+            <p>
+              Chaque jour, des milliers de personnes ouvrent la Parole de Dieu dans RHEMA, sans payer un centime. Je
+              veux que ça reste ainsi.
+            </p>
+            <p>
+              Mais faire vivre l&apos;app coûte plus de 30 000 €. Nous ne mettons pas de publicité, et nous ne vendons
+              pas tes données : RHEMA vit uniquement grâce à ceux qui donnent.
+            </p>
+            <p className="font-semibold text-cream">
+              Si RHEMA te fait du bien, aide-nous à la garder gratuite pour le prochain qui en a besoin.
+            </p>
+          </div>
+
+          {/* Preuve sociale : la barre seulement quand elle est déjà bien
+              remplie, sinon le nombre de dons (une barre vide freine). */}
+          {objectif && pct >= 20 ? (
             <div className="mt-4">
               <BarreObjectif objectif={objectif} />
             </div>
+          ) : objectif && objectif.dons >= 5 ? (
+            <p className="mt-4 flex items-center gap-2 text-[13px] font-semibold text-dawn-400">
+              <span className="h-2 w-2 rounded-full bg-dawn-400" />
+              {objectif.mensuel
+                ? `Déjà ${objectif.dons} dons ce mois-ci`
+                : `Déjà ${objectif.dons} dons reçus`}
+            </p>
           ) : null}
+
           <button
             type="button"
-            onClick={() => {
-              reporter(PAUSE_APRES_DON);
-              onFermer();
-              void allerAuDon();
-            }}
+            onClick={() => donner(true)}
             className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl bg-dawn-400 py-3.5 font-display text-[17px] font-extrabold text-night-950 shadow-[0_0_26px_-6px_rgba(202,240,0,.6)] transition-transform active:scale-[0.98]"
           >
             <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2} aria-hidden>
               <path d="M12 20s-7-4.5-9.5-9A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9z" strokeLinejoin="round" />
             </svg>
-            Je soutiens la mission
+            10 € par mois
           </button>
-          <button type="button" onClick={onFermer} className="mt-2 w-full py-2.5 text-[14px] font-semibold text-cream/55">
-            Plus tard
+          <button
+            type="button"
+            onClick={() => donner(false)}
+            className="mt-2.5 w-full rounded-2xl border border-white/15 bg-white/[0.04] py-3 text-[15px] font-bold text-cream transition-colors active:bg-white/10"
+          >
+            Une fois, le montant de mon choix
           </button>
-          <p className="mt-1 text-center text-[11.5px] text-cream/40">Apple Pay, Google Pay ou carte bancaire · Paiement sécurisé</p>
+
+          <p className="mt-3.5 text-center text-[12.5px] leading-snug text-cream/55">
+            Une partie des dons soutient aussi nos missions auprès des enfants les plus pauvres.
+          </p>
+
+          <div className="mt-3 flex items-end justify-between">
+            <button type="button" onClick={onFermer} className="py-2 text-[13.5px] font-semibold text-cream/45">
+              Plus tard
+            </button>
+            <p className="text-[24px] leading-none text-cream/85" style={{ fontFamily: "var(--font-script), cursive" }}>Merci. Jack</p>
+          </div>
+          <p className="mt-2 text-center text-[11px] text-cream/35">Apple Pay, Google Pay ou carte bancaire · Paiement sécurisé</p>
         </div>
       </motion.div>
     </motion.div>

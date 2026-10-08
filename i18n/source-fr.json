@@ -1062,7 +1062,7 @@
   "config/chemin/chapitre-sermon.ts:56"
  ],
  "« Que chacun donne comme il l'a résolu en son cœur. » 2 Corinthiens 9:7": [
-  "components/mission/DonnerRapide.tsx:232"
+  "components/mission/DonnerRapide.tsx:242"
  ],
  "« Que cherchez-vous ? »": [
   "config/chemin/chapitre-disciples.ts:25"
@@ -1668,7 +1668,7 @@
  ],
  "{0} sur {1}": [
   "components/mission/CarteMission.tsx:53",
-  "components/mission/DonnerRapide.tsx:104"
+  "components/mission/DonnerRapide.tsx:114"
  ],
  "{0}, {1}/{2} chapitres": [
   "components/community/BibleAudioAdmin.tsx:140"
@@ -2091,6 +2091,9 @@
  ],
  "1 verset": [
   "components/bible/RechercheBible.tsx:211"
+ ],
+ "10 € par mois": [
+  "components/mission/PopupMission.tsx:175"
  ],
  "10 bonnes réponses d'affilée": [
   "lib/quiz.ts:325"
@@ -3663,7 +3666,7 @@
  ],
  "Ami": [
   "components/games/ChallengeScreen.tsx:386",
-  "lib/don-site.ts:87",
+  "lib/don-site.ts:89",
   "content/support-tiers.json"
  ],
  "Ami de Dieu": [
@@ -3915,10 +3918,10 @@
   "components/community/SocialAuthButtons.tsx:50"
  ],
  "Apple Pay": [
-  "components/mission/DonnerRapide.tsx:202"
+  "components/mission/DonnerRapide.tsx:212"
  ],
  "Apple Pay, Google Pay ou carte bancaire · Paiement sécurisé": [
-  "components/mission/PopupMission.tsx:150"
+  "components/mission/PopupMission.tsx:195"
  ],
  "application": [
   "app/confidentialite/page.tsx:61"
@@ -4482,11 +4485,11 @@
   "components/community/MyPrayerList.tsx:161"
  ],
  "Autre": [
-  "components/mission/DonnerRapide.tsx:171",
+  "components/mission/DonnerRapide.tsx:181",
   "lib/moderation.ts:33"
  ],
  "Autre montant": [
-  "components/mission/DonnerRapide.tsx:172"
+  "components/mission/DonnerRapide.tsx:182"
  ],
  "autres": [
   "components/bible/FichesChapitre.tsx:601"
@@ -4791,7 +4794,7 @@
  ],
  "Bâtisseur": [
   "components/community/BatisseurBadge.tsx:32",
-  "lib/don-site.ts:87",
+  "lib/don-site.ts:89",
   "lib/soutien.ts:20"
  ],
  "Bâtisseur : soutient RHEMA": [
@@ -5230,7 +5233,7 @@
   "components/community/CommunityLanding.tsx:31"
  ],
  "Carte bancaire": [
-  "components/mission/DonnerRapide.tsx:202"
+  "components/mission/DonnerRapide.tsx:212"
  ],
  "Carte de prière mensuelle": [
   "content/support-tiers.json"
@@ -5741,6 +5744,9 @@
  "Chaque jour,": [
   "components/boutique/RhemaShowcase.tsx:612"
  ],
+ "Chaque jour, des milliers de personnes ouvrent la Parole de Dieu dans RHEMA, sans payer un centime. Je veux que ça reste ainsi.": [
+  "components/mission/PopupMission.tsx:140"
+ ],
  "Chaque jour.": [
   "components/boutique/RhemaShowcase.tsx:508"
  ],
@@ -5761,7 +5767,7 @@
  ],
  "Chaque mois": [
   "app/dons/page.tsx:173",
-  "components/mission/DonnerRapide.tsx:123"
+  "components/mission/DonnerRapide.tsx:133"
  ],
  "Chaque mois, des millions de personnes sont touchées par des messages, des prières, des lives, des exhortations et des contenus bibliques centrés sur Jésus-Christ.": [
   "app/a-propos/page.tsx:157"
@@ -5977,7 +5983,7 @@
   "components/bible/BibleReader.tsx:1019"
  ],
  "Choisis un montant": [
-  "components/mission/DonnerRapide.tsx:194"
+  "components/mission/DonnerRapide.tsx:204"
  ],
  "Choisis un montant, une fois ou chaque mois, puis paie avec Apple Pay, Google Pay ou ta carte bancaire.": [
   "components/mission/DonateScreen.tsx:184"
@@ -8362,6 +8368,12 @@
  "Défis & duels": [
   "lib/notif-prefs.ts:23"
  ],
+ "Déjà {0} dons ce mois-ci": [
+  "components/mission/PopupMission.tsx:162"
+ ],
+ "Déjà {0} dons reçus": [
+  "components/mission/PopupMission.tsx:163"
+ ],
  "Déjà là": [
   "components/community/GroupView.tsx:933"
  ],
@@ -9162,10 +9174,10 @@
  ],
  "Donner {0}": [
   "components/mission/DonLibre.tsx:143",
-  "components/mission/DonnerRapide.tsx:197"
+  "components/mission/DonnerRapide.tsx:207"
  ],
  "Donner {0} par mois": [
-  "components/mission/DonnerRapide.tsx:196"
+  "components/mission/DonnerRapide.tsx:206"
  ],
  "donner accès à l'eau et à l'électricité": [
   "components/mission/MissionProgress.tsx:86"
@@ -9181,9 +9193,6 @@
  ],
  "Donner maintenant": [
   "app/dons/page.tsx:88"
- ],
- "dons": [
-  "components/mission/PopupMission.tsx:115"
  ],
  "Dons et soutien": [
   "app/cgv/page.tsx:33"
@@ -11776,7 +11785,7 @@
   "components/community/SocialAuthButtons.tsx:50"
  ],
  "Google Pay": [
-  "components/mission/DonnerRapide.tsx:202"
+  "components/mission/DonnerRapide.tsx:212"
  ],
  "Google Play": [
   "components/app/AppOnboarding.tsx:47",
@@ -11820,12 +11829,6 @@
  ],
  "Grande annonce · à paraître": [
   "components/home/Shop.tsx:55"
- ],
- "Grande campagne de": [
-  "components/mission/PopupMission.tsx:115"
- ],
- "Grande campagne de dons": [
-  "components/mission/PopupMission.tsx:75"
  ],
  "Grande photo affichée en haut de ton profil (paysage de préférence).": [
   "components/community/ProfileView.tsx:721"
@@ -14876,8 +14879,7 @@
  ],
  "Je soutiens la mission": [
   "components/mission/CarteMission.tsx:110",
-  "components/mission/DonateScreen.tsx:196",
-  "components/mission/PopupMission.tsx:145"
+  "components/mission/DonateScreen.tsx:196"
  ],
  "Je suis avec vous tous les jours jusqu'à la fin du monde": [
   "config/chemin/chapitre-resurrection.ts:98"
@@ -19645,6 +19647,9 @@
  "Mais derrière les chiffres, il y a surtout une vision. Celle de présenter une foi vivante, enracinée et accessible. Une foi qui n'est pas une religion poussiéreuse, distante ou compliquée. Une foi qui parle au cœur, qui transforme la vie, qui relève, qui restaure et qui ramène les personnes à Jésus.": [
   "app/a-propos/page.tsx:163"
  ],
+ "Mais faire vivre l'app coûte plus de 30 000 €. Nous ne mettons pas de publicité, et nous ne vendons pas tes données : RHEMA vit uniquement grâce à ceux qui donnent.": [
+  "components/mission/PopupMission.tsx:144"
+ ],
  "Mais il était blessé pour nos péchés, brisé pour nos iniquités ; le châtiment qui nous donne la paix est tombé sur lui, et c'est par ses meurtrissures que nous sommes guéris. Nous étions tous errants comme des brebis, chacun suivait sa propre voie ; et l'Éternel a fait retomber sur lui l'iniquité de nous tous.": [
   "config/chemin/chapitre-esaie.ts:93"
  ],
@@ -20320,7 +20325,7 @@
  ],
  "Merci du fond du cœur": [
   "components/mission/DonLibre.tsx:102",
-  "components/mission/DonnerRapide.tsx:253",
+  "components/mission/DonnerRapide.tsx:263",
   "components/mission/SoutienEnUnClic.tsx:84"
  ],
  "Merci du fond du cœur !": [
@@ -20342,6 +20347,9 @@
  ],
  "Merci, tu es Bâtisseur": [
   "components/mission/SoutienEnUnClic.tsx:102"
+ ],
+ "Merci. Jack": [
+  "components/mission/PopupMission.tsx:193"
  ],
  "Mère de": [
   "components/ecole/ArbresGenealogiques.tsx:839"
@@ -20581,7 +20589,7 @@
  ],
  "mission": [
   "components/mission/CarteMission.tsx:97",
-  "components/mission/DonnerRapide.tsx:84"
+  "components/mission/DonnerRapide.tsx:94"
  ],
  "Mission": [
   "components/community/AdminSpace.tsx:58",
@@ -21255,9 +21263,6 @@
  "Nous prions personnellement pour toi et te répondons": [
   "components/home/PrayerSpace.tsx:90"
  ],
- "Nous recherchons des donateurs pour la garder gratuite et bénir le plus grand nombre. Une partie des fonds servira aussi pour la mission auprès des plus pauvres.": [
-  "components/mission/PopupMission.tsx:125"
- ],
  "Nous te répondons personnellement": [
   "components/home/Testimonies.tsx:81"
  ],
@@ -21661,7 +21666,7 @@
   "app/lien/page.tsx:55"
  ],
  "Ouverture du paiement…": [
-  "components/mission/DonnerRapide.tsx:192"
+  "components/mission/DonnerRapide.tsx:202"
  ],
  "Ouverture du passage…": [
   "components/chemin/PassagePanel.tsx:148"
@@ -21740,19 +21745,19 @@
   "components/community/AnalyticsDashboard.tsx:220"
  ],
  "Paiement direct : {0} {1}": [
-  "components/mission/DonnerRapide.tsx:227"
+  "components/mission/DonnerRapide.tsx:237"
  ],
  "Paiement direct indisponible {0}": [
-  "lib/don-site.ts:79"
+  "lib/don-site.ts:81"
  ],
  "paiement impossible : {0}": [
-  "lib/don-site.ts:76"
+  "lib/don-site.ts:78"
  ],
  "Paiement sécurisé par Stripe. Reçu par e-mail.": [
-  "components/mission/DonnerRapide.tsx:217"
+  "components/mission/DonnerRapide.tsx:227"
  ],
  "Paiement sécurisé par Stripe. Reçu par e-mail. Tu arrêtes quand tu veux.": [
-  "components/mission/DonnerRapide.tsx:216"
+  "components/mission/DonnerRapide.tsx:226"
  ],
  "Paiement sécurisé sur notre site, par Stripe.": [
   "components/mission/DonateScreen.tsx:199"
@@ -22280,7 +22285,7 @@
   "lib/badges.ts:230"
  ],
  "Partenaire": [
-  "lib/don-site.ts:87",
+  "lib/don-site.ts:89",
   "content/support-tiers.json"
  ],
  "Partenaire mensuel": [
@@ -27384,7 +27389,7 @@
   "components/app/ProfilMenu.tsx:486"
  ],
  "RHEMA est gratuite, mais sa création et sa maintenance ont un vrai coût. Ton don permet d'annoncer la Parole gratuitement au plus grand nombre, et le reste part dans les missions.": [
-  "components/mission/DonnerRapide.tsx:114"
+  "components/mission/DonnerRapide.tsx:124"
  ],
  "RHEMA est né d'un chemin personnel avec Dieu, et de plusieurs années de partages, de méditations et de vidéos quotidiennes autour de la Parole. Ce dévotionnel a été conçu pour t'accompagner jour après jour, afin que la Parole ne soit pas seulement écoutée, mais méditée, priée et vécue.": [
   "components/boutique/RhemaShowcase.tsx:701"
@@ -28233,6 +28238,9 @@
  "Si quelqu'un manque de sagesse qu'il la demande à Dieu": [
   "config/chemin/chapitre-jacques.ts:39"
  ],
+ "Si RHEMA te fait du bien, aide-nous à la garder gratuite pour le prochain qui en a besoin.": [
+  "components/mission/PopupMission.tsx:148"
+ ],
  "Si rien ne se passe, utilise les boutons ci-dessous.": [
   "app/lien/page.tsx:59"
  ],
@@ -28542,7 +28550,7 @@
  ],
  "Soutiens la": [
   "components/mission/CarteMission.tsx:97",
-  "components/mission/DonnerRapide.tsx:84"
+  "components/mission/DonnerRapide.tsx:94"
  ],
  "Soutiens la mission": [
   "app/donner/page.tsx:6",
@@ -29460,17 +29468,17 @@
   "components/mission/DonLibre.tsx:104"
  ],
  "Ton don de {0} fait avancer la mission : la Parole de Dieu dans les nations et des missions auprès des plus pauvres. Que Dieu te bénisse.": [
-  "components/mission/DonnerRapide.tsx:258"
+  "components/mission/DonnerRapide.tsx:268"
  ],
  "Ton don fait": [
   "app/dons/page.tsx:38"
  ],
  "Ton don fait avancer la mission : la Parole de Dieu dans les nations et des missions auprès des plus pauvres. Que Dieu te bénisse.": [
-  "components/mission/DonnerRapide.tsx:259"
+  "components/mission/DonnerRapide.tsx:269"
  ],
  "Ton don fait vivre l'app et des missions auprès des plus pauvres.": [
   "components/mission/CarteMission.tsx:102",
-  "components/mission/DonnerRapide.tsx:87"
+  "components/mission/DonnerRapide.tsx:97"
  ],
  "Ton don fait vivre RHEMA et les projets de Jack.": [
   "components/community/ProfileView.tsx:1141"
@@ -29554,7 +29562,7 @@
   "components/quiz/QuizScreen.tsx:636"
  ],
  "Ton reçu arrive par e-mail.": [
-  "components/mission/DonnerRapide.tsx:261"
+  "components/mission/DonnerRapide.tsx:271"
  ],
  "Ton rendez-vous": [
   "components/home/DailyHub.tsx:40"
@@ -29569,7 +29577,7 @@
   "components/mission/SoutienEnUnClic.tsx:86"
  ],
  "Ton soutien de {0} par mois fait avancer la mission : la Parole de Dieu dans les nations et des missions auprès des plus pauvres. Que Dieu te bénisse.": [
-  "components/mission/DonnerRapide.tsx:257"
+  "components/mission/DonnerRapide.tsx:267"
  ],
  "Ton soutien mensuel fait vivre RHEMA. Tu recevras chaque mois l'invitation au Zoom avec Pasteur Jack.": [
   "components/mission/SoutienEnUnClic.tsx:104"
@@ -30025,7 +30033,7 @@
   "lib/grades.ts:25"
  ],
  "Tu confirmeras le montant sur la page de paiement.": [
-  "components/mission/DonnerRapide.tsx:221"
+  "components/mission/DonnerRapide.tsx:231"
  ],
  "Tu construis l'avenir": [
   "content/support-tiers.json"
@@ -30087,7 +30095,7 @@
   "components/community/ProfileView.tsx:91"
  ],
  "Tu peux fermer cette page pour revenir à l'application.": [
-  "components/mission/DonnerRapide.tsx:262"
+  "components/mission/DonnerRapide.tsx:272"
  ],
  "Tu peux le lire dans la Bible.": [
   "components/chemin/PassagePanel.tsx:153"
@@ -30561,6 +30569,10 @@
   "components/community/PrayerTime.tsx:479",
   "components/home/DailyPrayerSpotlight.tsx:71"
  ],
+ "Un message de Jack": [
+  "components/mission/PopupMission.tsx:88",
+  "components/mission/PopupMission.tsx:135"
+ ],
  "Un message pour le Pasteur Jack ?": [
   "components/community/GroupsDirectory.tsx:84"
  ],
@@ -30984,9 +30996,6 @@
  "Une application comme RHEMA coûte environ 30 000 € à développer : Bible, plans, études, audio, communauté, traductions.": [
   "components/mission/DonateScreen.tsx:31"
  ],
- "Une application comme RHEMA, sa création et sa maintenance, c'est plus de": [
-  "components/mission/PopupMission.tsx:121"
- ],
  "Une application pensée pour ta vie de foi": [
   "app/app/page.tsx:137"
  ],
@@ -31126,7 +31135,7 @@
  ],
  "Une fois": [
   "app/dons/page.tsx:170",
-  "components/mission/DonnerRapide.tsx:122",
+  "components/mission/DonnerRapide.tsx:132",
   "config/chemin/chapitre-croix.ts:25"
  ],
  "Une fois par an": [
@@ -31134,6 +31143,9 @@
  ],
  "Une fois pour toutes, au lieu de sacrifices répétés chaque année": [
   "config/chemin/chapitre-hebreux.ts:55"
+ ],
+ "Une fois, le montant de mon choix": [
+  "components/mission/PopupMission.tsx:182"
  ],
  "Une fronde": [
   "config/chemin/chapitre-samson.ts:66"
@@ -31279,6 +31291,9 @@
  ],
  "Une partie centrée sur le sujet choisi.": [
   "components/quiz/QuizScreen.tsx:1404"
+ ],
+ "Une partie des dons soutient aussi nos missions auprès des enfants les plus pauvres.": [
+  "components/mission/PopupMission.tsx:186"
  ],
  "Une pensée pour ton cœur, chaque matin.": [
   "components/app/AppOnboarding.tsx:102"
@@ -31524,13 +31539,13 @@
   "lib/reading-settings.ts:44"
  ],
  "vérification {0} {1}": [
-  "lib/don-site.ts:53"
+  "lib/don-site.ts:55"
  ],
  "vérification impossible : {0}": [
-  "lib/don-site.ts:57"
+  "lib/don-site.ts:59"
  ],
  "vérification…": [
-  "components/mission/DonnerRapide.tsx:227"
+  "components/mission/DonnerRapide.tsx:237"
  ],
  "Vérification…": [
   "components/mission/SoutienEnUnClic.tsx:50"

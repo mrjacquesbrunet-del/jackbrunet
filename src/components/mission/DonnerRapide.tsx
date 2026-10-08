@@ -55,6 +55,16 @@ export function DonnerRapide() {
     }
   }
 
+  // ?go=1 (bouton « 10 € par mois » du pop-up de l'app) : le paiement
+  // s'ouvre aussitôt, sans second clic.
+  const [lance, setLance] = useState(false);
+  useEffect(() => {
+    if (lance || params.get("go") !== "1" || !valide) return;
+    setLance(true);
+    void donner();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className="min-h-[100svh] bg-night-950 text-cream">
       <PageEpuree />
