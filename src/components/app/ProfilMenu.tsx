@@ -51,32 +51,50 @@ export function ouvrirMenuProfil() {
   window.dispatchEvent(new Event(EVT));
 }
 
-export function ProfilBouton({ taille = 32, className = "" }: { taille?: number; className?: string }) {
+export function ProfilBouton({ taille = 36, className = "" }: { taille?: number; className?: string }) {
   const { ready, userId, profile } = useAuth();
   if (!ready) return null;
   const nom = profile?.pseudo ?? "";
   return (
+    // Anneau néon lime (dégradé + halo qui « respire »), fine bague sombre,
+    // puis la photo ou l'initiale : la pastille paraît sertie dans la page.
     <button
       type="button"
       data-profil-menu-btn
       onClick={ouvrirMenuProfil}
       aria-label="Ouvrir le menu"
-      style={{ width: taille, height: taille, WebkitTapHighlightColor: "transparent" }}
-      className={`grid shrink-0 place-items-center overflow-hidden rounded-full bg-night-900 text-[13px] font-bold text-dawn-400 shadow-[0_2px_10px_rgba(0,0,0,.35)] ring-1 ring-white/25 transition-transform active:scale-95 ${className}`}
+      style={{
+        width: taille,
+        height: taille,
+        WebkitTapHighlightColor: "transparent",
+        background: "conic-gradient(from 210deg, #CAF000, #8FB300, #E9FF7A, #CAF000)",
+      }}
+      className={`profil-neon relative shrink-0 rounded-full p-[2px] transition-transform active:scale-95 ${className}`}
     >
-      {!userId ? (
-        // Pas connecté : silhouette en trait.
-        <svg viewBox="0 0 24 24" className="h-[60%] w-[60%] fill-none stroke-current" strokeWidth={1.8} aria-hidden>
-          <path d={I.personne} strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      ) : profile?.avatar_url ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={profile.avatar_url} alt="" className="h-full w-full object-cover" />
-      ) : (
-        <span translate="no" className="font-display leading-none">
-          {(nom.trim()[0] ?? "?").toUpperCase()}
+      <span className="block h-full w-full rounded-full bg-night-950 p-[2px]">
+        <span
+          className="grid h-full w-full place-items-center overflow-hidden rounded-full text-dawn-400"
+          style={{ background: "radial-gradient(circle at 30% 25%, #2a2d12, #0c0c0b 70%)" }}
+        >
+          {!userId ? (
+            // Pas connecté : silhouette en trait.
+            <svg viewBox="0 0 24 24" className="h-[62%] w-[62%] fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+              <path d={I.personne} strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          ) : profile?.avatar_url ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={profile.avatar_url} alt="" className="h-full w-full object-cover" />
+          ) : (
+            <span
+              translate="no"
+              className="font-display font-extrabold leading-none [text-shadow:0_0_8px_rgba(202,240,0,.55)]"
+              style={{ fontSize: Math.round(taille * 0.42) }}
+            >
+              {(nom.trim()[0] ?? "?").toUpperCase()}
+            </span>
+          )}
         </span>
-      )}
+      </span>
     </button>
   );
 }
@@ -86,7 +104,7 @@ export function ProfilBoutonFlottant() {
   const ici = PAGES_FLOTTANT.some((p) => pathname === p || pathname === `${p}/`);
   if (!ici) return null;
   return (
-    <div className="pointer-events-none absolute left-3.5 top-[calc(env(safe-area-inset-top)+0.6rem)] z-30">
+    <div className="pointer-events-none absolute left-4 top-[calc(env(safe-area-inset-top)+0.6rem)] z-30">
       <div className="pointer-events-auto">
         <ProfilBouton />
       </div>

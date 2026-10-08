@@ -2,34 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { getBook, getIndex } from "@/lib/bible-client";
-import { getVersionBible } from "@/lib/bible-version";
+import { chargerCorpus, normaliser } from "@/lib/bible-recherche";
 
-type BookIndex = { id: number; name: string; chapters: number };
-type Book = { id: number; name: string; chapters: string[][] };
 type Hit = { livre: number; nom: string; chap: number; verset: number; texte: string };
 
-const norm = (s: string) =>
-  s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
-
-// Corpus de la version lue, chargé une seule fois puis gardé en mémoire.
-const CORPUS = new Map<string, { id: number; name: string; chapters: string[][] }[]>();
-
-async function loadCorpus(): Promise<{ id: number; name: string; chapters: string[][] }[]> {
-  const v = getVersionBible();
-  const deja = CORPUS.get(v);
-  if (deja) return deja;
-  const index: BookIndex[] = await getIndex(v);
-  const books = await Promise.all(
-    index.map((b) =>
-      getBook(b.id, v)
-        .then((bk) => ({ id: b.id, name: b.name, chapters: bk.chapters }))
-        .catch(() => ({ id: b.id, name: b.name, chapters: [] as string[][] })),
-    ),
-  );
-  CORPUS.set(v, books);
-  return books;
-}
+const norm = normaliser;
+const loadCorpus = chargerCorpus;
 
 const MAX = 80;
 

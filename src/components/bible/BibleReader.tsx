@@ -1,6 +1,7 @@
 "use client";
 
 import { ProfilBouton } from "@/components/app/ProfilMenu";
+import { RechercheBible } from "@/components/bible/RechercheBible";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { asset, mediaUrl } from "@/lib/asset";
@@ -131,6 +132,8 @@ export function BibleReader() {
   const [introLivre, setIntroLivre] = useState<number | null>(null);
   // Menu ⋮ du mode pleine lecture (carnet, recherche, téléchargement…).
   const [menuOpen, setMenuOpen] = useState(false);
+  // La loupe : recherche d'un mot dans toute la Bible.
+  const [recherche, setRecherche] = useState(false);
 
   // « Reprendre où j'étais »: restaure le dernier livre/chapitre lu ET la
   // position de défilement, pour revenir EXACTEMENT au passage (ex. après un
@@ -427,7 +430,7 @@ export function BibleReader() {
       {/* Barre fine du mode pleine lecture */}
       {immersive? (
         <div
-          className="sticky z-40 mb-2 flex items-center justify-between gap-2 px-1 py-2"
+          className="sticky z-40 mb-2 flex items-center justify-between gap-1.5 px-0.5 py-2"
           style={{
             // Dans l'app : sous la barre de statut du téléphone ; sur le site :
             // sous l'en-tête fixe. Pas de fond : les pastilles flottent sur le
@@ -437,7 +440,7 @@ export function BibleReader() {
           }}
         >
           {/* Ma photo : ouvre le menu profil (carnet, plans, soutien…) */}
-          {isApp ? <ProfilBouton taille={40} /> : null}
+          {isApp ? <ProfilBouton taille={36} /> : null}
           {/* Pastille livre + chapitre + version : ouvre le sélecteur */}
           <button
             type="button"
@@ -446,7 +449,7 @@ export function BibleReader() {
               setSelOpen(true);
             }}
             aria-label="Choisir le livre et le chapitre"
-            className="flex min-w-0 items-center gap-2 rounded-full px-3.5 py-2 text-sm font-bold shadow-card backdrop-blur"
+            className="flex min-w-0 items-center gap-1.5 rounded-full px-3 py-2 text-sm font-bold shadow-card backdrop-blur"
             style={{ backgroundColor: reading.theme === "sombre" ? "rgba(12,12,11,.62)" : "rgba(255,255,255,.92)" }}
           >
             <span className="truncate font-display">
@@ -465,7 +468,7 @@ export function BibleReader() {
             type="button"
             onClick={() => setIntroLivre(bookId)}
             aria-label={`Introduction au livre ${book?.name ?? ""}`}
-            className="grid h-10 w-10 shrink-0 place-items-center rounded-full shadow-card backdrop-blur"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full shadow-card backdrop-blur"
             style={{ backgroundColor: reading.theme === "sombre" ? "rgba(12,12,11,.62)" : "rgba(255,255,255,.92)" }}
           >
             <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.9}>
@@ -474,15 +477,28 @@ export function BibleReader() {
             </svg>
           </button>
 
-          <div className="relative ml-auto flex shrink-0 items-center gap-1.5">
-            <ReadingSettings />
+          <div className="relative ml-auto flex shrink-0 items-center gap-1">
+            {/* Loupe : chercher un mot dans toute la Bible */}
+            <button
+              type="button"
+              onClick={() => setRecherche(true)}
+              aria-label="Rechercher dans la Bible"
+              className="grid h-9 w-9 place-items-center rounded-full shadow-card backdrop-blur"
+              style={{ backgroundColor: reading.theme === "sombre" ? "rgba(12,12,11,.62)" : "rgba(255,255,255,.92)" }}
+            >
+              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2}>
+                <circle cx="11" cy="11" r="7" />
+                <path d="M20 20l-3.5-3.5" strokeLinecap="round" />
+              </svg>
+            </button>
+            <ReadingSettings compact />
             {/* Menu : carnet, recherche, téléchargement, vue classique */}
             <button
               type="button"
               onClick={() => setMenuOpen((v) => !v)}
               aria-label="Plus d'options"
               aria-expanded={menuOpen}
-              className="grid h-10 w-10 place-items-center rounded-full shadow-card backdrop-blur"
+              className="grid h-9 w-9 place-items-center rounded-full shadow-card backdrop-blur"
               style={{ backgroundColor: reading.theme === "sombre" ? "rgba(12,12,11,.62)" : "rgba(255,255,255,.92)" }}
             >
               <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current">
@@ -494,9 +510,16 @@ export function BibleReader() {
                 <Link href="/carnet" className="block px-4 py-2.5 text-sm font-semibold hover:bg-white/5" onClick={() => setMenuOpen(false)}>
                   Mon carnet
                 </Link>
-                <Link href="/recherche" className="block px-4 py-2.5 text-sm font-semibold hover:bg-white/5" onClick={() => setMenuOpen(false)}>
+                <button
+                  type="button"
+                  className="block w-full px-4 py-2.5 text-left text-sm font-semibold hover:bg-white/5"
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setRecherche(true);
+                  }}
+                >
                   Rechercher dans la Bible
-                </Link>
+                </button>
                 <div className="px-4 py-2.5">
                   <BibleDownload bookId={bookId} bookName={book?.name?? ""} chapterCount={chapterCount} />
                 </div>
@@ -566,8 +589,9 @@ export function BibleReader() {
         </Link>
 
         {/* Recherche d'un mot/verset dans toute la Bible */}
-        <Link
-          href="/recherche"
+        <button
+          type="button"
+          onClick={() => setRecherche(true)}
           aria-label="Rechercher dans la Bible"
           className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-night-900/15 bg-white text-spirit-700 transition-colors hover:bg-night-900/5"
         >
@@ -575,7 +599,7 @@ export function BibleReader() {
             <circle cx="11" cy="11" r="7" />
             <path d="M21 21l-4.3-4.3" strokeLinecap="round" />
           </svg>
-        </Link>
+        </button>
 
         {/* Confort de lecture: taille du texte + police */}
         <ReadingSettings />
@@ -1079,6 +1103,18 @@ export function BibleReader() {
           </div>
         </div>
       ) : null}
+
+      {/* La loupe : recherche d'un mot dans toute la Bible */}
+      <RechercheBible
+        ouvert={recherche}
+        onFermer={() => setRecherche(false)}
+        livreCourant={bookId}
+        nomLivre={book?.name ?? bookNames[bookId] ?? ""}
+        onAller={(l, c, v) => {
+          setRecherche(false);
+          allerA(l, c, { verset: v }, true);
+        }}
+      />
 
       {/* Aperçu d'un passage cité : on le lit sans quitter sa lecture */}
       {apercu ? (
