@@ -20,6 +20,8 @@ export function EmailPopup() {
     if (typeof window === "undefined") return;
     if (isApp) return; // dans l'app: pas de pop-up (on a la rubrique Exclusivités)
     if (localStorage.getItem(STORAGE_KEY)) return;
+    // Pages de don épurées : rien ne doit distraire.
+    if (location.pathname.startsWith("/donner")) return;
     const timer = setTimeout(() => setOpen(true), DELAY_MS);
     return () => clearTimeout(timer);
   }, [isApp]);

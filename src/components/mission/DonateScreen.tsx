@@ -1,14 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { openExternal } from "@/lib/external";
-import { isNativeApp } from "@/lib/notifications";
 import { asset } from "@/lib/asset";
-import { STRIPE_LINKS } from "@/config/stripe";
-import { siteConfig } from "@/config/site";
 import { SoutienEnUnClic } from "@/components/mission/SoutienEnUnClic";
+import { lienDonSite } from "@/lib/don-site";
+import { useLangue } from "@/lib/i18n";
 import { DonLibre } from "@/components/mission/DonLibre";
 
 /** Charte de l'app: nuit/olive + accent lime + crème. */
@@ -24,7 +23,6 @@ const C = {
   limeTint: "rgba(202,240,0,0.12)",
 };
 
-const PRESETS = [20, 50, 100, 200, 500];
 
 /** Les besoins de la mission, expliqués simplement. */
 const BESOINS = [
@@ -44,44 +42,19 @@ const BESOINS = [
     icon: "M12 21s-6-5.2-6-10a6 6 0 0 1 12 0c0 4.8-6 10-6 10zM12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4",
   },
 ];
-const MIN = 20;
-const MAX = 500;
-/** Base d'impact: 5 € finance 1 personne soutenue. */
-const PER_PERSON = 5;
 
 /**
  * Page « Faire un don » (missions d'évangélisation, aides humanitaires,
- * ministère pastoral). Le curseur et les montants illustrent l'impact ; le
- * bouton renvoie vers la page de don SÉCURISÉE du site (exigé par Apple: pas de
- * paiement intégré). Habillage dans la charte de l'app (nuit/olive + lime).
+ * ministère pastoral) : la mission, les besoins, puis le soutien — par Apple /
+ * Google quand les produits existent, sinon un bouton vers la page de don du
+ * site (jackbrunet.com/donner : Apple Pay, Google Pay, carte). Habillage dans
+ * la charte de l'app (nuit/olive + lime).
  */
 export function DonateScreen() {
-  const [monthly, setMonthly] = useState(true);
-  const [amount, setAmount] = useState(100);
-  const [freeMode, setFreeMode] = useState(false);
-  const [freeVal, setFreeVal] = useState("");
   // Dans l'app : dès que le don libre Apple / Google est disponible, tout
   // passe par lui (plus de don par le site).
   const [donIntegre, setDonIntegre] = useState(false);
-
-  const effective = freeMode ? Math.max(0, Math.round(Number(freeVal.replace(",", ".")) || 0)) : amount;
-  const people = Math.max(0, Math.floor(effective / PER_PERSON));
-
-  // Lien de don: en natif on ouvre la page sécurisée du site (puis Stripe);
-  // sur le web, on peut aller directement au paiement Stripe (don unique).
-  const target = useMemo(() => {
-    const site = `${siteConfig.url}/dons`;
-    if (isNativeApp()) return site;
-    if (!monthly && STRIPE_LINKS.donOnce) return STRIPE_LINKS.donOnce;
-    return site;
-  }, [monthly]);
-
-  function pick(v: number) {
-    setFreeMode(false);
-    setAmount(v);
-  }
-
-  const sliderPct = ((amount - MIN) / (MAX - MIN)) * 100;
+  const langue = useLangue();
 
   return (
     <div className="relative min-h-screen text-[#F3F3ED]" style={{ background: C.bg }}>
@@ -200,182 +173,32 @@ export function DonateScreen() {
         <DonLibre onDispo={setDonIntegre} />
 
         {!donIntegre ? (
-        <>
-        {/* Curseur de soutien */}
-        <section className="mt-5 rounded-3xl border bg-white/[0.03] p-5" style={{ borderColor: C.cardBorder }}>
-          <div className="flex items-start justify-between gap-4">
-            <div className="min-w-0">
-              <p className="text-[11px] font-bold uppercase tracking-[0.2em]" style={{ color: C.lime }}>
-                Curseur de soutien
-              </p>
-              <h2 className="mt-1 font-display text-2xl font-extrabold leading-tight">
-                Combien veux-tu donner ?
-              </h2>
-            </div>
-            <div
-              className="shrink-0 rounded-2xl border px-4 py-2 text-center"
-              style={{ borderColor: "rgba(202,240,0,0.3)", background: C.limeTint }}
-            >
-              <p className="font-display text-2xl font-extrabold" style={{ color: C.lime }}>
-                {effective} €
-              </p>
-              <p className="text-[10px] font-bold uppercase tracking-wider" style={{ color: C.textMuted }}>
-                {people} personne{people > 1 ? "s" : ""}
-              </p>
-            </div>
-          </div>
-
-          <p className="mt-3 text-sm leading-relaxed" style={{ color: C.textSec }}>
-            Avec <span className="font-bold" style={{ color: C.lime }}>{effective} €{monthly ? "/mois" : ""}</span>, tu
-            soutiens <span className="font-bold" style={{ color: C.lime }}>{people} personne{people > 1 ? "s" : ""}</span>:
-            évangélisation, aide humanitaire et ministère.
-          </p>
-
-          {/* Mensuel / ponctuel */}
-          <div className="mt-4 grid grid-cols-2 gap-2 rounded-2xl bg-black/25 p-1">
-            {[
-              { k: true, label: "Don mensuel" },
-              { k: false, label: "Don ponctuel" },
-            ].map((o) => (
-              <button
-                key={o.label}
-                type="button"
-                onClick={() => setMonthly(o.k)}
-                className="rounded-xl py-2.5 text-sm font-bold transition-colors"
-                style={
-                  monthly === o.k
-                    ? { background: C.limeTint, color: C.lime, boxShadow: "inset 0 0 0 1px rgba(202,240,0,0.5)" }
-                    : { color: C.textMuted }
-                }
-              >
-                {o.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Slider */}
-          <div className="mt-5">
-            <input
-              type="range"
-              min={MIN}
-              max={MAX}
-              step={5}
-              value={freeMode ? MIN : amount}
-              onChange={(e) => pick(Number(e.target.value))}
-              className="jb-donate-range w-full"
-              style={{
-                background: `linear-gradient(90deg, rgb(var(--s-500)) 0%, ${C.lime} ${sliderPct}%, rgba(255,255,255,0.12) ${sliderPct}%)`,
-              }}
-              aria-label="Montant du don"
-            />
-            <div className="mt-1 flex justify-between text-xs font-semibold" style={{ color: C.textMuted }}>
-              <span>{MIN} €</span>
-              <span>{MAX} €</span>
-            </div>
-          </div>
-
-          {/* Montants prédéfinis */}
-          <div className="mt-4 grid grid-cols-3 gap-2.5">
-            {PRESETS.map((v) => {
-              const active = !freeMode && amount === v;
-              return (
-                <button
-                  key={v}
-                  type="button"
-                  onClick={() => pick(v)}
-                  className="rounded-2xl py-3 text-center font-bold transition-colors"
-                  style={
-                    active
-                      ? { background: C.lime, color: C.bg }
-                      : { border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.03)", color: C.cream }
-                  }
-                >
-                  {v} €
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Don libre */}
-          <div className="mt-2.5 grid grid-cols-2 gap-2.5">
+          // Don par le site : une page très simple (Apple Pay, Google Pay,
+          // carte) aux couleurs de l'app, ouverte dans le navigateur.
+          <section className="mt-5 rounded-3xl border p-5" style={{ borderColor: C.cardBorder, background: "rgba(202,240,0,0.05)" }}>
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em]" style={{ color: C.lime }}>
+              Faire un don
+            </p>
+            <h2 className="mt-1 font-display text-2xl font-extrabold leading-tight">En quelques secondes</h2>
+            <p className="mt-2 text-[15px] leading-relaxed" style={{ color: C.textSec }}>
+              Choisis un montant, une fois ou chaque mois, puis paie avec Apple Pay, Google Pay ou ta
+              carte bancaire.
+            </p>
             <button
               type="button"
-              onClick={() => setFreeMode(true)}
-              className="rounded-2xl py-3 text-center font-bold transition-colors"
-              style={
-                freeMode
-                  ? { background: C.lime, color: C.bg }
-                  : { border: "1px solid rgba(202,240,0,0.4)", background: "rgba(202,240,0,0.05)", color: C.lime }
-              }
+              onClick={() => openExternal(lienDonSite(undefined, undefined, langue))}
+              className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl py-4 font-display text-lg font-extrabold shadow-glow transition-transform active:scale-[0.99]"
+              style={{ background: C.lime, color: C.bg }}
             >
-              Don libre
+              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2}>
+                <path d="M12 20s-7-4.5-9.5-9A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9z" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Je soutiens la mission
             </button>
-            <div className="flex items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.03] px-3">
-              <span className="text-sm" style={{ color: C.textMuted }}>Montant</span>
-              <input
-                inputMode="numeric"
-                value={freeVal}
-                onFocus={() => setFreeMode(true)}
-                onChange={(e) => {
-                  setFreeMode(true);
-                  setFreeVal(e.target.value.replace(/[^0-9]/g, ""));
-                }}
-                placeholder="Ex. 75"
-                className="w-full bg-transparent py-3 text-right font-bold text-[#F3F3ED] outline-none"
-                style={{ caretColor: C.lime }}
-              />
-              <span style={{ color: C.textMuted }}>€</span>
-            </div>
-          </div>
-
-          <p className="mt-3 text-xs leading-relaxed" style={{ color: C.textMuted }}>
-            Base d&apos;impact: 5 € = 1 personne soutenue. Le don est volontaire et traité par Stripe.
-          </p>
-        </section>
-        </>
-        ) : null}
-
-        {!donIntegre ? (
-        <>
-        {/* Réassurance */}
-        <section className="mt-5 space-y-2.5">
-          <InfoRow
-            title="Paiement sécurisé hors application"
-            text="Le bouton ouvre la page web sécurisée du site, puis Stripe traite le paiement."
-            icon="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"
-          />
-        </section>
-
-        {/* Note conformité */}
-        <div
-          className="mt-5 flex gap-3 rounded-2xl border p-4"
-          style={{ borderColor: C.cardBorder, background: "rgba(202,240,0,0.05)" }}
-        >
-          <span
-            className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full text-xs font-bold"
-            style={{ background: C.lime, color: C.bg }}
-          >
-            i
-          </span>
-          <p className="text-sm leading-relaxed" style={{ color: C.textSec }}>
-            Ce don est volontaire, effectué sur le site, et ne débloque aucun contenu numérique
-            dans l&apos;application.
-          </p>
-        </div>
-
-        {/* CTA */}
-        <button
-          type="button"
-          onClick={() => openExternal(target)}
-          className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl py-4 font-display text-lg font-extrabold shadow-glow transition-transform active:scale-[0.99]"
-          style={{ background: C.lime, color: C.bg }}
-        >
-          <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2}>
-            <path d="M12 20s-7-4.5-9.5-9A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9z" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          Je soutiens la mission
-        </button>
-        </>
+            <p className="mt-3 text-center text-xs" style={{ color: C.textMuted }}>
+              Paiement sécurisé sur notre site, par Stripe.
+            </p>
+          </section>
         ) : null}
 
         {/* Vers la page Mission Madagascar */}
@@ -391,25 +214,6 @@ export function DonateScreen() {
           Mission Madagascar
         </Link>
       </motion.main>
-    </div>
-  );
-}
-
-function InfoRow({ title, text, icon }: { title: string; text: string; icon: string }) {
-  return (
-    <div className="flex gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-      <span
-        className="grid h-10 w-10 shrink-0 place-items-center rounded-xl"
-        style={{ background: "rgba(202,240,0,0.12)", color: "#CAF000" }}
-      >
-        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.8}>
-          <path d={icon} strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </span>
-      <div className="min-w-0">
-        <p className="font-bold text-[#F3F3ED]">{title}</p>
-        <p className="mt-0.5 text-sm leading-relaxed" style={{ color: "#A5A5A1" }}>{text}</p>
-      </div>
     </div>
   );
 }

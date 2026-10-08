@@ -6,7 +6,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAuth, initials } from "@/components/community/useAuth";
 import { asset } from "@/lib/asset";
-import { progressionDon, type ObjectifDon } from "@/lib/soutien";
+import { chargerDonsLibres, progressionDon, soutienDispo, type ObjectifDon } from "@/lib/soutien";
+import { lienDonSite } from "@/lib/don-site";
+import { openExternal } from "@/lib/external";
 import { useEngagement } from "@/lib/engagement";
 import { useLangue } from "@/lib/i18n";
 import { FlameGlyph } from "@/components/ui/DevoIcons";
@@ -339,6 +341,15 @@ export function ProfilMenu() {
     };
   }, [ouvert]);
 
+  // « Je soutiens la mission » : paiement Apple / Google dans l'app s'il est
+  // en place, sinon directement la page de don du site (Apple Pay, carte…).
+  const langue = useLangue();
+  const allerAuDon = async () => {
+    setOuvert(false);
+    if (soutienDispo() && (await chargerDonsLibres()).length) router.push("/don");
+    else void openExternal(lienDonSite(undefined, undefined, langue));
+  };
+
   const allerProfil = (vue?: "espace" | "reglages") => {
     try {
       if (vue) sessionStorage.setItem(CLE_VUE_PROFIL, vue);
@@ -456,10 +467,10 @@ export function ProfilMenu() {
 
             {/* Carte missions → soutien */}
             <div className="relative mt-3 px-4">
-              <Link
-                href="/don"
-                onClick={() => setOuvert(false)}
-                className="group block overflow-hidden rounded-3xl border border-dawn-400/30 bg-night-900"
+              <button
+                type="button"
+                onClick={allerAuDon}
+                className="group block w-full overflow-hidden rounded-3xl border border-dawn-400/30 bg-night-900 text-left"
               >
                 <div className="relative h-28 overflow-hidden">
                   {/* Photo « fondue » dans la charte : un peu désaturée et assombrie,
@@ -515,7 +526,7 @@ export function ProfilMenu() {
                     </svg>
                   </span>
                 </div>
-              </Link>
+              </button>
             </div>
 
             {/* RHEMA */}

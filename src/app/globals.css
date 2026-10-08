@@ -491,3 +491,20 @@ html[lang="pt-BR"] .fr-seulement {
 html.app-native .hero-sous-barre {
   padding-top: calc(env(safe-area-inset-top) + 3.25rem);
 }
+
+/* Pages « épurées » du site (don ouvert depuis l'app) : sans en-tête ni
+   pied de page, fond nuit jusqu'aux bords — comme dans l'application. */
+html.page-epuree,
+html.page-epuree body {
+  background: rgb(var(--n-950)) !important;
+  overscroll-behavior-y: none;
+}
+html.page-epuree .site-header,
+html.page-epuree .site-footer,
+html.page-epuree .bg-noise {
+  display: none !important;
+}
+html.page-epuree main {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}

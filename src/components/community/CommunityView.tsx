@@ -1,5 +1,7 @@
 "use client";
 
+import { lienDonSite } from "@/lib/don-site";
+import { getLangue } from "@/lib/i18n";
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -564,7 +566,7 @@ function Feed({
       <div className="mt-10 text-center">
         <button
           type="button"
-          onClick={() => openExternal(`${siteConfig.url}/dons`)}
+          onClick={() => openExternal(lienDonSite(undefined, undefined, getLangue()))}
           className="inline-flex items-center gap-2 rounded-full border-2 border-dawn-400 bg-dawn-400/15 px-6 py-3 text-sm font-bold text-spirit-700 transition-colors hover:bg-dawn-400/25"
         >
           <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden>
