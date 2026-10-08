@@ -53,6 +53,7 @@ const PAGES_BARRE: Record<string, string> = {
   "/groupes": "Groupes",
   "/ecouter": "Écouter",
   "/videos": "Vidéos",
+  "/a-propos": "À propos",
 };
 /**
  * Teinte de ce qui est sous un point : on remonte jusqu'au premier fond

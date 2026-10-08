@@ -511,3 +511,10 @@ html.page-epuree main {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
+
+/* Pages entièrement sombres (À propos…) : fond nuit derrière tout. */
+html.page-nuit,
+html.page-nuit body {
+  background-color: rgb(var(--n-950)) !important;
+  background-image: none !important;
+}
