@@ -102,7 +102,6 @@ function Icone({ d }: { d: string }) {
 const I = {
   carnet: "M5 4h11l3 3v13H5zM15 4v4h4M8.5 12h7M8.5 15.5h5",
   plans: "M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01",
-  favoris: "M6 4h12v17l-6-4-6 4z",
   priere: "M12 3.4c-.6 1.1-1.3 2-2.4 3.1L6.3 9.8c-.6.6-.9 1.5-.7 2.3l.8 4A1.8 1.8 0 0 0 8.2 19.5H12ZM12 3.4c.6 1.1 1.3 2 2.4 3.1L17.7 9.8c.6.6.9 1.5.7 2.3l-.8 4A1.8 1.8 0 0 1 15.8 19.5H12Z",
   messages: "M4 5h16v11H9l-5 4zM8 9.5h8M8 12.5h5",
   formation: "M2 9.5l10-5 10 5-10 5-10-5M5.8 12.4v3.8c0 1.4 2.8 2.8 6.2 2.8s6.2-1.4 6.2-2.8v-3.8M22 9.5v5",
@@ -120,7 +119,6 @@ type Ligne = { label: string; icone: string; href?: string; vue?: "espace" | "re
 const MON_ESPACE: Ligne[] = [
   { label: "Mon carnet", icone: I.carnet, href: "/carnet" },
   { label: "Mes plans", icone: I.plans, href: "/plans" },
-  { label: "Mes favoris", icone: I.favoris, href: "/favoris" },
   { label: "Ma liste de prière", icone: I.priere, vue: "espace" },
   { label: "Messages", icone: I.messages, href: "/messages" },
   { label: "Ma formation", icone: I.formation, href: "/ecole" },
