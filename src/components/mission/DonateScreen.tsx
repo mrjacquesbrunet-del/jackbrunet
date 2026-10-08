@@ -9,6 +9,7 @@ import { asset } from "@/lib/asset";
 import { STRIPE_LINKS } from "@/config/stripe";
 import { siteConfig } from "@/config/site";
 import { SoutienEnUnClic } from "@/components/mission/SoutienEnUnClic";
+import { DonLibre } from "@/components/mission/DonLibre";
 
 /** Charte de l'app: nuit/olive + accent lime + crème. */
 const C = {
@@ -40,6 +41,9 @@ export function DonateScreen() {
   const [amount, setAmount] = useState(100);
   const [freeMode, setFreeMode] = useState(false);
   const [freeVal, setFreeVal] = useState("");
+  // Dans l'app : dès que le don libre Apple / Google est disponible, tout
+  // passe par lui (plus de don par le site).
+  const [donIntegre, setDonIntegre] = useState(false);
 
   const effective = freeMode ? Math.max(0, Math.round(Number(freeVal.replace(",", ".")) || 0)) : amount;
   const people = Math.max(0, Math.floor(effective / PER_PERSON));
@@ -142,6 +146,11 @@ export function DonateScreen() {
         {/* Soutien en un clic (achats intégrés, app installée uniquement) */}
         <SoutienEnUnClic />
 
+        {/* Don libre (achats intégrés) + objectif */}
+        <DonLibre onDispo={setDonIntegre} />
+
+        {!donIntegre ? (
+        <>
         {/* Curseur de soutien */}
         <section className="mt-5 rounded-3xl border bg-white/[0.03] p-5" style={{ borderColor: C.cardBorder }}>
           <div className="flex items-start justify-between gap-4">
@@ -273,6 +282,8 @@ export function DonateScreen() {
             Base d&apos;impact: 5 € = 1 personne soutenue. Le don est volontaire et traité par Stripe.
           </p>
         </section>
+        </>
+        ) : null}
 
         {/* Piliers d'impact (icônes, mise en page verticale) */}
         <section className="mt-5 space-y-2.5">
@@ -316,6 +327,8 @@ export function DonateScreen() {
           ))}
         </section>
 
+        {!donIntegre ? (
+        <>
         {/* Réassurance */}
         <section className="mt-5 space-y-2.5">
           <InfoRow
@@ -354,6 +367,8 @@ export function DonateScreen() {
           </svg>
           Je soutiens la mission
         </button>
+        </>
+        ) : null}
 
         {/* Vers la page Mission Madagascar */}
         <Link

@@ -176,3 +176,92 @@ export function estBatisseurActif(p?: { batisseur_jusqu_au?: string | null } | n
   const fin = p?.batisseur_jusqu_au;
   return !!fin && new Date(fin).getTime() > Date.now();
 }
+
+/**
+ * « Don libre » : dons ponctuels par achat intégré CONSOMMABLE (on peut
+ * donner autant de fois qu'on veut). Apple et Google n'acceptent que des
+ * prix fixés à l'avance : un produit par montant, à créer à l'identique :
+ *  - App Store Connect : achats intégrés « Consommable » ;
+ *  - Play Console : produits intégrés (in-app), gérés comme consommables.
+ * Le montant en euros est lu dans l'identifiant (don_libre_20 → 20 €), pour
+ * que l'objectif reste juste quelle que soit la devise du téléphone.
+ */
+export const DONS_LIBRES = [5, 10, 20, 50, 100, 200].map((eur) => ({ id: `don_libre_${eur}`, eur }));
+
+export type OffreDon = { id: string; eur: number; prix: string; montant: number; devise: string };
+
+export async function chargerDonsLibres(): Promise<OffreDon[]> {
+  if (!soutienDispo()) return [];
+  try {
+    const { NativePurchases, PURCHASE_TYPE } = await plugin();
+    const { isBillingSupported } = await NativePurchases.isBillingSupported();
+    if (!isBillingSupported) return [];
+    const { products } = await NativePurchases.getProducts({
+      productIdentifiers: DONS_LIBRES.map((d) => d.id),
+      productType: PURCHASE_TYPE.INAPP,
+    });
+    return DONS_LIBRES.flatMap((d) => {
+      const p = products.find((x) => x.identifier === d.id);
+      return p ? [{ id: d.id, eur: d.eur, prix: p.priceString, montant: p.price, devise: p.currencyCode }] : [];
+    });
+  } catch {
+    return [];
+  }
+}
+
+/** Lance un don libre (feuille Apple / Google). « ok », « annule » ou erreur. */
+export async function donner(offre: OffreDon, userId?: string | null): Promise<"ok" | "annule"> {
+  const { NativePurchases, PURCHASE_TYPE } = await plugin();
+  let transactionId = "";
+  try {
+    const t = await NativePurchases.purchaseProduct({
+      productIdentifier: offre.id,
+      productType: PURCHASE_TYPE.INAPP,
+      isConsumable: true, // Android : le même montant peut être redonné
+      ...(userId && UUID_RE.test(userId) ? { appAccountToken: userId } : {}),
+    });
+    transactionId = t.transactionId ?? "";
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    if (/cancel|annul|user.?cancel|1001|code.?1\b/i.test(msg)) return "annule";
+    throw e;
+  }
+  // Compté dans l'objectif (voir supabase/migration-don-libre.sql).
+  try {
+    await getSupabase()
+      ?.from("soutiens")
+      .insert({
+        user_id: userId ?? null,
+        produit: offre.id,
+        montant: offre.montant,
+        devise: offre.devise,
+        plateforme: Capacitor.getPlatform(),
+        transaction_id: transactionId || null,
+      });
+  } catch {
+    /* best-effort */
+  }
+  return "ok";
+}
+
+export type ObjectifDon = { titre: string; objectif: number; collecte: number; dons: number; mensuel: boolean };
+
+/** Objectif du don libre et montant déjà reçu (mois en cours si objectif mensuel). */
+export async function progressionDon(): Promise<ObjectifDon | null> {
+  try {
+    const { data, error } = await getSupabase()!.rpc("progression_don");
+    const r = (Array.isArray(data) ? data[0] : data) as
+      | { titre: string; objectif: number; collecte: number; dons: number; periode: string }
+      | null;
+    if (error || !r || !Number(r.objectif)) return null;
+    return {
+      titre: r.titre,
+      objectif: Number(r.objectif),
+      collecte: Number(r.collecte) || 0,
+      dons: Number(r.dons) || 0,
+      mensuel: r.periode === "mensuel",
+    };
+  } catch {
+    return null;
+  }
+}

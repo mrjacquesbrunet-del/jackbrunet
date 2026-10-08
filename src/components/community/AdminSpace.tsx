@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/DevoIcons";
 import { BibleAudioAdmin } from "@/components/community/BibleAudioAdmin";
 import { MissionRaisedAdmin } from "@/components/community/MissionRaisedAdmin";
+import { ObjectifDonAdmin } from "@/components/community/ObjectifDonAdmin";
 import { DevotionsAdmin } from "@/components/community/DevotionsAdmin";
 import { FormationAdmin } from "@/components/community/FormationAdmin";
 import { MediasAdmin } from "@/components/community/MediasAdmin";
@@ -153,6 +154,7 @@ export function AdminSpace() {
 
           {/* Collecte Mission Madagascar */}
           <Rubrique def={R.mission}>
+            <ObjectifDonAdmin />
             <MissionRaisedAdmin />
           </Rubrique>
 
