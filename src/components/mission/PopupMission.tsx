@@ -33,8 +33,8 @@ function reporter(ms: number) {
 }
 
 /**
- * Pop-up « Soutiens la mission » (seul pop-up d'appel au don de l'app) :
- * jamais avant la 3e ouverture, au plus une fois tous les 10 jours, 30 jours
+ * Pop-up « Grande campagne de dons » (seul pop-up d'appel au don de l'app) :
+ * à partir de la 4e ouverture, au plus une fois tous les 10 jours, 30 jours
  * de calme après un don, jamais par-dessus une autre fenêtre.
  */
 export function PopupMission() {
@@ -48,7 +48,8 @@ export function PopupMission() {
     } catch {
       return;
     }
-    if (getOpens() < 3 || Date.now() < prochainePossible()) return;
+    // Toute personne qui a ouvert l'app plus de 3 fois.
+    if (getOpens() <= 3 || Date.now() < prochainePossible()) return;
     const t = setTimeout(() => {
       // Une autre fenêtre est ouverte (rappel, note, menu…) : pas cette fois.
       if (document.querySelector('[aria-modal="true"], [role="dialog"]')) return;
@@ -71,7 +72,7 @@ function Fenetre({ onFermer }: { onFermer: () => void }) {
       className="keep-dark fixed inset-0 z-[140] flex items-end justify-center sm:items-center"
       role="dialog"
       aria-modal="true"
-      aria-label="Soutiens la mission"
+      aria-label="Grande campagne de dons"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -108,17 +109,21 @@ function Fenetre({ onFermer }: { onFermer: () => void }) {
             </svg>
           </button>
           <span className="absolute left-4 top-3.5 rounded-full bg-night-950/70 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-dawn-400 backdrop-blur">
-            Mission
+            RHEMA
           </span>
           <p className="absolute inset-x-5 bottom-2 font-display text-[22px] font-extrabold leading-tight [text-shadow:0_1px_10px_rgba(0,0,0,.7)]">
-            Soutiens la <span className="text-dawn-400">mission</span>
+            Grande campagne de <span className="text-dawn-400">dons</span>
           </p>
         </div>
 
         <div className="px-5 pt-2">
           <p className="text-[14px] leading-relaxed text-cream/80">
-            RHEMA est gratuite, mais sa création et sa maintenance ont un vrai coût. Ton don permet d&apos;annoncer
-            la Parole gratuitement au plus grand nombre, et le reste part dans les missions.
+            Une application comme RHEMA, sa création et sa maintenance, c&apos;est plus de{" "}
+            <span className="font-bold text-dawn-400">30 000 €</span>.
+          </p>
+          <p className="mt-2 text-[14px] leading-relaxed text-cream/80">
+            Nous recherchons des donateurs pour la garder gratuite et bénir le plus grand nombre. Une partie des fonds
+            servira aussi pour la mission auprès des plus pauvres.
           </p>
           {objectif ? (
             <div className="mt-4">

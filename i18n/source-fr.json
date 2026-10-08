@@ -3918,7 +3918,7 @@
   "components/mission/DonnerRapide.tsx:202"
  ],
  "Apple Pay, Google Pay ou carte bancaire · Paiement sécurisé": [
-  "components/mission/PopupMission.tsx:145"
+  "components/mission/PopupMission.tsx:150"
  ],
  "application": [
   "app/confidentialite/page.tsx:61"
@@ -9182,6 +9182,9 @@
  "Donner maintenant": [
   "app/dons/page.tsx:88"
  ],
+ "dons": [
+  "components/mission/PopupMission.tsx:115"
+ ],
  "Dons et soutien": [
   "app/cgv/page.tsx:33"
  ],
@@ -11817,6 +11820,12 @@
  ],
  "Grande annonce · à paraître": [
   "components/home/Shop.tsx:55"
+ ],
+ "Grande campagne de": [
+  "components/mission/PopupMission.tsx:115"
+ ],
+ "Grande campagne de dons": [
+  "components/mission/PopupMission.tsx:75"
  ],
  "Grande photo affichée en haut de ton profil (paysage de préférence).": [
   "components/community/ProfileView.tsx:721"
@@ -14868,7 +14877,7 @@
  "Je soutiens la mission": [
   "components/mission/CarteMission.tsx:110",
   "components/mission/DonateScreen.tsx:196",
-  "components/mission/PopupMission.tsx:140"
+  "components/mission/PopupMission.tsx:145"
  ],
  "Je suis avec vous tous les jours jusqu'à la fin du monde": [
   "config/chemin/chapitre-resurrection.ts:98"
@@ -20572,13 +20581,11 @@
  ],
  "mission": [
   "components/mission/CarteMission.tsx:97",
-  "components/mission/DonnerRapide.tsx:84",
-  "components/mission/PopupMission.tsx:114"
+  "components/mission/DonnerRapide.tsx:84"
  ],
  "Mission": [
   "components/community/AdminSpace.tsx:58",
-  "components/mission/CarteMission.tsx:94",
-  "components/mission/PopupMission.tsx:111"
+  "components/mission/CarteMission.tsx:94"
  ],
  "Mission & Evangélisation": [
   "content/impact.json"
@@ -21247,6 +21254,9 @@
  ],
  "Nous prions personnellement pour toi et te répondons": [
   "components/home/PrayerSpace.tsx:90"
+ ],
+ "Nous recherchons des donateurs pour la garder gratuite et bénir le plus grand nombre. Une partie des fonds servira aussi pour la mission auprès des plus pauvres.": [
+  "components/mission/PopupMission.tsx:125"
  ],
  "Nous te répondons personnellement": [
   "components/home/Testimonies.tsx:81"
@@ -27374,8 +27384,7 @@
   "components/app/ProfilMenu.tsx:486"
  ],
  "RHEMA est gratuite, mais sa création et sa maintenance ont un vrai coût. Ton don permet d'annoncer la Parole gratuitement au plus grand nombre, et le reste part dans les missions.": [
-  "components/mission/DonnerRapide.tsx:114",
-  "components/mission/PopupMission.tsx:120"
+  "components/mission/DonnerRapide.tsx:114"
  ],
  "RHEMA est né d'un chemin personnel avec Dieu, et de plusieurs années de partages, de méditations et de vidéos quotidiennes autour de la Parole. Ce dévotionnel a été conçu pour t'accompagner jour après jour, afin que la Parole ne soit pas seulement écoutée, mais méditée, priée et vécue.": [
   "components/boutique/RhemaShowcase.tsx:701"
@@ -28533,8 +28542,7 @@
  ],
  "Soutiens la": [
   "components/mission/CarteMission.tsx:97",
-  "components/mission/DonnerRapide.tsx:84",
-  "components/mission/PopupMission.tsx:114"
+  "components/mission/DonnerRapide.tsx:84"
  ],
  "Soutiens la mission": [
   "app/donner/page.tsx:6",
@@ -30975,6 +30983,9 @@
  ],
  "Une application comme RHEMA coûte environ 30 000 € à développer : Bible, plans, études, audio, communauté, traductions.": [
   "components/mission/DonateScreen.tsx:31"
+ ],
+ "Une application comme RHEMA, sa création et sa maintenance, c'est plus de": [
+  "components/mission/PopupMission.tsx:121"
  ],
  "Une application pensée pour ta vie de foi": [
   "app/app/page.tsx:137"
