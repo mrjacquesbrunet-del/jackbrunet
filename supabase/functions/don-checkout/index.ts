@@ -45,13 +45,14 @@ Deno.serve(async (req) => {
   p.set("line_items[0][price_data][unit_amount]", String(eur * 100));
   p.set(
     "line_items[0][price_data][product_data][name]",
-    mensuel ? "Soutien mensuel · Mission RHEMA" : "Don · Mission RHEMA",
+    mensuel ? "Contribution mensuelle · RHEMA" : "Contribution · RHEMA",
   );
   if (mensuel) {
     p.set("line_items[0][price_data][recurring][interval]", "month");
     p.set("subscription_data[metadata][source]", "rhema-donner");
   } else {
-    p.set("submit_type", "donate");
+    // Bouton « Payer » de Stripe (et non « Faire un don ») : une contribution.
+    p.set("submit_type", "pay");
     p.set("payment_intent_data[metadata][source]", "rhema-donner");
   }
   p.set("success_url", `${SITE}/donner/merci/?${retour}`);

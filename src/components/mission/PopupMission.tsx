@@ -179,7 +179,7 @@ function Fenetre({ onFermer }: { onFermer: () => void }) {
             </p>
             <p>
               Une application comme RHEMA représente plus de 30 000 € de développement, et elle a des frais chaque mois.
-              Nous ne mettons pas de publicité et nous ne vendons pas tes données : RHEMA vit grâce à ceux qui donnent.
+              Nous ne mettons pas de publicité et nous ne vendons pas tes données : RHEMA vit grâce à ceux qui contribuent.
             </p>
             <p className="font-semibold text-cream">
               Si RHEMA te fait du bien, aide-nous à la garder gratuite pour le prochain qui en a besoin.
@@ -196,8 +196,8 @@ function Fenetre({ onFermer }: { onFermer: () => void }) {
             <p className="mt-4 flex items-center gap-2 text-[13px] font-semibold text-dawn-400">
               <span className="h-2 w-2 rounded-full bg-dawn-400" />
               {objectif.mensuel
-                ? `Déjà ${objectif.dons} dons ce mois-ci`
-                : `Déjà ${objectif.dons} dons reçus`}
+                ? `Déjà ${objectif.dons} contributions ce mois-ci`
+                : `Déjà ${objectif.dons} contributions reçues`}
             </p>
           ) : null}
 
@@ -220,7 +220,7 @@ function Fenetre({ onFermer }: { onFermer: () => void }) {
           </button>
 
           <p className="mt-3.5 text-center text-[12.5px] leading-snug text-cream/55">
-            Une partie des dons soutient aussi nos missions auprès des enfants les plus pauvres.
+            Une partie des contributions soutient aussi nos missions auprès des enfants les plus pauvres.
           </p>
 
           <div className="mt-3 flex items-end justify-between">

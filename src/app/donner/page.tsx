@@ -4,7 +4,7 @@ import { DonnerRapide } from "@/components/mission/DonnerRapide";
 
 export const metadata: Metadata = {
   title: "Soutiens la mission",
-  description: "Un don en quelques secondes, par Apple Pay, Google Pay ou carte bancaire.",
+  description: "Une contribution en quelques secondes, par Apple Pay, Google Pay ou carte bancaire.",
 };
 
 export default function DonnerPage() {

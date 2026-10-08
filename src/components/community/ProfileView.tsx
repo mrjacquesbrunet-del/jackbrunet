@@ -1138,7 +1138,7 @@ function Profile({
               Soutiens cette application
             </span>
             <span className="mt-0.5 block text-sm font-semibold text-night-950/70">
-              Ton don fait vivre RHEMA et les projets de Jack.
+              Ta contribution fait vivre RHEMA et les projets de Jack.
             </span>
           </span>
           <span className="shrink-0 text-2xl transition-transform group-hover:translate-x-1">→</span>

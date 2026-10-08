@@ -4494,7 +4494,7 @@
  "autres": [
   "components/bible/FichesChapitre.tsx:601"
  ],
- "Autres dons": [
+ "Autres contributions": [
   "components/community/ObjectifDonAdmin.tsx:89"
  ],
  "Autres réponses qui pourraient t'aider": [
@@ -7133,6 +7133,12 @@
  "Contre quoi Ésaü échange-t-il son droit d'aînesse ?": [
   "config/chemin/chapitre-jacob.ts:35"
  ],
+ "Contribuer {0}": [
+  "components/mission/DonnerRapide.tsx:207"
+ ],
+ "Contribuer {0} par mois": [
+  "components/mission/DonnerRapide.tsx:206"
+ ],
  "Convoiter le bien d'autrui": [
   "config/chemin/chapitre-sinai.ts:47"
  ],
@@ -8368,10 +8374,10 @@
  "Défis & duels": [
   "lib/notif-prefs.ts:23"
  ],
- "Déjà {0} dons ce mois-ci": [
+ "Déjà {0} contributions ce mois-ci": [
   "components/mission/PopupMission.tsx:199"
  ],
- "Déjà {0} dons reçus": [
+ "Déjà {0} contributions reçues": [
   "components/mission/PopupMission.tsx:200"
  ],
  "Déjà là": [
@@ -9173,11 +9179,7 @@
   "components/mission/DonLibre.tsx:143"
  ],
  "Donner {0}": [
-  "components/mission/DonLibre.tsx:143",
-  "components/mission/DonnerRapide.tsx:207"
- ],
- "Donner {0} par mois": [
-  "components/mission/DonnerRapide.tsx:206"
+  "components/mission/DonLibre.tsx:143"
  ],
  "donner accès à l'eau et à l'électricité": [
   "components/mission/MissionProgress.tsx:86"
@@ -10029,7 +10031,7 @@
  "en boucle": [
   "components/community/BibleAudioAdmin.tsx:216"
  ],
- "En ce moment : {0} € ({1} dons).": [
+ "En ce moment : {0} € ({1} contributions).": [
   "components/community/ObjectifDonAdmin.tsx:70"
  ],
  "En cessant le travail": [
@@ -16415,7 +16417,7 @@
  "La barque se remplissait vraiment d'eau.": [
   "config/chemin/chapitre-miracles.ts:27"
  ],
- "La barre additionne les dons libres Apple / Google, les Bâtisseurs actifs, les dons faits sur le site par Stripe (automatique, hors Mission Madagascar) et ce que tu saisis ci-dessous (virements, espèces…).": [
+ "La barre additionne les dons libres Apple / Google, les Bâtisseurs actifs, les contributions faites sur le site par Stripe (automatique, hors Mission Madagascar) et ce que tu saisis ci-dessous (virements, espèces…).": [
   "components/community/ObjectifDonAdmin.tsx:67"
  ],
  "La base est vide : l'app affiche tes 60 dévotionnels intégrés. Importe-les ici pour pouvoir les modifier, en ajouter ou en supprimer.": [
@@ -20332,12 +20334,12 @@
  "Merci infiniment pour ton témoignage. Il nous encourage et nous te répondrons.": [
   "components/home/Testimonies.tsx:37"
  ],
+ "Merci pour ta contribution": [
+  "app/donner/merci/page.tsx:6"
+ ],
  "Merci pour ta note !": [
   "components/ecole/FormationView.tsx:1135",
   "components/plans/PlanRating.tsx:104"
- ],
- "Merci pour ton don": [
-  "app/donner/merci/page.tsx:6"
  ],
  "Merci, gloire à Dieu!": [
   "components/home/Testimonies.tsx:98"
@@ -27385,7 +27387,7 @@
  "RHEMA · Ton temps avec Jésus": [
   "components/app/ProfilMenu.tsx:486"
  ],
- "RHEMA est gratuite, mais sa création et sa maintenance ont un vrai coût. Ton don permet d'annoncer la Parole gratuitement au plus grand nombre, et le reste part dans les missions.": [
+ "RHEMA est gratuite, mais sa création et sa maintenance ont un vrai coût. Ta contribution permet d'annoncer la Parole gratuitement au plus grand nombre, et le reste part dans les missions.": [
   "components/mission/DonnerRapide.tsx:124"
  ],
  "RHEMA est né d'un chemin personnel avec Dieu, et de plusieurs années de partages, de méditations et de vidéos quotidiennes autour de la Parole. Ce dévotionnel a été conçu pour t'accompagner jour après jour, afin que la Parole ne soit pas seulement écoutée, mais méditée, priée et vécue.": [
@@ -28961,6 +28963,19 @@
  "t'invite à faire ce plan à deux : progression partagée et notes privées entre vous.": [
   "components/plans/PlanDuo.tsx:119"
  ],
+ "Ta contribution de {0} fait avancer la mission : la Parole de Dieu dans les nations et des missions auprès des plus pauvres. Que Dieu te bénisse.": [
+  "components/mission/DonnerRapide.tsx:268"
+ ],
+ "Ta contribution fait avancer la mission : la Parole de Dieu dans les nations et des missions auprès des plus pauvres. Que Dieu te bénisse.": [
+  "components/mission/DonnerRapide.tsx:269"
+ ],
+ "Ta contribution fait vivre l'app et des missions auprès des plus pauvres.": [
+  "components/mission/CarteMission.tsx:102",
+  "components/mission/DonnerRapide.tsx:97"
+ ],
+ "Ta contribution fait vivre RHEMA et les projets de Jack.": [
+  "components/community/ProfileView.tsx:1141"
+ ],
  "Ta dose d'espérance du jour": [
   "lib/notifications.ts:65"
  ],
@@ -29464,21 +29479,8 @@
  "Ton don de {0} aide RHEMA à rester gratuite et à toucher encore plus de vies. Que Dieu te bénisse.": [
   "components/mission/DonLibre.tsx:104"
  ],
- "Ton don de {0} fait avancer la mission : la Parole de Dieu dans les nations et des missions auprès des plus pauvres. Que Dieu te bénisse.": [
-  "components/mission/DonnerRapide.tsx:268"
- ],
  "Ton don fait": [
   "app/dons/page.tsx:38"
- ],
- "Ton don fait avancer la mission : la Parole de Dieu dans les nations et des missions auprès des plus pauvres. Que Dieu te bénisse.": [
-  "components/mission/DonnerRapide.tsx:269"
- ],
- "Ton don fait vivre l'app et des missions auprès des plus pauvres.": [
-  "components/mission/CarteMission.tsx:102",
-  "components/mission/DonnerRapide.tsx:97"
- ],
- "Ton don fait vivre RHEMA et les projets de Jack.": [
-  "components/community/ProfileView.tsx:1141"
  ],
  "Ton ebook est prêt": [
   "components/home/EbookReader.tsx:47"
@@ -30375,9 +30377,6 @@
  "Un docteur de la loi lui demanda : « Maître, quel est le plus grand commandement de la loi ? » Jésus répondit : « Tu aimeras le Seigneur ton Dieu de tout ton cœur, de toute ton âme et de toute ta pensée. C'est le premier et le plus grand commandement. Et voici le second, qui lui est semblable : Tu aimeras ton prochain comme toi-même. De ces deux commandements dépendent toute la loi et les prophètes. »": [
   "config/chemin/chapitre-rameaux.ts:83"
  ],
- "Un don en quelques secondes, par Apple Pay, Google Pay ou carte bancaire.": [
-  "app/donner/page.tsx:7"
- ],
  "Un don parfait": [
   "config/chemin/chapitre-lettres-paul.ts:51"
  ],
@@ -30993,7 +30992,7 @@
  "Une application comme RHEMA coûte environ 30 000 € à développer : Bible, plans, études, audio, communauté, traductions.": [
   "components/mission/DonateScreen.tsx:31"
  ],
- "Une application comme RHEMA représente plus de 30 000 € de développement, et elle a des frais chaque mois. Nous ne mettons pas de publicité et nous ne vendons pas tes données : RHEMA vit grâce à ceux qui donnent.": [
+ "Une application comme RHEMA représente plus de 30 000 € de développement, et elle a des frais chaque mois. Nous ne mettons pas de publicité et nous ne vendons pas tes données : RHEMA vit grâce à ceux qui contribuent.": [
   "components/mission/PopupMission.tsx:181"
  ],
  "Une application pensée pour ta vie de foi": [
@@ -31050,6 +31049,9 @@
  ],
  "Une communauté qui intercède chaque jour": [
   "components/home/PrayerSpace.tsx:91"
+ ],
+ "Une contribution en quelques secondes, par Apple Pay, Google Pay ou carte bancaire.": [
+  "app/donner/page.tsx:7"
  ],
  "Une corne d'huile": [
   "config/chemin/chapitre-david.ts:26"
@@ -31292,7 +31294,7 @@
  "Une partie centrée sur le sujet choisi.": [
   "components/quiz/QuizScreen.tsx:1404"
  ],
- "Une partie des dons soutient aussi nos missions auprès des enfants les plus pauvres.": [
+ "Une partie des contributions soutient aussi nos missions auprès des enfants les plus pauvres.": [
   "components/mission/PopupMission.tsx:223"
  ],
  "Une pensée pour ton cœur, chaque matin.": [

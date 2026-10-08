@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import { DonMerci } from "@/components/mission/DonnerRapide";
 
 export const metadata: Metadata = {
-  title: "Merci pour ton don",
+  title: "Merci pour ta contribution",
   robots: { index: false },
 };
 

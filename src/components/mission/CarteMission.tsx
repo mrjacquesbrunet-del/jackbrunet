@@ -99,7 +99,7 @@ export function CarteMission({ className = "", onAvantDon }: { className?: strin
       </div>
       <div className="px-4 pb-3.5 pt-1">
         <p className="text-[12.5px] leading-snug text-cream/65">
-          Ton don fait vivre l&apos;app et des missions auprès des plus pauvres.
+          Ta contribution fait vivre l&apos;app et des missions auprès des plus pauvres.
         </p>
         {objectif ? (
           <div className="mt-2.5">

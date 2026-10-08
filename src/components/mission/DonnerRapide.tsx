@@ -94,7 +94,7 @@ export function DonnerRapide() {
               Soutiens la <span className="text-dawn-400">mission</span>
             </h1>
             <p className="mt-0.5 text-[12px] font-medium leading-snug text-cream [text-shadow:0_1px_8px_rgba(0,0,0,.8)]">
-              Ton don fait vivre l&apos;app et des missions auprès des plus pauvres.
+              Ta contribution fait vivre l&apos;app et des missions auprès des plus pauvres.
             </p>
           </div>
         </div>
@@ -121,7 +121,7 @@ export function DonnerRapide() {
             <path d="M12 20s-7-4.5-9.5-9A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9z" strokeLinejoin="round" />
           </svg>
           <p className="text-[13px] leading-relaxed text-cream/80">
-            RHEMA est gratuite, mais sa création et sa maintenance ont un vrai coût. Ton don permet d&apos;annoncer
+            RHEMA est gratuite, mais sa création et sa maintenance ont un vrai coût. Ta contribution permet d&apos;annoncer
             la Parole gratuitement au plus grand nombre, et le reste part dans les missions.
           </p>
         </div>
@@ -203,8 +203,8 @@ export function DonnerRapide() {
             : !valide
               ? "Choisis un montant"
               : mensuel
-                ? `Donner ${euros(valeur)} par mois`
-                : `Donner ${euros(valeur)}`}
+                ? `Contribuer ${euros(valeur)} par mois`
+                : `Contribuer ${euros(valeur)}`}
         </button>
 
         {/* Moyens de paiement */}
@@ -265,8 +265,8 @@ export function DonMerci() {
           {montant
             ? mensuel
               ? `Ton soutien de ${euros(montant)} par mois fait avancer la mission : la Parole de Dieu dans les nations et des missions auprès des plus pauvres. Que Dieu te bénisse.`
-              : `Ton don de ${euros(montant)} fait avancer la mission : la Parole de Dieu dans les nations et des missions auprès des plus pauvres. Que Dieu te bénisse.`
-            : "Ton don fait avancer la mission : la Parole de Dieu dans les nations et des missions auprès des plus pauvres. Que Dieu te bénisse."}
+              : `Ta contribution de ${euros(montant)} fait avancer la mission : la Parole de Dieu dans les nations et des missions auprès des plus pauvres. Que Dieu te bénisse.`
+            : "Ta contribution fait avancer la mission : la Parole de Dieu dans les nations et des missions auprès des plus pauvres. Que Dieu te bénisse."}
         </p>
         <p className="mt-3 text-[13px] text-cream/45">Ton reçu arrive par e-mail.</p>
         <p className="mt-8 text-[13px] font-semibold text-dawn-400">Tu peux fermer cette page pour revenir à l&apos;application.</p>
