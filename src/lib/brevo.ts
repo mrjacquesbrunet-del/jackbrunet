@@ -1,3 +1,7 @@
+import { getLangue } from "@/lib/i18n";
+import { classerContactBrevo } from "@/lib/brevo-langue";
+import { BREVO_ENDPOINTS } from "@/config/brevo";
+
 /**
  * Envoi direct vers un formulaire Brevo (sibforms), sans backend.
  *
@@ -18,7 +22,16 @@ export async function submitToBrevo(
   }
   // Pot de miel anti-robot de Brevo: doit être présent et vide.
   body.append("email_address_check", "");
-  if (!body.has("locale")) body.append("locale", "fr");
+  if (!body.has("locale")) body.append("locale", getLangue());
 
   await fetch(endpoint, { method: "POST", mode: "no-cors", body });
+
+  // Classement par langue (attribut LANGUE + liste FR / EN / PT). Les membres
+  // de l'app, les sujets de prière et les témoignages reçoivent seulement
+  // l'attribut : ils n'ont pas demandé la newsletter.
+  const email = fields.EMAIL;
+  if (email) {
+    const sansNewsletter = [BREVO_ENDPOINTS.membres, BREVO_ENDPOINTS.priere, BREVO_ENDPOINTS.temoignages].includes(endpoint);
+    void classerContactBrevo(email, { prenom: fields.PRENOM || fields.NOM, newsletter: !sansNewsletter });
+  }
 }
