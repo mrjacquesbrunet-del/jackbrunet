@@ -16,7 +16,10 @@ const config: CapacitorConfig = {
     // Noir de l'app (et non gris) : fond visible au lancement, effectif au
     // prochain build natif. La bande de l'heure est peinte par l'app (OTA).
     backgroundColor: "#0C0C0B",
-    contentInset: "always",
+    // La page va d'un bord à l'autre (sous l'heure et la barre du bas) ; les
+    // marges viennent du CSS (env(safe-area-inset-*)). Avant 2.4 : « always »,
+    // qui laissait une bande sous l'heure.
+    contentInset: "never",
   },
   android: {
     backgroundColor: "#17181A",

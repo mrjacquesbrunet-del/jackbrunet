@@ -1,0 +1,3 @@
+/* Textes des autorisations iOS (français) */
+"NSMicrophoneUsageDescription" = "Le micro permet d'envoyer des notes vocales de prière et d'encouragement à la communauté.";
+"NSLocationWhenInUseUsageDescription" = "RHEMA peut utiliser ta position pour te proposer des notifications adaptées. Tu peux refuser : l'application fonctionne entièrement sans.";

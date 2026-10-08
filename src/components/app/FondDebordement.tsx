@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { Capacitor } from "@capacitor/core";
+import { iosAncienCadre } from "@/lib/ios-cadre";
 
 /** Couleurs de la barre du haut (fondu nuit ou crème). */
 export const FOND_BARRE = { clair: "rgb(243, 243, 237)", sombre: "rgb(12, 12, 11)" };
@@ -70,21 +71,26 @@ function teinterBarreStatut(couleur: string) {
   derniereTeinteStatut = hex;
   const [r, g, b] = composantes(couleur);
   const sombre = 0.299 * r + 0.587 * g + 0.114 * b < 140;
-  import("@capacitor/status-bar")
-    .then(async ({ StatusBar, Style }) => {
-      await StatusBar.setBackgroundColor({ color: hex });
+  Promise.all([import("@capacitor/status-bar"), iosAncienCadre()])
+    .then(async ([{ StatusBar, Style }, ancien]) => {
+      // Bande native seulement sur les anciennes versions (avant 2.4).
+      if (ancien) await StatusBar.setBackgroundColor({ color: hex });
       // Style.Dark = texte clair (pour fond sombre), Style.Light = texte foncé.
       await StatusBar.setStyle({ style: sombre ? Style.Dark : Style.Light });
     })
     .catch(() => undefined);
 }
 
-/** iPhone : garde l'app SOUS la barre de statut. Réappliqué au retour d'une
+/** iPhone (versions avant 2.4) : garde l'app SOUS la barre de statut. Réappliqué au retour d'une
  * fenêtre native (navigateur intégré, partage…), qui remet le réglage d'origine. */
 function garderSousBarreStatut() {
   if (Capacitor.getPlatform() !== "ios") return;
-  import("@capacitor/status-bar")
-    .then(({ StatusBar }) => StatusBar.setOverlaysWebView({ overlay: false }))
+  iosAncienCadre()
+    .then(async (ancien) => {
+      if (!ancien) return; // 2.4+ : la page va d'un bord à l'autre
+      const { StatusBar } = await import("@capacitor/status-bar");
+      await StatusBar.setOverlaysWebView({ overlay: false });
+    })
     .catch(() => undefined);
 }
 

@@ -1,0 +1,3 @@
+/* Textos das permissões do iOS (português do Brasil) */
+"NSMicrophoneUsageDescription" = "O microfone permite enviar mensagens de voz de oração e encorajamento para a comunidade.";
+"NSLocationWhenInUseUsageDescription" = "O RHEMA pode usar sua localização para enviar notificações adequadas. Você pode recusar: o aplicativo funciona totalmente sem ela.";

@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Capacitor } from "@capacitor/core";
+import { iosAncienCadre } from "@/lib/ios-cadre";
 import { openNotifRoute, setNotifNavigator } from "@/lib/notif-route";
 import { isNativeApp, readReminder, enableDailyReminder } from "@/lib/notifications";
 import { initOneSignal } from "@/lib/onesignal";
@@ -126,9 +127,11 @@ export function NativeBootstrap() {
         // iPhone : l'app passe SOUS la barre de statut, devenue une bande
         // native peinte de la couleur du haut de chaque page (FondDebordement).
         // Avant, l'heure laissait voir le fond gris de l'app (#17181A).
+        // Depuis la 2.4, la page iOS va d'un bord à l'autre (plus de bande).
         const ios = Capacitor.getPlatform() === "ios";
+        const ancien = await iosAncienCadre();
         try {
-          await StatusBar.setOverlaysWebView({ overlay: !ios });
+          await StatusBar.setOverlaysWebView({ overlay: !ancien });
         } catch {
           /* ancienne version native : on garde le comportement d'avant */
         }

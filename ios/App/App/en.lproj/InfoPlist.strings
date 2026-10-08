@@ -1,0 +1,3 @@
+/* iOS permission texts (English) */
+"NSMicrophoneUsageDescription" = "The microphone lets you send voice notes of prayer and encouragement to the community.";
+"NSLocationWhenInUseUsageDescription" = "RHEMA can use your location to offer you relevant notifications. You can say no: the app works fully without it.";
