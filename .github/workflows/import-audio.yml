@@ -42,7 +42,20 @@ jobs:
             [ -z "$nom" ] && continue
             case "$nom" in *.mp3) ;; *) echo "Nom invalide: $nom"; exit 1;; esac
             case "$nom" in */*|*..*) echo "Nom invalide: $nom"; exit 1;; esac
-            curl -fsSL --retry 3 -o "public/audio/$DOSSIER/$nom" "$url"
+            # Un audio long peut arriver en plusieurs parties : « nom.mp3|url1,url2 »
+            # (dans l'ordre) ; elles sont mises bout à bout.
+            if echo "$url" | grep -q ','; then
+              command -v ffmpeg >/dev/null || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg)
+              tmp=$(mktemp -d); k=0; : > "$tmp/liste.txt"
+              for u in $(echo "$url" | tr ',' ' '); do
+                k=$((k+1)); curl -fsSL --retry 3 -o "$tmp/p$k.mp3" "$u"
+                echo "file '$tmp/p$k.mp3'" >> "$tmp/liste.txt"
+              done
+              ffmpeg -nostdin -y -loglevel error -f concat -safe 0 -i "$tmp/liste.txt" -ac 1 -ar 44100 -b:a 48k "public/audio/$DOSSIER/$nom"
+              rm -rf "$tmp"
+            else
+              curl -fsSL --retry 3 -o "public/audio/$DOSSIER/$nom" "$url"
+            fi
             taille=$(stat -c %s "public/audio/$DOSSIER/$nom")
             type=$(file -b --mime-type "public/audio/$DOSSIER/$nom")
             echo "$nom : $taille octets ($type)"

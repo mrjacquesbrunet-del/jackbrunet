@@ -18,16 +18,31 @@ import { getLangue, type Langue } from "./i18n";
  * Tant qu'un fichier manque, le lecteur reste caché dans cette langue.
  */
 
-const listes = new Map<Langue, Promise<Set<string>>>();
+/** Deuxième site d'audios traduits (plans approfondis), publié à part car le
+ * site international approche lui aussi la limite de 1 Go de GitHub Pages.
+ * Tant qu'il n'existe pas, sa liste est simplement vide. */
+const AUDIOS2_BASE = "https://mrjacquesbrunet-del.github.io/rhema-audios";
 
-function liste(l: Langue): Promise<Set<string>> {
+/** Nom du fichier → adresse, fusion des listes des deux sites. */
+const listes = new Map<Langue, Promise<Map<string, string>>>();
+
+const lireListe = (url: string): Promise<string[]> =>
+  fetch(url)
+    .then((r) => (r.ok ? r.json() : []))
+    .catch(() => []);
+
+function liste(l: Langue): Promise<Map<string, string>> {
   if (!listes.has(l)) {
     listes.set(
       l,
-      fetch(intlUrl(`/audio/${l}/index.json`))
-        .then((r) => (r.ok ? r.json() : []))
-        .catch(() => [])
-        .then((noms: string[]) => new Set(noms)),
+      Promise.all([lireListe(intlUrl(`/audio/${l}/index.json`)), lireListe(`${AUDIOS2_BASE}/audio/${l}/index.json`)]).then(
+        ([intl, deux]) => {
+          const m = new Map<string, string>();
+          for (const n of deux) m.set(n, `${AUDIOS2_BASE}/audio/${l}/${n}`);
+          for (const n of intl) m.set(n, intlUrl(`/audio/${l}/${n}`));
+          return m;
+        },
+      ),
     );
   }
   return listes.get(l)!;
@@ -36,7 +51,7 @@ function liste(l: Langue): Promise<Set<string>> {
 /** Adresse de l'audio traduit (ou null s'il n'existe pas encore). */
 export async function audioTraduit(nom: string, l: Langue = getLangue()): Promise<string | null> {
   if (l === "fr") return null;
-  return (await liste(l)).has(nom) ? intlUrl(`/audio/${l}/${nom}`) : null;
+  return (await liste(l)).get(nom) ?? null;
 }
 
 /** Pour un composant : adresses des audios traduits demandés (null si absents ou en français). */

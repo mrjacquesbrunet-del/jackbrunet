@@ -68,7 +68,7 @@ jobs:
           touch out/.nojekyll
           # Audios anglais/portugais : servis par le site rhema-international
           # (jackbrunet.com doit rester sous la limite de 1 Go de GitHub Pages).
-          rm -rf out/audio/en out/audio/pt
+          rm -rf out/audio/en out/audio/pt out/audio/plans-en out/audio/plans-pt
 
       - name: Téléverser l'artefact
         uses: actions/upload-pages-artifact@v3

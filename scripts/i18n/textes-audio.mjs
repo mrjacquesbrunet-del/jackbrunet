@@ -85,7 +85,28 @@ for (const l of ["en", "pt"]) {
   fs.writeFileSync(`i18n/audio/${l}.json`, JSON.stringify(sortie, null, 1));
   // Ce qui reste à enregistrer (pas encore importé dans public/audio/<langue>/).
   const faits = fs.existsSync(`public/audio/${l}/index.json`) ? new Set(lire(`public/audio/${l}/index.json`)) : new Set();
-  const reste = sortie.filter((x) => !faits.has(x.fichier));
+  // Magnific limite la longueur d'une génération : les textes longs sont
+  // coupés en parties (aux paragraphes), recollées à l'import (« nom.mp3|url1,url2 »).
+  const MAX = 4500;
+  const couper = (t) => {
+    if (t.length <= MAX) return [t];
+    const parts = [];
+    let cur = "";
+    for (const p of t.split("\n\n")) {
+      if (cur && cur.length + p.length + 2 > MAX) {
+        parts.push(cur);
+        cur = p;
+      } else cur = cur ? `${cur}\n\n${p}` : p;
+    }
+    if (cur) parts.push(cur);
+    return parts;
+  };
+  const reste = sortie
+    .filter((x) => !faits.has(x.fichier))
+    .map((x) => {
+      const parties = couper(x.texte);
+      return parties.length > 1 ? { ...x, parties } : x;
+    });
   fs.writeFileSync(`i18n/audio/${l}-a-faire.json`, JSON.stringify(reste, null, 1));
   console.log(`${l} : ${reste.length} audios à enregistrer, ${reste.reduce((n, x) => n + x.texte.length, 0)} caractères`);
   const parType = {};
