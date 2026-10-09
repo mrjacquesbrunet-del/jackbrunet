@@ -1,0 +1,72 @@
+name: Importer des couvertures (Magnific)
+
+# Récupère des images déjà générées dans Magnific (liens signés temporaires)
+# depuis le runner GitHub, qui a un accès réseau complet, contrairement à la
+# session Claude. Chaque image est redimensionnée en 900 × 1200, convertie en
+# .webp (qualité 80) et committée dans assets/generated/couvertures/ pour être
+# relue avant d'être placée dans public/img/plans/.
+#
+# Entrée « liste » : « nom|url » séparés par « ; ». Les liens ne sont ni
+# affichés dans le journal ni committés.
+on:
+  workflow_dispatch:
+    inputs:
+      liste:
+        description: "nom|url;nom|url…"
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: import-couvertures
+  cancel-in-progress: false
+
+jobs:
+  importer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: claude/great-hamilton-ieokug
+
+      - name: Télécharger et convertir
+        env:
+          LISTE: ${{ inputs.liste }}
+        run: |
+          pip install --quiet pillow
+          mkdir -p assets/generated/couvertures
+          python3 - <<'PY'
+          import os, urllib.request, io
+          from PIL import Image
+          for item in os.environ["LISTE"].split(";"):
+              item = item.strip()
+              if not item or "|" not in item:
+                  continue
+              nom, url = [x.strip() for x in item.split("|", 1)]
+              try:
+                  data = urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"}), timeout=120).read()
+                  im = Image.open(io.BytesIO(data)).convert("RGB")
+                  w, h = im.size
+                  cible = 3 / 4
+                  if w / h > cible:
+                      nw = int(h * cible); im = im.crop(((w - nw) // 2, 0, (w - nw) // 2 + nw, h))
+                  else:
+                      nh = int(w / cible); im = im.crop((0, (h - nh) // 2, w, (h - nh) // 2 + nh))
+                  im = im.resize((900, 1200), Image.LANCZOS)
+                  sortie = f"assets/generated/couvertures/{nom}.webp"
+                  im.save(sortie, "WEBP", quality=80, method=6)
+                  print(nom, "ok", os.path.getsize(sortie))
+              except Exception as e:
+                  print(nom, "ÉCHEC", type(e).__name__)
+          PY
+
+      - name: Committer
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/generated/couvertures
+          git diff --cached --quiet && exit 0
+          git commit -m "Couvertures importées depuis Magnific [skip ci]"
+          for i in 1 2 3 4; do git pull --rebase -q origin claude/great-hamilton-ieokug && git push origin HEAD:claude/great-hamilton-ieokug && break; sleep 10; done
