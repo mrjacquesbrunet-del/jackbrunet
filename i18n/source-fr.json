@@ -143,7 +143,7 @@
   "components/games/LeagueBoard.tsx:176"
  ],
  "· Lu par": [
-  "components/plans/PlanView.tsx:493"
+  "components/plans/PlanView.tsx:500"
  ],
  "· Manche {0}/{1}": [
   "components/memorize/VerseGame.tsx:641"
@@ -1594,7 +1594,7 @@
   "lib/etudes-bibliques.ts:98"
  ],
  "{0} · Jour {1}": [
-  "components/plans/PlanView.tsx:247"
+  "components/plans/PlanView.tsx:251"
  ],
  "{0} · voir mes trophées": [
   "components/community/ProfileBadges.tsx:329"
@@ -1752,7 +1752,7 @@
   "components/memorize/VerseGame.tsx:687"
  ],
  "≈ {0} min par jour": [
-  "components/plans/PlanView.tsx:364"
+  "components/plans/PlanView.tsx:368"
  ],
  "≈ {0}h{1}": [
   "components/ecole/FormationView.tsx:1347"
@@ -2762,7 +2762,7 @@
   "components/bible/VersetOutils.tsx:231"
  ],
  "À propos de ce plan": [
-  "components/plans/PlanView.tsx:406"
+  "components/plans/PlanView.tsx:413"
  ],
  "À propos de cette formation": [
   "components/ecole/FormationView.tsx:1463"
@@ -3770,6 +3770,9 @@
  "Ananias, Azarias et Misaël": [
   "config/chemin/chapitre-job.ts:68"
  ],
+ "Ananias, un simple disciple": [
+  "content/plans.json"
+ ],
  "Ancien du temple": [
   "config/chemin/chapitre-jacques.ts:30"
  ],
@@ -4351,6 +4354,9 @@
  "Aucun ami classé pour l'instant — suis des membres et défie-les !": [
   "components/quiz/QuizScreen.tsx:1236"
  ],
+ "Aucun commentaire pour l'instant. Sois le premier à partager ce que ce plan t'apporte.": [
+  "components/plans/PlanCommentaires.tsx:155"
+ ],
  "Aucun défi reçu pour l'instant.": [
   "components/games/ChallengeScreen.tsx:173"
  ],
@@ -4755,6 +4761,13 @@
  "avis": [
   "components/ecole/FormationView.tsx:1100"
  ],
+ "Avis": [
+  "components/plans/PlanCommentaires.tsx:83"
+ ],
+ "Avis et commentaires": [
+  "components/plans/PlanCommentaires.tsx:79",
+  "components/plans/PlanCommentaires.tsx:96"
+ ],
  "Ayant appris que Jean avait été livré, Jésus se retira dans la Galilée et vint demeurer à Capernaüm, au bord de la mer. Depuis ce moment il commença à prêcher : « Repentez-vous, car le royaume des cieux est proche. »": [
   "config/chemin/chapitre-tentation.ts:66"
  ],
@@ -5111,7 +5124,7 @@
   "components/quiz/QuizScreen.tsx:1044"
  ],
  "Bravo ! Continue avec un autre plan pour t'enraciner encore plus.": [
-  "components/plans/PlanView.tsx:518"
+  "components/plans/PlanView.tsx:525"
  ],
  "Bravo ! La leçon suivante est déverrouillée.": [
   "components/ecole/FormationView.tsx:2368"
@@ -5123,7 +5136,7 @@
   "app/memoriser/page.tsx:152"
  ],
  "Bravo, tu as terminé « {0} » ! Que cette Parole continue de porter du fruit dans ta vie.": [
-  "components/plans/PlanView.tsx:287"
+  "components/plans/PlanView.tsx:291"
  ],
  "Brevo (Sendinblue SAS, France), gestion des emails et des contacts": [
   "app/confidentialite/page.tsx:145"
@@ -5794,7 +5807,7 @@
   "config/site.ts:59"
  ],
  "Chaque jour : un passage de la Bible, une méditation, une question, une prière. Tu peux tout lire ou l'écouter. Avance à ton rythme : tu peux rattraper un jour manqué ou prendre de l'avance.": [
-  "components/plans/PlanView.tsx:429"
+  "components/plans/PlanView.tsx:436"
  ],
  "Chaque jour à {0}.": [
   "components/pwa/ReminderToggle.tsx:69"
@@ -6563,7 +6576,7 @@
   "components/chemin/CheminHub.tsx:267"
  ],
  "Commencer le plan": [
-  "components/plans/PlanView.tsx:385"
+  "components/plans/PlanView.tsx:392"
  ],
  "Commencés (30 j)": [
   "components/community/AnalyticsDashboard.tsx:155"
@@ -6588,7 +6601,7 @@
  ],
  "Comment ça marche": [
   "components/community/CommunityLanding.tsx:160",
-  "components/plans/PlanView.tsx:427"
+  "components/plans/PlanView.tsx:434"
  ],
  "Comment celui qui parle se désigne-t-il ?": [
   "config/chemin/chapitre-apocalypse.ts:36"
@@ -7068,6 +7081,9 @@
  ],
  "Connecte-toi pour dire Amen": [
   "components/community/PrieresDirect.tsx:781"
+ ],
+ "Connecte-toi pour laisser un avis.": [
+  "components/plans/PlanCommentaires.tsx:141"
  ],
  "Connecte-toi pour lancer une prière en direct.": [
   "components/community/PrieresDirect.tsx:395"
@@ -8122,6 +8138,9 @@
   "components/community/DevotionsAdmin.tsx:403",
   "components/community/MediasAdmin.tsx:209"
  ],
+ "De plus grandes œuvres": [
+  "content/plans.json"
+ ],
  "De poisson": [
   "config/chemin/chapitre-bapteme.ts:37"
  ],
@@ -8376,7 +8395,7 @@
   "components/plans/YearPlanView.tsx:145"
  ],
  "Découvre le plan de lecture « {0} » sur RHEMA": [
-  "components/plans/PlanView.tsx:227"
+  "components/plans/PlanView.tsx:231"
  ],
  "Découvre nos plans": [
   "components/bible/BibleReader.tsx:649"
@@ -10410,7 +10429,7 @@
   "components/home/EbookReader.tsx:43"
  ],
  "Enregistrer le plan": [
-  "components/plans/PlanView.tsx:307",
+  "components/plans/PlanView.tsx:311",
   "components/plans/YearPlanView.tsx:206"
  ],
  "Enseignement": [
@@ -14325,7 +14344,7 @@
   "components/community/GroupView.tsx:916"
  ],
  "Inviter quelqu'un à lire avec moi": [
-  "components/plans/PlanView.tsx:401"
+  "components/plans/PlanView.tsx:408"
  ],
  "Inviter un ami": [
   "components/app/Rewards.tsx:163"
@@ -15593,9 +15612,6 @@
  "Jésus-Christ est le même hier aujourd'hui et éternellement": [
   "config/chemin/chapitre-hebreux.ts:97"
  ],
- "Jésus-Christ te guérit": [
-  "content/plans.json"
- ],
  "Jésus, à son arrivée, trouva que Lazare était déjà depuis quatre jours dans le sépulcre. Béthanie était près de Jérusalem, à quinze stades environ, et beaucoup de Juifs étaient venus consoler Marthe et Marie. Dès que Marthe apprit que Jésus arrivait, elle alla au-devant de lui.": [
   "config/chemin/chapitre-lazare.ts:42"
  ],
@@ -16311,9 +16327,6 @@
  "L'Église naissante": [
   "config/chemin/chapitre-eglise.ts:6"
  ],
- "L'Église qui prie pour les malades": [
-  "content/plans.json"
- ],
  "L'Égypte": [
   "config/chemin/chapitre-ruth.ts:27"
  ],
@@ -16349,6 +16362,9 @@
  ],
  "L'envoi depuis Antioche": [
   "config/chemin/chapitre-voyages.ts:99"
+ ],
+ "L'envoi n'a pas marché. Réessaie dans un instant.": [
+  "components/plans/PlanCommentaires.tsx:136"
  ],
  "L'épée de l'Esprit": [
   "config/chemin/chapitre-lettres-paul.ts:72"
@@ -19376,6 +19392,9 @@
  "Les sentiments et les pensées du cœur": [
   "config/chemin/chapitre-hebreux.ts:37"
  ],
+ "Les soixante-dix : tous envoyés": [
+  "content/plans.json"
+ ],
  "Les soldats": [
   "config/chemin/chapitre-rameaux.ts:66"
  ],
@@ -19513,7 +19532,7 @@
  "Lien copié, tu peux le coller où tu veux": [
   "components/ecole/EtudesView.tsx:900",
   "components/ecole/FormationView.tsx:1395",
-  "components/plans/PlanView.tsx:401"
+  "components/plans/PlanView.tsx:408"
  ],
  "Lien d'invitation": [
   "components/community/GroupView.tsx:766"
@@ -22533,7 +22552,7 @@
   "components/games/DuelLive.tsx:571"
  ],
  "Partager le plan": [
-  "components/plans/PlanView.tsx:321",
+  "components/plans/PlanView.tsx:325",
   "components/plans/YearPlanView.tsx:201"
  ],
  "Partager mon profil": [
@@ -23134,13 +23153,13 @@
   "app/plans/[slug]/page.tsx:18"
  ],
  "Plan terminé": [
-  "components/plans/PlanView.tsx:517"
+  "components/plans/PlanView.tsx:524"
  ],
  "Plan terminé !": [
-  "components/plans/PlanView.tsx:286"
+  "components/plans/PlanView.tsx:290"
  ],
  "Plan terminé, bravo !": [
-  "components/plans/PlanView.tsx:393"
+  "components/plans/PlanView.tsx:400"
  ],
  "Plans": [
   "components/app/BottomNav.tsx:46",
@@ -24322,7 +24341,7 @@
  "Publier": [
   "components/community/CommunityView.tsx:355",
   "components/community/GroupView.tsx:371",
-  "components/wall/WallSection.tsx:428"
+  "components/plans/PlanCommentaires.tsx:132"
  ],
  "Publier l'annonce": [
   "components/community/AdminAnnounce.tsx:128"
@@ -24445,6 +24464,9 @@
  ],
  "Qu'est-ce que c'est ?": [
   "config/chemin/chapitre-mer-rouge.ts:87"
+ ],
+ "Qu'est-ce que ce plan t'a apporté ? Partage ton avis pour encourager les autres…": [
+  "components/plans/PlanCommentaires.tsx:121"
  ],
  "Qu'est-ce que Dieu a mis dans le cœur de l'homme ?": [
   "config/chemin/chapitre-ecclesiaste.ts:57"
@@ -25890,9 +25912,6 @@
  ],
  "Que veut montrer Dieu à Jonas par le ricin ?": [
   "config/chemin/chapitre-jonas.ts:98"
- ],
- "Que veux-tu que je te fasse ?": [
-  "content/plans.json"
  ],
  "Que voit Étienne avant de mourir ?": [
   "config/chemin/chapitre-eglise.ts:86"
@@ -27447,7 +27466,7 @@
   "components/games/VraiFauxScreen.tsx:301"
  ],
  "Reprendre au jour {0}": [
-  "components/plans/PlanView.tsx:385"
+  "components/plans/PlanView.tsx:392"
  ],
  "Reprendre la formation": [
   "components/ecole/FormationView.tsx:1365"
@@ -29077,7 +29096,8 @@
  ],
  "Supprimer le commentaire": [
   "components/community/GroupView.tsx:503",
-  "components/community/PrayerCard.tsx:732"
+  "components/community/PrayerCard.tsx:732",
+  "components/plans/PlanCommentaires.tsx:179"
  ],
  "Supprimer le contenu": [
   "components/community/ModerationQueue.tsx:82"
@@ -29570,7 +29590,7 @@
  ],
  "terminé": [
   "components/ecole/FormationView.tsx:1336",
-  "components/plans/PlanView.tsx:352"
+  "components/plans/PlanView.tsx:356"
  ],
  "Terminé": [
   "components/chemin/CheminHub.tsx:137",
@@ -29781,7 +29801,7 @@
  ],
  "ton binôme": [
   "components/plans/PlanDuo.tsx:89",
-  "components/plans/PlanView.tsx:493"
+  "components/plans/PlanView.tsx:500"
  ],
  "Ton cadeau est prêt": [
   "app/ebook/7-jours/page.tsx:17",
@@ -30040,7 +30060,7 @@
   "components/plans/YearPlanView.tsx:193"
  ],
  "Tous les plans": [
-  "components/plans/PlanView.tsx:295"
+  "components/plans/PlanView.tsx:299"
  ],
  "Tous les royaumes du monde": [
   "config/chemin/chapitre-tentation.ts:59"
@@ -32386,7 +32406,7 @@
   "components/home/DevotionAuthor.tsx:70"
  ],
  "Voir la fiche de l'auteur": [
-  "components/plans/PlanView.tsx:411",
+  "components/plans/PlanView.tsx:418",
   "components/plans/YearPlanView.tsx:226"
  ],
  "Voir la traduction": [
@@ -32413,7 +32433,7 @@
   "components/chemin/CheminHub.tsx:306"
  ],
  "Voir les autres plans": [
-  "components/plans/PlanView.tsx:520"
+  "components/plans/PlanView.tsx:527"
  ],
  "Voir les groupes": [
   "components/community/GroupView.tsx:113"

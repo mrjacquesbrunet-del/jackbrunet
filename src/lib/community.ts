@@ -369,7 +369,7 @@ export async function addFavoriteVerse(userId: string, v: FavoriteVerse): Promis
   return!error;
 }
 
-async function profilesByIds(ids: string[]): Promise<Record<string, Profile>> {
+export async function profilesByIds(ids: string[]): Promise<Record<string, Profile>> {
   const sb = getSupabase();
   if (!sb || ids.length === 0) return {};
   const uniques = Array.from(new Set(ids));

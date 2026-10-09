@@ -6,6 +6,7 @@ import { asset, mediaUrl } from "@/lib/asset";
 import { usePlanProgress } from "@/lib/plan-progress";
 import { Celebration } from "@/components/ui/Celebration";
 import { PlanRating } from "@/components/plans/PlanRating";
+import { PlanCommentaires } from "@/components/plans/PlanCommentaires";
 import { PlanJour, dureeJour } from "@/components/plans/PlanJour";
 import { AuthorCard } from "@/components/plans/AuthorCard";
 import { appShareUrl } from "@/config/app-links";
@@ -370,7 +371,10 @@ export function PlanView({
                   </span>
                 ))}
               </div>
-              <PlanRating slug={plan.slug} />
+              <div className="flex items-start gap-2">
+                <PlanCommentaires slug={plan.slug} title={plan.title} />
+                <PlanRating slug={plan.slug} />
+              </div>
             </div>
           </div>
         </div>
