@@ -85,7 +85,10 @@ export function PlanView({
   // Plan dans la langue de l'app (anglais, portugais) dès que sa traduction
   // est chargée ; la narration audio n'existe qu'en français.
   const plansTr = useContenu<{ items: ThemePlan[] }>("plans");
-  const plan = plansTr?.items?.find((p) => p.slug === planFr.slug) ?? planFr;
+  // La couverture vient toujours du plan français (elle peut être ajoutée
+  // après la traduction).
+  const planTr = plansTr?.items?.find((p) => p.slug === planFr.slug);
+  const plan = planTr ? { ...planTr, cover: planFr.cover ?? planTr.cover } : planFr;
   // Narration des jours : française, ou traduite quand elle est enregistrée
   // (audio/<langue>/plan-<slug>-<jour>.mp3).
   const langue = useLangue();
