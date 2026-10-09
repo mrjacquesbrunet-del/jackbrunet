@@ -221,6 +221,22 @@ async function recuperer(id, etat) {
         x = null;
       }
     }
+    // Garde-fou : une réponse décalée (une traduction posée sur le mauvais
+    // champ) se voit aux longueurs. Dans ce cas, tout le lot est refait.
+    const lus = lire(source(f), null);
+    const decale = (x?.traductions ?? []).some(({ i, t }) => {
+      const c = chemins[i];
+      if (!c || typeof t !== "string") return false;
+      let o = lus;
+      for (const k of c) o = o?.[k];
+      if (typeof o !== "string") return false;
+      const r = t.length / Math.max(1, o.length);
+      return (o.length > 40 && (r < 0.4 || r > 2.5)) || (o.length <= 40 && t.length > 160);
+    });
+    if (decale) {
+      console.log(`requête ${r.custom_id} : réponse décalée, ignorée`);
+      x = null;
+    }
     let faits = 0;
     for (const { i, t } of x?.traductions ?? []) {
       if (!chemins[i] || typeof t !== "string" || !t.trim()) continue;
