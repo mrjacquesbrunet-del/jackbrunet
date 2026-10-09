@@ -16,6 +16,7 @@
 
 import fs from "node:fs";
 import crypto from "node:crypto";
+import { texteAudioJour, planApprofondi } from "./plans/texte-audio.mjs";
 
 const VOICE_ID = process.env.ELEVENLABS_VOICE_ID || "ecxPjiGTvAfpGEams6ec";
 const API_KEY = process.env.ELEVENLABS_API_KEY || "";
@@ -124,8 +125,10 @@ for (const p of plans) {
   manifest.plans[p.slug] ??= {};
   for (const d of p.days) {
     if (quotaExhausted) break;
-    // On lit le titre du jour puis la méditation (les versets sont lus dans la Bible).
-    const text = `Jour ${d.day}. ${d.title}.\n\n${d.meditation}`;
+    // Plans approfondis : toute la page du jour (passage, versets clés,
+    // méditation, mettre en pratique, question, prière, à retenir).
+    // Anciens plans : le titre du jour puis la méditation.
+    const text = planApprofondi(p) ? texteAudioJour(d, "fr") : `Jour ${d.day}. ${d.title}.\n\n${d.meditation}`;
     const hash = sha(text);
     const key = `${p.slug}:${d.day}`;
     const file = `plan-${p.slug}-${d.day}.mp3`;

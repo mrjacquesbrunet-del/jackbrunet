@@ -8,6 +8,7 @@
  * « Importer des audios », dossier « en » ou « pt »).
  */
 import fs from "node:fs";
+import { texteAudioJour, planApprofondi } from "../plans/texte-audio.mjs";
 
 const lire = (f) => JSON.parse(fs.readFileSync(f, "utf8"));
 const MOT_JOUR = { en: "Day", pt: "Dia" };
@@ -55,7 +56,12 @@ for (const l of ["en", "pt"]) {
   // Plans thématiques
   for (const p of lire(`public/i18n/contenu/${l}/plans.json`).items)
     for (const d of p.days)
-      sortie.push({ fichier: `plan-${p.slug}-${d.day}.mp3`, type: "plan", titre: `${p.title} — ${MOT_JOUR[l]} ${d.day}`, texte: `${MOT_JOUR[l]} ${d.day}. ${d.title}.\n\n${d.meditation}` });
+      sortie.push({
+        fichier: `plan-${p.slug}-${d.day}.mp3`,
+        type: "plan",
+        titre: `${p.title} — ${MOT_JOUR[l]} ${d.day}`,
+        texte: planApprofondi(p) ? texteAudioJour(d, l) : `${MOT_JOUR[l]} ${d.day}. ${d.title}.\n\n${d.meditation}`,
+      });
   // Formation : une partie par étape de lecture guidée
   for (const f of lire(`public/i18n/contenu/${l}/formations.json`).formations)
     for (const le of f.lecons)
@@ -77,6 +83,11 @@ for (const l of ["en", "pt"]) {
   }
   fs.mkdirSync("i18n/audio", { recursive: true });
   fs.writeFileSync(`i18n/audio/${l}.json`, JSON.stringify(sortie, null, 1));
+  // Ce qui reste à enregistrer (pas encore importé dans public/audio/<langue>/).
+  const faits = fs.existsSync(`public/audio/${l}/index.json`) ? new Set(lire(`public/audio/${l}/index.json`)) : new Set();
+  const reste = sortie.filter((x) => !faits.has(x.fichier));
+  fs.writeFileSync(`i18n/audio/${l}-a-faire.json`, JSON.stringify(reste, null, 1));
+  console.log(`${l} : ${reste.length} audios à enregistrer, ${reste.reduce((n, x) => n + x.texte.length, 0)} caractères`);
   const parType = {};
   for (const x of sortie) parType[x.type] = (parType[x.type] ?? 0) + 1;
   const car = sortie.reduce((n, x) => n + x.texte.length, 0);
