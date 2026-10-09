@@ -32,6 +32,22 @@ jobs:
           ELEVENLABS_VOICE_ID: ${{ secrets.ELEVENLABS_VOICE_ID }}
         run: node scripts/generate-audio.mjs
 
+      - name: Compresser les voix (mono, 48 kbit/s)
+        run: |
+          # jackbrunet.com (GitHub Pages) est limité à ~1 Go : les voix sont
+          # compressées comme les audios anglais/portugais (mono, 48 kbit/s),
+          # sans perte audible. La musique de soaking n'est pas touchée.
+          command -v ffmpeg >/dev/null || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg)
+          for f in public/audio/*.mp3; do
+            case "$f" in *soaking*) continue;; esac
+            br=$(ffprobe -v error -select_streams a:0 -show_entries stream=bit_rate,channels -of csv=p=0 "$f" | head -1)
+            debit=${br%%,*}; canaux=${br##*,}
+            if [ "${debit:-0}" -gt 56000 ] || [ "${canaux:-1}" -gt 1 ]; then
+              ffmpeg -nostdin -y -loglevel error -i "$f" -ac 1 -ar 44100 -b:a 48k "$f.tmp.mp3" && mv "$f.tmp.mp3" "$f"
+            fi
+          done
+          du -sh public/audio --exclude=en --exclude=pt
+
       - name: Commiter les nouveaux audios
         run: |
           git config user.name "github-actions[bot]"
