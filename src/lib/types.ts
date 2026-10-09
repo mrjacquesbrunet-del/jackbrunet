@@ -117,6 +117,8 @@ export type ThemePlanDay = {
   lecture?: string;
   /** Références complémentaires (ouvertes au toucher). */
   pourAllerPlusLoin?: string[];
+  /** « Mettre en pratique » : des pas concrets, adaptables à chaque situation. */
+  pratique?: { titre: string; texte: string }[];
   question?: string;
   priere?: string;
   aRetenir?: string;

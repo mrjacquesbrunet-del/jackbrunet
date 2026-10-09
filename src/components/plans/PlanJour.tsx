@@ -19,6 +19,18 @@ export function dureeJour(d: ThemePlanDay): number {
 }
 
 type Segment = { id: string; texte: string };
+type Verset = { n: number; text: string };
+
+/** « Jean 3:16-18 » → livre, chapitre, versets (pour éviter de relire deux fois). */
+function decouper(ref: string) {
+  const m = ref.match(/^(.*?)\s+(\d+):(\d+)(?:-(\d+))?$/);
+  return m ? { livre: m[1], chap: Number(m[2]), v1: Number(m[3]), v2: Number(m[4] ?? m[3]) } : null;
+}
+function dansLaLecture(ref: string, lecture?: string) {
+  const a = decouper(ref);
+  const b = lecture ? decouper(lecture) : null;
+  return Boolean(a && b && a.livre === b.livre && a.chap === b.chap && a.v1 >= b.v1 && a.v2 <= b.v2);
+}
 
 /**
  * Lecture d'un jour de plan en plein écran (comme une leçon de la
@@ -58,13 +70,15 @@ export function PlanJour({
 }) {
   const total = plan.days.length;
   const n = jour.day;
-  const [versetsLecture, setVersetsLecture] = useState<{ n: number; text: string }[]>([]);
+  const [versetsLecture, setVersetsLecture] = useState<Verset[]>([]);
+  const [versetsCles, setVersetsCles] = useState<Record<string, Verset[]>>({});
   const [actif, setActif] = useState<string | null>(null);
   const defilRef = useRef<HTMLDivElement | null>(null);
   const pauseDefilRef = useRef(0);
 
   useEffect(() => {
     setVersetsLecture([]);
+    setVersetsCles({});
     setActif(null);
     defilRef.current?.scrollTo(0, 0);
   }, [n]);
@@ -93,12 +107,23 @@ export function PlanJour({
       s.push({ id: "lec-titre", texte: `${t("Lecture du jour")} : ${jour.lecture}.` });
       for (const v of versetsLecture) s.push({ id: `lec-${v.n}`, texte: v.text });
     }
+    // Versets clés (sauf ceux déjà lus dans le passage du jour).
+    jour.verses.forEach((ref, k) => {
+      const vs = versetsCles[ref];
+      if (!vs?.length || dansLaLecture(ref, jour.lecture)) return;
+      s.push({ id: `cle-${k}-titre`, texte: `${ref}.` });
+      for (const v of vs) s.push({ id: `cle-${k}-${v.n}`, texte: v.text });
+    });
     paragraphes.forEach((p, i) => s.push({ id: `med-${i}`, texte: p.replace(/^## /, "") }));
+    if (jour.pratique?.length) {
+      s.push({ id: "pratique-titre", texte: `${t("Mettre en pratique")}.` });
+      jour.pratique.forEach((x, i) => s.push({ id: `pratique-${i}`, texte: `${x.titre}. ${x.texte}` }));
+    }
     if (jour.question) s.push({ id: "question", texte: `${t("Pour réfléchir")}. ${jour.question}` });
     if (jour.priere) s.push({ id: "priere", texte: `${t("Prière")}. ${jour.priere}` });
     if (jour.aRetenir) s.push({ id: "retenir", texte: `${t("À retenir")}. ${jour.aRetenir}` });
     return s;
-  }, [n, jour, versetsLecture, paragraphes]);
+  }, [n, jour, versetsLecture, versetsCles, paragraphes]);
   const textes = useMemo(() => segments.map((s) => s.texte), [segments]);
 
   const onVerse = useCallback(
@@ -115,6 +140,10 @@ export function PlanJour({
   const surligne = (id: string) =>
     actif === id ? "-mx-2 rounded-xl bg-dawn-400/25 px-2 transition-colors" : "transition-colors";
   const versetActif = actif?.startsWith("lec-") && actif !== "lec-titre" ? Number(actif.slice(4)) : null;
+  const versetCleActif = (k: number) => {
+    const m = actif?.match(/^cle-(\d+)-(\d+)$/);
+    return m && Number(m[1]) === k ? Number(m[2]) : null;
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col bg-[#F3F3ED] text-night-900">
@@ -190,6 +219,25 @@ export function PlanJour({
             </section>
           ) : null}
 
+          {/* Versets clés : toujours lus AVANT l'exhortation */}
+          {jour.verses.length > 0 ? (
+            <section className="mt-5 space-y-3">
+              <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#5F7A00]">
+                {jour.lecture ? "Versets clés" : "À lire & méditer"}
+              </p>
+              {jour.verses.map((v, k) => (
+                <div key={v} id={`seg-cle-${k}-titre`} className={actif === `cle-${k}-titre` ? "rounded-2xl ring-2 ring-dawn-400/60" : ""}>
+                  <PassageInline
+                    reference={v}
+                    actif={versetCleActif(k)}
+                    ancre={`seg-cle-${k}`}
+                    onVerses={(vs) => setVersetsCles((cur) => ({ ...cur, [v]: vs }))}
+                  />
+                </div>
+              ))}
+            </section>
+          ) : null}
+
           {/* Méditation */}
           <section className="mt-5 rounded-3xl border border-night-900/10 bg-white p-5">
             <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#5F7A00]">Méditation</p>
@@ -212,15 +260,28 @@ export function PlanJour({
             </div>
           </section>
 
-          {/* Versets clés */}
-          {jour.verses.length > 0 ? (
-            <section className="mt-5 space-y-3">
-              <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#5F7A00]">
-                {jour.lecture ? "Versets clés" : "À lire & méditer"}
+          {/* Mettre en pratique */}
+          {jour.pratique?.length ? (
+            <section className="mt-5 rounded-3xl bg-dawn-400/20 p-5">
+              <p id="seg-pratique-titre" className={`flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.18em] text-[#5F7A00] ${surligne("pratique-titre")}`}>
+                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2} aria-hidden>
+                  <path d="M5 12l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                Mettre en pratique
               </p>
-              {jour.verses.map((v) => (
-                <PassageInline key={v} reference={v} />
-              ))}
+              <ol className="mt-3 space-y-3">
+                {jour.pratique.map((x, i) => (
+                  <li key={i} id={`seg-pratique-${i}`} className={`flex gap-3 rounded-2xl bg-white p-3.5 ${actif === `pratique-${i}` ? "ring-2 ring-dawn-400" : ""}`}>
+                    <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-dawn-400 font-display text-xs font-extrabold text-night-950">
+                      {i + 1}
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block font-display text-[15px] font-extrabold leading-snug">{x.titre}</span>
+                      <span className="mt-0.5 block text-[15px] leading-relaxed text-night-900/80">{x.texte}</span>
+                    </span>
+                  </li>
+                ))}
+              </ol>
             </section>
           ) : null}
 

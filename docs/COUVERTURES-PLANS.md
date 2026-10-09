@@ -24,7 +24,7 @@ Références de style à téléverser dans Magnific (type `image`) :
 |---|---|
 | `public/img/plans/les-7-je-suis-de-jesus.webp` | Les 7 « Je suis » de Jésus (7 jours) |
 | `public/img/plans/apprendre-a-prier.webp` | Apprendre à prier (10 jours) |
-| `public/img/plans/mon-identite-en-christ.webp` | Mon identité en Christ (21 jours) |
+| `public/img/plans/je-ne-suis-pas-n-importe-qui.webp` | Je ne suis pas n'importe qui (21 jours) |
 | `public/img/plans/40-jours-avec-jesus.webp` | 40 jours avec Jésus (40 jours) |
 
 ### 1. Les 7 « Je suis » de Jésus

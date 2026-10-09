@@ -99,6 +99,7 @@ for (const f of fichiers) {
     verifierRefs(j.verses, `${ou} versets`);
     verifierRefs(j.pourAllerPlusLoin, `${ou} pour aller plus loin`);
     for (const k of ["meditation", "question", "priere", "aRetenir"]) j[k] = remplir(j[k], `${ou} ${k}`);
+    if (j.pratique) j.pratique = j.pratique.map((x) => ({ ...x, texte: remplir(x.texte, `${ou} pratique`) }));
     mots += (j.meditation ?? "").split(/\s+/).length;
   });
   construits.push(plan);
