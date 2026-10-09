@@ -12,7 +12,20 @@ import { useCommentaireTraduit } from "@/lib/traduction-etude";
  * les mêmes actions que la Bible (surligner / copier / enregistrer / noter) et
  * le commentaire d'étude, sans quitter la page.
  */
-export function PassageInline({ reference }: { reference: string }) {
+export function PassageInline({
+  reference,
+  actif,
+  ancre,
+  onVerses,
+}: {
+  reference: string;
+  /** Numéro du verset en cours de lecture à voix haute (surligné). */
+  actif?: number | null;
+  /** Préfixe d'identifiant des versets (`<ancre>-<n>`), pour y défiler. */
+  ancre?: string;
+  /** Reçoit le texte des versets une fois chargés (lecture à voix haute). */
+  onVerses?: (verses: { n: number; text: string }[]) => void;
+}) {
   const [verses, setVerses] = useState<{ n: number; text: string }[] | null>(null);
   const [meta, setMeta] = useState<{ bookId: number; bookName: string; chapter: number } | null>(
     null,
@@ -38,10 +51,12 @@ export function PassageInline({ reference }: { reference: string }) {
       }
       setMeta({ bookId: r.bookId, bookName: r.bookName, chapter: r.chapter });
       setVerses(list);
+      onVerses?.(list);
     })();
     return () => {
       active = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reference]);
 
   function loadComm(bookId: number, chapter: number) {
@@ -83,7 +98,11 @@ export function PassageInline({ reference }: { reference: string }) {
         {verses.map(({ n, text }) => {
           const open = openV.has(n);
           return (
-            <div key={n}>
+            <div
+              key={n}
+              id={ancre ? `${ancre}-${n}` : undefined}
+              className={actif === n ? "-mx-2 rounded-xl bg-dawn-400/25 px-2 transition-colors" : "transition-colors"}
+            >
               <Markable
                 id={`bible:${meta.bookId}:${meta.chapter}:${n}`}
                 text={text}

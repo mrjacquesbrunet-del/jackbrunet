@@ -1,22 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { asset, mediaUrl } from "@/lib/asset";
 import { usePlanProgress } from "@/lib/plan-progress";
-import { AudioPlayer } from "@/components/ui/AudioPlayer";
-import { PassageInline } from "@/components/bible/PassageInline";
-import { bibleHref } from "@/lib/bible-ref";
 import { Celebration } from "@/components/ui/Celebration";
 import { PlanRating } from "@/components/plans/PlanRating";
-import { PlansDarkBg } from "@/components/plans/PlansDarkBg";
+import { PlanJour, dureeJour } from "@/components/plans/PlanJour";
 import { AuthorCard } from "@/components/plans/AuthorCard";
 import { appShareUrl } from "@/config/app-links";
 import { DEFAULT_AUTHOR, type AuthorInfo } from "@/config/author";
 import { useAuth } from "@/components/community/useAuth";
 import { getSupabase } from "@/lib/supabase";
 import { getProfile, isPlanSaved, togglePlanSave } from "@/lib/community";
-import { PlanDuoCard, DuoNotes } from "@/components/plans/PlanDuo";
+import { PlanDuoCard } from "@/components/plans/PlanDuo";
 import {
   getDuoForPlan,
   listDuoChecks,
@@ -27,6 +24,7 @@ import {
   type PlanDuo,
 } from "@/lib/plan-duo";
 import type { ThemePlan } from "@/lib/types";
+import type { AudioTrack } from "@/lib/audio-library";
 import { useContenu } from "@/lib/contenu-i18n";
 import { lienFranceSeulement, offresFrance, useLangue } from "@/lib/i18n";
 import { useAudiosTraduits } from "@/lib/audio-i18n";
@@ -44,59 +42,39 @@ function PlanAuthor({ name, photoSrc }: { name: string; photoSrc?: string }) {
   const [i, setI] = useState(0);
   const [broken, setBroken] = useState(false);
   const src = photoSrc ?? AVATARS[i];
-  return (
-    <div className="flex items-center gap-2.5">
-      {src && !broken ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={src}
-          alt={name}
-          onError={() => {
-            if (photoSrc || i + 1 >= AVATARS.length) setBroken(true);
-            else setI((n) => n + 1);
-          }}
-          className="h-11 w-11 rounded-full object-cover ring-2 ring-dawn-400/70"
-        />
-      ) : (
-        <span className="grid h-11 w-11 place-items-center rounded-full bg-spirit-500 font-display text-sm font-extrabold text-cream ring-2 ring-dawn-400/70">
-          {name.replace(/^Pasteur\s+/i, "").slice(0, 1)}
-        </span>
-      )}
-      <span className="leading-tight">
-        <span className="block text-[10px] font-bold uppercase tracking-[0.16em] text-cream/55">
-          Par
-        </span>
-        <span className="block font-display text-sm font-bold text-cream">{name}</span>
-      </span>
-    </div>
+  return src && !broken ? (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={src}
+      alt={name}
+      onError={() => {
+        if (photoSrc || i + 1 >= AVATARS.length) setBroken(true);
+        else setI((n) => n + 1);
+      }}
+      className="h-11 w-11 shrink-0 rounded-full object-cover ring-2 ring-dawn-400/70"
+    />
+  ) : (
+    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-spirit-500 font-display text-sm font-extrabold text-cream ring-2 ring-dawn-400/70">
+      {name.replace(/^Pasteur\s+/i, "").slice(0, 1)}
+    </span>
   );
 }
 
-function IconBtn({
-  onClick,
-  label,
-  active,
-  children,
-}: {
-  onClick: () => void;
-  label: string;
-  active?: boolean;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label={label}
-      className={`grid h-10 w-10 place-items-center rounded-full backdrop-blur transition-colors ${
-        active ? "bg-dawn-400 text-night-950" : "bg-night-950/50 text-cream hover:bg-night-950/70"
-      }`}
-    >
-      {children}
-    </button>
-  );
-}
+const CheckRond = ({ className = "h-7 w-7" }: { className?: string }) => (
+  <span className={`grid shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950 ${className}`}>
+    <svg viewBox="0 0 24 24" className="h-[55%] w-[55%] fill-none stroke-current" strokeWidth={3}>
+      <path d="M5 12l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  </span>
+);
 
+/**
+ * Fiche d'un plan de lecture, sur le modèle de la formation : l'affiche du
+ * plan, le bouton Commencer / Reprendre, la présentation, puis « Mon
+ * parcours » avec tous les jours. Chaque jour s'ouvre en plein écran
+ * (PlanJour) ; on peut lire dans l'ordre, rattraper un jour ou prendre de
+ * l'avance : les jours terminés sont cochés.
+ */
 export function PlanView({
   plan: planFr,
   audioMap = {},
@@ -122,10 +100,15 @@ export function PlanView({
   const progress = usePlanProgress(plan.slug);
   const { userId } = useAuth();
   const total = plan.days.length;
-  const doneCount = progress.done.length;
+  const doneCount = plan.days.filter((d) => progress.isDone(d.day)).length;
   const percent = total ? Math.round((doneCount / total) * 100) : 0;
+  const complete = total > 0 && doneCount >= total;
   const author = plan.author ?? DEFAULT_AUTHOR.name;
   const isDefaultAuthor = author === DEFAULT_AUTHOR.name;
+  const minutesParJour = useMemo(
+    () => (total ? Math.round(plan.days.reduce((n, d) => n + dureeJour(d), 0) / total) : 0),
+    [plan.days, total],
+  );
 
   // Fiche auteur : les champs du plan surchargent l'auteur par défaut (Jack).
   // Un plan signé par quelqu'un d'autre n'hérite ni de la bio, ni de
@@ -153,16 +136,27 @@ export function PlanView({
       ? AVATARS[0]
       : undefined;
 
-  // Jour courant = premier jour non terminé. Les jours suivants sont verrouillés.
+  // Jour à reprendre = premier jour pas encore terminé.
   const currentDay = plan.days.find((d) => !progress.isDone(d.day))?.day ?? total + 1;
 
-  const [reread, setReread] = useState<number | null>(null);
+  const [jourOuvert, setJourOuvert] = useState<number | null>(null);
   const [saved, setSaved] = useState(false);
+  const [lienCopie, setLienCopie] = useState(false);
   // ——— Plan à deux ———
   const [duo, setDuo] = useState<PlanDuo | null>(null);
   const [partnerDays, setPartnerDays] = useState<number[]>([]);
   const [duoNotes, setDuoNotes] = useState<DuoNote[]>([]);
   const [myAvatar, setMyAvatar] = useState<string | null>(null);
+
+  // Lien direct vers un jour : /plans/<slug>?jour=3
+  useEffect(() => {
+    const j = Number(new URLSearchParams(window.location.search).get("jour"));
+    if (j >= 1 && j <= total) setJourOuvert(j);
+  }, [total]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [jourOuvert]);
 
   useEffect(() => {
     if (!userId) {
@@ -211,6 +205,7 @@ export function PlanView({
       const key = "jb.plan.celebrated.v1";
       const seen = JSON.parse(localStorage.getItem(key) || "[]") as string[];
       if (!seen.includes(plan.slug)) {
+        setJourOuvert(null);
         setCelebrate(true);
         localStorage.setItem(key, JSON.stringify([...seen, plan.slug]));
       }
@@ -229,420 +224,304 @@ export function PlanView({
   async function share() {
     // Lien intelligent : ouvre l'app sur ce plan, sinon renvoie au store.
     const url = appShareUrl(`/plans/${plan.slug}`);
-    const data = { title: plan.title, text: `Découvre le parcours « ${plan.title} » sur RHEMA`, url };
+    const data = { title: plan.title, text: `Découvre le plan de lecture « ${plan.title} » sur RHEMA`, url };
     try {
       if (navigator.share) await navigator.share(data);
       else {
         await navigator.clipboard.writeText(url);
-        alert("Lien du plan copié.");
+        setLienCopie(true);
+        window.setTimeout(() => setLienCopie(false), 2200);
       }
     } catch {
       /* partage annulé */
     }
   }
 
-  return (
-    <div className="min-h-screen bg-night-950 pb-24 text-cream">
-      <PlansDarkBg />
-      <AuthorCard
-        open={authorOpen}
-        onClose={() => setAuthorOpen(false)}
-        author={authorInfo}
-        photo={authorPhotoSrc}
+  /* ——— Un jour ouvert : lecture en plein écran ——— */
+  const jour = jourOuvert ? plan.days.find((d) => d.day === jourOuvert) : undefined;
+  if (jour) {
+    const fichier = audioMap[String(jour.day)];
+    const piste: AudioTrack | null = fichier
+      ? {
+          id: `plan:${plan.slug}:${jour.day}`,
+          title: `${plan.title} · Jour ${jour.day}`,
+          description: jour.title,
+          url: mediaUrl(fichier),
+          path: fichier,
+        }
+      : null;
+    const fait = progress.isDone(jour.day);
+    return (
+      <PlanJour
+        key={jour.day}
+        plan={plan}
+        jour={jour}
+        fait={fait}
+        piste={piste}
+        duo={duo}
+        userId={userId}
+        duoNotes={duoNotes}
+        onDuoNotes={setDuoNotes}
+        onFermer={() => setJourOuvert(null)}
+        onAller={setJourOuvert}
+        onTerminer={() => {
+          if (!fait) toggleDayDuo(jour.day, false);
+          if (jour.day < total) setJourOuvert(jour.day + 1);
+          else setJourOuvert(null);
+        }}
+        onAnnuler={() => {
+          if (fait) toggleDayDuo(jour.day, true);
+        }}
       />
+    );
+  }
+
+  /* ——— Fiche du plan + Mon parcours ——— */
+  return (
+    <div className="min-h-screen pb-32 text-night-900">
+      <AuthorCard open={authorOpen} onClose={() => setAuthorOpen(false)} author={authorInfo} photo={authorPhotoSrc} />
       <Celebration
         open={celebrate}
         emoji=""
-        title="Parcours terminé!"
-        message={`Bravo, tu as terminé « ${plan.title} »! Que cette Parole continue de porter du fruit dans ta vie.`}
+        title="Plan terminé !"
+        message={`Bravo, tu as terminé « ${plan.title} » ! Que cette Parole continue de porter du fruit dans ta vie.`}
         onClose={() => setCelebrate(false)}
       />
 
-      {/* ---------- Héros : photo du plan ---------- */}
-      <section className="relative">
-        <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[16/9]">
+      <header className="container-x mx-auto max-w-2xl pt-[calc(env(safe-area-inset-top)+1rem)]">
+        <div className="flex items-center justify-between">
+          <Link
+            href="/plans"
+            aria-label="Tous les plans"
+            className="inline-grid h-10 w-10 place-items-center rounded-full border border-night-900/15 bg-white text-night-900"
+          >
+            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2}>
+              <path d="M15 6l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </Link>
+          <div className="flex gap-2">
+            {userId ? (
+              <button
+                type="button"
+                onClick={toggleSave}
+                aria-label="Enregistrer le plan"
+                aria-pressed={saved}
+                className={`inline-grid h-10 w-10 place-items-center rounded-full border ${
+                  saved ? "border-dawn-400 bg-dawn-400 text-night-950" : "border-night-900/15 bg-white text-night-900"
+                }`}
+              >
+                <svg viewBox="0 0 24 24" className="h-5 w-5" fill={saved ? "currentColor" : "none"} stroke="currentColor" strokeWidth={1.8}>
+                  <path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            ) : null}
+            <button
+              type="button"
+              onClick={share}
+              aria-label="Partager le plan"
+              className="inline-flex h-10 items-center gap-2 rounded-full border border-night-900/15 bg-white px-4 text-sm font-bold text-night-900"
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.9}>
+                <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v14" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Partager
+            </button>
+          </div>
+        </div>
+
+        {/* L'affiche du plan */}
+        <div className="relative mt-4 overflow-hidden rounded-3xl bg-night-950">
           {plan.cover ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={asset(plan.cover)} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" />
           ) : (
-            <div className="absolute inset-0 bg-gradient-to-br from-night-800 to-night-950" />
+            <div aria-hidden className="absolute inset-0 bg-gradient-to-br from-night-700 via-night-900 to-night-950" />
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-night-950 via-night-950/35 to-night-950/10" />
-
-          {/* Barre du haut : retour + partager + enregistrer */}
-          <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4">
-            <Link
-              href="/plans"
-              aria-label="Tous les parcours"
-              className="grid h-10 w-10 place-items-center rounded-full bg-night-950/50 text-cream backdrop-blur transition-colors hover:bg-night-950/70"
-            >
-              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2}>
-                <path d="M15 6l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-night-950/95 via-night-950/55 to-night-950/15" />
+          {doneCount > 0 ? (
+            <div className="absolute right-4 top-4 grid h-20 w-20 place-items-center">
+              <svg viewBox="0 0 80 80" className="absolute inset-0 h-full w-full -rotate-90">
+                <circle cx="40" cy="40" r="34" fill="rgba(12,12,11,0.5)" stroke="rgba(255,255,255,0.2)" strokeWidth="6" />
+                <circle
+                  cx="40" cy="40" r="34" fill="none" stroke="#CAF000" strokeWidth="6" strokeLinecap="round"
+                  strokeDasharray={`${(percent / 100) * 213.6} 213.6`}
+                />
               </svg>
-            </Link>
-            <div className="flex gap-2">
-              <IconBtn onClick={share} label="Partager le plan">
-                <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
-                  <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v14" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </IconBtn>
-              <IconBtn onClick={toggleSave} label="Enregistrer le plan" active={saved}>
-                <svg viewBox="0 0 24 24" className="h-5 w-5" fill={saved ? "currentColor" : "none"} stroke="currentColor" strokeWidth={1.8}>
-                  <path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </IconBtn>
+              <p className="relative text-center font-display text-sm font-extrabold leading-none text-white">
+                {percent}%
+                <span className="block text-[9px] font-bold text-white/60">terminé</span>
+              </p>
             </div>
-          </div>
-
-          {/* Bas de la photo : titre + auteur (gauche) + note (droite) */}
-          <div className="absolute inset-x-0 bottom-0 p-5">
-            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-dawn-300">
-              Plan thématique
+          ) : null}
+          <div className="relative p-5 pt-28">
+            <span className="inline-block rounded-full bg-dawn-400 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-night-950">
+              Plan de lecture
             </span>
-            <h1 className="mt-1.5 font-display text-3xl font-extrabold leading-tight text-cream sm:text-4xl">
-              {plan.title}
-            </h1>
-            <p className="mt-1.5 max-w-md text-sm text-cream/75">{plan.subtitle}</p>
-            <div className="mt-4 flex items-end justify-between gap-3">
-              <button type="button" onClick={() => setAuthorOpen(true)} className="text-left" aria-label="Voir la fiche de l'auteur">
-                <PlanAuthor name={author} photoSrc={authorPhotoSrc} />
-              </button>
+            <h1 className="mt-2.5 font-display text-[1.7rem] font-extrabold leading-tight text-white">{plan.title}</h1>
+            <p className="mt-1.5 max-w-md text-sm leading-relaxed text-white/80">{plan.subtitle}</p>
+            <div className="mt-3.5 flex flex-wrap items-end justify-between gap-3">
+              <div className="flex flex-wrap gap-2">
+                {[`${total} jours`, `≈ ${minutesParJour} min par jour`].map((m) => (
+                  <span key={m} className="rounded-full bg-white/15 px-3 py-1.5 text-xs font-bold text-white backdrop-blur">
+                    {m}
+                  </span>
+                ))}
+              </div>
               <PlanRating slug={plan.slug} />
             </div>
           </div>
         </div>
-      </section>
 
-      {/* ---------- Synopsis (façon Netflix) ---------- */}
-      {plan.summary ? (
-        <div className="container-x pt-5">
-          <p className="mx-auto max-w-2xl text-[15px] leading-relaxed text-cream/80">
-            {plan.summary}
+        {/* Commencer / reprendre */}
+        {!complete ? (
+          <button
+            type="button"
+            onClick={() => setJourOuvert(currentDay)}
+            className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-dawn-400 py-3.5 font-display text-base font-bold text-night-950 shadow-[0_12px_30px_-12px_rgba(140,170,0,0.6)]"
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current stroke-none">
+              <path d="M8 5.5v13l11-6.5z" />
+            </svg>
+            {doneCount === 0 ? "Commencer le plan" : `Reprendre au jour ${currentDay}`}
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setCelebrate(true)}
+            className="mt-5 w-full rounded-full bg-night-900 py-3.5 font-display text-base font-bold text-cream"
+          >
+            Plan terminé, bravo !
+          </button>
+        )}
+        <button
+          type="button"
+          onClick={share}
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-full border-2 border-night-900/80 py-3 font-display text-[15px] font-bold text-night-900"
+        >
+          {lienCopie ? "Lien copié, tu peux le coller où tu veux" : "Inviter quelqu'un à lire avec moi"}
+        </button>
+
+        {/* À propos */}
+        <div className="mt-5 rounded-3xl border border-night-900/10 bg-white p-5">
+          <h2 className="font-display text-base font-extrabold">À propos de ce plan</h2>
+          {plan.summary ? <p className="mt-2 text-sm leading-relaxed text-night-900/70">{plan.summary}</p> : null}
+          <button
+            type="button"
+            onClick={() => setAuthorOpen(true)}
+            aria-label="Voir la fiche de l'auteur"
+            className="mt-4 flex w-full items-center gap-3 border-t border-night-900/10 pt-4 text-left"
+          >
+            <PlanAuthor name={author} photoSrc={authorPhotoSrc} />
+            <span className="min-w-0 flex-1">
+              <span className="block font-display text-sm font-bold">{author}</span>
+              {authorInfo.role ? <span className="block text-xs text-night-900/55">{authorInfo.role}</span> : null}
+            </span>
+            <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 fill-none stroke-night-900/35" strokeWidth={2}>
+              <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Un mot pour toi */}
+        <div className="mt-3 rounded-3xl border-l-4 border-dawn-400 bg-white p-4">
+          <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#5F7A00]">Comment ça marche</p>
+          <p className="mt-1.5 text-sm leading-relaxed text-night-900/75">
+            Chaque jour : un passage de la Bible, une méditation, une question, une prière. Tu peux tout lire ou
+            l&apos;écouter. Avance à ton rythme : tu peux rattraper un jour manqué ou prendre de l&apos;avance.
           </p>
         </div>
-      ) : null}
 
-      {/* ---------- Progression ---------- */}
-      <div className="container-x pt-6">
-        <div className="mx-auto max-w-2xl">
-          <div className="flex items-center justify-between text-sm">
-            <span className="font-semibold text-cream/80">
-              {doneCount} / {total} jours
-            </span>
-            <span className="text-cream/50">{percent}%</span>
-          </div>
-          <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-cream/10">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-dawn-400 to-dawn-300 transition-all"
-              style={{ width: `${percent}%` }}
-            />
-          </div>
+        {/* Plan à deux */}
+        <div className="dark-ctx mt-3 rounded-3xl bg-night-950 p-1.5 text-cream [&>div]:mt-0">
+          <PlanDuoCard
+            slug={plan.slug}
+            title={plan.title}
+            total={total}
+            userId={userId}
+            myAvatar={myAvatar}
+            myDone={doneCount}
+            duo={duo}
+            partnerDone={partnerDays.length}
+            onDuoChange={setDuo}
+          />
         </div>
-      </div>
+      </header>
 
-      {/* ---------- Plan à deux ---------- */}
-      <div className="container-x">
-        <PlanDuoCard
-          slug={plan.slug}
-          title={plan.title}
-          total={total}
-          userId={userId}
-          myAvatar={myAvatar}
-          myDone={doneCount}
-          duo={duo}
-          partnerDone={partnerDays.length}
-          onDuoChange={setDuo}
-        />
-      </div>
+      {/* Mon parcours */}
+      <main className="container-x mx-auto mt-7 max-w-2xl">
+        <div className="flex items-end justify-between">
+          <h2 className="font-display text-xl font-extrabold">Mon parcours</h2>
+          <span className="text-sm font-bold text-night-900/50">{percent} %</span>
+        </div>
+        <p className="mt-0.5 text-sm text-night-900/55">
+          {doneCount}/{total} jours
+        </p>
+        <div className="mt-2 h-2 overflow-hidden rounded-full bg-night-900/10">
+          <div className="h-full rounded-full bg-dawn-400 transition-all" style={{ width: `${percent}%` }} />
+        </div>
 
-      {/* ---------- Jours (déverrouillage progressif) ---------- */}
-      <ol className="container-x mx-auto mt-6 max-w-2xl space-y-4">
-        {plan.days.map((d) => {
-          const done = progress.isDone(d.day);
-          const current = d.day === currentDay;
-          const locked = d.day > currentDay;
-          const open = current || reread === d.day;
-
-          // --- Jour verrouillé ---
-          if (locked) {
+        <div className="mt-4 space-y-2.5">
+          {plan.days.map((d) => {
+            const fait = progress.isDone(d.day);
+            const courant = d.day === currentDay;
+            const luParBinome = duo?.status === "active" && partnerDays.includes(d.day);
             return (
-              <li
-                key={d.day}
-                className="flex items-center gap-4 rounded-3xl border border-white/5 bg-white/[0.03] p-5 opacity-60"
-              >
-                <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-white/5 text-cream/50">
-                  <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
-                    <path d="M6 10V8a6 6 0 0 1 12 0v2M5 10h14v10H5z" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
-                <div className="min-w-0">
-                  <p className="text-[11px] font-bold uppercase tracking-wide text-cream/40">
-                    Jour {d.day}
-                  </p>
-                  <p className="text-sm text-cream/55">
-                    Termine le jour {d.day - 1} pour débloquer.
-                  </p>
-                </div>
-              </li>
-            );
-          }
-
-          return (
-            <li
-              key={d.day}
-              className={`overflow-hidden rounded-3xl border transition-all ${
-                current
-                  ? "border-dawn-400/50 bg-night-900 shadow-[0_18px_50px_-20px_rgba(202,240,0,0.4)]"
-                  : "border-white/8 bg-white/[0.04]"
-              }`}
-            >
-              {/* Entête du jour (cliquable pour replier/déplier un jour terminé) */}
               <button
+                key={d.day}
                 type="button"
-                onClick={() => !current && setReread(open ? null : d.day)}
-                className="flex w-full items-center gap-4 p-5 text-left"
+                onClick={() => setJourOuvert(d.day)}
+                className={`flex w-full items-center gap-3.5 rounded-2xl border p-4 text-left transition-all ${
+                  courant
+                    ? "border-dawn-400 bg-dawn-50 shadow-[0_10px_26px_-14px_rgba(140,170,0,0.5)]"
+                    : "border-night-900/10 bg-white"
+                }`}
               >
-                <div
-                  className={`relative grid h-14 w-14 shrink-0 place-items-center rounded-2xl ${
-                    current ? "bg-dawn-400" : "bg-night-950"
+                <span
+                  className={`grid h-10 w-10 shrink-0 place-items-center rounded-full font-display text-sm font-extrabold ${
+                    courant ? "bg-dawn-400 text-night-950" : "bg-night-900/[0.06] text-night-900"
                   }`}
                 >
-                  <div className="text-center leading-none">
-                    <span
-                      className={`block text-[8px] font-bold uppercase tracking-[0.2em] ${
-                        current ? "text-night-950/70" : "text-dawn-400"
-                      }`}
-                    >
-                      Jour
-                    </span>
-                    <span
-                      className={`mt-1 block font-display text-2xl font-extrabold ${
-                        current ? "text-night-950" : "text-cream"
-                      }`}
-                    >
-                      {d.day}
-                    </span>
-                  </div>
-                  {done ? (
-                    <span className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-dawn-400 text-night-950 ring-2 ring-night-900">
-                      <svg viewBox="0 0 24 24" className="h-3 w-3 fill-none stroke-current" strokeWidth={3}>
-                        <path d="M5 12l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                  ) : null}
-                </div>
-                <div className="min-w-0 flex-1">
-                  <span
-                    className={`text-[11px] font-bold uppercase tracking-wide ${
-                      done ? "text-dawn-300" : current ? "text-dawn-300" : "text-cream/40"
-                    }`}
-                  >
-                    {done ? "Terminé" : current ? "À méditer aujourd'hui" : "À méditer"}
-                    {duo?.status === "active" && partnerDays.includes(d.day) ? (
-                      <span className="ml-2 inline-flex items-center gap-1 normal-case tracking-normal text-spirit-300">
-                        <svg viewBox="0 0 24 24" className="h-3 w-3 fill-none stroke-current" strokeWidth={3}>
-                          <path d="M5 12l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                        Lu par {duo.partner?.pseudo ?? "ton binôme"}
-                      </span>
+                  {d.day}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block font-display text-[15px] font-extrabold leading-tight">{d.title}</span>
+                  <span className="mt-0.5 flex flex-wrap items-center gap-x-1.5 text-xs text-night-900/50">
+                    {d.lecture ? <span translate="no">{d.lecture}</span> : null}
+                    {d.lecture ? <span aria-hidden>·</span> : null}
+                    <span>{dureeJour(d)} min</span>
+                    {luParBinome ? (
+                      <span className="font-bold text-spirit-600">· Lu par {duo?.partner?.pseudo ?? "ton binôme"}</span>
                     ) : null}
                   </span>
-                  <h3 className="font-display text-xl font-bold leading-tight text-cream">{d.title}</h3>
-                </div>
-                {!current ? (
-                  <svg
-                    viewBox="0 0 24 24"
-                    className={`h-5 w-5 shrink-0 fill-none stroke-cream/40 transition-transform ${open ? "rotate-180" : ""}`}
-                    strokeWidth={2}
-                  >
-                    <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+                </span>
+                {fait ? (
+                  <CheckRond />
+                ) : courant ? (
+                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950">
+                    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current stroke-none">
+                      <path d="M8 5.5v13l11-6.5z" />
+                    </svg>
+                  </span>
+                ) : (
+                  <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 fill-none stroke-night-900/30" strokeWidth={2}>
+                    <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
-                ) : null}
+                )}
               </button>
-
-              {/* Contenu du jour */}
-              {open ? (
-                <div className="px-5 pb-6">
-                  {/* Version audio (voix de Jack) si générée */}
-                  {audioMap[String(d.day)] ? (
-                    <div className="mb-5">
-                      <AudioPlayer src={mediaUrl(audioMap[String(d.day)])} label="Écouter ce jour" />
-                    </div>
-                  ) : null}
-
-                  {/* Lecture du jour (plans approfondis) */}
-                  {d.lecture ? (
-                    <div className="mb-6 space-y-3">
-                      <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-dawn-300">
-                        <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.9} aria-hidden>
-                          <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5v-16z" strokeLinejoin="round" />
-                          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" strokeLinejoin="round" />
-                        </svg>
-                        Lecture du jour
-                      </p>
-                      <LectureDuJour reference={d.lecture} />
-                    </div>
-                  ) : null}
-
-                  <div className="space-y-4 text-[15px] leading-relaxed text-cream/85">
-                    {d.meditation.split("\n\n").map((para, idx) =>
-                      para.startsWith("## ") ? (
-                        <h4 key={idx} className="pt-2 font-display text-[19px] font-extrabold leading-snug text-dawn-400">
-                          {para.slice(3)}
-                        </h4>
-                      ) : (
-                        <p key={idx}>{para}</p>
-                      ),
-                    )}
-                  </div>
-
-                  {d.verses.length > 0 ? (
-                    <div className="mt-5 space-y-3">
-                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-dawn-300">
-                        {d.lecture ? "Versets clés" : "À lire & méditer"}
-                      </p>
-                      {d.verses.map((v) => (
-                        <PassageInline key={v} reference={v} />
-                      ))}
-                    </div>
-                  ) : null}
-
-                  {d.pourAllerPlusLoin?.length ? <PourAllerPlusLoin refs={d.pourAllerPlusLoin} /> : null}
-
-                  {d.question ? (
-                    <div className="mt-5 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-dawn-300">Pour réfléchir</p>
-                      <p className="mt-1.5 text-[15px] leading-relaxed text-cream/90">{d.question}</p>
-                    </div>
-                  ) : null}
-
-                  {d.priere ? (
-                    <div className="mt-3 rounded-2xl border border-dawn-400/20 bg-dawn-400/[0.06] p-4">
-                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-dawn-300">Prière</p>
-                      <p className="mt-1.5 font-display text-[16px] italic leading-relaxed text-cream/90">{d.priere}</p>
-                    </div>
-                  ) : null}
-
-                  {d.aRetenir ? (
-                    <div className="mt-3 flex gap-3 rounded-2xl bg-dawn-400 p-4 text-night-950">
-                      <svg viewBox="0 0 24 24" className="mt-0.5 h-5 w-5 shrink-0 fill-none stroke-current" strokeWidth={2} aria-hidden>
-                        <path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7L12 3z" strokeLinejoin="round" />
-                      </svg>
-                      <div>
-                        <p className="text-[11px] font-black uppercase tracking-[0.16em] text-night-950/60">À retenir</p>
-                        <p className="mt-0.5 text-[15px] font-bold leading-snug">{d.aRetenir}</p>
-                      </div>
-                    </div>
-                  ) : null}
-
-                  {duo?.status === "active" && userId ? (
-                    <DuoNotes
-                      duo={duo}
-                      day={d.day}
-                      userId={userId}
-                      notes={duoNotes}
-                      onAdd={(n) => setDuoNotes((cur) => [...cur, n])}
-                      onDelete={(id) => setDuoNotes((cur) => cur.filter((x) => x.id !== id))}
-                    />
-                  ) : null}
-
-                  <div className="mt-5 flex flex-wrap items-center gap-3">
-                    <button
-                      type="button"
-                      onClick={() => toggleDayDuo(d.day, done)}
-                      className={
-                        done
-                          ? "inline-flex items-center gap-2 rounded-full border border-cream/20 px-5 py-2.5 text-sm font-bold text-cream/70"
-                          : "inline-flex items-center gap-2 rounded-full bg-dawn-400 px-5 py-2.5 text-sm font-bold text-night-950"
-                      }
-                    >
-                      {done ? "✓ Terminé — annuler" : "J'ai terminé ce jour"}
-                    </button>
-                    {d.verses.length > 0 ? (
-                      <Link
-                        href={bibleHref(d.verses[0]) ?? "/bible"}
-                        className="inline-flex items-center gap-2 rounded-full border border-cream/20 px-5 py-2.5 text-sm font-bold text-cream/80"
-                      >
-                        Ouvrir la Bible
-                      </Link>
-                    ) : null}
-                  </div>
-                </div>
-              ) : null}
-            </li>
-          );
-        })}
-      </ol>
-
-      {percent === 100 ? (
-        <div className="container-x mx-auto mt-8 max-w-2xl rounded-3xl border border-dawn-400/30 bg-dawn-400/[0.08] p-6 text-center">
-          <p className="font-display text-xl font-bold text-cream">Parcours terminé</p>
-          <p className="mt-1 text-sm text-cream/70">
-            Bravo! Continue sur un autre thème pour t'enraciner encore plus.
-          </p>
-          <Link
-            href="/plans"
-            className="mt-4 inline-flex rounded-full bg-dawn-400 px-5 py-2.5 text-sm font-bold text-night-950"
-          >
-            Voir les autres parcours
-          </Link>
+            );
+          })}
         </div>
-      ) : null}
-    </div>
-  );
-}
 
-/** « Pour aller plus loin » : références à ouvrir une par une (texte dans l'app). */
-function PourAllerPlusLoin({ refs }: { refs: string[] }) {
-  const [ouverte, setOuverte] = useState<string | null>(null);
-  return (
-    <div className="mt-5">
-      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-dawn-300">Pour aller plus loin</p>
-      <div className="mt-2 flex flex-wrap gap-2">
-        {refs.map((r) => (
-          <button
-            key={r}
-            type="button"
-            onClick={() => setOuverte(ouverte === r ? null : r)}
-            translate="no"
-            className={`rounded-full border px-3 py-1.5 text-[13px] font-semibold transition-colors ${
-              ouverte === r ? "border-dawn-400 bg-dawn-400 text-night-950" : "border-white/15 bg-white/[0.04] text-cream/85"
-            }`}
-          >
-            {r}
-          </button>
-        ))}
-      </div>
-      {ouverte ? (
-        <div className="mt-3">
-          <PassageInline key={ouverte} reference={ouverte} />
-        </div>
-      ) : null}
+        {complete ? (
+          <div className="mt-8 rounded-3xl bg-dawn-400/20 p-6 text-center">
+            <p className="font-display text-xl font-extrabold">Plan terminé</p>
+            <p className="mt-1 text-sm text-night-900/70">Bravo ! Continue avec un autre plan pour t&apos;enraciner encore plus.</p>
+            <Link href="/plans" className="mt-4 inline-flex rounded-full bg-dawn-400 px-5 py-2.5 font-display text-sm font-bold text-night-950">
+              Voir les autres plans
+            </Link>
+          </div>
+        ) : null}
+      </main>
     </div>
-  );
-}
-
-/** Passage du jour, replié par défaut (les lectures sont longues). */
-function LectureDuJour({ reference }: { reference: string }) {
-  const [ouverte, setOuverte] = useState(false);
-  return ouverte ? (
-    <div className="space-y-2">
-      <PassageInline reference={reference} />
-      <button type="button" onClick={() => setOuverte(false)} className="text-[13px] font-semibold text-cream/55 underline underline-offset-2">
-        Replier le passage
-      </button>
-    </div>
-  ) : (
-    <button
-      type="button"
-      onClick={() => setOuverte(true)}
-      className="flex w-full items-center justify-between gap-3 rounded-2xl border border-dawn-400/30 bg-dawn-400/[0.07] px-4 py-3.5 text-left active:bg-dawn-400/[0.12]"
-    >
-      <span>
-        <span translate="no" className="block font-display text-[17px] font-extrabold text-cream">{reference}</span>
-        <span className="block text-[12.5px] text-cream/55">Commence par lire le passage, puis la méditation.</span>
-      </span>
-      <span className="shrink-0 rounded-full bg-dawn-400 px-3 py-1.5 text-[12.5px] font-extrabold text-night-950">Lire</span>
-    </button>
   );
 }

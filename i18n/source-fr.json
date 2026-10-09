@@ -142,6 +142,9 @@
  "· les 3 derniers descendent": [
   "components/games/LeagueBoard.tsx:176"
  ],
+ "· Lu par": [
+  "components/plans/PlanView.tsx:493"
+ ],
  "· Manche {0}/{1}": [
   "components/memorize/VerseGame.tsx:641"
  ],
@@ -1590,6 +1593,9 @@
  "{0} · Étude {1}": [
   "lib/etudes-bibliques.ts:98"
  ],
+ "{0} · Jour {1}": [
+  "components/plans/PlanView.tsx:247"
+ ],
  "{0} · voir mes trophées": [
   "components/community/ProfileBadges.tsx:329"
  ],
@@ -1745,6 +1751,9 @@
  "+30 points, manche suivante.": [
   "components/memorize/VerseGame.tsx:687"
  ],
+ "≈ {0} min par jour": [
+  "components/plans/PlanView.tsx:364"
+ ],
  "≈ {0}h{1}": [
   "components/ecole/FormationView.tsx:1347"
  ],
@@ -1791,7 +1800,6 @@
   "components/community/MakeVersePublicButton.tsx:36"
  ],
  "✓ Terminé — annuler": [
-  "components/plans/PlanView.tsx:559",
   "components/plans/YearPlanView.tsx:332"
  ],
  "✓ terminé · orange = en cours (manque des chapitres) · gris = rien": [
@@ -2104,6 +2112,9 @@
  "10 jours pour accueillir ce que tu ressens, le déposer devant Dieu et retrouver l'espérance.": [
   "content/plans.json"
  ],
+ "10 jours pour découvrir le Notre Père, phrase après phrase, et transformer ta vie de prière.": [
+  "content/plans.json"
+ ],
  "10 min": [
   "components/boutique/RhemaShowcase.tsx:669"
  ],
@@ -2241,6 +2252,9 @@
  "2 Timothée 4:7": [
   "config/chemin/chapitre-rome.ts:101"
  ],
+ "21 jours pour découvrir qui tu es, ce que tu as reçu et comment vivre de ton identité, dans la puissance de l'Esprit.": [
+  "content/plans.json"
+ ],
  "2e palier ·": [
   "components/mission/MissionProgress.tsx:128"
  ],
@@ -2294,6 +2308,12 @@
  ],
  "40 ans": [
   "config/chemin/chapitre-abraham.ts:27"
+ ],
+ "40 jours avec Jésus": [
+  "content/plans.json"
+ ],
+ "40 jours pour marcher avec Jésus, de Bethléhem au tombeau vide, et laisser sa vie transformer la tienne.": [
+  "content/plans.json"
  ],
  "400 30px Arial, sans-serif": [
   "lib/verse-image.ts:300"
@@ -2650,7 +2670,7 @@
   "components/home/VideosExperience.tsx:41"
  ],
  "À lire & méditer": [
-  "components/plans/PlanView.tsx:502",
+  "components/plans/PlanJour.tsx:219",
   "components/plans/YearPlanView.tsx:309"
  ],
  "À lire aujourd'hui": [
@@ -2666,12 +2686,6 @@
  ],
  "à Madagascar": [
   "app/mission-madagascar/page.tsx:53"
- ],
- "À méditer": [
-  "components/plans/PlanView.tsx:440"
- ],
- "À méditer aujourd'hui": [
-  "components/plans/PlanView.tsx:440"
  ],
  "À mémoriser": [
   "components/bible/VersetOutils.tsx:563"
@@ -2743,6 +2757,9 @@
  ],
  "À propos de {0} — « {1} » : {2}": [
   "components/bible/VersetOutils.tsx:231"
+ ],
+ "À propos de ce plan": [
+  "components/plans/PlanView.tsx:406"
  ],
  "À propos de cette formation": [
   "components/ecole/FormationView.tsx:1463"
@@ -2880,7 +2897,8 @@
  ],
  "À retenir": [
   "components/ecole/EtudesView.tsx:389",
-  "components/plans/PlanView.tsx:532"
+  "components/plans/PlanJour.tsx:99",
+  "components/plans/PlanJour.tsx:249"
  ],
  "À retravailler": [
   "app/memoriser/page.tsx:255"
@@ -3426,6 +3444,9 @@
  "Admirable": [
   "config/chemin/chapitre-esaie.ts:57"
  ],
+ "Adopté comme enfant de Dieu": [
+  "content/plans.json"
+ ],
  "ADRESSE": [
   "components/games/FrondeScreen.tsx:85"
  ],
@@ -3612,6 +3633,9 @@
  ],
  "Aller dans les rues à la rencontre des personnes, prier avec elles, leur parler de Jésus et leur annoncer l'espérance du salut.": [
   "app/mission-madagascar/page.tsx:141"
+ ],
+ "Allez, je suis avec vous": [
+  "content/plans.json"
  ],
  "Alors j'ai prié pour que ces 365 méditations puissent, elles aussi, arriver au bon moment dans ta vie.": [
   "components/boutique/RhemaShowcase.tsx:326"
@@ -3912,6 +3936,9 @@
  "Appartenant à Dieu et le servant": [
   "config/chemin/chapitre-rome.ts:51"
  ],
+ "Appelé et envoyé": [
+  "content/plans.json"
+ ],
  "Appeler les autres disciples": [
   "config/chemin/chapitre-transfiguration.ts:77"
  ],
@@ -3942,6 +3969,9 @@
  ],
  "Apporter un message du roi": [
   "config/chemin/chapitre-david.ts:76"
+ ],
+ "Apprendre à prier": [
+  "content/plans.json"
  ],
  "Apprends la Bible en t'amusant.": [
   "components/app/AppOnboarding.tsx:106"
@@ -4068,6 +4098,9 @@
  "Assidu": [
   "lib/badges.ts:138"
  ],
+ "Assis avec Christ : l'autorité du croyant": [
+  "content/plans.json"
+ ],
  "Assis près d'un puits en Madian, Moïse défendit sept jeunes filles que des bergers chassaient, et fit boire leur troupeau. Leur père Réuel — Jéthro — l'invita chez lui. Moïse consentit à demeurer avec lui, et Jéthro lui donna pour femme sa fille Séphora, qui lui enfanta un fils nommé Guerschom.": [
   "config/chemin/chapitre-moise.ts:62"
  ],
@@ -4076,6 +4109,9 @@
  ],
  "Assis, vêtu et dans son bon sens": [
   "config/chemin/chapitre-miracles.ts:55"
+ ],
+ "Assis, vêtu, et dans son bon sens": [
+  "content/plans.json"
  ],
  "Assistant biblique": [
   "app/assistant/page.tsx:6",
@@ -4639,7 +4675,7 @@
   "components/ecole/FormationView.tsx:632"
  ],
  "Avancer de 15 secondes": [
-  "components/bible/BibleAudioPlayer.tsx:492"
+  "components/bible/BibleAudioPlayer.tsx:527"
  ],
  "avancer la lumière": [
   "app/dons/page.tsx:38"
@@ -4749,6 +4785,9 @@
  ],
  "Bannière du profil": [
   "components/community/ProfileView.tsx:689"
+ ],
+ "Baptisé du Saint-Esprit": [
+  "content/plans.json"
  ],
  "Barabbas": [
   "config/chemin/chapitre-croix.ts:55",
@@ -5062,6 +5101,9 @@
   "components/games/WhoAmIScreen.tsx:378",
   "components/quiz/QuizScreen.tsx:1044"
  ],
+ "Bravo ! Continue avec un autre plan pour t'enraciner encore plus.": [
+  "components/plans/PlanView.tsx:518"
+ ],
  "Bravo ! La leçon suivante est déverrouillée.": [
   "components/ecole/FormationView.tsx:2368"
  ],
@@ -5071,11 +5113,8 @@
  "Bravo, ce verset est ancré dans ton cœur.": [
   "app/memoriser/page.tsx:152"
  ],
- "Bravo, tu as terminé « {0} »! Que cette Parole continue de porter du fruit dans ta vie.": [
-  "components/plans/PlanView.tsx:257"
- ],
- "Bravo! Continue sur un autre thème pour t'enraciner encore plus.": [
-  "components/plans/PlanView.tsx:581"
+ "Bravo, tu as terminé « {0} » ! Que cette Parole continue de porter du fruit dans ta vie.": [
+  "components/plans/PlanView.tsx:287"
  ],
  "Brevo (Sendinblue SAS, France), gestion des emails et des contacts": [
   "app/confidentialite/page.tsx:145"
@@ -5362,6 +5401,9 @@
  ],
  "Ce que je retiens": [
   "components/ecole/FormationView.tsx:887"
+ ],
+ "Ce que le péché a abîmé, ce que la croix a racheté": [
+  "content/plans.json"
  ],
  "Ce que nous allons faire": [
   "app/mission-madagascar/page.tsx:130"
@@ -5686,14 +5728,14 @@
   "components/bible/BibleReader.tsx:892"
  ],
  "Chapitre précédent": [
-  "components/bible/BibleAudioPlayer.tsx:454",
+  "components/bible/BibleAudioPlayer.tsx:79",
   "components/bible/BibleReader.tsx:933"
  ],
  "CHAPITRE PRÉCÉDENT": [
   "components/chemin/CheminScreen.tsx:275"
  ],
  "Chapitre suivant": [
-  "components/bible/BibleAudioPlayer.tsx:504",
+  "components/bible/BibleAudioPlayer.tsx:80",
   "components/bible/BibleReader.tsx:952"
  ],
  "CHAPITRE SUIVANT": [
@@ -5738,6 +5780,9 @@
  "Chaque jour": [
   "components/app/AppOnboarding.tsx:102",
   "config/site.ts:59"
+ ],
+ "Chaque jour : un passage de la Bible, une méditation, une question, une prière. Tu peux tout lire ou l'écouter. Avance à ton rythme : tu peux rattraper un jour manqué ou prendre de l'avance.": [
+  "components/plans/PlanView.tsx:429"
  ],
  "Chaque jour à {0}.": [
   "components/pwa/ReminderToggle.tsx:69"
@@ -5840,7 +5885,7 @@
   "components/wall/WallSection.tsx:174"
  ],
  "Chargement du passage…": [
-  "components/bible/PassageInline.tsx:70"
+  "components/bible/PassageInline.tsx:85"
  ],
  "Chargement du plan…": [
   "components/plans/YearPlanView.tsx:244"
@@ -5856,6 +5901,9 @@
  ],
  "Chassé du royaume": [
   "config/chemin/chapitre-esther.ts:97"
+ ],
+ "Chasser les démons au nom de Jésus": [
+  "content/plans.json"
  ],
  "Chat": [
   "components/community/GroupView.tsx:192"
@@ -5902,6 +5950,9 @@
  ],
  "Chercher une personne : Ruth, Lévi, Hérode…": [
   "components/ecole/ArbresGenealogiques.tsx:315"
+ ],
+ "Cherchez premièrement": [
+  "content/plans.json"
  ],
  "Cherchez premièrement le royaume et la justice de Dieu": [
   "config/chemin/chapitre-sermon.ts:86"
@@ -6038,6 +6089,9 @@
  ],
  "Cinq pains d'orge et deux poissons": [
   "config/chemin/chapitre-pains.ts:35"
+ ],
+ "Cinq pains et deux poissons": [
+  "content/plans.json"
  ],
  "Cinq pains et deux poissons pour cinq mille": [
   "config/chemin/chapitre-pains.ts:99"
@@ -6496,6 +6550,9 @@
  "COMMENCER LE CHEMIN": [
   "components/chemin/CheminHub.tsx:267"
  ],
+ "Commencer le plan": [
+  "components/plans/PlanView.tsx:385"
+ ],
  "Commencés (30 j)": [
   "components/community/AnalyticsDashboard.tsx:155"
  ],
@@ -6518,7 +6575,8 @@
   "config/chemin/chapitre-ruth.ts:67"
  ],
  "Comment ça marche": [
-  "components/community/CommunityLanding.tsx:160"
+  "components/community/CommunityLanding.tsx:160",
+  "components/plans/PlanView.tsx:427"
  ],
  "Comment celui qui parle se désigne-t-il ?": [
   "config/chemin/chapitre-apocalypse.ts:36"
@@ -6824,7 +6882,7 @@
   "components/bible/VersetOutils.tsx:852"
  ],
  "Commentaire & sens des mots": [
-  "components/bible/PassageInline.tsx:104"
+  "components/bible/PassageInline.tsx:123"
  ],
  "Commentaire bientôt disponible pour ce verset.": [
   "components/bible/CommentaryPanel.tsx:76"
@@ -7221,6 +7279,9 @@
  ],
  "Création impossible (vérifie la migration SQL groups, et sois connecté).": [
   "components/community/GroupsDirectory.tsx:162"
+ ],
+ "Créé à l'image de Dieu": [
+  "content/plans.json"
  ],
  "Crée ton espace.": [
   "components/app/AppOnboarding.tsx:112"
@@ -8276,6 +8337,9 @@
  "Déclarations": [
   "components/profile/MyFavorites.tsx:12"
  ],
+ "Déclaré juste": [
+  "content/plans.json"
+ ],
  "Déconnexion": [
   "components/community/CommunityView.tsx:319",
   "components/community/ProfileView.tsx:972",
@@ -8296,11 +8360,11 @@
  "Découvre le ministère": [
   "app/app/page.tsx:169"
  ],
- "Découvre le parcours « {0} » sur RHEMA": [
-  "components/plans/PlanView.tsx:232"
- ],
  "Découvre le parcours « La Bible en 1 an » sur RHEMA": [
   "components/plans/YearPlanView.tsx:145"
+ ],
+ "Découvre le plan de lecture « {0} » sur RHEMA": [
+  "components/plans/PlanView.tsx:227"
  ],
  "Découvre nos plans": [
   "components/bible/BibleReader.tsx:649"
@@ -8396,6 +8460,9 @@
  "Delila le pressa chaque jour, et son âme s'impatienta à la mort. Il lui ouvrit tout son cœur : « Le rasoir n'a point passé sur ma tête, car je suis naziréen de Dieu dès le ventre de ma mère. Si j'étais rasé, ma force m'abandonnerait. » Elle l'endormit sur ses genoux, fit raser les sept tresses de sa tête, et l'Éternel s'était retiré de lui.": [
   "config/chemin/chapitre-samson.ts:83"
  ],
+ "Délivre-nous du malin": [
+  "content/plans.json"
+ ],
  "déluge": [
   "config/chemin/chapitre-noe.ts:88"
  ],
@@ -8435,6 +8502,12 @@
  "Démas": [
   "config/chemin/chapitre-lettres-paul.ts:102",
   "config/chemin/chapitre-pierre-jean.ts:58"
+ ],
+ "Démasquer les mensonges": [
+  "content/plans.json"
+ ],
+ "Demeurer en Lui": [
+  "content/plans.json"
  ],
  "Démineur": [
   "lib/badges.ts:126"
@@ -8483,6 +8556,9 @@
  ],
  "dérivé de": [
   "components/ecole/MotLexique.tsx:111"
+ ],
+ "Dernier jour du plan": [
+  "components/plans/PlanJour.tsx:305"
  ],
  "Dernière confirmation : ton compte, tes sujets de prière, tes messages et toutes tes données seront effacés pour toujours. Continuer ?": [
   "components/community/DeleteAccountButton.tsx:24"
@@ -8702,7 +8778,7 @@
  "Désactiver": [
   "components/audio/SleepTimer.tsx:116",
   "components/bible/BibleAudio.tsx:391",
-  "components/bible/BibleAudioPlayer.tsx:633"
+  "components/bible/BibleAudioPlayer.tsx:668"
  ],
  "Descends tout en bas jusqu'à la section": [
   "app/suppression-compte/page.tsx:36"
@@ -8947,6 +9023,9 @@
  "Dieu est là, même quand je ne le ressens pas": [
   "content/plans.json"
  ],
+ "Dieu est venu en personne": [
+  "content/plans.json"
+ ],
  "Dieu établit son alliance avec Noé et toute la création : « Je mets mon arc dans la nue : il sera le signe de l'alliance entre moi et la terre. Les eaux ne deviendront plus un déluge pour détruire toute chair. »": [
   "config/chemin/chapitre-noe.ts:84"
  ],
@@ -9074,6 +9153,9 @@
  "Direction": [
   "components/community/ProfileActivity.tsx:36"
  ],
+ "Dis seulement un mot": [
+  "content/plans.json"
+ ],
  "Discerner la volonté de Dieu": [
   "components/community/ProfileActivity.tsx:36"
  ],
@@ -9168,6 +9250,9 @@
  ],
  "Donne un nom à ton groupe.": [
   "components/community/GroupsDirectory.tsx:154"
+ ],
+ "Donne-nous aujourd'hui notre pain quotidien": [
+  "content/plans.json"
  ],
  "Donne-nous notre pain quotidien": [
   "config/chemin/chapitre-sermon.ts:77"
@@ -9502,9 +9587,6 @@
   "components/app/BottomNav.tsx:53",
   "components/app/ProfilMenu.tsx:80",
   "components/audio/ListenScreen.tsx:365"
- ],
- "Écouter ce jour": [
-  "components/plans/PlanView.tsx:469"
  ],
  "Écouter l'étude": [
   "components/ecole/EtudesView.tsx:613",
@@ -10313,7 +10395,7 @@
   "components/home/EbookReader.tsx:43"
  ],
  "Enregistrer le plan": [
-  "components/plans/PlanView.tsx:289",
+  "components/plans/PlanView.tsx:307",
   "components/plans/YearPlanView.tsx:206"
  ],
  "Enseignement": [
@@ -10502,6 +10584,9 @@
  ],
  "Éprouver Salomon par des énigmes": [
   "config/chemin/chapitre-salomon.ts:86"
+ ],
+ "Équipé de dons spirituels": [
+  "content/plans.json"
  ],
  "Équipe de prière": [
   "app/mission-madagascar/page.tsx:224"
@@ -10716,6 +10801,9 @@
  ],
  "et renouvelé automatiquement chaque mois, sauf résiliation au moins 24 h avant la fin de la période en cours. Tu peux le gérer ou le résilier à tout moment dans les réglages de": [
   "components/mission/SoutienEnUnClic.tsx:168"
+ ],
+ "Et vous, qui dites-vous que je suis ?": [
+  "content/plans.json"
  ],
  "Étape {0}{1}": [
   "components/chemin/CheminScreen.tsx:233"
@@ -11175,6 +11263,9 @@
  "Faites ce qu'il vous dira": [
   "config/chemin/chapitre-disciples.ts:56"
  ],
+ "Faites ceci en mémoire de moi": [
+  "content/plans.json"
+ ],
  "Famille": [
   "components/community/ProfileActivity.tsx:33",
   "components/ecole/ArbresGenealogiques.tsx:327"
@@ -11241,7 +11332,7 @@
  "Fermer le lecteur": [
   "components/audio/GlobalAudioBar.tsx:118",
   "components/audio/GlobalAudioBar.tsx:202",
-  "components/bible/BibleAudioPlayer.tsx:365"
+  "components/bible/BibleAudioPlayer.tsx:400"
  ],
  "Fermer le menu": [
   "components/layout/Header.tsx:117"
@@ -11316,11 +11407,14 @@
  "Fin de l'épisode": [
   "components/audio/SleepTimer.tsx:103"
  ],
+ "Fin de la lecture": [
+  "components/bible/BibleAudioPlayer.tsx:659"
+ ],
  "fin du chapitre": [
-  "components/bible/BibleAudioPlayer.tsx:324"
+  "components/bible/BibleAudioPlayer.tsx:359"
  ],
  "Fin du chapitre": [
-  "components/bible/BibleAudioPlayer.tsx:624"
+  "components/bible/BibleAudioPlayer.tsx:659"
  ],
  "Fin limier": [
   "lib/badges.ts:132"
@@ -11350,7 +11444,7 @@
  ],
  "Fond": [
   "components/bible/BibleAudio.tsx:266",
-  "components/bible/BibleAudioPlayer.tsx:592",
+  "components/bible/BibleAudioPlayer.tsx:627",
   "components/ui/VerseImageStudio.tsx:128"
  ],
  "Fond {0}": [
@@ -11753,6 +11847,9 @@
  ],
  "Gethsémané et l'arrestation": [
   "config/chemin/chapitre-cene.ts:99"
+ ],
+ "Gethsémané, le pressoir": [
+  "content/plans.json"
  ],
  "GitHub Pages, hébergement du site": [
   "app/confidentialite/page.tsx:148"
@@ -12602,6 +12699,9 @@
  "Il est déjà marié": [
   "config/chemin/chapitre-joseph.ts:55"
  ],
+ "Il est écrit": [
+  "content/plans.json"
+ ],
  "Il est enlevé": [
   "config/chemin/chapitre-croix.ts:98"
  ],
@@ -12743,6 +12843,9 @@
  ],
  "Il faut prier trois heures": [
   "config/chemin/chapitre-sermon.ts:67"
+ ],
+ "Il faut que je demeure chez toi": [
+  "content/plans.json"
  ],
  "Il faut répéter les mots": [
   "config/chemin/chapitre-sermon.ts:67"
@@ -14022,6 +14125,9 @@
  "Importer tes 60 dévotionnels existants dans la base pour pouvoir les modifier?": [
   "components/community/DevotionsAdmin.tsx:212"
  ],
+ "Imposer les mains aux malades": [
+  "content/plans.json"
+ ],
  "Impossible d'afficher ce passage ici — ouvre-le dans la Bible.": [
   "components/ecole/FormationView.tsx:479"
  ],
@@ -14197,6 +14303,9 @@
  "Inviter des amis": [
   "components/community/GroupView.tsx:916"
  ],
+ "Inviter quelqu'un à lire avec moi": [
+  "components/plans/PlanView.tsx:401"
+ ],
  "Inviter un ami": [
   "components/app/Rewards.tsx:163"
  ],
@@ -14306,8 +14415,11 @@
  "J'ai terminé — temps de réflexion": [
   "components/ecole/FormationView.tsx:819"
  ],
- "J'ai terminé ce jour": [
-  "components/plans/PlanView.tsx:559"
+ "J'ai terminé le jour {0}": [
+  "components/plans/PlanJour.tsx:302"
+ ],
+ "J'ai terminé le plan": [
+  "components/plans/PlanJour.tsx:302"
  ],
  "J'ai trois fils : Sem, Cham et Japhet.": [
   "config/chemin/chapitre-noe.ts:46"
@@ -15439,6 +15551,9 @@
  "Jésus s'en prend au commerce installé dans la cour du temple.": [
   "config/chemin/chapitre-rameaux.ts:57"
  ],
+ "Jésus seul": [
+  "content/plans.json"
+ ],
  "Jésus vint à Nazareth, où il avait été élevé, et entra dans la synagogue le jour du sabbat. On lui remit le livre d'Ésaïe. Il lut : « L'Esprit du Seigneur est sur moi, parce qu'il m'a oint pour annoncer une bonne nouvelle aux pauvres. » Puis il roula le livre et dit : « Aujourd'hui cette parole de l'Écriture, que vous venez d'entendre, est accomplie. »": [
   "config/chemin/chapitre-tentation.ts:76"
  ],
@@ -15776,11 +15891,27 @@
  "jour de suite": [
   "app/memoriser/page.tsx:666"
  ],
+ "Jour déjà terminé ·": [
+  "components/plans/PlanJour.tsx:289"
+ ],
  "Jour et heure": [
   "components/community/PrieresDirect.tsx:436"
  ],
+ "Jour précédent": [
+  "components/plans/PlanJour.tsx:316",
+  "components/plans/PlanJour.tsx:347"
+ ],
+ "Jour suivant": [
+  "components/plans/PlanJour.tsx:348"
+ ],
+ "Jour suivant (": [
+  "components/plans/PlanJour.tsx:277"
+ ],
  "Jour suivant →": [
   "components/plans/YearPlanView.tsx:353"
+ ],
+ "Jour terminé": [
+  "components/plans/PlanJour.tsx:142"
  ],
  "jours": [
   "app/carnet/page.tsx:38",
@@ -16130,7 +16261,7 @@
   "config/chemin/chapitre-ecclesiaste.ts:27"
  ],
  "L'écoute s'arrête toute seule après…": [
-  "components/bible/BibleAudioPlayer.tsx:602"
+  "components/bible/BibleAudioPlayer.tsx:637"
  ],
  "L'édit de Cyrus": [
   "config/chemin/chapitre-nehemie.ts:99"
@@ -16209,6 +16340,9 @@
  ],
  "L'esprit de l'Éternel se retira de Saül, et un mauvais esprit l'agitait. Ses serviteurs proposèrent de chercher un homme sachant jouer de la harpe. On amena David, fils d'Isaï. Lorsque l'esprit mauvais était sur Saül, David prenait la harpe et jouait de sa main : Saül respirait plus à l'aise et se trouvait soulagé.": [
   "config/chemin/chapitre-david.ts:52"
+ ],
+ "L'Esprit du Seigneur est sur moi": [
+  "content/plans.json"
  ],
  "L'étendue appelée ciel": [
   "config/chemin/chapitre-creation.ts:35"
@@ -16641,6 +16775,9 @@
  "La faute de David et la visite de Nathan": [
   "config/chemin/chapitre-psaumes.ts:72"
  ],
+ "La femme au puits": [
+  "content/plans.json"
+ ],
  "La femme de son maître voulut l'entraîner au mal. Joseph refusa : « Comment ferais-je un si grand mal et pécherais-je contre Dieu ? » Elle le saisit par son vêtement ; il s'enfuit dehors en le laissant dans sa main. Elle l'accusa faussement, et Joseph fut jeté en prison. Mais l'Éternel fut avec lui et lui fit trouver grâce auprès du chef de la prison.": [
   "config/chemin/chapitre-joseph.ts:52"
  ],
@@ -16897,6 +17034,9 @@
  ],
  "La maison du potier": [
   "config/chemin/chapitre-jeremie.ts:99"
+ ],
+ "La maison sur le roc": [
+  "content/plans.json"
  ],
  "La marchande de pourpre": [
   "config/chemin/chapitre-voyages.ts:15"
@@ -17501,6 +17641,9 @@
  "Le Chemin — apprendre la Bible pas à pas": [
   "app/chemin/page.tsx:5"
  ],
+ "Le chemin d'Emmaüs": [
+  "content/plans.json"
+ ],
  "Le chemin est trop long": [
   "config/chemin/chapitre-mer-rouge.ts:76"
  ],
@@ -17805,6 +17948,15 @@
  "Le mari de Peninna": [
   "config/chemin/chapitre-samuel.ts:37"
  ],
+ "le marquer comme non lu": [
+  "components/plans/PlanJour.tsx:291"
+ ],
+ "Le médecin des pécheurs": [
+  "content/plans.json"
+ ],
+ "Le meilleur vin à la fin": [
+  "content/plans.json"
+ ],
  "Le même objectif,": [
   "components/boutique/RhemaShowcase.tsx:174"
  ],
@@ -17986,6 +18138,9 @@
  "Le père qui a cru": [
   "config/chemin/chapitre-miracles.ts:15"
  ],
+ "Le Père qui court": [
+  "content/plans.json"
+ ],
  "Le Père qui est dans les cieux": [
   "config/chemin/chapitre-transfiguration.ts:37"
  ],
@@ -18163,6 +18318,9 @@
  "Le refus des mets du roi": [
   "config/chemin/chapitre-daniel.ts:99"
  ],
+ "Le regard de Jésus": [
+  "content/plans.json"
+ ],
  "Le remède lui paraît trop simple et indigne de lui": [
   "config/chemin/chapitre-elisee.ts:86"
  ],
@@ -18210,6 +18368,9 @@
  "Le roi Assuérus régnait depuis l'Inde jusqu'à l'Éthiopie sur cent vingt-sept provinces. Au troisième an de son règne il donna un festin de cent quatre-vingts jours. Il ordonna à la reine Vasthi de paraître devant les convives ; elle refusa. Le roi s'irrita, et Vasthi fut écartée du trône.": [
   "config/chemin/chapitre-esther.ts:22"
  ],
+ "Le Roi avec un linge": [
+  "content/plans.json"
+ ],
  "Le roi d'Israël": [
   "config/chemin/chapitre-elisee.ts:87",
   "config/chemin/chapitre-samuel.ts:37"
@@ -18253,6 +18414,9 @@
  ],
  "Le roi selon le cœur de Dieu": [
   "config/chemin/chapitre-david-roi.ts:15"
+ ],
+ "Le Roi sur un ânon": [
+  "content/plans.json"
  ],
  "Le rouleau de la loi": [
   "config/chemin/chapitre-rameaux.ts:78"
@@ -18305,6 +18469,9 @@
  ],
  "Le Seigneur règne": [
   "config/chemin/chapitre-attente.ts:29"
+ ],
+ "Le sel et la lumière": [
+  "content/plans.json"
  ],
  "Le sens de la vie": [
   "app/questions/page.tsx:31",
@@ -18418,6 +18585,9 @@
  ],
  "Le temple a tremblé": [
   "config/chemin/chapitre-eglise.ts:36"
+ ],
+ "Le temple du Saint-Esprit": [
+  "content/plans.json"
  ],
  "Le temple est fermé": [
   "config/chemin/chapitre-eglise.ts:99"
@@ -18591,7 +18761,7 @@
   "lib/badges.ts:117"
  ],
  "Lecteur audio": [
-  "components/bible/BibleAudioPlayer.tsx:344"
+  "components/bible/BibleAudioPlayer.tsx:379"
  ],
  "Lecteur vidéo": [
   "app/embed/page.tsx:5"
@@ -18616,7 +18786,8 @@
   "components/community/BibleAudioAdmin.tsx:114"
  ],
  "Lecture du jour": [
-  "components/plans/PlanView.tsx:481"
+  "components/plans/PlanJour.tsx:93",
+  "components/plans/PlanJour.tsx:181"
  ],
  "Légal": [
   "app/cgv/page.tsx:15",
@@ -19291,18 +19462,21 @@
  "Libre de circuler": [
   "config/chemin/chapitre-rome.ts:71"
  ],
+ "Libre du péché": [
+  "content/plans.json"
+ ],
  "Lien copié ✓": [
   "components/app/Rewards.tsx:163"
  ],
  "Lien copié, tu peux le coller où tu veux": [
   "components/ecole/EtudesView.tsx:900",
-  "components/ecole/FormationView.tsx:1395"
+  "components/ecole/FormationView.tsx:1395",
+  "components/plans/PlanView.tsx:401"
  ],
  "Lien d'invitation": [
   "components/community/GroupView.tsx:766"
  ],
  "Lien du plan copié.": [
-  "components/plans/PlanView.tsx:237",
   "components/plans/YearPlanView.tsx:152"
  ],
  "LIEN ENVOYÉ · RENVOYER": [
@@ -19451,9 +19625,6 @@
  ],
  "Louis Segond 1910, domaine public.": [
   "lib/bible-version.ts:39"
- ],
- "Lu par": [
-  "components/plans/PlanView.tsx:446"
  ],
  "Luc": [
   "config/chemin/chapitre-pierre-jean.ts:58"
@@ -19614,6 +19785,9 @@
  "Lyon": [
   "content/testimonies.json"
  ],
+ "M'aimes-tu ?": [
+  "content/plans.json"
+ ],
  "Ma fille ta foi t'a sauvée va en paix": [
   "config/chemin/chapitre-miracles.ts:87"
  ],
@@ -19653,6 +19827,9 @@
  ],
  "Ma to-do list de prière": [
   "components/community/ProfileActivity.tsx:164"
+ ],
+ "Ma valeur n'est ni ma performance ni le regard des autres": [
+  "content/plans.json"
  ],
  "Maçon": [
   "config/chemin/chapitre-nehemie.ts:46"
@@ -19829,6 +20006,9 @@
   "config/chemin/chapitre-lazare.ts:46",
   "config/chemin/chapitre-mer-rouge.ts:14"
  ],
+ "Marie !": [
+  "content/plans.json"
+ ],
  "Marie alla chez Élisabeth. Dès qu'Élisabeth entendit sa salutation, l'enfant tressaillit dans son sein, et elle s'écria : « Tu es bénie entre les femmes ! » Alors Marie chanta : « Mon âme exalte le Seigneur, et mon esprit se réjouit en Dieu mon Sauveur. Il a renversé les puissants de leurs trônes et il a élevé les humbles. »": [
   "config/chemin/chapitre-naissance.ts:52"
  ],
@@ -19898,7 +20078,7 @@
   "components/home/DailyShort.tsx:114"
  ],
  "Masquer le commentaire": [
-  "components/bible/PassageInline.tsx:104"
+  "components/bible/PassageInline.tsx:123"
  ],
  "Masquer le diagnostic": [
   "components/app/BootDiagnostic.tsx:44"
@@ -20216,7 +20396,8 @@
   "lib/badges.ts:111"
  ],
  "Méditation": [
-  "components/notebook/CarnetView.tsx:28"
+  "components/notebook/CarnetView.tsx:28",
+  "components/plans/PlanJour.tsx:195"
  ],
  "Méditation du jour": [
   "components/home/DevotionalView.tsx:278"
@@ -20581,9 +20762,12 @@
   "lib/quiz.ts:330"
  ],
  "min": [
-  "components/bible/BibleAudioPlayer.tsx:612",
+  "components/bible/BibleAudioPlayer.tsx:647",
   "components/ecole/EtudesView.tsx:132",
   "components/ecole/EtudesView.tsx:851"
+ ],
+ "min · Touche le bouton audio pour écouter": [
+  "components/plans/PlanJour.tsx:169"
  ],
  "Mineurs": [
   "app/confidentialite/page.tsx:198"
@@ -20600,7 +20784,7 @@
  ],
  "Minuteur": [
   "components/bible/BibleAudio.tsx:370",
-  "components/bible/BibleAudioPlayer.tsx:558"
+  "components/bible/BibleAudioPlayer.tsx:593"
  ],
  "Minuteur de veille": [
   "components/audio/SleepTimer.tsx:62",
@@ -20786,6 +20970,9 @@
  "Mon espace (carnet, plans, prière…)": [
   "components/community/ProfileView.tsx:581"
  ],
+ "Mon Fils bien-aimé": [
+  "content/plans.json"
+ ],
  "Mon fils que voici était mort et il est revenu à la vie": [
   "config/chemin/chapitre-paraboles.ts:98"
  ],
@@ -20794,6 +20981,9 @@
  ],
  "Mon histoire": [
   "app/a-propos/page.tsx:228"
+ ],
+ "Mon identité en Christ": [
+  "content/plans.json"
  ],
  "Mon nom veut dire « utile ».": [
   "config/chemin/chapitre-lettres-paul.ts:102"
@@ -20957,7 +21147,7 @@
  ],
  "Narration": [
   "components/bible/BibleAudio.tsx:301",
-  "components/bible/BibleAudioPlayer.tsx:392"
+  "components/bible/BibleAudioPlayer.tsx:427"
  ],
  "Narration, écran verrouillé, minuteur dans la barre du bas": [
   "components/bible/BibleAudio.tsx:297"
@@ -20992,6 +21182,9 @@
  "Ne crains pas crois seulement": [
   "config/chemin/chapitre-miracles.ts:97"
  ],
+ "Ne crains pas, crois seulement": [
+  "content/plans.json"
+ ],
  "ne crains point": [
   "components/bible/RechercheBible.tsx:10"
  ],
@@ -21000,6 +21193,9 @@
  ],
  "Né de mes Shorts": [
   "components/home/Shop.tsx:73"
+ ],
+ "Né de nouveau": [
+  "content/plans.json"
  ],
  "Ne garde rien": [
   "config/chemin/chapitre-ecclesiaste.ts:88"
@@ -21258,6 +21454,9 @@
  ],
  "Notre objectif :": [
   "components/mission/MissionObjectiveHeader.tsx:75"
+ ],
+ "Notre Père": [
+  "content/plans.json"
  ],
  "Nourriture des anges": [
   "config/chemin/chapitre-mer-rouge.ts:87"
@@ -21564,6 +21763,9 @@
  "Ôter son soulier et le donner": [
   "config/chemin/chapitre-ruth.ts:87"
  ],
+ "Ôtez la pierre": [
+  "content/plans.json"
+ ],
  "Othniel": [
   "config/chemin/chapitre-gedeon.ts:35"
  ],
@@ -21739,8 +21941,7 @@
   "components/home/EbookReader.tsx:40"
  ],
  "Ouvrir la Bible": [
-  "app/questions/page.tsx:682",
-  "components/plans/PlanView.tsx:566"
+  "app/questions/page.tsx:682"
  ],
  "Ouvrir la communauté": [
   "components/community/ResetPasswordForm.tsx:84"
@@ -21839,9 +22040,9 @@
   "components/games/BergerScreen.tsx:457"
  ],
  "Par": [
-  "components/plans/PlanView.tsx:67",
   "components/plans/YearPlanView.tsx:56",
-  "components/ui/AuthorByline.tsx:52"
+  "components/ui/AuthorByline.tsx:52",
+  "components/ui/AuthorByline.tsx:66"
  ],
  "Par ce qu'il a observé chez eux": [
   "config/chemin/chapitre-voyages.ts:88"
@@ -22161,14 +22362,14 @@
  "Parcours moyens": [
   "app/plans/page.tsx:86"
  ],
- "Parcours terminé": [
-  "components/plans/PlanView.tsx:579"
- ],
- "Parcours terminé!": [
-  "components/plans/PlanView.tsx:256"
+ "Pardonne-nous comme nous pardonnons": [
+  "content/plans.json"
  ],
  "Pardonne-nous nos offenses": [
   "config/chemin/chapitre-sermon.ts:77"
+ ],
+ "Pardonné, sans condamnation": [
+  "content/plans.json"
  ],
  "Parent de": [
   "components/ecole/ArbresGenealogiques.tsx:839"
@@ -22286,7 +22487,7 @@
   "components/games/DuelLive.tsx:571"
  ],
  "Partager le plan": [
-  "components/plans/PlanView.tsx:284",
+  "components/plans/PlanView.tsx:321",
   "components/plans/YearPlanView.tsx:201"
  ],
  "Partager mon profil": [
@@ -22373,6 +22574,9 @@
   "components/app/AppOnboarding.tsx:781",
   "components/community/CommunityLanding.tsx:318"
  ],
+ "Pas de place à l'hôtellerie": [
+  "content/plans.json"
+ ],
  "Pas de renvoi pour ce verset.": [
   "components/bible/VersetsLies.tsx:213"
  ],
@@ -22412,8 +22616,17 @@
  "pas. Si tu as les moyens de l'acheter, même à 5 €, fais-le : c'est ce qui me permet de continuer à l'offrir à ceux qui n'ont rien. Merci de jouer le jeu, avec un cœur honnête.": [
   "components/boutique/RhemaShowcase.tsx:226"
  ],
+ "Passage": [
+  "components/plans/PlanJour.tsx:345"
+ ],
  "Passage introuvable.": [
   "components/bible/PassageApercu.tsx:71"
+ ],
+ "Passage précédent": [
+  "components/bible/BibleAudioPlayer.tsx:499"
+ ],
+ "Passage suivant": [
+  "components/bible/BibleAudioPlayer.tsx:527"
  ],
  "Passages clés": [
   "components/bible/FichesChapitre.tsx:558"
@@ -22435,6 +22648,9 @@
  ],
  "Passionné par Jésus, j'ai à cœur que chacun puisse Le découvrir personnellement — pas de façon religieuse, mais dans une relation vivante et concrète, au quotidien.": [
   "config/author.ts:21"
+ ],
+ "Passons à l'autre bord": [
+  "content/plans.json"
  ],
  "Pasteur & fondateur": [
   "config/author.ts:19"
@@ -22571,6 +22787,9 @@
  "Père pardonne-leur car ils ne savent ce qu'ils font": [
   "config/chemin/chapitre-croix.ts:76"
  ],
+ "Père, pardonne-leur": [
+  "content/plans.json"
+ ],
  "péris": [
   "config/chemin/chapitre-esther.ts:67"
  ],
@@ -22578,6 +22797,9 @@
   "config/chemin/chapitre-paul.ts:36"
  ],
  "Persévérer dans l'épreuve": [
+  "content/plans.json"
+ ],
+ "Persévérer dans la prière": [
   "content/plans.json"
  ],
  "Personnage": [
@@ -22859,8 +23081,14 @@
  "Plan introuvable": [
   "app/plans/[slug]/page.tsx:18"
  ],
- "Plan thématique": [
-  "components/plans/PlanView.tsx:300"
+ "Plan terminé": [
+  "components/plans/PlanView.tsx:517"
+ ],
+ "Plan terminé !": [
+  "components/plans/PlanView.tsx:286"
+ ],
+ "Plan terminé, bravo !": [
+  "components/plans/PlanView.tsx:393"
  ],
  "Plans": [
   "components/app/BottomNav.tsx:46",
@@ -22933,6 +23161,7 @@
   "components/community/ProfileView.tsx:491"
  ],
  "Plus que vainqueur": [
+  "content/plans.json",
   "content/plans.json"
  ],
  "Plus tard": [
@@ -23090,7 +23319,7 @@
   "components/ecole/FormationView.tsx:595"
  ],
  "Position de lecture": [
-  "components/bible/BibleAudioPlayer.tsx:421"
+  "components/bible/BibleAudioPlayer.tsx:456"
  ],
  "position, theme, verse_text, verse_reference, punchline, meditation, card, declaration_text, declaration_reference, questions, published": [
   "lib/devotions.ts:36"
@@ -23105,7 +23334,7 @@
   "components/mission/MissionProgress.tsx:86"
  ],
  "Pour aller plus loin": [
-  "components/plans/PlanView.tsx:600"
+  "components/plans/PlanJour.tsx:361"
  ],
  "Pour aller plus vite": [
   "config/chemin/chapitre-gedeon.ts:77"
@@ -23137,9 +23366,6 @@
  ],
  "Pour cueillir des fruits": [
   "config/chemin/chapitre-rencontres.ts:86"
- ],
- "pour débloquer.": [
-  "components/plans/PlanView.tsx:383"
  ],
  "Pour décorer le ciel": [
   "config/chemin/chapitre-creation.ts:47"
@@ -23313,7 +23539,8 @@
   "config/chemin/chapitre-rencontres.ts:37"
  ],
  "Pour réfléchir": [
-  "components/plans/PlanView.tsx:514"
+  "components/plans/PlanJour.tsx:97",
+  "components/plans/PlanJour.tsx:231"
  ],
  "Pour renvoyer la foule": [
   "config/chemin/chapitre-pains.ts:26"
@@ -23654,6 +23881,9 @@
  ],
  "Préparer le chemin devant le Seigneur": [
   "config/chemin/chapitre-attente.ts:71"
+ ],
+ "Préparez le chemin": [
+  "content/plans.json"
  ],
  "Près de quel puits la scène se passe-t-elle ?": [
   "config/chemin/chapitre-rencontres.ts:47"
@@ -24058,6 +24288,9 @@
  ],
  "Puis :": [
   "components/chemin/CheminScreen.tsx:433"
+ ],
+ "Puis le jour {0} s'ouvre directement": [
+  "components/plans/PlanJour.tsx:305"
  ],
  "Puis un quiz de": [
   "components/ecole/FormationView.tsx:1946"
@@ -24585,6 +24818,9 @@
  "Quatre": [
   "config/chemin/chapitre-apocalypse.ts:46",
   "config/chemin/chapitre-creation.ts:88"
+ ],
+ "Quatre amis et un toit": [
+  "content/plans.json"
  ],
  "Quatre cent cinquante": [
   "config/chemin/chapitre-elie.ts:56"
@@ -25514,6 +25750,9 @@
  "Que souhaite Paul à ceux qui l'écoutent ?": [
   "config/chemin/chapitre-rome.ts:92"
  ],
+ "Que ta volonté soit faite": [
+  "content/plans.json"
+ ],
  "Que ta volonté soit faite sur la terre comme au ciel": [
   "config/chemin/chapitre-sermon.ts:76"
  ],
@@ -25527,10 +25766,12 @@
   "config/chemin/chapitre-paul.ts:68"
  ],
  "Que ton nom soit sanctifié": [
-  "config/chemin/chapitre-sermon.ts:77"
+  "config/chemin/chapitre-sermon.ts:77",
+  "content/plans.json"
  ],
  "Que ton règne vienne": [
-  "config/chemin/chapitre-sermon.ts:77"
+  "config/chemin/chapitre-sermon.ts:77",
+  "content/plans.json"
  ],
  "Que tout ce qui respire loue l'Éternel": [
   "config/chemin/chapitre-psaumes.ts:102"
@@ -26168,6 +26409,9 @@
  "Qui entrera dans le royaume, selon Jésus ?": [
   "config/chemin/chapitre-sermon.ts:99"
  ],
+ "Qui es aux cieux": [
+  "content/plans.json"
+ ],
  "Qui est annoncé comme le lion de Juda, mais apparaît comme un agneau ?": [
   "config/chemin/chapitre-apocalypse.ts:56"
  ],
@@ -26194,6 +26438,9 @@
  ],
  "Qui est Melchisédek ?": [
   "config/chemin/chapitre-abraham.ts:56"
+ ],
+ "Qui est mon prochain ?": [
+  "content/plans.json"
  ],
  "Qui garde le chemin de l'arbre de vie ?": [
   "config/chemin/chapitre-creation.ts:119"
@@ -26656,7 +26903,7 @@
   "components/ecole/FormationView.tsx:609"
  ],
  "Reculer de 15 secondes": [
-  "components/bible/BibleAudioPlayer.tsx:464"
+  "components/bible/BibleAudioPlayer.tsx:499"
  ],
  "Redescendre aussitôt": [
   "config/chemin/chapitre-transfiguration.ts:77"
@@ -27063,11 +27310,14 @@
  "Rendre public": [
   "components/community/MakeVersePublicButton.tsx:53"
  ],
+ "Renouveler mon intelligence, aligner mes paroles": [
+  "content/plans.json"
+ ],
  "Repart à zéro chaque mois": [
   "components/community/ObjectifDonAdmin.tsx:107"
  ],
  "Répéter": [
-  "components/bible/BibleAudioPlayer.tsx:546"
+  "components/bible/BibleAudioPlayer.tsx:581"
  ],
  "Replier": [
   "components/community/AdminRubrique.tsx:149",
@@ -27077,7 +27327,7 @@
   "components/community/AdminRubrique.tsx:148"
  ],
  "Replier le lecteur": [
-  "components/bible/BibleAudioPlayer.tsx:375"
+  "components/bible/BibleAudioPlayer.tsx:410"
  ],
  "Répondre": [
   "app/questions/page.tsx:840",
@@ -27134,6 +27384,9 @@
  ],
  "REPRENDRE ·": [
   "components/games/VraiFauxScreen.tsx:301"
+ ],
+ "Reprendre au jour {0}": [
+  "components/plans/PlanView.tsx:385"
  ],
  "Reprendre la formation": [
   "components/ecole/FormationView.tsx:1365"
@@ -27362,6 +27615,10 @@
  ],
  "Revenir au début": [
   "components/ecole/GalerieFiches.tsx:321"
+ ],
+ "Revenir au plan": [
+  "components/plans/PlanJour.tsx:128",
+  "components/plans/PlanJour.tsx:285"
  ],
  "Reviens chaque jour: ta fidélité est récompensée": [
   "components/app/Rewards.tsx:92"
@@ -28012,6 +28269,9 @@
  "Seigneur sauve-moi": [
   "config/chemin/chapitre-pains.ts:77"
  ],
+ "Seigneur, enseigne-nous à prier": [
+  "content/plans.json"
+ ],
  "Sem": [
   "config/chemin/chapitre-noe.ts:97"
  ],
@@ -28376,7 +28636,7 @@
   "app/soaking/page.tsx:22"
  ],
  "Soaking": [
-  "components/bible/BibleAudioPlayer.tsx:535"
+  "components/bible/BibleAudioPlayer.tsx:570"
  ],
  "Soaking et fonds musicaux pour prier, méditer ou t'endormir — même écran verrouillé.": [
   "app/app/page.tsx:48"
@@ -28388,7 +28648,7 @@
   "app/soaking/page.tsx:8"
  ],
  "Soaking sous la voix": [
-  "components/bible/BibleAudioPlayer.tsx:566"
+  "components/bible/BibleAudioPlayer.tsx:601"
  ],
  "Soaking, Jack Brunet": [
   "app/soaking/page.tsx:43"
@@ -28520,6 +28780,9 @@
  ],
  "Sorek": [
   "config/chemin/chapitre-samson.ts:78"
+ ],
+ "Sors de la barque": [
+  "content/plans.json"
  ],
  "Sorti du tombeau": [
   "config/chemin/chapitre-lazare.ts:15"
@@ -28944,6 +29207,9 @@
  "Sur soi-même": [
   "config/chemin/chapitre-hebreux.ts:88"
  ],
+ "Sur ta parole": [
+  "content/plans.json"
+ ],
  "Sur un bateau": [
   "config/chemin/chapitre-miracles.ts:45"
  ],
@@ -29236,11 +29502,11 @@
   "components/community/ProfileSettings.tsx:171"
  ],
  "terminé": [
-  "components/ecole/FormationView.tsx:1336"
+  "components/ecole/FormationView.tsx:1336",
+  "components/plans/PlanView.tsx:352"
  ],
  "Terminé": [
   "components/chemin/CheminHub.tsx:137",
-  "components/plans/PlanView.tsx:440",
   "components/plans/YearPlanView.tsx:299"
  ],
  "Terminé ✓": [
@@ -29257,9 +29523,6 @@
  ],
  "Termine le chapitre d'un personnage pour gagner sa carte.": [
   "components/chemin/CheminScreen.tsx:340"
- ],
- "Termine le jour": [
-  "components/plans/PlanView.tsx:383"
  ],
  "Termine n°1 de la ligue de la semaine, tous jeux confondus (points cumulés du lundi au dimanche). Le titre est remis en jeu chaque lundi — tu peux le remporter plusieurs fois (×N).": [
   "components/community/ProfileBadges.tsx:21"
@@ -29451,7 +29714,7 @@
  ],
  "ton binôme": [
   "components/plans/PlanDuo.tsx:89",
-  "components/plans/PlanView.tsx:446"
+  "components/plans/PlanView.tsx:493"
  ],
  "Ton cadeau est prêt": [
   "app/ebook/7-jours/page.tsx:17",
@@ -29707,8 +29970,10 @@
   "components/bible/BibleReader.tsx:1028"
  ],
  "Tous les parcours": [
-  "components/plans/PlanView.tsx:276",
   "components/plans/YearPlanView.tsx:193"
+ ],
+ "Tous les plans": [
+  "components/plans/PlanView.tsx:295"
  ],
  "Tous les royaumes du monde": [
   "config/chemin/chapitre-tentation.ts:59"
@@ -30193,6 +30458,9 @@
  ],
  "Un à un, en commençant par les plus âgés": [
   "config/chemin/chapitre-rencontres.ts:76"
+ ],
+ "Un accès libre au Père": [
+  "content/plans.json"
  ],
  "Un agneau": [
   "config/chemin/chapitre-abraham.ts:57",
@@ -31289,7 +31557,7 @@
   "components/bible/BibleAudio.tsx:247"
  ],
  "Une nappe instrumentale douce joue en boucle sous la lecture.": [
-  "components/bible/BibleAudioPlayer.tsx:577"
+  "components/bible/BibleAudioPlayer.tsx:612"
  ],
  "Une note existe sur ce passage · toucher pour la voir": [
   "components/ui/Markable.tsx:134"
@@ -31298,6 +31566,7 @@
   "app/app/page.tsx:53"
  ],
  "Une nouvelle création": [
+  "content/plans.json",
   "content/plans.json"
  ],
  "Une offrande d'or": [
@@ -31436,6 +31705,9 @@
   "config/chemin/chapitre-david.ts:88",
   "config/chemin/chapitre-osee-amos.ts:81"
  ],
+ "Une seule chose est nécessaire": [
+  "content/plans.json"
+ ],
  "Une seule fois": [
   "config/chemin/chapitre-gedeon.ts:67",
   "config/chemin/chapitre-jacques.ts:40",
@@ -31564,11 +31836,17 @@
  "Venez à moi, vous tous qui êtes fatigués et chargés, et je vous donnerai du repos.": [
   "components/app/AppOnboarding.tsx:97"
  ],
+ "Venez, et voyez": [
+  "content/plans.json"
+ ],
  "Vent": [
   "components/games/FrondeGame.tsx:222"
  ],
  "VENT FORT ! VISE PLUS À {0}": [
   "components/games/FrondeGame.tsx:98"
+ ],
+ "Venu de nuit": [
+  "content/plans.json"
  ],
  "Verdana, 'Trebuchet MS', system-ui, sans-serif": [
   "lib/reading-settings.ts:44"
@@ -31802,7 +32080,7 @@
   "components/bible/SelectionVersets.tsx:119"
  ],
  "Verset": [
-  "components/bible/BibleAudioPlayer.tsx:441",
+  "components/bible/BibleAudioPlayer.tsx:77",
   "components/community/GroupView.tsx:1015",
   "components/memorize/VerseGame.tsx:641"
  ],
@@ -31825,10 +32103,10 @@
   "app/layout.tsx:73"
  ],
  "Verset précédent": [
-  "components/bible/BibleAudioPlayer.tsx:464"
+  "components/bible/BibleAudioPlayer.tsx:499"
  ],
  "Verset suivant": [
-  "components/bible/BibleAudioPlayer.tsx:492"
+  "components/bible/BibleAudioPlayer.tsx:527"
  ],
  "Verset terminé, on continue.": [
   "components/memorize/VerseGame.tsx:687"
@@ -31847,7 +32125,7 @@
  "Versets clés": [
   "components/bible/IntroLivre.tsx:193",
   "components/ecole/MotLexique.tsx:348",
-  "components/plans/PlanView.tsx:502"
+  "components/plans/PlanJour.tsx:219"
  ],
  "versets et passages surlignés": [
   "lib/badges.ts:207"
@@ -31978,12 +32256,12 @@
   "components/community/AnalyticsDashboard.tsx:100"
  ],
  "Vitesse": [
-  "components/bible/BibleAudioPlayer.tsx:522",
+  "components/bible/BibleAudioPlayer.tsx:557",
   "components/ui/AudioPlayer.tsx:154"
  ],
  "Vitesse de lecture": [
   "components/audio/GlobalAudioBar.tsx:154",
-  "components/bible/BibleAudioPlayer.tsx:518",
+  "components/bible/BibleAudioPlayer.tsx:553",
   "components/community/VoiceNote.tsx:384"
  ],
  "Vivre le dévotionnel du jour": [
@@ -32035,11 +32313,14 @@
   "components/home/DevotionAuthor.tsx:70"
  ],
  "Voir la fiche de l'auteur": [
-  "components/plans/PlanView.tsx:307",
+  "components/plans/PlanView.tsx:411",
   "components/plans/YearPlanView.tsx:226"
  ],
  "Voir la traduction": [
   "components/community/VoirTraduction.tsx:57"
+ ],
+ "Voir le jour": [
+  "components/plans/PlanJour.tsx:325"
  ],
  "Voir le mur": [
   "components/home/DailyPrayerSpotlight.tsx:78"
@@ -32058,8 +32339,8 @@
  "VOIR LES {0} CHAPITRES": [
   "components/chemin/CheminHub.tsx:306"
  ],
- "Voir les autres parcours": [
-  "components/plans/PlanView.tsx:587"
+ "Voir les autres plans": [
+  "components/plans/PlanView.tsx:520"
  ],
  "Voir les groupes": [
   "components/community/GroupView.tsx:113"
@@ -32128,14 +32409,17 @@
  "Vois les réponses": [
   "components/notebook/CarnetIntro.tsx:8"
  ],
+ "Vois-tu cette femme ?": [
+  "content/plans.json"
+ ],
  "Voix": [
   "components/bible/BibleAudio.tsx:254",
-  "components/bible/BibleAudioPlayer.tsx:404",
-  "components/bible/BibleAudioPlayer.tsx:580"
+  "components/bible/BibleAudioPlayer.tsx:439",
+  "components/bible/BibleAudioPlayer.tsx:615"
  ],
  "Voix de l'appareil": [
   "components/bible/BibleAudio.tsx:343",
-  "components/bible/BibleAudioPlayer.tsx:443"
+  "components/bible/BibleAudioPlayer.tsx:478"
  ],
  "Voix qui monte": [
   "lib/badges.ts:107"
@@ -32162,7 +32446,7 @@
   "components/bible/BibleAudio.tsx:264"
  ],
  "Volume du soaking": [
-  "components/bible/BibleAudioPlayer.tsx:590"
+  "components/bible/BibleAudioPlayer.tsx:625"
  ],
  "vos contenus communautaires: sujets de prière, commentaires, réponses, messages privés, réactions et abonnements": [
   "app/confidentialite/page.tsx:71"

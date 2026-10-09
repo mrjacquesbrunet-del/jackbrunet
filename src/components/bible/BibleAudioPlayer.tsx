@@ -17,6 +17,7 @@ import {
   AMBIENT_VOL_MAX,
 } from "@/lib/ambient";
 import { getVersionBible, infoVersion } from "@/lib/bible-version";
+import type { AudioTrack } from "@/lib/audio-library";
 
 /**
  * Lecteur audio de la pleine lecture : un simple bouton rond en bas au centre
@@ -47,6 +48,9 @@ export function BibleAudioPlayer({
   onNextChapter,
   canPrev,
   canNext,
+  piste,
+  libelles,
+  langueVoix,
 }: {
   bookId: number;
   verses: string[];
@@ -60,7 +64,21 @@ export function BibleAudioPlayer({
   onNextChapter: () => void;
   canPrev: boolean;
   canNext: boolean;
+  /** Hors Bible (plans de lecture…) : narration enregistrée à jouer, ou null
+   * s'il n'y en a pas (voix de l'appareil seulement). */
+  piste?: AudioTrack | null;
+  /** Hors Bible : libellés du lecteur (« Partie », « Jour précédent »…). */
+  libelles?: { element: string; titre: string; precedent: string; suivant: string };
+  /** Langue de la voix de l'appareil (par défaut : celle de la version lue). */
+  langueVoix?: string;
 }) {
+  const horsBible = piste !== undefined;
+  const lib = libelles ?? {
+    element: "Verset",
+    titre: `${bookName} ${chapter}`,
+    precedent: "Chapitre précédent",
+    suivant: "Chapitre suivant",
+  };
   const [open, setOpen] = useState(false);
   const [panel, setPanel] = useState<null | "soaking" | "minuteur">(null);
   const ambient = useAmbient();
@@ -69,6 +87,10 @@ export function BibleAudioPlayer({
   // ————— Sources: narration hébergée (si dispo) ou voix de l'appareil —————
   const [hasNarr, setHasNarr] = useState(false);
   useEffect(() => {
+    if (horsBible) {
+      setHasNarr(Boolean(piste));
+      return;
+    }
     let active = true;
     hasBibleNarration(bookId, chapter).then((v) => {
       if (active) setHasNarr(v);
@@ -76,14 +98,16 @@ export function BibleAudioPlayer({
     return () => {
       active = false;
     };
-  }, [bookId, chapter, verses]); // verses : change aussi avec la version lue
+  }, [bookId, chapter, verses, horsBible, piste]); // verses : change aussi avec la version lue
   const [mode, setMode] = useState<"narration" | "voix">("voix");
   useEffect(() => {
     setMode(hasNarr ? "narration" : "voix");
   }, [hasNarr]);
 
   // La narration (n'importe quel chapitre biblique) joue dans le lecteur global.
-  const narrActive = Boolean(pod.current?.id?.startsWith("bible:"));
+  const narrActive = horsBible
+    ? Boolean(piste && pod.current?.id === piste.id)
+    : Boolean(pod.current?.id?.startsWith("bible:"));
 
   // ————— Voix de l'appareil (synthèse vocale, verset par verset) —————
   const [supported, setSupported] = useState(true);
@@ -103,15 +127,17 @@ export function BibleAudioPlayer({
     }
     const pick = () => {
       const voices = window.speechSynthesis.getVoices();
+      const lang = (langueVoix ?? infoVersion(getVersionBible()).voix).toLowerCase();
+      const norm = (l: string) => l.replace("_", "-").toLowerCase();
       voiceRef.current =
-        voices.find((v) => /fr-FR/i.test(v.lang)) ??
-        voices.find((v) => /^fr/i.test(v.lang)) ??
+        voices.find((v) => norm(v.lang) === lang) ??
+        voices.find((v) => norm(v.lang).startsWith(lang.slice(0, 2))) ??
         null;
     };
     pick();
     window.speechSynthesis.addEventListener("voiceschanged", pick);
     return () => window.speechSynthesis.removeEventListener("voiceschanged", pick);
-  }, []);
+  }, [langueVoix]);
 
   const stopTts = useCallback(() => {
     if (typeof window !== "undefined" && "speechSynthesis" in window) {
@@ -167,7 +193,7 @@ export function BibleAudioPlayer({
         setTtsIdx(i);
         onVerse(i);
         const u = new SpeechSynthesisUtterance(verses[i]);
-        u.lang = infoVersion(getVersionBible()).voix; // langue de la version lue
+        u.lang = langueVoix ?? infoVersion(getVersionBible()).voix; // langue de la version lue
         if (voiceRef.current) u.voice = voiceRef.current;
         u.rate = 0.96 * pod.rate;
         u.pitch = 1;
@@ -179,12 +205,12 @@ export function BibleAudioPlayer({
       };
       speakOne(start);
     },
-    [verses, onVerse, stopTts, pod.rate],
+    [verses, onVerse, stopTts, pod.rate, langueVoix],
   );
 
   function playTts() {
     if (!verses.length) return;
-    track("play", `bible:${bookName} ${chapter}`);
+    track("play", horsBible ? (piste?.id ?? lib.titre) : `bible:${bookName} ${chapter}`);
     setTts("playing");
     setVoiceActive(true);
     ambientKick();
@@ -240,8 +266,11 @@ export function BibleAudioPlayer({
         return;
       }
       stopTts();
-      const q =
-        books.length > 0
+      const q = horsBible
+        ? piste
+          ? [piste]
+          : []
+        : books.length > 0
           ? bibleFullQueue(books, bookId, chapter)
           : bibleBookQueue(bookId, bookName, chapterCount, chapter);
       if (q.length) {
@@ -287,12 +316,18 @@ export function BibleAudioPlayer({
   }
 
   function prevAction() {
-    if (mode === "narration" && narrActive) pod.prev();
-    else onPrevChapter();
+    if (!horsBible && mode === "narration" && narrActive) pod.prev();
+    else {
+      if (horsBible && narrActive) pod.stop();
+      onPrevChapter();
+    }
   }
   function nextAction() {
-    if (mode === "narration" && narrActive) pod.next();
-    else onNextChapter();
+    if (!horsBible && mode === "narration" && narrActive) pod.next();
+    else {
+      if (horsBible && narrActive) pod.stop();
+      onNextChapter();
+    }
   }
 
   function cycleRate() {
@@ -424,7 +459,7 @@ export function BibleAudioPlayer({
                 <div className="mt-0.5 flex items-center justify-between text-xs tabular-nums text-cream/55">
                   <span>{narrActive ? fmt(pos) : "0:00"}</span>
                   <span className="truncate px-2 font-semibold text-cream/70">
-                    {narrActive ? pod.current?.title : `${bookName} ${chapter}`}
+                    {narrActive ? pod.current?.title : lib.titre}
                   </span>
                   <span>{narrActive && dur ? fmt(dur) : "–:––"}</span>
                 </div>
@@ -438,8 +473,8 @@ export function BibleAudioPlayer({
                   />
                 </div>
                 <div className="mt-0.5 flex items-center justify-between text-xs tabular-nums text-cream/55">
-                  <span>Verset {Math.min(ttsIdx + 1, verses.length)} / {verses.length}</span>
-                  <span className="truncate px-2 font-semibold text-cream/70">{bookName} {chapter}</span>
+                  <span>{lib.element} {Math.min(ttsIdx + 1, verses.length)} / {verses.length}</span>
+                  <span className="truncate px-2 font-semibold text-cream/70">{lib.titre}</span>
                   <span>Voix de l'appareil</span>
                 </div>
               </div>
@@ -450,8 +485,8 @@ export function BibleAudioPlayer({
               <button
                 type="button"
                 onClick={prevAction}
-                disabled={!canPrev && !narrActive}
-                aria-label="Chapitre précédent"
+                disabled={!canPrev && (horsBible || !narrActive)}
+                aria-label={lib.precedent}
                 className="grid h-11 w-11 place-items-center rounded-full text-cream/80 disabled:opacity-30"
               >
                 <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current">
@@ -461,7 +496,7 @@ export function BibleAudioPlayer({
               <button
                 type="button"
                 onClick={seekBack}
-                aria-label={mode === "narration" ? "Reculer de 15 secondes" : "Verset précédent"}
+                aria-label={mode === "narration" ? "Reculer de 15 secondes" : horsBible ? "Passage précédent" : "Verset précédent"}
                 className="grid h-11 w-11 place-items-center rounded-full text-cream/80"
               >
                 <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current" strokeWidth={1.9}>
@@ -489,7 +524,7 @@ export function BibleAudioPlayer({
               <button
                 type="button"
                 onClick={seekFwd}
-                aria-label={mode === "narration" ? "Avancer de 15 secondes" : "Verset suivant"}
+                aria-label={mode === "narration" ? "Avancer de 15 secondes" : horsBible ? "Passage suivant" : "Verset suivant"}
                 className="grid h-11 w-11 place-items-center rounded-full text-cream/80"
               >
                 <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current" strokeWidth={1.9}>
@@ -500,8 +535,8 @@ export function BibleAudioPlayer({
               <button
                 type="button"
                 onClick={nextAction}
-                disabled={!canNext && !narrActive}
-                aria-label="Chapitre suivant"
+                disabled={!canNext && (horsBible || !narrActive)}
+                aria-label={lib.suivant}
                 className="grid h-11 w-11 place-items-center rounded-full text-cream/80 disabled:opacity-30"
               >
                 <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current">
@@ -621,7 +656,7 @@ export function BibleAudioPlayer({
                       }}
                       className="rounded-full border border-white/15 px-3 py-1.5 text-sm font-bold text-cream/80"
                     >
-                      Fin du chapitre
+                      {horsBible ? "Fin de la lecture" : "Fin du chapitre"}
                     </button>
                   ) : null}
                   {timerLabel ? (
