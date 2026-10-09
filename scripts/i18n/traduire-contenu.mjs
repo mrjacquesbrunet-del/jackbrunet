@@ -174,11 +174,32 @@ function sauver(message) {
   }
 }
 
+/** Complète une traduction existante avec ce qui a été ajouté depuis en
+ * français (nouveaux éléments de liste, nouveaux champs), copiés tels quels
+ * en attendant leur traduction. Sans cela, les nouveaux chemins n'existent
+ * pas dans le fichier traduit. */
+function completer(cible, fr) {
+  if (Array.isArray(fr)) {
+    if (!Array.isArray(cible)) return JSON.parse(JSON.stringify(fr));
+    fr.forEach((v, i) => {
+      cible[i] = i < cible.length ? completer(cible[i], v) : JSON.parse(JSON.stringify(v));
+    });
+    return cible;
+  }
+  if (fr && typeof fr === "object") {
+    if (!cible || typeof cible !== "object" || Array.isArray(cible)) return JSON.parse(JSON.stringify(fr));
+    for (const [k, v] of Object.entries(fr)) cible[k] = k in cible ? completer(cible[k], v) : JSON.parse(JSON.stringify(v));
+    return cible;
+  }
+  return cible ?? fr;
+}
+
 /** Fichier traduit (copie du français, complétée au fil des lots). */
 function traduit(l, f) {
   const fr = lire(source(f), null);
   const deja = REFAIRE ? null : lire(sortie(l, f), null);
-  return { fr, cible: deja ?? JSON.parse(JSON.stringify(fr)), faits: new Set(deja?.__traduits ?? []) };
+  const cible = deja ? completer(deja, fr) : JSON.parse(JSON.stringify(fr));
+  return { fr, cible, faits: new Set(deja?.__traduits ?? []) };
 }
 
 async function recuperer(id, etat) {
