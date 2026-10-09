@@ -111,7 +111,15 @@ export type ThemePlanDay = {
   day: number;
   title: string;
   verses: string[];
+  /** Paragraphes séparés par une ligne vide ; « ## Titre » = intertitre. */
   meditation: string;
+  /** Passage principal à lire (affiché en entier avant la méditation). */
+  lecture?: string;
+  /** Références complémentaires (ouvertes au toucher). */
+  pourAllerPlusLoin?: string[];
+  question?: string;
+  priere?: string;
+  aRetenir?: string;
 };
 
 export type ThemePlan = {

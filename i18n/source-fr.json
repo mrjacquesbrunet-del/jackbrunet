@@ -1791,7 +1791,7 @@
   "components/community/MakeVersePublicButton.tsx:36"
  ],
  "✓ Terminé — annuler": [
-  "components/plans/PlanView.tsx:511",
+  "components/plans/PlanView.tsx:559",
   "components/plans/YearPlanView.tsx:332"
  ],
  "✓ terminé · orange = en cours (manque des chapitres) · gris = rien": [
@@ -2342,6 +2342,9 @@
  "7 jours d'affilée.": [
   "lib/memorize.ts:246"
  ],
+ "7 jours dans l'Évangile de Jean pour découvrir qui est vraiment Jésus.": [
+  "content/plans.json"
+ ],
  "7 jours pour": [
   "app/ebook/7-jours/page.tsx:19"
  ],
@@ -2647,7 +2650,7 @@
   "components/home/VideosExperience.tsx:41"
  ],
  "À lire & méditer": [
-  "components/plans/PlanView.tsx:482",
+  "components/plans/PlanView.tsx:502",
   "components/plans/YearPlanView.tsx:309"
  ],
  "À lire aujourd'hui": [
@@ -2876,7 +2879,8 @@
   "config/chemin/chapitre-mer-rouge.ts:94"
  ],
  "À retenir": [
-  "components/ecole/EtudesView.tsx:389"
+  "components/ecole/EtudesView.tsx:389",
+  "components/plans/PlanView.tsx:532"
  ],
  "À retravailler": [
   "app/memoriser/page.tsx:255"
@@ -5071,7 +5075,7 @@
   "components/plans/PlanView.tsx:257"
  ],
  "Bravo! Continue sur un autre thème pour t'enraciner encore plus.": [
-  "components/plans/PlanView.tsx:533"
+  "components/plans/PlanView.tsx:581"
  ],
  "Brevo (Sendinblue SAS, France), gestion des emails et des contacts": [
   "app/confidentialite/page.tsx:145"
@@ -14303,7 +14307,7 @@
   "components/ecole/FormationView.tsx:819"
  ],
  "J'ai terminé ce jour": [
-  "components/plans/PlanView.tsx:511"
+  "components/plans/PlanView.tsx:559"
  ],
  "J'ai trois fils : Sem, Cham et Japhet.": [
   "config/chemin/chapitre-noe.ts:46"
@@ -14916,8 +14920,15 @@
  "Je suis la cause d'une séparation entre deux apôtres.": [
   "config/chemin/chapitre-pierre-jean.ts:58"
  ],
+ "Je suis la lumière du monde": [
+  "content/plans.json"
+ ],
+ "Je suis la porte": [
+  "content/plans.json"
+ ],
  "Je suis la résurrection et la vie": [
-  "config/chemin/chapitre-lazare.ts:66"
+  "config/chemin/chapitre-lazare.ts:66",
+  "content/plans.json"
  ],
  "Je suis la servante du Seigneur qu'il me soit fait selon ta parole": [
   "config/chemin/chapitre-naissance.ts:45"
@@ -14927,6 +14938,12 @@
  ],
  "Je suis la sœur de Moïse.": [
   "config/chemin/chapitre-moise.ts:47"
+ ],
+ "Je suis le bon berger": [
+  "content/plans.json"
+ ],
+ "Je suis le chemin, la vérité et la vie": [
+  "content/plans.json"
  ],
  "Je suis le dernier prophète de l'Ancien Testament.": [
   "config/chemin/chapitre-attente.ts:70"
@@ -14947,7 +14964,8 @@
   "config/chemin/chapitre-abraham.ts:45"
  ],
  "Je suis le pain de vie": [
-  "config/chemin/chapitre-pains.ts:97"
+  "config/chemin/chapitre-pains.ts:97",
+  "content/plans.json"
  ],
  "Je suis le plus jeune de huit frères.": [
   "config/chemin/chapitre-david.ts:45"
@@ -14960,6 +14978,9 @@
  ],
  "Je suis le serviteur de Moïse.": [
   "config/chemin/chapitre-sinai.ts:77"
+ ],
+ "Je suis le vrai cep": [
+  "content/plans.json"
  ],
  "Je suis lévite et chef des chantres au temple.": [
   "config/chemin/chapitre-psaumes.ts:103"
@@ -18594,6 +18615,9 @@
  "Lecture de Supabase…": [
   "components/community/BibleAudioAdmin.tsx:114"
  ],
+ "Lecture du jour": [
+  "components/plans/PlanView.tsx:481"
+ ],
  "Légal": [
   "app/cgv/page.tsx:15",
   "app/confidentialite/page.tsx:15",
@@ -18632,6 +18656,9 @@
  ],
  "Les 66 livres de la Bible": [
   "app/ecole/livres/page.tsx:5"
+ ],
+ "Les 7 « Je suis » de Jésus": [
+  "content/plans.json"
  ],
  "Les 7 premières": [
   "components/home/CadeauRhema.tsx:27"
@@ -21713,7 +21740,7 @@
  ],
  "Ouvrir la Bible": [
   "app/questions/page.tsx:682",
-  "components/plans/PlanView.tsx:518"
+  "components/plans/PlanView.tsx:566"
  ],
  "Ouvrir la communauté": [
   "components/community/ResetPasswordForm.tsx:84"
@@ -22135,7 +22162,7 @@
   "app/plans/page.tsx:86"
  ],
  "Parcours terminé": [
-  "components/plans/PlanView.tsx:531"
+  "components/plans/PlanView.tsx:579"
  ],
  "Parcours terminé!": [
   "components/plans/PlanView.tsx:256"
@@ -23077,6 +23104,9 @@
  "pour": [
   "components/mission/MissionProgress.tsx:86"
  ],
+ "Pour aller plus loin": [
+  "components/plans/PlanView.tsx:600"
+ ],
  "Pour aller plus vite": [
   "config/chemin/chapitre-gedeon.ts:77"
  ],
@@ -23281,6 +23311,9 @@
  ],
  "Pour rassembler Israël seulement": [
   "config/chemin/chapitre-rencontres.ts:37"
+ ],
+ "Pour réfléchir": [
+  "components/plans/PlanView.tsx:514"
  ],
  "Pour renvoyer la foule": [
   "config/chemin/chapitre-pains.ts:26"
@@ -28169,7 +28202,7 @@
   "components/community/MemberView.tsx:422"
  ],
  "Ses ressources": [
-  "components/plans/AuthorCard.tsx:147"
+  "components/plans/AuthorCard.tsx:158"
  ],
  "Ses sandales": [
   "config/chemin/chapitre-rencontres.ts:58"
@@ -28647,7 +28680,7 @@
  ],
  "Suivre sur Instagram": [
   "app/mission-madagascar/page.tsx:74",
-  "components/plans/AuthorCard.tsx:141"
+  "components/plans/AuthorCard.tsx:152"
  ],
  "sujet": [
   "components/community/MyPrayerList.tsx:161",
@@ -31813,7 +31846,8 @@
  ],
  "Versets clés": [
   "components/bible/IntroLivre.tsx:193",
-  "components/ecole/MotLexique.tsx:348"
+  "components/ecole/MotLexique.tsx:348",
+  "components/plans/PlanView.tsx:502"
  ],
  "versets et passages surlignés": [
   "lib/badges.ts:207"
@@ -32025,7 +32059,7 @@
   "components/chemin/CheminHub.tsx:306"
  ],
  "Voir les autres parcours": [
-  "components/plans/PlanView.tsx:539"
+  "components/plans/PlanView.tsx:587"
  ],
  "Voir les groupes": [
   "components/community/GroupView.tsx:113"
@@ -32067,7 +32101,8 @@
   "components/home/DevotionAuthor.tsx:95"
  ],
  "Voir son profil dans l'app": [
-  "components/plans/AuthorCard.tsx:125"
+  "components/plans/AuthorCard.tsx:104",
+  "components/plans/AuthorCard.tsx:136"
  ],
  "Voir sur YouTube": [
   "components/bible/BibleVideos.tsx:137"

@@ -470,20 +470,68 @@ export function PlanView({
                     </div>
                   ) : null}
 
+                  {/* Lecture du jour (plans approfondis) */}
+                  {d.lecture ? (
+                    <div className="mb-6 space-y-3">
+                      <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-dawn-300">
+                        <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.9} aria-hidden>
+                          <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5v-16z" strokeLinejoin="round" />
+                          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" strokeLinejoin="round" />
+                        </svg>
+                        Lecture du jour
+                      </p>
+                      <LectureDuJour reference={d.lecture} />
+                    </div>
+                  ) : null}
+
                   <div className="space-y-4 text-[15px] leading-relaxed text-cream/85">
-                    {d.meditation.split("\n\n").map((para, idx) => (
-                      <p key={idx}>{para}</p>
-                    ))}
+                    {d.meditation.split("\n\n").map((para, idx) =>
+                      para.startsWith("## ") ? (
+                        <h4 key={idx} className="pt-2 font-display text-[19px] font-extrabold leading-snug text-dawn-400">
+                          {para.slice(3)}
+                        </h4>
+                      ) : (
+                        <p key={idx}>{para}</p>
+                      ),
+                    )}
                   </div>
 
                   {d.verses.length > 0 ? (
                     <div className="mt-5 space-y-3">
                       <p className="text-xs font-semibold uppercase tracking-[0.14em] text-dawn-300">
-                        À lire & méditer
+                        {d.lecture ? "Versets clés" : "À lire & méditer"}
                       </p>
                       {d.verses.map((v) => (
                         <PassageInline key={v} reference={v} />
                       ))}
+                    </div>
+                  ) : null}
+
+                  {d.pourAllerPlusLoin?.length ? <PourAllerPlusLoin refs={d.pourAllerPlusLoin} /> : null}
+
+                  {d.question ? (
+                    <div className="mt-5 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-dawn-300">Pour réfléchir</p>
+                      <p className="mt-1.5 text-[15px] leading-relaxed text-cream/90">{d.question}</p>
+                    </div>
+                  ) : null}
+
+                  {d.priere ? (
+                    <div className="mt-3 rounded-2xl border border-dawn-400/20 bg-dawn-400/[0.06] p-4">
+                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-dawn-300">Prière</p>
+                      <p className="mt-1.5 font-display text-[16px] italic leading-relaxed text-cream/90">{d.priere}</p>
+                    </div>
+                  ) : null}
+
+                  {d.aRetenir ? (
+                    <div className="mt-3 flex gap-3 rounded-2xl bg-dawn-400 p-4 text-night-950">
+                      <svg viewBox="0 0 24 24" className="mt-0.5 h-5 w-5 shrink-0 fill-none stroke-current" strokeWidth={2} aria-hidden>
+                        <path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7L12 3z" strokeLinejoin="round" />
+                      </svg>
+                      <div>
+                        <p className="text-[11px] font-black uppercase tracking-[0.16em] text-night-950/60">À retenir</p>
+                        <p className="mt-0.5 text-[15px] font-bold leading-snug">{d.aRetenir}</p>
+                      </div>
                     </div>
                   ) : null}
 
@@ -541,5 +589,60 @@ export function PlanView({
         </div>
       ) : null}
     </div>
+  );
+}
+
+/** « Pour aller plus loin » : références à ouvrir une par une (texte dans l'app). */
+function PourAllerPlusLoin({ refs }: { refs: string[] }) {
+  const [ouverte, setOuverte] = useState<string | null>(null);
+  return (
+    <div className="mt-5">
+      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-dawn-300">Pour aller plus loin</p>
+      <div className="mt-2 flex flex-wrap gap-2">
+        {refs.map((r) => (
+          <button
+            key={r}
+            type="button"
+            onClick={() => setOuverte(ouverte === r ? null : r)}
+            translate="no"
+            className={`rounded-full border px-3 py-1.5 text-[13px] font-semibold transition-colors ${
+              ouverte === r ? "border-dawn-400 bg-dawn-400 text-night-950" : "border-white/15 bg-white/[0.04] text-cream/85"
+            }`}
+          >
+            {r}
+          </button>
+        ))}
+      </div>
+      {ouverte ? (
+        <div className="mt-3">
+          <PassageInline key={ouverte} reference={ouverte} />
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+/** Passage du jour, replié par défaut (les lectures sont longues). */
+function LectureDuJour({ reference }: { reference: string }) {
+  const [ouverte, setOuverte] = useState(false);
+  return ouverte ? (
+    <div className="space-y-2">
+      <PassageInline reference={reference} />
+      <button type="button" onClick={() => setOuverte(false)} className="text-[13px] font-semibold text-cream/55 underline underline-offset-2">
+        Replier le passage
+      </button>
+    </div>
+  ) : (
+    <button
+      type="button"
+      onClick={() => setOuverte(true)}
+      className="flex w-full items-center justify-between gap-3 rounded-2xl border border-dawn-400/30 bg-dawn-400/[0.07] px-4 py-3.5 text-left active:bg-dawn-400/[0.12]"
+    >
+      <span>
+        <span translate="no" className="block font-display text-[17px] font-extrabold text-cream">{reference}</span>
+        <span className="block text-[12.5px] text-cream/55">Commence par lire le passage, puis la méditation.</span>
+      </span>
+      <span className="shrink-0 rounded-full bg-dawn-400 px-3 py-1.5 text-[12.5px] font-extrabold text-night-950">Lire</span>
+    </button>
   );
 }
