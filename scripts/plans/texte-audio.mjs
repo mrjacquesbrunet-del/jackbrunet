@@ -57,8 +57,24 @@ function decouper(ref) {
   return r ? { livre: r[1], chap: +r[2], v1: +r[3], v2: +(r[4] ?? r[3]) } : null;
 }
 
-/** Les références entre parenthèses dans un texte deviennent lisibles à voix haute. */
-const parler = (texte, langue) => texte.replace(/\(([^()]*\d+:\d+[^()]*)\)/g, (_, r) => `(${refParlee(r, langue)})`);
+/** Toutes les références d'un texte (« Matthieu 5:4 », « 1 Jean 3:8-10 »)
+ * deviennent lisibles à voix haute ; le livre est reconnu dans la liste des
+ * livres (trois langues), pour ne pas avaler les mots qui précèdent. */
+let RE_LIVRES = null;
+function reLivres() {
+  if (RE_LIVRES) return RE_LIVRES;
+  const noms = [...new Set(Object.values(DOSSIERS).flatMap((d) => JSON.parse(fs.readFileSync(`${d}/index.json`, "utf8")).map((b) => b.name)))]
+    .sort((a, b) => b.length - a.length)
+    .map((n) => n.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  RE_LIVRES = new RegExp(`(?<![\\p{L}])(${noms.join("|")})\\s+(\\d+):(\\d+)(?:\\s*[-–]\\s*(\\d+))?`, "gu");
+  return RE_LIVRES;
+}
+const parler = (texte, langue) => {
+  const m = MOTS[langue];
+  return texte.replace(reLivres(), (_, livre, c, v1, v2) =>
+    v2 ? `${livre}, ${m.chap} ${c}, ${m.vv} ${v1} ${m.a} ${v2}` : `${livre}, ${m.chap} ${c}, ${m.v} ${v1}`,
+  );
+};
 
 export function texteAudioJour(jour, langue) {
   const m = MOTS[langue];
