@@ -18,6 +18,7 @@ import {
 } from "@/lib/ambient";
 import { getVersionBible, infoVersion } from "@/lib/bible-version";
 import type { AudioTrack } from "@/lib/audio-library";
+import { Capacitor } from "@capacitor/core";
 
 /**
  * Lecteur audio de la pleine lecture : un simple bouton rond en bas au centre
@@ -477,6 +478,7 @@ export function BibleAudioPlayer({
                   <span className="truncate px-2 font-semibold text-cream/70">{lib.titre}</span>
                   <span>Voix de l'appareil</span>
                 </div>
+                <ConseilVoix />
               </div>
             )}
 
@@ -675,5 +677,28 @@ export function BibleAudioPlayer({
         </div>
       ) : null}
     </>
+  );
+}
+
+/** Conseil pour une voix de l'appareil plus naturelle (repliable, mémorisé). */
+function ConseilVoix() {
+  const [ouvert, setOuvert] = useState(false);
+  const ios = Capacitor.getPlatform() === "ios" || (typeof navigator !== "undefined" && /iPhone|iPad/i.test(navigator.userAgent));
+  return (
+    <div className="mt-2 rounded-xl bg-white/[0.05] px-3 py-2">
+      <button type="button" onClick={() => setOuvert((v) => !v)} className="flex w-full items-center justify-between gap-2 text-left text-[11px] font-bold text-cream/70">
+        <span>Astuce : une voix plus naturelle</span>
+        <svg viewBox="0 0 24 24" className={`h-3.5 w-3.5 shrink-0 fill-none stroke-current transition-transform ${ouvert ? "rotate-180" : ""}`} strokeWidth={2.2}>
+          <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+      {ouvert ? (
+        <p className="mt-1.5 text-[11px] leading-relaxed text-cream/60">
+          {ios
+            ? "Sur iPhone : Réglages › Accessibilité › Contenu énoncé › Voix. Choisis ta langue et télécharge une voix « améliorée » ou « premium » : la lecture sera bien plus agréable."
+            : "Sur Android : Paramètres › Accessibilité › Synthèse vocale (ou Sortie de la synthèse vocale). Installe les données vocales de ta langue en haute qualité : la lecture sera bien plus agréable."}
+        </p>
+      ) : null}
+    </div>
   );
 }
