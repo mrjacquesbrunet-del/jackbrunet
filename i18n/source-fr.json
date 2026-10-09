@@ -2093,7 +2093,7 @@
   "components/bible/RechercheBible.tsx:211"
  ],
  "10 € par mois": [
-  "components/mission/PopupMission.tsx:212"
+  "components/mission/PopupMission.tsx:234"
  ],
  "10 bonnes réponses d'affilée": [
   "lib/quiz.ts:325"
@@ -3921,7 +3921,7 @@
   "components/mission/DonnerRapide.tsx:212"
  ],
  "Apple Pay, Google Pay ou carte bancaire · Paiement sécurisé": [
-  "components/mission/PopupMission.tsx:232"
+  "components/mission/PopupMission.tsx:254"
  ],
  "application": [
   "app/confidentialite/page.tsx:61"
@@ -4335,7 +4335,7 @@
  "Aucun membre trouvé.": [
   "components/community/InAppShare.tsx:185",
   "components/community/MemberSearch.tsx:65",
-  "components/community/MessagesView.tsx:132"
+  "components/community/MessagesView.tsx:133"
  ],
  "Aucun message. Lance la discussion !": [
   "components/community/GroupView.tsx:654"
@@ -4378,7 +4378,7 @@
   "config/chemin/chapitre-paque.ts:58"
  ],
  "Aucune conversation pour l'instant.": [
-  "components/community/MessagesView.tsx:206"
+  "components/community/MessagesView.tsx:207"
  ],
  "Aucune culpabilité : un jour après l'autre, tu vas les retrouver.": [
   "components/home/DevotionalView.tsx:403"
@@ -5284,7 +5284,7 @@
  ],
  "ce membre": [
   "components/community/InAppShare.tsx:64",
-  "components/community/MessagesView.tsx:395",
+  "components/community/MessagesView.tsx:396",
   "components/community/PrayerTime.tsx:774"
  ],
  "Ce membre garde ses": [
@@ -5782,7 +5782,7 @@
   "components/home/PrayerSpace.tsx:89"
  ],
  "Chaque semaine, des milliers de personnes ouvrent la Parole de Dieu dans RHEMA, sans payer un centime. Je veux que ça reste ainsi.": [
-  "components/mission/PopupMission.tsx:177"
+  "components/mission/PopupMission.tsx:199"
  ],
  "Chaque sujet du mur de prière est passé devant toi. Merci pour eux.": [
   "components/community/PrayerTime.tsx:528"
@@ -6984,7 +6984,7 @@
   "components/quiz/QuizScreen.tsx:1229"
  ],
  "Connecte-toi pour accéder à tes messages.": [
-  "components/community/MessagesView.tsx:69"
+  "components/community/MessagesView.tsx:70"
  ],
  "Connecte-toi pour créer ou rejoindre un groupe.": [
   "components/community/GroupsDirectory.tsx:313"
@@ -8375,10 +8375,10 @@
   "lib/notif-prefs.ts:23"
  ],
  "Déjà {0} contributions ce mois-ci": [
-  "components/mission/PopupMission.tsx:199"
+  "components/mission/PopupMission.tsx:221"
  ],
  "Déjà {0} contributions reçues": [
-  "components/mission/PopupMission.tsx:200"
+  "components/mission/PopupMission.tsx:222"
  ],
  "Déjà là": [
   "components/community/GroupView.tsx:933"
@@ -9550,7 +9550,7 @@
   "lib/badges.ts:251"
  ],
  "Écris le premier message à": [
-  "components/community/MessagesView.tsx:395"
+  "components/community/MessagesView.tsx:396"
  ],
  "Écris ta propre question": [
   "components/assistant/AssistantView.tsx:149"
@@ -10640,7 +10640,7 @@
   "components/community/AnalyticsDashboard.tsx:84"
  ],
  "est en train d'écrire…": [
-  "components/community/MessagesView.tsx:383"
+  "components/community/MessagesView.tsx:384"
  ],
  "Esther": [
   "config/chemin/chapitre-esther.ts:6",
@@ -12081,7 +12081,7 @@
   "config/chemin/chapitre-sermon.ts:37"
  ],
  "Hier": [
-  "components/community/MessagesView.tsx:49"
+  "components/community/MessagesView.tsx:50"
  ],
  "Hinnom": [
   "config/chemin/chapitre-samson.ts:78"
@@ -13584,7 +13584,7 @@
   "components/wall/WallSection.tsx:44"
  ],
  "il y a {0} j": [
-  "components/community/MessagesView.tsx:38",
+  "components/community/MessagesView.tsx:39",
   "components/community/PrayerTime.tsx:51",
   "components/wall/WallSection.tsx:45"
  ],
@@ -19843,8 +19843,8 @@
   "components/community/MyPrayerList.tsx:148"
  ],
  "Marquer comme lu": [
-  "components/community/MessagesView.tsx:248",
-  "components/community/MessagesView.tsx:249"
+  "components/community/MessagesView.tsx:249",
+  "components/community/MessagesView.tsx:250"
  ],
  "Marquer exaucé": [
   "components/notebook/NotebookView.tsx:160"
@@ -20348,7 +20348,7 @@
   "components/mission/SoutienEnUnClic.tsx:102"
  ],
  "Merci. Jack": [
-  "components/mission/PopupMission.tsx:230"
+  "components/mission/PopupMission.tsx:252"
  ],
  "Mère de": [
   "components/ecole/ArbresGenealogiques.tsx:839"
@@ -20440,7 +20440,7 @@
   "components/profile/MyFavorites.tsx:48"
  ],
  "Message": [
-  "components/community/MessagesView.tsx:460",
+  "components/community/MessagesView.tsx:461",
   "lib/groups.ts:81"
  ],
  "Message (optionnel)": [
@@ -20462,7 +20462,7 @@
   "components/community/AdminAnnounce.tsx:172"
  ],
  "Messagerie bientôt disponible.": [
-  "components/community/MessagesView.tsx:63"
+  "components/community/MessagesView.tsx:64"
  ],
  "Messages": [
   "app/messages/page.tsx:6",
@@ -21182,7 +21182,7 @@
  ],
  "Note vocale expirée (les vocaux durent 7 jours)": [
   "components/community/GroupView.tsx:666",
-  "components/community/MessagesView.tsx:422",
+  "components/community/MessagesView.tsx:423",
   "components/community/PrayerCard.tsx:441"
  ],
  "Noter": [
@@ -21680,7 +21680,7 @@
   "lib/badges.ts:239"
  ],
  "Ouvre le profil d'un membre et touche « Message » pour lui écrire.": [
-  "components/community/MessagesView.tsx:208"
+  "components/community/MessagesView.tsx:209"
  ],
  "Ouvre ta méditation, elle a été préparée pour toi.": [
   "lib/notifications.ts:64"
@@ -26513,7 +26513,7 @@
   "components/community/MediasAdmin.tsx:163"
  ],
  "Rechercher une personne à qui écrire…": [
-  "components/community/MessagesView.tsx:118"
+  "components/community/MessagesView.tsx:119"
  ],
  "Rechercher une question ou un thème…": [
   "app/questions/page.tsx:363"
@@ -26715,7 +26715,7 @@
  ],
  "Rejoindre": [
   "components/community/GroupsDirectory.tsx:226",
-  "components/community/MessagesView.tsx:71"
+  "components/community/MessagesView.tsx:72"
  ],
  "REJOINDRE": [
   "components/games/VraiFauxScreen.tsx:377",
@@ -26994,10 +26994,10 @@
   "config/chemin/chapitre-noe.ts:98"
  ],
  "Remettre en non lu": [
-  "components/community/MessagesView.tsx:258"
+  "components/community/MessagesView.tsx:259"
  ],
  "Remettre en non lu (pour y revenir plus tard)": [
-  "components/community/MessagesView.tsx:259"
+  "components/community/MessagesView.tsx:260"
  ],
  "Rempli du Saint-Esprit": [
   "content/plans.json"
@@ -27216,7 +27216,7 @@
  ],
  "Retour": [
   "components/assistant/AssistantView.tsx:100",
-  "components/community/MessagesView.tsx:365",
+  "components/community/MessagesView.tsx:366",
   "components/ecole/ArbresGenealogiques.tsx:220"
  ],
  "Retour à l'accueil": [
@@ -28169,7 +28169,7 @@
   "components/community/MemberView.tsx:422"
  ],
  "Ses ressources": [
-  "components/plans/AuthorCard.tsx:85"
+  "components/plans/AuthorCard.tsx:147"
  ],
  "Ses sandales": [
   "config/chemin/chapitre-rencontres.ts:58"
@@ -28238,7 +28238,7 @@
   "config/chemin/chapitre-jacques.ts:39"
  ],
  "Si RHEMA te fait du bien, aide-nous à la garder gratuite pour le prochain qui en a besoin.": [
-  "components/mission/PopupMission.tsx:185"
+  "components/mission/PopupMission.tsx:207"
  ],
  "Si rien ne se passe, utilise les boutons ci-dessous.": [
   "app/lien/page.tsx:59"
@@ -28647,7 +28647,7 @@
  ],
  "Suivre sur Instagram": [
   "app/mission-madagascar/page.tsx:74",
-  "components/plans/AuthorCard.tsx:79"
+  "components/plans/AuthorCard.tsx:141"
  ],
  "sujet": [
   "components/community/MyPrayerList.tsx:161",
@@ -29254,7 +29254,7 @@
   "components/games/ChallengeScreen.tsx:236"
  ],
  "Tes conversations privées avec la communauté.": [
-  "components/community/MessagesView.tsx:195"
+  "components/community/MessagesView.tsx:196"
  ],
  "Tes coordonnées restent confidentielles et nous servent uniquement à te répondre.": [
   "components/home/PrayerSpace.tsx:203"
@@ -29515,7 +29515,7 @@
  ],
  "Ton message…": [
   "components/community/GroupView.tsx:712",
-  "components/community/MessagesView.tsx:458"
+  "components/community/MessagesView.tsx:459"
  ],
  "Ton mot de passe": [
   "components/community/EmailPasswordAuth.tsx:165"
@@ -30566,8 +30566,8 @@
   "components/home/DailyPrayerSpotlight.tsx:71"
  ],
  "Un message de Jack": [
-  "components/mission/PopupMission.tsx:125",
-  "components/mission/PopupMission.tsx:172"
+  "components/mission/PopupMission.tsx:147",
+  "components/mission/PopupMission.tsx:194"
  ],
  "Un message pour le Pasteur Jack ?": [
   "components/community/GroupsDirectory.tsx:84"
@@ -30993,7 +30993,7 @@
   "components/mission/DonateScreen.tsx:31"
  ],
  "Une application comme RHEMA représente plus de 30 000 € de développement, et elle a des frais chaque mois. Nous ne mettons pas de publicité et nous ne vendons pas tes données : RHEMA vit grâce à ceux qui contribuent.": [
-  "components/mission/PopupMission.tsx:181"
+  "components/mission/PopupMission.tsx:203"
  ],
  "Une application pensée pour ta vie de foi": [
   "app/app/page.tsx:137"
@@ -31147,7 +31147,7 @@
   "config/chemin/chapitre-hebreux.ts:55"
  ],
  "Une fois, le montant de mon choix": [
-  "components/mission/PopupMission.tsx:219"
+  "components/mission/PopupMission.tsx:241"
  ],
  "Une fronde": [
   "config/chemin/chapitre-samson.ts:66"
@@ -31295,7 +31295,7 @@
   "components/quiz/QuizScreen.tsx:1404"
  ],
  "Une partie des contributions soutient aussi nos missions auprès des enfants les plus pauvres.": [
-  "components/mission/PopupMission.tsx:223"
+  "components/mission/PopupMission.tsx:245"
  ],
  "Une pensée pour ton cœur, chaque matin.": [
   "components/app/AppOnboarding.tsx:102"
@@ -32066,6 +32066,9 @@
  "Voir sa fiche": [
   "components/home/DevotionAuthor.tsx:95"
  ],
+ "Voir son profil dans l'app": [
+  "components/plans/AuthorCard.tsx:125"
+ ],
  "Voir sur YouTube": [
   "components/bible/BibleVideos.tsx:137"
  ],
@@ -32240,7 +32243,7 @@
   "components/games/DuelLive.tsx:501"
  ],
  "Vu": [
-  "components/community/MessagesView.tsx:432"
+  "components/community/MessagesView.tsx:433"
  ],
  "Vue classique (plans, outils…)": [
   "components/bible/BibleReader.tsx:554"
