@@ -18,7 +18,7 @@ Références de style à téléverser dans Magnific (type `image`) :
 `public/img/plans/identite.webp`, `public/img/plans/saint-esprit.webp`,
 `public/img/plans/peur.webp`.
 
-## Les 4 images
+## Les 5 images
 
 | fichier à déposer | plan |
 |---|---|
@@ -26,6 +26,7 @@ Références de style à téléverser dans Magnific (type `image`) :
 | `public/img/plans/apprendre-a-prier.webp` | Apprendre à prier (10 jours) |
 | `public/img/plans/je-ne-suis-pas-n-importe-qui.webp` | Je ne suis pas n'importe qui (21 jours) |
 | `public/img/plans/40-jours-avec-jesus.webp` | 40 jours avec Jésus (40 jours) |
+| `public/img/plans/annoncer-liberer-guerir.webp` | Annoncer, libérer et guérir (21 jours) |
 
 ### 1. Les 7 « Je suis » de Jésus
 
@@ -47,7 +48,7 @@ Références de style à téléverser dans Magnific (type `image`) :
 > subtle film grain, photorealistic, portrait 3:4, lower third dark and calm,
 > no text.
 
-### 3. Mon identité en Christ
+### 3. Je ne suis pas n'importe qui
 
 > Cinematic photo of a person standing barefoot at the edge of a perfectly
 > still lake at sunrise, seen from behind, looking at their own reflection in
@@ -66,9 +67,19 @@ Références de style à téléverser dans Magnific (type `image`) :
 > grain, photorealistic, portrait 3:4, lower third dark path, no faces
 > visible, no text, no halo.
 
+### 5. Annoncer, libérer et guérir
+
+> Cinematic photo of a small group of ordinary people in modern casual
+> clothes on a city street at golden hour, seen from behind and from the
+> side: one gently lays a hand on the shoulder of an elderly woman sitting on
+> a bench as he prays for her, another kneels to talk with a young man,
+> warm sunlight flaring between buildings, sense of compassion, courage and
+> mission, warm golden tones, subtle film grain, photorealistic, portrait
+> 3:4, lower third dark street, no faces clearly visible, no text.
+
 ## Après la génération
 
-Déposer les 4 fichiers `.webp` dans `public/img/plans/` (ou les envoyer à
+Déposer les 5 fichiers `.webp` dans `public/img/plans/` (ou les envoyer à
 Claude dans la conversation du code) : Claude ajoute le champ `cover` dans
 `content/plans-sources/<slug>.json` puis relance
 `node scripts/plans/construire-plans.mjs`.

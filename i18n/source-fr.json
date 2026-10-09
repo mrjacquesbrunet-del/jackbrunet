@@ -2252,7 +2252,10 @@
  "2 Timothée 4:7": [
   "config/chemin/chapitre-rome.ts:101"
  ],
- "21 jours pour découvrir qui tu es, ce que tu as reçu et comment vivre de ton identité, dans la puissance de l'Esprit.": [
+ "21 jours pour découvrir qui Dieu dit que tu es, ce que tu as reçu, et comment vivre dans la puissance de l'Esprit.": [
+  "content/plans.json"
+ ],
+ "21 jours pour redécouvrir les trois mandats que Jésus a confiés à ses disciples, et les vivre aujourd'hui.": [
   "content/plans.json"
  ],
  "2e palier ·": [
@@ -2670,7 +2673,7 @@
   "components/home/VideosExperience.tsx:41"
  ],
  "À lire & méditer": [
-  "components/plans/PlanJour.tsx:219",
+  "components/plans/PlanJour.tsx:226",
   "components/plans/YearPlanView.tsx:309"
  ],
  "À lire aujourd'hui": [
@@ -2897,8 +2900,8 @@
  ],
  "À retenir": [
   "components/ecole/EtudesView.tsx:389",
-  "components/plans/PlanJour.tsx:99",
-  "components/plans/PlanJour.tsx:249"
+  "components/plans/PlanJour.tsx:124",
+  "components/plans/PlanJour.tsx:310"
  ],
  "À retravailler": [
   "app/memoriser/page.tsx:255"
@@ -3833,6 +3836,9 @@
  "Annoncer l'Évangile avec clarté et passion": [
   "app/a-propos/page.tsx:46"
  ],
+ "Annoncer, libérer et guérir": [
+  "content/plans.json"
+ ],
  "Annoncer, mais aussi écouter. Prier, mais aussi soutenir. Prêcher, mais aussi visiter. Parler de Jésus, mais aussi montrer Son amour par notre présence. Notre désir est que cette mission soit une semence pour Madagascar: une semence de salut, d'encouragement, de restauration et de compassion.": [
   "app/mission-madagascar/page.tsx:159"
  ],
@@ -4251,6 +4257,9 @@
  ],
  "Au Mot manquant (dans Mémoriser), retrouve le mot caché du verset. Bronze à 30 mots, argent à 120, or à 400.": [
   "lib/badges.ts:267"
+ ],
+ "Au nom de Jésus-Christ": [
+  "content/plans.json"
  ],
  "Au nombre de prières": [
   "config/chemin/chapitre-sermon.ts:78"
@@ -5416,6 +5425,9 @@
  ],
  "Ce qui t'attend": [
   "app/app/page.tsx:135"
+ ],
+ "Ce qui te courbe": [
+  "content/plans.json"
  ],
  "Ce reniement met un terme définitif à la place de Pierre.": [
   "config/chemin/chapitre-croix.ts:37"
@@ -8558,7 +8570,7 @@
   "components/ecole/MotLexique.tsx:111"
  ],
  "Dernier jour du plan": [
-  "components/plans/PlanJour.tsx:305"
+  "components/plans/PlanJour.tsx:366"
  ],
  "Dernière confirmation : ton compte, tes sujets de prière, tes messages et toutes tes données seront effacés pour toujours. Continuer ?": [
   "components/community/DeleteAccountButton.tsx:24"
@@ -10072,6 +10084,9 @@
  "Emporté au désert": [
   "config/chemin/chapitre-sinai.ts:98"
  ],
+ "Ému de compassion": [
+  "content/plans.json"
+ ],
  "en 1 clic": [
   "components/home/Reels.tsx:29"
  ],
@@ -10531,6 +10546,9 @@
  ],
  "Envoyer une note vocale": [
   "components/community/VoiceNote.tsx:274"
+ ],
+ "Envoyés comme lui": [
+  "content/plans.json"
  ],
  "Épaphras": [
   "config/chemin/chapitre-lettres-paul.ts:102"
@@ -11342,6 +11360,9 @@
  ],
  "Fermer les pâturages": [
   "config/chemin/chapitre-ezechiel.ts:56"
+ ],
+ "Fermer les portes": [
+  "content/plans.json"
  ],
  "Fiche précédente": [
   "components/ecole/GalerieFiches.tsx:259"
@@ -14416,10 +14437,10 @@
   "components/ecole/FormationView.tsx:819"
  ],
  "J'ai terminé le jour {0}": [
-  "components/plans/PlanJour.tsx:302"
+  "components/plans/PlanJour.tsx:363"
  ],
  "J'ai terminé le plan": [
-  "components/plans/PlanJour.tsx:302"
+  "components/plans/PlanJour.tsx:363"
  ],
  "J'ai trois fils : Sem, Cham et Japhet.": [
   "config/chemin/chapitre-noe.ts:46"
@@ -14792,6 +14813,9 @@
  "Je laisse ma cruche et je cours le dire à la ville.": [
   "config/chemin/chapitre-rencontres.ts:56"
  ],
+ "Je le veux": [
+  "content/plans.json"
+ ],
  "Je lis Ésaïe dans la synagogue de mon village.": [
   "config/chemin/chapitre-tentation.ts:100"
  ],
@@ -14848,6 +14872,9 @@
  ],
  "Je ne suis ni prophète ni fils de prophète.": [
   "config/chemin/chapitre-osee-amos.ts:49"
+ ],
+ "Je ne suis pas n'importe qui": [
+  "content/plans.json"
  ],
  "Je ne suis pas venu appeler des justes mais des pécheurs": [
   "config/chemin/chapitre-disciples.ts:98"
@@ -14979,6 +15006,9 @@
  ],
  "Je revenais simplement des champs.": [
   "config/chemin/chapitre-croix.ts:66"
+ ],
+ "Je sais une chose": [
+  "content/plans.json"
  ],
  "Je serai l'arrière-grand-mère du roi David.": [
   "config/chemin/chapitre-ruth.ts:66"
@@ -15563,6 +15593,9 @@
  "Jésus-Christ est le même hier aujourd'hui et éternellement": [
   "config/chemin/chapitre-hebreux.ts:97"
  ],
+ "Jésus-Christ te guérit": [
+  "content/plans.json"
+ ],
  "Jésus, à son arrivée, trouva que Lazare était déjà depuis quatre jours dans le sépulcre. Béthanie était près de Jérusalem, à quinze stades environ, et beaucoup de Juifs étaient venus consoler Marthe et Marie. Dès que Marthe apprit que Jésus arrivait, elle alla au-devant de lui.": [
   "config/chemin/chapitre-lazare.ts:42"
  ],
@@ -15892,26 +15925,26 @@
   "app/memoriser/page.tsx:666"
  ],
  "Jour déjà terminé ·": [
-  "components/plans/PlanJour.tsx:289"
+  "components/plans/PlanJour.tsx:350"
  ],
  "Jour et heure": [
   "components/community/PrieresDirect.tsx:436"
  ],
  "Jour précédent": [
-  "components/plans/PlanJour.tsx:316",
-  "components/plans/PlanJour.tsx:347"
+  "components/plans/PlanJour.tsx:377",
+  "components/plans/PlanJour.tsx:408"
  ],
  "Jour suivant": [
-  "components/plans/PlanJour.tsx:348"
+  "components/plans/PlanJour.tsx:409"
  ],
  "Jour suivant (": [
-  "components/plans/PlanJour.tsx:277"
+  "components/plans/PlanJour.tsx:338"
  ],
  "Jour suivant →": [
   "components/plans/YearPlanView.tsx:353"
  ],
  "Jour terminé": [
-  "components/plans/PlanJour.tsx:142"
+  "components/plans/PlanJour.tsx:171"
  ],
  "jours": [
   "app/carnet/page.tsx:38",
@@ -16235,6 +16268,9 @@
  "L'attente du Messie": [
   "config/chemin/chapitre-attente.ts:10"
  ],
+ "L'audace de Pierre": [
+  "content/plans.json"
+ ],
  "L'aumône": [
   "config/chemin/chapitre-eglise.ts:27"
  ],
@@ -16274,6 +16310,9 @@
  ],
  "L'Église naissante": [
   "config/chemin/chapitre-eglise.ts:6"
+ ],
+ "L'Église qui prie pour les malades": [
+  "content/plans.json"
  ],
  "L'Égypte": [
   "config/chemin/chapitre-ruth.ts:27"
@@ -17720,6 +17759,9 @@
  "Le diable s'éloigne et les anges viennent servir": [
   "config/chemin/chapitre-tentation.ts:59"
  ],
+ "Le Dieu qui guérit": [
+  "content/plans.json"
+ ],
  "Le dixième": [
   "config/chemin/chapitre-sinai.ts:56"
  ],
@@ -17949,7 +17991,7 @@
   "config/chemin/chapitre-samuel.ts:37"
  ],
  "le marquer comme non lu": [
-  "components/plans/PlanJour.tsx:291"
+  "components/plans/PlanJour.tsx:352"
  ],
  "Le médecin des pécheurs": [
   "content/plans.json"
@@ -18786,8 +18828,8 @@
   "components/community/BibleAudioAdmin.tsx:114"
  ],
  "Lecture du jour": [
-  "components/plans/PlanJour.tsx:93",
-  "components/plans/PlanJour.tsx:181"
+  "components/plans/PlanJour.tsx:107",
+  "components/plans/PlanJour.tsx:210"
  ],
  "Légal": [
   "app/cgv/page.tsx:15",
@@ -20397,7 +20439,7 @@
  ],
  "Méditation": [
   "components/notebook/CarnetView.tsx:28",
-  "components/plans/PlanJour.tsx:195"
+  "components/plans/PlanJour.tsx:243"
  ],
  "Méditation du jour": [
   "components/home/DevotionalView.tsx:278"
@@ -20695,6 +20737,10 @@
  "Mettre en pause": [
   "components/home/SoakingBar.tsx:28"
  ],
+ "Mettre en pratique": [
+  "components/plans/PlanJour.tsx:119",
+  "components/plans/PlanJour.tsx:270"
+ ],
  "Mettre en pratique les paroles entendues": [
   "config/chemin/chapitre-sermon.ts:98"
  ],
@@ -20767,7 +20813,7 @@
   "components/ecole/EtudesView.tsx:851"
  ],
  "min · Touche le bouton audio pour écouter": [
-  "components/plans/PlanJour.tsx:169"
+  "components/plans/PlanJour.tsx:198"
  ],
  "Mineurs": [
   "app/confidentialite/page.tsx:198"
@@ -20981,9 +21027,6 @@
  ],
  "Mon histoire": [
   "app/a-propos/page.tsx:228"
- ],
- "Mon identité en Christ": [
-  "content/plans.json"
  ],
  "Mon nom veut dire « utile ».": [
   "config/chemin/chapitre-lettres-paul.ts:102"
@@ -22180,6 +22223,9 @@
  "Par sept cordes fraîches": [
   "config/chemin/chapitre-samson.ts:67"
  ],
+ "Par ses meurtrissures": [
+  "content/plans.json"
+ ],
  "Par un « Il est écrit » de l'Écriture": [
   "config/chemin/chapitre-tentation.ts:39"
  ],
@@ -22617,7 +22663,7 @@
   "components/boutique/RhemaShowcase.tsx:226"
  ],
  "Passage": [
-  "components/plans/PlanJour.tsx:345"
+  "components/plans/PlanJour.tsx:406"
  ],
  "Passage introuvable.": [
   "components/bible/PassageApercu.tsx:71"
@@ -22674,6 +22720,9 @@
   "components/ecole/EcoleView.tsx:355",
   "config/chemin/chapitre-apocalypse.ts:25",
   "config/chemin/chapitre-paul.ts:14"
+ ],
+ "Paul à Athènes": [
+  "content/plans.json"
  ],
  "Paul a été arrêté dans le temple de Jérusalem.": [
   "config/chemin/chapitre-rome.ts:31"
@@ -22943,6 +22992,9 @@
  ],
  "Philippe répondit : « Deux cents deniers de pains ne suffiraient pas pour que chacun en reçût un peu. » André dit : « Il y a ici un jeune garçon qui a cinq pains d'orge et deux poissons ; mais qu'est-ce que cela pour tant de gens ? » Jésus dit : « Faites-les asseoir. » Ils étaient environ cinq mille hommes.": [
   "config/chemin/chapitre-pains.ts:32"
+ ],
+ "Philippe sur la route du désert": [
+  "content/plans.json"
  ],
  "Philippe trouva Nathanaël : « Nous avons trouvé celui dont Moïse a écrit dans la loi : Jésus de Nazareth. » Nathanaël répondit : « Peut-il venir de Nazareth quelque chose de bon ? » — « Viens et vois. » Jésus le vit venir : « Voici un véritable Israélite, dans lequel il n'y a point de fraude. » — « D'où me connais-tu ? » — « Avant que Philippe t'appelât, quand tu étais sous le figuier, je t'ai vu. »": [
   "config/chemin/chapitre-disciples.ts:42"
@@ -23334,7 +23386,7 @@
   "components/mission/MissionProgress.tsx:86"
  ],
  "Pour aller plus loin": [
-  "components/plans/PlanJour.tsx:361"
+  "components/plans/PlanJour.tsx:422"
  ],
  "Pour aller plus vite": [
   "config/chemin/chapitre-gedeon.ts:77"
@@ -23344,6 +23396,9 @@
  ],
  "Pour appliquer la loi de Moïse": [
   "config/chemin/chapitre-bapteme.ts:78"
+ ],
+ "Pour aujourd'hui encore": [
+  "content/plans.json"
  ],
  "Pour bâtir la ville": [
   "config/chemin/chapitre-daniel.ts:25"
@@ -23539,8 +23594,8 @@
   "config/chemin/chapitre-rencontres.ts:37"
  ],
  "Pour réfléchir": [
-  "components/plans/PlanJour.tsx:97",
-  "components/plans/PlanJour.tsx:231"
+  "components/plans/PlanJour.tsx:122",
+  "components/plans/PlanJour.tsx:292"
  ],
  "Pour renvoyer la foule": [
   "config/chemin/chapitre-pains.ts:26"
@@ -23940,6 +23995,9 @@
  "Prier pour eux": [
   "config/chemin/chapitre-job.ts:97"
  ],
+ "Prier pour l'audace": [
+  "content/plans.json"
+ ],
  "Prier sans jeûner": [
   "config/chemin/chapitre-jacques.ts:71"
  ],
@@ -24290,7 +24348,7 @@
   "components/chemin/CheminScreen.tsx:433"
  ],
  "Puis le jour {0} s'ouvre directement": [
-  "components/plans/PlanJour.tsx:305"
+  "components/plans/PlanJour.tsx:366"
  ],
  "Puis un quiz de": [
   "components/ecole/FormationView.tsx:1946"
@@ -25832,6 +25890,9 @@
  ],
  "Que veut montrer Dieu à Jonas par le ricin ?": [
   "config/chemin/chapitre-jonas.ts:98"
+ ],
+ "Que veux-tu que je te fasse ?": [
+  "content/plans.json"
  ],
  "Que voit Étienne avant de mourir ?": [
   "config/chemin/chapitre-eglise.ts:86"
@@ -27444,6 +27505,9 @@
  "Rester informé(e)": [
   "app/dons/page.tsx:275"
  ],
+ "Rester libre": [
+  "content/plans.json"
+ ],
  "résultat": [
   "components/community/DevotionsAdmin.tsx:344"
  ],
@@ -27617,8 +27681,8 @@
   "components/ecole/GalerieFiches.tsx:321"
  ],
  "Revenir au plan": [
-  "components/plans/PlanJour.tsx:128",
-  "components/plans/PlanJour.tsx:285"
+  "components/plans/PlanJour.tsx:157",
+  "components/plans/PlanJour.tsx:346"
  ],
  "Reviens chaque jour: ta fidélité est récompensée": [
   "components/app/Rewards.tsx:92"
@@ -28265,6 +28329,9 @@
  ],
  "se vide": [
   "config/chemin/chapitre-psaumes.ts:62"
+ ],
+ "seg-cle-{0}": [
+  "components/plans/PlanJour.tsx:233"
  ],
  "Seigneur sauve-moi": [
   "config/chemin/chapitre-pains.ts:77"
@@ -31322,6 +31389,9 @@
  "Une barque": [
   "config/chemin/chapitre-rameaux.ts:25"
  ],
+ "Une bonne nouvelle, pas un bon conseil": [
+  "content/plans.json"
+ ],
  "Une bonne réputation": [
   "config/chemin/chapitre-proverbes.ts:87"
  ],
@@ -31848,6 +31918,9 @@
  "Venu de nuit": [
   "content/plans.json"
  ],
+ "Venu détruire les œuvres du diable": [
+  "content/plans.json"
+ ],
  "Verdana, 'Trebuchet MS', system-ui, sans-serif": [
   "lib/reading-settings.ts:44"
  ],
@@ -32125,7 +32198,7 @@
  "Versets clés": [
   "components/bible/IntroLivre.tsx:193",
   "components/ecole/MotLexique.tsx:348",
-  "components/plans/PlanJour.tsx:219"
+  "components/plans/PlanJour.tsx:226"
  ],
  "versets et passages surlignés": [
   "lib/badges.ts:207"
@@ -32320,7 +32393,7 @@
   "components/community/VoirTraduction.tsx:57"
  ],
  "Voir le jour": [
-  "components/plans/PlanJour.tsx:325"
+  "components/plans/PlanJour.tsx:386"
  ],
  "Voir le mur": [
   "components/home/DailyPrayerSpotlight.tsx:78"
@@ -32480,6 +32553,9 @@
  ],
  "Vous aurez beaucoup d'enfants": [
   "config/chemin/chapitre-creation.ts:108"
+ ],
+ "Vous avez reçu gratuitement": [
+  "content/plans.json"
  ],
  "Vous aviez médité de me faire du mal Dieu l'a changé en bien": [
   "config/chemin/chapitre-joseph.ts:117"
