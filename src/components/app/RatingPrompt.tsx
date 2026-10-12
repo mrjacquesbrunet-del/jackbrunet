@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { isNativeApp } from "@/lib/notifications";
-import { getOpens, minutesSinceFirst } from "@/lib/usage";
+import { getOpens } from "@/lib/usage";
 import { prendreFenetreAuto } from "@/lib/popups";
 
 const DONE = "jb.rated.v1"; // « done » = a ouvert la notation → on ne redemande plus
@@ -68,12 +68,13 @@ export function RatingPrompt() {
   useEffect(() => {
     if (!isNativeApp()) return;
     let t: ReturnType<typeof setTimeout> | undefined;
-    // Jamais à l'ouverture : après une vraie utilisation (8 ouvertures sur au
-    // moins 3 jours), et au bout d'une minute dans l'app.
-    if (getOpens() >= 8 && minutesSinceFirst() >= 3 * 24 * 60 && eligible()) {
+    // À partir de la 4e ouverture, mais jamais dès l'ouverture : au bout de
+    // 30 secondes dans l'app, et seulement si aucune autre fenêtre n'a déjà
+    // été montrée à ce lancement.
+    if (getOpens() >= 4 && eligible()) {
       t = setTimeout(() => {
         if (prendreFenetreAuto("note")) setShow(true);
-      }, 60_000);
+      }, 30_000);
     }
     // Moment de joie (série, prière exaucée) → moment idéal pour demander.
     const onJoy = () => {
