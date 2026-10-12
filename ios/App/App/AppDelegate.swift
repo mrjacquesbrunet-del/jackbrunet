@@ -34,8 +34,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     /// tué par iOS en arrière-plan) et recharge l'application. Sans effet quand
     /// tout va bien : la page répond « loading/interactive/complete » et rien
     /// n'est rechargé.
-    private func healWebViewIfDead() {
-        guard let root = self.window?.rootViewController as? CAPBridgeViewController,
+    func healWebViewIfDead() {
+        // Depuis iOS 27 (cycle de vie par scènes), la fenêtre appartient à la
+        // scène (SceneDelegate) et non plus à l'AppDelegate.
+        let fenetre = UIApplication.shared.connectedScenes
+            .compactMap { ($0 as? UIWindowScene)?.windows.first(where: { $0.isKeyWindow }) ?? ($0 as? UIWindowScene)?.windows.first }
+            .first ?? self.window
+        guard let root = fenetre?.rootViewController as? CAPBridgeViewController,
               let webView = root.webView else { return }
         let reloadHome: () -> Void = {
             DispatchQueue.main.async {
@@ -100,4 +105,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return ApplicationDelegateProxy.shared.application(application, continue: userActivity, restorationHandler: restorationHandler)
     }
 
+
+    func application(_ application: UIApplication,
+                     configurationForConnecting connectingSceneSession: UISceneSession,
+                     options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        let config = UISceneConfiguration(name: "Default Configuration",
+                                          sessionRole: connectingSceneSession.role)
+        config.delegateClass = SceneDelegate.self
+        return config
+    }
 }
