@@ -19,6 +19,8 @@ import {
 import { getVersionBible, infoVersion } from "@/lib/bible-version";
 import type { AudioTrack } from "@/lib/audio-library";
 import { Capacitor } from "@capacitor/core";
+import { majLecteurPlein } from "@/lib/lecteur-plein";
+import { useSoaking } from "@/lib/soaking";
 
 /**
  * Lecteur audio de la pleine lecture : un simple bouton rond en bas au centre
@@ -84,6 +86,17 @@ export function BibleAudioPlayer({
   const [panel, setPanel] = useState<null | "soaking" | "minuteur">(null);
   const ambient = useAmbient();
   const pod = usePodcastPlayer();
+  const soak = useSoaking();
+
+  // Un seul lecteur à l'écran : déplié, la barre du bas se cache ; replié,
+  // elle prend le relais avec une flèche pour redéplier (lib/lecteur-plein).
+  useEffect(() => {
+    majLecteurPlein({ present: true, ouvrir: () => setOpen(true) });
+    return () => majLecteurPlein({ present: false, ouvert: false, ouvrir: null, voix: null });
+  }, []);
+  useEffect(() => {
+    majLecteurPlein({ ouvert: open });
+  }, [open]);
 
   // ————— Sources: narration hébergée (si dispo) ou voix de l'appareil —————
   const [hasNarr, setHasNarr] = useState(false);
@@ -260,6 +273,32 @@ export function BibleAudioPlayer({
   // ————— Actions du transport —————
   const isPlaying = mode === "narration" ? narrActive && pod.playing : tts === "playing";
 
+  // Lecture « voix du téléphone » publiée pour la barre du bas (lecteur replié).
+  const actionsVoix = useRef({ basculer: () => {}, arreter: () => {} });
+  actionsVoix.current = {
+    basculer: () => {
+      if (tts === "playing") pauseTts();
+      else if (tts === "paused") resumeTts();
+    },
+    arreter: () => stopTts(),
+  };
+  useEffect(() => {
+    majLecteurPlein({
+      voix:
+        tts === "idle"
+          ? null
+          : {
+              titre: lib.titre,
+              enLecture: tts === "playing",
+              basculer: () => actionsVoix.current.basculer(),
+              arreter: () => actionsVoix.current.arreter(),
+            },
+    });
+  }, [tts, lib.titre]);
+  // Quand un son est en cours, c'est la barre du bas qui sert de lecteur
+  // replié : pas de bouton rond en plus.
+  const barreDuBas = !!pod.current || soak.playing || tts !== "idle";
+
   function mainAction() {
     if (mode === "narration") {
       if (narrActive) {
@@ -373,7 +412,9 @@ export function BibleAudioPlayer({
 
   return (
     <>
-      {/* Le bouton rond, en bas au centre, entre les flèches de chapitre */}
+      {/* Le bouton rond, en bas au centre, entre les flèches de chapitre
+          (seulement quand rien ne joue : sinon la barre du bas le remplace) */}
+      {barreDuBas && !open ? null : (
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -394,6 +435,7 @@ export function BibleAudioPlayer({
           </svg>
         )}
       </button>
+      )}
 
       {/* La feuille du lecteur */}
       {open ? (

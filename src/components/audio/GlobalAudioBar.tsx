@@ -5,6 +5,23 @@ import { usePodcastPlayer, getPodcastAudio } from "@/lib/podcast-player";
 import { useSoaking } from "@/lib/soaking";
 import { PlayGlyph, PauseGlyph, MusicGlyph } from "@/components/ui/DevoIcons";
 import { SleepTimer } from "@/components/audio/SleepTimer";
+import { useLecteurPlein } from "@/lib/lecteur-plein";
+
+/** Flèche vers le haut : redéplie le grand lecteur de la page (Bible, plan). */
+function BoutonAgrandir({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label="Agrandir le lecteur"
+      className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-cream/70 transition-colors hover:bg-white/10 hover:text-cream"
+    >
+      <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2.2} aria-hidden>
+        <path d="M6 15l6-6 6 6" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </button>
+  );
+}
 
 function fmt(sec: number): string {
   if (!Number.isFinite(sec) || sec < 0) return "0:00";
@@ -21,6 +38,8 @@ function fmt(sec: number): string {
 export function GlobalAudioBar() {
   const pod = usePodcastPlayer();
   const soak = useSoaking();
+  const lp = useLecteurPlein();
+  const agrandir = lp.present && lp.ouvrir ? lp.ouvrir : null;
   const [time, setTime] = useState(0);
   const [dur, setDur] = useState(0);
 
@@ -29,7 +48,8 @@ export function GlobalAudioBar() {
   // texte ne soit caché dessous (ex. « chapitre suivant » dans la Bible).
   // On mesure aussi la VRAIE hauteur du menu du bas (--bottom-nav-h) pour
   // coller la barre pile dessus, sans aucun jour entre les deux.
-  const visible = !!pod.current || soak.playing;
+  // Grand lecteur de la page déplié → la barre se cache (un seul lecteur).
+  const visible = (!!pod.current || soak.playing || !!lp.voix) && !lp.ouvert;
   useEffect(() => {
     const main = document.querySelector("main") as HTMLElement | null;
     if (!main) return;
@@ -59,7 +79,7 @@ export function GlobalAudioBar() {
     }
     main.style.paddingBottom = "";
     document.documentElement.style.setProperty("--audio-bar-h", "0px");
-  }, [visible, pod.current?.title, soak.playing]);
+  }, [visible, pod.current?.title, soak.playing, lp.voix?.titre]);
 
   useEffect(() => {
     const a = getPodcastAudio();
@@ -75,6 +95,8 @@ export function GlobalAudioBar() {
       a.removeEventListener("loadedmetadata", onM);
     };
   }, [pod.index]);
+
+  if (lp.ouvert) return null;
 
   // Podcast en priorité.
   if (pod.current) {
@@ -112,6 +134,7 @@ export function GlobalAudioBar() {
                 <span className="text-[10px] tabular-nums text-cream/45">{fmt(dur)}</span>
               </div>
             </div>
+            {agrandir ? <BoutonAgrandir onClick={agrandir} /> : null}
             <button
               type="button"
               onClick={pod.stop}
@@ -196,9 +219,47 @@ export function GlobalAudioBar() {
             </p>
             <p className="truncate text-xs text-cream/55">En cours · {soak.label}</p>
           </div>
+          {agrandir ? <BoutonAgrandir onClick={agrandir} /> : null}
           <button
             type="button"
             onClick={soak.toggle}
+            aria-label="Fermer le lecteur"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-cream/50 transition-colors hover:bg-white/10 hover:text-cream"
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2}>
+              <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Sinon : lecture à voix haute (voix du téléphone) du grand lecteur replié.
+  if (lp.voix) {
+    const v = lp.voix;
+    return (
+      <div
+        className="global-audio-bar dark-ctx fixed inset-x-3 z-[55] mx-auto max-w-xl rounded-2xl border border-white/10 bg-night-900/95 px-3.5 py-3 shadow-card backdrop-blur-md"
+        style={{ bottom: "calc(var(--bottom-nav-h, 0px) + 0.625rem)" }}
+      >
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={v.basculer}
+            aria-label={v.enLecture ? "Pause" : "Lire"}
+            className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950 shadow-sm transition-transform active:scale-95"
+          >
+            {v.enLecture ? <PauseGlyph className="h-6 w-6" /> : <PlayGlyph className="h-6 w-6" />}
+          </button>
+          <button type="button" onClick={agrandir ?? undefined} className="min-w-0 flex-1 text-left">
+            <p className="truncate text-[15px] font-semibold text-cream">{v.titre}</p>
+            <p className="truncate text-xs text-cream/55">Lecture à voix haute</p>
+          </button>
+          {agrandir ? <BoutonAgrandir onClick={agrandir} /> : null}
+          <button
+            type="button"
+            onClick={v.arreter}
             aria-label="Fermer le lecteur"
             className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-cream/50 transition-colors hover:bg-white/10 hover:text-cream"
           >
