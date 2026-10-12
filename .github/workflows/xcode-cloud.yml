@@ -1,0 +1,33 @@
+name: Lancer un build Xcode Cloud (iOS)
+
+# Démarre un build Xcode Cloud de RHEMA via l'API App Store Connect
+# (secrets ASC_KEY_ID, ASC_ISSUER_ID, ASC_PRIVATE_KEY).
+on:
+  workflow_dispatch:
+    inputs:
+      branche:
+        description: "Branche à compiler"
+        default: "claude/great-hamilton-ieokug"
+      workflow:
+        description: "Nom du workflow Xcode Cloud (vide = le premier actif)"
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  lancer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Lancer le build
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
+          BRANCHE: ${{ inputs.branche }}
+          WORKFLOW: ${{ inputs.workflow }}
+        run: node scripts/apple/xcode-cloud-build.mjs
