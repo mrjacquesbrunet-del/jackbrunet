@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { isNativeApp } from "@/lib/notifications";
-import { getOpens } from "@/lib/usage";
+import { getOpens, minutesSinceFirst } from "@/lib/usage";
+import { prendreFenetreAuto } from "@/lib/popups";
 
 const DONE = "jb.rated.v1"; // « done » = a ouvert la notation → on ne redemande plus
 const ASKS = "jb.rateasks.v1"; // { n, last } : nombre de demandes + date de la dernière
@@ -67,14 +68,20 @@ export function RatingPrompt() {
   useEffect(() => {
     if (!isNativeApp()) return;
     let t: ReturnType<typeof setTimeout> | undefined;
-    if (getOpens() >= 4 && eligible()) {
-      t = setTimeout(() => setShow(true), 1500);
+    // Jamais à l'ouverture : après une vraie utilisation (8 ouvertures sur au
+    // moins 3 jours), et au bout d'une minute dans l'app.
+    if (getOpens() >= 8 && minutesSinceFirst() >= 3 * 24 * 60 && eligible()) {
+      t = setTimeout(() => {
+        if (prendreFenetreAuto("note")) setShow(true);
+      }, 60_000);
     }
     // Moment de joie (série, prière exaucée) → moment idéal pour demander.
     const onJoy = () => {
       if (eligible()) {
         clearTimeout(t);
-        t = setTimeout(() => setShow(true), 800);
+        t = setTimeout(() => {
+          if (prendreFenetreAuto("note")) setShow(true);
+        }, 800);
       }
     };
     window.addEventListener("jb:joy", onJoy);
@@ -107,7 +114,7 @@ export function RatingPrompt() {
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 z-[90] flex items-end justify-center sm:items-center">
+    <div role="dialog" aria-modal="true" className="fixed inset-0 z-[90] flex items-end justify-center sm:items-center">
       <button
         type="button"
         aria-label="Fermer"

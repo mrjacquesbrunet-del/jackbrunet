@@ -11,7 +11,8 @@ export type Announcement = {
   created_at: string;
 };
 
-/** Dernière annonce active (la plus récente). */
+/** Dernière annonce active (la plus récente), publiée il y a moins de 7 jours :
+ * une annonce oubliée (« prochain live » passé…) ne revient pas indéfiniment. */
 export async function getActiveAnnouncement(): Promise<Announcement | null> {
   const sb = getSupabase();
   if (!sb) return null;
@@ -20,6 +21,7 @@ export async function getActiveAnnouncement(): Promise<Announcement | null> {
 .from("announcements")
 .select("*")
 .eq("active", true)
+.gte("created_at", new Date(Date.now() - 7 * 86_400_000).toISOString())
 .order("created_at", { ascending: false })
 .limit(1)
 .maybeSingle();

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { prendreFenetreAuto } from "@/lib/popups";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { asset } from "@/lib/asset";
@@ -114,8 +115,9 @@ export function PopupMission() {
     // Toute personne qui a ouvert l'app plus de 3 fois.
     if (getOpens() <= 3 || Date.now() < prochainePossible()) return;
     const t = setTimeout(() => {
-      // Une autre fenêtre est ouverte (rappel, note, menu…) : pas cette fois.
-      if (document.querySelector('[aria-modal="true"], [role="dialog"]')) return;
+      // Une autre fenêtre a déjà eu sa place à ce lancement (rappel, note,
+      // astuce…) ou est ouverte : pas cette fois.
+      if (!prendreFenetreAuto("don")) return;
       dejaVuCetteSession = true;
       reporter(PAUSE_PLUS_TARD);
       setOuvert(true);

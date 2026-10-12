@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { prendreFenetreAuto } from "@/lib/popups";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
@@ -198,14 +199,16 @@ function AstuceMenu() {
       }
       setPos(null);
     };
+    let fin: number | undefined;
     const t = window.setTimeout(() => {
-      if (document.querySelector('[role="dialog"][aria-modal="true"]')) return;
       const b = document.querySelector<HTMLElement>("[data-profil-menu-btn]");
       const r = b?.getBoundingClientRect();
       if (!r || r.width === 0 || r.bottom < 0) return;
+      // Une seule fenêtre automatique par lancement : sinon, à la prochaine.
+      if (!prendreFenetreAuto("astuce-menu")) return;
       setPos({ x: r.left, y: r.bottom + 10, w: r.width });
+      fin = window.setTimeout(marquer, 12000);
     }, 2500);
-    const fin = window.setTimeout(marquer, 14000);
     window.addEventListener(EVT, marquer);
     return () => {
       window.clearTimeout(t);

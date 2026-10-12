@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { isNativeApp, readReminder, enableDailyReminder } from "@/lib/notifications";
 import { requestPushPermission } from "@/lib/onesignal";
 import { getOpens } from "@/lib/usage";
+import { prendreFenetreAuto } from "@/lib/popups";
 
 const KEY = "jb.notifoptin.v1";
 
@@ -41,13 +42,17 @@ export function NotifOptIn() {
       /* ignore */
     }
     if (getOpens() >= 2 || onboarded) {
-      t = setTimeout(() => setShow(true), 1200);
+      t = setTimeout(() => {
+        if (prendreFenetreAuto("rappel", true)) setShow(true);
+      }, 1200);
     }
     // L'onboarding vient de se terminer → proposer le rappel dans la foulée.
     const onOnboarded = () => {
       if (eligible()) {
         clearTimeout(t);
-        t = setTimeout(() => setShow(true), 600);
+        t = setTimeout(() => {
+          if (prendreFenetreAuto("rappel", true)) setShow(true);
+        }, 600);
       }
     };
     window.addEventListener("jb:onboarded", onOnboarded);
@@ -93,7 +98,7 @@ export function NotifOptIn() {
   if (!show) return null;
 
   return (
-    <div className="dark-ctx fixed inset-0 z-[90] flex items-end justify-center sm:items-center">
+    <div role="dialog" aria-modal="true" className="dark-ctx fixed inset-0 z-[90] flex items-end justify-center sm:items-center">
       <button
         type="button"
         aria-label="Fermer"
