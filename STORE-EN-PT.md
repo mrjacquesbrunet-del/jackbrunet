@@ -38,7 +38,7 @@ christian,jesus,devotional,verse,faith,study,audio,quiz,god,scripture,church,gos
 ```
 RHEMA, your time with Jesus, every day.
 
-Created by pastor Jack Brunet, whose teaching reaches more than a million people, RHEMA helps you root your life in Jesus and grow in a real relationship with God, one day at a time. Simple, deep, and completely free.
+Created by pastor Jack Brunet, whose videos have been viewed more than 100 million times, RHEMA helps you root your life in Jesus and grow in a real relationship with God, one day at a time. Simple, deep, and completely free.
 
 EVERY DAY
 • A devotional for your heart: a verse, a meditation, a declaration and a prayer, to read or to listen to.
@@ -117,7 +117,7 @@ cristão,jesus,devocional,versículo,fé,estudo,áudio,quiz,deus,evangelho,igrej
 ```
 RHEMA, o seu tempo com Jesus, todos os dias.
 
-Criado pelo pastor Jack Brunet, cujos ensinamentos alcançam mais de um milhão de pessoas, o RHEMA ajuda você a enraizar a sua vida em Jesus e a crescer em um relacionamento verdadeiro com Deus, um dia de cada vez. Simples, profundo e totalmente grátis.
+Criado pelo pastor Jack Brunet, cujos vídeos já foram vistos mais de 100 milhões de vezes, o RHEMA ajuda você a enraizar a sua vida em Jesus e a crescer em um relacionamento verdadeiro com Deus, um dia de cada vez. Simples, profundo e totalmente grátis.
 
 TODOS OS DIAS
 • Um devocional para o seu coração: um versículo, uma meditação, uma declaração e uma oração, para ler ou ouvir.
