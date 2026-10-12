@@ -451,9 +451,9 @@ export function BibleAudioPlayer({
                 type="button"
                 onClick={() => setOpen(false)}
                 aria-label="Replier le lecteur"
-                className="grid h-9 w-9 place-items-center rounded-full text-cream/60"
+                className="grid h-10 w-10 place-items-center rounded-full bg-dawn-400 text-night-950 shadow-[0_0_16px_rgba(202,240,0,0.4)] transition-transform active:scale-95"
               >
-                <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2.2}>
+                <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2.6}>
                   <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>

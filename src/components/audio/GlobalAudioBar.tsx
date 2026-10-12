@@ -14,9 +14,9 @@ function BoutonAgrandir({ onClick }: { onClick: () => void }) {
       type="button"
       onClick={onClick}
       aria-label="Agrandir le lecteur"
-      className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-cream/70 transition-colors hover:bg-white/10 hover:text-cream"
+      className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950 shadow-[0_0_16px_rgba(202,240,0,0.4)] transition-transform active:scale-95"
     >
-      <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2.2} aria-hidden>
+      <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2.6} aria-hidden>
         <path d="M6 15l6-6 6 6" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </button>
@@ -102,7 +102,7 @@ export function GlobalAudioBar() {
   if (pod.current) {
     return (
       <div
-        className="global-audio-bar dark-ctx fixed inset-x-3 z-[55] mx-auto max-w-xl rounded-[2.375rem] border border-white/10 bg-night-900/95 px-4 py-4 shadow-card backdrop-blur-md"
+        className="global-audio-bar dark-ctx fixed inset-x-3 z-[55] mx-auto max-w-xl rounded-[2.375rem] border border-white/10 bg-night-900/95 px-4 pb-5 pt-4 shadow-card backdrop-blur-md"
         style={{ bottom: "calc(var(--bottom-nav-h, 0px) + 0.625rem)" }}
       >
         <div>
@@ -148,7 +148,7 @@ export function GlobalAudioBar() {
           </div>
 
           {/* Ligne 2, contrôles secondaires, bien espacés (rien ne se superpose) */}
-          <div className="mt-2 flex items-center justify-center gap-2.5">
+          <div className="mt-3 flex items-center justify-center gap-3">
             <button
               type="button"
               onClick={() => {
