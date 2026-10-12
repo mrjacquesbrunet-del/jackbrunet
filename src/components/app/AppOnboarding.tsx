@@ -591,7 +591,7 @@ export function AppOnboarding() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0, x: -30 }}
                   transition={{ duration: 0.45 }}
-                  className="flex h-full flex-col"
+                  className="flex min-h-0 flex-1 flex-col"
                 >
                   {/* La vraie capture de l'app, dans un téléphone */}
                   <div className="relative flex min-h-0 flex-1 items-center justify-center pt-2">
@@ -617,7 +617,7 @@ export function AppOnboarding() {
                       )}
                     </motion.div>
                   </div>
-                  <div className="pt-6 text-center">
+                  <div className="mx-auto min-h-[12.5rem] w-full max-w-md shrink-0 pt-5 text-center">
                     <motion.p
                       className="font-sans text-[11px] font-bold uppercase tracking-[0.3em] text-dawn-300"
                       initial={{ opacity: 0 }}
@@ -647,7 +647,7 @@ export function AppOnboarding() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0, x: -30 }}
-                  className="flex h-full flex-col justify-center text-center"
+                  className="flex min-h-0 flex-1 flex-col justify-center text-center"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={asset(LOGO)} alt="" className="mx-auto h-12 w-12 object-contain opacity-90" />
@@ -789,7 +789,7 @@ export function AppOnboarding() {
 
             {/* Progression + Continuer (fonctionnalités et avis) */}
             {etape !== "intro" && etape !== "compte" ? (
-              <div className="pt-6">
+              <div className="mx-auto w-full max-w-md shrink-0 pt-4">
                 <div className="flex justify-center gap-1.5">
                   {Array.from({ length: points }, (_, i) => (
                     <span key={i} className={`h-1.5 rounded-full transition-all duration-500 ${i === pointActif ? "w-6 bg-dawn-400" : "w-1.5 bg-white/25"}`} />

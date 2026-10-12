@@ -39,7 +39,10 @@ export function AppHomeGuard() {
     // Cible : le contenu d'une notification mémorisée, sinon le dévotionnel.
     const dest = consumeStashedNotifRoute() || "/devotionnel/";
     setTarget(dest);
-    setVeil(true);
+    // Premier lancement : l'écran noir puis l'introduction (AppOnboarding)
+    // couvrent déjà tout ; pas de voile « chargement » par-dessus l'intro.
+    const introAVenir = document.documentElement.classList.contains("accueil-attente");
+    if (!introAVenir) setVeil(true);
     trace("garde:accueil", dest);
 
     // Navigation douce (fiable dans la WebView). On réessaie une fois peu après
