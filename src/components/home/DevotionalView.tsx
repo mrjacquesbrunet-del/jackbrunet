@@ -317,7 +317,7 @@ export function DevotionalView({
                 <span className="font-display text-base font-extrabold leading-none">
                   {eng.completedCount}
                   <span className="ml-1 text-xs font-semibold text-night-900/55">
-                    méditée{eng.completedCount > 1 ? "s" : ""}
+                    {eng.completedCount > 1 ? "méditées" : "méditée"}
                   </span>
                 </span>
               </p>

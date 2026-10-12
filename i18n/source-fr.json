@@ -2756,7 +2756,7 @@
  "À propos": [
   "app/a-propos/page.tsx:13",
   "components/app/ProfilMenu.tsx:82",
-  "components/app/ProfilMenu.tsx:332"
+  "components/app/ProfilMenu.tsx:425"
  ],
  "À propos de {0} — « {1} » : {2}": [
   "components/bible/VersetOutils.tsx:231"
@@ -4136,6 +4136,9 @@
  "Astuce : depuis la Bible, tape sur un verset puis « Mémoriser ».": [
   "app/memoriser/page.tsx:652"
  ],
+ "Astuce : une voix plus naturelle": [
+  "components/bible/BibleAudioPlayer.tsx:690"
+ ],
  "Attachée par une corde": [
   "config/chemin/chapitre-paraboles.ts:77"
  ],
@@ -4690,7 +4693,7 @@
   "components/ecole/FormationView.tsx:632"
  ],
  "Avancer de 15 secondes": [
-  "components/bible/BibleAudioPlayer.tsx:527"
+  "components/bible/BibleAudioPlayer.tsx:529"
  ],
  "avancer la lumière": [
   "app/dons/page.tsx:38"
@@ -5002,7 +5005,7 @@
   "components/community/AnsweredFeed.tsx:30"
  ],
  "Bienvenue": [
-  "components/app/ProfilMenu.tsx:444"
+  "components/app/ProfilMenu.tsx:539"
  ],
  "Bienvenue 🙏 Partagez vos plans, vos percées et vos sujets de prière. Commentez, réagissez et priez les uns pour les autres, en famille.": [
   "components/community/GroupView.tsx:164"
@@ -5053,7 +5056,7 @@
   "config/chemin/chapitre-eglise.ts:68"
  ],
  "Bonjour": [
-  "components/app/ProfilMenu.tsx:239",
+  "components/app/ProfilMenu.tsx:332",
   "components/ecole/EcoleView.tsx:77",
   "components/games/ArcadeUI.tsx:303"
  ],
@@ -5067,7 +5070,7 @@
   "components/boutique/RhemaShowcase.tsx:202"
  ],
  "Bonjour, {0}": [
-  "components/app/ProfilMenu.tsx:264"
+  "components/app/ProfilMenu.tsx:357"
  ],
  "bonne": [
   "components/games/VraiFauxScreen.tsx:416"
@@ -5095,10 +5098,10 @@
   "components/ecole/FormationView.tsx:2077"
  ],
  "Bonsoir": [
-  "components/app/ProfilMenu.tsx:239"
+  "components/app/ProfilMenu.tsx:332"
  ],
  "Bonsoir, {0}": [
-  "components/app/ProfilMenu.tsx:264"
+  "components/app/ProfilMenu.tsx:357"
  ],
  "Bonus": [
   "components/app/ExclusivesView.tsx:51"
@@ -5753,14 +5756,14 @@
   "components/bible/BibleReader.tsx:892"
  ],
  "Chapitre précédent": [
-  "components/bible/BibleAudioPlayer.tsx:79",
+  "components/bible/BibleAudioPlayer.tsx:80",
   "components/bible/BibleReader.tsx:933"
  ],
  "CHAPITRE PRÉCÉDENT": [
   "components/chemin/CheminScreen.tsx:275"
  ],
  "Chapitre suivant": [
-  "components/bible/BibleAudioPlayer.tsx:80",
+  "components/bible/BibleAudioPlayer.tsx:81",
   "components/bible/BibleReader.tsx:952"
  ],
  "CHAPITRE SUIVANT": [
@@ -6958,6 +6961,9 @@
  ],
  "Complète — un peu plus de mots": [
   "components/memorize/VerseGame.tsx:33"
+ ],
+ "Compris": [
+  "components/app/ProfilMenu.tsx:255"
  ],
  "COMPRIS, ON CONTINUE": [
   "components/chemin/CheminScreen.tsx:720"
@@ -8809,7 +8815,7 @@
  "Désactiver": [
   "components/audio/SleepTimer.tsx:116",
   "components/bible/BibleAudio.tsx:391",
-  "components/bible/BibleAudioPlayer.tsx:668"
+  "components/bible/BibleAudioPlayer.tsx:670"
  ],
  "Descends tout en bas jusqu'à la section": [
   "app/suppression-compte/page.tsx:36"
@@ -11369,7 +11375,7 @@
  "Fermer le lecteur": [
   "components/audio/GlobalAudioBar.tsx:118",
   "components/audio/GlobalAudioBar.tsx:202",
-  "components/bible/BibleAudioPlayer.tsx:400"
+  "components/bible/BibleAudioPlayer.tsx:401"
  ],
  "Fermer le menu": [
   "components/layout/Header.tsx:117"
@@ -11448,13 +11454,13 @@
   "components/audio/SleepTimer.tsx:103"
  ],
  "Fin de la lecture": [
-  "components/bible/BibleAudioPlayer.tsx:659"
+  "components/bible/BibleAudioPlayer.tsx:661"
  ],
  "fin du chapitre": [
-  "components/bible/BibleAudioPlayer.tsx:359"
+  "components/bible/BibleAudioPlayer.tsx:360"
  ],
  "Fin du chapitre": [
-  "components/bible/BibleAudioPlayer.tsx:659"
+  "components/bible/BibleAudioPlayer.tsx:661"
  ],
  "Fin limier": [
   "lib/badges.ts:132"
@@ -11484,7 +11490,7 @@
  ],
  "Fond": [
   "components/bible/BibleAudio.tsx:266",
-  "components/bible/BibleAudioPlayer.tsx:627",
+  "components/bible/BibleAudioPlayer.tsx:629",
   "components/ui/VerseImageStudio.tsx:128"
  ],
  "Fond {0}": [
@@ -16313,7 +16319,7 @@
   "config/chemin/chapitre-ecclesiaste.ts:27"
  ],
  "L'écoute s'arrête toute seule après…": [
-  "components/bible/BibleAudioPlayer.tsx:637"
+  "components/bible/BibleAudioPlayer.tsx:639"
  ],
  "L'édit de Cyrus": [
   "config/chemin/chapitre-nehemie.ts:99"
@@ -18819,7 +18825,7 @@
   "lib/badges.ts:117"
  ],
  "Lecteur audio": [
-  "components/bible/BibleAudioPlayer.tsx:379"
+  "components/bible/BibleAudioPlayer.tsx:380"
  ],
  "Lecteur vidéo": [
   "app/embed/page.tsx:5"
@@ -19853,10 +19859,10 @@
   "config/chemin/chapitre-miracles.ts:87"
  ],
  "Ma formation": [
-  "components/app/ProfilMenu.tsx:327"
+  "components/app/ProfilMenu.tsx:420"
  ],
  "Ma liste de prière": [
-  "components/app/ProfilMenu.tsx:325",
+  "components/app/ProfilMenu.tsx:418",
   "components/community/MyPrayerList.tsx:119",
   "components/community/ProfileView.tsx:1150"
  ],
@@ -20498,6 +20504,9 @@
  "Méditée. Priée.": [
   "components/boutique/RhemaShowcase.tsx:413"
  ],
+ "méditées": [
+  "components/home/DevotionalView.tsx:320"
+ ],
  "Meilleur score :": [
   "components/memorize/VerseGame.tsx:561"
  ],
@@ -20562,7 +20571,7 @@
   "app/mentions-legales/page.tsx:8"
  ],
  "Menu": [
-  "components/app/ProfilMenu.tsx:400"
+  "components/app/ProfilMenu.tsx:495"
  ],
  "méprisa": [
   "config/chemin/chapitre-jacob.ts:36"
@@ -20665,7 +20674,7 @@
   "components/community/GroupsDirectory.tsx:304"
  ],
  "Mes jeux": [
-  "components/app/ProfilMenu.tsx:328"
+  "components/app/ProfilMenu.tsx:421"
  ],
  "Mes mains travaillent la laine et le lin.": [
   "config/chemin/chapitre-proverbes.ts:97"
@@ -20677,7 +20686,7 @@
   "components/community/ProfileNotifications.tsx:96"
  ],
  "Mes plans": [
-  "components/app/ProfilMenu.tsx:324",
+  "components/app/ProfilMenu.tsx:417",
   "components/community/ProfileView.tsx:1025"
  ],
  "Mes plans en cours": [
@@ -20736,7 +20745,7 @@
  "Messages": [
   "app/messages/page.tsx:6",
   "components/app/ProfilMenu.tsx:77",
-  "components/app/ProfilMenu.tsx:326"
+  "components/app/ProfilMenu.tsx:419"
  ],
  "Messages privés": [
   "lib/notif-prefs.ts:24"
@@ -20827,7 +20836,7 @@
   "lib/quiz.ts:330"
  ],
  "min": [
-  "components/bible/BibleAudioPlayer.tsx:647",
+  "components/bible/BibleAudioPlayer.tsx:649",
   "components/ecole/EtudesView.tsx:132",
   "components/ecole/EtudesView.tsx:851"
  ],
@@ -20849,7 +20858,7 @@
  ],
  "Minuteur": [
   "components/bible/BibleAudio.tsx:370",
-  "components/bible/BibleAudioPlayer.tsx:593"
+  "components/bible/BibleAudioPlayer.tsx:595"
  ],
  "Minuteur de veille": [
   "components/audio/SleepTimer.tsx:62",
@@ -21018,7 +21027,7 @@
  "Mon carnet": [
   "app/carnet/page.tsx:7",
   "components/app/CarnetBubble.tsx:31",
-  "components/app/ProfilMenu.tsx:323"
+  "components/app/ProfilMenu.tsx:416"
  ],
  "Mon désir est que chacun puisse découvrir Jésus personnellement, non pas seulement comme une idée, une religion ou une tradition, mais comme un Sauveur vivant, un Père proche, un Seigneur fidèle et une source de vie.": [
   "app/a-propos/page.tsx:201"
@@ -21030,7 +21039,7 @@
   "components/ecole/FormationView.tsx:2013"
  ],
  "Mon espace": [
-  "components/app/ProfilMenu.tsx:468"
+  "components/app/ProfilMenu.tsx:563"
  ],
  "Mon espace (carnet, plans, prière…)": [
   "components/community/ProfileView.tsx:581"
@@ -21209,7 +21218,7 @@
  ],
  "Narration": [
   "components/bible/BibleAudio.tsx:301",
-  "components/bible/BibleAudioPlayer.tsx:427"
+  "components/bible/BibleAudioPlayer.tsx:428"
  ],
  "Narration, écran verrouillé, minuteur dans la barre du bas": [
   "components/bible/BibleAudio.tsx:297"
@@ -22306,7 +22315,7 @@
   "lib/quiz.ts:154"
  ],
  "Paramètres": [
-  "components/app/ProfilMenu.tsx:333",
+  "components/app/ProfilMenu.tsx:426",
   "components/community/ProfileSettings.tsx:78",
   "components/community/ProfileView.tsx:600"
  ],
@@ -22688,10 +22697,10 @@
   "components/bible/PassageApercu.tsx:71"
  ],
  "Passage précédent": [
-  "components/bible/BibleAudioPlayer.tsx:499"
+  "components/bible/BibleAudioPlayer.tsx:501"
  ],
  "Passage suivant": [
-  "components/bible/BibleAudioPlayer.tsx:527"
+  "components/bible/BibleAudioPlayer.tsx:529"
  ],
  "Passages clés": [
   "components/bible/FichesChapitre.tsx:558"
@@ -23390,7 +23399,7 @@
   "components/ecole/FormationView.tsx:595"
  ],
  "Position de lecture": [
-  "components/bible/BibleAudioPlayer.tsx:456"
+  "components/bible/BibleAudioPlayer.tsx:457"
  ],
  "position, theme, verse_text, verse_reference, punchline, meditation, card, declaration_text, declaration_reference, questions, published": [
   "lib/devotions.ts:36"
@@ -26983,7 +26992,7 @@
   "components/ecole/FormationView.tsx:609"
  ],
  "Reculer de 15 secondes": [
-  "components/bible/BibleAudioPlayer.tsx:499"
+  "components/bible/BibleAudioPlayer.tsx:501"
  ],
  "Redescendre aussitôt": [
   "config/chemin/chapitre-transfiguration.ts:77"
@@ -27397,7 +27406,7 @@
   "components/community/ObjectifDonAdmin.tsx:107"
  ],
  "Répéter": [
-  "components/bible/BibleAudioPlayer.tsx:581"
+  "components/bible/BibleAudioPlayer.tsx:583"
  ],
  "Replier": [
   "components/community/AdminRubrique.tsx:149",
@@ -27407,7 +27416,7 @@
   "components/community/AdminRubrique.tsx:148"
  ],
  "Replier le lecteur": [
-  "components/bible/BibleAudioPlayer.tsx:410"
+  "components/bible/BibleAudioPlayer.tsx:411"
  ],
  "Répondre": [
   "app/questions/page.tsx:840",
@@ -27758,7 +27767,7 @@
   "lib/verse-image.ts:224"
  ],
  "RHEMA · Ton temps avec Jésus": [
-  "components/app/ProfilMenu.tsx:486"
+  "components/app/ProfilMenu.tsx:581"
  ],
  "RHEMA est gratuite, mais sa création et sa maintenance ont un vrai coût. Ta contribution permet d'annoncer la Parole gratuitement au plus grand nombre, et le reste part dans les missions.": [
   "components/mission/DonnerRapide.tsx:124"
@@ -28299,7 +28308,7 @@
   "lib/badges.ts:106"
  ],
  "Se connecter": [
-  "components/app/ProfilMenu.tsx:447",
+  "components/app/ProfilMenu.tsx:542",
   "components/assistant/AssistantView.tsx:133",
   "components/community/EmailPasswordAuth.tsx:182"
  ],
@@ -28475,7 +28484,7 @@
   "components/community/Avatar.tsx:72"
  ],
  "Série de {0} jours avec Jésus": [
-  "components/app/ProfilMenu.tsx:277"
+  "components/app/ProfilMenu.tsx:370"
  ],
  "Série de 10": [
   "lib/quiz.ts:325"
@@ -28722,7 +28731,7 @@
   "app/soaking/page.tsx:22"
  ],
  "Soaking": [
-  "components/bible/BibleAudioPlayer.tsx:570"
+  "components/bible/BibleAudioPlayer.tsx:572"
  ],
  "Soaking et fonds musicaux pour prier, méditer ou t'endormir — même écran verrouillé.": [
   "app/app/page.tsx:48"
@@ -28734,7 +28743,7 @@
   "app/soaking/page.tsx:8"
  ],
  "Soaking sous la voix": [
-  "components/bible/BibleAudioPlayer.tsx:601"
+  "components/bible/BibleAudioPlayer.tsx:603"
  ],
  "Soaking, Jack Brunet": [
   "app/soaking/page.tsx:43"
@@ -29127,6 +29136,9 @@
  "sur Amazon.": [
   "components/ecole/FormationView.tsx:219"
  ],
+ "Sur Android : Paramètres › Accessibilité › Synthèse vocale (ou Sortie de la synthèse vocale). Installe les données vocales de ta langue en haute qualité : la lecture sera bien plus agréable.": [
+  "components/bible/BibleAudioPlayer.tsx:699"
+ ],
  "Sur chacun d'eux": [
   "config/chemin/chapitre-pentecote.ts:67"
  ],
@@ -29138,6 +29150,9 @@
  ],
  "Sur des tables de pierre": [
   "config/chemin/chapitre-jeremie.ts:76"
+ ],
+ "Sur iPhone : Réglages › Accessibilité › Contenu énoncé › Voix. Choisis ta langue et télécharge une voix « améliorée » ou « premium » : la lecture sera bien plus agréable.": [
+  "components/bible/BibleAudioPlayer.tsx:698"
  ],
  "Sur Jésus, chef et consommateur de la foi": [
   "config/chemin/chapitre-hebreux.ts:88"
@@ -29890,6 +29905,9 @@
  "Ton lieu intime pour écrire, prier, et revenir voir comment Dieu répond.": [
   "components/notebook/CarnetIntro.tsx:18"
  ],
+ "Ton menu est ici": [
+  "components/app/ProfilMenu.tsx:243"
+ ],
  "Ton message (ex. Live de prière dans 10 min, rejoins-nous)": [
   "components/community/AdminAnnounce.tsx:151"
  ],
@@ -30012,6 +30030,9 @@
  ],
  "Touche pour tout découvrir": [
   "components/bible/FichesChapitre.tsx:227"
+ ],
+ "Touche ta photo : ton espace, ton carnet, la mission, les réglages…": [
+  "components/app/ProfilMenu.tsx:245"
  ],
  "Touche toutes les cibles, vise le meilleur score.": [
   "components/games/FrondeScreen.tsx:100"
@@ -31647,7 +31668,7 @@
   "components/bible/BibleAudio.tsx:247"
  ],
  "Une nappe instrumentale douce joue en boucle sous la lecture.": [
-  "components/bible/BibleAudioPlayer.tsx:612"
+  "components/bible/BibleAudioPlayer.tsx:614"
  ],
  "Une note existe sur ce passage · toucher pour la voir": [
   "components/ui/Markable.tsx:134"
@@ -32173,7 +32194,7 @@
   "components/bible/SelectionVersets.tsx:119"
  ],
  "Verset": [
-  "components/bible/BibleAudioPlayer.tsx:77",
+  "components/bible/BibleAudioPlayer.tsx:78",
   "components/community/GroupView.tsx:1015",
   "components/memorize/VerseGame.tsx:641"
  ],
@@ -32196,10 +32217,10 @@
   "app/layout.tsx:73"
  ],
  "Verset précédent": [
-  "components/bible/BibleAudioPlayer.tsx:499"
+  "components/bible/BibleAudioPlayer.tsx:501"
  ],
  "Verset suivant": [
-  "components/bible/BibleAudioPlayer.tsx:527"
+  "components/bible/BibleAudioPlayer.tsx:529"
  ],
  "Verset terminé, on continue.": [
   "components/memorize/VerseGame.tsx:687"
@@ -32349,12 +32370,12 @@
   "components/community/AnalyticsDashboard.tsx:100"
  ],
  "Vitesse": [
-  "components/bible/BibleAudioPlayer.tsx:557",
+  "components/bible/BibleAudioPlayer.tsx:559",
   "components/ui/AudioPlayer.tsx:154"
  ],
  "Vitesse de lecture": [
   "components/audio/GlobalAudioBar.tsx:154",
-  "components/bible/BibleAudioPlayer.tsx:553",
+  "components/bible/BibleAudioPlayer.tsx:555",
   "components/community/VoiceNote.tsx:384"
  ],
  "Vivre le dévotionnel du jour": [
@@ -32454,7 +32475,7 @@
   "components/home/QuickNote.tsx:55"
  ],
  "Voir mon profil": [
-  "components/app/ProfilMenu.tsx:447"
+  "components/app/ProfilMenu.tsx:542"
  ],
  "Voir mon profil public": [
   "components/community/ProfileView.tsx:969"
@@ -32507,12 +32528,12 @@
  ],
  "Voix": [
   "components/bible/BibleAudio.tsx:254",
-  "components/bible/BibleAudioPlayer.tsx:439",
-  "components/bible/BibleAudioPlayer.tsx:615"
+  "components/bible/BibleAudioPlayer.tsx:440",
+  "components/bible/BibleAudioPlayer.tsx:617"
  ],
  "Voix de l'appareil": [
   "components/bible/BibleAudio.tsx:343",
-  "components/bible/BibleAudioPlayer.tsx:478"
+  "components/bible/BibleAudioPlayer.tsx:479"
  ],
  "Voix qui monte": [
   "lib/badges.ts:107"
@@ -32539,7 +32560,7 @@
   "components/bible/BibleAudio.tsx:264"
  ],
  "Volume du soaking": [
-  "components/bible/BibleAudioPlayer.tsx:625"
+  "components/bible/BibleAudioPlayer.tsx:627"
  ],
  "vos contenus communautaires: sujets de prière, commentaires, réponses, messages privés, réactions et abonnements": [
   "app/confidentialite/page.tsx:71"

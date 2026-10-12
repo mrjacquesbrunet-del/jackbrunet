@@ -110,7 +110,7 @@ export function FeaturedPlans({ items }: { items: PlanPosterData[] }) {
                 <PlanCover cover={it.cover} glowIndex={i} />
 
                 <span className="absolute left-3 top-3 rounded-full border border-dawn-400/40 bg-night-950/50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-dawn-300 backdrop-blur-sm">
-                  {it.days} j
+                  {`${it.days} j`}
                 </span>
                 {it.slug ? <PosterRating slug={it.slug} className="absolute right-3 top-3" /> : null}
 
