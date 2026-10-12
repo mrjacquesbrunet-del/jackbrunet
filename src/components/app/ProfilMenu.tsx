@@ -161,7 +161,100 @@ export function ProfilBouton({ taille = 36, className = "" }: { taille?: number;
           )}
         </span>
       </span>
+      {/* Pastille « menu » (trois traits) : on comprend que la photo ouvre un menu. */}
+      <span
+        aria-hidden
+        className="absolute -bottom-0.5 -right-0.5 grid place-items-center rounded-full bg-dawn-400 text-night-950 ring-2 ring-night-950"
+        style={{ width: Math.max(14, Math.round(taille * 0.42)), height: Math.max(14, Math.round(taille * 0.42)) }}
+      >
+        <svg viewBox="0 0 24 24" className="h-[64%] w-[64%] fill-none stroke-current" strokeWidth={3}>
+          <path d="M5 7h14M5 12h14M5 17h14" strokeLinecap="round" />
+        </svg>
+      </span>
     </button>
+  );
+}
+
+const CLE_ASTUCE = "jb.astuce.menu.v1";
+
+/** Bulle d'aide montrée UNE seule fois : « Ton menu est ici ». Elle pointe
+ * vers la pastille profil et disparaît au toucher ou à l'ouverture du menu. */
+function AstuceMenu() {
+  const [pos, setPos] = useState<{ x: number; y: number; w: number } | null>(null);
+
+  useEffect(() => {
+    let vu = true;
+    try {
+      vu = localStorage.getItem(CLE_ASTUCE) === "1" || localStorage.getItem("jb.onboarded") !== "1";
+    } catch {
+      /* stockage indisponible */
+    }
+    if (vu) return;
+    const marquer = () => {
+      try {
+        localStorage.setItem(CLE_ASTUCE, "1");
+      } catch {
+        /* ignore */
+      }
+      setPos(null);
+    };
+    const t = window.setTimeout(() => {
+      if (document.querySelector('[role="dialog"][aria-modal="true"]')) return;
+      const b = document.querySelector<HTMLElement>("[data-profil-menu-btn]");
+      const r = b?.getBoundingClientRect();
+      if (!r || r.width === 0 || r.bottom < 0) return;
+      setPos({ x: r.left, y: r.bottom + 10, w: r.width });
+    }, 2500);
+    const fin = window.setTimeout(marquer, 14000);
+    window.addEventListener(EVT, marquer);
+    return () => {
+      window.clearTimeout(t);
+      window.clearTimeout(fin);
+      window.removeEventListener(EVT, marquer);
+    };
+  }, []);
+
+  if (!pos) return null;
+  const fermer = () => {
+    try {
+      localStorage.setItem(CLE_ASTUCE, "1");
+    } catch {
+      /* ignore */
+    }
+    setPos(null);
+  };
+  return (
+    <motion.button
+      type="button"
+      onClick={() => {
+        fermer();
+        ouvrirMenuProfil();
+      }}
+      initial={{ opacity: 0, y: -6 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="fixed z-[75] max-w-[16rem] rounded-2xl bg-dawn-400 px-4 py-3 text-left text-night-950 shadow-[0_14px_34px_-10px_rgba(0,0,0,0.6)]"
+      style={{ left: Math.max(12, pos.x - 4), top: pos.y }}
+    >
+      <span
+        aria-hidden
+        className="absolute -top-1.5 h-3 w-3 rotate-45 bg-dawn-400"
+        style={{ left: Math.max(10, pos.w / 2 - 2) }}
+      />
+      <span className="block font-display text-[15px] font-extrabold leading-tight">Ton menu est ici</span>
+      <span className="mt-0.5 block text-[13px] font-semibold leading-snug text-night-950/75">
+        Touche ta photo : ton espace, ton carnet, la mission, les réglages…
+      </span>
+      <span
+        role="presentation"
+        onClick={(e) => {
+          e.stopPropagation();
+          fermer();
+        }}
+        className="mt-2 inline-block text-[12px] font-bold underline underline-offset-2"
+      >
+        Compris
+      </span>
+    </motion.button>
   );
 }
 
@@ -395,6 +488,8 @@ export function ProfilMenu() {
   const nom = profile?.pseudo ?? "";
 
   return (
+    <>
+    <AstuceMenu />
     <AnimatePresence>
       {ouvert ? (
         <div className="fixed inset-0 z-[80]" role="dialog" aria-modal="true" aria-label="Menu">
@@ -489,5 +584,6 @@ export function ProfilMenu() {
         </div>
       ) : null}
     </AnimatePresence>
+    </>
   );
 }
