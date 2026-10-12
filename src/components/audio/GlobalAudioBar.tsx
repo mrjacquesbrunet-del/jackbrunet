@@ -102,7 +102,7 @@ export function GlobalAudioBar() {
   if (pod.current) {
     return (
       <div
-        className="global-audio-bar dark-ctx fixed inset-x-3 z-[55] mx-auto max-w-xl rounded-2xl border border-white/10 bg-night-900/95 px-3.5 py-3 shadow-card backdrop-blur-md"
+        className="global-audio-bar dark-ctx fixed inset-x-3 z-[55] mx-auto max-w-xl rounded-[2.375rem] border border-white/10 bg-night-900/95 px-4 py-4 shadow-card backdrop-blur-md"
         style={{ bottom: "calc(var(--bottom-nav-h, 0px) + 0.625rem)" }}
       >
         <div>
@@ -112,9 +112,9 @@ export function GlobalAudioBar() {
               type="button"
               onClick={pod.toggle}
               aria-label={pod.playing? "Pause": "Lire"}
-              className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950 shadow-sm transition-transform active:scale-95"
+              className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950 shadow-sm transition-transform active:scale-95"
             >
-              {pod.playing? <PauseGlyph className="h-6 w-6" />: <PlayGlyph className="h-6 w-6" />}
+              {pod.playing? <PauseGlyph className="h-5 w-5" />: <PlayGlyph className="h-5 w-5" />}
             </button>
             <div className="min-w-0 flex-1">
               <p className="truncate text-[15px] font-semibold text-cream">
@@ -200,7 +200,7 @@ export function GlobalAudioBar() {
   if (soak.playing) {
     return (
       <div
-        className="global-audio-bar dark-ctx fixed inset-x-3 z-[55] mx-auto max-w-xl rounded-2xl border border-white/10 bg-night-900/95 px-3.5 py-3 shadow-card backdrop-blur-md"
+        className="global-audio-bar dark-ctx fixed inset-x-3 z-[55] mx-auto max-w-xl rounded-[2.375rem] border border-white/10 bg-night-900/95 px-4 py-4 shadow-card backdrop-blur-md"
         style={{ bottom: "calc(var(--bottom-nav-h, 0px) + 0.625rem)" }}
       >
         <div className="flex items-center gap-3">
@@ -208,9 +208,9 @@ export function GlobalAudioBar() {
             type="button"
             onClick={soak.toggle}
             aria-label="Pause"
-            className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950 shadow-[0_0_18px_rgba(202,240,0,0.45)] transition-transform active:scale-95"
+            className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950 shadow-[0_0_18px_rgba(202,240,0,0.45)] transition-transform active:scale-95"
           >
-            <PauseGlyph className="h-6 w-6" />
+            <PauseGlyph className="h-5 w-5" />
           </button>
           <div className="min-w-0 flex-1">
             <p className="flex items-center gap-1.5 text-[15px] font-semibold text-cream">
@@ -240,7 +240,7 @@ export function GlobalAudioBar() {
     const v = lp.voix;
     return (
       <div
-        className="global-audio-bar dark-ctx fixed inset-x-3 z-[55] mx-auto max-w-xl rounded-2xl border border-white/10 bg-night-900/95 px-3.5 py-3 shadow-card backdrop-blur-md"
+        className="global-audio-bar dark-ctx fixed inset-x-3 z-[55] mx-auto max-w-xl rounded-[2.375rem] border border-white/10 bg-night-900/95 px-4 py-4 shadow-card backdrop-blur-md"
         style={{ bottom: "calc(var(--bottom-nav-h, 0px) + 0.625rem)" }}
       >
         <div className="flex items-center gap-3">
@@ -248,9 +248,9 @@ export function GlobalAudioBar() {
             type="button"
             onClick={v.basculer}
             aria-label={v.enLecture ? "Pause" : "Lire"}
-            className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950 shadow-sm transition-transform active:scale-95"
+            className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950 shadow-sm transition-transform active:scale-95"
           >
-            {v.enLecture ? <PauseGlyph className="h-6 w-6" /> : <PlayGlyph className="h-6 w-6" />}
+            {v.enLecture ? <PauseGlyph className="h-5 w-5" /> : <PlayGlyph className="h-5 w-5" />}
           </button>
           <button type="button" onClick={agrandir ?? undefined} className="min-w-0 flex-1 text-left">
             <p className="truncate text-[15px] font-semibold text-cream">{v.titre}</p>
