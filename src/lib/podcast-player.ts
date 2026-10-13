@@ -44,6 +44,27 @@ let state: State = {
   repeat: false,
 };
 let audio: HTMLAudioElement | null = null;
+
+/* ————— Position d'écoute des épisodes (reprise là où on s'est arrêté) ————— */
+const POS_KEY = "jb.podcast.pos.v1";
+/** Secondes déjà écoutées par épisode ; -1 = écouté jusqu'au bout. */
+export function lirePositions(): Record<string, number> {
+  try {
+    return JSON.parse(localStorage.getItem(POS_KEY) || "{}") as Record<string, number>;
+  } catch {
+    return {};
+  }
+}
+function ecrirePosition(id: string, sec: number) {
+  try {
+    const p = lirePositions();
+    p[id] = Math.round(sec);
+    localStorage.setItem(POS_KEY, JSON.stringify(p));
+  } catch {
+    /* stockage indisponible */
+  }
+}
+let dernierEnregistrement = 0;
 let sleepTimeout: ReturnType<typeof setTimeout> | null = null;
 let errorSkips = 0; // évite de boucler sur des chapitres manquants
 const listeners = new Set<() => void>();
@@ -87,8 +108,20 @@ function ensureAudio(): HTMLAudioElement | null {
   audio.addEventListener("playing", () => {
     errorSkips = 0; // lecture OK: on réinitialise le garde-fou
   });
+  // Mémorise la position des épisodes de podcast (toutes les 4 s environ).
+  audio.addEventListener("timeupdate", () => {
+    const t = state.queue[state.index];
+    if (!t?.memoriser || !audio) return;
+    const now = Date.now();
+    if (now - dernierEnregistrement < 4000) return;
+    dernierEnregistrement = now;
+    const d = audio.duration;
+    ecrirePosition(t.id, d && audio.currentTime > d - 20 ? -1 : audio.currentTime);
+  });
   audio.addEventListener("ended", () => {
     errorSkips = 0;
+    const fini = state.queue[state.index];
+    if (fini?.memoriser) ecrirePosition(fini.id, -1);
     // Minuteur « fin de l'épisode »: on s'arrête ici au lieu d'enchaîner.
     if (state.sleepEpisodeEnd) {
       cancelSleep();
@@ -192,6 +225,14 @@ export function playQueue(queue: AudioTrack[], index: number) {
     objectUrl = local;
     audio.src = local?? t.url;
     audio.playbackRate = state.rate;
+    // Épisode commencé : reprise là où on s'était arrêté.
+    const deja = t.memoriser ? lirePositions()[t.id] : undefined;
+    if (deja && deja > 5) {
+      const a2 = audio;
+      a2.addEventListener("loadedmetadata", () => {
+        a2.currentTime = deja;
+      }, { once: true });
+    }
     audio.play().catch(() => undefined);
   });
 }

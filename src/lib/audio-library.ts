@@ -13,6 +13,8 @@ export type AudioTrack = {
   url: string;
   path: string;
   created_at?: string;
+  /** Épisode de podcast : la position d'écoute est mémorisée (reprise). */
+  memoriser?: boolean;
 };
 
 /** Nom de fichier lisible → titre affiché (conserve accents & apostrophes). */
@@ -89,6 +91,7 @@ export async function listPodcasts(): Promise<AudioTrack[]> {
       url: pub.publicUrl,
       path: r.path,
       created_at: r.created_at,
+      memoriser: true,
     };
   });
 }
