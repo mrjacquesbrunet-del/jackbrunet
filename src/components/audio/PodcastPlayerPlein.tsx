@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useDragControls } from "framer-motion";
-import { usePodcastPlayer, getPodcastAudio, lirePositions } from "@/lib/podcast-player";
+import { usePodcastPlayer, getPodcastAudio } from "@/lib/podcast-player";
 import { usePodcastEtat, basculerFavori, fermerLecteurPodcast } from "@/lib/podcast-etat";
 import { downloadFileOffline, deleteFileOffline, offlineFilePaths } from "@/lib/bible-offline";
 import { appShareUrl } from "@/config/app-links";
@@ -35,7 +35,6 @@ export function PodcastPlayerPlein() {
 
   const [temps, setTemps] = useState(0);
   const [duree, setDuree] = useState(0);
-  const [apropos, setApropos] = useState(false);
   const [minuteur, setMinuteur] = useState(false);
   const [horsLigne, setHorsLigne] = useState(false);
   const [telech, setTelech] = useState<number | null>(null);
@@ -62,7 +61,6 @@ export function PodcastPlayerPlein() {
 
   useEffect(() => {
     if (!t) return;
-    setApropos(false);
     offlineFilePaths([t.path]).then((s) => setHorsLigne(s.has(t.path)));
   }, [t?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -111,12 +109,8 @@ export function PodcastPlayerPlein() {
     if (t) pod.playQueue([t, ...reste], 0);
   }
 
-  const aSuivre = pod.queue.slice(pod.index + 1, pod.index + 6);
   const fav = t ? favoris.has(t.id) : false;
   const timerActif = pod.sleepEndsAt !== null || pod.sleepEpisodeEnd;
-  const chip =
-    "flex flex-col items-center justify-center gap-1.5 rounded-2xl border border-white/[0.08] bg-white/[0.05] py-3 text-[12px] font-semibold text-cream/80 active:bg-white/[0.1]";
-  const positions = typeof window !== "undefined" ? lirePositions() : {};
 
   return (
     <AnimatePresence>
@@ -151,7 +145,7 @@ export function PodcastPlayerPlein() {
             style={{ background: "radial-gradient(70% 40% at 50% 25%, rgba(202,240,0,.10), transparent 70%), linear-gradient(to bottom, rgb(var(--n-950) / .35), rgb(var(--n-950) / .85) 60%, rgb(var(--n-950)))" }}
           />
 
-          <div className="relative mx-auto flex min-h-full max-w-md flex-col px-6 pb-[calc(env(safe-area-inset-bottom)+2rem)] pt-[calc(env(safe-area-inset-top)+0.75rem)]">
+          <div className="relative mx-auto flex min-h-[100dvh] max-w-md flex-col justify-between gap-4 px-6 pb-[calc(env(safe-area-inset-bottom)+1.75rem)] pt-[calc(env(safe-area-inset-top)+0.75rem)]">
             {/* Haut : réduire, émission, options (glisser ici vers le bas = réduire) */}
             <div className="flex touch-none items-center justify-between gap-3" onPointerDown={(e) => glisse.start(e)}>
               <button
@@ -183,7 +177,7 @@ export function PodcastPlayerPlein() {
             </div>
 
             {/* Pochette */}
-            <div className="mt-5 flex justify-center">
+            <div className="flex justify-center">
               <motion.div
                 animate={{ scale: pod.playing ? 1 : 0.95 }}
                 transition={{ type: "spring", stiffness: 200, damping: 22 }}
@@ -209,7 +203,7 @@ export function PodcastPlayerPlein() {
             </div>
 
             {/* Titre + cœur */}
-            <div className="mt-6 flex items-start gap-3">
+            <div className="flex items-start gap-3">
               <div className="min-w-0 flex-1">
                 {t.numero ? <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-dawn-400">Épisode {t.numero}</p> : null}
                 <h2 className="mt-1 text-[24px] font-semibold leading-tight text-cream">{t.title}</h2>
@@ -237,7 +231,7 @@ export function PodcastPlayerPlein() {
             </div>
 
             {/* Progression */}
-            <div className="mt-5">
+            <div>
               <input
                 type="range"
                 min={0}
@@ -255,7 +249,7 @@ export function PodcastPlayerPlein() {
             </div>
 
             {/* Commandes */}
-            <div className="mt-4 flex items-center justify-between">
+            <div className="flex items-center justify-between">
               <button type="button" onClick={melanger} aria-label="Lecture aléatoire" className="grid h-11 w-11 place-items-center rounded-full text-cream/70 active:bg-white/10">
                 <svg viewBox="0 0 24 24" className="h-[22px] w-[22px] fill-none stroke-current" strokeWidth={1.9} aria-hidden>
                   <path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5" strokeLinecap="round" strokeLinejoin="round" />
@@ -292,7 +286,7 @@ export function PodcastPlayerPlein() {
             </div>
 
             {/* Options : boutons ronds, libellé dessous */}
-            <div className="mt-7 grid grid-cols-4 gap-2 text-center">
+            <div className="grid grid-cols-4 gap-2 text-center">
               {(
                 [
                   {
@@ -357,56 +351,6 @@ export function PodcastPlayerPlein() {
               ))}
             </div>
 
-            {/* À propos */}
-            {t.description ? (
-              <>
-              <div className="mx-auto mt-7 h-1 w-14 rounded-full bg-white/25" />
-              <div className="mt-4 rounded-3xl border border-white/[0.08] bg-white/[0.05] px-5 py-4">
-                <button type="button" onClick={() => setApropos((v) => !v)} className="flex w-full items-center justify-between gap-3 text-left">
-                  <span className="font-display text-[17px] font-bold">À propos de cet épisode</span>
-                  <svg viewBox="0 0 24 24" className={`h-5 w-5 shrink-0 fill-none stroke-current text-cream/60 transition-transform ${apropos ? "rotate-180" : ""}`} strokeWidth={2.2} aria-hidden>
-                    <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-                <p className={`mt-2 text-[14.5px] leading-relaxed text-cream/70 ${apropos ? "" : "line-clamp-2"}`}>{t.description}</p>
-              </div>
-              </>
-            ) : null}
-
-            {/* À suivre */}
-            {aSuivre.length ? (
-              <div className="mt-6">
-                <p className="font-display text-[17px] font-bold">À suivre</p>
-                <ul className="mt-2">
-                  {aSuivre.map((s, i) => {
-                    const p = positions[s.id];
-                    return (
-                      <li key={s.id}>
-                        <button
-                          type="button"
-                          onClick={() => pod.playQueue(pod.queue, pod.index + 1 + i)}
-                          className="flex w-full items-center gap-3 border-b border-white/[0.07] py-2.5 text-left last:border-b-0"
-                        >
-                          <span className="h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-white/10">
-                            {s.cover ? (
-                              // eslint-disable-next-line @next/next/no-img-element
-                              <img src={s.cover} alt="" className="h-full w-full object-cover" />
-                            ) : null}
-                          </span>
-                          <span className="min-w-0 flex-1">
-                            <span className="block truncate text-[14.5px] font-semibold text-cream">{s.title}</span>
-                            <span className="block truncate text-[12px] text-cream/50">
-                              {[s.showTitle, p === -1 ? "Écouté" : null].filter(Boolean).join(" · ")}
-                            </span>
-                          </span>
-                          <PlayGlyph className="h-4 w-4 shrink-0 text-dawn-400" />
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            ) : null}
           </div>
 
           {/* Menu « … » */}
