@@ -15,6 +15,26 @@ export type AudioTrack = {
   created_at?: string;
   /** Épisode de podcast : la position d'écoute est mémorisée (reprise). */
   memoriser?: boolean;
+  /** Émission à laquelle appartient l'épisode (podcasts). */
+  show_id?: string | null;
+  /** Pochette (celle de l'émission). */
+  cover?: string | null;
+  showTitle?: string;
+  author?: string | null;
+  /** Numéro de l'épisode dans son émission (1 = le plus ancien). */
+  numero?: number;
+};
+
+/** Émission de podcast (un intervenant, une pochette). */
+export type Emission = {
+  id: string;
+  title: string;
+  author: string | null;
+  description: string | null;
+  category: string | null;
+  cover: string | null;
+  cover_path: string | null;
+  position: number;
 };
 
 /** Nom de fichier lisible → titre affiché (conserve accents & apostrophes). */
@@ -75,13 +95,21 @@ export function podcastCoverUrl(): string | null {
 export async function listPodcasts(): Promise<AudioTrack[]> {
   const sb = getSupabase();
   if (!sb) return [];
-  const { data, error } = await sb
+  // Avec l'émission (migration-podcast-shows.sql) ; sinon, l'ancien format.
+  let res = await sb
+.from("podcasts")
+.select("id,title,description,path,created_at,show_id")
+.order("created_at", { ascending: false });
+  if (res.error) {
+    res = (await sb
 .from("podcasts")
 .select("id,title,description,path,created_at")
-.order("created_at", { ascending: false });
+.order("created_at", { ascending: false })) as typeof res;
+  }
+  const { data, error } = res;
   if (error ||!data) return [];
   return (
-    data as { id: string; title: string; description: string | null; path: string; created_at: string }[]
+    data as { id: string; title: string; description: string | null; path: string; created_at: string; show_id?: string | null }[]
   ).map((r) => {
     const { data: pub } = sb.storage.from(AUDIO_BUCKET).getPublicUrl(r.path);
     return {
@@ -92,6 +120,7 @@ export async function listPodcasts(): Promise<AudioTrack[]> {
       path: r.path,
       created_at: r.created_at,
       memoriser: true,
+      show_id: r.show_id ?? null,
     };
   });
 }
@@ -105,7 +134,7 @@ export async function updatePodcast(
 }
 
 /** Admin: envoie un fichier audio (nom technique propre, titre conservé). */
-export async function uploadPodcast(file: File): Promise<boolean> {
+export async function uploadPodcast(file: File, showId?: string | null): Promise<boolean> {
   const sb = getSupabase();
   if (!sb) return false;
   const out = await compressToMonoMp3(file); // 48 kbps mono → moins de bande passante
@@ -114,7 +143,9 @@ export async function uploadPodcast(file: File): Promise<boolean> {
 .from(AUDIO_BUCKET)
 .upload(key, out, { contentType: "audio/mpeg", upsert: false });
   if (error) return false;
-  const { error: e2 } = await sb.from("podcasts").insert({ title: titleFromName(file.name), path: key });
+  const ligne: Record<string, unknown> = { title: titleFromName(file.name), path: key };
+  if (showId && showId !== "par-defaut") ligne.show_id = showId;
+  const { error: e2 } = await sb.from("podcasts").insert(ligne);
   if (e2) {
     // rollback du fichier si l'insertion échoue
     await sb.storage.from(AUDIO_BUCKET).remove([key]);
@@ -129,4 +160,106 @@ export async function deletePodcast(id: string, path: string): Promise<void> {
   if (!sb) return;
   await sb.storage.from(AUDIO_BUCKET).remove([path]);
   await sb.from("podcasts").delete().eq("id", id);
+}
+
+
+/* ————— Émissions (plusieurs intervenants) ————— */
+
+const EMISSION_PAR_DEFAUT_ID = "par-defaut";
+
+function urlPublique(path: string | null): string | null {
+  const sb = getSupabase();
+  if (!sb || !path) return null;
+  return sb.storage.from(AUDIO_BUCKET).getPublicUrl(path).data.publicUrl ?? null;
+}
+
+/** Les émissions, dans l'ordre choisi. Sans la table (SQL pas encore
+ * exécuté) : une seule émission, celle de Pasteur Jack. */
+export async function listEmissions(): Promise<Emission[]> {
+  const sb = getSupabase();
+  const defaut: Emission[] = [
+    {
+      id: EMISSION_PAR_DEFAUT_ID,
+      title: "Podcast de Pasteur Jack",
+      author: "Pasteur Jack Brunet",
+      description: "Mes enseignements en audio, à écouter partout, même sans connexion.",
+      category: "Enseignements",
+      cover: podcastCoverUrl(),
+      cover_path: "cover.png",
+      position: 0,
+    },
+  ];
+  if (!sb) return defaut;
+  const { data, error } = await sb.from("podcast_shows").select("*").order("position").order("created_at");
+  if (error || !data || data.length === 0) return defaut;
+  return (data as Omit<Emission, "cover">[]).map((e) => ({ ...e, cover: urlPublique(e.cover_path) }));
+}
+
+/** Tout le catalogue : émissions + épisodes enrichis (pochette, émission, numéro). */
+export async function chargerCatalogue(): Promise<{ emissions: Emission[]; episodes: AudioTrack[] }> {
+  const [emissions, episodes] = await Promise.all([listEmissions(), listPodcasts()]);
+  const parId = new Map(emissions.map((e) => [e.id, e]));
+  const premiere = emissions[0];
+  const enrichis = episodes.map((t) => {
+    const e = (t.show_id && parId.get(t.show_id)) || premiere;
+    return { ...t, show_id: e?.id ?? null, cover: e?.cover ?? null, showTitle: e?.title, author: e?.author ?? null };
+  });
+  // Numéro dans l'émission (du plus ancien au plus récent).
+  for (const e of emissions) {
+    const liste = enrichis.filter((t) => t.show_id === e.id).sort((a, b) => (a.created_at ?? "").localeCompare(b.created_at ?? ""));
+    liste.forEach((t, i) => (t.numero = i + 1));
+  }
+  return { emissions, episodes: enrichis };
+}
+
+async function envoyerPochette(fichier: File): Promise<string | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  const ext = (fichier.name.split(".").pop() || "jpg").toLowerCase();
+  const key = `shows/${Date.now()}-${Math.random().toString(36).slice(2, 7)}.${ext}`;
+  const { error } = await sb.storage.from(AUDIO_BUCKET).upload(key, fichier, { contentType: fichier.type || "image/jpeg", upsert: false });
+  return error ? null : key;
+}
+
+/** Admin : crée une émission (pochette facultative). */
+export async function creerEmission(
+  champs: { title: string; author?: string | null; description?: string | null; category?: string | null },
+  pochette?: File | null,
+): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  const cover_path = pochette ? await envoyerPochette(pochette) : null;
+  const { error } = await sb.from("podcast_shows").insert({ ...champs, cover_path, position: Date.now() % 1_000_000 });
+  return !error;
+}
+
+/** Admin : modifie une émission (et sa pochette si fournie). */
+export async function modifierEmission(
+  id: string,
+  champs: { title?: string; author?: string | null; description?: string | null; category?: string | null },
+  pochette?: File | null,
+): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb || id === EMISSION_PAR_DEFAUT_ID) return false;
+  const patch: Record<string, unknown> = { ...champs };
+  if (pochette) {
+    const key = await envoyerPochette(pochette);
+    if (key) patch.cover_path = key;
+  }
+  const { error } = await sb.from("podcast_shows").update(patch).eq("id", id);
+  return !error;
+}
+
+/** Admin : supprime une émission (ses épisodes restent, sans émission). */
+export async function supprimerEmission(id: string): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb || id === EMISSION_PAR_DEFAUT_ID) return false;
+  const { error } = await sb.from("podcast_shows").delete().eq("id", id);
+  return !error;
+}
+
+/** Admin : range un épisode dans une émission. */
+export async function deplacerEpisode(id: string, showId: string): Promise<void> {
+  if (showId === EMISSION_PAR_DEFAUT_ID) return;
+  await getSupabase()?.from("podcasts").update({ show_id: showId }).eq("id", id);
 }

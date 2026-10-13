@@ -103,9 +103,6 @@
  "· {0} en échec (réessaie)": [
   "components/community/MediasAdmin.tsx:141"
  ],
- "· {0} min": [
-  "components/audio/ListenScreen.tsx:335"
- ],
  "· 740 pages": [
   "components/boutique/RhemaShowcase.tsx:522"
  ],
@@ -1623,12 +1620,6 @@
  "{0} enfant{1} connu{2}": [
   "components/ecole/ArbresGenealogiques.tsx:327"
  ],
- "{0} épisode": [
-  "components/audio/ListenScreen.tsx:334"
- ],
- "{0} épisodes": [
-  "components/audio/ListenScreen.tsx:334"
- ],
  "{0} étoile{1}": [
   "components/ecole/FormationView.tsx:1143"
  ],
@@ -1709,7 +1700,7 @@
   "app/dons/page.tsx:245"
  ],
  "%s · {0}": [
-  "app/layout.tsx:65"
+  "app/layout.tsx:66"
  ],
  "← Groupes": [
   "components/community/GroupView.tsx:153"
@@ -1735,6 +1726,9 @@
  ],
  "+ Nouveau dévotionnel": [
   "components/community/DevotionsAdmin.tsx:316"
+ ],
+ "+ Nouvelle émission (admin)": [
+  "components/audio/ListenScreen.tsx:746"
  ],
  "+{0} PTS !": [
   "components/games/MissionsCard.tsx:61"
@@ -2764,6 +2758,9 @@
  "À propos de ce plan": [
   "components/plans/PlanView.tsx:413"
  ],
+ "À propos de cet épisode": [
+  "components/audio/PodcastPlayerPlein.tsx:326"
+ ],
  "À propos de cette formation": [
   "components/ecole/FormationView.tsx:1463"
  ],
@@ -2915,6 +2912,9 @@
  ],
  "À son propre savoir": [
   "config/chemin/chapitre-joseph.ts:66"
+ ],
+ "À suivre": [
+  "components/audio/PodcastPlayerPlein.tsx:338"
  ],
  "À Tarsis": [
   "config/chemin/chapitre-jonas.ts:25"
@@ -3203,9 +3203,9 @@
   "components/games/GamesHub.tsx:319"
  ],
  "Accueil": [
+  "components/audio/ListenScreen.tsx:789",
   "components/community/AnalyticsDashboard.tsx:29",
-  "components/mission/DonateScreen.tsx:78",
-  "components/quiz/QuizScreen.tsx:894"
+  "components/mission/DonateScreen.tsx:78"
  ],
  "ACCUEIL": [
   "components/chemin/CheminScreen.tsx:181"
@@ -3562,7 +3562,7 @@
   "components/bible/ReadingSettings.tsx:131"
  ],
  "Agrandir le lecteur": [
-  "components/audio/GlobalAudioBar.tsx:16"
+  "components/audio/GlobalAudioBar.tsx:17"
  ],
  "Agur": [
   "config/chemin/chapitre-ecclesiaste.ts:98"
@@ -3610,10 +3610,11 @@
   "components/notebook/NotebookView.tsx:109"
  ],
  "Ajouter aux favoris": [
-  "components/audio/ListenScreen.tsx:635"
+  "components/audio/ListenScreen.tsx:425",
+  "components/audio/PodcastPlayerPlein.tsx:211"
  ],
- "Ajouter des audios (admin)": [
-  "components/audio/ListenScreen.tsx:386"
+ "Ajouter des épisodes": [
+  "components/audio/ListenScreen.tsx:523"
  ],
  "Ajouter un sujet à ma liste de prière…": [
   "components/community/MyPrayerList.tsx:58"
@@ -3863,6 +3864,9 @@
  "Annuler la sélection": [
   "components/bible/SelectionVersets.tsx:125"
  ],
+ "Annuler le minuteur": [
+  "components/audio/PodcastPlayerPlein.tsx:417"
+ ],
  "Anonyme": [
   "app/api/prayer/route.ts:16",
   "app/api/testimony/route.ts:22",
@@ -4089,6 +4093,9 @@
  ],
  "Arrêter": [
   "components/bible/BibleAudio.tsx:430"
+ ],
+ "Arrêter la lecture": [
+  "components/audio/PodcastPlayerPlein.tsx:382"
  ],
  "Arrêter les disciples et les ramener liés": [
   "config/chemin/chapitre-paul.ts:25"
@@ -4366,17 +4373,20 @@
  "Aucun défi reçu pour l'instant.": [
   "components/games/ChallengeScreen.tsx:173"
  ],
- "Aucun épisode hors-ligne": [
-  "components/audio/ListenScreen.tsx:543"
- ],
  "Aucun épisode ne correspond à «": [
-  "components/audio/ListenScreen.tsx:523"
+  "components/audio/ListenScreen.tsx:764"
+ ],
+ "Aucun épisode pour l'instant": [
+  "components/audio/ListenScreen.tsx:538"
+ ],
+ "Aucun épisode téléchargé": [
+  "components/audio/ListenScreen.tsx:693"
  ],
  "Aucun événement programmé pour le moment. Reviens bientôt, ou laisse ton email plus bas pour être prévenu(e) dès qu'une date est annoncée.": [
   "components/home/EventsView.tsx:132"
  ],
  "Aucun favori pour l'instant": [
-  "components/audio/ListenScreen.tsx:541"
+  "components/audio/ListenScreen.tsx:691"
  ],
  "Aucun groupe pour l'instant.": [
   "components/community/GroupsDirectory.tsx:294"
@@ -4449,6 +4459,9 @@
  ],
  "Aucune donnée personnelle n'est conservée après la suppression, hormis, le cas échéant, les informations que la loi nous oblige à garder (par ex. justificatifs liés à un don effectué en dehors de l'application). Ces éléments légaux sont conservés le temps strictement requis, puis supprimés.": [
   "app/suppression-compte/page.tsx:73"
+ ],
+ "Aucune émission ne correspond.": [
+  "components/audio/ListenScreen.tsx:755"
  ],
  "Aucune étude pour ce choix, pour l'instant.": [
   "components/ecole/EtudesView.tsx:240"
@@ -4968,6 +4981,7 @@
   "lib/bible-version.ts:79"
  ],
  "Bibliothèque": [
+  "components/audio/ListenScreen.tsx:790",
   "components/ecole/EcoleView.tsx:383",
   "lib/memorize.ts:245"
  ],
@@ -5326,6 +5340,12 @@
  ],
  "Cartes mises à jour : {0}. Nouvelles exhortations ajoutées : {1}.": [
   "components/community/DevotionsAdmin.tsx:237"
+ ],
+ "Catégorie :": [
+  "components/audio/ListenScreen.tsx:265"
+ ],
+ "Catégorie (ex. Enseignements, Prière, Témoignages) :": [
+  "components/audio/ListenScreen.tsx:250"
  ],
  "Ce cadeau t'est réservé. Merci de ne pas le partager publiquement, Pasteur Jack Brunet": [
   "components/home/CadeauRhema.tsx:64"
@@ -5727,6 +5747,9 @@
  "Changer la photo de profil": [
   "components/community/ProfileView.tsx:425"
  ],
+ "Changer la pochette": [
+  "components/audio/ListenScreen.tsx:526"
+ ],
  "Changer la visibilité": [
   "components/wall/WallSection.tsx:369"
  ],
@@ -5876,9 +5899,6 @@
  "Chaque verset par cœur, étape par étape.": [
   "app/memoriser/page.tsx:529"
  ],
- "Chargement": [
-  "components/audio/ListenScreen.tsx:514"
- ],
  "Chargement de l'étude…": [
   "components/bible/VersetOutils.tsx:776"
  ],
@@ -6017,9 +6037,6 @@
  ],
  "Choisir de nouveaux pasteurs seulement": [
   "config/chemin/chapitre-ezechiel.ts:56"
- ],
- "Choisir des fichiers": [
-  "components/audio/ListenScreen.tsx:398"
  ],
  "Choisir des images (plusieurs à la fois)": [
   "components/community/MediasAdmin.tsx:115"
@@ -7641,6 +7658,9 @@
  "Dans le malheur": [
   "config/chemin/chapitre-proverbes.ts:77"
  ],
+ "Dans le menu « … » d'un épisode, choisis Télécharger : il s'écoute ensuite sans connexion.": [
+  "components/audio/ListenScreen.tsx:693"
+ ],
  "Dans le temple": [
   "config/chemin/chapitre-naissance.ts:67"
  ],
@@ -8114,7 +8134,7 @@
   "config/chemin/chapitre-esaie.ts:87"
  ],
  "De nouveaux enseignements sont en préparation.": [
-  "components/audio/ListenScreen.tsx:551"
+  "components/audio/ListenScreen.tsx:578"
  ],
  "De nuit": [
   "config/chemin/chapitre-rencontres.ts:25"
@@ -8597,9 +8617,6 @@
  "dérivé de": [
   "components/ecole/MotLexique.tsx:111"
  ],
- "Dernier épisode": [
-  "components/audio/ListenScreen.tsx:412"
- ],
  "Dernier jour du plan": [
   "components/plans/PlanJour.tsx:366"
  ],
@@ -8829,8 +8846,14 @@
  "Descends vite, aujourd'hui": [
   "config/chemin/chapitre-rameaux.ts:15"
  ],
- "Description (facultative):": [
-  "components/audio/ListenScreen.tsx:236"
+ "Description :": [
+  "components/audio/ListenScreen.tsx:266"
+ ],
+ "Description (facultative) :": [
+  "components/audio/ListenScreen.tsx:237"
+ ],
+ "Description courte :": [
+  "components/audio/ListenScreen.tsx:251"
  ],
  "désert": [
   "config/chemin/chapitre-paraboles.ts:88"
@@ -9618,10 +9641,11 @@
   "config/chemin/chapitre-proverbes.ts:36"
  ],
  "Écouté": [
-  "components/audio/ListenScreen.tsx:622"
+  "components/audio/ListenScreen.tsx:414"
  ],
- "Écoute « {0} », Pasteur Jack": [
-  "components/audio/ListenScreen.tsx:213"
+ "Écoute « {0} »": [
+  "components/audio/ListenScreen.tsx:214",
+  "components/audio/PodcastPlayerPlein.tsx:97"
  ],
  "Écoute 3 méditations en audio": [
   "lib/missions.ts:33"
@@ -9629,7 +9653,7 @@
  "Écouter": [
   "components/app/BottomNav.tsx:53",
   "components/app/ProfilMenu.tsx:81",
-  "components/audio/ListenScreen.tsx:355"
+  "components/audio/ListenScreen.tsx:497"
  ],
  "Écouter l'étude": [
   "components/ecole/EtudesView.tsx:613",
@@ -9747,8 +9771,8 @@
  ],
  "Effacer": [
   "app/questions/page.tsx:367",
-  "components/audio/ListenScreen.tsx:500",
-  "components/bible/RechercheBible.tsx:148"
+  "components/bible/RechercheBible.tsx:148",
+  "components/ecole/LexiqueView.tsx:164"
  ],
  "égal": [
   "config/chemin/chapitre-naissance.ts:47"
@@ -10097,6 +10121,12 @@
  "Émeraude": [
   "lib/verse-image.ts:12"
  ],
+ "Émission :": [
+  "components/audio/ListenScreen.tsx:922"
+ ],
+ "Émissions": [
+  "components/audio/ListenScreen.tsx:751"
+ ],
  "Emmanuel": [
   "config/chemin/chapitre-naissance.ts:36"
  ],
@@ -10177,11 +10207,11 @@
  ],
  "En cours": [
   "app/memoriser/page.tsx:557",
-  "components/chemin/CheminHub.tsx:141",
-  "components/community/CommunityView.tsx:480"
+  "components/audio/ListenScreen.tsx:658",
+  "components/chemin/CheminHub.tsx:141"
  ],
  "En cours ·": [
-  "components/audio/GlobalAudioBar.tsx:220"
+  "components/audio/GlobalAudioBar.tsx:226"
  ],
  "En cours · {0}": [
   "components/home/SoakingBar.tsx:42"
@@ -10231,6 +10261,9 @@
  ],
  "En le dénonçant à l'armée": [
   "config/chemin/chapitre-david-roi.ts:98"
+ ],
+ "En lecture": [
+  "components/audio/PodcastPlayerPlein.tsx:167"
  ],
  "En lecture, verset {0}": [
   "components/bible/BibleAudio.tsx:338"
@@ -10333,7 +10366,7 @@
   "lib/badges.ts:131"
  ],
  "Encore {0} min": [
-  "components/audio/ListenScreen.tsx:422"
+  "components/audio/ListenScreen.tsx:597"
  ],
  "Encore agité": [
   "config/chemin/chapitre-miracles.ts:55"
@@ -10451,6 +10484,9 @@
   "lib/content.ts:232",
   "lib/content.ts:242"
  ],
+ "Enseignements": [
+  "lib/audio-library.ts:186"
+ ],
  "Ensuite il dit : « Retournons en Judée. » — « Rabbi, lui dirent les disciples, les Juifs tout récemment cherchaient à te lapider, et tu retournes là-bas ! » Thomas dit aux autres disciples : « Allons aussi, afin de mourir avec lui. »": [
   "config/chemin/chapitre-lazare.ts:32"
  ],
@@ -10522,7 +10558,7 @@
   "components/community/AdminAnnounce.tsx:187"
  ],
  "Envoi… {0}/{1}": [
-  "components/audio/ListenScreen.tsx:398"
+  "components/audio/ListenScreen.tsx:523"
  ],
  "Envoie les MP3 d'un livre": [
   "components/community/BibleAudioAdmin.tsx:105"
@@ -10584,6 +10620,9 @@
  "Envoyés comme lui": [
   "content/plans.json"
  ],
+ "Ép.": [
+  "components/audio/ListenScreen.tsx:400"
+ ],
  "Épaphras": [
   "config/chemin/chapitre-lettres-paul.ts:102"
  ],
@@ -10619,8 +10658,11 @@
  "Épique": [
   "components/chemin/CheminScreen.tsx:92"
  ],
+ "épisode": [
+  "components/audio/ListenScreen.tsx:678"
+ ],
  "Épisodes": [
-  "components/audio/ListenScreen.tsx:449"
+  "components/audio/ListenScreen.tsx:760"
  ],
  "Épisodes les plus écoutés (30 j)": [
   "components/community/AnalyticsDashboard.tsx:239"
@@ -11350,7 +11392,7 @@
  ],
  "Favoris": [
   "components/app/ProfilMenu.tsx:76",
-  "components/audio/ListenScreen.tsx:450"
+  "components/audio/ListenScreen.tsx:656"
  ],
  "fé": [
   "components/bible/RechercheBible.tsx:12"
@@ -11382,9 +11424,9 @@
   "components/app/AnnouncementBanner.tsx:64"
  ],
  "Fermer le lecteur": [
-  "components/audio/GlobalAudioBar.tsx:141",
-  "components/audio/GlobalAudioBar.tsx:226",
-  "components/audio/GlobalAudioBar.tsx:263"
+  "components/audio/GlobalAudioBar.tsx:147",
+  "components/audio/GlobalAudioBar.tsx:232",
+  "components/audio/GlobalAudioBar.tsx:269"
  ],
  "Fermer le menu": [
   "components/layout/Header.tsx:117"
@@ -11460,6 +11502,7 @@
   "components/ecole/GalerieFiches.tsx:306"
  ],
  "Fin de l'épisode": [
+  "components/audio/PodcastPlayerPlein.tsx:405",
   "components/audio/SleepTimer.tsx:103"
  ],
  "Fin de la lecture": [
@@ -12267,8 +12310,7 @@
   "lib/media.ts:52"
  ],
  "Hors ligne": [
-  "components/audio/ListenScreen.tsx:451",
-  "components/audio/ListenScreen.tsx:609"
+  "components/audio/ListenScreen.tsx:403"
  ],
  "https://github.com": [
   "app/mentions-legales/page.tsx:57"
@@ -14314,6 +14356,12 @@
   "components/bible/VersetOutils.tsx:47",
   "components/bible/VersetOutils.tsx:850"
  ],
+ "Intervenant :": [
+  "components/audio/ListenScreen.tsx:264"
+ ],
+ "Intervenant (ex. Josy W. Brunet) :": [
+  "components/audio/ListenScreen.tsx:249"
+ ],
  "Introduction": [
   "components/bible/IntroLivre.tsx:117"
  ],
@@ -15524,7 +15572,7 @@
  ],
  "Jésus": [
   "app/app/page.tsx:112",
-  "app/layout.tsx:77",
+  "app/layout.tsx:78",
   "app/mission-madagascar/page.tsx:53"
  ],
  "Jésus a d'abord été acclamé à Nazareth avant d'être rejeté.": [
@@ -16793,6 +16841,9 @@
  "La Création": [
   "config/chemin/chapitre-creation.ts:6",
   "config/chemin/chapitre-creation.ts:14"
+ ],
+ "La création n'a pas marché. As-tu bien exécuté le SQL des émissions dans Supabase ?": [
+  "components/audio/ListenScreen.tsx:258"
  ],
  "La création, puis la loi de l'Éternel": [
   "config/chemin/chapitre-psaumes.ts:41"
@@ -18123,9 +18174,6 @@
  "Le nom de Dieu n'est jamais prononcé dans le livre d'Esther.": [
   "config/chemin/chapitre-esther.ts:88"
  ],
- "Le nom du fichier devient le titre. Tu peux ensuite modifier titre & description avec le menu « … ».": [
-  "components/audio/ListenScreen.tsx:389"
- ],
  "Le nombre des disciples": [
   "config/chemin/chapitre-pentecote.ts:76"
  ],
@@ -18831,6 +18879,7 @@
   "components/ecole/FormationView.tsx:1493"
  ],
  "Lecteur": [
+  "components/audio/PodcastPlayerPlein.tsx:127",
   "lib/badges.ts:117"
  ],
  "Lecteur audio": [
@@ -18846,11 +18895,12 @@
   "components/boutique/RhemaShowcase.tsx:563"
  ],
  "Lecture à voix haute": [
-  "components/audio/GlobalAudioBar.tsx:257"
+  "components/audio/GlobalAudioBar.tsx:263"
  ],
  "Lecture aléatoire": [
-  "components/audio/GlobalAudioBar.tsx:163",
-  "components/audio/ListenScreen.tsx:360"
+  "components/audio/GlobalAudioBar.tsx:169",
+  "components/audio/ListenScreen.tsx:502",
+  "components/audio/PodcastPlayerPlein.tsx:249"
  ],
  "Lecture audio du chapitre (voix de l'appareil)": [
   "components/bible/BibleAudio.tsx:337"
@@ -18960,7 +19010,7 @@
   "config/chemin/chapitre-creation.ts:37"
  ],
  "Les audios arrivent bientôt": [
-  "components/audio/ListenScreen.tsx:544"
+  "components/audio/ListenScreen.tsx:578"
  ],
  "Les autres donnaient de leur superflu, elle a tout donné": [
   "config/chemin/chapitre-rameaux.ts:98"
@@ -19098,6 +19148,9 @@
  "Les Égyptiens reviennent": [
   "config/chemin/chapitre-mer-rouge.ts:76"
  ],
+ "Les émissions": [
+  "components/audio/ListenScreen.tsx:612"
+ ],
  "Les endroits pierreux": [
   "config/chemin/chapitre-paraboles.ts:25"
  ],
@@ -19118,6 +19171,9 @@
  ],
  "Les épines l'ont étouffée": [
   "config/chemin/chapitre-paraboles.ts:26"
+ ],
+ "Les épisodes que tu commences apparaissent ici pour reprendre là où tu t'es arrêté.": [
+  "components/audio/ListenScreen.tsx:695"
  ],
  "Les familles de la Bible, d'Adam à Jésus : patriarches, tribus, rois, et les généalogies de Matthieu et de Luc.": [
   "app/ecole/arbres/page.tsx:6"
@@ -19347,6 +19403,9 @@
  ],
  "Les premiers disciples": [
   "config/chemin/chapitre-disciples.ts:6"
+ ],
+ "Les premiers épisodes de cette émission arrivent bientôt.": [
+  "components/audio/ListenScreen.tsx:538"
  ],
  "Les présentes conditions régissent les dons effectués en faveur du ministère ainsi que, à terme, la vente de produits (notamment le livre RHEMA) via le site.": [
   "app/cgv/page.tsx:28"
@@ -19599,9 +19658,9 @@
   "lib/verse-image.ts:15"
  ],
  "Lire": [
-  "components/audio/GlobalAudioBar.tsx:114",
-  "components/audio/GlobalAudioBar.tsx:250",
-  "components/audio/ListenScreen.tsx:429"
+  "components/audio/GlobalAudioBar.tsx:120",
+  "components/audio/GlobalAudioBar.tsx:256",
+  "components/audio/ListenScreen.tsx:381"
  ],
  "LIRE": [
   "components/chemin/CheminScreen.tsx:711"
@@ -20670,7 +20729,7 @@
   "components/home/Reels.tsx:18"
  ],
  "Mes enseignements en audio, à écouter partout, même sans connexion.": [
-  "components/audio/ListenScreen.tsx:344"
+  "lib/audio-library.ts:185"
  ],
  "Mes favoris": [
   "app/favoris/page.tsx:6",
@@ -20775,7 +20834,6 @@
   "components/home/DevotionalView.tsx:555"
  ],
  "Mettre en pause": [
-  "components/audio/ListenScreen.tsx:716",
   "components/home/SoakingBar.tsx:28"
  ],
  "Mettre en pratique": [
@@ -20849,9 +20907,9 @@
   "lib/quiz.ts:330"
  ],
  "min": [
+  "components/audio/PodcastPlayerPlein.tsx:394",
   "components/bible/BibleAudioPlayer.tsx:691",
-  "components/ecole/EtudesView.tsx:132",
-  "components/ecole/EtudesView.tsx:851"
+  "components/ecole/EtudesView.tsx:132"
  ],
  "min · Touche le bouton audio pour écouter": [
   "components/plans/PlanJour.tsx:198"
@@ -20860,7 +20918,7 @@
   "app/confidentialite/page.tsx:198"
  ],
  "ministère chrétien": [
-  "app/layout.tsx:71"
+  "app/layout.tsx:72"
  ],
  "Ministère chrétien": [
   "content/settings.json"
@@ -20870,6 +20928,7 @@
   "components/bible/BibleAudio.tsx:380"
  ],
  "Minuteur": [
+  "components/audio/PodcastPlayerPlein.tsx:298",
   "components/bible/BibleAudio.tsx:370",
   "components/bible/BibleAudioPlayer.tsx:637"
  ],
@@ -20954,12 +21013,12 @@
   "components/community/CommunityView.tsx:299"
  ],
  "Modifier": [
+  "components/audio/ListenScreen.tsx:529",
   "components/community/DevotionsAdmin.tsx:371",
-  "components/community/ProfileActivity.tsx:213",
-  "components/notebook/CarnetView.tsx:478"
+  "components/community/ProfileActivity.tsx:213"
  ],
  "Modifier (admin)": [
-  "components/audio/ListenScreen.tsx:740"
+  "components/audio/ListenScreen.tsx:917"
  ],
  "Modifier la catégorie": [
   "components/community/ProfileActivity.tsx:246"
@@ -21190,7 +21249,7 @@
   "app/app/page.tsx:47"
  ],
  "Musique soaking": [
-  "components/audio/GlobalAudioBar.tsx:218",
+  "components/audio/GlobalAudioBar.tsx:224",
   "components/community/AnalyticsDashboard.tsx:26",
   "components/home/SoakingBar.tsx:39"
  ],
@@ -21427,6 +21486,10 @@
   "components/community/GroupView.tsx:1013",
   "components/home/PrayerSpace.tsx:135"
  ],
+ "Nom de l'émission :": [
+  "components/audio/ListenScreen.tsx:247",
+  "components/audio/ListenScreen.tsx:262"
+ ],
  "Nom du fichier tel qu'uploadé dans Médias, ex. rhema-01-noir.png. Laisse vide pour la carte générée automatiquement.": [
   "components/community/DevotionsAdmin.tsx:110"
  ],
@@ -21580,8 +21643,8 @@
  ],
  "Nouveau": [
   "app/reinitialiser-mot-de-passe/page.tsx:17",
-  "components/audio/ListenScreen.tsx:602",
-  "components/community/ProfileBanners.tsx:29"
+  "components/community/ProfileBanners.tsx:29",
+  "components/ecole/EcoleView.tsx:180"
  ],
  "NOUVEAU": [
   "components/games/ChronoScreen.tsx:208"
@@ -21614,6 +21677,12 @@
  ],
  "Nouveaux abonnés": [
   "lib/notif-prefs.ts:28"
+ ],
+ "Nouveaux épisodes": [
+  "components/audio/ListenScreen.tsx:608"
+ ],
+ "Nouvel épisode": [
+  "components/audio/ListenScreen.tsx:563"
  ],
  "Nouvelle catégorie": [
   "components/community/ProfileActivity.tsx:246"
@@ -21991,9 +22060,6 @@
  ],
  "Ouvre l'application, va sur l'écran de connexion et touche « Mot de passe oublié » pour recevoir un nouveau lien.": [
   "components/community/ResetPasswordForm.tsx:97"
- ],
- "Ouvre le menu « … » d'un épisode et choisis Télécharger : il sera écoutable sans connexion.": [
-  "components/audio/ListenScreen.tsx:550"
  ],
  "Ouvre le mode « Scrolle & prie » (mur de prière ou Temps avec Jésus), prie pour au moins une personne puis termine ta session. Bronze à 5 sessions, argent à 25, or à 100.": [
   "lib/badges.ts:239"
@@ -22440,6 +22506,9 @@
  "Parce que Samuel l'a demandé": [
   "config/chemin/chapitre-david-roi.ts:36"
  ],
+ "Parcourir": [
+  "components/audio/ListenScreen.tsx:791"
+ ],
  "parcours": [
   "app/plans/page.tsx:68"
  ],
@@ -22546,9 +22615,9 @@
   "components/community/CommunityView.tsx:252"
  ],
  "Partager": [
-  "components/audio/ListenScreen.tsx:732",
-  "components/bible/SelectionVersets.tsx:169",
-  "components/bible/VersetOutils.tsx:637"
+  "components/audio/ListenScreen.tsx:889",
+  "components/audio/PodcastPlayerPlein.tsx:173",
+  "components/bible/SelectionVersets.tsx:169"
  ],
  "Partager aussi sur le mur de prière (sinon, visible de toi seul)": [
   "components/community/MyPrayerList.tsx:76"
@@ -22752,7 +22821,6 @@
   "content/about.json"
  ],
  "Pasteur Jack": [
-  "components/audio/ListenScreen.tsx:329",
   "components/plans/AuthorChip.tsx:30"
  ],
  "Pasteur Jack Brunet": [
@@ -22808,9 +22876,9 @@
   "config/chemin/chapitre-rome.ts:60"
  ],
  "Pause": [
-  "components/audio/GlobalAudioBar.tsx:114",
-  "components/audio/GlobalAudioBar.tsx:210",
-  "components/audio/GlobalAudioBar.tsx:250"
+  "components/audio/GlobalAudioBar.tsx:120",
+  "components/audio/GlobalAudioBar.tsx:216",
+  "components/audio/GlobalAudioBar.tsx:256"
  ],
  "PAUSE": [
   "components/games/FrondeGame.tsx:264"
@@ -22862,7 +22930,7 @@
   "components/home/NewsletterCTA.tsx:44"
  ],
  "pensée du jour": [
-  "app/layout.tsx:72"
+  "app/layout.tsx:73"
  ],
  "Pensée du jour": [
   "app/page.tsx:28",
@@ -23172,7 +23240,7 @@
   "components/plans/FeaturedPlans.tsx:119"
  ],
  "plan de lecture biblique": [
-  "app/layout.tsx:74"
+  "app/layout.tsx:75"
  ],
  "Plan du livre": [
   "components/bible/IntroLivre.tsx:155"
@@ -23223,7 +23291,7 @@
   "components/home/VideosExperience.tsx:55"
  ],
  "Plus d'options": [
-  "components/audio/ListenScreen.tsx:654",
+  "components/audio/ListenScreen.tsx:435",
   "components/bible/BibleReader.tsx:520"
  ],
  "Plus de 700 fiches, de la Genèse à l'Apocalypse : famille, histoire, passages.": [
@@ -23279,12 +23347,12 @@
   "components/bible/VersetOutils.tsx:654"
  ],
  "Podcast": [
-  "components/audio/ListenScreen.tsx:327",
+  "components/audio/PodcastPlayerPlein.tsx:168",
   "components/community/AnalyticsDashboard.tsx:25",
   "config/author.ts:24"
  ],
- "Podcast de": [
-  "components/audio/ListenScreen.tsx:329"
+ "Podcast de Pasteur Jack": [
+  "lib/audio-library.ts:183"
  ],
  "Podcasts": [
   "components/community/AdminSpace.tsx:56",
@@ -23409,13 +23477,14 @@
   "components/ecole/FormationView.tsx:755"
  ],
  "Position": [
-  "components/audio/GlobalAudioBar.tsx:132"
+  "components/audio/GlobalAudioBar.tsx:138"
  ],
  "Position dans l'audio": [
   "components/ecole/EtudesView.tsx:699",
   "components/ecole/FormationView.tsx:595"
  ],
  "Position de lecture": [
+  "components/audio/PodcastPlayerPlein.tsx:238",
   "components/bible/BibleAudioPlayer.tsx:499"
  ],
  "position, theme, verse_text, verse_reference, punchline, meditation, card, declaration_text, declaration_reference, questions, published": [
@@ -23883,9 +23952,9 @@
   "config/chemin/chapitre-osee-amos.ts:80"
  ],
  "Précédent": [
+  "components/audio/PodcastPlayerPlein.tsx:254",
   "components/home/ShortsPlayer.tsx:127",
-  "components/home/VideoLibrary.tsx:269",
-  "components/home/VideosExperience.tsx:166"
+  "components/home/VideoLibrary.tsx:269"
  ],
  "Précommande — sortie le 7 septembre": [
   "components/home/RhemaBanner.tsx:24"
@@ -24047,7 +24116,7 @@
   "config/chemin/chapitre-jacques.ts:71"
  ],
  "prière": [
-  "app/layout.tsx:75",
+  "app/layout.tsx:76",
   "components/community/CommunityLanding.tsx:84",
   "components/community/CommunityLanding.tsx:191"
  ],
@@ -26858,6 +26927,7 @@
   "components/community/MemberSearch.tsx:63"
  ],
  "Rechercher": [
+  "components/audio/ListenScreen.tsx:718",
   "components/ecole/CartesLexique.tsx:118"
  ],
  "Rechercher : n° du jour, thème, verset, punchline": [
@@ -26880,10 +26950,6 @@
  "Rechercher un dévotionnel": [
   "components/community/DevotionsAdmin.tsx:340"
  ],
- "Rechercher un épisode": [
-  "components/audio/ListenScreen.tsx:492",
-  "components/audio/ListenScreen.tsx:493"
- ],
  "Rechercher un groupe (nom, thème…)": [
   "components/community/GroupsDirectory.tsx:206"
  ],
@@ -26897,6 +26963,9 @@
  ],
  "Rechercher un nom de fichier": [
   "components/community/MediasAdmin.tsx:163"
+ ],
+ "Rechercher une émission, un épisode…": [
+  "components/audio/ListenScreen.tsx:717"
  ],
  "Rechercher une personne à qui écrire…": [
   "components/community/MessagesView.tsx:119"
@@ -27030,6 +27099,9 @@
  ],
  "Réduire le classement": [
   "components/games/ScoreBoard.tsx:230"
+ ],
+ "Réduire le lecteur": [
+  "components/audio/PodcastPlayerPlein.tsx:159"
  ],
  "Réessayer": [
   "components/community/CommunityView.tsx:513",
@@ -27425,6 +27497,9 @@
  "Répéter": [
   "components/bible/BibleAudioPlayer.tsx:625"
  ],
+ "Répéter l'épisode": [
+  "components/audio/PodcastPlayerPlein.tsx:275"
+ ],
  "Replier": [
   "components/community/AdminRubrique.tsx:149",
   "components/notebook/CarnetView.tsx:306"
@@ -27481,9 +27556,6 @@
  "Réponses ancrées dans la Bible (LSG). Ne remplace ni la prière, ni ton pasteur.": [
   "components/assistant/AssistantView.tsx:110"
  ],
- "Reprendre": [
-  "components/audio/ListenScreen.tsx:355"
- ],
  "REPRENDRE": [
   "components/games/FrondeGame.tsx:266",
   "components/quiz/QuizScreen.tsx:698"
@@ -27495,8 +27567,8 @@
   "components/plans/PlanView.tsx:392"
  ],
  "Reprendre l'écoute": [
-  "components/audio/ListenScreen.tsx:412",
-  "components/audio/ListenScreen.tsx:716"
+  "components/audio/ListenScreen.tsx:584",
+  "components/audio/ListenScreen.tsx:873"
  ],
  "Reprendre la formation": [
   "components/ecole/FormationView.tsx:1365"
@@ -27584,20 +27656,22 @@
   "components/community/FollowList.tsx:100"
  ],
  "Retirer « {0} » des téléchargements ?": [
-  "components/audio/ListenScreen.tsx:144"
+  "components/audio/ListenScreen.tsx:191",
+  "components/audio/PodcastPlayerPlein.tsx:81"
  ],
  "Retirer ce verset": [
   "app/memoriser/page.tsx:890"
  ],
  "Retirer des favoris": [
-  "components/audio/ListenScreen.tsx:635",
+  "components/audio/ListenScreen.tsx:425",
+  "components/audio/PodcastPlayerPlein.tsx:211",
   "components/home/DevotionalView.tsx:759"
  ],
  "Retirer du carnet": [
   "components/community/PrayerCard.tsx:609"
  ],
  "Retirer du hors-ligne": [
-  "components/audio/ListenScreen.tsx:725"
+  "components/audio/ListenScreen.tsx:882"
  ],
  "Retirer la photo": [
   "components/wall/WallSection.tsx:331"
@@ -27615,8 +27689,8 @@
  ],
  "Retour": [
   "components/assistant/AssistantView.tsx:100",
-  "components/community/MessagesView.tsx:366",
-  "components/ecole/ArbresGenealogiques.tsx:220"
+  "components/audio/ListenScreen.tsx:477",
+  "components/community/MessagesView.tsx:366"
  ],
  "Retour à l'accueil": [
   "app/questions/page.tsx:323",
@@ -27775,7 +27849,7 @@
  ],
  "RHEMA – Ton temps avec Jésus": [
   "app/app/page.tsx:15",
-  "app/layout.tsx:85"
+  "app/layout.tsx:86"
  ],
  "RHEMA —": [
   "components/home/RhemaBanner.tsx:27"
@@ -27868,6 +27942,9 @@
   "config/chemin/chapitre-daniel.ts:35",
   "config/chemin/chapitre-elie.ts:35",
   "config/chemin/chapitre-paraboles.ts:99"
+ ],
+ "Rien en cours": [
+  "components/audio/ListenScreen.tsx:695"
  ],
  "Rien ici pour l'instant": [
   "components/notebook/CarnetView.tsx:233"
@@ -29038,9 +29115,9 @@
   "components/games/WhoAmIScreen.tsx:219"
  ],
  "Suivant": [
-  "components/audio/GlobalAudioBar.tsx:186",
-  "components/home/ShortsPlayer.tsx:135",
-  "components/home/VideoLibrary.tsx:278"
+  "components/audio/GlobalAudioBar.tsx:192",
+  "components/audio/PodcastPlayerPlein.tsx:267",
+  "components/home/ShortsPlayer.tsx:135"
  ],
  "Suivant →": [
   "components/bible/BibleReader.tsx:900"
@@ -29086,21 +29163,19 @@
   "components/community/DeleteAccountButton.tsx:60"
  ],
  "Supprimer": [
+  "components/audio/ListenScreen.tsx:532",
   "components/bible/VersetOutils.tsx:610",
-  "components/community/DevotionsAdmin.tsx:376",
-  "components/community/GroupView.tsx:412"
+  "components/community/DevotionsAdmin.tsx:376"
  ],
  "Supprimer « {0} » ?": [
+  "components/audio/ListenScreen.tsx:242",
   "components/community/MediasAdmin.tsx:60"
  ],
  "Supprimer « {0} » hors-ligne ?": [
   "components/bible/BibleDownload.tsx:37"
  ],
- "Supprimer « {0} »?": [
-  "components/audio/ListenScreen.tsx:245"
- ],
  "Supprimer (admin)": [
-  "components/audio/ListenScreen.tsx:746"
+  "components/audio/ListenScreen.tsx:951"
  ],
  "Supprimer (modération)": [
   "components/community/PrayerCard.tsx:428",
@@ -29120,6 +29195,9 @@
  ],
  "Supprimer définitivement ton compte et toutes tes données ? Cette action est irréversible.": [
   "components/community/DeleteAccountButton.tsx:18"
+ ],
+ "Supprimer l'émission « {0} » ? Ses épisodes restent en ligne.": [
+  "components/audio/ListenScreen.tsx:281"
  ],
  "Supprimer la note": [
   "components/plans/PlanDuo.tsx:321"
@@ -29539,6 +29617,9 @@
  "Tekoa": [
   "config/chemin/chapitre-osee-amos.ts:51"
  ],
+ "Téléchargé": [
+  "components/audio/PodcastPlayerPlein.tsx:312"
+ ],
  "Télécharge l'application": [
   "app/lien/page.tsx:55"
  ],
@@ -29549,10 +29630,13 @@
   "components/bible/BibleDownload.tsx:60"
  ],
  "Téléchargement… {0} %": [
-  "components/audio/ListenScreen.tsx:723"
+  "components/audio/ListenScreen.tsx:880"
+ ],
+ "Télécharger": [
+  "components/audio/PodcastPlayerPlein.tsx:312"
  ],
  "Télécharger (écoute hors-ligne)": [
-  "components/audio/ListenScreen.tsx:726"
+  "components/audio/ListenScreen.tsx:883"
  ],
  "Télécharger {0} hors-ligne": [
   "components/bible/BibleDownload.tsx:61"
@@ -29581,6 +29665,9 @@
  "Télécharger sur": [
   "components/app/StoreBadges.tsx:35"
  ],
+ "Téléchargés": [
+  "components/audio/ListenScreen.tsx:657"
+ ],
  "Téléphone": [
   "components/home/PrayerSpace.tsx:153",
   "components/home/Testimonies.tsx:123"
@@ -29596,7 +29683,7 @@
   "app/api/testimony/route.ts:41"
  ],
  "témoignages": [
-  "app/layout.tsx:76"
+  "app/layout.tsx:77"
  ],
  "Témoignages": [
   "app/exaucees/page.tsx:14",
@@ -29798,8 +29885,8 @@
  "Titre affiché": [
   "components/community/ObjectifDonAdmin.tsx:73"
  ],
- "Titre de l'épisode:": [
-  "components/audio/ListenScreen.tsx:234"
+ "Titre de l'épisode :": [
+  "components/audio/ListenScreen.tsx:235"
  ],
  "Titre de l'objectif": [
   "components/community/ObjectifDonAdmin.tsx:73"
@@ -30038,7 +30125,7 @@
   "components/home/DevotionalView.tsx:707"
  ],
  "Touche le cœur sur un épisode pour le retrouver ici.": [
-  "components/audio/ListenScreen.tsx:548"
+  "components/audio/ListenScreen.tsx:691"
  ],
  "Touche les mots dans l'ordre…": [
   "components/chemin/CheminScreen.tsx:599"
@@ -30082,6 +30169,7 @@
   "app/a-propos/page.tsx:217"
  ],
  "Tous": [
+  "components/audio/ListenScreen.tsx:733",
   "components/ecole/EtudesView.tsx:198",
   "config/chemin/chapitre-rome.ts:60"
  ],
@@ -30133,6 +30221,9 @@
  "Tout ce que ta main trouve à faire fais-le avec ta force": [
   "config/chemin/chapitre-ecclesiaste.ts:86"
  ],
+ "Tout écouter": [
+  "components/audio/ListenScreen.tsx:685"
+ ],
  "Tout est accompli": [
   "config/chemin/chapitre-croix.ts:97"
  ],
@@ -30172,9 +30263,9 @@
   "config/chemin/chapitre-esther.ts:57"
  ],
  "Tout voir": [
+  "components/audio/ListenScreen.tsx:615",
   "components/ecole/EcoleView.tsx:224",
-  "components/home/Reels.tsx:35",
-  "components/home/ShortsExperience.tsx:83"
+  "components/home/Reels.tsx:35"
  ],
  "Tout voir ·": [
   "components/home/ShortsExperience.tsx:43"
@@ -30218,6 +30309,9 @@
  "Toutes les": [
   "components/home/VideosExperience.tsx:65",
   "components/home/VideosScreen.tsx:39"
+ ],
+ "Toutes les émissions": [
+  "components/audio/ListenScreen.tsx:751"
  ],
  "Toutes les femmes sortent derrière moi en dansant.": [
   "config/chemin/chapitre-mer-rouge.ts:66"
@@ -32234,7 +32328,7 @@
   "components/ecole/EtudesView.tsx:838"
  ],
  "verset du jour": [
-  "app/layout.tsx:73"
+  "app/layout.tsx:74"
  ],
  "Verset précédent": [
   "components/bible/BibleAudioPlayer.tsx:543"
@@ -32304,7 +32398,7 @@
  "Vidéos": [
   "app/videos/page.tsx:7",
   "components/app/ProfilMenu.tsx:82",
-  "components/audio/ListenScreen.tsx:369"
+  "components/community/AnalyticsDashboard.tsx:21"
  ],
  "Vidéos & Shorts": [
   "config/site.ts:66"
@@ -32390,11 +32484,12 @@
   "components/community/AnalyticsDashboard.tsx:100"
  ],
  "Vitesse": [
+  "components/audio/PodcastPlayerPlein.tsx:292",
   "components/bible/BibleAudioPlayer.tsx:601",
   "components/ui/AudioPlayer.tsx:154"
  ],
  "Vitesse de lecture": [
-  "components/audio/GlobalAudioBar.tsx:177",
+  "components/audio/GlobalAudioBar.tsx:183",
   "components/bible/BibleAudioPlayer.tsx:597",
   "components/community/VoiceNote.tsx:384"
  ],
@@ -32421,6 +32516,9 @@
  "Voir aussi": [
   "components/ecole/ArbresGenealogiques.tsx:548"
  ],
+ "Voir aussi les vidéos": [
+  "components/audio/ListenScreen.tsx:820"
+ ],
  "Voir dans l'arbre généalogique": [
   "components/bible/FichesChapitre.tsx:468",
   "components/bible/FichesChapitre.tsx:473"
@@ -32430,6 +32528,9 @@
  ],
  "Voir l'agenda": [
   "components/home/NextLiveBanner.tsx:36"
+ ],
+ "Voir l'émission": [
+  "components/audio/ListenScreen.tsx:901"
  ],
  "Voir l'original": [
   "components/community/VoirTraduction.tsx:57"
@@ -32527,6 +32628,9 @@
  ],
  "Voir tous les Shorts →": [
   "components/home/DailyShort.tsx:50"
+ ],
+ "Voir tout": [
+  "components/audio/ListenScreen.tsx:632"
  ],
  "Voir tout le plan": [
   "components/home/ReadingPlanView.tsx:66"

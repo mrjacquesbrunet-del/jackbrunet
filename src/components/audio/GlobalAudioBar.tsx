@@ -6,6 +6,7 @@ import { useSoaking } from "@/lib/soaking";
 import { PlayGlyph, PauseGlyph, MusicGlyph } from "@/components/ui/DevoIcons";
 import { SleepTimer } from "@/components/audio/SleepTimer";
 import { useLecteurPlein } from "@/lib/lecteur-plein";
+import { usePodcastEtat, ouvrirLecteurPodcast } from "@/lib/podcast-etat";
 
 /** Flèche vers le haut : redéplie le grand lecteur de la page (Bible, plan). */
 function BoutonAgrandir({ onClick }: { onClick: () => void }) {
@@ -39,7 +40,12 @@ export function GlobalAudioBar() {
   const pod = usePodcastPlayer();
   const soak = useSoaking();
   const lp = useLecteurPlein();
-  const agrandir = lp.present && lp.ouvrir ? lp.ouvrir : null;
+  const { pleinEcran } = usePodcastEtat();
+  // Épisode de podcast : la flèche rouvre le lecteur plein écran ; sinon le
+  // grand lecteur de la page (Bible, plan).
+  const estPodcast = !!pod.current?.memoriser;
+  const agrandir = estPodcast ? ouvrirLecteurPodcast : lp.present && lp.ouvrir ? lp.ouvrir : null;
+  const cache = lp.ouvert || (estPodcast && pleinEcran);
   const [time, setTime] = useState(0);
   const [dur, setDur] = useState(0);
 
@@ -49,7 +55,7 @@ export function GlobalAudioBar() {
   // On mesure aussi la VRAIE hauteur du menu du bas (--bottom-nav-h) pour
   // coller la barre pile dessus, sans aucun jour entre les deux.
   // Grand lecteur de la page déplié → la barre se cache (un seul lecteur).
-  const visible = (!!pod.current || soak.playing || !!lp.voix) && !lp.ouvert;
+  const visible = (!!pod.current || soak.playing || !!lp.voix) && !cache;
   useEffect(() => {
     const main = document.querySelector("main") as HTMLElement | null;
     if (!main) return;
@@ -96,7 +102,7 @@ export function GlobalAudioBar() {
     };
   }, [pod.index]);
 
-  if (lp.ouvert) return null;
+  if (cache) return null;
 
   // Podcast en priorité.
   if (pod.current) {
