@@ -123,9 +123,9 @@ export function GlobalAudioBar() {
               {pod.playing? <PauseGlyph className="h-5 w-5" />: <PlayGlyph className="h-5 w-5" />}
             </button>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-[15px] font-semibold text-cream">
+              <button type="button" onClick={agrandir ?? undefined} className="block w-full truncate text-left text-[15px] font-semibold text-cream">
                 {pod.current.title}
-              </p>
+              </button>
               <div className="mt-1.5 flex items-center gap-2">
                 <span className="text-[10px] tabular-nums text-cream/45">{fmt(time)}</span>
                 <input

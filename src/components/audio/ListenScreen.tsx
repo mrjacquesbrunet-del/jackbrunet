@@ -74,6 +74,7 @@ export function ListenScreen() {
   const [biblio, setBiblio] = useState<"fav" | "offline" | "encours">("fav");
   const [recherche, setRecherche] = useState("");
   const [categorie, setCategorie] = useState<string | null>(null);
+  const [auteur, setAuteur] = useState<string | null>(null);
   const [menu, setMenu] = useState<string | null>(null);
   const [heroIdx, setHeroIdx] = useState(0);
   const [voirTousNouveaux, setVoirTousNouveaux] = useState(false);
@@ -299,6 +300,11 @@ export function ListenScreen() {
   const enCours = (tracks ?? []).filter((t) => (positions[t.id] ?? 0) > 5);
   const nouveaux = (tracks ?? []).slice(0, 10);
   const categories = Array.from(new Set((emissions ?? []).map((e) => e.category).filter(Boolean))) as string[];
+  // Intervenants (avec la pochette de leur première émission et le nombre d'épisodes).
+  const intervenants = Array.from(new Set((emissions ?? []).map((e) => e.author).filter(Boolean))) .map((nom) => {
+    const ems = (emissions ?? []).filter((e) => e.author === nom);
+    return { nom: nom as string, image: ems[0]?.cover ?? null, episodes: ems.reduce((n, e) => n + (parEmission.get(e.id)?.length ?? 0), 0) };
+  });
   const sansAccent = (x: string) => x.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
   const q = sansAccent(recherche.trim());
 
@@ -318,6 +324,8 @@ export function ListenScreen() {
         <HeadphonesGlyph className="h-1/3 w-1/3 text-dawn-400" />
       </div>
     );
+
+  const emission = emissionOuverte ? emissions?.find((e) => e.id === emissionOuverte) ?? null : null;
 
   /* ————— Briques d'affichage ————— */
 
@@ -400,7 +408,7 @@ export function ListenScreen() {
         <button type="button" onClick={() => lire(t, liste)} className="min-w-0 flex-1 text-left">
           <p className="flex items-center gap-1.5 text-[11px] font-semibold text-cream/45">
             {t.numero ? <span className="text-dawn-400/80">Ép. {t.numero}</span> : null}
-            <span className="truncate">{meta(t)}</span>
+            <span className="truncate">{emission ? meta(t) : [t.author, meta(t)].filter(Boolean).join(" · ")}</span>
             {offline.has(t.path) ? (
               <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0 fill-none stroke-current text-dawn-400" strokeWidth={2.4} aria-label="Hors ligne">
                 <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" strokeLinecap="round" strokeLinejoin="round" />
@@ -459,7 +467,6 @@ export function ListenScreen() {
 
   /* ————— Pages ————— */
 
-  const emission = emissionOuverte ? emissions?.find((e) => e.id === emissionOuverte) ?? null : null;
 
   const pageEmission = (e: Emission) => {
     const eps = parEmission.get(e.id) ?? [];
@@ -572,12 +579,12 @@ export function ListenScreen() {
 
   const pageAccueil = () => {
     // Bannière : les émissions, complétées par les derniers épisodes.
-    type Diapo = { cle: string; surtitre: string; titre: string; texte: string | null; image: string | null | undefined; lancer: () => void };
+    type Diapo = { cle: string; surtitre: string; titre: string; auteur?: string | null; texte: string | null; image: string | null | undefined; lancer: () => void };
     const diapos: Diapo[] = [];
     for (const e of emissions ?? []) {
       const eps = parEmission.get(e.id) ?? [];
       if (!eps.length) continue;
-      diapos.push({ cle: `e${e.id}`, surtitre: "À l'écoute", titre: e.title, texte: e.description, image: e.cover, lancer: () => lire(eps[0], eps) });
+      diapos.push({ cle: `e${e.id}`, surtitre: "À l'écoute", titre: e.title, auteur: e.author, texte: e.description, image: e.cover, lancer: () => lire(eps[0], eps) });
     }
     for (const t of nouveaux) {
       if (diapos.length >= 4) break;
@@ -585,6 +592,7 @@ export function ListenScreen() {
         cle: `t${t.id}`,
         surtitre: t === nouveaux[0] ? "Nouvel épisode" : t.showTitle ?? "Épisode",
         titre: t.title,
+        auteur: t.author,
         texte: t.description,
         image: t.cover,
         lancer: () => lire(t, nouveaux),
@@ -610,6 +618,7 @@ export function ListenScreen() {
                   <div className="relative flex h-full max-w-[72%] flex-col justify-center p-5">
                     <p className="text-[10.5px] font-semibold uppercase tracking-[0.22em] text-cream/70">{d.surtitre}</p>
                     <p className="mt-1.5 line-clamp-2 font-display text-[27px] font-bold leading-[1.05] text-cream">{d.titre}</p>
+                    {d.auteur ? <p className="mt-1 truncate text-[13px] font-semibold text-dawn-400">avec {d.auteur}</p> : null}
                     {d.texte ? <p className="mt-2 line-clamp-2 text-[13px] leading-snug text-cream/70">{d.texte}</p> : null}
                     <button
                       type="button"
@@ -675,7 +684,7 @@ export function ListenScreen() {
                   <span className="absolute inset-x-3 bottom-2.5 line-clamp-2 font-display text-[16px] font-bold leading-tight text-cream">{t.title}</span>
                 </span>
                 <span className="block px-3 pb-3 pt-2.5">
-                  <span className="block text-[12.5px] text-cream/65">{t.numero ? `Épisode ${t.numero}` : t.showTitle}</span>
+                  <span className="block truncate text-[12.5px] text-cream/65">{[t.numero ? `Épisode ${t.numero}` : t.showTitle, t.author].filter(Boolean).join(" · ")}</span>
                   <span className="mt-2 block h-1 overflow-hidden rounded-full bg-white/10">
                     <span className="block h-full rounded-full bg-dawn-400" style={{ width: `${fraction(t) * 100}%` }} />
                   </span>
@@ -726,6 +735,8 @@ export function ListenScreen() {
                         <span className={`line-clamp-2 block text-[15.5px] font-semibold leading-snug ${isCur ? "text-dawn-400" : "text-cream"}`}>{t.title}</span>
                         <span className="mt-1 block truncate text-[13px] text-cream/55">
                           {[t.numero ? `Épisode ${t.numero}` : t.showTitle, durations[t.id] ? `${Math.max(1, Math.round(durations[t.id] / 60))} min` : null].filter(Boolean).join(" · ")}
+                        </span>
+                        <span className="mt-0.5 block truncate text-[12.5px] text-dawn-400/80">{t.author ?? t.showTitle}
                         </span>
                       </span>
                     </button>
@@ -822,9 +833,19 @@ export function ListenScreen() {
 
   const pageParcourir = () => {
     const emFiltrees = (emissions ?? []).filter(
-      (e) => (!categorie || e.category === categorie) && (!q || sansAccent(`${e.title} ${e.author ?? ""} ${e.description ?? ""}`).includes(q)),
+      (e) =>
+        (!categorie || e.category === categorie) &&
+        (!auteur || e.author === auteur) &&
+        (!q || sansAccent(`${e.title} ${e.author ?? ""} ${e.description ?? ""}`).includes(q)),
     );
-    const epTrouves = q ? (tracks ?? []).filter((t) => sansAccent(`${t.title} ${t.description ?? ""} ${t.showTitle ?? ""}`).includes(q)) : [];
+    const epTrouves =
+      q || auteur
+        ? (tracks ?? []).filter(
+            (t) =>
+              (!auteur || t.author === auteur) &&
+              (!q || sansAccent(`${t.title} ${t.description ?? ""} ${t.showTitle ?? ""} ${t.author ?? ""}`).includes(q)),
+          )
+        : [];
     return (
       <motion.div key="parcourir" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
         <label className="mx-5 mt-2 flex items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.05] px-4 focus-within:border-dawn-400/60">
@@ -841,6 +862,27 @@ export function ListenScreen() {
             className="min-w-0 flex-1 appearance-none bg-transparent py-3.5 text-[15px] text-cream outline-none placeholder:text-cream/40 [&::-webkit-search-cancel-button]:hidden"
           />
         </label>
+        {/* Par intervenant */}
+        {intervenants.length > 1 ? (
+          <>
+            <h2 className="mt-5 px-5 font-display text-[18px] font-bold text-cream">Par intervenant</h2>
+            <div className="no-scrollbar mt-3 flex gap-4 overflow-x-auto px-5">
+              {intervenants.map((a) => {
+                const actif = auteur === a.nom;
+                return (
+                  <button key={a.nom} type="button" onClick={() => setAuteur(actif ? null : a.nom)} className="w-[76px] shrink-0 text-center">
+                    <span className={`mx-auto block h-[68px] w-[68px] overflow-hidden rounded-full ring-2 ${actif ? "ring-dawn-400" : "ring-white/10"}`}>
+                      {pochette(a.image)}
+                    </span>
+                    <span className={`mt-1.5 line-clamp-2 block text-[12px] font-semibold leading-tight ${actif ? "text-dawn-400" : "text-cream/80"}`}>{a.nom}</span>
+                    <span className="block text-[10.5px] text-cream/40">{a.episodes} ép.</span>
+                  </button>
+                );
+              })}
+            </div>
+          </>
+        ) : null}
+
         {categories.length ? (
           <div className="no-scrollbar mt-3 flex gap-2 overflow-x-auto px-5">
             {[null, ...categories].map((c) => (
@@ -870,16 +912,18 @@ export function ListenScreen() {
           </div>
         ) : null}
 
-        <h2 className="mt-6 px-5 font-display text-[20px] font-bold text-cream">{q ? "Émissions" : "Toutes les émissions"}</h2>
+        <h2 className="mt-6 px-5 font-display text-[20px] font-bold text-cream">
+          {auteur ? `Les émissions de ${auteur}` : q ? "Émissions" : "Toutes les émissions"}
+        </h2>
         {emFiltrees.length ? (
           <div className="mt-3 grid grid-cols-2 gap-x-3.5 gap-y-5 px-5">{emFiltrees.map((e) => carteEmission(e, true))}</div>
         ) : (
           <p className="px-5 py-4 text-sm text-cream/55">Aucune émission ne correspond.</p>
         )}
 
-        {q ? (
+        {q || auteur ? (
           <>
-            <h2 className="mt-7 px-5 font-display text-[20px] font-bold text-cream">Épisodes</h2>
+            <h2 className="mt-7 px-5 font-display text-[20px] font-bold text-cream">{auteur && !q ? `Tous les épisodes de ${auteur}` : "Épisodes"}</h2>
             {epTrouves.length ? (
               <ul className="mt-1 px-5">{epTrouves.map((t) => ligneEpisode(t, epTrouves))}</ul>
             ) : (

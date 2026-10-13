@@ -213,7 +213,7 @@ export function PodcastPlayerPlein() {
               <div className="min-w-0 flex-1">
                 {t.numero ? <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-dawn-400">Épisode {t.numero}</p> : null}
                 <h2 className="mt-1 text-[24px] font-semibold leading-tight text-cream">{t.title}</h2>
-                <p className="mt-1 truncate text-[14.5px] text-cream/55">Série · {t.showTitle ?? "Podcast"}</p>
+                <p className="mt-1 truncate text-[14.5px] text-cream/55">{[t.author, t.showTitle ?? "Podcast"].filter(Boolean).join(" · ")}</p>
               </div>
               <button
                 type="button"

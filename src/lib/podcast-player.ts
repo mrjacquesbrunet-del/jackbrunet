@@ -81,8 +81,10 @@ function setMediaSession() {
   try {
     ms.metadata = new MediaMetadata({
       title: t.title,
-      artist: "Pasteur Jack Brunet",
-      album: "Jack Brunet, Écouter",
+      artist: t.author ?? "Pasteur Jack Brunet",
+      album: t.showTitle ?? "RHEMA",
+      // Pochette sur l'écran verrouillé et le centre de contrôle.
+      artwork: t.cover ? [{ src: t.cover, sizes: "512x512" }] : [],
     });
     ms.setActionHandler("play", () => audio?.play());
     ms.setActionHandler("pause", () => audio?.pause());
