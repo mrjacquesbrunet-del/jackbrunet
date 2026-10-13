@@ -46,8 +46,11 @@ export function SocialAuthButtons({ tone = "light", onSuccess }: { tone?: "light
     try {
       const ok = await connexionNative(f);
       if (ok) onSuccess?.();
-    } catch {
-      setErreur(`La connexion avec ${f === "google" ? "Google" : "Apple"} n'a pas abouti. Réessaie, ou utilise ton e-mail.`);
+    } catch (e) {
+      // Détail technique en petit : permet de savoir ce qui bloque (réglage
+      // Supabase, identifiant Google…).
+      const detail = e instanceof Error ? e.message : String(e);
+      setErreur(`La connexion avec ${f === "google" ? "Google" : "Apple"} n'a pas abouti. Réessaie, ou utilise ton e-mail. (${detail.slice(0, 140)})`);
     } finally {
       setOccupe(null);
     }

@@ -203,14 +203,22 @@ export async function signInEmailPassword(email: string, password: string) {
 }
 
 /** Mot de passe oublié : envoie un e-mail avec un lien de réinitialisation.
- * Le lien ouvre la page /reinitialiser-mot-de-passe où l'utilisateur choisit
- * un nouveau mot de passe. On redirige toujours vers le site public
- * (authRedirectBase renvoie jackbrunet.com dans l'app native). */
+ * Depuis l'app, le lien rouvre l'APP (rhema://…) : NativeBootstrap ouvre la
+ * session de récupération puis affiche /reinitialiser-mot-de-passe. Depuis
+ * le site, il ouvre la même page du site.
+ * (Supabase → Authentication → URL Configuration → Redirect URLs doit
+ * contenir rhema://** et https://jackbrunet.com/**.) */
 export async function sendPasswordReset(email: string) {
   const sb = getSupabase();
   if (!sb) throw new Error("non configuré");
+  let natif = false;
+  try {
+    natif = !!(window as unknown as { Capacitor?: { isNativePlatform?: () => boolean } }).Capacitor?.isNativePlatform?.();
+  } catch {
+    /* web */
+  }
   const { error } = await sb.auth.resetPasswordForEmail(email, {
-    redirectTo: `${authRedirectBase()}/reinitialiser-mot-de-passe/`,
+    redirectTo: natif ? "rhema://reinitialiser-mot-de-passe/" : `${authRedirectBase()}/reinitialiser-mot-de-passe/`,
   });
   if (error) throw error;
 }

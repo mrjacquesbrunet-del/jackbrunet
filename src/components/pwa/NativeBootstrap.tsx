@@ -8,6 +8,31 @@ import { openNotifRoute, setNotifNavigator } from "@/lib/notif-route";
 import { isNativeApp, readReminder, enableDailyReminder } from "@/lib/notifications";
 import { initOneSignal } from "@/lib/onesignal";
 import { trace } from "@/lib/boot-trace";
+import { getSupabase } from "@/lib/supabase";
+
+/** Lien d'e-mail de connexion (mot de passe oublié, lien magique) rouvert
+ * dans l'app : ouvre la session à partir des jetons du lien. */
+async function sessionDepuisLien(url: string): Promise<void> {
+  const sb = getSupabase();
+  if (!sb) return;
+  const i = url.search(/[#?]/);
+  if (i < 0) return;
+  const params = new URLSearchParams(url.slice(i + 1).replace(/#/g, "&"));
+  const access = params.get("access_token");
+  const refresh = params.get("refresh_token");
+  const code = params.get("code");
+  try {
+    if (access && refresh) {
+      await sb.auth.setSession({ access_token: access, refresh_token: refresh });
+      trace("lien:session", params.get("type") ?? "");
+    } else if (code) {
+      await sb.auth.exchangeCodeForSession(code);
+      trace("lien:session-code");
+    }
+  } catch {
+    trace("lien:session-erreur");
+  }
+}
 
 /**
  * Initialisation propre à l'application native (Capacitor):
@@ -84,11 +109,13 @@ export function NativeBootstrap() {
       // https://jackbrunet.com/lien?to=/plans/xxx).
       try {
         const { App } = await import("@capacitor/app");
-        const ouvreLien = (url: string) => {
+        const ouvreLien = async (url: string) => {
           try {
             let path = "";
+            if (/access_token=|[?&#]code=/.test(url)) await sessionDepuisLien(url);
             if (url.startsWith("rhema://")) {
-              path = "/" + url.slice("rhema://".length).replace(/^\/+/, "");
+              // Sans les jetons (#access_token=…) : déjà utilisés ci-dessus.
+              path = "/" + url.slice("rhema://".length).replace(/^\/+/, "").replace(/[#?].*$/, "");
             } else {
               const u = new URL(url);
               path = u.pathname.startsWith("/lien")

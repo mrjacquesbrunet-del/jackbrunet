@@ -96,7 +96,20 @@ export async function connexionNative(fournisseur: Fournisseur): Promise<boolean
     throw e;
   }
   if (!idToken) throw new Error("Jeton de connexion manquant.");
-  const { data, error } = await sb.auth.signInWithIdToken({ provider: fournisseur, token: idToken, nonce: brut });
+  // Le nonce n'est transmis à Supabase que s'il figure bien dans le jeton
+  // (Google sur Android ne l'y met pas : Supabase refuserait sinon).
+  let nonceDansJeton = false;
+  try {
+    const charge = JSON.parse(atob(idToken.split(".")[1].replace(/-/g, "+").replace(/_/g, "/")));
+    nonceDansJeton = !!charge?.nonce;
+  } catch {
+    nonceDansJeton = true;
+  }
+  const { data, error } = await sb.auth.signInWithIdToken({
+    provider: fournisseur,
+    token: idToken,
+    ...(nonceDansJeton ? { nonce: brut } : {}),
+  });
   if (error) throw error;
   if (data.user && (prenom || photo)) {
     try {
