@@ -20,6 +20,7 @@ export type AudioTrack = {
   /** Pochette (celle de l'émission). */
   cover?: string | null;
   showTitle?: string;
+  showDescription?: string | null;
   author?: string | null;
   /** Numéro de l'épisode dans son émission (1 = le plus ancien). */
   numero?: number;
@@ -202,7 +203,14 @@ export async function chargerCatalogue(): Promise<{ emissions: Emission[]; episo
   const premiere = emissions[0];
   const enrichis = episodes.map((t) => {
     const e = (t.show_id && parId.get(t.show_id)) || premiere;
-    return { ...t, show_id: e?.id ?? null, cover: e?.cover ?? null, showTitle: e?.title, author: e?.author ?? null };
+    return {
+      ...t,
+      show_id: e?.id ?? null,
+      cover: e?.cover ?? null,
+      showTitle: e?.title,
+      showDescription: e?.description ?? null,
+      author: e?.author ?? null,
+    };
   });
   // Numéro dans l'émission (du plus ancien au plus récent).
   for (const e of emissions) {

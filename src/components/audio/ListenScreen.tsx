@@ -75,6 +75,8 @@ export function ListenScreen() {
   const [recherche, setRecherche] = useState("");
   const [categorie, setCategorie] = useState<string | null>(null);
   const [menu, setMenu] = useState<string | null>(null);
+  const [heroIdx, setHeroIdx] = useState(0);
+  const [voirTousNouveaux, setVoirTousNouveaux] = useState(false);
   const [upload, setUpload] = useState<{ done: number; total: number } | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const coverRef = useRef<HTMLInputElement>(null);
@@ -540,103 +542,223 @@ export function ListenScreen() {
     );
   };
 
+  const boutonTelecharger = (t: AudioTrack) => {
+    const prog = dlProgress[t.path];
+    const isOff = offline.has(t.path);
+    return (
+      <button
+        type="button"
+        onClick={() => toggleOffline(t)}
+        aria-label={isOff ? "Retirer le téléchargement" : prog !== undefined ? "Téléchargement…" : "Télécharger"}
+        className={`grid h-11 w-11 shrink-0 place-items-center rounded-full border ${isOff || prog !== undefined ? "border-dawn-400/70 text-dawn-400" : "border-white/45 text-cream/85"} active:bg-white/10`}
+      >
+        {prog !== undefined ? (
+          <svg viewBox="0 0 24 24" className="h-6 w-6 -rotate-90" aria-hidden>
+            <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeOpacity={0.2} strokeWidth={2.4} />
+            <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" strokeDasharray={56.5} strokeDashoffset={56.5 * (1 - prog)} />
+          </svg>
+        ) : isOff ? (
+          <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2.4} aria-hidden>
+            <path d="M5 12.5l4.5 4.5L19 7.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        ) : (
+          <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2} aria-hidden>
+            <path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 20h14" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        )}
+      </button>
+    );
+  };
+
   const pageAccueil = () => {
-    const vedettes = nouveaux.slice(0, 6);
+    // Bannière : les émissions, complétées par les derniers épisodes.
+    type Diapo = { cle: string; surtitre: string; titre: string; texte: string | null; image: string | null | undefined; lancer: () => void };
+    const diapos: Diapo[] = [];
+    for (const e of emissions ?? []) {
+      const eps = parEmission.get(e.id) ?? [];
+      if (!eps.length) continue;
+      diapos.push({ cle: `e${e.id}`, surtitre: "À l'écoute", titre: e.title, texte: e.description, image: e.cover, lancer: () => lire(eps[0], eps) });
+    }
+    for (const t of nouveaux) {
+      if (diapos.length >= 4) break;
+      diapos.push({
+        cle: `t${t.id}`,
+        surtitre: t === nouveaux[0] ? "Nouvel épisode" : t.showTitle ?? "Épisode",
+        titre: t.title,
+        texte: t.description,
+        image: t.cover,
+        lancer: () => lire(t, nouveaux),
+      });
+    }
+    const listeNouveaux = voirTousNouveaux ? tracks ?? [] : nouveaux.slice(0, 5);
     return (
       <motion.div key="accueil" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
-        {/* Grand carrousel : faire glisser à droite / à gauche */}
-        {vedettes.length ? (
-          <div className="no-scrollbar mt-2 flex snap-x snap-mandatory gap-4 overflow-x-auto px-[11vw] pb-2">
-            {vedettes.map((t) => {
-              const isCur = pod.current?.id === t.id;
-              return (
-                <button
-                  key={t.id}
-                  type="button"
-                  onClick={() => lire(t, nouveaux)}
-                  className="relative aspect-[4/5] w-[78vw] max-w-[340px] shrink-0 snap-center overflow-hidden rounded-[28px] text-left shadow-[0_0_0_1px_rgba(202,240,0,.15),0_30px_60px_-24px_rgba(0,0,0,.95)]"
-                >
-                  {pochette(t.cover)}
-                  <span className="absolute inset-0 bg-gradient-to-b from-transparent via-night-950/10 to-night-950/95" />
-                  <span className="absolute inset-x-0 bottom-0 p-5">
-                    <span className="inline-block rounded-full bg-dawn-400 px-2.5 py-0.5 text-[9.5px] font-black uppercase tracking-[0.16em] text-night-950">
-                      {t === nouveaux[0] ? "Nouvel épisode" : t.showTitle}
-                    </span>
-                    <span className="mt-2 line-clamp-2 block font-display text-[23px] font-bold leading-tight text-cream">{t.title}</span>
-                    <span className="mt-1 flex items-center justify-between gap-3">
-                      <span className="truncate text-[13px] text-cream/65">{[t.author, formatDuration(durations[t.id])].filter(Boolean).join(" · ")}</span>
-                      <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950 shadow-[0_0_22px_rgba(202,240,0,.5)]">
-                        {isCur && pod.playing ? <PauseGlyph className="h-5 w-5" /> : <PlayGlyph className="ml-0.5 h-5 w-5" />}
+        {/* Bannière à faire glisser */}
+        {diapos.length ? (
+          <div className="relative mx-5 mt-2">
+            <div
+              className="no-scrollbar flex snap-x snap-mandatory overflow-x-auto rounded-[26px]"
+              onScroll={(ev) => {
+                const el = ev.currentTarget;
+                setHeroIdx(Math.round(el.scrollLeft / Math.max(1, el.clientWidth)));
+              }}
+            >
+              {diapos.map((d) => (
+                <div key={d.cle} className="relative h-[236px] w-full shrink-0 snap-center overflow-hidden rounded-[26px] border border-white/10">
+                  <div className="absolute inset-0">{pochette(d.image, "object-[70%_center]")}</div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-night-950 via-night-950/75 to-night-950/0" />
+                  <div className="relative flex h-full max-w-[72%] flex-col justify-center p-5">
+                    <p className="text-[10.5px] font-semibold uppercase tracking-[0.22em] text-cream/70">{d.surtitre}</p>
+                    <p className="mt-1.5 line-clamp-2 font-display text-[27px] font-bold leading-[1.05] text-cream">{d.titre}</p>
+                    {d.texte ? <p className="mt-2 line-clamp-2 text-[13px] leading-snug text-cream/70">{d.texte}</p> : null}
+                    <button
+                      type="button"
+                      onClick={d.lancer}
+                      className="mt-4 inline-flex w-fit items-center gap-2.5 whitespace-nowrap rounded-full bg-dawn-400 py-1.5 pl-1.5 pr-4 text-[14px] font-bold text-night-950 shadow-[0_0_24px_-6px_rgba(202,240,0,.6)] active:scale-[0.98]"
+                    >
+                      <span className="grid h-8 w-8 place-items-center rounded-full bg-night-950 text-dawn-400">
+                        <PlayGlyph className="ml-0.5 h-4 w-4" />
                       </span>
-                    </span>
-                  </span>
-                </button>
-              );
-            })}
+                      Écouter maintenant
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            {diapos.length > 1 ? (
+              <div className="pointer-events-none absolute bottom-4 right-5 flex gap-1.5">
+                {diapos.map((d, i) => (
+                  <span key={d.cle} className={`h-1.5 rounded-full transition-all ${i === heroIdx ? "w-4 bg-dawn-400" : "w-1.5 bg-white/40"}`} />
+                ))}
+              </div>
+            ) : null}
           </div>
         ) : tracks ? (
           vide("Les audios arrivent bientôt", "De nouveaux enseignements sont en préparation.")
         ) : (
-          <div className="mx-auto mt-2 aspect-[4/5] w-[78vw] max-w-[340px] animate-pulse rounded-[28px] bg-white/[0.05]" />
+          <div className="mx-5 mt-2 h-[236px] animate-pulse rounded-[26px] bg-white/[0.05]" />
         )}
 
+        {/* Reprendre l'écoute */}
         {enCours.length ? (
-          <Rangee titre="Reprendre l'écoute">
-            {enCours.map((t) => {
-              const reste = durations[t.id] ? Math.max(1, Math.round((durations[t.id] - (positions[t.id] ?? 0)) / 60)) : null;
-              return (
-                <button
-                  key={t.id}
-                  type="button"
-                  onClick={() => lire(t, enCours)}
-                  className="flex w-[74vw] max-w-[320px] shrink-0 snap-start items-center gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.05] p-3 text-left"
-                >
-                  <span className="h-16 w-16 shrink-0 overflow-hidden rounded-xl">{pochette(t.cover)}</span>
-                  <span className="min-w-0 flex-1">
-                    <span className="line-clamp-2 block font-display text-[14.5px] font-bold leading-snug text-cream">{t.title}</span>
-                    <span className="mt-1 block text-[12px] text-cream/50">{reste ? `Encore ${reste} min` : t.showTitle}</span>
-                    <span className="mt-1.5 block h-1 overflow-hidden rounded-full bg-white/10">
-                      <span className="block h-full rounded-full bg-dawn-400" style={{ width: `${fraction(t) * 100}%` }} />
-                    </span>
+          <Rangee
+            titre="Reprendre l'écoute"
+            action={
+              <button
+                type="button"
+                onClick={() => {
+                  setBiblio("encours");
+                  setOnglet("biblio");
+                }}
+                className="flex items-center gap-0.5 text-[13.5px] font-semibold text-cream/60"
+              >
+                Voir tout
+                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2} aria-hidden>
+                  <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            }
+          >
+            {enCours.map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                onClick={() => lire(t, enCours)}
+                className="w-[44vw] max-w-[200px] shrink-0 snap-start overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.04] text-left"
+              >
+                <span className="relative block aspect-[4/3] overflow-hidden">
+                  {pochette(t.cover)}
+                  <span className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-night-950/90" />
+                  <span className="absolute right-2.5 top-2.5 grid h-9 w-9 place-items-center rounded-full border border-white/70 bg-night-950/35 text-cream backdrop-blur-sm">
+                    {pod.current?.id === t.id && pod.playing ? <PauseGlyph className="h-4 w-4" /> : <PlayGlyph className="ml-0.5 h-4 w-4" />}
                   </span>
-                </button>
-              );
-            })}
+                  <span className="absolute inset-x-3 bottom-2.5 line-clamp-2 font-display text-[16px] font-bold leading-tight text-cream">{t.title}</span>
+                </span>
+                <span className="block px-3 pb-3 pt-2.5">
+                  <span className="block text-[12.5px] text-cream/65">{t.numero ? `Épisode ${t.numero}` : t.showTitle}</span>
+                  <span className="mt-2 block h-1 overflow-hidden rounded-full bg-white/10">
+                    <span className="block h-full rounded-full bg-dawn-400" style={{ width: `${fraction(t) * 100}%` }} />
+                  </span>
+                </span>
+              </button>
+            ))}
           </Rangee>
         ) : null}
 
-        {nouveaux.length ? <Rangee titre="Nouveaux épisodes">{nouveaux.map((t) => carteEpisode(t, nouveaux))}</Rangee> : null}
+        {/* Nouveaux épisodes */}
+        {nouveaux.length ? (
+          <section className="mt-8 px-5">
+            <div className="flex items-end justify-between gap-3">
+              <h2 className="font-display text-[20px] font-bold text-cream">Nouveaux épisodes</h2>
+              {(tracks?.length ?? 0) > 5 ? (
+                <button type="button" onClick={() => setVoirTousNouveaux((v) => !v)} className="flex items-center gap-0.5 text-[13.5px] font-semibold text-cream/60">
+                  {voirTousNouveaux ? "Moins" : "Voir tout"}
+                  <svg viewBox="0 0 24 24" className={`h-4 w-4 fill-none stroke-current transition-transform ${voirTousNouveaux ? "-rotate-90" : ""}`} strokeWidth={2.2} aria-hidden>
+                    <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              ) : null}
+            </div>
+            <ul className="mt-3 space-y-3">
+              {listeNouveaux.map((t) => {
+                const isCur = pod.current?.id === t.id;
+                return (
+                  <li key={t.id} className="flex items-center gap-3.5">
+                    <button type="button" onClick={() => lire(t, tracks ?? nouveaux)} className="flex min-w-0 flex-1 items-center gap-3.5 text-left">
+                      <span className="relative aspect-[4/3] w-[29%] max-w-[120px] shrink-0 overflow-hidden rounded-xl">
+                        {pochette(t.cover)}
+                        {isCur ? (
+                          <span className="absolute inset-0 grid place-items-center bg-night-950/55 text-dawn-400">
+                            {pod.playing ? (
+                              <span className="eq !h-5" aria-hidden>
+                                <i />
+                                <i />
+                                <i />
+                                <i />
+                              </span>
+                            ) : (
+                              <PlayGlyph className="h-5 w-5" />
+                            )}
+                          </span>
+                        ) : null}
+                      </span>
+                      <span className="min-w-0">
+                        <span className={`line-clamp-2 block text-[15.5px] font-semibold leading-snug ${isCur ? "text-dawn-400" : "text-cream"}`}>{t.title}</span>
+                        <span className="mt-1 block truncate text-[13px] text-cream/55">
+                          {[t.numero ? `Épisode ${t.numero}` : t.showTitle, durations[t.id] ? `${Math.max(1, Math.round(durations[t.id] / 60))} min` : null].filter(Boolean).join(" · ")}
+                        </span>
+                      </span>
+                    </button>
+                    {boutonTelecharger(t)}
+                    <button type="button" onClick={() => setMenu(t.id)} aria-label="Plus d'options" className="-ml-1 grid h-10 w-7 shrink-0 place-items-center text-cream/60">
+                      <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current" aria-hidden>
+                        <circle cx="12" cy="5" r="1.8" />
+                        <circle cx="12" cy="12" r="1.8" />
+                        <circle cx="12" cy="19" r="1.8" />
+                      </svg>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        ) : null}
 
         {emissions && emissions.length > 1 ? (
           <Rangee
             titre="Les émissions"
             action={
-              <button type="button" onClick={() => setOnglet("parcourir")} className="text-[13px] font-semibold text-dawn-400">
-                Tout voir
+              <button type="button" onClick={() => setOnglet("parcourir")} className="flex items-center gap-0.5 text-[13.5px] font-semibold text-cream/60">
+                Voir tout
+                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2} aria-hidden>
+                  <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
               </button>
             }
           >
             {emissions.map((e) => carteEmission(e))}
           </Rangee>
         ) : null}
-
-        {(emissions ?? []).map((e) => {
-          const eps = parEmission.get(e.id) ?? [];
-          if (!eps.length) return null;
-          return (
-            <Rangee
-              key={e.id}
-              titre={e.title}
-              action={
-                <button type="button" onClick={() => setEmissionOuverte(e.id)} className="text-[13px] font-semibold text-dawn-400">
-                  Voir tout
-                </button>
-              }
-            >
-              {eps.map((t) => carteEpisode(t, eps))}
-            </Rangee>
-          );
-        })}
       </motion.div>
     );
   };
@@ -781,26 +903,44 @@ export function ListenScreen() {
       />
 
       <div className="relative mx-auto max-w-2xl pt-[calc(env(safe-area-inset-top)+4.75rem)] sm:pt-28">
-        {/* Onglets en texte, soulignés */}
+        {/* Onglets : pastilles avec icône */}
         {!emission ? (
-          <nav className="relative flex items-center justify-center gap-7 px-5 pb-3">
+          <nav className="grid grid-cols-3 gap-1.5 px-4 pb-4">
             {(
               [
-                ["accueil", "Accueil"],
-                ["biblio", "Bibliothèque"],
-                ["parcourir", "Parcourir"],
+                ["accueil", "Podcast"],
+                ["biblio", "Favoris"],
+                ["parcourir", "Découvrir"],
               ] as const
-            ).map(([k, lbl]) => (
-              <button
-                key={k}
-                type="button"
-                onClick={() => setOnglet(k)}
-                className={`relative pb-2 text-[16px] font-semibold transition-colors ${onglet === k ? "text-cream" : "text-cream/45"}`}
-              >
-                {lbl}
-                {onglet === k ? <motion.span layoutId="onglet-ecouter" className="absolute inset-x-1 -bottom-0.5 h-[3px] rounded-full bg-dawn-400" /> : null}
-              </button>
-            ))}
+            ).map(([k, lbl]) => {
+              const actif = onglet === k;
+              return (
+                <button
+                  key={k}
+                  type="button"
+                  onClick={() => setOnglet(k)}
+                  className={`relative flex items-center justify-center gap-2 rounded-full py-3 text-[15px] font-semibold transition-colors ${actif ? "text-cream" : "text-cream/55"}`}
+                >
+                  {actif ? <motion.span layoutId="onglet-ecouter" className="absolute inset-0 rounded-full border border-white/10 bg-white/[0.07]" transition={{ type: "spring", stiffness: 420, damping: 34 }} /> : null}
+                  <span className={`relative ${actif ? "text-dawn-400" : ""}`}>
+                    {k === "accueil" ? (
+                      <HeadphonesGlyph className="h-5 w-5" />
+                    ) : k === "biblio" ? (
+                      <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+                        <path d={COEUR} strokeLinejoin="round" />
+                      </svg>
+                    ) : (
+                      <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+                        <circle cx="12" cy="12" r="9" />
+                        <path d="M15.5 8.5l-2 5-5 2 2-5z" strokeLinejoin="round" />
+                      </svg>
+                    )}
+                  </span>
+                  <span className="relative">{lbl}</span>
+                  {actif ? <span className="absolute -bottom-2 left-1/2 h-[3px] w-8 -translate-x-1/2 rounded-full bg-dawn-400" /> : null}
+                </button>
+              );
+            })}
           </nav>
         ) : null}
 

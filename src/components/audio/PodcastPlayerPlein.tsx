@@ -40,6 +40,7 @@ export function PodcastPlayerPlein() {
   const [horsLigne, setHorsLigne] = useState(false);
   const [telech, setTelech] = useState<number | null>(null);
   const glisse = useDragControls();
+  const [options, setOptions] = useState(false);
 
   useEffect(() => {
     const a = getPodcastAudio();
@@ -164,27 +165,30 @@ export function PodcastPlayerPlein() {
                 </svg>
               </button>
               <div className="min-w-0 text-center">
-                <p className="text-[10.5px] font-black uppercase tracking-[0.22em] text-dawn-400">En lecture</p>
-                <p className="truncate text-[13px] font-semibold text-cream/70">{t.showTitle ?? "Podcast"}</p>
+                <p className="text-[10.5px] font-semibold uppercase tracking-[0.26em] text-cream/55">Podcast</p>
+                <p className="truncate text-[15px] font-semibold text-cream">{t.showTitle ?? "RHEMA"}</p>
               </div>
               <button
                 type="button"
-                onClick={partager}
-                aria-label="Partager"
-                className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/15 bg-white/[0.06] text-cream/85 active:bg-white/[0.12]"
+                onClick={() => setOptions(true)}
+                aria-label="Plus d'options"
+                className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-cream/85 active:bg-white/[0.1]"
               >
-                <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.9} aria-hidden>
-                  <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M12 3v13M8 7l4-4 4 4" strokeLinecap="round" strokeLinejoin="round" />
+                <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current" aria-hidden>
+                  <circle cx="5" cy="12" r="1.9" />
+                  <circle cx="12" cy="12" r="1.9" />
+                  <circle cx="19" cy="12" r="1.9" />
                 </svg>
               </button>
             </div>
 
             {/* Pochette */}
-            <div className="mt-7 flex justify-center">
+            <div className="mt-5 flex justify-center">
               <motion.div
-                animate={{ scale: pod.playing ? 1 : 0.92 }}
+                animate={{ scale: pod.playing ? 1 : 0.95 }}
                 transition={{ type: "spring", stiffness: 200, damping: 22 }}
-                className="aspect-square w-[min(82vw,44vh)] max-w-[360px] overflow-hidden rounded-[28px] shadow-[0_0_0_1px_rgba(202,240,0,.18),0_40px_80px_-24px_rgba(0,0,0,.9)]"
+                className="relative aspect-square w-full max-w-[400px] overflow-hidden rounded-[28px] shadow-[0_0_0_1px_rgba(255,255,255,.08),0_40px_80px_-24px_rgba(0,0,0,.9)]"
+                style={{ maxHeight: "46vh", maxWidth: "min(100%, 46vh)" }}
               >
                 {t.cover ? (
                   // eslint-disable-next-line @next/next/no-img-element
@@ -194,16 +198,22 @@ export function PodcastPlayerPlein() {
                     <HeadphonesGlyph className="h-16 w-16 text-dawn-400" />
                   </div>
                 )}
+                {/* La série, posée sur l'image */}
+                <div className="absolute inset-0 bg-gradient-to-br from-night-950/75 via-night-950/20 to-transparent" />
+                <div className="absolute inset-x-0 top-0 max-w-[80%] p-6">
+                  <p className="text-[10.5px] font-semibold uppercase tracking-[0.26em] text-cream/75">Série</p>
+                  <p className="mt-1.5 font-display text-[30px] font-bold leading-[1.02] text-cream">{t.showTitle ?? "Podcast"}</p>
+                  {t.showDescription ? <p className="mt-2 line-clamp-3 text-[14px] leading-snug text-cream/80">{t.showDescription}</p> : null}
+                </div>
               </motion.div>
             </div>
 
             {/* Titre + cœur */}
-            <div className="mt-7 flex items-start gap-3">
+            <div className="mt-6 flex items-start gap-3">
               <div className="min-w-0 flex-1">
-                <h2 className="font-display text-[23px] font-bold leading-tight text-cream">{t.title}</h2>
-                <p className="mt-1 truncate text-[14px] text-cream/55">
-                  {[t.showTitle, t.numero ? `Épisode ${t.numero}` : null].filter(Boolean).join(" · ")}
-                </p>
+                {t.numero ? <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-dawn-400">Épisode {t.numero}</p> : null}
+                <h2 className="mt-1 text-[24px] font-semibold leading-tight text-cream">{t.title}</h2>
+                <p className="mt-1 truncate text-[14.5px] text-cream/55">Série · {t.showTitle ?? "Podcast"}</p>
               </div>
               <button
                 type="button"
@@ -281,47 +291,77 @@ export function PodcastPlayerPlein() {
               </button>
             </div>
 
-            {/* Options */}
-            <div className="mt-6 grid grid-cols-4 gap-2.5">
-              <button
-                type="button"
-                className={chip}
-                onClick={() => pod.setRate(VITESSES[(VITESSES.indexOf(pod.rate) + 1) % VITESSES.length] ?? 1)}
-              >
-                <span className="font-display text-[17px] font-bold text-cream">{pod.rate}×</span>
-                Vitesse
-              </button>
-              <button type="button" className={`${chip} ${timerActif ? "border-dawn-400/50 text-dawn-400" : ""}`} onClick={() => setMinuteur(true)}>
-                <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.9} aria-hidden>
-                  <path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" strokeLinejoin="round" />
-                </svg>
-                Minuteur
-              </button>
-              <button type="button" className={`${chip} ${horsLigne || telech !== null ? "text-dawn-400" : ""}`} onClick={telecharger}>
-                {telech !== null ? (
-                  <span className="text-[13px] font-bold tabular-nums">{Math.round(telech * 100)} %</span>
-                ) : (
-                  <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.9} aria-hidden>
-                    {horsLigne ? (
-                      <path d="M9 12.5l2 2 4-4.5M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z" strokeLinecap="round" strokeLinejoin="round" />
-                    ) : (
-                      <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" strokeLinecap="round" strokeLinejoin="round" />
-                    )}
-                  </svg>
-                )}
-                {horsLigne ? "Téléchargé" : "Télécharger"}
-              </button>
-              <button type="button" className={chip} onClick={() => pod.seek(Math.max(0, temps - 15))}>
-                <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.9} aria-hidden>
-                  <path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                -15 s
-              </button>
+            {/* Options : boutons ronds, libellé dessous */}
+            <div className="mt-7 grid grid-cols-4 gap-2 text-center">
+              {(
+                [
+                  {
+                    cle: "vitesse",
+                    lbl: "Vitesse",
+                    actif: pod.rate !== 1,
+                    clic: () => pod.setRate(VITESSES[(VITESSES.indexOf(pod.rate) + 1) % VITESSES.length] ?? 1),
+                    icone: <span className="text-[17px] font-semibold">{pod.rate}×</span>,
+                  },
+                  {
+                    cle: "minuteur",
+                    lbl: "Minuteur",
+                    actif: timerActif,
+                    clic: () => setMinuteur(true),
+                    icone: (
+                      <svg viewBox="0 0 24 24" className="h-[22px] w-[22px] fill-current" aria-hidden>
+                        <path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" />
+                      </svg>
+                    ),
+                  },
+                  {
+                    cle: "telecharger",
+                    lbl: horsLigne ? "Téléchargé" : "Télécharger",
+                    actif: horsLigne || telech !== null,
+                    clic: telecharger,
+                    icone:
+                      telech !== null ? (
+                        <span className="text-[12px] font-bold tabular-nums">{Math.round(telech * 100)}%</span>
+                      ) : (
+                        <svg viewBox="0 0 24 24" className="h-[22px] w-[22px] fill-none stroke-current" strokeWidth={2} aria-hidden>
+                          {horsLigne ? (
+                            <path d="M5 12.5l4.5 4.5L19 7.5" strokeLinecap="round" strokeLinejoin="round" />
+                          ) : (
+                            <path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 20h14" strokeLinecap="round" strokeLinejoin="round" />
+                          )}
+                        </svg>
+                      ),
+                  },
+                  {
+                    cle: "partager",
+                    lbl: "Partager",
+                    actif: false,
+                    clic: partager,
+                    icone: (
+                      <svg viewBox="0 0 24 24" className="h-[22px] w-[22px] fill-none stroke-current" strokeWidth={1.9} aria-hidden>
+                        <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M12 3v13M8 7l4-4 4 4" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    ),
+                  },
+                ] as const
+              ).map((o) => (
+                <button key={o.cle} type="button" onClick={o.clic} className="flex flex-col items-center gap-2">
+                  <span
+                    className={`grid h-[58px] w-[58px] place-items-center rounded-full border ${
+                      o.actif ? "border-dawn-400/60 bg-dawn-400/15 text-dawn-400" : "border-white/[0.08] bg-white/[0.07] text-cream"
+                    } active:scale-95`}
+                  >
+                    {o.icone}
+                  </span>
+                  <span className={`text-[12.5px] font-medium ${o.actif ? "text-dawn-400" : "text-cream/80"}`}>{o.lbl}</span>
+                </button>
+              ))}
             </div>
 
             {/* À propos */}
             {t.description ? (
-              <div className="mt-6 rounded-3xl border border-white/[0.08] bg-white/[0.04] px-5 py-4">
+              <>
+              <div className="mx-auto mt-7 h-1 w-14 rounded-full bg-white/25" />
+              <div className="mt-4 rounded-3xl border border-white/[0.08] bg-white/[0.05] px-5 py-4">
                 <button type="button" onClick={() => setApropos((v) => !v)} className="flex w-full items-center justify-between gap-3 text-left">
                   <span className="font-display text-[17px] font-bold">À propos de cet épisode</span>
                   <svg viewBox="0 0 24 24" className={`h-5 w-5 shrink-0 fill-none stroke-current text-cream/60 transition-transform ${apropos ? "rotate-180" : ""}`} strokeWidth={2.2} aria-hidden>
@@ -330,6 +370,7 @@ export function PodcastPlayerPlein() {
                 </button>
                 <p className={`mt-2 text-[14.5px] leading-relaxed text-cream/70 ${apropos ? "" : "line-clamp-2"}`}>{t.description}</p>
               </div>
+              </>
             ) : null}
 
             {/* À suivre */}
@@ -367,6 +408,49 @@ export function PodcastPlayerPlein() {
               </div>
             ) : null}
           </div>
+
+          {/* Menu « … » */}
+          <AnimatePresence>
+            {options ? (
+              <motion.div className="fixed inset-0 z-[5] flex items-end justify-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                <button type="button" aria-label="Fermer" onClick={() => setOptions(false)} className="absolute inset-0 bg-night-950/70" />
+                <motion.div
+                  initial={{ y: 30 }}
+                  animate={{ y: 0 }}
+                  exit={{ y: 30 }}
+                  className="relative w-full max-w-md divide-y divide-white/[0.07] rounded-t-[28px] border border-white/10 bg-night-900 px-2 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-2"
+                >
+                  {[
+                    { lbl: "Partager l'épisode", clic: partager },
+                    { lbl: horsLigne ? "Retirer du hors-ligne" : "Télécharger (écoute hors-ligne)", clic: telecharger },
+                    ...(t.show_id
+                      ? [
+                          {
+                            lbl: "Voir l'émission",
+                            clic: () => {
+                              fermerLecteurPodcast();
+                              window.location.href = `/ecouter/?emission=${t.show_id}`;
+                            },
+                          },
+                        ]
+                      : []),
+                  ].map((o) => (
+                    <button
+                      key={o.lbl}
+                      type="button"
+                      onClick={() => {
+                        setOptions(false);
+                        o.clic();
+                      }}
+                      className="block w-full px-4 py-4 text-left text-[15.5px] font-semibold text-cream active:bg-white/[0.05]"
+                    >
+                      {o.lbl}
+                    </button>
+                  ))}
+                </motion.div>
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
 
           {/* Minuteur de sommeil */}
           <AnimatePresence>
