@@ -12,7 +12,7 @@ comme l'app). Aucun App Group nécessaire.
 ## Version
 
 `MARKETING_VERSION` de la cible du widget doit rester ÉGALE à celle de l'app
-(Apple refuse sinon). Quand la version de l'app change (ex. 2.4 → 2.5),
+(Apple refuse sinon). Quand la version de l'app change (ex. 2.5 → 2.6),
 changer aussi celle de RhemaWidgetExtension dans project.pbxproj. Le numéro de
 build est aligné automatiquement par ci_post_clone.sh (agvtool -all).
 
