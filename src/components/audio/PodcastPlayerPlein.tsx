@@ -6,6 +6,8 @@ import { usePodcastPlayer, getPodcastAudio } from "@/lib/podcast-player";
 import { usePodcastEtat, basculerFavori, fermerLecteurPodcast, ouvrirChoixListe } from "@/lib/podcast-etat";
 import { episodesHorsLigne, telechargerEpisode, retirerEpisode } from "@/lib/podcast-offline";
 import { PodcastASuivre } from "@/components/audio/PodcastASuivre";
+import { AuthorCard } from "@/components/plans/AuthorCard";
+import { ficheAuteur } from "@/lib/podcast-auteurs";
 import { appShareUrl } from "@/config/app-links";
 import { PlayGlyph, PauseGlyph, HeadphonesGlyph } from "@/components/ui/DevoIcons";
 
@@ -42,6 +44,7 @@ export function PodcastPlayerPlein() {
   const [telech, setTelech] = useState<number | null>(null);
   const glisse = useDragControls();
   const [options, setOptions] = useState(false);
+  const [fiche, setFiche] = useState(false);
 
   useEffect(() => {
     const a = getPodcastAudio();
@@ -215,7 +218,25 @@ export function PodcastPlayerPlein() {
               <div className="min-w-0 flex-1">
                 {t.numero ? <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-dawn-400">Épisode {t.numero}</p> : null}
                 <h2 className="mt-1 text-[24px] font-semibold leading-tight text-cream">{t.title}</h2>
-                <p className="mt-1 truncate text-[14.5px] text-cream/55">{[t.author, t.showTitle ?? "Podcast"].filter(Boolean).join(" · ")}</p>
+                <p className="mt-1 flex min-w-0 items-center gap-1.5 text-[14.5px] text-cream/55">
+                  {t.author ? (
+                    <>
+                      {/* Nom cliquable : fiche de l'intervenant (Instagram, YouTube, boutique…) */}
+                      <button
+                        type="button"
+                        onClick={() => setFiche(true)}
+                        className="inline-flex min-w-0 shrink items-center gap-0.5 font-semibold text-dawn-400 underline-offset-4 active:underline"
+                      >
+                        <span className="truncate">{t.author}</span>
+                        <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0 fill-none stroke-current" strokeWidth={2.4} aria-hidden>
+                      <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                      </button>
+                      <span aria-hidden>·</span>
+                    </>
+                  ) : null}
+                  <span className="truncate">{t.showTitle ?? "Podcast"}</span>
+                </p>
               </div>
               <button
                 type="button"
@@ -360,6 +381,10 @@ export function PodcastPlayerPlein() {
             </div>
 
           </div>
+
+          {t.author ? (
+            <AuthorCard open={fiche} onClose={() => setFiche(false)} z="z-[140]" author={ficheAuteur(t.author, t.emission).info} photo={ficheAuteur(t.author, t.emission).photo} />
+          ) : null}
 
           {/* Menu « … » */}
           <AnimatePresence>

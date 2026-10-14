@@ -43,6 +43,8 @@ import { useAuth } from "@/components/community/useAuth";
 import { isAdminEmail } from "@/lib/community";
 import { PlayGlyph, PauseGlyph, HeadphonesGlyph } from "@/components/ui/DevoIcons";
 import { localeApp } from "@/lib/i18n";
+import { AuthorCard } from "@/components/plans/AuthorCard";
+import { ficheAuteur } from "@/lib/podcast-auteurs";
 
 const DUR_KEY = "jb.podcast.dur.v1";
 /** Épisode « court » : moins de 10 minutes. */
@@ -97,6 +99,8 @@ export function ListenScreen() {
   const [format, setFormat] = useState<"courts" | "longs" | null>(null);
   const [populaires, setPopulaires] = useState<Record<string, number>>({});
   const [autoDl, setAutoDl] = useState(false);
+  /** Fiche de l'intervenant ouverte (nom cliquable). */
+  const [fiche, setFiche] = useState<string | null>(null);
   const [recherche, setRecherche] = useState("");
   const [categorie, setCategorie] = useState<string | null>(null);
   const [auteur, setAuteur] = useState<string | null>(null);
@@ -317,6 +321,29 @@ export function ListenScreen() {
       category: category.trim() || null,
       description: description.trim() || null,
     });
+    load();
+  }
+  async function editerFiche(e: Emission) {
+    const lien = (label: string) => e.author_links?.find((l) => l.label === label)?.url ?? "";
+    const role = prompt("Rôle de l'intervenant (ex. Pasteure, autrice) :", e.author_role ?? "");
+    if (role === null) return;
+    const bio = prompt("Courte présentation :", e.author_bio ?? "") ?? e.author_bio ?? "";
+    const instagram = prompt("Lien Instagram (laisser vide si aucun) :", e.author_instagram ?? "") ?? "";
+    const youtube = prompt("Lien YouTube :", lien("YouTube")) ?? "";
+    const boutique = prompt("Lien Boutique (livres, produits) :", lien("Boutique")) ?? "";
+    const site = prompt("Site web :", lien("Site web")) ?? "";
+    const liens = [
+      { label: "YouTube", url: youtube.trim() },
+      { label: "Boutique", url: boutique.trim() },
+      { label: "Site web", url: site.trim() },
+    ].filter((l) => l.url);
+    const ok = await modifierEmission(e.id, {
+      author_role: role.trim() || null,
+      author_bio: bio.trim() || null,
+      author_instagram: instagram.trim() || null,
+      author_links: liens,
+    });
+    if (!ok) alert("La fiche n'a pas été enregistrée. As-tu exécuté le SQL migration-podcast-auteurs.sql dans Supabase ?");
     load();
   }
   async function changerPochette(e: Emission, f: File | undefined) {
@@ -577,8 +604,19 @@ export function ListenScreen() {
             <div className="mt-5 text-center">
               {e.category ? <p className="text-[10.5px] font-black uppercase tracking-[0.22em] text-dawn-400">{e.category}</p> : null}
               <h1 className="mt-1.5 font-display text-[26px] font-extrabold leading-tight text-cream">{e.title}</h1>
-              <p className="mt-1 text-[13px] font-semibold text-cream/55">
-                {[e.author, `${eps.length} épisode${eps.length > 1 ? "s" : ""}`].filter(Boolean).join(" · ")}
+              <p className="mt-1 flex items-center justify-center gap-1.5 text-[13px] font-semibold text-cream/55">
+                {e.author ? (
+                  <>
+                    <button type="button" onClick={() => setFiche(e.author)} className="inline-flex items-center gap-0.5 text-dawn-400 underline-offset-4 active:underline">
+                      {e.author}
+                      <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0 fill-none stroke-current" strokeWidth={2.4} aria-hidden>
+                      <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    </button>
+                    <span aria-hidden>·</span>
+                  </>
+                ) : null}
+                <span>{`${eps.length} épisode${eps.length > 1 ? "s" : ""}`}</span>
               </p>
               {e.description ? <p className="mx-auto mt-3 max-w-sm text-[14px] leading-relaxed text-cream/65">{e.description}</p> : null}
             </div>
@@ -622,6 +660,9 @@ export function ListenScreen() {
             </button>
             <button type="button" onClick={() => editerEmission(e)} className="rounded-full border border-white/15 px-4 py-2 text-[13px] font-semibold text-cream/80">
               Modifier
+            </button>
+            <button type="button" onClick={() => editerFiche(e)} className="rounded-full border border-white/15 px-4 py-2 text-[13px] font-semibold text-cream/80">
+              Fiche de l&apos;intervenant
             </button>
             <button type="button" onClick={() => effacerEmission(e)} className="rounded-full border border-red-400/30 px-4 py-2 text-[13px] font-semibold text-red-400">
               Supprimer
@@ -737,7 +778,18 @@ export function ListenScreen() {
                   <div className="relative flex h-full max-w-[72%] flex-col justify-center p-5">
                     <p className="text-[10.5px] font-semibold uppercase tracking-[0.22em] text-cream/70">{d.surtitre}</p>
                     <p className="mt-1.5 line-clamp-2 font-display text-[27px] font-bold leading-[1.05] text-cream">{d.titre}</p>
-                    {d.auteur ? <p className="mt-1 truncate text-[13px] font-semibold text-dawn-400">avec {d.auteur}</p> : null}
+                    {d.auteur ? (
+                      <button
+                        type="button"
+                        onClick={() => setFiche(d.auteur ?? null)}
+                        className="mt-1 inline-flex max-w-full items-center gap-0.5 text-left text-[13px] font-semibold text-dawn-400 underline-offset-4 active:underline"
+                      >
+                        <span className="truncate">avec {d.auteur}</span>
+                        <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0 fill-none stroke-current" strokeWidth={2.4} aria-hidden>
+                      <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                      </button>
+                    ) : null}
                     {d.texte ? <p className="mt-2 line-clamp-2 text-[13px] leading-snug text-cream/70">{d.texte}</p> : null}
                     {d.part ? (
                       <span className="mt-2.5 block h-1 w-full max-w-[180px] overflow-hidden rounded-full bg-white/15">
@@ -1235,9 +1287,16 @@ export function ListenScreen() {
 
         {!format ? (
           <>
-            <h2 className="mt-6 px-5 font-display text-[20px] font-bold text-cream">
-              {auteur ? `Les émissions de ${auteur}` : q ? "Émissions" : "Toutes les émissions"}
-            </h2>
+            <div className="mt-6 flex items-end justify-between gap-3 px-5">
+              <h2 className="font-display text-[20px] font-bold text-cream">
+                {auteur ? `Les émissions de ${auteur}` : q ? "Émissions" : "Toutes les émissions"}
+              </h2>
+              {auteur ? (
+                <button type="button" onClick={() => setFiche(auteur)} className="shrink-0 rounded-full border border-dawn-400/50 px-3.5 py-1.5 text-[12.5px] font-bold text-dawn-400">
+                  Sa fiche
+                </button>
+              ) : null}
+            </div>
             {emFiltrees.length ? (
               <div className="mt-3 grid grid-cols-2 gap-x-3.5 gap-y-5 px-5">{emFiltrees.map((e) => carteEmission(e, true))}</div>
             ) : (
@@ -1334,6 +1393,17 @@ export function ListenScreen() {
         ) : null}
       </div>
 
+      {/* Fiche de l'intervenant (Instagram, YouTube, boutique…) */}
+      {fiche
+        ? (() => {
+            // L'émission de cet intervenant dont la fiche est la plus complète.
+            const ems = (emissions ?? []).filter((e) => e.author === fiche);
+            const e = ems.find((x) => x.author_bio || x.author_instagram || x.author_links?.length) ?? ems[0];
+            const { info, photo } = ficheAuteur(fiche, e);
+            return <AuthorCard open onClose={() => setFiche(null)} author={info} photo={photo} z="z-[125]" />;
+          })()
+        : null}
+
       {/* Menu d'un épisode */}
       <AnimatePresence>
         {menuTrack ? (
@@ -1412,6 +1482,22 @@ export function ListenScreen() {
                         </svg>
                         Partager
                       </button>
+                      {t.author ? (
+                        <button
+                          type="button"
+                          className={ligne}
+                          onClick={() => {
+                            setMenu(null);
+                            setFiche(t.author ?? null);
+                          }}
+                        >
+                          <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current text-dawn-400" strokeWidth={1.9} aria-hidden>
+                            <circle cx="12" cy="8" r="4" />
+                            <path d="M4 21a8 8 0 0 1 16 0" strokeLinecap="round" />
+                          </svg>
+                          À propos de {t.author}
+                        </button>
+                      ) : null}
                       {t.show_id && !emission ? (
                         <button
                           type="button"

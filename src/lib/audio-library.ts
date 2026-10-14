@@ -24,7 +24,12 @@ export type AudioTrack = {
   author?: string | null;
   /** Numéro de l'épisode dans son émission (1 = le plus ancien). */
   numero?: number;
+  /** L'émission complète (fiche de l'intervenant : bio, Instagram, liens). */
+  emission?: Emission;
 };
+
+/** Lien de l'intervenant (YouTube, Boutique, site…). */
+export type LienAuteur = { label: string; url: string };
 
 /** Émission de podcast (un intervenant, une pochette). */
 export type Emission = {
@@ -36,6 +41,12 @@ export type Emission = {
   cover: string | null;
   cover_path: string | null;
   position: number;
+  /** Fiche de l'intervenant (cliquer sur son nom) — migration-podcast-auteurs.sql. */
+  author_role?: string | null;
+  author_bio?: string | null;
+  author_photo?: string | null;
+  author_instagram?: string | null;
+  author_links?: LienAuteur[] | null;
 };
 
 /** Nom de fichier lisible → titre affiché (conserve accents & apostrophes). */
@@ -227,6 +238,7 @@ export async function chargerCatalogue(): Promise<{ emissions: Emission[]; episo
       showTitle: e?.title,
       showDescription: e?.description ?? null,
       author: e?.author ?? null,
+      emission: e,
     };
   });
   // Numéro dans l'émission (du plus ancien au plus récent).
@@ -261,7 +273,7 @@ export async function creerEmission(
 /** Admin : modifie une émission (et sa pochette si fournie). */
 export async function modifierEmission(
   id: string,
-  champs: { title?: string; author?: string | null; description?: string | null; category?: string | null },
+  champs: Partial<Omit<Emission, "id" | "cover" | "cover_path" | "position">>,
   pochette?: File | null,
 ): Promise<boolean> {
   const sb = getSupabase();

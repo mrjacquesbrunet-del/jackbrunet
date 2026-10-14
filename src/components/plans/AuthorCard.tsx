@@ -58,11 +58,14 @@ export function AuthorCard({
   onClose,
   author,
   photo,
+  z = "z-[80]",
 }: {
   open: boolean;
   onClose: () => void;
   author: AuthorInfo;
   photo?: string;
+  /** Plan d'affichage (au-dessus du lecteur podcast plein écran : z-[140]). */
+  z?: string;
 }) {
   const [profilId, setProfilId] = useState<string | null>(null);
   useEffect(() => {
@@ -80,7 +83,7 @@ export function AuthorCard({
   const lienProfil = profilId ? `/membre?u=${profilId}` : null;
 
   return (
-    <div className="fixed inset-0 z-[80] flex items-end justify-center sm:items-center" role="dialog" aria-modal="true">
+    <div className={`fixed inset-0 ${z} flex items-end justify-center sm:items-center`} role="dialog" aria-modal="true">
       <button
         type="button"
         aria-label="Fermer"
