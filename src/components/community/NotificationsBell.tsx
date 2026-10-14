@@ -45,6 +45,8 @@ function label(n: Notification) {
       return `${who} a écrit dans ${n.body? `« ${n.body} »`: "ton groupe"}`;
     case "group_join":
       return `${who} a rejoint ${n.body? `« ${n.body} »`: "ton groupe"}`;
+    case "podcast":
+      return n.body ?? "Nouvel épisode de podcast";
     case "admin":
       return n.body? `${n.body}`: "Message de Pasteur Jack";
     case "challenge":

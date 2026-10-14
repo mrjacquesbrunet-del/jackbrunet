@@ -10,6 +10,7 @@ import { openExternal } from "@/lib/external";
 import { siteConfig } from "@/config/site";
 import { isNativeApp } from "@/lib/notifications";
 import { ChoixLangue } from "@/components/i18n/ChoixLangue";
+import { useLangue, contenuAudioVideoDispo } from "@/lib/i18n";
 
 /**
  * PARAMÈTRES — écran plein écran du profil, organisé en sections nettes
@@ -47,6 +48,7 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 export function ProfileSettings({ userId, onClose }: { userId: string; onClose: () => void }) {
   const [prefs, setPrefs] = useState<NotifPrefs | null>(null);
   const soaking = useSoaking();
+  const langue = useLangue();
   const [version, setVersion] = useState<string | null>(null);
 
   useEffect(() => {
@@ -101,7 +103,7 @@ export function ProfileSettings({ userId, onClose }: { userId: string; onClose: 
           Choisis ce qui arrive sur ton téléphone. La cloche dans l&apos;app garde tout.
         </p>
         <div className="mt-3 space-y-1.5">
-          {NOTIF_GROUPS.map((g) => (
+          {NOTIF_GROUPS.filter((g) => g.key !== "podcasts" || contenuAudioVideoDispo(langue)).map((g) => (
             <div key={g.key} className="flex items-center gap-3 rounded-2xl bg-white/[0.05] px-4 py-3">
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-bold">{g.label}</p>

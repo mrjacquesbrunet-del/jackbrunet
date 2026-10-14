@@ -38,6 +38,7 @@ function messageFor(type: string, who: string, body: string): { title: string; t
     case "challenge":      return { title: "Défi en direct !", text: body || `${who} te défie en direct !` };
     case "priere_direct":  return { title: "Prière en direct", text: body || "Une prière en direct commence" };
     case "friend_score":   return { title: "Tes amis jouent !", text: body || `${who} a joué au Défi du jour !` };
+    case "podcast":        return { title: "Nouvel épisode", text: body || "Un nouvel épisode de podcast est disponible" };
     default:               return { title: "Notification", text: body || "Tu as une nouvelle notification" };
   }
 }
@@ -50,6 +51,7 @@ function groupForType(type: string): string {
   if (type === "pray" || type === "pray_digest" || type === "follow_up" || type === "priere_direct") return "prays";
   if (type.startsWith("group_")) return "groups";
   if (type === "follow") return "follows";
+  if (type === "podcast") return "podcasts";
   if (type === "admin") return "admin";
   return "comments";
 }

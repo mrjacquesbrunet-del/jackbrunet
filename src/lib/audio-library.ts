@@ -134,25 +134,47 @@ export async function updatePodcast(
   await getSupabase()?.from("podcasts").update(patch).eq("id", id);
 }
 
-/** Admin: envoie un fichier audio (nom technique propre, titre conservé). */
-export async function uploadPodcast(file: File, showId?: string | null): Promise<boolean> {
+/** Admin: envoie un fichier audio (nom technique propre, titre conservé).
+ * Renvoie l'épisode créé (id + titre), ou null en cas d'échec. */
+export async function uploadPodcast(file: File, showId?: string | null): Promise<{ id: string; title: string } | null> {
   const sb = getSupabase();
-  if (!sb) return false;
+  if (!sb) return null;
   const out = await compressToMonoMp3(file); // 48 kbps mono → moins de bande passante
   const key = safeKey(out.name); // l'extension suit le fichier réellement envoyé
   const { error } = await sb.storage
 .from(AUDIO_BUCKET)
 .upload(key, out, { contentType: "audio/mpeg", upsert: false });
-  if (error) return false;
+  if (error) return null;
   const ligne: Record<string, unknown> = { title: titleFromName(file.name), path: key };
   if (showId && showId !== "par-defaut") ligne.show_id = showId;
-  const { error: e2 } = await sb.from("podcasts").insert(ligne);
-  if (e2) {
+  const { data, error: e2 } = await sb.from("podcasts").insert(ligne).select("id,title").single();
+  if (e2 || !data) {
     // rollback du fichier si l'insertion échoue
     await sb.storage.from(AUDIO_BUCKET).remove([key]);
-    return false;
+    return null;
   }
-  return true;
+  return data as { id: string; title: string };
+}
+
+/** Les plus écoutés : nombre d'auditeurs (appareils) par épisode, sur 90 jours.
+ * Vide tant que le SQL migration-podcasts-plus.sql n'est pas exécuté. */
+export async function listerPopulaires(): Promise<Record<string, number>> {
+  const sb = getSupabase();
+  if (!sb) return {};
+  const { data, error } = await sb.rpc("podcasts_populaires", { jours: 90 });
+  if (error || !data) return {};
+  const out: Record<string, number> = {};
+  for (const r of data as { podcast_id: string; ecoutes: number }[]) out[r.podcast_id] = Number(r.ecoutes) || 0;
+  return out;
+}
+
+/** Admin : prévient tout le monde d'un nouvel épisode (cloche + push,
+ * selon la préférence « Nouveaux épisodes »). Renvoie le nombre de personnes. */
+export async function notifierNouvelEpisode(message: string, lien: string): Promise<number | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  const { data, error } = await sb.rpc("notifier_nouvel_episode", { message, lien });
+  return error ? null : Number(data) || 0;
 }
 
 /** Admin: supprime un podcast (fichier + entrée). */

@@ -23,6 +23,10 @@ type State = {
   rate: number;
   /** Répète le morceau en cours en boucle (au lieu d'enchaîner le suivant). */
   repeat: boolean;
+  /** Épisode suivant de la même émission, lancé à la fin du compte à rebours. */
+  aSuivre: { track: AudioTrack; finA: number } | null;
+  /** File choisie (liste, favoris, « Tout écouter ») : on la suit dans l'ordre. */
+  suiteFile: boolean;
 };
 
 function loadRate(): number {
@@ -42,6 +46,8 @@ let state: State = {
   sleepEpisodeEnd: false,
   rate: typeof window!== "undefined"? loadRate(): 1,
   repeat: false,
+  aSuivre: null,
+  suiteFile: false,
 };
 let audio: HTMLAudioElement | null = null;
 
@@ -65,6 +71,71 @@ function ecrirePosition(id: string, sec: number) {
   }
 }
 let dernierEnregistrement = 0;
+
+/* ————— Enchaînement : épisode suivant de la même émission ————— */
+const DERNIER_KEY = "jb.podcast.dernier.v1";
+const DELAI_SUIVANT = 5000;
+/** Tout le catalogue des podcasts (donné par l'écran Écouter). */
+let catalogue: AudioTrack[] = [];
+let suivantTimeout: ReturnType<typeof setTimeout> | null = null;
+
+export function memoriserCatalogue(episodes: AudioTrack[]) {
+  catalogue = episodes;
+}
+
+/** Dernier épisode lancé (pour « Reprendre l'écoute » en tête de l'accueil). */
+export function dernierEpisodeLance(): string | null {
+  try {
+    return localStorage.getItem(DERNIER_KEY);
+  } catch {
+    return null;
+  }
+}
+
+/** Épisodes d'une émission, du plus ancien au plus récent. */
+function episodesDeLEmission(t: AudioTrack): AudioTrack[] {
+  const source = catalogue.length ? catalogue : state.queue;
+  return source.filter((x) => x.memoriser && x.show_id === t.show_id).sort((a, b) => (a.numero ?? 0) - (b.numero ?? 0));
+}
+
+/** Le suivant : l'épisode d'après non écouté, sinon le plus récent non écouté. */
+function trouverSuivant(t: AudioTrack): AudioTrack | null {
+  if (!t.show_id) return null;
+  const eps = episodesDeLEmission(t);
+  const pos = lirePositions();
+  const pasEcoute = (x: AudioTrack) => x.id !== t.id && pos[x.id] !== -1;
+  const apres = eps.filter((x) => (x.numero ?? 0) > (t.numero ?? 0)).find(pasEcoute);
+  return apres ?? [...eps].reverse().find(pasEcoute) ?? null;
+}
+
+function effacerSuivant() {
+  if (suivantTimeout) {
+    clearTimeout(suivantTimeout);
+    suivantTimeout = null;
+  }
+  state.aSuivre = null;
+}
+
+/** Lance tout de suite l'épisode annoncé. */
+export function lancerSuivant() {
+  const s = state.aSuivre?.track;
+  effacerSuivant();
+  if (!s) return;
+  if (state.suiteFile && state.queue[state.index + 1]?.id === s.id) {
+    playQueue(state.queue, state.index + 1, true);
+    return;
+  }
+  const eps = episodesDeLEmission(s);
+  const i = eps.findIndex((x) => x.id === s.id);
+  if (i >= 0) playQueue(eps, i);
+  else playQueue([s], 0);
+}
+
+/** Annule l'enchaînement : la lecture s'arrête sur l'épisode fini. */
+export function annulerSuivant() {
+  effacerSuivant();
+  emit();
+}
 let sleepTimeout: ReturnType<typeof setTimeout> | null = null;
 let errorSkips = 0; // évite de boucler sur des chapitres manquants
 const listeners = new Set<() => void>();
@@ -133,6 +204,21 @@ function ensureAudio(): HTMLAudioElement | null {
     // Mode répétition: on rejoue le même morceau en boucle.
     if (state.repeat && state.index >= 0) {
       playQueue(state.queue, state.index);
+      return;
+    }
+    // Podcast : épisode suivant de la même émission, après 5 s (annulable).
+    // Écran verrouillé / app en arrière-plan : tout de suite (sinon iOS
+    // suspendrait l'app pendant le compte à rebours).
+    if (fini?.memoriser) {
+      const suivant = state.suiteFile ? state.queue[state.index + 1] ?? null : trouverSuivant(fini);
+      if (!suivant) return;
+      state.aSuivre = { track: suivant, finA: Date.now() + DELAI_SUIVANT };
+      if (document.hidden) {
+        lancerSuivant();
+        return;
+      }
+      suivantTimeout = setTimeout(lancerSuivant, DELAI_SUIVANT);
+      emit();
       return;
     }
     nextTrack(); // lecture continue: enchaîne le chapitre/épisode suivant
@@ -204,18 +290,30 @@ export function getPodcastAudio(): HTMLAudioElement | null {
 let playSeq = 0; // garde-fou anti-course pour la résolution hors-ligne (async)
 let objectUrl: string | null = null; // URL blob courante (à révoquer)
 
-export function playQueue(queue: AudioTrack[], index: number) {
+/** `suiteFile` : à la fin d'un épisode, on enchaîne la file dans l'ordre
+ * (liste, favoris) au lieu de l'épisode suivant de l'émission. */
+export function playQueue(queue: AudioTrack[], index: number, suiteFile = false) {
   const a = ensureAudio();
   if (!a ||!queue[index]) return;
+  effacerSuivant();
+  state.suiteFile = suiteFile;
   state.queue = queue;
   state.index = index;
   const seq = ++playSeq;
   const t = queue[index];
   track("play", t.id); // statistique d'écoute (anonyme)
+  if (t.memoriser) {
+    try {
+      localStorage.setItem(DERNIER_KEY, t.id);
+    } catch {
+      /* ignore */
+    }
+  }
   emit();
   setMediaSession();
   // Copie locale (hors-ligne) en priorité, sinon flux Supabase.
-  void getOfflineObjectUrl(t.path).then((local) => {
+  // (les anciennes versions rangeaient les épisodes sous leur URL)
+  void getOfflineObjectUrl(t.path).then((l) => l ?? (t.memoriser ? getOfflineObjectUrl(t.url) : null)).then((local) => {
     if (seq!== playSeq ||!audio) {
       if (local) URL.revokeObjectURL(local);
       return;
@@ -265,6 +363,10 @@ export function togglePlay() {
 }
 
 export function nextTrack() {
+  if (state.aSuivre) {
+    lancerSuivant();
+    return;
+  }
   if (state.index + 1 < state.queue.length) playQueue(state.queue, state.index + 1);
 }
 export function prevTrack() {
@@ -277,6 +379,7 @@ export function seekTo(t: number) {
 /** Arrête la lecture et masque la barre (ferme le lecteur). */
 export function stopPlayback() {
   playSeq++;
+  effacerSuivant();
   if (audio) {
     audio.pause();
     audio.removeAttribute("src");
@@ -330,6 +433,9 @@ export function usePodcastPlayer() {
     sleepEpisodeEnd: snap.sleepEpisodeEnd,
     rate: snap.rate,
     repeat: snap.repeat,
+    aSuivre: snap.aSuivre,
+    lancerSuivant,
+    annulerSuivant,
     setRepeat,
     setRate,
     playQueue,

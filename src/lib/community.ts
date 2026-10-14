@@ -94,7 +94,8 @@ export type NotifType =
   | "duo_invite"
   | "duo_accept"
   | "duo_read"
-  | "duo_note";
+  | "duo_note"
+  | "podcast";
 export type Notification = {
   id: string;
   user_id: string;

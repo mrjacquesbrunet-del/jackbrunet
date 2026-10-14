@@ -9,6 +9,7 @@ import { isNativeApp, readReminder, enableDailyReminder } from "@/lib/notificati
 import { initOneSignal } from "@/lib/onesignal";
 import { trace } from "@/lib/boot-trace";
 import { getSupabase } from "@/lib/supabase";
+import { getLangue, contenuAudioVideoDispo } from "@/lib/i18n";
 
 /** Lien d'e-mail de connexion (mot de passe oublié, lien magique) rouvert
  * dans l'app : ouvre la session à partir des jetons du lien. */
@@ -52,6 +53,16 @@ export function NativeBootstrap() {
     setNotifNavigator((path) => router.replace(path));
     return () => setNotifNavigator(null);
   }, [router]);
+
+  // Podcasts : nouveaux épisodes téléchargés en Wi-Fi si le réglage est
+  // activé (Écouter → Favoris → Téléchargés), un peu après le démarrage.
+  useEffect(() => {
+    if (!isNativeApp() || !contenuAudioVideoDispo(getLangue())) return;
+    const t = setTimeout(() => {
+      import("@/lib/podcast-offline").then((m) => m.telechargerNouveautes()).catch(() => undefined);
+    }, 20_000);
+    return () => clearTimeout(t);
+  }, []);
 
   useEffect(() => {
     if (!isNativeApp()) return;

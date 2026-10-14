@@ -14,19 +14,39 @@ import {
   modifierEmission,
   supprimerEmission,
   deplacerEpisode,
+  listerPopulaires,
+  notifierNouvelEpisode,
   type AudioTrack,
   type Emission,
 } from "@/lib/audio-library";
-import { usePodcastPlayer, lirePositions } from "@/lib/podcast-player";
-import { usePodcastEtat, basculerFavori, ouvrirLecteurPodcast } from "@/lib/podcast-etat";
+import { usePodcastPlayer, lirePositions, memoriserCatalogue, dernierEpisodeLance } from "@/lib/podcast-player";
+import {
+  usePodcastEtat,
+  basculerFavori,
+  ouvrirLecteurPodcast,
+  ouvrirChoixListe,
+  creerListe,
+  renommerListe,
+  supprimerListe,
+  basculerDansListe,
+} from "@/lib/podcast-etat";
+import {
+  episodesHorsLigne,
+  telechargerEpisode,
+  retirerEpisode,
+  autoTelechargementActif,
+  setAutoTelechargement,
+  telechargerNouveautes,
+} from "@/lib/podcast-offline";
 import { appShareUrl } from "@/config/app-links";
 import { useAuth } from "@/components/community/useAuth";
 import { isAdminEmail } from "@/lib/community";
-import { downloadFileOffline, deleteFileOffline, offlineFilePaths } from "@/lib/bible-offline";
 import { PlayGlyph, PauseGlyph, HeadphonesGlyph } from "@/components/ui/DevoIcons";
 import { localeApp } from "@/lib/i18n";
 
 const DUR_KEY = "jb.podcast.dur.v1";
+/** Épisode « court » : moins de 10 minutes. */
+const COURT = 600;
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 function when(iso?: string): string {
@@ -65,13 +85,18 @@ export function ListenScreen() {
   const { email } = useAuth();
   const admin = isAdminEmail(email);
   const pod = usePodcastPlayer();
-  const { favoris } = usePodcastEtat();
+  const { favoris, listes } = usePodcastEtat();
 
   const [emissions, setEmissions] = useState<Emission[] | null>(null);
   const [tracks, setTracks] = useState<AudioTrack[] | null>(null);
   const [onglet, setOnglet] = useState<Onglet>("accueil");
   const [emissionOuverte, setEmissionOuverte] = useState<string | null>(null);
-  const [biblio, setBiblio] = useState<"fav" | "offline" | "encours">("fav");
+  const [biblio, setBiblio] = useState<"fav" | "listes" | "offline" | "encours">("fav");
+  const [listeOuverte, setListeOuverte] = useState<string | null>(null);
+  const [nomNouvelleListe, setNomNouvelleListe] = useState("");
+  const [format, setFormat] = useState<"courts" | "longs" | null>(null);
+  const [populaires, setPopulaires] = useState<Record<string, number>>({});
+  const [autoDl, setAutoDl] = useState(false);
   const [recherche, setRecherche] = useState("");
   const [categorie, setCategorie] = useState<string | null>(null);
   const [auteur, setAuteur] = useState<string | null>(null);
@@ -104,11 +129,14 @@ export function ListenScreen() {
       chargerCatalogue().then(({ emissions, episodes }) => {
         setEmissions(emissions);
         setTracks(episodes);
+        memoriserCatalogue(episodes); // pour enchaîner l'épisode suivant de l'émission
       }),
     [],
   );
   useEffect(() => {
     load();
+    listerPopulaires().then(setPopulaires);
+    setAutoDl(autoTelechargementActif());
   }, [load]);
 
   // Positions d'écoute (reprise), relues pendant la lecture.
@@ -148,7 +176,7 @@ export function ListenScreen() {
 
   useEffect(() => {
     if (!tracks) return;
-    offlineFilePaths(tracks.map((t) => t.path)).then(setOffline);
+    episodesHorsLigne(tracks).then(setOffline);
   }, [tracks]);
 
   // Liens profonds : /ecouter?e=<épisode> lance l'épisode ; ?emission=<id> ouvre l'émission.
@@ -167,14 +195,16 @@ export function ListenScreen() {
 
   /* ————— Actions ————— */
 
-  function lire(t: AudioTrack, liste?: AudioTrack[]) {
+  /** `suiteFile` : liste choisie (favoris, Mes listes…) jouée dans l'ordre ;
+   * sinon, à la fin, on enchaîne l'épisode suivant de l'émission. */
+  function lire(t: AudioTrack, liste?: AudioTrack[], suiteFile = false) {
     if (pod.current?.id === t.id) {
       ouvrirLecteurPodcast();
       if (!pod.playing) pod.toggle();
       return;
     }
     const file = liste && liste.some((x) => x.id === t.id) ? liste : tracks ?? [t];
-    pod.playQueue(file, Math.max(0, file.findIndex((x) => x.id === t.id)));
+    pod.playQueue(file, Math.max(0, file.findIndex((x) => x.id === t.id)), suiteFile);
     ouvrirLecteurPodcast();
   }
   function lireAleatoire(liste: AudioTrack[]) {
@@ -184,7 +214,7 @@ export function ListenScreen() {
       const j = Math.floor(Math.random() * (i + 1));
       [m[i], m[j]] = [m[j], m[i]];
     }
-    pod.playQueue(m, 0);
+    pod.playQueue(m, 0, true);
     ouvrirLecteurPodcast();
   }
 
@@ -192,7 +222,7 @@ export function ListenScreen() {
     if (dlProgress[t.path] !== undefined) return;
     if (offline.has(t.path)) {
       if (!confirm(`Retirer « ${t.title} » des téléchargements ?`)) return;
-      await deleteFileOffline(t.path);
+      await retirerEpisode(t);
       setOffline((prev) => {
         const next = new Set(prev);
         next.delete(t.path);
@@ -201,7 +231,7 @@ export function ListenScreen() {
       return;
     }
     setDlProgress((p) => ({ ...p, [t.path]: 0 }));
-    const ok = await downloadFileOffline(t.url, t.url, (r, total) => setDlProgress((p) => ({ ...p, [t.path]: total ? r / total : 0 })));
+    const ok = await telechargerEpisode(t, (r, total) => setDlProgress((p) => ({ ...p, [t.path]: total ? r / total : 0 })));
     setDlProgress((p) => {
       const next = { ...p };
       delete next[t.path];
@@ -227,12 +257,26 @@ export function ListenScreen() {
     e.target.value = "";
     if (!files.length) return;
     setUpload({ done: 0, total: files.length });
+    const crees: { id: string; title: string }[] = [];
     for (let i = 0; i < files.length; i++) {
-      await uploadPodcast(files[i], showId);
+      const ep = await uploadPodcast(files[i], showId);
+      if (ep) crees.push(ep);
       setUpload({ done: i + 1, total: files.length });
     }
     setUpload(null);
-    load();
+    await load();
+    // Prévenir les membres (cloche + push « Nouveaux épisodes »).
+    if (crees.length) {
+      const em = emissions?.find((e) => e.id === showId);
+      await prevenir(crees[crees.length - 1].id, crees.length > 1 ? `${crees.length} nouveaux épisodes` : `« ${crees[0].title} »`, em?.title);
+    }
+  }
+  async function prevenir(id: string, quoi: string, emissionTitre?: string) {
+    const defaut = `${quoi} ${quoi.startsWith("«") ? "est" : "sont"} en ligne${emissionTitre ? ` dans « ${emissionTitre} »` : ""}. Bonne écoute !`;
+    const message = prompt("Prévenir les membres ? Message de la notification (Annuler = ne pas prévenir) :", defaut);
+    if (!message?.trim()) return;
+    const n = await notifierNouvelEpisode(message.trim(), `/ecouter/?e=${id}`);
+    alert(n === null ? "La notification n'est pas partie. As-tu exécuté le SQL migration-podcasts-plus.sql dans Supabase ?" : `Notification envoyée à ${n} membre${n > 1 ? "s" : ""}.`);
   }
   async function editTrack(t: AudioTrack) {
     const title = prompt("Titre de l'épisode :", t.title);
@@ -299,6 +343,13 @@ export function ListenScreen() {
   }, [tracks]);
   const enCours = (tracks ?? []).filter((t) => (positions[t.id] ?? 0) > 5);
   const nouveaux = (tracks ?? []).slice(0, 10);
+  const plusEcoutes = (tracks ?? [])
+    .filter((t) => (populaires[t.id] ?? 0) > 0)
+    .sort((a, b) => (populaires[b.id] ?? 0) - (populaires[a.id] ?? 0))
+    .slice(0, 10);
+  const courts = (tracks ?? []).filter((t) => (durations[t.id] ?? 0) > 0 && durations[t.id] < COURT);
+  const longs = (tracks ?? []).filter((t) => (durations[t.id] ?? 0) >= COURT);
+  const minutes = (t: AudioTrack) => (durations[t.id] ? `${Math.max(1, Math.round(durations[t.id] / 60))} min` : null);
   const categories = Array.from(new Set((emissions ?? []).map((e) => e.category).filter(Boolean))) as string[];
   // Intervenants (avec la pochette de leur première émission et le nombre d'épisodes).
   const intervenants = Array.from(new Set((emissions ?? []).map((e) => e.author).filter(Boolean))) .map((nom) => {
@@ -329,7 +380,7 @@ export function ListenScreen() {
 
   /* ————— Briques d'affichage ————— */
 
-  const carteEpisode = (t: AudioTrack, liste: AudioTrack[]) => {
+  const carteEpisode = (t: AudioTrack, liste: AudioTrack[], sousTitre?: string | null) => {
     const isCur = pod.current?.id === t.id;
     const part = fraction(t);
     return (
@@ -355,10 +406,32 @@ export function ListenScreen() {
           ) : null}
         </span>
         <span className={`mt-2 line-clamp-2 block font-display text-[14.5px] font-bold leading-snug ${isCur ? "text-dawn-400" : "text-cream"}`}>{t.title}</span>
-        <span className="mt-0.5 block truncate text-[12px] text-cream/50">{t.showTitle}</span>
+        <span className="mt-0.5 block truncate text-[12px] text-cream/50">{sousTitre ?? t.showTitle}</span>
       </button>
     );
   };
+
+  // « Les plus écoutés » : grand numéro à gauche de la pochette.
+  const carteClassement = (t: AudioTrack, rang: number, liste: AudioTrack[]) => (
+    <button key={t.id} type="button" onClick={() => lire(t, liste)} className="w-[50vw] max-w-[220px] shrink-0 snap-start text-left">
+      <span className="flex items-end">
+        <span
+          aria-hidden
+          className="-mr-3 shrink-0 font-display text-[88px] font-black leading-[0.74] text-night-950"
+          style={{ WebkitTextStroke: "2px rgba(202,240,0,.85)" }}
+        >
+          {rang}
+        </span>
+        <span className="relative block aspect-square min-w-0 flex-1 overflow-hidden rounded-2xl shadow-[0_14px_30px_-14px_rgba(0,0,0,.9)]">{pochette(t.cover)}</span>
+      </span>
+      <span className="block pl-9">
+        <span className={`mt-2 line-clamp-2 block font-display text-[14px] font-bold leading-snug ${pod.current?.id === t.id ? "text-dawn-400" : "text-cream"}`}>{t.title}</span>
+        <span className="mt-0.5 block truncate text-[11.5px] text-cream/50">
+          {populaires[t.id]} écoute{(populaires[t.id] ?? 0) > 1 ? "s" : ""}
+        </span>
+      </span>
+    </button>
+  );
 
   const carteEmission = (e: Emission, large = false) => {
     const n = parEmission.get(e.id)?.length ?? 0;
@@ -378,7 +451,7 @@ export function ListenScreen() {
     );
   };
 
-  const ligneEpisode = (t: AudioTrack, liste: AudioTrack[]) => {
+  const ligneEpisode = (t: AudioTrack, liste: AudioTrack[], opts: { suiteFile?: boolean; retirer?: () => void } = {}) => {
     const isCur = pod.current?.id === t.id;
     const fav = favoris.has(t.id);
     const ecoute = positions[t.id] === -1;
@@ -387,7 +460,7 @@ export function ListenScreen() {
       <li key={t.id} className="flex items-center gap-3 border-b border-white/[0.07] py-3 last:border-b-0">
         <button
           type="button"
-          onClick={() => lire(t, liste)}
+          onClick={() => lire(t, liste, opts.suiteFile)}
           aria-label={isCur && pod.playing ? "Pause" : "Lire"}
           className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl active:scale-95"
         >
@@ -405,9 +478,9 @@ export function ListenScreen() {
             )}
           </span>
         </button>
-        <button type="button" onClick={() => lire(t, liste)} className="min-w-0 flex-1 text-left">
+        <button type="button" onClick={() => lire(t, liste, opts.suiteFile)} className="min-w-0 flex-1 text-left">
           <p className="flex items-center gap-1.5 text-[11px] font-semibold text-cream/45">
-            {t.numero ? <span className="text-dawn-400/80">Ép. {t.numero}</span> : null}
+            {t.numero ? <span className="shrink-0 whitespace-nowrap text-dawn-400/80">Ép. {t.numero}</span> : null}
             <span className="truncate">{emission ? meta(t) : [t.author, meta(t)].filter(Boolean).join(" · ")}</span>
             {offline.has(t.path) ? (
               <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0 fill-none stroke-current text-dawn-400" strokeWidth={2.4} aria-label="Hors ligne">
@@ -429,6 +502,19 @@ export function ListenScreen() {
             </div>
           ) : null}
         </button>
+        {opts.retirer ? (
+          <button
+            type="button"
+            onClick={opts.retirer}
+            aria-label="Retirer de la liste"
+            className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-cream/45 active:bg-white/10"
+          >
+            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2} aria-hidden>
+              <path d="M5 12h14" strokeLinecap="round" />
+              <circle cx="12" cy="12" r="9" />
+            </svg>
+          </button>
+        ) : null}
         <button
           type="button"
           onClick={() => basculerFavori(t.id)}
@@ -578,9 +664,40 @@ export function ListenScreen() {
   };
 
   const pageAccueil = () => {
-    // Bannière : les émissions, complétées par les derniers épisodes.
-    type Diapo = { cle: string; surtitre: string; titre: string; auteur?: string | null; texte: string | null; image: string | null | undefined; lancer: () => void };
+    // Bannière : d'abord TOI (reprendre l'épisode commencé, sinon le nouvel
+    // épisode), puis les émissions, complétées par les derniers épisodes.
+    type Diapo = {
+      cle: string;
+      surtitre: string;
+      titre: string;
+      auteur?: string | null;
+      texte: string | null;
+      image: string | null | undefined;
+      lancer: () => void;
+      bouton?: string;
+      part?: number;
+    };
     const diapos: Diapo[] = [];
+    const idDernier = dernierEpisodeLance();
+    const reprise = enCours.find((t) => t.id === idDernier) ?? enCours[0];
+    if (reprise) {
+      const reste = durations[reprise.id] ? Math.max(1, Math.round((durations[reprise.id] - (positions[reprise.id] ?? 0)) / 60)) : null;
+      diapos.push({
+        cle: `r${reprise.id}`,
+        surtitre: "Reprendre l'écoute",
+        titre: reprise.title,
+        auteur: reprise.author,
+        texte: reste ? `Il te reste ${reste} min${reprise.numero ? ` · Épisode ${reprise.numero}` : ""}` : reprise.showTitle ?? null,
+        image: reprise.cover,
+        lancer: () => lire(reprise, enCours),
+        bouton: "Reprendre",
+        part: fraction(reprise),
+      });
+    }
+    if (nouveaux[0] && nouveaux[0].id !== reprise?.id) {
+      const t = nouveaux[0];
+      diapos.push({ cle: `n${t.id}`, surtitre: "Nouvel épisode", titre: t.title, auteur: t.author, texte: t.description, image: t.cover, lancer: () => lire(t, tracks ?? nouveaux) });
+    }
     for (const e of emissions ?? []) {
       const eps = parEmission.get(e.id) ?? [];
       if (!eps.length) continue;
@@ -588,9 +705,10 @@ export function ListenScreen() {
     }
     for (const t of nouveaux) {
       if (diapos.length >= 4) break;
+      if (t === nouveaux[0] || t.id === reprise?.id) continue;
       diapos.push({
         cle: `t${t.id}`,
-        surtitre: t === nouveaux[0] ? "Nouvel épisode" : t.showTitle ?? "Épisode",
+        surtitre: t.showTitle ?? "Épisode",
         titre: t.title,
         auteur: t.author,
         texte: t.description,
@@ -612,7 +730,7 @@ export function ListenScreen() {
               }}
             >
               {diapos.map((d) => (
-                <div key={d.cle} className="relative h-[236px] w-full shrink-0 snap-center overflow-hidden rounded-[26px] border border-white/10">
+                <div key={d.cle} className="relative h-[248px] w-full shrink-0 snap-center overflow-hidden rounded-[26px] border border-white/10">
                   <div className="absolute inset-0">{pochette(d.image, "object-[70%_center]")}</div>
                   <div className="absolute inset-0 bg-gradient-to-r from-night-950 via-night-950/75 to-night-950/0" />
                   <div className="relative flex h-full max-w-[72%] flex-col justify-center p-5">
@@ -620,6 +738,11 @@ export function ListenScreen() {
                     <p className="mt-1.5 line-clamp-2 font-display text-[27px] font-bold leading-[1.05] text-cream">{d.titre}</p>
                     {d.auteur ? <p className="mt-1 truncate text-[13px] font-semibold text-dawn-400">avec {d.auteur}</p> : null}
                     {d.texte ? <p className="mt-2 line-clamp-2 text-[13px] leading-snug text-cream/70">{d.texte}</p> : null}
+                    {d.part ? (
+                      <span className="mt-2.5 block h-1 w-full max-w-[180px] overflow-hidden rounded-full bg-white/15">
+                        <span className="block h-full rounded-full bg-dawn-400" style={{ width: `${d.part * 100}%` }} />
+                      </span>
+                    ) : null}
                     <button
                       type="button"
                       onClick={d.lancer}
@@ -628,7 +751,7 @@ export function ListenScreen() {
                       <span className="grid h-8 w-8 place-items-center rounded-full bg-night-950 text-dawn-400">
                         <PlayGlyph className="ml-0.5 h-4 w-4" />
                       </span>
-                      Écouter maintenant
+                      {d.bouton ?? "Écouter maintenant"}
                     </button>
                   </div>
                 </div>
@@ -755,6 +878,35 @@ export function ListenScreen() {
           </section>
         ) : null}
 
+        {/* Les plus écoutés */}
+        {plusEcoutes.length >= 2 ? (
+          <Rangee titre="Les plus écoutés">{plusEcoutes.map((t, i) => carteClassement(t, i + 1, plusEcoutes))}</Rangee>
+        ) : null}
+
+        {/* Courts : moins de 10 minutes */}
+        {courts.length ? (
+          <Rangee
+            titre="Courts · moins de 10 min"
+            action={
+              <button
+                type="button"
+                onClick={() => {
+                  setFormat("courts");
+                  setOnglet("parcourir");
+                }}
+                className="flex items-center gap-0.5 text-[13.5px] font-semibold text-cream/60"
+              >
+                Voir tout
+                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2} aria-hidden>
+                  <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            }
+          >
+            {courts.slice(0, 12).map((t) => carteEpisode(t, courts, [minutes(t), t.author].filter(Boolean).join(" · ")))}
+          </Rangee>
+        ) : null}
+
         {emissions && emissions.length > 1 ? (
           <Rangee
             titre="Les émissions"
@@ -775,18 +927,23 @@ export function ListenScreen() {
   };
 
   const pageBiblio = () => {
+    const parId = new Map((tracks ?? []).map((t) => [t.id, t]));
+    const listeChoisie = biblio === "listes" && listeOuverte ? listes.find((l) => l.id === listeOuverte) ?? null : null;
     const liste =
       biblio === "fav"
         ? (tracks ?? []).filter((t) => favoris.has(t.id))
         : biblio === "offline"
           ? (tracks ?? []).filter((t) => offline.has(t.path))
-          : enCours;
+          : biblio === "listes"
+            ? (listeChoisie?.ids.map((id) => parId.get(id)).filter(Boolean) as AudioTrack[]) ?? []
+            : enCours;
     return (
       <motion.div key="biblio" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
         <div className="mx-5 mt-2 flex gap-1 rounded-full border border-white/10 bg-white/[0.04] p-1">
           {(
             [
               ["fav", "Favoris"],
+              ["listes", "Listes"],
               ["offline", "Téléchargés"],
               ["encours", "En cours"],
             ] as const
@@ -794,8 +951,11 @@ export function ListenScreen() {
             <button
               key={k}
               type="button"
-              onClick={() => setBiblio(k)}
-              className={`relative flex-1 rounded-full px-2 py-2.5 text-[13.5px] font-bold ${biblio === k ? "text-night-950" : "text-cream/60"}`}
+              onClick={() => {
+                setBiblio(k);
+                setListeOuverte(null);
+              }}
+              className={`relative flex-1 rounded-full px-1 py-2.5 text-[12.5px] font-bold ${biblio === k ? "text-night-950" : "text-cream/60"}`}
             >
               {biblio === k ? (
                 <motion.span layoutId="biblio-podcast" className="absolute inset-0 rounded-full bg-dawn-400" transition={{ type: "spring", stiffness: 420, damping: 34 }} />
@@ -804,7 +964,128 @@ export function ListenScreen() {
             </button>
           ))}
         </div>
-        {liste.length ? (
+        {/* Téléchargement automatique (Wi-Fi) */}
+        {biblio === "offline" ? (
+          <div className="mx-5 mt-4 flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3.5">
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-dawn-400/10 text-dawn-400">
+              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.9} aria-hidden>
+                <path d="M2 8.5a15 15 0 0 1 20 0M5 12a10.5 10.5 0 0 1 14 0M8.5 15.5a5.5 5.5 0 0 1 7 0" strokeLinecap="round" />
+                <circle cx="12" cy="19" r="1.3" fill="currentColor" stroke="none" />
+              </svg>
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="text-[14.5px] font-bold text-cream">Télécharger les nouveaux épisodes</p>
+              <p className="text-[12px] leading-snug text-cream/55">Automatiquement, en Wi-Fi seulement : les 3 derniers que tu n&apos;as pas écoutés.</p>
+            </div>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={autoDl}
+              aria-label="Télécharger les nouveaux épisodes automatiquement"
+              onClick={() => {
+                const on = !autoDl;
+                setAutoDl(on);
+                setAutoTelechargement(on);
+                if (on && tracks) void telechargerNouveautes().then(() => episodesHorsLigne(tracks).then(setOffline));
+              }}
+              className={`relative h-7 w-12 shrink-0 rounded-full transition-colors ${autoDl ? "bg-dawn-400" : "bg-white/15"}`}
+            >
+              <span className={`absolute top-0.5 h-6 w-6 rounded-full bg-white shadow transition-all ${autoDl ? "left-[22px]" : "left-0.5"}`} />
+            </button>
+          </div>
+        ) : null}
+
+        {/* Mes listes */}
+        {biblio === "listes" && !listeChoisie ? (
+          <div className="mx-5 mt-4">
+            {listes.length ? (
+              <ul className="divide-y divide-white/[0.07] rounded-2xl border border-white/10 bg-white/[0.03]">
+                {listes.map((l) => {
+                  const premier = l.ids.map((id) => parId.get(id)).find(Boolean);
+                  return (
+                    <li key={l.id}>
+                      <button type="button" onClick={() => setListeOuverte(l.id)} className="flex w-full items-center gap-3.5 px-3.5 py-3 text-left active:bg-white/[0.05]">
+                        <span className="h-14 w-14 shrink-0 overflow-hidden rounded-xl">{pochette(premier?.cover)}</span>
+                        <span className="min-w-0 flex-1">
+                          <span className="block truncate font-display text-[16px] font-bold text-cream">{l.nom}</span>
+                          <span className="block text-[12.5px] text-cream/50">
+                            {l.ids.length} épisode{l.ids.length > 1 ? "s" : ""}
+                          </span>
+                        </span>
+                        <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 fill-none stroke-current text-cream/40" strokeWidth={2.2} aria-hidden>
+                          <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : (
+              <p className="rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-5 text-center text-[13.5px] leading-relaxed text-cream/60">
+                Range tes épisodes dans tes propres listes : une pour tes trajets, une pour prier le soir… Dans le menu « … » d&apos;un épisode, choisis
+                « Ajouter à une liste ».
+              </p>
+            )}
+            <form
+              className="mt-3 flex items-center gap-2"
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (!nomNouvelleListe.trim()) return;
+                creerListe(nomNouvelleListe);
+                setNomNouvelleListe("");
+              }}
+            >
+              <input
+                value={nomNouvelleListe}
+                onChange={(e) => setNomNouvelleListe(e.target.value)}
+                placeholder="Nouvelle liste…"
+                maxLength={40}
+                aria-label="Nom de la nouvelle liste"
+                className="min-w-0 flex-1 rounded-full border border-white/12 bg-white/[0.05] px-4 py-3 text-[14.5px] text-cream outline-none placeholder:text-cream/40 focus:border-dawn-400/60"
+              />
+              <button type="submit" disabled={!nomNouvelleListe.trim()} className="shrink-0 rounded-full bg-dawn-400 px-5 py-3 text-[14px] font-extrabold text-night-950 disabled:opacity-40">
+                Créer
+              </button>
+            </form>
+          </div>
+        ) : null}
+
+        {listeChoisie ? (
+          <div className="mx-5 mt-4">
+            <div className="flex items-center gap-2">
+              <button type="button" onClick={() => setListeOuverte(null)} className="mr-auto flex items-center gap-1.5 text-[13px] font-semibold text-cream/70">
+                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.4} aria-hidden>
+                  <path d="M15 6l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                Mes listes
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const nom = prompt("Nom de la liste :", listeChoisie.nom);
+                  if (nom !== null) renommerListe(listeChoisie.id, nom);
+                }}
+                className="rounded-full border border-white/15 px-3.5 py-1.5 text-[12.5px] font-semibold text-cream/80"
+              >
+                Renommer
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (!confirm(`Supprimer la liste « ${listeChoisie.nom} » ? Les épisodes restent dans l'app.`)) return;
+                  supprimerListe(listeChoisie.id);
+                  setListeOuverte(null);
+                }}
+                className="rounded-full border border-red-400/30 px-3.5 py-1.5 text-[12.5px] font-semibold text-red-400"
+              >
+                Supprimer
+              </button>
+            </div>
+            <h2 className="mt-3 line-clamp-2 font-display text-[26px] font-extrabold leading-tight text-cream">{listeChoisie.nom}</h2>
+          </div>
+        ) : null}
+
+        {biblio === "listes" && !listeChoisie ? null : liste.length ? (
           <>
             <div className="mx-5 mt-4 flex items-center justify-between">
               <p className="text-[13px] font-semibold text-cream/50">
@@ -812,14 +1093,23 @@ export function ListenScreen() {
               </p>
               <button
                 type="button"
-                onClick={() => liste[0] && lire(liste[0], liste)}
+                onClick={() => liste[0] && lire(liste[0], liste, true)}
                 className="inline-flex items-center gap-1.5 rounded-full bg-dawn-400 px-4 py-2 text-[13px] font-extrabold text-night-950"
               >
                 <PlayGlyph className="h-4 w-4" /> Tout écouter
               </button>
             </div>
-            <ul className="mt-2 px-5">{liste.map((t) => ligneEpisode(t, liste))}</ul>
+            <ul className="mt-2 px-5">
+              {liste.map((t) =>
+                ligneEpisode(t, liste, {
+                  suiteFile: biblio !== "encours",
+                  retirer: listeChoisie ? () => basculerDansListe(listeChoisie.id, t.id) : undefined,
+                }),
+              )}
+            </ul>
           </>
+        ) : listeChoisie ? (
+          vide("Liste vide", "Dans le menu « … » d'un épisode, choisis « Ajouter à une liste ».")
         ) : biblio === "fav" ? (
           vide("Aucun favori pour l'instant", "Touche le cœur sur un épisode pour le retrouver ici.")
         ) : biblio === "offline" ? (
@@ -838,9 +1128,10 @@ export function ListenScreen() {
         (!auteur || e.author === auteur) &&
         (!q || sansAccent(`${e.title} ${e.author ?? ""} ${e.description ?? ""}`).includes(q)),
     );
+    const parFormat = format === "courts" ? courts : format === "longs" ? longs : tracks ?? [];
     const epTrouves =
-      q || auteur
-        ? (tracks ?? []).filter(
+      q || auteur || format
+        ? parFormat.filter(
             (t) =>
               (!auteur || t.author === auteur) &&
               (!q || sansAccent(`${t.title} ${t.description ?? ""} ${t.showTitle ?? ""} ${t.author ?? ""}`).includes(q)),
@@ -883,6 +1174,35 @@ export function ListenScreen() {
           </>
         ) : null}
 
+        {/* Durée : courts (moins de 10 min) / longs */}
+        {courts.length || longs.length ? (
+          <div className="no-scrollbar mt-4 flex gap-2 overflow-x-auto px-5">
+            {(
+              [
+                ["courts", "Courts · moins de 10 min", courts.length],
+                ["longs", "Longs · 10 min et plus", longs.length],
+              ] as const
+            )
+              .filter(([, , n]) => n > 0)
+              .map(([k, lbl]) => (
+                <button
+                  key={k}
+                  type="button"
+                  onClick={() => setFormat(format === k ? null : k)}
+                  className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-semibold ${
+                    format === k ? "bg-dawn-400 text-night-950" : "border border-white/12 bg-white/[0.05] text-cream/75"
+                  }`}
+                >
+                  <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2} aria-hidden>
+                    <circle cx="12" cy="13" r="8" />
+                    <path d="M12 9v4l2.5 2M10 2h4" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  {lbl}
+                </button>
+              ))}
+          </div>
+        ) : null}
+
         {categories.length ? (
           <div className="no-scrollbar mt-3 flex gap-2 overflow-x-auto px-5">
             {[null, ...categories].map((c) => (
@@ -912,22 +1232,28 @@ export function ListenScreen() {
           </div>
         ) : null}
 
-        <h2 className="mt-6 px-5 font-display text-[20px] font-bold text-cream">
-          {auteur ? `Les émissions de ${auteur}` : q ? "Émissions" : "Toutes les émissions"}
-        </h2>
-        {emFiltrees.length ? (
-          <div className="mt-3 grid grid-cols-2 gap-x-3.5 gap-y-5 px-5">{emFiltrees.map((e) => carteEmission(e, true))}</div>
-        ) : (
-          <p className="px-5 py-4 text-sm text-cream/55">Aucune émission ne correspond.</p>
-        )}
-
-        {q || auteur ? (
+        {!format ? (
           <>
-            <h2 className="mt-7 px-5 font-display text-[20px] font-bold text-cream">{auteur && !q ? `Tous les épisodes de ${auteur}` : "Épisodes"}</h2>
+            <h2 className="mt-6 px-5 font-display text-[20px] font-bold text-cream">
+              {auteur ? `Les émissions de ${auteur}` : q ? "Émissions" : "Toutes les émissions"}
+            </h2>
+            {emFiltrees.length ? (
+              <div className="mt-3 grid grid-cols-2 gap-x-3.5 gap-y-5 px-5">{emFiltrees.map((e) => carteEmission(e, true))}</div>
+            ) : (
+              <p className="px-5 py-4 text-sm text-cream/55">Aucune émission ne correspond.</p>
+            )}
+          </>
+        ) : null}
+
+        {q || auteur || format ? (
+          <>
+            <h2 className="mt-7 px-5 font-display text-[20px] font-bold text-cream">
+              {format === "courts" && !q ? "Épisodes courts" : format === "longs" && !q ? "Épisodes longs" : auteur && !q ? `Tous les épisodes de ${auteur}` : "Épisodes"}
+            </h2>
             {epTrouves.length ? (
               <ul className="mt-1 px-5">{epTrouves.map((t) => ligneEpisode(t, epTrouves))}</ul>
             ) : (
-              <p className="px-5 py-4 text-sm text-cream/55">Aucun épisode ne correspond à « {recherche.trim()} ».</p>
+              <p className="px-5 py-4 text-sm text-cream/55">{q ? `Aucun épisode ne correspond à « ${recherche.trim()} ».` : "Aucun épisode pour l'instant."}</p>
             )}
           </>
         ) : null}
@@ -988,9 +1314,9 @@ export function ListenScreen() {
           </nav>
         ) : null}
 
-        <AnimatePresence mode="wait">
-          {emission ? pageEmission(emission) : onglet === "accueil" ? pageAccueil() : onglet === "biblio" ? pageBiblio() : pageParcourir()}
-        </AnimatePresence>
+        {/* Sans AnimatePresence « wait » : elle restait bloquée sur l'ancienne
+            page après l'animation de la pastille (onglet vide). Fondu d'entrée seul. */}
+        {emission ? pageEmission(emission) : onglet === "accueil" ? pageAccueil() : onglet === "biblio" ? pageBiblio() : pageParcourir()}
 
         {!emission && onglet === "accueil" ? (
           <div className="mt-10 flex justify-center px-5">
@@ -1066,6 +1392,19 @@ export function ListenScreen() {
                             ? "Retirer du hors-ligne"
                             : "Télécharger (écoute hors-ligne)"}
                       </button>
+                      <button
+                        type="button"
+                        className={ligne}
+                        onClick={() => {
+                          setMenu(null);
+                          ouvrirChoixListe({ id: t.id, titre: t.title });
+                        }}
+                      >
+                        <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current text-dawn-400" strokeWidth={1.9} aria-hidden>
+                          <path d="M4 6h11M4 11h11M4 16h7M17 13v8M13 17h8" strokeLinecap="round" />
+                        </svg>
+                        Ajouter à une liste
+                      </button>
                       <button type="button" className={ligne} onClick={() => share(t)}>
                         <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current text-dawn-400" strokeWidth={1.9} aria-hidden>
                           <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M12 3v13M8 7l4-4 4 4" strokeLinecap="round" strokeLinejoin="round" />
@@ -1099,6 +1438,19 @@ export function ListenScreen() {
                               <path d="M16.5 4.5l3 3L8 19l-4 1 1-4L16.5 4.5z" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                             Modifier (admin)
+                          </button>
+                          <button
+                            type="button"
+                            className={ligne}
+                            onClick={() => {
+                              setMenu(null);
+                              void prevenir(t.id, `« ${t.title} »`, t.showTitle);
+                            }}
+                          >
+                            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current text-cream/60" strokeWidth={1.9} aria-hidden>
+                              <path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8M10 20a2 2 0 0 0 4 0" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                            Prévenir les membres (admin)
                           </button>
                           {emissions && emissions.length > 1 ? (
                             <label className={`${ligne} cursor-pointer`}>

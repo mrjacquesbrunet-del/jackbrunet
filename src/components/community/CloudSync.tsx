@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { useAuth } from "@/components/community/useAuth";
 import { enableCloudSync, disableCloudSync } from "@/lib/cloud-sync";
 import { captureEmail } from "@/lib/email-capture";
+import { enregistrerLangueProfil } from "@/lib/notif-prefs";
+import { useLangue } from "@/lib/i18n";
 
 /**
  * Monté dans le layout: dès qu'un membre est connecté, synchronise
@@ -12,6 +14,12 @@ import { captureEmail } from "@/lib/email-capture";
  */
 export function CloudSync() {
   const { ready, userId, email } = useAuth();
+  const langue = useLangue();
+
+  // Langue de l'app sur le profil (annonces de podcasts : en français seulement).
+  useEffect(() => {
+    if (ready && userId) void enregistrerLangueProfil(userId, langue).catch(() => undefined);
+  }, [ready, userId, langue]);
 
   useEffect(() => {
     if (!ready) return;

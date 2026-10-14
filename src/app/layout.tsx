@@ -11,6 +11,7 @@ import { CloudSync } from "@/components/community/CloudSync";
 import { AppShell } from "@/components/app/AppShell";
 import { GlobalAudioBar } from "@/components/audio/GlobalAudioBar";
 import { PodcastPlayerPlein } from "@/components/audio/PodcastPlayerPlein";
+import { PodcastListesSheet } from "@/components/audio/PodcastListesSheet";
 import { Analytics } from "@/components/app/Analytics";
 import { Traducteur } from "@/components/i18n/Traducteur";
 
@@ -131,6 +132,7 @@ export default function RootLayout({
         <AppShell />
         <GlobalAudioBar />
         <PodcastPlayerPlein />
+        <PodcastListesSheet />
         <Analytics />
         <Traducteur />
       </body>

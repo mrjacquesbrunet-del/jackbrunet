@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useDragControls } from "framer-motion";
 import { usePodcastPlayer, getPodcastAudio } from "@/lib/podcast-player";
-import { usePodcastEtat, basculerFavori, fermerLecteurPodcast } from "@/lib/podcast-etat";
-import { downloadFileOffline, deleteFileOffline, offlineFilePaths } from "@/lib/bible-offline";
+import { usePodcastEtat, basculerFavori, fermerLecteurPodcast, ouvrirChoixListe } from "@/lib/podcast-etat";
+import { episodesHorsLigne, telechargerEpisode, retirerEpisode } from "@/lib/podcast-offline";
+import { PodcastASuivre } from "@/components/audio/PodcastASuivre";
 import { appShareUrl } from "@/config/app-links";
 import { PlayGlyph, PauseGlyph, HeadphonesGlyph } from "@/components/ui/DevoIcons";
 
@@ -23,7 +24,8 @@ const VITESSES = [1, 1.25, 1.5, 0.8];
 
 /**
  * Lecteur PLEIN ÉCRAN des podcasts : grande pochette, progression, commandes,
- * vitesse / minuteur / téléchargement / partage, « À propos » et « À suivre ».
+ * vitesse / minuteur / téléchargement / partage. À la fin d'un épisode, le
+ * suivant de la même émission arrive après 5 s (annulable).
  * S'ouvre quand on lance un épisode ; la flèche (ou un glissé vers le bas)
  * le réduit dans la barre du bas, qui le rouvre avec sa flèche verte.
  */
@@ -61,7 +63,7 @@ export function PodcastPlayerPlein() {
 
   useEffect(() => {
     if (!t) return;
-    offlineFilePaths([t.path]).then((s) => setHorsLigne(s.has(t.path)));
+    episodesHorsLigne([t]).then((s) => setHorsLigne(s.has(t.path)));
   }, [t?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Pas de défilement de la page sous le lecteur.
@@ -78,12 +80,12 @@ export function PodcastPlayerPlein() {
     if (!t || telech !== null) return;
     if (horsLigne) {
       if (!confirm(`Retirer « ${t.title} » des téléchargements ?`)) return;
-      await deleteFileOffline(t.path);
+      await retirerEpisode(t);
       setHorsLigne(false);
       return;
     }
     setTelech(0);
-    const ok = await downloadFileOffline(t.url, t.url, (r, total) => setTelech(total ? r / total : 0));
+    const ok = await telechargerEpisode(t, (r, total) => setTelech(total ? r / total : 0));
     setTelech(null);
     if (ok) setHorsLigne(true);
   }
@@ -106,7 +108,7 @@ export function PodcastPlayerPlein() {
       const j = Math.floor(Math.random() * (i + 1));
       [reste[i], reste[j]] = [reste[j], reste[i]];
     }
-    if (t) pod.playQueue([t, ...reste], 0);
+    if (t) pod.playQueue([t, ...reste], 0, true);
   }
 
   const fav = t ? favoris.has(t.id) : false;
@@ -198,6 +200,10 @@ export function PodcastPlayerPlein() {
                   <p className="text-[10.5px] font-semibold uppercase tracking-[0.26em] text-cream/75">Série</p>
                   <p className="mt-1.5 font-display text-[30px] font-bold leading-[1.02] text-cream">{t.showTitle ?? "Podcast"}</p>
                   {t.showDescription ? <p className="mt-2 line-clamp-3 text-[14px] leading-snug text-cream/80">{t.showDescription}</p> : null}
+                </div>
+                {/* Fin de l'épisode : le suivant arrive (annulable) */}
+                <div className="absolute inset-x-3 bottom-3">
+                  <PodcastASuivre plein />
                 </div>
               </motion.div>
             </div>
@@ -365,6 +371,7 @@ export function PodcastPlayerPlein() {
                   className="relative w-full max-w-md divide-y divide-white/[0.07] rounded-t-[28px] border border-white/10 bg-night-900 px-2 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-2"
                 >
                   {[
+                    { lbl: "Ajouter à une liste", clic: () => ouvrirChoixListe({ id: t.id, titre: t.title }) },
                     { lbl: "Partager l'épisode", clic: partager },
                     { lbl: horsLigne ? "Retirer du hors-ligne" : "Télécharger (écoute hors-ligne)", clic: telecharger },
                     ...(t.show_id

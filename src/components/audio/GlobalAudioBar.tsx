@@ -7,6 +7,7 @@ import { PlayGlyph, PauseGlyph, MusicGlyph } from "@/components/ui/DevoIcons";
 import { SleepTimer } from "@/components/audio/SleepTimer";
 import { useLecteurPlein } from "@/lib/lecteur-plein";
 import { usePodcastEtat, ouvrirLecteurPodcast } from "@/lib/podcast-etat";
+import { PodcastASuivre } from "@/components/audio/PodcastASuivre";
 
 /** Flèche vers le haut : redéplie le grand lecteur de la page (Bible, plan). */
 function BoutonAgrandir({ onClick }: { onClick: () => void }) {
@@ -85,7 +86,7 @@ export function GlobalAudioBar() {
     }
     main.style.paddingBottom = "";
     document.documentElement.style.setProperty("--audio-bar-h", "0px");
-  }, [visible, pod.current?.title, soak.playing, lp.voix?.titre]);
+  }, [visible, pod.current?.title, soak.playing, lp.voix?.titre, !!pod.aSuivre]);
 
   useEffect(() => {
     const a = getPodcastAudio();
@@ -153,6 +154,9 @@ export function GlobalAudioBar() {
             </button>
           </div>
 
+          {/* Fin d'épisode : « À suivre » avec compte à rebours */}
+          <PodcastASuivre />
+
           {/* Ligne 2, contrôles secondaires, bien espacés (rien ne se superpose) */}
           <div className="mt-3 flex items-center justify-center gap-3">
             <button
@@ -164,7 +168,7 @@ export function GlobalAudioBar() {
                   const j = Math.floor(Math.random() * (i + 1));
                   [q[i], q[j]] = [q[j], q[i]];
                 }
-                pod.playQueue(q, 0);
+                pod.playQueue(q, 0, true);
               }}
               aria-label="Lecture aléatoire"
               className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-cream/60 transition-colors hover:bg-white/10"
