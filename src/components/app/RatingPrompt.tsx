@@ -6,12 +6,14 @@ import { getOpens } from "@/lib/usage";
 import { prendreFenetreAuto } from "@/lib/popups";
 
 const DONE = "jb.rated.v1"; // « done » = a ouvert la notation → on ne redemande plus
-const ASKS = "jb.rateasks.v1"; // { n, last } : nombre de demandes + date de la dernière
+const ASKS = "jb.rateasks.v1"; // { n, last, ouv } : demandes, date et ouverture de la dernière
 
-const MAX_ASKS = 3;
-const COOLDOWN_MS = 14 * 86_400_000; // 14 jours entre deux demandes
+const PREMIERE = 4; // 1re demande à la 4e ouverture
+const ECART_OUVERTURES = 3; // puis, tant qu'on n'a pas noté : toutes les 3 ouvertures
+const ECART_MIN_MS = 86_400_000; // jamais deux fois le même jour
+const MAX_ASKS = 6;
 
-type Asks = { n: number; last: number };
+type Asks = { n: number; last: number; ouv?: number };
 
 function readAsks(): Asks {
   try {
@@ -20,7 +22,7 @@ function readAsks(): Asks {
     const legacy = localStorage.getItem(DONE);
     if (legacy === "1") {
       localStorage.removeItem(DONE);
-      const migrated: Asks = { n: 1, last: Date.now() };
+      const migrated: Asks = { n: 1, last: Date.now(), ouv: getOpens() };
       localStorage.setItem(ASKS, JSON.stringify(migrated));
       return migrated;
     }
@@ -36,8 +38,13 @@ function eligible(): boolean {
   try {
     if (localStorage.getItem(DONE) === "done") return false;
     const a = readAsks();
+    const ouvertures = getOpens();
     if (a.n >= MAX_ASKS) return false;
-    if (Date.now() - a.last < COOLDOWN_MS) return false;
+    if (a.n === 0) return ouvertures >= PREMIERE;
+    // Déjà demandé (« Plus tard ») : on redemande au bout de 3 nouvelles
+    // utilisations, et jamais deux fois le même jour.
+    if (ouvertures - (a.ouv ?? 0) < ECART_OUVERTURES) return false;
+    if (Date.now() - a.last < ECART_MIN_MS) return false;
     return true;
   } catch {
     return false;
@@ -47,7 +54,7 @@ function eligible(): boolean {
 function bumpAsks() {
   try {
     const a = readAsks();
-    localStorage.setItem(ASKS, JSON.stringify({ n: a.n + 1, last: Date.now() }));
+    localStorage.setItem(ASKS, JSON.stringify({ n: a.n + 1, last: Date.now(), ouv: getOpens() }));
   } catch {
     /* ignore */
   }
@@ -59,8 +66,9 @@ function bumpAsks() {
  *  - et surtout aux « moments de joie » (palier de série atteint, prière
  *    marquée exaucée) via l'événement `jb:joy` — c'est là qu'on a le plus
  *    envie de dire merci.
- * Jamais harcelant : 3 demandes maximum, espacées d'au moins 14 jours, et
- * plus aucune dès que la fenêtre de notation a été ouverte.
+ * Tant qu'on n'a pas noté : 1re demande à la 4e ouverture, puis on redemande
+ * toutes les 3 ouvertures (jamais deux fois le même jour, 6 fois au plus).
+ * Plus aucune demande dès que la fenêtre de notation a été ouverte.
  */
 export function RatingPrompt() {
   const [show, setShow] = useState(false);
@@ -68,10 +76,9 @@ export function RatingPrompt() {
   useEffect(() => {
     if (!isNativeApp()) return;
     let t: ReturnType<typeof setTimeout> | undefined;
-    // À partir de la 4e ouverture, mais jamais dès l'ouverture : au bout de
-    // 30 secondes dans l'app, et seulement si aucune autre fenêtre n'a déjà
-    // été montrée à ce lancement.
-    if (getOpens() >= 4 && eligible()) {
+    // Jamais dès l'ouverture : au bout de 30 secondes dans l'app, et
+    // seulement si aucune autre fenêtre n'a déjà été montrée à ce lancement.
+    if (eligible()) {
       t = setTimeout(() => {
         if (prendreFenetreAuto("note")) setShow(true);
       }, 30_000);
