@@ -678,55 +678,87 @@ export function DevotionalView({
         <section className="container-x">
           <Reveal from="right">
             <SectionHeader eyebrow="Plan de lecture" title="Le passage du jour" />
-            <Link
-              href={bibleHref(planDay.passages[0])?? "/bible"}
-              className="group mt-6 flex max-w-2xl items-center gap-4 rounded-3xl border border-night-900/10 bg-white p-6 shadow-card transition-colors hover:border-dawn-400/60"
-            >
-              <div className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-dawn-400 to-spirit-500 text-night-950">
-                <div className="text-center leading-none">
-                  <span className="block text-[10px] font-bold uppercase">Jour</span>
-                  <span className="block text-2xl font-extrabold">{planDay.day}</span>
+            {/* Carte sombre façon RHEMA : anneau de progression du plan, titre,
+                « Lire le passage » bien visible, raccourcis intégrés en bas. */}
+            <div className="keep-dark dark-ctx relative mt-6 max-w-2xl overflow-hidden rounded-[28px] border border-white/10 bg-night-950 text-cream shadow-[0_24px_60px_-28px_rgba(0,0,0,.75)]">
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0"
+                style={{ background: "radial-gradient(60% 80% at 0% 0%, rgba(202,240,0,.16), transparent 65%)" }}
+              />
+              <Link href={bibleHref(planDay.passages[0]) ?? "/bible"} className="group relative block p-5 sm:p-6">
+                <div className="flex items-center gap-4">
+                  {/* Jour du plan dans un anneau qui se remplit au fil de l'année */}
+                  <div className="relative grid h-[76px] w-[76px] shrink-0 place-items-center">
+                    <svg viewBox="0 0 80 80" className="absolute inset-0 -rotate-90" aria-hidden>
+                      <circle cx="40" cy="40" r="35" fill="none" stroke="currentColor" strokeWidth="5" className="text-white/10" />
+                      <circle
+                        cx="40"
+                        cy="40"
+                        r="35"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="5"
+                        strokeLinecap="round"
+                        strokeDasharray={220}
+                        strokeDashoffset={220 * (1 - Math.min(1, planDay.day / Math.max(1, plan.length)))}
+                        className="text-dawn-400"
+                      />
+                    </svg>
+                    <div className="text-center leading-none">
+                      <span className="block text-[9.5px] font-bold uppercase tracking-[0.18em] text-cream/55">Jour</span>
+                      <span className="mt-1 block font-display text-[24px] font-extrabold text-cream">{planDay.day}</span>
+                    </div>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[10.5px] font-bold uppercase tracking-[0.2em] text-dawn-400">À lire aujourd&apos;hui</p>
+                    <h3 className="mt-1.5 font-display text-[21px] font-bold leading-snug text-cream">{planAff.theme}</h3>
+                    <p className="mt-1 flex items-center gap-1.5 text-[13px] text-cream/55">
+                      <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0 fill-none stroke-current" strokeWidth={2} aria-hidden>
+                        <path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5zM4 19a2 2 0 0 1 2-2h13" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      {planAff.passages.join(" · ")}
+                      <span aria-hidden>·</span>
+                      <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0 fill-none stroke-current" strokeWidth={2} aria-hidden>
+                        <circle cx="12" cy="12" r="9" />
+                        <path d="M12 7v5l3 2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      {planDay.minutes} min
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-xs font-semibold uppercase tracking-wider text-spirit-600">
-                  À lire aujourd'hui
-                </p>
-                <h3 className="mt-1 font-display text-xl font-bold">{planAff.theme}</h3>
-                <p className="text-sm text-night-900/60">
-                  {planAff.passages.join(" · ")} &middot; {planDay.minutes} min
-                </p>
-              </div>
-              <span className="shrink-0 text-night-900/30 transition-colors group-hover:text-dawn-500" aria-hidden>
-                <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current" strokeWidth={2}>
-                  <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
-            </Link>
-            <p className="mt-3 text-sm text-night-900/50">
-              Touche la carte pour ouvrir directement le passage dans la Bible.
-            </p>
-            <div className="mt-4 flex flex-wrap items-center gap-3">
-              <Link
-                href="/plans"
-                className="inline-flex items-center gap-2 rounded-full bg-night-900 px-5 py-3 text-sm font-bold text-cream transition-colors hover:bg-night-800"
-              >
-                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
-                  <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                Mon plan de lecture
+                <span className="mt-5 flex w-full items-center justify-between rounded-full bg-dawn-400 py-2 pl-5 pr-2 text-[15px] font-extrabold text-night-950 shadow-[0_0_28px_-8px_rgba(202,240,0,.7)] transition-transform group-active:scale-[0.98]">
+                  Lire le passage
+                  <span className="grid h-9 w-9 place-items-center rounded-full bg-night-950 text-dawn-400 transition-transform group-hover:translate-x-0.5">
+                    <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.6} aria-hidden>
+                      <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                </span>
               </Link>
-              {nativeApp ? (
+              {/* Raccourcis */}
+              <div className={`relative grid border-t border-white/[0.08] ${nativeApp ? "grid-cols-2 divide-x divide-white/[0.08]" : "grid-cols-1"}`}>
                 <Link
-                  href="/memoriser"
-                  className="inline-flex items-center gap-2 rounded-full bg-dawn-400 px-5 py-3 text-sm font-bold text-night-950 transition-colors hover:bg-dawn-300"
+                  href="/plans"
+                  className="flex items-center justify-center gap-2 py-4 text-[14px] font-semibold text-cream/85 transition-colors hover:bg-white/[0.04] active:bg-white/[0.06]"
                 >
-                  <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
-                    <path d="M12 3a6 6 0 0 0-3.5 10.9c.7.5 1 1.3 1 2.1h5c0-.8.3-1.6 1-2.1A6 6 0 0 0 12 3zM10 19h4M10.8 21.5h2.4" strokeLinecap="round" strokeLinejoin="round" />
+                  <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-none stroke-current text-dawn-400" strokeWidth={1.9} aria-hidden>
+                    <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
-                  Mémoriser des versets
+                  Mon plan de lecture
                 </Link>
-              ) : null}
+                {nativeApp ? (
+                  <Link
+                    href="/memoriser"
+                    className="flex items-center justify-center gap-2 py-4 text-[14px] font-semibold text-cream/85 transition-colors hover:bg-white/[0.04] active:bg-white/[0.06]"
+                  >
+                    <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-none stroke-current text-dawn-400" strokeWidth={1.9} aria-hidden>
+                      <path d="M12 3a6 6 0 0 0-3.5 10.9c.7.5 1 1.3 1 2.1h5c0-.8.3-1.6 1-2.1A6 6 0 0 0 12 3zM10 19h4M10.8 21.5h2.4" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    Mémoriser des versets
+                  </Link>
+                ) : null}
+              </div>
             </div>
           </Reveal>
         </section>
