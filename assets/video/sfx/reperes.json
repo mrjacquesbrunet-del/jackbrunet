@@ -1,0 +1,45 @@
+{
+  "musique": "assets/video/musique-presentation.mp3",
+  "duree_ms": 67680,
+  "bpm": 120,
+  "premier_temps_ms": 400,
+  "premiere_mesure_ms": 900,
+  "mesure_ms": 2000,
+  "sections": [
+    { "nom": "silence", "debut_ms": 0, "fin_ms": 900 },
+    { "nom": "intro", "debut_ms": 900, "fin_ms": 8900 },
+    { "nom": "partie_a", "debut_ms": 8900, "fin_ms": 32900 },
+    { "nom": "pause", "debut_ms": 32900, "fin_ms": 40900 },
+    { "nom": "relance", "debut_ms": 40900, "fin_ms": 48900 },
+    { "nom": "final", "debut_ms": 48900, "fin_ms": 64900 },
+    { "nom": "queue", "debut_ms": 64200, "fin_ms": 67400 }
+  ],
+  "reperes_fixes": [
+    { "ms": 900,   "son": "09-scintillement.mp3",   "gain_db": -16, "role": "logo d'ouverture" },
+    { "ms": 4800,  "son": "01-riser-ouverture.mp3", "gain_db": -14, "role": "montee vers le drop" },
+    { "ms": 8900,  "son": "02-impact-drop.mp3",     "gain_db": -10, "role": "drop" },
+    { "ms": 32600, "son": "04-whoosh-ample.mp3",    "gain_db": -14, "role": "passage vers la pause" },
+    { "ms": 34900, "son": "09-scintillement.mp3",   "gain_db": -18, "role": "moment lumiere / verset" },
+    { "ms": 36900, "son": "08-notification.mp3",    "gain_db": -16, "role": "mur de priere / notification" },
+    { "ms": 38800, "son": "10-reverse-montee.mp3",  "gain_db": -14, "role": "aspiration vers la relance" },
+    { "ms": 40900, "son": "02-impact-drop.mp3",     "gain_db": -12, "role": "relance" },
+    { "ms": 44600, "son": "04-whoosh-ample.mp3",    "gain_db": -16, "role": "changement de section" },
+    { "ms": 46800, "son": "10-reverse-montee.mp3",  "gain_db": -12, "role": "aspiration vers le grand drop" },
+    { "ms": 48600, "son": "04-whoosh-ample.mp3",    "gain_db": -12, "role": "entree dans le final" },
+    { "ms": 48900, "son": "02-impact-drop.mp3",     "gain_db": -8,  "role": "grand drop final" },
+    { "ms": 64200, "son": "11-impact-final.mp3",    "gain_db": -10, "role": "coup final, logo de fin" },
+    { "ms": 65000, "son": "09-scintillement.mp3",   "gain_db": -20, "role": "brillance sur le logo" }
+  ],
+  "regles_montage": {
+    "coupes": "sur un debut de mesure (900 + n x 2000 ms)",
+    "whoosh_rapide": "03-whoosh-rapide-1/2/3.mp3 a -16 dB, 300 ms avant chaque coupe, en alternant",
+    "texte": "05-pop-texte-1/2.mp3 a -18 dB, sur les temps (400 + n x 500 ms)",
+    "demo_app": "06-tap-ecran.mp3 / 07-swipe-ecran.mp3 a -18 dB, synchronises avec l'action a l'ecran"
+  },
+  "version_courte": {
+    "couper_de_ms": 16900,
+    "couper_a_ms": 32900,
+    "duree_ms": 51680,
+    "note": "les reperes apres 32900 ms avancent de 16000 ms"
+  }
+}
