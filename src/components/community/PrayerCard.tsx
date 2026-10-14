@@ -606,7 +606,7 @@ export function PrayerCard({
                 if (quickTimer.current) clearTimeout(quickTimer.current);
               }}
               onContextMenu={(e) => e.preventDefault()}
-              className={`${pastille} w-full select-none px-2 ${
+              className={`${pastille} w-full select-none px-3 text-[14px] ${
                 mine("pray") ? "border-dawn-400 bg-dawn-400 text-night-950" : "border-dawn-400/70 bg-dawn-400/[0.06] text-dawn-400"
               }`}
               title="Appui long : plus de réactions"
@@ -636,7 +636,7 @@ export function PrayerCard({
               </>
             ) : null}
           </span>
-          <button type="button" onClick={() => react("heart")} aria-label="J'aime" className={`${pastille} w-[56px] shrink-0 ${mine("heart") ? "border-red-400/50 bg-red-500/10 text-cream" : neutre}`}>
+          <button type="button" onClick={() => react("heart")} aria-label="J'aime" className={`${pastille} w-[52px] shrink-0 ${mine("heart") ? "border-red-400/50 bg-red-500/10 text-cream" : neutre}`}>
             <svg
               viewBox="0 0 24 24"
               className={`h-[20px] w-[20px] ${count("heart") > 0 || mine("heart") ? "fill-red-500 text-red-500" : "fill-none text-cream/80"} stroke-current`}
@@ -647,13 +647,13 @@ export function PrayerCard({
             </svg>
             {count("heart") > 0? count("heart"): ""}
           </button>
-          <button type="button" onClick={openComments} aria-label="Encourager" className={`${pastille} w-[56px] shrink-0 ${neutre}`}>
+          <button type="button" onClick={openComments} aria-label="Encourager" className={`${pastille} w-[52px] shrink-0 ${neutre}`}>
             <svg viewBox="0 0 24 24" className="h-[20px] w-[20px] fill-none stroke-current" strokeWidth={1.8} aria-hidden>
               <path d="M21 11.5a8 8 0 0 1-11.5 7.2L4 20l1.3-4.5A8 8 0 1 1 21 11.5z" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             {commentCount > 0? commentCount: ""}
           </button>
-          <button type="button" onClick={partager} aria-label="Partager" className={`${pastille} w-11 shrink-0 ${neutre}`}>
+          <button type="button" onClick={partager} aria-label="Partager" className={`${pastille} w-10 shrink-0 ${neutre}`}>
             <svg viewBox="0 0 24 24" className="h-[20px] w-[20px] fill-none stroke-current" strokeWidth={1.8} aria-hidden>
               <path d="M14 5l7 7-7 7M21 12H10a7 7 0 0 0-7 7" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -662,7 +662,7 @@ export function PrayerCard({
             type="button"
             onClick={toggleSavePub}
             aria-label={savedPub? "Retirer du carnet": "Enregistrer dans mon carnet"}
-            className={`${pastille} w-11 shrink-0 ${savedPub ? "border-dawn-400/50 bg-dawn-400/15 text-dawn-300" : neutre}`}
+            className={`${pastille} w-10 shrink-0 ${savedPub ? "border-dawn-400/50 bg-dawn-400/15 text-dawn-300" : neutre}`}
           >
             {savedPub? <BookmarkFilledGlyph className="h-[20px] w-[20px]" />: <BookmarkGlyph className="h-[20px] w-[20px]" />}
           </button>
