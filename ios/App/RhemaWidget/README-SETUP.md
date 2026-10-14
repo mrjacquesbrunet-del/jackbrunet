@@ -1,36 +1,23 @@
-# Widget iOS RHEMA — à brancher une fois dans Xcode
+# Widget iOS RHEMA
 
-Le code du widget est prêt (`RhemaWidget.swift`, `Info.plist`, `widget-content.json`).
-Il ne reste qu'à **créer la cible d'extension** dans Xcode (2 minutes) — cette
-étape ne peut pas se faire en dehors de Xcode.
+La cible d'extension **RhemaWidgetExtension** est déclarée dans
+`ios/App/App.xcodeproj` (identifiant `com.jackbrunet.app.RhemaWidget`) : l'app
+en dépend et l'embarque (« Embed Foundation Extensions »). Xcode Cloud la
+compile avec l'app, rien à faire à la main dans Xcode.
 
-## Étapes (dans Xcode, projet `ios/App/App.xcodeproj`)
+Deux widgets (petit et moyen format) : « Punchline du jour » et « Verset du
+jour », lus depuis `widget-content.json` embarqué (jour de l'année modulo N,
+comme l'app). Aucun App Group nécessaire.
 
-1. **File → New → Target…**
-2. Choisis **Widget Extension**, clique **Next**.
-3. Product Name : **RhemaWidget** — **décoche** « Include Configuration
-   Intent » (on n'en a pas besoin) — clique **Finish**.
-   - Si Xcode propose « Activate scheme », clique **Activate**.
-4. Xcode a créé un dossier `RhemaWidget` avec un fichier d'exemple
-   (`RhemaWidget.swift`) et un `Info.plist`. **Remplace-les** par les fichiers
-   de ce dossier :
-   - supprime le `RhemaWidget.swift` généré, puis **glisse** notre
-     `RhemaWidget.swift` dans la cible (coche « RhemaWidgetExtension » dans
-     « Target Membership »).
-   - fais pareil pour **`widget-content.json`** (coche bien la cible
-     RhemaWidget dans « Target Membership » — c'est ce qui l'embarque).
-   - tu peux garder le `Info.plist` généré, ou remplacer par le nôtre.
-5. Sélectionne la cible **RhemaWidgetExtension → General** et mets
-   **Minimum Deployments = iOS 16.0** (ou la même version que l'app).
-6. Build : sélectionne le schéma de l'app, **Product → Build**. Puis lance
-   l'app store build habituel (Xcode Cloud).
+## Version
 
-Aucun « App Group » n'est nécessaire : le widget lit son propre
-`widget-content.json` embarqué et calcule le contenu du jour tout seul.
+`MARKETING_VERSION` de la cible du widget doit rester ÉGALE à celle de l'app
+(Apple refuse sinon). Quand la version de l'app change (ex. 2.4 → 2.5),
+changer aussi celle de RhemaWidgetExtension dans project.pbxproj. Le numéro de
+build est aligné automatiquement par ci_post_clone.sh (agvtool -all).
 
 ## Mettre à jour le contenu du widget
 
 `widget-content.json` est une copie figée du contenu (verset + punchline) au
-moment du build. Pour rafraîchir la liste, régénère-le depuis `content/devotions.json`
-puis refais un build store. (Le contenu tourne chaque jour tout seul, mais
-l'ajout de NOUVELLES entrées demande un nouveau build.)
+moment du build. Pour rafraîchir la liste, régénère-le depuis
+`content/devotions.json` puis refais un build store.
