@@ -33,6 +33,8 @@ import {
   type CommentReaction,
 } from "@/lib/community";
 import { localeApp } from "@/lib/i18n";
+import { themesPriere } from "@/lib/themes-priere";
+import { appShareUrl } from "@/config/app-links";
 
 const VIS_LABEL: Record<string, string> = { public: "Public", friends: "Abonnés", private: "Privé" };
 
@@ -116,14 +118,22 @@ function PinIcon({ className }: { className?: string }) {
   );
 }
 
+/** « Il y a 2 heures », « Hier »… puis la date au-delà d'une semaine. */
 function when(iso: string) {
-  return new Date(iso).toLocaleString(localeApp(), {
-    day: "numeric",
-    month: "short",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  const s = (Date.now() - new Date(iso).getTime()) / 1000;
+  if (s < 60) return "À l'instant";
+  const m = Math.floor(s / 60);
+  if (m < 60) return m === 1 ? "Il y a 1 minute" : `Il y a ${m} minutes`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return h === 1 ? "Il y a 1 heure" : `Il y a ${h} heures`;
+  const d = Math.floor(h / 24);
+  if (d === 1) return "Hier";
+  if (d < 7) return `Il y a ${d} jours`;
+  return new Date(iso).toLocaleDateString(localeApp(), { day: "numeric", month: "short" });
 }
+
+const COEUR =
+  "M12 20.3l-1.45-1.32C5.4 14.24 2 11.16 2 7.5 2 4.9 4.02 3 6.5 3c1.74 0 3.4 1 4.22 2.44h.56C12.1 4 13.76 3 15.5 3 17.98 3 20 4.9 20 7.5c0 3.66-3.4 6.74-8.55 11.49L12 20.3z";
 
 export function PrayerCard({
   prayer,
@@ -135,6 +145,7 @@ export function PrayerCard({
   isAdmin = false,
   autoOpenComments = false,
   targetCommentId = null,
+  apercu = null,
 }: {
   prayer: Prayer;
   userId: string;
@@ -148,6 +159,8 @@ export function PrayerCard({
   /** Commentaire précis à mettre en avant (clic sur une notif de commentaire,
    *  réaction ou mention) : on défile jusqu'à lui et on le surligne. */
   targetCommentId?: string | null;
+  /** Dernier encouragement, affiché sous le sujet (aperçu du fil). */
+  apercu?: Comment | null;
 }) {
   const [reactions, setReactions] = useState<Reaction[]>(initialReactions);
   // Réactions rapides (appui long sur « Je prie ») : 🙏 ❤️ 🕊️ 🙌 ✨
@@ -167,6 +180,20 @@ export function PrayerCard({
   const [answered, setAnswered] = useState(prayer.answered);
   const [pinned, setPinned] = useState(!!prayer.pinned);
   const [celebrate, setCelebrate] = useState(false);
+  const [menuOuvert, setMenuOuvert] = useState(false);
+  const themes = themesPriere(prayer.body);
+
+  async function partager() {
+    const url = appShareUrl(`/communaute/?prayer=${prayer.id}`);
+    const texte = prayer.body.length > 120 ? `${prayer.body.slice(0, 117)}…` : prayer.body;
+    try {
+      const nav = navigator as Navigator & { share?: (d: object) => Promise<void> };
+      if (nav.share) await nav.share({ title: "Sujet de prière", text: `Prie avec nous : « ${texte} »`, url });
+      else await navigator.clipboard.writeText(url);
+    } catch {
+      /* annulé */
+    }
+  }
 
   // Enregistrer la publication dans mon carnet (comme un signet).
   const tk = useToolkit();
@@ -362,15 +389,17 @@ export function PrayerCard({
     onDeleted();
   }
 
+  // Boutons d'action : pastilles sombres, même hauteur (maquette du mur).
+  const pastille = "inline-flex h-12 items-center justify-center gap-1.5 whitespace-nowrap rounded-full border text-[14.5px] font-semibold transition-colors active:scale-[0.97]";
+  const neutre = "border-white/12 bg-white/[0.04] text-cream/85";
+
   return (
     <li
       ref={cardRef}
       id={`prayer-${prayer.id}`}
-      className={`scroll-mt-24 overflow-hidden rounded-3xl border ${
-        answered
-? "border-dawn-400/50 bg-gradient-to-br from-dawn-50 to-white shadow-glow"
-: "border-night-900/10 bg-white"
-      }`}
+      className={`scroll-mt-24 overflow-hidden rounded-[28px] border ${
+        answered ? "border-dawn-400/45 bg-gradient-to-b from-dawn-400/[0.08] to-night-900" : "border-white/[0.09] bg-night-900"
+      } text-cream`}
     >
       <Celebration
         open={celebrate}
@@ -390,55 +419,104 @@ export function PrayerCard({
         </div>
       ): null}
 
-      <div className="p-5">
+      <div className="p-4 sm:p-5">
         {pinned? (
-          <p className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-dawn-400/15 px-3 py-1 text-[11px] font-bold text-spirit-700">
+          <p className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-dawn-400/15 px-3 py-1 text-[11px] font-bold text-dawn-300">
             <PinIcon className="h-3.5 w-3.5" /> Épinglé
           </p>
         ): null}
-        <div className="flex items-center gap-3">
-          <Link href={`/membre?u=${prayer.author_id}`} aria-label="Voir le profil">
-            <Avatar pseudo={prayer.author?.pseudo} url={prayer.author?.avatar_url} streak={prayer.author?.streak_days} badge={prayer.author?.badge_tier} />
+        <div className="flex items-center gap-3.5">
+          <Link href={`/membre?u=${prayer.author_id}`} aria-label="Voir le profil" className="shrink-0">
+            <Avatar pseudo={prayer.author?.pseudo} url={prayer.author?.avatar_url} size={52} streak={prayer.author?.streak_days} badge={prayer.author?.badge_tier} />
           </Link>
           <div className="min-w-0 flex-1">
-            <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
+            <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
               <Link
                 href={`/membre?u=${prayer.author_id}`}
-                className="inline-flex items-center gap-1.5 font-display font-bold leading-tight hover:underline"
+                className="inline-flex min-w-0 items-center gap-1.5 font-display text-[18px] font-bold leading-tight text-cream"
               >
-                {prayer.author?.pseudo?? "Ami(e)"}
-                {prayer.author?.verified? <VerifiedBadge className="h-4 w-4" />: null}
+                <span className="truncate">{prayer.author?.pseudo?? "Ami(e)"}</span>
+                {prayer.author?.verified? <VerifiedBadge className="h-4 w-4 shrink-0" />: null}
                 {estBatisseurActif(prayer.author) ? <BatisseurBadge compact /> : null}
               </Link>
               {grade? (
-                <span className="text-[11px] font-semibold uppercase tracking-wide text-spirit-600/55">
+                <span className="rounded-full bg-dawn-400 px-2.5 py-[3px] text-[10.5px] font-extrabold uppercase tracking-wide text-night-950">
                   {grade}
                 </span>
               ): null}
             </div>
-            <p className="text-xs text-night-900/50">
+            <p className="mt-0.5 text-[13px] text-cream/50">
               {when(prayer.created_at)} · {VIS_LABEL[prayer.visibility]}
             </p>
           </div>
-          {isAuthor || isAdmin? (
+          {/* Options : exaucé, épingler, supprimer, signaler */}
+          <div className="relative shrink-0">
             <button
               type="button"
-              onClick={remove}
-              aria-label="Supprimer"
-              title={isAdmin &&!isAuthor? "Supprimer (modération)": "Supprimer"}
-              className="shrink-0 text-night-900/30 transition-colors hover:text-night-900/70"
+              onClick={() => setMenuOuvert((o) => !o)}
+              aria-label="Options du sujet"
+              className="grid h-10 w-8 place-items-center rounded-full text-cream/60 active:bg-white/10"
             >
-              ✕
+              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current" aria-hidden>
+                <circle cx="12" cy="5" r="1.8" />
+                <circle cx="12" cy="12" r="1.8" />
+                <circle cx="12" cy="19" r="1.8" />
+              </svg>
             </button>
-          ):!isAuthor? (
-            <ReportButton targetType="prayer" targetId={prayer.id} label="" tone="light" className="shrink-0 text-night-900/25 hover:text-night-900/60" />
-          ): null}
+            {menuOuvert ? (
+              <>
+                <button type="button" aria-label="Fermer" onClick={() => setMenuOuvert(false)} className="fixed inset-0 z-[60] cursor-default" />
+                <div className="absolute right-0 top-full z-[61] mt-1 w-56 overflow-hidden rounded-2xl border border-white/10 bg-night-800 py-1 text-[14.5px] shadow-xl">
+                  {isAuthor ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMenuOuvert(false);
+                        toggleAnswered();
+                      }}
+                      className="block w-full px-4 py-3 text-left font-semibold text-dawn-300 active:bg-white/[0.06]"
+                    >
+                      {answered ? "Rouvrir le sujet" : "Dieu a agi (exaucée)"}
+                    </button>
+                  ) : null}
+                  {isAdmin ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMenuOuvert(false);
+                        togglePin();
+                      }}
+                      className="block w-full px-4 py-3 text-left font-semibold text-cream/85 active:bg-white/[0.06]"
+                    >
+                      {pinned ? "Désépingler" : "Épingler en haut du mur"}
+                    </button>
+                  ) : null}
+                  {isAuthor || isAdmin ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMenuOuvert(false);
+                        remove();
+                      }}
+                      className="block w-full px-4 py-3 text-left font-semibold text-red-400 active:bg-white/[0.06]"
+                    >
+                      {isAdmin && !isAuthor ? "Supprimer (modération)" : "Supprimer"}
+                    </button>
+                  ) : (
+                    <div className="px-4 py-3">
+                      <ReportButton targetType="prayer" targetId={prayer.id} label="Signaler" tone="dark" className="font-semibold text-cream/70" />
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : null}
+          </div>
         </div>
 
         {/* Message vocal joint (expire après 7 jours) */}
         {prayer.audio_url ? (
           voiceExpired(prayer.created_at) ? (
-            <p className="mt-3 text-sm italic text-night-900/45">Note vocale expirée (les vocaux durent 7 jours)</p>
+            <p className="mt-3 text-sm italic text-cream/45">Note vocale expirée (les vocaux durent 7 jours)</p>
           ) : (
             <div className="mt-3">
               <VoiceNotePlayer src={prayer.audio_url} />
@@ -449,19 +527,30 @@ export function PrayerCard({
         <TexteMembre
           texte={prayer.body}
           rendu={(t) => (
-            <MentionText text={t} className="mt-3 block whitespace-pre-wrap text-[15px] leading-relaxed text-night-900/85" />
+            <MentionText text={t} className="mt-3.5 block whitespace-pre-wrap text-[16px] leading-relaxed text-cream/90" />
           )}
         />
+
+        {/* Thèmes du sujet */}
+        {themes.length ? (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {themes.map((t) => (
+              <span key={t} className="rounded-full border border-white/12 bg-white/[0.04] px-3.5 py-1.5 text-[13px] text-cream/80">
+                {t}
+              </span>
+            ))}
+          </div>
+        ) : null}
 
         {/* Suivi du sujet (auteur, à partir de J+3, tant que non exaucé) */}
         {showFollowUp ? (
           <div className="mt-4 rounded-2xl border border-dawn-400/40 bg-dawn-400/10 p-3.5">
-            <p className="text-sm font-semibold text-night-900/85">Comment évolue ton sujet ?</p>
+            <p className="text-sm font-semibold text-cream/90">Comment évolue ton sujet ?</p>
             <div className="mt-2.5 flex flex-wrap gap-2">
               <button
                 type="button"
                 onClick={dismissFollowUp}
-                className="rounded-full border border-night-900/15 px-3 py-1.5 text-xs font-semibold text-night-900/70 transition-colors hover:border-night-900/30"
+                className="rounded-full border border-white/15 px-3 py-1.5 text-xs font-semibold text-cream/75"
               >
                 Continuer à prier
               </button>
@@ -472,7 +561,7 @@ export function PrayerCard({
                   setShowComments(true);
                   if (comments === null) refreshComments();
                 }}
-                className="rounded-full border border-night-900/15 px-3 py-1.5 text-xs font-semibold text-night-900/70 transition-colors hover:border-night-900/30"
+                className="rounded-full border border-white/15 px-3 py-1.5 text-xs font-semibold text-cream/75"
               >
                 Donner des nouvelles
               </button>
@@ -490,8 +579,9 @@ export function PrayerCard({
           </div>
         ) : null}
 
-        <div className="mt-4 flex flex-wrap items-center gap-2">
-          <span className="relative inline-flex">
+        {/* Actions : Je prie · J'aime · Encourager · Partager · Carnet */}
+        <div className="mt-4 flex items-center gap-1.5">
+          <span className="relative inline-flex min-w-0 flex-1">
             <button
               type="button"
               onClick={() => {
@@ -516,19 +606,17 @@ export function PrayerCard({
                 if (quickTimer.current) clearTimeout(quickTimer.current);
               }}
               onContextMenu={(e) => e.preventDefault()}
-              className={`inline-flex select-none items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
-                mine("pray")
-? "border-spirit-500/40 bg-spirit-500/10 text-spirit-700"
-: "border-night-900/15 text-night-900/70 hover:border-night-900/30"
+              className={`${pastille} w-full select-none px-2 ${
+                mine("pray") ? "border-dawn-400 bg-dawn-400 text-night-950" : "border-dawn-400/70 bg-dawn-400/[0.06] text-dawn-400"
               }`}
               title="Appui long : plus de réactions"
             >
-              <HandsGlyph className="h-[18px] w-[18px]" /> Je prie{count("pray") > 0? ` · ${count("pray")}`: ""}
+              <HandsGlyph className="h-[20px] w-[20px] shrink-0" /> Je prie{count("pray") > 0? ` · ${count("pray")}`: ""}
             </button>
             {quickOpen ? (
               <>
                 <button aria-label="Fermer" onClick={() => setQuickOpen(false)} className="fixed inset-0 z-[60] cursor-default" />
-                <div className="absolute bottom-full left-0 z-[61] mb-2 flex items-center gap-0.5 rounded-full border border-night-900/10 bg-white px-1.5 py-1 shadow-xl" style={{ animation: "qr-pop .18s ease-out" }}>
+                <div className="absolute bottom-full left-0 z-[61] mb-2 flex items-center gap-0.5 rounded-full border border-white/10 bg-night-800 px-1.5 py-1 shadow-xl" style={{ animation: "qr-pop .18s ease-out" }}>
                   <style dangerouslySetInnerHTML={{ __html: "@keyframes qr-pop{0%{transform:scale(.6) translateY(6px);opacity:0}100%{transform:scale(1) translateY(0);opacity:1}}" }} />
                   {PRAYER_QUICK.map(([emo, t]) => (
                     <button
@@ -548,110 +636,87 @@ export function PrayerCard({
               </>
             ) : null}
           </span>
-          <button
-            type="button"
-            onClick={() => react("heart")}
-            className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
-              mine("heart")
-? "border-dawn-400/50 bg-dawn-400/15 text-spirit-700"
-: "border-night-900/15 text-night-900/70 hover:border-night-900/30"
-            }`}
-          >
+          <button type="button" onClick={() => react("heart")} aria-label="J'aime" className={`${pastille} w-[56px] shrink-0 ${mine("heart") ? "border-red-400/50 bg-red-500/10 text-cream" : neutre}`}>
             <svg
               viewBox="0 0 24 24"
-              className={`h-[18px] w-[18px] stroke-current ${mine("heart")? "fill-current": "fill-none"}`}
+              className={`h-[20px] w-[20px] ${count("heart") > 0 || mine("heart") ? "fill-red-500 text-red-500" : "fill-none text-cream/80"} stroke-current`}
               strokeWidth={1.8}
+              aria-hidden
             >
-              <path
-                d="M12 20.3l-1.45-1.32C5.4 14.24 2 11.16 2 7.5 2 4.9 4.02 3 6.5 3c1.74 0 3.4 1 4.22 2.44h.56C12.1 4 13.76 3 15.5 3 17.98 3 20 4.9 20 7.5c0 3.66-3.4 6.74-8.55 11.49L12 20.3z"
-                strokeLinejoin="round"
-              />
+              <path d={COEUR} strokeLinejoin="round" />
             </svg>
             {count("heart") > 0? count("heart"): ""}
           </button>
-          {/* Réactions rapides supplémentaires (🕊️ 🙌 ✨) — visibles si utilisées */}
-          {PRAYER_QUICK.filter(([, t]) => t !== "pray" && t !== "heart" && (count(t) > 0 || mine(t))).map(([emo, t]) => (
-            <button
-              key={t}
-              type="button"
-              onClick={() => react(t)}
-              className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1.5 text-sm font-semibold transition-colors ${
-                mine(t)
-                  ? "border-dawn-400/50 bg-dawn-400/15 text-spirit-700"
-                  : "border-night-900/15 text-night-900/70 hover:border-night-900/30"
-              }`}
-            >
-              <span className="text-base leading-none">{emo}</span>
-              {count(t) > 0 ? count(t) : ""}
-            </button>
-          ))}
-          <button
-            type="button"
-            onClick={openComments}
-            className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
-              commentCount > 0
-? "border-spirit-500/40 bg-spirit-500/10 text-spirit-700"
-: "border-night-900/15 text-night-900/70 hover:border-night-900/30"
-            }`}
-          >
-            <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-none stroke-current" strokeWidth={1.8}>
-              <path
-                d="M21 11.5a8 8 0 0 1-11.5 7.2L4 20l1.3-4.5A8 8 0 1 1 21 11.5z"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
+          <button type="button" onClick={openComments} aria-label="Encourager" className={`${pastille} w-[56px] shrink-0 ${neutre}`}>
+            <svg viewBox="0 0 24 24" className="h-[20px] w-[20px] fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+              <path d="M21 11.5a8 8 0 0 1-11.5 7.2L4 20l1.3-4.5A8 8 0 1 1 21 11.5z" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-            Encourager{commentCount > 0? ` · ${commentCount}`: ""}
+            {commentCount > 0? commentCount: ""}
+          </button>
+          <button type="button" onClick={partager} aria-label="Partager" className={`${pastille} w-11 shrink-0 ${neutre}`}>
+            <svg viewBox="0 0 24 24" className="h-[20px] w-[20px] fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+              <path d="M14 5l7 7-7 7M21 12H10a7 7 0 0 0-7 7" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </button>
           <button
             type="button"
             onClick={toggleSavePub}
             aria-label={savedPub? "Retirer du carnet": "Enregistrer dans mon carnet"}
-            title={savedPub? "Enregistré dans ton carnet": "Enregistrer dans mon carnet"}
-            className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
-              savedPub
-? "border-dawn-400/50 bg-dawn-400/15 text-spirit-700"
-: "border-night-900/15 text-night-900/70 hover:border-night-900/30"
-            }`}
+            className={`${pastille} w-11 shrink-0 ${savedPub ? "border-dawn-400/50 bg-dawn-400/15 text-dawn-300" : neutre}`}
           >
-            {savedPub? (
-              <BookmarkFilledGlyph className="h-[18px] w-[18px] text-spirit-600" />
-            ): (
-              <BookmarkGlyph className="h-[18px] w-[18px]" />
-            )}
+            {savedPub? <BookmarkFilledGlyph className="h-[20px] w-[20px]" />: <BookmarkGlyph className="h-[20px] w-[20px]" />}
           </button>
-
-          {/* Modérateur / admin : épingler le sujet */}
-          {isAdmin? (
-            <button
-              type="button"
-              onClick={togglePin}
-              className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold transition-colors ${
-                pinned
-? "border-dawn-400/50 bg-dawn-400/15 text-spirit-700"
-: "border-night-900/15 text-night-900/70 hover:border-night-900/30"
-              }`}
-            >
-              <PinIcon className="h-[18px] w-[18px]" />
-              {pinned? "Épinglé": "Épingler"}
-            </button>
-          ): null}
-
-          {/* Auteur: marquer exaucé */}
-          {isAuthor? (
-            <button
-              type="button"
-              onClick={toggleAnswered}
-              className={`ml-auto inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-bold transition-colors ${
-                answered
-? "border border-night-900/15 text-night-900/55 hover:border-night-900/30"
-: "bg-night-900 text-dawn-400 hover:bg-night-800"
-              }`}
-            >
-              {answered? "Rouvrir": "Dieu a agi"}
-            </button>
-          ): null}
         </div>
+
+        {/* Réactions rapides supplémentaires (🕊️ 🙌 ✨) — visibles si utilisées */}
+        {PRAYER_QUICK.some(([, t]) => t !== "pray" && t !== "heart" && (count(t) > 0 || mine(t))) ? (
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {PRAYER_QUICK.filter(([, t]) => t !== "pray" && t !== "heart" && (count(t) > 0 || mine(t))).map(([emo, t]) => (
+              <button
+                key={t}
+                type="button"
+                onClick={() => react(t)}
+                className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-sm font-semibold ${
+                  mine(t) ? "border-dawn-400/50 bg-dawn-400/15 text-dawn-300" : "border-white/12 text-cream/75"
+                }`}
+              >
+                <span className="text-base leading-none">{emo}</span>
+                {count(t) > 0 ? count(t) : ""}
+              </button>
+            ))}
+          </div>
+        ) : null}
+
+        {/* Aperçu : le dernier encouragement + « Voir les N commentaires » */}
+        {!showComments && apercu ? (
+          <div className="mt-4 rounded-2xl border border-white/[0.08] bg-white/[0.04] p-3.5">
+            <div className="flex items-center gap-3">
+              <Avatar pseudo={apercu.author?.pseudo} url={apercu.author?.avatar_url} size={40} />
+              <div className="min-w-0 flex-1">
+                <p className="flex min-w-0 items-center gap-1.5 text-[14.5px]">
+                  <span className="truncate font-bold text-cream">{apercu.author?.pseudo ?? "Ami(e)"}</span>
+                  {apercu.author?.verified ? <VerifiedBadge className="h-4 w-4 shrink-0" /> : null}
+                  <span className="shrink-0 text-[12.5px] text-cream/45">{when(apercu.created_at)}</span>
+                </p>
+                {apercu.audio_url && !voiceExpired(apercu.created_at) ? (
+                  <div className="mt-1.5">
+                    <VoiceNotePlayer src={apercu.audio_url} />
+                  </div>
+                ) : apercu.body ? (
+                  <p className="mt-0.5 line-clamp-2 text-[14px] leading-snug text-cream/75">{apercu.body}</p>
+                ) : null}
+              </div>
+            </div>
+          </div>
+        ) : null}
+        {!showComments && commentCount > 0 ? (
+          <button type="button" onClick={openComments} className="mt-3 inline-flex items-center gap-1 text-[14.5px] font-semibold text-cream/70">
+            {commentCount > 1 ? `Voir les ${commentCount} commentaires` : "Voir le commentaire"}
+            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2} aria-hidden>
+              <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        ) : null}
 
         {showComments? (
           <div className="mt-4 border-t border-night-900/10 pt-4">

@@ -1,7 +1,5 @@
 "use client";
 
-import { lienDonSite } from "@/lib/don-site";
-import { getLangue } from "@/lib/i18n";
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -10,40 +8,32 @@ import { useAuth } from "@/components/community/useAuth";
 import { listBlockedIds } from "@/lib/moderation";
 import { Avatar } from "@/components/community/Avatar";
 import { PrayerCard } from "@/components/community/PrayerCard";
-import { PrayerFocus } from "@/components/community/PrayerFocus";
 import { PrayerTime } from "@/components/community/PrayerTime";
-import { PrayerMark } from "@/components/ui/PrayerMark";
 import { NotificationsBell } from "@/components/community/NotificationsBell";
-import { MemberSearch } from "@/components/community/MemberSearch";
-import { MemberSuggestions } from "@/components/community/MemberSuggestions";
 import { MentionField } from "@/components/community/MentionField";
 import { VoiceRecorderButton } from "@/components/community/VoiceNote";
 import { CommunityLanding } from "@/components/community/CommunityLanding";
-import { CarteMission } from "@/components/mission/CarteMission";
 import { TopIntercessors } from "@/components/community/TopIntercessors";
-import { openExternal } from "@/lib/external";
-import { siteConfig } from "@/config/site";
+import { VersetPriere } from "@/components/community/VersetPriere";
+import { useLangue } from "@/lib/i18n";
 import {
-  signOut,
-  updateProfile,
   listPrayers,
   listFollowingFeed,
   getPrayer,
   createPrayer,
   notifyMentions,
-  isPseudoTaken,
-  isReservedPseudo,
   reactionsFor,
-  commentCountsFor,
+  apercuCommentaires,
   gradesFor,
   isAdminEmail,
   type Prayer,
   type Reaction,
+  type Comment,
   type Visibility,
 } from "@/lib/community";
 
 export function CommunityView() {
-  const { ready, userId, email, profile, isModerator, refreshProfile } = useAuth();
+  const { ready, userId, email, profile, isModerator } = useAuth();
   // Admin OU modérateur: peut supprimer les sujets/commentaires du mur de prière.
   const admin = isAdminEmail(email) || isModerator;
 
@@ -68,38 +58,69 @@ export function CommunityView() {
     return <CommunityLanding />;
   }
 
-  return <Feed userId={userId} admin={admin} profile={profile} refreshProfile={refreshProfile} />;
+  return <Feed userId={userId} admin={admin} profile={profile} />;
 }
 
 /* ---------- Fil de prières ---------- */
+type Vue = "public" | "amis" | "reponses";
+
+/** Onglets du mur : Public · Amis · Réponses (prières exaucées). */
+const VUES: { cle: Vue; lbl: string; icone: React.ReactNode }[] = [
+  {
+    cle: "public",
+    lbl: "Public",
+    icone: (
+      <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+        <circle cx="12" cy="12" r="9" />
+        <path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
+  {
+    cle: "amis",
+    lbl: "Amis",
+    icone: (
+      <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+        <circle cx="9" cy="8" r="3.5" />
+        <path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.2a6.5 6.5 0 0 1 3.5 5.8" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    cle: "reponses",
+    lbl: "Réponses",
+    icone: (
+      <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+        <path d="M21 11.5a8 8 0 0 1-11.5 7.2L4 20l1.3-4.5A8 8 0 1 1 21 11.5z" strokeLinejoin="round" />
+        <path d="M8.5 11.5h.01M12.5 11.5h.01M16.5 11.5h.01" strokeLinecap="round" strokeWidth={2.6} />
+      </svg>
+    ),
+  },
+];
+
 function Feed({
   userId,
   admin,
   profile,
-  refreshProfile,
 }: {
   userId: string;
   admin: boolean;
   profile: { pseudo: string; avatar_url: string | null } | null;
-  refreshProfile: () => void;
 }) {
+  const langue = useLangue();
   const [prayers, setPrayers] = useState<Prayer[]>([]);
   const [reactions, setReactions] = useState<Reaction[]>([]);
   const [commentCounts, setCommentCounts] = useState<Record<string, number>>({});
+  const [apercus, setApercus] = useState<Record<string, Comment>>({});
   const [grades, setGrades] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
   const [body, setBody] = useState("");
   const [visibility, setVisibility] = useState<Visibility>("public");
   const [posting, setPosting] = useState(false);
-  const [editPseudo, setEditPseudo] = useState(false);
-  const [pseudoVal, setPseudoVal] = useState(profile?.pseudo?? "");
-  const [pseudoErr, setPseudoErr] = useState("");
-  const [tab, setTab] = useState<"all" | "following">("all");
+  const [vue, setVue] = useState<Vue>("public");
   const [search, setSearch] = useState("");
-  // Filtre d'état des sujets : tout / en cours / exaucés.
-  const [statusFilter, setStatusFilter] = useState<"all" | "encours" | "exaucees">("all");
-  const [showFilter, setShowFilter] = useState(false);
+  const [rechercheOuverte, setRechercheOuverte] = useState(false);
   const [blockedIds, setBlockedIds] = useState<string[]>([]);
   // Mode « Temps de prière » plein écran (musique + sujets un par un).
   const [prayerTime, setPrayerTime] = useState(false);
@@ -132,6 +153,14 @@ function Feed({
     };
   }, [prayerParam, prayers]);
 
+  // Fond nuit jusqu'aux bords (comme les autres écrans sombres).
+  useEffect(() => {
+    const h = document.documentElement;
+    h.classList.add("page-nuit");
+    return () => h.classList.remove("page-nuit");
+  }, []);
+
+  const tab = vue === "amis" ? "following" : "all";
   const load = useCallback(async () => {
     setLoading(true);
     setLoadError(false);
@@ -158,9 +187,10 @@ function Feed({
     }
     setPrayers(ps);
     const ids = ps.map((p) => p.id);
-    const [rx, counts] = await Promise.all([reactionsFor(ids), commentCountsFor(ids)]);
+    const [rx, apercu] = await Promise.all([reactionsFor(ids), apercuCommentaires(ids)]);
     setReactions(rx);
-    setCommentCounts(counts);
+    setCommentCounts(apercu.counts);
+    setApercus(apercu.derniers);
     setLoading(false);
     // Grades des auteurs (chargés après coup pour ne pas retarder le fil).
     gradesFor(ps.map((p) => p.author_id)).then(setGrades);
@@ -169,10 +199,6 @@ function Feed({
   useEffect(() => {
     load();
   }, [load]);
-
-  useEffect(() => {
-    setPseudoVal(profile?.pseudo?? "");
-  }, [profile?.pseudo]);
 
   // Brouillon « Sur le mur » depuis la Bible : pré-remplit le composeur.
   useEffect(() => {
@@ -209,377 +235,227 @@ function Feed({
     setPosting(false);
   }
 
-  async function savePseudo() {
-    const p = pseudoVal.trim() || "Ami(e)";
-    if (isReservedPseudo(p) &&!admin) {
-      setPseudoErr("Ce pseudo est réservé à Pasteur Jack Brunet.");
-      return;
-    }
-    if (await isPseudoTaken(p, userId)) {
-      setPseudoErr("Ce pseudo est déjà pris, choisis-en un autre.");
-      return;
-    }
-    setPseudoErr("");
-    await updateProfile(userId, { pseudo: p });
-    setEditPseudo(false);
-    refreshProfile();
-  }
-
   // Recherche dans les sujets de prière (filtre le fil affiché).
   const q = search.trim().toLowerCase();
   const visible = prayers.filter((p) => !blockedIds.includes(p.author_id));
   const searched = q? visible.filter((p) => p.body.toLowerCase().includes(q)): visible;
-  // Puis filtre d'état : prières en cours / exaucées.
-  const shown =
-    statusFilter === "exaucees"
-? searched.filter((p) => p.answered)
-: statusFilter === "encours"
-? searched.filter((p) => !p.answered)
-: searched;
+  // « Réponses » : les prières exaucées (Dieu a agi).
+  const shown = vue === "reponses" ? searched.filter((p) => p.answered) : searched;
 
   return (
-    <>
-      {/* Bandeau du mur */}
-      <div className="sous-barre-app dark-ctx relative overflow-hidden bg-night-950 pt-28 pb-10 sm:pt-32">
-        <div className="absolute inset-0 bg-grid opacity-[0.1]" />
-        <div className="blob -right-10 top-6 h-56 w-56 bg-dawn-400/25" />
-        <div className="container-x relative">
-          <span className="eyebrow">Réseau social de prière</span>
-          <h1 className="mt-4 font-display text-4xl font-extrabold sm:text-5xl">
-            Le mur de <span className="text-gradient">prière</span>
-          </h1>
-          <p className="mt-2 max-w-xl text-cream/70">
+    <div className="keep-dark relative min-h-[100svh] bg-night-950 pb-16 text-cream">
+      {/* Halo lime discret en haut */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-96"
+        style={{ background: "radial-gradient(80% 55% at 70% 0%, rgba(202,240,0,.13), transparent 70%)" }}
+      />
+
+      <div className="relative mx-auto max-w-2xl px-4 pt-[calc(env(safe-area-inset-top)+4.75rem)] sm:pt-28">
+        {/* En-tête : titre, cloche + profil, verset sur la prière qui tourne */}
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <h1 translate="no" className="notranslate font-display text-[40px] font-extrabold leading-none tracking-tight sm:text-5xl">
+              {langue === "en" ? (
+                <>
+                  <span className="text-dawn-400">Prayer</span> wall
+                </>
+              ) : langue === "pt" ? (
+                <>
+                  Mural de <span className="text-dawn-400">oração</span>
+                </>
+              ) : (
+                <>
+                  Mur de <span className="text-dawn-400">prière</span>
+                </>
+              )}
+            </h1>
+            <span className="mt-3 block h-1 w-10 rounded-full bg-dawn-400" />
+          </div>
+          <div className="flex shrink-0 items-center gap-2.5">
+            <NotificationsBell userId={userId} tone="dark" />
+            <Link href="/profil" aria-label="Mon profil" className="rounded-full ring-2 ring-dawn-400/50">
+              <Avatar pseudo={profile?.pseudo} url={profile?.avatar_url} size={44} />
+            </Link>
+          </div>
+        </div>
+        <div className="mt-4 flex items-start gap-3">
+          <p className="min-w-0 flex-1 text-[14.5px] leading-relaxed text-cream/75">
             Partage, prie pour les autres, encourage la famille. Vous portez les uns les autres.
           </p>
+          <VersetPriere className="w-[54%] max-w-[250px] shrink-0" />
         </div>
-      </div>
 
-      <section className="container-x pt-6 pb-12">
-      <div className="max-w-2xl">
+        {/* Onglets */}
+        <div className="mt-6 grid grid-cols-3 gap-2">
+          {VUES.map((v) => {
+            const actif = vue === v.cle;
+            return (
+              <button
+                key={v.cle}
+                type="button"
+                onClick={() => setVue(v.cle)}
+                className={`flex h-[52px] items-center justify-center gap-2 rounded-full border text-[15px] font-semibold transition-colors ${
+                  actif ? "border-dawn-400 bg-dawn-400 text-night-950 shadow-[0_0_24px_-6px_rgba(202,240,0,.6)]" : "border-white/10 bg-white/[0.04] text-cream/75"
+                }`}
+              >
+                {v.icone}
+                {v.lbl}
+              </button>
+            );
+          })}
+        </div>
 
-      {/* Module de profil (charte olive) + partage d'un sujet en extension */}
-      <div className="dark-ctx bg-topo-dark rounded-4xl border border-white/10 text-cream shadow-card">
-        {/* En-tête profil */}
-        <div className="p-4">
-          <div className="flex items-center gap-3">
-            <Avatar pseudo={profile?.pseudo} url={profile?.avatar_url} />
-            <div className="min-w-0 flex-1">
-              {editPseudo? (
-                <div>
-                  <div className="flex gap-2">
-                    <input
-                      value={pseudoVal}
-                      onChange={(e) => {
-                        setPseudoVal(e.target.value);
-                        if (pseudoErr) setPseudoErr("");
-                      }}
-                      className="min-w-0 flex-1 rounded-xl border border-white/15 bg-white/10 px-3 py-2 text-sm text-cream placeholder:text-cream/40 focus:border-dawn-400/60 focus:outline-none"
-                      placeholder="Ton pseudo"
-                    />
-                    <button
-                      type="button"
-                      onClick={savePseudo}
-                      className="shrink-0 rounded-xl bg-dawn-400 px-4 text-sm font-bold text-night-900"
-                    >
-                      OK
-                    </button>
-                  </div>
-                  {pseudoErr? <p className="mt-1 text-xs font-semibold text-red-300">{pseudoErr}</p>: null}
-                </div>
-              ): (
-                <div className="flex items-baseline gap-2">
-                  <p className="min-w-0 truncate font-display font-bold leading-tight text-cream">
-                    {profile?.pseudo?? "Ami(e)"}
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => setEditPseudo(true)}
-                    className="shrink-0 text-xs font-semibold text-dawn-300 hover:underline"
-                  >
-                    modifier
-                  </button>
-                </div>
-              )}
-              <p className="text-xs text-cream/55">Connecté(e)</p>
+        {/* Partager un sujet */}
+        <div className="mt-4 rounded-[28px] border border-white/10 bg-night-900 p-3.5">
+          <div className="flex items-start gap-3">
+            <span className="mt-1 shrink-0">
+              <Avatar pseudo={profile?.pseudo} url={profile?.avatar_url} size={46} />
+            </span>
+            <div className="min-w-0 flex-1 rounded-[22px] border border-white/10 bg-white/[0.05] p-1.5">
+              <MentionField
+                value={body}
+                onChange={setBody}
+                rows={2}
+                placeholder="Partage un sujet de prière… (cite quelqu'un avec @)"
+                className="w-full resize-none bg-transparent px-2.5 py-1.5 text-[15px] text-cream placeholder:text-cream/40 focus:outline-none"
+              />
+              <div className="flex items-center justify-end gap-2 px-1 pb-0.5">
+                <VoiceRecorderButton userId={userId} onSend={postVoice} tone="dark" />
+                <button
+                  type="button"
+                  onClick={post}
+                  disabled={posting || !body.trim()}
+                  aria-label={posting ? "Publication…" : "Publier"}
+                  className="grid h-11 w-11 place-items-center rounded-full bg-dawn-400 text-night-950 shadow-[0_0_20px_-4px_rgba(202,240,0,.6)] transition-transform active:scale-95 disabled:opacity-40"
+                >
+                  <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2.6} aria-hidden>
+                    <path d="M12 19V5M5.5 11.5L12 5l6.5 6.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              </div>
             </div>
-            <NotificationsBell userId={userId} tone="dark" />
           </div>
-          <div className="mt-3 flex items-center gap-2">
-            <Link
-              href="/profil"
-              className="flex-1 rounded-full bg-dawn-400 px-4 py-2 text-center text-sm font-bold text-night-900 transition-transform hover:-translate-y-0.5"
-            >
-              Mon profil
-            </Link>
-            <button
-              type="button"
-              onClick={() => signOut()}
-              className="shrink-0 rounded-full border border-white/15 px-4 py-2 text-sm text-cream/70 transition-colors hover:text-cream"
-            >
-              Déconnexion
-            </button>
-          </div>
-        </div>
-
-        {/* Séparateur */}
-        <div className="mx-4 h-px bg-white/10" />
-
-        {/* Partager un sujet de prière, intégré au module de profil */}
-        <div className="p-4">
-          <MentionField
-            value={body}
-            onChange={setBody}
-            rows={3}
-            placeholder="Partage un sujet de prière… (cite quelqu'un avec @)"
-            className="w-full resize-y rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-3 text-sm text-cream placeholder:text-cream/40 focus:border-dawn-400/60 focus:outline-none"
-          />
-          <div className="mt-3 flex flex-wrap items-center gap-3">
+          <label className="mt-3 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] py-2 pl-3.5 pr-3 text-[14px] text-cream/85">
+            <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] shrink-0 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+              <circle cx="12" cy="12" r="9" />
+              <path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z" strokeLinejoin="round" />
+            </svg>
             <select
               value={visibility}
               onChange={(e) => setVisibility(e.target.value as Visibility)}
-              className="max-w-[12rem] rounded-xl border border-white/15 bg-white/10 px-3 py-2 text-sm text-cream focus:border-dawn-400/60 focus:outline-none"
               aria-label="Visibilité"
+              className="appearance-none bg-transparent pr-1 text-cream focus:outline-none [&>option]:bg-night-900"
             >
               <option value="public">Public, tout le monde</option>
               <option value="friends">Abonnés, ceux qui me suivent</option>
               <option value="private">Privé, moi seul</option>
             </select>
-            <div className="ml-auto flex items-center gap-2">
-              <VoiceRecorderButton userId={userId} onSend={postVoice} tone="dark" />
-              <button
-                type="button"
-                onClick={post}
-                disabled={posting ||!body.trim()}
-                className="rounded-full bg-dawn-400 px-5 py-2 text-sm font-bold text-night-900 transition-transform hover:-translate-y-0.5 disabled:opacity-40"
-              >
-                {posting? "Publication…": "Publier"}
-              </button>
-            </div>
-          </div>
+            <svg viewBox="0 0 24 24" className="pointer-events-none h-4 w-4 shrink-0 fill-none stroke-current text-cream/60" strokeWidth={2.2} aria-hidden>
+              <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </label>
         </div>
-      </div>
 
-      {/* Trouver des profils, recherche par pseudo + suggestions (compact) */}
-      <div className="mt-5">
-        <h3 className="font-display text-base font-bold">Trouver des profils</h3>
-        <p className="mt-0.5 text-xs text-night-900/55">
-          Cherche un membre par pseudo et abonne-toi, comme sur un réseau social.
-        </p>
-        <div className="mt-2.5">
-          <MemberSearch />
-        </div>
-        <div className="mt-3">
-          <p className="text-[11px] font-semibold uppercase tracking-wide text-night-900/45">
-            Suggestions pour toi
-          </p>
-          <div className="mt-2">
-            <MemberSuggestions compact />
-          </div>
-        </div>
-      </div>
+        {/* Intercesseurs de la semaine, du 1er au 10e */}
+        <TopIntercessors />
 
-      {/* Intercesseurs de la semaine — mettre en avant ceux qui prient */}
-      <TopIntercessors />
-
-      {/* Soutiens la mission (même carte que dans le menu profil) */}
-      <CarteMission className="mt-4" />
-
-      {/* Focus de prière de la semaine (replié par défaut) */}
-      <div className="mt-3">
-        <PrayerFocus />
-      </div>
-
-      {/* Temps de prière : mode plein écran, musique + sujets un par un */}
-      <button
-        type="button"
-        onClick={() => setPrayerTime(true)}
-        className="dark-ctx group relative mt-5 flex w-full items-center gap-4 overflow-hidden rounded-4xl border border-dawn-400/30 bg-night-950 p-4 text-left shadow-card transition-transform hover:-translate-y-0.5"
-      >
-        <span className="pointer-events-none absolute -right-8 -top-10 h-32 w-32 rounded-full bg-dawn-400/20 blur-2xl transition-opacity group-hover:opacity-100" />
-        <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl border border-dawn-400/35 bg-night-900" style={{ boxShadow: "0 0 26px rgba(202,240,0,.25)" }}>
-          <PrayerMark className="h-9 w-9" />
-        </span>
-        <span className="min-w-0 flex-1">
-          <span className="block font-display text-lg font-extrabold text-cream">
-            Scrolle <span className="text-dawn-300">&amp;</span> prie
-          </span>
-          <span className="mt-0.5 block text-xs text-cream/60">
-            Un sujet à la fois, en musique. Ta génération scrolle — toi, tu pries.
-          </span>
-        </span>
-        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950">
-          <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current" aria-hidden>
-            <path d="M8 5v14l11-7z" />
-          </svg>
-        </span>
-      </button>
-
-      {/* Onglets, mis en valeur (olive + actif lime) */}
-      <div className="dark-ctx bg-topo-dark mt-5 flex gap-1.5 rounded-full border border-white/10 p-1.5 shadow-card">
-        {(
-          [
-            ["all", "Pour toi"],
-            ["following", "Mes amis"],
-          ] as const
-        ).map(([key, lbl]) => (
+        {/* Scrolle & prie + recherche dans le mur */}
+        <div className="mt-5 flex items-center gap-2">
           <button
-            key={key}
             type="button"
-            onClick={() => setTab(key)}
-            className={`flex-1 rounded-full px-4 py-2.5 text-sm font-bold transition-colors ${
-              tab === key
-? "bg-dawn-400 text-night-900 shadow-sm"
-: "text-cream/70 hover:text-cream"
-            }`}
+            onClick={() => setPrayerTime(true)}
+            className="flex h-12 min-w-0 flex-1 items-center gap-2.5 rounded-full border border-dawn-400/40 bg-night-900 pl-1.5 pr-4 text-left"
           >
-            {lbl}
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950">
+              <svg viewBox="0 0 24 24" className="ml-0.5 h-4 w-4 fill-current" aria-hidden>
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </span>
+            <span className="min-w-0 truncate text-[14.5px] font-semibold text-cream">
+              Scrolle <span className="text-dawn-400">&amp;</span> prie
+              <span className="font-normal text-cream/50"> · un sujet à la fois, en musique</span>
+            </span>
           </button>
-        ))}
-      </div>
-
-      {/* Recherche sur le mur de prière + filtre d'état (en cours / exaucées) */}
-      <div className="mt-4 flex items-center gap-2">
-        <div className="relative flex-1">
-          <svg
-            viewBox="0 0 24 24"
-            className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 fill-none stroke-dawn-400"
-            strokeWidth={2}
-            aria-hidden
+          <button
+            type="button"
+            onClick={() => setRechercheOuverte((o) => !o)}
+            aria-label="Rechercher sur le mur de prière"
+            className={`grid h-12 w-12 shrink-0 place-items-center rounded-full border ${rechercheOuverte || q ? "border-dawn-400 bg-dawn-400 text-night-950" : "border-white/10 bg-white/[0.04] text-cream/80"}`}
           >
-            <circle cx="11" cy="11" r="7" />
-            <path d="M21 21l-4.3-4.3" strokeLinecap="round" />
-          </svg>
+            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2} aria-hidden>
+              <circle cx="11" cy="11" r="7" />
+              <path d="M21 21l-4.3-4.3" strokeLinecap="round" />
+            </svg>
+          </button>
+        </div>
+        {rechercheOuverte ? (
           <input
+            autoFocus
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Rechercher sur le mur de prière…"
-            className="w-full rounded-full border border-white/10 bg-night-950 py-3 pl-11 pr-4 text-sm font-semibold text-dawn-300 placeholder:font-medium placeholder:text-dawn-300/45 focus:border-dawn-400/60 focus:outline-none"
+            className="mt-2.5 w-full rounded-full border border-white/12 bg-night-900 px-5 py-3 text-[15px] text-cream placeholder:text-cream/40 focus:border-dawn-400/60 focus:outline-none"
           />
-        </div>
-        <button
-          type="button"
-          onClick={() => setShowFilter((s) => !s)}
-          aria-label="Filtrer les prières"
-          title="Filtrer : en cours / exaucées"
-          className={`grid h-11 w-11 shrink-0 place-items-center rounded-full border transition-colors active:scale-95 ${
-            statusFilter !== "all"
-? "border-dawn-400 bg-dawn-400 text-night-950"
-: "border-white/10 bg-night-950 text-dawn-300"
-          }`}
-        >
-          <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-none stroke-current" strokeWidth={1.9} aria-hidden>
-            <path d="M4 6h16M7 12h10M10 18h4" strokeLinecap="round" />
-          </svg>
-        </button>
-      </div>
-      {showFilter? (
-        <div className="mt-2 flex flex-wrap gap-1.5">
-          {(
-            [
-              ["all", "Toutes"],
-              ["encours", "En cours"],
-              ["exaucees", "Exaucées"],
-            ] as const
-          ).map(([key, lbl]) => (
-            <button
-              key={key}
-              type="button"
-              onClick={() => setStatusFilter(key)}
-              className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition-colors ${
-                statusFilter === key
-? "bg-dawn-400 text-night-950"
-: "border border-night-900/15 bg-white text-night-900/60 hover:border-night-900/30"
-              }`}
-            >
-              {lbl}
-            </button>
-          ))}
-        </div>
-      ): null}
+        ) : null}
 
-      {/* Fil */}
-      <div className="mt-5">
-        {loading? (
-          <p className="text-night-900/50">Chargement du fil…</p>
-        ): loadError? (
-          <div className="rounded-2xl border border-night-900/10 bg-night-900/[0.03] p-5 text-center">
-            <p className="font-semibold text-night-900/75">
-              Impossible de charger le mur de prière.
+        {/* Fil (les styles clairs hérités des commentaires passent en sombre) */}
+        <div className="profile-dark mt-5">
+          {loading? (
+            <p className="text-cream/50">Chargement du fil…</p>
+          ): loadError? (
+            <div className="rounded-[28px] border border-white/10 bg-night-900 p-5 text-center">
+              <p className="font-semibold text-cream/85">Impossible de charger le mur de prière.</p>
+              <p className="mt-1 text-sm text-cream/55">Vérifie ta connexion internet, puis réessaie.</p>
+              <button type="button" onClick={load} className="btn-primary mt-4 text-sm">
+                Réessayer
+              </button>
+            </div>
+          ): shown.length === 0? (
+            <p className="rounded-[28px] border border-white/10 bg-night-900 p-6 text-center text-cream/60">
+              {q
+                ? "Aucun sujet ne correspond à ta recherche."
+                : vue === "reponses"
+                  ? "Aucune prière exaucée pour l'instant — elles apparaîtront ici quand Dieu agit."
+                  : vue === "amis"
+                    ? "Abonne-toi à des membres pour voir leurs prières ici."
+                    : "Aucune prière pour l'instant. Sois le premier à partager."}
             </p>
-            <p className="mt-1 text-sm text-night-900/55">
-              Vérifie ta connexion internet, puis réessaie.
-            </p>
-            <button type="button" onClick={load} className="btn-primary mt-4 text-sm">
-              Réessayer
-            </button>
-          </div>
-        ): shown.length === 0? (
-          <p className="text-night-900/55">
-            {q
-? "Aucun sujet ne correspond à ta recherche."
-: statusFilter === "exaucees"
-? "Aucune prière exaucée pour l'instant — elles apparaîtront ici quand Dieu agit."
-: statusFilter === "encours"
-? "Aucune prière en cours pour l'instant."
-: tab === "following"
-? "Abonne-toi à des membres pour voir leurs prières ici."
-: "Aucune prière pour l'instant. Sois le premier à partager."}
-          </p>
-        ): (
-          <ul className="space-y-4">
-            {shown.map((p) => (
-              <PrayerCard
-                key={p.id}
-                prayer={p}
-                userId={userId}
-                isAdmin={admin}
-                initialReactions={reactions.filter((r) => r.prayer_id === p.id)}
-                initialCommentCount={commentCounts[p.id]?? 0}
-                grade={grades[p.author_id]}
-                onDeleted={load}
-                autoOpenComments={p.id === targetPrayer}
-                targetCommentId={p.id === targetPrayer ? targetComment : null}
-              />
-            ))}
-          </ul>
-        )}
-      </div>
+          ): (
+            <ul className="space-y-4">
+              {shown.map((p) => (
+                <PrayerCard
+                  key={p.id}
+                  prayer={p}
+                  userId={userId}
+                  isAdmin={admin}
+                  initialReactions={reactions.filter((r) => r.prayer_id === p.id)}
+                  initialCommentCount={commentCounts[p.id]?? 0}
+                  apercu={apercus[p.id] ?? null}
+                  grade={grades[p.author_id]}
+                  onDeleted={load}
+                  autoOpenComments={p.id === targetPrayer}
+                  targetCommentId={p.id === targetPrayer ? targetComment : null}
+                />
+              ))}
+            </ul>
+          )}
+        </div>
 
-      {/* Laisser un témoignage */}
-      <div className="mt-8">
+        {/* Laisser un témoignage */}
         <Link
           href="/temoignages"
-          className="dark-ctx group flex items-center justify-between gap-4 overflow-hidden rounded-4xl border border-dawn-500/40 bg-night-900 p-6 text-cream transition-transform hover:-translate-y-1 sm:p-7"
+          className="mt-8 flex items-center justify-between gap-4 rounded-[28px] border border-dawn-400/30 bg-night-900 p-5"
         >
           <div>
-            <span className="eyebrow">Témoignages</span>
-            <p className="mt-1.5 font-display text-xl font-extrabold sm:text-2xl">
-              Dieu a agi dans ta vie&nbsp;?
-            </p>
-            <p className="mt-1 text-sm text-cream/70">Laisse ton témoignage et encourage la famille.</p>
+            <p className="font-display text-[19px] font-bold">Dieu a agi dans ta vie&nbsp;?</p>
+            <p className="mt-0.5 text-sm text-cream/60">Laisse ton témoignage et encourage la famille.</p>
           </div>
-          <span className="shrink-0 text-2xl transition-transform group-hover:translate-x-1">→</span>
+          <svg viewBox="0 0 24 24" className="h-6 w-6 shrink-0 fill-none stroke-current text-dawn-400" strokeWidth={2.2} aria-hidden>
+            <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </Link>
       </div>
-
-      {/* Bouton de soutien (ouvre la page de dons du site, navigateur externe) */}
-      <div className="mt-10 text-center">
-        <button
-          type="button"
-          onClick={() => openExternal(lienDonSite(undefined, undefined, getLangue()))}
-          className="inline-flex items-center gap-2 rounded-full border-2 border-dawn-400 bg-dawn-400/15 px-6 py-3 text-sm font-bold text-spirit-700 transition-colors hover:bg-dawn-400/25"
-        >
-          <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden>
-            <path d="M12 21s-7-4.5-9.5-9C1 9 2.5 5.5 6 5.5c2 0 3.2 1.2 4 2.3.8-1.1 2-2.3 4-2.3 3.5 0 5 3.5 3.5 6.5C19 16.5 12 21 12 21z" />
-          </svg>
-          Soutenir la mission
-          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth={2}>
-            <path d="M14 5h5v5M19 5l-8 8M11 5H6a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
-      </div>
-      </div>
-      </section>
 
       {/* Temps de prière plein écran ; au retour, on rafraîchit le fil pour
           voir les « J'ai prié » et commentaires laissés pendant la session. */}
@@ -592,6 +468,6 @@ function Feed({
           }}
         />
       ) : null}
-    </>
+    </div>
   );
 }

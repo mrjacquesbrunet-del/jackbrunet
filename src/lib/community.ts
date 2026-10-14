@@ -609,6 +609,29 @@ export async function commentCountsFor(prayerIds: string[]): Promise<Record<stri
   return counts;
 }
 
+/** Aperçu du fil sous chaque sujet : nombre d'encouragements et DERNIER
+ * commentaire (de 1er niveau), en un seul appel. */
+export async function apercuCommentaires(
+  prayerIds: string[],
+): Promise<{ counts: Record<string, number>; derniers: Record<string, Comment> }> {
+  const sb = getSupabase();
+  if (!sb || prayerIds.length === 0) return { counts: {}, derniers: {} };
+  const { data } = await sb
+    .from("prayer_comments")
+    .select("*")
+    .in("prayer_id", prayerIds)
+    .order("created_at", { ascending: false });
+  const counts: Record<string, number> = {};
+  const derniers: Record<string, Comment> = {};
+  for (const c of (data as Comment[]) ?? []) {
+    counts[c.prayer_id] = (counts[c.prayer_id] ?? 0) + 1;
+    if (!c.parent_id && !derniers[c.prayer_id]) derniers[c.prayer_id] = c;
+  }
+  const profs = await profilesByIds(Object.values(derniers).map((c) => c.author_id));
+  for (const k of Object.keys(derniers)) derniers[k] = { ...derniers[k], author: profs[derniers[k].author_id] };
+  return { counts, derniers };
+}
+
 export async function addComment(
   prayerId: string,
   body: string,
