@@ -12,6 +12,7 @@ import {
   AMBIENT_VOL_MAX,
 } from "@/lib/ambient";
 import { getVersionBible, infoVersion } from "@/lib/bible-version";
+import { lireVersets, type SessionVoix } from "@/lib/voix-tts";
 
 /**
  * Bible audio (service « Écouter la Bible »). Deux modes:
@@ -93,10 +94,12 @@ export function BibleAudio({
     return () => window.speechSynthesis.removeEventListener("voiceschanged", pick);
   }, []);
 
+  // Session de lecture (voix native écran verrouillé, sinon navigateur).
+  const sessionRef = useRef<SessionVoix | null>(null);
+
   const stop = useCallback(() => {
-    if (typeof window!== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-    }
+    sessionRef.current?.arreter();
+    sessionRef.current = null;
     if (sleepTimer.current) {
       clearTimeout(sleepTimer.current);
       sleepTimer.current = null;
@@ -136,29 +139,19 @@ export function BibleAudio({
 
   const speakFrom = useCallback(
     (start: number) => {
-      const synth = window.speechSynthesis;
-      synth.cancel();
-      const speakOne = (i: number) => {
-        if (i >= verses.length) {
-          stop();
-          return;
-        }
-        idxRef.current = i;
-        onVerse(i);
-        const u = new SpeechSynthesisUtterance(verses[i]);
-        u.lang = infoVersion(getVersionBible()).voix; // langue de la version lue
-        if (voiceRef.current) u.voice = voiceRef.current;
-        u.rate = 0.96;
-        u.pitch = 1;
-        u.onend = () => {
-          // La reprise après pause ne rejoue pas onend; on avance seulement
-          // quand la lecture s'est terminée normalement.
-          if (window.speechSynthesis.speaking || window.speechSynthesis.pending) return;
-          speakOne(i + 1);
-        };
-        synth.speak(u);
-      };
-      speakOne(start);
+      sessionRef.current?.arreter();
+      sessionRef.current = lireVersets({
+        versets: verses,
+        depart: start,
+        lang: infoVersion(getVersionBible()).voix, // langue de la version lue
+        vitesse: 1,
+        voixWeb: voiceRef.current,
+        surVerset: (i) => {
+          idxRef.current = i;
+          onVerse(i);
+        },
+        surFin: () => stop(),
+      });
     },
     [verses, onVerse, stop],
   );
@@ -173,13 +166,13 @@ export function BibleAudio({
   }
 
   function pause() {
-    window.speechSynthesis.pause();
+    sessionRef.current?.pause();
     setState("paused");
     setVoiceActive(false);
   }
 
   function resume() {
-    window.speechSynthesis.resume();
+    sessionRef.current?.reprendre();
     setState("playing");
     setVoiceActive(true);
     ambientKick();

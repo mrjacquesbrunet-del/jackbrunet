@@ -171,6 +171,18 @@ export function DevotionalView({
       ? mediaUrl(audioMap[String(i)])
       : null
     : audioTr?.[0] ?? null;
+  // À enchaîner après la méditation du jour (voiture, écran verrouillé) :
+  // les méditations des jours précédents qui ont leur enregistrement.
+  const suiteMeditations = useMemo(() => {
+    if (!avVideo || !list.length) return [];
+    const out: { src: string; titre: string }[] = [];
+    for (let k = 1; k < list.length && out.length < 10; k++) {
+      const j = (i - k + list.length) % list.length;
+      const f = audioMap[String(j)];
+      if (f) out.push({ src: mediaUrl(f), titre: list[j]?.theme ?? "Méditation" });
+    }
+    return out;
+  }, [avVideo, list, i, audioMap]);
 
   const p = useTodayIndex(plan.length, initialPlanIndex);
   const planDay = plan[p]?? plan[0];
@@ -483,6 +495,8 @@ export function DevotionalView({
                 <AudioPlayer
                   src={audioSrc}
                   label="Écouter la méditation"
+                  titre={dev.theme}
+                  suite={suiteMeditations}
                 />
               </div>
             ): null}

@@ -9,6 +9,7 @@ import {
   type BibleBookMeta,
 } from "@/lib/bible-audio";
 import { playQueue, usePodcastPlayer, getPodcastAudio } from "@/lib/podcast-player";
+import { lireVersets, type SessionVoix } from "@/lib/voix-tts";
 import {
   useAmbient,
   setVoiceActive,
@@ -153,10 +154,12 @@ export function BibleAudioPlayer({
     return () => window.speechSynthesis.removeEventListener("voiceschanged", pick);
   }, [langueVoix]);
 
+  // Session de lecture (voix native écran verrouillé, sinon navigateur).
+  const sessionRef = useRef<SessionVoix | null>(null);
+
   const stopTts = useCallback(() => {
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-    }
+    sessionRef.current?.arreter();
+    sessionRef.current = null;
     if (sleepTimer.current) {
       clearTimeout(sleepTimer.current);
       sleepTimer.current = null;
@@ -192,32 +195,21 @@ export function BibleAudioPlayer({
 
   const speakFrom = useCallback(
     (start: number) => {
-      const synth = window.speechSynthesis;
-      synth.cancel();
-      const speakOne = (i: number) => {
-        if (i >= verses.length) {
-          if (repeatRef.current) {
-            speakOne(0);
-            return;
-          }
-          stopTts();
-          return;
-        }
-        idxRef.current = i;
-        setTtsIdx(i);
-        onVerse(i);
-        const u = new SpeechSynthesisUtterance(verses[i]);
-        u.lang = langueVoix ?? infoVersion(getVersionBible()).voix; // langue de la version lue
-        if (voiceRef.current) u.voice = voiceRef.current;
-        u.rate = 0.96 * pod.rate;
-        u.pitch = 1;
-        u.onend = () => {
-          if (window.speechSynthesis.speaking || window.speechSynthesis.pending) return;
-          speakOne(i + 1);
-        };
-        synth.speak(u);
-      };
-      speakOne(start);
+      sessionRef.current?.arreter();
+      sessionRef.current = lireVersets({
+        versets: verses,
+        depart: start,
+        lang: langueVoix ?? infoVersion(getVersionBible()).voix, // langue de la version lue
+        vitesse: pod.rate,
+        voixWeb: voiceRef.current,
+        boucle: () => repeatRef.current,
+        surVerset: (i) => {
+          idxRef.current = i;
+          setTtsIdx(i);
+          onVerse(i);
+        },
+        surFin: () => stopTts(),
+      });
     },
     [verses, onVerse, stopTts, pod.rate, langueVoix],
   );
@@ -231,12 +223,12 @@ export function BibleAudioPlayer({
     speakFrom(idxRef.current);
   }
   function pauseTts() {
-    window.speechSynthesis.pause();
+    sessionRef.current?.pause();
     setTts("paused");
     setVoiceActive(false);
   }
   function resumeTts() {
-    window.speechSynthesis.resume();
+    sessionRef.current?.reprendre();
     setTts("playing");
     setVoiceActive(true);
     ambientKick();
