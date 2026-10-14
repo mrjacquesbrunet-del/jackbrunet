@@ -84,14 +84,6 @@ export function loadAudioDuration(url: string): Promise<number> {
   });
 }
 
-/** URL de la pochette du podcast (fichier « cover.jpg » du bucket audio). */
-export function podcastCoverUrl(): string | null {
-  const sb = getSupabase();
-  if (!sb) return null;
-  const { data } = sb.storage.from(AUDIO_BUCKET).getPublicUrl("cover.png");
-  return data.publicUrl?? null;
-}
-
 /** Liste les podcasts (table + URL publique du fichier). */
 export async function listPodcasts(): Promise<AudioTrack[]> {
   const sb = getSupabase();
@@ -189,8 +181,11 @@ export async function deletePodcast(id: string, path: string): Promise<void> {
 /* ————— Émissions (plusieurs intervenants) ————— */
 
 const EMISSION_PAR_DEFAUT_ID = "par-defaut";
+const POCHETTE_RHEMA_DU_JOUR = "/img/podcast/rhema-du-jour.jpg";
 
+/** Pochette : fichier du bucket audio, ou image fournie avec l'app (« /img/… »). */
 function urlPublique(path: string | null): string | null {
+  if (path && /^(\/|https?:)/.test(path)) return path;
   const sb = getSupabase();
   if (!sb || !path) return null;
   return sb.storage.from(AUDIO_BUCKET).getPublicUrl(path).data.publicUrl ?? null;
@@ -203,12 +198,12 @@ export async function listEmissions(): Promise<Emission[]> {
   const defaut: Emission[] = [
     {
       id: EMISSION_PAR_DEFAUT_ID,
-      title: "Podcast de Pasteur Jack",
+      title: "RHEMA du jour",
       author: "Pasteur Jack Brunet",
-      description: "Mes enseignements en audio, à écouter partout, même sans connexion.",
-      category: "Enseignements",
-      cover: podcastCoverUrl(),
-      cover_path: "cover.png",
+      description: "Une parole courte pour chaque jour : quelques minutes pour nourrir ta foi, où que tu sois.",
+      category: "Parole du jour",
+      cover: POCHETTE_RHEMA_DU_JOUR,
+      cover_path: POCHETTE_RHEMA_DU_JOUR,
       position: 0,
     },
   ];

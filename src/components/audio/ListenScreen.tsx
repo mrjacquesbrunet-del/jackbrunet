@@ -731,8 +731,9 @@ export function ListenScreen() {
             >
               {diapos.map((d) => (
                 <div key={d.cle} className="relative h-[248px] w-full shrink-0 snap-center overflow-hidden rounded-[26px] border border-white/10">
-                  <div className="absolute inset-0">{pochette(d.image, "object-[70%_center]")}</div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-night-950 via-night-950/75 to-night-950/0" />
+                  {/* Pochette carrée calée à droite : le visage reste visible */}
+                  <div className="absolute inset-y-0 right-0 w-[64%]">{pochette(d.image, "object-[center_25%]")}</div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-night-950 from-[36%] via-night-950/60 via-[58%] to-night-950/0" />
                   <div className="relative flex h-full max-w-[72%] flex-col justify-center p-5">
                     <p className="text-[10.5px] font-semibold uppercase tracking-[0.22em] text-cream/70">{d.surtitre}</p>
                     <p className="mt-1.5 line-clamp-2 font-display text-[27px] font-bold leading-[1.05] text-cream">{d.titre}</p>

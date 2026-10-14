@@ -194,13 +194,15 @@ export function PodcastPlayerPlein() {
                     <HeadphonesGlyph className="h-16 w-16 text-dawn-400" />
                   </div>
                 )}
-                {/* La série, posée sur l'image */}
-                <div className="absolute inset-0 bg-gradient-to-br from-night-950/75 via-night-950/20 to-transparent" />
-                <div className="absolute inset-x-0 top-0 max-w-[80%] p-6">
-                  <p className="text-[10.5px] font-semibold uppercase tracking-[0.26em] text-cream/75">Série</p>
-                  <p className="mt-1.5 font-display text-[30px] font-bold leading-[1.02] text-cream">{t.showTitle ?? "Podcast"}</p>
-                  {t.showDescription ? <p className="mt-2 line-clamp-3 text-[14px] leading-snug text-cream/80">{t.showDescription}</p> : null}
-                </div>
+                {/* La série, posée en bas de l'image (le visage reste dégagé) */}
+                <div className="absolute inset-0 bg-gradient-to-t from-night-950/90 via-night-950/15 to-transparent" />
+                {!pod.aSuivre ? (
+                  <div className="absolute inset-x-0 bottom-0 max-w-[88%] p-5">
+                    <p className="text-[10.5px] font-semibold uppercase tracking-[0.26em] text-dawn-400">Série</p>
+                    <p className="mt-1 font-display text-[28px] font-bold leading-[1.02] text-cream">{t.showTitle ?? "Podcast"}</p>
+                    {t.showDescription ? <p className="mt-1.5 line-clamp-2 text-[13.5px] leading-snug text-cream/80">{t.showDescription}</p> : null}
+                  </div>
+                ) : null}
                 {/* Fin de l'épisode : le suivant arrive (annulable) */}
                 <div className="absolute inset-x-3 bottom-3">
                   <PodcastASuivre plein />
