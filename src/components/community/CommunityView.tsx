@@ -15,6 +15,7 @@ import { VoiceRecorderButton } from "@/components/community/VoiceNote";
 import { CommunityLanding } from "@/components/community/CommunityLanding";
 import { TopIntercessors } from "@/components/community/TopIntercessors";
 import { VersetPriere } from "@/components/community/VersetPriere";
+import { PrayerMark } from "@/components/ui/PrayerMark";
 import { useLangue } from "@/lib/i18n";
 import {
   listPrayers,
@@ -119,8 +120,6 @@ function Feed({
   const [visibility, setVisibility] = useState<Visibility>("public");
   const [posting, setPosting] = useState(false);
   const [vue, setVue] = useState<Vue>("public");
-  const [search, setSearch] = useState("");
-  const [rechercheOuverte, setRechercheOuverte] = useState(false);
   const [blockedIds, setBlockedIds] = useState<string[]>([]);
   // Mode « Temps de prière » plein écran (musique + sujets un par un).
   const [prayerTime, setPrayerTime] = useState(false);
@@ -235,12 +234,9 @@ function Feed({
     setPosting(false);
   }
 
-  // Recherche dans les sujets de prière (filtre le fil affiché).
-  const q = search.trim().toLowerCase();
   const visible = prayers.filter((p) => !blockedIds.includes(p.author_id));
-  const searched = q? visible.filter((p) => p.body.toLowerCase().includes(q)): visible;
   // « Réponses » : les prières exaucées (Dieu a agi).
-  const shown = vue === "reponses" ? searched.filter((p) => p.answered) : searched;
+  const shown = vue === "reponses" ? visible.filter((p) => p.answered) : visible;
 
   return (
     <div className="keep-dark relative min-h-[100svh] bg-night-950 pb-16 text-cream">
@@ -360,44 +356,33 @@ function Feed({
         {/* Intercesseurs de la semaine, du 1er au 10e */}
         <TopIntercessors />
 
-        {/* Scrolle & prie + recherche dans le mur */}
-        <div className="mt-5 flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => setPrayerTime(true)}
-            className="flex h-12 min-w-0 flex-1 items-center gap-2.5 rounded-full border border-dawn-400/40 bg-night-900 pl-1.5 pr-4 text-left"
-          >
-            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950">
-              <svg viewBox="0 0 24 24" className="ml-0.5 h-4 w-4 fill-current" aria-hidden>
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </span>
-            <span className="min-w-0 truncate text-[14.5px] font-semibold text-cream">
-              Scrolle <span className="text-dawn-400">&amp;</span> prie
-              <span className="font-normal text-cream/50"> · un sujet à la fois, en musique</span>
-            </span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setRechercheOuverte((o) => !o)}
-            aria-label="Rechercher sur le mur de prière"
-            className={`grid h-12 w-12 shrink-0 place-items-center rounded-full border ${rechercheOuverte || q ? "border-dawn-400 bg-dawn-400 text-night-950" : "border-white/10 bg-white/[0.04] text-cream/80"}`}
-          >
-            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2} aria-hidden>
-              <circle cx="11" cy="11" r="7" />
-              <path d="M21 21l-4.3-4.3" strokeLinecap="round" />
-            </svg>
-          </button>
-        </div>
-        {rechercheOuverte ? (
-          <input
-            autoFocus
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Rechercher sur le mur de prière…"
-            className="mt-2.5 w-full rounded-full border border-white/12 bg-night-900 px-5 py-3 text-[15px] text-cream placeholder:text-cream/40 focus:border-dawn-400/60 focus:outline-none"
+        {/* Scrolle & prie : prier en scrollant, sans être dérangé */}
+        <button
+          type="button"
+          onClick={() => setPrayerTime(true)}
+          className="group relative mt-5 flex w-full items-center gap-4 overflow-hidden rounded-[28px] border border-dawn-400/35 bg-night-900 p-4 text-left shadow-[0_0_40px_-18px_rgba(202,240,0,.55)] transition-transform active:scale-[0.99]"
+        >
+          <span
+            aria-hidden
+            className="pointer-events-none absolute -right-10 -top-12 h-40 w-40 rounded-full bg-dawn-400/15 blur-3xl"
           />
-        ) : null}
+          <span className="relative grid h-14 w-14 shrink-0 place-items-center rounded-2xl border border-dawn-400/35 bg-night-950 shadow-[0_0_26px_rgba(202,240,0,.22)]">
+            <PrayerMark className="h-9 w-9" />
+          </span>
+          <span className="relative min-w-0 flex-1">
+            <span className="block font-display text-[19px] font-bold leading-tight text-cream">
+              Scrolle <span className="text-dawn-400">&amp;</span> prie
+            </span>
+            <span className="mt-1 block text-[13px] leading-snug text-cream/60">
+              Prie en scrollant, sans être dérangé : un sujet à la fois, en musique.
+            </span>
+          </span>
+          <span className="relative grid h-12 w-12 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950 shadow-[0_0_22px_-4px_rgba(202,240,0,.7)] transition-transform group-active:scale-95">
+            <svg viewBox="0 0 24 24" className="ml-0.5 h-5 w-5 fill-current" aria-hidden>
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </span>
+        </button>
 
         {/* Fil (les styles clairs hérités des commentaires passent en sombre) */}
         <div className="profile-dark mt-5">
@@ -413,9 +398,7 @@ function Feed({
             </div>
           ): shown.length === 0? (
             <p className="rounded-[28px] border border-white/10 bg-night-900 p-6 text-center text-cream/60">
-              {q
-                ? "Aucun sujet ne correspond à ta recherche."
-                : vue === "reponses"
+              {vue === "reponses"
                   ? "Aucune prière exaucée pour l'instant — elles apparaîtront ici quand Dieu agit."
                   : vue === "amis"
                     ? "Abonne-toi à des membres pour voir leurs prières ici."
