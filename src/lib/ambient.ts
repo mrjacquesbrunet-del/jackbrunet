@@ -4,6 +4,7 @@ import { useSyncExternalStore } from "react";
 import { getSupabase } from "./supabase";
 import { subscribePodcast, podcastSnapshot } from "./podcast-player";
 import { compressToMonoMp3 } from "./audio-compress";
+import { FondNatif, fondNatifDispo } from "./fond-natif";
 
 /**
  * Fond musical doux (instrumental méditatif) joué EN BOUCLE et à faible
@@ -12,6 +13,8 @@ import { compressToMonoMp3 } from "./audio-compress";
  * quand ça se met en pause / s'arrête, le fond baisse aussi.
  *
  * Fichier attendu dans le bucket public « audiovf »: ambient/bed.mp3
+ * Dans l'app : joué par le téléphone (module natif) → continue écran
+ * verrouillé avec la Bible, volume compris.
  */
 const AUDIO_BUCKET = "audiovf";
 const STORAGE_KEY = "jb.bible.ambient.v1";
@@ -38,6 +41,7 @@ try {
 }
 
 let voiceActive = false; // vrai quand la voix de l'appareil (TTS) lit
+const natif = new FondNatif("ambiance-bible", () => ambientUrl());
 let audio: HTMLAudioElement | null = null;
 // iOS ignore HTMLAudioElement.volume: le seul moyen fiable de régler le volume
 // est de passer par le Web Audio API (AudioContext + GainNode).
@@ -97,6 +101,7 @@ export function setAmbientVolume(v: number) {
   }
   if (gain) gain.gain.value = volume;
   else if (audio) audio.volume = volume;
+  if (fondNatifDispo()) void natif.volume(volume);
   emit();
 }
 
@@ -109,6 +114,11 @@ function shouldPlay(): boolean {
 }
 
 function update() {
+  if (fondNatifDispo()) {
+    if (shouldPlay()) void natif.jouer(volume);
+    else void natif.pause();
+    return;
+  }
   const a = ensure();
   if (!a) return;
   if (shouldPlay()) {
@@ -134,6 +144,7 @@ export async function uploadAmbientBed(file: File): Promise<boolean> {
 .from(AUDIO_BUCKET)
 .upload("ambient/bed.mp3", out, { contentType: "audio/mpeg", upsert: true });
   // Force le rechargement du nouvel instrumental à la prochaine lecture.
+  void natif.recharger();
   if (audio) {
     audio.pause();
     audio = null;
@@ -171,6 +182,10 @@ export function setAmbientEnabled(on: boolean) {
  */
 export function ambientKick() {
   if (!enabled) return;
+  if (fondNatifDispo()) {
+    update();
+    return;
+  }
   const a = ensure();
   if (!a) return;
   ensureGain();

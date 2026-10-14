@@ -3,6 +3,7 @@
 import { useSyncExternalStore } from "react";
 import musicData from "../../content/music.json";
 import { mediaUrl } from "./asset";
+import { FondNatif, fondNatifDispo } from "./fond-natif";
 
 /**
  * Lecteur « soaking »: musique de fond pour le temps de méditation.
@@ -14,6 +15,8 @@ import { mediaUrl } from "./asset";
  *   HTMLAudioElement.volume: on passe par un GainNode quand c'est possible.
  *
  * Singleton (hors React) pour que la musique continue pendant la navigation.
+ * Dans l'app : jouée par le téléphone (module natif) → continue écran
+ * verrouillé, volume compris (le Web Audio, lui, est coupé par iOS).
  */
 
 type Track = { title: string; artist?: string; src: string };
@@ -34,6 +37,9 @@ try {
 }
 
 let audioEl: HTMLAudioElement | null = null;
+// Lecture native (app) : écran verrouillé + volume réglable.
+const natif = new FondNatif("soaking", () => (tracks[0] ? mediaUrl(tracks[0].src) : null));
+let natifActif = false;
 // Graphe Web Audio de la piste (volume fiable sur iOS).
 let trackCtx: AudioContext | null = null;
 let trackGain: GainNode | null = null;
@@ -138,7 +144,16 @@ function startTrack() {
 function play() {
   if (playing) return;
   playing = true;
-  if (tracks.length > 0) startTrack();
+  if (tracks.length > 0 && fondNatifDispo()) {
+    natifActif = true;
+    void natif.jouer(volume).then((ok) => {
+      // Échec natif (fichier injoignable…) : lecture web habituelle.
+      if (!ok && playing && natifActif) {
+        natifActif = false;
+        startTrack();
+      }
+    });
+  } else if (tracks.length > 0) startTrack();
   else startAmbient();
   emit();
 }
@@ -146,6 +161,10 @@ function play() {
 function stop() {
   if (!playing) return;
   playing = false;
+  if (natifActif) {
+    natifActif = false;
+    void natif.arreter();
+  }
   if (audioEl) {
     audioEl.pause();
     audioEl = null;
@@ -192,6 +211,7 @@ export function setSoakingVolume(v: number) {
   }
   if (trackGain) trackGain.gain.value = volume;
   if (audioEl) audioEl.volume = volume;
+  if (natifActif) void natif.volume(volume);
   if (ambientMaster && ctx) {
     ambientMaster.gain.linearRampToValueAtTime(ambientLevel(volume), ctx.currentTime + 0.15);
   }

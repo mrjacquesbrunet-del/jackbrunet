@@ -24,6 +24,7 @@ let package = Package(
         .package(name: "CapacitorStatusBar", path: "../../../node_modules/@capacitor/status-bar"),
         .package(name: "CapgoCapacitorSocialLogin", path: "../../../node_modules/@capgo/capacitor-social-login"),
         .package(name: "CapgoCapacitorUpdater", path: "../../../node_modules/@capgo/capacitor-updater"),
+        .package(name: "CapgoNativeAudio", path: "../../../node_modules/@capgo/native-audio"),
         .package(name: "CapgoNativePurchases", path: "../../../node_modules/@capgo/native-purchases"),
         .package(name: "onesignal-cordova-plugin", path: "../../../node_modules/onesignal-cordova-plugin")
     ],
@@ -45,6 +46,7 @@ let package = Package(
                 .product(name: "CapacitorStatusBar", package: "CapacitorStatusBar"),
                 .product(name: "CapgoCapacitorSocialLogin", package: "CapgoCapacitorSocialLogin"),
                 .product(name: "CapgoCapacitorUpdater", package: "CapgoCapacitorUpdater"),
+                .product(name: "CapgoNativeAudio", package: "CapgoNativeAudio"),
                 .product(name: "CapgoNativePurchases", package: "CapgoNativePurchases"),
                 .product(name: "onesignal-cordova-plugin", package: "onesignal-cordova-plugin")
             ]

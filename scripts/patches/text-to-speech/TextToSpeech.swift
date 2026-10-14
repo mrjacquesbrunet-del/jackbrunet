@@ -2,7 +2,7 @@ import AVFoundation
 import Capacitor
 
 // RHEMA — version corrigée du module @capacitor-community/text-to-speech
-// (copiée par scripts/patch-tts.mjs après chaque npm install) :
+// (copiée par scripts/patch-natif.mjs après chaque npm install) :
 //  - catégorie « playback » : la voix continue écran verrouillé / app en
 //    arrière-plan (le module d'origine ignorait ce réglage) ;
 //  - chaque énoncé garde SON appel : on peut mettre tout un chapitre en file
