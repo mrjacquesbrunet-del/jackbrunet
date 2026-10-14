@@ -391,14 +391,14 @@ export function PrayerCard({
 
   // Boutons d'action : pastilles sombres, même hauteur (maquette du mur).
   const pastille = "inline-flex h-9 items-center justify-center gap-1.5 whitespace-nowrap rounded-full border text-[12.5px] font-medium transition-colors active:scale-[0.97]";
-  const neutre = "border-cream/[0.12] bg-cream/[0.05] text-cream/85";
+  const neutre = "border-creme/[0.12] bg-creme/[0.05] text-cream/85";
 
   return (
     <li
       ref={cardRef}
       id={`prayer-${prayer.id}`}
       className={`scroll-mt-24 overflow-hidden rounded-2xl border ${
-        answered ? "border-dawn-400/35 bg-gradient-to-b from-dawn-400/[0.09] to-cream/[0.05]" : "border-cream/10 bg-cream/[0.06]"
+        answered ? "border-dawn-400/35 bg-gradient-to-b from-dawn-400/[0.09] to-cream/[0.05]" : "border-creme/10 bg-creme/[0.06]"
       } text-cream`}
     >
       <Celebration
@@ -535,7 +535,7 @@ export function PrayerCard({
         {themes.length ? (
           <div className="mt-2.5 flex flex-wrap gap-1.5">
             {themes.map((t) => (
-              <span key={t} className="rounded-full bg-cream/[0.09] px-2.5 py-[3px] text-[11px] text-cream/80">
+              <span key={t} className="rounded-full bg-creme/[0.09] px-2.5 py-[3px] text-[11px] text-cream/80">
                 {t}
               </span>
             ))}
@@ -689,7 +689,7 @@ export function PrayerCard({
 
         {/* Aperçu : le dernier encouragement + « Voir les N commentaires » */}
         {!showComments && apercu ? (
-          <div className="mt-2.5 rounded-xl bg-cream/[0.06] px-2.5 py-2">
+          <div className="mt-2.5 rounded-xl bg-creme/[0.06] px-2.5 py-2">
             <div className="flex items-center gap-2.5">
               <Avatar pseudo={apercu.author?.pseudo} url={apercu.author?.avatar_url} size={30} />
               <div className="min-w-0 flex-1">

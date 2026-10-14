@@ -45,6 +45,8 @@ const config: Config = {
           500: "#AAD000",
         },
         cream: "#F3F3ED",
+        // Crème chaud (mur de prière) : plus doré que « cream », jamais blanc.
+        creme: "#EADFC6",
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],

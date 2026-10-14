@@ -70,7 +70,7 @@ export function TopIntercessors() {
         disabled={busy === id}
         onClick={() => toggle(id)}
         className={`inline-flex h-6 items-center justify-center gap-1 rounded-full text-[11px] font-semibold transition-colors ${large ? "px-3" : "w-full"} ${
-          followed.has(id) ? "border border-cream/20 text-cream/75" : "bg-cream text-night-950"
+          followed.has(id) ? "border border-creme/20 text-cream/75" : "bg-creme text-night-950"
         }`}
       >
         {followed.has(id) ? (
@@ -87,7 +87,7 @@ export function TopIntercessors() {
     );
 
   return (
-    <section className="mt-3 rounded-2xl border border-cream/10 bg-cream/[0.06] pb-3 pt-2.5">
+    <section className="mt-3 rounded-2xl border border-creme/10 bg-creme/[0.06] pb-3 pt-2.5">
       <div className="flex items-center gap-2 px-3">
         <PrayerMark className="h-5 w-5 shrink-0" />
         <div className="min-w-0 flex-1">
@@ -125,7 +125,7 @@ export function TopIntercessors() {
           {items.map(({ profile, score }, i) => (
             <li
               key={profile.id}
-              className="w-[calc((100vw-2rem-1.5rem-0.375rem*4)/5)] max-w-[84px] shrink-0 snap-start rounded-xl border border-cream/[0.08] bg-cream/[0.05] px-1 pb-1.5 pt-2 text-center"
+              className="w-[calc((100vw-2rem-1.5rem-0.375rem*4)/5)] max-w-[84px] shrink-0 snap-start rounded-xl border border-creme/[0.08] bg-creme/[0.05] px-1 pb-1.5 pt-2 text-center"
             >
               <Link href={`/membre?u=${profile.id}`} className="relative mx-auto block w-fit" aria-label="Voir le profil">
                 <span className={`block rounded-full p-[1.5px] ${i < 3 ? "bg-dawn-400/80" : "bg-white/15"}`}>

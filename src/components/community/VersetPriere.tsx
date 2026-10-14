@@ -41,7 +41,7 @@ export function VersetPriere({ className = "" }: { className?: string }) {
       onClick={() => setI((x) => (x + 1) % LISTE.length)}
       aria-label="Verset suivant"
       translate="no"
-      className={`notranslate flex w-full flex-col rounded-2xl bg-cream px-2.5 pb-1.5 pt-2 text-left shadow-[0_8px_24px_-12px_rgba(0,0,0,.6)] ${className}`}
+      className={`notranslate flex w-full flex-col rounded-2xl bg-creme px-2.5 pb-1.5 pt-2 text-left shadow-[0_8px_24px_-12px_rgba(0,0,0,.6)] ${className}`}
     >
       <span className="flex items-start gap-2">
         <Plume className="mt-0.5 h-3.5 w-3.5 shrink-0 text-spirit-600" />

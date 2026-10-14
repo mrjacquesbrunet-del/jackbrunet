@@ -283,7 +283,7 @@ function Feed({
                 type="button"
                 onClick={() => setVue(v.cle)}
                 className={`flex h-10 items-center justify-center gap-1.5 rounded-full border text-[13px] font-medium transition-colors ${
-                  actif ? "border-dawn-400 bg-dawn-400 text-night-950" : "border-cream/10 bg-cream/[0.06] text-cream/80"
+                  actif ? "border-dawn-400 bg-dawn-400 text-night-950" : "border-creme/10 bg-creme/[0.06] text-cream/80"
                 }`}
               >
                 {v.icone}
@@ -294,12 +294,12 @@ function Feed({
         </div>
 
         {/* Partager un sujet */}
-        <div className="mt-2.5 rounded-2xl border border-cream/10 bg-cream/[0.06] p-2.5">
+        <div className="mt-2.5 rounded-2xl border border-creme/10 bg-creme/[0.06] p-2.5">
           <div className="flex items-center gap-2.5">
             <span className="shrink-0">
               <Avatar pseudo={profile?.pseudo} url={profile?.avatar_url} size={34} />
             </span>
-            <div className="flex min-w-0 flex-1 items-center gap-1.5 rounded-2xl border border-cream/10 bg-cream/[0.07] py-1 pl-1 pr-1">
+            <div className="flex min-w-0 flex-1 items-center gap-1.5 rounded-2xl border border-creme/10 bg-creme/[0.07] py-1 pl-1 pr-1">
               <MentionField
                 value={body}
                 onChange={setBody}
@@ -322,7 +322,7 @@ function Feed({
               </button>
             </div>
           </div>
-          <label className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-cream/15 py-1 pl-2.5 pr-2 text-[11.5px] text-cream/80">
+          <label className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-creme/15 py-1 pl-2.5 pr-2 text-[11.5px] text-cream/80">
             <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
               <circle cx="12" cy="12" r="9" />
               <path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z" strokeLinejoin="round" />
@@ -347,7 +347,7 @@ function Feed({
         <TopIntercessors />
 
         {/* Scrolle & prie : une ligne discrète, un bouton pour l'activer */}
-        <div className="mt-3 flex items-center gap-2.5 rounded-2xl border border-cream/10 bg-cream/[0.06] py-2 pl-3 pr-2">
+        <div className="mt-3 flex items-center gap-2.5 rounded-2xl border border-creme/10 bg-creme/[0.06] py-2 pl-3 pr-2">
           <PrayerMark className="h-[18px] w-[18px] shrink-0" />
           <p className="min-w-0 flex-1 truncate text-[12px] text-cream/65">
             <span className="font-semibold text-cream">
@@ -372,7 +372,7 @@ function Feed({
           {loading? (
             <p className="text-cream/50">Chargement du fil…</p>
           ): loadError? (
-            <div className="rounded-2xl border border-cream/10 bg-cream/[0.06] p-5 text-center">
+            <div className="rounded-2xl border border-creme/10 bg-creme/[0.06] p-5 text-center">
               <p className="font-semibold text-cream/85">Impossible de charger le mur de prière.</p>
               <p className="mt-1 text-sm text-cream/55">Vérifie ta connexion internet, puis réessaie.</p>
               <button type="button" onClick={load} className="btn-primary mt-4 text-sm">
@@ -380,7 +380,7 @@ function Feed({
               </button>
             </div>
           ): shown.length === 0? (
-            <p className="rounded-2xl border border-cream/10 bg-cream/[0.06] p-5 text-center text-[13px] text-cream/65">
+            <p className="rounded-2xl border border-creme/10 bg-creme/[0.06] p-5 text-center text-[13px] text-cream/65">
               {vue === "reponses"
                   ? "Aucune prière exaucée pour l'instant — elles apparaîtront ici quand Dieu agit."
                   : vue === "amis"
@@ -411,7 +411,7 @@ function Feed({
         {/* Laisser un témoignage */}
         <Link
           href="/temoignages"
-          className="mt-5 flex items-center justify-between gap-4 rounded-2xl border border-cream/10 bg-cream/[0.06] px-4 py-3"
+          className="mt-5 flex items-center justify-between gap-4 rounded-2xl border border-creme/10 bg-creme/[0.06] px-4 py-3"
         >
           <div>
             <p className="font-display text-[15px] font-bold">Dieu a agi dans ta vie&nbsp;?</p>
