@@ -695,6 +695,7 @@ export function BibleReader() {
             chapterCount={chapterCount}
             books={index}
             onVerse={setSpokenVerse}
+            onChapitre={(n) => setChapter(n)}
           />
         </div>
       ): null}
@@ -914,6 +915,7 @@ export function BibleReader() {
             chapterCount={chapterCount}
             books={index}
             onVerse={setSpokenVerse}
+            onChapitre={(n) => setChapter(n)}
             onPrevChapter={() => goToChapter(Math.max(1, chapter - 1))}
             onNextChapter={() => {
               if (chapter < chapterCount) goToChapter(chapter + 1);

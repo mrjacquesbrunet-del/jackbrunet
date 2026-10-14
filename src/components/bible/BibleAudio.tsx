@@ -13,6 +13,7 @@ import {
 } from "@/lib/ambient";
 import { getVersionBible, infoVersion } from "@/lib/bible-version";
 import { lireVersets, type SessionVoix } from "@/lib/voix-tts";
+import { getBook } from "@/lib/bible-client";
 
 /**
  * Bible audio (service « Écouter la Bible »). Deux modes:
@@ -32,6 +33,7 @@ export function BibleAudio({
   books = [],
   onVerse,
   variant = "inline",
+  onChapitre,
 }: {
   bookId: number;
   verses: string[];
@@ -44,6 +46,8 @@ export function BibleAudio({
   onVerse: (index: number | null) => void;
   /** "floating" = pilule centrée en bas (mode pleine lecture). */
   variant?: "inline" | "floating";
+  /** Afficher le chapitre n (la voix du téléphone enchaîne les chapitres). */
+  onChapitre?: (n: number) => void;
 }) {
   const ambient = useAmbient();
   const pod = usePodcastPlayer();
@@ -130,8 +134,14 @@ export function BibleAudio({
     [stop],
   );
 
-  // Arrête la lecture si on change de chapitre / de livre ou si on quitte.
+  // Arrête la lecture si on change de chapitre / de livre ou si on quitte
+  // (sauf quand c'est la voix elle-même qui passe au chapitre suivant).
+  const voixChangeChapitre = useRef(false);
   useEffect(() => {
+    if (voixChangeChapitre.current) {
+      voixChangeChapitre.current = false;
+      return;
+    }
     stop();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookName, chapter]);
@@ -146,6 +156,18 @@ export function BibleAudio({
         lang: infoVersion(getVersionBible()).voix, // langue de la version lue
         vitesse: 1,
         voixWeb: voiceRef.current,
+        // Chapitres suivants du livre (voix native : continue écran verrouillé).
+        suite: onChapitre
+          ? () =>
+              getBook(bookId).then((b) =>
+                b.chapters.slice(chapter, chapter + 30).map((versets, k) => ({ chapitre: chapter + 1 + k, versets })),
+              )
+          : undefined,
+        surChapitre: (n) => {
+          if (!onChapitre) return;
+          voixChangeChapitre.current = true; // ne pas couper la voix au changement
+          onChapitre(n);
+        },
         surVerset: (i) => {
           idxRef.current = i;
           onVerse(i);
@@ -153,7 +175,7 @@ export function BibleAudio({
         surFin: () => stop(),
       });
     },
-    [verses, onVerse, stop],
+    [verses, onVerse, stop, onChapitre, bookId, chapter],
   );
 
   function play() {

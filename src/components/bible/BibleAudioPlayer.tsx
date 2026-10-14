@@ -10,6 +10,7 @@ import {
 } from "@/lib/bible-audio";
 import { playQueue, usePodcastPlayer, getPodcastAudio } from "@/lib/podcast-player";
 import { lireVersets, type SessionVoix } from "@/lib/voix-tts";
+import { getBook } from "@/lib/bible-client";
 import {
   useAmbient,
   setVoiceActive,
@@ -55,6 +56,7 @@ export function BibleAudioPlayer({
   piste,
   libelles,
   langueVoix,
+  onChapitre,
 }: {
   bookId: number;
   verses: string[];
@@ -66,6 +68,8 @@ export function BibleAudioPlayer({
   onVerse: (index: number | null) => void;
   onPrevChapter: () => void;
   onNextChapter: () => void;
+  /** Afficher le chapitre n (la voix du téléphone enchaîne les chapitres). */
+  onChapitre?: (n: number) => void;
   canPrev: boolean;
   canNext: boolean;
   /** Hors Bible (plans de lecture…) : narration enregistrée à jouer, ou null
@@ -186,8 +190,14 @@ export function BibleAudioPlayer({
     }
   }, [stopTts]);
 
-  // Changement de chapitre / démontage: la voix de l'appareil s'arrête.
+  // Changement de chapitre / démontage: la voix de l'appareil s'arrête
+  // (sauf quand c'est la voix elle-même qui passe au chapitre suivant).
+  const voixChangeChapitre = useRef(false);
   useEffect(() => {
+    if (voixChangeChapitre.current) {
+      voixChangeChapitre.current = false;
+      return;
+    }
     stopTts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookName, chapter]);
@@ -203,6 +213,18 @@ export function BibleAudioPlayer({
         vitesse: pod.rate,
         voixWeb: voiceRef.current,
         boucle: () => repeatRef.current,
+        // Chapitres suivants du livre (voix native : continue écran verrouillé).
+        suite: onChapitre
+          ? () =>
+              getBook(bookId).then((b) =>
+                b.chapters.slice(chapter, chapter + 30).map((versets, k) => ({ chapitre: chapter + 1 + k, versets })),
+              )
+          : undefined,
+        surChapitre: (n) => {
+          if (!onChapitre) return;
+          voixChangeChapitre.current = true; // ne pas couper la voix au changement
+          onChapitre(n);
+        },
         surVerset: (i) => {
           idxRef.current = i;
           setTtsIdx(i);
@@ -211,7 +233,7 @@ export function BibleAudioPlayer({
         surFin: () => stopTts(),
       });
     },
-    [verses, onVerse, stopTts, pod.rate, langueVoix],
+    [verses, onVerse, stopTts, pod.rate, langueVoix, onChapitre, bookId, chapter],
   );
 
   function playTts() {
