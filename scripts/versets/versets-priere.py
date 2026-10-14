@@ -11,6 +11,8 @@ REFS = [
     (40, 18, 20), (43, 15, 7), (43, 16, 24), (45, 12, 12), (24, 29, 12), (40, 21, 22),
     (43, 14, 13), (42, 11, 9), (59, 1, 5), (54, 2, 1), (19, 116, 1), (40, 26, 41),
     (19, 55, 23, 22), (19, 62, 9, 8), (19, 5, 4, 3),
+    (19, 65, 3, 2), (19, 141, 2), (20, 15, 29), (42, 11, 1), (19, 66, 20),
+    (19, 6, 10, 9), (19, 102, 18, 17), (40, 6, 9),
 ]
 DOSSIERS = {"fr": "public/bible", "en": "public/bible/web", "pt": "public/bible/blivre"}
 
@@ -31,6 +33,6 @@ for r in REFS:
         t = " ".join(L["chapters"][c - 1][vv - 1].split())
         item[lang] = {"texte": t, "ref": f"{L['name']} {c}:{vv}"}
     # Seulement des versets courts : ils tiennent dans la petite carte du mur.
-    if len(item["fr"]["texte"]) <= 150:
+    if len(item["fr"]["texte"]) <= 100:
         out.append(item)
 json.dump(out, sys.stdout, ensure_ascii=False, indent=1)

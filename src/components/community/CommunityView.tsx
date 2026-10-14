@@ -71,7 +71,7 @@ const VUES: { cle: Vue; lbl: string; icone: React.ReactNode }[] = [
     cle: "public",
     lbl: "Public",
     icone: (
-      <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+      <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
         <circle cx="12" cy="12" r="9" />
         <path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z" strokeLinejoin="round" />
       </svg>
@@ -81,7 +81,7 @@ const VUES: { cle: Vue; lbl: string; icone: React.ReactNode }[] = [
     cle: "amis",
     lbl: "Amis",
     icone: (
-      <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+      <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
         <circle cx="9" cy="8" r="3.5" />
         <path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.2a6.5 6.5 0 0 1 3.5 5.8" strokeLinecap="round" />
       </svg>
@@ -91,7 +91,7 @@ const VUES: { cle: Vue; lbl: string; icone: React.ReactNode }[] = [
     cle: "reponses",
     lbl: "Réponses",
     icone: (
-      <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+      <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
         <path d="M21 11.5a8 8 0 0 1-11.5 7.2L4 20l1.3-4.5A8 8 0 1 1 21 11.5z" strokeLinejoin="round" />
         <path d="M8.5 11.5h.01M12.5 11.5h.01M16.5 11.5h.01" strokeLinecap="round" strokeWidth={2.6} />
       </svg>
@@ -248,42 +248,40 @@ function Feed({
       />
 
       <div className="relative mx-auto max-w-2xl px-4 pt-[calc(env(safe-area-inset-top)+4.75rem)] sm:pt-28">
-        {/* En-tête : titre, cloche + profil, verset sur la prière qui tourne */}
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <h1 translate="no" className="notranslate font-display text-[40px] font-extrabold leading-none tracking-tight sm:text-5xl">
-              {langue === "en" ? (
-                <>
-                  <span className="text-dawn-400">Prayer</span> wall
-                </>
-              ) : langue === "pt" ? (
-                <>
-                  Mural de <span className="text-dawn-400">oração</span>
-                </>
-              ) : (
-                <>
-                  Mur de <span className="text-dawn-400">prière</span>
-                </>
-              )}
-            </h1>
-            <span className="mt-3 block h-1 w-10 rounded-full bg-dawn-400" />
-          </div>
-          <div className="flex shrink-0 items-center gap-2.5">
-            <NotificationsBell userId={userId} tone="dark" />
-            <Link href="/profil" aria-label="Mon profil" className="rounded-full ring-2 ring-dawn-400/50">
-              <Avatar pseudo={profile?.pseudo} url={profile?.avatar_url} size={44} />
+        {/* En-tête : titre, cloche + profil, petite phrase et verset qui tourne */}
+        <div className="flex items-center justify-between gap-3">
+          <h1 translate="no" className="notranslate font-display text-[30px] font-extrabold leading-none tracking-tight">
+            {langue === "en" ? (
+              <>
+                <span className="text-dawn-400">Prayer</span> wall
+              </>
+            ) : langue === "pt" ? (
+              <>
+                Mural de <span className="text-dawn-400">oração</span>
+              </>
+            ) : (
+              <>
+                Mur de <span className="text-dawn-400">prière</span>
+              </>
+            )}
+          </h1>
+          <div className="flex shrink-0 items-center gap-2">
+            <NotificationsBell userId={userId} tone="dark" discret />
+            <Link href="/profil" aria-label="Mon profil" className="rounded-full">
+              <Avatar pseudo={profile?.pseudo} url={profile?.avatar_url} size={34} />
             </Link>
           </div>
         </div>
-        <div className="mt-4 flex items-start gap-3">
-          <p className="min-w-0 flex-1 text-[14.5px] leading-relaxed text-cream/75">
+        <span className="mt-2 block h-[3px] w-8 rounded-full bg-dawn-400" />
+        <div className="mt-2.5 flex items-start gap-3">
+          <p className="min-w-0 flex-1 text-[13px] leading-snug text-cream/65">
             Partage, prie pour les autres, encourage la famille. Vous portez les uns les autres.
           </p>
-          <VersetPriere className="w-[54%] max-w-[250px] shrink-0" />
+          <VersetPriere className="w-[44%] max-w-[190px] shrink-0" />
         </div>
 
         {/* Onglets */}
-        <div className="mt-6 grid grid-cols-3 gap-2">
+        <div className="mt-3.5 grid grid-cols-3 gap-1.5">
           {VUES.map((v) => {
             const actif = vue === v.cle;
             return (
@@ -291,8 +289,8 @@ function Feed({
                 key={v.cle}
                 type="button"
                 onClick={() => setVue(v.cle)}
-                className={`flex h-[52px] items-center justify-center gap-2 rounded-full border text-[15px] font-semibold transition-colors ${
-                  actif ? "border-dawn-400 bg-dawn-400 text-night-950 shadow-[0_0_24px_-6px_rgba(202,240,0,.6)]" : "border-white/10 bg-white/[0.04] text-cream/75"
+                className={`flex h-10 items-center justify-center gap-1.5 rounded-full border text-[13px] font-medium transition-colors ${
+                  actif ? "border-dawn-400 bg-dawn-400 text-night-950" : "border-white/[0.08] bg-white/[0.03] text-cream/70"
                 }`}
               >
                 {v.icone}
@@ -303,37 +301,36 @@ function Feed({
         </div>
 
         {/* Partager un sujet */}
-        <div className="mt-4 rounded-[28px] border border-white/10 bg-night-900 p-3.5">
-          <div className="flex items-start gap-3">
-            <span className="mt-1 shrink-0">
-              <Avatar pseudo={profile?.pseudo} url={profile?.avatar_url} size={46} />
+        <div className="mt-2.5 rounded-2xl border border-white/[0.08] bg-night-900/70 p-2.5">
+          <div className="flex items-center gap-2.5">
+            <span className="shrink-0">
+              <Avatar pseudo={profile?.pseudo} url={profile?.avatar_url} size={34} />
             </span>
-            <div className="min-w-0 flex-1 rounded-[22px] border border-white/10 bg-white/[0.05] p-1.5">
+            <div className="flex min-w-0 flex-1 items-center gap-1.5 rounded-2xl border border-white/[0.08] bg-white/[0.04] py-1 pl-1 pr-1">
               <MentionField
                 value={body}
                 onChange={setBody}
-                rows={2}
-                placeholder="Partage un sujet de prière… (cite quelqu'un avec @)"
-                className="w-full resize-none bg-transparent px-2.5 py-1.5 text-[15px] text-cream placeholder:text-cream/40 focus:outline-none"
+                rows={1}
+                autoGrow
+                placeholder="Partage un sujet de prière…"
+                className="min-h-[36px] w-full resize-none bg-transparent px-2 py-2 text-[13px] leading-snug text-cream placeholder:text-cream/40 focus:outline-none"
               />
-              <div className="flex items-center justify-end gap-2 px-1 pb-0.5">
-                <VoiceRecorderButton userId={userId} onSend={postVoice} tone="dark" />
-                <button
-                  type="button"
-                  onClick={post}
-                  disabled={posting || !body.trim()}
-                  aria-label={posting ? "Publication…" : "Publier"}
-                  className="grid h-11 w-11 place-items-center rounded-full bg-dawn-400 text-night-950 shadow-[0_0_20px_-4px_rgba(202,240,0,.6)] transition-transform active:scale-95 disabled:opacity-40"
-                >
-                  <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2.6} aria-hidden>
-                    <path d="M12 19V5M5.5 11.5L12 5l6.5 6.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-              </div>
+              <VoiceRecorderButton userId={userId} onSend={postVoice} tone="dark" petit />
+              <button
+                type="button"
+                onClick={post}
+                disabled={posting || !body.trim()}
+                aria-label={posting ? "Publication…" : "Publier"}
+                className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950 transition-transform active:scale-95 disabled:opacity-40"
+              >
+                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.6} aria-hidden>
+                  <path d="M12 19V5M5.5 11.5L12 5l6.5 6.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
             </div>
           </div>
-          <label className="mt-3 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] py-2 pl-3.5 pr-3 text-[14px] text-cream/85">
-            <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] shrink-0 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+          <label className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-white/[0.1] py-1 pl-2.5 pr-2 text-[11.5px] text-cream/75">
+            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
               <circle cx="12" cy="12" r="9" />
               <path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z" strokeLinejoin="round" />
             </svg>
@@ -341,51 +338,44 @@ function Feed({
               value={visibility}
               onChange={(e) => setVisibility(e.target.value as Visibility)}
               aria-label="Visibilité"
-              className="appearance-none bg-transparent pr-1 text-cream focus:outline-none [&>option]:bg-night-900"
+              className="appearance-none bg-transparent text-cream/80 focus:outline-none [&>option]:bg-night-900"
             >
               <option value="public">Public, tout le monde</option>
               <option value="friends">Abonnés, ceux qui me suivent</option>
               <option value="private">Privé, moi seul</option>
             </select>
-            <svg viewBox="0 0 24 24" className="pointer-events-none h-4 w-4 shrink-0 fill-none stroke-current text-cream/60" strokeWidth={2.2} aria-hidden>
+            <svg viewBox="0 0 24 24" className="pointer-events-none h-3 w-3 shrink-0 fill-none stroke-current text-cream/50" strokeWidth={2.4} aria-hidden>
               <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </label>
         </div>
 
-        {/* Intercesseurs de la semaine, du 1er au 10e */}
+        {/* Intercesseurs de la semaine : cinq à l'écran, glisser pour les suivants */}
         <TopIntercessors />
 
-        {/* Scrolle & prie : prier en scrollant, sans être dérangé */}
-        <button
-          type="button"
-          onClick={() => setPrayerTime(true)}
-          className="group relative mt-5 flex w-full items-center gap-4 overflow-hidden rounded-[28px] border border-dawn-400/35 bg-night-900 p-4 text-left shadow-[0_0_40px_-18px_rgba(202,240,0,.55)] transition-transform active:scale-[0.99]"
-        >
-          <span
-            aria-hidden
-            className="pointer-events-none absolute -right-10 -top-12 h-40 w-40 rounded-full bg-dawn-400/15 blur-3xl"
-          />
-          <span className="relative grid h-14 w-14 shrink-0 place-items-center rounded-2xl border border-dawn-400/35 bg-night-950 shadow-[0_0_26px_rgba(202,240,0,.22)]">
-            <PrayerMark className="h-9 w-9" />
-          </span>
-          <span className="relative min-w-0 flex-1">
-            <span className="block font-display text-[19px] font-bold leading-tight text-cream">
+        {/* Scrolle & prie : une ligne discrète, un bouton pour l'activer */}
+        <div className="mt-3 flex items-center gap-2.5 rounded-2xl border border-white/[0.07] bg-night-900/70 py-2 pl-3 pr-2">
+          <PrayerMark className="h-[18px] w-[18px] shrink-0" />
+          <p className="min-w-0 flex-1 truncate text-[12px] text-cream/60">
+            <span className="font-semibold text-cream">
               Scrolle <span className="text-dawn-400">&amp;</span> prie
             </span>
-            <span className="mt-1 block text-[13px] leading-snug text-cream/60">
-              Prie en scrollant, sans être dérangé : un sujet à la fois, en musique.
-            </span>
-          </span>
-          <span className="relative grid h-12 w-12 shrink-0 place-items-center rounded-full bg-dawn-400 text-night-950 shadow-[0_0_22px_-4px_rgba(202,240,0,.7)] transition-transform group-active:scale-95">
-            <svg viewBox="0 0 24 24" className="ml-0.5 h-5 w-5 fill-current" aria-hidden>
+            <span> · prie en scrollant, sans être dérangé</span>
+          </p>
+          <button
+            type="button"
+            onClick={() => setPrayerTime(true)}
+            className="inline-flex h-7 shrink-0 items-center gap-1 rounded-full border border-dawn-400/60 px-3 text-[11.5px] font-semibold text-dawn-400 active:bg-dawn-400/10"
+          >
+            <svg viewBox="0 0 24 24" className="h-3 w-3 fill-current" aria-hidden>
               <path d="M8 5v14l11-7z" />
             </svg>
-          </span>
-        </button>
+            Activer
+          </button>
+        </div>
 
         {/* Fil (les styles clairs hérités des commentaires passent en sombre) */}
-        <div className="profile-dark mt-5">
+        <div className="profile-dark mt-3">
           {loading? (
             <p className="text-cream/50">Chargement du fil…</p>
           ): loadError? (
@@ -405,7 +395,7 @@ function Feed({
                     : "Aucune prière pour l'instant. Sois le premier à partager."}
             </p>
           ): (
-            <ul className="space-y-4">
+            <ul className="space-y-3">
               {shown.map((p) => (
                 <PrayerCard
                   key={p.id}
@@ -428,13 +418,13 @@ function Feed({
         {/* Laisser un témoignage */}
         <Link
           href="/temoignages"
-          className="mt-8 flex items-center justify-between gap-4 rounded-[28px] border border-dawn-400/30 bg-night-900 p-5"
+          className="mt-5 flex items-center justify-between gap-4 rounded-2xl border border-white/[0.08] bg-night-900/70 px-4 py-3"
         >
           <div>
-            <p className="font-display text-[19px] font-bold">Dieu a agi dans ta vie&nbsp;?</p>
-            <p className="mt-0.5 text-sm text-cream/60">Laisse ton témoignage et encourage la famille.</p>
+            <p className="font-display text-[15px] font-bold">Dieu a agi dans ta vie&nbsp;?</p>
+            <p className="mt-0.5 text-[12px] text-cream/55">Laisse ton témoignage et encourage la famille.</p>
           </div>
-          <svg viewBox="0 0 24 24" className="h-6 w-6 shrink-0 fill-none stroke-current text-dawn-400" strokeWidth={2.2} aria-hidden>
+          <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 fill-none stroke-current text-dawn-400" strokeWidth={2.2} aria-hidden>
             <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </Link>

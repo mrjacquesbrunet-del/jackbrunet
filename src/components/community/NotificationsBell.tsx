@@ -75,9 +75,12 @@ function when(iso: string) {
 export function NotificationsBell({
   userId,
   tone = "light",
+  discret = false,
 }: {
   userId: string;
   tone?: "light" | "dark";
+  /** Simple icône, sans pastille (en-tête épuré du mur de prière). */
+  discret?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [unread, setUnread] = useState(0);
@@ -110,7 +113,9 @@ export function NotificationsBell({
         onClick={toggle}
         aria-label="Notifications"
         className={`relative grid h-10 w-10 shrink-0 place-items-center rounded-full border transition-colors ${
-          tone === "dark"
+          discret
+            ? "!h-9 !w-9 border-transparent text-cream/90 hover:bg-white/10"
+            : tone === "dark"
 ? "border-dawn-400/50 bg-dawn-400/15 text-dawn-300 hover:bg-dawn-400/25"
 : "border-night-900/15 text-night-900/70 hover:border-night-900/30"
         }`}

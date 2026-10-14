@@ -390,15 +390,15 @@ export function PrayerCard({
   }
 
   // Boutons d'action : pastilles sombres, même hauteur (maquette du mur).
-  const pastille = "inline-flex h-12 items-center justify-center gap-1.5 whitespace-nowrap rounded-full border text-[14.5px] font-semibold transition-colors active:scale-[0.97]";
-  const neutre = "border-white/12 bg-white/[0.04] text-cream/85";
+  const pastille = "inline-flex h-9 items-center justify-center gap-1.5 whitespace-nowrap rounded-full border text-[12.5px] font-medium transition-colors active:scale-[0.97]";
+  const neutre = "border-white/[0.09] bg-white/[0.03] text-cream/80";
 
   return (
     <li
       ref={cardRef}
       id={`prayer-${prayer.id}`}
-      className={`scroll-mt-24 overflow-hidden rounded-[28px] border ${
-        answered ? "border-dawn-400/45 bg-gradient-to-b from-dawn-400/[0.08] to-night-900" : "border-white/[0.09] bg-night-900"
+      className={`scroll-mt-24 overflow-hidden rounded-2xl border ${
+        answered ? "border-dawn-400/35 bg-gradient-to-b from-dawn-400/[0.07] to-night-900/80" : "border-white/[0.07] bg-night-900/70"
       } text-cream`}
     >
       <Celebration
@@ -411,41 +411,41 @@ export function PrayerCard({
 
       {/* Bandeau « Dieu a agi » */}
       {answered? (
-        <div className="flex items-center gap-2 bg-gradient-to-r from-dawn-400 to-dawn-300 px-5 py-2 text-sm font-extrabold text-night-950">
-          <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden>
+        <div className="flex items-center gap-1.5 bg-gradient-to-r from-dawn-400 to-dawn-300 px-3.5 py-1.5 text-[11.5px] font-bold text-night-950">
+          <svg viewBox="0 0 24 24" className="h-3 w-3 fill-current" aria-hidden>
             <path d="M12 2l2.4 5 5.6.8-4 4 1 5.6L12 19.8 6.9 22l1-5.6-4-4 5.6-.8z" />
           </svg>
           Dieu a agi, prière exaucée
         </div>
       ): null}
 
-      <div className="p-4 sm:p-5">
+      <div className="p-3.5">
         {pinned? (
           <p className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-dawn-400/15 px-3 py-1 text-[11px] font-bold text-dawn-300">
             <PinIcon className="h-3.5 w-3.5" /> Épinglé
           </p>
         ): null}
-        <div className="flex items-center gap-3.5">
+        <div className="flex items-center gap-2.5">
           <Link href={`/membre?u=${prayer.author_id}`} aria-label="Voir le profil" className="shrink-0">
-            <Avatar pseudo={prayer.author?.pseudo} url={prayer.author?.avatar_url} size={52} streak={prayer.author?.streak_days} badge={prayer.author?.badge_tier} />
+            <Avatar pseudo={prayer.author?.pseudo} url={prayer.author?.avatar_url} size={40} streak={prayer.author?.streak_days} badge={prayer.author?.badge_tier} />
           </Link>
           <div className="min-w-0 flex-1">
-            <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
               <Link
                 href={`/membre?u=${prayer.author_id}`}
-                className="inline-flex min-w-0 items-center gap-1.5 font-display text-[18px] font-bold leading-tight text-cream"
+                className="inline-flex min-w-0 items-center gap-1 text-[14.5px] font-semibold leading-tight text-cream"
               >
                 <span className="truncate">{prayer.author?.pseudo?? "Ami(e)"}</span>
-                {prayer.author?.verified? <VerifiedBadge className="h-4 w-4 shrink-0" />: null}
+                {prayer.author?.verified? <VerifiedBadge className="h-3.5 w-3.5 shrink-0" />: null}
                 {estBatisseurActif(prayer.author) ? <BatisseurBadge compact /> : null}
               </Link>
               {grade? (
-                <span className="rounded-full bg-dawn-400 px-2.5 py-[3px] text-[10.5px] font-extrabold uppercase tracking-wide text-night-950">
+                <span className="rounded-full bg-dawn-400/90 px-1.5 py-[1px] text-[8.5px] font-bold uppercase tracking-wide text-night-950">
                   {grade}
                 </span>
               ): null}
             </div>
-            <p className="mt-0.5 text-[13px] text-cream/50">
+            <p className="mt-0.5 text-[11px] text-cream/45">
               {when(prayer.created_at)} · {VIS_LABEL[prayer.visibility]}
             </p>
           </div>
@@ -455,7 +455,7 @@ export function PrayerCard({
               type="button"
               onClick={() => setMenuOuvert((o) => !o)}
               aria-label="Options du sujet"
-              className="grid h-10 w-8 place-items-center rounded-full text-cream/60 active:bg-white/10"
+              className="grid h-8 w-7 place-items-center rounded-full text-cream/50 active:bg-white/10"
             >
               <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current" aria-hidden>
                 <circle cx="12" cy="5" r="1.8" />
@@ -527,15 +527,15 @@ export function PrayerCard({
         <TexteMembre
           texte={prayer.body}
           rendu={(t) => (
-            <MentionText text={t} className="mt-3.5 block whitespace-pre-wrap text-[16px] leading-relaxed text-cream/90" />
+            <MentionText text={t} className="mt-2.5 block whitespace-pre-wrap text-[13.5px] leading-[1.5] text-cream/85" />
           )}
         />
 
         {/* Thèmes du sujet */}
         {themes.length ? (
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="mt-2.5 flex flex-wrap gap-1.5">
             {themes.map((t) => (
-              <span key={t} className="rounded-full border border-white/12 bg-white/[0.04] px-3.5 py-1.5 text-[13px] text-cream/80">
+              <span key={t} className="rounded-full border border-white/[0.09] bg-white/[0.03] px-2.5 py-[3px] text-[11px] text-cream/70">
                 {t}
               </span>
             ))}
@@ -580,7 +580,7 @@ export function PrayerCard({
         ) : null}
 
         {/* Actions : Je prie · J'aime · Encourager · Partager · Carnet */}
-        <div className="mt-4 flex items-center gap-1.5">
+        <div className="mt-3 flex items-center gap-1.5">
           <span className="relative inline-flex min-w-0 flex-1">
             <button
               type="button"
@@ -606,12 +606,12 @@ export function PrayerCard({
                 if (quickTimer.current) clearTimeout(quickTimer.current);
               }}
               onContextMenu={(e) => e.preventDefault()}
-              className={`${pastille} w-full select-none px-3 text-[14px] ${
-                mine("pray") ? "border-dawn-400 bg-dawn-400 text-night-950" : "border-dawn-400/70 bg-dawn-400/[0.06] text-dawn-400"
+              className={`${pastille} w-full select-none px-2.5 ${
+                mine("pray") ? "border-dawn-400 bg-dawn-400 text-night-950" : "border-dawn-400/50 bg-dawn-400/[0.05] text-dawn-400"
               }`}
               title="Appui long : plus de réactions"
             >
-              <HandsGlyph className="h-[20px] w-[20px] shrink-0" /> Je prie{count("pray") > 0? ` · ${count("pray")}`: ""}
+              <HandsGlyph className="h-4 w-4 shrink-0" /> Je prie{count("pray") > 0? ` · ${count("pray")}`: ""}
             </button>
             {quickOpen ? (
               <>
@@ -636,10 +636,10 @@ export function PrayerCard({
               </>
             ) : null}
           </span>
-          <button type="button" onClick={() => react("heart")} aria-label="J'aime" className={`${pastille} w-[52px] shrink-0 ${mine("heart") ? "border-red-400/50 bg-red-500/10 text-cream" : neutre}`}>
+          <button type="button" onClick={() => react("heart")} aria-label="J'aime" className={`${pastille} w-[48px] shrink-0 ${mine("heart") ? "border-red-400/50 bg-red-500/10 text-cream" : neutre}`}>
             <svg
               viewBox="0 0 24 24"
-              className={`h-[20px] w-[20px] ${count("heart") > 0 || mine("heart") ? "fill-red-500 text-red-500" : "fill-none text-cream/80"} stroke-current`}
+              className={`h-4 w-4 ${count("heart") > 0 || mine("heart") ? "fill-red-500 text-red-500" : "fill-none text-cream/80"} stroke-current`}
               strokeWidth={1.8}
               aria-hidden
             >
@@ -647,14 +647,14 @@ export function PrayerCard({
             </svg>
             {count("heart") > 0? count("heart"): ""}
           </button>
-          <button type="button" onClick={openComments} aria-label="Encourager" className={`${pastille} w-[52px] shrink-0 ${neutre}`}>
-            <svg viewBox="0 0 24 24" className="h-[20px] w-[20px] fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+          <button type="button" onClick={openComments} aria-label="Encourager" className={`${pastille} w-[48px] shrink-0 ${neutre}`}>
+            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
               <path d="M21 11.5a8 8 0 0 1-11.5 7.2L4 20l1.3-4.5A8 8 0 1 1 21 11.5z" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             {commentCount > 0? commentCount: ""}
           </button>
-          <button type="button" onClick={partager} aria-label="Partager" className={`${pastille} w-10 shrink-0 ${neutre}`}>
-            <svg viewBox="0 0 24 24" className="h-[20px] w-[20px] fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+          <button type="button" onClick={partager} aria-label="Partager" className={`${pastille} w-9 shrink-0 ${neutre}`}>
+            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
               <path d="M14 5l7 7-7 7M21 12H10a7 7 0 0 0-7 7" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
@@ -662,9 +662,9 @@ export function PrayerCard({
             type="button"
             onClick={toggleSavePub}
             aria-label={savedPub? "Retirer du carnet": "Enregistrer dans mon carnet"}
-            className={`${pastille} w-10 shrink-0 ${savedPub ? "border-dawn-400/50 bg-dawn-400/15 text-dawn-300" : neutre}`}
+            className={`${pastille} w-9 shrink-0 ${savedPub ? "border-dawn-400/50 bg-dawn-400/15 text-dawn-300" : neutre}`}
           >
-            {savedPub? <BookmarkFilledGlyph className="h-[20px] w-[20px]" />: <BookmarkGlyph className="h-[20px] w-[20px]" />}
+            {savedPub? <BookmarkFilledGlyph className="h-4 w-4" />: <BookmarkGlyph className="h-4 w-4" />}
           </button>
         </div>
 
@@ -689,28 +689,28 @@ export function PrayerCard({
 
         {/* Aperçu : le dernier encouragement + « Voir les N commentaires » */}
         {!showComments && apercu ? (
-          <div className="mt-4 rounded-2xl border border-white/[0.08] bg-white/[0.04] p-3.5">
-            <div className="flex items-center gap-3">
-              <Avatar pseudo={apercu.author?.pseudo} url={apercu.author?.avatar_url} size={40} />
+          <div className="mt-2.5 rounded-xl border border-white/[0.06] bg-white/[0.03] px-2.5 py-2">
+            <div className="flex items-center gap-2.5">
+              <Avatar pseudo={apercu.author?.pseudo} url={apercu.author?.avatar_url} size={30} />
               <div className="min-w-0 flex-1">
-                <p className="flex min-w-0 items-center gap-1.5 text-[14.5px]">
+                <p className="flex min-w-0 items-center gap-1.5 text-[12.5px]">
                   <span className="truncate font-bold text-cream">{apercu.author?.pseudo ?? "Ami(e)"}</span>
-                  {apercu.author?.verified ? <VerifiedBadge className="h-4 w-4 shrink-0" /> : null}
-                  <span className="shrink-0 text-[12.5px] text-cream/45">{when(apercu.created_at)}</span>
+                  {apercu.author?.verified ? <VerifiedBadge className="h-3.5 w-3.5 shrink-0" /> : null}
+                  <span className="shrink-0 text-[10.5px] text-cream/40">{when(apercu.created_at)}</span>
                 </p>
                 {apercu.audio_url && !voiceExpired(apercu.created_at) ? (
                   <div className="mt-1.5">
                     <VoiceNotePlayer src={apercu.audio_url} />
                   </div>
                 ) : apercu.body ? (
-                  <p className="mt-0.5 line-clamp-2 text-[14px] leading-snug text-cream/75">{apercu.body}</p>
+                  <p className="mt-0.5 line-clamp-2 text-[12.5px] leading-snug text-cream/70">{apercu.body}</p>
                 ) : null}
               </div>
             </div>
           </div>
         ) : null}
         {!showComments && commentCount > 0 ? (
-          <button type="button" onClick={openComments} className="mt-3 inline-flex items-center gap-1 text-[14.5px] font-semibold text-cream/70">
+          <button type="button" onClick={openComments} className="mt-2 inline-flex items-center gap-0.5 text-[12px] font-medium text-cream/55">
             {commentCount > 1 ? `Voir les ${commentCount} commentaires` : "Voir le commentaire"}
             <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2} aria-hidden>
               <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />

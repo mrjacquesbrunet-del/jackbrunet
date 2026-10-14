@@ -41,27 +41,27 @@ export function VersetPriere({ className = "" }: { className?: string }) {
       onClick={() => setI((x) => (x + 1) % LISTE.length)}
       aria-label="Verset suivant"
       translate="no"
-      className={`notranslate flex min-h-[112px] w-full flex-col justify-center rounded-[22px] border border-dawn-400/35 bg-night-900/80 px-3.5 py-3 text-left shadow-[0_0_30px_-12px_rgba(202,240,0,.35)] ${className}`}
+      className={`notranslate flex w-full flex-col rounded-2xl border border-dawn-400/25 bg-night-900/70 px-3 pb-2 pt-2.5 text-left ${className}`}
     >
-      <span className="flex items-start gap-2.5">
-        <Plume className="mt-0.5 h-5 w-5 shrink-0 text-dawn-400" />
+      <span className="flex items-start gap-2">
+        <Plume className="mt-0.5 h-4 w-4 shrink-0 text-dawn-400" />
         <AnimatePresence mode="wait">
           <motion.span
             key={i}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.35 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
             className="min-w-0"
           >
-            <span className="line-clamp-4 block text-[12.5px] leading-snug text-cream/90">« {v.texte} »</span>
-            <span className="mt-1 block text-[11.5px] text-cream/50">{v.ref}</span>
+            <span className="line-clamp-3 block text-[11px] leading-[1.35] text-cream/85">« {v.texte} »</span>
+            <span className="mt-0.5 block text-[10px] text-cream/45">{v.ref}</span>
           </motion.span>
         </AnimatePresence>
       </span>
-      <span className="mt-2 flex justify-center gap-1" aria-hidden>
+      <span className="mt-1.5 flex justify-center gap-1" aria-hidden>
         {[0, 1, 2].map((k) => (
-          <span key={k} className={`h-1 rounded-full transition-all ${i % 3 === k ? "w-3.5 bg-dawn-400" : "w-1 bg-white/30"}`} />
+          <span key={k} className={`h-[3px] rounded-full transition-all ${i % 3 === k ? "w-2.5 bg-dawn-400" : "w-[3px] bg-white/25"}`} />
         ))}
       </span>
     </button>

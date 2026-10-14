@@ -58,11 +58,14 @@ export function VoiceRecorderButton({
   userId,
   onSend,
   tone = "light",
+  petit = false,
 }: {
   userId: string;
   /** Reçoit l'URL publique de la note vocale une fois envoyée. */
   onSend: (audioUrl: string) => Promise<void> | void;
   tone?: "light" | "dark";
+  /** Bouton micro réduit (composeur compact du mur). */
+  petit?: boolean;
 }) {
   const [supported, setSupported] = useState(false);
   const [state, setState] = useState<"idle" | "recording" | "preview" | "sending">("idle");
@@ -273,7 +276,7 @@ export function VoiceRecorderButton({
         disabled={state === "sending"}
         aria-label="Envoyer une note vocale"
         title="Note vocale"
-        className={`grid h-10 w-10 shrink-0 place-items-center rounded-full transition-colors active:scale-95 disabled:opacity-50 ${
+        className={`grid ${petit ? "h-8 w-8" : "h-10 w-10"} shrink-0 place-items-center rounded-full transition-colors active:scale-95 disabled:opacity-50 ${
           dark
             ? "bg-white/10 text-cream/80 hover:bg-white/15"
             : "bg-night-900/[0.06] text-night-900/65 hover:bg-night-900/10"
@@ -282,7 +285,7 @@ export function VoiceRecorderButton({
         {state === "sending" ? (
           <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
         ) : (
-          <MicIcon className="h-5 w-5" />
+          <MicIcon className={petit ? "h-4 w-4" : "h-5 w-5"} />
         )}
       </button>
       {err ? (
