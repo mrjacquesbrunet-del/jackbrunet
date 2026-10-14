@@ -173,7 +173,7 @@
   "components/ecole/FormationView.tsx:738"
  ],
  "· prie en scrollant, sans être dérangé": [
-  "components/community/CommunityView.tsx:363"
+  "components/community/CommunityView.tsx:356"
  ],
  "· Privé": [
   "components/community/GroupView.tsx:168"
@@ -3122,7 +3122,7 @@
   "components/community/CommunityLanding.tsx:27"
  ],
  "Abonne-toi à des membres pour voir leurs prières ici.": [
-  "components/community/CommunityView.tsx:394"
+  "components/community/CommunityView.tsx:387"
  ],
  "Abonne-toi pour voir ses prières réservées à ses abonnés.": [
   "components/community/MemberView.tsx:397"
@@ -3157,7 +3157,7 @@
   "components/community/AdminBatisseurs.tsx:104"
  ],
  "Abonnés, ceux qui me suivent": [
-  "components/community/CommunityView.tsx:344"
+  "components/community/CommunityView.tsx:337"
  ],
  "Abraham": [
   "components/ecole/EcoleView.tsx:350",
@@ -3436,7 +3436,7 @@
   "components/home/FeaturedPredications.tsx:54"
  ],
  "Activer": [
-  "components/community/CommunityView.tsx:373",
+  "components/community/CommunityView.tsx:366",
   "components/pwa/ReminderToggle.tsx:98"
  ],
  "Activer la musique": [
@@ -4502,10 +4502,10 @@
   "components/community/PrieresDirect.tsx:175"
  ],
  "Aucune prière exaucée pour l'instant — elles apparaîtront ici quand Dieu agit.": [
-  "components/community/CommunityView.tsx:392"
+  "components/community/CommunityView.tsx:385"
  ],
  "Aucune prière pour l'instant. Sois le premier à partager.": [
-  "components/community/CommunityView.tsx:395"
+  "components/community/CommunityView.tsx:388"
  ],
  "Aucune publication de tes amis pour l'instant — abonne-toi à des membres.": [
   "components/wall/WallSection.tsx:182"
@@ -5965,7 +5965,7 @@
   "components/bible/CommentaryPanel.tsx:69"
  ],
  "Chargement du fil…": [
-  "components/community/CommunityView.tsx:380"
+  "components/community/CommunityView.tsx:373"
  ],
  "Chargement du lexique…": [
   "components/ecole/LexiqueView.tsx:178"
@@ -9058,7 +9058,7 @@
   "components/community/PrayerCard.tsx:479"
  ],
  "Dieu a agi dans ta vie ?": [
-  "components/community/CommunityView.tsx:424"
+  "components/community/CommunityView.tsx:417"
  ],
  "Dieu a agi dans ta vie? Partage ton témoignage. Nous te répondrons et, avec ton accord, nous pourrons le partager pour encourager la communauté.": [
   "app/temoignages/page.tsx:7"
@@ -14335,7 +14335,7 @@
   "app/questions/page.tsx:297"
  ],
  "Impossible de charger le mur de prière.": [
-  "components/community/CommunityView.tsx:383"
+  "components/community/CommunityView.tsx:376"
  ],
  "Incarne la révélation": [
   "components/boutique/RhemaShowcase.tsx:561"
@@ -17691,7 +17691,7 @@
   "components/boutique/RhemaShowcase.tsx:834"
  ],
  "Laisse ton témoignage et encourage la famille.": [
-  "components/community/CommunityView.tsx:425"
+  "components/community/CommunityView.tsx:418"
  ],
  "Laisse une note sur ce jour : ce que tu retiens, une question, une prière…": [
   "components/plans/PlanDuo.tsx:339"
@@ -21288,7 +21288,7 @@
  "Mon profil": [
   "app/memoriser/page.tsx:467",
   "app/profil/page.tsx:5",
-  "components/community/CommunityView.tsx:270"
+  "components/games/GamesHub.tsx:160"
  ],
  "Mon profil / Se connecter": [
   "components/layout/Header.tsx:104"
@@ -22774,11 +22774,14 @@
  "Partage tes sujets, prie pour les autres, reçois des encouragements d'une vraie communauté.": [
   "app/app/page.tsx:43"
  ],
+ "Partage ton sujet et prie pour les autres.": [
+  "components/community/CommunityView.tsx:272"
+ ],
  "Partage un plan, une percée, un sujet de prière… (colle un lien, il sera cliquable)": [
   "components/community/GroupView.tsx:366"
  ],
  "Partage un sujet de prière…": [
-  "components/community/CommunityView.tsx:315"
+  "components/community/CommunityView.tsx:308"
  ],
  "Partage un verset, une image du studio ou une carte depuis l'app. Bronze à 10 partages, argent à 50, or à 200.": [
   "lib/badges.ts:275"
@@ -22788,9 +22791,6 @@
  ],
  "Partage-nous ton": [
   "components/home/Testimonies.tsx:73"
- ],
- "Partage, prie pour les autres, encourage la famille. Vous portez les uns les autres.": [
-  "components/community/CommunityView.tsx:278"
  ],
  "Partager": [
   "components/audio/ListenScreen.tsx:1483",
@@ -24267,7 +24267,7 @@
   "components/community/PrieresDirect.tsx:273"
  ],
  "prie": [
-  "components/community/CommunityView.tsx:361",
+  "components/community/CommunityView.tsx:354",
   "components/community/PrayerTime.tsx:302",
   "components/home/DailyPrayerSpotlight.tsx:99"
  ],
@@ -24372,7 +24372,7 @@
   "components/community/ProfileView.tsx:1180"
  ],
  "Privé, moi seul": [
-  "components/community/CommunityView.tsx:345"
+  "components/community/CommunityView.tsx:338"
  ],
  "privés.": [
   "components/community/FollowListModal.tsx:61"
@@ -24586,7 +24586,7 @@
   "components/community/PrayerCard.tsx:39"
  ],
  "Public, tout le monde": [
-  "components/community/CommunityView.tsx:343"
+  "components/community/CommunityView.tsx:336"
  ],
  "Publicain": [
   "config/chemin/chapitre-miracles.ts:77",
@@ -24602,7 +24602,7 @@
  ],
  "Publication…": [
   "app/questions/page.tsx:830",
-  "components/community/CommunityView.tsx:323",
+  "components/community/CommunityView.tsx:316",
   "components/community/InAppShare.tsx:244"
  ],
  "publications": [
@@ -24625,7 +24625,7 @@
   "components/community/CommunityLanding.tsx:37"
  ],
  "Publier": [
-  "components/community/CommunityView.tsx:323",
+  "components/community/CommunityView.tsx:316",
   "components/community/GroupView.tsx:371",
   "components/plans/PlanCommentaires.tsx:132"
  ],
@@ -27298,7 +27298,7 @@
   "components/audio/PodcastPlayerPlein.tsx:159"
  ],
  "Réessayer": [
-  "components/community/CommunityView.tsx:386",
+  "components/community/CommunityView.tsx:379",
   "components/community/MakeVersePublicButton.tsx:51"
  ],
  "Réessayer l'enregistrement": [
@@ -28617,7 +28617,7 @@
   "config/chemin/chapitre-ezechiel.ts:45"
  ],
  "Scrolle": [
-  "components/community/CommunityView.tsx:361",
+  "components/community/CommunityView.tsx:354",
   "components/community/PrayerTime.tsx:302",
   "components/home/DailyPrayerSpotlight.tsx:99"
  ],
@@ -32335,7 +32335,7 @@
   "components/mission/SoutienEnUnClic.tsx:50"
  ],
  "Vérifie ta connexion internet, puis réessaie.": [
-  "components/community/CommunityView.tsx:384"
+  "components/community/CommunityView.tsx:377"
  ],
  "vérité": [
   "config/chemin/chapitre-pierre-jean.ts:70",
@@ -32697,7 +32697,7 @@
   "components/games/FrondeScreen.tsx:90"
  ],
  "Visibilité": [
-  "components/community/CommunityView.tsx:340"
+  "components/community/CommunityView.tsx:333"
  ],
  "Visibilité communautaire": [
   "app/confidentialite/page.tsx:182"
