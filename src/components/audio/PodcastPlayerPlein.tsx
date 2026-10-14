@@ -383,7 +383,7 @@ export function PodcastPlayerPlein() {
           </div>
 
           {t.author ? (
-            <AuthorCard open={fiche} onClose={() => setFiche(false)} z="z-[140]" author={ficheAuteur(t.author, t.emission).info} photo={ficheAuteur(t.author, t.emission).photo} />
+            <AuthorCard open={fiche} onClose={() => setFiche(false)} avantNavigation={fermerLecteurPodcast} z="z-[140]" author={ficheAuteur(t.author, t.emission).info} photo={ficheAuteur(t.author, t.emission).photo} />
           ) : null}
 
           {/* Menu « … » */}

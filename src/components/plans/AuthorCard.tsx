@@ -59,6 +59,7 @@ export function AuthorCard({
   author,
   photo,
   z = "z-[80]",
+  avantNavigation,
 }: {
   open: boolean;
   onClose: () => void;
@@ -66,6 +67,9 @@ export function AuthorCard({
   photo?: string;
   /** Plan d'affichage (au-dessus du lecteur podcast plein écran : z-[140]). */
   z?: string;
+  /** Appelé avant d'ouvrir un lien de l'app (ex. réduire le lecteur plein
+   * écran, sinon la page s'ouvre derrière lui). */
+  avantNavigation?: () => void;
 }) {
   const [profilId, setProfilId] = useState<string | null>(null);
   useEffect(() => {
@@ -80,6 +84,10 @@ export function AuthorCard({
   }, [open, author.name]);
 
   if (!open) return null;
+  const naviguer = () => {
+    avantNavigation?.();
+    onClose();
+  };
   const lienProfil = profilId ? `/membre?u=${profilId}` : null;
 
   return (
@@ -104,7 +112,7 @@ export function AuthorCard({
 
         <div className="flex items-center gap-4">
           {lienProfil ? (
-            <Link href={lienProfil} onClick={onClose} aria-label="Voir son profil dans l'app" className="shrink-0">
+            <Link href={lienProfil} onClick={naviguer} aria-label="Voir son profil dans l'app" className="shrink-0">
               {photo ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={photo} alt={author.name} className="h-16 w-16 rounded-full object-cover ring-2 ring-dawn-400/70" />
@@ -124,7 +132,7 @@ export function AuthorCard({
           )}
           <div className="min-w-0">
             {lienProfil ? (
-              <Link href={lienProfil} onClick={onClose} className="group inline-flex items-center gap-1.5">
+              <Link href={lienProfil} onClick={naviguer} className="group inline-flex items-center gap-1.5">
                 <span className="font-display text-xl font-extrabold underline-offset-4 group-hover:underline">{author.name}</span>
                 <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 fill-none stroke-current text-cream/50" strokeWidth={2.2} aria-hidden>
                   <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
@@ -135,7 +143,7 @@ export function AuthorCard({
             )}
             {author.role ? <p className="text-sm text-dawn-300">{author.role}</p> : null}
             {lienProfil ? (
-              <Link href={lienProfil} onClick={onClose} className="mt-0.5 inline-block text-[12.5px] font-semibold text-cream/55 underline underline-offset-2">
+              <Link href={lienProfil} onClick={naviguer} className="mt-0.5 inline-block text-[12.5px] font-semibold text-cream/55 underline underline-offset-2">
                 Voir son profil dans l&apos;app
               </Link>
             ) : null}
@@ -163,7 +171,7 @@ export function AuthorCard({
               {author.resources.map((r) =>
                 estBoutique(r) ? (
                   r.url.startsWith("/") ? (
-                    <Link key={r.label} href={r.url} onClick={onClose} className="halo-boutique inline-flex items-center gap-1.5 rounded-full border border-dawn-400 bg-dawn-400/10 px-4 py-2 text-sm font-bold text-dawn-400">
+                    <Link key={r.label} href={r.url} onClick={naviguer} className="halo-boutique inline-flex items-center gap-1.5 rounded-full border border-dawn-400 bg-dawn-400/10 px-4 py-2 text-sm font-bold text-dawn-400">
                       <SacIcon className="h-4 w-4" />
                       {r.label}
                     </Link>
@@ -177,7 +185,7 @@ export function AuthorCard({
                   <Link
                     key={r.label}
                     href={r.url}
-                    onClick={onClose}
+                    onClick={naviguer}
                     className="rounded-full border border-cream/20 px-4 py-2 text-sm font-semibold text-cream/85"
                   >
                     {r.label}
