@@ -246,8 +246,8 @@ function AccessForAll() {
 const STORY_STATS = [
   { big: "6", small: "années de partage" },
   { big: "+1 000", small: "vidéos publiées" },
-  { big: "+100 M", small: "de personnes touchées" },
-];
+  { big: "+100", unite: "millions", small: "de personnes touchées" },
+] as { big: string; unite?: string; small: string }[];
 
 function Story() {
   return (
@@ -281,6 +281,11 @@ function Story() {
               <p className="font-display text-3xl font-extrabold text-dawn-400 sm:text-4xl">
                 {s.big}
               </p>
+              {s.unite ? (
+                <p className="font-display text-base font-extrabold leading-tight text-dawn-400 sm:text-lg">
+                  {s.unite}
+                </p>
+              ) : null}
               <p className="mt-1 text-[11px] text-cream/50">{s.small}</p>
             </div>
           ))}
