@@ -450,9 +450,8 @@ function BackCover() {
                 actions de grâce — et ce que Dieu te dit de faire.
               </p>
               <p className="mt-3 text-sm font-semibold text-cream/85">
-                <span className="mr-1.5 text-cream/40 line-through">11,90 €</span>
-                10,90 € · ou en pack livre + carnet à{" "}
-                <span className="text-dawn-300">35,90 €</span>
+                9,90 € · avec le livre, 39,80 € et{" "}
+                <span className="text-dawn-300">la livraison offerte</span>
               </p>
               <a href="#precommande" className="btn-primary mt-4 inline-flex text-sm">
                 Voir les offres
@@ -515,11 +514,7 @@ function Hero() {
         Préface de Josy W.Brunet
       </p>
       <p className="mt-3 text-sm font-semibold text-cream/45">
-        <span className="rounded-full bg-dawn-400/15 px-2.5 py-1 text-dawn-300">
-          Offre de lancement
-        </span>{" "}
-        <span className="line-through">29,90 €</span>{" "}
-        <span className="text-cream">26,90 €</span> · 740 pages
+        <span className="text-cream">29,90 €</span> · 740 pages · livraison offerte dès 39 €
       </p>
       <div className="mt-5 rounded-2xl border border-dawn-400/30 bg-dawn-400/[0.08] px-6 py-4">
         <p className="text-sm font-extrabold uppercase tracking-[0.25em] text-dawn-300">
@@ -748,37 +743,25 @@ function Preorder() {
               Sortie officielle le <strong className="text-dawn-300">{RELEASE_LABEL}</strong>
             </p>
 
-            {/* Les 3 offres (prix de lancement) — le pack mis en avant */}
+            {/* Les offres — le pack mis en avant (livraison offerte dès 39 €) */}
             <div className="mt-4 space-y-2">
               <OfferRow href={SHOP_LINKS.livre}>
                 <div>
                   <p className="text-sm font-bold">Le livre RHEMA</p>
                   <p className="text-[11px] text-cream/50">
-                    365 révélations · 740 pages ·{" "}
-                    <span className="text-dawn-300">offre de lancement</span>
+                    365 révélations · 740 pages
                   </p>
                 </div>
-                <p className="shrink-0 text-right font-display text-base font-extrabold">
-                  <span className="mr-1.5 text-xs font-semibold text-cream/40 line-through">
-                    29,90 €
-                  </span>
-                  26,90 €
-                </p>
+                <p className="shrink-0 text-right font-display text-base font-extrabold">29,90 €</p>
               </OfferRow>
               <OfferRow href={SHOP_LINKS.carnet}>
                 <div>
                   <p className="text-sm font-bold">Le carnet RHEMA</p>
                   <p className="text-[11px] text-cream/50">
-                    Pour noter ce que Dieu te dit ·{" "}
-                    <span className="text-dawn-300">offre de lancement</span>
+                    Pour noter ce que Dieu te dit
                   </p>
                 </div>
-                <p className="shrink-0 text-right font-display text-base font-extrabold">
-                  <span className="mr-1.5 text-xs font-semibold text-cream/40 line-through">
-                    11,90 €
-                  </span>
-                  10,90 €
-                </p>
+                <p className="shrink-0 text-right font-display text-base font-extrabold">9,90 €</p>
               </OfferRow>
               <OfferRow href={SHOP_LINKS.ebook}>
                 <div>
@@ -796,14 +779,17 @@ function Preorder() {
                 <div>
                   <p className="text-sm font-bold">Livre + carnet</p>
                   <p className="text-[11px] text-cream/55">
-                    <span className="line-through">41,80 €</span> · tu économises 5,90 €
+                    Livraison offerte
                   </p>
                 </div>
                 <p className="shrink-0 font-display text-lg font-extrabold text-dawn-300">
-                  35,90 €
+                  39,80 €
                 </p>
               </OfferRow>
             </div>
+            <p className="mt-3 text-center text-xs font-semibold text-cream/55">
+              Livraison offerte dès 39 € d&apos;achat
+            </p>
           </div>
         </div>
 

@@ -27,9 +27,8 @@ export function RhemaBanner() {
                 RHEMA — <span className="text-gradient">une révélation chaque jour</span>
               </h2>
               <p className="mt-2 text-sm text-cream/70">
-                365 révélations bibliques · 740 pages · Offre de lancement{" "}
-                <s className="text-cream/40">29,90&nbsp;€</s>{" "}
-                <b className="text-dawn-400">26,90&nbsp;€</b>
+                365 révélations bibliques · 740 pages ·{" "}
+                <b className="text-dawn-400">29,90&nbsp;€</b>
               </p>
             </div>
             <span className="btn-primary shrink-0">Découvrir le livre</span>
