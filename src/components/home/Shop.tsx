@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { SectionHeader } from "@/components/ui/Section";
@@ -45,18 +46,18 @@ export function Shop() {
                 />
               ): null}
               <span className="absolute left-4 top-4 rounded-full bg-night-950/80 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-dawn-300 backdrop-blur">
-                Bientôt disponible
+                Disponible maintenant
               </span>
             </div>
 
             {/* Texte + inscription */}
             <div>
               <span className="inline-flex items-center gap-2 rounded-full bg-dawn-400 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-night-950 shadow-glow">
-                Grande annonce · à paraître
+                Nouveau · disponible maintenant
               </span>
               <h3 className="mt-4 font-display text-3xl font-extrabold leading-[1.05] sm:text-4xl">
-                Un grand projet,{" "}
-                <span className="text-gradient">bientôt entre tes mains</span>
+                Mon livre est enfin{" "}
+                <span className="text-gradient">entre tes mains</span>
               </h3>
               <p className="mt-4 text-night-900/75">
                 RHEMA, c'est l'aboutissement de tout ce que je construis depuis des
@@ -81,13 +82,14 @@ export function Shop() {
               </ul>
 
               <div className="mt-7 rounded-2xl border border-night-900/10 bg-cream/70 p-5">
-                <p className="font-display text-lg font-bold">Le livre arrive bientôt.</p>
+                <p className="font-display text-lg font-bold">Disponible maintenant.</p>
                 <p className="mt-1 text-sm text-night-900/65">
-                  Inscris-toi pour être prévenu(e) en priorité le jour de sa sortie.
+                  Le livre à 29,90 €, le carnet de méditation à 9,90 €, et la livraison
+                  offerte dès 39 €.
                 </p>
-                <div className="mt-4">
-                  <NewsletterForm source="boutique" cta="Me prévenir de la sortie" note="" />
-                </div>
+                <Link href="/boutique/#commander" className="btn-primary mt-4 inline-flex">
+                  Commander maintenant
+                </Link>
               </div>
             </div>
           </div>

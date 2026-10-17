@@ -9,9 +9,9 @@ import { RHEMA_PREORDER_URL, SHOP_LINKS } from "@/config/stripe";
 
 const COVER = "/img/rhema-cover.webp";
 
-/** Sortie officielle du livre. */
-const RELEASE_AT = new Date("2026-09-07T00:00:00+02:00");
-const RELEASE_LABEL = "7 septembre";
+/** Sortie officielle du livre (le compte à rebours ne s'affiche plus une fois la date passée). */
+const RELEASE_AT = new Date("2026-10-17T00:00:00+02:00");
+const RELEASE_LABEL = "17 octobre";
 
 /** Compte à rebours sobre jusqu'à la sortie (masqué une fois passée). */
 function Countdown() {
@@ -45,7 +45,7 @@ function Countdown() {
 /**
  * Vitrine RHEMA façon « keynote » : sombre, épurée, typographie géante,
  * livre en vue ÉCLATÉE au fil du scroll (les 4 éléments d'une journée se
- * détachent du livre), bandeaux de chiffres, et précommande forte.
+ * détachent du livre), bandeaux de chiffres, et commande mise en avant.
  */
 /** Étiquette numérotée avec trait (style « schéma technique », comme la vue
  * éclatée) : glisse en place quand elle entre à l'écran. */
@@ -458,7 +458,7 @@ function BackCover() {
                 9,90 € · avec le livre, 39,80 € et{" "}
                 <span className="text-dawn-300">la livraison offerte</span>
               </p>
-              <a href="#precommande" className="btn-primary mt-4 inline-flex text-sm">
+              <a href="#commander" className="btn-primary mt-4 inline-flex text-sm">
                 Voir les offres
               </a>
             </div>
@@ -523,15 +523,14 @@ function Hero() {
       </p>
       <div className="mt-5 rounded-2xl border border-dawn-400/30 bg-dawn-400/[0.08] px-6 py-4">
         <p className="text-sm font-extrabold uppercase tracking-[0.25em] text-dawn-300">
-          Sortie le {RELEASE_LABEL}
+          Disponible maintenant
         </p>
-        <div className="mt-3">
-          <Countdown />
-        </div>
+        <p className="mt-1 text-xs font-semibold text-cream/55">Sorti le {RELEASE_LABEL}</p>
+        <Countdown />
       </div>
       <div className="mt-7 flex items-center gap-3">
-        <a href="#precommande" className="btn-primary">
-          {RHEMA_PREORDER_URL? "Précommander": "Réserver mon exemplaire"}
+        <a href="#commander" className="btn-primary">
+          Commander maintenant
         </a>
       </div>
 
@@ -723,11 +722,11 @@ function Manifesto() {
 }
 
 /* ------------------------------------------------------------------ */
-/* 5. Précommande                                                      */
+/* 5. Commander                                                        */
 /* ------------------------------------------------------------------ */
 function Preorder() {
   return (
-    <section id="precommande" className="px-6 pb-24 pt-4 sm:pb-32">
+    <section id="commander" className="px-6 pb-24 pt-4 sm:pb-32">
       <div className="bg-topo-dark relative mx-auto max-w-2xl overflow-hidden rounded-4xl border border-dawn-400/25 p-7 sm:p-10">
         <div className="blob -right-14 -top-12 h-44 w-44 bg-dawn-400/20" />
         <div className="relative grid items-center gap-8 sm:grid-cols-[auto_1fr]">
@@ -739,13 +738,13 @@ function Preorder() {
           />
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-dawn-300">
-              Édition de lancement
+              Disponible maintenant
             </p>
             <h3 className="mt-2 font-display text-2xl font-extrabold sm:text-3xl">
-              Réserve ton exemplaire
+              Commande ton exemplaire
             </h3>
             <p className="mt-2 text-sm text-cream/65">
-              Sortie officielle le <strong className="text-dawn-300">{RELEASE_LABEL}</strong>
+              Sorti le <strong className="text-dawn-300">{RELEASE_LABEL}</strong>, livré chez toi
             </p>
 
             {/* Les offres — le pack mis en avant (livraison offerte dès 39 €) */}
@@ -798,7 +797,7 @@ function Preorder() {
           </div>
         </div>
 
-        {/* Précommander directement, ou laisser son email — pleine largeur */}
+        {/* Commander directement, ou laisser son email — pleine largeur */}
         <div className="relative mt-8">
           {RHEMA_PREORDER_URL? (
             <a
@@ -807,7 +806,7 @@ function Preorder() {
               rel="noopener noreferrer"
               className="btn-primary flex w-full justify-center py-4 text-base"
             >
-              Précommander maintenant
+              Commander maintenant
             </a>
           ): (
             <p className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-center text-sm text-cream/60">
@@ -822,8 +821,7 @@ function Preorder() {
           </div>
 
           <p className="text-sm font-semibold text-cream/85">
-            Laisse ton email : tu seras averti(e) en premier à l&apos;ouverture des
-            précommandes, et tu reçois dès maintenant{" "}
+            Pas encore décidé(e) ? Laisse ton email et reçois dès maintenant{" "}
             <span className="text-dawn-300">les 7 premières méditations offertes</span>{" "}
             en ebook.
           </p>
@@ -832,8 +830,8 @@ function Preorder() {
               source="rhema-precommande"
               layout="stacked"
               size="lg"
-              cta="Être averti(e) par email"
-              note="Zéro spam : uniquement la sortie du livre."
+              cta="Recevoir les 7 méditations"
+              note="Gratuit. Désinscription en un clic."
             />
           </div>
         </div>

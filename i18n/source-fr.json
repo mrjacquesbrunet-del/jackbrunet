@@ -35,6 +35,9 @@
  ", et à refaire les": [
   "components/mission/MissionObjectiveHeader.tsx:64"
  ],
+ ", livré chez toi": [
+  "components/boutique/RhemaShowcase.tsx:747"
+ ],
  ", lorsque vous créez un compte et utilisez la communauté, nous traitons:": [
   "app/confidentialite/page.tsx:61"
  ],
@@ -2126,7 +2129,7 @@
   "content/plans.json"
  ],
  "10 min": [
-  "components/boutique/RhemaShowcase.tsx:669"
+  "components/boutique/RhemaShowcase.tsx:668"
  ],
  "100 % gratuit": [
   "components/home/NewsletterCTA.tsx:38",
@@ -2155,6 +2158,9 @@
  ],
  "15 réponses éclair (moins de 3 s)": [
   "lib/missions.ts:29"
+ ],
+ "17 octobre": [
+  "components/boutique/RhemaShowcase.tsx:14"
  ],
  "1er cette semaine": [
   "components/memorize/WeeklyChampions.tsx:91"
@@ -2301,11 +2307,11 @@
   "components/boutique/RhemaShowcase.tsx:423"
  ],
  "365 révélations": [
-  "components/home/Shop.tsx:26",
-  "components/home/Shop.tsx:73"
+  "components/home/Shop.tsx:27",
+  "components/home/Shop.tsx:74"
  ],
  "365 révélations · 740 pages": [
-  "components/boutique/RhemaShowcase.tsx:757"
+  "components/boutique/RhemaShowcase.tsx:756"
  ],
  "365 révélations bibliques · 740 pages ·": [
   "components/home/RhemaBanner.tsx:30"
@@ -2392,10 +2398,7 @@
   "components/layout/EmailPopup.tsx:85"
  ],
  "7 premières méditations": [
-  "components/home/Shop.tsx:102"
- ],
- "7 septembre": [
-  "components/boutique/RhemaShowcase.tsx:14"
+  "components/home/Shop.tsx:104"
  ],
  "700 {0}px Georgia, \"Times New Roman\", serif": [
   "lib/verse-image.ts:279"
@@ -5037,11 +5040,7 @@
  ],
  "Bientôt disponible": [
   "app/questions/page.tsx:318",
-  "components/home/Shop.tsx:48",
   "components/ui/ProductCard.tsx:45"
- ],
- "bientôt entre tes mains": [
-  "components/home/Shop.tsx:59"
  ],
  "Bientôt les premiers témoignages": [
   "components/community/AnsweredFeed.tsx:30"
@@ -5308,7 +5307,7 @@
   "components/home/NewsletterCTA.tsx:15"
  ],
  "Cadeau gratuit": [
-  "components/home/Shop.tsx:100"
+  "components/home/Shop.tsx:102"
  ],
  "Cadeau immédiat. Désinscription en un clic.": [
   "components/layout/EmailPopup.tsx:106"
@@ -5644,7 +5643,7 @@
   "config/chemin/chapitre-esther.ts:25"
  ],
  "center 0.45": [
-  "components/boutique/RhemaShowcase.tsx:604"
+  "components/boutique/RhemaShowcase.tsx:603"
  ],
  "Centrer sur": [
   "components/ecole/ArbresGenealogiques.tsx:885"
@@ -5662,7 +5661,7 @@
   "app/confidentialite/page.tsx:185"
  ],
  "Certains messages t'encourageront.": [
-  "components/boutique/RhemaShowcase.tsx:709"
+  "components/boutique/RhemaShowcase.tsx:708"
  ],
  "Ces années furent à ses yeux comme quelques ___, tant il l'aimait.": [
   "config/chemin/chapitre-jacob.ts:67"
@@ -5877,7 +5876,7 @@
   "components/community/ProfileActivity.tsx:159"
  ],
  "Chaque jour,": [
-  "components/boutique/RhemaShowcase.tsx:612"
+  "components/boutique/RhemaShowcase.tsx:611"
  ],
  "Chaque jour.": [
   "components/boutique/RhemaShowcase.tsx:512"
@@ -6515,6 +6514,14 @@
  ],
  "Comentários, palavras hebraicas e gregas, personagens, lugares, linha do tempo… e a Bíblia em áudio.": [
   "components/app/AppOnboarding.tsx:162"
+ ],
+ "Commande ton exemplaire": [
+  "components/boutique/RhemaShowcase.tsx:744"
+ ],
+ "Commander maintenant": [
+  "components/boutique/RhemaShowcase.tsx:533",
+  "components/boutique/RhemaShowcase.tsx:809",
+  "components/home/Shop.tsx:91"
  ],
  "Comme Abram revenait de délivrer Lot, Melchisédek, roi de Salem et sacrificateur du Dieu Très-Haut, vint à sa rencontre. Il apporta du pain et du vin, et il le bénit en disant : « Béni soit Abram par le Dieu Très-Haut, maître du ciel et de la terre ! » Abram lui donna la dîme de tout.": [
   "config/chemin/chapitre-abraham.ts:52"
@@ -7356,7 +7363,7 @@
   "components/audio/ListenScreen.tsx:942"
  ],
  "Couverture du livre RHEMA": [
-  "components/boutique/RhemaShowcase.tsx:541",
+  "components/boutique/RhemaShowcase.tsx:540",
   "components/home/RhemaBanner.tsx:18"
  ],
  "Create your space.": [
@@ -7471,7 +7478,7 @@
   "components/ecole/EcoleView.tsx:209"
  ],
  "D'autres te confronteront.": [
-  "components/boutique/RhemaShowcase.tsx:711"
+  "components/boutique/RhemaShowcase.tsx:710"
  ],
  "D'avoir abandonné son premier amour": [
   "config/chemin/chapitre-apocalypse.ts:47"
@@ -9288,6 +9295,17 @@
  "Disponible hors-ligne · toucher pour supprimer": [
   "components/bible/BibleDownload.tsx:64"
  ],
+ "Disponible maintenant": [
+  "components/boutique/RhemaShowcase.tsx:526",
+  "components/boutique/RhemaShowcase.tsx:741",
+  "components/home/Shop.tsx:49"
+ ],
+ "Disponible maintenant · sorti le 17 octobre": [
+  "components/home/RhemaBanner.tsx:24"
+ ],
+ "Disponible maintenant.": [
+  "components/home/Shop.tsx:85"
+ ],
  "Disponible sur": [
   "components/app/StoreBadges.tsx:49"
  ],
@@ -9815,9 +9833,6 @@
   "components/app/AppOnboarding.tsx:139",
   "components/app/AppOnboarding.tsx:172"
  ],
- "Édition de lancement": [
-  "components/boutique/RhemaShowcase.tsx:742"
- ],
  "Édom": [
   "config/chemin/chapitre-jacob.ts:88",
   "config/chemin/chapitre-moise.ts:56",
@@ -10284,10 +10299,10 @@
   "components/games/DuelLive.tsx:521"
  ],
  "en ebook": [
-  "components/home/Shop.tsx:102"
+  "components/home/Shop.tsx:104"
  ],
  "en ebook.": [
-  "components/boutique/RhemaShowcase.tsx:828"
+  "components/boutique/RhemaShowcase.tsx:826"
  ],
  "En écrivant que l'enfant s'appellera Jean": [
   "config/chemin/chapitre-bapteme.ts:26"
@@ -10552,6 +10567,9 @@
  ],
  "Entre para reencontrar seu progresso, seu caderno e seus favoritos.": [
   "components/app/AppOnboarding.tsx:182"
+ ],
+ "entre tes mains": [
+  "components/home/Shop.tsx:60"
  ],
  "Entre ton e-mail pour recevoir l'e-book — il sert aussi à t'envoyer nos encouragements (désinscription en un clic).": [
   "components/ecole/FormationView.tsx:113"
@@ -11022,9 +11040,6 @@
  ],
  "Étrangère": [
   "config/chemin/chapitre-ruth.ts:37"
- ],
- "Être averti(e) par email": [
-  "components/boutique/RhemaShowcase.tsx:835"
  ],
  "Être de la maison de David": [
   "config/chemin/chapitre-rencontres.ts:26"
@@ -12072,7 +12087,7 @@
   "components/app/AppOnboarding.tsx:172"
  ],
  "Goûte à RHEMA dès maintenant: je t'offre les 7 premières méditations du livre, en format ebook. Laisse ton email, je te les envoie tout de suite.": [
-  "components/home/Shop.tsx:105"
+  "components/home/Shop.tsx:107"
  ],
  "graça": [
   "components/bible/RechercheBible.tsx:12"
@@ -12099,9 +12114,6 @@
   "app/plans/page.tsx:92",
   "components/bible/BibleReader.tsx:663",
   "components/plans/YearPlanView.tsx:217"
- ],
- "Grande annonce · à paraître": [
-  "components/home/Shop.tsx:55"
  ],
  "Grande photo affichée en haut de ton profil (paysage de préférence).": [
   "components/community/ProfileView.tsx:721"
@@ -12130,8 +12142,8 @@
  ],
  "Gratuit. Désinscription en un clic.": [
   "components/app/ExclusivesView.tsx:90",
-  "components/home/EventsView.tsx:232",
-  "components/home/Shop.tsx:114"
+  "components/boutique/RhemaShowcase.tsx:834",
+  "components/home/EventsView.tsx:232"
  ],
  "Gratuit. Désinscription en un clic. Aucun spam.": [
   "components/ui/NewsletterForm.tsx:38"
@@ -14332,7 +14344,7 @@
   "components/community/CommunityView.tsx:376"
  ],
  "Incarne la révélation": [
-  "components/boutique/RhemaShowcase.tsx:561"
+  "components/boutique/RhemaShowcase.tsx:560"
  ],
  "Inconnu de tous": [
   "config/chemin/chapitre-esaie.ts:86"
@@ -14385,9 +14397,6 @@
  ],
  "Inscription enregistrée.": [
   "app/api/newsletter/route.ts:32"
- ],
- "Inscris-toi pour être prévenu(e) en priorité le jour de sa sortie.": [
-  "components/home/Shop.tsx:86"
  ],
  "inset 0 0 0 2px {0}": [
   "components/games/ScoreBoard.tsx:203"
@@ -16274,7 +16283,7 @@
   "config/chemin/chapitre-elie.ts:27"
  ],
  "L'aboutissement de ces dernières années, à méditer chaque jour.": [
-  "components/home/Shop.tsx:29"
+  "components/home/Shop.tsx:30"
  ],
  "L'abri, la forteresse, les ailes": [
   "config/chemin/chapitre-psaumes.ts:82"
@@ -16451,7 +16460,7 @@
   "config/chemin/chapitre-resurrection.ts:36"
  ],
  "L'e-book RHEMA": [
-  "components/boutique/RhemaShowcase.tsx:773"
+  "components/boutique/RhemaShowcase.tsx:772"
  ],
  "l'eau": [
   "components/mission/MissionObjectiveHeader.tsx:63"
@@ -17061,7 +17070,7 @@
   "config/chemin/chapitre-lettres-paul.ts:52"
  ],
  "La foi, la peur, l'identité, les relations, le pardon, les saisons d'attente, les combats intérieurs, l'appel de Dieu… Chaque méditation poursuit le même objectif : faire passer la Parole de la page jusqu'au cœur, puis du cœur jusqu'à la vie.": [
-  "components/boutique/RhemaShowcase.tsx:714"
+  "components/boutique/RhemaShowcase.tsx:713"
  ],
  "la force": [
   "components/home/DevotionalHero.tsx:10"
@@ -17261,7 +17270,7 @@
  ],
  "La méditation": [
   "components/boutique/RhemaShowcase.tsx:371",
-  "components/boutique/RhemaShowcase.tsx:560"
+  "components/boutique/RhemaShowcase.tsx:559"
  ],
  "La méditation du jour": [
   "components/home/DevotionalHero.tsx:106"
@@ -17684,9 +17693,6 @@
  "Laisse des commentaires d'encouragement sur les sujets de prière. Bronze à 25, argent à 100, or à 300.": [
   "lib/badges.ts:274"
  ],
- "Laisse ton email : tu seras averti(e) en premier à l'ouverture des précommandes, et tu reçois dès maintenant": [
-  "components/boutique/RhemaShowcase.tsx:825"
- ],
  "Laisse ton témoignage et encourage la famille.": [
   "components/community/CommunityView.tsx:418"
  ],
@@ -17799,7 +17805,7 @@
   "config/chemin/chapitre-moise.ts:97"
  ],
  "Le but est simple: t'amener, jour après jour, dans une véritable méditation de la Parole, jusqu'à ce qu'elle prenne racine dans ta vie.": [
-  "components/home/Shop.tsx:68"
+  "components/home/Shop.tsx:69"
  ],
  "Le cacher": [
   "config/chemin/chapitre-ezechiel.ts:35"
@@ -17821,7 +17827,7 @@
  ],
  "Le carnet RHEMA": [
   "components/boutique/RhemaShowcase.tsx:447",
-  "components/boutique/RhemaShowcase.tsx:764"
+  "components/boutique/RhemaShowcase.tsx:763"
  ],
  "Le carnet RHEMA ouvert : verset du jour, rhéma, sujets de prière, actions de grâce, ce que Dieu me dit de faire, notes": [
   "components/boutique/RhemaShowcase.tsx:472"
@@ -18118,10 +18124,10 @@
  ],
  "Le livre": [
   "components/home/DevotionalView.tsx:879",
-  "components/home/Shop.tsx:23"
+  "components/home/Shop.tsx:24"
  ],
- "Le livre arrive bientôt.": [
-  "components/home/Shop.tsx:84"
+ "Le livre à 29,90 €, le carnet de méditation à 9,90 €, et la livraison offerte dès 39 €.": [
+  "components/home/Shop.tsx:87"
  ],
  "Le livre d'Ésaïe": [
   "config/chemin/chapitre-tentation.ts:79"
@@ -18139,7 +18145,7 @@
   "components/ecole/FormationView.tsx:205"
  ],
  "Le livre RHEMA": [
-  "components/boutique/RhemaShowcase.tsx:755",
+  "components/boutique/RhemaShowcase.tsx:754",
   "components/community/ProfileBanners.tsx:30"
  ],
  "Le livre RHEMA n'est pas encore disponible à la vente. Dès son ouverture, les conditions suivantes s'appliqueront.": [
@@ -18280,10 +18286,10 @@
   "config/chemin/chapitre-jeremie.ts:78"
  ],
  "Le pack complet": [
-  "components/boutique/RhemaShowcase.tsx:782"
+  "components/boutique/RhemaShowcase.tsx:781"
  ],
  "Le paiement en ligne ouvre dans quelques jours.": [
-  "components/boutique/RhemaShowcase.tsx:814"
+  "components/boutique/RhemaShowcase.tsx:813"
  ],
  "Le paiement n'a pas abouti. Réessaie dans un instant.": [
   "components/mission/DonLibre.tsx:58",
@@ -18991,7 +18997,7 @@
   "components/ecole/EtudesView.tsx:723"
  ],
  "Lecture & notes": [
-  "components/boutique/RhemaShowcase.tsx:563"
+  "components/boutique/RhemaShowcase.tsx:562"
  ],
  "Lecture à voix haute": [
   "components/audio/GlobalAudioBar.tsx:267"
@@ -19060,7 +19066,7 @@
   "components/home/CadeauRhema.tsx:27"
  ],
  "les 7 premières méditations offertes": [
-  "components/boutique/RhemaShowcase.tsx:827"
+  "components/boutique/RhemaShowcase.tsx:825"
  ],
  "Les 7 premières révélations RHEMA, offertes": [
   "app/cadeau/rhema/page.tsx:5"
@@ -19826,7 +19832,7 @@
   "app/app/page.tsx:33"
  ],
  "Lisible partout dans le monde, dès la sortie": [
-  "components/boutique/RhemaShowcase.tsx:775"
+  "components/boutique/RhemaShowcase.tsx:774"
  ],
  "Liste": [
   "components/ecole/ArbresGenealogiques.tsx:562"
@@ -19841,10 +19847,10 @@
   "components/audio/ListenScreen.tsx:999"
  ],
  "Livraison offerte": [
-  "components/boutique/RhemaShowcase.tsx:787"
+  "components/boutique/RhemaShowcase.tsx:786"
  ],
  "Livraison offerte dès 39 € d'achat": [
-  "components/boutique/RhemaShowcase.tsx:796"
+  "components/boutique/RhemaShowcase.tsx:795"
  ],
  "Livraison: le produit est expédié par l'éditeur à l'adresse indiquée lors de la commande ; les délais et frais de port sont précisés avant le paiement": [
   "app/cgv/page.tsx:61"
@@ -19857,7 +19863,7 @@
   "components/ecole/BibliothequeLivres.tsx:134"
  ],
  "Livre + carnet": [
-  "components/boutique/RhemaShowcase.tsx:785"
+  "components/boutique/RhemaShowcase.tsx:784"
  ],
  "Livre précédent": [
   "components/ecole/BibliothequeLivres.tsx:174"
@@ -20658,9 +20664,6 @@
  "Me prévenir au début": [
   "components/community/PrieresDirect.tsx:765"
  ],
- "Me prévenir de la sortie": [
-  "components/home/Shop.tsx:89"
- ],
  "Me tenir au courant": [
   "components/home/EventsView.tsx:231"
  ],
@@ -21271,6 +21274,9 @@
  "Mon histoire": [
   "app/a-propos/page.tsx:228"
  ],
+ "Mon livre est enfin": [
+  "components/home/Shop.tsx:59"
+ ],
  "Mon nom veut dire « utile ».": [
   "config/chemin/chapitre-lettres-paul.ts:102"
  ],
@@ -21487,7 +21493,7 @@
   "config/chemin/chapitre-disciples.ts:86"
  ],
  "Né de mes Shorts": [
-  "components/home/Shop.tsx:73"
+  "components/home/Shop.tsx:74"
  ],
  "Né de nouveau": [
   "content/plans.json"
@@ -21816,6 +21822,9 @@
  "Nouveau · C'est officiel": [
   "components/home/AppDownloadBanner.tsx:17"
  ],
+ "Nouveau · disponible maintenant": [
+  "components/home/Shop.tsx:56"
+ ],
  "Nouveau chaque matin": [
   "components/home/Hero.tsx:53"
  ],
@@ -22093,7 +22102,7 @@
   "config/chemin/chapitre-gedeon.ts:35"
  ],
  "ou": [
-  "components/boutique/RhemaShowcase.tsx:820",
+  "components/boutique/RhemaShowcase.tsx:819",
   "components/games/VraiFauxScreen.tsx:248"
  ],
  "ou avec ton e-mail": [
@@ -22289,7 +22298,7 @@
   "components/community/AdminSpace.tsx:77"
  ],
  "pages à vivre": [
-  "components/boutique/RhemaShowcase.tsx:667"
+  "components/boutique/RhemaShowcase.tsx:666"
  ],
  "Pages les plus vues (30 j)": [
   "components/community/AnalyticsDashboard.tsx:220"
@@ -22414,7 +22423,7 @@
   "config/chemin/chapitre-daniel.ts:88"
  ],
  "par jour, toute l'année": [
-  "components/boutique/RhemaShowcase.tsx:668"
+  "components/boutique/RhemaShowcase.tsx:667"
  ],
  "Par l'honneur dû aux parents": [
   "config/chemin/chapitre-sinai.ts:45"
@@ -22940,6 +22949,9 @@
  "Pas encore de suggestion, reviens bientôt, la communauté grandit chaque jour": [
   "components/community/MemberSuggestions.tsx:70"
  ],
+ "Pas encore décidé(e) ? Laisse ton email et reçois dès maintenant": [
+  "components/boutique/RhemaShowcase.tsx:824"
+ ],
  "Pas encore prêt(e) à donner?": [
   "app/dons/page.tsx:269"
  ],
@@ -22950,7 +22962,7 @@
   "config/chemin/chapitre-daniel.ts:78"
  ],
  "Pas un livre à lire.": [
-  "components/boutique/RhemaShowcase.tsx:696"
+  "components/boutique/RhemaShowcase.tsx:695"
  ],
  "pas. Si tu as les moyens de l'acheter, même à 5 €, fais-le : c'est ce qui me permet de continuer à l'offrir à ceux qui n'ont rien. Merci de jouer le jeu, avec un cœur honnête.": [
   "components/boutique/RhemaShowcase.tsx:226"
@@ -23796,7 +23808,7 @@
   "config/chemin/chapitre-mer-rouge.ts:89"
  ],
  "Pour la vivre concrètement dans ta journée.": [
-  "components/boutique/RhemaShowcase.tsx:561"
+  "components/boutique/RhemaShowcase.tsx:560"
  ],
  "Pour le jardinier": [
   "config/chemin/chapitre-resurrection.ts:47"
@@ -23832,13 +23844,13 @@
   "config/chemin/chapitre-mer-rouge.ts:89"
  ],
  "Pour noter ce que Dieu te dit": [
-  "components/boutique/RhemaShowcase.tsx:766"
+  "components/boutique/RhemaShowcase.tsx:765"
  ],
  "Pour nourrir les troupeaux": [
   "config/chemin/chapitre-mer-rouge.ts:89"
  ],
  "pour nourrir ta foi": [
-  "components/boutique/RhemaShowcase.tsx:669"
+  "components/boutique/RhemaShowcase.tsx:668"
  ],
  "pour passer au sujet suivant.": [
   "components/community/PrayerTime.tsx:316"
@@ -24134,15 +24146,6 @@
   "components/home/ShortsPlayer.tsx:127",
   "components/home/VideoLibrary.tsx:269"
  ],
- "Précommande — sortie le 7 septembre": [
-  "components/home/RhemaBanner.tsx:24"
- ],
- "Précommander": [
-  "components/boutique/RhemaShowcase.tsx:534"
- ],
- "Précommander maintenant": [
-  "components/boutique/RhemaShowcase.tsx:810"
- ],
  "prédications": [
   "components/home/VideosExperience.tsx:65"
  ],
@@ -24274,7 +24277,7 @@
   "components/community/CommunityLanding.tsx:28"
  ],
  "Prie et déclare": [
-  "components/boutique/RhemaShowcase.tsx:562"
+  "components/boutique/RhemaShowcase.tsx:561"
  ],
  "Prie pour quelqu'un chaque jour, sans manquer un jour : c'est ta meilleure série qui compte. Bronze à 7 jours d'affilée, argent à 30, or à 90.": [
   "lib/badges.ts:241"
@@ -25200,7 +25203,7 @@
   "config/chemin/chapitre-lazare.ts:45"
  ],
  "quatre temps": [
-  "components/boutique/RhemaShowcase.tsx:612"
+  "components/boutique/RhemaShowcase.tsx:611"
  ],
  "Quatre valeurs au": [
   "app/a-propos/page.tsx:215"
@@ -27081,8 +27084,11 @@
  "Recevoir l'ebook gratuit": [
   "components/layout/EmailPopup.tsx:56"
  ],
+ "Recevoir les 7 méditations": [
+  "components/boutique/RhemaShowcase.tsx:833"
+ ],
  "Recevoir les méditations RHEMA": [
-  "components/home/Shop.tsx:113"
+  "components/home/Shop.tsx:115"
  ],
  "Recevoir ma surprise": [
   "app/surprise/page.tsx:43"
@@ -27200,7 +27206,7 @@
   "components/ecole/FormationView.tsx:177"
  ],
  "Reçois les": [
-  "components/home/Shop.tsx:102"
+  "components/home/Shop.tsx:104"
  ],
  "Reçois les prochains lives, déplacements et grandes annonces directement par email.": [
   "components/home/EventsView.tsx:226"
@@ -27793,12 +27799,6 @@
  "Réservé à Pasteur Jack": [
   "components/community/AdminSpace.tsx:89"
  ],
- "Réserve ton exemplaire": [
-  "components/boutique/RhemaShowcase.tsx:745"
- ],
- "Réserver mon exemplaire": [
-  "components/boutique/RhemaShowcase.tsx:534"
- ],
  "Respirant la menace et le meurtre": [
   "config/chemin/chapitre-paul.ts:26"
  ],
@@ -27987,7 +27987,7 @@
   "components/home/FeaturedPredications.tsx:20"
  ],
  "révélations bibliques": [
-  "components/boutique/RhemaShowcase.tsx:666"
+  "components/boutique/RhemaShowcase.tsx:665"
  ],
  "révélations RHEMA": [
   "components/home/CadeauRhema.tsx:27"
@@ -28075,7 +28075,7 @@
   "components/mission/DonnerRapide.tsx:124"
  ],
  "RHEMA est né d'un chemin personnel avec Dieu, et de plusieurs années de partages, de méditations et de vidéos quotidiennes autour de la Parole. Ce dévotionnel a été conçu pour t'accompagner jour après jour, afin que la Parole ne soit pas seulement écoutée, mais méditée, priée et vécue.": [
-  "components/boutique/RhemaShowcase.tsx:701"
+  "components/boutique/RhemaShowcase.tsx:700"
  ],
  "RHEMA pour tous": [
   "components/boutique/RhemaShowcase.tsx:210"
@@ -28087,13 +28087,13 @@
   "components/boutique/RhemaShowcase.tsx:179"
  ],
  "RHEMA,": [
-  "components/home/Shop.tsx:26"
+  "components/home/Shop.tsx:27"
  ],
  "RHEMA, 365 révélations bibliques à méditer chaque jour. Le livre de Jack Brunet — réserve ton exemplaire.": [
   "app/boutique/page.tsx:7"
  ],
  "RHEMA, c'est l'aboutissement de tout ce que je construis depuis des années. On y retrouve l'essence de mes Shorts, ceux qui te parlent tant, rassemblés et approfondis en 365 révélations bibliques, une pour chaque jour de l'année.": [
-  "components/home/Shop.tsx:62"
+  "components/home/Shop.tsx:63"
  ],
  "RHEMA, tes": [
   "app/ebook/rhema/page.tsx:19"
@@ -29204,11 +29204,9 @@
  "Sorti du tombeau": [
   "config/chemin/chapitre-lazare.ts:15"
  ],
- "Sortie le": [
-  "components/boutique/RhemaShowcase.tsx:526"
- ],
- "Sortie officielle le": [
-  "components/boutique/RhemaShowcase.tsx:748"
+ "Sorti le": [
+  "components/boutique/RhemaShowcase.tsx:528",
+  "components/boutique/RhemaShowcase.tsx:747"
  ],
  "Souffrance & doute": [
   "app/questions/page.tsx:30",
@@ -29285,7 +29283,7 @@
   "lib/moderation.ts:31"
  ],
  "start 0.85": [
-  "components/boutique/RhemaShowcase.tsx:604"
+  "components/boutique/RhemaShowcase.tsx:603"
  ],
  "start start": [
   "components/boutique/RhemaShowcase.tsx:491",
@@ -31223,9 +31221,6 @@
  "Un grand poisson m'engloutit trois jours.": [
   "config/chemin/chapitre-jonas.ts:45"
  ],
- "Un grand projet,": [
-  "components/home/Shop.tsx:58"
- ],
  "Un grand prophète": [
   "config/chemin/chapitre-hebreux.ts:26"
  ],
@@ -31297,7 +31292,7 @@
   "config/chemin/chapitre-elisee.ts:67"
  ],
  "Un livre à vivre.": [
-  "components/boutique/RhemaShowcase.tsx:698"
+  "components/boutique/RhemaShowcase.tsx:697"
  ],
  "Un loup et un lion": [
   "config/chemin/chapitre-david.ts:86"
@@ -31666,7 +31661,7 @@
   "config/chemin/chapitre-ecclesiaste.ts:46"
  ],
  "Un titre, un verset, une révélation à méditer.": [
-  "components/boutique/RhemaShowcase.tsx:560"
+  "components/boutique/RhemaShowcase.tsx:559"
  ],
  "Un torrent qu'on ne peut traverser": [
   "config/chemin/chapitre-ezechiel.ts:98"
@@ -31957,7 +31952,7 @@
   "config/chemin/chapitre-cene.ts:97"
  ],
  "Une lecture recommandée, et l'espace pour écrire.": [
-  "components/boutique/RhemaShowcase.tsx:563"
+  "components/boutique/RhemaShowcase.tsx:562"
  ],
  "Une légende ? (facultatif)": [
   "components/stories/StoriesBar.tsx:130"
@@ -32006,7 +32001,7 @@
   "config/chemin/chapitre-elie.ts:36"
  ],
  "Une méditation par jour": [
-  "components/home/Shop.tsx:73"
+  "components/home/Shop.tsx:74"
  ],
  "Une méditation, un verset et une prière, à lire ou à écouter, pour commencer ta journée avec Jésus.": [
   "components/app/AppOnboarding.tsx:102"
@@ -32116,7 +32111,7 @@
   "config/chemin/chapitre-miracles.ts:78"
  ],
  "Une prière et une déclaration de foi.": [
-  "components/boutique/RhemaShowcase.tsx:562"
+  "components/boutique/RhemaShowcase.tsx:561"
  ],
  "Une promesse faite à Abraham": [
   "config/chemin/chapitre-apocalypse.ts:99"
@@ -33125,9 +33120,6 @@
  ],
  "Zachée dans son sycomore": [
   "config/chemin/chapitre-rencontres.ts:99"
- ],
- "Zéro spam : uniquement la sortie du livre.": [
-  "components/boutique/RhemaShowcase.tsx:836"
  ],
  "Zilpa": [
   "config/chemin/chapitre-jacob.ts:68"

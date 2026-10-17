@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
 
-/** Bandeau précommande RHEMA — accueil, juste sous le héros. */
+/** Bandeau RHEMA (livre disponible) — accueil, juste sous le héros. */
 export function RhemaBanner() {
   return (
     <section className="container-x py-8">
@@ -21,7 +21,7 @@ export function RhemaBanner() {
             />
             <div className="text-center sm:flex-1 sm:text-left">
               <span className="inline-flex rounded-full bg-dawn-400 px-3 py-1 text-xs font-bold uppercase tracking-wide text-night-950">
-                Précommande — sortie le 7 septembre
+                Disponible maintenant · sorti le 17 octobre
               </span>
               <h2 className="mt-3 font-display text-2xl font-extrabold leading-tight sm:text-3xl">
                 RHEMA — <span className="text-gradient">une révélation chaque jour</span>
