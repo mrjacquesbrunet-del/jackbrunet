@@ -1,141 +1,214 @@
-# Mettre la page en ligne sur WordPress — pas à pas
+# Mettre le site en ligne sur WordPress — pas à pas
 
-Temps estimé : **15 à 20 minutes**. Aucune compétence technique requise.
+Trois pages à poser, dans cet ordre :
 
-Fichier à utiliser : **`a-coller-dans-wordpress.html`** — les adresses des
-images pointent déjà vers la médiathèque d'unseulnom.org, il n'y a **rien à
-modifier**, juste à copier-coller.
+| Ordre | Page | Adresse visée | Fichier à coller |
+|---|---|---|---|
+| 1 | **Accueil** | `unseulnom.org` | `accueil-a-coller-dans-wordpress.html` |
+| 2 | **À venir** (page parente) | `unseulnom.org/evenement/` | `agenda-a-coller-dans-wordpress.html` |
+| 3 | **Tarbes** (page fille) | `unseulnom.org/evenement/tarbes/` | `a-coller-dans-wordpress.html` |
 
-(`index-wordpress.html` est la version générique, avec un jeton `__URL_IMAGES__`
-à remplacer ; `index.html` est la version de travail.)
-
----
-
-## Étape 1 — Uploader les 9 images
-
-1. Dans WordPress : **Médias → Ajouter un fichier média**
-2. Envoie les **9 fichiers** du dossier `images/` :
-
-   | Fichier | Ce que c'est |
-   |---|---|
-   | `yannis.webp` | portrait Yannis Gautier |
-   | `chriss.webp` | portrait Chriss Campion |
-   | `patchai.webp` | portrait Patchaï Reyes |
-   | `nikita.webp` | portrait Nikita Heugebaert |
-   | `ruben.webp` | portrait Ruben Debard |
-   | `programme-1.webp` | panneau Ouverture des portes |
-   | `programme-2.webp` | panneau Louange |
-   | `programme-3.webp` | panneau Prédication |
-   | `programme-4.webp` | panneau Évangélisation & Guérison |
-
-> ⚠️ **Envoie-les toutes le même jour.** WordPress range les fichiers par
-> mois (`/uploads/2026/07/`) : si tu étales les envois sur deux mois, les
-> adresses ne seront plus toutes identiques et l'étape 2 ne marchera pas d'un
-> seul coup.
+Compte **une bonne heure** la première fois. Aucune compétence technique
+n'est nécessaire : tout se fait par copier-coller.
 
 ---
 
-## Étape 2 — Récupérer l'adresse du dossier
+## Étape 0 — Envoyer les 14 fichiers dans la médiathèque
 
-1. Clique sur **n'importe laquelle** des images que tu viens d'envoyer.
-2. À droite, copie le champ **« URL du fichier »**. Tu obtiens par exemple :
+**À faire en premier, et en une seule fois.** Tant que les fichiers ne sont
+pas en ligne, les pages s'afficheront avec des images manquantes.
 
-   ```
-   https://unseulnom.org/wp-content/uploads/2026/07/yannis.webp
-   ```
+### Pourquoi en une seule fois
 
-3. **Enlève le nom du fichier** à la fin. Il te reste l'adresse du dossier :
+WordPress range ce qu'il reçoit dans le **dossier du mois de l'envoi** :
+un fichier envoyé en octobre 2026 atterrit dans `/uploads/2026/10/`, le même
+envoyé en novembre dans `/uploads/2026/11/`. Le code pointe sur **2026/10**.
 
-   ```
-   https://unseulnom.org/wp-content/uploads/2026/07
-   ```
+> **Les 14 fichiers doivent donc partir avant la fin octobre 2026.**
+> Si tu t'y prends plus tard, ce n'est pas grave — dis-le moi, je change
+> une ligne et je régénère. Mais ne les étale pas sur deux mois.
 
-   👉 **Sans barre oblique `/` à la fin.**
+### Comment faire
+
+**Médias → Ajouter un fichier média**, puis dépose les 14 fichiers d'un coup.
+
+Ils sont dans le dépôt, dossiers `unseulnom/images/` et `unseulnom/video/` :
+
+| Fichier | Poids | Ce que c'est |
+|---|---|---|
+| `cartefrance.mp4` | 2,8 Mo | le film de la carte, en tête de « À venir » |
+| `carteposter.webp` | 80 ko | son image d'attente |
+| `teaserv4.mp4` | 9,6 Mo | la bande-annonce, en ouverture de l'accueil |
+| `teaserposter.webp` | 20 ko | son image d'attente |
+| `affichetarbes.webp` | 120 ko | affiche de Tarbes (format portrait) |
+| `affichetarbeslarge.webp` | 136 ko | affiche de Tarbes (format large, page Tarbes) |
+| `affichemadagascar.webp` | 108 ko | affiche de Madagascar |
+| `affichepau.webp` | 96 ko | affiche de Pau |
+| `afficheformation.webp` | 56 ko | affiche de la journée de formation |
+| `afficheavignon.webp` | 84 ko | affiche d'Avignon |
+| `jack.webp` | 44 ko | portrait Jack Brunet |
+| `chrisstarbes.webp` | 44 ko | portrait Chriss Campion |
+| `briman.webp` | 32 ko | portrait Briman Heugebaert |
+| `juan.webp` | 28 ko | portrait Juan Anthonio |
+
+### Vérifier tout de suite
+
+Clique sur `cartefrance.mp4` dans la médiathèque et regarde le champ
+**« URL du fichier »**. Tu dois lire **exactement** :
+
+```
+https://unseulnom.org/wp-content/uploads/2026/10/cartefrance.mp4
+```
+
+Deux pièges, tous les deux déjà rencontrés sur ce site :
+
+- **WordPress renomme parfois.** Un fichier déjà présent sous le même nom
+  devient `cartefrance-1.mp4`. Les tirets peuvent aussi sauter : `teaser-web.mp4`
+  était devenu `teaserweb.mp4`.
+- **Le mois peut être différent** si l'envoi tombe après le 31 octobre.
+
+Dans les deux cas, l'adresse ne correspond plus au code. Envoie-moi une
+capture du champ « URL du fichier » : je corrige et je régénère.
+
+> **Si la vidéo est refusée à l'envoi**, c'est la taille maximale autorisée
+> par l'hébergeur qui bloque (souvent 2 Mo par défaut). Le réglage est chez
+> l'hébergeur, rubrique PHP, `upload_max_filesize`. Dis-le moi, je peux aussi
+> réduire encore le fichier.
 
 ---
 
-## Étape 3 — Préparer le code
+## Étape 1 — Créer la page « À venir »
 
-1. Ouvre `index-wordpress.html` dans un éditeur de texte (Bloc-notes,
-   TextEdit, VS Code…).
-2. Fais un **Rechercher / Remplacer** (`Ctrl+H` sur Windows, `Cmd+Maj+H` sur Mac) :
-   - Rechercher : `__URL_IMAGES__`
-   - Remplacer par : l'adresse copiée à l'étape 2
-   - **Remplacer tout** → il doit y avoir **9 remplacements**
-3. **Sélectionne tout** (`Ctrl+A` / `Cmd+A`) et **copie** (`Ctrl+C` / `Cmd+C`).
-
----
-
-## Étape 4 — Créer la page
+C'est la **page parente** : celle qui liste toutes les dates. Les pages de
+ville viendront se ranger dessous.
 
 1. **Pages → Ajouter une page**
-2. Titre : `Avignon` (ou `Événement Avignon`)
-3. Dans le corps de la page, ajoute un bloc **« HTML personnalisé »** :
-   clique sur le **+**, tape `html`, choisis **HTML personnalisé**
-4. **Colle** le code dans ce bloc
-5. À droite, dans les réglages de la page, choisis un modèle
-   **pleine largeur** si ton thème en propose un (« Full width », « Pleine
-   largeur », « Sans barre latérale »). La page est conçue pour occuper tout
-   l'écran.
-6. Clique sur **Prévisualiser** pour vérifier, puis **Publier**.
+2. Titre : **`Événement`**
+3. À droite, dans **Permalien**, l'identifiant doit être **`evenement`**.
+   L'adresse finale doit donc être `unseulnom.org/evenement/`.
+   Si ce permalien est déjà pris par une ancienne page, supprime l'ancienne
+   d'abord — ou dis-le moi, j'adapte le code à une autre adresse.
+4. Dans le corps de la page : clique sur **+**, tape `html`,
+   choisis **HTML personnalisé**
+5. Ouvre `agenda-a-coller-dans-wordpress.html` dans le Bloc-notes
+   (Windows) ou TextEdit (Mac), **tout sélectionner** (`Ctrl+A` / `Cmd+A`),
+   **copier** (`Ctrl+C` / `Cmd+C`), puis **coller** dans le bloc
+6. À droite, choisis un modèle de page **pleine largeur** si ton thème en
+   propose un (« Full width », « Pleine largeur », « Sans barre latérale »)
+7. **Prévisualiser**, puis **Publier**
 
 ---
 
-## Étape 5 — Vérifier
+## Étape 2 — Créer la page « Tarbes »
 
-Sur la page publiée, contrôle :
+C'est la **page fille**. Après Tarbes, chaque nouvelle ville se créera de
+la même façon.
 
-- [ ] Les **9 photos** s'affichent (5 portraits + 4 panneaux du programme)
-- [ ] Le **compte à rebours** défile
-- [ ] Les **animations au scroll** fonctionnent
-- [ ] Le **formulaire d'inscription** : fais un test avec ta propre adresse,
-      puis vérifie que le contact arrive dans Brevo (**pense à le supprimer
-      ensuite**)
-- [ ] Les boutons **« Faire un don »** et **« Devenir partenaire »** ouvrent
-      HelloAsso
-- [ ] Le rendu **sur téléphone**
+1. **Pages → Ajouter une page**
+2. Titre : **`Tarbes`**
+3. À droite, section **Attributs de page → Parent** : choisis **Événement**.
+   L'adresse devient alors `unseulnom.org/evenement/tarbes/`.
+   Vérifie-la dans **Permalien** avant de publier.
+4. Bloc **HTML personnalisé**, et colle `a-coller-dans-wordpress.html`
+5. Modèle **pleine largeur**, **Prévisualiser**, **Publier**
 
 ---
 
-## Ajouter plus tard le logo, la vidéo et les photos d'ambiance
+## Étape 3 — Mettre à jour l'accueil
 
-Le **logo n'est plus dans cette liste** : il est désormais vectoriel et
-embarqué directement dans le CSS, il n'y a donc aucun fichier à envoyer pour
-lui. Les éléments ci-dessous, eux, ne sont pas encore fournis : ils ont été
-**retirés du code**
-plutôt que laissés en liens morts, qui auraient provoqué une erreur à chaque
-visite. Pour les ajouter :
+1. **Pages → Accueil** (ou la page réglée comme page d'accueil dans
+   **Réglages → Lecture**)
+2. Remplace le contenu du bloc **HTML personnalisé** par
+   `accueil-a-coller-dans-wordpress.html`
 
-| Élément | Où chercher dans le fichier | Quoi faire |
-|---|---|---|
-| **Vidéo de fond** | `► VIDEO` | Uploader un `.mp4` **muet, en boucle, 5 à 15 Mo**, puis remplacer le commentaire par la ligne `<source …>` indiquée |
-| **Photos d'ambiance** | section `usn-punch` | Me les envoyer : je régénère le bloc avec les 4 photos latérales |
+   Si la page contient encore l'ancienne version : sélectionne tout le
+   contenu du bloc et écrase-le. Ne crée pas un second bloc, les deux
+   styles se marcheraient dessus.
+3. **Prévisualiser**, puis **Mettre à jour**
+
+---
+
+## Étape 4 — Vérifier
+
+Sur chaque page publiée, et **aussi sur ton téléphone** :
+
+**Accueil**
+- [ ] la bande-annonce démarre toute seule, en boucle, sans le son
+- [ ] le bouton « Activer le son » rend bien le son
+- [ ] la carte de Tarbes et le compte à rebours s'affichent
+- [ ] les affiches de la frise défilent quand on descend
+- [ ] « Prochain événement » mène bien à **/evenement/tarbes/**
+
+**À venir**
+- [ ] le film de la carte tourne en boucle
+- [ ] le bouton « Activer le son » rend la musique
+- [ ] les six villes défilent toutes seules, Tarbes restant la plus longue
+- [ ] les flèches et les barres changent de ville
+- [ ] les boutons « Réserver » mènent à **/evenement/tarbes/**
+- [ ] le formulaire « Et votre ville, c'est pour quand ? » : fais un essai
+      avec ta propre adresse, vérifie qu'elle arrive dans Brevo, **puis
+      supprime-la**
+
+**Tarbes**
+- [ ] les quatre portraits s'affichent
+- [ ] le compte à rebours descend vers le 12 décembre
+- [ ] « Toutes les dates » en pied de page mène à **/evenement/**
+
+---
+
+## Ajouter une ville plus tard
+
+1. Je duplique la page Tarbes dans le dépôt, avec les couleurs de la
+   nouvelle affiche, les bons visages et la bonne date.
+2. Dans WordPress : nouvelle page, **parent = Événement**, bloc HTML,
+   coller.
+3. Je change **une seule ligne** dans le générateur
+   (`URL_VILLE = "https://unseulnom.org/evenement/marseille/"`) et je
+   régénère : tous les boutons « Réserver » des trois pages suivent.
+4. Tu recolles les trois pages.
 
 ---
 
 ## Problèmes courants
 
-**Les photos ne s'affichent pas**
-L'adresse de l'étape 2 est fausse. Ouvre l'adresse d'une image dans ton
-navigateur : si elle ne s'affiche pas, c'est bien le chemin qui est en cause.
-Vérifie aussi qu'il n'y a **pas de `/` en trop** à la fin.
+**Les images ne s'affichent pas**
+L'adresse réelle d'un fichier ne correspond pas à celle du code (étape 0).
+Ouvre l'adresse d'une image dans ton navigateur : si elle ne s'affiche pas,
+c'est bien le chemin qui est en cause.
 
-**La page est étroite / centrée dans une colonne**
-Le modèle de page n'est pas en pleine largeur (étape 4, point 5).
+**La vidéo ne démarre pas**
+Regarde d'abord si l'image d'attente, elle, s'affiche. Si oui, le `.mp4`
+n'est pas en ligne ou son nom a changé. Si non, les deux fichiers manquent.
+
+**La page est étroite, enfermée dans une colonne**
+Le modèle de page n'est pas en pleine largeur (étape 1, point 6).
 
 **Le style déborde sur le reste du site**
-Ça ne devrait pas arriver : tout le CSS est « scopé » sous `#usn-event`. Si
-tu constates un problème, c'est probablement l'inverse — le thème qui impose
-son style à la page. Dis-le moi, j'ajusterai.
+Ça ne devrait pas arriver : chaque page a son style enfermé sous son propre
+identifiant (`#usn-accueil`, `#usn-agenda`, `#usn-event`), les trois ne
+peuvent pas se mélanger. Si quelque chose cloche, c'est plutôt l'inverse —
+le thème qui impose son style aux pages. Dis-le moi, j'ajuste.
 
 **Le formulaire ne renvoie rien dans Brevo**
-Vérifie dans Brevo que la liste liée au formulaire est la bonne. Le
-formulaire envoie les champs `NOM` et `EMAIL`.
+Vérifie dans Brevo que la liste liée au formulaire est la bonne. Les
+formulaires envoient deux champs : `NOM` et `EMAIL`.
+
+**Le compte à rebours affiche zéro**
+La date visée est passée. Elle se règle dans l'attribut `data-target`
+(`2026-12-12T16:00:00`), mais préviens-moi plutôt : il y a aussi les textes,
+les visages et l'affiche à changer en même temps.
 
 ---
 
-## Mettre à jour la page ensuite
+## Et les fichiers en trois morceaux ?
 
-Modifie `index-wordpress.html`, refais le remplacement de `__URL_IMAGES__`,
-puis recolle tout le bloc dans le bloc HTML de la page WordPress. Il n'y a
-pas besoin de renvoyer les images.
+Les dossiers `wordpress-accueil/`, `wordpress-agenda/` et
+`wordpress-3-parties/` contiennent la même chose, découpée :
+
+- `1-HTML.txt` — le contenu seul
+- `2-CSS.txt` — le style seul
+- `3-JAVASCRIPT.txt` — les animations seules
+
+Ils ne servent que si ton thème ou une extension exige de ranger le style et
+le code dans des champs séparés. **Dans le cas normal, ignore-les** : le
+fichier unique `...-a-coller-dans-wordpress.html` contient déjà tout.

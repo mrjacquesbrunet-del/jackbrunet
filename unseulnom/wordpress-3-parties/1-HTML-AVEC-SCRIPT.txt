@@ -466,6 +466,7 @@
       <p style="margin-top:10px;">&#169; 2026 Un seul Nom. Tous droits r&#233;serv&#233;s.</p>
       <p style="margin-top:14px;">
         <a href="https://unseulnom.org/">Retour au site</a> &nbsp;&#183;&nbsp;
+        <a href="https://unseulnom.org/evenement/">Toutes les dates</a> &nbsp;&#183;&nbsp;
         <a href="https://unseulnom.org/contact/">Newsletter</a>
       </p>
     </div>

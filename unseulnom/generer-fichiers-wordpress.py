@@ -64,10 +64,16 @@ PAGES = {
     },
 }
 
-# L'adresse de la page du prochain evenement. Le jour ou chaque ville
-# aura la sienne — evenement/tarbes, puis evenement/marseille — c'est la
-# seule ligne a changer : les trois pages suivent.
+# Les deux adresses de la rubrique evenement.
+#
+#   URL_EVENEMENT : la page parente, celle qui liste les dates a venir.
+#   URL_VILLE     : la fiche de la prochaine ville.
+#
+# Apres Tarbes, il suffira de changer URL_VILLE (evenement/marseille,
+# puis evenement/bordeaux...) : les liens « Reserver » des trois pages
+# suivent tout seuls.
 URL_EVENEMENT = "https://unseulnom.org/evenement/"
+URL_VILLE = "https://unseulnom.org/evenement/tarbes/"
 
 URL_MEDIAS = "https://unseulnom.org/wp-content/uploads/2026/07"
 URL_2026_04 = "https://unseulnom.org/wp-content/uploads/2026/04"
@@ -229,8 +235,16 @@ def js_en_ascii(js):
 
 
 def vers_evenement(texte):
-    """Pointe les liens sur l'adresse reelle de la page de l'evenement."""
-    return texte.replace("https://unseulnom.org/evenement/", URL_EVENEMENT)
+    """Pointe les liens sur les adresses reelles des deux pages.
+
+    L'adresse de la ville est mise de cote le temps de reecrire celle de
+    la page parente : sans cela, la page parente etant le debut de
+    l'adresse de la ville, la seconde reecriture abimerait la premiere.
+    """
+    jeton = "@@URL-VILLE@@"
+    texte = texte.replace("https://unseulnom.org/evenement/tarbes/", jeton)
+    texte = texte.replace("https://unseulnom.org/evenement/", URL_EVENEMENT)
+    return texte.replace(jeton, URL_VILLE)
 
 
 def vers_mediatheque(texte, base=URL_MEDIAS):
