@@ -67,13 +67,13 @@
   <div class="usn-defile" aria-hidden="true">
     <div class="usn-defile-piste">
       <div class="usn-defile-suite">
-        <b>Avignon</b> <span>17.10.26</span> <i>&#10022;</i>
+        <b>Tarbes</b> <span>12.12.26</span> <i>&#10022;</i>
         <b>Madagascar</b> <span>14.11.26</span> <i>&#10022;</i>
         <b>Marseille</b> <span>06.03.27</span> <i>&#10022;</i>
         <b>Bordeaux</b> <span>15.05.27</span> <i>&#10022;</i>
       </div>
       <div class="usn-defile-suite">
-        <b>Avignon</b> <span>17.10.26</span> <i>&#10022;</i>
+        <b>Tarbes</b> <span>12.12.26</span> <i>&#10022;</i>
         <b>Madagascar</b> <span>14.11.26</span> <i>&#10022;</i>
         <b>Marseille</b> <span>06.03.27</span> <i>&#10022;</i>
         <b>Bordeaux</b> <span>15.05.27</span> <i>&#10022;</i>
@@ -86,13 +86,13 @@
   <!-- ============================================================= -->
   <!--
     &#9658; COMPTE A REBOURS &#8212; data-target vise toujours la PROCHAINE date,
-      au format 2026-10-17T16:00:00. A changer apres chaque evenement.
+      au format 2026-12-12T16:00:00. A changer apres chaque evenement.
   -->
-  <div class="usn-prochain" id="usn-countdown" data-target="2026-10-17T16:00:00">
+  <div class="usn-prochain" id="usn-countdown" data-target="2026-12-12T16:00:00">
     <div class="usn-wrap usn-prochain-grille">
       <div>
         <div class="usn-prochain-k">Prochaine date</div>
-        <div class="usn-prochain-v">Avignon &middot; Samedi 17 octobre 2026</div>
+        <div class="usn-prochain-v">Tarbes &middot; Samedi 12 d&eacute;cembre 2026</div>
       </div>
       <div class="usn-chrono">
         <div><b data-cd="days">0</b><small>Jours</small></div>
@@ -130,11 +130,11 @@
       <div class="usn-an"><b>2026</b></div>
 
       <div class="usn-ligne">
-        <div class="usn-jour"><b>17</b><span>Octobre</span></div>
+        <div class="usn-jour"><b>12</b><span>D&eacute;cembre</span></div>
         <div>
-          <div class="usn-ville">Avignon</div>
-          <div class="usn-lieu">Parc des expos &middot; 800 chemin des F&eacute;lons, Montfavet &middot; Portes 15h00, conf&eacute;rence 16h00</div>
-          <div class="usn-invites">Pr&eacute;dication&nbsp;: Yannis Gautier, Pasteur Chriss Campion &middot; Louange&nbsp;: Patcha&iuml; Reyes, Nikita Heugebaert, Ruben Debard</div>
+          <div class="usn-ville">Tarbes <span style="opacity:.55">(65)</span></div>
+          <div class="usn-lieu">Ch&acirc;teau d'Orleix &middot; 13 bis rue des Platanes, 65800 Orleix &middot; Portes 15h00, conf&eacute;rence 16h00</div>
+          <div class="usn-invites">Pr&eacute;dication&nbsp;: Pasteur Jack Brunet, Pasteur Chriss Campion</div>
         </div>
         <div class="usn-etat">
           <span class="usn-pastille">Inscriptions ouvertes</span>
@@ -318,7 +318,7 @@
       <p style="margin-top:10px;">&copy; 2026 Un seul Nom. Tous droits r&eacute;serv&eacute;s.</p>
       <p style="margin-top:14px;">
         <a href="https://unseulnom.org/">Retour au site</a> &nbsp;&middot;&nbsp;
-        <a href="https://unseulnom.org/evenement/">Avignon</a>
+        <a href="https://unseulnom.org/evenement/">Tarbes</a>
       </p>
     </div>
   </footer>
