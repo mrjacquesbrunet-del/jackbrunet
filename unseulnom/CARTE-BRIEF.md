@@ -107,8 +107,8 @@ connaître, aucun ne pose problème.
 | Durée | 10 à 15 s | **32 s** |
 | Les trois couleurs | vert / orange / rouge clignotant | un seul rouge, les villes à venir arrivant après les passées |
 | Les affiches | explicitement écartées | présentes, en vignettes en bas à droite |
-| Son | aucun | une musique, **retirée** de la version web |
-| Poids | 3 Mo | 14 Mo d'origine, **2,4 Mo** après réencodage |
+| Son | aucun | une musique, **conservée** : le visiteur l'active d'un bouton |
+| Poids | 3 Mo | 14 Mo d'origine, **2,8 Mo** après réencodage |
 
 La durée et les vignettes ne gênent pas : le film n'est plus coincé
 entre deux blocs de la page d'accueil, il **ouvre la page « À venir »**

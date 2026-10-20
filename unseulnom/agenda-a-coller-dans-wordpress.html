@@ -191,6 +191,31 @@
     display: block; width: 100%; height: 100%; object-fit: cover;
   }
 
+  /* ---------- Bouton d'activation du son ----------
+     Un navigateur ne lance jamais tout seul une video qui parle : elle
+     demarre muette, et ce bouton rend la main au visiteur.
+
+     Il n'est pas pose SUR le film : la carte est chargee d'un bout a
+     l'autre de l'image, le bouton tomberait toujours sur quelque chose.
+     Il prend donc sa propre ligne, juste en dessous, a droite. */
+  #usn-agenda .usn-hero-sonline {
+    display: flex; justify-content: flex-end;
+    padding: 14px clamp(18px, 4vw, 46px) 0;
+  }
+  #usn-agenda .usn-son {
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 9px 17px; border-radius: 999px; cursor: pointer;
+    font-family: inherit; font-size: 12px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--usn-ink);
+    background: rgba(12,11,10,0.05); border: 1px solid rgba(12,11,10,0.14);
+    transition: background .2s ease, border-color .2s ease, color .2s ease, transform .18s ease;
+  }
+  #usn-agenda .usn-son:hover {
+    background: var(--usn-ink); border-color: var(--usn-ink); color: var(--usn-white);
+    transform: translateY(-1px);
+  }
+  #usn-agenda .usn-son-icone { font-size: 14px; line-height: 1; }
+
   /* Le titre va d'un bord a l'autre, comme le titre d'une affiche : il
      n'est donc pas enferme dans la colonne centrale du reste de la page,
      mais aligne sur les marges de la barre de navigation. */
@@ -712,10 +737,9 @@
       &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
       &#9658; LE FILM DE LA CARTE
 
-      Il tourne tout seul, en boucle et sans le son &#8212; le navigateur
-      refuse de lancer une video sonore sans que le visiteur ait
-      clique, et une musique qui redemarre toutes les 32 secondes
-      fatiguerait de toute facon.
+      Il tourne tout seul, en boucle, et demarre muet : aucun
+      navigateur ne lance une video sonore sans que le visiteur ait
+      clique. Le bouton pose juste en dessous lui rend la main.
 
       Deux adresses a reprendre si le film change :
         - poster="..."        l'image affichee pendant le chargement
@@ -731,6 +755,17 @@
              aria-label="Carte des villes travers&eacute;es par Un Seul Nom depuis 2024">
         <source src="https://unseulnom.org/wp-content/uploads/2026/10/cartefrance.mp4" type="video/mp4" />
       </video>
+    </div>
+
+    <!--
+      &#9658; Si le fichier servi n'a PAS de piste audio, ce bouton se retire
+        tout seul de la page : il ne promet pas un son qui n'existe pas.
+    -->
+    <div class="usn-hero-sonline">
+      <button type="button" class="usn-son" id="usn-son" aria-pressed="false">
+        <span class="usn-son-icone" aria-hidden="true">&#9834;</span>
+        <span class="usn-son-texte">Activer le son</span>
+      </button>
     </div>
 
     <div class="usn-hero-inner">
@@ -1293,6 +1328,55 @@
     }
     tick();
     setInterval(tick, 1000);
+  })();
+
+
+  /* ---- Le son du film de la carte ----
+     La lecture automatique n'est autorisee que sans son : le film part
+     donc muet et ce bouton rend la main au visiteur. Pas de retour au
+     debut a l'activation - la musique appartient au film, elle est donc
+     deja en place, ou qu'on en soit dans la boucle. */
+  (function () {
+    var video = document.querySelector('#usn-agenda .usn-hero-film video');
+    var bouton = document.getElementById('usn-son');
+    if (!video || !bouton) return;
+
+    function aDuSon() {
+      // Chaque navigateur renseigne un indicateur different ; aucun n'est
+      // disponible partout, d'ou les trois essais successifs.
+      if (typeof video.mozHasAudio === 'boolean') return video.mozHasAudio;
+      if (video.webkitAudioDecodedByteCount !== undefined) {
+        return video.webkitAudioDecodedByteCount > 0;
+      }
+      if (video.audioTracks) return video.audioTracks.length > 0;
+      return true;   // dans le doute, on laisse le bouton
+    }
+
+    function verifier() {
+      // Pas de piste audio dans le fichier servi : le bouton disparait
+      // plutot que de promettre un son qui n'existe pas.
+      if (!aDuSon()) {
+        var ligne = bouton.parentNode;
+        if (ligne) ligne.parentNode.removeChild(ligne); else bouton.remove();
+      }
+    }
+    if (video.readyState >= 2) { verifier(); }
+    video.addEventListener('loadeddata', verifier);
+
+    function libelle() {
+      var texte = bouton.querySelector('.usn-son-texte');
+      var icone = bouton.querySelector('.usn-son-icone');
+      if (texte) texte.textContent = video.muted ? 'Activer le son' : 'Couper le son';
+      if (icone) icone.innerHTML = video.muted ? '&#9834;' : '&#9835;';
+      bouton.setAttribute('aria-pressed', video.muted ? 'false' : 'true');
+    }
+    libelle();
+
+    bouton.addEventListener('click', function () {
+      video.muted = !video.muted;
+      if (!video.muted) { video.volume = 0.8; video.play(); }
+      libelle();
+    });
   })();
 
 

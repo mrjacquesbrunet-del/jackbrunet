@@ -6,21 +6,23 @@ Livré par le monteur sous le nom `UnSeulNom_Carte_creme_16x9.mp4`.
 
 | | Fichier d'origine | Version web |
 |---|---|---|
-| Poids | 14 Mo | **2,4 Mo** |
+| Poids | 14 Mo | **2,8 Mo** |
 | Définition | 1920 × 1080 | 1600 × 900 |
-| Piste audio | oui (musique, 158 kb/s) | **retirée** |
+| Piste audio | oui (musique, 158 kb/s) | oui, réencodée en 112 kb/s |
 | Durée | 32 s | 32 s |
 
-La piste audio est retirée plutôt que réencodée : le film tourne en boucle
-derrière le titre de la page, une musique qui repart toutes les 32 secondes
-fatiguerait. Sans piste audio, la lecture automatique est par ailleurs
-acceptée partout sans discussion. Si tu veux le son, dis-le : le bouton
-« Activer le son » de la page événement se repose ici tel quel.
+Le film **démarre muet** : aucun navigateur ne lance seul une vidéo qui a du
+son. Un bouton « Activer le son » posé juste sous le film rend la main au
+visiteur. Il n'active pas un retour au début : la musique appartient au
+film, elle est donc déjà en place où qu'on en soit dans la boucle.
+
+Si un jour le fichier servi n'a pas de piste audio, le bouton se retire tout
+seul de la page plutôt que de promettre un son qui n'existe pas.
 
 ```
-ffmpeg -i UnSeulNom_Carte_creme_16x9.mp4 -an -vf "scale=1600:-2" \
+ffmpeg -i UnSeulNom_Carte_creme_16x9.mp4 -vf "scale=1600:-2" \
        -c:v libx264 -crf 30 -preset slow -pix_fmt yuv420p \
-       -movflags +faststart cartefrance.mp4
+       -c:a aac -b:a 112k -ac 2 -movflags +faststart cartefrance.mp4
 ```
 
 L'image d'attente est `images/carteposter.webp` (77 ko), prise à la

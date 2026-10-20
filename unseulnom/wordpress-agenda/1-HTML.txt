@@ -20,10 +20,9 @@
       &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
       &#9658; LE FILM DE LA CARTE
 
-      Il tourne tout seul, en boucle et sans le son &#8212; le navigateur
-      refuse de lancer une video sonore sans que le visiteur ait
-      clique, et une musique qui redemarre toutes les 32 secondes
-      fatiguerait de toute facon.
+      Il tourne tout seul, en boucle, et demarre muet : aucun
+      navigateur ne lance une video sonore sans que le visiteur ait
+      clique. Le bouton pose juste en dessous lui rend la main.
 
       Deux adresses a reprendre si le film change :
         - poster="..."        l'image affichee pendant le chargement
@@ -39,6 +38,17 @@
              aria-label="Carte des villes travers&eacute;es par Un Seul Nom depuis 2024">
         <source src="https://unseulnom.org/wp-content/uploads/2026/10/cartefrance.mp4" type="video/mp4" />
       </video>
+    </div>
+
+    <!--
+      &#9658; Si le fichier servi n'a PAS de piste audio, ce bouton se retire
+        tout seul de la page : il ne promet pas un son qui n'existe pas.
+    -->
+    <div class="usn-hero-sonline">
+      <button type="button" class="usn-son" id="usn-son" aria-pressed="false">
+        <span class="usn-son-icone" aria-hidden="true">&#9834;</span>
+        <span class="usn-son-texte">Activer le son</span>
+      </button>
     </div>
 
     <div class="usn-hero-inner">

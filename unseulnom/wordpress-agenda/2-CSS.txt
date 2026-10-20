@@ -190,6 +190,31 @@
     display: block; width: 100%; height: 100%; object-fit: cover;
   }
 
+  /* ---------- Bouton d'activation du son ----------
+     Un navigateur ne lance jamais tout seul une video qui parle : elle
+     demarre muette, et ce bouton rend la main au visiteur.
+
+     Il n'est pas pose SUR le film : la carte est chargee d'un bout a
+     l'autre de l'image, le bouton tomberait toujours sur quelque chose.
+     Il prend donc sa propre ligne, juste en dessous, a droite. */
+  #usn-agenda .usn-hero-sonline {
+    display: flex; justify-content: flex-end;
+    padding: 14px clamp(18px, 4vw, 46px) 0;
+  }
+  #usn-agenda .usn-son {
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 9px 17px; border-radius: 999px; cursor: pointer;
+    font-family: inherit; font-size: 12px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--usn-ink);
+    background: rgba(12,11,10,0.05); border: 1px solid rgba(12,11,10,0.14);
+    transition: background .2s ease, border-color .2s ease, color .2s ease, transform .18s ease;
+  }
+  #usn-agenda .usn-son:hover {
+    background: var(--usn-ink); border-color: var(--usn-ink); color: var(--usn-white);
+    transform: translateY(-1px);
+  }
+  #usn-agenda .usn-son-icone { font-size: 14px; line-height: 1; }
+
   /* Le titre va d'un bord a l'autre, comme le titre d'une affiche : il
      n'est donc pas enferme dans la colonne centrale du reste de la page,
      mais aligne sur les marges de la barre de navigation. */

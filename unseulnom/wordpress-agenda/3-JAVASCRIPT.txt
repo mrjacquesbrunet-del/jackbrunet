@@ -33,6 +33,55 @@
   })();
 
 
+  /* ---- Le son du film de la carte ----
+     La lecture automatique n'est autorisee que sans son : le film part
+     donc muet et ce bouton rend la main au visiteur. Pas de retour au
+     debut a l'activation - la musique appartient au film, elle est donc
+     deja en place, ou qu'on en soit dans la boucle. */
+  (function () {
+    var video = document.querySelector('#usn-agenda .usn-hero-film video');
+    var bouton = document.getElementById('usn-son');
+    if (!video || !bouton) return;
+
+    function aDuSon() {
+      // Chaque navigateur renseigne un indicateur different ; aucun n'est
+      // disponible partout, d'ou les trois essais successifs.
+      if (typeof video.mozHasAudio === 'boolean') return video.mozHasAudio;
+      if (video.webkitAudioDecodedByteCount !== undefined) {
+        return video.webkitAudioDecodedByteCount > 0;
+      }
+      if (video.audioTracks) return video.audioTracks.length > 0;
+      return true;   // dans le doute, on laisse le bouton
+    }
+
+    function verifier() {
+      // Pas de piste audio dans le fichier servi : le bouton disparait
+      // plutot que de promettre un son qui n'existe pas.
+      if (!aDuSon()) {
+        var ligne = bouton.parentNode;
+        if (ligne) ligne.parentNode.removeChild(ligne); else bouton.remove();
+      }
+    }
+    if (video.readyState >= 2) { verifier(); }
+    video.addEventListener('loadeddata', verifier);
+
+    function libelle() {
+      var texte = bouton.querySelector('.usn-son-texte');
+      var icone = bouton.querySelector('.usn-son-icone');
+      if (texte) texte.textContent = video.muted ? 'Activer le son' : 'Couper le son';
+      if (icone) icone.innerHTML = video.muted ? '&#9834;' : '&#9835;';
+      bouton.setAttribute('aria-pressed', video.muted ? 'false' : 'true');
+    }
+    libelle();
+
+    bouton.addEventListener('click', function () {
+      video.muted = !video.muted;
+      if (!video.muted) { video.volume = 0.8; video.play(); }
+      libelle();
+    });
+  })();
+
+
   /* =================================================================
      LA ROTATION DES PROCHAINS RENDEZ-VOUS
 
