@@ -40,6 +40,71 @@
     });
   })();
 
+  /* ---- La loupe ----
+     Un clic sur une affiche, qu'elle soit posee sur la carte ou en
+     vignette, l'ouvre en grand. La meme fenetre sert a toutes. */
+  (function () {
+    var loupe  = document.getElementById('usn-loupe');
+    var image  = document.getElementById('usn-loupe-img');
+    var nom    = document.getElementById('usn-loupe-nom');
+    var fermer = document.getElementById('usn-loupe-fermer');
+    if (!loupe || !image) return;
+
+    var rendre = null;   // a qui rendre le clavier en refermant
+
+    function ouvrir(src, titre, origine) {
+      image.src = src;
+      image.alt = titre ? ('Affiche Un Seul Nom ' + titre) : '';
+      if (nom) nom.textContent = titre || '';
+      loupe.hidden = false;
+      requestAnimationFrame(function () { loupe.classList.add('est-ouverte'); });
+      document.documentElement.style.overflow = 'hidden';
+      rendre = origine;
+      if (fermer) fermer.focus();
+    }
+
+    function refermer() {
+      loupe.classList.remove('est-ouverte');
+      document.documentElement.style.overflow = '';
+      setTimeout(function () {
+        if (!loupe.classList.contains('est-ouverte')) { loupe.hidden = true; image.src = ''; }
+      }, 280);
+      if (rendre && rendre.focus) rendre.focus();
+      rendre = null;
+    }
+
+    var root = document.getElementById('usn-accueil') || document;
+    root.addEventListener('click', function (e) {
+      var cible = e.target.closest('[data-usn-affiche]');
+      if (!cible) return;
+      e.preventDefault();
+      ouvrir(cible.getAttribute('data-usn-affiche'),
+             cible.getAttribute('data-usn-titre') || '', cible);
+    });
+
+    // Sur la carte, les affiches sont des groupes SVG : sans cela, on ne
+    // peut pas les atteindre au clavier.
+    var groupes = root.querySelectorAll('.usn-ed-aff');
+    for (var i = 0; i < groupes.length; i++) {
+      groupes[i].setAttribute('tabindex', '0');
+      groupes[i].setAttribute('role', 'button');
+      groupes[i].addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          ouvrir(this.getAttribute('data-usn-affiche'),
+                 this.getAttribute('data-usn-titre') || '', this);
+        }
+      });
+    }
+
+    loupe.addEventListener('click', function (e) {
+      if (e.target === loupe || e.target === fermer) refermer();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && loupe.classList.contains('est-ouverte')) refermer();
+    });
+  })();
+
   /* ---- Le son de la bande-annonce ----
      Aucun navigateur ne lance seul une video qui parle : si on essaie,
      soit il refuse de la lancer du tout, soit il la force en silence.

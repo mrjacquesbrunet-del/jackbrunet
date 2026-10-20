@@ -713,7 +713,7 @@
     margin: 0; font-family: var(--usn-display); font-weight: 900;
     /* Cinq lignes au lieu d'un seul bloc : la taille baisse d'autant,
        sinon la plus longue se casse en deux et la strophe se perd. */
-    font-size: clamp(21px, 3.5vw, 58px); line-height: 1.16;
+    font-size: clamp(25px, 4.4vw, 74px); line-height: 1.12;
     letter-spacing: -0.025em; text-transform: uppercase;
   }
   #usn-accueil .usn-ph-ligne { display: block; }
@@ -724,14 +724,14 @@
     /* Les lignes les plus longues passent a la ligne quoi qu'il arrive :
        autant que la coupure tombe au milieu plutot que de laisser un
        mot seul en bas. */
-    #usn-accueil .usn-phrase p { font-size: 19px; text-wrap: balance; }
+    #usn-accueil .usn-phrase p { font-size: 23px; text-wrap: balance; }
     #usn-accueil .usn-phrase p b.usn-ph-cime { font-size: 1.7em; }
   }
   /* Chaque mot est un morceau a part : c'est ce qui permet de les
      allumer l'un apres l'autre. */
   #usn-accueil .usn-phrase p b {
     display: inline-block; font-weight: inherit;
-    color: var(--usn-ivoire); opacity: 0.16;
+    color: var(--usn-ivoire); opacity: 0.2;
     transition: opacity .2s linear;
   }
   #usn-accueil .usn-phrase p b.est-dit { opacity: 1; }
@@ -849,50 +849,128 @@
   }
 
   /* ===================================================================
-     GALERIE — toutes les photos des evenements passes
-     Mosaique en colonnes : on peut en ajouter des dizaines sans rien
-     changer a la mise en page.
-     =================================================================== */
-  #usn-accueil .usn-galerie { padding: clamp(20px, 4vw, 50px) 0 clamp(60px, 10vw, 130px); }
-  #usn-accueil .usn-mosaique {
-    margin-top: clamp(28px, 4vw, 50px);
-    column-count: 4; column-gap: clamp(12px, 1.8vw, 22px);
-  }
-  #usn-accueil .usn-vue {
-    break-inside: avoid; margin: 0 0 clamp(12px, 1.8vw, 22px);
-    will-change: transform, opacity;
-  }
-  #usn-accueil .usn-vue-cadre { position: relative; overflow: hidden; background: var(--usn-ivoire-2); }
-  /* Les photos sont en noir et blanc et reprennent leurs couleurs en
-     passant au centre de l'ecran : c'est le script qui pilote le filtre. */
-  #usn-accueil .usn-vue-cadre img {
-    width: 100%; height: auto; filter: grayscale(1) contrast(1.05);
-    will-change: filter, transform;
-  }
-  #usn-accueil .usn-vue figcaption {
-    margin-top: 9px; font-family: var(--usn-sub); font-size: 12px;
-    letter-spacing: 0.06em; color: var(--usn-gris);
-  }
-  #usn-accueil .usn-vue figcaption b { color: var(--usn-ink); font-weight: 700; }
-  @media (max-width: 1100px) { #usn-accueil .usn-mosaique { column-count: 3; } }
-  @media (max-width: 760px)  { #usn-accueil .usn-mosaique { column-count: 2; } }
+     LES EDITIONS SUR LA CARTE
 
-  /* ---------- Les chiffres ---------- */
-  #usn-accueil .usn-chiffres {
-    margin-top: clamp(40px, 6vw, 76px); display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 20px; border-top: 2px solid var(--usn-ink); padding-top: clamp(24px, 3.5vw, 40px);
+     Le contour de la France, les points des villes, les traits de rappel
+     et les affiches sont dans le meme SVG : un seul repere, donc la
+     geometrie tient a toutes les tailles sans un seul calcul en script.
+
+     Sur un telephone, le dessin devient illisible — les legendes
+     mesureraient trois pixels. Il laisse alors la place a des vignettes.
+     =================================================================== */
+  #usn-accueil .usn-editions {
+    position: relative; background: var(--usn-ivoire);
+    padding: clamp(60px, 9vw, 130px) 0 clamp(50px, 8vw, 110px);
   }
-  #usn-accueil .usn-chiffre { will-change: transform, opacity; }
-  #usn-accueil .usn-chiffre b {
-    display: block; font-family: var(--usn-display); font-stretch: 125%; font-weight: 900;
-    font-size: clamp(38px, 6.4vw, 88px); line-height: 0.9; letter-spacing: -0.04em;
-    font-variant-numeric: tabular-nums;
+  #usn-accueil .usn-ed-titre {
+    margin: 16px 0 0; font-family: var(--usn-display); font-weight: 900;
+    font-size: clamp(38px, 7vw, 104px); line-height: 0.92;
+    letter-spacing: -0.04em; text-transform: uppercase; color: var(--usn-ink);
   }
-  #usn-accueil .usn-chiffre span {
-    display: block; margin-top: 10px; font-size: 11.5px; font-weight: 800;
-    letter-spacing: 0.18em; text-transform: uppercase; color: var(--usn-gris);
+  #usn-accueil .usn-ed-chapo {
+    margin: 14px 0 0; font-family: var(--usn-sub);
+    font-size: clamp(14px, 1.5vw, 17px); color: var(--usn-gris);
   }
-  @media (max-width: 620px) { #usn-accueil .usn-chiffres { grid-template-columns: 1fr; gap: 28px; } }
+
+  #usn-accueil .usn-ed-carte {
+    display: block; width: 100%; max-width: 1320px;
+    margin: clamp(10px, 2vw, 30px) auto 0; overflow: visible;
+  }
+  #usn-accueil .usn-ed-pays {
+    fill: rgba(17,17,16,0.045); stroke: rgba(17,17,16,0.3);
+    stroke-width: 1.1; stroke-linejoin: round; vector-effect: non-scaling-stroke;
+  }
+  #usn-accueil .usn-ed-fil {
+    stroke: rgba(17,17,16,0.3); stroke-width: 1; stroke-dasharray: 3 3;
+    vector-effect: non-scaling-stroke;
+  }
+  #usn-accueil .usn-ed-point { fill: var(--usn-ink); }
+  #usn-accueil .usn-ed-cadre { fill: none; stroke: rgba(17,17,16,0.22); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  #usn-accueil .usn-ed-ville {
+    font-family: var(--usn-sub); font-size: 13px; font-weight: 800;
+    letter-spacing: 0.1em; fill: var(--usn-ink);
+  }
+  #usn-accueil .usn-ed-dep { fill: var(--usn-gris); font-weight: 700; }
+  #usn-accueil .usn-ed-date {
+    font-family: var(--usn-sub); font-size: 12px; fill: var(--usn-gris);
+  }
+  /* L'edition qui vient se detache : c'est la seule sur laquelle on peut
+     encore s'inscrire. */
+  #usn-accueil .usn-ed-aff.est-avenir .usn-ed-point { fill: var(--usn-red); }
+  #usn-accueil .usn-ed-aff.est-avenir .usn-ed-fil { stroke: var(--usn-red); stroke-dasharray: none; }
+  #usn-accueil .usn-ed-aff.est-avenir .usn-ed-cadre { stroke: var(--usn-red); stroke-width: 2.4; }
+  #usn-accueil .usn-ed-aff.est-avenir .usn-ed-ville { fill: var(--usn-red); }
+
+  #usn-accueil .usn-ed-aff { cursor: pointer; }
+  #usn-accueil .usn-ed-aff image { transition: opacity .25s ease; }
+  #usn-accueil .usn-ed-aff:hover image { opacity: 0.82; }
+  #usn-accueil .usn-ed-aff:hover .usn-ed-cadre { stroke: var(--usn-ink); stroke-width: 2.4; }
+
+  /* --- les vignettes : petits ecrans, et le hors-carte --- */
+  #usn-accueil .usn-ed-liste { display: none; }
+  #usn-accueil .usn-ed-vignette {
+    display: block; padding: 0; border: 0; background: none; cursor: pointer;
+    font-family: inherit; text-align: left;
+  }
+  #usn-accueil .usn-ed-vignette img {
+    display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover;
+    border: 1px solid var(--usn-trait);
+    box-shadow: 0 16px 36px rgba(17,17,16,0.12);
+  }
+  #usn-accueil .usn-ed-vignette.est-avenir img { border: 2px solid var(--usn-red); }
+  #usn-accueil .usn-ed-vville {
+    display: block; margin-top: 12px; font-size: 12px; font-weight: 800;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--usn-ink);
+  }
+  #usn-accueil .usn-ed-vville b { color: var(--usn-gris); font-weight: 700; }
+  #usn-accueil .usn-ed-vdate { display: block; margin-top: 3px; font-family: var(--usn-sub); font-size: 12.5px; color: var(--usn-gris); }
+
+  #usn-accueil .usn-ed-ailleurs {
+    margin-top: clamp(34px, 5vw, 70px);
+    display: grid; grid-template-columns: repeat(2, minmax(0, 190px)) 1fr;
+    gap: clamp(16px, 3vw, 34px); align-items: start;
+  }
+  #usn-accueil .usn-ed-note {
+    margin: 0; align-self: center; font-family: var(--usn-sub);
+    font-size: clamp(14px, 1.5vw, 17px); color: var(--usn-gris); max-width: 32ch;
+  }
+
+  @media (max-width: 900px) {
+    #usn-accueil .usn-ed-carte { display: none; }
+    #usn-accueil .usn-ed-liste {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(18px, 4vw, 30px);
+      padding: 0 clamp(18px, 4vw, 52px); margin-top: 28px;
+    }
+    #usn-accueil .usn-ed-ailleurs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    #usn-accueil .usn-ed-note { grid-column: 1 / -1; }
+  }
+
+  /* --- la loupe : l'affiche en grand --- */
+  #usn-accueil .usn-loupe {
+    position: fixed; inset: 0; z-index: 90; display: grid; place-items: center;
+    padding: clamp(16px, 4vw, 50px);
+    background: rgba(12,11,10,0.92);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    opacity: 0; visibility: hidden; transition: opacity .25s ease, visibility .25s;
+  }
+  #usn-accueil .usn-loupe.est-ouverte { opacity: 1; visibility: visible; }
+  #usn-accueil .usn-loupe img {
+    max-width: min(100%, 760px); max-height: 100%;
+    display: block; box-shadow: 0 40px 90px rgba(0,0,0,0.5);
+  }
+  #usn-accueil .usn-loupe-nom {
+    position: absolute; left: 0; right: 0; bottom: clamp(14px, 3vh, 30px);
+    text-align: center; font-size: 11.5px; font-weight: 800;
+    letter-spacing: 0.22em; text-transform: uppercase; color: rgba(240,238,231,0.78);
+  }
+  #usn-accueil .usn-loupe-fermer {
+    position: absolute; top: clamp(12px, 3vh, 26px); right: clamp(12px, 3vw, 26px);
+    width: 46px; height: 46px; border-radius: 50%; cursor: pointer;
+    display: grid; place-items: center; font-size: 19px; color: #fff;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.26);
+  }
+  #usn-accueil .usn-loupe-fermer:hover { background: rgba(255,255,255,0.2); }
 
   /* ===================================================================
      LES DEUX VISAGES QUI SE RAPPROCHENT
@@ -1053,6 +1131,13 @@
 
   <div class="usn-grain" aria-hidden="true"></div>
 
+  <!-- La loupe : elle sert a toutes les affiches de la page. -->
+  <div class="usn-loupe" id="usn-loupe" role="dialog" aria-modal="true" aria-label="Affiche agrandie" hidden>
+    <button type="button" class="usn-loupe-fermer" id="usn-loupe-fermer" aria-label="Fermer">&#10005;</button>
+    <img id="usn-loupe-img" src="" alt="" />
+    <div class="usn-loupe-nom" id="usn-loupe-nom"></div>
+  </div>
+
   <!-- ============================================================= -->
   <!-- BARRE DE NAVIGATION                                            -->
   <!-- ============================================================= -->
@@ -1071,7 +1156,7 @@
     <div class="usn-menu-liens">
       <a href="https://unseulnom.org/evenement/">Prochain &eacute;v&eacute;nement</a>
       <a href="#usn-vision">La vision</a>
-      <a href="#usn-galerie">Les villes</a>
+      <a href="#usn-editions">Les villes</a>
       <a href="#usn-eglises">&Eacute;glises</a>
       <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Soutenir la mission</a>
     </div>
@@ -1262,6 +1347,431 @@
   </div>
 
   <!-- ============================================================= -->
+  <!-- LES EDITIONS SUR LA CARTE                                      -->
+  <!--                                                                -->
+  <!-- &#9658; POUR AJOUTER UNE VILLE : le dessin est genere par le      -->
+  <!--   script construire-carte.py, qui releve le contour de la       -->
+  <!--   France et les coordonnees des villes sur OpenStreetMap.       -->
+  <!--   Relancez-le plutot que de deplacer les chiffres a la main.    -->
+  <!-- ============================================================= -->
+  <div class="usn-editions" id="usn-editions">
+    <div class="usn-wrap">
+      <span class="usn-cle">De ville en ville</span>
+      <h2 class="usn-ed-titre">Depuis 2024</h2>
+      <p class="usn-ed-chapo">Chaque ville, son affiche. Touchez une affiche pour l'agrandir.</p>
+    </div>
+
+      <svg class="usn-ed-carte" viewBox="0 0 1000 830" role="img"
+           aria-label="Carte des editions Un Seul Nom en France">
+        <path class="usn-ed-pays" d="M265.0 318.4L269.3 337.9L271.7 342.1L305.5 361.5L319.9 363.0L325.5 374.6L329.6 377.9L344.1 378.1L350.0 381.4L349.6 396.1L351.1 400.3L369.8 412.2L379.5 425.7L384.8 439.9L384.7 446.2L388.3 452.3L385.1 499.4L379.8 531.0L377.2 535.3L377.6 546.2L379.5 548.7L382.7 548.3L383.2 550.7L385.5 548.8L390.3 550.8L387.4 558.1L388.4 559.9L391.0 560.7L391.7 557.1L393.6 556.7L392.4 558.9L397.6 561.6L409.6 563.4L410.2 566.6L415.2 571.8L423.1 568.7L432.2 576.1L438.1 573.8L441.8 576.6L443.8 574.3L453.5 575.8L452.4 572.9L454.5 568.2L465.9 571.5L468.6 575.0L474.4 574.5L476.9 579.8L480.3 577.4L486.1 579.2L487.6 581.0L485.9 584.7L492.3 586.4L494.7 591.2L502.1 587.1L509.1 591.5L514.9 591.5L514.9 588.6L523.3 585.2L527.6 587.7L538.7 587.3L534.5 576.7L535.4 562.9L538.3 558.9L544.7 558.0L555.6 548.4L573.1 555.0L584.6 556.3L590.0 561.2L602.2 563.6L609.5 568.3L630.6 571.4L639.2 566.4L645.6 557.7L647.2 551.9L663.4 538.9L661.3 528.4L664.4 537.9L667.4 536.1L663.2 523.3L670.0 514.5L669.1 509.4L659.0 512.0L648.3 506.7L644.5 501.0L644.7 498.4L646.4 498.0L643.5 493.5L647.0 489.5L646.9 486.8L650.4 486.7L648.0 481.9L648.8 480.4L640.4 476.6L640.3 471.7L638.0 471.6L636.5 467.7L650.5 462.9L653.7 454.4L648.0 449.8L648.0 443.8L642.1 440.0L642.4 435.0L649.4 431.1L646.1 424.8L644.1 425.4L644.9 422.1L641.7 421.5L643.9 415.1L641.0 411.8L642.5 408.6L633.2 407.2L627.6 409.6L624.0 413.7L626.3 417.6L621.4 421.3L615.9 421.7L616.5 418.0L621.1 416.4L622.5 411.3L619.2 409.0L622.1 403.3L620.6 401.9L631.2 393.0L630.6 386.1L639.4 380.6L646.6 372.0L646.2 370.1L649.8 367.9L644.3 367.1L648.1 362.6L647.5 360.8L659.9 363.6L666.0 357.1L663.7 351.7L667.1 339.4L665.8 332.7L670.9 323.5L673.8 309.4L685.9 294.9L676.7 290.8L667.4 290.9L661.7 285.1L657.0 288.2L651.1 286.4L649.6 288.3L649.1 284.8L646.1 283.4L643.0 283.8L642.9 286.6L640.0 286.0L633.9 274.0L624.6 270.3L618.5 273.3L610.3 268.2L600.8 271.0L599.7 266.7L596.1 266.0L596.7 264.1L594.7 262.2L591.5 262.3L586.3 257.5L581.9 257.9L583.1 252.7L580.0 250.0L583.3 242.4L581.1 241.0L576.6 245.6L577.1 248.8L569.4 251.4L561.8 250.6L559.9 247.7L562.8 245.3L561.9 242.6L559.6 242.5L562.1 236.4L559.9 237.1L556.5 232.5L548.0 232.9L546.8 235.0L543.7 226.3L533.8 225.1L533.0 217.2L529.6 213.2L523.5 214.9L522.1 217.6L518.5 216.1L516.5 212.3L512.6 210.6L513.7 206.2L505.6 190.2L490.8 194.8L474.4 206.1L472.1 208.5L471.2 226.6L468.5 238.7L463.0 243.0L447.2 246.7L433.1 254.3L427.9 259.5L425.2 269.4L406.2 267.0L401.7 256.9L395.1 252.8L369.5 252.2L369.1 262.9L366.9 269.2L376.3 282.2L375.5 290.5L371.6 298.6L355.0 296.6L353.9 283.5L342.5 279.8L337.5 283.4L335.6 288.2L317.4 290.3L270.6 308.6L266.9 312.3L265.0 318.4Z" />
+        <path class="usn-ed-pays" d="M686.9 590.3L688.8 615.0L695.7 631.0L701.3 638.0L704.3 639.8L713.7 637.3L717.8 638.4L723.4 633.3L728.9 632.1L730.2 612.9L734.5 604.3L735.0 595.1L733.6 578.4L732.1 575.2L733.0 570.5L729.8 565.5L727.6 554.1L721.2 551.8L714.7 555.1L710.7 565.5L694.4 574.9L687.7 586.2L686.9 590.3Z" />
+      <g class="usn-ed-aff" data-usn-affiche="images/edition-wasquehal.webp" data-usn-titre="Wasquehal 59">
+        <line class="usn-ed-fil" x1="140.0" y1="220.0" x2="529.0" y2="218.6" />
+        <circle class="usn-ed-point" cx="529.0" cy="218.6" r="4.5" />
+        <image href="images/edition-wasquehal.webp" x="24.0" y="142.5" width="116.0" height="155.0"
+               preserveAspectRatio="xMidYMid slice" />
+        <rect class="usn-ed-cadre" x="24.0" y="142.5" width="116.0" height="155.0" />
+        <text class="usn-ed-ville" x="24.0" y="315.5" text-anchor="start">WASQUEHAL <tspan class="usn-ed-dep">59</tspan></text>
+        <text class="usn-ed-date" x="24.0" y="330.5" text-anchor="start">28 mars 2026</text>
+      </g>
+      <g class="usn-ed-aff" data-usn-affiche="images/affichepau.webp" data-usn-titre="Pau 64">
+        <line class="usn-ed-fil" x1="140.0" y1="415.0" x2="421.4" y2="548.7" />
+        <circle class="usn-ed-point" cx="421.4" cy="548.7" r="4.5" />
+        <image href="images/affichepau.webp" x="24.0" y="337.5" width="116.0" height="155.0"
+               preserveAspectRatio="xMidYMid slice" />
+        <rect class="usn-ed-cadre" x="24.0" y="337.5" width="116.0" height="155.0" />
+        <text class="usn-ed-ville" x="24.0" y="510.5" text-anchor="start">PAU <tspan class="usn-ed-dep">64</tspan></text>
+        <text class="usn-ed-date" x="24.0" y="525.5" text-anchor="start">5 octobre 2024</text>
+      </g>
+      <g class="usn-ed-aff est-avenir" data-usn-affiche="images/affichetarbes.webp" data-usn-titre="Tarbes 65">
+        <line class="usn-ed-fil" x1="140.0" y1="610.0" x2="435.1" y2="551.6" />
+        <circle class="usn-ed-point" cx="435.1" cy="551.6" r="4.5" />
+        <image href="images/affichetarbes.webp" x="24.0" y="532.5" width="116.0" height="155.0"
+               preserveAspectRatio="xMidYMid slice" />
+        <rect class="usn-ed-cadre" x="24.0" y="532.5" width="116.0" height="155.0" />
+        <text class="usn-ed-ville" x="24.0" y="705.5" text-anchor="start">TARBES <tspan class="usn-ed-dep">65</tspan></text>
+        <text class="usn-ed-date" x="24.0" y="720.5" text-anchor="start">12 décembre 2026</text>
+      </g>
+      <g class="usn-ed-aff" data-usn-affiche="images/edition-paris.webp" data-usn-titre="Paris 75">
+        <line class="usn-ed-fil" x1="860.0" y1="122.5" x2="504.1" y2="299.7" />
+        <circle class="usn-ed-point" cx="504.1" cy="299.7" r="4.5" />
+        <image href="images/edition-paris.webp" x="860.0" y="45.0" width="116.0" height="155.0"
+               preserveAspectRatio="xMidYMid slice" />
+        <rect class="usn-ed-cadre" x="860.0" y="45.0" width="116.0" height="155.0" />
+        <text class="usn-ed-ville" x="976.0" y="218.0" text-anchor="end">PARIS <tspan class="usn-ed-dep">75</tspan></text>
+        <text class="usn-ed-date" x="976.0" y="233.0" text-anchor="end">4 mai 2024</text>
+      </g>
+      <g class="usn-ed-aff" data-usn-affiche="images/edition-croissy.webp" data-usn-titre="Croissy-Beaubourg 77">
+        <line class="usn-ed-fil" x1="860.0" y1="317.5" x2="514.5" y2="301.1" />
+        <circle class="usn-ed-point" cx="514.5" cy="301.1" r="4.5" />
+        <image href="images/edition-croissy.webp" x="860.0" y="240.0" width="116.0" height="155.0"
+               preserveAspectRatio="xMidYMid slice" />
+        <rect class="usn-ed-cadre" x="860.0" y="240.0" width="116.0" height="155.0" />
+        <text class="usn-ed-ville" x="976.0" y="413.0" text-anchor="end">CROISSY-BEAUBOURG <tspan class="usn-ed-dep">77</tspan></text>
+        <text class="usn-ed-date" x="976.0" y="428.0" text-anchor="end">21 et 22 juin 2025</text>
+      </g>
+      <g class="usn-ed-aff" data-usn-affiche="images/afficheavignon.webp" data-usn-titre="Avignon 84">
+        <line class="usn-ed-fil" x1="860.0" y1="512.5" x2="580.5" y2="519.5" />
+        <circle class="usn-ed-point" cx="580.5" cy="519.5" r="4.5" />
+        <image href="images/afficheavignon.webp" x="860.0" y="435.0" width="116.0" height="155.0"
+               preserveAspectRatio="xMidYMid slice" />
+        <rect class="usn-ed-cadre" x="860.0" y="435.0" width="116.0" height="155.0" />
+        <text class="usn-ed-ville" x="976.0" y="608.0" text-anchor="end">AVIGNON <tspan class="usn-ed-dep">84</tspan></text>
+        <text class="usn-ed-date" x="976.0" y="623.0" text-anchor="end">17 octobre 2026</text>
+      </g>
+      <g class="usn-ed-aff" data-usn-affiche="images/edition-perpignan.webp" data-usn-titre="Perpignan 66">
+        <line class="usn-ed-fil" x1="860.0" y1="707.5" x2="521.7" y2="575.5" />
+        <circle class="usn-ed-point" cx="521.7" cy="575.5" r="4.5" />
+        <image href="images/edition-perpignan.webp" x="860.0" y="630.0" width="116.0" height="155.0"
+               preserveAspectRatio="xMidYMid slice" />
+        <rect class="usn-ed-cadre" x="860.0" y="630.0" width="116.0" height="155.0" />
+        <text class="usn-ed-ville" x="976.0" y="803.0" text-anchor="end">PERPIGNAN <tspan class="usn-ed-dep">66</tspan></text>
+        <text class="usn-ed-date" x="976.0" y="818.0" text-anchor="end">9 mai 2026</text>
+      </g>
+      <g class="usn-ed-seul">
+        <circle class="usn-ed-point" cx="508.1" cy="303.3" r="3.4" />
+        <text class="usn-ed-ville" x="517.1" y="320.3">CRÉTEIL <tspan class="usn-ed-dep">94</tspan></text>
+      </g>
+      <g class="usn-ed-seul">
+        <circle class="usn-ed-point" cx="415.7" cy="361.7" r="3.4" />
+        <text class="usn-ed-ville" x="424.7" y="365.2">ANGERS <tspan class="usn-ed-dep">49</tspan></text>
+      </g>
+      </svg>
+
+    <!-- La meme chose en vignettes : sur un telephone, les legendes du
+         dessin deviendraient illisibles. -->
+    <div class="usn-ed-liste">
+        <button type="button" class="usn-ed-vignette" data-usn-affiche="images/edition-wasquehal.webp" data-usn-titre="Wasquehal 59">
+          <img src="images/edition-wasquehal.webp" alt="Affiche Un Seul Nom Wasquehal" loading="lazy" />
+          <span class="usn-ed-vville">WASQUEHAL <b>59</b></span>
+          <span class="usn-ed-vdate">28 mars 2026</span>
+        </button>
+        <button type="button" class="usn-ed-vignette" data-usn-affiche="images/affichepau.webp" data-usn-titre="Pau 64">
+          <img src="images/affichepau.webp" alt="Affiche Un Seul Nom Pau" loading="lazy" />
+          <span class="usn-ed-vville">PAU <b>64</b></span>
+          <span class="usn-ed-vdate">5 octobre 2024</span>
+        </button>
+        <button type="button" class="usn-ed-vignette est-avenir" data-usn-affiche="images/affichetarbes.webp" data-usn-titre="Tarbes 65">
+          <img src="images/affichetarbes.webp" alt="Affiche Un Seul Nom Tarbes" loading="lazy" />
+          <span class="usn-ed-vville">TARBES <b>65</b></span>
+          <span class="usn-ed-vdate">12 décembre 2026</span>
+        </button>
+        <button type="button" class="usn-ed-vignette" data-usn-affiche="images/edition-paris.webp" data-usn-titre="Paris 75">
+          <img src="images/edition-paris.webp" alt="Affiche Un Seul Nom Paris" loading="lazy" />
+          <span class="usn-ed-vville">PARIS <b>75</b></span>
+          <span class="usn-ed-vdate">4 mai 2024</span>
+        </button>
+        <button type="button" class="usn-ed-vignette" data-usn-affiche="images/edition-croissy.webp" data-usn-titre="Croissy-Beaubourg 77">
+          <img src="images/edition-croissy.webp" alt="Affiche Un Seul Nom Croissy-Beaubourg" loading="lazy" />
+          <span class="usn-ed-vville">CROISSY-BEAUBOURG <b>77</b></span>
+          <span class="usn-ed-vdate">21 et 22 juin 2025</span>
+        </button>
+        <button type="button" class="usn-ed-vignette" data-usn-affiche="images/afficheavignon.webp" data-usn-titre="Avignon 84">
+          <img src="images/afficheavignon.webp" alt="Affiche Un Seul Nom Avignon" loading="lazy" />
+          <span class="usn-ed-vville">AVIGNON <b>84</b></span>
+          <span class="usn-ed-vdate">17 octobre 2026</span>
+        </button>
+        <button type="button" class="usn-ed-vignette" data-usn-affiche="images/edition-perpignan.webp" data-usn-titre="Perpignan 66">
+          <img src="images/edition-perpignan.webp" alt="Affiche Un Seul Nom Perpignan" loading="lazy" />
+          <span class="usn-ed-vville">PERPIGNAN <b>66</b></span>
+          <span class="usn-ed-vdate">9 mai 2026</span>
+        </button>
+    </div>
+
+    <div class="usn-wrap usn-ed-ailleurs">
+      <button type="button" class="usn-ed-vignette" data-usn-affiche="images/affichemadagascar.webp" data-usn-titre="Madagascar">
+        <img src="images/affichemadagascar.webp" alt="Affiche Un Seul Nom Madagascar" loading="lazy" />
+        <span class="usn-ed-vville">Madagascar</span>
+        <span class="usn-ed-vdate">14 novembre 2026</span>
+      </button>
+      <button type="button" class="usn-ed-vignette" data-usn-affiche="images/afficheformation.webp" data-usn-titre="Paris, journee de formation">
+        <img src="images/afficheformation.webp" alt="Affiche de la journee de formation" loading="lazy" />
+        <span class="usn-ed-vville">Paris <b>75</b></span>
+        <span class="usn-ed-vdate">Formation &middot; 12 avril 2025</span>
+      </button>
+      <p class="usn-ed-note">Et au-del&agrave; de la France : Madagascar, le 14 novembre 2026.</p>
+    </div>
+  </div>
+  <!-- ============================================================= -->
+  <div class="usn-editions" id="usn-editions">
+    <div class="usn-wrap">
+      <span class="usn-cle">De ville en ville</span>
+      <h2 class="usn-ed-titre">Depuis 2024</h2>
+      <p class="usn-ed-chapo">Chaque ville, son affiche. Touchez une affiche pour l'agrandir.</p>
+    </div>
+
+      <svg class="usn-ed-carte" viewBox="0 0 1000 830" role="img"
+           aria-label="Carte des editions Un Seul Nom en France">
+        <path class="usn-ed-pays" d="M265.0 318.4L269.3 337.9L271.7 342.1L305.5 361.5L319.9 363.0L325.5 374.6L329.6 377.9L344.1 378.1L350.0 381.4L349.6 396.1L351.1 400.3L369.8 412.2L379.5 425.7L384.8 439.9L384.7 446.2L388.3 452.3L385.1 499.4L379.8 531.0L377.2 535.3L377.6 546.2L379.5 548.7L382.7 548.3L383.2 550.7L385.5 548.8L390.3 550.8L387.4 558.1L388.4 559.9L391.0 560.7L391.7 557.1L393.6 556.7L392.4 558.9L397.6 561.6L409.6 563.4L410.2 566.6L415.2 571.8L423.1 568.7L432.2 576.1L438.1 573.8L441.8 576.6L443.8 574.3L453.5 575.8L452.4 572.9L454.5 568.2L465.9 571.5L468.6 575.0L474.4 574.5L476.9 579.8L480.3 577.4L486.1 579.2L487.6 581.0L485.9 584.7L492.3 586.4L494.7 591.2L502.1 587.1L509.1 591.5L514.9 591.5L514.9 588.6L523.3 585.2L527.6 587.7L538.7 587.3L534.5 576.7L535.4 562.9L538.3 558.9L544.7 558.0L555.6 548.4L573.1 555.0L584.6 556.3L590.0 561.2L602.2 563.6L609.5 568.3L630.6 571.4L639.2 566.4L645.6 557.7L647.2 551.9L663.4 538.9L661.3 528.4L664.4 537.9L667.4 536.1L663.2 523.3L670.0 514.5L669.1 509.4L659.0 512.0L648.3 506.7L644.5 501.0L644.7 498.4L646.4 498.0L643.5 493.5L647.0 489.5L646.9 486.8L650.4 486.7L648.0 481.9L648.8 480.4L640.4 476.6L640.3 471.7L638.0 471.6L636.5 467.7L650.5 462.9L653.7 454.4L648.0 449.8L648.0 443.8L642.1 440.0L642.4 435.0L649.4 431.1L646.1 424.8L644.1 425.4L644.9 422.1L641.7 421.5L643.9 415.1L641.0 411.8L642.5 408.6L633.2 407.2L627.6 409.6L624.0 413.7L626.3 417.6L621.4 421.3L615.9 421.7L616.5 418.0L621.1 416.4L622.5 411.3L619.2 409.0L622.1 403.3L620.6 401.9L631.2 393.0L630.6 386.1L639.4 380.6L646.6 372.0L646.2 370.1L649.8 367.9L644.3 367.1L648.1 362.6L647.5 360.8L659.9 363.6L666.0 357.1L663.7 351.7L667.1 339.4L665.8 332.7L670.9 323.5L673.8 309.4L685.9 294.9L676.7 290.8L667.4 290.9L661.7 285.1L657.0 288.2L651.1 286.4L649.6 288.3L649.1 284.8L646.1 283.4L643.0 283.8L642.9 286.6L640.0 286.0L633.9 274.0L624.6 270.3L618.5 273.3L610.3 268.2L600.8 271.0L599.7 266.7L596.1 266.0L596.7 264.1L594.7 262.2L591.5 262.3L586.3 257.5L581.9 257.9L583.1 252.7L580.0 250.0L583.3 242.4L581.1 241.0L576.6 245.6L577.1 248.8L569.4 251.4L561.8 250.6L559.9 247.7L562.8 245.3L561.9 242.6L559.6 242.5L562.1 236.4L559.9 237.1L556.5 232.5L548.0 232.9L546.8 235.0L543.7 226.3L533.8 225.1L533.0 217.2L529.6 213.2L523.5 214.9L522.1 217.6L518.5 216.1L516.5 212.3L512.6 210.6L513.7 206.2L505.6 190.2L490.8 194.8L474.4 206.1L472.1 208.5L471.2 226.6L468.5 238.7L463.0 243.0L447.2 246.7L433.1 254.3L427.9 259.5L425.2 269.4L406.2 267.0L401.7 256.9L395.1 252.8L369.5 252.2L369.1 262.9L366.9 269.2L376.3 282.2L375.5 290.5L371.6 298.6L355.0 296.6L353.9 283.5L342.5 279.8L337.5 283.4L335.6 288.2L317.4 290.3L270.6 308.6L266.9 312.3L265.0 318.4Z" />
+        <path class="usn-ed-pays" d="M686.9 590.3L688.8 615.0L695.7 631.0L701.3 638.0L704.3 639.8L713.7 637.3L717.8 638.4L723.4 633.3L728.9 632.1L730.2 612.9L734.5 604.3L735.0 595.1L733.6 578.4L732.1 575.2L733.0 570.5L729.8 565.5L727.6 554.1L721.2 551.8L714.7 555.1L710.7 565.5L694.4 574.9L687.7 586.2L686.9 590.3Z" />
+      <g class="usn-ed-aff" data-usn-affiche="images/edition-wasquehal.webp" data-usn-titre="Wasquehal 59">
+        <line class="usn-ed-fil" x1="140.0" y1="220.0" x2="529.0" y2="218.6" />
+        <circle class="usn-ed-point" cx="529.0" cy="218.6" r="4.5" />
+        <image href="images/edition-wasquehal.webp" x="24.0" y="142.5" width="116.0" height="155.0"
+               preserveAspectRatio="xMidYMid slice" />
+        <rect class="usn-ed-cadre" x="24.0" y="142.5" width="116.0" height="155.0" />
+        <text class="usn-ed-ville" x="24.0" y="314.5">WASQUEHAL <tspan class="usn-ed-dep">59</tspan></text>
+        <text class="usn-ed-date" x="24.0" y="328.5">28 mars 2026</text>
+      </g>
+      <g class="usn-ed-aff" data-usn-affiche="images/affichepau.webp" data-usn-titre="Pau 64">
+        <line class="usn-ed-fil" x1="140.0" y1="415.0" x2="421.4" y2="548.7" />
+        <circle class="usn-ed-point" cx="421.4" cy="548.7" r="4.5" />
+        <image href="images/affichepau.webp" x="24.0" y="337.5" width="116.0" height="155.0"
+               preserveAspectRatio="xMidYMid slice" />
+        <rect class="usn-ed-cadre" x="24.0" y="337.5" width="116.0" height="155.0" />
+        <text class="usn-ed-ville" x="24.0" y="509.5">PAU <tspan class="usn-ed-dep">64</tspan></text>
+        <text class="usn-ed-date" x="24.0" y="523.5">5 octobre 2024</text>
+      </g>
+      <g class="usn-ed-aff est-avenir" data-usn-affiche="images/affichetarbes.webp" data-usn-titre="Tarbes 65">
+        <line class="usn-ed-fil" x1="140.0" y1="610.0" x2="435.1" y2="551.6" />
+        <circle class="usn-ed-point" cx="435.1" cy="551.6" r="4.5" />
+        <image href="images/affichetarbes.webp" x="24.0" y="532.5" width="116.0" height="155.0"
+               preserveAspectRatio="xMidYMid slice" />
+        <rect class="usn-ed-cadre" x="24.0" y="532.5" width="116.0" height="155.0" />
+        <text class="usn-ed-ville" x="24.0" y="704.5">TARBES <tspan class="usn-ed-dep">65</tspan></text>
+        <text class="usn-ed-date" x="24.0" y="718.5">12 d&eacute;cembre 2026</text>
+      </g>
+      <g class="usn-ed-aff" data-usn-affiche="images/edition-paris.webp" data-usn-titre="Paris 75">
+        <line class="usn-ed-fil" x1="860.0" y1="122.5" x2="504.1" y2="299.7" />
+        <circle class="usn-ed-point" cx="504.1" cy="299.7" r="4.5" />
+        <image href="images/edition-paris.webp" x="860.0" y="45.0" width="116.0" height="155.0"
+               preserveAspectRatio="xMidYMid slice" />
+        <rect class="usn-ed-cadre" x="860.0" y="45.0" width="116.0" height="155.0" />
+        <text class="usn-ed-ville" x="860.0" y="217.0">PARIS <tspan class="usn-ed-dep">75</tspan></text>
+        <text class="usn-ed-date" x="860.0" y="231.0">4 mai 2024</text>
+      </g>
+      <g class="usn-ed-aff" data-usn-affiche="images/edition-croissy.webp" data-usn-titre="Croissy-Beaubourg 77">
+        <line class="usn-ed-fil" x1="860.0" y1="317.5" x2="514.5" y2="301.1" />
+        <circle class="usn-ed-point" cx="514.5" cy="301.1" r="4.5" />
+        <image href="images/edition-croissy.webp" x="860.0" y="240.0" width="116.0" height="155.0"
+               preserveAspectRatio="xMidYMid slice" />
+        <rect class="usn-ed-cadre" x="860.0" y="240.0" width="116.0" height="155.0" />
+        <text class="usn-ed-ville" x="860.0" y="412.0">CROISSY-BEAUBOURG <tspan class="usn-ed-dep">77</tspan></text>
+        <text class="usn-ed-date" x="860.0" y="426.0">21 &amp; 22 juin 2025</text>
+      </g>
+      <g class="usn-ed-aff" data-usn-affiche="images/afficheavignon.webp" data-usn-titre="Avignon 84">
+        <line class="usn-ed-fil" x1="860.0" y1="512.5" x2="580.5" y2="519.5" />
+        <circle class="usn-ed-point" cx="580.5" cy="519.5" r="4.5" />
+        <image href="images/afficheavignon.webp" x="860.0" y="435.0" width="116.0" height="155.0"
+               preserveAspectRatio="xMidYMid slice" />
+        <rect class="usn-ed-cadre" x="860.0" y="435.0" width="116.0" height="155.0" />
+        <text class="usn-ed-ville" x="860.0" y="607.0">AVIGNON <tspan class="usn-ed-dep">84</tspan></text>
+        <text class="usn-ed-date" x="860.0" y="621.0">17 octobre 2026</text>
+      </g>
+      <g class="usn-ed-aff" data-usn-affiche="images/edition-perpignan.webp" data-usn-titre="Perpignan 66">
+        <line class="usn-ed-fil" x1="860.0" y1="707.5" x2="521.7" y2="575.5" />
+        <circle class="usn-ed-point" cx="521.7" cy="575.5" r="4.5" />
+        <image href="images/edition-perpignan.webp" x="860.0" y="630.0" width="116.0" height="155.0"
+               preserveAspectRatio="xMidYMid slice" />
+        <rect class="usn-ed-cadre" x="860.0" y="630.0" width="116.0" height="155.0" />
+        <text class="usn-ed-ville" x="860.0" y="802.0">PERPIGNAN <tspan class="usn-ed-dep">66</tspan></text>
+        <text class="usn-ed-date" x="860.0" y="816.0">9 mai 2026</text>
+      </g>
+      <g class="usn-ed-seul">
+        <circle class="usn-ed-point" cx="508.1" cy="303.3" r="3.4" />
+        <text class="usn-ed-ville" x="517.1" y="306.8">CR&EACUTE;TEIL <tspan class="usn-ed-dep">94</tspan></text>
+      </g>
+      <g class="usn-ed-seul">
+        <circle class="usn-ed-point" cx="415.7" cy="361.7" r="3.4" />
+        <text class="usn-ed-ville" x="424.7" y="365.2">ANGERS <tspan class="usn-ed-dep">49</tspan></text>
+      </g>
+      </svg>
+
+    <!-- La meme chose en vignettes : sur un telephone, les legendes du
+         dessin deviendraient illisibles. -->
+    <div class="usn-ed-liste">
+        <button type="button" class="usn-ed-vignette" data-usn-affiche="images/edition-wasquehal.webp" data-usn-titre="Wasquehal 59">
+          <img src="images/edition-wasquehal.webp" alt="Affiche Un Seul Nom Wasquehal" loading="lazy" />
+          <span class="usn-ed-vville">WASQUEHAL <b>59</b></span>
+          <span class="usn-ed-vdate">28 mars 2026</span>
+        </button>
+        <button type="button" class="usn-ed-vignette" data-usn-affiche="images/affichepau.webp" data-usn-titre="Pau 64">
+          <img src="images/affichepau.webp" alt="Affiche Un Seul Nom Pau" loading="lazy" />
+          <span class="usn-ed-vville">PAU <b>64</b></span>
+          <span class="usn-ed-vdate">5 octobre 2024</span>
+        </button>
+        <button type="button" class="usn-ed-vignette est-avenir" data-usn-affiche="images/affichetarbes.webp" data-usn-titre="Tarbes 65">
+          <img src="images/affichetarbes.webp" alt="Affiche Un Seul Nom Tarbes" loading="lazy" />
+          <span class="usn-ed-vville">TARBES <b>65</b></span>
+          <span class="usn-ed-vdate">12 d&eacute;cembre 2026</span>
+        </button>
+        <button type="button" class="usn-ed-vignette" data-usn-affiche="images/edition-paris.webp" data-usn-titre="Paris 75">
+          <img src="images/edition-paris.webp" alt="Affiche Un Seul Nom Paris" loading="lazy" />
+          <span class="usn-ed-vville">PARIS <b>75</b></span>
+          <span class="usn-ed-vdate">4 mai 2024</span>
+        </button>
+        <button type="button" class="usn-ed-vignette" data-usn-affiche="images/edition-croissy.webp" data-usn-titre="Croissy-Beaubourg 77">
+          <img src="images/edition-croissy.webp" alt="Affiche Un Seul Nom Croissy-Beaubourg" loading="lazy" />
+          <span class="usn-ed-vville">CROISSY-BEAUBOURG <b>77</b></span>
+          <span class="usn-ed-vdate">21 &amp; 22 juin 2025</span>
+        </button>
+        <button type="button" class="usn-ed-vignette" data-usn-affiche="images/afficheavignon.webp" data-usn-titre="Avignon 84">
+          <img src="images/afficheavignon.webp" alt="Affiche Un Seul Nom Avignon" loading="lazy" />
+          <span class="usn-ed-vville">AVIGNON <b>84</b></span>
+          <span class="usn-ed-vdate">17 octobre 2026</span>
+        </button>
+        <button type="button" class="usn-ed-vignette" data-usn-affiche="images/edition-perpignan.webp" data-usn-titre="Perpignan 66">
+          <img src="images/edition-perpignan.webp" alt="Affiche Un Seul Nom Perpignan" loading="lazy" />
+          <span class="usn-ed-vville">PERPIGNAN <b>66</b></span>
+          <span class="usn-ed-vdate">9 mai 2026</span>
+        </button>
+    </div>
+
+    <div class="usn-wrap usn-ed-ailleurs">
+      <button type="button" class="usn-ed-vignette" data-usn-affiche="images/affichemadagascar.webp" data-usn-titre="Madagascar">
+        <img src="images/affichemadagascar.webp" alt="Affiche Un Seul Nom Madagascar" loading="lazy" />
+        <span class="usn-ed-vville">Madagascar</span>
+        <span class="usn-ed-vdate">14 novembre 2026</span>
+      </button>
+      <button type="button" class="usn-ed-vignette" data-usn-affiche="images/afficheformation.webp" data-usn-titre="Paris, journee de formation">
+        <img src="images/afficheformation.webp" alt="Affiche de la journee de formation" loading="lazy" />
+        <span class="usn-ed-vville">Paris <b>75</b></span>
+        <span class="usn-ed-vdate">Formation &middot; 12 avril 2025</span>
+      </button>
+      <p class="usn-ed-note">Et au-del&agrave; de la France : Madagascar, le 14 novembre 2026.</p>
+    </div>
+  </div>
+  <!-- ============================================================= -->
+  <div class="usn-editions" id="usn-editions">
+    <div class="usn-wrap">
+      <span class="usn-cle">De ville en ville</span>
+      <h2 class="usn-ed-titre">Depuis 2024</h2>
+      <p class="usn-ed-chapo">Chaque ville, son affiche. Touchez une affiche pour l'agrandir.</p>
+    </div>
+
+      <svg class="usn-ed-carte" viewBox="0 0 1000 760" role="img"
+           aria-label="Carte des editions Un Seul Nom en France">
+        <path class="usn-ed-pays" d="M300.0 277.8L303.7 294.4L305.7 298.0L334.5 314.5L346.7 315.8L351.5 325.6L355.0 328.4L367.4 328.6L372.3 331.4L372.0 343.9L373.3 347.5L389.2 357.7L397.4 369.1L401.9 381.2L401.9 386.6L404.9 391.8L402.2 431.8L397.7 458.7L395.5 462.4L395.9 471.6L397.4 473.8L400.2 473.4L400.6 475.5L402.5 473.9L406.6 475.6L404.2 481.8L405.0 483.3L407.3 484.0L407.8 481.0L409.5 480.6L408.4 482.4L412.8 484.8L423.0 486.3L423.6 489.0L427.9 493.4L434.5 490.8L442.3 497.1L447.3 495.1L450.5 497.5L452.2 495.6L460.4 496.9L459.4 494.4L461.3 490.4L471.0 493.2L473.2 496.2L478.2 495.8L480.4 500.2L483.3 498.2L488.2 499.7L489.5 501.3L488.0 504.4L493.4 505.9L495.5 510.0L501.8 506.5L507.7 510.2L512.7 510.2L512.7 507.7L519.9 504.8L523.5 507.0L533.0 506.6L529.4 497.6L530.1 485.9L532.6 482.5L538.0 481.7L547.3 473.5L562.2 479.1L572.0 480.2L576.6 484.4L587.0 486.5L593.2 490.5L611.1 493.1L618.4 488.9L623.9 481.5L625.3 476.5L639.1 465.4L637.2 456.5L639.9 464.6L642.5 463.0L638.9 452.2L644.7 444.6L643.9 440.4L635.3 442.6L626.2 438.0L623.0 433.2L623.2 430.9L624.6 430.6L622.2 426.8L625.1 423.4L625.0 421.1L628.0 421.0L626.0 416.9L626.6 415.6L619.4 412.5L619.4 408.3L617.4 408.1L616.2 404.9L628.1 400.8L630.8 393.5L626.0 389.6L626.0 384.5L621.0 381.3L621.2 377.0L627.1 373.7L624.3 368.3L622.6 368.8L623.3 366.1L620.6 365.5L622.4 360.1L620.0 357.3L621.3 354.5L613.4 353.4L608.6 355.4L605.5 358.9L607.5 362.2L603.4 365.4L598.6 365.7L599.1 362.6L603.0 361.2L604.2 356.8L601.5 354.9L603.9 350.0L602.7 348.8L611.6 341.3L611.1 335.4L618.6 330.7L624.8 323.4L624.4 321.8L627.5 319.9L622.8 319.3L626.0 315.4L625.5 313.8L636.1 316.2L641.3 310.8L639.4 306.1L642.2 295.6L641.1 290.0L645.4 282.1L647.9 270.2L658.2 257.8L650.4 254.3L642.5 254.4L637.6 249.5L633.6 252.1L628.6 250.6L627.3 252.2L626.9 249.2L624.3 248.0L621.7 248.4L621.6 250.7L619.1 250.2L614.0 240.0L606.1 236.9L600.9 239.4L593.9 235.0L585.8 237.5L584.8 233.8L581.8 233.2L582.3 231.5L580.6 229.9L577.9 230.1L573.5 226.0L569.7 226.3L570.7 221.9L568.1 219.5L570.9 213.1L569.0 211.9L565.2 215.8L565.6 218.6L559.1 220.8L552.6 220.1L551.0 217.6L553.5 215.6L552.7 213.3L550.8 213.2L552.9 208.0L551.0 208.6L548.1 204.7L540.8 205.0L539.8 206.8L537.2 199.4L528.8 198.4L528.1 191.7L525.2 188.3L520.0 189.7L518.8 192.0L515.8 190.7L514.0 187.5L510.8 186.0L511.6 182.3L504.7 168.7L492.2 172.6L478.2 182.2L476.3 184.3L475.5 199.7L473.2 210.0L468.5 213.6L455.0 216.8L443.1 223.2L438.7 227.6L436.3 236.1L420.2 234.0L416.3 225.5L410.8 221.9L388.9 221.4L388.6 230.5L386.7 235.9L394.7 247.0L394.0 254.0L390.8 261.0L376.6 259.3L375.7 248.1L365.9 244.9L361.7 248.0L360.1 252.0L344.6 253.9L304.8 269.5L301.6 272.6L300.0 277.8Z" />
+        <path class="usn-ed-pays" d="M659.1 509.2L660.7 530.2L666.6 543.8L671.3 549.7L673.9 551.3L681.8 549.2L685.4 550.2L690.1 545.8L694.8 544.8L695.9 528.4L699.5 521.1L700.0 513.2L698.8 499.1L697.5 496.4L698.3 492.4L695.5 488.1L693.7 478.4L688.3 476.4L682.7 479.3L679.3 488.1L665.5 496.1L659.8 505.7L659.1 509.2Z" />
+      <g class="usn-ed-aff" data-usn-affiche="images/edition-wasquehal.webp" data-usn-titre="Wasquehal 59">
+        <line class="usn-ed-fil" x1="154.0" y1="201.0" x2="524.7" y2="192.9" />
+        <circle class="usn-ed-point" cx="524.7" cy="192.9" r="4.5" />
+        <image href="images/edition-wasquehal.webp" x="36.0" y="122.5" width="118.0" height="157.0"
+               preserveAspectRatio="xMidYMid slice" />
+        <rect class="usn-ed-cadre" x="36.0" y="122.5" width="118.0" height="157.0" />
+        <text class="usn-ed-ville" x="36.0" y="296.5">WASQUEHAL <tspan class="usn-ed-dep">59</tspan></text>
+        <text class="usn-ed-date" x="36.0" y="310.5">28 mars 2026</text>
+      </g>
+      <g class="usn-ed-aff" data-usn-affiche="images/affichepau.webp" data-usn-titre="Pau 64">
+        <line class="usn-ed-fil" x1="154.0" y1="380.0" x2="433.1" y2="473.8" />
+        <circle class="usn-ed-point" cx="433.1" cy="473.8" r="4.5" />
+        <image href="images/affichepau.webp" x="36.0" y="301.5" width="118.0" height="157.0"
+               preserveAspectRatio="xMidYMid slice" />
+        <rect class="usn-ed-cadre" x="36.0" y="301.5" width="118.0" height="157.0" />
+        <text class="usn-ed-ville" x="36.0" y="475.5">PAU <tspan class="usn-ed-dep">64</tspan></text>
+        <text class="usn-ed-date" x="36.0" y="489.5">5 octobre 2024</text>
+      </g>
+      <g class="usn-ed-aff est-avenir" data-usn-affiche="images/affichetarbes.webp" data-usn-titre="Tarbes 65">
+        <line class="usn-ed-fil" x1="154.0" y1="559.0" x2="444.8" y2="476.2" />
+        <circle class="usn-ed-point" cx="444.8" cy="476.2" r="4.5" />
+        <image href="images/affichetarbes.webp" x="36.0" y="480.5" width="118.0" height="157.0"
+               preserveAspectRatio="xMidYMid slice" />
+        <rect class="usn-ed-cadre" x="36.0" y="480.5" width="118.0" height="157.0" />
+        <text class="usn-ed-ville" x="36.0" y="654.5">TARBES <tspan class="usn-ed-dep">65</tspan></text>
+        <text class="usn-ed-date" x="36.0" y="668.5">12 d&eacute;cembre 2026</text>
+      </g>
+      <g class="usn-ed-aff" data-usn-affiche="images/edition-paris.webp" data-usn-titre="Paris 75">
+        <line class="usn-ed-fil" x1="846.0" y1="111.5" x2="503.5" y2="261.9" />
+        <circle class="usn-ed-point" cx="503.5" cy="261.9" r="4.5" />
+        <image href="images/edition-paris.webp" x="846.0" y="33.0" width="118.0" height="157.0"
+               preserveAspectRatio="xMidYMid slice" />
+        <rect class="usn-ed-cadre" x="846.0" y="33.0" width="118.0" height="157.0" />
+        <text class="usn-ed-ville" x="846.0" y="207.0">PARIS <tspan class="usn-ed-dep">75</tspan></text>
+        <text class="usn-ed-date" x="846.0" y="221.0">4 mai 2024</text>
+      </g>
+      <g class="usn-ed-aff" data-usn-affiche="images/edition-croissy.webp" data-usn-titre="Croissy-Beaubourg 77">
+        <line class="usn-ed-fil" x1="846.0" y1="290.5" x2="512.3" y2="263.0" />
+        <circle class="usn-ed-point" cx="512.3" cy="263.0" r="4.5" />
+        <image href="images/edition-croissy.webp" x="846.0" y="212.0" width="118.0" height="157.0"
+               preserveAspectRatio="xMidYMid slice" />
+        <rect class="usn-ed-cadre" x="846.0" y="212.0" width="118.0" height="157.0" />
+        <text class="usn-ed-ville" x="846.0" y="386.0">CROISSY-BEAUBOURG <tspan class="usn-ed-dep">77</tspan></text>
+        <text class="usn-ed-date" x="846.0" y="400.0">21 &amp; 22 juin 2025</text>
+      </g>
+      <g class="usn-ed-aff" data-usn-affiche="images/afficheavignon.webp" data-usn-titre="Avignon 84">
+        <line class="usn-ed-fil" x1="846.0" y1="469.5" x2="568.5" y2="448.9" />
+        <circle class="usn-ed-point" cx="568.5" cy="448.9" r="4.5" />
+        <image href="images/afficheavignon.webp" x="846.0" y="391.0" width="118.0" height="157.0"
+               preserveAspectRatio="xMidYMid slice" />
+        <rect class="usn-ed-cadre" x="846.0" y="391.0" width="118.0" height="157.0" />
+        <text class="usn-ed-ville" x="846.0" y="565.0">AVIGNON <tspan class="usn-ed-dep">84</tspan></text>
+        <text class="usn-ed-date" x="846.0" y="579.0">17 octobre 2026</text>
+      </g>
+      <g class="usn-ed-aff" data-usn-affiche="images/edition-perpignan.webp" data-usn-titre="Perpignan 66">
+        <line class="usn-ed-fil" x1="846.0" y1="648.5" x2="518.5" y2="496.6" />
+        <circle class="usn-ed-point" cx="518.5" cy="496.6" r="4.5" />
+        <image href="images/edition-perpignan.webp" x="846.0" y="570.0" width="118.0" height="157.0"
+               preserveAspectRatio="xMidYMid slice" />
+        <rect class="usn-ed-cadre" x="846.0" y="570.0" width="118.0" height="157.0" />
+        <text class="usn-ed-ville" x="846.0" y="744.0">PERPIGNAN <tspan class="usn-ed-dep">66</tspan></text>
+        <text class="usn-ed-date" x="846.0" y="758.0">9 mai 2026</text>
+      </g>
+      <g class="usn-ed-seul">
+        <circle class="usn-ed-point" cx="506.9" cy="265.0" r="3.4" />
+        <text class="usn-ed-ville" x="515.9" y="268.5">CR&EACUTE;TEIL <tspan class="usn-ed-dep">94</tspan></text>
+      </g>
+      <g class="usn-ed-seul">
+        <circle class="usn-ed-point" cx="428.3" cy="314.6" r="3.4" />
+        <text class="usn-ed-ville" x="437.3" y="318.1">ANGERS <tspan class="usn-ed-dep">49</tspan></text>
+      </g>
+      </svg>
+
+    <!-- La meme chose en vignettes : sur un telephone, les legendes du
+         dessin deviendraient illisibles. -->
+    <div class="usn-ed-liste">
+        <button type="button" class="usn-ed-vignette" data-usn-affiche="images/edition-wasquehal.webp" data-usn-titre="Wasquehal 59">
+          <img src="images/edition-wasquehal.webp" alt="Affiche Un Seul Nom Wasquehal" loading="lazy" />
+          <span class="usn-ed-vville">WASQUEHAL <b>59</b></span>
+          <span class="usn-ed-vdate">28 mars 2026</span>
+        </button>
+        <button type="button" class="usn-ed-vignette" data-usn-affiche="images/affichepau.webp" data-usn-titre="Pau 64">
+          <img src="images/affichepau.webp" alt="Affiche Un Seul Nom Pau" loading="lazy" />
+          <span class="usn-ed-vville">PAU <b>64</b></span>
+          <span class="usn-ed-vdate">5 octobre 2024</span>
+        </button>
+        <button type="button" class="usn-ed-vignette est-avenir" data-usn-affiche="images/affichetarbes.webp" data-usn-titre="Tarbes 65">
+          <img src="images/affichetarbes.webp" alt="Affiche Un Seul Nom Tarbes" loading="lazy" />
+          <span class="usn-ed-vville">TARBES <b>65</b></span>
+          <span class="usn-ed-vdate">12 d&eacute;cembre 2026</span>
+        </button>
+        <button type="button" class="usn-ed-vignette" data-usn-affiche="images/edition-paris.webp" data-usn-titre="Paris 75">
+          <img src="images/edition-paris.webp" alt="Affiche Un Seul Nom Paris" loading="lazy" />
+          <span class="usn-ed-vville">PARIS <b>75</b></span>
+          <span class="usn-ed-vdate">4 mai 2024</span>
+        </button>
+        <button type="button" class="usn-ed-vignette" data-usn-affiche="images/edition-croissy.webp" data-usn-titre="Croissy-Beaubourg 77">
+          <img src="images/edition-croissy.webp" alt="Affiche Un Seul Nom Croissy-Beaubourg" loading="lazy" />
+          <span class="usn-ed-vville">CROISSY-BEAUBOURG <b>77</b></span>
+          <span class="usn-ed-vdate">21 &amp; 22 juin 2025</span>
+        </button>
+        <button type="button" class="usn-ed-vignette" data-usn-affiche="images/afficheavignon.webp" data-usn-titre="Avignon 84">
+          <img src="images/afficheavignon.webp" alt="Affiche Un Seul Nom Avignon" loading="lazy" />
+          <span class="usn-ed-vville">AVIGNON <b>84</b></span>
+          <span class="usn-ed-vdate">17 octobre 2026</span>
+        </button>
+        <button type="button" class="usn-ed-vignette" data-usn-affiche="images/edition-perpignan.webp" data-usn-titre="Perpignan 66">
+          <img src="images/edition-perpignan.webp" alt="Affiche Un Seul Nom Perpignan" loading="lazy" />
+          <span class="usn-ed-vville">PERPIGNAN <b>66</b></span>
+          <span class="usn-ed-vdate">9 mai 2026</span>
+        </button>
+    </div>
+
+    <div class="usn-wrap usn-ed-ailleurs">
+      <button type="button" class="usn-ed-vignette" data-usn-affiche="images/affichemadagascar.webp" data-usn-titre="Madagascar">
+        <img src="images/affichemadagascar.webp" alt="Affiche Un Seul Nom Madagascar" loading="lazy" />
+        <span class="usn-ed-vville">Madagascar</span>
+        <span class="usn-ed-vdate">14 novembre 2026</span>
+      </button>
+      <button type="button" class="usn-ed-vignette" data-usn-affiche="images/afficheformation.webp" data-usn-titre="Paris, journee de formation">
+        <img src="images/afficheformation.webp" alt="Affiche de la journee de formation" loading="lazy" />
+        <span class="usn-ed-vville">Paris <b>75</b></span>
+        <span class="usn-ed-vdate">Formation &middot; 12 avril 2025</span>
+      </button>
+      <p class="usn-ed-note">Et au-del&agrave; de la France : Madagascar, le 14 novembre 2026.</p>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
   <!-- LA FRISE                                                       -->
   <!-- Les photos des editions passees arrivent de la droite pendant   -->
   <!-- qu'on descend. Pour ajouter une ville : une <figure> de plus,   -->
@@ -1351,113 +1861,6 @@
   </div>
 
   <!-- ============================================================= -->
-  <!-- LA GALERIE                                                     -->
-  <!-- ============================================================= -->
-  <div class="usn-galerie" id="usn-galerie">
-    <div class="usn-wrap">
-      <span class="usn-cle" data-usn-monte>D&eacute;j&agrave; v&eacute;cu</span>
-
-      <!--
-        ══════════════════════════════════════════════════════════════
-        ► LA GALERIE — pour ajouter une photo, copiez un bloc <figure>
-          entier et changez l'image et la légende. La mosaïque se
-          réorganise toute seule : vous pouvez en mettre des dizaines.
-
-          Les photos s'affichent en noir et blanc et reprennent leurs
-          couleurs en passant au centre de l'écran.
-        ══════════════════════════════════════════════════════════════
-      -->
-      <div class="usn-mosaique">
-        <figure class="usn-vue">
-          <div class="usn-vue-cadre">
-            <img src="images/edition-paris.webp" alt="Un Seul Nom, Paris 2024" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
-          </div>
-          <figcaption><b>Paris</b>, 2024 &middot; Stade S&eacute;bastien Charl&eacute;ty</figcaption>
-        </figure>
-        <figure class="usn-vue">
-          <div class="usn-vue-cadre">
-            <img src="images/programme-2.webp" alt="Un Seul Nom, Paris 2024" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
-          </div>
-          <figcaption><b>Paris</b>, 2024 &middot; La foule</figcaption>
-        </figure>
-        <figure class="usn-vue">
-          <div class="usn-vue-cadre">
-            <img src="images/edition-croissy.webp" alt="Un Seul Nom, Croissy-Beaubourg 2025" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
-          </div>
-          <figcaption><b>Croissy-Beaubourg</b>, 2025 &middot; La Cit&eacute; Royale</figcaption>
-        </figure>
-        <figure class="usn-vue">
-          <div class="usn-vue-cadre">
-            <img src="images/programme-3.webp" alt="Un Seul Nom, Croissy-Beaubourg 2025" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
-          </div>
-          <figcaption><b>Croissy-Beaubourg</b>, 2025 &middot; Sur sc&egrave;ne</figcaption>
-        </figure>
-        <figure class="usn-vue">
-          <div class="usn-vue-cadre">
-            <img src="images/edition-wasquehal.webp" alt="Un Seul Nom, Wasquehal 2026" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
-          </div>
-          <figcaption><b>Wasquehal</b>, 2026 &middot; Espace Lille M&eacute;tropole</figcaption>
-        </figure>
-        <figure class="usn-vue">
-          <div class="usn-vue-cadre">
-            <img src="images/programme-1.webp" alt="Un Seul Nom, Wasquehal 2026" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
-          </div>
-          <figcaption><b>Wasquehal</b>, 2026 &middot; Avant l'ouverture</figcaption>
-        </figure>
-        <figure class="usn-vue">
-          <div class="usn-vue-cadre">
-            <img src="images/edition-perpignan.webp" alt="Un Seul Nom, Perpignan 2026" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
-          </div>
-          <figcaption><b>Perpignan</b>, 2026 &middot; Palais des congr&egrave;s</figcaption>
-        </figure>
-        <figure class="usn-vue">
-          <div class="usn-vue-cadre">
-            <img src="images/programme-4.webp" alt="Un Seul Nom, Perpignan 2026" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
-          </div>
-          <figcaption><b>Perpignan</b>, 2026 &middot; La pr&eacute;dication</figcaption>
-        </figure>
-        <figure class="usn-vue">
-          <div class="usn-vue-cadre">
-            <img src="images/chriss.webp" alt="Un Seul Nom, Chriss Campion 2026" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
-          </div>
-          <figcaption><b>Chriss Campion</b>, 2026 &middot; Pr&eacute;dication</figcaption>
-        </figure>
-        <figure class="usn-vue">
-          <div class="usn-vue-cadre">
-            <img src="images/yannis.webp" alt="Un Seul Nom, Yannis Gautier 2026" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
-          </div>
-          <figcaption><b>Yannis Gautier</b>, 2026 &middot; Pr&eacute;dication</figcaption>
-        </figure>
-        <figure class="usn-vue">
-          <div class="usn-vue-cadre">
-            <img src="images/patchai.webp" alt="Un Seul Nom, Patcha&iuml; Reyes 2026" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
-          </div>
-          <figcaption><b>Patcha&iuml; Reyes</b>, 2026 &middot; Louange</figcaption>
-        </figure>
-        <figure class="usn-vue">
-          <div class="usn-vue-cadre">
-            <img src="images/nikita.webp" alt="Un Seul Nom, Nikita Heugebaert 2026" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
-          </div>
-          <figcaption><b>Nikita Heugebaert</b>, 2026 &middot; Louange</figcaption>
-        </figure>
-        <figure class="usn-vue">
-          <div class="usn-vue-cadre">
-            <img src="images/ruben.webp" alt="Un Seul Nom, Ruben Debard 2026" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
-          </div>
-          <figcaption><b>Ruben Debard</b>, 2026 &middot; Louange</figcaption>
-        </figure>
-      </div>
-
-      <!-- ► Mettez ces chiffres à jour après chaque édition. -->
-      <div class="usn-chiffres">
-        <div class="usn-chiffre"><b>5</b><span>villes depuis 2024</span></div>
-        <div class="usn-chiffre"><b>4</b><span>dates annonc&eacute;es</span></div>
-        <div class="usn-chiffre"><b>0&nbsp;&euro;</b><span>entr&eacute;e libre, toujours</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ============================================================= -->
   <!-- LES DEUX VISAGES QUI SE RAPPROCHENT                            -->
   <!-- ============================================================= -->
   <div class="usn-rencontre" id="usn-rencontre">
@@ -1469,13 +1872,15 @@
         ► LES DEUX VISAGES — ils arrivent chacun d'un bord et se
           rejoignent au centre. Remplacez les deux images et les deux
           légendes par les portraits de votre choix.
+          La photo manquante se retire d'elle-même : la carte disparaît
+          plutôt que d'afficher une image cassée.
       -->
       <div class="usn-visages">
         <figure class="usn-visage" data-usn-visage="gauche">
           <div class="usn-visage-cadre">
-            <img src="images/yannis.webp" alt="Yannis Gautier" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
+            <img src="images/jack.webp" alt="Jack Brunet" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
           </div>
-          <figcaption><b>Yannis Gautier</b>Pr&eacute;dication</figcaption>
+          <figcaption><b>Jack Brunet</b>Pr&eacute;dication</figcaption>
         </figure>
 
         <div class="usn-entre">
@@ -1485,9 +1890,9 @@
 
         <figure class="usn-visage" data-usn-visage="droite">
           <div class="usn-visage-cadre">
-            <img src="images/patchai.webp" alt="Patcha&iuml; Reyes" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
+            <img src="images/chriss.webp" alt="Chriss Campion" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
           </div>
-          <figcaption><b>Patcha&iuml; Reyes</b>Louange</figcaption>
+          <figcaption><b>Chriss Campion</b>Pr&eacute;dication</figcaption>
         </figure>
       </div>
     </div>
@@ -1677,6 +2082,71 @@
     });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && bouton.getAttribute('aria-expanded') === 'true') basculer(false);
+    });
+  })();
+
+  /* ---- La loupe ----
+     Un clic sur une affiche, qu'elle soit posee sur la carte ou en
+     vignette, l'ouvre en grand. La meme fenetre sert a toutes. */
+  (function () {
+    var loupe  = document.getElementById('usn-loupe');
+    var image  = document.getElementById('usn-loupe-img');
+    var nom    = document.getElementById('usn-loupe-nom');
+    var fermer = document.getElementById('usn-loupe-fermer');
+    if (!loupe || !image) return;
+
+    var rendre = null;   // a qui rendre le clavier en refermant
+
+    function ouvrir(src, titre, origine) {
+      image.src = src;
+      image.alt = titre ? ('Affiche Un Seul Nom ' + titre) : '';
+      if (nom) nom.textContent = titre || '';
+      loupe.hidden = false;
+      requestAnimationFrame(function () { loupe.classList.add('est-ouverte'); });
+      document.documentElement.style.overflow = 'hidden';
+      rendre = origine;
+      if (fermer) fermer.focus();
+    }
+
+    function refermer() {
+      loupe.classList.remove('est-ouverte');
+      document.documentElement.style.overflow = '';
+      setTimeout(function () {
+        if (!loupe.classList.contains('est-ouverte')) { loupe.hidden = true; image.src = ''; }
+      }, 280);
+      if (rendre && rendre.focus) rendre.focus();
+      rendre = null;
+    }
+
+    var root = document.getElementById('usn-accueil') || document;
+    root.addEventListener('click', function (e) {
+      var cible = e.target.closest('[data-usn-affiche]');
+      if (!cible) return;
+      e.preventDefault();
+      ouvrir(cible.getAttribute('data-usn-affiche'),
+             cible.getAttribute('data-usn-titre') || '', cible);
+    });
+
+    // Sur la carte, les affiches sont des groupes SVG : sans cela, on ne
+    // peut pas les atteindre au clavier.
+    var groupes = root.querySelectorAll('.usn-ed-aff');
+    for (var i = 0; i < groupes.length; i++) {
+      groupes[i].setAttribute('tabindex', '0');
+      groupes[i].setAttribute('role', 'button');
+      groupes[i].addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          ouvrir(this.getAttribute('data-usn-affiche'),
+                 this.getAttribute('data-usn-titre') || '', this);
+        }
+      });
+    }
+
+    loupe.addEventListener('click', function (e) {
+      if (e.target === loupe || e.target === fermer) refermer();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && loupe.classList.contains('est-ouverte')) refermer();
     });
   })();
 

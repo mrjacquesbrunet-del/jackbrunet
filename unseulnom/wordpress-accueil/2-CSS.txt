@@ -700,7 +700,7 @@
     margin: 0; font-family: var(--usn-display); font-weight: 900;
     /* Cinq lignes au lieu d'un seul bloc : la taille baisse d'autant,
        sinon la plus longue se casse en deux et la strophe se perd. */
-    font-size: clamp(21px, 3.5vw, 58px); line-height: 1.16;
+    font-size: clamp(25px, 4.4vw, 74px); line-height: 1.12;
     letter-spacing: -0.025em; text-transform: uppercase;
   }
   #usn-accueil .usn-ph-ligne { display: block; }
@@ -711,14 +711,14 @@
     /* Les lignes les plus longues passent a la ligne quoi qu'il arrive :
        autant que la coupure tombe au milieu plutot que de laisser un
        mot seul en bas. */
-    #usn-accueil .usn-phrase p { font-size: 19px; text-wrap: balance; }
+    #usn-accueil .usn-phrase p { font-size: 23px; text-wrap: balance; }
     #usn-accueil .usn-phrase p b.usn-ph-cime { font-size: 1.7em; }
   }
   /* Chaque mot est un morceau a part : c'est ce qui permet de les
      allumer l'un apres l'autre. */
   #usn-accueil .usn-phrase p b {
     display: inline-block; font-weight: inherit;
-    color: var(--usn-ivoire); opacity: 0.16;
+    color: var(--usn-ivoire); opacity: 0.2;
     transition: opacity .2s linear;
   }
   #usn-accueil .usn-phrase p b.est-dit { opacity: 1; }
@@ -836,50 +836,128 @@
   }
 
   /* ===================================================================
-     GALERIE - toutes les photos des evenements passes
-     Mosaique en colonnes : on peut en ajouter des dizaines sans rien
-     changer a la mise en page.
-     =================================================================== */
-  #usn-accueil .usn-galerie { padding: clamp(20px, 4vw, 50px) 0 clamp(60px, 10vw, 130px); }
-  #usn-accueil .usn-mosaique {
-    margin-top: clamp(28px, 4vw, 50px);
-    column-count: 4; column-gap: clamp(12px, 1.8vw, 22px);
-  }
-  #usn-accueil .usn-vue {
-    break-inside: avoid; margin: 0 0 clamp(12px, 1.8vw, 22px);
-    will-change: transform, opacity;
-  }
-  #usn-accueil .usn-vue-cadre { position: relative; overflow: hidden; background: var(--usn-ivoire-2); }
-  /* Les photos sont en noir et blanc et reprennent leurs couleurs en
-     passant au centre de l'ecran : c'est le script qui pilote le filtre. */
-  #usn-accueil .usn-vue-cadre img {
-    width: 100%; height: auto; filter: grayscale(1) contrast(1.05);
-    will-change: filter, transform;
-  }
-  #usn-accueil .usn-vue figcaption {
-    margin-top: 9px; font-family: var(--usn-sub); font-size: 12px;
-    letter-spacing: 0.06em; color: var(--usn-gris);
-  }
-  #usn-accueil .usn-vue figcaption b { color: var(--usn-ink); font-weight: 700; }
-  @media (max-width: 1100px) { #usn-accueil .usn-mosaique { column-count: 3; } }
-  @media (max-width: 760px)  { #usn-accueil .usn-mosaique { column-count: 2; } }
+     LES EDITIONS SUR LA CARTE
 
-  /* ---------- Les chiffres ---------- */
-  #usn-accueil .usn-chiffres {
-    margin-top: clamp(40px, 6vw, 76px); display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 20px; border-top: 2px solid var(--usn-ink); padding-top: clamp(24px, 3.5vw, 40px);
+     Le contour de la France, les points des villes, les traits de rappel
+     et les affiches sont dans le meme SVG : un seul repere, donc la
+     geometrie tient a toutes les tailles sans un seul calcul en script.
+
+     Sur un telephone, le dessin devient illisible - les legendes
+     mesureraient trois pixels. Il laisse alors la place a des vignettes.
+     =================================================================== */
+  #usn-accueil .usn-editions {
+    position: relative; background: var(--usn-ivoire);
+    padding: clamp(60px, 9vw, 130px) 0 clamp(50px, 8vw, 110px);
   }
-  #usn-accueil .usn-chiffre { will-change: transform, opacity; }
-  #usn-accueil .usn-chiffre b {
-    display: block; font-family: var(--usn-display); font-stretch: 125%; font-weight: 900;
-    font-size: clamp(38px, 6.4vw, 88px); line-height: 0.9; letter-spacing: -0.04em;
-    font-variant-numeric: tabular-nums;
+  #usn-accueil .usn-ed-titre {
+    margin: 16px 0 0; font-family: var(--usn-display); font-weight: 900;
+    font-size: clamp(38px, 7vw, 104px); line-height: 0.92;
+    letter-spacing: -0.04em; text-transform: uppercase; color: var(--usn-ink);
   }
-  #usn-accueil .usn-chiffre span {
-    display: block; margin-top: 10px; font-size: 11.5px; font-weight: 800;
-    letter-spacing: 0.18em; text-transform: uppercase; color: var(--usn-gris);
+  #usn-accueil .usn-ed-chapo {
+    margin: 14px 0 0; font-family: var(--usn-sub);
+    font-size: clamp(14px, 1.5vw, 17px); color: var(--usn-gris);
   }
-  @media (max-width: 620px) { #usn-accueil .usn-chiffres { grid-template-columns: 1fr; gap: 28px; } }
+
+  #usn-accueil .usn-ed-carte {
+    display: block; width: 100%; max-width: 1320px;
+    margin: clamp(10px, 2vw, 30px) auto 0; overflow: visible;
+  }
+  #usn-accueil .usn-ed-pays {
+    fill: rgba(17,17,16,0.045); stroke: rgba(17,17,16,0.3);
+    stroke-width: 1.1; stroke-linejoin: round; vector-effect: non-scaling-stroke;
+  }
+  #usn-accueil .usn-ed-fil {
+    stroke: rgba(17,17,16,0.3); stroke-width: 1; stroke-dasharray: 3 3;
+    vector-effect: non-scaling-stroke;
+  }
+  #usn-accueil .usn-ed-point { fill: var(--usn-ink); }
+  #usn-accueil .usn-ed-cadre { fill: none; stroke: rgba(17,17,16,0.22); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  #usn-accueil .usn-ed-ville {
+    font-family: var(--usn-sub); font-size: 13px; font-weight: 800;
+    letter-spacing: 0.1em; fill: var(--usn-ink);
+  }
+  #usn-accueil .usn-ed-dep { fill: var(--usn-gris); font-weight: 700; }
+  #usn-accueil .usn-ed-date {
+    font-family: var(--usn-sub); font-size: 12px; fill: var(--usn-gris);
+  }
+  /* L'edition qui vient se detache : c'est la seule sur laquelle on peut
+     encore s'inscrire. */
+  #usn-accueil .usn-ed-aff.est-avenir .usn-ed-point { fill: var(--usn-red); }
+  #usn-accueil .usn-ed-aff.est-avenir .usn-ed-fil { stroke: var(--usn-red); stroke-dasharray: none; }
+  #usn-accueil .usn-ed-aff.est-avenir .usn-ed-cadre { stroke: var(--usn-red); stroke-width: 2.4; }
+  #usn-accueil .usn-ed-aff.est-avenir .usn-ed-ville { fill: var(--usn-red); }
+
+  #usn-accueil .usn-ed-aff { cursor: pointer; }
+  #usn-accueil .usn-ed-aff image { transition: opacity .25s ease; }
+  #usn-accueil .usn-ed-aff:hover image { opacity: 0.82; }
+  #usn-accueil .usn-ed-aff:hover .usn-ed-cadre { stroke: var(--usn-ink); stroke-width: 2.4; }
+
+  /* --- les vignettes : petits ecrans, et le hors-carte --- */
+  #usn-accueil .usn-ed-liste { display: none; }
+  #usn-accueil .usn-ed-vignette {
+    display: block; padding: 0; border: 0; background: none; cursor: pointer;
+    font-family: inherit; text-align: left;
+  }
+  #usn-accueil .usn-ed-vignette img {
+    display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover;
+    border: 1px solid var(--usn-trait);
+    box-shadow: 0 16px 36px rgba(17,17,16,0.12);
+  }
+  #usn-accueil .usn-ed-vignette.est-avenir img { border: 2px solid var(--usn-red); }
+  #usn-accueil .usn-ed-vville {
+    display: block; margin-top: 12px; font-size: 12px; font-weight: 800;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--usn-ink);
+  }
+  #usn-accueil .usn-ed-vville b { color: var(--usn-gris); font-weight: 700; }
+  #usn-accueil .usn-ed-vdate { display: block; margin-top: 3px; font-family: var(--usn-sub); font-size: 12.5px; color: var(--usn-gris); }
+
+  #usn-accueil .usn-ed-ailleurs {
+    margin-top: clamp(34px, 5vw, 70px);
+    display: grid; grid-template-columns: repeat(2, minmax(0, 190px)) 1fr;
+    gap: clamp(16px, 3vw, 34px); align-items: start;
+  }
+  #usn-accueil .usn-ed-note {
+    margin: 0; align-self: center; font-family: var(--usn-sub);
+    font-size: clamp(14px, 1.5vw, 17px); color: var(--usn-gris); max-width: 32ch;
+  }
+
+  @media (max-width: 900px) {
+    #usn-accueil .usn-ed-carte { display: none; }
+    #usn-accueil .usn-ed-liste {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(18px, 4vw, 30px);
+      padding: 0 clamp(18px, 4vw, 52px); margin-top: 28px;
+    }
+    #usn-accueil .usn-ed-ailleurs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    #usn-accueil .usn-ed-note { grid-column: 1 / -1; }
+  }
+
+  /* --- la loupe : l'affiche en grand --- */
+  #usn-accueil .usn-loupe {
+    position: fixed; inset: 0; z-index: 90; display: grid; place-items: center;
+    padding: clamp(16px, 4vw, 50px);
+    background: rgba(12,11,10,0.92);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    opacity: 0; visibility: hidden; transition: opacity .25s ease, visibility .25s;
+  }
+  #usn-accueil .usn-loupe.est-ouverte { opacity: 1; visibility: visible; }
+  #usn-accueil .usn-loupe img {
+    max-width: min(100%, 760px); max-height: 100%;
+    display: block; box-shadow: 0 40px 90px rgba(0,0,0,0.5);
+  }
+  #usn-accueil .usn-loupe-nom {
+    position: absolute; left: 0; right: 0; bottom: clamp(14px, 3vh, 30px);
+    text-align: center; font-size: 11.5px; font-weight: 800;
+    letter-spacing: 0.22em; text-transform: uppercase; color: rgba(240,238,231,0.78);
+  }
+  #usn-accueil .usn-loupe-fermer {
+    position: absolute; top: clamp(12px, 3vh, 26px); right: clamp(12px, 3vw, 26px);
+    width: 46px; height: 46px; border-radius: 50%; cursor: pointer;
+    display: grid; place-items: center; font-size: 19px; color: #fff;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.26);
+  }
+  #usn-accueil .usn-loupe-fermer:hover { background: rgba(255,255,255,0.2); }
 
   /* ===================================================================
      LES DEUX VISAGES QUI SE RAPPROCHENT
