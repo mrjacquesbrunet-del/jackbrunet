@@ -321,6 +321,145 @@
   }
 
   /* ===================================================================
+     LES PROCHAINS RENDEZ-VOUS — le carrousel
+
+     La page parente montre chaque ville a venir : son affiche quand elle
+     existe, sa date, son lieu, ses intervenants. Les vues se succedent
+     seules.
+
+     QUI RESTE COMBIEN DE TEMPS ? La duree est reglee vue par vue, dans
+     l'attribut data-usn-duree (en millisecondes). Tarbes porte la plus
+     longue : c'est la prochaine date en France, elle tient donc l'ecran
+     plus longtemps que les autres.
+
+     Les barres du haut disent ou l'on en est. Leur largeur suit la duree
+     de chaque vue : celle de Tarbes est la plus large, on voit donc au
+     premier regard qu'elle compte davantage. Un clic sur une barre amene
+     directement a la ville ; le survol met la rotation en pause.
+     =================================================================== */
+  #usn-agenda .usn-tourne { padding: clamp(40px, 6vw, 76px) 0 clamp(10px, 2vw, 22px); }
+  #usn-agenda .usn-tourne-tete {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 20px; flex-wrap: wrap;
+  }
+  #usn-agenda .usn-tourne-tete h2 { margin-top: 12px; font-size: clamp(28px, 4.6vw, 52px); text-transform: uppercase; }
+
+  /* La marge automatique tient les fleches a droite meme quand le titre
+     les renvoie a la ligne, sur un ecran etroit. */
+  #usn-agenda .usn-tourne-fleches { display: flex; gap: 10px; margin-left: auto; }
+  #usn-agenda .usn-tourne-f {
+    width: 46px; height: 46px; border-radius: 50%; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 17px; line-height: 1; color: var(--usn-ink);
+    background: #fff; border: 1px solid var(--usn-trait);
+    transition: background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease;
+  }
+  #usn-agenda .usn-tourne-f:hover {
+    background: var(--usn-blue); color: #fff; border-color: var(--usn-blue);
+    transform: translateY(-2px);
+  }
+
+  /* ---- Les barres d'avancement, une par ville ---- */
+  #usn-agenda .usn-tourne-barres {
+    display: flex; gap: 10px;
+    margin: clamp(24px, 3.4vw, 36px) 0 clamp(26px, 3.6vw, 40px);
+  }
+  #usn-agenda .usn-tourne-barre {
+    flex: 1 1 0; min-width: 0; padding: 0; border: 0; background: none;
+    font: inherit; color: var(--usn-gris); text-align: left; cursor: pointer;
+  }
+  #usn-agenda .usn-tourne-barre i {
+    display: block; height: 3px; border-radius: 99px;
+    background: var(--usn-trait); overflow: hidden;
+  }
+  #usn-agenda .usn-tourne-barre i b {
+    display: block; width: 0; height: 100%; border-radius: 99px;
+    background: var(--usn-blue);
+  }
+  #usn-agenda .usn-tourne-barre em {
+    display: block; margin-top: 10px; font-style: normal;
+    font-size: 10.5px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    transition: color .2s ease;
+  }
+  #usn-agenda .usn-tourne-barre.est-active em { color: var(--usn-ink); }
+  @keyframes usn-remplit { from { width: 0; } to { width: 100%; } }
+
+  /* ---- Les vues, empilees dans une meme case de grille ----
+     Toutes occupent la case 1/1 : le cadre prend donc la hauteur de la
+     plus haute et ne saute pas d'une ville a l'autre. */
+  #usn-agenda .usn-tourne-cadre { display: grid; }
+  #usn-agenda .usn-vue {
+    grid-area: 1 / 1;
+    display: grid; grid-template-columns: clamp(170px, 21vw, 248px) 1fr;
+    gap: clamp(20px, 3.4vw, 46px); align-items: center;
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transform: translate3d(34px, 0, 0);
+    transition: opacity .55s ease, transform .7s cubic-bezier(.2,.7,.2,1), visibility .55s;
+  }
+  #usn-agenda .usn-vue.est-active {
+    opacity: 1; visibility: visible; pointer-events: auto; transform: none;
+  }
+
+  #usn-agenda .usn-vue-affiche {
+    position: relative; aspect-ratio: 3 / 4; border-radius: 20px; overflow: hidden;
+    background: linear-gradient(150deg, var(--usn-blue), #101861);
+    box-shadow: 0 30px 58px -30px rgba(12,11,10,0.48);
+  }
+  #usn-agenda .usn-vue-affiche img { width: 100%; height: 100%; object-fit: cover; }
+  /* Pas encore d'affiche ? La case reste occupee par la date, ecrite en
+     grand : la rotation ne montre jamais un trou. */
+  #usn-agenda .usn-vue-attente {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 10px; padding: 18px; text-align: center; color: #fff;
+  }
+  #usn-agenda .usn-vue-attente strong {
+    font-family: var(--usn-display); font-stretch: 118%; font-weight: 900;
+    font-size: clamp(26px, 3.4vw, 40px); line-height: 0.95;
+    font-variant-numeric: tabular-nums; letter-spacing: -0.01em;
+  }
+  #usn-agenda .usn-vue-attente span {
+    font-size: 10px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(255,255,255,0.62);
+  }
+
+  #usn-agenda .usn-vue-quand {
+    font-size: 11px; font-weight: 800; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--usn-red);
+  }
+  #usn-agenda .usn-vue-ville {
+    margin-top: 10px; font-size: clamp(34px, 6.4vw, 78px); line-height: 0.92;
+    text-transform: uppercase; letter-spacing: -0.02em;
+  }
+  #usn-agenda .usn-vue-ville small { font-size: 0.42em; opacity: .5; letter-spacing: 0; }
+  #usn-agenda .usn-vue-lieu {
+    margin-top: 14px; font-family: var(--usn-sub);
+    font-size: clamp(14px, 1.7vw, 17px); max-width: 52ch;
+  }
+  #usn-agenda .usn-vue-invites {
+    margin-top: 5px; font-family: var(--usn-sub);
+    font-size: clamp(13px, 1.5vw, 15px); color: var(--usn-gris); max-width: 58ch;
+  }
+  #usn-agenda .usn-vue-actions {
+    margin-top: clamp(18px, 2.6vw, 26px);
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+
+  @media (max-width: 720px) {
+    #usn-agenda .usn-vue { grid-template-columns: 1fr; gap: 20px; }
+    #usn-agenda .usn-vue-affiche { width: min(60%, 220px); }
+    /* Six intitules ne tiennent pas en largeur sur un telephone : il ne
+       reste que les barres, qui suffisent a se reperer. */
+    #usn-agenda .usn-tourne-barre em { display: none; }
+    #usn-agenda .usn-tourne-barres { gap: 7px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #usn-agenda .usn-tourne-barre i b { animation: none !important; width: 100%; }
+    #usn-agenda .usn-vue { transition: none; }
+  }
+
+  /* ===================================================================
      L'AGENDA — le coeur de la page
      Chaque date est une ligne pleine largeur : le jour a gauche, la ville
      en tres grand, les details dessous, l'etat des inscriptions a droite.
@@ -580,7 +719,7 @@
           curieux, malades, chercheurs de Dieu.
         </p>
         <!-- ► Pensez a mettre ce nombre a jour en ajoutant une date. -->
-        <div class="usn-hero-compte"><b>4</b><span>dates annonc&eacute;es</span></div>
+        <div class="usn-hero-compte"><b>6</b><span>dates annonc&eacute;es</span></div>
       </div>
     </div>
   </header>
@@ -593,16 +732,20 @@
   <div class="usn-defile" aria-hidden="true">
     <div class="usn-defile-piste">
       <div class="usn-defile-suite">
-        <b>Tarbes</b> <span>12.12.26</span> <i>&#10022;</i>
         <b>Madagascar</b> <span>14.11.26</span> <i>&#10022;</i>
+        <b>Tarbes</b> <span>12.12.26</span> <i>&#10022;</i>
+        <b>Limours</b> <span>02.01.27</span> <i>&#10022;</i>
         <b>Marseille</b> <span>06.03.27</span> <i>&#10022;</i>
         <b>Bordeaux</b> <span>15.05.27</span> <i>&#10022;</i>
+        <b>Toulouse</b> <span>11.27</span> <i>&#10022;</i>
       </div>
       <div class="usn-defile-suite">
-        <b>Tarbes</b> <span>12.12.26</span> <i>&#10022;</i>
         <b>Madagascar</b> <span>14.11.26</span> <i>&#10022;</i>
+        <b>Tarbes</b> <span>12.12.26</span> <i>&#10022;</i>
+        <b>Limours</b> <span>02.01.27</span> <i>&#10022;</i>
         <b>Marseille</b> <span>06.03.27</span> <i>&#10022;</i>
         <b>Bordeaux</b> <span>15.05.27</span> <i>&#10022;</i>
+        <b>Toulouse</b> <span>11.27</span> <i>&#10022;</i>
       </div>
     </div>
   </div>
@@ -627,6 +770,155 @@
         <div><b data-cd="secs">00</b><small>Sec</small></div>
       </div>
       <a class="usn-btn usn-btn-primary" href="https://unseulnom.org/evenement/">Je r&eacute;serve ma place</a>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- LES PROCHAINS RENDEZ-VOUS                                      -->
+  <!-- ============================================================= -->
+  <!--
+    &#9658; LA ROTATION — une balise <article class="usn-vue"> par ville,
+      dans l'ordre des dates.
+
+      COMBIEN DE TEMPS CHAQUE VILLE RESTE-T-ELLE A L'ECRAN ?
+      C'est data-usn-duree qui le dit, en millisecondes (4200 = 4,2 s).
+      Tarbes est a 9000 : elle tient donc l'ecran plus de deux fois plus
+      longtemps que les autres, et sa barre est d'autant plus large.
+
+      POUR AJOUTER UNE VILLE : copiez une vue entiere, changez les textes,
+      et ajoutez une barre <button class="usn-tourne-barre"> au-dessus
+      avec le meme numero dans data-usn-va. Les deux listes doivent avoir
+      le meme nombre d'elements.
+  -->
+  <div class="usn-tourne" id="usn-tourne">
+    <div class="usn-wrap">
+
+      <div class="usn-tourne-tete">
+        <div>
+          <span class="usn-eyebrow">Les prochains rendez-vous</span>
+          <h2>Ville apr&egrave;s ville</h2>
+        </div>
+        <div class="usn-tourne-fleches">
+          <button type="button" class="usn-tourne-f" data-usn-pas="-1"
+                  aria-label="Rendez-vous pr&eacute;c&eacute;dent">&#8592;</button>
+          <button type="button" class="usn-tourne-f" data-usn-pas="1"
+                  aria-label="Rendez-vous suivant">&#8594;</button>
+        </div>
+      </div>
+
+      <div class="usn-tourne-barres" id="usn-tourne-barres">
+        <button type="button" class="usn-tourne-barre" data-usn-va="0"
+                aria-label="Madagascar, 14 novembre 2026"><i><b></b></i><em>Madagascar</em></button>
+        <button type="button" class="usn-tourne-barre" data-usn-va="1"
+                aria-label="Tarbes, 12 d&eacute;cembre 2026"><i><b></b></i><em>Tarbes</em></button>
+        <button type="button" class="usn-tourne-barre" data-usn-va="2"
+                aria-label="Limours, 2 janvier 2027"><i><b></b></i><em>Limours</em></button>
+        <button type="button" class="usn-tourne-barre" data-usn-va="3"
+                aria-label="Marseille, 6 mars 2027"><i><b></b></i><em>Marseille</em></button>
+        <button type="button" class="usn-tourne-barre" data-usn-va="4"
+                aria-label="Bordeaux, 15 mai 2027"><i><b></b></i><em>Bordeaux</em></button>
+        <button type="button" class="usn-tourne-barre" data-usn-va="5"
+                aria-label="Toulouse, novembre 2027"><i><b></b></i><em>Toulouse</em></button>
+      </div>
+
+      <div class="usn-tourne-cadre" id="usn-tourne-cadre">
+
+        <article class="usn-vue" data-usn-duree="4200">
+          <div class="usn-vue-affiche">
+            <img src="images/affichemadagascar.webp"
+                 alt="Affiche Un Seul Nom &agrave; Antananarivo, 14 novembre 2026"
+                 loading="lazy" onerror="this.remove()" />
+          </div>
+          <div class="usn-vue-texte">
+            <div class="usn-vue-quand">Samedi 14 novembre 2026</div>
+            <h3 class="usn-vue-ville">Madagascar</h3>
+            <p class="usn-vue-lieu">Salle Havoria Anosy &middot; Antananarivo &middot; 9h00 &agrave; 12h30 et 14h00 &agrave; 17h00</p>
+            <p class="usn-vue-invites">Pr&eacute;dication&nbsp;: Pasteur Jack Brunet, Pasteur Patane, Pasteur Mahandry Raherivahatr'aina &middot; Louange&nbsp;: Bodokely</p>
+            <div class="usn-vue-actions">
+              <span class="usn-pastille usn-attente">Bient&ocirc;t</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="usn-vue" data-usn-duree="9000">
+          <div class="usn-vue-affiche">
+            <img src="images/affichetarbes.webp"
+                 alt="Affiche Un Seul Nom &agrave; Tarbes, 12 d&eacute;cembre 2026"
+                 loading="lazy" onerror="this.remove()" />
+          </div>
+          <div class="usn-vue-texte">
+            <div class="usn-vue-quand">Samedi 12 d&eacute;cembre 2026</div>
+            <h3 class="usn-vue-ville">Tarbes <small>65</small></h3>
+            <p class="usn-vue-lieu">Ch&acirc;teau d'Orleix &middot; 13 bis rue des Platanes, 65800 Orleix &middot; Portes 15h00, conf&eacute;rence 16h00</p>
+            <p class="usn-vue-invites">Pr&eacute;dication&nbsp;: Pasteur Jack Brunet, Pasteur Chriss Campion &middot; Louange&nbsp;: Briman Heugebaert, Juan Anthonio</p>
+            <div class="usn-vue-actions">
+              <span class="usn-pastille">Inscriptions ouvertes</span>
+              <a class="usn-reserver" href="https://unseulnom.org/evenement/">R&eacute;server <span aria-hidden="true">&#8594;</span></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="usn-vue" data-usn-duree="4200">
+          <div class="usn-vue-affiche usn-vue-attente">
+            <strong>02.01</strong><span>Affiche &agrave; venir</span>
+          </div>
+          <div class="usn-vue-texte">
+            <div class="usn-vue-quand">Samedi 2 janvier 2027</div>
+            <h3 class="usn-vue-ville">Limours <small>91</small></h3>
+            <p class="usn-vue-lieu">Lieu et horaires &agrave; confirmer</p>
+            <p class="usn-vue-invites">Intervenants &agrave; annoncer</p>
+            <div class="usn-vue-actions">
+              <span class="usn-pastille usn-attente">Bient&ocirc;t</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="usn-vue" data-usn-duree="4200">
+          <div class="usn-vue-affiche usn-vue-attente">
+            <strong>06.03</strong><span>Affiche &agrave; venir</span>
+          </div>
+          <div class="usn-vue-texte">
+            <div class="usn-vue-quand">Samedi 6 mars 2027</div>
+            <h3 class="usn-vue-ville">Marseille <small>13</small></h3>
+            <p class="usn-vue-lieu">Lieu et horaires &agrave; confirmer</p>
+            <p class="usn-vue-invites">Pr&eacute;dication&nbsp;: Yannis Gautier, Pasteur Chriss Campion &middot; Louange&nbsp;: Patcha&iuml; Reyes, Nikita Heugebaert, Ruben Debard</p>
+            <div class="usn-vue-actions">
+              <span class="usn-pastille usn-attente">Bient&ocirc;t</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="usn-vue" data-usn-duree="4200">
+          <div class="usn-vue-affiche usn-vue-attente">
+            <strong>15.05</strong><span>Affiche &agrave; venir</span>
+          </div>
+          <div class="usn-vue-texte">
+            <div class="usn-vue-quand">Samedi 15 mai 2027</div>
+            <h3 class="usn-vue-ville">Bordeaux <small>33</small></h3>
+            <p class="usn-vue-lieu">Lieu et horaires &agrave; confirmer</p>
+            <p class="usn-vue-invites">Pr&eacute;dication&nbsp;: Pasteur Marcello Tunasi, Pasteur Chriss Campion &middot; Louange&nbsp;: Dan Luiten, Nikita Heugebaert</p>
+            <div class="usn-vue-actions">
+              <span class="usn-pastille usn-attente">Bient&ocirc;t</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="usn-vue" data-usn-duree="4200">
+          <div class="usn-vue-affiche usn-vue-attente">
+            <strong>NOV.<br />2027</strong><span>Affiche &agrave; venir</span>
+          </div>
+          <div class="usn-vue-texte">
+            <div class="usn-vue-quand">Novembre 2027</div>
+            <h3 class="usn-vue-ville">Toulouse <small>31</small></h3>
+            <p class="usn-vue-lieu">Date, lieu et horaires &agrave; confirmer</p>
+            <p class="usn-vue-invites">Intervenants &agrave; annoncer</p>
+            <div class="usn-vue-actions">
+              <span class="usn-pastille usn-attente">Annonc&eacute;</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
     </div>
   </div>
 
@@ -682,12 +974,17 @@
 
       <div class="usn-an"><b>2027</b></div>
 
-      <!--
-        &#9658; LA DATE DE DEBUT JANVIER prend place ici, en copiant un bloc
-          usn-ligne ci-dessous et en renseignant le jour, le mois, la
-          ville, le lieu et les intervenants.
-      -->
-
+      <div class="usn-ligne">
+        <div class="usn-jour"><b>02</b><span>Janvier</span></div>
+        <div>
+          <div class="usn-ville">Limours <span style="opacity:.55">(91)</span></div>
+          <div class="usn-lieu">Lieu et horaires &agrave; confirmer</div>
+          <div class="usn-invites">Intervenants &agrave; annoncer</div>
+        </div>
+        <div class="usn-etat">
+          <span class="usn-pastille usn-attente">Bient&ocirc;t</span>
+        </div>
+      </div>
 
       <div class="usn-ligne">
         <div class="usn-jour"><b>06</b><span>Mars</span></div>
@@ -714,9 +1011,9 @@
       </div>
 
       <div class="usn-ligne">
-        <div class="usn-jour"><b>&mdash;</b><span>&Agrave; venir</span></div>
+        <div class="usn-jour"><b>&mdash;</b><span>Novembre</span></div>
         <div>
-          <div class="usn-ville">Toulouse</div>
+          <div class="usn-ville">Toulouse <span style="opacity:.55">(31)</span></div>
           <div class="usn-lieu">Date, lieu et horaires &agrave; confirmer</div>
         </div>
         <div class="usn-etat">
@@ -904,6 +1201,112 @@
     }
     tick();
     setInterval(tick, 1000);
+  })();
+
+
+  /* =================================================================
+     LA ROTATION DES PROCHAINS RENDEZ-VOUS
+
+     Chaque vue reste a l'ecran le temps que dit son attribut
+     data-usn-duree. L'avancement n'est pas compte par une minuterie mais
+     porte par l'animation de la barre : c'est elle qui, en arrivant au
+     bout, appelle la ville suivante. Deux consequences utiles :
+       - la barre et le changement de vue ne peuvent pas se desynchroniser,
+       - mettre l'animation en pause (au survol) suspend tout, puisque
+         l'animation ne finit plus.
+     ================================================================= */
+  (function () {
+    var boite = document.getElementById('usn-tourne');
+    if (!boite) return;
+    var vues   = boite.querySelectorAll('.usn-vue');
+    var barres = boite.querySelectorAll('.usn-tourne-barre');
+    if (!vues.length || vues.length !== barres.length) return;
+
+    var reduit = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var actif = 0, enPause = false;
+
+    /* La largeur des barres suit la duree des vues : la ville qui reste
+       le plus longtemps a l'ecran occupe la plus large. */
+    var durees = [], mini = Infinity, i;
+    for (i = 0; i < vues.length; i++) {
+      var d = parseInt(vues[i].getAttribute('data-usn-duree'), 10) || 4200;
+      durees.push(d);
+      if (d < mini) mini = d;
+    }
+    for (i = 0; i < barres.length; i++) {
+      barres[i].style.flexGrow = (durees[i] / mini).toFixed(3);
+    }
+
+    function remplissage(n) { return barres[n].querySelector('i b'); }
+
+    function montre(n) {
+      actif = (n + vues.length) % vues.length;
+
+      for (var k = 0; k < vues.length; k++) {
+        var est = (k === actif);
+        vues[k].classList.toggle('est-active', est);
+        barres[k].classList.toggle('est-active', est);
+        barres[k].setAttribute('aria-current', est ? 'true' : 'false');
+
+        var b = remplissage(k);
+        if (b && !est) { b.style.animation = 'none'; b.style.width = ''; }
+      }
+
+      var plein = remplissage(actif);
+      if (plein && !reduit) {
+        // Remise a zero forcee : sans la lecture de offsetWidth, le
+        // navigateur reutilise l'animation en cours au lieu de la relancer.
+        plein.style.animation = 'none';
+        void plein.offsetWidth;
+        plein.style.animation = 'usn-remplit ' + durees[actif] + 'ms linear forwards';
+        // La forme courte « animation » vient de remettre la lecture en
+        // marche : si le visiteur avait la souris sur le bloc, il faut la
+        // remettre en pause tout de suite.
+        appliquePause();
+      }
+    }
+
+    /* La pause se pose sur l'animation elle-meme, et non par une regle de
+       la feuille de style : le style en ligne pose ci-dessus l'emporterait
+       sur elle. */
+    function appliquePause() {
+      var plein = remplissage(actif);
+      if (plein) plein.style.animationPlayState = enPause ? 'paused' : 'running';
+    }
+
+    /* C'est la fin de l'animation de la barre qui fait tourner la page. */
+    boite.addEventListener('animationend', function (e) {
+      if (e.animationName !== 'usn-remplit') return;
+      if (e.target !== remplissage(actif)) return;
+      montre(actif + 1);
+    });
+
+    for (i = 0; i < barres.length; i++) {
+      barres[i].addEventListener('click', function () {
+        montre(parseInt(this.getAttribute('data-usn-va'), 10) || 0);
+      });
+    }
+    var fleches = boite.querySelectorAll('.usn-tourne-f');
+    for (i = 0; i < fleches.length; i++) {
+      fleches[i].addEventListener('click', function () {
+        montre(actif + (parseInt(this.getAttribute('data-usn-pas'), 10) || 1));
+      });
+    }
+
+    /* Pause a la lecture : au survol, au doigt pose, et au clavier. */
+    function pause(oui) { enPause = oui; appliquePause(); }
+    boite.addEventListener('mouseenter', function () { pause(true); });
+    boite.addEventListener('mouseleave', function () { pause(false); });
+    boite.addEventListener('focusin',    function () { pause(true); });
+    boite.addEventListener('focusout',   function () { pause(false); });
+    boite.addEventListener('touchstart', function () { pause(true); }, { passive: true });
+    boite.addEventListener('touchend',   function () { pause(false); }, { passive: true });
+
+    /* La rotation demarre sur Tarbes : la vue qui reste le plus longtemps
+       a l'ecran est celle que le visiteur doit voir en arrivant. */
+    var depart = 0;
+    for (i = 0; i < durees.length; i++) if (durees[i] > durees[depart]) depart = i;
+    montre(depart);
   })();
 
 

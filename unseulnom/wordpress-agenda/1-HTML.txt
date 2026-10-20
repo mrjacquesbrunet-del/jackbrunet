@@ -54,7 +54,7 @@
           curieux, malades, chercheurs de Dieu.
         </p>
         <!-- &#9658; Pensez a mettre ce nombre a jour en ajoutant une date. -->
-        <div class="usn-hero-compte"><b>4</b><span>dates annonc&eacute;es</span></div>
+        <div class="usn-hero-compte"><b>6</b><span>dates annonc&eacute;es</span></div>
       </div>
     </div>
   </header>
@@ -67,16 +67,20 @@
   <div class="usn-defile" aria-hidden="true">
     <div class="usn-defile-piste">
       <div class="usn-defile-suite">
-        <b>Tarbes</b> <span>12.12.26</span> <i>&#10022;</i>
         <b>Madagascar</b> <span>14.11.26</span> <i>&#10022;</i>
+        <b>Tarbes</b> <span>12.12.26</span> <i>&#10022;</i>
+        <b>Limours</b> <span>02.01.27</span> <i>&#10022;</i>
         <b>Marseille</b> <span>06.03.27</span> <i>&#10022;</i>
         <b>Bordeaux</b> <span>15.05.27</span> <i>&#10022;</i>
+        <b>Toulouse</b> <span>11.27</span> <i>&#10022;</i>
       </div>
       <div class="usn-defile-suite">
-        <b>Tarbes</b> <span>12.12.26</span> <i>&#10022;</i>
         <b>Madagascar</b> <span>14.11.26</span> <i>&#10022;</i>
+        <b>Tarbes</b> <span>12.12.26</span> <i>&#10022;</i>
+        <b>Limours</b> <span>02.01.27</span> <i>&#10022;</i>
         <b>Marseille</b> <span>06.03.27</span> <i>&#10022;</i>
         <b>Bordeaux</b> <span>15.05.27</span> <i>&#10022;</i>
+        <b>Toulouse</b> <span>11.27</span> <i>&#10022;</i>
       </div>
     </div>
   </div>
@@ -101,6 +105,155 @@
         <div><b data-cd="secs">00</b><small>Sec</small></div>
       </div>
       <a class="usn-btn usn-btn-primary" href="https://unseulnom.org/evenement/">Je r&eacute;serve ma place</a>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- LES PROCHAINS RENDEZ-VOUS                                      -->
+  <!-- ============================================================= -->
+  <!--
+    &#9658; LA ROTATION &#8212; une balise <article class="usn-vue"> par ville,
+      dans l'ordre des dates.
+
+      COMBIEN DE TEMPS CHAQUE VILLE RESTE-T-ELLE A L'ECRAN ?
+      C'est data-usn-duree qui le dit, en millisecondes (4200 = 4,2 s).
+      Tarbes est a 9000 : elle tient donc l'ecran plus de deux fois plus
+      longtemps que les autres, et sa barre est d'autant plus large.
+
+      POUR AJOUTER UNE VILLE : copiez une vue entiere, changez les textes,
+      et ajoutez une barre <button class="usn-tourne-barre"> au-dessus
+      avec le meme numero dans data-usn-va. Les deux listes doivent avoir
+      le meme nombre d'elements.
+  -->
+  <div class="usn-tourne" id="usn-tourne">
+    <div class="usn-wrap">
+
+      <div class="usn-tourne-tete">
+        <div>
+          <span class="usn-eyebrow">Les prochains rendez-vous</span>
+          <h2>Ville apr&egrave;s ville</h2>
+        </div>
+        <div class="usn-tourne-fleches">
+          <button type="button" class="usn-tourne-f" data-usn-pas="-1"
+                  aria-label="Rendez-vous pr&eacute;c&eacute;dent">&#8592;</button>
+          <button type="button" class="usn-tourne-f" data-usn-pas="1"
+                  aria-label="Rendez-vous suivant">&#8594;</button>
+        </div>
+      </div>
+
+      <div class="usn-tourne-barres" id="usn-tourne-barres">
+        <button type="button" class="usn-tourne-barre" data-usn-va="0"
+                aria-label="Madagascar, 14 novembre 2026"><i><b></b></i><em>Madagascar</em></button>
+        <button type="button" class="usn-tourne-barre" data-usn-va="1"
+                aria-label="Tarbes, 12 d&eacute;cembre 2026"><i><b></b></i><em>Tarbes</em></button>
+        <button type="button" class="usn-tourne-barre" data-usn-va="2"
+                aria-label="Limours, 2 janvier 2027"><i><b></b></i><em>Limours</em></button>
+        <button type="button" class="usn-tourne-barre" data-usn-va="3"
+                aria-label="Marseille, 6 mars 2027"><i><b></b></i><em>Marseille</em></button>
+        <button type="button" class="usn-tourne-barre" data-usn-va="4"
+                aria-label="Bordeaux, 15 mai 2027"><i><b></b></i><em>Bordeaux</em></button>
+        <button type="button" class="usn-tourne-barre" data-usn-va="5"
+                aria-label="Toulouse, novembre 2027"><i><b></b></i><em>Toulouse</em></button>
+      </div>
+
+      <div class="usn-tourne-cadre" id="usn-tourne-cadre">
+
+        <article class="usn-vue" data-usn-duree="4200">
+          <div class="usn-vue-affiche">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/10/affichemadagascar.webp"
+                 alt="Affiche Un Seul Nom &agrave; Antananarivo, 14 novembre 2026"
+                 loading="lazy" onerror="this.remove()" />
+          </div>
+          <div class="usn-vue-texte">
+            <div class="usn-vue-quand">Samedi 14 novembre 2026</div>
+            <h3 class="usn-vue-ville">Madagascar</h3>
+            <p class="usn-vue-lieu">Salle Havoria Anosy &middot; Antananarivo &middot; 9h00 &agrave; 12h30 et 14h00 &agrave; 17h00</p>
+            <p class="usn-vue-invites">Pr&eacute;dication&nbsp;: Pasteur Jack Brunet, Pasteur Patane, Pasteur Mahandry Raherivahatr'aina &middot; Louange&nbsp;: Bodokely</p>
+            <div class="usn-vue-actions">
+              <span class="usn-pastille usn-attente">Bient&ocirc;t</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="usn-vue" data-usn-duree="9000">
+          <div class="usn-vue-affiche">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/10/affichetarbes.webp"
+                 alt="Affiche Un Seul Nom &agrave; Tarbes, 12 d&eacute;cembre 2026"
+                 loading="lazy" onerror="this.remove()" />
+          </div>
+          <div class="usn-vue-texte">
+            <div class="usn-vue-quand">Samedi 12 d&eacute;cembre 2026</div>
+            <h3 class="usn-vue-ville">Tarbes <small>65</small></h3>
+            <p class="usn-vue-lieu">Ch&acirc;teau d'Orleix &middot; 13 bis rue des Platanes, 65800 Orleix &middot; Portes 15h00, conf&eacute;rence 16h00</p>
+            <p class="usn-vue-invites">Pr&eacute;dication&nbsp;: Pasteur Jack Brunet, Pasteur Chriss Campion &middot; Louange&nbsp;: Briman Heugebaert, Juan Anthonio</p>
+            <div class="usn-vue-actions">
+              <span class="usn-pastille">Inscriptions ouvertes</span>
+              <a class="usn-reserver" href="https://unseulnom.org/evenement/">R&eacute;server <span aria-hidden="true">&#8594;</span></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="usn-vue" data-usn-duree="4200">
+          <div class="usn-vue-affiche usn-vue-attente">
+            <strong>02.01</strong><span>Affiche &agrave; venir</span>
+          </div>
+          <div class="usn-vue-texte">
+            <div class="usn-vue-quand">Samedi 2 janvier 2027</div>
+            <h3 class="usn-vue-ville">Limours <small>91</small></h3>
+            <p class="usn-vue-lieu">Lieu et horaires &agrave; confirmer</p>
+            <p class="usn-vue-invites">Intervenants &agrave; annoncer</p>
+            <div class="usn-vue-actions">
+              <span class="usn-pastille usn-attente">Bient&ocirc;t</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="usn-vue" data-usn-duree="4200">
+          <div class="usn-vue-affiche usn-vue-attente">
+            <strong>06.03</strong><span>Affiche &agrave; venir</span>
+          </div>
+          <div class="usn-vue-texte">
+            <div class="usn-vue-quand">Samedi 6 mars 2027</div>
+            <h3 class="usn-vue-ville">Marseille <small>13</small></h3>
+            <p class="usn-vue-lieu">Lieu et horaires &agrave; confirmer</p>
+            <p class="usn-vue-invites">Pr&eacute;dication&nbsp;: Yannis Gautier, Pasteur Chriss Campion &middot; Louange&nbsp;: Patcha&iuml; Reyes, Nikita Heugebaert, Ruben Debard</p>
+            <div class="usn-vue-actions">
+              <span class="usn-pastille usn-attente">Bient&ocirc;t</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="usn-vue" data-usn-duree="4200">
+          <div class="usn-vue-affiche usn-vue-attente">
+            <strong>15.05</strong><span>Affiche &agrave; venir</span>
+          </div>
+          <div class="usn-vue-texte">
+            <div class="usn-vue-quand">Samedi 15 mai 2027</div>
+            <h3 class="usn-vue-ville">Bordeaux <small>33</small></h3>
+            <p class="usn-vue-lieu">Lieu et horaires &agrave; confirmer</p>
+            <p class="usn-vue-invites">Pr&eacute;dication&nbsp;: Pasteur Marcello Tunasi, Pasteur Chriss Campion &middot; Louange&nbsp;: Dan Luiten, Nikita Heugebaert</p>
+            <div class="usn-vue-actions">
+              <span class="usn-pastille usn-attente">Bient&ocirc;t</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="usn-vue" data-usn-duree="4200">
+          <div class="usn-vue-affiche usn-vue-attente">
+            <strong>NOV.<br />2027</strong><span>Affiche &agrave; venir</span>
+          </div>
+          <div class="usn-vue-texte">
+            <div class="usn-vue-quand">Novembre 2027</div>
+            <h3 class="usn-vue-ville">Toulouse <small>31</small></h3>
+            <p class="usn-vue-lieu">Date, lieu et horaires &agrave; confirmer</p>
+            <p class="usn-vue-invites">Intervenants &agrave; annoncer</p>
+            <div class="usn-vue-actions">
+              <span class="usn-pastille usn-attente">Annonc&eacute;</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
     </div>
   </div>
 
@@ -156,12 +309,17 @@
 
       <div class="usn-an"><b>2027</b></div>
 
-      <!--
-        &#9658; LA DATE DE DEBUT JANVIER prend place ici, en copiant un bloc
-          usn-ligne ci-dessous et en renseignant le jour, le mois, la
-          ville, le lieu et les intervenants.
-      -->
-
+      <div class="usn-ligne">
+        <div class="usn-jour"><b>02</b><span>Janvier</span></div>
+        <div>
+          <div class="usn-ville">Limours <span style="opacity:.55">(91)</span></div>
+          <div class="usn-lieu">Lieu et horaires &agrave; confirmer</div>
+          <div class="usn-invites">Intervenants &agrave; annoncer</div>
+        </div>
+        <div class="usn-etat">
+          <span class="usn-pastille usn-attente">Bient&ocirc;t</span>
+        </div>
+      </div>
 
       <div class="usn-ligne">
         <div class="usn-jour"><b>06</b><span>Mars</span></div>
@@ -188,9 +346,9 @@
       </div>
 
       <div class="usn-ligne">
-        <div class="usn-jour"><b>&mdash;</b><span>&Agrave; venir</span></div>
+        <div class="usn-jour"><b>&mdash;</b><span>Novembre</span></div>
         <div>
-          <div class="usn-ville">Toulouse</div>
+          <div class="usn-ville">Toulouse <span style="opacity:.55">(31)</span></div>
           <div class="usn-lieu">Date, lieu et horaires &agrave; confirmer</div>
         </div>
         <div class="usn-etat">

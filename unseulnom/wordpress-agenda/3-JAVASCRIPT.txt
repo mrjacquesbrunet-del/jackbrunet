@@ -34,6 +34,112 @@
 
 
   /* =================================================================
+     LA ROTATION DES PROCHAINS RENDEZ-VOUS
+
+     Chaque vue reste a l'ecran le temps que dit son attribut
+     data-usn-duree. L'avancement n'est pas compte par une minuterie mais
+     porte par l'animation de la barre : c'est elle qui, en arrivant au
+     bout, appelle la ville suivante. Deux consequences utiles :
+       - la barre et le changement de vue ne peuvent pas se desynchroniser,
+       - mettre l'animation en pause (au survol) suspend tout, puisque
+         l'animation ne finit plus.
+     ================================================================= */
+  (function () {
+    var boite = document.getElementById('usn-tourne');
+    if (!boite) return;
+    var vues   = boite.querySelectorAll('.usn-vue');
+    var barres = boite.querySelectorAll('.usn-tourne-barre');
+    if (!vues.length || vues.length !== barres.length) return;
+
+    var reduit = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var actif = 0, enPause = false;
+
+    /* La largeur des barres suit la duree des vues : la ville qui reste
+       le plus longtemps a l'ecran occupe la plus large. */
+    var durees = [], mini = Infinity, i;
+    for (i = 0; i < vues.length; i++) {
+      var d = parseInt(vues[i].getAttribute('data-usn-duree'), 10) || 4200;
+      durees.push(d);
+      if (d < mini) mini = d;
+    }
+    for (i = 0; i < barres.length; i++) {
+      barres[i].style.flexGrow = (durees[i] / mini).toFixed(3);
+    }
+
+    function remplissage(n) { return barres[n].querySelector('i b'); }
+
+    function montre(n) {
+      actif = (n + vues.length) % vues.length;
+
+      for (var k = 0; k < vues.length; k++) {
+        var est = (k === actif);
+        vues[k].classList.toggle('est-active', est);
+        barres[k].classList.toggle('est-active', est);
+        barres[k].setAttribute('aria-current', est ? 'true' : 'false');
+
+        var b = remplissage(k);
+        if (b && !est) { b.style.animation = 'none'; b.style.width = ''; }
+      }
+
+      var plein = remplissage(actif);
+      if (plein && !reduit) {
+        // Remise a zero forcee : sans la lecture de offsetWidth, le
+        // navigateur reutilise l'animation en cours au lieu de la relancer.
+        plein.style.animation = 'none';
+        void plein.offsetWidth;
+        plein.style.animation = 'usn-remplit ' + durees[actif] + 'ms linear forwards';
+        // La forme courte " animation " vient de remettre la lecture en
+        // marche : si le visiteur avait la souris sur le bloc, il faut la
+        // remettre en pause tout de suite.
+        appliquePause();
+      }
+    }
+
+    /* La pause se pose sur l'animation elle-meme, et non par une regle de
+       la feuille de style : le style en ligne pose ci-dessus l'emporterait
+       sur elle. */
+    function appliquePause() {
+      var plein = remplissage(actif);
+      if (plein) plein.style.animationPlayState = enPause ? 'paused' : 'running';
+    }
+
+    /* C'est la fin de l'animation de la barre qui fait tourner la page. */
+    boite.addEventListener('animationend', function (e) {
+      if (e.animationName !== 'usn-remplit') return;
+      if (e.target !== remplissage(actif)) return;
+      montre(actif + 1);
+    });
+
+    for (i = 0; i < barres.length; i++) {
+      barres[i].addEventListener('click', function () {
+        montre(parseInt(this.getAttribute('data-usn-va'), 10) || 0);
+      });
+    }
+    var fleches = boite.querySelectorAll('.usn-tourne-f');
+    for (i = 0; i < fleches.length; i++) {
+      fleches[i].addEventListener('click', function () {
+        montre(actif + (parseInt(this.getAttribute('data-usn-pas'), 10) || 1));
+      });
+    }
+
+    /* Pause a la lecture : au survol, au doigt pose, et au clavier. */
+    function pause(oui) { enPause = oui; appliquePause(); }
+    boite.addEventListener('mouseenter', function () { pause(true); });
+    boite.addEventListener('mouseleave', function () { pause(false); });
+    boite.addEventListener('focusin',    function () { pause(true); });
+    boite.addEventListener('focusout',   function () { pause(false); });
+    boite.addEventListener('touchstart', function () { pause(true); }, { passive: true });
+    boite.addEventListener('touchend',   function () { pause(false); }, { passive: true });
+
+    /* La rotation demarre sur Tarbes : la vue qui reste le plus longtemps
+       a l'ecran est celle que le visiteur doit voir en arrivant. */
+    var depart = 0;
+    for (i = 0; i < durees.length; i++) if (durees[i] > durees[depart]) depart = i;
+    montre(depart);
+  })();
+
+
+  /* =================================================================
      MOTEUR D'ANIMATION AU SCROLL
      Reproduit le comportement de GSAP ScrollTrigger en mode " scrub " :
      - les elements partent d'une demi-hauteur d'ecran plus bas (50svh),

@@ -308,6 +308,145 @@
   }
 
   /* ===================================================================
+     LES PROCHAINS RENDEZ-VOUS - le carrousel
+
+     La page parente montre chaque ville a venir : son affiche quand elle
+     existe, sa date, son lieu, ses intervenants. Les vues se succedent
+     seules.
+
+     QUI RESTE COMBIEN DE TEMPS ? La duree est reglee vue par vue, dans
+     l'attribut data-usn-duree (en millisecondes). Tarbes porte la plus
+     longue : c'est la prochaine date en France, elle tient donc l'ecran
+     plus longtemps que les autres.
+
+     Les barres du haut disent ou l'on en est. Leur largeur suit la duree
+     de chaque vue : celle de Tarbes est la plus large, on voit donc au
+     premier regard qu'elle compte davantage. Un clic sur une barre amene
+     directement a la ville ; le survol met la rotation en pause.
+     =================================================================== */
+  #usn-agenda .usn-tourne { padding: clamp(40px, 6vw, 76px) 0 clamp(10px, 2vw, 22px); }
+  #usn-agenda .usn-tourne-tete {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 20px; flex-wrap: wrap;
+  }
+  #usn-agenda .usn-tourne-tete h2 { margin-top: 12px; font-size: clamp(28px, 4.6vw, 52px); text-transform: uppercase; }
+
+  /* La marge automatique tient les fleches a droite meme quand le titre
+     les renvoie a la ligne, sur un ecran etroit. */
+  #usn-agenda .usn-tourne-fleches { display: flex; gap: 10px; margin-left: auto; }
+  #usn-agenda .usn-tourne-f {
+    width: 46px; height: 46px; border-radius: 50%; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 17px; line-height: 1; color: var(--usn-ink);
+    background: #fff; border: 1px solid var(--usn-trait);
+    transition: background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease;
+  }
+  #usn-agenda .usn-tourne-f:hover {
+    background: var(--usn-blue); color: #fff; border-color: var(--usn-blue);
+    transform: translateY(-2px);
+  }
+
+  /* ---- Les barres d'avancement, une par ville ---- */
+  #usn-agenda .usn-tourne-barres {
+    display: flex; gap: 10px;
+    margin: clamp(24px, 3.4vw, 36px) 0 clamp(26px, 3.6vw, 40px);
+  }
+  #usn-agenda .usn-tourne-barre {
+    flex: 1 1 0; min-width: 0; padding: 0; border: 0; background: none;
+    font: inherit; color: var(--usn-gris); text-align: left; cursor: pointer;
+  }
+  #usn-agenda .usn-tourne-barre i {
+    display: block; height: 3px; border-radius: 99px;
+    background: var(--usn-trait); overflow: hidden;
+  }
+  #usn-agenda .usn-tourne-barre i b {
+    display: block; width: 0; height: 100%; border-radius: 99px;
+    background: var(--usn-blue);
+  }
+  #usn-agenda .usn-tourne-barre em {
+    display: block; margin-top: 10px; font-style: normal;
+    font-size: 10.5px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    transition: color .2s ease;
+  }
+  #usn-agenda .usn-tourne-barre.est-active em { color: var(--usn-ink); }
+  @keyframes usn-remplit { from { width: 0; } to { width: 100%; } }
+
+  /* ---- Les vues, empilees dans une meme case de grille ----
+     Toutes occupent la case 1/1 : le cadre prend donc la hauteur de la
+     plus haute et ne saute pas d'une ville a l'autre. */
+  #usn-agenda .usn-tourne-cadre { display: grid; }
+  #usn-agenda .usn-vue {
+    grid-area: 1 / 1;
+    display: grid; grid-template-columns: clamp(170px, 21vw, 248px) 1fr;
+    gap: clamp(20px, 3.4vw, 46px); align-items: center;
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transform: translate3d(34px, 0, 0);
+    transition: opacity .55s ease, transform .7s cubic-bezier(.2,.7,.2,1), visibility .55s;
+  }
+  #usn-agenda .usn-vue.est-active {
+    opacity: 1; visibility: visible; pointer-events: auto; transform: none;
+  }
+
+  #usn-agenda .usn-vue-affiche {
+    position: relative; aspect-ratio: 3 / 4; border-radius: 20px; overflow: hidden;
+    background: linear-gradient(150deg, var(--usn-blue), #101861);
+    box-shadow: 0 30px 58px -30px rgba(12,11,10,0.48);
+  }
+  #usn-agenda .usn-vue-affiche img { width: 100%; height: 100%; object-fit: cover; }
+  /* Pas encore d'affiche ? La case reste occupee par la date, ecrite en
+     grand : la rotation ne montre jamais un trou. */
+  #usn-agenda .usn-vue-attente {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 10px; padding: 18px; text-align: center; color: #fff;
+  }
+  #usn-agenda .usn-vue-attente strong {
+    font-family: var(--usn-display); font-stretch: 118%; font-weight: 900;
+    font-size: clamp(26px, 3.4vw, 40px); line-height: 0.95;
+    font-variant-numeric: tabular-nums; letter-spacing: -0.01em;
+  }
+  #usn-agenda .usn-vue-attente span {
+    font-size: 10px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(255,255,255,0.62);
+  }
+
+  #usn-agenda .usn-vue-quand {
+    font-size: 11px; font-weight: 800; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--usn-red);
+  }
+  #usn-agenda .usn-vue-ville {
+    margin-top: 10px; font-size: clamp(34px, 6.4vw, 78px); line-height: 0.92;
+    text-transform: uppercase; letter-spacing: -0.02em;
+  }
+  #usn-agenda .usn-vue-ville small { font-size: 0.42em; opacity: .5; letter-spacing: 0; }
+  #usn-agenda .usn-vue-lieu {
+    margin-top: 14px; font-family: var(--usn-sub);
+    font-size: clamp(14px, 1.7vw, 17px); max-width: 52ch;
+  }
+  #usn-agenda .usn-vue-invites {
+    margin-top: 5px; font-family: var(--usn-sub);
+    font-size: clamp(13px, 1.5vw, 15px); color: var(--usn-gris); max-width: 58ch;
+  }
+  #usn-agenda .usn-vue-actions {
+    margin-top: clamp(18px, 2.6vw, 26px);
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+
+  @media (max-width: 720px) {
+    #usn-agenda .usn-vue { grid-template-columns: 1fr; gap: 20px; }
+    #usn-agenda .usn-vue-affiche { width: min(60%, 220px); }
+    /* Six intitules ne tiennent pas en largeur sur un telephone : il ne
+       reste que les barres, qui suffisent a se reperer. */
+    #usn-agenda .usn-tourne-barre em { display: none; }
+    #usn-agenda .usn-tourne-barres { gap: 7px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #usn-agenda .usn-tourne-barre i b { animation: none !important; width: 100%; }
+    #usn-agenda .usn-vue { transition: none; }
+  }
+
+  /* ===================================================================
      L'AGENDA - le coeur de la page
      Chaque date est une ligne pleine largeur : le jour a gauche, la ville
      en tres grand, les details dessous, l'etat des inscriptions a droite.
