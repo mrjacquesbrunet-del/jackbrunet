@@ -1,15 +1,36 @@
 # Mettre le site en ligne sur WordPress — pas à pas
 
-Trois pages à poser, dans cet ordre :
+Trois pages à poser, plus **un seul fichier JavaScript** pour tout le site :
 
 | Ordre | Page | Adresse visée | Fichier à coller |
 |---|---|---|---|
 | 1 | **Accueil** | `unseulnom.org` | `accueil-a-coller-dans-wordpress.html` |
 | 2 | **À venir** (page parente) | `unseulnom.org/evenement/` | `agenda-a-coller-dans-wordpress.html` |
 | 3 | **Tarbes** (page fille) | `unseulnom.org/evenement/tarbes/` | `a-coller-dans-wordpress.html` |
+| 4 | *(tout le site)* | — | `wordpress-javascript-du-site.txt` |
 
 Compte **une bonne heure** la première fois. Aucune compétence technique
 n'est nécessaire : tout se fait par copier-coller.
+
+## Pourquoi le JavaScript est à part
+
+C'est le point à ne pas rater. **WordPress retouche la typographie du
+contenu des pages.** Sur du texte c'est utile ; sur du code c'est
+destructeur. Collé dans le bloc HTML d'une page, un `&&` du script
+ressort en `&#038;&#038;` : le navigateur s'arrête sur une erreur de
+syntaxe et **tout le script meurt**, pas seulement la ligne.
+
+Constaté en ligne le 20 octobre 2026 sur la page « À venir » : trois `&&`
+sur six abîmés, le carrousel des villes restait vide.
+
+Le même code posé dans l'extension **« CSS et JS personnalisés »** en
+sort intact, onze `&&` compris : il ne passe pas par le contenu de la
+page. C'est donc là qu'il va, et nulle part ailleurs.
+
+Les trois scripts tiennent dans **un seul fichier**, à coller une fois
+pour toutes. Chacun commence par une garde : s'il ne trouve pas la page
+qu'il sert, il s'arrête aussitôt et ne touche à rien. Le fichier peut
+donc être injecté sur tout le site sans risque.
 
 ---
 
@@ -114,6 +135,22 @@ la même façon.
 
 ---
 
+## Étape 2 bis — Poser le JavaScript, une fois pour tout le site
+
+1. Menu de gauche : **CSS et JS personnalisés**
+2. Onglet **JavaScript**
+3. Efface ce qui s'y trouve et colle `wordpress-javascript-du-site.txt`
+4. Onglet **CSS** : efface ce qui s'y trouve. Les styles voyagent
+   désormais avec chaque page, cette case n'a plus à rien contenir.
+5. Onglet **HTML** : laisse-le vide. Ce qui y serait s'afficherait sur
+   **toutes** les pages du site.
+6. **Mettre à jour**
+
+À refaire à chaque fois que je te renvoie une version du site : le
+fichier est régénéré avec le reste.
+
+---
+
 ## Étape 3 — Mettre à jour l'accueil
 
 1. **Pages → Accueil** (ou la page réglée comme page d'accueil dans
@@ -200,6 +237,12 @@ les visages et l'affiche à changer en même temps.
 
 ---
 
+**Le carrousel des villes reste vide, rien ne s'anime**
+Le JavaScript n'est pas en place, ou il a été collé dans la page au lieu
+de l'extension. Reprends l'étape 2 bis.
+
+---
+
 ## Et les fichiers en trois morceaux ?
 
 Les dossiers `wordpress-accueil/`, `wordpress-agenda/` et
@@ -207,8 +250,9 @@ Les dossiers `wordpress-accueil/`, `wordpress-agenda/` et
 
 - `1-HTML.txt` — le contenu seul
 - `2-CSS.txt` — le style seul
-- `3-JAVASCRIPT.txt` — les animations seules
+- `3-JAVASCRIPT.txt` — les animations d'une seule page
 
-Ils ne servent que si ton thème ou une extension exige de ranger le style et
-le code dans des champs séparés. **Dans le cas normal, ignore-les** : le
-fichier unique `...-a-coller-dans-wordpress.html` contient déjà tout.
+Ils ne servent que si tu dois traiter une page séparément des autres.
+**Dans le cas normal, ignore-les** : le fichier
+`...-a-coller-dans-wordpress.html` porte le contenu et le style d'une
+page, et `wordpress-javascript-du-site.txt` porte le code des trois.

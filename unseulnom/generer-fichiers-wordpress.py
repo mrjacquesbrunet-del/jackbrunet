@@ -368,6 +368,34 @@ def construire(nom, page):
     avertir_javascript(nom, js)
 
 
+EN_TETE_JS = """/* =====================================================================
+   UN SEUL NOM — LE JAVASCRIPT DU SITE
+
+   Un seul fichier pour les trois pages. Il se colle dans l'onglet
+   JavaScript de l'extension « CSS et JS personnalises », et nulle part
+   ailleurs : colle dans le bloc HTML d'une page, WordPress retouche la
+   typographie du code et un « && » y ressort en « &#038;&#038; », ce qui
+   arrete le navigateur sur une erreur de syntaxe.
+
+   Les trois scripts sont independants et commencent chacun par une
+   garde : s'il ne trouve pas la page qu'il sert, il s'arrete aussitot
+   et ne touche a rien. Le fichier peut donc etre injecte sur toutes les
+   pages du site sans risque.
+
+   GENERE PAR generer-fichiers-wordpress.py — ne pas modifier a la main.
+   ===================================================================== */
+
+"""
+
+SEPARATEUR_JS = """
+
+/* =====================================================================
+   %s
+   ===================================================================== */
+
+"""
+
+
 def main():
     voulues = sys.argv[1:] or list(PAGES)
     for nom in voulues:
@@ -375,6 +403,20 @@ def main():
             raise SystemExit("page inconnue : %s (au choix : %s)"
                              % (nom, ", ".join(PAGES)))
         construire(nom, PAGES[nom])
+
+    # Le fichier unique, seulement quand toutes les pages ont ete faites :
+    # sinon il ne porterait qu'une partie du site.
+    if set(voulues) == set(PAGES):
+        morceaux = [en_ascii(EN_TETE_JS)]
+        for nom, page in PAGES.items():
+            js = (RACINE / page["sortie"] / "3-JAVASCRIPT.txt").read_text(encoding="ascii")
+            morceaux.append(SEPARATEUR_JS % en_ascii(
+                "Page %s (%s)" % (nom, page["source"])))
+            morceaux.append(js.strip() + "\n")
+        chemin = RACINE / "wordpress-javascript-du-site.txt"
+        chemin.write_text("".join(morceaux), encoding="ascii")
+        print("== le javascript des trois pages, en un seul fichier")
+        print("   %7d octets  %s" % (chemin.stat().st_size, chemin.name))
 
 
 if __name__ == "__main__":
