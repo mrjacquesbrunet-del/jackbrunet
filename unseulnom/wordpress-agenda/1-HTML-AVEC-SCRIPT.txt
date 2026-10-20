@@ -258,6 +258,65 @@
   </div>
 
   <!-- ============================================================= -->
+  <!-- RESTER PREVENU                                                 -->
+  <!-- ============================================================= -->
+  <!--
+    &#9658; Ce formulaire et celui du bas de page partent vers LA MEME liste
+      Brevo : l'adresse dans action="..." est identique. Si vous changez
+      de liste, changez les deux.
+  -->
+  <div class="usn-capte">
+    <div class="usn-wrap">
+      <div class="usn-capte-carte">
+
+        <div>
+          <span class="usn-eyebrow">Rester pr&eacute;venu</span>
+          <h2>Et votre ville, c'est pour quand&nbsp;?</h2>
+          <p class="usn-capte-dit">
+            Les villes de 2027 n'ont pas encore toutes leur salle ni leurs
+            horaires. Laissez votre adresse&nbsp;: vous serez pr&eacute;venu
+            d&egrave;s qu'une date est confirm&eacute;e, et avant l'ouverture
+            des inscriptions.
+          </p>
+        </div>
+
+        <div>
+          <!-- Le formulaire part dans ce cadre cache : le visiteur reste
+               sur la page au lieu d'etre renvoye vers Brevo. -->
+          <iframe name="usn-brevo-haut" title="Inscription" style="display:none;border:0;width:0;height:0"></iframe>
+
+          <form class="usn-form" id="usn-capte-form" method="POST"
+                data-usn-brevo data-usn-msg="usn-capte-msg"
+                action="https://f8944495.sibforms.com/serve/MUIFAIs9H4MOwtfawQ-nUiiNQjRmcSNQ51wCfEkSkK4X91IeG5GyZDWqGDV3oD_sUQHzLsQUO6Ky6EqX9G_I6VWvy8H5St2aXpxdhmXp81Jkl34fooTe9ukSalttOBmz1T6EwxTHhs9WLKWs2tBPCT1fhe_uubwAitTQjHmRHfmqBxQBcLifIZRDcFP9W3Vvzs_hPEa9_OySJBsT"
+                target="usn-brevo-haut" novalidate>
+            <div class="usn-form-duo">
+              <input name="NOM" type="text" placeholder="Votre nom" aria-label="Nom"
+                     data-usn-nom required />
+              <input name="EMAIL" type="email" placeholder="vous@email.com"
+                     aria-label="Adresse e-mail" data-usn-email required />
+            </div>
+
+            <!-- Piege anti-robot de Brevo : ce champ doit rester vide. -->
+            <input type="text" name="email_address_check" value="" tabindex="-1"
+                   aria-hidden="true" autocomplete="off"
+                   style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+            <input type="hidden" name="locale" value="fr" />
+
+            <button type="submit" class="usn-btn usn-btn-primary">Pr&eacute;venez-moi</button>
+            <p class="usn-consent">
+              D&eacute;sinscription possible &agrave; tout moment. Votre adresse
+              ne sert qu'&agrave; annoncer les dates.
+            </p>
+          </form>
+
+          <div class="usn-msg" id="usn-capte-msg" role="status" aria-live="polite"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
   <!-- L'AGENDA                                                       -->
   <!-- ============================================================= -->
   <div class="usn-agenda" id="usn-dates">
@@ -459,11 +518,14 @@
         <iframe name="usn-brevo" title="Inscription" style="display:none;border:0;width:0;height:0"></iframe>
 
         <form class="usn-form" id="usn-agenda-form" method="POST"
+              data-usn-brevo data-usn-msg="usn-form-msg"
               action="https://f8944495.sibforms.com/serve/MUIFAIs9H4MOwtfawQ-nUiiNQjRmcSNQ51wCfEkSkK4X91IeG5GyZDWqGDV3oD_sUQHzLsQUO6Ky6EqX9G_I6VWvy8H5St2aXpxdhmXp81Jkl34fooTe9ukSalttOBmz1T6EwxTHhs9WLKWs2tBPCT1fhe_uubwAitTQjHmRHfmqBxQBcLifIZRDcFP9W3Vvzs_hPEa9_OySJBsT"
               target="usn-brevo" novalidate>
           <div class="usn-form-duo">
-            <input id="usn-nom" name="NOM" type="text" placeholder="Votre nom" aria-label="Nom" required />
-            <input id="usn-email" name="EMAIL" type="email" placeholder="vous@email.com" aria-label="Adresse e-mail" required />
+            <input id="usn-nom" name="NOM" type="text" placeholder="Votre nom" aria-label="Nom"
+                   data-usn-nom required />
+            <input id="usn-email" name="EMAIL" type="email" placeholder="vous@email.com"
+                   aria-label="Adresse e-mail" data-usn-email required />
           </div>
 
           <!-- Piege anti-robot de Brevo : ce champ doit rester vide. -->
@@ -700,6 +762,7 @@
     }
     group('.usn-an',      { type: 'rise',  dist: 0.22, stagger: 0,    span: 0.45 });
     group('.usn-ligne',   { type: 'slide', dist: 0.34, stagger: 0.13, span: 0.58 });
+    group('.usn-capte-carte', { type: 'rise', dist: 0.18, stagger: 0, span: 0.45 });
     group('.usn-affiche', { type: 'rise',  dist: 0.40, stagger: 0.11, span: 0.58 });
     group('.usn-mot',     { type: 'rise',  dist: 0.26, stagger: 0.14, span: 0.50 });
 
@@ -860,28 +923,38 @@
   })();
 
 
-  /* ---- Lettre d'information ----
-     Pas de compteur de places ici : la page annonce des dates, elle ne
-     reserve rien. Le formulaire part vers Brevo dans un iframe cache. */
-  (function () {
-    var form = document.getElementById('usn-agenda-form');
-    if (!form) return;
-    var msg = document.getElementById('usn-form-msg');
+  /* ---- Les formulaires " rester prevenu " ----
+     La page en porte deux - un sous la rotation des villes, un en bas -
+     qui vont vers la meme liste Brevo. Un seul bout de code les sert :
+     chacun se designe par data-usn-brevo, et dit dans data-usn-msg ou
+     ecrire son accuse de reception.
 
-    form.addEventListener('submit', function (e) {
-      var nom   = form.querySelector('#usn-nom');
-      var email = form.querySelector('#usn-email');
-      if (!nom.value.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value)) {
-        e.preventDefault();
-        (nom.value.trim() ? email : nom).focus();
-        return;
-      }
-      if (msg) {
-        msg.textContent = 'Merci ! Vous serez pr\u00e9venu d\u00e8s qu\'une nouvelle date est annonc\u00e9e.';
-        msg.style.display = 'block';
-      }
-      setTimeout(function () { form.reset(); }, 100);
-    });
+     Pas de compteur de places ici : la page annonce des dates, elle ne
+     reserve rien. L'envoi part vers Brevo dans un cadre cache. */
+  (function () {
+    var formes = document.querySelectorAll('#usn-agenda form[data-usn-brevo]');
+
+    function brancher(form) {
+      var msg = document.getElementById(form.getAttribute('data-usn-msg') || '');
+
+      form.addEventListener('submit', function (e) {
+        var nom   = form.querySelector('[data-usn-nom]');
+        var email = form.querySelector('[data-usn-email]');
+        if (!nom || !email) return;
+        if (!nom.value.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value)) {
+          e.preventDefault();
+          (nom.value.trim() ? email : nom).focus();
+          return;
+        }
+        if (msg) {
+          msg.textContent = 'Merci ! Vous serez pr\u00e9venu d\u00e8s qu\'une nouvelle date est annonc\u00e9e.';
+          msg.style.display = 'block';
+        }
+        setTimeout(function () { form.reset(); }, 100);
+      });
+    }
+
+    for (var i = 0; i < formes.length; i++) brancher(formes[i]);
   })();
 
   }

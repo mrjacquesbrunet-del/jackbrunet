@@ -258,6 +258,65 @@
   </div>
 
   <!-- ============================================================= -->
+  <!-- RESTER PREVENU                                                 -->
+  <!-- ============================================================= -->
+  <!--
+    &#9658; Ce formulaire et celui du bas de page partent vers LA MEME liste
+      Brevo : l'adresse dans action="..." est identique. Si vous changez
+      de liste, changez les deux.
+  -->
+  <div class="usn-capte">
+    <div class="usn-wrap">
+      <div class="usn-capte-carte">
+
+        <div>
+          <span class="usn-eyebrow">Rester pr&eacute;venu</span>
+          <h2>Et votre ville, c'est pour quand&nbsp;?</h2>
+          <p class="usn-capte-dit">
+            Les villes de 2027 n'ont pas encore toutes leur salle ni leurs
+            horaires. Laissez votre adresse&nbsp;: vous serez pr&eacute;venu
+            d&egrave;s qu'une date est confirm&eacute;e, et avant l'ouverture
+            des inscriptions.
+          </p>
+        </div>
+
+        <div>
+          <!-- Le formulaire part dans ce cadre cache : le visiteur reste
+               sur la page au lieu d'etre renvoye vers Brevo. -->
+          <iframe name="usn-brevo-haut" title="Inscription" style="display:none;border:0;width:0;height:0"></iframe>
+
+          <form class="usn-form" id="usn-capte-form" method="POST"
+                data-usn-brevo data-usn-msg="usn-capte-msg"
+                action="https://f8944495.sibforms.com/serve/MUIFAIs9H4MOwtfawQ-nUiiNQjRmcSNQ51wCfEkSkK4X91IeG5GyZDWqGDV3oD_sUQHzLsQUO6Ky6EqX9G_I6VWvy8H5St2aXpxdhmXp81Jkl34fooTe9ukSalttOBmz1T6EwxTHhs9WLKWs2tBPCT1fhe_uubwAitTQjHmRHfmqBxQBcLifIZRDcFP9W3Vvzs_hPEa9_OySJBsT"
+                target="usn-brevo-haut" novalidate>
+            <div class="usn-form-duo">
+              <input name="NOM" type="text" placeholder="Votre nom" aria-label="Nom"
+                     data-usn-nom required />
+              <input name="EMAIL" type="email" placeholder="vous@email.com"
+                     aria-label="Adresse e-mail" data-usn-email required />
+            </div>
+
+            <!-- Piege anti-robot de Brevo : ce champ doit rester vide. -->
+            <input type="text" name="email_address_check" value="" tabindex="-1"
+                   aria-hidden="true" autocomplete="off"
+                   style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+            <input type="hidden" name="locale" value="fr" />
+
+            <button type="submit" class="usn-btn usn-btn-primary">Pr&eacute;venez-moi</button>
+            <p class="usn-consent">
+              D&eacute;sinscription possible &agrave; tout moment. Votre adresse
+              ne sert qu'&agrave; annoncer les dates.
+            </p>
+          </form>
+
+          <div class="usn-msg" id="usn-capte-msg" role="status" aria-live="polite"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
   <!-- L'AGENDA                                                       -->
   <!-- ============================================================= -->
   <div class="usn-agenda" id="usn-dates">
@@ -459,11 +518,14 @@
         <iframe name="usn-brevo" title="Inscription" style="display:none;border:0;width:0;height:0"></iframe>
 
         <form class="usn-form" id="usn-agenda-form" method="POST"
+              data-usn-brevo data-usn-msg="usn-form-msg"
               action="https://f8944495.sibforms.com/serve/MUIFAIs9H4MOwtfawQ-nUiiNQjRmcSNQ51wCfEkSkK4X91IeG5GyZDWqGDV3oD_sUQHzLsQUO6Ky6EqX9G_I6VWvy8H5St2aXpxdhmXp81Jkl34fooTe9ukSalttOBmz1T6EwxTHhs9WLKWs2tBPCT1fhe_uubwAitTQjHmRHfmqBxQBcLifIZRDcFP9W3Vvzs_hPEa9_OySJBsT"
               target="usn-brevo" novalidate>
           <div class="usn-form-duo">
-            <input id="usn-nom" name="NOM" type="text" placeholder="Votre nom" aria-label="Nom" required />
-            <input id="usn-email" name="EMAIL" type="email" placeholder="vous@email.com" aria-label="Adresse e-mail" required />
+            <input id="usn-nom" name="NOM" type="text" placeholder="Votre nom" aria-label="Nom"
+                   data-usn-nom required />
+            <input id="usn-email" name="EMAIL" type="email" placeholder="vous@email.com"
+                   aria-label="Adresse e-mail" data-usn-email required />
           </div>
 
           <!-- Piege anti-robot de Brevo : ce champ doit rester vide. -->

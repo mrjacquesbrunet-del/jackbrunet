@@ -447,6 +447,46 @@
   }
 
   /* ===================================================================
+     RESTER PREVENU - le bandeau de capture
+
+     Pose juste sous la rotation : c'est en lisant les villes a venir que
+     le visiteur se demande quand ce sera la sienne. Le formulaire part
+     chez Brevo dans un cadre cache, le visiteur ne quitte pas la page.
+
+     Il ne remplace pas le bloc de bas de page : celui-ci prend le
+     visiteur au moment ou il se pose la question, l'autre le rattrape
+     s'il a lu la page jusqu'au bout.
+     =================================================================== */
+  #usn-agenda .usn-capte { padding: clamp(30px, 4.4vw, 52px) 0 0; }
+  #usn-agenda .usn-capte-carte {
+    position: relative; overflow: hidden;
+    border-radius: 24px; border: 1px solid var(--usn-trait);
+    background: var(--usn-paper);
+    padding: clamp(24px, 3.4vw, 40px) clamp(24px, 3.4vw, 40px)
+             clamp(24px, 3.4vw, 40px) clamp(30px, 4vw, 48px);
+    display: grid; grid-template-columns: 1fr minmax(300px, 44%);
+    gap: clamp(22px, 3.2vw, 44px); align-items: center;
+  }
+  /* Le filet tricolore de la marque, pose sur la tranche de la carte. */
+  #usn-agenda .usn-capte-carte::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 5px;
+    background: linear-gradient(180deg,
+      var(--usn-blue) 0 33.34%, var(--usn-white) 33.34% 66.67%, var(--usn-red) 66.67%);
+  }
+  #usn-agenda .usn-capte h2 {
+    margin-top: 12px; font-size: clamp(23px, 3.1vw, 36px);
+    text-transform: uppercase; max-width: 18ch;
+  }
+  #usn-agenda .usn-capte-dit {
+    margin-top: 12px; font-family: var(--usn-sub);
+    font-size: clamp(14px, 1.6vw, 16px); color: var(--usn-gris); max-width: 46ch;
+  }
+  @media (max-width: 860px) {
+    #usn-agenda .usn-capte-carte { grid-template-columns: 1fr; }
+    #usn-agenda .usn-capte h2 { max-width: none; }
+  }
+
+  /* ===================================================================
      L'AGENDA - le coeur de la page
      Chaque date est une ligne pleine largeur : le jour a gauche, la ville
      en tres grand, les details dessous, l'etat des inscriptions a droite.
