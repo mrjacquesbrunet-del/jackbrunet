@@ -87,9 +87,15 @@ ADRESSES = {
     "edition-croissy.webp":   URL_2026_04 + "/conference-Un-seul-nom-3-768x954.jpg",
     "edition-wasquehal.webp": URL_2026_04 + "/conference-Un-seul-nom-4-768x945.jpg",
     "edition-perpignan.webp": URL_2026_04 + "/conference-Un-seul-nom-5-768x950.jpg",
-    # L'image d'attente de la bande-annonce, envoyee en meme temps que la
-    # video : elle n'est donc pas dans le dossier du mois des autres.
+    # Envoyes en octobre 2026, pas avec les premieres images : WordPress
+    # range les fichiers par mois d'envoi, le dossier n'est pas le meme.
     "teaserposter.webp":      URL_2026_10 + "/teaserposter.webp",
+    "affichepau.webp":        URL_2026_10 + "/affichepau.webp",
+    "afficheformation.webp":  URL_2026_10 + "/afficheformation.webp",
+    "affichetarbes.webp":     URL_2026_10 + "/affichetarbes.webp",
+    "afficheavignon.webp":    URL_2026_10 + "/afficheavignon.webp",
+    "affichemadagascar.webp": URL_2026_10 + "/affichemadagascar.webp",
+    "jack.webp":              URL_2026_10 + "/jack.webp",
 }
 
 # Ponctuation typographique et filets -> equivalent ASCII
