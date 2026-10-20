@@ -4,6 +4,12 @@
 (function () {
   function usnInit() {
 
+    /* Le script est injecte par l'extension " CSS et JS personnalises ",
+       donc sur TOUTES les pages du site. Celui-ci ne concerne que la
+       page d'accueil : s'il ne la trouve pas, il s'arrete ici et ne
+       touche a rien. */
+    if (!document.getElementById('usn-accueil')) return;
+
   /* ---- Le menu du haut ----
      Le bouton a deux traits ouvre le panneau ; les deux traits se
      croisent, la page se bloque derriere, et Echap referme. */

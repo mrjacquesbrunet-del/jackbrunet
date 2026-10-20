@@ -207,8 +207,10 @@
         </article>
 
         <article class="usn-vue" data-usn-duree="4200">
-          <div class="usn-vue-affiche usn-vue-attente">
-            <strong>02.01</strong><span>Affiche &agrave; venir</span>
+          <div class="usn-vue-affiche usn-vue-plaque">
+            <b>91</b>
+            <i>Limours</i>
+            <em>Samedi 2 janvier</em>
           </div>
           <div class="usn-vue-texte">
             <div class="usn-vue-quand">Samedi 2 janvier 2027</div>
@@ -222,8 +224,10 @@
         </article>
 
         <article class="usn-vue" data-usn-duree="4200">
-          <div class="usn-vue-affiche usn-vue-attente">
-            <strong>06.03</strong><span>Affiche &agrave; venir</span>
+          <div class="usn-vue-affiche usn-vue-plaque">
+            <b>13</b>
+            <i>Marseille</i>
+            <em>Samedi 6 mars</em>
           </div>
           <div class="usn-vue-texte">
             <div class="usn-vue-quand">Samedi 6 mars 2027</div>
@@ -237,8 +241,10 @@
         </article>
 
         <article class="usn-vue" data-usn-duree="4200">
-          <div class="usn-vue-affiche usn-vue-attente">
-            <strong>15.05</strong><span>Affiche &agrave; venir</span>
+          <div class="usn-vue-affiche usn-vue-plaque">
+            <b>33</b>
+            <i>Bordeaux</i>
+            <em>Samedi 15 mai</em>
           </div>
           <div class="usn-vue-texte">
             <div class="usn-vue-quand">Samedi 15 mai 2027</div>
@@ -252,8 +258,10 @@
         </article>
 
         <article class="usn-vue" data-usn-duree="4200">
-          <div class="usn-vue-affiche usn-vue-attente">
-            <strong>NOV.<br />2027</strong><span>Affiche &agrave; venir</span>
+          <div class="usn-vue-affiche usn-vue-plaque">
+            <b>31</b>
+            <i>Toulouse</i>
+            <em>Novembre 2027</em>
           </div>
           <div class="usn-vue-texte">
             <div class="usn-vue-quand">Novembre 2027</div>
@@ -396,7 +404,7 @@
       <div class="usn-ligne">
         <div class="usn-jour"><b>06</b><span>Mars</span></div>
         <div>
-          <div class="usn-ville">Marseille</div>
+          <div class="usn-ville">Marseille <span style="opacity:.55">(13)</span></div>
           <div class="usn-lieu">Lieu et horaires &agrave; confirmer</div>
           <div class="usn-invites">Pr&eacute;dication&nbsp;: Yannis Gautier, Pasteur Chriss Campion &middot; Louange&nbsp;: Patcha&iuml; Reyes, Nikita Heugebaert, Ruben Debard</div>
         </div>
@@ -408,7 +416,7 @@
       <div class="usn-ligne">
         <div class="usn-jour"><b>15</b><span>Mai</span></div>
         <div>
-          <div class="usn-ville">Bordeaux</div>
+          <div class="usn-ville">Bordeaux <span style="opacity:.55">(33)</span></div>
           <div class="usn-lieu">Lieu et horaires &agrave; confirmer</div>
           <div class="usn-invites">Pr&eacute;dication&nbsp;: Pasteur Marcello Tunasi, Pasteur Chriss Campion &middot; Louange&nbsp;: Dan Luiten, Nikita Heugebaert</div>
         </div>

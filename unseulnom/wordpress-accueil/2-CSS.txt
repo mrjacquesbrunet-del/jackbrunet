@@ -10,6 +10,21 @@
      =================================================================== */
   @import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Poppins:wght@400;500;600;700;800;900&display=swap');
 
+  /* -------------------------------------------------------------
+     L'EN-TETE ET LE PIED DU THEME
+
+     Le theme pose sa propre barre orange en haut et son pied en bas.
+     Cette page porte deja sa barre de navigation et son pied : les
+     deux faisaient doublon, et la barre orange se posait par-dessus.
+
+     La regle ne s'applique qu'aux pages qui contiennent ce bloc, grace
+     a :has() : coller ce style ailleurs ne cachera donc jamais l'en-tete
+     d'une autre page du site.
+     ------------------------------------------------------------- */
+  body:has(#usn-accueil) .elementor-location-header,
+  body:has(#usn-accueil) .elementor-location-footer { display: none !important; }
+
+
   #usn-accueil {
     --usn-blue: #1B2FC4;
     --usn-red: #E4262B;

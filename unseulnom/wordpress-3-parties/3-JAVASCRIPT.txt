@@ -4,6 +4,12 @@
 (function () {
   function usnInit() {
 
+    /* Le script est injecte par l'extension " CSS et JS personnalises ",
+       donc sur TOUTES les pages du site. Celui-ci ne concerne que la
+       page de la ville : s'il ne la trouve pas, il s'arrete ici et ne
+       touche a rien. */
+    if (!document.getElementById('usn-event')) return;
+
   /* ---- Le grand titre s'ajuste toujours a la largeur ----
      " AVIGNON " debordait sur mobile ; avec un nom de ville plus long le
      probleme reviendrait. On mesure et on reduit si necessaire. */

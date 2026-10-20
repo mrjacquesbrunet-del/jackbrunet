@@ -12,6 +12,21 @@
      =================================================================== */
   @import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap');
 
+  /* -------------------------------------------------------------
+     L'EN-TETE ET LE PIED DU THEME
+
+     Le theme pose sa propre barre orange en haut et son pied en bas.
+     Cette page porte deja sa barre de navigation et son pied : les
+     deux faisaient doublon, et la barre orange se posait par-dessus.
+
+     La regle ne s'applique qu'aux pages qui contiennent ce bloc, grace
+     a :has() : coller ce style ailleurs ne cachera donc jamais l'en-tete
+     d'une autre page du site.
+     ------------------------------------------------------------- */
+  body:has(#usn-agenda) .elementor-location-header,
+  body:has(#usn-agenda) .elementor-location-footer { display: none !important; }
+
+
   #usn-agenda {
     /* Charte : bleu, blanc, rouge (drapeau francais) */
     --usn-blue: #1B2FC4;
@@ -239,13 +254,24 @@
   }
   #usn-agenda .usn-hero-filet { flex: 1; height: 1px; background: rgba(12,11,10,0.18); }
 
-  /* Titre pleine largeur, lettres presque jointives. */
+  /* Le titre, a taille de titre et non de banniere : le film au-dessus
+     porte deja le regard, un mot de 268 pixels de haut lui disputait la
+     vedette. Les lettres se levent une a une au defilement. */
   #usn-agenda .usn-hero h1 {
     /* L'accent du A deborde vers le haut : cette marge l'empeche de venir
        toucher le filet juste au-dessus. */
-    margin-top: clamp(22px, 3vw, 40px);
-    font-size: clamp(58px, 17.5vw, 268px); text-transform: uppercase;
-    letter-spacing: -0.045em; line-height: 0.8;
+    margin-top: clamp(10px, 1.6vw, 20px);
+    font-size: clamp(44px, 7.4vw, 108px); text-transform: uppercase;
+    letter-spacing: -0.035em; line-height: 1;
+    /* Les lettres montent depuis dessous : ce cadre les y cache tant
+       qu'elles n'ont pas pris leur place. Les marges interieures lui
+       donnent de quoi loger l'accent du A et la descente du bas, qui
+       seraient sinon coupes par ce meme cadre. */
+    overflow: hidden; padding: 0.14em 0 0.08em;
+  }
+  #usn-agenda .usn-glyphe {
+    display: inline-block; white-space: pre;
+    will-change: transform, opacity;
   }
 
   /* Pied de l'en-tete : la phrase a gauche, le decompte des dates a droite. */
@@ -418,20 +444,39 @@
     box-shadow: 0 30px 58px -30px rgba(12,11,10,0.48);
   }
   #usn-agenda .usn-vue-affiche img { width: 100%; height: 100%; object-fit: cover; }
-  /* Pas encore d'affiche ? La case reste occupee par la date, ecrite en
-     grand : la rotation ne montre jamais un trou. */
-  #usn-agenda .usn-vue-attente {
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 10px; padding: 18px; text-align: center; color: #fff;
+  /* ---- Les villes dont l'affiche n'existe pas encore ----
+     Plutot qu'un cadre qui s'excuse d'etre vide, une plaque qui tient
+     debout toute seule : le numero du departement en tres grand, la
+     ville dessous. Rien n'y annonce une image manquante - le visiteur
+     n'a pas a savoir ce qui n'est pas encore fait.
+
+     Le jour ou l'affiche arrive, il suffit de remplacer la plaque par
+     la meme balise <img> que Tarbes : la mise en page ne bouge pas. */
+  #usn-agenda .usn-vue-plaque {
+    display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end;
+    padding: clamp(16px, 1.8vw, 24px); overflow: hidden;
+    background: linear-gradient(155deg, var(--usn-blue) 0%, #141C6E 62%, #0C1142 100%);
+    color: #fff;
   }
-  #usn-agenda .usn-vue-attente strong {
+  /* Le numero du departement, pose en filigrane, deborde volontairement
+     du cadre : c'est une matiere, pas une information a lire. */
+  #usn-agenda .usn-vue-plaque b {
+    position: absolute; right: -0.05em; bottom: -0.20em;
+    font-family: var(--usn-display); font-stretch: 112%; font-weight: 900;
+    font-size: clamp(84px, 11vw, 142px); line-height: 0.78;
+    letter-spacing: -0.05em; font-variant-numeric: tabular-nums;
+    color: rgba(255,255,255,0.16);
+  }
+  #usn-agenda .usn-vue-plaque i {
+    position: relative; font-style: normal;
     font-family: var(--usn-display); font-stretch: 118%; font-weight: 900;
-    font-size: clamp(26px, 3.4vw, 40px); line-height: 0.95;
-    font-variant-numeric: tabular-nums; letter-spacing: -0.01em;
+    font-size: clamp(17px, 1.9vw, 23px); line-height: 1.05;
+    text-transform: uppercase; letter-spacing: -0.01em;
   }
-  #usn-agenda .usn-vue-attente span {
-    font-size: 10px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
-    color: rgba(255,255,255,0.62);
+  #usn-agenda .usn-vue-plaque em {
+    position: relative; margin-top: 7px; font-style: normal;
+    font-size: 10px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(255,255,255,0.58);
   }
 
   #usn-agenda .usn-vue-quand {

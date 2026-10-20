@@ -13,6 +13,21 @@
      =================================================================== */
   @import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap');
 
+  /* -------------------------------------------------------------
+     L'EN-TETE ET LE PIED DU THEME
+
+     Le theme pose sa propre barre orange en haut et son pied en bas.
+     Cette page porte deja sa barre de navigation et son pied : les
+     deux faisaient doublon, et la barre orange se posait par-dessus.
+
+     La regle ne s'applique qu'aux pages qui contiennent ce bloc, grace
+     a :has() : coller ce style ailleurs ne cachera donc jamais l'en-tete
+     d'une autre page du site.
+     ------------------------------------------------------------- */
+  body:has(#usn-agenda) .elementor-location-header,
+  body:has(#usn-agenda) .elementor-location-footer { display: none !important; }
+
+
   #usn-agenda {
     /* Charte : bleu, blanc, rouge (drapeau francais) */
     --usn-blue: #1B2FC4;
@@ -240,13 +255,24 @@
   }
   #usn-agenda .usn-hero-filet { flex: 1; height: 1px; background: rgba(12,11,10,0.18); }
 
-  /* Titre pleine largeur, lettres presque jointives. */
+  /* Le titre, a taille de titre et non de banniere : le film au-dessus
+     porte deja le regard, un mot de 268 pixels de haut lui disputait la
+     vedette. Les lettres se levent une a une au defilement. */
   #usn-agenda .usn-hero h1 {
     /* L'accent du A deborde vers le haut : cette marge l'empeche de venir
        toucher le filet juste au-dessus. */
-    margin-top: clamp(22px, 3vw, 40px);
-    font-size: clamp(58px, 17.5vw, 268px); text-transform: uppercase;
-    letter-spacing: -0.045em; line-height: 0.8;
+    margin-top: clamp(10px, 1.6vw, 20px);
+    font-size: clamp(44px, 7.4vw, 108px); text-transform: uppercase;
+    letter-spacing: -0.035em; line-height: 1;
+    /* Les lettres montent depuis dessous : ce cadre les y cache tant
+       qu'elles n'ont pas pris leur place. Les marges interieures lui
+       donnent de quoi loger l'accent du A et la descente du bas, qui
+       seraient sinon coupes par ce meme cadre. */
+    overflow: hidden; padding: 0.14em 0 0.08em;
+  }
+  #usn-agenda .usn-glyphe {
+    display: inline-block; white-space: pre;
+    will-change: transform, opacity;
   }
 
   /* Pied de l'en-tete : la phrase a gauche, le decompte des dates a droite. */
@@ -419,20 +445,39 @@
     box-shadow: 0 30px 58px -30px rgba(12,11,10,0.48);
   }
   #usn-agenda .usn-vue-affiche img { width: 100%; height: 100%; object-fit: cover; }
-  /* Pas encore d'affiche ? La case reste occupee par la date, ecrite en
-     grand : la rotation ne montre jamais un trou. */
-  #usn-agenda .usn-vue-attente {
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 10px; padding: 18px; text-align: center; color: #fff;
+  /* ---- Les villes dont l'affiche n'existe pas encore ----
+     Plutot qu'un cadre qui s'excuse d'etre vide, une plaque qui tient
+     debout toute seule : le numero du departement en tres grand, la
+     ville dessous. Rien n'y annonce une image manquante - le visiteur
+     n'a pas a savoir ce qui n'est pas encore fait.
+
+     Le jour ou l'affiche arrive, il suffit de remplacer la plaque par
+     la meme balise <img> que Tarbes : la mise en page ne bouge pas. */
+  #usn-agenda .usn-vue-plaque {
+    display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end;
+    padding: clamp(16px, 1.8vw, 24px); overflow: hidden;
+    background: linear-gradient(155deg, var(--usn-blue) 0%, #141C6E 62%, #0C1142 100%);
+    color: #fff;
   }
-  #usn-agenda .usn-vue-attente strong {
+  /* Le numero du departement, pose en filigrane, deborde volontairement
+     du cadre : c'est une matiere, pas une information a lire. */
+  #usn-agenda .usn-vue-plaque b {
+    position: absolute; right: -0.05em; bottom: -0.20em;
+    font-family: var(--usn-display); font-stretch: 112%; font-weight: 900;
+    font-size: clamp(84px, 11vw, 142px); line-height: 0.78;
+    letter-spacing: -0.05em; font-variant-numeric: tabular-nums;
+    color: rgba(255,255,255,0.16);
+  }
+  #usn-agenda .usn-vue-plaque i {
+    position: relative; font-style: normal;
     font-family: var(--usn-display); font-stretch: 118%; font-weight: 900;
-    font-size: clamp(26px, 3.4vw, 40px); line-height: 0.95;
-    font-variant-numeric: tabular-nums; letter-spacing: -0.01em;
+    font-size: clamp(17px, 1.9vw, 23px); line-height: 1.05;
+    text-transform: uppercase; letter-spacing: -0.01em;
   }
-  #usn-agenda .usn-vue-attente span {
-    font-size: 10px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
-    color: rgba(255,255,255,0.62);
+  #usn-agenda .usn-vue-plaque em {
+    position: relative; margin-top: 7px; font-style: normal;
+    font-size: 10px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(255,255,255,0.58);
   }
 
   #usn-agenda .usn-vue-quand {
@@ -924,8 +969,10 @@
         </article>
 
         <article class="usn-vue" data-usn-duree="4200">
-          <div class="usn-vue-affiche usn-vue-attente">
-            <strong>02.01</strong><span>Affiche &agrave; venir</span>
+          <div class="usn-vue-affiche usn-vue-plaque">
+            <b>91</b>
+            <i>Limours</i>
+            <em>Samedi 2 janvier</em>
           </div>
           <div class="usn-vue-texte">
             <div class="usn-vue-quand">Samedi 2 janvier 2027</div>
@@ -939,8 +986,10 @@
         </article>
 
         <article class="usn-vue" data-usn-duree="4200">
-          <div class="usn-vue-affiche usn-vue-attente">
-            <strong>06.03</strong><span>Affiche &agrave; venir</span>
+          <div class="usn-vue-affiche usn-vue-plaque">
+            <b>13</b>
+            <i>Marseille</i>
+            <em>Samedi 6 mars</em>
           </div>
           <div class="usn-vue-texte">
             <div class="usn-vue-quand">Samedi 6 mars 2027</div>
@@ -954,8 +1003,10 @@
         </article>
 
         <article class="usn-vue" data-usn-duree="4200">
-          <div class="usn-vue-affiche usn-vue-attente">
-            <strong>15.05</strong><span>Affiche &agrave; venir</span>
+          <div class="usn-vue-affiche usn-vue-plaque">
+            <b>33</b>
+            <i>Bordeaux</i>
+            <em>Samedi 15 mai</em>
           </div>
           <div class="usn-vue-texte">
             <div class="usn-vue-quand">Samedi 15 mai 2027</div>
@@ -969,8 +1020,10 @@
         </article>
 
         <article class="usn-vue" data-usn-duree="4200">
-          <div class="usn-vue-affiche usn-vue-attente">
-            <strong>NOV.<br />2027</strong><span>Affiche &agrave; venir</span>
+          <div class="usn-vue-affiche usn-vue-plaque">
+            <b>31</b>
+            <i>Toulouse</i>
+            <em>Novembre 2027</em>
           </div>
           <div class="usn-vue-texte">
             <div class="usn-vue-quand">Novembre 2027</div>
@@ -1113,7 +1166,7 @@
       <div class="usn-ligne">
         <div class="usn-jour"><b>06</b><span>Mars</span></div>
         <div>
-          <div class="usn-ville">Marseille</div>
+          <div class="usn-ville">Marseille <span style="opacity:.55">(13)</span></div>
           <div class="usn-lieu">Lieu et horaires &agrave; confirmer</div>
           <div class="usn-invites">Pr&eacute;dication&nbsp;: Yannis Gautier, Pasteur Chriss Campion &middot; Louange&nbsp;: Patcha&iuml; Reyes, Nikita Heugebaert, Ruben Debard</div>
         </div>
@@ -1125,7 +1178,7 @@
       <div class="usn-ligne">
         <div class="usn-jour"><b>15</b><span>Mai</span></div>
         <div>
-          <div class="usn-ville">Bordeaux</div>
+          <div class="usn-ville">Bordeaux <span style="opacity:.55">(33)</span></div>
           <div class="usn-lieu">Lieu et horaires &agrave; confirmer</div>
           <div class="usn-invites">Pr&eacute;dication&nbsp;: Pasteur Marcello Tunasi, Pasteur Chriss Campion &middot; Louange&nbsp;: Dan Luiten, Nikita Heugebaert</div>
         </div>
@@ -1294,440 +1347,3 @@
   <div class="usn-drapeau"><i class="b"></i><i class="w"></i><i class="r"></i></div>
 
 </section>
-
-<script>
-/* Tout le code attend que la page soit construite. Sans cela, si le script
-   est insere avant le contenu (ce que font certains plugins WordPress), il
-   ne trouve aucun element et s'arrete sans rien faire. */
-(function () {
-  function usnInit() {
-
-  /* ---- Compte a rebours ---- */
-  (function () {
-    var box = document.getElementById('usn-countdown');
-    if (!box) return;
-    var target = new Date(box.getAttribute('data-target') || '').getTime();
-    if (isNaN(target)) return;
-    var els = {
-      days: box.querySelector('[data-cd="days"]'),
-      hours: box.querySelector('[data-cd="hours"]'),
-      mins: box.querySelector('[data-cd="mins"]'),
-      secs: box.querySelector('[data-cd="secs"]')
-    };
-    function pad(n) { return (n < 10 ? '0' : '') + n; }
-    function tick() {
-      var diff = Math.max(0, target - Date.now());
-      var s = Math.floor(diff / 1000);
-      var d = Math.floor(s / 86400); s -= d * 86400;
-      var h = Math.floor(s / 3600); s -= h * 3600;
-      var m = Math.floor(s / 60); s -= m * 60;
-      if (els.days) els.days.textContent = d;
-      if (els.hours) els.hours.textContent = pad(h);
-      if (els.mins) els.mins.textContent = pad(m);
-      if (els.secs) els.secs.textContent = pad(s);
-    }
-    tick();
-    setInterval(tick, 1000);
-  })();
-
-
-  /* ---- Le son du film de la carte ----
-     La lecture automatique n'est autorisee que sans son : le film part
-     donc muet et ce bouton rend la main au visiteur. Pas de retour au
-     debut a l'activation - la musique appartient au film, elle est donc
-     deja en place, ou qu'on en soit dans la boucle. */
-  (function () {
-    var video = document.querySelector('#usn-agenda .usn-hero-film video');
-    var bouton = document.getElementById('usn-son');
-    if (!video || !bouton) return;
-
-    function aDuSon() {
-      // Chaque navigateur renseigne un indicateur different ; aucun n'est
-      // disponible partout, d'ou les trois essais successifs.
-      if (typeof video.mozHasAudio === 'boolean') return video.mozHasAudio;
-      if (video.webkitAudioDecodedByteCount !== undefined) {
-        return video.webkitAudioDecodedByteCount > 0;
-      }
-      if (video.audioTracks) return video.audioTracks.length > 0;
-      return true;   // dans le doute, on laisse le bouton
-    }
-
-    function verifier() {
-      // Pas de piste audio dans le fichier servi : le bouton disparait
-      // plutot que de promettre un son qui n'existe pas.
-      if (!aDuSon()) {
-        var ligne = bouton.parentNode;
-        if (ligne) ligne.parentNode.removeChild(ligne); else bouton.remove();
-      }
-    }
-    if (video.readyState >= 2) { verifier(); }
-    video.addEventListener('loadeddata', verifier);
-
-    function libelle() {
-      var texte = bouton.querySelector('.usn-son-texte');
-      var icone = bouton.querySelector('.usn-son-icone');
-      if (texte) texte.textContent = video.muted ? 'Activer le son' : 'Couper le son';
-      if (icone) icone.innerHTML = video.muted ? '&#9834;' : '&#9835;';
-      bouton.setAttribute('aria-pressed', video.muted ? 'false' : 'true');
-    }
-    libelle();
-
-    bouton.addEventListener('click', function () {
-      video.muted = !video.muted;
-      if (!video.muted) { video.volume = 0.8; video.play(); }
-      libelle();
-    });
-  })();
-
-
-  /* =================================================================
-     LA ROTATION DES PROCHAINS RENDEZ-VOUS
-
-     Chaque vue reste a l'ecran le temps que dit son attribut
-     data-usn-duree. L'avancement n'est pas compte par une minuterie mais
-     porte par l'animation de la barre : c'est elle qui, en arrivant au
-     bout, appelle la ville suivante. Deux consequences utiles :
-       - la barre et le changement de vue ne peuvent pas se desynchroniser,
-       - mettre l'animation en pause (au survol) suspend tout, puisque
-         l'animation ne finit plus.
-     ================================================================= */
-  (function () {
-    var boite = document.getElementById('usn-tourne');
-    if (!boite) return;
-    var vues   = boite.querySelectorAll('.usn-vue');
-    var barres = boite.querySelectorAll('.usn-tourne-barre');
-    if (!vues.length || vues.length !== barres.length) return;
-
-    var reduit = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var actif = 0, enPause = false;
-
-    /* La largeur des barres suit la duree des vues : la ville qui reste
-       le plus longtemps a l'ecran occupe la plus large. */
-    var durees = [], mini = Infinity, i;
-    for (i = 0; i < vues.length; i++) {
-      var d = parseInt(vues[i].getAttribute('data-usn-duree'), 10) || 4200;
-      durees.push(d);
-      if (d < mini) mini = d;
-    }
-    for (i = 0; i < barres.length; i++) {
-      barres[i].style.flexGrow = (durees[i] / mini).toFixed(3);
-    }
-
-    function remplissage(n) { return barres[n].querySelector('i b'); }
-
-    function montre(n) {
-      actif = (n + vues.length) % vues.length;
-
-      for (var k = 0; k < vues.length; k++) {
-        var est = (k === actif);
-        vues[k].classList.toggle('est-active', est);
-        barres[k].classList.toggle('est-active', est);
-        barres[k].setAttribute('aria-current', est ? 'true' : 'false');
-
-        var b = remplissage(k);
-        if (b && !est) { b.style.animation = 'none'; b.style.width = ''; }
-      }
-
-      var plein = remplissage(actif);
-      if (plein && !reduit) {
-        // Remise a zero forcee : sans la lecture de offsetWidth, le
-        // navigateur reutilise l'animation en cours au lieu de la relancer.
-        plein.style.animation = 'none';
-        void plein.offsetWidth;
-        plein.style.animation = 'usn-remplit ' + durees[actif] + 'ms linear forwards';
-        // La forme courte " animation " vient de remettre la lecture en
-        // marche : si le visiteur avait la souris sur le bloc, il faut la
-        // remettre en pause tout de suite.
-        appliquePause();
-      }
-    }
-
-    /* La pause se pose sur l'animation elle-meme, et non par une regle de
-       la feuille de style : le style en ligne pose ci-dessus l'emporterait
-       sur elle. */
-    function appliquePause() {
-      var plein = remplissage(actif);
-      if (plein) plein.style.animationPlayState = enPause ? 'paused' : 'running';
-    }
-
-    /* C'est la fin de l'animation de la barre qui fait tourner la page. */
-    boite.addEventListener('animationend', function (e) {
-      if (e.animationName !== 'usn-remplit') return;
-      if (e.target !== remplissage(actif)) return;
-      montre(actif + 1);
-    });
-
-    for (i = 0; i < barres.length; i++) {
-      barres[i].addEventListener('click', function () {
-        montre(parseInt(this.getAttribute('data-usn-va'), 10) || 0);
-      });
-    }
-    var fleches = boite.querySelectorAll('.usn-tourne-f');
-    for (i = 0; i < fleches.length; i++) {
-      fleches[i].addEventListener('click', function () {
-        montre(actif + (parseInt(this.getAttribute('data-usn-pas'), 10) || 1));
-      });
-    }
-
-    /* Pause a la lecture : au survol, au doigt pose, et au clavier. */
-    function pause(oui) { enPause = oui; appliquePause(); }
-    boite.addEventListener('mouseenter', function () { pause(true); });
-    boite.addEventListener('mouseleave', function () { pause(false); });
-    boite.addEventListener('focusin',    function () { pause(true); });
-    boite.addEventListener('focusout',   function () { pause(false); });
-    boite.addEventListener('touchstart', function () { pause(true); }, { passive: true });
-    boite.addEventListener('touchend',   function () { pause(false); }, { passive: true });
-
-    /* La rotation demarre sur Tarbes : la vue qui reste le plus longtemps
-       a l'ecran est celle que le visiteur doit voir en arrivant. */
-    var depart = 0;
-    for (i = 0; i < durees.length; i++) if (durees[i] > durees[depart]) depart = i;
-    montre(depart);
-  })();
-
-
-  /* =================================================================
-     MOTEUR D'ANIMATION AU SCROLL
-     Reproduit le comportement de GSAP ScrollTrigger en mode " scrub " :
-     - les elements partent d'une demi-hauteur d'ecran plus bas (50svh),
-     - ils remontent AU RYTHME DU SCROLL (et redescendent si on remonte),
-     - avec un chevauchement entre les elements d'un meme groupe,
-     - le tout lisse (inertie) pour un rendu fluide.
-     Sans JS ou avec " prefers-reduced-motion ", tout reste visible.
-     ================================================================= */
-  (function () {
-    var root = document.getElementById('usn-agenda');
-    if (!root) return;
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
-    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
-    function vh() { return window.innerHeight || 800; }
-
-    /* ---------- 1. Decoupe la punchline en mots ---------- */
-    var punch = document.getElementById('usn-punch');
-    var words = [];
-    if (punch) {
-      var lines = punch.querySelectorAll('[data-usn-reveal]');
-      for (var l = 0; l < lines.length; l++) {
-        var parts = (lines[l].textContent || '').trim().split(/\s+/);
-        lines[l].textContent = '';
-        for (var k = 0; k < parts.length; k++) {
-          var sp = document.createElement('span');
-          sp.className = 'usn-word';
-          sp.textContent = parts[k];
-          lines[l].appendChild(sp);
-          if (k < parts.length - 1) lines[l].appendChild(document.createTextNode(' '));
-          words.push(sp);
-        }
-      }
-      for (var w = 0; w < words.length; w++) {
-        var a = Math.sin(w * 12.9898) * 43758.5453; a -= Math.floor(a);
-        var b = Math.sin(w * 78.233) * 12543.123;  b -= Math.floor(b);
-        words[w].__dx = (a - 0.5) * 2 * Math.min(window.innerWidth * 0.45, 520);
-        words[w].__dy = (b - 0.5) * 2 * 260;
-        words[w].__rot = (a - 0.5) * 55;
-      }
-    }
-
-    if (reduce) return; // mouvement desactive : tout reste en place
-
-    /* ---------- 2. Declare les groupes animes ---------- */
-    // rise : monte depuis 50svh ; slide : arrive de la gauche ; pop : grossit
-    var groups = [];
-    function group(sel, opts) {
-      var els = root.querySelectorAll(sel);
-      if (els.length) groups.push({ els: els, o: opts });
-    }
-    group('.usn-an',      { type: 'rise',  dist: 0.22, stagger: 0,    span: 0.45 });
-    group('.usn-ligne',   { type: 'slide', dist: 0.34, stagger: 0.13, span: 0.58 });
-    group('.usn-capte-carte', { type: 'rise', dist: 0.18, stagger: 0, span: 0.45 });
-    group('.usn-affiche', { type: 'rise',  dist: 0.40, stagger: 0.11, span: 0.58 });
-    group('.usn-mot',     { type: 'rise',  dist: 0.26, stagger: 0.14, span: 0.50 });
-
-    var all = [];
-    for (var g = 0; g < groups.length; g++) {
-      for (var i = 0; i < groups[g].els.length; i++) {
-        var el = groups[g].els[i];
-        all.push({
-          el: el, i: i, o: groups[g].o, p: 0, top: 0,
-          rot: parseFloat(el.getAttribute('data-rot') || '0')
-        });
-      }
-    }
-
-    function scrollY() { return window.pageYOffset || document.documentElement.scrollTop || 0; }
-
-    /* Position NATURELLE de chaque element (transform neutralise), mise en
-       cache : sinon le decalage applique fausse la mesure et l'element
-       n'entre jamais dans la zone de declenchement. */
-    function measureAll() {
-      for (var i = 0; i < all.length; i++) {
-        var it = all[i], prev = it.el.style.transform;
-        it.el.style.transform = 'none';
-        it.top = it.el.getBoundingClientRect().top + scrollY();
-        it.el.style.transform = prev;
-      }
-    }
-    measureAll();
-
-    /* ---------- Portraits : couleur au passage au centre ----------
-       Chaque photo se colore a mesure qu'elle approche du centre de
-       l'ecran, puis retourne au noir et blanc en s'en eloignant. */
-    var photos = [];
-    (function () {
-      var imgs = root.querySelectorAll('.usn-affiche img');
-      for (var i = 0; i < imgs.length; i++) photos.push({ el: imgs[i], p: 0 });
-    })();
-
-    function cibleCouleur(ph) {
-      var r = ph.el.getBoundingClientRect();
-      if (!r.height) return 0;
-      var h = vh();
-      var ecart = Math.abs((r.top + r.height / 2) - h / 2);
-      // Pleine couleur au centre, noir et blanc au-dela de 42% de l'ecran.
-      return clamp01(1 - ecart / (h * 0.42));
-    }
-
-    function peindre(ph) {
-      var e = easeOut(ph.p);
-      ph.el.style.filter = 'grayscale(' + (1 - e).toFixed(3) + ') contrast(' + (1 + 0.06 * (1 - e)).toFixed(3) + ')';
-      ph.el.style.transform = 'scale(' + (1 + 0.035 * e).toFixed(4) + ')';
-    }
-    for (var ip = 0; ip < photos.length; ip++) peindre(photos[ip]);
-
-    // etat initial immediat (evite tout " flash " de contenu deja en place)
-    for (var s = 0; s < all.length; s++) apply(all[s], 0);
-
-    /* ---------- 3. Calcul de l'avancement lie au scroll ---------- */
-    function target(item) {
-      var h = vh();
-      var top = item.top - scrollY();
-      // 0 quand le haut de l'element entre par le bas, 1 quand il a monte
-      var raw = (h * 0.92 - top) / (h * item.o.span);
-      var st = item.i * item.o.stagger;
-      return clamp01((clamp01(raw) - st) / Math.max(0.2, 1 - st));
-    }
-
-    function apply(item, p) {
-      var e = easeOut(p), inv = 1 - e, o = item.o, st = item.el.style;
-      var rot = item.rot ? ' rotate(' + item.rot + 'deg)' : '';
-      if (o.type === 'rise') {
-        st.transform = 'translate3d(0,' + (inv * o.dist * vh()).toFixed(1) + 'px,0)' + rot;
-      } else if (o.type === 'slide') {
-        st.transform = 'translate3d(' + (-inv * o.dist * Math.min(window.innerWidth, 900)).toFixed(1) + 'px,0,0)' + rot;
-      } else if (o.type === 'slideR') {
-        st.transform = 'translate3d(' + (inv * o.dist * Math.min(window.innerWidth, 900)).toFixed(1) + 'px,0,0)' + rot;
-      } else { // pop
-        st.transform = 'scale(' + (0.3 + 0.7 * e).toFixed(3) + ')' + rot;
-      }
-      st.opacity = e.toFixed(3);
-    }
-
-    /* ---------- 4. Punchline : les mots se rassemblent ---------- */
-    var punchP = 0;
-    // Ancre sur la premiere ligne de texte (et non sur la section, bien plus
-    // haute) : les mots se rassemblent des que le texte entre a l'ecran.
-    var punchAnchor = punch && punch.querySelector('[data-usn-reveal]');
-    function punchTarget() {
-      if (!punchAnchor) return 0;
-      var r = punchAnchor.getBoundingClientRect(), h = vh();
-      return clamp01((h * 1.0 - r.top) / (h * 0.5));
-    }
-    function punchApply(p) {
-      var n = words.length;
-      for (var i = 0; i < n; i++) {
-        var t = clamp01((p - (i / n) * 0.45) / 0.55);
-        var e = easeOut(t), inv = 1 - e, ws = words[i];
-        ws.style.transform = 'translate3d(' + (ws.__dx * inv).toFixed(1) + 'px,' + (ws.__dy * inv).toFixed(1) + 'px,0) rotate(' + (ws.__rot * inv).toFixed(1) + 'deg)';
-        ws.style.opacity = e.toFixed(3);
-        ws.style.filter = inv > 0.02 ? 'blur(' + (inv * 9).toFixed(1) + 'px)' : 'none';
-      }
-      var sub = punch && punch.querySelector('[data-usn-sub]');
-      if (sub) {
-        var sp = clamp01((p - 0.6) / 0.4);
-        sub.style.opacity = sp.toFixed(3);
-        sub.style.transform = 'translate3d(0,' + ((1 - sp) * 40).toFixed(1) + 'px,0)';
-      }
-    }
-    punchApply(0);
-
-    /* ---------- 5. Boucle de rendu (lissage type ScrollSmoother) ---------- */
-    var running = false;
-    function frame() {
-      var moving = false;
-
-      for (var i = 0; i < all.length; i++) {
-        var it = all[i], t = target(it);
-        it.p += (t - it.p) * 0.12;             // lissage
-        if (Math.abs(t - it.p) > 0.001) moving = true; else it.p = t;
-        apply(it, it.p);
-      }
-
-      if (punch) {
-        var tp = punchTarget();
-        punchP += (tp - punchP) * 0.12;
-        if (Math.abs(tp - punchP) > 0.001) moving = true; else punchP = tp;
-        punchApply(punchP);
-      }
-
-      for (var k = 0; k < photos.length; k++) {
-        var ph = photos[k], tc = cibleCouleur(ph);
-        ph.p += (tc - ph.p) * 0.14;
-        if (Math.abs(tc - ph.p) > 0.004) moving = true; else ph.p = tc;
-        peindre(ph);
-      }
-
-      if (moving) { requestAnimationFrame(frame); } else { running = false; }
-    }
-    function kick() { if (!running) { running = true; requestAnimationFrame(frame); } }
-
-    window.addEventListener('scroll', kick, { passive: true });
-    window.addEventListener('resize', function () { measureAll(); kick(); });
-    window.addEventListener('load', function () { measureAll(); kick(); });
-    kick();
-  })();
-
-
-  /* ---- Les formulaires " rester prevenu " ----
-     La page en porte deux - un sous la rotation des villes, un en bas -
-     qui vont vers la meme liste Brevo. Un seul bout de code les sert :
-     chacun se designe par data-usn-brevo, et dit dans data-usn-msg ou
-     ecrire son accuse de reception.
-
-     Pas de compteur de places ici : la page annonce des dates, elle ne
-     reserve rien. L'envoi part vers Brevo dans un cadre cache. */
-  (function () {
-    var formes = document.querySelectorAll('#usn-agenda form[data-usn-brevo]');
-
-    function brancher(form) {
-      var msg = document.getElementById(form.getAttribute('data-usn-msg') || '');
-
-      form.addEventListener('submit', function (e) {
-        var nom   = form.querySelector('[data-usn-nom]');
-        var email = form.querySelector('[data-usn-email]');
-        if (!nom || !email) return;
-        if (!nom.value.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value)) {
-          e.preventDefault();
-          (nom.value.trim() ? email : nom).focus();
-          return;
-        }
-        if (msg) {
-          msg.textContent = 'Merci ! Vous serez pr\u00e9venu d\u00e8s qu\'une nouvelle date est annonc\u00e9e.';
-          msg.style.display = 'block';
-        }
-        setTimeout(function () { form.reset(); }, 100);
-      });
-    }
-
-    for (var i = 0; i < formes.length; i++) brancher(formes[i]);
-  })();
-
-  }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', usnInit);
-  } else {
-    usnInit();
-  }
-})();
-</script>

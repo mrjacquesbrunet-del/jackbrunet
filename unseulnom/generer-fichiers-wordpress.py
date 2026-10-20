@@ -305,6 +305,30 @@ def verifier(css):
             raise SystemExit("url() contient un saut de ligne : CSS invalide")
 
 
+def avertir_javascript(nom, js):
+    """Rappelle pourquoi le script ne va PAS dans le bloc de la page.
+
+    WordPress retouche la typographie du contenu des pages. Sur un script,
+    la retouche est destructrice : collé dans le bloc HTML de la page, un
+    « && » ressort en « &#038;&#038; » et le navigateur s'arrête sur une
+    erreur de syntaxe — tout le script meurt, pas seulement la ligne.
+
+    Constaté le 20 octobre 2026 sur la page « A venir » : trois « && » sur
+    six avaient ete abimes, le carrousel restait vide.
+
+    Le script doit donc etre pose dans l'extension « CSS et JS
+    personnalises », qui l'injecte en dehors du contenu de la page : la
+    retouche ne l'atteint pas. Verifie sur la page evenement, dont le
+    script y vit depuis des mois sans une seule alteration.
+    """
+    risques = js.count("&")
+    if risques:
+        print("   %7s         %s : %d caractere(s) & dans le script."
+              % ("", nom, risques))
+        print("   %7s         -> a coller dans l'extension, PAS dans la page."
+              % "")
+
+
 def construire(nom, page):
     chemin = RACINE / page["source"]
     source = chemin.read_text(encoding="utf-8")
@@ -321,24 +345,27 @@ def construire(nom, page):
         sortie / "1-HTML.txt": html + "\n",
         sortie / "2-CSS.txt": css + "\n",
         sortie / "3-JAVASCRIPT.txt": js + "\n",
-        sortie / "1-HTML-AVEC-SCRIPT.txt":
-            html + "\n\n<script>\n" + js + "\n</script>\n",
-        RACINE / page["seul"]:
-            "<style>\n" + css + "\n</style>\n\n" + html
-            + "\n\n<script>\n" + js + "\n</script>\n",
+        RACINE / page["seul"]: "<style>\n" + css + "\n</style>\n\n" + html + "\n",
     }
     if page["generique"]:
         # Version generique : l'adresse de la mediatheque reste a remplacer.
         generique = en_entites(vers_evenement(vers_mediatheque(section, "__URL_IMAGES__")))
         fichiers[RACINE / page["generique"]] = (
-            "<style>\n" + css + "\n</style>\n\n" + generique
-            + "\n\n<script>\n" + js + "\n</script>\n")
+            "<style>\n" + css + "\n</style>\n\n" + generique + "\n")
+
+    # Les fichiers d'avant, qui melaient le HTML et le script : ils menent
+    # droit dans le mur decrit ci-dessus, mieux vaut qu'ils disparaissent
+    # que de rester a trainer sur le disque.
+    perime = sortie / "1-HTML-AVEC-SCRIPT.txt"
+    if perime.exists():
+        perime.unlink()
 
     print("== %s (%s)" % (nom, page["source"]))
     for chemin_sortie, contenu in fichiers.items():
         chemin_sortie.write_text(contenu, encoding="ascii")
         print("   %7d octets  %s" % (chemin_sortie.stat().st_size,
                                      chemin_sortie.relative_to(RACINE)))
+    avertir_javascript(nom, js)
 
 
 def main():

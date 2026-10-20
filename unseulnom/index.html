@@ -45,6 +45,21 @@
      gratuit le plus proche (titres larges et massifs). */
   @import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap');
 
+  /* -------------------------------------------------------------
+     L'EN-TETE ET LE PIED DU THEME
+
+     Le theme pose sa propre barre orange en haut et son pied en bas.
+     Cette page porte deja sa barre de navigation et son pied : les
+     deux faisaient doublon, et la barre orange se posait par-dessus.
+
+     La regle ne s'applique qu'aux pages qui contiennent ce bloc, grace
+     a :has() : coller ce style ailleurs ne cachera donc jamais l'en-tete
+     d'une autre page du site.
+     ------------------------------------------------------------- */
+  body:has(#usn-event) .elementor-location-header,
+  body:has(#usn-event) .elementor-location-footer { display: none !important; }
+
+
   #usn-event {
     /* ── Charte de l'affiche de Tarbes ──
        Relevée sur l'affiche elle-même : le bleu électrique du haut, le
@@ -1161,6 +1176,12 @@
    ne trouve aucun élément et s'arrête sans rien faire. */
 (function () {
   function usnInit() {
+
+    /* Le script est injecte par l'extension « CSS et JS personnalises »,
+       donc sur TOUTES les pages du site. Celui-ci ne concerne que la
+       page de la ville : s'il ne la trouve pas, il s'arrete ici et ne
+       touche a rien. */
+    if (!document.getElementById('usn-event')) return;
 
   /* ---- Le grand titre s'ajuste toujours à la largeur ----
      « AVIGNON » débordait sur mobile ; avec un nom de ville plus long le
