@@ -1027,21 +1027,50 @@
     margin-top: clamp(20px, 3vw, 30px); font-family: var(--usn-sub);
     font-size: clamp(15px, 1.8vw, 18px); color: var(--usn-gris); max-width: 58ch;
   }
+  /* Les trois demandes, numerotees. Le filet du haut se remplit au
+     survol : c'est le seul mouvement du bloc, il suffit a le reveiller. */
   #usn-accueil .usn-besoins {
-    margin-top: clamp(30px, 4vw, 48px); display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 0 clamp(20px, 3vw, 40px);
+    margin-top: clamp(36px, 5vw, 64px); display: grid;
+    grid-template-columns: repeat(3, 1fr); gap: clamp(22px, 3vw, 44px);
   }
-  #usn-accueil .usn-besoins div {
-    padding: 18px 0; border-top: 2px solid var(--usn-ink);
-    font-family: var(--usn-sub); font-size: 15px;
+  #usn-accueil .usn-besoin {
+    position: relative; padding: clamp(22px, 2.6vw, 34px) 0 0;
+    transition: transform .3s cubic-bezier(.2,.8,.25,1);
   }
-  #usn-accueil .usn-besoins b {
-    display: block; font-family: var(--usn-display); font-stretch: 115%; font-weight: 900;
-    font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--usn-blue); margin-bottom: 8px;
+  #usn-accueil .usn-besoin::before,
+  #usn-accueil .usn-besoin::after {
+    content: ''; position: absolute; top: 0; left: 0; height: 2px;
   }
-  #usn-accueil .usn-eglises-actions { margin-top: clamp(30px, 4vw, 44px); display: flex; flex-wrap: wrap; gap: 12px; }
-  @media (max-width: 760px) { #usn-accueil .usn-besoins { grid-template-columns: 1fr; } }
+  #usn-accueil .usn-besoin::before { right: 0; background: rgba(17,17,16,0.16); }
+  #usn-accueil .usn-besoin::after {
+    width: 100%; background: var(--usn-degrade);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .45s cubic-bezier(.2,.8,.25,1);
+  }
+  #usn-accueil .usn-besoin:hover { transform: translateY(-5px); }
+  #usn-accueil .usn-besoin:hover::after { transform: scaleX(1); }
+
+  #usn-accueil .usn-besoin i {
+    display: block; font-style: normal;
+    font-family: var(--usn-display); font-weight: 900;
+    font-size: clamp(38px, 5vw, 64px); line-height: 1; letter-spacing: -0.04em;
+    background-image: var(--usn-degrade);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  #usn-accueil .usn-besoin b {
+    display: block; margin: clamp(12px, 1.6vw, 18px) 0 8px;
+    font-family: var(--usn-display); font-weight: 900;
+    font-size: clamp(19px, 2.1vw, 27px); letter-spacing: -0.02em;
+    text-transform: uppercase; color: var(--usn-ink);
+  }
+  #usn-accueil .usn-besoin p {
+    margin: 0; font-family: var(--usn-sub);
+    font-size: clamp(14px, 1.5vw, 16px); line-height: 1.5; color: var(--usn-gris);
+  }
+  @media (max-width: 760px) {
+    #usn-accueil .usn-besoins { grid-template-columns: 1fr; gap: 0; }
+    #usn-accueil .usn-besoin { padding-bottom: 26px; }
+  }
 
   /* ===================================================================
      LETTRE D'INFORMATION
