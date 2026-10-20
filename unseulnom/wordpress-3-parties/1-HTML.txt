@@ -45,7 +45,7 @@
              qui repond. teaser-web.mp4 est la version allegee (3,8 Mo au
              lieu de 29, son compris) ; tant qu'elle n'est pas dans la
              mediatheque, la ligne suivante prend le relais. -->
-        <source src="https://unseulnom.org/wp-content/uploads/2026/08/teaser-web.mp4" type="video/mp4" />
+        <source src="https://unseulnom.org/wp-content/uploads/2026/08/teaserweb.mp4" type="video/mp4" />
         <source src="https://unseulnom.org/wp-content/uploads/2026/08/Teaser-1.mp4" type="video/mp4" />
       </video>
 

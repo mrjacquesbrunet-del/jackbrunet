@@ -66,6 +66,7 @@ PAGES = {
 
 URL_MEDIAS = "https://unseulnom.org/wp-content/uploads/2026/07"
 URL_2026_04 = "https://unseulnom.org/wp-content/uploads/2026/04"
+URL_2026_10 = "https://unseulnom.org/wp-content/uploads/2026/10"
 
 # WordPress a retire les traits d'union des noms de fichiers a l'envoi :
 # programme-1.webp est servi sous programme1.webp.
@@ -86,6 +87,9 @@ ADRESSES = {
     "edition-croissy.webp":   URL_2026_04 + "/conference-Un-seul-nom-3-768x954.jpg",
     "edition-wasquehal.webp": URL_2026_04 + "/conference-Un-seul-nom-4-768x945.jpg",
     "edition-perpignan.webp": URL_2026_04 + "/conference-Un-seul-nom-5-768x950.jpg",
+    # L'image d'attente de la bande-annonce, envoyee en meme temps que la
+    # video : elle n'est donc pas dans le dossier du mois des autres.
+    "teaserposter.webp":      URL_2026_10 + "/teaserposter.webp",
 }
 
 # Ponctuation typographique et filets -> equivalent ASCII

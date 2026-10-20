@@ -31,10 +31,39 @@
   </div>
 
   <!-- ============================================================= -->
+  <!-- L'OUVERTURE &#8212; LA BANDE-ANNONCE                                 -->
+  <!--                                                                -->
+  <!-- &#9658; POUR CHANGER LA VIDEO : envoyez le fichier dans la        -->
+  <!--   mediatheque, puis remplacez l'adresse de la ligne <source>.  -->
+  <!--   Attention, WordPress renomme parfois les fichiers : verifiez -->
+  <!--   l'adresse exacte dans la mediatheque apres l'envoi.          -->
+  <!-- ============================================================= -->
+  <header class="usn-ouverture" id="usn-haut" data-usn-sombre>
+    <div class="usn-ouv-bande">
+      <video id="usn-ouv-video" autoplay muted loop playsinline preload="metadata"
+             poster="https://unseulnom.org/wp-content/uploads/2026/10/teaserposter.webp">
+        <source src="https://unseulnom.org/wp-content/uploads/2026/10/teaserv4.mp4" type="video/mp4" />
+      </video>
+
+      <button type="button" class="usn-ouv-son" id="usn-ouv-son" aria-pressed="false">
+        <span aria-hidden="true">&#9834;</span>
+        <span>Activer le son</span>
+      </button>
+    </div>
+
+    <p class="usn-ouv-pied">
+      &Eacute;vang&eacute;lisation <i>&#183;</i> R&eacute;veil <i>&#183;</i>
+      Gu&eacute;rison <i>&#183;</i> D&eacute;livrance
+    </p>
+
+    <a class="usn-ouv-suite" href="#usn-suite">D&eacute;couvrir <span aria-hidden="true">&#8595;</span></a>
+  </header>
+
+  <!-- ============================================================= -->
   <!-- LA SC&#200;NE D'OUVERTURE                                           -->
   <!-- Le logo s'efface au scroll et laisse passer l'image derri&#232;re.  -->
   <!-- ============================================================= -->
-  <header class="usn-scene" id="usn-haut">
+  <header class="usn-scene" id="usn-suite">
     <div class="usn-scene-fixe">
 
       <!-- couche du dessus : le fond creme, le logo, et les photos que
@@ -154,7 +183,7 @@
   <!--   Pour mettre un mot en avant : class="usn-mot-serif" &#8212; il      -->
   <!--   passe alors dans l'ecriture a empattements, en jaune.        -->
   <!-- ============================================================= -->
-  <div class="usn-phrase" id="usn-vision">
+  <div class="usn-phrase" id="usn-vision" data-usn-sombre>
     <div class="usn-phrase-fixe">
       <div class="usn-phrase-fond" aria-hidden="true">
         <i class="usn-ph-lueur"></i>
