@@ -40,13 +40,13 @@
     -->
     <div class="usn-hero-media">
       <video class="usn-hero-video" autoplay muted loop playsinline
-             poster="">
-        <!-- Deux fichiers, dans cet ordre : le navigateur prend le premier
-             qui repond. teaser-web.mp4 est la version allegee (3,8 Mo au
-             lieu de 29, son compris) ; tant qu'elle n'est pas dans la
-             mediatheque, la ligne suivante prend le relais. -->
+             poster="https://unseulnom.org/wp-content/uploads/2026/10/affichetarbeslarge.webp">
+        <!-- Plusieurs fichiers, dans cet ordre : le navigateur prend le
+             premier qui repond. La bande-annonce V4 d'abord, l'ancienne
+             ensuite tant que la nouvelle n'est pas dans la mediatheque.
+             En attendant les deux, l'affiche de Tarbes tient la place. -->
+        <source src="https://unseulnom.org/wp-content/uploads/2026/10/teaserv4.mp4" type="video/mp4" />
         <source src="https://unseulnom.org/wp-content/uploads/2026/08/teaserweb.mp4" type="video/mp4" />
-        <source src="https://unseulnom.org/wp-content/uploads/2026/08/Teaser-1.mp4" type="video/mp4" />
       </video>
 
       <div class="usn-hero-overlay"></div>
@@ -242,7 +242,7 @@
         <figure class="usn-person" data-usn-appear>
           <div class="usn-person-photo">
             <span class="usn-person-mono">CC</span>
-            <img src="https://unseulnom.org/wp-content/uploads/2026/07/chriss.webp" alt="Chriss Campion" onerror="this.remove()" />
+            <img src="https://unseulnom.org/wp-content/uploads/2026/10/chrisstarbes.webp" alt="Chriss Campion" onerror="this.remove()" />
           </div>
           <figcaption>
             <div class="usn-person-name">Chriss Campion</div>
@@ -256,7 +256,7 @@
         <figure class="usn-person" data-usn-appear>
           <div class="usn-person-photo">
             <span class="usn-person-mono">BH</span>
-            <img src="https://unseulnom.org/wp-content/uploads/2026/07/briman.webp" alt="Briman Heugebaert" onerror="this.remove()" />
+            <img src="https://unseulnom.org/wp-content/uploads/2026/10/briman.webp" alt="Briman Heugebaert" onerror="this.remove()" />
           </div>
           <figcaption>
             <div class="usn-person-name">Briman Heugebaert</div>
@@ -266,7 +266,7 @@
         <figure class="usn-person" data-usn-appear>
           <div class="usn-person-photo">
             <span class="usn-person-mono">JA</span>
-            <img src="https://unseulnom.org/wp-content/uploads/2026/07/juan.webp" alt="Juan Anthonio" onerror="this.remove()" />
+            <img src="https://unseulnom.org/wp-content/uploads/2026/10/juan.webp" alt="Juan Anthonio" onerror="this.remove()" />
           </div>
           <figcaption>
             <div class="usn-person-name">Juan Anthonio</div>

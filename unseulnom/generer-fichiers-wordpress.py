@@ -96,6 +96,10 @@ ADRESSES = {
     "afficheavignon.webp":    URL_2026_10 + "/afficheavignon.webp",
     "affichemadagascar.webp": URL_2026_10 + "/affichemadagascar.webp",
     "jack.webp":              URL_2026_10 + "/jack.webp",
+    "chrisstarbes.webp":      URL_2026_10 + "/chrisstarbes.webp",
+    "briman.webp":            URL_2026_10 + "/briman.webp",
+    "juan.webp":              URL_2026_10 + "/juan.webp",
+    "affichetarbeslarge.webp": URL_2026_10 + "/affichetarbeslarge.webp",
 }
 
 # Ponctuation typographique et filets -> equivalent ASCII

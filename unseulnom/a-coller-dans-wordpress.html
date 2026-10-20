@@ -10,15 +10,21 @@
   @import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap');
 
   #usn-event {
-    /* -- Charte : bleu, blanc, rouge (drapeau francais) -- */
-    --usn-blue: #1B2FC4;       /* bleu - accent principal */
-    --usn-blue-2: #2B41E0;     /* bleu clair - survol / eclat */
-    --usn-red: #E4262B;        /* rouge - boutons d'action */
-    --usn-red-2: #F5393E;      /* rouge clair - survol */
+    /* -- Charte de l'affiche de Tarbes --
+       Relevee sur l'affiche elle-meme : le bleu electrique du haut, le
+       violet du milieu, le rouge de la lueur du bas, et le fond, un noir
+       tire vers le prune plutot qu'un noir neutre. -- */
+    --usn-blue: #2B4FD0;       /* bleu electrique - accent principal */
+    --usn-blue-2: #4668E8;     /* bleu clair - survol / eclat */
+    --usn-violet: #7E3C93;     /* violet - liaison entre le bleu et le rouge */
+    --usn-red: #D02B46;        /* rouge - boutons d'action */
+    --usn-red-2: #E8405C;      /* rouge clair - survol */
     --usn-white: #FFFFFF;      /* blanc */
-    --usn-paper: #F4F5F9;      /* gris tres clair - fonds alternes */
-    --usn-ink: #0C0B0A;        /* noir - textes */
-    --usn-ink-soft: #15141A;
+    --usn-paper: #F3F1F7;      /* fonds alternes, tres legerement violaces */
+    --usn-ink: #140D21;        /* fond sombre et textes */
+    --usn-ink-soft: #1E1533;
+    /* Le degrade de l'affiche, du bleu au rouge en passant par le violet. */
+    --usn-degrade: linear-gradient(120deg, #2B4FD0 0%, #7E3C93 52%, #D02B46 100%);
 
     --usn-radius: 18px;
 
@@ -158,7 +164,7 @@
     color: #fff;
     /* Meme verre depoli, teinte de rouge : la couleur reste lisible sur la
        video sans masquer l'image. Au survol, le rouge devient plein. */
-    background: rgba(228,38,43,0.62);
+    background: rgba(208,43,70,0.62);
     border: 1px solid rgba(255,255,255,0.28);
     -webkit-backdrop-filter: blur(14px) saturate(140%);
     backdrop-filter: blur(14px) saturate(140%);
@@ -174,8 +180,8 @@
 
   /* Navigateurs sans flou : on opacifie pour garder la lisibilite. */
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    #usn-event .usn-nav-brand { background: rgba(12,11,10,0.55); }
-    #usn-event .usn-nav-don { background: rgba(228,38,43,0.92); }
+    #usn-event .usn-nav-brand { background: rgba(20,13,33,0.55); }
+    #usn-event .usn-nav-don { background: rgba(208,43,70,0.92); }
   }
 
   @media (max-width: 520px) {
@@ -193,7 +199,7 @@
      est laisse intact. */
   #usn-event .usn-hero-overlay {
     position: absolute; inset: 0; z-index: 1; pointer-events: none;
-    background: linear-gradient(to bottom, rgba(12,11,10,0.55) 0%, rgba(12,11,10,0) 22%);
+    background: linear-gradient(to bottom, rgba(20,13,33,0.55) 0%, rgba(20,13,33,0) 22%);
   }
   /* ---------- Bouton d'activation du son ----------
      Un navigateur ne lance jamais tout seul une video qui parle : elle
@@ -213,7 +219,7 @@
     transition: background .2s ease, border-color .2s ease, transform .18s ease;
   }
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    #usn-event .usn-son { background: rgba(12,11,10,0.55); }
+    #usn-event .usn-son { background: rgba(20,13,33,0.55); }
   }
   #usn-event .usn-son:hover {
     background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.42);
@@ -311,7 +317,7 @@
   #usn-event .usn-section { padding: clamp(64px, 10vw, 110px) 0; }
   #usn-event .usn-section-head { max-width: 760px; }
   #usn-event .usn-section-head h2 { margin-top: 16px; font-size: clamp(30px, 5.5vw, 54px); text-transform: uppercase; }
-  #usn-event .usn-section-head p { margin-top: 18px; font-size: clamp(15px, 2.2vw, 18px); color: rgba(12,11,10,0.7); }
+  #usn-event .usn-section-head p { margin-top: 18px; font-size: clamp(15px, 2.2vw, 18px); color: rgba(20,13,33,0.7); }
 
   /* Panneaux " programme " (glissent depuis la gauche au scroll) */
   #usn-event .usn-program { margin-top: 46px; display: flex; flex-direction: column; gap: 20px; }
@@ -348,7 +354,7 @@
     background: #EAECF6; border-radius: 999px; padding: 20px 36px;
   }
   #usn-event .usn-datepill-d { font-weight: 800; font-size: clamp(18px, 3vw, 27px); text-transform: uppercase; letter-spacing: 0.02em; }
-  #usn-event .usn-datepill-v { margin-top: 4px; font-size: clamp(14px, 2vw, 17px); color: rgba(12,11,10,0.72); }
+  #usn-event .usn-datepill-v { margin-top: 4px; font-size: clamp(14px, 2vw, 17px); color: rgba(20,13,33,0.72); }
   #usn-event .usn-datepill-v .usn-star { color: var(--usn-blue); margin: 0 6px; }
 
   /* Intervenants - cartes photos qui apparaissent au scroll */
@@ -362,7 +368,7 @@
   #usn-event .usn-person-photo {
     position: relative; aspect-ratio: 3 / 4; border-radius: 22px; overflow: hidden;
     background: linear-gradient(140deg, var(--usn-blue), #101861);
-    box-shadow: 0 26px 50px -26px rgba(12,11,10,0.4);
+    box-shadow: 0 26px 50px -26px rgba(20,13,33,0.4);
   }
   #usn-event .usn-person-mono { position: absolute; inset: 0; display: grid; place-items: center; font-size: clamp(30px, 5vw, 46px); font-weight: 800; color: rgba(255,255,255,0.92); }
   /* Portraits en noir et blanc, comme l'affiche. Ils reprennent leurs
@@ -388,10 +394,10 @@
   #usn-event .usn-facts { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
   #usn-event .usn-fact {
     display: flex; align-items: center; gap: 14px; padding: 20px 22px;
-    border-radius: var(--usn-radius); background: #fff; border: 1px solid rgba(12,11,10,0.08);
+    border-radius: var(--usn-radius); background: #fff; border: 1px solid rgba(20,13,33,0.08);
   }
   #usn-event .usn-fact svg { flex: none; width: 26px; height: 26px; color: var(--usn-blue); }
-  #usn-event .usn-fact .usn-fact-k { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(12,11,10,0.55); }
+  #usn-event .usn-fact .usn-fact-k { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(20,13,33,0.55); }
   #usn-event .usn-fact .usn-fact-v { font-size: 16px; font-weight: 700; }
 
   /* =================================================================== */
@@ -401,7 +407,7 @@
     position: relative; overflow: hidden; color: var(--usn-white);
     background:
       radial-gradient(700px 420px at 12% 15%, rgba(27,47,196,0.42), transparent 60%),
-      radial-gradient(700px 420px at 92% 92%, rgba(228,38,43,0.34), transparent 60%),
+      radial-gradient(700px 420px at 92% 92%, rgba(208,43,70,0.34), transparent 60%),
       var(--usn-ink);
   }
   /* Punchline : fond clair, texte noir, photos qui arrivent des cotes */
@@ -419,7 +425,7 @@
   #usn-event .usn-punch-sub {
     position: relative; z-index: 2;
     max-width: 620px; margin: 34px auto 0; text-align: center;
-    font-size: 16px; font-weight: 400; text-transform: none; color: rgba(12,11,10,0.66);
+    font-size: 16px; font-weight: 400; text-transform: none; color: rgba(20,13,33,0.66);
     will-change: transform, opacity;
   }
   /* Photos laterales (arrivent de la gauche / de la droite au scroll) */
@@ -427,7 +433,7 @@
     position: absolute; z-index: 1; width: clamp(150px, 20vw, 280px);
     aspect-ratio: 4 / 5; border-radius: 20px; overflow: hidden;
     background: linear-gradient(140deg, var(--usn-blue), #101861);
-    box-shadow: 0 30px 60px -28px rgba(12,11,10,0.45);
+    box-shadow: 0 30px 60px -28px rgba(20,13,33,0.45);
     will-change: transform, opacity;
   }
   #usn-event .usn-side img { width: 100%; height: 100%; object-fit: cover; }
@@ -481,17 +487,17 @@
   #usn-event .usn-signup { text-align: center; }
   #usn-event .usn-form { max-width: 560px; margin: 36px auto 0; display: grid; gap: 14px; text-align: left; }
   #usn-event .usn-field { display: grid; gap: 7px; }
-  #usn-event .usn-field label { font-size: 13px; font-weight: 700; color: rgba(12,11,10,0.7); }
+  #usn-event .usn-field label { font-size: 13px; font-weight: 700; color: rgba(20,13,33,0.7); }
   #usn-event .usn-form input {
     width: 100%; padding: 15px 17px; border-radius: 13px;
-    border: 1px solid rgba(12,11,10,0.16); background: #fff; color: var(--usn-ink);
+    border: 1px solid rgba(20,13,33,0.16); background: #fff; color: var(--usn-ink);
     font-family: inherit; font-size: 15px; transition: border-color .15s ease, box-shadow .15s ease;
   }
-  #usn-event .usn-form input::placeholder { color: rgba(12,11,10,0.4); }
+  #usn-event .usn-form input::placeholder { color: rgba(20,13,33,0.4); }
   #usn-event .usn-form input:focus { outline: none; border-color: var(--usn-blue); box-shadow: 0 0 0 3px rgba(27,47,196,0.22); }
   #usn-event .usn-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   #usn-event .usn-form button { width: 100%; margin-top: 4px; padding: 17px; font-size: 15px; }
-  #usn-event .usn-consent { font-size: 12.5px; color: rgba(12,11,10,0.6); text-align: center; }
+  #usn-event .usn-consent { font-size: 12.5px; color: rgba(20,13,33,0.6); text-align: center; }
   #usn-event .usn-msg {
     display: none; margin: 18px auto 0; max-width: 560px; padding: 16px 18px; border-radius: 13px;
     background: rgba(27,47,196,0.10); border: 1px solid rgba(27,47,196,0.42);
@@ -511,11 +517,11 @@
   }
   #usn-event .usn-stock-lab {
     font-size: 13px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
-    color: rgba(12,11,10,0.55);
+    color: rgba(20,13,33,0.55);
   }
   #usn-event .usn-jauge {
     margin-top: 14px; height: 9px; border-radius: 99px;
-    background: rgba(12,11,10,0.09); overflow: hidden;
+    background: rgba(20,13,33,0.09); overflow: hidden;
   }
   #usn-event .usn-jauge span {
     display: block; height: 100%; width: 0;
@@ -525,13 +531,13 @@
   #usn-event .usn-stock.usn-complet .usn-stock-num { color: var(--usn-red); }
   #usn-event .usn-stock-avis {
     display: none; margin-top: 14px; text-align: center; font-weight: 700; font-size: 15px;
-    color: var(--usn-red); background: rgba(228,38,43,0.07);
-    border: 1px solid rgba(228,38,43,0.3); border-radius: 13px; padding: 13px 18px;
+    color: var(--usn-red); background: rgba(208,43,70,0.07);
+    border: 1px solid rgba(208,43,70,0.3); border-radius: 13px; padding: 13px 18px;
   }
   #usn-event .usn-stock.usn-complet .usn-stock-avis { display: block; }
 
   /* Choix du nombre de places : pastilles plutot qu'un menu deroulant */
-  #usn-event .usn-field-label { font-size: 13px; font-weight: 700; color: rgba(12,11,10,0.7); }
+  #usn-event .usn-field-label { font-size: 13px; font-weight: 700; color: rgba(20,13,33,0.7); }
   #usn-event .usn-places { display: flex; gap: 10px; flex-wrap: wrap; }
   #usn-event .usn-place { position: relative; flex: 1 1 0; min-width: 62px; }
   #usn-event .usn-place input {
@@ -540,14 +546,14 @@
   #usn-event .usn-place span {
     display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
     padding: 13px 8px; border-radius: 14px;
-    border: 2px solid rgba(12,11,10,0.14); background: #fff;
+    border: 2px solid rgba(20,13,33,0.14); background: #fff;
     font-family: var(--usn-display); font-stretch: 110%;
     font-weight: 800; font-size: 20px; line-height: 1; color: var(--usn-ink);
     transition: border-color .16s ease, background .16s ease, color .16s ease, transform .16s ease;
   }
   #usn-event .usn-place span small {
     font-family: var(--usn-sub); font-size: 9.5px; font-weight: 700;
-    letter-spacing: 0.12em; text-transform: uppercase; color: rgba(12,11,10,0.42);
+    letter-spacing: 0.12em; text-transform: uppercase; color: rgba(20,13,33,0.42);
   }
   #usn-event .usn-place input:hover + span { border-color: rgba(27,47,196,0.5); transform: translateY(-1px); }
   #usn-event .usn-place input:focus-visible + span { outline: 3px solid rgba(27,47,196,0.35); outline-offset: 2px; }
@@ -566,7 +572,7 @@
 
   /* Mention sous le choix des places */
   #usn-event .usn-hint {
-    margin-top: 6px; font-size: 12.5px; color: rgba(12,11,10,0.55);
+    margin-top: 6px; font-size: 12.5px; color: rgba(20,13,33,0.55);
     display: flex; align-items: center; gap: 7px;
   }
   #usn-event .usn-hint:empty { display: none; }
@@ -578,7 +584,7 @@
   /* Message d'erreur du formulaire */
   #usn-event .usn-err {
     display: none; margin: 16px auto 0; max-width: 560px; padding: 14px 18px;
-    border-radius: 13px; background: rgba(228,38,43,0.08); border: 1px solid rgba(228,38,43,0.35);
+    border-radius: 13px; background: rgba(208,43,70,0.08); border: 1px solid rgba(208,43,70,0.35);
     color: #a8161a; font-size: 14.5px; font-weight: 600; text-align: center;
   }
   #usn-event .usn-form button[disabled] { opacity: .55; cursor: not-allowed; transform: none; }
@@ -587,11 +593,11 @@
   #usn-event .usn-dates { margin-top: 44px; display: grid; gap: 14px; }
   #usn-event .usn-date-row {
     display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
-    padding: 22px 24px; border-radius: var(--usn-radius); background: #fff; border: 1px solid rgba(12,11,10,0.08);
+    padding: 22px 24px; border-radius: var(--usn-radius); background: #fff; border: 1px solid rgba(20,13,33,0.08);
   }
   #usn-event .usn-date-row .usn-dr-when { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--usn-blue); font-weight: 800; }
   #usn-event .usn-date-row .usn-dr-title { font-size: 19px; font-weight: 700; margin-top: 4px; text-transform: uppercase; }
-  #usn-event .usn-date-row .usn-dr-place { font-size: 14px; color: rgba(12,11,10,0.6); margin-top: 2px; }
+  #usn-event .usn-date-row .usn-dr-place { font-size: 14px; color: rgba(20,13,33,0.6); margin-top: 2px; }
 
   /* Footer */
   #usn-event .usn-footer { background: var(--usn-ink); color: rgba(255,255,255,0.7); padding: 46px 0; text-align: center; font-size: 14px; }
@@ -667,13 +673,13 @@
     -->
     <div class="usn-hero-media">
       <video class="usn-hero-video" autoplay muted loop playsinline
-             poster="">
-        <!-- Deux fichiers, dans cet ordre : le navigateur prend le premier
-             qui repond. teaser-web.mp4 est la version allegee (3,8 Mo au
-             lieu de 29, son compris) ; tant qu'elle n'est pas dans la
-             mediatheque, la ligne suivante prend le relais. -->
+             poster="https://unseulnom.org/wp-content/uploads/2026/10/affichetarbeslarge.webp">
+        <!-- Plusieurs fichiers, dans cet ordre : le navigateur prend le
+             premier qui repond. La bande-annonce V4 d'abord, l'ancienne
+             ensuite tant que la nouvelle n'est pas dans la mediatheque.
+             En attendant les deux, l'affiche de Tarbes tient la place. -->
+        <source src="https://unseulnom.org/wp-content/uploads/2026/10/teaserv4.mp4" type="video/mp4" />
         <source src="https://unseulnom.org/wp-content/uploads/2026/08/teaserweb.mp4" type="video/mp4" />
-        <source src="https://unseulnom.org/wp-content/uploads/2026/08/Teaser-1.mp4" type="video/mp4" />
       </video>
 
       <div class="usn-hero-overlay"></div>
@@ -869,7 +875,7 @@
         <figure class="usn-person" data-usn-appear>
           <div class="usn-person-photo">
             <span class="usn-person-mono">CC</span>
-            <img src="https://unseulnom.org/wp-content/uploads/2026/07/chriss.webp" alt="Chriss Campion" onerror="this.remove()" />
+            <img src="https://unseulnom.org/wp-content/uploads/2026/10/chrisstarbes.webp" alt="Chriss Campion" onerror="this.remove()" />
           </div>
           <figcaption>
             <div class="usn-person-name">Chriss Campion</div>
@@ -883,7 +889,7 @@
         <figure class="usn-person" data-usn-appear>
           <div class="usn-person-photo">
             <span class="usn-person-mono">BH</span>
-            <img src="https://unseulnom.org/wp-content/uploads/2026/07/briman.webp" alt="Briman Heugebaert" onerror="this.remove()" />
+            <img src="https://unseulnom.org/wp-content/uploads/2026/10/briman.webp" alt="Briman Heugebaert" onerror="this.remove()" />
           </div>
           <figcaption>
             <div class="usn-person-name">Briman Heugebaert</div>
@@ -893,7 +899,7 @@
         <figure class="usn-person" data-usn-appear>
           <div class="usn-person-photo">
             <span class="usn-person-mono">JA</span>
-            <img src="https://unseulnom.org/wp-content/uploads/2026/07/juan.webp" alt="Juan Anthonio" onerror="this.remove()" />
+            <img src="https://unseulnom.org/wp-content/uploads/2026/10/juan.webp" alt="Juan Anthonio" onerror="this.remove()" />
           </div>
           <figcaption>
             <div class="usn-person-name">Juan Anthonio</div>
