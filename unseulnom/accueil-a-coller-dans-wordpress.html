@@ -228,8 +228,14 @@
   #usn-accueil .usn-ouv-bande video {
     display: block; width: 100%; height: 100%; object-fit: cover;
   }
-  /* Le bouton du son : la video demarre muette, aucun navigateur n'en
-     lance une qui parle. */
+  /* Le son. Aucun navigateur ne lance seul une video qui parle : c'est
+     une regle du navigateur, pas un reglage du site. On part donc en
+     silence, et le premier clic - n'importe ou sur l'image - rend le
+     son et relance la bande-annonce depuis le debut.
+
+     Tant que personne n'y a touche, le bouton bat doucement : c'est la
+     seule chose qui bouge dans le cadre, l'oeil y va. */
+  #usn-accueil .usn-ouv-bande { cursor: pointer; }
   #usn-accueil .usn-ouv-son {
     position: absolute; z-index: 3; right: clamp(14px, 2.4vw, 28px); bottom: clamp(14px, 2.4vw, 28px);
     display: inline-flex; align-items: center; gap: 9px; cursor: pointer;
@@ -241,6 +247,14 @@
     transition: background .2s ease;
   }
   #usn-accueil .usn-ouv-son:hover { background: rgba(255,255,255,0.2); }
+  #usn-accueil .usn-ouv-son.est-neuf { animation: usn-battement 2.6s ease-in-out infinite; }
+  @keyframes usn-battement {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.34); }
+    60%      { box-shadow: 0 0 0 14px rgba(255,255,255,0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #usn-accueil .usn-ouv-son.est-neuf { animation: none; }
+  }
   @media (max-width: 560px) { #usn-accueil .usn-ouv-son span:last-child { display: none; } }
 
   /* La signature de la bande-annonce, reprise sous l'image. */
@@ -1626,13 +1640,18 @@
   })();
 
   /* ---- Le son de la bande-annonce ----
-     Aucun navigateur ne lance seul une video qui parle : elle demarre
-     donc muette, et ce bouton rend la main au visiteur. S'il n'y a pas
-     de piste audio dans le fichier, le bouton se retire de lui-meme
-     plutot que de promettre un son qui n'existe pas. */
+     Aucun navigateur ne lance seul une video qui parle : si on essaie,
+     soit il refuse de la lancer du tout, soit il la force en silence.
+     Elle demarre donc muette, et le visiteur reprend la main d'un clic
+     n'importe ou sur l'image.
+
+     Au premier clic, la bande-annonce repart de zero : elle raconte
+     quelque chose, l'entendre a partir de la quarantieme seconde n'a
+     pas de sens. */
   (function () {
     var video  = document.getElementById('usn-ouv-video');
     var bouton = document.getElementById('usn-ouv-son');
+    var bande  = video ? video.closest('.usn-ouv-bande') : null;
     if (!video || !bouton) return;
 
     function aDuSon() {
@@ -1647,17 +1666,36 @@
     }
 
     video.addEventListener('loadeddata', function () {
-      if (!aDuSon()) bouton.remove();
+      if (!aDuSon()) {
+        bouton.remove();
+        if (bande) bande.style.cursor = '';
+      }
     });
 
-    bouton.addEventListener('click', function () {
+    var jamaisTouche = true;
+    bouton.classList.add('est-neuf');
+
+    function basculer() {
       var muet = !video.muted;
       video.muted = muet;
-      if (!muet) { var p = video.play(); if (p && p.catch) p.catch(function () {}); }
+
+      if (!muet) {
+        if (jamaisTouche) { try { video.currentTime = 0; } catch (e) {} }
+        var p = video.play();
+        if (p && p.catch) p.catch(function () {});
+      }
+      jamaisTouche = false;
+      bouton.classList.remove('est-neuf');
+
       bouton.setAttribute('aria-pressed', muet ? 'false' : 'true');
       bouton.querySelector('span:last-child').textContent = muet ? 'Activer le son' : 'Couper le son';
       bouton.querySelector('span:first-child').innerHTML = muet ? '\u266A' : '\u2715';
-    });
+    }
+
+    bouton.addEventListener('click', function (e) { e.stopPropagation(); basculer(); });
+    // Tout le cadre est cliquable : personne ne vise un petit bouton
+    // quand l'envie lui prend d'entendre.
+    if (bande) bande.addEventListener('click', basculer);
   })();
 
   /* ---- La barre se pose sur un fond quand on quitte le heros, et
