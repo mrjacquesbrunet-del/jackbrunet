@@ -698,8 +698,21 @@
   }
   #usn-accueil .usn-phrase p {
     margin: 0; font-family: var(--usn-display); font-weight: 900;
-    font-size: clamp(30px, 5.6vw, 92px); line-height: 1.02;
+    /* Cinq lignes au lieu d'un seul bloc : la taille baisse d'autant,
+       sinon la plus longue se casse en deux et la strophe se perd. */
+    font-size: clamp(21px, 3.5vw, 58px); line-height: 1.16;
     letter-spacing: -0.025em; text-transform: uppercase;
+  }
+  #usn-accueil .usn-ph-ligne { display: block; }
+  /* La chute : plus grande, et detachee de ce qui precede. */
+  #usn-accueil .usn-ph-ligne:last-child { margin-top: clamp(14px, 2.2vh, 30px); }
+  #usn-accueil .usn-phrase p b.usn-ph-cime { font-size: 1.5em; }
+  @media (max-width: 720px) {
+    /* Les lignes les plus longues passent a la ligne quoi qu'il arrive :
+       autant que la coupure tombe au milieu plutot que de laisser un
+       mot seul en bas. */
+    #usn-accueil .usn-phrase p { font-size: 19px; text-wrap: balance; }
+    #usn-accueil .usn-phrase p b.usn-ph-cime { font-size: 1.7em; }
   }
   /* Chaque mot est un morceau a part : c'est ce qui permet de les
      allumer l'un apres l'autre. */

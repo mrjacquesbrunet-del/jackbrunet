@@ -184,9 +184,11 @@
   <!-- ============================================================= -->
   <!-- LA PHRASE                                                      -->
   <!-- Les mots s'allument un par un au defilement.                    -->
-  <!-- &#9658; POUR CHANGER LA PHRASE : un <b> par mot, sans exception. -->
-  <!--   Pour mettre un mot en avant : class="usn-mot-serif" &#8212; il      -->
-  <!--   passe alors dans l'ecriture a empattements, en jaune.        -->
+  <!-- &#9658; POUR CHANGER LA PHRASE : une <span class="usn-ph-ligne">  -->
+  <!--   par ligne, et dedans un <b> par mot, sans exception &#8212; c'est  -->
+  <!--   ce decoupage qui permet de les allumer l'un apres l'autre.   -->
+  <!--   Pour mettre un mot en avant : class="usn-mot-serif" &#8212; il     -->
+  <!--   passe alors dans l'ecriture a empattements, en orange.       -->
   <!-- ============================================================= -->
   <div class="usn-phrase" id="usn-vision" data-usn-sombre>
     <div class="usn-phrase-fixe">
@@ -197,7 +199,13 @@
       </div>
       <div class="usn-phrase-texte">
         <span class="usn-phrase-titre">La vision</span>
-        <p id="usn-phrase-mots"><b>Nous</b> <b>croyons</b> <b>qu'une</b> <b class="usn-mot-serif">ville</b> <b>ne</b> <b>se</b> <b>gagne</b> <b>pas</b> <b>seule.</b> <b>Des</b> <b class="usn-mot-serif">&eacute;glises</b> <b>diff&eacute;rentes,</b> <b>un</b> <b>m&ecirc;me</b> <b class="usn-mot-serif">&Eacute;vangile,</b> <b>et</b> <b>des</b> <b>c&oelig;urs</b> <b>qui</b> <b>s'ouvrent.</b></p>
+        <p id="usn-phrase-mots">
+          <span class="usn-ph-ligne"><b>Un</b> <b>seul</b> <b class="usn-mot-serif">Nom</b> <b>nous</b> <b>rassemble.</b></span>
+          <span class="usn-ph-ligne"><b>Un</b> <b>seul</b> <b class="usn-mot-serif">corps,</b> <b>o&ugrave;</b> <b>chacun</b> <b>a</b> <b>sa</b> <b>place.</b></span>
+          <span class="usn-ph-ligne"><b>Une</b> <b>seule</b> <b class="usn-mot-serif">mission</b> <b>nous</b> <b>envoie.</b></span>
+          <span class="usn-ph-ligne"><b>Pour</b> <b>que</b> <b>le</b> <b>monde</b> <b>proclame</b> <b>ce</b> <b>Nom&#160;:</b></span>
+          <span class="usn-ph-ligne"><b class="usn-mot-serif usn-ph-cime">J&eacute;sus-Christ.</b></span>
+        </p>
       </div>
     </div>
   </div>
