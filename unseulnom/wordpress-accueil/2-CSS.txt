@@ -455,7 +455,7 @@
   #usn-accueil .usn-balai img.est-vue { opacity: 1; }
 
   /* La hauteur de la bande decouverte. Elles evitent toutes le menu en
-     haut et la carte d'Avignon en bas. */
+     haut et la carte du prochain evenement en bas. */
   #usn-accueil .usn-b1 img, #usn-accueil .usn-b2 img {
     -webkit-mask-image: linear-gradient(180deg, transparent 24%, #000 34%, #000 62%, transparent 72%);
     mask-image: linear-gradient(180deg, transparent 24%, #000 34%, #000 62%, transparent 72%);
@@ -540,12 +540,15 @@
   #usn-accueil .usn-prochain-corps {
     display: flex; align-items: center; gap: clamp(10px, 1.6vw, 18px); padding: 14px 0 4px;
   }
-  /* Le contour d'Avignon, tourne lentement sur lui-meme. */
+  /* Le contour du departement, tourne lentement sur lui-meme, avec un
+     point sur la ville. Le point tourne avec la carte : il reste donc
+     toujours au bon endroit du territoire. */
   #usn-accueil .usn-plan { width: clamp(52px, 6vw, 74px); flex: none; overflow: visible; }
   #usn-accueil .usn-plan path {
     fill: rgba(228,38,43,0.10); stroke: var(--usn-red); stroke-width: 1.6;
     stroke-linejoin: round; vector-effect: non-scaling-stroke;
   }
+  #usn-accueil .usn-plan circle { fill: var(--usn-red); }
   #usn-accueil .usn-plan g { transform-origin: 50% 50%; animation: usn-tourne 22s linear infinite; }
   @keyframes usn-tourne { to { transform: rotate(360deg); } }
   @media (prefers-reduced-motion: reduce) { #usn-accueil .usn-plan g { animation: none; } }

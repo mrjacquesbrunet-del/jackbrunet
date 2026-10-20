@@ -456,7 +456,7 @@
   #usn-accueil .usn-balai img.est-vue { opacity: 1; }
 
   /* La hauteur de la bande decouverte. Elles evitent toutes le menu en
-     haut et la carte d'Avignon en bas. */
+     haut et la carte du prochain evenement en bas. */
   #usn-accueil .usn-b1 img, #usn-accueil .usn-b2 img {
     -webkit-mask-image: linear-gradient(180deg, transparent 24%, #000 34%, #000 62%, transparent 72%);
     mask-image: linear-gradient(180deg, transparent 24%, #000 34%, #000 62%, transparent 72%);
@@ -541,12 +541,15 @@
   #usn-accueil .usn-prochain-corps {
     display: flex; align-items: center; gap: clamp(10px, 1.6vw, 18px); padding: 14px 0 4px;
   }
-  /* Le contour d'Avignon, tourne lentement sur lui-meme. */
+  /* Le contour du departement, tourne lentement sur lui-meme, avec un
+     point sur la ville. Le point tourne avec la carte : il reste donc
+     toujours au bon endroit du territoire. */
   #usn-accueil .usn-plan { width: clamp(52px, 6vw, 74px); flex: none; overflow: visible; }
   #usn-accueil .usn-plan path {
     fill: rgba(228,38,43,0.10); stroke: var(--usn-red); stroke-width: 1.6;
     stroke-linejoin: round; vector-effect: non-scaling-stroke;
   }
+  #usn-accueil .usn-plan circle { fill: var(--usn-red); }
   #usn-accueil .usn-plan g { transform-origin: 50% 50%; animation: usn-tourne 22s linear infinite; }
   @keyframes usn-tourne { to { transform: rotate(360deg); } }
   @media (prefers-reduced-motion: reduce) { #usn-accueil .usn-plan g { animation: none; } }
@@ -1165,12 +1168,17 @@
         <a class="usn-prochain" href="https://unseulnom.org/evenement/">
           <span class="usn-prochain-titre">Prochain &eacute;v&eacute;nement</span>
           <span class="usn-prochain-corps">
+            <!-- &#9658; LA CARTE &#8212; le contour du departement, releve sur
+                 OpenStreetMap, et le point de la ville. -->
             <svg class="usn-plan" viewBox="0 0 100 100" aria-hidden="true">
-              <g><path d="M2.0 62.4L44.5 70.8L60.1 71.8L76.5 79.7L85.5 88.2L88.3 88.9L95.3 88.6L96.0 86.8L91.5 81.1L95.7 80.0L98.0 76.0L83.1 69.1L82.6 66.1L83.9 58.2L81.8 53.7L79.4 52.6L79.4 47.4L76.0 42.3L69.5 42.1L61.6 43.9L52.4 42.6L53.0 37.6L56.8 36.6L60.3 31.0L60.5 19.1L56.2 11.1L55.5 16.6L53.0 19.4L41.2 16.7L39.0 18.0L38.1 24.8L40.4 30.3L40.7 34.0L38.1 36.9L29.7 41.1L25.8 48.5L21.8 53.2L17.0 55.8L13.3 55.1L8.0 56.8L2.0 62.4Z" /></g>
+              <g>
+                <path d="M13.4 73.0L14.9 80.7L23.8 86.4L25.9 85.2L33.7 96.1L51.2 91.5L57.6 93.7L60.2 98.0L65.1 92.9L72.8 96.0L74.3 94.8L71.9 92.0L73.9 77.0L80.5 78.5L86.6 68.6L84.1 66.3L83.7 60.9L77.6 63.8L78.5 60.2L80.6 60.8L80.5 56.8L71.2 50.9L76.9 42.6L81.2 41.7L79.4 40.1L85.8 33.4L68.8 30.5L67.2 27.8L62.9 29.1L60.5 24.4L51.7 26.2L47.9 20.8L50.5 18.7L46.8 11.4L42.0 11.2L36.9 2.1L32.5 2.0L30.9 8.4L33.1 8.0L36.7 15.8L33.1 16.7L33.0 22.2L37.9 18.6L37.6 26.0L40.3 28.8L34.6 33.1L36.7 36.5L34.3 41.9L32.5 41.5L32.9 46.2L29.2 45.9L27.0 51.3L23.4 52.6L24.4 59.0L18.4 60.5L16.0 65.2L16.9 71.2L13.4 73.0Z" />
+                <circle cx="43.9" cy="40.5" r="3.4" />
+              </g>
             </svg>
             <span>
-              <span class="usn-prochain-ville">Avignon</span>
-              <span class="usn-prochain-date">Samedi 17 octobre 2026 &middot; Parc des expos</span>
+              <span class="usn-prochain-ville">Tarbes</span>
+              <span class="usn-prochain-date">Samedi 12 d&eacute;cembre 2026 &middot; Hautes-Pyr&eacute;n&eacute;es</span>
             </span>
           </span>
           <span class="usn-prochain-bouton">R&eacute;serve ta place <i aria-hidden="true">&#8594;</i></span>
@@ -1300,8 +1308,8 @@
 
         <a class="usn-fr-suite" href="https://unseulnom.org/evenement/">
           <span>Et maintenant</span>
-          <strong>Avignon</strong>
-          <i>Samedi 17 octobre 2026 &mdash; R&eacute;serve ta place</i>
+          <strong>Tarbes</strong>
+          <i>Samedi 12 d&eacute;cembre 2026 &mdash; R&eacute;serve ta place</i>
         </a>
       </div>
 
@@ -1422,7 +1430,7 @@
   <div class="usn-rencontre" id="usn-rencontre">
     <div class="usn-wrap">
       <span class="usn-cle">Le prochain rendez-vous</span>
-      <h2>Avignon &middot; samedi 17 octobre 2026</h2>
+      <h2>Tarbes &middot; samedi 12 d&eacute;cembre 2026</h2>
 
       <!--
         &#9658; LES DEUX VISAGES &#8212; ils arrivent chacun d'un bord et se
@@ -1565,11 +1573,11 @@
   <div class="usn-defile usn-defile-encre" aria-hidden="true">
     <div class="usn-defile-piste">
       <div class="usn-defile-suite">
-        <b>Avignon</b> <i>&#10022;</i> <b>Madagascar</b> <i>&#10022;</i>
+        <b>Tarbes</b> <i>&#10022;</i> <b>Madagascar</b> <i>&#10022;</i>
         <b>Marseille</b> <i>&#10022;</i> <b>Bordeaux</b> <i>&#10022;</i>
       </div>
       <div class="usn-defile-suite">
-        <b>Avignon</b> <i>&#10022;</i> <b>Madagascar</b> <i>&#10022;</i>
+        <b>Tarbes</b> <i>&#10022;</i> <b>Madagascar</b> <i>&#10022;</i>
         <b>Marseille</b> <i>&#10022;</i> <b>Bordeaux</b> <i>&#10022;</i>
       </div>
     </div>
