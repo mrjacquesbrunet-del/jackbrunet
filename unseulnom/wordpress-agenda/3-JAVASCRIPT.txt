@@ -305,12 +305,7 @@
     }
     punchApply(0);
 
-    /* ---------- 5. Parallaxe du heros ---------- */
-    var hero = root.querySelector('.usn-hero');
-    var heroInner = root.querySelector('.usn-hero-inner');
-    var heroVideo = root.querySelector('.usn-hero-video');
-
-    /* ---------- 6. Boucle de rendu (lissage type ScrollSmoother) ---------- */
+    /* ---------- 5. Boucle de rendu (lissage type ScrollSmoother) ---------- */
     var running = false;
     function frame() {
       var moving = false;
@@ -334,14 +329,6 @@
         ph.p += (tc - ph.p) * 0.14;
         if (Math.abs(tc - ph.p) > 0.004) moving = true; else ph.p = tc;
         peindre(ph);
-      }
-
-      if (hero && heroInner) {
-        var hr = hero.getBoundingClientRect();
-        var prog = clamp01(-hr.top / Math.max(1, hr.height));
-        heroInner.style.transform = 'translate3d(0,' + (prog * 130).toFixed(1) + 'px,0)';
-        heroInner.style.opacity = (1 - prog * 0.85).toFixed(3);
-        if (heroVideo) heroVideo.style.transform = 'scale(' + (1 + prog * 0.16).toFixed(3) + ')';
       }
 
       if (moving) { requestAnimationFrame(frame); } else { running = false; }

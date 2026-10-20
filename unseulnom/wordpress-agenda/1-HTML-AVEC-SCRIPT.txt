@@ -12,31 +12,34 @@
   </nav>
 
   <!-- ============================================================= -->
-  <!-- EN-TETE CINEMATIQUE                                            -->
+  <!-- EN-TETE : LE FILM DE LA CARTE                                  -->
   <!-- ============================================================= -->
   <header class="usn-hero">
 
     <!--
       &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
-      &#9658; L'IMAGE DE FOND
+      &#9658; LE FILM DE LA CARTE
 
-      Aujourd'hui c'est une photo, posee en attribut poster="...".
-      Pour la remplacer, changez simplement cette adresse.
+      Il tourne tout seul, en boucle et sans le son &#8212; le navigateur
+      refuse de lancer une video sonore sans que le visiteur ait
+      clique, et une musique qui redemarre toutes les 32 secondes
+      fatiguerait de toute facon.
 
-      &#9658; POUR PASSER A LA VIDEO
-      Ajoutez une ligne juste avant </video> :
+      Deux adresses a reprendre si le film change :
+        - poster="..."        l'image affichee pendant le chargement
+        - <source src="..."/> le film lui-meme
 
-          <source src="ADRESSE_DE_VOTRE_VIDEO.mp4" type="video/mp4" />
-
-      La video prendra la place de la photo, qui restera affichee le
-      temps du chargement et sur les telephones en economie de donnees.
-      Format conseille : .mp4 muet, 10 a 15 secondes, moins de 15 Mo.
+      Les deux fichiers doivent d'abord etre envoyes dans la
+      mediatheque WordPress : cartefrance.mp4 et carteposter.webp.
       &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
     -->
-    <video class="usn-hero-video" autoplay muted loop playsinline
-           poster="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp"></video>
-
-    <div class="usn-hero-voile"></div>
+    <div class="usn-hero-film">
+      <video autoplay muted loop playsinline preload="metadata"
+             poster="https://unseulnom.org/wp-content/uploads/2026/10/carteposter.webp"
+             aria-label="Carte des villes travers&eacute;es par Un Seul Nom depuis 2024">
+        <source src="https://unseulnom.org/wp-content/uploads/2026/10/cartefrance.mp4" type="video/mp4" />
+      </video>
+    </div>
 
     <div class="usn-hero-inner">
       <div class="usn-hero-ligne">
@@ -873,12 +876,7 @@
     }
     punchApply(0);
 
-    /* ---------- 5. Parallaxe du heros ---------- */
-    var hero = root.querySelector('.usn-hero');
-    var heroInner = root.querySelector('.usn-hero-inner');
-    var heroVideo = root.querySelector('.usn-hero-video');
-
-    /* ---------- 6. Boucle de rendu (lissage type ScrollSmoother) ---------- */
+    /* ---------- 5. Boucle de rendu (lissage type ScrollSmoother) ---------- */
     var running = false;
     function frame() {
       var moving = false;
@@ -902,14 +900,6 @@
         ph.p += (tc - ph.p) * 0.14;
         if (Math.abs(tc - ph.p) > 0.004) moving = true; else ph.p = tc;
         peindre(ph);
-      }
-
-      if (hero && heroInner) {
-        var hr = hero.getBoundingClientRect();
-        var prog = clamp01(-hr.top / Math.max(1, hr.height));
-        heroInner.style.transform = 'translate3d(0,' + (prog * 130).toFixed(1) + 'px,0)';
-        heroInner.style.opacity = (1 - prog * 0.85).toFixed(3);
-        if (heroVideo) heroVideo.style.transform = 'scale(' + (1 + prog * 0.16).toFixed(3) + ')';
       }
 
       if (moving) { requestAnimationFrame(frame); } else { running = false; }

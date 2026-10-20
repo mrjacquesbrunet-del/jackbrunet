@@ -1,5 +1,14 @@
 # Carte de France animée — cahier des charges
 
+> **Livré.** Le monteur a rendu `UnSeulNom_Carte_creme_16x9.mp4` le
+> 20 octobre 2026. Le film est en ligne dans le dépôt sous
+> `video/cartefrance.mp4` (version web allégée) et ouvre la page
+> « À venir », pas la page d'accueil comme prévu ici.
+>
+> Ce document est conservé tel quel : il sert de référence si une
+> deuxième version est demandée. Les écarts entre la commande et le
+> rendu sont notés plus bas, à la fin.
+
 Document à transmettre au monteur. Il décrit l'animation qui prendra
 place sur la page d'accueil, entre la **vision** (bloc noir) et la
 **frise** (les affiches qui défilent).
@@ -86,3 +95,26 @@ Dans `accueil.html`, un emplacement commenté attend l'animation, entre
 le bloc de la vision et la frise. Il suffit d'y décommenter le bloc
 `usn-carte-video` et d'y mettre l'adresse du fichier une fois celui-ci
 envoyé dans la médiathèque WordPress.
+
+## Ce qui a été rendu, et en quoi cela diffère
+
+Le film livré est **meilleur que la commande sur le fond** : il raconte
+le parcours au lieu de se contenter d'allumer des points. Trois écarts à
+connaître, aucun ne pose problème.
+
+| Point | Demandé | Rendu |
+|---|---|---|
+| Durée | 10 à 15 s | **32 s** |
+| Les trois couleurs | vert / orange / rouge clignotant | un seul rouge, les villes à venir arrivant après les passées |
+| Les affiches | explicitement écartées | présentes, en vignettes en bas à droite |
+| Son | aucun | une musique, **retirée** de la version web |
+| Poids | 3 Mo | 14 Mo d'origine, **2,4 Mo** après réencodage |
+
+La durée et les vignettes ne gênent pas : le film n'est plus coincé
+entre deux blocs de la page d'accueil, il **ouvre la page « À venir »**
+en pleine largeur, à son format. Il commence et finit sur le crème, donc
+il boucle sans raccord.
+
+La distinction des trois états, elle, n'est pas portée par le film : ce
+sont les pastilles de l'agenda, juste en dessous, qui disent ce qui est
+passé, ce qui est bientôt et ce qui est annoncé.

@@ -20,6 +20,10 @@
     --usn-red: #E4262B;
     --usn-white: #FFFFFF;
     --usn-paper: #F4F5F9;
+    /* Le creme du film de la carte, releve dans l'image elle-meme : le
+       fond de l'en-tete doit etre exactement le meme, sinon une couture
+       apparait sous la video. */
+    --usn-creme: #EFEEE5;
     --usn-ink: #0C0B0A;
     --usn-ink-soft: #15141A;
     /* Gris legerement bleutes, pour rester dans la famille du bleu */
@@ -154,48 +158,45 @@
   }
 
   /* ===================================================================
-     EN-TETE CINEMATIQUE
+     EN-TETE - LA CARTE ANIMEE
 
-     Une bande large, pas un plein ecran : l'image donne l'ambiance sans
-     repousser l'agenda sous la ligne de flottaison. Le titre est pose en
-     bas a gauche, sur un degrade qui garantit sa lisibilite quelle que
-     soit la photo.
+     La page s'ouvre sur le film de la carte : le trace de la France, les
+     villes deja visitees, puis celles qui arrivent. Il est pose en pleine
+     largeur, a son format d'origine (16/9), et RIEN n'est ecrit par
+     dessus : le film porte deja ses propres titres.
 
-     PHOTO OU VIDEO ? Les deux. La balise <video> affiche son image
-     "poster" tant qu'aucune video n'est fournie : il suffira d'ajouter la
-     ligne <source> pour que la video prenne la place de la photo, sans
-     rien changer d'autre.
+     Le titre de la page vient donc juste en dessous, sur le meme creme
+     que le film (#EFEEE5, releve dans l'image) : les deux ne font qu'un
+     seul bloc, sans couture visible.
+
+     &#9658; POUR CHANGER LE FILM, deux adresses a reprendre dans le HTML :
+       celle du <source> et celle de l'image d'attente (poster). Le film
+       commence et finit sur le creme : il boucle donc sans raccord.
      =================================================================== */
-  #usn-agenda .usn-hero {
-    position: relative; overflow: hidden;
-    min-height: clamp(440px, 74svh, 780px);
-    display: flex; align-items: flex-end;
-    background: var(--usn-ink); color: var(--usn-white);
-    isolation: isolate;
+  #usn-agenda .usn-hero { background: var(--usn-creme); color: var(--usn-ink); }
+
+  /* Le film garde son format : on ne le rogne jamais, sinon les noms de
+     villes poses a droite de la carte sortent du cadre. Sur un ecran
+     large et court, il est donc borne en HAUTEUR, et c'est sa largeur
+     qui se reduit - les bandes laissees sur les cotes sont du meme creme
+     que le film, elles ne se voient pas. Le titre de la page reste ainsi
+     visible sous le film, sans qu'il faille defiler pour le decouvrir. */
+  #usn-agenda .usn-hero-film {
+    display: block; margin: 0 auto;
+    width: min(100%, calc(76svh * 16 / 9)); aspect-ratio: 16 / 9;
+    background: var(--usn-creme);
   }
-  #usn-agenda .usn-hero-video {
-    position: absolute; inset: 0; z-index: 0;
-    width: 100%; height: 100%; object-fit: cover;
-    will-change: transform;
+  #usn-agenda .usn-hero-film video,
+  #usn-agenda .usn-hero-film img {
+    display: block; width: 100%; height: 100%; object-fit: cover;
   }
-  /* Deux voiles superposes : un bleu profond qui rattache l'image a la
-     charte, et un degrade vertical qui assombrit le bas pour le texte. */
-  #usn-agenda .usn-hero-voile {
-    position: absolute; inset: 0; z-index: 1;
-    background:
-      linear-gradient(180deg, rgba(12,11,10,0.42) 0%, rgba(12,11,10,0.14) 26%,
-                      rgba(12,11,10,0.58) 58%, rgba(12,11,10,0.94) 100%),
-      linear-gradient(90deg, rgba(12,11,10,0.55) 0%, rgba(12,11,10,0) 58%),
-      radial-gradient(120% 95% at 10% 100%, rgba(27,47,196,0.58), transparent 64%),
-      radial-gradient(90% 70% at 95% 6%, rgba(228,38,43,0.26), transparent 58%);
-  }
+
   /* Le titre va d'un bord a l'autre, comme le titre d'une affiche : il
      n'est donc pas enferme dans la colonne centrale du reste de la page,
      mais aligne sur les marges de la barre de navigation. */
   #usn-agenda .usn-hero-inner {
-    position: relative; z-index: 2; width: 100%;
-    padding: clamp(46px, 9vw, 96px) clamp(18px, 4vw, 46px) clamp(26px, 4vw, 46px);
-    will-change: transform, opacity;
+    position: relative; width: 100%;
+    padding: clamp(28px, 4.4vw, 54px) clamp(18px, 4vw, 46px) clamp(34px, 5vw, 62px);
   }
 
   /* Ligne de titre : l'intitule a gauche, les annees a droite, un filet
@@ -208,20 +209,19 @@
     font-size: clamp(11px, 1.3vw, 13px); font-weight: 800;
     letter-spacing: 0.34em; text-transform: uppercase; white-space: nowrap;
   }
-  #usn-agenda .usn-hero-ligne .usn-etiquette { color: var(--usn-white); }
+  #usn-agenda .usn-hero-ligne .usn-etiquette { color: var(--usn-blue); }
   #usn-agenda .usn-hero-ligne .usn-annees {
-    color: rgba(255,255,255,0.72); font-variant-numeric: tabular-nums;
+    color: var(--usn-gris); font-variant-numeric: tabular-nums;
   }
-  #usn-agenda .usn-hero-filet { flex: 1; height: 1px; background: rgba(255,255,255,0.34); }
+  #usn-agenda .usn-hero-filet { flex: 1; height: 1px; background: rgba(12,11,10,0.18); }
 
   /* Titre pleine largeur, lettres presque jointives. */
   #usn-agenda .usn-hero h1 {
     /* L'accent du A deborde vers le haut : cette marge l'empeche de venir
        toucher le filet juste au-dessus. */
-    margin-top: clamp(26px, 3.6vw, 48px);
+    margin-top: clamp(22px, 3vw, 40px);
     font-size: clamp(58px, 17.5vw, 268px); text-transform: uppercase;
     letter-spacing: -0.045em; line-height: 0.8;
-    text-shadow: 0 6px 40px rgba(0,0,0,0.45);
   }
 
   /* Pied de l'en-tete : la phrase a gauche, le decompte des dates a droite. */
@@ -232,28 +232,27 @@
   }
   #usn-agenda .usn-hero-sous {
     font-family: var(--usn-sub);
-    font-size: clamp(15px, 1.9vw, 19px); color: rgba(255,255,255,0.84);
-    max-width: 46ch; text-shadow: 0 2px 18px rgba(0,0,0,0.5);
+    font-size: clamp(15px, 1.9vw, 19px); color: var(--usn-gris);
+    max-width: 46ch;
   }
-  #usn-agenda .usn-hero-sous b { color: var(--usn-white); font-weight: 700; }
+  #usn-agenda .usn-hero-sous b { color: var(--usn-ink); font-weight: 700; }
   #usn-agenda .usn-hero-compte { display: flex; align-items: baseline; gap: 12px; }
   #usn-agenda .usn-hero-compte b {
     font-family: var(--usn-display); font-stretch: 125%; font-weight: 900;
     font-size: clamp(34px, 5vw, 58px); line-height: 0.9;
-    font-variant-numeric: tabular-nums; color: var(--usn-white);
+    font-variant-numeric: tabular-nums; color: var(--usn-ink);
   }
   /* Une largeur fixe, pas un maximum : sans elle le libelle s'etire sur une
      seule ligne et deborde de la marge droite. */
   #usn-agenda .usn-hero-compte span {
     width: 9ch; flex: none;
     font-size: 11px; font-weight: 800; letter-spacing: 0.2em;
-    text-transform: uppercase; color: rgba(255,255,255,0.66);
+    text-transform: uppercase; color: var(--usn-gris);
     line-height: 1.35;
   }
   @media (max-width: 560px) {
     #usn-agenda .usn-hero-compte { display: none; }
   }
-  #usn-agenda .usn-hero-sous b { color: var(--usn-white); font-weight: 700; }
 
   /* ---------- Bandeau defilant : les villes en continu ----------
      Un ruban qui rappelle l'affiche d'un festival. Il s'arrete si le
@@ -705,31 +704,34 @@
   </nav>
 
   <!-- ============================================================= -->
-  <!-- EN-TETE CINEMATIQUE                                            -->
+  <!-- EN-TETE : LE FILM DE LA CARTE                                  -->
   <!-- ============================================================= -->
   <header class="usn-hero">
 
     <!--
       &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
-      &#9658; L'IMAGE DE FOND
+      &#9658; LE FILM DE LA CARTE
 
-      Aujourd'hui c'est une photo, posee en attribut poster="...".
-      Pour la remplacer, changez simplement cette adresse.
+      Il tourne tout seul, en boucle et sans le son &#8212; le navigateur
+      refuse de lancer une video sonore sans que le visiteur ait
+      clique, et une musique qui redemarre toutes les 32 secondes
+      fatiguerait de toute facon.
 
-      &#9658; POUR PASSER A LA VIDEO
-      Ajoutez une ligne juste avant </video> :
+      Deux adresses a reprendre si le film change :
+        - poster="..."        l'image affichee pendant le chargement
+        - <source src="..."/> le film lui-meme
 
-          <source src="ADRESSE_DE_VOTRE_VIDEO.mp4" type="video/mp4" />
-
-      La video prendra la place de la photo, qui restera affichee le
-      temps du chargement et sur les telephones en economie de donnees.
-      Format conseille : .mp4 muet, 10 a 15 secondes, moins de 15 Mo.
+      Les deux fichiers doivent d'abord etre envoyes dans la
+      mediatheque WordPress : cartefrance.mp4 et carteposter.webp.
       &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
     -->
-    <video class="usn-hero-video" autoplay muted loop playsinline
-           poster="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp"></video>
-
-    <div class="usn-hero-voile"></div>
+    <div class="usn-hero-film">
+      <video autoplay muted loop playsinline preload="metadata"
+             poster="https://unseulnom.org/wp-content/uploads/2026/10/carteposter.webp"
+             aria-label="Carte des villes travers&eacute;es par Un Seul Nom depuis 2024">
+        <source src="https://unseulnom.org/wp-content/uploads/2026/10/cartefrance.mp4" type="video/mp4" />
+      </video>
+    </div>
 
     <div class="usn-hero-inner">
       <div class="usn-hero-ligne">
@@ -1566,12 +1568,7 @@
     }
     punchApply(0);
 
-    /* ---------- 5. Parallaxe du heros ---------- */
-    var hero = root.querySelector('.usn-hero');
-    var heroInner = root.querySelector('.usn-hero-inner');
-    var heroVideo = root.querySelector('.usn-hero-video');
-
-    /* ---------- 6. Boucle de rendu (lissage type ScrollSmoother) ---------- */
+    /* ---------- 5. Boucle de rendu (lissage type ScrollSmoother) ---------- */
     var running = false;
     function frame() {
       var moving = false;
@@ -1595,14 +1592,6 @@
         ph.p += (tc - ph.p) * 0.14;
         if (Math.abs(tc - ph.p) > 0.004) moving = true; else ph.p = tc;
         peindre(ph);
-      }
-
-      if (hero && heroInner) {
-        var hr = hero.getBoundingClientRect();
-        var prog = clamp01(-hr.top / Math.max(1, hr.height));
-        heroInner.style.transform = 'translate3d(0,' + (prog * 130).toFixed(1) + 'px,0)';
-        heroInner.style.opacity = (1 - prog * 0.85).toFixed(3);
-        if (heroVideo) heroVideo.style.transform = 'scale(' + (1 + prog * 0.16).toFixed(3) + ')';
       }
 
       if (moving) { requestAnimationFrame(frame); } else { running = false; }

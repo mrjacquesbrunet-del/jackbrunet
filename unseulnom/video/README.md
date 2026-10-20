@@ -1,3 +1,35 @@
+# Les vidéos du site
+
+## `cartefrance.mp4` — le film de la carte, en tête de la page « À venir »
+
+Livré par le monteur sous le nom `UnSeulNom_Carte_creme_16x9.mp4`.
+
+| | Fichier d'origine | Version web |
+|---|---|---|
+| Poids | 14 Mo | **2,4 Mo** |
+| Définition | 1920 × 1080 | 1600 × 900 |
+| Piste audio | oui (musique, 158 kb/s) | **retirée** |
+| Durée | 32 s | 32 s |
+
+La piste audio est retirée plutôt que réencodée : le film tourne en boucle
+derrière le titre de la page, une musique qui repart toutes les 32 secondes
+fatiguerait. Sans piste audio, la lecture automatique est par ailleurs
+acceptée partout sans discussion. Si tu veux le son, dis-le : le bouton
+« Activer le son » de la page événement se repose ici tel quel.
+
+```
+ffmpeg -i UnSeulNom_Carte_creme_16x9.mp4 -an -vf "scale=1600:-2" \
+       -c:v libx264 -crf 30 -preset slow -pix_fmt yuv420p \
+       -movflags +faststart cartefrance.mp4
+```
+
+L'image d'attente est `images/carteposter.webp` (77 ko), prise à la
+treizième seconde : la carte y est déjà tracée et les villes posées. Le film
+commence et finit sur le crème `#EFEEE5`, il boucle donc sans raccord, et
+c'est ce même crème qui sert de fond à l'en-tête de la page.
+
+---
+
 # Vidéo de fond de la page Avignon
 
 `teaser-web.mp4` est la version allégée du teaser, préparée pour servir de

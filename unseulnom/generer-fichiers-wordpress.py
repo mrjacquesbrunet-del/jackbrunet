@@ -105,6 +105,8 @@ ADRESSES = {
     "briman.webp":            URL_2026_10 + "/briman.webp",
     "juan.webp":              URL_2026_10 + "/juan.webp",
     "affichetarbeslarge.webp": URL_2026_10 + "/affichetarbeslarge.webp",
+    # L'image d'attente du film de la carte, en tete de la page a venir.
+    "carteposter.webp":       URL_2026_10 + "/carteposter.webp",
 }
 
 # Ponctuation typographique et filets -> equivalent ASCII
