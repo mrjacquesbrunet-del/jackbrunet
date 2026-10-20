@@ -64,6 +64,11 @@ PAGES = {
     },
 }
 
+# L'adresse de la page du prochain evenement. Le jour ou chaque ville
+# aura la sienne — evenement/tarbes, puis evenement/marseille — c'est la
+# seule ligne a changer : les trois pages suivent.
+URL_EVENEMENT = "https://unseulnom.org/evenement/"
+
 URL_MEDIAS = "https://unseulnom.org/wp-content/uploads/2026/07"
 URL_2026_04 = "https://unseulnom.org/wp-content/uploads/2026/04"
 URL_2026_10 = "https://unseulnom.org/wp-content/uploads/2026/10"
@@ -221,6 +226,11 @@ def js_en_ascii(js):
     )
 
 
+def vers_evenement(texte):
+    """Pointe les liens sur l'adresse reelle de la page de l'evenement."""
+    return texte.replace("https://unseulnom.org/evenement/", URL_EVENEMENT)
+
+
 def vers_mediatheque(texte, base=URL_MEDIAS):
     """Reecrit les chemins images/xxx.webp vers la mediatheque WordPress."""
     def remplace(m):
@@ -286,7 +296,7 @@ def construire(nom, page):
     css = en_ascii(extraire(source, "style", page["source"]))
     js = js_en_ascii(extraire(source, "script", page["source"]))
     section = sans_reperes(extraire_section(source, page["source"]))
-    html = en_entites(vers_mediatheque(section))
+    html = en_entites(vers_evenement(vers_mediatheque(section)))
     verifier(css)
 
     sortie = RACINE / page["sortie"]
@@ -303,7 +313,7 @@ def construire(nom, page):
     }
     if page["generique"]:
         # Version generique : l'adresse de la mediatheque reste a remplacer.
-        generique = en_entites(vers_mediatheque(section, "__URL_IMAGES__"))
+        generique = en_entites(vers_evenement(vers_mediatheque(section, "__URL_IMAGES__")))
         fichiers[RACINE / page["generique"]] = (
             "<style>\n" + css + "\n</style>\n\n" + generique
             + "\n\n<script>\n" + js + "\n</script>\n")
