@@ -1,10 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   signInEmailPassword,
   signUpEmailPassword,
   sendPasswordReset,
+  normaliserEmail,
+  verifierCodeReinitialisation,
+  updatePassword,
 } from "@/lib/community";
 import { submitToBrevo } from "@/lib/brevo";
 import { newsletterEndpointForSource } from "@/config/brevo";
@@ -34,20 +37,80 @@ export function EmailPasswordAuth({
   const [resetSent, setResetSent] = useState(false);
   const [voir, setVoir] = useState(false);
   const [aConfirmer, setAConfirmer] = useState(false);
+  // Réinitialisation dans l'app : code reçu par e-mail + nouveau mot de passe.
+  const [code, setCode] = useState("");
+  const [nouveau, setNouveau] = useState("");
+  const [nouveau2, setNouveau2] = useState("");
+  const [renvoiDans, setRenvoiDans] = useState(0);
+
+  useEffect(() => {
+    if (renvoiDans <= 0) return;
+    const t = setTimeout(() => setRenvoiDans((n) => n - 1), 1000);
+    return () => clearTimeout(t);
+  }, [renvoiDans]);
 
   async function handleForgot() {
     setError("");
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setError("Entre d'abord ton adresse e-mail, puis clique sur « Mot de passe oublié ».");
+    const adresse = normaliserEmail(email);
+    setEmail(adresse);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(adresse)) {
+      setError("Entre d'abord ton adresse e-mail, puis touche « Mot de passe oublié ».");
       return;
     }
     setBusy(true);
     try {
-      await sendPasswordReset(email);
+      // Supabase ne dit jamais si l'adresse existe : une erreur ici est un vrai
+      // problème d'envoi, qu'on affiche (avant, on annonçait un e-mail qui
+      // ne partait pas).
+      await sendPasswordReset(adresse);
       setResetSent(true);
-    } catch {
-      // On reste volontairement discret (on ne révèle pas si l'e-mail existe).
-      setResetSent(true);
+      setRenvoiDans(60);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      if (/rate limit|too many|security purposes|seconds/i.test(msg)) {
+        setError("Un e-mail vient déjà d'être demandé. Patiente une minute, puis réessaie.");
+      } else if (/network|fetch/i.test(msg)) {
+        setError("Pas de connexion internet. Vérifie ton réseau et réessaie.");
+      } else {
+        setError("L'e-mail n'a pas pu être envoyé pour le moment. Réessaie dans quelques minutes.");
+      }
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function validerCode(e: React.FormEvent) {
+    e.preventDefault();
+    setError("");
+    const c = code.replace(/\s+/g, "");
+    if (!/^\d{6,8}$/.test(c)) {
+      setError("Entre le code à chiffres reçu par e-mail.");
+      return;
+    }
+    if (nouveau.length < 6) {
+      setError("Le mot de passe doit faire au moins 6 caractères.");
+      return;
+    }
+    if (nouveau !== nouveau2) {
+      setError("Les deux mots de passe ne correspondent pas.");
+      return;
+    }
+    setBusy(true);
+    try {
+      await verifierCodeReinitialisation(email, c);
+      await updatePassword(nouveau);
+      onSuccess?.();
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      if (/expired|invalid|otp|token/i.test(msg)) {
+        setError("Code incorrect ou expiré. Vérifie-le, ou demande un nouvel e-mail.");
+      } else if (/password should|weak password|different from the old/i.test(msg)) {
+        setError("Choisis un autre mot de passe, plus long et différent de l'ancien.");
+      } else if (/network|fetch/i.test(msg)) {
+        setError("Pas de connexion internet. Vérifie ton réseau et réessaie.");
+      } else {
+        setError("Une erreur est survenue. Réessaie.");
+      }
     } finally {
       setBusy(false);
     }
@@ -59,7 +122,9 @@ export function EmailPasswordAuth({
       setError("Indique ton prénom.");
       return;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    const adresse = normaliserEmail(email);
+    if (adresse !== email) setEmail(adresse);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(adresse)) {
       setError("Entre une adresse e-mail valide.");
       return;
     }
@@ -71,13 +136,13 @@ export function EmailPasswordAuth({
     setError("");
     try {
       if (mode === "signup") {
-        const res = await signUpEmailPassword(email, password, firstName.trim());
+        const res = await signUpEmailPassword(adresse, password, firstName.trim());
         // Récupération du contact dans Brevo (liste « membres »): e-mail + prénom.
         // no-cors, best-effort: n'empêche jamais l'inscription.
         try {
           const endpoint = newsletterEndpointForSource("app-membre");
           if (endpoint) {
-            await submitToBrevo(endpoint, { EMAIL: email, PRENOM: firstName.trim() });
+            await submitToBrevo(endpoint, { EMAIL: adresse, PRENOM: firstName.trim() });
           }
         } catch {
           /* la collecte Brevo n'est pas bloquante */
@@ -88,13 +153,15 @@ export function EmailPasswordAuth({
           return;
         }
       } else {
-        await signInEmailPassword(email, password);
+        await signInEmailPassword(adresse, password);
       }
       onSuccess?.();
     } catch (err) {
       const msg = err instanceof Error? err.message: String(err);
       if (/invalid login credentials/i.test(msg)) {
-        setError("E-mail ou mot de passe incorrect.");
+        setError(
+          "E-mail ou mot de passe incorrect. Si tu t'étais inscrit(e) avec Apple, Google ou un lien reçu par e-mail, tu n'as pas encore de mot de passe : utilise les boutons du haut, ou « Mot de passe oublié » pour en créer un.",
+        );
       } else if (/already registered|already exists/i.test(msg)) {
         setError("Un compte existe déjà avec cet e-mail. Connecte-toi.");
       } else if (/not confirmed/i.test(msg)) {
@@ -132,6 +199,68 @@ export function EmailPasswordAuth({
           Me connecter
         </button>
       </div>
+    );
+  }
+
+  if (resetSent) {
+    const sous = dark ? "text-cream/65" : "text-night-900/60";
+    return (
+      <form onSubmit={validerCode} className="space-y-3">
+        <div className={`rounded-2xl border p-4 text-sm ${dark ? "border-dawn-400/30 bg-dawn-400/10 text-cream" : "border-spirit-600/30 bg-spirit-500/10 text-night-900"}`}>
+          <p className="font-bold">E-mail envoyé</p>
+          <p className="mt-1">{`Si un compte existe avec ${email}, tu viens de recevoir un e-mail (pense aux indésirables). Entre ici le code qu'il contient et choisis ton nouveau mot de passe, ou touche simplement le lien de l'e-mail.`}</p>
+        </div>
+        <input
+          type="text"
+          inputMode="numeric"
+          autoComplete="one-time-code"
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          placeholder="Code reçu par e-mail"
+          className="field w-full text-center tracking-[0.3em]"
+        />
+        <input
+          type="password"
+          autoComplete="new-password"
+          value={nouveau}
+          onChange={(e) => setNouveau(e.target.value)}
+          placeholder="Nouveau mot de passe"
+          className="field w-full"
+        />
+        <input
+          type="password"
+          autoComplete="new-password"
+          value={nouveau2}
+          onChange={(e) => setNouveau2(e.target.value)}
+          placeholder="Confirme le mot de passe"
+          className="field w-full"
+        />
+        <button type="submit" disabled={busy} className="btn-primary w-full justify-center">
+          {busy ? "…" : "Changer mon mot de passe"}
+        </button>
+        {error ? <p className="field-error text-center">{error}</p> : null}
+        <div className={`flex items-center justify-between gap-3 pt-1 text-sm ${sous}`}>
+          <button
+            type="button"
+            onClick={() => {
+              setResetSent(false);
+              setError("");
+              setCode("");
+            }}
+            className="underline underline-offset-2"
+          >
+            Retour à la connexion
+          </button>
+          <button
+            type="button"
+            onClick={handleForgot}
+            disabled={busy || renvoiDans > 0}
+            className="underline underline-offset-2 disabled:no-underline disabled:opacity-60"
+          >
+            {renvoiDans > 0 ? `Renvoyer l'e-mail (${renvoiDans} s)` : "Renvoyer l'e-mail"}
+          </button>
+        </div>
+      </form>
     );
   }
 
@@ -199,12 +328,7 @@ export function EmailPasswordAuth({
 
       {/* Mot de passe oublié — uniquement à la connexion */}
       {mode === "signin"? (
-        resetSent? (
-          <p className={`text-center text-sm ${dark? "text-dawn-300": "text-spirit-700"}`}>
-            Si un compte existe avec cet e-mail, tu vas recevoir un lien pour
-            choisir un nouveau mot de passe. Pense à vérifier tes spams.
-          </p>
-        ): (
+        resetSent? null : (
           <div className="text-center">
             <button
               type="button"

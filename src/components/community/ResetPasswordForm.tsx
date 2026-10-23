@@ -19,8 +19,17 @@ export function ResetPasswordForm() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [done, setDone] = useState(false);
+  const [expire, setExpire] = useState(false);
 
   useEffect(() => {
+    // Lien expiré ou déjà utilisé (souvent ouvert automatiquement par la
+    // messagerie pour le vérifier) : Supabase renvoie ici avec #error=…
+    try {
+      const h = new URLSearchParams(window.location.hash.slice(1) + "&" + window.location.search.slice(1));
+      if (h.get("error_code") || h.get("error")) setExpire(true);
+    } catch {
+      /* ignore */
+    }
     const sb = getSupabase();
     if (!sb) {
       setReady(true);
@@ -87,15 +96,19 @@ export function ResetPasswordForm() {
     );
   }
 
-  if (ready && !hasSession) {
+  if ((ready && !hasSession) || (expire && !hasSession)) {
     return (
       <div className="rounded-3xl border border-night-900/10 bg-white p-6 text-center">
         <p className="font-display text-xl font-bold text-night-900">
-          Lien invalide ou expiré
+          Lien expiré ou déjà utilisé
         </p>
         <p className="mt-2 text-night-900/70">
-          Ouvre l'application, va sur l'écran de connexion et touche « Mot de passe
-          oublié » pour recevoir un nouveau lien.
+          Ce lien n'est plus valable. Certaines messageries l'ouvrent toutes seules pour
+          le vérifier, ce qui l'utilise.
+        </p>
+        <p className="mt-2 text-night-900/70">
+          Ouvre l'application, touche « Mot de passe oublié » sur l'écran de connexion,
+          puis entre directement le code reçu dans le nouvel e-mail.
         </p>
       </div>
     );

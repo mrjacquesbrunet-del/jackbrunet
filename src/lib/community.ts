@@ -121,19 +121,28 @@ export type Notification = {
  */
 function authRedirectBase(): string {
   try {
-    const origin = window.location.origin;
-    if (origin.startsWith("http")) return origin;
+    const { origin, hostname } = window.location;
+    // Android : l'app tourne sur https://localhost (adresse morte pour un lien
+    // ouvert depuis la messagerie) ; iOS : capacitor://localhost.
+    const local = hostname === "localhost" || hostname === "127.0.0.1";
+    if (origin.startsWith("http") && !local) return origin;
   } catch {
     /* ignore */
   }
   return "https://jackbrunet.com";
 }
 
+/** Adresse e-mail nettoyée : le clavier du téléphone ajoute souvent un espace
+ * final ou une majuscule initiale, qui faisaient échouer la connexion. */
+export function normaliserEmail(email: string): string {
+  return email.trim().toLowerCase();
+}
+
 export async function signInEmail(email: string) {
   const sb = getSupabase();
   if (!sb) throw new Error("non configuré");
   return sb.auth.signInWithOtp({
-    email,
+    email: normaliserEmail(email),
     options: { emailRedirectTo: `${authRedirectBase()}/communaute/` },
   });
 }
@@ -172,7 +181,7 @@ export async function signUpEmailPassword(email: string, password: string, first
   if (!sb) throw new Error("non configuré");
   const clean = (firstName?? "").trim();
   const { data, error } = await sb.auth.signUp({
-    email,
+    email: normaliserEmail(email),
     password,
     options: clean? { data: { first_name: clean } }: undefined,
   });
@@ -198,28 +207,38 @@ export async function signUpEmailPassword(email: string, password: string, first
 export async function signInEmailPassword(email: string, password: string) {
   const sb = getSupabase();
   if (!sb) throw new Error("non configuré");
-  const { data, error } = await sb.auth.signInWithPassword({ email, password });
+  const { data, error } = await sb.auth.signInWithPassword({ email: normaliserEmail(email), password });
   if (error) throw error;
   return data;
 }
 
-/** Mot de passe oublié : envoie un e-mail avec un lien de réinitialisation.
- * Depuis l'app, le lien rouvre l'APP (rhema://…) : NativeBootstrap ouvre la
- * session de récupération puis affiche /reinitialiser-mot-de-passe. Depuis
- * le site, il ouvre la même page du site.
+/** Mot de passe oublié : envoie un e-mail contenant un lien ET un code.
+ * - Le lien ouvre toujours la page web /reinitialiser-mot-de-passe (elle marche
+ *   sur téléphone comme sur ordinateur, quelle que soit la messagerie).
+ *   Avant, depuis l'app, il visait rhema://… : lien mort sur ordinateur ou dans
+ *   certaines messageries.
+ * - Le code (modèle d'e-mail Supabase « Reset Password » avec {{ .Token }}) se
+ *   saisit directement dans l'app : voir verifierCodeReinitialisation.
  * (Supabase → Authentication → URL Configuration → Redirect URLs doit
- * contenir rhema://** et https://jackbrunet.com/**.) */
+ * contenir https://jackbrunet.com/**.) */
 export async function sendPasswordReset(email: string) {
   const sb = getSupabase();
   if (!sb) throw new Error("non configuré");
-  let natif = false;
-  try {
-    natif = !!(window as unknown as { Capacitor?: { isNativePlatform?: () => boolean } }).Capacitor?.isNativePlatform?.();
-  } catch {
-    /* web */
-  }
-  const { error } = await sb.auth.resetPasswordForEmail(email, {
-    redirectTo: natif ? "rhema://reinitialiser-mot-de-passe/" : `${authRedirectBase()}/reinitialiser-mot-de-passe/`,
+  const { error } = await sb.auth.resetPasswordForEmail(normaliserEmail(email), {
+    redirectTo: `${authRedirectBase()}/reinitialiser-mot-de-passe/`,
+  });
+  if (error) throw error;
+}
+
+/** Code de réinitialisation reçu par e-mail, saisi dans l'app : ouvre la
+ * session de récupération (il reste ensuite à appeler updatePassword). */
+export async function verifierCodeReinitialisation(email: string, code: string) {
+  const sb = getSupabase();
+  if (!sb) throw new Error("non configuré");
+  const { error } = await sb.auth.verifyOtp({
+    email: normaliserEmail(email),
+    token: code.replace(/\s+/g, ""),
+    type: "recovery",
   });
   if (error) throw error;
 }

@@ -71,7 +71,7 @@
   "components/community/ProfileSignIn.tsx:73"
  ],
  ". Ouvre-le et touche le lien, puis reviens ici pour te connecter. Pense à regarder dans les indésirables.": [
-  "components/community/EmailPasswordAuth.tsx:121"
+  "components/community/EmailPasswordAuth.tsx:188"
  ],
  ". Pour la gloire de Jésus.": [
   "components/layout/Footer.tsx:54"
@@ -3490,7 +3490,7 @@
   "components/community/MakeVersePublicButton.tsx:45"
  ],
  "Afficher le mot de passe": [
-  "components/community/EmailPasswordAuth.tsx:171"
+  "components/community/EmailPasswordAuth.tsx:300"
  ],
  "Afficher tout le classement": [
   "components/games/ScoreBoard.tsx:230"
@@ -5392,6 +5392,9 @@
  "Ce jour-là, sur le soir, Jésus dit : « Passons à l'autre bord. » Ils le prirent dans la barque. Il s'éleva un grand tourbillon, et les flots se jetaient dans la barque, au point qu'elle se remplissait déjà. Et lui, il dormait à la poupe sur le coussin.": [
   "config/chemin/chapitre-miracles.ts:22"
  ],
+ "Ce lien n'est plus valable. Certaines messageries l'ouvrent toutes seules pour le vérifier, ce qui l'utilise.": [
+  "components/community/ResetPasswordForm.tsx:106"
+ ],
  "Ce lien t'est réservé. Merci de ne pas le partager publiquement, Pasteur Jack Brunet": [
   "app/ebook/7-jours/page.tsx:30",
   "app/ebook/rhema/page.tsx:30",
@@ -5430,7 +5433,7 @@
   "components/community/ObjectifDonAdmin.tsx:89"
  ],
  "Ce mot de passe est trop simple. Choisis-en un plus long, avec des chiffres.": [
-  "components/community/EmailPasswordAuth.tsx:105"
+  "components/community/EmailPasswordAuth.tsx:172"
  ],
  "Ce mot n'a pas pu être chargé. Vérifie ta connexion et réessaie.": [
   "components/ecole/MotLexique.tsx:157"
@@ -5781,6 +5784,9 @@
  "Changer les pierres en pains": [
   "config/chemin/chapitre-tentation.ts:30"
  ],
+ "Changer mon mot de passe": [
+  "components/community/EmailPasswordAuth.tsx:239"
+ ],
  "Chanter devant l'armée": [
   "config/chemin/chapitre-david.ts:76"
  ],
@@ -6112,6 +6118,9 @@
  "Choisis un ami : il recevra une invitation, et vous verrez chacun la progression de l'autre.": [
   "components/plans/PlanDuo.tsx:221"
  ],
+ "Choisis un autre mot de passe, plus long et différent de l'ancien.": [
+  "components/community/EmailPasswordAuth.tsx:108"
+ ],
  "Choisis un livre": [
   "components/bible/BibleReader.tsx:1021"
  ],
@@ -6122,7 +6131,7 @@
   "components/mission/DonateScreen.tsx:184"
  ],
  "Choisis un mot de passe (6 caractères min.)": [
-  "components/community/EmailPasswordAuth.tsx:165"
+  "components/community/EmailPasswordAuth.tsx:294"
  ],
  "Choisis un nouveau mot de passe pour ton compte RHEMA.": [
   "app/reinitialiser-mot-de-passe/page.tsx:7"
@@ -6244,8 +6253,14 @@
   "components/games/VraiFauxScreen.tsx:365",
   "components/quiz/QuizScreen.tsx:785"
  ],
+ "Code incorrect ou expiré. Vérifie-le, ou demande un nouvel e-mail.": [
+  "components/community/EmailPasswordAuth.tsx:106"
+ ],
  "Code invalide.": [
   "components/community/GroupsDirectory.tsx:171"
+ ],
+ "Code reçu par e-mail": [
+  "components/community/EmailPasswordAuth.tsx:219"
  ],
  "cœur": [
   "config/chemin/chapitre-jeremie.ts:68",
@@ -7087,10 +7102,11 @@
   "components/home/PrayerSpace.tsx:207"
  ],
  "Confirme d'abord ton adresse : ouvre le lien reçu par e-mail (pense aux indésirables).": [
-  "components/community/EmailPasswordAuth.tsx:101"
+  "components/community/EmailPasswordAuth.tsx:168"
  ],
  "Confirme le mot de passe": [
-  "components/community/ResetPasswordForm.tsx:119"
+  "components/community/EmailPasswordAuth.tsx:235",
+  "components/community/ResetPasswordForm.tsx:132"
  ],
  "Conformément au Code de la consommation, vous disposez d'un délai de quatorze (14) jours à compter de la réception d'un produit pour exercer votre droit de rétractation, sans avoir à justifier de motif. Pour cela, contactez": [
   "app/cgv/page.tsx:76"
@@ -7406,10 +7422,10 @@
  ],
  "Créer mon compte": [
   "components/app/AppOnboarding.tsx:774",
-  "components/community/EmailPasswordAuth.tsx:182"
+  "components/community/EmailPasswordAuth.tsx:311"
  ],
  "Créer un compte gratuit": [
-  "components/community/EmailPasswordAuth.tsx:240"
+  "components/community/EmailPasswordAuth.tsx:364"
  ],
  "Créer un groupe": [
   "components/community/GroupsDirectory.tsx:190"
@@ -9609,14 +9625,17 @@
  "E-learning": [
   "components/ecole/EcoleView.tsx:89"
  ],
+ "E-mail envoyé": [
+  "components/community/EmailPasswordAuth.tsx:210"
+ ],
  "E-mail envoyé à {0}.": [
   "components/community/AdminBatisseurs.tsx:43"
  ],
  "E-mail non envoyé ({0}).": [
   "components/community/AdminBatisseurs.tsx:44"
  ],
- "E-mail ou mot de passe incorrect.": [
-  "components/community/EmailPasswordAuth.tsx:97"
+ "E-mail ou mot de passe incorrect. Si tu t'étais inscrit(e) avec Apple, Google ou un lien reçu par e-mail, tu n'as pas encore de mot de passe : utilise les boutons du haut, ou « Mot de passe oublié » pour en créer un.": [
+  "components/community/EmailPasswordAuth.tsx:163"
  ],
  "Ébed-Mélec, l'Éthiopien": [
   "config/chemin/chapitre-jeremie.ts:97"
@@ -10289,7 +10308,7 @@
   "components/home/SoakingBar.tsx:42"
  ],
  "En créant un compte, tu acceptes notre": [
-  "components/community/EmailPasswordAuth.tsx:186"
+  "components/community/EmailPasswordAuth.tsx:315"
  ],
  "En criant": [
   "config/chemin/chapitre-pierre-jean.ts:49"
@@ -10537,7 +10556,7 @@
   "components/ui/ShareButtons.tsx:109"
  ],
  "Enregistrer le nouveau mot de passe": [
-  "components/community/ResetPasswordForm.tsx:123"
+  "components/community/ResetPasswordForm.tsx:136"
  ],
  "Enregistrer le PDF": [
   "components/home/EbookReader.tsx:43"
@@ -10559,8 +10578,11 @@
  "Entraînement — étape {0}/{1} · {2}": [
   "app/memoriser/page.tsx:108"
  ],
- "Entre d'abord ton adresse e-mail, puis clique sur « Mot de passe oublié ».": [
-  "components/community/EmailPasswordAuth.tsx:41"
+ "Entre d'abord ton adresse e-mail, puis touche « Mot de passe oublié ».": [
+  "components/community/EmailPasswordAuth.tsx:57"
+ ],
+ "Entre le code à chiffres reçu par e-mail.": [
+  "components/community/EmailPasswordAuth.tsx:87"
  ],
  "Entre le total reçu (ce que tu vois sur Stripe). La barre et le pourcentage se mettent à jour tout de suite sur le site, sans reconstruire.": [
   "components/community/MissionRaisedAdmin.tsx:46"
@@ -10578,7 +10600,7 @@
   "components/app/ExclusivesView.tsx:81"
  ],
  "Entre une adresse e-mail valide.": [
-  "components/community/EmailPasswordAuth.tsx:63",
+  "components/community/EmailPasswordAuth.tsx:128",
   "components/ecole/FormationView.tsx:88"
  ],
  "Entre une adresse email valide pour qu'on puisse te répondre.": [
@@ -14393,7 +14415,7 @@
   "components/home/PrayerSpace.tsx:31"
  ],
  "Indique ton prénom.": [
-  "components/community/EmailPasswordAuth.tsx:59"
+  "components/community/EmailPasswordAuth.tsx:122"
  ],
  "Inscription enregistrée.": [
   "app/api/newsletter/route.ts:32"
@@ -16462,6 +16484,9 @@
  "L'e-book RHEMA": [
   "components/boutique/RhemaShowcase.tsx:772"
  ],
+ "L'e-mail n'a pas pu être envoyé pour le moment. Réessaie dans quelques minutes.": [
+  "components/community/EmailPasswordAuth.tsx:75"
+ ],
  "l'eau": [
   "components/mission/MissionObjectiveHeader.tsx:63"
  ],
@@ -18108,7 +18133,7 @@
   "components/ecole/LexiqueView.tsx:176"
  ],
  "Le lien a peut-être expiré. Redemande un e-mail de réinitialisation depuis l'application.": [
-  "components/community/ResetPasswordForm.tsx:66"
+  "components/community/ResetPasswordForm.tsx:75"
  ],
  "Le lien t'a aussi été envoyé par e-mail.": [
   "components/mission/ZoomInvitationView.tsx:74"
@@ -18242,8 +18267,9 @@
   "components/boutique/RhemaShowcase.tsx:314"
  ],
  "Le mot de passe doit faire au moins 6 caractères.": [
-  "components/community/EmailPasswordAuth.tsx:67",
-  "components/community/ResetPasswordForm.tsx:53"
+  "components/community/EmailPasswordAuth.tsx:91",
+  "components/community/EmailPasswordAuth.tsx:132",
+  "components/community/ResetPasswordForm.tsx:62"
  ],
  "Le mot juste": [
   "lib/badges.ts:134"
@@ -19182,7 +19208,8 @@
   "config/chemin/chapitre-ruth.ts:32"
  ],
  "Les deux mots de passe ne correspondent pas.": [
-  "components/community/ResetPasswordForm.tsx:57"
+  "components/community/EmailPasswordAuth.tsx:95",
+  "components/community/ResetPasswordForm.tsx:66"
  ],
  "Les deux restent avec elle": [
   "config/chemin/chapitre-ruth.ts:35"
@@ -19734,14 +19761,14 @@
  "LIEN ENVOYÉ · RENVOYER": [
   "components/games/DuelLive.tsx:571"
  ],
+ "Lien expiré ou déjà utilisé": [
+  "components/community/ResetPasswordForm.tsx:103"
+ ],
  "Lien Facebook, Instagram, TikTok ou YouTube…": [
   "components/wall/WallSection.tsx:354"
  ],
  "Lien Instagram (laisser vide si aucun) :": [
   "components/audio/ListenScreen.tsx:331"
- ],
- "Lien invalide ou expiré": [
-  "components/community/ResetPasswordForm.tsx:94"
  ],
  "Lien optionnel (ex. /communaute)": [
   "components/community/AdminAnnounce.tsx:158"
@@ -20369,7 +20396,7 @@
   "components/app/BootDiagnostic.tsx:44"
  ],
  "Masquer le mot de passe": [
-  "components/community/EmailPasswordAuth.tsx:171"
+  "components/community/EmailPasswordAuth.tsx:300"
  ],
  "Mateus 11:28": [
   "components/app/AppOnboarding.tsx:157"
@@ -20647,8 +20674,8 @@
   "components/quiz/QuizScreen.tsx:1044"
  ],
  "Me connecter": [
-  "components/community/EmailPasswordAuth.tsx:132",
-  "components/community/EmailPasswordAuth.tsx:240",
+  "components/community/EmailPasswordAuth.tsx:199",
+  "components/community/EmailPasswordAuth.tsx:364",
   "components/community/PrieresDirect.tsx:397"
  ],
  "Me contacter": [
@@ -21342,7 +21369,7 @@
   "app/reinitialiser-mot-de-passe/page.tsx:17"
  ],
  "Mot de passe oublié ?": [
-  "components/community/EmailPasswordAuth.tsx:217"
+  "components/community/EmailPasswordAuth.tsx:341"
  ],
  "mot dérivé": [
   "components/ecole/MotLexique.tsx:112"
@@ -21673,9 +21700,9 @@
   "components/community/MemberView.tsx:386"
  ],
  "non configuré": [
-  "lib/community.ts:134",
   "lib/community.ts:143",
-  "lib/community.ts:157"
+  "lib/community.ts:152",
+  "lib/community.ts:166"
  ],
  "Non merci, peut-être plus tard": [
   "components/layout/EmailPopup.tsx:114"
@@ -21832,7 +21859,8 @@
   "lib/spiritual.ts:12"
  ],
  "Nouveau mot de passe": [
-  "components/community/ResetPasswordForm.tsx:111"
+  "components/community/EmailPasswordAuth.tsx:227",
+  "components/community/ResetPasswordForm.tsx:124"
  ],
  "Nouveau sujet de prière — {0}": [
   "components/community/GroupView.tsx:596"
@@ -22234,8 +22262,8 @@
  "Ouvre l'application et connecte-toi à ton compte.": [
   "app/suppression-compte/page.tsx:31"
  ],
- "Ouvre l'application, va sur l'écran de connexion et touche « Mot de passe oublié » pour recevoir un nouveau lien.": [
-  "components/community/ResetPasswordForm.tsx:97"
+ "Ouvre l'application, touche « Mot de passe oublié » sur l'écran de connexion, puis entre directement le code reçu dans le nouvel e-mail.": [
+  "components/community/ResetPasswordForm.tsx:110"
  ],
  "Ouvre le mode « Scrolle & prie » (mur de prière ou Temps avec Jésus), prie pour au moins une personne puis termine ta session. Bronze à 5 sessions, argent à 25, or à 100.": [
   "lib/badges.ts:239"
@@ -22276,7 +22304,7 @@
   "app/questions/page.tsx:682"
  ],
  "Ouvrir la communauté": [
-  "components/community/ResetPasswordForm.tsx:84"
+  "components/community/ResetPasswordForm.tsx:93"
  ],
  "Ouvrir le dévotionnel du jour": [
   "components/home/DailyHub.tsx:70"
@@ -22913,7 +22941,9 @@
   "components/memorize/MissingWordGame.tsx:236"
  ],
  "Pas de connexion internet. Vérifie ton réseau et réessaie.": [
-  "components/community/EmailPasswordAuth.tsx:107"
+  "components/community/EmailPasswordAuth.tsx:73",
+  "components/community/EmailPasswordAuth.tsx:110",
+  "components/community/EmailPasswordAuth.tsx:174"
  ],
  "Pas de mot apparenté répertorié.": [
   "components/ecole/MotLexique.tsx:287"
@@ -22932,7 +22962,7 @@
   "components/community/AnalyticsDashboard.tsx:242"
  ],
  "Pas encore de compte ?": [
-  "components/community/EmailPasswordAuth.tsx:226"
+  "components/community/EmailPasswordAuth.tsx:350"
  ],
  "Pas encore de données (la provenance se mesure depuis peu).": [
   "components/community/AnalyticsDashboard.tsx:174"
@@ -23506,7 +23536,7 @@
   "config/chemin/chapitre-moise.ts:27"
  ],
  "Plus qu'une étape": [
-  "components/community/EmailPasswordAuth.tsx:119"
+  "components/community/EmailPasswordAuth.tsx:186"
  ],
  "Plus que": [
   "components/community/GradeBadge.tsx:38"
@@ -23585,7 +23615,7 @@
   "app/confidentialite/page.tsx:18"
  ],
  "politique de confidentialité": [
-  "components/community/EmailPasswordAuth.tsx:193"
+  "components/community/EmailPasswordAuth.tsx:322"
  ],
  "Politique de confidentialité": [
   "app/confidentialite/page.tsx:6",
@@ -27690,6 +27720,12 @@
  "Renouveler mon intelligence, aligner mes paroles": [
   "content/plans.json"
  ],
+ "Renvoyer l'e-mail": [
+  "components/community/EmailPasswordAuth.tsx:260"
+ ],
+ "Renvoyer l'e-mail ({0} s)": [
+  "components/community/EmailPasswordAuth.tsx:260"
+ ],
  "Repart à zéro chaque mois": [
   "components/community/ObjectifDonAdmin.tsx:107"
  ],
@@ -27912,6 +27948,9 @@
   "components/community/MemberView.tsx:139",
   "components/community/MemberView.tsx:150",
   "components/community/MemberView.tsx:177"
+ ],
+ "Retour à la connexion": [
+  "components/community/EmailPasswordAuth.tsx:252"
  ],
  "Retour à la leçon": [
   "components/ecole/FormationView.tsx:2295"
@@ -28626,7 +28665,7 @@
  "Se connecter": [
   "components/app/ProfilMenu.tsx:545",
   "components/assistant/AssistantView.tsx:133",
-  "components/community/EmailPasswordAuth.tsx:182"
+  "components/community/EmailPasswordAuth.tsx:311"
  ],
  "Se connecter pour s'abonner": [
   "components/community/MemberView.tsx:340"
@@ -28815,7 +28854,7 @@
   "lib/faq-questions.ts:72"
  ],
  "Service non configuré.": [
-  "lib/community.ts:309"
+  "lib/community.ts:328"
  ],
  "Servir Dieu ne commence pas par vouloir briller, mais par accepter de dépendre de Lui. L'humilité nous garde à notre place devant Dieu. Elle nous rappelle que tout vient de Lui, que tout est pour Lui, et que sans Lui nous ne pouvons rien faire. Je crois qu'un ministère qui porte du fruit doit rester à genoux devant Dieu, même lorsqu'il devient visible devant les hommes.": [
   "app/a-propos/page.tsx:29"
@@ -28947,8 +28986,8 @@
  "Si rien ne se passe, utilise les boutons ci-dessous.": [
   "app/lien/page.tsx:59"
  ],
- "Si un compte existe avec cet e-mail, tu vas recevoir un lien pour choisir un nouveau mot de passe. Pense à vérifier tes spams.": [
-  "components/community/EmailPasswordAuth.tsx:204"
+ "Si un compte existe avec {0}, tu viens de recevoir un e-mail (pense aux indésirables). Entre ici le code qu'il contient et choisis ton nouveau mot de passe, ou touche simplement le lien de l'e-mail.": [
+  "components/community/EmailPasswordAuth.tsx:211"
  ],
  "Sign in to find your progress, your journal and your favorites.": [
   "components/app/AppOnboarding.tsx:149"
@@ -30148,7 +30187,7 @@
   "app/soaking/page.tsx:22"
  ],
  "Ton adresse e-mail": [
-  "components/community/EmailPasswordAuth.tsx:156"
+  "components/community/EmailPasswordAuth.tsx:285"
  ],
  "Ton adresse email": [
   "components/app/AppOnboarding.tsx:770",
@@ -30267,10 +30306,10 @@
   "components/community/MessagesView.tsx:459"
  ],
  "Ton mot de passe": [
-  "components/community/EmailPasswordAuth.tsx:165"
+  "components/community/EmailPasswordAuth.tsx:294"
  ],
  "Ton mot de passe a été mis à jour.": [
-  "components/community/ResetPasswordForm.tsx:77"
+  "components/community/ResetPasswordForm.tsx:86"
  ],
  "Ton mur est vide : écris ta première publication.": [
   "components/wall/WallSection.tsx:180"
@@ -30285,7 +30324,7 @@
   "config/chemin/chapitre-ruth.ts:45"
  ],
  "Ton prénom": [
-  "components/community/EmailPasswordAuth.tsx:147",
+  "components/community/EmailPasswordAuth.tsx:276",
   "components/home/PrayerSpace.tsx:129",
   "components/home/Testimonies.tsx:117"
  ],
@@ -30693,7 +30732,7 @@
   "components/community/CommunityLanding.tsx:162"
  ],
  "Trop de tentatives d'affilée. Patiente quelques minutes, puis réessaie.": [
-  "components/community/EmailPasswordAuth.tsx:103"
+  "components/community/EmailPasswordAuth.tsx:170"
  ],
  "Trop tard…": [
   "components/games/VfDuel.tsx:309"
@@ -30746,7 +30785,7 @@
   "components/community/PrayerTime.tsx:437"
  ],
  "Tu as déjà un compte ?": [
-  "components/community/EmailPasswordAuth.tsx:226"
+  "components/community/EmailPasswordAuth.tsx:350"
  ],
  "Tu as porté tout le mur": [
   "components/community/PrayerTime.tsx:527"
@@ -30855,7 +30894,7 @@
   "components/chemin/PassagePanel.tsx:153"
  ],
  "Tu peux maintenant retourner dans l'application et te connecter avec ton nouveau mot de passe.": [
-  "components/community/ResetPasswordForm.tsx:80"
+  "components/community/ResetPasswordForm.tsx:89"
  ],
  "Tu portes le ministère et ses contenus quotidiens.": [
   "content/support-tiers.json"
@@ -31107,7 +31146,7 @@
   "config/chemin/chapitre-ruth.ts:76"
  ],
  "Un compte existe déjà avec cet e-mail. Connecte-toi.": [
-  "components/community/EmailPasswordAuth.tsx:99"
+  "components/community/EmailPasswordAuth.tsx:166"
  ],
  "Un cordon écarlate à la fenêtre": [
   "config/chemin/chapitre-josue.ts:37"
@@ -31142,7 +31181,10 @@
   "config/chemin/chapitre-josue.ts:37"
  ],
  "Un e-mail de confirmation vient d'être envoyé à": [
-  "components/community/EmailPasswordAuth.tsx:121"
+  "components/community/EmailPasswordAuth.tsx:188"
+ ],
+ "Un e-mail vient déjà d'être demandé. Patiente une minute, puis réessaie.": [
+  "components/community/EmailPasswordAuth.tsx:71"
  ],
  "Un échec de départ n'a pas mis fin au service de Marc.": [
   "config/chemin/chapitre-pierre-jean.ts:60"
@@ -31849,7 +31891,7 @@
  "Une erreur est survenue. Réessaie.": [
   "components/app/AppOnboarding.tsx:393",
   "components/community/CommunityLanding.tsx:256",
-  "components/community/EmailPasswordAuth.tsx:109"
+  "components/community/EmailPasswordAuth.tsx:112"
  ],
  "Une étoile": [
   "config/chemin/chapitre-naissance.ts:78",
