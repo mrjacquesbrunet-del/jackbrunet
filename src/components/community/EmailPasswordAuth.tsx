@@ -40,8 +40,7 @@ export function EmailPasswordAuth({
   // Réinitialisation dans l'app : code reçu par e-mail + nouveau mot de passe.
   const [code, setCode] = useState("");
   const [nouveau, setNouveau] = useState("");
-  const [nouveau2, setNouveau2] = useState("");
-  const [renvoiDans, setRenvoiDans] = useState(0);
+    const [renvoiDans, setRenvoiDans] = useState(0);
 
   useEffect(() => {
     if (renvoiDans <= 0) return;
@@ -83,16 +82,12 @@ export function EmailPasswordAuth({
     e.preventDefault();
     setError("");
     const c = code.replace(/\s+/g, "");
-    if (!/^\d{6,8}$/.test(c)) {
+    if (!/^\d{6,10}$/.test(c)) {
       setError("Entre le code à chiffres reçu par e-mail.");
       return;
     }
     if (nouveau.length < 6) {
       setError("Le mot de passe doit faire au moins 6 caractères.");
-      return;
-    }
-    if (nouveau !== nouveau2) {
-      setError("Les deux mots de passe ne correspondent pas.");
       return;
     }
     setBusy(true);
@@ -180,6 +175,21 @@ export function EmailPasswordAuth({
     }
   }
 
+  const oeil = (
+    <button
+      type="button"
+      onClick={() => setVoir(!voir)}
+      aria-label={voir ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+      className="absolute inset-y-0 right-0 grid w-12 place-items-center text-night-900/45"
+    >
+      <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.9}>
+        <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" strokeLinejoin="round" />
+        <circle cx="12" cy="12" r="3" />
+        {voir ? null : <path d="M4 4l16 16" strokeLinecap="round" />}
+      </svg>
+    </button>
+  );
+
   if (aConfirmer) {
     return (
       <div className={`rounded-2xl border p-5 text-center text-sm ${dark ? "border-dawn-400/30 bg-dawn-400/10 text-cream" : "border-spirit-600/30 bg-spirit-500/10 text-night-900"}`}>
@@ -217,24 +227,19 @@ export function EmailPasswordAuth({
           value={code}
           onChange={(e) => setCode(e.target.value)}
           placeholder="Code reçu par e-mail"
-          className="field w-full text-center tracking-[0.3em]"
+          className="field w-full text-center tracking-[0.3em] placeholder:tracking-normal"
         />
-        <input
-          type="password"
-          autoComplete="new-password"
-          value={nouveau}
-          onChange={(e) => setNouveau(e.target.value)}
-          placeholder="Nouveau mot de passe"
-          className="field w-full"
-        />
-        <input
-          type="password"
-          autoComplete="new-password"
-          value={nouveau2}
-          onChange={(e) => setNouveau2(e.target.value)}
-          placeholder="Confirme le mot de passe"
-          className="field w-full"
-        />
+        <div className="relative">
+          <input
+            type={voir ? "text" : "password"}
+            autoComplete="new-password"
+            value={nouveau}
+            onChange={(e) => setNouveau(e.target.value)}
+            placeholder="Nouveau mot de passe"
+            className="field w-full pr-12"
+          />
+          {oeil}
+        </div>
         <button type="submit" disabled={busy} className="btn-primary w-full justify-center">
           {busy ? "…" : "Changer mon mot de passe"}
         </button>
@@ -294,18 +299,7 @@ export function EmailPasswordAuth({
           placeholder={mode === "signup" ? "Choisis un mot de passe (6 caractères min.)" : "Ton mot de passe"}
           className="field w-full pr-12"
         />
-        <button
-          type="button"
-          onClick={() => setVoir(!voir)}
-          aria-label={voir ? "Masquer le mot de passe" : "Afficher le mot de passe"}
-          className="absolute inset-y-0 right-0 grid w-12 place-items-center text-night-900/45"
-        >
-          <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.9}>
-            <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" strokeLinejoin="round" />
-            <circle cx="12" cy="12" r="3" />
-            {voir ? null : <path d="M4 4l16 16" strokeLinecap="round" />}
-          </svg>
-        </button>
+        {oeil}
       </div>
       <button type="submit" disabled={busy} className="btn-primary w-full justify-center">
         {busy? "…": mode === "signup"? "Créer mon compte": "Se connecter"}

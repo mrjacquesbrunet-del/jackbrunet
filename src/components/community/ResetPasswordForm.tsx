@@ -15,7 +15,7 @@ export function ResetPasswordForm() {
   const [ready, setReady] = useState(false);
   const [hasSession, setHasSession] = useState(false);
   const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
+  const [voir, setVoir] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [done, setDone] = useState(false);
@@ -60,10 +60,6 @@ export function ResetPasswordForm() {
     setError("");
     if (password.length < 6) {
       setError("Le mot de passe doit faire au moins 6 caractères.");
-      return;
-    }
-    if (password !== confirm) {
-      setError("Les deux mots de passe ne correspondent pas.");
       return;
     }
     setBusy(true);
@@ -116,22 +112,28 @@ export function ResetPasswordForm() {
 
   return (
     <form onSubmit={submit} className="space-y-3 rounded-3xl border border-night-900/10 bg-white p-6">
-      <input
-        type="password"
-        autoComplete="new-password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Nouveau mot de passe"
-        className="field w-full"
-      />
-      <input
-        type="password"
-        autoComplete="new-password"
-        value={confirm}
-        onChange={(e) => setConfirm(e.target.value)}
-        placeholder="Confirme le mot de passe"
-        className="field w-full"
-      />
+      <div className="relative">
+        <input
+          type={voir ? "text" : "password"}
+          autoComplete="new-password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Nouveau mot de passe"
+          className="field w-full pr-12"
+        />
+        <button
+          type="button"
+          onClick={() => setVoir(!voir)}
+          aria-label={voir ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+          className="absolute inset-y-0 right-0 grid w-12 place-items-center text-night-900/45"
+        >
+          <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.9}>
+            <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" strokeLinejoin="round" />
+            <circle cx="12" cy="12" r="3" />
+            {voir ? null : <path d="M4 4l16 16" strokeLinecap="round" />}
+          </svg>
+        </button>
+      </div>
       <button type="submit" disabled={busy || !ready} className="btn-primary w-full justify-center">
         {busy ? "…" : "Enregistrer le nouveau mot de passe"}
       </button>

@@ -39,15 +39,33 @@ export const isSupabaseConfigured = Boolean(url && anon);
 
 let client: SupabaseClient | null = null;
 
+/** Lien « mot de passe oublié » arrivé sur une autre page que le formulaire
+ * (adresse de retour refusée par Supabase → page d'accueil) : on file vers
+ * /reinitialiser-mot-de-passe avec les jetons, avant que le client ne les
+ * consomme. Sinon la personne était connectée sans pouvoir changer son mot
+ * de passe. */
+function versReinitialisation(): boolean {
+  try {
+    const { pathname, search, hash } = window.location;
+    if (pathname.startsWith("/reinitialiser-mot-de-passe")) return false;
+    if (new URLSearchParams(hash.slice(1)).get("type") !== "recovery") return false;
+    window.location.replace(`/reinitialiser-mot-de-passe/${search}${hash}`);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export function getSupabase(): SupabaseClient | null {
   if (!isSupabaseConfigured) return null;
   if (!client) {
+    const redirige = typeof window !== "undefined" && versReinitialisation();
     try {
       client = createClient(url, anon, {
         auth: {
           persistSession: true,
           autoRefreshToken: true,
-          detectSessionInUrl: true,
+          detectSessionInUrl: !redirige,
         },
       });
     } catch {
