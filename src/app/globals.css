@@ -52,6 +52,14 @@
     display: none !important;
   }
 
+  /* Accueil du SITE (« / ») : jamais dans l'application, même un instant.
+     data-app est posé avant le premier affichage (script du <head>). */
+  html[data-app] .accueil-site,
+  html[data-native] .accueil-site,
+  html.app-native .accueil-site {
+    display: none !important;
+  }
+
   html {
     scroll-behavior: smooth;
     /* Fond visible sous l'effet élastique (overscroll) : crème sur le site,

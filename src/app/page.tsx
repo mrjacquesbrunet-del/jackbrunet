@@ -22,33 +22,35 @@ export default function HomePage() {
   return (
     <>
       <AppHomeGuard />
-      <Hero />
-      <Marquee
-        items={[
-          "Pensée du jour",
-          "Nouveautés",
-          "Application",
-          "Livres",
-          "Missions",
-          "Édifie ta foi chaque jour",
-        ]}
-      />
-      <RhemaBanner />
-      <AppDownloadBanner />
-      <MissionBanner />
-      <NextLiveBanner events={events} />
-      <DailyHub />
-      <ReadingPlan />
-      <div className="fr-seulement">
-        <FeaturedPredications />
-        <Reels />
+      <div className="accueil-site">
+        <Hero />
+        <Marquee
+          items={[
+            "Pensée du jour",
+            "Nouveautés",
+            "Application",
+            "Livres",
+            "Missions",
+            "Édifie ta foi chaque jour",
+          ]}
+        />
+        <RhemaBanner />
+        <AppDownloadBanner />
+        <MissionBanner />
+        <NextLiveBanner events={events} />
+        <DailyHub />
+        <ReadingPlan />
+        <div className="fr-seulement">
+          <FeaturedPredications />
+          <Reels />
+        </div>
+        <Shop />
+        <PrayerSpace />
+        <AboutFounder />
+        <Support />
+        <WhatsAppChannel />
+        <NewsletterCTA />
       </div>
-      <Shop />
-      <PrayerSpace />
-      <AboutFounder />
-      <Support />
-      <WhatsAppChannel />
-      <NewsletterCTA />
     </>
   );
 }

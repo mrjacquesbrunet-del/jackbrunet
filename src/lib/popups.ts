@@ -36,6 +36,12 @@ function jourDeLAccueil(): boolean {
  */
 export function prendreFenetreAuto(nom: string, memeLeJourDeLAccueil = false): boolean {
   if (prise && prise !== nom) return false;
+  // Jamais par-dessus le choix d'un nouveau mot de passe.
+  try {
+    if (window.location.pathname.startsWith("/reinitialiser-mot-de-passe")) return false;
+  } catch {
+    /* ignore */
+  }
   if (fenetreOuverte()) return false;
   if (!memeLeJourDeLAccueil && jourDeLAccueil()) return false;
   prise = nom;

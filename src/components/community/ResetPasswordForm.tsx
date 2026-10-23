@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getSupabase } from "@/lib/supabase";
-import { updatePassword } from "@/lib/community";
+import { updatePassword, motDePasseRefuse, CLE_ERREUR_REINIT, serviceIndisponible, MSG_SERVICE_INDISPONIBLE } from "@/lib/community";
 
 /**
  * Formulaire de choix d'un nouveau mot de passe, atterrissage du lien reçu
@@ -22,6 +22,16 @@ export function ResetPasswordForm() {
   const [expire, setExpire] = useState(false);
 
   useEffect(() => {
+    // Code accepté dans l'app mais mot de passe refusé : on affiche pourquoi.
+    try {
+      const raison = sessionStorage.getItem(CLE_ERREUR_REINIT);
+      if (raison) {
+        sessionStorage.removeItem(CLE_ERREUR_REINIT);
+        setError(`Ton code a bien été accepté, mais ce mot de passe a été refusé. ${raison}`);
+      }
+    } catch {
+      /* ignore */
+    }
     // Lien expiré ou déjà utilisé (souvent ouvert automatiquement par la
     // messagerie pour le vérifier) : Supabase renvoie ici avec #error=…
     try {
@@ -66,10 +76,15 @@ export function ResetPasswordForm() {
     try {
       await updatePassword(password);
       setDone(true);
-    } catch {
-      setError(
-        "Le lien a peut-être expiré. Redemande un e-mail de réinitialisation depuis l'application."
-      );
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      if (serviceIndisponible(msg)) setError(MSG_SERVICE_INDISPONIBLE);
+      else if (/network|fetch/i.test(msg)) setError("Pas de connexion internet. Vérifie ton réseau et réessaie.");
+      else
+        setError(
+          motDePasseRefuse(msg) ??
+            "Le lien a peut-être expiré. Redemande un e-mail de réinitialisation depuis l'application.",
+        );
     } finally {
       setBusy(false);
     }

@@ -16,12 +16,13 @@ import { asset } from "@/lib/asset";
  * bundle déjà chargé et fonctionne comme le reste de l'app). On n'utilise PAS
  * de navigation dure vers « /devotionnel/ » : dans la WebView iOS, un chemin de
  * dossier ne se résout pas toujours en index.html → écran olive vide. Le voile
- * ne piège jamais l'utilisateur : lien tapable + retrait automatique.
+ * ne piège jamais l'utilisateur : lien tapable, et navigation relancée.
  */
 export function AppHomeGuard() {
   const router = useRouter();
   const [veil, setVeil] = useState(false);
   const [showLink, setShowLink] = useState(false);
+  const [sousIntro, setSousIntro] = useState(false);
   const [target, setTarget] = useState("/devotionnel/");
 
   useEffect(() => {
@@ -37,16 +38,18 @@ export function AppHomeGuard() {
     if (!(isNativeApp() || preview)) return;
 
     // Cible : le contenu d'une notification mémorisée, sinon le dévotionnel.
-    const dest = consumeStashedNotifRoute() || "/devotionnel/";
+    const stash = consumeStashedNotifRoute();
+    const dest = stash && stash.replace(/[?#].*$/, "").replace(/\/+$/, "") ? stash : "/devotionnel/";
     setTarget(dest);
-    // Premier lancement : l'écran noir puis l'introduction (AppOnboarding)
-    // couvrent déjà tout ; pas de voile « chargement » par-dessus l'intro.
-    const introAVenir = document.documentElement.classList.contains("accueil-attente");
-    if (!introAVenir) setVeil(true);
+    // Le voile reste tant qu'on est sur « / » : l'accueil du site n'apparaît
+    // jamais dans l'app (il est aussi masqué en CSS, .accueil-site). Au premier
+    // lancement, il passe SOUS l'introduction (AppOnboarding) au lieu de la couvrir.
+    setSousIntro(document.documentElement.classList.contains("accueil-attente"));
+    setVeil(true);
     trace("garde:accueil", dest);
 
-    // Navigation douce (fiable dans la WebView). On réessaie une fois peu après
-    // au cas où le routeur n'était pas prêt au tout premier rendu.
+    // Navigation douce (fiable dans la WebView), relancée tant que le routeur
+    // ne nous a pas emmenés ailleurs (il peut ne pas être prêt au 1er rendu).
     const soft = () => {
       try {
         router.replace(dest);
@@ -56,16 +59,13 @@ export function AppHomeGuard() {
       }
     };
     soft();
-    const tRetry = setTimeout(soft, 600);
-
-    // Lien tapable si ça traîne, puis retrait du voile : jamais coincé.
+    const tRetry = setInterval(soft, 1200);
+    // Lien tapable si ça traîne : jamais coincé.
     const tLink = setTimeout(() => setShowLink(true), 1500);
-    const tOff = setTimeout(() => setVeil(false), 3500);
 
     return () => {
-      clearTimeout(tRetry);
+      clearInterval(tRetry);
       clearTimeout(tLink);
-      clearTimeout(tOff);
     };
   }, [router]);
 
@@ -73,7 +73,7 @@ export function AppHomeGuard() {
 
   return (
     <div
-      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center gap-6 px-8 text-center"
+      className={`fixed inset-0 ${sousIntro ? "z-[90]" : "z-[9999]"} flex flex-col items-center justify-center gap-6 px-8 text-center`}
       /* Gris de la charte codé en dur : fiable dès la première image,
          avant même que le thème de l'app soit appliqué (plus d'olive). */
       style={{ background: "#171716" }}
@@ -99,7 +99,6 @@ export function AppHomeGuard() {
             } catch {
               /* ignore */
             }
-            setVeil(false);
           }}
           className="rounded-full bg-dawn-400 px-6 py-3 text-sm font-bold text-night-950"
         >

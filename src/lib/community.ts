@@ -251,6 +251,21 @@ export async function verifierCodeReinitialisation(email: string, code: string) 
 
 /** Définit un nouveau mot de passe (une fois la session de récupération
  * ouverte via le lien reçu par e-mail). */
+/** Mot de passe refusé par Supabase (règles du projet) : message en clair,
+ * ou null si l'erreur est d'une autre nature. */
+export function motDePasseRefuse(msg: string): string | null {
+  if (/different from the old/i.test(msg)) return "Ce mot de passe est le même que l'ancien. Choisis-en un nouveau.";
+  const n = msg.match(/at least (\d+) characters/i);
+  if (n) return `Le mot de passe doit faire au moins ${n[1]} caractères.`;
+  if (/one character of each|weak password|password should/i.test(msg)) {
+    return "Ce mot de passe est trop simple. Mélange lettres minuscules, majuscules et chiffres.";
+  }
+  return null;
+}
+
+/** Raison d'un refus transmise à la page « Nouveau mot de passe ». */
+export const CLE_ERREUR_REINIT = "jb.reinit.erreur";
+
 export async function updatePassword(newPassword: string) {
   const sb = getSupabase();
   if (!sb) throw new Error("non configuré");

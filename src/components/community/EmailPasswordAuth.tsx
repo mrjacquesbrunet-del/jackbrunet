@@ -9,11 +9,14 @@ import {
   verifierCodeReinitialisation,
   updatePassword,
   serviceIndisponible,
+  motDePasseRefuse,
+  CLE_ERREUR_REINIT,
   MSG_SERVICE_INDISPONIBLE,
 } from "@/lib/community";
 import { submitToBrevo } from "@/lib/brevo";
 import { newsletterEndpointForSource } from "@/config/brevo";
 import { SocialAuthButtons } from "@/components/community/SocialAuthButtons";
+import { openNotifRoute } from "@/lib/notif-route";
 
 /**
  * Connexion / inscription par e-mail + mot de passe, 100 % dans l'application
@@ -95,22 +98,31 @@ export function EmailPasswordAuth({
       return;
     }
     setBusy(true);
+    let codeAccepte = false;
     try {
       await verifierCodeReinitialisation(email, c);
+      codeAccepte = true;
       await updatePassword(nouveau);
       onSuccess?.();
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
-      if (serviceIndisponible(msg)) {
-        setError(MSG_SERVICE_INDISPONIBLE);
-      } else if (/expired|invalid|otp|token/i.test(msg)) {
-        setError("Code incorrect ou expiré. Vérifie-le, ou demande un nouvel e-mail.");
-      } else if (/password should|weak password|different from the old/i.test(msg)) {
-        setError("Choisis un autre mot de passe, plus long et différent de l'ancien.");
-      } else if (/network|fetch/i.test(msg)) {
-        setError("Pas de connexion internet. Vérifie ton réseau et réessaie.");
-      } else {
-        setError("Une erreur est survenue. Réessaie.");
+      let texte = "Une erreur est survenue. Réessaie.";
+      if (serviceIndisponible(msg)) texte = MSG_SERVICE_INDISPONIBLE;
+      else if (motDePasseRefuse(msg)) texte = motDePasseRefuse(msg)!;
+      else if (!codeAccepte && /expired|invalid|otp|token/i.test(msg)) {
+        texte = "Code incorrect ou expiré. Vérifie-le, ou demande un nouvel e-mail.";
+      } else if (/network|fetch/i.test(msg)) texte = "Pas de connexion internet. Vérifie ton réseau et réessaie.";
+      setError(texte);
+      // Le code est accepté : la personne est connectée et l'écran de
+      // connexion se ferme. Le code ne sert qu'une fois, donc on l'emmène sur
+      // « Nouveau mot de passe » (session déjà ouverte) avec la raison du refus.
+      if (codeAccepte) {
+        try {
+          sessionStorage.setItem(CLE_ERREUR_REINIT, texte);
+        } catch {
+          /* stockage indisponible */
+        }
+        openNotifRoute("/reinitialiser-mot-de-passe/");
       }
     } finally {
       setBusy(false);
