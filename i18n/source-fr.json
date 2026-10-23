@@ -5670,6 +5670,9 @@
  "Ces années furent à ses yeux comme quelques ___, tant il l'aimait.": [
   "config/chemin/chapitre-jacob.ts:67"
  ],
+ "Ces derniers jours, beaucoup d'entre vous n'arrivaient plus à se connecter, et tu as peut-être été déconnecté(e). Nous en sommes vraiment désolés.": [
+  "components/app/MessageServeurs.tsx:96"
+ ],
  "Ces données sont utilisées pour:": [
   "app/confidentialite/page.tsx:88"
  ],
@@ -15230,6 +15233,9 @@
   "components/mission/CarteMission.tsx:110",
   "components/mission/DonateScreen.tsx:196"
  ],
+ "Je soutiens RHEMA": [
+  "components/app/MessageServeurs.tsx:127"
+ ],
  "Je suis avec vous tous les jours jusqu'à la fin du monde": [
   "config/chemin/chapitre-resurrection.ts:98"
  ],
@@ -16566,6 +16572,9 @@
  "L'épreuve sera courte": [
   "config/chemin/chapitre-pierre-jean.ts:50"
  ],
+ "L'équipe RHEMA": [
+  "components/app/MessageServeurs.tsx:91"
+ ],
  "L'esclave reçu comme un frère": [
   "config/chemin/chapitre-lettres-paul.ts:20"
  ],
@@ -17555,6 +17564,9 @@
  ],
  "La puissance d'en haut": [
   "content/plans.json"
+ ],
+ "La raison est belle : vous êtes de plus en plus nombreux à rejoindre RHEMA, et nos serveurs n'ont pas tenu le choc. Nous avons dû passer à des serveurs et à un espace de stockage plus grands pour accueillir tout le monde.": [
+  "components/app/MessageServeurs.tsx:100"
  ],
  "La reine de Séba vint éprouver Salomon par des énigmes. Elle vit toute sa sagesse, la maison qu'il avait bâtie, la table, les serviteurs et les holocaustes : elle fut hors d'elle-même. « On ne m'en avait pas dit la moitié ! Ta sagesse et ta prospérité surpassent ce que la renommée m'a fait connaître. »": [
   "config/chemin/chapitre-salomon.ts:83"
@@ -20965,6 +20977,9 @@
  "Message de groupe": [
   "components/community/ModerationQueue.tsx:19"
  ],
+ "Message de l'équipe RHEMA": [
+  "components/app/MessageServeurs.tsx:60"
+ ],
  "Message éphémère : ta note reste écoutable 7 jours.": [
   "components/community/VoiceNote.tsx:227"
  ],
@@ -22728,6 +22743,9 @@
  "Parcours moyens": [
   "app/plans/page.tsx:86"
  ],
+ "Pardon, et merci pour ta patience": [
+  "components/app/MessageServeurs.tsx:92"
+ ],
  "Pardonne-nous comme nous pardonnons": [
   "content/plans.json"
  ],
@@ -23550,9 +23568,9 @@
   "content/plans.json"
  ],
  "Plus tard": [
+  "components/app/MessageServeurs.tsx:130",
   "components/app/NotifOptIn.tsx:142",
-  "components/app/RatingPrompt.tsx:156",
-  "components/app/Rewards.tsx:210"
+  "components/app/RatingPrompt.tsx:156"
  ],
  "Plus tu pries et encourages, plus tu montes en grade: Intercesseur, Guerrier, Sentinelle.": [
   "components/community/CommunityLanding.tsx:30"
@@ -28107,6 +28125,9 @@
  "RHEMA du jour": [
   "lib/audio-library.ts:212"
  ],
+ "RHEMA est gratuite et le restera. Mais elle engendre des coûts importants, aujourd'hui pris en charge en intégralité par le pasteur Jack.": [
+  "components/app/MessageServeurs.tsx:113"
+ ],
  "RHEMA est gratuite, mais sa création et sa maintenance ont un vrai coût. Ta contribution permet d'annoncer la Parole gratuitement au plus grand nombre, et le reste part dans les missions.": [
   "components/mission/DonnerRapide.tsx:124"
  ],
@@ -28982,6 +29003,9 @@
  ],
  "Si rien ne se passe, utilise les boutons ci-dessous.": [
   "app/lien/page.tsx:59"
+ ],
+ "Si tu veux soutenir l'œuvre et aider RHEMA à continuer de grandir, chaque geste compte.": [
+  "components/app/MessageServeurs.tsx:116"
  ],
  "Si un compte existe avec {0}, tu viens de recevoir un e-mail (pense aux indésirables). Entre ici le code qu'il contient et choisis ton nouveau mot de passe, ou touche simplement le lien de l'e-mail.": [
   "components/community/EmailPasswordAuth.tsx:229"
@@ -30242,6 +30266,9 @@
  ],
  "ton compte Apple": [
   "components/mission/SoutienEnUnClic.tsx:46"
+ ],
+ "Ton compte et tes données n'ont pas bougé. Si tu as été déconnecté(e), reconnecte-toi simplement avec ton e-mail habituel, ou avec Apple ou Google.": [
+  "components/app/MessageServeurs.tsx:107"
  ],
  "Ton compte et tes données sont alors supprimés définitivement.": [
   "app/suppression-compte/page.tsx:42"
