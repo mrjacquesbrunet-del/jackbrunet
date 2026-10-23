@@ -5,6 +5,7 @@ import { siteConfig } from "@/config/site";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { EmailPopup } from "@/components/layout/EmailPopup";
+import { BandeauApp } from "@/components/layout/BandeauApp";
 import { PWA } from "@/components/pwa/PWA";
 import { NativeBootstrap } from "@/components/pwa/NativeBootstrap";
 import { CloudSync } from "@/components/community/CloudSync";
@@ -126,6 +127,7 @@ export default function RootLayout({
         <main>{children}</main>
         <Footer />
         <EmailPopup />
+        <BandeauApp />
         <PWA />
         <NativeBootstrap />
         <CloudSync />

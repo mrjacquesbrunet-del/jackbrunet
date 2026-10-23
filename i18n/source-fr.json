@@ -1722,7 +1722,7 @@
   "app/dons/page.tsx:245"
  ],
  "%s · {0}": [
-  "app/layout.tsx:67"
+  "app/layout.tsx:68"
  ],
  "← Groupes": [
   "components/community/GroupView.tsx:153"
@@ -3453,7 +3453,10 @@
  "Actualité": [
   "app/actualite/page.tsx:7",
   "app/actualite/page.tsx:17",
-  "config/site.ts:50"
+  "config/site.ts:66"
+ ],
+ "Actualités": [
+  "config/site.ts:43"
  ],
  "Adam": [
   "config/chemin/chapitre-creation.ts:66"
@@ -4001,7 +4004,7 @@
   "app/confidentialite/page.tsx:61"
  ],
  "Application": [
-  "app/page.tsx:31",
+  "app/page.tsx:29",
   "components/ecole/EtudesView.tsx:333"
  ],
  "Application — engagement": [
@@ -5880,7 +5883,7 @@
  ],
  "Chaque jour": [
   "components/app/AppOnboarding.tsx:102",
-  "config/site.ts:59"
+  "config/site.ts:50"
  ],
  "Chaque jour : un passage de la Bible, une méditation, une question, une prière. Tu peux tout lire ou l'écouter. Avance à ton rythme : tu peux rattraper un jour manqué ou prendre de l'avance.": [
   "components/plans/PlanView.tsx:436"
@@ -7100,7 +7103,7 @@
  ],
  "Confidentialité": [
   "components/mission/SoutienEnUnClic.tsx:186",
-  "config/site.ts:93"
+  "config/site.ts:84"
  ],
  "Confie-toi en l'Éternel de tout ton cœur": [
   "config/chemin/chapitre-proverbes.ts:35"
@@ -7237,7 +7240,7 @@
  ],
  "Contact": [
   "components/layout/Footer.tsx:67",
-  "config/site.ts:86"
+  "config/site.ts:77"
  ],
  "Contenu": [
   "components/ecole/FormationView.tsx:1699"
@@ -9842,7 +9845,7 @@
   "config/chemin/chapitre-bapteme.ts:87"
  ],
  "Édifie ta foi chaque jour": [
-  "app/page.tsx:34"
+  "app/page.tsx:32"
  ],
  "Éditeur de l'application : Jack Brunet,": [
   "app/suppression-compte/page.tsx:81"
@@ -11541,7 +11544,7 @@
   "components/audio/GlobalAudioBar.tsx:273"
  ],
  "Fermer le menu": [
-  "components/layout/Header.tsx:117"
+  "components/layout/Header.tsx:91"
  ],
  "Fermer les frontières": [
   "config/chemin/chapitre-joseph.ts:78"
@@ -12175,6 +12178,9 @@
  ],
  "Gratuit. Tu le reçois aussi par email. Désinscription en un clic.": [
   "components/home/CadeauRhema.tsx:48"
+ ],
+ "Gratuite · rappel chaque matin · iPhone et Android": [
+  "components/layout/BandeauApp.tsx:54"
  ],
  "Gratuitement, par la grâce, en Jésus-Christ": [
   "config/chemin/chapitre-lettres-paul.ts:31"
@@ -15700,7 +15706,7 @@
  ],
  "Jésus": [
   "app/app/page.tsx:112",
-  "app/layout.tsx:79",
+  "app/layout.tsx:80",
   "app/mission-madagascar/page.tsx:53"
  ],
  "Jésus a d'abord été acclamé à Nazareth avant d'être rejeté.": [
@@ -16399,9 +16405,6 @@
  ],
  "L'appel de la Macédoine et Lydie": [
   "config/chemin/chapitre-voyages.ts:99"
- ],
- "L'application 📱": [
-  "config/site.ts:48"
  ],
  "L'application est": [
   "components/home/AppDownloadBanner.tsx:20"
@@ -18250,7 +18253,7 @@
   "components/app/ExclusivesView.tsx:41"
  ],
  "Le ministère": [
-  "config/site.ts:80"
+  "config/site.ts:71"
  ],
  "Le mont Carmel": [
   "config/chemin/chapitre-david-roi.ts:68",
@@ -19911,7 +19914,7 @@
  ],
  "Livre RHEMA": [
   "config/site.ts:41",
-  "config/site.ts:83"
+  "config/site.ts:74"
  ],
  "Livre suivant": [
   "components/ecole/BibliothequeLivres.tsx:175"
@@ -19920,7 +19923,7 @@
   "components/bible/BibleReader.tsx:876"
  ],
  "Livres": [
-  "app/page.tsx:32"
+  "app/page.tsx:30"
  ],
  "Loi": [
   "lib/quiz.ts:157"
@@ -20162,7 +20165,7 @@
  ],
  "Madagascar": [
   "components/home/MissionBanner.tsx:22",
-  "config/site.ts:40",
+  "config/site.ts:39",
   "content/mission.json"
  ],
  "Madagascar est une terre magnifique, riche d'histoire, de culture et de visages. Mais c'est aussi une terre où les besoins sont immenses: pauvreté, précarité, enfants vulnérables, familles en difficulté, détenus oubliés, œuvres locales qui manquent parfois de moyens pour continuer leur mission.": [
@@ -21106,7 +21109,7 @@
   "app/confidentialite/page.tsx:198"
  ],
  "ministère chrétien": [
-  "app/layout.tsx:73"
+  "app/layout.tsx:74"
  ],
  "Ministère chrétien": [
   "content/settings.json"
@@ -21157,7 +21160,7 @@
   "lib/badges.ts:139"
  ],
  "Missions": [
-  "app/page.tsx:33"
+  "app/page.tsx:31"
  ],
  "Missions de la semaine": [
   "components/games/MissionsCard.tsx:42"
@@ -21345,7 +21348,7 @@
   "components/games/GamesHub.tsx:160"
  ],
  "Mon profil / Se connecter": [
-  "components/layout/Header.tsx:104"
+  "components/layout/Header.tsx:78"
  ],
  "Mon profil RHEMA": [
   "components/community/ProfileView.tsx:209"
@@ -21612,7 +21615,7 @@
   "app/memoriser/page.tsx:731"
  ],
  "Newsletter": [
-  "config/site.ts:76"
+  "config/site.ts:67"
  ],
  "Newsletter partenaires": [
   "content/support-tiers.json"
@@ -21812,7 +21815,7 @@
   "components/community/AdminAnnounce.tsx:141"
  ],
  "Notre histoire": [
-  "config/site.ts:82"
+  "config/site.ts:73"
  ],
  "Notre histoire, notre vision et notre mission: conduire chaque personne à rencontrer Jésus et grandir en Lui, chaque jour.": [
   "app/a-propos/page.tsx:15"
@@ -21892,7 +21895,7 @@
   "components/ecole/BibliothequeLivres.tsx:92"
  ],
  "Nouveautés": [
-  "app/page.tsx:30"
+  "app/page.tsx:28"
  ],
  "Nouveaux abonnés": [
   "lib/notif-prefs.ts:29"
@@ -22292,6 +22295,9 @@
  "Ouvre ta méditation, elle a été préparée pour toi.": [
   "lib/notifications.ts:64"
  ],
+ "Ouvrir": [
+  "components/layout/BandeauApp.tsx:60"
+ ],
  "Ouvrir « Mon temps avec Jésus »": [
   "components/app/AppHomeGuard.tsx:105"
  ],
@@ -22329,7 +22335,7 @@
  ],
  "Ouvrir le menu": [
   "components/app/ProfilMenu.tsx:132",
-  "components/layout/Header.tsx:117"
+  "components/layout/Header.tsx:91"
  ],
  "Ouvrir ma surprise": [
   "lib/rewards.ts:49"
@@ -23170,10 +23176,10 @@
   "components/home/NewsletterCTA.tsx:44"
  ],
  "pensée du jour": [
-  "app/layout.tsx:74"
+  "app/layout.tsx:75"
  ],
  "Pensée du jour": [
-  "app/page.tsx:29",
+  "app/page.tsx:27",
   "components/home/DailyThoughtCard.tsx:27"
  ],
  "Percée": [
@@ -23480,7 +23486,7 @@
   "components/plans/FeaturedPlans.tsx:119"
  ],
  "plan de lecture biblique": [
-  "app/layout.tsx:76"
+  "app/layout.tsx:77"
  ],
  "Plan du livre": [
   "components/bible/IntroLivre.tsx:155"
@@ -23508,7 +23514,7 @@
   "app/plans/page.tsx:8"
  ],
  "Plans thématiques": [
-  "config/site.ts:63"
+  "config/site.ts:54"
  ],
  "Platine": [
   "components/app/BadgeCelebration.tsx:12",
@@ -23522,9 +23528,6 @@
  ],
  "Pleine lecture": [
   "components/bible/BibleReader.tsx:632"
- ],
- "Plus": [
-  "components/layout/Header.tsx:80"
  ],
  "Plus d'infos": [
   "components/home/VideoLibrary.tsx:80",
@@ -24357,7 +24360,7 @@
   "config/chemin/chapitre-jacques.ts:71"
  ],
  "prière": [
-  "app/layout.tsx:77",
+  "app/layout.tsx:78",
   "components/community/CommunityLanding.tsx:84",
   "components/community/CommunityLanding.tsx:191"
  ],
@@ -28113,7 +28116,7 @@
  ],
  "RHEMA – Ton temps avec Jésus": [
   "app/app/page.tsx:15",
-  "app/layout.tsx:87"
+  "app/layout.tsx:88"
  ],
  "RHEMA —": [
   "components/home/RhemaBanner.tsx:27"
@@ -29308,7 +29311,7 @@
  ],
  "Soutenir": [
   "components/layout/Footer.tsx:58",
-  "config/site.ts:101"
+  "config/site.ts:92"
  ],
  "Soutenir la mission": [
   "app/dons/page.tsx:17",
@@ -29938,7 +29941,7 @@
   "components/bible/BibleDownload.tsx:64"
  ],
  "Télécharger l'app": [
-  "config/site.ts:61"
+  "config/site.ts:52"
  ],
  "Télécharger l'audio": [
   "app/soaking/page.tsx:53"
@@ -29982,7 +29985,7 @@
   "app/api/testimony/route.ts:41"
  ],
  "témoignages": [
-  "app/layout.tsx:78"
+  "app/layout.tsx:79"
  ],
  "Témoignages": [
   "app/exaucees/page.tsx:14",
@@ -32637,7 +32640,7 @@
   "components/ecole/EtudesView.tsx:838"
  ],
  "verset du jour": [
-  "app/layout.tsx:75"
+  "app/layout.tsx:76"
  ],
  "Verset précédent": [
   "components/bible/BibleAudioPlayer.tsx:557"
@@ -32711,7 +32714,7 @@
   "components/community/AnalyticsDashboard.tsx:21"
  ],
  "Vidéos & Shorts": [
-  "config/site.ts:66"
+  "config/site.ts:57"
  ],
  "Vidéos courtes": [
   "components/home/Reels.tsx:26"
@@ -32758,6 +32761,9 @@
  "Violet": [
   "lib/profile-accent.ts:14",
   "lib/toolkit.ts:28"
+ ],
+ "Vis ce moment chaque jour dans l'app RHEMA": [
+  "components/layout/BandeauApp.tsx:53"
  ],
  "Vise, tends, lâche — attention au vent !": [
   "components/games/FrondeScreen.tsx:90"

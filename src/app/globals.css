@@ -52,6 +52,11 @@
     display: none !important;
   }
 
+  /* Bulle « vidéo du jour » au-dessus du bandeau « l'app RHEMA » (site). */
+  html.bandeau-app:not(.app-native) .bulle-short {
+    transform: translateY(-2rem);
+  }
+
   /* Accueil du SITE (« / ») : jamais dans l'application, même un instant.
      data-app est posé avant le premier affichage (script du <head>). */
   html[data-app] .accueil-site,

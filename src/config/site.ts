@@ -31,26 +31,17 @@ export const youtube = {
   videosUrl: settings.youtube.videosUrl,
 };
 
-/** Navigation principale, partagée web + future app. */
+/** Navigation du site : la vitrine du ministère. Le quotidien (Temps avec
+ * Jésus, Bible, plans, mur de prière) vit dans l'application ; ses pages
+ * restent en ligne (Google, liens partagés) mais ne sont plus au menu. */
 export const mainNav = [
-  { label: "Temps avec Jésus", href: "/devotionnel" },
-  { label: "Bible", href: "/bible" },
-  { label: "Plans", href: "/plans" },
-  { label: "Mur de prière", href: "/communaute" },
+  { label: "L'application", href: "/app" },
   { label: "Madagascar", href: "/mission-madagascar" },
+  { label: "Vidéos", href: "/videos" },
   { label: "Livre RHEMA", href: "/boutique" },
   { label: "Boutique", href: "https://boutique.jackbrunet.com/" },
+  { label: "Actualités", href: "/actualite" },
   { label: "À propos", href: "/a-propos" },
-] as const;
-
-/** Onglets secondaires, accessibles via le menu « Plus » (desktop) et le menu mobile. */
-export const secondaryNav = [
-  { label: "L'application 📱", href: "/app" },
-  { label: "Vidéos", href: "/videos" },
-  { label: "Actualité", href: "/actualite" },
-  { label: "Mon carnet", href: "/carnet" },
-  { label: "Exclusivités", href: "/exclusivites" },
-  { label: "Témoignages", href: "/temoignages" },
 ] as const;
 
 /** Liens secondaires (footer). */

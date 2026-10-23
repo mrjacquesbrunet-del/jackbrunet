@@ -81,7 +81,7 @@ export function FloatingDailyShort({ latest, targetId = "video-jour" }: { latest
         @keyframes fds-kb{0%{transform:scale(1.05) translate(0,0)}50%{transform:scale(1.22) translate(-4%,-5%)}100%{transform:scale(1.05) translate(3%,2%)}}
         @keyframes fds-pulse{0%,100%{box-shadow:0 0 0 0 rgba(202,240,0,.5)}70%{box-shadow:0 0 0 8px rgba(202,240,0,0)}}
       `}</style>
-      <div className="fixed bottom-[calc(env(safe-area-inset-bottom)+5.25rem)] right-3 z-40">
+      <div className="bulle-short fixed bottom-[calc(env(safe-area-inset-bottom)+5.25rem)] right-3 z-40">
         <div className="relative h-[4.5rem] w-[4.5rem]">
           <div className="relative h-full w-full overflow-hidden rounded-full border-2 border-dawn-400 bg-night-950 shadow-card">
             {/* eslint-disable-next-line @next/next/no-img-element */}
