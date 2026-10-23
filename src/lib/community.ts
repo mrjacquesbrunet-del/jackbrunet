@@ -134,6 +134,12 @@ function authRedirectBase(): string {
 
 /** Adresse e-mail nettoyée : le clavier du téléphone ajoute souvent un espace
  * final ou une majuscule initiale, qui faisaient échouer la connexion. */
+/** Projet Supabase bloqué (quota dépassé) : rien à voir avec le membre. */
+export function serviceIndisponible(msg: string): boolean {
+  return /restricted|exceed_\w*quota|upgrade their plan/i.test(msg);
+}
+export const MSG_SERVICE_INDISPONIBLE = "Le service est momentanément indisponible. On s'en occupe : réessaie un peu plus tard.";
+
 export function normaliserEmail(email: string): string {
   return email.trim().toLowerCase();
 }

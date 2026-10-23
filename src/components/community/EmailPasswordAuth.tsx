@@ -8,6 +8,8 @@ import {
   normaliserEmail,
   verifierCodeReinitialisation,
   updatePassword,
+  serviceIndisponible,
+  MSG_SERVICE_INDISPONIBLE,
 } from "@/lib/community";
 import { submitToBrevo } from "@/lib/brevo";
 import { newsletterEndpointForSource } from "@/config/brevo";
@@ -66,7 +68,9 @@ export function EmailPasswordAuth({
       setRenvoiDans(60);
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
-      if (/rate limit|too many|security purposes|seconds/i.test(msg)) {
+      if (serviceIndisponible(msg)) {
+        setError(MSG_SERVICE_INDISPONIBLE);
+      } else if (/rate limit|too many|security purposes|seconds/i.test(msg)) {
         setError("Un e-mail vient déjà d'être demandé. Patiente une minute, puis réessaie.");
       } else if (/network|fetch/i.test(msg)) {
         setError("Pas de connexion internet. Vérifie ton réseau et réessaie.");
@@ -97,7 +101,9 @@ export function EmailPasswordAuth({
       onSuccess?.();
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
-      if (/expired|invalid|otp|token/i.test(msg)) {
+      if (serviceIndisponible(msg)) {
+        setError(MSG_SERVICE_INDISPONIBLE);
+      } else if (/expired|invalid|otp|token/i.test(msg)) {
         setError("Code incorrect ou expiré. Vérifie-le, ou demande un nouvel e-mail.");
       } else if (/password should|weak password|different from the old/i.test(msg)) {
         setError("Choisis un autre mot de passe, plus long et différent de l'ancien.");
@@ -153,7 +159,9 @@ export function EmailPasswordAuth({
       onSuccess?.();
     } catch (err) {
       const msg = err instanceof Error? err.message: String(err);
-      if (/invalid login credentials/i.test(msg)) {
+      if (serviceIndisponible(msg)) {
+        setError(MSG_SERVICE_INDISPONIBLE);
+      } else if (/invalid login credentials/i.test(msg)) {
         setError(
           "E-mail ou mot de passe incorrect. Si tu t'étais inscrit(e) avec Apple, Google ou un lien reçu par e-mail, tu n'as pas encore de mot de passe : utilise les boutons du haut, ou « Mot de passe oublié » pour en créer un.",
         );

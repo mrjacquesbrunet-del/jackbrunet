@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { connexionNative, connexionSocialeDispo } from "@/lib/social-auth";
+import { serviceIndisponible, MSG_SERVICE_INDISPONIBLE } from "@/lib/community";
 
 /**
  * Boutons « Continuer avec Apple / Google » de l'app native. Présentation
@@ -50,6 +51,7 @@ export function SocialAuthButtons({ tone = "light", onSuccess }: { tone?: "light
       // Détail technique en petit : permet de savoir ce qui bloque (réglage
       // Supabase, identifiant Google…).
       const detail = e instanceof Error ? e.message : String(e);
+      if (serviceIndisponible(detail)) return setErreur(MSG_SERVICE_INDISPONIBLE);
       setErreur(`La connexion avec ${f === "google" ? "Google" : "Apple"} n'a pas abouti. Réessaie, ou utilise ton e-mail. (${detail.slice(0, 140)})`);
     } finally {
       setOccupe(null);
