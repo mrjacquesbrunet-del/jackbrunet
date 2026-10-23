@@ -188,7 +188,7 @@ export function EmailPasswordAuth({
       type="button"
       onClick={() => setVoir(!voir)}
       aria-label={voir ? "Masquer le mot de passe" : "Afficher le mot de passe"}
-      className="absolute inset-y-0 right-0 grid w-12 place-items-center text-night-900/45"
+      className={`absolute inset-y-0 right-0 grid w-12 place-items-center ${dark ? "text-cream/70" : "text-night-900/55"}`}
     >
       <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.9}>
         <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" strokeLinejoin="round" />
