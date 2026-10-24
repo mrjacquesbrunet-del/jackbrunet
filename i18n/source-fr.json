@@ -131,7 +131,7 @@
   "components/audio/ListenScreen.tsx:731"
  ],
  "· exaucé": [
-  "components/notebook/CarnetView.tsx:462",
+  "components/notebook/CarnetView.tsx:468",
   "components/notebook/NotebookView.tsx:151"
  ],
  "· Exaucé": [
@@ -2527,7 +2527,8 @@
  ],
  "À déclarer sur ta vie": [
   "components/home/DevotionalView.tsx:600",
-  "components/notebook/CarnetView.tsx:289"
+  "components/notebook/CarnetView.tsx:289",
+  "components/notebook/MeditationRelire.tsx:35"
  ],
  "À découvrir": [
   "components/chemin/CheminScreen.tsx:358",
@@ -7348,7 +7349,7 @@
   "components/community/GroupView.tsx:1018"
  ],
  "Couleur d'accent": [
-  "components/notebook/CarnetView.tsx:169"
+  "components/notebook/CarnetView.tsx:163"
  ],
  "Couleur de ton nom (sur ta photo)": [
   "components/community/ProfileView.tsx:751"
@@ -8469,7 +8470,7 @@
   "components/community/DevotionsAdmin.tsx:139"
  ],
  "Déclarations": [
-  "components/profile/MyFavorites.tsx:12"
+  "components/profile/MyFavorites.tsx:14"
  ],
  "Déclaré juste": [
   "content/plans.json"
@@ -9897,7 +9898,7 @@
   "lib/verse-image.ts:29"
  ],
  "élément": [
-  "components/notebook/CarnetView.tsx:144"
+  "components/notebook/CarnetView.tsx:138"
  ],
  "Eles vivem a fé com o RHEMA.": [
   "components/app/AppOnboarding.tsx:167"
@@ -10531,7 +10532,7 @@
   "lib/badges.ts:113"
  ],
  "enregistré": [
-  "components/notebook/CarnetView.tsx:144"
+  "components/notebook/CarnetView.tsx:138"
  ],
  "Enregistré": [
   "components/bible/VersetOutils.tsx:555",
@@ -11169,7 +11170,7 @@
   "config/chemin/chapitre-job.ts:98"
  ],
  "Exaucé": [
-  "components/notebook/CarnetView.tsx:471"
+  "components/notebook/CarnetView.tsx:477"
  ],
  "Exaucé — Dieu a agi": [
   "components/community/MyPrayerList.tsx:149"
@@ -12180,7 +12181,7 @@
   "components/home/CadeauRhema.tsx:48"
  ],
  "Gratuite · rappel chaque matin · iPhone et Android": [
-  "components/layout/BandeauApp.tsx:54"
+  "components/layout/BandeauApp.tsx:60"
  ],
  "Gratuitement, par la grâce, en Jésus-Christ": [
   "config/chemin/chapitre-lettres-paul.ts:31"
@@ -20967,14 +20968,14 @@
   "config/chemin/chapitre-lazare.ts:97"
  ],
  "Mes surlignages": [
-  "components/profile/MyFavorites.tsx:70"
+  "components/profile/MyFavorites.tsx:73"
  ],
  "Mes trophées": [
   "components/community/ProfileBadges.tsx:302"
  ],
  "Mes versets préférés": [
   "components/community/ProfileView.tsx:890",
-  "components/profile/MyFavorites.tsx:48"
+  "components/profile/MyFavorites.tsx:51"
  ],
  "Message": [
   "components/community/MessagesView.tsx:461",
@@ -22296,13 +22297,13 @@
   "lib/notifications.ts:64"
  ],
  "Ouvrir": [
-  "components/layout/BandeauApp.tsx:60"
+  "components/layout/BandeauApp.tsx:66"
  ],
  "Ouvrir « Mon temps avec Jésus »": [
   "components/app/AppHomeGuard.tsx:105"
  ],
  "Ouvrir →": [
-  "components/notebook/CarnetView.tsx:439"
+  "components/notebook/CarnetView.tsx:444"
  ],
  "Ouvrir dans l'application": [
   "app/lien/page.tsx:67"
@@ -22315,8 +22316,8 @@
   "components/chemin/PassagePanel.tsx:192"
  ],
  "Ouvrir dans la Bible →": [
-  "components/profile/MyFavorites.tsx:104",
-  "components/profile/MyFavorites.tsx:159"
+  "components/profile/MyFavorites.tsx:107",
+  "components/profile/MyFavorites.tsx:166"
  ],
  "Ouvrir en plein écran": [
   "components/home/EbookReader.tsx:66"
@@ -22783,7 +22784,7 @@
   "config/chemin/chapitre-paraboles.ts:25"
  ],
  "Parole": [
-  "components/notebook/CarnetView.tsx:416"
+  "components/notebook/CarnetView.tsx:421"
  ],
  "Parole de Dieu": [
   "lib/themes-priere.ts:6"
@@ -22805,7 +22806,7 @@
  "Paroles fortes": [
   "components/notebook/CarnetView.tsx:36",
   "components/notebook/CarnetView.tsx:58",
-  "components/profile/MyFavorites.tsx:11"
+  "components/profile/MyFavorites.tsx:13"
  ],
  "Paroles, encouragements et actus de Jack, directement sur WhatsApp.": [
   "components/ui/WhatsAppChannel.tsx:39"
@@ -23238,7 +23239,7 @@
  "Personnaliser": [
   "components/bible/VersetOutils.tsx:483",
   "components/home/DevotionalView.tsx:476",
-  "components/notebook/CarnetView.tsx:163"
+  "components/notebook/CarnetView.tsx:157"
  ],
  "Personnaliser l'image (fond, police)": [
   "components/ui/ShareButtons.tsx:118"
@@ -24648,7 +24649,7 @@
  "Publication": [
   "components/community/PrayerCard.tsx:206",
   "components/notebook/CarnetView.tsx:31",
-  "components/notebook/CarnetView.tsx:389"
+  "components/notebook/CarnetView.tsx:394"
  ],
  "Publication de groupe": [
   "components/community/ModerationQueue.tsx:17"
@@ -27493,7 +27494,8 @@
   "components/ecole/FormationView.tsx:2394"
  ],
  "Relire la méditation": [
-  "components/notebook/CarnetView.tsx:306"
+  "components/notebook/CarnetView.tsx:306",
+  "components/notebook/MeditationRelire.tsx:60"
  ],
  "Remets ce chapitre dans l'ordre :": [
   "config/chemin/chapitre-transfiguration.ts:99"
@@ -27761,7 +27763,8 @@
  ],
  "Replier": [
   "components/community/AdminRubrique.tsx:149",
-  "components/notebook/CarnetView.tsx:306"
+  "components/notebook/CarnetView.tsx:306",
+  "components/notebook/MeditationRelire.tsx:60"
  ],
  "Replier {0}": [
   "components/community/AdminRubrique.tsx:148"
@@ -28191,7 +28194,7 @@
   "components/community/DevotionsAdmin.tsx:221"
  ],
  "Rien d'enregistré pour l'instant": [
-  "components/profile/MyFavorites.tsx:36"
+  "components/profile/MyFavorites.tsx:39"
  ],
  "Rien de matériel": [
   "config/chemin/chapitre-job.ts:98"
@@ -28220,7 +28223,7 @@
   "components/audio/ListenScreen.tsx:1171"
  ],
  "Rien ici pour l'instant": [
-  "components/notebook/CarnetView.tsx:233"
+  "components/notebook/CarnetView.tsx:227"
  ],
  "Rien n'empêche l'Éternel de sauver par un petit nombre comme par un grand": [
   "config/chemin/chapitre-saul.ts:76"
@@ -28309,7 +28312,7 @@
   "lib/toolkit.ts:26"
  ],
  "Rouvrir": [
-  "components/notebook/CarnetView.tsx:471",
+  "components/notebook/CarnetView.tsx:477",
   "components/notebook/NotebookView.tsx:160"
  ],
  "Rouvrir le sujet": [
@@ -29731,7 +29734,7 @@
   "components/notebook/CarnetView.tsx:51"
  ],
  "Surligne un verset, mets une méditation en favori, enregistre une pensée du jour, une punchline ou une publication du mur: tu la retrouveras ici, comme un journal à toi.": [
-  "components/notebook/CarnetView.tsx:235"
+  "components/notebook/CarnetView.tsx:229"
  ],
  "Surligner": [
   "components/bible/SelectionVersets.tsx:175",
@@ -30101,8 +30104,8 @@
   "components/community/GroupView.tsx:1014"
  ],
  "Textes": [
-  "components/profile/MyFavorites.tsx:13",
-  "components/profile/MyFavorites.tsx:127"
+  "components/profile/MyFavorites.tsx:15",
+  "components/profile/MyFavorites.tsx:130"
  ],
  "TextToSpeech": [
   "lib/voix-tts.ts:23"
@@ -30178,7 +30181,7 @@
  ],
  "Titre": [
   "components/community/ProfileActivity.tsx:248",
-  "components/notebook/CarnetView.tsx:492"
+  "components/notebook/CarnetView.tsx:498"
  ],
  "Titre (ex. Nouvelle vidéo en ligne)": [
   "components/community/AdminAnnounce.tsx:110"
@@ -30468,7 +30471,7 @@
   "components/bible/BibleReader.tsx:728"
  ],
  "Touche un verset, une méditation ou une parole forte puis « Enregistrer »: tu la retrouveras ici, regroupée au même endroit.": [
-  "components/profile/MyFavorites.tsx:38"
+  "components/profile/MyFavorites.tsx:41"
  ],
  "Touche une personne": [
   "components/ecole/ArbresGenealogiques.tsx:575"
@@ -32763,7 +32766,7 @@
   "lib/toolkit.ts:28"
  ],
  "Vis ce moment chaque jour dans l'app RHEMA": [
-  "components/layout/BandeauApp.tsx:53"
+  "components/layout/BandeauApp.tsx:59"
  ],
  "Vise, tends, lâche — attention au vent !": [
   "components/games/FrondeScreen.tsx:90"

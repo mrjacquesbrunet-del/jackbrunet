@@ -8,8 +8,8 @@ import { useProfileAccent, ACCENTS, type AccentKey } from "@/lib/profile-accent"
 import { useToolkit, highlightBg, type Snippet } from "@/lib/toolkit";
 import { bibleHref } from "@/lib/bible-ref";
 import { useEngagement } from "@/lib/engagement";
-import { getDevotions } from "@/lib/content";
-import { fetchPublishedDevotions } from "@/lib/devotions";
+import { useMeditations, meditationDe } from "@/lib/meditations-relecture";
+import { MeditationRelire } from "@/components/notebook/MeditationRelire";
 import type { Devotion } from "@/lib/types";
 import {
   useNotebook,
@@ -73,15 +73,7 @@ export function CarnetView() {
 
   // Méditations mises en favori dans le Temps avec Jésus : on retrouve leur
   // contenu complet (exhortation, déclaration) pour les RELIRE ici.
-  const [remoteDevs, setRemoteDevs] = useState<Devotion[] | null>(null);
-  useEffect(() => {
-    fetchPublishedDevotions()
-      .then((d) => {
-        if (d && d.length) setRemoteDevs(d);
-      })
-      .catch(() => undefined);
-  }, []);
-  const devList = useMemo(() => remoteDevs ?? getDevotions(), [remoteDevs]);
+  const devList = useMeditations();
 
   const items = useMemo<Item[]>(() => {
     const out: Item[] = [];
@@ -93,6 +85,8 @@ export function CarnetView() {
       out.push({ t: "favverse", key: `fav-${i}`, ts: 0, text: v.text, reference: v.reference }),
     );
     for (const idx of eng.favorites) {
+      // Déjà présente via son enregistrement « dev:N:fav » (synchronisé) : pas de doublon.
+      if (saved.some((s) => s.id === `dev:${idx}:fav`)) continue;
       const dev = devList[idx];
       if (dev) out.push({ t: "favdev", key: `favdev-${idx}`, ts: 1, idx, dev });
     }
@@ -242,9 +236,15 @@ export function CarnetView() {
               <FeedCard
                 key={it.key}
                 item={it}
+                devList={devList}
                 onRemove={() => {
                   if (it.t === "note") removeNote(it.note.id);
-                  else if (it.t === "snippet") removeSnippet(it.snip.id);
+                  else if (it.t === "snippet") {
+                    removeSnippet(it.snip.id);
+                    // Méditation en favori : on retire aussi le favori du Temps avec Jésus.
+                    const fav = it.snip.id.match(/^dev:(\d+):fav$/);
+                    if (fav && eng.isFavorite(Number(fav[1]))) eng.toggleFavorite(Number(fav[1]));
+                  }
                   else if (it.t === "highlight") clearHighlight(it.hl.id);
                   else if (it.t === "favdev") eng.toggleFavorite(it.idx);
                 }}
@@ -368,9 +368,14 @@ function NoteComposer({ onDone }: { onDone: () => void }) {
 }
 
 /* ---------- Carte du feed ---------- */
-function FeedCard({ item, onRemove }: { item: Item; onRemove: () => void }) {
+function FeedCard({ item, devList, onRemove }: { item: Item; devList: Devotion[]; onRemove: () => void }) {
   if (item.t === "note") return <NoteCard note={item.note} onRemove={onRemove} />;
   if (item.t === "favdev") return <DevFavCard dev={item.dev} onRemove={onRemove} />;
+  // Méditation enregistrée : on retrouve le texte complet pour la relire.
+  const meditation = item.t === "snippet" ? meditationDe(item.snip, devList) : null;
+  if (meditation && item.t === "snippet" && item.snip.id.endsWith(":fav")) {
+    return <DevFavCard dev={meditation} onRemove={onRemove} />;
+  }
 
   const text = item.t === "snippet"? item.snip.text: item.t === "highlight"? item.hl.text: item.text;
   const reference =
@@ -442,6 +447,7 @@ function FeedCard({ item, onRemove }: { item: Item; onRemove: () => void }) {
           <RemoveBtn onRemove={onRemove} />
         </div>
       </div>
+      {meditation ? <MeditationRelire dev={meditation} /> : null}
     </article>
   );
 }

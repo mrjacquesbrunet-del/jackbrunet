@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useToolkit } from "@/lib/toolkit";
 import { useAuth } from "@/components/community/useAuth";
 import { bibleHref } from "@/lib/bible-ref";
+import { useMeditations, meditationDe } from "@/lib/meditations-relecture";
+import { MeditationRelire } from "@/components/notebook/MeditationRelire";
 
 const KIND_LABEL: Record<string, string> = {
   verset: "Versets",
@@ -17,6 +19,7 @@ export function MyFavorites() {
   const { saved, removeSnippet, highlightItems, clearHighlight } = useToolkit();
   const { profile } = useAuth();
   const verses = profile?.favorite_verses?? [];
+  const meditations = useMeditations();
 
   // Regroupe les enregistrements par type.
   const groups = saved.reduce<Record<string, typeof saved>>((acc, s) => {
@@ -130,11 +133,15 @@ export function MyFavorites() {
                 <ul className="mt-3 space-y-2">
                   {items.map((s) => {
                     const href = bibleHref(s.id);
+                    const meditation = meditationDe(s, meditations);
                     return (
                       <li
                         key={s.id}
                         className="group rounded-2xl border border-night-900/10 bg-white/70 p-4"
                       >
+                        {meditation ? (
+                          <p className="mb-1.5 font-display text-base font-extrabold text-night-900">{meditation.theme}</p>
+                        ) : null}
                         {href? (
                           <Link href={href} className="block transition-opacity hover:opacity-75">
                             <p className="text-[15px] leading-relaxed text-night-900/85">{s.text}</p>
@@ -168,6 +175,7 @@ export function MyFavorites() {
                             </button>
                           </div>
                         </div>
+                        {meditation ? <MeditationRelire dev={meditation} sansTitre /> : null}
                       </li>
                     );
                   })}
