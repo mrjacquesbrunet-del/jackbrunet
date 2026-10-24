@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { listFollowers, listFollowing, type Profile } from "@/lib/community";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
+import { imageLegere } from "@/lib/image-legere";
 
 /**
  * Liste des abonnés / abonnements d'un membre, en modale.
@@ -76,7 +77,7 @@ export function FollowListModal({
               >
                 {p.avatar_url ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={p.avatar_url} alt="" className="h-10 w-10 shrink-0 rounded-full object-cover ring-1 ring-white/15" />
+                  <img {...imageLegere(p.avatar_url, 40, { carre: true })} alt="" className="h-10 w-10 shrink-0 rounded-full object-cover ring-1 ring-white/15" />
                 ) : (
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/10 text-cream/60">
                     <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM5 20a7 7 0 0 1 14 0" /></svg>

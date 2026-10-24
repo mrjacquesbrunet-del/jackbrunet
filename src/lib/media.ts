@@ -57,7 +57,8 @@ export async function uploadMedia(
     const { error } = await sb.storage.from(BUCKET).upload(name, file, {
       upsert: true,
       contentType: file.type || "image/png",
-      cacheControl: "3600",
+      // Une semaine : la carte peut être remplacée sous le même nom.
+      cacheControl: "604800",
     });
     if (error) {
       results.push({ name, ok: false, error: error.message });

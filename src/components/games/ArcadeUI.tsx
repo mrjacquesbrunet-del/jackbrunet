@@ -9,6 +9,7 @@
 
 import { useEffect, useState, type ReactElement, type ReactNode } from "react";
 import { asset } from "@/lib/asset";
+import { imageLegere } from "@/lib/image-legere";
 
 /* ---------------- Icônes (trait) ---------------- */
 const S = (d: string) => (p: { className?: string }) => (
@@ -240,7 +241,7 @@ export function ArcadeHeader({
       </button>
       {avatarUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={avatarUrl} alt="" className="h-12 w-12 shrink-0 rounded-full object-cover ring-2 ring-white/40" />
+        <img {...imageLegere(avatarUrl, 48, { carre: true })} alt="" className="h-12 w-12 shrink-0 rounded-full object-cover ring-2 ring-white/40" />
       ) : (
         <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white/12 text-white/80 ring-2 ring-white/25">
           <IcoUser className="h-7 w-7" />
@@ -291,7 +292,7 @@ export function HubHeader({
       <span className="relative shrink-0 rounded-full p-[3px]" style={{ background: "linear-gradient(180deg,#FCD34D,#F59E0B)", boxShadow: "0 0 18px rgba(252,211,77,.4)" }}>
         {avatarUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={avatarUrl} alt="" className="h-14 w-14 rounded-full object-cover" />
+          <img {...imageLegere(avatarUrl, 56, { carre: true })} alt="" className="h-14 w-14 rounded-full object-cover" />
         ) : (
           <span className="grid h-14 w-14 place-items-center rounded-full bg-[#3b1d6e] text-white/80">
             <IcoUser className="h-8 w-8" />

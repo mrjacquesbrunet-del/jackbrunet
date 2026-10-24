@@ -29,14 +29,13 @@ import type { AudioTrack } from "@/lib/audio-library";
 import { useContenu } from "@/lib/contenu-i18n";
 import { lienFranceSeulement, offresFrance, useLangue } from "@/lib/i18n";
 import { useAudiosTraduits } from "@/lib/audio-i18n";
+import { avecVersionLegere } from "@/lib/image-legere";
 
 /** Photo de l'auteur (bucket public « audiovf »), repli monogramme. */
 const AVATARS = (() => {
   const sb = getSupabase();
   if (!sb) return [] as string[];
-  return ["auteurjack.jpg", "auteurjack.png", "pasteur-jack.jpg"].map(
-    (n) => sb.storage.from("audiovf").getPublicUrl(n).data.publicUrl
-  );
+  return ["auteurjack.jpg", "auteurjack.png", "pasteur-jack.jpg"].flatMap((n) => avecVersionLegere(sb.storage.from("audiovf").getPublicUrl(n).data.publicUrl, 96));
 })();
 
 function PlanAuthor({ name, photoSrc }: { name: string; photoSrc?: string }) {

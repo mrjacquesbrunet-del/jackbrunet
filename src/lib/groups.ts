@@ -1,5 +1,6 @@
 "use client";
 
+import { compressWallImage } from "./wall";
 import { getSupabase } from "./supabase";
 import type { AccentKey } from "./profile-accent";
 
@@ -237,11 +238,13 @@ export async function uploadGroupCover(groupId: string, file: File): Promise<str
   const { data: auth } = await sb.auth.getUser();
   const uid = auth.user?.id;
   if (!uid) return null;
-  const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+  const leger = file.type === "image/gif" ? null : await compressWallImage(file, 1200, 0.85);
+  const corps: Blob = leger && leger.size < file.size ? leger : file;
+  const ext = corps === file ? (file.name.split(".").pop() || "jpg").toLowerCase() : "jpg";
   const path = `${uid}/groups/${groupId}/${Date.now()}.${ext}`;
   const { error } = await sb.storage
     .from("avatars")
-    .upload(path, file, { upsert: true, cacheControl: "3600", contentType: file.type });
+    .upload(path, corps, { upsert: true, cacheControl: "31536000", contentType: corps === file ? file.type : "image/jpeg" });
   if (error) return null;
   const { data } = sb.storage.from("avatars").getPublicUrl(path);
   return data.publicUrl ?? null;

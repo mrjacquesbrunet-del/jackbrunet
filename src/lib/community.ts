@@ -2,6 +2,7 @@
 
 import { getSupabase } from "./supabase";
 import { gradeFor } from "./grades";
+import { compressWallImage } from "./wall";
 
 export type FavoriteVerse = { reference: string; text: string };
 export type Profile = {
@@ -743,17 +744,22 @@ export async function setCommentReaction(
 }
 
 /** Téléverse une photo de profil et renvoie son URL publique. */
-export async function uploadAvatar(userId: string, file: File): Promise<string | null> {
+/** Photo de profil (ou bannière, `max` plus grand) : compressée avant
+ * l'envoi (une photo de téléphone fait souvent 2 à 5 Mo, affichée partout). */
+export async function uploadAvatar(userId: string, file: File, max = 512): Promise<string | null> {
   const sb = getSupabase();
   if (!sb) return null;
-  const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+  const leger = file.type === "image/gif" ? null : await compressWallImage(file, max, 0.85);
+  const corps: Blob = leger && leger.size < file.size ? leger : file;
+  const ext = corps === file ? (file.name.split(".").pop() || "jpg").toLowerCase() : "jpg";
   const path = `${userId}/${Date.now()}.${ext}`;
   const { error } = await sb.storage
-.from("avatars")
-.upload(path, file, { upsert: true, cacheControl: "3600", contentType: file.type });
+    .from("avatars")
+    // Chemin unique (horodaté) : le fichier ne change jamais → cache d'un an.
+    .upload(path, corps, { upsert: true, cacheControl: "31536000", contentType: corps === file ? file.type : "image/jpeg" });
   if (error) return null;
   const { data } = sb.storage.from("avatars").getPublicUrl(path);
-  return data.publicUrl?? null;
+  return data.publicUrl ?? null;
 }
 
 /* ---- Abonnements (follow) ---- */

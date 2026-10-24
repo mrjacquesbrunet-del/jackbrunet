@@ -59,6 +59,7 @@ import { gradeFor, type Activity } from "@/lib/grades";
 import { ACCENTS, type AccentKey, useProfileAccent } from "@/lib/profile-accent";
 import { siteConfig } from "@/config/site";
 import { localeApp } from "@/lib/i18n";
+import { imageLegere } from "@/lib/image-legere";
 
 /** Couleur du cadre d'avatar selon le grade (bronze → argent → or). */
 function gradeRing(gradeName: string): string {
@@ -274,7 +275,7 @@ function Profile({
     e.target.value = "";
     if (!file) return;
     setBannerBusy(true);
-    const url = await uploadAvatar(userId, file);
+    const url = await uploadAvatar(userId, file, 1600);
     setBannerBusy(false);
     if (url) {
       setBannerVal(url);
@@ -293,7 +294,7 @@ function Profile({
     e.target.value = "";
     if (!file || !file.type.startsWith("image/")) return;
     setQuickBusy(kind);
-    const url = await uploadAvatar(userId, file);
+    const url = await uploadAvatar(userId, file, kind === "banner" ? 1600 : 512);
     if (url) {
       await updateProfile(userId, kind === "banner" ? { banner_url: url } : { avatar_url: url });
       if (kind === "banner") setBannerVal(url);
@@ -311,8 +312,9 @@ function Profile({
       setUploadError("Choisis une image (jpg, png…).");
       return;
     }
-    if (file.size > 5 * 1024 * 1024) {
-      setUploadError("Image trop lourde (5 Mo max).");
+    // Compressée avant l'envoi : seules les images vraiment énormes sont refusées.
+    if (file.size > 25 * 1024 * 1024) {
+      setUploadError("Image trop lourde (25 Mo max).");
       return;
     }
     setUploadError("");
@@ -388,7 +390,7 @@ function Profile({
         <div className="relative h-44 w-full overflow-hidden sm:h-56">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={profile?.banner_url || asset("/img/banniere-rhema.webp")}
+            {...imageLegere(profile?.banner_url || asset("/img/banniere-rhema.webp"), 800)}
             alt=""
             aria-hidden
             className="absolute inset-0 h-full w-full object-cover"
@@ -412,7 +414,7 @@ function Profile({
           <div className="relative mx-auto -mt-10 h-24 w-24">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={profile?.avatar_url || asset("/img/profil-defaut.webp")}
+              {...imageLegere(profile?.avatar_url || asset("/img/profil-defaut.webp"), 96, { carre: true })}
               alt=""
               className={`h-24 w-24 rounded-full object-cover ring-4 ${jour? "ring-cream": "ring-night-900"}`}
             />

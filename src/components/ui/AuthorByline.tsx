@@ -4,6 +4,7 @@ import { useState } from "react";
 import { asset } from "@/lib/asset";
 import { getAbout } from "@/lib/content";
 import { getSupabase } from "@/lib/supabase";
+import { avecVersionLegere } from "@/lib/image-legere";
 
 /** URLs candidates de la photo (Supabase en priorité, puis repli « à propos »). */
 function useAuthorPhoto(): { src: string; onError: () => void } {
@@ -14,7 +15,7 @@ function useAuthorPhoto(): { src: string; onError: () => void } {
     const arr: string[] = [];
     if (sb) {
       for (const n of ["auteurjack.jpg", "auteurjack.png"]) {
-        arr.push(sb.storage.from("audiovf").getPublicUrl(n).data.publicUrl);
+        arr.push(...avecVersionLegere(sb.storage.from("audiovf").getPublicUrl(n).data.publicUrl, 96));
       }
     }
     arr.push(fallback);

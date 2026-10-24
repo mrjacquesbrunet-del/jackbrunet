@@ -21,6 +21,7 @@ import {
   type PlanDay,
 } from "@/lib/year-plan";
 import { getIndex } from "@/lib/bible-client";
+import { avecVersionLegere } from "@/lib/image-legere";
 
 const COVER = "/img/plans/bible-1-an.webp";
 
@@ -28,9 +29,7 @@ const COVER = "/img/plans/bible-1-an.webp";
 const AVATARS = (() => {
   const sb = getSupabase();
   if (!sb) return [] as string[];
-  return ["auteurjack.jpg", "auteurjack.png", "pasteur-jack.jpg"].map(
-    (n) => sb.storage.from("audiovf").getPublicUrl(n).data.publicUrl
-  );
+  return ["auteurjack.jpg", "auteurjack.png", "pasteur-jack.jpg"].flatMap((n) => avecVersionLegere(sb.storage.from("audiovf").getPublicUrl(n).data.publicUrl, 96));
 })();
 
 function PlanAuthor({ name }: { name: string }) {

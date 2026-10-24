@@ -34,6 +34,7 @@ import {
 import { gradeFor, type Activity } from "@/lib/grades";
 import { WallSection } from "@/components/wall/WallSection";
 import { localeApp } from "@/lib/i18n";
+import { imageLegere } from "@/lib/image-legere";
 
 export function MemberView() {
   const params = useSearchParams();
@@ -166,7 +167,7 @@ export function MemberView() {
         <div className="relative h-44 w-full overflow-hidden sm:h-56">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={profile.banner_url || asset("/img/banniere-rhema.webp")}
+            {...imageLegere(profile.banner_url || asset("/img/banniere-rhema.webp"), 800)}
             alt=""
             aria-hidden
             className="absolute inset-0 h-full w-full object-cover"
@@ -187,7 +188,7 @@ export function MemberView() {
           <div className="relative mx-auto -mt-10 h-24 w-24">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={profile.avatar_url || asset("/img/profil-defaut.webp")}
+              {...imageLegere(profile.avatar_url || asset("/img/profil-defaut.webp"), 96, { carre: true })}
               alt=""
               className={`h-24 w-24 rounded-full object-cover ring-4 ${jour? "ring-cream": "ring-night-900"}`}
             />

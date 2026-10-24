@@ -88,7 +88,7 @@ const POST_COLS =
  * qualité 0.82 → ~150-300 Ko par photo. C'est ce qui rend le mur photo
  * viable en stockage comme en bande passante.
  */
-export async function compressWallImage(file: File): Promise<Blob | null> {
+export async function compressWallImage(file: File, max = 1080, qualite = 0.82): Promise<Blob | null> {
   try {
     const url = URL.createObjectURL(file);
     const img = await new Promise<HTMLImageElement>((resolve, reject) => {
@@ -97,7 +97,6 @@ export async function compressWallImage(file: File): Promise<Blob | null> {
       el.onerror = reject;
       el.src = url;
     });
-    const max = 1080;
     const scale = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
     const w = Math.round(img.naturalWidth * scale);
     const h = Math.round(img.naturalHeight * scale);
@@ -107,7 +106,7 @@ export async function compressWallImage(file: File): Promise<Blob | null> {
     canvas.getContext("2d")?.drawImage(img, 0, 0, w, h);
     URL.revokeObjectURL(url);
     return await new Promise<Blob | null>((resolve) =>
-      canvas.toBlob((b) => resolve(b), "image/jpeg", 0.82),
+      canvas.toBlob((b) => resolve(b), "image/jpeg", qualite),
     );
   } catch {
     return null;
@@ -123,7 +122,7 @@ export async function uploadWallImage(userId: string, file: File): Promise<strin
   const path = `${userId}/${Date.now()}-${Math.random().toString(36).slice(2, 7)}.jpg`;
   const { error } = await sb.storage
     .from("wallmedia")
-    .upload(path, blob, { contentType: "image/jpeg" });
+    .upload(path, blob, { contentType: "image/jpeg", cacheControl: "31536000" });
   if (error) return null;
   const { data } = sb.storage.from("wallmedia").getPublicUrl(path);
   return data.publicUrl ?? null;

@@ -39,6 +39,7 @@ import {
   IcoGem,
   IcoPlus,
 } from "./ArcadeUI";
+import { imageLegere } from "@/lib/image-legere";
 
 const LETTERS = ["A", "B", "C", "D"];
 const LEVEL_COLORS = ["#a3e635", "#FCD34D", "#FB923C", "#EF4444"];
@@ -188,7 +189,7 @@ export function WhoAmIScreen() {
           <span className="relative shrink-0 rounded-full p-[3px]" style={{ background: "linear-gradient(180deg,#D8F53A,#AAD000)", boxShadow: "0 0 18px rgba(202,240,0,.4)" }}>
             {avatar ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={avatar} alt="" className="h-14 w-14 rounded-full object-cover" />
+              <img {...imageLegere(avatar, 56, { carre: true })} alt="" className="h-14 w-14 rounded-full object-cover" />
             ) : (
               <span className="grid h-14 w-14 place-items-center rounded-full bg-[#1E1E1D] text-white/75">
                 <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM5 20a7 7 0 0 1 14 0" /></svg>

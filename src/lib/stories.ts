@@ -91,7 +91,7 @@ export async function addStory(me: string, file: File, caption?: string): Promis
   const path = `${me}/story-${Date.now()}.jpg`;
   const { error: upErr } = await sb.storage
     .from("wallmedia")
-    .upload(path, blob, { contentType: "image/jpeg" });
+    .upload(path, blob, { contentType: "image/jpeg", cacheControl: "31536000" });
   if (upErr) return null;
   const { data: pub } = sb.storage.from("wallmedia").getPublicUrl(path);
   const { data, error } = await sb

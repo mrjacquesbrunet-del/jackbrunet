@@ -6,6 +6,7 @@ import { shareImageBlob, saveImageBlob } from "@/lib/share";
 import { appShareUrl } from "@/config/app-links";
 import { mediaCardUrl } from "@/lib/media";
 import { BookmarkGlyph, BookmarkFilledGlyph } from "@/components/ui/DevoIcons";
+import { urlLegere, repliImage } from "@/lib/image-legere";
 
 /**
  * Carte « punchline » — gabarit unique (fait avec Claude Design) pour toute
@@ -351,7 +352,20 @@ export function ViralCard({
       {cardUrl ? (
         <div className="relative mt-4 w-full max-w-sm overflow-hidden rounded-2xl shadow-card">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={cardUrl} alt={punchline.replace(/\*/g, "")} onError={() => setCarteKo(true)} className="aspect-[4/5] w-full object-cover" />
+          <img
+            src={urlLegere(cardUrl, 420)}
+            alt={punchline.replace(/\*/g, "")}
+            onError={(e) => {
+              // Version allégée indisponible → image d'origine ; sinon gabarit dessiné.
+              if (e.currentTarget.src !== cardUrl) repliImage(cardUrl)?.(e);
+              else setCarteKo(true);
+            }}
+            // Page pré-rendue : l'erreur a pu survenir avant que React écoute.
+            ref={(el) => {
+              if (el && el.complete && el.naturalWidth === 0) el.dispatchEvent(new Event("error"));
+            }}
+            className="aspect-[4/5] w-full object-cover"
+          />
         </div>
       ) : (
       <div

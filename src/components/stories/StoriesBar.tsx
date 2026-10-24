@@ -11,6 +11,7 @@ import {
   deleteStory,
   type StoryGroup,
 } from "@/lib/stories";
+import { imageLegere } from "@/lib/image-legere";
 
 /**
  * STORIES 24 h : la rangée de ronds (ma story + celles des amis, anneau
@@ -262,7 +263,7 @@ function StoryViewer({
       onPointerCancel={() => setPaused(false)}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={story.image_url} alt="" className="absolute inset-0 h-full w-full object-contain" />
+      <img {...imageLegere(story.image_url, 540)} alt="" className="absolute inset-0 h-full w-full object-contain" />
       <div className="absolute inset-x-0 top-0 bg-gradient-to-b from-black/70 to-transparent pb-10 pt-[max(0.75rem,env(safe-area-inset-top))]">
         {/* Segments de progression */}
         <div className="flex gap-1 px-3">

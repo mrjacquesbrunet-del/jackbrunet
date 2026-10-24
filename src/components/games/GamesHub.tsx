@@ -24,6 +24,7 @@ import { MissionsCard } from "@/components/games/MissionsCard";
 import { pendingChallenges } from "@/lib/challenges";
 import { asset } from "@/lib/asset";
 import { AchievementsOverlay } from "@/components/community/ProfileBadges";
+import { imageLegere } from "@/lib/image-legere";
 
 const S = (d: string) => (p: { className?: string }) => (
   <svg viewBox="0 0 24 24" className={p.className} fill="none" stroke="currentColor" strokeWidth={1.9} strokeLinecap="round" strokeLinejoin="round">
@@ -160,7 +161,7 @@ export function GamesHub() {
           <Link href="/profil" aria-label="Mon profil" className="relative shrink-0">
             {avatar ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={avatar} alt="" className="h-16 w-16 rounded-full object-cover ring-4 ring-white/40" />
+              <img {...imageLegere(avatar, 64, { carre: true })} alt="" className="h-16 w-16 rounded-full object-cover ring-4 ring-white/40" />
             ) : (
               <span className="grid h-16 w-16 place-items-center rounded-full bg-white/20 text-white/80 ring-4 ring-white/30">
                 <IconUser className="h-9 w-9" />

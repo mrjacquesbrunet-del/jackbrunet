@@ -10,6 +10,7 @@ import {
 } from "@/lib/game-scores";
 import { setAchvMax } from "@/lib/achievements";
 import { checkLocalBadges } from "@/lib/badges";
+import { imageLegere } from "@/lib/image-legere";
 
 /**
  * Ligue de la semaine À DIVISIONS (style Duolingo, charte RHEMA) :
@@ -133,7 +134,7 @@ export function LeagueBoard() {
                 </span>
                 {r.avatar_url ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={r.avatar_url} alt="" className="h-8 w-8 shrink-0 rounded-full object-cover" />
+                  <img {...imageLegere(r.avatar_url, 32, { carre: true })} alt="" className="h-8 w-8 shrink-0 rounded-full object-cover" />
                 ) : (
                   <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white/10 text-white/60">
                     <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.8}><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM5 20a7 7 0 0 1 14 0" strokeLinecap="round" /></svg>

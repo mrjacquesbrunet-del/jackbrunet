@@ -5,14 +5,13 @@ import { getSupabase } from "@/lib/supabase";
 import { asset } from "@/lib/asset";
 import { AuthorCard } from "@/components/plans/AuthorCard";
 import { DEFAULT_AUTHOR, type AuthorInfo, type AuthorResource } from "@/config/author";
+import { avecVersionLegere } from "@/lib/image-legere";
 
 /** Photos candidates de Jack (Supabase « audiovf »), comme sur les plans. */
 const JACK_PHOTOS = (() => {
   const sb = getSupabase();
   if (!sb) return [] as string[];
-  return ["auteurjack.jpg", "auteurjack.png", "pasteur-jack.jpg"].map(
-    (n) => sb.storage.from("audiovf").getPublicUrl(n).data.publicUrl,
-  );
+  return ["auteurjack.jpg", "auteurjack.png", "pasteur-jack.jpg"].flatMap((n) => avecVersionLegere(sb.storage.from("audiovf").getPublicUrl(n).data.publicUrl, 96));
 })();
 
 export type DevotionAuthorFields = {

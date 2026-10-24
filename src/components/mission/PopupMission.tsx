@@ -12,6 +12,7 @@ import { openExternal } from "@/lib/external";
 import { getLangue } from "@/lib/i18n";
 import { getSupabase } from "@/lib/supabase";
 import { EVT_MEME_PAGE } from "@/lib/notif-route";
+import { imageLegere } from "@/lib/image-legere";
 
 /** Repli si la photo du profil de Pasteur Jack n'est pas encore chargée. */
 const PHOTO_JACK = "/img/jack-avatar.webp";
@@ -189,7 +190,7 @@ function Fenetre({ onFermer }: { onFermer: () => void }) {
           <div className="flex items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={photoJack}
+              {...imageLegere(photoJack, 56, { carre: true })}
               alt=""
               className="h-14 w-14 shrink-0 rounded-full object-cover ring-[3px] ring-night-900 shadow-[0_0_0_5px_rgba(202,240,0,.35)]"
             />

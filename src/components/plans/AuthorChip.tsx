@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { getSupabase } from "@/lib/supabase";
+import { avecVersionLegere } from "@/lib/image-legere";
 
 /** Rond photo + « Auteur Pasteur Jack », en haut à droite de chaque plan.
  * La photo se charge depuis Supabase Storage (bucket public « audiovf »,
@@ -10,9 +11,7 @@ import { getSupabase } from "@/lib/supabase";
 const CANDIDATES = (() => {
   const sb = getSupabase();
   if (!sb) return [] as string[];
-  return ["auteurjack.jpg", "auteurjack.png", "pasteur-jack.jpg"].map(
-    (n) => sb.storage.from("audiovf").getPublicUrl(n).data.publicUrl,
-  );
+  return ["auteurjack.jpg", "auteurjack.png", "pasteur-jack.jpg"].flatMap((n) => avecVersionLegere(sb.storage.from("audiovf").getPublicUrl(n).data.publicUrl, 96));
 })();
 
 export function AuthorChip({

@@ -1,5 +1,6 @@
 import { initials } from "@/components/community/useAuth";
 import { STREAK_BADGE_MIN } from "@/lib/spiritual";
+import { imageLegere } from "@/lib/image-legere";
 
 /**
  * Avatar rond d'un membre.
@@ -27,7 +28,7 @@ export function Avatar({
   const core = url ? (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={url}
+      {...imageLegere(url, size, { carre: true })}
       alt={pseudo ?? ""}
       width={size}
       height={size}

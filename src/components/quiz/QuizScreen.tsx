@@ -52,6 +52,7 @@ import { ScoreBoard } from "@/components/games/ScoreBoard";
 import { ARCADE_CSS, ArcadeShell } from "@/components/games/ArcadeUI";
 import { DuelLive, newDuelCode, type DuelRole } from "@/components/games/DuelLive";
 import { useSearchParams } from "next/navigation";
+import { imageLegere } from "@/lib/image-legere";
 
 type IconCmp = (p: { className?: string }) => ReactElement;
 
@@ -579,7 +580,7 @@ export function QuizScreen() {
             <span className="relative block rounded-full p-[3px]" style={{ background: "linear-gradient(180deg,#D8F53A,#AAD000)", boxShadow: "0 0 18px rgba(202,240,0,.4)" }}>
               {avatarUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={avatarUrl} alt="" className="h-14 w-14 rounded-full object-cover" />
+                <img {...imageLegere(avatarUrl, 56, { carre: true })} alt="" className="h-14 w-14 rounded-full object-cover" />
               ) : (
                 <span className="grid h-14 w-14 place-items-center rounded-full bg-[#1E1E1D] text-white/75">
                   <IconUser className="h-8 w-8" />
@@ -930,7 +931,7 @@ export function QuizScreen() {
           </button>
           {avatarUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={avatarUrl} alt="" className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-white/40" />
+            <img {...imageLegere(avatarUrl, 40, { carre: true })} alt="" className="h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-white/40" />
           ) : (
             <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/12 text-white/80 ring-2 ring-white/25">
               <IconUser className="h-6 w-6" />
@@ -1251,7 +1252,7 @@ function Leaderboard({ onClose }: { onClose: () => void }) {
                 </span>
                 {r.avatar_url ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={r.avatar_url} alt="" className="h-9 w-9 rounded-full object-cover" />
+                  <img {...imageLegere(r.avatar_url, 36, { carre: true })} alt="" className="h-9 w-9 rounded-full object-cover" />
                 ) : (
                   <span className="grid h-9 w-9 place-items-center rounded-full bg-white/10 font-game text-sm font-bold">
                     {(r.pseudo || "?").slice(0, 1)}

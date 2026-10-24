@@ -12,6 +12,7 @@ import { useEngagement } from "@/lib/engagement";
 import { useLangue } from "@/lib/i18n";
 import { FlameGlyph } from "@/components/ui/DevoIcons";
 import { EVT_BARRE } from "@/components/app/FondDebordement";
+import { imageLegere } from "@/lib/image-legere";
 
 
 /**
@@ -150,7 +151,7 @@ export function ProfilBouton({ taille = 36, className = "" }: { taille?: number;
             </svg>
           ) : profile?.avatar_url ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={profile.avatar_url} alt="" className="h-full w-full object-cover" />
+            <img {...imageLegere(profile.avatar_url, 56, { carre: true })} alt="" className="h-full w-full object-cover" />
           ) : (
             <span
               translate="no"
@@ -532,7 +533,7 @@ export function ProfilMenu() {
                     </svg>
                   ) : profile?.avatar_url ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={profile.avatar_url} alt="" className="h-full w-full object-cover" />
+                    <img {...imageLegere(profile.avatar_url, 56, { carre: true })} alt="" className="h-full w-full object-cover" />
                   ) : (
                     <span translate="no" className="font-display">{initials(nom)}</span>
                   )}

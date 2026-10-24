@@ -26,6 +26,7 @@ import {
 } from "@/lib/wall";
 import { TexteMembre } from "@/components/community/VoirTraduction";
 import { localeApp } from "@/lib/i18n";
+import { imageLegere } from "@/lib/image-legere";
 
 /**
  * LE MUR : le cœur social du profil, façon page Facebook.
@@ -503,7 +504,7 @@ function WallPostCard({
         {p.image_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={p.image_url}
+            {...imageLegere(p.image_url, 520)}
             alt=""
             loading="lazy"
             className="mt-2 max-h-[26rem] w-full rounded-2xl object-cover"
