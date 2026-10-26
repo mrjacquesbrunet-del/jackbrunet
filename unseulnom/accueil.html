@@ -1721,12 +1721,22 @@
     if (!video || !bouton) return;
 
     function aDuSon() {
-      // Chaque navigateur renseigne un indicateur different, et aucun
-      // n'est garanti : au moindre doute on garde le bouton.
+      /*
+       * Seuls deux indicateurs disent vraiment si la video porte une
+       * piste audio, et chacun n'existe que dans un navigateur :
+       * mozHasAudio chez Firefox, audioTracks chez Safari.
+       *
+       * Chrome n'a ni l'un ni l'autre. Il expose bien
+       * webkitAudioDecodedByteCount, mais celui-ci compte les octets
+       * DEJA DECODES : sur une video muette, Chrome ne decode aucun son,
+       * le compteur reste a zero et le test concluait « pas de piste
+       * audio ». Le bouton disparaissait donc exactement la ou il
+       * servait. Il n'est plus consulte.
+       *
+       * Sans indicateur fiable, on garde le bouton : au pire il ne
+       * donne rien, au mieux il rend le son. L'inverse coute plus cher.
+       */
       if (typeof video.mozHasAudio === 'boolean') return video.mozHasAudio;
-      if (typeof video.webkitAudioDecodedByteCount === 'number') {
-        return video.webkitAudioDecodedByteCount > 0;
-      }
       if (video.audioTracks) return video.audioTracks.length > 0;
       return true;
     }
