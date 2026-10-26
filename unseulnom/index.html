@@ -1229,38 +1229,37 @@
        touche a rien. */
     if (!document.getElementById('usn-event')) return;
 
-  /* ---- Rendre la main aux blocs qui tiennent a l'ecran ----
+  /* ---- Premier passage : liberer les conteneurs du theme ----
 
-     « position: sticky » cesse de fonctionner des qu'un ancetre coupe son
-     contenu, porte une transformation, un filtre, une perspective ou un
-     confinement. Le theme WordPress enferme le contenu de la page dans
-     plusieurs conteneurs dont nous ne connaissons pas les noms, et il
-     suffit d'un seul pour tout annuler.
+     « position: sticky » cesse de fonctionner des qu'un conteneur
+     au-dessus coupe son contenu, porte une transformation, un filtre,
+     une perspective ou se declare confine.
 
-     Deux blocs en dependent : la vision, dont les mots s'allument l'un
-     apres l'autre pendant que le texte reste en place, et la frise, qui
-     se deroule horizontalement pendant qu'on descend. Sans elle, les
-     deux passent d'un trait et laissent derriere eux une hauteur d'ecran
-     vide — exactement ce qu'on voyait en ligne.
-
-     On remonte donc la chaine jusqu'au corps du document et on rend la
-     main a ceux qui bloquent. La page garde son propre « overflow-x »,
-     rien ne deborde lateralement. */
+     Ce passage-ci a lieu avant tout le reste, donc avant le premier
+     affichage, et il s'applique meme quand le visiteur a demande moins
+     d'animations — auquel cas le moteur de defilement ne demarre pas.
+     « important » n'est pas une coquetterie : le theme pose ses regles
+     ainsi, un style en ligne ordinaire ne passerait pas devant. */
   (function () {
     var n = document.getElementById('usn-event');
     if (!n) return;
+    var props = ['overflow', 'transform', 'filter', 'perspective',
+                 'contain', 'content-visibility', 'will-change'];
+    var valeurs = ['visible', 'none', 'none', 'none', 'none', 'visible', 'auto'];
     while (n.parentElement) {
       n = n.parentElement;
       if (n === document.body || n === document.documentElement) break;
-      var s = getComputedStyle(n);
-      if (s.overflowX !== 'visible' || s.overflowY !== 'visible') n.style.overflow = 'visible';
-      if (s.transform !== 'none') n.style.transform = 'none';
-      if (s.filter !== 'none') n.style.filter = 'none';
-      if (s.perspective !== 'none') n.style.perspective = 'none';
-      if (s.contain !== 'none') n.style.contain = 'none';
+      var c = getComputedStyle(n);
+      var bloque = c.overflowX !== 'visible' || c.overflowY !== 'visible'
+                || c.transform !== 'none' || c.filter !== 'none'
+                || c.perspective !== 'none' || c.contain !== 'none'
+                || (c.willChange || '').indexOf('transform') >= 0;
+      if (!bloque) continue;
+      for (var k = 0; k < props.length; k++) {
+        n.style.setProperty(props[k], valeurs[k], 'important');
+      }
     }
   })();
-
 
   /* ---- Le grand titre s'ajuste toujours à la largeur ----
      « AVIGNON » débordait sur mobile ; avec un nom de ville plus long le

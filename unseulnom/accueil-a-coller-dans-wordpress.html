@@ -754,19 +754,22 @@
      texte se lit au rythme du defilement plutot que d'attendre, deja
      ecrit, qu'on arrive dessus.
      =================================================================== */
-  #usn-accueil .usn-phrase { position: relative; height: 240svh; background: var(--usn-nuit); }
-  /* Ces deux blocs tiennent a l'ecran pendant qu'on descend. Ils le
-     faisaient avec " position: sticky ", mais il suffit qu'un conteneur
-     du theme coupe son contenu, porte une transformation ou se declare
-     confine pour que tout tombe - et le bloc laissait alors derriere lui
-     une hauteur d'ecran vide.
+  /* Deux hauteurs d'ecran de traversee, pas plus : a 240 on avait le
+     sentiment d'etre retenu, et le texte est lu bien avant la fin. */
+  #usn-accueil .usn-phrase { position: relative; height: 200svh; background: var(--usn-nuit); }
+  /* Ces deux blocs tiennent a l'ecran pendant qu'on descend.
 
-     On ne le demande donc plus au navigateur : le moteur de defilement,
-     qui tourne deja a chaque image, deplace lui-meme le bloc interieur.
-     Le resultat est identique et ne depend de rien. */
+     C'est " position: sticky " qui s'en charge, et personne d'autre :
+     le navigateur le traite au niveau du compositeur, donc sans un
+     pixel de retard sur le doigt. Le faire a la main en JavaScript
+     fonctionne aussi, mais ajoute une image de retard a chaque
+     mouvement, et cela se sent immediatement - le bloc semble rebondir.
+
+     Le script verifie au chargement qu'aucun conteneur du theme ne le
+     neutralise, et ne reprend la main que s'il n'a pas pu le liberer. */
   #usn-accueil .usn-phrase-fixe {
-    position: relative; height: 100svh; overflow: hidden;
-    display: flex; align-items: center; will-change: transform;
+    position: sticky; top: 0; height: 100svh; overflow: hidden;
+    display: flex; align-items: center;
   }
 
   /* La matiere du fond sombre : de longues lignes de niveau qui errent
@@ -865,7 +868,7 @@
      quelle que soit la taille de l'ecran.
      =================================================================== */
   #usn-accueil .usn-frise { position: relative; height: 300svh; background: var(--usn-ivoire); }
-  #usn-accueil .usn-frise-fixe { position: relative; height: 100svh; overflow: hidden; will-change: transform; }
+  #usn-accueil .usn-frise-fixe { position: sticky; top: 0; height: 100svh; overflow: hidden; }
 
   /* --- la meme matiere que le heros : la creme ne s'interrompt jamais --- */
   #usn-accueil .usn-frise-fond { position: absolute; inset: 0; pointer-events: none; }
@@ -1215,9 +1218,25 @@
   <!-- ============================================================= -->
   <header class="usn-ouverture" id="usn-haut" data-usn-sombre>
     <div class="usn-ouv-bande">
+      <!--
+        &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+        &#9658; DEUX FICHIERS POUR LA MEME BANDE-ANNONCE
+
+        Le navigateur prend la PREMIERE ligne dont la condition est
+        remplie. Sur un telephone, la version allegee : l'image y est
+        affichee sur 400 pixels de large, les 1920 de l'autre n'y
+        apporteraient rien et coutent 9 Mo de plus.
+
+        La premiere version mise en ligne etait en 1280 sur 720 a
+        708 kb/s, alors que l'original est en 1920 sur 1080 a 2,3 Mb/s :
+        d'ou son aspect mou. Celle-ci tient le debit.
+        &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+      -->
       <video id="usn-ouv-video" autoplay muted loop playsinline preload="metadata"
              poster="https://unseulnom.org/wp-content/uploads/2026/10/teaserposter.webp">
-        <source src="https://unseulnom.org/wp-content/uploads/2026/10/teaserv4.mp4" type="video/mp4" />
+        <source src="https://unseulnom.org/wp-content/uploads/2026/10/teaserv5-mobile.mp4"
+                media="(max-width: 820px)" type="video/mp4" />
+        <source src="https://unseulnom.org/wp-content/uploads/2026/10/teaserv5.mp4" type="video/mp4" />
       </video>
 
       <button type="button" class="usn-ouv-son" id="usn-ouv-son" aria-pressed="false">

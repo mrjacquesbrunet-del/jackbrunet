@@ -29,38 +29,37 @@
        touche a rien. */
     if (!document.getElementById('usn-accueil')) return;
 
-  /* ---- Rendre la main aux blocs qui tiennent a l'ecran ----
+  /* ---- Premier passage : liberer les conteneurs du theme ----
 
-     " position: sticky " cesse de fonctionner des qu'un ancetre coupe son
-     contenu, porte une transformation, un filtre, une perspective ou un
-     confinement. Le theme WordPress enferme le contenu de la page dans
-     plusieurs conteneurs dont nous ne connaissons pas les noms, et il
-     suffit d'un seul pour tout annuler.
+     " position: sticky " cesse de fonctionner des qu'un conteneur
+     au-dessus coupe son contenu, porte une transformation, un filtre,
+     une perspective ou se declare confine.
 
-     Deux blocs en dependent : la vision, dont les mots s'allument l'un
-     apres l'autre pendant que le texte reste en place, et la frise, qui
-     se deroule horizontalement pendant qu'on descend. Sans elle, les
-     deux passent d'un trait et laissent derriere eux une hauteur d'ecran
-     vide - exactement ce qu'on voyait en ligne.
-
-     On remonte donc la chaine jusqu'au corps du document et on rend la
-     main a ceux qui bloquent. La page garde son propre " overflow-x ",
-     rien ne deborde lateralement. */
+     Ce passage-ci a lieu avant tout le reste, donc avant le premier
+     affichage, et il s'applique meme quand le visiteur a demande moins
+     d'animations - auquel cas le moteur de defilement ne demarre pas.
+     " important " n'est pas une coquetterie : le theme pose ses regles
+     ainsi, un style en ligne ordinaire ne passerait pas devant. */
   (function () {
     var n = document.getElementById('usn-accueil');
     if (!n) return;
+    var props = ['overflow', 'transform', 'filter', 'perspective',
+                 'contain', 'content-visibility', 'will-change'];
+    var valeurs = ['visible', 'none', 'none', 'none', 'none', 'visible', 'auto'];
     while (n.parentElement) {
       n = n.parentElement;
       if (n === document.body || n === document.documentElement) break;
-      var s = getComputedStyle(n);
-      if (s.overflowX !== 'visible' || s.overflowY !== 'visible') n.style.overflow = 'visible';
-      if (s.transform !== 'none') n.style.transform = 'none';
-      if (s.filter !== 'none') n.style.filter = 'none';
-      if (s.perspective !== 'none') n.style.perspective = 'none';
-      if (s.contain !== 'none') n.style.contain = 'none';
+      var c = getComputedStyle(n);
+      var bloque = c.overflowX !== 'visible' || c.overflowY !== 'visible'
+                || c.transform !== 'none' || c.filter !== 'none'
+                || c.perspective !== 'none' || c.contain !== 'none'
+                || (c.willChange || '').indexOf('transform') >= 0;
+      if (!bloque) continue;
+      for (var k = 0; k < props.length; k++) {
+        n.style.setProperty(props[k], valeurs[k], 'important');
+      }
     }
   })();
-
 
   /* ---- Le menu du haut ----
      Le bouton a deux traits ouvre le panneau ; les deux traits se
@@ -574,9 +573,10 @@
     function mesurerFrise() {
       if (!frise || !piste) return;
       course = Math.max(0, piste.scrollWidth - window.innerWidth);
-      // Un peu moins d'un pixel de defilement par pixel parcouru : la
-      // bande avance sans obliger a une descente interminable.
-      frise.style.height = (vh() + course * 0.85) + 'px';
+      // La bande avance plus vite que le doigt ne descend : a 0,85 la
+      // descente etait interminable et on se sentait retenu. A 0,62 la
+      // bande se deroule entierement, en un tiers de chemin en moins.
+      frise.style.height = (vh() + course * 0.62) + 'px';
     }
 
     function friseAppliquer() {
@@ -654,7 +654,49 @@
       }
     })();
 
+    /* Les proprietes qui mettent " sticky " hors service : un conteneur
+       qui coupe son contenu devient son cadre de reference, et une
+       transformation, un filtre, une perspective ou un confinement en
+       font un nouveau repere. */
+    function ceQuiBloque(n) {
+      var c = getComputedStyle(n);
+      if (c.overflowX !== 'visible' || c.overflowY !== 'visible') return 'overflow';
+      if (c.transform !== 'none') return 'transform';
+      if (c.filter !== 'none') return 'filter';
+      if (c.perspective !== 'none') return 'perspective';
+      if (c.contain !== 'none') return 'contain';
+      if (c.contentVisibility ? c.contentVisibility !== 'visible' : false) return 'content-visibility';
+      if ((c.willChange || '').indexOf('transform') >= 0) return 'will-change';
+      return '';
+    }
+
+    /* On remonte la chaine et on libere ce qu'on peut. " important "
+       n'est pas une coquetterie : le theme pose ses regles ainsi, et un
+       style en ligne ordinaire ne passerait pas devant. */
+    function libererLesParents() {
+      var reste = 0, n = root;
+      while (n.parentElement) {
+        n = n.parentElement;
+        if (n === document.body || n === document.documentElement) break;
+        if (!ceQuiBloque(n)) continue;
+        var props = ['overflow', 'transform', 'filter', 'perspective',
+                     'contain', 'content-visibility', 'will-change'];
+        var valeurs = ['visible', 'none', 'none', 'none', 'none', 'visible', 'auto'];
+        for (var k = 0; k < props.length; k++) {
+          n.style.setProperty(props[k], valeurs[k], 'important');
+        }
+        if (ceQuiBloque(n)) reste++;
+      }
+      return reste;
+    }
+
+    /* Le secours : on deplace le bloc interieur soi-meme. Il n'entre en
+       service que si un conteneur a resiste, car il coute une image de
+       retard sur le defilement. */
+    var secours = false;
+
     function tenirALEcran() {
+      if (!secours) return;
       for (var i = 0; i < aTenir.length; i++) {
         var b = aTenir[i].bloc, d = aTenir[i].dedans;
         var r = b.getBoundingClientRect();
@@ -663,6 +705,20 @@
         d.style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0)';
       }
     }
+
+    function reglerLeMaintien() {
+      if (libererLesParents() === 0) return;        // le natif suffit
+      secours = true;
+      for (var i = 0; i < aTenir.length; i++) {
+        var d = aTenir[i].dedans;
+        d.style.position = 'relative';
+        d.style.willChange = 'transform';
+      }
+      tenirALEcran();
+    }
+    reglerLeMaintien();
+    // Certains themes posent leurs styles apres coup : on repasse.
+    window.addEventListener('load', reglerLeMaintien);
 
     function frame() {
       var moving = false;

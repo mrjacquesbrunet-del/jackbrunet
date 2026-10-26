@@ -45,9 +45,25 @@
   <!-- ============================================================= -->
   <header class="usn-ouverture" id="usn-haut" data-usn-sombre>
     <div class="usn-ouv-bande">
+      <!--
+        &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+        &#9658; DEUX FICHIERS POUR LA MEME BANDE-ANNONCE
+
+        Le navigateur prend la PREMIERE ligne dont la condition est
+        remplie. Sur un telephone, la version allegee : l'image y est
+        affichee sur 400 pixels de large, les 1920 de l'autre n'y
+        apporteraient rien et coutent 9 Mo de plus.
+
+        La premiere version mise en ligne etait en 1280 sur 720 a
+        708 kb/s, alors que l'original est en 1920 sur 1080 a 2,3 Mb/s :
+        d'ou son aspect mou. Celle-ci tient le debit.
+        &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+      -->
       <video id="usn-ouv-video" autoplay muted loop playsinline preload="metadata"
              poster="https://unseulnom.org/wp-content/uploads/2026/10/teaserposter.webp">
-        <source src="https://unseulnom.org/wp-content/uploads/2026/10/teaserv4.mp4" type="video/mp4" />
+        <source src="https://unseulnom.org/wp-content/uploads/2026/10/teaserv5-mobile.mp4"
+                media="(max-width: 820px)" type="video/mp4" />
+        <source src="https://unseulnom.org/wp-content/uploads/2026/10/teaserv5.mp4" type="video/mp4" />
       </video>
 
       <button type="button" class="usn-ouv-son" id="usn-ouv-son" aria-pressed="false">

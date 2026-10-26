@@ -766,19 +766,22 @@
      texte se lit au rythme du defilement plutot que d'attendre, deja
      ecrit, qu'on arrive dessus.
      =================================================================== */
-  #usn-accueil .usn-phrase { position: relative; height: 240svh; background: var(--usn-nuit); }
-  /* Ces deux blocs tiennent a l'ecran pendant qu'on descend. Ils le
-     faisaient avec « position: sticky », mais il suffit qu'un conteneur
-     du theme coupe son contenu, porte une transformation ou se declare
-     confine pour que tout tombe — et le bloc laissait alors derriere lui
-     une hauteur d'ecran vide.
+  /* Deux hauteurs d'ecran de traversee, pas plus : a 240 on avait le
+     sentiment d'etre retenu, et le texte est lu bien avant la fin. */
+  #usn-accueil .usn-phrase { position: relative; height: 200svh; background: var(--usn-nuit); }
+  /* Ces deux blocs tiennent a l'ecran pendant qu'on descend.
 
-     On ne le demande donc plus au navigateur : le moteur de defilement,
-     qui tourne deja a chaque image, deplace lui-meme le bloc interieur.
-     Le resultat est identique et ne depend de rien. */
+     C'est « position: sticky » qui s'en charge, et personne d'autre :
+     le navigateur le traite au niveau du compositeur, donc sans un
+     pixel de retard sur le doigt. Le faire a la main en JavaScript
+     fonctionne aussi, mais ajoute une image de retard a chaque
+     mouvement, et cela se sent immediatement — le bloc semble rebondir.
+
+     Le script verifie au chargement qu'aucun conteneur du theme ne le
+     neutralise, et ne reprend la main que s'il n'a pas pu le liberer. */
   #usn-accueil .usn-phrase-fixe {
-    position: relative; height: 100svh; overflow: hidden;
-    display: flex; align-items: center; will-change: transform;
+    position: sticky; top: 0; height: 100svh; overflow: hidden;
+    display: flex; align-items: center;
   }
 
   /* La matiere du fond sombre : de longues lignes de niveau qui errent
@@ -877,7 +880,7 @@
      quelle que soit la taille de l'ecran.
      =================================================================== */
   #usn-accueil .usn-frise { position: relative; height: 300svh; background: var(--usn-ivoire); }
-  #usn-accueil .usn-frise-fixe { position: relative; height: 100svh; overflow: hidden; will-change: transform; }
+  #usn-accueil .usn-frise-fixe { position: sticky; top: 0; height: 100svh; overflow: hidden; }
 
   /* --- la meme matiere que le heros : la creme ne s'interrompt jamais --- */
   #usn-accueil .usn-frise-fond { position: absolute; inset: 0; pointer-events: none; }
@@ -1227,9 +1230,25 @@
   <!-- ============================================================= -->
   <header class="usn-ouverture" id="usn-haut" data-usn-sombre>
     <div class="usn-ouv-bande">
+      <!--
+        ══════════════════════════════════════════════════════════════
+        ► DEUX FICHIERS POUR LA MEME BANDE-ANNONCE
+
+        Le navigateur prend la PREMIERE ligne dont la condition est
+        remplie. Sur un telephone, la version allegee : l'image y est
+        affichee sur 400 pixels de large, les 1920 de l'autre n'y
+        apporteraient rien et coutent 9 Mo de plus.
+
+        La premiere version mise en ligne etait en 1280 sur 720 a
+        708 kb/s, alors que l'original est en 1920 sur 1080 a 2,3 Mb/s :
+        d'ou son aspect mou. Celle-ci tient le debit.
+        ══════════════════════════════════════════════════════════════
+      -->
       <video id="usn-ouv-video" autoplay muted loop playsinline preload="metadata"
              poster="images/teaserposter.webp">
-        <source src="https://unseulnom.org/wp-content/uploads/2026/10/teaserv4.mp4" type="video/mp4" />
+        <source src="https://unseulnom.org/wp-content/uploads/2026/10/teaserv5-mobile.mp4"
+                media="(max-width: 820px)" type="video/mp4" />
+        <source src="https://unseulnom.org/wp-content/uploads/2026/10/teaserv5.mp4" type="video/mp4" />
       </video>
 
       <button type="button" class="usn-ouv-son" id="usn-ouv-son" aria-pressed="false">
@@ -1711,38 +1730,37 @@
        touche a rien. */
     if (!document.getElementById('usn-accueil')) return;
 
-  /* ---- Rendre la main aux blocs qui tiennent a l'ecran ----
+  /* ---- Premier passage : liberer les conteneurs du theme ----
 
-     « position: sticky » cesse de fonctionner des qu'un ancetre coupe son
-     contenu, porte une transformation, un filtre, une perspective ou un
-     confinement. Le theme WordPress enferme le contenu de la page dans
-     plusieurs conteneurs dont nous ne connaissons pas les noms, et il
-     suffit d'un seul pour tout annuler.
+     « position: sticky » cesse de fonctionner des qu'un conteneur
+     au-dessus coupe son contenu, porte une transformation, un filtre,
+     une perspective ou se declare confine.
 
-     Deux blocs en dependent : la vision, dont les mots s'allument l'un
-     apres l'autre pendant que le texte reste en place, et la frise, qui
-     se deroule horizontalement pendant qu'on descend. Sans elle, les
-     deux passent d'un trait et laissent derriere eux une hauteur d'ecran
-     vide — exactement ce qu'on voyait en ligne.
-
-     On remonte donc la chaine jusqu'au corps du document et on rend la
-     main a ceux qui bloquent. La page garde son propre « overflow-x »,
-     rien ne deborde lateralement. */
+     Ce passage-ci a lieu avant tout le reste, donc avant le premier
+     affichage, et il s'applique meme quand le visiteur a demande moins
+     d'animations — auquel cas le moteur de defilement ne demarre pas.
+     « important » n'est pas une coquetterie : le theme pose ses regles
+     ainsi, un style en ligne ordinaire ne passerait pas devant. */
   (function () {
     var n = document.getElementById('usn-accueil');
     if (!n) return;
+    var props = ['overflow', 'transform', 'filter', 'perspective',
+                 'contain', 'content-visibility', 'will-change'];
+    var valeurs = ['visible', 'none', 'none', 'none', 'none', 'visible', 'auto'];
     while (n.parentElement) {
       n = n.parentElement;
       if (n === document.body || n === document.documentElement) break;
-      var s = getComputedStyle(n);
-      if (s.overflowX !== 'visible' || s.overflowY !== 'visible') n.style.overflow = 'visible';
-      if (s.transform !== 'none') n.style.transform = 'none';
-      if (s.filter !== 'none') n.style.filter = 'none';
-      if (s.perspective !== 'none') n.style.perspective = 'none';
-      if (s.contain !== 'none') n.style.contain = 'none';
+      var c = getComputedStyle(n);
+      var bloque = c.overflowX !== 'visible' || c.overflowY !== 'visible'
+                || c.transform !== 'none' || c.filter !== 'none'
+                || c.perspective !== 'none' || c.contain !== 'none'
+                || (c.willChange || '').indexOf('transform') >= 0;
+      if (!bloque) continue;
+      for (var k = 0; k < props.length; k++) {
+        n.style.setProperty(props[k], valeurs[k], 'important');
+      }
     }
   })();
-
 
   /* ---- Le menu du haut ----
      Le bouton a deux traits ouvre le panneau ; les deux traits se
@@ -2256,9 +2274,10 @@
     function mesurerFrise() {
       if (!frise || !piste) return;
       course = Math.max(0, piste.scrollWidth - window.innerWidth);
-      // Un peu moins d'un pixel de defilement par pixel parcouru : la
-      // bande avance sans obliger a une descente interminable.
-      frise.style.height = (vh() + course * 0.85) + 'px';
+      // La bande avance plus vite que le doigt ne descend : a 0,85 la
+      // descente etait interminable et on se sentait retenu. A 0,62 la
+      // bande se deroule entierement, en un tiers de chemin en moins.
+      frise.style.height = (vh() + course * 0.62) + 'px';
     }
 
     function friseAppliquer() {
@@ -2336,7 +2355,49 @@
       }
     })();
 
+    /* Les proprietes qui mettent « sticky » hors service : un conteneur
+       qui coupe son contenu devient son cadre de reference, et une
+       transformation, un filtre, une perspective ou un confinement en
+       font un nouveau repere. */
+    function ceQuiBloque(n) {
+      var c = getComputedStyle(n);
+      if (c.overflowX !== 'visible' || c.overflowY !== 'visible') return 'overflow';
+      if (c.transform !== 'none') return 'transform';
+      if (c.filter !== 'none') return 'filter';
+      if (c.perspective !== 'none') return 'perspective';
+      if (c.contain !== 'none') return 'contain';
+      if (c.contentVisibility ? c.contentVisibility !== 'visible' : false) return 'content-visibility';
+      if ((c.willChange || '').indexOf('transform') >= 0) return 'will-change';
+      return '';
+    }
+
+    /* On remonte la chaine et on libere ce qu'on peut. « important »
+       n'est pas une coquetterie : le theme pose ses regles ainsi, et un
+       style en ligne ordinaire ne passerait pas devant. */
+    function libererLesParents() {
+      var reste = 0, n = root;
+      while (n.parentElement) {
+        n = n.parentElement;
+        if (n === document.body || n === document.documentElement) break;
+        if (!ceQuiBloque(n)) continue;
+        var props = ['overflow', 'transform', 'filter', 'perspective',
+                     'contain', 'content-visibility', 'will-change'];
+        var valeurs = ['visible', 'none', 'none', 'none', 'none', 'visible', 'auto'];
+        for (var k = 0; k < props.length; k++) {
+          n.style.setProperty(props[k], valeurs[k], 'important');
+        }
+        if (ceQuiBloque(n)) reste++;
+      }
+      return reste;
+    }
+
+    /* Le secours : on deplace le bloc interieur soi-meme. Il n'entre en
+       service que si un conteneur a resiste, car il coute une image de
+       retard sur le defilement. */
+    var secours = false;
+
     function tenirALEcran() {
+      if (!secours) return;
       for (var i = 0; i < aTenir.length; i++) {
         var b = aTenir[i].bloc, d = aTenir[i].dedans;
         var r = b.getBoundingClientRect();
@@ -2345,6 +2406,20 @@
         d.style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0)';
       }
     }
+
+    function reglerLeMaintien() {
+      if (libererLesParents() === 0) return;        // le natif suffit
+      secours = true;
+      for (var i = 0; i < aTenir.length; i++) {
+        var d = aTenir[i].dedans;
+        d.style.position = 'relative';
+        d.style.willChange = 'transform';
+      }
+      tenirALEcran();
+    }
+    reglerLeMaintien();
+    // Certains themes posent leurs styles apres coup : on repasse.
+    window.addEventListener('load', reglerLeMaintien);
 
     function frame() {
       var moving = false;

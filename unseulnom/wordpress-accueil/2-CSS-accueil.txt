@@ -753,19 +753,22 @@
      texte se lit au rythme du defilement plutot que d'attendre, deja
      ecrit, qu'on arrive dessus.
      =================================================================== */
-  #usn-accueil .usn-phrase { position: relative; height: 240svh; background: var(--usn-nuit); }
-  /* Ces deux blocs tiennent a l'ecran pendant qu'on descend. Ils le
-     faisaient avec " position: sticky ", mais il suffit qu'un conteneur
-     du theme coupe son contenu, porte une transformation ou se declare
-     confine pour que tout tombe - et le bloc laissait alors derriere lui
-     une hauteur d'ecran vide.
+  /* Deux hauteurs d'ecran de traversee, pas plus : a 240 on avait le
+     sentiment d'etre retenu, et le texte est lu bien avant la fin. */
+  #usn-accueil .usn-phrase { position: relative; height: 200svh; background: var(--usn-nuit); }
+  /* Ces deux blocs tiennent a l'ecran pendant qu'on descend.
 
-     On ne le demande donc plus au navigateur : le moteur de defilement,
-     qui tourne deja a chaque image, deplace lui-meme le bloc interieur.
-     Le resultat est identique et ne depend de rien. */
+     C'est " position: sticky " qui s'en charge, et personne d'autre :
+     le navigateur le traite au niveau du compositeur, donc sans un
+     pixel de retard sur le doigt. Le faire a la main en JavaScript
+     fonctionne aussi, mais ajoute une image de retard a chaque
+     mouvement, et cela se sent immediatement - le bloc semble rebondir.
+
+     Le script verifie au chargement qu'aucun conteneur du theme ne le
+     neutralise, et ne reprend la main que s'il n'a pas pu le liberer. */
   #usn-accueil .usn-phrase-fixe {
-    position: relative; height: 100svh; overflow: hidden;
-    display: flex; align-items: center; will-change: transform;
+    position: sticky; top: 0; height: 100svh; overflow: hidden;
+    display: flex; align-items: center;
   }
 
   /* La matiere du fond sombre : de longues lignes de niveau qui errent
@@ -864,7 +867,7 @@
      quelle que soit la taille de l'ecran.
      =================================================================== */
   #usn-accueil .usn-frise { position: relative; height: 300svh; background: var(--usn-ivoire); }
-  #usn-accueil .usn-frise-fixe { position: relative; height: 100svh; overflow: hidden; will-change: transform; }
+  #usn-accueil .usn-frise-fixe { position: sticky; top: 0; height: 100svh; overflow: hidden; }
 
   /* --- la meme matiere que le heros : la creme ne s'interrompt jamais --- */
   #usn-accueil .usn-frise-fond { position: absolute; inset: 0; pointer-events: none; }
