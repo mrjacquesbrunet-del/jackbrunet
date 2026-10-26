@@ -11,22 +11,43 @@ et rouge, texte noir sur blanc.
 """
 
 import base64
+import io
 import pathlib
 import subprocess
+import tempfile
 
 import qrcode
 
 RACINE = pathlib.Path(__file__).resolve().parent
-SCRATCH = pathlib.Path(
-    "/tmp/claude-0/-home-user-jackbrunet/3053e314-abed-5e5c-8c07-dd7522061207/scratchpad"
-)
+# Les polices et le logo vivent DANS LE DEPOT, et non dans un dossier de
+# travail temporaire. La premiere version les y cherchait : le dossier a
+# ete nettoye, et le script ne savait plus produire une lettre.
+CHARTE = RACINE.parent / "charte"
 CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
 
-LIEN_QR = "https://unseulnom.org/evenement/"
 COURRIEL = "75unseulnomjesus@gmail.com"
 
-# La date affichee en haut a droite. A changer avant chaque envoi.
-DATE_LETTRE = "Avignon, le 12 ao\u00fbt 2026"
+# ---------------------------------------------------------------------
+# LA VILLE
+#
+# C'est le seul bloc a changer d'une edition a l'autre. Le reste de la
+# lettre ne bouge pas : c'est la meme invitation, la meme charte, et le
+# meme pied de page.
+# ---------------------------------------------------------------------
+VILLE = {
+    "nom":        "Tarbes",
+    "sortie":     "lettre-un-seul-nom-tarbes",
+    "date_jour":  "Samedi<br>12 d\u00e9cembre 2026",
+    "date_texte": "samedi 12 d\u00e9cembre 2026",
+    "horaires":   "Ouverture \u00e0 15h00 &middot; Conf\u00e9rence 16h00",
+    "lieu":       "ch\u00e2teau d'Orleix, 13 bis rue des Platanes, 65800 Orleix",
+    "lieu_court": "ch\u00e2teau d'Orleix, pr\u00e8s de Tarbes",
+    "predication": "Jack Brunet et Chriss Campion",
+    "louange":    "Briman Heugebaert et Juan Antonio",
+    "places":     "400",
+    "lien_qr":    "https://unseulnom.org/evenement/tarbes/",
+    "date_lettre": "Tarbes, le 26 octobre 2026",
+}
 
 
 def qr_base64(lien):
@@ -34,14 +55,14 @@ def qr_base64(lien):
                          box_size=10, border=0)
     code.add_data(lien)
     code.make(fit=True)
-    fichier = SCRATCH / "qr-lettre.png"
-    code.make_image(fill_color="#0C0B0A", back_color="white").save(fichier)
-    return base64.b64encode(fichier.read_bytes()).decode()
+    tampon = io.BytesIO()
+    code.make_image(fill_color="#0C0B0A", back_color="white").save(tampon, format="PNG")
+    return base64.b64encode(tampon.getvalue()).decode()
 
 
 def logo_blanc():
     """Le meme logo vectoriel que la page evenement, en blanc."""
-    return (SCRATCH / "uri_blanc.txt").read_text().strip()
+    return (CHARTE / "logo-blanc.txt").read_text(encoding="utf-8").strip()
 
 
 HTML = """<!DOCTYPE html>
@@ -147,12 +168,12 @@ strong { font-weight: 700; }
   <div class="logo"></div>
   <div>
     <div class="marque">Un Seul Nom</div>
-    <div class="ville">Avignon</div>
+    <div class="ville">__VILLE__</div>
     <div class="accroche">&Eacute;vang&eacute;lisation &amp; Gu&eacute;rison</div>
   </div>
   <div class="quand">
-    <div class="j">Samedi<br>17 octobre 2026</div>
-    <div class="h">Ouverture &agrave; 15h00 &middot; Conf&eacute;rence 16h00</div>
+    <div class="j">__DATE_JOUR__</div>
+    <div class="h">__HORAIRES__</div>
   </div>
 </div>
 
@@ -166,7 +187,9 @@ strong { font-weight: 700; }
 
   <p>C'est avec joie et foi que nous vous invitons &agrave; un grand &eacute;v&eacute;nement
   d'&eacute;vang&eacute;lisation, de gu&eacute;rison et de r&eacute;veil, qui se tiendra le
-  <strong>samedi 17 octobre 2026 au parc des expos d'Avignon</strong>.</p>
+  <strong>__DATE_TEXTE__ au __LIEU_COURT__</strong>. Nous &eacute;crivons aux
+  &eacute;glises de Tarbes, de Pau et de toute la r&eacute;gion&nbsp;: Hautes-Pyr&eacute;n&eacute;es,
+  B&eacute;arn, Gers et Haute-Garonne.</p>
 
   <p>Cet &eacute;v&eacute;nement a pour but d'annoncer l'&Eacute;vangile &agrave; ceux qui ont
   besoin de rencontrer J&eacute;sus : personnes non-croyantes, malades, ou en recherche de
@@ -188,16 +211,24 @@ strong { font-weight: 700; }
   ensemble, d'&ecirc;tre lumi&egrave;re et sel, et d'apporter l'esp&eacute;rance de Christ
   l&agrave; o&ugrave; elle est le plus n&eacute;cessaire.</p>
 
+  <p><strong>L'entr&eacute;e est libre, mais la place se r&eacute;serve.</strong> La salle
+  compte <strong>__PLACES__ places</strong>, et nous les ouvrons &agrave; la
+  r&eacute;servation sur <strong>unseulnom.org</strong>. Nous vous demandons d'inviter vos
+  membres &agrave; <span class="souligne">r&eacute;server une place par personne</span>,
+  m&ecirc;me pour celles qu'ils am&egrave;nent&nbsp;: c'est ce qui nous permet de
+  pr&eacute;parer l'accueil, les &eacute;quipes de pri&egrave;re et le suivi. Une
+  r&eacute;servation ne prend pas une minute, et le billet arrive par courriel.</p>
+
   <div class="infos">
     <h2>Informations pratiques</h2>
-    <div class="ligne"><b>Date&nbsp;:</b> samedi 17 octobre 2026.</div>
-    <div class="ligne"><b>Lieu&nbsp;:</b> parc des expos d'Avignon,
-      800 chemin des F&eacute;lons, 84140 Montfavet.</div>
+    <div class="ligne"><b>Date&nbsp;:</b> __DATE_TEXTE__.</div>
+    <div class="ligne"><b>Lieu&nbsp;:</b> __LIEU__.</div>
     <div class="ligne"><b>Horaires&nbsp;:</b> ouverture des portes &agrave; 15h00,
       d&eacute;but de la conf&eacute;rence &agrave; 16h00.</div>
-    <div class="ligne"><b>Pr&eacute;dication&nbsp;:</b> Yannis Gautier et Chriss Campion.
-      <b>Louange&nbsp;:</b> Patcha&iuml; Reyes, Nikita Heugebaert et Ruben Debard.</div>
-    <div class="ligne"><b>Objectifs&nbsp;:</b> &eacute;vang&eacute;lisation et gu&eacute;rison.</div>
+    <div class="ligne"><b>Pr&eacute;dication&nbsp;:</b> __PREDICATION__.
+      <b>Louange&nbsp;:</b> __LOUANGE__.</div>
+    <div class="ligne"><b>Places&nbsp;:</b> entr&eacute;e libre, __PLACES__ places
+      &agrave; r&eacute;server sur <b>unseulnom.org</b>.</div>
   </div>
 
   <p>Nous prions afin que cet &eacute;v&eacute;nement soit un temps de r&eacute;veil spirituel
@@ -208,8 +239,8 @@ strong { font-weight: 700; }
   <div class="fin">
     <div class="salut">Restez b&eacute;ni&nbsp;!</div>
     <div class="signataires">
+      <b>Jack Brunet</b><br>
       <b>Chriss Campion</b><br>
-      <b>Yannis Gautier</b><br>
       <span>Toute l'&eacute;quipe d'Un Seul Nom</span>
     </div>
   </div>
@@ -224,7 +255,7 @@ strong { font-weight: 700; }
   </div>
   <div class="cta">
     <div class="p">Entr&eacute;e libre</div>
-    <div class="u">Scannez le code pour r&eacute;server</div>
+    <div class="u">Scannez le code pour r&eacute;server votre place</div>
   </div>
 </div>
 
@@ -233,17 +264,37 @@ strong { font-weight: 700; }
 
 
 def main():
-    html = (HTML
-            .replace("__FONTS__", (SCRATCH / "fonts-inline.css").read_text(encoding="utf-8"))
-            .replace("__LOGO__", logo_blanc())
-            .replace("__QR__", qr_base64(LIEN_QR))
-            .replace("__COURRIEL__", COURRIEL)
-            .replace("__DATE__", DATE_LETTRE))
+    html = HTML
+    remplacements = {
+        "__FONTS__":      (CHARTE / "polices.css").read_text(encoding="utf-8"),
+        "__LOGO__":       logo_blanc(),
+        "__QR__":         qr_base64(VILLE["lien_qr"]),
+        "__COURRIEL__":   COURRIEL,
+        "__DATE__":       VILLE["date_lettre"],
+        "__VILLE__":      VILLE["nom"],
+        "__DATE_JOUR__":  VILLE["date_jour"],
+        "__DATE_TEXTE__": VILLE["date_texte"],
+        "__HORAIRES__":   VILLE["horaires"],
+        "__LIEU__":       VILLE["lieu"],
+        "__LIEU_COURT__": VILLE["lieu_court"],
+        "__PREDICATION__": VILLE["predication"],
+        "__LOUANGE__":    VILLE["louange"],
+        "__PLACES__":     VILLE["places"],
+    }
+    for cle, valeur in remplacements.items():
+        html = html.replace(cle, valeur)
 
-    source = SCRATCH / "lettre.html"
+    # Un repere oublie se verrait sur la lettre imprimee. Mieux vaut
+    # s'arreter ici.
+    reste = [c for c in remplacements if c in html]
+    if reste:
+        raise SystemExit("Reperes non remplaces : %s" % ", ".join(reste))
+
+    travail = pathlib.Path(tempfile.mkdtemp(prefix="usn-lettre-"))
+    source = travail / "lettre.html"
     source.write_text(html, encoding="utf-8")
 
-    pdf = RACINE / "lettre-un-seul-nom-avignon.pdf"
+    pdf = RACINE / (VILLE["sortie"] + ".pdf")
     subprocess.run([CHROME, "--headless", "--no-sandbox", "--disable-gpu",
                     "--no-pdf-header-footer", "--print-to-pdf=%s" % pdf,
                     source.as_uri()], check=True, capture_output=True)
@@ -261,7 +312,7 @@ def main():
 
     # L'apercu est tire du PDF lui-meme, pour montrer exactement ce qui
     # sortira de l'imprimante.
-    apercu = RACINE / "lettre-un-seul-nom-avignon.png"
+    apercu = RACINE / (VILLE["sortie"] + ".png")
     subprocess.run(["pdftoppm", "-png", "-r", "150", "-singlefile",
                     str(pdf), str(apercu.with_suffix(""))],
                    check=True, capture_output=True)
