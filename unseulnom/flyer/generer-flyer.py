@@ -235,11 +235,31 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    Les mots du milieu (miracles, guerison, liberation) sont dits en
    clair : les cacher pour ne pas effrayer reviendrait a inviter les
    gens sans leur dire ou ils vont. */
+/* UN CADRE, PAS UN APLAT.
+
+   Le bloc a ete successivement un rectangle d'encre (un coup de
+   poing sur une page ivoire : le contenant disait l'inverse du
+   texte) puis un lavis d'ambre (doux, mais encore une masse). Il
+   n'est plus rempli du tout : c'est un trait de la couleur de la
+   marque, et l'ivoire de la page passe au travers.
+
+   Le degrade est celui du ruban du bas, aux memes cinq couleurs et
+   dans le meme sens. Les deux seuls objets colores de la face sont
+   donc la meme signature, l'une en cadre et l'autre en filet : on ne
+   lit plus deux decors mais un seul systeme.
+
+   LE TRAIT EST OBTENU PAR DEUX FONDS, PAS PAR UNE BORDURE. Une
+   bordure CSS ne prend pas de degrade. On peint donc le degrade sous
+   la boite entiere (border-box) et la couleur de page sous le seul
+   interieur (padding-box) : il ne reste du degrade que l'epaisseur
+   de la bordure, qui est transparente. Le rayon des angles suit, et
+   tout reste vectoriel. */
 .face {
-  flex: none; margin-top: 7mm; padding: 6.5mm 7mm; border-radius: 3.5mm;
+  flex: none; margin-top: 7mm; padding: 6mm 6.5mm; border-radius: 3.5mm;
+  border: .9mm solid transparent;
   background:
-    linear-gradient(100deg, rgba(247,148,29,.32) 0%, rgba(247,148,29,.17) 58%, rgba(247,148,29,.09) 100%),
-    #FBF9F4;
+    linear-gradient(var(--creme), var(--creme)) padding-box,
+    var(--degrade) border-box;
   color: var(--encre);
 }
 .face table { width: 100%; border-collapse: collapse; }

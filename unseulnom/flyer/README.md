@@ -239,28 +239,44 @@ ce à quoi elles répondent.
 **Résultat : sept blocs au lieu de douze, cinq corps au lieu de onze,
 et le titre repasse devant.**
 
-### 6. Le pavé n'est plus noir
+### 6. Un cadre, pas un aplat
 
-Un aplat d'encre de 55 mm sur une page ivoire, c'est un coup de poing
-graphique. Sur une invitation adressée à quelqu'un qui a peur
-d'entrer dans une église, le ton du contenant contredisait celui du
-texte : **la page disait « viens comme tu es » avec la voix d'un
-avertissement.**
+Le bloc a été trois choses. Un **rectangle d'encre** : 55 mm d'aplat
+noir sur une page ivoire, un coup de poing graphique. Sur une
+invitation adressée à quelqu'un qui a peur d'entrer dans une église,
+le contenant contredisait le texte — **la page disait « viens comme
+tu es » avec la voix d'un avertissement.** Puis un **lavis d'ambre** :
+doux, mais encore une masse.
 
-Le pavé est maintenant un **lavis de la charte sur l'ivoire** — un
-dégradé d'ambre qui s'éteint vers la droite, posé sur un crème à peine
-plus clair que la page. Il reste un bloc, il n'agresse plus.
+Il n'est plus rempli du tout. C'est **un trait de la couleur de la
+marque**, et l'ivoire de la page passe au travers.
 
-Deux conséquences techniques :
+Le dégradé du cadre est celui du ruban du bas — mêmes cinq couleurs,
+même sens. Les deux seuls objets colorés de la face sont donc la même
+signature, l'une en cadre et l'autre en filet : **on ne lit plus deux
+décors mais un seul système.**
 
-- **Les réponses passent de l'orange au rouge.** L'orange de la marque
-  sur un fond clair plafonne à 2,2 de contraste : illisible. Sur le
-  noir il éclatait, sur l'ambre il disparaîtrait. Le rouge tient, et
-  il relie les cinq réponses à la ligne du Nom.
-- **Le lavis est de l'ambre pur, jamais du rose.** Un dégradé qui
-  traverse le magenta de la charte vire au bonbon dès qu'on le pose en
-  transparence — et le rose est la seule couleur que ce projet refuse.
-  Il court donc d'ambre à ambre, en intensité seulement.
+> **Le trait est obtenu par deux fonds, pas par une bordure.** Une
+> bordure CSS ne prend pas de dégradé. On peint donc le dégradé sous
+> la boîte entière (`border-box`) et la couleur de page sous le seul
+> intérieur (`padding-box`) : il ne reste du dégradé que l'épaisseur
+> de la bordure, qui est transparente. Le rayon des angles suit, et
+> **tout reste vectoriel** — le PDF ne contient toujours qu'une seule
+> image, le QR.
+
+**Les réponses sont en rouge, et ce n'est pas un choix d'humeur.**
+L'orange de la marque sur un fond clair plafonne à 2,2 de contraste :
+il éclatait sur le noir, il disparaîtrait sur l'ivoire. Le rouge
+tient, et il relie les cinq réponses à la ligne du Nom.
+
+> **Le contrôle de débordement a rattrapé une faute qu'il ne cherchait
+> pas.** En remplaçant l'aplat par le cadre, le corps de la règle
+> `.face` a été réécrit en laissant son ancienne accolade ouvrante :
+> **toute la feuille de style s'arrêtait de s'appliquer à partir de
+> là.** La page restait « valide », elle sortait simplement sans
+> aucune mise en forme — et un aplat de QR de 60 mm la faisait
+> déborder de 9,9 mm. C'est le débordement qui a donné l'alerte, pas
+> la CSS.
 
 > **Le centrage de la ligne du Nom est calculé, pas réglé à la main.**
 > Un conteneur « .milieu » prend tout l'espace restant entre le
