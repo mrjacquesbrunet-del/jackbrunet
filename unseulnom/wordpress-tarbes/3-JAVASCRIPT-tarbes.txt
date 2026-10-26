@@ -536,6 +536,25 @@
               .then(function (r) { return r.json(); }).then(afficherEtat).catch(function () {});
           } else {
             var motif = res.d ? res.d.erreur : '';
+            /* DEJA INSCRIT : LE CONTACT PART QUAND MEME DANS BREVO.
+
+               La place, elle, est bien prise - c'est pour cela qu'on
+               refuse. Mais si cette personne revient, c'est le plus
+               souvent qu'elle n'a jamais recu la confirmation. Or la
+               seule raison possible, c'est qu'elle ne soit pas dans
+               Brevo : l'envoi de la premiere fois a echoue sans que
+               personne le sache. La refuser sans rien envoyer la
+               condamnait a ne jamais rien recevoir, a chaque essai.
+
+               Brevo ne cree pas de doublon : une adresse deja connue
+               est mise a jour, pas ajoutee une seconde fois. L'envoi
+               ne coute donc rien et ferme le trou.
+
+               En revanche, rien n'est envoye quand la salle est
+               COMPLETE : l'automatisation Brevo expedie le billet, et
+               personne ne doit recevoir un billet pour une place qu'il
+               n'a pas obtenue. */
+            if ('deja-inscrit' === motif) envoyerVersBrevo();
             erreur((res.d ? res.d.message : '') || 'La r\u00e9servation a \u00e9chou\u00e9, r\u00e9essaie.',
                    'deja-inscrit' === motif ? 'info' : '');
             if (res.d ? typeof res.d.restantes === 'number' : false) {

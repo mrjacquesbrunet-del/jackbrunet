@@ -37,10 +37,26 @@ Le refus arrive **avant** le décompte : une tentative en double ne consomme
 aucune place. Et il ne porte que sur la ville en cours — quelqu'un qui est
 venu à Avignon peut s'inscrire à Tarbes.
 
-> **Ce que cela ne règle pas.** Si les courriels de confirmation
-> n'arrivent toujours pas, les gens ne se réinscriront plus, mais ils ne
-> sauront pas davantage s'ils sont inscrits. La délivrabilité Brevo reste
-> à regarder de son côté.
+**Le contact part quand même dans Brevo.** La place est bien prise —
+c'est pour cela qu'on refuse — mais si quelqu'un revient, c'est le plus
+souvent qu'il n'a jamais reçu la confirmation. Or la seule raison
+possible, c'est qu'il ne soit pas dans Brevo : l'envoi de la première
+fois a échoué sans que personne le sache. Le refuser sans rien envoyer
+le condamnait à ne jamais rien recevoir, à chaque essai.
+
+Brevo ne crée pas de doublon : une adresse déjà connue est mise à jour,
+pas ajoutée une seconde fois. L'envoi ne coûte donc rien, et il ferme
+le trou.
+
+> **Rien n'est envoyé quand la salle est complète.** L'automatisation
+> Brevo expédie le billet : personne ne doit recevoir un billet pour une
+> place qu'il n'a pas obtenue.
+
+> **Ce que cela ne règle pas.** Le contact est désormais garanti présent
+> dans Brevo. Que le courriel de confirmation soit *renvoyé* dépend du
+> réglage de l'automatisation côté Brevo : « à chaque soumission du
+> formulaire » le renvoie, « à la création du contact » ne le renvoie
+> pas. C'est le seul point à vérifier dans Brevo.
 
 ---
 
