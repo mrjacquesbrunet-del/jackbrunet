@@ -1,0 +1,43 @@
+TA PLACE EST RÉSERVÉE.
+
+Bonjour {{ contact.NOM }},
+
+Tes {{ contact.PLACES }} place(s) t'attendent pour {{ contact.VILLE }}.
+Garde ce message : ton billet est au bout du lien.
+
+TÉLÉCHARGER MON BILLET
+https://unseulnom.org/wp-content/uploads/2026/10/billet-un-seul-nom-tarbes.pdf
+
+Pas besoin de l'imprimer : ton téléphone suffit à l'entrée.
+
+-------------------------------------------------------------
+
+QUAND
+Samedi 12 décembre 2026
+Ouverture des portes à 15h, conférence à 16h.
+
+OÙ
+Château d'Orleix
+13 bis rue des Platanes, 65800 Orleix
+
+SUR SCÈNE
+Jack Brunet et Chriss Campion
+Louange : Briman Heugebaert et Juan Antonio
+
+-------------------------------------------------------------
+
+VIENS AVEC QUELQU'UN.
+Une personne qui a besoin de rencontrer Jésus, d'être guérie, ou
+simplement de souffler. C'est pour elle que la salle est ouverte.
+
+À très bientôt,
+L'équipe d'Un Seul Nom
+
+-------------------------------------------------------------
+
+La page de l'événement : https://unseulnom.org/evenement/tarbes/
+Nous écrire : 75unseulnomjesus@gmail.com
+
+Vous recevez ce message parce que vous avez réservé une place pour un
+événement Un Seul Nom.
+Se désinscrire : {{ unsubscribe }}
