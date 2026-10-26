@@ -25,9 +25,13 @@
   <!-- Le panneau ouvert par le bouton a deux traits. -->
   <div class="usn-menu" id="usn-menu" hidden>
     <div class="usn-menu-liens">
-      <a href="https://unseulnom.org/evenement/tarbes/">Prochain &eacute;v&eacute;nement</a>
+      <a href="https://unseulnom.org/evenement/">Toutes les dates</a>
+      <a href="https://unseulnom.org/evenement/tarbes/">Tarbes, le 12 d&eacute;cembre</a>
       <a href="#usn-vision">La vision</a>
-      <a href="#usn-editions">Les villes</a>
+      <!-- Pointait sur usn-editions, qui n'existe plus depuis que la carte
+           a ete retiree : le lien ne menait nulle part. La frise raconte
+           la meme chose. -->
+      <a href="#usn-frise">Les villes travers&eacute;es</a>
       <a href="#usn-eglises">&Eacute;glises</a>
       <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Soutenir la mission</a>
     </div>
@@ -485,7 +489,8 @@
       <div class="usn-footer-grille">
         <div class="usn-logo-mark usn-logo-blanc usn-footer-mark" role="img" aria-label="Un Seul Nom"></div>
         <div class="usn-footer-liens">
-          <a href="https://unseulnom.org/evenement/">L'&eacute;v&eacute;nement</a>
+          <a href="https://unseulnom.org/evenement/">Toutes les dates</a>
+          <a href="https://unseulnom.org/evenement/tarbes/">Tarbes</a>
           <a href="#usn-vision">La vision</a>
           <a href="#usn-eglises">&Eacute;glises</a>
           <a href="#usn-lettre">Newsletter</a>

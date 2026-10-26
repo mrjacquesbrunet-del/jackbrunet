@@ -10,6 +10,9 @@
       <a class="usn-nav-brand" href="https://unseulnom.org/">
         <span class="usn-nav-fleche" aria-hidden="true">&#8592;</span> Un Seul Nom
       </a>
+      <!-- Depuis une ville, on doit pouvoir remonter a la liste des dates
+           sans repasser par l'accueil. -->
+      <a class="usn-nav-dates" href="https://unseulnom.org/evenement/">Toutes les dates</a>
       <a class="usn-nav-don" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Faire un don</a>
     </nav>
 

@@ -170,6 +170,24 @@
   }
   #usn-event .usn-nav-brand:hover .usn-nav-fleche { transform: translateX(-3px); }
 
+  /* " Toutes les dates " : meme verre depoli que le retour, mais sans
+     cadre, pour qu'il se lise comme un lien et non comme un second
+     bouton. Il disparait sur les petits ecrans, ou la barre n'a la place
+     que du retour et du don ; le pied de page garde le lien. */
+  #usn-event .usn-nav-dates {
+    margin-right: auto; padding: 11px 16px; border-radius: 999px;
+    font-size: 12.5px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: rgba(255,255,255,0.84);
+    text-shadow: 0 1px 10px rgba(0,0,0,0.35);
+    transition: color .2s ease, background .2s ease;
+  }
+  #usn-event .usn-nav-dates:hover {
+    color: var(--usn-white); background: rgba(255,255,255,0.12);
+  }
+  @media (max-width: 760px) {
+    #usn-event .usn-nav-dates { display: none; }
+  }
+
   /* Bouton de don : meme pastille que les boutons de la page (.usn-btn),
      simplement plus compacte pour tenir dans la barre. */
   #usn-event .usn-nav-don {
@@ -663,6 +681,9 @@
       <a class="usn-nav-brand" href="https://unseulnom.org/">
         <span class="usn-nav-fleche" aria-hidden="true">&#8592;</span> Un Seul Nom
       </a>
+      <!-- Depuis une ville, on doit pouvoir remonter a la liste des dates
+           sans repasser par l'accueil. -->
+      <a class="usn-nav-dates" href="https://unseulnom.org/evenement/">Toutes les dates</a>
       <a class="usn-nav-don" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Faire un don</a>
     </nav>
 

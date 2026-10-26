@@ -733,9 +733,23 @@
   }
   /* Chaque mot est un morceau a part : c'est ce qui permet de les
      allumer l'un apres l'autre. */
+  /* LE MOT PAS ENCORE DIT RESTE LISIBLE.
+
+     Il etait a 20 % d'opacite sur un fond presque noir : un contraste de
+     1,75 contre 1, soit du gris sombre sur du noir. La strophe la plus
+     importante de la page etait la seule qu'on ne pouvait pas lire, et
+     elle le restait pendant une bonne partie du defilement.
+
+     Le voile passe donc a 48 % - contraste 4,7 - et a 60 % pour les mots
+     a empattements, dont l'or est plus sombre que l'ivoire. Les mots
+     s'allument toujours l'un apres l'autre, mais aucun ne disparait.
+
+     Le voile passe par une variable plutot que par une seconde regle
+     d'opacite : " est-dit " et " usn-mot-serif " ont la meme force, et
+     la derniere ecrite l'emporterait sur l'autre. */
   #usn-accueil .usn-phrase p b {
     display: inline-block; font-weight: inherit;
-    color: var(--usn-ivoire); opacity: 0.2;
+    color: var(--usn-ivoire); opacity: var(--usn-voile, 0.48);
     transition: opacity .2s linear;
   }
   #usn-accueil .usn-phrase p b.est-dit { opacity: 1; }
@@ -744,6 +758,7 @@
      empattements, dans le jaune de l'affiche. C'est le contraste des deux
      ecritures qui fait la phrase, pas seulement la couleur. */
   #usn-accueil .usn-phrase p b.usn-mot-serif {
+    --usn-voile: 0.6;
     font-family: var(--usn-serif); font-weight: 400;
     color: var(--usn-or); letter-spacing: 0;
     font-size: 1.14em; line-height: 0.9;
@@ -1088,9 +1103,13 @@
   <!-- Le panneau ouvert par le bouton a deux traits. -->
   <div class="usn-menu" id="usn-menu" hidden>
     <div class="usn-menu-liens">
-      <a href="https://unseulnom.org/evenement/tarbes/">Prochain &eacute;v&eacute;nement</a>
+      <a href="https://unseulnom.org/evenement/">Toutes les dates</a>
+      <a href="https://unseulnom.org/evenement/tarbes/">Tarbes, le 12 d&eacute;cembre</a>
       <a href="#usn-vision">La vision</a>
-      <a href="#usn-editions">Les villes</a>
+      <!-- Pointait sur usn-editions, qui n'existe plus depuis que la carte
+           a ete retiree : le lien ne menait nulle part. La frise raconte
+           la meme chose. -->
+      <a href="#usn-frise">Les villes travers&eacute;es</a>
       <a href="#usn-eglises">&Eacute;glises</a>
       <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Soutenir la mission</a>
     </div>
@@ -1548,7 +1567,8 @@
       <div class="usn-footer-grille">
         <div class="usn-logo-mark usn-logo-blanc usn-footer-mark" role="img" aria-label="Un Seul Nom"></div>
         <div class="usn-footer-liens">
-          <a href="https://unseulnom.org/evenement/">L'&eacute;v&eacute;nement</a>
+          <a href="https://unseulnom.org/evenement/">Toutes les dates</a>
+          <a href="https://unseulnom.org/evenement/tarbes/">Tarbes</a>
           <a href="#usn-vision">La vision</a>
           <a href="#usn-eglises">&Eacute;glises</a>
           <a href="#usn-lettre">Newsletter</a>
