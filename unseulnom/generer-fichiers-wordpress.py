@@ -112,6 +112,12 @@ ADRESSES = {
     "juan.webp":              URL_2026_10 + "/juan.webp",
     "affichetarbeslarge.webp": URL_2026_10 + "/affichetarbeslarge.webp",
     # L'image d'attente du film de la carte, en tete de la page a venir.
+    # Les quatre portraits de Tarbes, detoures et allegis a partir des
+    # fichiers deposes dans la mediatheque le 26 octobre.
+    "tarbes-jack.webp":       URL_2026_10 + "/tarbes-jack.webp",
+    "tarbes-chriss.webp":     URL_2026_10 + "/tarbes-chriss.webp",
+    "tarbes-briman.webp":     URL_2026_10 + "/tarbes-briman.webp",
+    "tarbes-juan.webp":       URL_2026_10 + "/tarbes-juan.webp",
     "carteposter.webp":       URL_2026_10 + "/carteposter.webp",
     # La photo du bandeau « Evangelisation et Guerison » : la precedente
     # montrait Yannis Gautier, qui ne sera pas a Tarbes.

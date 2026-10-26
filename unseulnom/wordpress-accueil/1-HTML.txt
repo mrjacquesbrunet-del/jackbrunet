@@ -362,7 +362,7 @@
       <div class="usn-visages">
         <figure class="usn-visage" data-usn-visage="gauche">
           <div class="usn-visage-cadre">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/10/jack.webp" alt="Jack Brunet" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
+            <img src="https://unseulnom.org/wp-content/uploads/2026/10/tarbes-jack.webp" alt="Jack Brunet" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
           </div>
           <figcaption><b>Jack Brunet</b>Pr&eacute;dication</figcaption>
         </figure>
@@ -374,7 +374,7 @@
 
         <figure class="usn-visage" data-usn-visage="droite">
           <div class="usn-visage-cadre">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/10/chrisstarbes.webp" alt="Chriss Campion" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
+            <img src="https://unseulnom.org/wp-content/uploads/2026/10/tarbes-chriss.webp" alt="Chriss Campion" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
           </div>
           <figcaption><b>Chriss Campion</b>Pr&eacute;dication</figcaption>
         </figure>
