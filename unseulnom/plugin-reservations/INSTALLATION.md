@@ -101,6 +101,27 @@ tel quel.
 > `var EVENEMENT = 'Tarbes 2026';`. Pour une nouvelle ville, c'est la
 > seule ligne à changer, et elle doit porter **le nom exact** saisi ici.
 
+### Supprimer une ville
+
+Sous le formulaire de la ville, **« Supprimer … »**.
+
+- Une **ville d'essai, vide** part d'un clic.
+- Une ville qui **porte des inscrits** ne part pas comme ça : on vous
+  dit combien d'inscriptions et combien de places elle représente, et
+  il faut confirmer une seconde fois. On ne fait pas disparaître
+  quatre cents personnes par un clic de trop.
+
+> **Exportez le CSV avant**, si ces noms comptent. La suppression est
+> définitive.
+
+Si vous supprimez la ville servie par défaut, une autre prend sa place
+automatiquement — sinon les pages du site n'auraient plus rien à servir.
+
+**La liste Brevo n'est pas touchée.** Elle vit chez Brevo, elle peut
+porter des contacts venus d'ailleurs, et rien ici ne justifie d'aller
+supprimer quoi que ce soit dans un compte tiers. Supprimez-la vous-même
+dans Brevo si vous le voulez.
+
 ### La clôture automatique
 
 Chaque ville a une **date de clôture**. Passé cette date, les

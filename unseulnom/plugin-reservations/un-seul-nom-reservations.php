@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Un Seul Nom - Reservations
  * Description: Reservation de places pour les evenements Un Seul Nom : compteur de places, limite par reservation, liste des inscrits et export CSV. Une ville apres l'autre, sans perdre les inscrits des precedentes.
- * Version:     1.4.1
+ * Version:     1.5.0
  * Author:      Un Seul Nom
  * License:     GPL-2.0-or-later
  *
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class USN_Reservations {
 
-	const VERSION        = '1.4.1';
+	const VERSION        = '1.5.0';
 	const OPT_CAPACITE   = 'usn_capacite';        // Nombre total de places ouvertes (surbooking compris).
 	const OPT_MAX        = 'usn_max_par_personne'; // Limite par reservation.
 	const OPT_OUVERT     = 'usn_inscriptions_ouvertes';
@@ -89,6 +89,7 @@ final class USN_Reservations {
 		add_action( 'admin_post_usn_export_csv', array( __CLASS__, 'exporter_csv' ) );
 		add_action( 'admin_post_usn_nouvelle_ville', array( __CLASS__, 'ouvrir_nouvelle_ville' ) );
 		add_action( 'admin_post_usn_tester_brevo', array( __CLASS__, 'tester_brevo' ) );
+		add_action( 'admin_post_usn_supprimer_ville', array( __CLASS__, 'supprimer_ville' ) );
 		add_action( 'admin_post_usn_marquer', array( __CLASS__, 'marquer' ) );
 		add_action( 'admin_post_usn_relance', array( __CLASS__, 'relance_paquet' ) );
 		// Les deux liens du courriel de relance sont interceptes avant
@@ -411,6 +412,80 @@ final class USN_Reservations {
 		}
 
 		wp_safe_redirect( add_query_arg( 'usn_message', $suite, admin_url( 'admin.php?page=usn-reservations' ) ) );
+		exit;
+	}
+
+	/**
+	 * Supprime une ville.
+	 *
+	 * EN DEUX TEMPS, ET JAMAIS PAR SURPRISE. Une ville de test se
+	 * supprime d'un clic, parce qu'elle ne contient rien. Une ville qui
+	 * porte des inscrits demande une seconde confirmation ou le nombre
+	 * d'inscrits est ecrit noir sur blanc : on ne fait pas disparaitre
+	 * quatre cents personnes par un clic de trop.
+	 *
+	 * La liste Brevo, elle, n'est pas touchee. Elle vit chez Brevo, elle
+	 * porte peut-etre des contacts venus d'ailleurs, et rien ici ne
+	 * justifie d'aller supprimer quoi que ce soit dans un compte tiers.
+	 */
+	public static function supprimer_ville() {
+		if ( ! current_user_can( self::CAP_REGLER )
+			|| ! isset( $_GET['_wpnonce'] )
+			|| ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'usn_supprimer_ville' ) ) {
+			wp_die( 'Action non autorisée.' );
+		}
+
+		global $wpdb;
+		$evts  = self::table_evenements();
+		$table = self::table_reservations();
+
+		$id    = isset( $_GET['id'] ) ? (int) $_GET['id'] : 0;
+		$ville = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$evts} WHERE id = %d", $id ) );
+		if ( ! $ville ) {
+			wp_safe_redirect( add_query_arg( 'usn_message', 'ville-introuvable', admin_url( 'admin.php?page=usn-reservations' ) ) );
+			exit;
+		}
+
+		$inscrits = (int) $wpdb->get_var(
+			$wpdb->prepare( "SELECT COUNT(*) FROM {$table} WHERE evenement_id = %d", $id )
+		);
+
+		// Des inscrits, et pas encore de seconde confirmation : on
+		// s'arrete et on affiche le nombre.
+		if ( $inscrits > 0 && empty( $_GET['avec_inscrits'] ) ) {
+			wp_safe_redirect(
+				add_query_arg(
+					array( 'page' => 'usn-reservations', 'ev' => $id, 'usn_message' => 'ville-confirmer' ),
+					admin_url( 'admin.php' )
+				)
+			);
+			exit;
+		}
+
+		$wpdb->delete( $table, array( 'evenement_id' => $id ), array( '%d' ) );
+		$wpdb->delete( $evts, array( 'id' => $id ), array( '%d' ) );
+
+		// La correspondance ville - liste Brevo n'a plus d'objet. La
+		// liste elle-meme reste chez Brevo : elle n'est pas a nous.
+		$listes = get_option( self::OPT_BREVO_LISTES, array() );
+		if ( is_array( $listes ) && isset( $listes[ $ville->nom ] ) ) {
+			unset( $listes[ $ville->nom ] );
+			update_option( self::OPT_BREVO_LISTES, $listes );
+		}
+
+		// Si c'etait la ville par defaut, les pages du site se
+		// retrouveraient sans rien a servir : on en designe une autre.
+		if ( trim( (string) get_option( self::OPT_EVENEMENT, '' ) ) === $ville->nom ) {
+			$suivante = $wpdb->get_var( "SELECT nom FROM {$evts} ORDER BY ouvert DESC, id DESC LIMIT 1" );
+			update_option( self::OPT_EVENEMENT, $suivante ? $suivante : '' );
+		}
+
+		wp_safe_redirect(
+			add_query_arg(
+				array( 'page' => 'usn-reservations', 'usn_message' => 'ville-supprimee', 'n' => $inscrits ),
+				admin_url( 'admin.php' )
+			)
+		);
 		exit;
 	}
 
@@ -930,6 +1005,52 @@ final class USN_Reservations {
 			}
 		} elseif ( 'nom-vide' === $message ) {
 			echo '<div class="notice notice-error is-dismissible"><p>Il faut donner un nom à la ville.</p></div>';
+		} elseif ( 'ville-supprimee' === $message ) {
+			$n = isset( $_GET['n'] ) ? (int) $_GET['n'] : 0;
+			printf(
+				'<div class="notice notice-success is-dismissible"><p>La ville est supprimée%s. '
+				. 'La liste Brevo, elle, n\'a pas été touchée&nbsp;: elle vit chez Brevo et peut porter '
+				. 'des contacts venus d\'ailleurs.</p></div>',
+				$n > 0 ? sprintf( ', avec ses %d inscrit(s)', $n ) : ''
+			);
+		} elseif ( 'ville-introuvable' === $message ) {
+			echo '<div class="notice notice-error is-dismissible"><p>Cette ville n\'existe plus.</p></div>';
+		} elseif ( 'ville-confirmer' === $message ) {
+			$ev_sup = self::ev();
+			if ( $ev_sup ) {
+				global $wpdb;
+				$n = (int) $wpdb->get_var(
+					$wpdb->prepare(
+						"SELECT COUNT(*) FROM " . self::table_reservations() . " WHERE evenement_id = %d",
+						(int) $ev_sup->id
+					)
+				);
+				$places = (int) $wpdb->get_var(
+					$wpdb->prepare(
+						"SELECT COALESCE(SUM(places),0) FROM " . self::table_reservations() . " WHERE evenement_id = %d",
+						(int) $ev_sup->id
+					)
+				);
+				printf(
+					'<div class="notice notice-error"><p style="font-size:15px">'
+					. '<strong>« %s » porte %d inscription(s), soit %d place(s).</strong><br>'
+					. 'Les supprimer est définitif. Exportez le CSV d\'abord si ces noms comptent.</p>'
+					. '<p><a class="button button-primary" style="background:#d63638;border-color:#d63638" href="%s">'
+					. 'Oui, supprimer la ville et ses %d inscrit(s)</a> '
+					. '<a class="button" href="%s">Annuler</a></p></div>',
+					esc_html( $ev_sup->nom ),
+					$n,
+					$places,
+					esc_url(
+						admin_url(
+							'admin-post.php?action=usn_supprimer_ville&avec_inscrits=1&id=' . (int) $ev_sup->id
+							. '&_wpnonce=' . wp_create_nonce( 'usn_supprimer_ville' )
+						)
+					),
+					$n,
+					esc_url( admin_url( 'admin.php?page=usn-reservations' ) )
+				);
+			}
 		} elseif ( 'marque' === $message ) {
 			echo '<div class="notice notice-success is-dismissible"><p>C\'est noté.</p></div>';
 		} elseif ( 'relance-essai' === $message ) {
@@ -1247,6 +1368,26 @@ final class USN_Reservations {
 				</table>
 				<?php submit_button( 'Enregistrer cette ville' ); ?>
 			</form>
+
+			<?php if ( $en_cours ) : ?>
+				<p style="margin-top:-6px">
+					<a href="<?php
+					echo esc_url(
+						admin_url(
+							'admin-post.php?action=usn_supprimer_ville&id=' . (int) $en_cours->id
+							. '&_wpnonce=' . wp_create_nonce( 'usn_supprimer_ville' )
+						)
+					);
+					?>" style="color:#d63638"
+						onclick="return confirm(<?php echo wp_json_encode( sprintf( 'Supprimer la ville « %s » ?', $en_cours->nom ) ); ?>);">
+						Supprimer « <?php echo esc_html( $en_cours->nom ); ?> »
+					</a>
+					<span class="description" style="margin-left:10px">
+						Une ville d'essai, vide, part d'un clic. Si elle porte des inscrits,
+						on vous le dira et il faudra confirmer une seconde fois.
+					</span>
+				</p>
+			<?php endif; ?>
 
 			<h2>Le rappel avant l'événement</h2>
 			<?php
