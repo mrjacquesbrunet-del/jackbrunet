@@ -637,6 +637,33 @@
     /* ---------- 6. Boucle de rendu (lissage type ScrollSmoother) ---------- */
     var running = false;
     var dernierY = -1;
+    /* Reproduit " position: sticky " a la main.
+
+       Le bloc interieur occupe une hauteur d'ecran ; il reste colle en
+       haut tant que son bloc parent traverse, puis se pose au fond quand
+       la fin approche. Deux lignes de calcul, et plus aucun conteneur du
+       theme ne peut l'en empecher. */
+    var aTenir = [];
+    (function () {
+      var paires = [['.usn-phrase', '.usn-phrase-fixe'],
+                    ['.usn-frise', '.usn-frise-fixe']];
+      for (var i = 0; i < paires.length; i++) {
+        var bloc = root.querySelector(paires[i][0]);
+        var dedans = bloc ? bloc.querySelector(paires[i][1]) : null;
+        if (bloc ? dedans : null) aTenir.push({ bloc: bloc, dedans: dedans });
+      }
+    })();
+
+    function tenirALEcran() {
+      for (var i = 0; i < aTenir.length; i++) {
+        var b = aTenir[i].bloc, d = aTenir[i].dedans;
+        var r = b.getBoundingClientRect();
+        var course = Math.max(0, r.height - d.offsetHeight);
+        var y = Math.min(Math.max(0, -r.top), course);
+        d.style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0)';
+      }
+    }
+
     function frame() {
       var moving = false;
 
@@ -644,6 +671,7 @@
       // la boucle continue.
       var y = scrollY();
       if (y !== dernierY) { dernierY = y; moving = true; }
+      tenirALEcran();
       phraseAppliquer();
       friseAppliquer();
       parallaxes();

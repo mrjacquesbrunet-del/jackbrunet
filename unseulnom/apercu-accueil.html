@@ -109,6 +109,7 @@
      le bleu et le rouge a plat appartiennent aux pages d'evenement. */
   #usn-accueil .usn-btn-degrade {
     background: var(--usn-degrade); background-repeat: no-repeat;
+    background-origin: border-box;
     background-size: 190% 100%; background-position: 0% 50%;
     color: #fff; border-color: transparent;
     transition: background-position .5s ease, transform .18s ease, box-shadow .2s ease;
@@ -120,6 +121,7 @@
   #usn-accueil .usn-btn-encre { background: var(--usn-ink); color: var(--usn-ivoire); }
   #usn-accueil .usn-btn-encre:hover {
     background: var(--usn-degrade); background-repeat: no-repeat;
+    background-origin: border-box;
     color: #fff; transform: translateY(-2px);
   }
   #usn-accueil .usn-btn-cadre {
@@ -173,6 +175,7 @@
     border-radius: 999px; color: #fff;
     /* Le degrade de l'affiche, qui glisse d'un bout a l'autre au survol. */
     background: var(--usn-degrade); background-repeat: no-repeat;
+    background-origin: border-box;
     background-size: 190% 100%; background-position: 0% 50%;
     font-weight: 800; font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase;
     white-space: nowrap;
@@ -233,6 +236,7 @@
   #usn-accueil .usn-menu-liens a::after {
     content: ''; position: absolute; left: 0; top: -1px; height: 2px; width: 100%;
     background: var(--usn-degrade); background-repeat: no-repeat;
+    background-origin: border-box;
     transform: scaleX(0); transform-origin: left;
     transition: transform .45s cubic-bezier(.2,.8,.25,1);
   }
@@ -653,6 +657,7 @@
     height: 44px; padding: 0 22px; border-radius: 999px;
     /* Le degrade de l'affiche, du soleil au bleu nuit. */
     background: var(--usn-degrade); background-repeat: no-repeat;
+    background-origin: border-box;
     background-size: 190% 100%; background-position: 0% 50%;
     color: #fff;
     font-size: 11.5px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase;
@@ -751,9 +756,18 @@
      ecrit, qu'on arrive dessus.
      =================================================================== */
   #usn-accueil .usn-phrase { position: relative; height: 240svh; background: var(--usn-nuit); }
+  /* Ces deux blocs tiennent a l'ecran pendant qu'on descend. Ils le
+     faisaient avec " position: sticky ", mais il suffit qu'un conteneur
+     du theme coupe son contenu, porte une transformation ou se declare
+     confine pour que tout tombe - et le bloc laissait alors derriere lui
+     une hauteur d'ecran vide.
+
+     On ne le demande donc plus au navigateur : le moteur de defilement,
+     qui tourne deja a chaque image, deplace lui-meme le bloc interieur.
+     Le resultat est identique et ne depend de rien. */
   #usn-accueil .usn-phrase-fixe {
-    position: sticky; top: 0; height: 100svh; overflow: hidden;
-    display: flex; align-items: center;
+    position: relative; height: 100svh; overflow: hidden;
+    display: flex; align-items: center; will-change: transform;
   }
 
   /* La matiere du fond sombre : de longues lignes de niveau qui errent
@@ -852,7 +866,7 @@
      quelle que soit la taille de l'ecran.
      =================================================================== */
   #usn-accueil .usn-frise { position: relative; height: 300svh; background: var(--usn-ivoire); }
-  #usn-accueil .usn-frise-fixe { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+  #usn-accueil .usn-frise-fixe { position: relative; height: 100svh; overflow: hidden; will-change: transform; }
 
   /* --- la meme matiere que le heros : la creme ne s'interrompt jamais --- */
   #usn-accueil .usn-frise-fond { position: absolute; inset: 0; pointer-events: none; }
@@ -921,6 +935,7 @@
     flex: none; align-self: center; width: clamp(260px, 26vw, 380px);
     padding: clamp(26px, 3vw, 40px); border-radius: 4px; text-decoration: none;
     background: var(--usn-degrade); background-repeat: no-repeat;
+    background-origin: border-box;
     background-size: 190% 100%; background-position: 0% 50%;
     color: #fff; transition: background-position .5s ease, transform .25s ease;
   }
@@ -2293,6 +2308,33 @@
     /* ---------- 6. Boucle de rendu (lissage type ScrollSmoother) ---------- */
     var running = false;
     var dernierY = -1;
+    /* Reproduit " position: sticky " a la main.
+
+       Le bloc interieur occupe une hauteur d'ecran ; il reste colle en
+       haut tant que son bloc parent traverse, puis se pose au fond quand
+       la fin approche. Deux lignes de calcul, et plus aucun conteneur du
+       theme ne peut l'en empecher. */
+    var aTenir = [];
+    (function () {
+      var paires = [['.usn-phrase', '.usn-phrase-fixe'],
+                    ['.usn-frise', '.usn-frise-fixe']];
+      for (var i = 0; i < paires.length; i++) {
+        var bloc = root.querySelector(paires[i][0]);
+        var dedans = bloc ? bloc.querySelector(paires[i][1]) : null;
+        if (bloc ? dedans : null) aTenir.push({ bloc: bloc, dedans: dedans });
+      }
+    })();
+
+    function tenirALEcran() {
+      for (var i = 0; i < aTenir.length; i++) {
+        var b = aTenir[i].bloc, d = aTenir[i].dedans;
+        var r = b.getBoundingClientRect();
+        var course = Math.max(0, r.height - d.offsetHeight);
+        var y = Math.min(Math.max(0, -r.top), course);
+        d.style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0)';
+      }
+    }
+
     function frame() {
       var moving = false;
 
@@ -2300,6 +2342,7 @@
       // la boucle continue.
       var y = scrollY();
       if (y !== dernierY) { dernierY = y; moving = true; }
+      tenirALEcran();
       phraseAppliquer();
       friseAppliquer();
       parallaxes();
