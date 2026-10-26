@@ -83,6 +83,64 @@ jour les regroupe sous « Edition precedente ».
 
 ---
 
+## Plusieurs villes à la fois (version 1.4)
+
+Jusqu'ici **une seule ville** pouvait prendre des réservations : ouvrir
+Limours aurait fermé Tarbes. Elles sont pourtant à trois semaines
+d'intervalle.
+
+Chaque ville a désormais **sa jauge, son compteur, ses inscrits et son
+tableau de bord**. En haut de l'écran Réservations, un bouton par ville
+pour passer de l'une à l'autre.
+
+**Créer une ville** : dans « La ville », tapez un nom qui n'existe pas
+encore, réglez les places, enregistrez. **Modifier** : laissez le nom
+tel quel.
+
+> **Dans la page du site**, une ligne dit de quelle ville elle parle :
+> `var EVENEMENT = 'Tarbes 2026';`. Pour une nouvelle ville, c'est la
+> seule ligne à changer, et elle doit porter **le nom exact** saisi ici.
+
+### La clôture automatique
+
+Chaque ville a une **date de clôture**. Passé cette date, les
+inscriptions se ferment toutes seules, même si la case « Ouvertes »
+est cochée — la date prime, parce qu'on oublie toujours de fermer.
+
+**Mettez le lendemain de l'événement** : on peut encore s'inscrire le
+jour même, et plus jamais après.
+
+### Le rappel automatique à J-2
+
+Donnez une **date d'événement** à la ville, et le rappel part tout seul
+l'avant-veille, avec le billet en pièce jointe. Personne n'a à y penser
+— à Avignon, personne n'a relancé qui que ce soit, non par négligence
+mais parce qu'il y a cent choses à faire la semaine d'avant.
+
+- Il part à **tous les inscrits**, sauf aux places libérées.
+- Soixante messages par heure, jusqu'à ce que tout le monde l'ait reçu.
+- L'envoi manuel et l'envoi automatique **ne font jamais doublon** :
+  chaque réservation est marquée dès qu'elle a reçu son message.
+- Si le site dort pendant l'avant-veille, le rappel part le lendemain.
+  Mieux vaut un rappel en retard qu'un rappel jamais parti.
+
+### L'écran « Entrée (jour J) »
+
+Un écran à lui, dans le sous-menu. **On ne tient pas une porte avec un
+tableau de bord** : un champ de recherche, des noms, un gros bouton
+*Présent*, et le compte de ceux qui sont déjà dans la salle.
+
+Trois lettres du nom suffisent. Ça tient dans un téléphone, et un
+compte **Éditeur** suffit.
+
+> **Pas de scan par caméra pour l'instant.** Il faudrait un QR unique
+> dans le courriel de chacun, donc la page « billet nominatif » qui a
+> été écartée au profit du billet universel. Si vous le voulez, dites-le.
+> En attendant, une recherche à trois lettres va aussi vite qu'un scan,
+> et elle marche quand la personne a oublié son téléphone.
+
+---
+
 ## Savoir qui vient vraiment (version 1.3)
 
 À Avignon, le chiffre affiché était vrai et ne voulait rien dire, et on

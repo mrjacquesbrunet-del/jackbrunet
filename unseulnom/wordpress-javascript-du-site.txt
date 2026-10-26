@@ -1291,6 +1291,14 @@
     if (!form) return;
 
     var API      = '/wp-json/usn/v1/';
+    /* LA VILLE DE CETTE PAGE.
+       Le module sert plusieurs villes a la fois : Tarbes et Limours
+       sont a trois semaines d'intervalle et doivent etre ouvertes en
+       meme temps. Chaque page dit donc de quelle ville elle parle.
+       > Pour une nouvelle ville, c'est la SEULE ligne a changer ici,
+         et elle doit porter le nom exact saisi dans Reservations. */
+    var EVENEMENT = 'Tarbes 2026';
+    var PLACES_URL = API + 'places?v=' + encodeURIComponent(EVENEMENT);
     var msg      = document.getElementById('usn-form-msg');
     var err      = document.getElementById('usn-form-err');
     var stock    = document.getElementById('usn-stock');
@@ -1372,7 +1380,7 @@
 
     // Lecture de l'etat au chargement.
     if (window.fetch) {
-      fetch(API + 'places', { credentials: 'same-origin' })
+      fetch(PLACES_URL, { credentials: 'same-origin' })
         .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
         .then(function (e) {
           apiActive = true;
@@ -1433,6 +1441,7 @@
           nom: nom.value.trim(),
           email: email.value.trim(),
           places: valeurPlaces(),
+          evenement: EVENEMENT,
           site: ''
         })
       })
@@ -1443,7 +1452,7 @@
           if (reussi) {
             envoyerVersBrevo();
             succes(res.d.restantes);
-            fetch(API + 'places', { credentials: 'same-origin' })
+            fetch(PLACES_URL, { credentials: 'same-origin' })
               .then(function (r) { return r.json(); }).then(afficherEtat).catch(function () {});
           } else {
             var motif = res.d ? res.d.erreur : '';
@@ -1469,7 +1478,7 @@
             erreur((res.d ? res.d.message : '') || 'La r\u00e9servation a \u00e9chou\u00e9, r\u00e9essaie.',
                    'deja-inscrit' === motif ? 'info' : '');
             if (res.d ? typeof res.d.restantes === 'number' : false) {
-              fetch(API + 'places', { credentials: 'same-origin' })
+              fetch(PLACES_URL, { credentials: 'same-origin' })
                 .then(function (r) { return r.json(); }).then(afficherEtat).catch(function () {});
             }
           }

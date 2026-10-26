@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Un Seul Nom - Reservations
  * Description: Reservation de places pour les evenements Un Seul Nom : compteur de places, limite par reservation, liste des inscrits et export CSV. Une ville apres l'autre, sans perdre les inscrits des precedentes.
- * Version:     1.3.0
+ * Version:     1.4.0
  * Author:      Un Seul Nom
  * License:     GPL-2.0-or-later
  *
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class USN_Reservations {
 
-	const VERSION        = '1.3.0';
+	const VERSION        = '1.4.0';
 	const OPT_CAPACITE   = 'usn_capacite';        // Nombre total de places ouvertes (surbooking compris).
 	const OPT_MAX        = 'usn_max_par_personne'; // Limite par reservation.
 	const OPT_OUVERT     = 'usn_inscriptions_ouvertes';
@@ -65,6 +65,12 @@ final class USN_Reservations {
 	// module ne savait pas encore de quelle ville il s'agissait.
 	const AVANT = 'Edition precedente';
 
+	/** La table des evenements, un par ville. */
+	public static function table_evenements() {
+		global $wpdb;
+		return $wpdb->prefix . 'usn_evenements';
+	}
+
 	public static function table_reservations() {
 		global $wpdb;
 		return $wpdb->prefix . 'usn_reservations';
@@ -88,6 +94,18 @@ final class USN_Reservations {
 		// Les deux liens du courriel de relance sont interceptes avant
 		// que WordPress ne decide quoi afficher : aucune page a creer.
 		add_action( 'init', array( __CLASS__, 'intercepter_reponse' ) );
+
+		/* LE RAPPEL PART TOUT SEUL.
+		 *
+		 * Toutes les heures, le module regarde si une ville entre dans
+		 * sa fenetre de rappel — l'avant-veille — et envoie a ceux qui
+		 * n'ont encore rien recu. Soixante messages par passage : une
+		 * tache planifiee qui s'eternise se fait couper, et on ne sait
+		 * plus qui a recu quoi. */
+		add_action( 'usn_rappel_horaire', array( __CLASS__, 'rappel_automatique' ) );
+		if ( ! wp_next_scheduled( 'usn_rappel_horaire' ) ) {
+			wp_schedule_event( time() + 300, 'hourly', 'usn_rappel_horaire' );
+		}
 		add_shortcode( 'usn_places_restantes', array( __CLASS__, 'shortcode_places' ) );
 	}
 
@@ -116,6 +134,46 @@ final class USN_Reservations {
 			update_option( self::OPT_EVENEMENT, self::AVANT );
 		}
 
+		/* LA VILLE EN COURS DEVIENT LA PREMIERE LIGNE DE LA TABLE.
+		 *
+		 * Rien n'est efface. Le compteur, la capacite et la limite par
+		 * reservation sont recopies depuis les reglages, puis chaque
+		 * reservation est rattachee a sa ville par son nom. Les villes
+		 * passees retrouvent ainsi leur ligne elles aussi. */
+		$evts = self::table_evenements();
+		$noms = $wpdb->get_col( "SELECT DISTINCT evenement FROM {$table} WHERE evenement <> ''" );
+		$courante = trim( (string) get_option( self::OPT_EVENEMENT, '' ) );
+		if ( '' !== $courante && ! in_array( $courante, $noms, true ) ) {
+			$noms[] = $courante;
+		}
+		foreach ( $noms as $nom ) {
+			$deja = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$evts} WHERE nom = %s", $nom ) );
+			if ( $deja ) {
+				continue;
+			}
+			$actuelle = ( $nom === $courante );
+			$wpdb->insert(
+				$evts,
+				array(
+					'nom'        => $nom,
+					'capacite'   => $actuelle ? max( 0, (int) get_option( self::OPT_CAPACITE, 400 ) ) : 0,
+					'max_places' => max( 1, (int) get_option( self::OPT_MAX, 4 ) ),
+					// Une ville passee ne reprend pas d'inscriptions.
+					'ouvert'     => $actuelle ? (int) get_option( self::OPT_OUVERT, 1 ) : 0,
+					'reservees'  => $actuelle
+						? (int) $wpdb->get_var( "SELECT reservees FROM " . self::table_compteur() . " WHERE id = 1" )
+						: (int) $wpdb->get_var( $wpdb->prepare( "SELECT COALESCE(SUM(places),0) FROM {$table} WHERE evenement = %s AND confirme <> %d", $nom, self::ANNULE ) ),
+					'cree_le'    => current_time( 'mysql' ),
+				),
+				array( '%s', '%d', '%d', '%d', '%d', '%s' )
+			);
+		}
+		// Chaque reservation retrouve sa ville.
+		$wpdb->query(
+			"UPDATE {$table} r JOIN {$evts} e ON e.nom = r.evenement
+			 SET r.evenement_id = e.id WHERE r.evenement_id = 0"
+		);
+
 		// Les reservations prises avant la 1.3 n'ont pas de jeton : sans
 		// lui, leurs liens « je viens » et « je libere ma place » ne
 		// meneraient nulle part.
@@ -136,6 +194,7 @@ final class USN_Reservations {
 
 		$reservations = self::table_reservations();
 		$compteur     = self::table_compteur();
+		$evenements   = self::table_evenements();
 
 		dbDelta(
 			"CREATE TABLE {$reservations} (
@@ -144,13 +203,16 @@ final class USN_Reservations {
 				email VARCHAR(190) NOT NULL,
 				places TINYINT UNSIGNED NOT NULL DEFAULT 1,
 				evenement VARCHAR(80) NOT NULL DEFAULT '',
+				evenement_id BIGINT UNSIGNED NOT NULL DEFAULT 0,
 				confirme TINYINT UNSIGNED NOT NULL DEFAULT 0,
+				rappel_envoye TINYINT UNSIGNED NOT NULL DEFAULT 0,
 				jeton VARCHAR(24) NOT NULL DEFAULT '',
 				ip VARCHAR(45) NOT NULL DEFAULT '',
 				cree_le DATETIME NOT NULL,
 				PRIMARY KEY  (id),
 				KEY email (email),
 				KEY evenement (evenement),
+				KEY evenement_id (evenement_id),
 				KEY jeton (jeton),
 				KEY confirme (confirme),
 				KEY cree_le (cree_le)
@@ -162,6 +224,36 @@ final class USN_Reservations {
 		 * il faut pouvoir l'incrementer de facon atomique, ce que les options
 		 * WordPress (mises en cache) ne permettent pas de facon fiable.
 		 */
+		/* PLUSIEURS VILLES A LA FOIS.
+		 *
+		 * Jusqu'a la 1.3, une seule ville pouvait prendre des
+		 * reservations : ouvrir Limours aurait ferme Tarbes. Elles sont
+		 * pourtant a trois semaines d'intervalle, et il faut bien que
+		 * les deux soient ouvertes en decembre.
+		 *
+		 * Chaque ville a donc sa ligne, et surtout SON COMPTEUR. C'est
+		 * lui qui porte l'increment atomique : la condition est evaluee
+		 * par la base au moment de l'ecriture, donc deux personnes qui
+		 * prennent la derniere place au meme instant ne peuvent pas
+		 * l'avoir toutes les deux. */
+		dbDelta(
+			"CREATE TABLE {$evenements} (
+				id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+				nom VARCHAR(80) NOT NULL,
+				capacite INT UNSIGNED NOT NULL DEFAULT 400,
+				max_places TINYINT UNSIGNED NOT NULL DEFAULT 4,
+				ouvert TINYINT UNSIGNED NOT NULL DEFAULT 1,
+				reservees INT UNSIGNED NOT NULL DEFAULT 0,
+				date_evenement DATE NULL,
+				ferme_le DATETIME NULL,
+				rappel_le DATETIME NULL,
+				rappel_fait TINYINT UNSIGNED NOT NULL DEFAULT 0,
+				cree_le DATETIME NOT NULL,
+				PRIMARY KEY  (id),
+				UNIQUE KEY nom (nom)
+			) {$charset};"
+		);
+
 		dbDelta(
 			"CREATE TABLE {$compteur} (
 				id TINYINT UNSIGNED NOT NULL,
@@ -184,17 +276,80 @@ final class USN_Reservations {
 	/* La ville en cours                                                   */
 	/* ------------------------------------------------------------------ */
 
+	/** L'evenement regarde en ce moment. Resolu une fois par requete. */
+	protected static $courant = null;
+
+	/**
+	 * Trouve un evenement par son numero ou par son nom.
+	 *
+	 * Sans rien, c'est celui qui est marque par defaut dans les
+	 * reglages ; a defaut, le plus recemment cree qui soit ouvert.
+	 */
+	public static function trouver_evenement( $ref = '' ) {
+		global $wpdb;
+		$evts = self::table_evenements();
+		$ref  = is_string( $ref ) ? trim( $ref ) : $ref;
+
+		if ( is_numeric( $ref ) && (int) $ref > 0 ) {
+			$ligne = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$evts} WHERE id = %d", (int) $ref ) );
+			if ( $ligne ) {
+				return $ligne;
+			}
+		}
+		if ( is_string( $ref ) && '' !== $ref ) {
+			$ligne = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$evts} WHERE nom = %s", $ref ) );
+			if ( $ligne ) {
+				return $ligne;
+			}
+		}
+
+		$defaut = trim( (string) get_option( self::OPT_EVENEMENT, '' ) );
+		if ( '' !== $defaut ) {
+			$ligne = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$evts} WHERE nom = %s", $defaut ) );
+			if ( $ligne ) {
+				return $ligne;
+			}
+		}
+		return $wpdb->get_row( "SELECT * FROM {$evts} ORDER BY ouvert DESC, id DESC LIMIT 1" );
+	}
+
+	/** Designe l'evenement sur lequel porte la requete en cours. */
+	public static function definir_evenement( $ref ) {
+		self::$courant = self::trouver_evenement( $ref );
+		return self::$courant;
+	}
+
+	/** L'evenement courant, sous forme de ligne. Peut etre nul. */
+	public static function ev() {
+		if ( null === self::$courant ) {
+			self::$courant = self::trouver_evenement( '' );
+		}
+		return self::$courant;
+	}
+
+	public static function evenements() {
+		global $wpdb;
+		$evts = self::table_evenements();
+		return $wpdb->get_results( "SELECT * FROM {$evts} ORDER BY ouvert DESC, id DESC" );
+	}
+
 	public static function evenement() {
-		$nom = trim( (string) get_option( self::OPT_EVENEMENT, '' ) );
-		return '' === $nom ? self::AVANT : $nom;
+		$ev = self::ev();
+		return $ev ? (string) $ev->nom : self::AVANT;
+	}
+
+	public static function evenement_id() {
+		$ev = self::ev();
+		return $ev ? (int) $ev->id : 0;
 	}
 
 	/**
-	 * Passe a la ville suivante.
+	 * Cree une ville, ou modifie celle que l'on regarde.
 	 *
-	 * Rien n'est efface : les inscrits des editions precedentes gardent
-	 * leur ligne et leur ville. Seul le compteur repart de zero, puisque
-	 * c'est lui qui dit « complet ».
+	 * Plus rien n'est remis a zero : chaque ville a son compteur. Ouvrir
+	 * Limours ne touche donc pas a Tarbes, et les deux peuvent prendre
+	 * des reservations en meme temps — elles sont a trois semaines
+	 * d'intervalle.
 	 */
 	public static function ouvrir_nouvelle_ville() {
 		if ( ! current_user_can( self::CAP_REGLER )
@@ -211,11 +366,32 @@ final class USN_Reservations {
 		}
 
 		global $wpdb;
-		$compteur = self::table_compteur();
-		$wpdb->query( "UPDATE {$compteur} SET reservees = 0 WHERE id = 1" );
+		$evts = self::table_evenements();
+		$lire = function ( $cle, $defaut ) {
+			return isset( $_POST[ $cle ] ) ? sanitize_text_field( wp_unslash( $_POST[ $cle ] ) ) : $defaut;
+		};
 
+		$champs = array(
+			'capacite'       => max( 0, (int) $lire( 'usn_capacite', 400 ) ),
+			'max_places'     => max( 1, min( 20, (int) $lire( 'usn_max', 4 ) ) ),
+			'ouvert'         => isset( $_POST['usn_ouvert'] ) ? 1 : 0,
+			'date_evenement' => '' === $lire( 'usn_date', '' ) ? null : $lire( 'usn_date', '' ),
+			'ferme_le'       => '' === $lire( 'usn_ferme', '' ) ? null : str_replace( 'T', ' ', $lire( 'usn_ferme', '' ) ) . ':00',
+		);
+
+		$existe = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$evts} WHERE nom = %s", $nom ) );
+		if ( $existe ) {
+			$wpdb->update( $evts, $champs, array( 'id' => (int) $existe ), array( '%d', '%d', '%d', '%s', '%s' ), array( '%d' ) );
+		} else {
+			$champs['nom']     = $nom;
+			$champs['cree_le'] = current_time( 'mysql' );
+			$wpdb->insert( $evts, $champs );
+		}
+
+		// La ville que l'on vient de toucher devient celle que les pages
+		// servent par defaut, si elles ne demandent rien d'autre.
 		update_option( self::OPT_EVENEMENT, $nom );
-		update_option( self::OPT_OUVERT, 1 );
+		self::definir_evenement( $nom );
 
 		/* La liste Brevo est creee tout de suite, avant la premiere
 		   inscription : si la cle est mauvaise, on l'apprend maintenant
@@ -243,21 +419,36 @@ final class USN_Reservations {
 	/* ------------------------------------------------------------------ */
 
 	public static function capacite() {
-		return max( 0, (int) get_option( self::OPT_CAPACITE, 650 ) );
+		$ev = self::ev();
+		return $ev ? max( 0, (int) $ev->capacite ) : 0;
 	}
 
 	public static function max_par_personne() {
-		return max( 1, min( 20, (int) get_option( self::OPT_MAX, 4 ) ) );
+		$ev = self::ev();
+		return $ev ? max( 1, min( 20, (int) $ev->max_places ) ) : 4;
 	}
 
+	/**
+	 * Les inscriptions sont-elles ouvertes ?
+	 *
+	 * Trois conditions, et la date en fait partie : on oublie toujours
+	 * de fermer, et une inscription qui arrive le lendemain de
+	 * l'evenement ne sert personne.
+	 */
 	public static function inscriptions_ouvertes() {
-		return (bool) get_option( self::OPT_OUVERT, 1 );
+		$ev = self::ev();
+		if ( ! $ev || ! (int) $ev->ouvert ) {
+			return false;
+		}
+		if ( ! empty( $ev->ferme_le ) && current_time( 'mysql' ) >= $ev->ferme_le ) {
+			return false;
+		}
+		return true;
 	}
 
 	public static function places_reservees() {
-		global $wpdb;
-		$table = self::table_compteur();
-		return (int) $wpdb->get_var( "SELECT reservees FROM {$table} WHERE id = 1" );
+		$ev = self::ev();
+		return $ev ? (int) $ev->reservees : 0;
 	}
 
 	public static function etat() {
@@ -273,6 +464,9 @@ final class USN_Reservations {
 			// ne le fait pas : sinon le contact partirait deux fois, et la
 			// seconde fois sans sa ville ni son nombre de places.
 			'brevo'     => self::brevo_actif(),
+			// La page peut afficher le nom de la ville qu'elle sert, et
+			// verifier qu'elle parle bien de la bonne.
+			'evenement' => self::evenement(),
 		);
 	}
 
@@ -288,6 +482,9 @@ final class USN_Reservations {
 				'methods'             => 'GET',
 				'callback'            => array( __CLASS__, 'route_places' ),
 				'permission_callback' => '__return_true',
+				'args'                => array(
+					'v' => array( 'required' => false, 'type' => 'string' ),
+				),
 			)
 		);
 
@@ -302,11 +499,30 @@ final class USN_Reservations {
 		);
 	}
 
-	public static function route_places() {
+	/**
+	 * La ville demandee par la page.
+	 *
+	 * Sans rien, c'est celle par defaut : une page ecrite avant la 1.4
+	 * continue donc de fonctionner telle quelle.
+	 */
+	public static function route_evenement( WP_REST_Request $requete ) {
+		$ref = (string) $requete->get_param( 'v' );
+		self::definir_evenement( $ref );
+	}
+
+	public static function route_places( WP_REST_Request $requete ) {
+		self::route_evenement( $requete );
 		return new WP_REST_Response( self::etat(), 200 );
 	}
 
 	public static function route_reserver( WP_REST_Request $requete ) {
+		self::definir_evenement( (string) $requete->get_param( 'evenement' ) );
+		if ( ! self::ev() ) {
+			return new WP_REST_Response(
+				array( 'ok' => false, 'erreur' => 'evenement', 'message' => 'Aucun événement ouvert.' ),
+				503
+			);
+		}
 		if ( ! self::inscriptions_ouvertes() ) {
 			return new WP_REST_Response(
 				array( 'ok' => false, 'erreur' => 'fermees', 'message' => 'Les inscriptions sont closes.' ),
@@ -385,20 +601,24 @@ final class USN_Reservations {
 		}
 
 		global $wpdb;
-		$compteur = self::table_compteur();
-		$capacite = self::capacite();
+		$evts   = self::table_evenements();
+		$ev_id  = self::evenement_id();
 
 		/*
 		 * Increment atomique : la condition est evaluee par la base de donnees
 		 * au moment de l'ecriture. Si deux personnes reservent les dernieres
 		 * places en meme temps, une seule des deux requetes modifie une ligne.
+		 *
+		 * La capacite est lue DANS LA MEME REQUETE, et non d'avance : entre
+		 * une lecture et une ecriture separees, un autre visiteur a le temps
+		 * de prendre la place.
 		 */
 		$modifiees = $wpdb->query(
 			$wpdb->prepare(
-				"UPDATE {$compteur} SET reservees = reservees + %d WHERE id = 1 AND reservees + %d <= %d",
+				"UPDATE {$evts} SET reservees = reservees + %d WHERE id = %d AND reservees + %d <= capacite",
 				$places,
-				$places,
-				$capacite
+				$ev_id,
+				$places
 			)
 		);
 
@@ -424,17 +644,18 @@ final class USN_Reservations {
 				'email'     => $email,
 				'places'    => $places,
 				'evenement' => self::evenement(),
+				'evenement_id' => $ev_id,
 				'jeton'     => self::jeton_libre(),
 				'ip'        => self::ip_visiteur(),
 				'cree_le'   => current_time( 'mysql' ),
 			),
-			array( '%s', '%s', '%d', '%s', '%s', '%s', '%s' )
+			array( '%s', '%s', '%d', '%s', '%d', '%s', '%s', '%s' )
 		);
 
 		if ( false === $insere ) {
 			// On rend les places pour ne pas les perdre.
 			$wpdb->query(
-				$wpdb->prepare( "UPDATE {$compteur} SET reservees = GREATEST(0, reservees - %d) WHERE id = 1", $places )
+				$wpdb->prepare( "UPDATE {$evts} SET reservees = GREATEST(0, reservees - %d) WHERE id = %d", $places, $ev_id )
 			);
 			return new WP_REST_Response(
 				array( 'ok' => false, 'erreur' => 'enregistrement', 'message' => 'Enregistrement impossible, réessaie.' ),
@@ -500,6 +721,120 @@ final class USN_Reservations {
 	/* Administration                                                      */
 	/* ------------------------------------------------------------------ */
 
+	/**
+	 * L'ECRAN DE L'ENTREE.
+	 *
+	 * Une page a lui, parce qu'on ne tient pas une porte avec un
+	 * tableau de bord. Un champ de recherche, des noms, un gros bouton,
+	 * et le compte de ceux qui sont deja dans la salle. Rien d'autre.
+	 *
+	 * Il tient dans un telephone, et un compte Editeur suffit.
+	 */
+	public static function page_entree() {
+		if ( ! current_user_can( self::CAP_GERER ) ) {
+			return;
+		}
+		global $wpdb;
+		if ( isset( $_GET['ev'] ) ) {
+			self::definir_evenement( sanitize_text_field( wp_unslash( $_GET['ev'] ) ) );
+		}
+		$table = self::table_reservations();
+		$ville = self::evenement();
+		$c     = self::chiffres();
+
+		$cherche = isset( $_GET['q'] ) ? trim( sanitize_text_field( wp_unslash( $_GET['q'] ) ) ) : '';
+		$lignes  = array();
+		if ( '' !== $cherche ) {
+			$comme  = '%' . $wpdb->esc_like( $cherche ) . '%';
+			$lignes = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT * FROM {$table}
+					 WHERE evenement = %s AND confirme <> %d
+					   AND ( nom LIKE %s OR email LIKE %s OR jeton LIKE %s )
+					 ORDER BY nom LIMIT 40",
+					$ville,
+					self::ANNULE,
+					$comme,
+					$comme,
+					$wpdb->esc_like( $cherche ) . '%'
+				)
+			);
+		}
+		?>
+		<div class="wrap" style="max-width:720px">
+			<h1>Entrée — <?php echo esc_html( $ville ); ?></h1>
+
+			<div style="display:flex;gap:12px;flex-wrap:wrap;margin:18px 0">
+				<div style="flex:1;min-width:150px;background:#1B2FC4;color:#fff;border-radius:8px;padding:16px 20px">
+					<div style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;opacity:.8">Dans la salle</div>
+					<div style="font-size:38px;font-weight:700;line-height:1.1"><?php echo (int) $c['presentes']; ?></div>
+				</div>
+				<div style="flex:1;min-width:150px;background:#fff;border:1px solid #dcdcde;border-radius:8px;padding:16px 20px">
+					<div style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#646970">Attendus</div>
+					<div style="font-size:38px;font-weight:700;line-height:1.1"><?php echo (int) $c['attendues']; ?></div>
+				</div>
+			</div>
+
+			<form method="get" action="">
+				<input type="hidden" name="page" value="usn-entree">
+				<?php if ( isset( $_GET['ev'] ) ) : ?>
+					<input type="hidden" name="ev" value="<?php echo esc_attr( sanitize_text_field( wp_unslash( $_GET['ev'] ) ) ); ?>">
+				<?php endif; ?>
+				<input type="search" name="q" value="<?php echo esc_attr( $cherche ); ?>"
+					placeholder="Trois lettres du nom suffisent" autofocus
+					style="width:100%;font-size:20px;padding:14px 16px;border-radius:8px;border:2px solid #1B2FC4">
+				<p class="description" style="margin-top:6px">
+					Tapez le début du nom, l'adresse, ou la référence du billet. Puis
+					<strong>Présent</strong>. Le compteur du haut suit en direct.
+				</p>
+			</form>
+
+			<?php if ( '' !== $cherche ) : ?>
+				<?php if ( empty( $lignes ) ) : ?>
+					<p style="font-size:17px;margin-top:24px">
+						Personne ne correspond à « <strong><?php echo esc_html( $cherche ); ?></strong> ».
+						Essayez avec moins de lettres, ou vérifiez l'orthographe.
+					</p>
+				<?php else : ?>
+					<div style="margin-top:20px">
+						<?php foreach ( $lignes as $l ) : ?>
+							<?php $present = self::PRESENT === (int) $l->confirme; ?>
+							<div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #dcdcde;
+								<?php echo $present ? 'border-left:5px solid #00a32a;' : ''; ?>
+								border-radius:8px;padding:14px 16px;margin-bottom:10px;flex-wrap:wrap">
+								<div style="flex:1;min-width:160px">
+									<div style="font-size:19px;font-weight:700"><?php echo esc_html( $l->nom ); ?></div>
+									<div style="font-size:13px;color:#646970">
+										<?php echo (int) $l->places; ?> place(s)
+										<?php if ( self::CONFIRME === (int) $l->confirme ) : ?>
+											· <span style="color:#00a32a">a confirmé</span>
+										<?php endif; ?>
+										· <?php echo esc_html( $l->email ); ?>
+									</div>
+								</div>
+								<a class="button <?php echo $present ? '' : 'button-primary'; ?>"
+									style="font-size:17px;padding:10px 26px;height:auto"
+									href="<?php
+									echo esc_url(
+										admin_url(
+											'admin-post.php?action=usn_marquer&retour=entree&q=' . rawurlencode( $cherche )
+											. '&id=' . (int) $l->id
+											. '&etat=' . ( $present ? self::CONFIRME : self::PRESENT )
+											. '&_wpnonce=' . wp_create_nonce( 'usn_marquer' )
+										)
+									);
+									?>">
+									<?php echo $present ? 'Annuler' : 'Présent'; ?>
+								</a>
+							</div>
+						<?php endforeach; ?>
+					</div>
+				<?php endif; ?>
+			<?php endif; ?>
+		</div>
+		<?php
+	}
+
 	public static function menu_admin() {
 		add_menu_page(
 			'Réservations Un Seul Nom',
@@ -509,6 +844,15 @@ final class USN_Reservations {
 			array( __CLASS__, 'page_admin' ),
 			'dashicons-tickets-alt',
 			26
+		);
+
+		add_submenu_page(
+			'usn-reservations',
+			'Entrée',
+			'Entrée (jour J)',
+			self::CAP_GERER,
+			'usn-entree',
+			array( __CLASS__, 'page_entree' )
 		);
 	}
 
@@ -532,6 +876,11 @@ final class USN_Reservations {
 			return;
 		}
 		global $wpdb;
+		// La ville regardee se choisit dans l'adresse : c'est ce qui
+		// permet de suivre Tarbes et Limours en meme temps.
+		if ( isset( $_GET['ev'] ) ) {
+			self::definir_evenement( sanitize_text_field( wp_unslash( $_GET['ev'] ) ) );
+		}
 		$etat  = self::etat();
 		$table = self::table_reservations();
 		$ville = self::evenement();
@@ -596,10 +945,22 @@ final class USN_Reservations {
 		<div class="wrap">
 			<h1>Réservations — Un Seul Nom</h1>
 
+			<?php $toutes = self::evenements(); ?>
 			<p style="font-size:14px;margin:14px 0 0">
-				Ville en cours :
+				Ville regardée :
 				<strong style="font-size:17px"><?php echo esc_html( $ville ); ?></strong>
 			</p>
+			<?php if ( count( $toutes ) > 1 ) : ?>
+				<p style="margin:10px 0 0">
+					<?php foreach ( $toutes as $t ) : ?>
+						<?php $active = (int) $t->id === self::evenement_id(); ?>
+						<a class="button <?php echo $active ? 'button-primary' : ''; ?>" style="margin-right:6px"
+							href="<?php echo esc_url( add_query_arg( array( 'page' => 'usn-reservations', 'ev' => (int) $t->id ), admin_url( 'admin.php' ) ) ); ?>">
+							<?php echo esc_html( $t->nom ); ?><?php echo (int) $t->ouvert ? '' : ' (fermée)'; ?>
+						</a>
+					<?php endforeach; ?>
+				</p>
+			<?php endif; ?>
 
 			<?php $c = self::chiffres(); ?>
 
@@ -702,36 +1063,6 @@ final class USN_Reservations {
 				<?php settings_fields( 'usn_reservations' ); ?>
 				<table class="form-table" role="presentation">
 					<tr>
-						<th scope="row"><label for="usn_cap">Places ouvertes</label></th>
-						<td>
-							<input name="<?php echo esc_attr( self::OPT_CAPACITE ); ?>" id="usn_cap" type="number" min="0" step="1"
-								value="<?php echo esc_attr( self::capacite() ); ?>" class="small-text">
-							<p class="description">
-								Nombre total de places acceptées, surbooking compris.
-								Exemple : salle de 500 places, ouvrez 650 pour compenser les absents.
-							</p>
-						</td>
-					</tr>
-					<tr>
-						<th scope="row"><label for="usn_max">Maximum par r&eacute;servation</label></th>
-						<td>
-							<input name="<?php echo esc_attr( self::OPT_MAX ); ?>" id="usn_max" type="number" min="1" max="20" step="1"
-								value="<?php echo esc_attr( self::max_par_personne() ); ?>" class="small-text">
-							<p class="description">Nombre de places maximum par réservation.</p>
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">Inscriptions</th>
-						<td>
-							<label>
-								<input name="<?php echo esc_attr( self::OPT_OUVERT ); ?>" type="checkbox" value="1"
-									<?php checked( self::inscriptions_ouvertes() ); ?>>
-								Ouvertes
-							</label>
-							<p class="description">Décochez pour fermer les inscriptions sans toucher au compteur.</p>
-						</td>
-					</tr>
-					<tr>
 						<th scope="row">Taux de présence constaté</th>
 						<td>
 							<input name="<?php echo esc_attr( self::OPT_TAUX ); ?>" type="number" min="1" max="100"
@@ -817,16 +1148,19 @@ final class USN_Reservations {
 				<?php submit_button( 'Enregistrer' ); ?>
 			</form>
 
-			<h2>Passer à la ville suivante</h2>
+			<h2>La ville : <?php echo esc_html( $ville ); ?></h2>
 			<p class="description" style="max-width:62em">
-				Remet le compteur à zéro pour une nouvelle ville. <strong>Rien n'est
-				effacé</strong> : les inscrits des éditions précédentes gardent leur
-				ligne et restent exportables, ils ne comptent simplement plus dans
-				les places restantes. Pensez à exporter le CSV de la ville en cours
-				avant de basculer.
+				Chaque ville a <strong>sa jauge et son compteur</strong>. Ouvrir Limours
+				ne touche pas à Tarbes&nbsp;: les deux peuvent prendre des réservations
+				en même temps, et c'est bien le but — elles sont à trois semaines
+				d'intervalle.
 			</p>
-			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"
-				onsubmit="return confirm('Ouvrir les reservations pour cette nouvelle ville ? Le compteur repart de zero.');">
+			<p class="description" style="max-width:62em">
+				Pour <strong>créer</strong> une ville, tapez un nom qui n'existe pas
+				encore. Pour en <strong>modifier</strong> une, laissez son nom tel quel.
+			</p>
+			<?php $en_cours = self::ev(); ?>
+			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="usn_nouvelle_ville">
 				<?php wp_nonce_field( 'usn_nouvelle_ville' ); ?>
 				<table class="form-table" role="presentation">
@@ -834,15 +1168,69 @@ final class USN_Reservations {
 						<th scope="row"><label for="usn_ville">Nom de la ville</label></th>
 						<td>
 							<input name="usn_nouvelle_ville" id="usn_ville" type="text" maxlength="80"
-								class="regular-text" placeholder="Tarbes 2026" required>
+								class="regular-text" placeholder="Tarbes 2026" required
+								value="<?php echo esc_attr( $ville ); ?>">
 							<p class="description">
-								Ce nom sert à retrouver les inscrits plus tard. Mettez la ville
-								et l'année : « Tarbes 2026 », « Limours 2027 ».
+								Ce nom sert à retrouver les inscrits plus tard, et c'est lui que
+								la page du site demande. Mettez la ville et l'année&nbsp;:
+								« Tarbes 2026 », « Limours 2027 ».
 							</p>
 						</td>
 					</tr>
+					<tr>
+						<th scope="row"><label for="usn_cap">Places ouvertes</label></th>
+						<td>
+							<input name="usn_capacite" id="usn_cap" type="number" min="0" step="1" class="small-text"
+								value="<?php echo (int) self::capacite(); ?>">
+							<p class="description">
+								Total accepté, <strong>surbooking compris</strong>. Regardez la carte
+								« présence attendue » plus haut&nbsp;: c'est elle qui dit si vous
+								pouvez en ouvrir davantage.
+							</p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="usn_max">Maximum par réservation</label></th>
+						<td>
+							<input name="usn_max" id="usn_max" type="number" min="1" max="20" step="1" class="small-text"
+								value="<?php echo (int) self::max_par_personne(); ?>">
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="usn_date">Date de l'événement</label></th>
+						<td>
+							<input name="usn_date" id="usn_date" type="date"
+								value="<?php echo esc_attr( $en_cours && $en_cours->date_evenement ? $en_cours->date_evenement : '' ); ?>">
+							<p class="description">
+								Sert au <strong>rappel automatique</strong>, envoyé l'avant-veille à 10h.
+								Sans date, aucun rappel ne part tout seul.
+							</p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="usn_ferme">Clôture des inscriptions</label></th>
+						<td>
+							<input name="usn_ferme" id="usn_ferme" type="datetime-local"
+								value="<?php echo esc_attr( $en_cours && $en_cours->ferme_le ? str_replace( ' ', 'T', substr( $en_cours->ferme_le, 0, 16 ) ) : '' ); ?>">
+							<p class="description">
+								Passé cette date, les inscriptions se ferment toutes seules.
+								<strong>Mettez le lendemain de l'événement</strong>&nbsp;: on peut encore
+								s'inscrire le jour même, et plus jamais après.
+							</p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Inscriptions</th>
+						<td>
+							<label>
+								<input name="usn_ouvert" type="checkbox" value="1" <?php checked( $en_cours && (int) $en_cours->ouvert ); ?>>
+								Ouvertes
+							</label>
+							<p class="description">Décochez pour fermer tout de suite, sans toucher au compteur.</p>
+						</td>
+					</tr>
 				</table>
-				<?php submit_button( 'Ouvrir cette ville', 'secondary' ); ?>
+				<?php submit_button( 'Enregistrer cette ville' ); ?>
 			</form>
 
 			<h2>Le rappel avant l'événement</h2>
@@ -1399,11 +1787,11 @@ final class USN_Reservations {
 			// Deja annulee : on ne rend pas les places une seconde fois.
 			if ( self::ANNULE !== (int) $ligne->confirme ) {
 				$wpdb->update( $table, array( 'confirme' => self::ANNULE ), array( 'id' => (int) $ligne->id ), array( '%d' ), array( '%d' ) );
-				$compteur = self::table_compteur();
 				$wpdb->query(
 					$wpdb->prepare(
-						"UPDATE {$compteur} SET reservees = GREATEST(0, reservees - %d) WHERE id = 1",
-						(int) $ligne->places
+						"UPDATE " . self::table_evenements() . " SET reservees = GREATEST(0, reservees - %d) WHERE id = %d",
+						(int) $ligne->places,
+						(int) $ligne->evenement_id
 					)
 				);
 			}
@@ -1420,9 +1808,12 @@ final class USN_Reservations {
 		// Confirmation. Une place liberee puis confirmee est reprise : on
 		// la retire a nouveau du stock.
 		if ( self::ANNULE === (int) $ligne->confirme ) {
-			$compteur = self::table_compteur();
 			$wpdb->query(
-				$wpdb->prepare( "UPDATE {$compteur} SET reservees = reservees + %d WHERE id = 1", (int) $ligne->places )
+				$wpdb->prepare(
+					"UPDATE " . self::table_evenements() . " SET reservees = reservees + %d WHERE id = %d",
+					(int) $ligne->places,
+					(int) $ligne->evenement_id
+				)
 			);
 		}
 		$wpdb->update( $table, array( 'confirme' => self::CONFIRME ), array( 'id' => (int) $ligne->id ), array( '%d' ), array( '%d' ) );
@@ -1553,6 +1944,17 @@ final class USN_Reservations {
 			global $wpdb;
 			$wpdb->update( self::table_reservations(), array( 'confirme' => $etat ), array( 'id' => $id ), array( '%d' ), array( '%d' ) );
 		}
+		// On revient la ou l'on etait : a la porte, repartir du tableau
+		// de bord a chaque personne serait intenable.
+		if ( isset( $_GET['retour'] ) && 'entree' === $_GET['retour'] ) {
+			wp_safe_redirect(
+				add_query_arg(
+					array( 'page' => 'usn-entree', 'q' => isset( $_GET['q'] ) ? sanitize_text_field( wp_unslash( $_GET['q'] ) ) : '' ),
+					admin_url( 'admin.php' )
+				)
+			);
+			exit;
+		}
 		wp_safe_redirect( add_query_arg( 'usn_message', 'marque', admin_url( 'admin.php?page=usn-reservations' ) ) );
 		exit;
 	}
@@ -1666,6 +2068,81 @@ final class USN_Reservations {
 		}
 
 		return self::brevo_appel( 'POST', '/smtp/email', $corps );
+	}
+
+	/**
+	 * Le rappel de l'avant-veille, envoye sans que personne y pense.
+	 *
+	 * On oublie toujours. A Avignon, personne n'a relance qui que ce
+	 * soit — non par negligence, mais parce qu'il y a cent choses a
+	 * faire la semaine d'avant.
+	 */
+	public static function rappel_automatique() {
+		if ( ! self::brevo_actif() ) {
+			return;
+		}
+		global $wpdb;
+		$evts  = self::table_evenements();
+		$table = self::table_reservations();
+
+		/* La fenetre va de deux jours avant l'evenement jusqu'a la
+		 * veille au soir. Si le site dort pendant l'avant-veille — rien
+		 * ne fait tourner le planificateur de WordPress sans visite —
+		 * le rappel part quand meme le lendemain. Mieux vaut un rappel
+		 * en retard qu'un rappel jamais parti. */
+		$ouverture = gmdate( 'Y-m-d', current_time( 'timestamp' ) + 2 * DAY_IN_SECONDS );
+		$villes = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT * FROM {$evts}
+				 WHERE date_evenement IS NOT NULL
+				   AND date_evenement <= %s
+				   AND date_evenement >= %s
+				   AND rappel_fait = 0",
+				$ouverture,
+				gmdate( 'Y-m-d', current_time( 'timestamp' ) )
+			)
+		);
+
+		$sujet = trim( (string) get_option( self::OPT_RELANCE_SUJET, '' ) );
+		$piece = trim( (string) get_option( self::OPT_PIECE_URL, '' ) );
+
+		foreach ( $villes as $ville ) {
+			self::definir_evenement( (int) $ville->id );
+			$objet = '' === $sujet ? 'C\'est bientôt - ' . $ville->nom : $sujet;
+
+			$lignes = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT * FROM {$table}
+					 WHERE evenement_id = %d AND confirme <> %d AND rappel_envoye = 0
+					 ORDER BY id LIMIT 60",
+					(int) $ville->id,
+					self::ANNULE
+				)
+			);
+
+			foreach ( $lignes as $ligne ) {
+				$reponse = self::relance_envoyer_un( $ligne, $objet, $piece );
+				// Marque dans tous les cas : un echec qui se rejoue
+				// toutes les heures finirait par envoyer soixante fois
+				// le meme message a la meme personne.
+				$wpdb->update( $table, array( 'rappel_envoye' => 1 ), array( 'id' => (int) $ligne->id ), array( '%d' ), array( '%d' ) );
+				if ( ! $reponse['ok'] ) {
+					self::brevo_consigner( $reponse, (string) $ligne->email, (string) $ville->nom );
+				}
+			}
+
+			// Plus personne en attente : la ville est faite.
+			$reste = (int) $wpdb->get_var(
+				$wpdb->prepare(
+					"SELECT COUNT(*) FROM {$table} WHERE evenement_id = %d AND confirme <> %d AND rappel_envoye = 0",
+					(int) $ville->id,
+					self::ANNULE
+				)
+			);
+			if ( 0 === $reste ) {
+				$wpdb->update( $evts, array( 'rappel_fait' => 1 ), array( 'id' => (int) $ville->id ), array( '%d' ), array( '%d' ) );
+			}
+		}
 	}
 
 	public static function relance_etat() {
@@ -1808,6 +2285,9 @@ final class USN_Reservations {
 				continue;
 			}
 			$reponse = self::relance_envoyer_un( $ligne, $sujet, $piece );
+			// Marque aussi pour le rappel automatique : les deux ne
+			// doivent jamais envoyer deux fois a la meme personne.
+			$wpdb->update( $table, array( 'rappel_envoye' => 1 ), array( 'id' => (int) $ligne->id ), array( '%d' ), array( '%d' ) );
 			if ( $reponse['ok'] ) {
 				$etat['envoyes']++;
 			} else {
@@ -1892,4 +2372,13 @@ final class USN_Reservations {
 }
 
 register_activation_hook( __FILE__, array( 'USN_Reservations', 'activer' ) );
+register_deactivation_hook(
+	__FILE__,
+	function () {
+		$suivant = wp_next_scheduled( 'usn_rappel_horaire' );
+		if ( $suivant ) {
+			wp_unschedule_event( $suivant, 'usn_rappel_horaire' );
+		}
+	}
+);
 add_action( 'plugins_loaded', array( 'USN_Reservations', 'init' ) );
