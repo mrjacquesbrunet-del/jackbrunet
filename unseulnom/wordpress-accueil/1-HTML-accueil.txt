@@ -25,15 +25,9 @@
   <!-- Le panneau ouvert par le bouton a deux traits. -->
   <div class="usn-menu" id="usn-menu" hidden>
     <div class="usn-menu-liens">
-      <a href="https://unseulnom.org/evenement/">Toutes les dates</a>
-      <a href="https://unseulnom.org/evenement/tarbes/">Tarbes, le 12 d&eacute;cembre</a>
-      <a href="#usn-vision">La vision</a>
-      <!-- Pointait sur usn-editions, qui n'existe plus depuis que la carte
-           a ete retiree : le lien ne menait nulle part. La frise raconte
-           la meme chose. -->
-      <a href="#usn-frise">Les villes travers&eacute;es</a>
-      <a href="#usn-eglises">&Eacute;glises</a>
-      <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Soutenir la mission</a>
+      <a href="https://unseulnom.org/evenement/"><i>01</i><span>Les prochains &eacute;v&eacute;nements</span></a>
+      <a href="https://unseulnom.org/evenement/tarbes/"><i>02</i><span>Tarbes</span></a>
+      <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer"><i>03</i><span>Soutien</span></a>
     </div>
     <div class="usn-menu-pied">
       <span>Un Seul Nom &mdash; &Eacute;vang&eacute;lisation &amp; gu&eacute;rison</span>
@@ -468,7 +462,7 @@
     </div>
   </div>
 
-  <div class="usn-defile usn-defile-encre" aria-hidden="true">
+  <div class="usn-defile usn-defile-degrade usn-defile-villes" aria-hidden="true">
     <div class="usn-defile-piste">
       <div class="usn-defile-suite">
         <b>Tarbes</b> <i>&#10022;</i> <b>Madagascar</b> <i>&#10022;</i>

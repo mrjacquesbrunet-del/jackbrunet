@@ -558,7 +558,11 @@
       if (!phrase || !motsPh.length) return;
       var r = phrase.getBoundingClientRect();
       var c = Math.max(1, r.height - vh());
-      var p = clamp01(clamp01(-r.top / c) / 0.75);
+      // Les mots s'allumaient sur les trois quarts de la traversee : on
+      // arrivait au bas du bloc avec la moitie de la phrase encore
+      // eteinte. Ils s'allument maintenant sur la premiere moitie, et la
+      // phrase entiere se lit pendant le reste du passage.
+      var p = clamp01(clamp01(-r.top / c) / 0.5);
       var jusqua = p * motsPh.length;
       for (var i = 0; i < motsPh.length; i++) {
         var dit = i < jusqua;

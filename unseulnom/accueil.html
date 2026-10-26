@@ -119,7 +119,8 @@
      bout a l'autre au survol. C'est la couleur de la page d'accueil :
      le bleu et le rouge a plat appartiennent aux pages d'evenement. */
   #usn-accueil .usn-btn-degrade {
-    background: var(--usn-degrade); background-size: 190% 100%; background-position: 0% 50%;
+    background: var(--usn-degrade); background-repeat: no-repeat;
+    background-size: 190% 100%; background-position: 0% 50%;
     color: #fff; border-color: transparent;
     transition: background-position .5s ease, transform .18s ease, box-shadow .2s ease;
   }
@@ -128,11 +129,10 @@
     box-shadow: 0 14px 30px -16px rgba(201,38,143,0.55);
   }
   #usn-accueil .usn-btn-encre { background: var(--usn-ink); color: var(--usn-ivoire); }
-  #usn-accueil .usn-btn-encre:hover { background: var(--usn-blue); transform: translateY(-2px); }
-  #usn-accueil .usn-btn-rouge { background: var(--usn-red); color: #fff; }
-  #usn-accueil .usn-btn-rouge:hover { background: var(--usn-ink); transform: translateY(-2px); }
-  #usn-accueil .usn-btn-bleu { background: var(--usn-blue); color: #fff; }
-  #usn-accueil .usn-btn-bleu:hover { background: var(--usn-red); transform: translateY(-2px); }
+  #usn-accueil .usn-btn-encre:hover {
+    background: var(--usn-degrade); background-repeat: no-repeat;
+    color: #fff; transform: translateY(-2px);
+  }
   #usn-accueil .usn-btn-cadre {
     background: transparent; color: var(--usn-ink); border-color: var(--usn-ink);
   }
@@ -143,7 +143,7 @@
   }
   #usn-accueil .usn-btn-cadre-clair:hover { background: var(--usn-ivoire); color: var(--usn-ink); }
   #usn-accueil a:focus-visible, #usn-accueil button:focus-visible {
-    outline: 3px solid var(--usn-blue); outline-offset: 3px;
+    outline: 3px solid var(--usn-magenta); outline-offset: 3px;
   }
 
   /* ===================================================================
@@ -183,7 +183,8 @@
     display: inline-flex; align-items: center; height: 44px; padding: 0 clamp(18px, 2vw, 28px);
     border-radius: 999px; color: #fff;
     /* Le degrade de l'affiche, qui glisse d'un bout a l'autre au survol. */
-    background: var(--usn-degrade); background-size: 190% 100%; background-position: 0% 50%;
+    background: var(--usn-degrade); background-repeat: no-repeat;
+    background-size: 190% 100%; background-position: 0% 50%;
     font-weight: 800; font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase;
     white-space: nowrap;
     transition: background-position .5s ease, transform .18s ease, box-shadow .2s ease;
@@ -220,13 +221,52 @@
   }
   #usn-accueil .usn-menu.est-ouvert { opacity: 1; visibility: visible; transform: none; }
   #usn-accueil .usn-menu a { text-decoration: none; color: var(--usn-ink); }
+  /* Trois destinations, et seulement trois : la page d'accueil raconte
+     deja la vision, les villes et les eglises, les y renvoyer en double
+     n'apprenait rien. Les intitules passent de 82 a 54 pixels : a huit
+     lignes il fallait du grand, a trois il faut du juste.
+
+     Le numero porte le degrade de l'affiche, l'intitule le prend au
+     survol. Le filet du bas se remplit en meme temps, de gauche a
+     droite : c'est le seul mouvement, il suffit. */
+  #usn-accueil .usn-menu-liens { display: flex; flex-direction: column; }
   #usn-accueil .usn-menu-liens a {
-    display: block; font-family: var(--usn-display); font-weight: 900;
-    font-size: clamp(34px, 7vw, 82px); line-height: 1.06; letter-spacing: -0.03em;
-    text-transform: uppercase; border-bottom: 1px solid var(--usn-trait);
-    padding: clamp(8px, 1.4vh, 16px) 0; transition: color .2s ease, padding-left .28s ease;
+    position: relative; display: flex; align-items: baseline;
+    gap: clamp(14px, 2vw, 28px);
+    padding: clamp(14px, 2.2vh, 24px) 0;
+    border-top: 1px solid var(--usn-trait);
+    transition: padding-left .3s cubic-bezier(.2,.8,.25,1);
   }
-  #usn-accueil .usn-menu-liens a:hover { color: var(--usn-red); padding-left: 18px; }
+  #usn-accueil .usn-menu-liens a:last-child { border-bottom: 1px solid var(--usn-trait); }
+  #usn-accueil .usn-menu-liens a:hover { padding-left: clamp(10px, 1.6vw, 22px); }
+
+  /* Le filet qui se remplit au survol. */
+  #usn-accueil .usn-menu-liens a::after {
+    content: ''; position: absolute; left: 0; top: -1px; height: 2px; width: 100%;
+    background: var(--usn-degrade); background-repeat: no-repeat;
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .45s cubic-bezier(.2,.8,.25,1);
+  }
+  #usn-accueil .usn-menu-liens a:hover::after { transform: scaleX(1); }
+
+  #usn-accueil .usn-menu-liens i {
+    flex: none; font-style: normal;
+    font-family: var(--usn-display); font-weight: 900;
+    font-size: clamp(13px, 1.5vw, 17px); letter-spacing: 0.08em;
+    font-variant-numeric: tabular-nums;
+    background-image: var(--usn-degrade);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  #usn-accueil .usn-menu-liens span {
+    font-family: var(--usn-display); font-weight: 900; font-stretch: 118%;
+    font-size: clamp(27px, 4.6vw, 54px); line-height: 1.04; letter-spacing: -0.03em;
+    text-transform: uppercase;
+    transition: color .25s ease;
+  }
+  #usn-accueil .usn-menu-liens a:hover span {
+    background-image: var(--usn-degrade);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
   #usn-accueil .usn-menu-pied {
     margin-top: clamp(22px, 4vh, 44px); display: flex; flex-wrap: wrap; gap: 10px 26px;
     font-family: var(--usn-sub); font-size: 13px; color: var(--usn-gris);
@@ -313,9 +353,16 @@
     padding: 0 clamp(18px, 4vw, 52px);
     font-size: clamp(9.5px, 1vw, 11.5px); font-weight: 800;
     letter-spacing: 0.26em; text-transform: uppercase;
-    color: rgba(240,238,231,0.72);
+    color: var(--usn-ivoire);
   }
-  #usn-accueil .usn-ouv-pied i { font-style: normal; color: var(--usn-red); }
+  /* Les quatre mots de la baseline : ils etaient a 72 % de blanc, donc
+     ternes sur le noir de la video. Ils passent a plein, et les points
+     qui les separent prennent le degrade plutot qu'un rouge seul. */
+  #usn-accueil .usn-ouv-pied i {
+    font-style: normal; font-size: 1.5em; line-height: 0;
+    background-image: var(--usn-degrade);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
 
   #usn-accueil .usn-ouv-suite {
     display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
@@ -616,7 +663,8 @@
     margin-top: 12px; display: inline-flex; align-items: center; gap: 10px;
     height: 44px; padding: 0 22px; border-radius: 999px;
     /* Le degrade de l'affiche, du soleil au bleu nuit. */
-    background: var(--usn-degrade); background-size: 190% 100%; background-position: 0% 50%;
+    background: var(--usn-degrade); background-repeat: no-repeat;
+    background-size: 190% 100%; background-position: 0% 50%;
     color: #fff;
     font-size: 11.5px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase;
     transition: background-position .5s ease, transform .18s ease, box-shadow .2s ease;
@@ -657,8 +705,12 @@
      BANDEAUX DEFILANTS
      =================================================================== */
   #usn-accueil .usn-defile { overflow: hidden; user-select: none; padding: 14px 0; }
-  #usn-accueil .usn-defile-bleu { background: var(--usn-blue); color: #fff; }
   #usn-accueil .usn-defile-encre { background: var(--usn-ink); color: var(--usn-ivoire); }
+  /* Le ruban des villes, juste avant le pied de page : il etait noir et
+     rouge, deux couleurs qui n'appartiennent pas a cette page. Il reprend
+     le degrade, en plus discret que celui du haut. */
+  #usn-accueil .usn-defile-villes { padding: clamp(13px, 1.7vw, 18px) 0; }
+  #usn-accueil .usn-defile-villes i { color: rgba(255,255,255,0.72); }
   /* Le ruban entre le heros et la vision : le degrade de l'affiche, en
      grand, avec le texte en blanc. Il reprend mot pour mot la couronne
      qui tourne autour du logo. */
@@ -879,7 +931,8 @@
   #usn-accueil .usn-fr-suite {
     flex: none; align-self: center; width: clamp(260px, 26vw, 380px);
     padding: clamp(26px, 3vw, 40px); border-radius: 4px; text-decoration: none;
-    background: var(--usn-degrade); background-size: 190% 100%; background-position: 0% 50%;
+    background: var(--usn-degrade); background-repeat: no-repeat;
+    background-size: 190% 100%; background-position: 0% 50%;
     color: #fff; transition: background-position .5s ease, transform .25s ease;
   }
   #usn-accueil .usn-fr-suite:hover { background-position: 100% 50%; transform: translateY(-4px); }
@@ -1059,7 +1112,7 @@
     font-family: inherit; font-size: 15px; transition: box-shadow .15s ease;
   }
   #usn-accueil .usn-form input::placeholder { color: rgba(17,17,16,0.42); }
-  #usn-accueil .usn-form input:focus { outline: none; box-shadow: inset 0 0 0 2px var(--usn-blue); }
+  #usn-accueil .usn-form input:focus { outline: none; box-shadow: inset 0 0 0 2px var(--usn-magenta); }
   #usn-accueil .usn-form-duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   #usn-accueil .usn-form button { width: 100%; }
   #usn-accueil .usn-consent { font-size: 12.5px; color: var(--usn-gris); }
@@ -1139,15 +1192,9 @@
   <!-- Le panneau ouvert par le bouton a deux traits. -->
   <div class="usn-menu" id="usn-menu" hidden>
     <div class="usn-menu-liens">
-      <a href="https://unseulnom.org/evenement/">Toutes les dates</a>
-      <a href="https://unseulnom.org/evenement/tarbes/">Tarbes, le 12 d&eacute;cembre</a>
-      <a href="#usn-vision">La vision</a>
-      <!-- Pointait sur usn-editions, qui n'existe plus depuis que la carte
-           a ete retiree : le lien ne menait nulle part. La frise raconte
-           la meme chose. -->
-      <a href="#usn-frise">Les villes travers&eacute;es</a>
-      <a href="#usn-eglises">&Eacute;glises</a>
-      <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Soutenir la mission</a>
+      <a href="https://unseulnom.org/evenement/"><i>01</i><span>Les prochains &eacute;v&eacute;nements</span></a>
+      <a href="https://unseulnom.org/evenement/tarbes/"><i>02</i><span>Tarbes</span></a>
+      <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer"><i>03</i><span>Soutien</span></a>
     </div>
     <div class="usn-menu-pied">
       <span>Un Seul Nom &mdash; &Eacute;vang&eacute;lisation &amp; gu&eacute;rison</span>
@@ -1582,7 +1629,7 @@
     </div>
   </div>
 
-  <div class="usn-defile usn-defile-encre" aria-hidden="true">
+  <div class="usn-defile usn-defile-degrade usn-defile-villes" aria-hidden="true">
     <div class="usn-defile-piste">
       <div class="usn-defile-suite">
         <b>Tarbes</b> <i>&#10022;</i> <b>Madagascar</b> <i>&#10022;</i>
@@ -2153,7 +2200,11 @@
       if (!phrase || !motsPh.length) return;
       var r = phrase.getBoundingClientRect();
       var c = Math.max(1, r.height - vh());
-      var p = clamp01(clamp01(-r.top / c) / 0.75);
+      // Les mots s'allumaient sur les trois quarts de la traversee : on
+      // arrivait au bas du bloc avec la moitie de la phrase encore
+      // eteinte. Ils s'allument maintenant sur la premiere moitie, et la
+      // phrase entiere se lit pendant le reste du passage.
+      var p = clamp01(clamp01(-r.top / c) / 0.5);
       var jusqua = p * motsPh.length;
       for (var i = 0; i < motsPh.length; i++) {
         var dit = i < jusqua;
