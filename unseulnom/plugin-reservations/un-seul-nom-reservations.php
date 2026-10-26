@@ -618,7 +618,7 @@ final class USN_Reservations {
 					array( 'Places restantes', $etat['restantes'], '#646970', '' ),
 					array( 'Inscriptions', $total, '#646970', '' ),
 					array( 'Présence attendue', $c['attendues'], '#1B2FC4',
-						sprintf( '%d confirmées, %d sans réponse à %d %%', $c['confirmees'], $c['muettes'], $c['taux'] ) ),
+						sprintf( '%d confirmées, %d non confirmées à %d %%', $c['confirmees'], $c['muettes'], $c['taux'] ) ),
 				);
 				foreach ( $cartes as $carte ) {
 					printf(
@@ -642,7 +642,7 @@ final class USN_Reservations {
 				<?php
 				$reponses = array(
 					array( 'Confirmées', $c['confirmees'], '#00a32a' ),
-					array( 'Sans réponse', $c['muettes'], '#996800' ),
+					array( 'Pas encore confirmées', $c['muettes'], '#996800' ),
 					array( 'Places libérées', $c['annulees'], '#646970' ),
 					array( 'Présents pointés', $c['presentes'], '#1B2FC4' ),
 				);
@@ -845,13 +845,15 @@ final class USN_Reservations {
 				<?php submit_button( 'Ouvrir cette ville', 'secondary' ); ?>
 			</form>
 
-			<h2>Relancer ceux qui n'ont pas répondu</h2>
+			<h2>Le rappel avant l'événement</h2>
 			<?php
 			$file   = self::relance_etat();
 			$fin    = get_option( self::OPT_RELANCE_FIN, array() );
 			$fin    = is_array( $fin ) ? $fin : array();
 			$exp    = self::expediteur();
-			$prets  = $c['muettes'] > 0;
+			// Le rappel part a tout le monde, sauf aux places liberees.
+			$vises  = (int) $c['confirmees'] + (int) $c['muettes'] + (int) $c['presentes'];
+			$prets  = $vises > 0;
 			$lien_r = function ( $etape ) {
 				return admin_url(
 					'admin-post.php?action=usn_relance&etape=' . $etape
@@ -860,11 +862,17 @@ final class USN_Reservations {
 			};
 			?>
 			<p class="description" style="max-width:62em">
-				Le message part par Brevo, avec le billet en pièce jointe, et porte deux boutons&nbsp;:
-				<strong>« Oui, je viens »</strong> et <strong>« Je libère ma place »</strong>.
-				Une place libérée <strong>retourne au compteur</strong> et repart à quelqu'un d'autre.
-				Seuls les inscrits <strong>sans réponse</strong> sont relancés&nbsp;: relancer quelqu'un
-				qui a déjà confirmé est le meilleur moyen qu'il se désabonne.
+				Quelques jours avant, un rappel part à <strong>tous les inscrits</strong> — sauf
+				ceux qui ont libéré leur place. Il donne le lieu, l'heure, et rappelle le billet
+				en pièce jointe. <strong>Ce n'est pas une demande de réponse&nbsp;:</strong> personne
+				n'ouvre un courriel pour rendre service à l'organisateur. Un rappel utile, oui.
+			</p>
+			<p class="description" style="max-width:62em">
+				En bas du message, deux boutons&nbsp;: <strong>« Oui, je viens »</strong> et
+				<strong>« Je libère ma place »</strong>. Ceux qui cliquent sont une minorité, et
+				c'est normal — le calcul de la présence attendue en tient compte. Mais chaque
+				place libérée <strong>retourne au compteur</strong> et repart à quelqu'un d'autre,
+				et chaque confirmation rend l'estimation plus juste.
 			</p>
 
 			<table class="form-table" role="presentation">
@@ -953,15 +961,15 @@ final class USN_Reservations {
 						M'envoyer un essai
 					</a>
 					<a class="button button-primary" href="<?php echo esc_url( $lien_r( 'demarrer' ) ); ?>"
-						onclick="return confirm(<?php echo wp_json_encode( sprintf( 'Envoyer la relance a %d inscrit(s) sans reponse ?', (int) $c['muettes'] ) ); ?>);"
+						onclick="return confirm(<?php echo wp_json_encode( sprintf( 'Envoyer le rappel a %d inscrit(s) ?', $vises ) ); ?>);"
 						<?php echo $prets ? '' : 'style="pointer-events:none;opacity:.5"'; ?>>
-						Envoyer la relance (<?php echo (int) $c['muettes']; ?>)
+						Envoyer le rappel (<?php echo (int) $vises; ?>)
 					</a>
 					<span class="description" style="margin-left:8px">
 						<?php if ( '' === $exp['email'] ) : ?>
 							<span style="color:#d63638">Renseignez d'abord l'adresse d'expéditeur.</span>
 						<?php elseif ( ! $prets ) : ?>
-							Personne n'est en attente de réponse.
+							Aucun inscrit pour le moment.
 						<?php else : ?>
 							Faites toujours un essai avant. L'envoi part par paquets de <?php echo (int) self::PAQUET; ?>.
 						<?php endif; ?>
@@ -989,7 +997,7 @@ final class USN_Reservations {
 				<?php else : ?>
 					<?php
 					$etiquettes = array(
-						self::SANS_REPONSE => array( 'Sans réponse', '#996800' ),
+						self::SANS_REPONSE => array( 'Pas confirmée', '#996800' ),
 						self::CONFIRME     => array( 'Confirmée', '#00a32a' ),
 						self::ANNULE       => array( 'Place libérée', '#646970' ),
 						self::PRESENT      => array( 'Présent', '#1B2FC4' ),
@@ -1585,12 +1593,27 @@ final class USN_Reservations {
 		if ( '' !== trim( $texte ) ) {
 			return $texte;
 		}
+		/* UN RAPPEL D'ABORD, UNE QUESTION ENSUITE.
+		 *
+		 * La premiere version disait « dites-nous si vous venez ». Jack
+		 * a eu raison de tiquer : personne n'ouvre un courriel pour
+		 * rendre service a l'organisateur. On ouvre un courriel qui
+		 * apporte quelque chose.
+		 *
+		 * Le message donne donc d'abord ce que le lecteur veut : c'est
+		 * quand, c'est ou, a quelle heure arriver. Les deux boutons
+		 * viennent apres, quand il a deja la bonne raison de lire. */
 		return "<p>Bonjour {NOM},</p>\n"
-			. "<p>Vous avez r&eacute;serv&eacute; <strong>{PLACES} place(s)</strong> pour {VILLE}.</p>\n"
-			. "<p>La salle est compt&eacute;e&nbsp;: dites-nous si vous venez toujours. "
-			. "Si vous ne pouvez plus, lib&eacute;rez votre place en un clic, elle repartira "
-			. "&agrave; quelqu'un d'autre.</p>\n"
+			. "<p><strong>C'est bient&ocirc;t.</strong> Vos <strong>{PLACES} place(s)</strong> "
+			. "pour {VILLE} vous attendent.</p>\n"
+			. "<p>Arrivez d&egrave;s l'ouverture des portes&nbsp;: la salle se remplit vite, "
+			. "et les premiers rangs partent les premiers. Votre billet est en pi&egrave;ce "
+			. "jointe, inutile de l'imprimer, votre t&eacute;l&eacute;phone suffit.</p>\n"
+			. "<p><strong>Un empêchement&nbsp;?</strong> Lib&eacute;rez votre place en un clic&nbsp;: "
+			. "quelqu'un d'autre pourra venir &agrave; votre place. C'est tout ce que nous "
+			. "vous demandons.</p>\n"
 			. "<p>{BOUTONS}</p>\n"
+			. "<p>Et venez avec quelqu'un qui a besoin de rencontrer J&eacute;sus.</p>\n"
 			. "<p>&Agrave; tr&egrave;s bient&ocirc;t,<br>L'&eacute;quipe d'Un Seul Nom</p>";
 	}
 
@@ -1656,7 +1679,7 @@ final class USN_Reservations {
 	 * Seulement ceux qui n'ont pas repondu. Relancer quelqu'un qui a
 	 * deja confirme, c'est le meilleur moyen qu'il se desabonne.
 	 */
-	public static function relance_preparer( $test_vers = '' ) {
+	public static function relance_preparer( $test_vers = '', $qui = 'tous' ) {
 		global $wpdb;
 		$table = self::table_reservations();
 
@@ -1671,13 +1694,35 @@ final class USN_Reservations {
 			);
 		}
 
-		$ids = $wpdb->get_col(
-			$wpdb->prepare(
-				"SELECT id FROM {$table} WHERE evenement = %s AND confirme = %d ORDER BY id",
-				self::evenement(),
-				self::SANS_REPONSE
-			)
-		);
+		/* DEUX ENVOIS DIFFERENTS, ET IL NE FAUT PAS LES CONFONDRE.
+		 *
+		 * « tous » : le rappel pratique, quelques jours avant. Il part a
+		 * TOUT LE MONDE, y compris a ceux qui ont deja confirme — ils
+		 * ont autant besoin de l'adresse et de l'heure que les autres.
+		 * Seules les places liberees sont exclues : leurs titulaires ont
+		 * dit qu'ils ne venaient pas.
+		 *
+		 * « muets » : la relance de confirmation, pour degager des
+		 * places quand la salle approche du complet. Elle ne part qu'a
+		 * ceux qui n'ont pas encore confirme — redemander a quelqu'un
+		 * qui a deja repondu est le meilleur moyen qu'il se desabonne. */
+		if ( 'muets' === $qui ) {
+			$ids = $wpdb->get_col(
+				$wpdb->prepare(
+					"SELECT id FROM {$table} WHERE evenement = %s AND confirme = %d ORDER BY id",
+					self::evenement(),
+					self::SANS_REPONSE
+				)
+			);
+		} else {
+			$ids = $wpdb->get_col(
+				$wpdb->prepare(
+					"SELECT id FROM {$table} WHERE evenement = %s AND confirme <> %d ORDER BY id",
+					self::evenement(),
+					self::ANNULE
+				)
+			);
+		}
 		$ids = array_map( 'intval', $ids );
 		return array(
 			'ids'     => $ids,
@@ -1707,7 +1752,8 @@ final class USN_Reservations {
 
 		if ( 'demarrer' === $etape || 'test' === $etape ) {
 			$vers = 'test' === $etape ? wp_get_current_user()->user_email : '';
-			update_option( self::OPT_RELANCE_ETAT, self::relance_preparer( $vers ) );
+			$qui  = isset( $_GET['qui'] ) ? sanitize_key( wp_unslash( $_GET['qui'] ) ) : 'tous';
+			update_option( self::OPT_RELANCE_ETAT, self::relance_preparer( $vers, $qui ) );
 		}
 
 		$etat = self::relance_etat();
@@ -1823,7 +1869,7 @@ final class USN_Reservations {
 		$sortie = fopen( 'php://output', 'w' );
 		fprintf( $sortie, chr( 0xEF ) . chr( 0xBB ) . chr( 0xBF ) ); // BOM, pour Excel.
 		$mots = array(
-			self::SANS_REPONSE => 'Sans reponse',
+			self::SANS_REPONSE => 'Pas confirmee',
 			self::CONFIRME     => 'Confirmee',
 			self::ANNULE       => 'Place liberee',
 			self::PRESENT      => 'Present',
