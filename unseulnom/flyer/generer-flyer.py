@@ -183,10 +183,16 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
 .verso { background: var(--creme); color: var(--encre); display: flex; flex-direction: column; padding: 12mm 12mm 10mm; }
 .verso h2 {
   font-family: var(--titre); font-stretch: 118%; font-weight: 900;
-  font-size: 18.5pt; line-height: 1.04; letter-spacing: -.02em; text-transform: uppercase;
-  max-width: 108mm;
+  font-size: 19pt; line-height: 1.08; letter-spacing: -.02em; text-transform: uppercase;
+  max-width: 112mm;
 }
-.verso .intro { margin-top: 4.5mm; font-size: 10.4pt; line-height: 1.55; color: var(--gris); max-width: 108mm; }
+/* La reponse est dans le titre, en romane : la question et sa reponse
+   se lisent d'un seul mouvement, au lieu d'un titre puis d'une phrase
+   d'introduction que personne ne lit. */
+.verso h2 em {
+  font-family: var(--serif); font-style: normal; font-weight: 400;
+  font-size: 1.18em; text-transform: none; letter-spacing: 0; color: var(--rouge);
+}
 
 /* FACE A QUOI, ET QUOI A LA PLACE.
 
@@ -199,18 +205,18 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    clair : les cacher pour ne pas effrayer reviendrait a inviter les
    gens sans leur dire ou ils vont. */
 .face {
-  flex: none; margin-top: 4.5mm; padding: 4mm 5mm; border-radius: 3mm;
+  flex: none; margin-top: 6mm; padding: 5.5mm 6mm; border-radius: 3.5mm;
   background: var(--encre); color: var(--creme);
 }
 .face table { width: 100%; border-collapse: collapse; }
-.face td { padding: 1.1mm 0; vertical-align: baseline; }
+.face td { padding: 1.7mm 0; vertical-align: baseline; }
 .face tr + tr td { border-top: 1px solid rgba(240,238,231,.14); }
-.face .g { font-size: 10pt; color: rgba(240,238,231,.72); }
+.face .g { font-size: 10.6pt; color: rgba(240,238,231,.74); }
 .face .d {
   text-align: right; font-family: var(--titre); font-weight: 800;
-  font-size: 11.6pt; color: var(--or); white-space: nowrap;
+  font-size: 12.6pt; color: var(--or); white-space: nowrap;
 }
-.face p { margin-top: 3.5mm; font-size: 9.4pt; line-height: 1.5; color: rgba(240,238,231,.8); }
+.face p { margin-top: 4mm; font-size: 9.8pt; line-height: 1.5; color: rgba(240,238,231,.8); }
 /* « DEUX HEURES » VAUT TOUT LE RESTE DU PARAGRAPHE.
    Ce qui retient quelqu'un qui hesite, ce n'est pas le doute : c'est
    la peur de rester coince. Un chiffre borne l'engagement mieux
@@ -219,15 +225,17 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
 .face .combien strong { color: var(--or); }
 .face strong { color: var(--creme); font-weight: 700; }
 
-.promesses { flex: none; margin-top: 5mm; }
-.promesse { display: flex; gap: 4mm; padding: 2mm 0; border-top: 1px solid var(--trait); }
-.promesse:last-child { border-bottom: 1px solid var(--trait); }
-.promesse .pastille {
-  flex: none; width: 7mm; height: 7mm; border-radius: 50%; margin-top: .6mm;
-  background: var(--degrade);
+/* DEUX LISTES L'UNE SOUS L'AUTRE, L'OEIL ABANDONNE.
+   Les trois « promesses » venaient apres un tableau de cinq lignes :
+   huit rangees a la file sur un demi-A5. Elles tiennent en UNE phrase,
+   sans rien perdre — leur role etait d'oter quatre peurs, pas de faire
+   une liste. */
+.rassure {
+  flex: none; margin-top: 6mm; padding-left: 5mm;
+  border-left: 3px solid var(--rouge);
+  font-size: 10.6pt; line-height: 1.6; color: var(--gris);
 }
-.promesse b { display: block; font-family: var(--titre); font-weight: 800; font-size: 11pt; }
-.promesse p { margin-top: 1mm; font-size: 9.8pt; line-height: 1.45; color: var(--gris); }
+.rassure strong { color: var(--encre); font-weight: 700; }
 
 .pratique { flex: none; margin-top: auto; padding-top: 5mm; display: flex; gap: 6mm; align-items: flex-end; }
 .pratique .infos { flex: 1; }
@@ -277,8 +285,7 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
 <!-- ======================= VERSO ======================= -->
 <div class="page verso">
 
-  <h2>Tu n'es jamais entr&eacute; dans une &eacute;glise&nbsp;?</h2>
-  <p class="intro">Alors c'est exactement pour toi.</p>
+  <h2>Tu n'es jamais entr&eacute; dans une &eacute;glise&nbsp;?<br><em>C'est exactement pour toi.</em></h2>
 
   <div class="face">
     <table>
@@ -299,23 +306,11 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
     </p>
   </div>
 
-  <div class="promesses">
-    <div class="promesse">
-      <div class="pastille"></div>
-      <div><b>On ne te demandera rien</b>
-        <p>Ni argent, ni engagement, ni de te lever, ni de parler.</p></div>
-    </div>
-    <div class="promesse">
-      <div class="pastille"></div>
-      <div><b>Tu pars quand tu veux</b>
-        <p>Personne ne te retiendra, personne ne te courra apr&egrave;s.</p></div>
-    </div>
-    <div class="promesse">
-      <div class="pastille"></div>
-      <div><b>Tu viens comme tu es</b>
-        <p>Seul ou accompagn&eacute;. Et tu repars avec tes questions.</p></div>
-    </div>
-  </div>
+  <p class="rassure">
+    <strong>On ne te demandera rien.</strong> Ni argent, ni engagement, ni de te
+    lever, ni de parler. Tu viens comme tu es, seul ou accompagn&eacute;, et tu pars
+    quand tu veux.
+  </p>
 
   <div class="pratique">
     <div class="infos">

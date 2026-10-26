@@ -83,19 +83,24 @@ pour ceux qui la demandent. Deux heures. »*
 > S'y adosser ferait passer l'événement pour ce qu'il n'est pas, et
 > ce malentendu-là coûterait plus cher qu'il ne rapporterait.
 
-### 4. Dire ce qu'on ne demandera pas
+### 4. Dire ce qu'on ne demandera pas — en une phrase
 
 Ce qui retient quelqu'un dehors, ce n'est pas le manque d'envie. C'est
 la peur d'être coincé, de devoir payer, de devoir parler, de ne pas
 pouvoir partir. Le verso répond à ces quatre peurs **avant qu'elles ne
 soient formulées** :
 
-- *On ne te demandera rien* — ni argent, ni engagement, ni de te lever
-- *Tu pars quand tu veux* — personne ne te retiendra
-- *Tu viens comme tu es* — seul ou accompagné
+> **On ne te demandera rien.** Ni argent, ni engagement, ni de te
+> lever, ni de parler. Tu viens comme tu es, seul ou accompagné, et tu
+> pars quand tu veux.
 
 C'est la partie la plus importante du flyer, et la plus facile à
 supprimer par réflexe. Ne la supprime pas.
+
+> **Elle tenait en trois blocs à pastilles**, juste sous un tableau de
+> cinq lignes : huit rangées à la file sur un demi-A5, et l'œil
+> abandonnait. Elle dit la même chose en une phrase, sans rien perdre —
+> son rôle était d'ôter quatre peurs, pas de faire une liste.
 
 > **Ce n'est pas une soirée.** Ça commence à 16h : on dit « un
 > après-midi » ou « un rendez-vous », jamais « une soirée ».
