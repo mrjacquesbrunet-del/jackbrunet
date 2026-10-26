@@ -766,9 +766,19 @@
      texte se lit au rythme du defilement plutot que d'attendre, deja
      ecrit, qu'on arrive dessus.
      =================================================================== */
-  /* Deux hauteurs d'ecran de traversee, pas plus : a 240 on avait le
-     sentiment d'etre retenu, et le texte est lu bien avant la fin. */
-  #usn-accueil .usn-phrase { position: relative; height: 200svh; background: var(--usn-nuit); }
+  /* UN BLOC ORDINAIRE, QUI DEFILE COMME LE RESTE.
+
+     Il tenait l'ecran pendant deux hauteurs, le temps que les mots
+     s'allument. Cela repose sur « position: sticky », que ce theme met
+     hors service de trois facons differentes — et le bloc laissait
+     alors derriere lui une hauteur d'ecran vide. Trois tentatives pour
+     le reparer, trois echecs : on change de methode plutot que de
+     s'acharner.
+
+     Le bloc fait maintenant une hauteur d'ecran et defile avec la page,
+     comme tout le reste. Les mots s'allument pendant qu'il monte a
+     l'ecran. Rien ne retient le visiteur, rien ne peut rester vide. */
+  #usn-accueil .usn-phrase { position: relative; background: var(--usn-nuit); }
   /* Ces deux blocs tiennent a l'ecran pendant qu'on descend.
 
      C'est « position: sticky » qui s'en charge, et personne d'autre :
@@ -780,7 +790,7 @@
      Le script verifie au chargement qu'aucun conteneur du theme ne le
      neutralise, et ne reprend la main que s'il n'a pas pu le liberer. */
   #usn-accueil .usn-phrase-fixe {
-    position: sticky; top: 0; height: 100svh; overflow: hidden;
+    position: relative; min-height: clamp(520px, 86svh, 880px); overflow: hidden;
     display: flex; align-items: center;
   }
 
@@ -879,8 +889,24 @@
      reelle de la bande, pour que la traversee se fasse a la meme vitesse
      quelle que soit la taille de l'ecran.
      =================================================================== */
-  #usn-accueil .usn-frise { position: relative; height: 300svh; background: var(--usn-ivoire); }
-  #usn-accueil .usn-frise-fixe { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+  /* UNE BANDE QU'ON FAIT GLISSER.
+
+     Elle se deroulait en retenant la page sur trois hauteurs d'ecran,
+     par le meme mecanisme que la vision, et avec les memes deboires.
+
+     C'est maintenant une vraie bande a defilement horizontal : le
+     visiteur la pousse au doigt, a la molette ou au pave tactile, et
+     elle avance aussi d'elle-meme pendant que le bloc traverse l'ecran.
+     Des qu'il la prend en main, elle lui obeit et cesse d'avancer
+     seule.
+
+     Le defilement horizontal est le seul mecanisme que rien ne peut
+     neutraliser : c'est le navigateur qui le conduit, dans l'element
+     lui-meme, sans dependre d'aucun parent. */
+  #usn-accueil .usn-frise { position: relative; background: var(--usn-ivoire); }
+  #usn-accueil .usn-frise-fixe {
+    position: relative; height: clamp(520px, 86svh, 880px); overflow: hidden;
+  }
 
   /* --- la meme matiere que le heros : la creme ne s'interrompt jamais --- */
   #usn-accueil .usn-frise-fond { position: absolute; inset: 0; pointer-events: none; }
@@ -915,11 +941,20 @@
   }
 
   #usn-accueil .usn-frise-piste {
-    position: absolute; top: 0; left: 0; height: 100%;
-    display: flex; align-items: center; width: max-content;
+    position: absolute; inset: 0;
+    display: flex; align-items: center;
     gap: clamp(28px, 4.6vw, 84px); padding: 0 clamp(24px, 8vw, 140px);
-    will-change: transform;
+    overflow-x: auto; overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
+  /* La barre de defilement se cache : la jauge du bas dit deja ou l'on
+     en est, et une barre grise casserait la creme. */
+  #usn-accueil .usn-frise-piste::-webkit-scrollbar { display: none; }
+  /* Sans cela les vignettes se serrent pour tenir dans la largeur au
+     lieu de s'aligner les unes apres les autres. */
+  #usn-accueil .usn-frise-piste > * { flex: none; }
   #usn-accueil .usn-fr-vue { margin: 0; flex: none; transform: translateY(var(--dy, 0)); }
   #usn-accueil .usn-fr-vue figcaption {
     font-size: 10.5px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
@@ -2233,11 +2268,12 @@
       if (!phrase || !motsPh.length) return;
       var r = phrase.getBoundingClientRect();
       var c = Math.max(1, r.height - vh());
-      // Les mots s'allumaient sur les trois quarts de la traversee : on
-      // arrivait au bas du bloc avec la moitie de la phrase encore
-      // eteinte. Ils s'allument maintenant sur la premiere moitie, et la
-      // phrase entiere se lit pendant le reste du passage.
-      var p = clamp01(clamp01(-r.top / c) / 0.5);
+      // Le bloc fait desormais une hauteur d'ecran : l'avancement se
+      // prend sur sa MONTEE A L'ECRAN et non sur sa traversee. Les mots
+      // s'allument pendant qu'il arrive, et la phrase est entiere avant
+      // qu'il soit centre.
+      var h = vh();
+      var p = clamp01((h * 0.98 - r.top) / (h * 0.56));
       var jusqua = p * motsPh.length;
       for (var i = 0; i < motsPh.length; i++) {
         var dit = i < jusqua;
@@ -2271,22 +2307,38 @@
       }
     }
 
+    /* La bande est un vrai defilement horizontal. Elle n'impose plus
+       sa hauteur a la page : on ne mesure que la course restante. */
     function mesurerFrise() {
       if (!frise || !piste) return;
-      course = Math.max(0, piste.scrollWidth - window.innerWidth);
-      // La bande avance plus vite que le doigt ne descend : a 0,85 la
-      // descente etait interminable et on se sentait retenu. A 0,62 la
-      // bande se deroule entierement, en un tiers de chemin en moins.
-      frise.style.height = (vh() + course * 0.62) + 'px';
+      course = Math.max(0, piste.scrollWidth - piste.clientWidth);
+    }
+
+    /* Des que le visiteur pousse la bande lui-meme, elle cesse
+       d'avancer seule : deux mains sur le meme volant ne vont jamais du
+       meme cote. Un mouvement vertical a la molette ne compte pas, c'est
+       la page qu'il fait defiler. */
+    var mainPrise = false;
+    if (piste) {
+      piste.addEventListener('pointerdown', function () { mainPrise = true; });
+      piste.addEventListener('wheel', function (e) {
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) mainPrise = true;
+      }, { passive: true });
+      piste.addEventListener('keydown', function () { mainPrise = true; });
     }
 
     function friseAppliquer() {
       if (!frise || !piste) return;
-      var r = frise.getBoundingClientRect();
-      var c = Math.max(1, r.height - vh());
-      var p = clamp01(-r.top / c);
-      piste.style.transform = 'translate3d(' + (-course * p).toFixed(1) + 'px,0,0)';
-      if (jauge) jauge.style.width = (p * 100).toFixed(2) + '%';
+      var r = frise.getBoundingClientRect(), h = vh();
+      /* Zero quand le bloc entre par le bas, un quand il sort par le
+         haut : la bande se deroule entierement pendant qu'il traverse
+         l'ecran, sans que la page ait a s'arreter. */
+      var p = clamp01((h - r.top) / (h + r.height));
+      if (!mainPrise) piste.scrollLeft = course * p;
+      if (jauge) {
+        var fait = course ? piste.scrollLeft / course : 0;
+        jauge.style.width = (clamp01(fait) * 100).toFixed(2) + '%';
+      }
 
       // La signature se trace quand son panneau traverse l'ecran.
       if (signe ? signes.length : 0) {
@@ -2338,89 +2390,6 @@
     /* ---------- 6. Boucle de rendu (lissage type ScrollSmoother) ---------- */
     var running = false;
     var dernierY = -1;
-    /* Reproduit « position: sticky » a la main.
-
-       Le bloc interieur occupe une hauteur d'ecran ; il reste colle en
-       haut tant que son bloc parent traverse, puis se pose au fond quand
-       la fin approche. Deux lignes de calcul, et plus aucun conteneur du
-       theme ne peut l'en empecher. */
-    var aTenir = [];
-    (function () {
-      var paires = [['.usn-phrase', '.usn-phrase-fixe'],
-                    ['.usn-frise', '.usn-frise-fixe']];
-      for (var i = 0; i < paires.length; i++) {
-        var bloc = root.querySelector(paires[i][0]);
-        var dedans = bloc ? bloc.querySelector(paires[i][1]) : null;
-        if (bloc ? dedans : null) aTenir.push({ bloc: bloc, dedans: dedans });
-      }
-    })();
-
-    /* Les proprietes qui mettent « sticky » hors service : un conteneur
-       qui coupe son contenu devient son cadre de reference, et une
-       transformation, un filtre, une perspective ou un confinement en
-       font un nouveau repere. */
-    function ceQuiBloque(n) {
-      var c = getComputedStyle(n);
-      if (c.overflowX !== 'visible' || c.overflowY !== 'visible') return 'overflow';
-      if (c.transform !== 'none') return 'transform';
-      if (c.filter !== 'none') return 'filter';
-      if (c.perspective !== 'none') return 'perspective';
-      if (c.contain !== 'none') return 'contain';
-      if (c.contentVisibility ? c.contentVisibility !== 'visible' : false) return 'content-visibility';
-      if ((c.willChange || '').indexOf('transform') >= 0) return 'will-change';
-      return '';
-    }
-
-    /* On remonte la chaine et on libere ce qu'on peut. « important »
-       n'est pas une coquetterie : le theme pose ses regles ainsi, et un
-       style en ligne ordinaire ne passerait pas devant. */
-    function libererLesParents() {
-      var reste = 0, n = root;
-      while (n.parentElement) {
-        n = n.parentElement;
-        if (n === document.body || n === document.documentElement) break;
-        if (!ceQuiBloque(n)) continue;
-        var props = ['overflow', 'transform', 'filter', 'perspective',
-                     'contain', 'content-visibility', 'will-change'];
-        var valeurs = ['visible', 'none', 'none', 'none', 'none', 'visible', 'auto'];
-        for (var k = 0; k < props.length; k++) {
-          n.style.setProperty(props[k], valeurs[k], 'important');
-        }
-        if (ceQuiBloque(n)) reste++;
-      }
-      return reste;
-    }
-
-    /* Le secours : on deplace le bloc interieur soi-meme. Il n'entre en
-       service que si un conteneur a resiste, car il coute une image de
-       retard sur le defilement. */
-    var secours = false;
-
-    function tenirALEcran() {
-      if (!secours) return;
-      for (var i = 0; i < aTenir.length; i++) {
-        var b = aTenir[i].bloc, d = aTenir[i].dedans;
-        var r = b.getBoundingClientRect();
-        var course = Math.max(0, r.height - d.offsetHeight);
-        var y = Math.min(Math.max(0, -r.top), course);
-        d.style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0)';
-      }
-    }
-
-    function reglerLeMaintien() {
-      if (libererLesParents() === 0) return;        // le natif suffit
-      secours = true;
-      for (var i = 0; i < aTenir.length; i++) {
-        var d = aTenir[i].dedans;
-        d.style.position = 'relative';
-        d.style.willChange = 'transform';
-      }
-      tenirALEcran();
-    }
-    reglerLeMaintien();
-    // Certains themes posent leurs styles apres coup : on repasse.
-    window.addEventListener('load', reglerLeMaintien);
-
     function frame() {
       var moving = false;
 
@@ -2428,7 +2397,6 @@
       // la boucle continue.
       var y = scrollY();
       if (y !== dernierY) { dernierY = y; moving = true; }
-      tenirALEcran();
       phraseAppliquer();
       friseAppliquer();
       parallaxes();
