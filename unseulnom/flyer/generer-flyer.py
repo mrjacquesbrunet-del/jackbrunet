@@ -180,12 +180,19 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
   font-family: var(--serif); font-weight: 400; font-size: 1.16em;
   letter-spacing: 0; text-transform: none; color: var(--or);
 }
+/* LES COUPURES SONT CHOISIES, PAS SUBIES.
+   Laisse libre, la ligne cassait « par soi- / meme ». Une cesure au
+   milieu d'un mot compose se remarque, et elle fait trebucher. Les
+   trois lignes sont donc posees a la main : on coupe apres un groupe
+   de sens, jamais a l'interieur. Sur un texte de trois lignes, c'est
+   a la portee de n'importe qui et ca se voit tout de suite. */
 .sous {
-  margin-top: 7mm; font-size: 12.5pt; line-height: 1.5; color: rgba(240,238,231,.82);
-  max-width: 92mm;
+  margin-top: 7mm; font-size: 12.5pt; line-height: 1.5; color: rgba(240,238,231,.88);
 }
 
-.quand { margin-top: 11mm; padding-top: 6mm; border-top: 1px solid rgba(240,238,231,.22); }
+/* Un filet qui separe ce que l'espace separe deja n'est qu'un trait de
+   plus. Il est parti. */
+.quand { margin-top: 12mm; }
 /* La date tient sur UNE ligne. A 19 points elle passait a la ligne et
    « 2026 » se retrouvait seul en dessous : une date coupee en deux se
    lit deux fois moins vite. */
@@ -195,10 +202,12 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
   white-space: nowrap;
 }
 .quand .l { margin-top: 2mm; font-size: 11pt; color: rgba(240,238,231,.74); }
+/* Apres la question, c'est le message le plus important de la page :
+   que ca ne coute rien. Il merite mieux que 9 points. */
 .libre {
-  display: inline-block; margin-top: 7mm; padding: 2.6mm 6mm; border-radius: 99px;
+  display: inline-block; margin-top: 8mm; padding: 3.4mm 8mm; border-radius: 99px;
   background: var(--degrade); color: #fff;
-  font-weight: 800; font-size: 9pt; letter-spacing: .14em; text-transform: uppercase;
+  font-weight: 800; font-size: 11pt; letter-spacing: .14em; text-transform: uppercase;
 }
 
 /* ================= VERSO ================= */
@@ -253,13 +262,13 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    sans rien perdre — leur role etait d'oter quatre peurs, pas de faire
    une liste. */
 .rassure {
-  flex: none; margin-top: 6mm; padding-left: 5mm;
+  flex: none; margin-top: 5mm; padding-left: 5mm;
   border-left: 3px solid var(--rouge);
   font-size: 10.6pt; line-height: 1.6; color: var(--gris);
 }
 .rassure strong { color: var(--encre); font-weight: 700; }
 
-.pratique { flex: none; margin-top: auto; padding-top: 5mm; display: flex; gap: 6mm; align-items: flex-end; }
+.pratique { flex: none; margin-top: auto; padding-top: 4mm; display: flex; gap: 6mm; align-items: flex-end; }
 .pratique .infos { flex: 1; }
 .pratique .k {
   font-size: 7pt; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--gris);
@@ -273,8 +282,14 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
 /* « flex: none » n'est pas decoratif : le verso est une colonne
    flexible, et un bloc vide de 2,4 mm s'y fait ecraser a zero. Le
    ruban etait bien la, haut de rien du tout. */
-.ruban { flex: none; margin-top: 4mm; height: 2.4mm; border-radius: 99px; background: var(--degrade); }
-.site { flex: none; margin-top: 2.5mm; text-align: center; font-family: var(--titre); font-weight: 800; font-size: 11pt; letter-spacing: .04em; }
+.ruban { flex: none; margin-top: 5mm; height: 2.4mm; border-radius: 99px; background: var(--degrade); }
+.fin { flex: none; margin-top: 4mm; text-align: center; }
+.viens {
+  font-family: var(--serif); font-size: 16pt; line-height: 1.1; color: var(--rouge);
+}
+.deja { margin-top: 2mm; font-size: 8.6pt; color: var(--gris); }
+.deja i { font-style: normal; opacity: .55; margin: 0 1mm; }
+.deja b { font-family: var(--titre); font-weight: 800; color: var(--encre); letter-spacing: .02em; }
 </style></head><body>
 
 <!-- ======================= RECTO ======================= -->
@@ -289,8 +304,9 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
     <div class="question">Et si <b>Dieu</b><br>existait<br>vraiment&nbsp;?</div>
 
     <p class="sous">
-      Un apr&egrave;s-midi pour venir voir par soi-m&ecirc;me.
-      Sans rien conna&icirc;tre, sans rien devoir.
+      Un apr&egrave;s-midi pour venir voir<br>
+      par soi-m&ecirc;me. Sans rien conna&icirc;tre,<br>
+      sans rien devoir.
     </p>
 
     <div class="quand">
@@ -345,7 +361,19 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
   </div>
 
   <div class="ruban"></div>
-  <div class="site">unseulnom.org</div>
+
+  <!-- LA DERNIERE PHRASE.
+       Un flyer qui s'arrete sur une adresse de site s'arrete sur rien.
+       Quatre mots, aucune pression, et c'est celle qui reste quand le
+       papier est deja dans la poche.
+
+       Et la preuve, juste en dessous : savoir que d'autres y sont
+       alles rassure plus que toutes les promesses de la page. Ce sont
+       des villes, verifiables, pas des chiffres. -->
+  <div class="fin">
+    <p class="viens">Viens. Tu verras bien.</p>
+    <p class="deja">D&eacute;j&agrave; v&eacute;cu &agrave; Paris, Pau, Perpignan et Avignon <i>&middot;</i> <b>unseulnom.org</b></p>
+  </div>
 </div>
 
 </body></html>"""
