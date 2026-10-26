@@ -70,8 +70,7 @@ gens sans leur dire où ils vont, et celui qui le découvre sur place se
 sent piégé.
 
 Enfin, ce qui se passera : *« De la musique, des gens qui racontent ce
-qui leur est arrivé, et une prière pour ceux qui la demandent. **Reste
-le temps que tu veux.** »*
+qui leur est arrivé, et une prière pour ceux qui la demandent. »*
 
 > **La durée n'est pas annoncée, et c'est volontaire.** Une version
 > disait « Deux heures ». C'était faux — ça dure bien plus. Annoncer
@@ -81,8 +80,14 @@ le temps que tu veux.** »*
 >
 > Ce qui retient celui qui hésite, ce n'est pas la durée : c'est la
 > peur d'être coincé. On lui donne donc la **permission** plutôt qu'un
-> chiffre. C'est vrai, ça ne peut jamais être démenti par les faits, et
-> ça rassure davantage.
+> chiffre.
+
+> **Mais la permission ne se donne qu'une fois.** Elle a d'abord été
+> écrite ici (« Reste le temps que tu veux ») **et** trois lignes plus
+> bas (« repartir quand tu veux »). Dite deux fois en six lignes, elle
+> cesse d'être une liberté et devient un signal : *on s'attend à ce que
+> le lecteur veuille sortir.* Elle ne vit donc plus qu'en bas de page,
+> et le bloc noir se termine sur ce qui se passe, pas sur la porte.
 
 > **Pourquoi Lourdes n'est pas mentionné.** C'était tentant : à vingt
 > minutes de là, des millions de personnes viennent chercher une
@@ -96,12 +101,18 @@ Ce qui retient quelqu'un dehors, ce n'est pas le manque d'envie. C'est
 la peur d'être coincé, de devoir payer, de devoir parler, de ne pas
 pouvoir partir. Le verso y répond — **à l'endroit** :
 
-> Tu peux venir, t'asseoir au fond, écouter, et repartir quand tu
-> veux. *C'est déjà beaucoup.*
+> Tu peux t'asseoir au fond, écouter, et repartir quand tu veux.
+> *Tu risques juste de ne pas en avoir envie.*
 
-**« S'asseoir au fond » est le détail qui porte toute la phrase.** C'est
-exactement ce que fait quelqu'un qui a peur : il se met près de la
-porte. Le lui permettre vaut toutes les promesses.
+**« S'asseoir au fond » est le détail qui porte la première phrase.**
+C'est exactement ce que fait quelqu'un qui a peur : il se met près de
+la porte. Le lui permettre vaut toutes les promesses.
+
+Et la chute **parie sur ce qui va se passer** au lieu de noter le
+lecteur. La permission vient d'abord — tu es libre de sortir — la
+confiance ensuite : tu ne voudras pas. Le pari est tenu par celui qui
+invite, jamais par celui qui vient ; aucune pression ne retombe sur le
+lecteur.
 
 > **Ce passage a d'abord dit l'inverse** : « On ne te demandera rien.
 > Ni argent, ni engagement, ni de te lever, ni de parler. » Quatre
@@ -114,6 +125,18 @@ porte. Le lui permettre vaut toutes les promesses.
 > pensait pas qu'on allait lui demander de l'argent y pensait ensuite.
 >
 > Nier une accusation que personne n'a portée, c'est la planter.
+
+> **Puis la chute a dit « C'est déjà beaucoup »**, et c'était pire
+> autrement : elle **félicitait le lecteur d'un effort minimum.**
+> Féliciter quelqu'un d'être simplement venu s'asseoir, c'est lui dire
+> que venir coûte cher — donc que la chose ne vaut pas mieux que ce
+> qu'elle coûte. On abaissait la barre au point de retirer l'envie :
+> si rester un peu est « déjà beaucoup », c'est que l'après-midi
+> s'endure.
+>
+> **Règle générale du flyer : lever un obstacle ne doit jamais coûter
+> du désir.** Chaque phrase qui rassure doit aussi donner envie, sinon
+> elle rassure un lecteur qui ne viendra pas.
 
 > **Ce n'est pas une soirée.** Ça commence à 16h : on dit « un
 > après-midi » ou « un rendez-vous », jamais « une soirée ».

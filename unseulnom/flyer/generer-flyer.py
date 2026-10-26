@@ -255,12 +255,14 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    exactement la confiance que le reste du flyer construit, et
    quelqu'un qui s'est senti retenu ne revient jamais.
 
-   Ce qui retient celui qui hesite, ce n'est pas la duree : c'est la
-   peur d'etre coince. On lui donne donc la PERMISSION plutot qu'un
-   chiffre. C'est vrai, ca ne peut jamais etre dementi par les faits,
-   et ca rassure davantage. */
+   Mais la permission de repartir ne se donne QU'UNE FOIS. Elle etait
+   ecrite ici (« Reste le temps que tu veux ») ET trois lignes plus
+   bas (« repartir quand tu veux »). Dite deux fois en six lignes,
+   elle cesse d'etre une liberte et devient un signal : on s'attend a
+   ce que le lecteur veuille sortir. Elle ne vit donc plus qu'en bas
+   de page, et le bloc noir se termine sur ce qui se passe, pas sur
+   la porte. */
 .face .combien { margin-top: 2.2mm; padding-top: 2.2mm; border-top: 1px solid rgba(240,238,231,.14); }
-.face .combien strong { color: var(--or); }
 .face strong { color: var(--creme); font-weight: 700; }
 
 /* NIER UNE ACCUSATION QUE PERSONNE N'A PORTEE, C'EST LA PLANTER.
@@ -279,7 +281,22 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    La meme chose, dite a l'endroit : non plus ce qui n'arrivera PAS,
    mais ce qu'il a le droit de faire. « S'asseoir au fond » est le
    detail qui compte — c'est exactement ce que fait quelqu'un qui a
-   peur, et le lui permettre vaut toutes les promesses. */
+   peur, et le lui permettre vaut toutes les promesses.
+
+   NE JAMAIS FELICITER LE LECTEUR D'UN EFFORT MINIMUM.
+
+   La chute disait : « C'est deja beaucoup. » Elle notait le lecteur.
+   Et feliciter quelqu'un d'etre simplement venu s'asseoir, c'est lui
+   dire que venir coute cher — donc que la chose ne vaut pas mieux que
+   ce qu'il en coute. On abaissait la barre au point de retirer
+   l'envie : si rester un peu est « deja beaucoup », c'est que
+   l'apres-midi s'endure.
+
+   La chute ne juge donc plus l'effort, elle parie sur ce qui va se
+   passer. La permission vient d'abord (tu es libre de sortir), la
+   confiance ensuite (tu ne voudras pas). Le pari est tenu par celui
+   qui invite, pas par celui qui vient : aucune pression ne retombe
+   sur le lecteur. */
 .rassure {
   flex: none; margin-top: 6mm; text-align: center;
   font-family: var(--serif); font-size: 15pt; line-height: 1.35; color: var(--encre);
@@ -356,14 +373,14 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
     </p>
     <p class="combien">
       De la musique, des gens qui racontent ce qui leur est arriv&eacute;, et une
-      pri&egrave;re pour ceux qui la demandent.<br>
-      <strong>Reste le temps que tu veux.</strong>
+      pri&egrave;re pour ceux qui la demandent.
     </p>
   </div>
 
   <p class="rassure">
-    Tu peux venir, t'asseoir au fond, &eacute;couter,<br>
-    et repartir quand tu veux. <em>C'est d&eacute;j&agrave; beaucoup.</em>
+    Tu peux t'asseoir au fond, &eacute;couter,<br>
+    et repartir quand tu veux.<br>
+    <em>Tu risques juste de ne pas en avoir envie.</em>
   </p>
 
   <div class="pratique">
