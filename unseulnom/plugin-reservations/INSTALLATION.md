@@ -90,8 +90,8 @@ Ces valeurs se modifient à tout moment, même après l'ouverture des inscriptio
 ## Étape 3 — Mettre la page à jour
 
 Remplacer le contenu des onglets **HTML** et **CSS** du bloc de la page par
-`1-HTML.txt` et `2-CSS.txt`, et le JavaScript dans « CSS et JS personnalisés »
-par `3-JAVASCRIPT.txt`.
+`1-HTML-tarbes.txt` et `2-CSS-tarbes.txt`, et le JavaScript dans « CSS et JS
+personnalisés » par `wordpress-javascript-du-site.txt`.
 
 ---
 
