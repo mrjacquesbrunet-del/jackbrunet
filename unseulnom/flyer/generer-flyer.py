@@ -235,34 +235,30 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    Les mots du milieu (miracles, guerison, liberation) sont dits en
    clair : les cacher pour ne pas effrayer reviendrait a inviter les
    gens sans leur dire ou ils vont. */
-/* UN CADRE, PAS UN APLAT.
+/* DEUX FILETS, PAS UN CADRE.
 
-   Le bloc a ete successivement un rectangle d'encre (un coup de
-   poing sur une page ivoire : le contenant disait l'inverse du
-   texte) puis un lavis d'ambre (doux, mais encore une masse). Il
-   n'est plus rempli du tout : c'est un trait de la couleur de la
-   marque, et l'ivoire de la page passe au travers.
+   Le bloc a ete un rectangle d'encre (55 mm d'aplat noir sur une
+   page ivoire : le contenant disait l'inverse du texte), puis un
+   lavis d'ambre (doux, mais encore une masse), puis un cadre au
+   degrade. Il n'est plus qu'un filet au-dessus et un filet en
+   dessous.
 
-   Le degrade est celui du ruban du bas, aux memes cinq couleurs et
-   dans le meme sens. Les deux seuls objets colores de la face sont
-   donc la meme signature, l'une en cadre et l'autre en filet : on ne
-   lit plus deux decors mais un seul systeme.
+   UN CADRE FERME, DEUX FILETS OUVRENT. Les quatre cotes faisaient
+   du contenu une piece rapportee, posee sur la page ; les deux
+   filets le laissent couler dedans et lui rendent toute la largeur
+   de la colonne de texte — 124 mm au lieu de 111. Rien n'est plus
+   encadre, et pourtant l'oeil voit toujours un bloc : deux traits
+   suffisent a le dire.
 
-   LE TRAIT EST OBTENU PAR DEUX FONDS, PAS PAR UNE BORDURE. Une
-   bordure CSS ne prend pas de degrade. On peint donc le degrade sous
-   la boite entiere (border-box) et la couleur de page sous le seul
-   interieur (padding-box) : il ne reste du degrade que l'epaisseur
-   de la bordure, qui est transparente. Le rayon des angles suit, et
-   tout reste vectoriel. */
-.face {
-  flex: none; margin-top: 7mm; padding: 6mm 6.5mm; border-radius: 3.5mm;
-  border: .9mm solid transparent;
-  background:
-    linear-gradient(var(--creme), var(--creme)) padding-box,
-    var(--degrade) border-box;
-  color: var(--encre);
-}
-.face table { width: 100%; border-collapse: collapse; }
+   ILS SONT PLUS FINS QUE LE RUBAN DU BAS, ET C'EST VOULU. 1,2 mm
+   contre 2,4. Trois barres du meme degrade sur une seule face, c'est
+   la signature qui devient un motif : on ne la remarque plus. A
+   demi-epaisseur, les deux d'ici se lisent comme des filets, et
+   celle du bas garde son rang de signature. Meme forme, meme
+   degrade, meme sens — une seule famille, trois rangs. */
+.face { flex: none; margin-top: 7mm; }
+.face .trait { height: 1.2mm; border-radius: 99px; background: var(--degrade); }
+.face table { width: 100%; border-collapse: collapse; margin: 5mm 0; }
 .face td { padding: 1.6mm 0; vertical-align: baseline; }
 /* LES FILETS DU TABLEAU ONT SAUTE. Quatre traits horizontaux entre
    cinq lignes deja separees par l'alignement, la couleur et la
@@ -506,6 +502,7 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
   <h2>Tu n'es jamais entr&eacute; dans une &eacute;glise&nbsp;?<br><em>C'est exactement pour toi.</em></h2>
 
   <div class="face">
+    <div class="trait"></div>
     <table>
       <tr><td class="g">Face au doute</td><td class="d">une rencontre</td></tr>
       <tr><td class="g">Face &agrave; la peur</td><td class="d">une paix</td></tr>
@@ -513,6 +510,7 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
       <tr><td class="g">Face &agrave; la maladie</td><td class="d">une gu&eacute;rison</td></tr>
       <tr><td class="g">Face &agrave; une vie sans direction</td><td class="d">un avenir</td></tr>
     </table>
+    <div class="trait"></div>
   </div>
 
   <p class="deroule">

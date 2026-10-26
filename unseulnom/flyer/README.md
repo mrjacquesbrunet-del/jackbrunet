@@ -239,30 +239,30 @@ ce à quoi elles répondent.
 **Résultat : sept blocs au lieu de douze, cinq corps au lieu de onze,
 et le titre repasse devant.**
 
-### 6. Un cadre, pas un aplat
+### 6. Deux filets, pas un cadre
 
-Le bloc a été trois choses. Un **rectangle d'encre** : 55 mm d'aplat
+Le bloc a été quatre choses. Un **rectangle d'encre** : 55 mm d'aplat
 noir sur une page ivoire, un coup de poing graphique. Sur une
 invitation adressée à quelqu'un qui a peur d'entrer dans une église,
 le contenant contredisait le texte — **la page disait « viens comme
 tu es » avec la voix d'un avertissement.** Puis un **lavis d'ambre** :
-doux, mais encore une masse.
+doux, mais encore une masse. Puis un **cadre au dégradé**.
 
-Il n'est plus rempli du tout. C'est **un trait de la couleur de la
-marque**, et l'ivoire de la page passe au travers.
+Il n'est plus qu'**un filet au-dessus et un filet en dessous**.
 
-Le dégradé du cadre est celui du ruban du bas — mêmes cinq couleurs,
-même sens. Les deux seuls objets colorés de la face sont donc la même
-signature, l'une en cadre et l'autre en filet : **on ne lit plus deux
-décors mais un seul système.**
+**Un cadre ferme, deux filets ouvrent.** Les quatre côtés faisaient du
+contenu une pièce rapportée, posée sur la page ; les deux filets le
+laissent couler dedans et lui rendent toute la largeur de la colonne
+de texte — **124 mm au lieu de 111.** Rien n'est plus encadré, et
+pourtant l'œil voit toujours un bloc : deux traits suffisent à le
+dire.
 
-> **Le trait est obtenu par deux fonds, pas par une bordure.** Une
-> bordure CSS ne prend pas de dégradé. On peint donc le dégradé sous
-> la boîte entière (`border-box`) et la couleur de page sous le seul
-> intérieur (`padding-box`) : il ne reste du dégradé que l'épaisseur
-> de la bordure, qui est transparente. Le rayon des angles suit, et
-> **tout reste vectoriel** — le PDF ne contient toujours qu'une seule
-> image, le QR.
+> **Ils sont plus fins que le ruban du bas, et c'est voulu.** 1,2 mm
+> contre 2,4. **Trois barres du même dégradé sur une seule face, c'est
+> la signature qui devient un motif** — et un motif, on ne le remarque
+> plus. À demi-épaisseur, les deux d'ici se lisent comme des filets et
+> celle du bas garde son rang de signature. Même forme, même dégradé,
+> même sens : une seule famille, trois rangs.
 
 **Les réponses sont en rouge, et ce n'est pas un choix d'humeur.**
 L'orange de la marque sur un fond clair plafonne à 2,2 de contraste :
