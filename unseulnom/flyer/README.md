@@ -139,6 +139,38 @@ En haut de `generer-flyer.py` :
 VARIANTE = "aube"     # ou "creme"
 ```
 
+## Ce qui fait la qualité du fichier
+
+| Vérification | Résultat |
+|---|---|
+| Images dans le PDF | **une seule** : le QR code, à 307 ppi |
+| Le fond | des **dégradés vectoriels**, jamais une image |
+| Polices | embarquées et sous-ensemblées, Instrument Serif comprise |
+| Grain | **aucun** |
+| Poids | 404 ko au lieu de 1,8 Mo |
+
+**Il n'y a plus un seul flou.** La première version posait quatre
+disques de couleur et leur appliquait `filter: blur(30mm)`. Un flou
+n'est pas une forme : le navigateur doit le *calculer en pixels*, donc
+le rastériser — d'où une page molle, bruitée, qui aurait bandé à
+l'impression. Ce sont maintenant des dégradés radiaux empilés, que
+l'imprimeur sort à sa propre définition.
+
+**Et plus aucun grain.** Un bruit d'écran est fait pour un écran : à
+l'impression il devient du sable et il moire sur les aplats sombres.
+
+### Si l'imprimeur fait la difficile
+
+`flyer-invitation-tarbes-600dpi.pdf` est la même chose **à plat**, sans
+une seule police : chaque page est une image à 600 points par pouce,
+au-dessus de ce que demande n'importe quelle presse. Rien ne peut plus
+être substitué.
+
+> Pourquoi elle existe : Chromium embarque les polices variables au
+> format « Type 3 ». C'est du vectoriel et ça sort net sur toute
+> machine moderne, mais certains ateliers refusent le Type 3 par
+> principe. Donnez le fichier normal ; gardez celui-là en réserve.
+
 ## À l'impression
 
 - **A5, recto-verso, pelliculage mat de préférence** : le fond sombre

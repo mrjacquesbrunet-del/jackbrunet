@@ -30,6 +30,7 @@ import subprocess
 import tempfile
 
 import qrcode
+from PIL import Image
 
 RACINE = pathlib.Path(__file__).resolve().parent
 CHARTE = RACINE.parent / "charte"
@@ -83,39 +84,56 @@ __FONTS__
   --encre: #0C0B0A; --nuit: #121212; --creme: #F0EEE7; --gris: #5C5B54; --trait: #D8D4C8;
   --titre: 'Archivo', sans-serif; --serif: 'Instrument Serif', Georgia, serif;
   --texte: 'Inter', sans-serif;
-  --degrade: linear-gradient(100deg, var(--or) 0%, var(--rouge) 34%, var(--magenta) 62%, var(--violet) 84%, var(--bleu) 100%);
+  /* 90 DEGRES, ET NON 100. Sur le ruban du bas — 124 mm de large pour
+     2,4 mm de haut — un axe incline de 10 degres traverse la hauteur
+     en quelques millimetres : on ne voyait plus un degrade mais une
+     cassure nette du bleu a l'orange. A 90 degres il court d'un bord
+     a l'autre, comme prevu. */
+  --degrade: linear-gradient(90deg, var(--or) 0%, var(--rouge) 28%, var(--magenta) 55%, var(--violet) 78%, var(--bleu) 100%);
 }
 body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 .page { position: relative; width: 148mm; height: 210mm; overflow: hidden; page-break-after: always; }
 .page:last-child { page-break-after: auto; }
 
 /* ================= RECTO ================= */
-/* --- LE LEVER DE JOUR --- */
-.recto { background: #07070A; color: var(--creme); display: flex; flex-direction: column; }
-.lueur { position: absolute; inset: 0; pointer-events: none; }
-.lueur i { position: absolute; display: block; border-radius: 50%; filter: blur(30mm); }
-/* La chaleur vient du bas, et elle vient fort : c'est la lumiere qui
-   monte. Le haut reste noir, pour que le titre y tienne sans halo. */
-.l1 { width: 190mm; height: 95mm; left: -22mm; bottom: -52mm; background: rgba(247,148,29,.80); }
-.l2 { width: 150mm; height: 80mm; left: -4mm; bottom: -32mm; background: rgba(228,38,43,.62); }
-.l3 { width: 110mm; height: 90mm; right: -34mm; bottom: 26mm; background: rgba(201,38,143,.40); }
-.l4 { width: 120mm; height: 110mm; left: -40mm; top: -40mm; background: rgba(27,47,196,.26); }
+/* --- LE LEVER DE JOUR, SANS UN SEUL FLOU ---
+
+   La premiere version posait quatre disques et leur appliquait
+   « filter: blur(30mm) ». Un flou n'est pas une forme : le navigateur
+   doit le CALCULER en pixels, donc le rasteriser, et c'est ce qui
+   donnait une page molle, bruitee, qui aurait bande a l'impression.
+
+   Ce sont maintenant des degrades radiaux empiles. Ils ne sont jamais
+   rasterises : ils partent dans le PDF comme des degrades, et
+   l'imprimeur les sort a sa propre definition, nets a n'importe quelle
+   taille. Meme image, et plus un pixel. */
+.recto {
+  color: var(--creme); display: flex; flex-direction: column;
+  background:
+    radial-gradient(118% 62% at 46% 112%, rgba(247,148,29,.92) 0%, rgba(247,148,29,.42) 34%, rgba(247,148,29,0) 68%),
+    radial-gradient(96% 52% at 16% 106%, rgba(228,38,43,.78) 0%, rgba(228,38,43,.30) 40%, rgba(228,38,43,0) 72%),
+    radial-gradient(86% 58% at 96% 74%, rgba(201,38,143,.46) 0%, rgba(201,38,143,.16) 42%, rgba(201,38,143,0) 74%),
+    radial-gradient(104% 64% at 4% -12%, rgba(27,47,196,.34) 0%, rgba(27,47,196,.12) 44%, rgba(27,47,196,0) 76%),
+    #07070A;
+}
 
 /* --- LA VERSION CREME --- */
-.recto.creme { background: var(--creme); color: var(--encre); }
-.recto.creme .lueur i { opacity: .20; filter: blur(36mm); }
+.recto.creme {
+  color: var(--encre);
+  background:
+    radial-gradient(118% 62% at 46% 112%, rgba(247,148,29,.30) 0%, rgba(247,148,29,.10) 38%, rgba(247,148,29,0) 70%),
+    radial-gradient(90% 54% at 92% 80%, rgba(201,38,143,.16) 0%, rgba(201,38,143,0) 68%),
+    var(--creme);
+}
 .recto.creme .marque .mot { color: rgba(12,11,10,.6); }
 .recto.creme .marque .rond { background-image: url("__LOGO_NOIR__"); }
 .recto.creme .sous { color: var(--gris); }
 .recto.creme .quand { border-top-color: var(--trait); }
 .recto.creme .quand .l { color: var(--gris); }
-.recto.creme .grain { mix-blend-mode: multiply; opacity: .10; }
-.grain {
-  position: absolute; inset: 0; pointer-events: none; opacity: .16; mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23b)'/%3E%3C/svg%3E");
-  background-size: 50mm 50mm;
-}
-.recto .dedans { position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column; padding: 15mm 13mm 13mm; }
+/* PAS DE GRAIN. Un bruit d'ecran est fait pour un ecran : a
+   l'impression il devient du sable, il moire sur les aplats sombres,
+   et aucun imprimeur ne le rattrape. Il est retire, pas attenue. */
+.recto .dedans { position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column; padding: 16mm 14mm 14mm; }
 
 .marque { display: flex; align-items: center; gap: 4mm; }
 .marque .rond { width: 13mm; height: 13mm; background: center/contain no-repeat url("__LOGO__"); flex: none; }
@@ -149,7 +167,7 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
      La forme reste une question, et elle reste sans jargon. Mais il
      sait en deux secondes de quoi on parle, et il peut decider. */
   font-family: var(--titre); font-stretch: 125%; font-weight: 900;
-  font-size: 47pt; line-height: .92; letter-spacing: -.03em; text-transform: uppercase;
+  font-size: 41pt; line-height: .94; letter-spacing: -.03em; text-transform: uppercase;
 }
 /* LE MOT ACCENTUE EST D'UNE SEULE COULEUR, PAS D'UN DEGRADE.
 
@@ -168,9 +186,13 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
 }
 
 .quand { margin-top: 11mm; padding-top: 6mm; border-top: 1px solid rgba(240,238,231,.22); }
+/* La date tient sur UNE ligne. A 19 points elle passait a la ligne et
+   « 2026 » se retrouvait seul en dessous : une date coupee en deux se
+   lit deux fois moins vite. */
 .quand .j {
-  font-family: var(--titre); font-stretch: 118%; font-weight: 900;
-  font-size: 19pt; text-transform: uppercase; letter-spacing: -.01em;
+  font-family: var(--titre); font-stretch: 112%; font-weight: 900;
+  font-size: 17pt; text-transform: uppercase; letter-spacing: -.015em;
+  white-space: nowrap;
 }
 .quand .l { margin-top: 2mm; font-size: 11pt; color: rgba(240,238,231,.74); }
 .libre {
@@ -180,11 +202,11 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
 }
 
 /* ================= VERSO ================= */
-.verso { background: var(--creme); color: var(--encre); display: flex; flex-direction: column; padding: 12mm 12mm 10mm; }
+.verso { background: var(--creme); color: var(--encre); display: flex; flex-direction: column; padding: 14mm 14mm 12mm; }
 .verso h2 {
   font-family: var(--titre); font-stretch: 118%; font-weight: 900;
   font-size: 19pt; line-height: 1.08; letter-spacing: -.02em; text-transform: uppercase;
-  max-width: 112mm;
+  max-width: 118mm;
 }
 /* La reponse est dans le titre, en romane : la question et sa reponse
    se lisent d'un seul mouvement, au lieu d'un titre puis d'une phrase
@@ -257,8 +279,6 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
 
 <!-- ======================= RECTO ======================= -->
 <div class="page recto __VARIANTE__">
-  <div class="lueur"><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i></div>
-  <div class="grain"></div>
   <div class="dedans">
 
     <div class="marque">
@@ -373,6 +393,24 @@ def main():
                         "-singlefile", str(pdf), str(png.with_suffix(""))],
                        check=True, capture_output=True)
         sorties.append(png)
+
+    # UNE SECONDE VERSION, A PLAT, POUR LES IMPRIMEURS DIFFICILES.
+    #
+    # Chromium embarque les polices variables en « Type 3 ». C'est du
+    # vectoriel, et cela sort net sur toute machine moderne — mais
+    # certains ateliers refusent le Type 3 par principe. Cette version
+    # ne contient plus une seule police : chaque page est une image a
+    # 600 points par pouce, soit au-dessus de ce que demande n'importe
+    # quelle presse offset. Rien ne peut plus etre substitue.
+    pages = []
+    for numero in (1, 2):
+        brut = travail / ("page%d" % numero)
+        subprocess.run(["pdftoppm", "-png", "-r", "600", "-f", str(numero), "-l", str(numero),
+                        "-singlefile", str(pdf), str(brut)], check=True, capture_output=True)
+        pages.append(Image.open(str(brut) + ".png").convert("RGB"))
+    plat = RACINE / (VILLE["sortie"] + suffixe + "-600dpi.pdf")
+    pages[0].save(plat, save_all=True, append_images=pages[1:], resolution=600.0)
+    sorties.append(plat)
 
     for f in sorties:
         print("%8d octets  %s" % (f.stat().st_size, f.name))
