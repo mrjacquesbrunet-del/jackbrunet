@@ -83,6 +83,72 @@ jour les regroupe sous « Edition precedente ».
 
 ---
 
+## Savoir qui vient vraiment (version 1.3)
+
+À Avignon, le chiffre affiché était vrai et ne voulait rien dire, et on
+ne l'a su que le soir même. Trois manques, trois réponses.
+
+### 1. La présence attendue, au lieu des places réservées
+
+Le tableau de bord affiche une cinquième carte, en bleu :
+**présence attendue**. Elle compte les places confirmées à 90 % — il y a
+toujours des empêchements — et les places sans réponse au **taux que
+vous réglez** (Réglages → *Taux de présence constaté*).
+
+> Vérification sur Avignon : 1300 places sans réponse, taux réglé à
+> 35 %, le module annonce **455**. Il y a eu environ 450 personnes.
+
+Après chaque événement, reportez ici le taux réel que vous aurez pointé
+à l'entrée. C'est ce chiffre qui rend l'estimation juste pour la ville
+suivante.
+
+### 2. Les deux boutons « je viens » et « je libère ma place »
+
+Chaque réservation porte deux liens. **Libérer une place la rend au
+compteur** : elle repart à quelqu'un d'autre. Celui qui confirme puis se
+ravise peut revenir sur sa réponse, le compteur suit.
+
+Les liens ne demandent aucun compte et ne passent par aucune page du
+site : le module les intercepte lui-même. Rien à créer, rien à coller.
+
+### 3. L'envoi de la relance, depuis le module
+
+**Réservations → Relancer ceux qui n'ont pas répondu.** Le message part
+par Brevo, avec le billet PDF en pièce jointe, et porte les deux boutons.
+
+- **Seuls les inscrits sans réponse** sont relancés. Relancer quelqu'un
+  qui a déjà confirmé est le meilleur moyen qu'il se désabonne.
+- **Faites toujours « M'envoyer un essai » avant.** Vérifiez l'allure, la
+  pièce jointe, et surtout que les deux boutons fonctionnent.
+- L'envoi part **par paquets de 25**, avec une barre de progression. On
+  peut l'arrêter et le reprendre : personne ne reçoit rien en double.
+- L'adresse d'expéditeur doit être **validée dans Brevo**, sinon Brevo
+  refuse l'envoi.
+
+### 4. Le pointage à l'entrée
+
+Chaque ligne de la liste a un bouton **Présent**. Ouvrez la page sur un
+téléphone à l'entrée et pointez les arrivants. C'est ce pointage qui
+donne le *vrai* taux, celui du point 1.
+
+### Un bénévole peut tenir la salle
+
+Le menu **Réservations** s'ouvre désormais aux comptes **Éditeur** : ils
+voient le tableau de bord, la liste, pointent les présents et exportent
+le CSV. La clé API, les réglages, le changement de ville et l'envoi des
+relances restent aux **administrateurs**.
+
+Créez un compte Éditeur pour la personne qui tiendra l'entrée. Elle n'a
+aucune raison de pouvoir envoyer quatre cents courriels.
+
+### La courbe des trente derniers jours
+
+Sous les cartes, les inscriptions jour par jour. **C'est le creux qui
+prévient, pas le pic** : une semaine plate, et il est temps de relancer
+les églises.
+
+---
+
 ## Étape 1 — Installer le module
 
 1. **Extensions → Ajouter une extension → Téléverser une extension**

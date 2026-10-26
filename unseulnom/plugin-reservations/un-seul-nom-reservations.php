@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Un Seul Nom - Reservations
  * Description: Reservation de places pour les evenements Un Seul Nom : compteur de places, limite par reservation, liste des inscrits et export CSV. Une ville apres l'autre, sans perdre les inscrits des precedentes.
- * Version:     1.2.1
+ * Version:     1.3.0
  * Author:      Un Seul Nom
  * License:     GPL-2.0-or-later
  *
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class USN_Reservations {
 
-	const VERSION        = '1.2.1';
+	const VERSION        = '1.3.0';
 	const OPT_CAPACITE   = 'usn_capacite';        // Nombre total de places ouvertes (surbooking compris).
 	const OPT_MAX        = 'usn_max_par_personne'; // Limite par reservation.
 	const OPT_OUVERT     = 'usn_inscriptions_ouvertes';
@@ -36,6 +36,30 @@ final class USN_Reservations {
 	const OPT_BREVO_LISTES  = 'usn_brevo_listes';   // ville => identifiant de liste
 	const OPT_BREVO_ATTRS   = 'usn_brevo_attributs';
 	const OPT_BREVO_JOURNAL = 'usn_brevo_journal';  // le dernier envoi, reussi ou non
+
+	// Presence et relance.
+	const OPT_TAUX          = 'usn_taux_presence';  // taux constate, en pour cent
+	const OPT_EXP_NOM       = 'usn_exp_nom';
+	const OPT_EXP_EMAIL     = 'usn_exp_email';
+	const OPT_RELANCE_SUJET = 'usn_relance_sujet';
+	const OPT_RELANCE_HTML  = 'usn_relance_html';
+	const OPT_PIECE_URL     = 'usn_piece_url';      // le billet PDF, dans la mediatheque
+	const OPT_RELANCE_ETAT  = 'usn_relance_etat';   // la file en cours
+	const OPT_RELANCE_FIN   = 'usn_relance_fin';    // le resultat du dernier envoi
+
+	/* QUI PEUT FAIRE QUOI.
+	 *
+	 * Le jour J, c'est un benevole qui tient l'entree, pas le
+	 * proprietaire du site. Il lui faut voir la liste et pointer les
+	 * presents — il n'a aucune raison de pouvoir changer la cle API ni
+	 * d'envoyer quatre cents courriels. Un compte « Editeur » suffit
+	 * pour la salle ; les reglages restent aux administrateurs. */
+	const CAP_GERER  = 'edit_pages';
+	const CAP_REGLER = 'manage_options';
+
+	// Les caracteres d'un jeton. Ni O ni 0, ni I ni 1 ni L : un jeton se
+	// lit parfois a voix haute au telephone.
+	const ALPHABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
 
 	// Nom donne aux reservations prises avant la version 1.1, quand le
 	// module ne savait pas encore de quelle ville il s'agissait.
@@ -59,6 +83,11 @@ final class USN_Reservations {
 		add_action( 'admin_post_usn_export_csv', array( __CLASS__, 'exporter_csv' ) );
 		add_action( 'admin_post_usn_nouvelle_ville', array( __CLASS__, 'ouvrir_nouvelle_ville' ) );
 		add_action( 'admin_post_usn_tester_brevo', array( __CLASS__, 'tester_brevo' ) );
+		add_action( 'admin_post_usn_marquer', array( __CLASS__, 'marquer' ) );
+		add_action( 'admin_post_usn_relance', array( __CLASS__, 'relance_paquet' ) );
+		// Les deux liens du courriel de relance sont interceptes avant
+		// que WordPress ne decide quoi afficher : aucune page a creer.
+		add_action( 'init', array( __CLASS__, 'intercepter_reponse' ) );
 		add_shortcode( 'usn_places_restantes', array( __CLASS__, 'shortcode_places' ) );
 	}
 
@@ -86,6 +115,14 @@ final class USN_Reservations {
 		if ( '' === (string) get_option( self::OPT_EVENEMENT, '' ) ) {
 			update_option( self::OPT_EVENEMENT, self::AVANT );
 		}
+
+		// Les reservations prises avant la 1.3 n'ont pas de jeton : sans
+		// lui, leurs liens « je viens » et « je libere ma place » ne
+		// meneraient nulle part.
+		$sans = $wpdb->get_col( "SELECT id FROM {$table} WHERE jeton = '' LIMIT 3000" );
+		foreach ( $sans as $id ) {
+			$wpdb->update( $table, array( 'jeton' => self::jeton_libre() ), array( 'id' => (int) $id ), array( '%s' ), array( '%d' ) );
+		}
 	}
 
 	/* ------------------------------------------------------------------ */
@@ -107,11 +144,15 @@ final class USN_Reservations {
 				email VARCHAR(190) NOT NULL,
 				places TINYINT UNSIGNED NOT NULL DEFAULT 1,
 				evenement VARCHAR(80) NOT NULL DEFAULT '',
+				confirme TINYINT UNSIGNED NOT NULL DEFAULT 0,
+				jeton VARCHAR(24) NOT NULL DEFAULT '',
 				ip VARCHAR(45) NOT NULL DEFAULT '',
 				cree_le DATETIME NOT NULL,
 				PRIMARY KEY  (id),
 				KEY email (email),
 				KEY evenement (evenement),
+				KEY jeton (jeton),
+				KEY confirme (confirme),
 				KEY cree_le (cree_le)
 			) {$charset};"
 		);
@@ -135,6 +176,7 @@ final class USN_Reservations {
 		add_option( self::OPT_MAX, 4 );
 		add_option( self::OPT_OUVERT, 1 );
 		add_option( self::OPT_EVENEMENT, '' );
+		add_option( self::OPT_TAUX, 50 );
 		update_option( self::OPT_DB_VERSION, self::VERSION );
 	}
 
@@ -155,7 +197,7 @@ final class USN_Reservations {
 	 * c'est lui qui dit « complet ».
 	 */
 	public static function ouvrir_nouvelle_ville() {
-		if ( ! current_user_can( 'manage_options' )
+		if ( ! current_user_can( self::CAP_REGLER )
 			|| ! isset( $_POST['_wpnonce'] )
 			|| ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'usn_nouvelle_ville' ) ) {
 			wp_die( 'Action non autorisée.' );
@@ -382,10 +424,11 @@ final class USN_Reservations {
 				'email'     => $email,
 				'places'    => $places,
 				'evenement' => self::evenement(),
+				'jeton'     => self::jeton_libre(),
 				'ip'        => self::ip_visiteur(),
 				'cree_le'   => current_time( 'mysql' ),
 			),
-			array( '%s', '%s', '%d', '%s', '%s', '%s' )
+			array( '%s', '%s', '%d', '%s', '%s', '%s', '%s' )
 		);
 
 		if ( false === $insere ) {
@@ -461,7 +504,7 @@ final class USN_Reservations {
 		add_menu_page(
 			'Réservations Un Seul Nom',
 			'Réservations',
-			'manage_options',
+			self::CAP_GERER,
 			'usn-reservations',
 			array( __CLASS__, 'page_admin' ),
 			'dashicons-tickets-alt',
@@ -474,10 +517,18 @@ final class USN_Reservations {
 		register_setting( 'usn_reservations', self::OPT_MAX, array( 'type' => 'integer', 'sanitize_callback' => 'absint' ) );
 		register_setting( 'usn_reservations', self::OPT_OUVERT, array( 'type' => 'integer', 'sanitize_callback' => 'absint' ) );
 		register_setting( 'usn_reservations', self::OPT_BREVO_CLE, array( 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field' ) );
+		register_setting( 'usn_reservations', self::OPT_TAUX, array( 'type' => 'integer', 'sanitize_callback' => 'absint' ) );
+		register_setting( 'usn_reservations', self::OPT_EXP_NOM, array( 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field' ) );
+		register_setting( 'usn_reservations', self::OPT_EXP_EMAIL, array( 'type' => 'string', 'sanitize_callback' => 'sanitize_email' ) );
+		register_setting( 'usn_reservations', self::OPT_RELANCE_SUJET, array( 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field' ) );
+		register_setting( 'usn_reservations', self::OPT_PIECE_URL, array( 'type' => 'string', 'sanitize_callback' => 'esc_url_raw' ) );
+		// Le message porte du HTML : « wp_kses_post » laisse passer les
+		// liens et la mise en forme, et rien de dangereux.
+		register_setting( 'usn_reservations', self::OPT_RELANCE_HTML, array( 'type' => 'string', 'sanitize_callback' => 'wp_kses_post' ) );
 	}
 
 	public static function page_admin() {
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( self::CAP_GERER ) ) {
 			return;
 		}
 		global $wpdb;
@@ -530,6 +581,16 @@ final class USN_Reservations {
 			}
 		} elseif ( 'nom-vide' === $message ) {
 			echo '<div class="notice notice-error is-dismissible"><p>Il faut donner un nom à la ville.</p></div>';
+		} elseif ( 'marque' === $message ) {
+			echo '<div class="notice notice-success is-dismissible"><p>C\'est noté.</p></div>';
+		} elseif ( 'relance-essai' === $message ) {
+			echo '<div class="notice notice-success is-dismissible"><p><strong>L\'essai est parti</strong> vers votre adresse. Vérifiez l\'allure du message, la pièce jointe, et surtout <strong>que les deux boutons fonctionnent</strong> — les liens de l\'essai agissent pour de bon sur la dernière réservation enregistrée.</p></div>';
+		} elseif ( 'relance-essai-rate' === $message ) {
+			echo '<div class="notice notice-error is-dismissible"><p><strong>L\'essai n\'est pas parti.</strong> Le détail est dans « Dernier échange avec Brevo ». Le plus souvent, l\'adresse d\'expéditeur n\'est pas validée dans Brevo.</p></div>';
+		} elseif ( 'relance-finie' === $message ) {
+			echo '<div class="notice notice-success is-dismissible"><p>La relance est terminée.</p></div>';
+		} elseif ( 'relance-arretee' === $message ) {
+			echo '<div class="notice notice-warning is-dismissible"><p>Envoi interrompu. Ceux qui n\'ont pas encore reçu le message restent « sans réponse » : relancez quand vous voulez, ils ne recevront rien en double.</p></div>';
 		}
 		?>
 		<div class="wrap">
@@ -540,29 +601,104 @@ final class USN_Reservations {
 				<strong style="font-size:17px"><?php echo esc_html( $ville ); ?></strong>
 			</p>
 
+			<?php $c = self::chiffres(); ?>
+
 			<div style="display:flex;gap:16px;flex-wrap:wrap;margin:20px 0">
 				<?php
+				/* LE CHIFFRE QUI COMPTE EST LE DERNIER, PAS LE PREMIER.
+				 *
+				 * A Avignon, « 1300 places reservees » etait vrai et ne
+				 * voulait rien dire. « Presence attendue » est une
+				 * estimation, et c'est elle qui aurait fait choisir une
+				 * autre salle. Elle est donc en couleur, et les autres
+				 * en gris. */
 				$cartes = array(
-					'Places ouvertes'  => $etat['capacite'],
-					'Places réservées' => $etat['reservees'],
-					'Places restantes' => $etat['restantes'],
-					'Inscriptions'     => $total,
+					array( 'Places ouvertes', $etat['capacite'], '#646970', '' ),
+					array( 'Places réservées', $etat['reservees'], '#646970', '' ),
+					array( 'Places restantes', $etat['restantes'], '#646970', '' ),
+					array( 'Inscriptions', $total, '#646970', '' ),
+					array( 'Présence attendue', $c['attendues'], '#1B2FC4',
+						sprintf( '%d confirmées, %d sans réponse à %d %%', $c['confirmees'], $c['muettes'], $c['taux'] ) ),
 				);
-				foreach ( $cartes as $libelle => $valeur ) {
+				foreach ( $cartes as $carte ) {
 					printf(
-						'<div style="background:#fff;border:1px solid #dcdcde;border-radius:8px;padding:16px 22px;min-width:150px">
-							<div style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#646970">%s</div>
-							<div style="font-size:30px;font-weight:700;line-height:1.2">%d</div>
+						'<div style="background:#fff;border:1px solid %s;border-radius:8px;padding:16px 22px;min-width:150px">
+							<div style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:%s">%s</div>
+							<div style="font-size:30px;font-weight:700;line-height:1.2;color:%s">%d</div>
+							%s
 						</div>',
-						esc_html( $libelle ),
-						(int) $valeur
+						'#1B2FC4' === $carte[2] ? '#1B2FC4' : '#dcdcde',
+						esc_attr( $carte[2] ),
+						esc_html( $carte[0] ),
+						'#1B2FC4' === $carte[2] ? '#1B2FC4' : 'inherit',
+						(int) $carte[1],
+						'' === $carte[3] ? '' : '<div style="font-size:11px;color:#646970;margin-top:3px">' . esc_html( $carte[3] ) . '</div>'
 					);
 				}
 				?>
 			</div>
 
+			<div style="display:flex;gap:16px;flex-wrap:wrap;margin:0 0 24px">
+				<?php
+				$reponses = array(
+					array( 'Confirmées', $c['confirmees'], '#00a32a' ),
+					array( 'Sans réponse', $c['muettes'], '#996800' ),
+					array( 'Places libérées', $c['annulees'], '#646970' ),
+					array( 'Présents pointés', $c['presentes'], '#1B2FC4' ),
+				);
+				foreach ( $reponses as $r ) {
+					printf(
+						'<div style="background:#fff;border:1px solid #dcdcde;border-left:4px solid %s;border-radius:6px;padding:10px 18px;min-width:130px">
+							<div style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#646970">%s</div>
+							<div style="font-size:21px;font-weight:700">%d</div>
+						</div>',
+						esc_attr( $r[2] ),
+						esc_html( $r[0] ),
+						(int) $r[1]
+					);
+				}
+				?>
+			</div>
+
+			<?php
+			/* LA COURBE DES INSCRIPTIONS.
+			 *
+			 * Dessinee en HTML, sans aucune bibliotheque : trente barres
+			 * et une hauteur en pour cent. C'est le creux qui previent,
+			 * pas le pic — une semaine sans inscription, et il est temps
+			 * de relancer les eglises. */
+			$jours = self::par_jour( 30 );
+			$haut  = 1;
+			foreach ( $jours as $j ) {
+				$haut = max( $haut, $j['places'] );
+			}
+			$somme = array_sum( wp_list_pluck( $jours, 'places' ) );
+			?>
+			<h2>Les trente derniers jours</h2>
+			<p class="description" style="margin-top:-6px">
+				<?php echo (int) $somme; ?> place(s) réservée(s) sur la période.
+				Le creux prévient mieux que le pic : une semaine plate, et il est temps de relancer les églises.
+			</p>
+			<div style="background:#fff;border:1px solid #dcdcde;border-radius:8px;padding:18px 20px 12px;margin:10px 0 24px">
+				<div style="display:flex;align-items:flex-end;gap:3px;height:110px">
+					<?php foreach ( $jours as $j ) : ?>
+						<div style="flex:1;min-width:4px;height:100%;display:flex;align-items:flex-end"
+							title="<?php echo esc_attr( mysql2date( 'd/m/Y', $j['jour'] ) . ' : ' . $j['places'] . ' place(s)' ); ?>">
+							<div style="width:100%;border-radius:2px 2px 0 0;background:<?php echo $j['places'] > 0 ? '#1B2FC4' : '#e8e8ea'; ?>;
+								height:<?php echo (float) max( 2, $j['places'] / $haut * 100 ); ?>%"></div>
+						</div>
+					<?php endforeach; ?>
+				</div>
+				<div style="display:flex;justify-content:space-between;font-size:11px;color:#646970;margin-top:6px">
+					<span><?php echo esc_html( mysql2date( 'd/m', $jours[0]['jour'] ) ); ?></span>
+					<span>Maximum sur un jour : <?php echo (int) $haut; ?></span>
+					<span><?php echo esc_html( mysql2date( 'd/m', $jours[ count( $jours ) - 1 ]['jour'] ) ); ?></span>
+				</div>
+			</div>
+
+			<?php if ( current_user_can( self::CAP_REGLER ) ) : ?>
 			<h2>Réglages</h2>
-			<form method="post" action="options.php">
+			<form method="post" action="options.php" id="usn-reglages">
 				<?php settings_fields( 'usn_reservations' ); ?>
 				<table class="form-table" role="presentation">
 					<tr>
@@ -593,6 +729,23 @@ final class USN_Reservations {
 								Ouvertes
 							</label>
 							<p class="description">Décochez pour fermer les inscriptions sans toucher au compteur.</p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Taux de présence constaté</th>
+						<td>
+							<input name="<?php echo esc_attr( self::OPT_TAUX ); ?>" type="number" min="1" max="100"
+								class="small-text" value="<?php echo (int) self::taux_presence(); ?>"> %
+							<p class="description" style="max-width:48em">
+								La part des inscrits <strong>sans réponse</strong> qui vient vraiment.
+								À Avignon&nbsp;: environ 450 présents pour 1300 places, soit <strong>35&nbsp;%</strong>.
+								Les places <em>confirmées</em>, elles, sont comptées à 90&nbsp;% — il y a toujours
+								des empêchements de dernière minute.
+							</p>
+							<p class="description">
+								Après chaque événement, reportez ici le taux réel que vous aurez pointé à
+								l'entrée. C'est ce chiffre qui rendra l'estimation juste pour la ville suivante.
+							</p>
 						</td>
 					</tr>
 					<tr>
@@ -692,6 +845,131 @@ final class USN_Reservations {
 				<?php submit_button( 'Ouvrir cette ville', 'secondary' ); ?>
 			</form>
 
+			<h2>Relancer ceux qui n'ont pas répondu</h2>
+			<?php
+			$file   = self::relance_etat();
+			$fin    = get_option( self::OPT_RELANCE_FIN, array() );
+			$fin    = is_array( $fin ) ? $fin : array();
+			$exp    = self::expediteur();
+			$prets  = $c['muettes'] > 0;
+			$lien_r = function ( $etape ) {
+				return admin_url(
+					'admin-post.php?action=usn_relance&etape=' . $etape
+					. '&_wpnonce=' . wp_create_nonce( 'usn_relance' )
+				);
+			};
+			?>
+			<p class="description" style="max-width:62em">
+				Le message part par Brevo, avec le billet en pièce jointe, et porte deux boutons&nbsp;:
+				<strong>« Oui, je viens »</strong> et <strong>« Je libère ma place »</strong>.
+				Une place libérée <strong>retourne au compteur</strong> et repart à quelqu'un d'autre.
+				Seuls les inscrits <strong>sans réponse</strong> sont relancés&nbsp;: relancer quelqu'un
+				qui a déjà confirmé est le meilleur moyen qu'il se désabonne.
+			</p>
+
+			<table class="form-table" role="presentation">
+				<tr>
+					<th scope="row">Expéditeur</th>
+					<td>
+						<input name="<?php echo esc_attr( self::OPT_EXP_NOM ); ?>" form="usn-reglages" type="text"
+							class="regular-text" placeholder="Un Seul Nom"
+							value="<?php echo esc_attr( get_option( self::OPT_EXP_NOM, '' ) ); ?>">
+						<input name="<?php echo esc_attr( self::OPT_EXP_EMAIL ); ?>" form="usn-reglages" type="email"
+							class="regular-text" placeholder="contact@unseulnom.org"
+							value="<?php echo esc_attr( get_option( self::OPT_EXP_EMAIL, '' ) ); ?>">
+						<p class="description">
+							Cette adresse doit être <strong>validée comme expéditeur dans Brevo</strong>,
+							sinon Brevo refuse l'envoi. Enregistrez avec le bouton des réglages, plus haut.
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">Objet</th>
+					<td>
+						<input name="<?php echo esc_attr( self::OPT_RELANCE_SUJET ); ?>" form="usn-reglages" type="text"
+							class="large-text" placeholder="Venez-vous toujours ? - <?php echo esc_attr( $ville ); ?>"
+							value="<?php echo esc_attr( get_option( self::OPT_RELANCE_SUJET, '' ) ); ?>">
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">Pièce jointe</th>
+					<td>
+						<input name="<?php echo esc_attr( self::OPT_PIECE_URL ); ?>" form="usn-reglages" type="url"
+							class="large-text" placeholder="https://unseulnom.org/wp-content/uploads/.../billet.pdf"
+							value="<?php echo esc_attr( get_option( self::OPT_PIECE_URL, '' ) ); ?>">
+						<p class="description">
+							L'adresse du billet PDF dans la médiathèque. Brevo va le chercher lui-même&nbsp;:
+							il ne repasse pas par le site à chaque message. Laissez vide pour n'envoyer aucune
+							pièce jointe.
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">Message</th>
+					<td>
+						<textarea name="<?php echo esc_attr( self::OPT_RELANCE_HTML ); ?>" form="usn-reglages"
+							rows="9" class="large-text code"><?php echo esc_textarea( get_option( self::OPT_RELANCE_HTML, '' ) ); ?></textarea>
+						<p class="description">
+							Laissez vide pour le message par défaut. Repères disponibles&nbsp;:
+							<code>{NOM}</code>, <code>{PLACES}</code>, <code>{VILLE}</code>,
+							<code>{BOUTONS}</code> (les deux boutons),
+							<code>{CONFIRMER}</code> et <code>{ANNULER}</code> (les deux adresses seules).
+						</p>
+					</td>
+				</tr>
+			</table>
+
+			<?php if ( $file ) : ?>
+				<?php $faits = (int) $file['envoyes'] + (int) $file['echecs']; ?>
+				<div class="notice notice-info" style="padding:14px 16px">
+					<p style="margin:0 0 10px">
+						<strong>Envoi en cours :</strong>
+						<?php echo (int) $faits; ?> sur <?php echo (int) $file['total']; ?>
+						<?php if ( (int) $file['echecs'] > 0 ) : ?>
+							<span style="color:#d63638">(<?php echo (int) $file['echecs']; ?> échec(s))</span>
+						<?php endif; ?>
+					</p>
+					<div style="height:10px;background:#e8e8ea;border-radius:99px;overflow:hidden;max-width:420px">
+						<div style="height:100%;background:#1B2FC4;width:<?php echo (float) ( $file['total'] > 0 ? $faits / $file['total'] * 100 : 0 ); ?>%"></div>
+					</div>
+					<p style="margin:12px 0 0">
+						<a class="button button-primary" href="<?php echo esc_url( $lien_r( 'suite' ) ); ?>">Continuer</a>
+						<a class="button" href="<?php echo esc_url( $lien_r( 'arreter' ) ); ?>">Arrêter</a>
+					</p>
+				</div>
+				<?php if ( isset( $_GET['usn_reprendre'] ) ) : ?>
+					<script>setTimeout(function () { window.location.href = <?php echo wp_json_encode( $lien_r( 'suite' ) ); ?>; }, 1200);</script>
+				<?php endif; ?>
+			<?php else : ?>
+				<?php if ( ! empty( $fin ) ) : ?>
+					<p class="description">
+						Dernier envoi&nbsp;: <strong><?php echo (int) $fin['envoyes']; ?></strong> message(s) partis,
+						<?php echo (int) $fin['echecs']; ?> échec(s), le
+						<?php echo esc_html( mysql2date( 'd/m/Y à H:i', $fin['debut'] ) ); ?>.
+					</p>
+				<?php endif; ?>
+				<p>
+					<a class="button" href="<?php echo esc_url( $lien_r( 'test' ) ); ?>">
+						M'envoyer un essai
+					</a>
+					<a class="button button-primary" href="<?php echo esc_url( $lien_r( 'demarrer' ) ); ?>"
+						onclick="return confirm(<?php echo wp_json_encode( sprintf( 'Envoyer la relance a %d inscrit(s) sans reponse ?', (int) $c['muettes'] ) ); ?>);"
+						<?php echo $prets ? '' : 'style="pointer-events:none;opacity:.5"'; ?>>
+						Envoyer la relance (<?php echo (int) $c['muettes']; ?>)
+					</a>
+					<span class="description" style="margin-left:8px">
+						<?php if ( '' === $exp['email'] ) : ?>
+							<span style="color:#d63638">Renseignez d'abord l'adresse d'expéditeur.</span>
+						<?php elseif ( ! $prets ) : ?>
+							Personne n'est en attente de réponse.
+						<?php else : ?>
+							Faites toujours un essai avant. L'envoi part par paquets de <?php echo (int) self::PAQUET; ?>.
+						<?php endif; ?>
+					</span>
+				</p>
+			<?php endif; ?>
+			<?php endif; ?>
+
 			<h2>Inscrits de <?php echo esc_html( $ville ); ?> <?php echo $total > 200 ? '(200 plus récents)' : ''; ?></h2>
 			<p>
 				<a class="button button-primary"
@@ -704,22 +982,59 @@ final class USN_Reservations {
 				</a>
 			</p>
 			<table class="wp-list-table widefat fixed striped">
-				<thead><tr><th>Date</th><th>Nom</th><th>E-mail</th><th>Places</th></tr></thead>
+				<thead><tr><th>Date</th><th>Nom</th><th>E-mail</th><th style="width:70px">Places</th><th style="width:150px">Réponse</th><th style="width:130px">Le jour J</th></tr></thead>
 				<tbody>
 				<?php if ( empty( $lignes ) ) : ?>
-					<tr><td colspan="4">Aucune réservation pour le moment.</td></tr>
+					<tr><td colspan="6">Aucune réservation pour le moment.</td></tr>
 				<?php else : ?>
+					<?php
+					$etiquettes = array(
+						self::SANS_REPONSE => array( 'Sans réponse', '#996800' ),
+						self::CONFIRME     => array( 'Confirmée', '#00a32a' ),
+						self::ANNULE       => array( 'Place libérée', '#646970' ),
+						self::PRESENT      => array( 'Présent', '#1B2FC4' ),
+					);
+					?>
 					<?php foreach ( $lignes as $l ) : ?>
-						<tr>
+						<?php
+						$etat_ligne = isset( $etiquettes[ (int) $l->confirme ] )
+							? $etiquettes[ (int) $l->confirme ]
+							: $etiquettes[ self::SANS_REPONSE ];
+						$present = self::PRESENT === (int) $l->confirme;
+						?>
+						<tr<?php echo self::ANNULE === (int) $l->confirme ? ' style="opacity:.55"' : ''; ?>>
 							<td><?php echo esc_html( mysql2date( 'd/m/Y H:i', $l->cree_le ) ); ?></td>
-							<td><?php echo esc_html( $l->nom ); ?></td>
+							<td><strong><?php echo esc_html( $l->nom ); ?></strong></td>
 							<td><?php echo esc_html( $l->email ); ?></td>
 							<td><?php echo (int) $l->places; ?></td>
+							<td><span style="color:<?php echo esc_attr( $etat_ligne[1] ); ?>;font-weight:600"><?php echo esc_html( $etat_ligne[0] ); ?></span></td>
+							<td>
+								<a class="button <?php echo $present ? '' : 'button-primary'; ?>"
+									href="<?php
+									echo esc_url(
+										admin_url(
+											'admin-post.php?action=usn_marquer&id=' . (int) $l->id
+											. '&etat=' . ( $present ? self::CONFIRME : self::PRESENT )
+											. '&_wpnonce=' . wp_create_nonce( 'usn_marquer' )
+										)
+									);
+									?>">
+									<?php echo $present ? 'Annuler' : 'Présent'; ?>
+								</a>
+							</td>
 						</tr>
 					<?php endforeach; ?>
 				<?php endif; ?>
 				</tbody>
 			</table>
+
+			<p class="description" style="max-width:62em">
+				<strong>Le jour J.</strong> Ouvrez cette page sur un téléphone à l'entrée et
+				pointez les arrivants. C'est ce pointage qui donnera le <em>vrai</em> taux de
+				présence — celui à reporter dans les réglages pour la ville suivante.
+				Un compte <strong>Éditeur</strong> suffit pour cet écran&nbsp;: la clé API et
+				l'envoi des relances restent aux administrateurs.
+			</p>
 		</div>
 		<?php
 	}
@@ -933,7 +1248,7 @@ final class USN_Reservations {
 	 *   200               -> tout va bien, le probleme est ailleurs
 	 */
 	public static function tester_brevo() {
-		if ( ! current_user_can( 'manage_options' )
+		if ( ! current_user_can( self::CAP_REGLER )
 			|| ! isset( $_GET['_wpnonce'] )
 			|| ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'usn_tester_brevo' ) ) {
 			wp_die( 'Action non autorisée.' );
@@ -979,8 +1294,502 @@ final class USN_Reservations {
 		return is_array( $j ) ? $j : array();
 	}
 
+	/* ================================================================== */
+	/* SAVOIR QUI VIENT VRAIMENT                                          */
+	/*                                                                    */
+	/* A Avignon : 1300 places reservees, environ 450 personnes dans la    */
+	/* salle. Le chiffre affiche ne voulait rien dire, et on ne l'a su     */
+	/* que le soir meme.                                                  */
+	/*                                                                    */
+	/* Trois manques, et chacun a sa reponse ici.                         */
+	/*                                                                    */
+	/* 1. LE CHIFFRE ETAIT FAUX. Des gens s'inscrivaient plusieurs fois,  */
+	/*    faute de confirmation recue. Repare depuis la 1.1 : une adresse */
+	/*    deja inscrite est refusee.                                      */
+	/*                                                                    */
+	/* 2. PERSONNE NE CONFIRMAIT. Une place reservee trois mois avant ne  */
+	/*    dit rien de la soiree. Chaque reservation porte maintenant deux */
+	/*    liens — « je viens » et « je libere ma place » — a mettre dans  */
+	/*    le courriel de relance. Liberer une place la REND au compteur : */
+	/*    elle repart a quelqu'un d'autre.                                */
+	/*                                                                    */
+	/* 3. ON NE VOYAIT RIEN VENIR. Le tableau de bord montre desormais la */
+	/*    presence attendue, les reponses, et la courbe des inscriptions  */
+	/*    jour par jour. Une salle qui se remplit trop vite ou pas du     */
+	/*    tout se voit des la premiere semaine, pas la veille.            */
+	/* ================================================================== */
+
+	const SANS_REPONSE = 0;
+	const CONFIRME     = 1;
+	const ANNULE       = 2;
+	const PRESENT      = 3;
+
+	/** Le taux de presence attendu, en pour cent. */
+	public static function taux_presence() {
+		$t = (int) get_option( self::OPT_TAUX, 50 );
+		return min( 100, max( 1, $t ) );
+	}
+
+	/**
+	 * Le jeton d'une reservation : ce qui identifie la personne dans les
+	 * liens « je viens » et « je libere ma place ».
+	 *
+	 * Vingt caracteres tires au hasard. Il n'est pas devinable, et c'est
+	 * ce qui permet de s'en servir sans demander a personne de se
+	 * connecter — on ne fera pas ouvrir un compte a quelqu'un pour qu'il
+	 * dise qu'il vient.
+	 */
+	public static function jeton_libre() {
+		global $wpdb;
+		$table = self::table_reservations();
+		for ( $essai = 0; $essai < 8; $essai++ ) {
+			$jeton = '';
+			for ( $i = 0; $i < 20; $i++ ) {
+				$jeton .= self::ALPHABET[ random_int( 0, strlen( self::ALPHABET ) - 1 ) ];
+			}
+			if ( ! $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$table} WHERE jeton = %s", $jeton ) ) ) {
+				return $jeton;
+			}
+		}
+		return strtoupper( substr( md5( uniqid( '', true ) ), 0, 20 ) );
+	}
+
+	public static function lien_reponse( $jeton, $reponse ) {
+		return add_query_arg(
+			array( 'usn_rep' => $reponse, 'usn_j' => $jeton ),
+			home_url( '/' )
+		);
+	}
+
+	/**
+	 * Les deux liens du courriel de relance.
+	 *
+	 * Ils ne passent par aucune page du site : le module les intercepte
+	 * avant que WordPress ne decide quoi afficher. Rien a creer, rien a
+	 * coller, ils marchent le jour ou l'extension est installee.
+	 */
+	public static function intercepter_reponse() {
+		if ( empty( $_GET['usn_rep'] ) || empty( $_GET['usn_j'] ) ) {
+			return;
+		}
+		$reponse = sanitize_key( wp_unslash( $_GET['usn_rep'] ) );
+		$jeton   = sanitize_text_field( wp_unslash( $_GET['usn_j'] ) );
+
+		global $wpdb;
+		$table = self::table_reservations();
+		$ligne = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table} WHERE jeton = %s", $jeton ) );
+
+		if ( ! $ligne ) {
+			self::page_reponse(
+				'Lien expir&eacute;',
+				'Ce lien ne correspond &agrave; aucune r&eacute;servation. Il a peut-&ecirc;tre &eacute;t&eacute; coup&eacute; en deux par votre messagerie&nbsp;: essayez de le copier en entier dans la barre d\'adresse.',
+				false
+			);
+		}
+
+		if ( 'annule' === $reponse ) {
+			// Deja annulee : on ne rend pas les places une seconde fois.
+			if ( self::ANNULE !== (int) $ligne->confirme ) {
+				$wpdb->update( $table, array( 'confirme' => self::ANNULE ), array( 'id' => (int) $ligne->id ), array( '%d' ), array( '%d' ) );
+				$compteur = self::table_compteur();
+				$wpdb->query(
+					$wpdb->prepare(
+						"UPDATE {$compteur} SET reservees = GREATEST(0, reservees - %d) WHERE id = 1",
+						(int) $ligne->places
+					)
+				);
+			}
+			self::page_reponse(
+				'C\'est not&eacute;',
+				sprintf(
+					'Votre place est lib&eacute;r&eacute;e, elle repart &agrave; quelqu\'un d\'autre. Merci de nous l\'avoir dit&nbsp;: c\'est exactement ce qui nous permet de remplir la salle.<br><br>Si vous changez d\'avis, vous pouvez vous r&eacute;inscrire sur <a href="%s">unseulnom.org</a>.',
+					esc_url( home_url( '/evenement/' ) )
+				),
+				true
+			);
+		}
+
+		// Confirmation. Une place liberee puis confirmee est reprise : on
+		// la retire a nouveau du stock.
+		if ( self::ANNULE === (int) $ligne->confirme ) {
+			$compteur = self::table_compteur();
+			$wpdb->query(
+				$wpdb->prepare( "UPDATE {$compteur} SET reservees = reservees + %d WHERE id = 1", (int) $ligne->places )
+			);
+		}
+		$wpdb->update( $table, array( 'confirme' => self::CONFIRME ), array( 'id' => (int) $ligne->id ), array( '%d' ), array( '%d' ) );
+
+		self::page_reponse(
+			'&Agrave; tr&egrave;s bient&ocirc;t',
+			sprintf(
+				'Merci&nbsp;! Votre pr&eacute;sence est confirm&eacute;e pour <strong>%d place(s)</strong>.<br><br>Pensez &agrave; venir avec quelqu\'un qui a besoin de rencontrer J&eacute;sus.',
+				(int) $ligne->places
+			),
+			true
+		);
+	}
+
+	/** La page que voit celui qui a clique. Elle ne depend d'aucun theme. */
+	public static function page_reponse( $titre, $texte, $bon ) {
+		$couleur = $bon ? '#1B2FC4' : '#E4262B';
+		$html    = sprintf(
+			'<div style="max-width:30em;margin:0 auto;font-family:system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif;color:#0C0B0A">'
+			. '<div style="height:5px;background:linear-gradient(90deg,#1B2FC4 33%%,#fff 33%% 66%%,#E4262B 66%%);margin-bottom:28px"></div>'
+			. '<p style="font-size:11px;font-weight:800;letter-spacing:.28em;text-transform:uppercase;color:#55565E;margin:0">Un Seul Nom</p>'
+			. '<h1 style="font-size:30px;line-height:1.1;margin:10px 0 18px;color:%s">%s</h1>'
+			. '<p style="font-size:16px;line-height:1.6;margin:0">%s</p>'
+			. '</div>',
+			esc_attr( $couleur ),
+			$titre,
+			$texte
+		);
+		wp_die( $html, wp_strip_all_tags( $titre ) . ' - Un Seul Nom', array( 'response' => 200 ) );
+	}
+
+	/* ------------------------------------------------------------------ */
+	/* Les chiffres du tableau de bord                                     */
+	/* ------------------------------------------------------------------ */
+
+	public static function chiffres() {
+		global $wpdb;
+		$table = self::table_reservations();
+		$ville = self::evenement();
+
+		$par_etat = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT confirme, COUNT(*) AS lignes, SUM(places) AS places
+				 FROM {$table} WHERE evenement = %s GROUP BY confirme",
+				$ville
+			),
+			ARRAY_A
+		);
+
+		$c = array(
+			'lignes' => 0, 'places' => 0,
+			'confirmees' => 0, 'annulees' => 0, 'muettes' => 0, 'presentes' => 0,
+		);
+		foreach ( $par_etat as $l ) {
+			$etat   = (int) $l['confirme'];
+			$places = (int) $l['places'];
+			$c['lignes'] += (int) $l['lignes'];
+			if ( self::ANNULE !== $etat ) {
+				$c['places'] += $places;
+			}
+			if ( self::CONFIRME === $etat ) {
+				$c['confirmees'] = $places;
+			} elseif ( self::ANNULE === $etat ) {
+				$c['annulees'] = $places;
+			} elseif ( self::PRESENT === $etat ) {
+				$c['presentes'] = $places;
+			} else {
+				$c['muettes'] = $places;
+			}
+		}
+
+		/* LA PRESENCE ATTENDUE.
+		 *
+		 * Une place confirmee vaut bien plus qu'une place muette : a
+		 * Avignon, la moyenne de toutes les places confondues tournait
+		 * autour du tiers. On compte donc les confirmees a 90 % — il y a
+		 * toujours des empechements de derniere minute — et les muettes
+		 * au taux constate, que vous reglez vous-meme.
+		 */
+		$taux = self::taux_presence();
+		$c['attendues'] = (int) round(
+			$c['presentes'] + $c['confirmees'] * 0.9 + $c['muettes'] * $taux / 100
+		);
+		$c['taux'] = $taux;
+		return $c;
+	}
+
+	/** Les inscriptions des trente derniers jours, pour la courbe. */
+	public static function par_jour( $jours = 30 ) {
+		global $wpdb;
+		$table = self::table_reservations();
+		$lignes = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT DATE(cree_le) AS jour, SUM(places) AS places
+				 FROM {$table} WHERE evenement = %s AND cree_le >= %s
+				 GROUP BY DATE(cree_le) ORDER BY jour",
+				self::evenement(),
+				gmdate( 'Y-m-d', time() - $jours * DAY_IN_SECONDS )
+			),
+			ARRAY_A
+		);
+
+		$par_date = array();
+		foreach ( $lignes as $l ) {
+			$par_date[ $l['jour'] ] = (int) $l['places'];
+		}
+
+		// Les jours sans inscription comptent autant que les autres :
+		// c'est le creux qui previent, pas le pic.
+		$suite = array();
+		for ( $i = $jours - 1; $i >= 0; $i-- ) {
+			$jour = gmdate( 'Y-m-d', time() - $i * DAY_IN_SECONDS );
+			$suite[] = array( 'jour' => $jour, 'places' => isset( $par_date[ $jour ] ) ? $par_date[ $jour ] : 0 );
+		}
+		return $suite;
+	}
+
+	/** Marque une reservation presente, ou revient en arriere. */
+	public static function marquer() {
+		if ( ! current_user_can( self::CAP_GERER )
+			|| ! isset( $_GET['_wpnonce'] )
+			|| ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'usn_marquer' ) ) {
+			wp_die( 'Action non autorisée.' );
+		}
+		$id   = isset( $_GET['id'] ) ? (int) $_GET['id'] : 0;
+		$etat = isset( $_GET['etat'] ) ? (int) $_GET['etat'] : self::PRESENT;
+		if ( $id > 0 ) {
+			global $wpdb;
+			$wpdb->update( self::table_reservations(), array( 'confirme' => $etat ), array( 'id' => $id ), array( '%d' ), array( '%d' ) );
+		}
+		wp_safe_redirect( add_query_arg( 'usn_message', 'marque', admin_url( 'admin.php?page=usn-reservations' ) ) );
+		exit;
+	}
+
+	/* ================================================================== */
+	/* LA RELANCE                                                         */
+	/*                                                                    */
+	/* Le seul levier reel sur la presence. Une place reservee trois mois */
+	/* avant ne dit rien de la soiree ; une place confirmee huit jours    */
+	/* avant, si.                                                         */
+	/*                                                                    */
+	/* Le message part par l'API Brevo, avec la piece jointe, et porte    */
+	/* les deux liens : « je viens » et « je libere ma place ». Celui qui */
+	/* libere rend sa place au compteur, et elle repart a quelqu'un       */
+	/* d'autre.                                                           */
+	/*                                                                    */
+	/* L'ENVOI SE FAIT PAR PAQUETS DE VINGT-CINQ. Quatre cents messages   */
+	/* en une seule requete, c'est la page d'administration qui tombe en  */
+	/* panne au milieu, sans qu'on sache qui a recu quoi. Chaque paquet   */
+	/* est envoye, consigne, puis la page se recharge pour le suivant.    */
+	/* On voit la progression, et on peut s'arreter a tout moment.        */
+	/* ================================================================== */
+
+	const PAQUET = 25;
+
+	public static function expediteur() {
+		$nom   = trim( (string) get_option( self::OPT_EXP_NOM, '' ) );
+		$email = trim( (string) get_option( self::OPT_EXP_EMAIL, '' ) );
+		return array(
+			'name'  => '' === $nom ? get_bloginfo( 'name' ) : $nom,
+			'email' => $email,
+		);
+	}
+
+	/** Le message par defaut, que l'on peut reecrire dans les reglages. */
+	public static function relance_modele() {
+		$texte = (string) get_option( self::OPT_RELANCE_HTML, '' );
+		if ( '' !== trim( $texte ) ) {
+			return $texte;
+		}
+		return "<p>Bonjour {NOM},</p>\n"
+			. "<p>Vous avez r&eacute;serv&eacute; <strong>{PLACES} place(s)</strong> pour {VILLE}.</p>\n"
+			. "<p>La salle est compt&eacute;e&nbsp;: dites-nous si vous venez toujours. "
+			. "Si vous ne pouvez plus, lib&eacute;rez votre place en un clic, elle repartira "
+			. "&agrave; quelqu'un d'autre.</p>\n"
+			. "<p>{BOUTONS}</p>\n"
+			. "<p>&Agrave; tr&egrave;s bient&ocirc;t,<br>L'&eacute;quipe d'Un Seul Nom</p>";
+	}
+
+	public static function relance_boutons( $jeton ) {
+		return sprintf(
+			'<a href="%s" style="display:inline-block;background:#1B2FC4;color:#fff;'
+			. 'text-decoration:none;font-weight:700;padding:14px 26px;border-radius:999px;'
+			. 'margin:0 8px 10px 0">Oui, je viens</a>'
+			. '<a href="%s" style="display:inline-block;background:#fff;color:#0C0B0A;'
+			. 'text-decoration:none;font-weight:700;padding:12px 24px;border-radius:999px;'
+			. 'border:2px solid #0C0B0A;margin:0 0 10px 0">Je lib&egrave;re ma place</a>',
+			esc_url( self::lien_reponse( $jeton, 'oui' ) ),
+			esc_url( self::lien_reponse( $jeton, 'annule' ) )
+		);
+	}
+
+	public static function relance_corps( $ligne ) {
+		$remplacements = array(
+			'{NOM}'      => esc_html( $ligne->nom ),
+			'{PLACES}'   => (int) $ligne->places,
+			'{VILLE}'    => esc_html( $ligne->evenement ),
+			'{BOUTONS}'  => self::relance_boutons( $ligne->jeton ),
+			'{CONFIRMER}' => esc_url( self::lien_reponse( $ligne->jeton, 'oui' ) ),
+			'{ANNULER}'  => esc_url( self::lien_reponse( $ligne->jeton, 'annule' ) ),
+		);
+		return strtr( self::relance_modele(), $remplacements );
+	}
+
+	/** Un message a une personne. Rend vrai si Brevo l'a accepte. */
+	public static function relance_envoyer_un( $ligne, $sujet, $piece ) {
+		$exp = self::expediteur();
+		if ( '' === $exp['email'] ) {
+			return array( 'ok' => false, 'code' => 0, 'corps' => array(), 'message' => 'Aucune adresse d\'expediteur enregistree.' );
+		}
+
+		$corps = array(
+			'sender'      => $exp,
+			'to'          => array( array( 'email' => $ligne->email, 'name' => $ligne->nom ) ),
+			'subject'     => $sujet,
+			'htmlContent' => '<div style="font-family:system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif;'
+				. 'font-size:16px;line-height:1.6;color:#0C0B0A;max-width:32em">'
+				. self::relance_corps( $ligne ) . '</div>',
+		);
+
+		// La piece jointe est donnee par son adresse : Brevo va la
+		// chercher lui-meme. Elle ne transite donc pas par le site a
+		// chaque message.
+		if ( '' !== $piece ) {
+			$corps['attachment'] = array( array( 'url' => $piece ) );
+		}
+
+		return self::brevo_appel( 'POST', '/smtp/email', $corps );
+	}
+
+	public static function relance_etat() {
+		$e = get_option( self::OPT_RELANCE_ETAT, array() );
+		return is_array( $e ) ? $e : array();
+	}
+
+	/**
+	 * Prepare la file : qui va recevoir la relance.
+	 *
+	 * Seulement ceux qui n'ont pas repondu. Relancer quelqu'un qui a
+	 * deja confirme, c'est le meilleur moyen qu'il se desabonne.
+	 */
+	public static function relance_preparer( $test_vers = '' ) {
+		global $wpdb;
+		$table = self::table_reservations();
+
+		if ( '' !== $test_vers ) {
+			return array(
+				'ids'     => array(),
+				'test'    => $test_vers,
+				'envoyes' => 0,
+				'echecs'  => 0,
+				'total'   => 1,
+				'debut'   => current_time( 'mysql' ),
+			);
+		}
+
+		$ids = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT id FROM {$table} WHERE evenement = %s AND confirme = %d ORDER BY id",
+				self::evenement(),
+				self::SANS_REPONSE
+			)
+		);
+		$ids = array_map( 'intval', $ids );
+		return array(
+			'ids'     => $ids,
+			'test'    => '',
+			'envoyes' => 0,
+			'echecs'  => 0,
+			'total'   => count( $ids ),
+			'debut'   => current_time( 'mysql' ),
+		);
+	}
+
+	/** Envoie un paquet et rend l'etat mis a jour. */
+	public static function relance_paquet() {
+		if ( ! current_user_can( self::CAP_REGLER )
+			|| ! isset( $_GET['_wpnonce'] )
+			|| ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'usn_relance' ) ) {
+			wp_die( 'Action non autorisée.' );
+		}
+
+		$etape = isset( $_GET['etape'] ) ? sanitize_key( wp_unslash( $_GET['etape'] ) ) : 'suite';
+
+		if ( 'arreter' === $etape ) {
+			delete_option( self::OPT_RELANCE_ETAT );
+			wp_safe_redirect( add_query_arg( 'usn_message', 'relance-arretee', admin_url( 'admin.php?page=usn-reservations' ) ) );
+			exit;
+		}
+
+		if ( 'demarrer' === $etape || 'test' === $etape ) {
+			$vers = 'test' === $etape ? wp_get_current_user()->user_email : '';
+			update_option( self::OPT_RELANCE_ETAT, self::relance_preparer( $vers ) );
+		}
+
+		$etat = self::relance_etat();
+		if ( ! $etat ) {
+			wp_safe_redirect( admin_url( 'admin.php?page=usn-reservations' ) );
+			exit;
+		}
+
+		$sujet = trim( (string) get_option( self::OPT_RELANCE_SUJET, '' ) );
+		if ( '' === $sujet ) {
+			$sujet = 'Venez-vous toujours ? - ' . self::evenement();
+		}
+		$piece = trim( (string) get_option( self::OPT_PIECE_URL, '' ) );
+
+		global $wpdb;
+		$table = self::table_reservations();
+
+		// L'envoi d'essai : un seul message, vers sa propre adresse.
+		if ( ! empty( $etat['test'] ) ) {
+			$ligne = $wpdb->get_row(
+				$wpdb->prepare( "SELECT * FROM {$table} WHERE evenement = %s ORDER BY id DESC LIMIT 1", self::evenement() )
+			);
+			if ( ! $ligne ) {
+				// Aucune reservation : on s'en invente une, le temps du test.
+				$ligne = (object) array(
+					'nom'       => wp_get_current_user()->display_name,
+					'email'     => $etat['test'],
+					'places'    => 2,
+					'evenement' => self::evenement(),
+					'jeton'     => 'ESSAI-SANS-EFFET',
+				);
+			} else {
+				$ligne->email = $etat['test'];
+			}
+			$reponse = self::relance_envoyer_un( $ligne, '[Essai] ' . $sujet, $piece );
+			self::brevo_consigner( $reponse, $etat['test'], self::evenement() );
+			delete_option( self::OPT_RELANCE_ETAT );
+			wp_safe_redirect(
+				add_query_arg(
+					'usn_message',
+					$reponse['ok'] ? 'relance-essai' : 'relance-essai-rate',
+					admin_url( 'admin.php?page=usn-reservations' )
+				)
+			);
+			exit;
+		}
+
+		$lot = array_slice( $etat['ids'], 0, self::PAQUET );
+		foreach ( $lot as $id ) {
+			$ligne = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table} WHERE id = %d", (int) $id ) );
+			if ( ! $ligne ) {
+				continue;
+			}
+			$reponse = self::relance_envoyer_un( $ligne, $sujet, $piece );
+			if ( $reponse['ok'] ) {
+				$etat['envoyes']++;
+			} else {
+				$etat['echecs']++;
+				self::brevo_consigner( $reponse, (string) $ligne->email, self::evenement() );
+			}
+		}
+		$etat['ids'] = array_slice( $etat['ids'], count( $lot ) );
+
+		if ( empty( $etat['ids'] ) ) {
+			update_option( self::OPT_RELANCE_FIN, $etat );
+			delete_option( self::OPT_RELANCE_ETAT );
+			wp_safe_redirect( add_query_arg( 'usn_message', 'relance-finie', admin_url( 'admin.php?page=usn-reservations' ) ) );
+			exit;
+		}
+
+		update_option( self::OPT_RELANCE_ETAT, $etat );
+		wp_safe_redirect(
+			add_query_arg(
+				array( 'usn_message' => 'relance-suite', 'usn_reprendre' => '1' ),
+				admin_url( 'admin.php?page=usn-reservations' )
+			)
+		);
+		exit;
+	}
+
 	public static function exporter_csv() {
-		if ( ! current_user_can( 'manage_options' ) || ! isset( $_GET['_wpnonce'] )
+		if ( ! current_user_can( self::CAP_GERER ) || ! isset( $_GET['_wpnonce'] )
 			|| ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'usn_export' ) ) {
 			wp_die( 'Action non autorisée.' );
 		}
@@ -1013,9 +1822,23 @@ final class USN_Reservations {
 
 		$sortie = fopen( 'php://output', 'w' );
 		fprintf( $sortie, chr( 0xEF ) . chr( 0xBB ) . chr( 0xBF ) ); // BOM, pour Excel.
-		fputcsv( $sortie, array( 'Nom', 'E-mail', 'Places', 'Ville', 'Date' ), ';' );
+		$mots = array(
+			self::SANS_REPONSE => 'Sans reponse',
+			self::CONFIRME     => 'Confirmee',
+			self::ANNULE       => 'Place liberee',
+			self::PRESENT      => 'Present',
+		);
+		fputcsv( $sortie, array( 'Nom', 'E-mail', 'Places', 'Ville', 'Reponse', 'Date' ), ';' );
 		foreach ( $lignes as $l ) {
-			fputcsv( $sortie, array( $l['nom'], $l['email'], $l['places'], $l['evenement'], $l['cree_le'] ), ';' );
+			$etat_l = isset( $l['confirme'] ) ? (int) $l['confirme'] : self::SANS_REPONSE;
+			fputcsv(
+				$sortie,
+				array(
+					$l['nom'], $l['email'], $l['places'], $l['evenement'],
+					isset( $mots[ $etat_l ] ) ? $mots[ $etat_l ] : '', $l['cree_le'],
+				),
+				';'
+			);
 		}
 		fclose( $sortie );
 		exit;
