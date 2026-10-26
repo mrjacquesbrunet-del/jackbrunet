@@ -1,0 +1,105 @@
+/* ===================================================================
+   PAGE NEWSLETTER - aux couleurs de l'accueil
+
+   Tout est enferme sous " body.page-id-28338 " : rien de ceci ne peut
+   deborder sur une autre page du site.
+
+   Le bandeau orange ne disparait pas, il change de camp : la page
+   serait sans aucune navigation si on le retirait, son pied ne portant
+   qu'une mention de droits. Il prend donc la creme et l'encre de
+   l'accueil, et le degrade de l'affiche souligne le lien survole.
+   =================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+body.page-id-28338 {
+  --usn-or: #F7941D;  --usn-red: #E4262B;  --usn-magenta: #C9268F;
+  --usn-violet: #6B2FB5;  --usn-blue: #1B2FC4;
+  --usn-degrade: linear-gradient(100deg, var(--usn-or) 0%, var(--usn-red) 30%,
+                 var(--usn-magenta) 56%, var(--usn-violet) 78%, var(--usn-blue) 100%);
+  --usn-ivoire: #F0EEE7;  --usn-ink: #111110;  --usn-gris: #5C5B54;
+  background: var(--usn-ivoire) !important;
+  font-family: 'Poppins', system-ui, sans-serif !important;
+  color: var(--usn-ink) !important;
+}
+
+/* ---- Le bandeau ---- */
+body.page-id-28338 .elementor-location-header,
+body.page-id-28338 .elementor-location-header > div,
+body.page-id-28338 .elementor-location-header .e-con,
+body.page-id-28338 .elementor-location-header .e-con-inner {
+  background: var(--usn-ivoire) !important;
+  background-image: none !important;
+}
+body.page-id-28338 .elementor-location-header {
+  border-bottom: 1px solid rgba(17,17,16,0.12) !important;
+}
+body.page-id-28338 .elementor-location-header a {
+  position: relative; color: var(--usn-ink) !important;
+  font-family: 'Archivo', 'Poppins', sans-serif !important;
+  font-weight: 800 !important; font-size: 12.5px !important;
+  letter-spacing: 0.18em !important; text-transform: uppercase !important;
+}
+body.page-id-28338 .elementor-location-header a::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -7px; height: 2px;
+  background: var(--usn-degrade); background-repeat: no-repeat;
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .4s cubic-bezier(.2,.8,.25,1);
+}
+body.page-id-28338 .elementor-location-header a:hover::after { transform: scaleX(1); }
+
+/* ---- Le corps ---- */
+body.page-id-28338 .elementor-location-single,
+body.page-id-28338 .site-content,
+body.page-id-28338 .entry-content { background: var(--usn-ivoire) !important; }
+
+body.page-id-28338 h1, body.page-id-28338 h2, body.page-id-28338 h3 {
+  font-family: 'Archivo', 'Poppins', sans-serif !important;
+  font-weight: 900 !important; text-transform: uppercase !important;
+  letter-spacing: -0.025em !important; color: var(--usn-ink) !important;
+}
+
+/* ---- Le formulaire ---- */
+body.page-id-28338 .ff-el-form-control {
+  border-radius: 13px !important; border: 1px solid rgba(17,17,16,0.16) !important;
+  background: #fff !important; padding: 14px 16px !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+body.page-id-28338 .ff-el-form-control:focus {
+  border-color: var(--usn-magenta) !important;
+  box-shadow: 0 0 0 3px rgba(201,38,143,0.2) !important;
+}
+body.page-id-28338 .ff-el-is-required.asterisk-right:after,
+body.page-id-28338 .ff-el-is-required.asterisk-left:before { color: var(--usn-magenta) !important; }
+
+/* Le bouton portait " Subscribe ", en anglais et en bleu. Le texte
+   d'origine est rendu transparent et le bon est pose par-dessus : un
+   bouton de formulaire ne se renomme pas autrement depuis une feuille
+   de style. */
+body.page-id-28338 button.ff-btn-submit {
+  /* " font-size: 0 " et non la seule couleur transparente : le texte
+     d'origine vit dans un element interne qui impose la sienne, et les
+     deux se superposaient. A taille nulle, il ne reste rien a voir. */
+  position: relative !important; font-size: 0 !important; color: transparent !important;
+  background: var(--usn-degrade) !important;
+  background-repeat: no-repeat !important; background-origin: border-box !important;
+  background-size: 190% 100% !important; background-position: 0% 50% !important;
+  border: none !important; border-radius: 999px !important;
+  padding: 16px 38px !important; min-width: 240px !important;
+  transition: background-position .5s ease, transform .18s ease !important;
+}
+body.page-id-28338 button.ff-btn-submit::before {
+  content: "Je m'inscris"; position: absolute; inset: 0;
+  display: grid; place-items: center;
+  color: #fff; font-family: 'Poppins', sans-serif;
+  font-weight: 800; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
+}
+body.page-id-28338 button.ff-btn-submit:hover {
+  background-position: 100% 50% !important; transform: translateY(-2px) !important;
+}
+
+/* ---- Le pied ---- */
+body.page-id-28338 .elementor-location-footer,
+body.page-id-28338 .elementor-location-footer .e-con,
+body.page-id-28338 .elementor-location-footer .e-con-inner {
+  background: var(--usn-ink) !important;
+}
