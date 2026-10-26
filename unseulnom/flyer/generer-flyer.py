@@ -96,8 +96,18 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
   letter-spacing: .3em; text-transform: uppercase; color: rgba(240,238,231,.72);
 }
 
+/* A QUI ON PARLE, AVANT DE PARLER.
+   « Et si c'etait vrai ? » intrigue, mais n'adresse personne. Trois
+   mots au-dessus, et celui qui lit se reconnait avant meme d'avoir lu
+   la question. */
+.aqui {
+  margin-top: auto; margin-bottom: 6mm;
+  font-size: 8.6pt; font-weight: 700; letter-spacing: .2em; text-transform: uppercase;
+  color: rgba(240,238,231,.68); line-height: 1.9;
+}
+.aqui i { font-style: normal; color: var(--or); margin: 0 1.5mm; }
+
 .question {
-  margin-top: auto;
   font-family: var(--titre); font-stretch: 125%; font-weight: 900;
   font-size: 47pt; line-height: .92; letter-spacing: -.03em; text-transform: uppercase;
 }
@@ -130,40 +140,65 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
 }
 
 /* ================= VERSO ================= */
-.verso { background: var(--creme); color: var(--encre); display: flex; flex-direction: column; padding: 14mm 13mm 12mm; }
+.verso { background: var(--creme); color: var(--encre); display: flex; flex-direction: column; padding: 12mm 12mm 10mm; }
 .verso h2 {
   font-family: var(--titre); font-stretch: 118%; font-weight: 900;
-  font-size: 23pt; line-height: 1.02; letter-spacing: -.02em; text-transform: uppercase;
+  font-size: 18.5pt; line-height: 1.04; letter-spacing: -.02em; text-transform: uppercase;
   max-width: 108mm;
 }
-.verso .intro { margin-top: 5mm; font-size: 11pt; line-height: 1.6; color: var(--gris); max-width: 108mm; }
+.verso .intro { margin-top: 4.5mm; font-size: 10.4pt; line-height: 1.55; color: var(--gris); max-width: 108mm; }
 
-.promesses { margin-top: 8mm; }
-.promesse { display: flex; gap: 4.5mm; padding: 4mm 0; border-top: 1px solid var(--trait); }
+/* FACE A QUOI, ET QUOI A LA PLACE.
+
+   Une liste en deux colonnes, sans verbe. Chaque ligne nomme d'abord
+   ce que la personne vit — le doute, la peur, la tristesse, la maladie
+   — puis ce qu'on vient y opposer. Elle se reconnait a gauche avant de
+   lire la droite.
+
+   Les mots du milieu (miracles, guerison, liberation) sont dits en
+   clair : les cacher pour ne pas effrayer reviendrait a inviter les
+   gens sans leur dire ou ils vont. */
+.face {
+  flex: none; margin-top: 4.5mm; padding: 4mm 5mm; border-radius: 3mm;
+  background: var(--encre); color: var(--creme);
+}
+.face table { width: 100%; border-collapse: collapse; }
+.face td { padding: 1.1mm 0; vertical-align: baseline; }
+.face tr + tr td { border-top: 1px solid rgba(240,238,231,.14); }
+.face .g { font-size: 10pt; color: rgba(240,238,231,.72); }
+.face .d {
+  text-align: right; font-family: var(--titre); font-weight: 800;
+  font-size: 11.6pt; color: var(--or); white-space: nowrap;
+}
+.face p { margin-top: 3.5mm; font-size: 9.4pt; line-height: 1.5; color: rgba(240,238,231,.8); }
+.face strong { color: var(--creme); font-weight: 700; }
+
+.promesses { flex: none; margin-top: 5mm; }
+.promesse { display: flex; gap: 4mm; padding: 2mm 0; border-top: 1px solid var(--trait); }
 .promesse:last-child { border-bottom: 1px solid var(--trait); }
 .promesse .pastille {
   flex: none; width: 7mm; height: 7mm; border-radius: 50%; margin-top: .6mm;
   background: var(--degrade);
 }
-.promesse b { display: block; font-family: var(--titre); font-weight: 800; font-size: 11.6pt; }
-.promesse p { margin-top: 1.4mm; font-size: 10.2pt; line-height: 1.52; color: var(--gris); }
+.promesse b { display: block; font-family: var(--titre); font-weight: 800; font-size: 11pt; }
+.promesse p { margin-top: 1mm; font-size: 9.8pt; line-height: 1.45; color: var(--gris); }
 
-.pratique { margin-top: auto; padding-top: 7mm; display: flex; gap: 6mm; align-items: flex-end; }
+.pratique { flex: none; margin-top: auto; padding-top: 5mm; display: flex; gap: 6mm; align-items: flex-end; }
 .pratique .infos { flex: 1; }
 .pratique .k {
   font-size: 7pt; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--gris);
 }
 .pratique .v { font-family: var(--titre); font-weight: 900; font-size: 15pt; line-height: 1.1; text-transform: uppercase; }
-.pratique .a { margin-top: 1.6mm; font-size: 10pt; line-height: 1.45; color: var(--gris); }
+.pratique .a { margin-top: 1.4mm; font-size: 9.6pt; line-height: 1.4; color: var(--gris); }
 .pratique .code { flex: none; text-align: center; }
-.pratique .code img { width: 27mm; height: 27mm; display: block; }
+.pratique .code img { width: 24mm; height: 24mm; display: block; }
 .pratique .code span { display: block; margin-top: 2mm; font-size: 8pt; font-weight: 700; color: var(--gris); }
 
 /* « flex: none » n'est pas decoratif : le verso est une colonne
    flexible, et un bloc vide de 2,4 mm s'y fait ecraser a zero. Le
    ruban etait bien la, haut de rien du tout. */
-.ruban { flex: none; margin-top: 7mm; height: 2.4mm; border-radius: 99px; background: var(--degrade); }
-.site { flex: none; margin-top: 4mm; text-align: center; font-family: var(--titre); font-weight: 800; font-size: 11pt; letter-spacing: .04em; }
+.ruban { flex: none; margin-top: 4mm; height: 2.4mm; border-radius: 99px; background: var(--degrade); }
+.site { flex: none; margin-top: 2.5mm; text-align: center; font-family: var(--titre); font-weight: 800; font-size: 11pt; letter-spacing: .04em; }
 </style></head><body>
 
 <!-- ======================= RECTO ======================= -->
@@ -177,11 +212,16 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
       <div class="mot">Un Seul Nom</div>
     </div>
 
+    <div class="aqui">
+      Pour ceux qui cherchent <i>&middot;</i> pour ceux qui souffrent<br>
+      pour ceux qui doutent
+    </div>
+
     <div class="question">Et si<br>c'&eacute;tait <b>vrai</b>&nbsp;?</div>
 
     <p class="sous">
-      Une soir&eacute;e pour venir voir par soi-m&ecirc;me. Sans rien conna&icirc;tre,
-      sans rien devoir, sans rien promettre.
+      Un apr&egrave;s-midi pour venir voir par soi-m&ecirc;me. Sans rien
+      conna&icirc;tre, sans rien devoir, sans rien promettre.
     </p>
 
     <div class="quand">
@@ -198,35 +238,40 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
 
   <h2>Tu n'es jamais entr&eacute; dans une &eacute;glise&nbsp;?</h2>
   <p class="intro">
-    Alors c'est exactement pour toi. Cette soir&eacute;e n'est pas faite pour
-    ceux qui savent d&eacute;j&agrave;. Elle est faite pour ceux qui se posent des
-    questions et qui n'ont personne &agrave; qui les poser.
+    Alors c'est exactement pour toi. Ce rendez-vous n'est pas fait pour ceux
+    qui savent d&eacute;j&agrave;.
   </p>
+
+  <div class="face">
+    <table>
+      <tr><td class="g">Face au doute</td><td class="d">une rencontre</td></tr>
+      <tr><td class="g">Face &agrave; la peur</td><td class="d">une paix</td></tr>
+      <tr><td class="g">Face &agrave; la tristesse</td><td class="d">une joie</td></tr>
+      <tr><td class="g">Face &agrave; la maladie</td><td class="d">une gu&eacute;rison</td></tr>
+      <tr><td class="g">Face &agrave; une vie sans direction</td><td class="d">un avenir</td></tr>
+    </table>
+    <p>
+      On y parlera de <strong>miracles</strong>, de <strong>gu&eacute;rison</strong>, de
+      <strong>lib&eacute;ration</strong>. Pas comme d'une id&eacute;e&nbsp;: comme de
+      choses qui arrivent. On priera pour les malades.
+    </p>
+  </div>
 
   <div class="promesses">
     <div class="promesse">
       <div class="pastille"></div>
-      <div>
-        <b>On ne te demandera rien</b>
-        <p>Ni argent, ni engagement, ni de te lever, ni de parler. Tu peux rester
-        assis et &eacute;couter, c'est tout.</p>
-      </div>
+      <div><b>On ne te demandera rien</b>
+        <p>Ni argent, ni engagement, ni de te lever, ni de parler.</p></div>
     </div>
     <div class="promesse">
       <div class="pastille"></div>
-      <div>
-        <b>Tu pars quand tu veux</b>
-        <p>Personne ne te retiendra, personne ne te courra apr&egrave;s. Viens accompagn&eacute;
-        si tu pr&eacute;f&egrave;res.</p>
-      </div>
+      <div><b>Tu pars quand tu veux</b>
+        <p>Personne ne te retiendra, personne ne te courra apr&egrave;s.</p></div>
     </div>
     <div class="promesse">
       <div class="pastille"></div>
-      <div>
-        <b>Tu repars avec tes questions</b>
-        <p>Il y aura de la musique, des histoires vraies, et du temps pour parler
-        &agrave; quelqu'un si tu en as envie. Ou pas.</p>
-      </div>
+      <div><b>Tu viens comme tu es</b>
+        <p>Seul ou accompagn&eacute;. Et tu repars avec tes questions.</p></div>
     </div>
   </div>
 

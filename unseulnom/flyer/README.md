@@ -30,7 +30,32 @@ rien dire à qui n'a pas grandi dedans, et sonnent inquiétant. Ils n'y
 sont pas. Le recto pose une question — *Et si c'était vrai ?* — et ne
 promet rien d'autre que de venir voir.
 
-### 3. Dire ce qu'on ne demandera pas
+### 3. Nommer ce que les gens vivent, avant de nommer la réponse
+
+Le bloc noir du verso est une liste en deux colonnes, sans verbe :
+
+| | |
+|---|---|
+| Face au doute | une rencontre |
+| Face à la peur | une paix |
+| Face à la tristesse | une joie |
+| Face à la maladie | une guérison |
+| Face à une vie sans direction | un avenir |
+
+Chaque ligne nomme d'abord **ce que la personne vit**, puis ce qu'on
+vient y opposer. Elle se reconnaît à gauche avant de lire la droite.
+
+Et les mots du milieu — **miracles, guérison, libération** — sont dits
+en clair. Les cacher pour ne pas effrayer reviendrait à inviter les
+gens sans leur dire où ils vont.
+
+> **Pourquoi Lourdes n'est pas mentionné.** C'était tentant : à vingt
+> minutes de là, des millions de personnes viennent chercher une
+> guérison. Mais Lourdes est catholique et Un Seul Nom est évangélique.
+> S'y adosser ferait passer l'événement pour ce qu'il n'est pas, et
+> ce malentendu-là coûterait plus cher qu'il ne rapporterait.
+
+### 4. Dire ce qu'on ne demandera pas
 
 Ce qui retient quelqu'un dehors, ce n'est pas le manque d'envie. C'est
 la peur d'être coincé, de devoir payer, de devoir parler, de ne pas
@@ -39,10 +64,13 @@ soient formulées** :
 
 - *On ne te demandera rien* — ni argent, ni engagement, ni de te lever
 - *Tu pars quand tu veux* — personne ne te retiendra
-- *Tu repars avec tes questions* — du temps pour parler, ou pas
+- *Tu viens comme tu es* — seul ou accompagné
 
 C'est la partie la plus importante du flyer, et la plus facile à
 supprimer par réflexe. Ne la supprime pas.
+
+> **Ce n'est pas une soirée.** Ça commence à 16h : on dit « un
+> après-midi » ou « un rendez-vous », jamais « une soirée ».
 
 ## À l'impression
 
