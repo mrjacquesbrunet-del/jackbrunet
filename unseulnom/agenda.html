@@ -445,10 +445,16 @@
     gap: clamp(20px, 3.4vw, 46px); align-items: center;
     opacity: 0; visibility: hidden; pointer-events: none;
     transform: translate3d(34px, 0, 0);
-    transition: opacity .55s ease, transform .7s cubic-bezier(.2,.7,.2,1), visibility .55s;
+    /* La ville qui s'en va part vite ; celle qui arrive attend qu'elle
+       ait disparu. Sans ce decalage les deux se superposent une demi
+       seconde, et deux textes l'un sur l'autre ne se lisent plus. */
+    transition: opacity .2s ease, transform .2s ease, visibility .2s;
   }
   #usn-agenda .usn-vue.est-active {
     opacity: 1; visibility: visible; pointer-events: auto; transform: none;
+    transition: opacity .42s ease .2s,
+                transform .62s cubic-bezier(.2,.7,.2,1) .2s,
+                visibility 0s;
   }
 
   #usn-agenda .usn-vue-affiche {

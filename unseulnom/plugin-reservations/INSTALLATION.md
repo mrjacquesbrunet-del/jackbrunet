@@ -16,6 +16,29 @@ au même instant, la base de données n'en accepte qu'une. Vérifié par simulat
 
 ---
 
+## Changer de ville (version 1.1)
+
+Le compteur est unique : tant qu'il affiche les places de l'édition
+précédente, la suivante reste bloquée à « complet ». La version 1.1 ajoute
+donc le passage d'une ville à l'autre.
+
+**Réservations** → section *Passer à la ville suivante* : tape le nom
+(« Tarbes 2026 »), valide. Le compteur repart de zéro et les inscriptions
+se rouvrent.
+
+**Rien n'est effacé.** Chaque réservation porte le nom de la ville pour
+laquelle elle a été prise. Les inscrits des éditions précédentes restent en
+base, restent exportables, et ne comptent plus dans les places restantes.
+Deux boutons d'export : la ville en cours, ou toutes les villes.
+
+Les réservations prises avant la 1.1 n'avaient pas de ville : la mise à
+jour les regroupe sous « Edition precedente ».
+
+> Exporte le CSV de la ville en cours **avant** de basculer. Rien ne sera
+> perdu, mais c'est la bonne habitude.
+
+---
+
 ## Étape 1 — Installer le module
 
 1. **Extensions → Ajouter une extension → Téléverser une extension**
