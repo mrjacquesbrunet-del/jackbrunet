@@ -389,7 +389,14 @@
           <div class="usn-visage-cadre">
             <img src="https://unseulnom.org/wp-content/uploads/2026/10/tarbes-jack.webp" alt="Jack Brunet" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
           </div>
-          <figcaption><b>Jack Brunet</b>Pr&eacute;dication</figcaption>
+          <figcaption>
+            <b>Jack Brunet</b>Pr&eacute;dication
+            <a class="usn-insta" href="https://www.instagram.com/jack_brnt/"
+               target="_blank" rel="noopener noreferrer"
+               aria-label="Jack Brunet sur Instagram">
+              <i aria-hidden="true"></i><span>@jack_brnt</span>
+            </a>
+          </figcaption>
         </figure>
 
         <div class="usn-entre">
@@ -401,7 +408,14 @@
           <div class="usn-visage-cadre">
             <img src="https://unseulnom.org/wp-content/uploads/2026/10/tarbes-chriss.webp" alt="Chriss Campion" loading="lazy" onerror="this.parentNode.parentNode.remove()" />
           </div>
-          <figcaption><b>Chriss Campion</b>Pr&eacute;dication</figcaption>
+          <figcaption>
+            <b>Chriss Campion</b>Pr&eacute;dication
+            <a class="usn-insta" href="https://www.instagram.com/chrisscampion/"
+               target="_blank" rel="noopener noreferrer"
+               aria-label="Chriss Campion sur Instagram">
+              <i aria-hidden="true"></i><span>@chrisscampion</span>
+            </a>
+          </figcaption>
         </figure>
       </div>
     </div>

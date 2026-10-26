@@ -233,10 +233,14 @@
     var jamaisTouche = true;
     bouton.classList.add('est-neuf');
 
-    function basculer() {
-      var muet = !video.muted;
-      video.muted = muet;
+    function afficher(muet) {
+      bouton.setAttribute('aria-pressed', muet ? 'false' : 'true');
+      bouton.querySelector('span:last-child').textContent = muet ? 'Activer le son' : 'Couper le son';
+      bouton.querySelector('span:first-child').innerHTML = muet ? '\u266A' : '\u2715';
+    }
 
+    function mettre(muet) {
+      video.muted = muet;
       if (!muet) {
         if (jamaisTouche) { try { video.currentTime = 0; } catch (e) {} }
         var p = video.play();
@@ -244,16 +248,85 @@
       }
       jamaisTouche = false;
       bouton.classList.remove('est-neuf');
+      afficher(muet);
+    }
 
-      bouton.setAttribute('aria-pressed', muet ? 'false' : 'true');
-      bouton.querySelector('span:last-child').textContent = muet ? 'Activer le son' : 'Couper le son';
-      bouton.querySelector('span:first-child').innerHTML = muet ? '\u266A' : '\u2715';
+    // Vrai tant que le visiteur n'a pas coupe le son lui-meme. Une fois
+    // qu'il a coupe, plus rien ne le rallume dans son dos.
+    var sonVoulu = true;
+
+    function basculer() {
+      var muet = !video.muted;
+      if (muet) sonVoulu = false;
+      mettre(muet);
     }
 
     bouton.addEventListener('click', function (e) { e.stopPropagation(); basculer(); });
     // Tout le cadre est cliquable : personne ne vise un petit bouton
     // quand l'envie lui prend d'entendre.
     if (bande) bande.addEventListener('click', basculer);
+
+    /* ---- LE SON LE PLUS TOT POSSIBLE ----
+
+       Aucun navigateur ne laisse une video demarrer avec le son tant
+       que le visiteur n'a rien fait sur la page. Ecrire " autoplay "
+       sans " muted " ne donne pas une video sonore : cela donne une
+       video QUI NE DEMARRE PAS, l'affiche figee a la place de la
+       bande-annonce. Ce n'est pas un reglage, c'est la regle du
+       navigateur, la meme chez Chrome, Safari et Firefox.
+
+       Deux chemins restent ouverts, et les deux sont pris ici.
+
+       1. ON DEMANDE LA PERMISSION, sans toucher a la bande-annonce.
+          Un fichier son d'un echantillon, muet, est joue de cote : s'il
+          part, c'est que ce visiteur a le droit au son sur ce site, et
+          la bande-annonce est demutee aussitot. Chrome tient un compte
+          des sites ou l'on regarde souvent des videos et finit par les
+          autoriser : pour un habitue d'unseulnom.org, le son partira
+          vraiment tout seul. S'il ne part pas, rien n'a bouge.
+
+       2. SINON, AU PREMIER GESTE. Le premier clic, la premiere touche,
+          le premier doigt pose sur la page allume le son, ou qu'il
+          tombe. Le visiteur n'a rien a chercher : il entend des qu'il
+          touche la page, et le bouton ne lui sert plus qu'a couper.
+          C'est le plus proche du " son par defaut " que le navigateur
+          permette. */
+    (function () {
+      var sonde;
+      try {
+        sonde = new Audio('data:audio/wav;base64,UklGRiUAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQEAAACA');
+      } catch (e) { return; }
+      var essai;
+      try { essai = sonde.play(); } catch (e) { return; }
+      if (essai ? essai.then : false) {
+        essai.then(function () {
+          try { sonde.pause(); } catch (e) {}
+          if (sonVoulu ? video.muted : false) mettre(false);
+        }).catch(function () {});
+      }
+    })();
+
+    function premierGeste(e) {
+      // Le cadre et le bouton ont deja leur propre reponse au clic :
+      // les demuter ici les ferait basculer deux fois, donc se taire.
+      var surLaBande = e.target ? (e.target.closest ? e.target.closest('.usn-ouv-bande') : null) : null;
+      document.removeEventListener('pointerdown', premierGeste, true);
+      document.removeEventListener('keydown', premierGeste, true);
+      if (surLaBande) return;
+      if (sonVoulu ? video.muted : false) mettre(false);
+    }
+    document.addEventListener('pointerdown', premierGeste, true);
+    document.addEventListener('keydown', premierGeste, true);
+
+    /* Filet : si le navigateur a refuse de lancer la bande-annonce, on
+       la relance MUETTE - muette, aucun navigateur ne s'y oppose. On ne
+       touche a rien si le son vient d'etre autorise. */
+    video.addEventListener('loadeddata', function () {
+      if (video.paused ? video.muted : false) {
+        var p = video.play();
+        if (p ? p.catch : false) p.catch(function () {});
+      }
+    });
   })();
 
   /* ---- La barre se pose sur un fond quand on quitte le heros, et
