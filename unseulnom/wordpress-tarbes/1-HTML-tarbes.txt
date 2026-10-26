@@ -471,7 +471,7 @@
       <p style="margin-top:14px;">
         <a href="https://unseulnom.org/">Retour au site</a> &nbsp;&#183;&nbsp;
         <a href="https://unseulnom.org/evenement/">Toutes les dates</a> &nbsp;&#183;&nbsp;
-        <a href="https://unseulnom.org/actualites/">Actualit&#233;s</a>
+        <a href="https://unseulnom.org/newsletter/">Actualit&#233;s</a>
       </p>
     </div>
   </footer>

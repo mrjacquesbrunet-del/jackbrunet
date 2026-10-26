@@ -1,13 +1,17 @@
 # Créer la page « Actualités » — pas à pas
 
-Une page neuve, codée comme les trois autres. L'ancienne page
-« Newsletter » faite avec Elementor n'est pas modifiée : on la retire à
-la fin, une fois la nouvelle en ligne et vérifiée.
+Une page neuve, codée comme les trois autres. Elle prendra **l'adresse
+de l'ancienne page Newsletter** : `unseulnom.org/newsletter/`.
+
+C'est le choix le plus simple, et c'est aussi le meilleur pour Google.
+Pas d'extension à installer, pas de redirection à entretenir : il n'y a
+qu'une adresse, et c'est celle que Google connaît déjà. Seul le nom
+affiché dans le menu change, et il devient « Actualités ».
 
 > **Le formulaire part toujours dans Brevo.** C'est la même adresse
-> d'envoi que le bloc d'inscription de la page d'accueil, celle qui
-> fonctionne déjà. Rien à reconfigurer, et Fluent Forms n'est plus dans
-> la boucle.
+> d'envoi que le bloc d'inscription de la page d'accueil et que la
+> réservation de Tarbes — les trois visent la même liste. Rien à
+> reconfigurer, et Fluent Forms n'est plus dans la boucle.
 
 ---
 
@@ -15,13 +19,10 @@ la fin, une fois la nouvelle en ligne et vérifiée.
 
 1. **Pages → Ajouter**
 2. Titre : `Actualités`
-3. À droite, dans **Permalien**, mettre l'identifiant : `actualites`
-   (sans accent, c'est volontaire : une adresse ne prend pas d'accent)
-4. Publier
+3. Publier
 
-L'adresse doit être exactement **`unseulnom.org/actualites/`**. C'est
-celle que j'ai écrite dans le menu et les pieds de page des trois autres
-pages ; si tu en choisis une autre, dis-le moi, je change les liens.
+Ne t'occupe pas encore du permalien : l'adresse `newsletter` n'est pas
+libre tant que l'ancienne page existe. On s'en occupe à l'étape 6.
 
 ## Étape 2 — Vider la page de son modèle
 
@@ -60,33 +61,65 @@ personnalisés**, dans le fichier commun à tout le site.
 
 ## Étape 5 — Vérifier
 
-Ouvre `unseulnom.org/actualites/` et contrôle :
+Ouvre la page (son adresse provisoire, du genre
+`unseulnom.org/actualites/`) et contrôle :
 
 - [ ] Pas de barre orange en haut, pas de pied de page en double
-- [ ] « RESTONS **en lien** » — *en lien* va de l'orange au magenta
+- [ ] « RESTONS **connectés** » — *connectés* va de l'orange au magenta,
+      accent compris
 - [ ] Le bandeau coloré défile tout seul
 - [ ] Le bouton menu (les deux traits) ouvre le panneau et le referme
 - [ ] Le formulaire : mets ton nom et ton adresse, envoie
 - [ ] Le message « Merci ! » apparaît et la page ne bouge pas
 - [ ] Ton adresse est bien arrivée dans **Brevo**
 
-## Étape 6 — Le menu du site
+**Ne passe à l'étape 6 que si tout est coché.** Tant que l'ancienne page
+existe, rien n'est perdu.
+
+## Étape 6 — Donner l'adresse newsletter à la nouvelle page
+
+C'est l'étape qui relie les deux. Dans cet ordre, sans en sauter :
+
+1. **Pages** → survoler `Newsletter` → **Corbeille**
+2. En haut de la liste des pages, cliquer **Corbeille** → **Vider la
+   corbeille**
+
+   > Cette seconde étape n'est pas facultative : tant que l'ancienne
+   > page est dans la corbeille, WordPress lui garde son adresse et
+   > refusera de la donner à la nouvelle. Il écrirait `newsletter-2`.
+
+3. **Pages** → ouvrir `Actualités`
+4. À droite, dans **Permalien**, remplacer l'identifiant par :
+   `newsletter`
+5. **Mettre à jour**
+
+Ouvre `unseulnom.org/newsletter/` : c'est la nouvelle page qui doit
+s'afficher.
+
+## Étape 7 — Le menu du site
 
 **Apparence → Menus** :
 
-1. Supprimer l'entrée **Newsletter**
+1. L'entrée **Newsletter** pointe maintenant dans le vide : la
+   supprimer
 2. Ajouter la page **Actualités**
 3. Enregistrer
 
-## Étape 7 — Retirer l'ancienne page
+Le menu affichera « Actualités », l'adresse restera
+`unseulnom.org/newsletter/`. C'est normal, et c'est voulu.
 
-**Seulement une fois que l'étape 5 est entièrement cochée.**
+---
 
-**Pages** → `Newsletter` → **Mettre à la corbeille**.
+## Si quelque chose se passe mal
 
-> **Ce que ça change sur Google.** L'ancienne adresse
-> `unseulnom.org/newsletter/` disparaîtra du moteur en quelques
-> semaines, et `actualites` prendra sa place. Si tu préfères garder
-> l'ancienne adresse vivante, dis-le moi : on met l'identifiant
-> `newsletter` sur la nouvelle page à la place, et je change les liens
-> dans les trois autres pages. C'est le seul point à décider.
+**L'adresse devient `newsletter-2`.** La corbeille n'a pas été vidée.
+Vide-la (**Pages → Corbeille → Vider la corbeille**), puis remets
+l'identifiant `newsletter` sur la page Actualités.
+
+**La page s'affiche sans aucun style.** Le CSS n'est pas arrivé dans son
+onglet. Rouvre le bloc, onglet **CSS**, recolle
+`2-CSS-actualites.txt` en entier — il fait plus de 50 000 caractères,
+vérifie que tout est passé.
+
+**Le menu ne s'ouvre pas, rien ne bouge.** Le JavaScript n'est pas en
+place. Reprends l'étape 4.
