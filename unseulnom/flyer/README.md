@@ -70,7 +70,8 @@ gens sans leur dire où ils vont, et celui qui le découvre sur place se
 sent piégé.
 
 Enfin, ce qui se passera : *« De la musique, des gens qui racontent ce
-qui leur est arrivé, et une prière pour ceux qui la demandent. »*
+qui leur est arrivé, et une prière pour ceux qui la demandent. **Reste
+le temps que tu veux.** »*
 
 > **La durée n'est pas annoncée, et c'est volontaire.** Une version
 > disait « Deux heures ». C'était faux — ça dure bien plus. Annoncer
@@ -82,12 +83,10 @@ qui leur est arrivé, et une prière pour ceux qui la demandent. »*
 > peur d'être coincé. On lui donne donc la **permission** plutôt qu'un
 > chiffre.
 
-> **Mais la permission ne se donne qu'une fois.** Elle a d'abord été
-> écrite ici (« Reste le temps que tu veux ») **et** trois lignes plus
-> bas (« repartir quand tu veux »). Dite deux fois en six lignes, elle
-> cesse d'être une liberté et devient un signal : *on s'attend à ce que
-> le lecteur veuille sortir.* Elle ne vit donc plus qu'en bas de page,
-> et le bloc noir se termine sur ce qui se passe, pas sur la porte.
+> **Et elle ne se donne qu'une fois.** Elle a un temps cohabité avec un
+> « repartir quand tu veux » trois lignes plus bas : dite deux fois en
+> six lignes, elle cesse d'être une liberté et devient un signal,
+> *on s'attend à ce que le lecteur veuille sortir.*
 
 > **Pourquoi Lourdes n'est pas mentionné.** C'était tentant : à vingt
 > minutes de là, des millions de personnes viennent chercher une
@@ -95,48 +94,71 @@ qui leur est arrivé, et une prière pour ceux qui la demandent. »*
 > S'y adosser ferait passer l'événement pour ce qu'il n'est pas, et
 > ce malentendu-là coûterait plus cher qu'il ne rapporterait.
 
-### 4. Donner la permission, jamais se justifier
+### 4. La ligne qui porte le Nom
 
-Ce qui retient quelqu'un dehors, ce n'est pas le manque d'envie. C'est
-la peur d'être coincé, de devoir payer, de devoir parler, de ne pas
-pouvoir partir. Le verso y répond — **à l'endroit** :
+Tout le flyer s'appelle **Un Seul Nom** et ne disait nulle part
+*pourquoi*. Le verso énumérait cinq réponses — une rencontre, une
+paix, une joie, une guérison, un avenir — sans jamais nommer d'où
+elles viennent. C'était le trou du document : le nom de l'événement
+n'était qu'un décor.
 
-> Tu peux t'asseoir au fond, écouter, et repartir quand tu veux.
-> *Tu risques juste de ne pas en avoir envie.*
+Juste sous le bloc noir, juste avant l'adresse :
 
-**« S'asseoir au fond » est le détail qui porte la première phrase.**
-C'est exactement ce que fait quelqu'un qui a peur : il se met près de
-la porte. Le lui permettre vaut toutes les promesses.
-
-Et la chute **parie sur ce qui va se passer** au lieu de noter le
-lecteur. La permission vient d'abord — tu es libre de sortir — la
-confiance ensuite : tu ne voudras pas. Le pari est tenu par celui qui
-invite, jamais par celui qui vient ; aucune pression ne retombe sur le
-lecteur.
-
-> **Ce passage a d'abord dit l'inverse** : « On ne te demandera rien.
-> Ni argent, ni engagement, ni de te lever, ni de parler. » Quatre
-> négations à la file, dans un encadré à filet rouge — le seul endroit
-> du flyer écrit sur le ton d'une mention légale.
+> La religion donne des règles. Les valeurs, des repères.
+> Les efforts, de la fatigue.
 >
-> Deux défauts. **Le ton** : on se justifie, donc on a quelque chose à
-> se faire pardonner, et le lecteur se demande quoi. **Le fond** : la
-> phrase *introduisait* des craintes que beaucoup n'avaient pas. Qui ne
+> **Un seul Nom transforme. Jésus-Christ.**
+
+**Aucune des trois n'est moquée.** Chacune reçoit un résultat vrai et
+respectable : des règles et des repères sont de bonnes choses, et
+celui qui les a cherchées n'est pas traité en imbécile. On ne gagne
+personne en démolissant ce qu'il a tenté.
+
+**Le pivot n'est pas dans le ton, il est dans le verbe.** Des règles,
+on en reçoit ; des repères, on en porte ; de la fatigue, on en
+ramasse — trois choses qu'on garde sur le dos. *Transforme* est le
+premier verbe de la page dont le lecteur n'est pas l'auteur mais
+l'objet : quelqu'un d'autre agit. C'est tout l'écart entre ce qu'il a
+tenté et ce qu'on l'invite à venir voir.
+
+**« Les efforts, de la fatigue » est la ligne qui décide.** C'est la
+seule que le lecteur reconnaîtra comme *sa* vie, et elle dit tout haut
+ce que personne ne lui a jamais accordé : essayer d'être quelqu'un de
+bien épuise. Un flyer qui nomme sa fatigue a gagné le droit de lui
+proposer autre chose.
+
+Et le Nom arrive **en dernier**, en réponse à une phrase que le lecteur
+vient d'approuver. Pas une affirmation à croire d'emblée : la fin d'un
+raisonnement qu'il a suivi lui-même.
+
+> **Cette ligne a raté deux fois avant, et les deux ratages disent la
+> même chose.**
+>
+> « On ne te demandera rien : ni argent, ni engagement, ni de te
+> lever, ni de parler. » Quatre négations dans un encadré à filet
+> rouge, le seul passage écrit comme une mention légale. **Nier une
+> accusation que personne n'a portée, c'est la planter** : qui ne
 > pensait pas qu'on allait lui demander de l'argent y pensait ensuite.
 >
-> Nier une accusation que personne n'a portée, c'est la planter.
-
-> **Puis la chute a dit « C'est déjà beaucoup »**, et c'était pire
-> autrement : elle **félicitait le lecteur d'un effort minimum.**
-> Féliciter quelqu'un d'être simplement venu s'asseoir, c'est lui dire
-> que venir coûte cher — donc que la chose ne vaut pas mieux que ce
-> qu'elle coûte. On abaissait la barre au point de retirer l'envie :
-> si rester un peu est « déjà beaucoup », c'est que l'après-midi
-> s'endure.
+> Puis « Tu peux t'asseoir au fond […] *c'est déjà beaucoup.* » La
+> permission était juste, la chute non : elle **félicitait le lecteur
+> d'un effort minimum.** Féliciter quelqu'un d'être venu s'asseoir,
+> c'est lui dire que venir coûte cher — donc que la chose ne vaut pas
+> mieux que ce qu'elle coûte. La barre descendait si bas qu'elle
+> emportait l'envie avec elle.
 >
-> **Règle générale du flyer : lever un obstacle ne doit jamais coûter
-> du désir.** Chaque phrase qui rassure doit aussi donner envie, sinon
-> elle rassure un lecteur qui ne viendra pas.
+> Les deux versions occupaient **la meilleure place du verso** pour
+> lever un obstacle. Or l'obstacle était déjà levé dans le bloc noir.
+> Cette place-là ne doit pas rassurer : elle doit donner la raison de
+> venir.
+
+> **Une page qui déborde ne se voit pas.** « .page » est une colonne de
+> hauteur fixe : un texte trop long est *silencieusement* rogné par le
+> navigateur, le PDF fait toujours ses deux pages, et la dernière
+> ligne a simplement disparu. C'est arrivé une fois. Le générateur
+> mesure maintenant le bas réel de chaque élément contre la zone de
+> texte de sa page, et **refuse de produire le fichier** au-delà de
+> 0,2 mm.
 
 > **Ce n'est pas une soirée.** Ça commence à 16h : on dit « un
 > après-midi » ou « un rendez-vous », jamais « une soirée ».

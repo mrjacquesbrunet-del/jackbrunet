@@ -236,18 +236,18 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    clair : les cacher pour ne pas effrayer reviendrait a inviter les
    gens sans leur dire ou ils vont. */
 .face {
-  flex: none; margin-top: 5mm; padding: 5mm 6mm; border-radius: 3.5mm;
+  flex: none; margin-top: 4.5mm; padding: 4.2mm 5.5mm; border-radius: 3.5mm;
   background: var(--encre); color: var(--creme);
 }
 .face table { width: 100%; border-collapse: collapse; }
-.face td { padding: 1.5mm 0; vertical-align: baseline; }
+.face td { padding: 1.1mm 0; vertical-align: baseline; }
 .face tr + tr td { border-top: 1px solid rgba(240,238,231,.14); }
 .face .g { font-size: 10.6pt; color: rgba(240,238,231,.74); }
 .face .d {
   text-align: right; font-family: var(--titre); font-weight: 800;
   font-size: 12.6pt; color: var(--or); white-space: nowrap;
 }
-.face p { margin-top: 4mm; font-size: 9.8pt; line-height: 1.5; color: rgba(240,238,231,.8); }
+.face p { margin-top: 3mm; font-size: 9.8pt; line-height: 1.5; color: rgba(240,238,231,.8); }
 /* LA DUREE N'EST PAS ANNONCEE, ET C'EST VOULU.
 
    Une premiere version disait « Deux heures ». C'etait faux : ca dure
@@ -255,55 +255,79 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    exactement la confiance que le reste du flyer construit, et
    quelqu'un qui s'est senti retenu ne revient jamais.
 
-   Mais la permission de repartir ne se donne QU'UNE FOIS. Elle etait
-   ecrite ici (« Reste le temps que tu veux ») ET trois lignes plus
-   bas (« repartir quand tu veux »). Dite deux fois en six lignes,
-   elle cesse d'etre une liberte et devient un signal : on s'attend a
-   ce que le lecteur veuille sortir. Elle ne vit donc plus qu'en bas
-   de page, et le bloc noir se termine sur ce qui se passe, pas sur
-   la porte. */
-.face .combien { margin-top: 2.2mm; padding-top: 2.2mm; border-top: 1px solid rgba(240,238,231,.14); }
+   La permission vit ICI et nulle part ailleurs. Elle a un temps
+   cohabite avec un « repartir quand tu veux » trois lignes plus bas :
+   dite deux fois en six lignes, elle cesse d'etre une liberte et
+   devient un signal, on s'attend a ce que le lecteur veuille sortir.
+   Elle est donc restee dans le bloc noir, au milieu de ce qui se
+   passe, et la ligne du bas sert maintenant a autre chose. */
+.face .combien { margin-top: 1.8mm; padding-top: 1.8mm; border-top: 1px solid rgba(240,238,231,.14); }
+.face .combien strong { color: var(--or); }
 .face strong { color: var(--creme); font-weight: 700; }
 
-/* NIER UNE ACCUSATION QUE PERSONNE N'A PORTEE, C'EST LA PLANTER.
+/* LA LIGNE QUI PORTE LE NOM.
 
-   Cette phrase disait : « On ne te demandera rien. Ni argent, ni
-   engagement, ni de te lever, ni de parler. » Quatre negations a la
-   file, dans un encadre a filet rouge — le seul passage du flyer
-   ecrit sur le ton d'une mention legale.
+   Tout le flyer s'appelle « Un Seul Nom » et ne disait nulle part
+   POURQUOI. Un lecteur qui n'a jamais mis les pieds dans une eglise
+   lisait la marque sans jamais apprendre ce qu'elle veut dire, et le
+   verso enumerait cinq reponses (une rencontre, une paix, une joie,
+   une guerison, un avenir) sans jamais nommer d'ou elles viennent.
+   C'etait le trou du document : le nom de l'evenement etait un
+   decor.
 
-   Deux defauts. Le ton d'abord : on se justifie, donc on a quelque
-   chose a se faire pardonner, et le lecteur se demande quoi. Et le
-   fond ensuite : elle INTRODUIT des craintes que beaucoup n'avaient
-   pas. Qui pensait qu'on allait lui demander de l'argent y pense
-   maintenant.
+   Cette ligne a d'abord essaye deux autres choses, toutes deux
+   ratees, et les deux ratages disent la meme chose.
 
-   La meme chose, dite a l'endroit : non plus ce qui n'arrivera PAS,
-   mais ce qu'il a le droit de faire. « S'asseoir au fond » est le
-   detail qui compte — c'est exactement ce que fait quelqu'un qui a
-   peur, et le lui permettre vaut toutes les promesses.
+   1. « On ne te demandera rien : ni argent, ni engagement, ni de te
+      lever, ni de parler. » Quatre negations dans un encadre a filet
+      rouge, le seul passage ecrit comme une mention legale. Nier une
+      accusation que personne n'a portee, c'est la planter : qui ne
+      pensait pas qu'on allait lui demander de l'argent y pensait
+      ensuite.
 
-   NE JAMAIS FELICITER LE LECTEUR D'UN EFFORT MINIMUM.
+   2. « Tu peux t'asseoir au fond [...] c'est deja beaucoup. » La
+      permission etait juste, la chute non : elle felicitait le
+      lecteur d'un effort minimum. Feliciter quelqu'un d'etre venu
+      s'asseoir, c'est lui dire que venir coute cher, donc que la
+      chose ne vaut pas mieux que ce qu'elle coute. La barre
+      descendait si bas qu'elle emportait l'envie avec elle.
 
-   La chute disait : « C'est deja beaucoup. » Elle notait le lecteur.
-   Et feliciter quelqu'un d'etre simplement venu s'asseoir, c'est lui
-   dire que venir coute cher — donc que la chose ne vaut pas mieux que
-   ce qu'il en coute. On abaissait la barre au point de retirer
-   l'envie : si rester un peu est « deja beaucoup », c'est que
-   l'apres-midi s'endure.
+   Les deux versions occupaient la meilleure place du verso — juste
+   sous le bloc noir, juste avant l'adresse — pour LEVER UN
+   OBSTACLE. Or l'obstacle etait deja leve dans le bloc noir. Cette
+   place ne doit pas rassurer : elle doit donner la raison de venir.
 
-   La chute ne juge donc plus l'effort, elle parie sur ce qui va se
-   passer. La permission vient d'abord (tu es libre de sortir), la
-   confiance ensuite (tu ne voudras pas). Le pari est tenu par celui
-   qui invite, pas par celui qui vient : aucune pression ne retombe
-   sur le lecteur. */
-.rassure {
-  flex: none; margin-top: 6mm; text-align: center;
-  font-family: var(--serif); font-size: 15pt; line-height: 1.35; color: var(--encre);
+   D'ou un CONTRASTE, et non une question. Trois choses que le
+   lecteur a reellement essayees sont nommees — la religion, les
+   valeurs, l'effort — et aucune n'est moquee : chacune recoit un
+   resultat vrai et respectable. Des regles, des reperes : ce sont de
+   bonnes choses, et celui qui les a cherchees n'est pas traite en
+   imbecile. On ne gagne personne en demolissant ce qu'il a tente.
+
+   Le pivot n'est pas dans le ton, il est dans le VERBE. Des regles,
+   on en recoit ; des reperes, on en porte ; de la fatigue, on en
+   ramasse. Trois choses que l'on garde sur le dos. « Transforme » est
+   le premier verbe de la page dont le lecteur n'est pas l'auteur mais
+   l'objet : quelqu'un d'autre agit. C'est tout l'ecart entre tout ce
+   qu'il a tente et ce qu'on l'invite a voir.
+
+   « Les efforts, de la fatigue » est la ligne qui decide. Elle est
+   la seule que le lecteur reconnaitra comme SA vie, et elle dit tout
+   haut ce que personne ne lui a jamais accorde : essayer d'etre
+   quelqu'un de bien epuise. Un flyer qui nomme sa fatigue a gagne le
+   droit de lui proposer autre chose.
+
+   Et le Nom arrive en dernier, en reponse a une phrase que le lecteur
+   a deja approuvee. Pas une affirmation a croire d'emblee : la fin
+   d'un raisonnement qu'il vient de suivre. */
+.nom {
+  flex: none; margin-top: 3.5mm; text-align: center; font-family: var(--serif);
 }
-.rassure em { font-style: normal; color: var(--rouge); }
+.nom .q { font-size: 13.5pt; line-height: 1.3; color: var(--gris); }
+.nom .r { margin-top: 2mm; font-size: 17pt; line-height: 1.25; color: var(--encre); }
+.nom .r em { font-style: normal; color: var(--rouge); }
 
-.pratique { flex: none; margin-top: auto; padding-top: 4mm; display: flex; gap: 6mm; align-items: flex-end; }
+.pratique { flex: none; margin-top: auto; padding-top: 3mm; display: flex; gap: 6mm; align-items: flex-end; }
 .pratique .infos { flex: 1; }
 .pratique .k {
   font-size: 7pt; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--gris);
@@ -318,9 +342,15 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    flexible, et un bloc vide de 2,4 mm s'y fait ecraser a zero. Le
    ruban etait bien la, haut de rien du tout. */
 .ruban { flex: none; margin-top: 4mm; height: 2.4mm; border-radius: 99px; background: var(--degrade); }
-.fin { flex: none; margin-top: 3.5mm; text-align: center; }
+.fin { flex: none; margin-top: 2.5mm; text-align: center; }
+/* La signature etait rouge, 16pt, serif — exactement le poids de la
+   ligne du Nom, douze millimetres plus haut. Deux declarations de
+   meme force se neutralisent : le lecteur ne sait plus laquelle est
+   la conclusion. Elle garde sa place et son role (le dernier mot est
+   un imperatif), mais passe au noir et descend d'un tiers, pour que
+   le seul rouge de cette moitie de page soit le Nom. */
 .viens {
-  font-family: var(--serif); font-size: 16pt; line-height: 1.1; color: var(--rouge);
+  font-family: var(--serif); font-size: 13.5pt; line-height: 1.1; color: var(--encre);
 }
 .deja { margin-top: 2mm; font-size: 8.6pt; color: var(--gris); }
 .deja i { font-style: normal; opacity: .55; margin: 0 1mm; }
@@ -373,15 +403,18 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
     </p>
     <p class="combien">
       De la musique, des gens qui racontent ce qui leur est arriv&eacute;, et une
-      pri&egrave;re pour ceux qui la demandent.
+      pri&egrave;re pour ceux qui la demandent.<br>
+      <strong>Reste le temps que tu veux.</strong>
     </p>
   </div>
 
-  <p class="rassure">
-    Tu peux t'asseoir au fond, &eacute;couter,<br>
-    et repartir quand tu veux.<br>
-    <em>Tu risques juste de ne pas en avoir envie.</em>
-  </p>
+  <div class="nom">
+    <p class="q">
+      La religion donne des r&egrave;gles. Les valeurs, des rep&egrave;res.<br>
+      Les efforts, de la fatigue.
+    </p>
+    <p class="r"><em>Un seul Nom transforme. J&eacute;sus-Christ.</em></p>
+  </div>
 
   <div class="pratique">
     <div class="infos">
@@ -414,6 +447,49 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
 </body></html>"""
 
 
+def verifier_debordement(source):
+    """Refuse une page dont le contenu sort du cadre.
+
+    Le controle de pagination plus bas ne voit rien : « .page » est une
+    colonne de hauteur fixe, donc un texte trop long est SILENCIEUSEMENT
+    rogne par le navigateur. Le PDF fait toujours ses deux pages, et la
+    derniere ligne a simplement disparu. C'est arrive une fois, et ca ne
+    se voit qu'en regardant l'image.
+
+    On mesure donc le bas reel de chaque element contre la zone de texte
+    de sa page (bord moins marge interieure), et on s'arrete net.
+    """
+    from playwright.sync_api import sync_playwright
+
+    mesure = """() => Array.from(document.querySelectorAll('.page')).map(function (p) {
+      var st = getComputedStyle(p), r = p.getBoundingClientRect();
+      var plancher = r.bottom - parseFloat(st.paddingBottom);
+      var bas = 0, coupable = '';
+      p.querySelectorAll('*').forEach(function (el) {
+        var q = el.getBoundingClientRect();
+        if (q.height > 0 && q.bottom > bas) { bas = q.bottom; coupable = el.className || el.tagName; }
+      });
+      return { depasse: bas - plancher, coupable: String(coupable) };
+    })"""
+
+    with sync_playwright() as pw:
+        nav = pw.chromium.launch(executable_path=CHROME)
+        onglet = nav.new_page()
+        onglet.goto(source.as_uri())
+        onglet.wait_for_timeout(400)
+        pages = onglet.evaluate(mesure)
+        nav.close()
+
+    for numero, page in enumerate(pages, 1):
+        mm = page["depasse"] * 25.4 / 96.0
+        cote = "recto" if numero == 1 else "verso"
+        if mm > 0.2:
+            raise SystemExit(
+                "Le %s deborde de %.1f mm (dernier element : %s). "
+                "Le PDF sortirait avec le bas rogne." % (cote, mm, page["coupable"]))
+        print("  %-5s  %5.1f mm d'air sous le dernier element" % (cote, -mm))
+
+
 def main():
     html = HTML
     pieces = {
@@ -437,6 +513,7 @@ def main():
     travail = pathlib.Path(tempfile.mkdtemp(prefix="usn-flyer-"))
     source = travail / "flyer.html"
     source.write_text(html, encoding="utf-8")
+    verifier_debordement(source)
 
     suffixe = "" if VARIANTE == "aube" else "-" + VARIANTE
     pdf = RACINE / (VILLE["sortie"] + suffixe + ".pdf")
