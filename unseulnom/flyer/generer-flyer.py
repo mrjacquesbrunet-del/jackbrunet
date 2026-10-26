@@ -300,6 +300,15 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    programme qu'un non-croyant trouve deja desirable : il en a
    entendu, il sait que c'est beau, et ca ne lui demande rien.
 
+   Mais on annonce « une musique TYPE gospel », pas « du gospel », et
+   la nuance est une question d'honnetete. « Du gospel » fait
+   attendre une chorale ; ce qui attend le lecteur est de la louange
+   dans cette couleur-la. Promettre une chorale a quelqu'un qui vient
+   pour elle, c'est le perdre a la premiere note — et c'est
+   exactement le genre de petit mensonge qui coute un retour.
+   « Type » a l'air plus faible sur le papier ; il tient devant les
+   faits, et le mot « louange » reste dehors.
+
    « Reste le temps que tu veux » a saute : trois phrases la
    disaient deja autrement, et une permission repetee cesse d'etre
    une liberte. */
@@ -480,7 +489,7 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
   <p class="deroule">
     On parlera d'<strong>espoir</strong>. De <strong>libert&eacute;</strong>.
     De <strong>gu&eacute;rison</strong>. De <strong>miracles</strong>.<br>
-    Le tout port&eacute; par du <strong>gospel</strong>.
+    Le tout port&eacute; par une <strong>musique type gospel</strong>.
   </p>
 
   <div class="nom">

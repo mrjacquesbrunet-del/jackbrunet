@@ -72,7 +72,7 @@ sent piégé.
 Enfin, ce qui se passera :
 
 > On parlera d'**espoir**. De **liberté**. De **guérison**. De
-> **miracles**. Le tout porté par du **gospel**.
+> **miracles**. Le tout porté par une **musique type gospel**.
 
 > **Quatre mots qui tombent, puis la musique.** Ce passage faisait
 > quatre lignes : *« On y parlera de miracles, de guérison, de
@@ -96,6 +96,14 @@ Enfin, ce qui se passera :
 > entendu, il sait que c'est beau, et ça ne lui demande rien. C'est
 > aussi pourquoi le mot « louange » n'y est pas — c'est du vocabulaire
 > d'initié, et le lecteur visé ne l'a pas.
+>
+> Mais on annonce une musique **type** gospel, pas « du gospel », et la
+> nuance est une question d'honnêteté. « Du gospel » fait attendre une
+> chorale ; ce qui attend le lecteur est de la louange dans cette
+> couleur-là. **Promettre une chorale à quelqu'un qui vient pour elle,
+> c'est le perdre à la première note** — et c'est exactement le genre
+> de petit mensonge qui coûte un retour. « Type » a l'air plus faible
+> sur le papier ; il tient devant les faits.
 >
 > « Reste le temps que tu veux » a sauté : trois phrases le disaient
 > déjà autrement, et **une permission répétée cesse d'être une
