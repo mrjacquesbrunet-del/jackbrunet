@@ -90,24 +90,30 @@ le temps que tu veux.** »*
 > S'y adosser ferait passer l'événement pour ce qu'il n'est pas, et
 > ce malentendu-là coûterait plus cher qu'il ne rapporterait.
 
-### 4. Dire ce qu'on ne demandera pas — en une phrase
+### 4. Donner la permission, jamais se justifier
 
 Ce qui retient quelqu'un dehors, ce n'est pas le manque d'envie. C'est
 la peur d'être coincé, de devoir payer, de devoir parler, de ne pas
-pouvoir partir. Le verso répond à ces quatre peurs **avant qu'elles ne
-soient formulées** :
+pouvoir partir. Le verso y répond — **à l'endroit** :
 
-> **On ne te demandera rien.** Ni argent, ni engagement, ni de te
-> lever, ni de parler. Tu viens comme tu es, seul ou accompagné, et tu
-> pars quand tu veux.
+> Tu peux venir, t'asseoir au fond, écouter, et repartir quand tu
+> veux. *C'est déjà beaucoup.*
 
-C'est la partie la plus importante du flyer, et la plus facile à
-supprimer par réflexe. Ne la supprime pas.
+**« S'asseoir au fond » est le détail qui porte toute la phrase.** C'est
+exactement ce que fait quelqu'un qui a peur : il se met près de la
+porte. Le lui permettre vaut toutes les promesses.
 
-> **Elle tenait en trois blocs à pastilles**, juste sous un tableau de
-> cinq lignes : huit rangées à la file sur un demi-A5, et l'œil
-> abandonnait. Elle dit la même chose en une phrase, sans rien perdre —
-> son rôle était d'ôter quatre peurs, pas de faire une liste.
+> **Ce passage a d'abord dit l'inverse** : « On ne te demandera rien.
+> Ni argent, ni engagement, ni de te lever, ni de parler. » Quatre
+> négations à la file, dans un encadré à filet rouge — le seul endroit
+> du flyer écrit sur le ton d'une mention légale.
+>
+> Deux défauts. **Le ton** : on se justifie, donc on a quelque chose à
+> se faire pardonner, et le lecteur se demande quoi. **Le fond** : la
+> phrase *introduisait* des craintes que beaucoup n'avaient pas. Qui ne
+> pensait pas qu'on allait lui demander de l'argent y pensait ensuite.
+>
+> Nier une accusation que personne n'a portée, c'est la planter.
 
 > **Ce n'est pas une soirée.** Ça commence à 16h : on dit « un
 > après-midi » ou « un rendez-vous », jamais « une soirée ».

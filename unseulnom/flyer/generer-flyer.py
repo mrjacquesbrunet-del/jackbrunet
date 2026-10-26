@@ -263,17 +263,28 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
 .face .combien strong { color: var(--or); }
 .face strong { color: var(--creme); font-weight: 700; }
 
-/* DEUX LISTES L'UNE SOUS L'AUTRE, L'OEIL ABANDONNE.
-   Les trois « promesses » venaient apres un tableau de cinq lignes :
-   huit rangees a la file sur un demi-A5. Elles tiennent en UNE phrase,
-   sans rien perdre — leur role etait d'oter quatre peurs, pas de faire
-   une liste. */
+/* NIER UNE ACCUSATION QUE PERSONNE N'A PORTEE, C'EST LA PLANTER.
+
+   Cette phrase disait : « On ne te demandera rien. Ni argent, ni
+   engagement, ni de te lever, ni de parler. » Quatre negations a la
+   file, dans un encadre a filet rouge — le seul passage du flyer
+   ecrit sur le ton d'une mention legale.
+
+   Deux defauts. Le ton d'abord : on se justifie, donc on a quelque
+   chose a se faire pardonner, et le lecteur se demande quoi. Et le
+   fond ensuite : elle INTRODUIT des craintes que beaucoup n'avaient
+   pas. Qui pensait qu'on allait lui demander de l'argent y pense
+   maintenant.
+
+   La meme chose, dite a l'endroit : non plus ce qui n'arrivera PAS,
+   mais ce qu'il a le droit de faire. « S'asseoir au fond » est le
+   detail qui compte — c'est exactement ce que fait quelqu'un qui a
+   peur, et le lui permettre vaut toutes les promesses. */
 .rassure {
-  flex: none; margin-top: 4.5mm; padding-left: 5mm;
-  border-left: 3px solid var(--rouge);
-  font-size: 10.6pt; line-height: 1.6; color: var(--gris);
+  flex: none; margin-top: 6mm; text-align: center;
+  font-family: var(--serif); font-size: 15pt; line-height: 1.35; color: var(--encre);
 }
-.rassure strong { color: var(--encre); font-weight: 700; }
+.rassure em { font-style: normal; color: var(--rouge); }
 
 .pratique { flex: none; margin-top: auto; padding-top: 4mm; display: flex; gap: 6mm; align-items: flex-end; }
 .pratique .infos { flex: 1; }
@@ -351,9 +362,8 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
   </div>
 
   <p class="rassure">
-    <strong>On ne te demandera rien.</strong> Ni argent, ni engagement, ni de te
-    lever, ni de parler. Tu viens comme tu es, seul ou accompagn&eacute;, et tu
-    t'assieds o&ugrave; tu veux.
+    Tu peux venir, t'asseoir au fond, &eacute;couter,<br>
+    et repartir quand tu veux. <em>C'est d&eacute;j&agrave; beaucoup.</em>
   </p>
 
   <div class="pratique">
