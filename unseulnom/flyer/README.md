@@ -12,7 +12,13 @@ et à distribuer.
 ## Pour qui, et pourquoi il ne ressemble pas à l'affiche
 
 Ce flyer s'adresse à **quelqu'un qui n'est jamais entré dans une
-église**. Ce n'est ni l'affiche, ni la lettre aux pasteurs : le public
+église**.
+
+> **Un recto se lit en deux secondes.** On n'y garde que trois choses :
+> **ce dont il s'agit**, **quand**, et **que c'est gratuit**. Tout le
+> reste appartient au verso, ou à nulle part. La ligne « pour ceux qui
+> cherchent… » y a figuré un temps : elle disait la même chose que le
+> bloc « Face à » du verso, en moins bien, et elle chargeait la page. Ce n'est ni l'affiche, ni la lettre aux pasteurs : le public
 n'est pas le même, donc l'objet n'est pas le même.
 
 Trois règles commandent tout le reste.
@@ -93,6 +99,40 @@ supprimer par réflexe. Ne la supprime pas.
 
 > **Ce n'est pas une soirée.** Ça commence à 16h : on dit « un
 > après-midi » ou « un rendez-vous », jamais « une soirée ».
+
+## Deux versions du recto
+
+| Fichier | Fond | Pour quoi |
+|---|---|---|
+| `flyer-invitation-tarbes.pdf` | **l'aube** — noir, la lumière monte du bas | la rue, les boîtes aux lettres, la main à la main |
+| `flyer-invitation-tarbes-creme.pdf` | **crème** — ivoire, texte noir | les comptoirs, les présentoirs, les salles d'attente |
+
+Le verso est identique dans les deux.
+
+**Dans la rue, prends l'aube.** Un flyer clair posé dans une main se
+confond avec un prospectus de supermarché. Un fond sombre avec une
+lumière chaude se remarque, et il ne ressemble à rien de ce que les
+gens associent à l'Église.
+
+**Sur un comptoir, prends la crème.** Posé à plat à côté d'une caisse,
+le sombre fait « boîte de nuit » ; le clair fait sérieux et se laisse
+prendre.
+
+> **Pourquoi le dégradé ne couvrait pas toute la page.** La première
+> version étalait les cinq couleurs de la marque en lavis sur tout le
+> recto : on n'en percevait plus que le milieu — un prune d'aubergine —
+> et le haut tournait à l'ocre sale. Le dégradé est fait pour une
+> **bande**, où l'on voit les cinq couleurs d'un coup. Étalé, il perd
+> son orange et il salit. La chaleur monte donc du bas, et le haut
+> reste un vrai noir.
+
+## Changer de version
+
+En haut de `generer-flyer.py` :
+
+```
+VARIANTE = "aube"     # ou "creme"
+```
 
 ## À l'impression
 

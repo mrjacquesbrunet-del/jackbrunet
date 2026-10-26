@@ -35,6 +35,22 @@ RACINE = pathlib.Path(__file__).resolve().parent
 CHARTE = RACINE.parent / "charte"
 CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
 
+# ---------------------------------------------------------------------
+# LA COULEUR DU RECTO
+#
+# « aube »  : fond noir, et la chaleur monte du BAS comme un lever de
+#             jour. Le degrade de la marque garde son orange, et le
+#             haut reste un vrai noir.
+# « creme » : fond ivoire, texte noir, un seul mot en orange. Calme,
+#             sobre, sans rien du code « soiree ».
+#
+# La premiere version etalait le degrade sur toute la page : on n'en
+# percevait plus que le milieu — un prune d'aubergine — et le haut
+# tournait a l'ocre sale. Le degrade de la marque est fait pour une
+# BANDE, ou l'on voit les cinq couleurs d'un coup, pas pour un lavis.
+# ---------------------------------------------------------------------
+VARIANTE = "aube"
+
 VILLE = {
     "nom":       "Tarbes",
     "sortie":    "flyer-invitation-tarbes",
@@ -74,14 +90,26 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
 .page:last-child { page-break-after: auto; }
 
 /* ================= RECTO ================= */
-.recto { background: var(--nuit); color: var(--creme); display: flex; flex-direction: column; }
-/* La lumiere du fond : c'est le degrade de la marque, etale et flou.
-   Il remplace l'image — rien a photographier, rien a recadrer. */
+/* --- LE LEVER DE JOUR --- */
+.recto { background: #07070A; color: var(--creme); display: flex; flex-direction: column; }
 .lueur { position: absolute; inset: 0; pointer-events: none; }
-.lueur i { position: absolute; display: block; border-radius: 50%; filter: blur(34mm); }
-.l1 { width: 120mm; height: 120mm; left: -34mm; top: -28mm; background: rgba(247,148,29,.52); }
-.l2 { width: 118mm; height: 118mm; right: -40mm; top: 18mm; background: rgba(201,38,143,.50); }
-.l3 { width: 130mm; height: 130mm; left: -10mm; bottom: -56mm; background: rgba(27,47,196,.46); }
+.lueur i { position: absolute; display: block; border-radius: 50%; filter: blur(30mm); }
+/* La chaleur vient du bas, et elle vient fort : c'est la lumiere qui
+   monte. Le haut reste noir, pour que le titre y tienne sans halo. */
+.l1 { width: 190mm; height: 95mm; left: -22mm; bottom: -52mm; background: rgba(247,148,29,.80); }
+.l2 { width: 150mm; height: 80mm; left: -4mm; bottom: -32mm; background: rgba(228,38,43,.62); }
+.l3 { width: 110mm; height: 90mm; right: -34mm; bottom: 26mm; background: rgba(201,38,143,.40); }
+.l4 { width: 120mm; height: 110mm; left: -40mm; top: -40mm; background: rgba(27,47,196,.26); }
+
+/* --- LA VERSION CREME --- */
+.recto.creme { background: var(--creme); color: var(--encre); }
+.recto.creme .lueur i { opacity: .20; filter: blur(36mm); }
+.recto.creme .marque .mot { color: rgba(12,11,10,.6); }
+.recto.creme .marque .rond { background-image: url("__LOGO_NOIR__"); }
+.recto.creme .sous { color: var(--gris); }
+.recto.creme .quand { border-top-color: var(--trait); }
+.recto.creme .quand .l { color: var(--gris); }
+.recto.creme .grain { mix-blend-mode: multiply; opacity: .10; }
 .grain {
   position: absolute; inset: 0; pointer-events: none; opacity: .16; mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23b)'/%3E%3C/svg%3E");
@@ -96,18 +124,21 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
   letter-spacing: .3em; text-transform: uppercase; color: rgba(240,238,231,.72);
 }
 
-/* A QUI ON PARLE, AVANT DE PARLER.
-   « Et si c'etait vrai ? » intrigue, mais n'adresse personne. Trois
-   mots au-dessus, et celui qui lit se reconnait avant meme d'avoir lu
-   la question. */
-.aqui {
-  margin-top: auto; margin-bottom: 6mm;
-  font-size: 8.6pt; font-weight: 700; letter-spacing: .2em; text-transform: uppercase;
-  color: rgba(240,238,231,.68); line-height: 1.9;
-}
-.aqui i { font-style: normal; color: var(--or); margin: 0 1.5mm; }
+/* NEUF BLOCS DE TEXTE SUR UN RECTO, C'EST SEPT DE TROP.
 
+   A chaque correction j'ai ajoute une ligne, et le recto a fini
+   charge : logo, nom, « pour ceux qui... » sur deux lignes, le titre,
+   trois lignes de sous-titre, un filet, la date, le lieu, la pastille.
+
+   Un recto se lit en deux secondes. On n'y garde que trois choses :
+   CE DONT IL S'AGIT, QUAND, et QUE C'EST GRATUIT. Le reste appartient
+   au verso, ou nulle part.
+
+   La ligne « pour ceux qui cherchent... » est partie : le bloc
+   « Face a » du verso dit la meme chose, mieux, et le titre se charge
+   deja de designer qui se sent concerne. */
 .question {
+  margin-top: auto;
   /* LE TITRE NOMME SON SUJET.
 
      Il disait « Et si c'etait vrai ? ». Vrai QUOI ? Aucun antecedent,
@@ -118,7 +149,7 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
      La forme reste une question, et elle reste sans jargon. Mais il
      sait en deux secondes de quoi on parle, et il peut decider. */
   font-family: var(--titre); font-stretch: 125%; font-weight: 900;
-  font-size: 42pt; line-height: .94; letter-spacing: -.03em; text-transform: uppercase;
+  font-size: 47pt; line-height: .92; letter-spacing: -.03em; text-transform: uppercase;
 }
 /* LE MOT ACCENTUE EST D'UNE SEULE COULEUR, PAS D'UN DEGRADE.
 
@@ -217,8 +248,8 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
 </style></head><body>
 
 <!-- ======================= RECTO ======================= -->
-<div class="page recto">
-  <div class="lueur"><i class="l1"></i><i class="l2"></i><i class="l3"></i></div>
+<div class="page recto __VARIANTE__">
+  <div class="lueur"><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i></div>
   <div class="grain"></div>
   <div class="dedans">
 
@@ -227,16 +258,11 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
       <div class="mot">Un Seul Nom</div>
     </div>
 
-    <div class="aqui">
-      Pour ceux qui cherchent <i>&middot;</i> pour ceux qui souffrent<br>
-      pour ceux qui doutent <i>&middot;</i> pour ceux qui n'osent pas
-    </div>
-
     <div class="question">Et si <b>Dieu</b><br>existait<br>vraiment&nbsp;?</div>
 
     <p class="sous">
-      Un apr&egrave;s-midi pour venir voir par soi-m&ecirc;me. Sans rien
-      conna&icirc;tre, sans rien devoir, sans rien promettre.
+      Un apr&egrave;s-midi pour venir voir par soi-m&ecirc;me.
+      Sans rien conna&icirc;tre, sans rien devoir.
     </p>
 
     <div class="quand">
@@ -315,6 +341,8 @@ def main():
     pieces = {
         "__FONTS__":    (CHARTE / "polices.css").read_text(encoding="utf-8"),
         "__LOGO__":     (CHARTE / "logo-blanc.txt").read_text(encoding="utf-8").strip(),
+        "__LOGO_NOIR__": (CHARTE / "logo-noir.txt").read_text(encoding="utf-8").strip(),
+        "__VARIANTE__": "creme" if VARIANTE == "creme" else "",
         "__QR__":       qr_base64(VILLE["lien_qr"]),
         "__VILLE__":    VILLE["nom"],
         "__DATE__":     VILLE["date"],
@@ -332,7 +360,8 @@ def main():
     source = travail / "flyer.html"
     source.write_text(html, encoding="utf-8")
 
-    pdf = RACINE / (VILLE["sortie"] + ".pdf")
+    suffixe = "" if VARIANTE == "aube" else "-" + VARIANTE
+    pdf = RACINE / (VILLE["sortie"] + suffixe + ".pdf")
     subprocess.run([CHROME, "--headless", "--no-sandbox", "--disable-gpu",
                     "--no-pdf-header-footer", "--print-to-pdf=%s" % pdf,
                     source.as_uri()], check=True, capture_output=True)
@@ -344,7 +373,7 @@ def main():
 
     sorties = [pdf]
     for numero, nom in ((1, "-recto"), (2, "-verso")):
-        png = RACINE / (VILLE["sortie"] + nom + ".png")
+        png = RACINE / (VILLE["sortie"] + suffixe + nom + ".png")
         subprocess.run(["pdftoppm", "-png", "-r", "150", "-f", str(numero), "-l", str(numero),
                         "-singlefile", str(pdf), str(png.with_suffix(""))],
                        check=True, capture_output=True)
