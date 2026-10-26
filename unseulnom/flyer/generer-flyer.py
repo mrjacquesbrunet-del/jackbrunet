@@ -108,8 +108,17 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
 .aqui i { font-style: normal; color: var(--or); margin: 0 1.5mm; }
 
 .question {
+  /* LE TITRE NOMME SON SUJET.
+
+     Il disait « Et si c'etait vrai ? ». Vrai QUOI ? Aucun antecedent,
+     ni « Dieu » ni rien d'autre sur tout le recto. Un inconnu y lisait
+     une secte, un film ou une pub, et jetait le papier : quatre
+     personnes sur cinq ne retournent jamais un flyer.
+
+     La forme reste une question, et elle reste sans jargon. Mais il
+     sait en deux secondes de quoi on parle, et il peut decider. */
   font-family: var(--titre); font-stretch: 125%; font-weight: 900;
-  font-size: 47pt; line-height: .92; letter-spacing: -.03em; text-transform: uppercase;
+  font-size: 42pt; line-height: .94; letter-spacing: -.03em; text-transform: uppercase;
 }
 /* LE MOT ACCENTUE EST D'UNE SEULE COULEUR, PAS D'UN DEGRADE.
 
@@ -171,6 +180,12 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
   font-size: 11.6pt; color: var(--or); white-space: nowrap;
 }
 .face p { margin-top: 3.5mm; font-size: 9.4pt; line-height: 1.5; color: rgba(240,238,231,.8); }
+/* « DEUX HEURES » VAUT TOUT LE RESTE DU PARAGRAPHE.
+   Ce qui retient quelqu'un qui hesite, ce n'est pas le doute : c'est
+   la peur de rester coince. Un chiffre borne l'engagement mieux
+   qu'aucune promesse. */
+.face .combien { margin-top: 2.5mm; padding-top: 2.5mm; border-top: 1px solid rgba(240,238,231,.14); }
+.face .combien strong { color: var(--or); }
 .face strong { color: var(--creme); font-weight: 700; }
 
 .promesses { flex: none; margin-top: 5mm; }
@@ -214,10 +229,10 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
 
     <div class="aqui">
       Pour ceux qui cherchent <i>&middot;</i> pour ceux qui souffrent<br>
-      pour ceux qui doutent
+      pour ceux qui doutent <i>&middot;</i> pour ceux qui n'osent pas
     </div>
 
-    <div class="question">Et si<br>c'&eacute;tait <b>vrai</b>&nbsp;?</div>
+    <div class="question">Et si <b>Dieu</b><br>existait<br>vraiment&nbsp;?</div>
 
     <p class="sous">
       Un apr&egrave;s-midi pour venir voir par soi-m&ecirc;me. Sans rien
@@ -237,10 +252,7 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
 <div class="page verso">
 
   <h2>Tu n'es jamais entr&eacute; dans une &eacute;glise&nbsp;?</h2>
-  <p class="intro">
-    Alors c'est exactement pour toi. Ce rendez-vous n'est pas fait pour ceux
-    qui savent d&eacute;j&agrave;.
-  </p>
+  <p class="intro">Alors c'est exactement pour toi.</p>
 
   <div class="face">
     <table>
@@ -253,7 +265,11 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
     <p>
       On y parlera de <strong>miracles</strong>, de <strong>gu&eacute;rison</strong>, de
       <strong>lib&eacute;ration</strong>. Pas comme d'une id&eacute;e&nbsp;: comme de
-      choses qui arrivent. On priera pour les malades.
+      choses qui arrivent.
+    </p>
+    <p class="combien">
+      De la musique, des gens qui racontent ce qui leur est arriv&eacute;, et une
+      pri&egrave;re pour ceux qui la demandent. <strong>Deux heures.</strong>
     </p>
   </div>
 

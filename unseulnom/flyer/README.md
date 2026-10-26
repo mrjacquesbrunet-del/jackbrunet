@@ -23,12 +23,25 @@ Des portraits de prédicateurs rassurent ceux qui connaissent déjà le
 milieu, et **font fuir les autres** : on croit voir une affiche de
 meeting, ou pire. Le flyer est entièrement typographique.
 
-### 2. Aucun mot de jargon sur le recto
+### 2. Aucun mot de jargon, mais le sujet est nommé
 
 « Évangélisation », « guérison », « délivrance », « réveil » ne veulent
-rien dire à qui n'a pas grandi dedans, et sonnent inquiétant. Ils n'y
-sont pas. Le recto pose une question — *Et si c'était vrai ?* — et ne
-promet rien d'autre que de venir voir.
+rien dire à qui n'a pas grandi dedans, et sonnent inquiétant. Ils ne
+sont pas sur le recto.
+
+En revanche **le sujet, lui, est nommé**. Le titre disait d'abord
+*« Et si c'était vrai ? »* — vrai *quoi* ? Aucun antécédent, ni Dieu ni
+rien d'autre sur tout le recto. Un inconnu y lisait une secte, un film
+ou une publicité, et jetait le papier : **quatre personnes sur cinq ne
+retournent jamais un flyer.**
+
+Le titre est donc **« Et si Dieu existait vraiment ? »**. Toujours une
+question, toujours sans jargon — mais il sait en deux secondes de quoi
+on parle, et il peut décider.
+
+Au-dessus, une ligne dit à qui l'on s'adresse : *pour ceux qui
+cherchent, pour ceux qui souffrent, pour ceux qui doutent, pour ceux
+qui n'osent pas*. Une question intrigue ; elle n'adresse personne.
 
 ### 3. Nommer ce que les gens vivent, avant de nommer la réponse
 
@@ -47,7 +60,16 @@ vient y opposer. Elle se reconnaît à gauche avant de lire la droite.
 
 Et les mots du milieu — **miracles, guérison, libération** — sont dits
 en clair. Les cacher pour ne pas effrayer reviendrait à inviter les
-gens sans leur dire où ils vont.
+gens sans leur dire où ils vont, et celui qui le découvre sur place se
+sent piégé.
+
+Enfin, ce qui se passera et **combien de temps ça dure** : *« De la
+musique, des gens qui racontent ce qui leur est arrivé, et une prière
+pour ceux qui la demandent. Deux heures. »*
+
+> **« Deux heures » vaut tout le reste du paragraphe.** Ce qui retient
+> quelqu'un qui hésite, ce n'est pas le doute : c'est la peur de rester
+> coincé. Un chiffre borne l'engagement mieux qu'aucune promesse.
 
 > **Pourquoi Lourdes n'est pas mentionné.** C'était tentant : à vingt
 > minutes de là, des millions de personnes viennent chercher une
