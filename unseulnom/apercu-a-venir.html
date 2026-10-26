@@ -1354,6 +1354,25 @@
    est insere avant le contenu (ce que font certains plugins WordPress), il
    ne trouve aucun element et s'arrete sans rien faire. */
 (function () {
+  /* ---------------------------------------------------------------
+     POURQUOI AUCUNE ESPERLUETTE DANS CE FICHIER
+
+     WordPress retouche la typographie de tout ce qu'on lui confie. Sur
+     du texte c'est utile ; sur du code c'est destructeur : il remplace
+     l'esperluette par son entite HTML, et le navigateur s'arrete alors
+     sur une erreur de syntaxe. Tout le script meurt, pas seulement la
+     ligne. Constate en ligne le 20 octobre 2026 dans le bloc HTML de la
+     page, puis de nouveau le 26 dans l'onglet JavaScript de
+     l'extension : aucun des deux endroits n'est a l'abri.
+
+     L'operateur " et " logique, qui s'ecrit avec deux esperluettes, est
+     donc partout remplace par un ternaire " a ? b : false ". Il dit la
+     meme chose et s'arrete de la meme facon quand a est faux, ce qui
+     protege les acces du genre " a ? a.b : null ".
+
+     Si tu ajoutes du code ici, n'y mets aucune esperluette : le
+     generateur refuse de produire les fichiers tant qu'il en reste une.
+     --------------------------------------------------------------- */
   function usnInit() {
 
     /* Le script est injecte par l'extension " CSS et JS personnalises ",
@@ -1427,7 +1446,7 @@
       var texte = bouton.querySelector('.usn-son-texte');
       var icone = bouton.querySelector('.usn-son-icone');
       if (texte) texte.textContent = video.muted ? 'Activer le son' : 'Couper le son';
-      if (icone) icone.innerHTML = video.muted ? '&#9834;' : '&#9835;';
+      if (icone) icone.textContent = video.muted ? '\u266A' : '\u266B';
       bouton.setAttribute('aria-pressed', video.muted ? 'false' : 'true');
     }
     libelle();
@@ -1458,7 +1477,7 @@
     var barres = boite.querySelectorAll('.usn-tourne-barre');
     if (!vues.length || vues.length !== barres.length) return;
 
-    var reduit = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var reduit = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
     var actif = 0, enPause = false;
 
     /* La largeur des barres suit la duree des vues : la ville qui reste
@@ -1485,11 +1504,11 @@
         barres[k].setAttribute('aria-current', est ? 'true' : 'false');
 
         var b = remplissage(k);
-        if (b && !est) { b.style.animation = 'none'; b.style.width = ''; }
+        if (b ? !est : false) { b.style.animation = 'none'; b.style.width = ''; }
       }
 
       var plein = remplissage(actif);
-      if (plein && !reduit) {
+      if (plein ? !reduit : false) {
         // Remise a zero forcee : sans la lecture de offsetWidth, le
         // navigateur reutilise l'animation en cours au lieu de la relancer.
         plein.style.animation = 'none';
@@ -1558,7 +1577,7 @@
   (function () {
     var root = document.getElementById('usn-agenda');
     if (!root) return;
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var reduce = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
 
     function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
     function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
@@ -1719,7 +1738,7 @@
     var punchP = 0;
     // Ancre sur la premiere ligne de texte (et non sur la section, bien plus
     // haute) : les mots se rassemblent des que le texte entre a l'ecran.
-    var punchAnchor = punch && punch.querySelector('[data-usn-reveal]');
+    var punchAnchor = punch ? punch.querySelector('[data-usn-reveal]') : null;
     function punchTarget() {
       if (!punchAnchor) return 0;
       var r = punchAnchor.getBoundingClientRect(), h = vh();
@@ -1734,7 +1753,7 @@
         ws.style.opacity = e.toFixed(3);
         ws.style.filter = inv > 0.02 ? 'blur(' + (inv * 9).toFixed(1) + 'px)' : 'none';
       }
-      var sub = punch && punch.querySelector('[data-usn-sub]');
+      var sub = punch ? punch.querySelector('[data-usn-sub]') : null;
       if (sub) {
         var sp = clamp01((p - 0.6) / 0.4);
         sub.style.opacity = sp.toFixed(3);

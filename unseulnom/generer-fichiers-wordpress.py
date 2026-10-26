@@ -305,28 +305,33 @@ def verifier(css):
             raise SystemExit("url() contient un saut de ligne : CSS invalide")
 
 
-def avertir_javascript(nom, js):
-    """Rappelle pourquoi le script ne va PAS dans le bloc de la page.
+def verifier_javascript(nom, js):
+    """Refuse un script qui contient une esperluette.
 
-    WordPress retouche la typographie du contenu des pages. Sur un script,
-    la retouche est destructrice : collé dans le bloc HTML de la page, un
-    « && » ressort en « &#038;&#038; » et le navigateur s'arrête sur une
-    erreur de syntaxe — tout le script meurt, pas seulement la ligne.
+    WordPress retouche la typographie de tout ce qu'on lui confie. Sur du
+    texte c'est utile ; sur du code c'est destructeur : il remplace
+    l'esperluette par son entite HTML, et le navigateur s'arrete sur une
+    erreur de syntaxe. Tout le script meurt, pas seulement la ligne.
 
-    Constaté le 20 octobre 2026 sur la page « A venir » : trois « && » sur
-    six avaient ete abimes, le carrousel restait vide.
+    Constate deux fois : le 20 octobre 2026 dans le bloc HTML de la page
+    « A venir » (trois « et » logiques sur six abimes, carrousel vide),
+    puis le 26 dans l'onglet JavaScript de l'extension (trente-deux
+    caracteres abimes). Aucun des deux endroits n'est a l'abri, et c'est
+    pourquoi la regle n'est pas « poser le script ailleurs » mais « ne
+    jamais ecrire d'esperluette dedans ».
 
-    Le script doit donc etre pose dans l'extension « CSS et JS
-    personnalises », qui l'injecte en dehors du contenu de la page : la
-    retouche ne l'atteint pas. Verifie sur la page evenement, dont le
-    script y vit depuis des mois sans une seule alteration.
+    Le remplacement se fait dans le fichier source, a la main : l'operateur
+    « et » logique s'ecrit « a ? b : false ». Mieux vaut un refus ici
+    qu'une page muette en ligne.
     """
-    risques = js.count("&")
-    if risques:
-        print("   %7s         %s : %d caractere(s) & dans le script."
-              % ("", nom, risques))
-        print("   %7s         -> a coller dans l'extension, PAS dans la page."
-              % "")
+    if "&" in js:
+        lignes = [l.strip() for l in js.split("\n") if "&" in l]
+        raise SystemExit(
+            "%s : %d esperluette(s) dans le script.\n"
+            "WordPress les transformera en entites HTML et le script ne\n"
+            "demarrera pas. Remplace « a et b » par « a ? b : false ».\n"
+            "Lignes en cause :\n  %s"
+            % (nom, js.count("&"), "\n  ".join(lignes[:8])))
 
 
 def construire(nom, page):
@@ -338,6 +343,9 @@ def construire(nom, page):
     section = sans_reperes(extraire_section(source, page["source"]))
     html = en_entites(vers_evenement(vers_mediatheque(section)))
     verifier(css)
+    # Avant d'ecrire quoi que ce soit : un script qui ne demarrera pas en
+    # ligne ne doit pas arriver jusqu'au disque.
+    verifier_javascript(nom, js)
 
     sortie = RACINE / page["sortie"]
     sortie.mkdir(exist_ok=True)
@@ -365,17 +373,18 @@ def construire(nom, page):
         chemin_sortie.write_text(contenu, encoding="ascii")
         print("   %7d octets  %s" % (chemin_sortie.stat().st_size,
                                      chemin_sortie.relative_to(RACINE)))
-    avertir_javascript(nom, js)
 
 
 EN_TETE_JS = """/* =====================================================================
    UN SEUL NOM — LE JAVASCRIPT DU SITE
 
    Un seul fichier pour les trois pages. Il se colle dans l'onglet
-   JavaScript de l'extension « CSS et JS personnalises », et nulle part
-   ailleurs : colle dans le bloc HTML d'une page, WordPress retouche la
-   typographie du code et un « && » y ressort en « &#038;&#038; », ce qui
-   arrete le navigateur sur une erreur de syntaxe.
+   JavaScript de l'extension « CSS et JS personnalises ».
+
+   Il ne contient pas une seule esperluette, et ce n'est pas un hasard :
+   WordPress les remplace par leur entite HTML, ce qui arreterait le
+   navigateur sur une erreur de syntaxe. L'operateur « et » logique est
+   donc ecrit « a ? b : false » d'un bout a l'autre du fichier.
 
    Les trois scripts sont independants et commencent chacun par une
    garde : s'il ne trouve pas la page qu'il sert, il s'arrete aussitot
@@ -413,8 +422,12 @@ def main():
             morceaux.append(SEPARATEUR_JS % en_ascii(
                 "Page %s (%s)" % (nom, page["source"])))
             morceaux.append(js.strip() + "\n")
+        tout = "".join(morceaux)
+        # Le meme controle que page par page, applique au fichier reuni :
+        # c'est lui que l'on colle en ligne, c'est donc lui qui compte.
+        verifier_javascript("le fichier reuni", tout)
         chemin = RACINE / "wordpress-javascript-du-site.txt"
-        chemin.write_text("".join(morceaux), encoding="ascii")
+        chemin.write_text(tout, encoding="ascii")
         print("== le javascript des trois pages, en un seul fichier")
         print("   %7d octets  %s" % (chemin.stat().st_size, chemin.name))
 

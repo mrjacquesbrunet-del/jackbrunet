@@ -2,6 +2,25 @@
    est insere avant le contenu (ce que font certains plugins WordPress), il
    ne trouve aucun element et s'arrete sans rien faire. */
 (function () {
+  /* ---------------------------------------------------------------
+     POURQUOI AUCUNE ESPERLUETTE DANS CE FICHIER
+
+     WordPress retouche la typographie de tout ce qu'on lui confie. Sur
+     du texte c'est utile ; sur du code c'est destructeur : il remplace
+     l'esperluette par son entite HTML, et le navigateur s'arrete alors
+     sur une erreur de syntaxe. Tout le script meurt, pas seulement la
+     ligne. Constate en ligne le 20 octobre 2026 dans le bloc HTML de la
+     page, puis de nouveau le 26 dans l'onglet JavaScript de
+     l'extension : aucun des deux endroits n'est a l'abri.
+
+     L'operateur " et " logique, qui s'ecrit avec deux esperluettes, est
+     donc partout remplace par un ternaire " a ? b : false ". Il dit la
+     meme chose et s'arrete de la meme facon quand a est faux, ce qui
+     protege les acces du genre " a ? a.b : null ".
+
+     Si tu ajoutes du code ici, n'y mets aucune esperluette : le
+     generateur refuse de produire les fichiers tant qu'il en reste une.
+     --------------------------------------------------------------- */
   function usnInit() {
 
     /* Le script est injecte par l'extension " CSS et JS personnalises ",
@@ -42,7 +61,7 @@
       if (e.target.closest('a')) basculer(false);
     });
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && bouton.getAttribute('aria-expanded') === 'true') basculer(false);
+      if (e.key === 'Escape' ? bouton.getAttribute('aria-expanded') === 'true' : false) basculer(false);
     });
   })();
 
@@ -75,7 +94,7 @@
       setTimeout(function () {
         if (!loupe.classList.contains('est-ouverte')) { loupe.hidden = true; image.src = ''; }
       }, 280);
-      if (rendre && rendre.focus) rendre.focus();
+      if (rendre ? rendre.focus : false) rendre.focus();
       rendre = null;
     }
 
@@ -107,7 +126,7 @@
       if (e.target === loupe || e.target === fermer) refermer();
     });
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && loupe.classList.contains('est-ouverte')) refermer();
+      if (e.key === 'Escape' ? loupe.classList.contains('est-ouverte') : false) refermer();
     });
   })();
 
@@ -154,7 +173,7 @@
       if (!muet) {
         if (jamaisTouche) { try { video.currentTime = 0; } catch (e) {} }
         var p = video.play();
-        if (p && p.catch) p.catch(function () {});
+        if (p ? p.catch : false) p.catch(function () {});
       }
       jamaisTouche = false;
       bouton.classList.remove('est-neuf');
@@ -185,7 +204,7 @@
       var sombre = false;
       for (var i = 0; i < sombres.length; i++) {
         var r = sombres[i].getBoundingClientRect();
-        if (r.top <= 72 && r.bottom > 72) { sombre = true; break; }
+        if (r.top <= 72 ? r.bottom > 72 : false) { sombre = true; break; }
       }
       nav.classList.toggle('est-nuit', sombre);
       if (nom) {
@@ -242,7 +261,8 @@
 
       // On change de photo au bout d'un moment, pas a chaque mouvement :
       // sinon les images clignotent des qu'on bouge la souris.
-      if (vues.length > 1 && actif && t - dernierEchange > 1800) {
+      var tourner = vues.length > 1 ? (actif ? t - dernierEchange > 1800 : false) : false;
+      if (tourner) {
         dernierEchange = t;
         vues[iVue].classList.remove('est-vue');
         iVue = (iVue + 1) % vues.length;
@@ -305,7 +325,7 @@
   (function () {
     var root = document.getElementById('usn-accueil');
     if (!root) return;
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var reduce = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
 
     function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
     function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
@@ -435,7 +455,7 @@
     var punchP = 0;
     // Ancre sur la premiere ligne de texte (et non sur la section, bien plus
     // haute) : les mots se rassemblent des que le texte entre a l'ecran.
-    var punchAnchor = punch && punch.querySelector('[data-usn-reveal]');
+    var punchAnchor = punch ? punch.querySelector('[data-usn-reveal]') : null;
     function punchTarget() {
       if (!punchAnchor) return 0;
       var r = punchAnchor.getBoundingClientRect(), h = vh();
@@ -450,7 +470,7 @@
         ws.style.opacity = e.toFixed(3);
         ws.style.filter = inv > 0.02 ? 'blur(' + (inv * 9).toFixed(1) + 'px)' : 'none';
       }
-      var sub = punch && punch.querySelector('[data-usn-sub]');
+      var sub = punch ? punch.querySelector('[data-usn-sub]') : null;
       if (sub) {
         var sp = clamp01((p - 0.6) / 0.4);
         sub.style.opacity = sp.toFixed(3);
@@ -521,7 +541,7 @@
       if (jauge) jauge.style.width = (p * 100).toFixed(2) + '%';
 
       // La signature se trace quand son panneau traverse l'ecran.
-      if (signe && signes.length) {
+      if (signe ? signes.length : 0) {
         var rs = signe.getBoundingClientRect();
         var q = clamp01((window.innerWidth * 0.78 - rs.left) / (window.innerWidth * 0.42));
         for (var i = 0; i < signes.length; i++) {

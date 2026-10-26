@@ -2,10 +2,12 @@
    UN SEUL NOM - LE JAVASCRIPT DU SITE
 
    Un seul fichier pour les trois pages. Il se colle dans l'onglet
-   JavaScript de l'extension " CSS et JS personnalises ", et nulle part
-   ailleurs : colle dans le bloc HTML d'une page, WordPress retouche la
-   typographie du code et un " && " y ressort en " &#038;&#038; ", ce qui
-   arrete le navigateur sur une erreur de syntaxe.
+   JavaScript de l'extension " CSS et JS personnalises ".
+
+   Il ne contient pas une seule esperluette, et ce n'est pas un hasard :
+   WordPress les remplace par leur entite HTML, ce qui arreterait le
+   navigateur sur une erreur de syntaxe. L'operateur " et " logique est
+   donc ecrit " a ? b : false " d'un bout a l'autre du fichier.
 
    Les trois scripts sont independants et commencent chacun par une
    garde : s'il ne trouve pas la page qu'il sert, il s'arrete aussitot
@@ -25,6 +27,25 @@
    est insere avant le contenu (ce que font certains plugins WordPress), il
    ne trouve aucun element et s'arrete sans rien faire. */
 (function () {
+  /* ---------------------------------------------------------------
+     POURQUOI AUCUNE ESPERLUETTE DANS CE FICHIER
+
+     WordPress retouche la typographie de tout ce qu'on lui confie. Sur
+     du texte c'est utile ; sur du code c'est destructeur : il remplace
+     l'esperluette par son entite HTML, et le navigateur s'arrete alors
+     sur une erreur de syntaxe. Tout le script meurt, pas seulement la
+     ligne. Constate en ligne le 20 octobre 2026 dans le bloc HTML de la
+     page, puis de nouveau le 26 dans l'onglet JavaScript de
+     l'extension : aucun des deux endroits n'est a l'abri.
+
+     L'operateur " et " logique, qui s'ecrit avec deux esperluettes, est
+     donc partout remplace par un ternaire " a ? b : false ". Il dit la
+     meme chose et s'arrete de la meme facon quand a est faux, ce qui
+     protege les acces du genre " a ? a.b : null ".
+
+     Si tu ajoutes du code ici, n'y mets aucune esperluette : le
+     generateur refuse de produire les fichiers tant qu'il en reste une.
+     --------------------------------------------------------------- */
   function usnInit() {
 
     /* Le script est injecte par l'extension " CSS et JS personnalises ",
@@ -65,7 +86,7 @@
       if (e.target.closest('a')) basculer(false);
     });
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && bouton.getAttribute('aria-expanded') === 'true') basculer(false);
+      if (e.key === 'Escape' ? bouton.getAttribute('aria-expanded') === 'true' : false) basculer(false);
     });
   })();
 
@@ -98,7 +119,7 @@
       setTimeout(function () {
         if (!loupe.classList.contains('est-ouverte')) { loupe.hidden = true; image.src = ''; }
       }, 280);
-      if (rendre && rendre.focus) rendre.focus();
+      if (rendre ? rendre.focus : false) rendre.focus();
       rendre = null;
     }
 
@@ -130,7 +151,7 @@
       if (e.target === loupe || e.target === fermer) refermer();
     });
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && loupe.classList.contains('est-ouverte')) refermer();
+      if (e.key === 'Escape' ? loupe.classList.contains('est-ouverte') : false) refermer();
     });
   })();
 
@@ -177,7 +198,7 @@
       if (!muet) {
         if (jamaisTouche) { try { video.currentTime = 0; } catch (e) {} }
         var p = video.play();
-        if (p && p.catch) p.catch(function () {});
+        if (p ? p.catch : false) p.catch(function () {});
       }
       jamaisTouche = false;
       bouton.classList.remove('est-neuf');
@@ -208,7 +229,7 @@
       var sombre = false;
       for (var i = 0; i < sombres.length; i++) {
         var r = sombres[i].getBoundingClientRect();
-        if (r.top <= 72 && r.bottom > 72) { sombre = true; break; }
+        if (r.top <= 72 ? r.bottom > 72 : false) { sombre = true; break; }
       }
       nav.classList.toggle('est-nuit', sombre);
       if (nom) {
@@ -265,7 +286,8 @@
 
       // On change de photo au bout d'un moment, pas a chaque mouvement :
       // sinon les images clignotent des qu'on bouge la souris.
-      if (vues.length > 1 && actif && t - dernierEchange > 1800) {
+      var tourner = vues.length > 1 ? (actif ? t - dernierEchange > 1800 : false) : false;
+      if (tourner) {
         dernierEchange = t;
         vues[iVue].classList.remove('est-vue');
         iVue = (iVue + 1) % vues.length;
@@ -328,7 +350,7 @@
   (function () {
     var root = document.getElementById('usn-accueil');
     if (!root) return;
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var reduce = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
 
     function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
     function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
@@ -458,7 +480,7 @@
     var punchP = 0;
     // Ancre sur la premiere ligne de texte (et non sur la section, bien plus
     // haute) : les mots se rassemblent des que le texte entre a l'ecran.
-    var punchAnchor = punch && punch.querySelector('[data-usn-reveal]');
+    var punchAnchor = punch ? punch.querySelector('[data-usn-reveal]') : null;
     function punchTarget() {
       if (!punchAnchor) return 0;
       var r = punchAnchor.getBoundingClientRect(), h = vh();
@@ -473,7 +495,7 @@
         ws.style.opacity = e.toFixed(3);
         ws.style.filter = inv > 0.02 ? 'blur(' + (inv * 9).toFixed(1) + 'px)' : 'none';
       }
-      var sub = punch && punch.querySelector('[data-usn-sub]');
+      var sub = punch ? punch.querySelector('[data-usn-sub]') : null;
       if (sub) {
         var sp = clamp01((p - 0.6) / 0.4);
         sub.style.opacity = sp.toFixed(3);
@@ -544,7 +566,7 @@
       if (jauge) jauge.style.width = (p * 100).toFixed(2) + '%';
 
       // La signature se trace quand son panneau traverse l'ecran.
-      if (signe && signes.length) {
+      if (signe ? signes.length : 0) {
         var rs = signe.getBoundingClientRect();
         var q = clamp01((window.innerWidth * 0.78 - rs.left) / (window.innerWidth * 0.42));
         for (var i = 0; i < signes.length; i++) {
@@ -685,6 +707,25 @@
    est insere avant le contenu (ce que font certains plugins WordPress), il
    ne trouve aucun element et s'arrete sans rien faire. */
 (function () {
+  /* ---------------------------------------------------------------
+     POURQUOI AUCUNE ESPERLUETTE DANS CE FICHIER
+
+     WordPress retouche la typographie de tout ce qu'on lui confie. Sur
+     du texte c'est utile ; sur du code c'est destructeur : il remplace
+     l'esperluette par son entite HTML, et le navigateur s'arrete alors
+     sur une erreur de syntaxe. Tout le script meurt, pas seulement la
+     ligne. Constate en ligne le 20 octobre 2026 dans le bloc HTML de la
+     page, puis de nouveau le 26 dans l'onglet JavaScript de
+     l'extension : aucun des deux endroits n'est a l'abri.
+
+     L'operateur " et " logique, qui s'ecrit avec deux esperluettes, est
+     donc partout remplace par un ternaire " a ? b : false ". Il dit la
+     meme chose et s'arrete de la meme facon quand a est faux, ce qui
+     protege les acces du genre " a ? a.b : null ".
+
+     Si tu ajoutes du code ici, n'y mets aucune esperluette : le
+     generateur refuse de produire les fichiers tant qu'il en reste une.
+     --------------------------------------------------------------- */
   function usnInit() {
 
     /* Le script est injecte par l'extension " CSS et JS personnalises ",
@@ -704,14 +745,14 @@
       var avail = h1.clientWidth;
       if (!avail) return;
       var size = parseFloat(getComputedStyle(h1).fontSize);
-      for (var i = 0; i < 3 && h1.scrollWidth > avail; i++) {
+      for (var i = 0; i < 3 ? h1.scrollWidth > avail : false; i++) {
         size = Math.floor(size * (avail / h1.scrollWidth) * 0.99);
         h1.style.fontSize = size + 'px';
       }
     }
     fit();
     window.addEventListener('resize', fit);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+    if (document.fonts ? document.fonts.ready : false) document.fonts.ready.then(fit);
   })();
 
   /* ---- Son de la video ----
@@ -745,7 +786,7 @@
       var texte = bouton.querySelector('.usn-son-texte');
       var icone = bouton.querySelector('.usn-son-icone');
       if (texte) texte.textContent = video.muted ? 'Activer le son' : 'Couper le son';
-      if (icone) icone.innerHTML = video.muted ? '&#9834;' : '&#9835;';
+      if (icone) icone.textContent = video.muted ? '\u266A' : '\u266B';
       bouton.setAttribute('aria-pressed', video.muted ? 'false' : 'true');
     }
     libelle();
@@ -797,7 +838,7 @@
   (function () {
     var root = document.getElementById('usn-event');
     if (!root) return;
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var reduce = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
 
     function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
     function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
@@ -936,7 +977,7 @@
     var punchP = 0;
     // Ancre sur la premiere ligne de texte (et non sur la section, bien plus
     // haute) : les mots se rassemblent des que le texte entre a l'ecran.
-    var punchAnchor = punch && punch.querySelector('[data-usn-reveal]');
+    var punchAnchor = punch ? punch.querySelector('[data-usn-reveal]') : null;
     function punchTarget() {
       if (!punchAnchor) return 0;
       var r = punchAnchor.getBoundingClientRect(), h = vh();
@@ -951,7 +992,7 @@
         ws.style.opacity = e.toFixed(3);
         ws.style.filter = inv > 0.02 ? 'blur(' + (inv * 9).toFixed(1) + 'px)' : 'none';
       }
-      var sub = punch && punch.querySelector('[data-usn-sub]');
+      var sub = punch ? punch.querySelector('[data-usn-sub]') : null;
       if (sub) {
         var sp = clamp01((p - 0.6) / 0.4);
         sub.style.opacity = sp.toFixed(3);
@@ -1025,7 +1066,7 @@
     var choixPl  = document.getElementById('usn-places');
 
     function valeurPlaces() {
-      var coche = choixPl && choixPl.querySelector('input[name="PLACES"]:checked');
+      var coche = choixPl ? choixPl.querySelector('input[name="PLACES"]:checked') : null;
       return coche ? parseInt(coche.value, 10) || 1 : 1;
     }
     var bouton   = form.querySelector('button[type=submit]');
@@ -1056,7 +1097,7 @@
 
       // Pastilles : bornees par la limite et par ce qu'il reste reellement.
       maxPlaces = Math.max(1, Math.min(e.max | 0 || 1, restantes));
-      if (choixPl && champPl) {
+      if (choixPl ? champPl : null) {
         var garde = valeurPlaces();
         choixPl.innerHTML = '';
         for (var i = 1; i <= maxPlaces; i++) {
@@ -1147,14 +1188,15 @@
         .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
         .then(function (res) {
           if (bouton) { bouton.disabled = false; bouton.textContent = 'Je r\u00e9serve ma place'; }
-          if (res.ok && res.d && res.d.ok) {
+          var reussi = res.ok ? (res.d ? res.d.ok : false) : false;
+          if (reussi) {
             envoyerVersBrevo();
             succes(res.d.restantes);
             fetch(API + 'places', { credentials: 'same-origin' })
               .then(function (r) { return r.json(); }).then(afficherEtat).catch(function () {});
           } else {
-            erreur((res.d && res.d.message) || 'La r\u00e9servation a \u00e9chou\u00e9, r\u00e9essaie.');
-            if (res.d && typeof res.d.restantes === 'number') {
+            erreur((res.d ? res.d.message : '') || 'La r\u00e9servation a \u00e9chou\u00e9, r\u00e9essaie.');
+            if (res.d ? typeof res.d.restantes === 'number' : false) {
               fetch(API + 'places', { credentials: 'same-origin' })
                 .then(function (r) { return r.json(); }).then(afficherEtat).catch(function () {});
             }
@@ -1184,6 +1226,25 @@
    est insere avant le contenu (ce que font certains plugins WordPress), il
    ne trouve aucun element et s'arrete sans rien faire. */
 (function () {
+  /* ---------------------------------------------------------------
+     POURQUOI AUCUNE ESPERLUETTE DANS CE FICHIER
+
+     WordPress retouche la typographie de tout ce qu'on lui confie. Sur
+     du texte c'est utile ; sur du code c'est destructeur : il remplace
+     l'esperluette par son entite HTML, et le navigateur s'arrete alors
+     sur une erreur de syntaxe. Tout le script meurt, pas seulement la
+     ligne. Constate en ligne le 20 octobre 2026 dans le bloc HTML de la
+     page, puis de nouveau le 26 dans l'onglet JavaScript de
+     l'extension : aucun des deux endroits n'est a l'abri.
+
+     L'operateur " et " logique, qui s'ecrit avec deux esperluettes, est
+     donc partout remplace par un ternaire " a ? b : false ". Il dit la
+     meme chose et s'arrete de la meme facon quand a est faux, ce qui
+     protege les acces du genre " a ? a.b : null ".
+
+     Si tu ajoutes du code ici, n'y mets aucune esperluette : le
+     generateur refuse de produire les fichiers tant qu'il en reste une.
+     --------------------------------------------------------------- */
   function usnInit() {
 
     /* Le script est injecte par l'extension " CSS et JS personnalises ",
@@ -1257,7 +1318,7 @@
       var texte = bouton.querySelector('.usn-son-texte');
       var icone = bouton.querySelector('.usn-son-icone');
       if (texte) texte.textContent = video.muted ? 'Activer le son' : 'Couper le son';
-      if (icone) icone.innerHTML = video.muted ? '&#9834;' : '&#9835;';
+      if (icone) icone.textContent = video.muted ? '\u266A' : '\u266B';
       bouton.setAttribute('aria-pressed', video.muted ? 'false' : 'true');
     }
     libelle();
@@ -1288,7 +1349,7 @@
     var barres = boite.querySelectorAll('.usn-tourne-barre');
     if (!vues.length || vues.length !== barres.length) return;
 
-    var reduit = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var reduit = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
     var actif = 0, enPause = false;
 
     /* La largeur des barres suit la duree des vues : la ville qui reste
@@ -1315,11 +1376,11 @@
         barres[k].setAttribute('aria-current', est ? 'true' : 'false');
 
         var b = remplissage(k);
-        if (b && !est) { b.style.animation = 'none'; b.style.width = ''; }
+        if (b ? !est : false) { b.style.animation = 'none'; b.style.width = ''; }
       }
 
       var plein = remplissage(actif);
-      if (plein && !reduit) {
+      if (plein ? !reduit : false) {
         // Remise a zero forcee : sans la lecture de offsetWidth, le
         // navigateur reutilise l'animation en cours au lieu de la relancer.
         plein.style.animation = 'none';
@@ -1388,7 +1449,7 @@
   (function () {
     var root = document.getElementById('usn-agenda');
     if (!root) return;
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var reduce = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
 
     function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
     function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
@@ -1549,7 +1610,7 @@
     var punchP = 0;
     // Ancre sur la premiere ligne de texte (et non sur la section, bien plus
     // haute) : les mots se rassemblent des que le texte entre a l'ecran.
-    var punchAnchor = punch && punch.querySelector('[data-usn-reveal]');
+    var punchAnchor = punch ? punch.querySelector('[data-usn-reveal]') : null;
     function punchTarget() {
       if (!punchAnchor) return 0;
       var r = punchAnchor.getBoundingClientRect(), h = vh();
@@ -1564,7 +1625,7 @@
         ws.style.opacity = e.toFixed(3);
         ws.style.filter = inv > 0.02 ? 'blur(' + (inv * 9).toFixed(1) + 'px)' : 'none';
       }
-      var sub = punch && punch.querySelector('[data-usn-sub]');
+      var sub = punch ? punch.querySelector('[data-usn-sub]') : null;
       if (sub) {
         var sp = clamp01((p - 0.6) / 0.4);
         sub.style.opacity = sp.toFixed(3);
