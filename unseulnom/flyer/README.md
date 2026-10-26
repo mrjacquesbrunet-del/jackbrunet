@@ -239,7 +239,36 @@ ce à quoi elles répondent.
 **Résultat : sept blocs au lieu de douze, cinq corps au lieu de onze,
 et le titre repasse devant.**
 
-### 6. Le pied — tout ce qui n'est pas l'argument
+### 6. Le pavé n'est plus noir
+
+Un aplat d'encre de 55 mm sur une page ivoire, c'est un coup de poing
+graphique. Sur une invitation adressée à quelqu'un qui a peur
+d'entrer dans une église, le ton du contenant contredisait celui du
+texte : **la page disait « viens comme tu es » avec la voix d'un
+avertissement.**
+
+Le pavé est maintenant un **lavis de la charte sur l'ivoire** — un
+dégradé d'ambre qui s'éteint vers la droite, posé sur un crème à peine
+plus clair que la page. Il reste un bloc, il n'agresse plus.
+
+Deux conséquences techniques :
+
+- **Les réponses passent de l'orange au rouge.** L'orange de la marque
+  sur un fond clair plafonne à 2,2 de contraste : illisible. Sur le
+  noir il éclatait, sur l'ambre il disparaîtrait. Le rouge tient, et
+  il relie les cinq réponses à la ligne du Nom.
+- **Le lavis est de l'ambre pur, jamais du rose.** Un dégradé qui
+  traverse le magenta de la charte vire au bonbon dès qu'on le pose en
+  transparence — et le rose est la seule couleur que ce projet refuse.
+  Il court donc d'ambre à ambre, en intensité seulement.
+
+> **Le centrage de la ligne du Nom est calculé, pas réglé à la main.**
+> Un conteneur « .milieu » prend tout l'espace restant entre le
+> déroulé et le pied, et y centre la phrase. Une marge fixe paraîtrait
+> juste sur ce texte-ci et fausse dès que le déroulé gagne ou perd une
+> ligne ; là, l'équilibre se refait tout seul.
+
+### 7. Le pied — tout ce qui n'est pas l'argument
 
 Date, lieu, adresse, horaires, QR : ce sont des **renseignements**. On
 les prend quand on a déjà décidé, jamais avant. La date était montée à

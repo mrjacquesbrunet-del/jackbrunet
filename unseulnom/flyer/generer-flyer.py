@@ -237,7 +237,10 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    gens sans leur dire ou ils vont. */
 .face {
   flex: none; margin-top: 7mm; padding: 6.5mm 7mm; border-radius: 3.5mm;
-  background: var(--encre); color: var(--creme);
+  background:
+    linear-gradient(100deg, rgba(247,148,29,.32) 0%, rgba(247,148,29,.17) 58%, rgba(247,148,29,.09) 100%),
+    #FBF9F4;
+  color: var(--encre);
 }
 .face table { width: 100%; border-collapse: collapse; }
 .face td { padding: 1.6mm 0; vertical-align: baseline; }
@@ -253,10 +256,10 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    si bien qu'on lisait cinq promesses AVANT ce a quoi elles
    repondent. C'est exactement l'ordre inverse de celui qu'on veut :
    le lecteur doit d'abord se reconnaitre. */
-.face .g { font-size: 10pt; color: rgba(240,238,231,.86); }
+.face .g { font-size: 10pt; color: var(--gris); }
 .face .d {
   text-align: right; font-family: var(--titre); font-weight: 800;
-  font-size: 13pt; color: var(--or); white-space: nowrap;
+  font-size: 13pt; color: var(--rouge); white-space: nowrap;
 }
 /* LE DEROULE EST SORTI DU PAVE, ET C'EST LA VRAIE REPONSE A
    « C'EST TROP CHARGE ».
@@ -275,7 +278,7 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    redevient ce qu'il aurait toujours du etre : une declaration, pas
    un encadre fourre-tout. */
 .deroule {
-  flex: none; margin-top: 8mm; font-size: 10pt; line-height: 1.5; color: var(--gris);
+  flex: none; margin-top: 5mm; font-size: 10pt; line-height: 1.5; color: var(--gris);
 }
 .deroule strong { color: var(--encre); font-weight: 700; }
 /* QUATRE MOTS QUI TOMBENT, PUIS LA MUSIQUE.
@@ -325,7 +328,7 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    devient un signal, on s'attend a ce que le lecteur veuille sortir.
    Elle est donc restee dans le bloc noir, au milieu de ce qui se
    passe, et la ligne du bas sert maintenant a autre chose. */
-.face strong { color: var(--creme); font-weight: 700; }
+
 
 /* LA LIGNE QUI PORTE LE NOM.
 
@@ -386,8 +389,14 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    a deja approuvee. Pas une affirmation a croire d'emblee : la fin
    d'un raisonnement qu'il vient de suivre. */
 .nom {
-  flex: none; margin-top: 14mm; text-align: center; font-family: var(--serif);
+  text-align: center; font-family: var(--serif);
 }
+/* LE CENTRAGE EST CALCULE, PAS REGLE A LA MAIN.
+   « .milieu » prend tout l'espace qui reste entre le deroule et le
+   pied, et y centre la ligne du Nom. Une marge fixe aurait l'air
+   juste sur ce texte-ci et faux des que le deroule gagne ou perd une
+   ligne ; la, l'equilibre se refait tout seul. */
+.milieu { flex: 1; display: flex; align-items: center; justify-content: center; }
 .nom .q { font-size: 13pt; line-height: 1.3; color: var(--gris); }
 .nom .r { margin-top: 2mm; font-size: 17pt; line-height: 1.25; color: var(--encre); }
 .nom .r em { font-style: normal; color: var(--rouge); }
@@ -422,7 +431,7 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    au-dessus, 3,5 en dessous — et il redevient ce qu'il est : la
    signature de couleur de la marque, qui n'appartient a aucun des
    deux blocs. */
-.pied { flex: none; margin-top: auto; padding-top: 5mm; }
+.pied { flex: none; padding-top: 5mm; }
 .pratique { display: flex; gap: 6mm; align-items: flex-start; }
 .pratique .infos { flex: 1; }
 .pratique .k {
@@ -492,12 +501,14 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
     Le tout port&eacute; par une <strong>musique type gospel</strong>.
   </p>
 
-  <div class="nom">
+  <div class="milieu">
+   <div class="nom">
     <p class="q">
       La religion donne un cadre. Les valeurs, des rep&egrave;res.<br>
       Les efforts, des r&eacute;sultats.
     </p>
     <p class="r"><em>Mais un seul Nom transforme. J&eacute;sus-Christ.</em></p>
+   </div>
   </div>
 
   <div class="pied">
