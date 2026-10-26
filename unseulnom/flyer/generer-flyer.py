@@ -236,18 +236,48 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    clair : les cacher pour ne pas effrayer reviendrait a inviter les
    gens sans leur dire ou ils vont. */
 .face {
-  flex: none; margin-top: 4.5mm; padding: 4.2mm 5.5mm; border-radius: 3.5mm;
+  flex: none; margin-top: 4.5mm; padding: 6.5mm 7mm; border-radius: 3.5mm;
   background: var(--encre); color: var(--creme);
 }
 .face table { width: 100%; border-collapse: collapse; }
-.face td { padding: 1.1mm 0; vertical-align: baseline; }
-.face tr + tr td { border-top: 1px solid rgba(240,238,231,.14); }
-.face .g { font-size: 10.6pt; color: rgba(240,238,231,.74); }
+.face td { padding: 1.6mm 0; vertical-align: baseline; }
+/* LES FILETS DU TABLEAU ONT SAUTE. Quatre traits horizontaux entre
+   cinq lignes deja separees par l'alignement, la couleur et la
+   graisse : ils ne separaient rien que l'espace ne separait pas, et
+   ils donnaient au pave la mine d'un tableau de tarifs. Sans eux
+   c'est une declaration. Les cellules respirent un peu plus pour
+   faire le travail que les traits faisaient mal.
+
+   Et la colonne de gauche est remontee de .74 a .86 d'opacite : a
+   .74 contre un orange plein a 800, elle perdait de dix longueurs,
+   si bien qu'on lisait cinq promesses AVANT ce a quoi elles
+   repondent. C'est exactement l'ordre inverse de celui qu'on veut :
+   le lecteur doit d'abord se reconnaitre. */
+.face .g { font-size: 10pt; color: rgba(240,238,231,.86); }
 .face .d {
   text-align: right; font-family: var(--titre); font-weight: 800;
-  font-size: 12.6pt; color: var(--or); white-space: nowrap;
+  font-size: 13pt; color: var(--or); white-space: nowrap;
 }
-.face p { margin-top: 3mm; font-size: 9.8pt; line-height: 1.5; color: rgba(240,238,231,.8); }
+/* LE DEROULE EST SORTI DU PAVE, ET C'EST LA VRAIE REPONSE A
+   « C'EST TROP CHARGE ».
+
+   Le rectangle noir faisait 86 mm de haut, 47 % de la hauteur utile,
+   contre 23 mm pour le titre : quatre fois le bloc principal. Un
+   aplat noir sur fond ivoire bat n'importe quelle typographie, donc
+   on lisait la grille AVANT la phrase qui s'adresse a la personne.
+   L'ordre du document etait retourne par la seule force d'une
+   surface.
+
+   Or ce n'est pas le TEXTE qui pesait, c'est l'ENCRE. Le pave tenait
+   deux choses de nature differente : cinq lignes qui frappent, et un
+   paragraphe qui explique. En sortant le paragraphe sur l'ivoire, on
+   ne coupe pas un mot et la masse noire tombe de moitie. Le pave
+   redevient ce qu'il aurait toujours du etre : une declaration, pas
+   un encadre fourre-tout. */
+.deroule {
+  flex: none; margin-top: 4mm; font-size: 10pt; line-height: 1.5; color: var(--gris);
+}
+.deroule strong { color: var(--encre); font-weight: 700; }
 /* LA DUREE N'EST PAS ANNONCEE, ET C'EST VOULU.
 
    Une premiere version disait « Deux heures ». C'etait faux : ca dure
@@ -261,8 +291,6 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    devient un signal, on s'attend a ce que le lecteur veuille sortir.
    Elle est donc restee dans le bloc noir, au milieu de ce qui se
    passe, et la ligne du bas sert maintenant a autre chose. */
-.face .combien { margin-top: 1.8mm; padding-top: 1.8mm; border-top: 1px solid rgba(240,238,231,.14); }
-.face .combien strong { color: var(--or); }
 .face strong { color: var(--creme); font-weight: 700; }
 
 /* LA LIGNE QUI PORTE LE NOM.
@@ -324,19 +352,32 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    a deja approuvee. Pas une affirmation a croire d'emblee : la fin
    d'un raisonnement qu'il vient de suivre. */
 .nom {
-  flex: none; margin-top: 3.5mm; text-align: center; font-family: var(--serif);
+  flex: none; margin-top: 4mm; text-align: center; font-family: var(--serif);
 }
-.nom .q { font-size: 13.5pt; line-height: 1.3; color: var(--gris); }
+.nom .q { font-size: 13pt; line-height: 1.3; color: var(--gris); }
 .nom .r { margin-top: 2mm; font-size: 17pt; line-height: 1.25; color: var(--encre); }
 .nom .r em { font-style: normal; color: var(--rouge); }
 
-.pratique { flex: none; margin-top: auto; padding-top: 3mm; display: flex; gap: 6mm; align-items: flex-end; }
+/* LA DATE PREND TOUTE LA LARGEUR. A 17pt, serree contre le QR dans
+   les 94 mm restants, « SAMEDI 12 DECEMBRE 2026 » passait a la ligne
+   et laissait un « 2026 » orphelin. Elle occupe donc sa propre
+   bande, sur les 124 mm pleins, et le QR ne partage plus que
+   l'adresse. */
+.quand-verso { flex: none; margin-top: auto; padding-top: 3mm; }
+.pratique { flex: none; margin-top: 3mm; display: flex; gap: 6mm; align-items: flex-start; }
 .pratique .infos { flex: 1; }
-.pratique .k {
-  font-size: 7pt; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--gris);
+/* ONZE TAILLES SUR UNE FACE A5, DONT SIX A MOINS D'UN POINT L'UNE DE
+   L'AUTRE : 9,6 et 9,8 et 10,6 ; 12,6 et 13,5 ; 15 et 17. Un ecart
+   trop petit pour etre lu comme une hierarchie, assez grand pour
+   etre lu comme de la negligence. Le verso tient maintenant sur six
+   crans franchement separes — 22,4 / 19 / 17 / 13 / 10 / 8 — et la
+   date du rendez-vous monte de 15 a 17pt, au rang de la ligne du
+   Nom, parce que c'est l'autre chose que le lecteur doit emporter. */
+.quand-verso .k {
+  font-size: 8pt; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--gris);
 }
-.pratique .v { font-family: var(--titre); font-weight: 900; font-size: 15pt; line-height: 1.1; text-transform: uppercase; }
-.pratique .a { margin-top: 1.4mm; font-size: 9.6pt; line-height: 1.4; color: var(--gris); }
+.quand-verso .v { margin-top: .6mm; font-family: var(--titre); font-weight: 900; font-size: 17pt; line-height: 1.1; text-transform: uppercase; }
+.pratique .a { font-size: 10pt; line-height: 1.45; color: var(--gris); }
 .pratique .code { flex: none; text-align: center; }
 .pratique .code img { width: 24mm; height: 24mm; display: block; }
 .pratique .code span { display: block; margin-top: 2mm; font-size: 8pt; font-weight: 700; color: var(--gris); }
@@ -344,18 +385,26 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
 /* « flex: none » n'est pas decoratif : le verso est une colonne
    flexible, et un bloc vide de 2,4 mm s'y fait ecraser a zero. Le
    ruban etait bien la, haut de rien du tout. */
-.ruban { flex: none; margin-top: 4mm; height: 2.4mm; border-radius: 99px; background: var(--degrade); }
+/* LE RUBAN A QUITTE LE VERSO. Deux millimetres et demi de haut,
+   zero information, et cinq couleurs : il reintroduisait magenta,
+   violet et bleu, qui n'existent nulle part ailleurs sur cette face.
+   C'etait l'identite de marque occupee a faire le travail d'un
+   filet. Pire, il etait plus pres de la signature (2,5 mm) que du
+   bloc qu'il etait cense separer (4 mm) : il se lisait comme un
+   ornement accroche au bas de page. Le degrade reste au recto, ou il
+   est chez lui, en fond, avec la place de se deployer. */
 .fin { flex: none; margin-top: 2.5mm; text-align: center; }
-/* La signature etait rouge, 16pt, serif — exactement le poids de la
-   ligne du Nom, douze millimetres plus haut. Deux declarations de
-   meme force se neutralisent : le lecteur ne sait plus laquelle est
-   la conclusion. Elle garde sa place et son role (le dernier mot est
-   un imperatif), mais passe au noir et descend d'un tiers, pour que
-   le seul rouge de cette moitie de page soit le Nom. */
-.viens {
-  font-family: var(--serif); font-size: 13.5pt; line-height: 1.1; color: var(--encre);
-}
-.deja { margin-top: 2mm; font-size: 8.6pt; color: var(--gris); }
+/* « VIENS. TU VERRAS BIEN. » EST PARTIE, ET C'ETAIT LA TROISIEME
+   CONCLUSION. Le verso en alignait trois a vingt-cinq millimetres
+   d'intervalle : « Reste le temps que tu veux », « Mais un seul Nom
+   transforme », puis celle-la. Elle etait d'abord rouge et serif a
+   16pt, soit exactement le poids de la ligne du Nom ; on l'avait
+   passee au noir et descendue d'un tiers, mais changer la couleur
+   d'un element redondant ne le rend pas moins redondant.
+
+   Le point du document est le Nom. Une page qui continue apres lui
+   lui retire sa place. */
+.deja { font-size: 8pt; color: var(--gris); }
 .deja i { font-style: normal; opacity: .55; margin: 0 1mm; }
 .deja b { font-family: var(--titre); font-weight: 800; color: var(--encre); letter-spacing: .02em; }
 </style></head><body>
@@ -399,17 +448,15 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
       <tr><td class="g">Face &agrave; la maladie</td><td class="d">une gu&eacute;rison</td></tr>
       <tr><td class="g">Face &agrave; une vie sans direction</td><td class="d">un avenir</td></tr>
     </table>
-    <p>
-      On y parlera de <strong>miracles</strong>, de <strong>gu&eacute;rison</strong>, de
-      <strong>lib&eacute;ration</strong>. Pas comme d'une id&eacute;e&nbsp;: comme de
-      choses qui arrivent.
-    </p>
-    <p class="combien">
-      De la musique, des gens qui racontent ce qui leur est arriv&eacute;, et une
-      pri&egrave;re pour ceux qui la demandent.<br>
-      <strong>Reste le temps que tu veux.</strong>
-    </p>
   </div>
+
+  <p class="deroule">
+    On y parlera de <strong>miracles</strong>, de <strong>gu&eacute;rison</strong>, de
+    <strong>lib&eacute;ration</strong> &mdash; pas comme d'une id&eacute;e, comme de choses
+    qui arrivent. De la musique, des gens qui racontent ce qui leur est
+    arriv&eacute;, une pri&egrave;re si tu la demandes.
+    <strong>Reste le temps que tu veux.</strong>
+  </p>
 
   <div class="nom">
     <p class="q">
@@ -419,10 +466,13 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
     <p class="r"><em>Mais un seul Nom transforme. J&eacute;sus-Christ.</em></p>
   </div>
 
+  <div class="quand-verso">
+    <div class="k">Rendez-vous</div>
+    <div class="v">__DATE__</div>
+  </div>
+
   <div class="pratique">
     <div class="infos">
-      <div class="k">Rendez-vous</div>
-      <div class="v">__DATE__</div>
       <div class="a"><strong>__LIEU__</strong><br>__ADRESSE__<br>__HORAIRES__</div>
     </div>
     <div class="code">
@@ -431,18 +481,11 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
     </div>
   </div>
 
-  <div class="ruban"></div>
-
-  <!-- LA DERNIERE PHRASE.
-       Un flyer qui s'arrete sur une adresse de site s'arrete sur rien.
-       Quatre mots, aucune pression, et c'est celle qui reste quand le
-       papier est deja dans la poche.
-
-       Et la preuve, juste en dessous : savoir que d'autres y sont
-       alles rassure plus que toutes les promesses de la page. Ce sont
-       des villes, verifiables, pas des chiffres. -->
+  <!-- LA PREUVE, ET RIEN D'AUTRE.
+       Savoir que d'autres y sont alles rassure plus que toutes les
+       promesses de la page. Ce sont des villes, verifiables, pas des
+       chiffres. -->
   <div class="fin">
-    <p class="viens">Viens. Tu verras bien.</p>
     <p class="deja">D&eacute;j&agrave; v&eacute;cu &agrave; Paris, Pau, Perpignan et Avignon <i>&middot;</i> <b>unseulnom.org</b></p>
   </div>
 </div>

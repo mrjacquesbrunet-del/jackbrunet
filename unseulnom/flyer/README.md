@@ -165,6 +165,57 @@ raisonnement qu'il a suivi lui-même.
 > **Ce n'est pas une soirée.** Ça commence à 16h : on dit « un
 > après-midi » ou « un rendez-vous », jamais « une soirée ».
 
+### 5. Alléger le verso — ce qui pèse, c'est l'encre
+
+Le verso a été soumis à une critique de design indépendante. Verdict
+mesuré, pas estimé : **douze blocs à traiter**, **onze corps de texte
+différents** dont six séparés de moins d'un point, et un pavé noir de
+**86 mm sur 184 mm utiles — 47 % de la page, quatre fois la hauteur du
+titre.**
+
+Cette dernière mesure est la seule qui compte. Un aplat noir sur fond
+ivoire bat n'importe quelle typographie : on lisait **la grille avant
+la phrase qui s'adresse à la personne.** L'ordre du document était
+retourné par la seule force d'une surface.
+
+**Or ce n'est pas le texte qui pèse, c'est l'encre.** Le pavé tenait
+deux choses de nature différente : cinq lignes qui frappent, et un
+paragraphe qui explique. Le paragraphe est sorti sur l'ivoire — pas un
+mot coupé, et la masse noire tombe à **55 mm, 30 %.** Le pavé redevient
+une déclaration au lieu d'un encadré fourre-tout.
+
+Le reste de la passe :
+
+| Ce qui a sauté | Pourquoi |
+|---|---|
+| le ruban dégradé | zéro information, et il réintroduisait magenta, violet et bleu absents du reste de la face. Le dégradé est chez lui au recto, en fond |
+| « Viens. Tu verras bien. » | **troisième conclusion** en vingt-cinq millimètres. Le point du document est le Nom ; une page qui continue après lui lui retire sa place |
+| les quatre filets du tableau | ils séparaient ce que l'alignement, la couleur et la graisse séparaient déjà, et donnaient au pavé la mine d'un tableau de tarifs |
+| six corps de texte | 9,6 / 9,8 / 10,6 → **10**. 12,6 / 13,5 → **13**. Un écart d'un point est trop petit pour être lu comme une hiérarchie, assez grand pour être lu comme de la négligence |
+
+Et deux réparations : la marge intérieure du pavé repasse à **7 mm**
+(elle était tombée à 4,2 mm pour faire tenir le texte — un contenant
+qui a 4 mm de marge dans une page qui en a 14 paraît bourré, quelle
+que soit la quantité de texte), et la colonne gauche du tableau remonte
+de **.74 à .86 d'opacité** : à .74 contre un orange plein en 800, elle
+perdait de dix longueurs, si bien qu'on lisait cinq promesses *avant*
+ce à quoi elles répondent.
+
+**Résultat : sept blocs au lieu de douze, cinq corps au lieu de onze,
+et le titre repasse devant.**
+
+> **Ce qui a été refusé.** La critique proposait de couper deux des
+> cinq lignes du tableau et de remonter toute l'information pratique
+> au recto. Les cinq lignes sont le choix de Jack — doute, peur,
+> tristesse, maladie, vie sans direction — et ce n'est pas au
+> graphisme d'en retirer. Quant au recto, ses 54 mm de ciel vide sont
+> le seul silence du document : y poser un QR code et une adresse
+> tuerait le titre pour régler un problème qui est ailleurs. La
+> critique signalait aussi une contradiction entre « Entrée libre »
+> et « Réserve ta place » : en français *entrée libre* dit **gratuit**,
+> pas *sans réservation*. Et la réservation est ce qui permet de
+> prévoir — c'est tout l'enjeu depuis Avignon.
+
 ## Deux versions du recto
 
 | Fichier | Fond | Pour quoi |
