@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Un Seul Nom - Reservations
  * Description: Reservation de places pour les evenements Un Seul Nom : compteur de places, limite par reservation, liste des inscrits et export CSV. Une ville apres l'autre, sans perdre les inscrits des precedentes.
- * Version:     1.5.0
+ * Version:     1.5.1
  * Author:      Un Seul Nom
  * License:     GPL-2.0-or-later
  *
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class USN_Reservations {
 
-	const VERSION        = '1.5.0';
+	const VERSION        = '1.5.1';
 	const OPT_CAPACITE   = 'usn_capacite';        // Nombre total de places ouvertes (surbooking compris).
 	const OPT_MAX        = 'usn_max_par_personne'; // Limite par reservation.
 	const OPT_OUVERT     = 'usn_inscriptions_ouvertes';
@@ -1251,6 +1251,25 @@ final class USN_Reservations {
 										<br><code><?php echo esc_html( ( $journal['code'] ?? '' ) . ' ' . ( $journal['message'] ?? '' ) ); ?></code>
 									<?php endif; ?>
 								</p>
+								<?php if ( ! $vert && ! empty( $journal['ip'] ) ) : ?>
+									<div style="margin:0 0 14px;padding:12px 14px;background:#fff;border-left:4px solid #996800">
+										<p style="margin:0 0 8px">
+											<strong>La clé est bonne.</strong> Il reste à autoriser ce serveur chez Brevo.
+										</p>
+										<p style="margin:0 0 8px">
+											Adresse à ajouter&nbsp;:
+											<input type="text" readonly onclick="this.select()"
+												value="<?php echo esc_attr( $journal['ip'] ); ?>"
+												style="font-family:monospace;font-size:14px;padding:6px 8px;width:22em;max-width:100%">
+										</p>
+										<p style="margin:0">
+											<a class="button button-primary" target="_blank" rel="noopener"
+												href="https://app.brevo.com/security/authorised_ips">
+												Ouvrir la page des adresses autorisées
+											</a>
+										</p>
+									</div>
+								<?php endif; ?>
 							<?php endif; ?>
 							<?php
 							$listes = get_option( self::OPT_BREVO_LISTES, array() );
@@ -1865,11 +1884,29 @@ final class USN_Reservations {
 		   reconnait pas la cle. L'empreinte de ce qui a ete envoye est
 		   donc jointe au message : neuf fois sur dix, elle montre tout
 		   de suite que ce n'est pas la bonne chaine. */
+		/* UN 401 RECOUVRE DEUX PANNES QUI N'ONT RIEN A VOIR.
+		 *
+		 * La cle inconnue, et l'adresse IP non autorisee. Brevo rend le
+		 * meme code pour les deux, et le remede n'est pas du tout le
+		 * meme : dans un cas on refait une cle, dans l'autre on ne
+		 * touche pas a la cle du tout — elle est bonne — et on autorise
+		 * le serveur. Les confondre fait tourner en rond.
+		 */
 		if ( 401 === $reponse['code'] || 403 === $reponse['code'] ) {
-			$indice = 0 === strpos( $cle, 'xkeysib-' )
-				? 'La cle a la bonne forme. Verifiez qu\'elle vient bien de « Cles API » et non de « Cles SMTP », et qu\'elle n\'a pas ete revoquee.'
-				: 'Cette cle ne commence pas par « xkeysib- » : ce n\'est pas une cle API v3. Les cles SMTP ne fonctionnent pas ici.';
-			$reponse['message'] = trim( $reponse['message'] ) . ' — envoye : ' . self::empreinte_cle() . '. ' . $indice;
+			if ( false !== stripos( $reponse['message'], 'IP address' ) ) {
+				$ip = '';
+				if ( preg_match( '/([0-9a-f:]{6,}|\d{1,3}(?:\.\d{1,3}){3})/i', $reponse['message'], $trouve ) ) {
+					$ip = $trouve[1];
+				}
+				$reponse['ip'] = $ip;
+				$reponse['message'] = 'la cle est bonne, mais Brevo n\'autorise pas l\'adresse de ce serveur'
+					. ( '' === $ip ? '' : ' (' . $ip . ')' );
+			} else {
+				$indice = 0 === strpos( $cle, 'xkeysib-' )
+					? 'La cle a la bonne forme. Verifiez qu\'elle vient bien de « Cles API » et non de « Cles SMTP », et qu\'elle n\'a pas ete revoquee.'
+					: 'Cette cle ne commence pas par « xkeysib- » : ce n\'est pas une cle API v3. Les cles SMTP ne fonctionnent pas ici.';
+				$reponse['message'] = trim( $reponse['message'] ) . ' — envoye : ' . self::empreinte_cle() . '. ' . $indice;
+			}
 		}
 
 		if ( $reponse['ok'] ) {
@@ -1902,6 +1939,9 @@ final class USN_Reservations {
 				'message' => (string) $reponse['message'],
 				'email'   => (string) $email,
 				'ville'   => (string) $ville,
+				// L'adresse du serveur, quand c'est elle qui bloque :
+				// elle doit pouvoir se copier d'un geste.
+				'ip'      => isset( $reponse['ip'] ) ? (string) $reponse['ip'] : '',
 			)
 		);
 	}
