@@ -18,12 +18,13 @@ le site et sur les reseaux.
 """
 
 import base64
-import mimetypes
+import io
 import pathlib
 import subprocess
 import tempfile
 
 import qrcode
+from PIL import Image
 
 RACINE = pathlib.Path(__file__).resolve().parent
 # Les polices et le logo vivent DANS LE DEPOT : un dossier de travail
@@ -63,11 +64,40 @@ def qr_base64(lien):
     return base64.b64encode(fichier.read_bytes()).decode()
 
 
-def image_uri(nom):
-    chemin = IMAGES / nom
-    type_mime = mimetypes.guess_type(chemin.name)[0] or "image/webp"
-    return "data:%s;base64,%s" % (type_mime,
-                                  base64.b64encode(chemin.read_bytes()).decode())
+# Le billet part en piece jointe a CHAQUE inscription. Son poids compte
+# donc autant que son allure : une piece jointe lourde met plus de temps
+# a partir, se fait recaler par certaines boites, et pese sur une
+# delivrabilite deja fragile.
+#
+# L'affiche faisait 2,6 Mo des 2,8 Mo du fichier. Le navigateur
+# l'embarquait telle quelle, sans perte, dans sa definition d'origine :
+# 1600 pixels pour une bande de 148 millimetres, dont il ne gardait
+# qu'un tiers en hauteur.
+#
+# Elle est donc decoupee et reduite ICI, a ce que le billet affiche
+# vraiment, puis enregistree en JPEG. Le navigateur reprend alors le
+# JPEG tel quel.
+DPI_AFFICHE = 200     # suffisant a l'ecran, honnete sur une imprimante
+QUALITE_JPEG = 86
+
+
+def affiche_uri(nom, largeur_mm, hauteur_mm, cadrage=0.42):
+    """L'affiche, recadree et reduite a ce que le billet en montre."""
+    image = Image.open(IMAGES / nom).convert("RGB")
+    large = round(largeur_mm / 25.4 * DPI_AFFICHE)
+    haut = round(hauteur_mm / 25.4 * DPI_AFFICHE)
+
+    # Le meme recadrage que « object-fit: cover » : on garde toute la
+    # largeur et on coupe en hauteur, autour du point de cadrage.
+    hauteur_source = round(image.width * hauteur_mm / largeur_mm)
+    if hauteur_source < image.height:
+        depart = round((image.height - hauteur_source) * cadrage)
+        image = image.crop((0, depart, image.width, depart + hauteur_source))
+
+    image = image.resize((large, haut), Image.LANCZOS)
+    tampon = io.BytesIO()
+    image.save(tampon, format="JPEG", quality=QUALITE_JPEG, optimize=True, progressive=True)
+    return "data:image/jpeg;base64,%s" % base64.b64encode(tampon.getvalue()).decode()
 
 
 HTML = """<!DOCTYPE html>
@@ -99,8 +129,8 @@ body {
    Rien n'est ecrit par-dessus. Une premiere version y posait « UN SEUL
    NOM / TARBES » en grand : l'affiche le dit deja, en plus beau, et les
    deux se repetaient. */
-.affiche { position: relative; flex: none; background: var(--encre); height: 57mm; overflow: hidden; }
-.affiche img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 42%; }
+.affiche { flex: none; background: var(--encre); height: 57mm; }
+.affiche img { display: block; width: 100%; height: 100%; }
 /* ---- la date ---- */
 .date {
   flex: none; background: var(--papier); border-bottom: 1px solid var(--trait);
@@ -212,7 +242,7 @@ def main():
     html = HTML
     remplacements = {
         "__FONTS__":       (CHARTE / "polices.css").read_text(encoding="utf-8"),
-        "__AFFICHE__":     image_uri(VILLE["affiche"]),
+        "__AFFICHE__":     affiche_uri(VILLE["affiche"], 148, 57),
         "__QR__":          qr_base64(VILLE["lien_qr"]),
         "__VILLE__":       VILLE["nom"],
         "__DATE__":        VILLE["date"],

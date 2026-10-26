@@ -3,12 +3,33 @@
 `billet-un-seul-nom-tarbes.pdf` — format **A5 portrait** (148 × 210 mm),
 à joindre au courriel de confirmation, à imprimer, ou à faire circuler.
 
-| Fichier | Taille | Usage |
+| Fichier | Poids | Usage |
 |---|---|---|
-| `billet-un-seul-nom-tarbes.pdf` | A5 | le fichier à envoyer et à imprimer |
-| `billet-un-seul-nom-tarbes.png` | 300 dpi | impression, flyer |
-| `billet-un-seul-nom-tarbes-web.png` | 150 dpi | réseaux sociaux, corps d'e-mail |
+| `billet-un-seul-nom-tarbes.pdf` | **272 ko** | **la pièce jointe Brevo** |
+| `billet-un-seul-nom-tarbes.png` | 1,4 Mo | 300 dpi, si un imprimeur en demande |
+| `billet-un-seul-nom-tarbes-web.png` | 530 ko | 150 dpi, réseaux sociaux |
 | `billet-un-seul-nom-avignon.*` | — | l'édition précédente, gardée en archive |
+
+## Le poids compte autant que l'allure
+
+Le billet part **en pièce jointe à chaque inscription**. Une pièce jointe
+lourde met plus de temps à partir, se fait recaler par certaines boîtes,
+et pèse sur une délivrabilité déjà fragile.
+
+La première version faisait **2,8 Mo**, dont 2,6 pour la seule affiche :
+le navigateur l'embarquait sans perte, dans sa définition d'origine —
+1600 pixels pour une bande de 148 millimètres, dont il ne gardait qu'un
+tiers en hauteur.
+
+L'affiche est maintenant **découpée et réduite dans le script**, à ce que
+le billet en montre vraiment, puis enregistrée en JPEG à 200 dpi. Le
+navigateur reprend le JPEG tel quel.
+
+**Résultat : 272 ko au lieu de 2,8 Mo**, soit dix fois moins, sans rien
+changer à l'écran ni à l'impression.
+
+Les deux réglages sont en haut de `generer-billet.py` : `DPI_AFFICHE` et
+`QUALITE_JPEG`.
 
 ## Un billet universel
 
