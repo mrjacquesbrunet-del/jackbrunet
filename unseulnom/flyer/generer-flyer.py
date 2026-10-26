@@ -236,7 +236,7 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    clair : les cacher pour ne pas effrayer reviendrait a inviter les
    gens sans leur dire ou ils vont. */
 .face {
-  flex: none; margin-top: 4.5mm; padding: 6.5mm 7mm; border-radius: 3.5mm;
+  flex: none; margin-top: 7mm; padding: 6.5mm 7mm; border-radius: 3.5mm;
   background: var(--encre); color: var(--creme);
 }
 .face table { width: 100%; border-collapse: collapse; }
@@ -275,13 +275,34 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    redevient ce qu'il aurait toujours du etre : une declaration, pas
    un encadre fourre-tout. */
 .deroule {
-  flex: none; margin-top: 5.5mm; font-size: 10pt; line-height: 1.5; color: var(--gris);
+  flex: none; margin-top: 8mm; font-size: 10pt; line-height: 1.5; color: var(--gris);
 }
 .deroule strong { color: var(--encre); font-weight: 700; }
-/* La permission finissait la phrase precedente, coincee entre une
-   priere et une marge. Sur sa propre ligne elle redevient ce qu'elle
-   est : une phrase qu'on adresse a quelqu'un. */
-.deroule .reste { display: block; margin-top: 2.4mm; }
+/* QUATRE MOTS QUI TOMBENT, PUIS LA MUSIQUE.
+
+   Ce paragraphe faisait quatre lignes et disait : « On y parlera de
+   miracles, de guerison, de liberation — pas comme d'une idee, comme
+   de choses qui arrivent. De la musique, des gens qui racontent ce
+   qui leur est arrive, une priere si tu la demandes. »
+
+   Le defaut n'est pas la longueur, c'est la SYNTAXE. « Pas comme
+   d'une idee, comme de choses qui arrivent » demande au lecteur de
+   tenir deux comparaisons en suspens pour comprendre une nuance de
+   degre. Ecrit a la table, ca se suit ; debout, avec un papier qu'on
+   n'a pas demande, ca decroche. Et une phrase qu'on decroche est une
+   phrase perdue, pas une phrase lue a moitie.
+
+   Quatre noms detaches font le meme travail sans rien demander :
+   chacun est un point d'arret, et le lecteur en attrape au moins un
+   qui le concerne. On ne gagne pas en nuance, on gagne en prise.
+
+   Le gospel ferme la ligne parce que c'est le seul element du
+   programme qu'un non-croyant trouve deja desirable : il en a
+   entendu, il sait que c'est beau, et ca ne lui demande rien.
+
+   « Reste le temps que tu veux » a saute : trois phrases la
+   disaient deja autrement, et une permission repetee cesse d'etre
+   une liberte. */
 /* LA DUREE N'EST PAS ANNONCEE, ET C'EST VOULU.
 
    Une premiere version disait « Deux heures ». C'etait faux : ca dure
@@ -356,7 +377,7 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    a deja approuvee. Pas une affirmation a croire d'emblee : la fin
    d'un raisonnement qu'il vient de suivre. */
 .nom {
-  flex: none; margin-top: 6mm; text-align: center; font-family: var(--serif);
+  flex: none; margin-top: 14mm; text-align: center; font-family: var(--serif);
 }
 .nom .q { font-size: 13pt; line-height: 1.3; color: var(--gris); }
 .nom .r { margin-top: 2mm; font-size: 17pt; line-height: 1.25; color: var(--encre); }
@@ -457,11 +478,9 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
   </div>
 
   <p class="deroule">
-    On y parlera de <strong>miracles</strong>, de <strong>gu&eacute;rison</strong>, de
-    <strong>lib&eacute;ration</strong> &mdash; pas comme d'une id&eacute;e, comme de choses
-    qui arrivent. De la musique, des gens qui racontent ce qui leur est
-    arriv&eacute;, une pri&egrave;re si tu la demandes.
-    <span class="reste"><strong>Reste le temps que tu veux.</strong></span>
+    On parlera d'<strong>espoir</strong>. De <strong>libert&eacute;</strong>.
+    De <strong>gu&eacute;rison</strong>. De <strong>miracles</strong>.<br>
+    Le tout port&eacute; par du <strong>gospel</strong>.
   </p>
 
   <div class="nom">

@@ -69,9 +69,37 @@ en clair. Les cacher pour ne pas effrayer reviendrait à inviter les
 gens sans leur dire où ils vont, et celui qui le découvre sur place se
 sent piégé.
 
-Enfin, ce qui se passera : *« De la musique, des gens qui racontent ce
-qui leur est arrivé, et une prière pour ceux qui la demandent. **Reste
-le temps que tu veux.** »*
+Enfin, ce qui se passera :
+
+> On parlera d'**espoir**. De **liberté**. De **guérison**. De
+> **miracles**. Le tout porté par du **gospel**.
+
+> **Quatre mots qui tombent, puis la musique.** Ce passage faisait
+> quatre lignes : *« On y parlera de miracles, de guérison, de
+> libération — pas comme d'une idée, comme de choses qui arrivent. De
+> la musique, des gens qui racontent ce qui leur est arrivé, une
+> prière si tu la demandes. »*
+>
+> Le défaut n'était pas la longueur, c'était **la syntaxe**. « Pas
+> comme d'une idée, comme de choses qui arrivent » demande de tenir
+> deux comparaisons en suspens pour saisir une nuance de degré. À la
+> table, ça se suit ; debout, avec un papier qu'on n'a pas demandé,
+> **ça décroche** — et une phrase qu'on décroche est une phrase perdue,
+> pas une phrase lue à moitié.
+>
+> Quatre noms détachés font le même travail sans rien demander :
+> chacun est un point d'arrêt, et le lecteur en attrape au moins un
+> qui le concerne. On ne gagne pas en nuance, **on gagne en prise.**
+>
+> Le **gospel** ferme la ligne parce que c'est le seul élément du
+> programme qu'un non-croyant trouve *déjà* désirable : il en a
+> entendu, il sait que c'est beau, et ça ne lui demande rien. C'est
+> aussi pourquoi le mot « louange » n'y est pas — c'est du vocabulaire
+> d'initié, et le lecteur visé ne l'a pas.
+>
+> « Reste le temps que tu veux » a sauté : trois phrases le disaient
+> déjà autrement, et **une permission répétée cesse d'être une
+> liberté.**
 
 > **La durée n'est pas annoncée, et c'est volontaire.** Une version
 > disait « Deux heures ». C'était faux — ça dure bien plus. Annoncer
