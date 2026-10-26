@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Un Seul Nom - Reservations
  * Description: Reservation de places pour les evenements Un Seul Nom : compteur de places, limite par reservation, liste des inscrits et export CSV. Une ville apres l'autre, sans perdre les inscrits des precedentes.
- * Version:     1.4.0
+ * Version:     1.4.1
  * Author:      Un Seul Nom
  * License:     GPL-2.0-or-later
  *
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class USN_Reservations {
 
-	const VERSION        = '1.4.0';
+	const VERSION        = '1.4.1';
 	const OPT_CAPACITE   = 'usn_capacite';        // Nombre total de places ouvertes (surbooking compris).
 	const OPT_MAX        = 'usn_max_par_personne'; // Limite par reservation.
 	const OPT_OUVERT     = 'usn_inscriptions_ouvertes';
@@ -860,7 +860,7 @@ final class USN_Reservations {
 		register_setting( 'usn_reservations', self::OPT_CAPACITE, array( 'type' => 'integer', 'sanitize_callback' => 'absint' ) );
 		register_setting( 'usn_reservations', self::OPT_MAX, array( 'type' => 'integer', 'sanitize_callback' => 'absint' ) );
 		register_setting( 'usn_reservations', self::OPT_OUVERT, array( 'type' => 'integer', 'sanitize_callback' => 'absint' ) );
-		register_setting( 'usn_reservations', self::OPT_BREVO_CLE, array( 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field' ) );
+		register_setting( 'usn_reservations', self::OPT_BREVO_CLE, array( 'type' => 'string', 'sanitize_callback' => array( __CLASS__, 'nettoyer_cle' ) ) );
 		register_setting( 'usn_reservations', self::OPT_TAUX, array( 'type' => 'integer', 'sanitize_callback' => 'absint' ) );
 		register_setting( 'usn_reservations', self::OPT_EXP_NOM, array( 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field' ) );
 		register_setting( 'usn_reservations', self::OPT_EXP_EMAIL, array( 'type' => 'string', 'sanitize_callback' => 'sanitize_email' ) );
@@ -1082,11 +1082,26 @@ final class USN_Reservations {
 					<tr>
 						<th scope="row">Clé API Brevo</th>
 						<td>
-							<?php $cle = self::brevo_cle(); ?>
-							<input name="<?php echo esc_attr( self::OPT_BREVO_CLE ); ?>" type="password"
-								class="regular-text" autocomplete="off"
-								value="<?php echo esc_attr( $cle ); ?>"
-								placeholder="xkeysib-...">
+							<?php $empreinte = self::empreinte_cle(); ?>
+							<?php if ( '' !== $empreinte ) : ?>
+								<p style="margin:0 0 8px">
+									Clé enregistrée : <code><?php echo esc_html( $empreinte ); ?></code>
+								</p>
+							<?php endif; ?>
+							<input name="<?php echo esc_attr( self::OPT_BREVO_CLE ); ?>" type="text"
+								class="large-text" autocomplete="off" spellcheck="false"
+								value="" placeholder="xkeysib-&hellip;  (laisser vide pour garder celle-ci)">
+							<p class="description" style="max-width:48em">
+								<strong>Le champ reste toujours vide</strong>, et vide veut dire « garde la clé
+								actuelle ». C'est volontaire&nbsp;: un champ de mot de passe pré-rempli se fait
+								remplir par le gestionnaire du navigateur, et on enregistrait alors son
+								mot de passe WordPress à la place de la clé — sans rien voir.
+							</p>
+							<p class="description" style="max-width:48em">
+								Une clé valide commence par <code>xkeysib-</code> et fait une
+								<strong>soixantaine de caractères ou plus</strong>. Comparez l'empreinte
+								ci-dessus avec le début et la fin de votre clé dans Brevo.
+							</p>
 							<p class="description" style="max-width:48em">
 								Brevo &rarr; <strong>SMTP et API</strong> &rarr; <strong>Clés API</strong> &rarr;
 								<em>Générer une nouvelle clé API</em>. Avec cette clé, chaque inscrit est déposé
@@ -1468,6 +1483,48 @@ final class USN_Reservations {
 		return trim( (string) get_option( self::OPT_BREVO_CLE, '' ) );
 	}
 
+	/**
+	 * Nettoie et conserve la cle API.
+	 *
+	 * DEUX PIEGES, ET ILS DONNENT LE MEME MESSAGE : « 401 Key not found ».
+	 *
+	 * 1. LE GESTIONNAIRE DE MOTS DE PASSE DU NAVIGATEUR. Un champ de
+	 *    type « password » pre-rempli, il le remplit par le mot de passe
+	 *    du site — « autocomplete=off » n'y change rien, les navigateurs
+	 *    l'ignorent depuis longtemps. On enregistrait alors son mot de
+	 *    passe WordPress a la place de la cle, sans rien voir.
+	 *    Le champ part donc toujours VIDE, et vide veut dire « garde
+	 *    celle qui est deja la ». Il n'y a plus rien a ecraser.
+	 *
+	 * 2. UN CARACTERE INVISIBLE colle avec la cle. Une espace
+	 *    insecable ou une marque d'ordre des octets survit a un simple
+	 *    trim, et Brevo ne reconnait plus rien. Une cle Brevo ne
+	 *    contient que des lettres, des chiffres, des tirets et des
+	 *    soulignes : tout le reste saute.
+	 */
+	public static function nettoyer_cle( $valeur ) {
+		$valeur = is_string( $valeur ) ? $valeur : '';
+		$valeur = preg_replace( '/[^A-Za-z0-9_-]/', '', $valeur );
+		// Vide : on garde celle qui est deja enregistree.
+		if ( '' === $valeur ) {
+			return self::brevo_cle();
+		}
+		return $valeur;
+	}
+
+	/** De quoi reconnaitre la cle enregistree, sans la montrer. */
+	public static function empreinte_cle() {
+		$cle = self::brevo_cle();
+		if ( '' === $cle ) {
+			return '';
+		}
+		$long = strlen( $cle );
+		if ( $long <= 16 ) {
+			return substr( $cle, 0, 4 ) . '...' . ' (' . $long . ' caracteres)';
+		}
+		return substr( $cle, 0, 10 ) . '...' . substr( $cle, -6 ) . ' (' . $long . ' caracteres)';
+	}
+
 	public static function brevo_actif() {
 		return '' !== self::brevo_cle();
 	}
@@ -1650,7 +1707,30 @@ final class USN_Reservations {
 			wp_die( 'Action non autorisée.' );
 		}
 
+		$cle = self::brevo_cle();
+		if ( '' === $cle ) {
+			self::brevo_consigner(
+				array( 'ok' => false, 'code' => 0, 'corps' => array(), 'message' => 'aucune cle enregistree' ),
+				'test de la connexion',
+				self::evenement()
+			);
+			wp_safe_redirect( add_query_arg( 'usn_message', 'brevo-teste', admin_url( 'admin.php?page=usn-reservations' ) ) );
+			exit;
+		}
+
 		$reponse = self::brevo_appel( 'GET', '/account' );
+
+		/* « 401 Key not found » veut dire que Brevo repond, mais ne
+		   reconnait pas la cle. L'empreinte de ce qui a ete envoye est
+		   donc jointe au message : neuf fois sur dix, elle montre tout
+		   de suite que ce n'est pas la bonne chaine. */
+		if ( 401 === $reponse['code'] || 403 === $reponse['code'] ) {
+			$indice = 0 === strpos( $cle, 'xkeysib-' )
+				? 'La cle a la bonne forme. Verifiez qu\'elle vient bien de « Cles API » et non de « Cles SMTP », et qu\'elle n\'a pas ete revoquee.'
+				: 'Cette cle ne commence pas par « xkeysib- » : ce n\'est pas une cle API v3. Les cles SMTP ne fonctionnent pas ici.';
+			$reponse['message'] = trim( $reponse['message'] ) . ' — envoye : ' . self::empreinte_cle() . '. ' . $indice;
+		}
+
 		if ( $reponse['ok'] ) {
 			$nom = '';
 			if ( ! empty( $reponse['corps']['companyName'] ) ) {
