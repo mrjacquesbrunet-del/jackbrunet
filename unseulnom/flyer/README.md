@@ -188,7 +188,6 @@ Le reste de la passe :
 
 | Ce qui a sauté | Pourquoi |
 |---|---|
-| le ruban dégradé | zéro information, et il réintroduisait magenta, violet et bleu absents du reste de la face. Le dégradé est chez lui au recto, en fond |
 | « Viens. Tu verras bien. » | **troisième conclusion** en vingt-cinq millimètres. Le point du document est le Nom ; une page qui continue après lui lui retire sa place |
 | les quatre filets du tableau | ils séparaient ce que l'alignement, la couleur et la graisse séparaient déjà, et donnaient au pavé la mine d'un tableau de tarifs |
 | six corps de texte | 9,6 / 9,8 / 10,6 → **10**. 12,6 / 13,5 → **13**. Un écart d'un point est trop petit pour être lu comme une hiérarchie, assez grand pour être lu comme de la négligence |
@@ -203,6 +202,35 @@ ce à quoi elles répondent.
 
 **Résultat : sept blocs au lieu de douze, cinq corps au lieu de onze,
 et le titre repasse devant.**
+
+### 6. Le pied — tout ce qui n'est pas l'argument
+
+Date, lieu, adresse, horaires, QR : ce sont des **renseignements**. On
+les prend quand on a déjà décidé, jamais avant. La date était montée à
+17 pt, au rang de la ligne du Nom — deux choses de poids égal, dont
+une seule mérite ce poids. Elle redescend à **13 pt** (en Archivo 900,
+la différence de police et la graisse restent), et le bloc entier
+devient un pied : présent, lisible, manifestement secondaire. Les
+millimètres gagnés vont en air autour du Nom.
+
+**Le QR passe de 24 à 16 mm, et ce n'est pas un pari.** Le code tient
+en version 3, soit **29 modules de côté** : à 16 mm chaque module fait
+**0,55 mm**, largement au-dessus des 0,4 mm sous lesquels un téléphone
+commence à peiner. On pouvait le réduire d'un tiers sans rien risquer
+— ce qui ne serait plus vrai avec une adresse plus longue : si
+`lien_qr` s'allonge, le code passe en version 4 ou 5 et 16 mm devient
+trop petit.
+
+**Le ruban revient, et mieux posé qu'avant.** Il avait 4 mm d'air
+au-dessus et 2,5 mm en dessous : plus près de la ligne qu'il suivait
+que du bloc qu'il séparait, donc lu comme un ornement accroché au bas
+de page. Les valeurs sont inversées — **4,5 mm au-dessus, 3,5 en
+dessous** — et il redevient ce qu'il est : la signature de couleur de
+la marque, qui n'appartient à aucun des deux blocs.
+
+Enfin **« Reste le temps que tu veux » prend sa ligne.** Elle finissait
+la phrase précédente, coincée entre une prière et une marge. Seule,
+elle redevient ce qu'elle est : une phrase qu'on adresse à quelqu'un.
 
 > **Ce qui a été refusé.** La critique proposait de couper deux des
 > cinq lignes du tableau et de remonter toute l'information pratique

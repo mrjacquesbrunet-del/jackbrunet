@@ -275,9 +275,13 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    redevient ce qu'il aurait toujours du etre : une declaration, pas
    un encadre fourre-tout. */
 .deroule {
-  flex: none; margin-top: 4mm; font-size: 10pt; line-height: 1.5; color: var(--gris);
+  flex: none; margin-top: 5.5mm; font-size: 10pt; line-height: 1.5; color: var(--gris);
 }
 .deroule strong { color: var(--encre); font-weight: 700; }
+/* La permission finissait la phrase precedente, coincee entre une
+   priere et une marge. Sur sa propre ligne elle redevient ce qu'elle
+   est : une phrase qu'on adresse a quelqu'un. */
+.deroule .reste { display: block; margin-top: 2.4mm; }
 /* LA DUREE N'EST PAS ANNONCEE, ET C'EST VOULU.
 
    Une premiere version disait « Deux heures ». C'etait faux : ca dure
@@ -352,7 +356,7 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    a deja approuvee. Pas une affirmation a croire d'emblee : la fin
    d'un raisonnement qu'il vient de suivre. */
 .nom {
-  flex: none; margin-top: 4mm; text-align: center; font-family: var(--serif);
+  flex: none; margin-top: 6mm; text-align: center; font-family: var(--serif);
 }
 .nom .q { font-size: 13pt; line-height: 1.3; color: var(--gris); }
 .nom .r { margin-top: 2mm; font-size: 17pt; line-height: 1.25; color: var(--encre); }
@@ -363,47 +367,49 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    et laissait un « 2026 » orphelin. Elle occupe donc sa propre
    bande, sur les 124 mm pleins, et le QR ne partage plus que
    l'adresse. */
-.quand-verso { flex: none; margin-top: auto; padding-top: 3mm; }
-.pratique { flex: none; margin-top: 3mm; display: flex; gap: 6mm; align-items: flex-start; }
+/* LE PIED : TOUT CE QUI N'EST PAS L'ARGUMENT, ET QUI DOIT SE VOIR
+   COMME TEL.
+
+   Date, lieu, adresse, horaires, QR : ce sont des renseignements. On
+   les prend quand on a deja decide, jamais avant. La date etait
+   montee a 17pt, au rang de la ligne du Nom — deux choses de poids
+   egal, dont une seule merite ce poids. Elle redescend a 13pt et le
+   bloc entier devient un pied : present, lisible, et manifestement
+   secondaire. Ce qu'on gagne en millimetres va en air autour du
+   Nom.
+
+   LE QR PASSE DE 24 A 16 MM, et ce n'est pas un pari. Le code tient
+   en version 3, soit 29 modules de cote : a 16 mm chaque module fait
+   0,55 mm, largement au-dessus des 0,4 mm sous lesquels un telephone
+   commence a peiner. On pouvait donc le reduire d'un tiers sans rien
+   risquer — ce qui n'aurait pas ete vrai avec une adresse plus
+   longue.
+
+   LE RUBAN REVIENT, et mieux pose qu'avant. Il avait 4 mm d'air
+   au-dessus et 2,5 mm en dessous : plus pres de la ligne qu'il
+   suivait que du bloc qu'il separait, donc lu comme un ornement
+   accroche au bas de page. Les valeurs sont inversees — 4,5 mm
+   au-dessus, 3,5 en dessous — et il redevient ce qu'il est : la
+   signature de couleur de la marque, qui n'appartient a aucun des
+   deux blocs. */
+.pied { flex: none; margin-top: auto; padding-top: 5mm; }
+.pratique { display: flex; gap: 6mm; align-items: flex-start; }
 .pratique .infos { flex: 1; }
-/* ONZE TAILLES SUR UNE FACE A5, DONT SIX A MOINS D'UN POINT L'UNE DE
-   L'AUTRE : 9,6 et 9,8 et 10,6 ; 12,6 et 13,5 ; 15 et 17. Un ecart
-   trop petit pour etre lu comme une hierarchie, assez grand pour
-   etre lu comme de la negligence. Le verso tient maintenant sur six
-   crans franchement separes — 22,4 / 19 / 17 / 13 / 10 / 8 — et la
-   date du rendez-vous monte de 15 a 17pt, au rang de la ligne du
-   Nom, parce que c'est l'autre chose que le lecteur doit emporter. */
-.quand-verso .k {
+.pratique .k {
   font-size: 8pt; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--gris);
 }
-.quand-verso .v { margin-top: .6mm; font-family: var(--titre); font-weight: 900; font-size: 17pt; line-height: 1.1; text-transform: uppercase; }
-.pratique .a { font-size: 10pt; line-height: 1.45; color: var(--gris); }
+.pratique .v { margin-top: .8mm; font-family: var(--titre); font-weight: 900; font-size: 13pt; line-height: 1.1; text-transform: uppercase; }
+.pratique .a { margin-top: 1.8mm; font-size: 10pt; line-height: 1.45; color: var(--gris); }
 .pratique .code { flex: none; text-align: center; }
-.pratique .code img { width: 24mm; height: 24mm; display: block; }
-.pratique .code span { display: block; margin-top: 2mm; font-size: 8pt; font-weight: 700; color: var(--gris); }
+.pratique .code img { width: 16mm; height: 16mm; display: block; }
+.pratique .code span { display: block; margin-top: 1.4mm; font-size: 8pt; font-weight: 700; color: var(--gris); }
 
 /* « flex: none » n'est pas decoratif : le verso est une colonne
    flexible, et un bloc vide de 2,4 mm s'y fait ecraser a zero. Le
    ruban etait bien la, haut de rien du tout. */
-/* LE RUBAN A QUITTE LE VERSO. Deux millimetres et demi de haut,
-   zero information, et cinq couleurs : il reintroduisait magenta,
-   violet et bleu, qui n'existent nulle part ailleurs sur cette face.
-   C'etait l'identite de marque occupee a faire le travail d'un
-   filet. Pire, il etait plus pres de la signature (2,5 mm) que du
-   bloc qu'il etait cense separer (4 mm) : il se lisait comme un
-   ornement accroche au bas de page. Le degrade reste au recto, ou il
-   est chez lui, en fond, avec la place de se deployer. */
-.fin { flex: none; margin-top: 2.5mm; text-align: center; }
-/* « VIENS. TU VERRAS BIEN. » EST PARTIE, ET C'ETAIT LA TROISIEME
-   CONCLUSION. Le verso en alignait trois a vingt-cinq millimetres
-   d'intervalle : « Reste le temps que tu veux », « Mais un seul Nom
-   transforme », puis celle-la. Elle etait d'abord rouge et serif a
-   16pt, soit exactement le poids de la ligne du Nom ; on l'avait
-   passee au noir et descendue d'un tiers, mais changer la couleur
-   d'un element redondant ne le rend pas moins redondant.
+.ruban { flex: none; margin-top: 4.5mm; height: 2.4mm; border-radius: 99px; background: var(--degrade); }
 
-   Le point du document est le Nom. Une page qui continue apres lui
-   lui retire sa place. */
+.fin { margin-top: 3.5mm; text-align: center; }
 .deja { font-size: 8pt; color: var(--gris); }
 .deja i { font-style: normal; opacity: .55; margin: 0 1mm; }
 .deja b { font-family: var(--titre); font-weight: 800; color: var(--encre); letter-spacing: .02em; }
@@ -455,7 +461,7 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
     <strong>lib&eacute;ration</strong> &mdash; pas comme d'une id&eacute;e, comme de choses
     qui arrivent. De la musique, des gens qui racontent ce qui leur est
     arriv&eacute;, une pri&egrave;re si tu la demandes.
-    <strong>Reste le temps que tu veux.</strong>
+    <span class="reste"><strong>Reste le temps que tu veux.</strong></span>
   </p>
 
   <div class="nom">
@@ -466,27 +472,28 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
     <p class="r"><em>Mais un seul Nom transforme. J&eacute;sus-Christ.</em></p>
   </div>
 
-  <div class="quand-verso">
-    <div class="k">Rendez-vous</div>
-    <div class="v">__DATE__</div>
-  </div>
+  <div class="pied">
+    <div class="pratique">
+      <div class="infos">
+        <div class="k">Rendez-vous</div>
+        <div class="v">__DATE__</div>
+        <div class="a"><strong>__LIEU__</strong><br>__ADRESSE__<br>__HORAIRES__</div>
+      </div>
+      <div class="code">
+        <img src="data:image/png;base64,__QR__" alt="">
+        <span>R&eacute;serve ta place</span>
+      </div>
+    </div>
 
-  <div class="pratique">
-    <div class="infos">
-      <div class="a"><strong>__LIEU__</strong><br>__ADRESSE__<br>__HORAIRES__</div>
-    </div>
-    <div class="code">
-      <img src="data:image/png;base64,__QR__" alt="">
-      <span>R&eacute;serve ta place</span>
-    </div>
-  </div>
+    <div class="ruban"></div>
 
   <!-- LA PREUVE, ET RIEN D'AUTRE.
        Savoir que d'autres y sont alles rassure plus que toutes les
        promesses de la page. Ce sont des villes, verifiables, pas des
        chiffres. -->
-  <div class="fin">
-    <p class="deja">D&eacute;j&agrave; v&eacute;cu &agrave; Paris, Pau, Perpignan et Avignon <i>&middot;</i> <b>unseulnom.org</b></p>
+    <div class="fin">
+      <p class="deja">D&eacute;j&agrave; v&eacute;cu &agrave; Paris, Pau, Perpignan et Avignon <i>&middot;</i> <b>unseulnom.org</b></p>
+    </div>
   </div>
 </div>
 
