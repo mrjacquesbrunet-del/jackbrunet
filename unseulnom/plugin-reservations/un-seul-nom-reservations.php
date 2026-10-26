@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Un Seul Nom - Reservations
  * Description: Reservation de places pour les evenements Un Seul Nom : compteur de places, limite par reservation, liste des inscrits et export CSV. Une ville apres l'autre, sans perdre les inscrits des precedentes.
- * Version:     1.2.0
+ * Version:     1.2.1
  * Author:      Un Seul Nom
  * License:     GPL-2.0-or-later
  *
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class USN_Reservations {
 
-	const VERSION        = '1.2.0';
+	const VERSION        = '1.2.1';
 	const OPT_CAPACITE   = 'usn_capacite';        // Nombre total de places ouvertes (surbooking compris).
 	const OPT_MAX        = 'usn_max_par_personne'; // Limite par reservation.
 	const OPT_OUVERT     = 'usn_inscriptions_ouvertes';
@@ -58,6 +58,7 @@ final class USN_Reservations {
 		add_action( 'admin_init', array( __CLASS__, 'enregistrer_reglages' ) );
 		add_action( 'admin_post_usn_export_csv', array( __CLASS__, 'exporter_csv' ) );
 		add_action( 'admin_post_usn_nouvelle_ville', array( __CLASS__, 'ouvrir_nouvelle_ville' ) );
+		add_action( 'admin_post_usn_tester_brevo', array( __CLASS__, 'tester_brevo' ) );
 		add_shortcode( 'usn_places_restantes', array( __CLASS__, 'shortcode_places' ) );
 	}
 
@@ -174,15 +175,24 @@ final class USN_Reservations {
 		update_option( self::OPT_EVENEMENT, $nom );
 		update_option( self::OPT_OUVERT, 1 );
 
-		// La liste Brevo est creee tout de suite, avant la premiere
-		// inscription : si la cle est mauvaise, on l'apprend maintenant
-		// et non le soir de l'ouverture des reservations.
+		/* La liste Brevo est creee tout de suite, avant la premiere
+		   inscription : si la cle est mauvaise, on l'apprend maintenant
+		   et non le soir de l'ouverture des reservations.
+
+		   LA VERSION 1.2.0 LE FAISAIT EN SILENCE. Quand l'appel echouait
+		   — cle absente, cle refusee, sortie reseau fermee — il ne se
+		   passait rien du tout : pas de liste, et pas un mot pour le
+		   dire. On cherchait dans Brevo une liste qui n'avait jamais pu
+		   etre creee. Le resultat est desormais annonce. */
+		$suite = 'ville-ouverte';
 		if ( self::brevo_actif() ) {
 			self::brevo_preparer_attributs();
-			self::brevo_liste( $nom );
+			$suite = self::brevo_liste( $nom ) > 0 ? 'ville-ouverte' : 'ville-sans-liste';
+		} else {
+			$suite = 'ville-sans-cle';
 		}
 
-		wp_safe_redirect( add_query_arg( 'usn_message', 'ville-ouverte', admin_url( 'admin.php?page=usn-reservations' ) ) );
+		wp_safe_redirect( add_query_arg( 'usn_message', $suite, admin_url( 'admin.php?page=usn-reservations' ) ) );
 		exit;
 	}
 
@@ -491,6 +501,33 @@ final class USN_Reservations {
 				'<div class="notice notice-success is-dismissible"><p>Les réservations sont ouvertes pour <strong>%s</strong>. Le compteur repart de zéro ; les inscrits des éditions précédentes sont conservés.</p></div>',
 				esc_html( $ville )
 			);
+		} elseif ( 'ville-sans-liste' === $message ) {
+			printf(
+				'<div class="notice notice-error is-dismissible"><p>Les réservations sont ouvertes pour <strong>%s</strong>, '
+				. 'mais <strong>la liste Brevo n\'a pas pu être créée</strong>. Le détail est dans « Dernier échange avec Brevo », '
+				. 'plus bas. Les inscriptions fonctionnent, elles n\'iront simplement pas dans une liste au nom de la ville.</p></div>',
+				esc_html( $ville )
+			);
+		} elseif ( 'ville-sans-cle' === $message ) {
+			printf(
+				'<div class="notice notice-warning is-dismissible"><p>Les réservations sont ouvertes pour <strong>%s</strong>. '
+				. '<strong>Aucune clé API Brevo n\'est enregistrée</strong> : aucune liste n\'a été créée. '
+				. 'Collez la clé dans les réglages, puis rouvrez la ville.</p></div>',
+				esc_html( $ville )
+			);
+		} elseif ( 'brevo-teste' === $message ) {
+			$j = self::brevo_journal();
+			if ( ! empty( $j['ok'] ) ) {
+				printf(
+					'<div class="notice notice-success is-dismissible"><p><strong>Brevo répond.</strong> Compte : %s</p></div>',
+					esc_html( isset( $j['message'] ) ? $j['message'] : '' )
+				);
+			} else {
+				printf(
+					'<div class="notice notice-error is-dismissible"><p><strong>Brevo ne répond pas.</strong> %s</p></div>',
+					esc_html( ( isset( $j['code'] ) ? $j['code'] . ' ' : '' ) . ( isset( $j['message'] ) ? $j['message'] : '' ) )
+				);
+			}
 		} elseif ( 'nom-vide' === $message ) {
 			echo '<div class="notice notice-error is-dismissible"><p>Il faut donner un nom à la ville.</p></div>';
 		}
@@ -584,7 +621,7 @@ final class USN_Reservations {
 								$vert = ! empty( $journal['ok'] );
 								?>
 								<p style="margin-top:12px;padding:10px 12px;border-left:4px solid <?php echo $vert ? '#00a32a' : '#d63638'; ?>;background:#fff">
-									<strong><?php echo $vert ? 'Dernier envoi : réussi' : 'Dernier envoi : ÉCHEC'; ?></strong><br>
+									<strong><?php echo $vert ? 'Dernier échange avec Brevo : réussi' : 'Dernier échange avec Brevo : ÉCHEC'; ?></strong><br>
 									<?php echo esc_html( $journal['quand'] ?? '' ); ?>
 									&mdash; <?php echo esc_html( $journal['email'] ?? '' ); ?>
 									<?php if ( ! empty( $journal['ville'] ) ) : ?>
@@ -597,13 +634,30 @@ final class USN_Reservations {
 							<?php endif; ?>
 							<?php
 							$listes = get_option( self::OPT_BREVO_LISTES, array() );
-							if ( is_array( $listes ) && $listes ) :
-								?>
-								<p class="description" style="margin-top:10px">
-									<strong>Listes créées :</strong>
-									<?php echo esc_html( implode( ', ', array_keys( $listes ) ) ); ?>
-								</p>
-							<?php endif; ?>
+							$listes = is_array( $listes ) ? $listes : array();
+							?>
+							<p style="margin-top:12px">
+								<a class="button"
+									href="<?php echo esc_url( admin_url( 'admin-post.php?action=usn_tester_brevo&_wpnonce=' . wp_create_nonce( 'usn_tester_brevo' ) ) ); ?>">
+									Tester la connexion Brevo
+								</a>
+								<span class="description" style="margin-left:8px">
+									N'envoie rien : demande seulement à Brevo s'il reconnaît la clé.
+								</span>
+							</p>
+							<p class="description" style="margin-top:10px">
+								<strong>Liste de « <?php echo esc_html( $ville ); ?> » :</strong>
+								<?php if ( ! empty( $listes[ $ville ] ) ) : ?>
+									créée, numéro <?php echo (int) $listes[ $ville ]; ?>.
+								<?php else : ?>
+									<span style="color:#d63638">pas encore créée.</span>
+									Enregistrez la clé, puis rouvrez la ville dans
+									« Passer à la ville suivante » ci-dessous.
+								<?php endif; ?>
+								<?php if ( $listes ) : ?>
+									<br>Toutes : <?php echo esc_html( implode( ', ', array_keys( $listes ) ) ); ?>
+								<?php endif; ?>
+							</p>
 						</td>
 					</tr>
 				</table>
@@ -821,6 +875,10 @@ final class USN_Reservations {
 		if ( $id > 0 ) {
 			$listes[ $ville ] = $id;
 			update_option( self::OPT_BREVO_LISTES, $listes );
+		} else {
+			// Un echec muet est pire qu'un echec : on garde de quoi
+			// comprendre pourquoi la liste n'existe pas.
+			self::brevo_consigner( $creation, 'creation de la liste', $ville );
 		}
 		return $id;
 	}
@@ -861,6 +919,44 @@ final class USN_Reservations {
 
 		self::brevo_consigner( $reponse, $email, $ville );
 		return $reponse['ok'];
+	}
+
+	/**
+	 * Demande son identite a Brevo, et rien d'autre.
+	 *
+	 * C'est le seul appel qui distingue les quatre pannes possibles, et
+	 * elles n'ont pas le meme remede :
+	 *
+	 *   aucune cle        -> le champ est vide, ou n'a pas ete enregistre
+	 *   401 / 403         -> la cle est fausse, revoquee, ou mal collee
+	 *   code 0            -> le serveur ne sort pas sur internet
+	 *   200               -> tout va bien, le probleme est ailleurs
+	 */
+	public static function tester_brevo() {
+		if ( ! current_user_can( 'manage_options' )
+			|| ! isset( $_GET['_wpnonce'] )
+			|| ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'usn_tester_brevo' ) ) {
+			wp_die( 'Action non autorisée.' );
+		}
+
+		$reponse = self::brevo_appel( 'GET', '/account' );
+		if ( $reponse['ok'] ) {
+			$nom = '';
+			if ( ! empty( $reponse['corps']['companyName'] ) ) {
+				$nom = (string) $reponse['corps']['companyName'];
+			} elseif ( ! empty( $reponse['corps']['email'] ) ) {
+				$nom = (string) $reponse['corps']['email'];
+			}
+			$reponse['message'] = '' === $nom ? 'compte joint' : $nom;
+		} elseif ( '' === $reponse['message'] ) {
+			$reponse['message'] = 0 === $reponse['code']
+				? 'le serveur du site n\'a pas pu joindre api.brevo.com'
+				: 'code ' . $reponse['code'];
+		}
+
+		self::brevo_consigner( $reponse, 'test de la connexion', self::evenement() );
+		wp_safe_redirect( add_query_arg( 'usn_message', 'brevo-teste', admin_url( 'admin.php?page=usn-reservations' ) ) );
+		exit;
 	}
 
 	/** Garde la trace du dernier envoi, reussi ou non. */
