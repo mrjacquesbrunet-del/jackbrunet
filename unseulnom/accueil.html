@@ -844,7 +844,15 @@
   #usn-accueil .usn-ph-ligne { display: block; }
   /* La chute : plus grande, et detachee de ce qui precede. */
   #usn-accueil .usn-ph-ligne:last-child { margin-top: clamp(14px, 2.2vh, 30px); }
-  #usn-accueil .usn-phrase p b.usn-ph-cime { font-size: 1.42em; }
+  /* La hampe du J descend SOUS la boite du mot, que « line-height: 0.9 »
+     serre volontairement. Le bas de la lettre restait donc sans couleur,
+     detache du reste. La boite est allongee vers le bas, et la marge
+     negative reprend la hauteur ajoutee : la lettre est entiere, la
+     strophe ne bouge pas d'un pixel. */
+  #usn-accueil .usn-phrase p b.usn-ph-cime {
+    font-size: 1.42em;
+    padding-bottom: 0.3em; margin-bottom: -0.3em;
+  }
 
   /* L'ANAPHORE EST UN RYTHME, PAS UN PROPOS.
 
@@ -933,6 +941,18 @@
     background-repeat: no-repeat;
     -webkit-background-clip: text; background-clip: text;
     color: transparent;
+    /* LE J DEBORDE DE SA PROPRE BOITE.
+
+       Dans l'Instrument Serif, la hampe du J descend et revient vers la
+       gauche, en dehors de la chasse de la lettre. Un degrade, lui, ne
+       se peint que dans la boite du mot : ce qui depassait restait sans
+       couleur, et le J paraissait coupe net.
+
+       La boite est donc elargie de part et d'autre, et une marge
+       negative de meme valeur rend la place prise : la lettre entiere
+       recoit la couleur, et rien ne bouge a l'ecran. */
+    padding-left: 0.12em; padding-right: 0.12em;
+    margin-left: -0.12em; margin-right: -0.12em;
     letter-spacing: 0;
     font-size: 1.14em; line-height: 0.9;
   }
