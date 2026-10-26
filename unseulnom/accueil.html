@@ -859,12 +859,30 @@
      Le voile passe par une variable plutot que par une seconde regle
      d'opacite : « est-dit » et « usn-mot-serif » ont la meme force, et
      la derniere ecrite l'emporterait sur l'autre. */
+  /* Chaque mot arrive de l'un des deux bords et vient prendre sa place.
+     Le decalage de depart est pose par le script, mot par mot, et la
+     transition fait le chemin. Un texte pose la, immobile, ne disait
+     rien de la phrase ; en se rassemblant, les mots la jouent.
+
+     Le voile du mot pas encore dit reste a 48 % : a 20 % il etait du
+     gris sombre sur du noir, illisible. */
   #usn-accueil .usn-phrase p b {
     display: inline-block; font-weight: inherit;
     color: var(--usn-ivoire); opacity: var(--usn-voile, 0.48);
-    transition: opacity .2s linear;
+    /* Le decalage inline est MULTIPLIE par un coefficient, il n'est pas
+       remplace : le script pose « --dx » dans l'attribut style du mot, et
+       une declaration en ligne l'emporte toujours sur la feuille de
+       style. « est-dit : --dx: 0 » ne pouvait donc rien ramener a zero —
+       les mots s'allumaient sans jamais bouger. Le coefficient, lui, ne
+       vient que de la feuille de style : les deux cohabitent. */
+    transform: translate3d(calc(var(--dx, 0px) * var(--usn-k, 1)), 0, 0);
+    transition: opacity .45s ease, transform .75s cubic-bezier(.16,.84,.22,1);
+    will-change: transform;
   }
-  #usn-accueil .usn-phrase p b.est-dit { opacity: 1; }
+  #usn-accueil .usn-phrase p b.est-dit { opacity: 1; --usn-k: 0; }
+  @media (prefers-reduced-motion: reduce) {
+    #usn-accueil .usn-phrase p b { transform: none; transition: opacity .2s linear; }
+  }
 
   /* Les mots qui portent la phrase changent de main : une romane a
      empattements, dans le jaune de l'affiche. C'est le contraste des deux
@@ -872,7 +890,9 @@
   #usn-accueil .usn-phrase p b.usn-mot-serif {
     --usn-voile: 0.6;
     font-family: var(--usn-serif); font-weight: 400;
-    color: var(--usn-or); letter-spacing: 0;
+    /* Le rose plutot que l'orange : au milieu du degrade, il repond au
+       ruban et aux boutons au lieu de tirer la phrase vers le chaud. */
+    color: var(--usn-rose); letter-spacing: 0;
     font-size: 1.14em; line-height: 0.9;
   }
 
@@ -905,7 +925,7 @@
      lui-meme, sans dependre d'aucun parent. */
   #usn-accueil .usn-frise { position: relative; background: var(--usn-ivoire); }
   #usn-accueil .usn-frise-fixe {
-    position: relative; height: clamp(520px, 86svh, 880px); overflow: hidden;
+    position: relative; height: clamp(440px, 70svh, 720px); overflow: hidden;
   }
 
   /* --- la meme matiere que le heros : la creme ne s'interrompt jamais --- */
@@ -925,10 +945,41 @@
     background-size: 12.5% 100%;
   }
 
-  /* --- l'intitule, fixe dans le coin --- */
+  /* L'INTITULE, AU-DESSUS DE LA BANDE.
+
+     Il etait pose dans un coin du cadre, par-dessus les vignettes : la
+     premiere legende venue passait dessous et les deux se chevauchaient.
+     Il a maintenant sa place a lui, et il dit comment se servir de la
+     bande — une bande qui glisse ne se devine pas. */
+  #usn-accueil .usn-frise-entete {
+    padding: clamp(54px, 8vw, 96px) clamp(16px, 3.4vw, 44px) clamp(22px, 3vw, 34px);
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 20px; flex-wrap: wrap;
+  }
+  #usn-accueil .usn-frise-entete h2 {
+    margin-top: 14px; font-size: clamp(27px, 4.4vw, 54px); max-width: 17ch;
+  }
+  #usn-accueil .usn-frise-mode {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-family: var(--usn-sub); font-size: clamp(13px, 1.5vw, 15px); color: var(--usn-gris);
+  }
+  /* La fleche va et vient : c'est elle qui dit « poussez-moi ». Elle
+     s'arrete des que la bande a bouge, le message ayant porte. */
+  #usn-accueil .usn-frise-mode i {
+    font-style: normal; font-size: 19px; line-height: 1;
+    background-image: var(--usn-degrade); background-repeat: no-repeat;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: usn-pousse 1.6s ease-in-out infinite;
+  }
+  @keyframes usn-pousse { 0%,100% { transform: translateX(0); } 50% { transform: translateX(9px); } }
+  #usn-accueil .usn-frise.est-poussee .usn-frise-mode i { animation: none; }
+  #usn-accueil .usn-frise.est-poussee .usn-frise-mode { opacity: .45; transition: opacity .5s ease; }
+  @media (prefers-reduced-motion: reduce) {
+    #usn-accueil .usn-frise-mode i { animation: none; }
+  }
+
   #usn-accueil .usn-frise-titre {
-    position: absolute; z-index: 4; left: clamp(16px, 3.4vw, 44px); top: clamp(92px, 12vh, 124px);
-    font-size: 10.5px; font-weight: 800; letter-spacing: 0.26em; text-transform: uppercase;
+    display: none;
     color: var(--usn-gris);
   }
   /* La barre de progression, en bas : elle dit ou l'on en est. */
@@ -1137,8 +1188,10 @@
      course elles passaient par-dessus. Un deplacement au defilement ne
      change pas la place reservee dans la page, il faut donc la prevoir
      ici. Ils partagent en plus la meme largeur, pour s'aligner. */
+  /* La marge tenait compte d'une montee de 28 % de l'ecran ; elle est
+     passee a 18 %, la reserve peut suivre. */
   #usn-accueil .usn-eglises-actions {
-    margin-top: clamp(54px, 8vw, 96px);
+    margin-top: clamp(38px, 5.5vw, 68px);
     display: flex; flex-wrap: wrap; gap: 14px;
   }
   #usn-accueil .usn-eglises-actions .usn-btn { min-width: clamp(230px, 24vw, 290px); }
@@ -1476,6 +1529,17 @@
   <!-- pendant qu'on descend. Genere par construire-histoire.py.      -->
   <!-- ============================================================= -->
   <div class="usn-frise" id="usn-frise">
+
+    <div class="usn-frise-entete">
+      <div data-usn-monte>
+        <span class="usn-cle">Ce que nous avons v&eacute;cu</span>
+        <h2>Toutes les villes travers&eacute;es</h2>
+      </div>
+      <p class="usn-frise-mode" data-usn-monte>
+        Faites glisser la bande vers la droite <i aria-hidden="true">&#8594;</i>
+      </p>
+    </div>
+
     <div class="usn-frise-fixe">
 
       <div class="usn-frise-fond" aria-hidden="true">
@@ -2142,9 +2206,25 @@
     var groups = [];
     function group(sel, opts) {
       var els = root.querySelectorAll(sel);
-      if (els.length) groups.push({ els: els, o: opts });
+      if (els.length) groups.push({ els: els, o: opts, sel: sel });
     }
-    group('[data-usn-monte]',   { type: 'rise',  dist: 0.28, stagger: 0.10, span: 0.52 });
+    /* Le decalage en cascade se compte entre FRERES, et non sur toute la
+       page : un indice global condamnait les derniers blocs a n'apparaitre
+       qu'au tout dernier pixel de leur course. Les trois besoins gardent
+       leur cascade, les boutons des eglises n'heritent plus du retard de
+       tous les blocs qui les precedent. */
+    function rangFratrie(el, sel) {
+      var f = el.parentNode ? el.parentNode.children : null, r = 0;
+      if (!f) return 0;
+      for (var k = 0; k < f.length; k++) {
+        if (f[k] === el) return r;
+        if (f[k].matches ? f[k].matches(sel) : false) r++;
+      }
+      return r;
+    }
+    // Les blocs qui montent arrivent plus tot et de moins loin : les
+    // boutons des eglises se faisaient attendre jusqu'a la toute fin.
+    group('[data-usn-monte]',   { type: 'rise',  dist: 0.18, stagger: 0.06, span: 0.44 });
     group('.usn-vue',           { type: 'rise',  dist: 0.36, stagger: 0.07, span: 0.54 });
     group('.usn-chiffre',       { type: 'rise',  dist: 0.22, stagger: 0.10, span: 0.46 });
     group('[data-usn-gauche]',  { type: 'slide',  dist: 0.55, stagger: 0, span: 0.52 });
@@ -2155,7 +2235,7 @@
       for (var i = 0; i < groups[g].els.length; i++) {
         var el = groups[g].els[i];
         all.push({
-          el: el, i: i, o: groups[g].o, p: 0, top: 0,
+          el: el, i: rangFratrie(el, groups[g].sel), o: groups[g].o, p: 0, top: 0,
           rot: parseFloat(el.getAttribute('data-rot') || '0')
         });
       }
@@ -2209,8 +2289,11 @@
       var h = vh();
       var top = item.top - scrollY();
       // 0 quand le haut de l'élément entre par le bas, 1 quand il a monté
-      var raw = (h * 0.92 - top) / (h * item.o.span);
-      var st = item.i * item.o.stagger;
+      var raw = (h * 0.96 - top) / (h * item.o.span);
+      /* Le decalage est PLAFONNE. L'indice compte les elements d'un
+         meme parent (voir rangFratrie) : il reste donc petit, et le
+         plafond ne sert que pour les listes longues. */
+      var st = Math.min(item.i * item.o.stagger, 0.3);
       return clamp01((clamp01(raw) - st) / Math.max(0.2, 1 - st));
     }
 
@@ -2263,6 +2346,27 @@
        ce qui laisse un temps de lecture avant de repartir. */
     var phrase = root.querySelector('.usn-phrase');
     var motsPh = phrase ? phrase.querySelectorAll('#usn-phrase-mots b') : [];
+
+    /* D'ou vient chaque mot. Un sur deux part de la gauche, l'autre de
+       la droite, et les mots du milieu de chaque ligne partent de moins
+       loin que ceux des bords : la phrase se referme sur elle-meme au
+       lieu de glisser en bloc.
+
+       Le decalage est pose une fois pour toutes ; c'est la classe
+       « est-dit » qui le ramene a zero, et la transition fait le
+       chemin. Rien n'est recalcule pendant le defilement. */
+    (function () {
+      var large = Math.min(window.innerWidth * 0.42, 520);
+      for (var i = 0; i < motsPh.length; i++) {
+        var ligne = motsPh[i].parentNode;
+        var freres = ligne.children.length;
+        var rang = Array.prototype.indexOf.call(ligne.children, motsPh[i]);
+        // 1 aux extremites de la ligne, 0 au centre.
+        var bord = freres > 1 ? Math.abs(rang - (freres - 1) / 2) / ((freres - 1) / 2) : 1;
+        var sens = (i % 2 === 0) ? -1 : 1;
+        motsPh[i].style.setProperty('--dx', (sens * large * (0.3 + 0.7 * bord)).toFixed(0) + 'px');
+      }
+    })();
 
     function phraseAppliquer() {
       if (!phrase || !motsPh.length) return;
@@ -2318,23 +2422,33 @@
        d'avancer seule : deux mains sur le meme volant ne vont jamais du
        meme cote. Un mouvement vertical a la molette ne compte pas, c'est
        la page qu'il fait defiler. */
-    var mainPrise = false;
     if (piste) {
-      piste.addEventListener('pointerdown', function () { mainPrise = true; });
-      piste.addEventListener('wheel', function (e) {
-        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) mainPrise = true;
+      /* L'invitation a pousser s'efface des que la bande a bouge : le
+         message a porte, inutile d'insister. */
+      piste.addEventListener('scroll', function () {
+        if (piste.scrollLeft > 24) frise.classList.add('est-poussee');
       }, { passive: true });
-      piste.addEventListener('keydown', function () { mainPrise = true; });
+
+      /* La molette verticale fait avancer la bande tant qu'elle n'est
+         pas au bout, puis rend la main a la page. Sans cela il faut un
+         pave tactile ou un doigt pour la parcourir, et beaucoup de
+         visiteurs resteraient devant sans rien pouvoir faire. */
+      piste.addEventListener('wheel', function (e) {
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;   // deja horizontal
+        var avant = piste.scrollLeft;
+        var vise = Math.min(Math.max(0, avant + e.deltaY), course);
+        if (vise === avant) return;                            // au bout : a la page
+        piste.scrollLeft = vise;
+        e.preventDefault();
+      }, { passive: false });
     }
 
     function friseAppliquer() {
       if (!frise || !piste) return;
-      var r = frise.getBoundingClientRect(), h = vh();
-      /* Zero quand le bloc entre par le bas, un quand il sort par le
-         haut : la bande se deroule entierement pendant qu'il traverse
-         l'ecran, sans que la page ait a s'arreter. */
-      var p = clamp01((h - r.top) / (h + r.height));
-      if (!mainPrise) piste.scrollLeft = course * p;
+      /* La bande n'avance plus d'elle-meme : elle le faisait pendant que
+         la page descendait, ce qui donnait l'impression qu'elle partait
+         toute seule. Le visiteur la pousse, elle ne fait que lui
+         repondre. La jauge dit ou il en est. */
       if (jauge) {
         var fait = course ? piste.scrollLeft / course : 0;
         jauge.style.width = (clamp01(fait) * 100).toFixed(2) + '%';

@@ -256,6 +256,17 @@
   <!-- pendant qu'on descend. Genere par construire-histoire.py.      -->
   <!-- ============================================================= -->
   <div class="usn-frise" id="usn-frise">
+
+    <div class="usn-frise-entete">
+      <div data-usn-monte>
+        <span class="usn-cle">Ce que nous avons v&eacute;cu</span>
+        <h2>Toutes les villes travers&eacute;es</h2>
+      </div>
+      <p class="usn-frise-mode" data-usn-monte>
+        Faites glisser la bande vers la droite <i aria-hidden="true">&#8594;</i>
+      </p>
+    </div>
+
     <div class="usn-frise-fixe">
 
       <div class="usn-frise-fond" aria-hidden="true">

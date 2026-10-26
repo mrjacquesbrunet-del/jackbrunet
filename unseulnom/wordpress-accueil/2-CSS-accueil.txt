@@ -846,12 +846,30 @@
      Le voile passe par une variable plutot que par une seconde regle
      d'opacite : " est-dit " et " usn-mot-serif " ont la meme force, et
      la derniere ecrite l'emporterait sur l'autre. */
+  /* Chaque mot arrive de l'un des deux bords et vient prendre sa place.
+     Le decalage de depart est pose par le script, mot par mot, et la
+     transition fait le chemin. Un texte pose la, immobile, ne disait
+     rien de la phrase ; en se rassemblant, les mots la jouent.
+
+     Le voile du mot pas encore dit reste a 48 % : a 20 % il etait du
+     gris sombre sur du noir, illisible. */
   #usn-accueil .usn-phrase p b {
     display: inline-block; font-weight: inherit;
     color: var(--usn-ivoire); opacity: var(--usn-voile, 0.48);
-    transition: opacity .2s linear;
+    /* Le decalage inline est MULTIPLIE par un coefficient, il n'est pas
+       remplace : le script pose " --dx " dans l'attribut style du mot, et
+       une declaration en ligne l'emporte toujours sur la feuille de
+       style. " est-dit : --dx: 0 " ne pouvait donc rien ramener a zero -
+       les mots s'allumaient sans jamais bouger. Le coefficient, lui, ne
+       vient que de la feuille de style : les deux cohabitent. */
+    transform: translate3d(calc(var(--dx, 0px) * var(--usn-k, 1)), 0, 0);
+    transition: opacity .45s ease, transform .75s cubic-bezier(.16,.84,.22,1);
+    will-change: transform;
   }
-  #usn-accueil .usn-phrase p b.est-dit { opacity: 1; }
+  #usn-accueil .usn-phrase p b.est-dit { opacity: 1; --usn-k: 0; }
+  @media (prefers-reduced-motion: reduce) {
+    #usn-accueil .usn-phrase p b { transform: none; transition: opacity .2s linear; }
+  }
 
   /* Les mots qui portent la phrase changent de main : une romane a
      empattements, dans le jaune de l'affiche. C'est le contraste des deux
@@ -859,7 +877,9 @@
   #usn-accueil .usn-phrase p b.usn-mot-serif {
     --usn-voile: 0.6;
     font-family: var(--usn-serif); font-weight: 400;
-    color: var(--usn-or); letter-spacing: 0;
+    /* Le rose plutot que l'orange : au milieu du degrade, il repond au
+       ruban et aux boutons au lieu de tirer la phrase vers le chaud. */
+    color: var(--usn-rose); letter-spacing: 0;
     font-size: 1.14em; line-height: 0.9;
   }
 
@@ -892,7 +912,7 @@
      lui-meme, sans dependre d'aucun parent. */
   #usn-accueil .usn-frise { position: relative; background: var(--usn-ivoire); }
   #usn-accueil .usn-frise-fixe {
-    position: relative; height: clamp(520px, 86svh, 880px); overflow: hidden;
+    position: relative; height: clamp(440px, 70svh, 720px); overflow: hidden;
   }
 
   /* --- la meme matiere que le heros : la creme ne s'interrompt jamais --- */
@@ -912,10 +932,41 @@
     background-size: 12.5% 100%;
   }
 
-  /* --- l'intitule, fixe dans le coin --- */
+  /* L'INTITULE, AU-DESSUS DE LA BANDE.
+
+     Il etait pose dans un coin du cadre, par-dessus les vignettes : la
+     premiere legende venue passait dessous et les deux se chevauchaient.
+     Il a maintenant sa place a lui, et il dit comment se servir de la
+     bande - une bande qui glisse ne se devine pas. */
+  #usn-accueil .usn-frise-entete {
+    padding: clamp(54px, 8vw, 96px) clamp(16px, 3.4vw, 44px) clamp(22px, 3vw, 34px);
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 20px; flex-wrap: wrap;
+  }
+  #usn-accueil .usn-frise-entete h2 {
+    margin-top: 14px; font-size: clamp(27px, 4.4vw, 54px); max-width: 17ch;
+  }
+  #usn-accueil .usn-frise-mode {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-family: var(--usn-sub); font-size: clamp(13px, 1.5vw, 15px); color: var(--usn-gris);
+  }
+  /* La fleche va et vient : c'est elle qui dit " poussez-moi ". Elle
+     s'arrete des que la bande a bouge, le message ayant porte. */
+  #usn-accueil .usn-frise-mode i {
+    font-style: normal; font-size: 19px; line-height: 1;
+    background-image: var(--usn-degrade); background-repeat: no-repeat;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: usn-pousse 1.6s ease-in-out infinite;
+  }
+  @keyframes usn-pousse { 0%,100% { transform: translateX(0); } 50% { transform: translateX(9px); } }
+  #usn-accueil .usn-frise.est-poussee .usn-frise-mode i { animation: none; }
+  #usn-accueil .usn-frise.est-poussee .usn-frise-mode { opacity: .45; transition: opacity .5s ease; }
+  @media (prefers-reduced-motion: reduce) {
+    #usn-accueil .usn-frise-mode i { animation: none; }
+  }
+
   #usn-accueil .usn-frise-titre {
-    position: absolute; z-index: 4; left: clamp(16px, 3.4vw, 44px); top: clamp(92px, 12vh, 124px);
-    font-size: 10.5px; font-weight: 800; letter-spacing: 0.26em; text-transform: uppercase;
+    display: none;
     color: var(--usn-gris);
   }
   /* La barre de progression, en bas : elle dit ou l'on en est. */
@@ -1124,8 +1175,10 @@
      course elles passaient par-dessus. Un deplacement au defilement ne
      change pas la place reservee dans la page, il faut donc la prevoir
      ici. Ils partagent en plus la meme largeur, pour s'aligner. */
+  /* La marge tenait compte d'une montee de 28 % de l'ecran ; elle est
+     passee a 18 %, la reserve peut suivre. */
   #usn-accueil .usn-eglises-actions {
-    margin-top: clamp(54px, 8vw, 96px);
+    margin-top: clamp(38px, 5.5vw, 68px);
     display: flex; flex-wrap: wrap; gap: 14px;
   }
   #usn-accueil .usn-eglises-actions .usn-btn { min-width: clamp(230px, 24vw, 290px); }
