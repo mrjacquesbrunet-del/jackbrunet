@@ -104,28 +104,30 @@ n'était qu'un décor.
 
 Juste sous le bloc noir, juste avant l'adresse :
 
-> La religion donne des règles. Les valeurs, des repères.
-> Les efforts, de la fatigue.
+> La religion donne un cadre. Les valeurs, des repères.
+> Les efforts, des résultats.
 >
-> **Un seul Nom transforme. Jésus-Christ.**
+> **Mais un seul Nom transforme. Jésus-Christ.**
 
-**Aucune des trois n'est moquée.** Chacune reçoit un résultat vrai et
-respectable : des règles et des repères sont de bonnes choses, et
-celui qui les a cherchées n'est pas traité en imbécile. On ne gagne
-personne en démolissant ce qu'il a tenté.
+**Les trois gagnent.** Un cadre, des repères, des résultats : ce sont
+de vraies réussites, pas des consolations. Celui qui les a cherchées
+n'est pas traité en imbécile, et on ne gagne personne en démolissant
+ce qu'il a tenté.
 
-**Le pivot n'est pas dans le ton, il est dans le verbe.** Des règles,
-on en reçoit ; des repères, on en porte ; de la fatigue, on en
-ramasse — trois choses qu'on garde sur le dos. *Transforme* est le
-premier verbe de la page dont le lecteur n'est pas l'auteur mais
-l'objet : quelqu'un d'autre agit. C'est tout l'écart entre ce qu'il a
-tenté et ce qu'on l'invite à venir voir.
+> Une version disait « des règles » et « de la fatigue ». **Deux fois
+> le même défaut : on faisait perdre les deux premiers pour que le
+> troisième gagne.** Un lecteur qui tient à sa discipline ou à ses
+> efforts se sentait visé — et un argument qui a besoin d'abaisser
+> l'autre camp pour tenir n'est pas un argument. **Concède-lui tout :**
+> le contraste n'en est que plus net, parce qu'il ne porte plus sur la
+> *qualité* de ce qu'il a trouvé mais sur sa *nature*.
 
-**« Les efforts, de la fatigue » est la ligne qui décide.** C'est la
-seule que le lecteur reconnaîtra comme *sa* vie, et elle dit tout haut
-ce que personne ne lui a jamais accordé : essayer d'être quelqu'un de
-bien épuise. Un flyer qui nomme sa fatigue a gagné le droit de lui
-proposer autre chose.
+**Le pivot est dans le verbe.** Un cadre, on s'y range ; des repères,
+on les suit ; des résultats, on les produit — trois choses dont le
+lecteur reste l'auteur, et qui le laissent exactement le même homme.
+*Transforme* est le premier verbe de la page dont il n'est plus
+l'auteur mais l'objet : quelqu'un d'autre agit. Tout l'écart est là,
+et le **« Mais »** le fait entendre avant même qu'on l'ait compris.
 
 Et le Nom arrive **en dernier**, en réponse à une phrase que le lecteur
 vient d'approuver. Pas une affirmation à croire d'emblée : la fin d'un

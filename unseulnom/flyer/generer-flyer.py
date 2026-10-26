@@ -299,23 +299,26 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
 
    D'ou un CONTRASTE, et non une question. Trois choses que le
    lecteur a reellement essayees sont nommees — la religion, les
-   valeurs, l'effort — et aucune n'est moquee : chacune recoit un
-   resultat vrai et respectable. Des regles, des reperes : ce sont de
-   bonnes choses, et celui qui les a cherchees n'est pas traite en
-   imbecile. On ne gagne personne en demolissant ce qu'il a tente.
+   valeurs, l'effort — et les TROIS gagnent. Un cadre, des reperes,
+   des resultats : ce sont de vraies reussites, pas des consolations.
+   Celui qui les a cherchees n'est pas traite en imbecile, et on ne
+   gagne personne en demolissant ce qu'il a tente.
 
-   Le pivot n'est pas dans le ton, il est dans le VERBE. Des regles,
-   on en recoit ; des reperes, on en porte ; de la fatigue, on en
-   ramasse. Trois choses que l'on garde sur le dos. « Transforme » est
-   le premier verbe de la page dont le lecteur n'est pas l'auteur mais
-   l'objet : quelqu'un d'autre agit. C'est tout l'ecart entre tout ce
-   qu'il a tente et ce qu'on l'invite a voir.
+   Une version disait « des regles » et « de la fatigue ». C'etait
+   deux fois le meme defaut : on faisait perdre les deux premiers pour
+   que le troisieme gagne. Un lecteur qui tient a sa discipline ou a
+   ses efforts se sentait vise, et un argument qui a besoin d'abaisser
+   l'autre camp pour tenir n'est pas un argument. Concede-lui tout :
+   le contraste n'en est que plus net, parce qu'il ne porte plus sur
+   la QUALITE de ce qu'il a trouve mais sur sa NATURE.
 
-   « Les efforts, de la fatigue » est la ligne qui decide. Elle est
-   la seule que le lecteur reconnaitra comme SA vie, et elle dit tout
-   haut ce que personne ne lui a jamais accorde : essayer d'etre
-   quelqu'un de bien epuise. Un flyer qui nomme sa fatigue a gagne le
-   droit de lui proposer autre chose.
+   Le pivot est dans le VERBE. Un cadre, on s'y range ; des reperes,
+   on les suit ; des resultats, on les produit. Trois choses dont le
+   lecteur reste l'auteur, et qui le laissent exactement le meme
+   homme. « Transforme » est le premier verbe de la page dont il n'est
+   plus l'auteur mais l'objet : quelqu'un d'autre agit. Tout l'ecart
+   est la, et le « Mais » le fait entendre avant meme qu'on l'ait
+   compris.
 
    Et le Nom arrive en dernier, en reponse a une phrase que le lecteur
    a deja approuvee. Pas une affirmation a croire d'emblee : la fin
@@ -410,10 +413,10 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
 
   <div class="nom">
     <p class="q">
-      La religion donne des r&egrave;gles. Les valeurs, des rep&egrave;res.<br>
-      Les efforts, de la fatigue.
+      La religion donne un cadre. Les valeurs, des rep&egrave;res.<br>
+      Les efforts, des r&eacute;sultats.
     </p>
-    <p class="r"><em>Un seul Nom transforme. J&eacute;sus-Christ.</em></p>
+    <p class="r"><em>Mais un seul Nom transforme. J&eacute;sus-Christ.</em></p>
   </div>
 
   <div class="pratique">
