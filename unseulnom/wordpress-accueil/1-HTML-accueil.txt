@@ -221,10 +221,10 @@
       <div class="usn-phrase-texte">
         <span class="usn-phrase-titre">La vision</span>
         <p id="usn-phrase-mots">
-          <span class="usn-ph-ligne"><b>Un</b> <b>seul</b> <b class="usn-mot-serif">Nom</b> <b>nous</b> <b>rassemble.</b></span>
-          <span class="usn-ph-ligne"><b>Un</b> <b>seul</b> <b class="usn-mot-serif">corps,</b> <b>o&ugrave;</b> <b>chacun</b> <b>a</b> <b>sa</b> <b>place.</b></span>
-          <span class="usn-ph-ligne"><b>Une</b> <b>seule</b> <b class="usn-mot-serif">mission</b> <b>nous</b> <b>envoie.</b></span>
-          <span class="usn-ph-ligne"><b>Pour</b> <b>que</b> <b>le</b> <b>monde</b> <b>proclame</b> <b>ce</b> <b>Nom&#160;:</b></span>
+          <span class="usn-ph-ligne"><b class="usn-ph-amorce">Un seul</b> <b class="usn-mot-serif usn-pas-1">Nom.</b></span>
+          <span class="usn-ph-ligne"><b class="usn-ph-amorce">Un seul</b> <b class="usn-mot-serif usn-pas-2">corps.</b></span>
+          <span class="usn-ph-ligne"><b class="usn-ph-amorce">Une seule</b> <b class="usn-mot-serif usn-pas-3">mission.</b></span>
+          <span class="usn-ph-ligne usn-ph-liant"><b>Ensemble,</b> <b>proclamer</b></span>
           <span class="usn-ph-ligne"><b class="usn-mot-serif usn-ph-cime">J&eacute;sus-Christ.</b></span>
         </p>
       </div>
@@ -278,55 +278,55 @@
       <div class="usn-frise-titre">Ce que nous avons v&eacute;cu</div>
 
       <div class="usn-frise-piste" id="usn-frise-piste">
-        <figure class="usn-fr-vue" style="width: clamp(250px, 33vw, 520px); --dy: -11vh;">
+        <figure class="usn-fr-vue" style="width: clamp(250px, 33vw, 520px); --dy: -6vh;">
           <figcaption>Paris, 4 mai 2024</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="Un Seul Nom, Paris" loading="lazy" />
         </figure>
-        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: -13vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-1-768x948.jpg" data-usn-titre="Paris 75">
+        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: -7vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-1-768x948.jpg" data-usn-titre="Paris 75">
           <figcaption>Paris, 4 mai 2024</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-1-768x948.jpg" alt="Un Seul Nom, Paris" loading="lazy" />
         </figure>
-        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: 15vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/10/affichepau.webp" data-usn-titre="Pau 64">
+        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: 8vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/10/affichepau.webp" data-usn-titre="Pau 64">
           <figcaption>Pau, 5 octobre 2024</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/10/affichepau.webp" alt="Un Seul Nom, Pau" loading="lazy" />
         </figure>
-        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: 13vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/10/afficheformation.webp" data-usn-titre="Paris &#183; Formation 75">
+        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: 7vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/10/afficheformation.webp" data-usn-titre="Paris &#183; Formation 75">
           <figcaption>Paris &#183; Formation, 12 avril 2025</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/10/afficheformation.webp" alt="Un Seul Nom, Paris &#183; Formation" loading="lazy" />
         </figure>
-        <figure class="usn-fr-vue" style="width: clamp(250px, 33vw, 520px); --dy: 9vh;">
+        <figure class="usn-fr-vue" style="width: clamp(250px, 33vw, 520px); --dy: 5vh;">
           <figcaption>Croissy-Beaubourg, 21 et 22 juin 2025</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme3.webp" alt="Un Seul Nom, Croissy-Beaubourg" loading="lazy" />
         </figure>
-        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: 15vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-3-768x954.jpg" data-usn-titre="Croissy-Beaubourg 77">
+        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: 8vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-3-768x954.jpg" data-usn-titre="Croissy-Beaubourg 77">
           <figcaption>Croissy-Beaubourg, 21 et 22 juin 2025</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-3-768x954.jpg" alt="Un Seul Nom, Croissy-Beaubourg" loading="lazy" />
         </figure>
-        <figure class="usn-fr-vue" style="width: clamp(250px, 33vw, 520px); --dy: -11vh;">
+        <figure class="usn-fr-vue" style="width: clamp(250px, 33vw, 520px); --dy: -6vh;">
           <figcaption>Wasquehal, 28 mars 2026</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme1.webp" alt="Un Seul Nom, Wasquehal" loading="lazy" />
         </figure>
-        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: -13vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-4-768x945.jpg" data-usn-titre="Wasquehal 59">
+        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: -7vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-4-768x945.jpg" data-usn-titre="Wasquehal 59">
           <figcaption>Wasquehal, 28 mars 2026</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-4-768x945.jpg" alt="Un Seul Nom, Wasquehal" loading="lazy" />
         </figure>
-        <figure class="usn-fr-vue" style="width: clamp(250px, 33vw, 520px); --dy: -7vh;">
+        <figure class="usn-fr-vue" style="width: clamp(250px, 33vw, 520px); --dy: -4vh;">
           <figcaption>Perpignan, 9 mai 2026</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme4.webp" alt="Un Seul Nom, Perpignan" loading="lazy" />
         </figure>
-        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: 13vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-5-768x950.jpg" data-usn-titre="Perpignan 66">
+        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: 7vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-5-768x950.jpg" data-usn-titre="Perpignan 66">
           <figcaption>Perpignan, 9 mai 2026</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-5-768x950.jpg" alt="Un Seul Nom, Perpignan" loading="lazy" />
         </figure>
-        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: -13vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/10/afficheavignon.webp" data-usn-titre="Avignon 84">
+        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: -7vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/10/afficheavignon.webp" data-usn-titre="Avignon 84">
           <figcaption>Avignon, 17 octobre 2026</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/10/afficheavignon.webp" alt="Un Seul Nom, Avignon" loading="lazy" />
         </figure>
-        <figure class="usn-fr-vue est-avenir" style="width: clamp(165px, 18vw, 285px); --dy: 15vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/10/affichemadagascar.webp" data-usn-titre="Madagascar">
+        <figure class="usn-fr-vue est-avenir" style="width: clamp(165px, 18vw, 285px); --dy: 8vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/10/affichemadagascar.webp" data-usn-titre="Madagascar">
           <figcaption>Madagascar, 14 novembre 2026</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/10/affichemadagascar.webp" alt="Un Seul Nom, Madagascar" loading="lazy" />
         </figure>
-        <figure class="usn-fr-vue est-avenir" style="width: clamp(165px, 18vw, 285px); --dy: 13vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/10/affichetarbes.webp" data-usn-titre="Tarbes 65">
+        <figure class="usn-fr-vue est-avenir" style="width: clamp(165px, 18vw, 285px); --dy: 7vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/10/affichetarbes.webp" data-usn-titre="Tarbes 65">
           <figcaption>Tarbes, 12 d&#233;cembre 2026</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/10/affichetarbes.webp" alt="Un Seul Nom, Tarbes" loading="lazy" />
         </figure>

@@ -602,7 +602,10 @@
       // s'allument pendant qu'il arrive, et la phrase est entiere avant
       // qu'il soit centre.
       var h = vh();
-      var p = clamp01((h * 0.98 - r.top) / (h * 0.56));
+      /* La strophe se deroule sur 72 % d'une hauteur d'ecran. Elle
+         tenait sur 56 %, ce qui convenait a vingt-six mots serres ;
+         a neuf morceaux, les lignes s'allumaient presque ensemble. */
+      var p = clamp01((h * 0.98 - r.top) / (h * 0.72));
       var jusqua = p * motsPh.length;
       for (var i = 0; i < motsPh.length; i++) {
         var dit = i < jusqua;

@@ -819,21 +819,47 @@
   }
   #usn-accueil .usn-phrase p {
     margin: 0; font-family: var(--usn-display); font-weight: 900;
-    /* Cinq lignes au lieu d'un seul bloc : la taille baisse d'autant,
-       sinon la plus longue se casse en deux et la strophe se perd. */
-    font-size: clamp(25px, 4.4vw, 74px); line-height: 1.12;
+    /* La strophe est passee de vingt-six mots a neuf. Chaque ligne
+       tient donc sur une ligne, meme sur un telephone, et la taille
+       peut monter de 74 a 104 pixels : c'est ce qu'il fallait pour
+       qu'elle se recoive au lieu de se lire. */
+    font-size: clamp(30px, 6.4vw, 104px); line-height: 1.1;
     letter-spacing: -0.025em; text-transform: uppercase;
   }
   #usn-accueil .usn-ph-ligne { display: block; }
   /* La chute : plus grande, et detachee de ce qui precede. */
   #usn-accueil .usn-ph-ligne:last-child { margin-top: clamp(14px, 2.2vh, 30px); }
-  #usn-accueil .usn-phrase p b.usn-ph-cime { font-size: 1.5em; }
+  #usn-accueil .usn-phrase p b.usn-ph-cime { font-size: 1.42em; }
+
+  /* L'ANAPHORE EST UN RYTHME, PAS UN PROPOS.
+
+     " Un seul " revient trois fois : il porte la cadence, il ne dit
+     rien. Il passe donc en petit, et c'est le mot qui suit qui prend
+     toute la taille. Petit, GRAND - trois fois - puis le nom.
+     C'est le rythme qui tient la strophe, pas la longueur. */
+  #usn-accueil .usn-phrase p b.usn-ph-amorce {
+    font-size: 0.46em; letter-spacing: 0.015em;
+  }
+  #usn-accueil .usn-ph-liant { margin-top: clamp(10px, 1.8vh, 26px); }
+  #usn-accueil .usn-phrase p .usn-ph-liant b {
+    font-size: 0.4em; letter-spacing: 0.1em; font-weight: 800;
+  }
+
+  /* LE DEGRADE SE LIT DE HAUT EN BAS.
+
+     Les trois mots qui portent la strophe ont le meme role : leur
+     donner la meme couleur les aurait rendus interchangeables, et la
+     strophe aurait semble se repeter. Chacun prend donc UN TIERS du
+     degrade - l'orange, le rouge, le magenta - et le nom, en bas, les
+     reprend tous les trois d'un seul trait. Une seule couleur, lue en
+     quatre temps. */
+  #usn-accueil .usn-phrase p b.usn-pas-1 { background-size: 300% 100%; background-position:   0% 50%; }
+  #usn-accueil .usn-phrase p b.usn-pas-2 { background-size: 300% 100%; background-position:  50% 50%; }
+  #usn-accueil .usn-phrase p b.usn-pas-3 { background-size: 300% 100%; background-position: 100% 50%; }
+
   @media (max-width: 720px) {
-    /* Les lignes les plus longues passent a la ligne quoi qu'il arrive :
-       autant que la coupure tombe au milieu plutot que de laisser un
-       mot seul en bas. */
-    #usn-accueil .usn-phrase p { font-size: 23px; text-wrap: balance; }
-    #usn-accueil .usn-phrase p b.usn-ph-cime { font-size: 1.7em; }
+    #usn-accueil .usn-phrase p { font-size: 29px; }
+    #usn-accueil .usn-phrase p b.usn-ph-cime { font-size: 1.34em; }
   }
   /* Chaque mot est un morceau a part : c'est ce qui permet de les
      allumer l'un apres l'autre. */
@@ -929,9 +955,17 @@
      neutraliser : c'est le navigateur qui le conduit, dans l'element
      lui-meme, sans dependre d'aucun parent. */
   #usn-accueil .usn-frise { position: relative; background: var(--usn-ivoire); }
-  #usn-accueil .usn-frise-fixe {
-    position: relative; height: clamp(440px, 70svh, 720px); overflow: hidden;
-  }
+  /* LA HAUTEUR VIENT DU CONTENU, PLUS D'UN CHIFFRE.
+
+     Le cadre mesurait 70 % de l'ecran, pas un pixel de plus, et les
+     vignettes decalees vers le bas depassaient : elles etaient
+     tranchees net a l'endroit meme ou commence le bloc suivant. On
+     croyait voir le bloc noir mordre dedans.
+
+     Plus de hauteur imposee : la bande porte la sienne, et ses marges
+     hautes et basses laissent la place au decalage des vignettes. Rien
+     ne peut plus depasser, donc rien ne peut plus etre coupe. */
+  #usn-accueil .usn-frise-fixe { position: relative; overflow: hidden; }
 
   /* --- la meme matiere que le heros : la creme ne s'interrompt jamais --- */
   #usn-accueil .usn-frise-fond { position: absolute; inset: 0; pointer-events: none; }
@@ -997,9 +1031,13 @@
   }
 
   #usn-accueil .usn-frise-piste {
-    position: absolute; inset: 0;
+    position: relative;
     display: flex; align-items: center;
-    gap: clamp(28px, 4.6vw, 84px); padding: 0 clamp(24px, 8vw, 140px);
+    gap: clamp(28px, 4.6vw, 84px);
+    /* Les marges couvrent le decalage le plus fort des vignettes
+       (8 % de l'ecran vers le bas, 7 % vers le haut), et le bas
+       reserve en plus la place de la jauge. */
+    padding: calc(7vh + 10px) clamp(24px, 8vw, 140px) calc(8vh + 76px);
     overflow-x: auto; overflow-y: hidden;
     overscroll-behavior-x: contain;
     -webkit-overflow-scrolling: touch;
@@ -1057,7 +1095,7 @@
   #usn-accueil .usn-fr-suite i { font-style: normal; font-family: var(--usn-sub); font-size: 13px; opacity: 0.9; }
 
   @media (max-width: 720px) {
-    #usn-accueil .usn-frise-piste { gap: 24px; padding: 0 20px; }
+    #usn-accueil .usn-frise-piste { gap: 24px; padding: calc(5vh + 8px) 20px calc(6vh + 64px); }
     #usn-accueil .usn-fr-grain { display: none; }
     #usn-accueil .usn-fr-vue img { box-shadow: 0 12px 28px rgba(17,17,16,0.12); }
   }
@@ -1499,10 +1537,10 @@
       <div class="usn-phrase-texte">
         <span class="usn-phrase-titre">La vision</span>
         <p id="usn-phrase-mots">
-          <span class="usn-ph-ligne"><b>Un</b> <b>seul</b> <b class="usn-mot-serif">Nom</b> <b>nous</b> <b>rassemble.</b></span>
-          <span class="usn-ph-ligne"><b>Un</b> <b>seul</b> <b class="usn-mot-serif">corps,</b> <b>o&ugrave;</b> <b>chacun</b> <b>a</b> <b>sa</b> <b>place.</b></span>
-          <span class="usn-ph-ligne"><b>Une</b> <b>seule</b> <b class="usn-mot-serif">mission</b> <b>nous</b> <b>envoie.</b></span>
-          <span class="usn-ph-ligne"><b>Pour</b> <b>que</b> <b>le</b> <b>monde</b> <b>proclame</b> <b>ce</b> <b>Nom&#160;:</b></span>
+          <span class="usn-ph-ligne"><b class="usn-ph-amorce">Un seul</b> <b class="usn-mot-serif usn-pas-1">Nom.</b></span>
+          <span class="usn-ph-ligne"><b class="usn-ph-amorce">Un seul</b> <b class="usn-mot-serif usn-pas-2">corps.</b></span>
+          <span class="usn-ph-ligne"><b class="usn-ph-amorce">Une seule</b> <b class="usn-mot-serif usn-pas-3">mission.</b></span>
+          <span class="usn-ph-ligne usn-ph-liant"><b>Ensemble,</b> <b>proclamer</b></span>
           <span class="usn-ph-ligne"><b class="usn-mot-serif usn-ph-cime">J&eacute;sus-Christ.</b></span>
         </p>
       </div>
@@ -1556,55 +1594,55 @@
       <div class="usn-frise-titre">Ce que nous avons v&eacute;cu</div>
 
       <div class="usn-frise-piste" id="usn-frise-piste">
-        <figure class="usn-fr-vue" style="width: clamp(250px, 33vw, 520px); --dy: -11vh;">
+        <figure class="usn-fr-vue" style="width: clamp(250px, 33vw, 520px); --dy: -6vh;">
           <figcaption>Paris, 4 mai 2024</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="Un Seul Nom, Paris" loading="lazy" />
         </figure>
-        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: -13vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-1-768x948.jpg" data-usn-titre="Paris 75">
+        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: -7vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-1-768x948.jpg" data-usn-titre="Paris 75">
           <figcaption>Paris, 4 mai 2024</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-1-768x948.jpg" alt="Un Seul Nom, Paris" loading="lazy" />
         </figure>
-        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: 15vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/10/affichepau.webp" data-usn-titre="Pau 64">
+        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: 8vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/10/affichepau.webp" data-usn-titre="Pau 64">
           <figcaption>Pau, 5 octobre 2024</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/10/affichepau.webp" alt="Un Seul Nom, Pau" loading="lazy" />
         </figure>
-        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: 13vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/10/afficheformation.webp" data-usn-titre="Paris &#183; Formation 75">
+        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: 7vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/10/afficheformation.webp" data-usn-titre="Paris &#183; Formation 75">
           <figcaption>Paris &#183; Formation, 12 avril 2025</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/10/afficheformation.webp" alt="Un Seul Nom, Paris &#183; Formation" loading="lazy" />
         </figure>
-        <figure class="usn-fr-vue" style="width: clamp(250px, 33vw, 520px); --dy: 9vh;">
+        <figure class="usn-fr-vue" style="width: clamp(250px, 33vw, 520px); --dy: 5vh;">
           <figcaption>Croissy-Beaubourg, 21 et 22 juin 2025</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme3.webp" alt="Un Seul Nom, Croissy-Beaubourg" loading="lazy" />
         </figure>
-        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: 15vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-3-768x954.jpg" data-usn-titre="Croissy-Beaubourg 77">
+        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: 8vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-3-768x954.jpg" data-usn-titre="Croissy-Beaubourg 77">
           <figcaption>Croissy-Beaubourg, 21 et 22 juin 2025</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-3-768x954.jpg" alt="Un Seul Nom, Croissy-Beaubourg" loading="lazy" />
         </figure>
-        <figure class="usn-fr-vue" style="width: clamp(250px, 33vw, 520px); --dy: -11vh;">
+        <figure class="usn-fr-vue" style="width: clamp(250px, 33vw, 520px); --dy: -6vh;">
           <figcaption>Wasquehal, 28 mars 2026</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme1.webp" alt="Un Seul Nom, Wasquehal" loading="lazy" />
         </figure>
-        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: -13vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-4-768x945.jpg" data-usn-titre="Wasquehal 59">
+        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: -7vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-4-768x945.jpg" data-usn-titre="Wasquehal 59">
           <figcaption>Wasquehal, 28 mars 2026</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-4-768x945.jpg" alt="Un Seul Nom, Wasquehal" loading="lazy" />
         </figure>
-        <figure class="usn-fr-vue" style="width: clamp(250px, 33vw, 520px); --dy: -7vh;">
+        <figure class="usn-fr-vue" style="width: clamp(250px, 33vw, 520px); --dy: -4vh;">
           <figcaption>Perpignan, 9 mai 2026</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme4.webp" alt="Un Seul Nom, Perpignan" loading="lazy" />
         </figure>
-        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: 13vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-5-768x950.jpg" data-usn-titre="Perpignan 66">
+        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: 7vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-5-768x950.jpg" data-usn-titre="Perpignan 66">
           <figcaption>Perpignan, 9 mai 2026</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/04/conference-Un-seul-nom-5-768x950.jpg" alt="Un Seul Nom, Perpignan" loading="lazy" />
         </figure>
-        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: -13vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/10/afficheavignon.webp" data-usn-titre="Avignon 84">
+        <figure class="usn-fr-vue" style="width: clamp(165px, 18vw, 285px); --dy: -7vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/10/afficheavignon.webp" data-usn-titre="Avignon 84">
           <figcaption>Avignon, 17 octobre 2026</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/10/afficheavignon.webp" alt="Un Seul Nom, Avignon" loading="lazy" />
         </figure>
-        <figure class="usn-fr-vue est-avenir" style="width: clamp(165px, 18vw, 285px); --dy: 15vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/10/affichemadagascar.webp" data-usn-titre="Madagascar">
+        <figure class="usn-fr-vue est-avenir" style="width: clamp(165px, 18vw, 285px); --dy: 8vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/10/affichemadagascar.webp" data-usn-titre="Madagascar">
           <figcaption>Madagascar, 14 novembre 2026</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/10/affichemadagascar.webp" alt="Un Seul Nom, Madagascar" loading="lazy" />
         </figure>
-        <figure class="usn-fr-vue est-avenir" style="width: clamp(165px, 18vw, 285px); --dy: 13vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/10/affichetarbes.webp" data-usn-titre="Tarbes 65">
+        <figure class="usn-fr-vue est-avenir" style="width: clamp(165px, 18vw, 285px); --dy: 7vh;" data-usn-affiche="https://unseulnom.org/wp-content/uploads/2026/10/affichetarbes.webp" data-usn-titre="Tarbes 65">
           <figcaption>Tarbes, 12 d&#233;cembre 2026</figcaption>
           <img src="https://unseulnom.org/wp-content/uploads/2026/10/affichetarbes.webp" alt="Un Seul Nom, Tarbes" loading="lazy" />
         </figure>

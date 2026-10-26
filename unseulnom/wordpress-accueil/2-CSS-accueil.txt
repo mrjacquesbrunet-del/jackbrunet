@@ -818,21 +818,47 @@
   }
   #usn-accueil .usn-phrase p {
     margin: 0; font-family: var(--usn-display); font-weight: 900;
-    /* Cinq lignes au lieu d'un seul bloc : la taille baisse d'autant,
-       sinon la plus longue se casse en deux et la strophe se perd. */
-    font-size: clamp(25px, 4.4vw, 74px); line-height: 1.12;
+    /* La strophe est passee de vingt-six mots a neuf. Chaque ligne
+       tient donc sur une ligne, meme sur un telephone, et la taille
+       peut monter de 74 a 104 pixels : c'est ce qu'il fallait pour
+       qu'elle se recoive au lieu de se lire. */
+    font-size: clamp(30px, 6.4vw, 104px); line-height: 1.1;
     letter-spacing: -0.025em; text-transform: uppercase;
   }
   #usn-accueil .usn-ph-ligne { display: block; }
   /* La chute : plus grande, et detachee de ce qui precede. */
   #usn-accueil .usn-ph-ligne:last-child { margin-top: clamp(14px, 2.2vh, 30px); }
-  #usn-accueil .usn-phrase p b.usn-ph-cime { font-size: 1.5em; }
+  #usn-accueil .usn-phrase p b.usn-ph-cime { font-size: 1.42em; }
+
+  /* L'ANAPHORE EST UN RYTHME, PAS UN PROPOS.
+
+     " Un seul " revient trois fois : il porte la cadence, il ne dit
+     rien. Il passe donc en petit, et c'est le mot qui suit qui prend
+     toute la taille. Petit, GRAND - trois fois - puis le nom.
+     C'est le rythme qui tient la strophe, pas la longueur. */
+  #usn-accueil .usn-phrase p b.usn-ph-amorce {
+    font-size: 0.46em; letter-spacing: 0.015em;
+  }
+  #usn-accueil .usn-ph-liant { margin-top: clamp(10px, 1.8vh, 26px); }
+  #usn-accueil .usn-phrase p .usn-ph-liant b {
+    font-size: 0.4em; letter-spacing: 0.1em; font-weight: 800;
+  }
+
+  /* LE DEGRADE SE LIT DE HAUT EN BAS.
+
+     Les trois mots qui portent la strophe ont le meme role : leur
+     donner la meme couleur les aurait rendus interchangeables, et la
+     strophe aurait semble se repeter. Chacun prend donc UN TIERS du
+     degrade - l'orange, le rouge, le magenta - et le nom, en bas, les
+     reprend tous les trois d'un seul trait. Une seule couleur, lue en
+     quatre temps. */
+  #usn-accueil .usn-phrase p b.usn-pas-1 { background-size: 300% 100%; background-position:   0% 50%; }
+  #usn-accueil .usn-phrase p b.usn-pas-2 { background-size: 300% 100%; background-position:  50% 50%; }
+  #usn-accueil .usn-phrase p b.usn-pas-3 { background-size: 300% 100%; background-position: 100% 50%; }
+
   @media (max-width: 720px) {
-    /* Les lignes les plus longues passent a la ligne quoi qu'il arrive :
-       autant que la coupure tombe au milieu plutot que de laisser un
-       mot seul en bas. */
-    #usn-accueil .usn-phrase p { font-size: 23px; text-wrap: balance; }
-    #usn-accueil .usn-phrase p b.usn-ph-cime { font-size: 1.7em; }
+    #usn-accueil .usn-phrase p { font-size: 29px; }
+    #usn-accueil .usn-phrase p b.usn-ph-cime { font-size: 1.34em; }
   }
   /* Chaque mot est un morceau a part : c'est ce qui permet de les
      allumer l'un apres l'autre. */
@@ -928,9 +954,17 @@
      neutraliser : c'est le navigateur qui le conduit, dans l'element
      lui-meme, sans dependre d'aucun parent. */
   #usn-accueil .usn-frise { position: relative; background: var(--usn-ivoire); }
-  #usn-accueil .usn-frise-fixe {
-    position: relative; height: clamp(440px, 70svh, 720px); overflow: hidden;
-  }
+  /* LA HAUTEUR VIENT DU CONTENU, PLUS D'UN CHIFFRE.
+
+     Le cadre mesurait 70 % de l'ecran, pas un pixel de plus, et les
+     vignettes decalees vers le bas depassaient : elles etaient
+     tranchees net a l'endroit meme ou commence le bloc suivant. On
+     croyait voir le bloc noir mordre dedans.
+
+     Plus de hauteur imposee : la bande porte la sienne, et ses marges
+     hautes et basses laissent la place au decalage des vignettes. Rien
+     ne peut plus depasser, donc rien ne peut plus etre coupe. */
+  #usn-accueil .usn-frise-fixe { position: relative; overflow: hidden; }
 
   /* --- la meme matiere que le heros : la creme ne s'interrompt jamais --- */
   #usn-accueil .usn-frise-fond { position: absolute; inset: 0; pointer-events: none; }
@@ -996,9 +1030,13 @@
   }
 
   #usn-accueil .usn-frise-piste {
-    position: absolute; inset: 0;
+    position: relative;
     display: flex; align-items: center;
-    gap: clamp(28px, 4.6vw, 84px); padding: 0 clamp(24px, 8vw, 140px);
+    gap: clamp(28px, 4.6vw, 84px);
+    /* Les marges couvrent le decalage le plus fort des vignettes
+       (8 % de l'ecran vers le bas, 7 % vers le haut), et le bas
+       reserve en plus la place de la jauge. */
+    padding: calc(7vh + 10px) clamp(24px, 8vw, 140px) calc(8vh + 76px);
     overflow-x: auto; overflow-y: hidden;
     overscroll-behavior-x: contain;
     -webkit-overflow-scrolling: touch;
@@ -1056,7 +1094,7 @@
   #usn-accueil .usn-fr-suite i { font-style: normal; font-family: var(--usn-sub); font-size: 13px; opacity: 0.9; }
 
   @media (max-width: 720px) {
-    #usn-accueil .usn-frise-piste { gap: 24px; padding: 0 20px; }
+    #usn-accueil .usn-frise-piste { gap: 24px; padding: calc(5vh + 8px) 20px calc(6vh + 64px); }
     #usn-accueil .usn-fr-grain { display: none; }
     #usn-accueil .usn-fr-vue img { box-shadow: 0 12px 28px rgba(17,17,16,0.12); }
   }
