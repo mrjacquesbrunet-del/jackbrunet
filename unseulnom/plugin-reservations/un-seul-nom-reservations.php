@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Un Seul Nom - Reservations
  * Description: Reservation de places pour les evenements Un Seul Nom : compteur de places, limite par reservation, liste des inscrits et export CSV. Une ville apres l'autre, sans perdre les inscrits des precedentes.
- * Version:     1.5.1
+ * Version:     1.5.2
  * Author:      Un Seul Nom
  * License:     GPL-2.0-or-later
  *
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class USN_Reservations {
 
-	const VERSION        = '1.5.1';
+	const VERSION        = '1.5.2';
 	const OPT_CAPACITE   = 'usn_capacite';        // Nombre total de places ouvertes (surbooking compris).
 	const OPT_MAX        = 'usn_max_par_personne'; // Limite par reservation.
 	const OPT_OUVERT     = 'usn_inscriptions_ouvertes';
@@ -1290,8 +1290,12 @@ final class USN_Reservations {
 									créée, numéro <?php echo (int) $listes[ $ville ]; ?>.
 								<?php else : ?>
 									<span style="color:#d63638">pas encore créée.</span>
-									Enregistrez la clé, puis rouvrez la ville dans
-									« Passer à la ville suivante » ci-dessous.
+									Descendez à « La ville » et cliquez
+									<strong>Enregistrer cette ville</strong>&nbsp;: la liste est créée
+									à ce moment-là.<br>
+									Cette phrase parlait encore de « Passer à la ville suivante »,
+									un bouton qui n'existe plus depuis que chaque ville a sa propre
+									jauge.
 								<?php endif; ?>
 								<?php if ( $listes ) : ?>
 									<br>Toutes : <?php echo esc_html( implode( ', ', array_keys( $listes ) ) ); ?>
