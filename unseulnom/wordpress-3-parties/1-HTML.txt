@@ -174,7 +174,8 @@
             <p class="usn-prog-text">Un appel &#224; suivre J&#233;sus et un temps de pri&#232;re pour les malades et les c&#339;urs bless&#233;s.</p>
           </div>
           <div class="usn-prog-media">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme4.webp" alt="Appel et pri&#232;re" loading="lazy" onerror="this.remove()" />
+            <img src="https://unseulnom.org/wp-content/uploads/2026/10/evangelisation.webp" alt="Temps de pri&#232;re et d'imposition des mains"
+                 loading="lazy" onerror="this.remove()" />
           </div>
         </div>
       </div>
