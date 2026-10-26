@@ -67,8 +67,13 @@
   #usn-accueil *, #usn-accueil *::before, #usn-accueil *::after { box-sizing: border-box; }
   #usn-accueil img, #usn-accueil video { max-width: 100%; display: block; }
   #usn-accueil p { margin: 0; }
+  /* " color: inherit " n'est pas decoratif : sans lui, le theme WordPress
+     impose sa propre couleur aux titres, et l'heritage ne fait pas le
+     poids face a une regle, si faible soit-elle. Sur le bloc sombre du
+     prochain rendez-vous, le titre ressortait en noir sur noir. */
   #usn-accueil h1, #usn-accueil h2, #usn-accueil h3 {
-    margin: 0; font-weight: 900; line-height: 0.88; letter-spacing: -0.035em;
+    margin: 0; color: inherit;
+    font-weight: 900; line-height: 0.88; letter-spacing: -0.035em;
     font-family: var(--usn-display); font-stretch: 125%; text-transform: uppercase;
   }
   #usn-accueil .usn-wrap { width: 100%; max-width: 1360px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 52px); }
@@ -99,6 +104,18 @@
     border: 2px solid transparent;
     transition: transform .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
   }
+  /* L'action principale porte le degrade de l'affiche, qui glisse d'un
+     bout a l'autre au survol. C'est la couleur de la page d'accueil :
+     le bleu et le rouge a plat appartiennent aux pages d'evenement. */
+  #usn-accueil .usn-btn-degrade {
+    background: var(--usn-degrade); background-size: 190% 100%; background-position: 0% 50%;
+    color: #fff; border-color: transparent;
+    transition: background-position .5s ease, transform .18s ease, box-shadow .2s ease;
+  }
+  #usn-accueil .usn-btn-degrade:hover {
+    background-position: 100% 50%; transform: translateY(-2px);
+    box-shadow: 0 14px 30px -16px rgba(201,38,143,0.55);
+  }
   #usn-accueil .usn-btn-encre { background: var(--usn-ink); color: var(--usn-ivoire); }
   #usn-accueil .usn-btn-encre:hover { background: var(--usn-blue); transform: translateY(-2px); }
   #usn-accueil .usn-btn-rouge { background: var(--usn-red); color: #fff; }
@@ -109,6 +126,11 @@
     background: transparent; color: var(--usn-ink); border-color: var(--usn-ink);
   }
   #usn-accueil .usn-btn-cadre:hover { background: var(--usn-ink); color: var(--usn-ivoire); }
+  /* Le meme contour, pose sur un fond sombre. */
+  #usn-accueil .usn-btn-cadre-clair {
+    background: transparent; color: var(--usn-ivoire); border-color: rgba(240,238,231,0.5);
+  }
+  #usn-accueil .usn-btn-cadre-clair:hover { background: var(--usn-ivoire); color: var(--usn-ink); }
   #usn-accueil a:focus-visible, #usn-accueil button:focus-visible {
     outline: 3px solid var(--usn-blue); outline-offset: 3px;
   }
@@ -919,7 +941,10 @@
   #usn-accueil .usn-visage { will-change: transform; }
   #usn-accueil .usn-visage-cadre {
     aspect-ratio: 3 / 4; overflow: hidden; border-radius: 4px;
-    background: linear-gradient(140deg, var(--usn-blue), #101861);
+    /* Les portraits sont detoures : c'est ce fond qu'on voit derriere
+       eux. Il portait le bleu des pages d'evenement ; il porte celui de
+       l'affiche, comme le reste de l'accueil. */
+    background: var(--usn-degrade);
   }
   #usn-accueil .usn-visage-cadre img {
     width: 100%; height: 100%; object-fit: cover;
@@ -1450,8 +1475,8 @@
         </figure>
 
         <div class="usn-entre">
-          <a class="usn-btn usn-btn-rouge" href="https://unseulnom.org/evenement/tarbes/">Le prochain &eacute;v&eacute;nement</a>
-          <a class="usn-btn usn-btn-bleu" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Soutiens la mission</a>
+          <a class="usn-btn usn-btn-degrade" href="https://unseulnom.org/evenement/tarbes/">Le prochain &eacute;v&eacute;nement</a>
+          <a class="usn-btn usn-btn-cadre-clair" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Soutiens la mission</a>
         </div>
 
         <figure class="usn-visage" data-usn-visage="droite">
@@ -1534,7 +1559,7 @@
                  style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
           <input type="hidden" name="locale" value="fr" />
 
-          <button type="submit" class="usn-btn usn-btn-bleu">Pr&eacute;venez-moi</button>
+          <button type="submit" class="usn-btn usn-btn-degrade">Pr&eacute;venez-moi</button>
           <p class="usn-consent">
             En vous inscrivant, vous acceptez de recevoir des informations de la
             part d'Un Seul Nom. D&eacute;sinscription possible &agrave; tout moment.
@@ -1612,6 +1637,39 @@
        page d'accueil : s'il ne la trouve pas, il s'arrete ici et ne
        touche a rien. */
     if (!document.getElementById('usn-accueil')) return;
+
+  /* ---- Rendre la main aux blocs qui tiennent a l'ecran ----
+
+     " position: sticky " cesse de fonctionner des qu'un ancetre coupe son
+     contenu, porte une transformation, un filtre, une perspective ou un
+     confinement. Le theme WordPress enferme le contenu de la page dans
+     plusieurs conteneurs dont nous ne connaissons pas les noms, et il
+     suffit d'un seul pour tout annuler.
+
+     Deux blocs en dependent : la vision, dont les mots s'allument l'un
+     apres l'autre pendant que le texte reste en place, et la frise, qui
+     se deroule horizontalement pendant qu'on descend. Sans elle, les
+     deux passent d'un trait et laissent derriere eux une hauteur d'ecran
+     vide - exactement ce qu'on voyait en ligne.
+
+     On remonte donc la chaine jusqu'au corps du document et on rend la
+     main a ceux qui bloquent. La page garde son propre " overflow-x ",
+     rien ne deborde lateralement. */
+  (function () {
+    var n = document.getElementById('usn-accueil');
+    if (!n) return;
+    while (n.parentElement) {
+      n = n.parentElement;
+      if (n === document.body || n === document.documentElement) break;
+      var s = getComputedStyle(n);
+      if (s.overflowX !== 'visible' || s.overflowY !== 'visible') n.style.overflow = 'visible';
+      if (s.transform !== 'none') n.style.transform = 'none';
+      if (s.filter !== 'none') n.style.filter = 'none';
+      if (s.perspective !== 'none') n.style.perspective = 'none';
+      if (s.contain !== 'none') n.style.contain = 'none';
+    }
+  })();
+
 
   /* ---- Le menu du haut ----
      Le bouton a deux traits ouvre le panneau ; les deux traits se

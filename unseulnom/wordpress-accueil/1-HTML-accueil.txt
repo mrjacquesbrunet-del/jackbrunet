@@ -372,8 +372,8 @@
         </figure>
 
         <div class="usn-entre">
-          <a class="usn-btn usn-btn-rouge" href="https://unseulnom.org/evenement/tarbes/">Le prochain &eacute;v&eacute;nement</a>
-          <a class="usn-btn usn-btn-bleu" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Soutiens la mission</a>
+          <a class="usn-btn usn-btn-degrade" href="https://unseulnom.org/evenement/tarbes/">Le prochain &eacute;v&eacute;nement</a>
+          <a class="usn-btn usn-btn-cadre-clair" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Soutiens la mission</a>
         </div>
 
         <figure class="usn-visage" data-usn-visage="droite">
@@ -456,7 +456,7 @@
                  style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
           <input type="hidden" name="locale" value="fr" />
 
-          <button type="submit" class="usn-btn usn-btn-bleu">Pr&eacute;venez-moi</button>
+          <button type="submit" class="usn-btn usn-btn-degrade">Pr&eacute;venez-moi</button>
           <p class="usn-consent">
             En vous inscrivant, vous acceptez de recevoir des informations de la
             part d'Un Seul Nom. D&eacute;sinscription possible &agrave; tout moment.

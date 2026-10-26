@@ -54,6 +54,39 @@
        touche a rien. */
     if (!document.getElementById('usn-accueil')) return;
 
+  /* ---- Rendre la main aux blocs qui tiennent a l'ecran ----
+
+     " position: sticky " cesse de fonctionner des qu'un ancetre coupe son
+     contenu, porte une transformation, un filtre, une perspective ou un
+     confinement. Le theme WordPress enferme le contenu de la page dans
+     plusieurs conteneurs dont nous ne connaissons pas les noms, et il
+     suffit d'un seul pour tout annuler.
+
+     Deux blocs en dependent : la vision, dont les mots s'allument l'un
+     apres l'autre pendant que le texte reste en place, et la frise, qui
+     se deroule horizontalement pendant qu'on descend. Sans elle, les
+     deux passent d'un trait et laissent derriere eux une hauteur d'ecran
+     vide - exactement ce qu'on voyait en ligne.
+
+     On remonte donc la chaine jusqu'au corps du document et on rend la
+     main a ceux qui bloquent. La page garde son propre " overflow-x ",
+     rien ne deborde lateralement. */
+  (function () {
+    var n = document.getElementById('usn-accueil');
+    if (!n) return;
+    while (n.parentElement) {
+      n = n.parentElement;
+      if (n === document.body || n === document.documentElement) break;
+      var s = getComputedStyle(n);
+      if (s.overflowX !== 'visible' || s.overflowY !== 'visible') n.style.overflow = 'visible';
+      if (s.transform !== 'none') n.style.transform = 'none';
+      if (s.filter !== 'none') n.style.filter = 'none';
+      if (s.perspective !== 'none') n.style.perspective = 'none';
+      if (s.contain !== 'none') n.style.contain = 'none';
+    }
+  })();
+
+
   /* ---- Le menu du haut ----
      Le bouton a deux traits ouvre le panneau ; les deux traits se
      croisent, la page se bloque derriere, et Echap referme. */
@@ -744,6 +777,39 @@
        touche a rien. */
     if (!document.getElementById('usn-event')) return;
 
+  /* ---- Rendre la main aux blocs qui tiennent a l'ecran ----
+
+     " position: sticky " cesse de fonctionner des qu'un ancetre coupe son
+     contenu, porte une transformation, un filtre, une perspective ou un
+     confinement. Le theme WordPress enferme le contenu de la page dans
+     plusieurs conteneurs dont nous ne connaissons pas les noms, et il
+     suffit d'un seul pour tout annuler.
+
+     Deux blocs en dependent : la vision, dont les mots s'allument l'un
+     apres l'autre pendant que le texte reste en place, et la frise, qui
+     se deroule horizontalement pendant qu'on descend. Sans elle, les
+     deux passent d'un trait et laissent derriere eux une hauteur d'ecran
+     vide - exactement ce qu'on voyait en ligne.
+
+     On remonte donc la chaine jusqu'au corps du document et on rend la
+     main a ceux qui bloquent. La page garde son propre " overflow-x ",
+     rien ne deborde lateralement. */
+  (function () {
+    var n = document.getElementById('usn-event');
+    if (!n) return;
+    while (n.parentElement) {
+      n = n.parentElement;
+      if (n === document.body || n === document.documentElement) break;
+      var s = getComputedStyle(n);
+      if (s.overflowX !== 'visible' || s.overflowY !== 'visible') n.style.overflow = 'visible';
+      if (s.transform !== 'none') n.style.transform = 'none';
+      if (s.filter !== 'none') n.style.filter = 'none';
+      if (s.perspective !== 'none') n.style.perspective = 'none';
+      if (s.contain !== 'none') n.style.contain = 'none';
+    }
+  })();
+
+
   /* ---- Le grand titre s'ajuste toujours a la largeur ----
      " AVIGNON " debordait sur mobile ; avec un nom de ville plus long le
      probleme reviendrait. On mesure et on reduit si necessaire. */
@@ -1277,6 +1343,39 @@
        page " A venir " : s'il ne la trouve pas, il s'arrete ici et ne
        touche a rien. */
     if (!document.getElementById('usn-agenda')) return;
+
+  /* ---- Rendre la main aux blocs qui tiennent a l'ecran ----
+
+     " position: sticky " cesse de fonctionner des qu'un ancetre coupe son
+     contenu, porte une transformation, un filtre, une perspective ou un
+     confinement. Le theme WordPress enferme le contenu de la page dans
+     plusieurs conteneurs dont nous ne connaissons pas les noms, et il
+     suffit d'un seul pour tout annuler.
+
+     Deux blocs en dependent : la vision, dont les mots s'allument l'un
+     apres l'autre pendant que le texte reste en place, et la frise, qui
+     se deroule horizontalement pendant qu'on descend. Sans elle, les
+     deux passent d'un trait et laissent derriere eux une hauteur d'ecran
+     vide - exactement ce qu'on voyait en ligne.
+
+     On remonte donc la chaine jusqu'au corps du document et on rend la
+     main a ceux qui bloquent. La page garde son propre " overflow-x ",
+     rien ne deborde lateralement. */
+  (function () {
+    var n = document.getElementById('usn-agenda');
+    if (!n) return;
+    while (n.parentElement) {
+      n = n.parentElement;
+      if (n === document.body || n === document.documentElement) break;
+      var s = getComputedStyle(n);
+      if (s.overflowX !== 'visible' || s.overflowY !== 'visible') n.style.overflow = 'visible';
+      if (s.transform !== 'none') n.style.transform = 'none';
+      if (s.filter !== 'none') n.style.filter = 'none';
+      if (s.perspective !== 'none') n.style.perspective = 'none';
+      if (s.contain !== 'none') n.style.contain = 'none';
+    }
+  })();
+
 
   /* ---- Compte a rebours ---- */
   (function () {
