@@ -30,7 +30,7 @@
   <header class="usn-actu-haut" id="usn-haut">
     <div class="usn-wrap">
       <span class="usn-cle">La lettre d'Un Seul Nom</span>
-      <h1>Restons <b>en lien</b></h1>
+      <h1>Restons <b>connect&eacute;s</b></h1>
       <p class="usn-intro">
         Une ville est annonc&eacute;e, les inscriptions ouvrent, la salle se
         remplit. &Agrave; Avignon, elle a &eacute;t&eacute; pleine en quelques jours.

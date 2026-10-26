@@ -396,7 +396,7 @@
     padding: clamp(120px, 16vh, 200px) 0 clamp(44px, 6vw, 80px);
   }
   #usn-actu .usn-actu-haut h1 {
-    margin-top: 18px; font-size: clamp(44px, 9.4vw, 142px); line-height: 0.88;
+    margin-top: 18px; font-size: clamp(40px, 8.4vw, 124px); line-height: 0.9;
   }
   /* Le mot qui porte le titre prend le degrade dans la lettre, comme la
      vision de l'accueil : une seule facon de mettre un mot en avant sur
@@ -406,8 +406,12 @@
     letter-spacing: 0; text-transform: none;
     background-image: var(--usn-degrade-chaud); background-repeat: no-repeat;
     -webkit-background-clip: text; background-clip: text; color: transparent;
-    padding-left: 0.12em; padding-right: 0.12em;
-    margin-left: -0.12em; margin-right: -0.12em;
+    /* La boite est elargie de part et d'autre et vers le haut, avec
+       des marges negatives de memes valeurs : un degrade ne se peint
+       que dans la boite du mot, et l'accent du E comme les jambages
+       debordent de la leur. Sans cela ils restent sans couleur. */
+    padding-left: 0.12em; padding-right: 0.12em; padding-top: 0.16em;
+    margin-left: -0.12em; margin-right: -0.12em; margin-top: -0.16em;
   }
   @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
     #usn-actu .usn-actu-haut h1 b { color: var(--usn-red); background-image: none; }
@@ -545,7 +549,7 @@
   <header class="usn-actu-haut" id="usn-haut">
     <div class="usn-wrap">
       <span class="usn-cle">La lettre d'Un Seul Nom</span>
-      <h1>Restons <b>en lien</b></h1>
+      <h1>Restons <b>connect&eacute;s</b></h1>
       <p class="usn-intro">
         Une ville est annonc&eacute;e, les inscriptions ouvrent, la salle se
         remplit. &Agrave; Avignon, elle a &eacute;t&eacute; pleine en quelques jours.
