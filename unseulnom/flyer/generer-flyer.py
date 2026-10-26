@@ -236,11 +236,11 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    clair : les cacher pour ne pas effrayer reviendrait a inviter les
    gens sans leur dire ou ils vont. */
 .face {
-  flex: none; margin-top: 6mm; padding: 5.5mm 6mm; border-radius: 3.5mm;
+  flex: none; margin-top: 5mm; padding: 5mm 6mm; border-radius: 3.5mm;
   background: var(--encre); color: var(--creme);
 }
 .face table { width: 100%; border-collapse: collapse; }
-.face td { padding: 1.7mm 0; vertical-align: baseline; }
+.face td { padding: 1.5mm 0; vertical-align: baseline; }
 .face tr + tr td { border-top: 1px solid rgba(240,238,231,.14); }
 .face .g { font-size: 10.6pt; color: rgba(240,238,231,.74); }
 .face .d {
@@ -248,11 +248,18 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
   font-size: 12.6pt; color: var(--or); white-space: nowrap;
 }
 .face p { margin-top: 4mm; font-size: 9.8pt; line-height: 1.5; color: rgba(240,238,231,.8); }
-/* « DEUX HEURES » VAUT TOUT LE RESTE DU PARAGRAPHE.
-   Ce qui retient quelqu'un qui hesite, ce n'est pas le doute : c'est
-   la peur de rester coince. Un chiffre borne l'engagement mieux
-   qu'aucune promesse. */
-.face .combien { margin-top: 2.5mm; padding-top: 2.5mm; border-top: 1px solid rgba(240,238,231,.14); }
+/* LA DUREE N'EST PAS ANNONCEE, ET C'EST VOULU.
+
+   Une premiere version disait « Deux heures ». C'etait faux : ca dure
+   bien plus. Annoncer deux heures et en faire quatre trahit
+   exactement la confiance que le reste du flyer construit, et
+   quelqu'un qui s'est senti retenu ne revient jamais.
+
+   Ce qui retient celui qui hesite, ce n'est pas la duree : c'est la
+   peur d'etre coince. On lui donne donc la PERMISSION plutot qu'un
+   chiffre. C'est vrai, ca ne peut jamais etre dementi par les faits,
+   et ca rassure davantage. */
+.face .combien { margin-top: 2.2mm; padding-top: 2.2mm; border-top: 1px solid rgba(240,238,231,.14); }
 .face .combien strong { color: var(--or); }
 .face strong { color: var(--creme); font-weight: 700; }
 
@@ -262,7 +269,7 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
    sans rien perdre — leur role etait d'oter quatre peurs, pas de faire
    une liste. */
 .rassure {
-  flex: none; margin-top: 5mm; padding-left: 5mm;
+  flex: none; margin-top: 4.5mm; padding-left: 5mm;
   border-left: 3px solid var(--rouge);
   font-size: 10.6pt; line-height: 1.6; color: var(--gris);
 }
@@ -282,8 +289,8 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
 /* « flex: none » n'est pas decoratif : le verso est une colonne
    flexible, et un bloc vide de 2,4 mm s'y fait ecraser a zero. Le
    ruban etait bien la, haut de rien du tout. */
-.ruban { flex: none; margin-top: 5mm; height: 2.4mm; border-radius: 99px; background: var(--degrade); }
-.fin { flex: none; margin-top: 4mm; text-align: center; }
+.ruban { flex: none; margin-top: 4mm; height: 2.4mm; border-radius: 99px; background: var(--degrade); }
+.fin { flex: none; margin-top: 3.5mm; text-align: center; }
 .viens {
   font-family: var(--serif); font-size: 16pt; line-height: 1.1; color: var(--rouge);
 }
@@ -338,14 +345,15 @@ body { font-family: var(--texte); -webkit-print-color-adjust: exact; print-color
     </p>
     <p class="combien">
       De la musique, des gens qui racontent ce qui leur est arriv&eacute;, et une
-      pri&egrave;re pour ceux qui la demandent. <strong>Deux heures.</strong>
+      pri&egrave;re pour ceux qui la demandent.<br>
+      <strong>Reste le temps que tu veux.</strong>
     </p>
   </div>
 
   <p class="rassure">
     <strong>On ne te demandera rien.</strong> Ni argent, ni engagement, ni de te
-    lever, ni de parler. Tu viens comme tu es, seul ou accompagn&eacute;, et tu pars
-    quand tu veux.
+    lever, ni de parler. Tu viens comme tu es, seul ou accompagn&eacute;, et tu
+    t'assieds o&ugrave; tu veux.
   </p>
 
   <div class="pratique">

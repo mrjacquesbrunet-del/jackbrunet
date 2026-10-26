@@ -69,13 +69,20 @@ en clair. Les cacher pour ne pas effrayer reviendrait à inviter les
 gens sans leur dire où ils vont, et celui qui le découvre sur place se
 sent piégé.
 
-Enfin, ce qui se passera et **combien de temps ça dure** : *« De la
-musique, des gens qui racontent ce qui leur est arrivé, et une prière
-pour ceux qui la demandent. Deux heures. »*
+Enfin, ce qui se passera : *« De la musique, des gens qui racontent ce
+qui leur est arrivé, et une prière pour ceux qui la demandent. **Reste
+le temps que tu veux.** »*
 
-> **« Deux heures » vaut tout le reste du paragraphe.** Ce qui retient
-> quelqu'un qui hésite, ce n'est pas le doute : c'est la peur de rester
-> coincé. Un chiffre borne l'engagement mieux qu'aucune promesse.
+> **La durée n'est pas annoncée, et c'est volontaire.** Une version
+> disait « Deux heures ». C'était faux — ça dure bien plus. Annoncer
+> deux heures et en faire quatre trahit exactement la confiance que le
+> reste du flyer construit, et **quelqu'un qui s'est senti retenu ne
+> revient jamais.**
+>
+> Ce qui retient celui qui hésite, ce n'est pas la durée : c'est la
+> peur d'être coincé. On lui donne donc la **permission** plutôt qu'un
+> chiffre. C'est vrai, ça ne peut jamais être démenti par les faits, et
+> ça rassure davantage.
 
 > **Pourquoi Lourdes n'est pas mentionné.** C'était tentant : à vingt
 > minutes de là, des millions de personnes viennent chercher une
