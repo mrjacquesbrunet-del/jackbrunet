@@ -1,0 +1,193 @@
+<section id="usn-actu">
+  <div class="usn-grain" aria-hidden="true"></div>
+
+  <nav class="usn-nav" id="usn-nav">
+    <a class="usn-nav-nom usn-logo-mot usn-mot-noir" href="https://unseulnom.org/" aria-label="Un Seul Nom"></a>
+    <div class="usn-nav-actions">
+      <a class="usn-nav-soutien" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Soutien</a>
+      <button type="button" class="usn-nav-menu" id="usn-bouton-menu" aria-expanded="false" aria-controls="usn-menu" aria-label="Ouvrir le menu">
+        <i aria-hidden="true"></i><i aria-hidden="true"></i>
+      </button>
+    </div>
+  </nav>
+
+  <div class="usn-menu" id="usn-menu" hidden>
+    <div class="usn-menu-liens">
+      <a href="https://unseulnom.org/"><i>01</i><span>Accueil</span></a>
+      <a href="https://unseulnom.org/evenement/"><i>02</i><span>Les prochains &eacute;v&eacute;nements</span></a>
+      <a href="https://unseulnom.org/evenement/tarbes/"><i>03</i><span>Tarbes</span></a>
+      <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer"><i>04</i><span>Soutien</span></a>
+    </div>
+    <div class="usn-menu-pied">
+      <span>Un Seul Nom &mdash; &Eacute;vang&eacute;lisation &amp; gu&eacute;rison</span>
+      <a href="mailto:75unseulnomjesus@gmail.com">75unseulnomjesus@gmail.com</a>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- LE HAUT DE PAGE                                                -->
+  <!-- ============================================================= -->
+  <header class="usn-actu-haut" id="usn-haut">
+    <div class="usn-wrap">
+      <span class="usn-cle">La lettre d'Un Seul Nom</span>
+      <h1>Restons <b>en lien</b></h1>
+      <p class="usn-intro">
+        Une ville est annonc&eacute;e, les inscriptions ouvrent, la salle se
+        remplit. &Agrave; Avignon, elle a &eacute;t&eacute; pleine en quelques jours.
+        Ceux qui re&ccedil;oivent la lettre l'apprennent les premiers.
+      </p>
+    </div>
+  </header>
+
+  <div class="usn-defile usn-defile-degrade" aria-hidden="true">
+    <div class="usn-defile-piste">
+      <div class="usn-defile-suite">
+        <b>&Eacute;vang&eacute;lisation</b> <i>&#10022;</i> <b>Gu&eacute;rison</b> <i>&#10022;</i>
+        <b>De ville en ville</b> <i>&#10022;</i>
+      </div>
+      <div class="usn-defile-suite">
+        <b>&Eacute;vang&eacute;lisation</b> <i>&#10022;</i> <b>Gu&eacute;rison</b> <i>&#10022;</i>
+        <b>De ville en ville</b> <i>&#10022;</i>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- CE QU'ON RECOIT, ET LE FORMULAIRE                              -->
+  <!-- ============================================================= -->
+  <div class="usn-actu-corps" id="usn-inscrire" data-usn-sombre>
+    <div class="usn-wrap usn-actu-grille">
+
+      <div>
+        <span class="usn-cle">Ce que vous recevez</span>
+        <h2>Trois messages, pas un de plus</h2>
+
+        <div class="usn-recus">
+          <div class="usn-recu">
+            <i>01</i>
+            <div>
+              <b>La ville, avant tout le monde</b>
+              <p>
+                Chaque nouvelle date vous est annonc&eacute;e avant qu'elle ne
+                soit rendue publique.
+              </p>
+            </div>
+          </div>
+          <div class="usn-recu">
+            <i>02</i>
+            <div>
+              <b>Le jour o&ugrave; les places s'ouvrent</b>
+              <p>
+                Un seul message, le matin de l'ouverture. C'est celui qui
+                compte&nbsp;: les places partent vite.
+              </p>
+            </div>
+          </div>
+          <div class="usn-recu">
+            <i>03</i>
+            <div>
+              <b>Ce que Dieu a fait</b>
+              <p>
+                Les nouvelles de la ville qu'on vient de quitter&nbsp;: les
+                d&eacute;cisions, les gu&eacute;risons, les &eacute;glises qui ont port&eacute;.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="usn-actu-carte">
+        <h3>Recevoir la lettre</h3>
+
+        <!-- Le formulaire part dans l'iframe cache : le visiteur reste sur
+             la page au lieu d'etre redirige vers Brevo. -->
+        <iframe name="usn-brevo" title="Inscription" style="display:none;border:0;width:0;height:0"></iframe>
+
+        <form class="usn-form" id="usn-actu-form" method="POST"
+              action="https://f8944495.sibforms.com/serve/MUIFAIs9H4MOwtfawQ-nUiiNQjRmcSNQ51wCfEkSkK4X91IeG5GyZDWqGDV3oD_sUQHzLsQUO6Ky6EqX9G_I6VWvy8H5St2aXpxdhmXp81Jkl34fooTe9ukSalttOBmz1T6EwxTHhs9WLKWs2tBPCT1fhe_uubwAitTQjHmRHfmqBxQBcLifIZRDcFP9W3Vvzs_hPEa9_OySJBsT"
+              target="usn-brevo" novalidate>
+          <input id="usn-nom" name="NOM" type="text" placeholder="Votre nom" aria-label="Nom" required />
+          <input id="usn-email" name="EMAIL" type="email" placeholder="vous@email.com" aria-label="Adresse e-mail" required />
+
+          <!-- Piege anti-robot de Brevo : ce champ doit rester vide. -->
+          <input type="text" name="email_address_check" value="" tabindex="-1"
+                 aria-hidden="true" autocomplete="off"
+                 style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+          <input type="hidden" name="locale" value="fr" />
+
+          <button type="submit" class="usn-btn usn-btn-degrade">Je m'inscris</button>
+          <p class="usn-consent">
+            En vous inscrivant, vous acceptez de recevoir des informations de la
+            part d'Un Seul Nom. D&eacute;sinscription possible &agrave; tout moment.
+          </p>
+        </form>
+
+        <div class="usn-msg" id="usn-actu-msg" role="status" aria-live="polite"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- LES PROCHAINES DATES                                           -->
+  <!-- ============================================================= -->
+  <div class="usn-actu-dates" id="usn-dates">
+    <div class="usn-wrap">
+      <span class="usn-cle">Le calendrier</span>
+      <h2>Les prochains rendez-vous</h2>
+
+      <div class="usn-liste">
+        <div class="usn-ligne">
+          <b>14 nov. 2026</b>
+          <span>Madagascar</span>
+          <em>&Agrave; venir</em>
+        </div>
+        <a class="usn-ligne" href="https://unseulnom.org/evenement/tarbes/">
+          <b>12 d&eacute;c. 2026</b>
+          <span>Tarbes</span>
+          <em>R&eacute;servations ouvertes</em>
+        </a>
+        <div class="usn-ligne">
+          <b>02 janv. 2027</b>
+          <span>Limours</span>
+          <em>&Agrave; venir</em>
+        </div>
+      </div>
+
+      <a class="usn-btn usn-btn-encre" href="https://unseulnom.org/evenement/">Toutes les dates</a>
+    </div>
+  </div>
+
+  <div class="usn-defile usn-defile-degrade usn-defile-villes" aria-hidden="true">
+    <div class="usn-defile-piste">
+      <div class="usn-defile-suite">
+        <b>Tarbes</b> <i>&#10022;</i> <b>Madagascar</b> <i>&#10022;</i>
+        <b>Marseille</b> <i>&#10022;</i> <b>Bordeaux</b> <i>&#10022;</i>
+      </div>
+      <div class="usn-defile-suite">
+        <b>Tarbes</b> <i>&#10022;</i> <b>Madagascar</b> <i>&#10022;</i>
+        <b>Marseille</b> <i>&#10022;</i> <b>Bordeaux</b> <i>&#10022;</i>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- PIED DE PAGE                                                   -->
+  <!-- ============================================================= -->
+  <footer class="usn-footer">
+    <div class="usn-wrap">
+      <div class="usn-footer-grille">
+        <div class="usn-logo-mark usn-logo-blanc usn-footer-mark" role="img" aria-label="Un Seul Nom"></div>
+        <div class="usn-footer-liens">
+          <a href="https://unseulnom.org/">Accueil</a>
+          <a href="https://unseulnom.org/evenement/">Toutes les dates</a>
+          <a href="https://unseulnom.org/evenement/tarbes/">Tarbes</a>
+          <a href="#usn-inscrire">S'inscrire &agrave; la lettre</a>
+          <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Faire un don</a>
+        </div>
+      </div>
+      <div class="usn-footer-bas">&copy; 2026 Un Seul Nom. Tous droits r&eacute;serv&eacute;s.</div>
+    </div>
+  </footer>
+
+</section>

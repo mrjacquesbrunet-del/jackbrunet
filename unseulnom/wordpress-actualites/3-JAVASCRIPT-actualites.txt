@@ -1,0 +1,96 @@
+(function () {
+  function usnInit() {
+
+  /* ---- Le menu du haut ----
+     Le bouton a deux traits ouvre le panneau ; les deux traits se
+     croisent, la page se bloque derriere, et Echap referme. */
+  (function () {
+    var bouton = document.getElementById('usn-bouton-menu');
+    var panneau = document.getElementById('usn-menu');
+    if (!bouton || !panneau) return;
+
+    function basculer(ouvrir) {
+      bouton.setAttribute('aria-expanded', ouvrir ? 'true' : 'false');
+      bouton.setAttribute('aria-label', ouvrir ? 'Fermer le menu' : 'Ouvrir le menu');
+      if (ouvrir) {
+        panneau.hidden = false;
+        // Un temps de rendu avant la classe, sinon la transition est sautee.
+        requestAnimationFrame(function () { panneau.classList.add('est-ouvert'); });
+      } else {
+        panneau.classList.remove('est-ouvert');
+        setTimeout(function () {
+          if (bouton.getAttribute('aria-expanded') === 'false') panneau.hidden = true;
+        }, 340);
+      }
+      document.documentElement.style.overflow = ouvrir ? 'hidden' : '';
+    }
+
+    bouton.addEventListener('click', function () {
+      basculer(bouton.getAttribute('aria-expanded') !== 'true');
+    });
+    // Un lien clique referme le panneau : sinon l'ancre saute derriere lui.
+    panneau.addEventListener('click', function (e) {
+      if (e.target.closest('a')) basculer(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' ? bouton.getAttribute('aria-expanded') === 'true' : false) basculer(false);
+    });
+  })();
+
+  /* ---- La barre se pose sur un fond quand on quitte le heros, et
+          s'inverse quand elle passe au-dessus du bloc sombre ---- */
+  (function () {
+    var nav = document.getElementById('usn-nav');
+    if (!nav) return;
+    var sombres = document.querySelectorAll('#usn-actu [data-usn-sombre]');
+    var nom = nav.querySelector('.usn-nav-nom');
+
+    function verifier() {
+      nav.classList.toggle('est-posee', (window.pageYOffset || 0) > 40);
+
+      // Vrai des qu'un bloc sombre passe derriere la barre.
+      var sombre = false;
+      for (var i = 0; i < sombres.length; i++) {
+        var r = sombres[i].getBoundingClientRect();
+        if (r.top <= 72 ? r.bottom > 72 : false) { sombre = true; break; }
+      }
+      nav.classList.toggle('est-nuit', sombre);
+      if (nom) {
+        nom.classList.toggle('usn-mot-blanc', sombre);
+        nom.classList.toggle('usn-mot-noir', !sombre);
+      }
+    }
+    window.addEventListener('scroll', verifier, { passive: true });
+    window.addEventListener('resize', verifier);
+    verifier();
+  })();
+
+  /* ---- La lettre d'information ---- */
+  (function () {
+    var form = document.getElementById('usn-actu-form');
+    if (!form) return;
+    var msg = document.getElementById('usn-actu-msg');
+
+    form.addEventListener('submit', function (e) {
+      var nom   = form.querySelector('#usn-nom');
+      var email = form.querySelector('#usn-email');
+      if (!nom.value.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value)) {
+        e.preventDefault();
+        (nom.value.trim() ? email : nom).focus();
+        return;
+      }
+      if (msg) {
+        msg.textContent = 'Merci ! Vous serez pr\u00e9venu d\u00e8s qu\'une nouvelle date est annonc\u00e9e.';
+        msg.style.display = 'block';
+      }
+      setTimeout(function () { form.reset(); }, 100);
+    });
+  })();
+
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', usnInit);
+  } else {
+    usnInit();
+  }
+})();

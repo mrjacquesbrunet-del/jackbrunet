@@ -27,7 +27,8 @@
     <div class="usn-menu-liens">
       <a href="https://unseulnom.org/evenement/"><i>01</i><span>Les prochains &eacute;v&eacute;nements</span></a>
       <a href="https://unseulnom.org/evenement/tarbes/"><i>02</i><span>Tarbes</span></a>
-      <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer"><i>03</i><span>Soutien</span></a>
+      <a href="https://unseulnom.org/actualites/"><i>03</i><span>Actualit&eacute;s</span></a>
+      <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer"><i>04</i><span>Soutien</span></a>
     </div>
     <div class="usn-menu-pied">
       <span>Un Seul Nom &mdash; &Eacute;vang&eacute;lisation &amp; gu&eacute;rison</span>
@@ -528,7 +529,7 @@
           <a href="https://unseulnom.org/evenement/tarbes/">Tarbes</a>
           <a href="#usn-vision">La vision</a>
           <a href="#usn-eglises">&Eacute;glises</a>
-          <a href="#usn-lettre">Newsletter</a>
+          <a href="https://unseulnom.org/actualites/">Actualit&eacute;s</a>
           <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Faire un don</a>
         </div>
       </div>

@@ -71,6 +71,12 @@ PAGES = {
         "seul": "evenement-a-coller-dans-wordpress.html",
         "generique": None,
     },
+    "actualites": {
+        "source": "actualites.html",
+        "sortie": "wordpress-actualites",
+        "seul": "actualites-a-coller-dans-wordpress.html",
+        "generique": None,
+    },
 }
 
 # Les deux adresses de la rubrique evenement.

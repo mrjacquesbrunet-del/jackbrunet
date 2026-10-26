@@ -7,7 +7,8 @@ Trois pages à poser, plus **un seul fichier JavaScript** pour tout le site :
 | 1 | **Accueil** | `unseulnom.org` | `accueil-a-coller-dans-wordpress.html` |
 | 2 | **À venir** (page parente) | `unseulnom.org/evenement/` | `agenda-a-coller-dans-wordpress.html` |
 | 3 | **Tarbes** (page fille) | `unseulnom.org/evenement/tarbes/` | `a-coller-dans-wordpress.html` |
-| 4 | *(tout le site)* | — | `wordpress-javascript-du-site.txt` |
+| 4 | **Actualites** | `unseulnom.org/actualites/` | `actualites-a-coller-dans-wordpress.html` (voir `wordpress-actualites/CREER-LA-PAGE.md`) |
+| 5 | *(tout le site)* | — | `wordpress-javascript-du-site.txt` |
 
 Compte **une bonne heure** la première fois. Aucune compétence technique
 n'est nécessaire : tout se fait par copier-coller.
