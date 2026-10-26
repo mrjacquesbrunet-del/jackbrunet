@@ -1,0 +1,684 @@
+/* Tout le code attend que la page soit construite. Sans cela, si le script
+   est insere avant le contenu (ce que font certains plugins WordPress), il
+   ne trouve aucun element et s'arrete sans rien faire. */
+(function () {
+  /* ---------------------------------------------------------------
+     POURQUOI AUCUNE ESPERLUETTE DANS CE FICHIER
+
+     WordPress retouche la typographie de tout ce qu'on lui confie. Sur
+     du texte c'est utile ; sur du code c'est destructeur : il remplace
+     l'esperluette par son entite HTML, et le navigateur s'arrete alors
+     sur une erreur de syntaxe. Tout le script meurt, pas seulement la
+     ligne. Constate en ligne le 20 octobre 2026 dans le bloc HTML de la
+     page, puis de nouveau le 26 dans l'onglet JavaScript de
+     l'extension : aucun des deux endroits n'est a l'abri.
+
+     L'operateur " et " logique, qui s'ecrit avec deux esperluettes, est
+     donc partout remplace par un ternaire " a ? b : false ". Il dit la
+     meme chose et s'arrete de la meme facon quand a est faux, ce qui
+     protege les acces du genre " a ? a.b : null ".
+
+     Si tu ajoutes du code ici, n'y mets aucune esperluette : le
+     generateur refuse de produire les fichiers tant qu'il en reste une.
+     --------------------------------------------------------------- */
+  function usnInit() {
+
+    /* Le script est injecte par l'extension " CSS et JS personnalises ",
+       donc sur TOUTES les pages du site. Celui-ci ne concerne que la
+       page d'accueil : s'il ne la trouve pas, il s'arrete ici et ne
+       touche a rien. */
+    if (!document.getElementById('usn-accueil')) return;
+
+  /* ---- Le menu du haut ----
+     Le bouton a deux traits ouvre le panneau ; les deux traits se
+     croisent, la page se bloque derriere, et Echap referme. */
+  (function () {
+    var bouton = document.getElementById('usn-bouton-menu');
+    var panneau = document.getElementById('usn-menu');
+    if (!bouton || !panneau) return;
+
+    function basculer(ouvrir) {
+      bouton.setAttribute('aria-expanded', ouvrir ? 'true' : 'false');
+      bouton.setAttribute('aria-label', ouvrir ? 'Fermer le menu' : 'Ouvrir le menu');
+      if (ouvrir) {
+        panneau.hidden = false;
+        // Un temps de rendu avant la classe, sinon la transition est sautee.
+        requestAnimationFrame(function () { panneau.classList.add('est-ouvert'); });
+      } else {
+        panneau.classList.remove('est-ouvert');
+        setTimeout(function () {
+          if (bouton.getAttribute('aria-expanded') === 'false') panneau.hidden = true;
+        }, 340);
+      }
+      document.documentElement.style.overflow = ouvrir ? 'hidden' : '';
+    }
+
+    bouton.addEventListener('click', function () {
+      basculer(bouton.getAttribute('aria-expanded') !== 'true');
+    });
+    // Un lien clique referme le panneau : sinon l'ancre saute derriere lui.
+    panneau.addEventListener('click', function (e) {
+      if (e.target.closest('a')) basculer(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' ? bouton.getAttribute('aria-expanded') === 'true' : false) basculer(false);
+    });
+  })();
+
+  /* ---- La loupe ----
+     Un clic sur une affiche, qu'elle soit posee sur la carte ou en
+     vignette, l'ouvre en grand. La meme fenetre sert a toutes. */
+  (function () {
+    var loupe  = document.getElementById('usn-loupe');
+    var image  = document.getElementById('usn-loupe-img');
+    var nom    = document.getElementById('usn-loupe-nom');
+    var fermer = document.getElementById('usn-loupe-fermer');
+    if (!loupe || !image) return;
+
+    var rendre = null;   // a qui rendre le clavier en refermant
+
+    function ouvrir(src, titre, origine) {
+      image.src = src;
+      image.alt = titre ? ('Affiche Un Seul Nom ' + titre) : '';
+      if (nom) nom.textContent = titre || '';
+      loupe.hidden = false;
+      requestAnimationFrame(function () { loupe.classList.add('est-ouverte'); });
+      document.documentElement.style.overflow = 'hidden';
+      rendre = origine;
+      if (fermer) fermer.focus();
+    }
+
+    function refermer() {
+      loupe.classList.remove('est-ouverte');
+      document.documentElement.style.overflow = '';
+      setTimeout(function () {
+        if (!loupe.classList.contains('est-ouverte')) { loupe.hidden = true; image.src = ''; }
+      }, 280);
+      if (rendre ? rendre.focus : false) rendre.focus();
+      rendre = null;
+    }
+
+    var root = document.getElementById('usn-accueil') || document;
+    root.addEventListener('click', function (e) {
+      var cible = e.target.closest('[data-usn-affiche]');
+      if (!cible) return;
+      e.preventDefault();
+      ouvrir(cible.getAttribute('data-usn-affiche'),
+             cible.getAttribute('data-usn-titre') || '', cible);
+    });
+
+    // Sur la carte, les villes sont des groupes SVG : sans cela, on ne
+    // peut pas les atteindre au clavier.
+    var groupes = root.querySelectorAll('[data-usn-affiche]');
+    for (var i = 0; i < groupes.length; i++) {
+      groupes[i].setAttribute('tabindex', '0');
+      groupes[i].setAttribute('role', 'button');
+      groupes[i].addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          ouvrir(this.getAttribute('data-usn-affiche'),
+                 this.getAttribute('data-usn-titre') || '', this);
+        }
+      });
+    }
+
+    loupe.addEventListener('click', function (e) {
+      if (e.target === loupe || e.target === fermer) refermer();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' ? loupe.classList.contains('est-ouverte') : false) refermer();
+    });
+  })();
+
+  /* ---- Le son de la bande-annonce ----
+     Aucun navigateur ne lance seul une video qui parle : si on essaie,
+     soit il refuse de la lancer du tout, soit il la force en silence.
+     Elle demarre donc muette, et le visiteur reprend la main d'un clic
+     n'importe ou sur l'image.
+
+     Au premier clic, la bande-annonce repart de zero : elle raconte
+     quelque chose, l'entendre a partir de la quarantieme seconde n'a
+     pas de sens. */
+  (function () {
+    var video  = document.getElementById('usn-ouv-video');
+    var bouton = document.getElementById('usn-ouv-son');
+    var bande  = video ? video.closest('.usn-ouv-bande') : null;
+    if (!video || !bouton) return;
+
+    function aDuSon() {
+      /*
+       * Seuls deux indicateurs disent vraiment si la video porte une
+       * piste audio, et chacun n'existe que dans un navigateur :
+       * mozHasAudio chez Firefox, audioTracks chez Safari.
+       *
+       * Chrome n'a ni l'un ni l'autre. Il expose bien
+       * webkitAudioDecodedByteCount, mais celui-ci compte les octets
+       * DEJA DECODES : sur une video muette, Chrome ne decode aucun son,
+       * le compteur reste a zero et le test concluait " pas de piste
+       * audio ". Le bouton disparaissait donc exactement la ou il
+       * servait. Il n'est plus consulte.
+       *
+       * Sans indicateur fiable, on garde le bouton : au pire il ne
+       * donne rien, au mieux il rend le son. L'inverse coute plus cher.
+       */
+      if (typeof video.mozHasAudio === 'boolean') return video.mozHasAudio;
+      if (video.audioTracks) return video.audioTracks.length > 0;
+      return true;
+    }
+
+    video.addEventListener('loadeddata', function () {
+      if (!aDuSon()) {
+        bouton.remove();
+        if (bande) bande.style.cursor = '';
+      }
+    });
+
+    var jamaisTouche = true;
+    bouton.classList.add('est-neuf');
+
+    function basculer() {
+      var muet = !video.muted;
+      video.muted = muet;
+
+      if (!muet) {
+        if (jamaisTouche) { try { video.currentTime = 0; } catch (e) {} }
+        var p = video.play();
+        if (p ? p.catch : false) p.catch(function () {});
+      }
+      jamaisTouche = false;
+      bouton.classList.remove('est-neuf');
+
+      bouton.setAttribute('aria-pressed', muet ? 'false' : 'true');
+      bouton.querySelector('span:last-child').textContent = muet ? 'Activer le son' : 'Couper le son';
+      bouton.querySelector('span:first-child').innerHTML = muet ? '\u266A' : '\u2715';
+    }
+
+    bouton.addEventListener('click', function (e) { e.stopPropagation(); basculer(); });
+    // Tout le cadre est cliquable : personne ne vise un petit bouton
+    // quand l'envie lui prend d'entendre.
+    if (bande) bande.addEventListener('click', basculer);
+  })();
+
+  /* ---- La barre se pose sur un fond quand on quitte le heros, et
+          s'inverse quand elle passe au-dessus du bloc sombre ---- */
+  (function () {
+    var nav = document.getElementById('usn-nav');
+    if (!nav) return;
+    var sombres = document.querySelectorAll('#usn-accueil [data-usn-sombre]');
+    var nom = nav.querySelector('.usn-nav-nom');
+
+    function verifier() {
+      nav.classList.toggle('est-posee', (window.pageYOffset || 0) > 40);
+
+      // Vrai des qu'un bloc sombre passe derriere la barre.
+      var sombre = false;
+      for (var i = 0; i < sombres.length; i++) {
+        var r = sombres[i].getBoundingClientRect();
+        if (r.top <= 72 ? r.bottom > 72 : false) { sombre = true; break; }
+      }
+      nav.classList.toggle('est-nuit', sombre);
+      if (nom) {
+        nom.classList.toggle('usn-mot-blanc', sombre);
+        nom.classList.toggle('usn-mot-noir', !sombre);
+      }
+    }
+    window.addEventListener('scroll', verifier, { passive: true });
+    window.addEventListener('resize', verifier);
+    verifier();
+  })();
+
+  /* ---- La fenetre qui suit le doigt ou la souris ----
+     Une fois la lame passee, c'est au visiteur de decouvrir le reste de
+     la photo. On ecoute "pointermove" : le meme code sert donc a la
+     souris, au doigt et au stylet. */
+  (function () {
+    var bloc   = document.getElementById('usn-bloc1');
+    var hublot = document.getElementById('usn-hublot');
+    var anneau = document.getElementById('usn-anneau');
+    if (!bloc || !hublot) return;
+
+    var vues = hublot.querySelectorAll('img');
+    var iVue = 0, dernierEchange = 0;
+    var cible = { x: 50, y: 46 }, courant = { x: 50, y: 46 };
+    var actif = false, anime = false;
+
+    function rayon() {
+      // 17vmin, la meme valeur que le CSS, mais en pixels : l'anneau doit
+      // tomber exactement sur le bord du masque.
+      return Math.min(window.innerWidth, window.innerHeight) * 0.17;
+    }
+
+    function allumer(oui) {
+      if (actif === oui) return;
+      actif = oui;
+      hublot.classList.toggle('est-actif', oui);
+      if (anneau) anneau.classList.toggle('est-actif', oui);
+    }
+
+    function boucle(t) {
+      courant.x += (cible.x - courant.x) * 0.14;
+      courant.y += (cible.y - courant.y) * 0.14;
+      bloc.style.setProperty('--mx', courant.x.toFixed(2) + '%');
+      bloc.style.setProperty('--my', courant.y.toFixed(2) + '%');
+
+      if (anneau) {
+        var r = rayon();
+        anneau.style.setProperty('--usn-rayon', r.toFixed(1) + 'px');
+        anneau.style.transform = 'translate3d('
+          + (courant.x / 100 * bloc.clientWidth - r).toFixed(1) + 'px,'
+          + (courant.y / 100 * bloc.clientHeight - r).toFixed(1) + 'px,0)';
+      }
+
+      // On change de photo au bout d'un moment, pas a chaque mouvement :
+      // sinon les images clignotent des qu'on bouge la souris.
+      var tourner = vues.length > 1 ? (actif ? t - dernierEchange > 1800 : false) : false;
+      if (tourner) {
+        dernierEchange = t;
+        vues[iVue].classList.remove('est-vue');
+        iVue = (iVue + 1) % vues.length;
+        vues[iVue].classList.add('est-vue');
+      }
+
+      var bouge = Math.abs(cible.x - courant.x) > 0.05 || Math.abs(cible.y - courant.y) > 0.05;
+      if (bouge || actif) { requestAnimationFrame(boucle); } else { anime = false; }
+    }
+
+    function lancer() { if (!anime) { anime = true; requestAnimationFrame(boucle); } }
+
+    // Au doigt, un geste vertical veut dire "fais defiler la page", pas
+    // "ouvre la fenetre". On ne suit donc le doigt que s'il part de cote :
+    // sans cela, chaque defilement declenchait le repeint d'une photo
+    // plein ecran et la page devenait poussive.
+    var ancre = null;
+
+    function suivre(e) {
+      if (e.pointerType === 'touch') {
+        if (!ancre) return;
+        var dx = Math.abs(e.clientX - ancre.x), dy = Math.abs(e.clientY - ancre.y);
+        if (dy > dx) return;
+        if (dx < 8) return;
+      }
+      var r = bloc.getBoundingClientRect();
+      if (!r.width) return;
+      cible.x = ((e.clientX - r.left) / r.width) * 100;
+      cible.y = ((e.clientY - r.top) / r.height) * 100;
+      allumer(true);
+      lancer();
+    }
+
+    // Passif : le doigt continue de faire defiler la page normalement.
+    bloc.addEventListener('pointermove', suivre, { passive: true });
+    bloc.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'touch') { ancre = { x: e.clientX, y: e.clientY }; return; }
+      suivre(e);
+    }, { passive: true });
+    bloc.addEventListener('pointerleave', function () { allumer(false); });
+    // Au telephone, le doigt quitte l'ecran : on laisse la fenetre
+    // ouverte un instant plutot que de l'effacer d'un coup.
+    function relacher() {
+      ancre = null;
+      setTimeout(function () { allumer(false); }, 1400);
+    }
+    bloc.addEventListener('pointerup', relacher, { passive: true });
+    bloc.addEventListener('pointercancel', relacher, { passive: true });
+  })();
+
+  /* =================================================================
+     MOTEUR D'ANIMATION AU SCROLL
+     Reproduit le comportement de GSAP ScrollTrigger en mode " scrub " :
+     - les elements partent d'une demi-hauteur d'ecran plus bas (50svh),
+     - ils remontent AU RYTHME DU SCROLL (et redescendent si on remonte),
+     - avec un chevauchement entre les elements d'un meme groupe,
+     - le tout lisse (inertie) pour un rendu fluide.
+     Sans JS ou avec " prefers-reduced-motion ", tout reste visible.
+     ================================================================= */
+  (function () {
+    var root = document.getElementById('usn-accueil');
+    if (!root) return;
+    var reduce = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
+
+    function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+    function vh() { return window.innerHeight || 800; }
+
+    /* ---------- 1. Decoupe la punchline en mots ---------- */
+    var punch = document.getElementById('usn-punch');
+    var words = [];
+    if (punch) {
+      var lines = punch.querySelectorAll('[data-usn-reveal]');
+      for (var l = 0; l < lines.length; l++) {
+        var parts = (lines[l].textContent || '').trim().split(/\s+/);
+        lines[l].textContent = '';
+        for (var k = 0; k < parts.length; k++) {
+          var sp = document.createElement('span');
+          sp.className = 'usn-word';
+          sp.textContent = parts[k];
+          lines[l].appendChild(sp);
+          if (k < parts.length - 1) lines[l].appendChild(document.createTextNode(' '));
+          words.push(sp);
+        }
+      }
+      for (var w = 0; w < words.length; w++) {
+        var a = Math.sin(w * 12.9898) * 43758.5453; a -= Math.floor(a);
+        var b = Math.sin(w * 78.233) * 12543.123;  b -= Math.floor(b);
+        words[w].__dx = (a - 0.5) * 2 * Math.min(window.innerWidth * 0.45, 520);
+        words[w].__dy = (b - 0.5) * 2 * 260;
+        words[w].__rot = (a - 0.5) * 55;
+      }
+    }
+
+    if (reduce) return; // mouvement desactive : tout reste en place
+
+    /* ---------- 2. Declare les groupes animes ---------- */
+    // rise : monte depuis 50svh ; slide : arrive de la gauche ; pop : grossit
+    var groups = [];
+    function group(sel, opts) {
+      var els = root.querySelectorAll(sel);
+      if (els.length) groups.push({ els: els, o: opts });
+    }
+    group('[data-usn-monte]',   { type: 'rise',  dist: 0.28, stagger: 0.10, span: 0.52 });
+    group('.usn-vue',           { type: 'rise',  dist: 0.36, stagger: 0.07, span: 0.54 });
+    group('.usn-chiffre',       { type: 'rise',  dist: 0.22, stagger: 0.10, span: 0.46 });
+    group('[data-usn-gauche]',  { type: 'slide',  dist: 0.55, stagger: 0, span: 0.52 });
+    group('[data-usn-droite]',  { type: 'slideR', dist: 0.55, stagger: 0, span: 0.52 });
+
+    var all = [];
+    for (var g = 0; g < groups.length; g++) {
+      for (var i = 0; i < groups[g].els.length; i++) {
+        var el = groups[g].els[i];
+        all.push({
+          el: el, i: i, o: groups[g].o, p: 0, top: 0,
+          rot: parseFloat(el.getAttribute('data-rot') || '0')
+        });
+      }
+    }
+
+    function scrollY() { return window.pageYOffset || document.documentElement.scrollTop || 0; }
+
+    /* Position NATURELLE de chaque element (transform neutralise), mise en
+       cache : sinon le decalage applique fausse la mesure et l'element
+       n'entre jamais dans la zone de declenchement. */
+    function measureAll() {
+      for (var i = 0; i < all.length; i++) {
+        var it = all[i], prev = it.el.style.transform;
+        it.el.style.transform = 'none';
+        it.top = it.el.getBoundingClientRect().top + scrollY();
+        it.el.style.transform = prev;
+      }
+    }
+    measureAll();
+
+    /* ---------- Portraits : couleur au passage au centre ----------
+       Chaque photo se colore a mesure qu'elle approche du centre de
+       l'ecran, puis retourne au noir et blanc en s'en eloignant. */
+    var photos = [];
+    (function () {
+      var imgs = root.querySelectorAll('.usn-vue img, .usn-visage img');
+      for (var i = 0; i < imgs.length; i++) photos.push({ el: imgs[i], p: 0 });
+    })();
+
+    function cibleCouleur(ph) {
+      var r = ph.el.getBoundingClientRect();
+      if (!r.height) return 0;
+      var h = vh();
+      var ecart = Math.abs((r.top + r.height / 2) - h / 2);
+      // Pleine couleur au centre, noir et blanc au-dela de 42% de l'ecran.
+      return clamp01(1 - ecart / (h * 0.42));
+    }
+
+    function peindre(ph) {
+      var e = easeOut(ph.p);
+      ph.el.style.filter = 'grayscale(' + (1 - e).toFixed(3) + ') contrast(' + (1 + 0.06 * (1 - e)).toFixed(3) + ')';
+      ph.el.style.transform = 'scale(' + (1 + 0.035 * e).toFixed(4) + ')';
+    }
+    for (var ip = 0; ip < photos.length; ip++) peindre(photos[ip]);
+
+    // etat initial immediat (evite tout " flash " de contenu deja en place)
+    for (var s = 0; s < all.length; s++) apply(all[s], 0);
+
+    /* ---------- 3. Calcul de l'avancement lie au scroll ---------- */
+    function target(item) {
+      var h = vh();
+      var top = item.top - scrollY();
+      // 0 quand le haut de l'element entre par le bas, 1 quand il a monte
+      var raw = (h * 0.92 - top) / (h * item.o.span);
+      var st = item.i * item.o.stagger;
+      return clamp01((clamp01(raw) - st) / Math.max(0.2, 1 - st));
+    }
+
+    function apply(item, p) {
+      var e = easeOut(p), inv = 1 - e, o = item.o, st = item.el.style;
+      var rot = item.rot ? ' rotate(' + item.rot + 'deg)' : '';
+      if (o.type === 'rise') {
+        st.transform = 'translate3d(0,' + (inv * o.dist * vh()).toFixed(1) + 'px,0)' + rot;
+      } else if (o.type === 'slide') {
+        st.transform = 'translate3d(' + (-inv * o.dist * Math.min(window.innerWidth, 900)).toFixed(1) + 'px,0,0)' + rot;
+      } else if (o.type === 'slideR') {
+        st.transform = 'translate3d(' + (inv * o.dist * Math.min(window.innerWidth, 900)).toFixed(1) + 'px,0,0)' + rot;
+      } else { // pop
+        st.transform = 'scale(' + (0.3 + 0.7 * e).toFixed(3) + ')' + rot;
+      }
+      st.opacity = e.toFixed(3);
+    }
+
+    /* ---------- 4. Punchline : les mots se rassemblent ---------- */
+    var punchP = 0;
+    // Ancre sur la premiere ligne de texte (et non sur la section, bien plus
+    // haute) : les mots se rassemblent des que le texte entre a l'ecran.
+    var punchAnchor = punch ? punch.querySelector('[data-usn-reveal]') : null;
+    function punchTarget() {
+      if (!punchAnchor) return 0;
+      var r = punchAnchor.getBoundingClientRect(), h = vh();
+      return clamp01((h * 1.0 - r.top) / (h * 0.5));
+    }
+    function punchApply(p) {
+      var n = words.length;
+      for (var i = 0; i < n; i++) {
+        var t = clamp01((p - (i / n) * 0.45) / 0.55);
+        var e = easeOut(t), inv = 1 - e, ws = words[i];
+        ws.style.transform = 'translate3d(' + (ws.__dx * inv).toFixed(1) + 'px,' + (ws.__dy * inv).toFixed(1) + 'px,0) rotate(' + (ws.__rot * inv).toFixed(1) + 'deg)';
+        ws.style.opacity = e.toFixed(3);
+        ws.style.filter = inv > 0.02 ? 'blur(' + (inv * 9).toFixed(1) + 'px)' : 'none';
+      }
+      var sub = punch ? punch.querySelector('[data-usn-sub]') : null;
+      if (sub) {
+        var sp = clamp01((p - 0.6) / 0.4);
+        sub.style.opacity = sp.toFixed(3);
+        sub.style.transform = 'translate3d(0,' + ((1 - sp) * 40).toFixed(1) + 'px,0)';
+      }
+    }
+    punchApply(0);
+
+    /* ---------- 5. La phrase ----------
+       Les mots s'allument l'un apres l'autre. On ne parcourt pas toute la
+       hauteur du bloc : la phrase est entierement lue aux trois quarts,
+       ce qui laisse un temps de lecture avant de repartir. */
+    var phrase = root.querySelector('.usn-phrase');
+    var motsPh = phrase ? phrase.querySelectorAll('#usn-phrase-mots b') : [];
+
+    function phraseAppliquer() {
+      if (!phrase || !motsPh.length) return;
+      var r = phrase.getBoundingClientRect();
+      var c = Math.max(1, r.height - vh());
+      var p = clamp01(clamp01(-r.top / c) / 0.75);
+      var jusqua = p * motsPh.length;
+      for (var i = 0; i < motsPh.length; i++) {
+        var dit = i < jusqua;
+        if (motsPh[i].__dit !== dit) {
+          motsPh[i].__dit = dit;
+          motsPh[i].classList.toggle('est-dit', dit);
+        }
+      }
+    }
+    phraseAppliquer();
+
+    /* ---------- 5 bis. La frise ----------
+       Le defilement vertical tire la bande vers la gauche. La hauteur du
+       bloc est calee sur la largeur reelle de la bande : la traversee se
+       fait donc a la meme vitesse sur un telephone et sur un grand ecran,
+       au lieu de defiler en un eclair d'un cote et de trainer de l'autre. */
+    var frise  = root.querySelector('.usn-frise');
+    var piste  = document.getElementById('usn-frise-piste');
+    var jauge  = document.getElementById('usn-frise-part');
+    var signe  = document.getElementById('usn-fr-signe');
+    var signes = signe ? signe.querySelectorAll('path') : [];
+    var course = 0;
+
+    for (var g = 0; g < signes.length; g++) {
+      var lg2 = 0;
+      try { lg2 = signes[g].getTotalLength(); } catch (e) { lg2 = 0; }
+      signes[g].__lg = lg2;
+      if (lg2) {
+        signes[g].style.strokeDasharray = lg2;
+        signes[g].style.strokeDashoffset = lg2;
+      }
+    }
+
+    function mesurerFrise() {
+      if (!frise || !piste) return;
+      course = Math.max(0, piste.scrollWidth - window.innerWidth);
+      // Un peu moins d'un pixel de defilement par pixel parcouru : la
+      // bande avance sans obliger a une descente interminable.
+      frise.style.height = (vh() + course * 0.85) + 'px';
+    }
+
+    function friseAppliquer() {
+      if (!frise || !piste) return;
+      var r = frise.getBoundingClientRect();
+      var c = Math.max(1, r.height - vh());
+      var p = clamp01(-r.top / c);
+      piste.style.transform = 'translate3d(' + (-course * p).toFixed(1) + 'px,0,0)';
+      if (jauge) jauge.style.width = (p * 100).toFixed(2) + '%';
+
+      // La signature se trace quand son panneau traverse l'ecran.
+      if (signe ? signes.length : 0) {
+        var rs = signe.getBoundingClientRect();
+        var q = clamp01((window.innerWidth * 0.78 - rs.left) / (window.innerWidth * 0.42));
+        for (var i = 0; i < signes.length; i++) {
+          var tr = signes[i];
+          if (!tr.__lg) continue;
+          var qi = clamp01((q - i * 0.05) / 0.45);
+          tr.style.strokeDashoffset = (tr.__lg * (1 - qi)).toFixed(1);
+        }
+      }
+    }
+    mesurerFrise();
+    friseAppliquer();
+
+    /* ---------- 6. Parallaxes ----------
+       Chaque element marque monte a sa propre vitesse pendant qu'il
+       traverse l'ecran : c'est ce qui donne de la profondeur a la
+       colonne d'affiches. */
+    var paras = root.querySelectorAll('[data-usn-parallaxe]');
+    function parallaxes() {
+      for (var i = 0; i < paras.length; i++) {
+        var el = paras[i], r = el.getBoundingClientRect(), h = vh();
+        var p = clamp01((h - r.top) / (h + r.height));
+        var v = parseFloat(el.getAttribute('data-usn-parallaxe')) || 1;
+        el.style.transform = 'translate3d(0,' + ((0.5 - p) * 150 * v).toFixed(1) + 'px,0)';
+      }
+    }
+    parallaxes();
+
+    /* ---------- 7. Les deux visages qui se rapprochent ---------- */
+    var visages = root.querySelector('.usn-visages');
+    function visagesAppliquer() {
+      if (!visages) return;
+      var r = visages.getBoundingClientRect(), h = vh();
+      // 0 quand le bloc entre par le bas, 1 quand il est au centre
+      var p = clamp01((h - r.top) / (h * 0.85 + r.height * 0.4));
+      var e = easeOut(p), ecart = (1 - e) * Math.min(window.innerWidth * 0.42, 460);
+      var g = visages.querySelector('[data-usn-visage="gauche"]');
+      var d = visages.querySelector('[data-usn-visage="droite"]');
+      if (g) g.style.transform = 'translate3d(' + (-ecart).toFixed(1) + 'px,0,0)';
+      if (d) d.style.transform = 'translate3d(' + ecart.toFixed(1) + 'px,0,0)';
+    }
+    visagesAppliquer();
+
+    var hero = null, heroInner = null;
+
+    /* ---------- 6. Boucle de rendu (lissage type ScrollSmoother) ---------- */
+    var running = false;
+    var dernierY = -1;
+    function frame() {
+      var moving = false;
+
+      // Ces trois-la suivent le scroll directement : tant qu'il bouge,
+      // la boucle continue.
+      var y = scrollY();
+      if (y !== dernierY) { dernierY = y; moving = true; }
+      phraseAppliquer();
+      friseAppliquer();
+      parallaxes();
+      visagesAppliquer();
+
+      for (var i = 0; i < all.length; i++) {
+        var it = all[i], t = target(it);
+        it.p += (t - it.p) * 0.12;             // lissage
+        if (Math.abs(t - it.p) > 0.001) moving = true; else it.p = t;
+        apply(it, it.p);
+      }
+
+      if (punch) {
+        var tp = punchTarget();
+        punchP += (tp - punchP) * 0.12;
+        if (Math.abs(tp - punchP) > 0.001) moving = true; else punchP = tp;
+        punchApply(punchP);
+      }
+
+      for (var k = 0; k < photos.length; k++) {
+        var ph = photos[k], tc = cibleCouleur(ph);
+        ph.p += (tc - ph.p) * 0.14;
+        if (Math.abs(tc - ph.p) > 0.004) moving = true; else ph.p = tc;
+        peindre(ph);
+      }
+
+      if (hero) {
+        var hr = hero.getBoundingClientRect();
+        var prog = clamp01(-hr.top / Math.max(1, hr.height));
+        if (heroInner) {
+          heroInner.style.transform = 'translate3d(0,' + (prog * 130).toFixed(1) + 'px,0)';
+          heroInner.style.opacity = (1 - prog * 0.85).toFixed(3);
+        }
+      }
+
+      if (moving) { requestAnimationFrame(frame); } else { running = false; }
+    }
+    function kick() { if (!running) { running = true; requestAnimationFrame(frame); } }
+
+    window.addEventListener('scroll', kick, { passive: true });
+    window.addEventListener('resize', function () { measureAll(); mesurerFrise(); kick(); });
+    window.addEventListener('load', function () { measureAll(); mesurerFrise(); kick(); });
+    kick();
+  })();
+
+
+  /* ---- Lettre d'information ---- */
+  (function () {
+    var form = document.getElementById('usn-accueil-form');
+    if (!form) return;
+    var msg = document.getElementById('usn-form-msg');
+
+    form.addEventListener('submit', function (e) {
+      var nom   = form.querySelector('#usn-nom');
+      var email = form.querySelector('#usn-email');
+      if (!nom.value.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value)) {
+        e.preventDefault();
+        (nom.value.trim() ? email : nom).focus();
+        return;
+      }
+      if (msg) {
+        msg.textContent = 'Merci ! Vous serez pr\u00e9venu d\u00e8s qu\'une nouvelle date est annonc\u00e9e.';
+        msg.style.display = 'block';
+      }
+      setTimeout(function () { form.reset(); }, 100);
+    });
+  })();
+
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', usnInit);
+  } else {
+    usnInit();
+  }
+})();

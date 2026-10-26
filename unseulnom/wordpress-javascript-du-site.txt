@@ -710,7 +710,7 @@
 
 
 /* =====================================================================
-   Page evenement (index.html)
+   Page tarbes (index.html)
    ===================================================================== */
 
 /* Tout le code attend que la page soit construite. Sans cela, si le script
@@ -1244,7 +1244,7 @@
 
 
 /* =====================================================================
-   Page agenda (agenda.html)
+   Page evenement (agenda.html)
    ===================================================================== */
 
 /* Tout le code attend que la page soit construite. Sans cela, si le script

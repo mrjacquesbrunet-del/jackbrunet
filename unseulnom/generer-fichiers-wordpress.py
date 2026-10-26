@@ -43,6 +43,15 @@ from pathlib import Path
 
 RACINE = Path(__file__).resolve().parent
 
+# Les cles portent le nom de la page TELLE QU'ELLE EXISTE SUR LE SITE, et
+# non le nom du fichier source : « evenement » est la page qui liste les
+# dates, « tarbes » est la fiche de la ville. Les trois fichiers a coller
+# portent ce nom eux aussi.
+#
+# Ils s'appelaient tous 1-HTML.txt, 2-CSS.txt, 3-JAVASCRIPT.txt, quel que
+# soit la page. Resultat previsible, arrive le 26 octobre : l'accueil
+# colle sur la page de Tarbes. Un nom qui ne dit pas de quelle page il
+# parle est un piege, pas un fichier.
 PAGES = {
     "accueil": {
         "source": "accueil.html",
@@ -50,16 +59,16 @@ PAGES = {
         "seul": "accueil-a-coller-dans-wordpress.html",
         "generique": None,
     },
-    "evenement": {
+    "tarbes": {
         "source": "index.html",
-        "sortie": "wordpress-3-parties",
-        "seul": "a-coller-dans-wordpress.html",
+        "sortie": "wordpress-tarbes",
+        "seul": "tarbes-a-coller-dans-wordpress.html",
         "generique": "index-wordpress.html",
     },
-    "agenda": {
+    "evenement": {
         "source": "agenda.html",
-        "sortie": "wordpress-agenda",
-        "seul": "agenda-a-coller-dans-wordpress.html",
+        "sortie": "wordpress-evenement",
+        "seul": "evenement-a-coller-dans-wordpress.html",
         "generique": None,
     },
 }
@@ -359,9 +368,9 @@ def construire(nom, page):
     sortie = RACINE / page["sortie"]
     sortie.mkdir(exist_ok=True)
     fichiers = {
-        sortie / "1-HTML.txt": html + "\n",
-        sortie / "2-CSS.txt": css + "\n",
-        sortie / "3-JAVASCRIPT.txt": js + "\n",
+        sortie / ("1-HTML-%s.txt" % nom): html + "\n",
+        sortie / ("2-CSS-%s.txt" % nom): css + "\n",
+        sortie / ("3-JAVASCRIPT-%s.txt" % nom): js + "\n",
         RACINE / page["seul"]: "<style>\n" + css + "\n</style>\n\n" + html + "\n",
     }
     if page["generique"]:
@@ -427,7 +436,7 @@ def main():
     if set(voulues) == set(PAGES):
         morceaux = [en_ascii(EN_TETE_JS)]
         for nom, page in PAGES.items():
-            js = (RACINE / page["sortie"] / "3-JAVASCRIPT.txt").read_text(encoding="ascii")
+            js = (RACINE / page["sortie"] / ("3-JAVASCRIPT-%s.txt" % nom)).read_text(encoding="ascii")
             morceaux.append(SEPARATEUR_JS % en_ascii(
                 "Page %s (%s)" % (nom, page["source"])))
             morceaux.append(js.strip() + "\n")
