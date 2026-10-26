@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Un Seul Nom - Reservations
  * Description: Reservation de places pour les evenements Un Seul Nom : compteur de places, limite par reservation, liste des inscrits et export CSV. Une ville apres l'autre, sans perdre les inscrits des precedentes.
- * Version:     1.1.0
+ * Version:     1.2.0
  * Author:      Un Seul Nom
  * License:     GPL-2.0-or-later
  *
@@ -24,12 +24,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class USN_Reservations {
 
-	const VERSION        = '1.1.0';
+	const VERSION        = '1.2.0';
 	const OPT_CAPACITE   = 'usn_capacite';        // Nombre total de places ouvertes (surbooking compris).
 	const OPT_MAX        = 'usn_max_par_personne'; // Limite par reservation.
 	const OPT_OUVERT     = 'usn_inscriptions_ouvertes';
 	const OPT_EVENEMENT  = 'usn_evenement';        // La ville pour laquelle on reserve en ce moment.
 	const OPT_DB_VERSION = 'usn_db_version';
+	// Brevo. La cle n'est jamais envoyee dans la page : elle ouvre tout
+	// le compte, et une page est lisible par n'importe qui.
+	const OPT_BREVO_CLE     = 'usn_brevo_cle';
+	const OPT_BREVO_LISTES  = 'usn_brevo_listes';   // ville => identifiant de liste
+	const OPT_BREVO_ATTRS   = 'usn_brevo_attributs';
+	const OPT_BREVO_JOURNAL = 'usn_brevo_journal';  // le dernier envoi, reussi ou non
 
 	// Nom donne aux reservations prises avant la version 1.1, quand le
 	// module ne savait pas encore de quelle ville il s'agissait.
@@ -168,6 +174,14 @@ final class USN_Reservations {
 		update_option( self::OPT_EVENEMENT, $nom );
 		update_option( self::OPT_OUVERT, 1 );
 
+		// La liste Brevo est creee tout de suite, avant la premiere
+		// inscription : si la cle est mauvaise, on l'apprend maintenant
+		// et non le soir de l'ouverture des reservations.
+		if ( self::brevo_actif() ) {
+			self::brevo_preparer_attributs();
+			self::brevo_liste( $nom );
+		}
+
 		wp_safe_redirect( add_query_arg( 'usn_message', 'ville-ouverte', admin_url( 'admin.php?page=usn-reservations' ) ) );
 		exit;
 	}
@@ -203,6 +217,10 @@ final class USN_Reservations {
 			'restantes' => max( 0, $capacite - $reservees ),
 			'max'       => self::max_par_personne(),
 			'ouvert'    => self::inscriptions_ouvertes() && $reservees < $capacite,
+			// La page n'envoie vers le formulaire Brevo que si le serveur
+			// ne le fait pas : sinon le contact partirait deux fois, et la
+			// seconde fois sans sa ville ni son nombre de places.
+			'brevo'     => self::brevo_actif(),
 		);
 	}
 
@@ -281,6 +299,14 @@ final class USN_Reservations {
 		 */
 		$ancienne = self::reservation_existante( $email );
 		if ( $ancienne ) {
+			/* Refuse, mais depose quand meme chez Brevo. Celui qui revient
+			   le fait presque toujours parce qu'il n'a jamais recu la
+			   confirmation, et la seule explication possible est qu'il ne
+			   soit pas chez Brevo : l'envoi de la premiere fois a echoue
+			   sans que personne le sache. Le refuser sans rien envoyer le
+			   condamnait a ne jamais rien recevoir, a chaque essai. */
+			self::brevo_envoyer( $nom, $email, (int) $ancienne->places, self::evenement(), 'reservation' );
+
 			return new WP_REST_Response(
 				array(
 					'ok'      => false,
@@ -363,6 +389,11 @@ final class USN_Reservations {
 			);
 		}
 
+		// Depose dans la liste Brevo de la ville. Un echec ne remet jamais
+		// la reservation en cause : la place est prise, et l'echec est
+		// consigne pour le tableau de bord.
+		self::brevo_envoyer( $nom, $email, $places, self::evenement(), 'reservation' );
+
 		do_action( 'usn_reservation_enregistree', $nom, $email, $places );
 
 		$etat = self::etat();
@@ -432,6 +463,7 @@ final class USN_Reservations {
 		register_setting( 'usn_reservations', self::OPT_CAPACITE, array( 'type' => 'integer', 'sanitize_callback' => 'absint' ) );
 		register_setting( 'usn_reservations', self::OPT_MAX, array( 'type' => 'integer', 'sanitize_callback' => 'absint' ) );
 		register_setting( 'usn_reservations', self::OPT_OUVERT, array( 'type' => 'integer', 'sanitize_callback' => 'absint' ) );
+		register_setting( 'usn_reservations', self::OPT_BREVO_CLE, array( 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field' ) );
 	}
 
 	public static function page_admin() {
@@ -526,6 +558,54 @@ final class USN_Reservations {
 							<p class="description">Décochez pour fermer les inscriptions sans toucher au compteur.</p>
 						</td>
 					</tr>
+					<tr>
+						<th scope="row">Clé API Brevo</th>
+						<td>
+							<?php $cle = self::brevo_cle(); ?>
+							<input name="<?php echo esc_attr( self::OPT_BREVO_CLE ); ?>" type="password"
+								class="regular-text" autocomplete="off"
+								value="<?php echo esc_attr( $cle ); ?>"
+								placeholder="xkeysib-...">
+							<p class="description" style="max-width:48em">
+								Brevo &rarr; <strong>SMTP et API</strong> &rarr; <strong>Clés API</strong> &rarr;
+								<em>Générer une nouvelle clé API</em>. Avec cette clé, chaque inscrit est déposé
+								dans une liste Brevo <strong>au nom de sa ville</strong>, avec son nombre de
+								places. La liste est créée toute seule quand vous ouvrez la ville.
+							</p>
+							<p class="description" style="max-width:48em">
+								<strong>Sans clé</strong>, rien ne casse&nbsp;: la page continue d'envoyer les
+								contacts au formulaire Brevo comme avant, mais toutes les villes arrivent
+								dans la même liste, sans le nombre de places, et personne n'est prévenu
+								quand un envoi échoue.
+							</p>
+							<?php
+							$journal = self::brevo_journal();
+							if ( $journal ) :
+								$vert = ! empty( $journal['ok'] );
+								?>
+								<p style="margin-top:12px;padding:10px 12px;border-left:4px solid <?php echo $vert ? '#00a32a' : '#d63638'; ?>;background:#fff">
+									<strong><?php echo $vert ? 'Dernier envoi : réussi' : 'Dernier envoi : ÉCHEC'; ?></strong><br>
+									<?php echo esc_html( $journal['quand'] ?? '' ); ?>
+									&mdash; <?php echo esc_html( $journal['email'] ?? '' ); ?>
+									<?php if ( ! empty( $journal['ville'] ) ) : ?>
+										&mdash; <?php echo esc_html( $journal['ville'] ); ?>
+									<?php endif; ?>
+									<?php if ( ! $vert ) : ?>
+										<br><code><?php echo esc_html( ( $journal['code'] ?? '' ) . ' ' . ( $journal['message'] ?? '' ) ); ?></code>
+									<?php endif; ?>
+								</p>
+							<?php endif; ?>
+							<?php
+							$listes = get_option( self::OPT_BREVO_LISTES, array() );
+							if ( is_array( $listes ) && $listes ) :
+								?>
+								<p class="description" style="margin-top:10px">
+									<strong>Listes créées :</strong>
+									<?php echo esc_html( implode( ', ', array_keys( $listes ) ) ); ?>
+								</p>
+							<?php endif; ?>
+						</td>
+					</tr>
 				</table>
 				<?php submit_button( 'Enregistrer' ); ?>
 			</form>
@@ -588,6 +668,219 @@ final class USN_Reservations {
 			</table>
 		</div>
 		<?php
+	}
+
+	/* ================================================================== */
+	/* BREVO                                                              */
+	/*                                                                    */
+	/* Une liste par ville, creee par le module lui-meme, et chaque       */
+	/* inscrit depose dedans avec son nombre de places.                   */
+	/*                                                                    */
+	/* POURQUOI PASSER PAR L'API PLUTOT QUE PAR LE FORMULAIRE BREVO.      */
+	/*                                                                    */
+	/* Jusqu'ici la page envoyait le contact au formulaire Brevo dans un  */
+	/* cadre invisible. Trois defauts, et ce sont ceux d'Avignon :        */
+	/*                                                                    */
+	/*  - Le formulaire depose dans la liste qui lui est attachee, une    */
+	/*    seule et toujours la meme. Les villes se melangeaient.          */
+	/*  - Il ne porte que les champs qu'on lui declare ; le nombre de     */
+	/*    places n'arrivait jamais.                                       */
+	/*  - Surtout : la page n'apprend JAMAIS si l'envoi a echoue. Le      */
+	/*    cadre est invisible, personne ne lit sa reponse. C'est ainsi    */
+	/*    qu'on se retrouve avec des inscrits qui ne sont nulle part.     */
+	/*                                                                    */
+	/* L'appel depuis le serveur repond, et sa reponse est gardee : le    */
+	/* tableau de bord dit si le dernier envoi est passe, et pourquoi il  */
+	/* n'est pas passe.                                                   */
+	/*                                                                    */
+	/* La cle n'est JAMAIS dans la page : elle ouvre tout le compte       */
+	/* Brevo, et une page est lisible par n'importe qui.                  */
+	/* ================================================================== */
+
+	const BREVO_RACINE = 'https://api.brevo.com/v3';
+
+	public static function brevo_cle() {
+		return trim( (string) get_option( self::OPT_BREVO_CLE, '' ) );
+	}
+
+	public static function brevo_actif() {
+		return '' !== self::brevo_cle();
+	}
+
+	/**
+	 * Un appel a Brevo. Rend un tableau : ok, code, corps, message.
+	 *
+	 * Rien n'interrompt jamais une reservation : si Brevo ne repond pas,
+	 * la place reste prise et l'echec est consigne. Perdre une place
+	 * parce qu'un service tiers est en panne serait le pire des deux.
+	 */
+	public static function brevo_appel( $methode, $chemin, $corps = null ) {
+		$cle = self::brevo_cle();
+		if ( '' === $cle ) {
+			return array( 'ok' => false, 'code' => 0, 'corps' => array(), 'message' => 'Aucune cle API enregistree.' );
+		}
+
+		$args = array(
+			'method'  => $methode,
+			'timeout' => 12,
+			'headers' => array(
+				'api-key'      => $cle,
+				'accept'       => 'application/json',
+				'content-type' => 'application/json',
+			),
+		);
+		if ( null !== $corps ) {
+			$args['body'] = wp_json_encode( $corps );
+		}
+
+		$reponse = wp_remote_request( self::BREVO_RACINE . $chemin, $args );
+
+		if ( is_wp_error( $reponse ) ) {
+			return array( 'ok' => false, 'code' => 0, 'corps' => array(), 'message' => $reponse->get_error_message() );
+		}
+
+		$code = (int) wp_remote_retrieve_response_code( $reponse );
+		$lu   = json_decode( wp_remote_retrieve_body( $reponse ), true );
+		$lu   = is_array( $lu ) ? $lu : array();
+
+		return array(
+			'ok'      => $code >= 200 && $code < 300,
+			'code'    => $code,
+			'corps'   => $lu,
+			'message' => isset( $lu['message'] ) ? (string) $lu['message'] : '',
+		);
+	}
+
+	/**
+	 * Cree les attributs une fois pour toutes.
+	 *
+	 * Brevo refuse un contact qui porte un attribut inconnu : sans cette
+	 * etape, le tout premier envoi echouerait avec « Invalid attributes »
+	 * et rien ne partirait jamais. Un attribut deja present renvoie une
+	 * erreur, qu'on ignore : c'est le resultat voulu.
+	 */
+	public static function brevo_preparer_attributs() {
+		if ( get_option( self::OPT_BREVO_ATTRS, '' ) === self::VERSION ) {
+			return;
+		}
+		$attributs = array( 'NOM' => 'text', 'VILLE' => 'text', 'SOURCE' => 'text', 'PLACES' => 'float' );
+		foreach ( $attributs as $nom => $type ) {
+			self::brevo_appel( 'POST', '/contacts/attributes/normal/' . rawurlencode( $nom ), array( 'type' => $type ) );
+		}
+		update_option( self::OPT_BREVO_ATTRS, self::VERSION );
+	}
+
+	/**
+	 * L'identifiant de la liste Brevo d'une ville, creee au besoin.
+	 *
+	 * La correspondance ville - liste est gardee en base : on ne
+	 * redemande pas a Brevo a chaque inscription.
+	 */
+	public static function brevo_liste( $ville ) {
+		$ville = trim( (string) $ville );
+		if ( '' === $ville ) {
+			return 0;
+		}
+
+		$listes = get_option( self::OPT_BREVO_LISTES, array() );
+		$listes = is_array( $listes ) ? $listes : array();
+		if ( ! empty( $listes[ $ville ] ) ) {
+			return (int) $listes[ $ville ];
+		}
+
+		// Brevo exige un dossier. On prend le premier qu'il nous donne.
+		$dossier = 1;
+		$d       = self::brevo_appel( 'GET', '/contacts/folders?limit=1&offset=0' );
+		if ( $d['ok'] && ! empty( $d['corps']['folders'][0]['id'] ) ) {
+			$dossier = (int) $d['corps']['folders'][0]['id'];
+		}
+
+		$creation = self::brevo_appel(
+			'POST',
+			'/contacts/lists',
+			array( 'name' => 'Un Seul Nom - ' . $ville, 'folderId' => $dossier )
+		);
+
+		$id = 0;
+		if ( $creation['ok'] && ! empty( $creation['corps']['id'] ) ) {
+			$id = (int) $creation['corps']['id'];
+		} elseif ( 400 === $creation['code'] ) {
+			// Une liste de ce nom existe deja : on la retrouve au lieu
+			// d'en creer une seconde qui porterait le meme nom.
+			$toutes = self::brevo_appel( 'GET', '/contacts/lists?limit=50&offset=0' );
+			if ( $toutes['ok'] && ! empty( $toutes['corps']['lists'] ) ) {
+				foreach ( $toutes['corps']['lists'] as $l ) {
+					if ( isset( $l['name'] ) && 'Un Seul Nom - ' . $ville === $l['name'] ) {
+						$id = (int) $l['id'];
+						break;
+					}
+				}
+			}
+		}
+
+		if ( $id > 0 ) {
+			$listes[ $ville ] = $id;
+			update_option( self::OPT_BREVO_LISTES, $listes );
+		}
+		return $id;
+	}
+
+	/**
+	 * Depose un inscrit dans la liste de sa ville.
+	 *
+	 * « updateEnabled » : une adresse deja connue est mise a jour, pas
+	 * ajoutee une seconde fois. C'est ce qui permet d'appeler cette
+	 * fonction aussi quand on REFUSE une inscription en double — celui
+	 * qui revient le fait presque toujours parce qu'il n'a rien recu,
+	 * et la seule explication possible est qu'il ne soit pas chez Brevo.
+	 */
+	public static function brevo_envoyer( $nom, $email, $places, $ville, $source = 'reservation' ) {
+		if ( ! self::brevo_actif() ) {
+			return false;
+		}
+		self::brevo_preparer_attributs();
+
+		$liste  = self::brevo_liste( $ville );
+		$listes = $liste > 0 ? array( $liste ) : array();
+
+		$reponse = self::brevo_appel(
+			'POST',
+			'/contacts',
+			array(
+				'email'         => $email,
+				'updateEnabled' => true,
+				'listIds'       => $listes,
+				'attributes'    => array(
+					'NOM'    => $nom,
+					'VILLE'  => $ville,
+					'SOURCE' => $source,
+					'PLACES' => (float) $places,
+				),
+			)
+		);
+
+		self::brevo_consigner( $reponse, $email, $ville );
+		return $reponse['ok'];
+	}
+
+	/** Garde la trace du dernier envoi, reussi ou non. */
+	public static function brevo_consigner( $reponse, $email, $ville ) {
+		update_option(
+			self::OPT_BREVO_JOURNAL,
+			array(
+				'quand'   => current_time( 'mysql' ),
+				'ok'      => (bool) $reponse['ok'],
+				'code'    => (int) $reponse['code'],
+				'message' => (string) $reponse['message'],
+				'email'   => (string) $email,
+				'ville'   => (string) $ville,
+			)
+		);
+	}
+
+	public static function brevo_journal() {
+		$j = get_option( self::OPT_BREVO_JOURNAL, array() );
+		return is_array( $j ) ? $j : array();
 	}
 
 	public static function exporter_csv() {

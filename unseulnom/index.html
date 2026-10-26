@@ -1130,6 +1130,24 @@
           <p class="usn-hint" data-usn-hint></p>
         </div>
 
+        <!-- CE QUE BREVO RECOIT EN PLUS DU NOM ET DE L'ADRESSE.
+
+             Brevo ne recevait que NOM et EMAIL. Il ne pouvait donc ni
+             ecrire « 2 places » sur le billet, ni distinguer un inscrit
+             a Tarbes d'un simple abonne a la lettre : tout le monde
+             arrivait dans le meme tas.
+
+             ► QUAND ON CHANGE DE VILLE, la ligne VILLE ci-dessous est la
+               SEULE a modifier dans cette page.
+
+             Ces champs ne sont enregistres que si les attributs du meme
+             nom existent dans Brevo (voir BREVO.md). Tant qu'ils
+             n'existent pas, Brevo les ignore sans erreur : rien ne
+             casse, mais rien n'est garde non plus. -->
+        <input type="hidden" name="VILLE" value="Tarbes 2026" />
+        <input type="hidden" name="SOURCE" value="reservation" />
+        <input type="hidden" name="PLACES" id="usn-brevo-places" value="" />
+
         <!-- Piège anti-robot de Brevo : ce champ doit rester vide. -->
         <input type="text" name="email_address_check" value="" tabindex="-1"
                aria-hidden="true" autocomplete="off"
@@ -1679,11 +1697,27 @@
     if (window.fetch) {
       fetch(API + 'places', { credentials: 'same-origin' })
         .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
-        .then(function (e) { apiActive = true; afficherEtat(e); })
+        .then(function (e) {
+          apiActive = true;
+          brevoServeur = e ? e.brevo === true : false;
+          afficherEtat(e);
+        })
         .catch(function () { /* module absent : on garde le formulaire simple */ });
     }
 
+    /* Vrai quand le module depose lui-meme les contacts chez Brevo, par
+       l'API, avec la ville et le nombre de places. La page se tait
+       alors : deux envois feraient arriver le contact une seconde fois,
+       et cette seconde fois sans sa ville ni ses places. */
+    var brevoServeur = false;
+
     function envoyerVersBrevo() {
+      if (brevoServeur) return;
+      /* Le nombre de places est pose juste avant le depart : il est
+         choisi apres le chargement de la page, et c'est la seule
+         valeur du formulaire que Brevo ne pouvait pas connaitre. */
+      var champ = document.getElementById('usn-brevo-places');
+      if (champ) champ.value = valeurPlaces();
       // Le formulaire vise l'iframe cache : le visiteur reste sur la page.
       form.submit();
     }

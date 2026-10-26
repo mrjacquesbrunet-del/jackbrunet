@@ -1374,11 +1374,27 @@
     if (window.fetch) {
       fetch(API + 'places', { credentials: 'same-origin' })
         .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
-        .then(function (e) { apiActive = true; afficherEtat(e); })
+        .then(function (e) {
+          apiActive = true;
+          brevoServeur = e ? e.brevo === true : false;
+          afficherEtat(e);
+        })
         .catch(function () { /* module absent : on garde le formulaire simple */ });
     }
 
+    /* Vrai quand le module depose lui-meme les contacts chez Brevo, par
+       l'API, avec la ville et le nombre de places. La page se tait
+       alors : deux envois feraient arriver le contact une seconde fois,
+       et cette seconde fois sans sa ville ni ses places. */
+    var brevoServeur = false;
+
     function envoyerVersBrevo() {
+      if (brevoServeur) return;
+      /* Le nombre de places est pose juste avant le depart : il est
+         choisi apres le chargement de la page, et c'est la seule
+         valeur du formulaire que Brevo ne pouvait pas connaitre. */
+      var champ = document.getElementById('usn-brevo-places');
+      if (champ) champ.value = valeurPlaces();
       // Le formulaire vise l'iframe cache : le visiteur reste sur la page.
       form.submit();
     }

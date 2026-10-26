@@ -486,6 +486,11 @@
             <input id="usn-email" name="EMAIL" type="email" placeholder="vous@email.com" aria-label="Adresse e-mail" required />
           </div>
 
+          <!-- D'ou vient le contact. Brevo peut ainsi separer ceux qui
+               se sont abonnes a la lettre de ceux qui ont reserve une
+               place. Voir BREVO.md pour l'attribut a creer. -->
+          <input type="hidden" name="SOURCE" value="accueil" />
+
           <!-- Piege anti-robot de Brevo : ce champ doit rester vide. -->
           <input type="text" name="email_address_check" value="" tabindex="-1"
                  aria-hidden="true" autocomplete="off"
