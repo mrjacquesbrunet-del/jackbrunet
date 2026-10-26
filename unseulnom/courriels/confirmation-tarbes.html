@@ -25,9 +25,23 @@
 -->
 <body style="margin:0;padding:0;background:#F4F5F9;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F4F5F9;">
-<tr><td align="center" style="padding:24px 12px;">
+<tr><td align="center" style="padding:24px 10px;">
 
-  <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;max-width:100%;background:#ffffff;border-radius:8px;overflow:hidden;">
+  <!--
+    LA LARGEUR EST FLUIDE, PAS FIXE.
+
+    La premiere version posait « width=600 » sur ce tableau : beaucoup
+    de messageries tiennent l'attribut HTML pour une consigne absolue
+    et refusent de retrecir. Sur un telephone, le message depassait a
+    droite et le bouton etait coupe.
+
+    Le tableau est donc a 100 %, plafonne a 600 pixels par le style.
+    Outlook pour Windows, lui, ignore « max-width » — d'ou le tableau
+    fantome ci-dessous, qu'il est le seul a lire, et qui le tient a
+    600 pixels.
+  -->
+  <!--[if mso]><table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:600px;background:#ffffff;border-radius:8px;overflow:hidden;">
 
     <!-- LA BANNIERE.
          Elle porte deja le bandeau tricolore et le nom de la ville. Si
@@ -39,7 +53,7 @@
     </td></tr>
 
     <!-- le corps -->
-    <tr><td style="padding:32px 30px 8px;">
+    <tr><td style="padding:30px 24px 8px;">
       <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:24px;font-weight:bold;line-height:1.25;color:#0C0B0A;">
         Ta place est r&eacute;serv&eacute;e.
       </p>
@@ -53,7 +67,7 @@
     </td></tr>
 
     <!-- le bouton -->
-    <tr><td align="center" style="padding:26px 30px 6px;">
+    <tr><td align="center" style="padding:26px 24px 6px;">
       <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
         <td align="center" bgcolor="#1B2FC4" style="border-radius:999px;">
           <a href="__ADRESSE_DU_BILLET__"
@@ -68,27 +82,27 @@
     </td></tr>
 
     <!-- les informations pratiques -->
-    <tr><td style="padding:22px 30px 0;">
+    <tr><td style="padding:22px 24px 0;">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid #E2E4EE;">
         <tr><td style="padding:22px 0 0;">
 
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
             <tr>
-              <td width="110" valign="top" style="padding:0 0 14px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:bold;letter-spacing:1.5px;text-transform:uppercase;color:#1B2FC4;">Quand</td>
+              <td width="92" valign="top" style="padding:0 0 14px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:bold;letter-spacing:1.5px;text-transform:uppercase;color:#1B2FC4;">Quand</td>
               <td valign="top" style="padding:0 0 14px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.5;color:#0C0B0A;">
                 <strong>Samedi 12 d&eacute;cembre 2026</strong><br>
                 <span style="color:#55565E;font-size:14px;">Ouverture des portes &agrave; 15h &middot; Conf&eacute;rence &agrave; 16h</span>
               </td>
             </tr>
             <tr>
-              <td width="110" valign="top" style="padding:0 0 14px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:bold;letter-spacing:1.5px;text-transform:uppercase;color:#1B2FC4;">O&ugrave;</td>
+              <td width="92" valign="top" style="padding:0 0 14px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:bold;letter-spacing:1.5px;text-transform:uppercase;color:#1B2FC4;">O&ugrave;</td>
               <td valign="top" style="padding:0 0 14px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.5;color:#0C0B0A;">
                 <strong>Ch&acirc;teau d'Orleix</strong><br>
                 <span style="color:#55565E;font-size:14px;">13 bis rue des Platanes, 65800 Orleix</span>
               </td>
             </tr>
             <tr>
-              <td width="110" valign="top" style="padding:0 0 14px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:bold;letter-spacing:1.5px;text-transform:uppercase;color:#1B2FC4;">Sur sc&egrave;ne</td>
+              <td width="92" valign="top" style="padding:0 0 14px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:bold;letter-spacing:1.5px;text-transform:uppercase;color:#1B2FC4;">Sur sc&egrave;ne</td>
               <td valign="top" style="padding:0 0 14px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.5;color:#0C0B0A;">
                 Jack Brunet et Chriss Campion<br>
                 <span style="color:#55565E;font-size:14px;">Louange&nbsp;: Briman Heugebaert et Juan Antonio</span>
@@ -101,7 +115,7 @@
     </td></tr>
 
     <!-- l'invitation -->
-    <tr><td style="padding:8px 30px 30px;">
+    <tr><td style="padding:8px 24px 30px;">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F4F5F9;border-radius:6px;">
         <tr><td style="padding:18px 20px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#0C0B0A;">
           <strong>Viens avec quelqu'un.</strong> Une personne qui a besoin de rencontrer
@@ -116,7 +130,7 @@
     </td></tr>
 
     <!-- pied de page -->
-    <tr><td style="background:#0C0B0A;padding:22px 30px;">
+    <tr><td style="background:#0C0B0A;padding:22px 24px;">
       <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.6;color:#b9b9b6;">
         <a href="https://unseulnom.org/evenement/tarbes/" style="color:#ffffff;text-decoration:underline;">La page de l'&eacute;v&eacute;nement</a>
         &nbsp;&middot;&nbsp;
@@ -140,6 +154,7 @@
     </td></tr>
 
   </table>
+  <!--[if mso]></td></tr></table><![endif]-->
 
 </td></tr>
 </table>
