@@ -603,6 +603,11 @@
     border-radius: 13px; background: rgba(208,43,70,0.08); border: 1px solid rgba(208,43,70,0.35);
     color: #a8161a; font-size: 14.5px; font-weight: 600; text-align: center;
   }
+  /* " Tu es deja inscrit " n'est pas une erreur : la place est prise, tout
+     va bien. Le rouge dirait le contraire et inquieterait pour rien. */
+  #usn-event .usn-err.est-info {
+    background: rgba(43,79,208,0.07); border-color: rgba(43,79,208,0.32); color: #223a9c;
+  }
   #usn-event .usn-form button[disabled] { opacity: .55; cursor: not-allowed; transform: none; }
 
   /* Autres dates */
@@ -1504,10 +1509,13 @@
     var apiActive = false;
     var maxPlaces = 1;
 
-    function erreur(texte) {
+    function erreur(texte, genre) {
       if (!err) return;
       err.textContent = texte;
       err.style.display = texte ? 'block' : 'none';
+      // " deja inscrit " s'affiche en bleu : c'est une bonne nouvelle
+      // mal formulee en rouge.
+      err.classList.toggle('est-info', 'info' === genre);
     }
 
     function afficherEtat(e) {
@@ -1626,7 +1634,9 @@
             fetch(API + 'places', { credentials: 'same-origin' })
               .then(function (r) { return r.json(); }).then(afficherEtat).catch(function () {});
           } else {
-            erreur((res.d ? res.d.message : '') || 'La r\u00e9servation a \u00e9chou\u00e9, r\u00e9essaie.');
+            var motif = res.d ? res.d.erreur : '';
+            erreur((res.d ? res.d.message : '') || 'La r\u00e9servation a \u00e9chou\u00e9, r\u00e9essaie.',
+                   'deja-inscrit' === motif ? 'info' : '');
             if (res.d ? typeof res.d.restantes === 'number' : false) {
               fetch(API + 'places', { credentials: 'same-origin' })
                 .then(function (r) { return r.json(); }).then(afficherEtat).catch(function () {});

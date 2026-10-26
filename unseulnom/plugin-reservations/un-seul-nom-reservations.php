@@ -266,6 +266,35 @@ final class USN_Reservations {
 				400
 			);
 		}
+
+		/*
+		 * Une adresse, une reservation.
+		 *
+		 * A Avignon, 1300 places avaient ete prises pour environ 450
+		 * personnes presentes : beaucoup n'avaient pas recu le courriel de
+		 * confirmation et s'etaient reinscrites, parfois plusieurs fois. Le
+		 * compteur devenait inutilisable pour decider de la salle.
+		 *
+		 * Le refus arrive avant l'increment : une tentative en double ne
+		 * consomme aucune place. Et il porte sur la ville en cours, donc
+		 * quelqu'un qui etait venu a Avignon peut s'inscrire a Tarbes.
+		 */
+		$ancienne = self::reservation_existante( $email );
+		if ( $ancienne ) {
+			return new WP_REST_Response(
+				array(
+					'ok'      => false,
+					'erreur'  => 'deja-inscrit',
+					'places'  => (int) $ancienne->places,
+					'message' => sprintf(
+						'Tu es déjà inscrit avec cette adresse : %d place(s) sont réservées à ton nom. '
+						. 'Si tu n\'as pas reçu la confirmation, regarde dans tes courriers indésirables.',
+						(int) $ancienne->places
+					),
+				),
+				409
+			);
+		}
 		if ( $places < 1 || $places > $max ) {
 			return new WP_REST_Response(
 				array(
@@ -345,6 +374,27 @@ final class USN_Reservations {
 				'message'   => 'Ta réservation est enregistrée.',
 			),
 			201
+		);
+	}
+
+	/**
+	 * La reservation deja prise avec cette adresse, pour la ville en cours.
+	 *
+	 * La comparaison passe par LOWER() des deux cotes : « Jean@x.fr » et
+	 * « jean@x.fr » sont la meme personne, et rien ne garantit que la
+	 * table soit rangee dans un classement insensible a la casse.
+	 */
+	public static function reservation_existante( $email ) {
+		global $wpdb;
+		$table = self::table_reservations();
+		return $wpdb->get_row(
+			$wpdb->prepare(
+				"SELECT id, places, cree_le FROM {$table}
+				 WHERE LOWER(email) = LOWER(%s) AND evenement = %s
+				 ORDER BY cree_le ASC LIMIT 1",
+				$email,
+				self::evenement()
+			)
 		);
 	}
 

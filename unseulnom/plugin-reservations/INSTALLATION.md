@@ -16,6 +16,34 @@ au même instant, la base de données n'en accepte qu'une. Vérifié par simulat
 
 ---
 
+## Une adresse, une réservation (version 1.1)
+
+À Avignon, **1300 places réservées pour environ 450 personnes présentes**.
+En cause : beaucoup n'avaient pas reçu le courriel de confirmation et se
+sont réinscrites, parfois plusieurs fois. Le compteur ne voulait plus rien
+dire, et la salle avait été choisie sur un chiffre faux.
+
+Depuis la 1.1, une adresse déjà inscrite **pour la ville en cours** est
+refusée, avec ce message :
+
+> Tu es déjà inscrit avec cette adresse : 2 place(s) sont réservées à ton
+> nom. Si tu n'as pas reçu la confirmation, regarde dans tes courriers
+> indésirables.
+
+Il s'affiche en bleu, pas en rouge : ce n'est pas un échec, la place est
+bien prise.
+
+Le refus arrive **avant** le décompte : une tentative en double ne consomme
+aucune place. Et il ne porte que sur la ville en cours — quelqu'un qui est
+venu à Avignon peut s'inscrire à Tarbes.
+
+> **Ce que cela ne règle pas.** Si les courriels de confirmation
+> n'arrivent toujours pas, les gens ne se réinscriront plus, mais ils ne
+> sauront pas davantage s'ils sont inscrits. La délivrabilité Brevo reste
+> à regarder de son côté.
+
+---
+
 ## Changer de ville (version 1.1)
 
 Le compteur est unique : tant qu'il affiche les places de l'édition

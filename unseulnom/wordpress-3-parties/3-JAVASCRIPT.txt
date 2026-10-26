@@ -368,10 +368,13 @@
     var apiActive = false;
     var maxPlaces = 1;
 
-    function erreur(texte) {
+    function erreur(texte, genre) {
       if (!err) return;
       err.textContent = texte;
       err.style.display = texte ? 'block' : 'none';
+      // " deja inscrit " s'affiche en bleu : c'est une bonne nouvelle
+      // mal formulee en rouge.
+      err.classList.toggle('est-info', 'info' === genre);
     }
 
     function afficherEtat(e) {
@@ -490,7 +493,9 @@
             fetch(API + 'places', { credentials: 'same-origin' })
               .then(function (r) { return r.json(); }).then(afficherEtat).catch(function () {});
           } else {
-            erreur((res.d ? res.d.message : '') || 'La r\u00e9servation a \u00e9chou\u00e9, r\u00e9essaie.');
+            var motif = res.d ? res.d.erreur : '';
+            erreur((res.d ? res.d.message : '') || 'La r\u00e9servation a \u00e9chou\u00e9, r\u00e9essaie.',
+                   'deja-inscrit' === motif ? 'info' : '');
             if (res.d ? typeof res.d.restantes === 'number' : false) {
               fetch(API + 'places', { credentials: 'same-origin' })
                 .then(function (r) { return r.json(); }).then(afficherEtat).catch(function () {});
