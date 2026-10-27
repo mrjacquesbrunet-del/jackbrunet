@@ -86,8 +86,13 @@ svg.ic { width: 24px; height: 24px; flex: none; fill: none; stroke: currentColor
 
 /* ---------- Navigation : barre d'onglets en bas, colonne à gauche sur grand écran ---------- */
 .navbar { position: fixed; z-index: 14; left: 0; right: 0; bottom: 0; background: var(--ink); color: #c9c3b6;
-  border-top: 1px solid #2a2a28; display: grid; grid-template-columns: repeat(5, 1fr);
+  border-top: 1px solid #2a2a28; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain;
   padding: 6px max(6px, var(--safe-r)) calc(6px + var(--safe-b)) max(6px, var(--safe-l)); }
+.navbar::-webkit-scrollbar { display: none; }
+.navbar > .tab { flex: 0 0 20%; scroll-snap-align: start; }
+/* Indice visuel : la barre continue à droite (ou à gauche) */
+.navbar.more-right { -webkit-mask-image: linear-gradient(to right, #000 86%, transparent); mask-image: linear-gradient(to right, #000 86%, transparent); }
+.navbar.more-left { -webkit-mask-image: linear-gradient(to left, #000 86%, transparent); mask-image: linear-gradient(to left, #000 86%, transparent); }
 .tab { position: relative; border: 0; background: none; color: inherit; display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 3px; min-height: 52px; padding: 4px 2px; border-radius: 14px; font-weight: 700; font-size: .78rem; line-height: 1.1; }
 .tab .tab-ico { display: grid; place-items: center; width: 56px; height: 30px; border-radius: 999px; }
@@ -335,6 +340,24 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .spark i.last { background: var(--fg); }
 .spark-labels { display: flex; justify-content: space-between; font-size: .75rem; color: var(--muted); }
 
+/* Choix de la période */
+.periods { display: flex; gap: 4px; padding: 4px; margin: 0 0 18px; background: var(--surface); border-radius: 999px; }
+.periods button { flex: 1; min-height: 40px; border: 0; background: none; border-radius: 999px; font-weight: 700; font-size: .92rem; color: var(--muted); white-space: nowrap; }
+.periods button[aria-pressed="true"] { background: var(--lime); color: var(--on-lime); }
+.period-note { margin: -8px 0 18px; padding: 10px 14px; border-radius: var(--r-ctl); background: var(--surface-2); color: var(--muted); font-size: .9rem; line-height: 1.45; }
+
+/* Campagnes e-mail */
+.camps { display: grid; gap: 12px; }
+.camp { background: var(--bg); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; display: grid; gap: 8px; }
+.camp-head { display: flex; gap: 10px; justify-content: space-between; align-items: baseline; flex-wrap: wrap; }
+.camp-name { font-weight: 800; font-size: 1.02rem; line-height: 1.35; }
+.camp-date { font-size: .88rem; color: var(--muted); white-space: nowrap; }
+.camp-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 8px; }
+.camp-stats div { display: grid; gap: 2px; }
+.camp-stats b { font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+.camp-stats span { font-size: .8rem; color: var(--muted); }
+.st-envoyee { color: var(--st-publie); } .st-programmee { color: var(--st-valide); } .st-brouillon { color: var(--st-script); }
+
 /* ---------- Feuilles d'édition ---------- */
 dialog { border: 1px solid var(--line); border-radius: 22px; background: var(--surface); color: var(--fg); padding: 0;
   width: min(600px, calc(100vw - 32px)); max-height: calc(100dvh - 40px); overflow: auto; overscroll-behavior: contain; }
@@ -410,8 +433,10 @@ dialog::backdrop { background: rgb(8 8 8 / .65); }
 /* ---------- Ordinateur : colonne de navigation à gauche ---------- */
 @media (min-width: 900px) {
   body { font-size: 1rem; }
-  .navbar { top: 0; right: auto; width: var(--rail-w); display: flex; flex-direction: column; gap: 4px; border-top: 0; border-right: 1px solid #2a2a28;
+  .navbar { top: 0; right: auto; width: var(--rail-w); display: flex; flex-direction: column; gap: 4px; border-top: 0; border-right: 1px solid #2a2a28; overflow: visible;
+    -webkit-mask-image: none !important; mask-image: none !important;
     padding: calc(var(--safe-t) + 76px) 12px 24px max(12px, var(--safe-l)); }
+  .navbar > .tab { flex: none; }
   .tab { flex-direction: row; justify-content: flex-start; gap: 12px; min-height: 48px; padding: 0 12px 0 6px; font-size: .98rem; border-radius: 999px; }
   .tab .tab-ico { width: 40px; height: 36px; }
   .tab:hover { color: var(--cream); background: #1d1d1b; }
@@ -441,6 +466,8 @@ dialog::backdrop { background: rgb(8 8 8 / .65); }
   <button class="tab" data-view="idees"><span class="tab-ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg></span><span>Idées</span><span class="count" id="count-idees" aria-label="à traiter"></span></button>
   <button class="tab" data-view="punchlines"><span class="tab-ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h4v4c0 3-1.5 5-4 6M15 7h4v4c0 3-1.5 5-4 6"/></svg></span><span>Punchlines</span><span class="count" id="count-punch" aria-label="à traiter"></span></button>
   <button class="tab" data-view="suivi" data-group="stats"><span class="tab-ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V11M10 20V4M16 20v-7M22 20H2"/></svg></span><span>Stats</span></button>
+  <button class="tab" data-view="revenus"><span class="tab-ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM15 8.5a3.5 3.5 0 1 0 0 7M7.5 11h5M7.5 13.5h5"/></svg></span><span>Revenus</span></button>
+  <button class="tab" data-view="emails"><span class="tab-ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h15A1.5 1.5 0 0 1 21 6.5v11a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5zM3.5 6.5 12 13l8.5-6.5"/></svg></span><span>E-mails</span></button>
 </nav>
 
 <main>
@@ -526,8 +553,6 @@ dialog::backdrop { background: rgb(8 8 8 / .65); }
   <nav class="seg-nav" id="stats-nav" aria-label="Statistiques" hidden>
     <button class="stab" data-view="suivi">Réseaux</button>
     <button class="stab" data-view="app">App &amp; site</button>
-    <button class="stab" data-view="revenus">Revenus</button>
-    <button class="stab" data-view="emails">E-mails</button>
   </nav>
 
   <section id="view-suivi" data-panel="suivi" hidden>
@@ -707,7 +732,7 @@ function toast(msg) { const t = $("#toast"); t.textContent = msg; t.hidden = fal
 function canWrite() { return !!state.db && !state.readOnly; }
 
 /* ---------- Navigation ---------- */
-const STATS_VIEWS = ["suivi", "app", "revenus", "emails"];
+const STATS_VIEWS = ["suivi", "app"];
 function setView(v) {
   state.view = v;
   const isStats = STATS_VIEWS.includes(v);
@@ -721,11 +746,26 @@ function setView(v) {
 }
 function goTo(v) {
   setView(v);
+  revealTab(STATS_VIEWS.includes(v) ? "suivi" : v);
   window.scrollTo({ top: 0 });
   try { history.replaceState(null, "", "#" + v); } catch (e) {}
 }
 document.querySelectorAll(".tab").forEach((t) => t.addEventListener("click", () => goTo(t.dataset.group === "stats" ? state.lastStats || "suivi" : t.dataset.view)));
 document.querySelectorAll(".stab").forEach((t) => t.addEventListener("click", () => goTo(t.dataset.view)));
+
+/* La barre d'onglets défile sur téléphone : un fondu indique qu'il reste des onglets à droite ou à gauche. */
+(() => {
+  const nav = document.querySelector(".navbar");
+  const maj = () => {
+    const reste = nav.scrollWidth - nav.clientWidth - nav.scrollLeft;
+    nav.classList.toggle("more-right", reste > 4);
+    nav.classList.toggle("more-left", reste <= 4 && nav.scrollLeft > 4);
+  };
+  nav.addEventListener("scroll", maj, { passive: true });
+  window.addEventListener("resize", maj);
+  requestAnimationFrame(maj);
+})();
+function revealTab(v) { document.querySelector(`.tab[data-view="${v}"]`)?.scrollIntoView({ block: "nearest", inline: "nearest" }); }
 
 /* Dans l'app RHEMA ou sur le site, le Studio est affiché par-dessus : ce bouton y ramène. */
 if (window.parent !== window) {
@@ -1268,9 +1308,9 @@ function renderPlatforms(box) {
   if (!pf) return;
   const grid = el("div", { class: "platforms-grid" });
   for (const [key, name] of PF) {
-    const d = pf[key];
+    const d = forPeriod(pf[key]);
     if (!d) continue;
-    const series = d.mois || [];
+    const series = sliceMois(d.mois);
     const max = Math.max(1, ...series.map((m) => m.vues));
     const peak = series.length ? Math.max(...series.map((m) => m.vues)) : 0;
     grid.append(el("button", { class: "pf", style: "text-align:left;border:0;cursor:pointer;color:inherit;font:inherit", onclick: () => { state.suiviTab = key; renderSuivi(); } },
@@ -1295,6 +1335,7 @@ function renderSuivi() {
   const maj = pf?.majLe || s?.majLe;
   $("#suivi-maj").textContent = maj ? `Mis à jour le ${new Date(maj).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}` : "";
   const tabs = [["ensemble", "Vue d'ensemble"], ...PF];
+  box.append(periodBar());
   box.append(el("div", { class: "subtabs" }, ...tabs.map(([k, l]) => el("button", { class: "filter", "aria-pressed": String(state.suiviTab === k), onclick: () => { state.suiviTab = k; renderSuivi(); } }, l))));
   if (state.suiviTab === "ensemble") {
     if (s?.priorite) box.append(el("div", { class: "panel" }, el("h3", { text: "La priorité de la semaine" }), el("p", { class: "priority", text: s.priorite })));
@@ -1313,7 +1354,7 @@ function renderInstagramDetail(box, s) {
     tile("Médiane 30 jours", fmtViews(s.mediane30j), "reels des 30 jours précédents"),
     tile("Record", fmtViews(s.recordVues), s.recordSujet || ""),
     tile("Reels publiés (7 j)", String(publies), `objectif : ${WEEKLY_REEL_GOAL} par semaine`)));
-  if (s.mois?.length) box.append(el("div", { class: "panel" }, el("h3", { text: "Vues médianes par reel, par mois" }), monthChart(s.mois, "mediane"),
+  if (s.mois?.length) box.append(el("div", { class: "panel" }, el("h3", { text: "Vues médianes par reel, par mois" }), monthChart(sliceMois(s.mois), "mediane"),
     el("p", { class: "note", text: "Vues relevées sur ta grille Instagram (vue propriétaire). En lime : le mois record ; en clair : le mois en cours." })));
   if (s.recents?.length) {
     const rows = s.recents.map((r) => el("tr", {}, el("td", { class: "num", text: fmtDate(r.date) }), el("td", { class: "num", text: fmtViews(r.vues) }),
@@ -1325,8 +1366,10 @@ function renderInstagramDetail(box, s) {
   renderPfExtras(box, "instagram");
 }
 function renderPfHeader(box, key) {
-  const d = state.plateformes?.[key];
+  const d = forPeriod(state.plateformes?.[key]);
   if (!d) return;
+  const note = periodNote(d);
+  if (note) box.append(note);
   box.append(el("div", { class: "tiles" },
     tile(d.periode || "Vues", fmtViews(d.vuesPeriode), d.tendance ? el("span", { class: /^[-−]/.test(d.tendance) ? "down" : "up", text: d.tendance }) : "", true),
     tile("Abonnés", fmtViews(d.abonnes), d.abonnesNote || ""),
@@ -1334,7 +1377,7 @@ function renderPfHeader(box, key) {
     ...(d.kpis || []).slice(0, 5).map((k) => tile(k.label, k.valeur, k.sub || ""))));
 }
 function renderPfExtras(box, key) {
-  const d = state.plateformes?.[key];
+  const d = forPeriod(state.plateformes?.[key]);
   if (!d) return;
   if (d.repartition?.length) box.append(el("div", { class: "panel" }, el("h3", { text: d.repartitionTitre || "Répartition" }),
     el("div", { class: "bars-h" }, ...d.repartition.map((r) => el("div", { class: "bar-h" }, el("span", { text: r.label }),
@@ -1346,10 +1389,10 @@ function renderPfExtras(box, key) {
   if (d.constats?.length) box.append(el("div", { class: "panel" }, el("h3", { text: "Ce qu'il faut retenir" }), el("ul", { class: "insights" }, ...d.constats.map((c) => el("li", { text: c })))));
 }
 function renderPfDetail(box, key) {
-  const d = state.plateformes?.[key];
+  const d = forPeriod(state.plateformes?.[key]);
   if (!d) { box.append(el("div", { class: "empty" }, "Pas encore de données pour cette plateforme.")); return; }
   renderPfHeader(box, key);
-  if (d.mois?.length) box.append(el("div", { class: "panel" }, el("h3", { text: d.moisTitre || "Vues par mois" }), monthChart(d.mois, "vues"), d.note ? el("p", { class: "note", text: d.note }) : null));
+  if (d.mois?.length) box.append(el("div", { class: "panel" }, el("h3", { text: d.moisTitre || "Vues par mois" }), monthChart(sliceMois(d.mois), "vues"), d.note ? el("p", { class: "note", text: d.note }) : null));
   renderPfExtras(box, key);
 }
 function tile(label, value, sub, hero = false) { return el("div", { class: `tile${hero ? " hero" : ""}` }, el("div", { class: "label", text: label }), el("div", { class: "value", text: value }), el("div", { class: "sub" }, sub)); }
@@ -1377,6 +1420,28 @@ function monthChart(mois, key = "mediane") {
   });
   return el("div", { class: "chart-wrap" }, svg);
 }
+
+/* ---------- Périodes : 30 jours, 90 jours, 6 mois, 12 mois ---------- */
+const PERIODES = [["30j", "30 jours", 1], ["90j", "90 jours", 3], ["6m", "6 mois", 6], ["12m", "12 mois", 12]];
+state.periode = (() => { try { return localStorage.getItem("studio.periode") || "90j"; } catch (e) { return "90j"; } })();
+const periodeLabel = () => (PERIODES.find((p) => p[0] === state.periode) || PERIODES[1])[1];
+const periodeMois = () => (PERIODES.find((p) => p[0] === state.periode) || PERIODES[1])[2];
+function periodBar() {
+  return el("div", { class: "periods", role: "group", "aria-label": "Période" }, ...PERIODES.map(([k, l]) => el("button", { "aria-pressed": String(state.periode === k),
+    onclick: () => { state.periode = k; try { localStorage.setItem("studio.periode", k); } catch (e) {} render(); } }, l)));
+}
+/* Les documents gardent leurs chiffres par période dans `periodes` ; à défaut, on affiche le dernier relevé et on le signale. */
+function forPeriod(doc) {
+  if (!doc) return doc;
+  const p = doc.periodes?.[state.periode];
+  // La tendance dépend toujours de la période : on ne garde que celle de la période choisie.
+  return p ? { ...doc, tendance: null, ...p, _horsPeriode: false } : { ...doc, _horsPeriode: true };
+}
+function periodNote(doc) {
+  if (!doc || !doc._horsPeriode) return null;
+  return el("p", { class: "period-note", text: `Pas encore de chiffres sur ${periodeLabel()} pour cette partie : elle affiche le dernier relevé disponible. L'analyse du lundi complétera chaque période.` });
+}
+const sliceMois = (mois) => (mois || []).slice(-Math.max(2, periodeMois()));
 
 /* ---------- App & site (relevé de l'espace admin jackbrunet.com) ---------- */
 const fmtNum = (v) => (v == null ? "–" : Number(v).toLocaleString("fr-FR"));
@@ -1423,24 +1488,63 @@ function renderReport(box, a) {
 function renderDocTab(boxSel, majSel, data, emptyText) {
   const box = $(boxSel); box.replaceChildren();
   $(majSel).textContent = data?.majLe ? `Relevé le ${new Date(data.majLe).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}` : "";
+  box.append(periodBar());
   if (!data) { box.append(el("div", { class: "empty" }, emptyText)); return; }
-  renderReport(box, data);
+  const doc = forPeriod(data);
+  const note = periodNote(doc);
+  if (note) box.append(note);
+  renderReport(box, doc);
 }
 const renderApp = () => renderDocTab("#app", "#app-maj", state.app, "Les chiffres de l'app et du site arrivent avec l'analyse du lundi.");
 const pctTxt = (v) => (v == null ? "–" : `${String(v).replace(".", ",")} %`);
+/* Type d'une campagne : envoyée, programmée ou brouillon (champ `type`, sinon déduit du statut). */
+function campType(c) {
+  if (c.type) return c.type;
+  const st = (c.statut || "").toLowerCase();
+  if (st.includes("programm")) return "programmee";
+  if (st.includes("envoy")) return "envoyee";
+  return "brouillon";
+}
+const CAMP_TYPES = [["programmee", "À venir", "Programmée"], ["brouillon", "Brouillons", "Brouillon"], ["envoyee", "Envoyées", "Envoyée"]];
+function campCard(c) {
+  const t = campType(c);
+  const date = c.date ? new Date(c.date + "T12:00:00").toLocaleDateString("fr-FR", { weekday: "short", day: "numeric", month: "short", year: "numeric" }) : "";
+  const stats = t === "envoyee" ? el("div", { class: "camp-stats" },
+    ...[["Envoyés", c.envoyes == null ? "–" : fmtNum(c.envoyes)], ["Ouverture", pctTxt(c.ouverture)], ["Clic", pctTxt(c.clic)],
+      ["Désinscr.", pctTxt(c.desinscription)], ["Ventes", c.ventes == null ? "–" : fmtEur(c.ventes)]]
+      .map(([l, v]) => el("div", {}, el("b", { text: v }), el("span", { text: l })))) : null;
+  return el("article", { class: "camp" },
+    el("div", { class: "camp-head" }, el("span", { class: "camp-name", text: c.nom }), el("span", { class: "camp-date", text: date })),
+    el("span", { class: `chip st-${t}`, text: c.statut || (CAMP_TYPES.find((x) => x[0] === t) || [])[2] || "" }),
+    c.cible ? el("span", { class: "note", text: `Destinataires : ${c.cible}` }) : null,
+    stats);
+}
 function renderEmails() {
-  renderDocTab("#emails", "#emails-maj", state.emails, "Le suivi des campagnes arrive avec l'analyse du lundi.");
-  const camps = state.emails?.campagnes;
-  if (!camps?.length) return;
-  const rows = camps.map((c) => el("tr", {}, el("td", {}, el("b", { text: c.nom }), el("small", { class: "note", style: "display:block", text: c.statut || "" })),
-    el("td", { class: "num", text: c.date ? fmtDate(c.date) : "–" }), el("td", { class: "num", text: c.envoyes == null ? "–" : fmtNum(c.envoyes) }),
-    el("td", { class: "num", text: pctTxt(c.ouverture) }), el("td", { class: "num", text: pctTxt(c.clic) }),
-    el("td", { class: "num", text: pctTxt(c.desinscription) }), el("td", { class: "num", text: c.ventes == null ? "–" : fmtEur(c.ventes) })));
-  const panel = el("div", { class: "panel" }, el("h3", { text: "Tes campagnes" }),
-    el("div", { class: "table-wrap" }, el("table", {}, el("thead", {}, el("tr", {}, ...["Campagne", "Envoi", "Envoyés", "Ouverture", "Clic", "Désinscr.", "Ventes"].map((h) => el("th", { text: h })))), el("tbody", {}, ...rows))),
-    el("p", { class: "note", text: "Ventes : commandes Shopify arrivées par les liens de la campagne (référent « brevo »)." }));
-  const box = $("#emails"), first = box.querySelector(".app-group, .panel");
-  box.insertBefore(panel, first || null);
+  const box = $("#emails"); box.replaceChildren();
+  const d = state.emails;
+  $("#emails-maj").textContent = d?.majLe ? `Relevé le ${new Date(d.majLe).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}` : "";
+  box.append(periodBar());
+  if (!d) { box.append(el("div", { class: "empty" }, "Le suivi des campagnes arrive avec l'analyse du lundi.")); return; }
+  const debut = iso(addDays(new Date(), -Math.round(periodeMois() * 30.4)));
+  const camps = d.campagnes || [];
+  const envoyees = camps.filter((c) => campType(c) === "envoyee" && (!c.date || c.date >= debut));
+  const moy = (k) => { const v = envoyees.map((c) => c[k]).filter((x) => x != null); return v.length ? Math.round((v.reduce((a, b) => a + b, 0) / v.length) * 10) / 10 : null; };
+  const ventes = envoyees.reduce((a, c) => a + (c.ventes || 0), 0);
+  box.append(el("div", { class: "tiles" },
+    tile(`Campagnes envoyées · ${periodeLabel()}`, String(envoyees.length), d.contacts != null ? `${fmtNum(d.contacts)} contacts dans Brevo` : "", true),
+    tile("Ouverture moyenne", pctTxt(moy("ouverture")), "repère : 35 à 45 %"),
+    tile("Clic moyen", pctTxt(moy("clic")), "repère : 3 à 6 %"),
+    tile("Ventes attribuées", envoyees.length ? fmtEur(ventes) : "–", "commandes Shopify venues des e-mails")));
+  for (const [t, titre] of CAMP_TYPES) {
+    const list = (t === "envoyee" ? envoyees : camps.filter((c) => campType(c) === t))
+      .sort((a, b) => (t === "envoyee" ? (b.date || "").localeCompare(a.date || "") : (a.date || "9").localeCompare(b.date || "9")));
+    box.append(el("section", { class: "panel" }, el("h3", { text: `${titre} (${list.length})` }),
+      list.length ? el("div", { class: "camps" }, ...list.map(campCard))
+        : el("p", { class: "note", text: t === "envoyee" ? `Aucune campagne envoyée sur ${periodeLabel()}.` : t === "programmee" ? "Aucune campagne programmée." : "Aucun brouillon." })));
+  }
+  box.append(el("div", { class: "row-actions", style: "margin-bottom:16px" },
+    el("a", { class: "btn", href: "https://app.brevo.com/marketing-campaign/listing", target: "_blank", rel: "noopener" }, "Ouvrir Brevo")));
+  renderReport(box, { constats: d.constats, plan: d.plan, source: d.source });
 }
 const renderRevenus = () => renderDocTab("#revenus", "#revenus-maj", state.revenus, "L'analyse des revenus arrive avec l'analyse du lundi.");
 
@@ -1466,6 +1570,7 @@ function listen(path, key) {
 (async () => {
   const start = (location.hash || "").slice(1);
   setView(["accueil", "calendrier", "idees", "punchlines", "suivi", "app", "revenus", "emails"].includes(start) ? start : "accueil");
+  revealTab(STATS_VIEWS.includes(state.view) ? "suivi" : state.view);
   const db = window.claude?.use ? await window.claude.use("db").catch(() => null) : null;
   if (!db) { $("#offline").hidden = false; render(); return; }
   // Studio privé : les règles de la base réservent déjà tout au propriétaire ; ici on masque aussi l'interface.
