@@ -410,6 +410,7 @@ const I = {
   jeux: "M7 9.5h10a4 4 0 0 1 4 4v1.2a2.8 2.8 0 0 1-5 1.7L14.8 15H9.2L8 16.4a2.8 2.8 0 0 1-5-1.7v-1.2a4 4 0 0 1 4-4zM7.5 12v2.5M6.25 13.25h2.5M15.5 12.6h.01M17.5 14h.01",
   reglages:
     "M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.5-2.4 1a7 7 0 0 0-2-1.2L14 3h-4l-.5 2.6a7 7 0 0 0-2 1.2l-2.4-1-2 3.5 2 1.5a7 7 0 0 0 0 2.4l-2 1.5 2 3.5 2.4-1a7 7 0 0 0 2 1.2L10 21h4l.5-2.6a7 7 0 0 0 2-1.2l2.4 1 2-3.5-2-1.5c.07-.4.1-.8.1-1.2z",
+  studio: "M4 20V10M10 20V4M16 20v-7M22 20H2",
   fermer: "M6 6l12 12M18 6L6 18",
   chevron: "M9 6l6 6-6 6",
 };
@@ -430,9 +431,12 @@ const RHEMA: Ligne[] = [
   { label: "Paramètres", icone: I.reglages, vue: "reglages" },
 ];
 
+/** Visible seulement pour l'admin, sous « Paramètres » (la RLS de studio_docs fait foi). */
+const STUDIO: Ligne = { label: "Studio", icone: I.studio, href: "/admin/studio" };
+
 export function ProfilMenu() {
   const [ouvert, setOuvert] = useState(false);
-  const { userId, profile } = useAuth();
+  const { userId, profile, isAdmin } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -576,7 +580,7 @@ export function ProfilMenu() {
             {/* RHEMA */}
             <div className="relative mt-3 px-5">
               <p className="text-[11px] font-black uppercase tracking-[0.22em] text-cream/40">RHEMA</p>
-              <div className="mt-1 divide-y divide-white/[0.06]">{RHEMA.map(ligne)}</div>
+              <div className="mt-1 divide-y divide-white/[0.06]">{(isAdmin ? [...RHEMA, STUDIO] : RHEMA).map(ligne)}</div>
             </div>
 
             <div className="relative mt-auto flex items-center gap-2.5 px-5 pt-4 text-cream/40">

@@ -1255,21 +1255,6 @@ function Profile({
             </div>
             <span className="shrink-0 text-2xl transition-transform group-hover:translate-x-1">→</span>
           </Link>
-          <Link
-            href="/admin/studio"
-            className="keep-dark group mt-3 flex items-center justify-between gap-4 rounded-3xl border border-dawn-400/40 bg-night-950 p-5 text-cream transition-transform hover:-translate-y-0.5"
-          >
-            <div>
-              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-dawn-300">
-                Réservé
-              </span>
-              <p className="mt-1 font-display text-lg font-extrabold">Studio Jack</p>
-              <p className="mt-0.5 text-sm text-cream/70">
-                Planning, punchlines, agenda, stats des réseaux et revenus.
-              </p>
-            </div>
-            <span className="shrink-0 text-2xl transition-transform group-hover:translate-x-1">→</span>
-          </Link>
         </div>
       ): null}
 
