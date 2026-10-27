@@ -39,7 +39,7 @@ export function StudioSpace() {
   const base = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
   return (
-    <div className="keep-dark fixed inset-0 z-[80] bg-[#1b1b1a] pt-[env(safe-area-inset-top)]">
+    <div className="keep-dark fixed inset-0 z-[80] bg-[#111110] pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
       <iframe
         src={`${base}/studio/index.html`}
         title="Studio Jack"
