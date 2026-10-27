@@ -91,6 +91,9 @@ export function AdminSpace() {
         <p className="mt-1 text-sm text-night-900/60">
           Ton tableau de bord pour tout piloter: statistiques, annonces, podcasts.
         </p>
+        <Link href="/admin/studio" className="btn-primary mt-4 inline-flex">
+          Ouvrir le Studio Jack
+        </Link>
 
         <SommaireAdmin rubriques={RUBRIQUES} {...rubriques} />
 
