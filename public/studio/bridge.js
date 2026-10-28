@@ -110,10 +110,34 @@
     if (!document.hidden) refreshAll();
   });
 
+  /* Chiffres de l'application RHEMA pour l'accueil du Studio. analytics_app_daily donne la courbe
+   * jour par jour ; tant que cette fonction n'est pas installée, on se rabat sur les totaux de
+   * analytics_app_insights (sans courbe). */
+  var rhema = {
+    activite: async function (jours) {
+      var r = await sb.rpc("analytics_app_daily", { jours: jours });
+      if (!r.error && r.data) return Object.assign({ complet: true }, r.data);
+      var ins = await sb.rpc("analytics_app_insights");
+      if (ins.error || !ins.data) return null;
+      var since = new Date(Date.now() - jours * 864e5).toISOString();
+      var p = await sb.from("profiles").select("id", { count: "exact", head: true }).gte("created_at", since);
+      return { complet: false, serie: null, actifs_periode: ins.data.app_active_month, actifs_aujourdhui: ins.data.app_active_day,
+        inscrits_periode: p.error ? null : p.count };
+    },
+    avatar: async function () {
+      var u = await sb.auth.getUser();
+      var id = u.data && u.data.user ? u.data.user.id : null;
+      if (!id) return null;
+      var r = await sb.from("profiles").select("avatar_url").eq("id", id).maybeSingle();
+      return r.data ? r.data.avatar_url : null;
+    },
+  };
+
   window.claude = {
     use: async function (name) {
       if (!sb) return null;
       if (name === "db") return db;
+      if (name === "rhema") return rhema;
       // La page parente n'affiche le Studio qu'à l'admin ; la RLS fait foi.
       if (name === "user") return { isOwner: async function () { return true; } };
       return null;

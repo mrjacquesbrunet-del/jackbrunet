@@ -4,35 +4,39 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap">
 <style>
-/* Studio Jack — coque d'application : barre du haut, onglets en bas (colonne à gauche sur ordinateur),
-   feuilles d'édition qui montent du bas. Noir doux, lime, crème. Manrope pour lire, Instrument Serif italique
-   seulement pour les grands titres et les punchlines. Cibles tactiles de 44 px minimum. */
+/* RHEMA Studio — fond noir profond, cartes crème, accents vert lime. Instrument Serif pour les grands titres
+   et les punchlines, Manrope pour tout le reste. Le Studio reste sombre, quel que soit le réglage du téléphone.
+   Cibles tactiles de 44 px minimum. */
 :root {
-  --bg: #161615;
-  --surface: #222220;
-  --surface-2: #2c2c2a;
-  --line: #393936;
+  --bg: #111111;
+  --surface: #1b1b1a;
+  --surface-2: #262624;
+  --line: #2e2e2c;
   --fg: #f4efe6;
-  --muted: #b3ada1;
-  --lime: #c6f432;
-  --lime-ink: #c6f432;
-  --on-lime: #121212;
-  --cream: #f2ede3;
-  --ink: #111110;
+  --muted: #aaa498;
+  --lime: #c7ff2f;
+  --lime-ink: #c7ff2f;
+  --on-lime: #111111;
+  --cream: #f5f0e8;
+  --ink: #111111;
+  --nav-bg: #191918;
   --st-idee: #a29d93;
   --st-script: #9cc2ff;
   --st-tourne: #e3c2ff;
   --st-valide: #ffd36e;
   --st-programme: #ffab73;
-  --st-publie: #c6f432;
+  --st-publie: #c7ff2f;
   --danger: #ff9585;
   --font-display: "Instrument Serif", "Times New Roman", Georgia, serif;
   --font-ui: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --r-card: 18px;
+  --r-card: 24px;
+  --r-tile: 18px;
   --r-ctl: 12px;
   --tap: 44px;
-  --nav-h: 64px;
+  --nav-h: 68px;
   --rail-w: 232px;
+  --gutter: 14px;
+  --ease: cubic-bezier(.2, .8, .2, 1);
   --safe-b: env(safe-area-inset-bottom, 0px);
   --safe-t: env(safe-area-inset-top, 0px);
   --safe-l: env(safe-area-inset-left, 0px);
@@ -40,20 +44,11 @@
   --radius: var(--r-card);
   color-scheme: dark;
 }
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) {
-    --bg: #f3eee4; --surface: #fffcf6; --surface-2: #ece6d9; --line: #d8d0bf;
-    --fg: #191918; --muted: #5f5a50; --lime-ink: #456000; --cream: #f2ede3; --ink: #111110;
-    --st-idee: #77726a; --st-script: #2558b0; --st-tourne: #7a30b5; --st-valide: #8c5c00; --st-programme: #b34a12; --st-publie: #456000;
-    --danger: #a8231b;
-    color-scheme: light;
-  }
-}
-:root[data-theme="light"] {
-  --bg: #f3eee4; --surface: #fffcf6; --surface-2: #ece6d9; --line: #d8d0bf;
-  --fg: #191918; --muted: #5f5a50; --lime-ink: #456000; --cream: #f2ede3; --ink: #111110;
-  --st-idee: #77726a; --st-script: #2558b0; --st-tourne: #7a30b5; --st-valide: #8c5c00; --st-programme: #b34a12; --st-publie: #456000;
-  --danger: #a8231b;
+/* Cartes crème : on redéfinit les couleurs à l'intérieur, tout le contenu suit. */
+.panel, .card {
+  --fg: #161615; --muted: #6d675c; --surface: #fffaf2; --surface-2: #e8e1d3; --line: #e1d8c7; --bg: #efe8da;
+  --lime-ink: #4b7000; --st-idee: #77726a; --st-script: #2558b0; --st-tourne: #7a30b5; --st-valide: #8c5c00;
+  --st-programme: #b34a12; --st-publie: #4b7000; --danger: #a8231b;
   color-scheme: light;
 }
 
@@ -70,47 +65,64 @@ em.serif, .serif { font-family: var(--font-display); font-style: italic; font-we
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 svg.ic { width: 24px; height: 24px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
-/* ---------- Barre du haut (toujours sombre) ---------- */
-.appbar { position: sticky; top: 0; z-index: 15; background: var(--ink); color: var(--cream);
-  padding: calc(var(--safe-t) + 6px) max(12px, var(--safe-r)) 6px max(12px, var(--safe-l));
-  display: flex; align-items: center; gap: 8px; min-height: calc(56px + var(--safe-t)); }
-.appbar-back { display: inline-flex; align-items: center; gap: 4px; min-height: var(--tap); padding: 0 16px 0 8px; border: 1px solid #3a3a37; border-radius: 999px;
-  background: #1f1f1d; color: var(--cream); font-weight: 800; font-size: .95rem; flex: none; }
-.appbar-back:hover { background: #2a2a28; border-color: var(--cream); }
-.appbar-back[hidden] { display: none; }
-.appbar .brand { margin-left: auto; }
-.appbar-back[hidden] + .brand { margin-left: 0; }
-.brand { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
-.brand .word { font-weight: 800; font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; color: #cfc9bd; }
-.brand .name { font-family: var(--font-display); font-style: italic; font-size: 1.6rem; line-height: 1; color: var(--lime); white-space: nowrap; }
+/* ---------- En-tête : logo RHEMA Studio, alertes, photo ---------- */
+.appbar { position: relative; z-index: 5; color: var(--cream);
+  padding: calc(var(--safe-t) + 14px) max(var(--gutter), var(--safe-r)) 4px max(var(--gutter), var(--safe-l));
+  display: flex; align-items: center; gap: 10px; }
+.appbar-back { display: grid; place-items: center; width: var(--tap); height: var(--tap); flex: none; border: 1px solid #333331; border-radius: 50%;
+  background: #1b1b1a; color: var(--cream); margin-right: 2px; }
+.appbar-back:hover { border-color: var(--cream); }
+.logo { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.logo svg { width: 34px; height: 34px; flex: none; }
+.logo span { font-weight: 800; font-size: 1.32rem; line-height: 1.02; letter-spacing: -.01em; color: var(--cream); }
+.appbar-actions { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.bell { position: relative; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; border: 1px solid #2c2c2a;
+  background: #1a1a19; color: var(--cream); }
+.bell:hover { border-color: #55554f; }
+.bell .dot { position: absolute; top: 5px; right: 4px; width: 11px; height: 11px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 3px var(--bg); }
+.avatar { width: 52px; height: 52px; border-radius: 50%; overflow: hidden; flex: none; background: #2a2a28; box-shadow: 0 0 0 2px #2a2a28; }
+.avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-/* ---------- Navigation : barre d'onglets en bas, colonne à gauche sur grand écran ---------- */
-.navbar { position: fixed; z-index: 14; left: 0; right: 0; bottom: 0; background: var(--ink); color: #c9c3b6;
-  border-top: 1px solid #2a2a28; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain;
-  padding: 6px max(6px, var(--safe-r)) calc(6px + var(--safe-b)) max(6px, var(--safe-l)); }
-.navbar::-webkit-scrollbar { display: none; }
-.navbar > .tab { flex: 0 0 20%; scroll-snap-align: start; }
-/* Indice visuel : la barre continue à droite (ou à gauche) */
-.navbar.more-right { -webkit-mask-image: linear-gradient(to right, #000 86%, transparent); mask-image: linear-gradient(to right, #000 86%, transparent); }
-.navbar.more-left { -webkit-mask-image: linear-gradient(to left, #000 86%, transparent); mask-image: linear-gradient(to left, #000 86%, transparent); }
+/* ---------- Barre de navigation fixe : 5 onglets ---------- */
+.navbar { position: fixed; z-index: 14; left: 0; right: 0; bottom: 0; background: var(--nav-bg); color: #d9d3c7;
+  border-top: 1px solid #262624; border-radius: 26px 26px 0 0; box-shadow: 0 -12px 30px rgb(0 0 0 / .45);
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  padding: 8px max(6px, var(--safe-r)) calc(8px + var(--safe-b)) max(6px, var(--safe-l)); }
 .tab { position: relative; border: 0; background: none; color: inherit; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 3px; min-height: 52px; padding: 4px 2px; border-radius: 14px; font-weight: 700; font-size: .78rem; line-height: 1.1; }
-.tab .tab-ico { display: grid; place-items: center; width: 56px; height: 30px; border-radius: 999px; }
-.tab[aria-current="page"] { color: var(--cream); }
+  gap: 4px; min-height: 56px; padding: 2px; border-radius: 14px; font-weight: 600; font-size: .8rem; line-height: 1.1; }
+.tab .tab-ico { display: grid; place-items: center; width: 52px; height: 34px; border-radius: 12px; }
+.tab[aria-current="page"] { color: var(--lime); font-weight: 800; }
 .tab[aria-current="page"] .tab-ico { background: var(--lime); color: var(--on-lime); }
-.tab .count { position: absolute; top: 2px; left: calc(50% + 10px); min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px;
-  background: var(--cream); color: var(--ink); font-size: .72rem; font-weight: 800; line-height: 20px; text-align: center; font-variant-numeric: tabular-nums; }
+.tab .count { position: absolute; top: 0; left: calc(50% + 12px); min-width: 19px; height: 19px; padding: 0 5px; border-radius: 999px;
+  background: var(--cream); color: var(--ink); font-size: .7rem; font-weight: 800; line-height: 19px; text-align: center; font-variant-numeric: tabular-nums; }
 .tab .count:empty { display: none; }
 
-/* Navigation secondaire des statistiques : contrôle segmenté */
-.seg-nav { display: flex; gap: 4px; padding: 4px; margin: 0 0 20px; background: var(--surface); border-radius: 999px; overflow-x: auto; scrollbar-width: none; }
+/* Bouton de création rapide, posé sur la barre */
+.fab { position: fixed; z-index: 16; left: 50%; bottom: calc(var(--nav-h) + var(--safe-b) - 6px); transform: translateX(-50%);
+  width: 62px; height: 62px; border-radius: 50%; border: 0; background: var(--lime); color: var(--on-lime); display: grid; place-items: center;
+  box-shadow: 0 10px 28px rgb(199 255 47 / .28), 0 4px 12px rgb(0 0 0 / .5); }
+.fab svg { width: 30px; height: 30px; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; fill: none; }
+.fab:active { transform: translateX(-50%) scale(.94); }
+
+/* Sous-navigation d'un onglet (Contenus, Stats, Plus) : contrôle segmenté */
+.seg-nav { display: flex; gap: 4px; padding: 4px; margin: 0 0 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; overflow-x: auto; scrollbar-width: none; }
 .seg-nav::-webkit-scrollbar { display: none; }
-.seg-nav[hidden] { display: none; }
 .stab { flex: 1 0 auto; border: 0; background: none; color: var(--muted); min-height: 40px; padding: 0 16px; border-radius: 999px; font-weight: 700; font-size: .92rem; white-space: nowrap; }
-.stab[aria-current="page"] { background: var(--fg); color: var(--bg); }
+.stab[aria-current="page"] { background: var(--cream); color: var(--ink); }
+
+/* Feuilles de choix (Plus, Créer, Alertes) */
+.menu-list { display: grid; gap: 8px; padding: 4px 0 8px; }
+.menu-item { display: flex; align-items: center; gap: 14px; width: 100%; min-height: 60px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 18px;
+  background: var(--bg); color: var(--fg); text-align: left; font-weight: 700; font-size: 1.02rem; }
+.menu-item:hover { border-color: var(--fg); }
+.menu-item .mi-ico { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 14px; background: var(--lime); color: var(--on-lime); flex: none; }
+.menu-item small { display: block; font-weight: 500; font-size: .86rem; color: var(--muted); margin-top: 1px; }
+.menu-item .chev { margin-left: auto; color: var(--muted); }
+.alert-group h4 { margin: 6px 0 6px; font-size: .9rem; font-weight: 800; color: var(--muted); }
+.alert-group.late h4 { color: var(--danger); }
 
 /* ---------- Contenu ---------- */
-main { max-width: 1100px; margin: 0 auto; padding: 20px max(16px, var(--safe-r)) calc(var(--nav-h) + var(--safe-b) + 40px) max(16px, var(--safe-l)); }
+main { max-width: 1100px; margin: 0 auto; padding: 14px max(var(--gutter), var(--safe-r)) calc(var(--nav-h) + var(--safe-b) + 72px) max(var(--gutter), var(--safe-l)); }
 .banner { border: 1px solid var(--danger); color: var(--danger); border-radius: var(--r-ctl); padding: 12px 14px; margin-bottom: 18px; font-size: .95rem; }
 .head { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: flex-end; margin-bottom: 18px; }
 .head h2 { margin: 0 auto 0 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(2.2rem, 1.6rem + 2.2vw, 3.2rem); line-height: 1.02; text-wrap: balance; letter-spacing: -.005em; }
@@ -154,21 +166,125 @@ input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--lime); }
 .filter[aria-pressed="true"] { background: var(--fg); border-color: var(--fg); color: var(--bg); }
 
 /* Cartes */
-.panel { background: var(--surface); border-radius: var(--r-card); padding: 20px; margin-bottom: 16px; min-width: 0; }
+.panel { background: var(--cream); color: var(--fg); border-radius: var(--r-card); padding: 20px; margin-bottom: 16px; min-width: 0; }
 .panel h3 { margin: 0 0 14px; font-family: var(--font-ui); font-weight: 800; font-size: 1.15rem; line-height: 1.3; letter-spacing: -.005em; }
 .empty { color: var(--muted); padding: 32px 16px; text-align: center; border: 1px dashed var(--line); border-radius: var(--r-card); font-size: 1rem; }
 .note { color: var(--muted); font-size: .9rem; }
 label.note { display: inline-flex; align-items: center; gap: 10px; min-height: var(--tap); }
 
 /* ---------- Accueil ---------- */
-.home-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 16px; }
-.home-grid .panel { margin: 0; }
+.home { display: grid; gap: 14px; }
+.hello { margin: 4px 0 6px; }
+.hello h1 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(2.6rem, 1.9rem + 3.4vw, 3.6rem); line-height: 1; letter-spacing: -.01em; color: var(--cream); }
+.hello h1 em { font-style: italic; color: var(--lime); }
+.hello p { margin: 8px 0 0; font-size: clamp(1.05rem, .98rem + .4vw, 1.2rem); color: #e4ded2; }
+
+/* Quatre indicateurs sombres */
+.kpis { display: grid; grid-template-columns: 1.3fr 1.4fr 1fr 1fr; gap: 8px; }
+.kpi { background: #1b1b1a; border: 1px solid #2e2e2c; border-radius: var(--r-tile); padding: 12px 10px 12px 12px; display: grid; gap: 3px; align-content: start; min-width: 0; text-align: left; color: var(--fg); }
+button.kpi:hover { border-color: #4a4a46; }
+.kpi .k-top { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.kpi .k-ico { width: 26px; height: 26px; flex: none; color: var(--lime); fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.kpi .k-val { font-weight: 800; font-size: clamp(1rem, .72rem + 1.5vw, 1.45rem); line-height: 1.1; letter-spacing: -.01em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.kpi .k-lbl { font-size: clamp(.72rem, .66rem + .3vw, .86rem); color: #d9d3c7; line-height: 1.25; }
+.kpi .k-sub { font-size: clamp(.72rem, .66rem + .3vw, .86rem); font-weight: 800; color: var(--lime); display: flex; align-items: center; gap: 3px; }
+.kpi .k-sub.muted { color: var(--muted); font-weight: 600; }
+.kpi .k-sub.down { color: #ffab73; }
+.kpi .k-body { padding-left: 34px; display: grid; gap: 3px; }
+/* Sur téléphone, l'icône passe au-dessus du chiffre pour laisser toute la largeur aux nombres */
+@media (max-width: 599px) {
+  .kpi { padding: 11px 9px 11px 10px; gap: 2px; }
+  .kpi .k-top { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .kpi .k-ico { width: 22px; height: 22px; }
+  .kpi .k-val { font-size: clamp(.92rem, 4.1vw, 1.3rem); letter-spacing: -.02em; }
+  .kpi .k-body { padding-left: 0; }
+}
+
+/* Cartes crème */
+.card { background: var(--cream); color: var(--fg); border-radius: var(--r-card); padding: 16px 18px; min-width: 0; box-shadow: 0 1px 0 rgb(255 255 255 / .6) inset; }
+.card-head { display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+.card-head h2 { margin: 0; font-weight: 800; font-size: 1.18rem; line-height: 1.2; letter-spacing: -.01em; }
+.card-head h2 small { font-weight: 500; font-size: .92rem; color: #4d4940; margin-left: 4px; }
+.card-head .ic { width: 28px; height: 28px; }
+.card-head .more { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; min-height: var(--tap); border: 0; background: none; color: #3d3a33; font-weight: 600; font-size: .95rem; padding: 0 2px; }
+.card-link { display: flex; justify-content: center; align-items: center; gap: 8px; min-height: var(--tap); margin-top: 6px; border: 0; background: none;
+  color: var(--lime-ink); font-weight: 700; font-size: 1rem; width: 100%; }
+.card-link svg { width: 22px; height: 22px; transition: transform .2s var(--ease); }
+.card-link:hover svg { transform: translateX(3px); }
+
+/* Aujourd'hui */
+.today-list { display: grid; }
+.today-item { display: flex; align-items: center; gap: 14px; min-height: 50px; border-bottom: 1px solid var(--line); }
+.today-item:last-child { border-bottom: 0; }
+.today-item input[type="checkbox"] { appearance: none; -webkit-appearance: none; width: 26px; height: 26px; margin: 0 0 0 10px; flex: none; border: 2px solid #2b2925; border-radius: 6px; background: #fffaf2; display: grid; place-items: center; cursor: pointer; }
+.today-item input[type="checkbox"]:checked { background: var(--lime); border-color: #9bcc1a; }
+.today-item input[type="checkbox"]:checked::after { content: ""; width: 11px; height: 6px; border-left: 2.5px solid #111; border-bottom: 2.5px solid #111; transform: translateY(-2px) rotate(-45deg); }
+.today-item .t { font-size: 1.04rem; line-height: 1.35; min-width: 0; overflow-wrap: anywhere; }
+.today-item.done .t { text-decoration: line-through; color: #8a8478; }
+.today-item .when { margin-left: auto; font-size: .8rem; font-weight: 700; color: var(--muted); white-space: nowrap; padding-left: 8px; }
+.today-item .when.late { color: var(--danger); }
+.today-empty { padding: 14px 4px 4px; color: var(--muted); }
+
+/* Punchline du jour : carte panoramique */
+.punch-hero { position: relative; border-radius: var(--r-card); overflow: hidden; background: #1a1612 url("img/punchline-montagne.webp") center 38% / cover no-repeat;
+  border: 1px solid #2e2e2c; isolation: isolate; }
+.punch-hero::before { content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(90deg, rgb(8 8 8 / .82) 0%, rgb(8 8 8 / .55) 55%, rgb(8 8 8 / .15) 100%), linear-gradient(0deg, rgb(8 8 8 / .7), transparent 60%); }
+.ph-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
+.ph-track::-webkit-scrollbar { display: none; }
+.ph-slide { flex: 0 0 100%; scroll-snap-align: start; padding: 22px 22px 44px; min-height: 226px; display: flex; flex-direction: column; color: #f5f0e8; }
+.ph-badge { align-self: flex-start; background: var(--cream); color: #111; font-weight: 700; font-size: .92rem; padding: 7px 16px; border-radius: 999px; }
+.ph-quote { width: 40px; height: 30px; margin: 14px 0 2px; color: var(--lime); }
+.ph-text { margin: 0; font-family: var(--font-display); font-style: italic; font-size: clamp(1.75rem, 1.35rem + 2vw, 2.4rem); line-height: 1.1; text-wrap: balance;
+  text-shadow: 0 2px 18px rgb(0 0 0 / .45); max-width: 26ch; }
+.ph-cat { margin-top: auto; padding-top: 14px; font-size: 1rem; color: #ece6da; }
+.ph-dots { position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); display: flex; gap: 2px; }
+.ph-dots button { width: 22px; height: 22px; border: 0; background: none; padding: 0; display: grid; place-items: center; }
+.ph-dots button::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: rgb(245 240 232 / .45); transition: background-color .2s, transform .2s; }
+.ph-dots button[aria-current="true"]::after { background: #f5f0e8; transform: scale(1.15); }
+.ph-actions { position: absolute; top: 14px; right: 14px; display: flex; gap: 8px; }
+.ph-actions button { width: var(--tap); height: var(--tap); border-radius: 50%; border: 1px solid rgb(245 240 232 / .25); background: rgb(17 17 17 / .45);
+  color: #f5f0e8; display: grid; place-items: center; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.ph-actions button:hover { border-color: #f5f0e8; }
+.ph-actions svg { width: 20px; height: 20px; }
+
+/* Agenda et réseaux côte à côte */
+.duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.duo .card { padding: 14px 12px 8px; display: flex; flex-direction: column; }
+.duo .card-head { gap: 8px; }
+.duo .card-head h2 { font-size: clamp(.9rem, 3.8vw, 1.12rem); }
+.duo .card-head .ic { width: 24px; height: 24px; }
+.agenda-item { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); text-align: left;
+  background: none; border-left: 0; border-right: 0; border-top: 0; color: inherit; width: 100%; min-height: 64px; }
+.agenda-date { background: #e7e0d2; border-radius: 10px; padding: 6px 8px; font-weight: 800; font-size: .9rem; white-space: nowrap; text-transform: capitalize; }
+.agenda-title { font-size: .96rem; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.duo .card-link { margin-top: auto; }
+.socials { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2px; padding: 14px 0 12px; border-bottom: 1px solid var(--line); }
+.social { display: grid; justify-items: center; gap: 8px; }
+.social svg { width: clamp(30px, 8.5vw, 40px); height: clamp(30px, 8.5vw, 40px); }
+.social b { font-weight: 800; font-size: clamp(.74rem, 3.1vw, 1.05rem); letter-spacing: -.01em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* Activité RHEMA */
+.activity-body { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: end; padding-top: 14px; }
+.act-num { font-weight: 800; font-size: clamp(2rem, 1.6rem + 2vw, 2.6rem); line-height: 1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.act-lbl { font-size: 1.02rem; margin-top: 6px; }
+.act-trend { font-weight: 800; color: var(--lime-ink); display: flex; align-items: center; gap: 4px; margin-top: 4px; }
+.act-trend.down { color: #b34a12; }
+.act-curve { width: 100%; height: 118px; display: block; overflow: visible; }
+.act-curve .area { fill: url(#act-grad); }
+.act-curve .line { fill: none; stroke: #b7ef1f; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; filter: drop-shadow(0 2px 4px rgb(140 190 0 / .35)); }
+.act-curve .end { fill: #e9ff9e; stroke: #b7ef1f; stroke-width: 2.5; }
+.act-curve .base { stroke: var(--line); stroke-width: 1; }
+.act-extra { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+.act-extra div { display: grid; gap: 1px; }
+.act-extra b { font-size: 1.1rem; font-variant-numeric: tabular-nums; }
+.act-extra span { font-size: .8rem; color: var(--muted); line-height: 1.25; }
+.act-extra .live b { display: inline-flex; align-items: center; gap: 6px; }
+.act-extra .live b::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #6fbf00; box-shadow: 0 0 0 3px rgb(111 191 0 / .2); }
+.act-note { font-size: .85rem; color: var(--muted); margin: 10px 0 0; }
+
+/* Écran Tâches (anciennement sur l'accueil) */
 .mini-list { display: grid; gap: 4px; }
-.mini-item { display: flex; gap: 12px; align-items: baseline; justify-content: space-between; border-bottom: 1px solid var(--line); padding: 10px 0; }
-.mini-item:last-child { border-bottom: 0; }
-.mini-item .when { font-size: .82rem; font-weight: 800; color: var(--muted); white-space: nowrap; text-transform: capitalize; }
-.mini-item .what { font-weight: 700; font-size: 1rem; line-height: 1.35; flex: 1; min-width: 0; overflow-wrap: anywhere; }
-.today-punch { font-family: var(--font-display); font-style: italic; font-size: 1.75rem; line-height: 1.2; margin: 0 0 14px; text-wrap: balance; }
 .row-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
 /* À faire */
@@ -420,7 +536,6 @@ dialog::backdrop { background: rgb(8 8 8 / .65); }
 }
 @media (max-width: 560px) {
   .row2 { grid-template-columns: 1fr; }
-  .brand .word { display: none; }
   .funnel-step { grid-template-columns: 1fr auto auto; }
   .funnel-step .trk { grid-column: 1 / -1; grid-row: 2; }
   .bar-h { grid-template-columns: 1fr 3.8rem; }
@@ -433,73 +548,95 @@ dialog::backdrop { background: rgb(8 8 8 / .65); }
 /* ---------- Ordinateur : colonne de navigation à gauche ---------- */
 @media (min-width: 900px) {
   body { font-size: 1rem; }
-  .navbar { top: 0; right: auto; width: var(--rail-w); display: flex; flex-direction: column; gap: 4px; border-top: 0; border-right: 1px solid #2a2a28; overflow: visible;
-    -webkit-mask-image: none !important; mask-image: none !important;
-    padding: calc(var(--safe-t) + 76px) 12px 24px max(12px, var(--safe-l)); }
-  .navbar > .tab { flex: none; }
-  .tab { flex-direction: row; justify-content: flex-start; gap: 12px; min-height: 48px; padding: 0 12px 0 6px; font-size: .98rem; border-radius: 999px; }
-  .tab .tab-ico { width: 40px; height: 36px; }
-  .tab:hover { color: var(--cream); background: #1d1d1b; }
+  .navbar { top: 0; right: auto; width: var(--rail-w); display: flex; flex-direction: column; gap: 4px; border-top: 0; border-right: 1px solid #262624; border-radius: 0; box-shadow: none;
+    padding: calc(var(--safe-t) + 96px) 12px 24px max(12px, var(--safe-l)); }
+  .tab { flex-direction: row; justify-content: flex-start; gap: 12px; min-height: 50px; padding: 0 12px 0 6px; font-size: .98rem; border-radius: 16px; }
+  .tab .tab-ico { width: 44px; height: 36px; }
+  .tab:hover { color: var(--cream); background: #222220; }
   .tab .count { position: static; margin-left: auto; }
   .appbar, main { margin-left: var(--rail-w); }
-  .appbar { position: sticky; }
-  main { padding-bottom: 60px; }
+  .fab { left: auto; right: 32px; bottom: 32px; transform: none; }
+  .fab:active { transform: scale(.94); }
+  main { padding-bottom: 110px; }
   .toast { bottom: 24px; }
   .filters, .subtabs { flex-wrap: wrap; overflow: visible; margin-inline: 0; padding-inline: 0; }
+  .home { gap: 16px; max-width: 880px; }
+}
+@media (max-width: 370px) {
+  .kpis { grid-template-columns: 1fr 1fr; }
+  .duo { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .post, .btn, .filter, .tab, .tab .tab-ico, .stab { transition: border-color .15s, background-color .15s, color .15s; }
-  dialog[open] { animation: sheet-in .22s cubic-bezier(.2, .8, .2, 1); }
-  @keyframes sheet-in { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+  .post, .btn, .filter, .tab, .tab .tab-ico, .stab, .kpi, .menu-item { transition: border-color .15s, background-color .15s, color .15s; }
+  .fab { transition: transform .18s var(--ease); }
+  dialog[open] { animation: sheet-in .26s var(--ease); }
+  @keyframes sheet-in { from { transform: translateY(28px); opacity: 0; } to { transform: none; opacity: 1; } }
+  .home > * { animation: rise .5s var(--ease) both; }
+  .home > *:nth-child(2) { animation-delay: .04s; } .home > *:nth-child(3) { animation-delay: .08s; } .home > *:nth-child(4) { animation-delay: .12s; }
+  .home > *:nth-child(5) { animation-delay: .16s; } .home > *:nth-child(6) { animation-delay: .2s; }
+  @keyframes rise { from { transform: translateY(10px); opacity: 0; } to { transform: none; opacity: 1; } }
+  .act-curve .line { stroke-dasharray: var(--len, 2000); stroke-dashoffset: var(--len, 2000); animation: draw 1.1s .2s var(--ease) forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
 }
 @media (prefers-contrast: more) { :root { --muted: #d6d0c4; --line: #6b6b66; } }
 </style>
 
 <header class="appbar">
-  <button class="appbar-back" id="app-close" hidden aria-label="Retour à RHEMA"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg><span>RHEMA</span></button>
-  <div class="brand"><span class="word">Studio</span><span class="name">Jack Brunet</span></div>
+  <button class="appbar-back" id="app-close" hidden aria-label="Retour à RHEMA"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <div class="logo" aria-label="RHEMA Studio">
+    <svg viewBox="0 0 34 34" aria-hidden="true"><rect x="2" y="17" width="8" height="15" rx="2.5" fill="#c7ff2f"/><rect x="13" y="10" width="8" height="22" rx="2.5" fill="#c7ff2f"/><rect x="24" y="2" width="8" height="30" rx="2.5" fill="#c7ff2f"/></svg>
+    <span>RHEMA<br>Studio</span>
+  </div>
+  <div class="appbar-actions">
+    <button class="bell" id="bell" aria-label="Alertes"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0"/></svg><span class="dot" id="bell-dot" hidden></span></button>
+    <span class="avatar"><img id="avatar" src="../img/jack-avatar.webp" alt="Jack" width="52" height="52"></span>
+  </div>
 </header>
 <nav class="navbar" aria-label="Sections du Studio">
-  <button class="tab" data-view="accueil"><span class="tab-ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg></span><span>Accueil</span><span class="count" id="count-todo" aria-label="à traiter"></span></button>
-  <button class="tab" data-view="calendrier"><span class="tab-ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1zM4 10h16M8 3v4M16 3v4"/></svg></span><span>Agenda</span></button>
-  <button class="tab" data-view="idees"><span class="tab-ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg></span><span>Idées</span><span class="count" id="count-idees" aria-label="à traiter"></span></button>
-  <button class="tab" data-view="punchlines"><span class="tab-ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h4v4c0 3-1.5 5-4 6M15 7h4v4c0 3-1.5 5-4 6"/></svg></span><span>Punchlines</span><span class="count" id="count-punch" aria-label="à traiter"></span></button>
-  <button class="tab" data-view="suivi" data-group="stats"><span class="tab-ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V11M10 20V4M16 20v-7M22 20H2"/></svg></span><span>Stats</span></button>
-  <button class="tab" data-view="revenus"><span class="tab-ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM15 8.5a3.5 3.5 0 1 0 0 7M7.5 11h5M7.5 13.5h5"/></svg></span><span>Revenus</span></button>
-  <button class="tab" data-view="emails"><span class="tab-ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h15A1.5 1.5 0 0 1 21 6.5v11a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5zM3.5 6.5 12 13l8.5-6.5"/></svg></span><span>E-mails</span></button>
+  <button class="tab" data-view="accueil"><span class="tab-ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.2 12 4l8 6.2V19a1.5 1.5 0 0 1-1.5 1.5H15v-5.5H9v5.5H5.5A1.5 1.5 0 0 1 4 19z"/></svg></span><span>Accueil</span></button>
+  <button class="tab" data-view="calendrier"><span class="tab-ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 6.5a1.5 1.5 0 0 1 1.5-1.5h12a1.5 1.5 0 0 1 1.5 1.5V19a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 19zM4.5 10h15M8.5 3v4M15.5 3v4"/></svg></span><span>Agenda</span></button>
+  <button class="tab" data-group="contenus"><span class="tab-ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h16v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19zM4 10l-.6-3.4a1.2 1.2 0 0 1 1-1.4l13.4-2.3a1.2 1.2 0 0 1 1.4 1l.4 2.3L4 10zM8.2 5.4l2.6 3.2M13 4.6l2.6 3.2M8 14h8"/></svg></span><span>Contenus</span><span class="count" id="count-contenus" aria-label="à traiter"></span></button>
+  <button class="tab" data-group="stats"><span class="tab-ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 20v-6M12 20V9M18 20V4"/></svg></span><span>Stats</span></button>
+  <button class="tab" data-group="plus" aria-haspopup="dialog"><span class="tab-ico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 4.5h6v6h-6zM13.5 4.5h6v6h-6zM4.5 13.5h6v6h-6zM13.5 13.5h6v6h-6z"/></svg></span><span>Plus</span><span class="count" id="count-todo" aria-label="tâches à faire"></span></button>
 </nav>
+<button class="fab" id="fab" aria-label="Créer : idée, punchline, contenu, tâche ou événement" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M4 12h16"/></svg></button>
 
 <main>
   <div class="banner" id="offline" hidden>Le Studio n'est pas accessible ici. Ouvre jackbrunet.com/admin/studio, connecté avec ton compte admin, pour voir et modifier ton planning.</div>
 
+  <nav class="seg-nav" id="sub-nav" aria-label="Rubriques" hidden></nav>
+
   <section id="view-accueil" data-panel="accueil">
-    <div class="head"><h2 id="hello">Bonjour <em>Jack</em></h2><span class="note" id="today-date"></span></div>
-    <div class="home-grid">
-      <div class="panel"><h3>Au programme</h3><div class="mini-list" id="home-posts"></div></div>
-      <div class="panel"><h3>Punchline du jour</h3><div id="home-punch"></div></div>
-    </div>
-    <div class="panel">
-      <h3>À faire</h3>
-      <form class="todo-form" id="todo-form">
-        <input type="text" id="todo-text" placeholder="Nouvelle tâche : écrire le script du lundi, tourner 3 reels…" aria-label="Nouvelle tâche" maxlength="200">
-        <input type="date" id="todo-date" aria-label="Échéance">
-        <select id="todo-cat" aria-label="Catégorie"></select>
-        <button type="button" class="star-toggle" id="todo-prio" aria-pressed="false" aria-label="Prioritaire" title="Prioritaire">★</button>
-        <button type="submit" class="btn lime" id="todo-add">Ajouter</button>
-      </form>
-      <div class="filters" id="todo-filters"></div>
-      <div id="todo-list"></div>
-      <label class="note"><input type="checkbox" id="todo-show-done"> Afficher les tâches terminées</label>
-    </div>
-    <div class="panel capture">
-      <h3>Capture rapide</h3>
-      <textarea id="capture-text" rows="3" placeholder="Une idée entendue au culte, un verset, une phrase qui frappe…" aria-label="Capture rapide"></textarea>
-      <div class="row-actions">
-        <button class="btn" id="capture-idea">→ Dans mes idées</button>
-        <button class="btn" id="capture-punch">→ Dans mes punchlines</button>
-        <button class="btn" id="capture-todo">→ En tâche</button>
+    <div class="home">
+      <div class="hello"><h1 id="hello">Bonjour <em>Jack</em></h1><p>Ton espace de création et de gestion</p></div>
+      <div class="kpis" id="kpis"></div>
+      <article class="card" aria-labelledby="today-h">
+        <div class="card-head">
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 6.5a1.5 1.5 0 0 1 1.5-1.5h12a1.5 1.5 0 0 1 1.5 1.5V19a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 19zM4.5 10h15M8.5 3v4M15.5 3v4"/></svg>
+          <h2 id="today-h">Aujourd'hui</h2>
+          <button class="more" id="today-more"><span id="today-count"></span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width:20px;height:20px"><path d="M5 12h13M14 8l4 4-4 4"/></svg></button>
+        </div>
+        <div class="today-list" id="today-list"></div>
+      </article>
+      <article class="punch-hero" id="punch-hero" aria-label="Punchline du jour"></article>
+      <div class="duo">
+        <article class="card" aria-labelledby="agenda-h">
+          <div class="card-head"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 6.5a1.5 1.5 0 0 1 1.5-1.5h12a1.5 1.5 0 0 1 1.5 1.5V19a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 19zM4.5 10h15M8.5 3v4M15.5 3v4"/></svg><h2 id="agenda-h">Agenda</h2></div>
+          <div id="home-agenda"></div>
+          <button class="card-link" data-go="calendrier">Voir l'agenda <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M14 8l4 4-4 4"/></svg></button>
+        </article>
+        <article class="card" aria-labelledby="reseaux-h">
+          <div class="card-head"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 3 8l9 5 9-5zM3 12.5l9 5 9-5M3 16.5l9 5 9-5" transform="translate(0 -1)"/></svg><h2 id="reseaux-h">Réseaux sociaux</h2></div>
+          <div class="socials" id="home-socials"></div>
+          <button class="card-link" data-go="suivi">Voir les stats <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M14 8l4 4-4 4"/></svg></button>
+        </article>
       </div>
+      <article class="card" aria-labelledby="act-h">
+        <div class="card-head"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20v-4M9.5 20v-8M14 20v-6M18.5 20V5"/></svg><h2 id="act-h">Activité RHEMA <small>(30 derniers jours)</small></h2></div>
+        <div id="home-activity"></div>
+        <button class="card-link" data-go="app">Voir les statistiques complètes <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M14 8l4 4-4 4"/></svg></button>
+      </article>
     </div>
   </section>
 
@@ -550,11 +687,6 @@ dialog::backdrop { background: rgb(8 8 8 / .65); }
     <div class="punch-grid" id="punch-list"></div>
   </section>
 
-  <nav class="seg-nav" id="stats-nav" aria-label="Statistiques" hidden>
-    <button class="stab" data-view="suivi">Réseaux</button>
-    <button class="stab" data-view="app">App &amp; site</button>
-  </nav>
-
   <section id="view-suivi" data-panel="suivi" hidden>
     <div class="head"><h2>Suivi <em>des vues</em></h2><span class="note" id="suivi-maj"></span></div>
     <div id="suivi"></div>
@@ -573,6 +705,32 @@ dialog::backdrop { background: rgb(8 8 8 / .65); }
   <section id="view-emails" data-panel="emails" hidden>
     <div class="head"><h2>Campagnes <em>e-mail</em></h2><span class="note" id="emails-maj"></span></div>
     <div id="emails"></div>
+  </section>
+
+  <section id="view-taches" data-panel="taches" hidden>
+    <div class="head"><h2>Tâches <em>&amp; capture</em></h2><span class="note" id="today-date"></span></div>
+    <div class="panel">
+      <h3>À faire</h3>
+      <form class="todo-form" id="todo-form">
+        <input type="text" id="todo-text" placeholder="Nouvelle tâche : écrire le script du lundi, tourner 3 reels…" aria-label="Nouvelle tâche" maxlength="200">
+        <input type="date" id="todo-date" aria-label="Échéance">
+        <select id="todo-cat" aria-label="Catégorie"></select>
+        <button type="button" class="star-toggle" id="todo-prio" aria-pressed="false" aria-label="Prioritaire" title="Prioritaire">★</button>
+        <button type="submit" class="btn lime" id="todo-add">Ajouter</button>
+      </form>
+      <div class="filters" id="todo-filters"></div>
+      <div id="todo-list"></div>
+      <label class="note"><input type="checkbox" id="todo-show-done"> Afficher les tâches terminées</label>
+    </div>
+    <div class="panel capture">
+      <h3>Capture rapide</h3>
+      <textarea id="capture-text" rows="3" placeholder="Une idée entendue au culte, un verset, une phrase qui frappe…" aria-label="Capture rapide"></textarea>
+      <div class="row-actions">
+        <button class="btn" id="capture-idea">→ Dans mes idées</button>
+        <button class="btn" id="capture-punch">→ Dans mes punchlines</button>
+        <button class="btn" id="capture-todo">→ En tâche</button>
+      </div>
+    </div>
   </section>
 </main>
 
@@ -679,6 +837,14 @@ dialog::backdrop { background: rgb(8 8 8 / .65); }
   </form>
 </dialog>
 
+<dialog id="menu-dialog" aria-labelledby="menu-dialog-title">
+  <div class="dlg">
+    <h3 id="menu-dialog-title">Plus</h3>
+    <div class="menu-list" id="menu-list"></div>
+    <div class="dlg-foot"><button type="button" class="btn" data-close>Fermer</button></div>
+  </div>
+</dialog>
+
 <div class="toast" id="toast" role="status" hidden></div>
 
 <script src="bridge.js"></script>
@@ -709,6 +875,7 @@ const state = { db: null, posts: [], ideas: [], punch: [], taches: [], suivi: nu
   weekStart: mondayOf(new Date()), ideaFilter: "Tous", ideaQuery: "", punchFilter: "Toutes", punchQuery: "", punchUsed: "free",
   todoFilter: "Toutes", showDone: false, todoPrio: false,
   evenements: [], calMode: "semaine", monthStart: new Date(new Date().getFullYear(), new Date().getMonth(), 1), editingEvent: null, suiviTab: "ensemble",
+  lastIn: {}, rhema: null, activite: null,
   editing: null, editingIdea: null, editingPunch: null, readOnly: false, pendingSource: null, pendingPunch: null };
 
 const $ = (sel) => document.querySelector(sel);
@@ -732,50 +899,115 @@ function toast(msg) { const t = $("#toast"); t.textContent = msg; t.hidden = fal
 function canWrite() { return !!state.db && !state.readOnly; }
 
 /* ---------- Navigation ---------- */
-const STATS_VIEWS = ["suivi", "app"];
+// Onglets du bas qui regroupent plusieurs écrans : une sous-navigation apparaît en haut de ces écrans.
+const GROUPS = {
+  contenus: [["idees", "Idées"], ["punchlines", "Punchlines"]],
+  stats: [["suivi", "Réseaux"], ["app", "App RHEMA"]],
+  plus: [["revenus", "Revenus"], ["emails", "E-mails"], ["taches", "Tâches"]],
+};
+const VIEWS = ["accueil", "calendrier", ...Object.values(GROUPS).flat().map(([v]) => v)];
+const groupOf = (v) => Object.keys(GROUPS).find((g) => GROUPS[g].some(([x]) => x === v)) || null;
 function setView(v) {
   state.view = v;
-  const isStats = STATS_VIEWS.includes(v);
-  if (isStats) state.lastStats = v;
+  const g = groupOf(v);
+  if (g) state.lastIn[g] = v;
   const mark = (t, on) => (on ? t.setAttribute("aria-current", "page") : t.removeAttribute("aria-current"));
-  document.querySelectorAll(".tab").forEach((t) => mark(t, t.dataset.group === "stats" ? isStats : t.dataset.view === v));
-  document.querySelectorAll(".stab").forEach((t) => mark(t, t.dataset.view === v));
-  $("#stats-nav").hidden = !isStats;
+  document.querySelectorAll(".tab").forEach((t) => mark(t, t.dataset.group ? t.dataset.group === g : t.dataset.view === v));
+  const sub = $("#sub-nav");
+  sub.hidden = !g;
+  if (g) sub.replaceChildren(...GROUPS[g].map(([k, l]) => {
+    const b = el("button", { class: "stab", onclick: () => goTo(k) }, l);
+    mark(b, k === v);
+    return b;
+  }));
   document.querySelectorAll("[data-panel]").forEach((p) => (p.hidden = p.dataset.panel !== v));
   render();
 }
 function goTo(v) {
   setView(v);
-  revealTab(STATS_VIEWS.includes(v) ? "suivi" : v);
   window.scrollTo({ top: 0 });
   try { history.replaceState(null, "", "#" + v); } catch (e) {}
 }
-document.querySelectorAll(".tab").forEach((t) => t.addEventListener("click", () => goTo(t.dataset.group === "stats" ? state.lastStats || "suivi" : t.dataset.view)));
-document.querySelectorAll(".stab").forEach((t) => t.addEventListener("click", () => goTo(t.dataset.view)));
+document.querySelectorAll(".tab").forEach((t) => t.addEventListener("click", () => {
+  const g = t.dataset.group;
+  if (g === "plus") return openMenu("plus");
+  goTo(g ? state.lastIn[g] || GROUPS[g][0][0] : t.dataset.view);
+}));
+document.querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => goTo(b.dataset.go)));
 
-/* La barre d'onglets défile sur téléphone : un fondu indique qu'il reste des onglets à droite ou à gauche. */
-(() => {
-  const nav = document.querySelector(".navbar");
-  const maj = () => {
-    const reste = nav.scrollWidth - nav.clientWidth - nav.scrollLeft;
-    nav.classList.toggle("more-right", reste > 4);
-    nav.classList.toggle("more-left", reste <= 4 && nav.scrollLeft > 4);
-  };
-  nav.addEventListener("scroll", maj, { passive: true });
-  window.addEventListener("resize", maj);
-  requestAnimationFrame(maj);
-})();
-function revealTab(v) { document.querySelector(`.tab[data-view="${v}"]`)?.scrollIntoView({ block: "nearest", inline: "nearest" }); }
+/* Feuilles de choix : Plus, création rapide (+) et alertes (cloche) */
+const ICO = {
+  revenus: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM15 8.5a3.5 3.5 0 1 0 0 7M7.5 11h5M7.5 13.5h5",
+  emails: "M3 6.5A1.5 1.5 0 0 1 4.5 5h15A1.5 1.5 0 0 1 21 6.5v11a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5zM3.5 6.5 12 13l8.5-6.5",
+  taches: "M9 6h11M9 12h11M9 18h11M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2",
+  idee: "M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z",
+  punch: "M7 7h4v4c0 3-1.5 5-4 6M15 7h4v4c0 3-1.5 5-4 6",
+  contenu: "M4 10h16v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19zM4 10l-.6-3.4a1.2 1.2 0 0 1 1-1.4l13.4-2.3a1.2 1.2 0 0 1 1.4 1l.4 2.3L4 10z",
+  tache: "M5 12l4 4 10-10",
+  event: "M4.5 6.5a1.5 1.5 0 0 1 1.5-1.5h12a1.5 1.5 0 0 1 1.5 1.5V19a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 19zM4.5 10h15M8.5 3v4M15.5 3v4",
+  retour: "M15 5l-7 7 7 7",
+};
+const icon = (d, cls = "ic") => { const s = document.createElementNS("http://www.w3.org/2000/svg", "svg"); s.setAttribute("class", cls); s.setAttribute("viewBox", "0 0 24 24"); s.setAttribute("aria-hidden", "true"); s.innerHTML = `<path d="${d}"/>`; return s; };
+const menuDlg = $("#menu-dialog");
+menuDlg.querySelector("[data-close]").onclick = () => menuDlg.close();
+function menuItem(ico, label, sub, action) {
+  return el("button", { class: "menu-item", onclick: () => { menuDlg.close(); action(); } },
+    el("span", { class: "mi-ico" }, icon(ICO[ico])), el("span", {}, label, sub ? el("small", { text: sub }) : null),
+    el("span", { class: "chev" }, icon("M9 5l7 7-7 7")));
+}
+function openMenu(kind) {
+  const today = iso(new Date());
+  let title = "", items = [];
+  if (kind === "plus") {
+    title = "Plus";
+    const open = state.taches.filter((t) => !t.fait).length;
+    items = [
+      menuItem("revenus", "Revenus", "App, mission, livres, réseaux", () => goTo("revenus")),
+      menuItem("emails", "E-mails", "Campagnes Brevo : à venir, envoyées, stats", () => goTo("emails")),
+      menuItem("taches", "Tâches & capture", open ? `${open} à faire` : "Tout est fait", () => goTo("taches")),
+    ];
+    if (window.parent !== window) items.push(menuItem("retour", "Retour à RHEMA", null, backToApp));
+  } else if (kind === "creer") {
+    title = "Créer";
+    const w = canWrite();
+    items = [
+      menuItem("idee", "Nouvelle idée", "Une accroche, un angle, un verset", () => w && openIdea(null)),
+      menuItem("punch", "Nouvelle punchline", "Une phrase qui frappe", () => w && openPunch(null)),
+      menuItem("contenu", "Nouveau contenu", "Reel, image, carrousel… dans l'agenda", () => w && openPost(null, { date: today })),
+      menuItem("tache", "Nouvelle tâche", null, () => { goTo("taches"); setTimeout(() => $("#todo-text").focus(), 60); }),
+      menuItem("event", "Nouvel événement", "Culte, tournage, rendez-vous…", () => w && openEvent(null, { date: today })),
+    ];
+  } else {
+    title = "Alertes";
+    const a = alerts();
+    const group = (label, cls, list) => list.length ? el("div", { class: `alert-group ${cls}` }, el("h4", { text: `${label} · ${list.length}` }), ...list) : null;
+    items = [
+      group("Tâches en retard", "late", a.late.map((t) => menuItem("tache", t.texte, t.echeance ? `Prévue ${relDay(t.echeance).toLowerCase()}` : null, () => goTo("taches")))),
+      group("Aujourd'hui", "", a.today.map((x) => menuItem(x.kind === "post" ? "contenu" : "event", x.titre, x.sub, x.open))),
+    ].filter(Boolean);
+    if (!items.length) items = [el("p", { class: "note", text: "Rien d'urgent : aucune tâche en retard, rien de prévu aujourd'hui." })];
+  }
+  $("#menu-dialog-title").textContent = title;
+  $("#menu-list").replaceChildren(...items);
+  menuDlg.showModal();
+}
+$("#fab").onclick = () => openMenu("creer");
+$("#bell").onclick = () => openMenu("alertes");
+/* Ce qui mérite l'attention aujourd'hui : tâches en retard, événements et contenus du jour */
+function alerts() {
+  const today = iso(new Date());
+  const late = state.taches.filter((t) => !t.fait && t.echeance && t.echeance < today);
+  const evs = occurrences(today, today).filter((o) => !o.fait).map((o) => ({ kind: "ev", titre: o.titre, sub: [o.debut, evLabel(o.type)].filter(Boolean).join(" · "), open: () => openEvent(o) }));
+  const posts = state.posts.filter((p) => p.date === today && p.statut !== "publie").map((p) => ({ kind: "post", titre: p.titre, sub: statutLabel(p.statut), open: () => openPost(p) }));
+  return { late, today: [...evs, ...posts] };
+}
 
 /* Dans l'app RHEMA ou sur le site, le Studio est affiché par-dessus : ce bouton y ramène. */
-if (window.parent !== window) {
-  const back = $("#app-close");
-  back.hidden = false;
-  back.onclick = () => {
-    try { if (window.parent.history.length > 1) window.parent.history.back(); else window.parent.location.href = "/"; }
-    catch (e) { window.parent.location.href = "/"; }
-  };
+function backToApp() {
+  try { if (window.parent.history.length > 1) window.parent.history.back(); else window.parent.location.href = "/"; }
+  catch (e) { window.parent.location.href = "/"; }
 }
+if (window.parent !== window) { const back = $("#app-close"); back.hidden = false; back.onclick = backToApp; }
 
 /* ---------- Calendrier ---------- */
 const EV_TYPES = [["publication", "Publication"], ["ecriture", "Écriture"], ["tournage", "Tournage"], ["montage", "Montage"],
@@ -1223,28 +1455,171 @@ function relDay(dateStr) {
   const d = new Date(dateStr + "T12:00:00");
   return `${DAY_NAMES[(d.getDay() + 6) % 7]} ${d.getDate()}`;
 }
+const fmtInt = (n) => (n == null ? "–" : Math.round(n).toLocaleString("fr-FR"));
+const TODAY_MAX = 4;
+const PUNCH_SLIDES = 5;
+const ARROW_UP = "M12 19V5M6 11l6-6 6 6";
 function renderHome() {
-  const now = new Date();
-  $("#today-date").textContent = now.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
-  const h = now.getHours();
-  $("#hello").replaceChildren(h < 12 ? "Bonjour " : h < 18 ? "Bon après-midi " : "Bonsoir ", el("em", { text: "Jack" }));
-  const upcoming = state.posts.filter((p) => p.date >= iso(now) && p.date <= iso(addDays(now, 6)) && p.statut !== "publie")
-    .sort((a, b) => a.date.localeCompare(b.date));
-  const box = $("#home-posts"); box.replaceChildren();
-  if (!upcoming.length) box.append(el("p", { class: "note", text: state.db ? "Rien de prévu dans les 7 prochains jours. Va piocher dans les Idées." : "Ton planning apparaîtra ici." }));
-  for (const p of upcoming.slice(0, 6)) {
-    box.append(el("div", { class: "mini-item" }, el("span", { class: "when", text: relDay(p.date) }),
-      el("button", { class: "what", style: "border:0;background:none;text-align:left;padding:0;cursor:pointer", onclick: () => openPost(p), text: p.titre }),
-      el("span", { class: `chip s-${p.statut || "idee"}`, text: statutLabel(p.statut) })));
+  const h = new Date().getHours();
+  $("#hello").replaceChildren(h < 18 ? "Bonjour " : "Bonsoir ", el("em", { text: "Jack" }));
+  renderKpis(); renderToday(); renderPunchHero(); renderHomeAgenda(); renderSocials(); renderActivity();
+}
+
+/* Les 4 indicateurs : vues et abonnés des réseaux, contenus publiés ce mois-ci, événements à venir */
+function renderKpis() {
+  const pf = state.plateformes || {};
+  const nets = PF.map(([k]) => pf[k]).filter(Boolean);
+  const vues30 = nets.map((d) => d.periodes?.["30j"]?.vuesPeriode).filter((v) => v != null);
+  const abonnes = nets.map((d) => d.abonnes).filter((v) => v != null);
+  const now = new Date(), month = iso(now).slice(0, 7);
+  const publies = state.posts.filter((p) => p.statut === "publie" && String(p.date || "").startsWith(month)).length;
+  const prevus = state.posts.filter((p) => p.statut !== "publie" && String(p.date || "").startsWith(month)).length;
+  const evs = occurrences(iso(now), iso(addDays(now, 30))).length;
+  const sum = (a) => a.reduce((s, v) => s + v, 0);
+  const tile = (ico, val, lbl, sub, go) => el("button", { class: "kpi", onclick: () => goTo(go) },
+    el("span", { class: "k-top" }, icon(ico, "k-ico"), el("span", { class: "k-val", text: val })),
+    el("span", { class: "k-body" }, el("span", { class: "k-lbl", text: lbl }), sub));
+  const muted = (t) => el("span", { class: "k-sub muted", text: t });
+  $("#kpis").replaceChildren(
+    tile("M3 6.5A2.5 2.5 0 0 1 5.5 4h13A2.5 2.5 0 0 1 21 6.5v11a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5zM10 9v6l5-3z", vues30.length ? fmtViews(sum(vues30)) : "–", "Vues (30 j)",
+      muted(vues30.length ? `${vues30.length} réseaux` : "Analyse du lundi"), "suivi"),
+    tile("M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 20a6 6 0 0 1 12 0M16.5 11a3 3 0 1 0 0-6M18 14.5a5 5 0 0 1 3.5 4.8", abonnes.length ? fmtInt(sum(abonnes)) : "–", "Abonnés",
+      muted(abonnes.length ? `${abonnes.length} réseaux` : "Analyse du lundi"), "suivi"),
+    tile("M6 20v-6M12 20V9M18 20V4", String(publies), "Contenus", muted(prevus ? `+${prevus} prévus` : "ce mois"), "calendrier"),
+    tile(ICO.event, String(evs), "Événements", muted("30 jours"), "calendrier"));
+}
+
+/* Aujourd'hui : tâches en retard, du jour ou prioritaires, et celles cochées aujourd'hui */
+function renderToday() {
+  const today = iso(new Date());
+  const urgent = state.taches.filter((t) => !t.fait && ((t.echeance && t.echeance <= today) || t.prioritaire))
+    .sort((a, b) => String(a.echeance || "9999").localeCompare(String(b.echeance || "9999")) || (!!b.prioritaire - !!a.prioritaire));
+  const doneToday = state.taches.filter((t) => t.fait && String(t.faitLe || "").slice(0, 10) === today);
+  const list = [...doneToday, ...urgent].slice(0, TODAY_MAX);
+  const open = state.taches.filter((t) => !t.fait).length;
+  $("#today-count").textContent = `${open} tâche${open > 1 ? "s" : ""}`;
+  $("#today-more").onclick = () => goTo("taches");
+  const box = $("#today-list");
+  if (!list.length) {
+    box.replaceChildren(el("p", { class: "today-empty", text: state.db ? "Rien d'urgent aujourd'hui. Ajoute une tâche avec le bouton +." : "Tes tâches apparaîtront ici." }));
+    return;
   }
+  box.replaceChildren(...list.map((t) => {
+    const late = !t.fait && t.echeance && t.echeance < today;
+    return el("label", { class: `today-item${t.fait ? " done" : ""}` },
+      el("input", { type: "checkbox", checked: t.fait ? "" : false, disabled: !canWrite(), "aria-label": `${t.fait ? "Rouvrir" : "Terminer"} : ${t.texte}`, onchange: () => toggleTask(t) }),
+      el("span", { class: "t", text: t.texte }),
+      !t.fait && t.echeance && t.echeance !== today ? el("span", { class: `when${late ? " late" : ""}`, text: late ? "En retard" : relDay(t.echeance) }) : null);
+  }));
+}
+
+/* Punchline du jour : quelques punchlines inédites qui changent chaque jour, à faire défiler */
+function dailyPunchlines() {
   const free = state.punch.filter((p) => !p.utilisee).sort((a, b) => (b.vues || 0) - (a.vues || 0));
-  const pick = free.length ? free[(now.getFullYear() * 400 + now.getMonth() * 31 + now.getDate()) % Math.min(free.length, 60)] : null;
-  const pb = $("#home-punch"); pb.replaceChildren();
-  if (!pick) { pb.append(el("p", { class: "note", text: "Ta punchline du jour apparaîtra ici." })); }
-  else pb.append(el("p", { class: "today-punch", text: pick.texte }), el("p", { class: "note", text: pick.categorie }),
-    el("div", { class: "row-actions" }, el("button", { class: "btn small", onclick: () => copy(pick.texte) }, "Copier"),
-      el("button", { class: "btn small lime", disabled: !canWrite(), onclick: () => planPunch(pick) }, "Planifier en image")));
-  renderTodo();
+  if (!free.length) return [];
+  const pool = free.slice(0, 60), d = new Date();
+  const start = (d.getFullYear() * 400 + d.getMonth() * 31 + d.getDate()) % pool.length;
+  return Array.from({ length: Math.min(PUNCH_SLIDES, pool.length) }, (_, i) => pool[(start + i * 7) % pool.length]);
+}
+function renderPunchHero() {
+  const box = $("#punch-hero");
+  const picks = dailyPunchlines();
+  const key = picks.map((p) => p.id).join();
+  if (box.dataset.key === key && key) return; // évite de remettre le carrousel au début à chaque rafraîchissement
+  box.dataset.key = key;
+  const quote = () => { const s = icon("", "ph-quote"); s.setAttribute("viewBox", "0 0 40 30"); s.innerHTML = '<path fill="currentColor" d="M0 30V17C0 7.6 4.6 1.9 13.8 0l1.7 3.6C10.4 5.2 8 8.4 7.6 13H15v17zm22 0V17c0-9.4 4.6-15.1 13.8-17l1.7 3.6C32.4 5.2 30 8.4 29.6 13H37v17z"/>'; return s; };
+  if (!picks.length) {
+    box.replaceChildren(el("div", { class: "ph-slide" }, el("span", { class: "ph-badge", text: "Punchline du jour" }), quote(),
+      el("p", { class: "ph-text", text: state.db ? "Toutes tes punchlines ont été utilisées." : "Ta punchline du jour apparaîtra ici." })));
+    return;
+  }
+  const track = el("div", { class: "ph-track" }, ...picks.map((p, i) => el("div", { class: "ph-slide", role: "group", "aria-label": `Punchline ${i + 1} sur ${picks.length}` },
+    el("span", { class: "ph-badge", text: "Punchline du jour" }), quote(), el("p", { class: "ph-text", text: p.texte }), el("span", { class: "ph-cat", text: p.categorie }))));
+  const current = () => Math.round(track.scrollLeft / Math.max(1, track.clientWidth));
+  const dots = el("div", { class: "ph-dots" }, ...picks.map((_, i) => el("button", { "aria-label": `Afficher la punchline ${i + 1}`, "aria-current": String(i === 0),
+    onclick: () => track.scrollTo({ left: i * track.clientWidth, behavior: "smooth" }) })));
+  track.addEventListener("scroll", () => { const c = current(); [...dots.children].forEach((d, i) => d.setAttribute("aria-current", String(i === c))); }, { passive: true });
+  const actions = el("div", { class: "ph-actions" },
+    el("button", { "aria-label": "Copier la punchline", onclick: () => copy(picks[current()].texte) }, icon("M9 9h10v11H9zM5 15V4h10")),
+    el("button", { "aria-label": "Créer le visuel de cette punchline", disabled: !canWrite(), onclick: () => planPunch(picks[current()]) }, icon("M4 5h16v14H4zM4 15l4.5-4.5 4 4 2.5-2.5L20 17M15.5 9.5h.01")));
+  box.replaceChildren(track, dots, actions);
+}
+
+/* Agenda : les deux prochains rendez-vous (événements et contenus) */
+function renderHomeAgenda() {
+  const now = new Date(), from = iso(now), to = iso(addDays(now, 60));
+  const evs = occurrences(from, to).filter((o) => !o.fait).map((o) => ({ date: o.occ, heure: o.debut || "", titre: o.titre, open: () => openEvent(o) }));
+  const posts = state.posts.filter((p) => p.date >= from && p.date <= to && p.statut !== "publie").map((p) => ({ date: p.date, heure: p.heure || "", titre: p.titre, open: () => openPost(p) }));
+  const next = [...evs, ...posts].sort((a, b) => a.date.localeCompare(b.date) || (a.heure || "99").localeCompare(b.heure || "99")).slice(0, 2);
+  const box = $("#home-agenda");
+  if (!next.length) { box.replaceChildren(el("p", { class: "today-empty", text: state.db ? "Rien de prévu pour l'instant." : "Ton agenda apparaîtra ici." })); return; }
+  box.replaceChildren(...next.map((x) => {
+    const d = new Date(x.date + "T12:00:00");
+    return el("button", { class: "agenda-item", onclick: x.open },
+      el("span", { class: "agenda-date", text: `${DAY_NAMES[(d.getDay() + 6) % 7]} ${d.getDate()}` }), el("span", { class: "agenda-title", text: x.titre }));
+  }));
+}
+
+/* Réseaux sociaux : abonnés par plateforme, dans l'ordre de la maquette */
+const BRAND = {
+  youtube: '<svg viewBox="0 0 40 40" aria-hidden="true"><rect x="2" y="8" width="36" height="24" rx="8" fill="#ff0000"/><path d="M16.5 14v12l10-6z" fill="#fff"/></svg>',
+  tiktok: '<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#111"/><path d="M22.6 9.5h3.5c.3 2.6 2 4.4 4.4 4.7v3.6c-1.7 0-3.2-.5-4.4-1.4v7.4a6.6 6.6 0 1 1-6.6-6.6l.9.1v3.6a3 3 0 1 0 2.2 2.9z" fill="#25f4ee" transform="translate(-.8 -.6)"/><path d="M22.6 9.5h3.5c.3 2.6 2 4.4 4.4 4.7v3.6c-1.7 0-3.2-.5-4.4-1.4v7.4a6.6 6.6 0 1 1-6.6-6.6l.9.1v3.6a3 3 0 1 0 2.2 2.9z" fill="#fe2c55" transform="translate(.8 .6)"/><path d="M22.6 9.5h3.5c.3 2.6 2 4.4 4.4 4.7v3.6c-1.7 0-3.2-.5-4.4-1.4v7.4a6.6 6.6 0 1 1-6.6-6.6l.9.1v3.6a3 3 0 1 0 2.2 2.9z" fill="#fff"/></svg>',
+  instagram: '<svg viewBox="0 0 40 40" aria-hidden="true"><defs><radialGradient id="ig-g" cx="30%" cy="107%" r="150%"><stop offset="0" stop-color="#fdf497"/><stop offset=".05" stop-color="#fdf497"/><stop offset=".45" stop-color="#fd5949"/><stop offset=".6" stop-color="#d6249f"/><stop offset=".9" stop-color="#285aeb"/></radialGradient></defs><rect x="2" y="2" width="36" height="36" rx="10" fill="url(#ig-g)"/><rect x="10" y="10" width="20" height="20" rx="6" fill="none" stroke="#fff" stroke-width="2.6"/><circle cx="20" cy="20" r="4.8" fill="none" stroke="#fff" stroke-width="2.6"/><circle cx="26.3" cy="13.7" r="1.6" fill="#fff"/></svg>',
+  facebook: '<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#0866ff"/><path d="M22.2 39V25.2h4.4l.7-5.2h-5.1v-3.2c0-1.5.5-2.6 2.6-2.6h2.7V9.6c-.5-.1-2.1-.2-3.9-.2-3.9 0-6.5 2.4-6.5 6.7V20h-4.4v5.2h4.4V39z" fill="#fff"/></svg>',
+};
+function renderSocials() {
+  const pf = state.plateformes || {};
+  const svg = (k) => { const t = document.createElement("template"); t.innerHTML = BRAND[k]; return t.content.firstChild; };
+  $("#home-socials").replaceChildren(...[["youtube", "YouTube"], ["tiktok", "TikTok"], ["instagram", "Instagram"], ["facebook", "Facebook"]].map(([k, name]) =>
+    el("button", { class: "social", style: "border:0;background:none;color:inherit;padding:0", "aria-label": `${name} : ${fmtInt(pf[k]?.abonnes)} abonnés`, onclick: () => { state.suiviTab = k; goTo("suivi"); } },
+      svg(k), el("b", { text: fmtViews(pf[k]?.abonnes) }))));
+}
+
+/* Activité RHEMA : utilisateurs actifs de l'application sur 30 jours (vraies statistiques de l'app) */
+const ACT_DAYS = 30;
+async function loadActivity() {
+  if (!state.rhema) return;
+  try { state.activite = await state.rhema.activite(ACT_DAYS); } catch (e) { state.activite = null; }
+  if (state.view === "accueil") renderActivity();
+}
+function curveSvg(serie) {
+  const W = 300, H = 118, pad = 6, vals = serie.map((d) => d.actifs);
+  const max = Math.max(1, ...vals), min = Math.min(...vals), span = Math.max(1, max - min);
+  const pts = vals.map((v, i) => [pad + (i * (W - pad * 2)) / Math.max(1, vals.length - 1), H - 8 - ((v - min) / span) * (H - 30)]);
+  // Courbe lissée (Catmull-Rom vers Bézier)
+  let d = `M${pts[0][0]},${pts[0][1]}`;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2;
+    d += ` C${p1[0] + (p2[0] - p0[0]) / 6},${p1[1] + (p2[1] - p0[1]) / 6} ${p2[0] - (p3[0] - p1[0]) / 6},${p2[1] - (p3[1] - p1[1]) / 6} ${p2[0]},${p2[1]}`;
+  }
+  const last = pts[pts.length - 1];
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("class", "act-curve"); svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.setAttribute("preserveAspectRatio", "none");
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", `Utilisateurs actifs par jour : de ${fmtInt(vals[0])} à ${fmtInt(vals[vals.length - 1])}, maximum ${fmtInt(max)}`);
+  svg.innerHTML = `<defs><linearGradient id="act-grad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd400" stop-opacity=".85"/><stop offset="1" stop-color="#c7ff2f" stop-opacity=".05"/></linearGradient></defs>
+    <line class="base" x1="0" x2="${W}" y1="${H - 1}" y2="${H - 1}"/><path class="area" d="${d} L${last[0]},${H} L${pts[0][0]},${H} Z"/><path class="line" d="${d}"/>
+    <circle class="end" cx="${last[0]}" cy="${last[1]}" r="4.5"/>`;
+  requestAnimationFrame(() => { const line = svg.querySelector(".line"); if (line.getTotalLength) svg.style.setProperty("--len", Math.ceil(line.getTotalLength())); });
+  return svg;
+}
+function renderActivity() {
+  const box = $("#home-activity"), a = state.activite;
+  if (!a) { box.replaceChildren(el("p", { class: "today-empty", text: state.db ? "Chargement des statistiques de l'app…" : "Les statistiques de l'app apparaîtront ici." })); return; }
+  const pct = a.actifs_precedent ? Math.round(((a.actifs_periode - a.actifs_precedent) / a.actifs_precedent) * 100) : null;
+  const trend = pct == null ? null : el("div", { class: `act-trend${pct < 0 ? " down" : ""}` },
+    icon(pct < 0 ? "M12 5v14M6 13l6 6 6-6" : ARROW_UP), `${pct > 0 ? "+" : pct < 0 ? "−" : ""}${Math.abs(pct)} %`);
+  const serie = Array.isArray(a.serie) && a.serie.length > 1 ? a.serie : null;
+  const extra = (val, lbl, cls = "") => el("div", { class: cls }, el("b", { text: fmtInt(val) }), el("span", { text: lbl }));
+  box.replaceChildren(
+    el("div", { class: "activity-body" },
+      el("div", {}, el("div", { class: "act-num", text: fmtInt(a.actifs_periode) }), el("div", { class: "act-lbl", text: "Utilisateurs actifs" }), trend),
+      serie ? curveSvg(serie) : el("div")),
+    el("div", { class: "act-extra" },
+      extra(a.actifs_aujourdhui, "Actifs aujourd'hui"),
+      extra(a.inscrits_periode, "Nouveaux inscrits"),
+      a.en_ce_moment != null ? extra(a.en_ce_moment, "En ce moment (5 min)", "live") : extra(null, "En ce moment")),
+    ...(a.complet ? [] : [el("p", { class: "act-note", text: "La courbe jour par jour et la comparaison avec le mois précédent s'afficheront dès que la fonction analytics_app_daily sera installée dans Supabase." })]));
 }
 
 /* ---------- À faire ---------- */
@@ -1267,6 +1642,10 @@ async function toggleTask(t) {
   try { await state.db.doc(`taches/${t.id}`).update({ fait: !t.fait, faitLe: !t.fait ? new Date().toISOString() : null }); } catch (e) { toast(errorText(e)); }
 }
 async function deleteTask(t) { try { await state.db.doc(`taches/${t.id}`).delete(); toast("Tâche supprimée"); } catch (e) { toast(errorText(e)); } }
+function renderTaches() {
+  $("#today-date").textContent = new Date().toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
+  renderTodo();
+}
 function renderTodo() {
   const cats = ["Toutes", ...TODO_CATS];
   $("#todo-filters").replaceChildren(...cats.map((c) => el("button", { class: "filter", "aria-pressed": String(state.todoFilter === c), onclick: () => { state.todoFilter = c; renderTodo(); } }, c)));
@@ -1550,10 +1929,13 @@ const renderRevenus = () => renderDocTab("#revenus", "#revenus-maj", state.reven
 
 /* ---------- Rendu et données ---------- */
 function render() {
-  $("#count-idees").textContent = state.ideas.length ? String(state.ideas.filter((i) => (i.statut || "a_ecrire") === "a_ecrire").length) : "";
-  $("#count-punch").textContent = state.punch.length ? String(state.punch.filter((p) => !p.utilisee).length) : "";
+  const toWrite = state.ideas.filter((i) => (i.statut || "a_ecrire") === "a_ecrire").length;
+  $("#count-contenus").textContent = toWrite ? String(toWrite) : "";
   const openTasks = state.taches.filter((t) => !t.fait).length;
   $("#count-todo").textContent = openTasks ? String(openTasks) : "";
+  const a = alerts();
+  $("#bell-dot").hidden = !(a.late.length || a.today.length);
+  $("#bell").setAttribute("aria-label", a.late.length || a.today.length ? `Alertes : ${a.late.length + a.today.length} à voir` : "Alertes");
   if (state.view === "accueil") renderHome();
   else if (state.view === "calendrier") renderCalendar();
   else if (state.view === "idees") renderIdeas();
@@ -1561,6 +1943,7 @@ function render() {
   else if (state.view === "suivi") renderSuivi();
   else if (state.view === "app") renderApp();
   else if (state.view === "revenus") renderRevenus();
+  else if (state.view === "taches") renderTaches();
   else renderEmails();
 }
 function listen(path, key) {
@@ -1569,8 +1952,7 @@ function listen(path, key) {
 }
 (async () => {
   const start = (location.hash || "").slice(1);
-  setView(["accueil", "calendrier", "idees", "punchlines", "suivi", "app", "revenus", "emails"].includes(start) ? start : "accueil");
-  revealTab(STATS_VIEWS.includes(state.view) ? "suivi" : state.view);
+  setView(VIEWS.includes(start) ? start : "accueil");
   const db = window.claude?.use ? await window.claude.use("db").catch(() => null) : null;
   if (!db) { $("#offline").hidden = false; render(); return; }
   // Studio privé : les règles de la base réservent déjà tout au propriétaire ; ici on masque aussi l'interface.
@@ -1584,6 +1966,14 @@ function listen(path, key) {
   db.doc("suivi/app").onSnapshot((snap) => { state.app = snap.exists ? snap.data() : null; render(); }, () => {});
   db.doc("suivi/plateformes").onSnapshot((snap) => { state.plateformes = snap.exists ? snap.data() : null; render(); }, () => {});
   render();
+  // Chiffres de l'app RHEMA et photo de profil (seulement dans le site et l'app, via bridge.js)
+  state.rhema = await window.claude.use("rhema").catch(() => null);
+  if (state.rhema) {
+    loadActivity();
+    setInterval(loadActivity, 5 * 60 * 1000);
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) loadActivity(); });
+    state.rhema.avatar().then((url) => { if (url) $("#avatar").src = url; }).catch(() => {});
+  }
 })();
 </script>
 
