@@ -111,12 +111,13 @@ export async function markStoryViewed(storyId: string, me: string) {
 }
 
 /** Nombre de vues de MES stories (affiché dans le lecteur). */
-export async function storyViewCounts(storyIds: string[]): Promise<Record<string, number>> {
+export async function storyViewCounts(storyIds: string[], me?: string): Promise<Record<string, number>> {
   const sb = getSupabase();
   if (!sb || storyIds.length === 0) return {};
-  const { data } = await sb.from("story_views").select("story_id").in("story_id", storyIds);
+  const { data } = await sb.from("story_views").select("story_id,viewer_id").in("story_id", storyIds);
   const out: Record<string, number> = {};
-  for (const r of data ?? []) out[r.story_id] = (out[r.story_id] ?? 0) + 1;
+  // Ma propre vue ne compte pas.
+  for (const r of data ?? []) if (r.viewer_id !== me) out[r.story_id] = (out[r.story_id] ?? 0) + 1;
   return out;
 }
 
@@ -128,4 +129,73 @@ export async function deleteStory(id: string, imageUrl?: string | null) {
     const m = imageUrl.match(/\/wallmedia\/(.+)$/);
     if (m) await sb.storage.from("wallmedia").remove([decodeURIComponent(m[1])]);
   }
+}
+
+/* ---------------- Interactions façon Instagram ---------------- */
+
+/** J'aime / je n'aime plus une story. */
+export async function setStoryLike(storyId: string, me: string, on: boolean): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  const { error } = on
+    ? await sb.from("story_likes").upsert({ story_id: storyId, user_id: me }, { onConflict: "story_id,user_id" })
+    : await sb.from("story_likes").delete().eq("story_id", storyId).eq("user_id", me);
+  return !error;
+}
+
+/** Stories (parmi `storyIds`) que j'aime déjà. */
+export async function myStoryLikes(storyIds: string[], me: string): Promise<Set<string>> {
+  const sb = getSupabase();
+  if (!sb || storyIds.length === 0) return new Set();
+  const { data } = await sb.from("story_likes").select("story_id").eq("user_id", me).in("story_id", storyIds);
+  return new Set((data ?? []).map((r) => r.story_id as string));
+}
+
+/** Nombre de j'aime de MES stories. */
+export async function storyLikeCounts(storyIds: string[]): Promise<Record<string, number>> {
+  const sb = getSupabase();
+  if (!sb || storyIds.length === 0) return {};
+  const { data } = await sb.from("story_likes").select("story_id").in("story_id", storyIds);
+  const out: Record<string, number> = {};
+  for (const r of data ?? []) out[r.story_id] = (out[r.story_id] ?? 0) + 1;
+  return out;
+}
+
+export type StoryViewer = { profile: Profile; vuLe: string | null; aime: boolean };
+
+/** Qui a vu MA story (plus récents d'abord), avec son j'aime. */
+export async function storyViewers(storyId: string, me: string): Promise<StoryViewer[]> {
+  const sb = getSupabase();
+  if (!sb) return [];
+  let vues = (await sb.from("story_views").select("viewer_id,vu_le").eq("story_id", storyId)).data as
+    | { viewer_id: string; vu_le?: string | null }[]
+    | null;
+  // Migration pas encore passée (colonne vu_le absente) : sans l'heure.
+  if (!vues) vues = (await sb.from("story_views").select("viewer_id").eq("story_id", storyId)).data ?? [];
+  const ids = [...new Set(vues.map((v) => v.viewer_id))].filter((id) => id !== me);
+  if (!ids.length) return [];
+  const [{ data: profs }, { data: likes }] = await Promise.all([
+    sb.from("profiles").select("id,pseudo,avatar_url,verified").in("id", ids),
+    sb.from("story_likes").select("user_id").eq("story_id", storyId),
+  ]);
+  const aiment = new Set((likes ?? []).map((l) => l.user_id as string));
+  const parId = new Map((profs ?? []).map((p) => [p.id as string, p as Profile]));
+  return vues
+    .filter((v) => parId.has(v.viewer_id) && v.viewer_id !== me)
+    .map((v) => ({ profile: parId.get(v.viewer_id)!, vuLe: v.vu_le ?? null, aime: aiment.has(v.viewer_id) }))
+    .sort((a, b) => Number(b.aime) - Number(a.aime) || (b.vuLe ?? "").localeCompare(a.vuLe ?? ""));
+}
+
+/** Répond à une story (texte ou réaction) : un message privé à son auteur,
+ * relié à la story pour l'afficher dans la conversation. */
+export async function replyToStory(me: string, story: Story, body: string): Promise<boolean> {
+  const sb = getSupabase();
+  const texte = body.trim();
+  if (!sb || !texte || story.author_id === me) return false;
+  const base = { sender_id: me, recipient_id: story.author_id, body: texte };
+  const { error } = await sb.from("messages").insert({ ...base, story_id: story.id, story_image: story.image_url });
+  if (!error) return true;
+  // Base sans les colonnes story_* : le message part quand même, avec la mention.
+  const { error: e2 } = await sb.from("messages").insert({ ...base, body: `Réponse à ta story : ${texte}` });
+  return !e2;
 }

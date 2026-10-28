@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { Avatar } from "@/components/community/Avatar";
 import type { Profile } from "@/lib/community";
 import {
@@ -9,7 +10,13 @@ import {
   markStoryViewed,
   storyViewCounts,
   deleteStory,
+  setStoryLike,
+  myStoryLikes,
+  storyLikeCounts,
+  storyViewers,
+  replyToStory,
   type StoryGroup,
+  type StoryViewer as Spectateur,
 } from "@/lib/stories";
 import { imageLegere } from "@/lib/image-legere";
 
@@ -20,6 +27,16 @@ import { imageLegere } from "@/lib/image-legere";
  */
 
 const DURATION = 5000; // ms par story
+/** Réactions rapides en réponse à une story (les mêmes que sur le mur de prière). */
+const REACTIONS = ["🙏", "❤️", "🕊️", "🙌", "✨"];
+
+function ilYa(iso: string | null): string {
+  if (!iso) return "";
+  const min = Math.floor((Date.now() - new Date(iso).getTime()) / 60_000);
+  if (min < 1) return "à l'instant";
+  if (min < 60) return `il y a ${min} min`;
+  return `il y a ${Math.floor(min / 60)} h`;
+}
 
 export function StoriesBar({
   me,
@@ -192,6 +209,14 @@ function StoryViewer({
   const [progress, setProgress] = useState(0);
   const [paused, setPaused] = useState(false);
   const [views, setViews] = useState<Record<string, number>>({});
+  const [likes, setLikes] = useState<Record<string, number>>({});
+  const [aimees, setAimees] = useState<Set<string>>(new Set());
+  const [feuille, setFeuille] = useState<Spectateur[] | null>(null);
+  const [texte, setTexte] = useState("");
+  const [saisie, setSaisie] = useState(false);
+  const [envoye, setEnvoye] = useState("");
+  // La story s'arrête pendant qu'on écrit ou qu'on regarde qui l'a vue.
+  const arret = paused || feuille !== null || saisie || texte.length > 0;
   const raf = useRef<number | null>(null);
   const startedAt = useRef(0);
   const elapsed = useRef(0);
@@ -228,14 +253,19 @@ function StoryViewer({
   useEffect(() => {
     if (!story) return;
     void markStoryViewed(story.id, me);
+    const ids = group.stories.map((s) => s.id);
     if (group.mine) {
-      storyViewCounts(group.stories.map((s) => s.id)).then(setViews);
+      storyViewCounts(ids, me).then(setViews);
+      storyLikeCounts(ids).then(setLikes);
+    } else {
+      myStoryLikes(ids, me).then((set) => setAimees((prev) => new Set([...prev, ...set])));
     }
+    setTexte("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [story?.id]);
 
   useEffect(() => {
-    if (paused || !story) return;
+    if (arret || !story) return;
     startedAt.current = performance.now() - elapsed.current;
     const tick = (t: number) => {
       elapsed.current = t - startedAt.current;
@@ -251,9 +281,45 @@ function StoryViewer({
     return () => {
       if (raf.current) cancelAnimationFrame(raf.current);
     };
-  }, [paused, story?.id, next, story]);
+  }, [arret, story?.id, next, story]);
 
   if (!group || !story) return null;
+
+  const aime = aimees.has(story.id);
+  async function basculerJaime() {
+    if (!story) return;
+    const on = !aimees.has(story.id);
+    setAimees((prev) => {
+      const n = new Set(prev);
+      if (on) n.add(story.id);
+      else n.delete(story.id);
+      return n;
+    });
+    const ok = await setStoryLike(story.id, me, on);
+    if (!ok) {
+      setAimees((prev) => {
+        const n = new Set(prev);
+        if (on) n.delete(story.id);
+        else n.add(story.id);
+        return n;
+      });
+    }
+  }
+  async function repondre(contenu: string) {
+    if (!story || !contenu.trim()) return;
+    const ok = await replyToStory(me, story, contenu);
+    setTexte("");
+    setSaisie(false);
+    (document.activeElement as HTMLElement | null)?.blur?.();
+    setEnvoye(ok ? "Envoyé" : "Envoi impossible, réessaie");
+    setTimeout(() => setEnvoye(""), 1600);
+  }
+  async function ouvrirVues() {
+    if (!story) return;
+    setFeuille([]);
+    setFeuille(await storyViewers(story.id, me));
+  }
+  const stop = (e: React.SyntheticEvent) => e.stopPropagation();
 
   return (
     <div
@@ -264,7 +330,7 @@ function StoryViewer({
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img {...imageLegere(story.image_url, 540)} alt="" className="absolute inset-0 h-full w-full object-contain" />
-      <div className="absolute inset-x-0 top-0 bg-gradient-to-b from-black/70 to-transparent pb-10 pt-[max(0.75rem,env(safe-area-inset-top))]">
+      <div className="absolute inset-x-0 top-0 z-10 bg-gradient-to-b from-black/70 to-transparent pb-10 pt-[max(0.75rem,env(safe-area-inset-top))]">
         {/* Segments de progression */}
         <div className="flex gap-1 px-3">
           {group.stories.map((s, i) => (
@@ -289,13 +355,6 @@ function StoryViewer({
           </span>
           {group.mine ? (
             <>
-              <span className="flex items-center gap-1 text-xs font-bold text-white/80">
-                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.9}>
-                  <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" />
-                  <circle cx="12" cy="12" r="3" />
-                </svg>
-                {views[story.id] ?? 0}
-              </span>
               <button
                 type="button"
                 onClick={(e) => {
@@ -343,15 +402,150 @@ function StoryViewer({
         </div>
       </div>
 
-      {story.caption ? (
-        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-12">
+      {story.caption && !saisie ? (
+        <div className="pointer-events-none absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+4.75rem)] bg-gradient-to-t from-black/60 to-transparent px-5 pb-3 pt-10">
           <p className="text-center text-[15px] font-semibold leading-relaxed text-white">{story.caption}</p>
         </div>
       ) : null}
 
-      {/* Zones de navigation : tap gauche = précédent, droite = suivant */}
-      <button type="button" aria-label="Story précédente" onClick={prev} className="absolute inset-y-0 left-0 w-1/3" />
-      <button type="button" aria-label="Story suivante" onClick={next} className="absolute inset-y-0 right-0 w-2/3" />
+      {/* Zones de navigation : tap gauche = précédent, droite = suivant (au-dessus de la barre du bas) */}
+      <button type="button" aria-label="Story précédente" onClick={prev} className="absolute left-0 top-0 bottom-[calc(env(safe-area-inset-bottom)+4.75rem)] w-1/3" />
+      <button type="button" aria-label="Story suivante" onClick={next} className="absolute right-0 top-0 bottom-[calc(env(safe-area-inset-bottom)+4.75rem)] w-2/3" />
+
+      {/* Barre du bas : répondre / j'aime (stories des autres), vues (les miennes) */}
+      <div
+        className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/70 to-transparent px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-6"
+        onPointerDown={stop}
+        onPointerUp={stop}
+      >
+        {group.mine ? (
+          <button
+            type="button"
+            onClick={() => void ouvrirVues()}
+            className="mx-auto flex items-center gap-4 rounded-full bg-white/10 px-5 py-2.5 text-sm font-bold text-white backdrop-blur"
+          >
+            <span className="flex items-center gap-1.5">
+              <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-none stroke-current" strokeWidth={1.9} aria-hidden>
+                <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              Vu par {views[story.id] ?? 0}
+            </span>
+            <span className="flex items-center gap-1.5">
+              <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-current text-dawn-400" aria-hidden>
+                <path d="M12 20s-7-4.5-9.5-9A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9z" />
+              </svg>
+              {likes[story.id] ?? 0}
+            </span>
+          </button>
+        ) : (
+          <>
+            {saisie ? (
+              <div className="mb-3 flex justify-around">
+                {REACTIONS.map((r) => (
+                  <button
+                    key={r}
+                    type="button"
+                    // Avant que le champ perde le focus (sinon la rangée disparaît).
+                    onPointerDown={(e) => e.preventDefault()}
+                    onClick={() => void repondre(r)}
+                    aria-label={`Réagir ${r}`}
+                    className="grid h-12 w-12 place-items-center rounded-full text-[28px] transition-transform active:scale-90"
+                  >
+                    {r}
+                  </button>
+                ))}
+              </div>
+            ) : null}
+            <form
+              className="flex items-center gap-2"
+              onSubmit={(e) => {
+                e.preventDefault();
+                void repondre(texte);
+              }}
+            >
+              <input
+                value={texte}
+                onChange={(e) => setTexte(e.target.value)}
+                onFocus={() => setSaisie(true)}
+                onBlur={() => setSaisie(false)}
+                maxLength={500}
+                enterKeyHint="send"
+                placeholder={`Répondre à ${group.author.pseudo}…`}
+                className="min-w-0 flex-1 rounded-full border border-white/45 bg-black/20 px-4 py-2.5 text-[15px] text-white placeholder:text-white/70 focus:border-white focus:outline-none"
+              />
+              {texte.trim() ? (
+                <button
+                  type="submit"
+                  onPointerDown={(e) => e.preventDefault()}
+                  className="shrink-0 rounded-full bg-dawn-400 px-4 py-2.5 text-sm font-bold text-night-950"
+                >
+                  Envoyer
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => void basculerJaime()}
+                  aria-label={aime ? "Je n'aime plus" : "J'aime"}
+                  aria-pressed={aime}
+                  className="grid h-11 w-11 shrink-0 place-items-center text-white transition-transform active:scale-90"
+                >
+                  <svg viewBox="0 0 24 24" className={`h-7 w-7 ${aime ? "fill-current text-dawn-400" : "fill-none stroke-current"}`} strokeWidth={1.9} aria-hidden>
+                    <path d="M12 20s-7-4.5-9.5-9A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9z" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              )}
+            </form>
+          </>
+        )}
+      </div>
+
+      {envoye ? (
+        <div className="pointer-events-none absolute inset-x-0 top-1/2 z-20 flex justify-center">
+          <span className="rounded-full bg-black/75 px-4 py-2 text-sm font-semibold text-white">{envoye}</span>
+        </div>
+      ) : null}
+
+      {/* Qui a vu ma story */}
+      {feuille !== null ? (
+        <div className="absolute inset-0 z-30 flex flex-col justify-end" onPointerDown={stop} onPointerUp={stop}>
+          <button type="button" aria-label="Fermer" onClick={() => setFeuille(null)} className="absolute inset-0 bg-black/50" />
+          <div className="relative max-h-[65%] overflow-y-auto rounded-t-3xl bg-night-900 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 text-cream">
+            <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-white/20" />
+            <p className="flex items-center justify-between text-sm font-bold">
+              <span>Vu par {views[story.id] ?? feuille.length}</span>
+              <span className="flex items-center gap-1 text-cream/70">
+                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current text-dawn-400" aria-hidden>
+                  <path d="M12 20s-7-4.5-9.5-9A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9z" />
+                </svg>
+                {likes[story.id] ?? 0}
+              </span>
+            </p>
+            {feuille.length === 0 ? (
+              <p className="py-6 text-center text-sm text-cream/55">Personne n'a encore vu ta story.</p>
+            ) : (
+              <ul className="mt-3 space-y-1">
+                {feuille.map((v) => (
+                  <li key={v.profile.id}>
+                    <Link href={`/membre?u=${v.profile.id}`} onClick={onClose} className="flex items-center gap-3 rounded-2xl px-1 py-2 hover:bg-white/5">
+                      <Avatar pseudo={v.profile.pseudo} url={v.profile.avatar_url} size={40} />
+                      <span className="min-w-0 flex-1">
+                        <span className="block truncate text-sm font-semibold">{v.profile.pseudo}</span>
+                        {v.vuLe ? <span className="block text-xs text-cream/50">{ilYa(v.vuLe)}</span> : null}
+                      </span>
+                      {v.aime ? (
+                        <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 fill-current text-dawn-400" aria-label="Aime ta story">
+                          <path d="M12 20s-7-4.5-9.5-9A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9z" />
+                        </svg>
+                      ) : null}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

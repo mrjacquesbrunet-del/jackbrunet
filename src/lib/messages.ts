@@ -11,6 +11,9 @@ export type Message = {
   body: string;
   /** Message vocal (URL publique) — expire au bout de 7 jours. */
   audio_url?: string | null;
+  /** Réponse à une story : la story et son image (gardée après les 24 h). */
+  story_id?: string | null;
+  story_image?: string | null;
   created_at: string;
   read: boolean;
 };

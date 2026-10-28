@@ -24,6 +24,7 @@ import {
 import { localeApp } from "@/lib/i18n";
 import { openExternal } from "@/lib/external";
 import { EnLigneMaintenant } from "@/components/community/EnLigneMaintenant";
+import { urlLegere, repliImage } from "@/lib/image-legere";
 
 /** Date discrète d'une conversation : heure si aujourd'hui, « hier », puis
  * « il y a X j », puis la date courte. */
@@ -423,6 +424,25 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
                     <p className="my-2 w-full self-center text-center text-[11px] font-semibold text-night-900/35">
                       {dayLabel(m.created_at)}
                     </p>
+                  ) : null}
+                  {m.story_image ? (
+                    <div className={`mb-1 flex flex-col ${mine ? "items-end" : "items-start"}`}>
+                      <span className="mb-1 px-1 text-[11px] font-semibold text-night-900/45">
+                        {mine ? "Tu as répondu à sa story" : "A répondu à ta story"}
+                      </span>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={urlLegere(m.story_image, 96)}
+                        onError={(e) => {
+                          // Story supprimée : on retire l'image plutôt qu'une image cassée.
+                          if (e.currentTarget.src.includes("/render/image/")) repliImage(m.story_image)?.(e);
+                          else e.currentTarget.style.display = "none";
+                        }}
+                        alt="Story"
+                        loading="lazy"
+                        className="h-36 w-24 rounded-2xl border border-night-900/10 object-cover"
+                      />
+                    </div>
                   ) : null}
                   <div
                     translate="no"
