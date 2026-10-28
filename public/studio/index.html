@@ -198,6 +198,7 @@ button.kpi:hover { border-color: #4a4a46; }
   .kpi .k-ico { width: 22px; height: 22px; }
   .kpi .k-val { font-size: clamp(.92rem, 4.1vw, 1.3rem); letter-spacing: -.02em; }
   .kpi .k-body { padding-left: 0; }
+  .kpi .k-lbl, .kpi .k-sub { font-size: clamp(.66rem, 2.9vw, .86rem); }
 }
 
 /* Cartes crème */
@@ -259,10 +260,11 @@ button.kpi:hover { border-color: #4a4a46; }
 .agenda-date { background: #e7e0d2; border-radius: 10px; padding: 6px 8px; font-weight: 800; font-size: .9rem; white-space: nowrap; text-transform: capitalize; }
 .agenda-title { font-size: .96rem; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .duo .card-link { margin-top: auto; }
-.socials { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2px; padding: 14px 0 12px; border-bottom: 1px solid var(--line); }
+.socials { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 4px; padding: 14px 0 12px; border-bottom: 1px solid var(--line); }
 .social { display: grid; justify-items: center; gap: 8px; }
-.social svg { width: clamp(30px, 8.5vw, 40px); height: clamp(30px, 8.5vw, 40px); }
-.social b { font-weight: 800; font-size: clamp(.74rem, 3.1vw, 1.05rem); letter-spacing: -.01em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.social svg { width: clamp(34px, 10vw, 44px); height: clamp(34px, 10vw, 44px); }
+.social small { font-size: .72rem; color: var(--muted); margin-top: -6px; }
+.social b { font-weight: 800; font-size: clamp(.95rem, 4vw, 1.15rem); letter-spacing: -.01em; font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 /* Activité RHEMA */
 .activity-body { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: end; padding-top: 14px; }
@@ -283,7 +285,40 @@ button.kpi:hover { border-color: #4a4a46; }
 .act-extra .live b::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #6fbf00; box-shadow: 0 0 0 3px rgb(111 191 0 / .2); }
 .act-note { font-size: .85rem; color: var(--muted); margin: 10px 0 0; }
 
-/* Écran Tâches (anciennement sur l'accueil) */
+/* Cartes en demi-largeur : Activité, Tâches */
+.card-head .head-count { margin-left: auto; min-width: 26px; height: 26px; padding: 0 8px; border-radius: 999px; background: #1a1a19; color: var(--cream);
+  font-size: .8rem; font-weight: 800; line-height: 26px; text-align: center; font-variant-numeric: tabular-nums; }
+.card-head .head-count:empty { display: none; }
+.act-mini { padding-top: 12px; display: grid; gap: 2px; }
+.act-mini .act-num { font-size: clamp(1.6rem, 1.2rem + 2vw, 2.3rem); }
+.act-mini .act-lbl { font-size: .85rem; margin-top: 2px; color: #4d4940; }
+.act-mini .act-trend { font-size: .9rem; margin-top: 2px; }
+.act-mini .act-trend svg { width: 16px; height: 16px; }
+.act-mini .act-curve { height: 64px; margin-top: 8px; }
+.act-mini .act-line { font-size: .78rem; color: var(--muted); line-height: 1.35; margin-top: 6px; }
+.act-mini .act-line b { color: var(--fg); font-variant-numeric: tabular-nums; }
+.act-mini .act-line .live::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #6fbf00; margin: 0 5px 1px 0; vertical-align: middle; }
+.duo .today-item { gap: 10px; min-height: 46px; padding: 6px 0; }
+.duo .today-item input[type="checkbox"] { width: 22px; height: 22px; margin-left: 0; }
+.duo .today-item .t { font-size: .88rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.duo .today-item .when { display: none; }
+.duo .today-item.late .t { color: var(--danger); }
+.quick-task { display: flex; gap: 6px; margin-top: 10px; }
+.quick-task input { flex: 1; min-width: 0; min-height: 40px; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--line); background: #fffaf2; font-size: 16px; }
+.quick-task button { width: 40px; height: 40px; flex: none; border-radius: 50%; border: 0; background: var(--lime); color: var(--on-lime); display: grid; place-items: center; }
+.quick-task button svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; fill: none; }
+.duo .agenda-item { min-height: 56px; padding: 8px 0; gap: 10px; }
+.duo .agenda-date { font-size: .8rem; padding: 5px 7px; }
+.duo .agenda-title { font-size: .88rem; }
+/* Campagnes e-mail */
+.mail-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding-top: 14px; }
+.mail-stats div { display: grid; gap: 2px; }
+.mail-stats b { font-size: clamp(1.4rem, 1.1rem + 1.5vw, 1.9rem); font-weight: 800; line-height: 1.05; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+.mail-stats span { font-size: .8rem; color: var(--muted); line-height: 1.3; }
+.mail-next { margin: 12px 0 0; padding: 10px 12px; border-radius: 14px; background: #e9e2d4; font-size: .9rem; line-height: 1.4; }
+.mail-next.alert { background: #eaffb8; }
+
+/* Écran Tâches */
 .mini-list { display: grid; gap: 4px; }
 .row-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
@@ -611,20 +646,11 @@ dialog::backdrop { background: rgb(8 8 8 / .65); }
     <div class="home">
       <div class="hello"><h1 id="hello">Bonjour <em>Jack</em></h1><p>Ton espace de création et de gestion</p></div>
       <div class="kpis" id="kpis"></div>
-      <article class="card" aria-labelledby="today-h">
-        <div class="card-head">
-          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 6.5a1.5 1.5 0 0 1 1.5-1.5h12a1.5 1.5 0 0 1 1.5 1.5V19a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 19zM4.5 10h15M8.5 3v4M15.5 3v4"/></svg>
-          <h2 id="today-h">Aujourd'hui</h2>
-          <button class="more" id="today-more"><span id="today-count"></span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width:20px;height:20px"><path d="M5 12h13M14 8l4 4-4 4"/></svg></button>
-        </div>
-        <div class="today-list" id="today-list"></div>
-      </article>
-      <article class="punch-hero" id="punch-hero" aria-label="Punchline du jour"></article>
       <div class="duo">
-        <article class="card" aria-labelledby="agenda-h">
-          <div class="card-head"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 6.5a1.5 1.5 0 0 1 1.5-1.5h12a1.5 1.5 0 0 1 1.5 1.5V19a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 19zM4.5 10h15M8.5 3v4M15.5 3v4"/></svg><h2 id="agenda-h">Agenda</h2></div>
-          <div id="home-agenda"></div>
-          <button class="card-link" data-go="calendrier">Voir l'agenda <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M14 8l4 4-4 4"/></svg></button>
+        <article class="card" aria-labelledby="act-h">
+          <div class="card-head"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20v-4M9.5 20v-8M14 20v-6M18.5 20V5"/></svg><h2 id="act-h">Activité RHEMA</h2></div>
+          <div id="home-activity"></div>
+          <button class="card-link" data-go="app">Voir le détail <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M14 8l4 4-4 4"/></svg></button>
         </article>
         <article class="card" aria-labelledby="reseaux-h">
           <div class="card-head"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 3 8l9 5 9-5zM3 12.5l9 5 9-5M3 16.5l9 5 9-5" transform="translate(0 -1)"/></svg><h2 id="reseaux-h">Réseaux sociaux</h2></div>
@@ -632,10 +658,27 @@ dialog::backdrop { background: rgb(8 8 8 / .65); }
           <button class="card-link" data-go="suivi">Voir les stats <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M14 8l4 4-4 4"/></svg></button>
         </article>
       </div>
-      <article class="card" aria-labelledby="act-h">
-        <div class="card-head"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20v-4M9.5 20v-8M14 20v-6M18.5 20V5"/></svg><h2 id="act-h">Activité RHEMA <small>(30 derniers jours)</small></h2></div>
-        <div id="home-activity"></div>
-        <button class="card-link" data-go="app">Voir les statistiques complètes <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M14 8l4 4-4 4"/></svg></button>
+      <div class="duo">
+        <article class="card" aria-labelledby="agenda-h">
+          <div class="card-head"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 6.5a1.5 1.5 0 0 1 1.5-1.5h12a1.5 1.5 0 0 1 1.5 1.5V19a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 19zM4.5 10h15M8.5 3v4M15.5 3v4"/></svg><h2 id="agenda-h">Agenda</h2></div>
+          <div id="home-agenda"></div>
+          <button class="card-link" data-go="calendrier">Voir l'agenda <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M14 8l4 4-4 4"/></svg></button>
+        </article>
+        <article class="card" aria-labelledby="today-h">
+          <div class="card-head"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/></svg><h2 id="today-h">Tâches</h2><span class="head-count" id="today-count"></span></div>
+          <div class="today-list" id="today-list"></div>
+          <form class="quick-task" id="quick-task">
+            <input type="text" id="quick-task-text" placeholder="Ajouter…" aria-label="Nouvelle tâche" maxlength="200" enterkeyhint="done">
+            <button type="submit" aria-label="Ajouter la tâche"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+          </form>
+          <button class="card-link" data-go="taches">Tout voir <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M14 8l4 4-4 4"/></svg></button>
+        </article>
+      </div>
+      <article class="punch-hero" id="punch-hero" aria-label="Punchline du jour"></article>
+      <article class="card" aria-labelledby="mail-h">
+        <div class="card-head"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h15A1.5 1.5 0 0 1 21 6.5v11a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5zM3.5 6.5 12 13l8.5-6.5"/></svg><h2 id="mail-h">Campagnes e-mail <small>(30 j)</small></h2></div>
+        <div id="home-emails"></div>
+        <button class="card-link" data-go="emails">Voir les campagnes <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M14 8l4 4-4 4"/></svg></button>
       </article>
     </div>
   </section>
@@ -1456,24 +1499,25 @@ function relDay(dateStr) {
   return `${DAY_NAMES[(d.getDay() + 6) % 7]} ${d.getDate()}`;
 }
 const fmtInt = (n) => (n == null ? "–" : Math.round(n).toLocaleString("fr-FR"));
-const TODAY_MAX = 4;
+const TODAY_MAX = 3;
 const PUNCH_SLIDES = 5;
 const ARROW_UP = "M12 19V5M6 11l6-6 6 6";
 function renderHome() {
   const h = new Date().getHours();
   $("#hello").replaceChildren(h < 18 ? "Bonjour " : "Bonsoir ", el("em", { text: "Jack" }));
-  renderKpis(); renderToday(); renderPunchHero(); renderHomeAgenda(); renderSocials(); renderActivity();
+  renderKpis(); renderActivity(); renderSocials(); renderHomeAgenda(); renderToday(); renderPunchHero(); renderHomeEmails();
 }
 
-/* Les 4 indicateurs : vues et abonnés des réseaux, contenus publiés ce mois-ci, événements à venir */
+/* Les 4 indicateurs : vues et abonnés des réseaux, publications Instagram du mois, événements à venir.
+   Les contenus sont comptés sur Instagram seulement : les mêmes vidéos sont dupliquées sur les autres réseaux. */
 function renderKpis() {
   const pf = state.plateformes || {};
   const nets = PF.map(([k]) => pf[k]).filter(Boolean);
   const vues30 = nets.map((d) => d.periodes?.["30j"]?.vuesPeriode).filter((v) => v != null);
   const abonnes = nets.map((d) => d.abonnes).filter((v) => v != null);
   const now = new Date(), month = iso(now).slice(0, 7);
-  const publies = state.posts.filter((p) => p.statut === "publie" && String(p.date || "").startsWith(month)).length;
-  const prevus = state.posts.filter((p) => p.statut !== "publie" && String(p.date || "").startsWith(month)).length;
+  const pub = pf.instagram?.publications;
+  const pubOk = pub && pub.mois === month;
   const evs = occurrences(iso(now), iso(addDays(now, 30))).length;
   const sum = (a) => a.reduce((s, v) => s + v, 0);
   const tile = (ico, val, lbl, sub, go) => el("button", { class: "kpi", onclick: () => goTo(go) },
@@ -1485,32 +1529,60 @@ function renderKpis() {
       muted(vues30.length ? `${vues30.length} réseaux` : "Analyse du lundi"), "suivi"),
     tile("M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 20a6 6 0 0 1 12 0M16.5 11a3 3 0 1 0 0-6M18 14.5a5 5 0 0 1 3.5 4.8", abonnes.length ? fmtInt(sum(abonnes)) : "–", "Abonnés",
       muted(abonnes.length ? `${abonnes.length} réseaux` : "Analyse du lundi"), "suivi"),
-    tile("M6 20v-6M12 20V9M18 20V4", String(publies), "Contenus", muted(prevus ? `+${prevus} prévus` : "ce mois"), "calendrier"),
+    tile("M6 20v-6M12 20V9M18 20V4", pubOk ? String(pub.total) : "–", "Contenus", muted(pubOk ? "ce mois (IG)" : "Relevé du lundi"), "suivi"),
     tile(ICO.event, String(evs), "Événements", muted("30 jours"), "calendrier"));
 }
 
-/* Aujourd'hui : tâches en retard, du jour ou prioritaires, et celles cochées aujourd'hui */
+/* Tâches : d'abord les tâches en retard, du jour ou prioritaires, puis les suivantes par échéance */
 function renderToday() {
   const today = iso(new Date());
-  const urgent = state.taches.filter((t) => !t.fait && ((t.echeance && t.echeance <= today) || t.prioritaire))
-    .sort((a, b) => String(a.echeance || "9999").localeCompare(String(b.echeance || "9999")) || (!!b.prioritaire - !!a.prioritaire));
+  const open = state.taches.filter((t) => !t.fait)
+    .sort((a, b) => {
+      const ua = (a.echeance && a.echeance <= today) || a.prioritaire, ub = (b.echeance && b.echeance <= today) || b.prioritaire;
+      return (!!ub - !!ua) || String(a.echeance || "9999").localeCompare(String(b.echeance || "9999"));
+    });
   const doneToday = state.taches.filter((t) => t.fait && String(t.faitLe || "").slice(0, 10) === today);
-  const list = [...doneToday, ...urgent].slice(0, TODAY_MAX);
-  const open = state.taches.filter((t) => !t.fait).length;
-  $("#today-count").textContent = `${open} tâche${open > 1 ? "s" : ""}`;
-  $("#today-more").onclick = () => goTo("taches");
+  const list = [...open, ...doneToday].slice(0, TODAY_MAX);
+  $("#today-count").textContent = open.length ? String(open.length) : "";
   const box = $("#today-list");
   if (!list.length) {
-    box.replaceChildren(el("p", { class: "today-empty", text: state.db ? "Rien d'urgent aujourd'hui. Ajoute une tâche avec le bouton +." : "Tes tâches apparaîtront ici." }));
+    box.replaceChildren(el("p", { class: "today-empty", text: state.db ? "Aucune tâche. Ajoute la première ici." : "Tes tâches apparaîtront ici." }));
     return;
   }
   box.replaceChildren(...list.map((t) => {
     const late = !t.fait && t.echeance && t.echeance < today;
-    return el("label", { class: `today-item${t.fait ? " done" : ""}` },
+    return el("label", { class: `today-item${t.fait ? " done" : ""}${late ? " late" : ""}`, title: t.echeance ? relDay(t.echeance) : "" },
       el("input", { type: "checkbox", checked: t.fait ? "" : false, disabled: !canWrite(), "aria-label": `${t.fait ? "Rouvrir" : "Terminer"} : ${t.texte}`, onchange: () => toggleTask(t) }),
-      el("span", { class: "t", text: t.texte }),
-      !t.fait && t.echeance && t.echeance !== today ? el("span", { class: `when${late ? " late" : ""}`, text: late ? "En retard" : relDay(t.echeance) }) : null);
+      el("span", { class: "t", text: t.texte }));
   }));
+}
+$("#quick-task").addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  const input = $("#quick-task-text"), texte = input.value.trim();
+  if (!texte || !canWrite()) return;
+  if (await addTask({ texte, echeance: null, categorie: "Admin", prioritaire: false })) input.value = "";
+});
+
+/* Campagnes e-mail des 30 derniers jours : envoyées, ouverture et clic moyens */
+function renderHomeEmails() {
+  const box = $("#home-emails"), d = state.emails;
+  if (!d) { box.replaceChildren(el("p", { class: "today-empty", text: state.db ? "Le suivi des campagnes arrive avec l'analyse du lundi." : "Tes campagnes apparaîtront ici." })); return; }
+  const debut = iso(addDays(new Date(), -30));
+  const camps = d.campagnes || [];
+  const envoyees = camps.filter((c) => campType(c) === "envoyee" && (!c.date || c.date >= debut));
+  const moy = (k) => { const v = envoyees.map((c) => c[k]).filter((x) => x != null); return v.length ? Math.round((v.reduce((a, b) => a + b, 0) / v.length) * 10) / 10 : null; };
+  const stat = (val, lbl) => el("div", {}, el("b", { text: val }), el("span", { text: lbl }));
+  const prochaine = camps.filter((c) => campType(c) === "programmee").sort((a, b) => (a.date || "9").localeCompare(b.date || "9"))[0];
+  const brouillons = camps.filter((c) => campType(c) === "brouillon").length;
+  const rappel = prochaine
+    ? el("p", { class: "mail-next", text: `Prochaine : ${prochaine.nom}${prochaine.date ? ` · ${relDay(prochaine.date)}` : ""}` })
+    : el("p", { class: `mail-next${envoyees.length ? "" : " alert"}`,
+      text: envoyees.length ? (brouillons ? `${brouillons} brouillon${brouillons > 1 ? "s" : ""} prêt${brouillons > 1 ? "s" : ""} à programmer.` : "Aucune campagne programmée.")
+        : `Aucune campagne envoyée depuis 30 jours${brouillons ? ` : ${brouillons} brouillon${brouillons > 1 ? "s" : ""} prêt${brouillons > 1 ? "s" : ""}` : ""}.` });
+  box.replaceChildren(el("div", { class: "mail-stats" },
+    stat(String(envoyees.length), `Campagne${envoyees.length > 1 ? "s" : ""} envoyée${envoyees.length > 1 ? "s" : ""}`),
+    stat(pctTxt(moy("ouverture")), "Ouverture moyenne"),
+    stat(pctTxt(moy("clic")), "Clic moyen")), rappel);
 }
 
 /* Punchline du jour : quelques punchlines inédites qui changent chaque jour, à faire défiler */
@@ -1550,7 +1622,7 @@ function renderHomeAgenda() {
   const now = new Date(), from = iso(now), to = iso(addDays(now, 60));
   const evs = occurrences(from, to).filter((o) => !o.fait).map((o) => ({ date: o.occ, heure: o.debut || "", titre: o.titre, open: () => openEvent(o) }));
   const posts = state.posts.filter((p) => p.date >= from && p.date <= to && p.statut !== "publie").map((p) => ({ date: p.date, heure: p.heure || "", titre: p.titre, open: () => openPost(p) }));
-  const next = [...evs, ...posts].sort((a, b) => a.date.localeCompare(b.date) || (a.heure || "99").localeCompare(b.heure || "99")).slice(0, 2);
+  const next = [...evs, ...posts].sort((a, b) => a.date.localeCompare(b.date) || (a.heure || "99").localeCompare(b.heure || "99")).slice(0, 3);
   const box = $("#home-agenda");
   if (!next.length) { box.replaceChildren(el("p", { class: "today-empty", text: state.db ? "Rien de prévu pour l'instant." : "Ton agenda apparaîtra ici." })); return; }
   box.replaceChildren(...next.map((x) => {
@@ -1572,7 +1644,7 @@ function renderSocials() {
   const svg = (k) => { const t = document.createElement("template"); t.innerHTML = BRAND[k]; return t.content.firstChild; };
   $("#home-socials").replaceChildren(...[["youtube", "YouTube"], ["tiktok", "TikTok"], ["instagram", "Instagram"], ["facebook", "Facebook"]].map(([k, name]) =>
     el("button", { class: "social", style: "border:0;background:none;color:inherit;padding:0", "aria-label": `${name} : ${fmtInt(pf[k]?.abonnes)} abonnés`, onclick: () => { state.suiviTab = k; goTo("suivi"); } },
-      svg(k), el("b", { text: fmtViews(pf[k]?.abonnes) }))));
+      svg(k), el("b", { text: fmtViews(pf[k]?.abonnes) }), el("small", { text: "abonnés" }))));
 }
 
 /* Activité RHEMA : utilisateurs actifs de l'application sur 30 jours (vraies statistiques de l'app) */
@@ -1584,7 +1656,8 @@ async function loadActivity() {
 }
 function curveSvg(serie) {
   const W = 300, H = 118, pad = 6, vals = serie.map((d) => d.actifs);
-  const max = Math.max(1, ...vals), min = Math.min(...vals), span = Math.max(1, max - min);
+  // Le bas du graphique est à 70 % du minimum : les variations normales d'un jour à l'autre ne sont pas grossies.
+  const max = Math.max(1, ...vals), min = Math.min(...vals) * 0.7, span = Math.max(1, max - min);
   const pts = vals.map((v, i) => [pad + (i * (W - pad * 2)) / Math.max(1, vals.length - 1), H - 8 - ((v - min) / span) * (H - 30)]);
   // Courbe lissée (Catmull-Rom vers Bézier)
   let d = `M${pts[0][0]},${pts[0][1]}`;
@@ -1609,17 +1682,14 @@ function renderActivity() {
   const pct = a.actifs_precedent ? Math.round(((a.actifs_periode - a.actifs_precedent) / a.actifs_precedent) * 100) : null;
   const trend = pct == null ? null : el("div", { class: `act-trend${pct < 0 ? " down" : ""}` },
     icon(pct < 0 ? "M12 5v14M6 13l6 6 6-6" : ARROW_UP), `${pct > 0 ? "+" : pct < 0 ? "−" : ""}${Math.abs(pct)} %`);
-  const serie = Array.isArray(a.serie) && a.serie.length > 1 ? a.serie : null;
-  const extra = (val, lbl, cls = "") => el("div", { class: cls }, el("b", { text: fmtInt(val) }), el("span", { text: lbl }));
-  box.replaceChildren(
-    el("div", { class: "activity-body" },
-      el("div", {}, el("div", { class: "act-num", text: fmtInt(a.actifs_periode) }), el("div", { class: "act-lbl", text: "Utilisateurs actifs" }), trend),
-      serie ? curveSvg(serie) : el("div")),
-    el("div", { class: "act-extra" },
-      extra(a.actifs_aujourdhui, "Actifs aujourd'hui"),
-      extra(a.inscrits_periode, "Nouveaux inscrits"),
-      a.en_ce_moment != null ? extra(a.en_ce_moment, "En ce moment (5 min)", "live") : extra(null, "En ce moment")),
-    ...(a.complet ? [] : [el("p", { class: "act-note", text: "La courbe jour par jour et la comparaison avec le mois précédent s'afficheront dès que la fonction analytics_app_daily sera installée dans Supabase." })]));
+  // Le dernier point est la journée en cours, encore incomplète : il est affiché à part (« aujourd'hui »).
+  const serie = Array.isArray(a.serie) && a.serie.length > 2 ? a.serie.slice(0, -1) : null;
+  const line = el("div", { class: "act-line" }, el("b", { text: fmtInt(a.actifs_aujourdhui) }), " aujourd'hui",
+    a.en_ce_moment != null ? el("span", {}, el("br"), el("span", { class: "live" }), el("b", { text: fmtInt(a.en_ce_moment) }), " en ce moment") : null,
+    a.inscrits_periode != null ? el("span", {}, el("br"), el("b", { text: fmtInt(a.inscrits_periode) }), " nouveaux inscrits") : null);
+  box.replaceChildren(el("div", { class: "act-mini" },
+    el("div", { class: "act-num", text: fmtInt(a.actifs_periode) }), el("div", { class: "act-lbl", text: "utilisateurs actifs (30 j)" }), trend,
+    serie ? curveSvg(serie) : null, line));
 }
 
 /* ---------- À faire ---------- */
