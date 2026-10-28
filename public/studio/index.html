@@ -423,6 +423,34 @@ main { padding-top: 6px; }
 .mail-stats span { font-size: .66rem; }
 .mail-next { margin-top: 8px; padding: 7px 10px; border-radius: 10px; font-size: .72rem; }
 
+/* Publier partout */
+.pub { display: grid; gap: 16px; }
+.pub-chaines { display: flex; flex-wrap: wrap; gap: 8px; }
+.pub-ch { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 4px 12px 4px 5px; border-radius: 999px; border: 1.5px solid var(--line);
+  background: var(--surface); font-weight: 700; font-size: .85rem; color: var(--muted); }
+.pub-ch svg, .pub-ch img { width: 28px; height: 28px; border-radius: 50%; flex: none; }
+.pub-ch[aria-pressed="true"] { border-color: var(--fg); color: var(--fg); background: #fff; box-shadow: 0 0 0 1px var(--fg) inset; }
+.pub-ch[disabled] { opacity: .4; }
+.pub-file { display: flex; align-items: center; justify-content: center; min-height: 64px; border: 1.5px dashed var(--line); border-radius: var(--r-ctl);
+  background: var(--surface); color: var(--muted); font-weight: 700; font-size: .9rem; cursor: pointer; text-align: center; padding: 8px 12px; overflow-wrap: anywhere; }
+.pub-file input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.pub-file:focus-within { outline: 3px solid var(--lime); outline-offset: 2px; }
+.pub-apercu:empty { display: none; }
+.pub-apercu { display: flex; align-items: flex-start; gap: 10px; }
+.pub-apercu img, .pub-apercu video { max-width: 150px; max-height: 190px; border-radius: 12px; background: #111; }
+.pub-quand { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+input[type="datetime-local"] { min-height: 40px; border: 1px solid var(--line); background: var(--surface); border-radius: var(--r-ctl); padding: 6px 12px; font-size: 16px; }
+.pub-warn { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.pub-warn:empty { display: none; }
+.pub-warn li { padding: 8px 12px; border-radius: 10px; background: #fbe3d4; color: #7a2d0c; font-size: .85rem; line-height: 1.4; }
+.pub-warn li.info { background: var(--surface-2); color: var(--muted); }
+.pub #pub-go { justify-self: start; min-width: 12rem; }
+.pub #pub-go.confirm { background: var(--fg); border-color: var(--fg); color: var(--cream); }
+.pub-histo { list-style: none; margin: 0; padding: 0; display: grid; }
+.pub-histo li { display: grid; gap: 2px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: .88rem; }
+.pub-histo li:last-child { border-bottom: 0; }
+.pub-histo .t { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
 /* Écran Tâches */
 .mini-list { display: grid; gap: 4px; }
 .row-actions { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -862,6 +890,27 @@ dialog::backdrop { background: rgb(8 8 8 / .65); }
     <div id="emails"></div>
   </section>
 
+  <section id="view-publier" data-panel="publier" hidden>
+    <div class="head"><h2>Publier <em>partout</em></h2></div>
+    <form class="panel pub" id="pub-form" novalidate>
+      <div class="field"><span class="lbl">Réseaux</span><div class="pub-chaines" id="pub-chaines"></div></div>
+      <div class="field"><label for="pub-texte">Texte</label>
+        <textarea id="pub-texte" rows="5" maxlength="5000" placeholder="Ton message, ta légende…"></textarea></div>
+      <div class="field"><span class="lbl">Image ou vidéo</span>
+        <label class="pub-file"><input type="file" id="pub-fichier" accept="image/*,video/*"><span id="pub-fichier-nom">Choisir un fichier</span></label>
+        <div class="pub-apercu" id="pub-apercu"></div></div>
+      <div class="field" id="pub-titre-f" hidden><label for="pub-titre">Titre de la vidéo YouTube</label>
+        <input type="text" id="pub-titre" maxlength="100" placeholder="2 à 100 caractères"></div>
+      <div class="field"><span class="lbl">Quand</span>
+        <div class="pub-quand"><div class="seg" role="group" aria-label="Quand publier">
+          <button type="button" data-quand="now" aria-pressed="true">Maintenant</button><button type="button" data-quand="plus-tard" aria-pressed="false">Programmer</button></div>
+          <input type="datetime-local" id="pub-date" aria-label="Date et heure de publication" hidden></div></div>
+      <ul class="pub-warn" id="pub-warn"></ul>
+      <button class="btn lime" type="submit" id="pub-go">Publier</button>
+    </form>
+    <div class="panel" id="pub-histo"></div>
+  </section>
+
   <section id="view-taches" data-panel="taches" hidden>
     <div class="head"><h2>Tâches <em>&amp; capture</em></h2><span class="note" id="today-date"></span></div>
     <div class="panel">
@@ -1026,7 +1075,7 @@ const CHECKLIST = [
   ["neuf", "Vidéo tournée neuve (pas un ancien tournage republié)"],
 ];
 
-const state = { db: null, posts: [], ideas: [], punch: [], taches: [], suivi: null, plateformes: null, app: null, revenus: null, partenaires: null, emails: null, view: "accueil",
+const state = { db: null, posts: [], ideas: [], punch: [], taches: [], publications: [], suivi: null, plateformes: null, app: null, revenus: null, partenaires: null, emails: null, view: "accueil",
   weekStart: mondayOf(new Date()), ideaFilter: "Tous", ideaQuery: "", punchFilter: "Toutes", punchQuery: "", punchUsed: "free",
   todoFilter: "Toutes", showDone: false, todoPrio: false,
   evenements: [], calMode: "semaine", monthStart: new Date(new Date().getFullYear(), new Date().getMonth(), 1), editingEvent: null, suiviTab: "ensemble",
@@ -1058,7 +1107,7 @@ function canWrite() { return !!state.db && !state.readOnly; }
 const GROUPS = {
   contenus: [["idees", "Idées"], ["punchlines", "Punchlines"]],
   stats: [["suivi", "Réseaux"], ["app", "App RHEMA"]],
-  plus: [["revenus", "Revenus"], ["emails", "E-mails"], ["taches", "Tâches"]],
+  plus: [["publier", "Publier"], ["revenus", "Revenus"], ["emails", "E-mails"], ["taches", "Tâches"]],
 };
 const VIEWS = ["accueil", "calendrier", ...Object.values(GROUPS).flat().map(([v]) => v)];
 const groupOf = (v) => Object.keys(GROUPS).find((g) => GROUPS[g].some(([x]) => x === v)) || null;
@@ -1101,6 +1150,7 @@ const ICO = {
   tache: "M5 12l4 4 10-10",
   event: "M4.5 6.5a1.5 1.5 0 0 1 1.5-1.5h12a1.5 1.5 0 0 1 1.5 1.5V19a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 19zM4.5 10h15M8.5 3v4M15.5 3v4",
   retour: "M15 5l-7 7 7 7",
+  publier: "M4 12.5 20 4l-5.5 16-3.2-6.8zM11.3 13.2 20 4",
 };
 const icon = (d, cls = "ic") => { const s = document.createElementNS("http://www.w3.org/2000/svg", "svg"); s.setAttribute("class", cls); s.setAttribute("viewBox", "0 0 24 24"); s.setAttribute("aria-hidden", "true"); s.innerHTML = `<path d="${d}"/>`; return s; };
 const menuDlg = $("#menu-dialog");
@@ -1117,6 +1167,7 @@ function openMenu(kind) {
     title = "Plus";
     const open = state.taches.filter((t) => !t.fait).length;
     items = [
+      menuItem("publier", "Publier partout", "Facebook, Instagram, TikTok, YouTube", () => goTo("publier")),
       menuItem("revenus", "Revenus", "App, mission, livres, partenaires", () => goTo("revenus")),
       menuItem("emails", "E-mails", "Campagnes Brevo : à venir, envoyées, stats", () => goTo("emails")),
       menuItem("taches", "Tâches & capture", open ? `${open} à faire` : "Tout est fait", () => goTo("taches")),
@@ -1126,6 +1177,7 @@ function openMenu(kind) {
     title = "Créer";
     const w = canWrite();
     items = [
+      menuItem("publier", "Publier partout", "Un message sur tous tes réseaux", () => goTo("publier")),
       menuItem("idee", "Nouvelle idée", "Une accroche, un angle, un verset", () => w && openIdea(null)),
       menuItem("punch", "Nouvelle punchline", "Une phrase qui frappe", () => w && openPunch(null)),
       menuItem("contenu", "Nouveau contenu", "Reel, image, carrousel… dans l'agenda", () => w && openPost(null, { date: today })),
@@ -2131,6 +2183,113 @@ function renderRevenus() {
   if (state.partenaires) $("#revenus").firstElementChild.after(partnerPanel(state.partenaires));
 }
 
+/* ---------- Publier partout (Postiz, via la fonction publier-partout) ----------
+ * Le formulaire est fixe dans la page : render() ne fait que rafraîchir les réseaux, les alertes et l'historique,
+ * pour ne jamais effacer un texte en cours de frappe. */
+const MAX_FICHIER = 500 * 1024 * 1024;
+const pub = { api: null, chaines: null, erreur: null, choix: new Set(), quand: "now", fichier: null, envoi: false, confirme: false, echec: null };
+const reseauDe = (c) => (c.identifier.startsWith("instagram") ? "instagram" : c.identifier);
+const NOM_RESEAU = { instagram: "Instagram", facebook: "Facebook", tiktok: "TikTok", youtube: "YouTube" };
+async function loadChaines() {
+  if (!pub.api) { pub.erreur = "La publication n'est disponible que dans le Studio de jackbrunet.com ou de l'app."; render(); return; }
+  try {
+    pub.chaines = await pub.api.chaines(); pub.erreur = null;
+    if (!pub.choix.size) pub.chaines.filter((c) => !c.disabled).forEach((c) => pub.choix.add(c.id));
+  } catch (e) { pub.erreur = e.message; }
+  render();
+}
+/* Ce qui empêche l'envoi (bloquant) et ce qu'il est bon de savoir (info). */
+function pubAlertes() {
+  const out = pub.echec ? [["erreur", pub.echec]] : [], f = pub.fichier, video = !!f && f.type.startsWith("video/");
+  const choisies = (pub.chaines || []).filter((c) => pub.choix.has(c.id));
+  const texte = $("#pub-texte").value.trim();
+  if (!choisies.length) out.push(["bloque", "Choisis au moins un réseau."]);
+  // Formulaire vide : une seule indication douce plutôt qu'une liste d'erreurs.
+  if (!texte && !f) return [...out, ["attente", "Écris ton texte et ajoute une image ou une vidéo : Instagram et TikTok en demandent une, YouTube une vidéo."]];
+  if (f && f.size > MAX_FICHIER) out.push(["bloque", "Fichier trop lourd : 500 Mo maximum."]);
+  for (const c of choisies) {
+    const r = reseauDe(c);
+    if ((r === "instagram" || r === "tiktok") && !f) out.push(["bloque", `${NOM_RESEAU[r]} demande une image ou une vidéo.`]);
+    if (r === "youtube" && !video) out.push(["bloque", "YouTube demande une vidéo."]);
+    if (r === "youtube" && video && $("#pub-titre").value.trim().length < 2) out.push(["bloque", "Donne un titre à la vidéo YouTube."]);
+  }
+  if (pub.quand !== "now") {
+    const d = new Date($("#pub-date").value);
+    if (Number.isNaN(d.getTime()) || d.getTime() < Date.now() + 5 * 60 * 1000) out.push(["bloque", "Choisis une date à au moins 5 minutes d'ici."]);
+  }
+  if (choisies.some((c) => reseauDe(c) === "facebook") && texte && !f) out.push(["info", "Sur Facebook, le texte part seul : c'est possible."]);
+  return out;
+}
+function pubMaj() {
+  const al = pubAlertes(), bloque = al.some(([k]) => k === "bloque" || k === "attente");
+  $("#pub-warn").replaceChildren(...al.map(([k, t]) => el("li", { class: k === "info" || k === "attente" ? "info" : "", text: t })));
+  const yt = (pub.chaines || []).some((c) => pub.choix.has(c.id) && reseauDe(c) === "youtube");
+  $("#pub-titre-f").hidden = !yt;
+  const n = pub.choix.size, go = $("#pub-go");
+  go.disabled = bloque || pub.envoi || !pub.chaines;
+  go.classList.toggle("confirm", pub.confirme);
+  go.textContent = pub.envoi ? "Publication en cours…" : pub.confirme
+    ? `Confirmer : ${pub.quand === "now" ? "publier maintenant" : "programmer"} sur ${n} réseau${n > 1 ? "x" : ""}`
+    : pub.quand === "now" ? "Publier" : "Programmer";
+}
+function renderPublier() {
+  const box = $("#pub-chaines");
+  if (pub.erreur) box.replaceChildren(el("p", { class: "note", text: pub.erreur }));
+  else if (!pub.chaines) box.replaceChildren(el("p", { class: "note", text: "Chargement des réseaux…" }));
+  else if (!pub.chaines.length) box.replaceChildren(el("p", { class: "note", text: "Aucun réseau connecté dans Postiz pour le moment." }));
+  else box.replaceChildren(...pub.chaines.map((c) => {
+    const r = reseauDe(c), logo = BRAND[r] ? (() => { const t = document.createElement("template"); t.innerHTML = BRAND[r]; return t.content.firstChild; })()
+      : el("img", { src: c.picture || "", alt: "" });
+    return el("button", { type: "button", class: "pub-ch", "aria-pressed": String(pub.choix.has(c.id)), disabled: c.disabled || pub.envoi,
+      title: c.disabled ? "Déconnecté dans Postiz" : c.name,
+      onclick: () => { pub.choix.has(c.id) ? pub.choix.delete(c.id) : pub.choix.add(c.id); pub.confirme = false; renderPublier(); } },
+      logo, NOM_RESEAU[r] || c.name);
+  }));
+  const h = [...(state.publications || [])].sort((a, b) => (b.creeLe || "").localeCompare(a.creeLe || "")).slice(0, 10);
+  $("#pub-histo").replaceChildren(el("h3", { text: "Dernières publications" }), h.length
+    ? el("ul", { class: "pub-histo" }, ...h.map((x) => el("li", {},
+      el("span", { class: "note", text: `${x.programme ? "Programmée pour le" : "Publiée le"} ${new Date(x.date).toLocaleString("fr-FR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })} · ${(x.reseaux || []).map((r) => NOM_RESEAU[reseauDe({ identifier: r })] || r).join(", ")}` }),
+      el("span", { class: "t", text: x.texte || (x.media ? "(image ou vidéo sans texte)" : "") }))))
+    : el("p", { class: "note", text: "Rien de publié depuis le Studio pour l'instant." }));
+  pubMaj();
+}
+function pubApercu() {
+  const f = pub.fichier, box = $("#pub-apercu");
+  $("#pub-fichier-nom").textContent = f ? f.name : "Choisir un fichier";
+  if (!f) { box.replaceChildren(); return; }
+  const src = URL.createObjectURL(f);
+  box.replaceChildren(f.type.startsWith("video/") ? el("video", { src, muted: "", playsinline: "", controls: "" }) : el("img", { src, alt: "Aperçu" }),
+    el("button", { type: "button", class: "btn small", onclick: () => { pub.fichier = null; $("#pub-fichier").value = ""; pub.confirme = false; pubApercu(); pubMaj(); } }, "Retirer"));
+}
+$("#pub-fichier").addEventListener("change", (e) => { pub.fichier = e.target.files[0] || null; pub.confirme = false; pubApercu(); pubMaj(); });
+["#pub-texte", "#pub-titre", "#pub-date"].forEach((s) => $(s).addEventListener("input", () => { pub.confirme = false; pub.echec = null; pubMaj(); }));
+document.querySelectorAll("[data-quand]").forEach((b) => b.addEventListener("click", () => {
+  pub.quand = b.dataset.quand; pub.confirme = false;
+  document.querySelectorAll("[data-quand]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+  $("#pub-date").hidden = pub.quand === "now";
+  if (pub.quand !== "now" && !$("#pub-date").value) { const d = addDays(new Date(), 1); d.setHours(18, 0, 0, 0); $("#pub-date").value = `${iso(d)}T18:00`; }
+  pubMaj();
+}));
+$("#pub-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  if (pubAlertes().some(([k]) => k === "bloque") || pub.envoi) return;
+  // Premier appui : on demande confirmation, car une publication ne se reprend pas.
+  if (!pub.confirme) { pub.confirme = true; pubMaj(); return; }
+  pub.envoi = true; pub.confirme = false; pub.echec = null; renderPublier();
+  const texte = $("#pub-texte").value.trim(), chaines = [...pub.choix];
+  const date = pub.quand === "now" ? null : new Date($("#pub-date").value).toISOString();
+  try {
+    const r = await pub.api.envoyer({ texte, titre: $("#pub-titre").value.trim(), chaines, date, fichier: pub.fichier });
+    toast(r.programme ? "Publication programmée" : "Publication envoyée");
+    if (canWrite()) state.db.collection("publications").add({ creeLe: new Date().toISOString(), date: r.date, programme: r.programme,
+      reseaux: r.reseaux, texte: texte.slice(0, 280), media: !!pub.fichier }).catch(() => {});
+    $("#pub-form").reset(); pub.fichier = null; pubApercu();
+    document.querySelector('[data-quand="now"]').click();
+  } catch (err) {
+    pub.echec = err.message; toast(err.message);
+  } finally { pub.envoi = false; renderPublier(); }
+});
+
 /* ---------- Rendu et données ---------- */
 function render() {
   const toWrite = state.ideas.filter((i) => (i.statut || "a_ecrire") === "a_ecrire").length;
@@ -2148,6 +2307,7 @@ function render() {
   else if (state.view === "app") renderApp();
   else if (state.view === "revenus") renderRevenus();
   else if (state.view === "taches") renderTaches();
+  else if (state.view === "publier") renderPublier();
   else renderEmails();
 }
 function listen(path, key) {
@@ -2163,6 +2323,7 @@ function listen(path, key) {
   const user = await window.claude.use("user").catch(() => null);
   if (user && !(await user.isOwner())) { document.querySelector(".navbar")?.remove(); document.querySelector("main").replaceChildren(el("div", { class: "empty locked" }, el("h2", { text: "Accès réservé" }), el("p", { text: "Ce studio est personnel : seul son propriétaire peut le consulter." }))); return; }
   state.db = db;
+  listen("publications", "publications");
   listen("posts", "posts"); listen("idees", "ideas"); listen("punchlines", "punch"); listen("taches", "taches"); listen("evenements", "evenements");
   db.doc("suivi/resume").onSnapshot((snap) => { state.suivi = snap.exists ? snap.data() : null; render(); }, () => {});
   db.doc("suivi/emails").onSnapshot((snap) => { state.emails = snap.exists ? snap.data() : null; render(); }, () => {});
@@ -2172,6 +2333,8 @@ function listen(path, key) {
   db.doc("suivi/plateformes").onSnapshot((snap) => { state.plateformes = snap.exists ? snap.data() : null; render(); }, () => {});
   render();
   // Chiffres de l'app RHEMA et photo de profil (seulement dans le site et l'app, via bridge.js)
+  pub.api = await window.claude.use("publier").catch(() => null);
+  loadChaines();
   state.rhema = await window.claude.use("rhema").catch(() => null);
   if (state.rhema) {
     loadActivity();

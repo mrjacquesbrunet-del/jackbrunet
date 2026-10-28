@@ -133,11 +133,36 @@
     },
   };
 
+  /* « Publier partout » : le fichier part dans le bucket privé studio-medias, puis la fonction
+   * publier-partout (réservée à l'admin, clé Postiz côté serveur) le publie sur les réseaux choisis. */
+  async function appelPublier(body) {
+    var r = await sb.functions.invoke("publier-partout", { body: body });
+    if (!r.error) return r.data;
+    var msg = null;
+    try { msg = (await r.error.context.json()).error; } catch (e) { msg = null; }
+    throw new Error(msg || "Publication impossible pour le moment.");
+  }
+  var publier = {
+    chaines: async function () { return (await appelPublier({ action: "chaines" })).chaines; },
+    envoyer: async function (o) {
+      var media = null;
+      if (o.fichier) {
+        var ext = (o.fichier.name.split(".").pop() || "bin").toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 5) || "bin";
+        var chemin = "publier/" + newId() + "." + ext;
+        var up = await sb.storage.from("studio-medias").upload(chemin, o.fichier, { contentType: o.fichier.type, upsert: false });
+        if (up.error) throw new Error("Le fichier n'a pas pu être envoyé : " + up.error.message);
+        media = { chemin: chemin, type: o.fichier.type };
+      }
+      return appelPublier({ action: "publier", texte: o.texte, titre: o.titre, chaines: o.chaines, date: o.date, media: media });
+    },
+  };
+
   window.claude = {
     use: async function (name) {
       if (!sb) return null;
       if (name === "db") return db;
       if (name === "rhema") return rhema;
+      if (name === "publier") return publier;
       // La page parente n'affiche le Studio qu'à l'admin ; la RLS fait foi.
       if (name === "user") return { isOwner: async function () { return true; } };
       return null;
