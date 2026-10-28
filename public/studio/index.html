@@ -318,6 +318,111 @@ button.kpi:hover { border-color: #4a4a46; }
 .mail-next { margin: 12px 0 0; padding: 10px 12px; border-radius: 14px; background: #e9e2d4; font-size: .9rem; line-height: 1.4; }
 .mail-next.alert { background: #eaffb8; }
 
+/* ---------- Densité compacte : tout un cran plus petit pour voir l'essentiel d'un coup d'œil ---------- */
+:root { --nav-h: 58px; --r-card: 18px; --r-tile: 14px; --gutter: 12px; }
+body { font-size: .95rem; }
+.appbar { padding-top: calc(var(--safe-t) + 8px); }
+.logo { gap: 8px; }
+.logo svg { width: 24px; height: 24px; }
+.logo span { font-size: .95rem; }
+.appbar-actions { gap: 8px; }
+.bell { width: 36px; height: 36px; }
+.bell svg { width: 19px; height: 19px; }
+.bell .dot { top: 3px; right: 3px; width: 8px; height: 8px; box-shadow: 0 0 0 2px var(--bg); }
+.avatar { width: 38px; height: 38px; }
+.appbar-back { width: 36px; height: 36px; }
+main { padding-top: 6px; }
+.head h2 { font-size: clamp(1.7rem, 1.3rem + 1.6vw, 2.4rem); }
+.navbar { padding-top: 5px; padding-bottom: calc(5px + var(--safe-b)); border-radius: 20px 20px 0 0; }
+.tab { min-height: 46px; gap: 2px; font-size: .68rem; }
+.tab .tab-ico { width: 42px; height: 26px; border-radius: 10px; }
+.tab .tab-ico svg { width: 20px; height: 20px; }
+.tab .count { min-width: 16px; height: 16px; line-height: 16px; font-size: .62rem; left: calc(50% + 8px); }
+.fab { width: 48px; height: 48px; bottom: calc(var(--nav-h) + var(--safe-b) - 4px); }
+.fab svg { width: 22px; height: 22px; }
+
+.home { gap: 10px; }
+.hello { margin: 0 0 2px; }
+.hello h1 { font-size: clamp(1.75rem, 1.4rem + 1.6vw, 2.4rem); }
+.hello p { margin-top: 2px; font-size: .82rem; }
+.kpis { gap: 6px; }
+.kpi, .kpi .k-body { gap: 1px; }
+.kpi { padding: 8px 8px 8px 9px; }
+.kpi .k-ico { width: 18px; height: 18px; }
+.kpi .k-body { padding-left: 26px; }
+.kpi .k-val { font-size: clamp(.85rem, .7rem + .8vw, 1.1rem); }
+.kpi .k-lbl, .kpi .k-sub { font-size: clamp(.62rem, .58rem + .2vw, .72rem); }
+@media (max-width: 599px) {
+  .kpi { padding: 7px 6px 7px 8px; }
+  .kpi .k-top { gap: 3px; }
+  .kpi .k-ico { width: 16px; height: 16px; }
+  .kpi .k-body { padding-left: 0; }
+  .kpi .k-val { font-size: clamp(.8rem, 3.5vw, 1rem); }
+  .kpi .k-lbl, .kpi .k-sub { font-size: clamp(.58rem, 2.5vw, .7rem); }
+}
+
+.card { padding: 12px 14px; }
+.card-head { gap: 6px; padding-bottom: 7px; }
+.card-head h2 { font-size: .9rem; }
+.card-head h2 small { font-size: .75rem; }
+.card-head .ic { width: 18px; height: 18px; }
+.card-head .head-count { min-width: 20px; height: 20px; line-height: 20px; padding: 0 6px; font-size: .68rem; }
+.card-link { min-height: 32px; margin-top: 2px; font-size: .78rem; gap: 4px; }
+.card-link svg { width: 15px; height: 15px; }
+.duo { gap: 8px; }
+.duo .card { padding: 10px 10px 2px; }
+.duo .card-head { gap: 5px; }
+.duo .card-head h2 { font-size: clamp(.74rem, 3.1vw, .9rem); }
+.duo .card-head .ic { width: 16px; height: 16px; }
+
+.act-mini { padding-top: 8px; gap: 0; }
+.act-mini .act-num { font-size: clamp(1.15rem, 1rem + 1vw, 1.5rem); }
+.act-mini .act-lbl { font-size: .68rem; margin-top: 1px; }
+.act-mini .act-trend { font-size: .72rem; margin-top: 1px; }
+.act-mini .act-trend svg { width: 12px; height: 12px; }
+.act-mini .act-curve { height: 34px; margin-top: 4px; }
+.act-curve .line { stroke-width: 2; }
+.act-mini .act-line { font-size: .64rem; margin-top: 3px; line-height: 1.3; }
+.socials { gap: 6px 2px; padding: 8px 0 6px; }
+.social { gap: 3px; }
+.social svg { width: clamp(22px, 6.4vw, 28px); height: clamp(22px, 6.4vw, 28px); }
+.social b { font-size: clamp(.78rem, 3.3vw, .92rem); }
+.social small { font-size: .6rem; margin-top: -3px; }
+
+.duo .agenda-item { min-height: 40px; padding: 5px 0; gap: 6px; }
+.duo .agenda-date { font-size: .64rem; padding: 3px 5px; border-radius: 7px; }
+.duo .agenda-title { font-size: .72rem; line-height: 1.25; }
+.duo .today-item { gap: 7px; min-height: 36px; padding: 4px 0; }
+.duo .today-item input[type="checkbox"] { width: 17px; height: 17px; border-width: 1.5px; border-radius: 5px; }
+.duo .today-item input[type="checkbox"]:checked::after { width: 8px; height: 4px; border-width: 2px; }
+.duo .today-item .t { font-size: .72rem; line-height: 1.25; }
+.duo .today-empty { padding: 8px 2px 2px; font-size: .72rem; }
+.quick-task { gap: 4px; margin-top: 6px; }
+/* 16 px minimum dans le champ, sinon iOS zoome sur la page au toucher */
+.quick-task input { min-height: 30px; padding: 3px 10px; font-size: 16px; }
+.quick-task button { width: 30px; height: 30px; }
+.quick-task button svg { width: 15px; height: 15px; }
+
+/* Punchline en 16:9 */
+.punch-hero { aspect-ratio: 16 / 9; }
+.ph-track { height: 100%; }
+.ph-slide { min-height: 0; height: 100%; padding: 12px 14px 26px; }
+.ph-badge { font-size: .66rem; padding: 4px 10px; }
+.ph-quote { width: 22px; height: 16px; margin: 8px 0 2px; }
+.ph-text { font-size: clamp(1.05rem, .85rem + 1.3vw, 1.6rem); max-width: 24ch; }
+.ph-cat { padding-top: 6px; font-size: .7rem; }
+.ph-dots { bottom: 6px; }
+.ph-dots button { width: 16px; height: 16px; }
+.ph-dots button::after { width: 6px; height: 6px; }
+.ph-actions { top: 10px; right: 10px; gap: 6px; }
+.ph-actions button { width: 32px; height: 32px; }
+.ph-actions svg { width: 15px; height: 15px; }
+
+.mail-stats { padding-top: 8px; gap: 6px; }
+.mail-stats b { font-size: clamp(1.05rem, .9rem + .8vw, 1.35rem); }
+.mail-stats span { font-size: .66rem; }
+.mail-next { margin-top: 8px; padding: 7px 10px; border-radius: 10px; font-size: .72rem; }
+
 /* Écran Tâches */
 .mini-list { display: grid; gap: 4px; }
 .row-actions { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -496,6 +601,13 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .periods button { flex: 1; min-height: 40px; border: 0; background: none; border-radius: 999px; font-weight: 700; font-size: .92rem; color: var(--muted); white-space: nowrap; }
 .periods button[aria-pressed="true"] { background: var(--lime); color: var(--on-lime); }
 .period-note { margin: -8px 0 18px; padding: 10px 14px; border-radius: var(--r-ctl); background: var(--surface-2); color: var(--muted); font-size: .9rem; line-height: 1.45; }
+
+/* Gains partenaires */
+.partners { list-style: none; margin: 0; padding: 0; display: grid; }
+.partners li { display: grid; grid-template-columns: 6.5rem 1fr auto; gap: 10px; align-items: baseline; padding: 9px 0; border-bottom: 1px solid var(--line); }
+.partners li:last-child { border-bottom: 0; }
+.partners a { color: var(--fg); font-weight: 700; text-decoration-color: var(--line); text-underline-offset: 3px; }
+.partners b { font-variant-numeric: tabular-nums; }
 
 /* Campagnes e-mail */
 .camps { display: grid; gap: 12px; }
@@ -914,7 +1026,7 @@ const CHECKLIST = [
   ["neuf", "Vidéo tournée neuve (pas un ancien tournage republié)"],
 ];
 
-const state = { db: null, posts: [], ideas: [], punch: [], taches: [], suivi: null, plateformes: null, app: null, revenus: null, emails: null, view: "accueil",
+const state = { db: null, posts: [], ideas: [], punch: [], taches: [], suivi: null, plateformes: null, app: null, revenus: null, partenaires: null, emails: null, view: "accueil",
   weekStart: mondayOf(new Date()), ideaFilter: "Tous", ideaQuery: "", punchFilter: "Toutes", punchQuery: "", punchUsed: "free",
   todoFilter: "Toutes", showDone: false, todoPrio: false,
   evenements: [], calMode: "semaine", monthStart: new Date(new Date().getFullYear(), new Date().getMonth(), 1), editingEvent: null, suiviTab: "ensemble",
@@ -1005,7 +1117,7 @@ function openMenu(kind) {
     title = "Plus";
     const open = state.taches.filter((t) => !t.fait).length;
     items = [
-      menuItem("revenus", "Revenus", "App, mission, livres, réseaux", () => goTo("revenus")),
+      menuItem("revenus", "Revenus", "App, mission, livres, partenaires", () => goTo("revenus")),
       menuItem("emails", "E-mails", "Campagnes Brevo : à venir, envoyées, stats", () => goTo("emails")),
       menuItem("taches", "Tâches & capture", open ? `${open} à faire` : "Tout est fait", () => goTo("taches")),
     ];
@@ -1995,7 +2107,29 @@ function renderEmails() {
     el("a", { class: "btn", href: "https://app.brevo.com/marketing-campaign/listing", target: "_blank", rel: "noopener" }, "Ouvrir Brevo")));
   renderReport(box, { constats: d.constats, plan: d.plan, source: d.source });
 }
-const renderRevenus = () => renderDocTab("#revenus", "#revenus-maj", state.revenus, "L'analyse des revenus arrive avec l'analyse du lundi.");
+/* Gains partenaires : chaque vidéo faite pour une autre marque (Hello Bible, Holy Diner…) rapporte un forfait fixe.
+ * Document suivi/partenaires = { tarif, videos: [{ id, date, marque, lien, montant? }] }, tenu à jour par l'analyse du lundi. */
+function partnerPanel(d) {
+  const tarif = d.tarif || 0, debut = iso(addDays(new Date(), -Math.round(periodeMois() * 30.4)));
+  const videos = [...(d.videos || [])].sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+  const gain = (list) => list.reduce((s, v) => s + (v.montant ?? tarif), 0);
+  const recentes = videos.filter((v) => v.date >= debut);
+  const parMarque = Object.entries(videos.reduce((m, v) => ({ ...m, [v.marque]: (m[v.marque] || 0) + 1 }), {}))
+    .sort((a, b) => b[1] - a[1]).map(([m, n]) => `${m} : ${n}`).join(" · ");
+  return el("section", { class: "panel" }, el("h3", { text: "Gains partenaires" }),
+    el("div", { class: "tiles" },
+      tile("Depuis le début", fmtEur(gain(videos)), `${videos.length} vidéo${videos.length > 1 ? "s" : ""} · ${fmtEur(tarif)} la vidéo`, true),
+      tile(`Sur ${periodeLabel()}`, fmtEur(gain(recentes)), `${recentes.length} vidéo${recentes.length > 1 ? "s" : ""}`),
+      tile("Marques", String(new Set(videos.map((v) => v.marque)).size), parMarque)),
+    videos.length ? el("ul", { class: "partners" }, ...videos.map((v) => el("li", {},
+      el("span", { class: "camp-date", text: new Date(v.date + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" }) }),
+      v.lien ? el("a", { href: v.lien, target: "_blank", rel: "noopener", text: v.marque }) : el("span", { text: v.marque }),
+      el("b", { text: fmtEur(v.montant ?? tarif) })))) : el("p", { class: "note", text: "Aucune vidéo partenaire relevée." }));
+}
+function renderRevenus() {
+  renderDocTab("#revenus", "#revenus-maj", state.revenus, "L'analyse des revenus arrive avec l'analyse du lundi.");
+  if (state.partenaires) $("#revenus").firstElementChild.after(partnerPanel(state.partenaires));
+}
 
 /* ---------- Rendu et données ---------- */
 function render() {
@@ -2033,6 +2167,7 @@ function listen(path, key) {
   db.doc("suivi/resume").onSnapshot((snap) => { state.suivi = snap.exists ? snap.data() : null; render(); }, () => {});
   db.doc("suivi/emails").onSnapshot((snap) => { state.emails = snap.exists ? snap.data() : null; render(); }, () => {});
   db.doc("suivi/revenus").onSnapshot((snap) => { state.revenus = snap.exists ? snap.data() : null; render(); }, () => {});
+  db.doc("suivi/partenaires").onSnapshot((snap) => { state.partenaires = snap.exists ? snap.data() : null; render(); }, () => {});
   db.doc("suivi/app").onSnapshot((snap) => { state.app = snap.exists ? snap.data() : null; render(); }, () => {});
   db.doc("suivi/plateformes").onSnapshot((snap) => { state.plateformes = snap.exists ? snap.data() : null; render(); }, () => {});
   render();
