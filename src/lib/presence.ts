@@ -54,3 +54,51 @@ export function presenceLabel(lastSeenAt: string | null | undefined): { online: 
   if (d <= 7) return { online: false, label: d === 1 ? "Actif hier" : `Actif il y a ${d} j` };
   return null; // au-delà d'une semaine, on n'affiche rien
 }
+
+/* ---------------- « En ligne maintenant » ---------------- */
+
+/** Qui peut voir que je suis en ligne (réglage du profil). */
+export type VisibilitePresence = "amis" | "tous" | "personne";
+
+export type MembreEnLigne = {
+  id: string;
+  pseudo: string;
+  avatar_url: string | null;
+  verified: boolean | null;
+  last_seen_at: string;
+};
+
+/** Membres en ligne que j'ai le droit de voir (réglages, amitiés, blocages
+ * vérifiés côté Supabase). Liste vide si la migration n'est pas passée. */
+export async function membresEnLigne(limite = 40): Promise<MembreEnLigne[]> {
+  const sb = getSupabase();
+  if (!sb) return [];
+  try {
+    const { data, error } = await sb.rpc("membres_en_ligne", { limite });
+    if (error || !Array.isArray(data)) return [];
+    return data as MembreEnLigne[];
+  } catch {
+    return [];
+  }
+}
+
+/** Dernière activité d'un membre, seulement si son réglage me le permet. */
+export async function presenceDe(cible: string): Promise<string | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  try {
+    const { data, error } = await sb.rpc("presence_de", { cible });
+    return error ? null : ((data as string | null) ?? null);
+  } catch {
+    return null;
+  }
+}
+
+/** Enregistre mon réglage (à part : une base sans la colonne ne bloque pas
+ * le reste du profil). */
+export async function enregistrerVisibilitePresence(userId: string, v: VisibilitePresence): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  const { error } = await sb.from("profiles").update({ presence_visibility: v }).eq("id", userId);
+  return !error;
+}

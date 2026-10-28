@@ -60,6 +60,8 @@ import { ACCENTS, type AccentKey, useProfileAccent } from "@/lib/profile-accent"
 import { siteConfig } from "@/config/site";
 import { localeApp } from "@/lib/i18n";
 import { imageLegere } from "@/lib/image-legere";
+import { EnLigneMaintenant } from "@/components/community/EnLigneMaintenant";
+import { enregistrerVisibilitePresence, type VisibilitePresence } from "@/lib/presence";
 
 /** Couleur du cadre d'avatar selon le grade (bronze → argent → or). */
 function gradeRing(gradeName: string): string {
@@ -131,6 +133,7 @@ function Profile({
     country?: string | null;
     location_privacy?: "public" | "prive" | null;
     follows_privacy?: "public" | "prive" | null;
+    presence_visibility?: "amis" | "tous" | "personne" | null;
     life_phrase?: string | null;
     converted_at?: string | null;
     streak_days?: number | null;
@@ -150,6 +153,7 @@ function Profile({
   const [countryVal, setCountryVal] = useState(profile?.country?? "");
   const [locPrivVal, setLocPrivVal] = useState<"public" | "prive">(profile?.location_privacy === "prive"? "prive": "public");
   const [followsPrivVal, setFollowsPrivVal] = useState<"public" | "prive">(profile?.follows_privacy === "prive"? "prive": "public");
+  const [presenceVal, setPresenceVal] = useState<VisibilitePresence>(profile?.presence_visibility ?? "amis");
   const [phraseVal, setPhraseVal] = useState(profile?.life_phrase?? "");
   const [convertedVal, setConvertedVal] = useState(profile?.converted_at?? "");
   const [bannerVal, setBannerVal] = useState(profile?.banner_url?? "");
@@ -261,12 +265,13 @@ function Profile({
     setCountryVal(profile?.country?? "");
     setLocPrivVal(profile?.location_privacy === "prive"? "prive": "public");
     setFollowsPrivVal(profile?.follows_privacy === "prive"? "prive": "public");
+    setPresenceVal(profile?.presence_visibility ?? "amis");
     setPhraseVal(profile?.life_phrase?? "");
     setConvertedVal(profile?.converted_at?? "");
     setBannerVal(profile?.banner_url?? "");
     setNameColorVal(profile?.name_color?? "");
   }, [profile?.pseudo, profile?.avatar_url, profile?.bio, profile?.favorite_verses,
-      profile?.church, profile?.city, profile?.country, profile?.location_privacy, profile?.follows_privacy,
+      profile?.church, profile?.city, profile?.country, profile?.location_privacy, profile?.follows_privacy, profile?.presence_visibility,
       profile?.life_phrase, profile?.converted_at, profile?.banner_url, profile?.name_color]);
 
   /** Téléverse la bannière (même bucket que les avatars). */
@@ -372,6 +377,9 @@ function Profile({
       banner_url: bannerVal.trim() || null,
       name_color: nameColorVal || null,
     });
+    if (presenceVal !== (profile?.presence_visibility ?? "amis")) {
+      await enregistrerVisibilitePresence(userId, presenceVal);
+    }
     setVerses(cleanVerses);
     refreshProfile();
     setSaving(false);
@@ -614,6 +622,7 @@ function Profile({
         <div className="mt-3">
           {/* Stories 24 h : ma story + celles des amis */}
           <StoriesBar me={userId} myProfile={profile ? { id: userId, ...profile } : null} dark={!jour} />
+          <EnLigneMaintenant tone={jour ? "light" : "dark"} className="mb-4" />
           {/* Suggestions pour toi : juste avant le mur, en rotation permanente */}
           <div className="mb-4">
             <p className={`mb-2 text-[11px] font-black uppercase tracking-[0.18em] ${jour ? "text-night-900/45" : "text-cream/45"}`}>
@@ -878,6 +887,33 @@ function Profile({
               </button>
             ))}
           </div>
+        </div>
+
+        <div className="mt-3">
+          <span className="text-xs font-semibold uppercase tracking-wide text-cream/50">
+            Qui peut te voir en ligne ?
+          </span>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {([
+              ["amis", "Mes amis"],
+              ["tous", "Tout le monde"],
+              ["personne", "Personne"],
+            ] as const).map(([k, label]) => (
+              <button
+                key={k}
+                type="button"
+                onClick={() => setPresenceVal(k)}
+                className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                  presenceVal === k
+                    ? "bg-cream text-night-950"
+                    : "border border-white/15 bg-white/5 text-cream/70"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <p className="mt-1.5 text-xs text-cream/45">Amis : les membres que tu suis et qui te suivent.</p>
         </div>
 
         {/* Rappel quotidien « pensée du jour » (app native) : le réglage vit

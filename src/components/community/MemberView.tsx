@@ -13,7 +13,7 @@ import { ModeratorBadge } from "@/components/community/ModeratorBadge";
 import { ReportButton } from "@/components/community/ReportButton";
 import { ProfileInfoPills } from "@/components/community/ProfileInfoPills";
 import { FollowListModal } from "@/components/community/FollowListModal";
-import { presenceLabel } from "@/lib/presence";
+import { presenceLabel, presenceDe } from "@/lib/presence";
 import { withJesusLabel, STREAK_BADGE_MIN } from "@/lib/spiritual";
 import { ProfileBadgesRow, AchievementsOverlay } from "@/components/community/ProfileBadges";
 import { ProfileThemeBg, useProfileTheme } from "@/components/community/ProfileTheme";
@@ -44,6 +44,16 @@ export function MemberView() {
 
   const [memberId, setMemberId] = useState<string | null>(paramId);
   const [profile, setProfile] = useState<Profile | null>(null);
+  // Présence affichée seulement si son réglage « en ligne » me le permet.
+  const [vuLe, setVuLe] = useState<string | null>(null);
+  useEffect(() => {
+    if (!memberId) return;
+    let vivant = true;
+    void presenceDe(memberId).then((v) => vivant && setVuLe(v));
+    return () => {
+      vivant = false;
+    };
+  }, [memberId]);
   const [counts, setCounts] = useState({ followers: 0, following: 0 });
   const [activity, setActivity] = useState<Activity | null>(null);
   const [following, setFollowing] = useState(false);
@@ -192,7 +202,7 @@ export function MemberView() {
               alt=""
               className={`h-24 w-24 rounded-full object-cover ring-4 ${jour? "ring-cream": "ring-night-900"}`}
             />
-            {!isMe && presenceLabel(profile.last_seen_at)?.online ? (
+            {!isMe && presenceLabel(vuLe)?.online ? (
               <span className={`absolute bottom-1 right-1 h-4 w-4 rounded-full bg-emerald-400 ring-4 ${jour? "ring-cream": "ring-night-900"}`} />
             ) : null}
           </div>
@@ -207,12 +217,12 @@ export function MemberView() {
             ): null}
           </h2>
           {estBatisseurActif(profile) ? <BatisseurBadge className="mt-2" /> : null}
-          {!isMe && presenceLabel(profile.last_seen_at) ? (
+          {!isMe && presenceLabel(vuLe) ? (
             <p className={`mt-1 flex items-center justify-center gap-1.5 text-xs font-semibold ${jour? "text-night-900/55": "text-cream/60"}`}>
               <span
-                className={`inline-block h-2 w-2 rounded-full ${presenceLabel(profile.last_seen_at)!.online ? "bg-emerald-400" : jour ? "bg-night-900/25" : "bg-cream/30"}`}
+                className={`inline-block h-2 w-2 rounded-full ${presenceLabel(vuLe)!.online ? "bg-emerald-400" : jour ? "bg-night-900/25" : "bg-cream/30"}`}
               />
-              {presenceLabel(profile.last_seen_at)!.label}
+              {presenceLabel(vuLe)!.label}
             </p>
           ) : null}
           {profile.life_phrase? (

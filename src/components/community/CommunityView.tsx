@@ -32,6 +32,7 @@ import {
   type Comment,
   type Visibility,
 } from "@/lib/community";
+import { EnLigneMaintenant } from "@/components/community/EnLigneMaintenant";
 
 export function CommunityView() {
   const { ready, userId, email, profile, isModerator } = useAuth();
@@ -345,6 +346,9 @@ function Feed({
 
         {/* Intercesseurs de la semaine : cinq à l'écran, glisser pour les suivants */}
         <TopIntercessors />
+
+        {/* En ligne maintenant : discret, rien si personne */}
+        <EnLigneMaintenant tone="dark" className="mt-3" />
 
         {/* Scrolle & prie : une ligne discrète, un bouton pour l'activer */}
         <div className="mt-3 flex items-center gap-2.5 rounded-2xl border border-creme/10 bg-creme/[0.06] py-2 pl-3 pr-2">

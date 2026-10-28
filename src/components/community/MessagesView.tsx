@@ -9,7 +9,7 @@ import { Avatar } from "@/components/community/Avatar";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { VoiceRecorderButton, VoiceNotePlayer } from "@/components/community/VoiceNote";
 import { voiceExpired } from "@/lib/voice";
-import { presenceLabel } from "@/lib/presence";
+import { presenceLabel, presenceDe } from "@/lib/presence";
 import { getSupabase } from "@/lib/supabase";
 import { getProfile, searchProfiles, type Profile } from "@/lib/community";
 import {
@@ -23,6 +23,7 @@ import {
 } from "@/lib/messages";
 import { localeApp } from "@/lib/i18n";
 import { openExternal } from "@/lib/external";
+import { EnLigneMaintenant } from "@/components/community/EnLigneMaintenant";
 
 /** Date discrète d'une conversation : heure si aujourd'hui, « hier », puis
  * « il y a X j », puis la date courte. */
@@ -199,6 +200,7 @@ function Inbox() {
         <div className="mt-4">
           <StartSearch />
         </div>
+        <EnLigneMaintenant tone="light" className="mt-5" />
 
         {convos === null? (
           <p className="mt-8 text-night-900/50">Chargement…</p>
@@ -282,6 +284,18 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
   const [partnerTyping, setPartnerTyping] = useState(false);
+  // Présence affichée seulement si son réglage « en ligne » me le permet.
+  const [vuLe, setVuLe] = useState<string | null>(null);
+  useEffect(() => {
+    let vivant = true;
+    const lire = () => void presenceDe(partnerId).then((v) => vivant && setVuLe(v));
+    lire();
+    const t = setInterval(lire, 60_000);
+    return () => {
+      vivant = false;
+      clearInterval(t);
+    };
+  }, [partnerId]);
   const bottomRef = useRef<HTMLDivElement>(null);
   const typingChanRef = useRef<ReturnType<NonNullable<ReturnType<typeof getSupabase>>["channel"]> | null>(null);
   const typingSentRef = useRef(0);
@@ -371,7 +385,7 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
           <Link href={`/membre?u=${partnerId}`} className="flex items-center gap-2.5">
             <span className="relative">
               <Avatar pseudo={partner?.pseudo} url={partner?.avatar_url} size={40} streak={partner?.streak_days} badge={partner?.badge_tier} />
-              {presenceLabel(partner?.last_seen_at)?.online ? (
+              {presenceLabel(vuLe)?.online ? (
                 <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-emerald-400 ring-2 ring-white" />
               ) : null}
             </span>
@@ -382,8 +396,8 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
               </span>
               {partnerTyping ? (
                 <span className="text-xs font-semibold italic text-spirit-600">est en train d&apos;écrire…</span>
-              ) : presenceLabel(partner?.last_seen_at) ? (
-                <span className="text-xs text-night-900/50">{presenceLabel(partner?.last_seen_at)!.label}</span>
+              ) : presenceLabel(vuLe) ? (
+                <span className="text-xs text-night-900/50">{presenceLabel(vuLe)!.label}</span>
               ) : null}
             </span>
           </Link>

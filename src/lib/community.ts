@@ -29,6 +29,8 @@ export type Profile = {
   name_color?: string | null;
   /** Dernière activité (présence « En ligne » / « Actif il y a X »). */
   last_seen_at?: string | null;
+  /** Qui voit que je suis en ligne : amis (défaut), tous, personne. */
+  presence_visibility?: "amis" | "tous" | "personne" | null;
   /** Bâtisseur : date du premier soutien (badge exclusif). */
   batisseur_depuis?: string | null;
   /** Bâtisseur : fin de la période payée (abonnement mensuel). */
