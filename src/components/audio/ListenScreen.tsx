@@ -124,6 +124,24 @@ export function ListenScreen() {
   const [recherche, setRecherche] = useState("");
   const [categorie, setCategorie] = useState<string | null>(null);
   const [publicCible, setPublicCible] = useState<string | null>(null);
+  // Ordre des épisodes d'une émission : de l'épisode 1 au dernier (par défaut), ou l'inverse.
+  const [recentsDabord, setRecentsDabord] = useState(false);
+  useEffect(() => {
+    try {
+      setRecentsDabord(localStorage.getItem("jb.podcast.recents-dabord") === "1");
+    } catch {
+      /* ignore */
+    }
+  }, []);
+  const basculerOrdre = () =>
+    setRecentsDabord((v) => {
+      try {
+        localStorage.setItem("jb.podcast.recents-dabord", v ? "0" : "1");
+      } catch {
+        /* ignore */
+      }
+      return !v;
+    });
   const [notes, setNotes] = useState<Record<string, NoteStats>>({});
   const [auteur, setAuteur] = useState<string | null>(null);
   const [menu, setMenu] = useState<string | null>(null);
@@ -559,7 +577,12 @@ export function ListenScreen() {
 
 
   const pageEmission = (e: Emission) => {
-    const eps = parEmission.get(e.id) ?? [];
+    // Lecture et enchaînement toujours dans l'ordre : épisode 1, 2, 3…
+    const eps = [...(parEmission.get(e.id) ?? [])].sort((a, b) => (a.numero ?? 0) - (b.numero ?? 0));
+    const affiches = recentsDabord ? [...eps].reverse() : eps;
+    // « Écouter » : le premier épisode pas encore terminé (sinon le 1).
+    const aSuivre = eps.find((t) => fraction(t) < 0.95) ?? eps[0];
+    const dejaCommence = eps.some((t) => (positions[t.id] ?? 0) > 5);
     return (
       <motion.div key={`em-${e.id}`} initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.35, ease: EASE }}>
         <div className="relative overflow-hidden px-5 pb-6 pt-2">
@@ -624,10 +647,10 @@ export function ListenScreen() {
               <button
                 type="button"
                 disabled={!eps.length}
-                onClick={() => eps[0] && lire(eps[0], eps)}
+                onClick={() => aSuivre && lire(aSuivre, eps)}
                 className="inline-flex h-[52px] flex-1 items-center justify-center gap-2.5 rounded-full bg-dawn-400 font-display text-[17px] font-extrabold text-night-950 shadow-[0_0_30px_-6px_rgba(202,240,0,.55)] active:scale-[0.98] disabled:opacity-50"
               >
-                <PlayGlyph className="h-5 w-5" /> Écouter
+                <PlayGlyph className="h-5 w-5" /> {dejaCommence && aSuivre?.numero ? `Continuer · Ép. ${aSuivre.numero}` : "Écouter"}
               </button>
               <button
                 type="button"
@@ -660,7 +683,20 @@ export function ListenScreen() {
           </div>
         ) : null}
 
-        <ul className="px-5">{eps.map((t) => ligneEpisode(t, eps))}</ul>
+        {eps.length > 1 ? (
+          <div className="mb-1 flex items-center justify-between px-5">
+            <span className="text-[13px] font-semibold text-cream/55">
+              {eps.length} épisodes
+            </span>
+            <button type="button" onClick={basculerOrdre} className="inline-flex items-center gap-1.5 rounded-full border border-white/12 px-3 py-1.5 text-[12.5px] font-semibold text-cream/75">
+              <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2} aria-hidden>
+                <path d="M7 4v16M7 20l-3-3M7 20l3-3M17 20V4M17 4l-3 3M17 4l3 3" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              {recentsDabord ? "Plus récents d'abord" : "Épisode 1 d'abord"}
+            </button>
+          </div>
+        ) : null}
+        <ul className="px-5">{affiches.map((t) => ligneEpisode(t, eps))}</ul>
         {!eps.length ? vide("Aucun épisode pour l'instant", "Les premiers épisodes de cette émission arrivent bientôt.") : null}
       </motion.div>
     );
