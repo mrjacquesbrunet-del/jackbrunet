@@ -421,6 +421,7 @@ type Ligne = { label: string; icone: string; href?: string; vue?: "espace" | "re
 const MON_ESPACE: Ligne[] = [
   { label: "Mon carnet", icone: I.carnet, href: "/carnet" },
   { label: "Mes plans", icone: I.plans, href: "/plans" },
+  { label: "Podcasts", icone: I.casque, href: "/ecouter" },
   { label: "Ma liste de prière", icone: I.priere, vue: "espace" },
   { label: "Messages", icone: I.messages, href: "/messages" },
   { label: "Ma formation", icone: I.formation, href: "/ecole" },
@@ -434,7 +435,7 @@ const RHEMA: Ligne[] = [
 
 /** Visible seulement pour l'admin, sous « Paramètres » (la RLS de studio_docs fait foi). */
 const STUDIO: Ligne = { label: "Studio", icone: I.studio, href: "/admin/studio" };
-const PODCASTS_ADMIN: Ligne = { label: "Podcasts", icone: I.casque, href: "/admin/podcasts" };
+const PODCASTS_ADMIN: Ligne = { label: "Gestion des podcasts", icone: I.casque, href: "/admin/podcasts" };
 
 export function ProfilMenu() {
   const [ouvert, setOuvert] = useState(false);

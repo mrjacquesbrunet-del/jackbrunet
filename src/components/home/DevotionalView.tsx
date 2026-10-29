@@ -27,6 +27,7 @@ import {
   HighlighterGlyph,
   BookmarkFilledGlyph,
   BookmarkGlyph,
+  HeadphonesGlyph,
 } from "@/components/ui/DevoIcons";
 import { DailyShort, FloatingDailyShort } from "@/components/home/DailyShort";
 import { VerseImageStudio } from "@/components/ui/VerseImageStudio";
@@ -778,6 +779,34 @@ export function DevotionalView({
         </section>
       ): null}
 
+
+      {/* 6a. Podcast du jour : entre le passage biblique et la chaîne WhatsApp */}
+      <section className="container-x">
+        <Reveal from="up">
+          <Link
+            href="/ecouter"
+            className="keep-dark group relative mx-auto flex max-w-2xl items-center gap-4 overflow-hidden rounded-[24px] border border-white/10 bg-night-950 p-4 text-cream shadow-[0_20px_50px_-28px_rgba(0,0,0,.75)] transition-transform active:scale-[0.99] sm:p-5"
+          >
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-0"
+              style={{ background: "radial-gradient(55% 90% at 100% 0%, rgba(202,240,0,.14), transparent 70%)" }}
+            />
+            <span className="relative grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-dawn-400 text-night-950 shadow-[0_0_26px_-8px_rgba(202,240,0,.7)]">
+              <HeadphonesGlyph className="h-7 w-7" />
+            </span>
+            <span className="relative min-w-0 flex-1">
+              <span className="block font-display text-[18px] font-extrabold leading-tight">Écoute ton podcast du jour</span>
+              <span className="mt-0.5 block text-[13px] leading-snug text-cream/65">Une parole audio pour nourrir ta foi, où que tu sois.</span>
+            </span>
+            <span className="relative grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/15 text-dawn-400 transition-transform group-hover:translate-x-0.5">
+              <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.6} aria-hidden>
+                <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
+          </Link>
+        </Reveal>
+      </section>
 
       {/* 6b. Mon parcours: favoris enregistrés */}
       {eng.ready && eng.favorites.length > 0? (
