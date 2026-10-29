@@ -6,6 +6,8 @@ import { useAuth } from "@/components/community/useAuth";
 import { isAdminEmail } from "@/lib/community";
 import {
   chargerCatalogue,
+  notesEmissions,
+  PUBLICS,
   creerEmission,
   modifierEmission,
   supprimerEmission,
@@ -22,6 +24,7 @@ import {
   type AudioTrack,
   type Emission,
   type Intervenant,
+  type NoteStats,
 } from "@/lib/audio-library";
 
 /**
@@ -85,11 +88,13 @@ export function PodcastsAdmin() {
   const [vue, setVue] = useState<Vue>({ type: "liste" });
   const [message, setMessage] = useState("");
   const [demande, setDemande] = useState<Demande | null>(null);
+  const [notes, setNotes] = useState<Record<string, NoteStats>>({});
 
   const charger = useCallback(async () => {
-    const c = await chargerCatalogue();
+    const [c, n] = await Promise.all([chargerCatalogue(), notesEmissions()]);
     setEmissions(c.emissions);
     setEpisodes(c.episodes);
+    setNotes(n);
   }, []);
 
   useEffect(() => {
@@ -144,6 +149,7 @@ export function PodcastsAdmin() {
         {vue.type === "liste" ? (
           <ListeEmissions
             emissions={emissions}
+            notes={notes}
             parEmission={parEmission}
             total={episodes.length}
             onOuvrir={(id) => setVue({ type: "emission", id })}
@@ -230,6 +236,7 @@ export function PodcastsAdmin() {
 
 function ListeEmissions({
   emissions,
+  notes,
   parEmission,
   total,
   onOuvrir,
@@ -237,6 +244,7 @@ function ListeEmissions({
   onReordonner,
 }: {
   emissions: Emission[] | null;
+  notes: Record<string, NoteStats>;
   parEmission: Map<string, AudioTrack[]>;
   total: number;
   onOuvrir: (id: string) => void;
@@ -285,7 +293,17 @@ function ListeEmissions({
                   <span className="mt-1 block text-xs text-cream/45">
                     {eps.length} épisode{eps.length > 1 ? "s" : ""}
                     {dernier ? ` · dernier le ${dateCourte(dernier)}` : ""}
+                    {notes[e.id]?.cnt ? ` · ${notes[e.id].avg.toFixed(1).replace(".", ",")} sur 5 (${notes[e.id].cnt} note${notes[e.id].cnt > 1 ? "s" : ""})` : ""}
                   </span>
+                  {e.publics?.length ? (
+                    <span className="mt-1 flex flex-wrap gap-1">
+                      {e.publics.map((p) => (
+                        <span key={p} className="rounded-full border border-dawn-400/35 px-2 py-0.5 text-[10.5px] font-bold text-dawn-300">
+                          {PUBLICS.find(([k]) => k === p)?.[1] ?? p}
+                        </span>
+                      ))}
+                    </span>
+                  ) : null}
                 </span>
               </button>
               <span className="flex shrink-0 flex-col gap-1">
@@ -342,6 +360,8 @@ function FicheEmission({
   });
   const [touche, setTouche] = useState(false);
   const [categorie, setCategorie] = useState(emission?.category ?? "");
+  const [publics, setPublics] = useState<string[]>(emission?.publics ?? []);
+  const publicsModifies = [...publics].sort().join() !== [...(emission?.publics ?? [])].sort().join();
   const [description, setDescription] = useState(emission?.description ?? "");
   const [pochette, setPochette] = useState<File | null>(null);
   const [apercu, setApercu] = useState<string | null>(emission?.cover ?? null);
@@ -355,6 +375,7 @@ function FicheEmission({
     pochette !== null ||
     titre !== emission.title ||
     categorie !== (emission.category ?? "") ||
+    publicsModifies ||
     description !== (emission.description ?? "");
   const majIntervenant = (cle: string, patch: Partial<Brouillon>) => {
     setTouche(true);
@@ -414,9 +435,12 @@ function FicheEmission({
       }
       ok = !!id;
     }
+    let publicsOk = true;
+    if (ok && id && publicsModifies) publicsOk = await modifierEmission(id, { publics });
     setBusy(false);
     if (!ok) return informer(emission ? "Enregistrement impossible" : "Création impossible : as-tu exécuté le SQL des émissions ?");
-    informer(
+    if (!publicsOk) informer("Enregistré, sauf le public visé : exécute le SQL des publics et des notes");
+    if (publicsOk) informer(
       sansListe && liste.length > 1
         ? "Enregistré, mais un seul intervenant : exécute le SQL des intervenants multiples"
         : emission
@@ -487,6 +511,28 @@ function FicheEmission({
                 ))}
               </datalist>
             </label>
+          </div>
+          <div>
+            <span className={etiquette}>Pour qui ?</span>
+            <div className="flex flex-wrap gap-2">
+              {PUBLICS.map(([k, l]) => {
+                const actif = publics.includes(k);
+                return (
+                  <button
+                    key={k}
+                    type="button"
+                    aria-pressed={actif}
+                    onClick={() => setPublics((p) => (actif ? p.filter((x) => x !== k) : [...p, k]))}
+                    className={`rounded-full px-3.5 py-1.5 text-sm font-semibold transition-colors ${
+                      actif ? "bg-dawn-400 text-night-950" : "border border-white/15 text-cream/75"
+                    }`}
+                  >
+                    {l}
+                  </button>
+                );
+              })}
+            </div>
+            <span className="mt-1 block text-[11px] text-cream/40">Plusieurs choix possibles. Sert de filtre « Pour qui » dans l'app.</span>
           </div>
           <label className="block">
             <span className={etiquette}>Description</span>

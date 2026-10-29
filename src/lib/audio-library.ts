@@ -51,7 +51,51 @@ export type Emission = {
   /** Plusieurs intervenants (migration-podcast-intervenants.sql). Sans elle :
    * un seul intervenant, déduit des champs author_*. */
   intervenants?: Intervenant[] | null;
+  /** Public visé (migration-podcast-publics-notes.sql) : voir PUBLICS. */
+  publics?: string[] | null;
 };
+
+/** Publics visés possibles d'une émission (clé enregistrée, libellé affiché). */
+export const PUBLICS: [string, string][] = [
+  ["tout-public", "Tout public"],
+  ["enfance", "Enfance"],
+  ["jeunesse", "Jeunesse"],
+  ["famille", "Famille"],
+];
+export const libellePublic = (cle: string) => PUBLICS.find(([k]) => k === cle)?.[1] ?? cle;
+
+/* ————— Notes des émissions (étoiles) ————— */
+
+export type NoteStats = { avg: number; cnt: number };
+
+/** Moyenne et nombre de notes de chaque émission. */
+export async function notesEmissions(): Promise<Record<string, NoteStats>> {
+  const sb = getSupabase();
+  if (!sb) return {};
+  const { data, error } = await sb.rpc("podcast_ratings_summary");
+  if (error || !data) return {};
+  const out: Record<string, NoteStats> = {};
+  for (const r of data as { show_id: string; avg: number; cnt: number }[]) out[r.show_id] = { avg: Number(r.avg) || 0, cnt: Number(r.cnt) || 0 };
+  return out;
+}
+
+/** Ma note pour une émission (1 à 5), ou null. */
+export async function maNoteEmission(showId: string, userId: string): Promise<number | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  const { data } = await sb.from("podcast_ratings").select("stars").eq("show_id", showId).eq("user_id", userId).maybeSingle();
+  return (data as { stars: number } | null)?.stars ?? null;
+}
+
+/** Note (ou modifie ma note d') une émission. */
+export async function noterEmission(showId: string, stars: number, userId: string): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  const { error } = await sb
+    .from("podcast_ratings")
+    .upsert({ show_id: showId, user_id: userId, stars, updated_at: new Date().toISOString() }, { onConflict: "user_id,show_id" });
+  return !error;
+}
 
 /** Un intervenant d'émission et sa fiche (ce qui s'affiche au toucher de son nom). */
 export type Intervenant = {

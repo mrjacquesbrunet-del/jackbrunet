@@ -6,7 +6,7 @@ import { myPlanRating, ratePlan, planRatingsSummary, type PlanStats } from "@/li
 
 const STAR_PATH = "M12 3.2l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 17.8 6.8 20.5l1-5.8L3.5 9.4l5.9-.9z";
 
-function Star({ fill, className }: { fill: boolean; className?: string }) {
+export function Star({ fill, className }: { fill: boolean; className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden>
       <path
@@ -23,7 +23,7 @@ function Star({ fill, className }: { fill: boolean; className?: string }) {
 /** Étoile à remplissage PARTIEL (ex. 4,6/5 → 60 % de la 5e) — façon Google.
  * L'étoile pleine garde une taille FIXE sous le clip, sinon elle rétrécirait
  * avec la fenêtre de découpe au lieu d'être rognée. */
-function FracStar({ frac }: { frac: number }) {
+export function FracStar({ frac }: { frac: number }) {
   const pct = Math.max(0, Math.min(1, frac)) * 100;
   return (
     <span className="relative inline-block h-4 w-4">

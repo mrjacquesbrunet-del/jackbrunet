@@ -42,7 +42,8 @@ import { PlayGlyph, PauseGlyph, HeadphonesGlyph } from "@/components/ui/DevoIcon
 import { localeApp } from "@/lib/i18n";
 import { AuthorCard } from "@/components/plans/AuthorCard";
 import { ficheAuteur } from "@/lib/podcast-auteurs";
-import { intervenantsDe, nomsDe } from "@/lib/audio-library";
+import { intervenantsDe, nomsDe, notesEmissions, estEmissionDeSecours, PUBLICS, libellePublic, type NoteStats } from "@/lib/audio-library";
+import { NoteEmission } from "@/components/audio/NoteEmission";
 
 const DUR_KEY = "jb.podcast.dur.v1";
 /** Épisode « court » : moins de 10 minutes. */
@@ -102,6 +103,8 @@ export function ListenScreen() {
   const [fiche, setFiche] = useState<string | null>(null);
   const [recherche, setRecherche] = useState("");
   const [categorie, setCategorie] = useState<string | null>(null);
+  const [publicCible, setPublicCible] = useState<string | null>(null);
+  const [notes, setNotes] = useState<Record<string, NoteStats>>({});
   const [auteur, setAuteur] = useState<string | null>(null);
   const [menu, setMenu] = useState<string | null>(null);
   const [heroIdx, setHeroIdx] = useState(0);
@@ -138,6 +141,7 @@ export function ListenScreen() {
   useEffect(() => {
     load();
     listerPopulaires().then(setPopulaires);
+    notesEmissions().then(setNotes);
     setAutoDl(autoTelechargementActif());
   }, [load]);
 
@@ -410,6 +414,15 @@ export function ListenScreen() {
         <span className="mt-0.5 block truncate text-[12px] text-cream/50">
           {[e.author, n ? `${n} épisode${n > 1 ? "s" : ""}` : null].filter(Boolean).join(" · ")}
         </span>
+        {notes[e.id]?.cnt ? (
+          <span className="mt-0.5 flex items-center gap-1 text-[12px] font-semibold text-cream/70">
+            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" aria-hidden>
+              <path d="M12 3.2l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 17.8 6.8 20.5l1-5.8L3.5 9.4l5.9-.9z" fill="rgb(202 240 0)" />
+            </svg>
+            {notes[e.id].avg.toFixed(1).replace(".", ",")}
+            <span className="font-normal text-cream/45">({notes[e.id].cnt})</span>
+          </span>
+        ) : null}
       </button>
     );
   };
@@ -563,7 +576,21 @@ export function ListenScreen() {
                 ) : null}
                 <span>{`${eps.length} épisode${eps.length > 1 ? "s" : ""}`}</span>
               </p>
+              {e.publics?.length ? (
+                <p className="mt-2.5 flex flex-wrap justify-center gap-1.5">
+                  {e.publics.map((p) => (
+                    <span key={p} className="rounded-full border border-dawn-400/40 px-2.5 py-0.5 text-[11px] font-bold text-dawn-300">
+                      {libellePublic(p)}
+                    </span>
+                  ))}
+                </p>
+              ) : null}
               {e.description ? <p className="mx-auto mt-3 max-w-sm text-[14px] leading-relaxed text-cream/65">{e.description}</p> : null}
+              {!estEmissionDeSecours(e.id) ? (
+                <div className="mt-4">
+                  <NoteEmission showId={e.id} onNote={() => notesEmissions().then(setNotes)} />
+                </div>
+              ) : null}
             </div>
             <div className="mx-auto mt-5 flex max-w-sm items-center gap-3">
               <button
@@ -1113,6 +1140,7 @@ export function ListenScreen() {
     const emFiltrees = (emissions ?? []).filter(
       (e) =>
         (!categorie || e.category === categorie) &&
+        (!publicCible || (e.publics ?? []).includes(publicCible)) &&
         (!auteur || nomsDe(e).includes(auteur)) &&
         (!q || sansAccent(`${e.title} ${e.author ?? ""} ${e.description ?? ""}`).includes(q)),
     );
@@ -1188,6 +1216,25 @@ export function ListenScreen() {
                   {lbl}
                 </button>
               ))}
+          </div>
+        ) : null}
+
+        {/* Pour qui ? (seulement les publics déjà utilisés) */}
+        {PUBLICS.some(([k]) => (emissions ?? []).some((e) => e.publics?.includes(k))) ? (
+          <div className="no-scrollbar mt-3 flex items-center gap-2 overflow-x-auto px-5">
+            <span className="shrink-0 text-[11px] font-bold uppercase tracking-[0.14em] text-cream/45">Pour qui</span>
+            {PUBLICS.filter(([k]) => (emissions ?? []).some((e) => e.publics?.includes(k))).map(([k, l]) => (
+              <button
+                key={k}
+                type="button"
+                onClick={() => setPublicCible(publicCible === k ? null : k)}
+                className={`shrink-0 rounded-full px-3.5 py-1.5 text-[12.5px] font-semibold ${
+                  publicCible === k ? "bg-dawn-400 text-night-950" : "border border-white/12 bg-white/[0.05] text-cream/75"
+                }`}
+              >
+                {l}
+              </button>
+            ))}
           </div>
         ) : null}
 

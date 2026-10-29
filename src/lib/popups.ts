@@ -36,9 +36,10 @@ function jourDeLAccueil(): boolean {
  */
 export function prendreFenetreAuto(nom: string, memeLeJourDeLAccueil = false): boolean {
   if (prise && prise !== nom) return false;
-  // Jamais par-dessus le choix d'un nouveau mot de passe.
+  // Jamais par-dessus le choix d'un nouveau mot de passe ni l'administration.
   try {
-    if (window.location.pathname.startsWith("/reinitialiser-mot-de-passe")) return false;
+    const page = window.location.pathname;
+    if (page.startsWith("/reinitialiser-mot-de-passe") || page.startsWith("/admin")) return false;
   } catch {
     /* ignore */
   }
