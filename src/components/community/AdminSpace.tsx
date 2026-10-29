@@ -142,10 +142,10 @@ export function AdminSpace() {
                 Podcasts
               </h2>
               <p className="mt-1 text-sm text-night-900/60">
-                Ajoute, renomme, décris ou supprime tes audios depuis la page Écouter.
+                Émissions (pochette, titre, intervenant, description, ordre) et épisodes (ajout groupé, titres, déplacement, notifications).
               </p>
-              <Link href="/ecouter" className="btn-ghost mt-3 inline-flex">
-                Gérer les podcasts
+              <Link href="/admin/podcasts/" className="btn-primary mt-3 inline-flex">
+                Ouvrir la console Podcasts
               </Link>
             </div>
           </Rubrique>

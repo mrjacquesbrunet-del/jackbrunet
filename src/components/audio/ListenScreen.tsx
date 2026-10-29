@@ -2,17 +2,14 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   chargerCatalogue,
   uploadPodcast,
   deletePodcast,
-  updatePodcast,
   formatDuration,
   loadAudioDuration,
-  creerEmission,
-  modifierEmission,
-  supprimerEmission,
   deplacerEpisode,
   listerPopulaires,
   notifierNouvelEpisode,
@@ -45,6 +42,7 @@ import { PlayGlyph, PauseGlyph, HeadphonesGlyph } from "@/components/ui/DevoIcon
 import { localeApp } from "@/lib/i18n";
 import { AuthorCard } from "@/components/plans/AuthorCard";
 import { ficheAuteur } from "@/lib/podcast-auteurs";
+import { intervenantsDe, nomsDe } from "@/lib/audio-library";
 
 const DUR_KEY = "jb.podcast.dur.v1";
 /** Épisode « court » : moins de 10 minutes. */
@@ -86,6 +84,7 @@ function Rangee({ titre, action, children }: { titre: string; action?: React.Rea
 export function ListenScreen() {
   const { email } = useAuth();
   const admin = isAdminEmail(email);
+  const router = useRouter();
   const pod = usePodcastPlayer();
   const { favoris, listes } = usePodcastEtat();
 
@@ -109,7 +108,6 @@ export function ListenScreen() {
   const [voirTousNouveaux, setVoirTousNouveaux] = useState(false);
   const [upload, setUpload] = useState<{ done: number; total: number } | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
-  const coverRef = useRef<HTMLInputElement>(null);
   const [offline, setOffline] = useState<Set<string>>(new Set());
   const [dlProgress, setDlProgress] = useState<Record<string, number>>({});
   const [positions, setPositions] = useState<Record<string, number>>({});
@@ -282,79 +280,9 @@ export function ListenScreen() {
     const n = await notifierNouvelEpisode(message.trim(), `/ecouter/?e=${id}`);
     alert(n === null ? "La notification n'est pas partie. As-tu exécuté le SQL migration-podcasts-plus.sql dans Supabase ?" : `Notification envoyée à ${n} membre${n > 1 ? "s" : ""}.`);
   }
-  async function editTrack(t: AudioTrack) {
-    const title = prompt("Titre de l'épisode :", t.title);
-    if (title === null) return;
-    const description = prompt("Description (facultative) :", t.description ?? "");
-    await updatePodcast(t.id, { title: title.trim() || t.title, description: (description ?? "").trim() || null });
-    load();
-  }
   async function removeTrack(t: AudioTrack) {
     if (!confirm(`Supprimer « ${t.title} » ?`)) return;
     await deletePodcast(t.id, t.path);
-    load();
-  }
-  async function nouvelleEmission() {
-    const title = prompt("Nom de l'émission :");
-    if (!title?.trim()) return;
-    const author = prompt("Intervenant (ex. Josy W. Brunet) :") ?? "";
-    const category = prompt("Catégorie (ex. Enseignements, Prière, Témoignages) :") ?? "";
-    const description = prompt("Description courte :") ?? "";
-    const ok = await creerEmission({
-      title: title.trim(),
-      author: author.trim() || null,
-      category: category.trim() || null,
-      description: description.trim() || null,
-    });
-    if (!ok) alert("La création n'a pas marché. As-tu bien exécuté le SQL des émissions dans Supabase ?");
-    load();
-  }
-  async function editerEmission(e: Emission) {
-    const title = prompt("Nom de l'émission :", e.title);
-    if (title === null) return;
-    const author = prompt("Intervenant :", e.author ?? "") ?? e.author ?? "";
-    const category = prompt("Catégorie :", e.category ?? "") ?? e.category ?? "";
-    const description = prompt("Description :", e.description ?? "") ?? e.description ?? "";
-    await modifierEmission(e.id, {
-      title: title.trim() || e.title,
-      author: author.trim() || null,
-      category: category.trim() || null,
-      description: description.trim() || null,
-    });
-    load();
-  }
-  async function editerFiche(e: Emission) {
-    const lien = (label: string) => e.author_links?.find((l) => l.label === label)?.url ?? "";
-    const role = prompt("Rôle de l'intervenant (ex. Pasteure, autrice) :", e.author_role ?? "");
-    if (role === null) return;
-    const bio = prompt("Courte présentation :", e.author_bio ?? "") ?? e.author_bio ?? "";
-    const instagram = prompt("Lien Instagram (laisser vide si aucun) :", e.author_instagram ?? "") ?? "";
-    const youtube = prompt("Lien YouTube :", lien("YouTube")) ?? "";
-    const boutique = prompt("Lien Boutique (livres, produits) :", lien("Boutique")) ?? "";
-    const site = prompt("Site web :", lien("Site web")) ?? "";
-    const liens = [
-      { label: "YouTube", url: youtube.trim() },
-      { label: "Boutique", url: boutique.trim() },
-      { label: "Site web", url: site.trim() },
-    ].filter((l) => l.url);
-    const ok = await modifierEmission(e.id, {
-      author_role: role.trim() || null,
-      author_bio: bio.trim() || null,
-      author_instagram: instagram.trim() || null,
-      author_links: liens,
-    });
-    if (!ok) alert("La fiche n'a pas été enregistrée. As-tu exécuté le SQL migration-podcast-auteurs.sql dans Supabase ?");
-    load();
-  }
-  async function changerPochette(e: Emission, f: File | undefined) {
-    if (!f) return;
-    await modifierEmission(e.id, {}, f);
-    load();
-  }
-  async function effacerEmission(e: Emission) {
-    if (!confirm(`Supprimer l'émission « ${e.title} » ? Ses épisodes restent en ligne.`)) return;
-    await supprimerEmission(e.id);
-    setEmissionOuverte(null);
     load();
   }
 
@@ -379,10 +307,18 @@ export function ListenScreen() {
   const minutes = (t: AudioTrack) => (durations[t.id] ? `${Math.max(1, Math.round(durations[t.id] / 60))} min` : null);
   const categories = Array.from(new Set((emissions ?? []).map((e) => e.category).filter(Boolean))) as string[];
   // Intervenants (avec la pochette de leur première émission et le nombre d'épisodes).
-  const intervenants = Array.from(new Set((emissions ?? []).map((e) => e.author).filter(Boolean))) .map((nom) => {
-    const ems = (emissions ?? []).filter((e) => e.author === nom);
-    return { nom: nom as string, image: ems[0]?.cover ?? null, episodes: ems.reduce((n, e) => n + (parEmission.get(e.id)?.length ?? 0), 0) };
+  const intervenants = Array.from(new Set((emissions ?? []).flatMap((e) => nomsDe(e)))).map((nom) => {
+    const ems = (emissions ?? []).filter((e) => nomsDe(e).includes(nom));
+    const photo = ems.map((e) => intervenantsDe(e).find((i) => i.nom === nom)?.photo).find(Boolean);
+    return { nom, image: photo ?? ems[0]?.cover ?? null, episodes: ems.reduce((n, e) => n + (parEmission.get(e.id)?.length ?? 0), 0) };
   });
+  /** Ouvre la fiche d'un intervenant ; avec plusieurs noms réunis (« A et B »), celle du premier. */
+  const ouvrirFiche = (noms?: string | null) => {
+    if (!noms) return setFiche(null);
+    if ((emissions ?? []).some((e) => nomsDe(e).includes(noms))) return setFiche(noms);
+    const e = (emissions ?? []).find((x) => x.author === noms);
+    setFiche(nomsDe(e)[0] ?? noms);
+  };
   const sansAccent = (x: string) => x.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
   const q = sansAccent(recherche.trim());
 
@@ -605,14 +541,23 @@ export function ListenScreen() {
               {e.category ? <p className="text-[10.5px] font-black uppercase tracking-[0.22em] text-dawn-400">{e.category}</p> : null}
               <h1 className="mt-1.5 font-display text-[26px] font-extrabold leading-tight text-cream">{e.title}</h1>
               <p className="mt-1 flex items-center justify-center gap-1.5 text-[13px] font-semibold text-cream/55">
-                {e.author ? (
+                {nomsDe(e).length ? (
                   <>
-                    <button type="button" onClick={() => setFiche(e.author)} className="inline-flex items-center gap-0.5 text-dawn-400 underline-offset-4 active:underline">
-                      {e.author}
-                      <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0 fill-none stroke-current" strokeWidth={2.4} aria-hidden>
-                      <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    </button>
+                    <span className="inline-flex flex-wrap items-center justify-center gap-x-1">
+                      {nomsDe(e).map((nom, k, tous) => (
+                        <span key={nom} className="inline-flex items-center">
+                          <button type="button" onClick={() => setFiche(nom)} className="inline-flex items-center gap-0.5 text-dawn-400 underline-offset-4 active:underline">
+                            {nom}
+                            {tous.length === 1 ? (
+                              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0 fill-none stroke-current" strokeWidth={2.4} aria-hidden>
+                                <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            ) : null}
+                          </button>
+                          {k < tous.length - 2 ? <span className="text-cream/55">,</span> : k === tous.length - 2 ? <span className="ml-1 text-cream/55">et</span> : null}
+                        </span>
+                      ))}
+                    </span>
                     <span aria-hidden>·</span>
                   </>
                 ) : null}
@@ -646,7 +591,6 @@ export function ListenScreen() {
         {admin ? (
           <div className="mx-5 mb-4 flex flex-wrap gap-2 rounded-3xl border border-dashed border-dawn-400/40 bg-white/[0.03] p-4">
             <input ref={fileRef} type="file" accept="audio/*" multiple onChange={(ev) => onFiles(ev, e.id)} className="hidden" />
-            <input ref={coverRef} type="file" accept="image/*" onChange={(ev) => changerPochette(e, ev.target.files?.[0])} className="hidden" />
             <button
               type="button"
               onClick={() => fileRef.current?.click()}
@@ -655,18 +599,9 @@ export function ListenScreen() {
             >
               {upload ? `Envoi… ${upload.done}/${upload.total}` : "Ajouter des épisodes"}
             </button>
-            <button type="button" onClick={() => coverRef.current?.click()} className="rounded-full border border-white/15 px-4 py-2 text-[13px] font-semibold text-cream/80">
-              Changer la pochette
-            </button>
-            <button type="button" onClick={() => editerEmission(e)} className="rounded-full border border-white/15 px-4 py-2 text-[13px] font-semibold text-cream/80">
-              Modifier
-            </button>
-            <button type="button" onClick={() => editerFiche(e)} className="rounded-full border border-white/15 px-4 py-2 text-[13px] font-semibold text-cream/80">
-              Fiche de l&apos;intervenant
-            </button>
-            <button type="button" onClick={() => effacerEmission(e)} className="rounded-full border border-red-400/30 px-4 py-2 text-[13px] font-semibold text-red-400">
-              Supprimer
-            </button>
+            <Link href={`/admin/podcasts/?e=${e.id}`} className="rounded-full border border-white/15 px-4 py-2 text-[13px] font-semibold text-cream/80">
+              Gérer l&apos;émission
+            </Link>
           </div>
         ) : null}
 
@@ -781,7 +716,7 @@ export function ListenScreen() {
                     {d.auteur ? (
                       <button
                         type="button"
-                        onClick={() => setFiche(d.auteur ?? null)}
+                        onClick={() => ouvrirFiche(d.auteur)}
                         className="mt-1 inline-flex max-w-full items-center gap-0.5 text-left text-[13px] font-semibold text-dawn-400 underline-offset-4 active:underline"
                       >
                         <span className="truncate">avec {d.auteur}</span>
@@ -1178,7 +1113,7 @@ export function ListenScreen() {
     const emFiltrees = (emissions ?? []).filter(
       (e) =>
         (!categorie || e.category === categorie) &&
-        (!auteur || e.author === auteur) &&
+        (!auteur || nomsDe(e).includes(auteur)) &&
         (!q || sansAccent(`${e.title} ${e.author ?? ""} ${e.description ?? ""}`).includes(q)),
     );
     const parFormat = format === "courts" ? courts : format === "longs" ? longs : tracks ?? [];
@@ -1186,7 +1121,7 @@ export function ListenScreen() {
       q || auteur || format
         ? parFormat.filter(
             (t) =>
-              (!auteur || t.author === auteur) &&
+              (!auteur || nomsDe(t.emission).includes(auteur)) &&
               (!q || sansAccent(`${t.title} ${t.description ?? ""} ${t.showTitle ?? ""} ${t.author ?? ""}`).includes(q)),
           )
         : [];
@@ -1275,13 +1210,12 @@ export function ListenScreen() {
 
         {admin ? (
           <div className="mx-5 mt-4">
-            <button
-              type="button"
-              onClick={nouvelleEmission}
-              className="w-full rounded-2xl border border-dashed border-dawn-400/45 bg-white/[0.03] py-3.5 text-[14px] font-bold text-dawn-400"
+            <Link
+              href="/admin/podcasts/"
+              className="block w-full rounded-2xl border border-dashed border-dawn-400/45 bg-white/[0.03] py-3.5 text-center text-[14px] font-bold text-dawn-400"
             >
-              + Nouvelle émission (admin)
-            </button>
+              Gérer les émissions et les épisodes (admin)
+            </Link>
           </div>
         ) : null}
 
@@ -1397,8 +1331,12 @@ export function ListenScreen() {
       {fiche
         ? (() => {
             // L'émission de cet intervenant dont la fiche est la plus complète.
-            const ems = (emissions ?? []).filter((e) => e.author === fiche);
-            const e = ems.find((x) => x.author_bio || x.author_instagram || x.author_links?.length) ?? ems[0];
+            const ems = (emissions ?? []).filter((e) => nomsDe(e).includes(fiche));
+            const complete = (x: Emission) => {
+              const i = intervenantsDe(x).find((y) => y.nom === fiche);
+              return !!(i?.bio || i?.instagram || i?.liens?.length || i?.photo);
+            };
+            const e = ems.find(complete) ?? ems[0];
             const { info, photo } = ficheAuteur(fiche, e);
             return <AuthorCard open onClose={() => setFiche(null)} author={info} photo={photo} z="z-[125]" />;
           })()
@@ -1482,22 +1420,23 @@ export function ListenScreen() {
                         </svg>
                         Partager
                       </button>
-                      {t.author ? (
+                      {intervenantsDe(t.emission).map(({ nom }) => (
                         <button
+                          key={nom}
                           type="button"
                           className={ligne}
                           onClick={() => {
                             setMenu(null);
-                            setFiche(t.author ?? null);
+                            setFiche(nom);
                           }}
                         >
                           <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current text-dawn-400" strokeWidth={1.9} aria-hidden>
                             <circle cx="12" cy="8" r="4" />
                             <path d="M4 21a8 8 0 0 1 16 0" strokeLinecap="round" />
                           </svg>
-                          À propos de {t.author}
+                          À propos de {nom}
                         </button>
-                      ) : null}
+                      ))}
                       {t.show_id && !emission ? (
                         <button
                           type="button"
@@ -1518,7 +1457,7 @@ export function ListenScreen() {
                             className={ligne}
                             onClick={() => {
                               setMenu(null);
-                              editTrack(t);
+                              router.push(`/admin/podcasts/?e=${t.show_id ?? ""}`);
                             }}
                           >
                             <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current text-cream/60" strokeWidth={1.9} aria-hidden>

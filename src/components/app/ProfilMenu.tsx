@@ -411,6 +411,7 @@ const I = {
   reglages:
     "M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.5-2.4 1a7 7 0 0 0-2-1.2L14 3h-4l-.5 2.6a7 7 0 0 0-2 1.2l-2.4-1-2 3.5 2 1.5a7 7 0 0 0 0 2.4l-2 1.5 2 3.5 2.4-1a7 7 0 0 0 2 1.2L10 21h4l.5-2.6a7 7 0 0 0 2-1.2l2.4 1 2-3.5-2-1.5c.07-.4.1-.8.1-1.2z",
   studio: "M4 20V10M10 20V4M16 20v-7M22 20H2",
+  casque: "M4 15v-3a8 8 0 0 1 16 0v3M4 15h3v5H5a1 1 0 0 1-1-1v-4zM20 15h-3v5h2a1 1 0 0 0 1-1v-4z",
   fermer: "M6 6l12 12M18 6L6 18",
   chevron: "M9 6l6 6-6 6",
 };
@@ -433,6 +434,7 @@ const RHEMA: Ligne[] = [
 
 /** Visible seulement pour l'admin, sous « Paramètres » (la RLS de studio_docs fait foi). */
 const STUDIO: Ligne = { label: "Studio", icone: I.studio, href: "/admin/studio" };
+const PODCASTS_ADMIN: Ligne = { label: "Podcasts", icone: I.casque, href: "/admin/podcasts" };
 
 export function ProfilMenu() {
   const [ouvert, setOuvert] = useState(false);
@@ -580,7 +582,7 @@ export function ProfilMenu() {
             {/* RHEMA */}
             <div className="relative mt-3 px-5">
               <p className="text-[11px] font-black uppercase tracking-[0.22em] text-cream/40">RHEMA</p>
-              <div className="mt-1 divide-y divide-white/[0.06]">{(isAdmin ? [...RHEMA, STUDIO] : RHEMA).map(ligne)}</div>
+              <div className="mt-1 divide-y divide-white/[0.06]">{(isAdmin ? [...RHEMA, STUDIO, PODCASTS_ADMIN] : RHEMA).map(ligne)}</div>
             </div>
 
             <div className="relative mt-auto flex items-center gap-2.5 px-5 pt-4 text-cream/40">

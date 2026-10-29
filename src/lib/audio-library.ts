@@ -2,6 +2,7 @@
 
 import { getSupabase } from "./supabase";
 import { compressToMonoMp3 } from "./audio-compress";
+import { compressWallImage } from "./wall";
 
 /** Nom du bucket Storage des podcasts (public). */
 const AUDIO_BUCKET = "audiovf";
@@ -47,7 +48,37 @@ export type Emission = {
   author_photo?: string | null;
   author_instagram?: string | null;
   author_links?: LienAuteur[] | null;
+  /** Plusieurs intervenants (migration-podcast-intervenants.sql). Sans elle :
+   * un seul intervenant, déduit des champs author_*. */
+  intervenants?: Intervenant[] | null;
 };
+
+/** Un intervenant d'émission et sa fiche (ce qui s'affiche au toucher de son nom). */
+export type Intervenant = {
+  nom: string;
+  role?: string | null;
+  bio?: string | null;
+  photo?: string | null;
+  instagram?: string | null;
+  liens?: LienAuteur[] | null;
+};
+
+/** Les intervenants d'une émission (liste, sinon l'intervenant unique historique). */
+export function intervenantsDe(e?: Emission | null): Intervenant[] {
+  if (!e) return [];
+  const liste = (e.intervenants ?? []).filter((i) => i?.nom?.trim());
+  if (liste.length) return liste;
+  return e.author
+    ? [{ nom: e.author, role: e.author_role, bio: e.author_bio, photo: e.author_photo, instagram: e.author_instagram, liens: e.author_links ?? [] }]
+    : [];
+}
+export const nomsDe = (e?: Emission | null) => intervenantsDe(e).map((i) => i.nom);
+
+/** « A », « A et B », « A, B et C ». */
+export function joindreNoms(noms: string[]): string {
+  if (noms.length <= 1) return noms[0] ?? "";
+  return `${noms.slice(0, -1).join(", ")} et ${noms[noms.length - 1]}`;
+}
 
 /** Nom de fichier lisible → titre affiché (conserve accents & apostrophes). */
 function titleFromName(name: string): string {
@@ -133,8 +164,11 @@ export async function listPodcasts(): Promise<AudioTrack[]> {
 export async function updatePodcast(
   id: string,
   patch: { title?: string; description?: string | null },
-): Promise<void> {
-  await getSupabase()?.from("podcasts").update(patch).eq("id", id);
+): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  const { error } = await sb.from("podcasts").update(patch).eq("id", id);
+  return !error;
 }
 
 /** Admin: envoie un fichier audio (nom technique propre, titre conservé).
@@ -249,25 +283,46 @@ export async function chargerCatalogue(): Promise<{ emissions: Emission[]; episo
   return { emissions, episodes: enrichis };
 }
 
-async function envoyerPochette(fichier: File): Promise<string | null> {
+/** Image (pochette, photo) compressée avant l'envoi : une photo de téléphone
+ * de 4 Mo devient ~200 Ko, chargée par chaque auditeur. Nom unique → cache d'un an. */
+async function envoyerImage(fichier: File, max: number): Promise<string | null> {
   const sb = getSupabase();
   if (!sb) return null;
-  const ext = (fichier.name.split(".").pop() || "jpg").toLowerCase();
+  const leger = await compressWallImage(fichier, max, 0.88);
+  const corps: Blob = leger && leger.size < fichier.size ? leger : fichier;
+  const ext = corps === fichier ? (fichier.name.split(".").pop() || "jpg").toLowerCase() : "jpg";
   const key = `shows/${Date.now()}-${Math.random().toString(36).slice(2, 7)}.${ext}`;
-  const { error } = await sb.storage.from(AUDIO_BUCKET).upload(key, fichier, { contentType: fichier.type || "image/jpeg", upsert: false });
+  const { error } = await sb.storage.from(AUDIO_BUCKET).upload(key, corps, {
+    contentType: corps === fichier ? fichier.type || "image/jpeg" : "image/jpeg",
+    cacheControl: "31536000",
+    upsert: false,
+  });
   return error ? null : key;
+}
+const envoyerPochette = (fichier: File) => envoyerImage(fichier, 1400);
+
+/** Admin : photo de l'intervenant (fiche), renvoie son adresse publique. */
+export async function envoyerPhotoIntervenant(fichier: File): Promise<string | null> {
+  const key = await envoyerImage(fichier, 600);
+  return key ? urlPublique(key) : null;
 }
 
 /** Admin : crée une émission (pochette facultative). */
 export async function creerEmission(
-  champs: { title: string; author?: string | null; description?: string | null; category?: string | null },
+  champs: { title: string; author?: string | null; description?: string | null; category?: string | null } & Partial<
+    Omit<Emission, "id" | "cover" | "cover_path" | "position">
+  >,
   pochette?: File | null,
-): Promise<boolean> {
+): Promise<string | null> {
   const sb = getSupabase();
-  if (!sb) return false;
+  if (!sb) return null;
   const cover_path = pochette ? await envoyerPochette(pochette) : null;
-  const { error } = await sb.from("podcast_shows").insert({ ...champs, cover_path, position: Date.now() % 1_000_000 });
-  return !error;
+  const { data, error } = await sb
+    .from("podcast_shows")
+    .insert({ ...champs, cover_path, position: Date.now() % 1_000_000 })
+    .select("id")
+    .single();
+  return error || !data ? null : (data as { id: string }).id;
 }
 
 /** Admin : modifie une émission (et sa pochette si fournie). */
@@ -296,7 +351,22 @@ export async function supprimerEmission(id: string): Promise<boolean> {
 }
 
 /** Admin : range un épisode dans une émission. */
-export async function deplacerEpisode(id: string, showId: string): Promise<void> {
-  if (showId === EMISSION_PAR_DEFAUT_ID) return;
-  await getSupabase()?.from("podcasts").update({ show_id: showId }).eq("id", id);
+export async function deplacerEpisode(id: string, showId: string): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb || showId === EMISSION_PAR_DEFAUT_ID) return false;
+  const { error } = await sb.from("podcasts").update({ show_id: showId }).eq("id", id);
+  return !error;
 }
+
+/** Admin : nouvel ordre d'affichage des émissions (première = en tête). */
+export async function reordonnerEmissions(ids: string[]): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  const res = await Promise.all(
+    ids.filter((id) => id !== EMISSION_PAR_DEFAUT_ID).map((id, i) => sb.from("podcast_shows").update({ position: i * 10 }).eq("id", id)),
+  );
+  return res.every((r) => !r.error);
+}
+
+/** L'émission de secours (table absente) ne se modifie pas : SQL à exécuter. */
+export const estEmissionDeSecours = (id: string) => id === EMISSION_PAR_DEFAUT_ID;
