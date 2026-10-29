@@ -47,6 +47,8 @@ export function PlanRating({ slug }: { slug: string }) {
   const [stats, setStats] = useState<PlanStats | null>(null);
   const [mine, setMine] = useState<number | null>(null);
   const [flash, setFlash] = useState(false);
+  // Ma note se replie une fois donnée ; un toucher sur la moyenne la rouvre.
+  const [ouvert, setOuvert] = useState(false);
 
   useEffect(() => {
     planRatingsSummary().then((m) => setStats(m[slug] ?? { avg: 0, cnt: 0 }));
@@ -62,7 +64,10 @@ export function PlanRating({ slug }: { slug: string }) {
     // Optimiste : ta note et la moyenne bougent immédiatement.
     setMine(n);
     setFlash(true);
-    setTimeout(() => setFlash(false), 1200);
+    setTimeout(() => {
+      setFlash(false);
+      setOuvert(false);
+    }, 1400);
     setStats((s) => {
       if (!s) return s;
       const total = s.avg * s.cnt;
@@ -80,8 +85,14 @@ export function PlanRating({ slug }: { slug: string }) {
 
   return (
     <div className="flex flex-col items-end gap-1.5 text-right">
-      {/* La note du plan (moyenne), toujours affichée telle quelle */}
-      <div className="flex items-center gap-1.5">
+      {/* La note du plan (moyenne) : un toucher montre ou cache ma note */}
+      <button
+        type="button"
+        onClick={() => userId && mine != null && setOuvert((o) => !o)}
+        aria-expanded={mine != null ? ouvert : undefined}
+        aria-label={mine != null ? (ouvert ? "Cacher ma note" : "Voir ma note") : undefined}
+        className="flex items-center gap-1.5"
+      >
         {cnt > 0 ? (
           <span className="font-display text-lg font-extrabold leading-none text-cream">
             {avg.toFixed(1).replace(".", ",")}
@@ -95,10 +106,10 @@ export function PlanRating({ slug }: { slug: string }) {
         <span className="text-[11px] font-semibold text-cream/70">
           {cnt > 0 ? `(${cnt})` : "Nouveau"}
         </span>
-      </div>
+      </button>
 
-      {/* Ta note : toujours modifiable d'un toucher */}
-      {userId ? (
+      {/* Ta note : visible tant que je n'ai pas noté, puis seulement à la demande */}
+      {userId && (mine == null || ouvert || flash) ? (
         <div className="flex items-center gap-1.5">
           <span className={`text-[11px] font-semibold ${flash ? "text-dawn-300" : "text-cream/60"}`}>
             {flash ? "Merci pour ta note !" : mine != null ? "Ta note" : "Note ce plan"}
@@ -117,9 +128,9 @@ export function PlanRating({ slug }: { slug: string }) {
             ))}
           </span>
         </div>
-      ) : (
+      ) : !userId ? (
         <p className="text-[11px] font-semibold text-cream/60">Connecte-toi pour noter</p>
-      )}
+      ) : null}
     </div>
   );
 }

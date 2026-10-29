@@ -15,6 +15,8 @@ export function NoteEmission({ showId, onNote }: { showId: string; onNote?: () =
   const [stats, setStats] = useState<NoteStats>({ avg: 0, cnt: 0 });
   const [mine, setMine] = useState<number | null>(null);
   const [merci, setMerci] = useState(false);
+  // Ma note se replie une fois donnée ; un toucher sur la moyenne la rouvre.
+  const [ouvert, setOuvert] = useState(false);
 
   useEffect(() => {
     notesEmissions().then((m) => setStats(m[showId] ?? { avg: 0, cnt: 0 }));
@@ -29,7 +31,10 @@ export function NoteEmission({ showId, onNote }: { showId: string; onNote?: () =
     const avant = mine;
     setMine(n);
     setMerci(true);
-    setTimeout(() => setMerci(false), 1400);
+    setTimeout(() => {
+      setMerci(false);
+      setOuvert(false);
+    }, 1400);
     setStats((s) => {
       const total = s.avg * s.cnt;
       return avant != null ? { avg: (total - avant + n) / Math.max(1, s.cnt), cnt: s.cnt } : { avg: (total + n) / (s.cnt + 1), cnt: s.cnt + 1 };
@@ -44,7 +49,13 @@ export function NoteEmission({ showId, onNote }: { showId: string; onNote?: () =
 
   return (
     <div className="flex flex-col items-center gap-1.5">
-      <div className="flex items-center gap-1.5">
+      <button
+        type="button"
+        onClick={() => userId && mine != null && setOuvert((o) => !o)}
+        aria-expanded={mine != null ? ouvert : undefined}
+        aria-label={mine != null ? (ouvert ? "Cacher ma note" : "Voir ma note") : undefined}
+        className="flex items-center gap-1.5"
+      >
         {stats.cnt > 0 ? <span className="font-display text-lg font-extrabold leading-none text-cream">{stats.avg.toFixed(1).replace(".", ",")}</span> : null}
         <span className="flex items-center gap-0.5">
           {[1, 2, 3, 4, 5].map((n) => (
@@ -54,8 +65,8 @@ export function NoteEmission({ showId, onNote }: { showId: string; onNote?: () =
         <span className="text-[11px] font-semibold text-cream/60">
           {stats.cnt > 0 ? `(${stats.cnt} note${stats.cnt > 1 ? "s" : ""})` : "Pas encore de note"}
         </span>
-      </div>
-      {userId ? (
+      </button>
+      {userId && (mine == null || ouvert || merci) ? (
         <div className="flex items-center gap-1.5">
           <span className={`text-[11px] font-semibold ${merci ? "text-dawn-300" : "text-cream/55"}`}>
             {merci ? "Merci pour ta note !" : mine != null ? "Ta note" : "Note cette émission"}
@@ -74,9 +85,9 @@ export function NoteEmission({ showId, onNote }: { showId: string; onNote?: () =
             ))}
           </span>
         </div>
-      ) : (
+      ) : !userId ? (
         <p className="text-[11px] font-semibold text-cream/55">Connecte-toi pour noter</p>
-      )}
+      ) : null}
     </div>
   );
 }

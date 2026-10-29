@@ -1543,7 +1543,7 @@
   "config/chemin/chapitre-abraham.ts:87"
  ],
  "({0} note{1})": [
-  "components/audio/NoteEmission.tsx:55"
+  "components/audio/NoteEmission.tsx:66"
  ],
  "(−points)": [
   "components/games/WhoAmIScreen.tsx:369"
@@ -1627,8 +1627,8 @@
   "components/audio/ListenScreen.tsx:320"
  ],
  "{0} {1} sur 5": [
-  "components/audio/NoteEmission.tsx:70",
-  "components/plans/PlanRating.tsx:113"
+  "components/audio/NoteEmission.tsx:81",
+  "components/plans/PlanRating.tsx:124"
  ],
  "{0} an{1} avec Jésus": [
   "lib/spiritual.ts:16"
@@ -5367,6 +5367,10 @@
   "config/chemin/chapitre-abraham.ts:87",
   "config/chemin/chapitre-naissance.ts:47"
  ],
+ "Cacher ma note": [
+  "components/audio/NoteEmission.tsx:56",
+  "components/plans/PlanRating.tsx:93"
+ ],
  "Cadeau de bienvenue": [
   "components/home/NewsletterCTA.tsx:15"
  ],
@@ -7243,8 +7247,8 @@
   "components/community/PrieresDirect.tsx:395"
  ],
  "Connecte-toi pour noter": [
-  "components/audio/NoteEmission.tsx:78",
-  "components/plans/PlanRating.tsx:121"
+  "components/audio/NoteEmission.tsx:89",
+  "components/plans/PlanRating.tsx:132"
  ],
  "Connecte-toi pour poser ta question": [
   "components/assistant/AssistantView.tsx:125"
@@ -21056,9 +21060,9 @@
   "app/donner/merci/page.tsx:6"
  ],
  "Merci pour ta note !": [
-  "components/audio/NoteEmission.tsx:61",
+  "components/audio/NoteEmission.tsx:72",
   "components/ecole/FormationView.tsx:1135",
-  "components/plans/PlanRating.tsx:104"
+  "components/plans/PlanRating.tsx:115"
  ],
  "Merci, gloire à Dieu!": [
   "components/home/Testimonies.tsx:98"
@@ -21397,8 +21401,8 @@
   "components/community/ProfileView.tsx:547"
  ],
  "Modifier ma note :": [
-  "components/audio/NoteEmission.tsx:70",
-  "components/plans/PlanRating.tsx:113"
+  "components/audio/NoteEmission.tsx:81",
+  "components/plans/PlanRating.tsx:124"
  ],
  "Modifier mon profil": [
   "components/community/MemberView.tsx:327"
@@ -21932,13 +21936,13 @@
   "components/ecole/FormationView.tsx:914"
  ],
  "Note ce plan": [
-  "components/plans/PlanRating.tsx:104"
+  "components/plans/PlanRating.tsx:115"
  ],
  "Note ce que tu retiens de cette leçon — ta note est rangée dans": [
   "components/ecole/FormationView.tsx:2097"
  ],
  "Note cette émission": [
-  "components/audio/NoteEmission.tsx:61"
+  "components/audio/NoteEmission.tsx:72"
  ],
  "Note cette formation": [
   "components/ecole/FormationView.tsx:1135"
@@ -21963,8 +21967,8 @@
   "components/community/PrayerCard.tsx:519"
  ],
  "Noter": [
-  "components/audio/NoteEmission.tsx:70",
-  "components/plans/PlanRating.tsx:113",
+  "components/audio/NoteEmission.tsx:81",
+  "components/plans/PlanRating.tsx:124",
   "components/ui/Markable.tsx:228"
  ],
  "Noter l'application": [
@@ -23209,7 +23213,7 @@
   "components/community/AnalyticsDashboard.tsx:223"
  ],
  "Pas encore de note": [
-  "components/audio/NoteEmission.tsx:55"
+  "components/audio/NoteEmission.tsx:66"
  ],
  "Pas encore de notification.": [
   "components/community/NotificationsBell.tsx:152"
@@ -30084,9 +30088,9 @@
   "lib/notifications.ts:94"
  ],
  "Ta note": [
-  "components/audio/NoteEmission.tsx:61",
+  "components/audio/NoteEmission.tsx:72",
   "components/ecole/FormationView.tsx:2336",
-  "components/plans/PlanRating.tsx:104"
+  "components/plans/PlanRating.tsx:115"
  ],
  "Ta note aide d'autres personnes à découvrir ce temps avec Dieu. Ça prend 10 secondes, et ça compte énormément. Merci du fond du cœur.": [
   "components/app/RatingPrompt.tsx:144"
@@ -33211,6 +33215,10 @@
  ],
  "Voir les vidéos sur YouTube": [
   "components/home/FeaturedPredications.tsx:62"
+ ],
+ "Voir ma note": [
+  "components/audio/NoteEmission.tsx:56",
+  "components/plans/PlanRating.tsx:93"
  ],
  "VOIR MOINS": [
   "components/chemin/CheminHub.tsx:306"
