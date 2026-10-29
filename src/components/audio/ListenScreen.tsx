@@ -50,6 +50,26 @@ const DUR_KEY = "jb.podcast.dur.v1";
 const COURT = 600;
 const EASE = [0.22, 1, 0.36, 1] as const;
 
+/** Graine du jour : l'ordre « au hasard » reste le même toute la journée. */
+const graineDuJour = () => new Date().toISOString().slice(0, 10);
+/** Petit hachage (FNV-1a) pour mélanger de façon stable. */
+function hacher(s: string): number {
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619);
+  return h >>> 0;
+}
+/** Mélange les épisodes en alternant les émissions : un de chaque, à tour de rôle. */
+function melangerParEmission(liste: AudioTrack[], graine: string): AudioTrack[] {
+  const groupes = new Map<string, AudioTrack[]>();
+  for (const t of liste) groupes.set(t.show_id ?? "", [...(groupes.get(t.show_id ?? "") ?? []), t]);
+  const files = [...groupes.entries()]
+    .sort((a, b) => hacher(graine + a[0]) - hacher(graine + b[0]))
+    .map(([, eps]) => [...eps].sort((a, b) => hacher(graine + a.id) - hacher(graine + b.id)));
+  const out: AudioTrack[] = [];
+  while (files.some((f) => f.length)) for (const f of files) if (f.length) out.push(f.shift()!);
+  return out;
+}
+
 function when(iso?: string): string {
   if (!iso) return "";
   return new Date(iso).toLocaleDateString(localeApp(), { day: "numeric", month: "long" });
@@ -301,7 +321,15 @@ export function ListenScreen() {
     return m;
   }, [tracks]);
   const enCours = (tracks ?? []).filter((t) => (positions[t.id] ?? 0) > 5);
-  const nouveaux = (tracks ?? []).slice(0, 10);
+  // Nouveaux épisodes : ceux des 7 derniers jours (sinon des 30), MÉLANGÉS entre
+  // émissions (une de chaque à tour de rôle) pour qu'une émission très active
+  // ne prenne pas toute la place. L'ordre change chaque jour, pas à chaque écran.
+  const nouveaux = useMemo(() => {
+    const liste = tracks ?? [];
+    const depuis = (jours: number) => liste.filter((t) => t.created_at && Date.now() - new Date(t.created_at).getTime() < jours * 86_400_000);
+    const recents = depuis(7).length ? depuis(7) : depuis(30).length ? depuis(30) : liste.slice(0, 10);
+    return melangerParEmission(recents, graineDuJour());
+  }, [tracks]);
   const plusEcoutes = (tracks ?? [])
     .filter((t) => (populaires[t.id] ?? 0) > 0)
     .sort((a, b) => (populaires[b.id] ?? 0) - (populaires[a.id] ?? 0))
@@ -697,29 +725,27 @@ export function ListenScreen() {
         part: fraction(reprise),
       });
     }
-    if (nouveaux[0] && nouveaux[0].id !== reprise?.id) {
-      const t = nouveaux[0];
-      diapos.push({ cle: `n${t.id}`, surtitre: "Nouvel épisode", titre: t.title, auteur: t.author, texte: t.description, image: t.cover, lancer: () => lire(t, tracks ?? nouveaux) });
-    }
-    for (const e of emissions ?? []) {
+    // À l'écoute : l'épisode phare de chaque émission (le plus écouté, sinon
+    // le plus récent), émissions dans un ordre qui change chaque jour.
+    const graine = graineDuJour();
+    const emissionsDuJour = [...(emissions ?? [])].sort((a, b) => hacher(graine + a.id) - hacher(graine + b.id));
+    for (const e of emissionsDuJour) {
       const eps = parEmission.get(e.id) ?? [];
       if (!eps.length) continue;
-      diapos.push({ cle: `e${e.id}`, surtitre: "À l'écoute", titre: e.title, auteur: e.author, texte: e.description, image: e.cover, lancer: () => lire(eps[0], eps) });
-    }
-    for (const t of nouveaux) {
-      if (diapos.length >= 4) break;
-      if (t === nouveaux[0] || t.id === reprise?.id) continue;
+      const phare = [...eps].sort((a, b) => (populaires[b.id] ?? 0) - (populaires[a.id] ?? 0) || (b.created_at ?? "").localeCompare(a.created_at ?? ""))[0];
+      if (phare.id === reprise?.id) continue;
       diapos.push({
-        cle: `t${t.id}`,
-        surtitre: t.showTitle ?? "Épisode",
-        titre: t.title,
-        auteur: t.author,
-        texte: t.description,
-        image: t.cover,
-        lancer: () => lire(t, nouveaux),
+        cle: `e${e.id}`,
+        surtitre: `À l'écoute · ${e.title}`,
+        titre: phare.title,
+        auteur: e.author,
+        texte: phare.description ?? e.description,
+        image: phare.cover ?? e.cover,
+        lancer: () => lire(phare, eps),
       });
+      if (diapos.length >= 8) break;
     }
-    const listeNouveaux = voirTousNouveaux ? tracks ?? [] : nouveaux.slice(0, 5);
+    const listeNouveaux = voirTousNouveaux ? nouveaux : nouveaux.slice(0, 5);
     return (
       <motion.div key="accueil" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
         {/* Bannière à faire glisser */}
@@ -832,12 +858,29 @@ export function ListenScreen() {
           </Rangee>
         ) : null}
 
+        {/* Les émissions, à faire défiler pour les découvrir */}
+        {emissions && emissions.length > 0 ? (
+          <Rangee
+            titre="Les émissions"
+            action={
+              <button type="button" onClick={() => setOnglet("parcourir")} className="flex items-center gap-0.5 text-[13.5px] font-semibold text-cream/60">
+                Voir tout
+                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2} aria-hidden>
+                  <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            }
+          >
+            {emissions.map((e) => carteEmission(e))}
+          </Rangee>
+        ) : null}
+
         {/* Nouveaux épisodes */}
         {nouveaux.length ? (
           <section className="mt-8 px-5">
             <div className="flex items-end justify-between gap-3">
               <h2 className="font-display text-[20px] font-bold text-cream">Nouveaux épisodes</h2>
-              {(tracks?.length ?? 0) > 5 ? (
+              {nouveaux.length > 5 ? (
                 <button type="button" onClick={() => setVoirTousNouveaux((v) => !v)} className="flex items-center gap-0.5 text-[13.5px] font-semibold text-cream/60">
                   {voirTousNouveaux ? "Moins" : "Voir tout"}
                   <svg viewBox="0 0 24 24" className={`h-4 w-4 fill-none stroke-current transition-transform ${voirTousNouveaux ? "-rotate-90" : ""}`} strokeWidth={2.2} aria-hidden>
@@ -851,7 +894,7 @@ export function ListenScreen() {
                 const isCur = pod.current?.id === t.id;
                 return (
                   <li key={t.id} className="flex items-center gap-3.5">
-                    <button type="button" onClick={() => lire(t, tracks ?? nouveaux)} className="flex min-w-0 flex-1 items-center gap-3.5 text-left">
+                    <button type="button" onClick={() => lire(t, nouveaux)} className="flex min-w-0 flex-1 items-center gap-3.5 text-left">
                       <span className="relative aspect-[4/3] w-[29%] max-w-[120px] shrink-0 overflow-hidden rounded-xl">
                         {pochette(t.cover)}
                         {isCur ? (
@@ -922,21 +965,6 @@ export function ListenScreen() {
           </Rangee>
         ) : null}
 
-        {emissions && emissions.length > 1 ? (
-          <Rangee
-            titre="Les émissions"
-            action={
-              <button type="button" onClick={() => setOnglet("parcourir")} className="flex items-center gap-0.5 text-[13.5px] font-semibold text-cream/60">
-                Voir tout
-                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2} aria-hidden>
-                  <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-            }
-          >
-            {emissions.map((e) => carteEmission(e))}
-          </Rangee>
-        ) : null}
       </motion.div>
     );
   };
