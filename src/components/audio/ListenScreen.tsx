@@ -44,6 +44,7 @@ import { AuthorCard } from "@/components/plans/AuthorCard";
 import { ficheAuteur } from "@/lib/podcast-auteurs";
 import { intervenantsDe, nomsDe, notesEmissions, estEmissionDeSecours, PUBLICS, libellePublic, type NoteStats } from "@/lib/audio-library";
 import { NoteEmission } from "@/components/audio/NoteEmission";
+import { LiensCreateurs } from "@/components/audio/LiensCreateurs";
 
 const DUR_KEY = "jb.podcast.dur.v1";
 /** Épisode « court » : moins de 10 minutes. */
@@ -637,6 +638,7 @@ export function ListenScreen() {
                 </p>
               ) : null}
               {e.description ? <p className="mx-auto mt-3 max-w-sm text-[14px] leading-relaxed text-cream/65">{e.description}</p> : null}
+              <LiensCreateurs emission={e} />
               {!estEmissionDeSecours(e.id) ? (
                 <div className="mt-4">
                   <NoteEmission showId={e.id} onNote={() => notesEmissions().then(setNotes)} />

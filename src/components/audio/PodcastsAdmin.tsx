@@ -398,6 +398,8 @@ function FicheEmission({
         instagram: i.instagram?.trim() || null,
         liens: [
           { label: "YouTube", url: i.youtube.trim() },
+          { label: "TikTok", url: i.tiktok.trim() },
+          { label: "Facebook", url: i.facebook.trim() },
           { label: "Boutique", url: i.boutique.trim() },
           { label: "Site web", url: i.site.trim() },
         ].filter((l) => l.url),
@@ -607,6 +609,8 @@ function FicheEmission({
 type Brouillon = Intervenant & {
   cle: string;
   youtube: string;
+  tiktok: string;
+  facebook: string;
   boutique: string;
   site: string;
   fichier?: File;
@@ -620,6 +624,8 @@ function versBrouillon(i: Intervenant, k: number, ouvert = false): Brouillon {
     ...i,
     cle: `${k}-${i.nom}-${Math.random().toString(36).slice(2, 6)}`,
     youtube: lien("YouTube"),
+    tiktok: lien("TikTok"),
+    facebook: lien("Facebook"),
     boutique: lien("Boutique"),
     site: lien("Site web"),
     apercu: i.photo ?? null,
@@ -704,6 +710,8 @@ function CarteIntervenant({
               [
                 ["Instagram", "instagram"],
                 ["YouTube", "youtube"],
+                ["TikTok", "tiktok"],
+                ["Facebook", "facebook"],
                 ["Boutique", "boutique"],
                 ["Site web", "site"],
               ] as const
