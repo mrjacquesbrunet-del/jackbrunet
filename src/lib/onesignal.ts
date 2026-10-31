@@ -63,6 +63,25 @@ export async function requestPushPermission(): Promise<boolean> {
   }
 }
 
+/** État des notifications push sur ce téléphone. « refusee » : l'utilisateur
+ * a dit non, seule l'app Réglages du téléphone peut les réactiver. */
+export type EtatPush = "accordee" | "a-demander" | "refusee" | "indisponible";
+
+export async function etatPermissionPush(): Promise<EtatPush> {
+  if (!isNativeApp()) return "indisponible";
+  try {
+    const mod = await import("onesignal-cordova-plugin");
+    const OneSignal = (mod as { default?: unknown }).default ?? mod;
+    const OS = OneSignal as {
+      Notifications: { getPermissionAsync: () => Promise<boolean>; canRequestPermission: () => Promise<boolean> };
+    };
+    if (await OS.Notifications.getPermissionAsync()) return "accordee";
+    return (await OS.Notifications.canRequestPermission()) ? "a-demander" : "refusee";
+  } catch {
+    return "indisponible";
+  }
+}
+
 /**
  * Associe l'appareil au compte (external_id = id Supabase). Indispensable pour
  * pouvoir ENVOYER une notification push à cette personne précise (messages,

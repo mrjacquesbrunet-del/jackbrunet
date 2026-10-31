@@ -24,6 +24,7 @@ import {
 import { localeApp } from "@/lib/i18n";
 import { openExternal } from "@/lib/external";
 import { EnLigneMaintenant } from "@/components/community/EnLigneMaintenant";
+import { ActiverNotifications } from "@/components/app/ActiverNotifications";
 import { urlLegere, repliImage } from "@/lib/image-legere";
 
 /** Date discrète d'une conversation : heure si aujourd'hui, « hier », puis
@@ -201,6 +202,7 @@ function Inbox() {
         <div className="mt-4">
           <StartSearch />
         </div>
+        <ActiverNotifications variante="bandeau" />
         <EnLigneMaintenant tone="light" className="mt-5" />
 
         {convos === null? (

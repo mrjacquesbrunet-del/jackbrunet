@@ -29,6 +29,7 @@ import {
 import { ProfileSignIn } from "@/components/community/ProfileSignIn";
 import { PrayerListQuickAdd } from "@/components/community/MyPrayerList";
 import { MemberSearch } from "@/components/community/MemberSearch";
+import { RechercheProfils } from "@/components/community/RechercheProfils";
 import { MemberSuggestions } from "@/components/community/MemberSuggestions";
 import { ProfileActivity } from "@/components/community/ProfileActivity";
 import { ModerationQueue } from "@/components/community/ModerationQueue";
@@ -291,6 +292,8 @@ function Profile({
 
   // Raccourcis « caméra » de l'en-tête : changer la photo ou la couverture
   // en deux taps, sans passer par le formulaire d'édition.
+  // La loupe ouvre la recherche de membres plein écran.
+  const [recherche, setRecherche] = useState(false);
   const quickBannerRef = useRef<HTMLInputElement>(null);
   const quickAvatarRef = useRef<HTMLInputElement>(null);
   const [quickBusy, setQuickBusy] = useState<null | "banner" | "avatar">(null);
@@ -569,9 +572,7 @@ function Profile({
             <button
               type="button"
               aria-label="Rechercher des profils"
-              onClick={() =>
-                document.getElementById("trouver-profils")?.scrollIntoView({ behavior: "smooth" })
-              }
+              onClick={() => setRecherche(true)}
               className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/20 bg-white/10 text-cream transition-colors hover:bg-white/20"
             >
               <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8}>
@@ -583,6 +584,7 @@ function Profile({
             <MessagesButton tone="dark" />
             {/* Cloche: s'allume quand on interagit avec tes sujets de prière */}
             <NotificationsBell userId={userId} tone="dark" />
+            <RechercheProfils ouvert={recherche} fermer={() => setRecherche(false)} />
             <ProfileThemeToggle jour={jour} onToggle={toggleTheme} />
             {/* Mon espace : carnet, plans, liste de prière, badges, compte… */}
             <button

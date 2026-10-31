@@ -9,6 +9,7 @@ import { signOut } from "@/lib/community";
 import { openExternal } from "@/lib/external";
 import { siteConfig } from "@/config/site";
 import { isNativeApp } from "@/lib/notifications";
+import { ActiverNotifications } from "@/components/app/ActiverNotifications";
 import { ChoixLangue } from "@/components/i18n/ChoixLangue";
 import { useLangue, contenuAudioVideoDispo } from "@/lib/i18n";
 
@@ -102,6 +103,9 @@ export function ProfileSettings({ userId, onClose }: { userId: string; onClose: 
         <p className="mt-1.5 text-xs text-cream/50">
           Choisis ce qui arrive sur ton téléphone. La cloche dans l&apos;app garde tout.
         </p>
+        <div className="mt-3">
+          <ActiverNotifications variante="reglages" />
+        </div>
         <div className="mt-3 space-y-1.5">
           {NOTIF_GROUPS.filter((g) => g.key !== "podcasts" || contenuAudioVideoDispo(langue)).map((g) => (
             <div key={g.key} className="flex items-center gap-3 rounded-2xl bg-white/[0.05] px-4 py-3">

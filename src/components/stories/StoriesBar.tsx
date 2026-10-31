@@ -343,16 +343,25 @@ function StoryViewer({
           ))}
         </div>
         <div className="mt-2.5 flex items-center gap-2.5 px-3">
-          <Avatar pseudo={group.author.pseudo} url={group.author.avatar_url} size={34} />
-          <span className="min-w-0 flex-1">
-            <span className="block truncate text-sm font-bold text-white">{group.author.pseudo}</span>
-            <span className="block text-[11px] text-white/60">
-              {(() => {
-                const h = Math.floor((Date.now() - new Date(story.created_at).getTime()) / 3600_000);
-                return h < 1 ? "à l'instant" : `il y a ${h} h`;
-              })()}
+          {/* Auteur : un toucher ouvre son profil */}
+          <Link
+            href={group.mine ? "/profil" : `/membre?u=${group.author.id}`}
+            onClick={onClose}
+            onPointerDown={(e) => e.stopPropagation()}
+            onPointerUp={(e) => e.stopPropagation()}
+            className="flex min-w-0 flex-1 items-center gap-2.5"
+          >
+            <Avatar pseudo={group.author.pseudo} url={group.author.avatar_url} size={34} />
+            <span className="min-w-0 flex-1">
+              <span className="block truncate text-sm font-bold text-white">{group.author.pseudo}</span>
+              <span className="block text-[11px] text-white/60">
+                {(() => {
+                  const h = Math.floor((Date.now() - new Date(story.created_at).getTime()) / 3600_000);
+                  return h < 1 ? "à l'instant" : `il y a ${h} h`;
+                })()}
+              </span>
             </span>
-          </span>
+          </Link>
           {group.mine ? (
             <>
               <button
