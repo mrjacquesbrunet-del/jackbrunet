@@ -118,3 +118,25 @@ export async function unreadMessages(): Promise<number> {
   if (error) return 0;
   return (data as number)?? 0;
 }
+
+/* ————— Réactions sur les messages (façon WhatsApp) ————— */
+
+export type MessageReaction = { message_id: string; user_id: string; emoji: string };
+
+/** Réactions des messages d'une conversation (vide si la table n'existe pas encore). */
+export async function messageReactionsFor(ids: string[]): Promise<MessageReaction[]> {
+  const sb = getSupabase();
+  if (!sb || !ids.length) return [];
+  const { data, error } = await sb.from("message_reactions").select("message_id,user_id,emoji").in("message_id", ids);
+  return error ? [] : ((data as MessageReaction[]) ?? []);
+}
+
+/** Pose, change ou retire (`null`) ma réaction sur un message. */
+export async function setMessageReaction(messageId: string, userId: string, emoji: string | null): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  const { error } = emoji
+    ? await sb.from("message_reactions").upsert({ message_id: messageId, user_id: userId, emoji }, { onConflict: "message_id,user_id" })
+    : await sb.from("message_reactions").delete().eq("message_id", messageId).eq("user_id", userId);
+  return !error;
+}

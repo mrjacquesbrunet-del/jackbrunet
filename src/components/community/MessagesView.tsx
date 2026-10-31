@@ -18,12 +18,16 @@ import {
   markMessagesRead,
   markConversationUnread,
   sendMessage,
+  messageReactionsFor,
+  setMessageReaction,
   type Conversation,
   type Message,
+  type MessageReaction,
 } from "@/lib/messages";
 import { localeApp } from "@/lib/i18n";
 import { openExternal } from "@/lib/external";
 import { EnLigneMaintenant } from "@/components/community/EnLigneMaintenant";
+import { BarreReactions, PucesReactions, gesteReaction } from "@/components/community/Reactions";
 import { ActiverNotifications } from "@/components/app/ActiverNotifications";
 import { urlLegere, repliImage } from "@/lib/image-legere";
 
@@ -299,6 +303,8 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
       clearInterval(t);
     };
   }, [partnerId]);
+  const [reactions, setReactions] = useState<MessageReaction[]>([]);
+  const [pickerFor, setPickerFor] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const typingChanRef = useRef<ReturnType<NonNullable<ReturnType<typeof getSupabase>>["channel"]> | null>(null);
   const typingSentRef = useRef(0);
@@ -337,8 +343,39 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
   const refresh = useCallback(async () => {
     const msgs = await listMessages(meId, partnerId);
     setMessages(msgs);
+    setReactions(await messageReactionsFor(msgs.map((m) => m.id)));
     await markMessagesRead(meId, partnerId);
   }, [meId, partnerId]);
+
+  // En direct : un message ou une réaction de la conversation arrive tout de
+  // suite (le relevé périodique reste en secours, plus espacé).
+  useEffect(() => {
+    const sb = getSupabase();
+    if (!sb) return;
+    const chan = sb
+      .channel(`dm-live:${[meId, partnerId].sort().join(":")}`)
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages", filter: `recipient_id=eq.${meId}` }, (p) => {
+        if ((p.new as { sender_id?: string }).sender_id === partnerId) void refresh();
+      })
+      .on("postgres_changes", { event: "*", schema: "public", table: "message_reactions" }, () => void refresh())
+      .subscribe();
+    return () => {
+      void sb.removeChannel(chan);
+    };
+  }, [meId, partnerId, refresh]);
+
+  /** Ma réaction sur un message. */
+  const maReaction = (id: string) => reactions.find((r) => r.message_id === id && r.user_id === meId)?.emoji ?? null;
+  /** Pose / change / retire ma réaction (optimiste). */
+  async function reagir(id: string, emoji: string) {
+    const suivante = maReaction(id) === emoji ? null : emoji;
+    setPickerFor(null);
+    setReactions((prev) => {
+      const reste = prev.filter((r) => !(r.message_id === id && r.user_id === meId));
+      return suivante ? [...reste, { message_id: id, user_id: meId, emoji: suivante }] : reste;
+    });
+    await setMessageReaction(id, meId, suivante);
+  }
 
   useEffect(() => {
     getProfile(partnerId).then(setPartner);
@@ -346,7 +383,7 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
 
   useEffect(() => {
     refresh();
-    const t = setInterval(refresh, 5000); // rafraîchit les nouveaux messages
+    const t = setInterval(refresh, 15000); // secours si le temps réel ne passe pas
     return () => clearInterval(t);
   }, [refresh]);
 
@@ -446,9 +483,19 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
                       />
                     </div>
                   ) : null}
+                  <div className={`relative flex w-full flex-col ${mine ? "items-end" : "items-start"}`}>
+                  {pickerFor === m.id ? (
+                    <BarreReactions mine={maReaction(m.id)} onPick={(e) => void reagir(m.id, e)} onClose={() => setPickerFor(null)} className={`-top-12 ${mine ? "right-0" : "left-0"}`} />
+                  ) : null}
                   <div
                     translate="no"
-                    className={`max-w-[80%] whitespace-pre-wrap rounded-2xl px-4 py-2 text-[15px] leading-snug ${
+                    {...gesteReaction(
+                      () => setPickerFor(m.id),
+                      () => {
+                        if (maReaction(m.id) !== "❤️") void reagir(m.id, "❤️");
+                      },
+                    )}
+                    className={`max-w-[80%] select-none whitespace-pre-wrap rounded-2xl px-4 py-2 text-[15px] leading-snug ${
                       mine
 ? "bg-dawn-400 text-night-900"
 : "border border-night-900/10 bg-white text-night-900/85"
@@ -464,6 +511,13 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
                       )
                     ) : null}
                     <TexteAvecLiens texte={m.body} mine={mine} />
+                  </div>
+                  <PucesReactions
+                    emojis={reactions.filter((r) => r.message_id === m.id).map((r) => r.emoji)}
+                    mine={maReaction(m.id)}
+                    onPick={(e) => void reagir(m.id, e)}
+                    className={`-mt-1.5 ${mine ? "mr-2" : "ml-2"}`}
+                  />
                   </div>
                   {mine && m.id === lastSeenId ? (
                     <p className="mt-0.5 pr-1 text-[10px] font-semibold text-night-900/40">Vu</p>

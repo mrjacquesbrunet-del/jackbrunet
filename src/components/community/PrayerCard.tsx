@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Avatar } from "@/components/community/Avatar";
 import { Celebration } from "@/components/ui/Celebration";
 import { MentionField } from "@/components/community/MentionField";
+import { BarreReactions, PucesReactions, gesteReaction } from "@/components/community/Reactions";
 import { VoiceRecorderButton, VoiceNotePlayer } from "@/components/community/VoiceNote";
 import { voiceExpired } from "@/lib/voice";
 import { MentionText } from "@/components/community/MentionText";
@@ -29,7 +30,6 @@ import {
   setPrayerPinned,
   commentReactionsFor,
   setCommentReaction,
-  COMMENT_REACTIONS,
   type CommentReaction,
 } from "@/lib/community";
 import { localeApp } from "@/lib/i18n";
@@ -41,8 +41,9 @@ const VIS_LABEL: Record<string, string> = { public: "Public", friends: "Abonnés
 /** Réactions rapides des sujets (appui long sur « Je prie ») : mêmes emojis que les commentaires. */
 const PRAYER_QUICK: [string, string][] = [["🙏", "pray"], ["❤️", "heart"], ["🕊️", "dove"], ["🙌", "hands"], ["✨", "sparkles"]];
 
-/** Réactions d'un commentaire : sélecteur (appui long / « Réagir ») + puces
- * agrégées (🙏 3, ❤️ 1…). Une réaction par personne, re-tap = retirer. */
+/** Réactions d'un commentaire, façon WhatsApp : barre rapide (appui long ou
+ * « Réagir ») avec « + » pour tout le choix, puces agrégées sous la bulle.
+ * Une réaction par personne, re-toucher la sienne = la retirer. */
 function CommentReactionsRow({
   reactions,
   mine,
@@ -56,58 +57,25 @@ function CommentReactionsRow({
   onClose: () => void;
   onPick: (emoji: string) => void;
 }) {
-  const counts: Record<string, number> = {};
-  for (const r of reactions) counts[r.emoji] = (counts[r.emoji]?? 0) + 1;
-  const entries = COMMENT_REACTIONS.filter((e) => counts[e]).map(
-    (e) => [e, counts[e]] as const,
-  );
   return (
     <div className="relative">
-      {open? (
-        <>
-          <button
-            type="button"
-            aria-label="Fermer"
-            onClick={onClose}
-            className="fixed inset-0 z-40 cursor-default"
-          />
-          <div className="absolute bottom-0 left-2 z-50 flex gap-0.5 rounded-full border border-night-900/10 bg-white px-1.5 py-1 shadow-xl">
-            {COMMENT_REACTIONS.map((e) => (
-              <button
-                key={e}
-                type="button"
-                onClick={() => onPick(e)}
-                className={`grid h-10 w-10 place-items-center rounded-full text-xl transition-transform hover:scale-110 active:scale-90 ${
-                  mine === e? "bg-dawn-400/25": "hover:bg-night-900/[0.05]"
-                }`}
-              >
-                {e}
-              </button>
-            ))}
-          </div>
-        </>
-      ): null}
-      {entries.length > 0? (
-        <div className="mt-1 flex flex-wrap gap-1 pl-3">
-          {entries.map(([e, n]) => (
-            <button
-              key={e}
-              type="button"
-              onClick={() => onPick(e)}
-              className={`flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs transition-colors active:scale-95 ${
-                mine === e
-? "border-dawn-500/60 bg-dawn-400/15"
-: "border-night-900/10 bg-white hover:border-night-900/25"
-              }`}
-            >
-              <span>{e}</span>
-              <span className="font-semibold text-night-900/60">{n}</span>
-            </button>
-          ))}
-        </div>
-      ): null}
+      {open ? <BarreReactions mine={mine} onPick={onPick} onClose={onClose} className="bottom-0 left-2" /> : null}
+      <PucesReactions emojis={reactions.map((r) => r.emoji)} mine={mine} onPick={onPick} className="mt-1 pl-3" />
     </div>
   );
+}
+
+/** « à l'instant », « 5 min », « 2 h », « hier », « 3 j », puis la date. */
+function tempsCourt(iso: string) {
+  const min = Math.floor((Date.now() - new Date(iso).getTime()) / 60_000);
+  if (min < 1) return "à l'instant";
+  if (min < 60) return `${min} min`;
+  const h = Math.floor(min / 60);
+  if (h < 24) return `${h} h`;
+  const j = Math.floor(h / 24);
+  if (j === 1) return "hier";
+  if (j < 7) return `${j} j`;
+  return new Date(iso).toLocaleDateString("fr-FR", { day: "numeric", month: "short" });
 }
 
 function PinIcon({ className }: { className?: string }) {
@@ -284,20 +252,14 @@ export function PrayerCard({
     await setCommentReaction(commentId, userId, next);
   }
 
-  /** Appui long (450 ms) sur une bulle → ouvre le sélecteur de réactions. */
+  /** Appui long sur une bulle → barre de réactions ; double toucher → ❤️. */
   function longPress(id: string) {
-    let t: ReturnType<typeof setTimeout>;
-    return {
-      onTouchStart: () => {
-        t = setTimeout(() => setPickerFor(id), 450);
+    return gesteReaction(
+      () => setPickerFor(id),
+      () => {
+        if (myReaction(id) !== "❤️") void reactToComment(id, "❤️");
       },
-      onTouchEnd: () => clearTimeout(t),
-      onTouchMove: () => clearTimeout(t),
-      onContextMenu: (e: React.MouseEvent) => {
-        e.preventDefault();
-        setPickerFor(id);
-      },
-    };
+    );
   }
 
   async function openComments() {
@@ -771,6 +733,7 @@ export function PrayerCard({
                               onPick={(e) => reactToComment(c.id, e)}
                             />
                             <div className="mt-1 flex items-center gap-3 pl-3">
+                              <span className="text-[11px] text-night-900/40">{tempsCourt(c.created_at)}</span>
                               <button
                                 type="button"
                                 onClick={() => {
@@ -845,6 +808,7 @@ export function PrayerCard({
                                     onPick={(e) => reactToComment(r.id, e)}
                                   />
                                   <div className="mt-0.5 flex items-center gap-3 pl-3">
+                                    <span className="text-[11px] text-night-900/40">{tempsCourt(r.created_at)}</span>
                                     <button
                                       type="button"
                                       onClick={() => {
