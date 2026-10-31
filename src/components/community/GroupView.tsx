@@ -36,6 +36,9 @@ import {
   sendMessage,
   GROUP_REACTIONS,
   KIND_LABEL,
+  groupItemReactionsFor,
+  setGroupItemReaction,
+  type GroupItemReaction,
   type Group,
   type GroupMember,
   type GroupPost,
@@ -48,6 +51,65 @@ import {
 import { VoiceRecorderButton, VoiceNotePlayer } from "@/components/community/VoiceNote";
 import { voiceExpired } from "@/lib/voice";
 import { localeApp } from "@/lib/i18n";
+import { getSupabase } from "@/lib/supabase";
+import { BarreReactions, PucesReactions, gesteReaction } from "@/components/community/Reactions";
+import { TirerPourRafraichir } from "@/components/ui/TirerPourRafraichir";
+
+/** Réactions façon WhatsApp sur les commentaires ou messages d'un groupe. */
+function useReactionsGroupe(type: "comment" | "message", ids: string[], groupId: string, userId: string) {
+  const [rx, setRx] = useState<GroupItemReaction[]>([]);
+  const [ouvertPour, setOuvertPour] = useState<string | null>(null);
+  const cle = ids.join(",");
+  const recharger = useCallback(async () => {
+    setRx(await groupItemReactionsFor(type, cle ? cle.split(",") : []));
+  }, [type, cle]);
+  useEffect(() => {
+    void recharger();
+  }, [recharger]);
+  const mine = (id: string) => rx.find((r) => r.target_id === id && r.user_id === userId)?.emoji ?? null;
+  async function reagir(id: string, emoji: string) {
+    const suivante = mine(id) === emoji ? null : emoji;
+    setOuvertPour(null);
+    setRx((prev) => {
+      const reste = prev.filter((r) => !(r.target_id === id && r.user_id === userId));
+      return suivante ? [...reste, { target_type: type, target_id: id, user_id: userId, emoji: suivante }] : reste;
+    });
+    await setGroupItemReaction(type, id, groupId, userId, suivante);
+  }
+  const emojis = (id: string) => rx.filter((r) => r.target_id === id).map((r) => r.emoji);
+  const geste = (id: string) =>
+    gesteReaction(
+      () => setOuvertPour(id),
+      () => {
+        if (mine(id) !== "❤️") void reagir(id, "❤️");
+      },
+    );
+  return { mine, reagir, emojis, geste, ouvertPour, setOuvertPour, recharger };
+}
+
+/** Abonnement temps réel à une table (filtrée) : rappelle `onChange` (regroupé). */
+function useEnDirect(nom: string, tables: { table: string; filter?: string }[], onChange: () => void) {
+  const rappel = useRef(onChange);
+  rappel.current = onChange;
+  const cle = JSON.stringify(tables);
+  useEffect(() => {
+    const sb = getSupabase();
+    if (!sb) return;
+    let differe: ReturnType<typeof setTimeout> | undefined;
+    let chan = sb.channel(nom);
+    for (const t of JSON.parse(cle) as { table: string; filter?: string }[]) {
+      chan = chan.on("postgres_changes", { event: "*", schema: "public", table: t.table, ...(t.filter ? { filter: t.filter } : {}) }, () => {
+        clearTimeout(differe);
+        differe = setTimeout(() => rappel.current(), 250);
+      });
+    }
+    chan.subscribe();
+    return () => {
+      clearTimeout(differe);
+      void sb.removeChannel(chan);
+    };
+  }, [nom, cle]);
+}
 
 const BG = "rgb(var(--n-950))";
 const fieldDark =
@@ -479,6 +541,15 @@ function Comments({
   useEffect(() => {
     load();
   }, [load]);
+  const R = useReactionsGroupe("comment", (list ?? []).map((c) => c.id), groupId, userId);
+  useEnDirect(
+    `groupe-commentaires:${postId}`,
+    [{ table: "group_comments", filter: `post_id=eq.${postId}` }, { table: "group_item_reactions", filter: `group_id=eq.${groupId}` }],
+    () => {
+      void load();
+      void R.recharger();
+    },
+  );
 
   return (
     <div className="mt-3 border-t border-white/10 pt-3">
@@ -486,9 +557,21 @@ function Comments({
         {(list ?? []).map((cm) => (
           <div key={cm.id} className="group flex items-start gap-2">
             <Avatar name={cm.author?.pseudo} url={cm.author?.avatar_url} />
-            <div className="rounded-2xl bg-white/[0.06] px-3 py-2">
-              <p className="text-xs font-bold text-cream">{cm.author?.pseudo ?? "Membre"}</p>
-              <p className="text-sm text-cream/85">{cm.body}</p>
+            <div className="relative min-w-0">
+              {R.ouvertPour === cm.id ? (
+                <BarreReactions sombre mine={R.mine(cm.id)} onPick={(e) => void R.reagir(cm.id, e)} onClose={() => R.setOuvertPour(null)} className="-top-12 left-0" />
+              ) : null}
+              <div {...R.geste(cm.id)} className="select-none rounded-2xl bg-white/[0.06] px-3 py-2">
+                <p className="text-xs font-bold text-cream">{cm.author?.pseudo ?? "Membre"}</p>
+                <p className="text-sm text-cream/85">{cm.body}</p>
+              </div>
+              <div className="mt-1 flex flex-wrap items-center gap-2 pl-2">
+                <span className="text-[11px] text-cream/40">{timeAgo(cm.created_at)}</span>
+                <button type="button" onClick={() => R.setOuvertPour(R.ouvertPour === cm.id ? null : cm.id)} className="text-[11px] font-semibold text-dawn-300">
+                  Réagir
+                </button>
+                <PucesReactions sombre emojis={R.emojis(cm.id)} mine={R.mine(cm.id)} onPick={(e) => void R.reagir(cm.id, e)} />
+              </div>
             </div>
             {cm.author_id === userId || canModerate ? (
               <button
@@ -564,9 +647,18 @@ function Chat({ group, userId }: { group: Group; userId: string }) {
   useEffect(() => {
     load();
     loadSubjects();
-    const t = setInterval(load, 5000);
+    const t = setInterval(load, 20000); // secours si le temps réel ne passe pas
     return () => clearInterval(t);
   }, [load, loadSubjects]);
+  const R = useReactionsGroupe("message", msgs.map((m) => m.id), group.id, userId);
+  useEnDirect(
+    `groupe-discussion:${group.id}`,
+    [{ table: "group_messages", filter: `group_id=eq.${group.id}` }, { table: "group_item_reactions", filter: `group_id=eq.${group.id}` }],
+    () => {
+      void load();
+      void R.recharger();
+    },
+  );
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -656,8 +748,11 @@ function Chat({ group, userId }: { group: Group; userId: string }) {
           msgs.map((m) => {
             const mine = m.author_id === userId;
             return (
-              <div key={m.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
-                <div className={`max-w-[80%] rounded-2xl px-3 py-2 ${mine ? "bg-dawn-400 text-night-950" : "bg-white/10 text-cream"}`}>
+              <div key={m.id} className={`relative flex flex-col ${mine ? "items-end" : "items-start"} ${R.ouvertPour === m.id ? "pt-12" : ""}`}>
+                {R.ouvertPour === m.id ? (
+                  <BarreReactions sombre mine={R.mine(m.id)} onPick={(e) => void R.reagir(m.id, e)} onClose={() => R.setOuvertPour(null)} className={`top-0 ${mine ? "right-0" : "left-0"}`} />
+                ) : null}
+                <div {...R.geste(m.id)} className={`max-w-[80%] select-none rounded-2xl px-3 py-2 ${mine ? "bg-dawn-400 text-night-950" : "bg-white/10 text-cream"}`}>
                   {!mine ? <p className="text-[11px] font-bold opacity-70">{m.author?.pseudo ?? "Membre"}</p> : null}
                   {m.audio_url ? (
                     <div className="py-0.5">
@@ -674,6 +769,7 @@ function Chat({ group, userId }: { group: Group; userId: string }) {
                     <p className="whitespace-pre-wrap text-sm">{m.body}</p>
                   ) : null}
                 </div>
+                <PucesReactions sombre emojis={R.emojis(m.id)} mine={R.mine(m.id)} onPick={(e) => void R.reagir(m.id, e)} className={`-mt-1 ${mine ? "mr-2" : "ml-2"}`} />
               </div>
             );
           })

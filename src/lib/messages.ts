@@ -2,6 +2,7 @@
 
 import { getSupabase } from "./supabase";
 import { getProfile, type Profile } from "./community";
+import { compressWallImage } from "./wall";
 
 /** Messagerie privée entre membres (1 à 1). */
 export type Message = {
@@ -14,6 +15,13 @@ export type Message = {
   /** Réponse à une story : la story et son image (gardée après les 24 h). */
   story_id?: string | null;
   story_image?: string | null;
+  /** Réponse à un message précis (citation affichée au-dessus). */
+  reply_to?: string | null;
+  /** Photo envoyée dans la conversation. */
+  image_url?: string | null;
+  edited_at?: string | null;
+  /** Supprimé pour tout le monde : il reste « Message supprimé ». */
+  deleted_at?: string | null;
   created_at: string;
   read: boolean;
 };
@@ -26,16 +34,63 @@ export type Conversation = {
   partner?: Profile | null;
 };
 
-/** Envoie un message privé (texte et/ou message vocal). */
-export async function sendMessage(senderId: string, recipientId: string, body: string, audioUrl?: string | null) {
+/** Envoie un message privé (texte, vocal ou photo, en réponse ou non). */
+export async function sendMessage(
+  senderId: string,
+  recipientId: string,
+  body: string,
+  audioUrl?: string | null,
+  extra: { replyTo?: string | null; imageUrl?: string | null } = {},
+): Promise<boolean> {
   const sb = getSupabase();
-  if (!sb || (!body.trim() && !audioUrl)) return;
-  await sb.from("messages").insert({
+  if (!sb || (!body.trim() && !audioUrl && !extra.imageUrl)) return false;
+  const base = {
     sender_id: senderId,
     recipient_id: recipientId,
     body: body.trim(),
     audio_url: audioUrl ?? null,
-  });
+  };
+  const enPlus = {
+    ...(extra.replyTo ? { reply_to: extra.replyTo } : {}),
+    ...(extra.imageUrl ? { image_url: extra.imageUrl } : {}),
+  };
+  const { error } = await sb.from("messages").insert({ ...base, ...enPlus });
+  if (!error) return true;
+  // Colonnes pas encore créées (SQL non lancé) : la réponse part sans citation.
+  if (!Object.keys(enPlus).length || extra.imageUrl) return false;
+  const { error: e2 } = await sb.from("messages").insert(base);
+  return !e2;
+}
+
+/** Téléverse une photo de conversation (compressée ~200 Ko) → URL publique. */
+export async function envoyerPhotoMessage(me: string, file: File): Promise<string | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  const blob = await compressWallImage(file);
+  if (!blob) return null;
+  const path = `${me}/dm-${Date.now()}.jpg`;
+  const { error } = await sb.storage.from("wallmedia").upload(path, blob, { contentType: "image/jpeg", cacheControl: "31536000" });
+  if (error) return null;
+  return sb.storage.from("wallmedia").getPublicUrl(path).data.publicUrl ?? null;
+}
+
+/** Délai pendant lequel on peut modifier son message (comme WhatsApp). */
+export const DELAI_MODIF_MS = 15 * 60_000;
+
+/** Modifie le texte de mon message (dans les 15 minutes). */
+export async function modifierMessage(id: string, body: string): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb || !body.trim()) return false;
+  const { data, error } = await sb.rpc("modifier_message", { p_id: id, p_body: body.trim() });
+  return !error && data === true;
+}
+
+/** Supprime mon message pour tout le monde. */
+export async function supprimerMessage(id: string): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  const { data, error } = await sb.rpc("supprimer_message", { p_id: id });
+  return !error && data === true;
 }
 
 /** Admin: dépose un message dans la messagerie de TOUS les membres + notifie.

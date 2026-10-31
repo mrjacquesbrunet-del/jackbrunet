@@ -11,57 +11,7 @@ import {
   type Notification,
 } from "@/lib/community";
 import { localeApp } from "@/lib/i18n";
-
-function label(n: Notification) {
-  const who = n.actor?.pseudo?? "Quelqu'un";
-  switch (n.type) {
-    case "pray":
-      return `${who} prie pour ton sujet`;
-    case "pray_digest":
-      return `${n.body ?? "Plusieurs"} personnes ont prié pour toi aujourd'hui`;
-    case "follow_up":
-      return "Comment évolue ton sujet ? Viens donner des nouvelles";
-    case "heart":
-      return `${who} a aimé ton sujet`;
-    case "comment":
-      return `${who} t'a encouragé(e)`;
-    case "follow":
-      return `${who} s'est abonné(e) à toi`;
-    case "mention":
-      return `${who} t'a mentionné(e)`;
-    case "message":
-      return `${who} t'a envoyé un message`;
-    case "reply":
-      return `${who} a répondu à ton commentaire`;
-    case "group_comment":
-      return `${who} a commenté ta publication`;
-    case "group_reaction":
-      return `${who} a réagi à ta publication`;
-    case "comment_reaction":
-      return `${who} a réagi ${n.body ?? ""} à ton commentaire`;
-    case "group_post":
-      return `${who} a publié dans ${n.body? `« ${n.body} »`: "ton groupe"}`;
-    case "group_message":
-      return `${who} a écrit dans ${n.body? `« ${n.body} »`: "ton groupe"}`;
-    case "group_join":
-      return `${who} a rejoint ${n.body? `« ${n.body} »`: "ton groupe"}`;
-    case "podcast":
-      return n.body ?? "Nouvel épisode de podcast";
-    case "admin":
-      return n.body? `${n.body}`: "Message de Pasteur Jack";
-    case "challenge":
-      return n.body ?? `${who} te défie en direct !`;
-    case "friend_score":
-      return n.body ?? `${who} a joué au Défi du jour !`;
-    case "duo_invite":
-    case "duo_accept":
-    case "duo_read":
-    case "duo_note":
-      return `${who} ${n.body ?? "— plan à deux"}`;
-    default:
-      return n.body?? "Nouvelle notification";
-  }
-}
+import { grouperNotifications, libelleGroupe } from "@/lib/notif-groupes";
 
 function when(iso: string) {
   return new Date(iso).toLocaleString(localeApp(), {
@@ -153,18 +103,19 @@ export function NotificationsBell({
                 </p>
               ): (
                 <ul>
-                  {items.map((n) => {
+                  {grouperNotifications(items).map((g) => {
+                    const n = g.tete;
                     const inner = (
                       <>
-                        <Avatar pseudo={n.actor?.pseudo} url={n.actor?.avatar_url} size={32} />
+                        <AvatarsGroupe acteurs={g.acteurs} pseudo={n.actor?.pseudo} url={n.actor?.avatar_url} size={32} />
                         <div className="min-w-0">
-                          <p className="text-sm leading-snug text-night-900/85">{label(n)}</p>
+                          <p className="text-sm leading-snug text-night-900/85">{libelleGroupe(g)}</p>
                           <p className="text-xs text-night-900/45">{when(n.created_at)}</p>
                         </div>
                       </>
                     );
                     const rowCls = `flex items-start gap-3 px-4 py-3 ${
-                      n.read? "": "bg-spirit-500/[0.05]"
+                      g.lu? "": "bg-spirit-500/[0.05]"
                     }`;
                     // Destination du clic : le bon contenu directement
                     // (sujet de prière + commentaires, message, profil…).
@@ -192,5 +143,31 @@ export function NotificationsBell({
         </>
       ): null}
     </div>
+  );
+}
+
+/** Avatar de la notification ; deux avatars superposés quand elle est regroupée. */
+export function AvatarsGroupe({
+  acteurs,
+  pseudo,
+  url,
+  size,
+}: {
+  acteurs: { pseudo?: string | null; avatar_url?: string | null }[];
+  pseudo?: string | null;
+  url?: string | null;
+  size: number;
+}) {
+  if (acteurs.length < 2) return <Avatar pseudo={pseudo} url={url} size={size} />;
+  const petit = Math.round(size * 0.78);
+  return (
+    <span className="relative shrink-0" style={{ width: size, height: size }}>
+      <span className="absolute right-0 top-0">
+        <Avatar pseudo={acteurs[1].pseudo} url={acteurs[1].avatar_url} size={petit} />
+      </span>
+      <span className="absolute bottom-0 left-0 rounded-full ring-2 ring-white">
+        <Avatar pseudo={acteurs[0].pseudo} url={acteurs[0].avatar_url} size={petit} />
+      </span>
+    </span>
   );
 }

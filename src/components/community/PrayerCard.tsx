@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { getSupabase } from "@/lib/supabase";
 import Link from "next/link";
 import { Avatar } from "@/components/community/Avatar";
 import { Celebration } from "@/components/ui/Celebration";
@@ -30,6 +31,7 @@ import {
   setPrayerPinned,
   commentReactionsFor,
   setCommentReaction,
+  getProfile,
   type CommentReaction,
 } from "@/lib/community";
 import { localeApp } from "@/lib/i18n";
@@ -138,7 +140,23 @@ export function PrayerCard({
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState<Comment[] | null>(null);
   const [commentCount, setCommentCount] = useState(initialCommentCount);
-  const [commentText, setCommentText] = useState("");
+  // Brouillon gardé si on ferme les commentaires ou quitte la page.
+  const cleBrouillon = `jb.brouillon.c.${prayer.id}`;
+  const [commentText, setCommentTextBrut] = useState("");
+  const setCommentText = useCallback(
+    (v: string) => {
+      setCommentTextBrut(v);
+      try {
+        if (v.trim()) localStorage.setItem(cleBrouillon, v);
+        else localStorage.removeItem(cleBrouillon);
+      } catch {
+        /* stockage indisponible */
+      }
+    },
+    [cleBrouillon],
+  );
+  // « X écrit un commentaire… » (diffusé en direct aux lecteurs du sujet).
+  const [quiEcrit, setQuiEcrit] = useState<string[]>([]);
   const [replyTo, setReplyTo] = useState<string | null>(null);
   const [replyText, setReplyText] = useState("");
   const [busy, setBusy] = useState(false);
@@ -266,6 +284,73 @@ export function PrayerCard({
     const next =!showComments;
     setShowComments(next);
     if (next && comments === null) await refreshComments();
+  }
+
+  // Brouillon restauré à l'ouverture des commentaires.
+  useEffect(() => {
+    if (!showComments) return;
+    try {
+      const b = localStorage.getItem(cleBrouillon);
+      if (b) setCommentTextBrut((t) => t || b);
+    } catch {
+      /* stockage indisponible */
+    }
+  }, [showComments, cleBrouillon]);
+
+  // Commentaires ouverts : nouveaux commentaires, réponses et réactions en
+  // direct, et « X écrit… » pendant que quelqu'un tape.
+  const canalRef = useRef<ReturnType<NonNullable<ReturnType<typeof getSupabase>>["channel"]> | null>(null);
+  const dernierSignal = useRef(0);
+  const refreshRef = useRef(refreshComments);
+  refreshRef.current = refreshComments;
+  useEffect(() => {
+    if (!showComments) return;
+    const sb = getSupabase();
+    if (!sb) return;
+    const minuteurs = new Map<string, ReturnType<typeof setTimeout>>();
+    const pseudos = new Map<string, string>();
+    let differe: ReturnType<typeof setTimeout> | undefined;
+    // Plusieurs événements d'affilée → un seul rechargement.
+    const recharger = () => {
+      clearTimeout(differe);
+      differe = setTimeout(() => void refreshRef.current(), 250);
+    };
+    const chan = sb
+      .channel(`mur-commentaires:${prayer.id}`, { config: { broadcast: { self: false } } })
+      .on("postgres_changes", { event: "*", schema: "public", table: "prayer_comments", filter: `prayer_id=eq.${prayer.id}` }, recharger)
+      .on("postgres_changes", { event: "*", schema: "public", table: "comment_reactions" }, (p) => {
+        const id = ((p.new ?? p.old) as { comment_id?: string }).comment_id;
+        if (id && document.getElementById(`c-${id}`)) recharger();
+      })
+      .on("broadcast", { event: "ecrit" }, async (msg) => {
+        const from = (msg as { payload?: { from?: string } }).payload?.from;
+        if (!from || from === userId) return;
+        if (!pseudos.has(from)) pseudos.set(from, (await getProfile(from))?.pseudo ?? "Quelqu'un");
+        const nom = pseudos.get(from)!;
+        setQuiEcrit((l) => (l.includes(nom) ? l : [...l, nom]));
+        clearTimeout(minuteurs.get(from));
+        minuteurs.set(
+          from,
+          setTimeout(() => setQuiEcrit((l) => l.filter((x) => x !== nom)), 4000),
+        );
+      })
+      .subscribe();
+    canalRef.current = chan;
+    return () => {
+      clearTimeout(differe);
+      minuteurs.forEach((t) => clearTimeout(t));
+      canalRef.current = null;
+      setQuiEcrit([]);
+      void sb.removeChannel(chan);
+    };
+  }, [showComments, prayer.id, userId]);
+
+  /** Signale que j'écris (au plus une fois toutes les 2 s). */
+  function signalerEcriture() {
+    const t = Date.now();
+    if (t - dernierSignal.current < 2000) return;
+    dernierSignal.current = t;
+    void canalRef.current?.send({ type: "broadcast", event: "ecrit", payload: { from: userId } });
   }
 
   // Clic sur une notification (« X a commenté ton sujet », mention…) : on
@@ -847,8 +932,12 @@ export function PrayerCard({
                         {replyTo === c.id? (
                           <div className="mt-2 flex items-end gap-2 sm:ml-10">
                             <MentionField
+                              autoFocus
                               value={replyText}
-                              onChange={setReplyText}
+                              onChange={(v) => {
+                                setReplyText(v);
+                                signalerEcriture();
+                              }}
                               onEnter={() => submitReply(c.id)}
                               placeholder="Ta réponse…"
                               rows={1}
@@ -874,10 +963,23 @@ export function PrayerCard({
               </ul>
             )}
 
+            {quiEcrit.length ? (
+              <p className="mt-3 flex items-center gap-1.5 pl-1 text-[12px] font-semibold italic text-spirit-600">
+                <span className="flex gap-0.5" aria-hidden>
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-current [animation-delay:-0.3s]" />
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-current [animation-delay:-0.15s]" />
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-current" />
+                </span>
+                {quiEcrit.length === 1 ? `${quiEcrit[0]} écrit un commentaire…` : `${quiEcrit.length} personnes écrivent…`}
+              </p>
+            ) : null}
             <div className="mt-3 flex items-end gap-2">
               <MentionField
                 value={commentText}
-                onChange={setCommentText}
+                onChange={(v) => {
+                  setCommentText(v);
+                  signalerEcriture();
+                }}
                 onEnter={submitComment}
                 placeholder="Un mot d'encouragement… cite avec @"
                 rows={1}

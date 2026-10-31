@@ -17,6 +17,7 @@ export function MentionField({
   rows,
   autoGrow,
   className,
+  autoFocus,
 }: {
   value: string;
   onChange: (v: string) => void;
@@ -26,8 +27,23 @@ export function MentionField({
   /** La zone de texte grandit automatiquement avec le contenu (jusqu'à une limite). */
   autoGrow?: boolean;
   className?: string;
+  /** Ouvre le clavier dès l'apparition, curseur en fin de texte (« Répondre »). */
+  autoFocus?: boolean;
 }) {
   const ref = useRef<HTMLTextAreaElement & HTMLInputElement>(null);
+  useEffect(() => {
+    if (!autoFocus) return;
+    const el = ref.current;
+    if (!el) return;
+    el.focus();
+    const fin = el.value.length;
+    try {
+      el.setSelectionRange(fin, fin);
+    } catch {
+      /* champ sans sélection */
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Agrandit la zone de texte pour épouser le contenu (mode autoGrow).
   function autosize() {

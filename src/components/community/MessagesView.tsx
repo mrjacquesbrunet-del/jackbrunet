@@ -20,6 +20,10 @@ import {
   sendMessage,
   messageReactionsFor,
   setMessageReaction,
+  envoyerPhotoMessage,
+  modifierMessage,
+  supprimerMessage,
+  DELAI_MODIF_MS,
   type Conversation,
   type Message,
   type MessageReaction,
@@ -27,7 +31,8 @@ import {
 import { localeApp } from "@/lib/i18n";
 import { openExternal } from "@/lib/external";
 import { EnLigneMaintenant } from "@/components/community/EnLigneMaintenant";
-import { BarreReactions, PucesReactions, gesteReaction } from "@/components/community/Reactions";
+import { BarreReactions, PucesReactions, gesteReaction, ICONES_BULLE, type ActionBulle } from "@/components/community/Reactions";
+import { TirerPourRafraichir } from "@/components/ui/TirerPourRafraichir";
 import { ActiverNotifications } from "@/components/app/ActiverNotifications";
 import { urlLegere, repliImage } from "@/lib/image-legere";
 
@@ -169,14 +174,14 @@ function Inbox() {
   const { userId } = useAuth();
   const [convos, setConvos] = useState<Conversation[] | null>(null);
 
-  useEffect(() => {
+  const charger = useCallback(async () => {
     // Tri garanti : la conversation au message le plus récent en premier.
-    listConversations().then((cs) =>
-      setConvos(
-        [...cs].sort((a, b) => new Date(b.last_at).getTime() - new Date(a.last_at).getTime()),
-      ),
-    );
+    const cs = await listConversations();
+    setConvos([...cs].sort((a, b) => new Date(b.last_at).getTime() - new Date(a.last_at).getTime()));
   }, []);
+  useEffect(() => {
+    void charger();
+  }, [charger]);
 
   /** Repasse la conversation en « non lu » (pour y revenir plus tard). */
   async function toUnread(c: Conversation) {
@@ -198,6 +203,7 @@ function Inbox() {
 
   return (
     <section className="sous-barre-app container-x pb-16 pt-24 sm:pt-28">
+      <TirerPourRafraichir onRefresh={charger} />
       <div className="mx-auto max-w-2xl">
         <h1 className="font-display text-3xl font-extrabold">Messages</h1>
         <p className="mt-1 text-sm text-night-900/55">Tes conversations privées avec la communauté.</p>
@@ -247,7 +253,7 @@ function Inbox() {
                         c.unread > 0? "font-semibold text-night-900/80": "text-night-900/55"
                       }`}
                     >
-                      {c.last_body}
+                      {c.last_body || "Pièce jointe"}
                     </p>
                   </div>
                 </Link>
@@ -288,8 +294,35 @@ function Inbox() {
 function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) {
   const [partner, setPartner] = useState<Profile | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [text, setText] = useState("");
+  // Brouillon gardé si on quitte la conversation (par personne).
+  const cleBrouillon = `jb.brouillon.dm.${partnerId}`;
+  const [text, setTextBrut] = useState(() => {
+    try {
+      return localStorage.getItem(`jb.brouillon.dm.${partnerId}`) ?? "";
+    } catch {
+      return "";
+    }
+  });
+  const setText = useCallback(
+    (v: string) => {
+      setTextBrut(v);
+      try {
+        if (v) localStorage.setItem(cleBrouillon, v);
+        else localStorage.removeItem(cleBrouillon);
+      } catch {
+        /* stockage indisponible */
+      }
+    },
+    [cleBrouillon],
+  );
   const [busy, setBusy] = useState(false);
+  const [enReponse, setEnReponse] = useState<Message | null>(null);
+  const [enModif, setEnModif] = useState<Message | null>(null);
+  const [photoPleinEcran, setPhotoPleinEcran] = useState<string | null>(null);
+  const [envoiPhoto, setEnvoiPhoto] = useState(false);
+  const [surligne, setSurligne] = useState<string | null>(null);
+  const champRef = useRef<HTMLInputElement>(null);
+  const photoRef = useRef<HTMLInputElement>(null);
   const [partnerTyping, setPartnerTyping] = useState(false);
   // Présence affichée seulement si son réglage « en ligne » me le permet.
   const [vuLe, setVuLe] = useState<string | null>(null);
@@ -304,7 +337,17 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
     };
   }, [partnerId]);
   const [reactions, setReactions] = useState<MessageReaction[]>([]);
-  const [pickerFor, setPickerFor] = useState<string | null>(null);
+  const [pickerFor, setPickerForBrut] = useState<string | null>(null);
+  // Bulle près du bas de l'écran : le menu s'ouvre au-dessus (sinon la barre
+  // d'envoi le cache).
+  const [menuEnHaut, setMenuEnHaut] = useState(false);
+  const setPickerFor = useCallback((id: string | null) => {
+    if (id) {
+      const r = document.getElementById(`msg-${id}`)?.getBoundingClientRect();
+      setMenuEnHaut(!!r && r.bottom > window.innerHeight - 300);
+    }
+    setPickerForBrut(id);
+  }, []);
   const bottomRef = useRef<HTMLDivElement>(null);
   const typingChanRef = useRef<ReturnType<NonNullable<ReturnType<typeof getSupabase>>["channel"]> | null>(null);
   const typingSentRef = useRef(0);
@@ -354,8 +397,9 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
     if (!sb) return;
     const chan = sb
       .channel(`dm-live:${[meId, partnerId].sort().join(":")}`)
-      .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages", filter: `recipient_id=eq.${meId}` }, (p) => {
-        if ((p.new as { sender_id?: string }).sender_id === partnerId) void refresh();
+      .on("postgres_changes", { event: "*", schema: "public", table: "messages", filter: `recipient_id=eq.${meId}` }, (p) => {
+        // Nouveau message, modifié ou supprimé par l'autre.
+        if (((p.new ?? p.old) as { sender_id?: string }).sender_id === partnerId) void refresh();
       })
       .on("postgres_changes", { event: "*", schema: "public", table: "message_reactions" }, () => void refresh())
       .subscribe();
@@ -396,7 +440,16 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
     setBusy(true);
     const body = text.trim();
     setText("");
-    await sendMessage(meId, partnerId, body);
+    if (enModif) {
+      const id = enModif.id;
+      setEnModif(null);
+      setMessages((prev) => prev.map((m) => (m.id === id ? { ...m, body, edited_at: new Date().toISOString() } : m)));
+      if (!(await modifierMessage(id, body))) alert("Ce message ne peut plus être modifié (15 minutes maximum).");
+    } else {
+      const replyTo = enReponse?.id ?? null;
+      setEnReponse(null);
+      await sendMessage(meId, partnerId, body, null, { replyTo });
+    }
     await refresh();
     setBusy(false);
   }
@@ -404,9 +457,73 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
   /** Envoie un message vocal (déjà téléversé — expire après 7 jours). */
   async function sendVoice(audioUrl: string) {
     setBusy(true);
-    await sendMessage(meId, partnerId, "", audioUrl);
+    const replyTo = enReponse?.id ?? null;
+    setEnReponse(null);
+    await sendMessage(meId, partnerId, "", audioUrl, { replyTo });
     await refresh();
     setBusy(false);
+  }
+
+  /** Envoie une photo choisie dans la galerie (ou prise à l'instant). */
+  async function sendPhoto(file: File | undefined) {
+    if (!file) return;
+    setEnvoiPhoto(true);
+    const url = await envoyerPhotoMessage(meId, file);
+    const replyTo = enReponse?.id ?? null;
+    setEnReponse(null);
+    const ok = url ? await sendMessage(meId, partnerId, "", null, { imageUrl: url, replyTo }) : false;
+    setEnvoiPhoto(false);
+    if (!ok) alert("La photo n'a pas pu être envoyée. Réessaie dans un instant.");
+    await refresh();
+  }
+
+  function repondreA(m: Message) {
+    setEnModif(null);
+    setEnReponse(m);
+    champRef.current?.focus();
+  }
+
+  /** Actions de l'appui long : Répondre, Copier, Modifier, Supprimer. */
+  function actionsDe(m: Message): ActionBulle[] {
+    const mine = m.sender_id === meId;
+    const a: ActionBulle[] = [{ label: "Répondre", icone: ICONES_BULLE.repondre, onClick: () => repondreA(m) }];
+    if (m.body)
+      a.push({
+        label: "Copier",
+        icone: ICONES_BULLE.copier,
+        onClick: () => void navigator.clipboard?.writeText(m.body).catch(() => undefined),
+      });
+    if (mine && m.body && !m.audio_url && !m.image_url && Date.now() - new Date(m.created_at).getTime() < DELAI_MODIF_MS)
+      a.push({
+        label: "Modifier",
+        icone: ICONES_BULLE.modifier,
+        onClick: () => {
+          setEnReponse(null);
+          setEnModif(m);
+          setText(m.body);
+          champRef.current?.focus();
+        },
+      });
+    if (mine)
+      a.push({
+        label: "Supprimer pour tous",
+        icone: ICONES_BULLE.supprimer,
+        danger: true,
+        onClick: async () => {
+          if (!confirm("Supprimer ce message pour tout le monde ?")) return;
+          setMessages((prev) => prev.map((x) => (x.id === m.id ? { ...x, body: "", audio_url: null, image_url: null, deleted_at: new Date().toISOString() } : x)));
+          if (!(await supprimerMessage(m.id))) alert("Suppression impossible pour l'instant.");
+          await refresh();
+        },
+      });
+    return a;
+  }
+
+  /** Toucher une citation : on remonte jusqu'au message d'origine. */
+  function allerA(id: string) {
+    document.getElementById(`msg-${id}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    setSurligne(id);
+    setTimeout(() => setSurligne(null), 1600);
   }
 
   // « Vu » : id de mon dernier message lu par l'autre.
@@ -414,6 +531,7 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
 
   return (
     <section className="sous-barre-app container-x pb-28 pt-24 sm:pt-28">
+      <TirerPourRafraichir onRefresh={refresh} />
       <div className="mx-auto max-w-2xl">
         {/* En-tête conversation */}
         <div className="flex items-center gap-3">
@@ -458,7 +576,7 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
                 new Date(messages[i - 1].created_at).toDateString() !==
                   new Date(m.created_at).toDateString();
               return (
-                <div key={m.id} className={`flex flex-col ${mine? "items-end": "items-start"}`}>
+                <div key={m.id} id={`msg-${m.id}`} className={`flex scroll-mt-28 flex-col ${mine? "items-end": "items-start"}`}>
                   {newDay ? (
                     <p className="my-2 w-full self-center text-center text-[11px] font-semibold text-night-900/35">
                       {dayLabel(m.created_at)}
@@ -484,9 +602,27 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
                     </div>
                   ) : null}
                   <div className={`relative flex w-full flex-col ${mine ? "items-end" : "items-start"}`}>
-                  {pickerFor === m.id ? (
-                    <BarreReactions mine={maReaction(m.id)} onPick={(e) => void reagir(m.id, e)} onClose={() => setPickerFor(null)} className={`-top-12 ${mine ? "right-0" : "left-0"}`} />
+                  {pickerFor === m.id && !m.deleted_at ? (
+                    <BarreReactions
+                      mine={maReaction(m.id)}
+                      onPick={(e) => void reagir(m.id, e)}
+                      onClose={() => setPickerFor(null)}
+                      className={`${menuEnHaut ? HAUT_BARRE[actionsDe(m).length] : "-top-12"} ${mine ? "right-0" : "left-0"}`}
+                      actions={actionsDe(m)}
+                      menuClassName={`${menuEnHaut ? "bottom-full mb-1" : "top-full mt-1"} ${mine ? "right-0" : "left-0"}`}
+                    />
                   ) : null}
+                  {m.deleted_at ? (
+                    <div
+                      className={`flex max-w-[80%] items-center gap-1.5 rounded-2xl border border-dashed border-night-900/15 px-4 py-2 text-[14px] italic text-night-900/45`}
+                    >
+                      <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+                        <circle cx="12" cy="12" r="8.5" />
+                        <path d="M6 6l12 12" strokeLinecap="round" />
+                      </svg>
+                      {mine ? "Tu as supprimé ce message" : "Message supprimé"}
+                    </div>
+                  ) : (
                   <div
                     translate="no"
                     {...gesteReaction(
@@ -494,13 +630,37 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
                       () => {
                         if (maReaction(m.id) !== "❤️") void reagir(m.id, "❤️");
                       },
+                      () => repondreA(m),
                     )}
-                    className={`max-w-[80%] select-none whitespace-pre-wrap rounded-2xl px-4 py-2 text-[15px] leading-snug ${
+                    className={`max-w-[80%] select-none whitespace-pre-wrap rounded-2xl text-[15px] leading-snug transition-shadow ${
+                      m.image_url && !m.body ? "p-1" : "px-4 py-2"
+                    } ${
                       mine
 ? "bg-dawn-400 text-night-900"
 : "border border-night-900/10 bg-white text-night-900/85"
-                    }`}
+                    } ${surligne === m.id ? "ring-2 ring-spirit-500" : ""}`}
                   >
+                    {m.reply_to ? (
+                      <Citation
+                        cible={messages.find((x) => x.id === m.reply_to) ?? null}
+                        meId={meId}
+                        partenaire={partner?.pseudo ?? "Membre"}
+                        mine={mine}
+                        onClick={() => allerA(m.reply_to!)}
+                      />
+                    ) : null}
+                    {m.image_url ? (
+                      <button type="button" onClick={() => setPhotoPleinEcran(m.image_url!)} className="block" aria-label="Voir la photo">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={urlLegere(m.image_url, 480)}
+                          onError={repliImage(m.image_url)}
+                          alt="Photo"
+                          loading="lazy"
+                          className="max-h-72 w-60 max-w-full rounded-xl object-cover"
+                        />
+                      </button>
+                    ) : null}
                     {m.audio_url ? (
                       voiceExpired(m.created_at) ? (
                         <span className="text-sm italic opacity-60">Note vocale expirée (les vocaux durent 7 jours)</span>
@@ -511,7 +671,9 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
                       )
                     ) : null}
                     <TexteAvecLiens texte={m.body} mine={mine} />
+                    {m.edited_at ? <span className="ml-1.5 text-[10px] font-semibold opacity-50">modifié</span> : null}
                   </div>
+                  )}
                   <PucesReactions
                     emojis={reactions.filter((r) => r.message_id === m.id).map((r) => r.emoji)}
                     mine={maReaction(m.id)}
@@ -536,8 +698,56 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
       <div
         className="global-audio-bar envoi-bas fixed inset-x-0 z-[50] border-t border-night-900/10 bg-white/95 p-3 backdrop-blur"
       >
+        {enReponse || enModif ? (
+          <div className="container-x mb-2 flex max-w-2xl items-center gap-2 px-0">
+            <div className="min-w-0 flex-1 rounded-xl border-l-[3px] border-spirit-500 bg-night-900/[0.04] px-3 py-1.5">
+              <p className="text-[11px] font-bold text-spirit-700">
+                {enModif ? "Modifier le message" : enReponse!.sender_id === meId ? "Réponse à toi-même" : `Réponse à ${partner?.pseudo ?? "Membre"}`}
+              </p>
+              <p className="truncate text-[13px] text-night-900/60">{apercuMessage(enModif ?? enReponse!)}</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                if (enModif) setText("");
+                setEnReponse(null);
+                setEnModif(null);
+              }}
+              aria-label="Annuler"
+              className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-night-900/50 hover:bg-night-900/[0.06]"
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={2.2} aria-hidden>
+                <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+              </svg>
+            </button>
+          </div>
+        ) : null}
         <div className="container-x flex max-w-2xl items-center gap-2 px-0">
+          <input ref={photoRef} type="file" accept="image/*" className="hidden" onChange={(e) => {
+            void sendPhoto(e.target.files?.[0]);
+            e.target.value = "";
+          }} />
+          {!enModif ? (
+            <button
+              type="button"
+              onClick={() => photoRef.current?.click()}
+              disabled={envoiPhoto}
+              aria-label="Envoyer une photo"
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-night-900/55 transition-colors hover:bg-night-900/[0.06] disabled:opacity-40"
+            >
+              {envoiPhoto ? (
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-night-900/20 border-t-night-900/60" />
+              ) : (
+                <svg viewBox="0 0 24 24" className="h-[22px] w-[22px] fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+                  <rect x="3.5" y="5" width="17" height="14" rx="3" />
+                  <circle cx="9" cy="10" r="1.6" />
+                  <path d="M4 17l4.5-4.5 3.5 3.5 2.5-2.5L20 18" strokeLinejoin="round" />
+                </svg>
+              )}
+            </button>
+          ) : null}
           <input
+            ref={champRef}
             value={text}
             onChange={(e) => {
               setText(e.target.value);
@@ -550,18 +760,85 @@ function Conversation({ meId, partnerId }: { meId: string; partnerId: string }) 
             className="field w-full"
             aria-label="Message"
           />
-          <VoiceRecorderButton userId={meId} onSend={sendVoice} />
+          {!enModif ? <VoiceRecorderButton userId={meId} onSend={sendVoice} /> : null}
           <button
             type="button"
             onClick={send}
             disabled={busy ||!text.trim()}
             className="btn-primary shrink-0 disabled:opacity-40"
           >
-            Envoyer
+            {enModif ? "OK" : "Envoyer"}
           </button>
         </div>
       </div>
+
+      {/* Photo en plein écran */}
+      {photoPleinEcran ? (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Photo"
+          className="fixed inset-0 z-[170] grid place-items-center bg-black/95 p-3"
+          onClick={() => setPhotoPleinEcran(null)}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={photoPleinEcran} alt="Photo" className="max-h-full max-w-full rounded-lg object-contain" />
+          <button
+            type="button"
+            aria-label="Fermer"
+            className="absolute right-3 top-[max(0.75rem,env(safe-area-inset-top))] grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white"
+          >
+            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={2.2} aria-hidden>
+              <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+            </svg>
+          </button>
+        </div>
+      ) : null}
     </section>
+  );
+}
+
+/** Barre d'émojis au-dessus du menu ouvert vers le haut (selon le nombre d'actions). */
+const HAUT_BARRE: Record<number, string> = { 1: "-top-[102px]", 2: "-top-[142px]", 3: "-top-[182px]", 4: "-top-[222px]" };
+
+/** Texte court d'un message (citation, bandeau « Réponse à… »). */
+function apercuMessage(m: Message): string {
+  if (m.deleted_at) return "Message supprimé";
+  if (m.body) return m.body;
+  if (m.image_url) return "Photo";
+  if (m.audio_url) return "Message vocal";
+  return "Message";
+}
+
+/** Citation du message auquel on répond, en haut de la bulle. */
+function Citation({
+  cible,
+  meId,
+  partenaire,
+  mine,
+  onClick,
+}: {
+  cible: Message | null;
+  meId: string;
+  partenaire: string;
+  mine: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`mb-1.5 block w-full min-w-[9rem] rounded-xl border-l-[3px] px-2.5 py-1 text-left ${
+        mine ? "border-night-900/40 bg-night-900/10" : "border-spirit-500 bg-night-900/[0.04]"
+      }`}
+    >
+      <span className={`block text-[11px] font-bold ${mine ? "text-night-900/70" : "text-spirit-700"}`}>
+        {!cible ? "Message" : cible.sender_id === meId ? "Toi" : partenaire}
+      </span>
+      <span className="line-clamp-2 block whitespace-normal text-[13px] opacity-75">
+        {cible ? apercuMessage(cible) : "Message plus disponible"}
+      </span>
+    </button>
   );
 }
 
@@ -586,6 +863,91 @@ function TexteAvecLiens({ texte, mine }: { texte: string; mine: boolean }) {
           <span key={i}>{t}</span>
         ),
       )}
+      {morceaux[1] ? <ApercuLien url={morceaux[1]} mine={mine} /> : null}
     </>
+  );
+}
+
+/** Identifiant d'une vidéo YouTube (youtu.be, watch?v=, shorts, live). */
+function idYouTube(url: string): string | null {
+  const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|live\/|embed\/))([\w-]{11})/i);
+  return m ? m[1] : null;
+}
+
+/** Aperçu du premier lien d'un message : miniature YouTube, carte RHEMA, ou
+ * le nom du site. (Aucune requête vers le site lui-même.) */
+export function ApercuLien({ url, mine, sombre = false }: { url: string; mine?: boolean; sombre?: boolean }) {
+  const complet = /^https?:/i.test(url) ? url : `https://${url.replace(/^www\./i, "")}`;
+  let hote = "";
+  let chemin = "";
+  try {
+    const u = new URL(complet);
+    hote = u.hostname.replace(/^www\./, "");
+    chemin = decodeURIComponent(u.pathname).replace(/\/+$/, "");
+  } catch {
+    return null;
+  }
+  const yt = idYouTube(complet);
+  const rhema = /(^|\.)jackbrunet\.com$/i.test(hote);
+  const RUBRIQUES: Record<string, string> = {
+    bible: "Bible",
+    plans: "Plans de lecture",
+    ecouter: "Podcasts",
+    communaute: "Mur de prière",
+    meditation: "Méditation",
+    devotion: "Rhema du jour",
+    formations: "Formations",
+    groupes: "Groupes",
+    soutien: "Soutenir",
+  };
+  const rubrique = rhema ? RUBRIQUES[chemin.split("/")[1] ?? ""] ?? "RHEMA" : null;
+  const cadre = sombre
+    ? "border-white/10 bg-white/[0.06] text-cream"
+    : mine
+      ? "border-night-900/15 bg-white/60 text-night-900"
+      : "border-night-900/10 bg-night-900/[0.03] text-night-900";
+  return (
+    <button
+      type="button"
+      onClick={() => void openExternal(complet)}
+      className={`mt-2 block w-60 max-w-full overflow-hidden rounded-xl border text-left ${cadre}`}
+    >
+      {yt ? (
+        <span className="relative block aspect-video w-full bg-black">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={`https://i.ytimg.com/vi/${yt}/hqdefault.jpg`} alt="" loading="lazy" className="h-full w-full object-cover" />
+          <span className="absolute inset-0 grid place-items-center">
+            <span className="grid h-11 w-11 place-items-center rounded-full bg-black/60 text-white">
+              <svg viewBox="0 0 24 24" className="ml-0.5 h-5 w-5 fill-current" aria-hidden>
+                <path d="M8 5.5v13l10.5-6.5z" />
+              </svg>
+            </span>
+          </span>
+        </span>
+      ) : null}
+      <span className="flex items-center gap-2 px-3 py-2">
+        <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-lg ${rhema ? "bg-night-900 text-dawn-400" : sombre ? "bg-white/10" : "bg-night-900/[0.06]"}`}>
+          <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+            {yt ? (
+              <>
+                <rect x="2.5" y="5.5" width="19" height="13" rx="4" />
+                <path d="M10 9.3v5.4l4.6-2.7z" strokeLinejoin="round" />
+              </>
+            ) : rhema ? (
+              <path d="M5 4.5h9a5 5 0 0 1 0 10H9.5M9.5 14.5L15 20M5 4.5V20" strokeLinecap="round" strokeLinejoin="round" />
+            ) : (
+              <>
+                <circle cx="12" cy="12" r="9" />
+                <path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z" />
+              </>
+            )}
+          </svg>
+        </span>
+        <span className="min-w-0">
+          <span className="block truncate text-[13px] font-bold">{yt ? "Vidéo YouTube" : rhema ? `RHEMA · ${rubrique}` : hote}</span>
+          <span className="block truncate text-[11px] opacity-55">{yt ? "youtube.com" : rhema ? "jackbrunet.com" + (chemin || "") : "Ouvrir le lien"}</span>
+        </span>
+      </span>
+    </button>
   );
 }

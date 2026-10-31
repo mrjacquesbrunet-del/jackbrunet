@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { Avatar } from "@/components/community/Avatar";
 import { PrayerMark } from "@/components/ui/PrayerMark";
 import {
   listNotifications,
@@ -12,53 +11,10 @@ import {
   type NotifType,
 } from "@/lib/community";
 import { localeApp } from "@/lib/i18n";
+import { grouperNotifications, libelleGroupe } from "@/lib/notif-groupes";
+import { AvatarsGroupe } from "@/components/community/NotificationsBell";
+import { TirerPourRafraichir } from "@/components/ui/TirerPourRafraichir";
 
-function label(n: Notification) {
-  const who = n.actor?.pseudo?? "Quelqu'un";
-  switch (n.type) {
-    case "pray":
-      return `${who} prie pour ton sujet`;
-    case "heart":
-      return `${who} a aimé ton sujet`;
-    case "comment":
-      return `${who} t'a encouragé(e)`;
-    case "follow":
-      return `${who} s'est abonné(e) à toi`;
-    case "mention":
-      return `${who} t'a mentionné(e)`;
-    case "message":
-      return `${who} t'a envoyé un message`;
-    case "reply":
-      return `${who} a répondu à ton commentaire`;
-    case "group_comment":
-      return `${who} a commenté ta publication`;
-    case "group_reaction":
-      return `${who} a réagi à ta publication`;
-    case "comment_reaction":
-      return `${who} a réagi ${n.body ?? ""} à ton commentaire`;
-    case "group_post":
-      return `${who} a publié dans ${n.body? `« ${n.body} »`: "ton groupe"}`;
-    case "group_message":
-      return `${who} a écrit dans ${n.body? `« ${n.body} »`: "ton groupe"}`;
-    case "group_join":
-      return `${who} a rejoint ${n.body? `« ${n.body} »`: "ton groupe"}`;
-    case "podcast":
-      return n.body ?? "Nouvel épisode de podcast";
-    case "admin":
-      return n.body? `${n.body}`: "Message de Pasteur Jack";
-    case "challenge":
-      return n.body ?? `${who} te défie en direct !`;
-    case "friend_score":
-      return n.body ?? `${who} a joué au Défi du jour !`;
-    case "duo_invite":
-    case "duo_accept":
-    case "duo_read":
-    case "duo_note":
-      return `${who} ${n.body ?? "— plan à deux"}`;
-    default:
-      return n.body?? "Nouvelle notification";
-  }
-}
 function when(iso: string) {
   return new Date(iso).toLocaleString(localeApp(), {
     day: "numeric",
@@ -95,6 +51,7 @@ export function ProfileNotifications({ userId }: { userId: string }) {
 
   return (
     <div className="glass-strong p-5 sm:p-6">
+      <TirerPourRafraichir onRefresh={load} />
       <h3 className="font-display text-lg font-bold">Mes notifications</h3>
 
       {/* Compteurs par type */}
@@ -126,11 +83,12 @@ export function ProfileNotifications({ userId }: { userId: string }) {
           </p>
         ): (
           <ul className="divide-y divide-night-900/5">
-            {items.slice(0, 12).map((n) => {
+            {grouperNotifications(items).slice(0, 12).map((g) => {
+              const n = g.tete;
               const inner = (
                 <>
-                  <Avatar pseudo={n.actor?.pseudo} url={n.actor?.avatar_url} size={34} />
-                  <p className="min-w-0 flex-1 text-sm text-night-900/85">{label(n)}</p>
+                  <AvatarsGroupe acteurs={g.acteurs} pseudo={n.actor?.pseudo} url={n.actor?.avatar_url} size={34} />
+                  <p className="min-w-0 flex-1 text-sm text-night-900/85">{libelleGroupe(g)}</p>
                   <span className="shrink-0 text-xs text-night-900/40">{when(n.created_at)}</span>
                 </>
               );

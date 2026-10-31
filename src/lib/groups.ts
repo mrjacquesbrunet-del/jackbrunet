@@ -510,3 +510,36 @@ export async function sendContactMessage(input: {
   });
   return !error;
 }
+
+// ---------- Réactions façon WhatsApp (commentaires + discussion) ----------
+export type GroupItemReaction = { target_type: "comment" | "message"; target_id: string; user_id: string; emoji: string };
+
+/** Réactions sur des commentaires ou messages de groupe (vide si la table n'existe pas encore). */
+export async function groupItemReactionsFor(type: "comment" | "message", ids: string[]): Promise<GroupItemReaction[]> {
+  const sb = getSupabase();
+  if (!sb || !ids.length) return [];
+  const { data, error } = await sb
+    .from("group_item_reactions")
+    .select("target_type,target_id,user_id,emoji")
+    .eq("target_type", type)
+    .in("target_id", ids);
+  return error ? [] : ((data ?? []) as GroupItemReaction[]);
+}
+
+/** Pose, change ou retire (`null`) ma réaction. */
+export async function setGroupItemReaction(
+  type: "comment" | "message",
+  targetId: string,
+  groupId: string,
+  userId: string,
+  emoji: string | null,
+): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  const { error } = emoji
+    ? await sb
+        .from("group_item_reactions")
+        .upsert({ target_type: type, target_id: targetId, group_id: groupId, user_id: userId, emoji }, { onConflict: "target_type,target_id,user_id" })
+    : await sb.from("group_item_reactions").delete().eq("target_type", type).eq("target_id", targetId).eq("user_id", userId);
+  return !error;
+}

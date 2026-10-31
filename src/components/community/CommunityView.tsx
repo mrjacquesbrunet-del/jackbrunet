@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { TirerPourRafraichir } from "@/components/ui/TirerPourRafraichir";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { isSupabaseConfigured } from "@/lib/supabase";
@@ -161,8 +162,9 @@ function Feed({
   }, []);
 
   const tab = vue === "amis" ? "following" : "all";
-  const load = useCallback(async () => {
-    setLoading(true);
+  const load = useCallback(async (silencieux = false) => {
+    // Silencieux (tirer pour rafraîchir) : on garde le fil affiché pendant le rechargement.
+    if (!silencieux) setLoading(true);
     setLoadError(false);
     setBlockedIds(await listBlockedIds());
     const result = tab === "following"? await listFollowingFeed(userId): await listPrayers();
@@ -241,6 +243,7 @@ function Feed({
 
   return (
     <div className="keep-dark relative min-h-[100svh] bg-night-950 pb-16 text-cream">
+      <TirerPourRafraichir onRefresh={() => load(true)} sombre />
       {/* Halo lime discret en haut */}
       <div
         aria-hidden
@@ -379,7 +382,7 @@ function Feed({
             <div className="rounded-2xl border border-creme/10 bg-creme/[0.06] p-5 text-center">
               <p className="font-semibold text-cream/85">Impossible de charger le mur de prière.</p>
               <p className="mt-1 text-sm text-cream/55">Vérifie ta connexion internet, puis réessaie.</p>
-              <button type="button" onClick={load} className="btn-primary mt-4 text-sm">
+              <button type="button" onClick={() => load()} className="btn-primary mt-4 text-sm">
                 Réessayer
               </button>
             </div>
