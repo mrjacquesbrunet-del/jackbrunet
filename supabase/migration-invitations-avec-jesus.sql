@@ -93,7 +93,7 @@ begin
          coalesce(p.pseudo, 'Un ami') || ' fête ' ||
            extract(year from age(auj, p.converted_at))::int || ' an' ||
            case when extract(year from age(auj, p.converted_at))::int > 1 then 's' else '' end ||
-           ' avec Jésus aujourd''hui. Félicite-le !',
+           ' avec Jésus aujourd''hui. Envoie-lui un mot d''encouragement !',
          '/membre/?u=' || p.id
   from public.profiles p
   join public.follows f on f.following_id = p.id

@@ -1000,6 +1000,41 @@ export function cleLieu(t?: string | null): string {
     .trim();
 }
 
+/** Nom d'église réduit à l'essentiel (même règle que eglise_cle côté SQL). */
+export function cleEglise(t?: string | null): string {
+  return ` ${cleLieu(t)} `
+    .replace(/ (eglise|eglises|church|igreja|de|du|des|la|le|les|l|d|the|of)(?= )/g, " ")
+    .replace(/ +/g, " ")
+    .trim();
+}
+
+/** Distance d'édition (petites fautes de frappe). */
+function distance(a: string, b: string): number {
+  const d = Array.from({ length: b.length + 1 }, (_, j) => j);
+  for (let i = 1; i <= a.length; i++) {
+    let prec = d[0];
+    d[0] = i;
+    for (let j = 1; j <= b.length; j++) {
+      const tmp = d[j];
+      d[j] = Math.min(d[j] + 1, d[j - 1] + 1, prec + (a[i - 1] === b[j - 1] ? 0 : 1));
+      prec = tmp;
+    }
+  }
+  return d[b.length];
+}
+
+/** Deux noms désignent-ils la même église ? (« Église Tout est possible
+ * pour » = « Tout est possible pour », fautes de frappe comprises.) */
+export function memeEglise(a?: string | null, b?: string | null): boolean {
+  const x = cleEglise(a);
+  const y = cleEglise(b);
+  if (!x || !y) return false;
+  if (x === y) return true;
+  const [court, long] = x.length <= y.length ? [x, y] : [y, x];
+  if ((court.includes(" ") || court.length >= 10) && ` ${long} `.includes(` ${court} `)) return true;
+  return long.length >= 8 && distance(x, y) <= Math.floor(long.length / 8);
+}
+
 /** Suggestion de membre, avec la raison affichée (« Ton église », « Bordeaux »…). */
 export type Suggestion = Profile & { raison?: string | null };
 
@@ -1047,10 +1082,10 @@ export async function suggestedProfiles(
   const pseudosAmis = await profilesByIds(Array.from(new Set(Object.values(viaAmi))));
 
   // Proches d'abord : même église, puis même ville, puis amis d'amis.
-  const monEglise = cleLieu(moi?.church);
+  const monEglise = moi?.church?.trim() ?? "";
   const maVille = cleLieu(moi?.city);
   const raison = (p: Profile): [number, string | null] => {
-    if (monEglise && cleLieu(p.church) === monEglise) return [0, "Ton église"];
+    if (monEglise && memeEglise(p.church, monEglise)) return [0, "Ton église"];
     if (maVille && p.location_privacy !== "prive" && cleLieu(p.city) === maVille) return [1, p.city?.trim() ?? null];
     const ami = viaAmi[p.id] ? pseudosAmis[viaAmi[p.id]]?.pseudo : null;
     if (ami) return [2, `Suivi par ${ami}`];
