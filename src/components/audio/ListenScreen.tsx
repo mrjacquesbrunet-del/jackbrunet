@@ -12,6 +12,7 @@ import {
   loadAudioDuration,
   deplacerEpisode,
   listerPopulaires,
+  emissionsPopulaires,
   notifierNouvelEpisode,
   type AudioTrack,
   type Emission,
@@ -119,6 +120,10 @@ export function ListenScreen() {
   const [nomNouvelleListe, setNomNouvelleListe] = useState("");
   const [format, setFormat] = useState<"courts" | "longs" | null>(null);
   const [populaires, setPopulaires] = useState<Record<string, number>>({});
+  // Classements de la semaine : épisodes et émissions les plus écoutés sur
+  // 7 jours (30 jours en secours tant qu'il y a trop peu d'écoutes).
+  const [topEpisodes, setTopEpisodes] = useState<{ jours: number; ecoutes: Record<string, number> }>({ jours: 7, ecoutes: {} });
+  const [topEmissions, setTopEmissions] = useState<{ jours: number; ecoutes: Record<string, number> }>({ jours: 7, ecoutes: {} });
   const [autoDl, setAutoDl] = useState(false);
   /** Fiche de l'intervenant ouverte (nom cliquable). */
   const [fiche, setFiche] = useState<string | null>(null);
@@ -180,6 +185,12 @@ export function ListenScreen() {
   useEffect(() => {
     load();
     listerPopulaires().then(setPopulaires);
+    void (async () => {
+      const ep7 = await listerPopulaires(7);
+      setTopEpisodes(Object.keys(ep7).length >= 2 ? { jours: 7, ecoutes: ep7 } : { jours: 30, ecoutes: await listerPopulaires(30) });
+      const em7 = await emissionsPopulaires(7);
+      setTopEmissions(Object.keys(em7).length >= 2 ? { jours: 7, ecoutes: em7 } : { jours: 30, ecoutes: await emissionsPopulaires(30) });
+    })();
     notesEmissions().then(setNotes);
     setAutoDl(autoTelechargementActif());
   }, [load]);
@@ -350,8 +361,12 @@ export function ListenScreen() {
     return melangerParEmission(recents, graineDuJour());
   }, [tracks]);
   const plusEcoutes = (tracks ?? [])
-    .filter((t) => (populaires[t.id] ?? 0) > 0)
-    .sort((a, b) => (populaires[b.id] ?? 0) - (populaires[a.id] ?? 0))
+    .filter((t) => (topEpisodes.ecoutes[t.id] ?? 0) > 0)
+    .sort((a, b) => (topEpisodes.ecoutes[b.id] ?? 0) - (topEpisodes.ecoutes[a.id] ?? 0))
+    .slice(0, 10);
+  const emissionsTop = (emissions ?? [])
+    .filter((e) => (topEmissions.ecoutes[e.id] ?? 0) > 0)
+    .sort((a, b) => (topEmissions.ecoutes[b.id] ?? 0) - (topEmissions.ecoutes[a.id] ?? 0))
     .slice(0, 10);
   const courts = (tracks ?? []).filter((t) => (durations[t.id] ?? 0) > 0 && durations[t.id] < COURT);
   const longs = (tracks ?? []).filter((t) => (durations[t.id] ?? 0) >= COURT);
@@ -441,7 +456,30 @@ export function ListenScreen() {
       <span className="block pl-9">
         <span className={`mt-2 line-clamp-2 block font-display text-[14px] font-bold leading-snug ${pod.current?.id === t.id ? "text-dawn-400" : "text-cream"}`}>{t.title}</span>
         <span className="mt-0.5 block truncate text-[11.5px] text-cream/50">
-          {populaires[t.id]} écoute{(populaires[t.id] ?? 0) > 1 ? "s" : ""}
+          {topEpisodes.ecoutes[t.id]} auditeur{(topEpisodes.ecoutes[t.id] ?? 0) > 1 ? "s" : ""}
+        </span>
+      </span>
+    </button>
+  );
+
+  // « Émissions les plus écoutées » : même présentation, avec le nombre d'auditeurs.
+  const carteEmissionClassement = (e: Emission, rang: number) => (
+    <button key={e.id} type="button" onClick={() => setEmissionOuverte(e.id)} className="w-[50vw] max-w-[220px] shrink-0 snap-start text-left">
+      <span className="flex items-end">
+        <span
+          aria-hidden
+          className="-mr-3 shrink-0 font-display text-[88px] font-black leading-[0.74] text-night-950"
+          style={{ WebkitTextStroke: "2px rgba(202,240,0,.85)" }}
+        >
+          {rang}
+        </span>
+        <span className="relative block aspect-square min-w-0 flex-1 overflow-hidden rounded-2xl shadow-[0_14px_30px_-14px_rgba(0,0,0,.9)]">{pochette(e.cover)}</span>
+      </span>
+      <span className="block pl-9">
+        <span className="mt-2 line-clamp-2 block font-display text-[14px] font-bold leading-snug text-cream">{e.title}</span>
+        <span className="mt-0.5 block truncate text-[11.5px] text-cream/50">
+          {topEmissions.ecoutes[e.id]} auditeur{(topEmissions.ecoutes[e.id] ?? 0) > 1 ? "s" : ""}
+          {notes[e.id]?.cnt ? ` · ${notes[e.id].avg.toFixed(1).replace(".", ",")} / 5` : ""}
         </span>
       </span>
     </button>
@@ -974,9 +1012,16 @@ export function ListenScreen() {
           </section>
         ) : null}
 
-        {/* Les plus écoutés */}
+        {/* Émissions les plus écoutées de la semaine */}
+        {emissionsTop.length >= 2 ? (
+          <Rangee titre={`Top émissions · ${topEmissions.jours} derniers jours`}>
+            {emissionsTop.map((e, i) => carteEmissionClassement(e, i + 1))}
+          </Rangee>
+        ) : null}
+
+        {/* Les épisodes les plus écoutés de la semaine */}
         {plusEcoutes.length >= 2 ? (
-          <Rangee titre="Les plus écoutés">{plusEcoutes.map((t, i) => carteClassement(t, i + 1, plusEcoutes))}</Rangee>
+          <Rangee titre={`Les plus écoutés · ${topEpisodes.jours} derniers jours`}>{plusEcoutes.map((t, i) => carteClassement(t, i + 1, plusEcoutes))}</Rangee>
         ) : null}
 
         {/* Courts : moins de 10 minutes */}

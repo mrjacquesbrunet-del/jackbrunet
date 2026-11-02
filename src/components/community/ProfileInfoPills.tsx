@@ -1,5 +1,9 @@
 "use client";
 
+import { useState } from "react";
+import { MembresDuLieu } from "@/components/community/MembresDuLieu";
+import type { TypeLieu } from "@/lib/lieux";
+
 /**
  * Pastilles d'infos du profil : église et localisation (icônes en trait,
  * charte). `show=false` masque la localisation (confidentialité « privé »
@@ -26,12 +30,25 @@ export function ProfileInfoPills({
   const location = [city?.trim(), country?.trim()].filter(Boolean).join(", ");
   const hasChurch = !!church?.trim();
   const hasLocation = show && !!location;
+  // Toucher l'église ou la ville → tous les membres qui y sont rattachés.
+  const [lieu, setLieu] = useState<{ type: TypeLieu; valeur: string } | null>(null);
   if (!hasChurch && !hasLocation) return null;
+  const pastille = `inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${light? "border-night-900/15 bg-night-900/5 text-night-900/85": "border-white/15 bg-white/[0.06] text-cream/85"}`;
+  const chevron = (
+    <svg viewBox="0 0 24 24" className="-mr-1 h-3 w-3 fill-none stroke-current opacity-50" strokeWidth={2.4} aria-hidden>
+      <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
 
   return (
     <div className={`mt-2.5 flex flex-wrap items-center gap-2 ${centered? "justify-center": ""}`}>
       {hasChurch ? (
-        <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${light? "border-night-900/15 bg-night-900/5 text-night-900/85": "border-white/15 bg-white/[0.06] text-cream/85"}`}>
+        <button
+          type="button"
+          onClick={() => setLieu({ type: "eglise", valeur: church!.trim() })}
+          aria-label={`Voir les membres de ${church!.trim()}`}
+          className={`${pastille} transition-transform active:scale-95`}
+        >
           {/* Icône église (trait) */}
           <svg viewBox="0 0 24 24" className={`h-3.5 w-3.5 fill-none ${light? "stroke-dawn-600": "stroke-dawn-300"}`} strokeWidth={1.8}>
             <path
@@ -41,10 +58,16 @@ export function ProfileInfoPills({
             />
           </svg>
           {church}
-        </span>
+          {chevron}
+        </button>
       ) : null}
-      {hasLocation ? (
-        <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${light? "border-night-900/15 bg-night-900/5 text-night-900/85": "border-white/15 bg-white/[0.06] text-cream/85"}`}>
+      {hasLocation && city?.trim() ? (
+        <button
+          type="button"
+          onClick={() => setLieu({ type: "ville", valeur: city!.trim() })}
+          aria-label={`Voir les membres de ${city!.trim()}`}
+          className={`${pastille} transition-transform active:scale-95`}
+        >
           {/* Icône épingle (trait) */}
           <svg viewBox="0 0 24 24" className={`h-3.5 w-3.5 fill-none ${light? "stroke-dawn-600": "stroke-dawn-300"}`} strokeWidth={1.8}>
             <path
@@ -54,8 +77,18 @@ export function ProfileInfoPills({
             <circle cx="12" cy="11" r="2.3" />
           </svg>
           {location}
+          {chevron}
+        </button>
+      ) : hasLocation ? (
+        <span className={pastille}>
+          <svg viewBox="0 0 24 24" className={`h-3.5 w-3.5 fill-none ${light? "stroke-dawn-600": "stroke-dawn-300"}`} strokeWidth={1.8}>
+            <path d="M12 21s-6.5-5.2-6.5-10a6.5 6.5 0 0 1 13 0c0 4.8-6.5 10-6.5 10z" strokeLinejoin="round" />
+            <circle cx="12" cy="11" r="2.3" />
+          </svg>
+          {location}
         </span>
       ) : null}
+      <MembresDuLieu lieu={lieu} fermer={() => setLieu(null)} />
     </div>
   );
 }

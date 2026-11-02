@@ -239,13 +239,25 @@ export async function uploadPodcast(file: File, showId?: string | null): Promise
 
 /** Les plus écoutés : nombre d'auditeurs (appareils) par épisode, sur 90 jours.
  * Vide tant que le SQL migration-podcasts-plus.sql n'est pas exécuté. */
-export async function listerPopulaires(): Promise<Record<string, number>> {
+export async function listerPopulaires(jours = 90): Promise<Record<string, number>> {
   const sb = getSupabase();
   if (!sb) return {};
-  const { data, error } = await sb.rpc("podcasts_populaires", { jours: 90 });
+  const { data, error } = await sb.rpc("podcasts_populaires", { jours });
   if (error || !data) return {};
   const out: Record<string, number> = {};
   for (const r of data as { podcast_id: string; ecoutes: number }[]) out[r.podcast_id] = Number(r.ecoutes) || 0;
+  return out;
+}
+
+/** Émissions les plus écoutées : auditeurs (appareils) différents sur N jours,
+ * tous épisodes confondus. Vide tant que le SQL n'est pas exécuté. */
+export async function emissionsPopulaires(jours = 7): Promise<Record<string, number>> {
+  const sb = getSupabase();
+  if (!sb) return {};
+  const { data, error } = await sb.rpc("emissions_populaires", { jours });
+  if (error || !data) return {};
+  const out: Record<string, number> = {};
+  for (const r of data as { show_id: string; ecoutes: number }[]) out[r.show_id] = Number(r.ecoutes) || 0;
   return out;
 }
 

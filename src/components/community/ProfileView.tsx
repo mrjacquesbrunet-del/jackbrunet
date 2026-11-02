@@ -48,6 +48,7 @@ import { ModeratorBadge } from "@/components/community/ModeratorBadge";
 import { FollowList } from "@/components/community/FollowList";
 import { ProfileBanners } from "@/components/community/ProfileBanners";
 import { ProfileInfoPills } from "@/components/community/ProfileInfoPills";
+import { eglisesExistantes } from "@/lib/lieux";
 import { ProfileThemeBg, ProfileThemeToggle, useProfileTheme } from "@/components/community/ProfileTheme";
 import { useEngagement } from "@/lib/engagement";
 import { FIDELITY_REWARDS } from "@/lib/rewards";
@@ -791,12 +792,7 @@ function Profile({
           <span className="text-xs font-semibold uppercase tracking-wide text-cream/50">
             Ton église (facultatif)
           </span>
-          <input
-            value={churchVal}
-            onChange={(e) => setChurchVal(e.target.value)}
-            placeholder="Ex. Église Vie Nouvelle, Bordeaux"
-            className="field mt-1 w-full"
-          />
+          <ChampEglise valeur={churchVal} onChange={setChurchVal} />
         </label>
 
         <label className="mt-4 block">
@@ -1356,5 +1352,58 @@ function CameraGlyphe({ small = false }: { small?: boolean }) {
       <path d="M4 8.5a2 2 0 0 1 2-2h1.6l1.2-1.8a1 1 0 0 1 .9-.5h4.6a1 1 0 0 1 .9.5l1.2 1.8H18a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" strokeLinejoin="round" />
       <circle cx="12" cy="12.6" r="3.2" />
     </svg>
+  );
+}
+
+/** Champ « Ton église » : propose les églises déjà renseignées par d'autres
+ * membres, pour que tout le monde écrive le même nom et se retrouve. */
+function ChampEglise({ valeur, onChange }: { valeur: string; onChange: (v: string) => void }) {
+  const [focus, setFocus] = useState(false);
+  const [propositions, setPropositions] = useState<{ nom: string; membres: number }[]>([]);
+  useEffect(() => {
+    if (!focus || valeur.trim().length < 2) {
+      setPropositions([]);
+      return;
+    }
+    const t = setTimeout(() => {
+      void eglisesExistantes(valeur).then((l) =>
+        setPropositions(l.filter((x) => x.nom.trim().toLowerCase() !== valeur.trim().toLowerCase())),
+      );
+    }, 250);
+    return () => clearTimeout(t);
+  }, [valeur, focus]);
+  return (
+    <span className="relative block">
+      <input
+        value={valeur}
+        onChange={(e) => onChange(e.target.value)}
+        onFocus={() => setFocus(true)}
+        onBlur={() => setTimeout(() => setFocus(false), 150)}
+        placeholder="Ex. Église Vie Nouvelle"
+        className="field mt-1 w-full"
+      />
+      {focus && propositions.length ? (
+        <span className="absolute inset-x-0 top-full z-30 mt-1 block overflow-hidden rounded-2xl border border-white/10 bg-night-800 shadow-xl">
+          <span className="block px-3.5 pt-2 text-[10px] font-bold uppercase tracking-[0.14em] text-cream/40">Déjà sur RHEMA</span>
+          {propositions.map((p) => (
+            <button
+              key={p.nom}
+              type="button"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => {
+                onChange(p.nom);
+                setPropositions([]);
+              }}
+              className="flex w-full items-center justify-between gap-3 px-3.5 py-2.5 text-left text-sm text-cream active:bg-white/10"
+            >
+              <span className="truncate">{p.nom}</span>
+              <span className="shrink-0 text-xs text-cream/45">
+                {p.membres} membre{p.membres > 1 ? "s" : ""}
+              </span>
+            </button>
+          ))}
+        </span>
+      ) : null}
+    </span>
   );
 }
