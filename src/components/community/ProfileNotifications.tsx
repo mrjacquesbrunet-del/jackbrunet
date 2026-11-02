@@ -7,12 +7,13 @@ import {
   listNotifications,
   markNotificationsRead,
   notifHref,
+  listFollowingIds,
   type Notification,
   type NotifType,
 } from "@/lib/community";
 import { localeApp } from "@/lib/i18n";
 import { grouperNotifications, libelleGroupe } from "@/lib/notif-groupes";
-import { AvatarsGroupe } from "@/components/community/NotificationsBell";
+import { AvatarsGroupe, SuivreEnRetour } from "@/components/community/NotificationsBell";
 import { TirerPourRafraichir } from "@/components/ui/TirerPourRafraichir";
 
 function when(iso: string) {
@@ -34,8 +35,10 @@ const TYPES: { key: NotifType; label: string; icon: string }[] = [
 
 export function ProfileNotifications({ userId }: { userId: string }) {
   const [items, setItems] = useState<Notification[] | null>(null);
+  const [suivis, setSuivis] = useState<Set<string> | null>(null);
 
   const load = useCallback(async () => {
+    listFollowingIds(userId).then((ids) => setSuivis(new Set(ids)));
     const list = await listNotifications(userId, 50);
     setItems(list);
     // Consultées depuis le profil → marquées lues.
@@ -89,6 +92,9 @@ export function ProfileNotifications({ userId }: { userId: string }) {
                 <>
                   <AvatarsGroupe acteurs={g.acteurs} pseudo={n.actor?.pseudo} url={n.actor?.avatar_url} size={34} />
                   <p className="min-w-0 flex-1 text-sm text-night-900/85">{libelleGroupe(g)}</p>
+                  {n.type === "follow" && g.acteurs.length === 1 && n.actor_id ? (
+                    <SuivreEnRetour userId={userId} actorId={n.actor_id} suivis={suivis} onSuivi={(id) => setSuivis((s) => new Set(s ?? []).add(id))} />
+                  ) : null}
                   <span className="shrink-0 text-xs text-night-900/40">{when(n.created_at)}</span>
                 </>
               );

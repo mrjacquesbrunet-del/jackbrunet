@@ -1,5 +1,6 @@
 "use client";
 
+import { inviterDesAmis } from "@/lib/invitation";
 import { useEffect, useRef, useState } from "react";
 import { prendreFenetreAuto } from "@/lib/popups";
 import Link from "next/link";
@@ -416,7 +417,7 @@ const I = {
   chevron: "M9 6l6 6-6 6",
 };
 
-type Ligne = { label: string; icone: string; href?: string; vue?: "espace" | "reglages" };
+type Ligne = { label: string; icone: string; href?: string; vue?: "espace" | "reglages" | "inviter" };
 
 const MON_ESPACE: Ligne[] = [
   { label: "Mon carnet", icone: I.carnet, href: "/carnet" },
@@ -424,6 +425,7 @@ const MON_ESPACE: Ligne[] = [
   { label: "Podcasts", icone: I.casque, href: "/ecouter" },
   { label: "Ma liste de prière", icone: I.priere, vue: "espace" },
   { label: "Messages", icone: I.messages, href: "/messages" },
+  { label: "Inviter mes amis", icone: "M9.5 4.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zM3 19.5a6.5 6.5 0 0 1 13 0M19 8v6M16 11h6", vue: "inviter" },
   { label: "Ma formation", icone: I.formation, href: "/ecole" },
   { label: "Mes jeux", icone: I.jeux, href: "/jeux" },
 ];
@@ -490,7 +492,19 @@ export function ProfilMenu() {
         {contenu}
       </Link>
     ) : (
-      <button key={l.label} type="button" onClick={() => allerProfil(l.vue)} className={cls}>
+      <button
+        key={l.label}
+        type="button"
+        onClick={() => {
+          if (l.vue === "inviter") {
+            if (userId) void inviterDesAmis(userId, profile?.pseudo);
+            else allerProfil();
+            return;
+          }
+          allerProfil(l.vue);
+        }}
+        className={cls}
+      >
         {contenu}
       </button>
     );

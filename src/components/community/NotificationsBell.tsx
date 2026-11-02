@@ -8,6 +8,8 @@ import {
   unreadCount,
   markNotificationsRead,
   notifHref,
+  follow,
+  listFollowingIds,
   type Notification,
 } from "@/lib/community";
 import { localeApp } from "@/lib/i18n";
@@ -35,6 +37,7 @@ export function NotificationsBell({
   const [open, setOpen] = useState(false);
   const [unread, setUnread] = useState(0);
   const [items, setItems] = useState<Notification[] | null>(null);
+  const [suivis, setSuivis] = useState<Set<string> | null>(null);
 
   const refresh = useCallback(async () => {
     setUnread(await unreadCount(userId));
@@ -50,6 +53,7 @@ export function NotificationsBell({
     const next =!open;
     setOpen(next);
     if (next) {
+      listFollowingIds(userId).then((ids) => setSuivis(new Set(ids)));
       setItems(await listNotifications(userId, 100));
       await markNotificationsRead(userId);
       setUnread(0);
@@ -108,10 +112,13 @@ export function NotificationsBell({
                     const inner = (
                       <>
                         <AvatarsGroupe acteurs={g.acteurs} pseudo={n.actor?.pseudo} url={n.actor?.avatar_url} size={32} />
-                        <div className="min-w-0">
+                        <div className="min-w-0 flex-1">
                           <p className="text-sm leading-snug text-night-900/85">{libelleGroupe(g)}</p>
                           <p className="text-xs text-night-900/45">{when(n.created_at)}</p>
                         </div>
+                        {n.type === "follow" && g.acteurs.length === 1 && n.actor_id ? (
+                          <SuivreEnRetour userId={userId} actorId={n.actor_id} suivis={suivis} onSuivi={(id) => setSuivis((s) => new Set(s ?? []).add(id))} />
+                        ) : null}
                       </>
                     );
                     const rowCls = `flex items-start gap-3 px-4 py-3 ${
@@ -169,5 +176,38 @@ export function AvatarsGroupe({
         <Avatar pseudo={acteurs[0].pseudo} url={acteurs[0].avatar_url} size={petit} />
       </span>
     </span>
+  );
+}
+
+/** « Suivre en retour » dans une notification d'abonnement (sans quitter la liste). */
+export function SuivreEnRetour({
+  userId,
+  actorId,
+  suivis,
+  onSuivi,
+}: {
+  userId: string;
+  actorId: string;
+  suivis: Set<string> | null;
+  onSuivi: (id: string) => void;
+}) {
+  if (!suivis) return null;
+  const deja = suivis.has(actorId);
+  return (
+    <button
+      type="button"
+      disabled={deja}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onSuivi(actorId);
+        void follow(actorId, userId);
+      }}
+      className={`shrink-0 self-center rounded-full px-3 py-1.5 text-xs font-bold transition-colors ${
+        deja ? "border border-night-900/15 text-night-900/55" : "bg-spirit-700 text-cream active:scale-95"
+      }`}
+    >
+      {deja ? "Abonné(e)" : "Suivre en retour"}
+    </button>
   );
 }

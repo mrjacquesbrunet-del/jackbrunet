@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAuth } from "@/components/community/useAuth";
 import { Avatar } from "@/components/community/Avatar";
+import { BoutonInviter } from "@/components/community/BoutonInviter";
 import { VerifiedBadge } from "@/components/community/VerifiedBadge";
 import { follow, unfollow, listFollowingIds, type Profile } from "@/lib/community";
 import { membresDuLieu, type TypeLieu } from "@/lib/lieux";
@@ -110,6 +111,7 @@ export function MembresDuLieu({
                   {eglise ? "Tu es le premier membre de cette église sur RHEMA." : "Personne d'autre n'a encore indiqué cette ville."}
                 </p>
                 <p className="mt-1 text-sm text-cream/55">Invite tes amis à rejoindre l&apos;app pour vous retrouver ici.</p>
+                <BoutonInviter className="mt-4" />
               </div>
             ) : (
               <>
@@ -167,6 +169,7 @@ export function MembresDuLieu({
                     );
                   })}
                 </ul>
+                <BoutonInviter className="mt-5" />
               </>
             )}
           </div>

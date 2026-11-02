@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAuth } from "@/components/community/useAuth";
 import { Avatar } from "@/components/community/Avatar";
+import { BoutonInviter } from "@/components/community/BoutonInviter";
 import { MemberSuggestions } from "@/components/community/MemberSuggestions";
 import { searchProfiles, follow, unfollow, listFollowingIds, type Profile } from "@/lib/community";
 
@@ -105,13 +106,18 @@ export function RechercheProfils({ ouvert, fermer }: { ouvert: boolean; fermer: 
             {q.trim().length < 2 ? (
               <>
                 <p className="px-1 text-sm text-cream/50">Tape au moins 2 lettres du pseudo.</p>
+                <BoutonInviter className="mt-4" />
                 <p className="mb-2 mt-6 px-1 text-[11px] font-black uppercase tracking-[0.18em] text-cream/45">Suggestions pour toi</p>
                 <MemberSuggestions compact dark />
               </>
             ) : chargement && !resultats.length ? (
               <p className="px-1 py-4 text-sm text-cream/50">Recherche…</p>
             ) : !resultats.length ? (
-              <p className="px-1 py-4 text-sm text-cream/50">Aucun membre trouvé pour « {q.trim()} ».</p>
+              <div className="px-1 py-4">
+                <p className="text-sm text-cream/50">Aucun membre trouvé pour « {q.trim()} ».</p>
+                <p className="mb-3 mt-1 text-sm text-cream/50">Pas encore sur RHEMA ? Invite-le !</p>
+                <BoutonInviter />
+              </div>
             ) : (
               <ul className="divide-y divide-white/[0.06]">
                 {resultats.map((p) => {

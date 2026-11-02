@@ -98,7 +98,9 @@ export type NotifType =
   | "duo_accept"
   | "duo_read"
   | "duo_note"
-  | "podcast";
+  | "podcast"
+  | "invitation"
+  | "avec_jesus";
 export type Notification = {
   id: string;
   user_id: string;
@@ -781,6 +783,29 @@ export async function unfollow(followingId: string, followerId: string) {
 .eq("following_id", followingId);
 }
 
+/** Amis en commun : les personnes que je suis et qui suivent ce membre
+ * (« Suivi par Marie, Paul et 3 autres »). Ceux qui cachent leurs
+ * abonnements sont exclus. */
+export async function amisEnCommun(cibleId: string, meId: string): Promise<{ total: number; premiers: Profile[] }> {
+  const sb = getSupabase();
+  const vide = { total: 0, premiers: [] as Profile[] };
+  if (!sb || cibleId === meId) return vide;
+  const suivis = await listFollowingIds(meId);
+  if (!suivis.length) return vide;
+  const { data } = await sb
+.from("follows")
+.select("follower_id")
+.eq("following_id", cibleId)
+.in("follower_id", suivis.slice(0, 500));
+  const ids = ((data as { follower_id: string }[]) ?? []).map((r) => r.follower_id).filter((id) => id !== cibleId);
+  if (!ids.length) return vide;
+  const { data: profs } = await sb.from("profiles").select("id,pseudo,avatar_url,follows_privacy").in("id", ids);
+  const visibles = ((profs as Profile[]) ?? []).filter((p) => p.follows_privacy !== "prive");
+  // Avec photo d'abord : la pile d'avatars est plus parlante.
+  visibles.sort((a, b) => Number(!!b.avatar_url) - Number(!!a.avatar_url));
+  return { total: visibles.length, premiers: visibles.slice(0, 3) };
+}
+
 export async function isFollowing(followingId: string, followerId: string): Promise<boolean> {
   const sb = getSupabase();
   if (!sb) return false;
@@ -965,21 +990,35 @@ export async function removeFollower(followerId: string, userId: string) {
 
 /** Suggestions de membres à suivre (intercesseurs), façon Instagram:
  * on exclut soi-même et les personnes déjà suivies. */
+/** Forme comparable d'une église / ville (même règle que lieu_cle côté SQL). */
+export function cleLieu(t?: string | null): string {
+  return (t ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+/** Suggestion de membre, avec la raison affichée (« Ton église », « Bordeaux »…). */
+export type Suggestion = Profile & { raison?: string | null };
+
 export async function suggestedProfiles(
   userId: string,
   limit = 12,
   /** Graine de rotation : change à chaque visite pour ne JAMAIS remontrer la
    * même fournée (défaut : le jour, rotation quotidienne). */
   seed?: number,
-): Promise<Profile[]> {
+): Promise<Suggestion[]> {
   const sb = getSupabase();
   if (!sb) return [];
-  const exclude = new Set(await listFollowingIds(userId));
+  const suivis = await listFollowingIds(userId);
+  const exclude = new Set(suivis);
   exclude.add(userId);
-  const { data } = await sb
-.from("profiles")
-.select("id,pseudo,avatar_url,bio,verified")
-.limit(200);
+  const [{ data }, moi] = await Promise.all([
+    sb.from("profiles").select("id,pseudo,avatar_url,bio,verified,church,city,location_privacy").limit(400),
+    getProfile(userId),
+  ]);
   const candidates = ((data as Profile[])?? []).filter((p) =>!exclude.has(p.id));
   if (candidates.length === 0) return [];
 
@@ -987,9 +1026,13 @@ export async function suggestedProfiles(
   // le plus, puis encourager. 2 requêtes légères (RLS: activité visible).
   const ids = new Set(candidates.map((c) => c.id));
   const score: Record<string, number> = {};
-  const [{ data: pr }, { data: cm }] = await Promise.all([
+  const [{ data: pr }, { data: cm }, { data: fdf }] = await Promise.all([
     sb.from("prayers").select("author_id").limit(2000),
     sb.from("prayer_comments").select("author_id").limit(4000),
+    // Amis de mes amis : qui suivent les personnes que je suis.
+    suivis.length
+      ? sb.from("follows").select("follower_id,following_id").in("follower_id", suivis.slice(0, 200)).limit(4000)
+      : Promise.resolve({ data: [] as { follower_id: string; following_id: string }[] }),
   ]);
   for (const r of (pr as { author_id: string }[])?? []) {
     if (ids.has(r.author_id)) score[r.author_id] = (score[r.author_id]?? 0) + 5;
@@ -997,17 +1040,27 @@ export async function suggestedProfiles(
   for (const r of (cm as { author_id: string }[])?? []) {
     if (ids.has(r.author_id)) score[r.author_id] = (score[r.author_id]?? 0) + 2;
   }
+  const viaAmi: Record<string, string> = {};
+  for (const r of (fdf as { follower_id: string; following_id: string }[]) ?? []) {
+    if (ids.has(r.following_id) && !viaAmi[r.following_id]) viaAmi[r.following_id] = r.follower_id;
+  }
+  const pseudosAmis = await profilesByIds(Array.from(new Set(Object.values(viaAmi))));
 
-  // Les plus actifs d'abord (le score sert à choisir le VIVIER)…
-  const stable = (a: Profile, b: Profile) =>
-    (score[b.id]?? 0) - (score[a.id]?? 0) || a.pseudo.localeCompare(b.pseudo);
-  const withPhoto = candidates.filter((p) => p.avatar_url).sort(stable).slice(0, 60);
-  const noPhoto = candidates.filter((p) =>!p.avatar_url).sort(stable).slice(0, 60);
+  // Proches d'abord : même église, puis même ville, puis amis d'amis.
+  const monEglise = cleLieu(moi?.church);
+  const maVille = cleLieu(moi?.city);
+  const raison = (p: Profile): [number, string | null] => {
+    if (monEglise && cleLieu(p.church) === monEglise) return [0, "Ton église"];
+    if (maVille && p.location_privacy !== "prive" && cleLieu(p.city) === maVille) return [1, p.city?.trim() ?? null];
+    const ami = viaAmi[p.id] ? pseudosAmis[viaAmi[p.id]]?.pseudo : null;
+    if (ami) return [2, `Suivi par ${ami}`];
+    return [3, null];
+  };
 
-  // …puis MÉLANGE à chaque affichage : la rangée change réellement à chaque
-  // visite (ordre ET sélection), même quand la communauté est encore petite.
+  // …puis MÉLANGE à chaque affichage dans chaque niveau : la rangée change
+  // réellement à chaque visite, même quand la communauté est encore petite.
   // Priorité aux profils avec photo, complétés par les autres.
-  const shuffle = (arr: Profile[]): Profile[] => {
+  const shuffle = <T,>(arr: T[]): T[] => {
     const a = [...arr];
     for (let i = a.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -1015,8 +1068,18 @@ export async function suggestedProfiles(
     }
     return a;
   };
+  const stable = (a: Profile, b: Profile) =>
+    (score[b.id]?? 0) - (score[a.id]?? 0) || a.pseudo.localeCompare(b.pseudo);
+  const niveaux: Suggestion[][] = [[], [], [], []];
+  for (const p of candidates) {
+    const [n, r] = raison(p);
+    niveaux[n].push({ ...p, raison: r });
+  }
+  const proches = niveaux.slice(0, 3).flatMap((l) => shuffle(l.sort(stable).slice(0, 40)));
+  const withPhoto = niveaux[3].filter((p) => p.avatar_url).sort(stable).slice(0, 60);
+  const noPhoto = niveaux[3].filter((p) =>!p.avatar_url).sort(stable).slice(0, 60);
   void seed; // (ancienne rotation par fenêtre, conservée pour compatibilité)
-  return [...shuffle(withPhoto), ...shuffle(noPhoto)].slice(0, limit);
+  return [...proches, ...shuffle(withPhoto), ...shuffle(noPhoto)].slice(0, limit);
 }
 
 /** Fil des prières des membres que je suis (+ les miennes).

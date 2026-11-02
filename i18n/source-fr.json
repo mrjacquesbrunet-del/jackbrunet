@@ -147,7 +147,7 @@
   "components/notebook/NotebookView.tsx:151"
  ],
  "· Exaucé": [
-  "components/community/MemberView.tsx:419",
+  "components/community/MemberView.tsx:467",
   "components/community/ProfileView.tsx:1217"
  ],
  "· fond musical": [
@@ -1584,7 +1584,7 @@
   "components/chemin/CheminScreen.tsx:233"
  ],
  "(toi)": [
-  "components/community/MembresDuLieu.tsx:138"
+  "components/community/MembresDuLieu.tsx:140"
  ],
  "(verrouillée)": [
   "components/chemin/CheminScreen.tsx:233"
@@ -1691,7 +1691,7 @@
   "components/community/MediasAdmin.tsx:153"
  ],
  "{0} membre{1} sur RHEMA": [
-  "components/community/MembresDuLieu.tsx:99"
+  "components/community/MembresDuLieu.tsx:100"
  ],
  "{0} min": [
   "components/community/PrieresDirect.tsx:247",
@@ -1777,7 +1777,7 @@
   "app/dons/page.tsx:245"
  ],
  "%s · {0}": [
-  "app/layout.tsx:68"
+  "app/layout.tsx:69"
  ],
  "← Groupes": [
   "components/community/GroupView.tsx:215"
@@ -2827,8 +2827,8 @@
  ],
  "À propos": [
   "app/a-propos/page.tsx:13",
-  "components/app/ProfilMenu.tsx:84",
-  "components/app/ProfilMenu.tsx:432"
+  "components/app/ProfilMenu.tsx:85",
+  "components/app/ProfilMenu.tsx:434"
  ],
  "À propos de": [
   "components/audio/ListenScreen.tsx:1595"
@@ -3174,8 +3174,8 @@
   "config/chemin/chapitre-saul.ts:35"
  ],
  "Abonné": [
-  "components/community/MembresDuLieu.tsx:162",
-  "components/community/RechercheProfils.tsx:136",
+  "components/community/MembresDuLieu.tsx:164",
+  "components/community/RechercheProfils.tsx:142",
   "components/community/TopIntercessors.tsx:81"
  ],
  "Abonne-toi": [
@@ -3185,11 +3185,14 @@
   "components/community/CommunityView.tsx:394"
  ],
  "Abonne-toi pour voir ses prières réservées à ses abonnés.": [
-  "components/community/MemberView.tsx:408"
+  "components/community/MemberView.tsx:456"
+ ],
+ "Abonné(e)": [
+  "components/community/MemberView.tsx:392",
+  "components/community/NotificationsBell.tsx:210"
  ],
  "Abonné(e) ✓": [
-  "components/community/MemberSuggestions.tsx:111",
-  "components/community/MemberView.tsx:344"
+  "components/community/MemberSuggestions.tsx:113"
  ],
  "Abonnement mensuel, payé avec": [
   "components/mission/SoutienEnUnClic.tsx:168"
@@ -3198,20 +3201,20 @@
   "components/mission/SoutienEnUnClic.tsx:53"
  ],
  "abonnements": [
-  "components/community/MemberView.tsx:239",
+  "components/community/MemberView.tsx:261",
   "components/community/ProfileView.tsx:467"
  ],
  "Abonnements": [
   "components/community/FollowListModal.tsx:25"
  ],
  "abonnés": [
-  "components/community/MemberView.tsx:235",
+  "components/community/MemberView.tsx:257",
   "components/community/ProfileView.tsx:463"
  ],
  "Abonnés": [
   "components/community/FollowListModal.tsx:25",
   "components/community/PrayerCard.tsx:41",
-  "components/community/ProfileNotifications.tsx:31"
+  "components/community/ProfileNotifications.tsx:32"
  ],
  "abonnés via l'app": [
   "components/community/AdminBatisseurs.tsx:104"
@@ -4527,7 +4530,7 @@
   "components/community/MediasAdmin.tsx:204"
  ],
  "Aucun membre trouvé pour «": [
-  "components/community/RechercheProfils.tsx:114"
+  "components/community/RechercheProfils.tsx:117"
  ],
  "Aucun membre trouvé.": [
   "components/community/InAppShare.tsx:185",
@@ -4562,7 +4565,7 @@
   "components/community/ModerationQueue.tsx:65"
  ],
  "Aucun sujet visible pour l'instant.": [
-  "components/community/MemberView.tsx:407"
+  "components/community/MemberView.tsx:455"
  ],
  "Aucun verset trouvé. Essaie un autre mot.": [
   "components/bible/RechercheBible.tsx:209"
@@ -5147,7 +5150,7 @@
   "components/community/AnsweredFeed.tsx:30"
  ],
  "Bienvenue": [
-  "components/app/ProfilMenu.tsx:550"
+  "components/app/ProfilMenu.tsx:564"
  ],
  "Bienvenue 🙏 Partagez vos plans, vos percées et vos sujets de prière. Commentez, réagissez et priez les uns pour les autres, en famille.": [
   "components/community/GroupView.tsx:226"
@@ -5168,7 +5171,7 @@
   "lib/toolkit.ts:27"
  ],
  "Bloquer": [
-  "components/community/MemberView.tsx:380"
+  "components/community/MemberView.tsx:428"
  ],
  "blur(0px) brightness(1)": [
   "components/app/AppOnboarding.tsx:482"
@@ -5198,7 +5201,7 @@
   "config/chemin/chapitre-eglise.ts:68"
  ],
  "Bonjour": [
-  "components/app/ProfilMenu.tsx:336",
+  "components/app/ProfilMenu.tsx:337",
   "components/ecole/EcoleView.tsx:77",
   "components/games/ArcadeUI.tsx:304"
  ],
@@ -5212,7 +5215,7 @@
   "components/boutique/RhemaShowcase.tsx:202"
  ],
  "Bonjour, {0}": [
-  "components/app/ProfilMenu.tsx:361"
+  "components/app/ProfilMenu.tsx:362"
  ],
  "bonne": [
   "components/games/VraiFauxScreen.tsx:416"
@@ -5240,10 +5243,10 @@
   "components/ecole/FormationView.tsx:2077"
  ],
  "Bonsoir": [
-  "components/app/ProfilMenu.tsx:336"
+  "components/app/ProfilMenu.tsx:337"
  ],
  "Bonsoir, {0}": [
-  "components/app/ProfilMenu.tsx:361"
+  "components/app/ProfilMenu.tsx:362"
  ],
  "Bonus": [
   "components/app/ExclusivesView.tsx:51"
@@ -5443,7 +5446,7 @@
   "lib/voix-tts.ts:63"
  ],
  "Carnet": [
-  "components/app/ProfilMenu.tsx:76",
+  "components/app/ProfilMenu.tsx:77",
   "components/community/AnalyticsDashboard.tsx:28"
  ],
  "Carnet, versets surlignés et plans te suivent sur tous tes appareils.": [
@@ -5514,7 +5517,7 @@
   "components/community/FollowListModal.tsx:62"
  ],
  "Ce membre n'existe pas (ou plus).": [
-  "components/community/MemberView.tsx:159"
+  "components/community/MemberView.tsx:181"
  ],
  "Ce même jour, deux disciples allaient à un village nommé Emmaüs. Jésus s'approcha et fit route avec eux, mais leurs yeux étaient empêchés de le reconnaître. « De quoi vous entretenez-vous ? » Ils s'arrêtèrent, l'air triste : « Nous espérions que ce serait lui qui délivrerait Israël. » Alors, commençant par Moïse et par tous les prophètes, il leur expliqua dans toutes les Écritures ce qui le concernait.": [
   "config/chemin/chapitre-resurrection.ts:52"
@@ -5538,13 +5541,13 @@
   "components/community/ObjectifDonAdmin.tsx:89"
  ],
  "Ce mot de passe est le même que l'ancien. Choisis-en un nouveau.": [
-  "lib/community.ts:260"
+  "lib/community.ts:262"
  ],
  "Ce mot de passe est trop simple. Choisis-en un plus long, avec des chiffres.": [
   "components/community/EmailPasswordAuth.tsx:187"
  ],
  "Ce mot de passe est trop simple. Mélange lettres minuscules, majuscules et chiffres.": [
-  "lib/community.ts:264"
+  "lib/community.ts:266"
  ],
  "Ce mot n'a pas pu être chargé. Vérifie ta connexion et réessaie.": [
   "components/ecole/MotLexique.tsx:157"
@@ -5805,7 +5808,7 @@
   "components/mission/ZoomInvitationView.tsx:45"
  ],
  "Cette liste sera disponible très bientôt.": [
-  "components/community/MembresDuLieu.tsx:106"
+  "components/community/MembresDuLieu.tsx:107"
  ],
  "Cette mission a un coût: déplacements, logistique sur place, et soutien direct aux œuvres que nous visiterons. Chaque don, petit ou grand, nous rapproche du but.": [
   "components/mission/MissionObjectiveHeader.tsx:78"
@@ -6152,7 +6155,7 @@
   "components/bible/BibleSearch.tsx:79"
  ],
  "Chercher dans la liste…": [
-  "components/community/MembresDuLieu.tsx:121"
+  "components/community/MembresDuLieu.tsx:123"
  ],
  "Chercher la brebis perdue et ramener l'égarée": [
   "config/chemin/chapitre-ezechiel.ts:56"
@@ -7170,7 +7173,7 @@
   "components/memorize/VerseGame.tsx:33"
  ],
  "Compris": [
-  "components/app/ProfilMenu.tsx:259"
+  "components/app/ProfilMenu.tsx:260"
  ],
  "COMPRIS, ON CONTINUE": [
   "components/chemin/CheminScreen.tsx:720"
@@ -8561,7 +8564,7 @@
   "components/app/ExclusivesView.tsx:79"
  ],
  "Débloquer": [
-  "components/community/MemberView.tsx:380"
+  "components/community/MemberView.tsx:428"
  ],
  "Débloquer les exclusivités": [
   "components/app/ExclusivesView.tsx:89"
@@ -9891,7 +9894,7 @@
  ],
  "Écouter": [
   "components/app/BottomNav.tsx:53",
-  "components/app/ProfilMenu.tsx:82",
+  "components/app/ProfilMenu.tsx:83",
   "components/audio/ListenScreen.tsx:693"
  ],
  "Écouter l'étude": [
@@ -9930,7 +9933,7 @@
   "components/community/AnalyticsDashboard.tsx:170"
  ],
  "Écrire à {0}": [
-  "components/community/MembresDuLieu.tsx:148"
+  "components/community/MembresDuLieu.tsx:150"
  ],
  "Écrire à ton binôme…": [
   "components/plans/PlanDuo.tsx:349"
@@ -10014,7 +10017,7 @@
  "Effacer": [
   "app/questions/page.tsx:367",
   "components/bible/RechercheBible.tsx:148",
-  "components/community/RechercheProfils.tsx:95"
+  "components/community/RechercheProfils.tsx:96"
  ],
  "égal": [
   "config/chemin/chapitre-naissance.ts:47"
@@ -10026,7 +10029,7 @@
   "components/games/ChallengeScreen.tsx:325"
  ],
  "Église": [
-  "components/community/MembresDuLieu.tsx:97",
+  "components/community/MembresDuLieu.tsx:98",
   "components/community/ProfileActivity.tsx:38",
   "lib/quiz.ts:156"
  ],
@@ -10895,7 +10898,7 @@
  ],
  "Envoyer un message": [
   "components/community/EnLigneMaintenant.tsx:116",
-  "components/community/MemberView.tsx:357"
+  "components/community/MemberView.tsx:405"
  ],
  "Envoyer un message au Pasteur Jack": [
   "components/community/GroupsDirectory.tsx:95"
@@ -11203,6 +11206,9 @@
   "components/audio/ListenScreen.tsx:660",
   "components/mission/MissionProgress.tsx:87"
  ],
+ "et {0} autre{1} que tu suis": [
+  "components/community/MemberView.tsx:290"
+ ],
  "et à": [
   "components/mission/MissionObjectiveHeader.tsx:63"
  ],
@@ -11288,7 +11294,7 @@
  ],
  "Étude": [
   "components/app/BottomNav.tsx:51",
-  "components/app/ProfilMenu.tsx:75"
+  "components/app/ProfilMenu.tsx:76"
  ],
  "Étude biblique": [
   "app/ecole/page.tsx:6",
@@ -11401,7 +11407,7 @@
   "app/exaucees/page.tsx:17"
  ],
  "Exaucées": [
-  "components/app/ProfilMenu.tsx:80"
+  "components/app/ProfilMenu.tsx:81"
  ],
  "Excelente aplicativo, fluido e claro. Que bênção na minha vida!": [
   "components/app/AppOnboarding.tsx:175"
@@ -11417,7 +11423,7 @@
  ],
  "Exclusivités": [
   "app/exclusivites/page.tsx:5",
-  "components/app/ProfilMenu.tsx:78",
+  "components/app/ProfilMenu.tsx:79",
   "components/community/AnalyticsDashboard.tsx:27"
  ],
  "Exercice terminé": [
@@ -11726,7 +11732,7 @@
   "components/games/VraiFauxScreen.tsx:497"
  ],
  "Favoris": [
-  "components/app/ProfilMenu.tsx:77",
+  "components/app/ProfilMenu.tsx:78",
   "components/audio/ListenScreen.tsx:1071",
   "components/audio/ListenScreen.tsx:1434"
  ],
@@ -12282,7 +12288,7 @@
   "components/community/Reactions.tsx:22"
  ],
  "Gestion des podcasts": [
-  "components/app/ProfilMenu.tsx:438"
+  "components/app/ProfilMenu.tsx:440"
  ],
  "Get exclusive gifts": [
   "components/app/AppOnboarding.tsx:150"
@@ -12368,7 +12374,7 @@
   "components/mission/MissionProgress.tsx:83"
  ],
  "Grade maximal": [
-  "components/community/MemberView.tsx:273",
+  "components/community/MemberView.tsx:321",
   "components/community/ProfileView.tsx:505"
  ],
  "Grade maximal atteint.": [
@@ -12450,7 +12456,7 @@
  ],
  "Groupes": [
   "app/groupes/page.tsx:6",
-  "components/app/ProfilMenu.tsx:81",
+  "components/app/ProfilMenu.tsx:82",
   "components/community/GroupsDirectory.tsx:184"
  ],
  "Grow in the knowledge of His Word.": [
@@ -14711,7 +14717,7 @@
   "config/chemin/chapitre-job.ts:25"
  ],
  "Intercesseur": [
-  "components/community/MemberSuggestions.tsx:96",
+  "components/community/MemberSuggestions.tsx:98",
   "lib/badges.ts:105",
   "lib/grades.ts:26"
  ],
@@ -14769,7 +14775,7 @@
   "components/community/GroupView.tsx:1029"
  ],
  "Invite tes amis à rejoindre l'app pour vous retrouver ici.": [
-  "components/community/MembresDuLieu.tsx:112"
+  "components/community/MembresDuLieu.tsx:113"
  ],
  "Invite un ami : progression partagée et notes privées entre vous.": [
   "components/plans/PlanDuo.tsx:106"
@@ -14783,6 +14789,10 @@
  ],
  "Inviter des amis": [
   "components/community/GroupView.tsx:1012"
+ ],
+ "Inviter mes amis": [
+  "components/app/ProfilMenu.tsx:428",
+  "components/community/BoutonInviter.tsx:33"
  ],
  "Inviter quelqu'un à lire avec moi": [
   "components/plans/PlanView.tsx:407"
@@ -15953,7 +15963,7 @@
  ],
  "Jésus": [
   "app/app/page.tsx:112",
-  "app/layout.tsx:80",
+  "app/layout.tsx:81",
   "app/mission-madagascar/page.tsx:53"
  ],
  "Jésus a d'abord été acclamé à Nazareth avant d'être rejeté.": [
@@ -16411,7 +16421,7 @@
  ],
  "jours": [
   "app/carnet/page.tsx:38",
-  "components/community/MemberView.tsx:263",
+  "components/community/MemberView.tsx:311",
   "components/community/ProfileActivity.tsx:64"
  ],
  "jours avec Dieu d'affilée !": [
@@ -18538,7 +18548,7 @@
   "components/boutique/RhemaShowcase.tsx:314"
  ],
  "Le mot de passe doit faire au moins {0} caractères.": [
-  "lib/community.ts:262"
+  "lib/community.ts:264"
  ],
  "Le mot de passe doit faire au moins 6 caractères.": [
   "components/community/EmailPasswordAuth.tsx:97",
@@ -19027,7 +19037,7 @@
   "config/chemin/chapitre-creation.ts:104"
  ],
  "Le service est momentanément indisponible. On s'en occupe : réessaie un peu plus tard.": [
-  "lib/community.ts:144"
+  "lib/community.ts:146"
  ],
  "Le serviteur blessé pour nos péchés": [
   "config/chemin/chapitre-esaie.ts:99"
@@ -20023,6 +20033,9 @@
  "Libre du péché": [
   "content/plans.json"
  ],
+ "Lien copié !": [
+  "components/community/BoutonInviter.tsx:33"
+ ],
  "Lien copié ✓": [
   "components/app/Rewards.tsx:163"
  ],
@@ -20374,13 +20387,13 @@
   "config/chemin/chapitre-miracles.ts:87"
  ],
  "Ma formation": [
-  "components/app/ProfilMenu.tsx:427"
+  "components/app/ProfilMenu.tsx:429"
  ],
  "Ma liste": [
   "lib/podcast-etat.ts:73"
  ],
  "Ma liste de prière": [
-  "components/app/ProfilMenu.tsx:425",
+  "components/app/ProfilMenu.tsx:426",
   "components/community/MyPrayerList.tsx:119",
   "components/community/ProfileView.tsx:1186"
  ],
@@ -21041,7 +21054,7 @@
   "components/community/GroupView.tsx:565"
  ],
  "Membre introuvable.": [
-  "components/community/MemberView.tsx:148"
+  "components/community/MemberView.tsx:170"
  ],
  "membres": [
   "components/community/GroupsDirectory.tsx:72"
@@ -21053,10 +21066,10 @@
   "components/community/GroupView.tsx:935"
  ],
  "Membres de l'église": [
-  "components/community/MembresDuLieu.tsx:73"
+  "components/community/MembresDuLieu.tsx:74"
  ],
  "Membres de la ville": [
-  "components/community/MembresDuLieu.tsx:73"
+  "components/community/MembresDuLieu.tsx:74"
  ],
  "Mémorisateur": [
   "lib/badges.ts:116"
@@ -21085,7 +21098,7 @@
   "config/chemin/chapitre-elie.ts:83"
  ],
  "Mentions": [
-  "components/community/ProfileNotifications.tsx:32"
+  "components/community/ProfileNotifications.tsx:33"
  ],
  "Mentions légales": [
   "app/mentions-legales/page.tsx:6",
@@ -21096,7 +21109,7 @@
   "app/mentions-legales/page.tsx:8"
  ],
  "Menu": [
-  "components/app/ProfilMenu.tsx:506"
+  "components/app/ProfilMenu.tsx:520"
  ],
  "méprisa": [
   "config/chemin/chapitre-jacob.ts:36"
@@ -21197,7 +21210,7 @@
   "components/community/GroupsDirectory.tsx:304"
  ],
  "Mes jeux": [
-  "components/app/ProfilMenu.tsx:428"
+  "components/app/ProfilMenu.tsx:430"
  ],
  "Mes listes": [
   "components/audio/ListenScreen.tsx:1186"
@@ -21209,10 +21222,10 @@
   "components/home/DevotionalView.tsx:815"
  ],
  "Mes notifications": [
-  "components/community/ProfileNotifications.tsx:55"
+  "components/community/ProfileNotifications.tsx:58"
  ],
  "Mes plans": [
-  "components/app/ProfilMenu.tsx:423",
+  "components/app/ProfilMenu.tsx:424",
   "components/community/ProfileView.tsx:1061"
  ],
  "Mes plans en cours": [
@@ -21284,8 +21297,8 @@
  ],
  "Messages": [
   "app/messages/page.tsx:6",
-  "components/app/ProfilMenu.tsx:79",
-  "components/app/ProfilMenu.tsx:426"
+  "components/app/ProfilMenu.tsx:80",
+  "components/app/ProfilMenu.tsx:427"
  ],
  "Messages privés": [
   "lib/notif-prefs.ts:25"
@@ -21387,7 +21400,7 @@
   "app/confidentialite/page.tsx:198"
  ],
  "ministère chrétien": [
-  "app/layout.tsx:74"
+  "app/layout.tsx:75"
  ],
  "Ministère chrétien": [
   "content/settings.json"
@@ -21503,7 +21516,7 @@
   "components/plans/PlanRating.tsx:124"
  ],
  "Modifier mon profil": [
-  "components/community/MemberView.tsx:327"
+  "components/community/MemberView.tsx:375"
  ],
  "Moi": [
   "components/plans/PlanDuo.tsx:176",
@@ -21578,7 +21591,7 @@
  "Mon carnet": [
   "app/carnet/page.tsx:7",
   "components/app/CarnetBubble.tsx:31",
-  "components/app/ProfilMenu.tsx:422"
+  "components/app/ProfilMenu.tsx:423"
  ],
  "Mon désir est que chacun puisse découvrir Jésus personnellement, non pas seulement comme une idée, une religion ou une tradition, mais comme un Sauveur vivant, un Père proche, un Seigneur fidèle et une source de vie.": [
   "app/a-propos/page.tsx:201"
@@ -21590,7 +21603,7 @@
   "components/ecole/FormationView.tsx:2013"
  ],
  "Mon espace": [
-  "components/app/ProfilMenu.tsx:574"
+  "components/app/ProfilMenu.tsx:588"
  ],
  "Mon espace (carnet, plans, prière…)": [
   "components/community/ProfileView.tsx:594"
@@ -22006,12 +22019,12 @@
   "app/mentions-legales/page.tsx:26"
  ],
  "Nommer modérateur/modératrice": [
-  "components/community/MemberView.tsx:397"
+  "components/community/MemberView.tsx:445"
  ],
  "non configuré": [
-  "lib/community.ts:152",
-  "lib/community.ts:161",
-  "lib/community.ts:175"
+  "lib/community.ts:154",
+  "lib/community.ts:163",
+  "lib/community.ts:177"
  ],
  "Non merci, peut-être plus tard": [
   "components/layout/EmailPopup.tsx:114"
@@ -22097,8 +22110,8 @@
  ],
  "Notifications": [
   "app/confidentialite/page.tsx:109",
-  "components/community/NotificationsBell.tsx:64",
-  "components/community/NotificationsBell.tsx:95"
+  "components/community/NotificationsBell.tsx:68",
+  "components/community/NotificationsBell.tsx:99"
  ],
  "Notifications activées sur ce téléphone": [
   "components/app/ActiverNotifications.tsx:79"
@@ -22671,7 +22684,7 @@
   "components/community/MessagesView.tsx:948"
  ],
  "Ouvrir le menu": [
-  "components/app/ProfilMenu.tsx:133",
+  "components/app/ProfilMenu.tsx:134",
   "components/layout/Header.tsx:91"
  ],
  "Ouvrir le Studio Jack": [
@@ -22976,7 +22989,7 @@
   "lib/quiz.ts:154"
  ],
  "Paramètres": [
-  "components/app/ProfilMenu.tsx:433",
+  "components/app/ProfilMenu.tsx:435",
   "components/community/ProfileSettings.tsx:81",
   "components/community/ProfileView.tsx:613"
  ],
@@ -23343,10 +23356,10 @@
   "components/audio/NoteEmission.tsx:66"
  ],
  "Pas encore de notification.": [
-  "components/community/NotificationsBell.tsx:102"
+  "components/community/NotificationsBell.tsx:106"
  ],
  "Pas encore de notification. Partage un sujet de prière pour lancer les échanges.": [
-  "components/community/ProfileNotifications.tsx:82"
+  "components/community/ProfileNotifications.tsx:85"
  ],
  "Pas encore de suggestion, reviens bientôt, la communauté grandit chaque jour": [
   "components/community/MemberSuggestions.tsx:70"
@@ -23356,6 +23369,9 @@
  ],
  "Pas encore prêt(e) à donner?": [
   "app/dons/page.tsx:269"
+ ],
+ "Pas encore sur RHEMA ? Invite-le !": [
+  "components/community/RechercheProfils.tsx:118"
  ],
  "Pas même un seul": [
   "config/chemin/chapitre-lettres-paul.ts:32"
@@ -23521,7 +23537,7 @@
   "components/home/NewsletterCTA.tsx:44"
  ],
  "pensée du jour": [
-  "app/layout.tsx:75"
+  "app/layout.tsx:76"
  ],
  "Pensée du jour": [
   "app/page.tsx:27",
@@ -23611,7 +23627,7 @@
   "components/games/ScoreBoard.tsx:183"
  ],
  "Personne d'autre n'a encore indiqué cette ville.": [
-  "components/community/MembresDuLieu.tsx:110"
+  "components/community/MembresDuLieu.tsx:111"
  ],
  "Personne de ce nom dans les arbres (seules les familles connues par la Bible y figurent).": [
   "components/ecole/ArbresGenealogiques.tsx:334"
@@ -23851,7 +23867,7 @@
   "components/plans/FeaturedPlans.tsx:119"
  ],
  "plan de lecture biblique": [
-  "app/layout.tsx:77"
+  "app/layout.tsx:78"
  ],
  "Plan du livre": [
   "components/bible/IntroLivre.tsx:155"
@@ -23870,7 +23886,7 @@
  ],
  "Plans": [
   "components/app/BottomNav.tsx:46",
-  "components/app/ProfilMenu.tsx:74",
+  "components/app/ProfilMenu.tsx:75",
   "components/community/AnalyticsDashboard.tsx:20"
  ],
  "Plans de lecture": [
@@ -23937,7 +23953,7 @@
   "components/app/Rewards.tsx:91"
  ],
  "Plus que {0} pts → {1}": [
-  "components/community/MemberView.tsx:273",
+  "components/community/MemberView.tsx:321",
   "components/community/ProfileView.tsx:505"
  ],
  "Plus que vainqueur": [
@@ -23973,7 +23989,7 @@
   "components/audio/PodcastPlayerPlein.tsx:205"
  ],
  "Podcasts": [
-  "components/app/ProfilMenu.tsx:424",
+  "components/app/ProfilMenu.tsx:425",
   "components/audio/PodcastsAdmin.tsx:270",
   "components/community/AdminSpace.tsx:56"
  ],
@@ -24762,13 +24778,13 @@
   "config/chemin/chapitre-jacques.ts:71"
  ],
  "prière": [
-  "app/layout.tsx:78",
+  "app/layout.tsx:79",
   "components/community/CommunityLanding.tsx:84",
   "components/community/CommunityLanding.tsx:191"
  ],
  "Prière": [
   "components/app/BottomNav.tsx:45",
-  "components/app/ProfilMenu.tsx:73",
+  "components/app/ProfilMenu.tsx:74",
   "components/community/ProfileBadges.tsx:454"
  ],
  "Prière & confiance": [
@@ -24798,7 +24814,7 @@
  ],
  "Prières": [
   "app/exaucees/page.tsx:17",
-  "components/community/ProfileNotifications.tsx:28"
+  "components/community/ProfileNotifications.tsx:29"
  ],
  "Prières en direct": [
   "components/community/PrieresDirect.tsx:131"
@@ -24860,7 +24876,7 @@
   "app/membre/page.tsx:6"
  ],
  "Profils bientôt disponibles.": [
-  "components/community/MemberView.tsx:141"
+  "components/community/MemberView.tsx:163"
  ],
  "Profiter du bonus": [
   "lib/rewards.ts:61"
@@ -25027,7 +25043,7 @@
  "pts": [
   "components/community/GradeBadge.tsx:26",
   "components/community/GradeBadge.tsx:38",
-  "components/community/MemberView.tsx:275"
+  "components/community/MemberView.tsx:323"
  ],
  "PTS": [
   "components/games/MissionsCard.tsx:70"
@@ -27587,7 +27603,7 @@
  "Recherche…": [
   "components/community/InAppShare.tsx:183",
   "components/community/MemberSearch.tsx:63",
-  "components/community/RechercheProfils.tsx:112"
+  "components/community/RechercheProfils.tsx:114"
  ],
  "Rechercher": [
   "components/audio/ListenScreen.tsx:1279",
@@ -27602,7 +27618,7 @@
   "components/bible/BibleReader.tsx:615"
  ],
  "Rechercher des membres": [
-  "components/community/RechercheProfils.tsx:66"
+  "components/community/RechercheProfils.tsx:67"
  ],
  "Rechercher des profils": [
   "components/community/ProfileView.tsx:575"
@@ -27628,7 +27644,7 @@
   "components/community/MemberSearch.tsx:48"
  ],
  "Rechercher un membre…": [
-  "components/community/RechercheProfils.tsx:88"
+  "components/community/RechercheProfils.tsx:89"
  ],
  "Rechercher un nom de fichier": [
   "components/community/MediasAdmin.tsx:163"
@@ -27892,6 +27908,9 @@
  ],
  "Rejoins-moi sur l'application RHEMA – Bible & Prière": [
   "components/community/ProfileView.tsx:217"
+ ],
+ "Rejoins-moi sur RHEMA, l'app pour prier, lire la Bible et avancer ensemble avec Jésus.": [
+  "lib/invitation.ts:22"
  ],
  "Rejouer": [
   "components/memorize/VerseGame.tsx:569"
@@ -28374,7 +28393,7 @@
   "components/wall/WallSection.tsx:332"
  ],
  "Retirer le rôle de modérateur": [
-  "components/community/MemberView.tsx:397"
+  "components/community/MemberView.tsx:445"
  ],
  "Retirer le surlignage": [
   "components/bible/VersetOutils.tsx:493",
@@ -28409,9 +28428,9 @@
   "components/ecole/EtudesView.tsx:182"
  ],
  "Retour à la communauté": [
-  "components/community/MemberView.tsx:150",
-  "components/community/MemberView.tsx:161",
-  "components/community/MemberView.tsx:188"
+  "components/community/MemberView.tsx:172",
+  "components/community/MemberView.tsx:183",
+  "components/community/MemberView.tsx:210"
  ],
  "Retour à la connexion": [
   "components/community/EmailPasswordAuth.tsx:277"
@@ -28556,7 +28575,7 @@
  ],
  "RHEMA – Ton temps avec Jésus": [
   "app/app/page.tsx:15",
-  "app/layout.tsx:88"
+  "app/layout.tsx:89"
  ],
  "RHEMA —": [
   "components/home/RhemaBanner.tsx:27"
@@ -28572,7 +28591,7 @@
   "lib/verse-image.ts:224"
  ],
  "RHEMA · Ton temps avec Jésus": [
-  "components/app/ProfilMenu.tsx:592"
+  "components/app/ProfilMenu.tsx:606"
  ],
  "Rhema du jour": [
   "components/community/MessagesView.tsx:898"
@@ -29139,12 +29158,12 @@
   "lib/badges.ts:106"
  ],
  "Se connecter": [
-  "components/app/ProfilMenu.tsx:553",
+  "components/app/ProfilMenu.tsx:567",
   "components/assistant/AssistantView.tsx:133",
   "components/community/EmailPasswordAuth.tsx:325"
  ],
  "Se connecter pour s'abonner": [
-  "components/community/MemberView.tsx:351"
+  "components/community/MemberView.tsx:399"
  ],
  "Se déconnecter": [
   "components/community/ProfileSettings.tsx:166"
@@ -29313,7 +29332,7 @@
   "components/games/VraiFauxScreen.tsx:455"
  ],
  "Série de": [
-  "components/community/MemberView.tsx:263",
+  "components/community/MemberView.tsx:311",
   "components/community/ProfileView.tsx:491"
  ],
  "Série de {0} !": [
@@ -29324,7 +29343,7 @@
   "components/community/Avatar.tsx:73"
  ],
  "Série de {0} jours avec Jésus": [
-  "components/app/ProfilMenu.tsx:374"
+  "components/app/ProfilMenu.tsx:375"
  ],
  "Série de 10": [
   "lib/quiz.ts:325"
@@ -29339,7 +29358,7 @@
   "lib/faq-questions.ts:72"
  ],
  "Service non configuré.": [
-  "lib/community.ts:352"
+  "lib/community.ts:354"
  ],
  "Servir Dieu ne commence pas par vouloir briller, mais par accepter de dépendre de Lui. L'humilité nous garde à notre place devant Dieu. Elle nous rappelle que tout vient de Lui, que tout est pour Lui, et que sans Lui nous ne pouvons rien faire. Je crois qu'un ministère qui porte du fruit doit rester à genoux devant Dieu, même lorsqu'il devient visible devant les hommes.": [
   "app/a-propos/page.tsx:29"
@@ -29355,7 +29374,7 @@
   "config/chemin/chapitre-sermon.ts:36"
  ],
  "Ses accomplissements": [
-  "components/community/MemberView.tsx:318"
+  "components/community/MemberView.tsx:366"
  ],
  "Ses cheveux blanchissent": [
   "config/chemin/chapitre-jacob.ts:89"
@@ -29397,7 +29416,7 @@
   "config/chemin/chapitre-elisee.ts:87"
  ],
  "Ses publications": [
-  "components/community/MemberView.tsx:433"
+  "components/community/MemberView.tsx:481"
  ],
  "Ses ressources": [
   "components/plans/AuthorCard.tsx:169"
@@ -29406,7 +29425,7 @@
   "config/chemin/chapitre-rencontres.ts:58"
  ],
  "Ses sujets de prière": [
-  "components/community/MemberView.tsx:404"
+  "components/community/MemberView.tsx:452"
  ],
  "Ses vêtements et des branches": [
   "config/chemin/chapitre-rameaux.ts:46"
@@ -29487,7 +29506,7 @@
   "components/community/ModerationQueue.tsx:60"
  ],
  "Signaler": [
-  "components/community/MemberView.tsx:375",
+  "components/community/MemberView.tsx:423",
   "components/community/PrayerCard.tsx:554",
   "components/community/ReportButton.tsx:100"
  ],
@@ -29855,7 +29874,7 @@
   "lib/memorize.ts:243"
  ],
  "Studio": [
-  "components/app/ProfilMenu.tsx:437"
+  "components/app/ProfilMenu.tsx:439"
  ],
  "Studio Jack": [
   "app/admin/studio/page.tsx:5",
@@ -29864,7 +29883,7 @@
  "Suggestions pour toi": [
   "components/community/ProfileView.tsx:632",
   "components/community/ProfileView.tsx:1102",
-  "components/community/RechercheProfils.tsx:108"
+  "components/community/RechercheProfils.tsx:110"
  ],
  "Suis la mission au jour le jour": [
   "app/mission-madagascar/page.tsx:176"
@@ -29884,12 +29903,22 @@
   "components/bible/BibleReader.tsx:901"
  ],
  "Suivi": [
-  "components/community/MemberSuggestions.tsx:111"
+  "components/community/MemberSuggestions.tsx:113"
+ ],
+ "Suivi par": [
+  "components/community/MemberView.tsx:289"
+ ],
+ "Suivi par {0}": [
+  "lib/community.ts:1056"
  ],
  "Suivre": [
-  "components/community/MemberSuggestions.tsx:111",
-  "components/community/MembresDuLieu.tsx:162",
-  "components/community/RechercheProfils.tsx:136"
+  "components/community/MemberSuggestions.tsx:113",
+  "components/community/MembresDuLieu.tsx:164",
+  "components/community/RechercheProfils.tsx:142"
+ ],
+ "Suivre en retour": [
+  "components/community/MemberView.tsx:392",
+  "components/community/NotificationsBell.tsx:210"
  ],
  "Suivre Jésus en Galilée": [
   "config/chemin/chapitre-rencontres.ts:98"
@@ -29910,7 +29939,7 @@
   "components/community/PrayerCard.tsx:177"
  ],
  "sujets": [
-  "components/community/MemberView.tsx:243"
+  "components/community/MemberView.tsx:265"
  ],
  "Sujets du cercle ·": [
   "components/community/GroupView.tsx:704"
@@ -30372,7 +30401,7 @@
   "components/bible/ReadingSettings.tsx:124"
  ],
  "Tape au moins 2 lettres du pseudo.": [
-  "components/community/RechercheProfils.tsx:107"
+  "components/community/RechercheProfils.tsx:108"
  ],
  "Tape au moins 2 lettres pour chercher.": [
   "components/community/InAppShare.tsx:180"
@@ -30388,6 +30417,9 @@
  ],
  "te défie ·": [
   "components/games/ChallengeScreen.tsx:182"
+ ],
+ "Te suit": [
+  "components/community/MemberView.tsx:269"
  ],
  "Te voilà Bâtisseur ! Ton badge apparaît sur ton profil, et tu recevras chaque mois l'invitation au Zoom avec Pasteur Jack.": [
   "components/mission/SoutienEnUnClic.tsx:93"
@@ -30473,7 +30505,7 @@
   "app/api/testimony/route.ts:41"
  ],
  "témoignages": [
-  "app/layout.tsx:79"
+  "app/layout.tsx:80"
  ],
  "Témoignages": [
   "app/exaucees/page.tsx:14",
@@ -30799,6 +30831,9 @@
  "Ton ebook offert: 7 jours pour retrouver la paix, par Jack Brunet.": [
   "app/ebook/7-jours/page.tsx:8"
  ],
+ "Ton église": [
+  "lib/community.ts:1053"
+ ],
  "Ton église (facultatif)": [
   "components/community/ProfileView.tsx:793"
  ],
@@ -30820,7 +30855,7 @@
   "components/notebook/CarnetIntro.tsx:18"
  ],
  "Ton menu est ici": [
-  "components/app/ProfilMenu.tsx:247"
+  "components/app/ProfilMenu.tsx:248"
  ],
  "Ton message (ex. Live de prière dans 10 min, rejoins-nous)": [
   "components/community/AdminAnnounce.tsx:151"
@@ -30941,7 +30976,7 @@
   "components/bible/FichesChapitre.tsx:227"
  ],
  "Touche ta photo : ton espace, ton carnet, la mission, les réglages…": [
-  "components/app/ProfilMenu.tsx:249"
+  "components/app/ProfilMenu.tsx:250"
  ],
  "Touche toutes les cibles, vise le meilleur score.": [
   "components/games/FrondeScreen.tsx:100"
@@ -31382,7 +31417,7 @@
   "config/chemin/chapitre-transfiguration.ts:35"
  ],
  "Tu es le premier membre de cette église sur RHEMA.": [
-  "components/community/MembresDuLieu.tsx:110"
+  "components/community/MembresDuLieu.tsx:111"
  ],
  "Tu es vu, tu es aimé": [
   "components/home/Hero.tsx:154",
@@ -32489,6 +32524,9 @@
   "components/mission/DonnerRapide.tsx:132",
   "config/chemin/chapitre-croix.ts:25"
  ],
+ "Une fois l'app installée, rouvre ce lien pour qu'on soit amis directement.": [
+  "lib/invitation.ts:24"
+ ],
  "Une fois par an": [
   "config/chemin/chapitre-sermon.ts:66"
  ],
@@ -33157,7 +33195,7 @@
   "components/ecole/EtudesView.tsx:838"
  ],
  "verset du jour": [
-  "app/layout.tsx:76"
+  "app/layout.tsx:77"
  ],
  "Verset précédent": [
   "components/bible/BibleAudioPlayer.tsx:557"
@@ -33230,7 +33268,7 @@
  ],
  "Vidéos": [
   "app/videos/page.tsx:7",
-  "components/app/ProfilMenu.tsx:83",
+  "components/app/ProfilMenu.tsx:84",
   "components/community/AnalyticsDashboard.tsx:21"
  ],
  "Vidéos & Shorts": [
@@ -33255,7 +33293,7 @@
   "components/games/VraiFauxScreen.tsx:282"
  ],
  "Ville": [
-  "components/community/MembresDuLieu.tsx:98"
+  "components/community/MembresDuLieu.tsx:99"
  ],
  "Ville (facultatif)": [
   "components/community/ProfileView.tsx:818"
@@ -33456,7 +33494,7 @@
   "components/home/QuickNote.tsx:55"
  ],
  "Voir mon profil": [
-  "components/app/ProfilMenu.tsx:553"
+  "components/app/ProfilMenu.tsx:567"
  ],
  "Voir mon profil public": [
   "components/community/ProfileView.tsx:1005"
@@ -33604,6 +33642,9 @@
  ],
  "Vous quitterez le jardin": [
   "config/chemin/chapitre-creation.ts:108"
+ ],
+ "Vous serez amis directement sur RHEMA.": [
+  "components/community/BoutonInviter.tsx:35"
  ],
  "Vous serez comme des dieux, connaissant le bien et le mal": [
   "config/chemin/chapitre-creation.ts:108"

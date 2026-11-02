@@ -11,6 +11,8 @@ import { BatisseurBadge } from "@/components/community/BatisseurBadge";
 import { estBatisseurActif } from "@/lib/soutien";
 import { ModeratorBadge } from "@/components/community/ModeratorBadge";
 import { ReportButton } from "@/components/community/ReportButton";
+import { Avatar } from "@/components/community/Avatar";
+import { memoriserParrain, validerInvitationEnAttente } from "@/lib/invitation";
 import { ProfileInfoPills } from "@/components/community/ProfileInfoPills";
 import { FollowListModal } from "@/components/community/FollowListModal";
 import { presenceLabel, presenceDe } from "@/lib/presence";
@@ -25,6 +27,7 @@ import {
   unfollow,
   isFollowing,
   followCounts,
+  amisEnCommun,
   getActivity,
   listPrayersByAuthor,
   setModerator,
@@ -41,6 +44,14 @@ export function MemberView() {
   const paramId = params.get("u");
   const paramPseudo = params.get("pseudo");
   const { ready, userId, isAdmin } = useAuth();
+  // Arrivé par un lien d'invitation : on retient qui m'a invité ; si mon
+  // compte vient d'être créé, nous devenons amis automatiquement.
+  const paramInvite = params.get("invite");
+  useEffect(() => {
+    if (!paramInvite || !/^[0-9a-f-]{36}$/i.test(paramInvite)) return;
+    memoriserParrain(paramInvite);
+    if (userId) void validerInvitationEnAttente(userId);
+  }, [paramInvite, userId]);
 
   const [memberId, setMemberId] = useState<string | null>(paramId);
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -57,6 +68,9 @@ export function MemberView() {
   const [counts, setCounts] = useState({ followers: 0, following: 0 });
   const [activity, setActivity] = useState<Activity | null>(null);
   const [following, setFollowing] = useState(false);
+  // Il / elle me suit (« Te suit », « Suivre en retour ») et amis en commun.
+  const [meSuit, setMeSuit] = useState(false);
+  const [communs, setCommuns] = useState<{ total: number; premiers: Profile[] }>({ total: 0, premiers: [] });
   const [prayers, setPrayers] = useState<Prayer[]>([]);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
@@ -95,8 +109,16 @@ export function MemberView() {
     setPrayers(pr);
     setActivity(act);
     if (userId && userId!== id) {
-      setFollowing(await isFollowing(id, userId));
-      setBlocked((await listBlockedIds()).includes(id));
+      const [suit, inverse, bloques, amis] = await Promise.all([
+        isFollowing(id, userId),
+        isFollowing(userId, id),
+        listBlockedIds(),
+        prof?.follows_privacy === "prive" ? Promise.resolve({ total: 0, premiers: [] as Profile[] }) : amisEnCommun(id, userId),
+      ]);
+      setFollowing(suit);
+      setMeSuit(inverse);
+      setBlocked(bloques.includes(id));
+      setCommuns(amis);
     }
     setLoading(false);
   }, [paramId, paramPseudo, userId]);
@@ -242,7 +264,33 @@ export function MemberView() {
             <span>
               <span className={`font-display font-extrabold ${jour? "text-night-900": "text-cream"}`}>{prayers.length}</span> sujets
             </span>
+            {meSuit && !isMe ? (
+              <span className={`ml-1 rounded-full px-2 py-0.5 text-[11px] font-bold ${jour ? "bg-night-900/[0.07] text-night-900/70" : "bg-white/10 text-cream/80"}`}>
+                Te suit
+              </span>
+            ) : null}
           </p>
+
+          {/* Amis en commun, façon Instagram */}
+          {communs.total > 0 && !isMe ? (
+            <button
+              type="button"
+              onClick={() => setShowList("followers")}
+              className={`mx-auto mt-2 flex max-w-sm items-center justify-center gap-2 text-left text-[12.5px] leading-snug ${jour ? "text-night-900/65" : "text-cream/65"}`}
+            >
+              <span className="flex shrink-0 -space-x-2">
+                {communs.premiers.map((p) => (
+                  <span key={p.id} className={`rounded-full ring-2 ${jour ? "ring-white" : "ring-night-950"}`}>
+                    <Avatar pseudo={p.pseudo} url={p.avatar_url} size={22} />
+                  </span>
+                ))}
+              </span>
+              <span>
+                Suivi par <b className="font-semibold">{communs.premiers.slice(0, 2).map((p) => p.pseudo).join(", ")}</b>
+                {communs.total > 2 ? ` et ${communs.total - 2} autre${communs.total - 2 > 1 ? "s" : ""} que tu suis` : ""}
+              </span>
+            </button>
+          ) : null}
 
           {/* Badges : ancienneté avec Jésus, série */}
           {withJesusLabel(profile.converted_at) || (profile.streak_days ?? 0) >= STREAK_BADGE_MIN ? (
@@ -341,7 +389,7 @@ export function MemberView() {
 : "bg-cream text-night-950 hover:-translate-y-0.5"
                 }`}
               >
-                {following? "Abonné(e) ✓": "S'abonner"}
+                {following? "Abonné(e)": meSuit ? "Suivre en retour" : "S'abonner"}
               </button>
             ): (
               <Link

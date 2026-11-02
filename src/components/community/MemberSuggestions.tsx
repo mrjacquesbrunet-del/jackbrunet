@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Avatar } from "@/components/community/Avatar";
 import { useAuth } from "@/components/community/useAuth";
-import { suggestedProfiles, follow, unfollow, type Profile } from "@/lib/community";
+import { suggestedProfiles, follow, unfollow, type Suggestion } from "@/lib/community";
 
 /**
  * « Suggestions pour toi » façon Instagram: propose des intercesseurs à
@@ -16,7 +16,7 @@ export function MemberSuggestions({
   dark = false,
 }: { compact?: boolean; dark?: boolean } = {}) {
   const { userId } = useAuth();
-  const [members, setMembers] = useState<Profile[]>([]);
+  const [members, setMembers] = useState<Suggestion[]>([]);
   const [loading, setLoading] = useState(true);
   const [followed, setFollowed] = useState<Set<string>>(new Set());
   const [busy, setBusy] = useState<string | null>(null);
@@ -92,7 +92,9 @@ export function MemberSuggestions({
               >
                 {m.pseudo}
               </span>
-              {!compact ? (
+              {m.raison ? (
+                <span className={`mt-0.5 line-clamp-1 w-full font-semibold text-spirit-600 ${compact ? "text-[10px]" : "text-[11px]"}`}>{m.raison}</span>
+              ) : !compact ? (
                 <span className="mt-0.5 text-[11px] text-night-900/45">Intercesseur</span>
               ) : null}
             </Link>

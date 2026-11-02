@@ -1,3 +1,4 @@
+import { SuiviInvitation } from "@/components/community/BoutonInviter";
 import type { Metadata, Viewport } from "next";
 import { Archivo, Playfair_Display, Fredoka, Caveat, Cormorant_Garamond, Bebas_Neue } from "next/font/google";
 import "./globals.css";
@@ -131,6 +132,7 @@ export default function RootLayout({
         <PWA />
         <NativeBootstrap />
         <CloudSync />
+        <SuiviInvitation />
         <AppShell />
         <GlobalAudioBar />
         <PodcastPlayerPlein />
