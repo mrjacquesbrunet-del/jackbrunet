@@ -1887,7 +1887,7 @@
   "app/app/page.tsx:89"
  ],
  "€ est dépassé. Tout est reversé au bénéfice des associations sur place, à Madagascar.": [
-  "components/mission/MissionProgress.tsx:98"
+  "components/mission/MissionProgress.tsx:108"
  ],
  "€. Rejoins-nous dans la prière ou le soutien.": [
   "components/home/MissionBanner.tsx:27"
@@ -5982,7 +5982,7 @@
   "components/community/AdminBatisseurs.tsx:67"
  ],
  "Chaque don est intégralement reversé au bénéfice des associations sur place, à Madagascar.": [
-  "components/mission/MissionProgress.tsx:102"
+  "components/mission/MissionProgress.tsx:112"
  ],
  "Chaque essai grave le verset un peu plus profond.": [
   "components/memorize/VerseGame.tsx:564"
@@ -12360,7 +12360,7 @@
   "config/chemin/chapitre-voyages.ts:47"
  ],
  "Grâce à votre générosité, l'objectif de": [
-  "components/mission/MissionProgress.tsx:97"
+  "components/mission/MissionProgress.tsx:107"
  ],
  "Grâce à vous, l'objectif de": [
   "components/mission/MissionObjectiveHeader.tsx:56"
@@ -21130,7 +21130,7 @@
  ],
  "Merci du fond du cœur !": [
   "components/mission/BandeauBatisseurs.tsx:107",
-  "components/mission/MissionProgress.tsx:97"
+  "components/mission/MissionProgress.tsx:107"
  ],
  "Merci infiniment pour ton témoignage. Il nous encourage et nous te répondrons.": [
   "components/home/Testimonies.tsx:37"
@@ -22275,6 +22275,9 @@
  "Objectif dépassé": [
   "components/mission/MissionObjectiveHeader.tsx:51",
   "components/mission/MissionProgress.tsx:66"
+ ],
+ "Objectif dépassé de": [
+  "components/mission/MissionProgress.tsx:85"
  ],
  "Objectif du don libre (app)": [
   "components/community/ObjectifDonAdmin.tsx:64"

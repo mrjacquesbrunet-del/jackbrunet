@@ -80,6 +80,16 @@ export function MissionProgress({
         </div>
       </div>
 
+      {depasse ? (
+        <p className="mt-3 rounded-2xl bg-[#FCD34D]/10 px-4 py-2.5 text-left text-sm font-semibold text-[#FAF6F0]/90">
+          Objectif dépassé de{" "}
+          <strong className="whitespace-nowrap font-extrabold text-[#FCD34D]">
+            {(raised - obj).toLocaleString(localeApp())}&nbsp;€
+          </strong>{" "}
+          <span className="text-[#FAF6F0]/60">(+{percent - 100}&nbsp;%)</span>
+        </p>
+      ) : null}
+
       <div className="mt-4 h-3 overflow-hidden rounded-full bg-white/10">
         <div
           className="h-full rounded-full transition-all duration-700"
