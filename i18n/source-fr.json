@@ -1,7 +1,4 @@
 {
- "— cap maintenant sur les": [
-  "components/mission/MissionObjectiveHeader.tsx:59"
- ],
  "— en attente de sa réponse.": [
   "components/plans/PlanDuo.tsx:157"
  ],
@@ -32,9 +29,6 @@
  ", dossier": [
   "components/ecole/EtudesView.tsx:580"
  ],
- ", et à refaire les": [
-  "components/mission/MissionObjectiveHeader.tsx:64"
- ],
  ", livré chez toi": [
   "components/boutique/RhemaShowcase.tsx:747"
  ],
@@ -44,14 +38,14 @@
  ", puis enchaîne les méditations précédentes": [
   "components/ui/AudioPlayer.tsx:116"
  ],
+ ", qui ont financé eux-mêmes leurs billets d'avion.": [
+  "components/mission/MissionObjectiveHeader.tsx:59"
+ ],
  ", selon les formulaires que vous utilisez, nous pouvons collecter:": [
   "app/confidentialite/page.tsx:51"
  ],
  ", t'abonner à d'autres croyants et": [
   "components/community/CommunityLanding.tsx:92"
- ],
- ": grâce à vos dons, nous pourrons participer activement à donner accès à": [
-  "components/mission/MissionObjectiveHeader.tsx:61"
  ],
  ": la personne saura que tu as prié pour elle.": [
   "components/community/PrayerTime.tsx:325"
@@ -78,9 +72,6 @@
  ],
  ". Retente ta chance !": [
   "components/games/FrondeGame.tsx:328"
- ],
- ". Sur place,": [
-  "components/mission/MissionObjectiveHeader.tsx:58"
  ],
  ". Tout le contenu de l'app reste gratuit pour tous.": [
   "components/mission/SoutienEnUnClic.tsx:170"
@@ -242,7 +233,7 @@
   "config/chemin/chapitre-paque.ts:27"
  ],
  "« Allez par tout le monde, et prêchez la bonne nouvelle à toute la création. »": [
-  "app/mission-madagascar/page.tsx:273"
+  "app/mission-madagascar/page.tsx:276"
  ],
  "« Amen »": [
   "config/chemin/chapitre-lazare.ts:77"
@@ -1636,6 +1627,12 @@
  "{0} an{1} avec Jésus": [
   "lib/spiritual.ts:16"
  ],
+ "{0} billets d'avion × {1}": [
+  "components/mission/MissionBenevoles.tsx:43"
+ ],
+ "{0} billets rachetés × {1}": [
+  "components/mission/MissionBenevoles.tsx:44"
+ ],
  "{0} dans « {1} ». Bonne écoute !": [
   "components/audio/PodcastsAdmin.tsx:790"
  ],
@@ -1754,7 +1751,7 @@
   "components/community/BibleAudioAdmin.tsx:138"
  ],
  "{0}/mission-madagascar#soutenir": [
-  "app/mission-madagascar/page.tsx:206"
+  "app/mission-madagascar/page.tsx:209"
  ],
  "{0}#view=FitH": [
   "components/home/EbookReader.tsx:70"
@@ -1889,14 +1886,14 @@
  "🎧 Écouter la méditation": [
   "app/app/page.tsx:89"
  ],
- "€ est franchi. Cap maintenant sur les": [
-  "components/mission/MissionProgress.tsx:83"
- ],
- "€ n'étaient que le": [
-  "components/mission/MissionObjectiveHeader.tsx:57"
+ "€ est dépassé. Tout est reversé au bénéfice des associations sur place, à Madagascar.": [
+  "components/mission/MissionProgress.tsx:98"
  ],
  "€. Rejoins-nous dans la prière ou le soutien.": [
   "components/home/MissionBanner.tsx:27"
+ ],
+ "€). Entre ce qui a été reçu pour eux.": [
+  "components/community/MissionRaisedAdmin.tsx:95"
  ],
  "0 0 0 3px rgba(255,255,255,.5)": [
   "components/chemin/CheminScreen.tsx:767"
@@ -2220,9 +2217,6 @@
  "1er cette semaine": [
   "components/memorize/WeeklyChampions.tsx:91"
  ],
- "1er palier ·": [
-  "components/mission/MissionProgress.tsx:113"
- ],
  "1px solid rgb(var(--n-900) / 0.12)": [
   "components/community/ProfileActivity.tsx:25"
  ],
@@ -2326,8 +2320,8 @@
  "21 jours pour redécouvrir les trois mandats que Jésus a confiés à ses disciples, et les vivre aujourd'hui.": [
   "content/plans.json"
  ],
- "2e palier ·": [
-  "components/mission/MissionProgress.tsx:128"
+ "2e jauge sur la page : billets d'avion payés par les bénévoles (7 × 900 € + 5 × 1 570 € =": [
+  "components/community/MissionRaisedAdmin.tsx:95"
  ],
  "2px solid #fb7185": [
   "components/chemin/CheminScreen.tsx:766"
@@ -2763,7 +2757,7 @@
   "config/chemin/chapitre-voyages.ts:32"
  ],
  "à Madagascar": [
-  "app/mission-madagascar/page.tsx:53"
+  "app/mission-madagascar/page.tsx:54"
  ],
  "À mémoriser": [
   "components/bible/VersetOutils.tsx:563"
@@ -3752,7 +3746,7 @@
   "config/chemin/chapitre-bapteme.ts:55"
  ],
  "Aller dans les rues à la rencontre des personnes, prier avec elles, leur parler de Jésus et leur annoncer l'espérance du salut.": [
-  "app/mission-madagascar/page.tsx:141"
+  "app/mission-madagascar/page.tsx:142"
  ],
  "Allez, je suis avec vous": [
   "content/plans.json"
@@ -3954,7 +3948,7 @@
   "components/community/ProfileBanners.tsx:84"
  ],
  "Annoncer · Aimer · Servir": [
-  "app/mission-madagascar/page.tsx:50"
+  "app/mission-madagascar/page.tsx:51"
  ],
  "Annoncer l'Évangile avec clarté et passion": [
   "app/a-propos/page.tsx:46"
@@ -3963,7 +3957,7 @@
   "content/plans.json"
  ],
  "Annoncer, mais aussi écouter. Prier, mais aussi soutenir. Prêcher, mais aussi visiter. Parler de Jésus, mais aussi montrer Son amour par notre présence. Notre désir est que cette mission soit une semence pour Madagascar: une semence de salut, d'encouragement, de restauration et de compassion.": [
-  "app/mission-madagascar/page.tsx:159"
+  "app/mission-madagascar/page.tsx:160"
  ],
  "Annonces": [
   "components/community/AdminSpace.tsx:55",
@@ -4465,7 +4459,7 @@
   "lib/badges.ts:264"
  ],
  "Au-delà des besoins matériels, nous croyons qu'il existe une faim spirituelle profonde. Beaucoup ont besoin d'entendre que Dieu les aime, que Jésus sauve, qu'Il restaure, qu'Il relève, qu'Il pardonne et qu'Il donne une espérance qui ne dépend pas des circonstances.": [
-  "app/mission-madagascar/page.tsx:110"
+  "app/mission-madagascar/page.tsx:111"
  ],
  "Aucun": [
   "config/chemin/chapitre-eglise.ts:56",
@@ -5040,6 +5034,9 @@
  "Beer-Schéba": [
   "config/chemin/chapitre-samuel.ts:78"
  ],
+ "bénévoles ont chacun payé leur billet d'avion. Puis": [
+  "components/mission/MissionBenevoles.tsx:62"
+ ],
  "Béni soit celui qui vient au nom du Seigneur": [
   "config/chemin/chapitre-rameaux.ts:45"
  ],
@@ -5323,7 +5320,7 @@
   "config/chemin/chapitre-rome.ts:41"
  ],
  "C'est dans ce contexte que nous voulons aller, avec humilité, respect et amour. Notre but n'est pas d'arriver avec des réponses toutes faites, mais de servir: proclamer Jésus-Christ avec clarté, prier pour les personnes, encourager les croyants et manifester l'amour de Christ par des actes concrets.": [
-  "app/mission-madagascar/page.tsx:116"
+  "app/mission-madagascar/page.tsx:117"
  ],
  "C'est Dieu qui ordonne à Jacob de retourner au pays de ses pères.": [
   "config/chemin/chapitre-jacob.ts:78"
@@ -5596,7 +5593,7 @@
   "content/plans.json"
  ],
  "Ce que nous allons faire": [
-  "app/mission-madagascar/page.tsx:130"
+  "app/mission-madagascar/page.tsx:131"
  ],
  "Ce que tu vas apprendre": [
   "components/ecole/FormationView.tsx:1406"
@@ -5811,7 +5808,7 @@
   "components/community/MembresDuLieu.tsx:107"
  ],
  "Cette mission a un coût: déplacements, logistique sur place, et soutien direct aux œuvres que nous visiterons. Chaque don, petit ou grand, nous rapproche du but.": [
-  "components/mission/MissionObjectiveHeader.tsx:78"
+  "components/mission/MissionObjectiveHeader.tsx:73"
  ],
  "Cette nuit-là, l'Éternel dit à Gédéon de renverser l'autel de Baal qui était à son père et d'abattre le pieu sacré qui était dessus. Gédéon prit dix hommes et le fit pendant la nuit, car il craignait la maison de son père. Au matin, les gens de la ville voulurent le faire mourir. Son père répondit : « Si Baal est un dieu, qu'il se défende lui-même ! »": [
   "config/chemin/chapitre-gedeon.ts:52"
@@ -5985,16 +5982,10 @@
   "components/community/AdminBatisseurs.tsx:67"
  ],
  "Chaque don est intégralement reversé au bénéfice des associations sur place, à Madagascar.": [
-  "components/mission/MissionProgress.tsx:153"
- ],
- "Chaque don supplémentaire": [
-  "components/mission/MissionProgress.tsx:149"
+  "components/mission/MissionProgress.tsx:102"
  ],
  "Chaque essai grave le verset un peu plus profond.": [
   "components/memorize/VerseGame.tsx:564"
- ],
- "Chaque euro": [
-  "components/mission/MissionObjectiveHeader.tsx:54"
  ],
  "Chaque jour": [
   "components/app/AppOnboarding.tsx:102",
@@ -6419,10 +6410,10 @@
   "components/community/AdminBatisseurs.tsx:31"
  ],
  "Collecte Mission Madagascar": [
-  "components/community/MissionRaisedAdmin.tsx:43"
+  "components/community/MissionRaisedAdmin.tsx:65"
  ],
- "collectés à ce jour": [
-  "components/mission/MissionProgress.tsx:98"
+ "collectés pour la mission": [
+  "components/mission/MissionProgress.tsx:75"
  ],
  "Collecteur d'impôts": [
   "config/chemin/chapitre-disciples.ts:97"
@@ -7186,9 +7177,6 @@
   "app/suppression-compte/page.tsx:15",
   "components/community/ProfileSettings.tsx:159"
  ],
- "compte !": [
-  "components/mission/MissionObjectiveHeader.tsx:54"
- ],
  "Compte certifié": [
   "components/community/VerifiedBadge.tsx:7"
  ],
@@ -7220,7 +7208,7 @@
   "content/plans.json"
  ],
  "Conférence d'évangélisation": [
-  "app/mission-madagascar/page.tsx:136"
+  "app/mission-madagascar/page.tsx:137"
  ],
  "Confesser ses péchés": [
   "config/chemin/chapitre-pierre-jean.ts:80"
@@ -7647,6 +7635,9 @@
  ],
  "d'Égypte": [
   "config/chemin/chapitre-bapteme.ts:88"
+ ],
+ "d'entre eux ont dû": [
+  "components/mission/MissionBenevoles.tsx:63"
  ],
  "D'entrer au temple": [
   "config/chemin/chapitre-eglise.ts:46"
@@ -8179,8 +8170,9 @@
  "De l'inscrire au livre": [
   "config/chemin/chapitre-jeremie.ts:77"
  ],
- "de l'objectif de {0} €": [
-  "components/mission/MissionProgress.tsx:103"
+ "de l'objectif de": [
+  "components/mission/MissionBenevoles.tsx:87",
+  "components/mission/MissionProgress.tsx:79"
  ],
  "De l'or": [
   "config/chemin/chapitre-nehemie.ts:56",
@@ -8584,7 +8576,7 @@
   "content/mission.json"
  ],
  "Début novembre, pendant 10 jours, nous partons annoncer l'Évangile: une conférence d'évangélisation, de l'évangélisation de rue, et la visite d'œuvres, orphelinats, prisons et autres, pour les soutenir par notre présence et nos moyens.": [
-  "app/mission-madagascar/page.tsx:56"
+  "app/mission-madagascar/page.tsx:57"
  ],
  "Débutant": [
   "components/ecole/EcoleView.tsx:192",
@@ -8832,7 +8824,7 @@
   "components/community/ObjectifDonAdmin.tsx:89"
  ],
  "Depuis quelque temps, Dieu a placé Madagascar sur mon cœur. Après plusieurs confirmations, nous croyons qu'il est temps d'y aller, non pas simplement pour organiser un événement, mais pour répondre à un appel: annoncer Jésus, encourager les cœurs, visiter les oubliés et soutenir concrètement ceux qui œuvrent déjà sur place.": [
-  "app/mission-madagascar/page.tsx:98"
+  "app/mission-madagascar/page.tsx:99"
  ],
  "dérivé de": [
   "components/ecole/MotLexique.tsx:111"
@@ -9521,7 +9513,7 @@
   "components/mission/DonLibre.tsx:66"
  ],
  "Don sécurisé, tu es redirigé(e) vers le site.": [
-  "app/mission-madagascar/page.tsx:212"
+  "app/mission-madagascar/page.tsx:215"
  ],
  "Don unique": [
   "app/dons/page.tsx:73"
@@ -9568,9 +9560,6 @@
  ],
  "Donner {0}": [
   "components/mission/DonLibre.tsx:143"
- ],
- "donner accès à l'eau et à l'électricité": [
-  "components/mission/MissionProgress.tsx:86"
  ],
  "Donner accès gratuitement à la Parole de Dieu dans toutes les nations, et aider les pays les plus pauvres à travers des missions humanitaires et d'évangélisation.": [
   "components/mission/DonateScreen.tsx:118"
@@ -9639,9 +9628,6 @@
  ],
  "Droite": [
   "components/games/BergerScreen.tsx:539"
- ],
- "du 2e palier de {0} €": [
-  "components/mission/MissionProgress.tsx:103"
  ],
  "Du blé": [
   "config/chemin/chapitre-voyages.ts:67"
@@ -9867,7 +9853,8 @@
   "components/community/ObjectifDonAdmin.tsx:56"
  ],
  "Échec. Réessaie.": [
-  "components/community/MissionRaisedAdmin.tsx:33"
+  "components/community/MissionRaisedAdmin.tsx:43",
+  "components/community/MissionRaisedAdmin.tsx:55"
  ],
  "Éclair": [
   "lib/badges.ts:123"
@@ -10775,7 +10762,7 @@
   "components/community/EmailPasswordAuth.tsx:93"
  ],
  "Entre le total reçu (ce que tu vois sur Stripe). La barre et le pourcentage se mettent à jour tout de suite sur le site, sans reconstruire.": [
-  "components/community/MissionRaisedAdmin.tsx:46"
+  "components/community/MissionRaisedAdmin.tsx:68"
  ],
  "Entre para reencontrar seu progresso, seu caderno e seus favoritos.": [
   "components/app/AppOnboarding.tsx:182"
@@ -11010,7 +10997,7 @@
   "content/plans.json"
  ],
  "Équipe de prière": [
-  "app/mission-madagascar/page.tsx:224"
+  "app/mission-madagascar/page.tsx:227"
  ],
  "Équiper les chrétiens à grandir dans leur foi": [
   "app/a-propos/page.tsx:50"
@@ -11203,14 +11190,10 @@
   "components/app/AppOnboarding.tsx:164"
  ],
  "et": [
-  "components/audio/ListenScreen.tsx:660",
-  "components/mission/MissionProgress.tsx:87"
+  "components/audio/ListenScreen.tsx:660"
  ],
  "et {0} autre{1} que tu suis": [
   "components/community/MemberView.tsx:290"
- ],
- "et à": [
-  "components/mission/MissionObjectiveHeader.tsx:63"
  ],
  "et confirme (double confirmation).": [
   "app/suppression-compte/page.tsx:40"
@@ -11222,7 +11205,10 @@
   "components/mission/BandeauBatisseurs.tsx:130"
  ],
  "Et nous croyons qu'ensemble, par la prière, le soutien et l'obéissance, nous pouvons prendre part à ce que Dieu veut faire là-bas.": [
-  "app/mission-madagascar/page.tsx:264"
+  "app/mission-madagascar/page.tsx:267"
+ ],
+ "et racheter un nouveau billet. Ton don les aide à porter ces frais.": [
+  "components/mission/MissionBenevoles.tsx:64"
  ],
  "et renouvelé automatiquement chaque mois, sauf résiliation au moins 24 h avant la fin de la période en cours. Tu peux le gérer ou le résilier à tout moment dans les réglages de": [
   "components/mission/SoutienEnUnClic.tsx:168"
@@ -11332,7 +11318,7 @@
   "config/chemin/chapitre-paul.ts:25"
  ],
  "Évangélisation de rue": [
-  "app/mission-madagascar/page.tsx:140"
+  "app/mission-madagascar/page.tsx:141"
  ],
  "Évangélisation, aide humanitaire, ministère.": [
   "components/home/HomeQuickSlider.tsx:19"
@@ -11667,7 +11653,7 @@
  ],
  "Faire un don": [
   "app/don/page.tsx:5",
-  "app/mission-madagascar/page.tsx:209",
+  "app/mission-madagascar/page.tsx:212",
   "components/home/HomeQuickSlider.tsx:18"
  ],
  "Faire un don unique": [
@@ -11675,6 +11661,9 @@
  ],
  "Faire un don unique ou voir comment les dons sont utilisés →": [
   "components/home/Support.tsx:127"
+ ],
+ "faire un pas de foi": [
+  "components/mission/MissionBenevoles.tsx:63"
  ],
  "Fais 3 Défis du jour au Quiz": [
   "lib/missions.ts:28"
@@ -11903,9 +11892,6 @@
  ],
  "Fond RHEMA": [
   "components/ui/VerseImageStudio.tsx:135"
- ],
- "fondations d'un orphelinat": [
-  "components/mission/MissionObjectiveHeader.tsx:65"
  ],
  "Fondu en bijoux": [
   "config/chemin/chapitre-sinai.ts:98"
@@ -12370,8 +12356,11 @@
   "config/chemin/chapitre-noe.ts:26",
   "config/chemin/chapitre-voyages.ts:47"
  ],
- "Grâce à votre générosité, le premier palier de": [
-  "components/mission/MissionProgress.tsx:83"
+ "Grâce à votre générosité, l'objectif de": [
+  "components/mission/MissionProgress.tsx:97"
+ ],
+ "Grâce à vous, l'objectif de": [
+  "components/mission/MissionObjectiveHeader.tsx:56"
  ],
  "Grade maximal": [
   "components/community/MemberView.tsx:321",
@@ -15451,7 +15440,7 @@
   "config/chemin/chapitre-daniel.ts:37"
  ],
  "Je rejoins la mission": [
-  "app/mission-madagascar/page.tsx:241"
+  "app/mission-madagascar/page.tsx:244"
  ],
  "Je rencontre en prison celui qui va me changer.": [
   "config/chemin/chapitre-lettres-paul.ts:102"
@@ -15964,7 +15953,7 @@
  "Jésus": [
   "app/app/page.tsx:112",
   "app/layout.tsx:81",
-  "app/mission-madagascar/page.tsx:53"
+  "app/mission-madagascar/page.tsx:54"
  ],
  "Jésus a d'abord été acclamé à Nazareth avant d'être rejeté.": [
   "config/chemin/chapitre-tentation.ts:91"
@@ -16756,9 +16745,6 @@
  "L'e-mail n'a pas pu être envoyé pour le moment. Réessaie dans quelques minutes.": [
   "components/community/EmailPasswordAuth.tsx:81"
  ],
- "l'eau": [
-  "components/mission/MissionObjectiveHeader.tsx:63"
- ],
  "L'eau changée en sang": [
   "config/chemin/chapitre-paque.ts:45",
   "config/chemin/chapitre-paque.ts:56"
@@ -16786,9 +16772,6 @@
  ],
  "L'Égypte": [
   "config/chemin/chapitre-ruth.ts:27"
- ],
- "l'électricité": [
-  "components/mission/MissionObjectiveHeader.tsx:64"
  ],
  "L'émission": [
   "components/audio/PodcastsAdmin.tsx:460"
@@ -17168,12 +17151,6 @@
  ],
  "La colère de son père": [
   "config/chemin/chapitre-samson.ts:47"
- ],
- "La collecte continue": [
-  "components/mission/MissionObjectiveHeader.tsx:52"
- ],
- "La collecte continue.": [
-  "components/mission/MissionProgress.tsx:148"
  ],
  "La colombe": [
   "config/chemin/chapitre-esaie.ts:77",
@@ -18011,6 +17988,9 @@
  "Lamentations 3.22-23": [
   "components/home/Hero.tsx:160"
  ],
+ "Lance d'abord le SQL migration-mission-benevoles.sql.": [
+  "components/community/MissionRaisedAdmin.tsx:32"
+ ],
  "Lance l'audio d'une méditation (bouton « Écouter la méditation »). Bronze à 10 écoutes, argent à 50, or à 150.": [
   "lib/badges.ts:247"
  ],
@@ -18798,7 +18778,7 @@
   "app/membre/page.tsx:8"
  ],
  "Le projet": [
-  "app/mission-madagascar/page.tsx:89"
+  "app/mission-madagascar/page.tsx:90"
  ],
  "Le Prophète": [
   "config/chemin/chapitre-bapteme.ts:77"
@@ -19358,8 +19338,7 @@
   "components/games/ChronoScreen.tsx:340"
  ],
  "Les": [
-  "app/confidentialite/page.tsx:173",
-  "components/mission/MissionObjectiveHeader.tsx:57"
+  "app/confidentialite/page.tsx:173"
  ],
  "Les {0} premiers versets sont affichés : précise ta recherche.": [
   "components/bible/RechercheBible.tsx:250"
@@ -19439,11 +19418,11 @@
  "Les Béatitudes": [
   "config/chemin/chapitre-sermon.ts:25"
  ],
+ "les bénévoles": [
+  "components/mission/MissionObjectiveHeader.tsx:59"
+ ],
  "Les besoins": [
   "components/mission/DonateScreen.tsx:141"
- ],
- "les besoins sont immenses": [
-  "components/mission/MissionObjectiveHeader.tsx:59"
  ],
  "Les cacher": [
   "config/chemin/chapitre-pierre-jean.ts:80"
@@ -19991,6 +19970,9 @@
  "Leur silence": [
   "config/chemin/chapitre-eglise.ts:47"
  ],
+ "Leurs billets d'avion, payés de leur poche": [
+  "components/mission/MissionBenevoles.tsx:57"
+ ],
  "Leurs roues sont ôtées et ils avancent péniblement": [
   "config/chemin/chapitre-mer-rouge.ts:57"
  ],
@@ -20438,7 +20420,7 @@
   "content/mission.json"
  ],
  "Madagascar est une terre magnifique, riche d'histoire, de culture et de visages. Mais c'est aussi une terre où les besoins sont immenses: pauvreté, précarité, enfants vulnérables, familles en difficulté, détenus oubliés, œuvres locales qui manquent parfois de moyens pour continuer leur mission.": [
-  "app/mission-madagascar/page.tsx:104"
+  "app/mission-madagascar/page.tsx:105"
  ],
  "Madian": [
   "config/chemin/chapitre-gedeon.ts:25",
@@ -20541,7 +20523,7 @@
   "config/chemin/chapitre-rameaux.ts:94"
  ],
  "Marc 16:15": [
-  "app/mission-madagascar/page.tsx:275",
+  "app/mission-madagascar/page.tsx:278",
   "config/verse-packs.ts:39"
  ],
  "Marc 4-5": [
@@ -21145,7 +21127,7 @@
  ],
  "Merci du fond du cœur !": [
   "components/mission/BandeauBatisseurs.tsx:107",
-  "components/mission/MissionProgress.tsx:80"
+  "components/mission/MissionProgress.tsx:97"
  ],
  "Merci infiniment pour ton témoignage. Il nous encourage et nous te répondrons.": [
   "components/home/Testimonies.tsx:37"
@@ -21157,6 +21139,9 @@
   "components/audio/NoteEmission.tsx:72",
   "components/ecole/FormationView.tsx:1135",
   "components/plans/PlanRating.tsx:115"
+ ],
+ "Merci,": [
+  "components/mission/MissionObjectiveHeader.tsx:53"
  ],
  "Merci, gloire à Dieu!": [
   "components/home/Testimonies.tsx:98"
@@ -21437,15 +21422,15 @@
   "content/impact.json"
  ],
  "Mission d'évangélisation à Madagascar, début novembre, 10 jours. Conférence, évangélisation de rue et soutien aux œuvres (orphelinats, prisons). Annoncer, aimer, servir.": [
-  "app/mission-madagascar/page.tsx:16"
+  "app/mission-madagascar/page.tsx:17"
  ],
  "Mission Madagascar": [
-  "app/mission-madagascar/page.tsx:14",
+  "app/mission-madagascar/page.tsx:15",
   "components/community/ProfileBanners.tsx:14",
   "components/mission/DonateScreen.tsx:214"
  ],
  "Mission Madagascar, annoncer, aimer, servir": [
-  "app/mission-madagascar/page.tsx:46"
+  "app/mission-madagascar/page.tsx:47"
  ],
  "Missionnaire": [
   "lib/badges.ts:139"
@@ -21661,7 +21646,7 @@
   "app/dons/page.tsx:180"
  ],
  "Montant collecté en euros": [
-  "components/community/MissionRaisedAdmin.tsx:60"
+  "components/community/MissionRaisedAdmin.tsx:82"
  ],
  "Montant et fréquence au choix": [
   "app/dons/page.tsx:187"
@@ -21670,7 +21655,11 @@
   "app/dons/page.tsx:182"
  ],
  "Montant mis à jour. C'est déjà en ligne.": [
-  "components/community/MissionRaisedAdmin.tsx:33"
+  "components/community/MissionRaisedAdmin.tsx:43",
+  "components/community/MissionRaisedAdmin.tsx:55"
+ ],
+ "Montant reçu pour les bénévoles en euros": [
+  "components/community/MissionRaisedAdmin.tsx:108"
  ],
  "Monte dans les ligues : finis en haut du tableau de ta division le dimanche soir. Bronze du badge en atteignant la ligue Argent, argent en ligue Or, or en ligue Élite.": [
   "lib/badges.ts:273"
@@ -22138,7 +22127,7 @@
   "app/a-propos/page.tsx:15"
  ],
  "Notre objectif :": [
-  "components/mission/MissionObjectiveHeader.tsx:75"
+  "components/mission/MissionObjectiveHeader.tsx:70"
  ],
  "Notre Père": [
   "content/plans.json"
@@ -22150,25 +22139,25 @@
   "components/mission/DonateScreen.tsx:41"
  ],
  "Nous cherchons des intercesseurs qui porteront cette mission avant et pendant les 10 jours. Tu veux prier avec nous, ou même nous rejoindre sur le terrain ? Laisse ton email, nous te tiendrons informé(e).": [
-  "app/mission-madagascar/page.tsx:230"
+  "app/mission-madagascar/page.tsx:233"
  ],
  "Nous croyons que Dieu aime Madagascar.": [
-  "app/mission-madagascar/page.tsx:256"
+  "app/mission-madagascar/page.tsx:259"
  ],
  "Nous croyons que Jésus veut toucher les cœurs.": [
-  "app/mission-madagascar/page.tsx:257"
+  "app/mission-madagascar/page.tsx:260"
  ],
  "Nous croyons que la confiance se construit dans la clarté. Voici exactement comment chaque euro est employé.": [
   "app/dons/page.tsx:207"
  ],
  "Nous croyons que le": [
-  "app/mission-madagascar/page.tsx:259"
+  "app/mission-madagascar/page.tsx:262"
  ],
  "Nous ne pouvons pas ne pas parler de ce que nous avons vu et entendu": [
   "config/chemin/chapitre-eglise.ts:45"
  ],
  "Nous partons avec un double objectif: annoncer l'Évangile et manifester l'amour de Dieu de manière concrète.": [
-  "app/mission-madagascar/page.tsx:252"
+  "app/mission-madagascar/page.tsx:255"
  ],
  "Nous prions personnellement pour toi et te répondons": [
   "components/home/PrayerSpace.tsx:90"
@@ -22267,12 +22256,19 @@
   "config/chemin/chapitre-ruth.ts:97"
  ],
  "Objectif": [
-  "components/mission/MissionObjectiveHeader.tsx:73"
+  "components/mission/MissionObjectiveHeader.tsx:68"
  ],
  "OBJECTIF": [
   "app/memoriser/page.tsx:528",
   "components/chemin/CheminHub.tsx:322",
   "components/games/BergerScreen.tsx:228"
+ ],
+ "objectif atteint !": [
+  "components/mission/MissionObjectiveHeader.tsx:53"
+ ],
+ "Objectif dépassé": [
+  "components/mission/MissionObjectiveHeader.tsx:51",
+  "components/mission/MissionProgress.tsx:66"
  ],
  "Objectif du don libre (app)": [
   "components/community/ObjectifDonAdmin.tsx:64"
@@ -22444,7 +22440,7 @@
   "components/audio/PodcastsAdmin.tsx:160"
  ],
  "Organiser une conférence pour que beaucoup entendent clairement le message de l'Évangile et rencontrent Jésus.": [
-  "app/mission-madagascar/page.tsx:137"
+  "app/mission-madagascar/page.tsx:138"
  ],
  "Origine du mot": [
   "components/ecole/MotLexique.tsx:308"
@@ -23277,6 +23273,10 @@
   "app/dons/page.tsx:101",
   "components/mission/SoutienEnUnClic.tsx:117"
  ],
+ "Participation aux frais des bénévoles": [
+  "components/community/MissionRaisedAdmin.tsx:93",
+  "components/mission/MissionBenevoles.tsx:56"
+ ],
  "participations au Défi du jour": [
   "lib/badges.ts:213"
  ],
@@ -23680,7 +23680,7 @@
   "config/chemin/chapitre-paque.ts:78"
  ],
  "peut agir puissamment.": [
-  "app/mission-madagascar/page.tsx:259"
+  "app/mission-madagascar/page.tsx:262"
  ],
  "Pharaon": [
   "config/chemin/chapitre-salomon.ts:68"
@@ -23768,7 +23768,7 @@
   "components/wall/WallSection.tsx:342"
  ],
  "Photos, témoignages, préparatifs et nouvelles du terrain. Rejoins-nous sur Instagram et partage la mission autour de toi.": [
-  "app/mission-madagascar/page.tsx:179"
+  "app/mission-madagascar/page.tsx:180"
  ],
  "Pièce jointe": [
   "components/community/MessagesView.tsx:256"
@@ -24049,7 +24049,7 @@
   "components/community/Avatar.tsx:57"
  ],
  "Porte la mission dans la prière": [
-  "app/mission-madagascar/page.tsx:227"
+  "app/mission-madagascar/page.tsx:230"
  ],
  "Porté par la foule": [
   "config/chemin/chapitre-rameaux.ts:36"
@@ -24067,7 +24067,7 @@
   "config/chemin/chapitre-david.ts:76"
  ],
  "Porter la lumière de": [
-  "app/mission-madagascar/page.tsx:53"
+  "app/mission-madagascar/page.tsx:54"
  ],
  "Portez-vous les uns les autres": [
   "components/community/CommunityLanding.tsx:38"
@@ -24136,9 +24136,6 @@
  ],
  "Potiphar, officier de Pharaon": [
   "config/chemin/chapitre-joseph.ts:45"
- ],
- "pour": [
-  "components/mission/MissionProgress.tsx:86"
  ],
  "Pour aller plus loin": [
   "components/plans/PlanJour.tsx:422"
@@ -24255,6 +24252,9 @@
  "Pour la lui confier": [
   "config/chemin/chapitre-rencontres.ts:67"
  ],
+ "pour la mission est dépassé. Vous pouvez encore soutenir": [
+  "components/mission/MissionObjectiveHeader.tsx:57"
+ ],
  "Pour la vendre": [
   "config/chemin/chapitre-mer-rouge.ts:89"
  ],
@@ -24305,6 +24305,9 @@
  ],
  "pour nourrir ta foi": [
   "components/boutique/RhemaShowcase.tsx:668"
+ ],
+ "Pour partir, les": [
+  "components/mission/MissionBenevoles.tsx:62"
  ],
  "pour passer au sujet suivant.": [
   "components/community/PrayerTime.tsx:316"
@@ -24545,7 +24548,7 @@
   "config/chemin/chapitre-rencontres.ts:67"
  ],
  "Pourquoi Madagascar ?": [
-  "app/mission-madagascar/page.tsx:91"
+  "app/mission-madagascar/page.tsx:92"
  ],
  "Pourquoi Moïse ne peut-il voir la face de Dieu ?": [
   "config/chemin/chapitre-sinai.ts:108"
@@ -24633,12 +24636,6 @@
  ],
  "Premier filet": [
   "lib/quiz.ts:323"
- ],
- "premier palier": [
-  "components/mission/MissionObjectiveHeader.tsx:58"
- ],
- "Premier palier franchi": [
-  "components/mission/MissionProgress.tsx:73"
  ],
  "Premier pas": [
   "lib/quiz.ts:321"
@@ -27765,6 +27762,9 @@
  "Reculer de 15 secondes": [
   "components/bible/BibleAudioPlayer.tsx:557"
  ],
+ "reçus pour les bénévoles": [
+  "components/mission/MissionBenevoles.tsx:83"
+ ],
  "Redescendre aussitôt": [
   "config/chemin/chapitre-transfiguration.ts:77"
  ],
@@ -27800,9 +27800,6 @@
  ],
  "Refaire le quiz": [
   "components/ecole/FormationView.tsx:2074"
- ],
- "refaire les fondations d'un orphelinat": [
-  "components/mission/MissionProgress.tsx:88"
  ],
  "Référence": [
   "components/community/DevotionsAdmin.tsx:85",
@@ -27868,7 +27865,7 @@
   "components/ui/WhatsAppChannel.tsx:45"
  ],
  "Rejoindre la prière": [
-  "app/mission-madagascar/page.tsx:80"
+  "app/mission-madagascar/page.tsx:81"
  ],
  "Rejoindre le groupe": [
   "components/community/GroupView.tsx:357"
@@ -28950,7 +28947,7 @@
   "components/quiz/QuizScreen.tsx:842"
  ],
  "Saint-Esprit": [
-  "app/mission-madagascar/page.tsx:259",
+  "app/mission-madagascar/page.tsx:262",
   "lib/toolkit.ts:39"
  ],
  "Saisir l'œuvre de Dieu du commencement à la fin": [
@@ -29318,9 +29315,6 @@
  ],
  "Sept, en sept jours": [
   "config/chemin/chapitre-job.ts:35"
- ],
- "sera reversé au bénéfice des associations sur place, à Madagascar.": [
-  "components/mission/MissionProgress.tsx:149"
  ],
  "Série": [
   "app/memoriser/page.tsx:564",
@@ -29798,7 +29792,7 @@
  "Soutenir la mission": [
   "app/dons/page.tsx:17",
   "app/dons/page.tsx:35",
-  "app/mission-madagascar/page.tsx:65"
+  "app/mission-madagascar/page.tsx:66"
  ],
  "Soutien": [
   "components/home/HomeQuickSlider.tsx:17"
@@ -29886,7 +29880,7 @@
   "components/community/RechercheProfils.tsx:110"
  ],
  "Suis la mission au jour le jour": [
-  "app/mission-madagascar/page.tsx:176"
+  "app/mission-madagascar/page.tsx:177"
  ],
  "Suis les frères et sœurs qui t'inspirent. Leurs sujets de prière apparaissent dans ton fil.": [
   "components/community/CommunityLanding.tsx:27"
@@ -29909,7 +29903,7 @@
   "components/community/MemberView.tsx:289"
  ],
  "Suivi par {0}": [
-  "lib/community.ts:1056"
+  "lib/community.ts:1091"
  ],
  "Suivre": [
   "components/community/MemberSuggestions.tsx:113",
@@ -29927,7 +29921,7 @@
   "components/ecole/FormationView.tsx:1428"
  ],
  "Suivre sur Instagram": [
-  "app/mission-madagascar/page.tsx:74",
+  "app/mission-madagascar/page.tsx:75",
   "components/plans/AuthorCard.tsx:163"
  ],
  "sujet": [
@@ -30031,9 +30025,9 @@
   "components/community/MessagesView.tsx:509"
  ],
  "sur": [
-  "components/community/MissionRaisedAdmin.tsx:64",
-  "components/community/ProfileBadges.tsx:304",
-  "components/ecole/FormationView.tsx:2453"
+  "components/community/MissionRaisedAdmin.tsx:86",
+  "components/community/MissionRaisedAdmin.tsx:112",
+  "components/community/ProfileBadges.tsx:304"
  ],
  "sur {0}": [
   "components/chemin/CheminHub.tsx:82"
@@ -30161,7 +30155,7 @@
   "config/chemin/chapitre-pentecote.ts:67"
  ],
  "Sur place": [
-  "app/mission-madagascar/page.tsx:128"
+  "app/mission-madagascar/page.tsx:129"
  ],
  "Sur quelle île Jean reçoit-il ces visions ?": [
   "config/chemin/chapitre-apocalypse.ts:26"
@@ -30832,7 +30826,7 @@
   "app/ebook/7-jours/page.tsx:8"
  ],
  "Ton église": [
-  "lib/community.ts:1053"
+  "lib/community.ts:1088"
  ],
  "Ton église (facultatif)": [
   "components/community/ProfileView.tsx:793"
@@ -30954,6 +30948,9 @@
  ],
  "Top émissions · {0} derniers jours": [
   "components/audio/ListenScreen.tsx:1017"
+ ],
+ "Total payé par les bénévoles": [
+  "components/mission/MissionBenevoles.tsx:75"
  ],
  "Touche": [
   "app/suppression-compte/page.tsx:40"
@@ -31494,7 +31491,7 @@
   "components/community/PrayerTime.tsx:678"
  ],
  "Tu recevras les nouvelles et les sujets de prière.": [
-  "app/mission-madagascar/page.tsx:242"
+  "app/mission-madagascar/page.tsx:245"
  ],
  "Tu reçois les messages, commentaires et réponses comme sur un réseau social.": [
   "components/app/ActiverNotifications.tsx:82"
@@ -32818,7 +32815,7 @@
   "config/chemin/chapitre-joseph.ts:25"
  ],
  "Une terre à aimer, à servir et à toucher par l'Évangile.": [
-  "app/mission-madagascar/page.tsx:94"
+  "app/mission-madagascar/page.tsx:95"
  ],
  "Une toison de laine": [
   "config/chemin/chapitre-gedeon.ts:66"
@@ -33346,13 +33343,13 @@
   "components/community/AdminAnnounce.tsx:104"
  ],
  "Visite d'œuvres": [
-  "app/mission-madagascar/page.tsx:144"
+  "app/mission-madagascar/page.tsx:145"
  ],
  "Visiter les orphelins et les veuves dans leur affliction": [
   "config/chemin/chapitre-jacques.ts:51"
  ],
  "Visiter orphelinats, prisons et autres œuvres locales: encourager ceux qui se sentent oubliés, bénir ceux qui servent déjà, et apporter un soutien concret.": [
-  "app/mission-madagascar/page.tsx:145"
+  "app/mission-madagascar/page.tsx:146"
  ],
  "Visites totales": [
   "components/community/AnalyticsDashboard.tsx:94"

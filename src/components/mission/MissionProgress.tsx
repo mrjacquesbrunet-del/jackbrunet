@@ -4,9 +4,6 @@ import { useEffect, useState } from "react";
 import { getMissionStats } from "@/lib/mission";
 import { localeApp } from "@/lib/i18n";
 
-/** 2e palier de la collecte : eau, électricité, fondations d'un orphelinat. */
-export const MISSION_PALIER_2 = 20000;
-
 /**
  * Barre de progression de la collecte, lue EN DIRECT depuis Supabase (se met à
  * jour sans reconstruire le site). Les valeurs initiales (issues du contenu)
@@ -47,13 +44,9 @@ export function MissionProgress({
     };
   }, []);
 
-  // Pourcentage RÉEL vers la cible en cours. Une fois le premier palier
-  // (l'objectif initial) franchi, il reste affiché plein à 100 % et une
-  // seconde barre progresse vers le 2e palier : 22 000 € — accès à l'eau,
-  // à l'électricité et fondations d'un orphelinat.
+  // Pourcentage RÉEL de l'objectif (peut dépasser 100 % : objectif dépassé).
   const depasse = obj > 0 && raised >= obj;
-  const cible = depasse ? Math.max(MISSION_PALIER_2, obj) : obj;
-  const percent = cible > 0? Math.round((raised / cible) * 100): 0;
+  const percent = obj > 0? Math.round((raised / obj) * 100): 0;
   const barWidth = Math.min(100, percent);
 
   return (
@@ -70,84 +63,40 @@ export function MissionProgress({
           <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth={2.4} aria-hidden>
             <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-          Premier palier franchi
+          Objectif dépassé
         </span>
       ) : null}
 
-      {depasse ? (
-        <div className="mt-4">
-          <p className="font-display text-xl font-extrabold text-[#FAF6F0]">
-            Merci du fond du cœur !
-          </p>
-          <p className="mt-2 text-sm leading-relaxed text-[#FAF6F0]/75">
-            Grâce à votre générosité, le premier palier de {obj.toLocaleString(localeApp())}&nbsp;€
-            est franchi. Cap maintenant sur les{" "}
-            <strong className="font-bold text-[#FCD34D]">{cible.toLocaleString(localeApp())} €</strong>{" "}
-            pour <strong className="font-bold text-[#FAF6F0]">donner accès à l&apos;eau et à
-            l&apos;électricité</strong> et{" "}
-            <strong className="font-bold text-[#FAF6F0]">refaire les fondations d&apos;un orphelinat</strong>.
-          </p>
-        </div>
-      ) : null}
-
-      <div className="mt-3 flex flex-wrap items-end justify-between gap-x-6 gap-y-1">
-        <div>
+      <div className="mt-3 flex items-end justify-between gap-4">
+        <div className="text-left">
           <p className="font-display text-4xl font-extrabold leading-none" style={{ color: depasse ? "#FCD34D" : "#FAF6F0" }}>
-            {raised.toLocaleString(localeApp())} €
+            {raised.toLocaleString(localeApp())}&nbsp;€
           </p>
-          <p className="mt-1 text-sm text-[#FAF6F0]/60">collectés à ce jour</p>
+          <p className="mt-1 text-sm text-[#FAF6F0]/60">collectés pour la mission</p>
         </div>
         <div className="text-right">
-          <p className="font-display text-2xl font-extrabold leading-none text-[#EBA94D]">{percent}%</p>
-          <p className="mt-1 text-sm text-[#FAF6F0]/60">
-            {depasse ? `du 2e palier de ${cible.toLocaleString(localeApp())} €` : `de l'objectif de ${obj.toLocaleString(localeApp())} €`}
-          </p>
+          <p className="font-display text-2xl font-extrabold leading-none" style={{ color: depasse ? "#FCD34D" : "#EBA94D" }}>{percent} %</p>
+          <p className="mt-1 text-sm text-[#FAF6F0]/60">de l&apos;objectif de <span className="whitespace-nowrap">{obj.toLocaleString(localeApp())}&nbsp;€</span></p>
         </div>
       </div>
 
-      {depasse ? (
-        <div className="mt-4 space-y-3">
-          {/* 1er palier : acquis, barre pleine */}
-          <div>
-            <div className="flex items-center justify-between text-xs font-semibold text-[#FAF6F0]/60">
-              <span>1er palier · {obj.toLocaleString(localeApp())} €</span>
-              <span className="inline-flex items-center gap-1 font-bold text-[#FCD34D]">
-                <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current" strokeWidth={2.6} aria-hidden>
-                  <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                100 %
-              </span>
-            </div>
-            <div className="mt-1.5 h-3 overflow-hidden rounded-full bg-white/10">
-              <div className="h-full w-full rounded-full" style={{ background: "linear-gradient(90deg,#EBA94D,#FCD34D,#EBA94D)", boxShadow: "0 0 14px rgba(252,211,77,.55)" }} />
-            </div>
-          </div>
-          {/* 2e palier : en cours */}
-          <div>
-            <div className="flex items-center justify-between text-xs font-semibold text-[#FAF6F0]/60">
-              <span>2e palier · {cible.toLocaleString(localeApp())} €</span>
-              <span className="font-bold text-[#EBA94D]">{percent} %</span>
-            </div>
-            <div className="mt-1.5 h-3 overflow-hidden rounded-full bg-white/10">
-              <div className="h-full rounded-full transition-all duration-700" style={{ width: `${barWidth}%`, background: "linear-gradient(90deg,#E0892B,#EBA94D)" }} />
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="mt-4 h-3 overflow-hidden rounded-full bg-white/10">
-          <div
-            className="h-full rounded-full transition-all duration-700"
-            style={{ width: `${barWidth}%`, background: "linear-gradient(90deg,#E0892B,#EBA94D)" }}
-          />
-        </div>
-      )}
+      <div className="mt-4 h-3 overflow-hidden rounded-full bg-white/10">
+        <div
+          className="h-full rounded-full transition-all duration-700"
+          style={
+            depasse
+              ? { width: "100%", background: "linear-gradient(90deg,#EBA94D,#FCD34D,#EBA94D)", boxShadow: "0 0 14px rgba(252,211,77,.55)" }
+              : { width: `${barWidth}%`, background: "linear-gradient(90deg,#E0892B,#EBA94D)" }
+          }
+        />
+      </div>
 
       <p className="mt-3 text-sm leading-relaxed text-[#FAF6F0]/75">
         {depasse ? (
           <>
-            <strong className="font-bold text-[#FCD34D]">La collecte continue.</strong>{" "}
-            <strong className="font-bold text-[#FAF6F0]">Chaque don supplémentaire</strong> sera
-            reversé au bénéfice des associations sur place, à Madagascar.
+            <strong className="font-bold text-[#FCD34D]">Merci du fond du cœur !</strong> Grâce à
+            votre générosité, l&apos;objectif de {obj.toLocaleString(localeApp())}&nbsp;€ est dépassé.
+            Tout est reversé au bénéfice des associations sur place, à Madagascar.
           </>
         ) : (
           "Chaque don est intégralement reversé au bénéfice des associations sur place, à Madagascar."

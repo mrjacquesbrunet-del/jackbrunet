@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { MissionProgress } from "@/components/mission/MissionProgress";
+import { MissionBenevoles } from "@/components/mission/MissionBenevoles";
 import { MissionObjectiveHeader } from "@/components/mission/MissionObjectiveHeader";
 import { MissionDonate } from "@/components/mission/MissionDonate";
 import { WhatsAppChannel } from "@/components/ui/WhatsAppChannel";
@@ -199,6 +200,8 @@ export default function MissionMadagascarPage() {
             <MissionObjectiveHeader initialRaised={raisedEur} objective={objectiveEur} />
 
             <MissionProgress initialRaised={raisedEur} objective={objectiveEur} />
+
+            <MissionBenevoles />
 
             <div className="mt-8">
               <MissionDonate

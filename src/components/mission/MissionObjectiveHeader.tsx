@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { getMissionStats } from "@/lib/mission";
-import { MISSION_PALIER_2 } from "@/components/mission/MissionProgress";
 import { localeApp } from "@/lib/i18n";
 
 /**
@@ -49,20 +48,16 @@ export function MissionObjectiveHeader({
   if (realise) {
     return (
       <>
-        <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#EBA94D]">La collecte continue</span>
+        <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#EBA94D]">Objectif dépassé</span>
         <h2 className="mt-3 font-display text-3xl font-extrabold sm:text-4xl">
-          Chaque euro <span className="text-[#E0892B]">compte&nbsp;!</span>
+          Merci, <span className="text-[#E0892B]">objectif atteint&nbsp;!</span>
         </h2>
         <p className="mt-4 text-base leading-relaxed text-[#FAF6F0]/70 sm:text-lg">
-          Les {obj.toLocaleString(localeApp())}&nbsp;€ n&apos;étaient que le{" "}
-          <strong className="font-bold text-[#FAF6F0]">premier palier</strong>. Sur place,{" "}
-          <strong className="font-bold text-[#FAF6F0]">les besoins sont immenses</strong> — cap
-          maintenant sur les{" "}
-          <strong className="font-bold text-[#EBA94D]">{MISSION_PALIER_2.toLocaleString(localeApp())} €</strong>&nbsp;:
-          grâce à vos dons, nous pourrons participer activement à donner accès à{" "}
-          <strong className="font-bold text-[#FAF6F0]">l&apos;eau</strong> et à{" "}
-          <strong className="font-bold text-[#FAF6F0]">l&apos;électricité</strong>, et à refaire
-          les <strong className="font-bold text-[#FAF6F0]">fondations d&apos;un orphelinat</strong>.
+          Grâce à vous, l&apos;objectif de{" "}
+          <strong className="font-bold text-[#FAF6F0]">{obj.toLocaleString(localeApp())}&nbsp;€</strong> pour
+          la mission est dépassé. Vous pouvez encore soutenir{" "}
+          <strong className="font-bold text-[#FAF6F0]">les bénévoles</strong>, qui ont financé
+          eux-mêmes leurs billets d&apos;avion.
         </p>
       </>
     );

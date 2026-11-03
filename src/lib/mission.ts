@@ -27,3 +27,30 @@ export async function setMissionRaised(val: number): Promise<boolean> {
   const { error } = await sb.rpc("set_mission_raised", { val });
   return!error;
 }
+
+/** 2e jauge : participation aux frais des bénévoles (billets d'avion). */
+export type BenevolesStats = { raised: number; objective: number };
+
+/** Billets payés par les bénévoles : 7 × 900 € puis 5 × 1 570 € (rachat). */
+export const BENEVOLES = { nombre: 7, billet: 900, rachats: 5, billetRachat: 1570 };
+export const OBJECTIF_BENEVOLES = BENEVOLES.nombre * BENEVOLES.billet + BENEVOLES.rachats * BENEVOLES.billetRachat;
+
+/** Lu à part : la jauge principale ne dépend pas de ces colonnes (SQL récent). */
+export async function getBenevolesStats(): Promise<BenevolesStats | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  const { data, error } = await sb.from("mission_stats").select("benevoles_eur, objectif_benevoles_eur").eq("id", 1).single();
+  if (error || !data) return null;
+  return {
+    raised: Number(data.benevoles_eur) || 0,
+    objective: Number(data.objectif_benevoles_eur) || OBJECTIF_BENEVOLES,
+  };
+}
+
+/** Admin : montant reçu pour les frais des bénévoles. */
+export async function setBenevolesRaised(val: number): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  const { error } = await sb.rpc("set_mission_benevoles", { val });
+  return !error;
+}
