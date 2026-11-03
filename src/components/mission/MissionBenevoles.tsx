@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { BENEVOLES, OBJECTIF_BENEVOLES, getBenevolesStats } from "@/lib/mission";
+import { BENEVOLES, OBJECTIF_BENEVOLES, TOTAL_BENEVOLES, getBenevolesStats } from "@/lib/mission";
 import { localeApp } from "@/lib/i18n";
 
 /**
@@ -61,7 +61,8 @@ export function MissionBenevoles() {
       <p className="mt-4 text-sm leading-relaxed text-[#FAF6F0]/75">
         Pour partir, les {BENEVOLES.nombre} bénévoles ont chacun payé leur billet d&apos;avion. Puis{" "}
         {BENEVOLES.rachats} d&apos;entre eux ont dû <strong className="font-bold text-[#FAF6F0]">faire un pas de foi</strong>{" "}
-        et racheter un nouveau billet. Ton don les aide à porter ces frais.
+        et racheter un nouveau billet. Nous vous demandons une participation pour ce{" "}
+        <strong className="font-bold text-[#FAF6F0]">deuxième billet</strong>.
       </p>
 
       <ul className="mt-3 space-y-1 rounded-2xl bg-white/[0.04] px-4 py-3 text-sm text-[#FAF6F0]/70">
@@ -73,6 +74,10 @@ export function MissionBenevoles() {
         ))}
         <li className="flex justify-between gap-3 border-t border-white/10 pt-1.5 font-bold text-[#FAF6F0]">
           <span>Total payé par les bénévoles</span>
+          <span className="shrink-0">{eur(TOTAL_BENEVOLES)}</span>
+        </li>
+        <li className="flex justify-between gap-3 pt-1 font-bold text-[#EBA94D]">
+          <span>Objectif : participation au 2e billet</span>
           <span className="shrink-0">{eur(OBJECTIF_BENEVOLES)}</span>
         </li>
       </ul>

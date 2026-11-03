@@ -2320,7 +2320,7 @@
  "21 jours pour redécouvrir les trois mandats que Jésus a confiés à ses disciples, et les vivre aujourd'hui.": [
   "content/plans.json"
  ],
- "2e jauge sur la page : billets d'avion payés par les bénévoles (7 × 900 € + 5 × 1 570 € =": [
+ "2e jauge sur la page : participation au 2e billet des bénévoles (5 × 1 570 € =": [
   "components/community/MissionRaisedAdmin.tsx:95"
  ],
  "2px solid #fb7185": [
@@ -8171,7 +8171,7 @@
   "config/chemin/chapitre-jeremie.ts:77"
  ],
  "de l'objectif de": [
-  "components/mission/MissionBenevoles.tsx:87",
+  "components/mission/MissionBenevoles.tsx:92",
   "components/mission/MissionProgress.tsx:79"
  ],
  "De l'or": [
@@ -9135,6 +9135,9 @@
  ],
  "Deux, en deux semaines": [
   "config/chemin/chapitre-job.ts:35"
+ ],
+ "deuxième billet": [
+  "components/mission/MissionBenevoles.tsx:65"
  ],
  "devant Dieu. Comme un réseau social, mais tourné vers le Ciel.": [
   "components/community/CommunityLanding.tsx:93"
@@ -11207,7 +11210,7 @@
  "Et nous croyons qu'ensemble, par la prière, le soutien et l'obéissance, nous pouvons prendre part à ce que Dieu veut faire là-bas.": [
   "app/mission-madagascar/page.tsx:267"
  ],
- "et racheter un nouveau billet. Ton don les aide à porter ces frais.": [
+ "et racheter un nouveau billet. Nous vous demandons une participation pour ce": [
   "components/mission/MissionBenevoles.tsx:64"
  ],
  "et renouvelé automatiquement chaque mois, sauf résiliation au moins 24 h avant la fin de la période en cours. Tu peux le gérer ou le résilier à tout moment dans les réglages de": [
@@ -22263,6 +22266,9 @@
   "components/chemin/CheminHub.tsx:322",
   "components/games/BergerScreen.tsx:228"
  ],
+ "Objectif : participation au 2e billet": [
+  "components/mission/MissionBenevoles.tsx:80"
+ ],
  "objectif atteint !": [
   "components/mission/MissionObjectiveHeader.tsx:53"
  ],
@@ -27763,7 +27769,7 @@
   "components/bible/BibleAudioPlayer.tsx:557"
  ],
  "reçus pour les bénévoles": [
-  "components/mission/MissionBenevoles.tsx:83"
+  "components/mission/MissionBenevoles.tsx:88"
  ],
  "Redescendre aussitôt": [
   "config/chemin/chapitre-transfiguration.ts:77"
@@ -30950,7 +30956,7 @@
   "components/audio/ListenScreen.tsx:1017"
  ],
  "Total payé par les bénévoles": [
-  "components/mission/MissionBenevoles.tsx:75"
+  "components/mission/MissionBenevoles.tsx:76"
  ],
  "Touche": [
   "app/suppression-compte/page.tsx:40"

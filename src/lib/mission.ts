@@ -33,7 +33,10 @@ export type BenevolesStats = { raised: number; objective: number };
 
 /** Billets payés par les bénévoles : 7 × 900 € puis 5 × 1 570 € (rachat). */
 export const BENEVOLES = { nombre: 7, billet: 900, rachats: 5, billetRachat: 1570 };
-export const OBJECTIF_BENEVOLES = BENEVOLES.nombre * BENEVOLES.billet + BENEVOLES.rachats * BENEVOLES.billetRachat;
+/** Total payé par les bénévoles (affiché pour comprendre) : 14 150 €. */
+export const TOTAL_BENEVOLES = BENEVOLES.nombre * BENEVOLES.billet + BENEVOLES.rachats * BENEVOLES.billetRachat;
+/** Objectif de la jauge : participation au 2e billet seulement (5 × 1 570 € = 7 850 €). */
+export const OBJECTIF_BENEVOLES = BENEVOLES.rachats * BENEVOLES.billetRachat;
 
 /** Lu à part : la jauge principale ne dépend pas de ces colonnes (SQL récent). */
 export async function getBenevolesStats(): Promise<BenevolesStats | null> {

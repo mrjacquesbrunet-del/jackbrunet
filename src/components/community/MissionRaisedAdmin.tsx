@@ -92,7 +92,7 @@ export function MissionRaisedAdmin() {
 
       <h3 className="mt-6 font-display text-lg font-bold">Participation aux frais des bénévoles</h3>
       <p className="mt-1 text-sm text-night-900/60">
-        2e jauge sur la page : billets d&apos;avion payés par les bénévoles (7 × 900 € + 5 × 1 570 € = {objB.toLocaleString("fr-FR")} €).
+        2e jauge sur la page : participation au 2e billet des bénévoles (5 × 1 570 € = {objB.toLocaleString("fr-FR")} €).
         Entre ce qui a été reçu pour eux.
       </p>
       <div className="mt-3 flex flex-wrap items-center gap-3">

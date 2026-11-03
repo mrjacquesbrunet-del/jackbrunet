@@ -1,13 +1,15 @@
 -- ============================================================
 --  Mission Madagascar : 2e jauge « Participation aux frais des
 --  bénévoles » (billets d'avion payés par les bénévoles).
---  Objectif : 7 × 900 € + 5 × 1 570 € = 14 150 €.
+--  Objectif : participation au 2e billet, 5 × 1 570 € = 7 850 €
+--  (les bénévoles ont payé 14 150 € au total, affiché pour info).
 --  Montant réglé par l'admin, affiché en direct sur le site.
 --  Supabase → SQL Editor → Run. Relançable sans risque.
 -- ============================================================
 
 alter table public.mission_stats add column if not exists benevoles_eur numeric not null default 0;
-alter table public.mission_stats add column if not exists objectif_benevoles_eur numeric not null default 14150;
+alter table public.mission_stats add column if not exists objectif_benevoles_eur numeric not null default 7850;
+update public.mission_stats set objectif_benevoles_eur = 7850 where id = 1;
 
 create or replace function public.set_mission_benevoles(val numeric)
 returns void language plpgsql security definer set search_path = public as $$
