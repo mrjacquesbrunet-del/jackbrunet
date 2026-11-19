@@ -72,13 +72,19 @@ Utilisez `index.html` tel quel comme modèle de page HTML.
 - Les emplacements photos sont facultatifs : tant qu'ils ne sont pas renseignés,
   un repli visuel propre s'affiche (icône ou initiales).
 
-## Les deux pages
+## Les pages du site
 
 | Page | Fichier de travail | Sortie WordPress | Doc |
 |---|---|---|---|
 | Accueil | `accueil.html` | `wordpress-accueil/` | [`ACCUEIL.md`](./ACCUEIL.md) |
-| Événement (Avignon) | `index.html` | `wordpress-3-parties/` | ce fichier |
-| À venir (les dates) | `agenda.html` | `wordpress-agenda/` | [`AGENDA.md`](./AGENDA.md) |
+| Événement · Tarbes | `index.html` | `wordpress-tarbes/` | ce fichier |
+| Événement · Limours | `limours.html` | `wordpress-limours/` | [`LIMOURS.md`](./LIMOURS.md) |
+| À venir (les dates) | `agenda.html` | `wordpress-evenement/` | [`AGENDA.md`](./AGENDA.md) |
+| Actualités | `actualites.html` | `wordpress-actualites/` | — |
+
+Les pages de ville partagent **un seul script**, celui de `index.html`. Chacune
+dit de quelle ville elle parle dans l'attribut `data-usn-evenement` de son
+formulaire ; voir [`LIMOURS.md`](./LIMOURS.md).
 
 ## Régénérer les fichiers WordPress
 

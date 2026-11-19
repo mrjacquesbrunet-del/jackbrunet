@@ -396,13 +396,28 @@
     if (!form) return;
 
     var API      = '/wp-json/usn/v1/';
-    /* LA VILLE DE CETTE PAGE.
+    /* LA VILLE DE CETTE PAGE, LUE DANS LE FORMULAIRE.
+
        Le module sert plusieurs villes a la fois : Tarbes et Limours
        sont a trois semaines d'intervalle et doivent etre ouvertes en
-       meme temps. Chaque page dit donc de quelle ville elle parle.
-       > Pour une nouvelle ville, c'est la SEULE ligne a changer ici,
-         et elle doit porter le nom exact saisi dans Reservations. */
-    var EVENEMENT = 'Tarbes 2026';
+       meme temps. Or ce script est commun a tout le site, charge une
+       seule fois par l'extension " CSS et JS personnalises " : s'il
+       nommait la ville lui-meme, les deux pages compteraient leurs
+       places sur le meme evenement.
+
+       Il la lit donc dans l'attribut data-usn-evenement du
+       formulaire. Une nouvelle ville ne demande plus une ligne de
+       JavaScript, seulement un attribut dans sa page.
+
+       SANS ATTRIBUT, ON NE COMPTE RIEN. La tentation serait de retomber
+       sur un nom par defaut ; ce serait le pire des deux mondes, car une
+       page qui aurait oublie l'attribut irait, sans rien dire, piocher
+       dans les places d'une autre ville. Le formulaire continue alors de
+       fonctionner comme un simple envoi vers Brevo, exactement comme
+       quand le module est absent, et c'est le compteur qui disparait :
+       une inscription perdue de vue vaut mieux qu'une place prise a
+       quelqu'un d'autre. */
+    var EVENEMENT = form.getAttribute('data-usn-evenement') || '';
     var PLACES_URL = API + 'places?v=' + encodeURIComponent(EVENEMENT);
     var msg      = document.getElementById('usn-form-msg');
     var err      = document.getElementById('usn-form-err');
@@ -484,7 +499,7 @@
     }
 
     // Lecture de l'etat au chargement.
-    if (window.fetch) {
+    if (EVENEMENT ? window.fetch : false) {
       fetch(PLACES_URL, { credentials: 'same-origin' })
         .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
         .then(function (e) {

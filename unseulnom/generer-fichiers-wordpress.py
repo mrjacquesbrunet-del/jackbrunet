@@ -65,6 +65,25 @@ PAGES = {
         "seul": "tarbes-a-coller-dans-wordpress.html",
         "generique": "index-wordpress.html",
     },
+    # Limours est la page de Tarbes avec une autre charte, d'autres
+    # intervenants et une autre date : meme structure, meme script.
+    #
+    # ET C'EST PRECISEMENT POURQUOI SON JAVASCRIPT NE VA PAS DANS LE
+    # FICHIER COMMUN. Le fichier commun est injecte sur toutes les pages
+    # du site par l'extension « CSS et JS personnalises ». Y mettre le
+    # script de Limours, identique a celui de Tarbes, le ferait tourner
+    # deux fois sur chaque page : deux ecouteurs sur chaque bouton, deux
+    # appels a l'API pour chaque lecture, et une inscription envoyee en
+    # double. Les deux pages partagent donc le meme script, celui de
+    # Tarbes, qui lit le nom de la ville dans l'attribut
+    # data-usn-evenement du formulaire.
+    "limours": {
+        "source": "limours.html",
+        "sortie": "wordpress-limours",
+        "seul": "limours-a-coller-dans-wordpress.html",
+        "generique": None,
+        "javascript_commun": False,
+    },
     "evenement": {
         "source": "agenda.html",
         "sortie": "wordpress-evenement",
@@ -93,6 +112,7 @@ URL_VILLE = "https://unseulnom.org/evenement/tarbes/"
 URL_MEDIAS = "https://unseulnom.org/wp-content/uploads/2026/07"
 URL_2026_04 = "https://unseulnom.org/wp-content/uploads/2026/04"
 URL_2026_10 = "https://unseulnom.org/wp-content/uploads/2026/10"
+URL_2026_11 = "https://unseulnom.org/wp-content/uploads/2026/11"
 
 # WordPress a retire les traits d'union des noms de fichiers a l'envoi :
 # programme-1.webp est servi sous programme1.webp.
@@ -137,6 +157,24 @@ ADRESSES = {
     # La photo du bandeau « Evangelisation et Guerison » : la precedente
     # montrait Yannis Gautier, qui ne sera pas a Tarbes.
     "evangelisation.webp":    URL_2026_10 + "/evangelisation.webp",
+    # LIMOURS, 2 janvier 2027. L'affiche verticale telle qu'elle a ete
+    # recue, et l'image d'attente du film : la derniere image de la
+    # bande-annonce, qui est deja l'affiche en format large.
+    #
+    # Ces deux fichiers sont dans images/ et n'ont PAS ENCORE ete envoyes
+    # dans la mediatheque. Tant qu'ils n'y sont pas, les adresses
+    # ci-dessous renvoient une erreur 404 : la balise <img> disparait
+    # d'elle-meme (onerror) et le film garde un fond noir le temps de se
+    # charger. Rien ne casse, mais la page est plus belle une fois les
+    # fichiers envoyes.
+    "affichelimours.webp":      URL_2026_11 + "/affichelimours.webp",
+    "affichelimourslarge.webp": URL_2026_11 + "/affichelimourslarge.webp",
+    # Les portraits de Limours, quand ils seront decoupes. D'ici la, les
+    # cartes affichent les initiales.
+    "limours-chriss.webp":    URL_2026_11 + "/limours-chriss.webp",
+    "limours-noe.webp":       URL_2026_11 + "/limours-noe.webp",
+    "limours-chorale.webp":   URL_2026_11 + "/limours-chorale.webp",
+    "limours-linoi.webp":     URL_2026_11 + "/limours-linoi.webp",
 }
 
 # Ponctuation typographique et filets -> equivalent ASCII
@@ -359,6 +397,10 @@ def verifier_javascript(nom, js):
 
 
 def construire(nom, page):
+    # L'en-tete d'abord : les avertissements de sans_reperes() sortaient
+    # avant lui, donc sous le titre de la page PRECEDENTE. On lisait
+    # « reperes encore presents » sous accueil pour des reperes de Tarbes.
+    print("== %s (%s)" % (nom, page["source"]))
     chemin = RACINE / page["source"]
     source = chemin.read_text(encoding="utf-8")
 
@@ -392,7 +434,6 @@ def construire(nom, page):
     if perime.exists():
         perime.unlink()
 
-    print("== %s (%s)" % (nom, page["source"]))
     for chemin_sortie, contenu in fichiers.items():
         chemin_sortie.write_text(contenu, encoding="ascii")
         print("   %7d octets  %s" % (chemin_sortie.stat().st_size,
@@ -442,6 +483,10 @@ def main():
     if set(voulues) == set(PAGES):
         morceaux = [en_ascii(EN_TETE_JS)]
         for nom, page in PAGES.items():
+            # Une page qui partage le script d'une autre n'ajoute rien
+            # ici : son script tournerait deux fois (voir PAGES).
+            if page.get("javascript_commun", True) is False:
+                continue
             js = (RACINE / page["sortie"] / ("3-JAVASCRIPT-%s.txt" % nom)).read_text(encoding="ascii")
             morceaux.append(SEPARATEUR_JS % en_ascii(
                 "Page %s (%s)" % (nom, page["source"])))

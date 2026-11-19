@@ -390,7 +390,17 @@
            visiteur reste sur la page au lieu d'&#234;tre redirig&#233; vers Brevo. -->
       <iframe name="usn-brevo" title="Inscription" style="display:none;border:0;width:0;height:0"></iframe>
 
-      <form class="usn-form" id="usn-signup-form" method="POST"
+      <!-- LA VILLE DE CETTE PAGE, DITE UNE SEULE FOIS.
+
+           Le script des reservations est commun a toutes les pages du
+           site : il est injecte par l'extension &#171; CSS et JS
+           personnalises &#187;, donc il ne peut pas savoir de quelle ville
+           il s'occupe. Il le lit ici.
+
+           Le nom doit etre EXACTEMENT celui saisi dans Reservations,
+           et le meme que le champ VILLE envoye a Brevo plus bas. -->
+      <form class="usn-form" id="usn-signup-form"
+            data-usn-evenement="Tarbes 2026" method="POST"
             action="https://f8944495.sibforms.com/serve/MUIFAIs9H4MOwtfawQ-nUiiNQjRmcSNQ51wCfEkSkK4X91IeG5GyZDWqGDV3oD_sUQHzLsQUO6Ky6EqX9G_I6VWvy8H5St2aXpxdhmXp81Jkl34fooTe9ukSalttOBmz1T6EwxTHhs9WLKWs2tBPCT1fhe_uubwAitTQjHmRHfmqBxQBcLifIZRDcFP9W3Vvzs_hPEa9_OySJBsT"
             target="usn-brevo" novalidate>
         <div class="usn-form-row">

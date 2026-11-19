@@ -1,0 +1,516 @@
+<section id="usn-event">
+
+  <!-- ============================================================= -->
+  <!-- H&#201;ROS &#8212; vid&#233;o de fond + compte &#224; rebours                      -->
+  <!-- ============================================================= -->
+  <header class="usn-hero">
+
+    <!-- Navigation de retour vers le site (le bandeau du theme est masque ici) -->
+    <nav class="usn-nav">
+      <a class="usn-nav-brand" href="https://unseulnom.org/">
+        <span class="usn-nav-fleche" aria-hidden="true">&#8592;</span> Un Seul Nom
+      </a>
+      <!-- Depuis une ville, on doit pouvoir remonter a la liste des dates
+           sans repasser par l'accueil. -->
+      <a class="usn-nav-dates" href="https://unseulnom.org/evenement/">Toutes les dates</a>
+      <a class="usn-nav-don" href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3" target="_blank" rel="noopener noreferrer">Faire un don</a>
+    </nav>
+
+    <!--
+      &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+      &#9658; VID&#201;O DE FOND
+
+      Tant qu'aucune vid&#233;o n'est indiqu&#233;e, le d&#233;grad&#233; sombre s'affiche :
+      la page reste belle, il n'y a pas d'image cass&#233;e.
+
+      POUR CHANGER DE VID&#201;O
+      1. M&#233;dias &#8594; Ajouter un fichier m&#233;dia, envoyez le .mp4, puis copiez
+         &#171; URL du fichier &#187; (elle finit par .mp4).
+      2. Remplacez l'adresse dans la ligne <source ...> ci-dessous.
+      3. Mettez la page &#224; jour. Le son est coup&#233; et la lecture tourne en
+         boucle d'elle-m&#234;me.
+
+      LE FICHIER
+      .mp4, muet (sans piste audio : sans quoi les navigateurs refusent
+      de lancer la lecture tout seuls), 10 &#224; 20 secondes, 1280 &#215; 720
+      suffisent largement, et moins de 5 Mo si possible : c'est ce que
+      chaque visiteur telechargera, telephone compris.
+
+      POSTER (facultatif)
+      poster="adresse d'une image" affiche cette image le temps du
+      chargement de la vid&#233;o.
+      &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+    -->
+    <div class="usn-hero-media">
+      <video class="usn-hero-video" autoplay muted loop playsinline
+             poster="https://unseulnom.org/wp-content/uploads/2026/11/affichelimourslarge.webp">
+        <!-- Plusieurs fichiers, dans cet ordre : le navigateur prend le
+             premier qui repond. La bande-annonce de Limours d'abord ;
+             tant qu'elle n'est pas dans la mediatheque, celle du site
+             tient la place, et derriere elle l'affiche de Limours.
+
+             &#9658; A ENVOYER DANS LA MEDIATHEQUE : video/teaser-limours.mp4
+               (le film recu le 18 novembre, reencode pour le web : 78 s,
+               4,9 Mo, piste audio conservee pour le bouton &#171; Activer le
+               son &#187;). Une fois envoye, verifier que l'adresse ci-dessous
+               est bien celle que WordPress affiche. -->
+        <source src="https://unseulnom.org/wp-content/uploads/2026/11/teaser-limours.mp4" type="video/mp4" />
+        <source src="https://unseulnom.org/wp-content/uploads/2026/10/teaserv4.mp4" type="video/mp4" />
+      </video>
+
+      <div class="usn-hero-overlay"></div>
+    </div>
+
+    <!--
+      &#9658; SON &#8212; la lecture automatique n'est autorisee que sans son. Ce
+      bouton permet au visiteur de l'activer d'un clic. S'il n'y a pas de
+      piste audio dans la video, le script retire le bouton tout seul.
+    -->
+    <!--
+      &#9658; COMPTE &#192; REBOURS
+      R&#233;glez data-target sur la date + heure de l'&#233;v&#233;nement (format ISO).
+      Ex. le 28 mars 2026 &#224; 18h00 : data-target="2026-03-28T18:00:00"
+      (une fois la date pass&#233;e, le compteur reste &#224; z&#233;ro).
+    -->
+    <div class="usn-countdown" id="usn-countdown" data-target="2027-01-02T16:00:00">
+
+      <!--
+        &#9658; SON &#8212; la lecture automatique n'est autorisee que sans son. Ce
+        bouton rend la main au visiteur. Il est place ici, et non dans la
+        video, pour se caler juste au-dessus du compte a rebours quelle
+        que soit la hauteur de celui-ci. Sans piste audio dans le fichier,
+        le script le retire de lui-meme.
+      -->
+      <button type="button" class="usn-son" id="usn-son" aria-pressed="false">
+        <span class="usn-son-icone" aria-hidden="true">&#9834;</span>
+        <span class="usn-son-texte">Activer le son</span>
+      </button>
+
+      <div class="usn-cd-grid">
+        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="days">0</span><span class="usn-cd-lab">Jours</span></div>
+        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="hours">00</span><span class="usn-cd-lab">Heures</span></div>
+        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="mins">00</span><span class="usn-cd-lab">Min</span></div>
+        <div class="usn-cd-item"><span class="usn-cd-num" data-cd="secs">00</span><span class="usn-cd-lab">Sec</span></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================= -->
+  <!-- BANDEAU TITRE                                                  -->
+  <!-- Le titre a quitte la video : le teaser porte deja ses propres  -->
+  <!-- ecritures, les deux se chevauchaient. Il a maintenant son      -->
+  <!-- propre bandeau, ou rien ne vient le gener.                     -->
+  <!-- ============================================================= -->
+  <div class="usn-titre">
+    <div class="usn-wrap">
+      <!--
+        &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+        &#9658; &#201;V&#201;NEMENT &#8212; modifiez les textes ci-dessous
+        &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+      -->
+      <div class="usn-logo-mark usn-logo-blanc usn-titre-logo" role="img" aria-label="Un Seul Nom"></div>
+
+      <!-- Le grand mot : la ville de l'&#233;v&#233;nement -->
+      <h1>Limours</h1>
+
+      <div class="usn-hero-tagline">&#201;vang&#233;lisation &amp; R&#233;veil</div>
+      <div class="usn-hero-date">Samedi 2 janvier 2027</div>
+
+      <!--
+        Les deux boutons sont les seuls elements animes de ce bandeau :
+        ils arrivent chacun d'un bord et se rejoignent au centre.
+      -->
+      <div class="usn-hero-cta">
+        <a href="#usn-inscription" class="usn-btn usn-btn-primary" data-usn-gauche>Je m'inscris</a>
+        <a href="#usn-programme" class="usn-btn usn-btn-outline" data-usn-droite>L'&#233;v&#233;nement</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- L'&#201;V&#201;NEMENT / AU PROGRAMME                                     -->
+  <!-- ============================================================= -->
+  <div id="usn-programme" class="usn-section">
+    <div class="usn-wrap">
+      <div class="usn-section-head">
+        <span class="usn-eyebrow">Le programme</span>
+        <h2>Le d&#233;roul&#233; de l'apr&#232;s-midi</h2>
+        <p>Une apr&#232;s-midi ouverte &#224; tous.</p>
+      </div>
+
+      <!--
+        &#9658; PROGRAMME &#8212; chaque panneau glisse depuis la gauche au scroll.
+        Ajoutez une photo &#224; droite en rempla&#231;ant VOTRE_PHOTO...  (repli : ic&#244;ne).
+      -->
+      <div class="usn-program">
+        <div class="usn-prog" data-usn-appear>
+          <div class="usn-prog-body">
+            <div class="usn-prog-time">15h00</div>
+            <div class="usn-prog-title">Ouverture des portes</div>
+            <p class="usn-prog-text">Accueil du public. Entr&#233;e libre, viens comme tu es et invite autour de toi.</p>
+          </div>
+          <div class="usn-prog-media">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme1.webp" alt="" onerror="this.remove()" />
+          </div>
+        </div>
+
+        <div class="usn-prog" data-usn-appear>
+          <div class="usn-prog-body">
+            <div class="usn-prog-time">16h00 &#183; D&#233;but de la conf&#233;rence</div>
+            <div class="usn-prog-title">Louange</div>
+            <p class="usn-prog-text">Un temps d'adoration conduit par la Chorale de Limours et Lino&#239; Chabot.</p>
+          </div>
+          <div class="usn-prog-media">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="Temps de louange" loading="lazy" onerror="this.remove()" />
+          </div>
+        </div>
+
+        <div class="usn-prog" data-usn-appear>
+          <div class="usn-prog-body">
+            <div class="usn-prog-time">La Parole</div>
+            <div class="usn-prog-title">Pr&#233;dication</div>
+            <p class="usn-prog-text">La bonne nouvelle de l'&#201;vangile annonc&#233;e par Chriss Campion et No&#233; Mallet.</p>
+          </div>
+          <div class="usn-prog-media">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme3.webp" alt="Pr&#233;dication sur sc&#232;ne" loading="lazy" onerror="this.remove()" />
+          </div>
+        </div>
+
+        <div class="usn-prog" data-usn-appear>
+          <div class="usn-prog-body">
+            <div class="usn-prog-time">En cl&#244;ture</div>
+            <div class="usn-prog-title">&#201;vang&#233;lisation &amp; R&#233;veil</div>
+            <p class="usn-prog-text">Un appel &#224; suivre J&#233;sus et un temps de pri&#232;re pour les malades et les c&#339;urs bless&#233;s.</p>
+          </div>
+          <div class="usn-prog-media">
+            <img src="https://unseulnom.org/wp-content/uploads/2026/10/evangelisation.webp" alt="Temps de pri&#232;re et d'imposition des mains"
+                 loading="lazy" onerror="this.remove()" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Infos pratiques -->
+      <div class="usn-facts">
+        <div class="usn-fact">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/></svg>
+          <div><div class="usn-fact-k">Date</div><div class="usn-fact-v">Samedi 2 janvier 2027</div></div>
+        </div>
+        <div class="usn-fact">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg>
+          <div><div class="usn-fact-k">Horaires</div><div class="usn-fact-v">Portes 15h &#183; Conf&#233;rence 16h</div></div>
+        </div>
+        <div class="usn-fact">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+          <div>
+            <div class="usn-fact-k">Lieu</div>
+            <!-- &#9658; LIEU &#8212; a completer des que la salle est connue. Le nom et
+                 l'adresse se changent ici, et dans le lien Google Maps
+                 juste en dessous. -->
+            <div class="usn-fact-v">Limours</div>
+            <div class="usn-fact-k" style="text-transform:none; letter-spacing:0; margin-top:3px;">D&#233;partement de l'Essonne (91)</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:20px;">
+        <a class="usn-btn usn-btn-dark"
+           href="https://www.google.com/maps/search/?api=1&query=Limours+91470"
+           target="_blank" rel="noopener noreferrer">Voir l'itin&#233;raire</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- INTERVENANTS                                                   -->
+  <!-- ============================================================= -->
+  <div class="usn-section" style="padding-top:0; padding-bottom:48px;">
+    <div class="usn-wrap">
+      <!-- Bouton / pill avec la date -->
+      <div class="usn-datepill">
+        <div class="usn-datepill-d">Samedi 2 janvier 2027</div>
+        <div class="usn-datepill-v">Limours <span class="usn-star">&#10022;</span> Essonne (91)</div>
+      </div>
+
+      <div class="usn-section-head" style="text-align:center; margin:38px auto 0;">
+        <span class="usn-eyebrow" style="justify-content:center;">Intervenants</span>
+        <h2>Ils seront l&#224;</h2>
+      </div>
+
+      <!--
+        &#9658; INTERVENANTS &#8212; cartes qui apparaissent au scroll.
+
+        Les quatre noms sont ceux de l'affiche de Limours, dans son
+        ordre de lecture.
+
+        &#9658; LES PORTRAITS NE SONT PAS ENCORE DECOUPES. Tant qu'une image
+          manque, la carte affiche les initiales sur un aplat de la
+          charte &#8212; ce qui est volontaire et propre, pas une image
+          cass&#233;e. D&#232;s que les photos sont l&#224;, il suffit de les d&#233;poser
+          dans images/ sous les noms indiqu&#233;s ci-dessous.
+      -->
+      <!-- Pr&#233;dication : 2 intervenants -->
+      <div class="usn-people usn-people-2">
+        <figure class="usn-person" data-usn-appear>
+          <div class="usn-person-photo">
+            <span class="usn-person-mono">CC</span>
+            <img src="https://unseulnom.org/wp-content/uploads/2026/11/limours-chriss.webp" alt="Chriss Campion" onerror="this.remove()" />
+          </div>
+          <figcaption>
+            <div class="usn-person-name">Chriss Campion</div>
+            <div class="usn-person-role">Pr&#233;dication</div>
+          </figcaption>
+        </figure>
+        <figure class="usn-person" data-usn-appear>
+          <div class="usn-person-photo">
+            <span class="usn-person-mono">NM</span>
+            <img src="https://unseulnom.org/wp-content/uploads/2026/11/limours-noe.webp" alt="No&#233; Mallet" onerror="this.remove()" />
+          </div>
+          <figcaption>
+            <div class="usn-person-name">No&#233; Mallet</div>
+            <div class="usn-person-role">Pr&#233;dication</div>
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- Louange : 2 intervenants -->
+      <div class="usn-people usn-people-2">
+        <figure class="usn-person" data-usn-appear>
+          <div class="usn-person-photo">
+            <span class="usn-person-mono">CL</span>
+            <img src="https://unseulnom.org/wp-content/uploads/2026/11/limours-chorale.webp" alt="Chorale de Limours" onerror="this.remove()" />
+          </div>
+          <figcaption>
+            <div class="usn-person-name">Chorale de Limours</div>
+            <div class="usn-person-role">Louange</div>
+          </figcaption>
+        </figure>
+        <figure class="usn-person" data-usn-appear>
+          <div class="usn-person-photo">
+            <span class="usn-person-mono">LC</span>
+            <img src="https://unseulnom.org/wp-content/uploads/2026/11/limours-linoi.webp" alt="Lino&#239; Chabot" onerror="this.remove()" />
+          </div>
+          <figcaption>
+            <div class="usn-person-name">Lino&#239; Chabot</div>
+            <div class="usn-person-role">Louange</div>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- PUNCHLINE (fond clair, photos qui arrivent des c&#244;t&#233;s)         -->
+  <!-- ============================================================= -->
+  <div class="usn-section usn-punch" id="usn-punch"
+       style="padding-top: 40px; padding-bottom: clamp(160px, 25vw, 280px);">
+
+    <!--
+      &#9658; PHOTOS LAT&#201;RALES &#8212; elles glissent depuis les bords au scroll.
+      Remplacez VOTRE_PHOTO_AMBIANCE_x.jpg par vos photos (foule, louange,
+      pri&#232;re&#8230;). Sans photo, un aplat orange s'affiche.
+    -->
+
+    <div class="usn-wrap">
+      <!--
+        &#9658; PUNCHLINE &#8212; les mots se rassemblent au scroll (effet type vouscon).
+        Sans JavaScript, le texte s'affiche normalement (assembl&#233;).
+      -->
+      <span class="usn-eyebrow" style="justify-content:center; width:100%;">L'invitation</span>
+      <p class="usn-punch-line usn-punch-1" data-usn-reveal style="margin-top:20px;">Viens tel que tu es,</p>
+      <p class="usn-punch-line usn-punch-2" data-usn-reveal>repars transform&#233; par</p>
+      <p class="usn-punch-line usn-punch-3" data-usn-reveal>un seul nom : J&#233;sus-Christ.</p>
+      <p class="usn-punch-sub" data-usn-sub>
+        Le 2 janvier &#224; Limours, une place t'attend. Entr&#233;e libre &#8212; viens avec
+        ta famille, tes amis, ceux que tu portes dans ton c&#339;ur.
+      </p>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- DEUX CARTES D'ACTION (&#224; cheval sur la bande)                  -->
+  <!-- ============================================================= -->
+  <div class="usn-wrap">
+    <div class="usn-cta-cards">
+      <!-- Carte 1 : Inscription -->
+      <div class="usn-cta-card usn-ink">
+        <div class="usn-cta-eyebrow">Samedi 2 janvier 2027 &#183; Limours</div>
+        <div class="usn-cta-title">Inscris-toi</div>
+        <p class="usn-cta-text">R&#233;serve ta place gratuitement pour l'apr&#232;s-midi d'&#233;vang&#233;lisation et de r&#233;veil.</p>
+        <div class="usn-cta-actions">
+          <a href="#usn-inscription" class="usn-cta-btn fill">Je m'inscris</a>
+          <a href="#usn-programme" class="usn-cta-btn line">En savoir plus</a>
+        </div>
+      </div>
+      <!-- Carte 2 : Soutien -->
+      <div class="usn-cta-card usn-red">
+        <div class="usn-cta-eyebrow">Partenaire de la mission</div>
+        <div class="usn-cta-title">Soutiens la mission</div>
+        <p class="usn-cta-text">Aide-nous &#224; porter l'&#201;vangile en France : chaque don fait avancer l'&#339;uvre.</p>
+        <div class="usn-cta-actions">
+          <!-- &#9658; Remplacez le lien ci-dessous par votre page de don (HelloAsso, etc.) -->
+          <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3?utm_source=app_ha&amp;utm_campaign=share_campaign_button&amp;utm_medium=ios" target="_blank" rel="noopener noreferrer" class="usn-cta-btn fill">Faire un don</a>
+          <a href="https://www.helloasso.com/associations/eglise-protestante-tziganes/formulaires/3?utm_source=app_ha&amp;utm_campaign=share_campaign_button&amp;utm_medium=ios" target="_blank" rel="noopener noreferrer" class="usn-cta-btn line">Devenir partenaire</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- INSCRIPTION / NEWSLETTER                                       -->
+  <!-- ============================================================= -->
+  <div id="usn-inscription" class="usn-section usn-signup">
+    <div class="usn-wrap">
+      <div class="usn-section-head" style="margin:0 auto; text-align:center;">
+        <span class="usn-eyebrow" style="justify-content:center;">Inscription</span>
+        <h2>R&#233;serve ta place</h2>
+        <p style="margin-left:auto;margin-right:auto;">
+          Laisse ton nom et ton e-mail : nous te confirmerons ta pr&#233;sence.
+        </p>
+      </div>
+
+      <!-- Compteur de places, rempli par le serveur -->
+      <div class="usn-stock" id="usn-stock">
+        <div class="usn-stock-tete">
+          <span class="usn-stock-num" data-usn-restantes>&mdash;</span>
+          <span class="usn-stock-lab" data-usn-libelle>places restantes</span>
+        </div>
+        <div class="usn-jauge"><span data-usn-jauge></span></div>
+        <p class="usn-stock-avis" data-usn-avis>Toutes les places sont r&#233;serv&#233;es. Merci de ton int&#233;r&#234;t&#160;!</p>
+      </div>
+
+      <!--
+        &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+        &#9658; FORMULAIRE &#8212; comment le connecter (choisir UNE option) :
+
+        OPTION 1 &#8212; Plugin newsletter WordPress (MailPoet, Brevo, Mailchimp&#8230;) :
+           Le plus simple : remplacez tout ce <form> par le shortcode / bloc
+           de formulaire de votre plugin. Sinon, mettez l'URL d'action du
+           plugin dans data-endpoint et v&#233;rifiez les name="...".
+
+        OPTION 2 &#8212; Google Form :
+           Mettez l'URL &#171; formResponse &#187; dans data-endpoint et les
+           identifiants entry.XXXX dans name="entry.XXXX".
+
+        OPTION 3 &#8212; Par e-mail (aucune config) :
+           Laissez data-endpoint vide : le formulaire affiche un message de
+           confirmation et pr&#233;pare un e-mail pr&#233;-rempli vers data-mailto.
+        &#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+      -->
+      <!-- Le formulaire est envoy&#233; dans l'iframe cach&#233; ci-dessous : le
+           visiteur reste sur la page au lieu d'&#234;tre redirig&#233; vers Brevo. -->
+      <iframe name="usn-brevo" title="Inscription" style="display:none;border:0;width:0;height:0"></iframe>
+
+      <!-- LA VILLE DE CETTE PAGE, DITE UNE SEULE FOIS.
+
+           Le script des reservations est commun a toutes les pages du
+           site : il est injecte par l'extension &#171; CSS et JS
+           personnalises &#187;, donc il ne peut pas savoir de quelle ville
+           il s'occupe. Il le lit ici.
+
+           Le nom doit etre EXACTEMENT celui saisi dans Reservations,
+           et le meme que le champ VILLE envoye a Brevo plus bas. -->
+      <form class="usn-form" id="usn-signup-form"
+            data-usn-evenement="Limours 2027" method="POST"
+            action="https://f8944495.sibforms.com/serve/MUIFAIs9H4MOwtfawQ-nUiiNQjRmcSNQ51wCfEkSkK4X91IeG5GyZDWqGDV3oD_sUQHzLsQUO6Ky6EqX9G_I6VWvy8H5St2aXpxdhmXp81Jkl34fooTe9ukSalttOBmz1T6EwxTHhs9WLKWs2tBPCT1fhe_uubwAitTQjHmRHfmqBxQBcLifIZRDcFP9W3Vvzs_hPEa9_OySJBsT"
+            target="usn-brevo" novalidate>
+        <div class="usn-form-row">
+          <div class="usn-field">
+            <label for="usn-nom">Nom</label>
+            <input id="usn-nom" name="NOM" type="text" placeholder="Ton nom" required />
+          </div>
+          <div class="usn-field">
+            <label for="usn-email">Adresse e-mail</label>
+            <input id="usn-email" name="EMAIL" type="email" placeholder="ton@email.com" required />
+          </div>
+        </div>
+
+        <!-- Nombre de places : les choix sont g&#233;n&#233;r&#233;s selon la limite du serveur -->
+        <div class="usn-field" id="usn-champ-places" style="display:none">
+          <span class="usn-field-label">Nombre de places</span>
+          <div class="usn-places" id="usn-places" role="radiogroup" aria-label="Nombre de places"></div>
+          <p class="usn-hint" data-usn-hint></p>
+        </div>
+
+        <!-- CE QUE BREVO RECOIT EN PLUS DU NOM ET DE L'ADRESSE.
+
+             Brevo ne recevait que NOM et EMAIL. Il ne pouvait donc ni
+             ecrire &#171; 2 places &#187; sur le billet, ni distinguer un inscrit
+             a Limours d'un simple abonne a la lettre : tout le monde
+             arrivait dans le meme tas.
+
+             &#9658; QUAND ON CHANGE DE VILLE, la ligne VILLE ci-dessous est la
+               SEULE a modifier dans cette page.
+
+             Ces champs ne sont enregistres que si les attributs du meme
+             nom existent dans Brevo (voir BREVO.md). Tant qu'ils
+             n'existent pas, Brevo les ignore sans erreur : rien ne
+             casse, mais rien n'est garde non plus. -->
+        <input type="hidden" name="VILLE" value="Limours 2027" />
+        <input type="hidden" name="SOURCE" value="reservation" />
+        <input type="hidden" name="PLACES" id="usn-brevo-places" value="" />
+
+        <!-- Pi&#232;ge anti-robot de Brevo : ce champ doit rester vide. -->
+        <input type="text" name="email_address_check" value="" tabindex="-1"
+               aria-hidden="true" autocomplete="off"
+               style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+        <input type="hidden" name="locale" value="fr" />
+
+        <button type="submit" class="usn-btn usn-btn-primary">Je m'inscris &#224; l'&#233;v&#233;nement</button>
+        <p class="usn-consent">
+          En t'inscrivant, tu acceptes de recevoir des informations de la part
+          d'Un Seul Nom. D&#233;sinscription possible &#224; tout moment.
+        </p>
+      </form>
+
+      <div class="usn-err" id="usn-form-err" role="alert"></div>
+
+      <!-- Logo, en cloture de la section d'inscription -->
+      <div class="usn-logo-fin">
+        <div class="usn-logo-mark usn-logo-noir" role="img" aria-label="Un Seul Nom"></div>
+      </div>
+
+      <div class="usn-msg" id="usn-form-msg" role="status" aria-live="polite">
+        &#128591; Merci&nbsp;! Ton inscription est bien prise en compte. &#192; tr&#232;s bient&#244;t.
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- AUTRES DATES (optionnel &#8212; supprimez ce bloc si inutile)        -->
+  <!-- ============================================================= -->
+  <div class="usn-section" style="padding-top:0;">
+    <div class="usn-wrap">
+      <div class="usn-section-head">
+        <span class="usn-eyebrow">Prochaines dates</span>
+        <h2>De ville en ville</h2>
+      </div>
+      <div class="usn-dates">
+        <!-- &#9658; Ajoutez d'autres villes/dates en dupliquant une ligne ci-dessous -->
+        <div class="usn-date-row">
+          <div>
+            <div class="usn-dr-when">Samedi 2 janvier 2027</div>
+            <div class="usn-dr-title">Un Seul Nom &#183; Limours</div>
+            <div class="usn-dr-place">Limours &#8212; Essonne (91)</div>
+          </div>
+          <a href="#usn-inscription" class="usn-btn usn-btn-dark">S'inscrire</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- FOOTER                                                         -->
+  <!-- ============================================================= -->
+  <footer class="usn-footer">
+    <div class="usn-wrap">
+      <div class="usn-logo-mark usn-logo-blanc usn-footer-mark" role="img" aria-label="Un Seul Nom"></div>
+      <div class="usn-footer-logo">Un Seul Nom</div>
+      <p style="margin-top:10px;">&#169; 2026 Un seul Nom. Tous droits r&#233;serv&#233;s.</p>
+      <p style="margin-top:14px;">
+        <a href="https://unseulnom.org/">Retour au site</a> &nbsp;&#183;&nbsp;
+        <a href="https://unseulnom.org/evenement/">Toutes les dates</a> &nbsp;&#183;&nbsp;
+        <a href="https://unseulnom.org/newsletter/">Actualit&#233;s</a>
+      </p>
+    </div>
+  </footer>
+
+</section>
