@@ -6,9 +6,17 @@ Trois pages à poser, plus **un seul fichier JavaScript** pour tout le site :
 |---|---|---|---|
 | 1 | **Accueil** | `unseulnom.org` | `accueil-a-coller-dans-wordpress.html` |
 | 2 | **À venir** (page parente) | `unseulnom.org/evenement/` | `agenda-a-coller-dans-wordpress.html` |
-| 3 | **Tarbes** (page fille) | `unseulnom.org/evenement/tarbes/` | `a-coller-dans-wordpress.html` |
-| 4 | **Actualites** | `unseulnom.org/actualites/` | `actualites-a-coller-dans-wordpress.html` (voir `wordpress-actualites/CREER-LA-PAGE.md`) |
-| 5 | *(tout le site)* | — | `wordpress-javascript-du-site.txt` |
+| 3 | **Tarbes** (page fille) | `unseulnom.org/evenement/tarbes/` | `tarbes-a-coller-dans-wordpress.html` |
+| 4 | **Limours** (page fille) | `unseulnom.org/evenement/limours/` | `limours-a-coller-dans-wordpress.html` |
+| 5 | **Actualites** | `unseulnom.org/actualites/` | `actualites-a-coller-dans-wordpress.html` (voir `wordpress-actualites/CREER-LA-PAGE.md`) |
+| 6 | *(tout le site)* | — | `wordpress-javascript-du-site.txt` |
+
+> **Un fichier, un bloc.** Les fichiers `…-a-coller-dans-wordpress.html`
+> contiennent **le style ET le contenu** : un seul bloc « HTML
+> personnalisé » par page, et rien d'autre à faire. Les dossiers
+> `wordpress-…/` contiennent les mêmes choses séparées (`1-HTML`,
+> `2-CSS`) — ils ne servent QUE si l'éditeur refuse un bloc aussi long.
+> Dans le doute, prends le fichier d'un seul tenant.
 
 Compte **une bonne heure** la première fois. Aucune compétence technique
 n'est nécessaire : tout se fait par copier-coller.
@@ -133,6 +141,42 @@ la même façon.
    Vérifie-la dans **Permalien** avant de publier.
 4. Bloc **HTML personnalisé**, et colle `a-coller-dans-wordpress.html`
 5. Modèle **pleine largeur**, **Prévisualiser**, **Publier**
+
+---
+
+## Étape 2 ter — Créer la page « Limours »
+
+Exactement comme Tarbes. C'est une **page fille** elle aussi, et c'est
+ce qui lui donne son adresse : sans parent, elle naîtrait sur
+`unseulnom.org/limours/` et le lien `evenement/limours/` continuerait
+de répondre **404**.
+
+1. **Pages → Ajouter une page**
+2. Titre : **`Limours`**
+3. À droite, **Attributs de page → Parent** : choisis **Événement**.
+   Vérifie dans **Permalien** que tu lis bien
+   `unseulnom.org/evenement/limours/` **avant** de publier.
+4. Bloc **HTML personnalisé**, et colle `limours-a-coller-dans-wordpress.html`
+5. Modèle **pleine largeur**, **Prévisualiser**, **Publier**
+
+Puis, et seulement pour cette ville :
+
+6. **Médias → Ajouter** : `teaser-limours.mp4`,
+   `affichelimourslarge.webp`, `affichelimours.webp`. Vérifie que
+   l'« URL du fichier » commence bien par
+   `…/wp-content/uploads/2026/11/`. Si c'est un autre mois, dis-le moi :
+   je change une ligne et je régénère.
+7. **Réservations → ouvrir une ville** nommée **exactement**
+   `Limours 2027`. Au caractère près : c'est ce nom qui est écrit dans
+   la page et dans ce qui part vers Brevo. Date du 02/01/2027, clôture
+   au 03/01/2027 pour armer le rappel automatique à J-2.
+
+> **L'ordre compte, pour une seule raison.** Le script du site lit
+> désormais la ville dans la page (`data-usn-evenement`). Tant que la
+> page de Tarbes ne porte pas cet attribut, elle ne compterait plus rien
+> avec le nouveau script. Donc : **Tarbes d'abord, le JavaScript
+> ensuite, Limours enfin.** Pendant la première étape, l'ancien script
+> ignore simplement le nouvel attribut — rien ne casse.
 
 ---
 
