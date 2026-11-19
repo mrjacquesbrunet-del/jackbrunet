@@ -848,7 +848,6 @@
   <div class="usn-defile" aria-hidden="true">
     <div class="usn-defile-piste">
       <div class="usn-defile-suite">
-        <b>Madagascar</b> <span>14.11.26</span> <i>&#10022;</i>
         <b>Tarbes</b> <span>12.12.26</span> <i>&#10022;</i>
         <b>Limours</b> <span>02.01.27</span> <i>&#10022;</i>
         <b>Marseille</b> <span>06.03.27</span> <i>&#10022;</i>
@@ -856,7 +855,6 @@
         <b>Toulouse</b> <span>11.27</span> <i>&#10022;</i>
       </div>
       <div class="usn-defile-suite">
-        <b>Madagascar</b> <span>14.11.26</span> <i>&#10022;</i>
         <b>Tarbes</b> <span>12.12.26</span> <i>&#10022;</i>
         <b>Limours</b> <span>02.01.27</span> <i>&#10022;</i>
         <b>Marseille</b> <span>06.03.27</span> <i>&#10022;</i>
@@ -923,38 +921,23 @@
       </div>
 
       <div class="usn-tourne-barres" id="usn-tourne-barres">
+        <!-- UNE BARRE PAR CARTE, ET DANS LE MEME ORDRE. L'attribut
+             data-usn-va est l'INDICE de la carte, pas son numero
+             d'affichage : retirer une ville sans renumeroter laisse un
+             trou, et chaque barre pointe alors sur la carte suivante. -->
         <button type="button" class="usn-tourne-barre" data-usn-va="0"
-                aria-label="Madagascar, 14 novembre 2026"><i><b></b></i><em>Madagascar</em></button>
-        <button type="button" class="usn-tourne-barre" data-usn-va="1"
                 aria-label="Tarbes, 12 d&eacute;cembre 2026"><i><b></b></i><em>Tarbes</em></button>
-        <button type="button" class="usn-tourne-barre" data-usn-va="2"
+        <button type="button" class="usn-tourne-barre" data-usn-va="1"
                 aria-label="Limours, 2 janvier 2027"><i><b></b></i><em>Limours</em></button>
-        <button type="button" class="usn-tourne-barre" data-usn-va="3"
+        <button type="button" class="usn-tourne-barre" data-usn-va="2"
                 aria-label="Marseille, 6 mars 2027"><i><b></b></i><em>Marseille</em></button>
-        <button type="button" class="usn-tourne-barre" data-usn-va="4"
+        <button type="button" class="usn-tourne-barre" data-usn-va="3"
                 aria-label="Bordeaux, 15 mai 2027"><i><b></b></i><em>Bordeaux</em></button>
-        <button type="button" class="usn-tourne-barre" data-usn-va="5"
+        <button type="button" class="usn-tourne-barre" data-usn-va="4"
                 aria-label="Toulouse, novembre 2027"><i><b></b></i><em>Toulouse</em></button>
       </div>
 
       <div class="usn-tourne-cadre" id="usn-tourne-cadre">
-
-        <article class="usn-vue" data-usn-duree="4200">
-          <div class="usn-vue-affiche">
-            <img src="https://unseulnom.org/wp-content/uploads/2026/10/affichemadagascar.webp"
-                 alt="Affiche Un Seul Nom &agrave; Antananarivo, 14 novembre 2026"
-                 loading="lazy" onerror="this.remove()" />
-          </div>
-          <div class="usn-vue-texte">
-            <div class="usn-vue-quand">Samedi 14 novembre 2026</div>
-            <h3 class="usn-vue-ville">Madagascar</h3>
-            <p class="usn-vue-lieu">Salle Havoria Anosy &middot; Antananarivo &middot; 9h00 &agrave; 12h30 et 14h00 &agrave; 17h00</p>
-            <p class="usn-vue-invites">Pr&eacute;dication&nbsp;: Pasteur Jack Brunet, Pasteur Patane, Pasteur Mahandry Raherivahatr'aina &middot; Louange&nbsp;: Bodokely</p>
-            <div class="usn-vue-actions">
-              <span class="usn-pastille usn-attente">Bient&ocirc;t</span>
-            </div>
-          </div>
-        </article>
 
         <article class="usn-vue" data-usn-duree="9000">
           <div class="usn-vue-affiche">
@@ -1145,18 +1128,6 @@
       <div class="usn-an"><b>2026</b></div>
 
       <div class="usn-ligne">
-        <div class="usn-jour"><b>14</b><span>Novembre</span></div>
-        <div>
-          <div class="usn-ville">Madagascar</div>
-          <div class="usn-lieu">Salle Havoria Anosy &middot; Antananarivo &middot; 9h00 &agrave; 12h30 et 14h00 &agrave; 17h00</div>
-          <div class="usn-invites">Pr&eacute;dication&nbsp;: Pasteur Jack Brunet, Pasteur Patane, Pasteur Mahandry Raherivahatr'aina &middot; Louange&nbsp;: Bodokely</div>
-        </div>
-        <div class="usn-etat">
-          <span class="usn-pastille usn-attente">Bient&ocirc;t</span>
-        </div>
-      </div>
-
-      <div class="usn-ligne">
         <div class="usn-jour"><b>12</b><span>D&eacute;cembre</span></div>
         <div>
           <div class="usn-ville">Tarbes <span style="opacity:.55">(65)</span></div>
@@ -1171,15 +1142,21 @@
 
       <div class="usn-an"><b>2027</b></div>
 
+      <!-- La meme ville figure DEUX FOIS sur cette page : en carte dans
+           le carrousel du haut, et en ligne dans le calendrier ici. Les
+           deux se modifient ensemble, sans quoi la page se contredit
+           elle-meme &#8212; une affiche et quatre noms en haut, &#171; intervenants
+           a annoncer &#187; trente centimetres plus bas. -->
       <div class="usn-ligne">
         <div class="usn-jour"><b>02</b><span>Janvier</span></div>
         <div>
           <div class="usn-ville">Limours <span style="opacity:.55">(91)</span></div>
-          <div class="usn-lieu">Lieu et horaires &agrave; confirmer</div>
-          <div class="usn-invites">Intervenants &agrave; annoncer</div>
+          <div class="usn-lieu">D&eacute;partement de l'Essonne &middot; lieu et horaires &agrave; confirmer</div>
+          <div class="usn-invites">Pr&eacute;dication&nbsp;: Chriss Campion, No&eacute; Mallet &middot; Louange&nbsp;: Chorale de Limours, Lino&iuml; Chabot</div>
         </div>
         <div class="usn-etat">
-          <span class="usn-pastille usn-attente">Bient&ocirc;t</span>
+          <span class="usn-pastille">Inscriptions ouvertes</span>
+          <a class="usn-reserver" href="https://unseulnom.org/evenement/limours/">R&eacute;server <span aria-hidden="true">&#8594;</span></a>
         </div>
       </div>
 
