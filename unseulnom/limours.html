@@ -435,6 +435,11 @@
 
   /* Intervenants — cartes photos qui apparaissent au scroll */
   #usn-event .usn-people { margin: 26px auto 0; display: grid; gap: 18px; align-items: start; }
+  /* Limours n'a qu'un nom a la louange. Sans cette regle, la carte
+     s'etirerait sur toute la largeur du bloc : une colonne, et la meme
+     largeur qu'une carte de la rangee du dessus, pour que les trois se
+     lisent comme un seul ensemble. */
+  #usn-event .usn-people-1 { grid-template-columns: 1fr; max-width: 291px; }
   #usn-event .usn-people-2 { grid-template-columns: repeat(2, 1fr); max-width: 600px; }
   #usn-event .usn-people-3 { grid-template-columns: repeat(3, 1fr); max-width: 860px; }
   /* Espace entre le groupe prédication et le groupe louange */
@@ -872,7 +877,7 @@
           <div class="usn-prog-body">
             <div class="usn-prog-time">16h00 · Début de la conférence</div>
             <div class="usn-prog-title">Louange</div>
-            <p class="usn-prog-text">Un temps d'adoration conduit par la Chorale de Limours et Linoï Chabot.</p>
+            <p class="usn-prog-text">Un temps d'adoration conduit par Linoï Chabot.</p>
           </div>
           <div class="usn-prog-media">
             <img src="images/programme-2.webp" alt="Temps de louange" loading="lazy" onerror="this.remove()" />
@@ -955,18 +960,23 @@
         Les quatre noms sont ceux de l'affiche de Limours, dans son
         ordre de lecture.
 
-        ► LES PORTRAITS NE SONT PAS ENCORE DECOUPES. Tant qu'une image
-          manque, la carte affiche les initiales sur un aplat de la
-          charte — ce qui est volontaire et propre, pas une image
-          cassée. Dès que les photos sont là, il suffit de les déposer
-          dans images/ sous les noms indiqués ci-dessous.
+        Chriss Campion a déjà sa photo : celle découpée pour Tarbes,
+        déjà dans la médiathèque. On pointe dessus plutôt que d'en
+        demander une seconde — c'est le même homme, et c'est un envoi
+        de moins à faire.
+
+        ► IL EN MANQUE DEUX : Noé Mallet et Linoï Chabot. Tant qu'une
+          image manque, la carte affiche les initiales sur un aplat de
+          la charte — volontaire et propre, pas une image cassée. Dès
+          que les photos sont là, il suffit de les déposer dans images/
+          sous les noms indiqués ci-dessous.
       -->
       <!-- Prédication : 2 intervenants -->
       <div class="usn-people usn-people-2">
         <figure class="usn-person" data-usn-appear>
           <div class="usn-person-photo">
             <span class="usn-person-mono">CC</span>
-            <img src="images/limours-chriss.webp" alt="Chriss Campion" onerror="this.remove()" />
+            <img src="images/tarbes-chriss.webp" alt="Chriss Campion" onerror="this.remove()" />
           </div>
           <figcaption>
             <div class="usn-person-name">Chriss Campion</div>
@@ -985,18 +995,8 @@
         </figure>
       </div>
 
-      <!-- Louange : 2 intervenants -->
-      <div class="usn-people usn-people-2">
-        <figure class="usn-person" data-usn-appear>
-          <div class="usn-person-photo">
-            <span class="usn-person-mono">CL</span>
-            <img src="images/limours-chorale.webp" alt="Chorale de Limours" onerror="this.remove()" />
-          </div>
-          <figcaption>
-            <div class="usn-person-name">Chorale de Limours</div>
-            <div class="usn-person-role">Louange</div>
-          </figcaption>
-        </figure>
+      <!-- Louange : 1 intervenante -->
+      <div class="usn-people usn-people-1">
         <figure class="usn-person" data-usn-appear>
           <div class="usn-person-photo">
             <span class="usn-person-mono">LC</span>

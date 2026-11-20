@@ -71,6 +71,9 @@ bouton, et une inscription envoyée en double.
 | `images/affichelimourslarge.webp` | l'image d'attente du film |
 | `images/affichelimours.webp` | l'affiche verticale |
 
+Rien d'autre : la photo de Chriss Campion est déjà en ligne, et les deux
+portraits manquants n'existent pas encore.
+
 Les adresses attendues sont celles d'un envoi en **novembre 2026**
 (`/wp-content/uploads/2026/11/…`). Si WordPress les range ailleurs, corriger
 `URL_2026_11` dans `generer-fichiers-wordpress.py` et régénérer.
@@ -96,18 +99,21 @@ Tarbes (voir [`BREVO.md`](./BREVO.md)).
 - **Les horaires.** La page reprend ceux de Tarbes — portes 15h, début 16h —
   et le compte à rebours est réglé sur `2027-01-02T16:00:00`.
 - **Les rôles.** L'affiche donne quatre noms sans dire qui fait quoi. La page
-  les répartit ainsi : Chriss Campion et Noé Mallet à la prédication, la
-  Chorale de Limours et Linoï Chabot à la louange.
-- **Les portraits.** Les cartes affichent les initiales sur un aplat de la
-  charte — c'est le repli prévu, pas une image cassée. Pour les remplacer,
-  déposer dans `images/` : `limours-chriss.webp`, `limours-noe.webp`,
-  `limours-chorale.webp`, `limours-linoi.webp`.
+  en retient **trois** : Chriss Campion et Noé Mallet à la prédication, Linoï
+  Chabot à la louange. La Chorale de Limours reste sur l'affiche mais ne
+  figure pas parmi les intervenants.
+- **Les portraits.** Chriss Campion a déjà le sien : la page pointe sur
+  `images/tarbes-chriss.webp`, déjà en ligne, parce que c'est le même homme
+  — un envoi de moins à faire. Il en manque deux, et leurs cartes affichent
+  les initiales en attendant : déposer dans `images/` **`limours-noe.webp`**
+  et **`limours-linoi.webp`**.
 
   > **Qui est qui sur l'affiche.** Vérifié, pas supposé : l'homme de **droite**
   > (veste crème, tablette) est **Chriss Campion** — même visage que sur
-  > l'affiche de Tarbes, où il est nommé. La femme au centre est **Linoï
-  > Chabot** : la bande-annonce affiche son nom sur ce plan. Reste l'homme de
-  > **gauche** (t-shirt brun, barbe poivre et sel), **Noé Mallet**.
+  > l'affiche de Tarbes, où il est nommé, et c'est cette identification qui
+  > autorise à réutiliser sa photo. La femme au centre est **Linoï Chabot** :
+  > la bande-annonce affiche son nom sur ce plan. Reste l'homme de **gauche**
+  > (t-shirt brun, barbe poivre et sel), **Noé Mallet**.
 
 ## Régénérer
 

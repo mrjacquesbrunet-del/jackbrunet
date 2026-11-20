@@ -169,11 +169,11 @@ ADRESSES = {
     # fichiers envoyes.
     "affichelimours.webp":      URL_2026_11 + "/affichelimours.webp",
     "affichelimourslarge.webp": URL_2026_11 + "/affichelimourslarge.webp",
-    # Les portraits de Limours, quand ils seront decoupes. D'ici la, les
-    # cartes affichent les initiales.
-    "limours-chriss.webp":    URL_2026_11 + "/limours-chriss.webp",
+    # Les deux portraits de Limours qui manquent encore. D'ici la, les
+    # cartes affichent les initiales. Chriss Campion n'est pas dans
+    # cette liste : la page pointe sur sa photo de Tarbes, deja en
+    # ligne, parce que c'est le meme homme.
     "limours-noe.webp":       URL_2026_11 + "/limours-noe.webp",
-    "limours-chorale.webp":   URL_2026_11 + "/limours-chorale.webp",
     "limours-linoi.webp":     URL_2026_11 + "/limours-linoi.webp",
 }
 

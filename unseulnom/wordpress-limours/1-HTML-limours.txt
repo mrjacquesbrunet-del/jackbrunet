@@ -158,7 +158,7 @@
           <div class="usn-prog-body">
             <div class="usn-prog-time">16h00 &#183; D&#233;but de la conf&#233;rence</div>
             <div class="usn-prog-title">Louange</div>
-            <p class="usn-prog-text">Un temps d'adoration conduit par la Chorale de Limours et Lino&#239; Chabot.</p>
+            <p class="usn-prog-text">Un temps d'adoration conduit par Lino&#239; Chabot.</p>
           </div>
           <div class="usn-prog-media">
             <img src="https://unseulnom.org/wp-content/uploads/2026/07/programme2.webp" alt="Temps de louange" loading="lazy" onerror="this.remove()" />
@@ -241,18 +241,23 @@
         Les quatre noms sont ceux de l'affiche de Limours, dans son
         ordre de lecture.
 
-        &#9658; LES PORTRAITS NE SONT PAS ENCORE DECOUPES. Tant qu'une image
-          manque, la carte affiche les initiales sur un aplat de la
-          charte &#8212; ce qui est volontaire et propre, pas une image
-          cass&#233;e. D&#232;s que les photos sont l&#224;, il suffit de les d&#233;poser
-          dans images/ sous les noms indiqu&#233;s ci-dessous.
+        Chriss Campion a d&#233;j&#224; sa photo : celle d&#233;coup&#233;e pour Tarbes,
+        d&#233;j&#224; dans la m&#233;diath&#232;que. On pointe dessus plut&#244;t que d'en
+        demander une seconde &#8212; c'est le m&#234;me homme, et c'est un envoi
+        de moins &#224; faire.
+
+        &#9658; IL EN MANQUE DEUX : No&#233; Mallet et Lino&#239; Chabot. Tant qu'une
+          image manque, la carte affiche les initiales sur un aplat de
+          la charte &#8212; volontaire et propre, pas une image cass&#233;e. D&#232;s
+          que les photos sont l&#224;, il suffit de les d&#233;poser dans images/
+          sous les noms indiqu&#233;s ci-dessous.
       -->
       <!-- Pr&#233;dication : 2 intervenants -->
       <div class="usn-people usn-people-2">
         <figure class="usn-person" data-usn-appear>
           <div class="usn-person-photo">
             <span class="usn-person-mono">CC</span>
-            <img src="https://unseulnom.org/wp-content/uploads/2026/11/limours-chriss.webp" alt="Chriss Campion" onerror="this.remove()" />
+            <img src="https://unseulnom.org/wp-content/uploads/2026/10/tarbes-chriss.webp" alt="Chriss Campion" onerror="this.remove()" />
           </div>
           <figcaption>
             <div class="usn-person-name">Chriss Campion</div>
@@ -271,18 +276,8 @@
         </figure>
       </div>
 
-      <!-- Louange : 2 intervenants -->
-      <div class="usn-people usn-people-2">
-        <figure class="usn-person" data-usn-appear>
-          <div class="usn-person-photo">
-            <span class="usn-person-mono">CL</span>
-            <img src="https://unseulnom.org/wp-content/uploads/2026/11/limours-chorale.webp" alt="Chorale de Limours" onerror="this.remove()" />
-          </div>
-          <figcaption>
-            <div class="usn-person-name">Chorale de Limours</div>
-            <div class="usn-person-role">Louange</div>
-          </figcaption>
-        </figure>
+      <!-- Louange : 1 intervenante -->
+      <div class="usn-people usn-people-1">
         <figure class="usn-person" data-usn-appear>
           <div class="usn-person-photo">
             <span class="usn-person-mono">LC</span>

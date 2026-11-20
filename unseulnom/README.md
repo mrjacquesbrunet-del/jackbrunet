@@ -99,3 +99,27 @@ Le script découpe la page en trois parties, remplace les chemins d'images par
 les adresses de la médiathèque, retire les repères des fichiers non encore
 fournis (vidéo, photos d'ambiance) et écrit le tout en **ASCII pur**, ce qui
 évite les accents cassés au copier-coller.
+
+## Vérifier qu'une ville dit la même chose partout
+
+```
+python3 controle-coherence.py            # toutes les villes
+python3 controle-coherence.py limours    # une seule
+```
+
+Une ville figure à **sept endroits** répartis dans trois fichiers, sans
+rien qui les relie : sa page, la carte du carrousel, la ligne du
+calendrier, la frise de l'accueil, les deux menus, la liste des prochains
+rendez-vous et les bandeaux défilants.
+
+> Le 19 novembre, Limours portait son affiche et ses quatre noms dans le
+> carrousel de la page « événement », et « intervenants à annoncer »
+> trente centimètres plus bas, dans le calendrier de la **même page**.
+> Personne ne l'avait vu, parce que les deux blocs ne sont jamais à
+> l'écran en même temps.
+
+Le contrôle lit les fichiers **produits pour WordPress** — ceux qui
+partent vraiment en ligne — et vérifie la date, le nom de l'événement
+côté page *et* côté Brevo, la liste des intervenants, les noms retirés
+qui ne doivent pas réapparaître, et les liens qui mènent à la page.
+À lancer après chaque régénération.

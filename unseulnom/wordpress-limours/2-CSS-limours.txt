@@ -398,6 +398,11 @@
 
   /* Intervenants - cartes photos qui apparaissent au scroll */
   #usn-event .usn-people { margin: 26px auto 0; display: grid; gap: 18px; align-items: start; }
+  /* Limours n'a qu'un nom a la louange. Sans cette regle, la carte
+     s'etirerait sur toute la largeur du bloc : une colonne, et la meme
+     largeur qu'une carte de la rangee du dessus, pour que les trois se
+     lisent comme un seul ensemble. */
+  #usn-event .usn-people-1 { grid-template-columns: 1fr; max-width: 291px; }
   #usn-event .usn-people-2 { grid-template-columns: repeat(2, 1fr); max-width: 600px; }
   #usn-event .usn-people-3 { grid-template-columns: repeat(3, 1fr); max-width: 860px; }
   /* Espace entre le groupe predication et le groupe louange */
