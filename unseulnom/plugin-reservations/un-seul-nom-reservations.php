@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Un Seul Nom - Reservations
  * Description: Reservation de places pour les evenements Un Seul Nom : compteur de places, limite par reservation, liste des inscrits et export CSV. Une ville apres l'autre, sans perdre les inscrits des precedentes.
- * Version:     1.5.2
+ * Version:     1.5.3
  * Author:      Un Seul Nom
  * License:     GPL-2.0-or-later
  *
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class USN_Reservations {
 
-	const VERSION        = '1.5.2';
+	const VERSION        = '1.5.3';
 	const OPT_CAPACITE   = 'usn_capacite';        // Nombre total de places ouvertes (surbooking compris).
 	const OPT_MAX        = 'usn_max_par_personne'; // Limite par reservation.
 	const OPT_OUVERT     = 'usn_inscriptions_ouvertes';
@@ -280,6 +280,18 @@ final class USN_Reservations {
 	/** L'evenement regarde en ce moment. Resolu une fois par requete. */
 	protected static $courant = null;
 
+	/*
+	 * « A-t-on deja cherche ? », et non « a-t-on trouve ? ».
+	 *
+	 * Sans ce drapeau, repondre « cette ville n'existe pas » est
+	 * impossible : definir_evenement() poserait $courant a null, puis
+	 * ev() verrait ce null, croirait que la recherche n'a pas encore eu
+	 * lieu, et relancerait trouver_evenement('') — qui, lui, a bien le
+	 * droit de retomber sur l'evenement du moment. Le refus serait donc
+	 * annule une ligne plus loin, en silence.
+	 */
+	protected static $cherche = false;
+
 	/**
 	 * Trouve un evenement par son numero ou par son nom.
 	 *
@@ -302,6 +314,34 @@ final class USN_Reservations {
 			if ( $ligne ) {
 				return $ligne;
 			}
+
+			/*
+			 * UNE VILLE NOMMEE ET INTROUVABLE NE SE REMPLACE PAS.
+			 *
+			 * Les deux replis ci-dessous existent pour les pages qui ne
+			 * disent rien : elles sont anterieures a la 1.4, elles ne
+			 * connaissent qu'un evenement, et leur servir celui du moment
+			 * est exactement ce qu'il faut faire.
+			 *
+			 * Mais une page qui DEMANDE « Limours 2027 » et a qui l'on
+			 * repond Tarbes est un piege silencieux : elle affiche le
+			 * compteur de Tarbes, et chaque reservation prise sur la page
+			 * de Limours retire une place a Tarbes. Rien ne le signale,
+			 * ni dans la page ni dans l'administration — on ne s'en
+			 * apercoit que le jour de l'evenement, en comptant les
+			 * chaises.
+			 *
+			 * Le cas est tres concret : la page d'une ville est publiee
+			 * avant que la ville soit ouverte dans Reservations. C'est
+			 * l'ordre naturel des choses, et c'est la que le piege se
+			 * referme.
+			 *
+			 * On repond donc : cette ville n'existe pas. La page masque
+			 * son compteur et son formulaire redevient un simple envoi
+			 * vers Brevo. Une inscription perdue de vue vaut mieux qu'une
+			 * place prise a quelqu'un d'autre.
+			 */
+			return null;
 		}
 
 		$defaut = trim( (string) get_option( self::OPT_EVENEMENT, '' ) );
@@ -317,13 +357,15 @@ final class USN_Reservations {
 	/** Designe l'evenement sur lequel porte la requete en cours. */
 	public static function definir_evenement( $ref ) {
 		self::$courant = self::trouver_evenement( $ref );
+		self::$cherche = true;
 		return self::$courant;
 	}
 
 	/** L'evenement courant, sous forme de ligne. Peut etre nul. */
 	public static function ev() {
-		if ( null === self::$courant ) {
+		if ( null === self::$courant && ! self::$cherche ) {
 			self::$courant = self::trouver_evenement( '' );
+			self::$cherche = true;
 		}
 		return self::$courant;
 	}

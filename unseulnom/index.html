@@ -1731,6 +1731,30 @@
       fetch(PLACES_URL, { credentials: 'same-origin' })
         .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
         .then(function (e) {
+          /* LE SERVEUR DIT DE QUELLE VILLE IL PARLE. ON VERIFIE.
+
+             Le module repond toujours quelque chose. Si la ville de
+             cette page n'existe pas encore dans Reservations, les
+             versions anterieures a la 1.5.3 servaient l'evenement du
+             moment sans le dire : la page de Limours affichait le
+             compteur de Tarbes, et chaque reservation prise ici
+             retirait une place la-bas. Rien ne le signalait, ni dans la
+             page ni dans l'administration. On s'en apercevait le jour
+             de l'evenement, en comptant les chaises.
+
+             Le cas n'a rien d'exotique : la page d'une ville est
+             publiee avant que la ville soit ouverte dans Reservations.
+             C'est l'ordre naturel des choses.
+
+             On compare donc le nom rendu par le serveur a celui de
+             cette page, et au moindre ecart on ne touche a rien :
+             apiActive reste faux, le compteur ne s'affiche pas, et le
+             formulaire redevient un simple envoi vers Brevo. Une
+             inscription perdue de vue vaut mieux qu'une place prise a
+             quelqu'un d'autre. */
+          var sienne = e ? (e.evenement || '') : '';
+          if (sienne !== EVENEMENT) { return; }
+
           apiActive = true;
           brevoServeur = e ? e.brevo === true : false;
           afficherEtat(e);
