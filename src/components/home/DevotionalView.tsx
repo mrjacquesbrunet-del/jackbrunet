@@ -571,6 +571,24 @@ export function DevotionalView({
                 </button>
               ): null}
             </div>
+            {/* Toutes les exhortations des 90 derniers jours, à relire */}
+            <Link
+              href="/exhortations"
+              className="mt-5 flex items-center gap-3 rounded-2xl border border-night-900/10 bg-white px-4 py-3.5 transition-shadow hover:shadow-md"
+            >
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-night-900 text-dawn-400">
+                <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+                  <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5zM20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5zM7 8h1.5M7 11h1.5M15.5 8H17M15.5 11H17" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block font-display text-[15px] font-bold text-night-900">Toutes les exhortations</span>
+                <span className="block text-xs text-night-900/55">Les 90 derniers jours, à relire</span>
+              </span>
+              <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 fill-none stroke-current text-night-900/40" strokeWidth={2.2} aria-hidden>
+                <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
           </div>
         </Reveal>
       </section>

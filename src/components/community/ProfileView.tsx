@@ -561,6 +561,18 @@ function Profile({
               </svg>
             </button>
           </div>
+          {/* Favoris : exhortations du Temps avec Jésus et versets gardés */}
+          <Link
+            href="/favoris"
+            className={`mx-auto mt-2.5 inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-[13px] font-bold transition-colors ${
+              jour ? "border-night-900/15 bg-night-900/5 text-night-900" : "border-white/15 bg-white/[0.07] text-cream"
+            }`}
+          >
+            <svg viewBox="0 0 24 24" className={`h-4 w-4 fill-none stroke-current ${jour ? "text-dawn-600" : "text-dawn-400"}`} strokeWidth={2} aria-hidden>
+              <path d="M6 3.5h12a1 1 0 0 1 1 1V21l-7-4.5L5 21V4.5a1 1 0 0 1 1-1z" strokeLinejoin="round" />
+            </svg>
+            Favoris
+          </Link>
         </div>
       </div>
 

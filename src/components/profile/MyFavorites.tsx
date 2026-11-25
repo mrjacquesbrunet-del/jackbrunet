@@ -1,11 +1,17 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useToolkit } from "@/lib/toolkit";
 import { useAuth } from "@/components/community/useAuth";
 import { bibleHref } from "@/lib/bible-ref";
 import { useMeditations, meditationDe } from "@/lib/meditations-relecture";
 import { MeditationRelire } from "@/components/notebook/MeditationRelire";
+import { LecteurExhortation } from "@/components/devotional/LecteurExhortation";
+import { BookmarkFilledGlyph } from "@/components/ui/DevoIcons";
+import { localeApp } from "@/lib/i18n";
+import type { Devotion } from "@/lib/types";
+import { dateExhortation } from "@/lib/exhortations";
 
 const KIND_LABEL: Record<string, string> = {
   verset: "Versets",
@@ -21,15 +27,36 @@ export function MyFavorites() {
   const verses = profile?.favorite_verses?? [];
   const meditations = useMeditations();
 
-  // Regroupe les enregistrements par type.
-  const groups = saved.reduce<Record<string, typeof saved>>((acc, s) => {
-    const k = KIND_LABEL[s.kind]? s.kind: "texte";
-    (acc[k]??= []).push(s);
-    return acc;
-  }, {});
+  const [lecture, setLecture] = useState<{ dev: Devotion; index: number; date: Date } | null>(null);
+
+  // 1) Exhortations du « Temps avec Jésus » mises en favori : titre + date.
+  const exhortations = saved
+    .filter((s) => s.kind === "méditation" && s.id.startsWith("dev:"))
+    .map((s) => {
+      const dev = meditationDe(s, meditations);
+      if (!dev) return null;
+      const index = meditations.indexOf(dev) >= 0 ? meditations.indexOf(dev) : Number(s.id.split(":")[1]) || 0;
+      // Le jour où c'était l'exhortation du jour (plutôt que la date du clic).
+      const date = dateExhortation(index, meditations.length, new Date(s.ts));
+      return { s, dev, index, date };
+    })
+    .filter((x): x is { s: (typeof saved)[number]; dev: Devotion; index: number; date: Date } => !!x)
+    .sort((a, b) => b.date.getTime() - a.date.getTime());
+  // 2) Versets mis en favori (enregistrés depuis la Bible ou ailleurs).
+  const versetsEnregistres = saved.filter((s) => s.kind === "verset").sort((a, b) => b.ts - a.ts);
+
+  // Le reste des enregistrements, par type.
+  const groups = saved
+    .filter((s) => !(s.kind === "méditation" && s.id.startsWith("dev:")) && s.kind !== "verset")
+    .reduce<Record<string, typeof saved>>((acc, s) => {
+      const k = KIND_LABEL[s.kind]? s.kind: "texte";
+      (acc[k]??= []).push(s);
+      return acc;
+    }, {});
 
   const isEmpty =
     saved.length === 0 && verses.length === 0 && highlightItems.length === 0;
+  const dateCourte = (ts: number) => new Date(ts).toLocaleDateString(localeApp(), { day: "numeric", month: "long", year: "numeric" });
 
   return (
     <section className="py-10">
@@ -44,6 +71,79 @@ export function MyFavorites() {
           </div>
         ): (
           <div className="space-y-10">
+            {/* Exhortations du Temps avec Jésus : titre + date, un toucher pour relire */}
+            {exhortations.length > 0 ? (
+              <div>
+                <h2 className="font-display text-lg font-bold">
+                  Exhortations du Temps avec Jésus{" "}
+                  <span className="text-sm font-semibold text-night-900/50">({exhortations.length})</span>
+                </h2>
+                <ul className="mt-3 divide-y divide-night-900/[0.07] overflow-hidden rounded-2xl border border-night-900/10 bg-white/70">
+                  {exhortations.map(({ s, dev, index, date }) => (
+                    <li key={s.id} className="flex items-center gap-1 pr-2">
+                      <button
+                        type="button"
+                        onClick={() => setLecture({ dev, index, date })}
+                        className="flex min-w-0 flex-1 items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-night-900/[0.03]"
+                      >
+                        <BookmarkFilledGlyph className="h-4 w-4 shrink-0 text-spirit-600" />
+                        <span className="min-w-0">
+                          <span className="block truncate font-semibold text-night-900">{dev.theme}</span>
+                          <span className="block text-xs text-night-900/50">{dateCourte(date.getTime())}</span>
+                        </span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => removeSnippet(s.id)}
+                        className="shrink-0 px-2 py-2 text-xs font-semibold text-night-900/40 transition-colors hover:text-red-500"
+                      >
+                        Retirer
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+
+            {/* Versets mis en favori */}
+            {versetsEnregistres.length > 0 ? (
+              <div>
+                <h2 className="font-display text-lg font-bold">
+                  Mes versets favoris{" "}
+                  <span className="text-sm font-semibold text-night-900/50">({versetsEnregistres.length})</span>
+                </h2>
+                <ul className="mt-3 space-y-2">
+                  {versetsEnregistres.map((s) => {
+                    const href = bibleHref(s.id) ?? bibleHref(s.reference);
+                    return (
+                      <li key={s.id} className="rounded-2xl border border-night-900/10 bg-white/70 p-4">
+                        {href ? (
+                          <Link href={href} className="block transition-opacity hover:opacity-75">
+                            <p className="text-[15px] leading-relaxed text-night-900/85">« {s.text} »</p>
+                          </Link>
+                        ) : (
+                          <p className="text-[15px] leading-relaxed text-night-900/85">« {s.text} »</p>
+                        )}
+                        <div className="mt-2 flex items-center justify-between gap-3">
+                          <span className="text-xs font-bold uppercase tracking-wide text-spirit-700">{s.reference ?? ""}</span>
+                          <span className="flex items-center gap-4">
+                            <span className="text-xs text-night-900/40">{dateCourte(s.ts)}</span>
+                            <button
+                              type="button"
+                              onClick={() => removeSnippet(s.id)}
+                              className="text-xs font-semibold text-night-900/40 transition-colors hover:text-red-500"
+                            >
+                              Retirer
+                            </button>
+                          </span>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ) : null}
+
             {/* Versets préférés du profil (publics) */}
             {verses.length > 0? (
               <div>
@@ -185,6 +285,7 @@ export function MyFavorites() {
           </div>
         )}
       </div>
+      <LecteurExhortation ouverte={lecture} fermer={() => setLecture(null)} />
     </section>
   );
 }
