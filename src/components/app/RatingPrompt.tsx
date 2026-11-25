@@ -8,10 +8,10 @@ import { prendreFenetreAuto } from "@/lib/popups";
 const DONE = "jb.rated.v1"; // « done » = a ouvert la notation → on ne redemande plus
 const ASKS = "jb.rateasks.v1"; // { n, last, ouv } : demandes, date et ouverture de la dernière
 
-const PREMIERE = 4; // 1re demande à la 4e ouverture
+const PREMIERE = 3; // 1re demande à la 3e ouverture (après 2 utilisations)
 const ECART_OUVERTURES = 3; // puis, tant qu'on n'a pas noté : toutes les 3 ouvertures
 const ECART_MIN_MS = 86_400_000; // jamais deux fois le même jour
-const MAX_ASKS = 6;
+const MAX_ASKS = 3; // 3 demandes au plus, puis plus jamais
 
 type Asks = { n: number; last: number; ouv?: number };
 

@@ -176,11 +176,12 @@ export function ListenScreen() {
   const load = useCallback(
     () =>
       chargerCatalogue().then(({ emissions, episodes }) => {
-        setEmissions(emissions);
+        // Une émission sans épisode (en préparation) : visible par l'admin seulement.
+        setEmissions(admin ? emissions : emissions.filter((e) => episodes.some((t) => t.show_id === e.id)));
         setTracks(episodes);
         memoriserCatalogue(episodes); // pour enchaîner l'épisode suivant de l'émission
       }),
-    [],
+    [admin],
   );
   useEffect(() => {
     load();

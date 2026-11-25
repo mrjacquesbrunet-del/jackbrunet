@@ -1,5 +1,6 @@
 "use client";
 
+import { openExternal, urlExterne } from "@/lib/external";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { DEFAULT_AUTHOR, type AuthorInfo } from "@/config/author";
@@ -157,6 +158,7 @@ export function AuthorCard({
             href={author.instagram}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={(e) => ouvrirDehors(e, author.instagram!)}
             className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-dawn-400 px-5 py-3 text-sm font-bold text-night-950"
           >
             <InstaIcon className="h-5 w-5" />
@@ -176,7 +178,7 @@ export function AuthorCard({
                       {r.label}
                     </Link>
                   ) : (
-                    <a key={r.label} href={r.url} target="_blank" rel="noopener noreferrer" className="halo-boutique inline-flex items-center gap-1.5 rounded-full border border-dawn-400 bg-dawn-400/10 px-4 py-2 text-sm font-bold text-dawn-400">
+                    <a key={r.label} href={r.url} target="_blank" rel="noopener noreferrer" onClick={(e) => ouvrirDehors(e, r.url)} className="halo-boutique inline-flex items-center gap-1.5 rounded-full border border-dawn-400 bg-dawn-400/10 px-4 py-2 text-sm font-bold text-dawn-400">
                       <SacIcon className="h-4 w-4" />
                       {r.label}
                     </a>
@@ -196,6 +198,7 @@ export function AuthorCard({
                     href={r.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => ouvrirDehors(e, r.url)}
                     className="rounded-full border border-cream/20 px-4 py-2 text-sm font-semibold text-cream/85"
                   >
                     {r.label}
@@ -208,4 +211,11 @@ export function AuthorCard({
       </div>
     </div>
   );
+}
+
+/** Dans l'app, un lien « nouvel onglet » ne fait rien : on ouvre le
+ * navigateur du téléphone (Instagram, YouTube…), avec une adresse complète. */
+function ouvrirDehors(e: React.MouseEvent, url: string) {
+  e.preventDefault();
+  void openExternal(urlExterne(url));
 }

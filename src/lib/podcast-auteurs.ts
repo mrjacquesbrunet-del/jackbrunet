@@ -1,5 +1,6 @@
 import { DEFAULT_AUTHOR, type AuthorInfo } from "@/config/author";
 import { intervenantsDe, type Emission } from "./audio-library";
+import { urlExterne } from "./external";
 
 /**
  * Fiche de l'intervenant d'une émission (même fiche que l'auteur d'un plan) :
@@ -12,12 +13,13 @@ export function ficheAuteur(nom: string, e?: Emission | null): { info: AuthorInf
   const estJack = nom === DEFAULT_AUTHOR.name;
   const tous = intervenantsDe(e);
   const i = tous.find((x) => x.nom === nom);
-  const liens = (i?.liens ?? []).filter((l) => l?.url);
+  // Adresses complétées (https://…) pour qu'elles s'ouvrent toujours.
+  const liens = (i?.liens ?? []).filter((l) => l?.url).map((l) => ({ ...l, url: urlExterne(l.url) }));
   const info: AuthorInfo = {
     name: nom,
     role: i?.role || (estJack ? DEFAULT_AUTHOR.role : undefined),
     bio: i?.bio || (estJack ? DEFAULT_AUTHOR.bio : undefined),
-    instagram: i?.instagram || (estJack ? DEFAULT_AUTHOR.instagram : undefined),
+    instagram: urlExterne(i?.instagram, "instagram") || (estJack ? DEFAULT_AUTHOR.instagram : undefined),
     // On est déjà dans les podcasts : pas de lien « Podcast » vers cette page.
     resources: liens.length ? liens : estJack ? DEFAULT_AUTHOR.resources.filter((r) => r.url !== "/ecouter") : [],
   };

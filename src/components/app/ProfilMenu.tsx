@@ -514,7 +514,7 @@ export function ProfilMenu() {
 
   return (
     <>
-    <AstuceMenu />
+    {/* Astuce du menu retirée : seules les fenêtres de don et de note s'ouvrent seules. */}
     <AnimatePresence>
       {ouvert ? (
         <div className="fixed inset-0 z-[80]" role="dialog" aria-modal="true" aria-label="Menu">

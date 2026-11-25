@@ -40,3 +40,17 @@ export async function openWhatsApp(text: string): Promise<void> {
   }
   window.open(`https://wa.me/?text=${encoded}`, "_blank", "noopener,noreferrer");
 }
+
+/**
+ * Complète une adresse saisie à la main pour qu'elle s'ouvre toujours :
+ * « instagram.com/x » ou « www.site.fr » → https://… ; pour Instagram,
+ * « @pseudo » ou « pseudo » → https://www.instagram.com/pseudo. Les liens
+ * internes (« /… ») restent tels quels.
+ */
+export function urlExterne(url: string | null | undefined, type?: "instagram"): string {
+  const u = (url ?? "").trim();
+  if (!u) return "";
+  if (/^(https?:|mailto:|tel:)/i.test(u) || u.startsWith("/")) return u;
+  if (type === "instagram" && /^@?[\w.]+$/.test(u)) return `https://www.instagram.com/${u.replace(/^@/, "")}`;
+  return `https://${u.replace(/^\/+/, "")}`;
+}

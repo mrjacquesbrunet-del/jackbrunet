@@ -9,9 +9,7 @@ import { pingPresence } from "@/lib/presence";
 import { BottomNav } from "@/components/app/BottomNav";
 import { AppOnboarding } from "@/components/app/AppOnboarding";
 import { AnnouncementBanner } from "@/components/app/AnnouncementBanner";
-import { NotifOptIn } from "@/components/app/NotifOptIn";
 import { PopupMission } from "@/components/mission/PopupMission";
-import { MessageServeurs } from "@/components/app/MessageServeurs";
 import { RatingPrompt } from "@/components/app/RatingPrompt";
 import { CarnetBubble } from "@/components/app/CarnetBubble";
 import { BadgeCelebration } from "@/components/app/BadgeCelebration";
@@ -145,9 +143,9 @@ export function AppShell() {
       <CarnetBubble />
       <AppOnboarding />
       <AnnouncementBanner />
-      <MessageServeurs />
+      {/* Fenêtres automatiques : seulement l'appel au don (« Un message de
+          Jack », dès la 4e ouverture) et la demande de note (dès la 3e). */}
       <PopupMission />
-      <NotifOptIn />
       <RatingPrompt />
       <BadgeCelebration />
     </>
