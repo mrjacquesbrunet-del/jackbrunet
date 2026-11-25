@@ -103,7 +103,9 @@ export type NotifType =
   | "duo_note"
   | "podcast"
   | "invitation"
-  | "avec_jesus";
+  | "avec_jesus"
+  | "conversation"
+  | "story_mention";
 export type Notification = {
   id: string;
   user_id: string;
@@ -1260,4 +1262,22 @@ export async function modifierPublication(type: TypePublication, id: string, bod
   if (!sb || !body.trim()) return false;
   const { data, error } = await sb.rpc("modifier_publication", { p_type: type, p_id: id, p_body: body.trim() });
   return !error && data === true;
+}
+
+/* ————— Suivre une conversation (commentaires d'un sujet) ————— */
+
+/** Est-ce que je suis la conversation de ce sujet ? (oui dès que j'ai commenté) */
+export async function conversationSuivie(prayerId: string): Promise<boolean | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  const { data, error } = await sb.rpc("conversation_suivie", { p_prayer: prayerId });
+  return error ? null : data === true;
+}
+
+/** Suivre / ne plus suivre la conversation d'un sujet. */
+export async function suivreConversation(prayerId: string, actif: boolean): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb) return false;
+  const { error } = await sb.rpc("suivre_conversation", { p_prayer: prayerId, p_actif: actif });
+  return !error;
 }

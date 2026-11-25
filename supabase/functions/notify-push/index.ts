@@ -41,6 +41,8 @@ function messageFor(type: string, who: string, body: string): { title: string; t
     case "podcast":        return { title: "Nouvel épisode", text: body || "Un nouvel épisode de podcast est disponible" };
     case "invitation":     return { title: "Nouvel ami sur RHEMA", text: body || `${who} a rejoint RHEMA grâce à toi` };
     case "avec_jesus":     return { title: "Avec Jésus", text: body || "Une année de plus avec Jésus !" };
+    case "conversation":   return { title: "Nouveau commentaire", text: `${who} a aussi commenté un sujet que tu suis` };
+    case "story_mention":  return { title: "Story", text: `${who} t'a mentionné(e) dans sa story` };
     default:               return { title: "Notification", text: body || "Tu as une nouvelle notification" };
   }
 }

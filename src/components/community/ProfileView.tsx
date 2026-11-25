@@ -561,18 +561,6 @@ function Profile({
               </svg>
             </button>
           </div>
-          {/* Favoris : exhortations du Temps avec Jésus et versets gardés */}
-          <Link
-            href="/favoris"
-            className={`mx-auto mt-2.5 inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-[13px] font-bold transition-colors ${
-              jour ? "border-night-900/15 bg-night-900/5 text-night-900" : "border-white/15 bg-white/[0.07] text-cream"
-            }`}
-          >
-            <svg viewBox="0 0 24 24" className={`h-4 w-4 fill-none stroke-current ${jour ? "text-dawn-600" : "text-dawn-400"}`} strokeWidth={2} aria-hidden>
-              <path d="M6 3.5h12a1 1 0 0 1 1 1V21l-7-4.5L5 21V4.5a1 1 0 0 1 1-1z" strokeLinejoin="round" />
-            </svg>
-            Favoris
-          </Link>
         </div>
       </div>
 
@@ -582,6 +570,17 @@ function Profile({
       <div className={`relative flex items-center justify-end gap-2 ${jour? "": "dark-ctx"}`}>
           <span className="mr-auto" />
           <div className="flex shrink-0 items-center gap-2">
+            {/* Favoris : exhortations du Temps avec Jésus et versets gardés */}
+            <Link
+              href="/favoris"
+              aria-label="Mes favoris"
+              title="Mes favoris"
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/20 bg-white/10 text-cream transition-colors hover:bg-white/20"
+            >
+              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth={1.8} aria-hidden>
+                <path d="M6 3.5h12a1 1 0 0 1 1 1V21l-7-4.5L5 21V4.5a1 1 0 0 1 1-1z" strokeLinejoin="round" />
+              </svg>
+            </Link>
             <button
               type="button"
               aria-label="Rechercher des profils"

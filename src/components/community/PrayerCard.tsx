@@ -34,6 +34,8 @@ import {
   setCommentReaction,
   getProfile,
   modifierPublication,
+  conversationSuivie,
+  suivreConversation,
   type CommentReaction,
 } from "@/lib/community";
 import { localeApp } from "@/lib/i18n";
@@ -174,6 +176,11 @@ export function PrayerCard({
   const [sujetModifie, setSujetModifie] = useState(!!prayer.edited_at);
   const [editionSujet, setEditionSujet] = useState(false);
   const [editionCom, setEditionCom] = useState<string | null>(null);
+  // Suivre la conversation (prévenu des nouveaux commentaires).
+  const [suivi, setSuivi] = useState<boolean | null>(null);
+  useEffect(() => {
+    if (menuOuvert && suivi === null && prayer.author_id !== userId) void conversationSuivie(prayer.id).then(setSuivi);
+  }, [menuOuvert, suivi, prayer.id, prayer.author_id, userId]);
   const themes = themesPriere(texteSujet);
 
   async function partager() {
@@ -554,6 +561,20 @@ export function PrayerCard({
                       className="block w-full px-4 py-3 text-left font-semibold text-dawn-300 active:bg-white/[0.06]"
                     >
                       {answered ? "Rouvrir le sujet" : "Dieu a agi (exaucée)"}
+                    </button>
+                  ) : null}
+                  {!isAuthor && suivi !== null ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMenuOuvert(false);
+                        const v = !suivi;
+                        setSuivi(v);
+                        void suivreConversation(prayer.id, v);
+                      }}
+                      className="block w-full px-4 py-3 text-left font-semibold text-cream/85 active:bg-white/[0.06]"
+                    >
+                      {suivi ? "Ne plus suivre la conversation" : "Suivre la conversation"}
                     </button>
                   ) : null}
                   {isAdmin ? (

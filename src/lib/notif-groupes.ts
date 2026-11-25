@@ -34,6 +34,10 @@ export function libelleNotif(n: Notification): string {
       return `${who} a écrit dans ${n.body ? `« ${n.body} »` : "ton groupe"}`;
     case "group_join":
       return `${who} a rejoint ${n.body ? `« ${n.body} »` : "ton groupe"}`;
+    case "conversation":
+      return `${who} a aussi commenté un sujet que tu suis`;
+    case "story_mention":
+      return `${who} t'a mentionné(e) dans sa story`;
     case "podcast":
       return n.body ?? "Nouvel épisode de podcast";
     case "admin":
@@ -64,6 +68,7 @@ const PLURIEL: Partial<Record<string, (n: Notification) => string>> = {
   comment_reaction: () => "ont réagi à ton commentaire",
   group_message: (n) => `ont écrit dans ${n.body ? `« ${n.body} »` : "ton groupe"}`,
   group_join: (n) => `ont rejoint ${n.body ? `« ${n.body} »` : "ton groupe"}`,
+  conversation: () => "ont commenté un sujet que tu suis",
 };
 
 /** Une ligne de la liste : une notification, ou plusieurs regroupées. */
