@@ -182,13 +182,13 @@
   "components/community/CommunityView.tsx:363"
  ],
  "· Privé": [
-  "components/community/GroupView.tsx:230"
+  "components/community/GroupView.tsx:232"
  ],
  "· prochain palier à {0}": [
   "components/community/ProfileBadges.tsx:621"
  ],
  "· Public": [
-  "components/community/GroupView.tsx:230"
+  "components/community/GroupView.tsx:232"
  ],
  "· record {0}": [
   "components/games/FrondeGame.tsx:295",
@@ -1646,7 +1646,7 @@
   "components/mission/DonLibre.tsx:90"
  ],
  "{0} écrit un commentaire…": [
-  "components/community/PrayerCard.tsx:973"
+  "components/community/PrayerCard.tsx:1050"
  ],
  "{0} émission{1} · {2} épisode{3}": [
   "components/audio/PodcastsAdmin.tsx:272"
@@ -1716,7 +1716,7 @@
   "components/community/PrieresDirect.tsx:725"
  ],
  "{0} personnes écrivent…": [
-  "components/community/PrayerCard.tsx:973"
+  "components/community/PrayerCard.tsx:1050"
  ],
  "{0} personnes prient en ce moment": [
   "components/community/PrieresDirect.tsx:728"
@@ -1777,7 +1777,7 @@
   "app/layout.tsx:69"
  ],
  "← Groupes": [
-  "components/community/GroupView.tsx:215"
+  "components/community/GroupView.tsx:217"
  ],
  "← Jour précédent": [
   "components/plans/YearPlanView.tsx:344"
@@ -1847,7 +1847,7 @@
   "components/community/BibleAudioAdmin.tsx:43"
  ],
  "✓ Lien copié": [
-  "components/community/GroupView.tsx:876"
+  "components/community/GroupView.tsx:961"
  ],
  "✓ Message envoyé à {0} membre{1}. Ils sont notifiés.": [
   "components/community/AdminAnnounce.tsx:43"
@@ -2694,12 +2694,12 @@
   "config/chemin/chapitre-creation.ts:67"
  ],
  "à l'instant": [
-  "components/community/GroupView.tsx:120",
-  "components/community/PrayerCard.tsx:73",
+  "components/community/GroupView.tsx:122",
+  "components/community/PrayerCard.tsx:75",
   "components/stories/StoriesBar.tsx:36"
  ],
  "À l'instant": [
-  "components/community/PrayerCard.tsx:94"
+  "components/community/PrayerCard.tsx:96"
  ],
  "À l'intérieur": [
   "components/boutique/RhemaShowcase.tsx:351"
@@ -2817,7 +2817,7 @@
   "config/chemin/chapitre-lettres-paul.ts:83"
  ],
  "a prié": [
-  "components/community/GroupView.tsx:720"
+  "components/community/GroupView.tsx:780"
  ],
  "À propos": [
   "app/a-propos/page.tsx:13",
@@ -3207,7 +3207,7 @@
  ],
  "Abonnés": [
   "components/community/FollowListModal.tsx:25",
-  "components/community/PrayerCard.tsx:41",
+  "components/community/PrayerCard.tsx:43",
   "components/community/ProfileNotifications.tsx:32"
  ],
  "abonnés via l'app": [
@@ -3259,8 +3259,8 @@
   "config/chemin/chapitre-salomon.ts:26"
  ],
  "Accepter": [
-  "components/community/GroupView.tsx:326",
-  "components/community/GroupView.tsx:898",
+  "components/community/GroupView.tsx:328",
+  "components/community/GroupView.tsx:983",
   "components/plans/PlanDuo.tsx:135"
  ],
  "Accès à des lives privés de prière avec le Pasteur Jack": [
@@ -3529,11 +3529,11 @@
   "config/chemin/chapitre-creation.ts:66"
  ],
  "Adhésion": [
-  "components/community/GroupView.tsx:1133",
+  "components/community/GroupView.tsx:1218",
   "components/community/GroupsDirectory.tsx:251"
  ],
  "Admin": [
-  "components/community/GroupView.tsx:943"
+  "components/community/GroupView.tsx:1028"
  ],
  "Administration": [
   "components/audio/PodcastsAdmin.tsx:269"
@@ -4112,7 +4112,7 @@
   "components/ecole/MotLexique.tsx:210"
  ],
  "Appui long : plus de réactions": [
-  "components/community/PrayerCard.tsx:659"
+  "components/community/PrayerCard.tsx:710"
  ],
  "Appuie sur": [
   "components/pwa/PWA.tsx:105"
@@ -4532,7 +4532,7 @@
   "components/community/MessagesView.tsx:145"
  ],
  "Aucun message. Lance la discussion !": [
-  "components/community/GroupView.tsx:746"
+  "components/community/GroupView.tsx:806"
  ],
  "Aucun mot ne correspond.": [
   "components/ecole/LexiqueView.tsx:223"
@@ -4608,7 +4608,7 @@
   "components/wall/WallSection.tsx:184"
  ],
  "Aucune publication. Sois le premier à partager 🙏": [
-  "components/community/GroupView.tsx:443"
+  "components/community/GroupView.tsx:446"
  ],
  "Aucune réponse ne correspond exactement.": [
   "app/questions/page.tsx:445"
@@ -5150,7 +5150,7 @@
   "components/app/ProfilMenu.tsx:564"
  ],
  "Bienvenue 🙏 Partagez vos plans, vos percées et vos sujets de prière. Commentez, réagissez et priez les uns pour les autres, en famille.": [
-  "components/community/GroupView.tsx:226"
+  "components/community/GroupView.tsx:228"
  ],
  "Bilha": [
   "config/chemin/chapitre-jacob.ts:68"
@@ -5483,7 +5483,7 @@
   "config/chemin/chapitre-esaie.ts:88"
  ],
  "Ce groupe n'existe pas, ou il est privé.": [
-  "components/community/GroupView.tsx:174"
+  "components/community/GroupView.tsx:176"
  ],
  "Ce jour même": [
   "config/chemin/chapitre-lazare.ts:57"
@@ -5538,13 +5538,13 @@
   "components/community/ObjectifDonAdmin.tsx:89"
  ],
  "Ce mot de passe est le même que l'ancien. Choisis-en un nouveau.": [
-  "lib/community.ts:262"
+  "lib/community.ts:265"
  ],
  "Ce mot de passe est trop simple. Choisis-en un plus long, avec des chiffres.": [
   "components/community/EmailPasswordAuth.tsx:187"
  ],
  "Ce mot de passe est trop simple. Mélange lettres minuscules, majuscules et chiffres.": [
-  "lib/community.ts:266"
+  "lib/community.ts:269"
  ],
  "Ce mot n'a pas pu être chargé. Vérifie ta connexion et réessaie.": [
   "components/ecole/MotLexique.tsx:157"
@@ -6113,7 +6113,7 @@
   "content/plans.json"
  ],
  "Chat": [
-  "components/community/GroupView.tsx:254"
+  "components/community/GroupView.tsx:256"
  ],
  "Chef de la synagogue": [
   "config/chemin/chapitre-miracles.ts:77"
@@ -6215,7 +6215,7 @@
   "config/chemin/chapitre-pentecote.ts:26"
  ],
  "Choisir une photo": [
-  "components/community/GroupView.tsx:1099",
+  "components/community/GroupView.tsx:1184",
   "components/community/ProfileView.tsx:693"
  ],
  "Choisis ce qui arrive sur ton téléphone. La cloche dans l'app garde tout.": [
@@ -6366,7 +6366,7 @@
   "lib/badges.ts:250"
  ],
  "Code :": [
-  "components/community/GroupView.tsx:864"
+  "components/community/GroupView.tsx:949"
  ],
  "Code d'invitation": [
   "components/community/GroupsDirectory.tsx:225"
@@ -6853,7 +6853,7 @@
   "config/chemin/chapitre-eglise.ts:68"
  ],
  "Comment évolue ton sujet ?": [
-  "components/community/PrayerCard.tsx:595"
+  "components/community/PrayerCard.tsx:646"
  ],
  "Comment faut-il faire l'aumône ?": [
   "config/chemin/chapitre-sermon.ts:66"
@@ -7312,7 +7312,7 @@
   "components/mission/BandeauBatisseurs.tsx:149"
  ],
  "Connecte-toi pour rejoindre ce groupe.": [
-  "components/community/GroupView.tsx:303"
+  "components/community/GroupView.tsx:305"
  ],
  "Connecte-toi pour retrouver ta progression, ton carnet et tes favoris.": [
   "components/app/AppOnboarding.tsx:116"
@@ -7406,7 +7406,7 @@
   "components/audio/ListenScreen.tsx:693"
  ],
  "Continuer à prier": [
-  "components/community/PrayerCard.tsx:602"
+  "components/community/PrayerCard.tsx:653"
  ],
  "Continuer avec": [
   "components/ecole/GalerieFiches.tsx:316"
@@ -7457,14 +7457,14 @@
   "components/bible/VersetOutils.tsx:633"
  ],
  "Copier le lien": [
-  "components/community/GroupView.tsx:876",
+  "components/community/GroupView.tsx:961",
   "components/community/MediasAdmin.tsx:185"
  ],
  "Coucher": [
   "lib/profile-accent.ts:13"
  ],
  "Couleur": [
-  "components/community/GroupView.tsx:1114"
+  "components/community/GroupView.tsx:1199"
  ],
  "Couleur d'accent": [
   "components/notebook/CarnetView.tsx:163"
@@ -7508,7 +7508,7 @@
   "components/app/AppOnboarding.tsx:145"
  ],
  "Créateur": [
-  "components/community/GroupView.tsx:943"
+  "components/community/GroupView.tsx:1028"
  ],
  "Création": [
   "lib/quiz.ts:153"
@@ -8709,7 +8709,7 @@
   "components/mission/PopupMission.tsx:225"
  ],
  "Déjà là": [
-  "components/community/GroupView.tsx:1029"
+  "components/community/GroupView.tsx:1114"
  ],
  "Déjà sur RHEMA": [
   "components/community/ProfileView.tsx:1387"
@@ -8748,13 +8748,13 @@
   "components/quiz/QuizScreen.tsx:651"
  ],
  "Demande envoyée. En attente de validation.": [
-  "components/community/GroupView.tsx:344"
+  "components/community/GroupView.tsx:346"
  ],
  "demande la prière": [
   "components/community/PrayerTime.tsx:483"
  ],
  "Demander à rejoindre": [
-  "components/community/GroupView.tsx:357"
+  "components/community/GroupView.tsx:359"
  ],
  "Demander l'e-book offert": [
   "components/boutique/RhemaShowcase.tsx:232"
@@ -8763,7 +8763,7 @@
   "config/chemin/chapitre-salomon.ts:86"
  ],
  "Demandes (": [
-  "components/community/GroupView.tsx:883"
+  "components/community/GroupView.tsx:968"
  ],
  "Démas": [
   "config/chemin/chapitre-lettres-paul.ts:102",
@@ -9067,7 +9067,7 @@
   "components/audio/PodcastsAdmin.tsx:1049"
  ],
  "Désépingler": [
-  "components/community/PrayerCard.tsx:538"
+  "components/community/PrayerCard.tsx:568"
  ],
  "désert": [
   "config/chemin/chapitre-paraboles.ts:88"
@@ -9215,7 +9215,7 @@
   "content/questions-faq.json"
  ],
  "Dieu a agi (exaucée)": [
-  "components/community/PrayerCard.tsx:526"
+  "components/community/PrayerCard.tsx:556"
  ],
  "Dieu a agi dans ta vie ?": [
   "components/community/CommunityView.tsx:424"
@@ -9228,7 +9228,7 @@
  ],
  "Dieu a agi, prière exaucée": [
   "components/community/AnsweredFeed.tsx:50",
-  "components/community/PrayerCard.tsx:465"
+  "components/community/PrayerCard.tsx:483"
  ],
  "Dieu a envoyé son ange fermer la gueule des lions": [
   "config/chemin/chapitre-daniel.ts:97"
@@ -9568,7 +9568,7 @@
   "components/mission/DonateScreen.tsx:118"
  ],
  "Donner des nouvelles": [
-  "components/community/PrayerCard.tsx:613"
+  "components/community/PrayerCard.tsx:664"
  ],
  "Donner la moitié aux pauvres et rendre le quadruple": [
   "config/chemin/chapitre-rencontres.ts:98"
@@ -10430,7 +10430,7 @@
   "app/questions/page.tsx:799"
  ],
  "en attente…": [
-  "components/community/GroupView.tsx:926"
+  "components/community/GroupView.tsx:1011"
  ],
  "En attente…": [
   "components/games/DuelLive.tsx:520"
@@ -10649,7 +10649,7 @@
   "lib/badges.ts:229"
  ],
  "Encourager": [
-  "components/community/PrayerCard.tsx:697",
+  "components/community/PrayerCard.tsx:748",
   "components/community/PrayerTime.tsx:736"
  ],
  "Encourager l'Église locale": [
@@ -10729,7 +10729,7 @@
   "components/bible/VersetOutils.tsx:555"
  ],
  "Enregistrer dans mon carnet": [
-  "components/community/PrayerCard.tsx:711",
+  "components/community/PrayerCard.tsx:762",
   "components/ecole/FormationView.tsx:2121"
  ],
  "Enregistrer l'image": [
@@ -10820,8 +10820,8 @@
   "components/audio/PodcastsAdmin.tsx:860"
  ],
  "envoi impossible": [
-  "components/community/GroupView.tsx:819",
-  "components/community/PrayerCard.tsx:412"
+  "components/community/GroupView.tsx:904",
+  "components/community/PrayerCard.tsx:419"
  ],
  "Envoi impossible, réessaie": [
   "components/stories/StoriesBar.tsx:314"
@@ -10846,7 +10846,7 @@
  "Envoyer": [
   "components/assistant/AssistantView.tsx:268",
   "components/bible/VersetOutils.tsx:762",
-  "components/community/GroupView.tsx:609"
+  "components/community/GroupView.tsx:668"
  ],
  "Envoyer à tous": [
   "components/community/AdminAnnounce.tsx:187"
@@ -10934,10 +10934,10 @@
   "config/chemin/chapitre-saul.ts:26"
  ],
  "Épinglé": [
-  "components/community/PrayerCard.tsx:472"
+  "components/community/PrayerCard.tsx:490"
  ],
  "Épingler en haut du mur": [
-  "components/community/PrayerCard.tsx:538"
+  "components/community/PrayerCard.tsx:568"
  ],
  "Épique": [
   "components/chemin/CheminScreen.tsx:92"
@@ -11735,7 +11735,7 @@
   "components/bible/RechercheBible.tsx:11"
  ],
  "Feed": [
-  "components/community/GroupView.tsx:253"
+  "components/community/GroupView.tsx:255"
  ],
  "Félicitations !": [
   "components/ecole/FormationView.tsx:1234"
@@ -12317,7 +12317,7 @@
   "components/community/PrayerTime.tsx:316"
  ],
  "Gloire à Dieu!": [
-  "components/community/PrayerCard.tsx:454"
+  "components/community/PrayerCard.tsx:472"
  ],
  "Golgotha": [
   "config/chemin/chapitre-cene.ts:87"
@@ -12444,7 +12444,7 @@
   "components/community/GroupsDirectory.tsx:49"
  ],
  "Groupe introuvable": [
-  "components/community/GroupView.tsx:173"
+  "components/community/GroupView.tsx:175"
  ],
  "Groupes": [
   "app/groupes/page.tsx:6",
@@ -12636,7 +12636,7 @@
  ],
  "Hier": [
   "components/community/MessagesView.tsx:62",
-  "components/community/PrayerCard.tsx:100"
+  "components/community/PrayerCard.tsx:102"
  ],
  "Hinnom": [
   "config/chemin/chapitre-samson.ts:78"
@@ -14148,7 +14148,7 @@
   "components/wall/WallSection.tsx:45"
  ],
  "Il y a {0} heures": [
-  "components/community/PrayerCard.tsx:98"
+  "components/community/PrayerCard.tsx:100"
  ],
  "il y a {0} j": [
   "components/community/MessagesView.tsx:51",
@@ -14156,20 +14156,20 @@
   "components/wall/WallSection.tsx:46"
  ],
  "Il y a {0} jours": [
-  "components/community/PrayerCard.tsx:101"
+  "components/community/PrayerCard.tsx:103"
  ],
  "il y a {0} min": [
   "components/stories/StoriesBar.tsx:37",
   "components/wall/WallSection.tsx:44"
  ],
  "Il y a {0} minutes": [
-  "components/community/PrayerCard.tsx:96"
- ],
- "Il y a 1 heure": [
   "components/community/PrayerCard.tsx:98"
  ],
+ "Il y a 1 heure": [
+  "components/community/PrayerCard.tsx:100"
+ ],
  "Il y a 1 minute": [
-  "components/community/PrayerCard.tsx:96"
+  "components/community/PrayerCard.tsx:98"
  ],
  "il y a 5 min · Public": [
   "components/community/CommunityLanding.tsx:129"
@@ -14417,7 +14417,7 @@
   "config/chemin/chapitre-saul.ts:78"
  ],
  "Ils reçoivent une notification et acceptent (ou refusent) de rejoindre.": [
-  "components/community/GroupView.tsx:1013"
+  "components/community/GroupView.tsx:1098"
  ],
  "Ils redescendaient déjà": [
   "config/chemin/chapitre-pentecote.ts:46"
@@ -14758,13 +14758,13 @@
   "components/plans/PlanDuo.tsx:157"
  ],
  "Invitations envoyées (": [
-  "components/community/GroupView.tsx:920"
+  "components/community/GroupView.tsx:1005"
  ],
  "INVITÉ": [
   "components/games/DuelLive.tsx:588"
  ],
  "Invité ✓": [
-  "components/community/GroupView.tsx:1029"
+  "components/community/GroupView.tsx:1114"
  ],
  "Invite tes amis à rejoindre l'app pour vous retrouver ici.": [
   "components/community/MembresDuLieu.tsx:113"
@@ -14773,14 +14773,14 @@
   "components/plans/PlanDuo.tsx:106"
  ],
  "Inviter": [
-  "components/community/GroupView.tsx:1042",
+  "components/community/GroupView.tsx:1127",
   "components/plans/PlanDuo.tsx:250"
  ],
  "Inviter au Zoom du mois": [
   "components/community/AdminBatisseurs.tsx:65"
  ],
  "Inviter des amis": [
-  "components/community/GroupView.tsx:1012"
+  "components/community/GroupView.tsx:1097"
  ],
  "Inviter mes amis": [
   "components/app/ProfilMenu.tsx:428",
@@ -14887,7 +14887,7 @@
   "config/chemin/chapitre-sinai.ts:77"
  ],
  "J'ai prié": [
-  "components/community/GroupView.tsx:733"
+  "components/community/GroupView.tsx:793"
  ],
  "J'ai renié mon Maître trois fois dans une cour.": [
   "config/chemin/chapitre-pentecote.ts:86"
@@ -15405,8 +15405,8 @@
   "components/community/ProfileView.tsx:1123"
  ],
  "Je prie": [
-  "components/community/GroupView.tsx:733",
-  "components/community/PrayerCard.tsx:661",
+  "components/community/GroupView.tsx:793",
+  "components/community/PrayerCard.tsx:712",
   "components/community/PrayerTime.tsx:670"
  ],
  "Je prie pour ce sujet": [
@@ -17574,6 +17574,9 @@
   "components/mission/DonateScreen.tsx:82",
   "components/mission/DonateScreen.tsx:112"
  ],
+ "La modification n'a pas pu être enregistrée. Réessaie.": [
+  "components/community/EditionTexte.tsx:80"
+ ],
  "La moitié": [
   "app/memoriser/page.tsx:39",
   "config/chemin/chapitre-job.ts:98",
@@ -18531,7 +18534,7 @@
   "components/boutique/RhemaShowcase.tsx:314"
  ],
  "Le mot de passe doit faire au moins {0} caractères.": [
-  "lib/community.ts:264"
+  "lib/community.ts:267"
  ],
  "Le mot de passe doit faire au moins 6 caractères.": [
   "components/community/EmailPasswordAuth.tsx:97",
@@ -19020,7 +19023,7 @@
   "config/chemin/chapitre-creation.ts:104"
  ],
  "Le service est momentanément indisponible. On s'en occupe : réessaie un peu plus tard.": [
-  "lib/community.ts:146"
+  "lib/community.ts:149"
  ],
  "Le serviteur blessé pour nos péchés": [
   "config/chemin/chapitre-esaie.ts:99"
@@ -20030,7 +20033,7 @@
   "components/plans/PlanView.tsx:407"
  ],
  "Lien d'invitation": [
-  "components/community/GroupView.tsx:862"
+  "components/community/GroupView.tsx:947"
  ],
  "Lien du plan copié.": [
   "components/plans/YearPlanView.tsx:151"
@@ -21030,13 +21033,13 @@
   "components/games/WhoAmIScreen.tsx:263"
  ],
  "membre": [
-  "components/community/GroupView.tsx:229",
+  "components/community/GroupView.tsx:231",
   "components/community/ProfileView.tsx:1401"
  ],
  "Membre": [
   "components/community/FollowListModal.tsx:87",
-  "components/community/GroupView.tsx:457",
-  "components/community/GroupView.tsx:565"
+  "components/community/GroupView.tsx:460",
+  "components/community/GroupView.tsx:601"
  ],
  "Membre introuvable.": [
   "components/community/MemberView.tsx:170"
@@ -21045,10 +21048,10 @@
   "components/community/GroupsDirectory.tsx:72"
  ],
  "Membres": [
-  "components/community/GroupView.tsx:255"
+  "components/community/GroupView.tsx:257"
  ],
  "Membres (": [
-  "components/community/GroupView.tsx:935"
+  "components/community/GroupView.tsx:1020"
  ],
  "Membres de l'église": [
   "components/community/MembresDuLieu.tsx:74"
@@ -21473,19 +21476,21 @@
   "components/community/ModeratorBadge.tsx:5"
  ],
  "Modération du groupe": [
-  "components/community/GroupView.tsx:1084"
+  "components/community/GroupView.tsx:1169"
  ],
  "Moderne": [
   "lib/reading-settings.ts:48",
   "lib/verse-image.ts:33"
  ],
  "modifié": [
+  "components/community/EditionTexte.tsx:105",
+  "components/community/GroupView.tsx:839",
   "components/community/MessagesView.tsx:674"
  ],
  "Modifier": [
   "components/audio/PodcastsAdmin.tsx:963",
   "components/community/DevotionsAdmin.tsx:371",
-  "components/community/MessagesView.tsx:498"
+  "components/community/GroupView.tsx:472"
  ],
  "Modifier (admin)": [
   "components/audio/ListenScreen.tsx:1624"
@@ -21498,6 +21503,9 @@
  ],
  "Modifier le profil": [
   "components/community/ProfileView.tsx:551"
+ ],
+ "Modifier le texte": [
+  "components/community/EditionTexte.tsx:72"
  ],
  "Modifier ma note :": [
   "components/audio/NoteEmission.tsx:81",
@@ -21983,7 +21991,7 @@
   "components/community/ProfileView.tsx:774"
  ],
  "Nom": [
-  "components/community/GroupView.tsx:1109",
+  "components/community/GroupView.tsx:1194",
   "components/home/PrayerSpace.tsx:135"
  ],
  "Nom de l'intervenant": [
@@ -22014,9 +22022,9 @@
   "components/community/MemberView.tsx:445"
  ],
  "non configuré": [
-  "lib/community.ts:154",
-  "lib/community.ts:163",
-  "lib/community.ts:177"
+  "lib/community.ts:157",
+  "lib/community.ts:166",
+  "lib/community.ts:180"
  ],
  "Non merci, peut-être plus tard": [
   "components/layout/EmailPopup.tsx:114"
@@ -22060,14 +22068,14 @@
   "components/ecole/FormationView.tsx:2123"
  ],
  "Note vocale": [
-  "components/community/GroupView.tsx:817",
-  "components/community/PrayerCard.tsx:409",
+  "components/community/GroupView.tsx:902",
+  "components/community/PrayerCard.tsx:416",
   "components/community/PrayerTime.tsx:632"
  ],
  "Note vocale expirée (les vocaux durent 7 jours)": [
-  "components/community/GroupView.tsx:761",
+  "components/community/GroupView.tsx:829",
   "components/community/MessagesView.tsx:666",
-  "components/community/PrayerCard.tsx:566"
+  "components/community/PrayerCard.tsx:596"
  ],
  "Noter": [
   "components/audio/NoteEmission.tsx:81",
@@ -22193,7 +22201,7 @@
   "components/community/ResetPasswordForm.tsx:136"
  ],
  "Nouveau sujet de prière — {0}": [
-  "components/community/GroupView.tsx:688"
+  "components/community/GroupView.tsx:748"
  ],
  "Nouveau Testament": [
   "components/bible/BibleReader.tsx:1049",
@@ -22369,7 +22377,7 @@
   "config/chemin/chapitre-attente.ts:62"
  ],
  "on rejoint sans validation": [
-  "components/community/GroupView.tsx:1136",
+  "components/community/GroupView.tsx:1221",
   "components/community/GroupsDirectory.tsx:254"
  ],
  "On sépare les Églises": [
@@ -22411,7 +22419,7 @@
   "lib/notif-groupes.ts:65"
  ],
  "ont prié": [
-  "components/community/GroupView.tsx:720"
+  "components/community/GroupView.tsx:780"
  ],
  "ont réagi à ta publication": [
   "lib/notif-groupes.ts:63"
@@ -22432,7 +22440,7 @@
   "components/community/PrieresDirect.tsx:632"
  ],
  "Options du sujet": [
-  "components/community/PrayerCard.tsx:504"
+  "components/community/PrayerCard.tsx:522"
  ],
  "Or": [
   "components/app/BadgeCelebration.tsx:12",
@@ -22614,7 +22622,7 @@
   "components/memorize/VerseGame.tsx:701"
  ],
  "Ouverte": [
-  "components/community/GroupView.tsx:1136",
+  "components/community/GroupView.tsx:1221",
   "components/community/GroupsDirectory.tsx:254"
  ],
  "Ouverture de l'application…": [
@@ -23198,7 +23206,7 @@
   "components/community/CommunityView.tsx:276"
  ],
  "Partage un plan, une percée, un sujet de prière… (colle un lien, il sera cliquable)": [
-  "components/community/GroupView.tsx:428"
+  "components/community/GroupView.tsx:431"
  ],
  "Partage un sujet de prière…": [
   "components/community/CommunityView.tsx:312"
@@ -23269,7 +23277,7 @@
   "components/home/Testimonies.tsx:101"
  ],
  "Partager un sujet de prière": [
-  "components/community/GroupView.tsx:797"
+  "components/community/GroupView.tsx:882"
  ],
  "partages faits depuis l'app": [
   "lib/badges.ts:230"
@@ -23553,7 +23561,7 @@
   "components/home/DailyThoughtCard.tsx:27"
  ],
  "Percée": [
-  "lib/groups.ts:84"
+  "lib/groups.ts:87"
  ],
  "Perdu": [
   "components/games/ChallengeScreen.tsx:372"
@@ -23765,10 +23773,10 @@
   "components/audio/PodcastsAdmin.tsx:732"
  ],
  "Photo choisie…": [
-  "components/community/GroupView.tsx:1099"
+  "components/community/GroupView.tsx:1184"
  ],
  "Photo de couverture": [
-  "components/community/GroupView.tsx:1090"
+  "components/community/GroupView.tsx:1175"
  ],
  "Photo de profil": [
   "components/community/ProfileView.tsx:676"
@@ -23868,7 +23876,7 @@
   "components/app/AppOnboarding.tsx:171"
  ],
  "Plan": [
-  "lib/groups.ts:83"
+  "lib/groups.ts:86"
  ],
  "Plan de lecture": [
   "components/home/DevotionalView.tsx:695",
@@ -24746,7 +24754,7 @@
   "components/home/DailyPrayerSpotlight.tsx:99"
  ],
  "Prie avec nous : « {0} »": [
-  "components/community/PrayerCard.tsx:177"
+  "components/community/PrayerCard.tsx:184"
  ],
  "Prie ensemble": [
   "components/community/CommunityLanding.tsx:28"
@@ -24797,7 +24805,7 @@
   "config/verse-packs.ts:31"
  ],
  "Prière exaucée": [
-  "components/community/PrayerCard.tsx:623"
+  "components/community/PrayerCard.tsx:674"
  ],
  "Prière suivante…": [
   "components/community/PrieresDirect.tsx:737"
@@ -24845,7 +24853,7 @@
   "config/chemin/chapitre-voyages.ts:66"
  ],
  "Privé": [
-  "components/community/PrayerCard.tsx:41",
+  "components/community/PrayerCard.tsx:43",
   "components/community/ProfileView.tsx:1216"
  ],
  "Privé, moi seul": [
@@ -25060,7 +25068,7 @@
  "Public": [
   "components/community/CommunityView.tsx:74",
   "components/community/InAppShare.tsx:224",
-  "components/community/PrayerCard.tsx:41"
+  "components/community/PrayerCard.tsx:43"
  ],
  "Public, tout le monde": [
   "components/community/CommunityView.tsx:340"
@@ -25070,7 +25078,7 @@
   "config/chemin/chapitre-rencontres.ts:27"
  ],
  "Publication": [
-  "components/community/PrayerCard.tsx:192",
+  "components/community/PrayerCard.tsx:199",
   "components/notebook/CarnetView.tsx:31",
   "components/notebook/CarnetView.tsx:394"
  ],
@@ -25103,7 +25111,7 @@
  ],
  "Publier": [
   "components/community/CommunityView.tsx:320",
-  "components/community/GroupView.tsx:433",
+  "components/community/GroupView.tsx:436",
   "components/plans/PlanCommentaires.tsx:132"
  ],
  "Publier l'annonce": [
@@ -27028,7 +27036,7 @@
   "config/chemin/chapitre-lettres-paul.ts:91"
  ],
  "Quelle joie! Ta prière exaucée encourage toute la communauté. Continue de témoigner de Sa fidélité.": [
-  "components/community/PrayerCard.tsx:455"
+  "components/community/PrayerCard.tsx:473"
  ],
  "Quelle objection Jérémie oppose-t-il à son appel ?": [
   "config/chemin/chapitre-jeremie.ts:26"
@@ -27112,7 +27120,7 @@
   "config/chemin/chapitre-moise.ts:26"
  ],
  "Quelqu'un": [
-  "components/community/PrayerCard.tsx:328",
+  "components/community/PrayerCard.tsx:335",
   "lib/notif-groupes.ts:5",
   "lib/notif-groupes.ts:112"
  ],
@@ -27421,7 +27429,7 @@
   "components/games/VfDuel.tsx:188"
  ],
  "Quitter le groupe": [
-  "components/community/GroupView.tsx:978"
+  "components/community/GroupView.tsx:1063"
  ],
  "Quitter le niveau": [
   "components/games/FrondeGame.tsx:272"
@@ -27531,12 +27539,12 @@
   "components/games/WhoAmIScreen.tsx:379"
  ],
  "Réagir": [
-  "components/community/GroupView.tsx:571",
-  "components/community/PrayerCard.tsx:837",
-  "components/community/PrayerCard.tsx:912"
+  "components/community/GroupView.tsx:625",
+  "components/community/PrayerCard.tsx:896",
+  "components/community/PrayerCard.tsx:984"
  ],
  "Réagir {0}": [
-  "components/community/PrayerCard.tsx:676",
+  "components/community/PrayerCard.tsx:727",
   "components/community/Reactions.tsx:66",
   "components/community/Reactions.tsx:163"
  ],
@@ -27645,7 +27653,7 @@
   "components/community/MediasAdmin.tsx:165"
  ],
  "Rechercher un membre par pseudo…": [
-  "components/community/GroupView.tsx:1017",
+  "components/community/GroupView.tsx:1102",
   "components/community/InAppShare.tsx:173",
   "components/community/MemberSearch.tsx:48"
  ],
@@ -27784,7 +27792,7 @@
  ],
  "Réduire": [
   "components/bible/ReadingSettings.tsx:112",
-  "components/community/GroupView.tsx:706",
+  "components/community/GroupView.tsx:766",
   "components/community/TopIntercessors.tsx:98"
  ],
  "Réduire la liste": [
@@ -27813,7 +27821,7 @@
  "Référence": [
   "components/community/DevotionsAdmin.tsx:85",
   "components/community/DevotionsAdmin.tsx:149",
-  "components/community/GroupView.tsx:1112"
+  "components/community/GroupView.tsx:1197"
  ],
  "Référence (ex. Philippiens 4:13)": [
   "components/community/ProfileView.tsx:955"
@@ -27835,8 +27843,8 @@
   "components/ecole/FormationView.tsx:2065"
  ],
  "Refuser": [
-  "components/community/GroupView.tsx:339",
-  "components/community/GroupView.tsx:907",
+  "components/community/GroupView.tsx:341",
+  "components/community/GroupView.tsx:992",
   "components/plans/PlanDuo.tsx:148"
  ],
  "Refuser une foi tiède": [
@@ -27850,8 +27858,8 @@
   "components/games/GamesHub.tsx:193"
  ],
  "Réglages du groupe": [
-  "components/community/GroupView.tsx:1084",
-  "components/community/GroupView.tsx:1214"
+  "components/community/GroupView.tsx:1169",
+  "components/community/GroupView.tsx:1299"
  ],
  "Régner sur Israël": [
   "config/chemin/chapitre-attente.ts:71"
@@ -27877,7 +27885,7 @@
   "app/mission-madagascar/page.tsx:81"
  ],
  "Rejoindre le groupe": [
-  "components/community/GroupView.tsx:357"
+  "components/community/GroupView.tsx:359"
  ],
  "Rejoindre le live": [
   "components/home/NextLiveBanner.tsx:35"
@@ -27895,7 +27903,7 @@
   "components/home/NewsletterCTA.tsx:32"
  ],
  "Rejoins ce groupe pour voir le feed et le chat.": [
-  "components/community/GroupView.tsx:313"
+  "components/community/GroupView.tsx:315"
  ],
  "Rejoins ceux qui portent": [
   "app/dons/page.tsx:104"
@@ -28221,7 +28229,7 @@
  "Répondre": [
   "app/questions/page.tsx:840",
   "components/community/MessagesView.tsx:489",
-  "components/community/PrayerCard.tsx:830"
+  "components/community/PrayerCard.tsx:889"
  ],
  "Répondre à {0}…": [
   "components/stories/StoriesBar.tsx:483"
@@ -28230,7 +28238,7 @@
   "app/confidentialite/page.tsx:101"
  ],
  "Répondre…": [
-  "components/community/GroupView.tsx:608"
+  "components/community/GroupView.tsx:667"
  ],
  "Réponds aux questions et deviens incollable sur la Bible !": [
   "components/games/GamesHub.tsx:68"
@@ -28386,7 +28394,7 @@
   "components/home/DevotionalView.tsx:834"
  ],
  "Retirer du carnet": [
-  "components/community/PrayerCard.tsx:711"
+  "components/community/PrayerCard.tsx:762"
  ],
  "Retirer du hors-ligne": [
   "components/audio/ListenScreen.tsx:1559",
@@ -28784,7 +28792,7 @@
   "components/notebook/NotebookView.tsx:160"
  ],
  "Rouvrir le sujet": [
-  "components/community/PrayerCard.tsx:526"
+  "components/community/PrayerCard.tsx:556"
  ],
  "Royal": [
   "lib/verse-image.ts:13"
@@ -29361,7 +29369,7 @@
   "lib/faq-questions.ts:72"
  ],
  "Service non configuré.": [
-  "lib/community.ts:354"
+  "lib/community.ts:357"
  ],
  "Servir Dieu ne commence pas par vouloir briller, mais par accepter de dépendre de Lui. L'humilité nous garde à notre place devant Dieu. Elle nous rappelle que tout vient de Lui, que tout est pour Lui, et que sans Lui nous ne pouvons rien faire. Je crois qu'un ministère qui porte du fruit doit rester à genoux devant Dieu, même lorsqu'il devient visible devant les hommes.": [
   "app/a-propos/page.tsx:29"
@@ -29510,7 +29518,7 @@
  ],
  "Signaler": [
   "components/community/MemberView.tsx:423",
-  "components/community/PrayerCard.tsx:554",
+  "components/community/PrayerCard.tsx:584",
   "components/community/ReportButton.tsx:100"
  ],
  "Signaler ce contenu": [
@@ -29640,7 +29648,7 @@
   "components/mission/DonLibre.tsx:90"
  ],
  "Sois le premier à encourager.": [
-  "components/community/PrayerCard.tsx:961"
+  "components/community/PrayerCard.tsx:1038"
  ],
  "Sois le premier champion !": [
   "components/memorize/WeeklyChampions.tsx:70"
@@ -29912,7 +29920,7 @@
   "components/community/MemberView.tsx:289"
  ],
  "Suivi par {0}": [
-  "lib/community.ts:1091"
+  "lib/community.ts:1094"
  ],
  "Suivre": [
   "components/community/MemberSuggestions.tsx:113",
@@ -29937,15 +29945,15 @@
   "components/community/MyPrayerList.tsx:161"
  ],
  "Sujet de prière": [
-  "components/community/GroupView.tsx:798",
+  "components/community/GroupView.tsx:883",
   "components/community/ModerationQueue.tsx:20",
-  "components/community/PrayerCard.tsx:177"
+  "components/community/PrayerCard.tsx:184"
  ],
  "sujets": [
   "components/community/MemberView.tsx:265"
  ],
  "Sujets du cercle ·": [
-  "components/community/GroupView.tsx:704"
+  "components/community/GroupView.tsx:764"
  ],
  "Supabase, hébergement sécurisé de la base de données et gestion des comptes de l'application (authentification, profils, contenus communautaires)": [
   "app/confidentialite/page.tsx:137"
@@ -29954,7 +29962,7 @@
   "components/community/MessagesView.tsx:515"
  ],
  "Suppression impossible. Réessaie.": [
-  "components/community/GroupView.tsx:1190"
+  "components/community/GroupView.tsx:1275"
  ],
  "Suppression…": [
   "components/community/DeleteAccountButton.tsx:60"
@@ -29975,8 +29983,8 @@
   "components/audio/ListenScreen.tsx:1671"
  ],
  "Supprimer (modération)": [
-  "components/community/PrayerCard.tsx:550",
-  "components/community/PrayerCard.tsx:846"
+  "components/community/PrayerCard.tsx:580",
+  "components/community/PrayerCard.tsx:910"
  ],
  "Supprimer ce message pour tout le monde ?": [
   "components/community/MessagesView.tsx:513"
@@ -29985,10 +29993,10 @@
   "components/community/PrieresDirect.tsx:653"
  ],
  "Supprimer cette prière?": [
-  "components/community/PrayerCard.tsx:434"
+  "components/community/PrayerCard.tsx:452"
  ],
  "Supprimer définitivement le groupe « {0} » ? Cette action est irréversible.": [
-  "components/community/GroupView.tsx:1185"
+  "components/community/GroupView.tsx:1270"
  ],
  "Supprimer définitivement ton compte et tes données? Cette action est irréversible.": [
   "components/community/ProfileView.tsx:1015"
@@ -30006,11 +30014,11 @@
   "components/plans/PlanDuo.tsx:321"
  ],
  "Supprimer la réponse": [
-  "components/community/PrayerCard.tsx:920"
+  "components/community/PrayerCard.tsx:997"
  ],
  "Supprimer le commentaire": [
-  "components/community/GroupView.tsx:586",
-  "components/community/PrayerCard.tsx:845",
+  "components/community/GroupView.tsx:645",
+  "components/community/PrayerCard.tsx:909",
   "components/plans/PlanCommentaires.tsx:179"
  ],
  "Supprimer le contenu": [
@@ -30020,7 +30028,7 @@
   "components/community/DevotionsAdmin.tsx:249"
  ],
  "Supprimer le groupe": [
-  "components/community/GroupView.tsx:1194"
+  "components/community/GroupView.tsx:1279"
  ],
  "Supprimer mon": [
   "app/suppression-compte/page.tsx:18"
@@ -30236,7 +30244,7 @@
   "config/chemin/chapitre-naissance.ts:26"
  ],
  "Sur validation": [
-  "components/community/GroupView.tsx:1137",
+  "components/community/GroupView.tsx:1222",
   "components/community/GroupsDirectory.tsx:255"
  ],
  "Surlignages": [
@@ -30372,7 +30380,7 @@
   "components/community/ProfileView.tsx:800"
  ],
  "Ta réponse…": [
-  "components/community/PrayerCard.tsx:942"
+  "components/community/PrayerCard.tsx:1019"
  ],
  "Ta requête a été reçue. Nous prions pour toi.": [
   "app/api/prayer/route.ts:34",
@@ -30621,7 +30629,7 @@
   "components/community/GroupsDirectory.tsx:234"
  ],
  "Texte d'explication du groupe": [
-  "components/community/GroupView.tsx:1110"
+  "components/community/GroupView.tsx:1195"
  ],
  "Textes": [
   "components/profile/MyFavorites.tsx:15",
@@ -30835,7 +30843,7 @@
   "app/ebook/7-jours/page.tsx:8"
  ],
  "Ton église": [
-  "lib/community.ts:1088"
+  "lib/community.ts:1091"
  ],
  "Ton église (facultatif)": [
   "components/community/ProfileView.tsx:793"
@@ -30867,7 +30875,7 @@
   "components/community/AdminAnnounce.tsx:182"
  ],
  "Ton message…": [
-  "components/community/GroupView.tsx:808",
+  "components/community/GroupView.tsx:893",
   "components/community/MessagesView.tsx:759"
  ],
  "Ton mot de passe": [
@@ -30936,7 +30944,7 @@
   "components/mission/DonateScreen.tsx:144"
  ],
  "Ton sujet de prière (épinglé pour le cercle)…": [
-  "components/community/GroupView.tsx:808"
+  "components/community/GroupView.tsx:893"
  ],
  "Ton sujet de prière…": [
   "components/community/PrieresDirect.tsx:429"
@@ -30957,6 +30965,9 @@
  ],
  "Top émissions · {0} derniers jours": [
   "components/audio/ListenScreen.tsx:1017"
+ ],
+ "top-full mt-1 {0}": [
+  "components/community/GroupView.tsx:820"
  ],
  "Total payé par les bénévoles": [
   "components/mission/MissionBenevoles.tsx:76"
@@ -31342,7 +31353,7 @@
   "config/chemin/chapitre-david-roi.ts:58"
  ],
  "tu acceptes les demandes": [
-  "components/community/GroupView.tsx:1137",
+  "components/community/GroupView.tsx:1222",
   "components/community/GroupsDirectory.tsx:255"
  ],
  "Tu adoreras le Seigneur ton Dieu et tu le serviras lui seul": [
@@ -31417,7 +31428,7 @@
   "content/support-tiers.json"
  ],
  "Tu es invité(e) 🎉": [
-  "components/community/GroupView.tsx:312"
+  "components/community/GroupView.tsx:314"
  ],
  "Tu es le Christ le Fils du Dieu vivant": [
   "config/chemin/chapitre-transfiguration.ts:35"
@@ -31982,7 +31993,7 @@
   "config/chemin/chapitre-jacob.ts:77"
  ],
  "Un mot d'encouragement… cite avec @": [
-  "components/community/PrayerCard.tsx:984"
+  "components/community/PrayerCard.tsx:1061"
  ],
  "Un mot de passe": [
   "config/chemin/chapitre-cene.ts:97"
@@ -33182,7 +33193,7 @@
  ],
  "Verset": [
   "components/bible/BibleAudioPlayer.tsx:85",
-  "components/community/GroupView.tsx:1111",
+  "components/community/GroupView.tsx:1196",
   "components/memorize/VerseGame.tsx:641"
  ],
  "Verset (ex. Jean 3.16) — facultatif": [
@@ -33345,7 +33356,7 @@
   "app/confidentialite/page.tsx:182"
  ],
  "Visible dans le répertoire": [
-  "components/community/GroupView.tsx:1130",
+  "components/community/GroupView.tsx:1215",
   "components/community/GroupsDirectory.tsx:248"
  ],
  "Visible en haut de l'app pour tous les utilisateurs (nouvelle vidéo, événement, message…).": [
@@ -33391,7 +33402,7 @@
  "Voir": [
   "components/bible/VersetsLies.tsx:208",
   "components/community/DevotionsAdmin.tsx:403",
-  "components/community/GroupView.tsx:706"
+  "components/community/GroupView.tsx:766"
  ],
  "VOIR": [
   "components/games/GamesHub.tsx:326"
@@ -33445,7 +33456,7 @@
   "components/community/VoirTraduction.tsx:57"
  ],
  "Voir le commentaire": [
-  "components/community/PrayerCard.tsx:761"
+  "components/community/PrayerCard.tsx:812"
  ],
  "Voir le jour": [
   "components/plans/PlanJour.tsx:386"
@@ -33456,7 +33467,7 @@
  "Voir le profil": [
   "components/community/AnsweredFeed.tsx:54",
   "components/community/EnLigneMaintenant.tsx:123",
-  "components/community/PrayerCard.tsx:476"
+  "components/community/PrayerCard.tsx:494"
  ],
  "Voir les {0} autres": [
   "components/community/PrieresDirect.tsx:227"
@@ -33468,13 +33479,13 @@
   "components/chemin/CheminHub.tsx:306"
  ],
  "Voir les {0} commentaires": [
-  "components/community/PrayerCard.tsx:761"
+  "components/community/PrayerCard.tsx:812"
  ],
  "Voir les autres plans": [
   "components/plans/PlanView.tsx:526"
  ],
  "Voir les groupes": [
-  "components/community/GroupView.tsx:175"
+  "components/community/GroupView.tsx:177"
  ],
  "Voir les membres de {0}": [
   "components/community/ProfileInfoPills.tsx:49",

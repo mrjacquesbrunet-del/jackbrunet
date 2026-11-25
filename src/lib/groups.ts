@@ -44,6 +44,7 @@ export type GroupPost = {
   body: string;
   kind: "post" | "plan" | "percee" | "priere";
   created_at: string;
+  edited_at?: string | null;
   author?: MiniProfile;
 };
 
@@ -53,6 +54,7 @@ export type GroupComment = {
   author_id: string;
   body: string;
   created_at: string;
+  edited_at?: string | null;
   author?: MiniProfile;
 };
 
@@ -66,6 +68,7 @@ export type GroupMessage = {
   created_at: string;
   /** Note vocale (URL publique) — remplace le texte quand présente. */
   audio_url?: string | null;
+  edited_at?: string | null;
   author?: MiniProfile;
 };
 

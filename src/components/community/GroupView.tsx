@@ -52,7 +52,9 @@ import { VoiceRecorderButton, VoiceNotePlayer } from "@/components/community/Voi
 import { voiceExpired } from "@/lib/voice";
 import { localeApp } from "@/lib/i18n";
 import { getSupabase } from "@/lib/supabase";
-import { BarreReactions, PucesReactions, gesteReaction } from "@/components/community/Reactions";
+import { BarreReactions, PucesReactions, gesteReaction, ICONES_BULLE } from "@/components/community/Reactions";
+import { EditionTexte, MentionModifie } from "@/components/community/EditionTexte";
+import { modifierPublication } from "@/lib/community";
 import { TirerPourRafraichir } from "@/components/ui/TirerPourRafraichir";
 
 /** Réactions façon WhatsApp sur les commentaires ou messages d'un groupe. */
@@ -370,6 +372,7 @@ function Feed({ group, userId, isAdmin }: { group: Group; userId: string; isAdmi
   const [kind, setKind] = useState<GroupPost["kind"]>("post");
   const [busy, setBusy] = useState(false);
   const [openComments, setOpenComments] = useState<string | null>(null);
+  const [editionPost, setEditionPost] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     const ps = await listPosts(group.id);
@@ -462,6 +465,18 @@ function Feed({ group, userId, isAdmin }: { group: Group; userId: string; isAdmi
                       {KIND_LABEL[p.kind]}
                     </span>
                   ) : null}
+                  {p.author_id === userId ? (
+                    <button
+                      type="button"
+                      onClick={() => setEditionPost(p.id)}
+                      aria-label="Modifier"
+                      className="grid h-7 w-7 place-items-center text-cream/40 hover:text-cream"
+                    >
+                      <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth={1.9} aria-hidden>
+                        {ICONES_BULLE.modifier}
+                      </svg>
+                    </button>
+                  ) : null}
                   {p.author_id === userId || isAdmin ? (
                     <button
                       type="button"
@@ -481,7 +496,27 @@ function Feed({ group, userId, isAdmin }: { group: Group; userId: string; isAdmi
                   ) : null}
                 </div>
 
-                <RichText text={p.body} className="mt-3 text-[15px] leading-relaxed text-cream/90" />
+                {editionPost === p.id ? (
+                  <EditionTexte
+                    sombre
+                    className="mt-3"
+                    valeur={p.body}
+                    onAnnuler={() => setEditionPost(null)}
+                    onEnregistrer={async (t) => {
+                      const ok = await modifierPublication("groupe_post", p.id, t);
+                      if (ok) {
+                        setPosts((prev) => (prev ? prev.map((x) => (x.id === p.id ? { ...x, body: t, edited_at: new Date().toISOString() } : x)) : prev));
+                        setEditionPost(null);
+                      }
+                      return ok;
+                    }}
+                  />
+                ) : (
+                  <>
+                    <RichText text={p.body} className="mt-3 text-[15px] leading-relaxed text-cream/90" />
+                    {p.edited_at ? <MentionModifie sombre /> : null}
+                  </>
+                )}
 
                 <div className="mt-3 flex flex-wrap items-center gap-1.5">
                   {GROUP_REACTIONS.map((e) => {
@@ -536,6 +571,7 @@ function Comments({
 }) {
   const [list, setList] = useState<GroupComment[] | null>(null);
   const [text, setText] = useState("");
+  const [edition, setEdition] = useState<string | null>(null);
 
   const load = useCallback(async () => setList(await listComments(postId)), [postId]);
   useEffect(() => {
@@ -563,13 +599,36 @@ function Comments({
               ) : null}
               <div {...R.geste(cm.id)} className="select-none rounded-2xl bg-white/[0.06] px-3 py-2">
                 <p className="text-xs font-bold text-cream">{cm.author?.pseudo ?? "Membre"}</p>
-                <p className="text-sm text-cream/85">{cm.body}</p>
+                {edition === cm.id ? (
+                  <EditionTexte
+                    sombre
+                    className="mt-1"
+                    valeur={cm.body}
+                    onAnnuler={() => setEdition(null)}
+                    onEnregistrer={async (t) => {
+                      const ok = await modifierPublication("groupe_commentaire", cm.id, t);
+                      if (ok) {
+                        setList((prev) => (prev ? prev.map((x) => (x.id === cm.id ? { ...x, body: t, edited_at: new Date().toISOString() } : x)) : prev));
+                        setEdition(null);
+                      }
+                      return ok;
+                    }}
+                  />
+                ) : (
+                  <p className="text-sm text-cream/85">{cm.body}</p>
+                )}
               </div>
               <div className="mt-1 flex flex-wrap items-center gap-2 pl-2">
                 <span className="text-[11px] text-cream/40">{timeAgo(cm.created_at)}</span>
+                {cm.edited_at ? <MentionModifie sombre /> : null}
                 <button type="button" onClick={() => R.setOuvertPour(R.ouvertPour === cm.id ? null : cm.id)} className="text-[11px] font-semibold text-dawn-300">
                   Réagir
                 </button>
+                {cm.author_id === userId ? (
+                  <button type="button" onClick={() => setEdition(cm.id)} className="text-[11px] font-semibold text-dawn-300">
+                    Modifier
+                  </button>
+                ) : null}
                 <PucesReactions sombre emojis={R.emojis(cm.id)} mine={R.mine(cm.id)} onPick={(e) => void R.reagir(cm.id, e)} />
               </div>
             </div>
@@ -651,6 +710,7 @@ function Chat({ group, userId }: { group: Group; userId: string }) {
     return () => clearInterval(t);
   }, [load, loadSubjects]);
   const R = useReactionsGroupe("message", msgs.map((m) => m.id), group.id, userId);
+  const [editionMsg, setEditionMsg] = useState<string | null>(null);
   useEnDirect(
     `groupe-discussion:${group.id}`,
     [{ table: "group_messages", filter: `group_id=eq.${group.id}` }, { table: "group_item_reactions", filter: `group_id=eq.${group.id}` }],
@@ -750,7 +810,15 @@ function Chat({ group, userId }: { group: Group; userId: string }) {
             return (
               <div key={m.id} className={`relative flex flex-col ${mine ? "items-end" : "items-start"} ${R.ouvertPour === m.id ? "pt-12" : ""}`}>
                 {R.ouvertPour === m.id ? (
-                  <BarreReactions sombre mine={R.mine(m.id)} onPick={(e) => void R.reagir(m.id, e)} onClose={() => R.setOuvertPour(null)} className={`top-0 ${mine ? "right-0" : "left-0"}`} />
+                  <BarreReactions
+                    sombre
+                    mine={R.mine(m.id)}
+                    onPick={(e) => void R.reagir(m.id, e)}
+                    onClose={() => R.setOuvertPour(null)}
+                    className={`top-0 ${mine ? "right-0" : "left-0"}`}
+                    actions={mine && !m.audio_url ? [{ label: "Modifier", icone: ICONES_BULLE.modifier, onClick: () => setEditionMsg(m.id) }] : undefined}
+                    menuClassName={`top-full mt-1 ${mine ? "right-0" : "left-0"}`}
+                  />
                 ) : null}
                 <div {...R.geste(m.id)} className={`max-w-[80%] select-none rounded-2xl px-3 py-2 ${mine ? "bg-dawn-400 text-night-950" : "bg-white/10 text-cream"}`}>
                   {!mine ? <p className="text-[11px] font-bold opacity-70">{m.author?.pseudo ?? "Membre"}</p> : null}
@@ -768,7 +836,24 @@ function Chat({ group, userId }: { group: Group; userId: string }) {
                   {m.body && !m.audio_url ? (
                     <p className="whitespace-pre-wrap text-sm">{m.body}</p>
                   ) : null}
+                  {m.edited_at ? <span className="text-[10px] font-semibold opacity-50">modifié</span> : null}
                 </div>
+                {editionMsg === m.id ? (
+                  <EditionTexte
+                    sombre
+                    className="mt-1 w-full max-w-[85%]"
+                    valeur={m.body}
+                    onAnnuler={() => setEditionMsg(null)}
+                    onEnregistrer={async (t) => {
+                      const ok = await modifierPublication("groupe_message", m.id, t);
+                      if (ok) {
+                        setMsgs((prev) => prev.map((x) => (x.id === m.id ? { ...x, body: t, edited_at: new Date().toISOString() } : x)));
+                        setEditionMsg(null);
+                      }
+                      return ok;
+                    }}
+                  />
+                ) : null}
                 <PucesReactions sombre emojis={R.emojis(m.id)} mine={R.mine(m.id)} onPick={(e) => void R.reagir(m.id, e)} className={`-mt-1 ${mine ? "mr-2" : "ml-2"}`} />
               </div>
             );

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Avatar } from "@/components/community/Avatar";
 import { Celebration } from "@/components/ui/Celebration";
 import { MentionField } from "@/components/community/MentionField";
+import { EditionTexte, MentionModifie } from "@/components/community/EditionTexte";
 import { BarreReactions, PucesReactions, gesteReaction } from "@/components/community/Reactions";
 import { VoiceRecorderButton, VoiceNotePlayer } from "@/components/community/VoiceNote";
 import { voiceExpired } from "@/lib/voice";
@@ -32,6 +33,7 @@ import {
   commentReactionsFor,
   setCommentReaction,
   getProfile,
+  modifierPublication,
   type CommentReaction,
 } from "@/lib/community";
 import { localeApp } from "@/lib/i18n";
@@ -167,11 +169,16 @@ export function PrayerCard({
   const [pinned, setPinned] = useState(!!prayer.pinned);
   const [celebrate, setCelebrate] = useState(false);
   const [menuOuvert, setMenuOuvert] = useState(false);
-  const themes = themesPriere(prayer.body);
+  // Texte du sujet (modifiable par son auteur) et commentaire en cours de modification.
+  const [texteSujet, setTexteSujet] = useState(prayer.body);
+  const [sujetModifie, setSujetModifie] = useState(!!prayer.edited_at);
+  const [editionSujet, setEditionSujet] = useState(false);
+  const [editionCom, setEditionCom] = useState<string | null>(null);
+  const themes = themesPriere(texteSujet);
 
   async function partager() {
     const url = appShareUrl(`/communaute/?prayer=${prayer.id}`);
-    const texte = prayer.body.length > 120 ? `${prayer.body.slice(0, 117)}…` : prayer.body;
+    const texte = texteSujet.length > 120 ? `${texteSujet.slice(0, 117)}…` : texteSujet;
     try {
       const nav = navigator as Navigator & { share?: (d: object) => Promise<void> };
       if (nav.share) await nav.share({ title: "Sujet de prière", text: `Prie avec nous : « ${texte} »`, url });
@@ -188,7 +195,7 @@ export function PrayerCard({
   function toggleSavePub() {
     tk.toggleSnippet({
       id: pubId,
-      text: prayer.body,
+      text: texteSujet,
       reference: prayer.author?.pseudo? `@${prayer.author.pseudo}`: "Publication",
       kind: "publication",
     });
@@ -424,6 +431,17 @@ export function PrayerCard({
     setBusy(false);
   }
 
+  /** Enregistre la modification d'un de mes commentaires (ou réponses). */
+  async function enregistrerCommentaire(id: string, texte: string): Promise<boolean> {
+    const ok = await modifierPublication("commentaire", id, texte);
+    if (ok) {
+      const maintenant = new Date().toISOString();
+      setComments((prev) => (prev ? prev.map((c) => (c.id === id ? { ...c, body: texte, edited_at: maintenant } : c)) : prev));
+      setEditionCom(null);
+    }
+    return ok;
+  }
+
   async function removeComment(id: string) {
     await deleteComment(id);
     setComments((prev) => (prev? prev.filter((c) => c.id!== id): prev));
@@ -519,6 +537,18 @@ export function PrayerCard({
                       type="button"
                       onClick={() => {
                         setMenuOuvert(false);
+                        setEditionSujet(true);
+                      }}
+                      className="block w-full px-4 py-3 text-left font-semibold text-cream/85 active:bg-white/[0.06]"
+                    >
+                      Modifier
+                    </button>
+                  ) : null}
+                  {isAuthor ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMenuOuvert(false);
                         toggleAnswered();
                       }}
                       className="block w-full px-4 py-3 text-left font-semibold text-dawn-300 active:bg-white/[0.06]"
@@ -571,12 +601,33 @@ export function PrayerCard({
           )
         ) : null}
 
-        <TexteMembre
-          texte={prayer.body}
-          rendu={(t) => (
-            <MentionText text={t} className="mt-2.5 block whitespace-pre-wrap text-[13.5px] leading-[1.5] text-cream/90" />
-          )}
-        />
+        {editionSujet ? (
+          <EditionTexte
+            sombre
+            className="mt-2.5"
+            valeur={texteSujet}
+            onAnnuler={() => setEditionSujet(false)}
+            onEnregistrer={async (t) => {
+              const ok = await modifierPublication("priere", prayer.id, t);
+              if (ok) {
+                setTexteSujet(t);
+                setSujetModifie(true);
+                setEditionSujet(false);
+              }
+              return ok;
+            }}
+          />
+        ) : (
+          <>
+            <TexteMembre
+              texte={texteSujet}
+              rendu={(t) => (
+                <MentionText text={t} className="mt-2.5 block whitespace-pre-wrap text-[13.5px] leading-[1.5] text-cream/90" />
+              )}
+            />
+            {sujetModifie ? <MentionModifie sombre /> : null}
+          </>
+        )}
 
         {/* Thèmes du sujet */}
         {themes.length ? (
@@ -806,7 +857,14 @@ export function PrayerCard({
                                   )}
                                 </div>
                               ): null}
-                              {c.body &&!c.audio_url? (
+                              {editionCom === c.id ? (
+                                <EditionTexte
+                                  className="mt-1"
+                                  valeur={c.body}
+                                  onAnnuler={() => setEditionCom(null)}
+                                  onEnregistrer={(t) => enregistrerCommentaire(c.id, t)}
+                                />
+                              ) : c.body &&!c.audio_url? (
                                 <TexteMembre texte={c.body} rendu={(t) => <MentionText text={t} className="text-sm text-night-900/85" />} />
                               ): null}
                             </div>
@@ -819,6 +877,7 @@ export function PrayerCard({
                             />
                             <div className="mt-1 flex items-center gap-3 pl-3">
                               <span className="text-[11px] text-night-900/40">{tempsCourt(c.created_at)}</span>
+                              {c.edited_at ? <MentionModifie /> : null}
                               <button
                                 type="button"
                                 onClick={() => {
@@ -836,6 +895,11 @@ export function PrayerCard({
                               >
                                 Réagir
                               </button>
+                              {c.author_id === userId && !c.audio_url ? (
+                                <button type="button" onClick={() => setEditionCom(c.id)} className="text-[11px] font-semibold text-spirit-600 hover:underline">
+                                  Modifier
+                                </button>
+                              ) : null}
                             </div>
                           </div>
                           {isAdmin || c.author_id === userId? (
@@ -881,7 +945,14 @@ export function PrayerCard({
                                         )}
                                       </div>
                                     ): null}
-                                    {r.body &&!r.audio_url? (
+                                    {editionCom === r.id ? (
+                                      <EditionTexte
+                                        className="mt-1"
+                                        valeur={r.body}
+                                        onAnnuler={() => setEditionCom(null)}
+                                        onEnregistrer={(t) => enregistrerCommentaire(r.id, t)}
+                                      />
+                                    ) : r.body &&!r.audio_url? (
                                       <TexteMembre texte={r.body} rendu={(t) => <MentionText text={t} className="text-sm text-night-900/85" />} />
                                     ): null}
                                   </div>
@@ -894,6 +965,7 @@ export function PrayerCard({
                                   />
                                   <div className="mt-0.5 flex items-center gap-3 pl-3">
                                     <span className="text-[11px] text-night-900/40">{tempsCourt(r.created_at)}</span>
+                                    {r.edited_at ? <MentionModifie /> : null}
                                     <button
                                       type="button"
                                       onClick={() => {
@@ -911,6 +983,11 @@ export function PrayerCard({
                                     >
                                       Réagir
                                     </button>
+                                    {r.author_id === userId && !r.audio_url ? (
+                                      <button type="button" onClick={() => setEditionCom(r.id)} className="text-[11px] font-semibold text-spirit-600 hover:underline">
+                                        Modifier
+                                      </button>
+                                    ) : null}
                                   </div>
                                 </div>
                                 {isAdmin || r.author_id === userId? (

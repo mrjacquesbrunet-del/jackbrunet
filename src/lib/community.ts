@@ -53,6 +53,8 @@ export type Prayer = {
   answered: boolean;
   pinned?: boolean;
   created_at: string;
+  /** Texte corrigé par l'auteur (« modifié »). */
+  edited_at?: string | null;
   author?: Profile;
 };
 
@@ -72,6 +74,7 @@ export type Comment = {
   parent_id?: string | null;
   /** Note vocale (URL publique) — remplace le texte quand présent. */
   audio_url?: string | null;
+  edited_at?: string | null;
   author?: Profile;
 };
 export type Reaction = { prayer_id: string; user_id: string; type: string };
@@ -1245,4 +1248,16 @@ export async function listPrayersByAuthor(authorId: string): Promise<Prayer[]> {
 .order("created_at", { ascending: false })
 .limit(60);
   return (data as Prayer[])?? [];
+}
+
+/* ————— Modifier une publication (sujet, commentaire, groupe) ————— */
+
+export type TypePublication = "priere" | "commentaire" | "groupe_post" | "groupe_commentaire" | "groupe_message";
+
+/** Modifie le texte d'une de MES publications. Renvoie false si refusé. */
+export async function modifierPublication(type: TypePublication, id: string, body: string): Promise<boolean> {
+  const sb = getSupabase();
+  if (!sb || !body.trim()) return false;
+  const { data, error } = await sb.rpc("modifier_publication", { p_type: type, p_id: id, p_body: body.trim() });
+  return !error && data === true;
 }
