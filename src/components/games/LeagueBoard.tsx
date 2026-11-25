@@ -64,12 +64,18 @@ export function LeagueBoard() {
   const [rows, setRows] = useState<LeagueRow[] | null>(null);
   const [meId, setMeId] = useState<string | null>(null);
   const [all, setAll] = useState(false);
+  // Ma ligue, et la ligue affichée (un toucher sur une autre ligue l'ouvre).
+  const [maDivision, setMaDivision] = useState<number | null>(null);
+  const [vue, setVue] = useState<number | null>(null);
 
   useEffect(() => {
     (async () => {
       const [r, uid] = await Promise.all([fetchLeagueStandings(), currentUserId()]);
       setRows(r);
       setMeId(uid);
+      const d = r.length > 0 ? r[0].division : 4;
+      setMaDivision(d);
+      setVue(d);
       // Badge « Étoile des ligues » : mémorise la meilleure ligue atteinte
       // (Bronze 1 → Élite 4) quand on figure au classement de sa division.
       if (uid && r.some((x) => x.user_id === uid) && r.length > 0) {
@@ -79,7 +85,16 @@ export function LeagueBoard() {
     })();
   }, []);
 
-  const division = rows && rows.length > 0 ? rows[0].division : 4;
+  async function ouvrirLigue(d: number) {
+    if (d === vue) return;
+    setVue(d);
+    setAll(false);
+    setRows(null);
+    setRows(await fetchLeagueStandings(d));
+  }
+
+  const division = vue ?? (rows && rows.length > 0 ? rows[0].division : 4);
+  const autreLigue = maDivision !== null && division !== maDivision;
   const meta = leagueDivisionMeta(division);
   const countdown = useMemo(untilSunday, []);
   const shown = rows ? (all ? rows : rows.slice(0, 10)) : [];
@@ -95,16 +110,37 @@ export function LeagueBoard() {
             <p className="font-game text-base font-black leading-tight" style={{ color: meta.color }}>
               LIGUE {meta.name.toUpperCase()}
             </p>
-            <p className="text-[11px] font-semibold text-white/50">Brassage dans {countdown}</p>
+            <p className="text-[11px] font-semibold text-white/50">
+              {autreLigue ? "Classement de cette ligue" : `Ta ligue · brassage dans ${countdown}`}
+            </p>
           </div>
         </div>
-        <div className="flex items-center gap-1.5">
-          {LEAGUE_DIVISIONS.map((d) => (
-            <span key={d.n} title={`Ligue ${d.name}`} className={d.n === division ? "" : "opacity-30 grayscale"}>
-              <IconShield className={d.n === division ? "h-6 w-6" : "h-5 w-5"} color={d.color} />
-            </span>
-          ))}
-        </div>
+      </div>
+
+      {/* Les 4 ligues : un toucher pour voir leur classement */}
+      <div className="mt-3 grid grid-cols-4 gap-1.5">
+        {LEAGUE_DIVISIONS.map((d) => {
+          const actif = d.n === division;
+          return (
+            <button
+              key={d.n}
+              type="button"
+              onClick={() => void ouvrirLigue(d.n)}
+              aria-pressed={actif}
+              aria-label={`Voir la ligue ${d.name}`}
+              className={`relative flex flex-col items-center gap-1 rounded-2xl px-1 py-2 transition-colors ${actif ? "bg-white/[0.09] ring-1" : "bg-white/[0.03] opacity-60"}`}
+              style={actif ? { boxShadow: `inset 0 0 0 1px ${d.color}66` } : undefined}
+            >
+              <IconShield className="h-6 w-6" color={d.color} />
+              <span className="font-game text-[11px] font-black" style={{ color: actif ? d.color : "rgba(255,255,255,.7)" }}>
+                {d.name}
+              </span>
+              {d.n === maDivision ? (
+                <span className="absolute right-1.5 top-1.5 rounded-full bg-[#CAF000] px-1 text-[8px] font-black uppercase leading-[13px] text-night-950">toi</span>
+              ) : null}
+            </button>
+          );
+        })}
       </div>
 
       {/* Classement de la division */}
@@ -112,7 +148,9 @@ export function LeagueBoard() {
         <p className="mt-4 text-center text-xs text-white/45">Chargement de la ligue…</p>
       ) : rows.length === 0 ? (
         <p className="mt-4 rounded-2xl bg-white/[0.05] p-4 text-center text-xs font-semibold text-white/60">
-          Joue une partie cette semaine pour entrer en ligue Bronze — le haut du tableau monte le dimanche soir !
+          {autreLigue
+            ? `Personne en ligue ${meta.name} pour l'instant.`
+            : "Joue une partie cette semaine pour entrer en ligue Bronze — le haut du tableau monte le dimanche soir !"}
         </p>
       ) : (
         <ol className="mt-3 space-y-1">
@@ -169,6 +207,16 @@ export function LeagueBoard() {
           className="mt-2 w-full text-center font-game text-xs font-bold text-white/55"
         >
           {all ? "Réduire" : `Voir toute la division (${rows.length})`}
+        </button>
+      ) : null}
+
+      {autreLigue && maDivision !== null ? (
+        <button
+          type="button"
+          onClick={() => void ouvrirLigue(maDivision)}
+          className="mt-2 w-full rounded-full bg-white/[0.06] py-2 text-center font-game text-xs font-bold text-[#CAF000]"
+        >
+          Revenir à ma ligue ({leagueDivisionMeta(maDivision).name})
         </button>
       ) : null}
 

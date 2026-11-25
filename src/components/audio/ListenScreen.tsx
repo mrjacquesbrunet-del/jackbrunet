@@ -455,8 +455,10 @@ export function ListenScreen() {
       </span>
       <span className="block pl-9">
         <span className={`mt-2 line-clamp-2 block font-display text-[14px] font-bold leading-snug ${pod.current?.id === t.id ? "text-dawn-400" : "text-cream"}`}>{t.title}</span>
+        {/* Nombre d'auditeurs : visible seulement par l'admin */}
         <span className="mt-0.5 block truncate text-[11.5px] text-cream/50">
-          {topEpisodes.ecoutes[t.id]} auditeur{(topEpisodes.ecoutes[t.id] ?? 0) > 1 ? "s" : ""}
+          {admin ? `${topEpisodes.ecoutes[t.id]} auditeur${(topEpisodes.ecoutes[t.id] ?? 0) > 1 ? "s" : ""} · ` : ""}
+          {t.showTitle ?? ""}
         </span>
       </span>
     </button>
@@ -478,8 +480,13 @@ export function ListenScreen() {
       <span className="block pl-9">
         <span className="mt-2 line-clamp-2 block font-display text-[14px] font-bold leading-snug text-cream">{e.title}</span>
         <span className="mt-0.5 block truncate text-[11.5px] text-cream/50">
-          {topEmissions.ecoutes[e.id]} auditeur{(topEmissions.ecoutes[e.id] ?? 0) > 1 ? "s" : ""}
-          {notes[e.id]?.cnt ? ` · ${notes[e.id].avg.toFixed(1).replace(".", ",")} / 5` : ""}
+          {/* Nombre d'auditeurs : visible seulement par l'admin */}
+          {[
+            admin ? `${topEmissions.ecoutes[e.id]} auditeur${(topEmissions.ecoutes[e.id] ?? 0) > 1 ? "s" : ""}` : e.author,
+            notes[e.id]?.cnt ? `${notes[e.id].avg.toFixed(1).replace(".", ",")} / 5` : null,
+          ]
+            .filter(Boolean)
+            .join(" · ")}
         </span>
       </span>
     </button>
