@@ -428,3 +428,29 @@ export async function reordonnerEmissions(ids: string[]): Promise<boolean> {
 
 /** L'émission de secours (table absente) ne se modifie pas : SQL à exécuter. */
 export const estEmissionDeSecours = (id: string) => id === EMISSION_PAR_DEFAUT_ID;
+
+/* ————— Émissions mises en avant (accueil des podcasts) ————— */
+
+const sansAccent = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+
+/** Les 3 émissions toujours mises en avant, dans cet ordre : celle de Pasteur
+ * Jack Brunet, Starter (Patrice Martorano), Boost (pasteur James Franchito). */
+const EN_AVANT: ((e: Emission, texte: string) => boolean)[] = [
+  (e, t) => e.id === EMISSION_PAR_DEFAUT_ID || /jack brunet/.test(sansAccent(e.title)) || /^(pasteur )?jack brunet$/.test(sansAccent(e.author ?? "")) || /jack brunet/.test(t),
+  (e, t) => e.id === "5a7e0000-0000-4000-8000-00000000e001" || /\bstarter\b/.test(sansAccent(e.title)) || /martorano/.test(t),
+  (e, t) => /\bboost\b/.test(sansAccent(e.title)) || /franchit|franchet/.test(t),
+];
+
+/** Les émissions mises en avant (celles qui existent), dans l'ordre voulu. */
+export function emissionsEnAvant(emissions: Emission[]): Emission[] {
+  const pris = new Set<string>();
+  const out: Emission[] = [];
+  for (const test of EN_AVANT) {
+    const e = emissions.find((x) => !pris.has(x.id) && test(x, sansAccent(`${x.title} ${x.author ?? ""}`)));
+    if (e) {
+      pris.add(e.id);
+      out.push(e);
+    }
+  }
+  return out;
+}

@@ -13,6 +13,7 @@ import {
   deplacerEpisode,
   listerPopulaires,
   emissionsPopulaires,
+  emissionsEnAvant,
   notifierNouvelEpisode,
   type AudioTrack,
   type Emission,
@@ -809,10 +810,13 @@ export function ListenScreen() {
         part: fraction(reprise),
       });
     }
-    // À l'écoute : l'épisode phare de chaque émission (le plus écouté, sinon
-    // le plus récent), émissions dans un ordre qui change chaque jour.
+    // À l'écoute : toujours les 3 émissions mises en avant, dans l'ordre
+    // (Pasteur Jack Brunet, Starter, Boost), avec leur épisode phare (le plus
+    // écouté, sinon le plus récent). Les autres seulement si l'une manque.
     const graine = graineDuJour();
-    const emissionsDuJour = [...(emissions ?? [])].sort((a, b) => hacher(graine + a.id) - hacher(graine + b.id));
+    const enAvant = emissionsEnAvant(emissions ?? []);
+    const autres = [...(emissions ?? [])].filter((e) => !enAvant.includes(e)).sort((a, b) => hacher(graine + a.id) - hacher(graine + b.id));
+    const emissionsDuJour = enAvant.length >= 3 ? enAvant : [...enAvant, ...autres].slice(0, 3);
     for (const e of emissionsDuJour) {
       const eps = parEmission.get(e.id) ?? [];
       if (!eps.length) continue;
@@ -955,7 +959,8 @@ export function ListenScreen() {
               </button>
             }
           >
-            {emissions.map((e) => carteEmission(e))}
+            {/* Les 3 émissions mises en avant d'abord, puis les autres */}
+            {[...emissionsEnAvant(emissions), ...emissions.filter((e) => !emissionsEnAvant(emissions).includes(e))].map((e) => carteEmission(e))}
           </Rangee>
         ) : null}
 
