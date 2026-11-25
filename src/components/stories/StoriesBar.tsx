@@ -2,6 +2,11 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { MentionField } from "@/components/community/MentionField";
+import { getProfileByPseudo } from "@/lib/community";
+import { RenduStory, EditeurStoryTexte } from "@/components/stories/RenduStory";
+import { ChoixALaUne } from "@/components/stories/StoriesALaUne";
 import { Avatar } from "@/components/community/Avatar";
 import type { Profile } from "@/lib/community";
 import {
@@ -15,10 +20,10 @@ import {
   storyLikeCounts,
   storyViewers,
   replyToStory,
+  pseudosCites,
   type StoryGroup,
   type StoryViewer as Spectateur,
 } from "@/lib/stories";
-import { imageLegere } from "@/lib/image-legere";
 
 /**
  * STORIES 24 h : la rangée de ronds (ma story + celles des amis, anneau
@@ -28,7 +33,7 @@ import { imageLegere } from "@/lib/image-legere";
 
 const DURATION = 5000; // ms par story
 /** Réactions rapides en réponse à une story (les mêmes que sur le mur de prière). */
-const REACTIONS = ["🙏", "❤️", "🕊️", "🙌", "✨"];
+const REACTIONS = ["🙏", "❤️", "🔥", "🙌", "🕊️", "✨"];
 
 function ilYa(iso: string | null): string {
   if (!iso) return "";
@@ -52,7 +57,14 @@ export function StoriesBar({
   const [publishing, setPublishing] = useState<File | null>(null);
   const [caption, setCaption] = useState("");
   const [busy, setBusy] = useState(false);
+  // « + » : choisir entre une photo et un texte sur fond coloré.
+  const [choix, setChoix] = useState(false);
+  const [texteOuvert, setTexteOuvert] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  // Lien d'une notification (« X t'a mentionné dans sa story ») : on ouvre ses stories.
+  const params = useSearchParams();
+  const auteurCible = params.get("story");
+  const dejaOuvert = useRef(false);
 
   const reload = useCallback(() => {
     listStoryGroups(me).then(setGroups);
@@ -61,14 +73,29 @@ export function StoriesBar({
     reload();
   }, [reload]);
 
+  useEffect(() => {
+    if (!auteurCible || dejaOuvert.current) return;
+    const g = groups.findIndex((x) => x.author.id === auteurCible);
+    if (g >= 0) {
+      dejaOuvert.current = true;
+      setOpen({ g, s: 0 });
+    }
+  }, [groups, auteurCible]);
+
   const myGroup = groups.find((g) => g.mine);
   const others = groups.filter((g) => !g.mine);
   const sub = dark ? "text-cream/70" : "text-night-900/70";
 
+  /** Les @pseudo cités → identifiants des membres mentionnés. */
+  async function mentionsDe(texte: string): Promise<string[]> {
+    const profils = await Promise.all(pseudosCites(texte).map((p) => getProfileByPseudo(p)));
+    return [...new Set(profils.filter((p) => p && p.id !== me).map((p) => p!.id))];
+  }
+
   async function publish() {
     if (!publishing || busy) return;
     setBusy(true);
-    const s = await addStory(me, publishing, caption);
+    const s = await addStory(me, publishing, caption, { mentions: await mentionsDe(caption) });
     setBusy(false);
     if (s) {
       setPublishing(null);
@@ -77,13 +104,24 @@ export function StoriesBar({
     }
   }
 
+  async function publierTexte(texte: string, fond: string) {
+    if (busy) return;
+    setBusy(true);
+    const s = await addStory(me, null, texte, { fond, mentions: await mentionsDe(texte) });
+    setBusy(false);
+    if (s) {
+      setTexteOuvert(false);
+      reload();
+    } else alert("La story n'a pas pu être publiée. Réessaie dans un instant.");
+  }
+
   return (
     <div className="mb-4">
       <div className="no-scrollbar -mx-1 flex gap-3 overflow-x-auto px-1 pb-1">
         {/* Ma story : + pour publier, ou mon rond si j'en ai une */}
         <button
           type="button"
-          onClick={() => (myGroup ? setOpen({ g: groups.indexOf(myGroup), s: 0 }) : fileRef.current?.click())}
+          onClick={() => (myGroup ? setOpen({ g: groups.indexOf(myGroup), s: 0 }) : setChoix(true))}
           className="flex w-[4.5rem] shrink-0 flex-col items-center gap-1"
         >
           <span className={`relative rounded-full p-[3px] ${myGroup ? "bg-gradient-to-tr from-dawn-400 to-spirit-500" : dark ? "bg-white/15" : "bg-night-900/15"}`}>
@@ -130,7 +168,7 @@ export function StoriesBar({
 
       {/* Ajouter une story depuis mon rond même si j'en ai déjà une */}
       {myGroup ? (
-        <button type="button" onClick={() => fileRef.current?.click()} className="sr-only">
+        <button type="button" onClick={() => setChoix(true)} className="sr-only">
           Ajouter une story
         </button>
       ) : null}
@@ -141,11 +179,10 @@ export function StoriesBar({
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={URL.createObjectURL(publishing)} alt="" className="min-h-0 flex-1 object-contain" />
           <div className="space-y-2.5 p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
-            <input
+            <MentionField
               value={caption}
-              onChange={(e) => setCaption(e.target.value)}
-              maxLength={160}
-              placeholder="Une légende ? (facultatif)"
+              onChange={(v) => setCaption(v.slice(0, 160))}
+              placeholder="Une légende ? Cite quelqu'un avec @"
               className="w-full rounded-full border border-white/15 bg-white/[0.08] px-4 py-2.5 text-sm text-cream placeholder:text-cream/40 focus:outline-none"
             />
             <div className="flex gap-2">
@@ -183,10 +220,54 @@ export function StoriesBar({
           }}
           onAddMine={() => {
             setOpen(null);
-            fileRef.current?.click();
+            setChoix(true);
           }}
         />
       ) : null}
+
+      {/* « + » : photo ou texte */}
+      {choix ? (
+        <div className="fixed inset-0 z-[150] flex items-end justify-center" role="dialog" aria-modal="true" aria-label="Nouvelle story">
+          <button type="button" aria-label="Fermer" onClick={() => setChoix(false)} className="absolute inset-0 bg-black/55" />
+          <div className="keep-dark relative w-full max-w-md rounded-t-3xl bg-night-900 px-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-3 text-cream">
+            <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-white/20" />
+            <p className="mb-3 px-1 font-display text-lg font-bold">Nouvelle story</p>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setChoix(false);
+                  fileRef.current?.click();
+                }}
+                className="flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.05] px-3 py-5 active:bg-white/10"
+              >
+                <svg viewBox="0 0 24 24" className="h-7 w-7 fill-none stroke-current text-dawn-400" strokeWidth={1.8} aria-hidden>
+                  <rect x="3.5" y="5" width="17" height="14" rx="3" />
+                  <circle cx="9" cy="10" r="1.6" />
+                  <path d="M4 17l4.5-4.5 3.5 3.5 2.5-2.5L20 18" strokeLinejoin="round" />
+                </svg>
+                <span className="text-sm font-bold">Photo</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setChoix(false);
+                  setTexteOuvert(true);
+                }}
+                className="flex flex-col items-center gap-2 rounded-2xl border border-white/10 px-3 py-5 active:opacity-80"
+                style={{ background: "linear-gradient(160deg,rgba(202,240,0,.25),rgba(47,93,0,.25))" }}
+              >
+                <svg viewBox="0 0 24 24" className="h-7 w-7 fill-none stroke-current text-dawn-400" strokeWidth={1.9} aria-hidden>
+                  <path d="M5 6V4.5h14V6M12 4.5v15M9 19.5h6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <span className="text-sm font-bold">Texte</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      {texteOuvert ? <EditeurStoryTexte envoi={busy} onAnnuler={() => setTexteOuvert(false)} onPublier={(t, f) => void publierTexte(t, f)} /> : null}
     </div>
   );
 }
@@ -215,8 +296,9 @@ function StoryViewer({
   const [texte, setTexte] = useState("");
   const [saisie, setSaisie] = useState(false);
   const [envoye, setEnvoye] = useState("");
+  const [alaune, setAlaune] = useState(false);
   // La story s'arrête pendant qu'on écrit ou qu'on regarde qui l'a vue.
-  const arret = paused || feuille !== null || saisie || texte.length > 0;
+  const arret = paused || feuille !== null || saisie || texte.length > 0 || alaune;
   const raf = useRef<number | null>(null);
   const startedAt = useRef(0);
   const elapsed = useRef(0);
@@ -328,8 +410,7 @@ function StoryViewer({
       onPointerUp={() => setPaused(false)}
       onPointerCancel={() => setPaused(false)}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img {...imageLegere(story.image_url, 540)} alt="" className="absolute inset-0 h-full w-full object-contain" />
+      <RenduStory image_url={story.image_url} caption={story.caption} fond={story.fond} masquerLegende={saisie} />
       <div className="absolute inset-x-0 top-0 z-10 bg-gradient-to-b from-black/70 to-transparent pb-10 pt-[max(0.75rem,env(safe-area-inset-top))]">
         {/* Segments de progression */}
         <div className="flex gap-1 px-3">
@@ -364,6 +445,20 @@ function StoryViewer({
           </Link>
           {group.mine ? (
             <>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setAlaune(true);
+                }}
+                aria-label="Mettre à la une"
+                title="Mettre à la une sur mon profil"
+                className="grid h-9 w-9 place-items-center rounded-full text-white/80"
+              >
+                <svg viewBox="0 0 24 24" className="h-[19px] w-[19px] fill-none stroke-current" strokeWidth={1.9} aria-hidden>
+                  <path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8L3.5 9.7l5.9-.9z" strokeLinejoin="round" />
+                </svg>
+              </button>
               <button
                 type="button"
                 onClick={(e) => {
@@ -411,11 +506,6 @@ function StoryViewer({
         </div>
       </div>
 
-      {story.caption && !saisie ? (
-        <div className="pointer-events-none absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+4.75rem)] bg-gradient-to-t from-black/60 to-transparent px-5 pb-3 pt-10">
-          <p className="text-center text-[15px] font-semibold leading-relaxed text-white">{story.caption}</p>
-        </div>
-      ) : null}
 
       {/* Zones de navigation : tap gauche = précédent, droite = suivant (au-dessus de la barre du bas) */}
       <button type="button" aria-label="Story précédente" onClick={prev} className="absolute left-0 top-0 bottom-[calc(env(safe-area-inset-bottom)+4.75rem)] w-1/3" />
@@ -449,8 +539,9 @@ function StoryViewer({
           </button>
         ) : (
           <>
-            {saisie ? (
-              <div className="mb-3 flex justify-around">
+            {/* Réponse d'un simple émoji, toujours à portée de doigt */}
+            {saisie || !texte ? (
+              <div className={`flex justify-around ${saisie ? "mb-3" : "mb-2"}`}>
                 {REACTIONS.map((r) => (
                   <button
                     key={r}
@@ -459,7 +550,7 @@ function StoryViewer({
                     onPointerDown={(e) => e.preventDefault()}
                     onClick={() => void repondre(r)}
                     aria-label={`Réagir ${r}`}
-                    className="grid h-12 w-12 place-items-center rounded-full text-[28px] transition-transform active:scale-90"
+                    className={`grid place-items-center rounded-full transition-transform active:scale-90 ${saisie ? "h-12 w-12 text-[28px]" : "h-10 w-10 text-[24px]"}`}
                   >
                     {r}
                   </button>
@@ -508,6 +599,20 @@ function StoryViewer({
           </>
         )}
       </div>
+
+      {alaune ? (
+        <ChoixALaUne
+          me={me}
+          story={story}
+          fermer={(ajoute) => {
+            setAlaune(false);
+            if (ajoute) {
+              setEnvoye("Ajoutée à la une");
+              setTimeout(() => setEnvoye(""), 1600);
+            }
+          }}
+        />
+      ) : null}
 
       {envoye ? (
         <div className="pointer-events-none absolute inset-x-0 top-1/2 z-20 flex justify-center">

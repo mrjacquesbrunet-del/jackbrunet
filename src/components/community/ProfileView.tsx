@@ -48,6 +48,7 @@ import { ModeratorBadge } from "@/components/community/ModeratorBadge";
 import { FollowList } from "@/components/community/FollowList";
 import { ProfileBanners } from "@/components/community/ProfileBanners";
 import { ProfileInfoPills } from "@/components/community/ProfileInfoPills";
+import { StoriesALaUne } from "@/components/stories/StoriesALaUne";
 import { eglisesExistantes } from "@/lib/lieux";
 import { ProfileThemeBg, ProfileThemeToggle, useProfileTheme } from "@/components/community/ProfileTheme";
 import { useEngagement } from "@/lib/engagement";
@@ -537,6 +538,11 @@ function Profile({
               ): null}
             </p>
           ))}
+
+          {/* Stories à la une (restent sur le profil) */}
+          <div className="mx-auto max-w-md">
+            <StoriesALaUne userId={userId} mine sombre={!jour} />
+          </div>
 
           <div className="mx-auto mt-4 flex max-w-md items-center gap-2">
             <button

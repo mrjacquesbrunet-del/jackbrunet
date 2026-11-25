@@ -14,6 +14,7 @@ import { ReportButton } from "@/components/community/ReportButton";
 import { Avatar } from "@/components/community/Avatar";
 import { memoriserParrain, validerInvitationEnAttente } from "@/lib/invitation";
 import { ProfileInfoPills } from "@/components/community/ProfileInfoPills";
+import { StoriesALaUne } from "@/components/stories/StoriesALaUne";
 import { FollowListModal } from "@/components/community/FollowListModal";
 import { presenceLabel, presenceDe } from "@/lib/presence";
 import { withJesusLabel, STREAK_BADGE_MIN } from "@/lib/spiritual";
@@ -343,6 +344,11 @@ export function MemberView() {
             centered
             light={jour}
           />
+          {memberId ? (
+            <div className="mx-auto max-w-md">
+              <StoriesALaUne userId={memberId} mine={isMe} sombre={!jour} />
+            </div>
+          ) : null}
           {verses.slice(0, 1).map((v, i) => (
             <p key={i} className={`mx-auto mt-2 max-w-md text-sm italic ${jour? "text-night-900/70": "text-cream/70"}`}>
               «&nbsp;{v.text}&nbsp;»{" "}
