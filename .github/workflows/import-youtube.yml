@@ -1,0 +1,73 @@
+name: Importer des exhortations YouTube (podcasts)
+
+# Contenu dont la diffusion a été autorisée par son auteur.
+# Déclenchement : committer « .youtube-import » (voir
+# scripts/import-youtube-podcast.mjs). Étape 1 : la liste des vidéos retenues
+# (content/import/<dossier>-liste.json). Étape 2 (si « telecharger ») :
+# l'audio en MP3 mono 48 kbit/s dans public/audio/<dossier>/<id>.mp3, servi
+# par le site comme les autres audios. Le commit porte « [skip ci] ».
+on:
+  push:
+    branches: [claude/great-hamilton-ieokug]
+    paths: [".youtube-import"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: import-youtube
+  cancel-in-progress: false
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: claude/great-hamilton-ieokug
+
+      - name: Configurer Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Lister les vidéos
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: node scripts/import-youtube-podcast.mjs
+
+      - name: Télécharger l'audio
+        run: |
+          DOSSIER=$(node -e "console.log(JSON.parse(require('fs').readFileSync('.youtube-import','utf8')).dossier)")
+          case "$DOSSIER" in *..*|/*|"") echo "Dossier invalide"; exit 1;; esac
+          [ -s .youtube-a-telecharger ] || { echo "Rien à télécharger."; exit 0; }
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          python3 -m pip install -q -U yt-dlp
+          mkdir -p "public/audio/$DOSSIER"
+          echoue=""
+          while read -r id; do
+            [ -z "$id" ] && continue
+            [ -f "public/audio/$DOSSIER/$id.mp3" ] && continue
+            tmp=$(mktemp -d)
+            if yt-dlp -q -f bestaudio --no-playlist -o "$tmp/a.%(ext)s" "https://www.youtube.com/watch?v=$id"; then
+              ffmpeg -nostdin -y -loglevel error -i "$tmp"/a.* -ac 1 -ar 44100 -b:a 48k "public/audio/$DOSSIER/$id.mp3"
+              echo "$id : $(stat -c %s "public/audio/$DOSSIER/$id.mp3") octets"
+            else
+              echoue="$echoue $id"
+            fi
+            rm -rf "$tmp"
+          done < .youtube-a-telecharger
+          [ -z "$echoue" ] || echo "Échec du téléchargement :$echoue"
+          du -sh "public/audio/$DOSSIER" || true
+
+      - name: Committer
+        run: |
+          rm -f .youtube-a-telecharger
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/import public/audio
+          if git diff --cached --quiet; then echo "Rien de nouveau."; exit 0; fi
+          git commit -m "chore(podcasts): import YouTube [skip ci]"
+          for i in 1 2 3 4; do git pull --rebase -q origin claude/great-hamilton-ieokug && git push origin HEAD:claude/great-hamilton-ieokug && break; sleep $((i*5)); done
