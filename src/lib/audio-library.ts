@@ -190,12 +190,14 @@ export async function listPodcasts(): Promise<AudioTrack[]> {
   return (
     data as { id: string; title: string; description: string | null; path: string; created_at: string; show_id?: string | null }[]
   ).map((r) => {
-    const { data: pub } = sb.storage.from(AUDIO_BUCKET).getPublicUrl(r.path);
+    // Fichier du bucket audio, ou audio servi par le site (« https://… »),
+    // comme les exhortations importées.
+    const url = /^https?:/.test(r.path) ? r.path : sb.storage.from(AUDIO_BUCKET).getPublicUrl(r.path).data.publicUrl;
     return {
       id: r.id,
       title: r.title,
       description: r.description,
-      url: pub.publicUrl,
+      url,
       path: r.path,
       created_at: r.created_at,
       memoriser: true,
@@ -274,7 +276,7 @@ export async function notifierNouvelEpisode(message: string, lien: string): Prom
 export async function deletePodcast(id: string, path: string): Promise<void> {
   const sb = getSupabase();
   if (!sb) return;
-  await sb.storage.from(AUDIO_BUCKET).remove([path]);
+  if (!/^https?:/.test(path)) await sb.storage.from(AUDIO_BUCKET).remove([path]);
   await sb.from("podcasts").delete().eq("id", id);
 }
 
